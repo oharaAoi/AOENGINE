@@ -1,10 +1,9 @@
 #pragma once
 #include <nlohmann/json.hpp>
 #include <string>
+#include <functional>
 #include <assert.h>
 #include <type_traits>
-#include <unordered_map>
-#include <variant>
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -37,6 +36,8 @@ public:
 	virtual void FromJson(const json& jsonData) = 0;
 
 protected:
+
+	std::function<json(const std::string&)> toJsonFunction_;
 
 };
 

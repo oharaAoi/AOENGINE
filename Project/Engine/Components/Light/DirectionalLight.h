@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include "BaseLight.h"
 #include "Engine/Components/Attribute/AttributeGui.h"
 
@@ -21,6 +22,12 @@ public: // メンバ構造体
 		Vector3 direction = Vector3(0,-1,0);	// 方向
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
+
+		Paramter() {
+			toJsonFunction_ = [this](const std::string& id) {
+				return this->ToJson(id);
+				};
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

@@ -1,10 +1,6 @@
 #include "JsonItems.h"
 #include <iostream>
 #include <fstream>
-#ifdef _DEBUG
-#include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
-#endif
 
 const std::string JsonItems::kDirectoryPath_ = "./Game/Resources/GameData/JsonItems/";
 std::string JsonItems::nowSceneName_ = "";
@@ -15,14 +11,6 @@ JsonItems* JsonItems::GetInstance() {
 	static JsonItems instance;
 	return &instance;
 }
-
-#ifdef _DEBUG
-void JsonItems::Debug_Gui() {
-	if (ImGui::Button("HotReload")) {
-		LoadAllFile();
-	}
-}
-#endif // _DEBUG
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
@@ -40,16 +28,6 @@ void JsonItems::Init(const std::string& nowScene) {
 	}
 
 	LoadAllFile();
-#ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "JsonItems");
-#endif // _DEBUG
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　更新処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void JsonItems::Update() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +57,10 @@ void JsonItems::LoadAllFile() {
 			}
 		}
 	}
+}
+
+void JsonItems::SaveAllFile() {
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -177,3 +159,13 @@ json JsonItems::GetData(const std::string& groupName, const std::string& rootKey
 json JsonItems::GetValue(const std::string& groupName, const std::string& rootKey) {
 	return jsonMap_[groupName].items[rootKey];
 }
+
+
+void JsonItems::AddConverter(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function) {
+	GetInstance()->AddConverterGroup(groupName, rootKey, function);
+}
+
+void JsonItems::AddConverterGroup(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function) {
+	jsonConverterMap_[groupName].items[rootKey] = function;
+}
+

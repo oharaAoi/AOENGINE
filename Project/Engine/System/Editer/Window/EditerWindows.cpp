@@ -1,4 +1,5 @@
 #include "EditerWindows.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 EditerWindows::~EditerWindows() {}
 EditerWindows* EditerWindows::GetInstance() {
@@ -40,7 +41,18 @@ void EditerWindows::Begine() {
 
 	if (ImGui::Begin("BaseWindow", nullptr, window_flags)) {
 		if (ImGui::BeginMenuBar()) {
+			// -------------------------------------------------
+			// ↓ fileに関するMenu
+			// -------------------------------------------------
 			if (ImGui::BeginMenu("File")) {
+				// json
+				if (ImGui::BeginMenu("JsonItems")) {
+					if (ImGui::Button("HotReload")) {
+						JsonItems::GetInstance()->LoadAllFile();
+						MessageBoxA(nullptr, "HotReload", "JsonItems", 0);
+					}
+					ImGui::EndMenu();
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();

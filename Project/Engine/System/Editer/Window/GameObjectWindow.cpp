@@ -47,28 +47,44 @@ void GameObjectWindow::Edit() {
 	// ↓ Itemの選択
 	// -------------------------------------------------
 	ImGui::Begin("Scene Object");
-	static AttributeGui* selectAttribute = nullptr;
-	int index = 0;
-	for (auto it = attributeArray_.begin(); it != attributeArray_.end(); ++it, ++index) {
-		std::string label = it->first;
-		const AttributeGui* ptr = it->second;
-
+	static AttributeGui* selectAttribute = nullptr;  // 現在選択されているノード
+	static std::string openNode = "";  // 現在開いているTreeNodeの名前
+	for (auto it : attributeArray_) {
+		std::string label = it.first;
+		const AttributeGui* ptr = it.second;
+		// 子供を所有している場合
 		if (ptr->HasChild()) {
+			bool isOpen = (label == openNode);  // 現在開いているノードか確認
+			if (isOpen) {
+				ImGui::SetNextItemOpen(true);  // 強制的に開いた状態にする
+			}
+
 			if (ImGui::TreeNode(label.c_str())) {
 				for (auto child : ptr->GetChildren()) {
-					if (ImGui::TreeNode(child->GetName().c_str())) {
+					if (ImGui::Selectable(child->GetName().c_str(), selectAttribute == child)) {
+						// 新しく選択されたら開いているノードを変更
+						if (selectAttribute != child) {
+							openNode = label;  // 現在の親ノードを記録
+						}
 						selectAttribute = child;
-						ImGui::TreePop();
 					}
 				}
 				ImGui::TreePop();
+			} else {
+				// 閉じたら記録をリセット
+				if (openNode == label) {
+					openNode = "";
+				}
 			}
 		} else {
+			// 子供を持たないノードの場合
 			if (ImGui::Selectable(label.c_str(), selectAttribute == ptr)) {
-				selectAttribute = it->second;
+				selectAttribute = it.second;
+				openNode = "";  // 他のノードを閉じる
 			}
 		}
 	}
+
 	ImGui::End();
 
 	// -------------------------------------------------
@@ -78,11 +94,6 @@ void GameObjectWindow::Edit() {
 	if (selectAttribute != nullptr) {
 		selectAttribute->Debug_Gui();
 	}
-	//if (selectedEffectIndex >= 0 && selectedEffectIndex < attributeArray_.size()) {
-	//	auto it = attributeArray_.begin();
-	//	std::advance(it, selectedEffectIndex); // Move iterator to the selected index
-	//	it->second->Debug_Gui();
-	//}
 	ImGui::End();
 }
 #endif // _DEBUG
