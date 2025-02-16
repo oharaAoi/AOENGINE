@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "Engine/Math/Vector3.h"
-#include "Engine/Math/Vector4.h"
-#include "Engine/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/Quaternion.h"
 
 /// <summary>
 /// CPUで行うEmitter
