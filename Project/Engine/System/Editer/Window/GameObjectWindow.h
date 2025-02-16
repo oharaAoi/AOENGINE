@@ -15,7 +15,7 @@ public:
 
 	void Init();
 
-	void AddFunction(AttributeGui* attribute, const std::string& label);
+	void AddAttributeGui(AttributeGui* attribute, const std::string& label);
 
 #ifdef _DEBUG
 	void Edit();

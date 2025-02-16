@@ -60,7 +60,12 @@ void JsonItems::LoadAllFile() {
 }
 
 void JsonItems::SaveAllFile() {
-
+	for (const auto& [groupId, converterGroup] : jsonConverterMap_) {
+		json groupResult;
+		for (const auto& [funcName, func] : converterGroup.items) {
+			Save(groupId, func(converterGroup.key));
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,6 +165,9 @@ json JsonItems::GetValue(const std::string& groupName, const std::string& rootKe
 	return jsonMap_[groupName].items[rootKey];
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　各構造体で宣言した保存関数をmapに格納しておく
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void JsonItems::AddConverter(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function) {
 	GetInstance()->AddConverterGroup(groupName, rootKey, function);
@@ -167,5 +175,6 @@ void JsonItems::AddConverter(const std::string& groupName, const std::string& ro
 
 void JsonItems::AddConverterGroup(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function) {
 	jsonConverterMap_[groupName].items[rootKey] = function;
+	jsonConverterMap_[groupName].key = rootKey;
 }
 

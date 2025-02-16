@@ -20,7 +20,7 @@ public:	// member method
 
 public: 
 
-	// name 
+	// name
 	void SetName(const std::string& name) { name_ = name; }
 	const std::string& GetName() const { return name_; }
 

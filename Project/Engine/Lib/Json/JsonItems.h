@@ -16,6 +16,7 @@ public:
 
 	struct ConverterGroup {
 		std::unordered_map<std::string, std::function<json(const std::string&)>> items;
+		std::string key;
 	};
 
 public:
@@ -52,6 +53,12 @@ public:
 	/// <returns>json型を返す</returns>
 	static json GetData(const std::string& groupName, const std::string& rootKey);
 
+	/// <summary>
+	/// コンバーターの関数を保存しておく
+	/// </summary>
+	/// <param name="groupName">: フォルダ名</param>
+	/// <param name="rootKey">: ファイル名</param>
+	/// <param name="function">: converterの関数</param>
 	static void AddConverter(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function);
 
 	/// <summary>

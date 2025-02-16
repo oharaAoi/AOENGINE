@@ -11,7 +11,7 @@ void GameObjectWindow::Init() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameObjectWindow::AddFunction(AttributeGui* attribute, const std::string& label) {
+void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::string& label) {
 	std::string uniqueLabel = label;
 	int counter = 1;
 
