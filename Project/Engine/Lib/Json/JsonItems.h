@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
+#include <functional>
 #include <unordered_map>
 #include <nlohmann/json.hpp>
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 using json = nlohmann::json;
 
@@ -12,6 +14,11 @@ public:
 		std::unordered_map<std::string, json> items;
 	};
 
+	struct ConverterGroup {
+		std::unordered_map<std::string, std::function<json(const std::string&)>> items;
+		std::string key;
+	};
+
 public:
 
 	JsonItems() = default;
@@ -20,11 +27,9 @@ public:
 	// シングルトン化
 	JsonItems(const JsonItems&) = delete;
 	JsonItems& operator=(const JsonItems&) = delete;
-
 	static JsonItems* GetInstance();
 
 	void Init(const std::string& nowScene);
-	void Update();
 
 	/// <summary>
 	/// jsonファイルに保存する
@@ -48,12 +53,25 @@ public:
 	/// <returns>json型を返す</returns>
 	static json GetData(const std::string& groupName, const std::string& rootKey);
 
-private :
+	/// <summary>
+	/// コンバーターの関数を保存しておく
+	/// </summary>
+	/// <param name="groupName">: フォルダ名</param>
+	/// <param name="rootKey">: ファイル名</param>
+	/// <param name="function">: converterの関数</param>
+	static void AddConverter(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function);
 
 	/// <summary>
 	/// すべてのファイルを読み込む
 	/// </summary>
 	void LoadAllFile();
+
+	/// <summary>
+	/// すべてのデータを保存
+	/// </summary>
+	void SaveAllFile();
+
+private :
 
 	/// <summary>
 	/// json項目を追加する
@@ -70,10 +88,15 @@ private :
 	/// <returns>json型を返す</returns>
 	json GetValue(const std::string& groupName, const std::string& rootKey);
 
+
+	void AddConverterGroup(const std::string& groupName, const std::string& rootKey, std::function<json(const std::string&)> function);
+
 private:
 	
 	static const std::string kDirectoryPath_;
 	static std::string nowSceneName_;
 	
 	std::unordered_map<std::string, Group> jsonMap_;
+
+	std::unordered_map<std::string, ConverterGroup> jsonConverterMap_;
 };

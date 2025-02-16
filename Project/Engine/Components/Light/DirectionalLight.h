@@ -1,8 +1,11 @@
 #pragma once
+#include <functional>
 #include "BaseLight.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 
-class DirectionalLight
-: public BaseLight {
+class DirectionalLight :
+	public BaseLight,
+	public AttributeGui {
 public: // メンバ構造体
 
 	struct DirectionalLightData {
@@ -19,6 +22,12 @@ public: // メンバ構造体
 		Vector3 direction = Vector3(0,-1,0);	// 方向
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
+
+		Paramter() {
+			toJsonFunction_ = [this](const std::string& id) {
+				return this->ToJson(id);
+				};
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -53,7 +62,7 @@ public:
 public:
 
 #ifdef _DEBUG
-	void Debug_Gui();
+	void Debug_Gui() override;
 #endif
 
 	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }
