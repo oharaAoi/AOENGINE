@@ -30,6 +30,8 @@ public:
 
 private:
 
+	static const uint32_t kObjectNum_ = 1;
+
 	// camera ----------------------------------------------
 	std::unique_ptr<Camera2d> camera2d_ = nullptr;
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
@@ -41,7 +43,7 @@ private:
 	std::unique_ptr<Floor> floor_ = nullptr;
 
 	// gameObject ------------------------------------
-	std::unique_ptr<TestObject> testObjA_;
+	std::unique_ptr<TestObject> testObjA_[kObjectNum_];
 	
 	std::unique_ptr<MeshCollider> meshColliderA_;
 	std::unique_ptr<MeshCollider> meshColliderB_;

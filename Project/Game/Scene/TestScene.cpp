@@ -32,13 +32,15 @@ void TestScene::Init() {
 	floor_->Init();
 
 	// gameObject -------------------------------------------------------------------
-	testObjA_ = std::make_unique<TestObject>();
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+		testObjA_[oi] = std::make_unique<TestObject>();
 
-	testObjA_->Init();
-	testObjA_->SetCollider(1 << 1, ColliderShape::SPHERE);
+		testObjA_[oi]->Init();
+		testObjA_[oi]->SetCollider(1 << 1, ColliderShape::SPHERE);
+	}
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
+	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
 #endif
 
 	// Manager -------------------------------------------------------------------
@@ -76,10 +78,13 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
-	testObjA_->Update();
+	
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+		testObjA_[oi]->Update();
+	}
 	
 	collisionManager_->Reset();
-	collisionManager_->AddCollider(testObjA_->GetCollider());
+	//collisionManager_->AddCollider(testObjA_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------
@@ -98,16 +103,18 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	//floor_->Draw();
-	testObjA_->Draw();
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+		testObjA_[oi]->Draw();
+	}
 }
 
 #ifdef _DEBUG
 void TestScene::Debug_Gui() {
 	ImGui::Checkbox("isDebug", &isDebugCamera_);
 
-	if (ImGui::Button("reserve")) {
+	/*if (ImGui::Button("reserve")) {
 		testObjA_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("slash", "attack2", 0.5f, raito_);
-	}
+	}*/
 	ImGui::DragFloat("raito", &raito_, 0.01f);
 }
 #endif
