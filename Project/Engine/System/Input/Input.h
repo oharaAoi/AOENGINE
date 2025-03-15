@@ -132,9 +132,9 @@ public: // 入力
 	// ゲームパッドのボタンを取得(長押し)
 	static bool GetPressPadTrigger(const XInputButtons& bottons);
 	// 左ジョイスティックの値の取得
-	static Vector2 GetLeftJoyStick();
+	static Vector2 GetLeftJoyStick(float deadZone = 0.0f);
 	// 右ジョイスティックの値の取得
-	static Vector2 GetRightJoyStick();
+	static Vector2 GetRightJoyStick(float deadZone = 0.0f);
 	// コントローラーと繋がっているか
 	static bool IsControllerConnected();
 
