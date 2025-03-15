@@ -1,5 +1,6 @@
 #include "PlayerActionMove.h"
 #include "Game/Actor/Player/Player.h"
+#include "Game/Actor/Player/Action/PlayerActionIdle.h"
 // engin
 #include "Engine/System/Input/Input.h"
 
@@ -35,10 +36,10 @@ void PlayerActionMove::OnEnd() {
 // ↓ 次に行うアクションの判定
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::CheckNextAction() {
-	Vector2 stick = Input::GetInstance()->GetLeftJoyStick();
-	
-
+void PlayerActionMove::CheckNextAction() {	
+	if (stick_.x == 0.0f && stick_.y == 0.0f) {
+		NextAction<PlayerActionIdle>();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,5 +47,15 @@ void PlayerActionMove::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionMove::IsInput() {
+	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
+	if (stick_.x != 0.0f || stick_.y != 0.0f) {
+		return true;
+	}
 	return false;
+}
+
+void PlayerActionMove::Move() {
+	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
+
+	//QuaternionSRT transform = pOwner_->GetTransform()->Get;
 }

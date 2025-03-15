@@ -18,9 +18,14 @@ public:
 	void CheckNextAction() override;
 	bool IsInput() override;
 
+private:	// action
+
+	void Move();
+
 private:
 
 	const float kDeadZone_ = 0.1f;
+	Vector2 stick_;
 
 };
 
