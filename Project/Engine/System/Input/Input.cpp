@@ -234,26 +234,24 @@ bool Input::GetPressPadTrigger(const XInputButtons& bottons) {
 	return false;
 }
 
-Vector2 Input::GetLeftJoyStick() {
+Vector2 Input::GetLeftJoyStick(float deadZone = 0.0f) {
 	Vector2 result;
 	result.x = (float)gamepadState_.Gamepad.sThumbLX / std::numeric_limits<SHORT>::max();
 	result.y = (float)gamepadState_.Gamepad.sThumbLY / std::numeric_limits<SHORT>::max();
 
-	if (result.Length() < DEADZONE) {
-		result = { 0,0 };
-	}
+	if (std::abs(result.x) < deadZone) { result.x = 0.0f; }
+	if (std::abs(result.y) < deadZone) { result.y = 0.0f; }
 
 	return result;
 }
 
-Vector2 Input::GetRightJoyStick() {
+Vector2 Input::GetRightJoyStick(float deadZone = 0.0f) {
 	Vector2 result;
 	result.x = (float)gamepadState_.Gamepad.sThumbRX / std::numeric_limits<SHORT>::max();
 	result.y = (float)gamepadState_.Gamepad.sThumbRY / std::numeric_limits<SHORT>::max();
 
-	if (result.Length() < DEADZONE) {
-		result = {0,0};
-	}
+	if (std::abs(result.x) < deadZone) { result.x = 0.0f; }
+	if (std::abs(result.y) < deadZone) { result.y = 0.0f; }
 
 	return result;
 }
