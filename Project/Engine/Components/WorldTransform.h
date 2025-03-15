@@ -50,7 +50,7 @@ public:
 	void SetTranslationY(float y) { translate_.y = y; }
 	void SetTranslationZ(float z) { translate_.z = z; }
 
-	QuaternionSRT& GetTransform() { return transform_; }
+	QuaternionSRT& GetSRT() { return transform_; }
 	const Vector3 GetScale() const { return scale_; }
 	const Vector3& GetTranslation() const { return translate_; }
 	const Quaternion& GetQuaternion() const { return rotation_; }
