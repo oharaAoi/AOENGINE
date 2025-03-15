@@ -1,7 +1,12 @@
 #pragma once
-#include <vector>
-#include "Engine.h"
+#include <memory>
 #include "Game/Scene/BaseScene.h"
+// camera
+#include "Game/Camera/Camera3d.h"
+#include "Game/Camera/DebugCamera.h"
+// actor
+#include "Game/WorldObject/Skydome.h"
+#include "Game/Actor/Player/Player.h"
 
 class GameScene 
 	: public BaseScene {
@@ -21,5 +26,12 @@ public:
 
 private:
 
+	// ------------------- camera ------------------- //
+	std::unique_ptr<DebugCamera> debugCamera_;
+	std::unique_ptr<Camera3d> camera3d_;
+
+	// ------------------- actor ------------------- //
+	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Player> player_;
 
 };

@@ -1,24 +1,59 @@
 #include "GameScene.h"
+#include "Engine.h"
 
-GameScene::GameScene() {
-}
-
-GameScene::~GameScene() {
-}
+GameScene::GameScene() {}
+GameScene::~GameScene() {}
 
 void GameScene::Finalize() {
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GameScene::Init() {
+
+	// cameraの初期化 -----------------------------------------
+	camera3d_ = std::make_unique<Camera3d>();
+	debugCamera_ = std::make_unique<DebugCamera>();
+	camera3d_->Init();
+	debugCamera_->Init();
 	
+	// actorの初期化 -----------------------------------------
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Init();
+
+	player_ = std::make_unique<Player>();
+	player_->Init();
+
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Update() {
 
+	// actorの更新 -----------------------------------------
+	skydome_->Update();
+	player_->Update();
+
+	// cameraの更新 -----------------------------------------
+	if (debugCamera_->GetIsActive()) {
+		debugCamera_->Update();
+	} else {
+		camera3d_->Update();
+	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void GameScene::Draw() const {
-	
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	skydome_->Draw();
+	player_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
