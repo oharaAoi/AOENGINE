@@ -60,6 +60,11 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// -------------------------------------------------
 	// ↓ world行列を生成
 	// -------------------------------------------------
+
+	transform_.scale = scale_;
+	transform_.rotate = worldRotate;
+	transform_.translate = worldTranslate;
+
 	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
 	if (parentWorldMat_ != nullptr) {
 		worldMat_ = worldMat_  * *parentWorldMat_;

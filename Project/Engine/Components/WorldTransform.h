@@ -4,6 +4,7 @@
 #include <wrl.h>
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/Quaternion.h"
@@ -49,6 +50,7 @@ public:
 	void SetTranslationY(float y) { translate_.y = y; }
 	void SetTranslationZ(float z) { translate_.z = z; }
 
+	QuaternionSRT& GetTransform() { return transform_; }
 	const Vector3 GetScale() const { return scale_; }
 	const Vector3& GetTranslation() const { return translate_; }
 	const Quaternion& GetQuaternion() const { return rotation_; }
@@ -63,6 +65,8 @@ public:
 private:
 
 	Quaternion moveQuaternion_;
+
+	QuaternionSRT transform_;
 	Matrix4x4 worldMat_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;
