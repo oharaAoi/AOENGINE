@@ -2,7 +2,7 @@
 #include <memory>
 #include "Game/Scene/BaseScene.h"
 // camera
-#include "Game/Camera/Camera3d.h"
+#include "Game/Camera/FollowCamera.h"
 #include "Game/Camera/DebugCamera.h"
 // actor
 #include "Game/WorldObject/Skydome.h"
@@ -28,7 +28,7 @@ private:
 
 	// ------------------- camera ------------------- //
 	std::unique_ptr<DebugCamera> debugCamera_;
-	std::unique_ptr<Camera3d> camera3d_;
+	std::unique_ptr<FollowCamera> followCamera_;
 
 	// ------------------- actor ------------------- //
 	std::unique_ptr<Skydome> skydome_;

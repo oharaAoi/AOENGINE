@@ -1,6 +1,9 @@
 #pragma once
+// Engin
 #include "Engine/Components/GameObject/BaseGameObject.h"
+// Game
 #include "Game/State/StateMachine.h"
+#include "Game/Manager/ActionManager.h"
 
 class Player :
 	public BaseGameObject {
@@ -24,7 +27,14 @@ public:		// accessor method
 
 private:
 
+	// 他クラス ------------------------------------------------
+
+
+
+	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Player>> stateMachine_;
+
+	ActionManager<Player> actionManager_;
 
 };
 

@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "Engine.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() {}
@@ -12,19 +13,33 @@ void GameScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Init() {
+	JsonItems* adjust = JsonItems::GetInstance();
+	adjust->Init("GameScene");
 
-	// cameraの初期化 -----------------------------------------
-	camera3d_ = std::make_unique<Camera3d>();
+	// -------------------------------------------------
+	// ↓ cameraの初期化
+	// -------------------------------------------------
+	
+	followCamera_ = std::make_unique<FollowCamera>();
 	debugCamera_ = std::make_unique<DebugCamera>();
-	camera3d_->Init();
+	followCamera_->Init();
 	debugCamera_->Init();
 	
-	// actorの初期化 -----------------------------------------
+	// -------------------------------------------------
+	// ↓ actorの初期化
+	// -------------------------------------------------
+	
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
 	player_ = std::make_unique<Player>();
 	player_->Init();
+
+	// -------------------------------------------------
+	// ↓ その他設定
+	// -------------------------------------------------
+
+	followCamera_->SetTarget(player_.get());
 
 }
 
@@ -42,7 +57,7 @@ void GameScene::Update() {
 	if (debugCamera_->GetIsActive()) {
 		debugCamera_->Update();
 	} else {
-		camera3d_->Update();
+		followCamera_->Update();
 	}
 }
 

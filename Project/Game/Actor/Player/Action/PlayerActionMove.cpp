@@ -1,7 +1,7 @@
 #include "PlayerActionMove.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
-// engin
+// Engine
 #include "Engine/System/Input/Input.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +23,7 @@ void PlayerActionMove::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::OnUpdate() {
+	Move();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,9 +38,9 @@ void PlayerActionMove::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::CheckNextAction() {	
-	if (stick_.x == 0.0f && stick_.y == 0.0f) {
+	/*if (stick_.x == 0.0f && stick_.y == 0.0f) {
 		NextAction<PlayerActionIdle>();
-	}
+	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,5 +58,14 @@ bool PlayerActionMove::IsInput() {
 void PlayerActionMove::Move() {
 	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
 
-	//QuaternionSRT transform = pOwner_->GetTransform()->Get;
+	QuaternionSRT& transform = pOwner_->GetTransform()->GetSRT();
+	Vector3 velocity = transform.rotate.Rotate({stick_.x, 0.0f, stick_.y});
+
+	transform.translate += velocity * GameTimer::DeltaTime();
+
+	if (velocity.x != 0.0f || velocity.y != 0.0f) {
+		float angle = std::atan2f(velocity.x, velocity.z);
+		Quaternion lerpQuaternion = Quaternion::Slerp(transform.rotate, Quaternion::AngleAxis(angle, Vector3::UP()), 0.1f);
+		transform.rotate = lerpQuaternion;
+	}
 }

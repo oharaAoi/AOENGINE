@@ -1,5 +1,7 @@
 #include "Player.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
+#include "Game/Actor/Player/Action/PlayerActionIdle.h"
+#include "Game/Actor/Player/Action/PlayerActionMove.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -18,9 +20,21 @@ void Player::Init() {
 	stateMachine_->Init(this);
 	stateMachine_->ChangeState<PlayerIdleState>();
 
+	// -------------------------------------------------
+	// ↓ Action関連
+	// -------------------------------------------------
+
+	actionManager_.Init(this);
+	actionManager_.BuildAction<PlayerActionIdle>();
+	actionManager_.BuildAction<PlayerActionMove>();
+
+	size_t hash = typeid(PlayerActionMove).hash_code();
+	actionManager_.AddRunAction(hash);
+
 }
 
 void Player::Update() {
+	actionManager_.Update();
 	stateMachine_->Update();
 
 	BaseGameObject::Update();

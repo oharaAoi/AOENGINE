@@ -31,7 +31,10 @@ public:
 	/// <returns></returns>
 	Vector3 ToEulerAngles() const;
 
-
+	/// <summary>
+	/// 共役
+	/// </summary>
+	/// <returns></returns>
 	Quaternion Conjugate() const;
 
 	Vector3 Rotate(const Vector3& vec) const;
@@ -57,7 +60,7 @@ public:
 	static Quaternion FromToRotation(const Vector3& fromDire, const Vector3& toDire);
 
 	/// <summary>
-	/// 
+	/// 逆回転
 	/// </summary>
 	/// <param name="rotation"></param>
 	/// <returns></returns>

@@ -1,6 +1,8 @@
 #pragma once
 // c++
 #include <string>
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
 
 template<typename OwnerType>
 class ActionManager;
