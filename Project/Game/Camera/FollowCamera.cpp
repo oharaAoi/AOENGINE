@@ -26,6 +26,7 @@ void FollowCamera::Update() {
 		return;
 	}
 
+	transform_.rotate = Quaternion::AngleAxis(angle_.x, Vector3::UP()) * Quaternion::AngleAxis(angle_.y, Vector3::RIGHT());
 	transform_.translate = pTarget_->GetTransform()->translate_ + offset_;
 
 	BaseCamera::Update();
@@ -54,4 +55,12 @@ void FollowCamera::Debug_Gui() {
 	}
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
+}
+
+void FollowCamera::RotateCamera() {
+
+}
+
+Quaternion FollowCamera::GetAngleX() {
+	return Quaternion::AngleAxis(angle_.x, Vector3::UP());
 }

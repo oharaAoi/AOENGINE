@@ -23,15 +23,22 @@ public:
 	void Debug_Gui() override;
 #endif
 
+private:	// private method
+
+	void RotateCamera();
+
 public:		// accessor method
 
 	void SetTarget(Player* _target) { pTarget_ = _target; }
+
+	Quaternion GetAngleX();
 
 private:
 
 	Player* pTarget_ = nullptr;
 
 	Vector3 offset_ = {0,2.5f,-15.0f};
+	Vector2 angle_ = {};
 
 };
 

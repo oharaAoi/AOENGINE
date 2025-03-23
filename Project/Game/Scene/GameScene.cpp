@@ -39,6 +39,7 @@ void GameScene::Init() {
 	// ↓ その他設定
 	// -------------------------------------------------
 
+	player_->SetFollowCamera(followCamera_.get());
 	followCamera_->SetTarget(player_.get());
 
 }
@@ -66,6 +67,12 @@ void GameScene::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Draw() const {
+	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	if (debugCamera_->GetIsActive()) {
+		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
+	} else {
+		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
+	}
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	player_->Draw();

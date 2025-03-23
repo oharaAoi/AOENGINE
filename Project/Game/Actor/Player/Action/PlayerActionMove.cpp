@@ -56,16 +56,16 @@ bool PlayerActionMove::IsInput() {
 }
 
 void PlayerActionMove::Move() {
-	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
+	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
-	QuaternionSRT& transform = pOwner_->GetTransform()->GetSRT();
-	Vector3 velocity = transform.rotate.Rotate({stick_.x, 0.0f, stick_.y});
-
-	transform.translate += velocity * GameTimer::DeltaTime();
+	WorldTransform* transform = pOwner_->GetTransform();
+	Vector3 velocity = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
+	
+	transform->translate_ += velocity * speed_ * GameTimer::DeltaTime();
 
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
 		float angle = std::atan2f(velocity.x, velocity.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform.rotate, Quaternion::AngleAxis(angle, Vector3::UP()), 0.1f);
-		transform.rotate = lerpQuaternion;
+		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, Vector3::UP()), 0.1f);
+		transform->rotation_ = lerpQuaternion;
 	}
 }

@@ -27,5 +27,7 @@ private:
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;
 
+	float speed_ = 4.0f;
+
 };
 
