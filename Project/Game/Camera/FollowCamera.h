@@ -37,8 +37,13 @@ private:
 
 	Player* pTarget_ = nullptr;
 
-	Vector3 offset_ = {0,2.5f,-15.0f};
+	Vector3 offset_ = {0,2.5f,0.0f};
 	Vector2 angle_ = {};
+
+	const float kDeadZone_ = 0.1f;
+	Vector2 stick_;
+
+	float rotateDelta_ = 0.04f;
 
 };
 

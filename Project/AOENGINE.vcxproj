@@ -225,6 +225,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseAction.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionIdle.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
@@ -368,6 +369,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Actor\Base\BaseAction.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionIdle.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h" />
     <ClInclude Include="Game\Actor\Player\Player.h" />

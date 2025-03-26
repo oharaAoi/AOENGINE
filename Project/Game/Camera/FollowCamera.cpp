@@ -8,6 +8,10 @@
 void FollowCamera::Finalize() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void FollowCamera::Init() {
 	BaseCamera::Init();
 
@@ -21,20 +25,33 @@ void FollowCamera::Init() {
 #endif // _DEBUG
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void FollowCamera::Update() {
 	if (!pTarget_) {
 		return;
 	}
 
+	RotateCamera();
+
 	transform_.rotate = Quaternion::AngleAxis(angle_.x, Vector3::UP()) * Quaternion::AngleAxis(angle_.y, Vector3::RIGHT());
-	transform_.translate = pTarget_->GetTransform()->translate_ + offset_;
+	
+	Vector3 point = pTarget_->GetTransform()->translate_ + offset_;
+	Vector3 direction = transform_.rotate.Rotate({ 0.0f, 0.0f, -1.0f });
+
+	transform_.translate = point + (direction * 20.0f);
 
 	BaseCamera::Update();
-
 	// renderの更新
 	Render::SetEyePos(GetWorldPosition());
 	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::Debug_Gui() {
 	ImGui::DragFloat("near", &near_, 0.1f);
@@ -57,8 +74,20 @@ void FollowCamera::Debug_Gui() {
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 
-void FollowCamera::RotateCamera() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ カメラを回転させる
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+void FollowCamera::RotateCamera() {
+	stick_ = Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
+
+	if (std::abs(stick_.x) > kDeadZone_) {
+		angle_.x += stick_.x * rotateDelta_;
+	}
+
+	/*if (std::abs(stick_.y) > kDeadZone_) {
+		angle_.y += stick_.y * rotateDelta_;
+	}*/
 }
 
 Quaternion FollowCamera::GetAngleX() {

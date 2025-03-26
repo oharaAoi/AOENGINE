@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseAction.h"
 
+// 前方宣言
 class Player;
 
 class PlayerActionMove :
