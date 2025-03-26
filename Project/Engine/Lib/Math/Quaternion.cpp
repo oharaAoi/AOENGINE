@@ -260,7 +260,7 @@ Vector3 Quaternion::ToEulerAngles() const {
 	// ピッチ (X軸の回転)
 	float sinp = 2.0f * (w * x + y * z);
 	if (std::abs(sinp) >= 1.0f)
-		eulerAngles.x = std::copysign(PI / 2.0f, sinp); // ピッチが ±90度 の場合
+		eulerAngles.x = std::copysign(kPI / 2.0f, sinp); // ピッチが ±90度 の場合
 	else
 		eulerAngles.x = std::asin(sinp);
 

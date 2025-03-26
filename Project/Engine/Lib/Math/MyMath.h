@@ -11,11 +11,24 @@
 #include <numbers>
 #include <limits>
 
-static const float PI = std::numbers::pi_v<float>;
-static const float toRadian = std::numbers::pi_v<float> / 180.0f;
-static const float toDegree = 180.0f / std::numbers::pi_v<float>;
+////////////////////////////////////////////////////////////////////////////////////
+// 数学用定数
+////////////////////////////////////////////////////////////////////////////////////
 
-static const float kEpsilon = std::numeric_limits<float>::epsilon();
+constexpr const float kPI = std::numbers::pi_v<float>;
+constexpr const float kPI2 = kPI * 2.0f;
+constexpr const float kHPI = kPI * 0.5f;
+
+constexpr const float kToRadian = std::numbers::pi_v<float> / 180.0f;
+constexpr const float kToDegree = 180.0f / std::numbers::pi_v<float>;
+
+constexpr const float kGravity = -9.81f;
+
+constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
+
+////////////////////////////////////////////////////////////////////////////////////
+// 基礎関数
+////////////////////////////////////////////////////////////////////////////////////
 
 float Length(const Vector3& vec3);
 
