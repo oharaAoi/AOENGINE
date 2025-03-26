@@ -2,6 +2,7 @@
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionJump.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -27,6 +28,7 @@ void Player::Init() {
 	actionManager_.Init(this);
 	actionManager_.BuildAction<PlayerActionIdle>();
 	actionManager_.BuildAction<PlayerActionMove>();
+	actionManager_.BuildAction<PlayerActionJump>();
 
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);

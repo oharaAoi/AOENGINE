@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Game/Actor/Base/BaseAction.h"
 
 class Player;
@@ -18,6 +19,10 @@ public:
 	void CheckNextAction() override;
 	bool IsInput() override;
 
+private:
+
+	// NextAction -------------------------------
+	std::shared_ptr<BaseAction<Player>> moveAction_;
 
 };
 

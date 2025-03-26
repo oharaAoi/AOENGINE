@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Game/Actor/Base/BaseAction.h"
 
 // 前方宣言
@@ -25,10 +26,15 @@ private:	// action
 
 private:
 
+	// NextAction -------------------------------
+	std::shared_ptr<BaseAction<Player>> jumpAction_;
+
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;
 
 	float speed_ = 4.0f;
+
+
 
 };
 

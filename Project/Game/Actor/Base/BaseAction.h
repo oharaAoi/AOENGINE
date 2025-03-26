@@ -32,6 +32,10 @@ public:	// base
 	virtual void CheckNextAction() = 0;
 	virtual bool IsInput() = 0;
 
+	/// <summary>
+	/// 次のアクションに遷移する関数
+	/// </summary>
+	/// <typeparam name="ActionT">: 次のアクションのクラス</typeparam>
 	template<typename ActionT>
 	void NextAction() {
 		if (!pManager_) {
@@ -40,6 +44,19 @@ public:	// base
 		size_t hash = typeid(ActionT).hash_code();
 		pManager_->AddRunAction(hash);
 		pManager_->DeleteAction(actionIndex_);
+	}
+
+	/// <summary>
+	/// 行うアクションを追加する関数
+	/// </summary>
+	/// <typeparam name="ActionT">: 追加するアクションのクラス</typeparam>
+	template<typename ActionT>
+	void AddAction() {
+		if (!pManager_) {
+			return;
+		}
+		size_t hash = typeid(ActionT).hash_code();
+		pManager_->AddRunAction(hash);
 	}
 	
 protected:	// observerクラス以外からは呼び出さない

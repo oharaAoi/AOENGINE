@@ -1,5 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseAction.h"
+#include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Components/WorldTransform.h"
 
 // 前方宣言
 class Player;
@@ -36,7 +38,10 @@ private:	// action
 
 private:	// variable
 
+	Vector3 velocity_;
+	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
+	WorldTransform* pOwnerTransform_ = nullptr;
 
 };
 

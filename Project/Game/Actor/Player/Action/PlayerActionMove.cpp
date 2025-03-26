@@ -1,6 +1,7 @@
 #include "PlayerActionMove.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
+#include "Game/Actor/Player/Action/PlayerActionJump.h"
 // Engine
 #include "Engine/System/Input/Input.h"
 
@@ -16,6 +17,7 @@ void PlayerActionMove::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::OnStart() {
+	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +43,10 @@ void PlayerActionMove::CheckNextAction() {
 	/*if (stick_.x == 0.0f && stick_.y == 0.0f) {
 		NextAction<PlayerActionIdle>();
 	}*/
+
+	if (jumpAction_->IsInput()) {
+		AddAction<PlayerActionJump>();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -68,6 +68,7 @@ public:
 		actionMap_[hash] = std::make_shared<ActionT>();
 		actionMap_[hash]->SetOwner(pOwner_);
 		actionMap_[hash]->SetObserver(this);
+		actionMap_[hash]->Build();
 		actionMap_[hash]->CallStart(hash);
 	}
 
@@ -78,8 +79,10 @@ public:
 		// actionMap_ に actionTypeIndex が存在するか確認
 		assert(actionMap_.find(actionTypeIndex) != actionMap_.end() && "actionTypeIndex not found in actionMap_");
 
-		runActionMap_[actionTypeIndex] = actionMap_[actionTypeIndex];
-		runActionMap_[actionTypeIndex]->CallStart(actionTypeIndex);
+		if (runActionMap_.find(actionTypeIndex) == runActionMap_.end()) {
+			runActionMap_[actionTypeIndex] = actionMap_[actionTypeIndex];
+			runActionMap_[actionTypeIndex]->CallStart(actionTypeIndex);
+		}
 	}
 
 	/// <summary>
