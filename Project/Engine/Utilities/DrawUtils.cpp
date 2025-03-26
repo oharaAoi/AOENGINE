@@ -107,7 +107,7 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 
 void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, float angle, float height, const Matrix4x4& viewProjectionMatrix) {
 	const uint32_t segment = 36;
-	float angleIncrement = 2.0f * PI / segment;
+	float angleIncrement = 2.0f * kPI / segment;
 	const Vector3 rotateHeight = rotate * Vector3(0, height, 0);
 	const Vector3 coneTip = center + rotateHeight; // 円錐の頂点（Y軸方向を高さとして仮定）
 	float newRadius = height * std::tanf(angle * 0.5f);
