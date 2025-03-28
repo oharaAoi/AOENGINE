@@ -5,6 +5,12 @@
             "files": [
                 "player.obj"
             ]
+        },
+        {
+            "directory": "./Game/Resources/Models/PlayerBullet/",
+            "files": [
+                "playerBullet.obj"
+            ]
         }
     ]
 }

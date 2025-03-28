@@ -23,6 +23,7 @@ private:
 
 	// NextAction -------------------------------
 	std::shared_ptr<BaseAction<Player>> moveAction_;
+	std::shared_ptr<BaseAction<Player>> shotAction_;
 
 };
 

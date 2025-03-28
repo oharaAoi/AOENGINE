@@ -3,12 +3,23 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
+#include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 
 Player::Player() {}
 Player::~Player() {}
 
 void Player::Finalize() {
 }
+
+#ifdef _DEBUG
+void Player::Debug_Gui() {
+
+}
+#endif // _DEBUG
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Init() {
 	BaseGameObject::Init();
@@ -29,11 +40,16 @@ void Player::Init() {
 	actionManager_.BuildAction<PlayerActionIdle>();
 	actionManager_.BuildAction<PlayerActionMove>();
 	actionManager_.BuildAction<PlayerActionJump>();
+	actionManager_.BuildAction<PlayerActionShotRight>();
 
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
 	actionManager_.Update();
@@ -42,12 +58,18 @@ void Player::Update() {
 	BaseGameObject::Update();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::Draw() const {
 	BaseGameObject::Draw();
 }
 
-#ifdef _DEBUG
-void Player::Debug_Gui() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 弾を打つ
+///////////////////////////////////////////////////////////////////////////////////////////////
 
+void Player::Shot(float speed) {
+	pBulletManager_->AddBullet(transform_->translate_, transform_->rotation_.MakeForward() * speed);
 }
-#endif // _DEBUG

@@ -1,6 +1,7 @@
 #include "PlayerActionIdle.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
@@ -15,6 +16,7 @@ void PlayerActionIdle::Build() {
 
 void PlayerActionIdle::OnStart() {
 	moveAction_ = pManager_->GetActionInstance<PlayerActionMove>();
+	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,6 +40,10 @@ void PlayerActionIdle::OnEnd() {
 void PlayerActionIdle::CheckNextAction() {
 	if (moveAction_->IsInput()) {
 		NextAction<PlayerActionMove>();
+	}
+
+	if (shotAction_->IsInput()) {
+		NextAction<PlayerActionShotRight>();
 	}
 }
 

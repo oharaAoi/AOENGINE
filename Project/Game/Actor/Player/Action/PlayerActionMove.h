@@ -28,6 +28,7 @@ private:
 
 	// NextAction -------------------------------
 	std::shared_ptr<BaseAction<Player>> jumpAction_;
+	std::shared_ptr<BaseAction<Player>> shotAction_;
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;

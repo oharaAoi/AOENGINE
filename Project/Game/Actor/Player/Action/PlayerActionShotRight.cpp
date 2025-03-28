@@ -1,57 +1,49 @@
-#include "PlayerActionMove.h"
+#include "PlayerActionShotRight.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
-#include "Game/Actor/Player/Action/PlayerActionJump.h"
-#include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 // Engine
-#include "Engine/System/Input/Input.h"
+#include "Engine/Lib/GameTimer.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::Build() {
+void PlayerActionShotRight::Build() {
+	pInput_ = Input::GetInstance();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::OnStart() {
-	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
-	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
+void PlayerActionShotRight::OnStart() {
+	shotTimer_ = 0.0f;
+	notShotTimer_ = 0.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::OnUpdate() {
-	Move();
+void PlayerActionShotRight::OnUpdate() {
+	Shot();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::OnEnd() {
+void PlayerActionShotRight::OnEnd() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次に行うアクションの判定
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::CheckNextAction() {	
-	/*if (stick_.x == 0.0f && stick_.y == 0.0f) {
+void PlayerActionShotRight::CheckNextAction() {
+	// ボタンを押して入なかったら待機状態に行く
+	if (notShotTimer_ >= notShotTime_) {
 		NextAction<PlayerActionIdle>();
-	}*/
-
-	if (jumpAction_->IsInput()) {
-		AddAction<PlayerActionJump>();
-	}
-
-	if (shotAction_->IsInput()) {
-		AddAction<PlayerActionShotRight>();
 	}
 }
 
@@ -59,9 +51,8 @@ void PlayerActionMove::CheckNextAction() {
 // ↓ 入力処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool PlayerActionMove::IsInput() {
-	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
-	if (stick_.x != 0.0f || stick_.y != 0.0f) {
+bool PlayerActionShotRight::IsInput() {
+	if (pInput_->GetIsPadTrigger(XInputButtons::R_SHOULDER)) {
 		return true;
 	}
 	return false;
@@ -71,17 +62,25 @@ bool PlayerActionMove::IsInput() {
 // ↓ main action
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::Move() {
-	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+void PlayerActionShotRight::Shot() {
+	// timerがゼロでなかったら新たに弾を撃たないようにして早期リターンする
+	if (shotTimer_ > 0.0f) {
+		shotTimer_ -= GameTimer::DeltaTime();
+		return;
+	} else {
+		shotTimer_ = 0.0f;
+	}
 
-	WorldTransform* transform = pOwner_->GetTransform();
-	Vector3 velocity = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
-	
-	transform->translate_ += velocity * speed_ * GameTimer::DeltaTime();
+	// 長押しで反応するようにする
+	if (pInput_->GetPressPadTrigger(XInputButtons::R_SHOULDER)) {
+		// shotを放つ
+		pOwner_->Shot(30.0f);
 
-	if (velocity.x != 0.0f || velocity.y != 0.0f) {
-		float angle = std::atan2f(velocity.x, velocity.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, Vector3::UP()), 0.1f);
-		transform->rotation_ = lerpQuaternion;
+		// coolTimeの設定
+		shotTimer_ = shotCoolTime_;
+		notShotTimer_ = 0.0f;
+	} else {
+		// ボタンを押していない時間を計測
+		notShotTimer_ += GameTimer::DeltaTime();
 	}
 }

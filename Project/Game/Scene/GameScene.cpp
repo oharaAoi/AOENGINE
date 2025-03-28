@@ -32,15 +32,15 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
-	player_ = std::make_unique<Player>();
-	player_->Init();
+	playerManager_ = std::make_unique<PlayerManager>();
+	playerManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
 
-	player_->SetFollowCamera(followCamera_.get());
-	followCamera_->SetTarget(player_.get());
+	playerManager_->GetPlayer()->SetFollowCamera(followCamera_.get());
+	followCamera_->SetTarget(playerManager_->GetPlayer());
 
 }
 
@@ -52,7 +52,7 @@ void GameScene::Update() {
 
 	// actorの更新 -----------------------------------------
 	skydome_->Update();
-	player_->Update();
+	playerManager_->Update();
 
 	// cameraの更新 -----------------------------------------
 	if (debugCamera_->GetIsActive()) {
@@ -75,7 +75,7 @@ void GameScene::Draw() const {
 	}
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	player_->Draw();
+	playerManager_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
