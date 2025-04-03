@@ -18,7 +18,7 @@ void PlayerBullet::Update() {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->translate_.z) >= 10.0f) {
+	if (std::abs(transform_->translate_.z) >= 200.0f) {
 		isAlive_ = false;
 	}
 

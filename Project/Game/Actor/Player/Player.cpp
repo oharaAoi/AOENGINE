@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
@@ -13,7 +14,7 @@ void Player::Finalize() {
 
 #ifdef _DEBUG
 void Player::Debug_Gui() {
-
+	transform_->Debug_Gui();
 }
 #endif // _DEBUG
 
@@ -36,7 +37,7 @@ void Player::Init() {
 	// ↓ Action関連
 	// -------------------------------------------------
 
-	actionManager_.Init(this);
+	actionManager_.Init(this, "playerAction");
 	actionManager_.BuildAction<PlayerActionIdle>();
 	actionManager_.BuildAction<PlayerActionMove>();
 	actionManager_.BuildAction<PlayerActionJump>();
@@ -44,6 +45,10 @@ void Player::Init() {
 
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
+
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(this, "player");
+#endif // _DEBUG
 
 }
 

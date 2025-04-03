@@ -35,6 +35,9 @@ void GameScene::Init() {
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
 
+	boss_ = std::make_unique<Boss>();
+	boss_->Init();
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -53,6 +56,7 @@ void GameScene::Update() {
 	// actorの更新 -----------------------------------------
 	skydome_->Update();
 	playerManager_->Update();
+	boss_->Update();
 
 	// cameraの更新 -----------------------------------------
 	if (debugCamera_->GetIsActive()) {
@@ -76,6 +80,7 @@ void GameScene::Draw() const {
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
 	playerManager_->Draw();
+	boss_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

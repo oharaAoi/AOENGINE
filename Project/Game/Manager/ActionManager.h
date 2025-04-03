@@ -4,18 +4,26 @@
 #include <list>
 #include <unordered_map>
 #include <cassert>
+#include <string>
 
 #include "Game/Actor/Base/BaseAction.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 
 template<typename OwnerType>
-class ActionManager {
+class ActionManager :
+	public AttributeGui {
 public:
 
 	ActionManager() {}
 	~ActionManager() = default;
 
-	void Init(OwnerType* pOwner) {
+	void Init(OwnerType* pOwner, const std::string& name) {
 		pOwner_ = pOwner;
+	
+#ifdef _DEBUG
+		EditerWindows::AddObjectWindow(this, name.c_str());
+#endif // _DEBUG
 	}
 
 	void Update() {
@@ -58,6 +66,10 @@ public:
 
 public:
 
+#ifdef _DEBUG
+	void Debug_Gui() override {};
+#endif // _DEBUG
+
 	/// <summary>
 	/// Actionのインスタンスを構築する
 	/// </summary>
@@ -70,6 +82,7 @@ public:
 		actionMap_[hash]->SetObserver(this);
 		actionMap_[hash]->Build();
 		actionMap_[hash]->CallStart(hash);
+		AddChild(actionMap_[hash].get());
 	}
 
 	/// <summary>
@@ -103,6 +116,7 @@ public:
 	}
 
 private:
+	std::string actionName_;
 	// 持ち主のポインタ
 	OwnerType* pOwner_ = nullptr;
 	// 今のAction

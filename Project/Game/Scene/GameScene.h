@@ -7,6 +7,8 @@
 // actor
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Actor/Player/PlayerManager.h"
+#include "Game/Actor/Boss/Boss.h"
+
 
 class GameScene 
 	: public BaseScene {
@@ -33,5 +35,6 @@ private:
 	// ------------------- actor ------------------- //
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<PlayerManager> playerManager_;
+	std::unique_ptr<Boss> boss_;
 
 };

@@ -3,12 +3,15 @@
 #include <string>
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
+// engine
+#include "Engine/Components/Attribute/AttributeGui.h"
 
 template<typename OwnerType>
 class ActionManager;
 
 template<typename OwnerType>
-class BaseAction {
+class BaseAction 
+	: public AttributeGui {
 protected:
 	// Observer以外から呼び出し関数などにアクセスできないように
 	friend class ActionManager<OwnerType>;
@@ -31,6 +34,10 @@ public:	// base
 	virtual void OnEnd() = 0;
 	virtual void CheckNextAction() = 0;
 	virtual bool IsInput() = 0;
+
+#ifdef _DEBUG
+	void Debug_Gui() override {};
+#endif // _DEBUG
 
 	/// <summary>
 	/// 次のアクションに遷移する関数

@@ -5,7 +5,7 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
-#include "Game/Actor/Player/PlayerBulletManager.h"
+#include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 
 class Player :
 	public BaseGameObject {

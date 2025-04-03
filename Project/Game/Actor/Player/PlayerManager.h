@@ -3,7 +3,7 @@
 #include <memory>
 // game
 #include "Game/Actor/Player/Player.h"
-#include "Game/Actor/Player/PlayerBulletManager.h"
+#include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 
 class PlayerManager {
 public:
