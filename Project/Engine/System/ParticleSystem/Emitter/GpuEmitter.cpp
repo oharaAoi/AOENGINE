@@ -20,7 +20,7 @@ void GpuEmitter::Init() {
 	rotate_ = Quaternion();
 
 	commonEmitter_->rotate = Vector4(0.0f, 1.0f, 0.0f, 1.0f);
-	commonEmitter_->translate = Vector3::ZERO();
+	commonEmitter_->translate = CVector3::ZERO;
 	commonEmitter_->frequency = 0.5f;
 	commonEmitter_->frequencyTime = 0.0f;
 	commonEmitter_->count = 30;
@@ -28,14 +28,14 @@ void GpuEmitter::Init() {
 
 	// particle自体のparameter
 	commonEmitter_->color = Vector4(1, 1, 1, 1);
-	commonEmitter_->minScale = Vector3(1, 1, 1);
-	commonEmitter_->maxScale = Vector3(1, 1, 1);
+	commonEmitter_->minScale = CVector3::UNIT;
+	commonEmitter_->maxScale = CVector3::UNIT;
 	commonEmitter_->speed = 1.0f;
 	commonEmitter_->lifeTime = 4;
 	commonEmitter_->gravity = 0.0f;
 	commonEmitter_->dampig = 1.0f;
 
-	emitterParameter_.velocity = Vector3::ZERO();
+	emitterParameter_.velocity = CVector3::ZERO;
 	emitterParameter_.speed = 1.0f;
 	emitterParameter_.lifeTime = 10.0f;
 	emitterParameter_.oneShot = false;
@@ -215,7 +215,7 @@ void GpuEmitter::Debug_Gui() {
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("reset")) {
-			commonEmitter_->translate = Vector3::ZERO();
+			commonEmitter_->translate = CVector3::ZERO;
 			lifeTime_ = emitterParameter_.lifeTime;
 			commonEmitter_->frequencyTime = 0.0f;
 			isDead_ = false;

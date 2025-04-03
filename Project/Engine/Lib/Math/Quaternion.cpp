@@ -295,7 +295,7 @@ Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	float dot = Vector3::Dot(v1, v2);
 	float newW = (this->w * q2.w) - dot;
 
-	Vector3 cross = Vector3::ZERO();
+	Vector3 cross = CVector3::ZERO;
 	cross.x = v1.y * v2.z - v1.z * v2.y;
 	cross.y = v1.z * v2.x - v1.x * v2.z;
 	cross.z = v1.x * v2.y - v1.y * v2.x;

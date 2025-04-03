@@ -15,9 +15,9 @@ void BoxCollider::Init(uint32_t bitTag, ColliderShape shape) {
 	collisionState_ = CollisionFlags::NONE;
 	
 	if (shape == ColliderShape::AABB) {
-		shape_ = AABB{ .min = Vector3::UNIT() * -1.0f, .max = Vector3::UNIT() };
+		shape_ = AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
 	} else if(shape == ColliderShape::OBB) {
-		shape_ = OBB{ .center = Vector3::ZERO(), .size = Vector3::UNIT() };
+		shape_ = OBB{ .center = CVector3::ZERO, .size = CVector3::UNIT };
 	} else {
 		assert("not AABB or OBB Shape");
 	}

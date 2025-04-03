@@ -60,6 +60,14 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inverseWvpMat, const float& setDirection);
 
 /// <summary>
+/// ワールド座標系からスクリーン座標系の座標を取得する関数
+/// </summary>
+/// <param name="targetWorldMat">: 対象のMatrix</param>
+/// <param name="vpvpMat">: viewProjection * viewPort </param>
+/// <returns>スクリーン座標</returns>
+Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4& vpvpMat);
+
+/// <summary>
 /// ベクトル変換
 /// </summary>
 /// <param name="v"></param>

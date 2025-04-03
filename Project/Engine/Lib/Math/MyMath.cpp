@@ -234,6 +234,18 @@ Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inver
 }
 
 /// <summary>
+/// スクリーン座標からワールド座標に変換する関数
+/// </summary>
+/// <param name="screenPos">スクリーン上の座標</param>
+/// <param name="inverseWvpMat">逆ワールドプロジェクション行列</param>
+/// <param name="setDirection">ワールド上のどこに設定するか</param>
+/// <returns>ワールド座標</returns>
+Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4& vpvpMat) {
+    Vector3 pos = Transform(CVector3::ZERO, targetWorldMat * vpvpMat);
+    return Vector2(pos.x, pos.y);
+}
+
+/// <summary>
 /// ベクトル変換
 /// </summary>
 /// <param name="v"></param>

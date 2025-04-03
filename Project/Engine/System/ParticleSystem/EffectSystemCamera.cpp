@@ -23,7 +23,7 @@ void EffectSystemCamera::Init() {
 
 	moveBaseSpeed_ = 5.0f;
 	moveSpeed_ = 5.0f;
-	quaternion_ = Quaternion::AngleAxis(20.0f * kToRadian, Vector3::RIGHT());
+	quaternion_ = Quaternion::AngleAxis(20.0f * kToRadian, CVector3::RIGHT);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

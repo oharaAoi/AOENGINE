@@ -26,7 +26,7 @@ public:
 	void Update();
 	void Draw() const;
 
-	void Emit(const std::string& name, const Vector3& pos = Vector3::ZERO());
+	void Emit(const std::string& name, const Vector3& pos = CVector3::ZERO);
 
 #ifdef _DEBUG
 	void Debug_Gui();

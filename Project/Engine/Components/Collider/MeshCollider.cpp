@@ -9,7 +9,7 @@ MeshCollider::~MeshCollider() {}
 void MeshCollider::Init(Mesh* mesh) {
 	mesh_ = mesh;
 
-	size_ = Vector3::ZERO();
+	size_ = CVector3::ZERO;
 	maxSize_ = { -9999.0f, -9999.0f, -9999.0f };
 	minSize_ = { 9999.0f, 9999.0f, 9999.0f };
 
