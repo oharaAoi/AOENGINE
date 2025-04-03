@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Components/Attribute/AttributeGui.h"
 #include "Game/Camera/BaseCamera.h"
+#include "Game/UI/Reticle.h"
 #include <utility>
 
 class Player;
@@ -32,11 +33,19 @@ public:		// accessor method
 
 	void SetTarget(Player* _target) { pTarget_ = _target; }
 
+	void SetReticle(Reticle* reticle) { pReticle_ = reticle; }
+
 	Quaternion GetAngleX();
 
 private:
 
+	// 他クラス ------------------------------------------------
+
 	Player* pTarget_ = nullptr;
+
+	Reticle* pReticle_ = nullptr;
+
+	// Parameter ------------------------------------------------
 
 	Vector3 offset_ = {0,2.5f,0.0f};
 	Vector2 angle_ = {};

@@ -54,6 +54,7 @@ void GameScene::Init() {
 	pPlayer->SetReticle(reticle_.get());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
+	followCamera_->SetReticle(reticle_.get());
 
 }
 

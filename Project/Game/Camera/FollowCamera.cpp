@@ -36,7 +36,17 @@ void FollowCamera::Update() {
 
 	RotateCamera();
 
-	transform_.rotate = Quaternion::AngleAxis(angle_.x, CVector3::UP) * Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
+	if (pReticle_->GetLockOn()) {
+		Quaternion targetToRotate = Quaternion::LookAt(transform_.translate, pReticle_->GetTargetPos());
+		transform_.rotate = Quaternion::Slerp(transform_.rotate, targetToRotate, 0.2f);
+
+		Vector3 euler = transform_.rotate.QuaternionToEuler();
+		angle_.x = euler.y;
+		angle_.y = euler.x;
+
+	} else {
+		transform_.rotate = Quaternion::AngleAxis(angle_.x, CVector3::UP) * Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
+	}
 	
 	Vector3 point = pTarget_->GetTransform()->translate_ + offset_;
 	Vector3 direction = transform_.rotate.Rotate({ 0.0f, 0.0f, -1.0f });
@@ -80,7 +90,7 @@ void FollowCamera::Debug_Gui() {
 
 void FollowCamera::RotateCamera() {
 	stick_ = Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
-
+	
 	if (std::abs(stick_.x) > kDeadZone_) {
 		angle_.x += stick_.x * rotateDelta_;
 	}
@@ -93,5 +103,7 @@ void FollowCamera::RotateCamera() {
 }
 
 Quaternion FollowCamera::GetAngleX() {
-	return Quaternion::AngleAxis(angle_.x, CVector3::UP);
+	//return Quaternion::AngleAxis(angle_.x, CVector3::UP);
+	Vector3 euler = transform_.rotate.QuaternionToEuler();
+	return Quaternion::AngleAxis(euler.y, CVector3::UP);
 }
