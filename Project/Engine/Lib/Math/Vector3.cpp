@@ -41,7 +41,7 @@ Matrix4x4 Vector3::MakeTranslateMat() const {
 }
 
 float Vector3::Dot(const Vector3& v1, const Vector3& v2) {
-    return (v2.x * v1.x) + (v2.y * v1.y) + (v2.z * v1.z);
+    return std::clamp((v2.x * v1.x) + (v2.y * v1.y) + (v2.z * v1.z), -1.0f, 1.0f);
 }
 
 Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2) {
