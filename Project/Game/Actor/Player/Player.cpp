@@ -61,9 +61,9 @@ void Player::Update() {
 	stateMachine_->Update();
 
 	if (reticle_->GetLockOn()) {
-		Vector3 toDirection = reticle_->GetTargetPos() - transform_->translate_;
-		Quaternion targetToRotate = Quaternion::LookAt(transform_->rotation_.MakeForward(), toDirection);
-		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_,  targetToRotate, 0.1f);
+		//Vector3 toDirection = reticle_->GetTargetPos() - transform_->translate_;
+		Quaternion targetToRotate = Quaternion::LookAt(transform_->translate_, reticle_->GetTargetPos());
+		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_, targetToRotate, 0.9f);
 	}
 
 	BaseGameObject::Update();
