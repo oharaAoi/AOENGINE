@@ -32,7 +32,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WorldTransform::Update(const Matrix4x4& mat) {
-	Vector3 worldTranslate = Vector3::ZERO();
+	Vector3 worldTranslate = CVector3::ZERO;
 	Quaternion worldRotate = Quaternion();
 
 	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
