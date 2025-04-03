@@ -16,9 +16,13 @@ public:
 	/// <summary>
 	/// 正規化した回転を返す
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>: 回転</returns>
 	Quaternion Normalize() const;
 
+	/// <summary>
+	/// 行列を返す
+	/// </summary>
+	/// <returns>: 回転行列</returns>
 	Matrix4x4 MakeMatrix() const;
 
 	Vector3 MakeForward() const;
@@ -28,12 +32,20 @@ public:
 	/// <summary>
 	/// Quaternionからオイラー角
 	/// </summary>
-	/// <returns></returns>
+	/// <returns>: オイラー角</returns>
 	Vector3 ToEulerAngles() const;
 
-
+	/// <summary>
+	/// 共役
+	/// </summary>
+	/// <returns>: w以外の項をx-1したQuaternion</returns>
 	Quaternion Conjugate() const;
 
+	/// <summary>
+	/// Vector3との掛け算
+	/// </summary>
+	/// <param name="vec"></param>
+	/// <returns>: Vector3と掛け算をしたあとの回転</returns>
 	Vector3 Rotate(const Vector3& vec) const;
 
 public:
@@ -46,32 +58,32 @@ public:
 	/// <returns></returns>
 	static Quaternion AngleAxis(float angle, const Vector3& axis);
 
+
 	static Quaternion EulerToQuaternion(const Vector3& euler);
 
 	/// <summary>
-	/// fromからtoへの回転を返す
-	/// </summary>
-	/// <param name="fromDire"></param>
-	/// <param name="toDire"></param>
-	/// <returns></returns>
-	static Quaternion FromToRotation(const Vector3& fromDire, const Vector3& toDire);
-
-	/// <summary>
-	/// 
+	/// Quaternionの逆を返す
 	/// </summary>
 	/// <param name="rotation"></param>
 	/// <returns></returns>
 	static Quaternion Inverse(const Quaternion& rotation);
 
 	/// <summary>
-	/// 向きたい方向の回転を求める関数
+	/// from位置からto位置への回転を返す
 	/// </summary>
-	/// <param name="forward"></param>
-	/// <param name="upVector"></param>
-	/// <returns></returns>
-	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
-
+	/// <param name="from">: 現在の位置</param>
+	/// <param name="to">: ターゲットの位置</param>
+	/// <param name="up">: 回転軸</param>
+	/// <returns>: 回転</returns>
 	static Quaternion LookAt(const Vector3& from, const Vector3& to, const Vector3& up = Vector3{ 0.0f, 1.0f, 0.0f });
+
+	/// <summary>
+	/// from方向からto方向への回転を返す
+	/// </summary>
+	/// <param name="fromDire">: 元となる方向ベクトル</param>
+	/// <param name="toDire">: 向かせたい方向ベクトル</param>
+	/// <returns>: to方向へ向く回転</returns>
+	static Quaternion FromToRotation(const Vector3& fromDire, const Vector3& toDire);
 
 	/// <summary>
 	/// 二つの回転の内積を返す
@@ -97,6 +109,16 @@ public:
 	Vector3 QuaternionToEuler() const;
 
 	static Quaternion ToQuaternion(const Vector4& v);
+
+private:
+
+	/// <summary>
+	/// 向きたい方向の回転を求める関数
+	/// </summary>
+	/// <param name="forward"></param>
+	/// <param name="upVector"></param>
+	/// <returns></returns>
+	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
 
 public:
 
