@@ -98,7 +98,7 @@ void PlayerActionMove::Move() {
 	// playerを移動方向に向ける
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
 		float angle = std::atan2f(velocity.x, velocity.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, Vector3::UP()), 0.1f);
+		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, CVector3::UP), 0.1f);
 		transform->rotation_ = lerpQuaternion;
 	}
 }

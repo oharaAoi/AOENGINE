@@ -125,7 +125,7 @@ Quaternion Quaternion::LookRotation(const Vector3& forward, const Vector3& upVec
 
 Quaternion Quaternion::LookAt(const Vector3& from, const Vector3& to, const Vector3& up) {
 	Vector3 forward = (to - from).Normalize();
-	return LookRotation(forward, up);
+	return LookRotation(forward, up).Normalize();
 }
 
 float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2) {

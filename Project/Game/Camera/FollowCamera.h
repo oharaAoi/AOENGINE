@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Components/Attribute/AttributeGui.h"
 #include "Game/Camera/BaseCamera.h"
+#include <utility>
 
 class Player;
 
@@ -39,6 +40,7 @@ private:
 
 	Vector3 offset_ = {0,2.5f,0.0f};
 	Vector2 angle_ = {};
+	std::pair<float, float> angleLimitY_ = { -kPI / 16.0f, kPI / 3.0f };
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;

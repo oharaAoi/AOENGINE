@@ -13,7 +13,7 @@ void Boss::Init() {
 	SetObject("boss.obj");
 
 	transform_->translate_.z = 25.0f;
-	transform_->rotation_ = Quaternion::AngleAxis(kPI, Vector3::UP());
+	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Boss");

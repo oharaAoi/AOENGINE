@@ -60,6 +60,12 @@ void Player::Update() {
 	actionManager_.Update();
 	stateMachine_->Update();
 
+	if (reticle_->GetLockOn()) {
+		Vector3 toDirection = reticle_->GetTargetPos() - transform_->translate_;
+		Quaternion targetToRotate = Quaternion::LookAt(transform_->rotation_.MakeForward(), toDirection);
+		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_,  targetToRotate, 0.1f);
+	}
+
 	BaseGameObject::Update();
 }
 

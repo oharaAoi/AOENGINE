@@ -36,7 +36,7 @@ void FollowCamera::Update() {
 
 	RotateCamera();
 
-	transform_.rotate = Quaternion::AngleAxis(angle_.x, Vector3::UP()) * Quaternion::AngleAxis(angle_.y, Vector3::RIGHT());
+	transform_.rotate = Quaternion::AngleAxis(angle_.x, CVector3::UP) * Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
 	
 	Vector3 point = pTarget_->GetTransform()->translate_ + offset_;
 	Vector3 direction = transform_.rotate.Rotate({ 0.0f, 0.0f, -1.0f });
@@ -85,11 +85,13 @@ void FollowCamera::RotateCamera() {
 		angle_.x += stick_.x * rotateDelta_;
 	}
 
-	/*if (std::abs(stick_.y) > kDeadZone_) {
+	if (std::abs(stick_.y) > kDeadZone_) {
 		angle_.y += stick_.y * rotateDelta_;
-	}*/
+	}
+
+	angle_.y = std::clamp(angle_.y, angleLimitY_.first, angleLimitY_.second);
 }
 
 Quaternion FollowCamera::GetAngleX() {
-	return Quaternion::AngleAxis(angle_.x, Vector3::UP());
+	return Quaternion::AngleAxis(angle_.x, CVector3::UP);
 }

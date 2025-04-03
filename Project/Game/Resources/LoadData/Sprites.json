@@ -1,7 +1,7 @@
 {
     "sprites": [
         {
-            "directory": "./Engine/Resources/Textures/Reticle/",
+            "directory": "./Game/Resources/Textures/Reticle/",
             "files": [
                 "lockOffReticle.png",
                 "lockOnReticle.png"

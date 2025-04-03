@@ -6,6 +6,7 @@
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
+#include "Game/UI/Reticle.h"
 
 class Player :
 	public BaseGameObject {
@@ -34,6 +35,8 @@ public:		// accessor method
 	void SetFollowCamera(FollowCamera* followCamera) { pFollowCamera_ = followCamera; }
 	FollowCamera* GetFollowCamera() { return pFollowCamera_; }
 
+	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
+
 	void SetBulletManager(PlayerBulletManager* bulletManager) { pBulletManager_ = bulletManager; }
 
 private:
@@ -41,6 +44,8 @@ private:
 	// 他クラス ------------------------------------------------
 
 	FollowCamera* pFollowCamera_ = nullptr;
+
+	Reticle* reticle_ = nullptr;
 
 	PlayerBulletManager* pBulletManager_ = nullptr;
 
