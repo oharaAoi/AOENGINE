@@ -1,13 +1,11 @@
 #pragma once
 #include <cmath>
 #include "Matrix4x4.h"
-//
-//class Matrix4x4;
 
 /// <summary>
 /// 3次元ベクトル
 /// </summary>
-class Vector3 final{
+class Vector3 final {
 public:
 
 	float x;
@@ -20,18 +18,18 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator+(const Vector3& obj) const{ return Vector3(x + obj.x, y + obj.y, z + obj.z); }
+	Vector3 operator+(const Vector3& obj) const { return Vector3(x + obj.x, y + obj.y, z + obj.z); }
 
-	Vector3 operator+(const float& obj) const{ return Vector3(x + obj, y + obj, z + obj); }
+	Vector3 operator+(const float& obj) const { return Vector3(x + obj, y + obj, z + obj); }
 
-	Vector3 operator+=(const Vector3& obj){
+	Vector3 operator+=(const Vector3& obj) {
 		x += obj.x;
 		y += obj.y;
 		z += obj.z;
 		return *this;
 	}
 
-	Vector3 operator+=(const float& obj){
+	Vector3 operator+=(const float& obj) {
 		x += obj;
 		y += obj;
 		z += obj;
@@ -43,18 +41,18 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator-(const Vector3& obj) const{ return Vector3(x - obj.x, y - obj.y, z - obj.z); }
+	Vector3 operator-(const Vector3& obj) const { return Vector3(x - obj.x, y - obj.y, z - obj.z); }
 
-	Vector3 operator-(const float& obj) const{ return Vector3(x - obj, y - obj, z - obj); }
+	Vector3 operator-(const float& obj) const { return Vector3(x - obj, y - obj, z - obj); }
 
-	Vector3 operator-=(const Vector3& obj){
+	Vector3 operator-=(const Vector3& obj) {
 		x -= obj.x;
 		y -= obj.y;
 		z -= obj.z;
 		return *this;
 	}
 
-	Vector3 operator-=(const float& obj){
+	Vector3 operator-=(const float& obj) {
 		x -= obj;
 		y -= obj;
 		z -= obj;
@@ -66,25 +64,34 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator*(const Vector3& obj) const{ return Vector3(x * obj.x, y * obj.y, z * obj.z); }
+	Vector3 operator*(const Vector3& obj) const { return Vector3(x * obj.x, y * obj.y, z * obj.z); }
 
-	Vector3 operator*(const float& obj) const{ return Vector3(x * obj, y * obj, z * obj); }
+	// メンバー関数としてのスカラー乗算 (Vector3 * float)
+	[[nodiscard]] constexpr Vector3 operator*(float scalar) const {
+		return Vector3(x * scalar, y * scalar, z * scalar);
+	}
 
-	Vector3 operator*=(const Vector3& obj){
+	// フリー関数としてのスカラー乗算 (float * Vector3)
+	[[nodiscard]] friend constexpr Vector3 operator*(float scalar, const Vector3& vec) {
+		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+	}
+
+
+	Vector3 operator*=(const Vector3& obj) {
 		x *= obj.x;
 		y *= obj.y;
 		z *= obj.z;
 		return *this;
 	}
 
-	Vector3 operator*=(const float& obj){
+	Vector3 operator*=(const float& obj) {
 		x *= obj;
 		y *= obj;
 		z *= obj;
 		return *this;
 	}
 
-	Vector3 operator/(const float& obj){
+	Vector3 operator/(const float& obj) {
 		return{
 		x / obj,
 		y / obj,
@@ -93,7 +100,7 @@ public:
 	}
 
 	// Matrix
-	Vector3 operator*(const Matrix4x4& mat){
+	Vector3 operator*(const Matrix4x4& mat) {
 		Vector3 result{};
 
 		result.x = mat.m[0][0] * x + mat.m[1][0] * y + mat.m[2][0] * z + mat.m[3][0];
@@ -102,16 +109,6 @@ public:
 
 		return result;
 	}
-
-	// =============================================
-	// 数学用関数
-
-	static Vector3 ZERO() { return Vector3(0.0f, 0.0f, 0.0f); }
-	static Vector3 UNIT() { return Vector3(1.0f, 1.0f, 1.0f); }
-
-	static Vector3 UP() {return Vector3(0.0f, 1.0f, 0.0f);}
-	static Vector3 RIGHT() {return Vector3(1.0f, 0.0f, 0.0f);}
-	static Vector3 FORWARD() {return Vector3(0.0f, 0.0f, 1.0f);}
 
 	/// <summary>
 	/// 正規化
@@ -191,6 +188,17 @@ public:
 };
 
 // フリー関数
-inline Vector3 operator*(const float& obj, const Vector3& vec) {
-	return Vector3(vec.x * obj, vec.y * obj, vec.z * obj);
+//inline Vector3 operator*(const float& obj, const Vector3& vec) {
+//	return Vector3(vec.x * obj, vec.y * obj, vec.z * obj);
+//}
+
+/// <summary>
+/// Vector3定数
+/// </summary>
+namespace CVector3 {
+	constexpr Vector3 RIGHT		{ 1.0f, 0.0f, 0.0f };
+	constexpr Vector3 UP		{ 0.0f, 1.0f, 0.0f };
+	constexpr Vector3 FORWARD	{ 0.0f ,0.0f, 1.0f };
+	constexpr Vector3 ZERO		{ 0.0f, 0.0f, 0.0f };
+	constexpr Vector3 UNIT		{ 1.0f, 1.0f, 1.0f };
 }
