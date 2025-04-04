@@ -4,6 +4,15 @@
 // Engine
 #include "Engine/System/Input/Input.h"
 
+#ifdef _DEBUG
+void PlayerActionJump::Debug_Gui() {
+	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
+	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
+	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
+	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
+}
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +27,7 @@ void PlayerActionJump::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnStart() {
+	isFall_ = false;
 	// actionを起こす
 	Jump();
 }
@@ -27,6 +37,8 @@ void PlayerActionJump::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnUpdate() {
+	// 上昇をする
+	Rising();
 	// 重力を適用させる
 	ApplyGravity();
 }
@@ -44,6 +56,7 @@ void PlayerActionJump::OnEnd() {
 
 void PlayerActionJump::CheckNextAction() {
 	if (pOwnerTransform_->translate_.y <= 0.0f) {
+		pOwnerTransform_->translate_.y = 0.0f;
 		NextAction<PlayerActionIdle>();
 	}
 }
@@ -64,7 +77,40 @@ bool PlayerActionJump::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Jump() {
-	velocity_.y = 10.0f;
+	velocity_.y = param_.jumpForce;
+	acceleration_.y = 0.0f;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 上昇を行う
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerActionJump::Rising() {
+	if (!isFall_) { return; }
+
+	// ボタンを押していたら上昇する
+	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A)) {
+		isRising_ = true;
+	} else {
+		isRising_ = false;
+	}
+
+	// 上昇していたなら
+	if (isRising_) {
+		acceleration_.y += param_.risingForce * GameTimer::DeltaTime();
+
+		if (velocity_.y <= 0.0f) {
+			acceleration_.y = 0.0f;
+			velocity_.y = 4.0f;
+		}
+	}
+
+	// 上昇をやめたら速度を0.0fに近い値にする
+	if (!isRising_ && isPreRising_) {
+		velocity_.y = std::lerp(velocity_.y, 0.0f, 0.8f);
+	}
+
+	isPreRising_ = isRising_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,6 +118,13 @@ void PlayerActionJump::Jump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::ApplyGravity() {
+	acceleration_.y += kGravity * GameTimer::DeltaTime();
+	acceleration_.y = std::clamp(acceleration_.y, -param_.maxAcceleration, param_.maxAcceleration);
+
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+
+	if (velocity_.y <= 0.0f) {
+		isFall_ = true;
+	}
 }

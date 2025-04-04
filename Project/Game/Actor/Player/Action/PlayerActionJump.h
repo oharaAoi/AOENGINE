@@ -13,6 +13,14 @@ class PlayerActionJump :
 	public BaseAction<Player> {
 public:
 
+	struct Parameter {
+		float jumpForce = 6.0f;
+		float risingForce = 10.0f;
+		float maxAcceleration = 20.0f;
+	};
+
+public:
+
 	PlayerActionJump() = default;
 	~PlayerActionJump() = default;
 
@@ -24,12 +32,21 @@ public:
 	void CheckNextAction() override;
 	bool IsInput() override;
 
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif // _DEBUG
+
 private:	// action
 
 	/// <summary>
 	/// main action
 	/// </summary>
 	void Jump();
+
+	/// <summary>
+	/// 上昇する
+	/// </summary>
+	void Rising();
 
 	/// <summary>
 	/// 重力の適用
@@ -40,6 +57,12 @@ private:	// variable
 
 	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
+
+	Parameter param_;
+	bool isFall_;
+
+	bool isRising_;
+	bool isPreRising_;
 
 	WorldTransform* pOwnerTransform_ = nullptr;
 

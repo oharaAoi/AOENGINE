@@ -75,7 +75,7 @@ void PlayerActionShotRight::Shot() {
 	// 長押しで反応するようにする
 	if (pInput_->GetPressPadTrigger(XInputButtons::R_SHOULDER)) {
 		// shotを放つ
-		pOwner_->Shot(30.0f);
+		pOwner_->Shot(40.0f);
 
 		// coolTimeの設定
 		shotTimer_ = shotCoolTime_;
