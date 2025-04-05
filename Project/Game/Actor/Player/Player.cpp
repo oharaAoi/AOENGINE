@@ -4,6 +4,7 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
+#include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 
 Player::Player() {}
@@ -41,6 +42,7 @@ void Player::Init() {
 	actionManager_.BuildAction<PlayerActionIdle>();
 	actionManager_.BuildAction<PlayerActionMove>();
 	actionManager_.BuildAction<PlayerActionJump>();
+	actionManager_.BuildAction<PlayerActionQuickBoost>();
 	actionManager_.BuildAction<PlayerActionShotRight>();
 
 	size_t hash = typeid(PlayerActionMove).hash_code();

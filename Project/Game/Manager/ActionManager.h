@@ -81,7 +81,6 @@ public:
 		actionMap_[hash]->SetOwner(pOwner_);
 		actionMap_[hash]->SetObserver(this);
 		actionMap_[hash]->Build();
-		actionMap_[hash]->CallStart(hash);
 		AddChild(actionMap_[hash].get());
 	}
 

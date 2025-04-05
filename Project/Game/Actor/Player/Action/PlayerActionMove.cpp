@@ -2,9 +2,9 @@
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
+#include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 // Engine
-#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
@@ -36,6 +36,7 @@ void PlayerActionMove::Build() {
 void PlayerActionMove::OnStart() {
 	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
 	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
+	quickBoostAction_ = pManager_->GetActionInstance<PlayerActionQuickBoost>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,7 @@ void PlayerActionMove::OnEnd() {
 // ↓ 次に行うアクションの判定
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionMove::CheckNextAction() {	
+void PlayerActionMove::CheckNextAction() {
 	/*if (stick_.x == 0.0f && stick_.y == 0.0f) {
 		NextAction<PlayerActionIdle>();
 	}*/
@@ -68,6 +69,10 @@ void PlayerActionMove::CheckNextAction() {
 
 	if (shotAction_->IsInput()) {
 		AddAction<PlayerActionShotRight>();
+	}
+
+	if (quickBoostAction_->IsInput()) {
+		NextAction<PlayerActionQuickBoost>();
 	}
 }
 
