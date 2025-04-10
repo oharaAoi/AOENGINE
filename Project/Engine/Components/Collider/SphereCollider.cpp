@@ -11,7 +11,7 @@ SphereCollider::~SphereCollider() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereCollider::Init(uint32_t bitTag, ColliderShape shape) {
-	bitTag_ = bitTag;
+	categoryBits_ = bitTag;
 	collisionState_ = CollisionFlags::NONE;
 
 	if (shape == ColliderShape::SPHERE) {
