@@ -36,7 +36,7 @@ void TestScene::Init() {
 		testObjA_[oi] = std::make_unique<TestObject>();
 
 		testObjA_[oi]->Init();
-		testObjA_[oi]->SetCollider(1 << 1, ColliderShape::SPHERE);
+		testObjA_[oi]->SetCollider("TestObj", ColliderShape::SPHERE);
 	}
 	
 #ifdef _DEBUG

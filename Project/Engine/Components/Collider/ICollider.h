@@ -36,7 +36,7 @@ public:
 	ICollider() = default;
 	virtual ~ICollider() = default;
 
-	virtual void Init(uint32_t bitTag, ColliderShape shape) = 0;
+	virtual void Init(const std::string& categoryName, ColliderShape shape) = 0;
 	virtual void Update(const QuaternionSRT& srt) = 0;
 	virtual void Draw() const {};
 

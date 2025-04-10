@@ -14,13 +14,13 @@ public:
 	CollisionLayerManager(const CollisionLayerManager&) = delete;
 	CollisionLayerManager& operator=(const CollisionLayerManager&) = delete;
 
-	static CollisionLayerManager& getInstance();
+	static CollisionLayerManager& GetInstance();
 
 	// カテゴリ名を登録（未登録時のみ）
-	void registerCategory(const std::string& name);
+	uint32_t RegisterCategory(const std::string& name);
 
 	// カテゴリ名からビットを取得（未登録なら例外）
-	uint32_t getCategoryBit(const std::string& name) const;
+	uint32_t GetCategoryBit(const std::string& name) const;
 
 private:
 

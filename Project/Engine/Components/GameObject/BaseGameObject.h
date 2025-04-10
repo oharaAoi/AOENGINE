@@ -75,7 +75,7 @@ public:
 	void SetMeshCollider(const std::string& tag);
 
 	ICollider* GetCollider() { return collider_.get(); }
-	void SetCollider(uint32_t bitTag, ColliderShape shape);
+	void SetCollider(const std::string& categoryName, ColliderShape shape);
 
 private:
 
