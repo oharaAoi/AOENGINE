@@ -35,7 +35,7 @@ public:
 	void Finalize();
 
 	static void AddMesh(ID3D12Device* device, const std::string& modelName,
-						const std::string& meshName, const std::vector<Mesh::VertexData>& vertexData, std::vector<uint32_t>& indices);
+						const std::string& meshName, const std::vector<VertexData>& vertexData, std::vector<uint32_t>& indices);
 
 	static std::vector<std::unique_ptr<Mesh>> GetMeshes(const std::string& modelName);
 

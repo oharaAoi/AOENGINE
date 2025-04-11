@@ -260,12 +260,6 @@ void Engine::BlendFinalTexture() {
 // ↓　生成する関数群
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex, const std::string& textureName) {
-	std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>();
-	triangle->Init(dxDevice_->GetDevice(), vertex, textureName);
-	return triangle;
-}
-
 std::unique_ptr<Sprite> Engine::CreateSprite(const std::string& fileName) {
 	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();
 	sprite->Init(dxDevice_->GetDevice(), fileName);

@@ -18,7 +18,6 @@
 #include "Engine/Components/GameObject/Model.h"
 #include "Engine/Components/Materials/PBRMaterial.h"
 #include "Engine/Components/2d/Sprite.h"
-#include "Engine/Components/2d/Triangle.h"
 #include "Engine/Utilities/Shader.h"
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Components/RenderTexture.h"
@@ -70,8 +69,6 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 生成系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	// 三角形のポインタを作成
-	static std::unique_ptr<Triangle> CreateTriangle(const Mesh::Vertices& vertex, const std::string& textureName);
 	// スプライトのポインタを作成
 	static std::unique_ptr<Sprite> CreateSprite(const std::string& fileName);
 	// モデルのポインタを作成

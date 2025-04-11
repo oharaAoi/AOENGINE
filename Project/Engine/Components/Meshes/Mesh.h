@@ -1,32 +1,9 @@
 #pragma once
+#include "Engine/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
 
 class Mesh final {
-public: // 構造体
-
-	struct VertexData {
-		Vector4 pos;
-		Vector2 texcoord;
-		Vector3 normal;
-		Vector4 worldPos;
-		Vector3 tangent;
-	};
-
-	struct Vertices {
-		Vector4 vertex1;// 左下
-		Vector4 vertex2;// 上
-		Vector4 vertex3;// 右下
-	};
-
-	struct RectVetices {
-		Vector4 leftTop;
-		Vector4 rightTop;
-		Vector4 leftBottom;
-		Vector4 rightBottom;
-	};
-
-
 public:
 
 	Mesh();

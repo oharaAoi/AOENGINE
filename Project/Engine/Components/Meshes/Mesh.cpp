@@ -17,11 +17,11 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	// ↓Vetrtexの設定
 	// ---------------------------------------------------------------
 	// VertexBufferViewを作成する
-	vertexBuffer_ = CreateBufferResource(device, vertexData.size() * sizeof(Mesh::VertexData));
+	vertexBuffer_ = CreateBufferResource(device, vertexData.size() * sizeof(VertexData));
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = (UINT)vertexData.size() * sizeof(Mesh::VertexData);
+	vertexBufferView_.SizeInBytes = (UINT)vertexData.size() * sizeof(VertexData);
 	// 1頂点当たりのサイズ
 	vertexBufferView_.StrideInBytes = sizeof(VertexData);
 	// Resourceにデータを書き込む 
