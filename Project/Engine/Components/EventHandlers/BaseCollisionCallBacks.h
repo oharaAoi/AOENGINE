@@ -2,6 +2,7 @@
 //  c++
 #include <functional>
 // collider
+#include "Engine/System/Manager/CollisionManager.h"
 #include "Engine/Components/Collider/ICollider.h"
 
 #define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
@@ -28,7 +29,7 @@ public:
 
 protected:
 
-	ICollider::CallBackKinds callBacks_;
+	CollisionManager::CallBackKinds callBacks_;
 
 };
 

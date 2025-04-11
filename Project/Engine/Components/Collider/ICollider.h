@@ -23,16 +23,6 @@ enum class ColliderShape {
 class ICollider {
 public:
 
-	using CollisionFunctions = std::function<void(ICollider* const, ICollider* const)>;
-
-	struct CallBackKinds {
-		CollisionFunctions enter;
-		CollisionFunctions stay;
-		CollisionFunctions exit;
-	};
-
-public:
-
 	ICollider() = default;
 	virtual ~ICollider() = default;
 
@@ -52,36 +42,6 @@ public:
 	/// </summary>
 	/// <param name="partner"></param>
 	void DeletePartner(ICollider* partner);
-
-	/// <summary>
-	/// 衝突時にコールバック関数を呼び出す
-	/// </summary>
-	/// <param name="other"></param>
-	void OnCollision(ICollider* other);
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionEnter(CollisionFunctions callback) {
-		callBacks_.enter = callback;
-	}
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionStay(CollisionFunctions callback) {
-		callBacks_.stay = callback;
-	}
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionExit(CollisionFunctions callback) {
-		callBacks_.exit = callback;
-	}
 
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
@@ -113,26 +73,6 @@ public:
 	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
-private:
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionEnter(ICollider* other);
-
-	/// <summary>
-	/// 衝突中に呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionStay(ICollider* other);
-
-	/// <summary>
-	/// 衝突しなくなったら呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionExit(ICollider* other);
-
 protected:
 
 	bool isActive_ = false;
@@ -151,8 +91,5 @@ protected:
 	Vector3 size_;
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
-	
-	// 衝突時のcallBack
-	CallBackKinds callBacks_;
 };
 

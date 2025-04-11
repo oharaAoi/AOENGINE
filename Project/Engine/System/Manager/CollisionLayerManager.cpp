@@ -20,7 +20,7 @@ uint32_t CollisionLayerManager::RegisterCategory(const std::string& name) {
 
 	nameToBit_[name] = nextBit_;
 
-	nextBit_ <<= 1; // 次のビットへ（例：1→2→4→8→...）
+	nextBit_ <<= 1; // 次のビットへ
 
 	return nameToBit_[name];
 }
