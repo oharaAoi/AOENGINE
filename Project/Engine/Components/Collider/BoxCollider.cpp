@@ -1,6 +1,7 @@
 #include "BoxCollider.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Render.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
 
 BoxCollider::BoxCollider() {}
@@ -10,8 +11,10 @@ BoxCollider::~BoxCollider() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BoxCollider::Init(uint32_t bitTag, ColliderShape shape) {
-	bitTag_ = bitTag;
+void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
+	auto& layers = CollisionLayerManager::GetInstance();
+	categoryBits_ = layers.RegisterCategory(categoryName);
+
 	collisionState_ = CollisionFlags::NONE;
 	
 	if (shape == ColliderShape::AABB) {

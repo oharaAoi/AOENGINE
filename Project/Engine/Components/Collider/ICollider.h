@@ -26,7 +26,7 @@ public:
 	ICollider() = default;
 	virtual ~ICollider() = default;
 
-	virtual void Init(uint32_t bitTag, ColliderShape shape) = 0;
+	virtual void Init(const std::string& categoryName, ColliderShape shape) = 0;
 	virtual void Update(const QuaternionSRT& srt) = 0;
 	virtual void Draw() const {};
 
@@ -43,39 +43,17 @@ public:
 	/// <param name="partner"></param>
 	void DeletePartner(ICollider* partner);
 
-	/// <summary>
-	/// 衝突時にコールバック関数を呼び出す
-	/// </summary>
-	/// <param name="other"></param>
-	void OnCollision(ICollider& other);
+	// --------------- 機能しているかの設定・取得 -------------- //
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
+	bool GetIsActive() const { return isActive_; }
 
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionEnter(std::function<void(ICollider&)> callback) {
-		onCollisionEnter_ = callback;
-	}
+	// --------------- categoryの設定・取得 -------------- //
+	void SetCategoryBit(uint32_t bit) { categoryBits_ = bit; }
+	uint32_t GetCategoryBit() const { return categoryBits_; }
 
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionStay(std::function<void(ICollider&)> callback) {
-		onCollisionStay_ = callback;
-	}
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数の設定
-	/// </summary>
-	/// <param name="callback"></param>
-	void SetCollisionExit(std::function<void(ICollider&)> callback) {
-		onCollisionExit_ = callback;
-	}
-
-	// --------------- tagの設定・取得 -------------- //
-	void SetTag(uint32_t tag) { bitTag_ = tag; }
-	const uint32_t GetTag() const { return bitTag_; }
+	// --------------- maskの設定・取得 -------------- //
+	void SetMaskBits(uint32_t bit) { maskBits_ |= bit; }
+	uint32_t GetMaskBits() const { return maskBits_; }
 
 	// --------------- shapeの設定・取得 -------------- //
 	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
@@ -83,42 +61,26 @@ public:
 
 	// --------------- stateの設定・取得 -------------- //
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
-	const int GetCollisionState() const { return collisionState_; }
+	int GetCollisionState() const { return collisionState_; }
 
-	// ------------ 半径 ------------ // 
+	// ------------ 半径の設定・取得 ------------ // 
 	void SetRadius(const float& radius) { std::get<Sphere>(shape_).radius = radius; }
 	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
 
 	// ------------ Colliderの中心座標 ------------ // 
-	const Vector3 GetCenterPos() const { return centerPos_; }
+	const Vector3& GetCenterPos() const { return centerPos_; }
 
 	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
-private:
-
-	/// <summary>
-	/// 最初の衝突時に呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionEnter(ICollider& other);
-
-	/// <summary>
-	/// 衝突中に呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionStay(ICollider& other);
-
-	/// <summary>
-	/// 衝突しなくなったら呼ばれる関数
-	/// </summary>
-	/// <param name="other">: 他の衝突物</param>
-	void OnCollisionExit(ICollider& other);
-
 protected:
 
-	// タグ
-	uint32_t bitTag_;
+	bool isActive_ = false;
+	
+	// カテゴリ
+	uint32_t categoryBits_; // 自分が属しているカテゴリ
+	uint32_t maskBits_;     // 誰と衝突してもいいかのマスク
+
 	// 形状
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態
@@ -129,10 +91,5 @@ protected:
 	Vector3 size_;
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
-	
-	// 衝突時のcallBack
-	std::function<void(ICollider&)> onCollisionEnter_;
-	std::function<void(ICollider&)> onCollisionStay_;
-	std::function<void(ICollider&)> onCollisionExit_;
 };
 

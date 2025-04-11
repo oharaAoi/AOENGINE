@@ -116,6 +116,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
     <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp" />
+    <ClCompile Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
@@ -178,6 +179,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AudioManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
@@ -264,6 +266,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Components\Animation\Animator.h" />
     <ClInclude Include="Engine\Components\Attribute\AttributeGui.h" />
+    <ClInclude Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
@@ -326,6 +329,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AudioManager.h" />
+    <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
     <ClInclude Include="Engine\System\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\System\Manager\MeshManager.h" />

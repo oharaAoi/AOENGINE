@@ -9,7 +9,7 @@ public:
 	BoxCollider();
 	~BoxCollider();
 
-	void Init(uint32_t bitTag, ColliderShape shape) override;
+	void Init(const std::string& categoryName, ColliderShape shape) override;
 	void Update(const QuaternionSRT& srt) override;
 	void Draw() const override;
 

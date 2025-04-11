@@ -1,6 +1,7 @@
 #include "SphereCollider.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Render.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
 
 SphereCollider::SphereCollider() {}
@@ -10,8 +11,10 @@ SphereCollider::~SphereCollider() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereCollider::Init(uint32_t bitTag, ColliderShape shape) {
-	bitTag_ = bitTag;
+void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) {
+	auto& layers = CollisionLayerManager::GetInstance();
+	categoryBits_ = layers.RegisterCategory(categoryName);
+
 	collisionState_ = CollisionFlags::NONE;
 
 	if (shape == ColliderShape::SPHERE) {
