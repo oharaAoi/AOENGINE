@@ -11,18 +11,24 @@
 #include "Engine/DirectX/Pipeline/GraphicsPipelines.h"
 #include "Engine/ComputeShader/ComputeShader.h"
 #include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
+
+#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/System/Audio/Audio.h"
+
 #include "Engine/Components/GameObject/Model.h"
 #include "Engine/Components/Materials/PBRMaterial.h"
 #include "Engine/Components/2d/Sprite.h"
-#include "Engine/Utilities/Shader.h"
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Components/RenderTexture.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Components/Rigging/Skinning.h"
+
+#include "Engine/Geometry/GeometryManager.h"
+
+#include "Engine/Utilities/Shader.h"
+
 #include "Game/GameResources.h"
 #include "Render.h"
 

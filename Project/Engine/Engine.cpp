@@ -23,7 +23,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	dxCommon_ = DirectXCommon::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
-	render_ = Render::GetInstacne();
+	render_ = Render::GetInstance();
 	effectSystem_ = EffectSystem::GetInstacne();
 	editerWindows_ = EditerWindows::GetInstance();
 
@@ -43,6 +43,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTexture_ = std::make_unique<RenderTexture>();
 	audio_ = std::make_unique<Audio>();
+
+	GeometryManager& geometryManager = GeometryManager::GetInstance();
+	geometryManager.Init();
 
 #ifdef _DEBUG
 	editerWindows_->Init();

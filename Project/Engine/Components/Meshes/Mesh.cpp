@@ -12,7 +12,7 @@ void Mesh::Finalize() {
 	indexBuffer_.Reset();
 }
 
-void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t>& indices) {
+void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices) {
 	// ---------------------------------------------------------------
 	// ↓Vetrtexの設定
 	// ---------------------------------------------------------------

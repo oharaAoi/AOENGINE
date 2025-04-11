@@ -9,7 +9,7 @@ public:
 	Mesh();
 	~Mesh();
 
-	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t>& indices);
+	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices);
 	void Draw(ID3D12GraphicsCommandList* commandList);
 	void Finalize();
 

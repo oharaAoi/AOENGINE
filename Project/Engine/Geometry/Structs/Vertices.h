@@ -18,10 +18,24 @@ struct TriangleVertices {
 };
 
 struct RectangleVertices {
-	Vector4 leftTop;
-	Vector4 rightTop;
-	Vector4 leftBottom;
-	Vector4 rightBottom;
+	Vector4 leftTop		= {-1.0f, -1.0f, 0.0f, 1.0f};
+	Vector4 rightTop	= { 1.0f, -1.0f, 0.0f, 1.0f };
+	Vector4 leftBottom	= { -1.0f, 1.0f, 0.0f, 1.0f };
+	Vector4 rightBottom = { 1.0f, 1.0f, 0.0f, 1.0f };
+
+	void SetSize(const Vector2& sizeRaito){
+		leftTop.x *= sizeRaito.x;
+		leftTop.y *= sizeRaito.y;
+
+		rightTop.x *= sizeRaito.x;
+		rightTop.y *= sizeRaito.y;
+
+		leftBottom.x *= sizeRaito.x;
+		leftBottom.y *= sizeRaito.y;
+
+		rightBottom.x *= sizeRaito.x;
+		rightBottom.y *= sizeRaito.y;
+	}
 };
 
 
