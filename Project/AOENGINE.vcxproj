@@ -128,8 +128,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\ViewProjection.cpp" />
     <ClCompile Include="Engine\Components\WorldTransform.cpp" />
     <ClCompile Include="Engine\Geometry\GeometryManager.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\CubeGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp" />
     <ClCompile Include="Engine\Geometry\Polygon\IGeometry.cpp" />
     <ClCompile Include="Engine\Geometry\Polygon\PlaneGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\RingGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\SphereGeometry.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
@@ -264,8 +268,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\ViewProjection.h" />
     <ClInclude Include="Engine\Components\WorldTransform.h" />
     <ClInclude Include="Engine\Geometry\GeometryManager.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\CubeGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\IGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\PlaneGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\RingGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\SphereGeometry.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Components\Collider\BoxCollider.h" />

@@ -16,6 +16,10 @@ public:
 
 	// 平面をSet
 	void SetPlane(const Vector2& size = CVector2::UNIT);
+	void SetSphere(const Vector2& size = CVector2::UNIT, uint32_t division = 16);
+	void SetCube(const Vector3& size = CVector3::UNIT);
+	void SetRing(uint32_t division = 32, float outerRadius = 1.0f, float innerRadius = 0.2f);
+	void SetCylinder(uint32_t division = 32, float radius = 1.0f, float height = 2.0f);
 
 	void Update();
 	void Draw() const;

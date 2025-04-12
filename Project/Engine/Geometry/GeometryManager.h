@@ -1,5 +1,4 @@
 #pragma once
-#include "Engine/Geometry/Polygon/PlaneGeometry.h"
 #include "Engine/Components/Meshes/Mesh.h"
 
 enum class GeometryType {
@@ -21,6 +20,10 @@ public:
 	void Init();
 
 	void SetPlane(Mesh* _pMesh, const Vector2& size);
+	void SetSphere(Mesh* _pMesh, const Vector2& size, uint32_t division);
+	void SetCube(Mesh* _pMesh, const Vector3& size);
+	void SetRing(Mesh* _pMesh, uint32_t division, float outerRadius, float innerRadius);
+	void SetCylinder(Mesh* _pMesh, uint32_t division, float radius, float height);
 
 };
 

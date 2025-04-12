@@ -9,6 +9,26 @@ void GeometryObject::SetPlane(const Vector2& size) {
 	GeometryManager::GetInstance().SetPlane(mesh_.get(), size);
 }
 
+void GeometryObject::SetSphere(const Vector2& size, uint32_t division) {
+	Init();
+	GeometryManager::GetInstance().SetSphere(mesh_.get(), size, division);
+}
+
+void GeometryObject::SetCube(const Vector3& size) {
+	Init();
+	GeometryManager::GetInstance().SetCube(mesh_.get(), size);
+}
+
+void GeometryObject::SetRing(uint32_t division, float outerRadius, float innerRadius) {
+	Init();
+	GeometryManager::GetInstance().SetRing(mesh_.get(), division, outerRadius, innerRadius);
+}
+
+void GeometryObject::SetCylinder(uint32_t division, float radius, float height) {
+	Init();
+	GeometryManager::GetInstance().SetCylinder(mesh_.get(), division, radius, height);
+}
+
 void GeometryObject::Update() {
 	transform_->Update();
 }

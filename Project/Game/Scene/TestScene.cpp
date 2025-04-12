@@ -40,7 +40,7 @@ void TestScene::Init() {
 	}
 
 	plane_ = std::make_unique<GeometryObject>();
-	plane_->SetPlane();
+	plane_->SetCylinder();
 	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
