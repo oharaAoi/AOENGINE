@@ -44,8 +44,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	renderTexture_ = std::make_unique<RenderTexture>();
 	audio_ = std::make_unique<Audio>();
 
-	GeometryManager& geometryManager = GeometryManager::GetInstance();
-	geometryManager.Init();
+	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
+	geometryFactory.Init();
 
 #ifdef _DEBUG
 	editerWindows_->Init();

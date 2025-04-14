@@ -4,6 +4,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
+#include "Engine/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -40,7 +41,7 @@ void TestScene::Init() {
 	}
 
 	plane_ = std::make_unique<GeometryObject>();
-	plane_->SetCylinder();
+	plane_->Set<CubeGeometry>();
 	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");

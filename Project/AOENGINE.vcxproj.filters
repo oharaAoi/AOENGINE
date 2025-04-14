@@ -507,7 +507,7 @@
     <ClCompile Include="Engine\Geometry\Structs\Vertices.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Geometry\GeometryManager.cpp">
+    <ClCompile Include="Engine\Geometry\GeometryFactory.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Components\GameObject\GeometryObject.cpp">
@@ -526,6 +526,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\GameObject\GeometryObjWrapper.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -938,7 +941,7 @@
     <ClInclude Include="Engine\Geometry\Structs\Vertices.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Geometry\GeometryManager.h">
+    <ClInclude Include="Engine\Geometry\GeometryFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\GameObject\GeometryObject.h">
@@ -957,6 +960,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\GameObject\GeometryObjWrapper.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

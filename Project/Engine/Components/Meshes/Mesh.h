@@ -68,6 +68,18 @@ public:
 	/// <returns></returns>
 	const uint32_t GetVertexSize() const { return (uint32_t)verticesData_.size(); }
 
+	/// <summary>
+	/// Vertexの再設定
+	/// </summary>
+	/// <param name="vertexData"></param>
+	void SetVertexData(const std::vector<VertexData>& vertexData);
+
+	/// <summary>
+	/// indexの再設定
+	/// </summary>
+	/// <param name="indices"></param>
+	void SetIndices(const std::vector<uint32_t>& indices);
+
 	void SetUseMaterial(const std::string& usemtl) { useMaterial_ = usemtl; }
 	const std::string GetUseMaterial() const { return useMaterial_; }
 

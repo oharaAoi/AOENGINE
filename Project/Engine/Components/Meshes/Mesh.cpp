@@ -77,3 +77,15 @@ void Mesh::SetOutputVertexData(VertexData* vertexData) {
 		outputVertexData_[i] = vertexData[i];
 	}
 }
+
+void Mesh::SetVertexData(const std::vector<VertexData>& vertexData) {
+	if (vertexDataSize_ <= vertexData.size()) {
+		verticesData_ = vertexData;
+	}
+}
+
+void Mesh::SetIndices(const std::vector<uint32_t>& indices) {
+	if (indexNum_ <= indices.size()) {
+		indices_ = indices;
+	}
+}

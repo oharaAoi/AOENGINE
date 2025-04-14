@@ -1,9 +1,14 @@
 #pragma once
 #include <memory>
-#include "Engine/Geometry/GeometryManager.h"
+#include "Engine/Geometry/GeometryFactory.h"
 #include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/Components/Materials/Material.h"
 #include "Engine/Components/WorldTransform.h"
+#include "Engine/Geometry/Polygon/PlaneGeometry.h"
+#include "Engine/Geometry/Polygon/SphereGeometry.h"
+#include "Engine/Geometry/Polygon/CubeGeometry.h"
+#include "Engine/Geometry/Polygon/RingGeometry.h"
+#include "Engine/Geometry/Polygon/CylinderGeometry.h"
 
 /// <summary>
 /// Geometryの各形状をScene上に描画する際に使用するクラス
@@ -14,12 +19,17 @@ public:
 	GeometryObject() = default;
 	~GeometryObject() = default;
 
-	// 平面をSet
-	void SetPlane(const Vector2& size = CVector2::UNIT);
-	void SetSphere(const Vector2& size = CVector2::UNIT, uint32_t division = 16);
-	void SetCube(const Vector3& size = CVector3::UNIT);
-	void SetRing(uint32_t division = 32, float outerRadius = 1.0f, float innerRadius = 0.2f);
-	void SetCylinder(uint32_t division = 32, float radius = 1.0f, float height = 2.0f);
+	/// <summary>
+	/// Geometryを設定する
+	/// </summary>
+	/// <typeparam name="ShapePolicy">: 型</typeparam>
+	/// <typeparam name="...Args">: 可変長引数</typeparam>
+	/// <param name="...args">: 型に応じた引数</param>
+	template <typename ShapePolicy, typename... Args>
+	void Set(Args&&... args) {
+		Init();
+		GeometryFactory::GetInstance().Create<ShapePolicy>(mesh_.get(), std::forward<Args>(args)...);
+	}
 
 	void Update();
 	void Draw() const;
@@ -32,8 +42,6 @@ private:
 	void Init();
 
 private:
-
-	GeometryType type_;
 
 	std::unique_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_ = nullptr;

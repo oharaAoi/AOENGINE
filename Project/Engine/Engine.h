@@ -25,7 +25,7 @@
 #include "Engine/Components/RenderTexture.h"
 #include "Engine/Components/Rigging/Skinning.h"
 
-#include "Engine/Geometry/GeometryManager.h"
+#include "Engine/Geometry/GeometryFactory.h"
 
 #include "Engine/Utilities/Shader.h"
 
