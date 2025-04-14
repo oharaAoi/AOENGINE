@@ -109,7 +109,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	// -------------------------------------------------
 	// ↓ outputResourceを作成
 	// -------------------------------------------------
-	outputResource_ = CreateUAVResource(device, sizeof(Mesh::VertexData) * vertices);
+	outputResource_ = CreateUAVResource(device, sizeof(VertexData) * vertices);
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
@@ -117,15 +117,15 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	uavDesc.Buffer.NumElements = vertices;
 	uavDesc.Buffer.CounterOffsetInBytes = 0;
 	uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_NONE;
-	uavDesc.Buffer.StructureByteStride = sizeof(Mesh::VertexData);
+	uavDesc.Buffer.StructureByteStride = sizeof(VertexData);
 	outputHandle_ = heap->AllocateSRV();
 	device->CreateUnorderedAccessView(outputResource_.Get(), nullptr, &uavDesc, outputHandle_.handleCPU);
 
 	vertexBufferView_.BufferLocation = outputResource_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = sizeof(Mesh::VertexData) * vertices;
+	vertexBufferView_.SizeInBytes = sizeof(VertexData) * vertices;
 	// 1頂点当たりのサイズ
-	vertexBufferView_.StrideInBytes = sizeof(Mesh::VertexData);
+	vertexBufferView_.StrideInBytes = sizeof(VertexData);
 
 	// -------------------------------------------------
 	// ↓ intputResourceのviewを作成
@@ -136,7 +136,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	srvDesc.Buffer.FirstElement = 0;
 	srvDesc.Buffer.NumElements = static_cast<UINT>(vertices_);  // 頂点の数
-	srvDesc.Buffer.StructureByteStride = sizeof(Mesh::VertexData);  // 頂点1つあたりのサイズ
+	srvDesc.Buffer.StructureByteStride = sizeof(VertexData);  // 頂点1つあたりのサイズ
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 
 	inputHandle_ = heap->AllocateSRV();
@@ -165,7 +165,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	}
 
 	CD3DX12_HEAP_PROPERTIES heapProperties(D3D12_HEAP_TYPE_READBACK);
-	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(Mesh::VertexData) * vertices);
+	CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(sizeof(VertexData) * vertices);
 
 	device->CreateCommittedResource(
 		&heapProperties,
@@ -201,7 +201,7 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 
 	// マップしてデータを取得
-	Mesh::VertexData* pVertexDataBegin = nullptr;
+	VertexData* pVertexDataBegin = nullptr;
 	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
 
 	mesh->GetIndexNum();

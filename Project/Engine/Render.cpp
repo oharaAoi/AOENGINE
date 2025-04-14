@@ -10,7 +10,7 @@ void Render::Finalize() {
 	primitiveDrawer_->Finalize();
 }
 
-Render* Render::GetInstacne() {
+Render* Render::GetInstance() {
 	static Render instance;
 	return &instance;
 }
@@ -19,7 +19,7 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 	assert(commandList);
 	commandList_ = commandList;
 	primitivePipelines_ = primitive;
-	GetInstacne()->renderTarget_ = renderTarget;
+	GetInstance()->renderTarget_ = renderTarget;
 
 	viewProjection_ = std::make_unique<ViewProjection>();
 	viewProjection2D_ = std::make_unique<ViewProjection>();
@@ -63,16 +63,7 @@ void Render::PrimitiveDrawCall() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Render::SetRenderTarget(const RenderTargetType& type) {
-	GetInstacne()->renderTarget_->SetRenderTarget(commandList_, type);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　三角形の描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Render::DrawTriangle(Triangle* triangle) {
-	lightGroup_->Draw(commandList_, 4);
-	triangle->Draw(commandList_, viewProjection_.get());
+	GetInstance()->renderTarget_->SetRenderTarget(commandList_, type);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

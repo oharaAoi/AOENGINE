@@ -23,7 +23,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	dxCommon_ = DirectXCommon::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
-	render_ = Render::GetInstacne();
+	render_ = Render::GetInstance();
 	effectSystem_ = EffectSystem::GetInstacne();
 	editerWindows_ = EditerWindows::GetInstance();
 
@@ -43,6 +43,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTexture_ = std::make_unique<RenderTexture>();
 	audio_ = std::make_unique<Audio>();
+
+	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
+	geometryFactory.Init();
 
 #ifdef _DEBUG
 	editerWindows_->Init();
@@ -259,12 +262,6 @@ void Engine::BlendFinalTexture() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　生成する関数群
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-std::unique_ptr<Triangle> Engine::CreateTriangle(const Mesh::Vertices& vertex, const std::string& textureName) {
-	std::unique_ptr<Triangle> triangle = std::make_unique<Triangle>();
-	triangle->Init(dxDevice_->GetDevice(), vertex, textureName);
-	return triangle;
-}
 
 std::unique_ptr<Sprite> Engine::CreateSprite(const std::string& fileName) {
 	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();

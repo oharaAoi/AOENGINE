@@ -16,7 +16,7 @@ void MeshCollider::Init(Mesh* mesh) {
 	collisionState_ = 0b00;
 
 	// meshのVertexから各軸での最大の値を取り出す
-	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
+	VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
 		//Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z), worldMat);
 		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z);
@@ -71,7 +71,7 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	minSize_ = { 9999.0f, 9999.0f, 9999.0f };
 
 	// meshのVertexから各軸での最大の値を取り出す
-	Mesh::VertexData* vertices = mesh_->GetOutputVertexData();
+	VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
 		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
 		//Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());

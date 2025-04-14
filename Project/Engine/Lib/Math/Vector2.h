@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <algorithm>
 #include "Engine/Lib/Math/Matrix3x3.h"
 
 class Vector2 final {
@@ -8,7 +9,7 @@ public:
 	float y;
 
 	// コンストラクタ
-	Vector2(float x = 0.0f, float y = 0.0f) : x(x), y(y) {}
+	//Vector2(float x = 0.0f, float y = 0.0f) : x(x), y(y) {}
 
 	// 加算
 	Vector2 operator+(const Vector2& obj) const { return Vector2(x + obj.x, y + obj.y); }
@@ -111,3 +112,13 @@ public:
 	/*アフィン*/
 	Matrix3x3 MakeAffine(const Vector2& scale, float theta, const Vector2& translate);
 };
+
+/// <summary>
+/// Vector2定数
+/// </summary>
+namespace CVector2 {
+	constexpr Vector2 RIGHT	{ 1.0f, 0.0f };
+	constexpr Vector2 UP	{ 0.0f, 1.0f };
+	constexpr Vector2 ZERO	{ 0.0f, 0.0f };
+	constexpr Vector2 UNIT	{ 1.0f, 1.0f };
+}

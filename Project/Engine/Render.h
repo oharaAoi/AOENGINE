@@ -1,6 +1,5 @@
 #pragma once
 #include "Engine/DirectX/RTV/RenderTarget.h"
-#include "Engine/Components/2d/Triangle.h"
 #include "Engine/Components/2d/Sprite.h"
 #include "Engine/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Components/Light/LightGroup.h"
@@ -22,7 +21,7 @@ public:
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static Render* GetInstacne();
+	static Render* GetInstance();
 
 	void Finalize();
 	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
@@ -32,13 +31,6 @@ public:
 	static void SetRenderTarget(const RenderTargetType& type);
 
 public:
-
-	/// <summary>
-	/// 三角形の描画
-	/// </summary>
-	/// <param name="triangle">: 三角形のポインタ</param>
-	/// <param name="worldTransform">: worldTrnasform</param>
-	static void DrawTriangle(Triangle* triangle);
 
 	/// <summary>
 	/// Spriteの描画

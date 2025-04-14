@@ -330,9 +330,6 @@
     <ClCompile Include="Engine\Components\2d\Sprite.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Components\2d\Triangle.cpp">
-      <Filter>Engine\2d</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.cpp">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClCompile>
@@ -556,6 +553,36 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\PlaneGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Structs\Vertices.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\GeometryFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\GameObject\GeometryObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\IGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\SphereGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\CubeGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\RingGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\GameObject\GeometryObjWrapper.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -794,9 +821,6 @@
     <ClInclude Include="Engine\Components\2d\Sprite.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Components\2d\Triangle.h">
-      <Filter>Engine\2d</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.h">
       <Filter>Engine\ParticleSystem\Editer</Filter>
     </ClInclude>
@@ -1017,6 +1041,36 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\PlaneGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Structs\Vertices.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\GeometryFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\GameObject\GeometryObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\IGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\SphereGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\CubeGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\RingGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\GameObject\GeometryObjWrapper.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

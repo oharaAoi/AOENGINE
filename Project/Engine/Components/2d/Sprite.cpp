@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Render.h"
+#include "Engine/Geometry/Structs/Vertices.h"
 #include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -43,7 +44,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	};
 
 	// スプライトのサイズを基に頂点を設定
-	Mesh::RectVetices rect = {
+	RectangleVertices rect = {
 		{-pivotOffset.x, -pivotOffset.y, 0.0f, 1.0f},
 		{textureSize_.x - pivotOffset.x, 0.0f - pivotOffset.y, 0.0f, 1.0f},
 		{0.0f - pivotOffset.x, textureSize_.y - pivotOffset.y, 0.0f , 1.0f},
@@ -172,7 +173,7 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 	};
 
 	// スプライトのサイズを基に頂点を設定
-	Mesh::RectVetices rect = {
+	RectangleVertices rect = {
 		{-pivotOffset.x, -pivotOffset.y, 0.0f, 1.0f},
 		{textureSize_.x - pivotOffset.x, 0.0f - pivotOffset.y, 0.0f, 1.0f},
 		{0.0f - pivotOffset.x, textureSize_.y - pivotOffset.y, 0.0f , 1.0f},
@@ -212,7 +213,7 @@ void Sprite::ReSetTextureSize(const Vector2& size) {
 	};
 
 	// スプライトのサイズを基に頂点を設定
-	Mesh::RectVetices rect = {
+	RectangleVertices rect = {
 		{-pivotOffset.x, -pivotOffset.y, 0.0f, 1.0f},
 		{size.x - pivotOffset.x, 0.0f - pivotOffset.y, 0.0f, 1.0f},
 		{0.0f - pivotOffset.x, size.y - pivotOffset.y, 0.0f , 1.0f},

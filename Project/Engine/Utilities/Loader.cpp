@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Engine/Geometry/Structs/Vertices.h"
 #include "Engine/System/Manager/MeshManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +16,7 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
-	std::vector<std::vector<Mesh::VertexData>> meshVertices;
+	std::vector<std::vector<VertexData>> meshVertices;
 	std::vector<std::vector<uint32_t>> meshIndices;
 	std::vector<std::string> useMaterial;
 	std::vector<std::string> meshNames;
@@ -30,7 +31,7 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	// ↓ meshの解析
 	// -------------------------------------------------
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
-		std::vector<Mesh::VertexData> triangle;
+		std::vector<VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
 		//assert(mesh->HasNormals()); // 法線がないなら非対応
 		//assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
@@ -41,7 +42,7 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 		// -------------------------------------------------
 		// ↓ faceの解析をする
 		// -------------------------------------------------
-		std::vector<Mesh::VertexData> vertices;
+		std::vector<VertexData> vertices;
 		vertices.resize(mesh->mNumVertices);
 		// vertexの解析を行う
 		for (uint32_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex) {

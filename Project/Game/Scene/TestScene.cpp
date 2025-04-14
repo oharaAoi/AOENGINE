@@ -4,6 +4,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
+#include "Engine/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() {}
@@ -38,6 +39,9 @@ void TestScene::Init() {
 		testObjA_[oi]->Init();
 		testObjA_[oi]->SetCollider("TestObj", ColliderShape::SPHERE);
 	}
+
+	plane_ = std::make_unique<GeometryObject>();
+	plane_->Set<CubeGeometry>();
 	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
@@ -78,6 +82,8 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ GameObjectの更新
 	// -------------------------------------------------
+
+	plane_->Update();
 	
 	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
 		testObjA_[oi]->Update();
@@ -102,10 +108,8 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
-	//floor_->Draw();
-	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
-		testObjA_[oi]->Draw();
-	}
+	
+	plane_->Draw();
 }
 
 #ifdef _DEBUG

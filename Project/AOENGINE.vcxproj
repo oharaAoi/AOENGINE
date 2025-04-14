@@ -111,12 +111,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClCompile Include="Engine\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Components\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\Components\2d\Triangle.cpp" />
     <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
     <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\GeometryObject.cpp" />
+    <ClCompile Include="Engine\Components\GameObject\GeometryObjWrapper.cpp" />
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
@@ -127,6 +128,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Components\ViewProjection.cpp" />
     <ClCompile Include="Engine\Components\WorldTransform.cpp" />
+    <ClCompile Include="Engine\Geometry\GeometryFactory.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\CubeGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\IGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\PlaneGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\RingGeometry.cpp" />
+    <ClCompile Include="Engine\Geometry\Polygon\SphereGeometry.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
@@ -256,17 +264,19 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Geometry\Structs\Vertices.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Components\2d\Sprite.h" />
-    <ClInclude Include="Engine\Components\2d\Triangle.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationClip.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Components\Animation\Animator.h" />
     <ClInclude Include="Engine\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.h" />
+    <ClInclude Include="Engine\Components\GameObject\GeometryObject.h" />
+    <ClInclude Include="Engine\Components\GameObject\GeometryObjWrapper.h" />
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
@@ -277,6 +287,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\TransformationMatrix.h" />
     <ClInclude Include="Engine\Components\ViewProjection.h" />
     <ClInclude Include="Engine\Components\WorldTransform.h" />
+    <ClInclude Include="Engine\Geometry\GeometryFactory.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\CubeGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\IGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\PlaneGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\RingGeometry.h" />
+    <ClInclude Include="Engine\Geometry\Polygon\SphereGeometry.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Components\Collider\BoxCollider.h" />
@@ -411,6 +428,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
+    <ClInclude Include="Engine\Geometry\Structs\Vertices.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\HLSL\CS\Blend.CS.hlsl">
