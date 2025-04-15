@@ -3,11 +3,13 @@
 #include <cstdint>
 #include <d3d12.h>
 #include <wrl.h>
+#include <filesystem>
+#include <string>
+#include <vector>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Components/GameObject/Model.h"
-
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -40,6 +42,11 @@ public:
 
 #ifdef _DEBUG
 	void ImGuiDraw();
+
+private:
+
+	void SelectTexture();
+
 #endif
 
 public:

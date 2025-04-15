@@ -84,6 +84,10 @@ public:
 
 	const Vector2 GetTextureSize(const std::string& filePath);
 
+	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
+
+	const DescriptorHeap::DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_[fileName].address_; }
+ 
 private:
 
 	struct TextureData {
@@ -93,6 +97,8 @@ private:
 		DescriptorHeap::DescriptorHandles address_;
 		Vector2 textureSize_;
 	};
+
+	static std::vector<std::string> fileNames_;
 
 	//std::vector<SRVData> srvData_;
 	static std::unordered_map<std::string, TextureData> textureData_;
