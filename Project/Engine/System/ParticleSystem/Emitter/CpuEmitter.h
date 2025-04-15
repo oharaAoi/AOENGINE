@@ -10,7 +10,10 @@
 class CpuEmitter {
 public:
 
-	struct CommonEmitter {
+	/// <summary>
+	/// 射出する形状の情報
+	/// </summary>
+	struct EmitParameter {
 		Vector4 rotate;			// 回転(Quaternion)
 		Vector3 translate;		// 位置
 		uint32_t shape;			// emitterの種類
@@ -48,7 +51,7 @@ public:
 
 private:
 
-	CommonEmitter commonEmitter_;
+	EmitParameter emitParameter_;
 	EmitterParameter emitterParametr_;
 
 	bool isDead_ = false;

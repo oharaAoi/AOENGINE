@@ -4,6 +4,7 @@ Skydome::Skydome() {}
 Skydome::~Skydome() {}
 
 void Skydome::Finalize() {
+	BaseGameObject::Finalize();
 }
 
 void Skydome::Init() {

@@ -11,23 +11,23 @@ void CpuEmitter::Init() {
 	// -------------------------------------------------
 	// ↓ Emitterのz情報
 	// -------------------------------------------------
-	commonEmitter_.rotate = Vector4();
-	commonEmitter_.translate = Vector3();
-	commonEmitter_.frequency = 0.5f;
-	commonEmitter_.frequencyTime = 0.0f;
-	commonEmitter_.count = 10;
-	commonEmitter_.emit = 0;
+	emitParameter_.rotate = Vector4();
+	emitParameter_.translate = Vector3();
+	emitParameter_.frequency = 0.5f;
+	emitParameter_.frequencyTime = 0.0f;
+	emitParameter_.count = 10;
+	emitParameter_.emit = 0;
 
 	// -------------------------------------------------
 	// ↓ 生成するparticleの情報
 	// -------------------------------------------------
-	commonEmitter_.color = Vector4(1, 1, 1, 1);
-	commonEmitter_.minScale = Vector3(1, 1, 1);
-	commonEmitter_.maxScale = Vector3(1, 1, 1);
-	commonEmitter_.speed = 1.0f;
-	commonEmitter_.lifeTime = 2.0f;
-	commonEmitter_.gravity = 0.0f;
-	commonEmitter_.dampig = 1.0f;
+	emitParameter_.color = Vector4(1, 1, 1, 1);
+	emitParameter_.minScale = Vector3(1, 1, 1);
+	emitParameter_.maxScale = Vector3(1, 1, 1);
+	emitParameter_.speed = 1.0f;
+	emitParameter_.lifeTime = 2.0f;
+	emitParameter_.gravity = 0.0f;
+	emitParameter_.dampig = 1.0f;
 
 	// -------------------------------------------------
 	// ↓ EmitterのAnimationの情報

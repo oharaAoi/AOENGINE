@@ -718,6 +718,21 @@ bool    ImGui_ImplDX12_CreateDeviceObjects()
         desc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
         desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
 
+        desc.AlphaToCoverageEnable = FALSE;
+        desc.IndependentBlendEnable = FALSE;
+
+        D3D12_RENDER_TARGET_BLEND_DESC rtBlendDesc = {};
+        rtBlendDesc.BlendEnable = TRUE;
+        rtBlendDesc.SrcBlend = D3D12_BLEND_SRC_ALPHA;
+        rtBlendDesc.DestBlend = D3D12_BLEND_INV_SRC_ALPHA;
+        rtBlendDesc.BlendOp = D3D12_BLEND_OP_ADD;
+        rtBlendDesc.SrcBlendAlpha = D3D12_BLEND_ONE;
+        rtBlendDesc.DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
+        rtBlendDesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
+        rtBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+        desc.RenderTarget[0] = rtBlendDesc;
+
         /*desc.RenderTarget[0].BlendEnable = false;
         desc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
         desc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;

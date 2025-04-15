@@ -2,13 +2,6 @@
 #include "ImGuiFileDialog.h"
 #include "Engine/System/Manager/TextureManager.h"
 
-namespace fs = std::filesystem;
-
-static char searchBuffer[256] = "";
-static std::vector<fs::directory_entry> allPngFiles;
-static std::string selectedFilePath;
-
-
 Material::Material() {
 }
 
