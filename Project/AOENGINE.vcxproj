@@ -114,6 +114,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Components\Animation\VectorTween.cpp" />
     <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Components\GameObject\GeometryObject.cpp" />
@@ -257,6 +258,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Components\Animation\VectorTween.h" />
     <ClInclude Include="Engine\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Components\GameObject\GeometryObject.h" />

@@ -16,12 +16,14 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("Mesh_Primitives_00.gltf");
+	SetObject("cube.obj");
 	SetIsLighting(false);
 	//SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
 
 	test_.ToJson("testParame");
 	test_.FromJson(JsonItems::GetData("Player", "testParame"));
+
+	tween_.Init(&transform_->translate_, Vector3{ 0,0,0 }, Vector3{ 3,0,0 }, 5.0f, 0, LoopType::RETURN);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +31,7 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	
+	tween_.Update(GameTimer::DeltaTime());
 	BaseGameObject::Update();
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////

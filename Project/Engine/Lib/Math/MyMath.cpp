@@ -31,6 +31,18 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2) {
     return result;
 }
 
+float Lerp(float v1, float v2, float t) {
+    return std::lerp(v1, v2, t);
+}
+
+Vector2 Lerp(const Vector2& v1, const Vector2& v2, float t) {
+    Vector2 result{};
+    result.x = std::lerp(v1.x, v2.x, t);
+    result.y = std::lerp(v1.y, v2.y, t);
+
+    return result;
+}
+
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
     Vector3 result{};
     result.x = std::lerp(v1.x, v2.x, t);
@@ -39,6 +51,15 @@ Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
 
     //v1 + (v2 - v1) * t;
 
+    return result;
+}
+
+Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t) {
+    Vector4 result{};
+    result.x = std::lerp(v1.x, v2.x, t);
+    result.y = std::lerp(v1.y, v2.y, t);
+    result.z = std::lerp(v1.z, v2.z, t);
+    result.w = std::lerp(v1.w, v2.w, t);
     return result;
 }
 

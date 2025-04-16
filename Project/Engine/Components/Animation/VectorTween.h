@@ -1,0 +1,104 @@
+#pragma once
+#include <utility>
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Lib/Math/Easing.h"
+
+enum class LoopType {
+	LOOP,
+	STOP,
+	RETURN,
+};
+
+/// <summary>
+/// Vector(float, Vector2, Vector3, Vector4)関係をTween(Animation)させるクラス
+/// </summary>
+/// <typeparam name="T">: float, Vector2, Vector3, Vector4</typeparam>
+template <typename T>
+class VectorTween {
+public:
+
+	VectorTween() {};
+	~VectorTween() {};
+
+	template <typename T>
+	void Init(T* _value, const T& _start, const T& _end, float _duration, int _easeIndex, LoopType _loop) {
+		value_ = _value;
+		start_ = _start;
+		end_ = _end;
+		duration_ = _duration;
+		easeIndex_ = _easeIndex;
+		loopType_ = _loop;
+	}
+
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="deltaTime">: デルタタイム</param>
+	void Update(float deltaTime) {
+		if (isStop_) { return; }
+		if (currentTime_ >= duration_) { return; }
+
+		currentTime_ += deltaTime;
+		float t = currentTime_ / duration_;
+		if (value_) {
+			*value_ = Lerp(start_, end_, CallEasingFunc(easeIndex_, t));
+		}
+
+		// 現在の進行状態を変更するかを判別
+		ChangeState();
+	};
+
+	/// <summary>
+	/// 現在の進行状態を変更するかを判別する関数
+	/// </summary>
+	void ChangeState() {
+		if (currentTime_ >= duration_) {
+			switch (loopType_) {
+			case LoopType::LOOP:
+				currentTime_ = 0.0f;
+				break;
+			case LoopType::STOP:
+				break;
+			case LoopType::RETURN:
+				std::swap(start_, end_);
+				currentTime_ = 0.0f;
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+public:
+
+	/// <summary>
+	/// 一時停止のフラグを設定
+	/// </summary>
+	/// <param name="flag"></param>
+	void SetIsStop(bool flag) { isStop_ = flag; }
+
+	/// <summary>
+	/// Tweenをやり直す
+	/// </summary>
+	void Reset() { currentTime_ = 0.0f; }
+
+private:
+
+	T* value_;			// 変更する値
+
+	T start_;			// 進行開始地点
+	T end_;				// 進行終了地点
+
+	float currentTime_;	// 現在の進行度
+	float duration_;	// 到達するまでの時間
+
+	int easeIndex_;		// どのEasingを行うか
+
+	LoopType loopType_;	// 1周目が終わった後にどのような動きをするか
+
+	bool isStop_;		// tweenを一旦止めるかどうか
+};
+
