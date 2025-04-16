@@ -15,6 +15,8 @@ void Boss::Init() {
 	transform_->translate_.z = 25.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
 
+	floatingTween_.Init(&floatingValue_, -0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::RETURN);
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Boss");
 #endif // _DEBUG
@@ -25,6 +27,8 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	floatingTween_.Update(GameTimer::DeltaTime());
+	transform_->temporaryTranslate_.y += floatingValue_;
 	BaseGameObject::Update();
 }
 

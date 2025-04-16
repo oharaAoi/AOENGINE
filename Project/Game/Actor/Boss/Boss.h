@@ -1,6 +1,7 @@
 #pragma once
 // Engine
 #include "Engine/Components/GameObject/BaseGameObject.h"
+#include "Engine/Components/Animation/VectorTween.h"
 
 class Boss :
 	public BaseGameObject {
@@ -20,7 +21,8 @@ public:
 
 private:
 
-
+	float floatingValue_;
+	VectorTween<float> floatingTween_;
 
 };
 
