@@ -1,9 +1,11 @@
 #pragma once
 #include <memory>
+#include <string>
 #include "Engine/Geometry/GeometryFactory.h"
 #include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/Components/Materials/Material.h"
 #include "Engine/Components/WorldTransform.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
 #include "Engine/Geometry/Polygon/PlaneGeometry.h"
 #include "Engine/Geometry/Polygon/SphereGeometry.h"
 #include "Engine/Geometry/Polygon/CubeGeometry.h"
@@ -13,7 +15,8 @@
 /// <summary>
 /// Geometryの各形状をScene上に描画する際に使用するクラス
 /// </summary>
-class GeometryObject final {
+class GeometryObject final 
+	: public AttributeGui {
 public:
 
 	GeometryObject() = default;
@@ -34,6 +37,10 @@ public:
 	void Update();
 	void Draw() const;
 
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
+
 private:
 
 	/// <summary>
@@ -42,6 +49,8 @@ private:
 	void Init();
 
 private:
+
+	std::string id_ = "new GeometryObject";
 
 	std::unique_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_ = nullptr;

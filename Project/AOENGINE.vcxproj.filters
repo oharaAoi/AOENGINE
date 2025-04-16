@@ -582,7 +582,16 @@
     <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Components\GameObject\GeometryObjWrapper.cpp">
+    <ClCompile Include="Externals\ImGui\ImGuiFileDialog.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\InstancingRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Components\Animation\VectorTween.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1070,7 +1079,19 @@
     <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Components\GameObject\GeometryObjWrapper.h">
+    <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\ImGuiFileDialogConfig.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\InstancingRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Components\Animation\VectorTween.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1136,6 +1157,11 @@
     <FxCompile Include="Engine\Resources\HLSL\Particle\EmitParticle.CS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleUpdate.CS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Particle\GpuParticleEnd.CS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\MatrixMath.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.VS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.PS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.VS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -1159,5 +1185,6 @@
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\Resources\HLSL\Random.hlsli" />
+    <None Include="Engine\Resources\HLSL\RenderTexture.hlsli" />
   </ItemGroup>
 </Project>

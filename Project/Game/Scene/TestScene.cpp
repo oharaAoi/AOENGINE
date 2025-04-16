@@ -108,8 +108,12 @@ void TestScene::Draw() const {
 
 	Engine::SetPipeline(PipelineType::NormalPipeline);
 	skydome_->Draw();
+
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+		testObjA_[oi]->Draw();
+	}
 	
-	plane_->Draw();
+	//plane_->Draw();
 }
 
 #ifdef _DEBUG

@@ -114,10 +114,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Components\Animation\VectorTween.cpp" />
     <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Components\GameObject\GeometryObject.cpp" />
-    <ClCompile Include="Engine\Components\GameObject\GeometryObjWrapper.cpp" />
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
@@ -136,6 +136,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Geometry\Polygon\RingGeometry.cpp" />
     <ClCompile Include="Engine\Geometry\Polygon\SphereGeometry.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
+    <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
+    <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\Components\Collider\BoxCollider.cpp" />
@@ -228,6 +230,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Utilities\Shader.cpp" />
     <ClCompile Include="Engine\WinApp\WinApp.cpp" />
     <ClCompile Include="Externals\ImGui\imgui.cpp" />
+    <ClCompile Include="Externals\ImGui\ImGuiFileDialog.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_demo.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_draw.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
@@ -273,10 +276,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Components\Animation\VectorTween.h" />
     <ClInclude Include="Engine\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Components\GameObject\GeometryObject.h" />
-    <ClInclude Include="Engine\Components\GameObject\GeometryObjWrapper.h" />
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
@@ -294,6 +297,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Geometry\Polygon\PlaneGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\RingGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\SphereGeometry.h" />
+    <ClInclude Include="Engine\Render\InstancingRenderer.h" />
+    <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\Components\Collider\BoxCollider.h" />
@@ -391,6 +396,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\imconfig.h" />
     <ClInclude Include="Externals\ImGui\imgui.h" />
+    <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h" />
+    <ClInclude Include="Externals\ImGui\ImGuiFileDialogConfig.h" />
     <ClInclude Include="Externals\ImGui\imgui_impl_dx12.h" />
     <ClInclude Include="Externals\ImGui\imgui_impl_win32.h" />
     <ClInclude Include="Externals\ImGui\imgui_internal.h" />
@@ -436,6 +443,26 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\Resources\HLSL\CS\DepthOfField.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\HLSL\Particle\MatrixMath.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -523,6 +550,18 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
+    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\Resources\HLSL\Sprite.PS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
@@ -557,6 +596,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Engine\Resources\HLSL\Random.hlsli" />
+    <None Include="Engine\Resources\HLSL\RenderTexture.hlsli" />
     <None Include="Engine\Resources\HLSL\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

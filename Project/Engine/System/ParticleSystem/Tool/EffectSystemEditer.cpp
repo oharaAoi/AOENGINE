@@ -17,6 +17,7 @@ void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
 	gpuParticles_->Finalize();
 	gpuEmitterList_.clear();
+	skydome_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +52,10 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 
 	gpuParticles_ = std::make_unique<GpuParticles>();
 	gpuParticles_->Init(1024);
+
+	skydome_ = std::make_unique<Skydome>();
+	skydome_->Init();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +64,8 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 
 void EffectSystemEditer::Update() {
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+
+	skydome_->Update();
 
 	// カメラの更新
 	effectSystemCamera_->Update();
@@ -93,10 +100,17 @@ void EffectSystemEditer::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemEditer::Draw() const {
-	ImGui::Begin("EffectSystem", nullptr, ImGuiWindowFlags_NoBringToFrontOnFocus);
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
+	ImGui::Begin("EffectSystem", nullptr, 
+				 ImGuiWindowFlags_NoTitleBar |
+				 ImGuiWindowFlags_NoResize |
+				 ImGuiWindowFlags_NoBackground);
 
 	// Grid線描画
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
+
+	Engine::SetPipeline(PipelineType::NormalPipeline);
+	skydome_->Draw();
 
 	// 実際にEffectを描画する
 	Engine::SetPipeline(PipelineType::ParticlePipeline);
@@ -107,10 +121,10 @@ void EffectSystemEditer::Draw() const {
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
 	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+
 
 	// windowの判定
 	if (ImGui::IsWindowFocused()) {
@@ -120,6 +134,7 @@ void EffectSystemEditer::Draw() const {
 	}
 
 	ImGui::End();
+	ImGui::PopStyleColor();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,7 +150,7 @@ void EffectSystemEditer::Begin() {
 	// RenderTargetを指定する
 	renderTarget_->SetRenderTarget(commandList, RenderTargetType::EffectSystem_RenderTarget);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 0.0f };
+	float clearColor[] = { 35.0f / 255, 59.0f / 255, 108.0f / 255.0f, 0.0f };
 	// RenderTargetをクリアする
 	commandList->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }

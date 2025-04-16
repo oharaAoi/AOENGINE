@@ -13,6 +13,7 @@ enum class PipelineType{
 	SpriteNormalBlendPipeline,
 	SpriteAddBlendPipeline,
 	PrimitivePipeline,
+	RenderTexturePipeline,
 };
 
 class GraphicsPipelines {

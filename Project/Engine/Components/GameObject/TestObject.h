@@ -2,6 +2,7 @@
 #include <memory>
 #include "Engine/Components/GameObject/BaseGameObject.h"
 #include "Engine/Components/Collider/MeshCollider.h"
+#include "Engine/Components/Animation/VectorTween.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class TestObject : public BaseGameObject {
@@ -60,5 +61,7 @@ private:
 	bool isLerp_ = false;
 
 	Test test_;
+
+	VectorTween<Vector3> tween_;
 };
 

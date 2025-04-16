@@ -7,6 +7,7 @@
 #include "Engine/System/ParticleSystem/EffectSystemCamera.h"
 #include "Engine/System/ParticleSystem/GpuEffect.h"
 #include "Engine/System/ParticleSystem/Particle/GpuParticles.h"
+#include "Game/WorldObject/Skydome.h"
 
 /// <summary>
 /// effectを作成する用のクラス
@@ -73,6 +74,8 @@ private:
 	// ----------- field ----------- //
 	// filed
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
+
+	std::unique_ptr<Skydome> skydome_;
 
 	// ----------- effect ----------- //
 

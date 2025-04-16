@@ -145,14 +145,10 @@ Vector2 NumberSpriteLt(T value, const Vector2& size) {
 // 線形補完
 ////////////////////////////////////////////////////////////////////////////////////
 
-/// <summary>
-/// 線形補完
-/// </summary>
-/// <param name="v1"></param>
-/// <param name="v2"></param>
-/// <param name="t"></param>
-/// <returns></returns>
+float Lerp(float v1, float v2, float t);
+Vector2 Lerp(const Vector2& v1, const Vector2& v2, float t);
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
+Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t);
 
 /// <summary>
 /// 線形補完

@@ -16,6 +16,7 @@ public:
 		PBR,
 		Particle,
 		Sprite,
+		RenderTexture
 	};
 
 	enum CsShaderName {

@@ -97,7 +97,12 @@ void Pipeline::CreatePSO(const Blend::BlendMode& blendMode, bool isCulling, bool
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();
-	desc.InputLayout = CreateInputLayout(elementDescs);
+	if (elementDescs.empty()) {
+		desc.InputLayout.NumElements = 0;
+		desc.InputLayout.pInputElementDescs = nullptr;
+	} else {
+		desc.InputLayout = CreateInputLayout(elementDescs);
+	}
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
 	desc.BlendState = blend_.SetBlend(blendMode);

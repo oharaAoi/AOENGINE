@@ -1,5 +1,6 @@
 #include "TextureManager.h"
 
+std::vector<std::string> TextureManager::fileNames_;
 std::unordered_map<std::string, TextureManager::TextureData> TextureManager::textureData_;
 std::shared_ptr<DirectXDevice> TextureManager::device_ = nullptr;
 std::shared_ptr<DescriptorHeap> TextureManager::dxHeap_ = nullptr;
@@ -42,6 +43,9 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	if (it != textureData_.end()) {
 		return;
 	}
+
+	// 配列に格納しておく
+	fileNames_.push_back(filePath);
 
 	Log("Begin Load Texture\n");
 	Log("Texture  [" + filePath + "]\n");
