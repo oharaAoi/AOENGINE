@@ -62,6 +62,10 @@ public:
 	Quaternion rotation_;
 	Vector3 translate_;
 
+	// 一時的に座標を動かしたい時にこの変数に加算する
+	// 例) 浮遊させるときに浮遊の移動量をthisに足す
+	Vector3 temporaryTranslate_{};
+
 private:
 
 	Quaternion moveQuaternion_;
