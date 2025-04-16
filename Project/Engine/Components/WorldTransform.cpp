@@ -65,7 +65,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	transform_.rotate = worldRotate;
 	transform_.translate = worldTranslate;
 
-	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate);
+	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate + temporaryTranslate_);
 	if (parentWorldMat_ != nullptr) {
 		worldMat_ = worldMat_  * *parentWorldMat_;
 	}
@@ -73,6 +73,8 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// GPUに送るデータを更新
 	data_->matWorld = worldMat_;
 	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
+
+	temporaryTranslate_ = CVector3::ZERO;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
