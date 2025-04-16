@@ -25,4 +25,7 @@ public:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSpriteInputLayout();
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkinningInputLayout();
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateRenderTextureInputLayout();
+
 };

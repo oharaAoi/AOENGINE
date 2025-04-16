@@ -44,6 +44,19 @@ D3D12_STATIC_SAMPLER_DESC RootSignature::CreateSampler(D3D12_TEXTURE_ADDRESS_MOD
 	return spriteStaticSampler;
 }
 
+ComPtr<ID3D12RootSignature> RootSignature::CreateRenderTextureRootSignature() {
+	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
+	spriteDescriptorRange[0].BaseShaderRegister = 0;
+	spriteDescriptorRange[0].NumDescriptors = 1;
+	spriteDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spriteDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return builder_
+		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL)
+		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
+		.Build(device_);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // 基本のRootSignature
 //////////////////////////////////////////////////////////////////////////////////////

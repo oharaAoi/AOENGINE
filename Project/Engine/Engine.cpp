@@ -220,7 +220,7 @@ void Engine::RenderFrame() {
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
-	graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
+	graphicsPipelines_->SetPipeline(PipelineType::RenderTexturePipeline, dxCommands_->GetCommandList());
 
 	renderTexture_->Draw(dxCommands_->GetCommandList());
 

@@ -17,3 +17,8 @@ struct Particle {
 	float damping;
 	float gravity;
 };
+
+struct CpuParticle {
+	float4 color;
+	float4x4 worldMat;
+};

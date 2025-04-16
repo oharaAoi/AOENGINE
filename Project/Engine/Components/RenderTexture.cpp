@@ -16,11 +16,11 @@ void RenderTexture::Finalize() {
 
 void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	// ----------------------------------------------------------------------------------
-	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 4);
+	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 3);
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
-	vertexBufferView_.SizeInBytes = sizeof(TextureMesh) * 4;
+	vertexBufferView_.SizeInBytes = sizeof(TextureMesh) * 3;
 	// 1頂点当たりのサイズ
 	vertexBufferView_.StrideInBytes = sizeof(TextureMesh);
 	// Resourceにデータを書き込む 
@@ -38,9 +38,9 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	vertexData_[3].texcoord = { 1.0f, 0.0f };
 
 	// ----------------------------------------------------------------------------------
-	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * 6);
+	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * 3);
 	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
-	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * 6);
+	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * 3);
 	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
 	indexData_ = nullptr;
 	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
@@ -113,12 +113,8 @@ void RenderTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 
 void RenderTexture::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
-	commandList->IASetIndexBuffer(&indexBufferView_);
-	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(2, renderResource_->GetSRV().handleGPU);
-	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
+	commandList->SetGraphicsRootDescriptorTable(0, renderResource_->GetSRV().handleGPU);
+	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 #ifdef _DEBUG
 void RenderTexture::DrawGui() {
