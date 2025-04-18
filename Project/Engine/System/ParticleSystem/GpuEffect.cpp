@@ -78,10 +78,10 @@ void GpuEffect::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuEffect::Draw() const {
-	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	//Engine::SetPipeline(PSOType::Object3d, Object3dPSO::Particle);
 	//gpuParticle_->Draw(Engine::GetCommandList());
 
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	Engine::SetPSOPrimitive();
 	if (!gpuEmitter_->GetIsDead()) {
 		gpuEmitter_->DrawShape(viewProjectionMat_);
 	}

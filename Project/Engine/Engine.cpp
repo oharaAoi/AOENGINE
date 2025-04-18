@@ -41,7 +41,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 	computeShader_ = std::make_unique<ComputeShader>();
 
-	renderTexture_ = std::make_unique<RenderTexture>();
+	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
 	audio_ = std::make_unique<Audio>();
 
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
@@ -66,7 +66,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
-	renderTexture_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+	processedSceneFrame_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 	audio_->Init();
 	effectSystem_->Init();
 
@@ -98,7 +98,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 void Engine::Finalize() {
 	audio_->Finalize();
 
-	renderTexture_->Finalize();
+	processedSceneFrame_->Finalize();
 
 	computeShader_->Finalize();
 	primitivePipeline_->Finalize();
@@ -205,7 +205,7 @@ void Engine::RenderFrame() {
 	openParticleEditer_ = false;
 	if (runGame_) {
 		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-			renderTexture_->DrawGui();
+			processedSceneFrame_->DrawGui();
 		}
 		ImGui::End();
 	} else {
@@ -220,9 +220,9 @@ void Engine::RenderFrame() {
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
-	graphicsPipelines_->SetPipeline(PipelineType::RenderTexturePipeline, dxCommands_->GetCommandList());
+	SetPSOProcessed(ProcessedScenePSO::Normal);
 
-	renderTexture_->Draw(dxCommands_->GetCommandList());
+	processedSceneFrame_->Draw(dxCommands_->GetCommandList());
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
@@ -243,19 +243,19 @@ void Engine::BlendFinalTexture() {
 	);
 
 	// 最終描画のTextureを書き込み可能状態にする
-	renderTexture_->TransitionResource(dxCommands_->GetCommandList(),
+	processedSceneFrame_->TransitionResource(dxCommands_->GetCommandList(),
 									   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 									   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	// -------------------------------------------------
 	// ↓ object3Dと最終描画のTextureを合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, renderTexture_->GetUAV());
+	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, processedSceneFrame_->GetUAV());
 
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
 	// -------------------------------------------------
-	renderTexture_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	processedSceneFrame_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 }
 
@@ -309,48 +309,28 @@ void Engine::RunCS() {
 	computeShader_->RunComputeShader(dxCommands_->GetCommandList());
 }
 
+void Engine::SetPSOObj(Object3dPSO kind) {
+	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+}
+
+void Engine::SetPSOSprite(SpritePSO kind) {
+	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+}
+
+void Engine::SetPSOProcessed(ProcessedScenePSO kind) {
+	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+}
+
+void Engine::SetPSOPrimitive() {
+	primitivePipeline_->Draw(dxCommands_->GetCommandList());
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　深度バッファをリセットする
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::ClearDepth() {
 	renderTarget_->ClearDepth(dxCommands_->GetCommandList());
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　パイプラインの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::SetPipeline(const PipelineType& kind) {
-	switch (kind) {
-	case PipelineType::NormalPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::NormalPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::AddPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::AddPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::TextureLessPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::TextureLessPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::PrimitivePipeline:
-		primitivePipeline_->Draw(dxCommands_->GetCommandList());
-		break;
-	case PipelineType::PBRPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::PBRPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::ParticlePipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::ParticlePipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::SpritePipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::SpritePipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::SpriteNormalBlendPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::SpriteNormalBlendPipeline, dxCommands_->GetCommandList());
-		break;
-	case PipelineType::SpriteAddBlendPipeline:
-		graphicsPipelines_->SetPipeline(PipelineType::SpriteAddBlendPipeline, dxCommands_->GetCommandList());
-		break;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -433,4 +413,12 @@ bool Engine::GetIsOpenEffectEditer() {
 
 bool Engine::GetRunGame() {
 	return runGame_;
+}
+
+GraphicsPipelines* Engine::GetGraphicsPipelines() {
+	return graphicsPipelines_.get();
+}
+
+PrimitivePipeline* Engine::GetPrimitivePipeline() {
+	return primitivePipeline_.get();
 }

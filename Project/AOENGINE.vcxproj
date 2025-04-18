@@ -121,13 +121,17 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
-    <ClCompile Include="Engine\Components\RenderTexture.cpp" />
+    <ClCompile Include="Engine\Components\ProcessedSceneFrame.cpp" />
     <ClCompile Include="Engine\Components\Rigging\Skeleton.cpp" />
     <ClCompile Include="Engine\Components\Rigging\SkinCluster.cpp" />
     <ClCompile Include="Engine\Components\Rigging\Skinning.cpp" />
     <ClCompile Include="Engine\Components\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Components\ViewProjection.cpp" />
     <ClCompile Include="Engine\Components\WorldTransform.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp" />
     <ClCompile Include="Engine\Geometry\GeometryFactory.cpp" />
     <ClCompile Include="Engine\Geometry\Polygon\CubeGeometry.cpp" />
     <ClCompile Include="Engine\Geometry\Polygon\CylinderGeometry.cpp" />
@@ -162,10 +166,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
-    <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
-    <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
@@ -283,13 +287,17 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
-    <ClInclude Include="Engine\Components\RenderTexture.h" />
+    <ClInclude Include="Engine\Components\ProcessedSceneFrame.h" />
     <ClInclude Include="Engine\Components\Rigging\Skeleton.h" />
     <ClInclude Include="Engine\Components\Rigging\SkinCluster.h" />
     <ClInclude Include="Engine\Components\Rigging\Skinning.h" />
     <ClInclude Include="Engine\Components\TransformationMatrix.h" />
     <ClInclude Include="Engine\Components\ViewProjection.h" />
     <ClInclude Include="Engine\Components\WorldTransform.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h" />
     <ClInclude Include="Engine\Geometry\GeometryFactory.h" />
     <ClInclude Include="Engine\Geometry\Polygon\CubeGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\CylinderGeometry.h" />
@@ -323,10 +331,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h" />
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
-    <ClInclude Include="Engine\DirectX\Pipeline\GraphicsPipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
-    <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
@@ -550,13 +558,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.PS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.VS.hlsl">
+    <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.VS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
@@ -596,7 +604,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Engine\Resources\HLSL\Random.hlsli" />
-    <None Include="Engine\Resources\HLSL\RenderTexture.hlsli" />
+    <None Include="Engine\Resources\HLSL\ProcessedScene.hlsli" />
     <None Include="Engine\Resources\HLSL\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

@@ -16,16 +16,16 @@ public:
 
 	void Finalize();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> Create();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreatePrimitiveInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreatePrimitive();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateParticleInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateParticle();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSpriteInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSprite();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkinningInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkinning();
 
-	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateRenderTextureInputLayout();
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateRenderTexture();
 
 };

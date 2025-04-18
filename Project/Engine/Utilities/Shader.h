@@ -16,7 +16,7 @@ public:
 		PBR,
 		Particle,
 		Sprite,
-		RenderTexture
+		ProcessedScene
 	};
 
 	enum CsShaderName {

@@ -204,7 +204,7 @@
     <ClCompile Include="Engine\Components\2d\PrimitiveDrawer.cpp">
       <Filter>Engine\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PrimitivePipeline.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp">
@@ -276,10 +276,10 @@
     <ClCompile Include="Engine\Components\WorldTransform.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Components\RenderTexture.cpp">
+    <ClCompile Include="Engine\Components\ProcessedSceneFrame.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\GraphicsPipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\ComputeShader\ComputeShader.cpp">
@@ -594,6 +594,18 @@
     <ClCompile Include="Engine\Components\Animation\VectorTween.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -701,7 +713,7 @@
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h">
       <Filter>Engine\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PrimitivePipeline.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h">
@@ -773,13 +785,13 @@
     <ClInclude Include="Engine\Components\WorldTransform.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Components\RenderTexture.h">
+    <ClInclude Include="Engine\Components\ProcessedSceneFrame.h">
       <Filter>Engine\Assets</Filter>
     </ClInclude>
     <ClInclude Include="Enviroment.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\GraphicsPipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\ComputeShader.h">
@@ -1094,6 +1106,18 @@
     <ClInclude Include="Engine\Components\Animation\VectorTween.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\HLSL\Object3d.PS.hlsl">
@@ -1160,8 +1184,8 @@
     <FxCompile Include="Engine\Resources\HLSL\Particle\MatrixMath.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.VS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.PS.hlsl" />
-    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.VS.hlsl" />
-    <FxCompile Include="Engine\Resources\HLSL\RenderTexture.PS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.VS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">
@@ -1185,6 +1209,6 @@
       <Filter>Engine\HLSL</Filter>
     </None>
     <None Include="Engine\Resources\HLSL\Random.hlsli" />
-    <None Include="Engine\Resources\HLSL\RenderTexture.hlsli" />
+    <None Include="Engine\Resources\HLSL\ProcessedScene.hlsli" />
   </ItemGroup>
 </Project>

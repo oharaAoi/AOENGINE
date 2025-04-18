@@ -44,7 +44,7 @@ D3D12_STATIC_SAMPLER_DESC RootSignature::CreateSampler(D3D12_TEXTURE_ADDRESS_MOD
 	return spriteStaticSampler;
 }
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateRenderTextureRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateProcessedSceneRootSignature() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;

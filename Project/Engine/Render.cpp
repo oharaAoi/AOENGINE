@@ -63,6 +63,7 @@ void Render::PrimitiveDrawCall() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Render::SetRenderTarget(const RenderTargetType& type) {
+	currentRenderTarget_ = type;
 	GetInstance()->renderTarget_->SetRenderTarget(commandList_, type);
 }
 

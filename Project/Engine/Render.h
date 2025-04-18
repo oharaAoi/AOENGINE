@@ -4,7 +4,7 @@
 #include "Engine/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Components/Light/LightGroup.h"
 #include "Engine/Components/GameObject/Model.h"
-#include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 
 /// <summary>
 /// GameObjectの描画を行う
@@ -120,4 +120,6 @@ namespace {
 	float farClip_;
 	float nearClip2D_;
 	float farClip2D_;
+
+	RenderTargetType currentRenderTarget_;
 }
