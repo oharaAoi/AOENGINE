@@ -92,13 +92,13 @@ void GameScene::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Draw() const {
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	Engine::SetPSOPrimitive();
 	if (debugCamera_->GetIsActive()) {
 		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
 		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
-	Engine::SetPipeline(PipelineType::NormalPipeline);
+	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 	playerManager_->Draw();
 	boss_->Draw();
@@ -106,7 +106,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------
-	Engine::SetPipeline(PipelineType::SpriteNormalBlendPipeline);
+	Engine::SetPSOSprite(SpritePSO::Normal);
 	reticle_->Draw();
 
 }
