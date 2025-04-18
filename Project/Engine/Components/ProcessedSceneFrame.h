@@ -8,33 +8,22 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
-class RenderTexture {
+/// <summary>
+/// Sceneを描画した後のResourceを所有
+/// </summary>
+class ProcessedSceneFrame {
 public:
 
-	struct TextureMesh {
-		Vector4 pos;
-		Vector2 texcoord;
-		float padding[2];
-	};
-
-	struct TextureMaterial {
-		Vector4 color;
-		Matrix4x4 uvTransform;
-		Vector2 uvMinSize;		// 0~1の範囲で指定
-		Vector2 uvMaxSize;		// 0~1の範囲で指定
-	};
-
-	struct TextureTransformData {
-		Matrix4x4 wvp;
-	};
-
-public:
-
-	RenderTexture();
-	~RenderTexture();
+	ProcessedSceneFrame() = default;
+	~ProcessedSceneFrame() = default;
 
 	void Finalize();
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="dxHeap"></param>
 	void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
 
 	/// <summary>
@@ -47,6 +36,12 @@ public:
 	void DrawGui();
 #endif // _DEBUG
 
+	/// <summary>
+	/// Resourceの状態を遷移させる
+	/// </summary>
+	/// <param name="commandList">: commandList</param>
+	/// <param name="beforState">: 今の状態</param>
+	/// <param name="afterState">: 次の状態</param>
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
@@ -55,19 +50,7 @@ public:
 
 private:
 
-	ComPtr<ID3D12Resource> vertexBuffer_;
-	ComPtr<ID3D12Resource> indexBuffer_;
-	ComPtr<ID3D12Resource> materialBuffer_;
-	ComPtr<ID3D12Resource> transformBuffer_;
 	
 	std::unique_ptr<ShaderResource> renderResource_;
-
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
-	
-	TextureMesh* vertexData_;
-	uint32_t* indexData_;
-	TextureMaterial* materialData_;
-	TextureTransformData* transformData_;
 };
 

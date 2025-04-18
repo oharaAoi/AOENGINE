@@ -8,7 +8,7 @@ void InputLayout::Initialize() {}
 
 void InputLayout::Finalize() {}
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::Create() {
 	// InputLayoutの生成
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 
@@ -57,7 +57,7 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateInputLayout() {
 	return elementDescs;
 }
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreatePrimitiveInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreatePrimitive() {
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 	D3D12_INPUT_ELEMENT_DESC elementDesc{};
 	elementDesc.SemanticName = "POSITION";
@@ -75,7 +75,7 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreatePrimitiveInputLayout() 
 	return elementDescs;
 }
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateParticleInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateParticle() {
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 	D3D12_INPUT_ELEMENT_DESC elementDesc{};
 	elementDesc.SemanticName = "POSITION";
@@ -100,7 +100,7 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateParticleInputLayout() {
 	return elementDescs;
 }
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSpriteInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSprite() {
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 	D3D12_INPUT_ELEMENT_DESC elementDesc{};
 	elementDesc.SemanticName = "POSITION";
@@ -118,7 +118,7 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSpriteInputLayout() {
 	return elementDescs;
 }
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSkinningInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSkinning() {
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
 	D3D12_INPUT_ELEMENT_DESC elementDesc{};
 	elementDesc.SemanticName = "POSITION";
@@ -172,6 +172,6 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateSkinningInputLayout() {
 	return elementDescs;
 }
 
-std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateRenderTextureInputLayout() {
+std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::CreateRenderTexture() {
 	return std::vector<D3D12_INPUT_ELEMENT_DESC>();
 }

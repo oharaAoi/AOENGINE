@@ -1,0 +1,27 @@
+#pragma once
+#include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
+
+enum class ProcessedScenePSO {
+	Normal,
+};
+
+/// <summary>
+/// Scene全体の描画が終わった後に行うような処理のPipelineをまとめたクラス
+/// </summary>
+class ProcessedScenePipelines :
+	public IPipelineGroup {
+public:
+
+	ProcessedScenePipelines() = default;
+	~ProcessedScenePipelines() override;
+
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Shader* shaders) override;
+
+	void SetPipeline(ID3D12GraphicsCommandList* commandList, ProcessedScenePSO kind);
+
+private:
+
+	std::unordered_map<ProcessedScenePSO, std::unique_ptr<Pipeline>> pipelineMap_;
+
+};
+

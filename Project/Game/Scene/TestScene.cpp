@@ -106,7 +106,7 @@ void TestScene::Draw() const {
 		DrawGrid(camera3d_->GetViewMatrix(), camera3d_->GetProjectionMatrix());
 	}
 
-	Engine::SetPipeline(PipelineType::NormalPipeline);
+	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 
 	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {

@@ -68,7 +68,6 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const WorldTransform* worldTransform, const ViewProjection* viewprojection, 
 				 const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials) {
 
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		commandList->IASetVertexBuffers(0, 1, &vbv);
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());

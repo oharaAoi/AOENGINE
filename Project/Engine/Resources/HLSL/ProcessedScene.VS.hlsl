@@ -1,4 +1,4 @@
-#include "RenderTexture.hlsli"
+#include "ProcessedScene.hlsli"
 
 static const int kNumVertex = 3;
 static const float4 kPosition[kNumVertex] = {

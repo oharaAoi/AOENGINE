@@ -9,17 +9,17 @@ public:
 
 	enum BlendMode {
 		// ブレンドなし
-		kBlendModeNone,
+		ModeNone,
 		// 通常αブレンド
-		kBlendModeNormal,
+		ModeNormal,
 		// 加算
-		kBlendModeAdd,
+		ModeAdd,
 		// 減算
-		kBlendModeSubtract,
+		ModeSubtract,
 		// 乗算
-		kBlendModeMultily,
-		//
-		kBlendModeScreen
+		ModeMultily,
+		// 反転
+		ModeScreen
 	};
 
 public:

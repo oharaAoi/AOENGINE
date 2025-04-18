@@ -109,14 +109,14 @@ void EffectSystemEditer::Draw() const {
 	// Grid線描画
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
-	Engine::SetPipeline(PipelineType::NormalPipeline);
+	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 
 	// 実際にEffectを描画する
-	Engine::SetPipeline(PipelineType::ParticlePipeline);
+	Engine::SetPSOObj(Object3dPSO::Particle);
 	gpuParticles_->Draw(Engine::GetCommandList());
 
-	Engine::SetPipeline(PipelineType::PrimitivePipeline);
+	Engine::SetPSOPrimitive();
 	Render::PrimitiveDrawCall();
 
 	// 最後にImGui上でEffectを描画する

@@ -11,7 +11,7 @@ void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	dxCompiler_ = dxCompiler;
 
 	rootSignature_->Initialize(device, RootSignatureType::Primitive);
-	elementDescs = inputLayout_.CreatePrimitiveInputLayout();
+	elementDescs = inputLayout_.CreatePrimitive();
 	ShaderCompile(shader.vsShader, shader.psShader);
 
 	CreatePSO();

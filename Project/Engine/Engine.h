@@ -8,9 +8,10 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
-#include "Engine/DirectX/Pipeline/GraphicsPipelines.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
+
 #include "Engine/ComputeShader/ComputeShader.h"
-#include "Engine/DirectX/Pipeline/PrimitivePipeline.h"
 
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -22,7 +23,7 @@
 #include "Engine/Components/Materials/PBRMaterial.h"
 #include "Engine/Components/2d/Sprite.h"
 #include "Engine/Components/WorldTransform.h"
-#include "Engine/Components/RenderTexture.h"
+#include "Engine/Components/ProcessedSceneFrame.h"
 #include "Engine/Components/Rigging/Skinning.h"
 
 #include "Engine/Geometry/GeometryFactory.h"
@@ -34,6 +35,61 @@
 
 class EffectSystem;
 class EffectSystemEditer;
+
+// ======================================================== //
+// 無名名前空間で内部リンゲージする
+// ======================================================== //
+namespace {
+	int32_t kClientWidth_;
+	int32_t kClientHeight_;
+
+	Render* render_ = nullptr;
+
+	WinApp* winApp_ = nullptr;
+	DirectXCommon* dxCommon_ = nullptr;
+
+	EffectSystem* effectSystem_;
+
+	GameResources resources_;
+
+#ifdef _DEBUG
+	ImGuiManager* imguiManager_ = nullptr;
+#endif
+	Input* input_ = nullptr;
+	TextureManager* textureManager_ = nullptr;
+	// dxDevice
+	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
+	// descriptorHeap
+	std::shared_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
+	// dxCommand
+	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
+	// renderTarget
+	std::shared_ptr<RenderTarget> renderTarget_ = nullptr;
+	// dxCompiler
+	std::shared_ptr<DirectXCompiler> dxCompiler_ = nullptr;
+	// pipeline
+	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
+	std::shared_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+	// CS
+	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
+	// audio
+	std::unique_ptr<Audio> audio_ = nullptr;
+	// shaderファイルのパスをまとめたクラス
+	std::shared_ptr<Shader> shaders_;
+
+	// オフスクリーンレンダリングで生成したTextureを描画するクラス
+	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
+
+	EditerWindows* editerWindows_ = nullptr;
+
+	bool isFullScreen_;
+
+	bool isEffectEditer_;
+
+	bool runGame_;
+
+	bool openParticleEditer_ = false;	// 後で直す
+}
 
 class Engine {
 public:
@@ -101,11 +157,10 @@ public:
 	// 設定系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	/// <summary>
-	/// パイプラインの設定
-	/// </summary>
-	/// <param name="kind">設定するパイプライン</param>
-	static void SetPipeline(const PipelineType& kind);
+	static void SetPSOObj(Object3dPSO kind);
+	static void SetPSOSprite(SpritePSO kind);
+	static void SetPSOProcessed(ProcessedScenePSO kind);
+	static void SetPSOPrimitive();
 
 	/// <summary>
 	/// パイプラインの設定
@@ -185,62 +240,11 @@ public:
 
 	static bool GetRunGame();
 
+	static GraphicsPipelines* GetGraphicsPipelines();
+
+	static PrimitivePipeline* GetPrimitivePipeline();
+
 private:
 
 };
-
-// ======================================================== //
-// 無名名前空間で内部リンゲージする
-// ======================================================== //
-namespace {
-	int32_t kClientWidth_;
-	int32_t kClientHeight_;
-
-	Render* render_ = nullptr;
-
-	WinApp* winApp_ = nullptr;
-	DirectXCommon* dxCommon_ = nullptr;
-
-	EffectSystem* effectSystem_;
-
-	GameResources resources_;
-
-#ifdef _DEBUG
-	ImGuiManager* imguiManager_ = nullptr;
-#endif
-	Input* input_ = nullptr;
-	TextureManager* textureManager_ = nullptr;
-	// dxDevice
-	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
-	// descriptorHeap
-	std::shared_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
-	// dxCommand
-	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
-	// renderTarget
-	std::shared_ptr<RenderTarget> renderTarget_ = nullptr;
-	// dxCompiler
-	std::shared_ptr<DirectXCompiler> dxCompiler_ = nullptr;
-	// pipeline
-	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
-	std::shared_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
-	// CS
-	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
-	// audio
-	std::unique_ptr<Audio> audio_ = nullptr;
-	// shaderファイルのパスをまとめたクラス
-	std::shared_ptr<Shader> shaders_;
-
-	// オフスクリーンレンダリングで生成したTextureを描画するクラス
-	std::unique_ptr<RenderTexture> renderTexture_ = nullptr;
-
-	EditerWindows* editerWindows_ = nullptr;
-
-	bool isFullScreen_;
-
-	bool isEffectEditer_;
-
-	bool runGame_;
-
-	bool openParticleEditer_ = false;	// 後で直す
-}
 

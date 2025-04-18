@@ -12,7 +12,7 @@ enum class RootSignatureType {
 	Particle,
 	Sprite,
 	PBR,
-	RenderTexture,
+	ProcessedScene,
 	ComputeShader,
 	CsSkinning,
 	ComputeShaderBlend,
@@ -44,7 +44,7 @@ public:
 	ComPtr<ID3D12RootSignature> CreateCsSkinnigRootSignature();
 	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
 	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
-	ComPtr<ID3D12RootSignature> CreateRenderTextureRootSignature();
+	ComPtr<ID3D12RootSignature> CreateProcessedSceneRootSignature();
 
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
 	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
@@ -62,7 +62,7 @@ public:
 		{RootSignatureType::Particle, &RootSignature::CreateParticleRootSignature},
 		{RootSignatureType::Sprite, &RootSignature::CreateSpriteRootSignature},
 		{RootSignatureType::PBR, &RootSignature::CreatePBRRootSignature},
-		{RootSignatureType::RenderTexture, &RootSignature::CreateRenderTextureRootSignature},
+		{RootSignatureType::ProcessedScene, &RootSignature::CreateProcessedSceneRootSignature},
 		// CS
 		{RootSignatureType::ComputeShader, &RootSignature::CreateComputeShaderRootSignature},
 		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnigRootSignature},
