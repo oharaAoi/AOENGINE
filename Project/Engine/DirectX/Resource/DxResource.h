@@ -29,6 +29,7 @@ public:
 	void SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t indexn);
 
 	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after);
+	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after);
 
 public:
 

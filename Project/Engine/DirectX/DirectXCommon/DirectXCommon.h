@@ -103,6 +103,8 @@ public:
 
 	int32_t GetSwapChainBfCount() {return swapChainBufferCount_;}
 
+	D3D12_GPU_DESCRIPTOR_HANDLE GetBackBufferGpuHandle();
+
 public:
 
 	IDXGIAdapter4* GetUseAdapter() { return useAdapter_.Get(); }

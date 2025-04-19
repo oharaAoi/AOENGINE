@@ -77,6 +77,12 @@ void RenderTarget::CrateSwapChainResource() {
 	rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
 
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
 	for (uint32_t oi = 0; oi < 2; ++oi) {
 		swapChainResource_[oi] = std::make_unique<DxResource>();
 		swapChainResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
@@ -84,6 +90,7 @@ void RenderTarget::CrateSwapChainResource() {
 		swapChainResource_[oi]->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 		swapChainResource_[oi]->SetSwapChainBuffer(swapChain_, oi);
 		swapChainResource_[oi]->CreateRTV(rtvDesc);
+		swapChainResource_[oi]->CreateSRV(srvDesc);
 	}
 
 	//// バックバッファとフロントバッファを作成する

@@ -45,3 +45,10 @@ void ShaderResource::Transition(ID3D12GraphicsCommandList* commandList, const D3
 	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
 	bufferState_ = after;
 }
+
+void ShaderResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after) {
+	if (bufferState_ != after) {
+		TransitionResourceState(commandList, cBuffer_.Get(), bufferState_, after);
+		bufferState_ = after;
+	}
+}

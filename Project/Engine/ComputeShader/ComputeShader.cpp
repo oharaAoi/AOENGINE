@@ -7,7 +7,6 @@ void ComputeShader::Finalize() {
 	resultResource_.Reset();
 	depthOfField_->Finalize();
 	gaussianBlur_->Finalize();
-	grayScale_->Finalize();
 	computeShaderPipelineMap_.clear();
 	DescriptorHeap::AddFreeSrvList(uavRenderAddress_.assignIndex_);
 	DescriptorHeap::AddFreeSrvList(srvRenderAddress_.assignIndex_);
@@ -57,7 +56,6 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	computeShaderPipelineMap_[CsPipelineType::EmitGpuParticle]->Init(device, dxCompiler, dxHeap, shader->GetCsShaderData(Shader::EmitGpuParticle), RootSignatureType::EmitGpuParticle);
 
 	// postEffectの作成
-	grayScale_ = std::make_unique<GrayScale>(groupCountX_, groupCountY_, computeShaderPipelineMap_[CsPipelineType::GrayScale_Pipeline].get());
 	gaussianBlur_ = std::make_unique<GaussianBlur>(groupCountX_, groupCountY_,
 												   computeShaderPipelineMap_[CsPipelineType::HorizontalBlur_Pipeline].get(),
 												   computeShaderPipelineMap_[CsPipelineType::VerticalBlur_Pipeline].get()
@@ -65,10 +63,8 @@ void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	depthOfField_ = std::make_unique<DepthOfField>(groupCountX_, groupCountY_, computeShaderPipelineMap_[CsPipelineType::DepthOfField_Pipeline].get());
 
 	gaussianBlur_->Init(device_, dxHeap_);
-	grayScale_->Init(device_, dxHeap_);
 	depthOfField_->Init(device_, dxHeap_);
 
-	grayScale_->CreateSRV();
 	gaussianBlur_->CreateSRV();
 	depthOfField_->CreateSRV();
 

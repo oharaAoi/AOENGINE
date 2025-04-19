@@ -16,7 +16,8 @@ public:
 		PBR,
 		Particle,
 		Sprite,
-		ProcessedScene
+		ProcessedScene,
+		Grayscale,
 	};
 
 	enum CsShaderName {

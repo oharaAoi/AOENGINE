@@ -261,3 +261,8 @@ void DirectXCommon::CreateDSV() {
 
 	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(TYPE_DSV).handleCPU);
 }
+
+D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetBackBufferGpuHandle() {
+	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
+	return renderTarget_->GetSwapChainHandle(backBufferIndex).handleGPU;
+}

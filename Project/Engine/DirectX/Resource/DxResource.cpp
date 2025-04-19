@@ -100,6 +100,13 @@ void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_
 	bufferState_ = after;
 }
 
+void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after) {
+	if (bufferState_ != after) {
+		TransitionResourceState(commandList, cBuffer_.Get(), bufferState_, after);
+		bufferState_ = after;
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　ViewのGetter
 //////////////////////////////////////////////////////////////////////////////////////////////////

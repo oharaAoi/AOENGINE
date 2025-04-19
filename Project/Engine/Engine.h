@@ -26,6 +26,8 @@
 #include "Engine/Components/ProcessedSceneFrame.h"
 #include "Engine/Components/Rigging/Skinning.h"
 
+#include "Engine/PostEffect/PostProcess.h"
+
 #include "Engine/Geometry/GeometryFactory.h"
 
 #include "Engine/Utilities/Shader.h"
@@ -76,6 +78,8 @@ namespace {
 	std::unique_ptr<Audio> audio_ = nullptr;
 	// shaderファイルのパスをまとめたクラス
 	std::shared_ptr<Shader> shaders_;
+
+	std::unique_ptr<PostProcess> postProcess_;
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
