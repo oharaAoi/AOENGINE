@@ -207,7 +207,7 @@ void Engine::RenderFrame() {
 	// 最終Textureの作成
 	BlendFinalTexture();
 
-	postProcess_->Execute(dxCommands_->GetCommandList(), processedSceneFrame_->GetResource());
+	//postProcess_->Execute(dxCommands_->GetCommandList(), processedSceneFrame_->GetResource());
 	
 #ifdef _DEBUG
 	openParticleEditer_ = false;
