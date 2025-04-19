@@ -288,9 +288,6 @@
     <ClCompile Include="Engine\ComputeShader\ComputeShaderPipeline.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\ComputeShader\GrayScale.cpp">
-      <Filter>Engine\ComputeShader</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\ComputeShader\BaseCSResource.cpp">
       <Filter>Engine\ComputeShader</Filter>
     </ClCompile>
@@ -552,6 +549,15 @@
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\PostEffect\Grayscale.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\PostProcess.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\PostEffect\PingPongBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -744,9 +750,6 @@
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\ComputeShaderPipeline.h">
-      <Filter>Engine\ComputeShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\ComputeShader\GrayScale.h">
       <Filter>Engine\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\ComputeShader\BaseCSResource.h">
@@ -1010,6 +1013,15 @@
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\PostEffect\Grayscale.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\PostProcess.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\PostEffect\PingPongBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\HLSL\Object3d.PS.hlsl">
@@ -1078,6 +1090,7 @@
     <FxCompile Include="Engine\Resources\HLSL\Particle\CpuParticle.PS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.VS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.PS.hlsl" />
+    <FxCompile Include="Engine\Resources\HLSL\Grayscale.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

@@ -3,6 +3,7 @@
 
 enum class ProcessedScenePSO {
 	Normal,
+	Grayscale,
 };
 
 /// <summary>

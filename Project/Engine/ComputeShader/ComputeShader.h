@@ -11,7 +11,6 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Utilities/Shader.h"
 // postEffect
-#include "GrayScale.h"
 #include "GaussianBlur.h"
 #include "DepthOfField.h"
 
@@ -72,7 +71,6 @@ private:
 	std::unordered_map<CsPipelineType, std::unique_ptr<ComputeShaderPipeline>> computeShaderPipelineMap_;
 
 	// postEffect
-	std::unique_ptr<GrayScale> grayScale_;
 	std::unique_ptr<GaussianBlur> gaussianBlur_;
 	std::unique_ptr<DepthOfField> depthOfField_;
 

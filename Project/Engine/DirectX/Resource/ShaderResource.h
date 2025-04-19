@@ -18,6 +18,7 @@ public:
 	void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
 
 	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after);
+	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after);
 
 public:
 

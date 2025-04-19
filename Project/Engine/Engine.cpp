@@ -44,6 +44,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
 	audio_ = std::make_unique<Audio>();
 
+	postProcess_ = std::make_unique<PostProcess>();
+
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
 
@@ -69,6 +71,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	processedSceneFrame_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 	audio_->Init();
 	effectSystem_->Init();
+
+	postProcess_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
@@ -96,6 +100,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Finalize() {
+	postProcess_->Finalize();
+
 	audio_->Finalize();
 
 	processedSceneFrame_->Finalize();
@@ -201,6 +207,8 @@ void Engine::RenderFrame() {
 	// 最終Textureの作成
 	BlendFinalTexture();
 
+	postProcess_->Execute(dxCommands_->GetCommandList(), processedSceneFrame_->GetResource());
+	
 #ifdef _DEBUG
 	openParticleEditer_ = false;
 	if (runGame_) {
@@ -221,7 +229,6 @@ void Engine::RenderFrame() {
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
 	SetPSOProcessed(ProcessedScenePSO::Normal);
-
 	processedSceneFrame_->Draw(dxCommands_->GetCommandList());
 
 	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);

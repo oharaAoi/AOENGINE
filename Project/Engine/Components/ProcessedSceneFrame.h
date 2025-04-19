@@ -48,6 +48,8 @@ public:
 
 	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderResource_->GetUAV().handleGPU; }
 
+	ShaderResource* GetResource() { return renderResource_.get(); }
+
 private:
 
 	

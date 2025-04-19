@@ -45,7 +45,6 @@ void ProcessedSceneFrame::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 }
 
 void ProcessedSceneFrame::Draw(ID3D12GraphicsCommandList* commandList) {
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	commandList->SetGraphicsRootDescriptorTable(0, renderResource_->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
