@@ -7,8 +7,10 @@
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Engine/Components/GameObject/TestObject.h"
 #include "Engine/Components/GameObject/GeometryObject.h"
+#include "Engine/System/Manager/ParticleManager.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Floor.h"
+#include "Game/TestCode/TestParticle.h"
 
 class TestScene 
 : public BaseScene {
@@ -52,6 +54,10 @@ private:
 	std::unique_ptr<GeometryObject> plane_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<TestParticle> particle;
+
+	ParticleManager* particleManager_;
 
 	float raito_ = 0.9f;
 };

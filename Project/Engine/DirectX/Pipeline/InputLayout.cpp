@@ -47,13 +47,6 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> InputLayout::Create() {
 	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 	elementDescs.push_back(elementDesc);
 
-	// 色情報
-	elementDesc.SemanticName = "COLOR";
-	elementDesc.SemanticIndex = 0;
-	elementDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-	elementDesc.AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-	elementDescs.push_back(elementDesc);
-
 	return elementDescs;
 }
 

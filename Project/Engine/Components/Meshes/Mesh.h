@@ -60,6 +60,8 @@ public:
 	/// <returns></returns>
 	const std::vector<VertexData>& GetVerticesData() const { return verticesData_; }
 
+	const std::vector<uint32_t>& GetIndices() const { return indices_; }
+
 	void SetOutputVertexData(VertexData* vertexData);
 
 	/// <summary>
@@ -100,6 +102,8 @@ private:
 
 	// 使用するマテリアル
 	std::string useMaterial_;
+	// meshの名前
+	std::string meshName_;
 	
 	uint32_t indexNum_;
 	UINT vbvSize_;

@@ -48,6 +48,11 @@ private:
 	/// </summary>
 	void Init();
 
+public:
+
+	Mesh* GetMesh() { return mesh_.get(); }
+	Material* GetMaterial() { return material_.get(); }
+
 private:
 
 	std::string id_ = "new GeometryObject";

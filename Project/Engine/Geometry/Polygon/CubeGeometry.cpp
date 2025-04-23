@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/Vector3.h"
 
 void CubeGeometry::Init(const Vector3& size) {
+	geometryName_ = "cubeGeometry";
+
 	// 頂点数を決定しておく
 	vertexData_.resize(24);
 	indices_.resize(36);

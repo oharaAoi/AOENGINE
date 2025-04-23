@@ -9,7 +9,11 @@ struct VertexData {
 	Vector3 normal;
 	Vector4 worldPos;
 	Vector3 tangent;
-	Vector4 color;
+};
+
+struct ParticleVertexData {
+	Vector4 pos;
+	Vector2 texcoord;
 };
 
 struct TriangleVertices {

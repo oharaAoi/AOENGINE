@@ -19,7 +19,7 @@ public:
 		uint32_t shape;			// emitterの種類
 		uint32_t count;			// 射出数
 		float frequency;		// 射出間隔
-		float frequencyTime;	// 時間調整用
+		float frequencyTime;	// 時間調整用(実際に動かす時間)
 		int emit;				// 射出許可
 
 		// particle自体のparameter
@@ -33,7 +33,8 @@ public:
 	};
 
 	struct EmitterParameter {
-		std::string particleModel;
+		std::string particleShape;
+		std::string materialTexture;
 		Vector3 velocity;	// 速度
 		float speed;		// 移動速度
 		float lifeTime;		// 生存時間
@@ -49,6 +50,10 @@ public:
 	void Update();
 	void DrawShape();
 
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
+
 private:
 
 	EmitParameter emitParameter_;
@@ -56,5 +61,9 @@ private:
 
 	bool isDead_ = false;
 	bool isMove_ = false;
+
+	std::string particleShape_;
+	std::string materialTexture_;
+
 };
 

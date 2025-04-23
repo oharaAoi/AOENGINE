@@ -41,12 +41,17 @@ public: // member method
 
 public:	// accesseor method
 
+	const Quaternion& GetRotate() const { return transform_.rotate; }
+
 	const Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
 
 	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
 	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
 
 	const Matrix4x4 GetVpvpMatrix() const;
+
+	const Matrix4x4 GetBillBordMatrix() const { return billBordMat_; }
+
 	const Matrix4x4 GetVPVMatrix() const;
 	const Vector3 GetWorldPosition() const;
 
@@ -60,6 +65,8 @@ protected:
 	Matrix4x4 projectionMatrix_;
 	Matrix4x4 viewMatrix_;
 	Matrix4x4 viewportMatrix_;
+
+	Matrix4x4 billBordMat_;
 
 	float fovY_ = 0.45f;
 	float near_ = 0.1f;

@@ -1,6 +1,9 @@
 #pragma once
 #include <vector>
+#include <string>
 #include <memory>
+#include <unordered_map>
+#include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/Components/Materials/Material.h"
@@ -20,9 +23,15 @@ public:		// 構造体
 	struct Information {
 		Mesh* pMesh;
 		Material* materials;
-		ComPtr<ID3D12Resource> particleBuffer;
+		ComPtr<ID3D12Resource> particleResource_;
+		DescriptorHeap::DescriptorHandles srvHandle_;
 		ParticleData* particleData;
-		DescriptorHeap::DescriptorHandles instancingSrvHandle;
+		uint32_t useIndex;
+	};
+
+	struct PerView {
+		Matrix4x4 viewProjection;
+		Matrix4x4 billboardMat;
 	};
 
 public:
@@ -32,15 +41,29 @@ public:
 
 	void Init(uint32_t instanceNum);
 
+	void Update(const std::string& id, const std::vector<ParticleData>& particleData);
+
+	void PostUpdate();
+
+	void Draw(ID3D12GraphicsCommandList* commandList) const;
+
 public:
 
-	void AddParticle(Mesh* _pMesh, Material* _pMaterial);
+	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial);
+
+	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
+		perView_->viewProjection = view;
+		perView_->billboardMat = bill;
+	}
 
 private:
 
 	uint32_t maxInstanceNum_;
 
-	std::vector<Information> particles_;
+	std::unordered_map<std::string, Information> particleMap_;
+
+	ComPtr<ID3D12Resource> perViewBuffer_;
+	PerView* perView_;
 
 };
 

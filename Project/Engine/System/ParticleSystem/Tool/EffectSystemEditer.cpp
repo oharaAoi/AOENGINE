@@ -78,7 +78,7 @@ void EffectSystemEditer::Update() {
 	for (std::list<std::unique_ptr<GpuEmitter>>::iterator it = gpuEmitterList_.begin(); it != gpuEmitterList_.end();) {
 		(*it)->Update();
 
-		// 生成の命令を送る
+		// 生成の命令を送る	
 		gpuParticles_->EmitBindCmdList(commandList, 0);
 		(*it)->BindCmdList(commandList, 3);
 		commandList->Dispatch(1, 1, 1);

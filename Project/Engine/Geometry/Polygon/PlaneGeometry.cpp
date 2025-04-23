@@ -1,6 +1,8 @@
 #include "PlaneGeometry.h"
 
 void PlaneGeometry::Init(const Vector2& sizeRaito) {
+	geometryName_ = "planeGeometry";
+
 	// 頂点数を決定しておく
 	vertexData_.resize(4);
 	indices_.resize(6);
