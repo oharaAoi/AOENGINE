@@ -10,7 +10,7 @@
 // ↓　MeshのLoad
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
+std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
@@ -119,7 +119,7 @@ std::vector<std::unique_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 		MeshManager::GetInstance()->AddMesh(device, fileName, meshNames[oi], meshVertices[oi], meshIndices[oi]);
 	}
 
-	std::vector<std::unique_ptr<Mesh>> result;
+	std::vector<std::shared_ptr<Mesh>> result;
 
 	result = MeshManager::GetInstance()->GetMeshes(fileName);
 	uint32_t index = 0;

@@ -17,6 +17,8 @@ public:
 
 	void SetInitVertex();
 
+	void CopyMesh(Mesh* mesh);
+
 public:
 
 	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }

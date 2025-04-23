@@ -51,7 +51,7 @@ private:
 
 	std::list<Particle> particleList_;
 
-	std::vector<std::unique_ptr<Mesh>> meshArray_;
+	std::vector<std::shared_ptr<Mesh>> meshArray_;
 	std::vector<std::unique_ptr<Material>> materials_;
 
 	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;

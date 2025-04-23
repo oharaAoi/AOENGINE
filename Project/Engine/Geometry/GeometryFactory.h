@@ -2,6 +2,7 @@
 #include <utility>
 #include "Engine/Components/Meshes/Mesh.h"
 #include "Engine/Geometry/Polygon/IGeometry.h"
+#include "Engine/System/Manager/MeshManager.h"
 
 /// <summary>
 /// 各Geometryを管理しているクラス
@@ -25,24 +26,25 @@ public:
 	/// <param name="_pMesh">: meshのポインタ</param>
 	/// <param name="...args">: 可変長引数</param>
 	template <typename ShapePolicy, typename... Args>
-	void Create(Mesh* _pMesh, Args&&... args) {
+	void Create(std::shared_ptr<Mesh>& _pMesh, Args&&... args) {
 		createMesh_ = false;
 		ShapePolicy geometry;
 		geometry.Init(std::forward<Args>(args)...);
 		std::string name = geometry.GetGeometryName();
 		if (!ExistMesh(name)) {
+			_pMesh = std::make_shared<Mesh>();
 			_pMesh->Init(pDevice_, geometry.GetVertex(), geometry.GetIndex());
 			AddMeshManager(_pMesh, name);
 		} else {
-			SetMesh(_pMesh, name);
+			_pMesh = MeshManager::GetInstance()->GetMesh(name);
 		}
 	}
 
 private:
 
-	void SetMesh(Mesh* _pMesh, const std::string& name);
+	void SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& name);
 
-	void AddMeshManager(Mesh* _pMesh, const std::string& name);
+	void AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name);
 
 	bool ExistMesh(const std::string& name);
 

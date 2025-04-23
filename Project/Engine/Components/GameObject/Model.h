@@ -95,7 +95,7 @@ public:
 private:
 
 	// 頂点バッファやインデックスバッファを持つ
-	std::vector<std::unique_ptr<Mesh>> meshArray_;
+	std::vector<std::shared_ptr<Mesh>> meshArray_;
 	// materialの情報
 	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
 	// skinningのデータ
