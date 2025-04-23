@@ -28,21 +28,21 @@ void TestParticle::Update(const Quaternion& bill) {
 	for (auto it = particleArray_.begin(); it != particleArray_.end();) {
 		auto& pr = *it;
 		// ---------------------------
-		// 生存時間の更新
+		// �������Ԃ̍X�V
 		// ---------------------------
 		pr.lifeTime -= GameTimer::DeltaTime();
 		if (pr.lifeTime <= 0.0f) {
-			it = particleArray_.erase(it); // 削除して次の要素にスキップ
+			it = particleArray_.erase(it); // �폜���Ď��̗v�f�ɃX�L�b�v
 			continue;
 		}
 
 		// ---------------------------
-		// Parameterの更新
+		// Parameter�̍X�V
 		// ---------------------------
 		pr.translate += pr.velocity * GameTimer::DeltaTime();
 
 		// ---------------------------
-		// Rendererに送る情報を更新
+		// Renderer�ɑ������X�V
 		// ---------------------------
 		Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 		Matrix4x4 rotateMatrix = Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), bill.MakeMatrix());
@@ -52,7 +52,7 @@ void TestParticle::Update(const Quaternion& bill) {
 		data[index].color = { 1,1,1,1 };
 
 		// ---------------------------
-		// NextFrameのための更新
+		// NextFrame�̂��߂̍X�V
 		// ---------------------------
 		++index;
 		++it;
