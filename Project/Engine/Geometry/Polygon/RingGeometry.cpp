@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/MyMath.h"
 
 void RingGeometry::Init(uint32_t division, float outerRadius, float innerRadius) {
+	geometryName_ = "ringGeometry";
+
 	const float radianPreDivde = kPI2 / float(division);
 
 	// 頂点数を決定しておく

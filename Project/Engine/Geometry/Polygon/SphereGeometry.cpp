@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/MyMath.h"
 
 void SphereGeometry::Init(const Vector2& size, uint32_t division) {
+	geometryName_ = "sphereGeometry";
+
 	const float kLonEvery = float(kPI) * 2.0f / float(division);// fai
 	const float kLatEvery = float(kPI) / float(division); // theta
 

@@ -21,16 +21,19 @@ void MeshManager::Finalize() {
 }
 
 void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, const std::string& meshName,
-						  const std::vector<VertexData>& vertexData, std::vector<uint32_t>& indices) {
+						  const std::vector<VertexData>& vertexData, const std::vector<uint32_t>& indices) {
 
-	MeshPair meshPair(meshName, std::make_unique<Mesh>());
-	meshPair.mesh->Init(device, vertexData, indices);
+	auto it = meshMap_.find(modelName);
+	if (it == meshMap_.end()) {
+		MeshPair meshPair(meshName, std::make_unique<Mesh>());
+		meshPair.mesh->Init(device, vertexData, indices);
 
-	// メッシュを登録
-	meshMap_[modelName].meshArray.push_back(std::move(meshPair));
+		// メッシュを登録
+		meshMap_[modelName].meshArray.push_back(std::move(meshPair));
 
-	// 名前リストを更新
-	meshNameList_.push_back(modelName);
+		// 名前リストを更新
+		meshNameList_.push_back(modelName);
+	}
 }
 
 std::vector<std::unique_ptr<Mesh>> MeshManager::GetMeshes(const std::string& modelName) {
@@ -54,4 +57,18 @@ bool MeshManager::ExistMesh(const std::string& modelName) {
 	} else {
 		return true;
 	}
+}
+
+Mesh* MeshManager::GetMesh(const std::string& meshName) {
+	for (auto& meshes : meshMap_) {
+		const std::vector<MeshPair>& meshPair = meshes.second.meshArray;
+		for (uint32_t oi = 0; oi < meshPair.size(); ++oi) {
+			if (meshPair[oi].meshName == meshName) {
+				return meshPair[oi].mesh.get();
+			}
+		}
+	}
+
+	// エラー出力する
+	return nullptr;
 }

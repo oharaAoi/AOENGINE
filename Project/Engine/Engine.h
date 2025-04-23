@@ -19,6 +19,8 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/System/Audio/Audio.h"
 
+#include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
+
 #include "Engine/Components/GameObject/Model.h"
 #include "Engine/Components/Materials/PBRMaterial.h"
 #include "Engine/Components/2d/Sprite.h"
@@ -83,6 +85,8 @@ namespace {
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
+
+	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
 
 	EditerWindows* editerWindows_ = nullptr;
 

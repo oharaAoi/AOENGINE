@@ -14,7 +14,7 @@ void Shader::Init() {
 	Load("Engine/Resources/HLSL/Object3d.VS.hlsl",			"Engine/Resources/HLSL/Phong.Lighting.hlsl", Shader::Phong);
 	Load("Engine/Resources/HLSL/PBR.VS.hlsl",				"Engine/Resources/HLSL/PBR.PS.hlsl", Shader::PBR);
 	Load("Engine/Resources/HLSL/Sprite.VS.hlsl",			"Engine/Resources/HLSL/Sprite.PS.hlsl", Shader::Sprite);
-	Load("Engine/Resources/HLSL/Particle/Particle.VS.hlsl", "Engine/Resources/HLSL/Particle/Particle.PS.hlsl", Shader::Particle);
+	Load("Engine/Resources/HLSL/Particle/CpuParticle.VS.hlsl", "Engine/Resources/HLSL/Particle/CpuParticle.PS.hlsl", Shader::Particle);
 	Load("Engine/Resources/HLSL/ProcessedScene.VS.hlsl", "Engine/Resources/HLSL/ProcessedScene.PS.hlsl", Shader::ProcessedScene);
 	Load("Engine/Resources/HLSL/ProcessedScene.VS.hlsl", "Engine/Resources/HLSL/Grayscale.PS.hlsl", Shader::Grayscale);
 

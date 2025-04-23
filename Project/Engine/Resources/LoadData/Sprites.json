@@ -5,6 +5,14 @@
             "files": [
                 "white.png"
             ]
+        },
+        {
+            "directory": "./Engine/Resources/Textures/",
+            "files": [
+                "circle.png",
+                "circle2.png",
+                "gradationLine.png"
+            ]
         }
     ]
 }

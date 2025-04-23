@@ -121,6 +121,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Materials\Material.cpp" />
     <ClCompile Include="Engine\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp" />
+    <ClCompile Include="Engine\Components\Meshes\ParticleMesh.cpp" />
     <ClCompile Include="Engine\Components\ProcessedSceneFrame.cpp" />
     <ClCompile Include="Engine\Components\Rigging\Skeleton.cpp" />
     <ClCompile Include="Engine\Components\Rigging\SkinCluster.cpp" />
@@ -200,6 +201,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Manager\ImGuiManager.cpp" />
     <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\Lib\Math\Easing.cpp" />
@@ -252,10 +254,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\TestCode\TestParticle.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Geometry\Structs\Vertices.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
@@ -271,6 +275,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h" />
+    <ClInclude Include="Engine\Components\Meshes\ParticleMesh.h" />
     <ClInclude Include="Engine\Components\ProcessedSceneFrame.h" />
     <ClInclude Include="Engine\Components\Rigging\Skeleton.h" />
     <ClInclude Include="Engine\Components\Rigging\SkinCluster.h" />
@@ -350,6 +355,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\Manager\ImGuiManager.h" />
     <ClInclude Include="Engine\System\Manager\MeshManager.h" />
     <ClInclude Include="Engine\System\Manager\ModelManager.h" />
+    <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
     <ClInclude Include="Engine\Lib\Math\Easing.h" />
@@ -379,6 +385,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Render.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
     <ClInclude Include="Engine\Lib\Json\JsonItems.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
@@ -409,6 +416,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\TestCode\TestParticle.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
     <ClInclude Include="Engine\Geometry\Structs\Vertices.h" />

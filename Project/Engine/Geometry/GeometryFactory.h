@@ -26,14 +26,31 @@ public:
 	/// <param name="...args">: 可変長引数</param>
 	template <typename ShapePolicy, typename... Args>
 	void Create(Mesh* _pMesh, Args&&... args) {
+		createMesh_ = false;
 		ShapePolicy geometry;
 		geometry.Init(std::forward<Args>(args)...);
-		_pMesh->Init(pDevice_, geometry.GetVertex(), geometry.GetIndex());
+		std::string name = geometry.GetGeometryName();
+		if (!ExistMesh(name)) {
+			_pMesh->Init(pDevice_, geometry.GetVertex(), geometry.GetIndex());
+			AddMeshManager(_pMesh, name);
+		} else {
+			SetMesh(_pMesh, name);
+		}
 	}
 
 private:
 
+	void SetMesh(Mesh* _pMesh, const std::string& name);
+
+	void AddMeshManager(Mesh* _pMesh, const std::string& name);
+
+	bool ExistMesh(const std::string& name);
+
+private:
+
 	ID3D12Device* pDevice_ = nullptr;
+
+	bool createMesh_;
 
 };
 

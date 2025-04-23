@@ -74,6 +74,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	postProcess_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 
+	particleSystemEditor_ = std::make_unique<ParticleSystemEditor>();
+	particleSystemEditor_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), renderTarget_.get(), descriptorHeap_.get());
+
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 	resources_.Load();
@@ -100,6 +103,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Finalize() {
+	particleSystemEditor_->Finalize();
 	postProcess_->Finalize();
 
 	audio_->Finalize();
@@ -154,6 +158,11 @@ void Engine::BeginFrame() {
 	}
 	ImGui::End();
 
+	if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
+		runGame_ = false;
+	}
+	ImGui::End();
+
 	if (ImGui::Begin("Game Window", nullptr)) {
 		runGame_ = true;
 	}
@@ -174,7 +183,8 @@ void Engine::EndFrame() {
 
 	if (!runGame_) {
 		if (openParticleEditer_) {
-			effectSystem_->EndEditer();
+			//effectSystem_->EndEditer();
+			particleSystemEditor_->End();
 		}
 	}
 #endif
@@ -218,10 +228,19 @@ void Engine::RenderFrame() {
 		ImGui::End();
 	} else {
 		if (ImGui::Begin("EffectSystem", nullptr)) {
-			effectSystem_->EditerUpdate();
-			effectSystem_->Debug_Gui();
+			/*effectSystem_->EditerUpdate();
+			effectSystem_->Debug_Gui();*/
 			openParticleEditer_ = true;
 		}
+		ImGui::End();
+
+		if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
+			particleSystemEditor_->Update();
+
+			particleSystemEditor_->Draw();
+			openParticleEditer_ = true;
+		}
+
 		ImGui::End();
 	}
 #endif

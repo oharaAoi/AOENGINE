@@ -28,6 +28,8 @@ void BaseCamera::Init() {
 void BaseCamera::Update() {
 	cameraMatrix_ = transform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);
+
+	billBordMat_ = transform_.rotate.MakeMatrix();
 }
 
 //================================================================================================//

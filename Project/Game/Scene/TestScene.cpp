@@ -7,7 +7,7 @@
 #include "Engine/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
-TestScene::~TestScene() {}
+TestScene::~TestScene() { particleManager_->Finalize(); }
 
 void TestScene::Finalize() {
 }
@@ -42,6 +42,12 @@ void TestScene::Init() {
 
 	plane_ = std::make_unique<GeometryObject>();
 	plane_->Set<CubeGeometry>();
+
+	particleManager_ = ParticleManager::GetInstance();
+	particleManager_->Init();
+
+	particle = std::make_unique<TestParticle>();
+	particle->Init();
 	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
@@ -97,9 +103,14 @@ void TestScene::Update() {
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
 
+	particle->Update(debugCamera_->GetRotate());
+
+	particleManager_->SetView(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
+	particleManager_->PostUpdate();
 }
 
 void TestScene::Draw() const {
+
 	if (isDebugCamera_) {
 		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
@@ -109,10 +120,12 @@ void TestScene::Draw() const {
 	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 
-	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+	/*for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
 		testObjA_[oi]->Draw();
-	}
-	
+	}*/
+
+	Engine::SetPSOObj(Object3dPSO::Particle);
+	particleManager_->Draw();
 	//plane_->Draw();
 }
 

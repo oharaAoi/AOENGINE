@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Engine/Geometry/Structs/Vertices.h"
 
 class IGeometry {
@@ -12,10 +13,14 @@ public:
 
 	const std::vector<uint32_t>& GetIndex() const { return indices_; }
 
+	const std::string& GetGeometryName() { return geometryName_; }
+
 protected:
 
 	std::vector<VertexData> vertexData_;
 	std::vector<uint32_t> indices_;
+
+	std::string geometryName_;
 
 };
 

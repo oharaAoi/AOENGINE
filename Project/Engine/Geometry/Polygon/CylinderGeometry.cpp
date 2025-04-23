@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/MyMath.h"
 
 void CylinderGeometry::Init(uint32_t division, float radius, float height) {
+	geometryName_ = "cylinderGeometry";
+
 	const float radianPreDivde = kPI2 / float(division);
 
 	// 頂点数を決定しておく
