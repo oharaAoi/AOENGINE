@@ -1,5 +1,6 @@
 #include "GeometryFactory.h"
 #include "Engine/Engine.h"
+#include "Engine/System/Manager/MeshManager.h"
 
 GeometryFactory& GeometryFactory::GetInstance() {
 	static GeometryFactory instance;

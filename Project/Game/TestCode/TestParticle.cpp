@@ -87,5 +87,6 @@ void TestParticle::Debug_Gui() {
 	if (ImGui::Button("emit")) {
 		Emit(emitter_.translate);
 	}
+	ParticleManager::GetInstance()->Update("plane", data);
 }
 #endif

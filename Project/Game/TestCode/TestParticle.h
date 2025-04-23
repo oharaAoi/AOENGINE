@@ -9,6 +9,11 @@
 class TestParticle :
 	public AttributeGui {
 
+	struct ParticleSRT {
+		QuaternionSRT transform;
+		Vector4 color;
+	};
+
 public:
 
 	TestParticle() = default;
