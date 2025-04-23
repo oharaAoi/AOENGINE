@@ -120,9 +120,9 @@ void TestScene::Draw() const {
 	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 
-	/*for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
 		testObjA_[oi]->Draw();
-	}*/
+	}
 
 	Engine::SetPSOObj(Object3dPSO::Particle);
 	particleManager_->Draw();

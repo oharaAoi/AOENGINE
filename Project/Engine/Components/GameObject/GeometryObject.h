@@ -53,6 +53,9 @@ public:
 	Mesh* GetMesh() { return mesh_.get(); }
 	Material* GetMaterial() { return material_.get(); }
 
+	void SetUseTexture(const std::string& name) { material_->SetUseTexture(name); }
+	const std::string& GetUseTexture() const { return material_->GetUseTexture(); }
+
 private:
 
 	std::string id_ = "new GeometryObject";
@@ -60,6 +63,8 @@ private:
 	std::unique_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_ = nullptr;
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
+
+	std::string useTexture_ = "circle.png";
 
 };
 
