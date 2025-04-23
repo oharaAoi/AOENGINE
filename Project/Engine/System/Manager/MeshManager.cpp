@@ -73,12 +73,12 @@ std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 	return nullptr;
 }
 
-Mesh* MeshManager::GetMesh(const std::string& meshName) {
+std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 	for (auto& meshes : meshMap_) {
 		const std::vector<MeshPair>& meshPair = meshes.second.meshArray;
 		for (uint32_t oi = 0; oi < meshPair.size(); ++oi) {
 			if (meshPair[oi].meshName == meshName) {
-				return meshPair[oi].mesh.get();
+				return meshPair[oi].mesh;
 			}
 		}
 	}

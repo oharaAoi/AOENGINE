@@ -4,7 +4,7 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 
-void TestParticle::Init() {
+void TestParticle::Init(float distance) {
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 
@@ -87,6 +87,10 @@ void TestParticle::Debug_Gui() {
 	if (ImGui::Button("emit")) {
 		Emit(emitter_.translate);
 	}
-	ParticleManager::GetInstance()->Update("plane", data);
+	ParticleManager::GetInstance()->Update(name_, data);
+}
+
+void TestParticle::Emit() {
+
 }
 #endif
