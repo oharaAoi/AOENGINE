@@ -10,9 +10,9 @@ public:
 
 	struct MeshPair {
 		std::string meshName;
-		std::unique_ptr<Mesh> mesh;
+		std::shared_ptr<Mesh> mesh;
 
-		MeshPair(const std::string& name, std::unique_ptr<Mesh> pMesh) {
+		MeshPair(const std::string& name, std::shared_ptr<Mesh> pMesh) {
 			meshName = name;
 			mesh = std::move(pMesh);
 		}
@@ -37,11 +37,11 @@ public:
 	static void AddMesh(ID3D12Device* device, const std::string& modelName,
 						const std::string& meshName, const std::vector<VertexData>& vertexData, const std::vector<uint32_t>& indices);
 
-	static std::vector<std::unique_ptr<Mesh>> GetMeshes(const std::string& modelName);
+	static std::vector<std::shared_ptr<Mesh>> GetMeshes(const std::string& modelName);
 
 	bool ExistMesh(const std::string& modelName);
 
-	Mesh* GetMesh(const std::string& meshName);
+	std::shared_ptr<Mesh> GetMesh(const std::string& meshName);
 
 private:
 

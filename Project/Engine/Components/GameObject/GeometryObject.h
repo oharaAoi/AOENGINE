@@ -31,7 +31,7 @@ public:
 	template <typename ShapePolicy, typename... Args>
 	void Set(Args&&... args) {
 		Init();
-		GeometryFactory::GetInstance().Create<ShapePolicy>(mesh_.get(), std::forward<Args>(args)...);
+		GeometryFactory::GetInstance().Create<ShapePolicy>(mesh_, std::forward<Args>(args)...);
 	}
 
 	void Update();
@@ -60,7 +60,7 @@ private:
 
 	std::string id_ = "new GeometryObject";
 
-	std::unique_ptr<Mesh> mesh_;
+	std::shared_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_ = nullptr;
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 

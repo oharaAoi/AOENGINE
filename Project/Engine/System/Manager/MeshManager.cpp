@@ -25,7 +25,7 @@ void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, co
 
 	auto it = meshMap_.find(modelName);
 	if (it == meshMap_.end()) {
-		MeshPair meshPair(meshName, std::make_unique<Mesh>());
+		MeshPair meshPair(meshName, std::make_shared<Mesh>());
 		meshPair.mesh->Init(device, vertexData, indices);
 
 		// メッシュを登録
@@ -36,8 +36,8 @@ void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, co
 	}
 }
 
-std::vector<std::unique_ptr<Mesh>> MeshManager::GetMeshes(const std::string& modelName) {
-	std::vector<std::unique_ptr<Mesh>> result;
+std::vector<std::shared_ptr<Mesh>> MeshManager::GetMeshes(const std::string& modelName) {
+	std::vector<std::shared_ptr<Mesh>> result;
 
 	auto it = meshMap_.find(modelName);
 	if (it == meshMap_.end()) {
@@ -45,7 +45,7 @@ std::vector<std::unique_ptr<Mesh>> MeshManager::GetMeshes(const std::string& mod
 	}
 
 	for (auto& origine : it->second.meshArray) {
-		result.emplace_back(std::make_unique<Mesh>(*origine.mesh));
+		result.emplace_back(std::make_shared<Mesh>(*origine.mesh));
 	}
 
 	return result;
@@ -59,12 +59,12 @@ bool MeshManager::ExistMesh(const std::string& modelName) {
 	}
 }
 
-Mesh* MeshManager::GetMesh(const std::string& meshName) {
+std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 	for (auto& meshes : meshMap_) {
 		const std::vector<MeshPair>& meshPair = meshes.second.meshArray;
 		for (uint32_t oi = 0; oi < meshPair.size(); ++oi) {
 			if (meshPair[oi].meshName == meshName) {
-				return meshPair[oi].mesh.get();
+				return meshPair[oi].mesh;
 			}
 		}
 	}

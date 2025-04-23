@@ -16,11 +16,15 @@ public:
 	TestParticle() = default;
 	~TestParticle() = default;
 
-	void Init();
+	void Init(float distance);
 
 	void Update(const Quaternion& bill);
 
+	void Emit();
+
 private:
+
+	std::string name_;
 
 	std::unique_ptr<GeometryObject> shape_;
 
