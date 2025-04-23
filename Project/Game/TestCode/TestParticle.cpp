@@ -90,7 +90,19 @@ void TestParticle::Debug_Gui() {
 	ParticleManager::GetInstance()->Update(name_, data);
 }
 
-void TestParticle::Emit() {
+void TestParticle::Emit(const Vector3& pos) {
+	auto& newParticle = particleArray_.emplace_back();
+	
+	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+	newParticle.rotate = Quaternion();
+	newParticle.translate = pos;
+	newParticle.color = emitter_.color;
+	//newParticle.
 
+}
+
+#ifdef _DEBUG
+void TestParticle::Debug_Gui() {
+	emitter_.Attribute_Gui();
 }
 #endif
