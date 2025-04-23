@@ -15,9 +15,11 @@ void TestParticle::Init() {
 	}
 
 	ParticleManager::GetInstance()->AddParticle("plane", shape_->GetMesh(), shape_->GetMaterial());
+
+	shape_->GetMaterial()->SetUseTexture("circle.png");
 }
 
-void TestParticle::Update(Quaternion bill) {
+void TestParticle::Update(const Quaternion& bill) {
 	std::vector<ParticleInstancingRenderer::ParticleData> data;
 	data.resize(100);
 	for (uint32_t oi = 0; oi < 100; ++oi) {
