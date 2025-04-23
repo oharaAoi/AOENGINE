@@ -2,33 +2,36 @@
 #include <memory>
 #include <vector>
 #include "Engine/Components/GameObject/GeometryObject.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Lib/ParticlesData.h"
 
-class TestParticle {
-public:
-
-	struct ParticleSRT {
-		QuaternionSRT transform;
-		Vector4 color;
-	};
+class TestParticle :
+	public AttributeGui {
 
 public:
 
 	TestParticle() = default;
-	~TestParticle() = default;
+	~TestParticle() override {};
 
 	void Init(float distance);
 
 	void Update(const Quaternion& bill);
 
-	void Emit();
+	void Emit(const Vector3& pos);
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
 
 private:
 
-	std::string name_;
+	std::string name_ = "TestParticle";
 
 	std::unique_ptr<GeometryObject> shape_;
 
-	std::vector<ParticleSRT> srtArray_;
+	std::vector<ParticleSingle> particleArray_;
+
+	ParticleEmit emitter_;
 
 };
 
