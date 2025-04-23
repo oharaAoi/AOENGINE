@@ -36,12 +36,14 @@ void GeometryObject::Debug_Gui() {
 }
 #endif
 
+void GeometryObject::SetEditorWindow() {
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(this, id_);
+#endif // _DEBUG
+}
+
 void GeometryObject::Init() {
 	mesh_ = std::make_unique<Mesh>();
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
 	transform_ = Engine::CreateWorldTransform();
-
-#ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, id_);
-#endif // _DEBUG
 }

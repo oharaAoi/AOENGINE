@@ -41,6 +41,8 @@ public:
 	void Debug_Gui() override;
 #endif
 
+	void SetEditorWindow();
+
 private:
 
 	/// <summary>
