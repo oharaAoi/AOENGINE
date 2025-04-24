@@ -47,5 +47,5 @@ private:
 	ParticleManager* particleManager_;
 
 	std::unique_ptr<GeometryObject> sphere_;
-	std::unique_ptr<GeometryObject> plane_;
+	std::unique_ptr<GeometryObject> cylinder_;
 };

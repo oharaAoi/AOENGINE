@@ -20,6 +20,8 @@ struct ParticleSingle {
 	float gravity;			// 重力
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
+	bool isScaleUpScale = false;	// 生存時間による透明度
+	Vector3 upScale;
 
 	//ParticleSingle() {
 	//	toJsonFunction_ = [this](const std::string& id) {
@@ -78,8 +80,12 @@ struct ParticleEmit : public IJsonConverter {
 	float dampig = 0;			// 減衰率
 	float angleMin = 0.0f;		// 最小の回転
 	float angleMax = 360.0f;	// 最大の回転
+	bool isDirectionRotate = false;		// 進行方向にParticleを向ける処理
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
+
+	bool isScaleUp;				// サイズを大きくするか
+	Vector3 scaleUpScale;
 
 	std::string useTexture = "white.png";
 
@@ -110,8 +116,11 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("damping", dampig)  // `damping` の変数名のスペルを修正
 			.Add("angleMin", angleMin)
 			.Add("angleMax", angleMax)
+			.Add("isDirectionRotate", isDirectionRotate)
 			.Add("isLifeOfScale", isLifeOfScale)
 			.Add("isLifeOfAlpha", isLifeOfAlpha)
+			.Add("isScaleUp", isScaleUp)
+			.Add("scaleUpScale", scaleUpScale)
 			.Add("useTexture", useTexture)  // `damping` の変数名のスペルを修正
 			.Build();
 	}
@@ -136,8 +145,11 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "damping", dampig);  // `damping` の変数名のスペルを修正
 		fromJson(jsonData, "angleMin", angleMin);
 		fromJson(jsonData, "angleMax", angleMax);
+		fromJson(jsonData, "isDirectionRotate", isDirectionRotate);
 		fromJson(jsonData, "isLifeOfScale", isLifeOfScale);
 		fromJson(jsonData, "isLifeOfAlpha", isLifeOfAlpha);
+		fromJson(jsonData, "isScaleUp", isScaleUp);
+		fromJson(jsonData, "scaleUpScale", scaleUpScale);
 		fromJson(jsonData, "useTexture", useTexture);  // `damping` の変数名のスペルを修正
 	}
 

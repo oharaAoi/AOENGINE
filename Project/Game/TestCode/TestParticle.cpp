@@ -8,7 +8,7 @@ void TestParticle::Init() {
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial());
+	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), true);
 
 	shape_->GetMaterial()->SetUseTexture("circle.png");
 

@@ -53,6 +53,8 @@ void Player::Init() {
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
 
+	floatingTween_.Init(&floatingValue_, -0.2f, 0.2f, 1.0f, (int)EasingType::InOut::Sine, LoopType::RETURN);
+
 	// -------------------------------------------------
 	// ↓ Effect関連
 	// -------------------------------------------------
@@ -79,6 +81,9 @@ void Player::Update() {
 		Quaternion targetToRotate = Quaternion::LookAt(transform_->translate_, reticle_->GetTargetPos());
 		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_, targetToRotate, 0.9f);
 	}
+
+	floatingTween_.Update(GameTimer::DeltaTime());
+	transform_->temporaryTranslate_.y += floatingValue_;
 
 	BaseGameObject::Update();
 

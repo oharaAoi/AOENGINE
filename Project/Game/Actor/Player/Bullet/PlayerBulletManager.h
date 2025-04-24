@@ -1,8 +1,12 @@
 #pragma once
 // C++
 #include <list>
+#include <memory>
 // Game
 #include "Game/Actor/Player/Bullet/PlayerBullet.h"
+#include "Game/Effects/HitBossExploadParticles.h"
+#include "Game/Effects/HitBossSmoke.h"
+#include "Game/Effects/HitBossSmokeBorn.h"
 
 /// <summary>
 /// PlayerのBulletを管理するクラス
@@ -27,5 +31,8 @@ private:
 
 	std::list<PlayerBullet> bulletList_;
 
+	std::unique_ptr<HitBossExploadParticles> hitBossExploadParticles_;
+	std::unique_ptr<HitBossSmoke> hitBossSmoke_;
+	std::unique_ptr<HitBossSmokeBorn> hitBossSmokeBorn_;
 };
 

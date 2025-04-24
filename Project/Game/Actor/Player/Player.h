@@ -7,6 +7,7 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/UI/Reticle.h"
+#include "Engine/Components/Animation/VectorTween.h"
 // Effect
 #include "Game/Effects/GunFireParticles.h"
 
@@ -57,6 +58,9 @@ private:
 	std::unique_ptr<StateMachine<Player>> stateMachine_;
 
 	ActionManager<Player> actionManager_;
+
+	float floatingValue_;
+	VectorTween<float> floatingTween_;
 
 	// bullet --------------------------------------------------
 

@@ -34,8 +34,11 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat("angleMin", &angleMin, 0.01f);
 		ImGui::DragFloat("angleMax", &angleMax, 0.01f);
 		ImGui::Text("Life of");
+		ImGui::Checkbox("isDirectionRotate", &isDirectionRotate);
 		ImGui::Checkbox("isLifeOfScale", &isLifeOfScale);
 		ImGui::Checkbox("isLifeOfAlpha", &isLifeOfAlpha);
+		ImGui::Checkbox("isScaleUp", &isScaleUp);
+		ImGui::DragFloat3("scaleUpScale", (float*)&scaleUpScale, 0.01f);
 	}
 }
 #endif

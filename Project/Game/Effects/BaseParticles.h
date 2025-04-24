@@ -12,7 +12,7 @@ public:
 	BaseParticles() = default;
 	virtual ~BaseParticles() override {};
 
-	void Init(const std::string& name);
+	void Init(const std::string& name, bool isAddBlend = true);
 
 	void Update(const Quaternion& bill);
 

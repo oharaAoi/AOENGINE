@@ -25,7 +25,7 @@ public:
 
 public:
 
-	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial);
+	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend);
 
 	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
 		particleRenderer_->SetView(view, bill);

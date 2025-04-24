@@ -10,7 +10,7 @@ void JetParticles::Init(const std::string& name) {
 
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial());
+	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), true);
 
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);

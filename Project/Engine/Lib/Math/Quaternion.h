@@ -110,6 +110,8 @@ public:
 
 	static Quaternion ToQuaternion(const Vector4& v);
 
+	static Quaternion FromMatrix(const Matrix4x4& m);
+
 private:
 
 	/// <summary>

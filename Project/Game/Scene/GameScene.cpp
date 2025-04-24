@@ -47,9 +47,9 @@ void GameScene::Init() {
 	boss_ = std::make_unique<Boss>();
 	boss_->Init();
 
-	plane_ = std::make_unique<GeometryObject>();
-	plane_->Set<PlaneGeometry>();
-	plane_->SetEditorWindow();
+	cylinder_ = std::make_unique<GeometryObject>();
+	cylinder_->Set<CylinderGeometry>(32, 1.f, 2.f, 2.f);
+	cylinder_->SetEditorWindow();
 
 	sphere_ = std::make_unique<GeometryObject>();
 	sphere_->Set<SphereGeometry>();
@@ -86,7 +86,7 @@ void GameScene::Update() {
 	playerManager_->Update();
 	boss_->Update();
 
-	plane_->Update();
+	cylinder_->Update();
 	sphere_->Update();
 
 	playerManager_->CollisionToBoss(boss_->GetTransform()->translate_);
@@ -129,9 +129,8 @@ void GameScene::Draw() const {
 	playerManager_->Draw();
 	boss_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::Add);
-	plane_->Draw();
-	sphere_->Draw();
+	Engine::SetPSOObj(Object3dPSO::NormalCut);
+	cylinder_->Draw();
 
 	// -------------------------------------------------
 	// ↓ spriteの描画

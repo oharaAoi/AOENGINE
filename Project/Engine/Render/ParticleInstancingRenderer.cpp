@@ -39,6 +39,11 @@ void ParticleInstancingRenderer::PostUpdate() {
 
 void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
 	for (auto& information : particleMap_) {
+		if (information.second.isAddBlend) {
+			Engine::SetPSOObj(Object3dPSO::Particle);
+		} else {
+			Engine::SetPSOObj(Object3dPSO::SubParticle);
+		}
 		commandList->IASetVertexBuffers(0, 1, &information.second.pMesh->GetVBV());
 		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
 		commandList->SetGraphicsRootConstantBufferView(0, information.second.materials->GetBufferAdress());
@@ -51,7 +56,7 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 	}
 }
 
-void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial) {
+void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
 	auto it = particleMap_.find(id);
 	if (it != particleMap_.end()) {
 		return;		// 見つかったら早期リターン
@@ -90,6 +95,8 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 		particles.particleData->worldMat = Matrix4x4::MakeUnit();
 		particles.particleData->color = { 1,1,1,1 };
 	}
+
+	particles.isAddBlend = isAddBlend;
 
 	particleMap_.emplace(id, std::move(particles));
 }

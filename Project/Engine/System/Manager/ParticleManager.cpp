@@ -31,6 +31,6 @@ void ParticleManager::Draw() const {
 	particleRenderer_->Draw(Engine::GetCommandList());
 }
 
-void ParticleManager::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial) {
-	particleRenderer_->AddParticle(id, _pMesh, _pMaterial);
+void ParticleManager::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
+	particleRenderer_->AddParticle(id, _pMesh, _pMaterial, isAddBlend);
 }

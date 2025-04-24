@@ -5,12 +5,12 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
-void BaseParticles::Init(const std::string& name) {
+void BaseParticles::Init(const std::string& name, bool isAddBlend) {
 	name_ = name;
 
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial());
+	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), isAddBlend);
 
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
@@ -71,6 +71,12 @@ void BaseParticles::Update(const Quaternion& bill) {
 			pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
 		}
 
+		if (pr.isScaleUpScale) {
+			float scaleT = pr.lifeTime / pr.firstLifeTime;
+			scaleT = 1.0f - scaleT;
+			pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
+		}
+
 		Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 		Matrix4x4 billMatrix = bill.MakeMatrix(); // ← ビルボード行列（カメラからの視線で作る）
 		Matrix4x4 zRot = pr.rotate.MakeMatrix();
@@ -116,6 +122,34 @@ void BaseParticles::Emit(const Vector3& pos) {
 			Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
 			newParticle.velocity = ((emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
 		}
+
+		// billbordに合わせてz軸を進行方向に向ける
+		if (emitter_.isDirectionRotate) {
+			Vector3 forward = newParticle.velocity.Normalize();
+
+			// 上方向（カメラ視点に合わせるなら bill.MakeMatrix() などから取得も可）
+			Vector3 up = CVector3::UP;
+
+			// forwardとupが平行だと問題なのでチェック
+			if (fabsf(Dot(forward, up)) > 0.99f) {
+				up = CVector3::RIGHT;
+			}
+
+			// オルソン直交基底を構築（右・上・前）
+			Vector3 right = Cross(up, forward).Normalize();
+			Vector3 adjustedUp = Cross(forward, right).Normalize();
+
+			// 回転行列を作成（Z軸 = forward）
+			Matrix4x4 rotMat;
+			rotMat.m[0][0] = right.x;   rotMat.m[0][1] = right.y;   rotMat.m[0][2] = right.z;   rotMat.m[0][3] = 0;
+			rotMat.m[1][0] = adjustedUp.x; rotMat.m[1][1] = adjustedUp.y; rotMat.m[1][2] = adjustedUp.z; rotMat.m[1][3] = 0;
+			rotMat.m[2][0] = forward.x; rotMat.m[2][1] = forward.y; rotMat.m[2][2] = forward.z; rotMat.m[2][3] = 0;
+			rotMat.m[3][0] = 0;         rotMat.m[3][1] = 0;         rotMat.m[3][2] = 0;         rotMat.m[3][3] = 1;
+
+			// 行列からクォータニオンへ変換
+			newParticle.rotate = Quaternion::FromMatrix(rotMat);
+		}
+
 		newParticle.lifeTime = emitter_.lifeTime;
 		newParticle.firstLifeTime = emitter_.lifeTime;
 		newParticle.currentTime = 0.0f;
@@ -124,6 +158,9 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 		newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 		newParticle.isLifeOfScale = emitter_.isLifeOfScale;
+
+		newParticle.isScaleUpScale = emitter_.isScaleUp;
+		newParticle.upScale = emitter_.scaleUpScale;
 	}
 }
 
