@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Lib/Json//JsonItems.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 Engine::Engine() {}
 
@@ -213,6 +214,9 @@ void Engine::RenderFrame() {
 	// gameで使用したlineの描画を開始する
 	primitivePipeline_->Draw(dxCommands_->GetCommandList());
 	Render::PrimitiveDrawCall();
+
+	/*Engine::SetPSOObj(Object3dPSO::Particle);
+	ParticleManager::GetInstance()->Draw();*/
 
 	// 最終Textureの作成
 	BlendFinalTexture();

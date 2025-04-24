@@ -78,6 +78,8 @@ void ParticleSystemEditor::SetRenderTarget() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Edit() {
+#ifdef _DEBUG
+
 	ImGui::Begin("List");
 	// emitterのリスト
 	static int selectedEffectIndex = -1;
@@ -99,9 +101,11 @@ void ParticleSystemEditor::Edit() {
 		(*it).Debug_Gui();
 	}
 	ImGui::End();
+#endif // _DEBUG#endif // _DEBUG
 }
 
 void ParticleSystemEditor::PreDraw() {
+#ifdef _DEBUG
 	SetRenderTarget();
 
 	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
@@ -112,9 +116,11 @@ void ParticleSystemEditor::PreDraw() {
 
 	// Grid線描画
 	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+#endif
 }
 
 void ParticleSystemEditor::PostDraw() {
+#ifdef _DEBUG
 	Engine::SetPSOPrimitive();
 	Render::PrimitiveDrawCall();
 
@@ -126,6 +132,7 @@ void ParticleSystemEditor::PostDraw() {
 
 	ImGui::End();
 	ImGui::PopStyleColor();
+#endif
 }
 
 void ParticleSystemEditor::End() {
