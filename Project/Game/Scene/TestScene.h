@@ -56,6 +56,7 @@ private:
 	std::unique_ptr<CollisionManager> collisionManager_;
 
 	std::unique_ptr<TestParticle> particle;
+	std::unique_ptr<TestParticle> particle2;
 
 	ParticleManager* particleManager_;
 

@@ -47,8 +47,11 @@ void TestScene::Init() {
 	particleManager_->Init();
 
 	particle = std::make_unique<TestParticle>();
+	particle2 = std::make_unique<TestParticle>();
 
-	particle->Init(2);
+	particle->Init();
+	particle2->Init();
+	
 	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
@@ -105,6 +108,7 @@ void TestScene::Update() {
 	// -------------------------------------------------
 
 	particle->Update(debugCamera_->GetRotate());
+	particle2->Update(debugCamera_->GetRotate());
 	
 	particleManager_->SetView(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	particleManager_->PostUpdate();
@@ -121,13 +125,13 @@ void TestScene::Draw() const {
 	Engine::SetPSOObj(Object3dPSO::Normal);
 	skydome_->Draw();
 
-	/*for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
+	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
 		testObjA_[oi]->Draw();
-	}*/
+	}
+	//plane_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::Particle);
-	particleManager_->Draw();
-	//plane_->Draw();
+	ParticleManager::GetInstance()->Draw();
 }
 
 #ifdef _DEBUG

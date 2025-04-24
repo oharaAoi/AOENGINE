@@ -55,7 +55,8 @@ struct ParticleSingle {
 struct ParticleEmit : public IJsonConverter {
 	Vector4 rotate = Quaternion();			// 回転(Quaternion)
 	Vector3 translate = CVector3::ZERO;		// 位置
-	uint32_t shape;			// emitterの種類
+	Vector3 direction = CVector3::UP;		// 射出方向
+	uint32_t shape = 0;			// emitterの種類(0 = 全方向, 1 = 一方方向)
 	uint32_t count = 10;			// 射出数
 	float frequency = 1.0f;		// 射出間隔
 	float frequencyTime = 0.0f;	// 時間調整用(実際に動かす時間)
@@ -80,6 +81,7 @@ struct ParticleEmit : public IJsonConverter {
 		return JsonBuilder(id)
 			.Add("rotate", rotate)
 			.Add("translate", translate)
+			.Add("directino", direction)
 			.Add("shape", shape)
 			.Add("count", count)
 			.Add("frequency", frequency)
@@ -98,6 +100,7 @@ struct ParticleEmit : public IJsonConverter {
 	void FromJson(const json& jsonData) override {
 		fromJson(jsonData, "rotate", rotate);
 		fromJson(jsonData, "translate", translate);
+		fromJson(jsonData, "direction", direction);
 		fromJson(jsonData, "shape", shape);
 		fromJson(jsonData, "count", count);
 		fromJson(jsonData, "frequency", frequency);

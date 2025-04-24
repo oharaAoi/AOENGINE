@@ -6,6 +6,7 @@ void ParticleEmit::Attribute_Gui() {
 	ImGui::Text("Emitter Settings");
 	ImGui::DragFloat4("Rotate (Quaternion)", (float*)&rotate, 0.01f);
 	ImGui::DragFloat3("Translate", (float*)&translate, 0.1f);
+	ImGui::DragFloat3("Direction", (float*)&direction, 0.1f);
 	ImGui::DragScalar("Shape", ImGuiDataType_U32, &shape, 1.0f);
 	ImGui::DragScalar("Count", ImGuiDataType_U32, &count, 1.0f);
 	ImGui::DragFloat("Frequency", &frequency, 0.01f);
