@@ -57,6 +57,7 @@ void FollowCamera::Update() {
 	// renderの更新
 	Render::SetEyePos(GetWorldPosition());
 	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	Render::SetCameraRotate(transform_.rotate);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -7,6 +7,8 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/UI/Reticle.h"
+// Effect
+#include "Game/Effects/GunFireParticles.h"
 
 class Player :
 	public BaseGameObject {
@@ -29,6 +31,8 @@ public:
 	void Shot(float speed);
 
 public:		// accessor method
+
+	BaseGameObject* GetJet() { return jet_.get(); }
 
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }
 
@@ -55,6 +59,10 @@ private:
 	ActionManager<Player> actionManager_;
 
 	// bullet --------------------------------------------------
-	
+
+	std::unique_ptr<GunFireParticles> gunFireParticles_;
+
+	std::unique_ptr<BaseGameObject> jet_;
+
 };
 

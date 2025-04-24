@@ -3,9 +3,10 @@
 #include "Engine/Lib/Json/JsonItems.h"
 
 GameScene::GameScene() {}
-GameScene::~GameScene() {}
+GameScene::~GameScene() { Finalize(); }
 
 void GameScene::Finalize() {
+	particleManager_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +27,12 @@ void GameScene::Init() {
 	followCamera_->Init();
 	debugCamera_->Init();
 	camera2d_->Init();
+
+	// -------------------------------------------------
+	// ↓ Particleの初期化
+	// -------------------------------------------------
+	particleManager_ = ParticleManager::GetInstance();
+	particleManager_->Init();
 	
 	// -------------------------------------------------
 	// ↓ actorの初期化
@@ -39,6 +46,14 @@ void GameScene::Init() {
 
 	boss_ = std::make_unique<Boss>();
 	boss_->Init();
+
+	plane_ = std::make_unique<GeometryObject>();
+	plane_->Set<PlaneGeometry>();
+	plane_->SetEditorWindow();
+
+	sphere_ = std::make_unique<GeometryObject>();
+	sphere_->Set<SphereGeometry>();
+	sphere_->SetEditorWindow();
 
 	// -------------------------------------------------
 	// ↓ Spriteの初期化
@@ -71,6 +86,11 @@ void GameScene::Update() {
 	playerManager_->Update();
 	boss_->Update();
 
+	plane_->Update();
+	sphere_->Update();
+
+	playerManager_->CollisionToBoss(boss_->GetTransform()->translate_);
+
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------
@@ -85,6 +105,12 @@ void GameScene::Update() {
 		followCamera_->Update();
 	}
 	camera2d_->Update();
+
+	// -------------------------------------------------
+	// ↓ particleの更新 
+	// -------------------------------------------------
+	particleManager_->SetView(followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
+	particleManager_->PostUpdate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,11 +129,18 @@ void GameScene::Draw() const {
 	playerManager_->Draw();
 	boss_->Draw();
 
+	Engine::SetPSOObj(Object3dPSO::Add);
+	plane_->Draw();
+	sphere_->Draw();
+
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------
 	Engine::SetPSOSprite(SpritePSO::Normal);
 	reticle_->Draw();
+
+	Engine::SetPSOObj(Object3dPSO::Particle);
+	ParticleManager::GetInstance()->Draw();
 
 }
 

@@ -27,6 +27,11 @@ void Player::Init() {
 	BaseGameObject::Init();
 	SetObject("player.obj");
 
+	jet_ = std::make_unique<BaseGameObject>();
+	jet_->Init();
+	jet_->GetTransform()->SetParent(this->GetTransform()->GetWorldMatrix());
+	jet_->GetTransform()->translate_ = Vector3{ 0.0f, 1.0f, -0.6f };
+
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------
@@ -47,6 +52,13 @@ void Player::Init() {
 
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
+
+	// -------------------------------------------------
+	// ↓ Effect関連
+	// -------------------------------------------------
+	gunFireParticles_ = std::make_unique<GunFireParticles>();
+	gunFireParticles_->Init("gunFireParticles");
+	gunFireParticles_->SetParent(this->GetTransform()->GetWorldMatrix());
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "player");
@@ -69,6 +81,9 @@ void Player::Update() {
 	}
 
 	BaseGameObject::Update();
+
+	jet_->Update();
+	gunFireParticles_->Update(Render::GetCameraRotate());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,4 +100,10 @@ void Player::Draw() const {
 
 void Player::Shot(float speed) {
 	pBulletManager_->AddBullet(transform_->translate_, transform_->rotation_.MakeForward() * speed);
+
+	// effectを出す
+	Vector3 pos = transform_->rotation_.MakeForward() * 1.4f;
+	pos.y += 1.0f;
+	gunFireParticles_->SetPos(pos);
+	gunFireParticles_->SetOnShot();
 }

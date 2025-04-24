@@ -13,6 +13,10 @@ Matrix4x4 Matrix4x4::Transpose() const {
 	return result;
 }
 
+Vector3 Matrix4x4::GetPos() const {
+	return Vector3{ m[3][0], m[3][1], m[3][2] };
+}
+
 Matrix4x4 Matrix4x4::MakeUnit() {
 	Matrix4x4 result{};
 	for (int row = 0; row < 4; row++) {

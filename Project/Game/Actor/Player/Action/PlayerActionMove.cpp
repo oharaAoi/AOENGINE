@@ -24,9 +24,21 @@ void PlayerActionMove::Debug_Gui() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+PlayerActionMove::~PlayerActionMove() {
+	jetParticles_.reset();
+}
+
 void PlayerActionMove::Build() {
 	SetName("actionMove");
 	parameter_.FromJson(JsonItems::GetData("PlayerAction", "ActionMove"));
+
+	jetParticles_ = std::make_unique<JetParticles>();
+	jetParticles_->Init("JetParticle");
+	jetParticles_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
+
+	jetBornParticles_ = std::make_unique<JetBornParticles>();
+	jetBornParticles_->Init("JetBornParticle");
+	jetBornParticles_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +57,9 @@ void PlayerActionMove::OnStart() {
 
 void PlayerActionMove::OnUpdate() {
 	Move();
+
+	jetParticles_->Update(Render::GetCameraRotate());
+	jetBornParticles_->Update(Render::GetCameraRotate());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

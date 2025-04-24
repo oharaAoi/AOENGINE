@@ -35,3 +35,7 @@ void PlayerManager::Draw() const {
 
 	bulletManager_->Draw();
 }
+
+void PlayerManager::CollisionToBoss(const Vector3& pos) {
+	bulletManager_->CollisionToBoss(pos);
+}

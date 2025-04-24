@@ -11,7 +11,10 @@
             "files": [
                 "circle.png",
                 "circle2.png",
-                "gradationLine.png"
+                "gradationLine.png",
+                "smoke.png",
+                "smokeWhite.png",
+                "gunFire.png"
             ]
         }
     ]

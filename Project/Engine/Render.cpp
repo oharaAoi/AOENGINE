@@ -159,6 +159,14 @@ void Render::SetEyePos(const Vector3& eyePos) {
 	lightGroup_->SetEyePos(eyePos);
 }
 
+void Render::SetCameraRotate(const Quaternion& rotate) {
+	cameraRotate_ = rotate;
+}
+
+Quaternion Render::GetCameraRotate() {
+	return cameraRotate_;
+}
+
 const ViewProjection* Render::GetViewProjection() {
 	return viewProjection_.get();
 }

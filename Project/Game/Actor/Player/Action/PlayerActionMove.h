@@ -2,6 +2,9 @@
 #include <memory>
 #include "Game/Actor/Base/BaseAction.h"
 #include <Lib/Json/IJsonConverter.h>
+// Effect
+#include "Game/Effects/JetParticles.h"
+#include "Game/Effects/JetBornParticles.h"
 
 // 前方宣言
 class Player;
@@ -27,7 +30,7 @@ public:
 public:
 
 	PlayerActionMove() = default;
-	~PlayerActionMove() = default;
+	~PlayerActionMove();
 
 	void Build() override;
 	void OnStart() override;
@@ -57,6 +60,10 @@ private:
 	Vector2 stick_;
 
 	Parameter parameter_;
+
+	// effects -------------------------------------------------
+	std::unique_ptr<JetParticles> jetParticles_;
+	std::unique_ptr<JetBornParticles> jetBornParticles_;
 
 };
 

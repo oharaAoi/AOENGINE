@@ -11,6 +11,7 @@
 #include "Game/Actor/Boss/Boss.h"
 // Sprite
 #include "Game/UI/Reticle.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 class GameScene 
 	: public BaseScene {
@@ -43,4 +44,8 @@ private:
 	// ------------------- sprite ------------------- //
 	std::unique_ptr<Reticle> reticle_;
 
+	ParticleManager* particleManager_;
+
+	std::unique_ptr<GeometryObject> sphere_;
+	std::unique_ptr<GeometryObject> plane_;
 };

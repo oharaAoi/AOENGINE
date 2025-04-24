@@ -17,6 +17,8 @@ public:
 	void Update();
 	void Draw() const;
 
+	void CollisionToBoss(const Vector3& bossPos);
+
 public: // member method
 
 	void AddBullet(const Vector3& pos, const Vector3& velocity);

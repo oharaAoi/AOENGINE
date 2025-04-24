@@ -12,10 +12,14 @@ struct ParticleSingle {
 	Vector3 translate;		// 座標
 	Vector3 velocity;		// 速度
 	Vector3 acceleration;	// 加速度
+	Vector3 firstScale;		// 初期拡縮
 	float lifeTime;			// 生存時間
+	float firstLifeTime;	// 初期生存時間
 	float currentTime;		// 現在の時間
 	float damping;			// 減衰
 	float gravity;			// 重力
+	bool isLifeOfScale = false;	// 生存時間によるサイズ
+	bool isLifeOfAlpha = false;	// 生存時間による透明度
 
 	//ParticleSingle() {
 	//	toJsonFunction_ = [this](const std::string& id) {
@@ -54,13 +58,15 @@ struct ParticleSingle {
 
 struct ParticleEmit : public IJsonConverter {
 	Vector4 rotate = Quaternion();			// 回転(Quaternion)
+	float rotateAngle = 0;					// 回転量
 	Vector3 translate = CVector3::ZERO;		// 位置
 	Vector3 direction = CVector3::UP;		// 射出方向
 	uint32_t shape = 0;			// emitterの種類(0 = 全方向, 1 = 一方方向)
 	uint32_t count = 10;			// 射出数
-	float frequency = 1.0f;		// 射出間隔
-	float frequencyTime = 0.0f;	// 時間調整用(実際に動かす時間)
-	int emit = 0;				// 射出許可
+	float frequency = 5.0f;		// 射出間隔
+	float frequencyTime = frequency;	// 時間調整用(実際に動かす時間)
+	bool emit = 0;				// 射出許可
+	bool isOneShot = false;				// 一度きりか
 
 	// particle自体のparameter
 	Vector4 color = Vector4{1,1,1,1};			// 色
@@ -70,6 +76,12 @@ struct ParticleEmit : public IJsonConverter {
 	float lifeTime = 5.0f;			// particleの生存時間
 	float gravity = 0;			// 重力を付与するか
 	float dampig = 0;			// 減衰率
+	float angleMin = 0.0f;		// 最小の回転
+	float angleMax = 360.0f;	// 最大の回転
+	bool isLifeOfScale = false;	// 生存時間によるサイズ
+	bool isLifeOfAlpha = false;	// 生存時間による透明度
+
+	std::string useTexture = "white.png";
 
 	ParticleEmit() {
 		toJsonFunction_ = [this](const std::string& id) {
@@ -80,13 +92,15 @@ struct ParticleEmit : public IJsonConverter {
 	json ToJson(const std::string& id) const override {
 		return JsonBuilder(id)
 			.Add("rotate", rotate)
+			.Add("rotateAngle", rotateAngle)
 			.Add("translate", translate)
-			.Add("directino", direction)
+			.Add("direction", direction)
 			.Add("shape", shape)
 			.Add("count", count)
 			.Add("frequency", frequency)
 			.Add("frequencyTime", frequencyTime)
 			.Add("emit", emit)
+			.Add("isOneShot", isOneShot)
 			.Add("color", color)
 			.Add("minScale", minScale)
 			.Add("maxScale", maxScale)
@@ -94,11 +108,17 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("lifeTime", lifeTime)
 			.Add("gravity", gravity)
 			.Add("damping", dampig)  // `damping` の変数名のスペルを修正
+			.Add("angleMin", angleMin)
+			.Add("angleMax", angleMax)
+			.Add("isLifeOfScale", isLifeOfScale)
+			.Add("isLifeOfAlpha", isLifeOfAlpha)
+			.Add("useTexture", useTexture)  // `damping` の変数名のスペルを修正
 			.Build();
 	}
 
 	void FromJson(const json& jsonData) override {
 		fromJson(jsonData, "rotate", rotate);
+		fromJson(jsonData, "rotateAngle", rotateAngle);
 		fromJson(jsonData, "translate", translate);
 		fromJson(jsonData, "direction", direction);
 		fromJson(jsonData, "shape", shape);
@@ -106,6 +126,7 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "frequency", frequency);
 		fromJson(jsonData, "frequencyTime", frequencyTime);
 		fromJson(jsonData, "emit", emit);
+		fromJson(jsonData, "isOneShot", isOneShot);
 		fromJson(jsonData, "color", color);
 		fromJson(jsonData, "minScale", minScale);
 		fromJson(jsonData, "maxScale", maxScale);
@@ -113,6 +134,11 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "lifeTime", lifeTime);
 		fromJson(jsonData, "gravity", gravity);
 		fromJson(jsonData, "damping", dampig);  // `damping` の変数名のスペルを修正
+		fromJson(jsonData, "angleMin", angleMin);
+		fromJson(jsonData, "angleMax", angleMax);
+		fromJson(jsonData, "isLifeOfScale", isLifeOfScale);
+		fromJson(jsonData, "isLifeOfAlpha", isLifeOfAlpha);
+		fromJson(jsonData, "useTexture", useTexture);  // `damping` の変数名のスペルを修正
 	}
 
 #ifdef _DEBUG

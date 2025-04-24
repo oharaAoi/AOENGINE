@@ -15,6 +15,8 @@ public:
 	void Update();
 	void Draw() const;
 
+	void CollisionToBoss(const Vector3& pos);
+
 public:		// accessor method
 
 	Player* GetPlayer() { return player_.get(); }

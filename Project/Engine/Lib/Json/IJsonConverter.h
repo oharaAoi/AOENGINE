@@ -71,6 +71,9 @@ inline json toJson(const T& v) {
 	} else if constexpr (std::is_same_v<T, Quaternion>) {
 		// Quaternion型に対する処理
 		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z}, {"w", v.w} };
+	} else if constexpr (std::is_same_v<T, bool>) {
+		// int型に対する処理
+		return v;
 	} else {
 		assert(false && "Unsupported type in toJson");
 	}
@@ -120,6 +123,10 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 				value.y = j.at(rootKey).at(name).at("y").get<float>();
 				value.z = j.at(rootKey).at(name).at("z").get<float>();
 				value.w = j.at(rootKey).at(name).at("w").get<float>();
+
+			} else if constexpr (std::is_same_v<T, bool>) {
+				// int型に対する処理
+				value = j.at(rootKey).at(name).get<bool>();
 			}
 		} else {
 			// json内にnameが存在していなかったら

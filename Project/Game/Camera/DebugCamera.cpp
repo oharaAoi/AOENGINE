@@ -46,6 +46,7 @@ void DebugCamera::Update() {
 
 	Render::SetEyePos(GetWorldPosition());
 	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	Render::SetCameraRotate(transform_.rotate);
 }
 
 #ifdef _DEBUG

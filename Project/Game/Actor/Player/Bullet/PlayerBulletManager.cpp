@@ -37,6 +37,17 @@ void PlayerBulletManager::Draw() const {
 	}
 }
 
+void PlayerBulletManager::CollisionToBoss(const Vector3& bossPos) {
+	for (PlayerBullet& bullet : bulletList_) {
+		float length = (bullet.GetTransform()->translate_ - bossPos).Length();
+
+		if (length < 2.0f) {
+			// effectを出す
+			bullet.SetIsAlive(false);
+		}
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 弾を追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////

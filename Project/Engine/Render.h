@@ -99,6 +99,9 @@ public:
 
 	static void SetEyePos(const Vector3& eyePos);
 
+	static void SetCameraRotate(const Quaternion& rotate);
+	static Quaternion GetCameraRotate();
+
 	static const ViewProjection* GetViewProjection();
 
 private:
@@ -122,4 +125,6 @@ namespace {
 	float farClip2D_;
 
 	RenderTargetType currentRenderTarget_;
+
+	Quaternion cameraRotate_;
 }

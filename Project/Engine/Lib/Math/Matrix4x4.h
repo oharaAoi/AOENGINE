@@ -80,6 +80,8 @@ public:
 	/// <returns></returns>
 	Matrix4x4 Transpose() const;
 
+	Vector3 GetPos() const;
+
 	/// <summary>
 	/// 逆行列を求める
 	/// </summary>
