@@ -14,7 +14,7 @@ public:
 	TestParticle() = default;
 	~TestParticle() override {};
 
-	void Init(float distance);
+	void Init();
 
 	void Update(const Quaternion& bill);
 

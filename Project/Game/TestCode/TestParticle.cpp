@@ -4,7 +4,7 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 
-void TestParticle::Init(float distance) {
+void TestParticle::Init() {
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 
@@ -91,18 +91,31 @@ void TestParticle::Debug_Gui() {
 }
 
 void TestParticle::Emit(const Vector3& pos) {
-	auto& newParticle = particleArray_.emplace_back();
-	
-	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
-	newParticle.rotate = Quaternion();
-	newParticle.translate = pos;
-	newParticle.color = emitter_.color;
-	//newParticle.
+	for (uint32_t oi = 0; oi < emitter_.count; ++oi) {
+		auto& newParticle = particleArray_.emplace_back();
 
+		newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+		newParticle.rotate = Quaternion();
+		newParticle.translate = pos;
+		newParticle.color = emitter_.color;
+		if (emitter_.shape == 0) {
+			newParticle.velocity = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * emitter_.speed;
+		} else if (emitter_.shape == 1) {
+			newParticle.velocity = emitter_.direction.Normalize() * emitter_.speed;
+		}
+		newParticle.lifeTime = emitter_.lifeTime;
+		newParticle.currentTime = 0.0f;
+		newParticle.damping = emitter_.dampig;
+		newParticle.gravity = emitter_.gravity;
+	}
 }
 
 #ifdef _DEBUG
 void TestParticle::Debug_Gui() {
 	emitter_.Attribute_Gui();
+
+	if (ImGui::Button("emit")) {
+		Emit(emitter_.translate);
+	}
 }
 #endif
