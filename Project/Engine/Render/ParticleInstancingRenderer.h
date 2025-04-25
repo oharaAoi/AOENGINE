@@ -68,4 +68,3 @@ private:
 	PerView* perView_;
 
 };
-

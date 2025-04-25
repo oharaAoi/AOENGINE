@@ -11,7 +11,7 @@ void Object3dPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	pipelineMap_[Object3dPSO::Normal] = std::make_unique<Pipeline>();
 	pipelineMap_[Object3dPSO::NormalCut] = std::make_unique<Pipeline>();
 	pipelineMap_[Object3dPSO::Add] = std::make_unique<Pipeline>();
-	pipelineMap_[Object3dPSO::TextureLess] = std::make_unique<Pipeline>(); 
+	pipelineMap_[Object3dPSO::TextureLess] = std::make_unique<Pipeline>();
 	pipelineMap_[Object3dPSO::Particle] = std::make_unique<Pipeline>();
 	pipelineMap_[Object3dPSO::SubParticle] = std::make_unique<Pipeline>();
 	pipelineMap_[Object3dPSO::TextureLess] = std::make_unique<Pipeline>();

@@ -1,3 +1,4 @@
+
 #pragma once
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -71,7 +72,7 @@ struct ParticleEmit : public IJsonConverter {
 	bool isOneShot = false;				// 一度きりか
 
 	// particle自体のparameter
-	Vector4 color = Vector4{1,1,1,1};			// 色
+	Vector4 color = Vector4{ 1,1,1,1 };			// 色
 	Vector3 minScale = CVector3::UNIT;		// 最小の大きさ
 	Vector3 maxScale = CVector3::UNIT;		// 最大の大きさ
 	float speed = 1.0f;			// 速度
@@ -157,4 +158,3 @@ struct ParticleEmit : public IJsonConverter {
 	void Attribute_Gui();
 #endif
 };
-

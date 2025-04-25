@@ -84,6 +84,8 @@ void TestParticle::Emit(const Vector3& pos) {
 void TestParticle::Debug_Gui() {
 	emitter_.Attribute_Gui();
 
+	shape_->GetMaterial()->ImGuiDraw();
+
 	if (ImGui::Button("emit")) {
 		Emit(emitter_.translate);
 	}
