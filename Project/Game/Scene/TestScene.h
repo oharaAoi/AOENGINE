@@ -10,7 +10,7 @@
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Game/WorldObject/Skydome.h"
 #include "Game/WorldObject/Floor.h"
-#include "Game/TestCode/TestParticle.h"
+
 
 class TestScene 
 : public BaseScene {
@@ -54,9 +54,6 @@ private:
 	std::unique_ptr<GeometryObject> plane_;
 
 	std::unique_ptr<CollisionManager> collisionManager_;
-
-	std::unique_ptr<TestParticle> particle;
-	std::unique_ptr<TestParticle> particle2;
 
 	ParticleManager* particleManager_;
 

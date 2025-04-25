@@ -72,17 +72,3 @@ std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 	// エラー出力する
 	return nullptr;
 }
-
-std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
-	for (auto& meshes : meshMap_) {
-		const std::vector<MeshPair>& meshPair = meshes.second.meshArray;
-		for (uint32_t oi = 0; oi < meshPair.size(); ++oi) {
-			if (meshPair[oi].meshName == meshName) {
-				return meshPair[oi].mesh;
-			}
-		}
-	}
-
-	// エラー出力する
-	return nullptr;
-}

@@ -46,11 +46,6 @@ void TestScene::Init() {
 	particleManager_ = ParticleManager::GetInstance();
 	particleManager_->Init();
 
-	particle = std::make_unique<TestParticle>();
-	particle2 = std::make_unique<TestParticle>();
-
-	particle->Init();
-	particle2->Init();
 	
 	
 #ifdef _DEBUG
@@ -107,8 +102,6 @@ void TestScene::Update() {
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
 
-	particle->Update(debugCamera_->GetRotate());
-	particle2->Update(debugCamera_->GetRotate());
 	
 	particleManager_->SetView(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	particleManager_->PostUpdate();
