@@ -35,7 +35,6 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
 
-	emitterList_.push_back(CpuEmitter());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,23 +82,23 @@ void ParticleSystemEditor::Edit() {
 	ImGui::Begin("List");
 	// emitterのリスト
 	static int selectedEffectIndex = -1;
-	int index = 0;
-	for (auto it = emitterList_.begin(); it != emitterList_.end(); ++it, ++index) {
+	//int index = 0;
+	/*for (auto it = emitterList_.begin(); it != emitterList_.end(); ++it, ++index) {
 		std::string label = "emitter_" + std::to_string(index);
 
 		if (ImGui::Selectable(label.c_str(), selectedEffectIndex == index)) {
 			selectedEffectIndex = index;
 		}
-	}
+	}*/
 	ImGui::End();
 
 	ImGui::Begin("Setting");
 	// リストから選択されたEmitterを編集
-	if (selectedEffectIndex >= 0 && selectedEffectIndex < emitterList_.size()) {
+	/*if (selectedEffectIndex >= 0 && selectedEffectIndex < emitterList_.size()) {
 		auto it = emitterList_.begin();
 		std::advance(it, selectedEffectIndex);
 		(*it).Debug_Gui();
-	}
+	}*/
 	ImGui::End();
 #endif // _DEBUG#endif // _DEBUG
 }

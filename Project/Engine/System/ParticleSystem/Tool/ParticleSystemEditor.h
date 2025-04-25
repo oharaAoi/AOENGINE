@@ -58,8 +58,5 @@ private:
 
 	std::unique_ptr<EffectSystemCamera> camera_ = nullptr;
 
-	// Emitter関連 --------------------------------------------
-	std::list<CpuEmitter> emitterList_;
-
 };
 
