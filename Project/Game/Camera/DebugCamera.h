@@ -25,7 +25,9 @@ public:
 public:
 
 	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
-	const bool GetIsFocused() const { return isFocused_; }
+	bool GetIsFocused() const { return isFocused_; }
+
+	bool GetIsActive() const { return isActive_; }
 
 private:
 
@@ -65,4 +67,6 @@ private:
 	Quaternion qPitch;
 
 	bool isFocused_;
+
+	bool isActive_ = false;
 };

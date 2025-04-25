@@ -1,0 +1,59 @@
+{
+    "HitBossSmokeBorn": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 1.0,
+            "y": 0.11162793636322021,
+            "z": 0.0
+        },
+        "count": 30,
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "emit": false,
+        "frequency": 5.0,
+        "frequencyTime": 5.0,
+        "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isOneShot": false,
+        "isScaleUp": true,
+        "lifeTime": 1.0,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 8.0,
+            "y": 8.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 0.0,
+        "translate": {
+            "x": -1.2766287326812744,
+            "y": -0.40098658204078674,
+            "z": 22.74607276916504
+        },
+        "useTexture": "smoke.png"
+    }
+}
