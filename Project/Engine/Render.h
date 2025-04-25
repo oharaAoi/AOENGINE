@@ -99,6 +99,9 @@ public:
 
 	static void SetEyePos(const Vector3& eyePos);
 
+	static void SetCameraRotate(const Quaternion& rotate);
+	static Quaternion GetCameraRotate();
+
 	static const ViewProjection* GetViewProjection();
 
 private:
@@ -115,6 +118,8 @@ namespace {
 
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	PrimitivePipeline* primitivePipelines_ = nullptr;
+
+	Quaternion cameraRotate_;
 
 	float nearClip_;
 	float farClip_;
