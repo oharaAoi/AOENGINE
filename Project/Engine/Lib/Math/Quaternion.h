@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Lib/Math/MyMath.h"
 
-class Quaternion {
+class Quaternion final {
 public:
 
 
@@ -110,6 +110,11 @@ public:
 
 	static Quaternion ToQuaternion(const Vector4& v);
 
+	/// <summary>
+	/// 行列からQuaternionを生成する
+	/// </summary>
+	/// <param name="m">: 行列</param>
+	/// <returns>: Quaternion</returns>
 	static Quaternion FromMatrix(const Matrix4x4& m);
 
 private:

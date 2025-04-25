@@ -1,59 +1,45 @@
 #pragma once
-#include <string>
-#include <unordered_map>
-#include "Engine/Components/Meshes/Mesh.h"
-#include "Engine/Components/Materials/Material.h"
-#include "Engine/Components/GameObject/Model.h"
-#include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Math/Vector4.h"
-#include "Engine/Lib/Math/Matrix4x4.h"
+#include <memory>
+#include <list>
+#include "Engine/Components/GameObject/GeometryObject.h"
+#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Lib/ParticlesData.h"
 
-/// <summary>
-/// CPUで行うparticle
-/// </summary>
-class CpuParticles {
-public:	// メンバ構造体
-
-	struct Particle {
-		Vector4 color;			// 色
-		Vector3 scale;			// 拡縮
-		Vector3 rotate;			// 回転
-		Vector3 translate;		// 座標
-		Vector3 velocity;		// 速度
-		Vector3 acceleration;	// 加速度
-		float lifeTime;			// 生存時間
-		float currentTime;		// 現在の時間
-		float damping;			// 減衰
-		float gravity;			// 重力
-	};
-
-	struct PerView {
-		Matrix4x4 viewProjection;
-		Matrix4x4 billboardMat;
-	};
-
-	struct PerFrame {
-		float time;
-		float deltaTime;
-	};
+class CpuParticles :
+	public AttributeGui {
 public:
 
-	CpuParticles();
-	~CpuParticles();
+	CpuParticles() = default;
+	virtual ~CpuParticles() override {};
 
-	void Finalize();
+	void Init(const std::string& name, bool isAddBlend = true);
 
-	void Init();
-	void Update();
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	void Update(const Quaternion& bill);
 
-private:
+	void Emit(const Vector3& pos);
 
-	std::list<Particle> particleList_;
+	void EmitUpdate();
 
-	std::vector<std::shared_ptr<Mesh>> meshArray_;
-	std::vector<std::unique_ptr<Material>> materials_;
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
 
-	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
+public:
+
+	virtual void SetParent(const Matrix4x4& parentMat);
+
+protected:
+
+	const uint32_t kMaxParticles = 200;
+
+	const std::string kGroupName = "Effect";
+	std::string name_ = "new particles";
+
+	std::unique_ptr<GeometryObject> shape_;
+
+	std::list<ParticleSingle> particleArray_;
+
+	ParticleEmit emitter_;
+
+	const Matrix4x4* parentWorldMat_ = nullptr;
 };
-
