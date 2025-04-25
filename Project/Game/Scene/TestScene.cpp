@@ -46,6 +46,8 @@ void TestScene::Init() {
 	particleManager_ = ParticleManager::GetInstance();
 	particleManager_->Init();
 
+	
+	
 #ifdef _DEBUG
 	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
 #endif
@@ -100,6 +102,7 @@ void TestScene::Update() {
 	// ↓ ParticleのViewを設定する
 	// -------------------------------------------------
 
+	
 	particleManager_->SetView(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	particleManager_->PostUpdate();
 }
