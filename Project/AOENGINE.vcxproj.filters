@@ -234,9 +234,6 @@
     <ClCompile Include="Engine\Utilities\Shader.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\GameScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
@@ -267,9 +264,6 @@
     <ClCompile Include="Engine\System\Audio\Audio.cpp">
       <Filter>Engine\Audio</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\TestScene.cpp">
-      <Filter>Game\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Components\ViewProjection.cpp">
       <Filter>Engine\Assets</Filter>
     </ClCompile>
@@ -299,9 +293,6 @@
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp">
       <Filter>Engine\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Scene\BaseScene.cpp">
-      <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Components\Materials\PBRMaterial.cpp">
       <Filter>Engine\Assets</Filter>
@@ -354,12 +345,6 @@
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
       <Filter>Engine\DirectX\RootSignature</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\BaseCamera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\DebugCamera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp">
       <Filter>Engine\Manager</Filter>
     </ClCompile>
@@ -371,9 +356,6 @@
     </ClCompile>
     <ClCompile Include="Engine\Lib\Math\Vector2.cpp">
       <Filter>Engine\Math</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\GameResources.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Components\Collider\Collider.cpp">
       <Filter>ソース ファイル</Filter>
@@ -414,9 +396,6 @@
     <ClCompile Include="Engine\Core\GameCore.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\SceneFactory.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Lib\Json\IJsonConverter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -447,9 +426,6 @@
     <ClCompile Include="Engine\System\Editer\Window\EditerWindows.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\WorldObject\Skydome.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Components\Collider\ICollider.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -459,19 +435,10 @@
     <ClCompile Include="Engine\Components\Collider\CollisionFunctions.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\WorldObject\Floor.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Components\Rigging\SkinCluster.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\BitChecker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Camera3d.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Camera2d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp">
@@ -490,60 +457,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Components\Attribute\AttributeGui.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Manager\ActionManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Base\BaseAction.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\State\ICharacterState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\State\StateMachine.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\State\PlayerIdleState.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionIdle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\FollowCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Base\BaseBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Bullet\PlayerBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Bullet\PlayerBulletManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotRight.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\PlayerManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\Boss.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\Reticle.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionQuickBoost.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.cpp">
@@ -624,28 +537,37 @@
     <ClCompile Include="Engine\Lib\ParticlesData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\BaseParticles.cpp">
+    <ClCompile Include="Game\GameResources.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\JetParticles.cpp">
+    <ClCompile Include="Game\Camera\BaseCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\JetBornParticles.cpp">
+    <ClCompile Include="Game\Camera\Camera2d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\GunFireParticles.cpp">
+    <ClCompile Include="Game\Camera\Camera3d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\HitBossExploadParticles.cpp">
+    <ClCompile Include="Game\Camera\DebugCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\HitBossSmoke.cpp">
+    <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\HitBossSmokeBorn.cpp">
+    <ClCompile Include="Game\Scene\GameScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Effects\JetEnergyParticles.cpp">
+    <ClCompile Include="Game\Scene\SceneFactory.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\TestScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Floor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Skydome.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -785,9 +707,6 @@
     <ClInclude Include="Engine\Utilities\Shader.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\GameScene.h">
-      <Filter>Game\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
@@ -817,9 +736,6 @@
     </ClInclude>
     <ClInclude Include="Engine\System\Audio\Audio.h">
       <Filter>Engine\Audio</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\TestScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\ViewProjection.h">
       <Filter>Engine\Assets</Filter>
@@ -853,9 +769,6 @@
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\SceneManager.h">
       <Filter>Engine\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\BaseScene.h">
-      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\Materials\PBRMaterial.h">
       <Filter>Engine\Assets</Filter>
@@ -902,12 +815,6 @@
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
       <Filter>Engine\DirectX\RootSignature</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\BaseCamera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\DebugCamera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Manager\AnimationManager.h">
       <Filter>Engine\Manager</Filter>
     </ClInclude>
@@ -916,9 +823,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h">
       <Filter>Engine\DirectX\Descriptor</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\GameResources.h">
-      <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\Collider\Collider.h">
       <Filter>ヘッダー ファイル</Filter>
@@ -965,12 +869,6 @@
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\SceneFactory.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\SceneType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Lib\Json\IJsonConverter.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -998,9 +896,6 @@
     <ClInclude Include="Engine\System\Editer\Window\EditerWindows.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\WorldObject\Skydome.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Components\Collider\ICollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -1010,19 +905,10 @@
     <ClInclude Include="Engine\Components\Collider\CollisionFunctions.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\WorldObject\Floor.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Components\Rigging\SkinCluster.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\BitChecker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera3d.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera2d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h">
@@ -1041,60 +927,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\Attribute\AttributeGui.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Manager\ActionManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Base\BaseAction.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\State\ICharacterState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\State\StateMachine.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\State\PlayerIdleState.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionIdle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\FollowCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Base\BaseBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Bullet\PlayerBullet.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Bullet\PlayerBulletManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotRight.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\PlayerManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\Boss.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\Reticle.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionQuickBoost.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Components\EventHandlers\BaseCollisionCallBacks.h">
@@ -1178,28 +1010,40 @@
     <ClInclude Include="Engine\Lib\ParticlesData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\BaseParticles.h">
+    <ClInclude Include="Game\GameResources.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\JetParticles.h">
+    <ClInclude Include="Game\Camera\BaseCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\JetBornParticles.h">
+    <ClInclude Include="Game\Camera\Camera2d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\GunFireParticles.h">
+    <ClInclude Include="Game\Camera\Camera3d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\HitBossExploadParticles.h">
+    <ClInclude Include="Game\Camera\DebugCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\HitBossSmoke.h">
+    <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\HitBossSmokeBorn.h">
+    <ClInclude Include="Game\Scene\GameScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\JetEnergyParticles.h">
+    <ClInclude Include="Game\Scene\SceneFactory.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\SceneType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\TestScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Floor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

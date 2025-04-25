@@ -21,8 +21,6 @@ void DebugCamera::Init() {
 	preMoveRotate_ = transform_.rotate;
 
 	isFocused_ = true;
-
-	isActive_ = false;
 	
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "debugCamera");
@@ -46,12 +44,10 @@ void DebugCamera::Update() {
 
 	Render::SetEyePos(GetWorldPosition());
 	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
-	Render::SetCameraRotate(transform_.rotate);
 }
 
 #ifdef _DEBUG
 void DebugCamera::Debug_Gui() {
-	ImGui::Checkbox("isActive", &isActive_);
 	Vector3 right = moveRotate_.MakeRight();
 	Vector3 up = moveRotate_.MakeUp();
 	Vector3 forward = moveRotate_.MakeForward();

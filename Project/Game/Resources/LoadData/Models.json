@@ -1,21 +1,20 @@
 {
     "models": [
         {
-            "directory": "./Game/Resources/Models/Player/",
+            "directory": "./Engine/Resources/Gltf/Animation_Node/",
             "files": [
-                "player.obj"
+                "Animation_Node_00.gltf",
+                "Animation_Node_01.gltf",
+                "Animation_Node_02.gltf",
+                "Animation_Node_03.gltf",
+                "Animation_Node_04.gltf",
+                "Animation_Node_05.gltf"
             ]
         },
         {
-            "directory": "./Game/Resources/Models/PlayerBullet/",
+            "directory": "./Engine/Resources/Gltf/Mesh_Primitives/",
             "files": [
-                "playerBullet.obj"
-            ]
-        },
-        {
-            "directory": "./Game/Resources/Models/Boss/",
-            "files": [
-                "boss.obj"
+                "Mesh_Primitives_00.gltf"
             ]
         }
     ]
