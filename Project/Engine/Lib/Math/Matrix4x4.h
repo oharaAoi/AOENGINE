@@ -80,14 +80,11 @@ public:
 	/// <returns></returns>
 	Matrix4x4 Transpose() const;
 
-	Vector3 GetPos() const;
-
 	/// <summary>
 	/// 平行成分だけ取得する
 	/// </summary>
 	/// <returns></returns>
-	Vector3 GetPos() const;
-
+	Vector3 GetPosition() const;
 
 	/// <summary>
 	/// 逆行列を求める

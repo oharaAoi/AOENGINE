@@ -87,7 +87,7 @@ void BaseParticles::Update(const Quaternion& bill) {
 
 		if (parentWorldMat_ != nullptr) {
 			// 親の位置情報だけを抽出（回転・スケールを無視）
-			Vector3 parentPos = parentWorldMat_->GetPos();
+			Vector3 parentPos = parentWorldMat_->GetPosition();
 			Matrix4x4 parentTranslate = parentPos.MakeTranslateMat();
 
 			data[index].worldMat = localWorld * parentTranslate;
