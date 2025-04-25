@@ -11,6 +11,6 @@ public:
 	CylinderGeometry() = default;
 	~CylinderGeometry() override = default;
 
-	void Init(uint32_t division = 32, float radius = 1.0f, float height = 2.0f);
+	void Init(uint32_t division = 32, float bottomRadius = 1.0f, float topRadius = 1.0f, float height = 2.0f);
 };
 

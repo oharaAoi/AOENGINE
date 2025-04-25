@@ -1,7 +1,7 @@
 #include "CylinderGeometry.h"
 #include "Engine/Lib/Math/MyMath.h"
 
-void CylinderGeometry::Init(uint32_t division, float radius, float height) {
+void CylinderGeometry::Init(uint32_t division, float bottomRadius, float topRadius, float height) {
 	geometryName_ = "cylinderGeometry";
 
 	const float radianPreDivde = kPI2 / float(division);
@@ -23,19 +23,19 @@ void CylinderGeometry::Init(uint32_t division, float radius, float height) {
 
 		uint32_t oi = index * 4;
 		// 実際に入力
-		vertexData_[oi].pos = { -sin * radius, height, cos * radius, 1.0f };
+		vertexData_[oi].pos = { -sin * bottomRadius, height, cos * bottomRadius, 1.0f };
 		vertexData_[oi].texcoord = { u, 0.0f };
 		vertexData_[oi].normal = outerNormal;
 
-		vertexData_[oi + 1].pos = { -sinNext * radius, height, cosNext * radius, 1.0f };
+		vertexData_[oi + 1].pos = { -sinNext * bottomRadius, height, cosNext * bottomRadius, 1.0f };
 		vertexData_[oi + 1].texcoord = { uNext, 0.0f };
 		vertexData_[oi + 1].normal = outerNormalNext;
 
-		vertexData_[oi + 2].pos = { -sin * radius, 0.0f, cos * radius, 1.0f };
+		vertexData_[oi + 2].pos = { -sin * topRadius, 0.0f, cos * topRadius, 1.0f };
 		vertexData_[oi + 2].texcoord = { u, 1.0f };
 		vertexData_[oi + 2].normal = outerNormal;
 
-		vertexData_[oi + 3].pos = { -sinNext * radius, 0.0f,cosNext * radius, 1.0f };
+		vertexData_[oi + 3].pos = { -sinNext * topRadius, 0.0f,cosNext * topRadius, 1.0f };
 		vertexData_[oi + 3].texcoord = { uNext, 1.0f };
 		vertexData_[oi + 3].normal = outerNormalNext;
 

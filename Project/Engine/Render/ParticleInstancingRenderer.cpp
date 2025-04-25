@@ -20,7 +20,7 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 	for (uint32_t oi = particleMap_[id].useIndex; oi < particleData.size(); ++oi) {
 		particleMap_[id].particleData[oi].color = { 0,0,0,0 };
 	}
-	
+
 	for (uint32_t oi = particleMap_[id].useIndex; oi < particleData.size(); ++oi) {
 		if (oi < maxInstanceNum_) {
 			particleMap_[id].particleData[oi].worldMat = particleData[oi].worldMat;
@@ -39,6 +39,11 @@ void ParticleInstancingRenderer::PostUpdate() {
 
 void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
 	for (auto& information : particleMap_) {
+		if (information.second.isAddBlend) {
+			Engine::SetPSOObj(Object3dPSO::Particle);
+		} else {
+			Engine::SetPSOObj(Object3dPSO::SubParticle);
+		}
 		commandList->IASetVertexBuffers(0, 1, &information.second.pMesh->GetVBV());
 		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
 		commandList->SetGraphicsRootConstantBufferView(0, information.second.materials->GetBufferAdress());
@@ -51,12 +56,12 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 	}
 }
 
-void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial) {
+void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
 	auto it = particleMap_.find(id);
 	if (it != particleMap_.end()) {
 		return;		// 見つかったら早期リターン
 	}
-	
+
 	ID3D12Device* device = Engine::GetDevice();
 	DescriptorHeap* dxHeap = Engine::GetDxHeap();
 
@@ -68,9 +73,9 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 
 	// -----------------------------------------------------------------
 	Information particles;
-	particles.pMesh = _pMesh; 
+	particles.pMesh = _pMesh;
 	particles.materials = _pMaterial;
-	
+
 	particles.particleResource_ = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
 	particles.particleData = nullptr;
 	particles.particleResource_->Map(0, nullptr, reinterpret_cast<void**>(&particles.particleData));
@@ -86,10 +91,12 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 	desc.Buffer.StructureByteStride = sizeof(ParticleData);
 	device->CreateShaderResourceView(particles.particleResource_.Get(), &desc, particles.srvHandle_.handleCPU);
 
-	for(uint32_t index =0; index < maxInstanceNum_; ++index){
+	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
 		particles.particleData->worldMat = Matrix4x4::MakeUnit();
 		particles.particleData->color = { 1,1,1,1 };
 	}
+
+	particles.isAddBlend = isAddBlend;
 
 	particleMap_.emplace(id, std::move(particles));
 }

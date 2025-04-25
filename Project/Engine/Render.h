@@ -119,12 +119,12 @@ namespace {
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	PrimitivePipeline* primitivePipelines_ = nullptr;
 
-	Quaternion cameraRotate_;
-
 	float nearClip_;
 	float farClip_;
 	float nearClip2D_;
 	float farClip2D_;
 
 	RenderTargetType currentRenderTarget_;
+
+	Quaternion cameraRotate_;
 }

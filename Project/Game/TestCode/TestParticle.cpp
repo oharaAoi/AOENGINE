@@ -8,7 +8,7 @@ void TestParticle::Init() {
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial());
+	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), true);
 
 	shape_->GetMaterial()->SetUseTexture("circle.png");
 
@@ -83,6 +83,8 @@ void TestParticle::Emit(const Vector3& pos) {
 #ifdef _DEBUG
 void TestParticle::Debug_Gui() {
 	emitter_.Attribute_Gui();
+
+	shape_->GetMaterial()->ImGuiDraw();
 
 	if (ImGui::Button("emit")) {
 		Emit(emitter_.translate);

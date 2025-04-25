@@ -27,6 +27,8 @@ public:		// 構造体
 		DescriptorHeap::DescriptorHandles srvHandle_;
 		ParticleData* particleData;
 		uint32_t useIndex;
+
+		bool isAddBlend;
 	};
 
 	struct PerView {
@@ -49,7 +51,7 @@ public:
 
 public:
 
-	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial);
+	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend = true);
 
 	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
 		perView_->viewProjection = view;
@@ -66,4 +68,3 @@ private:
 	PerView* perView_;
 
 };
-
