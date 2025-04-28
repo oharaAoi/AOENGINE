@@ -74,25 +74,52 @@ void DirectXCommands::CreateFence() {
 /// CPUとGPUの同期をはかる
 /// </summary>
 void DirectXCommands::SyncGPUAndCPU(IDXGISwapChain4* swapChain){
+	// -----------------------------------------------
+	// 下記の用にするとスレッドが大量終了する
+	// -----------------------------------------------
+
+	//// 画面の交換を行う
+	//swapChain->Present(1, 0);
+
+	//// 現在のバックバッファの Index を取得する（この時点では fenceIndex_ は古いフレームのまま）
+	//const auto prevFenceIndex = fenceIndex_;
+	//fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
+
+	//// 今フレームのフェンス値を取得
+	//const auto currentValue = fanceCounter_[prevFenceIndex];
+
+	//// コマンドキューにフェンスシグナルを送信
+	//commandQueue_->Signal(fence_.Get(), currentValue);
+
+	//// GPU の処理が完了していない場合は待機
+	//if (fence_->GetCompletedValue() < currentValue) {
+	//	fence_->SetEventOnCompletion(currentValue, fenceEvent_);
+	//	WaitForSingleObject(fenceEvent_, INFINITE);
+	//}
+
+	//// **フェンスのカウンターを更新**
+	//fanceCounter_[fenceIndex_] = currentValue + 1;
+
+	// -----------------------------------------------
+	// 下記の用にするとスレッドが大量終了しない
+	// -----------------------------------------------
+	
 	// 画面の交換を行う
 	swapChain->Present(1, 0);
 
-	// 現在のバックバッファの Index を取得する（この時点では fenceIndex_ は古いフレームのまま）
-	const auto prevFenceIndex = fenceIndex_;
-	fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
-
-	// 今フレームのフェンス値を取得
-	const auto currentValue = fanceCounter_[prevFenceIndex];
-
-	// コマンドキューにフェンスシグナルを送信
+	// 今フレームで描画コマンドを積ん方の画面のvalueを取得し、valueまでの処理が完了しら次の処理を開始する
+	const auto currentValue = fanceCounter_[fenceIndex_];
 	commandQueue_->Signal(fence_.Get(), currentValue);
 
-	// GPU の処理が完了していない場合は待機
-	if (fence_->GetCompletedValue() < currentValue) {
-		fence_->SetEventOnCompletion(currentValue, fenceEvent_);
+	// 現在のbackBufferのIndexを取得する
+	fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
+
+	if (fence_->GetCompletedValue() < fanceCounter_[fenceIndex_]) {
+		// 指定下Signal(currentValueのシグナル)にたどりついていないので、たどりつくまで待つようにイベントを設定する
+		fence_->SetEventOnCompletion(fanceCounter_[fenceIndex_], fenceEvent_);
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 
-	// **フェンスのカウンターを更新**
+	// 次frameのfaceCounterを増やす
 	fanceCounter_[fenceIndex_] = currentValue + 1;
 }

@@ -8,29 +8,29 @@ Shader::~Shader() {
 
 void Shader::Init() {
 	// VS/PS
-	Load("Engine/Resources/HLSL/Object3d.VS.hlsl",			"Engine/Resources/HLSL/Object3d.PS.hlsl", Shader::Normal);
-	Load("Engine/Resources/HLSL/Object3d.VS.hlsl",			"Engine/Resources/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
-	Load("Engine/Resources/HLSL/Primitive.VS.hlsl",			"Engine/Resources/HLSL/Primitive.PS.hlsl", Shader::Primitive);
-	Load("Engine/Resources/HLSL/Object3d.VS.hlsl",			"Engine/Resources/HLSL/Phong.Lighting.hlsl", Shader::Phong);
-	Load("Engine/Resources/HLSL/PBR.VS.hlsl",				"Engine/Resources/HLSL/PBR.PS.hlsl", Shader::PBR);
-	Load("Engine/Resources/HLSL/Sprite.VS.hlsl",			"Engine/Resources/HLSL/Sprite.PS.hlsl", Shader::Sprite);
-	Load("Engine/Resources/HLSL/Particle/CpuParticle.VS.hlsl", "Engine/Resources/HLSL/Particle/CpuParticle.PS.hlsl", Shader::Particle);
-	Load("Engine/Resources/HLSL/ProcessedScene.VS.hlsl", "Engine/Resources/HLSL/ProcessedScene.PS.hlsl", Shader::ProcessedScene);
-	Load("Engine/Resources/HLSL/ProcessedScene.VS.hlsl", "Engine/Resources/HLSL/Grayscale.PS.hlsl", Shader::Grayscale);
+	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Object3d.PS.hlsl", Shader::Normal);
+	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
+	Load("Engine/Assets/HLSL/Primitive.VS.hlsl",			"Engine/Assets/HLSL/Primitive.PS.hlsl", Shader::Primitive);
+	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Phong.Lighting.hlsl", Shader::Phong);
+	Load("Engine/Assets/HLSL/PBR.VS.hlsl",				"Engine/Assets/HLSL/PBR.PS.hlsl", Shader::PBR);
+	Load("Engine/Assets/HLSL/Sprite.VS.hlsl",			"Engine/Assets/HLSL/Sprite.PS.hlsl", Shader::Sprite);
+	Load("Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl", "Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl", Shader::Particle);
+	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/ProcessedScene.PS.hlsl", Shader::ProcessedScene);
+	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/Grayscale.PS.hlsl", Shader::Grayscale);
 
 	// CS
-	Load("Engine/Resources/HLSL/CS/GrayScale.CS.hlsl", CsShaderName::GrayScale);
-	Load("Engine/Resources/HLSL/CS/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
-	Load("Engine/Resources/HLSL/CS/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
-	Load("Engine/Resources/HLSL/CS/DepthOfField.CS.hlsl", CsShaderName::DepthOfField);
-	Load("Engine/Resources/HLSL/CS/Skinning.CS.hlsl", CsShaderName::SkinningCS);
-	Load("Engine/Resources/HLSL/CS/Blend.CS.hlsl", CsShaderName::Blend);
-	Load("Engine/Resources/HLSL/CS/ResultRender.CS.hlsl", CsShaderName::Result);
+	Load("Engine/Assets/HLSL/CS/GrayScale.CS.hlsl", CsShaderName::GrayScale);
+	Load("Engine/Assets/HLSL/CS/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);
+	Load("Engine/Assets/HLSL/CS/VerticalBlur.CS.hlsl", CsShaderName::VerticalBlur);
+	Load("Engine/Assets/HLSL/CS/DepthOfField.CS.hlsl", CsShaderName::DepthOfField);
+	Load("Engine/Assets/HLSL/CS/Skinning.CS.hlsl", CsShaderName::SkinningCS);
+	Load("Engine/Assets/HLSL/CS/Blend.CS.hlsl", CsShaderName::Blend);
+	Load("Engine/Assets/HLSL/CS/ResultRender.CS.hlsl", CsShaderName::Result);
 
-	Load("Engine/Resources/HLSL/Particle/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
-	Load("Engine/Resources/HLSL/Particle/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
-	Load("Engine/Resources/HLSL/Particle/GpuParticleEnd.CS.hlsl", CsShaderName::GpuParticleEnd);
-	Load("Engine/Resources/HLSL/Particle/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
+	Load("Engine/Assets/HLSL/Particle/GpuParticleInit.CS.hlsl", CsShaderName::GpuParticleInit);
+	Load("Engine/Assets/HLSL/Particle/GpuParticleUpdate.CS.hlsl", CsShaderName::GpuParticleUpdate);
+	Load("Engine/Assets/HLSL/Particle/GpuParticleEnd.CS.hlsl", CsShaderName::GpuParticleEnd);
+	Load("Engine/Assets/HLSL/Particle/EmitParticle.CS.hlsl", CsShaderName::EmitGpuParticle);
 }
 
 void Shader::Load(const std::string& vsPath, const std::string& psPath, const ShaderName& type) {

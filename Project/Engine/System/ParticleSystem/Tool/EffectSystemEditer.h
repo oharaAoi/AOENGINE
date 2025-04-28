@@ -75,7 +75,7 @@ private:
 	// filed
 	std::unique_ptr<ParticleField> particleField_ = nullptr;
 
-	std::unique_ptr<Skydome> skydome_;
+	//std::unique_ptr<Skydome> skydome_;
 
 	// ----------- effect ----------- //
 

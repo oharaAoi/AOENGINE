@@ -21,8 +21,6 @@ void TextureManager::Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsC
 	textureData_.clear();
 
 	commandList_ = commandList;
-
-	LoadTextureFile("./Engine/Resources/Develop/", "white.png");
 }
 
 void TextureManager::Finalize() {

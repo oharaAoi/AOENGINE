@@ -34,7 +34,6 @@
 
 #include "Engine/Utilities/Shader.h"
 
-#include "Game/GameResources.h"
 #include "Render.h"
 
 class EffectSystem;
@@ -53,8 +52,6 @@ namespace {
 	DirectXCommon* dxCommon_ = nullptr;
 
 	EffectSystem* effectSystem_;
-
-	GameResources resources_;
 
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;
