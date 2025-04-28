@@ -1,0 +1,38 @@
+{
+    "emitter_1": {
+        "color": [
+            1.0,
+            1.0,
+            1.0,
+            1.0
+        ],
+        "count": 30,
+        "dampig": 1.0,
+        "emitterLifeTime": 10.0,
+        "frequency": 0.5,
+        "frequencyTime": 0.11779534816741943,
+        "gravity": 0.0,
+        "lifeTime": 4.0,
+        "modelName": "",
+        "oneShot": false,
+        "radius": 1.0,
+        "rotate": [
+            0.0,
+            0.0,
+            0.0,
+            1.0
+        ],
+        "shape": 0,
+        "speed": 1.0,
+        "translate": [
+            0.0,
+            0.0,
+            0.0
+        ],
+        "velocity": [
+            0.0,
+            0.0,
+            0.0
+        ]
+    }
+}
