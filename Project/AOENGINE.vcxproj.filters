@@ -1229,6 +1229,8 @@
     </ClInclude>
 
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h">
+    <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
