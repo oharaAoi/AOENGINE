@@ -251,7 +251,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\Camera2d.cpp" />
     <ClCompile Include="Game\Camera\Camera3d.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
-    <ClCompile Include="Game\GameResources.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
@@ -412,7 +411,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\Camera2d.h" />
     <ClInclude Include="Game\Camera\Camera3d.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
-    <ClInclude Include="Game\GameResources.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Geometry\Structs\Vertices.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
