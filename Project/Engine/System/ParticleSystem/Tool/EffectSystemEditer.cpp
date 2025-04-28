@@ -15,9 +15,8 @@ EffectSystemEditer::~EffectSystemEditer() {}
 
 void EffectSystemEditer::Finalize() {
 	depthStencilResource_.Reset();
-	gpuParticles_->Finalize();
+	//gpuParticles_->Finalize();
 	gpuEmitterList_.clear();
-	skydome_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,13 +48,6 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 	// -------------------------------------------------
 	effectSystemCamera_ = std::make_unique<EffectSystemCamera>();
 	effectSystemCamera_->Init();
-
-	gpuParticles_ = std::make_unique<GpuParticles>();
-	gpuParticles_->Init(1024);
-
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Init();
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,13 +56,10 @@ void EffectSystemEditer::Init(RenderTarget* renderTarget, DescriptorHeap* descri
 
 void EffectSystemEditer::Update() {
 	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
-
-	skydome_->Update();
-
 	// カメラの更新
 	effectSystemCamera_->Update();
 
-	gpuParticles_->SetViewProjection(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
+	//gpuParticles_->SetViewProjection(effectSystemCamera_->GetViewMatrix() * effectSystemCamera_->GetProjectionMatrix());
 
 	Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
 	gpuEmitterList_.remove_if([](auto& emitter) {return emitter->GetIsDead(); });
@@ -79,14 +68,14 @@ void EffectSystemEditer::Update() {
 		(*it)->Update();
 
 		// 生成の命令を送る	
-		gpuParticles_->EmitBindCmdList(commandList, 0);
+		//gpuParticles_->EmitBindCmdList(commandList, 0);
 		(*it)->BindCmdList(commandList, 3);
 		commandList->Dispatch(1, 1, 1);
 
 		++it;
 	}
 
-	gpuParticles_->Update();
+	//gpuParticles_->Update();
 	
 	if (effectSystemCamera_->GetIsFocused()) {
 		isFocused_ = true;
@@ -109,12 +98,9 @@ void EffectSystemEditer::Draw() const {
 	// Grid線描画
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
-	Engine::SetPSOObj(Object3dPSO::Normal);
-	skydome_->Draw();
-
 	// 実際にEffectを描画する
 	Engine::SetPSOObj(Object3dPSO::Particle);
-	gpuParticles_->Draw(Engine::GetCommandList());
+	//gpuParticles_->Draw(Engine::GetCommandList());
 
 	Engine::SetPSOPrimitive();
 	Render::PrimitiveDrawCall();

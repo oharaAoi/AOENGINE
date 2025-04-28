@@ -16,8 +16,7 @@ void TestObject::Finalize() {
 
 void TestObject::Init() {
 	BaseGameObject::Init();
-	SetObject("cube.obj");
-	SetIsLighting(false);
+	SetObject("skin.obj");
 	//SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
 
 	test_.ToJson("testParame");

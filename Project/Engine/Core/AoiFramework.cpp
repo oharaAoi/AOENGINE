@@ -1,4 +1,5 @@
 #include "AoiFramework.h"
+#include "Engine/System/Manager/AssetsManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　終了処理
@@ -16,7 +17,7 @@ void AoiFramework::Finalize() {
 
 void AoiFramework::Init() {
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);
-	ModelManager::GetInstance()->Init();
+	AssetsManager::GetInstance()->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

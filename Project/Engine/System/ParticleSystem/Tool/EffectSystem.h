@@ -69,6 +69,7 @@ private:
 	// ------------------- ImGui上でEffectを作成するために必要な変数 ------------------- //
 	D3D12_RESOURCE_BARRIER barrier_;
 
+
 	DirectXCommon* dxCommon_ = nullptr; 
 
 	std::unique_ptr<EffectSystemEditer> editer_;

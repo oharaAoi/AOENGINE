@@ -196,6 +196,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Components\Light\PointLight.cpp" />
     <ClCompile Include="Engine\Components\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AudioManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
@@ -350,6 +351,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Components\Light\PointLight.h" />
     <ClInclude Include="Engine\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
+    <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
     <ClInclude Include="Engine\System\Manager\AudioManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
