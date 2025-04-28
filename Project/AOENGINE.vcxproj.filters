@@ -648,7 +648,7 @@
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="Game\GameResources.cpp">
+    <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotLeft.cpp">
@@ -1208,10 +1208,11 @@
     <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\GameResources.h">
+
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h">
+    <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
