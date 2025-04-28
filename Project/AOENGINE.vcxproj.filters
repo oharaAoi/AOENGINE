@@ -649,6 +649,7 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\PostEffect\RadialBlur.cpp">
+    <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\PostEffect\GlitchNoise.cpp">
@@ -1216,10 +1217,13 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="Engine\PostEffect\GlitchNoise.h">
+
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
 
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h">
+    <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
