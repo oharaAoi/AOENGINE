@@ -256,6 +256,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionQuickBoost.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotLeft.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotRight.cpp" />
     <ClCompile Include="Game\Actor\Player\Bullet\PlayerBullet.cpp" />
     <ClCompile Include="Game\Actor\Player\Bullet\PlayerBulletManager.cpp" />
@@ -445,6 +446,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionQuickBoost.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotRight.h" />
     <ClInclude Include="Game\Actor\Player\Bullet\PlayerBullet.h" />
     <ClInclude Include="Game\Actor\Player\Bullet\PlayerBulletManager.h" />
