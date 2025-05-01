@@ -1,27 +1,37 @@
 #include "PostProcess.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 
 PostProcess::~PostProcess() {
 }
 
 void PostProcess::Finalize() {
 	pingPongBuff_.reset();
+	radialBlur_.reset();
 }
 
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
+	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 
 	pingPongBuff_->Init(device, descriptorHeap);
 
 	grayscale_ = std::make_unique<Grayscale>();
 	grayscale_->Init();
+
+	radialBlur_ = std::make_unique<RadialBlur>();
+	radialBlur_->Init();
+
+#ifdef _DEBUG
+	EditerWindows::AddObjectWindow(this, "Post Process");
+#endif
 }
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
 	Copy(commandList, shaderResource);
 
 	pingPongBuff_->SetRenderTarget(commandList);
-	grayscale_->SetCommand(commandList, pingPongBuff_->GetPingResource());
-
+	radialBlur_->SetCommand(commandList, pingPongBuff_->GetPingResource());
+	
 	//pingPongBuff_->Swap();
 
 	PostCopy(commandList, shaderResource);
@@ -44,3 +54,9 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResourc
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
 }
+
+#ifdef _DEBUG
+void PostProcess::Debug_Gui() {
+	radialBlur_->Debug_Gui();
+}
+#endif

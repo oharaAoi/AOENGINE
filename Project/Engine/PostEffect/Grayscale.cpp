@@ -6,8 +6,6 @@ Grayscale::~Grayscale() {
 }
 
 void Grayscale::Init() {
-	resource_ = std::make_unique<DxResource>();
-
 }
 
 void Grayscale::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {

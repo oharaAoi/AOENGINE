@@ -14,7 +14,5 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> resource_;
-
 };
 

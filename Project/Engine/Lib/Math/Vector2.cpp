@@ -8,10 +8,20 @@ Vector2 Vector2::Normalize() const {
 	Vector2 result = { x, y };
 	float len = this->Length();
 	if (len != 0) {
-		 result.x /= len;
-		 result.y /= len;
+		result.x /= len;
+		result.y /= len;
 	}
 	return result;
+}
+
+void Vector2::Clamp(const Vector2& min, const Vector2& max) {
+	if (min.x < max.x) {
+		x = std::clamp(x, min.x, max.x);
+	}
+
+	if (min.y < max.y) {
+		y = std::clamp(y, min.y, max.y);
+	}
 }
 
 float Vector2::Dot(const Vector2& v1, const Vector2& v2) {

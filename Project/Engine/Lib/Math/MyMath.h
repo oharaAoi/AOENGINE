@@ -30,8 +30,18 @@ constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 // 基礎関数
 ////////////////////////////////////////////////////////////////////////////////////
 
+/// <summary>
+/// 長さを計算する
+/// </summary>
+/// <param name="vec3"></param>
+/// <returns></returns>
 float Length(const Vector3& vec3);
 
+/// <summary>
+/// 正規化
+/// </summary>
+/// <param name="vec3"></param>
+/// <returns></returns>
 Vector3 Normalize(const Vector3& vec3);
 
 /// <summary>

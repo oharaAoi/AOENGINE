@@ -13,6 +13,7 @@ enum class RootSignatureType {
 	Sprite,
 	PBR,
 	ProcessedScene,
+	RadialBlur,
 	ComputeShader,
 	CsSkinning,
 	ComputeShaderBlend,
@@ -34,17 +35,18 @@ public:
 
 	void Finalize();
 
-	ComPtr<ID3D12RootSignature> CreateRootSignature();
-	ComPtr<ID3D12RootSignature> CreateTexturelessRootSignature();
-	ComPtr<ID3D12RootSignature> CreatePrimitiveRootSignature();
-	ComPtr<ID3D12RootSignature> CreateParticleRootSignature();
-	ComPtr<ID3D12RootSignature> CreateSpriteRootSignature();
-	ComPtr<ID3D12RootSignature> CreatePBRRootSignature();
-	ComPtr<ID3D12RootSignature> CreateComputeShaderRootSignature();
-	ComPtr<ID3D12RootSignature> CreateCsSkinnigRootSignature();
-	ComPtr<ID3D12RootSignature> CreateBlendShaderRootSignature();
-	ComPtr<ID3D12RootSignature> CreateResultRenderRootSignature();
-	ComPtr<ID3D12RootSignature> CreateProcessedSceneRootSignature();
+	ComPtr<ID3D12RootSignature> CreateNormal();
+	ComPtr<ID3D12RootSignature> CreateTextureless();
+	ComPtr<ID3D12RootSignature> CreatePrimitive();
+	ComPtr<ID3D12RootSignature> CreateParticle();
+	ComPtr<ID3D12RootSignature> CreateSprite();
+	ComPtr<ID3D12RootSignature> CreatePBR();
+	ComPtr<ID3D12RootSignature> CreateComputeShader();
+	ComPtr<ID3D12RootSignature> CreateCsSkinnig();
+	ComPtr<ID3D12RootSignature> CreateBlendShader();
+	ComPtr<ID3D12RootSignature> CreateResultRender();
+	ComPtr<ID3D12RootSignature> CreateProcessedScene();
+	ComPtr<ID3D12RootSignature> CreateRadialBlur();
 
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
 	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
@@ -56,18 +58,19 @@ public:
 	using FunctionPointer = ComPtr<ID3D12RootSignature>(RootSignature::*)();
 	std::unordered_map<RootSignatureType, FunctionPointer> functionMap_ = {
 		// graphics
-		{RootSignatureType::Normal, &RootSignature::CreateRootSignature},
-		{RootSignatureType::TextureLess, &RootSignature::CreateTexturelessRootSignature},
-		{RootSignatureType::Primitive, &RootSignature::CreatePrimitiveRootSignature},
-		{RootSignatureType::Particle, &RootSignature::CreateParticleRootSignature},
-		{RootSignatureType::Sprite, &RootSignature::CreateSpriteRootSignature},
-		{RootSignatureType::PBR, &RootSignature::CreatePBRRootSignature},
-		{RootSignatureType::ProcessedScene, &RootSignature::CreateProcessedSceneRootSignature},
+		{RootSignatureType::Normal, &RootSignature::CreateNormal},
+		{RootSignatureType::TextureLess, &RootSignature::CreateTextureless},
+		{RootSignatureType::Primitive, &RootSignature::CreatePrimitive},
+		{RootSignatureType::Particle, &RootSignature::CreateParticle},
+		{RootSignatureType::Sprite, &RootSignature::CreateSprite},
+		{RootSignatureType::PBR, &RootSignature::CreatePBR},
+		{RootSignatureType::ProcessedScene, &RootSignature::CreateProcessedScene},
+		{RootSignatureType::RadialBlur, &RootSignature::CreateRadialBlur},
 		// CS
-		{RootSignatureType::ComputeShader, &RootSignature::CreateComputeShaderRootSignature},
-		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnigRootSignature},
-		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShaderRootSignature},
-		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRenderRootSignature},
+		{RootSignatureType::ComputeShader, &RootSignature::CreateComputeShader},
+		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnig},
+		{RootSignatureType::ComputeShaderBlend, &RootSignature::CreateBlendShader},
+		{RootSignatureType::CSReultRenderBlend, &RootSignature::CreateResultRender},
 		// Particle
 		{RootSignatureType::GpuParticleInit, &RootSignature::CreateGpuParticleInit},
 		{RootSignatureType::GpuParticleUpdate, &RootSignature::CreateGpuParticleUpdate},

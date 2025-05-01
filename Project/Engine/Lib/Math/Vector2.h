@@ -76,6 +76,14 @@ public:
 	Vector2 Normalize() const;
 
 	/// <summary>
+	/// 範囲内に収める
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	/// <returns></returns>
+	void Clamp(const Vector2& min, const Vector2& max);
+
+	/// <summary>
 	/// 内積
 	/// </summary>
 	/// <param name="v1">: ベクトル1</param>

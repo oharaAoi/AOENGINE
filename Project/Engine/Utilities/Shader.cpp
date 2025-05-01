@@ -17,6 +17,7 @@ void Shader::Init() {
 	Load("Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl", "Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl", Shader::Particle);
 	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/ProcessedScene.PS.hlsl", Shader::ProcessedScene);
 	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/Grayscale.PS.hlsl", Shader::Grayscale);
+	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/RadialBlur.PS.hlsl", Shader::RadialBlur);
 
 	// CS
 	Load("Engine/Assets/HLSL/CS/GrayScale.CS.hlsl", CsShaderName::GrayScale);
