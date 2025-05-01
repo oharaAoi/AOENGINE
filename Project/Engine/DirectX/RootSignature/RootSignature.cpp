@@ -44,7 +44,7 @@ D3D12_STATIC_SAMPLER_DESC RootSignature::CreateSampler(D3D12_TEXTURE_ADDRESS_MOD
 	return spriteStaticSampler;
 }
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateProcessedSceneRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateProcessedScene() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -57,11 +57,25 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateProcessedSceneRootSignature() {
 		.Build(device_);
 }
 
+ComPtr<ID3D12RootSignature> RootSignature::CreateRadialBlur() {
+	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
+	spriteDescriptorRange[0].BaseShaderRegister = 0;
+	spriteDescriptorRange[0].NumDescriptors = 1;
+	spriteDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spriteDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	return builder_
+		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL)
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // directionalLight用
+		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_CLAMP))
+		.Build(device_);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // 基本のRootSignature
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateNormal() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -84,7 +98,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateRootSignature() {
 // textureがないRootSignature
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateTextureless() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -105,7 +119,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateTexturelessRootSignature() {
 //////////////////////////////////////////////////////////////////////////////////////
 // primitiveRootSignatureの作成
 //////////////////////////////////////////////////////////////////////////////////////
-ComPtr<ID3D12RootSignature> RootSignature::CreatePrimitiveRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreatePrimitive() {
 	D3D12_DESCRIPTOR_RANGE descriptorRangeForInstancing[1] = {};
 	descriptorRangeForInstancing[0].BaseShaderRegister = 0;
 	descriptorRangeForInstancing[0].NumDescriptors = 1;
@@ -122,7 +136,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreatePrimitiveRootSignature() {
 // particle
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateParticle() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -148,7 +162,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateParticleRootSignature() {
 // sprite
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateSpriteRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateSprite() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -167,7 +181,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateSpriteRootSignature() {
 // PBR
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreatePBRRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreatePBR() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 2;
@@ -190,7 +204,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreatePBRRootSignature() {
 // CS
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShader() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -212,7 +226,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateComputeShaderRootSignature() {
 		.Build(device_);
 }
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateCsSkinnigRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateCsSkinnig() {
 	/*D3D12_DESCRIPTOR_RANGE matrixPalette[1] = {};
 	matrixPalette[0].BaseShaderRegister = 0;
 	matrixPalette[0].NumDescriptors = 1;
@@ -257,7 +271,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateCsSkinnigRootSignature() {
 // CSを合成する
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateBlendShaderRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateBlendShader() {
 	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
 	spriteDescriptorRange[0].BaseShaderRegister = 0;
 	spriteDescriptorRange[0].NumDescriptors = 1;
@@ -282,7 +296,7 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateBlendShaderRootSignature() {
 // 3Dと2Dの合成
 //////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12RootSignature> RootSignature::CreateResultRenderRootSignature() {
+ComPtr<ID3D12RootSignature> RootSignature::CreateResultRender() {
 	D3D12_DESCRIPTOR_RANGE object3DDescriptorRange[1] = {};
 	object3DDescriptorRange[0].BaseShaderRegister = 0;
 	object3DDescriptorRange[0].NumDescriptors = 1;

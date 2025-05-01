@@ -29,8 +29,12 @@ void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　
+// ↓　BufferResourceの作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void DxResource::CreateResource(const size_t& size) {
+	cBuffer_ = CreateBufferResource(pDevice_, size);
+}
 
 void DxResource::CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
 									const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {

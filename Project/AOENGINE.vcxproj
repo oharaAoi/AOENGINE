@@ -145,6 +145,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\PostEffect\Grayscale.cpp" />
     <ClCompile Include="Engine\PostEffect\PingPongBuffer.cpp" />
     <ClCompile Include="Engine\PostEffect\PostProcess.cpp" />
+    <ClCompile Include="Engine\PostEffect\RadialBlur.cpp" />
     <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
@@ -298,6 +299,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\PostEffect\Grayscale.h" />
     <ClInclude Include="Engine\PostEffect\PingPongBuffer.h" />
     <ClInclude Include="Engine\PostEffect\PostProcess.h" />
+    <ClInclude Include="Engine\PostEffect\RadialBlur.h" />
     <ClInclude Include="Engine\Render\InstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
@@ -422,6 +424,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Engine\Assets\HLSL\RadialBlur.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\Resources\HLSL\CS\Blend.CS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

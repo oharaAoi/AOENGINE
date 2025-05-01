@@ -570,6 +570,9 @@
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\PostEffect\RadialBlur.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\WinApp\WinApp.h">
@@ -1046,6 +1049,9 @@
     <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\PostEffect\RadialBlur.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Engine\Resources\HLSL\Object3d.PS.hlsl">
@@ -1115,6 +1121,7 @@
     <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.VS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\ProcessedScene.PS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Grayscale.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\RadialBlur.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt">

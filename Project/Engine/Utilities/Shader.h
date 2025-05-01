@@ -18,6 +18,7 @@ public:
 		Sprite,
 		ProcessedScene,
 		Grayscale,
+		RadialBlur,
 	};
 
 	enum CsShaderName {
