@@ -56,7 +56,7 @@ void PlayerBulletManager::CollisionToBoss(const Vector3& bossPos) {
 
 		if (length < 4.0f) {
 			// effectを出す
-			bullet.SetIsAlive(false);
+			//bullet.SetIsAlive(false);
 
 			hitBossExploadParticles_->SetPos(bullet.GetTransform()->translate_);
 			hitBossExploadParticles_->SetOnShot();
