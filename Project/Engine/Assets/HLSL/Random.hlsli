@@ -22,6 +22,13 @@ float3 rand3dTo3d(float3 value) {
     );
 }
 
+float2 rand3dTo2d(float3 value) {
+	return float2(
+        rand3dTo1d(value, float3(12.989, 78.233, 37.719)),
+        rand3dTo1d(value, float3(73.156, 52.235, 09.151))
+    );
+}
+
 float3 rand3dTo3dNatural(float3 value) {
 	return float3(
         rand3dTo1dNatural(value, float3(12.989, 78.233, 37.719)),
@@ -69,6 +76,11 @@ class RandomGenerator {
 		float result = RandomRange1d(seed, minVal, maxVal);
 		seed = rand3dTo3d(seed);
 		return result;
+	}
+	
+	float2 Generated2dRangeSize(float2 minVal, float2 maxVal) {
+		seed.xy = rand3dTo2d(seed);
+		return lerp(minVal, maxVal, seed.xy);
 	}
 	
 	float3 Generated3dRangeSize(float3 minVal, float3 maxVal) {

@@ -7,6 +7,7 @@ PostProcess::~PostProcess() {
 void PostProcess::Finalize() {
 	pingPongBuff_.reset();
 	radialBlur_.reset();
+	glitchNoise_.reset();
 }
 
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
@@ -21,6 +22,9 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	radialBlur_ = std::make_unique<RadialBlur>();
 	radialBlur_->Init();
 
+	glitchNoise_ = std::make_unique<GlitchNoise>();
+	glitchNoise_->Init();
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Post Process");
 #endif
@@ -30,7 +34,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 	Copy(commandList, shaderResource);
 
 	pingPongBuff_->SetRenderTarget(commandList);
-	radialBlur_->SetCommand(commandList, pingPongBuff_->GetPingResource());
+	glitchNoise_->SetCommand(commandList, pingPongBuff_->GetPingResource());
 	
 	//pingPongBuff_->Swap();
 
@@ -58,5 +62,6 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResourc
 #ifdef _DEBUG
 void PostProcess::Debug_Gui() {
 	radialBlur_->Debug_Gui();
+	glitchNoise_->Debug_Gui();
 }
 #endif

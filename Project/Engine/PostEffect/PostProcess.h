@@ -2,6 +2,7 @@
 #include <memory>
 #include "Engine/PostEffect/Grayscale.h"
 #include "Engine/PostEffect/RadialBlur.h"
+#include "Engine/PostEffect/GlitchNoise.h"
 #include "Engine/PostEffect/PingPongBuffer.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/Components/Attribute/AttributeGui.h"
@@ -36,5 +37,6 @@ private:
 
 	std::unique_ptr<Grayscale> grayscale_;
 	std::unique_ptr<RadialBlur> radialBlur_;
+	std::unique_ptr<GlitchNoise> glitchNoise_;
 
 };

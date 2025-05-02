@@ -142,6 +142,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Geometry\Polygon\SphereGeometry.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
+    <ClCompile Include="Engine\PostEffect\GlitchNoise.cpp" />
     <ClCompile Include="Engine\PostEffect\Grayscale.cpp" />
     <ClCompile Include="Engine\PostEffect\PingPongBuffer.cpp" />
     <ClCompile Include="Engine\PostEffect\PostProcess.cpp" />
@@ -296,6 +297,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Geometry\Polygon\RingGeometry.h" />
     <ClInclude Include="Engine\Geometry\Polygon\SphereGeometry.h" />
     <ClInclude Include="Engine\Lib\ParticlesData.h" />
+    <ClInclude Include="Engine\PostEffect\GlitchNoise.h" />
     <ClInclude Include="Engine\PostEffect\Grayscale.h" />
     <ClInclude Include="Engine\PostEffect\PingPongBuffer.h" />
     <ClInclude Include="Engine\PostEffect\PostProcess.h" />
@@ -424,6 +426,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Engine\Assets\HLSL\GlitchNoise.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\Assets\HLSL\RadialBlur.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>

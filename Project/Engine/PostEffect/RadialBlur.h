@@ -1,6 +1,5 @@
 #pragma once
 #include "Engine/Lib/Math/Vector2.h"
-#include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
 /// <summary>
