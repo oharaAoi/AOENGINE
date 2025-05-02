@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-const std::string JsonItems::kDirectoryPath_ = "./Game/Resources/GameData/JsonItems/";
+const std::string JsonItems::kDirectoryPath_ = "./Game/Assets/GameData/JsonItems/";
 std::string JsonItems::nowSceneName_ = "";
 
 namespace fs = std::filesystem;
