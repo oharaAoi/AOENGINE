@@ -5,6 +5,7 @@ enum class ProcessedScenePSO {
 	Normal,
 	Grayscale,
 	RadialBlur,
+	GlitchNoise,
 };
 
 /// <summary>

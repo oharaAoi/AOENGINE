@@ -19,6 +19,7 @@ public:
 		ProcessedScene,
 		Grayscale,
 		RadialBlur,
+		GlitchNoise,
 	};
 
 	enum CsShaderName {
