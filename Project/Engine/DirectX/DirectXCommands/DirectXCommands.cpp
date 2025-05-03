@@ -118,5 +118,5 @@ void DirectXCommands::SyncGPUAndCPU(IDXGISwapChain4* swapChain){
 	//}
 
 	// 次frameのfaceCounterを増やす
-	fanceCounter_[fenceIndex_] = currentValue + 1;
+	//fanceCounter_[fenceIndex_] = currentValue + 1;
 }
