@@ -1,5 +1,5 @@
 #include <Windows.h>
-#include "Engine/Core/GameCore.h"
+#include "Game/RunTime/GameCore.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 出力ウィンドウへの文字出力

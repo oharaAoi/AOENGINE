@@ -163,7 +163,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp" />
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
-    <ClCompile Include="Engine\Core\GameCore.cpp" />
+    <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
@@ -318,7 +318,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\ComputeShader\DepthOfField.h" />
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
-    <ClInclude Include="Engine\Core\GameCore.h" />
+    <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
