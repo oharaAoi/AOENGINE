@@ -21,10 +21,12 @@ enum XInputButtons{
 	DPAD_RIGHT = 0x0008,
 	START = 0x0010,
 	BACK = 0x0020,
-	L_THUMB = 0x0040,
-	R_THUMB = 0x0080,
+	LSTICK_THUMB = 0x0040,
+	RSTICK_THUMB = 0x0080,
 	L_SHOULDER = 0x0100,
 	R_SHOULDER = 0x0200,
+	LT_SHOULDER = 0x0400,
+	RT_SHOULDER = 0x0800,
 	BUTTON_A = 0x1000,
 	BUTTON_B = 0x2000,
 	BUTTON_X = 0x4000,
@@ -137,6 +139,10 @@ public: // 入力
 	static Vector2 GetRightJoyStick(float deadZone = 0.0f);
 	// コントローラーと繋がっているか
 	static bool IsControllerConnected();
+
+private:
+
+	bool IsThumbLR();
 
 private:
 	// DirectInputオブジェクトの生成

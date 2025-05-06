@@ -217,6 +217,7 @@
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
@@ -409,6 +410,7 @@
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

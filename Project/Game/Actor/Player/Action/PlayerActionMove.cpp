@@ -3,6 +3,7 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
+#include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 // Engine
@@ -55,6 +56,7 @@ void PlayerActionMove::OnStart() {
 	shotActionRight_ = pManager_->GetActionInstance<PlayerActionShotRight>();
 	shotActionLeft_ = pManager_->GetActionInstance<PlayerActionShotLeft>();
 	quickBoostAction_ = pManager_->GetActionInstance<PlayerActionQuickBoost>();
+	boostAction_ = pManager_->GetActionInstance<PlayerActionBoost>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,6 +102,11 @@ void PlayerActionMove::CheckNextAction() {
 	if (quickBoostAction_->IsInput()) {
 		NextAction<PlayerActionQuickBoost>();
 	}
+
+	if (boostAction_->IsInput()) {
+		NextAction<PlayerActionBoost>();
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

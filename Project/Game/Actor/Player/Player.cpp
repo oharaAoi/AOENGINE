@@ -5,6 +5,7 @@
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
+#include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 
@@ -49,6 +50,7 @@ void Player::Init() {
 	actionManager_.BuildAction<PlayerActionMove>();
 	actionManager_.BuildAction<PlayerActionJump>();
 	actionManager_.BuildAction<PlayerActionQuickBoost>();
+	actionManager_.BuildAction<PlayerActionBoost>();
 	actionManager_.BuildAction<PlayerActionShotRight>();
 	actionManager_.BuildAction<PlayerActionShotLeft>();
 

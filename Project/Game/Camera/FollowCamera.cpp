@@ -15,10 +15,7 @@ void FollowCamera::Finalize() {
 void FollowCamera::Init() {
 	BaseCamera::Init();
 
-	parameter_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
-
-	transform_.rotate = parameter_.rotate;
-	transform_.translate = parameter_.translate;
+	followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "FollowCamera");
@@ -48,10 +45,10 @@ void FollowCamera::Update() {
 		transform_.rotate = Quaternion::AngleAxis(angle_.x, CVector3::UP) * Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
 	}
 	
-	Vector3 point = pTarget_->GetTransform()->translate_ + offset_;
+	Vector3 point = pTarget_->GetTransform()->translate_ + followCamera_.offset;
 	Vector3 direction = transform_.rotate.Rotate({ 0.0f, 0.0f, -1.0f });
 
-	transform_.translate = point + (direction * 20.0f);
+	transform_.translate = point + (direction * followCamera_.distance);
 
 	BaseCamera::Update();
 	// renderの更新
@@ -66,21 +63,23 @@ void FollowCamera::Update() {
 
 #ifdef _DEBUG
 void FollowCamera::Debug_Gui() {
-	ImGui::DragFloat("near", &near_, 0.1f);
-	ImGui::DragFloat("far", &far_, 0.1f);
-	ImGui::DragFloat("fovY", &fovY_, 0.1f);
-	ImGui::DragFloat3("offset", &offset_.x, 0.1f);
-
-	ImGui::DragFloat3("rotate", &parameter_.rotate.x, 0.1f);
-	ImGui::DragFloat3("translate", &parameter_.translate.x, 0.1f);
-	transform_.rotate = parameter_.rotate;
-	transform_.translate = parameter_.translate;
-
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("FollowCamera", parameter_.ToJson("FollowCamera"));
+	if (ImGui::CollapsingHeader("Base", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("near", &near_, 0.1f);
+		ImGui::DragFloat("far", &far_, 0.1f);
+		ImGui::DragFloat("fovY", &fovY_, 0.1f);
 	}
-	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
+
+	if (ImGui::CollapsingHeader("FollowCamera", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("distance", &followCamera_.distance, 0.1f);
+		ImGui::DragFloat("rotateDelta", &followCamera_.rotateDelta, 0.1f);
+		ImGui::DragFloat3("offset", &followCamera_.offset.x, 0.1f);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save("FollowCamera", followCamera_.ToJson("FollowCamera"));
+		}
+		if (ImGui::Button("Apply")) {
+			followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
+		}
 	}
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
@@ -95,11 +94,11 @@ void FollowCamera::RotateCamera() {
 	stick_ = Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
 	
 	if (std::abs(stick_.x) > kDeadZone_) {
-		angle_.x += stick_.x * rotateDelta_;
+		angle_.x += stick_.x * followCamera_.rotateDelta;
 	}
 
 	if (std::abs(stick_.y) > kDeadZone_) {
-		angle_.y += stick_.y * rotateDelta_;
+		angle_.y += stick_.y * followCamera_.rotateDelta;
 	}
 
 	angle_.y = std::clamp(angle_.y, angleLimitY_.first, angleLimitY_.second);

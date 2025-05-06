@@ -163,6 +163,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\ComputeShader\DepthOfField.cpp" />
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
@@ -348,6 +349,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\ComputeShader\DepthOfField.h" />
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />

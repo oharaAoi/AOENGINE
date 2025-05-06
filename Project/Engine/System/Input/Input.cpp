@@ -218,6 +218,10 @@ int Input::GetWheel() {
 // ↓　ゲームパッドのボタンの取得
 // ---------------------------------------------------------------
 bool Input::GetIsPadTrigger(const XInputButtons& bottons) {
+	if (bottons == XInputButtons::LT_SHOULDER || bottons == XInputButtons::RT_SHOULDER) {
+		return GetInstance()->IsThumbLR();
+	}
+
 	if ((gamepadState_.Gamepad.wButtons & bottons) &&
 		!(preGamepadState_.Gamepad.wButtons & bottons)) {
 		return true;
@@ -265,4 +269,19 @@ bool Input::IsControllerConnected() {
 		return false;
 	}
 	return true;
+}
+
+bool Input::IsThumbLR() {
+	if (preGamepadState_.Gamepad.bLeftTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+		if (gamepadState_.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+			return true;
+		}
+	}
+
+	if (preGamepadState_.Gamepad.bRightTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+		if (gamepadState_.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
+			return true;
+		}
+	}
+	return false;
 }

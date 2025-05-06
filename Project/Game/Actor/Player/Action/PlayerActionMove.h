@@ -57,6 +57,7 @@ private:
 	std::shared_ptr<BaseAction<Player>> shotActionRight_;
 	std::shared_ptr<BaseAction<Player>> shotActionLeft_;
 	std::shared_ptr<BaseAction<Player>> quickBoostAction_;
+	std::shared_ptr<BaseAction<Player>> boostAction_;
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;

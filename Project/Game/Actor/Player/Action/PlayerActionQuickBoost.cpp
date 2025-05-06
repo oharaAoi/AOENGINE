@@ -22,7 +22,7 @@ void PlayerActionQuickBoost::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::Build() {
-	SetName("actionBoost");
+	SetName("actionQuickBoost");
 	pInput_ = Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 }
