@@ -12,8 +12,20 @@ void PlayerManager::Init() {
 	bulletManager_ = std::make_unique<PlayerBulletManager>();
 	bulletManager_->Init();
 
-	player_->SetBulletManager(bulletManager_.get());
+	machineGun_ = std::make_unique<MachineGun>();
+	machineGun_->Init();
 
+	launcherGun_ = std::make_unique<LauncherGun>();
+	launcherGun_->Init();
+
+	player_->SetBulletManager(bulletManager_.get());
+	player_->SetWeapon(launcherGun_.get(), LEFT_WEAPON);
+	player_->SetWeapon(machineGun_.get(), RIGHT_WEAPON);
+
+	machineGun_->SetParent(player_.get());
+	machineGun_->SetBulletManager(bulletManager_.get());
+	launcherGun_->SetParent(player_.get());
+	launcherGun_->SetBulletManager(bulletManager_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +36,9 @@ void PlayerManager::Update() {
 	player_->Update();
 
 	bulletManager_->Update();
+
+	machineGun_->Update();
+	launcherGun_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +49,9 @@ void PlayerManager::Draw() const {
 	player_->Draw();
 
 	bulletManager_->Draw();
+
+	machineGun_->Draw();
+	launcherGun_->Draw();
 }
 
 void PlayerManager::CollisionToBoss(const Vector3& pos) {

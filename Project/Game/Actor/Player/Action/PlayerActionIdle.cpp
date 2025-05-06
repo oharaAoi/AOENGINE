@@ -2,6 +2,7 @@
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
+#include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
@@ -45,6 +46,10 @@ void PlayerActionIdle::CheckNextAction() {
 
 	if (shotAction_->IsInput()) {
 		NextAction<PlayerActionShotRight>();
+	}
+
+	if (shotAction_->IsInput()) {
+		NextAction<PlayerActionShotLeft>();
 	}
 }
 

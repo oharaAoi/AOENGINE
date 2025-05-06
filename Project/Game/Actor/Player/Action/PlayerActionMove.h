@@ -54,7 +54,8 @@ private:
 
 	// NextAction -------------------------------
 	std::shared_ptr<BaseAction<Player>> jumpAction_;
-	std::shared_ptr<BaseAction<Player>> shotAction_;
+	std::shared_ptr<BaseAction<Player>> shotActionRight_;
+	std::shared_ptr<BaseAction<Player>> shotActionLeft_;
 	std::shared_ptr<BaseAction<Player>> quickBoostAction_;
 
 	const float kDeadZone_ = 0.1f;

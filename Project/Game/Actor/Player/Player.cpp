@@ -6,6 +6,7 @@
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
+#include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 
 Player::Player() {}
 Player::~Player() {}
@@ -49,18 +50,12 @@ void Player::Init() {
 	actionManager_.BuildAction<PlayerActionJump>();
 	actionManager_.BuildAction<PlayerActionQuickBoost>();
 	actionManager_.BuildAction<PlayerActionShotRight>();
+	actionManager_.BuildAction<PlayerActionShotLeft>();
 
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
 
 	floatingTween_.Init(&floatingValue_, -0.2f, 0.2f, 1.0f, (int)EasingType::InOut::Sine, LoopType::RETURN);
-
-	// -------------------------------------------------
-	// ↓ Effect関連
-	// -------------------------------------------------
-	gunFireParticles_ = std::make_unique<GunFireParticles>();
-	gunFireParticles_->Init("gunFireParticles");
-	gunFireParticles_->SetParent(this->GetTransform()->GetWorldMatrix());
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "player");
@@ -88,7 +83,6 @@ void Player::Update() {
 	BaseGameObject::Update();
 
 	jet_->Update();
-	gunFireParticles_->Update(Render::GetCameraRotate());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -100,15 +94,13 @@ void Player::Draw() const {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 弾を打つ
+// ↓ 武器をセットする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Shot(float speed) {
-	pBulletManager_->AddBullet(transform_->translate_, transform_->rotation_.MakeForward() * speed);
-
-	// effectを出す
-	Vector3 pos = transform_->rotation_.MakeForward() * 1.4f;
-	pos.y += 1.0f;
-	gunFireParticles_->SetPos(pos);
-	gunFireParticles_->SetOnShot();
+void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
+	if (type == PlayerWeapon::LEFT_WEAPON) {
+		pWeapons_[LEFT_WEAPON] = _weapon;
+	} else if (type == PlayerWeapon::RIGHT_WEAPON) {
+		pWeapons_[RIGHT_WEAPON] = _weapon;
+	}
 }

@@ -4,6 +4,7 @@
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
+#include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 // Engine
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
@@ -51,7 +52,8 @@ void PlayerActionMove::Build() {
 
 void PlayerActionMove::OnStart() {
 	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
-	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
+	shotActionRight_ = pManager_->GetActionInstance<PlayerActionShotRight>();
+	shotActionLeft_ = pManager_->GetActionInstance<PlayerActionShotLeft>();
 	quickBoostAction_ = pManager_->GetActionInstance<PlayerActionQuickBoost>();
 }
 
@@ -87,8 +89,12 @@ void PlayerActionMove::CheckNextAction() {
 		AddAction<PlayerActionJump>();
 	}
 
-	if (shotAction_->IsInput()) {
+	if (shotActionRight_->IsInput()) {
 		AddAction<PlayerActionShotRight>();
+	}
+
+	if (shotActionLeft_->IsInput()) {
+		AddAction<PlayerActionShotLeft>();
 	}
 
 	if (quickBoostAction_->IsInput()) {

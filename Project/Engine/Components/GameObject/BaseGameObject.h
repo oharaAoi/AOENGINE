@@ -43,6 +43,8 @@ public:
 
 	void SetObject(const std::string& objName);
 
+	void SetParent(BaseGameObject* parent);
+
 	Model* GetModel() { return model_; }
 
 	WorldTransform* GetTransform() { return transform_.get(); }
@@ -106,6 +108,9 @@ protected:
 	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
 
 	bool isAnimation_ = false;
+
+	// 他クラス情報
+	BaseGameObject* pParentObj_;
 
 #ifdef _DEBUG
 	bool isDebugAxis_;

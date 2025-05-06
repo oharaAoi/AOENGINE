@@ -8,8 +8,14 @@
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/UI/Reticle.h"
 #include "Engine/Components/Animation/VectorTween.h"
-// Effect
-#include "Game/Effects/GunFireParticles.h"
+// Weapon
+#include "Game/Actor/Weapon/BaseWeapon.h"
+
+enum PlayerWeapon {
+	LEFT_WEAPON,
+	RIGHT_WEAPON,
+	KMAX
+};
 
 class Player :
 	public BaseGameObject {
@@ -27,10 +33,6 @@ public:
 	void Debug_Gui() override;
 #endif // _DEBUG
 
-public:
-
-	void Shot(float speed);
-
 public:		// accessor method
 
 	BaseGameObject* GetJet() { return jet_.get(); }
@@ -43,6 +45,9 @@ public:		// accessor method
 	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
 
 	void SetBulletManager(PlayerBulletManager* bulletManager) { pBulletManager_ = bulletManager; }
+
+	void SetWeapon(BaseWeapon* _weapon, PlayerWeapon _type);
+	BaseWeapon* GetWeapon(PlayerWeapon _type) { return pWeapons_[_type]; }
 
 private:
 
@@ -64,9 +69,11 @@ private:
 
 	// bullet --------------------------------------------------
 
-	std::unique_ptr<GunFireParticles> gunFireParticles_;
-
 	std::unique_ptr<BaseGameObject> jet_;
 
+	// weapon --------------------------------------------------
+
+	BaseWeapon* pWeapons_[PlayerWeapon::KMAX];
+	
 };
 

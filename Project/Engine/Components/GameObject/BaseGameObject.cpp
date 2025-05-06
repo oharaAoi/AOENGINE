@@ -76,7 +76,7 @@ void BaseGameObject::PostUpdate() {
 		);
 	}
 
-	worldPos_ = Vector3(0.0f, 0.0f, 0.0f) * transform_->GetWorldMatrix();
+	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 
 
@@ -124,6 +124,15 @@ void BaseGameObject::SetObject(const std::string& objName) {
 	for (const auto& material : model_->GetMaterialData()) {
 		materials.emplace_back(Engine::CreateMaterial(material.second));
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　親を設定する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BaseGameObject::SetParent(BaseGameObject* parent) {
+	pParentObj_ = parent;
+	transform_->SetParent(parent->GetTransform()->GetWorldMatrix());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
