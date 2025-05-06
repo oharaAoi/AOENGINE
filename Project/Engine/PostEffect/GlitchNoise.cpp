@@ -56,7 +56,7 @@ void GlitchNoise::StartNoise(float startStrength, float time) {
 #ifdef _DEBUG
 void GlitchNoise::Debug_Gui() {
 	if (ImGui::CollapsingHeader("GlitchNoise")) {
-		ImGui::DragFloat("time", &setting_->time, 0.01f);
+		ImGui::DragFloat("time", &noiseTime_, 0.01f);
 		
 		if (ImGui::Button("AddTime")) {
 			setting_->strength = 1.0f;

@@ -21,11 +21,11 @@ public:
 
 	void CreatePong();
 
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList);
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type);
 
 	void Transition(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES after, BufferType type);
 
-	void Swap();
+	void Swap(ID3D12GraphicsCommandList* commandList);
 
 public:		// accessor method
 

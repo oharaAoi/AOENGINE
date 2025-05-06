@@ -1,16 +1,16 @@
 #pragma once
-#include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/PostEffect/IPostEffect.h"
 
-class Grayscale {
+class Grayscale :
+	public IPostEffect {
 public:
 
 	Grayscale() =default;
-	~Grayscale();
+	~Grayscale() override;
 
-	void Init();
+	void Init() override;
 
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource);
+	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
 private:
 

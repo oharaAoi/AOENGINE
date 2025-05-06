@@ -450,3 +450,7 @@ GraphicsPipelines* Engine::GetGraphicsPipelines() {
 PrimitivePipeline* Engine::GetPrimitivePipeline() {
 	return primitivePipeline_.get();
 }
+
+PostProcess* Engine::GetPostProcess() {
+	return postProcess_.get();
+}

@@ -1,11 +1,12 @@
 #pragma once
 #include "Engine/Lib/Math/Vector2.h"
-#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/PostEffect/IPostEffect.h"
 
 /// <summary>
 /// グリッチエフェクト
 /// </summary>
-class GlitchNoise {
+class GlitchNoise :
+	public IPostEffect {
 public:
 
 	struct GlitchSetting {
@@ -18,11 +19,11 @@ public:
 public:
 
 	GlitchNoise() = default;
-	~GlitchNoise();
+	~GlitchNoise() override ;
 
-	void Init();
+	void Init() override;
 
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource);
+	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
 	void StartNoise(float startStrength, float time);
 

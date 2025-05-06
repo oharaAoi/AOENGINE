@@ -6,7 +6,7 @@ Pipeline::~Pipeline() {}
 void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
 						  const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
 						  const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc, const Blend::BlendMode& blendMode, 
-						  bool isCulling, bool isDepth) {
+						  bool isCulling, bool isDepth, bool isSRGB) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
@@ -15,7 +15,7 @@ void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
 	elementDescs = desc;
 	ShaderCompile(shaderData);
 
-	CreatePSO(blendMode, isCulling, isDepth);
+	CreatePSO(blendMode, isCulling, isDepth, isSRGB);
 }
 
 void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
@@ -93,7 +93,7 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool isDepth) {
 //------------------------------------------------------------------------------------------------------
 // ↓PSOの追加
 //------------------------------------------------------------------------------------------------------
-void Pipeline::CreatePSO(const Blend::BlendMode& blendMode, bool isCulling, bool isDepth) {
+void Pipeline::CreatePSO(const Blend::BlendMode& blendMode, bool isCulling, bool isDepth, bool isSRGB) {
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();
@@ -112,7 +112,12 @@ void Pipeline::CreatePSO(const Blend::BlendMode& blendMode, bool isCulling, bool
 	// 書き込むRTVの情報
 	desc.NumRenderTargets = renderTargetNum_;
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		if (isSRGB) {
+			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		} else {
+			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		}
+		
 	}
 	// 利用するトポロジ(形状)のタイプ
 	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;

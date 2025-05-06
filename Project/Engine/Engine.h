@@ -249,6 +249,8 @@ public:
 
 	static PrimitivePipeline* GetPrimitivePipeline();
 
+	static PostProcess* GetPostProcess();
+
 private:
 
 };

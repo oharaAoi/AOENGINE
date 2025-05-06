@@ -144,6 +144,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
     <ClCompile Include="Engine\PostEffect\GlitchNoise.cpp" />
     <ClCompile Include="Engine\PostEffect\Grayscale.cpp" />
+    <ClCompile Include="Engine\PostEffect\IPostEffect.cpp" />
     <ClCompile Include="Engine\PostEffect\PingPongBuffer.cpp" />
     <ClCompile Include="Engine\PostEffect\PostProcess.cpp" />
     <ClCompile Include="Engine\PostEffect\RadialBlur.cpp" />
@@ -330,6 +331,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Lib\ParticlesData.h" />
     <ClInclude Include="Engine\PostEffect\GlitchNoise.h" />
     <ClInclude Include="Engine\PostEffect\Grayscale.h" />
+    <ClInclude Include="Engine\PostEffect\IPostEffect.h" />
     <ClInclude Include="Engine\PostEffect\PingPongBuffer.h" />
     <ClInclude Include="Engine\PostEffect\PostProcess.h" />
     <ClInclude Include="Engine\PostEffect\RadialBlur.h" />

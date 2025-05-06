@@ -15,12 +15,12 @@ void SpritePipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Sh
 	pipelineMap_[SpritePSO::Multily] = std::make_unique<Pipeline>();
 	pipelineMap_[SpritePSO::Screen] = std::make_unique<Pipeline>();
 
-	pipelineMap_[SpritePSO::None]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeNone, true, true);
-	pipelineMap_[SpritePSO::Normal]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeNormal, true, true);
-	pipelineMap_[SpritePSO::Add]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeAdd, true, true);
-	pipelineMap_[SpritePSO::Subtract]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeSubtract, true, true);
-	pipelineMap_[SpritePSO::Multily]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeMultily, true, true);
-	pipelineMap_[SpritePSO::Multily]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeScreen, true, true);
+	pipelineMap_[SpritePSO::None]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeNone, true, true, true);
+	pipelineMap_[SpritePSO::Normal]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeNormal, true, true, true);
+	pipelineMap_[SpritePSO::Add]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeAdd, true, true, true);
+	pipelineMap_[SpritePSO::Subtract]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeSubtract, true, true, true);
+	pipelineMap_[SpritePSO::Multily]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeMultily, true, true, true);
+	pipelineMap_[SpritePSO::Multily]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Sprite), RootSignatureType::Sprite, inputLayout_.CreateSprite(), Blend::ModeScreen, true, true, true);
 }
 
 void SpritePipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, SpritePSO kind) {

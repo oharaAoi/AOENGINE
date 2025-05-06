@@ -5,6 +5,7 @@ PostProcess::~PostProcess() {
 }
 
 void PostProcess::Finalize() {
+	effectList_.clear();
 	pingPongBuff_.reset();
 	radialBlur_.reset();
 	glitchNoise_.reset();
@@ -16,14 +17,17 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 
 	pingPongBuff_->Init(device, descriptorHeap);
 
-	grayscale_ = std::make_unique<Grayscale>();
+	grayscale_ = std::make_shared<Grayscale>();
 	grayscale_->Init();
 
-	radialBlur_ = std::make_unique<RadialBlur>();
+	radialBlur_ = std::make_shared<RadialBlur>();
 	radialBlur_->Init();
 
-	glitchNoise_ = std::make_unique<GlitchNoise>();
+	glitchNoise_ = std::make_shared<GlitchNoise>();
 	glitchNoise_->Init();
+
+	AddEffect(PostEffectType::RADIALBLUR);
+	AddEffect(PostEffectType::GLITCHNOISE);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Post Process");
@@ -31,13 +35,28 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 }
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
+	if (effectList_.empty()) {
+		return;
+	}
+	
 	Copy(commandList, shaderResource);
 
-	pingPongBuff_->SetRenderTarget(commandList);
-	glitchNoise_->SetCommand(commandList, pingPongBuff_->GetPingResource());
-	
-	//pingPongBuff_->Swap();
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	uint32_t cout = 0;
+	for (auto& effect : effectList_) {
+		effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
 
+
+		pingPongBuff_->Swap(commandList);
+		pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+		cout++;
+	}
+
+	if (effectList_.size() % 2 == 0 && !effectList_.empty()) {
+		pingPongBuff_->Swap(commandList);
+	}
+
+	
 	PostCopy(commandList, shaderResource);
 }
 
@@ -57,6 +76,51 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResourc
 
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
+}
+
+void PostProcess::AddEffect(PostEffectType type) {
+	if (CheckAddEffect(type)) {
+		addEffectList_.push_back(type);
+		switch (type) {
+		case PostEffectType::GRAYSCALE:
+			effectList_.push_back(grayscale_);
+			break;
+		case PostEffectType::RADIALBLUR:
+			effectList_.push_back(radialBlur_);
+			break;
+		case PostEffectType::GLITCHNOISE:
+			effectList_.push_back(glitchNoise_);
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+bool PostProcess::CheckAddEffect(PostEffectType type) {
+	for (const auto& effect : addEffectList_) {
+		if (effect == type) {
+			return false;
+		}
+	}
+	return true;
+}
+
+std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
+	switch (type) {
+	case PostEffectType::GRAYSCALE:
+		return grayscale_;
+		break;
+	case PostEffectType::RADIALBLUR:
+		return radialBlur_;
+		break;
+	case PostEffectType::GLITCHNOISE:
+		return glitchNoise_;
+		break;
+	default:
+		return nullptr;
+		break;
+	}
 }
 
 #ifdef _DEBUG

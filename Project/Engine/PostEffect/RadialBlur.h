@@ -1,11 +1,12 @@
 #pragma once
 #include "Engine/Lib/Math/Vector2.h"
-#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/PostEffect/IPostEffect.h"
 
 /// <summary>
 /// 放射ブラー
 /// </summary>
-class RadialBlur {
+class RadialBlur :
+	public IPostEffect {
 public:
 
 	struct BlurSetting {
@@ -18,11 +19,11 @@ public:
 public:
 
 	RadialBlur() = default;
-	~RadialBlur();
+	~RadialBlur() override;
 
-	void Init();
+	void Init() override;
 
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource);
+	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
 #ifdef _DEBUG
 	void Debug_Gui();
