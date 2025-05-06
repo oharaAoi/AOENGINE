@@ -34,7 +34,7 @@ void PlayerActionMove::Build() {
 	SetName("actionMove");
 	parameter_.FromJson(JsonItems::GetData("PlayerAction", "ActionMove"));
 
-	jetParticles_ = std::make_unique<JetParticles>();
+	/*jetParticles_ = std::make_unique<JetParticles>();
 	jetParticles_->Init("JetParticle");
 	jetParticles_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
 
@@ -44,7 +44,7 @@ void PlayerActionMove::Build() {
 
 	jetEnergyParticles_ = std::make_unique<JetEnergyParticles>();
 	jetEnergyParticles_->Init("JetEnergyParticles");
-	jetEnergyParticles_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
+	jetEnergyParticles_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,9 +66,9 @@ void PlayerActionMove::OnStart() {
 void PlayerActionMove::OnUpdate() {
 	Move();
 
-	jetParticles_->Update(Render::GetCameraRotate());
+	/*jetParticles_->Update(Render::GetCameraRotate());
 	jetBornParticles_->Update(Render::GetCameraRotate());
-	jetEnergyParticles_->Update(Render::GetCameraRotate());
+	jetEnergyParticles_->Update(Render::GetCameraRotate());*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

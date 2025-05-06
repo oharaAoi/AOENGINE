@@ -47,6 +47,8 @@ void GlitchNoise::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource*
 void GlitchNoise::StartNoise(float startStrength, float time) {
 	setting_->strength = startStrength;
 	noiseTime_ = time;
+	setting_->time = 0.0f;
+	setting_->frameIndex = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -129,9 +129,6 @@ void GameScene::Draw() const {
 	playerManager_->Draw();
 	boss_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::NormalCut);
-	cylinder_->Draw();
-
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------

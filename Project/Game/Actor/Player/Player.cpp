@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
+#include "Game/Actor/Player/State/PlayerKnockbackState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
@@ -19,7 +20,13 @@ void Player::Finalize() {
 void Player::Debug_Gui() {
 	transform_->Debug_Gui();
 }
+
 #endif // _DEBUG
+
+void Player::Knockback() {
+	isKnockback_ = true;
+	stateMachine_->ChangeState<PlayerKnockbackState>();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
@@ -29,10 +36,10 @@ void Player::Init() {
 	BaseGameObject::Init();
 	SetObject("player.obj");
 
-	jet_ = std::make_unique<BaseGameObject>();
+	/*jet_ = std::make_unique<BaseGameObject>();
 	jet_->Init();
 	jet_->GetTransform()->SetParent(this->GetTransform()->GetWorldMatrix());
-	jet_->GetTransform()->translate_ = Vector3{ 0.0f, 1.0f, -0.6f };
+	jet_->GetTransform()->translate_ = Vector3{ 0.0f, 1.0f, -0.6f };*/
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -59,6 +66,8 @@ void Player::Init() {
 
 	floatingTween_.Init(&floatingValue_, -0.2f, 0.2f, 1.0f, (int)EasingType::InOut::Sine, LoopType::RETURN);
 
+	isKnockback_ = false;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "player");
 #endif // _DEBUG
@@ -84,7 +93,7 @@ void Player::Update() {
 
 	BaseGameObject::Update();
 
-	jet_->Update();
+	//jet_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

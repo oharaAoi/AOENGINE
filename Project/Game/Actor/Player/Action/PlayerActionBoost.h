@@ -4,6 +4,7 @@
 #include "Engine/Components/WorldTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/Actor/Base/BaseAction.h"
+#include <Engine/PostEffect/RadialBlur.h>
 
 // 前方宣言
 class Player;
@@ -13,6 +14,7 @@ class Player;
 /// </summary>
 class PlayerActionBoost :
 	public BaseAction<Player> {
+public:
 
 	struct Parameter : public IJsonConverter {
 		float chargeTime;
@@ -102,6 +104,8 @@ private:
 	// input
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;
+
+	std::shared_ptr<RadialBlur> blur_;
 
 };
 

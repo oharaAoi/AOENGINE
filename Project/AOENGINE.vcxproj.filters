@@ -219,6 +219,7 @@
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Engine\PostEffect\IPostEffect.cpp" />
+    <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
@@ -413,6 +414,7 @@
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Engine\PostEffect\IPostEffect.h" />
+    <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

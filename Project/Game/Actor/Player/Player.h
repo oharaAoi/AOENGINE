@@ -35,6 +35,11 @@ public:
 
 public:		// accessor method
 
+	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
+	bool GetKnockBack() { return isKnockback_; }
+
+	void Knockback();
+
 	BaseGameObject* GetJet() { return jet_.get(); }
 
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }
@@ -66,6 +71,8 @@ private:
 
 	float floatingValue_;
 	VectorTween<float> floatingTween_;
+
+	bool isKnockback_;
 
 	// bullet --------------------------------------------------
 

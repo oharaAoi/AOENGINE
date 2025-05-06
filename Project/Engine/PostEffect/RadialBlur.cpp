@@ -1,5 +1,6 @@
 #include "RadialBlur.h"
 #include "Engine.h"
+#include "Engine/Lib/GameTimer.h"
 
 RadialBlur::~RadialBlur() {
 	blurSettingBuffer_->Finalize();
@@ -12,16 +13,54 @@ void RadialBlur::Init() {
 	blurSettingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
 	setting_->blurCenter = { 0.5f, 0.5f };
-	setting_->blurStrength = 0.02f;
+	setting_->blurStrength = 0.00f;
 	setting_->blurStart = 0.2f;
 	setting_->sampleCount = 16;
+
+	stop_ = false;
 }
 
 void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+	if (start_) {
+		timer_ += GameTimer::DeltaTime();
+		float t = timer_ / startTime_;
+		setting_->blurStrength = std::lerp(0.0f, preStrength_, t);
+
+		if (timer_ > startTime_) {
+			start_ = false;
+		}
+	}
+
+	if (stop_) {
+		timer_ += GameTimer::DeltaTime();
+		float t = timer_ / stopTime_;
+		setting_->blurStrength = std::lerp(preStrength_, 0.0f, t);
+
+		if (timer_ > stopTime_) {
+			stop_ = false;
+		}
+	}
+
 	Engine::SetPSOProcessed(ProcessedScenePSO::RadialBlur);
 	commandList->SetGraphicsRootDescriptorTable(0, pingResource->GetSRV().handleGPU);
 	commandList->SetGraphicsRootConstantBufferView(1, blurSettingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+}
+
+void RadialBlur::Start(float strength, float startTime) {
+	start_ = true;
+	stop_ = false;
+	setting_->blurStrength = strength;
+	startTime_ = startTime;
+	preStrength_ = strength;
+	timer_ = 0.0f;
+}
+
+void RadialBlur::Stop(float stopTime) {
+	start_ = false;
+	stop_ = true;
+	stopTime_ = stopTime;
+	timer_ = 0.0f;
 }
 
 #ifdef _DEBUG

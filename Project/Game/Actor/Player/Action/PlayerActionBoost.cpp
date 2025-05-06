@@ -33,6 +33,8 @@ void PlayerActionBoost::Build() {
 	pOwnerTransform_ = pOwner_->GetTransform();
 
 	initialPram_.FromJson(JsonItems::GetData("PlayerAction", actionName_));
+
+	blur_ = Engine::GetPostProcess()->GetRadialBlur();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +68,8 @@ void PlayerActionBoost::OnUpdate() {
 		if (CheckStop()) {
 			mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
 			finishBoost_ = true;
+
+			blur_->Stop(0.5f);
 		}
 	}
 }
@@ -126,6 +130,7 @@ void PlayerActionBoost::BoostCharge() {
 		pOwnerTransform_->translate_ += velocity_;
 	} else {
 		mainAction_ = std::bind(&PlayerActionBoost::Boost, this);
+		blur_->Start(1.f, 2.0f);
 	}
 }
 

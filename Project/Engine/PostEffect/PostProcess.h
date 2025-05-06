@@ -58,6 +58,10 @@ public:
 	void Debug_Gui() override;
 #endif
 
+	std::shared_ptr<Grayscale> GetGrayscale() { return grayscale_; }
+	std::shared_ptr<RadialBlur> GetRadialBlur() { return radialBlur_; }
+	std::shared_ptr<GlitchNoise> GetGlitchNoise() { return glitchNoise_; }
+
 private:
 
 	std::unique_ptr<PingPongBuffer> pingPongBuff_;
