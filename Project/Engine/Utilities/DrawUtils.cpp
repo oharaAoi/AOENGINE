@@ -50,7 +50,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix, const Vector4& color) {
-	const uint32_t kSubdivision = 16;
+	const uint32_t kSubdivision = 8;
 	const float kLonEvery = 2.0f * float(M_PI) / kSubdivision;
 	const float kLatEvery = float(M_PI) / kSubdivision;
 

@@ -1,6 +1,7 @@
 #include "Engine.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Lib/Json//JsonItems.h"
+#include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
 
 Engine::Engine() {}
@@ -92,6 +93,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
 	runGame_ = true;
+	isColliderDraw_ = false;
 
 	Log("Engine Initialize compulete!\n");
 }
@@ -163,6 +165,8 @@ void Engine::BeginFrame() {
 	ImGui::End();
 
 	if (ImGui::Begin("Game Window", nullptr)) {
+		ImGui::SetCursorPos(ImVec2(20,30));
+		ImGui::Checkbox("collider draw", &isColliderDraw_);
 		runGame_ = true;
 	}
 	ImGui::End();
@@ -210,6 +214,10 @@ void Engine::UpdateEditerWindow() {
 
 void Engine::RenderFrame() {
 	// gameで使用したlineの描画を開始する
+	if (isColliderDraw_) {
+		ColliderCollector::GetInstance()->Draw();
+	}
+	
 	primitivePipeline_->Draw(dxCommands_->GetCommandList());
 	Render::PrimitiveDrawCall();
 

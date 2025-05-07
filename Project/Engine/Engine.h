@@ -94,6 +94,8 @@ namespace {
 	bool runGame_;
 
 	bool openParticleEditer_ = false;	// 後で直す
+
+	bool isColliderDraw_;
 }
 
 class Engine {

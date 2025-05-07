@@ -1,4 +1,5 @@
 #include "ColliderCollector.h"
+#include "Engine/Engine.h"
 
 ColliderCollector* ColliderCollector::GetInstance() {
     static ColliderCollector instance;
@@ -14,6 +15,13 @@ void ColliderCollector::Update() {
     colliderList_.remove_if([](ICollider* _collider) {
         return _collider == nullptr;
     });
+}
+
+void ColliderCollector::Draw() const {
+    Engine::SetPSOPrimitive();
+    for (auto& collider : colliderList_) {
+        collider->Draw();
+    }
 }
 
 void ColliderCollector::AddCollider(ICollider* _collider) {
