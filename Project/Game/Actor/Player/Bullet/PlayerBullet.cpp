@@ -1,4 +1,6 @@
 #include "PlayerBullet.h"
+#include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Collision/ColliderCollector.h"
 
 PlayerBullet::~PlayerBullet() {
 	BaseBullet::Finalize();
@@ -7,6 +9,9 @@ PlayerBullet::~PlayerBullet() {
 void PlayerBullet::Init() {
 	BaseBullet::Init();
 	SetObject("playerBullet.obj");
+	SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::SPHERE);
+	collider_->SetTarget(ColliderTags::Boss::own);
+	ColliderCollector::AddCollider(collider_.get());
 }
 
 void PlayerBullet::Update() {

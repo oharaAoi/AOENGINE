@@ -1,6 +1,8 @@
 #include "GameScene.h"
 #include "Engine.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
+#include "Game/Information/ColliderCategory.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() { Finalize(); }
@@ -16,6 +18,9 @@ void GameScene::Finalize() {
 void GameScene::Init() {
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
+
+	auto& layers = CollisionLayerManager::GetInstance();
+	layers.RegisterCategoryList(GetColliderTagsList());
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -56,7 +61,19 @@ void GameScene::Init() {
 	sphere_->SetEditorWindow();
 
 	// -------------------------------------------------
-	// ↓ Spriteの初期化
+	// ↓ managerの初期化
+	// -------------------------------------------------
+
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
+	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
+	gameCallBacksManager_->SetBoss(boss_.get());
+	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
+	gameCallBacksManager_->Init(collisionManager_.get());
+
+	// -------------------------------------------------
+	// ↓ spriteの初期化
 	// -------------------------------------------------
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
@@ -89,7 +106,8 @@ void GameScene::Update() {
 	cylinder_->Update();
 	sphere_->Update();
 
-	playerManager_->CollisionToBoss(boss_->GetTransform()->translate_);
+	collisionManager_->CheckAllCollision();
+	gameCallBacksManager_->Update();
 
 	// -------------------------------------------------
 	// ↓ spriteの更新
@@ -137,7 +155,6 @@ void GameScene::Draw() const {
 
 	Engine::SetPSOObj(Object3dPSO::Particle);
 	ParticleManager::GetInstance()->Draw();
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

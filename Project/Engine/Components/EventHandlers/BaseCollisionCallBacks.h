@@ -21,11 +21,15 @@ public:
 	/// </summary>
 	virtual void Init() = 0;
 
+	virtual void Update() = 0;
+
 	virtual void CollisionEnter([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
 	virtual void CollisionStay([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
 	virtual void CollisionExit([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
 
 	void SetCallBacks();
+
+	void SetPair(CollisionManager* collisionManager, const std::string& attacker, const std::string& diffence);
 
 protected:
 

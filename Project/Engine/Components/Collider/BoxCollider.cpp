@@ -24,6 +24,8 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	} else {
 		assert("not AABB or OBB Shape");
 	}
+
+	isActive_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,31 @@
+#pragma once
+#include <list>
+#include <string>
+
+namespace ColliderTags {
+	namespace Player {
+		const std::string own = "player";
+	}
+
+	namespace Boss {
+		const std::string own = "boss";
+		const std::string attack = "bossAttack";
+	}
+
+	namespace Bullet {
+		const std::string machinegun = "machinegun";
+		const std::string launcher = "launcher";
+	}
+}
+
+inline std::list<std::string> GetColliderTagsList() {
+	std::list<std::string> colliderTags = {
+		ColliderTags::Player::own,
+		ColliderTags::Boss::own,
+		ColliderTags::Boss::attack,
+		ColliderTags::Bullet::machinegun,
+		ColliderTags::Bullet::launcher
+	};
+
+	return colliderTags;
+}

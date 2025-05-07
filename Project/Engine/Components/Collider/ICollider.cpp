@@ -1,5 +1,6 @@
 #include "ICollider.h"
 #include <assert.h>
+#include "Engine/System/Manager/CollisionLayerManager.h"
 
 void ICollider::SwitchCollision(ICollider* partner) {
 	int& state = collisionPartnersMap_[partner];
@@ -28,4 +29,10 @@ void ICollider::SwitchCollision(ICollider* partner) {
 
 void ICollider::DeletePartner(ICollider* partner) {
 	collisionPartnersMap_.erase(partner);
+}
+
+void ICollider::SetTarget(const std::string& id) {
+	auto& layers = CollisionLayerManager::GetInstance();
+	uint32_t bit = layers.GetCategoryBit(id);
+	SetMaskBits(bit);
 }

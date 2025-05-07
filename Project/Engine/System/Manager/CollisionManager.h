@@ -3,6 +3,7 @@
 #include <utility>
 #include <unordered_map>
 #include <functional>
+#include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Components/Collider/ICollider.h"
 
 struct CollisionPair {
@@ -68,17 +69,6 @@ public:
 	void CheckCollisionPair(ICollider* colliderA, ICollider* colliderB);
 
 	/// <summary>
-	/// コライダーの追加
-	/// </summary>
-	/// <param name="collider"></param>
-	void AddCollider(ICollider* collider) { colliders_.push_back(collider); };
-
-	// リストを空にする
-	void Reset() { 
-		colliders_.clear();
-	}
-
-	/// <summary>
 	/// CollisionのPairを作成する
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
@@ -110,9 +100,11 @@ public:
 	/// <param name="colliderB">コライダーB</param>
 	void ExitCollision(ICollider* colliderA, ICollider* colliderB);
 
+	void CallBackCollision(ICollider* colliderA, ICollider* colliderB, CallBackKinds callBack);
+
 private:
 
-	std::list<ICollider*> colliders_;
+	ColliderCollector* pColliderCollector_;
 
 	std::unordered_map<CollisionPair, CallBackKinds> callBackFunctions_;
 

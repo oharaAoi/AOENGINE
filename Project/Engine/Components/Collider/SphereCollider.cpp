@@ -22,6 +22,8 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 	} else {
 		assert("not Sphere Shape");
 	}
+
+	isActive_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

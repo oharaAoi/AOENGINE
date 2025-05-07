@@ -9,9 +9,13 @@
 #include "Game/WorldObject/Skydome.h"
 #include "Game/Actor/Player/PlayerManager.h"
 #include "Game/Actor/Boss/Boss.h"
-// Sprite
+// sprite
 #include "Game/UI/Reticle.h"
 #include "Engine/System/Manager/ParticleManager.h"
+// manager
+#include "Engine/System/Manager/CollisionManager.h"
+#include "Game/CallBacks/GameCallBacksManager.h"
+
 
 class GameScene 
 	: public BaseScene {
@@ -40,6 +44,11 @@ private:
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<PlayerManager> playerManager_;
 	std::unique_ptr<Boss> boss_;
+
+	// ------------------- collision ------------------- //
+	std::unique_ptr<CollisionManager> collisionManager_;
+
+	std::unique_ptr<GameCallBacksManager> gameCallBacksManager_;
 
 	// ------------------- sprite ------------------- //
 	std::unique_ptr<Reticle> reticle_;

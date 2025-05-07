@@ -11,7 +11,7 @@ CollisionManager::~CollisionManager() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CollisionManager::Init() {
-	colliders_.clear();
+	pColliderCollector_ = ColliderCollector::GetInstance();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,10 +19,12 @@ void CollisionManager::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void CollisionManager::CheckAllCollision() {
+	
+	std::list<ICollider*>& colliderList = pColliderCollector_->GetColliderList();
 
 	// リスト内のペアの総当たり判定
-	std::list<ICollider*>::iterator iterA = colliders_.begin();
-	for (; iterA != colliders_.end(); ++iterA) {
+	std::list<ICollider*>::iterator iterA = colliderList.begin();
+	for (; iterA != colliderList.end(); ++iterA) {
 		ICollider* colliderA = *iterA;
 
 		// 非アクティブなら次の要素に
@@ -34,7 +36,7 @@ void CollisionManager::CheckAllCollision() {
 		std::list<ICollider*>::iterator iterB = iterA;
 		iterB++;
 
-		for (; iterB != colliders_.end(); ++iterB) {
+		for (; iterB != colliderList.end(); ++iterB) {
 			ICollider* colliderB = *iterB;
 
 			// 非アクティブなら次の要素に
@@ -85,25 +87,56 @@ void CollisionManager::MakeCollisionPair(uint32_t bitA, uint32_t bitB, const Cal
 void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 	// ペアを作成する
 	auto pair = CollisionPair(colliderA->GetCategoryBit(), colliderB->GetCategoryBit());
+	auto reversePair = CollisionPair(colliderB->GetCategoryBit(), colliderA->GetCategoryBit());
 
 	// ペアがマップに存在するかを確認
+	bool isReverse = false;
 	auto it = callBackFunctions_.find(pair);
+	auto reverseIt = callBackFunctions_.find(reversePair);
+
 	if (it == callBackFunctions_.end()) {
-		return;
+		isReverse = true;
+		if (reverseIt == callBackFunctions_.end()) {
+			return;
+		}
+	}
+	
+	std::pair<ICollider*, ICollider*> collisionPair;
+	CallBackKinds callbacks;
+	if (isReverse) {
+		callbacks = reverseIt->second;
+		collisionPair.first = colliderB;
+		collisionPair.second = colliderA;
+	} else {
+		callbacks = it->second;
+		collisionPair.first = colliderA;
+		collisionPair.second = colliderB;
 	}
 
-	const CallBackKinds& callbacks = it->second;
-
-	// 状態にあった呼び出しを行う
-	switch (colliderA->GetCollisionState()) {
+	switch (collisionPair.first->GetCollisionState()) {
 	case CollisionFlags::ENTER:
 		if (callbacks.enter) {
-			callbacks.enter(colliderA, colliderB);
+			callbacks.enter(collisionPair.first, collisionPair.second);
 		}
 		break;
 	case CollisionFlags::STAY:
 		if (callbacks.stay) {
-			callbacks.stay(colliderA, colliderB);
+			callbacks.stay(collisionPair.first, collisionPair.second);
+		}
+		break;
+	default:
+		break;
+	}
+
+	switch (collisionPair.second->GetCollisionState()) {
+	case CollisionFlags::ENTER:
+		if (callbacks.enter) {
+			callbacks.enter(collisionPair.first, collisionPair.second);
+		}
+		break;
+	case CollisionFlags::STAY:
+		if (callbacks.stay) {
+			callbacks.stay(collisionPair.first, collisionPair.second);
 		}
 		break;
 	default:
@@ -124,5 +157,22 @@ void CollisionManager::ExitCollision(ICollider* colliderA, ICollider* colliderB)
 			collider->SetCollisionState(CollisionFlags::NONE);
 			collider->DeletePartner(colliderA == collider ? colliderB : colliderA);
 		}
+	}
+}
+
+void CollisionManager::CallBackCollision(ICollider* colliderA, ICollider* colliderB, CallBackKinds callBack) {
+	switch (colliderA->GetCollisionState()) {
+	case CollisionFlags::ENTER:
+		if (callBack.enter) {
+			callBack.enter(colliderA, colliderB);
+		}
+		break;
+	case CollisionFlags::STAY:
+		if (callBack.stay) {
+			callBack.stay(colliderA, colliderB);
+		}
+		break;
+	default:
+		break;
 	}
 }

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <cstdint>
 #include <stdexcept>
+#include <list>
 
 /// <summary>
 /// Colliderのカテゴリの分類を管理しているクラス
@@ -10,7 +11,7 @@
 class CollisionLayerManager {
 public:
 
-	CollisionLayerManager(); // コンストラクタをprivateに（シングルトン）
+	CollisionLayerManager();
 	CollisionLayerManager(const CollisionLayerManager&) = delete;
 	CollisionLayerManager& operator=(const CollisionLayerManager&) = delete;
 
@@ -21,6 +22,8 @@ public:
 
 	// カテゴリ名からビットを取得（未登録なら例外）
 	uint32_t GetCategoryBit(const std::string& name) const;
+
+	void RegisterCategoryList(const std::list<std::string>& list);
 
 private:
 

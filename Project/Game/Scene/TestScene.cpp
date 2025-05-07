@@ -94,8 +94,6 @@ void TestScene::Update() {
 		testObjA_[oi]->Update();
 	}
 	
-	collisionManager_->Reset();
-	//collisionManager_->AddCollider(testObjA_->GetCollider());
 	collisionManager_->CheckAllCollision();
 
 	// -------------------------------------------------

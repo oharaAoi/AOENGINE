@@ -32,3 +32,9 @@ uint32_t CollisionLayerManager::GetCategoryBit(const std::string& name) const {
 	}
 	return it->second;
 }
+
+void CollisionLayerManager::RegisterCategoryList(const std::list<std::string>& list) {
+	for (auto& id : list) {
+		RegisterCategory(id);
+	}
+}

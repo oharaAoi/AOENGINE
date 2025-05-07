@@ -52,6 +52,7 @@ public:
 	uint32_t GetCategoryBit() const { return categoryBits_; }
 
 	// --------------- maskの設定・取得 -------------- //
+	void SetTarget(const std::string& id);
 	void SetMaskBits(uint32_t bit) { maskBits_ |= bit; }
 	uint32_t GetMaskBits() const { return maskBits_; }
 

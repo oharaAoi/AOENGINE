@@ -53,14 +53,3 @@ void PlayerManager::Draw() const {
 	machineGun_->Draw();
 	launcherGun_->Draw();
 }
-
-void PlayerManager::CollisionToBoss(const Vector3& pos) {
-	if (!player_->GetKnockBack()) {
-		float length = (player_->GetTransform()->translate_ - pos).Length();
-		if (length < 4.0f) {
-			player_->Knockback();
-		}
-	}
-
-	bulletManager_->CollisionToBoss(pos);
-}

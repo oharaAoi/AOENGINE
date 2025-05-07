@@ -220,6 +220,9 @@
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Engine\PostEffect\IPostEffect.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
+    <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
+    <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Components\2d\PrimitiveDrawer.h" />
@@ -415,6 +418,10 @@
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Engine\PostEffect\IPostEffect.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
+    <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
+    <ClInclude Include="Game\Information\ColliderCategory.h" />
+    <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
+    <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

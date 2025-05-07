@@ -1,6 +1,7 @@
 #include "BaseGameObject.h"
 #include "Engine/Components/Collider/SphereCollider.h"
 #include "Engine/Components/Collider/BoxCollider.h"
+#include "Engine/System/Collision/ColliderCollector.h"
 
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {
@@ -8,6 +9,11 @@ void BaseGameObject::Finalize() {
 	}
 	if (animetor_ != nullptr) {
 		animetor_->Finalize();
+	}
+	if (collider_ != nullptr) {
+		ColliderCollector::GetInstance()->RemoveCollider(collider_.get());
+		collider_.reset();
+		collider_ = nullptr;
 	}
 	materials.clear();
 }

@@ -1,5 +1,7 @@
 #include "Boss.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Collision/ColliderCollector.h"
+#include "Game/Information/ColliderCategory.h"
 
 void Boss::Finalize() {
 }
@@ -11,6 +13,10 @@ void Boss::Finalize() {
 void Boss::Init() {
 	BaseGameObject::Init();
 	SetObject("boss.obj");
+
+	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
+	collider_->SetTarget(ColliderTags::Bullet::machinegun);
+	ColliderCollector::AddCollider(collider_.get());
 
 	transform_->translate_.z = 25.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
