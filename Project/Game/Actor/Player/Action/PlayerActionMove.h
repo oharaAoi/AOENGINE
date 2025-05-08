@@ -2,10 +2,6 @@
 #include <memory>
 #include "Game/Actor/Base/BaseAction.h"
 #include <Lib/Json/IJsonConverter.h>
-// Effect
-#include "Game/Effects/JetParticles.h"
-#include "Game/Effects/JetBornParticles.h"
-#include "Game/Effects/JetEnergyParticles.h"
 
 // 前方宣言
 class Player;
@@ -63,11 +59,5 @@ private:
 	Vector2 stick_;
 
 	Parameter parameter_;
-
-	// effects -------------------------------------------------
-	std::unique_ptr<JetParticles> jetParticles_;
-	std::unique_ptr<JetBornParticles> jetBornParticles_;
-	std::unique_ptr<JetEnergyParticles> jetEnergyParticles_;
-
 };
 

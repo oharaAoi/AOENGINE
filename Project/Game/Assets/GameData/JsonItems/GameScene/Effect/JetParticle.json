@@ -1,5 +1,7 @@
 {
     "JetParticle": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
         "color": {
             "w": 1.0,
             "x": 1.0,
@@ -15,9 +17,13 @@
         },
         "emit": true,
         "frequency": 0.20000000298023224,
-        "frequencyTime": 0.14698290824890137,
+        "frequencyTime": 0.01770309917628765,
         "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": false,
+        "isLifeOfScale": false,
         "isOneShot": false,
+        "isScaleUp": false,
         "lifeTime": 1.5,
         "maxScale": {
             "x": 1.0,
@@ -35,11 +41,17 @@
             "y": 0.0,
             "z": 0.0
         },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "shape": 1,
         "speed": 1.0,
         "translate": {
             "x": 0.0,
-            "y": 0.0,
+            "y": -0.5,
             "z": 0.0
         },
         "useTexture": "smoke.png"

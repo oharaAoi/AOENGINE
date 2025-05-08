@@ -17,7 +17,7 @@
         },
         "emit": true,
         "frequency": 0.20000000298023224,
-        "frequencyTime": 0.0,
+        "frequencyTime": 0.149937704205513,
         "gravity": -8.119999885559082,
         "isDirectionRotate": false,
         "isLifeOfAlpha": false,
@@ -51,7 +51,7 @@
         "speed": 1.0,
         "translate": {
             "x": 0.0,
-            "y": 0.30000001192092896,
+            "y": 0.0,
             "z": 0.0
         },
         "useTexture": "circle.png"

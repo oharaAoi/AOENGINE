@@ -15,6 +15,8 @@ void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 
+	emitAccumulator_ = 0.0f;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, name_);
 #endif // _DEBUG
@@ -108,60 +110,58 @@ void CpuParticles::Update(const Quaternion& bill) {
 
 void CpuParticles::Emit(const Vector3& pos) {
 	if (particleArray_.size() >= kMaxParticles) { return; }
-	for (uint32_t oi = 0; oi < emitter_.count; ++oi) {
-		auto& newParticle = particleArray_.emplace_back();
+	auto& newParticle = particleArray_.emplace_back();
 
-		newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
-		newParticle.firstScale = newParticle.scale;
-		newParticle.rotate = Quaternion::AngleAxis(RandomFloat(emitter_.angleMin, emitter_.angleMax), CVector3::FORWARD);
-		newParticle.translate = pos;
-		newParticle.color = emitter_.color;
-		if (emitter_.shape == 0) {
-			newParticle.velocity = (RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize()) * emitter_.speed;
-		} else if (emitter_.shape == 1) {
-			Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
-			newParticle.velocity = ((emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
-		}
-
-		// billbordに合わせてz軸を進行方向に向ける
-		if (emitter_.isDirectionRotate) {
-			Vector3 forward = newParticle.velocity.Normalize();
-
-			// 上方向（カメラ視点に合わせるなら bill.MakeMatrix() などから取得も可）
-			Vector3 up = CVector3::UP;
-
-			// forwardとupが平行だと問題なのでチェック
-			if (fabsf(Dot(forward, up)) > 0.99f) {
-				up = CVector3::RIGHT;
-			}
-
-			// オルソン直交基底を構築（右・上・前）
-			Vector3 right = Cross(up, forward).Normalize();
-			Vector3 adjustedUp = Cross(forward, right).Normalize();
-
-			// 回転行列を作成（Z軸 = forward）
-			Matrix4x4 rotMat;
-			rotMat.m[0][0] = right.x;   rotMat.m[0][1] = right.y;   rotMat.m[0][2] = right.z;   rotMat.m[0][3] = 0;
-			rotMat.m[1][0] = adjustedUp.x; rotMat.m[1][1] = adjustedUp.y; rotMat.m[1][2] = adjustedUp.z; rotMat.m[1][3] = 0;
-			rotMat.m[2][0] = forward.x; rotMat.m[2][1] = forward.y; rotMat.m[2][2] = forward.z; rotMat.m[2][3] = 0;
-			rotMat.m[3][0] = 0;         rotMat.m[3][1] = 0;         rotMat.m[3][2] = 0;         rotMat.m[3][3] = 1;
-
-			// 行列からクォータニオンへ変換
-			newParticle.rotate = Quaternion::FromMatrix(rotMat);
-		}
-
-		newParticle.lifeTime = emitter_.lifeTime;
-		newParticle.firstLifeTime = emitter_.lifeTime;
-		newParticle.currentTime = 0.0f;
-		newParticle.damping = emitter_.dampig;
-		newParticle.gravity = emitter_.gravity;
-
-		newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
-		newParticle.isLifeOfScale = emitter_.isLifeOfScale;
-
-		newParticle.isScaleUpScale = emitter_.isScaleUp;
-		newParticle.upScale = emitter_.scaleUpScale;
+	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+	newParticle.firstScale = newParticle.scale;
+	newParticle.rotate = Quaternion::AngleAxis(RandomFloat(emitter_.angleMin, emitter_.angleMax), CVector3::FORWARD);
+	newParticle.translate = pos;
+	newParticle.color = emitter_.color;
+	if (emitter_.shape == 0) {
+		newParticle.velocity = (RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize()) * emitter_.speed;
+	} else if (emitter_.shape == 1) {
+		Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
+		newParticle.velocity = ((emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
 	}
+
+	// billbordに合わせてz軸を進行方向に向ける
+	if (emitter_.isDirectionRotate) {
+		Vector3 forward = newParticle.velocity.Normalize();
+
+		// 上方向（カメラ視点に合わせるなら bill.MakeMatrix() などから取得も可）
+		Vector3 up = CVector3::UP;
+
+		// forwardとupが平行だと問題なのでチェック
+		if (fabsf(Dot(forward, up)) > 0.99f) {
+			up = CVector3::RIGHT;
+		}
+
+		// オルソン直交基底を構築（右・上・前）
+		Vector3 right = Cross(up, forward).Normalize();
+		Vector3 adjustedUp = Cross(forward, right).Normalize();
+
+		// 回転行列を作成（Z軸 = forward）
+		Matrix4x4 rotMat;
+		rotMat.m[0][0] = right.x;   rotMat.m[0][1] = right.y;   rotMat.m[0][2] = right.z;   rotMat.m[0][3] = 0;
+		rotMat.m[1][0] = adjustedUp.x; rotMat.m[1][1] = adjustedUp.y; rotMat.m[1][2] = adjustedUp.z; rotMat.m[1][3] = 0;
+		rotMat.m[2][0] = forward.x; rotMat.m[2][1] = forward.y; rotMat.m[2][2] = forward.z; rotMat.m[2][3] = 0;
+		rotMat.m[3][0] = 0;         rotMat.m[3][1] = 0;         rotMat.m[3][2] = 0;         rotMat.m[3][3] = 1;
+
+		// 行列からクォータニオンへ変換
+		newParticle.rotate = Quaternion::FromMatrix(rotMat);
+	}
+
+	newParticle.lifeTime = emitter_.lifeTime;
+	newParticle.firstLifeTime = emitter_.lifeTime;
+	newParticle.currentTime = 0.0f;
+	newParticle.damping = emitter_.dampig;
+	newParticle.gravity = emitter_.gravity;
+
+	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
+	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
+
+	newParticle.isScaleUpScale = emitter_.isScaleUp;
+	newParticle.upScale = emitter_.scaleUpScale;
 }
 
 void CpuParticles::EmitUpdate() {
@@ -173,12 +173,13 @@ void CpuParticles::EmitUpdate() {
 
 	// 射出のflagがtrueだったら
 	if (!emitter_.emit) { return; }
-	emitter_.frequencyTime += GameTimer::DeltaTime();
-
-	if (emitter_.frequencyTime > emitter_.frequency) {
+	emitAccumulator_ += emitter_.rateOverTimeCout * GameTimer::DeltaTime();
+	// 発射すべき個数を計算する
+	int emitCout = static_cast<int>(emitAccumulator_);
+	for (int count = 0; count < emitCout; ++count) {
 		Emit(emitter_.translate);
-		emitter_.frequencyTime = 0.0f;
 	}
+	emitAccumulator_ -= emitCout;
 }
 
 #ifdef _DEBUG

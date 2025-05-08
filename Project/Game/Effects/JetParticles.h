@@ -1,46 +1,18 @@
 #pragma once
-#include <memory>
-#include <list>
-#include "Engine/Module/Components/GameObject/GeometryObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/Lib/ParticlesData.h"
-
+#include "Game/Effects/BaseParticles.h"
 
 class JetParticles :
-	public AttributeGui {
+	public BaseParticles{
 public:
 
 	JetParticles() = default;
-	virtual ~JetParticles() override {};
+	~JetParticles() override {};
 
 	void Init(const std::string& name);
 
 	void Update(const Quaternion& bill);
 
-	void Emit(const Vector3& pos);
-
-	void EmitUpdate();
-
-#ifdef _DEBUG
-	void Debug_Gui() override;
-#endif
-
-public:
-
-	void SetParent(const Matrix4x4& parentMat);
-
-private:
-
-	const std::string kGroupName = "Effect";
-	std::string name_ = "JetParticle";
-
-	std::unique_ptr<GeometryObject> shape_;
-
-	std::list<ParticleSingle> particleArray_;
-
-	ParticleEmit emitter_;
-
-	const Matrix4x4* parentWorldMat_ = nullptr;
+	void SetParent(const Matrix4x4& parentMat) override;
 
 };
 

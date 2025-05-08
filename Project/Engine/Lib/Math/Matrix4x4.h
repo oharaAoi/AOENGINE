@@ -3,6 +3,7 @@
 
 class Vector3;
 class Quaternion;
+class Matrix3x3;
 
 class Matrix4x4 final {
 public:
@@ -85,6 +86,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Vector3 GetPosition() const;
+
+	/// <summary>
+	/// 回転成分だけ取得する
+	/// </summary>
+	/// <returns></returns>
+	Quaternion GetRotate() const;
 
 	/// <summary>
 	/// 逆行列を求める

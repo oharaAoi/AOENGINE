@@ -76,6 +76,7 @@ void EditerWindows::End() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditerWindows::AddObjectWindow(AttributeGui* attribute, const std::string& label) {
+	attribute->SetName(label);
 	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);
 }
 #endif // _DEBUG

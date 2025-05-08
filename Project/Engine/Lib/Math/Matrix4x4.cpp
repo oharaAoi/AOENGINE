@@ -1,6 +1,7 @@
 #include "Matrix4x4.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/Matrix3x3.h"
 
 Matrix4x4 Matrix4x4::Transpose() const {
 	Matrix4x4 result{};
@@ -15,6 +16,23 @@ Matrix4x4 Matrix4x4::Transpose() const {
 
 Vector3 Matrix4x4::GetPosition() const {
 	return Vector3{ m[3][0], m[3][1], m[3][2] };
+}
+
+Quaternion Matrix4x4::GetRotate() const {
+	Vector3 xAxis = Vector3(m[0][0], m[1][0], m[2][0]); // 1列目
+	Vector3 yAxis = Vector3(m[0][1], m[1][1], m[2][1]); // 2列目
+	Vector3 zAxis = Vector3(m[0][2], m[1][2], m[2][2]); // 3列目
+
+	xAxis = Normalize(xAxis);
+	yAxis = Normalize(yAxis);
+	zAxis = Normalize(zAxis);
+
+	Matrix3x3 mat;
+	mat.SetRow(0, xAxis);
+	mat.SetRow(1, yAxis);
+	mat.SetRow(2, zAxis);
+
+	return Quaternion::RotateMatrixTo(mat);
 }
 
 Matrix4x4 Matrix4x4::MakeUnit() {

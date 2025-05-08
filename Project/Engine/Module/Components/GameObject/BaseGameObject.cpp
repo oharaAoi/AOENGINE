@@ -139,6 +139,7 @@ void BaseGameObject::SetObject(const std::string& objName) {
 void BaseGameObject::SetParent(BaseGameObject* parent) {
 	pParentObj_ = parent;
 	transform_->SetParent(parent->GetTransform()->GetWorldMatrix());
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

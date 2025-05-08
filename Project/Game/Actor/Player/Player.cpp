@@ -11,9 +11,12 @@
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 
 Player::Player() {}
-Player::~Player() {}
+Player::~Player() {
+	Finalize();
+}
 
 void Player::Finalize() {
+	jet_ = nullptr;
 }
 
 #ifdef _DEBUG
@@ -40,6 +43,12 @@ void Player::Init() {
 	jet_->Init();
 	jet_->GetTransform()->SetParent(this->GetTransform()->GetWorldMatrix());
 	jet_->GetTransform()->translate_ = Vector3{ 0.0f, 1.0f, -0.6f };*/
+
+	jet_ = std::make_unique<JetEngine>();
+	jet_->Init();
+	jet_->SetParent(this);
+
+	AddChild(jet_.get());
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -88,7 +97,7 @@ void Player::Update() {
 
 	BaseGameObject::Update();
 
-	//jet_->Update();
+	jet_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +106,7 @@ void Player::Update() {
 
 void Player::Draw() const {
 	BaseGameObject::Draw();
+	jet_->Draw();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

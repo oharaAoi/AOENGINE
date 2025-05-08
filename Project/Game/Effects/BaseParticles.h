@@ -40,6 +40,7 @@ protected:
 	std::list<ParticleSingle> particleArray_;
 
 	ParticleEmit emitter_;
+	float emitAccumulator_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;
 };

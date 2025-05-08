@@ -9,6 +9,7 @@
 #include "Game/UI/Reticle.h"
 // Weapon
 #include "Game/Actor/Weapon/BaseWeapon.h"
+#include "Game/Actor/Jet/JetEngine.h"
 
 enum PlayerWeapon {
 	LEFT_WEAPON,
@@ -70,13 +71,11 @@ private:
 
 	bool isKnockback_;
 
-	// bullet --------------------------------------------------
-
-	std::unique_ptr<BaseGameObject> jet_;
-
 	// weapon --------------------------------------------------
 
 	BaseWeapon* pWeapons_[PlayerWeapon::KMAX];
 	
+	std::unique_ptr<JetEngine> jet_;
+
 };
 

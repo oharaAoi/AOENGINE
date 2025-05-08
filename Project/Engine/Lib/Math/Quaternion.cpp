@@ -262,6 +262,39 @@ Quaternion Quaternion::FromMatrix(const Matrix4x4& m) {
 	return q;
 }
 
+Quaternion Quaternion::RotateMatrixTo(const Matrix3x3 m) {
+	Quaternion q;
+	float trace = m.m[0][0] + m.m[1][1] + m.m[2][2];
+
+	if (trace > 0.0f) {
+		float s = sqrtf(trace + 1.0f) * 2.0f;
+		q.w = 0.25f * s;
+		q.x = (m.m[2][1] - m.m[1][2]) / s;
+		q.y = (m.m[0][2] - m.m[2][0]) / s;
+		q.z = (m.m[1][0] - m.m[0][1]) / s;
+	} else if ((m.m[0][0] > m.m[1][1]) && (m.m[0][0] > m.m[2][2])) {
+		float s = sqrtf(1.0f + m.m[0][0] - m.m[1][1] - m.m[2][2]) * 2.0f;
+		q.w = (m.m[2][1] - m.m[1][2]) / s;
+		q.x = 0.25f * s;
+		q.y = (m.m[0][1] + m.m[1][0]) / s;
+		q.z = (m.m[0][2] + m.m[2][0]) / s;
+	} else if (m.m[1][1] > m.m[2][2]) {
+		float s = sqrtf(1.0f + m.m[1][1] - m.m[0][0] - m.m[2][2]) * 2.0f;
+		q.w = (m.m[0][2] - m.m[2][0]) / s;
+		q.x = (m.m[0][1] + m.m[1][0]) / s;
+		q.y = 0.25f * s;
+		q.z = (m.m[1][2] + m.m[2][1]) / s;
+	} else {
+		float s = sqrtf(1.0f + m.m[2][2] - m.m[0][0] - m.m[1][1]) * 2.0f;
+		q.w = (m.m[1][0] - m.m[0][1]) / s;
+		q.x = (m.m[0][2] + m.m[2][0]) / s;
+		q.y = (m.m[1][2] + m.m[2][1]) / s;
+		q.z = 0.25f * s;
+	}
+
+	return q;
+}
+
 Vector3 Quaternion::MakeForward() const {
 	float xx = x * x;
 	float yy = y * y;

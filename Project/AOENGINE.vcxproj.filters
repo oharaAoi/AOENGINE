@@ -224,6 +224,7 @@
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -424,6 +425,7 @@
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
+    <ClInclude Include="Game\Actor\Jet\JetEngine.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

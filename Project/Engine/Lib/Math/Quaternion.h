@@ -117,6 +117,8 @@ public:
 	/// <returns>: Quaternion</returns>
 	static Quaternion FromMatrix(const Matrix4x4& m);
 
+	static Quaternion RotateMatrixTo(const Matrix3x3 m);
+
 private:
 
 	/// <summary>

@@ -1,12 +1,13 @@
 {
     "JetBornParticle": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
         "color": {
             "w": 1.0,
             "x": 0.9767441749572754,
             "y": 0.1558353453874588,
             "z": 0.022714991122484207
         },
-        "count": 20,
         "damping": 0.0,
         "direction": {
             "x": 0.0,
@@ -14,10 +15,12 @@
             "z": 0.0
         },
         "emit": true,
-        "frequency": 0.20000000298023224,
-        "frequencyTime": 0.08322979509830475,
         "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": false,
+        "isLifeOfScale": false,
         "isOneShot": false,
+        "isScaleUp": false,
         "lifeTime": 1.0,
         "maxScale": {
             "x": 0.8100000023841858,
@@ -29,8 +32,15 @@
             "y": 0.6399999856948853,
             "z": 0.7099999785423279
         },
+        "rateOverTimeCout": 10,
         "rotate": {
             "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
@@ -39,9 +49,9 @@
         "speed": 1.0,
         "translate": {
             "x": 0.0,
-            "y": 0.0,
+            "y": -0.5,
             "z": 0.0
         },
-        "useTexture": "smoke.png"
+        "useTexture": "smoke2.png"
     }
 }

@@ -9,7 +9,7 @@
 struct ParticleSingle {
 	Vector4 color;			// 色
 	Vector3 scale;			// 拡縮
-	Quaternion rotate;			// 回転
+	Quaternion rotate;		// 回転
 	Vector3 translate;		// 座標
 	Vector3 velocity;		// 速度
 	Vector3 acceleration;	// 加速度
@@ -65,9 +65,7 @@ struct ParticleEmit : public IJsonConverter {
 	Vector3 translate = CVector3::ZERO;		// 位置
 	Vector3 direction = CVector3::UP;		// 射出方向
 	uint32_t shape = 0;			// emitterの種類(0 = 全方向, 1 = 一方方向)
-	uint32_t count = 10;			// 射出数
-	float frequency = 5.0f;		// 射出間隔
-	float frequencyTime = frequency;	// 時間調整用(実際に動かす時間)
+	uint32_t rateOverTimeCout = 10;			// 射出数
 	bool emit = 0;				// 射出許可
 	bool isOneShot = false;				// 一度きりか
 
@@ -103,9 +101,7 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("translate", translate)
 			.Add("direction", direction)
 			.Add("shape", shape)
-			.Add("count", count)
-			.Add("frequency", frequency)
-			.Add("frequencyTime", frequencyTime)
+			.Add("rateOverTimeCout", rateOverTimeCout)
 			.Add("emit", emit)
 			.Add("isOneShot", isOneShot)
 			.Add("color", color)
@@ -132,9 +128,7 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "translate", translate);
 		fromJson(jsonData, "direction", direction);
 		fromJson(jsonData, "shape", shape);
-		fromJson(jsonData, "count", count);
-		fromJson(jsonData, "frequency", frequency);
-		fromJson(jsonData, "frequencyTime", frequencyTime);
+		fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
 		fromJson(jsonData, "emit", emit);
 		fromJson(jsonData, "isOneShot", isOneShot);
 		fromJson(jsonData, "color", color);

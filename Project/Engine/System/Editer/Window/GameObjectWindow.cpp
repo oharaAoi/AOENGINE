@@ -92,6 +92,10 @@ void GameObjectWindow::Edit() {
 	// -------------------------------------------------
 	ImGui::Begin("Object Setting");
 	if (selectAttribute != nullptr) {
+		ImGui::Text("Name : ");
+		ImGui::SameLine();
+		ImGui::Text(selectAttribute->GetName().c_str());
+		ImGui::Separator();
 		selectAttribute->Debug_Gui();
 	}
 	ImGui::End();
