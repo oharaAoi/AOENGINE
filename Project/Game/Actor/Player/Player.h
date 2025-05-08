@@ -7,7 +7,6 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/UI/Reticle.h"
-#include "Engine/Components/Animation/VectorTween.h"
 // Weapon
 #include "Game/Actor/Weapon/BaseWeapon.h"
 
@@ -68,9 +67,6 @@ private:
 	std::unique_ptr<StateMachine<Player>> stateMachine_;
 
 	ActionManager<Player> actionManager_;
-
-	float floatingValue_;
-	VectorTween<float> floatingTween_;
 
 	bool isKnockback_;
 

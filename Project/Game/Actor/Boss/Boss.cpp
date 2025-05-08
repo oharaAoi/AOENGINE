@@ -2,6 +2,7 @@
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Game/Actor/Boss/State/BossIdleState.h"
 
 void Boss::Finalize() {
 }
@@ -18,10 +19,15 @@ void Boss::Init() {
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
 	ColliderCollector::AddCollider(collider_.get());
 
+	// -------------------------------------------------
+	// ↓ State関連
+	// -------------------------------------------------
+	stateMachine_ = std::make_unique<StateMachine<Boss>>();
+	stateMachine_->Init(this);
+	stateMachine_->ChangeState<BossIdleState>();
+
 	transform_->translate_.z = 25.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
-
-	floatingTween_.Init(&floatingValue_, -0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::RETURN);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Boss");
@@ -33,8 +39,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	floatingTween_.Update(GameTimer::DeltaTime());
-	transform_->temporaryTranslate_.y += floatingValue_;
+	stateMachine_->Update();
 	BaseGameObject::Update();
 }
 

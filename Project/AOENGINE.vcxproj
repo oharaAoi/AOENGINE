@@ -165,6 +165,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\ComputeShader\GaussianBlur.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
@@ -356,6 +357,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\ComputeShader\GaussianBlur.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />

@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 // Engine
 #include "Engine/Components/GameObject/BaseGameObject.h"
-#include "Engine/Components/Animation/VectorTween.h"
+// Game
+#include "Game/State/StateMachine.h"
 
 class Boss :
 	public BaseGameObject {
@@ -19,10 +21,14 @@ public:
 	void Debug_Gui() override;
 #endif // _DEBUG
 
+public:
+
+	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
+
 private:
 
-	float floatingValue_;
-	VectorTween<float> floatingTween_;
+	// state --------------------------------------------------
+	std::unique_ptr<StateMachine<Boss>> stateMachine_;
 
 };
 

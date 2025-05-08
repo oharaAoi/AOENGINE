@@ -2,14 +2,14 @@
 #include <Game/State/ICharacterState.h>
 #include "Engine/Components/Animation/VectorTween.h"
 
-class Player;
+class Boss;
 
-class PlayerIdleState :
-	public ICharacterState<Player>{
+class BossIdleState :
+	public ICharacterState<Boss> {
 public:
 
-	PlayerIdleState() = default;
-	~PlayerIdleState() = default;
+	BossIdleState() = default;
+	~BossIdleState() = default;
 
 	void OnStart() override;
 	void OnUpdate() override;
