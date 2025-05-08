@@ -142,6 +142,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\Geometry\Polygon\SphereGeometry.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
+    <ClCompile Include="Engine\Module\Loader\LevelLoader.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GlitchNoise.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Grayscale.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\IPostEffect.cpp" />
@@ -334,6 +335,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Geometry\Polygon\RingGeometry.h" />
     <ClInclude Include="Engine\Module\Geometry\Polygon\SphereGeometry.h" />
     <ClInclude Include="Engine\Lib\ParticlesData.h" />
+    <ClInclude Include="Engine\Module\Loader\LevelLoader.h" />
     <ClInclude Include="Engine\Module\PostEffect\GlitchNoise.h" />
     <ClInclude Include="Engine\Module\PostEffect\Grayscale.h" />
     <ClInclude Include="Engine\Module\PostEffect\IPostEffect.h" />
