@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <functional>
 #include "Engine/System/Collision/ColliderCollector.h"
-#include "Engine/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/ICollider.h"
 
 struct CollisionPair {
 	uint32_t categoryA;

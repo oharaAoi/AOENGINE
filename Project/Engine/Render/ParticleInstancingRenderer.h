@@ -5,8 +5,8 @@
 #include <unordered_map>
 #include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/Components/Meshes/Mesh.h"
-#include "Engine/Components/Materials/Material.h"
+#include "Engine/Module/Components/Meshes/Mesh.h"
+#include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 /// <summary>

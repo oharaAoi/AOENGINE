@@ -1,5 +1,5 @@
 #include "CollisionManager.h"
-#include "Engine/Components/Collider/CollisionFunctions.h"
+#include "Engine/Module/Components/Collider/CollisionFunctions.h"
 #include "Engine/Utilities/BitChecker.h"
 
 CollisionManager::CollisionManager() {}

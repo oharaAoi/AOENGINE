@@ -4,7 +4,7 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 // engine
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 template<typename OwnerType>
 class ActionManager;

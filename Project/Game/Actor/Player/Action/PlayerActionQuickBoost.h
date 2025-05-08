@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/System/Input/Input.h"
-#include "Engine/Components/WorldTransform.h"
+#include "Engine/Module/Components/WorldTransform.h"
 #include "Game/Actor/Base/BaseAction.h"
 
 // 前方宣言

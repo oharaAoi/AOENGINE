@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <list>
-#include "Engine/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/ICollider.h"
 
 /// <summary>
 /// Colliderを収集する

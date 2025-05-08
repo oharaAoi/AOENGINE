@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Engine/Components/2d/Sprite.h"
+#include "Engine/Module/Components/2d/Sprite.h"
 #include <Lib/Math/Vector3.h>
 
 class Reticle {

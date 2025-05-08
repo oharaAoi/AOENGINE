@@ -1,6 +1,6 @@
 #pragma once
 // Engine
-#include "Engine/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
 /// <summary>
 /// Baseとなる弾クラス

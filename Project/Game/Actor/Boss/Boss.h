@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 // Engine
-#include "Engine/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
 // Game
 #include "Game/State/StateMachine.h"
 

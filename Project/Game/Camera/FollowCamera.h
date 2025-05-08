@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Game/Camera/BaseCamera.h"
 #include "Game/UI/Reticle.h"
 #include <utility>

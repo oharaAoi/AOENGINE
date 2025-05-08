@@ -8,9 +8,9 @@
 #include <assimp/postprocess.h>
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Components/Rigging/Skeleton.h"
-#include "Engine/Components/Animation/AnimationClip.h"
-#include "Engine/Components/Animation/AnimationStructures.h"
+#include "Engine/Module/Components/Rigging/Skeleton.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
+#include "Engine/Module/Components/Animation/AnimationStructures.h"
 
 class AnimationManager {
 public:

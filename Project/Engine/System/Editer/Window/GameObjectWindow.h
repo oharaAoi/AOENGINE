@@ -2,7 +2,7 @@
 #include <vector>
 #include <functional>
 #include <string>
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// GameObjectをまとめたwindow

@@ -11,7 +11,7 @@
 #include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 
-#include "Engine/ComputeShader/ComputeShader.h"
+#include "Engine/Module/ComputeShader/ComputeShader.h"
 
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -21,16 +21,16 @@
 
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 
-#include "Engine/Components/GameObject/Model.h"
-#include "Engine/Components/Materials/PBRMaterial.h"
-#include "Engine/Components/2d/Sprite.h"
-#include "Engine/Components/WorldTransform.h"
-#include "Engine/Components/ProcessedSceneFrame.h"
-#include "Engine/Components/Rigging/Skinning.h"
+#include "Engine/Module/Components/GameObject/Model.h"
+#include "Engine/Module/Components/Materials/PBRMaterial.h"
+#include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/ProcessedSceneFrame.h"
+#include "Engine/Module/Components/Rigging/Skinning.h"
 
-#include "Engine/PostEffect/PostProcess.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
 
-#include "Engine/Geometry/GeometryFactory.h"
+#include "Engine/Module/Geometry/GeometryFactory.h"
 
 #include "Engine/Utilities/Shader.h"
 

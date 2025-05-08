@@ -2,7 +2,7 @@
 #include "Game/Camera/BaseCamera.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 

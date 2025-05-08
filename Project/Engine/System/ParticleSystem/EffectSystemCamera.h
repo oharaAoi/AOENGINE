@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// Effectを作成する際に使用するカメラ

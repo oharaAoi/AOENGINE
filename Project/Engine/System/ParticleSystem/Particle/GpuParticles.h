@@ -1,9 +1,9 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include "Engine/Components/Meshes/Mesh.h"
-#include "Engine/Components/Materials/Material.h"
-#include "Engine/Components/GameObject/Model.h"
+#include "Engine/Module/Components/Meshes/Mesh.h"
+#include "Engine/Module/Components/Materials/Material.h"
+#include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Matrix4x4.h"

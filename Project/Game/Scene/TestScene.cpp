@@ -4,7 +4,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
-#include "Engine/Geometry/Polygon/PlaneGeometry.h"
+#include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() { particleManager_->Finalize(); }

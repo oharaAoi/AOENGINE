@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/System/Editer/Window/GameObjectWindow.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class EditerWindows {
 public:

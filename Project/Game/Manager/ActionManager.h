@@ -7,7 +7,7 @@
 #include <string>
 
 #include "Game/Actor/Base/BaseAction.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 
 template<typename OwnerType>

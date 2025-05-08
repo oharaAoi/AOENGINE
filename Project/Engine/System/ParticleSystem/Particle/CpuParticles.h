@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 #include <list>
-#include "Engine/Components/GameObject/GeometryObject.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/GeometryObject.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/ParticlesData.h"
 
 class CpuParticles :

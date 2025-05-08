@@ -1,6 +1,6 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
-#include "Engine/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// 3d空間上に配置するカメラ

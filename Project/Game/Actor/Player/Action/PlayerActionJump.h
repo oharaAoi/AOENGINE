@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseAction.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/Components/WorldTransform.h"
+#include "Engine/Module/Components/WorldTransform.h"
 
 // 前方宣言
 class Player;

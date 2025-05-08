@@ -3,7 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "Engine/Geometry/Structs/Vertices.h"
+#include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/System/Manager/MeshManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
