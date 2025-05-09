@@ -1,6 +1,8 @@
 #include "Player.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Collision/ColliderCollector.h"
+#include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
@@ -62,6 +64,10 @@ void Player::Init() {
 	jet_->SetParent(this);
 
 	AddChild(jet_.get());
+
+	SetCollider(ColliderTags::Player::own, ColliderShape::SPHERE);
+	collider_->SetTarget(ColliderTags::Boss::own);
+	collider_->SetTarget(ColliderTags::Field::ground);
 
 	// -------------------------------------------------
 	// ↓ State関連

@@ -30,7 +30,8 @@ void CanvasUI::Update() {
 	reticle_->Update(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
 	
 	const Player::Parameter& playerParam = pPlayer_->GetParam();
-	energyOutput_->Update(playerParam.energy);
+	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
+	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 	//postureStability_->Update();
 }
 

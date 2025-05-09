@@ -17,7 +17,6 @@ void Boss::Init() {
 
 	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
-	ColliderCollector::AddCollider(collider_.get());
 
 	// -------------------------------------------------
 	// ↓ State関連

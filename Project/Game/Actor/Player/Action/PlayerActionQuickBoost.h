@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/System/Input/Input.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Game/Actor/Base/BaseAction.h"
 
@@ -13,9 +14,25 @@ class PlayerActionQuickBoost :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter {
-		float boostForce = 10.0f;
-		float decelerationRaito = 0.8f;
+	struct Parameter : public IJsonConverter {
+		float boostForce = 10.0f;		// boostの強さ
+		float decelerationRaito = 0.8f;	// 減速の割合
+
+		float boostEnergy = 20.0f;		// 消費エネルギー
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("boostForce", boostForce)
+				.Add("decelerationRaito", decelerationRaito)
+				.Add("boostEnergy", boostEnergy)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "boostForce", boostForce);
+			fromJson(jsonData, "decelerationRaito", decelerationRaito);
+			fromJson(jsonData, "boostEnergy", boostEnergy);
+		}
 	};
 
 public:

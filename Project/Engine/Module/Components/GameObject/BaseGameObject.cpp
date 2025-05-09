@@ -116,6 +116,7 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 	}
 
 	collider_->Init(categoryName, shape);
+	ColliderCollector::AddCollider(collider_.get());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,7 +199,14 @@ void BaseGameObject::Debug_Draw() {
 
 void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
-	model_->Debug_Gui("Test");
+	int index = 0;
+	for (auto& material : materials) {
+		std::string guiId = "material_" + std::to_string(index);
+		if (ImGui::TreeNode(guiId.c_str())) {
+			material->ImGuiDraw();
+			ImGui::TreePop();
+		}
+	}
 
 	Debug_Axis();
 

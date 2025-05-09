@@ -1,4 +1,5 @@
 #include "PlayerActionQuickBoost.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 
@@ -10,9 +11,19 @@
 void PlayerActionQuickBoost::Debug_Gui() {
 	ImGui::DragFloat("first_boostForce", &firstParam_.boostForce, 0.1f);
 	ImGui::DragFloat("first_decelerationRaito", &firstParam_.decelerationRaito, 0.01f);
+	ImGui::DragFloat("first_boostEnergy", &firstParam_.boostEnergy, 0.01f);
 
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
 	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
+	ImGui::Text("boostEnergy: (%.2f)", param_.boostEnergy);
+
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("PlayerAction", firstParam_.ToJson(GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		firstParam_.FromJson(JsonItems::GetData("PlayerAction", GetName()));
+		param_ = firstParam_;
+	}
 
 }
 #endif // _DEBUG
@@ -40,6 +51,10 @@ void PlayerActionQuickBoost::OnStart() {
 
 	acceleration_ = direction_ * param_.boostForce;
 	velocity_ = { 0.0f, 0.0f, 0.0f };
+
+	// エネルギーを消費する
+	Player::Parameter& ownerParam_ = pOwner_->GetParam();
+	ownerParam_.energy -= param_.boostEnergy;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

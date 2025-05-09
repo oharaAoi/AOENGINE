@@ -16,15 +16,23 @@ namespace ColliderTags {
 		const std::string machinegun = "machinegun";
 		const std::string launcher = "launcher";
 	}
+
+	namespace Field {
+		const std::string ground = "ground";
+	}
 }
 
 inline std::list<std::string> GetColliderTagsList() {
 	std::list<std::string> colliderTags = {
 		ColliderTags::Player::own,
+
 		ColliderTags::Boss::own,
 		ColliderTags::Boss::attack,
+
 		ColliderTags::Bullet::machinegun,
-		ColliderTags::Bullet::launcher
+		ColliderTags::Bullet::launcher,
+
+		ColliderTags::Field::ground,
 	};
 
 	return colliderTags;

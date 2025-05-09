@@ -46,6 +46,9 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	floor_ = std::make_unique<Floor>();
+	floor_->Init();
+
 	skybox_ = std::make_unique<Skybox>();
 	skybox_->Init();
 
@@ -110,6 +113,7 @@ void GameScene::Update() {
 	skybox_->Update();
 
 	skydome_->Update();
+	floor_->Update();
 	playerManager_->Update();
 	boss_->Update();
 
@@ -153,10 +157,11 @@ void GameScene::Draw() const {
 		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
 
-	skybox_->Draw();
+	//skybox_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::Normal);
-	//skydome_->Draw();
+	skydome_->Draw();
+	floor_->Draw();
 	playerManager_->Draw();
 	boss_->Draw();
 
