@@ -22,7 +22,7 @@ void Object3dPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, 
 	pipelineMap_[Object3dPSO::TextureLess]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::TextureLess), RootSignatureType::TextureLess, inputLayout_.Create(), Blend::ModeNormal, true, true, true);
 	pipelineMap_[Object3dPSO::Particle]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Particle), RootSignatureType::Particle, inputLayout_.CreateParticle(), Blend::ModeAdd,true, false, true);
 	pipelineMap_[Object3dPSO::SubParticle]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Particle), RootSignatureType::Particle, inputLayout_.CreateParticle(), Blend::ModeNormal,true, false, true);
-	pipelineMap_[Object3dPSO::Skybox]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Skybox), RootSignatureType::Normal, inputLayout_.Create(), Blend::ModeNormal, true, false, true);
+	pipelineMap_[Object3dPSO::Skybox]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Skybox), RootSignatureType::Skybox, inputLayout_.Create(), Blend::ModeNormal, true, false, true);
 
 }
 

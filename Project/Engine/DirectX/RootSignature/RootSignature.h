@@ -12,6 +12,7 @@ enum class RootSignatureType {
 	Particle,
 	Sprite,
 	PBR,
+	Skybox,
 	ProcessedScene,
 	RadialBlur,
 	ComputeShader,
@@ -41,6 +42,7 @@ public:
 	ComPtr<ID3D12RootSignature> CreateParticle();
 	ComPtr<ID3D12RootSignature> CreateSprite();
 	ComPtr<ID3D12RootSignature> CreatePBR();
+	ComPtr<ID3D12RootSignature> CreateSkybox();
 	ComPtr<ID3D12RootSignature> CreateComputeShader();
 	ComPtr<ID3D12RootSignature> CreateCsSkinnig();
 	ComPtr<ID3D12RootSignature> CreateBlendShader();
@@ -64,6 +66,7 @@ public:
 		{RootSignatureType::Particle, &RootSignature::CreateParticle},
 		{RootSignatureType::Sprite, &RootSignature::CreateSprite},
 		{RootSignatureType::PBR, &RootSignature::CreatePBR},
+		{RootSignatureType::Skybox, &RootSignature::CreateSkybox},
 		{RootSignatureType::ProcessedScene, &RootSignature::CreateProcessedScene},
 		{RootSignatureType::RadialBlur, &RootSignature::CreateRadialBlur},
 		// CS
