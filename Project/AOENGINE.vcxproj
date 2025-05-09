@@ -294,6 +294,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
+    <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
+    <ClCompile Include="Game\UI\CanvasUI.cpp" />
+    <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
+    <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
@@ -498,6 +502,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
+    <ClInclude Include="Game\UI\BaseGaugeUI.h" />
+    <ClInclude Include="Game\UI\CanvasUI.h" />
+    <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
+    <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />

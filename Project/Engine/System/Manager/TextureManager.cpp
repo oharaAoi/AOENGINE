@@ -68,9 +68,16 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-	srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
-
+	if (metadata.IsCubemap()) {
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
+		srvDesc.TextureCube.MipLevels = UINT_MAX;
+		srvDesc.TextureCube.MostDetailedMip = 0;
+		srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
+	} else {
+		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+		srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
+	}
+	
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
 	data.address_ = dxHeap_->AllocateSRV();
@@ -92,12 +99,24 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 DirectX::ScratchImage TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertWString(directoryPath + filePath);
-	HRESULT hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_RGB, nullptr, image);
+	HRESULT hr;
+	// より安全な方法で行うべき
+	if (filePathW.ends_with(L".dds")) {
+		hr = DirectX::LoadFromDDSFile(filePathW.c_str(), DirectX::DDS_FLAGS_NONE, nullptr, image);
+	} else {
+		hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
+	}
+
 	assert(SUCCEEDED(hr));
 
 	// ミニマップの作成
 	DirectX::ScratchImage mipImages{};
-	hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 0, mipImages);
+	if (DirectX::IsCompressed(image.GetMetadata().format)) {
+		mipImages = std::move(image);
+	} else {
+		hr = DirectX::GenerateMipMaps(image.GetImages(), image.GetImageCount(), image.GetMetadata(), DirectX::TEX_FILTER_SRGB, 4, mipImages);
+	}
+	
 	assert(SUCCEEDED(hr));
 
 	return mipImages;
@@ -182,6 +201,7 @@ ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> 
 D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadata& metadata) {
 	// metaDataを元にResourceを設定
 	D3D12_RESOURCE_DESC desc{};
+	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;									// TextureのFormat
 	desc.Width = UINT(metadata.width);								// Textureの幅
 	desc.Height = UINT(metadata.height);							// Textureの高さ
 	desc.MipLevels = UINT16(metadata.mipLevels);					// mipmapの数

@@ -225,6 +225,10 @@
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
     <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
+    <ClCompile Include="Game\UI\PostureStability.cpp" />
+    <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
+    <ClCompile Include="Game\UI\CanvasUI.cpp" />
+    <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -426,6 +430,10 @@
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Jet\JetEngine.h" />
+    <ClInclude Include="Game\UI\PostureStability.h" />
+    <ClInclude Include="Game\UI\BaseGaugeUI.h" />
+    <ClInclude Include="Game\UI\CanvasUI.h" />
+    <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

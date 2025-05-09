@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
@@ -22,6 +23,22 @@ void Player::Finalize() {
 #ifdef _DEBUG
 void Player::Debug_Gui() {
 	transform_->Debug_Gui();
+
+	if (ImGui::CollapsingHeader("CurrentParameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("energy", &param_.energy, 0.1f);
+	}
+
+	if (ImGui::CollapsingHeader("Parameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save(GetName(), initParam_.ToJson("playerParameter"));
+		}
+		if (ImGui::Button("Apply")) {
+			initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
+			param_ = initParam_;
+		}
+	}
 }
 
 #endif // _DEBUG
@@ -38,11 +55,7 @@ void Player::Knockback() {
 void Player::Init() {
 	BaseGameObject::Init();
 	SetObject("player.obj");
-
-	/*jet_ = std::make_unique<BaseGameObject>();
-	jet_->Init();
-	jet_->GetTransform()->SetParent(this->GetTransform()->GetWorldMatrix());
-	jet_->GetTransform()->translate_ = Vector3{ 0.0f, 1.0f, -0.6f };*/
+	SetName("Player");
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
@@ -73,10 +86,16 @@ void Player::Init() {
 	size_t hash = typeid(PlayerActionMove).hash_code();
 	actionManager_.AddRunAction(hash);
 
+	// -------------------------------------------------
+	// ↓ Parameter関連
+	// -------------------------------------------------
 	isKnockback_ = false;
 
+	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
+	param_ = initParam_;
+
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "player");
+	EditerWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
 
 }

@@ -49,9 +49,10 @@ void GameObjectWindow::Edit() {
 	ImGui::Begin("Scene Object");
 	static AttributeGui* selectAttribute = nullptr;  // 現在選択されているノード
 	static std::string openNode = "";  // 現在開いているTreeNodeの名前
+	static bool firstOpenRoot = true;
 	for (auto it : attributeArray_) {
 		std::string label = it.first;
-		const AttributeGui* ptr = it.second;
+		AttributeGui* ptr = it.second;
 		// 子供を所有している場合
 		if (ptr->HasChild()) {
 			bool isOpen = (label == openNode);  // 現在開いているノードか確認
@@ -60,6 +61,15 @@ void GameObjectWindow::Edit() {
 			}
 
 			if (ImGui::TreeNode(label.c_str())) {
+				if (ImGui::IsItemClicked()) {
+					firstOpenRoot = true;
+				}
+				if (firstOpenRoot) {
+					firstOpenRoot = false;
+					selectAttribute = ptr;
+					openNode = "";  // 他のノードを閉じる
+				}
+
 				for (auto child : ptr->GetChildren()) {
 					if (ImGui::Selectable(child->GetName().c_str(), selectAttribute == child)) {
 						// 新しく選択されたら開いているノードを変更
@@ -67,7 +77,7 @@ void GameObjectWindow::Edit() {
 							openNode = label;  // 現在の親ノードを記録
 						}
 						selectAttribute = child;
-					}
+					} 
 				}
 				ImGui::TreePop();
 			} else {

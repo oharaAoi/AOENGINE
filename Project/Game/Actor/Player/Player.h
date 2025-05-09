@@ -19,7 +19,23 @@ enum PlayerWeapon {
 
 class Player :
 	public BaseGameObject {
-public:
+public:		// data
+
+	struct Parameter : public IJsonConverter {
+		float energy = 1.f;	// EN出力
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("energy", energy)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "energy", energy);
+		}
+	};
+
+public:		// base
 
 	Player();
 	~Player();
@@ -40,17 +56,27 @@ public:		// accessor method
 
 	void Knockback();
 
+	// parameter
+	Parameter& GetParam() { return param_; }
+	const Parameter& GetInitParam() { return initParam_; }
+
+	// jet
 	BaseGameObject* GetJet() { return jet_.get(); }
 
+	// stateMachine
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }
 
+	// camera
 	void SetFollowCamera(FollowCamera* followCamera) { pFollowCamera_ = followCamera; }
 	FollowCamera* GetFollowCamera() { return pFollowCamera_; }
 
+	// reticle
 	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
 
+	// bullet
 	void SetBulletManager(PlayerBulletManager* bulletManager) { pBulletManager_ = bulletManager; }
 
+	// weapon
 	void SetWeapon(BaseWeapon* _weapon, PlayerWeapon _type);
 	BaseWeapon* GetWeapon(PlayerWeapon _type) { return pWeapons_[_type]; }
 
@@ -70,6 +96,11 @@ private:
 	ActionManager<Player> actionManager_;
 
 	bool isKnockback_;
+
+	// Parameter --------------------------------------------------
+	// 姿勢安定ゲージ
+	Parameter param_;
+	Parameter initParam_;
 
 	// weapon --------------------------------------------------
 

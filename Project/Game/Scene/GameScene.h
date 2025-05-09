@@ -10,6 +10,7 @@
 #include "Game/Actor/Player/PlayerManager.h"
 #include "Game/Actor/Boss/Boss.h"
 // sprite
+#include "Game/UI/CanvasUI.h"
 #include "Game/UI/Reticle.h"
 #include "Engine/System/Manager/ParticleManager.h"
 // manager
@@ -33,6 +34,7 @@ public:
 	void Debug_Gui() override;
 #endif
 
+
 private:
 
 	// ------------------- camera ------------------- //
@@ -51,7 +53,7 @@ private:
 	std::unique_ptr<GameCallBacksManager> gameCallBacksManager_;
 
 	// ------------------- sprite ------------------- //
-	std::unique_ptr<Reticle> reticle_;
+	std::unique_ptr<CanvasUI> canvas_;
 
 	ParticleManager* particleManager_;
 

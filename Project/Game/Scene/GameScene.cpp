@@ -75,18 +75,22 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ spriteの初期化
 	// -------------------------------------------------
-	reticle_ = std::make_unique<Reticle>();
-	reticle_->Init();
+	canvas_ = std::make_unique<CanvasUI>();
+	canvas_->Init();
 
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
 	Player* pPlayer = playerManager_->GetPlayer();
 	pPlayer->SetFollowCamera(followCamera_.get());
-	pPlayer->SetReticle(reticle_.get());
+	pPlayer->SetReticle(canvas_->GetReticle());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
-	followCamera_->SetReticle(reticle_.get());
+	followCamera_->SetReticle(canvas_->GetReticle());
+
+	canvas_->SetPlayer(playerManager_->GetPlayer());
+	canvas_->SetBoss(boss_.get());
+	canvas_->SetFollowCamera(followCamera_.get());
 
 }
 
@@ -112,8 +116,8 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------
-	reticle_->Update(boss_->GetTransform()->GetWorldMatrix(), followCamera_->GetVpvpMatrix());
-
+	canvas_->Update();
+	
 	// -------------------------------------------------
 	// ↓ cameraの更新 
 	// -------------------------------------------------
@@ -151,7 +155,7 @@ void GameScene::Draw() const {
 	// ↓ spriteの描画
 	// -------------------------------------------------
 	Engine::SetPSOSprite(SpritePSO::Normal);
-	reticle_->Draw();
+	canvas_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::Particle);
 	ParticleManager::GetInstance()->Draw();
