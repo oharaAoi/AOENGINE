@@ -13,6 +13,7 @@ void Shader::Init() {
 	Load("Engine/Assets/HLSL/Primitive.VS.hlsl",			"Engine/Assets/HLSL/Primitive.PS.hlsl", Shader::Primitive);
 	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Phong.Lighting.hlsl", Shader::Phong);
 	Load("Engine/Assets/HLSL/PBR.VS.hlsl",				"Engine/Assets/HLSL/PBR.PS.hlsl", Shader::PBR);
+	Load("Engine/Assets/HLSL/Skybox.VS.hlsl",				"Engine/Assets/HLSL/Skybox.PS.hlsl", Shader::Skybox);
 	Load("Engine/Assets/HLSL/Sprite.VS.hlsl",			"Engine/Assets/HLSL/Sprite.PS.hlsl", Shader::Sprite);
 	Load("Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl", "Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl", Shader::Particle);
 	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/ProcessedScene.PS.hlsl", Shader::ProcessedScene);

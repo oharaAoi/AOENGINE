@@ -15,6 +15,7 @@ public:
 		Phong,
 		PBR,
 		Particle,
+		Skybox,
 		Sprite,
 		ProcessedScene,
 		Grayscale,

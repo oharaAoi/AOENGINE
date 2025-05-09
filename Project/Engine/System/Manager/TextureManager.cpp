@@ -66,14 +66,15 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// ------------------------------------------------------------
 	// metadataを元にSRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	srvDesc.Format = metadata.format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	if (metadata.IsCubemap()) {
 		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
-		srvDesc.TextureCube.MipLevels = UINT_MAX;
 		srvDesc.TextureCube.MostDetailedMip = 0;
+		srvDesc.TextureCube.MipLevels = UINT_MAX;
 		srvDesc.TextureCube.ResourceMinLODClamp = 0.0f;
 	} else {
+		//srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;  // リソースと同じに
 		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 		srvDesc.Texture2D.MipLevels = UINT(metadata.mipLevels);
 	}
@@ -177,8 +178,21 @@ ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> 
 														 ComPtr<ID3D12GraphicsCommandList> commandList) {
 	std::vector<D3D12_SUBRESOURCE_DATA> subresources;
 	DirectX::PrepareUpload(device.Get(), mipImage.GetImages(), mipImage.GetImageCount(), mipImage.GetMetadata(), subresources); // subresourceの生成
-	uint64_t intermediateSize = GetRequiredIntermediateSize(texture.Get(), 0, UINT(subresources.size()));						// 必要なサイズを求める
+	UINT64 intermediateSize = GetRequiredIntermediateSize(texture.Get(), 0, UINT(subresources.size()));						// 必要なサイズを求める
 	Microsoft::WRL::ComPtr<ID3D12Resource> intermediateResource = CreateBufferResource(device, intermediateSize);
+
+	assert(commandList);  // コマンドリストが有効か
+	assert(texture);      // 書き込み先リソースが有効か
+	assert(intermediateResource); // 中間バッファが有効か
+	assert(!subresources.empty()); // サブリソースが空でないか
+	assert(subresources.data() != nullptr); // ポインタが有効か
+
+	for (size_t i = 0; i < subresources.size(); ++i) {
+		const D3D12_SUBRESOURCE_DATA& sub = subresources[i];
+		assert(sub.pData != nullptr);  // 転送元ポインタが有効か
+		assert(sub.RowPitch > 0);
+		assert(sub.SlicePitch >= sub.RowPitch);
+	}
 
 	// データ転送をコマンドに積む
 	UpdateSubresources(commandList.Get(), texture.Get(), intermediateResource.Get(), 0, 0, UINT(subresources.size()), subresources.data());
@@ -201,12 +215,11 @@ ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> 
 D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadata& metadata) {
 	// metaDataを元にResourceを設定
 	D3D12_RESOURCE_DESC desc{};
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;									// TextureのFormat
+	desc.Format = metadata.format;									// TextureのFormat
 	desc.Width = UINT(metadata.width);								// Textureの幅
 	desc.Height = UINT(metadata.height);							// Textureの高さ
 	desc.MipLevels = UINT16(metadata.mipLevels);					// mipmapの数
 	desc.DepthOrArraySize = UINT16(metadata.arraySize);				// 奥行き　or 配列Textureの配数
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;									// TextureのFormat
 	desc.SampleDesc.Count = 1;										// サンプリングカウント
 	desc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);	// Textureの次元数
 

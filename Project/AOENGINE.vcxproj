@@ -300,6 +300,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
+    <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Module\Geometry\Structs\Vertices.cpp" />
@@ -508,6 +509,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
+    <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
@@ -524,6 +526,18 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\Skybox.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\Skybox.VS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
@@ -680,6 +694,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <Text Include="Externals\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Engine\Assets\HLSL\Skybox.hlsli" />
     <None Include="Engine\Resources\HLSL\Object3d.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>

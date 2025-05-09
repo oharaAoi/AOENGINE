@@ -7,6 +7,7 @@
 #include "Game/Camera/Camera2d.h"
 // actor
 #include "Game/WorldObject/Skydome.h"
+#include "Game/WorldObject/Skybox.h"
 #include "Game/Actor/Player/PlayerManager.h"
 #include "Game/Actor/Boss/Boss.h"
 // sprite
@@ -34,7 +35,6 @@ public:
 	void Debug_Gui() override;
 #endif
 
-
 private:
 
 	// ------------------- camera ------------------- //
@@ -44,6 +44,7 @@ private:
 
 	// ------------------- actor ------------------- //
 	std::unique_ptr<Skydome> skydome_;
+	std::unique_ptr<Skybox> skybox_;
 	std::unique_ptr<PlayerManager> playerManager_;
 	std::unique_ptr<Boss> boss_;
 

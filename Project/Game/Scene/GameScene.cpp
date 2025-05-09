@@ -46,6 +46,9 @@ void GameScene::Init() {
 	skydome_ = std::make_unique<Skydome>();
 	skydome_->Init();
 
+	skybox_ = std::make_unique<Skybox>();
+	skybox_->Init();
+
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
 
@@ -103,6 +106,9 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ actorの更新
 	// -------------------------------------------------
+
+	skybox_->Update();
+
 	skydome_->Update();
 	playerManager_->Update();
 	boss_->Update();
@@ -146,8 +152,11 @@ void GameScene::Draw() const {
 	} else {
 		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
+
+	skybox_->Draw();
+
 	Engine::SetPSOObj(Object3dPSO::Normal);
-	skydome_->Draw();
+	//skydome_->Draw();
 	playerManager_->Draw();
 	boss_->Draw();
 

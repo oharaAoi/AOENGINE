@@ -28,4 +28,6 @@ public:
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateRenderTexture();
 
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkybox();
+
 };

@@ -68,3 +68,17 @@ void CubeGeometry::Init(const Vector3& size) {
 		indices_[face * 6 + 5] = vi + 2;
 	}
 }
+
+void CubeGeometry::Inverse() {
+	for (int face = 0; face < 6; ++face) {
+		// 頂点インデックスを面の向きに合わせて組む（左下→左上→右下→右上）
+		uint32_t vi = face * 4;
+		indices_[face * 6 + 0] = vi + 2;
+		indices_[face * 6 + 1] = vi + 1;
+		indices_[face * 6 + 2] = vi + 0;
+
+		indices_[face * 6 + 3] = vi + 2;
+		indices_[face * 6 + 4] = vi + 3;
+		indices_[face * 6 + 5] = vi + 1;
+	}
+}
