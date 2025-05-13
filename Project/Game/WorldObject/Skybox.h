@@ -36,6 +36,6 @@ private:
 	std::unique_ptr<Material> material_ = nullptr;
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 
-	std::string useTexture_ = "rostock_laage_airport_4k.dds";
+	std::string useTexture_ = "output_skybox.dds";
 };
 

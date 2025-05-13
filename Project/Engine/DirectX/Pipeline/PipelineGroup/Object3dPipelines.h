@@ -4,6 +4,7 @@
 enum class Object3dPSO {
 	Normal,
 	NormalCut,
+	NormalEnviroment,
 	Add,
 	TextureLess,
 	Particle,

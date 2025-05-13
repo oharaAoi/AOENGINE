@@ -9,6 +9,7 @@ Shader::~Shader() {
 void Shader::Init() {
 	// VS/PS
 	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Object3d.PS.hlsl", Shader::Normal);
+	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Object3dEnviroment.PS.hlsl", Shader::NormalEnviroment);
 	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Textureless.PS.hlsl", Shader::TextureLess);
 	Load("Engine/Assets/HLSL/Primitive.VS.hlsl",			"Engine/Assets/HLSL/Primitive.PS.hlsl", Shader::Primitive);
 	Load("Engine/Assets/HLSL/Object3d.VS.hlsl",			"Engine/Assets/HLSL/Phong.Lighting.hlsl", Shader::Phong);

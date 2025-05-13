@@ -104,7 +104,7 @@ void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 }
 
 void Render::DrawLightGroup(const int& startIndex) {
-	lightGroup_->DrawLi(commandList_, startIndex);
+	lightGroup_->Draw(commandList_, startIndex);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

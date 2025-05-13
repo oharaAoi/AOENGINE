@@ -157,13 +157,16 @@ void GameScene::Draw() const {
 		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
 	}
 
-	//skybox_->Draw();
+	skybox_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::Normal);
-	skydome_->Draw();
-	floor_->Draw();
+	//skydome_->Draw();
+	//floor_->Draw();
 	playerManager_->Draw();
-	boss_->Draw();
+	//boss_->Draw();
+
+	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
+	sphere_->Draw();
 
 	// -------------------------------------------------
 	// ↓ spriteの描画

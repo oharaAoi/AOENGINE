@@ -7,6 +7,7 @@
 
 enum class RootSignatureType {
 	Normal,
+	NormalEnviroment,
 	TextureLess,
 	Primitive,
 	Particle,
@@ -37,6 +38,7 @@ public:
 	void Finalize();
 
 	ComPtr<ID3D12RootSignature> CreateNormal();
+	ComPtr<ID3D12RootSignature> CreateNormalEnviroment();
 	ComPtr<ID3D12RootSignature> CreateTextureless();
 	ComPtr<ID3D12RootSignature> CreatePrimitive();
 	ComPtr<ID3D12RootSignature> CreateParticle();
@@ -61,6 +63,7 @@ public:
 	std::unordered_map<RootSignatureType, FunctionPointer> functionMap_ = {
 		// graphics
 		{RootSignatureType::Normal, &RootSignature::CreateNormal},
+		{RootSignatureType::NormalEnviroment, &RootSignature::CreateNormalEnviroment},
 		{RootSignatureType::TextureLess, &RootSignature::CreateTextureless},
 		{RootSignatureType::Primitive, &RootSignature::CreatePrimitive},
 		{RootSignatureType::Particle, &RootSignature::CreateParticle},

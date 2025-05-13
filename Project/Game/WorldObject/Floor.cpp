@@ -13,6 +13,8 @@ void Floor::Init() {
 	BaseGameObject::Init();
 	SetName("Ground");
 	SetObject("floor.obj");
+	SetIsLighting(false);
+
 	SetCollider(ColliderTags::Field::ground, ColliderShape::AABB);
 	collider_->SetTarget(ColliderTags::Boss::own);
 	ColliderCollector::AddCollider(collider_.get());

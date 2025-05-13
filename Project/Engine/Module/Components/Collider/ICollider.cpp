@@ -36,3 +36,19 @@ void ICollider::SetTarget(const std::string& id) {
 	uint32_t bit = layers.GetCategoryBit(id);
 	SetMaskBits(bit);
 }
+
+void ICollider::SetPushBackDirection(const Vector3& dire) {
+	if (pushbackDire_.x > dire.x) {
+		pushbackDire_.x = dire.x;
+	}
+
+	if (pushbackDire_.y > dire.y) {
+		pushbackDire_.y = dire.y;
+	}
+
+	if (pushbackDire_.z > dire.z) {
+		pushbackDire_.z = dire.z;
+	}
+}
+
+

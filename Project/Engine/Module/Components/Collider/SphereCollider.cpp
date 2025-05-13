@@ -46,3 +46,11 @@ void SphereCollider::Draw() const {
 		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat());
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　押し戻し処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void SphereCollider::PushBack(const Vector3& vector) {
+	std::get<Sphere>(shape_).center += vector;
+}

@@ -58,3 +58,16 @@ void BoxCollider::Draw() const {
 		DrawOBB(std::get<OBB>(shape_), Render::GetViewProjectionMat(), color);
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　押し戻し処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BoxCollider::PushBack(const Vector3& vector) {
+	if (std::holds_alternative<AABB>(shape_)) {
+		std::get<AABB>(shape_).min += vector; 
+		std::get<AABB>(shape_).max += vector; 
+	} else if (std::holds_alternative<OBB>(shape_)) {
+		std::get<OBB>(shape_).center += vector;
+	}
+}

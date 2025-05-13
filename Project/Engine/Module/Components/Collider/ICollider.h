@@ -30,6 +30,8 @@ public:
 	virtual void Update(const QuaternionSRT& srt) = 0;
 	virtual void Draw() const = 0;
 
+	virtual void PushBack(const Vector3& vector) = 0;
+
 public:
 
 	/// <summary>
@@ -74,6 +76,12 @@ public:
 	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
+	// ------------ 貫通対策 ------------ // 
+	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
+	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
+
+	void SetPushBackDirection(const Vector3& dire);
+
 protected:
 
 	bool isActive_ = false;
@@ -92,5 +100,10 @@ protected:
 	Vector3 size_;
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
+
+	// 貫通対策
+	bool penetrationPrevention_;	// 貫通対策を行うかどうか
+	Vector3 pushbackDire_;
+
 };
 

@@ -19,6 +19,8 @@
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
 
+#include "Engine/Module/Components/GameObject/GeometryObject.h"
+
 
 class GameScene 
 	: public BaseScene {

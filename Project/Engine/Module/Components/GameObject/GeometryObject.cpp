@@ -14,8 +14,9 @@ void GeometryObject::Update() {
 }
 
 void GeometryObject::Draw() const {
-	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
 
+	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	Render::DrawLightGroup(4);
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 	commandList->SetGraphicsRootConstantBufferView(0, material_->GetBufferAdress());
@@ -25,6 +26,7 @@ void GeometryObject::Draw() const {
 
 	std::string textureName = material_->GetUseTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "output_skybox.dds", 7);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }

@@ -94,6 +94,33 @@ ComPtr<ID3D12RootSignature> RootSignature::CreateNormal() {
 		.Build(device_);
 }
 
+ComPtr<ID3D12RootSignature> RootSignature::CreateNormalEnviroment() {
+	D3D12_DESCRIPTOR_RANGE spriteDescriptorRange[1] = {};
+	spriteDescriptorRange[0].BaseShaderRegister = 0;
+	spriteDescriptorRange[0].NumDescriptors = 1;
+	spriteDescriptorRange[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	spriteDescriptorRange[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+	D3D12_DESCRIPTOR_RANGE reflection[1] = {};
+	reflection[0].BaseShaderRegister = 1;
+	reflection[0].NumDescriptors = 1;
+	reflection[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+	reflection[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+
+	return builder_
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_PIXEL)  // Material用
+		.AddCBV(0, D3D12_SHADER_VISIBILITY_VERTEX) // Transform用
+		.AddCBV(1, D3D12_SHADER_VISIBILITY_VERTEX) // viewProjection用
+		.AddDescriptorTable(spriteDescriptorRange, 1, D3D12_SHADER_VISIBILITY_PIXEL) // Texture用
+		.AddCBV(1, D3D12_SHADER_VISIBILITY_PIXEL)  // directionalLight用
+		.AddCBV(2, D3D12_SHADER_VISIBILITY_PIXEL)  // pointLight用
+		.AddCBV(3, D3D12_SHADER_VISIBILITY_PIXEL)  // spotLight用
+		.AddDescriptorTable(reflection, 1, D3D12_SHADER_VISIBILITY_PIXEL) // Texture用
+		.AddSampler(CreateSampler(D3D12_TEXTURE_ADDRESS_MODE_WRAP))
+		.Build(device_);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////
 // textureがないRootSignature
 //////////////////////////////////////////////////////////////////////////////////////

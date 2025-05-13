@@ -10,6 +10,7 @@ public:
 	// 
 	enum ShaderName {
 		Normal,
+		NormalEnviroment,
 		TextureLess,
 		Primitive,
 		Phong,
