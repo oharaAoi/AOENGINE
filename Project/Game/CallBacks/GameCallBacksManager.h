@@ -2,7 +2,9 @@
 #include <memory>
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Game/Actor/Player/PlayerManager.h"
+#include "Game/WorldObject/Floor.h"
 #include "Game/CallBacks/PBulletToBossCallBacks.h"
+#include "Game/CallBacks/PlayerToGroundCallBacks.h"
 
 /// <summary>
 /// CallBackをまとめたクラス
@@ -24,6 +26,7 @@ public:		// accessor method
 
 	void SetPlayerManager(PlayerManager* _manager) { pPlayerManager_ = _manager; }
 	void SetBoss(Boss* _boss) { pBoss_ = _boss; }
+	void SetGround(Floor* _floor) { pFloor_ = _floor; }
 
 private:
 
@@ -33,9 +36,11 @@ private:
 	// objectポインタ
 	PlayerManager* pPlayerManager_ = nullptr;
 	Boss* pBoss_ = nullptr;
+	Floor* pFloor_ = nullptr;
 
 	// callBacks
 	std::unique_ptr<PBulletToBossCallBacks> pBulletToBoss_;
+	std::unique_ptr<PlayerToGroundCallBacks> pPlayerToGround_;
 
 };
 

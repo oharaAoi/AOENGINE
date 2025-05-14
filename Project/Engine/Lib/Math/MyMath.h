@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/MyMatrix.h"
 #include <cmath>
+#define NOMINMAX
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <algorithm>

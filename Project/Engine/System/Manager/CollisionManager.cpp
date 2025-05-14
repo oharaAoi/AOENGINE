@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 #include "Engine/Module/Components/Collider/CollisionFunctions.h"
+#include "Engine/System/Collision/PenetrationResolution.h"
 #include "Engine/Utilities/BitChecker.h"
 
 CollisionManager::CollisionManager() {}
@@ -53,6 +54,13 @@ void CollisionManager::CheckAllCollision() {
 			CheckCollisionPair(colliderA, colliderB);
 		}
 	}
+
+	// 押し戻しを行う
+	for (auto& collider : colliderList) {
+		if (!collider->GetIsStatic()) {
+			collider->PushBack();
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +74,14 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 		colliderB->SwitchCollision(colliderA);
 
 		OnCollision(colliderA, colliderB);
+
+		if (!colliderA->GetIsStatic()) {
+			colliderA->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+		}
+
+		if (!colliderB->GetIsStatic()) {
+			colliderB->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+		}
 		
 	} else {
 		ExitCollision(colliderA, colliderB);

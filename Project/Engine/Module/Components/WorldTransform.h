@@ -30,6 +30,8 @@ public:
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
 	void BindCommandList(ID3D12GraphicsCommandList* commandList) const;
 
+	void Translate(const Vector3& translate) { translate_ += translate; }
+
 #ifdef _DEBUG
 	void Debug_Gui();
 	void Debug_Quaternion();

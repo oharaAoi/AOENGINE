@@ -12,7 +12,7 @@ public:
 	void Update(const QuaternionSRT& srt) override;
 	void Draw() const override;
 
-	void PushBack(const Vector3& vector) override;
+	void PushBack() override;
 
 public:
 

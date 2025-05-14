@@ -55,10 +55,10 @@ void PlayerActionJump::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::CheckNextAction() {
-	if (pOwnerTransform_->translate_.y <= 0.0f) {
+	/*if (pOwnerTransform_->translate_.y <= 0.0f) {
 		pOwnerTransform_->translate_.y = 0.0f;
 		NextAction<PlayerActionIdle>();
-	}
+	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

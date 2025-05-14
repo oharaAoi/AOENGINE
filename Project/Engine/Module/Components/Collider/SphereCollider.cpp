@@ -31,7 +31,7 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereCollider::Update(const QuaternionSRT& srt) {
-	centerPos_ = srt.translate;
+	centerPos_ = srt.translate + localSRT_.translate;
 	std::get<Sphere>(shape_).center = centerPos_;
 }
 
@@ -51,6 +51,6 @@ void SphereCollider::Draw() const {
 // ↓　押し戻し処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereCollider::PushBack(const Vector3& vector) {
-	std::get<Sphere>(shape_).center += vector;
+void SphereCollider::PushBack() {
+	pWorldTransform_->Translate(pushbackDire_);
 }

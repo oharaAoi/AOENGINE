@@ -3,6 +3,7 @@
 #include <string>
 #include <variant>
 #include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Module/Components/WorldTransform.h"
 
 enum CollisionFlags {
 	NONE = 0b00,
@@ -30,7 +31,11 @@ public:
 	virtual void Update(const QuaternionSRT& srt) = 0;
 	virtual void Draw() const = 0;
 
-	virtual void PushBack(const Vector3& vector) = 0;
+	virtual void PushBack() = 0;
+
+#ifdef _DEBUG
+	void Debug_Gui();
+#endif
 
 public:
 
@@ -48,6 +53,10 @@ public:
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 	bool GetIsActive() const { return isActive_; }
+
+	// --------------- 移動するかどうか(押し戻すか)の設定・取得 -------------- //
+	void SetIsStatic(bool isStatic) { isStatic = isStatic; }
+	bool GetIsStatic() const { return isStatic_; }
 
 	// --------------- categoryの設定・取得 -------------- //
 	void SetCategoryBit(uint32_t bit) { categoryBits_ = bit; }
@@ -76,6 +85,9 @@ public:
 	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
+	// ------------ worldTransform ------------ // 
+	void SetWorldTransform(WorldTransform* _worldTransform) { pWorldTransform_ = _worldTransform; }
+
 	// ------------ 貫通対策 ------------ // 
 	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
 	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
@@ -85,6 +97,7 @@ public:
 protected:
 
 	bool isActive_ = false;
+	bool isStatic_ = true;	// 移動するかどうか(押し戻すか)
 	
 	// カテゴリ
 	uint32_t categoryBits_; // 自分が属しているカテゴリ
@@ -99,11 +112,15 @@ protected:
 	// AABBやOBBで使用するsize
 	Vector3 size_;
 
+	QuaternionSRT localSRT_;
+
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
+
+	// worldTransformを所有しておく
+	WorldTransform* pWorldTransform_;
 
 	// 貫通対策
 	bool penetrationPrevention_;	// 貫通対策を行うかどうか
 	Vector3 pushbackDire_;
-
 };
 

@@ -116,6 +116,7 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 	}
 
 	collider_->Init(categoryName, shape);
+	collider_->SetWorldTransform(transform_.get());
 	ColliderCollector::AddCollider(collider_.get());
 }
 
@@ -206,6 +207,10 @@ void BaseGameObject::Debug_Gui() {
 			material->ImGuiDraw();
 			ImGui::TreePop();
 		}
+	}
+
+	if (collider_ != nullptr) {
+		collider_->Debug_Gui();
 	}
 
 	Debug_Axis();

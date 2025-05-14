@@ -234,6 +234,7 @@
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
+    <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -441,6 +442,7 @@
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
+    <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

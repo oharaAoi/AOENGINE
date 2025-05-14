@@ -76,6 +76,7 @@ void GameScene::Init() {
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
 	gameCallBacksManager_->SetBoss(boss_.get());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
+	gameCallBacksManager_->SetGround(floor_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());
 
 	// -------------------------------------------------
@@ -151,17 +152,17 @@ void GameScene::Update() {
 
 void GameScene::Draw() const {
 	Engine::SetPSOPrimitive();
-	if (debugCamera_->GetIsActive()) {
+	/*if (debugCamera_->GetIsActive()) {
 		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
 		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
-	}
+	}*/
 
 	skybox_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::Normal);
 	//skydome_->Draw();
-	//floor_->Draw();
+	floor_->Draw();
 	playerManager_->Draw();
 	//boss_->Draw();
 

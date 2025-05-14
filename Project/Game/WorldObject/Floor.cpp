@@ -17,6 +17,8 @@ void Floor::Init() {
 
 	SetCollider(ColliderTags::Field::ground, ColliderShape::AABB);
 	collider_->SetTarget(ColliderTags::Boss::own);
+	collider_->SetTarget(ColliderTags::Player::own);
+	collider_->SetSize(Vector3(100.f, 1.f, 100.f));
 	ColliderCollector::AddCollider(collider_.get());
 	
 	transform_->translate_.y = -0.1f;

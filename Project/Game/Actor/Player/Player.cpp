@@ -26,6 +26,8 @@ void Player::Finalize() {
 void Player::Debug_Gui() {
 	transform_->Debug_Gui();
 
+	collider_->Debug_Gui();
+
 	if (ImGui::CollapsingHeader("CurrentParameter", ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::DragFloat("energy", &param_.energy, 0.1f);
 	}
@@ -45,11 +47,6 @@ void Player::Debug_Gui() {
 
 #endif // _DEBUG
 
-void Player::Knockback() {
-	isKnockback_ = true;
-	stateMachine_->ChangeState<PlayerKnockbackState>();
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +65,8 @@ void Player::Init() {
 	SetCollider(ColliderTags::Player::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Boss::own);
 	collider_->SetTarget(ColliderTags::Field::ground);
+	collider_->SetRadius(1.7f);
+	collider_->SetIsStatic(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -144,4 +143,14 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 	} else if (type == PlayerWeapon::RIGHT_WEAPON) {
 		pWeapons_[RIGHT_WEAPON] = _weapon;
 	}
+}
+
+void Player::Knockback() {
+	isKnockback_ = true;
+	stateMachine_->ChangeState<PlayerKnockbackState>();
+}
+
+void Player::Landing() {
+	size_t hash = typeid(PlayerActionIdle).hash_code();
+	actionManager_.ChangeAction(hash);
 }

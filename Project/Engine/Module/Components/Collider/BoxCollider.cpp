@@ -35,10 +35,10 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 void BoxCollider::Update(const QuaternionSRT& srt) {
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<AABB>(shape_)) {
-		std::get<AABB>(shape_).min = srt.translate - (size_ / 2.0f);
-		std::get<AABB>(shape_).max = srt.translate + (size_ / 2.0f);
+		std::get<AABB>(shape_).min = (srt.translate - (size_ / 2.0f)) + localSRT_.translate;
+		std::get<AABB>(shape_).max = (srt.translate + (size_ / 2.0f)) + localSRT_.translate;
 	} else if (std::holds_alternative<OBB>(shape_)) {
-		std::get<OBB>(shape_).center = srt.translate;
+		std::get<OBB>(shape_).center = srt.translate + localSRT_.translate;
 		std::get<OBB>(shape_).MakeOBBAxis(srt.rotate);
 	}
 }
@@ -63,11 +63,11 @@ void BoxCollider::Draw() const {
 // ↓　押し戻し処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BoxCollider::PushBack(const Vector3& vector) {
+void BoxCollider::PushBack() {
 	if (std::holds_alternative<AABB>(shape_)) {
-		std::get<AABB>(shape_).min += vector; 
-		std::get<AABB>(shape_).max += vector; 
+		std::get<AABB>(shape_).min += pushbackDire_; 
+		std::get<AABB>(shape_).max += pushbackDire_;
 	} else if (std::holds_alternative<OBB>(shape_)) {
-		std::get<OBB>(shape_).center += vector;
+		std::get<OBB>(shape_).center += pushbackDire_;
 	}
 }

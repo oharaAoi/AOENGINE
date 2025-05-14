@@ -97,6 +97,17 @@ public:
 		}
 	}
 
+	void ChangeAction(size_t actionTypeIndex) {
+		// actionMap_ に actionTypeIndex が存在するか確認
+		assert(actionMap_.find(actionTypeIndex) != actionMap_.end() && "actionTypeIndex not found in actionMap_");
+
+		if (runActionMap_.find(actionTypeIndex) == runActionMap_.end()) {
+			runActionMap_.clear();
+			runActionMap_[actionTypeIndex] = actionMap_[actionTypeIndex];
+			runActionMap_[actionTypeIndex]->CallStart(actionTypeIndex);
+		}
+	}
+
 	/// <summary>
 	/// 指定したActionを削除する
 	/// </summary>

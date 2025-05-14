@@ -1,8 +1,17 @@
 #pragma once
+#include "Engine/Lib/Math/MathStructures.h"
+#include <variant>
 
-/// <summary>
-/// めり込み対策を行うクラス
-/// </summary>
-class PenetrationResolution {
-};
+Vector3 PenetrationResolution(const Sphere& s1, const Sphere& s2);
 
+Vector3 PenetrationResolutionAABBandSphere(const AABB& aabb, const Sphere& s1);
+
+//================================================================================================//
+//								当たり判定の呼び出し関数群											　//
+//================================================================================================//
+
+Vector3 PenetrationResolution(const Sphere& s, const AABB& aabb);
+Vector3 PenetrationResolution(const AABB& aabb, const Sphere& s);
+
+Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB>& shape1,
+                              const std::variant<Sphere, AABB, OBB>& shape2);

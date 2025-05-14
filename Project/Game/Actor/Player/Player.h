@@ -56,6 +56,8 @@ public:		// accessor method
 
 	void Knockback();
 
+	void Landing();
+
 	// parameter
 	Parameter& GetParam() { return param_; }
 	const Parameter& GetInitParam() { return initParam_; }
