@@ -7,11 +7,11 @@
 
 void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	name_ = name;
+	isAddBlend_ = isAddBlend;
 
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), isAddBlend);
-
+	
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 
@@ -105,7 +105,6 @@ void CpuParticles::Update(const Quaternion& bill) {
 		++index;
 		++it;
 	}
-	ParticleManager::GetInstance()->Update(name_, data);
 }
 
 void CpuParticles::Emit(const Vector3& pos) {

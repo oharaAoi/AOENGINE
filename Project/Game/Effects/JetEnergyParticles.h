@@ -1,8 +1,8 @@
 #pragma once
-#include "Game/Effects/BaseParticles.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
-class JetEnergyParticles 
-	: BaseParticles {
+class JetEnergyParticles :
+	public BaseParticles {
 public:
 	JetEnergyParticles() = default;
 	~JetEnergyParticles() override {};

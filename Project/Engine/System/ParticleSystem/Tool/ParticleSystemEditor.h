@@ -7,6 +7,8 @@
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/System/ParticleSystem/Emitter/CpuEmitter.h"
 #include "Engine/System/ParticleSystem/EffectSystemCamera.h"
+#include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 class ParticleSystemEditor final {
 public:
@@ -22,9 +24,19 @@ public:
 
 	void Draw();
 
-	void End();
-
 private:		// member method
+
+#ifdef _DEBUG
+
+	/// <summary>
+	/// 新たに作成する
+	/// </summary>
+	void Create();
+
+	/// <summary>
+	/// 編集する
+	/// </summary>
+	void Edit();
 
 	/// <summary>
 	/// RenderTarget設定
@@ -32,13 +44,23 @@ private:		// member method
 	void SetRenderTarget();
 
 	/// <summary>
-	/// 編集する
+	/// 描画前処理
 	/// </summary>
-	void Edit();
-
 	void PreDraw();
 
+	/// <summary>
+	/// 描画後処理
+	/// </summary>
 	void PostDraw();
+
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void End();
+
+#endif
 
 private:
 
@@ -54,9 +76,12 @@ private:
 
 	// renderer関連 ------------------------------------------
 
-	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
-
 	std::unique_ptr<EffectSystemCamera> camera_ = nullptr;
 
+	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
+
+	ParticleManager* particleManager_ = nullptr;
+
+	std::list<std::unique_ptr<BaseParticles>> particles_;
 };
 

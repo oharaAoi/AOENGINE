@@ -1,8 +1,8 @@
 #pragma once
-#include "Game/Effects/BaseParticles.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
-class GunFireParticles
-	: BaseParticles {
+class GunFireParticles :
+	public BaseParticles {
 public:
 
 	GunFireParticles() = default;

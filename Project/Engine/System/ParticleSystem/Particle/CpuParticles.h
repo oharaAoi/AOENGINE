@@ -32,6 +32,8 @@ protected:
 
 	const uint32_t kMaxParticles = 200;
 
+	bool isAddBlend_;
+
 	const std::string kGroupName = "Effect";
 	std::string name_ = "new particles";
 

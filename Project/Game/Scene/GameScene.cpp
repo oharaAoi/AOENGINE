@@ -142,6 +142,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ particleの更新 
 	// -------------------------------------------------
+	particleManager_->Update();
 	particleManager_->SetView(followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	particleManager_->PostUpdate();
 }

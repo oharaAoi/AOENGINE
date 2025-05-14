@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "Engine/Render/ParticleInstancingRenderer.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 class ParticleManager {
 public:
@@ -17,7 +18,7 @@ public:
 
 	void Init();
 
-	void Update(const std::string& id, const std::vector<ParticleInstancingRenderer::ParticleData>& particleData);
+	void Update();
 
 	void PostUpdate();
 
@@ -25,14 +26,30 @@ public:
 
 public:
 
+	/// <summary>
+	/// Particleを実際に追加する
+	/// </summary>
+	/// <param name="id">: fileName</param>
+	/// <param name="_pMesh">: mesh</param>
+	/// <param name="_pMaterial">: material</param>
+	/// <param name="isAddBlend">: どのようなBlendModeで行うか</param>
 	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend);
 
+	/// <summary>
+	/// View系のMatrixを設定する
+	/// </summary>
+	/// <param name="view">: viewMatrix</param>
+	/// <param name="bill">: billBordMatrix</param>
 	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
 		particleRenderer_->SetView(view, bill);
 	}
 
+	void AddParticleList(BaseParticles* particles);
+
 private:
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
+
+	std::list<BaseParticles*> particlesList_;
 
 };

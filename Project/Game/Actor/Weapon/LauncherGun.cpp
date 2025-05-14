@@ -1,4 +1,5 @@
 #include "LauncherGun.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 void LauncherGun::Finalize() {
 }
@@ -28,6 +29,7 @@ void LauncherGun::Init() {
 	// -------------------------------------------------
 	gunFireParticles_ = std::make_unique<GunFireParticles>();
 	gunFireParticles_->Init("gunFireParticles");
+	ParticleManager::GetInstance()->AddParticleList(gunFireParticles_.get());
 	
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());

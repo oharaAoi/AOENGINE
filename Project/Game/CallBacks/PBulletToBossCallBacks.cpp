@@ -1,6 +1,7 @@
 #include "PBulletToBossCallBacks.h"
 #include "Engine/Render.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 void PBulletToBossCallBacks::Init() {
 	SetCallBacks();
@@ -8,12 +9,16 @@ void PBulletToBossCallBacks::Init() {
 
 	hitBossSmoke_ = std::make_unique<HitBossSmoke>();
 	hitBossSmoke_->Init("HitBossSmoke");
+	ParticleManager* manager = ParticleManager::GetInstance();
+	manager->AddParticleList(hitBossSmoke_.get());
 
 	hitBossSmokeBorn_ = std::make_unique<HitBossSmokeBorn>();
 	hitBossSmokeBorn_->Init("HitBossSmokeBorn");
+	manager->AddParticleList(hitBossSmokeBorn_.get());
 
 	hitBossExploadParticles_ = std::make_unique<HitBossExploadParticles>();
 	hitBossExploadParticles_->Init("HitBossExploadParticles");
+	manager->AddParticleList(hitBossExploadParticles_.get());
 }
 
 void PBulletToBossCallBacks::Update() {

@@ -16,11 +16,12 @@ void ParticleManager::Finalize() {
 void ParticleManager::Init() {
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(1000);
-
 }
 
-void ParticleManager::Update(const std::string& id, const std::vector<ParticleInstancingRenderer::ParticleData>& particleData) {
-	particleRenderer_->Update(id, particleData);
+void ParticleManager::Update() {
+	for (auto& particle : particlesList_) {
+		particleRenderer_->Update(particle->GetName(), particle->GetData());
+	}
 }
 
 void ParticleManager::PostUpdate() {
@@ -33,4 +34,12 @@ void ParticleManager::Draw() const {
 
 void ParticleManager::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
 	particleRenderer_->AddParticle(id, _pMesh, _pMaterial, isAddBlend);
+}
+
+void ParticleManager::AddParticleList(BaseParticles* particles) {
+	particlesList_.emplace_back(particles);
+	particleRenderer_->AddParticle(particles->GetName(),
+								   particles->GetGeometryObject()->GetMesh(),
+								   particles->GetGeometryObject()->GetMaterial(),
+								   particles->GetIsAddBlend());
 }

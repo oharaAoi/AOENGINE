@@ -7,11 +7,11 @@
 
 void BaseParticles::Init(const std::string& name, bool isAddBlend) {
 	name_ = name;
+	isAddBlend_ = isAddBlend;
 
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
-	ParticleManager::GetInstance()->AddParticle(name_, shape_->GetMesh(), shape_->GetMaterial(), isAddBlend);
-
+	
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 
@@ -32,9 +32,8 @@ void BaseParticles::Update(const Quaternion& bill) {
 	// ---------------------------
 	// particleの更新
 	// ---------------------------
-	std::vector<ParticleInstancingRenderer::ParticleData> data;
 	size_t particleNum = particleArray_.size();
-	data.resize(particleNum);
+	data_.resize(particleNum);
 
 	size_t index = 0;
 	for (auto it = particleArray_.begin(); it != particleArray_.end();) {
@@ -92,12 +91,12 @@ void BaseParticles::Update(const Quaternion& bill) {
 			Vector3 parentPos = parentWorldMat_->GetPosition();
 			Matrix4x4 parentTranslate = parentPos.MakeTranslateMat();
 
-			data[index].worldMat = localWorld * parentTranslate;
+			data_[index].worldMat = localWorld * parentTranslate;
 		} else {
-			data[index].worldMat = localWorld;
+			data_[index].worldMat = localWorld;
 		}
 
-		data[index].color = pr.color;
+		data_[index].color = pr.color;
 
 		// ---------------------------
 		// NextFrameのための更新
@@ -105,7 +104,6 @@ void BaseParticles::Update(const Quaternion& bill) {
 		++index;
 		++it;
 	}
-	ParticleManager::GetInstance()->Update(name_, data);
 }
 
 void BaseParticles::Emit(const Vector3& pos) {
@@ -120,11 +118,21 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.color = emitter_.color;
 	if (emitter_.shape == 0) {
 		// 親の回転成分を取り出す
-		Quaternion rotate = parentWorldMat_->GetRotate();
+		Quaternion rotate;
+		if (parentWorldMat_ != nullptr) {
+			rotate = parentWorldMat_->GetRotate();
+		} else {
+			rotate = Quaternion();
+		}
 		newParticle.velocity = (rotate * (RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize())) * emitter_.speed;
 	} else if (emitter_.shape == 1) {
 		// 親の回転成分を取り出す
-		Quaternion rotate = parentWorldMat_->GetRotate();
+		Quaternion rotate;
+		if (parentWorldMat_ != nullptr) {
+			rotate = parentWorldMat_->GetRotate();
+		} else {
+			rotate = Quaternion();
+		}
 		Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
 		newParticle.velocity = (rotate * (emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
 	}
@@ -156,6 +164,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 		newParticle.rotate = Quaternion::FromMatrix(rotMat);
 	}
 
+	// EmitterからParticleのパラメータを取得する
 	newParticle.lifeTime = emitter_.lifeTime;
 	newParticle.firstLifeTime = emitter_.lifeTime;
 	newParticle.currentTime = 0.0f;
