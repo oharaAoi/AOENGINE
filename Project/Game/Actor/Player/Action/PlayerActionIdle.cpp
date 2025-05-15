@@ -1,6 +1,7 @@
 #include "PlayerActionIdle.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 
@@ -18,7 +19,10 @@ void PlayerActionIdle::Build() {
 
 void PlayerActionIdle::OnStart() {
 	moveAction_ = pManager_->GetActionInstance<PlayerActionMove>();
+	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
 	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
+
+	actionTimer_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +30,8 @@ void PlayerActionIdle::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::OnUpdate() {
+	actionTimer_ += GameTimer::DeltaTime();
+	pOwner_->RecoveryEN(actionTimer_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +48,10 @@ void PlayerActionIdle::OnEnd() {
 void PlayerActionIdle::CheckNextAction() {
 	if (moveAction_->IsInput()) {
 		NextAction<PlayerActionMove>();
+	}
+
+	if (jumpAction_->IsInput()) {
+		NextAction<PlayerActionJump>();
 	}
 
 	if (shotAction_->IsInput()) {

@@ -44,6 +44,8 @@ void PlayerActionMove::OnStart() {
 	shotActionLeft_ = pManager_->GetActionInstance<PlayerActionShotLeft>();
 	quickBoostAction_ = pManager_->GetActionInstance<PlayerActionQuickBoost>();
 	boostAction_ = pManager_->GetActionInstance<PlayerActionBoost>();
+
+	actionTimer_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +53,9 @@ void PlayerActionMove::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::OnUpdate() {
+	actionTimer_ += GameTimer::DeltaTime();
+	pOwner_->RecoveryEN(actionTimer_);
+
 	Move();
 }
 
@@ -66,9 +71,9 @@ void PlayerActionMove::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::CheckNextAction() {
-	/*if (stick_.x == 0.0f && stick_.y == 0.0f) {
+	if (!IsInput()) {
 		NextAction<PlayerActionIdle>();
-	}*/
+	}
 
 	if (jumpAction_->IsInput()) {
 		AddAction<PlayerActionJump>();

@@ -23,15 +23,21 @@ public:		// data
 
 	struct Parameter : public IJsonConverter {
 		float energy = 1.f;	// EN出力
+		float energyRecoveyAmount = 1.f;	// EN回復量(m/s)
+		float energyRecoveyCoolTime;	// EN回復までのクールタイム
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("energy", energy)
+				.Add("energyRecoveyAmount", energyRecoveyAmount)
+				.Add("energyRecoveyCoolTime", energyRecoveyCoolTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "energy", energy);
+			fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
+			fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);
 		}
 	};
 
@@ -56,8 +62,17 @@ public:		// accessor method
 
 	void Knockback();
 
+	void RecoveryEN(float timer);
+
+	/// <summary>
+	/// 着地した時
+	/// </summary>
 	void Landing();
 
+	// 着地したかのフラグ
+	bool GetIsLanding() const { return isLanding_; }
+	void SetIsLanding(bool _landing) { isLanding_ = _landing; }
+	
 	// parameter
 	Parameter& GetParam() { return param_; }
 	const Parameter& GetInitParam() { return initParam_; }
@@ -98,6 +113,8 @@ private:
 	ActionManager<Player> actionManager_;
 
 	bool isKnockback_;
+
+	bool isLanding_;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

@@ -1,5 +1,7 @@
 {
     "playerParameter": {
-        "energy": 100.0
+        "energy": 100.0,
+        "energyRecoveyAmount": 50.0,
+        "energyRecoveyCoolTime": 1.0
     }
 }

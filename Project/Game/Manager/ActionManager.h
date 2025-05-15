@@ -36,8 +36,17 @@ public:
 			}
 		}
 
+		// 実際に追加する
+		for (const auto& addAction : addIndexList_) {
+			auto it = runActionMap_.find(addAction);
+			if (it == runActionMap_.end()) {
+				AddRunAction(addAction);
+			}
+		}
+
 		// 削除リストをクリア
 		deleteIndexList_.clear();
+		addIndexList_.clear();
 
 		// 実行
 		for (auto& [size, action] : runActionMap_) {
@@ -109,6 +118,17 @@ public:
 	}
 
 	/// <summary>
+	/// 指定したアクションを追加リストにいれる
+	/// </summary>
+	/// <param name="actionTypeIndex"></param>
+	void AddAction(size_t actionTypeIndex) {
+		auto it = runActionMap_.find(actionTypeIndex);
+		if (it == runActionMap_.end()) {
+			addIndexList_.emplace_back(actionTypeIndex);
+		}
+	}
+
+	/// <summary>
 	/// 指定したActionを削除する
 	/// </summary>
 	/// <param name="actionTypeIndex"></param>
@@ -131,6 +151,8 @@ private:
 	OwnerType* pOwner_ = nullptr;
 	// 今のAction
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> runActionMap_;
+	// 追加するActionのリスト
+	std::list<size_t> addIndexList_;
 	// 削除するActionのリスト
 	std::list<size_t> deleteIndexList_;
 	// ownerが行うActionのインスタンスをまとめたMap

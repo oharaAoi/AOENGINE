@@ -28,12 +28,16 @@ void Player::Debug_Gui() {
 
 	collider_->Debug_Gui();
 
-	if (ImGui::CollapsingHeader("CurrentParameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+	if (ImGui::CollapsingHeader("CurrentParameter")) {
 		ImGui::DragFloat("energy", &param_.energy, 0.1f);
+		ImGui::DragFloat("energyRecoveyAmount", &param_.energyRecoveyAmount, 0.1f);
+		ImGui::DragFloat("energyRecoveyCoolTime", &param_.energyRecoveyCoolTime, 0.1f);
 	}
 
 	if (ImGui::CollapsingHeader("Parameter", ImGuiTreeNodeFlags_DefaultOpen)) {
 		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
+		ImGui::DragFloat("energyRecoveyAmount", &initParam_.energyRecoveyAmount, 0.1f);
+		ImGui::DragFloat("energyRecoveyCoolTime", &initParam_.energyRecoveyCoolTime, 0.1f);
 
 		if (ImGui::Button("Save")) {
 			JsonItems::Save(GetName(), initParam_.ToJson("playerParameter"));
@@ -66,6 +70,7 @@ void Player::Init() {
 	collider_->SetTarget(ColliderTags::Boss::own);
 	collider_->SetTarget(ColliderTags::Field::ground);
 	collider_->SetRadius(1.7f);
+	collider_->SetLoacalPos(Vector3(0, 1.7f, 0.0f));
 	collider_->SetIsStatic(false);
 
 	// -------------------------------------------------
@@ -88,13 +93,15 @@ void Player::Init() {
 	actionManager_.BuildAction<PlayerActionShotRight>();
 	actionManager_.BuildAction<PlayerActionShotLeft>();
 
-	size_t hash = typeid(PlayerActionMove).hash_code();
+	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_.AddRunAction(hash);
 
 	// -------------------------------------------------
 	// ↓ Parameter関連
 	// -------------------------------------------------
 	isKnockback_ = false;
+
+	isLanding_ = false;
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
@@ -150,7 +157,16 @@ void Player::Knockback() {
 	stateMachine_->ChangeState<PlayerKnockbackState>();
 }
 
+void Player::RecoveryEN(float timer) {
+	if (isLanding_) {
+		if (timer > param_.energyRecoveyCoolTime) {
+			param_.energy += param_.energyRecoveyAmount * GameTimer::DeltaTime();
+		}
+	}
+}
+
 void Player::Landing() {
+	isLanding_ = true;
 	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_.ChangeAction(hash);
 }

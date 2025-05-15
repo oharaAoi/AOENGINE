@@ -49,7 +49,7 @@ public:	// base
 			return;
 		}
 		size_t hash = typeid(ActionT).hash_code();
-		pManager_->AddRunAction(hash);
+		pManager_->AddAction(hash);
 		pManager_->DeleteAction(actionIndex_);
 	}
 
@@ -63,7 +63,7 @@ public:	// base
 			return;
 		}
 		size_t hash = typeid(ActionT).hash_code();
-		pManager_->AddRunAction(hash);
+		pManager_->AddAction(hash);
 	}
 	
 protected:	// observerクラス以外からは呼び出さない

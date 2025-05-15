@@ -50,6 +50,8 @@ public:
 	/// <param name="partner"></param>
 	void DeletePartner(ICollider* partner);
 
+	void SetLoacalPos(const Vector3& pos) { localSRT_.translate = pos; }
+
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 	bool GetIsActive() const { return isActive_; }
