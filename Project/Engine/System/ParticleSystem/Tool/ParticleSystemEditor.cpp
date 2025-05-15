@@ -1,5 +1,8 @@
 #include "ParticleSystemEditor.h"
+#include "ImGuiFileDialog.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include <iostream>
+#include <fstream>
 
 void ParticleSystemEditor::Finalize() {
 	depthStencilResource_.Reset();
@@ -39,6 +42,11 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
 
+	// -------------------------------------------------
+	// ↓ Editer関連
+	// -------------------------------------------------
+	isSave_ = false;
+	isLoad_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +85,7 @@ void ParticleSystemEditor::Draw() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Create() {
+	// createの準備をする
 	ImGui::Begin("Create Window");
 	static std::string newEffectName = "new Particles";
 	char buffer[128];
@@ -87,16 +96,98 @@ void ParticleSystemEditor::Create() {
 		newEffectName = buffer;
 	}
 
+	// createする
 	if (ImGui::Button("Create")) {
-		auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
-		newParticle->Init(newEffectName, true);
-		particleRenderer_->AddParticle(newParticle->GetName(),
-									   newParticle->GetGeometryObject()->GetMesh(),
-									   newParticle->GetGeometryObject()->GetMaterial(),
-									   newParticle->GetIsAddBlend());
+		AddList(newEffectName);
+	}
+
+	// 読み込みから行う
+	if (ImGui::Button("Load")) {
+		isLoad_ = true;
+	}
+
+	if (isLoad_) {
+		OpenLoadDialog();
 	}
 
 	ImGui::End();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Particleを追加する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleSystemEditor::AddList(const std::string& _name) {
+	auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
+	newParticle->Init(_name, true);
+	particleRenderer_->AddParticle(newParticle->GetName(),
+								   newParticle->GetGeometryObject()->GetMesh(),
+								   newParticle->GetGeometryObject()->GetMaterial(),
+								   newParticle->GetIsAddBlend());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込むためのダイアログを開く
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleSystemEditor::OpenLoadDialog() {
+	// configデータを作成する
+	IGFD::FileDialogConfig config;
+	config.path = "./Game/Assets/Load/Particles/"; // 初期ディレクトリ
+
+	// Dialogを開く
+	ImGuiFileDialog::Instance()->OpenDialog(
+		"LoadParticlesDialogKey",              // ダイアログ識別キー
+		"Load Particles Json File",                 // ウィンドウタイトル
+		".json",                           // 設定
+		config                           // userDatas（不要ならnullptr）
+	);
+
+	// Dialog内の入力処理
+	if (ImGuiFileDialog::Instance()->Display("LoadParticlesDialogKey")) {
+		if (ImGuiFileDialog::Instance()->IsOk()) {
+			std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+
+			isLoad_ = false;
+			auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
+			newParticle->Init(fileName, true);
+			newParticle->SetJsonData(Load(filePath));
+			particleRenderer_->AddParticle(newParticle->GetName(),
+										   newParticle->GetGeometryObject()->GetMesh(),
+										   newParticle->GetGeometryObject()->GetMaterial(),
+										   newParticle->GetIsAddBlend());
+
+		} else {
+			// Cancel時の処理
+			isLoad_ = false;
+		}
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込みを行う
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+json ParticleSystemEditor::Load(const std::string& filePath) {
+	// 読み込み用ファイルストリーム
+	std::ifstream ifs;
+	// ファイルを読み込みように開く
+	ifs.open(filePath);
+
+	if (ifs.fail()) {
+		std::string message = "not Exist " + filePath + ".json";
+		assert(0);
+	}
+
+	json root;
+	// json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	// ファイルを閉じる
+	ifs.close();
+
+	return root;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,9 +211,102 @@ void ParticleSystemEditor::Edit() {
 	// 指定されたParticleの編集を行う
 	ImGui::Begin("Setting");
 	if (particles != nullptr) {
+		// particle自体を編集する
 		particles->Debug_Gui();
+
+		// 外部へ出力する
+		if (ImGui::CollapsingHeader("Output")) {
+			if (ImGui::Button("Particles Save")) {
+				isSave_ = true;
+			}
+		}
+
+		if (isSave_) {
+			OpenSaveDialog(particles->GetName(), particles->GetJsonData());
+		}
 	}
 	ImGui::End();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Saveを行う
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleSystemEditor::OpenSaveDialog(const std::string& _name, const json& _jsonData) {
+	// configデータを作成する
+	IGFD::FileDialogConfig config;
+	config.path = "./Game/Assets/"; // 初期ディレクトリ
+	config.fileName = _name; // 初期ファイル名
+	config.flags = ImGuiFileDialogFlags_ConfirmOverwrite; // ←ここ！
+	
+	// Dialogを開く
+	ImGuiFileDialog::Instance()->OpenDialog(
+		"SaveParticlesDialogKey",              // ダイアログ識別キー
+		"Save Particles Json File",                 // ウィンドウタイトル
+		".json",                           // 設定
+		config                           // userDatas（不要ならnullptr）
+	);
+
+	// Dialog内の入力処理
+	if (ImGuiFileDialog::Instance()->Display("SaveParticlesDialogKey")) {
+		if (ImGuiFileDialog::Instance()->IsOk()) {
+			std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+
+			std::filesystem::path path(filePath);
+			std::string directory = path.parent_path().string();
+
+			isSave_ = false;
+			Save(directory, fileName, _jsonData);
+		} else {
+			// Cancel時の処理
+			isSave_ = false;
+		}
+		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存を行う
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleSystemEditor::Save(const std::string& directoryPath, const std::string& fileName, const json& jsonData) {
+	if (jsonData.is_object() && !jsonData.empty()) {
+		// 最上位のキーの名前をファイル名とする
+		std::string rootKey = jsonData.begin().key();
+		// ファイルパスの作成
+		std::string filePath = directoryPath + "/" + fileName;
+
+		// -------------------------------------------------
+		// ↓ ディレクトリがなければ作成を行う
+		// -------------------------------------------------
+		std::filesystem::path dirPath = std::filesystem::path(directoryPath + "\\");
+		if (!std::filesystem::exists(dirPath)) {
+			std::filesystem::create_directories(dirPath);
+			std::cout << "Created directory: " << dirPath << std::endl;
+		}
+
+		// -------------------------------------------------
+		// ↓ ファイルを開けるかのチェックを行う
+		// -------------------------------------------------
+		std::ofstream outFile(filePath);
+		if (outFile.fail()) {
+			std::string message = "Faild open data file for write\n";
+			//Log(message);
+			assert(0);
+			return;
+		}
+
+		// -------------------------------------------------
+		// ↓ ファイルに実際に書き込む
+		// -------------------------------------------------
+		outFile << std::setw(4) << jsonData << std::endl;
+		outFile.close();
+
+		//Log("JSON data saved as: " + filePath + "\n");
+	} else {
+		//Log("Invalid or empty JSON data\n");
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

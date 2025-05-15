@@ -25,6 +25,15 @@ public:
 	void Debug_Gui() override;
 #endif
 
+public:		// json関連
+
+	json GetJsonData() const { return emitter_.ToJson(name_); }
+
+	void SetJsonData(const json& _jsonData) { 
+		emitter_.FromJson(_jsonData);
+		shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
+	};
+	
 public:
 
 	virtual void SetParent(const Matrix4x4& parentMat);

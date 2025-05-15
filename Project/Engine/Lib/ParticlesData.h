@@ -66,7 +66,7 @@ struct ParticleEmit : public IJsonConverter {
 	Vector3 direction = CVector3::UP;		// 射出方向
 	uint32_t shape = 0;			// emitterの種類(0 = 全方向, 1 = 一方方向)
 	uint32_t rateOverTimeCout = 10;			// 射出数
-	bool emit = 0;				// 射出許可
+	bool emit = 1;				// 射出許可
 	bool isOneShot = false;				// 一度きりか
 
 	// particle自体のparameter

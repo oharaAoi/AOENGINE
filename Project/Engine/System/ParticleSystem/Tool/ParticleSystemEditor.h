@@ -34,9 +34,36 @@ private:		// member method
 	void Create();
 
 	/// <summary>
+	/// リストに追加する
+	/// </summary>
+	void AddList(const std::string& _name);
+
+	/// <summary>
+	/// ファイルを新たに読み込む
+	/// </summary>
+	void OpenLoadDialog();
+
+	/// <summary>
+	/// ファイルを新たに読み込む
+	/// </summary>
+	json Load(const std::string& filePath);
+
+	/// <summary>
 	/// 編集する
 	/// </summary>
 	void Edit();
+
+	/// <summary>
+	/// SaveDialogを開く
+	/// </summary>
+	void OpenSaveDialog(const std::string& _name, const json& _jsonData);
+
+	/// <summary>
+	/// Saveを行う
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="fileName"></param>
+	void Save(const std::string& directoryPath, const std::string& fileName, const json& jsonData);
 
 	/// <summary>
 	/// RenderTarget設定
@@ -83,5 +110,9 @@ private:
 	ParticleManager* particleManager_ = nullptr;
 
 	std::list<std::unique_ptr<BaseParticles>> particles_;
+
+	// editer関連 ------------------------------------------
+	bool isSave_;
+	bool isLoad_;
 };
 
