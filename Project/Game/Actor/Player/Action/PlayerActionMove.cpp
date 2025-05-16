@@ -49,7 +49,7 @@ void PlayerActionMove::OnUpdate() {
 	Move();
 
 	// 移動の入力がなかったら回復処理を行っていく
-	if (stick_.Length() == 0.f) {
+	if (pOwner_->GetIsLanding()) {
 		pOwner_->RecoveryEN(actionTimer_);
 	}
 }
@@ -67,7 +67,9 @@ void PlayerActionMove::OnEnd() {
 
 void PlayerActionMove::CheckNextAction() {
 	if (!IsInput()) {
-		NextAction<PlayerActionIdle>();
+		if (pOwner_->GetIsLanding()) {
+			NextAction<PlayerActionIdle>();
+		}
 	}
 
 	if (CheckInput<PlayerActionJump>()) {

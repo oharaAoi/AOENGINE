@@ -4,11 +4,20 @@
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 // Engine
 #include "Engine/System/Input/Input.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 #ifdef _DEBUG
 void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
 	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
+	ImGui::DragFloat("maxAcceleration", &param_.maxAcceleration, 0.1f);
+	ImGui::DragFloat("jumpEnergy", &param_.jumpEnergy, 0.1f);
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("PlayerAction", param_.ToJson("ActionJump"));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData("PlayerAction", "ActionJump"));
+	}
 	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
 	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
 }
@@ -21,6 +30,7 @@ void PlayerActionJump::Debug_Gui() {
 void PlayerActionJump::Build() {
 	SetName("actionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
+	param_.FromJson(JsonItems::GetData("PlayerAction", "ActionJump"));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +41,9 @@ void PlayerActionJump::OnStart() {
 	isFall_ = false;
 	// actionを起こす
 	Jump();
+
+	// ジャンプした分のエネルギーを消費しておく
+	pOwner_->ConsumeEN(param_.jumpEnergy);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +97,7 @@ bool PlayerActionJump::IsInput() {
 void PlayerActionJump::Jump() {
 	velocity_.y = param_.jumpForce;
 	acceleration_.y = 0.0f;
+	pOwner_->SetIsLanding(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +117,8 @@ void PlayerActionJump::Rising() {
 	// 上昇していたなら
 	if (isRising_) {
 		acceleration_.y += param_.risingForce * GameTimer::DeltaTime();
+		// エネルギーを消費する
+		pOwner_->ConsumeEN(param_.jumpEnergy * GameTimer::DeltaTime());
 
 		if (velocity_.y <= 0.0f) {
 			acceleration_.y = 0.0f;

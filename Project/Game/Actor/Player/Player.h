@@ -64,6 +64,8 @@ public:		// accessor method
 
 	void RecoveryEN(float timer);
 
+	void ConsumeEN(float cousumeAmount);
+
 	/// <summary>
 	/// 着地した時
 	/// </summary>

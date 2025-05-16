@@ -163,8 +163,14 @@ void Player::RecoveryEN(float timer) {
 	if (isLanding_) {
 		if (timer > param_.energyRecoveyCoolTime) {
 			param_.energy += param_.energyRecoveyAmount * GameTimer::DeltaTime();
+			param_.energy = std::clamp(param_.energy, 0.0f, initParam_.energy);
 		}
 	}
+}
+
+void Player::ConsumeEN(float cousumeAmount) {
+	param_.energy -= cousumeAmount;
+	param_.energy = std::clamp(param_.energy, 0.0f, initParam_.energy);
 }
 
 void Player::Landing() {
