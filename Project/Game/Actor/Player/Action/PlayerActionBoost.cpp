@@ -38,7 +38,7 @@ void PlayerActionBoost::Build() {
 
 	initialPram_.FromJson(JsonItems::GetData("PlayerAction", actionName_));
 
-	blur_ = Engine::GetPostProcess()->GetRadialBlur();
+	//blur_ = Engine::GetPostProcess()->GetRadialBlur();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

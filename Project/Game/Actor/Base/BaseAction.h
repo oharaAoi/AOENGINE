@@ -22,7 +22,7 @@ protected:
 public:	// base
 
 	BaseAction() = default;
-	virtual ~BaseAction() override = default;
+	~BaseAction() override = default;
 
 	/// <summary>
 	/// 設定ジのみ行う処理
