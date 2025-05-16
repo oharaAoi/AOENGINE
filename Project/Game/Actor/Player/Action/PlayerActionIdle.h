@@ -9,7 +9,7 @@ class PlayerActionIdle :
 public:
 
 	PlayerActionIdle() = default;
-	~PlayerActionIdle() override {};
+	~PlayerActionIdle() override = default;
 
 	void Build() override;
 	void OnStart() override;
@@ -20,11 +20,6 @@ public:
 	bool IsInput() override;
 
 private:
-
-	// NextAction -------------------------------
-	std::shared_ptr<BaseAction<Player>> moveAction_;
-	std::shared_ptr<BaseAction<Player>> jumpAction_;
-	std::shared_ptr<BaseAction<Player>> shotAction_;
 
 	// Parameter -------------------------------
 	float actionTimer_;

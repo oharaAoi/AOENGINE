@@ -48,13 +48,6 @@ private:	// action
 
 private:
 
-	// NextAction -------------------------------
-	std::shared_ptr<BaseAction<Player>> jumpAction_;
-	std::shared_ptr<BaseAction<Player>> shotActionRight_;
-	std::shared_ptr<BaseAction<Player>> shotActionLeft_;
-	std::shared_ptr<BaseAction<Player>> quickBoostAction_;
-	std::shared_ptr<BaseAction<Player>> boostAction_;
-
 	// Parameter -------------------------------
 	float actionTimer_;
 

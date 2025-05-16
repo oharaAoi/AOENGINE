@@ -18,10 +18,6 @@ void PlayerActionIdle::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::OnStart() {
-	moveAction_ = pManager_->GetActionInstance<PlayerActionMove>();
-	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
-	shotAction_ = pManager_->GetActionInstance<PlayerActionShotRight>();
-
 	actionTimer_ = 0;
 }
 
@@ -46,19 +42,19 @@ void PlayerActionIdle::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::CheckNextAction() {
-	if (moveAction_->IsInput()) {
+	if (CheckInput<PlayerActionMove>()) {
 		NextAction<PlayerActionMove>();
 	}
 
-	if (jumpAction_->IsInput()) {
+	if (CheckInput<PlayerActionJump>()) {
 		NextAction<PlayerActionJump>();
 	}
 
-	if (shotAction_->IsInput()) {
+	if (CheckInput<PlayerActionShotRight>()) {
 		NextAction<PlayerActionShotRight>();
 	}
 
-	if (shotAction_->IsInput()) {
+	if (CheckInput<PlayerActionShotLeft>()) {
 		NextAction<PlayerActionShotLeft>();
 	}
 }

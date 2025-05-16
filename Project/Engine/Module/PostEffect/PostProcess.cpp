@@ -6,11 +6,11 @@ PostProcess::~PostProcess() {
 }
 
 void PostProcess::Finalize() {
-	effectList_.clear();
 	pingPongBuff_.reset();
 	grayscale_.reset();
 	radialBlur_.reset();
 	glitchNoise_.reset();
+	effectList_.clear();
 }
 
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {

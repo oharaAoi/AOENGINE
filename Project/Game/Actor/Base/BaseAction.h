@@ -22,7 +22,7 @@ protected:
 public:	// base
 
 	BaseAction() = default;
-	~BaseAction() override = default;
+	virtual ~BaseAction() override = default;
 
 	/// <summary>
 	/// 設定ジのみ行う処理
@@ -64,6 +64,15 @@ public:	// base
 		}
 		size_t hash = typeid(ActionT).hash_code();
 		pManager_->AddAction(hash);
+	}
+
+	template<typename ActionT>
+	bool CheckInput() {
+		if (!pManager_) {
+			return 0;
+		}
+		size_t hash = typeid(ActionT).hash_code();
+		return pManager_->CheckInput(hash);
 	}
 	
 protected:	// observerクラス以外からは呼び出さない

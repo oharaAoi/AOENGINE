@@ -36,12 +36,6 @@ void PlayerActionMove::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::OnStart() {
-	jumpAction_ = pManager_->GetActionInstance<PlayerActionJump>();
-	shotActionRight_ = pManager_->GetActionInstance<PlayerActionShotRight>();
-	shotActionLeft_ = pManager_->GetActionInstance<PlayerActionShotLeft>();
-	quickBoostAction_ = pManager_->GetActionInstance<PlayerActionQuickBoost>();
-	boostAction_ = pManager_->GetActionInstance<PlayerActionBoost>();
-
 	actionTimer_ = 0;
 }
 
@@ -76,23 +70,23 @@ void PlayerActionMove::CheckNextAction() {
 		NextAction<PlayerActionIdle>();
 	}
 
-	if (jumpAction_->IsInput()) {
+	if (CheckInput<PlayerActionJump>()) {
 		AddAction<PlayerActionJump>();
 	}
 
-	if (shotActionRight_->IsInput()) {
+	if (CheckInput<PlayerActionShotRight>()) {
 		AddAction<PlayerActionShotRight>();
 	}
 
-	if (shotActionLeft_->IsInput()) {
+	if (CheckInput<PlayerActionShotLeft>()) {
 		AddAction<PlayerActionShotLeft>();
 	}
 
-	if (quickBoostAction_->IsInput()) {
+	if (CheckInput<PlayerActionQuickBoost>()) {
 		NextAction<PlayerActionQuickBoost>();
 	}
 
-	if (boostAction_->IsInput()) {
+	if (CheckInput<PlayerActionBoost>()) {
 		NextAction<PlayerActionBoost>();
 	}
 

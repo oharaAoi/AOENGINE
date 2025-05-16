@@ -21,8 +21,6 @@ void PlayerActionJump::Debug_Gui() {
 void PlayerActionJump::Build() {
 	SetName("actionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
-
-	moveAction_ = pManager_->GetActionInstance<PlayerActionMove>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +61,7 @@ void PlayerActionJump::CheckNextAction() {
 		NextAction<PlayerActionIdle>();
 	}*/
 
-	if (moveAction_->IsInput()) {
+	if (CheckInput<PlayerActionMove>()) {
 		AddAction<PlayerActionMove>();
 	}
 }

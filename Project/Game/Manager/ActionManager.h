@@ -17,9 +17,13 @@ public:
 
 	ActionManager() {}
 	~ActionManager() {
+		Finalize();
+	};
+
+	void Finalize() {
 		runActionMap_.clear();
 		actionMap_.clear();
-	};
+	}
 
 	void Init(OwnerType* pOwner, const std::string& name) {
 		pOwner_ = pOwner;
@@ -142,10 +146,8 @@ public:
 		}
 	}
 
-	template<typename ActionT>
-	std::shared_ptr<BaseAction<OwnerType>> GetActionInstance() {
-		size_t hash = typeid(ActionT).hash_code();
-		return actionMap_[hash];
+	bool CheckInput(size_t actionTypeIndex) {
+		return actionMap_[actionTypeIndex]->IsInput();
 	}
 
 private:
@@ -154,10 +156,10 @@ private:
 	OwnerType* pOwner_ = nullptr;
 	// 今のAction
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> runActionMap_;
+	// ownerが行うActionのインスタンスをまとめたMap
+	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> actionMap_;
 	// 追加するActionのリスト
 	std::list<size_t> addIndexList_;
 	// 削除するActionのリスト
 	std::list<size_t> deleteIndexList_;
-	// ownerが行うActionのインスタンスをまとめたMap
-	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> actionMap_;
 };
