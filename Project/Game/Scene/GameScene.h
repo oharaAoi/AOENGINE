@@ -10,7 +10,7 @@
 #include "Game/WorldObject/Floor.h"
 #include "Game/WorldObject/Skybox.h"
 #include "Game/Actor/Player/PlayerManager.h"
-#include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Boss/BossRoot.h"
 // sprite
 #include "Game/UI/CanvasUI.h"
 #include "Game/UI/Reticle.h"
@@ -50,7 +50,7 @@ private:
 	std::unique_ptr<Floor> floor_;
 	std::unique_ptr<Skybox> skybox_;
 	std::unique_ptr<PlayerManager> playerManager_;
-	std::unique_ptr<Boss> boss_;
+	std::unique_ptr<BossRoot> bossRoot_;
 
 	// ------------------- collision ------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;

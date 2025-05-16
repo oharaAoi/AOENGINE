@@ -166,6 +166,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionAllRangeMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
@@ -366,6 +370,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionAllRangeMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Game\Actor\Jet\JetEngine.h" />

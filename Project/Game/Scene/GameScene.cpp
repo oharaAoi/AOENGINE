@@ -55,8 +55,8 @@ void GameScene::Init() {
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
 
-	boss_ = std::make_unique<Boss>();
-	boss_->Init();
+	bossRoot_ = std::make_unique<BossRoot>();
+	bossRoot_->Init();
 
 	cylinder_ = std::make_unique<GeometryObject>();
 	cylinder_->Set<CylinderGeometry>(32, 1.f, 2.f, 2.f);
@@ -74,7 +74,7 @@ void GameScene::Init() {
 	collisionManager_->Init();
 
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
-	gameCallBacksManager_->SetBoss(boss_.get());
+	gameCallBacksManager_->SetBoss(bossRoot_->GetBoss());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
 	gameCallBacksManager_->SetGround(floor_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());
@@ -96,7 +96,7 @@ void GameScene::Init() {
 	followCamera_->SetReticle(canvas_->GetReticle());
 
 	canvas_->SetPlayer(playerManager_->GetPlayer());
-	canvas_->SetBoss(boss_.get());
+	canvas_->SetBoss(bossRoot_->GetBoss());
 	canvas_->SetFollowCamera(followCamera_.get());
 
 }
@@ -116,7 +116,7 @@ void GameScene::Update() {
 	skydome_->Update();
 	floor_->Update();
 	playerManager_->Update();
-	boss_->Update();
+	bossRoot_->Update();
 
 	cylinder_->Update();
 	sphere_->Update();
@@ -165,7 +165,7 @@ void GameScene::Draw() const {
 	//skydome_->Draw();
 	floor_->Draw();
 	playerManager_->Draw();
-	boss_->Draw();
+	bossRoot_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
 	sphere_->Draw();
