@@ -38,7 +38,7 @@ public:
 public:
 
 	PlayerActionQuickBoost() = default;
-	~PlayerActionQuickBoost() = default;
+	~PlayerActionQuickBoost() override {};
 
 	void Build() override;
 	void OnStart() override;

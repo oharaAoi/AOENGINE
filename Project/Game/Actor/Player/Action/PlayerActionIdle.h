@@ -9,7 +9,7 @@ class PlayerActionIdle :
 public:
 
 	PlayerActionIdle() = default;
-	~PlayerActionIdle() = default;
+	~PlayerActionIdle() override {};
 
 	void Build() override;
 	void OnStart() override;

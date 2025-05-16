@@ -118,6 +118,9 @@ void Engine::Finalize() {
 	render_->Finalize();
 
 	renderTarget_->Finalize();
+
+	input_->Finalize();
+
 	dxCompiler_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();

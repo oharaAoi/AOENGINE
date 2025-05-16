@@ -110,7 +110,7 @@ private:
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Player>> stateMachine_;
 
-	ActionManager<Player> actionManager_;
+	std::unique_ptr<ActionManager<Player>> actionManager_;
 
 	bool isKnockback_;
 

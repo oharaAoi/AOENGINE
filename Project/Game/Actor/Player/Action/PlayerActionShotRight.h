@@ -14,7 +14,7 @@ class PlayerActionShotRight :
 public:
 
 	PlayerActionShotRight() = default;
-	~PlayerActionShotRight() = default;
+	~PlayerActionShotRight() override {};
 
 	void Build() override;
 	void OnStart() override;

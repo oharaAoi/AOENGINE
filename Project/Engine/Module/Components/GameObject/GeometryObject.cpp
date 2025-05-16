@@ -9,6 +9,11 @@
 #include "Engine/Module/Geometry/Polygon/CylinderGeometry.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
+GeometryObject::~GeometryObject() {
+	material_->Finalize();
+	transform_->Finalize();
+}
+
 void GeometryObject::Update() {
 	transform_->Update();
 }

@@ -6,6 +6,7 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 		particle.second.particleResource_.Reset();
 		DescriptorHeap::AddFreeSrvList(particle.second.srvHandle_.assignIndex_);
 	}
+	particleMap_.clear();
 	perViewBuffer_.Reset();
 }
 

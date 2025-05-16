@@ -13,7 +13,7 @@ class PlayerActionShotLeft :
 public:
 
 	PlayerActionShotLeft() = default;
-	~PlayerActionShotLeft() = default;
+	~PlayerActionShotLeft()  override {};
 
 	void Build() override;
 	void OnStart() override;

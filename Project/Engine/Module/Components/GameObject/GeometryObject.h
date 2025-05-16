@@ -20,7 +20,7 @@ class GeometryObject final
 public:
 
 	GeometryObject() = default;
-	~GeometryObject() = default;
+	~GeometryObject();
 
 	/// <summary>
 	/// Geometryを設定する

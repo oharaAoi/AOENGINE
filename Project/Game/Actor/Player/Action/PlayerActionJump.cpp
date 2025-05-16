@@ -1,6 +1,7 @@
 #include "PlayerActionJump.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
+#include "Game/Actor/Player/Action/PlayerActionMove.h"
 // Engine
 #include "Engine/System/Input/Input.h"
 
@@ -20,6 +21,8 @@ void PlayerActionJump::Debug_Gui() {
 void PlayerActionJump::Build() {
 	SetName("actionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
+
+	moveAction_ = pManager_->GetActionInstance<PlayerActionMove>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +62,10 @@ void PlayerActionJump::CheckNextAction() {
 		pOwnerTransform_->translate_.y = 0.0f;
 		NextAction<PlayerActionIdle>();
 	}*/
+
+	if (moveAction_->IsInput()) {
+		AddAction<PlayerActionMove>();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

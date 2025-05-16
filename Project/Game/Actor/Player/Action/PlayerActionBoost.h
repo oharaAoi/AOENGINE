@@ -43,7 +43,7 @@ public:
 public:
 
 	PlayerActionBoost() = default;
-	~PlayerActionBoost() = default;
+	~PlayerActionBoost() override;
 
 	void Build() override;
 	void OnStart() override;

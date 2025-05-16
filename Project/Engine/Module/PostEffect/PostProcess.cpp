@@ -2,11 +2,13 @@
 #include "Engine/System/Editer/Window/EditerWindows.h"
 
 PostProcess::~PostProcess() {
+	Finalize();
 }
 
 void PostProcess::Finalize() {
 	effectList_.clear();
 	pingPongBuff_.reset();
+	grayscale_.reset();
 	radialBlur_.reset();
 	glitchNoise_.reset();
 }

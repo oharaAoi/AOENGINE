@@ -20,9 +20,14 @@ Input::Input() {
 }
 
 Input::~Input() {
+	Finalize();
+}
+
+void Input::Finalize() {
 	directInput_.Reset();
 	keyboard_.Reset();
 	mouse_.Reset();
+	gamepad.Reset();
 }
 
 //=================================================================================================================

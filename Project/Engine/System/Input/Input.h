@@ -44,6 +44,8 @@ public:
 	Input(const Input&) = delete;
 	const Input& operator=(const Input&) = delete;
 
+	void Finalize();
+
 	/// <summary>
 	/// 初期化関数
 	/// </summary>

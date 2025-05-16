@@ -36,9 +36,6 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(100);
 
-	particleManager_ = ParticleManager::GetInstance();
-	particleManager_->Init();
-
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
 

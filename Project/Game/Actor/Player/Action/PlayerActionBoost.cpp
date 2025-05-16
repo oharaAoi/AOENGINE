@@ -26,6 +26,10 @@ void PlayerActionBoost::Debug_Gui() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+PlayerActionBoost::~PlayerActionBoost() {
+	blur_.reset();
+}
+
 void PlayerActionBoost::Build() {
 	actionName_ = "actionBoost";
 	SetName(actionName_);

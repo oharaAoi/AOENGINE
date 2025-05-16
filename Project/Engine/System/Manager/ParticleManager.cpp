@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 ParticleManager::~ParticleManager() {
+	Finalize();
 }
 
 ParticleManager* ParticleManager::GetInstance() {

@@ -20,6 +20,7 @@ Player::~Player() {
 
 void Player::Finalize() {
 	jet_ = nullptr;
+	BaseGameObject::Finalize();
 }
 
 #ifdef _DEBUG
@@ -84,17 +85,18 @@ void Player::Init() {
 	// ↓ Action関連
 	// -------------------------------------------------
 
-	actionManager_.Init(this, "playerAction");
-	actionManager_.BuildAction<PlayerActionIdle>();
-	actionManager_.BuildAction<PlayerActionMove>();
-	actionManager_.BuildAction<PlayerActionJump>();
-	actionManager_.BuildAction<PlayerActionQuickBoost>();
-	actionManager_.BuildAction<PlayerActionBoost>();
-	actionManager_.BuildAction<PlayerActionShotRight>();
-	actionManager_.BuildAction<PlayerActionShotLeft>();
+	actionManager_ = std::make_unique<ActionManager<Player>>();
+	actionManager_->Init(this, "playerAction");
+	actionManager_->BuildAction<PlayerActionIdle>();
+	actionManager_->BuildAction<PlayerActionMove>();
+	actionManager_->BuildAction<PlayerActionJump>();
+	actionManager_->BuildAction<PlayerActionQuickBoost>();
+	actionManager_->BuildAction<PlayerActionBoost>();
+	actionManager_->BuildAction<PlayerActionShotRight>();
+	actionManager_->BuildAction<PlayerActionShotLeft>();
 
 	size_t hash = typeid(PlayerActionIdle).hash_code();
-	actionManager_.AddRunAction(hash);
+	actionManager_->AddRunAction(hash);
 
 	// -------------------------------------------------
 	// ↓ Parameter関連
@@ -117,7 +119,7 @@ void Player::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
-	actionManager_.Update();
+	actionManager_->Update();
 	stateMachine_->Update();
 
 	if (reticle_->GetLockOn()) {
@@ -168,5 +170,5 @@ void Player::RecoveryEN(float timer) {
 void Player::Landing() {
 	isLanding_ = true;
 	size_t hash = typeid(PlayerActionIdle).hash_code();
-	actionManager_.ChangeAction(hash);
+	actionManager_->ChangeAction(hash);
 }

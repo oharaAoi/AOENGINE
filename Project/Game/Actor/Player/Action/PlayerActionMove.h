@@ -27,7 +27,7 @@ public:
 public:
 
 	PlayerActionMove() = default;
-	~PlayerActionMove();
+	~PlayerActionMove() override {};
 
 	void Build() override;
 	void OnStart() override;

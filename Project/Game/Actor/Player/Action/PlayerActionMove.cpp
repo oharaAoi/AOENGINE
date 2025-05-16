@@ -26,9 +26,6 @@ void PlayerActionMove::Debug_Gui() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlayerActionMove::~PlayerActionMove() {
-}
-
 void PlayerActionMove::Build() {
 	SetName("actionMove");
 	parameter_.FromJson(JsonItems::GetData("PlayerAction", "ActionMove"));
@@ -54,9 +51,13 @@ void PlayerActionMove::OnStart() {
 
 void PlayerActionMove::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
-	pOwner_->RecoveryEN(actionTimer_);
 
 	Move();
+
+	// 移動の入力がなかったら回復処理を行っていく
+	if (stick_.Length() == 0.f) {
+		pOwner_->RecoveryEN(actionTimer_);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

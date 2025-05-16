@@ -107,8 +107,6 @@ private:
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
 
-	ParticleManager* particleManager_ = nullptr;
-
 	std::list<std::unique_ptr<BaseParticles>> particles_;
 
 	// editer関連 ------------------------------------------

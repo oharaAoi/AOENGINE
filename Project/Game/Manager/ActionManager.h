@@ -16,7 +16,10 @@ class ActionManager :
 public:
 
 	ActionManager() {}
-	~ActionManager() = default;
+	~ActionManager() {
+		runActionMap_.clear();
+		actionMap_.clear();
+	};
 
 	void Init(OwnerType* pOwner, const std::string& name) {
 		pOwner_ = pOwner;
@@ -158,4 +161,3 @@ private:
 	// ownerが行うActionのインスタンスをまとめたMap
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> actionMap_;
 };
-
