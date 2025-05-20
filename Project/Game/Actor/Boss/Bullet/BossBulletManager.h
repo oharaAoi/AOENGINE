@@ -4,10 +4,7 @@
 #include <memory>
 // Game
 #include "Game/Actor/Base/BaseBullet.h"
-
-enum class BossBulletType {
-	MISSILE,
-};
+#include "Game/Actor/Boss/Bullet/BossMissile.h"
 
 /// <summary>
 /// BossのBulletを管理するクラス
@@ -24,7 +21,19 @@ public:
 
 public: // member method
 
-	void AddBullet(const Vector3& pos, const Vector3& velocity, BossBulletType type);
+	/// <summary>
+	/// Bossが弾を撃った後にリストに格納する
+	/// </summary>
+	/// <typeparam name="BulletType">: 弾種類</typeparam>
+	/// <typeparam name="...Args">: 可変長引数</typeparam>
+	/// <param name="...args">: 各バレットの構造体</param>
+	template<typename BulletType, typename... Args>
+	void AddBullet(Args&&... args) {
+		auto& bullet = bulletList_.emplace_back(std::make_unique<BulletType>());
+		bullet->Init();
+		// BulletTypeに応じたReset呼び出し
+		static_cast<BulletType*>(bullet.get())->Reset(std::forward<Args>(args)...);
+	}
 
 private:
 

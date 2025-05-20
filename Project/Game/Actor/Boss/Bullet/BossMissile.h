@@ -1,5 +1,6 @@
 #pragma once
 #include "Game/Actor/Base/BaseBullet.h"
+#include "Game/Actor/Boss/Bullet/BossBullets.h"
 
 /// <summary>
 /// Bossのミサイルを打つ処理
@@ -14,5 +15,10 @@ public:
 	void Init();
 	void Update();
 	void Draw() const;
+
+private :
+
+	BossBulletType type_ = BossBulletType::MISSILE;
+
 };
 

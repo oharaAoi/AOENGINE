@@ -373,6 +373,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Boss\Action\BossActionAllRangeMissile.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />

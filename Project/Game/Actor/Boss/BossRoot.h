@@ -24,10 +24,15 @@ public:
 
 	BossBulletManager* GetBulletManager() { return bulletManager_.get(); }
 
+	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
+
 private:
 
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<BossBulletManager> bulletManager_;
+
+	// 他クラス情報
+	Vector3 playerPosition_;
 
 };
 

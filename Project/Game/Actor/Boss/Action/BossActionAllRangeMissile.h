@@ -1,4 +1,6 @@
 #pragma once
+#include <functional>
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Game/Actor/Base/BaseAction.h"
 
 class Boss;
@@ -28,7 +30,25 @@ public:
 
 private :
 
+	/// <summary>
+	/// 発射
+	/// </summary>
 	void Shot();
+
+	/// <summary>
+	/// Playerの方向を向かせる処理
+	/// </summary>
+	void LookPlayer();
+
+private :
+
+	float actionTimer_;
+	Quaternion playerToRotation_;
+
+	// LookPlayerに関する変数
+	float lookTime_ = 1.f;
+
+	std::function<void()> mainAction_;
 
 };
 

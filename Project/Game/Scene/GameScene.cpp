@@ -116,6 +116,8 @@ void GameScene::Update() {
 	skydome_->Update();
 	floor_->Update();
 	playerManager_->Update();
+
+	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetPosition());
 	bossRoot_->Update();
 
 	cylinder_->Update();

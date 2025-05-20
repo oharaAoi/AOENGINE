@@ -1,5 +1,4 @@
 #include "BossBulletManager.h"
-#include "Game/Actor/Boss/Bullet/BossMissile.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化する
@@ -15,8 +14,8 @@ void BossBulletManager::Init() {
 
 void BossBulletManager::Update() {
 	// フラグがfalseになったら削除
-	std::erase_if(bulletList_, [](const BaseBullet& bullet) {
-		return !bullet.GetIsAlive();
+	std::erase_if(bulletList_, [](auto& bullet) {
+		return !bullet->GetIsAlive();
 				  });
 
 	for (auto& bullet : bulletList_) {
@@ -29,23 +28,7 @@ void BossBulletManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBulletManager::Draw() const {
-	for (auto& bullet : bulletList_) {
+	for (const auto& bullet : bulletList_) {
 		bullet->Draw();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 弾を追加する
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossBulletManager::AddBullet(const Vector3& pos, const Vector3& velocity, BossBulletType type) {
-	switch (type) {
-	case BossBulletType::MISSILE:
-		auto& bullet = bulletList_.emplace_back(std::make_unique<BossMissile>());
-		bullet->Init();
-		bullet->Reset(pos, velocity);
-		break;
-	default:
-		break;
 	}
 }

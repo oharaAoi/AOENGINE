@@ -451,6 +451,7 @@
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

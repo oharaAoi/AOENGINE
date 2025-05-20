@@ -7,9 +7,12 @@ void BossRoot::Init() {
 	bulletManager_ = std::make_unique<BossBulletManager>();
 	bulletManager_->Init();
 
+	// 初期設定
+	boss_->SetBulletManager(bulletManager_.get());
 }
 
 void BossRoot::Update() {
+	boss_->SetPlayerPosition(playerPosition_);
 	boss_->Update();
 
 	bulletManager_->Update();

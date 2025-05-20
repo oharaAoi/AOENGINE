@@ -1,4 +1,6 @@
 #include "BossActionAllRangeMissile.h"
+#include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Boss/Bullet/BossMissile.h"
 
 #ifdef _DEBUG
 void BossActionAllRangeMissile::Debug_Gui() {
@@ -19,6 +21,10 @@ void BossActionAllRangeMissile::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::OnStart() {
+	actionTimer_ = 0.f;
+	playerToRotation_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
+
+	mainAction_ = std::bind(&BossActionAllRangeMissile::LookPlayer, this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +32,9 @@ void BossActionAllRangeMissile::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::OnUpdate() {
+	actionTimer_ += GameTimer::DeltaTime();
+
+	mainAction_();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,4 +64,21 @@ bool BossActionAllRangeMissile::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Shot() {
+	// Bossのforward方向を向かせる
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Playerの方向を向かせる処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossActionAllRangeMissile::LookPlayer() {
+	float t = actionTimer_ / lookTime_;
+	Quaternion lookRotation = Quaternion::Slerp(pOwner_->GetTransform()->GetQuaternion(), playerToRotation_, t);
+	pOwner_->GetTransform()->SetQuaternion(lookRotation);
+
+	// 次の行動に遷移する
+	if (actionTimer_ > lookTime_) {
+		mainAction_ = std::bind(&BossActionAllRangeMissile::Shot, this);
+	}
 }

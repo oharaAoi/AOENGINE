@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 // Game
 #include "Game/State/StateMachine.h"
+#include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 
 class Boss :
 	public BaseGameObject {
@@ -25,10 +26,23 @@ public:
 
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
+	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
+	const Vector3& GetPlayerPosition() const { return playerPosition_; }
+
+	void SetBulletManager(BossBulletManager* _manager) { pBossBulletManager_ = _manager; }
+	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
+
 private:
+
+	// ポインタ  --------------------------------------------------
+	BossBulletManager* pBossBulletManager_ = nullptr;
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
+
+	// Playerの状態 --------------------------------------------------
+
+	Vector3 playerPosition_;
 
 };
 
