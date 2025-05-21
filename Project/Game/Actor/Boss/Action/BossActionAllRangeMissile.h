@@ -45,8 +45,13 @@ private :
 	float actionTimer_;
 	Quaternion playerToRotation_;
 
+	float bulletSpeed_;
+
 	// LookPlayerに関する変数
 	float lookTime_ = 1.f;
+
+	// 弾を打ち終わったかのフラグ
+	bool isFinishShot_;
 
 	std::function<void()> mainAction_;
 

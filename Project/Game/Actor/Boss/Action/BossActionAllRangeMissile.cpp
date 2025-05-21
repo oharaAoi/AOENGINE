@@ -1,6 +1,7 @@
 #include "BossActionAllRangeMissile.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
+#include "Game/Actor/Boss/Action/BossActionIdle.h"
 
 #ifdef _DEBUG
 void BossActionAllRangeMissile::Debug_Gui() {
@@ -25,6 +26,10 @@ void BossActionAllRangeMissile::OnStart() {
 	playerToRotation_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
 
 	mainAction_ = std::bind(&BossActionAllRangeMissile::LookPlayer, this);
+
+	isFinishShot_ = false;
+
+	bulletSpeed_ = 40.f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +54,9 @@ void BossActionAllRangeMissile::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::CheckNextAction() {
+	if (isFinishShot_) {
+		NextAction<BossActionIdle>();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,8 +72,24 @@ bool BossActionAllRangeMissile::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Shot() {
+	if (isFinishShot_) { return; }
+	Vector3 pos = pOwner_->GetTransform()->translate_;
 	// Bossのforward方向を向かせる
+	Vector3 dire = pOwner_->GetTransform()->rotation_.MakeForward();
 
+	const uint32_t fireNum = 9;
+	for (uint32_t oi = 0; oi < fireNum; ++oi) {
+		float angle = -kHPI + (kPI * static_cast<float>(oi)) / float(fireNum - 1);
+		Vector3 rotatedDir = {
+			dire.x * std::cos(angle) - dire.z * std::sin(angle),
+			0.0f,
+			dire.x * std::sin(angle) + dire.z * std::cos(angle)
+		};
+		Vector3 velocity = ((dire * -1.f) * (rotatedDir)).Normalize() * bulletSpeed_;
+		pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_);
+	}
+
+	isFinishShot_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

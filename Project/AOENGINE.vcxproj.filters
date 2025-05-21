@@ -240,6 +240,7 @@
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -454,6 +455,7 @@
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

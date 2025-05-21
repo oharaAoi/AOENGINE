@@ -15,6 +15,7 @@ void BossRoot::Update() {
 	boss_->SetPlayerPosition(playerPosition_);
 	boss_->Update();
 
+	bulletManager_->SetPlayerPosition(playerPosition_);
 	bulletManager_->Update();
 }
 

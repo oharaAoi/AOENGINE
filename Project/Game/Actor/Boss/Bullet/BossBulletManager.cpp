@@ -19,6 +19,7 @@ void BossBulletManager::Update() {
 				  });
 
 	for (auto& bullet : bulletList_) {
+		bullet->SetTargetPosition(playerPosition_);
 		bullet->Update();
 	}
 }

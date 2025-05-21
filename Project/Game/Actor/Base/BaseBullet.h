@@ -24,11 +24,15 @@ public:
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 	bool GetIsAlive() const { return isAlive_; }
 
+	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
+
 protected:
 
 	// State ------------------------------
 	Vector3 velocity_;
 	Vector3 acceleration_;
+
+	Vector3 targetPosition_;
 
 	bool isAlive_;
 

@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 // Game
 #include "Game/State/StateMachine.h"
+#include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 
 class Boss :
@@ -39,6 +40,8 @@ private:
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
+
+	std::unique_ptr<ActionManager<Boss>> actionManager_;
 
 	// Playerの状態 --------------------------------------------------
 

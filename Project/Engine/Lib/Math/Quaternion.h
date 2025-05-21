@@ -119,15 +119,13 @@ public:
 
 	static Quaternion RotateMatrixTo(const Matrix3x3 m);
 
-private:
-
 	/// <summary>
 	/// 向きたい方向の回転を求める関数
 	/// </summary>
 	/// <param name="forward"></param>
 	/// <param name="upVector"></param>
 	/// <returns></returns>
-	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector);
+	static Quaternion LookRotation(const Vector3& forward, const Vector3& upVector = CVector3::UP);
 
 public:
 

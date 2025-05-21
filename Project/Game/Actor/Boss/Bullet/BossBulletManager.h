@@ -35,9 +35,13 @@ public: // member method
 		static_cast<BulletType*>(bullet.get())->Reset(std::forward<Args>(args)...);
 	}
 
+	void SetPlayerPosition(const Vector3& pos) { playerPosition_ = pos; }
+
 private:
 
 	std::list<std::unique_ptr<BaseBullet>> bulletList_;
+
+	Vector3 playerPosition_;
 
 };
 
