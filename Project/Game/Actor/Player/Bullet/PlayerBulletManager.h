@@ -7,6 +7,7 @@
 #include "Game/Effects/HitBossExploadParticles.h"
 #include "Game/Effects/HitBossSmoke.h"
 #include "Game/Effects/HitBossSmokeBorn.h"
+#include <Module/Components/Collider/ICollider.h>
 
 /// <summary>
 /// PlayerのBulletを管理するクラス
@@ -23,13 +24,15 @@ public:
 
 	void CollisionToBoss(const Vector3& bossPos);
 
+	PlayerBullet* SearchCollider(ICollider* collider);
+
 public: // member method
 
 	void AddBullet(const Vector3& pos, const Vector3& velocity);
 
 private:
 
-	std::list<PlayerBullet> bulletList_;
+	std::list<std::unique_ptr<PlayerBullet>> bulletList_;
 
 	std::unique_ptr<HitBossExploadParticles> hitBossExploadParticles_;
 	std::unique_ptr<HitBossSmoke> hitBossSmoke_;

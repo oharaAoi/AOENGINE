@@ -71,3 +71,8 @@ void BoxCollider::PushBack() {
 		std::get<OBB>(shape_).center += pushbackDire_;
 	}
 }
+
+#ifdef _DEBUG
+void BoxCollider::Debug_Gui() {
+}
+#endif

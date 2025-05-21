@@ -4,6 +4,7 @@
 #include <variant>
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 enum CollisionFlags {
 	NONE = 0b00,
@@ -21,7 +22,8 @@ enum class ColliderShape {
 /// <summary>
 /// Colliderの基底クラス
 /// </summary>
-class ICollider {
+class ICollider :
+	public AttributeGui {
 public:
 
 	ICollider() = default;
@@ -34,7 +36,7 @@ public:
 	virtual void PushBack() = 0;
 
 #ifdef _DEBUG
-	void Debug_Gui();
+	virtual void Debug_Gui() override = 0;
 #endif
 
 public:

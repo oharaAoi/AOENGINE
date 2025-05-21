@@ -28,6 +28,11 @@ void PBulletToBossCallBacks::Update() {
 }
 
 void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
+	PlayerBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
+	if (playerBullet != nullptr) {
+		playerBullet->SetIsAlive(false);
+	}
+	
 	hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
 	hitBossExploadParticles_->SetOnShot();
 

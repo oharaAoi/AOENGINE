@@ -17,6 +17,8 @@ void Boss::Init() {
 
 	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
+	collider_->SetIsStatic(false);
+	collider_->SetRadius(4.5f);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -57,5 +59,6 @@ void Boss::Draw() const {
 #ifdef _DEBUG
 void Boss::Debug_Gui() {
 	transform_->Debug_Gui();
+	collider_->Debug_Gui();
 }
 #endif // _DEBUG

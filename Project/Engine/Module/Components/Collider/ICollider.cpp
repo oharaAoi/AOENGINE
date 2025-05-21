@@ -2,12 +2,6 @@
 #include <assert.h>
 #include "Engine/System/Manager/CollisionLayerManager.h"
 
-#ifdef _DEBUG
-void ICollider::Debug_Gui() {
-	ImGui::DragFloat3("translate", &localSRT_.translate.x, 0.1f);
-}
-#endif
-
 void ICollider::SwitchCollision(ICollider* partner) {
 	int& state = collisionPartnersMap_[partner];
 

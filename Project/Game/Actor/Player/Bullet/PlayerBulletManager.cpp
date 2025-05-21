@@ -27,12 +27,12 @@ void PlayerBulletManager::Init() {
 
 void PlayerBulletManager::Update() {
 	// フラグがfalseになったら削除
-	std::erase_if(bulletList_, [](const PlayerBullet& bullet) {
-		return !bullet.GetIsAlive();
+	std::erase_if(bulletList_, [](const std::unique_ptr<PlayerBullet>& bullet) {
+		return !bullet->GetIsAlive();
 				  });
 
-	for (PlayerBullet& bullet : bulletList_) {
-		bullet.Update();
+	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+		bullet->Update();
 	}
 
 	hitBossSmoke_->Update(Render::GetCameraRotate());
@@ -45,37 +45,48 @@ void PlayerBulletManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBulletManager::Draw() const {
-	for (const PlayerBullet& bullet : bulletList_) {
-		bullet.Draw();
+	for (const std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+		bullet->Draw();
 	}
 }
 
 void PlayerBulletManager::CollisionToBoss(const Vector3& bossPos) {
-	for (PlayerBullet& bullet : bulletList_) {
-		float length = (bullet.GetTransform()->translate_ - bossPos).Length();
+	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+		float length = (bullet->GetTransform()->translate_ - bossPos).Length();
 
 		if (length < 4.0f) {
 			// effectを出す
 			//bullet.SetIsAlive(false);
 
-			hitBossExploadParticles_->SetPos(bullet.GetTransform()->translate_);
+			hitBossExploadParticles_->SetPos(bullet->GetTransform()->translate_);
 			hitBossExploadParticles_->SetOnShot();
 
-			hitBossSmoke_->SetPos(bullet.GetTransform()->translate_);
+			hitBossSmoke_->SetPos(bullet->GetTransform()->translate_);
 			hitBossSmoke_->SetOnShot();
 
-			hitBossSmokeBorn_->SetPos(bullet.GetTransform()->translate_);
+			hitBossSmokeBorn_->SetPos(bullet->GetTransform()->translate_);
 			hitBossSmokeBorn_->SetOnShot();
 		}
 	}
 }
+
+PlayerBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {
+	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+		if (bullet->GetCollider() == collider) {
+			return bullet.get();
+		}
+	}
+
+	return nullptr;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 弾を追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBulletManager::AddBullet(const Vector3& pos, const Vector3& velocity) {
-	PlayerBullet& bullet = bulletList_.emplace_back();
-	bullet.Init();
-	bullet.Reset(pos, velocity);
+	auto& bullet = bulletList_.emplace_back(std::make_unique<PlayerBullet>());
+	bullet->Init();
+	bullet->Reset(pos, velocity);
 }
