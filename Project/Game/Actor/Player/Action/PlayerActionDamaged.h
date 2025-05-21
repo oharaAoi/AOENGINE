@@ -1,5 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseAction.h"
+#include "Lib/Math/Vector3.h"
+#include "Module/Components/WorldTransform.h"
 
 class Player;
 
@@ -21,11 +23,16 @@ public:
 	void CheckNextAction() override;
 	bool IsInput() override;
 
+	void ApplyGravity();
 
 private :
 
 	// Parameter -------------------------------
 	float actionTimer_;
+
+	Vector3 velocity_;
+	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
+	WorldTransform* pOwnerTransform_ = nullptr;
 
 };
 
