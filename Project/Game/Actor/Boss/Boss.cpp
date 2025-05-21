@@ -43,6 +43,7 @@ void Boss::Init() {
 	stateMachine_->ChangeState<BossIdleState>();
 
 	transform_->translate_.z = 25.0f;
+	transform_->translate_.y = 5.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
 
 #ifdef _DEBUG

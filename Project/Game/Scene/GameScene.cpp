@@ -74,7 +74,7 @@ void GameScene::Init() {
 	collisionManager_->Init();
 
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
-	gameCallBacksManager_->SetBoss(bossRoot_->GetBoss());
+	gameCallBacksManager_->SetBossRoot(bossRoot_.get());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
 	gameCallBacksManager_->SetGround(floor_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());

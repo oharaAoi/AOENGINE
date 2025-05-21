@@ -33,3 +33,12 @@ void BossBulletManager::Draw() const {
 		bullet->Draw();
 	}
 }
+
+BaseBullet* BossBulletManager::SearchCollider(ICollider* collider) {
+	for (const auto& bullet : bulletList_) {
+		if (bullet->GetCollider() == collider) {
+			return bullet.get();
+		}
+	}
+	return nullptr;
+}

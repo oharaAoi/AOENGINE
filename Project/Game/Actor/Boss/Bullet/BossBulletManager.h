@@ -37,6 +37,8 @@ public: // member method
 
 	void SetPlayerPosition(const Vector3& pos) { playerPosition_ = pos; }
 
+	BaseBullet* SearchCollider(ICollider* collider);
+
 private:
 
 	std::list<std::unique_ptr<BaseBullet>> bulletList_;

@@ -69,6 +69,7 @@ void Player::Init() {
 
 	SetCollider(ColliderTags::Player::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Boss::own);
+	collider_->SetTarget(ColliderTags::Boss::missile);
 	collider_->SetTarget(ColliderTags::Field::ground);
 	collider_->SetRadius(1.7f);
 	collider_->SetLoacalPos(Vector3(0, 1.7f, 0.0f));

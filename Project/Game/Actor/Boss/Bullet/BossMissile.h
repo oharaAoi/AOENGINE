@@ -32,11 +32,12 @@ private :
 
 	float speed_;
 
-	float trackingLength_;
-	float trackingTimer_;
-	float trackingTime_ = 1.f;
+	// 追尾に関する変数
+	float trackingLength_;		// 長さ
+	float trackingTimer_;		// 計測時間
+	float trackingTime_ = 1.f;	// 追尾するまでの時間
 
-	bool finishTracking_;
+	bool finishTracking_;		// 追尾を終了するか
 
 };
 

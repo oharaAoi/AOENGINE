@@ -9,7 +9,7 @@ void BossMissile::Init() {
 	BaseBullet::Init();
 	SetObject("missile.obj");
 	SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
-	collider_->SetTarget(ColliderTags::Boss::missile);
+	collider_->SetTarget(ColliderTags::Player::own);
 
 	trackingLength_ = 10.f;
 	trackingTimer_ = 0.f;
