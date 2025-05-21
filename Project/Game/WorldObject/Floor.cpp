@@ -1,7 +1,7 @@
 #include "Floor.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
-#include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Game/Information/ColliderCategory.h"
 
 Floor::Floor() {}
 Floor::~Floor() { Finalize(); }
@@ -18,6 +18,7 @@ void Floor::Init() {
 
 	SetCollider(ColliderTags::Field::ground, ColliderShape::AABB);
 	collider_->SetTarget(ColliderTags::Boss::own);
+	collider_->SetTarget(ColliderTags::Boss::missile);
 	collider_->SetTarget(ColliderTags::Player::own);
 	collider_->SetSize(Vector3(1000.f, 1.f, 1000.f));
 	ColliderCollector::AddCollider(collider_.get());

@@ -7,6 +7,7 @@
 #include "Game/CallBacks/PBulletToBossCallBacks.h"
 #include "Game/CallBacks/PlayerToGroundCallBacks.h"
 #include "Game/CallBacks/BBulletToPlayerCallBacks.h"
+#include "Game/CallBacks/BBulletToGroundCallBacks.h"
 
 /// <summary>
 /// CallBackをまとめたクラス
@@ -43,6 +44,7 @@ private:
 	// callBacks
 	std::unique_ptr<PBulletToBossCallBacks> pBulletToBoss_;
 	std::unique_ptr<BBulletToPlayerCallBacks> pBBulletToPlayer_;
+	std::unique_ptr<BBulletToGroundCallBacks> pBBulletToGround_;
 	std::unique_ptr<PlayerToGroundCallBacks> pPlayerToGround_;
 
 };
