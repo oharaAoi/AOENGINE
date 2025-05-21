@@ -31,13 +31,13 @@ public:
 	/// <param name="commandList"></param>
 	void ConfigureResource(ID3D12GraphicsCommandList* commandList) override;
 
-	const DescriptorHeap::DescriptorHandles GetSRVHandles() const { return bufferHandles_[0].srvAddress; }
+	const DescriptorHandles GetSRVHandles() const { return bufferHandles_[0].srvAddress; }
 
 	/// <summary>
 	/// 全体にブラーを掛けたResourceのアドレスを返す
 	/// </summary>
 	/// <returns>: srvHandle</returns>
-	const DescriptorHeap::DescriptorHandles GetResultSRVHandle() const { return bufferHandles_[1].srvAddress; }
+	const DescriptorHandles GetResultSRVHandle() const { return bufferHandles_[1].srvAddress; }
 
 private:
 	// 横ブラーをかけるResource。これもUAV→SRVなどの手順を踏む必要がある

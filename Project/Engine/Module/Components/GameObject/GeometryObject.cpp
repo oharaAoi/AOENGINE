@@ -1,6 +1,7 @@
 #include "GeometryObject.h"
 #include "Engine/Render.h"
 #include "Engine/Engine.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 #include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
@@ -20,7 +21,7 @@ void GeometryObject::Update() {
 
 void GeometryObject::Draw() const {
 
-	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 	Render::DrawLightGroup(4);
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());

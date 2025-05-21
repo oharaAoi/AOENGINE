@@ -88,7 +88,7 @@ void BaseCSResource::CreateSRV() {
 	}
 }
 
-const DescriptorHeap::DescriptorHandles BaseCSResource::GetLastIndexSRVHandle() const {
+const DescriptorHandles BaseCSResource::GetLastIndexSRVHandle() const {
 	size_t lastIndex = bufferHandles_.size() - 1;
 	return bufferHandles_[lastIndex].srvAddress;
 }

@@ -1,4 +1,5 @@
 #include "DepthOfField.h"
+#include "Engine/Core/GraphicsContext.h"
 
 DepthOfField::DepthOfField(const UINT& gpuGroupCountX, const UINT& gpuGroupCountY, ComputeShaderPipeline* pipeline) {
 	groupCountX_ = gpuGroupCountX;
@@ -26,7 +27,7 @@ void DepthOfField::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	// UAVのResource作成とViewの作成
 	BaseCSResource::Init(device, dxHeap);
 
-	depthStencilResource_ = DirectXCommon::GetInstacne()->GetDepthStencilResource();
+	depthStencilResource_ = GraphicsContext::GetInstance()->GetDxCommon()->GetDepthStencilResource();
 
 	// cBufferの作成
 	cBuffer_ = CreateBufferResource(device_, sizeof(DepthData));

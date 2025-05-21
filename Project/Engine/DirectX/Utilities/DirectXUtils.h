@@ -15,6 +15,12 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+struct DescriptorHandles {
+	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU;
+	int assignIndex_;
+};
+
 D3D12_UNORDERED_ACCESS_VIEW_DESC CreateUavDesc(UINT numElemnts, UINT structureByte);
 D3D12_SHADER_RESOURCE_VIEW_DESC CreateSrvDesc(UINT numElemnts, UINT structureByte);
 

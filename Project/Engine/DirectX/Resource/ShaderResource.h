@@ -26,8 +26,8 @@ public:
 
 	const D3D12_RESOURCE_STATES& GetState() const { return bufferState_; }
 
-	const DescriptorHeap::DescriptorHandles& GetSRV() const { return srvAddress_; }
-	const DescriptorHeap::DescriptorHandles& GetUAV() const { return uavAddress_; }
+	const DescriptorHandles& GetSRV() const { return srvAddress_; }
+	const DescriptorHandles& GetUAV() const { return uavAddress_; }
 
 private:
 
@@ -37,7 +37,7 @@ private:
 	ComPtr<ID3D12Resource> cBuffer_;
 	D3D12_RESOURCE_STATES bufferState_;
 
-	DescriptorHeap::DescriptorHandles uavAddress_;
-	DescriptorHeap::DescriptorHandles srvAddress_;
+	DescriptorHandles uavAddress_;
+	DescriptorHandles srvAddress_;
 };
 

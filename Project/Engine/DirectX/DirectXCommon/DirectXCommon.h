@@ -25,20 +25,12 @@ class DirectXCommon {
 public:
 
 	DirectXCommon() = default;
-	~DirectXCommon();
-	DirectXCommon(const DirectXCommon&) = delete;
-	const DirectXCommon& operator=(const DirectXCommon&) = delete;
-
-	/// <summary>
-	/// シングルトンインスタンスの取得
-	/// </summary>
-	/// <returns></returns>
-	static DirectXCommon* GetInstacne();
+	~DirectXCommon() = default;
 
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight);
+	void Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight);
 
 	/// <summary>
 	/// 色々な設定をする

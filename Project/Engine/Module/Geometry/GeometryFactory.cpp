@@ -7,7 +7,7 @@ GeometryFactory& GeometryFactory::GetInstance() {
 }
 
 void GeometryFactory::Init() {
-	pDevice_ = Engine::GetDevice();
+	pDevice_ = GraphicsContext::GetInstance()->GetDevice();
 }
 
 void GeometryFactory::SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
@@ -15,7 +15,7 @@ void GeometryFactory::SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& 
 }
 
 void GeometryFactory::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(Engine::GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	MeshManager::GetInstance()->AddMesh(pDevice_, name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool GeometryFactory::ExistMesh(const std::string& name) {

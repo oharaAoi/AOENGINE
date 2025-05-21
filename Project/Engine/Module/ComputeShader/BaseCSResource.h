@@ -10,8 +10,8 @@ public:
 
 	struct BufferHandleData {
 		ComPtr<ID3D12Resource> uavBuffer = nullptr;
-		DescriptorHeap::DescriptorHandles uavAddress;
-		DescriptorHeap::DescriptorHandles srvAddress;
+		DescriptorHandles uavAddress;
+		DescriptorHandles srvAddress;
 	};
 
 
@@ -62,7 +62,7 @@ public:
 	/// 参照するResourceのHandleを設定する
 	/// </summary>
 	/// <param name="handle">: 参照するHandle</param>
-	void SetReferenceResourceHandles(const DescriptorHeap::DescriptorHandles& handle) {
+	void SetReferenceResourceHandles(const DescriptorHandles& handle) {
 		referenceResourceHandles_ = handle;
 	}
 
@@ -70,7 +70,7 @@ public:
 	/// Resource配列の最後の要素のSRVを返す
 	/// </summary>
 	/// <returns></returns>
-	const DescriptorHeap::DescriptorHandles GetLastIndexSRVHandle() const;
+	const DescriptorHandles GetLastIndexSRVHandle() const;
 
 	/// <summary>
 	/// 使用するパイプラインを返す
@@ -90,8 +90,8 @@ protected:
 	std::vector<BufferHandleData> bufferHandles_;
 
 	// Handle
-	DescriptorHeap::DescriptorHandles referenceResourceHandles_;
-	DescriptorHeap::DescriptorHandles writeResourceHandles_;
+	DescriptorHandles referenceResourceHandles_;
+	DescriptorHandles writeResourceHandles_;
 
 	// 
 	CsPipelineType usePipelineType_;

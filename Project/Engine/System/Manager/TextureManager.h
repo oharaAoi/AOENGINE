@@ -34,7 +34,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsCommandList* commandList, std::shared_ptr<DescriptorHeap> dxHeap);
+	void Init(ID3D12Device* dxDevice, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
 
 	void Finalize();
 
@@ -86,7 +86,7 @@ public:
 
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
-	const DescriptorHeap::DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_[fileName].address_; }
+	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_[fileName].address_; }
  
 private:
 
@@ -94,7 +94,7 @@ private:
 		ComPtr<ID3D12Resource> textureResource_ = nullptr;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 
-		DescriptorHeap::DescriptorHandles address_;
+		DescriptorHandles address_;
 		Vector2 textureSize_;
 	};
 
@@ -104,7 +104,7 @@ private:
 	static std::unordered_map<std::string, TextureData> textureData_;
 
 	// 生成で使う変数
-	static std::shared_ptr<DirectXDevice> device_;
-	static std::shared_ptr<DescriptorHeap> dxHeap_;
+	static ID3D12Device* device_;
+	static DescriptorHeap* dxHeap_;
 	static ID3D12GraphicsCommandList* commandList_;
 };

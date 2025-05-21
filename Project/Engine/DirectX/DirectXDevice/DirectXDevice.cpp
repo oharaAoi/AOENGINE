@@ -2,19 +2,11 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
-DirectXDevice::DirectXDevice(IDXGIAdapter4* useAdapter) {
-	Initialize(useAdapter);
-}
-
-DirectXDevice::~DirectXDevice() {
-}
-
-
 void DirectXDevice::Finalize() {
 	device_.Reset();
 }
 
-void DirectXDevice::Initialize(IDXGIAdapter4* useAdapter) {
+void DirectXDevice::Init(IDXGIAdapter4* useAdapter) {
 	HRESULT hr;
 	device_ = nullptr;
 	// 機能レベルとログ出力四の文字列

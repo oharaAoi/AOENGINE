@@ -2,14 +2,7 @@
 #include <memory>
 #include "Enviroment.h"
 #include "Engine/WinApp/WinApp.h"
-#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
-#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/DirectX/RTV/RenderTarget.h"
-#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
+#include "Engine/Core/GraphicsContext.h"
 
 #include "Engine/Module/ComputeShader/ComputeShader.h"
 
@@ -49,7 +42,6 @@ namespace {
 	Render* render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
-	DirectXCommon* dxCommon_ = nullptr;
 
 	EffectSystem* effectSystem_;
 
@@ -58,19 +50,20 @@ namespace {
 #endif
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
-	// dxDevice
-	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
-	// descriptorHeap
-	std::shared_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
-	// dxCommand
-	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
-	// renderTarget
-	std::shared_ptr<RenderTarget> renderTarget_ = nullptr;
-	// dxCompiler
-	std::shared_ptr<DirectXCompiler> dxCompiler_ = nullptr;
-	// pipeline
-	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
-	std::shared_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+
+	GraphicsContext* graphicsCxt_ = nullptr;
+
+	ID3D12Device* dxDevice_ = nullptr;
+	ID3D12GraphicsCommandList* dxCmdList_ = nullptr;
+	DescriptorHeap* dxHeap_ = nullptr;
+
+	DirectXCommon* dxCommon_ = nullptr;
+
+	GraphicsPipelines* graphicsPipeline_ = nullptr;
+	PrimitivePipeline* primitivePipeline_ = nullptr;
+
+	RenderTarget* renderTarget_ = nullptr;
+
 	// CS
 	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
 	// audio
@@ -239,17 +232,9 @@ public:
 	// 苦肉の策
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	static ID3D12Device* GetDevice();
-	static ID3D12GraphicsCommandList* GetCommandList();
-	static DescriptorHeap* GetDxHeap();
-
 	static bool GetIsOpenEffectEditer();
 
 	static bool GetRunGame();
-
-	static GraphicsPipelines* GetGraphicsPipelines();
-
-	static PrimitivePipeline* GetPrimitivePipeline();
 
 	static PostProcess* GetPostProcess();
 

@@ -31,7 +31,7 @@ public:
 
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState);
 
-	const DescriptorHeap::DescriptorHandles GetSRVHandle() const { return bufferHandles_[0].srvAddress; }
+	const DescriptorHandles GetSRVHandle() const { return bufferHandles_[0].srvAddress; }
 
 private:
 
@@ -43,7 +43,7 @@ private:
 
 	ComputeShaderPipeline* pipeline_;
 
-	DescriptorHeap::DescriptorHandles copySRVHandles_;
+	DescriptorHandles copySRVHandles_;
 
 
 	ID3D12Resource* depthStencilResource_ = nullptr;

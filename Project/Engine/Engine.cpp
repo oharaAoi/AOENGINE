@@ -22,7 +22,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// ↓ インスタンスの作成
 	// -------------------------------------------------
 	winApp_ = WinApp::GetInstance();
-	dxCommon_ = DirectXCommon::GetInstacne();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
 	render_ = Render::GetInstance();
@@ -30,26 +29,14 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	editerWindows_ = EditerWindows::GetInstance();
 
 	winApp_->CreateGameWindow();
-	dxCommon_->Initialize(winApp_, kClientWidth_, kClientHeight_);
-	dxDevice_ = std::make_shared<DirectXDevice>(dxCommon_->GetUseAdapter());
-
-	dxCommands_ = std::make_unique<DirectXCommands>(dxDevice_->GetDevice());
-	descriptorHeap_ = std::make_shared<DescriptorHeap>(dxDevice_->GetDevice());
-	renderTarget_ = std::make_unique<RenderTarget>();
-	dxCompiler_ = std::make_unique<DirectXCompiler>();
+	
 	shaders_ = std::make_unique<Shader>();
-
-	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
-	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 	computeShader_ = std::make_unique<ComputeShader>();
 
 	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
 	audio_ = std::make_unique<Audio>();
 
 	postProcess_ = std::make_unique<PostProcess>();
-
-	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
-	geometryFactory.Init();
 
 #ifdef _DEBUG
 	editerWindows_->Init();
@@ -62,30 +49,43 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// ↓ 各初期化
 	// -------------------------------------------------
 	shaders_->Init();
-	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
-	textureManager_->Init(dxDevice_, dxCommands_->GetCommandList(), descriptorHeap_);
-	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_.get());
-	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders_->GetShaderData(Shader::Primitive));
-	computeShader_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), descriptorHeap_.get(), renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+
+	graphicsCxt_ = GraphicsContext::GetInstance();
+	graphicsCxt_->Init(winApp_, shaders_.get(), kClientWidth_, kClientHeight_);
+
+	dxDevice_ = graphicsCxt_->GetDevice();
+	dxCmdList_ = graphicsCxt_->GetCommandList();
+	dxHeap_ = graphicsCxt_->GetDxHeap();
+	dxCommon_ = graphicsCxt_->GetDxCommon();
+
+	graphicsPipeline_ = graphicsCxt_->GetGraphicsPipeline();
+	primitivePipeline_ = graphicsCxt_->GetPrimitivePipeline();
+
+	renderTarget_ = graphicsCxt_->GetRenderTarget();
+
+	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
+	computeShader_->Init(dxDevice_, graphicsCxt_->GetDxCompiler(), dxHeap_, graphicsCxt_->GetRenderTarget()->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	render_->Init(dxCommands_->GetCommandList(), dxDevice_->GetDevice(), primitivePipeline_.get(), renderTarget_.get());
-	processedSceneFrame_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
+	processedSceneFrame_->Init(dxDevice_, dxHeap_);
 	audio_->Init();
 	effectSystem_->Init();
 
-	postProcess_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
+	postProcess_->Init(dxDevice_, dxHeap_);
 
 	particleSystemEditor_ = std::make_unique<ParticleSystemEditor>();
-	particleSystemEditor_->Init(dxDevice_->GetDevice(), dxCommands_->GetCommandList(), renderTarget_.get(), descriptorHeap_.get());
+	particleSystemEditor_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
 
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 #ifdef _DEBUG
 	imguiManager_ = ImGuiManager::GetInstacne();
-	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_->GetDevice(), dxCommon_->GetSwapChainBfCount(), descriptorHeap_->GetSRVHeap());
-	EffectSystem::GetInstacne()->EditerInit(renderTarget_.get(), descriptorHeap_.get(), dxCommands_.get(), dxDevice_->GetDevice());
+	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
+	EffectSystem::GetInstacne()->EditerInit(renderTarget_, dxHeap_, dxCmdList_, dxDevice_);
 #endif
+
+	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
+	geometryFactory.Init();
 
 	// -------------------------------------------------
 	// ↓ その他初期化
@@ -112,24 +112,19 @@ void Engine::Finalize() {
 	processedSceneFrame_->Finalize();
 
 	computeShader_->Finalize();
-	primitivePipeline_->Finalize();
-	graphicsPipelines_->Finalize();
-
+	
 	render_->Finalize();
 
-	renderTarget_->Finalize();
 
 	input_->Finalize();
 
-	dxCompiler_->Finalize();
-	descriptorHeap_->Finalize();
-	dxCommands_->Finalize();
-	dxCommon_->Finalize();
-	dxDevice_->Finalize();
 #ifdef _DEBUG
 	imguiManager_->Finalize();
 #endif
 	textureManager_->Finalize();
+
+	graphicsCxt_->Finalize();
+
 	winApp_->Finalize();
 
 	CoUninitialize();
@@ -185,7 +180,7 @@ void Engine::EndFrame() {
 #ifdef _DEBUG
 	editerWindows_->End();
 	imguiManager_->End();
-	imguiManager_->Draw(dxCommands_->GetCommandList());
+	imguiManager_->Draw(dxCmdList_);
 
 	if (!runGame_) {
 		if (openParticleEditer_) {
@@ -196,7 +191,7 @@ void Engine::EndFrame() {
 #endif
 
 	dxCommon_->End();
-	descriptorHeap_->FreeList();
+	dxHeap_->FreeList();
 	audio_->Update();
 }
 
@@ -221,7 +216,7 @@ void Engine::RenderFrame() {
 		ColliderCollector::GetInstance()->Draw();
 	}
 	
-	primitivePipeline_->Draw(dxCommands_->GetCommandList());
+	primitivePipeline_->Draw(dxCmdList_);
 	Render::PrimitiveDrawCall();
 
 	/*Engine::SetPSOObj(Object3dPSO::Particle);
@@ -230,7 +225,7 @@ void Engine::RenderFrame() {
 	// 最終Textureの作成
 	BlendFinalTexture();
 
-	postProcess_->Execute(dxCommands_->GetCommandList(), processedSceneFrame_->GetResource());
+	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
 	
 #ifdef _DEBUG
 	openParticleEditer_ = false;
@@ -261,9 +256,9 @@ void Engine::RenderFrame() {
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
 	SetPSOProcessed(ProcessedScenePSO::Normal);
-	processedSceneFrame_->Draw(dxCommands_->GetCommandList());
+	processedSceneFrame_->Draw(dxCmdList_);
 
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -275,26 +270,26 @@ void Engine::BlendFinalTexture() {
 	// ↓ Resourceの状態を切り替える(obj3D, sprite2D, renderTexture)
 	// -------------------------------------------------
 	renderTarget_->TransitionResource(
-		dxCommands_->GetCommandList(),
+		dxCmdList_,
 		Object3D_RenderTarget,
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE
 	);
 
 	// 最終描画のTextureを書き込み可能状態にする
-	processedSceneFrame_->TransitionResource(dxCommands_->GetCommandList(),
+	processedSceneFrame_->TransitionResource(dxCmdList_,
 									   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 									   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
 	// -------------------------------------------------
 	// ↓ object3Dと最終描画のTextureを合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCommands_->GetCommandList(), renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, processedSceneFrame_->GetUAV());
+	computeShader_->BlendRenderTarget(dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, processedSceneFrame_->GetUAV());
 
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
 	// -------------------------------------------------
-	processedSceneFrame_->TransitionResource(dxCommands_->GetCommandList(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	processedSceneFrame_->TransitionResource(dxCmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 }
 
@@ -304,37 +299,37 @@ void Engine::BlendFinalTexture() {
 
 std::unique_ptr<Sprite> Engine::CreateSprite(const std::string& fileName) {
 	std::unique_ptr<Sprite> sprite = std::make_unique<Sprite>();
-	sprite->Init(dxDevice_->GetDevice(), fileName);
+	sprite->Init(dxDevice_, fileName);
 	return sprite;
 }
 
 std::unique_ptr<Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {
 	std::unique_ptr<Model> model = std::make_unique<Model>();
-	model->Init(dxDevice_->GetDevice(), directoryPath, filePath);
+	model->Init(dxDevice_, directoryPath, filePath);
 	return model;
 }
 
 std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {
 	std::unique_ptr<WorldTransform> result = std::make_unique<WorldTransform>();
-	result->Init(dxDevice_->GetDevice());
+	result->Init(dxDevice_);
 	return result;
 }
 
 std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, Model* model, uint32_t index) {
 	std::unique_ptr<Skinning> result = std::make_unique<Skinning>();
-	result->CreateSkinCluster(dxDevice_->GetDevice(), skeleton, model->GetMesh(index), descriptorHeap_.get(), model->GetSkinClustersData(index));
+	result->CreateSkinCluster(dxDevice_, skeleton, model->GetMesh(index), dxHeap_, model->GetSkinClustersData(index));
 	return result;
 }
 
 std::unique_ptr<Material> Engine::CreateMaterial(const Model::ModelMaterialData data) {
 	std::unique_ptr<Material> material = std::make_unique<Material>();
-	material->Init(dxDevice_->GetDevice(), data);
+	material->Init(dxDevice_, data);
 	return material;
 }
 
 std::unique_ptr<PBRMaterial> Engine::CreatePBRMaterial(const Model::ModelMaterialData data) {
 	std::unique_ptr<PBRMaterial> material = std::make_unique<PBRMaterial>();
-	material->Init(dxDevice_->GetDevice());
+	material->Init(dxDevice_);
 	material->SetMaterialData(data);
 	return material;
 }
@@ -344,24 +339,24 @@ std::unique_ptr<PBRMaterial> Engine::CreatePBRMaterial(const Model::ModelMateria
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::RunCS() {
-	renderTarget_->TransitionResource(dxCommands_->GetCommandList(), Object3D_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	computeShader_->RunComputeShader(dxCommands_->GetCommandList());
+	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+	computeShader_->RunComputeShader(dxCmdList_);
 }
 
 void Engine::SetPSOObj(Object3dPSO kind) {
-	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
 }
 
 void Engine::SetPSOSprite(SpritePSO kind) {
-	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
 }
 
 void Engine::SetPSOProcessed(ProcessedScenePSO kind) {
-	graphicsPipelines_->SetPipeline(dxCommands_->GetCommandList(), kind);
+	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
 }
 
 void Engine::SetPSOPrimitive() {
-	primitivePipeline_->Draw(dxCommands_->GetCommandList());
+	primitivePipeline_->Draw(dxCmdList_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -369,7 +364,7 @@ void Engine::SetPSOPrimitive() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::ClearDepth() {
-	renderTarget_->ClearDepth(dxCommands_->GetCommandList());
+	renderTarget_->ClearDepth(dxCmdList_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -377,15 +372,15 @@ void Engine::ClearDepth() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::SetCsPipeline(const CsPipelineType& kind) {
-	computeShader_->SetCsPipeline(kind, dxCommands_->GetCommandList());
+	computeShader_->SetCsPipeline(kind, dxCmdList_);
 }
 
 void Engine::SetSkinning(Skinning* skinning, Mesh* mesh) {
-	computeShader_->SetCsPipeline(CsPipelineType::Skinning_Pipeline, dxCommands_->GetCommandList());
+	computeShader_->SetCsPipeline(CsPipelineType::Skinning_Pipeline, dxCmdList_);
 
 	mesh->SetInitVertex();
-	skinning->RunCs(dxCommands_->GetCommandList());
-	skinning->EndCS(dxCommands_->GetCommandList(), mesh);
+	skinning->RunCs(dxCmdList_);
+	skinning->EndCS(dxCmdList_, mesh);
 }
 
 void Engine::ResetComputeShader() {
@@ -432,34 +427,12 @@ void Engine::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	audio_->SinglShotPlay(loadAudioData, volume);
 }
 
-ID3D12Device* Engine::GetDevice() {
-	// TODO: return ステートメントをここに挿入します
-	return dxDevice_->GetDevice();
-}
-
-ID3D12GraphicsCommandList* Engine::GetCommandList() {
-	// TODO: return ステートメントをここに挿入します
-	return dxCommands_->GetCommandList();
-}
-
-DescriptorHeap* Engine::GetDxHeap() {
-	return descriptorHeap_.get();
-}
-
 bool Engine::GetIsOpenEffectEditer() {
 	return isEffectEditer_;
 }
 
 bool Engine::GetRunGame() {
 	return runGame_;
-}
-
-GraphicsPipelines* Engine::GetGraphicsPipelines() {
-	return graphicsPipelines_.get();
-}
-
-PrimitivePipeline* Engine::GetPrimitivePipeline() {
-	return primitivePipeline_.get();
 }
 
 PostProcess* Engine::GetPostProcess() {

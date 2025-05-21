@@ -3,14 +3,7 @@
 
 std::list<int> DescriptorHeap::freeSrvList_;
 
-DescriptorHeap::DescriptorHeap(ID3D12Device* device) {
-	Initialize(device);
-}
-
-DescriptorHeap::~DescriptorHeap() {
-}
-
-void DescriptorHeap::Initialize(ID3D12Device* device) {
+void DescriptorHeap::Init(ID3D12Device* device) {
 	assert(device);
 	device_ = device;
 
@@ -61,7 +54,7 @@ void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
-DescriptorHeap::DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& type) {
+DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& type) {
 	DescriptorHandles handle{};
 
 	switch (type) {
@@ -101,15 +94,15 @@ void DescriptorHeap::AddFreeSrvList(int index) {
 	}
 }
 
-DescriptorHeap::DescriptorHandles DescriptorHeap::AllocateSRV() {
+DescriptorHandles DescriptorHeap::AllocateSRV() {
  	return srvAllocator_->Allocate(srvHeap_.Get());
 }
 
-DescriptorHeap::DescriptorHandles DescriptorHeap::AllocateRTV() {
+DescriptorHandles DescriptorHeap::AllocateRTV() {
 	return rtvAllocator_->Allocate(rtvHeap_.Get());
 }
 
-DescriptorHeap::DescriptorHandles DescriptorHeap::AllocateDSV() {
+DescriptorHandles DescriptorHeap::AllocateDSV() {
 	return dsvAllocator_->Allocate(dsvHeap_.Get());
 }
 

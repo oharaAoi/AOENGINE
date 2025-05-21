@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
@@ -31,7 +31,7 @@ public:
 #ifdef _DEBUG
 	void Debug_Gui();
 
-	void EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
+	void EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, ID3D12GraphicsCommandList* dxCommandList, ID3D12Device* device);
 	void EditerUpdate();
 
 	void EndEditer();

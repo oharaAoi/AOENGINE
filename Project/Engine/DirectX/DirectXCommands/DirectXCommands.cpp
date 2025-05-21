@@ -1,13 +1,6 @@
 #include "DirectXCommands.h"
 
-DirectXCommands::DirectXCommands(ID3D12Device* device) {
-	Initialize(device);
-}
-
-DirectXCommands::~DirectXCommands() {
-}
-
-void DirectXCommands::Initialize(ID3D12Device* device) {
+void DirectXCommands::Init(ID3D12Device* device) {
 	assert(device);
 	device_ = device;
 

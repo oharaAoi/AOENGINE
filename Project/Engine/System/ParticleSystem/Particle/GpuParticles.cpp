@@ -1,5 +1,6 @@
 #include "GpuParticles.h"
 #include "Engine/Engine.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Loader.h"
 #include <System/Manager/MeshManager.h>
@@ -20,9 +21,10 @@ void GpuParticles::Finalize() {
 
 void GpuParticles::Init(uint32_t instanceNum) {
 	// ポインタの取得
-	DescriptorHeap* dxHeap = Engine::GetDxHeap();
-	ID3D12Device* dxDevice = Engine::GetDevice();
-	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
+	DescriptorHeap* dxHeap = graphicsCxt->GetDxHeap();
+	ID3D12Device* dxDevice = graphicsCxt->GetDevice();
+	ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
 
 	kInstanceNum_ = instanceNum;
 
@@ -60,14 +62,14 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	freeListResource_->CreateSRV(CreateSrvDesc(kInstanceNum_, sizeof(uint32_t)));
 
 
-	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));
+	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
 	// ゲーム情報
 	perView_->viewProjection = Matrix4x4::MakeUnit();
 	perView_->billboardMat = Matrix4x4::MakeUnit();
 
-	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
+	perFrameBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	// mesh・Material情報
@@ -91,7 +93,7 @@ void GpuParticles::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
 
-	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
 	commandList->SetComputeRootDescriptorTable(0, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexResource_->GetUAV().handleGPU);

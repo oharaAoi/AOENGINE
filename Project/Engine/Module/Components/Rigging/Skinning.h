@@ -62,13 +62,13 @@ private:
 	// palette
 	ComPtr<ID3D12Resource> paletteResource_;
 	std::span<WellForGPU> mappedPalette_;
-	DescriptorHeap::DescriptorHandles paletteSrvHandle_;
+	DescriptorHandles paletteSrvHandle_;
 
 	// influence
 	ComPtr<ID3D12Resource> influenceResource_;
 	D3D12_VERTEX_BUFFER_VIEW influenceBuffeView_;
 	std::span<VertexInfluence> mappedInfluence_;
-	DescriptorHeap::DescriptorHandles influenceSrvHandle_;
+	DescriptorHandles influenceSrvHandle_;
 
 	// well
 	std::vector<Matrix4x4> inverseBindPoseMatrices_;
@@ -78,9 +78,9 @@ private:
 	ComPtr<ID3D12Resource> skinningInformationResource_;
 	// output
 	ComPtr<ID3D12Resource> outputResource_;
-	DescriptorHeap::DescriptorHandles outputHandle_;
+	DescriptorHandles outputHandle_;
 	// MeshInput
-	DescriptorHeap::DescriptorHandles inputHandle_;
+	DescriptorHandles inputHandle_;
 
 	// vertex
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};

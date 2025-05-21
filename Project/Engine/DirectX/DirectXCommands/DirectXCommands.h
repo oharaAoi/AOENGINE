@@ -15,10 +15,10 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 class DirectXCommands {
 public:
 
-	DirectXCommands(ID3D12Device* device);
-	~DirectXCommands();
+	DirectXCommands() = default;
+	~DirectXCommands() = default;
 
-	void Initialize(ID3D12Device* device);
+	void Init(ID3D12Device* device);
 
 	void Finalize();
 

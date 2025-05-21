@@ -19,7 +19,7 @@ void ConeEmitter::Init() {
 	label_ = "cone";
 
 	// sphere形状の初期化
-	coneEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	coneEmitterBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(Emitter));
 	coneEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
 	// parametrの初期化

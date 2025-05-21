@@ -1,5 +1,6 @@
 #include "GlitchNoise.h"
 #include "Engine.h"
+#include "Engine/Core/GraphicsContext.h"
 
 GlitchNoise::~GlitchNoise() {
 	glitchBuffer_->Finalize();
@@ -10,8 +11,9 @@ GlitchNoise::~GlitchNoise() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GlitchNoise::Init() {
+	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	glitchBuffer_ = std::make_unique<DxResource>();
-	glitchBuffer_->Init(Engine::GetDevice(), Engine::GetDxHeap(), ResourceType::COMMON);
+	glitchBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

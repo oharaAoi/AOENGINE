@@ -17,11 +17,11 @@ public:
 
 #ifdef _DEBUG
 
-	EffectSystemEditer(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
+	EffectSystemEditer(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, ID3D12GraphicsCommandList* dxCommandList, ID3D12Device* device);
 	~EffectSystemEditer();
 
 	void Finalize();
-	void Init(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device);
+	void Init(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, ID3D12GraphicsCommandList* dxCommandList, ID3D12Device* device);
 	void Update();
 	void Draw() const;
 
@@ -61,7 +61,7 @@ private:
 	// descriptorHeap
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	// commands
-	DirectXCommands* dxCommands_ = nullptr;
+	ID3D12GraphicsCommandList* dxCmdList_ = nullptr;
 	// device
 	ID3D12Device* device_ = nullptr;
 	// dsv

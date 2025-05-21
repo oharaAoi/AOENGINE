@@ -35,7 +35,7 @@ public:
 	/// <param name="dxHeap">descriptorHeap</param>
 	/// <param name="computeShaderPath">シェーダーのパス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
-			  DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles resourceAddress, 
+			  DescriptorHeap* dxHeap, DescriptorHandles resourceAddress, 
 			  Shader* shader);
 
 	void SetCsPipeline(const CsPipelineType& type, ID3D12GraphicsCommandList* commandList);
@@ -85,11 +85,11 @@ private:
 	ID3D12Device* device_ = nullptr;
 
 	// ---------------------------------------
-	DescriptorHeap::DescriptorHandles uavRenderAddress_;
-	DescriptorHeap::DescriptorHandles srvRenderAddress_;
+	DescriptorHandles uavRenderAddress_;
+	DescriptorHandles srvRenderAddress_;
 
 	// Cs実行時最初に参照するアドレス
-	DescriptorHeap::DescriptorHandles runCsResourceAddress_;
+	DescriptorHandles runCsResourceAddress_;
 
 	UINT groupCountX_;
 	UINT groupCountY_;

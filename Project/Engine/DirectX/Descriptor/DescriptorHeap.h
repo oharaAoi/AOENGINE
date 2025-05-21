@@ -6,10 +6,9 @@
 #include <wrl.h>
 #include <list>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
+#include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
 
-class DescriptorAllocator;
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -22,25 +21,15 @@ enum DescriptorHeapType {
 
 class DescriptorHeap {
 public:
-	/// <summary>
-	/// GPUやCPUのアドレスをまとめた関数
-	/// </summary>
-	struct DescriptorHandles {
-		D3D12_CPU_DESCRIPTOR_HANDLE handleCPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE handleGPU;
-		int assignIndex_;
-	};
 
-public:
-
-	DescriptorHeap(ID3D12Device* device);
-	~DescriptorHeap();
+	DescriptorHeap() = default;
+	~DescriptorHeap() = default;
 
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
 	/// <param name="device"></param>
-	void Initialize(ID3D12Device* device);
+	void Init(ID3D12Device* device);
 
 	/// <summary>
 	/// 終了関数

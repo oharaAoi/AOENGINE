@@ -16,7 +16,7 @@ void BoxEmitter::Init() {
 	label_ = "box";
 
 	// sphere形状の初期化
-	boxEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	boxEmitterBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(Emitter));
 	boxEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
 	emitter_->size_ = Vector3(5, 1, 1);

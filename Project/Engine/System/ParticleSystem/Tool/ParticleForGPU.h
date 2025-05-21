@@ -43,6 +43,6 @@ private:
 	ComPtr<ID3D12Resource> cBuffer_;
 	ParticleForGPUData* particleData_;
 
-	DescriptorHeap::DescriptorHandles instancingSrvHandle_;
+	DescriptorHandles instancingSrvHandle_;
 };
 

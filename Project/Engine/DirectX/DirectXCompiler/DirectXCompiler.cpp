@@ -1,14 +1,7 @@
 #include "DirectXCompiler.h"
 #pragma comment(lib, "dxcompiler.lib")
 
-DirectXCompiler::DirectXCompiler() {
-	Initialize();
-}
-
-DirectXCompiler::~DirectXCompiler() {
-}
-
-void DirectXCompiler::Initialize() {
+void DirectXCompiler::Init() {
 	HRESULT hr = S_FALSE;
 	hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils_));
 	assert(SUCCEEDED(hr));

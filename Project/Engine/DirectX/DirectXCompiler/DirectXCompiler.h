@@ -12,10 +12,10 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 class DirectXCompiler {
 public:
 
-	DirectXCompiler();
-	~DirectXCompiler();
+	DirectXCompiler() = default;
+	~DirectXCompiler() = default;
 
-	void Initialize();
+	void Init();
 
 	void Finalize();
 

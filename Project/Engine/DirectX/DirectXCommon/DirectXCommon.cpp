@@ -3,17 +3,8 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
-DirectXCommon::~DirectXCommon() {
-	
-}
-
-DirectXCommon* DirectXCommon::GetInstacne() {
-	static DirectXCommon instance;
-	return &instance;
-}
-
 //
-void DirectXCommon::Initialize(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
+void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
 	assert(win);
 	winApp_ = win;
 	kClientWidth_ = backBufferWidth;

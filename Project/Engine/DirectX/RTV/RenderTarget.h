@@ -47,11 +47,11 @@ public:
 
 	ID3D12Resource* GetSwapChainRenderResource(const UINT& indexNum) { return swapChainResource_[indexNum]->GetResource(); }
 
-	const DescriptorHeap::DescriptorHandles& GetSwapChainHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetRTV(); }
-	const DescriptorHeap::DescriptorHandles& GetSwapChainSRVHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetSRV(); }
+	const DescriptorHandles& GetSwapChainHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetRTV(); }
+	const DescriptorHandles& GetSwapChainSRVHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetSRV(); }
 
-	const DescriptorHeap::DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
-	const DescriptorHeap::DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
+	const DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
+	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
 
 private:
 

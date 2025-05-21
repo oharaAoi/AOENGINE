@@ -17,7 +17,7 @@ void ComputeShader::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ComputeShader::Init(ID3D12Device* device, DirectXCompiler* dxCompiler,
-						 DescriptorHeap* dxHeap, DescriptorHeap::DescriptorHandles resourceAddress,
+						 DescriptorHeap* dxHeap, DescriptorHandles resourceAddress,
 						 Shader* shader) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;

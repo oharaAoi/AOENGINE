@@ -14,10 +14,10 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 class DirectXDevice {
 public:
 
-	DirectXDevice(IDXGIAdapter4* useAdapter);
-	~DirectXDevice();
+	DirectXDevice() = default;
+	~DirectXDevice() = default;
 
-	void Initialize(IDXGIAdapter4* useAdapter);
+	void Init(IDXGIAdapter4* useAdapter);
 
 	void Finalize();
 

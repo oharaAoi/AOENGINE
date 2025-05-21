@@ -1,9 +1,10 @@
 #include "DescriptorAllocator.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 DescriptorAllocator::~DescriptorAllocator() {
 }
 
-DescriptorHeap::DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptorHeap) {
+DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptorHeap) {
 	if (!freeStack_.empty()) {
 		// 再利用可能なインデックスをスタックから取得
 		uint32_t reusedIndex = freeStack_.top();
@@ -25,8 +26,8 @@ void DescriptorAllocator::Free(uint32_t index) {
 	Log("pushFreeHeap" + name + "\n");
 }
 
-DescriptorHeap::DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {
-	DescriptorHeap::DescriptorHandles handles;
+DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {
+	DescriptorHandles handles;
 	handles.handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 	handles.handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handles.assignIndex_ = index;

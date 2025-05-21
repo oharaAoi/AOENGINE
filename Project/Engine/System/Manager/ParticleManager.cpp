@@ -1,5 +1,5 @@
 #include "ParticleManager.h"
-#include "Engine.h"
+#include "Engine/Core/GraphicsContext.h"
 
 ParticleManager::~ParticleManager() {
 	Finalize();
@@ -30,7 +30,7 @@ void ParticleManager::PostUpdate() {
 }
 
 void ParticleManager::Draw() const {
-	particleRenderer_->Draw(Engine::GetCommandList());
+	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
 }
 
 void ParticleManager::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {

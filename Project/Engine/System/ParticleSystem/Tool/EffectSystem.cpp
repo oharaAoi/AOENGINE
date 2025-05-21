@@ -22,7 +22,7 @@ void EffectSystem::Init() {
 	// -------------------------------------------------
 	// ↓ Systemの初期化
 	// -------------------------------------------------
-	dxCommon_ = DirectXCommon::GetInstacne();
+	dxCommon_ = GraphicsContext::GetInstance()->GetDxCommon();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,8 +106,8 @@ void EffectSystem::Debug_Gui() {
 #endif
 }
 
-void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, DirectXCommands* dxCommands, ID3D12Device* device) {
-	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommands, device);
+void EffectSystem::EditerInit(RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps, ID3D12GraphicsCommandList* dxCommandList, ID3D12Device* device) {
+	editer_ = std::make_unique<EffectSystemEditer>(renderTarget, descriptorHeaps, dxCommandList, device);
 }
 void EffectSystem::EditerUpdate() {
 	editer_->Update();

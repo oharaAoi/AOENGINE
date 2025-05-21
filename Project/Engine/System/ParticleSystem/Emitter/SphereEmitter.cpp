@@ -1,5 +1,5 @@
 #include "SphereEmitter.h"
-#include "Engine/Engine.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/Utilities/DrawUtils.h"
 
 SphereEmitter::SphereEmitter() {
@@ -21,7 +21,7 @@ void SphereEmitter::Init() {
 	label_ = "sphere";
 
 	// sphere形状の初期化
-	sphereEmitterBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(Emitter));
+	sphereEmitterBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(Emitter));
 	sphereEmitterBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&emitter_));
 
 	// parametrの初期化

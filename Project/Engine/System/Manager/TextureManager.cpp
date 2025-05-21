@@ -2,8 +2,8 @@
 
 std::vector<std::string> TextureManager::fileNames_;
 std::unordered_map<std::string, TextureManager::TextureData> TextureManager::textureData_;
-std::shared_ptr<DirectXDevice> TextureManager::device_ = nullptr;
-std::shared_ptr<DescriptorHeap> TextureManager::dxHeap_ = nullptr;
+ID3D12Device* TextureManager::device_ = nullptr;
+DescriptorHeap* TextureManager::dxHeap_ = nullptr;
 ID3D12GraphicsCommandList* TextureManager::commandList_ = nullptr;
 
 TextureManager* TextureManager::GetInstance() {
@@ -11,7 +11,7 @@ TextureManager* TextureManager::GetInstance() {
 	return &instance;
 }
 
-void TextureManager::Init(std::shared_ptr<DirectXDevice> device, ID3D12GraphicsCommandList* commandList, std::shared_ptr<DescriptorHeap> dxHeap) {
+void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap) {
 	assert(device);
 	assert(dxHeap);
 
@@ -60,8 +60,8 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.textureResource_ = CerateShaderResource(device_->GetDevice(), &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
-	data.intermediateResource_ = UploadTextureData(data.textureResource_, mipImage, device_->GetDevice(), commandList_);
+	data.textureResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
+	data.intermediateResource_ = UploadTextureData(data.textureResource_, mipImage, device_, commandList_);
 
 	// ------------------------------------------------------------
 	// metadataを元にSRVの設定
@@ -89,7 +89,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	textureData_[filePath] = data;
 
 	// 生成
-	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
+	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 
 	Log("Load Finish  [" + filePath + "]\n");
 }
@@ -144,8 +144,8 @@ void TextureManager::LoadWhite1x1Texture(const std::string& directoryPath, const
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.textureResource_ = CerateShaderResource(device_->GetDevice(), &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
-	data.intermediateResource_ = UploadTextureData(data.textureResource_, image, device_->GetDevice(), commandList);
+	data.textureResource_ = CerateShaderResource(device_, &desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
+	data.intermediateResource_ = UploadTextureData(data.textureResource_, image, device_, commandList);
 
 	// ------------------------------------------------------------
 	// metadataを元にSRVの設定
@@ -165,7 +165,7 @@ void TextureManager::LoadWhite1x1Texture(const std::string& directoryPath, const
 	textureData_.emplace(filePath, data);
 
 	// 生成
-	device_->GetDevice()->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
+	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

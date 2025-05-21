@@ -8,13 +8,14 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuEmitter::Init() {
+	ID3D12Device* dxDevice = GraphicsContext::GetInstance()->GetDevice();
 	// Resourceの作成
-	commonBuffer_ = CreateUAVResource(Engine::GetDevice(), sizeof(CommonEmitter));
+	commonBuffer_ = CreateUAVResource(dxDevice, sizeof(CommonEmitter));
 
-	commonBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(CommonEmitter));
+	commonBuffer_ = CreateBufferResource(dxDevice, sizeof(CommonEmitter));
 	commonBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&commonEmitter_));
 
-	perFrameBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerFrame));
+	perFrameBuffer_ = CreateBufferResource(dxDevice, sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	rotate_ = Quaternion();

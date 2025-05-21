@@ -51,7 +51,7 @@ private:
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
 
-	DescriptorHeap::DescriptorHandles wvpSRV_;
+	DescriptorHandles wvpSRV_;
 
 	// データポインタ
 	PrimitiveData* primitiveData_;

@@ -13,7 +13,7 @@ void Skybox::Init() {
 	std::string name = cube_.GetGeometryName();
 	if (!ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(Engine::GetDevice(), cube_.GetVertex(), cube_.GetIndex());
+		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
@@ -30,7 +30,7 @@ void Skybox::Update() {
 
 void Skybox::Draw() const {
 	Engine::SetPSOObj(Object3dPSO::Skybox);
-	ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
@@ -44,7 +44,7 @@ void Skybox::Draw() const {
 }
 
 void Skybox::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(Engine::GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool Skybox::ExistMesh(const std::string& name) {

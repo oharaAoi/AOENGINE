@@ -7,7 +7,6 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
-#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 /// <summary>
 /// Particleをインスタンシング描画するためのクラス
@@ -24,7 +23,7 @@ public:		// 構造体
 		Mesh* pMesh;
 		Material* materials;
 		ComPtr<ID3D12Resource> particleResource_;
-		DescriptorHeap::DescriptorHandles srvHandle_;
+		DescriptorHandles srvHandle_;
 		ParticleData* particleData;
 		uint32_t useIndex;
 

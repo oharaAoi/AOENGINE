@@ -115,21 +115,21 @@ void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_
 // ↓　ViewのGetter
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-const DescriptorHeap::DescriptorHandles& DxResource::GetSRV() const {
+const DescriptorHandles& DxResource::GetSRV() const {
 	if (srvAddress_ == std::nullopt) {
 		assert("not Setting SRV");
 	}
 	return srvAddress_.value();
 }
 
-const DescriptorHeap::DescriptorHandles& DxResource::GetUAV() const {
+const DescriptorHandles& DxResource::GetUAV() const {
 	if (uavAddress_ == std::nullopt) {
 		assert("not Setting UAV");
 	}
 	return uavAddress_.value();
 }
 
-const DescriptorHeap::DescriptorHandles& DxResource::GetRTV() const {
+const DescriptorHandles& DxResource::GetRTV() const {
 	if (rtvAddress_ == std::nullopt) {
 		assert("not Setting RTV");
 	}

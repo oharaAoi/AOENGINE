@@ -56,7 +56,7 @@ void GpuEffect::Update() {
 	//gpuParticle_->Update();
 
 	if (!gpuEmitter_->GetIsDead()) {
-		ID3D12GraphicsCommandList* commandList = Engine::GetCommandList();
+		ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 		Engine::SetCsPipeline(CsPipelineType::EmitGpuParticle);
 		/*gpuParticle_->EmitBindCmdList(commandList, 0);*/
 		gpuEmitter_->BindCmdList(commandList, 2);

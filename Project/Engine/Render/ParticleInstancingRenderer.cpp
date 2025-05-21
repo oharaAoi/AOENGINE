@@ -13,7 +13,7 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 	maxInstanceNum_ = instanceNum;
 
-	perViewBuffer_ = CreateBufferResource(Engine::GetDevice(), sizeof(PerView));
+	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 }
 
@@ -62,9 +62,10 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 	if (it != particleMap_.end()) {
 		return;		// 見つかったら早期リターン
 	}
+	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 
-	ID3D12Device* device = Engine::GetDevice();
-	DescriptorHeap* dxHeap = Engine::GetDxHeap();
+	ID3D12Device* device = graphicsCtx->GetDevice();
+	DescriptorHeap* dxHeap = graphicsCtx->GetDxHeap();
 
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;

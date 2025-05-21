@@ -1,7 +1,9 @@
 #pragma once
 #include <stack>
 #include <string>
-#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+
+class DescriptorHeap;
 
 class DescriptorAllocator {
 public:
@@ -11,11 +13,11 @@ public:
 	}
 	~DescriptorAllocator();
 
-	DescriptorHeap::DescriptorHandles Allocate(ID3D12DescriptorHeap* descriptorHeap);
+	DescriptorHandles Allocate(ID3D12DescriptorHeap* descriptorHeap);
 
 	void Free(uint32_t index);
 
-	DescriptorHeap::DescriptorHandles GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap,
+	DescriptorHandles GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap,
 														  uint32_t index);
 
 private:
