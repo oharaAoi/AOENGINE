@@ -79,7 +79,9 @@ void DirectXCommon::End() {
 
 	// ---------------------------------------------------------------
 	// CPUとGPUの同期をとる
-	dxCommands_->SyncGPUAndCPU(swapChain_.Get());
+	// 画面の交換を行う
+	swapChain_->Present(1, 0);
+	dxCommands_->SyncGPUAndCPU(swapChain_->GetCurrentBackBufferIndex()  );
 
 	// ---------------------------------------------------------------
 	hr = dxCommands_->GetCommandAllocator()->Reset();  

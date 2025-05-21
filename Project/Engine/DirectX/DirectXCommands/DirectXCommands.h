@@ -35,7 +35,7 @@ public:
 	/// <summary>
 	/// CPUとGPUの同期をはかる
 	/// </summary>
-	void SyncGPUAndCPU(IDXGISwapChain4* swapChain);
+	void SyncGPUAndCPU(uint32_t currentIndex);
 
 
 public:

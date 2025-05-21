@@ -66,17 +66,14 @@ void DirectXCommands::CreateFence() {
 /// <summary>
 /// CPUとGPUの同期をはかる
 /// </summary>
-void DirectXCommands::SyncGPUAndCPU(IDXGISwapChain4* swapChain){
+void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 	// -----------------------------------------------
 	// 下記の用にするとスレッドが大量終了する
 	// -----------------------------------------------
 
-	// 画面の交換を行う
-	swapChain->Present(1, 0);
-
 	// 現在のバックバッファの Index を取得する（この時点では fenceIndex_ は古いフレームのまま）
 	const auto prevFenceIndex = fenceIndex_;
-	fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
+	fenceIndex_ = currentIndex;
 
 	// 今フレームのフェンス値を取得
 	const auto currentValue = fanceCounter_[prevFenceIndex];
@@ -85,8 +82,8 @@ void DirectXCommands::SyncGPUAndCPU(IDXGISwapChain4* swapChain){
 	commandQueue_->Signal(fence_.Get(), currentValue);
 
 	// GPU の処理が完了していない場合は待機
-	if (fence_->GetCompletedValue() < currentValue) {
-		fence_->SetEventOnCompletion(currentValue, fenceEvent_);
+	if (fence_->GetCompletedValue() < fanceCounter_[currentIndex]) {
+		fence_->SetEventOnCompletion(fanceCounter_[currentIndex], fenceEvent_);
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 

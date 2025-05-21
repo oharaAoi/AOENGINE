@@ -28,6 +28,7 @@ void PlayerBullet::Update() {
 	BaseBullet::Update();
 }
 
-void PlayerBullet::Draw() const {
+void PlayerBullet::Draw() const { 
+	if (!isAlive_) { return; }
 	BaseBullet::Draw();
 }
