@@ -60,7 +60,9 @@ public:		// accessor method
 	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
 	bool GetKnockBack() { return isKnockback_; }
 
-	void Knockback();
+	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
+
+	void Knockback(const Vector3& direction);
 
 	void RecoveryEN(float timer);
 
@@ -70,6 +72,8 @@ public:		// accessor method
 	/// 着地した時
 	/// </summary>
 	void Landing();
+
+public:
 
 	// 着地したかのフラグ
 	bool GetIsLanding() const { return isLanding_; }
@@ -84,6 +88,9 @@ public:		// accessor method
 
 	// stateMachine
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }
+
+	// actionManager
+	ActionManager<Player>* GetActionManager() { return actionManager_.get(); }
 
 	// camera
 	void SetFollowCamera(FollowCamera* followCamera) { pFollowCamera_ = followCamera; }
@@ -115,6 +122,7 @@ private:
 	std::unique_ptr<ActionManager<Player>> actionManager_;
 
 	bool isKnockback_;
+	Vector3 knockBackDire_;
 
 	bool isLanding_;
 

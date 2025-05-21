@@ -242,6 +242,7 @@
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -458,6 +459,7 @@
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

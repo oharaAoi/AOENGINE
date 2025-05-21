@@ -12,6 +12,7 @@
 #include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
+#include "Game/Actor/Player/Action/PlayerActionDamaged.h"
 
 Player::Player() {}
 Player::~Player() {
@@ -95,6 +96,7 @@ void Player::Init() {
 	actionManager_->BuildAction<PlayerActionBoost>();
 	actionManager_->BuildAction<PlayerActionShotRight>();
 	actionManager_->BuildAction<PlayerActionShotLeft>();
+	actionManager_->BuildAction<PlayerActionDamaged>();
 
 	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_->AddRunAction(hash);
@@ -155,9 +157,24 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 	}
 }
 
-void Player::Knockback() {
+void Player::Knockback(const Vector3& direction) {
+	if (isKnockback_) { return; }
+	Vector3 dire = direction;
+
+	// playerが地面についている際はy軸方向にノックバックしない用に対策する
+	if (isLanding_) {
+		dire.y = 0.f;
+		dire = dire.Normalize();
+	}
+
+	// ノックバックさせる
 	isKnockback_ = true;
 	stateMachine_->ChangeState<PlayerKnockbackState>();
+
+	size_t hash = typeid(PlayerActionDamaged).hash_code();
+	actionManager_->ChangeAction(hash);
+
+	knockBackDire_ = dire;
 }
 
 void Player::RecoveryEN(float timer) {
