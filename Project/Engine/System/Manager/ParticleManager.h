@@ -27,15 +27,6 @@ public:
 public:
 
 	/// <summary>
-	/// Particleを実際に追加する
-	/// </summary>
-	/// <param name="id">: fileName</param>
-	/// <param name="_pMesh">: mesh</param>
-	/// <param name="_pMaterial">: material</param>
-	/// <param name="isAddBlend">: どのようなBlendModeで行うか</param>
-	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend);
-
-	/// <summary>
 	/// View系のMatrixを設定する
 	/// </summary>
 	/// <param name="view">: viewMatrix</param>
@@ -44,12 +35,20 @@ public:
 		particleRenderer_->SetView(view, bill);
 	}
 
-	void AddParticleList(BaseParticles* particles);
+	//void AddParticleList(BaseParticles* particles);
+
+
+	/// <summary>
+	/// Particleを作成する
+	/// </summary>
+	/// <param name="particlesFile"></param>
+	/// <returns></returns>
+	BaseParticles* CrateParticle(const std::string& particlesFile);
 
 private:
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
 
-	std::list<BaseParticles*> particlesList_;
+	std::list<std::unique_ptr<BaseParticles>> particlesList_;
 
 };

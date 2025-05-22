@@ -12,6 +12,7 @@ ParticleManager* ParticleManager::GetInstance() {
 
 void ParticleManager::Finalize() {
 	particleRenderer_.reset();
+	particlesList_.clear();
 }
 
 void ParticleManager::Init() {
@@ -33,14 +34,19 @@ void ParticleManager::Draw() const {
 	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
 }
 
-void ParticleManager::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
-	particleRenderer_->AddParticle(id, _pMesh, _pMaterial, isAddBlend);
-}
+//void ParticleManager::AddParticleList(BaseParticles* particles) {
+//	particlesList_.emplace_back(particles);
+//	particleRenderer_->AddParticle(particles->GetName(),
+//								   particles->GetGeometryObject()->GetMesh(),
+//								   particles->GetGeometryObject()->GetMaterial(),
+//								   particles->GetIsAddBlend());
+//}
 
-void ParticleManager::AddParticleList(BaseParticles* particles) {
-	particlesList_.emplace_back(particles);
-	particleRenderer_->AddParticle(particles->GetName(),
-								   particles->GetGeometryObject()->GetMesh(),
-								   particles->GetGeometryObject()->GetMaterial(),
-								   particles->GetIsAddBlend());
+BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) {
+	auto& newParticles = particlesList_.emplace_back(std::make_unique<BaseParticles>());
+	newParticles->Init(particlesFile);
+	particleRenderer_->AddParticle(newParticles->GetName(),
+								   newParticles->GetGeometryObject()->GetMesh(),
+								   newParticles->GetGeometryObject()->GetMaterial());
+	return newParticles.get();
 }

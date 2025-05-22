@@ -291,13 +291,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
-    <ClCompile Include="Game\Effects\GunFireParticles.cpp" />
-    <ClCompile Include="Game\Effects\HitBossExploadParticles.cpp" />
-    <ClCompile Include="Game\Effects\HitBossSmoke.cpp" />
-    <ClCompile Include="Game\Effects\HitBossSmokeBorn.cpp" />
-    <ClCompile Include="Game\Effects\JetBornParticles.cpp" />
-    <ClCompile Include="Game\Effects\JetEnergyParticles.cpp" />
-    <ClCompile Include="Game\Effects\JetParticles.cpp" />
     <ClCompile Include="Game\Manager\ActionManager.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
@@ -509,13 +502,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
-    <ClInclude Include="Game\Effects\GunFireParticles.h" />
-    <ClInclude Include="Game\Effects\HitBossExploadParticles.h" />
-    <ClInclude Include="Game\Effects\HitBossSmoke.h" />
-    <ClInclude Include="Game\Effects\HitBossSmokeBorn.h" />
-    <ClInclude Include="Game\Effects\JetBornParticles.h" />
-    <ClInclude Include="Game\Effects\JetEnergyParticles.h" />
-    <ClInclude Include="Game\Effects\JetParticles.h" />
     <ClInclude Include="Game\Manager\ActionManager.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Module\Geometry\Structs\Vertices.h" />

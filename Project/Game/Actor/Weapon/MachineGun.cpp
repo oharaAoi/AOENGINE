@@ -27,9 +27,7 @@ void MachineGun::Init() {
 	// -------------------------------------------------
 	// ↓ Effect関連
 	// -------------------------------------------------
-	gunFireParticles_ = std::make_unique<GunFireParticles>();
-	gunFireParticles_->Init("gunFireParticles");
-	ParticleManager::GetInstance()->AddParticleList(gunFireParticles_.get());
+	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
 	
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());
@@ -65,5 +63,5 @@ void MachineGun::Shot() {
 	Vector3 pos = worldPos_;
 	pos += (forward * 4.f);
 	gunFireParticles_->SetPos(pos);
-	gunFireParticles_->SetOnShot();
+	gunFireParticles_->SetOnShot(true);
 }

@@ -83,6 +83,8 @@ struct ParticleEmit : public IJsonConverter {
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
 
+	bool isParticleAddBlend = false;	// blendModeをAddBlendにするかのフラグ
+
 	bool isScaleUp;				// サイズを大きくするか
 	Vector3 scaleUpScale;
 
@@ -116,6 +118,7 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("isDirectionRotate", isDirectionRotate)
 			.Add("isLifeOfScale", isLifeOfScale)
 			.Add("isLifeOfAlpha", isLifeOfAlpha)
+			.Add("isParticleAddBlend", isParticleAddBlend)
 			.Add("isScaleUp", isScaleUp)
 			.Add("scaleUpScale", scaleUpScale)
 			.Add("useTexture", useTexture)  // `damping` の変数名のスペルを修正
@@ -143,6 +146,7 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "isDirectionRotate", isDirectionRotate);
 		fromJson(jsonData, "isLifeOfScale", isLifeOfScale);
 		fromJson(jsonData, "isLifeOfAlpha", isLifeOfAlpha);
+		fromJson(jsonData, "isParticleAddBlend", isParticleAddBlend);
 		fromJson(jsonData, "isScaleUp", isScaleUp);
 		fromJson(jsonData, "scaleUpScale", scaleUpScale);
 		fromJson(jsonData, "useTexture", useTexture);  // `damping` の変数名のスペルを修正

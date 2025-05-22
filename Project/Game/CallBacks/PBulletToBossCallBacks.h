@@ -1,11 +1,10 @@
 #pragma once
 #include "Engine/Module/Components/EventHandlers/BaseCollisionCallBacks.h"
 #include "Engine/System/Manager/CollisionManager.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
+// Game
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Effects/HitBossExploadParticles.h"
-#include "Game/Effects/HitBossSmoke.h"
-#include "Game/Effects/HitBossSmokeBorn.h"
 
 /// <summary>
 /// PlayerのBulletとボスとのCallBack
@@ -37,9 +36,9 @@ private:
 	PlayerBulletManager* pBulletManager_;
 	Boss* pBoss_;
 
-	std::unique_ptr<HitBossExploadParticles> hitBossExploadParticles_;
-	std::unique_ptr<HitBossSmoke> hitBossSmoke_;
-	std::unique_ptr<HitBossSmokeBorn> hitBossSmokeBorn_;
+	BaseParticles* hitBossExploadParticles_;
+	BaseParticles* hitBossSmoke_;
+	BaseParticles* hitBossSmokeBorn_;
 
 };
 

@@ -5,16 +5,16 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
-void BaseParticles::Init(const std::string& name, bool isAddBlend) {
+void BaseParticles::Init(const std::string& name) {
 	name_ = name;
-	isAddBlend_ = isAddBlend;
-
+	
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 	
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 
+	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
 
 #ifdef _DEBUG
@@ -34,6 +34,9 @@ void BaseParticles::Update(const Quaternion& bill) {
 	// ---------------------------
 	size_t particleNum = particleArray_.size();
 	data_.resize(particleNum);
+	for (uint32_t oi = 0; oi < particleNum; ++oi) {
+		data_[oi].color.w = 0.0f;
+	}
 
 	size_t index = 0;
 	for (auto it = particleArray_.begin(); it != particleArray_.end();) {
@@ -181,7 +184,9 @@ void BaseParticles::Emit(const Vector3& pos) {
 void BaseParticles::EmitUpdate() {
 	// 一度だけ打つフラグがtrueだったら
 	if (emitter_.isOneShot) {
-		Emit(emitter_.translate);
+		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {
+			Emit(emitter_.translate);
+		}
 		emitter_.isOneShot = false;
 	}
 

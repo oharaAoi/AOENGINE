@@ -13,7 +13,7 @@ public:
 	BaseParticles() = default;
 	virtual ~BaseParticles() override {};
 
-	void Init(const std::string& name, bool isAddBlend = true);
+	void Init(const std::string& name);
 
 	void Update(const Quaternion& bill);
 
@@ -36,9 +36,11 @@ public:		// json関連
 	
 public:
 
-	virtual void SetParent(const Matrix4x4& parentMat);
+	void SetOnShot(bool isOnShot) { emitter_.isOneShot = isOnShot; }
 
-	bool GetIsAddBlend() const { return isAddBlend_; }
+	void SetPos(const Vector3& pos) { emitter_.translate = pos; }
+
+	void SetParent(const Matrix4x4& parentMat);
 
 	GeometryObject* GetGeometryObject() const { return shape_.get(); }
 

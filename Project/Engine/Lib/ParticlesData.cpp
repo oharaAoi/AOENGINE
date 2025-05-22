@@ -35,6 +35,7 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Checkbox("isDirectionRotate", &isDirectionRotate);
 		ImGui::Checkbox("isLifeOfScale", &isLifeOfScale);
 		ImGui::Checkbox("isLifeOfAlpha", &isLifeOfAlpha);
+		ImGui::Checkbox("isParticleAddBlend", &isParticleAddBlend);
 		ImGui::Checkbox("isScaleUp", &isScaleUp);
 		ImGui::DragFloat3("scaleUpScale", (float*)&scaleUpScale, 0.01f);
 	}

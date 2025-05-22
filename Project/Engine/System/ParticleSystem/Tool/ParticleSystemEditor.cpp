@@ -116,11 +116,11 @@ void ParticleSystemEditor::Create() {
 
 void ParticleSystemEditor::AddList(const std::string& _name) {
 	auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
-	newParticle->Init(_name, true);
+	newParticle->Init(_name);
 	particleRenderer_->AddParticle(newParticle->GetName(),
 								   newParticle->GetGeometryObject()->GetMesh(),
-								   newParticle->GetGeometryObject()->GetMaterial(),
-								   newParticle->GetIsAddBlend());
+								   newParticle->GetGeometryObject()->GetMaterial()
+	);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,12 +148,12 @@ void ParticleSystemEditor::OpenLoadDialog() {
 
 			isLoad_ = false;
 			auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
-			newParticle->Init(fileName, true);
+			newParticle->Init(fileName);
 			newParticle->SetJsonData(Load(filePath));
 			particleRenderer_->AddParticle(newParticle->GetName(),
 										   newParticle->GetGeometryObject()->GetMesh(),
-										   newParticle->GetGeometryObject()->GetMaterial(),
-										   newParticle->GetIsAddBlend());
+										   newParticle->GetGeometryObject()->GetMaterial()
+			);
 
 		} else {
 			// Cancel時の処理

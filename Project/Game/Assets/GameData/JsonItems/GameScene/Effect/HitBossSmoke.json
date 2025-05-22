@@ -4,11 +4,10 @@
         "angleMin": 0.0,
         "color": {
             "w": 1.0,
-            "x": 0.6651163101196289,
-            "y": 0.6651163101196289,
-            "z": 0.6651163101196289
+            "x": 0.34418606758117676,
+            "y": 0.34418606758117676,
+            "z": 0.34418606758117676
         },
-        "count": 10,
         "damping": 0.0,
         "direction": {
             "x": 0.0,
@@ -16,18 +15,17 @@
             "z": 0.0
         },
         "emit": false,
-        "frequency": 5.0,
-        "frequencyTime": 5.0,
         "gravity": 0.0,
         "isDirectionRotate": false,
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
         "isOneShot": false,
+        "isParticleAddBlend": false,
         "isScaleUp": true,
-        "lifeTime": 3.0,
+        "lifeTime": 1.2999999523162842,
         "maxScale": {
-            "x": 10.0,
-            "y": 10.0,
+            "x": 6.0,
+            "y": 6.0,
             "z": 1.0
         },
         "minScale": {
@@ -35,6 +33,7 @@
             "y": 1.0,
             "z": 1.0
         },
+        "rateOverTimeCout": 10,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -50,10 +49,10 @@
         "shape": 0,
         "speed": 1.0,
         "translate": {
-            "x": -2.4986062049865723,
-            "y": 0.9571646451950073,
-            "z": 22.861766815185547
+            "x": 4.919583320617676,
+            "y": 5.399803638458252,
+            "z": 27.26504898071289
         },
-        "useTexture": "smoke.png"
+        "useTexture": "smoke2.png"
     }
 }

@@ -10,15 +10,6 @@ PlayerBulletManager::~PlayerBulletManager() {
 
 void PlayerBulletManager::Init() {
 	bulletList_.clear();
-
-	hitBossSmoke_ = std::make_unique<HitBossSmoke>();
-	hitBossSmoke_->Init("HitBossSmoke");
-
-	hitBossSmokeBorn_ = std::make_unique<HitBossSmokeBorn>();
-	hitBossSmokeBorn_->Init("HitBossSmokeBorn");
-
-	hitBossExploadParticles_ = std::make_unique<HitBossExploadParticles>();
-	hitBossExploadParticles_->Init("HitBossExploadParticles");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,10 +25,6 @@ void PlayerBulletManager::Update() {
 	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
 		bullet->Update();
 	}
-
-	hitBossSmoke_->Update(Render::GetCameraRotate());
-	hitBossSmokeBorn_->Update(Render::GetCameraRotate());
-	hitBossExploadParticles_->Update(Render::GetCameraRotate());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,26 +34,6 @@ void PlayerBulletManager::Update() {
 void PlayerBulletManager::Draw() const {
 	for (const std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
 		bullet->Draw();
-	}
-}
-
-void PlayerBulletManager::CollisionToBoss(const Vector3& bossPos) {
-	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
-		float length = (bullet->GetTransform()->translate_ - bossPos).Length();
-
-		if (length < 4.0f) {
-			// effectを出す
-			//bullet.SetIsAlive(false);
-
-			hitBossExploadParticles_->SetPos(bullet->GetTransform()->translate_);
-			hitBossExploadParticles_->SetOnShot();
-
-			hitBossSmoke_->SetPos(bullet->GetTransform()->translate_);
-			hitBossSmoke_->SetOnShot();
-
-			hitBossSmokeBorn_->SetPos(bullet->GetTransform()->translate_);
-			hitBossSmokeBorn_->SetOnShot();
-		}
 	}
 }
 

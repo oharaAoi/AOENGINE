@@ -1,7 +1,8 @@
 #pragma once
+// Engine
+#include "Engine/Module/Components/Effect/BaseParticles.h"
+// Game
 #include "Game/Actor/Weapon/BaseWeapon.h"
-// Effect
-#include "Game/Effects/GunFireParticles.h"
 
 class MachineGun :
 	public BaseWeapon {
@@ -25,7 +26,7 @@ public:		// member method
 
 private:
 
-	std::unique_ptr<GunFireParticles> gunFireParticles_;
+	BaseParticles* gunFireParticles_;
 
 };
 

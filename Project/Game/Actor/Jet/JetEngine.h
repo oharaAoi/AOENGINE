@@ -1,9 +1,6 @@
 #pragma once
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
-// Effect
-#include "Game/Effects/JetParticles.h"
-#include "Game/Effects/JetBornParticles.h"
-#include "Game/Effects/JetEnergyParticles.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 /// <summary>
 /// jetのエンジンとなるクラス
@@ -27,9 +24,9 @@ public:
 private:
 
 	// effects -------------------------------------------------
-	std::unique_ptr<JetParticles> jetParticles_;
-	std::unique_ptr<JetBornParticles> jetBornParticles_;
-	std::unique_ptr<JetEnergyParticles> jetEnergyParticles_;
+	BaseParticles* jetParticles_;
+	BaseParticles* jetBornParticles_;
+	BaseParticles* jetEnergyParticles_;
 
 
 };

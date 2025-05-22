@@ -7,18 +7,10 @@ void PBulletToBossCallBacks::Init() {
 	SetCallBacks();
 	SetPair(pCollisionManager_, ColliderTags::Bullet::machinegun, ColliderTags::Boss::own);
 
-	hitBossSmoke_ = std::make_unique<HitBossSmoke>();
-	hitBossSmoke_->Init("HitBossSmoke");
 	ParticleManager* manager = ParticleManager::GetInstance();
-	manager->AddParticleList(hitBossSmoke_.get());
-
-	hitBossSmokeBorn_ = std::make_unique<HitBossSmokeBorn>();
-	hitBossSmokeBorn_->Init("HitBossSmokeBorn");
-	manager->AddParticleList(hitBossSmokeBorn_.get());
-
-	hitBossExploadParticles_ = std::make_unique<HitBossExploadParticles>();
-	hitBossExploadParticles_->Init("HitBossExploadParticles");
-	manager->AddParticleList(hitBossExploadParticles_.get());
+	hitBossExploadParticles_ = manager->CrateParticle("HitBossExploadParticles");
+	hitBossSmoke_ = manager->CrateParticle("HitBossSmoke");
+	hitBossSmokeBorn_ = manager->CrateParticle("HitBossSmokeBorn");
 }
 
 void PBulletToBossCallBacks::Update() {
@@ -34,13 +26,12 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	}
 	
 	hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
-	hitBossExploadParticles_->SetOnShot();
-
 	hitBossSmoke_->SetPos(bullet->GetCenterPos());
-	hitBossSmoke_->SetOnShot();
-
 	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
-	hitBossSmokeBorn_->SetOnShot();
+
+	hitBossExploadParticles_->SetOnShot(true);
+	hitBossSmoke_->SetOnShot(true);
+	hitBossSmokeBorn_->SetOnShot(true);
 }
 
 void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {

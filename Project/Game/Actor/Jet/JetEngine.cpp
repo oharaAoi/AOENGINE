@@ -23,21 +23,13 @@ void JetEngine::Init() {
 	// -------------------------------------
 	// effectの設定
 	ParticleManager* manager = ParticleManager::GetInstance();
+	jetParticles_ = manager->CrateParticle("JetParticle");
+	jetBornParticles_ = manager->CrateParticle("JetBornParticle");
+	jetEnergyParticles_ = manager->CrateParticle("JetEnergyParticles");
 
-	jetParticles_ = std::make_unique<JetParticles>();
-	jetParticles_->Init("JetParticle");
 	jetParticles_->SetParent(transform_->GetWorldMatrix());
-	manager->AddParticleList(jetParticles_.get());
-
-	jetBornParticles_ = std::make_unique<JetBornParticles>();
-	jetBornParticles_->Init("JetBornParticle");
 	jetBornParticles_->SetParent(transform_->GetWorldMatrix());
-	manager->AddParticleList(jetBornParticles_.get());
-
-	jetEnergyParticles_ = std::make_unique<JetEnergyParticles>();
-	jetEnergyParticles_->Init("JetEnergyParticles");
 	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());
-	manager->AddParticleList(jetEnergyParticles_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
