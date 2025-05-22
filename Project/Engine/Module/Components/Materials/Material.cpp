@@ -121,6 +121,7 @@ void Material::SelectTexture() {
 				std::string textureName = textureManager->GetFileNames()[i];
 				const char* ext = GetFileExtension(textureName.c_str());
 				std::string extension(ext);
+				// 拡張子で判別する
 				if ((extension == "png") || (extension == "jpeg")) {
 
 					const bool isSelected = (i == selectedIndex);
