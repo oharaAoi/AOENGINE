@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
+#include "Game/Actor/Boss/Action/BossActionShotMissile.h"
 
 #ifdef _DEBUG
 void BossActionApproach::Debug_Gui() {
@@ -49,6 +50,8 @@ void BossActionApproach::OnStart() {
 	spinAmount_ = Clamp01(distance_ / param_.maxSpinDistance);
 	offsetDire_ = direToPlayer_ + lateral_ * spinAmount_;
 	offsetDire_ = offsetDire_.Normalize();
+
+	isShot_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,6 +81,11 @@ void BossActionApproach::CheckNextAction() {
 
 	if (param_.moveSpeed < 0.1f) {
 		NextAction<BossActionIdle>();
+	}
+
+	if (isShot_) {
+		AddAction<BossActionShotMissile>();
+		isShot_ = false;
 	}
 }
 

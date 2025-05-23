@@ -40,6 +40,16 @@ public:	// base
 #endif // _DEBUG
 
 	/// <summary>
+	/// 自身のアクションを削除する
+	/// </summary>
+	void DeleteSelf() {
+		if (!pManager_) {
+			return;
+		}
+		pManager_->DeleteAction(actionIndex_);
+	}
+
+	/// <summary>
 	/// 次のアクションに遷移する関数
 	/// </summary>
 	/// <typeparam name="ActionT">: 次のアクションのクラス</typeparam>
@@ -66,6 +76,11 @@ public:	// base
 		pManager_->AddAction(hash);
 	}
 
+	/// <summary>
+	/// 入力処理を確認する
+	/// </summary>
+	/// <typeparam name="ActionT"></typeparam>
+	/// <returns></returns>
 	template<typename ActionT>
 	bool CheckInput() {
 		if (!pManager_) {

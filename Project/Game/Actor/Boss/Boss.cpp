@@ -5,6 +5,7 @@
 #include "Game/Actor/Boss/State/BossIdleState.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
+#include "Game/Actor/Boss/Action/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
 
 void Boss::Finalize() {
@@ -31,6 +32,7 @@ void Boss::Init() {
 	actionManager_->Init(this, "bossAction");
 	actionManager_->BuildAction<BossActionIdle>();
 	actionManager_->BuildAction<BossActionApproach>();
+	actionManager_->BuildAction<BossActionShotMissile>();
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
 
 	size_t hash = typeid(BossActionIdle).hash_code();

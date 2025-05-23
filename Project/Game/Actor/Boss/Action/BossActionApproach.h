@@ -59,6 +59,8 @@ private :
 	Parameter param_;
 	Parameter initParam_;
 
+	bool isShot_;
+
 	// 近づく挙動に必要な変数
 	Vector3 toPlayer_;
 	float distance_;
