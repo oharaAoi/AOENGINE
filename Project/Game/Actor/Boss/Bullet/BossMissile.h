@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Game/Actor/Boss/Bullet/BossBullets.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 /// <summary>
 /// Bossのミサイルを打つ処理
@@ -38,6 +39,8 @@ private :
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
 
 	bool finishTracking_;		// 追尾を終了するか
+
+	BaseParticles* smoke_;
 
 };
 

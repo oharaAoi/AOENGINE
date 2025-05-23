@@ -4,6 +4,7 @@
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossIdleState.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
+#include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
 
 void Boss::Finalize() {
@@ -29,6 +30,7 @@ void Boss::Init() {
 	actionManager_ = std::make_unique<ActionManager<Boss>>();
 	actionManager_->Init(this, "bossAction");
 	actionManager_->BuildAction<BossActionIdle>();
+	actionManager_->BuildAction<BossActionApproach>();
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
 
 	size_t hash = typeid(BossActionIdle).hash_code();

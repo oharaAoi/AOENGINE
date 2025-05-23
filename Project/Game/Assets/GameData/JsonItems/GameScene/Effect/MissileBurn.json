@@ -1,0 +1,58 @@
+{
+    "MissileBurn": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "emit": true,
+        "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": false,
+        "isLifeOfScale": false,
+        "isOneShot": false,
+        "isParticleAddBlend": false,
+        "isScaleUp": false,
+        "lifeTime": 5.0,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "rateOverTimeCout": 10,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 1.0,
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useTexture": "circle.png"
+    }
+}

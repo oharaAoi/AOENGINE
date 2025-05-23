@@ -237,6 +237,7 @@
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -448,6 +449,7 @@
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

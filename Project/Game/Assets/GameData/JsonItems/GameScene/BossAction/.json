@@ -1,0 +1,8 @@
+{
+    "": {
+        "deceleration": 2.0,
+        "maxSpinDistance": 0.800000011920929,
+        "moveSpeed": 20.0,
+        "quitApproachLength": 12.0
+    }
+}

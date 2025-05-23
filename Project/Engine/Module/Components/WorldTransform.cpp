@@ -77,6 +77,15 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	temporaryTranslate_ = CVector3::ZERO;
 }
 
+void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) {
+	translate_ += velocity;
+
+	if (velocity.x != 0.0f || velocity.y != 0.0f) {
+		Quaternion rotate = Quaternion::LookRotation(velocity.Normalize());
+		rotation_ = Quaternion::Slerp(rotation_, rotate, rotationSpeed);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　コマンドリストに送る
 //////////////////////////////////////////////////////////////////////////////////////////////////

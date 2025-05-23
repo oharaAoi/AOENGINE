@@ -27,6 +27,7 @@ void PlayerActionIdle::OnStart() {
 
 void PlayerActionIdle::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
+
 	pOwner_->RecoveryEN(actionTimer_);
 }
 

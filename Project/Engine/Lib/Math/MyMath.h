@@ -31,6 +31,8 @@ constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 // 基礎関数
 ////////////////////////////////////////////////////////////////////////////////////
 
+float Clamp01(float value);
+
 /// <summary>
 /// 長さを計算する
 /// </summary>

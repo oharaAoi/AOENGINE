@@ -1,6 +1,7 @@
 #include "BossActionIdle.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
 
 #ifdef _DEBUG
@@ -13,6 +14,7 @@ void BossActionIdle::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionIdle::Build() {
+	SetName("actionIdle");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,6 +23,8 @@ void BossActionIdle::Build() {
 
 void BossActionIdle::OnStart() {
 	actionTimer_ = 0;
+
+	playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,6 +33,10 @@ void BossActionIdle::OnStart() {
 
 void BossActionIdle::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
+
+	playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
+	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +52,7 @@ void BossActionIdle::OnEnd() {
 
 void BossActionIdle::CheckNextAction() {
 	if (actionTimer_ > 2.0f) {
-		NextAction<BossActionAllRangeMissile>();
+		NextAction<BossActionApproach>();
 	}
 }
 

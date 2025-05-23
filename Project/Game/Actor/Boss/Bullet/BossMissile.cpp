@@ -1,8 +1,11 @@
 #include "BossMissile.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
+	//ParticleManager::GetInstance()->DeleteParticles(smoke_);
+	smoke_ = nullptr;
 }
 
 void BossMissile::Init() {
@@ -16,6 +19,9 @@ void BossMissile::Init() {
 	trackingTimer_ = 0.f;
 
 	finishTracking_ = false;
+
+	/*smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	smoke_->SetParent(transform_->GetWorldMatrix());*/
 }
 
 void BossMissile::Update() {
@@ -35,6 +41,7 @@ void BossMissile::Update() {
 	}
 
 	BaseBullet::Update();
+	//smoke_->Update(Render::GetCameraRotate());
 }
 
 void BossMissile::Draw() const {

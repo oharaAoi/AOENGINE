@@ -28,5 +28,7 @@ private:
 
 	float actionTimer_;
 
+	Quaternion playerToRotate_;
+
 };
 

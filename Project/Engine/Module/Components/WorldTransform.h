@@ -32,6 +32,8 @@ public:
 
 	void Translate(const Vector3& translate) { translate_ += translate; }
 
+	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 	void Debug_Quaternion();

@@ -45,6 +45,8 @@ public:
 	/// <returns></returns>
 	BaseParticles* CrateParticle(const std::string& particlesFile);
 
+	void DeleteParticles(BaseParticles* ptr);
+
 private:
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;

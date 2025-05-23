@@ -17,7 +17,7 @@ void ParticleManager::Finalize() {
 
 void ParticleManager::Init() {
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(1000);
+	particleRenderer_->Init(10000);
 }
 
 void ParticleManager::Update() {
@@ -49,4 +49,10 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 								   newParticles->GetGeometryObject()->GetMesh(),
 								   newParticles->GetGeometryObject()->GetMaterial());
 	return newParticles.get();
+}
+
+void ParticleManager::DeleteParticles(BaseParticles* ptr) {
+	particlesList_.remove_if([ptr](const std::unique_ptr<BaseParticles>& p) {
+		return p.get() == ptr;
+							 });
 }
