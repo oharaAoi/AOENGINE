@@ -37,7 +37,7 @@ private :
 
 	float bulletSpeed_;
 
-	const uint32_t kFireCount_ = 4;
+	const uint32_t kFireCount_ = 1;
 	uint32_t fireCount_;
 
 };

@@ -7,7 +7,8 @@
 void ParticleSystemEditor::Finalize() {
 	depthStencilResource_.Reset();
 	particleRenderer_.reset();
-	particles_.clear();
+	particlesMap_.clear();
+	emitterList_.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,10 +52,19 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Update() {
-	for (auto& particle : particles_) {
-		particle->Update(camera_->GetRotate());
-		particleRenderer_->Update(particle->GetName(), particle->GetData());
+	// Emitterの更新
+	for (auto& emitter : emitterList_) {
+		emitter->Update();
 	}
+
+	// particleの更新
+	ParticlesUpdate();
+	// particleをRendererに送る
+	for (auto& particle : particlesMap_) {
+		particleRenderer_->Update(particle.first, particle.second.forGpuData_);
+	}
+
+	// カメラの更新
 	camera_->Update();
 
 	particleRenderer_->PostUpdate();
@@ -77,6 +87,81 @@ void ParticleSystemEditor::Draw() {
 }
 
 #ifdef _DEBUG
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Particleの更新
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleSystemEditor::ParticlesUpdate() {
+	for (auto& particles : particlesMap_) {
+
+		size_t particleNum = particles.second.particles->size();
+		particles.second.forGpuData_.resize(particleNum);
+		for (uint32_t oi = 0; oi < particleNum; ++oi) {
+			particles.second.forGpuData_[oi].color.w = 0.0f;
+		}
+
+		size_t index = 0;
+		for (auto it = particles.second.particles->begin(); it != particles.second.particles->end();) {
+			auto& pr = *it;
+			// ---------------------------
+			// 生存時間の更新
+			// ---------------------------
+			pr.lifeTime -= GameTimer::DeltaTime();
+			if (pr.lifeTime <= 0.0f) {
+				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
+				continue;
+			}
+
+			// ---------------------------
+			// Parameterの更新
+			// ---------------------------
+			// 速度を更新
+			pr.velocity *= std::powf((1.0f - pr.damping), GameTimer::DeltaTime());
+
+			// 重力を適応
+			pr.velocity.y += pr.gravity * GameTimer::DeltaTime();
+
+			// 座標を適応
+			pr.translate += pr.velocity * GameTimer::DeltaTime();
+
+			// ---------------------------
+			// 状態の更新
+			// ---------------------------
+			float t = pr.lifeTime / pr.firstLifeTime;
+			t = 1.0f - t;
+			if (pr.isLifeOfAlpha) {
+				pr.color.w = Lerp(1.0f, 0.0f, t);
+			}
+
+			if (pr.isLifeOfScale) {
+				pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
+			}
+
+			if (pr.isScaleUpScale) {
+				float scaleT = pr.lifeTime / pr.firstLifeTime;
+				scaleT = 1.0f - scaleT;
+				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
+			}
+
+			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
+			Matrix4x4 billMatrix = camera_->GetBillBordMatrix(); // ← ビルボード行列（カメラからの視線で作る）
+			Matrix4x4 zRot = pr.rotate.MakeMatrix();
+			Matrix4x4 rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
+			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+
+			particles.second.forGpuData_[index].worldMat = localWorld;
+			particles.second.forGpuData_[index].color = pr.color;
+
+			// ---------------------------
+			// NextFrameのための更新
+			// ---------------------------
+			++index;
+			++it;
+		}
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 生成する
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,12 +200,16 @@ void ParticleSystemEditor::Create() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::AddList(const std::string& _name) {
-	auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
+	auto& newParticle = emitterList_.emplace_back(std::make_unique<BaseParticles>());
 	newParticle->Init(_name);
 	particleRenderer_->AddParticle(newParticle->GetName(),
 								   newParticle->GetGeometryObject()->GetMesh(),
 								   newParticle->GetGeometryObject()->GetMaterial()
 	);
+	if (!particlesMap_.contains(_name)) {
+		particlesMap_.emplace(_name, ParticleSystemEditor::ParticlesData());
+	}
+	newParticle->SetParticlesList(particlesMap_[_name].particles);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,7 +236,7 @@ void ParticleSystemEditor::OpenLoadDialog() {
 			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
 
 			isLoad_ = false;
-			auto& newParticle = particles_.emplace_back(std::make_unique<BaseParticles>());
+			auto& newParticle = emitterList_.emplace_back(std::make_unique<BaseParticles>());
 			newParticle->Init(fileName);
 			newParticle->SetJsonData(Load(filePath));
 			particleRenderer_->AddParticle(newParticle->GetName(),
@@ -196,7 +285,7 @@ void ParticleSystemEditor::Edit() {
 	ImGui::Begin("List");
 	static BaseParticles* particles = nullptr;
 	static std::string openNode = "";
-	for (auto& it : particles_) {
+	for (auto& it : emitterList_) {
 		BaseParticles* ptr = it.get();
 		if (ImGui::Selectable(ptr->GetName().c_str(), particles == ptr)) {
 			particles = it.get();

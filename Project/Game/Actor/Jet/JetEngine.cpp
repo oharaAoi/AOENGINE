@@ -38,9 +38,9 @@ void JetEngine::Init() {
 
 void JetEngine::Update() {
 	BaseGameObject::Update();
-	jetParticles_->Update(Render::GetCameraRotate());
-	jetBornParticles_->Update(Render::GetCameraRotate());
-	jetEnergyParticles_->Update(Render::GetCameraRotate());
+	jetParticles_->Update();
+	jetBornParticles_->Update();
+	jetEnergyParticles_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

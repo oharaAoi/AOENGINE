@@ -2,6 +2,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 
 enum class BossBulletType {
+	SHOT,
 	MISSILE,
 };
 

@@ -170,7 +170,7 @@ void GameScene::Draw() const {
 	bossRoot_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
-	sphere_->Draw();
+	//sphere_->Draw();
 
 	// -------------------------------------------------
 	// ↓ spriteの描画

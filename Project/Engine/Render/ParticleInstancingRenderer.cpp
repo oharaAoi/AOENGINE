@@ -18,21 +18,37 @@ void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 }
 
 void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData) {
-	for (uint32_t oi = particleMap_[id].useIndex; oi < particleData.size(); ++oi) {
-		particleMap_[id].particleData[oi].color = { 0,0,0,0 };
+	uint32_t currentUseIndex = particleMap_[id].useIndex;
+	
+	// 現在使用しているindexから引数のサイズ分colorを0にする
+	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
+		particleMap_[id].particleData[currentUseIndex + oi].color = { 0,0,0,0 };
 	}
 
-	for (uint32_t oi = particleMap_[id].useIndex; oi < particleData.size(); ++oi) {
-		if (oi < maxInstanceNum_) {
-			particleMap_[id].particleData[oi].worldMat = particleData[oi].worldMat;
-			particleMap_[id].particleData[oi].color = particleData[oi].color;
-
-			particleMap_[id].useIndex = oi;
+	// 現在使用しているindexからデータを更新する
+	//uint32_t maxParticlesCount = currentUseIndex + static_cast<uint32_t>(particleData.size());
+	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
+		if (currentUseIndex + oi < maxInstanceNum_) {
+			particleMap_[id].particleData[currentUseIndex + oi].worldMat = particleData[oi].worldMat;
+			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
+			// 使用しているindexを更新する
+			particleMap_[id].useIndex = oi + 1;
 		}
 	}
 }
 
 void ParticleInstancingRenderer::PostUpdate() {
+	// 使用しなかったindexの領域のcolorを0にする
+	for (auto& information : particleMap_) {
+		// 使用している分を取得
+		uint32_t startIndex = information.second.useIndex;
+		// 使用分からmaxまでを0にする
+		for (uint32_t index = startIndex; index < maxInstanceNum_; index++) {
+			information.second.particleData[index].color = { 0,0,0,0 };
+		}
+	}
+
+	// 次のフレームで最初から更新するためにすべてのindexを0にする
 	for (auto& information : particleMap_) {
 		information.second.useIndex = 0;
 	}

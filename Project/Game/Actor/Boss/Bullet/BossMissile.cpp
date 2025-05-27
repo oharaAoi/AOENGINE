@@ -20,8 +20,8 @@ void BossMissile::Init() {
 
 	finishTracking_ = false;
 
-	/*smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_->SetParent(transform_->GetWorldMatrix());*/
+	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	smoke_->SetParent(transform_->GetWorldMatrix());
 }
 
 void BossMissile::Update() {
@@ -41,7 +41,7 @@ void BossMissile::Update() {
 	}
 
 	BaseBullet::Update();
-	//smoke_->Update(Render::GetCameraRotate());
+	smoke_->Update();
 }
 
 void BossMissile::Draw() const {

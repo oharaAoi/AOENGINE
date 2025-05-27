@@ -15,7 +15,7 @@ public:
 
 	void Init(const std::string& name);
 
-	void Update(const Quaternion& bill);
+	void Update();
 
 	void Emit(const Vector3& pos);
 
@@ -44,7 +44,7 @@ public:
 
 	GeometryObject* GetGeometryObject() const { return shape_.get(); }
 
-	const std::vector<ParticleInstancingRenderer::ParticleData>& GetData() const { return data_; }
+	void SetParticlesList(const std::shared_ptr<std::list<ParticleSingle>>& list) { particleArray_ = list; }
 
 protected:
 
@@ -62,9 +62,7 @@ protected:
 	std::unique_ptr<GeometryObject> shape_;
 
 	// Particleの情報
-	std::list<ParticleSingle> particleArray_;
-
-	std::vector<ParticleInstancingRenderer::ParticleData> data_;
+	std::shared_ptr<std::list<ParticleSingle>> particleArray_;
 
 	// emitter
 	ParticleEmit emitter_;

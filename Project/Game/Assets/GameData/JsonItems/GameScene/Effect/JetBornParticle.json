@@ -17,11 +17,12 @@
         "emit": true,
         "gravity": 0.0,
         "isDirectionRotate": false,
-        "isLifeOfAlpha": false,
+        "isLifeOfAlpha": true,
         "isLifeOfScale": false,
         "isOneShot": false,
+        "isParticleAddBlend": false,
         "isScaleUp": false,
-        "lifeTime": 1.0,
+        "lifeTime": 0.699999988079071,
         "maxScale": {
             "x": 0.8100000023841858,
             "y": 0.7200000286102295,
@@ -32,7 +33,7 @@
             "y": 0.6399999856948853,
             "z": 0.7099999785423279
         },
-        "rateOverTimeCout": 10,
+        "rateOverTimeCout": 30,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -49,7 +50,7 @@
         "speed": 1.0,
         "translate": {
             "x": 0.0,
-            "y": -0.5,
+            "y": -0.20000000298023224,
             "z": 0.0
         },
         "useTexture": "smoke2.png"

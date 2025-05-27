@@ -22,7 +22,7 @@ void BaseParticles::Init(const std::string& name) {
 #endif // _DEBUG
 }
 
-void BaseParticles::Update(const Quaternion& bill) {
+void BaseParticles::Update() {
 
 	// ---------------------------
 	// Emitterの更新
@@ -32,87 +32,88 @@ void BaseParticles::Update(const Quaternion& bill) {
 	// ---------------------------
 	// particleの更新
 	// ---------------------------
-	size_t particleNum = particleArray_.size();
+	/*size_t particleNum = particleArray_.size();
 	data_.resize(particleNum);
 	for (uint32_t oi = 0; oi < particleNum; ++oi) {
 		data_[oi].color.w = 0.0f;
-	}
+	}*/
 
-	size_t index = 0;
-	for (auto it = particleArray_.begin(); it != particleArray_.end();) {
-		auto& pr = *it;
-		// ---------------------------
-		// 生存時間の更新
-		// ---------------------------
-		pr.lifeTime -= GameTimer::DeltaTime();
-		if (pr.lifeTime <= 0.0f) {
-			it = particleArray_.erase(it); // 削除して次の要素にスキップ
-			continue;
-		}
+	//size_t index = 0;
+	//for (auto it = particleArray_.begin(); it != particleArray_.end();) {
+	//	auto& pr = *it;
+	//	// ---------------------------
+	//	// 生存時間の更新
+	//	// ---------------------------
+	//	pr.lifeTime -= GameTimer::DeltaTime();
+	//	if (pr.lifeTime <= 0.0f) {
+	//		it = particleArray_.erase(it); // 削除して次の要素にスキップ
+	//		continue;
+	//	}
 
-		// ---------------------------
-		// Parameterの更新
-		// ---------------------------
-		// 速度を更新
-		pr.velocity *= std::powf((1.0f - pr.damping), GameTimer::DeltaTime());
+	//	// ---------------------------
+	//	// Parameterの更新
+	//	// ---------------------------
+	//	// 速度を更新
+	//	pr.velocity *= std::powf((1.0f - pr.damping), GameTimer::DeltaTime());
 
-		// 重力を適応
-		pr.velocity.y += pr.gravity * GameTimer::DeltaTime();
+	//	// 重力を適応
+	//	pr.velocity.y += pr.gravity * GameTimer::DeltaTime();
 
-		// 座標を適応
-		pr.translate += pr.velocity * GameTimer::DeltaTime();
+	//	// 座標を適応
+	//	pr.translate += pr.velocity * GameTimer::DeltaTime();
 
-		// ---------------------------
-		// 状態の更新
-		// ---------------------------
-		float t = pr.lifeTime / pr.firstLifeTime;
-		t = 1.0f - t;
-		if (pr.isLifeOfAlpha) {
-			pr.color.w = Lerp(1.0f, 0.0f, t);
-		}
+	//	// ---------------------------
+	//	// 状態の更新
+	//	// ---------------------------
+	//	float t = pr.lifeTime / pr.firstLifeTime;
+	//	t = 1.0f - t;
+	//	if (pr.isLifeOfAlpha) {
+	//		pr.color.w = Lerp(1.0f, 0.0f, t);
+	//	}
 
-		if (pr.isLifeOfScale) {
-			pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
-		}
+	//	if (pr.isLifeOfScale) {
+	//		pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
+	//	}
 
-		if (pr.isScaleUpScale) {
-			float scaleT = pr.lifeTime / pr.firstLifeTime;
-			scaleT = 1.0f - scaleT;
-			pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
-		}
+	//	if (pr.isScaleUpScale) {
+	//		float scaleT = pr.lifeTime / pr.firstLifeTime;
+	//		scaleT = 1.0f - scaleT;
+	//		pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
+	//	}
 
-		Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
-		Matrix4x4 billMatrix = bill.MakeMatrix(); // ← ビルボード行列（カメラからの視線で作る）
-		Matrix4x4 zRot = pr.rotate.MakeMatrix();
-		Matrix4x4 rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
-		Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
+	//	Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
+	//	Matrix4x4 billMatrix = bill.MakeMatrix(); // ← ビルボード行列（カメラからの視線で作る）
+	//	Matrix4x4 zRot = pr.rotate.MakeMatrix();
+	//	Matrix4x4 rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+	//	Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 
-		Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+	//	Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
-		if (parentWorldMat_ != nullptr) {
-			// 親の位置情報だけを抽出（回転・スケールを無視）
-			Vector3 parentPos = parentWorldMat_->GetPosition();
-			Matrix4x4 parentTranslate = parentPos.MakeTranslateMat();
+	//	//if (parentWorldMat_ != nullptr) {
+	//	//	// 親の位置情報だけを抽出（回転・スケールを無視）
+	//	//	Vector3 parentPos = parentWorldMat_->GetPosition();
+	//	//	Matrix4x4 parentTranslate = parentPos.MakeTranslateMat();
 
-			data_[index].worldMat = localWorld * parentTranslate;
-		} else {
-			data_[index].worldMat = localWorld;
-		}
+	//	//	data_[index].worldMat = localWorld * parentTranslate;
+	//	//} else {
+	//	//	data_[index].worldMat = localWorld;
+	//	//}
 
-		data_[index].color = pr.color;
+	//	data_[index].worldMat = localWorld;
+	//	data_[index].color = pr.color;
 
-		// ---------------------------
-		// NextFrameのための更新
-		// ---------------------------
-		++index;
-		++it;
-	}
+	//	// ---------------------------
+	//	// NextFrameのための更新
+	//	// ---------------------------
+	//	++index;
+	//	++it;
+	//}
 }
 
 void BaseParticles::Emit(const Vector3& pos) {
-	if (particleArray_.size() >= kMaxParticles) { return; }
+	if (particleArray_->size() >= kMaxParticles) { return; }
 
-	auto& newParticle = particleArray_.emplace_back();
+	auto& newParticle = particleArray_->emplace_back();
 
 	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
 	newParticle.firstScale = newParticle.scale;
@@ -185,7 +186,11 @@ void BaseParticles::EmitUpdate() {
 	// 一度だけ打つフラグがtrueだったら
 	if (emitter_.isOneShot) {
 		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {
-			Emit(emitter_.translate);
+			if (parentWorldMat_ != nullptr) {
+				Emit(emitter_.translate + parentWorldMat_->GetPosition());
+			} else {
+				Emit(emitter_.translate);
+			}
 		}
 		emitter_.isOneShot = false;
 	}
@@ -196,7 +201,11 @@ void BaseParticles::EmitUpdate() {
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	for (int count = 0; count < emitCout; ++count) {
-		Emit(emitter_.translate);
+		if (parentWorldMat_ != nullptr) {
+			Emit(emitter_.translate + parentWorldMat_->GetPosition());
+		} else {
+			Emit(emitter_.translate);
+		}
 	}
 	emitAccumulator_ -= emitCout;
 }

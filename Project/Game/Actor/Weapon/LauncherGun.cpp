@@ -40,7 +40,7 @@ void LauncherGun::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LauncherGun::Update() {
-	gunFireParticles_->Update(Render::GetCameraRotate());
+	gunFireParticles_->Update();
 	BaseWeapon::Update();
 }
 

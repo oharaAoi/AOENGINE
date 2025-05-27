@@ -79,7 +79,7 @@ void BossActionApproach::CheckNextAction() {
 		NextAction<BossActionIdle>();
 	}
 
-	if (param_.moveSpeed < 0.1f) {
+	if (param_.moveSpeed < 5.f) {
 		NextAction<BossActionIdle>();
 	}
 

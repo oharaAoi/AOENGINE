@@ -162,7 +162,10 @@ json JsonItems::GetData(const std::string& groupName, const std::string& rootKey
 }
 
 json JsonItems::GetValue(const std::string& groupName, const std::string& rootKey) {
-	return jsonMap_[groupName].items[rootKey];
+	if (jsonMap_.contains(groupName) && jsonMap_[groupName].items.contains(rootKey)) {
+		return jsonMap_[groupName].items[rootKey];
+	}
+	return nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

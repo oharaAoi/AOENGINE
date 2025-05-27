@@ -13,6 +13,17 @@
 class ParticleSystemEditor final {
 public:
 
+	struct ParticlesData {
+		std::shared_ptr<std::list<ParticleSingle>> particles;
+		std::vector<ParticleInstancingRenderer::ParticleData> forGpuData_;
+
+		ParticlesData() {
+			particles = std::make_shared<std::list<ParticleSingle>>();
+		}
+	};
+
+public:
+
 	ParticleSystemEditor() = default;
 	~ParticleSystemEditor() = default;
 
@@ -27,6 +38,8 @@ public:
 private:		// member method
 
 #ifdef _DEBUG
+
+	void ParticlesUpdate();
 
 	/// <summary>
 	/// 新たに作成する
@@ -107,7 +120,9 @@ private:
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
 
-	std::list<std::unique_ptr<BaseParticles>> particles_;
+	std::list<std::unique_ptr<BaseParticles>> emitterList_;
+
+	std::unordered_map<std::string, ParticlesData> particlesMap_;
 
 	// editer関連 ------------------------------------------
 	bool isSave_;

@@ -39,7 +39,7 @@ void MachineGun::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Update() {
-	gunFireParticles_->Update(Render::GetCameraRotate());
+	gunFireParticles_->Update();
 	BaseWeapon::Update();
 }
 

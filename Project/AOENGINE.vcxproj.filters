@@ -239,6 +239,8 @@
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\PlayerActionLeave.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -452,6 +454,8 @@
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\PlayerActionLeave.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

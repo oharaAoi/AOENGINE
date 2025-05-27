@@ -1,10 +1,22 @@
 #pragma once
 #include <string>
 #include <memory>
+#include "Engine/Lib/ParticlesData.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 
 class ParticleManager {
+public:
+
+	struct ParticlesData {
+		std::shared_ptr<std::list<ParticleSingle>> particles;
+		std::vector<ParticleInstancingRenderer::ParticleData> forGpuData_;
+
+		ParticlesData() {
+			particles = std::make_shared<std::list<ParticleSingle>>();
+		}
+	};
+
 public:
 
 	ParticleManager() = default;
@@ -19,6 +31,8 @@ public:
 	void Init();
 
 	void Update();
+
+	void ParticlesUpdate();
 
 	void PostUpdate();
 
@@ -37,7 +51,6 @@ public:
 
 	//void AddParticleList(BaseParticles* particles);
 
-
 	/// <summary>
 	/// Particleを作成する
 	/// </summary>
@@ -49,8 +62,11 @@ public:
 
 private:
 
+	// particleの描画を呼び出すレンダラー
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
+	// particleを射出するリスト
+	std::list<std::unique_ptr<BaseParticles>> emitterList_;
 
-	std::list<std::unique_ptr<BaseParticles>> particlesList_;
-
+	std::unordered_map<std::string, ParticlesData> particlesMap_;
+		
 };

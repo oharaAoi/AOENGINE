@@ -4,6 +4,9 @@
 
 class Boss;
 
+/// <summary>
+/// Bossの近づくアクション
+/// </summary>
 class BossActionApproach :
 	public BaseAction<Boss> {
 public:
