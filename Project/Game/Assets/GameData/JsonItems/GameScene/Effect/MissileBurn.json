@@ -20,9 +20,9 @@
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
         "isOneShot": false,
-        "isParticleAddBlend": false,
+        "isParticleAddBlend": true,
         "isScaleUp": false,
-        "lifeTime": 0.8,
+        "lifeTime": 0.2,
         "maxScale": {
             "x": 10.110000610351563,
             "y": 10.229999542236328,

@@ -204,7 +204,8 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 	newParticle->Init(_name);
 	newParticle->SetShareMaterial(
 		particleRenderer_->AddParticle(newParticle->GetName(),
-									   newParticle->GetGeometryObject()->GetMesh())
+									   newParticle->GetGeometryObject()->GetMesh(),
+									   newParticle->GetIsAddBlend())
 	);
 
 	newParticle->GetShareMaterial()->SetUseTexture(newParticle->GetUseTexture());

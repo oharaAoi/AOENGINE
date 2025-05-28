@@ -4,7 +4,9 @@
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
+	ParticleManager::GetInstance()->DeleteParticles(burn_);
 	ParticleManager::GetInstance()->DeleteParticles(smoke_);
+	burn_ = nullptr;
 	smoke_ = nullptr;
 }
 
@@ -20,8 +22,10 @@ void BossMissile::Init() {
 
 	finishTracking_ = false;
 
-	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_->SetParent(transform_->GetWorldMatrix());
+	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	//smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
+	burn_->SetParent(transform_->GetWorldMatrix());
+	//smoke_->SetParent(transform_->GetWorldMatrix());
 }
 
 void BossMissile::Update() {
@@ -41,7 +45,8 @@ void BossMissile::Update() {
 	}
 
 	BaseBullet::Update();
-	smoke_->Update();
+	burn_->Update();
+	//smoke_->Update();
 }
 
 void BossMissile::Draw() const {

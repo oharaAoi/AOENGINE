@@ -20,9 +20,10 @@
         "frequencyTime": 0.149937704205513,
         "gravity": -8.119999885559082,
         "isDirectionRotate": false,
-        "isLifeOfAlpha": false,
+        "isLifeOfAlpha": true,
         "isLifeOfScale": true,
         "isOneShot": false,
+        "isParticleAddBlend": true,
         "isScaleUp": false,
         "lifeTime": 0.9399999976158142,
         "maxScale": {

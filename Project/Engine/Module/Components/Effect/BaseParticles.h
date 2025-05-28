@@ -27,7 +27,7 @@ public:
 
 public:		// json関連
 
-	json GetJsonData() const { return emitter_.ToJson(name_); }
+	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 
 	void SetJsonData(const json& _jsonData) { 
 		emitter_.FromJson(_jsonData);
@@ -51,6 +51,8 @@ public:
 	std::shared_ptr<Material> GetShareMaterial() { return shareMaterial_; }
 	void SetShareMaterial(std::shared_ptr<Material> _material) { shareMaterial_ = _material; }
 
+	bool GetIsAddBlend() const {return emitter_.isParticleAddBlend;}
+
 protected:
 
 	// 最大数
@@ -59,7 +61,7 @@ protected:
 	// groupの名前
 	const std::string kGroupName = "Effect";
 	// particleName
-	std::string name_ = "new particles";
+	std::string particleName_ = "new particles";
 
 	bool isAddBlend_;
 

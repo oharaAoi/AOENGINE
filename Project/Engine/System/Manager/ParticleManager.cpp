@@ -1,4 +1,5 @@
 #include "ParticleManager.h"
+#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render.h"
@@ -18,13 +19,23 @@ void ParticleManager::Finalize() {
 	emitterList_.clear();
 }
 
+#ifdef _DEBUG
+void ParticleManager::Debug_Gui() {
+	
+}
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Init() {
+	SetName("ParticleManager");
+
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(10000);
+
+	EditerWindows::AddObjectWindow(this, "ParticleManager");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -138,13 +149,15 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 	newParticles->Init(particlesFile);
 	newParticles->SetShareMaterial(
 		particleRenderer_->AddParticle(newParticles->GetName(),
-									   newParticles->GetGeometryObject()->GetMesh())
+									   newParticles->GetGeometryObject()->GetMesh(),
+									   newParticles->GetIsAddBlend())
 	);
 
 	newParticles->GetShareMaterial()->SetUseTexture(newParticles->GetUseTexture());
 
 	if (!particlesMap_.contains(particlesFile)) {
 		particlesMap_.emplace(particlesFile, ParticleManager::ParticlesData());
+		AddChild(newParticles.get());
 	} 
 	newParticles->SetParticlesList(particlesMap_[particlesFile].particles);
 
@@ -156,7 +169,12 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::DeleteParticles(BaseParticles* ptr) {
-	emitterList_.remove_if([ptr](const std::unique_ptr<BaseParticles>& p) {
-		return p.get() == ptr;
-							 });
+	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
+		if (it->get() == ptr) {
+			DeleteChild(it->get()); // 削除時の追加処理
+			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
+		} else {
+			++it;
+		}
+	}
 }

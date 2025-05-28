@@ -1,25 +1,21 @@
 #include "BaseParticles.h"
 #include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 void BaseParticles::Init(const std::string& name) {
-	name_ = name;
+	particleName_ = name;
+	SetName(name);
 	
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
 	
-	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
+	emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
 	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
-
-#ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, name_);
-#endif // _DEBUG
 }
 
 void BaseParticles::Update() {
@@ -97,6 +93,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
+	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
 
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;
@@ -142,10 +139,10 @@ void BaseParticles::Debug_Gui() {
 	emitter_.useTexture = shareMaterial_->GetUseTexture();
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(kGroupName, emitter_.ToJson(name_));
+		JsonItems::Save(kGroupName, emitter_.ToJson(particleName_));
 	}
 	if (ImGui::Button("Apply")) {
-		emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
+		emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
 	}
 }
 #endif

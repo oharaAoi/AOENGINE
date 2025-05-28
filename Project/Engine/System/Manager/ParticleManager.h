@@ -4,8 +4,10 @@
 #include "Engine/Lib/ParticlesData.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-class ParticleManager {
+class ParticleManager :
+	public AttributeGui {
 public:
 
 	struct ParticlesData {
@@ -37,6 +39,10 @@ public:
 	void PostUpdate();
 
 	void Draw() const;
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif
 
 public:
 

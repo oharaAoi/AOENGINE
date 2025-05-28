@@ -40,6 +40,7 @@ private :
 
 	bool finishTracking_;		// 追尾を終了するか
 
+	BaseParticles* burn_;
 	BaseParticles* smoke_;
 
 };
