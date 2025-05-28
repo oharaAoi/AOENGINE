@@ -17,5 +17,6 @@ void BaseWeapon::Draw() const {
 
 #ifdef _DEBUG
 void BaseWeapon::Debug_Gui() {
+	ImGui::DragFloat("Bullet Speed", &speed_, 0.1f);
 }
 #endif // _DEBUG

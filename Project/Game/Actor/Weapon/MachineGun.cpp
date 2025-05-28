@@ -10,6 +10,8 @@ void MachineGun::Finalize() {
 #ifdef _DEBUG
 void MachineGun::Debug_Gui() {
 	transform_->Debug_Gui();
+
+	BaseWeapon::Debug_Gui();
 }
 #endif // _DEBUG
 
@@ -55,13 +57,12 @@ void MachineGun::Draw() const {
 // ↓ 弾を撃つ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void MachineGun::Shot() {
-	Quaternion parentRotate = pParentObj_->GetTransform()->rotation_;
-	Vector3 forward = parentRotate.MakeForward();
-	pBulletManager_->AddBullet(worldPos_, forward * speed_);
+void MachineGun::Shot(const Vector3& targetPos) {
+	Vector3 dire = (targetPos - GetPosition()).Normalize();
+	pBulletManager_->AddBullet(worldPos_, dire * speed_);
 	// effectを出す
 	Vector3 pos = worldPos_;
-	pos += (forward * 4.f);
+	pos += (dire * 4.f);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetOnShot(true);
 }

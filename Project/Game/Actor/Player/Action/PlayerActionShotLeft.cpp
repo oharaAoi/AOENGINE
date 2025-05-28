@@ -75,7 +75,7 @@ void PlayerActionShotLeft::Shot() {
 	// 長押しで反応するようにする
 	if (pInput_->GetPressPadTrigger(XInputButtons::L_SHOULDER)) {
 		// shotを放つ
-		pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->Shot();
+		pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->Shot(pOwner_->GetTargetPos());
 
 		// coolTimeの設定
 		shotTimer_ = shotCoolTime_;

@@ -99,6 +99,9 @@ public:
 	// reticle
 	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
 
+	// targetの座標を
+	Vector3 GetTargetPos() const { return reticle_->GetTargetPos(); }
+
 	// bullet
 	void SetBulletManager(PlayerBulletManager* bulletManager) { pBulletManager_ = bulletManager; }
 
