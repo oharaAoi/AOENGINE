@@ -1,12 +1,12 @@
 {
-    "new Particles": {
+    "MachineGunHit2": {
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "w": 1.0,
             "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "y": 0.3641536235809326,
+            "z": 0.18139535188674927
         },
         "damping": 0.0,
         "direction": {
@@ -14,26 +14,26 @@
             "y": 1.0,
             "z": 0.0
         },
-        "emit": true,
-        "gravity": 0.0,
+        "emit": false,
+        "gravity": -31.209999084472656,
         "isDirectionRotate": false,
         "isLifeOfAlpha": false,
-        "isLifeOfScale": false,
+        "isLifeOfScale": true,
         "isOneShot": false,
         "isParticleAddBlend": false,
         "isScaleUp": false,
-        "lifeTime": 5.0,
+        "lifeTime": 0.6399999856948853,
         "maxScale": {
-            "x": 1.0,
-            "y": 1.0,
+            "x": 1.340000033378601,
+            "y": 1.4900000095367432,
             "z": 1.0
         },
         "minScale": {
-            "x": 1.0,
-            "y": 1.0,
+            "x": 0.20000000298023224,
+            "y": 0.20000000298023224,
             "z": 1.0
         },
-        "rateOverTimeCout": 10,
+        "rateOverTimeCout": 64,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -47,12 +47,12 @@
             "z": 0.0
         },
         "shape": 0,
-        "speed": 1.0,
+        "speed": 9.65999984741211,
         "translate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "useTexture": "white.png"
+        "useTexture": "circle.png"
     }
 }

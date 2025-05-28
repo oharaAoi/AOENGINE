@@ -8,15 +8,15 @@ void PBulletToBossCallBacks::Init() {
 	SetPair(pCollisionManager_, ColliderTags::Bullet::machinegun, ColliderTags::Boss::own);
 
 	ParticleManager* manager = ParticleManager::GetInstance();
-	hitBossExploadParticles_ = manager->CrateParticle("HitBossExploadParticles");
-	hitBossSmoke_ = manager->CrateParticle("HitBossSmoke");
-	hitBossSmokeBorn_ = manager->CrateParticle("HitBossSmokeBorn");
+	//hitBossExploadParticles_ = manager->CrateParticle("HitBossExploadParticles");
+	hitBossSmoke_ = manager->CrateParticle("MachineGunHit");
+	hitBossSmokeBorn_ = manager->CrateParticle("MachineGunHit2");
 }
 
 void PBulletToBossCallBacks::Update() {
 	hitBossSmoke_->Update();
 	hitBossSmokeBorn_->Update();
-	hitBossExploadParticles_->Update();
+	//hitBossExploadParticles_->Update();
 }
 
 void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
@@ -25,11 +25,11 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 		playerBullet->SetIsAlive(false);
 	}
 	
-	hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
+	//hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
 	hitBossSmoke_->SetPos(bullet->GetCenterPos());
 	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
 
-	hitBossExploadParticles_->SetOnShot(true);
+	//hitBossExploadParticles_->SetOnShot(true);
 	hitBossSmoke_->SetOnShot(true);
 	hitBossSmokeBorn_->SetOnShot(true);
 }

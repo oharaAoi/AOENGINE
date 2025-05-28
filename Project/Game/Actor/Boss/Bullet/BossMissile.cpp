@@ -4,7 +4,7 @@
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
-	//ParticleManager::GetInstance()->DeleteParticles(smoke_);
+	ParticleManager::GetInstance()->DeleteParticles(smoke_);
 	smoke_ = nullptr;
 }
 

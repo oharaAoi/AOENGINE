@@ -35,7 +35,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// ↓ Rendererの作成
 	// -------------------------------------------------
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(100);
+	particleRenderer_->Init(10000);
 
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
@@ -202,10 +202,12 @@ void ParticleSystemEditor::Create() {
 void ParticleSystemEditor::AddList(const std::string& _name) {
 	auto& newParticle = emitterList_.emplace_back(std::make_unique<BaseParticles>());
 	newParticle->Init(_name);
-	particleRenderer_->AddParticle(newParticle->GetName(),
-								   newParticle->GetGeometryObject()->GetMesh(),
-								   newParticle->GetGeometryObject()->GetMaterial()
+	newParticle->SetShareMaterial(
+		particleRenderer_->AddParticle(newParticle->GetName(),
+									   newParticle->GetGeometryObject()->GetMesh())
 	);
+
+	newParticle->GetShareMaterial()->SetUseTexture(newParticle->GetUseTexture());
 	if (!particlesMap_.contains(_name)) {
 		particlesMap_.emplace(_name, ParticleSystemEditor::ParticlesData());
 	}
@@ -234,16 +236,11 @@ void ParticleSystemEditor::OpenLoadDialog() {
 		if (ImGuiFileDialog::Instance()->IsOk()) {
 			std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
 			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+			std::string nameWithoutExtension = std::filesystem::path(fileName).stem().string();
 
 			isLoad_ = false;
-			auto& newParticle = emitterList_.emplace_back(std::make_unique<BaseParticles>());
-			newParticle->Init(fileName);
-			newParticle->SetJsonData(Load(filePath));
-			particleRenderer_->AddParticle(newParticle->GetName(),
-										   newParticle->GetGeometryObject()->GetMesh(),
-										   newParticle->GetGeometryObject()->GetMaterial()
-			);
-
+			AddList(nameWithoutExtension);
+			
 		} else {
 			// Cancel時の処理
 			isLoad_ = false;
@@ -338,12 +335,13 @@ void ParticleSystemEditor::OpenSaveDialog(const std::string& _name, const json& 
 		if (ImGuiFileDialog::Instance()->IsOk()) {
 			std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
 			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
+			std::string nameWithoutExtension = std::filesystem::path(fileName).stem().string();
 
 			std::filesystem::path path(filePath);
 			std::string directory = path.parent_path().string();
 
 			isSave_ = false;
-			Save(directory, fileName, _jsonData);
+			Save(directory, nameWithoutExtension, _jsonData);
 		} else {
 			// Cancel時の処理
 			isSave_ = false;
@@ -361,7 +359,7 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 		// 最上位のキーの名前をファイル名とする
 		std::string rootKey = jsonData.begin().key();
 		// ファイルパスの作成
-		std::string filePath = directoryPath + "/" + fileName;
+		std::string filePath = directoryPath + "/" + fileName + ".json";
 
 		// -------------------------------------------------
 		// ↓ ディレクトリがなければ作成を行う

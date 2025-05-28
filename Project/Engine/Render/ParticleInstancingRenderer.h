@@ -21,11 +21,11 @@ public:		// 構造体
 
 	struct Information {
 		Mesh* pMesh;
-		Material* materials;
+		std::shared_ptr<Material> materials;
 		ComPtr<ID3D12Resource> particleResource_;
 		DescriptorHandles srvHandle_;
 		ParticleData* particleData;
-		uint32_t useIndex;
+		uint32_t useIndex = 0;
 
 		bool isAddBlend;
 	};
@@ -50,7 +50,7 @@ public:
 
 public:
 
-	void AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend = true);
+	std::shared_ptr<Material> AddParticle(const std::string& id, Mesh* _pMesh, bool isAddBlend = true);
 
 	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
 		perView_->viewProjection = view;

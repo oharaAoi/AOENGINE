@@ -22,7 +22,7 @@
         "isOneShot": false,
         "isParticleAddBlend": false,
         "isScaleUp": false,
-        "lifeTime": 1.0,
+        "lifeTime": 0.8,
         "maxScale": {
             "x": 10.110000610351563,
             "y": 10.229999542236328,
@@ -33,7 +33,7 @@
             "y": 5.0,
             "z": 1.0
         },
-        "rateOverTimeCout": 140,
+        "rateOverTimeCout": 80,
         "rotate": {
             "w": 1.0,
             "x": 0.0,

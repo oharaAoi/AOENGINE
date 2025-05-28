@@ -129,14 +129,6 @@ void ParticleManager::Draw() const {
 	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
 }
 
-//void ParticleManager::AddParticleList(BaseParticles* particles) {
-//	particlesList_.emplace_back(particles);
-//	particleRenderer_->AddParticle(particles->GetName(),
-//								   particles->GetGeometryObject()->GetMesh(),
-//								   particles->GetGeometryObject()->GetMaterial(),
-//								   particles->GetIsAddBlend());
-//}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -144,9 +136,12 @@ void ParticleManager::Draw() const {
 BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) {
 	auto& newParticles = emitterList_.emplace_back(std::make_unique<BaseParticles>());
 	newParticles->Init(particlesFile);
-	particleRenderer_->AddParticle(newParticles->GetName(),
-								   newParticles->GetGeometryObject()->GetMesh(),
-								   newParticles->GetGeometryObject()->GetMaterial());
+	newParticles->SetShareMaterial(
+		particleRenderer_->AddParticle(newParticles->GetName(),
+									   newParticles->GetGeometryObject()->GetMesh())
+	);
+
+	newParticles->GetShareMaterial()->SetUseTexture(newParticles->GetUseTexture());
 
 	if (!particlesMap_.contains(particlesFile)) {
 		particlesMap_.emplace(particlesFile, ParticleManager::ParticlesData());
@@ -155,6 +150,10 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 
 	return newParticles.get();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 設定時のみ行う処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::DeleteParticles(BaseParticles* ptr) {
 	emitterList_.remove_if([ptr](const std::unique_ptr<BaseParticles>& p) {

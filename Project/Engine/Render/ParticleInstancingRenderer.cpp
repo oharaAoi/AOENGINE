@@ -73,10 +73,10 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 	}
 }
 
-void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, Material* _pMaterial, bool isAddBlend) {
+std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, bool isAddBlend) {
 	auto it = particleMap_.find(id);
 	if (it != particleMap_.end()) {
-		return;		// 見つかったら早期リターン
+		return particleMap_[id].materials;		// 見つかったら早期リターン
 	}
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 
@@ -92,8 +92,9 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 	// -----------------------------------------------------------------
 	Information particles;
 	particles.pMesh = _pMesh;
-	particles.materials = _pMaterial;
-
+	particles.materials = std::make_shared<Material>();
+	particles.materials->Init(device, Model::ModelMaterialData());
+	
 	particles.particleResource_ = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
 	particles.particleData = nullptr;
 	particles.particleResource_->Map(0, nullptr, reinterpret_cast<void**>(&particles.particleData));
@@ -117,4 +118,6 @@ void ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh
 	particles.isAddBlend = isAddBlend;
 
 	particleMap_.emplace(id, std::move(particles));
+	
+	return particleMap_[id].materials;
 }

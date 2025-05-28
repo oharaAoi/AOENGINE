@@ -46,6 +46,11 @@ public:
 
 	void SetParticlesList(const std::shared_ptr<std::list<ParticleSingle>>& list) { particleArray_ = list; }
 
+	const std::string& GetUseTexture() const { return emitter_.useTexture; }
+
+	std::shared_ptr<Material> GetShareMaterial() { return shareMaterial_; }
+	void SetShareMaterial(std::shared_ptr<Material> _material) { shareMaterial_ = _material; }
+
 protected:
 
 	// 最大数
@@ -60,6 +65,7 @@ protected:
 
 	// meshの形状
 	std::unique_ptr<GeometryObject> shape_;
+	std::shared_ptr<Material> shareMaterial_;
 
 	// Particleの情報
 	std::shared_ptr<std::list<ParticleSingle>> particleArray_;
