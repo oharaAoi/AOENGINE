@@ -52,6 +52,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Update() {
+#ifdef _DEBUG
 	// Emitterの更新
 	for (auto& emitter : emitterList_) {
 		emitter->Update();
@@ -61,7 +62,7 @@ void ParticleSystemEditor::Update() {
 	ParticlesUpdate();
 	// particleをRendererに送る
 	for (auto& particle : particlesMap_) {
-		particleRenderer_->Update(particle.first, particle.second.forGpuData_);
+		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
 	}
 
 	// カメラの更新
@@ -70,7 +71,6 @@ void ParticleSystemEditor::Update() {
 	particleRenderer_->PostUpdate();
 	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 
-#ifdef _DEBUG
 	Create();
 	Edit();
 #endif // _DEBUG
@@ -81,9 +81,11 @@ void ParticleSystemEditor::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Draw() {
+#ifdef _DEBUG
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
 	PostDraw();
+#endif // _DEBUG
 }
 
 #ifdef _DEBUG
@@ -152,6 +154,8 @@ void ParticleSystemEditor::ParticlesUpdate() {
 
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
+
+			particles.second.isAddBlend = pr.isAddBlend;
 
 			// ---------------------------
 			// NextFrameのための更新

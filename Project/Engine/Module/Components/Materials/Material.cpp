@@ -31,6 +31,7 @@ void Material::Init(ID3D12Device* device, const Model::ModelMaterialData& materi
 
 void Material::Update(const Matrix4x4& uvTransform) {
 	material_->uvTransform = uvTransform;
+	material_->uvTransform = SRT(uvScale_, uvRotation_, uvTranslation_).MakeAffine();
 }
 
 void Material::Draw(ID3D12GraphicsCommandList* commandList) {

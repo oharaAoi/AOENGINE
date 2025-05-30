@@ -2,6 +2,7 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Game/Actor/Base/BaseAction.h"
 
 // 前方宣言
@@ -82,6 +83,8 @@ private:
 
 	Parameter param_;
 	Parameter firstParam_;
+
+	BaseParticles* boostParticle_;
 
 };
 

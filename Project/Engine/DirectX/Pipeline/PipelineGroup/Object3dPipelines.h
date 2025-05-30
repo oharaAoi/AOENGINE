@@ -11,7 +11,9 @@ enum class Object3dPSO {
 	SubParticle,
 	PBR,
 	Skybox,
-	TextureBlend,
+	TextureBlendNone,
+	TextureBlendNormal,
+	TextureBlendAdd,
 };
 
 /// <summary>

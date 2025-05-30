@@ -1,5 +1,6 @@
 {
     "ActionMove": {
-        "speed": 10.0
+        "boostSpeed": 16.0,
+        "speed": 8.0
     }
 }

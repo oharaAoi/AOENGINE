@@ -53,6 +53,7 @@ void PlayerActionJump::OnStart() {
 	isJump_ = false;
 
 	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
+	pOwner_->GetJetEngine()->JetIsStart();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,8 +137,10 @@ void PlayerActionJump::Rising() {
 	// ボタンを押していたら上昇する
 	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A)) {
 		isRising_ = true;
+		pOwner_->GetJetEngine()->JetIsStart();
 	} else {
 		isRising_ = false;
+		pOwner_->GetJetEngine()->JetIsStop();
 	}
 
 	// 上昇していたなら

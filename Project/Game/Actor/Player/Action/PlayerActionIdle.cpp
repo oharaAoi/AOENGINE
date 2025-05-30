@@ -19,6 +19,8 @@ void PlayerActionIdle::Build() {
 
 void PlayerActionIdle::OnStart() {
 	actionTimer_ = 0;
+
+	pOwner_->GetJetEngine()->JetIsStop();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

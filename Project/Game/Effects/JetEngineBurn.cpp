@@ -5,13 +5,13 @@ void JetEngineBurn::Finalize() {
 }
 
 void JetEngineBurn::Init() {
-	cylinder_.Init(32, Vector2(1.0f, 0.2f), Vector2(1.0f, 0.2f), 1.f);
+	geometry_.Init(Vector2(1.0f, 1.0f), 32);
 	
 	// meshの作成dw 
-	std::string name = cylinder_.GetGeometryName();
+	std::string name = geometry_.GetGeometryName();
 	if (!ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), cylinder_.GetVertex(), cylinder_.GetIndex());
+		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
@@ -20,7 +20,9 @@ void JetEngineBurn::Init() {
 	// その他の作成
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
 	worldTransform_ = Engine::CreateWorldTransform();
+	worldTransform_->SetScale(Vector3(0.1f, 10.0f, 0.1f));
 
+	material_->SetUseTexture("gradationLine.png");
 }
 
 void JetEngineBurn::Update() {
@@ -28,7 +30,7 @@ void JetEngineBurn::Update() {
 }
 
 void JetEngineBurn::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::TextureBlend);
+	Engine::SetPSOObj(Object3dPSO::TextureBlendAdd);
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());

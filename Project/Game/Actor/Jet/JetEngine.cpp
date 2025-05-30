@@ -1,5 +1,6 @@
 #include "JetEngine.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
 
 JetEngine::~JetEngine() {
 	Finalize();
@@ -23,17 +24,17 @@ void JetEngine::Init() {
 	// -------------------------------------
 	// effectの設定
 	ParticleManager* manager = ParticleManager::GetInstance();
-	jetParticles_ = manager->CrateParticle("JetParticle");
+	jetBurn_ = manager->CrateParticle("JetBorn");
 	jetBornParticles_ = manager->CrateParticle("JetBornParticle");
 	jetEnergyParticles_ = manager->CrateParticle("JetEnergyParticles");
 
-	jetParticles_->SetParent(transform_->GetWorldMatrix());
+	jetBurn_->SetParent(transform_->GetWorldMatrix());
 	jetBornParticles_->SetParent(transform_->GetWorldMatrix());
 	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());
 
 	cylinder_ = std::make_unique<GeometryObject>();
-	cylinder_->Set<CylinderGeometry>(32, 1.0f, 1.0f, 1.f);
-	cylinder_->GetMaterial()->SetIsLighting(false);
+	cylinder_->Set<SphereGeometry>(Vector2(10.0f, 0.5f), 32);
+	//cylinder_->GetMaterial()->SetIsLighting(false);
 	cylinder_->SetEditorWindow();
 
 	cylinder_->GetTransform()->SetParent(transform_->GetWorldMatrix());
@@ -42,6 +43,7 @@ void JetEngine::Init() {
 	jetEngineBurn_->Init();
 	jetEngineBurn_->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
 
+	isBoostMode_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +52,8 @@ void JetEngine::Init() {
 
 void JetEngine::Update() {
 	BaseGameObject::Update();
-	jetParticles_->Update();
-	jetBornParticles_->Update();
+	jetBurn_->Update();
+	//jetBornParticles_->Update();
 	jetEnergyParticles_->Update();
 
 	cylinder_->Update();
@@ -66,9 +68,9 @@ void JetEngine::Update() {
 void JetEngine::Draw() const {
 	BaseGameObject::Draw();
 
-	Engine::SetPSOObj(Object3dPSO::TextureBlend);
+	/*Engine::SetPSOObj(Object3dPSO::TextureBlend);
 	jetEngineBurn_->Draw();
-	Engine::SetPSOObj(Object3dPSO::Normal);
+	Engine::SetPSOObj(Object3dPSO::Normal);*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,3 +88,13 @@ void JetEngine::Debug_Gui() {
 	}
 }
 #endif // _DEBUG
+
+void JetEngine::JetIsStop() {
+	jetBurn_->SetIsStop(true);
+	jetEnergyParticles_->SetIsStop(true);
+}
+
+void JetEngine::JetIsStart() {
+	jetBurn_->SetIsStop(false);
+	jetEnergyParticles_->SetIsStop(false);
+}

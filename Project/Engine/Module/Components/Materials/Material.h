@@ -59,6 +59,8 @@ public:
 
 	void SetColor(const Vector4& color) { material_->color = color; }
 
+	void SetAlpha(float alpha) { material_->color.w = alpha; }
+
 	void SetIsLighting(bool isLighting){ material_->enableLighting = isLighting; };
 
 	void SetMaterialData(Model::ModelMaterialData materialData);

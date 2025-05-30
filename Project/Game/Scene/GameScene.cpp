@@ -70,6 +70,10 @@ void GameScene::Init() {
 	sphere_->Set<SphereGeometry>();
 	sphere_->SetEditorWindow();
 
+	hitExploade_ = std::make_unique<HitExplode>();
+	hitExploade_->Init();
+
+
 	// -------------------------------------------------
 	// ↓ managerの初期化
 	// -------------------------------------------------
@@ -129,6 +133,8 @@ void GameScene::Update() {
 	collisionManager_->CheckAllCollision();
 	gameCallBacksManager_->Update();
 
+	hitExploade_->Update();
+
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------
@@ -174,14 +180,18 @@ void GameScene::Draw() const {
 	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
 	//sphere_->Draw();
 
+	
+	Engine::SetPSOObj(Object3dPSO::Particle);
+	ParticleManager::GetInstance()->Draw();
+
+	gameCallBacksManager_->Draw();
+
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------
 	Engine::SetPSOSprite(SpritePSO::Normal);
 	canvas_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::Particle);
-	ParticleManager::GetInstance()->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

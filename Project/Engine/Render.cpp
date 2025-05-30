@@ -173,7 +173,13 @@ float Render::GetFarClip2D() {
 }
 
 void Render::SetEyePos(const Vector3& eyePos) {
+	eyePos_ = eyePos;
 	lightGroup_->SetEyePos(eyePos);
+}
+
+const Vector3& Render::GetEyePos() {
+	return eyePos_;
+	// TODO: return ステートメントをここに挿入します
 }
 
 void Render::SetCameraRotate(const Quaternion& rotate) {

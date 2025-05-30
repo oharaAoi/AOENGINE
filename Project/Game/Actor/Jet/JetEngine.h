@@ -24,10 +24,23 @@ public:
 	void Debug_Gui() override;
 #endif // _DEBUG
 
+	void JetIsStop();
+
+	void JetIsStart();
+
+public:	// accessor Method
+
+	void SetIsBoostMode() { isBoostMode_ = !isBoostMode_; }
+
+	bool GetIsBoostMode() const { return isBoostMode_; }
+
 private:
 
+	// Parameter -------------------------------------------------
+	bool isBoostMode_;
+
 	// effects -------------------------------------------------
-	BaseParticles* jetParticles_;
+	BaseParticles* jetBurn_;
 	BaseParticles* jetBornParticles_;
 	BaseParticles* jetEnergyParticles_;
 

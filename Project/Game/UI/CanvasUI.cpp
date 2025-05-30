@@ -15,6 +15,8 @@ void CanvasUI::Init() {
 	postureStability_ = std::make_unique<PostureStability>();
 	postureStability_->Init();
 
+	boostOn_ = Engine::CreateSprite("boostOn.png");
+
 	AddChild(energyOutput_.get());
 
 #ifdef _DEBUG
@@ -33,6 +35,10 @@ void CanvasUI::Update() {
 	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 	//postureStability_->Update();
+
+	boostOn_->SetTranslate(boostOnPos_);
+	boostOn_->SetScale(boostOnScale_);
+	boostOn_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +49,10 @@ void CanvasUI::Draw() const {
 	reticle_->Draw();
 
 	energyOutput_->Draw();
+
+	if (pPlayer_->GetIsBoostMode()) {
+		boostOn_->Draw();
+	} 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +61,8 @@ void CanvasUI::Draw() const {
 
 #ifdef _DEBUG
 void CanvasUI::Debug_Gui() {
-	
+	boostOn_->Debug_Gui();
+	ImGui::DragFloat2("boostOnPos_", &boostOnPos_.x);
+	ImGui::DragFloat2("boostOnScale_", &boostOnScale_.x);
 }
 #endif

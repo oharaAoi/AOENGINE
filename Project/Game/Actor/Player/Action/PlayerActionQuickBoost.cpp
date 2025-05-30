@@ -2,6 +2,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -38,6 +39,9 @@ void PlayerActionQuickBoost::Build() {
 	SetName("actionQuickBoost");
 	pInput_ = Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
+
+	boostParticle_ = ParticleManager::GetInstance()->CrateParticle("QuickBoost");
+	boostParticle_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +63,9 @@ void PlayerActionQuickBoost::OnStart() {
 	ownerParam_.energy -= param_.boostEnergy;
 
 	pOwner_->GetFollowCamera()->SetShake(firstParam_.cameraShakeTime, firstParam_.cameraShakeStrength);
+	pOwner_->GetJetEngine()->JetIsStart();
+
+	boostParticle_->Reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +73,7 @@ void PlayerActionQuickBoost::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnUpdate() {
+	boostParticle_->Update();
 	Boost();
 }
 
@@ -103,6 +111,7 @@ bool PlayerActionQuickBoost::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::Boost() {
+	pOwner_->GetJetEngine()->JetIsStart();
 	stick_ = pInput_->GetLeftJoyStick();
 	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
 	acceleration_ = direction_ * param_.boostForce;

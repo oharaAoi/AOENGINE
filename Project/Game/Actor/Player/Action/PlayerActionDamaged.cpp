@@ -16,6 +16,8 @@ void PlayerActionDamaged::Build() {
 
 void PlayerActionDamaged::OnStart() {
 	actionTimer_ += GameTimer::DeltaTime();
+
+	pOwner_->GetJetEngine()->JetIsStop();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

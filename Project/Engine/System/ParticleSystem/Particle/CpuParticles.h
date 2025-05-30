@@ -43,6 +43,8 @@ protected:
 
 	ParticleEmit emitter_;
 	float emitAccumulator_;
+	float currentTimer_;
+	bool isStop_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;
 };

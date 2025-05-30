@@ -17,7 +17,7 @@ void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 }
 
-void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData) {
+void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend) {
 	uint32_t currentUseIndex = particleMap_[id].useIndex;
 	
 	// 現在使用しているindexから引数のサイズ分colorを0にする
@@ -35,6 +35,8 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 			particleMap_[id].useIndex = oi + 1;
 		}
 	}
+
+	particleMap_[id].isAddBlend = addBlend;
 }
 
 void ParticleInstancingRenderer::PostUpdate() {

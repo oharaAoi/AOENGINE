@@ -191,6 +191,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
     <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
+    <ClCompile Include="Game\Effects\HitExploade.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
@@ -400,6 +401,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
     <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h" />
+    <ClInclude Include="Game\Effects\HitExploade.h" />
     <ClInclude Include="Game\Effects\JetEngineBurn.h" />
     <ClInclude Include="Game\Information\ColliderCategory.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />

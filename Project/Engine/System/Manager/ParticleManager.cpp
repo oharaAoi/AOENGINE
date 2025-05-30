@@ -35,7 +35,9 @@ void ParticleManager::Init() {
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(10000);
 
+#ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "ParticleManager");
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,8 +47,10 @@ void ParticleManager::Init() {
 void ParticleManager::Update() {
 	ParticlesUpdate();
 
+
+
 	for (auto & particles : particlesMap_) {
-		particleRenderer_->Update(particles.first, particles.second.forGpuData_);
+		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.isAddBlend);
 	}
 	/*for (auto& emitter : emitterList_) {
 		particleRenderer_->Update(emitter->GetName(), emitter->GetData());
@@ -115,6 +119,8 @@ void ParticleManager::ParticlesUpdate() {
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
 
+			particles.second.isAddBlend = pr.isAddBlend;
+
 			// ---------------------------
 			// NextFrameのための更新
 			// ---------------------------
@@ -160,6 +166,7 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 		AddChild(newParticles.get());
 	} 
 	newParticles->SetParticlesList(particlesMap_[particlesFile].particles);
+	particlesMap_[particlesFile].isAddBlend = newParticles->GetIsAddBlend();
 
 	return newParticles.get();
 }

@@ -1,39 +1,39 @@
 {
-    "gunFireParticles": {
+    "HitSmoke": {
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "w": 1.0,
-            "x": 0.9767441749572754,
-            "y": 0.14939068257808685,
-            "z": 0.045429982244968414
+            "x": 0.06976741552352905,
+            "y": 0.06976741552352905,
+            "z": 0.06976741552352905
         },
-        "damping": 0.0,
+        "damping": -1.059999942779541,
         "direction": {
             "x": 0.0,
             "y": 1.0,
-            "z": 0.0
+            "z": 1.0
         },
         "duration": 5.0,
         "gravity": 0.0,
         "isDirectionRotate": false,
         "isLifeOfAlpha": true,
-        "isLifeOfScale": true,
+        "isLifeOfScale": false,
         "isLoop": false,
         "isParticleAddBlend": false,
-        "isScaleUp": false,
-        "lifeTime": 0.20000000298023224,
+        "isScaleUp": true,
+        "lifeTime": 0.800000011920929,
         "maxScale": {
-            "x": 5.0,
-            "y": 5.0,
+            "x": 3.0,
+            "y": 3.0,
             "z": 1.0
         },
         "minScale": {
-            "x": 2.0,
-            "y": 2.0,
+            "x": 0.10000000149011612,
+            "y": 0.10000000149011612,
             "z": 1.0
         },
-        "rateOverTimeCout": 10,
+        "rateOverTimeCout": 26,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -42,17 +42,17 @@
         },
         "rotateAngle": 0.0,
         "scaleUpScale": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": 4.0,
+            "y": 4.0,
             "z": 0.0
         },
-        "shape": 1,
-        "speed": 0.0,
+        "shape": 0,
+        "speed": 3.0,
         "translate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "useTexture": "gunFire.png"
+        "useTexture": "cloud.png"
     }
 }

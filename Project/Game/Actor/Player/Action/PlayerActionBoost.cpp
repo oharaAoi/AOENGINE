@@ -58,6 +58,7 @@ void PlayerActionBoost::OnStart() {
 	finishBoost_ = false;
 
 	mainAction_ = std::bind(&PlayerActionBoost::BoostCharge, this);
+	pOwner_->GetJetEngine()->JetIsStart();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

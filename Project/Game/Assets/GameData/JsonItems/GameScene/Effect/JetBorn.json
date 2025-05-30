@@ -1,39 +1,39 @@
 {
-    "JetEnergyParticles": {
+    "JetBorn": {
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "w": 1.0,
-            "x": 0.9860464930534363,
-            "y": 0.045862648636102676,
-            "z": 0.045862648636102676
+            "x": 1.0,
+            "y": 0.26360195875167847,
+            "z": 0.14418601989746094
         },
-        "damping": 0.41999998688697815,
+        "damping": 0.0,
         "direction": {
             "x": 0.0,
             "y": -1.0,
             "z": 0.0
         },
         "duration": 5.0,
-        "gravity": -27.889999389648438,
+        "gravity": -7.760000228881836,
         "isDirectionRotate": false,
         "isLifeOfAlpha": true,
-        "isLifeOfScale": true,
+        "isLifeOfScale": false,
         "isLoop": true,
         "isParticleAddBlend": true,
-        "isScaleUp": false,
-        "lifeTime": 0.8600000143051147,
+        "isScaleUp": true,
+        "lifeTime": 0.1599999964237213,
         "maxScale": {
-            "x": 5.300000190734863,
-            "y": 3.109999895095825,
+            "x": 1.0,
+            "y": 1.0,
             "z": 1.0
         },
         "minScale": {
-            "x": 1.5399999618530273,
-            "y": 1.5099999904632568,
-            "z": 1.0
+            "x": 0.800000011920929,
+            "y": 0.800000011920929,
+            "z": 0.7099999785423279
         },
-        "rateOverTimeCout": 10,
+        "rateOverTimeCout": 256,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -42,17 +42,17 @@
         },
         "rotateAngle": 0.0,
         "scaleUpScale": {
-            "x": 0.0,
-            "y": 0.0,
+            "x": 2.0,
+            "y": 2.0,
             "z": 0.0
         },
-        "shape": 0,
-        "speed": 2.740000009536743,
+        "shape": 1,
+        "speed": 3.9800000190734863,
         "translate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "useTexture": "circle.png"
+        "useTexture": "circle2 (2).png"
     }
 }

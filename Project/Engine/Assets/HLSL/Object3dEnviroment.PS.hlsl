@@ -164,7 +164,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
-		output.color.rgb += environmentColor.rbg * 0.4f;
+		output.color.rgb += environmentColor.rbg * 0.2f;
 		if (output.color.a == 0.0) {
 			discard;
 		}

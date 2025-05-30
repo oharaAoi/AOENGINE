@@ -12,15 +12,18 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float speed;
+		float boostSpeed;
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("speed", speed)
+				.Add("boostSpeed", boostSpeed)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "speed", speed);
+			fromJson(jsonData, "boostSpeed", boostSpeed);
 		}
 	};
 

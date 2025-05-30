@@ -14,13 +14,13 @@
             "y": 1.0,
             "z": 0.0
         },
-        "emit": false,
+        "duration": 5.0,
         "gravity": -31.209999084472656,
         "isDirectionRotate": false,
         "isLifeOfAlpha": false,
         "isLifeOfScale": true,
-        "isOneShot": false,
-        "isParticleAddBlend": false,
+        "isLoop": false,
+        "isParticleAddBlend": true,
         "isScaleUp": false,
         "lifeTime": 0.6399999856948853,
         "maxScale": {
@@ -49,9 +49,9 @@
         "shape": 0,
         "speed": 9.65999984741211,
         "translate": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "x": -4.108753204345703,
+            "y": 4.044435501098633,
+            "z": 24.248592376708984
         },
         "useTexture": "circle.png"
     }

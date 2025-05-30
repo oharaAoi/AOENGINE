@@ -28,25 +28,25 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	float4 noiseColor = gNoiseTexture.Sample(gSampler, transformedUV.xy);
 	
-	if (textureColor.a == 0.0) {
+	if (textureColor.a <= 0.01) {
 		discard;
 	}
 	
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
-		if (output.color.a == 0.0) {
+		if (output.color.a <= 0.01) {
 			discard;
 		}
 		return output;
 	}
 	float3 normal = normalize(input.normal);
 	
-	output.color.rgb = gMaterial.color.rgb * textureColor.rbg * noiseColor.rbg;
+	output.color.rgb = gMaterial.color.rgb * textureColor.rbg;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a == 0.0) {
+	if (output.color.a <= 0.01) {
 		discard;
 	}
 	

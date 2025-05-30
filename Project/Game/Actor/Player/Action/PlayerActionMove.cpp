@@ -13,6 +13,7 @@
 #ifdef _DEBUG
 void PlayerActionMove::Debug_Gui() {
 	ImGui::DragFloat("speed", &parameter_.speed, 0.1f);
+	ImGui::DragFloat("boostSpeed", &parameter_.boostSpeed, 0.1f);
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("PlayerAction", parameter_.ToJson("ActionMove"));
 	}
@@ -37,6 +38,13 @@ void PlayerActionMove::Build() {
 
 void PlayerActionMove::OnStart() {
 	actionTimer_ = 0;
+
+	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
+		pOwner_->GetJetEngine()->JetIsStart();
+	} else {
+		pOwner_->GetJetEngine()->JetIsStop();
+	}
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,12 +124,23 @@ void PlayerActionMove::Move() {
 	WorldTransform* transform = pOwner_->GetTransform();
 	Vector3 velocity = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
 	
-	transform->translate_ += velocity * parameter_.speed * GameTimer::DeltaTime();
+	if (pOwner_->GetIsBoostMode()) {
+		transform->translate_ += velocity * parameter_.boostSpeed * GameTimer::DeltaTime();
+	} else {
+		transform->translate_ += velocity * parameter_.speed * GameTimer::DeltaTime();
+	}
+	
 
 	// playerを移動方向に向ける
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
 		float angle = std::atan2f(velocity.x, velocity.z);
 		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, CVector3::UP), 0.1f);
 		transform->rotation_ = lerpQuaternion;
+	}
+
+	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
+		pOwner_->GetJetEngine()->JetIsStart();
+	} else {
+		pOwner_->GetJetEngine()->JetIsStop();
 	}
 }

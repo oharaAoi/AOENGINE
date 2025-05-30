@@ -17,6 +17,8 @@ void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 
 	emitAccumulator_ = 0.0f;
 
+	isStop_ = false;
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, name_);
 #endif // _DEBUG
@@ -164,21 +166,40 @@ void CpuParticles::Emit(const Vector3& pos) {
 }
 
 void CpuParticles::EmitUpdate() {
+	if (isStop_) { return; }
+
 	// 一度だけ打つフラグがtrueだったら
-	if (emitter_.isOneShot) {
-		Emit(emitter_.translate);
-		emitter_.isOneShot = false;
+	if (!emitter_.isLoop) {
+		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {
+			if (parentWorldMat_ != nullptr) {
+				Emit(emitter_.translate + parentWorldMat_->GetPosition());
+			} else {
+				Emit(emitter_.translate);
+			}
+		}
+		isStop_ = true;
 	}
 
 	// 射出のflagがtrueだったら
-	if (!emitter_.emit) { return; }
 	emitAccumulator_ += emitter_.rateOverTimeCout * GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	for (int count = 0; count < emitCout; ++count) {
-		Emit(emitter_.translate);
+		if (parentWorldMat_ != nullptr) {
+			Emit(emitter_.translate + parentWorldMat_->GetPosition());
+		} else {
+			Emit(emitter_.translate);
+		}
 	}
 	emitAccumulator_ -= emitCout;
+
+	// 継続時間を進める
+	currentTimer_ += GameTimer::DeltaTime();
+	if (currentTimer_ > emitter_.duration) {
+		if (!emitter_.isLoop) {
+			isStop_ = true;
+		}
+	}
 }
 
 #ifdef _DEBUG

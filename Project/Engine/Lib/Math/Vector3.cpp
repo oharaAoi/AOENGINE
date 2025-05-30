@@ -13,6 +13,24 @@ float Vector3::Length() const {
     return std::sqrtf(x * x + y * y + z * z);
 }
 
+void Vector3::Clamp(const Vector3& min, const Vector3& max) {
+    if (min.x >= max.x) {
+        x = max.x;
+    }
+
+    if (min.y >= max.y) {
+        y = max.y;
+    }
+
+    if (min.z >= max.z) {
+        z = max.z;
+    }
+
+    x = std::clamp(x, min.x, max.x);
+    y = std::clamp(y, min.y, max.y);
+    z = std::clamp(z, min.z, max.z);
+}
+
 Matrix4x4 Vector3::MakeScaleMat() const {
     Matrix4x4 result{};
     result.m[0][0] = x;

@@ -66,10 +66,22 @@ public:		// accessor method
 
 	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
 
+	/// <summary>
+	/// ノックバック処理
+	/// </summary>
+	/// <param name="direction"></param>
 	void Knockback(const Vector3& direction);
 
+	/// <summary>
+	/// エネルギー回復処理
+	/// </summary>
+	/// <param name="timer"></param>
 	void RecoveryEN(float timer);
 
+	/// <summary>
+	/// エネルギー消費処理
+	/// </summary>
+	/// <param name="cousumeAmount"></param>
 	void ConsumeEN(float cousumeAmount);
 
 	/// <summary>
@@ -77,12 +89,17 @@ public:		// accessor method
 	/// </summary>
 	void Landing();
 
+	/// <summary>
+	/// BoostModeにする
+	/// </summary>
+	void IsBoostMode();
+
 public:
 
 	// 着地したかのフラグ
 	bool GetIsLanding() const { return isLanding_; }
 	void SetIsLanding(bool _landing) { isLanding_ = _landing; }
-	
+
 	// parameter
 	Parameter& GetParam() { return param_; }
 	const Parameter& GetInitParam() { return initParam_; }
@@ -112,6 +129,9 @@ public:
 	// weapon
 	void SetWeapon(BaseWeapon* _weapon, PlayerWeapon _type);
 	BaseWeapon* GetWeapon(PlayerWeapon _type) { return pWeapons_[_type]; }
+
+	JetEngine* GetJetEngine() { return jet_.get(); }
+	bool GetIsBoostMode() const { return jet_->GetIsBoostMode(); }
 
 private:
 

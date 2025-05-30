@@ -124,6 +124,14 @@ public:
 	float Length() const;
 
 	/// <summary>
+	/// 範囲内に収める
+	/// </summary>
+	/// <param name="min"></param>
+	/// <param name="max"></param>
+	/// <returns></returns>
+	void Clamp(const Vector3& min, const Vector3& max);
+
+	/// <summary>
 	/// 拡縮行列の作成
 	/// </summary>
 	/// <returns></returns>

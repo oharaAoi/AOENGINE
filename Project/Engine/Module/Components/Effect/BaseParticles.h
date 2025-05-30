@@ -21,6 +21,8 @@ public:
 
 	void EmitUpdate();
 
+	void Reset();
+
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif
@@ -36,7 +38,7 @@ public:		// json関連
 	
 public:
 
-	void SetOnShot(bool isOnShot) { emitter_.isOneShot = isOnShot; }
+	void SetIsStop(bool _stop) { isStop_ = _stop; }
 
 	void SetPos(const Vector3& pos) { emitter_.translate = pos; }
 
@@ -75,6 +77,8 @@ protected:
 	// emitter
 	ParticleEmit emitter_;
 	float emitAccumulator_;
+	float currentTimer_;
+	bool isStop_;
 
 	// 親のMatrix
 	const Matrix4x4* parentWorldMat_ = nullptr;

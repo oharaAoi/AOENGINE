@@ -102,7 +102,7 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList) con
 void WorldTransform::Debug_Gui() {
 	if (ImGui::TreeNode("Transform")) {
 		if (ImGui::TreeNode("scale")) {
-			ImGui::DragFloat3("scale", &scale_.x, 0.1f);
+			ImGui::DragFloat3("scale", &scale_.x, 0.01f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("rotate")) {

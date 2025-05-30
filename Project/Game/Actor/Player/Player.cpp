@@ -133,6 +133,7 @@ void Player::Init() {
 void Player::Update() {
 	actionManager_->Update();
 	stateMachine_->Update();
+	IsBoostMode();
 
 	if (reticle_->GetLockOn()) {
 		Vector3 toTarget = reticle_->GetTargetPos() - transform_->translate_;
@@ -222,4 +223,11 @@ void Player::Landing() {
 	isLanding_ = true;
 	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_->ChangeAction(hash);
+	jet_->JetIsStop();
+}
+
+void Player::IsBoostMode() {
+	if (Input::GetInstance()->GetIsPadTrigger(XInputButtons::BUTTON_B)) {
+		jet_->SetIsBoostMode();
+	}
 }

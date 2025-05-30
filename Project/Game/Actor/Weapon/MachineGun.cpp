@@ -67,5 +67,5 @@ void MachineGun::Shot(const Vector3& targetPos) {
 	Vector3 pos = worldPos_;
 	pos += (dire * 4.f);
 	gunFireParticles_->SetPos(pos);
-	gunFireParticles_->SetOnShot(true);
+	gunFireParticles_->SetIsStop(false);
 }

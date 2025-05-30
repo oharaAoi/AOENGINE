@@ -4,6 +4,8 @@
 #ifdef _DEBUG
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {
+		ImGui::Checkbox("IsLoop", &isLoop);
+		ImGui::DragFloat("duration", &duration);
 		ImGui::BulletText("Emitter Settings");
 		ImGui::DragFloat4("Rotate (Quaternion)", (float*)&rotate, 0.01f);
 		ImGui::DragFloat("rotateAngle", (float*)&rotateAngle, 0.01f);
@@ -11,8 +13,6 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat3("Direction", (float*)&direction, 0.1f);
 		ImGui::DragScalar("Shape", ImGuiDataType_U32, &shape, 1.0f);
 		ImGui::DragScalar("RateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout, 1.0f);
-		ImGui::Checkbox("Emit", &emit);
-		ImGui::Checkbox("isOnShot", &isOneShot);
 		direction.x = std::clamp(direction.x, -1.0f, 1.0f);
 		direction.y = std::clamp(direction.y, -1.0f, 1.0f);
 		direction.z = std::clamp(direction.z, -1.0f, 1.0f);
@@ -38,6 +38,8 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Checkbox("isParticleAddBlend", &isParticleAddBlend);
 		ImGui::Checkbox("isScaleUp", &isScaleUp);
 		ImGui::DragFloat3("scaleUpScale", (float*)&scaleUpScale, 0.01f);
+
+		minScale.Clamp(minScale,maxScale );
 	}
 }
 #endif

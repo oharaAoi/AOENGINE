@@ -16,6 +16,9 @@ void BaseParticles::Init(const std::string& name) {
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
+
+	currentTimer_ = 0.0f;
+	isStop_ = false;
 }
 
 void BaseParticles::Update() {
@@ -93,15 +96,17 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
-	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
+	newParticle.isAddBlend = emitter_.isParticleAddBlend;
 
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;
 }
 
 void BaseParticles::EmitUpdate() {
+	if (isStop_) { return; }
+
 	// 一度だけ打つフラグがtrueだったら
-	if (emitter_.isOneShot) {
+	if (!emitter_.isLoop) {
 		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {
 			if (parentWorldMat_ != nullptr) {
 				Emit(emitter_.translate + parentWorldMat_->GetPosition());
@@ -109,11 +114,10 @@ void BaseParticles::EmitUpdate() {
 				Emit(emitter_.translate);
 			}
 		}
-		emitter_.isOneShot = false;
+		isStop_ = true;
 	}
 
 	// 射出のflagがtrueだったら
-	if (!emitter_.emit) { return; }
 	emitAccumulator_ += emitter_.rateOverTimeCout * GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
@@ -125,10 +129,30 @@ void BaseParticles::EmitUpdate() {
 		}
 	}
 	emitAccumulator_ -= emitCout;
+
+	// 継続時間を進める
+	currentTimer_ += GameTimer::DeltaTime();
+	if (currentTimer_ > emitter_.duration) {
+		if (!emitter_.isLoop) {
+			isStop_ = true;
+		}
+	}
+	
 }
+void BaseParticles::Reset() {
+	emitAccumulator_ = 0.0f;
+	currentTimer_ = 0.0f;
+	isStop_ = false;
+}
+
 
 #ifdef _DEBUG
 void BaseParticles::Debug_Gui() {
+	if (ImGui::Button("Reset")) {
+		Reset();
+	}
+
+	ImGui::Checkbox("IsStop", &isStop_);
 	emitter_.Attribute_Gui();
 
 	ImGui::Separator();

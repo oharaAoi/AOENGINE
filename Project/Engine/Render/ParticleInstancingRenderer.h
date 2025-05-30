@@ -42,7 +42,7 @@ public:
 
 	void Init(uint32_t instanceNum);
 
-	void Update(const std::string& id, const std::vector<ParticleData>& particleData);
+	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend);
 
 	void PostUpdate();
 

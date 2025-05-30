@@ -20,7 +20,7 @@ void BossActionShotMissile::Build() {
 
 void BossActionShotMissile::OnStart() {
 	actionTimer_ = 0.0f;
-	bulletSpeed_ = 40.f;
+	bulletSpeed_ = 60.f;
 	isFinishShot_ = false;
 
 	fireCount_ = kFireCount_;

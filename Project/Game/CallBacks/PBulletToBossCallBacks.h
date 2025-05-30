@@ -5,6 +5,7 @@
 // Game
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Game/Effects/HitExploade.h"
 
 /// <summary>
 /// PlayerのBulletとボスとのCallBack
@@ -19,6 +20,8 @@ public:
 	void Init() override;
 
 	void Update() override;
+
+	void Draw() const;
 
 	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) override;
 	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
@@ -39,6 +42,10 @@ private:
 	BaseParticles* hitBossExploadParticles_;
 	BaseParticles* hitBossSmoke_;
 	BaseParticles* hitBossSmokeBorn_;
+
+	BaseParticles* hitSmoke_;
+
+	std::list<std::unique_ptr<HitExplode>> hitExplodeList_;
 
 };
 

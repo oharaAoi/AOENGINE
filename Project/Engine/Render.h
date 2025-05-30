@@ -101,6 +101,7 @@ public:
 	static float GetFarClip2D();
 
 	static void SetEyePos(const Vector3& eyePos);
+	static const Vector3& GetEyePos();
 
 	static void SetCameraRotate(const Quaternion& rotate);
 	static Quaternion GetCameraRotate();
@@ -132,6 +133,7 @@ namespace {
 	RenderTargetType currentRenderTarget_;
 
 	Quaternion cameraRotate_;
+	Vector3 eyePos_;
 
 	std::string skyboxTexture_;
 }
