@@ -32,8 +32,7 @@ void GeometryObject::Draw() const {
 
 	std::string textureName = material_->GetUseTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "output_skybox.dds", 7);
-
+	
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 

@@ -12,6 +12,8 @@ void PlayerActionQuickBoost::Debug_Gui() {
 	ImGui::DragFloat("first_boostForce", &firstParam_.boostForce, 0.1f);
 	ImGui::DragFloat("first_decelerationRaito", &firstParam_.decelerationRaito, 0.01f);
 	ImGui::DragFloat("first_boostEnergy", &firstParam_.boostEnergy, 0.01f);
+	ImGui::DragFloat("cameraShakeTime", &firstParam_.cameraShakeTime, 0.1f);
+	ImGui::DragFloat("cameraShakeStrength", &firstParam_.cameraShakeStrength, 0.1f);
 
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
 	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
@@ -55,6 +57,8 @@ void PlayerActionQuickBoost::OnStart() {
 	// エネルギーを消費する
 	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
+
+	pOwner_->GetFollowCamera()->SetShake(firstParam_.cameraShakeTime, firstParam_.cameraShakeStrength);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

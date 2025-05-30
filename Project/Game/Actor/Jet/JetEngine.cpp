@@ -30,6 +30,18 @@ void JetEngine::Init() {
 	jetParticles_->SetParent(transform_->GetWorldMatrix());
 	jetBornParticles_->SetParent(transform_->GetWorldMatrix());
 	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());
+
+	cylinder_ = std::make_unique<GeometryObject>();
+	cylinder_->Set<CylinderGeometry>(32, 1.0f, 1.0f, 1.f);
+	cylinder_->GetMaterial()->SetIsLighting(false);
+	cylinder_->SetEditorWindow();
+
+	cylinder_->GetTransform()->SetParent(transform_->GetWorldMatrix());
+
+	jetEngineBurn_ = std::make_unique<JetEngineBurn>();
+	jetEngineBurn_->Init();
+	jetEngineBurn_->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +53,10 @@ void JetEngine::Update() {
 	jetParticles_->Update();
 	jetBornParticles_->Update();
 	jetEnergyParticles_->Update();
+
+	cylinder_->Update();
+
+	jetEngineBurn_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +65,10 @@ void JetEngine::Update() {
 
 void JetEngine::Draw() const {
 	BaseGameObject::Draw();
+
+	Engine::SetPSOObj(Object3dPSO::TextureBlend);
+	jetEngineBurn_->Draw();
+	Engine::SetPSOObj(Object3dPSO::Normal);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +77,12 @@ void JetEngine::Draw() const {
 
 #ifdef _DEBUG
 void JetEngine::Debug_Gui() {
-	BaseGameObject::Debug_Gui();
+	if (ImGui::CollapsingHeader("Jet")) {
+		BaseGameObject::Debug_Gui();
+	}
+
+	if(ImGui::CollapsingHeader("jetEngineBurn")) {
+		jetEngineBurn_->Debug_Gui();
+	}
 }
 #endif // _DEBUG

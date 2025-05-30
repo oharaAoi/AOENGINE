@@ -2,7 +2,8 @@
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
-
+#include "Engine/Lib/Math/MyRandom.h"
+#include "Engine/Lib/Math/Easing.h"
 #include "Game/Actor/Player/Player.h"
 
 void FollowCamera::Finalize() {
@@ -16,6 +17,8 @@ void FollowCamera::Init() {
 	BaseCamera::Init();
 
 	followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
+
+	shakeTimer_ = shakeTime_;
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "FollowCamera");
@@ -49,12 +52,23 @@ void FollowCamera::Update() {
 	Vector3 direction = transform_.rotate.Rotate({ 0.0f, 0.0f, -1.0f });
 
 	transform_.translate = point + (direction * followCamera_.distance);
+	transform_.translate = Vector3::Lerp(prePosition_, transform_.translate, CallEasing(followCamera_.easingIndex, followCamera_.complement));
+
+	Shake();
+
+	prePosition_ = transform_.translate;
 
 	BaseCamera::Update();
 	// renderの更新
 	Render::SetEyePos(GetWorldPosition());
 	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
 	Render::SetCameraRotate(transform_.rotate);
+}
+
+void FollowCamera::SetShake(float time, float strength) {
+	shakeTime_ = time;
+	shakeTimer_ = 0;
+	shakeStrength_ = strength;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +87,9 @@ void FollowCamera::Debug_Gui() {
 		ImGui::DragFloat("distance", &followCamera_.distance, 0.1f);
 		ImGui::DragFloat("rotateDelta", &followCamera_.rotateDelta, 0.1f);
 		ImGui::DragFloat3("offset", &followCamera_.offset.x, 0.1f);
+		ImGui::DragFloat("complement", &followCamera_.complement, 0.01f);
+		SelectEasing(followCamera_.easingIndex);
+		followCamera_.complement = std::clamp(followCamera_.complement, 0.0f, 1.0f);
 
 		if (ImGui::Button("Save")) {
 			JsonItems::Save("FollowCamera", followCamera_.ToJson("FollowCamera"));
@@ -102,6 +119,18 @@ void FollowCamera::RotateCamera() {
 	}
 
 	angle_.y = std::clamp(angle_.y, angleLimitY_.first, angleLimitY_.second);
+}
+
+void FollowCamera::Shake() {
+	if (shakeTimer_ <= shakeTime_) {
+		shakeTimer_ += GameTimer::DeltaTime();
+		Vector3 shakeDire = RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
+
+		float t = shakeTimer_ / shakeTime_;
+		float currentShakeStrength_ = std::lerp(shakeStrength_, 0.0f, t);
+		shakeDire *= currentShakeStrength_;
+		transform_.translate += shakeDire;
+	}
 }
 
 Quaternion FollowCamera::GetAngleX() {

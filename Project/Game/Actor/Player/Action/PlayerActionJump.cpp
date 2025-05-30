@@ -8,10 +8,15 @@
 
 #ifdef _DEBUG
 void PlayerActionJump::Debug_Gui() {
+	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
+
 	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
 	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
 	ImGui::DragFloat("maxAcceleration", &param_.maxAcceleration, 0.1f);
 	ImGui::DragFloat("jumpEnergy", &param_.jumpEnergy, 0.1f);
+	ImGui::DragFloat("cameraShakeTime", &param_.cameraShakeTime, 0.1f);
+	ImGui::DragFloat("cameraShakeStrength", &param_.cameraShakeStrength, 0.1f);
+	
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("PlayerAction", param_.ToJson("ActionJump"));
 	}
@@ -38,12 +43,16 @@ void PlayerActionJump::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnStart() {
+	actionTimer_ = 0.0f;
 	isFall_ = false;
-	// actionを起こす
-	Jump();
-
+	
 	// ジャンプした分のエネルギーを消費しておく
 	pOwner_->ConsumeEN(param_.jumpEnergy);
+
+	mainAction_ = std::bind(&PlayerActionJump::Jump, this);
+	isJump_ = false;
+
+	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +60,9 @@ void PlayerActionJump::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnUpdate() {
+	actionTimer_ += GameTimer::DeltaTime();
+
+	mainAction_();
 	// 上昇をする
 	Rising();
 	// 重力を適用させる
@@ -94,10 +106,24 @@ bool PlayerActionJump::IsInput() {
 // ↓ main action
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void PlayerActionJump::SmallJump() {
+	if (actionTimer_ > smallJumpTime_) {
+		mainAction_ = std::bind(&PlayerActionJump::Jump, this);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ main action
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PlayerActionJump::Jump() {
+	if (isJump_) { return; }
+
 	velocity_.y = param_.jumpForce;
-	acceleration_.y = 0.0f;
+	acceleration_.y = param_.jumpForce * GameTimer::DeltaTime();
 	pOwner_->SetIsLanding(false);
+
+	isJump_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,7 +165,7 @@ void PlayerActionJump::Rising() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::ApplyGravity() {
-	acceleration_.y += kGravity * GameTimer::DeltaTime();
+	acceleration_.y += (kGravity * pOwner_->GetParam().bodyWeight) * GameTimer::DeltaTime();
 	acceleration_.y = std::clamp(acceleration_.y, -param_.maxAcceleration, param_.maxAcceleration);
 
 	velocity_ += acceleration_ * GameTimer::DeltaTime();

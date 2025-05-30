@@ -44,7 +44,7 @@ public:
 		currentTime_ += deltaTime;
 		float t = currentTime_ / duration_;
 		if (value_) {
-			*value_ = Lerp(start_, end_, CallEasingFunc(easeIndex_, t));
+			*value_ = Lerp(start_, end_, CallEasing(easeIndex_, t));
 		}
 
 		// 現在の進行状態を変更するかを判別

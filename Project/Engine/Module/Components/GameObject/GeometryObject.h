@@ -58,6 +58,8 @@ public:
 	void SetUseTexture(const std::string& name) { material_->SetUseTexture(name); }
 	const std::string& GetUseTexture() const { return material_->GetUseTexture(); }
 
+	WorldTransform* GetTransform() { return transform_.get(); }
+
 private:
 
 	std::string id_ = "new GeometryObject";

@@ -120,8 +120,8 @@ const std::array<EasingFunc, 30> easingFuncs = {
 /// <param name="index">: EasingType</param> 
 /// <param name="t">: 線形代数</param> 
 /// <returns> Easingした結果の線形代数 </returns> 
-float CallEasingFunc(int index, float t);
+float CallEasing(int index, float t);
 
 #ifdef _DEBUG
-void ShowEasingDebug(int& easeKind);
+void SelectEasing(int& easeKind);
 #endif

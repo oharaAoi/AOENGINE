@@ -2,6 +2,7 @@
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
@@ -31,15 +32,21 @@ void Player::Debug_Gui() {
 	collider_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
+		ImGui::DragFloat("bodyWeight", &param_.bodyWeight, 0.1f);
 		ImGui::DragFloat("energy", &param_.energy, 0.1f);
 		ImGui::DragFloat("energyRecoveyAmount", &param_.energyRecoveyAmount, 0.1f);
 		ImGui::DragFloat("energyRecoveyCoolTime", &param_.energyRecoveyCoolTime, 0.1f);
+
+		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 	}
 
 	if (ImGui::CollapsingHeader("Parameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("bodyWeight", &initParam_.bodyWeight, 0.1f);
 		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
 		ImGui::DragFloat("energyRecoveyAmount", &initParam_.energyRecoveyAmount, 0.1f);
 		ImGui::DragFloat("energyRecoveyCoolTime", &initParam_.energyRecoveyCoolTime, 0.1f);
+
+		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 
 		if (ImGui::Button("Save")) {
 			JsonItems::Save(GetName(), initParam_.ToJson("playerParameter"));
@@ -111,6 +118,8 @@ void Player::Init() {
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
 
+	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -126,8 +135,10 @@ void Player::Update() {
 	stateMachine_->Update();
 
 	if (reticle_->GetLockOn()) {
-		//Vector3 toDirection = reticle_->GetTargetPos() - transform_->translate_;
-		Quaternion targetToRotate = Quaternion::LookAt(transform_->translate_, reticle_->GetTargetPos());
+		Vector3 toTarget = reticle_->GetTargetPos() - transform_->translate_;
+		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
+		toTarget = toTarget.Normalize();
+		Quaternion targetToRotate = Quaternion::LookRotation(toTarget);
 		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_, targetToRotate, 0.9f);
 	}
 

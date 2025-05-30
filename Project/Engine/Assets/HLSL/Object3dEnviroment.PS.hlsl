@@ -157,8 +157,14 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		discard;
 	}
 	
+	// --------------------- Enviroment --------------------- //
+	float3 cameraToPos = normalize(input.worldPos.xyz - gDirectionalLight.eyePos);
+	float3 reflectVector = reflect(cameraToPos, normalize(input.normal));
+	float4 environmentColor = gEnviromentTexture.Sample(gSampler, reflectVector);
+	
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
+		output.color.rgb += environmentColor.rbg * 0.4f;
 		if (output.color.a == 0.0) {
 			discard;
 		}
@@ -198,20 +204,15 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	// リムライトの光の調整
 	lim *= saturate(1.0f - saturate(dot(normal, lightDire)) + dot(toEye, lightDire));
 	float3 limCol = pow(lim, gDirectionalLight.limPower) * gDirectionalLight.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
-	
-	// --------------------- Enviroment --------------------- //
-	float3 cameraToPos = normalize(input.worldPos.xyz - gDirectionalLight.eyePos);
-	float3 reflectVector = reflect(cameraToPos, normalize(input.normal));
-	float4 enciromentColor = gEnviromentTexture.Sample(gSampler, reflectVector);
+
 	
 	// --------------------- final --------------------- //
 	output.color.rgb = directionalLight;
 	output.color.rgb += pointLight;
 	output.color.rgb += spotLight;
 	output.color.rgb += limCol;
-	
-	output.color.rgb += enciromentColor.rbg;
-	
+	output.color.rgb += environmentColor.rbg * 0.1f;
+
 	output.color.a = gMaterial.color.a * textureColor.a;
 	
 	output.color = clamp(output.color, 0.0f, 1.0f);

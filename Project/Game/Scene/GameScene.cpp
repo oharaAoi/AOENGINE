@@ -22,6 +22,9 @@ void GameScene::Init() {
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
+	sceneRenderer_ = SceneRenderer::GetInstance();
+	sceneRenderer_->Init();
+
 	// -------------------------------------------------
 	// ↓ cameraの初期化
 	// -------------------------------------------------
@@ -51,6 +54,7 @@ void GameScene::Init() {
 
 	skybox_ = std::make_unique<Skybox>();
 	skybox_->Init();
+	Render::SetSkyboxTexture(skybox_->GetTexture());
 
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
@@ -60,7 +64,7 @@ void GameScene::Init() {
 
 	cylinder_ = std::make_unique<GeometryObject>();
 	cylinder_->Set<CylinderGeometry>(32, 1.f, 2.f, 2.f);
-	cylinder_->SetEditorWindow();
+	//cylinder_->SetEditorWindow();
 
 	sphere_ = std::make_unique<GeometryObject>();
 	sphere_->Set<SphereGeometry>();
@@ -98,7 +102,6 @@ void GameScene::Init() {
 	canvas_->SetPlayer(playerManager_->GetPlayer());
 	canvas_->SetBoss(bossRoot_->GetBoss());
 	canvas_->SetFollowCamera(followCamera_.get());
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,6 +150,8 @@ void GameScene::Update() {
 	particleManager_->Update();
 	particleManager_->SetView(followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	particleManager_->PostUpdate();
+
+	sceneRenderer_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,11 +168,8 @@ void GameScene::Draw() const {
 
 	skybox_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::Normal);
-	//skydome_->Draw();
-	floor_->Draw();
-	playerManager_->Draw();
-	bossRoot_->Draw();
+	// Sceneの描画
+	sceneRenderer_->Draw();
 
 	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
 	//sphere_->Draw();

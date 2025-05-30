@@ -20,6 +20,7 @@ void BossRoot::Update() {
 }
 
 void BossRoot::Draw() const {
+	Engine::SetPSOObj(Object3dPSO::Normal);
 	boss_->Draw();
 
 	bulletManager_->Draw();

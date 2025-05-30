@@ -22,12 +22,15 @@ class Player :
 public:		// data
 
 	struct Parameter : public IJsonConverter {
+		float bodyWeight = 1.0f;	// 機体の重さ
+
 		float energy = 1.f;	// EN出力
 		float energyRecoveyAmount = 1.f;	// EN回復量(m/s)
 		float energyRecoveyCoolTime;	// EN回復までのクールタイム
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("bodyWeight", bodyWeight)
 				.Add("energy", energy)
 				.Add("energyRecoveyAmount", energyRecoveyAmount)
 				.Add("energyRecoveyCoolTime", energyRecoveyCoolTime)
@@ -35,6 +38,7 @@ public:		// data
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "bodyWeight", bodyWeight);
 			fromJson(jsonData, "energy", energy);
 			fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
 			fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);

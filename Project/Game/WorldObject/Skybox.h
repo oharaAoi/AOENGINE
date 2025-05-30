@@ -28,6 +28,8 @@ public:
 
 	bool ExistMesh(const std::string& name);
 
+	const std::string& GetTexture() const { return useTexture_; }
+
 private:
 
 	CubeGeometry cube_;

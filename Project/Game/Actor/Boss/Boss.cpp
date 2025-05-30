@@ -1,6 +1,7 @@
 #include "Boss.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossIdleState.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
@@ -50,6 +51,8 @@ void Boss::Init() {
 	transform_->translate_.y = 5.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
 
+	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Boss");
 #endif // _DEBUG
@@ -60,7 +63,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	actionManager_->Update();
+	//actionManager_->Update();
 	stateMachine_->Update();
 	BaseGameObject::Update();
 }

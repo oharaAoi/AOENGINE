@@ -20,6 +20,7 @@
 #include "Game/CallBacks/GameCallBacksManager.h"
 
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
+#include "Engine/Render/SceneRenderer.h"
 
 
 class GameScene 
@@ -61,6 +62,8 @@ private:
 	std::unique_ptr<CanvasUI> canvas_;
 
 	ParticleManager* particleManager_;
+
+	SceneRenderer* sceneRenderer_;
 
 	std::unique_ptr<GeometryObject> sphere_;
 	std::unique_ptr<GeometryObject> cylinder_;

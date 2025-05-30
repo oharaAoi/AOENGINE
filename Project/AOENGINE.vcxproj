@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
@@ -189,6 +190,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
+    <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
+    <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
@@ -315,6 +318,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
@@ -396,6 +400,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
     <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h" />
+    <ClInclude Include="Game\Effects\JetEngineBurn.h" />
     <ClInclude Include="Game\Information\ColliderCategory.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
@@ -539,6 +544,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\Assets\HLSL\Object3dEnviroment.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\ObjectTextureBlend.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

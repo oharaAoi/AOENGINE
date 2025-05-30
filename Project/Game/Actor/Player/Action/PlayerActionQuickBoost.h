@@ -20,11 +20,16 @@ public:
 
 		float boostEnergy = 20.0f;		// 消費エネルギー
 
+		float cameraShakeTime = 0.2f;
+		float cameraShakeStrength = 0.1f;
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("boostForce", boostForce)
 				.Add("decelerationRaito", decelerationRaito)
 				.Add("boostEnergy", boostEnergy)
+				.Add("cameraShakeTime", cameraShakeTime)
+				.Add("cameraShakeStrength", cameraShakeStrength)
 				.Build();
 		}
 
@@ -32,6 +37,8 @@ public:
 			fromJson(jsonData, "boostForce", boostForce);
 			fromJson(jsonData, "decelerationRaito", decelerationRaito);
 			fromJson(jsonData, "boostEnergy", boostEnergy);
+			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
 		}
 	};
 

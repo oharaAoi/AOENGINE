@@ -10,7 +10,8 @@ enum class Object3dPSO {
 	Particle,
 	SubParticle,
 	PBR,
-	Skybox
+	Skybox,
+	TextureBlend,
 };
 
 /// <summary>

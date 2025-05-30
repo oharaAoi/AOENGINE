@@ -111,6 +111,8 @@ protected:
 
 	bool isAnimation_ = false;
 
+	bool isReflection_;
+
 	// 他クラス情報
 	BaseGameObject* pParentObj_;
 

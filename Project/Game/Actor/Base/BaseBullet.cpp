@@ -1,4 +1,5 @@
 #include "BaseBullet.h"
+#include "Engine/Render/SceneRenderer.h"
 
 void BaseBullet::Finalize() {
 	BaseGameObject::Finalize();
@@ -7,6 +8,8 @@ void BaseBullet::Finalize() {
 void BaseBullet::Init() {
 	BaseGameObject::Init();
 	isAlive_ = true;
+
+	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
 }
 
 void BaseBullet::Update() {

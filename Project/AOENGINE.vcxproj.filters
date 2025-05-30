@@ -35,6 +35,7 @@
     <FxCompile Include="Engine\Assets\HLSL\Skybox.VS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Skybox.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Object3dEnviroment.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\ObjectTextureBlend.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -241,6 +242,9 @@
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\PlayerActionLeave.cpp" />
+    <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
+    <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
+    <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -456,6 +460,8 @@
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\PlayerActionLeave.h" />
+    <ClInclude Include="Engine\Render\SceneRenderer.h" />
+    <ClInclude Include="Game\Effects\JetEngineBurn.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

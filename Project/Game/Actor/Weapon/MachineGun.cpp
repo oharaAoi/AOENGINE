@@ -1,5 +1,6 @@
 #include "MachineGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Render/SceneRenderer.h"
 
 void MachineGun::Finalize() {
 }
@@ -30,6 +31,8 @@ void MachineGun::Init() {
 	// ↓ Effect関連
 	// -------------------------------------------------
 	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
+
+	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
 	
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());

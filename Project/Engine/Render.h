@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/GameObject/Model.h"
+#include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 
 /// <summary>
@@ -48,6 +49,8 @@ public:
 
 	static void DrawModel(Model* model, const WorldTransform* worldTransform,
 						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
+
+	static void DrawEnvironmentModel(Mesh* _mesh, Material* _material, const WorldTransform* _transform);
 
 	/// <summary>
 	/// 線の描画
@@ -104,6 +107,8 @@ public:
 
 	static const ViewProjection* GetViewProjection();
 
+	static void SetSkyboxTexture(const std::string& _name);
+
 private:
 
 	RenderTarget* renderTarget_ = nullptr;
@@ -127,4 +132,6 @@ namespace {
 	RenderTargetType currentRenderTarget_;
 
 	Quaternion cameraRotate_;
+
+	std::string skyboxTexture_;
 }

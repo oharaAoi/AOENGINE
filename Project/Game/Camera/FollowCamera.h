@@ -18,12 +18,17 @@ public:
 		float distance = 20.0f;
 		float rotateDelta = 0.04f;
 		Vector3 offset = { 0,2.5f,0.0f };
+		float complement = 0.5f; // カメラ移動の際の補完
+
+		int easingIndex;
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("distance", distance)
 				.Add("rotateDelta", rotateDelta)
 				.Add("offset", offset)
+				.Add("complement", complement)
+				.Add("easingIndex", easingIndex)
 				.Build();
 		}
 
@@ -31,6 +36,8 @@ public:
 			fromJson(jsonData, "distance", distance);
 			fromJson(jsonData, "rotateDelta", rotateDelta);
 			fromJson(jsonData, "offset", offset);
+			fromJson(jsonData, "complement", complement);
+			fromJson(jsonData, "easingIndex", easingIndex);
 		}
 	};
 
@@ -51,7 +58,11 @@ private:	// private method
 
 	void RotateCamera();
 
+	void Shake();
+
 public:		// accessor method
+
+	void SetShake(float time, float strength);
 
 	void SetTarget(Player* _target) { pTarget_ = _target; }
 
@@ -71,10 +82,18 @@ private:
 
 	CameraParameter followCamera_;
 
+	Vector3 prePosition_;
+
 	Vector2 angle_ = {};
 	std::pair<float, float> angleLimitY_ = { -kPI / 16.0f, kPI / 3.0f };
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 stick_;
+
+	// Shake ------------------------------------------------
+	float shakeTimer_ = 1.0f;
+	float shakeTime_ = 1.0f;
+	float shakeStrength_;
+
 };
 

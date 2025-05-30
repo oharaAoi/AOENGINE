@@ -1,6 +1,8 @@
 {
     "FollowCamera": {
-        "distance": 15.0,
+        "complement": 0.4000000059604645,
+        "distance": 17.0,
+        "easingIndex": 0,
         "offset": {
             "x": 0.0,
             "y": 2.5,

@@ -2,6 +2,7 @@
 #include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Engine/Render/SceneRenderer.h"
 
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {
@@ -16,6 +17,7 @@ void BaseGameObject::Finalize() {
 		collider_ = nullptr;
 	}
 	materials.clear();
+	SceneRenderer::GetInstance()->ReleaseObject(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +93,15 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
+	if (isReflection_) {
+		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
+			if (materials.size() > index) {
+				Render::DrawEnvironmentModel(model_->GetMesh(index), materials[index].get(), transform_.get());
+			}
+		}
+		return;
+	}
+
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
 		Render::DrawModel(model_, transform_.get(), materials);
 	} else {

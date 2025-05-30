@@ -1,6 +1,7 @@
 #include "Floor.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Game/Information/ColliderCategory.h"
 
 Floor::Floor() {}
@@ -25,6 +26,10 @@ void Floor::Init() {
 	
 	transform_->translate_.y = -0.1f;
 
+	isReflection_ = true;
+
+	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -35,5 +40,6 @@ void Floor::Update() {
 }
 
 void Floor::Draw() const {
+	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
 	BaseGameObject::Draw();
 }

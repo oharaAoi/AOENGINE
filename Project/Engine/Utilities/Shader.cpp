@@ -22,6 +22,8 @@ void Shader::Init() {
 	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/RadialBlur.PS.hlsl", Shader::RadialBlur);
 	Load("Engine/Assets/HLSL/ProcessedScene.VS.hlsl", "Engine/Assets/HLSL/GlitchNoise.PS.hlsl", Shader::GlitchNoise);
 
+	Load("Engine/Assets/HLSL/Object3d.VS.hlsl", "Engine/Assets/HLSL/ObjectTextureBlend.PS.hlsl", Shader::ObjectTextureBlend);
+
 	// CS
 	Load("Engine/Assets/HLSL/CS/GrayScale.CS.hlsl", CsShaderName::GrayScale);
 	Load("Engine/Assets/HLSL/CS/HorizontalBlur.CS.hlsl", CsShaderName::HorizontalBlur);

@@ -1,4 +1,5 @@
 #include "Render.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 Render::Render() {}
 Render::~Render() {}
@@ -91,6 +92,22 @@ void Render::DrawModel(Model* model, const WorldTransform* worldTransform,
 	model->Draw(commandList_, worldTransform, viewProjection_.get(), vbv, materials);
 }
 
+void Render::DrawEnvironmentModel(Mesh* _mesh, Material* _material, const WorldTransform* _transform) {
+	lightGroup_->Draw(commandList_, 4);
+	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
+	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
+	commandList_->SetGraphicsRootConstantBufferView(0, _material->GetBufferAdress());
+
+	_transform->BindCommandList(commandList_);
+	viewProjection_->BindCommandList(commandList_);
+
+	std::string textureName = _material->GetUseTexture();
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, 3);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, 7);
+
+	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　線の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,4 +186,8 @@ Quaternion Render::GetCameraRotate() {
 
 const ViewProjection* Render::GetViewProjection() {
 	return viewProjection_.get();
+}
+
+void Render::SetSkyboxTexture(const std::string& _name) {
+	skyboxTexture_ = _name;
 }

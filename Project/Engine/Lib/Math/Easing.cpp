@@ -261,7 +261,7 @@ float Ease::InOut::Bounce(float t) {
 	}
 }
 
-float CallEasingFunc(int index, float t) {
+float CallEasing(int index, float t) {
 	if (index >= 0 && index < easingFuncs.size()) {
 		return easingFuncs[index](t);  // 指定の関数を呼び出し
 	} else {
@@ -271,7 +271,7 @@ float CallEasingFunc(int index, float t) {
 }
 
 #ifdef _DEBUG
-void ShowEasingDebug(int& easeKind) {
+void SelectEasing(int& easeKind) {
 	// 引数から種類を取り出す
 	int easeType = (int)(easeKind % 10);    // 0 ~ 9
 	int inOrOut = (int)(easeKind / 10);     // 0 ~ 2

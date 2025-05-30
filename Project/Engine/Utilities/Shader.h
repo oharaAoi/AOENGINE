@@ -18,6 +18,7 @@ public:
 		Particle,
 		Skybox,
 		Sprite,
+		ObjectTextureBlend,
 		ProcessedScene,
 		Grayscale,
 		RadialBlur,

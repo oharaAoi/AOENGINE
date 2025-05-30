@@ -21,12 +21,17 @@ public:
 
 		float jumpEnergy = 5.0f;		// 消費エネルギー
 
+		float cameraShakeTime = 0.2f;
+		float cameraShakeStrength = 0.1f;
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("jumpForce", jumpForce)
 				.Add("risingForce", risingForce)
 				.Add("maxAcceleration", maxAcceleration)
 				.Add("jumpEnergy", jumpEnergy)
+				.Add("cameraShakeTime", cameraShakeTime)
+				.Add("cameraShakeStrength", cameraShakeStrength)
 				.Build();
 		}
 
@@ -35,6 +40,8 @@ public:
 			fromJson(jsonData, "risingForce", risingForce);
 			fromJson(jsonData, "maxAcceleration", maxAcceleration);
 			fromJson(jsonData, "jumpEnergy", jumpEnergy);
+			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
 		}
 	};
 
@@ -58,6 +65,11 @@ public:
 private:	// action
 
 	/// <summary>
+	/// ちゃんとジャンプする前のジャンプ
+	/// </summary>
+	void SmallJump();
+
+	/// <summary>
 	/// main action
 	/// </summary>
 	void Jump();
@@ -74,6 +86,8 @@ private:	// action
 
 private:	// variable
 
+	float actionTimer_;
+
 	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
@@ -84,6 +98,12 @@ private:	// variable
 	bool isPreRising_;
 
 	WorldTransform* pOwnerTransform_ = nullptr;
+
+	std::function<void()> mainAction_;
+	bool isJump_;
+
+	// 小ジャンプに関する変数
+	float smallJumpTime_ = 0.2f;
 
 };
 
