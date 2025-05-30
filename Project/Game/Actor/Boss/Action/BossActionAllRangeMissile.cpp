@@ -29,7 +29,7 @@ void BossActionAllRangeMissile::OnStart() {
 
 	isFinishShot_ = false;
 
-	bulletSpeed_ = 40.f;
+	bulletSpeed_ = 60.f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,23 +75,30 @@ void BossActionAllRangeMissile::Shot() {
 	if (isFinishShot_) { return; }
 	Vector3 pos = pOwner_->GetTransform()->translate_;
 	Vector3 forward = pOwner_->GetTransform()->rotation_.MakeForward();
+	Vector3 right = pOwner_->GetTransform()->rotation_.MakeRight();
 	Vector3 up = pOwner_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
 
+	const uint32_t angleUpNum = 4;
 	const uint32_t fireNum = 9;
 	const float halfAngle = kPI * 0.5f; // 90度
 
-	for (uint32_t i = 0; i < fireNum; ++i) {
-		// -90度〜+90度に等間隔で弾を発射
-		float angle = -halfAngle + (kPI * i) / (fireNum - 1);
+	for (uint32_t upCount = 0; upCount < angleUpNum; ++upCount) {
+		for (uint32_t i = 0; i < fireNum; ++i) {
+			// -90度〜+90度に等間隔で弾を発射
+			float angle = -halfAngle + (kPI * i) / (fireNum - 1);
+			float upAngle = -halfAngle * ((float)upCount / (float)angleUpNum);
 
-		// クォータニオンで回転を生成（up軸周りに角度回転）
-		Quaternion rot = Quaternion::AngleAxis(angle, up);
+			// クォータニオンで回転を生成（up軸周りに角度回転）
+			Quaternion rot = Quaternion::AngleAxis(angle, up);
+			Quaternion upoRot = Quaternion::AngleAxis(upAngle, right);
 
-		// 正面ベクトルを回転させて発射方向に
-		Vector3 dir = rot.Rotate(forward);
+			// 正面ベクトルを回転させて発射方向に
+			Vector3 dir = upoRot.Rotate(forward);
+			dir = rot.Rotate(dir);
 
-		Vector3 velocity = dir.Normalize() * bulletSpeed_;
-		pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_);
+			Vector3 velocity = dir.Normalize() * bulletSpeed_;
+			pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_);
+		}
 	}
 
 	isFinishShot_ = true;

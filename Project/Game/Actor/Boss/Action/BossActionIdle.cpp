@@ -3,6 +3,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
+#include "Engine/Lib/Math/MyRandom.h"
 
 #ifdef _DEBUG
 void BossActionIdle::Debug_Gui() {
@@ -52,7 +53,13 @@ void BossActionIdle::OnEnd() {
 
 void BossActionIdle::CheckNextAction() {
 	if (actionTimer_ > 4.0f) {
-		NextAction<BossActionApproach>();
+		int rand = RandomInt(0, 1);
+		if (rand == 0) {
+			NextAction<BossActionApproach>();
+		} else {
+			NextAction<BossActionAllRangeMissile>();
+		}
+		
 	}
 }
 

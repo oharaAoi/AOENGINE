@@ -43,28 +43,31 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	PlayerBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
 	if (playerBullet != nullptr) {
 		playerBullet->SetIsAlive(false);
-	}
 
+		if (playerBullet->GetType() == 1) {
+			auto& newExplodeBurn = hitExplodeList_.emplace_back(std::make_unique<HitExplode>());
+			newExplodeBurn->SetBlendMode(3);
+			newExplodeBurn->Init();
+			newExplodeBurn->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "image.png");
+
+			auto& newExplode = hitExplodeList_.emplace_back(std::make_unique<HitExplode>());
+			newExplode->SetBlendMode(3);
+			newExplode->Init();
+			newExplode->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "explode.png");
+
+			hitSmoke_->SetPos(bullet->GetCenterPos());
+			hitSmoke_->Reset();
+		}
+	}
 
 	//hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
 	hitBossSmoke_->SetPos(bullet->GetCenterPos());
 	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
-	hitSmoke_->SetPos(bullet->GetCenterPos());
+	
 
 	//hitBossExploadParticles_->SetOnShot(true);
 	hitBossSmoke_->SetIsStop(false);
 	hitBossSmokeBorn_->SetIsStop(false);
-	hitSmoke_->Reset();
-
-	auto& newExplodeBurn = hitExplodeList_.emplace_back(std::make_unique<HitExplode>());
-	newExplodeBurn->SetBlendMode(3);
-	newExplodeBurn->Init();
-	newExplodeBurn->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "image.png");
-
-	auto& newExplode = hitExplodeList_.emplace_back(std::make_unique<HitExplode>());
-	newExplode->SetBlendMode(3);
-	newExplode->Init();
-	newExplode->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "explode.png");
 }
 
 void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {

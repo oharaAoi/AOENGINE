@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Module/Components/EventHandlers/BaseCollisionCallBacks.h"
 #include "Engine/System/Manager/CollisionManager.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 // Game
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/WorldObject/Floor.h"
@@ -36,6 +37,7 @@ private:
 	BossBulletManager* pBossBulletManager_ = nullptr;
 	Floor* pFloor_ = nullptr;
 
+	BaseParticles* hitEffect_;
 
 };
 

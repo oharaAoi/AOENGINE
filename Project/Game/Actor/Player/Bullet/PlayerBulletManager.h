@@ -23,7 +23,7 @@ public:
 
 public: // member method
 
-	void AddBullet(const Vector3& pos, const Vector3& velocity);
+	void AddBullet(const Vector3& pos, const Vector3& velocity, uint32_t type);
 
 private:
 

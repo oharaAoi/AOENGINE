@@ -51,8 +51,9 @@ PlayerBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {
 // ↓ 弾を追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBulletManager::AddBullet(const Vector3& pos, const Vector3& velocity) {
+void PlayerBulletManager::AddBullet(const Vector3& pos, const Vector3& velocity, uint32_t type) {
 	auto& bullet = bulletList_.emplace_back(std::make_unique<PlayerBullet>());
 	bullet->Init();
 	bullet->Reset(pos, velocity);
+	bullet->SetType(type);
 }

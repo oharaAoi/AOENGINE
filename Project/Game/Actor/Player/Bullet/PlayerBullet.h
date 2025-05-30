@@ -1,6 +1,11 @@
 #pragma once
 #include "Game/Actor/Base/BaseBullet.h"
 
+enum PlayerBulletType {
+	MACHINEGUN,
+	LANCHER,
+};
+
 /// <summary>
 /// Playerの基本の弾
 /// </summary>
@@ -15,9 +20,13 @@ public:
 	void Update();
 	void Draw() const;
 
+	void SetType(uint32_t type) { bulletType = type; }
+
+	uint32_t GetType() const { return bulletType; }
+
 private:
 
-
+	uint32_t bulletType = MACHINEGUN;
 
 };
 

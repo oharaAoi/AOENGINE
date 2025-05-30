@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Geometry/Structs/Vertices.h"
+#include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 class ParticleMesh final {

@@ -60,9 +60,9 @@ void MachineGun::Draw() const {
 // ↓ 弾を撃つ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void MachineGun::Shot(const Vector3& targetPos) {
+void MachineGun::Shot(const Vector3& targetPos, uint32_t type) {
 	Vector3 dire = (targetPos - GetPosition()).Normalize();
-	pBulletManager_->AddBullet(worldPos_, dire * speed_);
+	pBulletManager_->AddBullet(worldPos_, dire * speed_, type);
 	// effectを出す
 	Vector3 pos = worldPos_;
 	pos += (dire * 4.f);

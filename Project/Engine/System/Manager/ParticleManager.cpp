@@ -33,7 +33,7 @@ void ParticleManager::Init() {
 	SetName("ParticleManager");
 
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(10000);
+	particleRenderer_->Init(20000);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "ParticleManager");

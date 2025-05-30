@@ -22,7 +22,7 @@ public:
 
 public:		// member method
 
-	void Shot(const Vector3& targetPos) override;
+	void Shot(const Vector3& targetPos, uint32_t type) override;
 
 private:
 

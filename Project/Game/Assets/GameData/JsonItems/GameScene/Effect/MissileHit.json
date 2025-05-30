@@ -1,0 +1,58 @@
+{
+    "MissileHit": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 1.0,
+            "y": 0.22528940439224243,
+            "z": 0.03720933198928833
+        },
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "duration": 5.0,
+        "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isLoop": false,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 0.5,
+        "maxScale": {
+            "x": 12.0,
+            "y": 12.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "rateOverTimeCout": 54,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 10.0,
+            "y": 10.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 0.0,
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useTexture": "frea.png"
+    }
+}

@@ -38,6 +38,8 @@ void GameCallBacksManager::Init(CollisionManager* _manager) {
 }
 
 void GameCallBacksManager::Update() {
+	pBBulletToPlayer_->Update();
+	pBBulletToGround_->Update();
 	pBulletToBoss_->Update();
 }
 
