@@ -246,6 +246,7 @@
     <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\Effects\HitExploade.cpp" />
+    <ClCompile Include="Engine\Utilities\Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -464,6 +465,7 @@
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Game\Effects\JetEngineBurn.h" />
     <ClInclude Include="Game\Effects\HitExploade.h" />
+    <ClInclude Include="Engine\Utilities\Logger.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

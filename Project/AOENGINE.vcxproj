@@ -110,6 +110,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
+    <ClCompile Include="Engine\Utilities\Logger.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
@@ -320,6 +321,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
+    <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
