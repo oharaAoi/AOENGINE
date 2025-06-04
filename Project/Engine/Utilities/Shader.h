@@ -23,6 +23,7 @@ public:
 		Grayscale,
 		RadialBlur,
 		GlitchNoise,
+		Vignette,
 	};
 
 	enum CsShaderName {

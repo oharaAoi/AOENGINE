@@ -18,6 +18,7 @@ enum class RootSignatureType {
 
 	ProcessedScene,	// ポストプロセス
 	RadialBlur,
+	Vignette,
 	ComputeShader,
 	CsSkinning,
 	ComputeShaderBlend,
@@ -55,6 +56,7 @@ public:
 	ComPtr<ID3D12RootSignature> CreateResultRender();
 	ComPtr<ID3D12RootSignature> CreateProcessedScene();
 	ComPtr<ID3D12RootSignature> CreateRadialBlur();
+	ComPtr<ID3D12RootSignature> CreateVignette();
 
 	ComPtr<ID3D12RootSignature> CreateGpuParticleInit();
 	ComPtr<ID3D12RootSignature> CreateGpuParticleUpdate();
@@ -78,6 +80,7 @@ public:
 
 		{RootSignatureType::ProcessedScene, &RootSignature::CreateProcessedScene},
 		{RootSignatureType::RadialBlur, &RootSignature::CreateRadialBlur},
+		{RootSignatureType::Vignette, &RootSignature::CreateVignette},
 		// CS
 		{RootSignatureType::ComputeShader, &RootSignature::CreateComputeShader},
 		{RootSignatureType::CsSkinning, &RootSignature::CreateCsSkinnig},

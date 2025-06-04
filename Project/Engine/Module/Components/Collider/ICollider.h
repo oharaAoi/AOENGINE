@@ -59,7 +59,7 @@ public:
 	bool GetIsActive() const { return isActive_; }
 
 	// --------------- 移動するかどうか(押し戻すか)の設定・取得 -------------- //
-	void SetIsStatic(bool isStatic) { isStatic = isStatic; }
+	void SetIsStatic(bool isStatic) { isStatic_ = isStatic; }
 	bool GetIsStatic() const { return isStatic_; }
 
 	// --------------- categoryの設定・取得 -------------- //

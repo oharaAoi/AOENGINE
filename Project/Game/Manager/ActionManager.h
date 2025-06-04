@@ -74,16 +74,18 @@ public:
 	/// 実行中のAction名を表示
 	/// </summary>
 	void DisplayRunActions() {
-		/*ImGui::BulletText("RunActions");
+		ImGui::BulletText("RunActions");
 		for (auto& [size, action] : runActionMap_) {
-			ImGui::Text(action->GetActionName().c_str());
-		}*/
+			ImGui::Text(action->GetName().c_str());
+		}
 	}
 
 public:
 
 #ifdef _DEBUG
-	void Debug_Gui() override {};
+	void Debug_Gui() override {
+		DisplayRunActions();
+	}
 #endif // _DEBUG
 
 	/// <summary>

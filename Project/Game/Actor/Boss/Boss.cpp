@@ -22,6 +22,7 @@ void Boss::Init() {
 
 	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
+	collider_->SetTarget(ColliderTags::Field::ground);
 	collider_->SetIsStatic(false);
 	collider_->SetRadius(4.5f);
 

@@ -27,7 +27,7 @@ Vector3 PenetrationResolutionAABBandSphere(const AABB& aabb, const Sphere& s1) {
 	// 中心の距離を計算
 	Vector3 delta = s1.center - closeet;
 	float dist = delta.Length();
-	Vector3 correction;
+	Vector3 correction = CVector3::ZERO;
 	if (dist < s1.radius) {
 		float penetration = s1.radius - dist;
 

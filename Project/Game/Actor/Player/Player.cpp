@@ -31,6 +31,8 @@ void Player::Debug_Gui() {
 
 	collider_->Debug_Gui();
 
+	actionManager_->Debug_Gui();
+
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
 		ImGui::DragFloat("bodyWeight", &param_.bodyWeight, 0.1f);
 		ImGui::DragFloat("energy", &param_.energy, 0.1f);

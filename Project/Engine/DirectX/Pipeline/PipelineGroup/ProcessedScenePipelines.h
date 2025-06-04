@@ -6,6 +6,7 @@ enum class ProcessedScenePSO {
 	Grayscale,
 	RadialBlur,
 	GlitchNoise,
+	Vignette,
 };
 
 /// <summary>

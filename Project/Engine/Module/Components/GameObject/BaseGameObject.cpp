@@ -128,6 +128,7 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 
 	collider_->Init(categoryName, shape);
 	collider_->SetWorldTransform(transform_.get());
+	collider_->SetName(categoryName);
 	ColliderCollector::AddCollider(collider_.get());
 }
 

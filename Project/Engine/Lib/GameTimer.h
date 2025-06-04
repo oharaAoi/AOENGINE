@@ -29,6 +29,8 @@ private:
 	static float deletaTime_;
 	static float timeRate_;
 	static float totalTime_;
+
+	static float timeScale_;
 };
 
 const float kDeltaTime_ = (1.0f / GameTimer::fps_);

@@ -10,6 +10,7 @@ void PostProcess::Finalize() {
 	grayscale_.reset();
 	radialBlur_.reset();
 	glitchNoise_.reset();
+	vignette_.reset();
 	effectList_.clear();
 }
 
@@ -28,8 +29,12 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	glitchNoise_ = std::make_shared<GlitchNoise>();
 	glitchNoise_->Init();
 
-	AddEffect(PostEffectType::RADIALBLUR);
+	vignette_ = std::make_shared<Vignette>();
+	vignette_->Init();
+
+	//AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
+	AddEffect(PostEffectType::VIGNETTE);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Post Process");
@@ -93,6 +98,9 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::GLITCHNOISE:
 			effectList_.push_back(glitchNoise_);
 			break;
+		case PostEffectType::VIGNETTE:
+			effectList_.push_back(vignette_);
+			break;
 		default:
 			break;
 		}
@@ -119,6 +127,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	case PostEffectType::GLITCHNOISE:
 		return glitchNoise_;
 		break;
+	case PostEffectType::VIGNETTE:
+		return vignette_;
+		break;
 	default:
 		return nullptr;
 		break;
@@ -129,5 +140,6 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 void PostProcess::Debug_Gui() {
 	radialBlur_->Debug_Gui();
 	glitchNoise_->Debug_Gui();
+	vignette_->Debug_Gui();
 }
 #endif

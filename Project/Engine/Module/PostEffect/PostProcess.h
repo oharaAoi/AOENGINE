@@ -4,6 +4,7 @@
 #include "Engine/Module/PostEffect/Grayscale.h"
 #include "Engine/Module/PostEffect/RadialBlur.h"
 #include "Engine/Module/PostEffect/GlitchNoise.h"
+#include "Engine/Module/PostEffect/Vignette.h"
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
@@ -12,6 +13,7 @@ enum class PostEffectType {
 	GRAYSCALE,
 	RADIALBLUR,
 	GLITCHNOISE,
+	VIGNETTE,
 };
 
 /// <summary>
@@ -61,6 +63,7 @@ public:
 	std::shared_ptr<Grayscale> GetGrayscale() { return grayscale_; }
 	std::shared_ptr<RadialBlur> GetRadialBlur() { return radialBlur_; }
 	std::shared_ptr<GlitchNoise> GetGlitchNoise() { return glitchNoise_; }
+	std::shared_ptr<Vignette> GetVignette() { return vignette_; }
 
 private:
 
@@ -69,6 +72,7 @@ private:
 	std::shared_ptr<Grayscale> grayscale_;
 	std::shared_ptr<RadialBlur> radialBlur_;
 	std::shared_ptr<GlitchNoise> glitchNoise_;
+	std::shared_ptr<Vignette> vignette_;
 
 	std::list<std::shared_ptr<IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;
