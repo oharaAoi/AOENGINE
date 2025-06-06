@@ -1,5 +1,6 @@
 #include "ParticleSystemEditor.h"
 #include "ImGuiFileDialog.h"
+#include "Engine/Engine.h"
 #include "Engine/Utilities/DrawUtils.h"
 #include <iostream>
 #include <fstream>
@@ -83,7 +84,8 @@ void ParticleSystemEditor::Update() {
 void ParticleSystemEditor::Draw() {
 #ifdef _DEBUG
 	PreDraw();
-	particleRenderer_->Draw(commandList_);
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	particleRenderer_->Draw(commandList_, pso);
 	PostDraw();
 #endif // _DEBUG
 }

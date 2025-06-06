@@ -42,9 +42,12 @@ void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* 
 		}
 	}
 
-	Engine::SetPSOProcessed(ProcessedScenePSO::RadialBlur);
-	commandList->SetGraphicsRootDescriptorTable(0, pingResource->GetSRV().handleGPU);
-	commandList->SetGraphicsRootConstantBufferView(1, blurSettingBuffer_->GetResource()->GetGPUVirtualAddress());
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_RadialBlur.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gTexture");
+	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
+	index = pso->GetRootSignatureIndex("gBlurSetting");
+	commandList->SetGraphicsRootConstantBufferView(index, blurSettingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 

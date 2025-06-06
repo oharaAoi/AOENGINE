@@ -37,7 +37,8 @@ void Reticle::Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Reticle::Draw() const {
-	reticle_->Draw();
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	reticle_->Draw(pso);
 }
 
 void Reticle::LockOn() {

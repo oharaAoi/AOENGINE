@@ -10,13 +10,10 @@ void Blend::Init() {
 }
 
 D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
+
 	D3D12_BLEND_DESC blendDesc{};
 	// すべての色要素を書き込む
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
-	/*blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
-	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
-	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_ZERO;*/
-
 	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
 	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
@@ -45,6 +42,36 @@ D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetScreenBlend(blendDesc);
 		break;
+	}
+
+	return blendDesc;
+}
+
+D3D12_BLEND_DESC Blend::SetBlend(const std::string& modeName) {
+	D3D12_BLEND_DESC blendDesc{};
+	// すべての色要素を書き込む
+	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+	blendDesc.RenderTarget[0].SrcBlendAlpha = D3D12_BLEND_ONE;
+	blendDesc.RenderTarget[0].DestBlendAlpha = D3D12_BLEND_INV_SRC_ALPHA;
+	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
+
+	if (modeName == "None") {
+		blendDesc.RenderTarget[0].BlendEnable = FALSE;
+	} else if (modeName == "Normal") {
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		SetNormalBlend(blendDesc);
+	} else if (modeName == "Add") {
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		SetAddBlend(blendDesc);
+	} else if (modeName == "Subtract") {
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		SetSubtractBlend(blendDesc);
+	} else if (modeName == "Multily") {
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		SetMultiplyBlend(blendDesc);
+	} else if (modeName == "Screen") {
+		blendDesc.RenderTarget[0].BlendEnable = TRUE;
+		SetScreenBlend(blendDesc);
 	}
 
 	return blendDesc;

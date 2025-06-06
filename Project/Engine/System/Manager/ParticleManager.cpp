@@ -1,4 +1,5 @@
 #include "ParticleManager.h"
+#include "Engine/Engine.h"
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
@@ -143,7 +144,8 @@ void ParticleManager::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Draw() const {
-	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList(), pso);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

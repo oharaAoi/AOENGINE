@@ -1,4 +1,5 @@
 #include "ObjectAxis.h"
+#include "Engine/Engine.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
 ObjectAxis::ObjectAxis() {
@@ -26,5 +27,6 @@ void ObjectAxis::Update(const Matrix4x4& parentWorldMat) {
 }
 
 void ObjectAxis::Draw() const {
-	Render::DrawModel(model_, transform_.get(), materials);
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	Render::DrawModel(pso, model_, transform_.get(), materials);
 }

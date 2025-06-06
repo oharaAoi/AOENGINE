@@ -33,6 +33,7 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::Update(const QuaternionSRT& srt) {
+	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<AABB>(shape_)) {
 		std::get<AABB>(shape_).min = (srt.translate - (size_ / 2.0f)) + localSRT_.translate;

@@ -4,6 +4,7 @@
 #include "DirectionalLight.h"
 #include "PointLight.h"
 #include "SpotLight.h"
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 
@@ -27,11 +28,8 @@ public:
 
 	void Update();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
-	void DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
-
-	void DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
-
+	void Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
+	
 #ifdef _DEBUG
 	void Debug_Gui() override;
 #endif // _DEBUG

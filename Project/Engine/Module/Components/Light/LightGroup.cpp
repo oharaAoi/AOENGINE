@@ -38,18 +38,13 @@ void LightGroup::Update() {
 	spotLight_->Update();
 }
 
-void LightGroup::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
-	directionalLight_->Draw(commandList, rootParameterIndex);
-	pointLight_->Draw(commandList, rootParameterIndex + 1);
-	spotLight_->Draw(commandList, rootParameterIndex + 2);
-}
-
-void LightGroup::DrawLi(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
-	directionalLight_->Draw(commandList, rootParameterIndex);
-}
-
-void LightGroup::DrawPar(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
-	directionalLight_->Draw(commandList, rootParameterIndex);
+void LightGroup::Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList) {
+	UINT index = pso->GetRootSignatureIndex("gDirectionalLight");
+	directionalLight_->Draw(commandList, index);
+	index = pso->GetRootSignatureIndex("gPointLight");
+	pointLight_->Draw(commandList, index);
+	index = pso->GetRootSignatureIndex("gSpotLight");
+	spotLight_->Draw(commandList, index);
 }
 
 #ifdef _DEBUG

@@ -177,11 +177,11 @@ void GameScene::Draw() const {
 	// Sceneの描画
 	sceneRenderer_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
+	Engine::SetPipeline(PSOType::Object3d, "Object_NormalEnviroment.json");
 	//sphere_->Draw();
 
 	
-	Engine::SetPSOObj(Object3dPSO::Particle);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 	ParticleManager::GetInstance()->Draw();
 
 	gameCallBacksManager_->Draw();
@@ -189,7 +189,7 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------
-	Engine::SetPSOSprite(SpritePSO::Normal);
+	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
 	canvas_->Draw();
 
 }

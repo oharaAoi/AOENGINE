@@ -117,7 +117,7 @@ void Sprite::Update() {
 // ↓　描画前処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Sprite::Draw(bool isBackGround) {
+void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
 	Vector2 pivotOffset = {
 		(anchorPoint_.x - 0.5f) * textureSize_.x,  // ピボットオフセット（中心からのオフセット）
 		(anchorPoint_.y - 0.5f) * textureSize_.y   // ピボットオフセット（中心からのオフセット）
@@ -139,20 +139,22 @@ void Sprite::Draw(bool isBackGround) {
 		projection
 	);
 
-	Render::DrawSprite(this);
+	Render::DrawSprite(this, pipeline);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　実際にDrawCallを呼び出す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList) const {
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const {
+	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
-	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootConstantBufferView(1, transformBuffer_->GetGPUVirtualAddress());
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, 2);
+	commandList->SetGraphicsRootConstantBufferView(index, materialBuffer_->GetGPUVirtualAddress());
+	index = pipeline->GetRootSignatureIndex("gTransformationMatrix");
+	commandList->SetGraphicsRootConstantBufferView(index, transformBuffer_->GetGPUVirtualAddress());
+	index = pipeline->GetRootSignatureIndex("gTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, index);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 

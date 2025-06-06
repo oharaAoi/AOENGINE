@@ -4,24 +4,22 @@ ProcessedScenePipelines::~ProcessedScenePipelines() {
 	pipelineMap_.clear();
 }
 
-void ProcessedScenePipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Shader* shaders) {
+void ProcessedScenePipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	assert(device);
 	assert(dxCompiler);
 
-	pipelineMap_[ProcessedScenePSO::Normal] = std::make_unique<Pipeline>();
-	pipelineMap_[ProcessedScenePSO::Grayscale] = std::make_unique<Pipeline>();
-	pipelineMap_[ProcessedScenePSO::RadialBlur] = std::make_unique<Pipeline>();
-	pipelineMap_[ProcessedScenePSO::GlitchNoise] = std::make_unique<Pipeline>();
-	pipelineMap_[ProcessedScenePSO::Vignette] = std::make_unique<Pipeline>();
-
-	pipelineMap_[ProcessedScenePSO::Normal]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::ProcessedScene), RootSignatureType::ProcessedScene, inputLayout_.CreateRenderTexture(), Blend::ModeNone, true, false, true);
-	pipelineMap_[ProcessedScenePSO::Grayscale]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Grayscale), RootSignatureType::ProcessedScene, inputLayout_.CreateRenderTexture(), Blend::ModeNone, true, false, false);
-	pipelineMap_[ProcessedScenePSO::RadialBlur]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::RadialBlur), RootSignatureType::RadialBlur, inputLayout_.CreateRenderTexture(), Blend::ModeNone, true, false, false);
-	pipelineMap_[ProcessedScenePSO::GlitchNoise]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::GlitchNoise), RootSignatureType::RadialBlur, inputLayout_.CreateRenderTexture(), Blend::ModeNone, true, false, false);
-	pipelineMap_[ProcessedScenePSO::Vignette]->Initialize(device, dxCompiler, shaders->GetShaderData(Shader::Vignette), RootSignatureType::Vignette, inputLayout_.CreateRenderTexture(), Blend::ModeNone, true, false, false);
+	device_ = device;
+	dxCompiler_ = dxCompiler;
 }
 
-void ProcessedScenePipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, ProcessedScenePSO kind) {
-	pipelineMap_[kind]->Draw(commandList);
+void ProcessedScenePipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName) {
+	pipelineMap_[typeName]->Draw(commandList);
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	lastUsePipeline_ = pipelineMap_[typeName].get();
+}
+
+void ProcessedScenePipelines::AddPipeline(const std::string& fileName, json jsonData) {
+	pipelineMap_[fileName] = std::make_unique<Pipeline>();
+	pipelineMap_[fileName]->Init(device_, dxCompiler_, jsonData);
 }

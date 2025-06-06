@@ -50,8 +50,9 @@ void CanvasUI::Draw() const {
 
 	energyOutput_->Draw();
 
+	Pipeline* pso = Engine::GetLastUsedPipeline();
 	if (pPlayer_->GetIsBoostMode()) {
-		boostOn_->Draw();
+		boostOn_->Draw(pso);
 	} 
 }
 

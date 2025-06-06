@@ -30,17 +30,25 @@ void JetEngineBurn::Update() {
 }
 
 void JetEngineBurn::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::TextureBlendAdd);
+	Engine::SetPipeline(PSOType::Object3d, "Object_TextureBlendAdd.json");
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	commandList->SetGraphicsRootConstantBufferView(0, material_->GetBufferAdress());
 
-	worldTransform_->BindCommandList(commandList);
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), 3);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "white.png", 4);
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gMaterial");
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+
+	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
+	worldTransform_->BindCommandList(commandList, index);
+	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
+	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+
+	index = pso->GetRootSignatureIndex("gTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);
+	index = pso->GetRootSignatureIndex("gNoiseTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "white.png", index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }

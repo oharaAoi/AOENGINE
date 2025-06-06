@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
@@ -42,13 +43,13 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="isBackGround">: バックグラウンド描画を行うか</param>
-	void Draw(bool isBackGround = false);
+	void Draw(const Pipeline* pipeline, bool isBackGround = false);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
-	void PostDraw(ID3D12GraphicsCommandList* commandList) const;
+	void PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
 
 #ifdef _DEBUG
 	void Debug_Gui();

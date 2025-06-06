@@ -41,7 +41,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	}
 	float3 normal = normalize(input.normal);
 	
-	output.color.rgb = gMaterial.color.rgb * textureColor.rbg;
+	output.color.rgb = gMaterial.color.rgb * textureColor.rbg * noiseColor.rgb;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);

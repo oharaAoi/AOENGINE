@@ -32,9 +32,9 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	vignette_ = std::make_shared<Vignette>();
 	vignette_->Init();
 
-	//AddEffect(PostEffectType::RADIALBLUR);
+	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
-	AddEffect(PostEffectType::VIGNETTE);
+	//AddEffect(PostEffectType::VIGNETTE);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Post Process");

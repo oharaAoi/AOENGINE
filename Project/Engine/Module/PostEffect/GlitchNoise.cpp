@@ -36,9 +36,12 @@ void GlitchNoise::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource*
 		}
 	}
 
-	Engine::SetPSOProcessed(ProcessedScenePSO::GlitchNoise);
-	commandList->SetGraphicsRootDescriptorTable(0, pingResource->GetSRV().handleGPU);
-	commandList->SetGraphicsRootConstantBufferView(1, glitchBuffer_->GetResource()->GetGPUVirtualAddress());
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GlitchNoise.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gTexture");
+	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
+	index = pso->GetRootSignatureIndex("gGlitchNoise");
+	commandList->SetGraphicsRootConstantBufferView(index, glitchBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 

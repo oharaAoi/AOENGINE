@@ -90,8 +90,8 @@ void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) 
 // ↓　コマンドリストに送る
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList) const {
-	commandList->SetGraphicsRootConstantBufferView(1, cBuffer_->GetGPUVirtualAddress());
+void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const {
+	commandList->SetGraphicsRootConstantBufferView(index, cBuffer_->GetGPUVirtualAddress());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

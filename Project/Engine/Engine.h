@@ -89,6 +89,8 @@ namespace {
 	bool openParticleEditer_ = false;	// 後で直す
 
 	bool isColliderDraw_;
+
+	Pipeline* lastUsedPipeline_;
 }
 
 class Engine {
@@ -157,10 +159,11 @@ public:
 	// 設定系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	static void SetPSOObj(Object3dPSO kind);
-	static void SetPSOSprite(SpritePSO kind);
-	static void SetPSOProcessed(ProcessedScenePSO kind);
 	static void SetPSOPrimitive();
+
+	static void SetPipeline(PSOType type, const std::string& typeName);
+
+	static Pipeline* GetLastUsedPipeline();
 
 	/// <summary>
 	/// パイプラインの設定

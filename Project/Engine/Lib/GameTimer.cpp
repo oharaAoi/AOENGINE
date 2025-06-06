@@ -26,6 +26,7 @@ void GameTimer::CalculationFrame() {
 	timeRate_ = deletaTime_ / kDeltaTime_;
 	totalTime_ += deletaTime_;
 
+	preFrameTime_ = currentTime;
 }
 
 void GameTimer::Debug() {

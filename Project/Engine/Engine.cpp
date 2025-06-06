@@ -255,7 +255,7 @@ void Engine::RenderFrame() {
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();
-	SetPSOProcessed(ProcessedScenePSO::Normal);
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
 
 	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -343,20 +343,33 @@ void Engine::RunCS() {
 	computeShader_->RunComputeShader(dxCmdList_);
 }
 
-void Engine::SetPSOObj(Object3dPSO kind) {
-	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
-}
-
-void Engine::SetPSOSprite(SpritePSO kind) {
-	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
-}
-
-void Engine::SetPSOProcessed(ProcessedScenePSO kind) {
-	graphicsPipeline_->SetPipeline(dxCmdList_, kind);
-}
-
 void Engine::SetPSOPrimitive() {
 	primitivePipeline_->Draw(dxCmdList_);
+}
+
+void Engine::SetPipeline(PSOType type, const std::string& typeName) {
+	switch (type) {
+	case PSOType::Object3d:
+		graphicsPipeline_->SetPipeline(dxCmdList_, type, typeName);
+		lastUsedPipeline_ = graphicsPipeline_->GetLastUsedPipeline();
+		break;
+	case PSOType::Sprite:
+		graphicsPipeline_->SetPipeline(dxCmdList_, type, typeName);
+		lastUsedPipeline_ = graphicsPipeline_->GetLastUsedPipeline();
+		break;
+	case PSOType::ProcessedScene:
+		graphicsPipeline_->SetPipeline(dxCmdList_, type, typeName);
+		lastUsedPipeline_ = graphicsPipeline_->GetLastUsedPipeline();
+		break;
+	case PSOType::Primitive:
+		break;
+	default:
+		break;
+	}
+}
+
+Pipeline* Engine::GetLastUsedPipeline() {
+	return lastUsedPipeline_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

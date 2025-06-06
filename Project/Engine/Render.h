@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
@@ -37,20 +38,20 @@ public:
 	/// Spriteの描画
 	/// </summary>
 	/// <param name="sprite">: spriteのポインタ</param>
-	static void DrawSprite(Sprite* sprite);
+	static void DrawSprite(Sprite* sprite, const Pipeline* pipeline);
 
 	/// <summary>
 	/// モデルの描画
 	/// </summary>
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawModel(Model* model, const WorldTransform* worldTransform,
+	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 						  const std::vector<std::unique_ptr<Material>>& materials);
 
-	static void DrawModel(Model* model, const WorldTransform* worldTransform,
+	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
 
-	static void DrawEnvironmentModel(Mesh* _mesh, Material* _material, const WorldTransform* _transform);
+	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform);
 
 	/// <summary>
 	/// 線の描画
@@ -69,7 +70,7 @@ public:
 	/// <param name="color">: 色</param>
 	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color);
 
-	static void DrawLightGroup(const int& startIndex);
+	static void DrawLightGroup(Pipeline* pipeline);
 
 	//==================================================================================
 	// ↓　設定系

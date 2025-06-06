@@ -28,7 +28,7 @@ public:
 	void Finalize();
 	void Init(ID3D12Device* device);
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
-	void BindCommandList(ID3D12GraphicsCommandList* commandList) const;
+	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 
 	void Translate(const Vector3& translate) { translate_ += translate; }
 

@@ -20,15 +20,16 @@ void SceneRenderer::Update() {
 
 void SceneRenderer::Draw() const {
 	for (auto& pair : object3dList_) {
+		Engine::SetPipeline(PSOType::Object3d, pair.renderingType);
 		pair.object->Draw();
 	}
 }
 
-void SceneRenderer::SetObject(Object3dPSO type, BaseGameObject* object) {
+void SceneRenderer::SetObject(const std::string& typeFile, BaseGameObject* object) {
 	// nullなら早期
 	if (object == nullptr) { return; }
 	// ペア作成
-	ObjectPair pair = ObjectPair(type, object);
+	ObjectPair pair = ObjectPair(typeFile, object);
 	object3dList_.push_back(pair);
 }
 

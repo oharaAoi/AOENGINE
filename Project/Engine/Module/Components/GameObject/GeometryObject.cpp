@@ -22,16 +22,24 @@ void GeometryObject::Update() {
 void GeometryObject::Draw() const {
 
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
-	Render::DrawLightGroup(4);
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+
+	Render::DrawLightGroup(pso);
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	commandList->SetGraphicsRootConstantBufferView(0, material_->GetBufferAdress());
 
-	transform_->BindCommandList(commandList);
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList);
+	UINT index = pso->GetRootSignatureIndex("gMaterial");
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
 
+	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
+	transform_->BindCommandList(commandList, index);
+
+	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
+	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+
+	index = pso->GetRootSignatureIndex("gTexture");
 	std::string textureName = material_->GetUseTexture();
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 3);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 	
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }

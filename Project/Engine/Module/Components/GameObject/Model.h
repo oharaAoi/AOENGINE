@@ -6,6 +6,7 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
 #include "Engine/Module/Components/WorldTransform.h"
@@ -51,10 +52,12 @@ public:
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	
 	void Draw(ID3D12GraphicsCommandList* commandList,
+			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const std::vector<std::unique_ptr<Material>>& materials);
 	
 	void Draw(ID3D12GraphicsCommandList* commandList,
+			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
 

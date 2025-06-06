@@ -120,7 +120,7 @@ void Player::Init() {
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
 
-	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());

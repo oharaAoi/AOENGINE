@@ -46,7 +46,7 @@ void PlayerManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerManager::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::Normal);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
 	player_->Draw();
 
 	bulletManager_->Draw();

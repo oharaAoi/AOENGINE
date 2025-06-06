@@ -41,3 +41,23 @@ ComPtr<IDxcBlob> DirectXCompiler::CsShaderCompile(const std::string& shader) {
 
 	return result.Get();
 }
+
+ComPtr<ID3D12ShaderReflection> DirectXCompiler::ReadShaderReflection(IDxcBlob* blob) {
+	ComPtr<IDxcUtils> dxcUtils;
+	HRESULT hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
+	assert(SUCCEEDED(hr));
+
+	DxcBuffer dxcBuffer = {};
+	dxcBuffer.Ptr = blob->GetBufferPointer();
+	dxcBuffer.Size = blob->GetBufferSize();
+	dxcBuffer.Encoding = DXC_CP_ACP; // ANSI, 通常これでOK
+
+	ComPtr<ID3D12ShaderReflection> pReflector;
+	hr = dxcUtils->CreateReflection(
+		&dxcBuffer,
+		IID_PPV_ARGS(&pReflector)
+	);
+	assert(SUCCEEDED(hr));
+
+	return pReflector;
+}

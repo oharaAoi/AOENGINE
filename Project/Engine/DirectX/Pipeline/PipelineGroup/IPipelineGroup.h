@@ -11,12 +11,18 @@ public:
 	IPipelineGroup() = default;
 	virtual ~IPipelineGroup() = default;
 
-	virtual void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Shader* shaders) = 0;
+	virtual void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) = 0;
+
+	Pipeline* GetLastUsedPipeline() const { return lastUsePipeline_; };
 
 protected:
 
-	// inputLayout
-	InputLayout inputLayout_;
+	std::unordered_map<std::string, std::unique_ptr<Pipeline>> pipelineMap_;
+
+	ID3D12Device* device_;
+	DirectXCompiler* dxCompiler_;
+
+	Pipeline* lastUsePipeline_;
 
 };
 

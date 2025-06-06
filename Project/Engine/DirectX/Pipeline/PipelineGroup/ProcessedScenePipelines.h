@@ -19,13 +19,15 @@ public:
 	ProcessedScenePipelines() = default;
 	~ProcessedScenePipelines() override;
 
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Shader* shaders) override;
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) override;
 
-	void SetPipeline(ID3D12GraphicsCommandList* commandList, ProcessedScenePSO kind);
+	void SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName);
+
+	void AddPipeline(const std::string& fileName, json jsonData);
 
 private:
 
-	std::unordered_map<ProcessedScenePSO, std::unique_ptr<Pipeline>> pipelineMap_;
+	
 
 };
 

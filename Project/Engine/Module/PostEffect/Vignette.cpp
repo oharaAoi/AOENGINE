@@ -19,9 +19,12 @@ void Vignette::Init() {
 }
 
 void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
-	Engine::SetPSOProcessed(ProcessedScenePSO::Vignette);
-	commandList->SetGraphicsRootDescriptorTable(0, pingResource->GetSRV().handleGPU);
-	commandList->SetGraphicsRootConstantBufferView(1, settingBuffer_->GetResource()->GetGPUVirtualAddress());
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Vignette.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gTexture");
+	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
+	index = pso->GetRootSignatureIndex("gSetting");
+	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 

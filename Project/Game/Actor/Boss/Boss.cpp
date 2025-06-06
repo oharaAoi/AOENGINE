@@ -23,7 +23,7 @@ void Boss::Init() {
 	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
 	collider_->SetTarget(ColliderTags::Field::ground);
-	collider_->SetIsStatic(false);
+	//collider_->SetIsStatic(false);
 	collider_->SetRadius(4.5f);
 
 	// -------------------------------------------------
@@ -52,7 +52,7 @@ void Boss::Init() {
 	transform_->translate_.y = 5.0f;
 	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
 
-	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, "Boss");

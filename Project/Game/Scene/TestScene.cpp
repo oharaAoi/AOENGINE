@@ -113,7 +113,7 @@ void TestScene::Draw() const {
 		DrawGrid(camera3d_->GetViewMatrix(), camera3d_->GetProjectionMatrix());
 	}
 
-	Engine::SetPSOObj(Object3dPSO::Normal);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
 	skydome_->Draw();
 
 	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
@@ -121,7 +121,7 @@ void TestScene::Draw() const {
 	}
 	//plane_->Draw();
 
-	Engine::SetPSOObj(Object3dPSO::Particle);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 	ParticleManager::GetInstance()->Draw();
 }
 

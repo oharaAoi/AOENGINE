@@ -1,0 +1,10 @@
+{
+    "Pipeline": {
+        "vs": "./Engine/Assets/HLSL/Sprite.VS.hlsl",
+        "ps": "./Engine/Assets/HLSL/Sprite.PS.hlsl",
+        "blendMode": "None",
+        "culling" : true,
+        "depth" : true,
+        "colorCorrection" : true
+    }
+}

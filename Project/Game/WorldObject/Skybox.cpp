@@ -29,16 +29,22 @@ void Skybox::Update() {
 }
 
 void Skybox::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::Skybox);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Skybox.json");
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gMaterial");
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	commandList->SetGraphicsRootConstantBufferView(0, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
 
-	transform_->BindCommandList(commandList);
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture_, 3);
+	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
+	transform_->BindCommandList(commandList, index);
+	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
+	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+
+	index = pso->GetRootSignatureIndex("gTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture_, index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }

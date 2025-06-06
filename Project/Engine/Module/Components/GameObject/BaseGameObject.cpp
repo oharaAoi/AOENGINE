@@ -96,16 +96,18 @@ void BaseGameObject::Draw() const {
 	if (isReflection_) {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
 			if (materials.size() > index) {
-				Render::DrawEnvironmentModel(model_->GetMesh(index), materials[index].get(), transform_.get());
+				Pipeline* pso = Engine::GetLastUsedPipeline();
+				Render::DrawEnvironmentModel(pso, model_->GetMesh(index), materials[index].get(), transform_.get());
 			}
 		}
 		return;
 	}
 
+	Pipeline* pso = Engine::GetLastUsedPipeline();
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
-		Render::DrawModel(model_, transform_.get(), materials);
+		Render::DrawModel(pso, model_, transform_.get(), materials);
 	} else {
-		Render::DrawModel(model_, transform_.get(), animetor_->GetSkinning()->GetVBV(), materials);
+		Render::DrawModel(pso, model_, transform_.get(), animetor_->GetSkinning()->GetVBV(), materials);
 	}
 }
 

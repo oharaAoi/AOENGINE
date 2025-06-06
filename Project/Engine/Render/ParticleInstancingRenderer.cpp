@@ -56,20 +56,26 @@ void ParticleInstancingRenderer::PostUpdate() {
 	}
 }
 
-void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
+void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const {
 	for (auto& information : particleMap_) {
 		if (information.second.isAddBlend) {
-			Engine::SetPSOObj(Object3dPSO::Particle);
+			Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 		} else {
-			Engine::SetPSOObj(Object3dPSO::SubParticle);
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleSubtract.json");
 		}
 		commandList->IASetVertexBuffers(0, 1, &information.second.pMesh->GetVBV());
 		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
-		commandList->SetGraphicsRootConstantBufferView(0, information.second.materials->GetBufferAdress());
-		commandList->SetGraphicsRootDescriptorTable(1, information.second.srvHandle_.handleGPU);
+
+		UINT index = pipeline->GetRootSignatureIndex("gMaterial");
+		commandList->SetGraphicsRootConstantBufferView(index, information.second.materials->GetBufferAdress());
+		index = pipeline->GetRootSignatureIndex("gParticles");
+		commandList->SetGraphicsRootDescriptorTable(index, information.second.srvHandle_.handleGPU);
+
+		index = pipeline->GetRootSignatureIndex("gTexture");
 		std::string textureName = information.second.materials->GetUseTexture();
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
-		commandList->SetGraphicsRootConstantBufferView(3, perViewBuffer_->GetGPUVirtualAddress());
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		index = pipeline->GetRootSignatureIndex("gPerView");
+		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
 
 		commandList->DrawIndexedInstanced(information.second.pMesh->GetIndexNum(), maxInstanceNum_, 0, 0, 0);
 	}

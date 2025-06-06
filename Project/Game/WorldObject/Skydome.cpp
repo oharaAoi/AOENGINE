@@ -18,6 +18,6 @@ void Skydome::Update() {
 }
 
 void Skydome::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::Normal);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
 	BaseGameObject::Draw();
 }

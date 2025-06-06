@@ -31,6 +31,7 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereCollider::Update(const QuaternionSRT& srt) {
+	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate + localSRT_.translate;
 	std::get<Sphere>(shape_).center = centerPos_;
 }

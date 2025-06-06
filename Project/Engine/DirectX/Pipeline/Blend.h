@@ -3,6 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <cassert>
+#include <string>
 
 class Blend {
 public:
@@ -30,6 +31,8 @@ public:
 	void Init();
 
 	D3D12_BLEND_DESC SetBlend(const BlendMode& mode);
+
+	D3D12_BLEND_DESC SetBlend(const std::string& modeName);
 
 	void SetNormalBlend(D3D12_BLEND_DESC& blendDesc);
 

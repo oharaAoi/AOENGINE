@@ -21,13 +21,13 @@ public:
 	SpritePipelines() = default;
 	~SpritePipelines() override;
 
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, Shader* shaders) override;
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) override;
 
-	void SetPipeline(ID3D12GraphicsCommandList* commandList, SpritePSO kind);
+	void SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName);
+
+	void AddPipeline(const std::string& fileName, json jsonData);
 
 private:
-
-	std::unordered_map<SpritePSO, std::unique_ptr<Pipeline>> pipelineMap_;
 
 };
 

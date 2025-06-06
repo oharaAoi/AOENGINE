@@ -33,7 +33,7 @@ void LauncherGun::Init() {
 
 	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
 
-	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());

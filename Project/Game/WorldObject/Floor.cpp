@@ -28,7 +28,7 @@ void Floor::Init() {
 
 	isReflection_ = true;
 
-	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+	SceneRenderer::GetInstance()->SetObject("Object_NormalEnviroment.json", this);
 
 #ifdef _DEBUG
 	EditerWindows::AddObjectWindow(this, GetName());
@@ -40,6 +40,6 @@ void Floor::Update() {
 }
 
 void Floor::Draw() const {
-	Engine::SetPSOObj(Object3dPSO::NormalEnviroment);
+	Engine::SetPipeline(PSOType::Object3d, "Object_NormalEnviroment.json");
 	BaseGameObject::Draw();
 }

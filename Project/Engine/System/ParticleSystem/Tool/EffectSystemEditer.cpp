@@ -98,7 +98,7 @@ void EffectSystemEditer::Draw() const {
 	DrawGrid(effectSystemCamera_->GetViewMatrix(), effectSystemCamera_->GetProjectionMatrix());
 
 	// 実際にEffectを描画する
-	Engine::SetPSOObj(Object3dPSO::Particle);
+	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 	//gpuParticles_->Draw(Engine::GetCommandList());
 
 	Engine::SetPSOPrimitive();

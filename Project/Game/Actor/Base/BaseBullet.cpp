@@ -9,7 +9,7 @@ void BaseBullet::Init() {
 	BaseGameObject::Init();
 	isAlive_ = true;
 
-	SceneRenderer::GetInstance()->SetObject(Object3dPSO::Normal, this);
+	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 }
 
 void BaseBullet::Update() {

@@ -12,10 +12,10 @@ class SceneRenderer {
 public:
 
 	struct ObjectPair {
-		Object3dPSO renderingType;
+		std::string renderingType;
 		BaseGameObject* object;
 
-		ObjectPair(Object3dPSO type, BaseGameObject* obj)
+		ObjectPair(std::string type, BaseGameObject* obj)
 			: renderingType(type), object(obj) {
 		}
 	};
@@ -35,13 +35,13 @@ public:
 
 	void Draw() const;
 
-	void SetObject(Object3dPSO type, BaseGameObject* object);
+	void SetObject(const std::string& typeFile, BaseGameObject* object);
 
 	void ReleaseObject(BaseGameObject* object);
 
 private:
 
-	std::unordered_map<Object3dPSO, std::list<BaseGameObject*>> object3dMap_;
+	std::unordered_map<std::string, std::list<BaseGameObject*>> object3dMap_;
 
 	std::list<ObjectPair> object3dList_;
 

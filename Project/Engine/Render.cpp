@@ -72,38 +72,44 @@ void Render::SetRenderTarget(const RenderTargetType& type) {
 // ↓　Spriteの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawSprite(Sprite* sprite) {
-	sprite->PostDraw(commandList_);
+void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
+	sprite->PostDraw(commandList_, pipeline);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawModel(Model* model, const WorldTransform* worldTransform, const std::vector<std::unique_ptr<Material>>& materials) {
-	lightGroup_->Draw(commandList_, 4);
-	model->Draw(commandList_, worldTransform, viewProjection_.get(), materials);
+void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, const std::vector<std::unique_ptr<Material>>& materials) {
+	lightGroup_->Draw(pipeline, commandList_);
+	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
-void Render::DrawModel(Model* model, const WorldTransform* worldTransform,
+void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
 					   const std::vector<std::unique_ptr<Material>>& materials) {
-	lightGroup_->Draw(commandList_, 4);
-	model->Draw(commandList_, worldTransform, viewProjection_.get(), vbv, materials);
+	lightGroup_->Draw(pipeline, commandList_);
+	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), vbv, materials);
 }
 
-void Render::DrawEnvironmentModel(Mesh* _mesh, Material* _material, const WorldTransform* _transform) {
-	lightGroup_->Draw(commandList_, 4);
+void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform) {
+	lightGroup_->Draw(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
-	commandList_->SetGraphicsRootConstantBufferView(0, _material->GetBufferAdress());
 
-	_transform->BindCommandList(commandList_);
-	viewProjection_->BindCommandList(commandList_);
+	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
+	commandList_->SetGraphicsRootConstantBufferView(index, _material->GetBufferAdress());
+
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	_transform->BindCommandList(commandList_, index);
+	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
+	viewProjection_->BindCommandList(commandList_, index);
 
 	std::string textureName = _material->GetUseTexture();
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, 3);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, 7);
+	index = pipeline->GetRootSignatureIndex("gTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
 	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
 }
@@ -120,8 +126,8 @@ void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 
-void Render::DrawLightGroup(const int& startIndex) {
-	lightGroup_->Draw(commandList_, startIndex);
+void Render::DrawLightGroup(Pipeline* pipeline) {
+	lightGroup_->Draw(pipeline, commandList_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

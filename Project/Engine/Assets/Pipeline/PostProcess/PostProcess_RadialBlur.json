@@ -1,0 +1,10 @@
+{
+    "Pipeline": {
+        "vs": "./Engine/Assets/HLSL/ProcessedScene.VS.hlsl",
+        "ps": "./Engine/Assets/HLSL/RadialBlur.PS.hlsl",
+        "blendMode": "None",
+        "culling" : true,
+        "depth" : false,
+        "colorCorrection" : false
+    }
+}

@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
@@ -321,6 +322,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />

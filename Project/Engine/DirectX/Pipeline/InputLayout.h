@@ -5,6 +5,9 @@
 #include <cassert>
 #include <memory>
 #include <vector>
+#include <string>
+// Engine
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 
 class InputLayout {
 public:

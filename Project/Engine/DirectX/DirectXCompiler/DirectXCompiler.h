@@ -1,6 +1,7 @@
 #pragma once
 #include <d3d12.h>
 #include <dxcapi.h>
+#include <d3dcompiler.h>
 #include <wrl.h>
 #include <cassert>
 #include <string>
@@ -22,6 +23,8 @@ public:
 	ComPtr<IDxcBlob> VsShaderCompile(const std::string& shader);
 	ComPtr<IDxcBlob> PsShaderCompile(const std::string& shader);
 	ComPtr<IDxcBlob> CsShaderCompile(const std::string& shader);
+
+	ComPtr<ID3D12ShaderReflection> ReadShaderReflection(IDxcBlob* blob);
 
 private:
 
