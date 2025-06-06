@@ -2,7 +2,7 @@
     "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Sprite.VS.hlsl",
         "ps": "./Engine/Assets/HLSL/Sprite.PS.hlsl",
-        "blendMode": "None",
+        "blendMode": "Subtract",
         "culling" : true,
         "depth" : true,
         "colorCorrection" : true
