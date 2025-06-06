@@ -1,5 +1,5 @@
 {
-    "TestPipeline": {
+    "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Object3d.VS.hlsl",
         "ps": "./Engine/Assets/HLSL/Object3d.PS.hlsl",
         "blendMode": "Normal",

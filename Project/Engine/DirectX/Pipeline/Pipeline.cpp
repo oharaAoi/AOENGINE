@@ -174,11 +174,11 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> Pipeline::CreateInputLayout() {
 }
 
 DXGI_FORMAT Pipeline::ReturnFormat(LPCSTR name) {
-	if (name == static_cast<LPCSTR>("TEXCOORD")) {
+	if (strcmp(name, "TEXCOORD") == 0) {
 		return DXGI_FORMAT_R32G32_FLOAT;
-	} else if (name == static_cast<LPCSTR>("NORMAL") || name == static_cast<LPCSTR>("TANGENT")) {
+	} else if (strcmp(name, "NORMAL") == 0 || strcmp(name, "TANGENT") == 0) {
 		return DXGI_FORMAT_R32G32B32_FLOAT;
-	} else if (name == static_cast<LPCSTR>("INDEX")) {
+	} else if (strcmp(name, "INDEX") == 0) {
 		return DXGI_FORMAT_R32G32B32A32_SINT;
 	} else {
 		return DXGI_FORMAT_R32G32B32A32_FLOAT;
