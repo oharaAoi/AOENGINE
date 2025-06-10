@@ -1,4 +1,5 @@
 #include "WinApp.h"
+#include "Engine/Utilities/Convert.h"
 
 //#include "ImGuiManager.h"
 
@@ -43,7 +44,7 @@ void WinApp::CreateGameWindow(){
 	//windowClass -------------------------------------------
 	wc.lpfnWndProc = WindowProc;
 	// ウィンドウのクラス名
-	wc.lpszClassName = L"CG2";
+	wc.lpszClassName = L"AOENGINE";
 	// インスタンスハンドル
 	wc.hInstance = GetModuleHandle(nullptr);
 	// カーソル
@@ -59,14 +60,14 @@ void WinApp::CreateGameWindow(){
 
 	// ウィンドウサイズをあらわs構造体にクライアント領域を入れる
 	RECT wrc = { 0,0, kClientWidth, kClientHeight };
-
+	
 	// クライアント領域を元に実際のサイズにwrcを変更してもらう
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 	
 	// windowの生成 ---------------------------------------------
 	hwnd_ = CreateWindow(
 		wc.lpszClassName,		// 利用するクラス名
-		L"LE3A_06_オオハラ_アオイ",					// タイトルバーの文字
+		ConvertWString(kTitleBar.c_str()).c_str(),// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// よく見るウィンドウスタイル
 		CW_USEDEFAULT,			// 表示x座標
 		CW_USEDEFAULT,			// 表示y座標

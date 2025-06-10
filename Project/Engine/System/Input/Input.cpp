@@ -67,7 +67,7 @@ void Input::Update() {
 	mouse_->GetDeviceState(sizeof(DIMOUSESTATE), &currentMouse_);
 
 	GetCursorPos(&mousePoint_);
-	ScreenToClient(FindWindowA("CG2", nullptr), &mousePoint_);
+	ScreenToClient(FindWindowA("AOENGINE", nullptr), &mousePoint_);
 
 	GamePadInitialize();
 }
@@ -106,7 +106,7 @@ void Input::MouseInitialize() {
 
 	// 排他制御レベルのセット
 	result = mouse_->SetCooperativeLevel(
-		FindWindow(L"CG2", nullptr),
+		FindWindow(L"AOENGINE", nullptr),
 		DISCL_NONEXCLUSIVE | DISCL_FOREGROUND);
 	assert(SUCCEEDED(result));
 }
