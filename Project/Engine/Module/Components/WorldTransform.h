@@ -54,6 +54,12 @@ public:
 	void SetTranslationY(float y) { translate_.y = y; }
 	void SetTranslationZ(float z) { translate_.z = z; }
 
+	void SetSRT(const QuaternionSRT& srt) {
+		translate_ = srt.translate;
+		rotation_ = srt.rotate;
+		scale_ = srt.scale;
+	}
+
 	QuaternionSRT& GetSRT() { return transform_; }
 	const Vector3 GetScale() const { return scale_; }
 	const Vector3& GetTranslation() const { return translate_; }

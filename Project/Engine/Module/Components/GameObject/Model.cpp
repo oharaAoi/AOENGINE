@@ -12,6 +12,7 @@
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Utilities/Logger.h"
 
 Model::Model() {
 }
@@ -24,7 +25,7 @@ Model::~Model() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	Log("Load: " + fileName + "\n");
+	Logger::Log("[Load][Model] :" + fileName);
 	//LoadObj(directorPath, fileName, device);
 
 	if (!MeshManager::GetInstance()->ExistMesh(fileName)) {
@@ -38,6 +39,8 @@ void Model::Init(ID3D12Device* device, const std::string& directorPath, const st
 	skinClusterArray_ = LoadSkinCluster(directorPath, fileName);
 
 	rootNode_ = LoadNode(directorPath, fileName);
+
+	Logger::Log(" --- success!\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

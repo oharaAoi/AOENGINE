@@ -1,7 +1,5 @@
 #pragma once
-#include "Engine/Engine.h"
-#include "Engine/System/Manager/ModelManager.h"
-#include "Engine/System/Manager/MeshManager.h"
+#include "Engine/Utilities/Logger.h"
 
 /// <summary>
 /// ゲーム全体
@@ -24,6 +22,8 @@ public:
 private:
 
 	bool endRequest_;
+
+	Logger logger_;
 
 };
 

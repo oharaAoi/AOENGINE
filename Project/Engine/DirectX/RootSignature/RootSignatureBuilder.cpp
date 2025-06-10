@@ -1,4 +1,5 @@
 #include "RootSignatureBuilder.h"
+#include "Engine/Utilities/Logger.h"
 
 RootSignatureBuilder::RootSignatureBuilder() {
 }
@@ -78,7 +79,7 @@ ComPtr<ID3D12RootSignature> RootSignatureBuilder::Build(ID3D12Device* device) {
 	HRESULT hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 	if (FAILED(hr)) {
 		if (errorBlob) {
-			Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
+			Logger::Log(reinterpret_cast<char*>(errorBlob->GetBufferPointer()));
 		}
 		assert(false);
 	}

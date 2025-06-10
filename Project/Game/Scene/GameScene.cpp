@@ -25,6 +25,10 @@ void GameScene::Init() {
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();
 
+	sceneLoader_ = SceneLoader::GetInstance();
+	sceneLoader_->Init();
+	sceneLoader_->Load("./Game/Assets/Scene/", "scene", ".json");
+	
 	// -------------------------------------------------
 	// ↓ cameraの初期化
 	// -------------------------------------------------

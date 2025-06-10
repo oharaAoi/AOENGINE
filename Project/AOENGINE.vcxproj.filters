@@ -250,6 +250,8 @@
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\Utilities\Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -471,6 +473,7 @@
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
+    <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

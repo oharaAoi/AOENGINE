@@ -1,4 +1,5 @@
 #include "ShaderResource.h"
+#include "Engine/Utilities/Logger.h"
 
 ShaderResource::ShaderResource() {
 }
@@ -38,8 +39,8 @@ void ShaderResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc) {
 
 void ShaderResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after) {
 	if (befor != bufferState_) {
-		Log("now : " + ResourceStateToString(bufferState_) + "\n");
-		Log("target : " + ResourceStateToString(befor) + "\n");
+		Logger::Log("now : " + ResourceStateToString(bufferState_) + "\n");
+		Logger::Log("target : " + ResourceStateToString(befor) + "\n");
 		assert("ResourceState MissMatch");
 	}
 	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);

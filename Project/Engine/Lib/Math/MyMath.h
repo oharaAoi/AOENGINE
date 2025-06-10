@@ -8,6 +8,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include <algorithm>
+#include <sstream>
+#include <string>
 #include <vector>
 #include <numbers>
 #include <limits>
@@ -222,6 +224,27 @@ Vector3 Bezier(const std::vector<Vector3>& controlPoint, const float& t);
 ///// <param name="controlPoint">制御点がまとまった配列</param>
 ///// <returns></returns>
 //Vector3 Bezier(const Vector3& v1, const Vector3& v2, const Vector3& v3, const float& t);
+
+////////////////////////////////////////////////////////////////////////////////////
+// 変換
+////////////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+	requires requires (T v) { v.x; v.y; }
+std::string ToString(const T& v) {
+	std::ostringstream oss;
+	oss << "(" << v.x << ", " << v.y;
+
+	if constexpr (requires { v.z; }) {
+		oss << ", " << v.z;
+	}
+	if constexpr (requires { v.w; }) {
+		oss << ", " << v.w;
+	}
+
+	oss << ")";
+	return oss.str();
+}
 
 
 uint32_t Red(uint32_t color);

@@ -1,10 +1,5 @@
 #include "TextureManager.h"
-
-std::vector<std::string> TextureManager::fileNames_;
-std::unordered_map<std::string, TextureManager::TextureData> TextureManager::textureData_;
-ID3D12Device* TextureManager::device_ = nullptr;
-DescriptorHeap* TextureManager::dxHeap_ = nullptr;
-ID3D12GraphicsCommandList* TextureManager::commandList_ = nullptr;
+#include "Engine/Utilities/Logger.h"
 
 TextureManager* TextureManager::GetInstance() {
 	static TextureManager instance;
@@ -31,6 +26,19 @@ void TextureManager::Finalize() {
 	}
 }
 
+void TextureManager::LoadStack() {
+	Logger::CommentLog("Loading Textures");
+	while (!loadStack_.empty()) {
+		auto texturePath = loadStack_.top();
+		LoadTextureFile(texturePath.directory, texturePath.fileName);
+		loadStack_.pop();
+	}
+}
+
+void TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
+	GetInstance()->LoadTextureFile(directoryPath, filePath);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,11 +53,10 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// 配列に格納しておく
 	fileNames_.push_back(filePath);
 
-	Log("Begin Load Texture\n");
-	Log("Texture  [" + filePath + "]\n");
+	Logger::Log("[Load][Texture] :" + filePath);
 	TextureData data{};
 
-	DirectX::ScratchImage mipImage = LoadTexture(directoryPath, filePath);
+	DirectX::ScratchImage mipImage = LoadMipImage(directoryPath, filePath);
 	const DirectX::TexMetadata& metadata = mipImage.GetMetadata();
 
 	// resourceDescの作成
@@ -91,13 +98,13 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// 生成
 	device_->CreateShaderResourceView(data.textureResource_.Get(), &srvDesc, data.address_.handleCPU);
 
-	Log("Load Finish  [" + filePath + "]\n");
+	Logger::Log(" --- success!\n");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textrueデータを読む
 /////////////////////////////////////////////////////////////////////////////////////////////
-DirectX::ScratchImage TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
+DirectX::ScratchImage TextureManager::LoadMipImage(const std::string& directoryPath, const std::string& filePath) {
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertWString(directoryPath + filePath);
 	HRESULT hr;
@@ -228,6 +235,10 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 
 const Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
 	return  textureData_[filePath].textureSize_;
+}
+
+void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
+	loadStack_.push(TexturePath{directoryPath, filePath });
 }
 
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex) {

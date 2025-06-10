@@ -1,5 +1,6 @@
 #include "DescriptorAllocator.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Utilities/Logger.h"
 
 DescriptorAllocator::~DescriptorAllocator() {
 }
@@ -23,7 +24,7 @@ DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptor
 void DescriptorAllocator::Free(uint32_t index) {
 	freeStack_.push(index);  // フリースタックに戻す
 	std::string name = std::to_string(index);
-	Log("pushFreeHeap" + name + "\n");
+	Logger::Log("pushFreeHeap" + name + "\n");
 }
 
 DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {

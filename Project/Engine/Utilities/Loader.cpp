@@ -5,6 +5,7 @@
 
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/System/Manager/MeshManager.h"
+#include "Engine/Utilities/Logger.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　MeshのLoad
@@ -167,7 +168,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 			materialData[materialName.C_Str()] = Model::ModelMaterialData();
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
-			TextureManager::LoadTextureFile(directoryPath, textureFilePath.C_Str());
+			TextureManager::GetInstance()->StackTexture(directoryPath, textureFilePath.C_Str());
 		}
 	}
 
@@ -210,7 +211,7 @@ std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);			
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
-			TextureManager::LoadTextureFile(directoryPath, objTexture);
+			TextureManager::GetInstance()->StackTexture(directoryPath, objTexture);
 		}
 
 		aiColor3D color;
@@ -350,7 +351,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 		throw std::runtime_error("Failed to load animations or no animations present");
 	}
 
-	Log("Start LoadAnimationFile [" + animationFile + "]\n");
+	Logger::Log("[Load Animation] :" + animationFile + "]\n");
 
 	std::unordered_map<std::string, Animation> animationMap{};
 
@@ -363,8 +364,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
 		animationData.animationName = animationName;													// animatonの名前を取得
 
-		Log("LoadAnimation[" + animationName + "]\n");
-
+		
 		// -------------------------------------------------
 		// ↓ アニメーションの解析
 		// -------------------------------------------------
@@ -376,9 +376,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 			// -------------------------------------------------
 			// ↓ Vector3の読み込み
 			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Translate]\n");
-			Log("\n");
+			
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mPositionKeys[keyIndex];
 				KeyframeVector3 keyframe{};
@@ -401,9 +399,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 			// -------------------------------------------------
 			// ↓ Quaternionの読み込み
 			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Rotate]\n");
-			Log("\n");
+			
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
 
 				aiQuatKey& keyAssimp = nodeAnimationAssimp->mRotationKeys[keyIndex];
@@ -424,9 +420,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 			// -------------------------------------------------
 			// ↓ Scaleの読み込み
 			// -------------------------------------------------
-			Log("\n");
-			Log("[animation Scale]\n");
-			Log("\n");
+			
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumScalingKeys; ++keyIndex) {
 				aiVectorKey& keyAssimp = nodeAnimationAssimp->mScalingKeys[keyIndex];
 				KeyframeVector3 keyframe{};
@@ -434,7 +428,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 				keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.scale.keyframes.push_back(keyframe);
 
-				Log("---------------------------------\n");
+				/*Log("---------------------------------\n");
 				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
 				Log(timeLog);
 
@@ -444,14 +438,14 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 
 				Log(valueXLog);
 				Log(valueYLog);
-				Log(valueZLog);
+				Log(valueZLog);*/
 			}
 		}
 
 		animationMap.try_emplace(animationName, animationData);
 	}
 
-	Log("End LoadAnimation[" + animationFile + "]\n");
+	Logger::Log("success\n");
 
 	return animationMap;
 }

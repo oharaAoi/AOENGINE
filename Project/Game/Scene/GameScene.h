@@ -22,6 +22,7 @@
 
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/System/Scene/SceneLoader.h"
 
 
 class GameScene 
@@ -65,6 +66,7 @@ private:
 
 	ParticleManager* particleManager_;
 
+	SceneLoader* sceneLoader_;
 	SceneRenderer* sceneRenderer_;
 
 	std::unique_ptr<GeometryObject> sphere_;

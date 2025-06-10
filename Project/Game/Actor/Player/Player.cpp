@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/System/Scene/SceneLoader.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
@@ -67,9 +68,12 @@ void Player::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Init() {
-	BaseGameObject::Init();
-	SetObject("player.obj");
 	SetName("Player");
+	BaseGameObject::Init();
+	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
+
+	SetObject(object.modelName);
+	transform_->SetSRT(object.srt);
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
@@ -119,7 +123,6 @@ void Player::Init() {
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
-
 	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 
 #ifdef _DEBUG

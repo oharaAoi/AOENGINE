@@ -73,12 +73,14 @@ public:
 	/// <summary>
 	/// 実行中のAction名を表示
 	/// </summary>
+#ifdef _DEBUG
 	void DisplayRunActions() {
 		ImGui::BulletText("RunActions");
 		for (auto& [size, action] : runActionMap_) {
 			ImGui::Text(action->GetName().c_str());
 		}
 	}
+#endif // _DEBUG
 
 public:
 

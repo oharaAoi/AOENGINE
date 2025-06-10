@@ -4,8 +4,6 @@
 #include <dxgi1_6.h>
 #include <cassert>
 #include <dxgidebug.h>
-// utilities
-#include "Engine/Utilities/Convert.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 template<typename T>

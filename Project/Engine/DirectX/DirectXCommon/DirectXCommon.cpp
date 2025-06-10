@@ -2,6 +2,7 @@
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxcompiler.lib")
+#include "Engine/Utilities/Logger.h"
 
 //
 void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
@@ -116,7 +117,7 @@ void DirectXCommon::SetUseGPU() {
 		// ソフトウェアのアダプタでなければ採用
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// 採用したアダプタの情報の情報をログに出力.wstrinfgの方
-			Log(ConvertString(std::format(L"Use Adapater:{}\n", adapterDesc.Description)));
+			Logger::Log(ConvertString(std::format(L"Use Adapater:{}\n", adapterDesc.Description)));
 			break;
 		}
 

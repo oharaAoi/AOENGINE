@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Utilities/Logger.h"
 
 Engine::Engine() {}
 
@@ -95,7 +96,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	runGame_ = true;
 	isColliderDraw_ = false;
 
-	Log("Engine Initialize compulete!\n");
+	Logger::Log("Engine Initialize compulete!\n");
 }
 
 

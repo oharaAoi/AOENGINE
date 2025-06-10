@@ -1,4 +1,5 @@
 #include "ModelManager.h"
+#include "Engine/Utilities/Logger.h"
 
 std::unordered_map<std::string, std::unique_ptr<Model>> ModelManager::modelMap_;
 std::unordered_map<std::string, std::string> ModelManager::modelPathMap_;
@@ -30,7 +31,7 @@ void ModelManager::LoadModel(const std::string& directoryPath, const std::string
 
 Model* ModelManager::GetModel(const std::string& modelName) {
 	if (auto it = modelMap_.find(modelName); it == modelMap_.end()) {
-		Log(std::string("Not Found : " + modelName + "\n"));
+		Logger::Log(std::string("Not Found : " + modelName + "\n"));
 		assert(false && "Model not found!");
 	}
 
@@ -39,7 +40,7 @@ Model* ModelManager::GetModel(const std::string& modelName) {
 
 std::string ModelManager::GetModelPath(const std::string& modelName) {
 	if (auto it = modelPathMap_.find(modelName); it == modelPathMap_.end()) {
-		Log(std::string("Not Found Path: " + modelName + "\n"));
+		Logger::Log(std::string("Not Found Path: " + modelName + "\n"));
 		assert(false && "Model not found Path!");
 	}
 

@@ -2,6 +2,7 @@
 #include "Engine/System/Editer/Window/EditerWindows.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/System/Scene/SceneLoader.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossIdleState.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
@@ -17,8 +18,12 @@ void Boss::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Init() {
+	SetName("Boss");
 	BaseGameObject::Init();
-	SetObject("boss.obj");
+	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
+
+	transform_->SetSRT(object.srt);
+	SetObject(object.modelName);
 
 	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
@@ -48,10 +53,6 @@ void Boss::Init() {
 	stateMachine_->Init(this);
 	stateMachine_->ChangeState<BossIdleState>();
 
-	transform_->translate_.z = 25.0f;
-	transform_->translate_.y = 5.0f;
-	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
-
 	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
 
 #ifdef _DEBUG
@@ -64,7 +65,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	actionManager_->Update();
+	//actionManager_->Update();
 	stateMachine_->Update();
 	BaseGameObject::Update();
 }

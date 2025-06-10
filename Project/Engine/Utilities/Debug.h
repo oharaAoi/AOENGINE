@@ -3,6 +3,8 @@
 #include <wrl/client.h>
 #pragma comment(lib, "dxguid.lib")
 
+#include <string>
+
 struct D3DResourceLeakChecker {
 	~D3DResourceLeakChecker() {
 		Microsoft::WRL::ComPtr<IDXGIDebug1> debug;
@@ -12,4 +14,14 @@ struct D3DResourceLeakChecker {
 			debug->ReportLiveObjects(DXGI_DEBUG_D3D12, DXGI_DEBUG_RLO_ALL);
 		}
 	}
+};
+
+class Debug {
+public:
+
+	Debug() = default;
+	~Debug() = default;
+
+	void Log(const std::string& message);
+
 };

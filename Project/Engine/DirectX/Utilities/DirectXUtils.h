@@ -104,11 +104,3 @@ void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resou
 D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
 D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
-
-/// <summary>
-/// ログを出す
-/// </summary>
-/// <param name="message"></param>
-void Log(const std::string& message);
-
-void LogVector3(const std::string& messageTag, const Vector3& vec);

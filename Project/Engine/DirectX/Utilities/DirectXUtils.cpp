@@ -5,6 +5,8 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxcompiler.lib")
 
+#include "Engine/Utilities/Logger.h"
+
 D3D12_UNORDERED_ACCESS_VIEW_DESC CreateUavDesc(UINT  numElemnts, UINT structureByte) {
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
@@ -251,7 +253,7 @@ ComPtr<IDxcBlob> CompilerShader(
 
 	// 1.-----------------------------------------------------------------------------------------
 	// これからシェーダーをコンパイルする旨えおログに出す
-	Log(ConvertString(std::format(L"Begin compileShader, path:{}\n", filePath, profile)));
+	Logger::Log(ConvertString(std::format(L"Begin compileShader, path:{}\n", filePath, profile)));
 	// hlslファイルを読む
 	IDxcBlobEncoding* shaderSource = nullptr;
 	HRESULT hr = dxcUtils->LoadFile(filePath.c_str(), nullptr, &shaderSource);
@@ -288,7 +290,7 @@ ComPtr<IDxcBlob> CompilerShader(
 	IDxcBlobUtf8* shaderError = nullptr;
 	shaderResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&shaderError), nullptr);
 	if (shaderError != nullptr && shaderError->GetStringLength() != 0) {
-		Log(shaderError->GetStringPointer());
+		Logger::Log(shaderError->GetStringPointer());
 		assert(false);
 	}
 
@@ -298,7 +300,7 @@ ComPtr<IDxcBlob> CompilerShader(
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
 	assert(SUCCEEDED(hr));
 	// 成功したらログを出す
-	Log(ConvertString(std::format(L"Compile Succeeded, path:{}\n", filePath, profile)));
+	Logger::Log(ConvertString(std::format(L"Compile Succeeded, path:{}\n", filePath, profile)));
 	// もう使わないリソースを解放
 	shaderSource->Release();
 	shaderResult->Release();
@@ -367,17 +369,4 @@ D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descrip
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	handleGPU.ptr += (descriptorSize * index);
 	return handleGPU;
-}
-
-void Log(const std::string& message) {
-	OutputDebugStringA(message.c_str());
-}
-
-void LogVector3(const std::string& messageTag, const Vector3& vec) {
-	std::string messageX = messageTag + " : x = " + std::to_string(vec.x) + "\n";
-	std::string messageY = messageTag + " : y = " + std::to_string(vec.y) + "\n";
-	std::string messageZ = messageTag + " : z = " + std::to_string(vec.z) + "\n";
-	OutputDebugStringA(messageX.c_str());
-	OutputDebugStringA(messageY.c_str());
-	OutputDebugStringA(messageZ.c_str());
 }

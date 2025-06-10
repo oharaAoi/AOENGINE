@@ -1,5 +1,6 @@
 #include "DxResource.h"
 #include <cassert>
+#include "Engine/Utilities/Logger.h"
 
 DxResource::DxResource() {}
 DxResource::~DxResource() {}
@@ -95,9 +96,9 @@ void DxResource::SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t index) 
 
 void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after) {
 	if (befor != bufferState_) {
-		Log("now : " + ResourceStateToString(bufferState_) + "\n");
-		Log("target : " + ResourceStateToString(befor) + "\n");
-		Log("ResourceState MissMatch\n");
+		Logger::Log("now : " + ResourceStateToString(bufferState_) + "\n");
+		Logger::Log("target : " + ResourceStateToString(befor) + "\n");
+		Logger::Log("ResourceState MissMatch\n");
 		assert("ResourceState MissMatch");
 	}
 	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);

@@ -1,5 +1,5 @@
 #include "AudioManager.h"
-
+#include "Engine/Utilities/Logger.h"
 
 AudioManager::~AudioManager() {
 	for (auto& pair : audioLoadData_) {
@@ -19,9 +19,12 @@ void AudioManager::Init() {
 
 void AudioManager::AddMap(const std::string& directoryPath, const std::string& fileName) {
 	std::string name = directoryPath + fileName;
+	Logger::Log("[Load][Audio] :" + fileName);
 	if (auto it = audioLoadData_.find(fileName); it != audioLoadData_.end()) {
 		return;
 	}
+	Logger::Log(" --- success!\n");
+
 	audioLoadData_.try_emplace(fileName, Engine::LoadAudio(name));
 }
 
@@ -29,7 +32,6 @@ SoundData AudioManager::GetAudioData(const std::string& fileName) {
 	if (auto it = audioLoadData_.find(fileName); it == audioLoadData_.end()) {
 		assert(false && "Audio not found!");
 	}
-
 	return audioLoadData_[fileName];
 }
 

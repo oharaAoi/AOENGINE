@@ -11,9 +11,6 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Lib/Math/Vector2.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
-
 class TextureManager {
 public: // メンバ関数
 
@@ -36,20 +33,28 @@ public:
 	/// <param name="device"></param>
 	void Init(ID3D12Device* dxDevice, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
-public:
+	/// <summary>
+	/// Stackに入っているTextureをすべて読み込む
+	/// </summary>
+	void LoadStack();
 
-	static void LoadTextureFile(const std::string& directoryPath, const std::string& filePath);
+	static void LoadTexture(const std::string& directoryPath, const std::string& filePath);
+
+	void LoadTextureFile(const std::string& directoryPath, const std::string& filePath);
 
 	/// <summary>
 	/// Textrueデータを読む
 	/// </summary>
 	/// <param name="filePath"></param>
 	/// <returns></returns>
-	static DirectX::ScratchImage LoadTexture(const std::string& directoryPath, const std::string& filePath);
+	DirectX::ScratchImage LoadMipImage(const std::string& directoryPath, const std::string& filePath);
 
-	static void LoadWhite1x1Texture(const std::string& directoryPath, const std::string& filePath, ID3D12GraphicsCommandList* commandList);
+	void LoadWhite1x1Texture(const std::string& directoryPath, const std::string& filePath, ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する
@@ -60,11 +65,14 @@ public:
 	/// <param name="commandList"></param>
 	/// <returns></returns>
 	[[nodiscard]]
-	static ComPtr<ID3D12Resource> UploadTextureData(
+	ComPtr<ID3D12Resource> UploadTextureData(
 		Microsoft::WRL::ComPtr<ID3D12Resource> texture,
 		const DirectX::ScratchImage& mipImage,
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
+
+public:
+
 
 	/// <summary>
 	/// textureをコマンドに積む
@@ -78,7 +86,7 @@ public:
 	/// </summary>
 	/// <param name="metadata"></param>
 	/// <returns></returns>
-	static D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
+	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
@@ -86,7 +94,9 @@ public:
 
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
-	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_[fileName].address_; }
+	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_.at(fileName).address_; }
+
+	void StackTexture(const std::string& directoryPath, const std::string& filePath);
  
 private:
 
@@ -98,13 +108,21 @@ private:
 		Vector2 textureSize_;
 	};
 
-	static std::vector<std::string> fileNames_;
+	struct TexturePath {
+		std::string directory;
+		std::string fileName;
+	};
 
-	//std::vector<SRVData> srvData_;
-	static std::unordered_map<std::string, TextureData> textureData_;
+	std::vector<std::string> fileNames_;
+
+	// TextureDataのコンテナ
+	std::unordered_map<std::string, TextureData> textureData_;
+
+	// 読み込み予定のTexture
+	std::stack<TexturePath> loadStack_;
 
 	// 生成で使う変数
-	static ID3D12Device* device_;
-	static DescriptorHeap* dxHeap_;
-	static ID3D12GraphicsCommandList* commandList_;
+	ID3D12Device* device_;
+	DescriptorHeap* dxHeap_;
+	ID3D12GraphicsCommandList* commandList_;
 };
