@@ -100,6 +100,10 @@ public:
 	bool GetIsLanding() const { return isLanding_; }
 	void SetIsLanding(bool _landing) { isLanding_ = _landing; }
 
+	// 移動しているかのフラグ
+	bool GetIsMoving() const { return isMoving_; }
+	void SetIsMoving(bool isMoving) { isMoving_ = isMoving; }
+
 	// parameter
 	Parameter& GetParam() { return param_; }
 	const Parameter& GetInitParam() { return initParam_; }
@@ -152,6 +156,8 @@ private:
 	Vector3 knockBackDire_;
 
 	bool isLanding_;
+
+	bool isMoving_;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

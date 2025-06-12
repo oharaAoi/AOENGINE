@@ -177,26 +177,36 @@ Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const f
 	return result.Normalize();
 }
 
+Quaternion Quaternion::RotateTowards(const Quaternion& q1, const Quaternion& q2, float maxDegreesDelta) {
+	float angle = Angle(q1, q2); // fromとtoの間の角度を取得
+
+	// 角度が0またはmaxDegreesDelta以上なら補間
+	if (angle == 0.0f) {
+		return q2;
+	}
+
+	float t = std::clamp(maxDegreesDelta / angle, 0.0f, 1.0f);
+
+	return Slerp(q1, q2, t);
+}
+
 Quaternion Quaternion::EulerToQuaternion(float pitch, float yaw, float roll) {
-	// オイラー角 (pitch, yaw, roll) をラジアンに変換
 	float halfPitch = pitch * 0.5f;
 	float halfYaw = yaw * 0.5f;
 	float halfRoll = roll * 0.5f;
 
-	// 三角関数の計算
-	float cosPitch = std::cos(halfPitch);
-	float sinPitch = std::sin(halfPitch);
-	float cosYaw = std::cos(halfYaw);
-	float sinYaw = std::sin(halfYaw);
-	float cosRoll = std::cos(halfRoll);
-	float sinRoll = std::sin(halfRoll);
+	float cy = std::cos(halfYaw);
+	float sy = std::sin(halfYaw);
+	float cp = std::cos(halfPitch);
+	float sp = std::sin(halfPitch);
+	float cr = std::cos(halfRoll);
+	float sr = std::sin(halfRoll);
 
-	// クォータニオンの計算
 	return Quaternion(
-		cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll, // x
-		sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll, // y
-		cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll,  // z
-		cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll // w
+		cy * sp * cr + sy * cp * sr, // x
+		sy * cp * cr - cy * sp * sr, // y
+		cy * cp * sr - sy * sp * cr, // z
+		cy * cp * cr + sy * sp * sr  // w
 	);
 }
 
@@ -354,6 +364,16 @@ Vector3 Quaternion::Rotate(const Vector3& vec) const {
 	Quaternion qConj = Conjugate(); // クォータニオンの共役を取る
 	Quaternion qResult = *this * qVec * qConj; // クォータニオンによる回転
 	return Vector3(qResult.x, qResult.y, qResult.z); // 回転したベクトルを返す
+}
+
+float Quaternion::Angle(Quaternion a, Quaternion b) {
+	float dot = Quaternion::Dot(a, b);
+	dot = std::clamp(dot, -1.0f, 1.0f);
+	float angleRadians = 2.0f * std::acos(dot);
+	float angleDegrees = angleRadians * kToDegree;
+
+	// 角度は常に正の値
+	return angleDegrees;
 }
 
 Quaternion Quaternion::operator*(const Quaternion& q2) const {

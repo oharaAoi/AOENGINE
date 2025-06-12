@@ -57,13 +57,28 @@ Matrix4x4 QuaternionSRT::MakeAffine() {
 	Matrix4x4 scaleMatrix{};
 	Matrix4x4 rotateMatrix{};
 	Matrix4x4 translateMatrix{};
-	Matrix4x4 affineMatrix{};
-
+	
 	scaleMatrix = scale.MakeScaleMat();
 	rotateMatrix = rotate.MakeMatrix();
 	translateMatrix = translate.MakeTranslateMat();
 
-	affineMatrix = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+	worldMat_ = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
-	return affineMatrix;
+	if (parentWorldMat != nullptr) {
+		worldMat_ = worldMat_ * *parentWorldMat;
+	}
+
+	return worldMat_;
+}
+
+void QuaternionSRT::SetParent(const Matrix4x4& parentMat) {
+	parentWorldMat = &parentMat;
+}
+
+void QuaternionSRT::LookAt(const Vector3& target, const Vector3& up) {
+	Vector3 direction = target - translate;
+
+	if (direction.Length() > 0.0001f) {
+		rotate = Quaternion::LookRotation(direction, up);
+	}
 }

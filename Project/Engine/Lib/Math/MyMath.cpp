@@ -142,6 +142,53 @@ float Angle(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+/// <summary>
+/// 臨界減衰スプリング
+/// </summary>
+/// <param name="current"></param>
+/// <param name="target"></param>
+/// <param name="currentVelocity"></param>
+/// <param name="smoothTime"></param>
+/// <param name="maxSpped"></param>
+/// <param name="deltaTime"></param>
+/// <returns></returns>
+float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime) {
+	smoothTime = std::clamp(smoothTime, 0.0001f, smoothTime);
+	float omega = 2.0f / smoothTime;
+
+	float x = omega * deltaTime;
+	float exp = 1.0f / (1.0f + x + 0.48f * x * x + 0.235f * x * x * x);
+
+	float change = current - target;
+	float originalTo = target;
+
+	// Clamp max speed
+	float maxChange = maxSpeed * smoothTime;
+	change = std::clamp(change, -maxChange, maxChange);
+	target = current - change;
+
+	float temp = (currentVelocity + omega * change) * deltaTime;
+	currentVelocity = (currentVelocity - omega * temp) * exp;
+
+	float output = target + (change + temp) * exp;
+
+	// Prevent overshoot
+	if ((originalTo - current > 0.0f) == (output > originalTo)) {
+		output = originalTo;
+		currentVelocity = (output - originalTo) / deltaTime;
+	}
+
+	return output;
+}
+
+Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime) {
+	return Vector3(
+		SmoothDamp(current.x, target.x, currentVelocity.x, smoothTime, maxSpeed, deltaTime),
+		SmoothDamp(current.y, target.y, currentVelocity.y, smoothTime, maxSpeed, deltaTime),
+		SmoothDamp(current.z, target.z, currentVelocity.z, smoothTime, maxSpeed, deltaTime)
+	);
+}
+
 /// <summary>///
 /// CatmullRom補完
 /// </summary>///

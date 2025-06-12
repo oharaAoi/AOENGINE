@@ -20,7 +20,7 @@
         "isLifeOfAlpha": true,
         "isLifeOfScale": true,
         "isLoop": false,
-        "isParticleAddBlend": false,
+        "isParticleAddBlend": true,
         "isScaleUp": false,
         "lifeTime": 0.20000000298023224,
         "maxScale": {

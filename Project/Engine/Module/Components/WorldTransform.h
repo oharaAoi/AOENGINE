@@ -34,6 +34,8 @@ public:
 
 	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
 
+	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
+
 #ifdef _DEBUG
 	void Debug_Gui();
 	void Debug_Quaternion();

@@ -38,6 +38,10 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 	if (std::holds_alternative<AABB>(shape_)) {
 		std::get<AABB>(shape_).min = (srt.translate - (size_ / 2.0f)) + localSRT_.translate;
 		std::get<AABB>(shape_).max = (srt.translate + (size_ / 2.0f)) + localSRT_.translate;
+
+		Vector3 min = std::get<AABB>(shape_).min;
+		Vector3 max = std::get<AABB>(shape_).max;
+		std::get<AABB>(shape_).center = ((min + max) * 0.5f) + localSRT_.translate;
 	} else if (std::holds_alternative<OBB>(shape_)) {
 		std::get<OBB>(shape_).center = srt.translate + localSRT_.translate;
 		std::get<OBB>(shape_).MakeOBBAxis(srt.rotate);

@@ -93,6 +93,8 @@ public:
 	/// <returns></returns>
 	static float Dot(const Quaternion& q1, const Quaternion& q2);
 
+	static float Angle(Quaternion a, Quaternion b);
+
 	/// <summary>
 	/// 球面線形補間
 	/// </summary>
@@ -101,6 +103,9 @@ public:
 	/// <param name="t"></param>
 	/// <returns></returns>
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
+
+	static Quaternion RotateTowards(const Quaternion& q1, const Quaternion& q2, float maxDegreesDelta);
+
 
 	// オイラー角（ラジアン）をクォータニオンに変換
 	static Quaternion EulerToQuaternion(float pitch, float yaw, float roll);

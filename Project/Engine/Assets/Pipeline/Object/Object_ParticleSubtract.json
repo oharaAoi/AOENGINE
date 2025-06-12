@@ -2,7 +2,7 @@
     "TestPipeline": {
         "vs": "./Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl",
         "ps": "./Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl",
-        "blendMode": "Subtract",
+        "blendMode": "Normal",
         "culling" : true,
         "depth" : false,
         "colorCorrection" : true

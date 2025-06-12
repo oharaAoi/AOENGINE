@@ -43,6 +43,38 @@ Vector3 PenetrationResolutionAABBandSphere(const AABB& aabb, const Sphere& s1) {
 	return correction;
 }
 
+Vector3 PenetrationResolutionAABBandAABB(const AABB& aabb1, const AABB& aabb2) {
+	// 押し戻し量を計算する
+	float overlapX = std::min(aabb1.max.x, aabb2.max.x) - std::max(aabb1.min.x, aabb2.min.x);
+	float overlapY = std::min(aabb1.max.y, aabb2.max.y) - std::max(aabb1.min.y, aabb2.min.y);
+	float overlapZ = std::min(aabb1.max.z, aabb2.max.z) - std::max(aabb1.min.z, aabb2.min.z);
+
+	// オーバーラップが最小の軸を探す
+	float minOverlap = overlapX;
+	Vector3 mtvDir(1.0f, 0.0f, 0.0f);
+
+	if (overlapY < minOverlap) {
+		minOverlap = overlapY;
+		mtvDir = Vector3(0.0f, 1.0f, 0.0f);
+	}
+
+	if (overlapZ < minOverlap) {
+		minOverlap = overlapZ;
+		mtvDir = Vector3(0.0f, 0.0f, 1.0f);
+	}
+
+	// AとBの位置関係に応じて方向を反転
+	Vector3 centerA = (aabb1.min + aabb1.max) * 0.5f;
+	Vector3 centerB = (aabb2.min + aabb2.max) * 0.5f;
+	Vector3 direction = centerA - centerB;
+
+	if ((mtvDir.x * direction.x + mtvDir.y * direction.y + mtvDir.z * direction.z) < 0) {
+		mtvDir *= -1.0f;
+	}
+
+	return mtvDir * minOverlap;
+}
+
 //================================================================================================//
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
@@ -53,6 +85,10 @@ Vector3 PenetrationResolution(const Sphere& s, const AABB& aabb) {
 
 Vector3 PenetrationResolution(const AABB& aabb, const Sphere& s) {
 	return PenetrationResolutionAABBandSphere(aabb, s);
+}
+
+Vector3 PenetrationResolution(const AABB& aabb1, const AABB& aabb2) {
+	return PenetrationResolutionAABBandAABB(aabb1, aabb2);
 }
 
 Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB>& shape1,

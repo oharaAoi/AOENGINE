@@ -86,6 +86,11 @@ void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) 
 	}
 }
 
+void WorldTransform::LookAt(const Vector3& target, const Vector3& up) {
+	Vector3 direction = target - translate_;
+	rotation_ = Quaternion::LookRotation(direction.Normalize(), up);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　コマンドリストに送る
 //////////////////////////////////////////////////////////////////////////////////////////////////

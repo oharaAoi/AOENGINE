@@ -29,8 +29,7 @@ void Material::Init(ID3D12Device* device, const Model::ModelMaterialData& materi
 	uvRotation_ = { 0,0,0 };
 }
 
-void Material::Update(const Matrix4x4& uvTransform) {
-	material_->uvTransform = uvTransform;
+void Material::Update() {
 	material_->uvTransform = SRT(uvScale_, uvRotation_, uvTranslation_).MakeAffine();
 }
 

@@ -62,7 +62,7 @@ void PlayerActionQuickBoost::OnStart() {
 	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
-	pOwner_->GetFollowCamera()->SetShake(firstParam_.cameraShakeTime, firstParam_.cameraShakeStrength);
+	//pOwner_->GetFollowCamera()->SetShake(firstParam_.cameraShakeTime, firstParam_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
 
 	boostParticle_->Reset();

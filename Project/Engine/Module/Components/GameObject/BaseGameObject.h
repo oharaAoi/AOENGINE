@@ -81,6 +81,8 @@ public:
 	ICollider* GetCollider() { return collider_.get(); }
 	void SetCollider(const std::string& categoryName, ColliderShape shape);
 
+	void SetCollider(const std::string& categoryName, const std::string& shapeName);
+
 private:
 
 	void SetColliderRadius(float radius) {

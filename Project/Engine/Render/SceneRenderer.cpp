@@ -15,7 +15,6 @@ void SceneRenderer::Update() {
 	object3dList_.sort([](const ObjectPair& objA, const ObjectPair& objB) {
 		return objA.renderingType < objB.renderingType;
 	});
-
 }
 
 void SceneRenderer::Draw() const {

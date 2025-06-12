@@ -191,6 +191,19 @@ float LerpShortAngle(const float& originalAngle, const float& targetAngle, const
 ///  <returns></returns>
 float Angle(const Vector3& v1, const Vector3& v2);
 
+/// <summary>
+/// 臨界減衰スプリング
+/// </summary>
+/// <param name="current"></param>
+/// <param name="target"></param>
+/// <param name="currentVelocity"></param>
+/// <param name="smoothTime"></param>
+/// <param name="maxSpped"></param>
+/// <param name="deltaTime"></param>
+/// <returns></returns>
+float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
+
+Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
 
 /// <summary>/// 
 /// CatmullRom補完

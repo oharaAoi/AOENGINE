@@ -19,7 +19,16 @@ struct QuaternionSRT {
 	Quaternion rotate;
 	Vector3 translate;
 
+	Matrix4x4 worldMat_;
+	const Matrix4x4* parentWorldMat = nullptr;
+
+	// 関数
 	Matrix4x4 MakeAffine();
+
+	void SetParent(const Matrix4x4& parentMat);
+
+	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
+
 };
 
 /// <summary>
@@ -36,6 +45,7 @@ struct Sphere {
 struct AABB {
 	Vector3 min;
 	Vector3 max;
+	Vector3 center; // 中心点
 };
 
 /// <summary>

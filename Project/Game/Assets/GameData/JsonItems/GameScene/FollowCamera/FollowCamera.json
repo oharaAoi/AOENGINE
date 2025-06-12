@@ -1,13 +1,17 @@
 {
     "FollowCamera": {
         "complement": 0.4000000059604645,
-        "distance": 17.0,
+        "distance": 16.0,
         "easingIndex": 0,
+        "limitMaxY": 2.0999999046325684,
+        "limitMinY": 4.0,
+        "maxSpeed": 1000.0,
         "offset": {
             "x": 0.0,
-            "y": 2.5,
-            "z": 0.0
+            "y": 2.700000047683716,
+            "z": -12.899999618530273
         },
-        "rotateDelta": 0.03999999910593033
+        "rotateDelta": 2.0,
+        "smoothTime": 0.10000000149011612
     }
 }

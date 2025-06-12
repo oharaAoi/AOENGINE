@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include <memory>
 #include <vector>
 #include <string>
@@ -17,6 +18,12 @@ public:		// data
 		std::string meshName;
 		std::string modelName;
 		QuaternionSRT srt;
+
+		std::string colliderType;
+		Vector3 colliderCenter;
+		Vector3 colliderSize;
+		
+		std::list<Objects> children;
 	};
 
 	/// <summary>
@@ -35,13 +42,31 @@ public:
 
 	static SceneLoader* GetInstance();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Init();
 
+	/// <summary>
+	/// Scene読み込み処理
+	/// </summary>
+	/// <param name="directory"></param>
+	/// <param name="fileName"></param>
+	/// <param name="extension"></param>
 	void Load(const std::string& directory, const std::string& fileName, const std::string& extension);
+
+	/// <summary>
+	/// objectの読み込み処理
+	/// </summary>
+	/// <param name="objectJson"></param>
+	/// <returns></returns>
+	Objects LoadObject(const json& objectJson);
 
 public:
 
 	Objects GetObjects(const std::string& objName) const;
+
+	const LevelData* GetLevelData() const { return levelData_.get(); }
 
 private:
 

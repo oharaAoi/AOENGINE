@@ -25,11 +25,12 @@ void Boss::Init() {
 	transform_->SetSRT(object.srt);
 	SetObject(object.modelName);
 
-	SetCollider(ColliderTags::Boss::own, ColliderShape::SPHERE);
+	SetCollider(ColliderTags::Boss::own, object.colliderType);
+	collider_->SetSize(object.colliderSize);
+	collider_->SetLoacalPos(object.colliderCenter);
 	collider_->SetTarget(ColliderTags::Bullet::machinegun);
 	collider_->SetTarget(ColliderTags::Field::ground);
 	//collider_->SetIsStatic(false);
-	collider_->SetRadius(4.5f);
 
 	// -------------------------------------------------
 	// ↓ Action関連

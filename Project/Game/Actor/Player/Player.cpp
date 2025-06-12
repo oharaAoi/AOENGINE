@@ -81,12 +81,13 @@ void Player::Init() {
 
 	AddChild(jet_.get());
 
-	SetCollider(ColliderTags::Player::own, ColliderShape::SPHERE);
+
+	SetCollider(ColliderTags::Player::own, object.colliderType);
+	collider_->SetSize(object.colliderSize);
+	collider_->SetLoacalPos(object.colliderCenter);
 	collider_->SetTarget(ColliderTags::Boss::own);
 	collider_->SetTarget(ColliderTags::Boss::missile);
 	collider_->SetTarget(ColliderTags::Field::ground);
-	collider_->SetRadius(1.7f);
-	collider_->SetLoacalPos(Vector3(0, 1.7f, 0.0f));
 	collider_->SetIsStatic(false);
 
 	// -------------------------------------------------
@@ -120,6 +121,7 @@ void Player::Init() {
 	isKnockback_ = false;
 
 	isLanding_ = false;
+	isMoving_ = false;
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;

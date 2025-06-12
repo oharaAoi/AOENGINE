@@ -63,7 +63,43 @@
                     1.0
                 ]
             },
-            "file_name": "player.obj"
+            "file_name": "player.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    1.3600000143051147
+                ],
+                "size": [
+                    2.0,
+                    1.0,
+                    3.0
+                ]
+            },
+            "children": [
+                {
+                    "type": "MESH",
+                    "name": "cube",
+                    "transform": {
+                        "translation": [
+                            0.0,
+                            10.328723907470703,
+                            0.0
+                        ],
+                        "rotation": [
+                            0.0,
+                            -0.0,
+                            0.0
+                        ],
+                        "scaling": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ]
+                    }
+                }
+            ]
         },
         {
             "type": "MESH",
@@ -85,7 +121,42 @@
                     1.0
                 ]
             },
-            "file_name": "boss.obj"
+            "file_name": "boss.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    11.309999465942383,
+                    10.779999732971191,
+                    4.180000305175781
+                ]
+            }
+        },
+        {
+            "type": "MESH",
+            "name": "Field",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "ground.obj"
         }
     ]
 }

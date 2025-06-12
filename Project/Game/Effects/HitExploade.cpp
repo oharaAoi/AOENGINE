@@ -78,7 +78,7 @@ void HitExplode::Update() {
 	Quaternion lookRotation = Quaternion::LookRotation(directionToCamera);
 	worldTransform_->rotation_ = Quaternion::AngleAxis(kPI, lookRotation.MakeUp()) * lookRotation;
 	worldTransform_->Update();
-	material_->Update(Matrix4x4::MakeUnit());
+	material_->Update();
 }
 
 void HitExplode::Draw() const {

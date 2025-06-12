@@ -85,6 +85,10 @@ void BaseGameObject::PostUpdate() {
 	}
 
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
+
+	for (auto& material : materials) {
+		material->Update();
+	}
 }
 
 
@@ -134,6 +138,22 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 	ColliderCollector::AddCollider(collider_.get());
 }
 
+void BaseGameObject::SetCollider(const std::string& categoryName, const std::string& shapeName) {
+	ColliderShape shape = ColliderShape::SPHERE;
+	if (shapeName == "SPHERE") {
+		collider_ = std::make_unique<SphereCollider>();
+		shape = ColliderShape::SPHERE;
+	} else if (shapeName == "BOX") {
+		collider_ = std::make_unique<BoxCollider>();
+		shape = ColliderShape::AABB;
+	}
+
+	collider_->Init(categoryName, shape);
+	collider_->SetWorldTransform(transform_.get());
+	collider_->SetName(categoryName);
+	ColliderCollector::AddCollider(collider_.get());
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　modelを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +175,6 @@ void BaseGameObject::SetObject(const std::string& objName) {
 void BaseGameObject::SetParent(BaseGameObject* parent) {
 	pParentObj_ = parent;
 	transform_->SetParent(parent->GetTransform()->GetWorldMatrix());
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

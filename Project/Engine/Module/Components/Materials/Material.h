@@ -37,7 +37,8 @@ public:
 
 	void Finalize();
 	void Init(ID3D12Device* device, const Model::ModelMaterialData& materialData);
-	void Update(const Matrix4x4& uvTransform);
+	void Update();
+
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 #ifdef _DEBUG
