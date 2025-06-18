@@ -7,6 +7,7 @@
 #include <string>
 
 #include "Game/Actor/Base/BaseAction.h"
+#include "Game/Information/ActionContext.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
@@ -27,6 +28,8 @@ public:
 
 	void Init(OwnerType* pOwner, const std::string& name) {
 		pOwner_ = pOwner;
+
+		context_ = std::make_shared<ActionContext>();
 	
 #ifdef _DEBUG
 		EditorWindows::AddObjectWindow(this, name.c_str());
@@ -100,6 +103,7 @@ public:
 		actionMap_[hash] = std::make_shared<ActionT>();
 		actionMap_[hash]->SetOwner(pOwner_);
 		actionMap_[hash]->SetObserver(this);
+		actionMap_[hash]->SetContext(context_);
 		actionMap_[hash]->Build();
 		AddChild(actionMap_[hash].get());
 	}
@@ -158,12 +162,17 @@ private:
 	std::string actionName_;
 	// 持ち主のポインタ
 	OwnerType* pOwner_ = nullptr;
+
 	// 今のAction
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> runActionMap_;
 	// ownerが行うActionのインスタンスをまとめたMap
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> actionMap_;
+
 	// 追加するActionのリスト
 	std::list<size_t> addIndexList_;
 	// 削除するActionのリスト
 	std::list<size_t> deleteIndexList_;
+
+	// 変数の値を共有したいときに使用するmap
+	std::shared_ptr<ActionContext> context_;
 };

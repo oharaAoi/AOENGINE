@@ -15,6 +15,7 @@
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 #include "Game/Actor/Player/Action/PlayerActionDamaged.h"
+#include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 
 Player::Player() {}
 Player::~Player() {
@@ -111,6 +112,7 @@ void Player::Init() {
 	actionManager_->BuildAction<PlayerActionShotRight>();
 	actionManager_->BuildAction<PlayerActionShotLeft>();
 	actionManager_->BuildAction<PlayerActionDamaged>();
+	actionManager_->BuildAction<PlayerActionTurnAround>();
 
 	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_->AddRunAction(hash);

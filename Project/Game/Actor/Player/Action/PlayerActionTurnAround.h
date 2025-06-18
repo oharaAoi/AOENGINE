@@ -1,35 +1,37 @@
 #pragma once
+#include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/Actor/Base/BaseAction.h"
-#include <Lib/Json/IJsonConverter.h>
 
 // 前方宣言
 class Player;
 
-class PlayerActionMove :
-	public BaseAction<Player>{
+class PlayerActionTurnAround :
+	public BaseAction<Player> {
 public:
 
 	struct Parameter : public IJsonConverter {
 		float speed;
-		float boostSpeed;
+		float rotateTime;
 
+		Parameter() { SetName("actionTurnAround"); }
+		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("speed", speed)
-				.Add("boostSpeed", boostSpeed)
+				.Add("rotateTime", rotateTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "speed", speed);
-			fromJson(jsonData, "boostSpeed", boostSpeed);
+			fromJson(jsonData, "rotateTime", rotateTime);
 		}
 	};
-
 public:
 
-	PlayerActionMove() = default;
-	~PlayerActionMove() override {};
+	PlayerActionTurnAround() = default;
+	~PlayerActionTurnAround() override {};
 
 	void Build() override;
 	void OnStart() override;
@@ -46,27 +48,20 @@ public:
 
 private:	// action
 
-	void Move();
 
-	void Deceleration(Vector2 currentInput);
-
-	bool IsDirectionReversed(const Vector3& currentVelocity);
-
+	
 private:
 
 	// Parameter -------------------------------
+	Parameter param_;
 	float actionTimer_;
 
 	const float kDeadZone_ = 0.1f;
-	Vector2 inputStick_;
+	float speed_;
+	Vector3 direction_;
 
-	Vector3 preVelocity_;
+	Quaternion targetRotate_;
+	Quaternion prevRotate_;
 
-	Parameter param_;
-	Parameter initParam_;
-
-	int prevNum_ = 6;
-
-	bool isTurnAround_;
 };
 

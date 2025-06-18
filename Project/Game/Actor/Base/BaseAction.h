@@ -5,6 +5,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 // engine
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Game/Information/ActionContext.h"
 
 template<typename OwnerType>
 class ActionManager;
@@ -89,6 +90,10 @@ public:	// base
 		size_t hash = typeid(ActionT).hash_code();
 		return pManager_->CheckInput(hash);
 	}
+
+	void SetContext(const std::shared_ptr<ActionContext>& context) {
+		context_ = context;
+	}
 	
 protected:	// observerクラス以外からは呼び出さない
 
@@ -107,6 +112,9 @@ protected:	// observerクラス以外からは呼び出さない
 protected:
 	ActionManager<OwnerType>* pManager_ = nullptr;
 	OwnerType* pOwner_ = nullptr;
+
+	// 変数の値を共有したいときに使用するmap
+	std::shared_ptr<ActionContext> context_;
 };
 
 
