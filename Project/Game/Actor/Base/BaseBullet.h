@@ -1,14 +1,13 @@
 #pragma once
 #include <string>
 // Engine
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 
 /// <summary>
 /// Baseとなる弾クラス
 /// </summary>
 class BaseBullet :
-	public AttributeGui {
+	public BaseEntity {
 public:
 
 	BaseBullet() = default;
@@ -31,14 +30,7 @@ public:
 
 	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
 
-	ICollider* GetCollider() { return bullet_->GetCollider(); }
-
-	Vector3 GetPosition() const { return bullet_->GetPosition(); }
-
 protected:
-
-	BaseGameObject* bullet_;
-	WorldTransform* transform_;
 
 	// State ------------------------------
 	Vector3 velocity_;

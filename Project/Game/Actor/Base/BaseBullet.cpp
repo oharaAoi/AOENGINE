@@ -2,14 +2,14 @@
 #include "Engine/Render/SceneRenderer.h"
 
 void BaseBullet::Finalize() {
-	bullet_->SetIsDestroy(true);
+	object_->SetIsDestroy(true);
 }
 
 void BaseBullet::Init(const std::string& bulletName) {
 	isAlive_ = true;
 
-	bullet_ = SceneRenderer::GetInstance()->AddObject(bulletName, "Object_Normal.json");
-	transform_ = bullet_->GetTransform();
+	object_ = SceneRenderer::GetInstance()->AddObject(bulletName, "Object_Normal.json");
+	transform_ = object_->GetTransform();
 }
 
 void BaseBullet::Update() {

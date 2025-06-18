@@ -4,17 +4,18 @@
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
-	//ParticleManager::GetInstance()->DeleteParticles(burn_);
+	ParticleManager::GetInstance()->DeleteParticles(burn_);
+	ParticleManager::GetInstance()->DeleteParticles(smoke_);
 	burn_ = nullptr;
 	smoke_ = nullptr;
 }
 
 void BossMissile::Init() {
 	BaseBullet::Init("BossMissile");
-	bullet_->SetObject("missile.obj");
-	bullet_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
+	object_->SetObject("missile.obj");
+	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
 
-	ICollider* collider = bullet_->GetCollider();
+	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Player::own);
 	//collider->SetTarget(ColliderTags::Field::ground);
 
@@ -23,10 +24,10 @@ void BossMissile::Init() {
 
 	finishTracking_ = false;
 
-	//burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	//smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
-	//burn_->SetParent(transform_->GetWorldMatrix());
-	//smoke_->SetParent(transform_->GetWorldMatrix());
+	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
+	burn_->SetParent(transform_->GetWorldMatrix());
+	smoke_->SetParent(transform_->GetWorldMatrix());
 }
 
 void BossMissile::Update() {
@@ -46,8 +47,8 @@ void BossMissile::Update() {
 	}
 
 	BaseBullet::Update();
-//	burn_->Update();
-	//smoke_->Update();
+	burn_->Update();
+	smoke_->Update();
 }
 
 

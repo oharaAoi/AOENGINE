@@ -1,8 +1,7 @@
 #pragma once
 #include <memory>
 // Engine
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 // Game
 #include "Game/State/StateMachine.h"
@@ -10,7 +9,7 @@
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 
 class Boss :
-	public AttributeGui {
+	public BaseEntity {
 public:
 
 	struct Parameter : public IJsonConverter {
@@ -56,20 +55,13 @@ public:
 	void SetBulletManager(BossBulletManager* _manager) { pBossBulletManager_ = _manager; }
 	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
 
-	Vector3 GetPosition() { return boss_->GetPosition(); }
-
-	BaseGameObject* GetGameObject() { return boss_; }
-	WorldTransform* GetTransform() { return transform_; }
-
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
 
 private:
 
 	// ポインタ  --------------------------------------------------
-	BaseGameObject* boss_;
-	WorldTransform* transform_;
-
+	
 	BossBulletManager* pBossBulletManager_ = nullptr;
 
 	// state --------------------------------------------------

@@ -51,11 +51,11 @@ void Boss::Init() {
 	SetName("Boss");
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
 
-	boss_ = SceneRenderer::GetInstance()->GetGameObject("Boss");
-	transform_ = boss_->GetTransform();
+	object_ = SceneRenderer::GetInstance()->GetGameObject("Boss");
+	transform_ = object_->GetTransform();
 
-	boss_->SetCollider(ColliderTags::Boss::own, object.colliderType);
-	ICollider* collider = boss_->GetCollider();
+	object_->SetCollider(ColliderTags::Boss::own, object.colliderType);
+	ICollider* collider = object_->GetCollider();
 	collider->SetSize(object.colliderSize);
 	collider->SetLoacalPos(object.colliderCenter);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);

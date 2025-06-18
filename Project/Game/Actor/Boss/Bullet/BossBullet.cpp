@@ -7,10 +7,10 @@ BossBullet::~BossBullet() {
 
 void BossBullet::Init() {
 	BaseBullet::Init("BossBullet");
-	bullet_->SetObject("missile.obj");
-	bullet_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
+	object_->SetObject("missile.obj");
+	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
 
-	ICollider* collider = bullet_->GetCollider();
+	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Player::own);
 	//collider->SetTarget(ColliderTags::Field::ground);
 }

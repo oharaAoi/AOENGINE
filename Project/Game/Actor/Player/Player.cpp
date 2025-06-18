@@ -27,7 +27,7 @@ void Player::Finalize() {
 
 #ifdef _DEBUG
 void Player::Debug_Gui() {
-	player_->GetTransform()->Debug_Gui();
+	object_->GetTransform()->Debug_Gui();
 
 	actionManager_->Debug_Gui();
 
@@ -72,17 +72,17 @@ void Player::Init() {
 	SetName("Player");
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
 
-	player_ = SceneRenderer::GetInstance()->GetGameObject("Player");
-	transform_ = player_->GetTransform();
+	object_ = SceneRenderer::GetInstance()->GetGameObject("Player");
+	transform_ = object_->GetTransform();
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
-	jet_->SetParent(player_);
+	jet_->SetParent(this);
 
 	AddChild(jet_.get());
 
-	player_->SetCollider(ColliderTags::Player::own, object.colliderType);
-	ICollider* collider = player_->GetCollider();
+	object_->SetCollider(ColliderTags::Player::own, object.colliderType);
+	ICollider* collider = object_->GetCollider();
 	collider->SetSize(object.colliderSize);
 	collider->SetLoacalPos(object.colliderCenter);
 	collider->SetTarget(ColliderTags::Boss::own);
@@ -125,6 +125,7 @@ void Player::Init() {
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
+	param_.postureStability -= initParam_.postureStability;
 	
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());

@@ -18,7 +18,7 @@ void LauncherGun::Debug_Gui() {
 
 void LauncherGun::Init() {
 	BaseWeapon::Init();
-	weapon_->SetObject("launcher.obj");
+	object_->SetObject("launcher.obj");
 	SetName("LauncherGun");
 
 	transform_->translate_ = { -1.2f, 1.1f, 0.0f };
@@ -56,7 +56,7 @@ void LauncherGun::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
  
 void LauncherGun::Shot(const Vector3& targetPos, uint32_t type) {
-	Vector3 worldPos = weapon_->GetPosition();
+	Vector3 worldPos = object_->GetPosition();
 	Vector3 dire = (targetPos - worldPos).Normalize();
 	pBulletManager_->AddBullet(worldPos, dire * speed_, type);
 	// effectを出す

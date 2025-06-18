@@ -1,7 +1,6 @@
 #pragma once
 // Engine
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -19,7 +18,7 @@ enum PlayerWeapon {
 };
 
 class Player :
-	public AttributeGui {
+	public BaseEntity {
 public:		// data
 
 	struct Parameter : public IJsonConverter {
@@ -116,7 +115,7 @@ public:
 	const Parameter& GetInitParam() { return initParam_; }
 
 	// jet
-	BaseGameObject* GetJet() { return jet_.get(); }
+	BaseGameObject* GetJet() { return jet_->GetGameObject(); }
 
 	// stateMachine
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }
@@ -144,13 +143,7 @@ public:
 	JetEngine* GetJetEngine() { return jet_.get(); }
 	bool GetIsBoostMode() const { return jet_->GetIsBoostMode(); }
 
-	BaseGameObject* GetGameObject() { return player_; }
-	WorldTransform* GetTransform() { return transform_; }
-
 private:
-
-	BaseGameObject* player_;
-	WorldTransform* transform_;
 
 	// 他クラス ------------------------------------------------
 

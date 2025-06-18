@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 
@@ -9,16 +9,16 @@
 /// jetのエンジンとなるクラス
 /// </summary>
 class JetEngine :
-public BaseGameObject {
+	public BaseEntity {
 public:
 
 	JetEngine() = default;
 	~JetEngine();
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
+	void Finalize();
+	void Init();
+	void Update();
+	void Draw() const;
 
 #ifdef _DEBUG
 	void Debug_Gui() override;

@@ -5,8 +5,8 @@ void BaseWeapon::Finalize() {
 }
 
 void BaseWeapon::Init() {
-	weapon_ = SceneRenderer::GetInstance()->AddObject("Weapon", "Object_Normal.json");
-	transform_ = weapon_->GetTransform();
+	object_ = SceneRenderer::GetInstance()->AddObject("Weapon", "Object_Normal.json");
+	transform_ = object_->GetTransform();
 }
 
 void BaseWeapon::Update() {

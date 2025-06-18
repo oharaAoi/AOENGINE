@@ -1,4 +1,5 @@
 #include "JetEngine.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
 
@@ -14,9 +15,12 @@ void JetEngine::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Init() {
-	BaseGameObject::Init();
 	SetName("JetEngine");
-	SetObject("jet.obj");
+
+	object_ = SceneRenderer::GetInstance()->AddObject(GetName(), "Object_Normal.json");
+	object_->SetObject("jet.obj");
+
+	transform_ = object_->GetTransform();
 
 	transform_->translate_ = { 0.0f, 1.7f, -0.5f };
 	transform_->rotation_ = Quaternion::AngleAxis(45.0f * kToRadian, CVector3::RIGHT);
@@ -51,7 +55,6 @@ void JetEngine::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Update() {
-	BaseGameObject::Update();
 	jetBurn_->Update();
 	//jetBornParticles_->Update();
 	jetEnergyParticles_->Update();
@@ -66,11 +69,7 @@ void JetEngine::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Draw() const {
-	BaseGameObject::Draw();
-
-	/*Engine::SetPSOObj(Object3dPSO::TextureBlend);
-	jetEngineBurn_->Draw();
-	Engine::SetPSOObj(Object3dPSO::Normal);*/
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +79,7 @@ void JetEngine::Draw() const {
 #ifdef _DEBUG
 void JetEngine::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Jet")) {
-		BaseGameObject::Debug_Gui();
+		transform_->Debug_Gui();
 	}
 
 	if(ImGui::CollapsingHeader("jetEngineBurn")) {

@@ -22,7 +22,7 @@ void MachineGun::Debug_Gui() {
 void MachineGun::Init() {
 	BaseWeapon::Init();
 	
-	weapon_->SetObject("gun.obj");
+	object_->SetObject("gun.obj");
 	SetName("MachineGun");
 
 	transform_->translate_ = { 1.2f, 1.1f, 0.0f };
@@ -59,7 +59,7 @@ void MachineGun::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Shot(const Vector3& targetPos, uint32_t type) {
-	Vector3 worldPos = weapon_->GetPosition();
+	Vector3 worldPos = object_->GetPosition();
 	Vector3 dire = (targetPos - worldPos).Normalize();
 	pBulletManager_->AddBullet(worldPos, dire * speed_, type);
 	// effectを出す

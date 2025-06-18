@@ -1,11 +1,10 @@
 #pragma once
 // Engine
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 
 class BaseWeapon :
-	public AttributeGui {
+	public BaseEntity {
 public:
 
 	BaseWeapon() = default;
@@ -29,9 +28,6 @@ public:		// accessor method
 	void SetBulletManager(PlayerBulletManager* _bulletManager) { pBulletManager_ = _bulletManager; }
 
 protected:	// 
-
-	BaseGameObject* weapon_;
-	WorldTransform* transform_;
 
 	PlayerBulletManager* pBulletManager_ = nullptr;
 

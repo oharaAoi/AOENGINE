@@ -255,6 +255,7 @@
     <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
     <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
     <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -480,6 +481,7 @@
     <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
     <ClInclude Include="Game\UI\Boss\BossUIs.h" />
     <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
