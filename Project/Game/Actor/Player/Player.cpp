@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
@@ -23,18 +23,17 @@ Player::~Player() {
 
 void Player::Finalize() {
 	jet_ = nullptr;
-	BaseGameObject::Finalize();
 }
 
 #ifdef _DEBUG
 void Player::Debug_Gui() {
-	transform_->Debug_Gui();
-
-	collider_->Debug_Gui();
+	player_->GetTransform()->Debug_Gui();
 
 	actionManager_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
+		ImGui::DragFloat("health", &param_.health, 0.1f);
+		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
 		ImGui::DragFloat("bodyWeight", &param_.bodyWeight, 0.1f);
 		ImGui::DragFloat("energy", &param_.energy, 0.1f);
 		ImGui::DragFloat("energyRecoveyAmount", &param_.energyRecoveyAmount, 0.1f);
@@ -44,6 +43,8 @@ void Player::Debug_Gui() {
 	}
 
 	if (ImGui::CollapsingHeader("Parameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+		ImGui::DragFloat("health", &initParam_.health, 0.1f);
+		ImGui::DragFloat("postureStability", &initParam_.postureStability, 0.1f);
 		ImGui::DragFloat("bodyWeight", &initParam_.bodyWeight, 0.1f);
 		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
 		ImGui::DragFloat("energyRecoveyAmount", &initParam_.energyRecoveyAmount, 0.1f);
@@ -69,26 +70,25 @@ void Player::Debug_Gui() {
 
 void Player::Init() {
 	SetName("Player");
-	BaseGameObject::Init();
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
 
-	SetObject(object.modelName);
-	transform_->SetSRT(object.srt);
+	player_ = SceneRenderer::GetInstance()->GetGameObject("Player");
+	transform_ = player_->GetTransform();
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
-	jet_->SetParent(this);
+	jet_->SetParent(player_);
 
 	AddChild(jet_.get());
 
-
-	SetCollider(ColliderTags::Player::own, object.colliderType);
-	collider_->SetSize(object.colliderSize);
-	collider_->SetLoacalPos(object.colliderCenter);
-	collider_->SetTarget(ColliderTags::Boss::own);
-	collider_->SetTarget(ColliderTags::Boss::missile);
-	collider_->SetTarget(ColliderTags::Field::ground);
-	collider_->SetIsStatic(false);
+	player_->SetCollider(ColliderTags::Player::own, object.colliderType);
+	ICollider* collider = player_->GetCollider();
+	collider->SetSize(object.colliderSize);
+	collider->SetLoacalPos(object.colliderCenter);
+	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetTarget(ColliderTags::Boss::missile);
+	collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetIsStatic(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -125,10 +125,9 @@ void Player::Init() {
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
 	param_ = initParam_;
-	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
-
+	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, GetName());
+	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
 
 }
@@ -150,8 +149,6 @@ void Player::Update() {
 		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_, targetToRotate, 0.9f);
 	}
 
-	BaseGameObject::Update();
-
 	jet_->Update();
 }
 
@@ -160,7 +157,6 @@ void Player::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Draw() const {
-	BaseGameObject::Draw();
 	jet_->Draw();
 }
 

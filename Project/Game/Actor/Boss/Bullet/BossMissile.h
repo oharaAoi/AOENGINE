@@ -14,9 +14,8 @@ public:
 	~BossMissile() override;
 
 	void Init();
-	void Update();
-	void Draw() const;
-
+	void Update() override;
+	
 	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed);
 
 private :

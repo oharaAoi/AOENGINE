@@ -23,7 +23,7 @@ public:
 
 private:
 
-
+	std::unique_ptr<Sprite> fence_;
 
 };
 

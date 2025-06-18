@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 
@@ -49,7 +49,7 @@ void TestScene::Init() {
 	
 	
 #ifdef _DEBUG
-	//EditerWindows::AddObjectWindow(testObjA_.get(), "testAObj");
+	//EditorWindows::AddObjectWindow(testObjA_.get(), "testAObj");
 #endif
 
 	// Manager -------------------------------------------------------------------

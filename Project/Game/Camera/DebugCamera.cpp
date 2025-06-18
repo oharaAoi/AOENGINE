@@ -1,5 +1,5 @@
 #include "DebugCamera.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render.h"
 
 DebugCamera::DebugCamera() {}
@@ -25,7 +25,7 @@ void DebugCamera::Init() {
 	isActive_ = false;
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "debugCamera");
+	EditorWindows::AddObjectWindow(this, "debugCamera");
 #endif // _DEBUG
 }
 

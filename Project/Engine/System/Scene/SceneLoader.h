@@ -15,7 +15,7 @@ public:		// data
 	/// ファイルに記載されている各objectの情報
 	/// </summary>
 	struct Objects {
-		std::string meshName;
+		std::string name;
 		std::string modelName;
 		QuaternionSRT srt;
 

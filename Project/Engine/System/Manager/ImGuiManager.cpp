@@ -1,4 +1,3 @@
-#ifdef _DEBUG
 #include "ImGuiManager.h"
 
 ImGuiManager* ImGuiManager::GetInstacne() {
@@ -64,4 +63,3 @@ void ImGuiManager::End() {
 void ImGuiManager::Draw(ID3D12GraphicsCommandList* commandList) {
 	ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
 }
-#endif

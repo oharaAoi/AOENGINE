@@ -1,5 +1,5 @@
 #include "PostProcess.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 PostProcess::~PostProcess() {
 	Finalize();
@@ -37,7 +37,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	//AddEffect(PostEffectType::VIGNETTE);
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "Post Process");
+	EditorWindows::AddObjectWindow(this, "Post Process");
 #endif
 }
 

@@ -105,7 +105,7 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 
 #ifdef _DEBUG
 void WorldTransform::Debug_Gui() {
-	if (ImGui::TreeNode("Transform")) {
+	if (ImGui::CollapsingHeader("Transform")) {
 		if (ImGui::TreeNode("scale")) {
 			ImGui::DragFloat3("scale", &scale_.x, 0.01f);
 			ImGui::TreePop();
@@ -120,7 +120,6 @@ void WorldTransform::Debug_Gui() {
 			ImGui::DragFloat3("translation", &translate_.x, 0.1f);
 			ImGui::TreePop();
 		}
-		ImGui::TreePop();
 	}
 }
 

@@ -32,9 +32,7 @@ void PlayerBulletManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBulletManager::Draw() const {
-	for (const std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
-		bullet->Draw();
-	}
+	
 }
 
 PlayerBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {

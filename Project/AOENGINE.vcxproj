@@ -216,7 +216,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
-    <ClCompile Include="Engine\System\Editer\Window\EditerWindows.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\EditorWindows.cpp" />
     <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
@@ -312,8 +312,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
     <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
     <ClCompile Include="Game\UI\CanvasUI.cpp" />
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
+    <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
@@ -431,7 +434,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
-    <ClInclude Include="Engine\System\Editer\Window\EditerWindows.h" />
+    <ClInclude Include="Engine\System\Editer\Window\EditorWindows.h" />
     <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
@@ -537,8 +540,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
     <ClInclude Include="Game\UI\BaseGaugeUI.h" />
+    <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
+    <ClInclude Include="Game\UI\Boss\BossUIs.h" />
     <ClInclude Include="Game\UI\CanvasUI.h" />
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
+    <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />

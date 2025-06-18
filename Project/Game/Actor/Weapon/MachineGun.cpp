@@ -1,6 +1,5 @@
 #include "MachineGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/Render/SceneRenderer.h"
 
 void MachineGun::Finalize() {
 }
@@ -22,7 +21,8 @@ void MachineGun::Debug_Gui() {
 
 void MachineGun::Init() {
 	BaseWeapon::Init();
-	SetObject("gun.obj");
+	
+	weapon_->SetObject("gun.obj");
 	SetName("MachineGun");
 
 	transform_->translate_ = { 1.2f, 1.1f, 0.0f };
@@ -32,10 +32,8 @@ void MachineGun::Init() {
 	// -------------------------------------------------
 	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
 
-	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
-	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, GetName());
+	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
 }
 
@@ -61,10 +59,11 @@ void MachineGun::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Shot(const Vector3& targetPos, uint32_t type) {
-	Vector3 dire = (targetPos - GetPosition()).Normalize();
-	pBulletManager_->AddBullet(worldPos_, dire * speed_, type);
+	Vector3 worldPos = weapon_->GetPosition();
+	Vector3 dire = (targetPos - worldPos).Normalize();
+	pBulletManager_->AddBullet(worldPos, dire * speed_, type);
 	// effectを出す
-	Vector3 pos = worldPos_;
+	Vector3 pos = worldPos;
 	pos += (dire * 4.f);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);

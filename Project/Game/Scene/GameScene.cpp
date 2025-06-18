@@ -9,6 +9,7 @@ GameScene::~GameScene() { Finalize(); }
 
 void GameScene::Finalize() {
 	particleManager_->Finalize();
+	sceneRenderer_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,12 +23,13 @@ void GameScene::Init() {
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
-	sceneRenderer_ = SceneRenderer::GetInstance();
-	sceneRenderer_->Init();
-
 	sceneLoader_ = SceneLoader::GetInstance();
 	sceneLoader_->Init();
 	sceneLoader_->Load("./Game/Assets/Scene/", "scene", ".json");
+
+	sceneRenderer_ = SceneRenderer::GetInstance();
+	sceneRenderer_->Init();
+	sceneRenderer_->CreateObject(sceneLoader_->GetLevelData());
 	
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -95,6 +97,9 @@ void GameScene::Init() {
 	// ↓ spriteの初期化
 	// -------------------------------------------------
 	canvas_ = std::make_unique<CanvasUI>();
+	canvas_->SetPlayer(playerManager_->GetPlayer());
+	canvas_->SetBoss(bossRoot_->GetBoss());
+	canvas_->SetFollowCamera(followCamera_.get());
 	canvas_->Init();
 
 	// -------------------------------------------------
@@ -106,10 +111,6 @@ void GameScene::Init() {
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
-
-	canvas_->SetPlayer(playerManager_->GetPlayer());
-	canvas_->SetBoss(bossRoot_->GetBoss());
-	canvas_->SetFollowCamera(followCamera_.get());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -128,14 +129,11 @@ void GameScene::Update() {
 	floor_->Update();
 	playerManager_->Update();
 
-	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetPosition());
+	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetGameObject()->GetPosition());
 	bossRoot_->Update();
 
 	cylinder_->Update();
 	sphere_->Update();
-
-	collisionManager_->CheckAllCollision();
-	gameCallBacksManager_->Update();
 
 	hitExploade_->Update();
 
@@ -162,6 +160,9 @@ void GameScene::Update() {
 	particleManager_->PostUpdate();
 
 	sceneRenderer_->Update();
+
+	collisionManager_->CheckAllCollision();
+	gameCallBacksManager_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,10 +182,6 @@ void GameScene::Draw() const {
 	// Sceneの描画
 	sceneRenderer_->Draw();
 
-	Engine::SetPipeline(PSOType::Object3d, "Object_NormalEnviroment.json");
-	//sphere_->Draw();
-
-	
 	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 	ParticleManager::GetInstance()->Draw();
 
@@ -206,5 +203,4 @@ void GameScene::Draw() const {
 void GameScene::Debug_Gui() {
 	
 }
-
 #endif

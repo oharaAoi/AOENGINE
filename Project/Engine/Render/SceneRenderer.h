@@ -1,9 +1,11 @@
 #pragma once
 #include <utility>
+#include <memory>
 #include <list>
 #include <unordered_map>
 #include "Engine/DirectX/Pipeline/PipelineGroup/Object3dPipelines.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/System/Scene/SceneLoader.h"
 
 /// <summary>
 /// Sceneのレンダリングを行うクラス
@@ -13,10 +15,10 @@ public:
 
 	struct ObjectPair {
 		std::string renderingType;
-		BaseGameObject* object;
+		std::unique_ptr<BaseGameObject> object;
 
-		ObjectPair(std::string type, BaseGameObject* obj)
-			: renderingType(type), object(obj) {
+		ObjectPair(std::string type, std::unique_ptr<BaseGameObject> obj)
+			: renderingType(type), object(std::move(obj)) {
 		}
 	};
 
@@ -29,21 +31,29 @@ public:
 
 	static SceneRenderer* GetInstance();
 
+	void Finalize();
+
 	void Init();
 
 	void Update();
 
 	void Draw() const;
 
-	void SetObject(const std::string& typeFile, BaseGameObject* object);
+	void CreateObject(const SceneLoader::LevelData* loadData);
 
-	void ReleaseObject(BaseGameObject* object);
+	BaseGameObject* AddObject(const std::string& objectName, const std::string& renderingName);
+
+	void ReleaseObject(BaseGameObject* objPtr);
+
+	void ChangeRenderingType(const std::string& renderingName, BaseGameObject* gameObject);
+
+public:
+
+	BaseGameObject* GetGameObject(const std::string& objName);
 
 private:
 
-	std::unordered_map<std::string, std::list<BaseGameObject*>> object3dMap_;
-
-	std::list<ObjectPair> object3dList_;
+	std::list<ObjectPair> objectList_;
 
 };
 

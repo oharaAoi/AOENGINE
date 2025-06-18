@@ -1,6 +1,6 @@
 #include "Camera3d.h"
 #include "Engine/Render.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 Camera3d::Camera3d() {}
@@ -12,7 +12,7 @@ void Camera3d::Init() {
 
 	parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "camera3d");
+	EditorWindows::AddObjectWindow(this, "camera3d");
 #endif // _DEBUG
 }
 

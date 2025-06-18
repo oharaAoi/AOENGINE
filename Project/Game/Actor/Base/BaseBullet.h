@@ -1,23 +1,28 @@
 #pragma once
+#include <string>
 // Engine
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// Baseとなる弾クラス
 /// </summary>
 class BaseBullet :
-	public BaseGameObject {
+	public AttributeGui {
 public:
 
 	BaseBullet() = default;
 	virtual ~BaseBullet() = default;
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
-
+	void Finalize();
+	void Init(const std::string& bulletName);
+	virtual void Update();
+	
 	void Reset(const Vector3& pos, const Vector3& velocity);
+
+#ifdef _DEBUG
+	void Debug_Gui() override;
+#endif // _DEBUG
 
 public:
 
@@ -26,7 +31,14 @@ public:
 
 	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
 
+	ICollider* GetCollider() { return bullet_->GetCollider(); }
+
+	Vector3 GetPosition() const { return bullet_->GetPosition(); }
+
 protected:
+
+	BaseGameObject* bullet_;
+	WorldTransform* transform_;
 
 	// State ------------------------------
 	Vector3 velocity_;

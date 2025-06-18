@@ -6,13 +6,11 @@
 
 #include "Engine/Module/ComputeShader/ComputeShader.h"
 
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/System/Audio/Audio.h"
-
-#include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
@@ -76,9 +74,7 @@ namespace {
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
 
-	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
-
-	EditerWindows* editerWindows_ = nullptr;
+	EditorWindows* editorWindows_ = nullptr;
 
 	bool isFullScreen_;
 
@@ -88,7 +84,7 @@ namespace {
 
 	bool openParticleEditer_ = false;	// 後で直す
 
-	bool isColliderDraw_;
+	bool isColliderDraw_ = true;
 
 	Pipeline* lastUsedPipeline_;
 }
@@ -121,8 +117,6 @@ public:
 	/// </summary>
 	static void EndFrame();
 
-	static void UpdateEditerWindow();
-	
 	static void RenderFrame();
 
 	static void BlendFinalTexture();

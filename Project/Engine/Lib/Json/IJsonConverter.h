@@ -35,9 +35,14 @@ public:
 	/// <param name="jsonData">: 任意のデータが格納されたjsonデータ</param>
 	virtual void FromJson(const json& jsonData) = 0;
 
+	void SetName(const std::string& name) { name_ = name; }
+	const std::string& GetName() const { return name_; }
+
 protected:
 
 	std::function<json(const std::string&)> toJsonFunction_;
+
+	std::string name_ = "new Parameter";
 
 };
 

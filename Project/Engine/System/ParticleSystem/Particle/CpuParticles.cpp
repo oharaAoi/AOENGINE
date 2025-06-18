@@ -1,6 +1,6 @@
 #include "CpuParticles.h"
 #include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
@@ -20,7 +20,7 @@ void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	isStop_ = false;
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, name_);
+	EditorWindows::AddObjectWindow(this, name_);
 #endif // _DEBUG
 }
 

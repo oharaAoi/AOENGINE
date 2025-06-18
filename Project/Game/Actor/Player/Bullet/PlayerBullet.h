@@ -17,9 +17,8 @@ public:
 	~PlayerBullet() override;
 
 	void Init();
-	void Update();
-	void Draw() const;
-
+	void Update() override;
+	
 	void SetType(uint32_t type) { bulletType = type; }
 
 	uint32_t GetType() const { return bulletType; }

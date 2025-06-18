@@ -1,6 +1,7 @@
 #pragma once
 // Engine
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -18,10 +19,12 @@ enum PlayerWeapon {
 };
 
 class Player :
-	public BaseGameObject {
+	public AttributeGui {
 public:		// data
 
 	struct Parameter : public IJsonConverter {
+		float health;				// hp
+		float postureStability;		// 姿勢安定
 		float bodyWeight = 1.0f;	// 機体の重さ
 
 		float energy = 1.f;	// EN出力
@@ -30,6 +33,8 @@ public:		// data
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("health", health)
+				.Add("postureStability", postureStability)
 				.Add("bodyWeight", bodyWeight)
 				.Add("energy", energy)
 				.Add("energyRecoveyAmount", energyRecoveyAmount)
@@ -38,6 +43,8 @@ public:		// data
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "health", health);
+			fromJson(jsonData, "postureStability", postureStability);
 			fromJson(jsonData, "bodyWeight", bodyWeight);
 			fromJson(jsonData, "energy", energy);
 			fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
@@ -50,10 +57,10 @@ public:		// base
 	Player();
 	~Player();
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
+	void Finalize();
+	void Init();
+	void Update();
+	void Draw() const;
 
 #ifdef _DEBUG
 	void Debug_Gui() override;
@@ -137,7 +144,13 @@ public:
 	JetEngine* GetJetEngine() { return jet_.get(); }
 	bool GetIsBoostMode() const { return jet_->GetIsBoostMode(); }
 
+	BaseGameObject* GetGameObject() { return player_; }
+	WorldTransform* GetTransform() { return transform_; }
+
 private:
+
+	BaseGameObject* player_;
+	WorldTransform* transform_;
 
 	// 他クラス ------------------------------------------------
 

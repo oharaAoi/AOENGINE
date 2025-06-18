@@ -2,14 +2,14 @@
 #include "Engine/Render/SceneRenderer.h"
 
 void BaseBullet::Finalize() {
-	BaseGameObject::Finalize();
+	bullet_->SetIsDestroy(true);
 }
 
-void BaseBullet::Init() {
-	BaseGameObject::Init();
+void BaseBullet::Init(const std::string& bulletName) {
 	isAlive_ = true;
 
-	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
+	bullet_ = SceneRenderer::GetInstance()->AddObject(bulletName, "Object_Normal.json");
+	transform_ = bullet_->GetTransform();
 }
 
 void BaseBullet::Update() {
@@ -18,15 +18,14 @@ void BaseBullet::Update() {
 	if (velocity_.x != 0.0f || velocity_.y != 0.0f) {
 		transform_->rotation_ = Quaternion::LookRotation(velocity_.Normalize());
 	}
-	BaseGameObject::Update();
-}
-
-void BaseBullet::Draw() const {
-	if (!isAlive_) { return; };
-	BaseGameObject::Draw();
 }
 
 void BaseBullet::Reset(const Vector3& pos, const Vector3& velocity) {
 	transform_->translate_ = pos;
 	velocity_ = velocity;
 }
+
+#ifdef _DEBUG
+void BaseBullet::Debug_Gui() {
+}
+#endif // _DEBUG

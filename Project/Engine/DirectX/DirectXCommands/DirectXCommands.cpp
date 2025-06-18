@@ -82,8 +82,8 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 	commandQueue_->Signal(fence_.Get(), currentValue);
 
 	// GPU の処理が完了していない場合は待機
-	if (fence_->GetCompletedValue() < fanceCounter_[currentIndex]) {
-		fence_->SetEventOnCompletion(fanceCounter_[currentIndex], fenceEvent_);
+	if (fence_->GetCompletedValue() < currentValue) {
+		fence_->SetEventOnCompletion(currentValue, fenceEvent_);
 		WaitForSingleObject(fenceEvent_, INFINITE);
 	}
 

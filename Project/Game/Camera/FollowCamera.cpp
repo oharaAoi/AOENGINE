@@ -1,6 +1,6 @@
 #include "FollowCamera.h"
 #include "Engine/Render.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -79,7 +79,7 @@ void FollowCamera::Init() {
 	transform_.SetParent(pivotSRT_.worldMat_);
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "FollowCamera");
+	EditorWindows::AddObjectWindow(this, "FollowCamera");
 #endif // _DEBUG
 }
 
@@ -92,7 +92,7 @@ void FollowCamera::Update() {
 		return;
 	}
 
-	Vector3 targetPos = pTarget_->GetPosition();
+	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
 	
 	InputStick();
 
@@ -138,7 +138,7 @@ void FollowCamera::InputStick() {
 
 void FollowCamera::RotateCamera() {
 	if (pReticle_->GetLockOn()) {
-		pivotSRT_.rotate = Quaternion::LookAt(pTarget_->GetPosition(), pReticle_->GetTargetPos());
+		pivotSRT_.rotate = Quaternion::LookAt(pTarget_->GetGameObject()->GetPosition(), pReticle_->GetTargetPos());
 
 		Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
 		angle_.x = euler.y;

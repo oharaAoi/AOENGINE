@@ -14,6 +14,9 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 
 	bg_->SetTranslate(centerPos_);
 	front_->SetTranslate(centerPos_);
+
+	bg_->SetScale(scale_);
+	front_->SetScale(scale_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,9 +24,13 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Update() {
-	front_->SetUvMaxSize(Vector2(fillAmount_, 1.0f));
+	front_->FillAmount(fillAmount_, fillMoveType_);
+	
 	bg_->SetTranslate(centerPos_);
 	front_->SetTranslate(centerPos_);
+
+	bg_->SetScale(scale_);
+	front_->SetScale(scale_);
 
 	bg_->Update();
 	front_->Update();
@@ -44,7 +51,11 @@ void BaseGaugeUI::Draw() const {
 
 #ifdef _DEBUG
 void BaseGaugeUI::Debug_Gui() {
+	ImGui::DragFloat2("Scale", &scale_.x, 0.1f);
 	ImGui::DragFloat2("CenterPos", &centerPos_.x, 0.1f);
 	ImGui::DragFloat("FillAmount", &fillAmount_, 0.01f);
+
+	bg_->SetScale(scale_);
+	front_->SetScale(scale_);
 }
 #endif

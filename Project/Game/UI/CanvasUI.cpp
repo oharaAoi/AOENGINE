@@ -1,5 +1,5 @@
 #include "CanvasUI.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -17,10 +17,20 @@ void CanvasUI::Init() {
 
 	boostOn_ = Engine::CreateSprite("boostOn.png");
 
+	// player
+	playerUIs_ = std::make_unique<PlayerUIs>();
+	playerUIs_->Init(pPlayer_);
+
+	// boss
+	bossUIs_ = std::make_unique<BossUIs>();
+	bossUIs_->Init(pBoss_);
+
 	AddChild(energyOutput_.get());
+	AddChild(bossUIs_.get());
+	AddChild(playerUIs_.get());
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "Canvas");
+	EditorWindows::AddObjectWindow(this, "Canvas");
 #endif // _DEBUG
 }
 
@@ -39,6 +49,11 @@ void CanvasUI::Update() {
 	boostOn_->SetTranslate(boostOnPos_);
 	boostOn_->SetScale(boostOnScale_);
 	boostOn_->Update();
+
+	// boss
+	bossUIs_->Update();
+
+	playerUIs_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +64,9 @@ void CanvasUI::Draw() const {
 	reticle_->Draw();
 
 	energyOutput_->Draw();
+
+	playerUIs_->Draw();
+	bossUIs_->Draw();
 
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	if (pPlayer_->GetIsBoostMode()) {

@@ -97,6 +97,8 @@ public:
 
 	void SetUvMaxSize(const Vector2& range) { materialData_->uvMaxSize = range; }
 
+	void FillAmount(float amount, int type);
+
 	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
 	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
 	const float GetRotate() const { return transform_.rotate.z; }

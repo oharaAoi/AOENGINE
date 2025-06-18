@@ -232,6 +232,19 @@ void Sprite::ReSetTextureSize(const Vector2& size) {
 	vertexData_[3].texcoord = { 1.0f, 0.0f };
 }
 
+void Sprite::FillAmount(float amount, int type) {
+	// 右が動く
+	if (type == 0) {
+		materialData_->uvMaxSize = Vector2(amount, 1.0f);
+
+		// 中心から
+	} else if (type == 1) {
+		float halfAmount = amount * 0.5f;
+		materialData_->uvMaxSize = Vector2(1.0f - (0.5f - halfAmount), 1.0f);
+		materialData_->uvMinSize = Vector2(0.5f - halfAmount, 0.0f);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////

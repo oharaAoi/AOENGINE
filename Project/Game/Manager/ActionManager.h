@@ -8,7 +8,7 @@
 
 #include "Game/Actor/Base/BaseAction.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 template<typename OwnerType>
 class ActionManager :
@@ -29,7 +29,7 @@ public:
 		pOwner_ = pOwner;
 	
 #ifdef _DEBUG
-		EditerWindows::AddObjectWindow(this, name.c_str());
+		EditorWindows::AddObjectWindow(this, name.c_str());
 #endif // _DEBUG
 	}
 

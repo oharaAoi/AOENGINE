@@ -70,7 +70,7 @@ void SceneLoader::Load(const std::string& directory, const std::string& fileName
 SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 	SceneLoader::Objects objectData;
 
-	objectData.meshName = objectJson["name"];
+	objectData.name = objectJson["name"];
 
 	if (objectJson.contains("file_name")) {
 		objectData.modelName = objectJson["file_name"];
@@ -122,7 +122,7 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 
 SceneLoader::Objects SceneLoader::GetObjects(const std::string& objName) const {
 	for (size_t index = 0; index < levelData_->objects.size(); ++index) {
-		if (levelData_->objects[index].meshName == objName) {
+		if (levelData_->objects[index].name == objName) {
 			return levelData_->objects[index];
 		}
 	}

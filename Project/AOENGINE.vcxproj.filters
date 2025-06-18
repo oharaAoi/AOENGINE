@@ -111,7 +111,7 @@
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
-    <ClCompile Include="Engine\System\Editer\Window\EditerWindows.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\EditorWindows.cpp" />
     <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
@@ -252,6 +252,9 @@
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
+    <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -326,7 +329,7 @@
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
-    <ClInclude Include="Engine\System\Editer\Window\EditerWindows.h" />
+    <ClInclude Include="Engine\System\Editer\Window\EditorWindows.h" />
     <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
@@ -474,6 +477,9 @@
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
+    <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
+    <ClInclude Include="Game\UI\Boss\BossUIs.h" />
+    <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

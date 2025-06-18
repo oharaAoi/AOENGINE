@@ -6,10 +6,12 @@ PlayerBullet::~PlayerBullet() {
 }
 
 void PlayerBullet::Init() {
-	BaseBullet::Init();
-	SetObject("playerBullet.obj");
-	SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::SPHERE);
-	collider_->SetTarget(ColliderTags::Boss::own);
+	BaseBullet::Init("PlayerBullet");
+	bullet_->SetObject("playerBullet.obj");
+	bullet_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::SPHERE);
+
+	ICollider* collider = bullet_->GetCollider();
+	collider->SetTarget(ColliderTags::Boss::own);
 }
 
 void PlayerBullet::Update() {
@@ -28,7 +30,3 @@ void PlayerBullet::Update() {
 	BaseBullet::Update();
 }
 
-void PlayerBullet::Draw() const { 
-	if (!isAlive_) { return; }
-	BaseBullet::Draw();
-}

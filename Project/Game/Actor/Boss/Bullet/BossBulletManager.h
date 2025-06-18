@@ -30,9 +30,10 @@ public: // member method
 	template<typename BulletType, typename... Args>
 	void AddBullet(Args&&... args) {
 		auto& bullet = bulletList_.emplace_back(std::make_unique<BulletType>());
-		bullet->Init();
+		auto type = static_cast<BulletType*>(bullet.get());
+		type->Init();
 		// BulletTypeに応じたReset呼び出し
-		static_cast<BulletType*>(bullet.get())->Reset(std::forward<Args>(args)...);
+		type->Reset(std::forward<Args>(args)...);
 	}
 
 	void SetPlayerPosition(const Vector3& pos) { playerPosition_ = pos; }

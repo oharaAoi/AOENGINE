@@ -1,6 +1,6 @@
 #include "ParticleManager.h"
 #include "Engine/Engine.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render.h"
@@ -37,7 +37,7 @@ void ParticleManager::Init() {
 	particleRenderer_->Init(20000);
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "ParticleManager");
+	EditorWindows::AddObjectWindow(this, "ParticleManager");
 #endif
 }
 

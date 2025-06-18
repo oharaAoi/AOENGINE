@@ -1,5 +1,6 @@
 #include "Boss.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
@@ -14,22 +15,51 @@ void Boss::Finalize() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+void Boss::Debug_Gui() {
+	transform_->Debug_Gui();
+
+	if (ImGui::CollapsingHeader("Parameter")) {
+		ImGui::DragFloat("Health", &param_.health, 0.1f);
+		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
+
+		if (ImGui::Button("Reset")) {
+			initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+			param_ = initParam_;
+		}
+	}
+
+	if (ImGui::CollapsingHeader("InitParameter")) {
+		ImGui::DragFloat("Health", &initParam_.health, 0.1f);
+		ImGui::DragFloat("postureStability", &initParam_.postureStability, 0.1f);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save(GetName(), initParam_.ToJson(param_.GetName()));
+		}
+	}
+}
+#endif // _DEBUG
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Init() {
 	SetName("Boss");
-	BaseGameObject::Init();
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
 
-	transform_->SetSRT(object.srt);
-	SetObject(object.modelName);
+	boss_ = SceneRenderer::GetInstance()->GetGameObject("Boss");
+	transform_ = boss_->GetTransform();
 
-	SetCollider(ColliderTags::Boss::own, object.colliderType);
-	collider_->SetSize(object.colliderSize);
-	collider_->SetLoacalPos(object.colliderCenter);
-	collider_->SetTarget(ColliderTags::Bullet::machinegun);
-	collider_->SetTarget(ColliderTags::Field::ground);
+	boss_->SetCollider(ColliderTags::Boss::own, object.colliderType);
+	ICollider* collider = boss_->GetCollider();
+	collider->SetSize(object.colliderSize);
+	collider->SetLoacalPos(object.colliderCenter);
+	collider->SetTarget(ColliderTags::Bullet::machinegun);
+	collider->SetTarget(ColliderTags::Field::ground);
 	//collider_->SetIsStatic(false);
 
 	// -------------------------------------------------
@@ -54,10 +84,17 @@ void Boss::Init() {
 	stateMachine_->Init(this);
 	stateMachine_->ChangeState<BossIdleState>();
 
-	SceneRenderer::GetInstance()->SetObject("Object_Normal.json", this);
+	// -------------------------------------------------
+	// ↓ State関連
+	// -------------------------------------------------
+
+	initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+	param_ = initParam_;
+
+	param_.postureStability -= initParam_.postureStability;
 
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "Boss");
+	EditorWindows::AddObjectWindow(this, "Boss");
 #endif // _DEBUG
 }
 
@@ -66,9 +103,8 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	//actionManager_->Update();
+	actionManager_->Update();
 	stateMachine_->Update();
-	BaseGameObject::Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,16 +112,5 @@ void Boss::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Draw() const {
-	BaseGameObject::Draw();
+	
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-#ifdef _DEBUG
-void Boss::Debug_Gui() {
-	transform_->Debug_Gui();
-	collider_->Debug_Gui();
-}
-#endif // _DEBUG

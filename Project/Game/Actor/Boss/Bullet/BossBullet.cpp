@@ -6,11 +6,13 @@ BossBullet::~BossBullet() {
 }
 
 void BossBullet::Init() {
-	BaseBullet::Init();
-	SetObject("missile.obj");
-	SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
-	collider_->SetTarget(ColliderTags::Player::own);
-	collider_->SetTarget(ColliderTags::Field::ground);
+	BaseBullet::Init("BossBullet");
+	bullet_->SetObject("missile.obj");
+	bullet_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
+
+	ICollider* collider = bullet_->GetCollider();
+	collider->SetTarget(ColliderTags::Player::own);
+	//collider->SetTarget(ColliderTags::Field::ground);
 }
 
 void BossBullet::Update() {
@@ -27,10 +29,6 @@ void BossBullet::Update() {
 	}
 
 	BaseBullet::Update();
-}
-
-void BossBullet::Draw() const {
-	BaseBullet::Draw();
 }
 
 void BossBullet::Reset(const Vector3& pos, const Vector3& velocity, float bulletSpeed) {

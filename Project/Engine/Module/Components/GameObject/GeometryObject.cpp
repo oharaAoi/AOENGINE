@@ -2,7 +2,7 @@
 #include "Engine/Render.h"
 #include "Engine/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 #include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
 #include "Engine/Module/Geometry/Polygon/CubeGeometry.h"
@@ -53,7 +53,7 @@ void GeometryObject::Debug_Gui() {
 
 void GeometryObject::SetEditorWindow() {
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, id_);
+	EditorWindows::AddObjectWindow(this, id_);
 #endif // _DEBUG
 }
 

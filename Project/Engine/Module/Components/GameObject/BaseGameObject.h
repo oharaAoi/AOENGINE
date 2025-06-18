@@ -12,7 +12,6 @@
 #include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-#include "Engine/Module/Components/Collider/MeshCollider.h"
 #include "Engine/Module/Components/Collider/ICollider.h"
 #include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
@@ -22,7 +21,7 @@ class BaseGameObject :
 public:
 
 	BaseGameObject() = default;
-	virtual ~BaseGameObject() = default;
+	virtual ~BaseGameObject() ;
 
 	virtual void Finalize();
 	virtual void Init();
@@ -51,6 +50,12 @@ public:
 
 	const Vector3& GetPosition() const { return worldPos_; }
 
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
+	bool GetIsActive() const { return isActive_; }
+
+	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
+	bool GetIsDestroy() const { return isDestroy_; }
+
 	// -------------------------------------------------
 	// ↓ Material関連
 	// -------------------------------------------------
@@ -74,15 +79,13 @@ public:
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	MeshCollider* GetMeshCollider() { return meshCollider_.get(); }
-
-	void SetMeshCollider(const std::string& tag);
-
 	ICollider* GetCollider() { return collider_.get(); }
 	void SetCollider(const std::string& categoryName, ColliderShape shape);
 
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);
 
+	void SetIsReflection(bool isReflection) { isReflection_ = isReflection; }
+		
 private:
 
 	void SetColliderRadius(float radius) {
@@ -99,13 +102,15 @@ private:
 
 protected:
 
+	bool isDestroy_;
+	bool isActive_;
+
 	Model* model_ = nullptr;
 	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;
 
-	std::unique_ptr<MeshCollider> meshCollider_ = nullptr; // 当たり判定を行うクラス
 	std::unique_ptr<ICollider> collider_ = nullptr;
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};

@@ -41,7 +41,6 @@ void GameCore::Update() {
 	sceneManger_->Update();
 #endif
 	Render::Update();
-	Engine::UpdateEditerWindow();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +69,5 @@ void GameCore::Debug_Gui() {
 	sceneManger_->Debug_Gui();
 
 	gameTimer_.Debug();
-	
 }
 #endif

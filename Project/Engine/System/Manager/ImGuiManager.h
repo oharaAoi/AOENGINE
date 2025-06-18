@@ -1,5 +1,4 @@
 #pragma once
-#ifdef _DEBUG
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Externals/ImGui/imgui.h"
@@ -58,4 +57,3 @@ private:
 
 	
 };
-#endif

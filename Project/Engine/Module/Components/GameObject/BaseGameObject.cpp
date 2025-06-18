@@ -4,6 +4,10 @@
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 
+BaseGameObject::~BaseGameObject() {
+	Finalize();
+}
+
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {
 		transform_->Finalize();
@@ -17,7 +21,6 @@ void BaseGameObject::Finalize() {
 		collider_ = nullptr;
 	}
 	materials.clear();
-	SceneRenderer::GetInstance()->ReleaseObject(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +30,9 @@ void BaseGameObject::Finalize() {
 void BaseGameObject::Init() {
 	transform_ = Engine::CreateWorldTransform();
 	animetor_ = nullptr;
+
+	isActive_ = true;
+	isDestroy_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,11 +78,6 @@ void BaseGameObject::PostUpdate() {
 	}
 #endif
 
-	// Colliderの更新
-	if (meshCollider_ != nullptr) {
-		meshCollider_->Update(transform_.get());
-	}
-
 	if (collider_ != nullptr) {
 		collider_->Update(QuaternionSRT{.scale = transform_->GetScale(),
 						  .rotate = transform_->GetQuaternion(),
@@ -115,12 +116,6 @@ void BaseGameObject::Draw() const {
 	}
 }
 
-void BaseGameObject::SetMeshCollider(const std::string& tag) {
-	meshCollider_ = std::make_unique<MeshCollider>();
-	meshCollider_->Init(model_->GetMesh(0));
-	meshCollider_->SetTag(tag);
-}
-
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Colliderを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -136,6 +131,11 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 	collider_->SetWorldTransform(transform_.get());
 	collider_->SetName(categoryName);
 	ColliderCollector::AddCollider(collider_.get());
+
+	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(),
+						  .rotate = transform_->GetQuaternion(),
+						  .translate = transform_->GetTranslation() }
+	);
 }
 
 void BaseGameObject::SetCollider(const std::string& categoryName, const std::string& shapeName) {
@@ -152,6 +152,11 @@ void BaseGameObject::SetCollider(const std::string& categoryName, const std::str
 	collider_->SetWorldTransform(transform_.get());
 	collider_->SetName(categoryName);
 	ColliderCollector::AddCollider(collider_.get());
+
+	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(),
+						  .rotate = transform_->GetQuaternion(),
+						  .translate = transform_->GetTranslation() }
+	);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

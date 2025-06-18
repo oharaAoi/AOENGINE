@@ -27,7 +27,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	input_ = Input::GetInstance();
 	render_ = Render::GetInstance();
 	effectSystem_ = EffectSystem::GetInstacne();
-	editerWindows_ = EditerWindows::GetInstance();
+	editorWindows_ = EditorWindows::GetInstance();
 
 	winApp_->CreateGameWindow();
 	
@@ -38,10 +38,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	audio_ = std::make_unique<Audio>();
 
 	postProcess_ = std::make_unique<PostProcess>();
-
-#ifdef _DEBUG
-	editerWindows_->Init();
-#endif
 
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("Engine");
@@ -64,6 +60,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTarget_ = graphicsCxt_->GetRenderTarget();
 
+	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
+	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
+
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
 	computeShader_->Init(dxDevice_, graphicsCxt_->GetDxCompiler(), dxHeap_, graphicsCxt_->GetRenderTarget()->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
@@ -73,9 +72,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	effectSystem_->Init();
 
 	postProcess_->Init(dxDevice_, dxHeap_);
-
-	particleSystemEditor_ = std::make_unique<ParticleSystemEditor>();
-	particleSystemEditor_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
 
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
@@ -94,7 +90,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
 	runGame_ = true;
-	isColliderDraw_ = false;
+	isColliderDraw_ = true;
 
 	Logger::Log("Engine Initialize compulete!\n");
 }
@@ -105,7 +101,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Finalize() {
-	particleSystemEditor_->Finalize();
+	editorWindows_->Finalize();
+
 	postProcess_->Finalize();
 
 	audio_->Finalize();
@@ -151,24 +148,7 @@ void Engine::BeginFrame() {
 
 #ifdef _DEBUG
 	imguiManager_->Begin();
-	editerWindows_->Begine();
-
-	if (ImGui::Begin("EffectSystem", nullptr)) {
-		runGame_ = false;
-	}
-	ImGui::End();
-
-	if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
-		runGame_ = false;
-	}
-	ImGui::End();
-
-	if (ImGui::Begin("Game Window", nullptr)) {
-		ImGui::SetCursorPos(ImVec2(20,30));
-		ImGui::Checkbox("collider draw", &isColliderDraw_);
-		runGame_ = true;
-	}
-	ImGui::End();
+	editorWindows_->Begin();
 #endif // 
 }
 
@@ -178,33 +158,17 @@ void Engine::BeginFrame() {
 
 void Engine::EndFrame() {
 	Engine::RenderFrame();
+	
 #ifdef _DEBUG
-	editerWindows_->End();
 	imguiManager_->End();
 	imguiManager_->Draw(dxCmdList_);
 
-	if (!runGame_) {
-		if (openParticleEditer_) {
-			//effectSystem_->EndEditer();
-			particleSystemEditor_->End();
-		}
-	}
+	editorWindows_->End();
 #endif
 
 	dxCommon_->End();
 	dxHeap_->FreeList();
 	audio_->Update();
-}
-
-void Engine::UpdateEditerWindow() {
-#ifdef _DEBUG
-	if (runGame_) {
-		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-			editerWindows_->Update();
-		}
-		ImGui::End();
-	}
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,32 +191,9 @@ void Engine::RenderFrame() {
 	BlendFinalTexture();
 
 	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
-	
-#ifdef _DEBUG
-	openParticleEditer_ = false;
-	if (runGame_) {
-		if (ImGui::Begin("Game Window", nullptr, ImGuiWindowFlags_MenuBar)) {
-			processedSceneFrame_->DrawGui();
-		}
-		ImGui::End();
-	} else {
-		if (ImGui::Begin("EffectSystem", nullptr)) {
-			/*effectSystem_->EditerUpdate();
-			effectSystem_->Debug_Gui();*/
-			openParticleEditer_ = true;
-		}
-		ImGui::End();
 
-		if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
-			particleSystemEditor_->Update();
-
-			particleSystemEditor_->Draw();
-			openParticleEditer_ = true;
-		}
-
-		ImGui::End();
-	}
-#endif
+	// guiの描画
+	editorWindows_->Update();
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();

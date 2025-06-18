@@ -1,5 +1,5 @@
 #include "LightGroup.h"
-#include "Engine/System/Editer/Window/EditerWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 LightGroup::LightGroup() {}
 LightGroup::~LightGroup() {}
@@ -18,7 +18,7 @@ void LightGroup::Init(ID3D12Device* device) {
 	this->AddChild(spotLight_.get());
 	
 #ifdef _DEBUG
-	EditerWindows::AddObjectWindow(this, "LightGroup");
+	EditorWindows::AddObjectWindow(this, "LightGroup");
 #endif
 }
 

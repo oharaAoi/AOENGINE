@@ -1,11 +1,19 @@
 #include "PostureStability.h"
+#include "Engine.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PostureStability::Init() {
-	BaseGaugeUI::Init("gauge_bg.png", "gauge_front.png");
+	BaseGaugeUI::Init("postureStability_bg.png", "postureStability_front.png");
+
+	fence_ = Engine::CreateSprite("postureStability_fence.png");
+
+	fence_->SetTranslate(centerPos_);
+	fence_->SetScale(scale_);
+
+	fillMoveType_ = 1;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,6 +23,11 @@ void PostureStability::Init() {
 void PostureStability::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
 	BaseGaugeUI::Update();
+
+	fence_->SetTranslate(centerPos_);
+	fence_->SetScale(scale_);
+
+	fence_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,6 +36,9 @@ void PostureStability::Update(float _fillAmount) {
 
 void PostureStability::Draw() const {
 	BaseGaugeUI::Draw();
+
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	fence_->Draw(pso);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

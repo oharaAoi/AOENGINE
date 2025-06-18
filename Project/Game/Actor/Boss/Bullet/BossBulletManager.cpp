@@ -29,9 +29,7 @@ void BossBulletManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBulletManager::Draw() const {
-	for (const auto& bullet : bulletList_) {
-		bullet->Draw();
-	}
+	
 }
 
 BaseBullet* BossBulletManager::SearchCollider(ICollider* collider) {
