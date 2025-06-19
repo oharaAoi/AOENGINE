@@ -259,6 +259,7 @@
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionTurnAround.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotLauncher.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionShotgun.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -489,6 +490,7 @@
     <ClInclude Include="Game\Information\ActionContext.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotLauncher.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionShotgun.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

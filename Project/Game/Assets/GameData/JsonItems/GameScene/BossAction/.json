@@ -1,6 +1,7 @@
 {
     "": {
-        "bulletSpeed": 200.0,
-        "stiffenTime": 1.0
+        "bulletSpeed": 120.0,
+        "bulletSpread": 8.399999618530273,
+        "kFireCount": 32
     }
 }

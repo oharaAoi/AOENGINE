@@ -56,9 +56,9 @@ void BossActionIdle::CheckNextAction() {
 	if (actionTimer_ > 4.0f) {
 		int rand = RandomInt(0, 2);
 		if (rand == 0) {
-			NextAction<BossActionShotLauncher>();
+			NextAction<BossActionApproach>();
 		} else if (rand == 1) {
-			NextAction<BossActionAllRangeMissile>();
+			NextAction<BossActionApproach>();
 		} else if (rand == 2) {
 			NextAction<BossActionShotLauncher>();
 		}

@@ -4,6 +4,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
+#include "Game/Actor/Boss/Action/BossActionShotgun.h"
 #include "Game/Actor/Boss/Action/BossActionShotBullet.h"
 
 #ifdef _DEBUG
@@ -85,7 +86,7 @@ void BossActionApproach::CheckNextAction() {
 	}
 
 	if (isShot_) {
-		AddAction<BossActionShotBullet>();
+		AddAction<BossActionShotgun>();
 		isShot_ = false;
 	}
 }

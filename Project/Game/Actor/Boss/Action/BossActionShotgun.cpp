@@ -1,18 +1,18 @@
-#include "BossActionShotLauncher.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "BossActionShotgun.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
-#include "Game/Actor/Boss/Bullet/BossMissile.h"
+#include "Game/Actor/Boss/Bullet/BossBullet.h"
+#include "Engine/Lib/Math/MyRandom.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
 #ifdef _DEBUG
-void BossActionShotLauncher::Debug_Gui() {
+void BossActionShotgun::Debug_Gui() {
 	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
-	
+	ImGui::DragFloat("stiffenTime", &param_.bulletSpread, .1f);
+	ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
+
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("BossAction", param_.ToJson(actionName_));
 	}
@@ -23,51 +23,44 @@ void BossActionShotLauncher::Debug_Gui() {
 #endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 設定処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::Build() {
-	SetName("action Shot Launcher");
+void BossActionShotgun::Build() {
+	SetName("action Shotgun");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnStart() {
+void BossActionShotgun::OnStart() {
 	actionTimer_ = 0.0f;
-	param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+	isFinishShot_ = false;
 	Shot();
-
-	isFinish_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
-
-	if (actionTimer_ > param_.stiffenTime) {
-		isFinish_ = true;
-	}
+void BossActionShotgun::OnUpdate() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnEnd() {
+void BossActionShotgun::OnEnd() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次のアクションへの遷移確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::CheckNextAction() {
-	if (isFinish_) {
-		NextAction<BossActionIdle>();
+void BossActionShotgun::CheckNextAction() {
+	if (isFinishShot_) {
+		DeleteSelf();
 	}
 }
 
@@ -75,16 +68,27 @@ void BossActionShotLauncher::CheckNextAction() {
 // ↓ 入力処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool BossActionShotLauncher::IsInput() {
+bool BossActionShotgun::IsInput() {
 	return false;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ main Action
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionShotLauncher::Shot() {
+void BossActionShotgun::Shot() {
 	Vector3 pos = pOwner_->GetPosition();
 	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
-	pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
+
+	float bulletSpread = param_.bulletSpread * kToRadian;
+
+	for (int oi = 0; oi < param_.kFireCount; ++oi) {
+		float yawOffset = RandomFloat(-bulletSpread, bulletSpread);
+		float pitchOffset = RandomFloat(-bulletSpread, bulletSpread);
+
+		Quaternion yawRot = Quaternion::AngleAxis(yawOffset, CVector3::UP);
+		Quaternion pitchRot = Quaternion::AngleAxis(pitchOffset, CVector3::RIGHT);
+		Quaternion spreadRot = yawRot * pitchRot;
+
+		Vector3 dir = spreadRot * velocity;
+		pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
+	}
+
+	isFinishShot_ = true;
 }
