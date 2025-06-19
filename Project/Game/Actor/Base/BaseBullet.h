@@ -36,6 +36,8 @@ protected:
 	Vector3 velocity_;
 	Vector3 acceleration_;
 
+	float speed_;
+
 	Vector3 targetPosition_;
 
 	bool isAlive_;

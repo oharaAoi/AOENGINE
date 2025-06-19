@@ -9,6 +9,7 @@
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
+#include "Game/Actor/Boss/Action/BossActionShotBullet.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
 
 void Boss::Finalize() {
@@ -53,7 +54,7 @@ void Boss::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject("Boss");
 	transform_ = object_->GetTransform();
-
+	
 	object_->SetCollider(ColliderTags::Boss::own, object.colliderType);
 	ICollider* collider = object_->GetCollider();
 	collider->SetSize(object.colliderSize);
@@ -71,9 +72,10 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionIdle>();
 	actionManager_->BuildAction<BossActionApproach>();
 	actionManager_->BuildAction<BossActionShotMissile>();
+	actionManager_->BuildAction<BossActionShotBullet>();
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
 
-	size_t hash = typeid(BossActionIdle).hash_code();
+	size_t hash = typeid(BossActionAllRangeMissile).hash_code();
 	actionManager_->AddRunAction(hash);
 
 	// -------------------------------------------------
@@ -103,7 +105,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	//actionManager_->Update();
+	actionManager_->Update();
 	stateMachine_->Update();
 }
 

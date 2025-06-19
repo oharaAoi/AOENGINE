@@ -28,8 +28,7 @@ public:
 private :
 
 	// Parameter -------------------------------
-	float actionTimer_;
-
+	
 	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 	WorldTransform* pOwnerTransform_ = nullptr;

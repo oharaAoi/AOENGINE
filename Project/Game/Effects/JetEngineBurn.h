@@ -8,20 +8,19 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
-class JetEngineBurn :
-	public BaseGameObject {
+class JetEngineBurn {
 public:
 
 	JetEngineBurn() = default;
 	~JetEngineBurn() = default;
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
+	void Finalize() ;
+	void Init();
+	void Update();
+	void Draw() const;
 
 #ifdef _DEBUG
-	void Debug_Gui() override;
+	void Debug_Gui();
 #endif // _DEBUG
 
 public:

@@ -115,6 +115,8 @@ protected:
 
 	// 変数の値を共有したいときに使用するmap
 	std::shared_ptr<ActionContext> context_;
+
+	float actionTimer_;
 };
 
 

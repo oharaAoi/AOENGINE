@@ -31,7 +31,6 @@ void BaseGameObject::Init() {
 	transform_ = Engine::CreateWorldTransform();
 	animetor_ = nullptr;
 
-	isActive_ = true;
 	isDestroy_ = false;
 }
 

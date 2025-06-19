@@ -38,6 +38,13 @@ public:
 
 	bool HasChild() const { return !children_.empty() ? true : false; }
 
+	void SetIsActive(bool isActive) { isActive_ = isActive; }
+	bool GetIsActive() const { return isActive_; }
+
+protected:
+
+	bool isActive_ = true;
+
 private:
 
 	std::string name_ = "new Attribute";

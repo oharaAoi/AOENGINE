@@ -20,8 +20,8 @@ public:
 
 public:	// accessor method
 
-	void SetIsActive(bool _isActive) { object_->SetIsActive(_isActive); }
-	bool GetIsActive() const { return object_->GetIsActive(); }
+	void SetIsActive(bool _isActive) { isActive_ = _isActive; }
+	bool GetIsActive() const { return isActive_; }
 
 	void Destroy() { object_->SetIsDestroy(true); };
 

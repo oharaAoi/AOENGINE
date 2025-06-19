@@ -54,8 +54,7 @@ private:
 
 	// Parameter -------------------------------
 	Parameter param_;
-	float actionTimer_;
-
+	
 	const float kDeadZone_ = 0.1f;
 	float speed_;
 	Vector3 direction_;

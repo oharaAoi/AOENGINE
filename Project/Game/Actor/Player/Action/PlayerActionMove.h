@@ -55,7 +55,6 @@ private:	// action
 private:
 
 	// Parameter -------------------------------
-	float actionTimer_;
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 inputStick_;

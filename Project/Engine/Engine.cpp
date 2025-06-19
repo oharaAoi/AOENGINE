@@ -90,7 +90,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	isFullScreen_ = false;
 	isEffectEditer_ = true;
 	runGame_ = true;
-	isColliderDraw_ = true;
+	isColliderDraw_ = false;
 
 	Logger::Log("Engine Initialize compulete!\n");
 }

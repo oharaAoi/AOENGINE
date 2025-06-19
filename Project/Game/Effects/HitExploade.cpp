@@ -8,7 +8,6 @@ HitExplode::~HitExplode() {
 void HitExplode::Finalize() {
 	material_->Finalize();;
 	worldTransform_->Finalize();
-	BaseGameObject::Finalize();
 }
 
 void HitExplode::Init() {

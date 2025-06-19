@@ -42,7 +42,6 @@ private :
 
 private :
 
-	float actionTimer_;
 	Quaternion playerToRotation_;
 
 	float bulletSpeed_;

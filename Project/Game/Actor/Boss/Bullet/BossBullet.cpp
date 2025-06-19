@@ -31,8 +31,7 @@ void BossBullet::Update() {
 	BaseBullet::Update();
 }
 
-void BossBullet::Reset(const Vector3& pos, const Vector3& velocity, float bulletSpeed) {
+void BossBullet::Reset(const Vector3& pos, const Vector3& velocity) {
 	transform_->translate_ = pos;
 	velocity_ = velocity;
-	speed_ = bulletSpeed;
 }

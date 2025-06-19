@@ -76,7 +76,7 @@ Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
 	return Quaternion(
 		cosYaw * sinPitch * cosRoll + sinYaw * cosPitch * sinRoll, // x
 		sinYaw * cosPitch * cosRoll - cosYaw * sinPitch * sinRoll, // y
-		cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll,  // z
+		cosYaw * cosPitch * sinRoll - sinYaw * sinPitch * cosRoll, // z
 		cosYaw * cosPitch * cosRoll + sinYaw * sinPitch * sinRoll // w
 	).Normalize();
 }
@@ -195,19 +195,12 @@ Quaternion Quaternion::EulerToQuaternion(float pitch, float yaw, float roll) {
 	float halfYaw = yaw * 0.5f;
 	float halfRoll = roll * 0.5f;
 
-	float cy = std::cos(halfYaw);
-	float sy = std::sin(halfYaw);
-	float cp = std::cos(halfPitch);
-	float sp = std::sin(halfPitch);
-	float cr = std::cos(halfRoll);
-	float sr = std::sin(halfRoll);
+	Quaternion qYaw = Quaternion(0, std::sinf(halfYaw), 0, std::cosf(halfYaw));
+	Quaternion qPitch = Quaternion(std::sinf(halfPitch), 0, 0, std::cosf(halfPitch));
+	Quaternion qRoll = Quaternion(0, 0, std::sinf(halfRoll), std::cosf(halfRoll));
 
-	return Quaternion(
-		cy * sp * cr + sy * cp * sr, // x
-		sy * cp * cr - cy * sp * sr, // y
-		cy * cp * sr - sy * sp * cr, // z
-		cy * cp * cr + sy * sp * sr  // w
-	);
+
+	return qYaw * qPitch * qRoll;
 }
 
 Vector3 Quaternion::QuaternionToEuler() const {

@@ -27,9 +27,6 @@ private:
 	void Shot();
 
 private :
-	
-	// アクション時間
-	float actionTimer_;
 
 	// 弾を打ち終わったかのフラグ
 	bool isFinishShot_;

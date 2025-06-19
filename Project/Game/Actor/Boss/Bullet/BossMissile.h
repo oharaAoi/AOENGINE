@@ -30,8 +30,6 @@ private :
 
 	BossBulletType type_ = BossBulletType::MISSILE;
 
-	float speed_;
-
 	// 追尾に関する変数
 	float trackingLength_;		// 長さ
 	float trackingTimer_;		// 計測時間

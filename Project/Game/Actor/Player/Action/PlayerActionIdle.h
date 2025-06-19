@@ -22,7 +22,6 @@ public:
 private:
 
 	// Parameter -------------------------------
-	float actionTimer_;
-
+	
 };
 

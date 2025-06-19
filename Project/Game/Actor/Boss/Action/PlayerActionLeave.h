@@ -36,7 +36,5 @@ private:
 
 private:
 
-	float actionTimer_;
-
 };
 

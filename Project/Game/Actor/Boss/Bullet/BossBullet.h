@@ -15,7 +15,7 @@ public:
 	void Init();
 	void Update() override;
 	
-	void Reset(const Vector3& pos, const Vector3& velocity, float bulletSpeed);
+	void Reset(const Vector3& pos, const Vector3& velocity);
 
 private:
 

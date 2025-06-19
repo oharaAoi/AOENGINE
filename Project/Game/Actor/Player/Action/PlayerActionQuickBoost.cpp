@@ -121,5 +121,4 @@ void PlayerActionQuickBoost::Boost() {
 
 	// 減速計算する
 	param_.boostForce *= param_.decelerationRaito;
-
 }

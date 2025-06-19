@@ -102,11 +102,15 @@ void GameObjectWindow::Edit() {
 	// -------------------------------------------------
 	ImGui::Begin("Object Setting");
 	if (selectAttribute != nullptr) {
+		bool isActive = selectAttribute->GetIsActive();
+		ImGui::Checkbox(" ", &isActive);
+		ImGui::SameLine();
 		ImGui::Text("Name : ");
 		ImGui::SameLine();
 		ImGui::Text(selectAttribute->GetName().c_str());
 		ImGui::Separator();
 		selectAttribute->Debug_Gui();
+		selectAttribute->SetIsActive(isActive);
 	}
 	ImGui::End();
 }

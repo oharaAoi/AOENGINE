@@ -6,19 +6,19 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 
 class HitExplode :
-	public BaseGameObject {
+	public BaseEntity {
 public:
 
 	HitExplode() = default;
 	~HitExplode() ;
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
+	void Finalize();
+	void Init();
+	void Update();
+	void Draw() const;
 
 	void Set(const Vector3& pos, const Vector4& color, const std::string& useTexture);
 

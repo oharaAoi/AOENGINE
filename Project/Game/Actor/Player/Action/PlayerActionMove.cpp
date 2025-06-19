@@ -148,7 +148,7 @@ void PlayerActionMove::Move() {
 	// 方向転換をしなかったら
 	if (IsDirectionReversed(velocity)) { 
 		preVelocity_ = velocity;
-		isTurnAround_ = true;
+		//isTurnAround_ = true;
 		return;
 	}
 

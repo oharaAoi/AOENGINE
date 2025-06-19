@@ -86,7 +86,7 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 	rotate.x = -(float)transform["rotation"][0];
 	rotate.y = -(float)transform["rotation"][2];
 	rotate.z = -(float)transform["rotation"][1];
-	objectData.srt.rotate = Quaternion::ToQuaternion(Vector4(rotate.x, rotate.y, rotate.z, 0.0f));
+	objectData.srt.rotate = Quaternion::EulerToQuaternion(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
 
 	objectData.srt.scale.x = (float)transform["scaling"][0];
 	objectData.srt.scale.y = (float)transform["scaling"][2];

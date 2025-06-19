@@ -50,9 +50,6 @@ public:
 
 	const Vector3& GetPosition() const { return worldPos_; }
 
-	void SetIsActive(bool isActive) { isActive_ = isActive; }
-	bool GetIsActive() const { return isActive_; }
-
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
 	bool GetIsDestroy() const { return isDestroy_; }
 
@@ -103,7 +100,6 @@ private:
 protected:
 
 	bool isDestroy_;
-	bool isActive_;
 
 	Model* model_ = nullptr;
 	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい
