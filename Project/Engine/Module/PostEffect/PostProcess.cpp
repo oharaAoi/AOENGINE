@@ -11,6 +11,7 @@ void PostProcess::Finalize() {
 	radialBlur_.reset();
 	glitchNoise_.reset();
 	vignette_.reset();
+	dissolve_.reset();
 	effectList_.clear();
 }
 
@@ -32,9 +33,12 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	vignette_ = std::make_shared<Vignette>();
 	vignette_->Init();
 
+	dissolve_ = std::make_shared<Dissolve>();
+	dissolve_->Init();
+
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
-	//AddEffect(PostEffectType::VIGNETTE);
+	AddEffect(PostEffectType::DISSOLVE);
 
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "Post Process");
@@ -76,11 +80,15 @@ void PostProcess::Copy(ID3D12GraphicsCommandList* commandList, ShaderResource* s
 }
 
 void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
-	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE, BufferType::PONG);
+	const bool isEven = (effectList_.size() % 2 == 0);
+	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
+
+	// 遷移
+	finalResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
-
-	commandList->CopyResource(shaderResource->GetResource(), pingPongBuff_->GetPongResource()->GetResource());
-
+	// コピー
+	commandList->CopyResource(shaderResource->GetResource(), finalResource->GetResource());
+	// 元の状態に戻す
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
 }
@@ -100,6 +108,9 @@ void PostProcess::AddEffect(PostEffectType type) {
 			break;
 		case PostEffectType::VIGNETTE:
 			effectList_.push_back(vignette_);
+			break;
+		case PostEffectType::DISSOLVE:
+			effectList_.push_back(dissolve_);
 			break;
 		default:
 			break;
@@ -130,6 +141,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	case PostEffectType::VIGNETTE:
 		return vignette_;
 		break;
+	case PostEffectType::DISSOLVE:
+		return dissolve_;
+		break;
 	default:
 		return nullptr;
 		break;
@@ -141,5 +155,6 @@ void PostProcess::Debug_Gui() {
 	radialBlur_->Debug_Gui();
 	glitchNoise_->Debug_Gui();
 	vignette_->Debug_Gui();
+	dissolve_->Debug_Gui();
 }
 #endif

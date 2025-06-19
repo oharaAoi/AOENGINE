@@ -4,6 +4,9 @@
 
 class Boss;
 
+/// <summary>
+/// ランチャーを撃つ
+/// </summary>
 class BossActionShotLauncher :
 	public BaseAction<Boss> {
 public:

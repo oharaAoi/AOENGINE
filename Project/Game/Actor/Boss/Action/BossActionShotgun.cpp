@@ -75,9 +75,10 @@ bool BossActionShotgun::IsInput() {
 void BossActionShotgun::Shot() {
 	Vector3 pos = pOwner_->GetPosition();
 	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
-
+	// ばらつきを弧度法に
 	float bulletSpread = param_.bulletSpread * kToRadian;
 
+	// 弾数分処理をする
 	for (int oi = 0; oi < param_.kFireCount; ++oi) {
 		float yawOffset = RandomFloat(-bulletSpread, bulletSpread);
 		float pitchOffset = RandomFloat(-bulletSpread, bulletSpread);

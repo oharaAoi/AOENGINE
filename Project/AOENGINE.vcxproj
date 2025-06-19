@@ -111,12 +111,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -334,11 +336,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -563,6 +567,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Engine\Assets\HLSL\Dissolve.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Engine\Assets\HLSL\GlitchNoise.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>

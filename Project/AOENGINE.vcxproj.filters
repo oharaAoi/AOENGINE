@@ -37,6 +37,7 @@
     <FxCompile Include="Engine\Assets\HLSL\Object3dEnviroment.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\ObjectTextureBlend.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Vignette.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\Dissolve.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -260,6 +261,8 @@
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotLauncher.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotgun.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -491,6 +494,8 @@
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotLauncher.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotgun.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
