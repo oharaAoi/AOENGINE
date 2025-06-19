@@ -17,7 +17,7 @@ void BossMissile::Init() {
 
 	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Player::own);
-	//collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::Field::ground);
 
 	trackingLength_ = 10.f;
 	trackingTimer_ = 0.f;
@@ -52,11 +52,18 @@ void BossMissile::Update() {
 }
 
 
-void BossMissile::Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed) {
+void BossMissile::Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition,
+						float bulletSpeed, float trackingRaito, bool isTracking) {
 	transform_->translate_ = pos;
 	velocity_ = velocity;
 	targetPosition_ = targetPosition;
 	speed_ = bulletSpeed;
+	trackingRaito_ = trackingRaito;
+
+	if (!isTracking) {
+		finishTracking_ = true;
+		velocity_ = (targetPosition_ - transform_->translate_).Normalize() * speed_;
+	}
 }
 
 void BossMissile::Tracking() {
@@ -69,7 +76,7 @@ void BossMissile::Tracking() {
 
 		// targetの方向に弾を撃つ
 		Vector3 targetToDire = (targetPosition_ - transform_->translate_).Normalize() * speed_;
-		velocity_ = Vector3::Lerp(velocity_, targetToDire, 0.05f);
+		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
 		finishTracking_ = true;
 	}

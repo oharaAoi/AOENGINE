@@ -1,9 +1,24 @@
-#include "BossActionShotMissile.h"
+#include "BossActionShotLauncher.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifdef _DEBUG
-void BossActionShotMissile::Debug_Gui() {
+void BossActionShotLauncher::Debug_Gui() {
+	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
+	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
+	
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("BossAction", param_.ToJson(actionName_));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+	}
 }
 #endif // _DEBUG
 
@@ -11,34 +26,31 @@ void BossActionShotMissile::Debug_Gui() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Build() {
-	SetName("action Shot Missle");
+void BossActionShotLauncher::Build() {
+	SetName("action Shot Launcher");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnStart() {
+void BossActionShotLauncher::OnStart() {
 	actionTimer_ = 0.0f;
-	bulletSpeed_ = 60.f;
-	isFinishShot_ = false;
+	param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+	Shot();
 
-	fireCount_ = kFireCount_;
-
-	shotInterval_ = 0.2f;
+	isFinish_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnUpdate() {
+void BossActionShotLauncher::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
 
-	if (actionTimer_ > shotInterval_) {
-		Shot();
-		actionTimer_ = 0.0f;
+	if (actionTimer_ > param_.stiffenTime) {
+		isFinish_ = true;
 	}
 }
 
@@ -46,42 +58,33 @@ void BossActionShotMissile::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnEnd() {
+void BossActionShotLauncher::OnEnd() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次のアクションへの遷移確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::CheckNextAction() {
-	if (isFinishShot_) {
-		DeleteSelf();
+void BossActionShotLauncher::CheckNextAction() {
+	if (isFinish_) {
+		NextAction<BossActionIdle>();
 	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力確認処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionShotMissile::IsInput() {
-	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 弾を打つ処理をする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Shot() {
-	fireCount_--;
+bool BossActionShotLauncher::IsInput() {
+	return false;
+}
 
-	Vector3 pos = pOwner_->GetTransform()->translate_;
-	Vector3 forward = pOwner_->GetTransform()->rotation_.MakeForward();
-	Vector3 up = pOwner_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ main Action
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-	Vector3 velocity = forward.Normalize() * bulletSpeed_;
-	pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
-
-	if (fireCount_ == 0) {
-		isFinishShot_ = true;
-	}
+void BossActionShotLauncher::Shot() {
+	Vector3 pos = pOwner_->GetPosition();
+	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
+	pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
 }

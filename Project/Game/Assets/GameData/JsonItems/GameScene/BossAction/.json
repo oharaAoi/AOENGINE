@@ -1,8 +1,6 @@
 {
     "": {
-        "deceleration": 2.0,
-        "maxSpinDistance": 0.800000011920929,
-        "moveSpeed": 48.70000076293945,
-        "quitApproachLength": 5.0
+        "bulletSpeed": 200.0,
+        "stiffenTime": 1.0
     }
 }

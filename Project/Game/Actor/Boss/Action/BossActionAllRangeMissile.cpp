@@ -97,7 +97,7 @@ void BossActionAllRangeMissile::Shot() {
 			dir = rot.Rotate(dir);
 
 			Vector3 velocity = dir.Normalize() * bulletSpeed_;
-			pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_);
+			pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.05f, true);
 		}
 	}
 

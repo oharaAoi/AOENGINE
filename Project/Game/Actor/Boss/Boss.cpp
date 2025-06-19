@@ -10,6 +10,7 @@
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/BossActionShotBullet.h"
+#include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
 
 void Boss::Finalize() {
@@ -73,6 +74,7 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionApproach>();
 	actionManager_->BuildAction<BossActionShotMissile>();
 	actionManager_->BuildAction<BossActionShotBullet>();
+	actionManager_->BuildAction<BossActionShotLauncher>();
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
 
 	size_t hash = typeid(BossActionAllRangeMissile).hash_code();

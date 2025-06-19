@@ -16,7 +16,8 @@ public:
 	void Init();
 	void Update() override;
 	
-	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed);
+	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed, 
+			   float trackingRaito, bool isTracking);
 
 private :
 
@@ -36,6 +37,8 @@ private :
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
 
 	bool finishTracking_;		// 追尾を終了するか
+
+	float trackingRaito_;
 
 	BaseParticles* burn_;
 	BaseParticles* smoke_;

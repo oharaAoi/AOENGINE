@@ -178,6 +178,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionAllRangeMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotBullet.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionShotLauncher.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\PlayerActionLeave.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
@@ -398,6 +399,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionAllRangeMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotBullet.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionShotLauncher.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Action\PlayerActionLeave.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
