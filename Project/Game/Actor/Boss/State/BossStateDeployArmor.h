@@ -19,9 +19,7 @@ public:
 		Vector4 color = Vector4(CVector3::UNIT, 1.0f);
 		Vector4 edgeColor = Vector4(CVector3::UNIT, 1.0f);
 
-		Vector3 uvScale;
-		Vector3 uvRotate;
-		Vector3 uvTranslate;
+		SRT uvTransform;
 
 		ArmorParameter() { SetName("BossArmorParameter"); }
 
@@ -31,9 +29,9 @@ public:
 				.Add("scale", scale)
 				.Add("color", color)
 				.Add("edgeColor", edgeColor)
-				.Add("uvScale", uvScale)
-				.Add("uvRotate", uvRotate)
-				.Add("uvTranslate", uvTranslate)
+				.Add("uvScale", uvTransform.scale)
+				.Add("uvRotate", uvTransform.rotate)
+				.Add("uvTranslate", uvTransform.translate)
 				.Build();
 		}
 
@@ -42,9 +40,9 @@ public:
 			fromJson(jsonData, "scale", scale);
 			fromJson(jsonData, "color", color);
 			fromJson(jsonData, "edgeColor", edgeColor);
-			fromJson(jsonData, "uvScale", uvScale);
-			fromJson(jsonData, "uvRotate", uvRotate);
-			fromJson(jsonData, "uvTranslate", uvTranslate);
+			fromJson(jsonData, "uvScale", uvTransform.scale);
+			fromJson(jsonData, "uvRotate", uvTransform.rotate);
+			fromJson(jsonData, "uvTranslate", uvTransform.translate);
 		}
 	};
 

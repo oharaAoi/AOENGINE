@@ -43,15 +43,8 @@ public:
 	/// <param name="_scale">: scale</param>
 	/// <param name="_color">: baseColor</param>
 	/// <param name="_edgeColor"> : edgeColor</param>
-	void SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor);
-
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <param name="_uvScale"></param>
-	/// <param name="_uvRotate"></param>
-	/// <param name="_uvTranslate"></param>
-	void SetUvSRT(const Vector3& _uvScale, const Vector3& _uvRotate, const Vector3& _uvTranslate);
+	/// <param name="_uvSrt"> : uv座標系</param>
+	void SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt);
 
 	/// <summary>
 	/// 耐久度を減らす関数

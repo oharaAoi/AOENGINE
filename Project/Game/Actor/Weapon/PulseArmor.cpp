@@ -134,19 +134,17 @@ void PulseArmor::Debug_Gui() {
 }
 #endif
 
-void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor) {
+void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
 	durability_ = _durability;
 	worldTransform_->SetScale(_scale);
 	setting_->color = _color;
 	setting_->edgeColor = _edgeColor;
 
-	isAlive_ = true;
-}
+	uvSrt_.scale = _uvSrt.scale;
+	uvSrt_.rotate = _uvSrt.rotate;
+	uvSrt_.translate = _uvSrt.translate;
 
-void PulseArmor::SetUvSRT(const Vector3& _uvScale, const Vector3& _uvRotate, const Vector3& _uvTranslate) {
-	uvSrt_.scale = _uvScale;
-	uvSrt_.rotate = _uvRotate;
-	uvSrt_.translate = _uvTranslate;
+	isAlive_ = true;
 }
 
 void PulseArmor::DamageDurability(float _damage) {
