@@ -261,6 +261,10 @@ float Ease::InOut::Bounce(float t) {
 	}
 }
 
+float Ease::None::Liner(float t) {
+	return t;
+}
+
 float CallEasing(int index, float t) {
 	if (index >= 0 && index < easingFuncs.size()) {
 		return easingFuncs[index](t);  // 指定の関数を呼び出し

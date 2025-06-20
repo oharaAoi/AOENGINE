@@ -15,6 +15,10 @@ public:
 	void OnUpdate() override;
 	void OnExit() override;
 
+#ifdef _DEBUG
+	void Debug_Gui() override {};
+#endif
+
 private:
 
 	void Knockback();

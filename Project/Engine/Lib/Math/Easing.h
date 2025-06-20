@@ -50,6 +50,10 @@ namespace Ease {
 		float Elastic(float t);
 		float Bounce(float t);
 	}
+
+	namespace None {
+		float Liner(float t);
+	}
 }
 
 namespace EasingType {
@@ -91,12 +95,16 @@ namespace EasingType {
 		Elastic,
 		Bounce,
 	};
+
+	enum class None {
+		Liner = 30,
+	};
 }
 
 /// <summary>
 /// Easing関数をまとめた配列
 /// </summary>
-const std::array<EasingFunc, 30> easingFuncs = {
+const std::array<EasingFunc, 31> easingFuncs = {
 	// ------------------- In ------------------- //
 	Ease::In::Sine, Ease::In::Cubic, Ease::In::Quad,
 	Ease::In::Quart, Ease::In::Quint, Ease::In::Expo,
@@ -112,6 +120,8 @@ const std::array<EasingFunc, 30> easingFuncs = {
 	Ease::InOut::Quart, Ease::InOut::Quint, Ease::InOut::Expo,
 	Ease::InOut::Circ, Ease::InOut::Back, Ease::InOut::Elastic, Ease::InOut::Bounce,
 
+	// ------------------- None ------------------- //
+	Ease::None::Liner
 };
 
 /// <summary> 

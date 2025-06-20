@@ -189,6 +189,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
@@ -415,6 +416,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Game\Actor\Jet\JetEngine.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />

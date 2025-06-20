@@ -6,6 +6,7 @@
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossIdleState.h"
+#include "Game/Actor/Boss/State/BossStateDeployArmor.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
@@ -88,7 +89,15 @@ void Boss::Init() {
 
 	stateMachine_ = std::make_unique<StateMachine<Boss>>();
 	stateMachine_->Init(this);
-	stateMachine_->ChangeState<BossIdleState>();
+	stateMachine_->ChangeState<BossStateDeployArmor>();
+
+	// -------------------------------------------------
+	// ↓ weapon関連
+	// -------------------------------------------------
+	pulseArmor_ = std::make_unique<PulseArmor>();
+	pulseArmor_->Init();
+	pulseArmor_->GetTransform()->SetParent(transform_->GetWorldMatrix());
+	this->AddChild(pulseArmor_.get());
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -111,6 +120,8 @@ void Boss::Init() {
 void Boss::Update() {
 	//actionManager_->Update();
 	stateMachine_->Update();
+
+	pulseArmor_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,5 +129,5 @@ void Boss::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Draw() const {
-	
+	pulseArmor_->Draw();
 }

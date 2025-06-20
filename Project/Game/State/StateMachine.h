@@ -1,14 +1,17 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include <Game/State/ICharacterState.h>
+#include "Game/State/ICharacterState.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 /// <summary>
 /// 状態を管理するクラス
 /// </summary>
 /// <typeparam name="OwnerType">:対象の型</typeparam>
 template<typename OwnerType>
-class StateMachine {
+class StateMachine :
+	public AttributeGui {
 public:
 
 	StateMachine() : functionChangeState_([]() {}) {}
@@ -17,6 +20,11 @@ public:
 	void Init(OwnerType* pOwner) {
 		pOwner_ = pOwner;
 		functionChangeState_ = []() {};
+
+#ifdef _DEBUG
+		std::string machineName = pOwner->GetName() + "StateMachine";
+		EditorWindows::AddObjectWindow(this, machineName);
+#endif // _DEBUG
 	}
 
 	/// <summary>
@@ -33,6 +41,7 @@ public:
 
 			// stateがセットされていたら終了処理をする
 			if (state_ != nullptr) {
+				DeleteChild(state_.get());
 				state_->CallExit(pOwner_);
 			}
 
@@ -44,6 +53,8 @@ public:
 			state_->SetMachine(this);
 			// 開始処理
 			state_->CallStart(pOwner_);
+
+			this->AddChild(state_.get());
 
 			functionChangeState_ = []() {};
 			};
@@ -57,6 +68,12 @@ public:
 			state_->CallUpdate(pOwner_);
 		}
 	}
+
+	std::string GetActionName() { return state_->GetStateName(); }
+
+#ifdef _DEBUG
+	void Debug_Gui() override {};
+#endif
 
 private:
 	// 持ち主のポインタ

@@ -2,16 +2,20 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Game/Information/ColliderCategory.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
 
 PulseArmor::~PulseArmor() {
 	
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PulseArmor::Init() {
 	SetName("PulseArmor");
 	geometry_.Init(CVector2::UNIT, 16, "armor");
 
+	// meshの設定
 	std::string name = geometry_.GetGeometryName();
 	if (!MeshManager::GetInstance()->ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
@@ -21,20 +25,24 @@ void PulseArmor::Init() {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
 	}
 	
+	// material/worldTransformに関する設定
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
 	worldTransform_ = Engine::CreateWorldTransform();
 	material_->SetUseTexture("white.png");
 
+	// dissolvebufferに関する設定
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	settingBuffer_ = std::make_unique<DxResource>();
 	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
+	// uvSrtの初期化
 	uvSrt_.scale = CVector3::UNIT;
 	uvSrt_.rotate = CVector3::ZERO;
 	uvSrt_.translate = CVector3::ZERO;
 
+	// bufferPtrの初期化
 	setting_->uvTransform = uvSrt_.MakeAffine();
 	setting_->color = Vector4(CVector3::UNIT, 1.0f);
 	setting_->edgeColor = Vector4(CVector3::UNIT, 1.0f);
@@ -42,17 +50,28 @@ void PulseArmor::Init() {
 
 	noiseTexture_ = "noise1.png";
 
-#ifdef _DEBUG
-	EditorWindows::AddObjectWindow(this, GetName());
-#endif // _DEBUG
+	uvMovingTween_.Init(&uvMovingValue_, Vector3(-5.0f, 0.0f, 0.0f), Vector3(5.0f, 0.0f, 0.0f), 100.0f, (int)EasingType::None::Liner, LoopType::LOOP);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PulseArmor::Update() {
+	uvMovingTween_.Update(GameTimer::DeltaTime());
+	uvSrt_.translate = uvMovingValue_;
+
 	setting_->uvTransform = uvSrt_.MakeAffine();
 	worldTransform_->Update();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PulseArmor::Draw() const {
+	if (!isAlive_) { return; }
+
 	Engine::SetPipeline(PSOType::Object3d, "Object_Dissolve.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
@@ -77,11 +96,16 @@ void PulseArmor::Draw() const {
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 #ifdef _DEBUG
 void PulseArmor::Debug_Gui() {
 	worldTransform_->Debug_Gui();
 	material_->ImGuiDraw();
 
+	// dissolveに関する設定を行う
 	if (ImGui::CollapsingHeader("Setting")) {
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;// | ImGuiTreeNodeFlags_Framed;
 		if (ImGui::TreeNodeEx("uvTransform", flags)) {
@@ -109,3 +133,29 @@ void PulseArmor::Debug_Gui() {
 	}
 }
 #endif
+
+void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor) {
+	durability_ = _durability;
+	worldTransform_->SetScale(_scale);
+	setting_->color = _color;
+	setting_->edgeColor = _edgeColor;
+
+	isAlive_ = true;
+}
+
+void PulseArmor::SetUvSRT(const Vector3& _uvScale, const Vector3& _uvRotate, const Vector3& _uvTranslate) {
+	uvSrt_.scale = _uvScale;
+	uvSrt_.rotate = _uvRotate;
+	uvSrt_.translate = _uvTranslate;
+}
+
+void PulseArmor::DamageDurability(float _damage) {
+	durability_ -= _damage;
+}
+
+bool PulseArmor::BreakArmor() {
+	if (durability_ <= 0.0f) {
+		return true;
+	}
+	return false;
+}

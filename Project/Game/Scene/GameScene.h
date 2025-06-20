@@ -58,8 +58,6 @@ private:
 	std::unique_ptr<BossRoot> bossRoot_;
 	std::unique_ptr<HitExplode> hitExploade_;
 
-	std::unique_ptr<PulseArmor> armor_;
-
 	// ------------------- collision ------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;
 

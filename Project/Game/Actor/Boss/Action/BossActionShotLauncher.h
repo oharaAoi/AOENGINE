@@ -27,6 +27,7 @@ public:
 			fromJson(jsonData, "stiffenTime", stiffenTime);
 		}
 	};
+
 public:
 
 	BossActionShotLauncher() = default;

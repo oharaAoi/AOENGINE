@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 template<typename OwnerType>
 class StateMachine;
@@ -8,12 +9,11 @@ class StateMachine;
 /// StateのBaseClass
 /// </summary>
 template<typename OwnerType> // テンプレートで管理対象の型を指定
-class ICharacterState {
+class ICharacterState :
+	public AttributeGui {
 protected:
 	// ステートマシン以外から呼び出し関数などにアクセスできないように
 	friend class StateMachine<OwnerType>;
-	// 状態の名前
-	std::string stateName_;
 public:
 	ICharacterState() = default;
 	virtual ~ICharacterState() = default;
@@ -23,6 +23,10 @@ public:
 	virtual void OnStart() = 0;
 	virtual void OnUpdate() = 0;
 	virtual void OnExit() = 0;
+
+#ifdef _DEBUG
+	virtual void Debug_Gui() override = 0;
+#endif
 
 	void SetOwner(OwnerType* owner) { pOwner_ = owner; }
 

@@ -7,6 +7,7 @@
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
+#include "Game/Actor/Weapon/PulseArmor.h"
 
 class Boss :
 	public BaseEntity {
@@ -47,13 +48,19 @@ public:
 
 public:
 
+	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
+	// player座標
 	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
 	const Vector3& GetPlayerPosition() const { return playerPosition_; }
 
+	// bulletManager
 	void SetBulletManager(BossBulletManager* _manager) { pBossBulletManager_ = _manager; }
 	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
+
+	// armor
+	PulseArmor* GetPulseArmor() { return pulseArmor_.get(); }
 
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
@@ -68,6 +75,9 @@ private:
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
 
 	std::unique_ptr<ActionManager<Boss>> actionManager_;
+
+	// weapon ------------------------------------------------
+	std::unique_ptr<PulseArmor> pulseArmor_;
 
 	// Parameter --------------------------------------------------
 	Parameter param_;
