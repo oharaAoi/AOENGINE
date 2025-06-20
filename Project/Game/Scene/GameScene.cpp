@@ -79,6 +79,8 @@ void GameScene::Init() {
 	hitExploade_ = std::make_unique<HitExplode>();
 	hitExploade_->Init();
 
+	armor_ = std::make_unique<PulseArmor>();
+	armor_->Init();
 
 	// -------------------------------------------------
 	// ↓ managerの初期化
@@ -137,6 +139,8 @@ void GameScene::Update() {
 
 	hitExploade_->Update();
 
+	armor_->Update();
+
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------
@@ -186,6 +190,8 @@ void GameScene::Draw() const {
 	ParticleManager::GetInstance()->Draw();
 
 	gameCallBacksManager_->Draw();
+
+	armor_->Draw();
 
 	// -------------------------------------------------
 	// ↓ spriteの描画

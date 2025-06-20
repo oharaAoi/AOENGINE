@@ -1,5 +1,7 @@
 #include "TextureManager.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/Loader.h"
 
 TextureManager* TextureManager::GetInstance() {
 	static TextureManager instance;
@@ -245,3 +247,70 @@ void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* c
 	commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_[filePath].address_.handleGPU);
 }
 
+std::string TextureManager::SelectTexture(const std::string& filePath) {
+	static std::string selectedFilename;
+	static int selectedIndex = -1; // 選択されたインデックス
+
+	ImGui::Separator();
+	ImGui::BulletText("TextureView");
+
+	// -------------------------------------------------
+	// ↓ 現在のTextureのViewを表示
+	// -------------------------------------------------
+	auto currentHandle = this->GetDxHeapHandles(filePath);
+	ImTextureID currentTexID = (ImTextureID)(intptr_t)(currentHandle.handleGPU.ptr);
+	ImGui::SetNextWindowBgAlpha(0.85f);
+	ImGui::Image(currentTexID, ImVec2(128, 128));
+
+	// -------------------------------------------------
+	// ↓ 選択できるTextureのViewｗを表示
+	// -------------------------------------------------
+	if (ImGui::TreeNode("Files")) {
+		ImGui::Text(selectedFilename.c_str());
+		ImGui::SameLine();
+		if (ImGui::Button("OK")) {
+			ImGui::TreePop();
+			return selectedFilename.c_str();
+		}
+		// ListBox を手動で構築（ListBoxHeader + Selectable）
+		if (ImGui::BeginListBox("TextureList")) {
+			for (int i = 0; i < fileNames_.size(); ++i) {
+				std::string textureName = fileNames_[i];
+				const char* ext = GetFileExtension(textureName.c_str());
+				std::string extension(ext);
+				// 拡張子で判別する
+				if ((extension == "png") || (extension == "jpeg")) {
+
+					const bool isSelected = (i == selectedIndex);
+					if (ImGui::Selectable(textureName.c_str(), isSelected)) {
+						selectedIndex = i;
+						selectedFilename = fileNames_[i];
+					}
+					// ホバー中のファイルにプレビューを表示
+					if (ImGui::IsItemHovered()) {
+						auto handle = this->GetDxHeapHandles(textureName);
+						ImTextureID texID = (ImTextureID)(intptr_t)(handle.handleGPU.ptr);
+
+						ImVec2 mousePos = ImGui::GetMousePos();
+						ImGui::SetNextWindowPos(ImVec2(mousePos.x + 16, mousePos.y + 16));
+						ImGui::SetNextWindowBgAlpha(0.85f);
+						ImGui::Begin("Preview", nullptr,
+									 ImGuiWindowFlags_NoTitleBar |
+									 ImGuiWindowFlags_NoResize |
+									 ImGuiWindowFlags_AlwaysAutoResize |
+									 ImGuiWindowFlags_NoSavedSettings |
+									 ImGuiWindowFlags_NoFocusOnAppearing |
+									 ImGuiWindowFlags_NoNav |
+									 ImGuiWindowFlags_NoMove);
+						ImGui::Image(texID, ImVec2(128, 128));
+						ImGui::End();
+					}
+				}
+			}
+			ImGui::EndListBox();
+		}
+		ImGui::TreePop();
+	}
+
+	return filePath;
+}

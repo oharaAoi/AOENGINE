@@ -5,17 +5,17 @@ void JetEngineBurn::Finalize() {
 }
 
 void JetEngineBurn::Init() {
-	geometry_.Init(Vector2(1.0f, 1.0f), 32);
-	
-	// meshの作成dw 
-	std::string name = geometry_.GetGeometryName();
-	if (!ExistMesh(name)) {
-		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
-		AddMeshManager(mesh_, name);
-	} else {
-		mesh_ = MeshManager::GetInstance()->GetMesh(name);
-	}
+	//geometry_.Init(Vector2(1.0f, 1.0f), 32);
+	//
+	//// meshの作成dw 
+	//std::string name = geometry_.GetGeometryName();
+	//if (!ExistMesh(name)) {
+	//	mesh_ = std::make_shared<Mesh>();
+	//	mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
+	//	AddMeshManager(mesh_, name);
+	//} else {
+	//	mesh_ = MeshManager::GetInstance()->GetMesh(name);
+	//}
 
 	// その他の作成
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());

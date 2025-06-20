@@ -263,6 +263,7 @@
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotgun.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\PulseArmor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -496,6 +497,7 @@
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotgun.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
     <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
+    <ClInclude Include="Game\Actor\Weapon\PulseArmor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

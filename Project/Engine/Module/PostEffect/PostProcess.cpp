@@ -38,7 +38,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
-	AddEffect(PostEffectType::DISSOLVE);
+	//AddEffect(PostEffectType::DISSOLVE);
 
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "Post Process");

@@ -1,11 +1,15 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
+#include "Engine/Lib/Math/Vector4.h"
 
 class Dissolve :
 	public IPostEffect {
 public:
 
 	struct DissolveSetting {
+		Matrix4x4 uvTransform;
+		Vector4 color;
+		Vector4 edgeColor;
 		float threshold = 0.5f;
 	};
 

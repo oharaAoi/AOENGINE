@@ -24,6 +24,8 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
 
+#include "Game/Actor/Weapon/PulseArmor.h"
+
 
 class GameScene 
 	: public BaseScene {
@@ -55,6 +57,8 @@ private:
 	std::unique_ptr<PlayerManager> playerManager_;
 	std::unique_ptr<BossRoot> bossRoot_;
 	std::unique_ptr<HitExplode> hitExploade_;
+
+	std::unique_ptr<PulseArmor> armor_;
 
 	// ------------------- collision ------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;

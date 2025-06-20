@@ -31,6 +31,7 @@ void Floor::Init() {
 	}*/
 
 	floor_->SetIsReflection(true);
+	floor_->SetColor(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
 
 	SceneRenderer::GetInstance()->ChangeRenderingType("Object_NormalEnviroment.json", floor_);
 

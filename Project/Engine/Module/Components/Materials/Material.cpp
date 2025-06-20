@@ -39,31 +39,33 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 
 #ifdef _DEBUG
 void Material::ImGuiDraw() {
-	ImGui::BulletText("Transform");
-	if (ImGui::TreeNode("uvTramsform")) {
-		if (ImGui::TreeNode("scale")) {
-			ImGui::DragFloat4("uvScale", &uvScale_.x, 0.01f);
+
+	if (ImGui::CollapsingHeader("Material")) {
+		if (ImGui::TreeNode("uvTramsform")) {
+			if (ImGui::TreeNode("scale")) {
+				ImGui::DragFloat4("uvScale", &uvScale_.x, 0.01f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("rotation")) {
+				ImGui::DragFloat4("uvRotation", &uvRotation_.x, 0.01f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("translation")) {
+				ImGui::DragFloat4("uvTranslation", &uvTranslation_.x, 0.01f);
+				ImGui::TreePop();
+			}
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("rotation")) {
-			ImGui::DragFloat4("uvRotation", &uvRotation_.x, 0.01f);
-			ImGui::TreePop();
-		}
-		if (ImGui::TreeNode("translation")) {
-			ImGui::DragFloat4("uvTranslation", &uvTranslation_.x, 0.01f);
-			ImGui::TreePop();
-		}
-		ImGui::TreePop();
+
+		// Textureを変更する
+		SelectTexture();
+
+		// 色を変更する
+		ImGui::Separator();
+		ImGui::BulletText("Color");
+		ImGui::ColorEdit4("color", &material_->color.x);
+		ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 	}
-
-	// Textureを変更する
-	SelectTexture();
-
-	// 色を変更する
-	ImGui::Separator();
-	ImGui::BulletText("Color");
-	ImGui::ColorEdit4("color", &material_->color.x);
-	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 
 	//IGFD::FileDialogConfig config;
 	//config.path = "."; // 初期フォルダ

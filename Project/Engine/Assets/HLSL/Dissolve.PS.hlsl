@@ -1,6 +1,9 @@
 #include "ProcessedScene.hlsli"
 
 struct Dissolve {
+	float4x4 uvTransform;
+	float4 color;
+	float4 edgeColor;
 	float threshold;
 };
 
@@ -15,13 +18,20 @@ struct PixelShaderOutput {
 
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output;
-	float mask = gMaskTexture.Sample(gSampler, input.texcoord);
+	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gSetting.uvTransform);
+	// maskを計算する
+	float mask = gMaskTexture.Sample(gSampler, transformedUV.xy);
+	// 閾値以下だったら透明にする
 	if (mask <= gSetting.threshold) {
 		discard;
 	}
 	
+	// edge部分の検出
 	float edge = 1.0f - smoothstep(gSetting.threshold, gSetting.threshold + 0.03f, mask);
 	output.color = gTexture.Sample(gSampler, input.texcoord);	
-	output.color.rgb += edge * float3(1.0f, 0.4f, 0.3f);
+	// materialの色と合成
+	output.color *= gSetting.color;
+	// edge部分ならedgeColorを足す
+	output.color.rgb += edge * gSetting.edgeColor.rgb;
 	return output;
 }

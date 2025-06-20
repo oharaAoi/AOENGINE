@@ -71,6 +71,8 @@ public:
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
 
+	std::string SelectTexture(const std::string& filePath);
+
 public:
 
 

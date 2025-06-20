@@ -11,6 +11,7 @@ namespace ColliderTags {
 		const std::string own = "boss";
 		const std::string attack = "bossAttack";
 		const std::string missile = "bossMissile";
+		const std::string armor = "bossArmor";
 	}
 
 	namespace Bullet {
@@ -30,6 +31,7 @@ inline std::list<std::string> GetColliderTagsList() {
 		ColliderTags::Boss::own,
 		ColliderTags::Boss::attack,
 		ColliderTags::Boss::missile,
+		ColliderTags::Boss::armor,
 
 		ColliderTags::Bullet::machinegun,
 		ColliderTags::Bullet::launcher,
