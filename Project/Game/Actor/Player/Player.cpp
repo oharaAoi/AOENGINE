@@ -103,7 +103,7 @@ void Player::Init() {
 	// -------------------------------------------------
 
 	actionManager_ = std::make_unique<ActionManager<Player>>();
-	actionManager_->Init(this, "playerAction");
+	actionManager_->Init(this, "PlayerAction");
 	actionManager_->BuildAction<PlayerActionIdle>();
 	actionManager_->BuildAction<PlayerActionMove>();
 	actionManager_->BuildAction<PlayerActionJump>();

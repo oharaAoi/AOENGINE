@@ -12,6 +12,8 @@ public:
 		float bulletSpeed = 80.0f;
 		float bulletSpread = 20.0f;
 		int kFireCount = 16;
+
+		Parameter() { SetName("BossActionShotgun"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

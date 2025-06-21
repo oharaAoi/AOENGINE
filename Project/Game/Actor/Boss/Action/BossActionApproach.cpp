@@ -15,10 +15,10 @@ void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("quitApproachLength", &initParam_.quitApproachLength, .1f);
 	
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", initParam_.ToJson(actionName_));
+		JsonItems::Save(pManager_->GetName(), initParam_.ToJson(initParam_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		initParam_.FromJson(JsonItems::GetData("BossAction", actionName_));
+		initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), initParam_.GetName()));
 		param_ = initParam_;
 	}
 }
@@ -39,7 +39,7 @@ void BossActionApproach::Build() {
 void BossActionApproach::OnStart() {
 	actionTimer_ = 0;
 
-	initParam_.FromJson(JsonItems::GetData("BossAction", actionName_));
+	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), initParam_.GetName()));
 	param_ = initParam_;
 
 	// player方向を計算する

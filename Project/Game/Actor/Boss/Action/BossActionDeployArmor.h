@@ -12,16 +12,18 @@ class BossActionDeployArmor :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float bulletSpeed = 80.0f;
+		float deployTime = 3.0f;
+
+		Parameter() { SetName("bossActionDeployArmor"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
-				.Add("bulletSpeed", bulletSpeed)
+				.Add("deployTime", deployTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			fromJson(jsonData, "deployTime", deployTime);
 		}
 	};
 public:
@@ -42,5 +44,8 @@ public:
 #endif // _DEBUG
 
 private:
+
+	Parameter param_;
+
 };
 

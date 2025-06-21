@@ -24,6 +24,8 @@ public:
 		float cameraShakeTime = 0.2f;
 		float cameraShakeStrength = 0.1f;
 
+		Parameter() { SetName("ActionJump"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("jumpForce", jumpForce)

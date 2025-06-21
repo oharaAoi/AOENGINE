@@ -14,10 +14,10 @@ void BossActionShotgun::Debug_Gui() {
 	ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(actionName_));
+		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 }
 #endif // _DEBUG
@@ -27,7 +27,8 @@ void BossActionShotgun::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotgun::Build() {
-	SetName("action Shotgun");
+	SetName("actionShotgun");
+	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

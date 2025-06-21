@@ -45,9 +45,9 @@ protected:
 
 	bool isActive_ = true;
 
-private:
-
 	std::string name_ = "new Attribute";
+
+private:
 
 	std::vector<AttributeGui*> children_;
 };

@@ -17,6 +17,8 @@ public:
 		float maxSpinDistance = 0.8f;
 		float quitApproachLength = 5.f;
 
+		Parameter() { SetName("bossActionApproach"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)

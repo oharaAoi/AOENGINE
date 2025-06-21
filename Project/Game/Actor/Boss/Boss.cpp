@@ -14,6 +14,7 @@
 #include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
 #include "Game/Actor/Boss/Action/BossActionShotgun.h"
 #include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
+#include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 
 void Boss::Finalize() {
 }
@@ -71,7 +72,7 @@ void Boss::Init() {
 	// -------------------------------------------------
 
 	actionManager_ = std::make_unique<ActionManager<Boss>>();
-	actionManager_->Init(this, "bossAction");
+	actionManager_->Init(this, "BossAction");
 	actionManager_->BuildAction<BossActionIdle>();
 	actionManager_->BuildAction<BossActionApproach>();
 	actionManager_->BuildAction<BossActionShotMissile>();
@@ -79,8 +80,9 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionShotLauncher>();
 	actionManager_->BuildAction<BossActionShotgun>();
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
+	actionManager_->BuildAction<BossActionDeployArmor>();
 
-	size_t hash = typeid(BossActionAllRangeMissile).hash_code();
+	size_t hash = typeid(BossActionIdle).hash_code();
 	actionManager_->AddRunAction(hash);
 
 	// -------------------------------------------------
@@ -89,7 +91,7 @@ void Boss::Init() {
 
 	stateMachine_ = std::make_unique<StateMachine<Boss>>();
 	stateMachine_->Init(this);
-	stateMachine_->ChangeState<BossStateDeployArmor>();
+	stateMachine_->ChangeState<BossIdleState>();
 
 	// -------------------------------------------------
 	// ↓ weapon関連
@@ -118,7 +120,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	//actionManager_->Update();
+	actionManager_->Update();
 	stateMachine_->Update();
 
 	pulseArmor_->Update();

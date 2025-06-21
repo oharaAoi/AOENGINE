@@ -18,10 +18,10 @@ void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("cameraShakeStrength", &param_.cameraShakeStrength, 0.1f);
 	
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("PlayerAction", param_.ToJson("ActionJump"));
+		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("PlayerAction", "ActionJump"));
+		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
 	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
@@ -33,9 +33,9 @@ void PlayerActionJump::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Build() {
-	SetName("actionJump");
+	SetName("ActionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
-	param_.FromJson(JsonItems::GetData("PlayerAction", "ActionJump"));
+	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

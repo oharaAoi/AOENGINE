@@ -14,6 +14,8 @@ public:
 	struct Parameter : public IJsonConverter {
 		float bulletSpeed = 80.0f;
 		float stiffenTime = 1.0f;
+
+		Parameter() { SetName("BossActionShotLuncher"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

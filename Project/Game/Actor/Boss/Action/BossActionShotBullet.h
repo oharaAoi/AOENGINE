@@ -15,6 +15,8 @@ public:
 		float shotInterval = 0.1f;
 		float bulletSpeed = 80.0f;
 		int kFireCount = 20;
+
+		Parameter() { SetName("bossActionShotBullet"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

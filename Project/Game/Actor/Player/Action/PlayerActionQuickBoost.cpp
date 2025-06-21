@@ -10,22 +10,22 @@
 
 #ifdef _DEBUG
 void PlayerActionQuickBoost::Debug_Gui() {
-	ImGui::DragFloat("first_boostForce", &firstParam_.boostForce, 0.1f);
-	ImGui::DragFloat("first_decelerationRaito", &firstParam_.decelerationRaito, 0.01f);
-	ImGui::DragFloat("first_boostEnergy", &firstParam_.boostEnergy, 0.01f);
-	ImGui::DragFloat("cameraShakeTime", &firstParam_.cameraShakeTime, 0.1f);
-	ImGui::DragFloat("cameraShakeStrength", &firstParam_.cameraShakeStrength, 0.1f);
+	ImGui::DragFloat("first_boostForce", &initParam_.boostForce, 0.1f);
+	ImGui::DragFloat("first_decelerationRaito", &initParam_.decelerationRaito, 0.01f);
+	ImGui::DragFloat("first_boostEnergy", &initParam_.boostEnergy, 0.01f);
+	ImGui::DragFloat("cameraShakeTime", &initParam_.cameraShakeTime, 0.1f);
+	ImGui::DragFloat("cameraShakeStrength", &initParam_.cameraShakeStrength, 0.1f);
 
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
 	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
 	ImGui::Text("boostEnergy: (%.2f)", param_.boostEnergy);
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("PlayerAction", firstParam_.ToJson(GetName()));
+		JsonItems::Save(pManager_->GetName(), initParam_.ToJson(param_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		firstParam_.FromJson(JsonItems::GetData("PlayerAction", GetName()));
-		param_ = firstParam_;
+		initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+		param_ = initParam_;
 	}
 
 }
@@ -42,6 +42,8 @@ void PlayerActionQuickBoost::Build() {
 
 	boostParticle_ = ParticleManager::GetInstance()->CrateParticle("QuickBoost");
 	boostParticle_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
+
+	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +51,7 @@ void PlayerActionQuickBoost::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnStart() {
-	param_ = firstParam_;
+	param_ = initParam_;
 
 	// 初速度を求める
 	stick_ = pInput_->GetLeftJoyStick();
@@ -62,7 +64,7 @@ void PlayerActionQuickBoost::OnStart() {
 	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
-	//pOwner_->GetFollowCamera()->SetShake(firstParam_.cameraShakeTime, firstParam_.cameraShakeStrength);
+	//pOwner_->GetFollowCamera()->SetShake(initParam_.cameraShakeTime, initParam_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
 
 	boostParticle_->Reset();

@@ -16,10 +16,10 @@ void PlayerActionMove::Debug_Gui() {
 	ImGui::DragFloat("speed", &param_.speed, 0.1f);
 	ImGui::DragFloat("boostSpeed", &param_.boostSpeed, 0.1f);
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("PlayerAction", param_.ToJson("ActionMove"));
+		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("PlayerAction", "ActionMove"));
+		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 }
 #endif // _DEBUG
@@ -30,7 +30,7 @@ void PlayerActionMove::Debug_Gui() {
 
 void PlayerActionMove::Build() {
 	SetName("actionMove");
-	initParam_.FromJson(JsonItems::GetData("PlayerAction", "ActionMove"));
+	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

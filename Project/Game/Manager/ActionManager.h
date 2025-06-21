@@ -31,6 +31,7 @@ public:
 
 		context_ = std::make_shared<ActionContext>();
 	
+		name_ = name;
 #ifdef _DEBUG
 		EditorWindows::AddObjectWindow(this, name.c_str());
 #endif // _DEBUG
@@ -159,7 +160,6 @@ public:
 	}
 
 private:
-	std::string actionName_;
 	// 持ち主のポインタ
 	OwnerType* pOwner_ = nullptr;
 

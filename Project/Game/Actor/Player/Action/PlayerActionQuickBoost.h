@@ -24,6 +24,8 @@ public:
 		float cameraShakeTime = 0.2f;
 		float cameraShakeStrength = 0.1f;
 
+		Parameter() { SetName("ActionQuickBoost"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("boostForce", boostForce)
@@ -82,7 +84,7 @@ private:
 	Vector2 stick_;
 
 	Parameter param_;
-	Parameter firstParam_;
+	Parameter initParam_;
 
 	BaseParticles* boostParticle_;
 

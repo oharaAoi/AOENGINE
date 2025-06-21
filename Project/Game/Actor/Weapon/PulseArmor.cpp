@@ -51,6 +51,8 @@ void PulseArmor::Init() {
 	noiseTexture_ = "noise1.png";
 
 	uvMovingTween_.Init(&uvMovingValue_, Vector3(-5.0f, 0.0f, 0.0f), Vector3(5.0f, 0.0f, 0.0f), 100.0f, (int)EasingType::None::Liner, LoopType::LOOP);
+
+	isAlive_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

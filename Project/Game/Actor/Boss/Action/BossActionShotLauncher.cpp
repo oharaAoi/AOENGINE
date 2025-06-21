@@ -14,10 +14,10 @@ void BossActionShotLauncher::Debug_Gui() {
 	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
 	
 	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(actionName_));
+		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 }
 #endif // _DEBUG
@@ -27,7 +27,7 @@ void BossActionShotLauncher::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Build() {
-	SetName("action Shot Launcher");
+	SetName("actionShotLauncher");
 } 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@ void BossActionShotLauncher::Build() {
 
 void BossActionShotLauncher::OnStart() {
 	actionTimer_ = 0.0f;
-	param_.FromJson(JsonItems::GetData("BossAction", actionName_));
+	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	Shot();
 
 	isFinish_ = true;

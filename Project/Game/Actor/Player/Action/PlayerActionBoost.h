@@ -23,6 +23,8 @@ public:
 		float boostForce;
 		float stopForce;
 
+		Parameter() { SetName("actionBoost"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("chargeTime", chargeTime)

@@ -16,8 +16,6 @@ class BaseAction
 protected:
 	// Observer以外から呼び出し関数などにアクセスできないように
 	friend class ActionManager<OwnerType>;
-	// actionの名前
-	std::string actionName_;
 	size_t actionIndex_;
 
 public:	// base
@@ -106,8 +104,6 @@ protected:	// observerクラス以外からは呼び出さない
 	}
 	void CallUpdate() { OnUpdate(); }
 	void CallEnd() { OnEnd(); }
-
-	const std::string& GetActionName() const { return actionName_; }
 
 protected:
 	ActionManager<OwnerType>* pManager_ = nullptr;

@@ -13,6 +13,8 @@ public:
 		float speed;
 		float boostSpeed;
 
+		Parameter() { SetName("ActionMove"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("speed", speed)
