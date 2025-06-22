@@ -6,10 +6,8 @@
 #include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
-#ifdef _DEBUG
 void BossActionIdle::Debug_Gui() {
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

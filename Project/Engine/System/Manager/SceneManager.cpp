@@ -46,7 +46,6 @@ void SceneManager::Draw() {
 // ↓　編集処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void SceneManager::Debug_Gui() {
 	// sceneのDebug
 	ImGui::Begin("Scene");
@@ -62,10 +61,8 @@ void SceneManager::Debug_Gui() {
 		// ユーザーが選択を変更した場合にSceneTypeを更新
 		changeScene_ = static_cast<SceneType>(currentIndex);
 	}
-	scene_->Debug_Gui();
 	ImGui::End();
 }
-#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　シーンの切り替え

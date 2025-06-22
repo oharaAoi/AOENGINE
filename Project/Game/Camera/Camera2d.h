@@ -14,9 +14,7 @@ public:
 	void Init();
 	void Update();
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif // _DEBUG
 
 public:
 

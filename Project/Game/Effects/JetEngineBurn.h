@@ -19,9 +19,7 @@ public:
 	void Update();
 	void Draw() const;
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif // _DEBUG
 
 public:
 

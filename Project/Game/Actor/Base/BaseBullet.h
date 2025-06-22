@@ -19,9 +19,7 @@ public:
 	
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif // _DEBUG
 
 public:
 

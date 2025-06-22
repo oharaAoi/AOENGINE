@@ -2,10 +2,8 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 
-#ifdef _DEBUG
 void BossActionShotMissile::Debug_Gui() {
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

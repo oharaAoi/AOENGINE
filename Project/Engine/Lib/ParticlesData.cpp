@@ -1,7 +1,6 @@
 #include "ParticlesData.h"
 #include "imgui.h"
 
-#ifdef _DEBUG
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {
 		ImGui::Checkbox("IsLoop", &isLoop);
@@ -42,4 +41,3 @@ void ParticleEmit::Attribute_Gui() {
 		minScale.Clamp(minScale,maxScale );
 	}
 }
-#endif

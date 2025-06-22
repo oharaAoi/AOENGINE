@@ -21,6 +21,7 @@ public:
 
 	void Finalize();
 
+#ifdef _DEBUG
 	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps);
 
 	void Update();
@@ -44,6 +45,7 @@ public:
 	/// ParticleEditorの描画
 	/// </summary>
 	void ParticleEditorWindow();
+#endif 
 
 public:
 

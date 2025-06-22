@@ -58,9 +58,7 @@ public:
 	/// <returns></returns>
 	std::shared_ptr<IPostEffect> GetEffect(PostEffectType type);
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif
 
 	std::shared_ptr<Grayscale> GetGrayscale() { return grayscale_; }
 	std::shared_ptr<RadialBlur> GetRadialBlur() { return radialBlur_; }

@@ -27,9 +27,7 @@ public:
 
 	void StartNoise(float startStrength, float time);
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 private:
 

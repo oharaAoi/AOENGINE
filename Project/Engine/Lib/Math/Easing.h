@@ -132,6 +132,4 @@ const std::array<EasingFunc, 31> easingFuncs = {
 /// <returns> Easingした結果の線形代数 </returns> 
 float CallEasing(int index, float t);
 
-#ifdef _DEBUG
 void SelectEasing(int& easeKind);
-#endif

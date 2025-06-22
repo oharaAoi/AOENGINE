@@ -224,7 +224,6 @@ void BaseGameObject::SetTexture(const std::string& path) {
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void BaseGameObject::Debug_Draw() {
 	if (collider_ != nullptr) {
 		collider_->Draw();
@@ -241,7 +240,7 @@ void BaseGameObject::Debug_Gui() {
 	for (auto& material : materials) {
 		std::string guiId = "material_" + std::to_string(index);
 		if (ImGui::TreeNode(guiId.c_str())) {
-			material->ImGuiDraw();
+			material->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}
@@ -290,4 +289,3 @@ void BaseGameObject::SetObjectAxis(bool isAxis) {
 		isDebugAxis_ = false;
 	}
 }
-#endif // _DEBUG

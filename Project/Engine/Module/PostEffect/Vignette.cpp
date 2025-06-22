@@ -28,7 +28,6 @@ void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pi
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
-#ifdef _DEBUG
 void Vignette::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Vignette")) {
 		ImGui::ColorEdit4("color", &setting_->color.x);
@@ -39,4 +38,3 @@ void Vignette::Debug_Gui() {
 		setting_->power = std::clamp(setting_->power, 0.0f, 1.0f);
 	}
 }
-#endif

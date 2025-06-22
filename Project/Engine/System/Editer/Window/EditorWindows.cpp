@@ -16,6 +16,7 @@ void EditorWindows::Finalize() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _DEBUG
 void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps) {
 	gameObjectWindow_ = std::make_unique<GameObjectWindow>();
 	gameObjectWindow_->Init();
@@ -135,12 +136,15 @@ void EditorWindows::ParticleEditorWindow() {
 	}
 	ImGui::End();
 }
+#endif 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::AddObjectWindow(AttributeGui* attribute, const std::string& label) {
+#ifdef _DEBUG
 	attribute->SetName(label);
 	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);
+#endif 
 }

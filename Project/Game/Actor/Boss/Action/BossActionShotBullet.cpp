@@ -7,7 +7,6 @@
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void BossActionShotBullet::Debug_Gui() {
 	ImGui::DragFloat("shotInterval", &param_.shotInterval, .1f);
 	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
@@ -20,7 +19,6 @@ void BossActionShotBullet::Debug_Gui() {
 		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

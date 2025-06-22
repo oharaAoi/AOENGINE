@@ -60,9 +60,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	renderTarget_ = graphicsCxt_->GetRenderTarget();
 
-	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
-	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
-
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
 	computeShader_->Init(dxDevice_, graphicsCxt_->GetDxCompiler(), dxHeap_, graphicsCxt_->GetRenderTarget()->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
@@ -76,6 +73,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 #ifdef _DEBUG
+	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
+	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
+
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_, dxHeap_, dxCmdList_, dxDevice_);
@@ -101,8 +101,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Finalize() {
-	editorWindows_->Finalize();
-
 	postProcess_->Finalize();
 
 	audio_->Finalize();
@@ -117,6 +115,7 @@ void Engine::Finalize() {
 	input_->Finalize();
 
 #ifdef _DEBUG
+	editorWindows_->Finalize();
 	imguiManager_->Finalize();
 #endif
 	textureManager_->Finalize();
@@ -193,7 +192,9 @@ void Engine::RenderFrame() {
 	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
 
 	// guiの描画
+#ifdef _DEBUG
 	editorWindows_->Update();
+#endif
 
 	// swapChainの変更
 	dxCommon_->SetSwapChain();

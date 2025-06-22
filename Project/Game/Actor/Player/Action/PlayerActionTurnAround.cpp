@@ -71,7 +71,6 @@ bool PlayerActionTurnAround::IsInput() {
 // ↓ main action
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void PlayerActionTurnAround::Debug_Gui() {
 	ImGui::DragFloat("speed", &param_.speed, 0.1f);
 	ImGui::DragFloat("rotateTime", &param_.rotateTime, 0.1f);
@@ -82,4 +81,3 @@ void PlayerActionTurnAround::Debug_Gui() {
 		param_.FromJson(JsonItems::GetData("PlayerAction", param_.GetName()));
 	}
 }
-#endif // _DEBUG

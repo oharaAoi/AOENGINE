@@ -32,9 +32,7 @@ public:
 		context_ = std::make_shared<ActionContext>();
 	
 		name_ = name;
-#ifdef _DEBUG
 		EditorWindows::AddObjectWindow(this, name.c_str());
-#endif // _DEBUG
 	}
 
 	void Update() {
@@ -77,22 +75,18 @@ public:
 	/// <summary>
 	/// 実行中のAction名を表示
 	/// </summary>
-#ifdef _DEBUG
 	void DisplayRunActions() {
 		ImGui::BulletText("RunActions");
 		for (auto& [size, action] : runActionMap_) {
 			ImGui::Text(action->GetName().c_str());
 		}
 	}
-#endif // _DEBUG
 
 public:
 
-#ifdef _DEBUG
 	void Debug_Gui() override {
 		DisplayRunActions();
 	}
-#endif // _DEBUG
 
 	/// <summary>
 	/// Actionのインスタンスを構築する

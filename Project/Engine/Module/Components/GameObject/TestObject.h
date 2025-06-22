@@ -5,7 +5,8 @@
 #include "Engine/Module/Components/Animation/VectorTween.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
-class TestObject : public BaseGameObject {
+class TestObject
+	: public BaseGameObject {
 public:
 
 	struct Test : public IJsonConverter {
@@ -46,10 +47,7 @@ public:
 	void OnCollisionStay([[maybe_unused]] MeshCollider& other);
 	void OnCollisionExit([[maybe_unused]] MeshCollider& other);
 
-
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 private:
 

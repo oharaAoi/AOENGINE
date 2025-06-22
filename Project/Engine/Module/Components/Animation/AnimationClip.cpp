@@ -1,6 +1,7 @@
 #include "AnimationClip.h"
 #include "Engine/Module/Components/Animation/AnimationFunctions.h"
 #include "Engine/System/Manager/AnimationManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/GameTimer.h"
 
 AnimationClip::AnimationClip() {}
@@ -217,8 +218,6 @@ void AnimationClip::ReservationAnimation(const std::string& preAnimation, const 
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
-#include "Engine/System/Manager/ImGuiManager.h"
 void AnimationClip::Debug_Gui() {
 	bool isChange = false;
 	int isAnimationFinish = (int)isAnimationFinish_;
@@ -339,4 +338,3 @@ std::string AnimationClip::SelectAnimationName() {
 
 	return animationNames_[selectedAnimationIndex];
 }
-#endif // DEBUG

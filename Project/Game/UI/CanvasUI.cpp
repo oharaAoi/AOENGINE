@@ -29,9 +29,7 @@ void CanvasUI::Init() {
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
 
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "Canvas");
-#endif // _DEBUG
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,10 +76,8 @@ void CanvasUI::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void CanvasUI::Debug_Gui() {
 	boostOn_->Debug_Gui();
 	ImGui::DragFloat2("boostOnPos_", &boostOnPos_.x);
 	ImGui::DragFloat2("boostOnScale_", &boostOnScale_.x);
 }
-#endif

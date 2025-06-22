@@ -20,9 +20,7 @@ public: // base
 
 	virtual void Draw() const;
 
-#ifdef _DEBUG
 	virtual void Debug_Gui() override;
-#endif
 
 public:	// accessor method
 

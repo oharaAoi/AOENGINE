@@ -34,7 +34,6 @@ void PlayerUIs::Draw() const {
 	postureStability_->Draw();
  }
 
-#ifdef _DEBUG
 void PlayerUIs::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Health")) {
 		ImGui::DragFloat2("HealthScale", &uiItems_.healthScale.x, 0.1f);
@@ -57,4 +56,3 @@ void PlayerUIs::Debug_Gui() {
 		JsonItems::Save(GetName(), uiItems_.ToJson(uiItems_.GetName()));
 	}
 }
-#endif

@@ -23,9 +23,7 @@ public:
 
 	void Reset();
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif
 
 public:		// json関連
 

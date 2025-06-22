@@ -32,7 +32,6 @@ void DirectionalLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32
 	BaseLight::Draw(commandList, rootParameterIndex);
 }
 
-#ifdef _DEBUG
 void DirectionalLight::Debug_Gui() {
 	ImGui::ColorEdit4("color", &parameter_.color.x);
 	ImGui::DragFloat3("direction", &parameter_.direction.x, 0.1f, -1.0f, 1.0f);
@@ -53,4 +52,3 @@ void DirectionalLight::Debug_Gui() {
 		parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
 	}
 }
-#endif

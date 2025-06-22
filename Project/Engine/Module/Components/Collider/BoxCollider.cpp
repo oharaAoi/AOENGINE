@@ -77,7 +77,5 @@ void BoxCollider::PushBack() {
 	}
 }
 
-#ifdef _DEBUG
 void BoxCollider::Debug_Gui() {
 }
-#endif

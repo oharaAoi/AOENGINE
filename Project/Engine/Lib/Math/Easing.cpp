@@ -1,4 +1,5 @@
 #include "Easing.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　
@@ -274,7 +275,6 @@ float CallEasing(int index, float t) {
 	}
 }
 
-#ifdef _DEBUG
 void SelectEasing(int& easeKind) {
 	// 引数から種類を取り出す
 	int easeType = (int)(easeKind % 10);    // 0 ~ 9
@@ -300,4 +300,3 @@ void SelectEasing(int& easeKind) {
 	result += easeType;
 	easeKind = result;
 }
-#endif

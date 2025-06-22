@@ -8,7 +8,6 @@
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void PlayerActionQuickBoost::Debug_Gui() {
 	ImGui::DragFloat("first_boostForce", &initParam_.boostForce, 0.1f);
 	ImGui::DragFloat("first_decelerationRaito", &initParam_.decelerationRaito, 0.01f);
@@ -29,7 +28,6 @@ void PlayerActionQuickBoost::Debug_Gui() {
 	}
 
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

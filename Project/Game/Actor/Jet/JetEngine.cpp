@@ -76,7 +76,6 @@ void JetEngine::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void JetEngine::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Jet")) {
 		transform_->Debug_Gui();
@@ -86,7 +85,6 @@ void JetEngine::Debug_Gui() {
 		jetEngineBurn_->Debug_Gui();
 	}
 }
-#endif // _DEBUG
 
 void JetEngine::JetIsStop() {
 	jetBurn_->SetIsStop(true);

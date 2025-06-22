@@ -53,12 +53,10 @@ void JetEngineBurn::Draw() const {
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
-#ifdef _DEBUG
 void JetEngineBurn::Debug_Gui() {
 	worldTransform_->Debug_Gui();
-	material_->ImGuiDraw();
+	material_->Debug_Gui();
 }
-#endif // _DEBUG
 
 void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
 	MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());

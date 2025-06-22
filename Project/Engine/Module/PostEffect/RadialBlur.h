@@ -25,9 +25,7 @@ public:
 
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 public:
 

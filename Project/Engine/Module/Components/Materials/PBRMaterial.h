@@ -33,9 +33,7 @@ public:
 	void Update();
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 	void LoadMaterial(const std::string& directoryPath, const std::string& fileName);
 

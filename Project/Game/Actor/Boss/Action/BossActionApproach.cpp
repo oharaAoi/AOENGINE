@@ -7,7 +7,6 @@
 #include "Game/Actor/Boss/Action/BossActionShotgun.h"
 #include "Game/Actor/Boss/Action/BossActionShotBullet.h"
 
-#ifdef _DEBUG
 void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
 	ImGui::DragFloat("deceleration", &initParam_.deceleration, .1f);
@@ -22,7 +21,6 @@ void BossActionApproach::Debug_Gui() {
 		param_ = initParam_;
 	}
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

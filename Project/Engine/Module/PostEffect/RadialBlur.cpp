@@ -67,7 +67,6 @@ void RadialBlur::Stop(float stopTime) {
 	timer_ = 0.0f;
 }
 
-#ifdef _DEBUG
 void RadialBlur::Debug_Gui() {
 	if (ImGui::CollapsingHeader("RadialBlur")) {
 		ImGui::DragFloat2("center", &setting_->blurCenter.x, 0.1f);
@@ -78,4 +77,3 @@ void RadialBlur::Debug_Gui() {
 		setting_->blurCenter.Clamp(CVector2::ZERO, CVector2::UNIT);
 	}
 }
-#endif

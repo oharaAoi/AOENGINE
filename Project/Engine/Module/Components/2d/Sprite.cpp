@@ -249,7 +249,6 @@ void Sprite::FillAmount(float amount, int type) {
 // ↓　Debug表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void Sprite::Debug_Gui() {
 	if (ImGui::TreeNode("transform")) {
 		ImGui::DragFloat3("translation", &transform_.translate.x, 0.1f);
@@ -272,4 +271,3 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
 }
-#endif

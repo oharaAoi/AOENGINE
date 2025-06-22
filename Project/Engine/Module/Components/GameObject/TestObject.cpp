@@ -61,9 +61,6 @@ void TestObject::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
 	}
 }
 
-
-#ifdef _DEBUG
 void TestObject::Debug_Gui() {
 	BaseGameObject::Debug_Gui();
 }
-#endif

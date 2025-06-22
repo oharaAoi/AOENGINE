@@ -16,10 +16,8 @@ void LightGroup::Init(ID3D12Device* device) {
 	this->AddChild(directionalLight_.get());
 	this->AddChild(pointLight_.get());
 	this->AddChild(spotLight_.get());
-	
-#ifdef _DEBUG
+
 	EditorWindows::AddObjectWindow(this, "LightGroup");
-#endif
 }
 
 void LightGroup::Finalize() {
@@ -47,8 +45,6 @@ void LightGroup::Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandLis
 	spotLight_->Draw(commandList, index);
 }
 
-#ifdef _DEBUG
 void LightGroup::Debug_Gui() {
 
 }
-#endif // _DEBUG

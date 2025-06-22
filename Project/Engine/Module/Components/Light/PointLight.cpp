@@ -32,7 +32,6 @@ void PointLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 	BaseLight::Draw(commandList, rootParameterIndex);
 }
 
-#ifdef _DEBUG
 void PointLight::Debug_Gui() {
 	ImGui::ColorEdit4("color", &parameter_.color.x);
 	ImGui::DragFloat3("position", &parameter_.position.x, 0.1f);
@@ -53,4 +52,3 @@ void PointLight::Debug_Gui() {
 		parameter_.FromJson(JsonItems::GetData("Light", "pointLight"));
 	}
 }
-#endif

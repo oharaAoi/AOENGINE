@@ -58,11 +58,9 @@ public:
 	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
 	void ReservationAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
 
-#ifdef _DEBUG
 	void Debug_Gui();
 
 	std::string SelectAnimationName();
-#endif
 
 	// animationの時間を取得・設定
 	float GetAnimationTime() const { return animationTime_; }		// 取得

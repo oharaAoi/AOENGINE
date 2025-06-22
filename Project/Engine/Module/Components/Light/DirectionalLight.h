@@ -61,9 +61,7 @@ public:
 
 public:
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif
 
 	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }
 

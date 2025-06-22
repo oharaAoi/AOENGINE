@@ -8,7 +8,6 @@
 #include <vector>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
 template<typename T>
@@ -41,14 +40,12 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
-#ifdef _DEBUG
-	void ImGuiDraw();
+	void Debug_Gui();
 
 private:
 
 	void SelectTexture();
 
-#endif
 
 public:
 

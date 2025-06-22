@@ -1,6 +1,7 @@
 #pragma once
 // c++
 #include <string>
+#include <memory>
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 // engine
@@ -34,9 +35,7 @@ public:	// base
 	virtual void CheckNextAction() = 0;
 	virtual bool IsInput() = 0;
 
-#ifdef _DEBUG
 	void Debug_Gui() override {};
-#endif // _DEBUG
 
 	/// <summary>
 	/// 自身のアクションを削除する

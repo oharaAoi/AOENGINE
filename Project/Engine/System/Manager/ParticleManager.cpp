@@ -20,11 +20,9 @@ void ParticleManager::Finalize() {
 	emitterList_.clear();
 }
 
-#ifdef _DEBUG
 void ParticleManager::Debug_Gui() {
 	
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -36,9 +34,7 @@ void ParticleManager::Init() {
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(20000);
 
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "ParticleManager");
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

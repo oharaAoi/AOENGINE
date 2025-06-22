@@ -102,10 +102,9 @@ void PulseArmor::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void PulseArmor::Debug_Gui() {
 	worldTransform_->Debug_Gui();
-	material_->ImGuiDraw();
+	material_->Debug_Gui();
 
 	// dissolveに関する設定を行う
 	if (ImGui::CollapsingHeader("Setting")) {
@@ -134,7 +133,6 @@ void PulseArmor::Debug_Gui() {
 		setting_->threshold = std::clamp(setting_->threshold, 0.0f, 1.0f);
 	}
 }
-#endif
 
 void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
 	durability_ = _durability;

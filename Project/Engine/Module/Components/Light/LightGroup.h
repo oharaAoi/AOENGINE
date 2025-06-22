@@ -30,9 +30,7 @@ public:
 
 	void Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
 	
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif // _DEBUG
 
 public:
 

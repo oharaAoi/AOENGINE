@@ -14,7 +14,6 @@ void FollowCamera::Finalize() {
 // ↓ 編集
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void FollowCamera::Debug_Gui() {
 	ImGui::Text("stick.Length: %f", stick_.Length());
 	Vector3 pos = transform_.worldMat_.GetPosition();
@@ -57,7 +56,6 @@ void FollowCamera::Debug_Gui() {
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化

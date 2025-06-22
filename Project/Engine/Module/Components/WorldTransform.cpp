@@ -103,7 +103,6 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 // ↓　編集
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void WorldTransform::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Transform")) {
 		if (ImGui::TreeNode("scale")) {
@@ -130,7 +129,6 @@ void WorldTransform::Debug_Quaternion() {
 		rotation_ = Quaternion();
 	}
 }
-#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Setter系

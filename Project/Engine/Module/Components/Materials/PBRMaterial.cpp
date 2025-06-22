@@ -1,4 +1,5 @@
 #include "PBRMaterial.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 PBRMaterial::PBRMaterial() {}
 PBRMaterial::~PBRMaterial() { Finalize(); }
@@ -35,8 +36,6 @@ void PBRMaterial::Draw(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 }
 
-#ifdef _DEBUG
-#include "Engine/System/Manager/ImGuiManager.h"
 void PBRMaterial::Debug_Gui() {
 	if (ImGui::TreeNode("uvTramsform")) {
 		if (ImGui::TreeNode("scale")) {
@@ -57,7 +56,6 @@ void PBRMaterial::Debug_Gui() {
 	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
 	//ImGui::DragFloat("shininess", &pbrMaterial_->shininess, 0.1f);
 }
-#endif
 
 void PBRMaterial::SetMaterialData(Model::ModelMaterialData materialData) {
 	materials_ = materialData;

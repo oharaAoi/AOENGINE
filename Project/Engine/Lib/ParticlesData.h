@@ -153,7 +153,5 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "useTexture", useTexture);  // `damping` の変数名のスペルを修正
 	}
 
-#ifdef _DEBUG
 	void Attribute_Gui();
-#endif
 };

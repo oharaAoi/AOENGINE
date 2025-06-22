@@ -30,8 +30,6 @@ void EnergyOutput::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void EnergyOutput::Debug_Gui() {
 	BaseGaugeUI::Debug_Gui();
 }
-#endif

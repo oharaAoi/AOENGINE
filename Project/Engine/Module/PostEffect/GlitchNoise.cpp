@@ -60,7 +60,6 @@ void GlitchNoise::StartNoise(float startStrength, float time) {
 // ↓ Debug表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void GlitchNoise::Debug_Gui() {
 	if (ImGui::CollapsingHeader("GlitchNoise")) {
 		ImGui::DragFloat("time", &noiseTime_, 0.01f);
@@ -72,4 +71,3 @@ void GlitchNoise::Debug_Gui() {
 		}
 	}
 }
-#endif

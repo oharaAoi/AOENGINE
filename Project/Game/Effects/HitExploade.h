@@ -22,9 +22,7 @@ public:
 
 	void Set(const Vector3& pos, const Vector4& color, const std::string& useTexture);
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif // _DEBUG
 
 public:
 

@@ -45,8 +45,6 @@ void PostureStability::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void PostureStability::Debug_Gui() {
 	BaseGaugeUI::Debug_Gui();
 }
-#endif

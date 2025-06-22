@@ -26,7 +26,6 @@ void Player::Finalize() {
 	jet_ = nullptr;
 }
 
-#ifdef _DEBUG
 void Player::Debug_Gui() {
 	object_->GetTransform()->Debug_Gui();
 
@@ -62,8 +61,6 @@ void Player::Debug_Gui() {
 		}
 	}
 }
-
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化

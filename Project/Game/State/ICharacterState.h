@@ -24,9 +24,7 @@ public:
 	virtual void OnUpdate() = 0;
 	virtual void OnExit() = 0;
 
-#ifdef _DEBUG
 	virtual void Debug_Gui() override = 0;
-#endif
 
 	void SetOwner(OwnerType* owner) { pOwner_ = owner; }
 

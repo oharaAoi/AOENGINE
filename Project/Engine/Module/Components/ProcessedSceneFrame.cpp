@@ -48,7 +48,7 @@ void ProcessedSceneFrame::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootDescriptorTable(0, renderResource_->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
-#ifdef _DEBUG
+
 void ProcessedSceneFrame::DrawGui() {
 	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);  // アルファの影響を無効化
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
@@ -56,7 +56,7 @@ void ProcessedSceneFrame::DrawGui() {
 	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
 	ImGui::PopStyleVar();
 }
-#endif // _DEBUG
+
 void ProcessedSceneFrame::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
 	renderResource_->Transition(commandList, beforState, afterState);
 }

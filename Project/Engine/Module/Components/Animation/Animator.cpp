@@ -98,8 +98,6 @@ void Animator::TransitionAnimation(const std::string& afterAnimation, float blen
 	animationClip_->LerpAnimation(afterAnimation, blendSpeed);
 }
 
-#ifdef _DEBUG
 void Animator::Debug_Gui() {
 	animationClip_->Debug_Gui();
 }
-#endif

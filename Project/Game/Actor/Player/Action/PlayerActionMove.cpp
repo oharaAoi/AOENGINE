@@ -11,7 +11,6 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
-#ifdef _DEBUG
 void PlayerActionMove::Debug_Gui() {
 	ImGui::DragFloat("speed", &param_.speed, 0.1f);
 	ImGui::DragFloat("boostSpeed", &param_.boostSpeed, 0.1f);
@@ -22,7 +21,6 @@ void PlayerActionMove::Debug_Gui() {
 		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 	}
 }
-#endif // _DEBUG
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

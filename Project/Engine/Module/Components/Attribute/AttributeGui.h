@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
-#ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
-#endif
 
 /// <summary>
 /// ImGui描画をサポートするためのクラス
@@ -14,9 +12,7 @@ public:	// member method
 	AttributeGui() {};
 	virtual ~AttributeGui() { children_.clear(); };
 
-#ifdef _DEBUG
 	virtual void Debug_Gui() = 0;
-#endif
 
 public: 
 

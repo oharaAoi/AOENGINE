@@ -1,5 +1,6 @@
 #include "Material.h"
 #include "ImGuiFileDialog.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Utilities/Loader.h"
 
@@ -37,8 +38,7 @@ void Material::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
 }
 
-#ifdef _DEBUG
-void Material::ImGuiDraw() {
+void Material::Debug_Gui() {
 
 	if (ImGui::CollapsingHeader("Material")) {
 		if (ImGui::TreeNode("uvTramsform")) {
@@ -159,7 +159,6 @@ void Material::SelectTexture() {
 
 
 }
-#endif
 
 void Material::SetUseTexture(const std::string& name) {
 	materialsData_.textureFilePath = name;

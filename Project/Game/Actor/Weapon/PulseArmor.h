@@ -30,9 +30,7 @@ public:
 
 	void Draw() const;
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 public:
 

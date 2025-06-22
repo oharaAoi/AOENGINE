@@ -29,8 +29,6 @@ void BossHealthUI::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void BossHealthUI::Debug_Gui() {
 	BaseGaugeUI::Debug_Gui();
 }
-#endif

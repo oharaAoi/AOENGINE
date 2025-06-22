@@ -31,11 +31,9 @@ void Dissolve::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pi
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
-#ifdef _DEBUG
 void Dissolve::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Dissolve")) {
 		ImGui::DragFloat("threshold", &setting_->threshold, 0.01f);
 		setting_->threshold = std::clamp(setting_->threshold, 0.0f, 1.0f);
 	}
 }
-#endif

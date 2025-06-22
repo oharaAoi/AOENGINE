@@ -35,9 +35,7 @@ public:
 
 	virtual void PushBack() = 0;
 
-#ifdef _DEBUG
 	virtual void Debug_Gui() override = 0;
-#endif
 
 public:
 

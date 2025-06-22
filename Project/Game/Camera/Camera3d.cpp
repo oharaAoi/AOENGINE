@@ -11,9 +11,8 @@ void Camera3d::Init() {
 	BaseCamera::Init();
 
 	parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
-#ifdef _DEBUG
+
 	EditorWindows::AddObjectWindow(this, "camera3d");
-#endif // _DEBUG
 }
 
 void Camera3d::Update() {
@@ -25,7 +24,6 @@ void Camera3d::Update() {
 	Render::SetCameraRotate(transform_.rotate);
 }
 
-#ifdef _DEBUG
 void Camera3d::Debug_Gui() {
 	ImGui::DragFloat("near", &near_, 0.1f);
 	ImGui::DragFloat("far", &far_, 0.1f);
@@ -45,4 +43,3 @@ void Camera3d::Debug_Gui() {
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
-#endif

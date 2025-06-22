@@ -48,12 +48,9 @@ public:
 	/// <param name="afterAnimation"></param>
 	void TransitionAnimation(const std::string& afterAnimation, float blendSpeed);
 
-#ifdef _DEBUG
 	void Debug_Gui();
 
 	std::string SelectAnimationName() { return animationClip_->SelectAnimationName(); }
-
-#endif
 
 	Skinning* GetSkinning() { return skinning_.get(); }
 	Skeleton* GetSkeleton() { return skeleton_.get(); }

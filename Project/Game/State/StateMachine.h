@@ -21,10 +21,8 @@ public:
 		pOwner_ = pOwner;
 		functionChangeState_ = []() {};
 
-#ifdef _DEBUG
 		std::string machineName = pOwner->GetName() + "StateMachine";
 		EditorWindows::AddObjectWindow(this, machineName);
-#endif // _DEBUG
 	}
 
 	/// <summary>
@@ -71,9 +69,7 @@ public:
 
 	std::string GetActionName() { return state_->GetStateName(); }
 
-#ifdef _DEBUG
 	void Debug_Gui() override {};
-#endif
 
 private:
 	// 持ち主のポインタ

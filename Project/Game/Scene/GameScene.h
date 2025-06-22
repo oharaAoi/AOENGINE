@@ -39,10 +39,6 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-#ifdef _DEBUG
-	void Debug_Gui() override;
-#endif
-
 private:
 
 	// ------------------- camera ------------------- //

@@ -35,9 +35,7 @@ void Floor::Init() {
 
 	SceneRenderer::GetInstance()->ChangeRenderingType("Object_NormalEnviroment.json", floor_);
 
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
-#endif // _DEBUG
 }
 
 void Floor::Update() {
@@ -48,7 +46,5 @@ void Floor::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_NormalEnviroment.json");
 }
 
-#ifdef _DEBUG
 void Floor::Debug_Gui() {
 }
-#endif // _DEBUG

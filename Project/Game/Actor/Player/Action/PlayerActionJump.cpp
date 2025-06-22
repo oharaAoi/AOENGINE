@@ -6,7 +6,6 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
-#ifdef _DEBUG
 void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
 
@@ -26,7 +25,6 @@ void PlayerActionJump::Debug_Gui() {
 	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
 	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

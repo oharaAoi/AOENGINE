@@ -51,9 +51,7 @@ public:
 	/// <param name="commandList"></param>
 	void PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
 
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 public:
 

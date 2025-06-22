@@ -30,7 +30,6 @@ public:
 
 	void PostUpdate();
 
-#ifdef _DEBUG
 	void Debug_Draw();
 
 	void Debug_Gui() override;
@@ -38,7 +37,6 @@ public:
 	void Debug_Axis();
 
 	void SetObjectAxis(bool isAxis = true);
-#endif // _DEBUG
 
 	void SetObject(const std::string& objName);
 
@@ -119,9 +117,7 @@ protected:
 	// 他クラス情報
 	BaseGameObject* pParentObj_;
 
-#ifdef _DEBUG
 	bool isDebugAxis_;
 
 	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
-#endif // _DEBUG
 };

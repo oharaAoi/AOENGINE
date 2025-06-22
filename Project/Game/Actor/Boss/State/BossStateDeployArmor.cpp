@@ -20,7 +20,6 @@ void BossStateDeployArmor::OnUpdate() {
 void BossStateDeployArmor::OnExit() {
 }
 
-#ifdef _DEBUG
 void BossStateDeployArmor::Debug_Gui() {
 	ImGui::DragFloat("durability", &armorParam_.durability, 0.1f);
 	ImGui::DragFloat3("scale", &armorParam_.scale.x, 0.1f);
@@ -50,4 +49,3 @@ void BossStateDeployArmor::Debug_Gui() {
 
 	armor_->SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 }
-#endif

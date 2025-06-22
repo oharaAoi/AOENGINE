@@ -46,12 +46,6 @@ void TestScene::Init() {
 	particleManager_ = ParticleManager::GetInstance();
 	particleManager_->Init();
 
-	
-	
-#ifdef _DEBUG
-	//EditorWindows::AddObjectWindow(testObjA_.get(), "testAObj");
-#endif
-
 	// Manager -------------------------------------------------------------------
 
 	collisionManager_ = std::make_unique<CollisionManager>();
@@ -124,14 +118,3 @@ void TestScene::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 	ParticleManager::GetInstance()->Draw();
 }
-
-#ifdef _DEBUG
-void TestScene::Debug_Gui() {
-	ImGui::Checkbox("isDebug", &isDebugCamera_);
-
-	/*if (ImGui::Button("reserve")) {
-		testObjA_->GetAnimetor()->GetAnimationClip()->ReservationAnimation("slash", "attack2", 0.5f, raito_);
-	}*/
-	ImGui::DragFloat("raito", &raito_, 0.01f);
-}
-#endif

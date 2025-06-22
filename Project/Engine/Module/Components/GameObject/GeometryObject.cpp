@@ -45,16 +45,12 @@ void GeometryObject::Draw() const {
 }
 
 
-#ifdef _DEBUG
 void GeometryObject::Debug_Gui() {
-	material_->ImGuiDraw();
+	material_->Debug_Gui();
 }
-#endif
 
 void GeometryObject::SetEditorWindow() {
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, id_);
-#endif // _DEBUG
 }
 
 void GeometryObject::Init() {

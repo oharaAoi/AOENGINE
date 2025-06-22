@@ -61,9 +61,7 @@ public:
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
 
-#ifdef _DEBUG
 	void Debug_Gui(const std::string& name);
-#endif
 
 	/// <summary>
 	/// assimpでのNode解析

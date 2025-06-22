@@ -49,7 +49,6 @@ void BaseGaugeUI::Draw() const {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void BaseGaugeUI::Debug_Gui() {
 	ImGui::DragFloat2("Scale", &scale_.x, 0.1f);
 	ImGui::DragFloat2("CenterPos", &centerPos_.x, 0.1f);
@@ -58,4 +57,3 @@ void BaseGaugeUI::Debug_Gui() {
 	bg_->SetScale(scale_);
 	front_->SetScale(scale_);
 }
-#endif

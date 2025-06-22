@@ -50,7 +50,6 @@ void BossUIs::Draw() const {
 // ↓ 編集
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void BossUIs::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Health")) {
 		ImGui::DragFloat2("HealthScale", &uiItems_.healthScale.x, 0.1f);
@@ -73,4 +72,3 @@ void BossUIs::Debug_Gui() {
 		JsonItems::Save(GetName(), uiItems_.ToJson(uiItems_.GetName()));
 	}
 }
-#endif

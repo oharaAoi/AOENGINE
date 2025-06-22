@@ -32,9 +32,7 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
-#ifdef _DEBUG
 	void DrawGui();
-#endif // _DEBUG
 
 	/// <summary>
 	/// Resourceの状態を遷移させる

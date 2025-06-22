@@ -119,7 +119,6 @@ void HitExplode::Set(const Vector3& pos, const Vector4& color, const std::string
 	material_->SetUseTexture(useTexture);
 }
 
-#ifdef _DEBUG
 void HitExplode::Debug_Gui() {
 	ImGui::DragInt("index", &frameIndex);
 	ImGui::DragFloat("frameRate", &frameRate_);
@@ -134,9 +133,8 @@ void HitExplode::Debug_Gui() {
 	}
 	ImGui::Separator();
 	worldTransform_->Debug_Gui();
-	material_->ImGuiDraw();
+	material_->Debug_Gui();
 }
-#endif // _DEBUG
 
 void HitExplode::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
 	MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());

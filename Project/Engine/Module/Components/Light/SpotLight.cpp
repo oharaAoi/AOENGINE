@@ -37,7 +37,6 @@ void SpotLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& roo
 	BaseLight::Draw(commandList, rootParameterIndex);
 }
 
-#ifdef _DEBUG
 void SpotLight::Debug_Gui() {
 	ImGui::ColorEdit4("color", &parameter_.color.x);
 	ImGui::DragFloat3("position", &parameter_.position.x, 0.1f);
@@ -73,4 +72,3 @@ void SpotLight::Debug_Gui() {
 		parameter_.FromJson(JsonItems::GetData("Light", "spotLight"));
 	}
 }
-#endif

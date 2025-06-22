@@ -66,9 +66,7 @@ public:
 	void Init() override;
 	void Update() override;
 
-#ifdef _DEBUG
 	void Debug_Gui() override;
-#endif
 
 private:	// private method
 

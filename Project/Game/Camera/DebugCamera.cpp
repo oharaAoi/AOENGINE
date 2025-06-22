@@ -23,10 +23,8 @@ void DebugCamera::Init() {
 	isFocused_ = true;
 
 	isActive_ = false;
-	
-#ifdef _DEBUG
+
 	EditorWindows::AddObjectWindow(this, "debugCamera");
-#endif // _DEBUG
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +47,6 @@ void DebugCamera::Update() {
 	Render::SetCameraRotate(transform_.rotate);
 }
 
-#ifdef _DEBUG
 void DebugCamera::Debug_Gui() {
 	ImGui::Checkbox("isActive", &isActive_);
 	Vector3 right = moveRotate_.MakeRight();
@@ -70,7 +67,6 @@ void DebugCamera::Debug_Gui() {
 		pitch_ = 0.0f;
 	}
 }
-#endif
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　xy軸方向移動

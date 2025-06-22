@@ -40,9 +40,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	AddEffect(PostEffectType::GLITCHNOISE);
 	//AddEffect(PostEffectType::DISSOLVE);
 
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "Post Process");
-#endif
 }
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
@@ -150,11 +148,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	}
 }
 
-#ifdef _DEBUG
 void PostProcess::Debug_Gui() {
 	radialBlur_->Debug_Gui();
 	glitchNoise_->Debug_Gui();
 	vignette_->Debug_Gui();
 	dissolve_->Debug_Gui();
 }
-#endif

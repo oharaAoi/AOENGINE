@@ -57,13 +57,7 @@ public:
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
 
-	//======================================================
-	// 
-	//======================================================
-
-#ifdef _DEBUG
 	void Debug_Gui();
-#endif
 
 	void SetEyePos(const Vector3& pos) { pointLightData_->eyePos = pos; }
 

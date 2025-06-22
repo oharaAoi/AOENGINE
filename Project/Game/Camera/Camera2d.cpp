@@ -33,7 +33,6 @@ void Camera2d::Update() {
 // ↓　編集処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
 void Camera2d::Debug_Gui() {
 	ImGui::DragFloat("near", &near_, 0.1f);
 	ImGui::DragFloat("far", &far_, 0.1f);
@@ -41,4 +40,3 @@ void Camera2d::Debug_Gui() {
 
 	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(kWindowWidth_), float(kWindowHeight_), near_, far_);
 }
-#endif // _DEBUG

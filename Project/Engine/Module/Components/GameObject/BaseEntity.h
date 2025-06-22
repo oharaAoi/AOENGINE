@@ -14,9 +14,7 @@ public:
 	BaseEntity() = default;
 	virtual ~BaseEntity() = default;
 
-#ifdef _DEBUG
 	virtual void Debug_Gui() override = 0;
-#endif // _DEBUG
 
 public:	// accessor method
 

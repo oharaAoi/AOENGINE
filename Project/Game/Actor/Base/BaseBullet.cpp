@@ -25,7 +25,5 @@ void BaseBullet::Reset(const Vector3& pos, const Vector3& velocity) {
 	velocity_ = velocity;
 }
 
-#ifdef _DEBUG
 void BaseBullet::Debug_Gui() {
 }
-#endif // _DEBUG

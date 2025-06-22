@@ -56,9 +56,7 @@ void SphereCollider::PushBack() {
 	pWorldTransform_->Translate(pushbackDire_);
 }
 
-#ifdef _DEBUG
 void SphereCollider::Debug_Gui() {
 	ImGui::DragFloat3("translate", &localSRT_.translate.x, 0.1f);
 	ImGui::DragFloat("radius", &std::get<Sphere>(shape_).radius, 0.1f);
 }
-#endif

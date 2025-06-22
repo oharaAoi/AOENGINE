@@ -145,8 +145,6 @@ void BaseParticles::Reset() {
 	isStop_ = false;
 }
 
-
-#ifdef _DEBUG
 void BaseParticles::Debug_Gui() {
 	if (ImGui::Button("Reset")) {
 		Reset();
@@ -158,7 +156,7 @@ void BaseParticles::Debug_Gui() {
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Material")) {
 		ImGui::Text("Particle Parameters");
-		shareMaterial_->ImGuiDraw();
+		shareMaterial_->Debug_Gui();
 	}
 	emitter_.useTexture = shareMaterial_->GetUseTexture();
 
@@ -169,7 +167,6 @@ void BaseParticles::Debug_Gui() {
 		emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
 	}
 }
-#endif
 
 void BaseParticles::SetParent(const Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
