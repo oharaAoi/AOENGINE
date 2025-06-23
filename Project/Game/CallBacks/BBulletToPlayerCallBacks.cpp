@@ -10,7 +10,6 @@ void BBulletToPlayerCallBacks::Init() {
 }
 
 void BBulletToPlayerCallBacks::Update() {
-	hitEffect_->Update();
 }
 
 void BBulletToPlayerCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player) {

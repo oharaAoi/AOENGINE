@@ -40,6 +40,8 @@ void PlayerActionQuickBoost::Build() {
 
 	boostParticle_ = ParticleManager::GetInstance()->CrateParticle("QuickBoost");
 	boostParticle_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
+	boostParticle_->SetIsStop(true);
+	boostParticle_->SetLoop(false);
 
 	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
@@ -73,7 +75,6 @@ void PlayerActionQuickBoost::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnUpdate() {
-	boostParticle_->Update();
 	Boost();
 }
 

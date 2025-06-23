@@ -39,7 +39,6 @@ private:
 
 	// effects -------------------------------------------------
 	BaseParticles* jetBurn_;
-	BaseParticles* jetBornParticles_;
 	BaseParticles* jetEnergyParticles_;
 
 	std::unique_ptr<GeometryObject> cylinder_;

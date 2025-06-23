@@ -15,7 +15,6 @@
 // sprite
 #include "Game/UI/CanvasUI.h"
 #include "Game/UI/Reticle.h"
-#include "Engine/System/Manager/ParticleManager.h"
 // manager
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
@@ -52,7 +51,6 @@ private:
 	std::unique_ptr<Skybox> skybox_;
 	std::unique_ptr<PlayerManager> playerManager_;
 	std::unique_ptr<BossRoot> bossRoot_;
-	std::unique_ptr<HitExplode> hitExploade_;
 
 	// ------------------- collision ------------------- //
 	std::unique_ptr<CollisionManager> collisionManager_;
@@ -62,11 +60,6 @@ private:
 	// ------------------- sprite ------------------- //
 	std::unique_ptr<CanvasUI> canvas_;
 
-	ParticleManager* particleManager_;
-
 	SceneLoader* sceneLoader_;
 	SceneRenderer* sceneRenderer_;
-
-	std::unique_ptr<GeometryObject> sphere_;
-	std::unique_ptr<GeometryObject> cylinder_;
 };

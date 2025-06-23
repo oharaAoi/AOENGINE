@@ -12,6 +12,8 @@ void SceneRenderer::Finalize() {
 		pair.object->Finalize();
 	}
 	objectList_.clear();
+
+	particleManager_->Finalize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +22,9 @@ void SceneRenderer::Finalize() {
 
 void SceneRenderer::Init() {
 	objectList_.clear();
+
+	particleManager_ = ParticleManager::GetInstance();
+	particleManager_->Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +50,8 @@ void SceneRenderer::Update() {
 			pair.object->Update();
 		}
 	}
+
+	particleManager_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +65,8 @@ void SceneRenderer::Draw() const {
 			pair.object->Draw();
 		}
 	}
+
+	particleManager_->Draw();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

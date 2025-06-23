@@ -8,7 +8,6 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { Finalize(); }
 
 void GameScene::Finalize() {
-	particleManager_->Finalize();
 	sceneRenderer_->Finalize();
 }
 
@@ -41,12 +40,6 @@ void GameScene::Init() {
 	followCamera_->Init();
 	debugCamera_->Init();
 	camera2d_->Init();
-
-	// -------------------------------------------------
-	// ↓ Particleの初期化
-	// -------------------------------------------------
-	particleManager_ = ParticleManager::GetInstance();
-	particleManager_->Init();
 	
 	// -------------------------------------------------
 	// ↓ actorの初期化
@@ -67,17 +60,6 @@ void GameScene::Init() {
 
 	bossRoot_ = std::make_unique<BossRoot>();
 	bossRoot_->Init();
-
-	cylinder_ = std::make_unique<GeometryObject>();
-	cylinder_->Set<CylinderGeometry>(32, 1.f, 2.f, 2.f);
-	//cylinder_->SetEditorWindow();
-
-	sphere_ = std::make_unique<GeometryObject>();
-	sphere_->Set<SphereGeometry>();
-	sphere_->SetEditorWindow();
-
-	hitExploade_ = std::make_unique<HitExplode>();
-	hitExploade_->Init();
 
 	// -------------------------------------------------
 	// ↓ managerの初期化
@@ -131,11 +113,6 @@ void GameScene::Update() {
 	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetGameObject()->GetPosition());
 	bossRoot_->Update();
 
-	cylinder_->Update();
-	sphere_->Update();
-
-	hitExploade_->Update();
-
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------
@@ -154,9 +131,6 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ particleの更新 
 	// -------------------------------------------------
-	particleManager_->Update();
-	particleManager_->SetView(followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
-	particleManager_->PostUpdate();
 
 	sceneRenderer_->Update();
 
@@ -169,20 +143,10 @@ void GameScene::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Draw() const {
-	Engine::SetPSOPrimitive();
-	/*if (debugCamera_->GetIsActive()) {
-		DrawGrid(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
-	} else {
-		DrawGrid(followCamera_->GetViewMatrix(), followCamera_->GetProjectionMatrix());
-	}*/
-
 	skybox_->Draw();
 
 	// Sceneの描画
 	sceneRenderer_->Draw();
-
-	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
-	ParticleManager::GetInstance()->Draw();
 
 	gameCallBacksManager_->Draw();
 

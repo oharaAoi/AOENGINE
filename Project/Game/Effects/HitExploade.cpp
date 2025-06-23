@@ -35,16 +35,6 @@ void HitExplode::Init() {
 	Vector2 uvScale = Vector2(1.0f / columns, 1.0f / rows);
 	material_->SetUvScale(Vector3(uvScale.x, uvScale.y, 0.1f));
 
-	/*if (blendMode_ == 1) {
-		SceneRenderer::GetInstance()->SetObject(Object3dPSO::TextureBlendNone, this);
-
-	} else if(blendMode_ == 2) {
-		SceneRenderer::GetInstance()->SetObject(Object3dPSO::TextureBlendNormal, this);
-
-	} else if (blendMode_ == 3) {
-		SceneRenderer::GetInstance()->SetObject(Object3dPSO::TextureBlendAdd, this);
-	}
-	*/
 	currentTimer_ = 0.0f;
 	frameRate_ = 40.0f;
 

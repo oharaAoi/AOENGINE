@@ -6,10 +6,10 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class HitExplode :
-	public BaseEntity {
+	public AttributeGui {
 public:
 
 	HitExplode() = default;

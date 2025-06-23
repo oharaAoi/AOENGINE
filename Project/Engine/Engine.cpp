@@ -102,15 +102,10 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 void Engine::Finalize() {
 	postProcess_->Finalize();
-
 	audio_->Finalize();
-
 	processedSceneFrame_->Finalize();
-
 	computeShader_->Finalize();
-	
 	render_->Finalize();
-
 	input_->Finalize();
 
 #ifdef _DEBUG
@@ -118,11 +113,8 @@ void Engine::Finalize() {
 	imguiManager_->Finalize();
 #endif
 	textureManager_->Finalize();
-
 	graphicsCxt_->Finalize();
-
 	winApp_->Finalize();
-
 	CoUninitialize();
 }
 
@@ -185,9 +177,6 @@ void Engine::RenderFrame() {
 	
 	primitivePipeline_->Draw(dxCmdList_);
 	Render::PrimitiveDrawCall();
-
-	/*Engine::SetPSOObj(Object3dPSO::Particle);
-	ParticleManager::GetInstance()->Draw();*/
 
 	// 最終Textureの作成
 	BlendFinalTexture();

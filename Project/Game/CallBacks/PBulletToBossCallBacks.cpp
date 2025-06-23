@@ -15,10 +15,6 @@ void PBulletToBossCallBacks::Init() {
 }
 
 void PBulletToBossCallBacks::Update() {
-	hitBossSmoke_->Update();
-	hitBossSmokeBorn_->Update();
-	hitSmoke_->Update();
-	//hitBossExploadParticles_->Update();
 
 	for (auto it = hitExplodeList_.begin(); it != hitExplodeList_.end(); ) {
 		if (!it->get()->GetIsAlive()) {
@@ -63,7 +59,6 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	//hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
 	hitBossSmoke_->SetPos(bullet->GetCenterPos());
 	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
-	
 
 	//hitBossExploadParticles_->SetOnShot(true);
 	hitBossSmoke_->SetIsStop(false);

@@ -29,11 +29,9 @@ void JetEngine::Init() {
 	// effectの設定
 	ParticleManager* manager = ParticleManager::GetInstance();
 	jetBurn_ = manager->CrateParticle("JetBorn");
-	jetBornParticles_ = manager->CrateParticle("JetBornParticle");
 	jetEnergyParticles_ = manager->CrateParticle("JetEnergyParticles");
 
 	jetBurn_->SetParent(transform_->GetWorldMatrix());
-	jetBornParticles_->SetParent(transform_->GetWorldMatrix());
 	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());
 
 	cylinder_ = std::make_unique<GeometryObject>();
@@ -55,10 +53,6 @@ void JetEngine::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Update() {
-	jetBurn_->Update();
-	//jetBornParticles_->Update();
-	jetEnergyParticles_->Update();
-
 	cylinder_->Update();
 
 	jetEngineBurn_->Update();

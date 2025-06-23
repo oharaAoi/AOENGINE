@@ -47,7 +47,7 @@ public:
 
 	void PostUpdate();
 
-	void Draw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
+	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
 public:
 

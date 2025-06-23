@@ -62,15 +62,14 @@ void ParticleSystemEditor::Update() {
 	// particleの更新
 	ParticlesUpdate();
 	// particleをRendererに送る
+	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	for (auto& particle : particlesMap_) {
 		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
 	}
 
+	particleRenderer_->PostUpdate();
 	// カメラの更新
 	camera_->Update();
-
-	particleRenderer_->PostUpdate();
-	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 
 	Create();
 	Edit();
@@ -84,8 +83,7 @@ void ParticleSystemEditor::Update() {
 void ParticleSystemEditor::Draw() {
 #ifdef _DEBUG
 	PreDraw();
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	particleRenderer_->Draw(commandList_, pso);
+	particleRenderer_->Draw(commandList_);
 	PostDraw();
 #endif // _DEBUG
 }

@@ -42,16 +42,19 @@ void ParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Update() {
+	this->SetView(Render::GetViewProjectionMat(), Matrix4x4::MakeUnit());
+
 	ParticlesUpdate();
 
-
+	for (auto& emitter : emitterList_) {
+		emitter->Update();
+	}
 
 	for (auto & particles : particlesMap_) {
 		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.isAddBlend);
 	}
-	/*for (auto& emitter : emitterList_) {
-		particleRenderer_->Update(emitter->GetName(), emitter->GetData());
-	}*/
+
+	PostUpdate();
 }
 
 void ParticleManager::ParticlesUpdate() {
@@ -140,8 +143,7 @@ void ParticleManager::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Draw() const {
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList(), pso);
+	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

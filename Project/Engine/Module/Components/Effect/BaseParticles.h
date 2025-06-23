@@ -53,6 +53,8 @@ public:
 
 	bool GetIsAddBlend() const {return emitter_.isParticleAddBlend;}
 
+	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
+
 protected:
 
 	// 最大数

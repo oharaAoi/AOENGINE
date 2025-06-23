@@ -47,8 +47,6 @@ void BossMissile::Update() {
 	}
 
 	BaseBullet::Update();
-	burn_->Update();
-	smoke_->Update();
 }
 
 

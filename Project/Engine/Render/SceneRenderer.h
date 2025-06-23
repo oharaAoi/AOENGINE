@@ -2,8 +2,7 @@
 #include <utility>
 #include <memory>
 #include <list>
-#include <unordered_map>
-#include "Engine/DirectX/Pipeline/PipelineGroup/Object3dPipelines.h"
+#include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/System/Scene/SceneLoader.h"
 
@@ -11,7 +10,7 @@
 /// Sceneのレンダリングを行うクラス
 /// </summary>
 class SceneRenderer {
-public:
+public:	// 構造体データ
 
 	struct ObjectPair {
 		std::string renderingType;
@@ -39,12 +38,33 @@ public:
 
 	void Draw() const;
 
+public:
+
+	/// <summary>
+	/// Objectを生成する
+	/// </summary>
+	/// <param name="loadData">: 生成データ</param>
 	void CreateObject(const SceneLoader::LevelData* loadData);
 
+	/// <summary>
+	/// Objectを追加する
+	/// </summary>
+	/// <param name="objectName">: 追加するobjectの名前</param>
+	/// <param name="renderingName">: レンダリングの種類の名前</param>
+	/// <returns></returns>
 	BaseGameObject* AddObject(const std::string& objectName, const std::string& renderingName);
 
+	/// <summary>
+	/// Objectを解放する
+	/// </summary>
+	/// <param name="objPtr">: 解放するobjectの種類</param>
 	void ReleaseObject(BaseGameObject* objPtr);
 
+	/// <summary>
+	/// Renderingのタイプを変更する
+	/// </summary>
+	/// <param name="renderingName">: 変更後のレンダリングのタイプ</param>
+	/// <param name="gameObject">: 変更するobjectのポインタ</param>
 	void ChangeRenderingType(const std::string& renderingName, BaseGameObject* gameObject);
 
 public:
@@ -54,6 +74,8 @@ public:
 private:
 
 	std::list<ObjectPair> objectList_;
+
+	ParticleManager* particleManager_;
 
 };
 
