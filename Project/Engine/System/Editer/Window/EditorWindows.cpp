@@ -28,6 +28,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 	openParticleEditor_ = false;
 	colliderDraw_ = false;
+	gridDraw_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +38,12 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 void EditorWindows::Update() {
 	// 現在選択されているwindowを描画する
 	windowUpdate_();
+
+	float fps = 1.0f / GameTimer::DeltaTime();
+	ImGui::Text("%f fps", fps);
+	ImGui::Text("%f m/s", GameTimer::DeltaTime() * 1000.0f);
+
+	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +108,7 @@ void EditorWindows::Begin() {
 	}
 	ImGui::End();
 
+	// 一番上のbegineの分
 	ImGui::End();
 
 }
@@ -123,7 +131,6 @@ void EditorWindows::GameWindow() {
 	if (ImGui::Begin("Game Window", nullptr)) {
 		processedSceneFrame_->DrawGui();
 	}
-	ImGui::End();
 
 	gameObjectWindow_->Edit();
 }
@@ -137,7 +144,6 @@ void EditorWindows::ParticleEditorWindow() {
 		particleSystemEditor_->Update();
 		particleSystemEditor_->Draw();
 	}
-	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,9 +164,15 @@ void EditorWindows::DebugItemWindow() {
 		ImVec2 iconSize(16, 16);
 		D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
 		D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE skipHandle = tex->GetDxHeapHandles("skip.png").handleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE colliderHandle = tex->GetDxHeapHandles("collider.png").handleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE gridHandle = tex->GetDxHeapHandles("grid.png").handleGPU;
 
 		ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
 		ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
+		ImTextureID skipTex = reinterpret_cast<ImTextureID>(skipHandle.ptr);
+		ImTextureID colliderTex = reinterpret_cast<ImTextureID>(colliderHandle.ptr);
+		ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
 
 		static bool isPlaying = true;  // トグル状態を保持
 		ImTextureID icon = isPlaying ? pauseTex : playTex;
@@ -168,12 +180,62 @@ void EditorWindows::DebugItemWindow() {
 			isPlaying = !isPlaying;
 		}
 		GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
-
 		ImGui::SameLine();
-		// colliderの描画チェック
-		ImGui::Checkbox("colliderDraw", &colliderDraw_);
+
+		bool pushButton = false;
+		// -------------------------------------------------
+		// ↓ skipの描画チェック
+		// -------------------------------------------------
+
+		if (isPlaying) {
+			pushButton = PushStyleColor(true, Vector4(34.0f, 34.0f, 32.0f, 255.0f));
+		} else {
+			pushButton = PushStyleColor(false, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+		}
+		if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
+			GameTimer::SetTimeScale(1.0f);  // 再生・停止
+		}
+		PopStyleColor(pushButton);
+		ImGui::SameLine();
+
+		// -------------------------------------------------
+		// ↓ colliderの描画チェック
+		// -------------------------------------------------
+		pushButton = PushStyleColor(colliderDraw_, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+		if (ImGui::ImageButton("##collider", colliderTex, iconSize)) {
+			colliderDraw_ = !colliderDraw_;  // 状態トグル
+		}
+		PopStyleColor(pushButton);
+		ImGui::SameLine();
+
+		// -------------------------------------------------
+		// ↓ gridの描画チェック
+		// -------------------------------------------------
+		pushButton = PushStyleColor(gridDraw_, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+		if (ImGui::ImageButton("##grid", gridTex, iconSize)) {
+			gridDraw_ = !gridDraw_;  // 状態トグル
+		}
+		PopStyleColor(pushButton);
 	}
 	ImGui::End();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ButtonColorの変更
+//////////////////////////////////////////////////////////////////////////////////////////////////
+bool EditorWindows::PushStyleColor(bool _flag, const Vector4& color) {
+	bool isChangeColor = false;
+	if (_flag) {
+		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f)); // 背景色
+		isChangeColor = true;
+	}
+
+	return isChangeColor;
+}
+void EditorWindows::PopStyleColor(bool _flag) {
+	if (_flag) {
+		ImGui::PopStyleColor(1);
+	}
 }
 #endif 
 

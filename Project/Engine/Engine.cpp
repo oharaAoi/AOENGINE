@@ -178,6 +178,10 @@ void Engine::RenderFrame() {
 	if (editorWindows_->GetColliderDraw()) {
 		ColliderCollector::GetInstance()->Draw();
 	}
+
+	if (editorWindows_->GetGridDraw()) {
+		DrawGrid(render_->GetViewport3D(), render_->GetProjection3D());
+	}
 	
 	primitivePipeline_->Draw(dxCmdList_);
 	Render::PrimitiveDrawCall();

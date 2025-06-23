@@ -32,13 +32,9 @@ void GameCore::Init() {
 void GameCore::Update() {
 	AoiFramework::Update();
 
-#ifdef _DEBUG
-	if (Engine::GetRunGame()) {
-		sceneManger_->Update();
-	}
-	Debug_Gui();
-#else 
 	sceneManger_->Update();
+#ifdef _DEBUG
+	sceneManger_->Debug_Gui();
 #endif
 	Render::Update();
 }
@@ -48,13 +44,7 @@ void GameCore::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameCore::Draw() {
-#ifdef _DEBUG
-	if (Engine::GetRunGame()) {
-		sceneManger_->Draw();
-	}
-#else 
 	sceneManger_->Draw();
-#endif
 	
 	Engine::EndFrame();
 	// fpsの計算
@@ -67,6 +57,4 @@ void GameCore::Draw() {
 
 void GameCore::Debug_Gui() {
 	sceneManger_->Debug_Gui();
-
-	gameTimer_.Debug();
 }

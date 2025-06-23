@@ -15,8 +15,6 @@ public:
 
 	void CalculationFrame();
 
-	void Debug();
-
 	static float DeltaTime() { return deletaTime_; }
 	static float TotalTime(){ return totalTime_; }
 	static float TimeRate() { return timeRate_; }

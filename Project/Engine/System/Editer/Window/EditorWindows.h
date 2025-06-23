@@ -54,6 +54,10 @@ public:
 	/// </summary>
 	void DebugItemWindow();
 
+	bool PushStyleColor(bool _flag, const Vector4& color);
+
+	void PopStyleColor(bool _flag);
+
 #endif 
 
 public:
@@ -63,6 +67,10 @@ public:
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
 	bool GetColliderDraw() const { return colliderDraw_; };
+
+	bool GetOpenParticleEditor() const { return openParticleEditor_; }
+
+	bool GetGridDraw() const { return gridDraw_; }
 
 private:
 
@@ -78,9 +86,9 @@ private:
 
 	std::function<void()> windowUpdate_;
 
+	// editorで使用するフラグ
 	bool openParticleEditor_;
-
 	bool colliderDraw_;
+	bool gridDraw_;
 
 };
-
