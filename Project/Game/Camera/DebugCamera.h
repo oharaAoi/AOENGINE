@@ -41,6 +41,8 @@ private:
 
 private:
 
+	const float kCameraDeltaTime_ = 1.0f / GameTimer::fps_;
+
 	Quaternion moveRotate_;
 	// 回転する前のQuaternion
 	Quaternion preMoveRotate_;

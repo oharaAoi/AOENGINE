@@ -106,7 +106,7 @@ void DebugCamera::TransitionMove() {
 		moveSpeed_ = moveBaseSpeed_;
 	}
 	
-	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
+	transform_.translate += moveDirection_ * kCameraDeltaTime_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -119,11 +119,11 @@ void DebugCamera::RotateMove() {
 		Vector2 dire = Input::GetMousePosition() - preMousePos_;
 
 		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
-		yaw_ += dire.x * sensitivity_ * GameTimer::DeltaTime();
+		yaw_ += dire.x * sensitivity_ * kCameraDeltaTime_;
 		qYaw = Quaternion::AngleAxis(yaw_, Vector3(0.0f, 1.0f, 0.0f)).Normalize();
 
 		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
-		pitch_ += dire.y * sensitivity_ * GameTimer::DeltaTime();
+		pitch_ += dire.y * sensitivity_ * kCameraDeltaTime_;
 		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
 		// 回転合成
