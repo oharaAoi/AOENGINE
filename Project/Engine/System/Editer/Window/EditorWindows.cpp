@@ -190,7 +190,7 @@ void EditorWindows::DebugItemWindow() {
 		if (isPlaying) {
 			pushButton = PushStyleColor(true, Vector4(34.0f, 34.0f, 32.0f, 255.0f));
 		} else {
-			pushButton = PushStyleColor(false, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+			pushButton = PushStyleColor(false, Vector4(25, 25, 112, 255.0f));
 		}
 		if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
 			GameTimer::SetTimeScale(1.0f);  // 再生・停止
@@ -201,7 +201,7 @@ void EditorWindows::DebugItemWindow() {
 		// -------------------------------------------------
 		// ↓ colliderの描画チェック
 		// -------------------------------------------------
-		pushButton = PushStyleColor(colliderDraw_, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+		pushButton = PushStyleColor(colliderDraw_, Vector4(25, 25, 112, 255.0f));
 		if (ImGui::ImageButton("##collider", colliderTex, iconSize)) {
 			colliderDraw_ = !colliderDraw_;  // 状態トグル
 		}
@@ -211,7 +211,7 @@ void EditorWindows::DebugItemWindow() {
 		// -------------------------------------------------
 		// ↓ gridの描画チェック
 		// -------------------------------------------------
-		pushButton = PushStyleColor(gridDraw_, Vector4(0.0f, 0.0f, 139.0f, 255.0f));
+		pushButton = PushStyleColor(gridDraw_, Vector4(25, 25, 112, 255.0f));
 		if (ImGui::ImageButton("##grid", gridTex, iconSize)) {
 			gridDraw_ = !gridDraw_;  // 状態トグル
 		}
