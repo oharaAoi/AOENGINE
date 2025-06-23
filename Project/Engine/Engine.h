@@ -78,13 +78,7 @@ namespace {
 
 	bool isFullScreen_;
 
-	bool isEffectEditer_;
-
 	bool runGame_;
-
-	bool openParticleEditer_ = false;	// 後で直す
-
-	bool isColliderDraw_ = true;
 
 	Pipeline* lastUsedPipeline_;
 }
@@ -228,8 +222,6 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 苦肉の策
 	/////////////////////////////////////////////////////////////////////////////////////////////
-
-	static bool GetIsOpenEffectEditer();
 
 	static bool GetRunGame();
 

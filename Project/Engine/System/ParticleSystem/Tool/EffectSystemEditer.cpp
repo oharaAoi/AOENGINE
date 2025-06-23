@@ -105,9 +105,9 @@ void EffectSystemEditer::Draw() const {
 	Render::PrimitiveDrawCall();
 
 	// 最後にImGui上でEffectを描画する
+	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
 	renderTarget_->TransitionResource(dxCmdList_, EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(20, 30)); // 描画位置を設定
 	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
 
 

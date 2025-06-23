@@ -209,7 +209,7 @@ void CpuParticles::Debug_Gui() {
 	ImGui::Separator();
 	if (ImGui::CollapsingHeader("Material")) {
 		ImGui::Text("Particle Parameters");
-		shape_->GetMaterial()->ImGuiDraw();
+		shape_->GetMaterial()->Debug_Gui();
 	}
 	emitter_.useTexture = shape_->GetMaterial()->GetUseTexture();
 

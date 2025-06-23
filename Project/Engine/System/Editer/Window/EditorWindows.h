@@ -24,6 +24,9 @@ public:
 #ifdef _DEBUG
 	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
 	/// <summary>
@@ -45,6 +48,12 @@ public:
 	/// ParticleEditorの描画
 	/// </summary>
 	void ParticleEditorWindow();
+
+	/// <summary>
+	/// Debug機能を描画するWindow
+	/// </summary>
+	void DebugItemWindow();
+
 #endif 
 
 public:
@@ -52,6 +61,8 @@ public:
 	static void AddObjectWindow(AttributeGui* attribute, const std::string& label);
 
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
+
+	bool GetColliderDraw() const { return colliderDraw_; };
 
 private:
 
@@ -68,6 +79,8 @@ private:
 	std::function<void()> windowUpdate_;
 
 	bool openParticleEditor_;
+
+	bool colliderDraw_;
 
 };
 

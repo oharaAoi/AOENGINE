@@ -63,14 +63,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
 	computeShader_->Init(dxDevice_, graphicsCxt_->GetDxCompiler(), dxHeap_, graphicsCxt_->GetRenderTarget()->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
 	processedSceneFrame_->Init(dxDevice_, dxHeap_);
-	audio_->Init();
-	effectSystem_->Init();
 
-	postProcess_->Init(dxDevice_, dxHeap_);
-
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
 
 #ifdef _DEBUG
 	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
@@ -81,6 +75,14 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	EffectSystem::GetInstacne()->EditerInit(renderTarget_, dxHeap_, dxCmdList_, dxDevice_);
 #endif
 
+	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
+	audio_->Init();
+	effectSystem_->Init();
+
+	postProcess_->Init(dxDevice_, dxHeap_);
+
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
 
@@ -88,10 +90,8 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	// ↓ その他初期化
 	// -------------------------------------------------
 	isFullScreen_ = false;
-	isEffectEditer_ = true;
 	runGame_ = true;
-	isColliderDraw_ = false;
-
+	
 	Logger::Log("Engine Initialize compulete!\n");
 }
 
@@ -110,7 +110,6 @@ void Engine::Finalize() {
 	computeShader_->Finalize();
 	
 	render_->Finalize();
-
 
 	input_->Finalize();
 
@@ -176,7 +175,7 @@ void Engine::EndFrame() {
 
 void Engine::RenderFrame() {
 	// gameで使用したlineの描画を開始する
-	if (isColliderDraw_) {
+	if (editorWindows_->GetColliderDraw()) {
 		ColliderCollector::GetInstance()->Draw();
 	}
 	
@@ -381,10 +380,6 @@ bool Engine::GetIsPlaying(const AudioData& soundData) {
 
 void Engine::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	audio_->SinglShotPlay(loadAudioData, volume);
-}
-
-bool Engine::GetIsOpenEffectEditer() {
-	return isEffectEditer_;
 }
 
 bool Engine::GetRunGame() {

@@ -22,7 +22,14 @@ GameTimer::~GameTimer() {
 
 void GameTimer::CalculationFrame() {
 	auto currentTime = std::chrono::steady_clock::now();
-	deletaTime_ = std::chrono::duration<float>(currentTime - preFrameTime_).count();
+	auto duration = std::chrono::duration<float>(currentTime - preFrameTime_).count();
+
+	// deltaTimeが一定超えないように
+	if (duration > 1.0f) {
+		duration = kDeltaTime_; 
+	}
+
+	deletaTime_ = duration * timeScale_;
 	timeRate_ = deletaTime_ / kDeltaTime_;
 	totalTime_ += deletaTime_;
 
@@ -35,25 +42,6 @@ void GameTimer::Debug() {
 	float fps = 1.0f / deletaTime_;
 	ImGui::Text("%f fps", fps);
 	ImGui::Text("%f m/s", deletaTime_ * 1000.0f);
-
-	TextureManager* tex = TextureManager::GetInstance();
-	ImVec2 iconSize(16, 16);
-	D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
-	D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;
-
-	ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
-	ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
-
-	if (ImGui::ImageButton("play", playTex, iconSize)) {
-		// 再生処理
-		timeScale_ = 1.0f;
-	}
-	ImGui::SameLine();
-	if (ImGui::ImageButton("pause", pauseTex, iconSize)) {
-		// 一時停止処理
-		timeScale_ = 0.0f;
-	}
-
 	ImGui::End();
 #endif
 }

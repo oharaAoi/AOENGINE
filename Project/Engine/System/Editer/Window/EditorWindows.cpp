@@ -27,6 +27,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 
 	openParticleEditor_ = false;
+	colliderDraw_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +78,8 @@ void EditorWindows::Begin() {
 	}
 	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
+
+	DebugItemWindow();
 
 	// -------------------------------------------------
 	// ↓ BaseとなるWidowの描画開始
@@ -133,6 +136,42 @@ void EditorWindows::ParticleEditorWindow() {
 	if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
 		particleSystemEditor_->Update();
 		particleSystemEditor_->Draw();
+	}
+	ImGui::End();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Debug機能を描画するWindow
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EditorWindows::DebugItemWindow() {
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
+		| ImGuiWindowFlags_AlwaysAutoResize
+		| ImGuiWindowFlags_NoScrollbar
+		| ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_NoBackground
+		| ImGuiWindowFlags_NoMove
+		| ImGuiWindowFlags_NoDocking;
+
+	if (ImGui::Begin("DebugItems", nullptr, flags)) {
+		TextureManager* tex = TextureManager::GetInstance();
+		ImVec2 iconSize(16, 16);
+		D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;
+
+		ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
+		ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
+
+		static bool isPlaying = true;  // トグル状態を保持
+		ImTextureID icon = isPlaying ? pauseTex : playTex;
+		if (ImGui::ImageButton("##toggle", icon, iconSize)) {
+			isPlaying = !isPlaying;
+		}
+		GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
+
+		ImGui::SameLine();
+		// colliderの描画チェック
+		ImGui::Checkbox("colliderDraw", &colliderDraw_);
 	}
 	ImGui::End();
 }

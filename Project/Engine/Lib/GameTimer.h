@@ -23,6 +23,8 @@ public:
 
 	static float fps_;
 
+	static void SetTimeScale(float _time) { timeScale_ = _time; }
+
 private:
 	std::chrono::steady_clock::time_point preFrameTime_;	// 前フレームの時間
 	std::chrono::milliseconds frameDuration_;				// フレームの間隔
