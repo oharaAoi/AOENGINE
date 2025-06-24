@@ -5,8 +5,8 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Game/Information/ColliderCategory.h"
-#include "Game/Actor/Boss/State/BossIdleState.h"
-#include "Game/Actor/Boss/State/BossStateDeployArmor.h"
+#include "Game/Actor/Boss/State/BossStateNormal.h"
+#include "Game/Actor/Boss/State/BossStateStan.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
@@ -63,7 +63,7 @@ void Boss::Init() {
 	collider->SetLoacalPos(object.colliderCenter);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Field::ground);
-	//collider_->SetIsStatic(false);
+	collider->SetIsStatic(false);
 
 	// -------------------------------------------------
 	// ↓ Action関連
@@ -89,7 +89,7 @@ void Boss::Init() {
 
 	stateMachine_ = std::make_unique<StateMachine<Boss>>();
 	stateMachine_->Init(this);
-	stateMachine_->ChangeState<BossIdleState>();
+	stateMachine_->ChangeState<BossStateNormal>();
 
 	// -------------------------------------------------
 	// ↓ weapon関連
@@ -107,10 +107,9 @@ void Boss::Init() {
 	param_ = initParam_;
 
 	param_.postureStability -= initParam_.postureStability;
+	isAlive_ = false;
 
-#ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "Boss");
-#endif // _DEBUG
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,4 +129,23 @@ void Boss::Update() {
 
 void Boss::Draw() const {
 	pulseArmor_->Draw();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Damageを与える
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::Damage(float _takeDamage) {
+	param_.health -= _takeDamage;
+	param_.postureStability += _takeDamage * 0.3f;
+
+	// 倒した
+	if (param_.health <= 0.0f) {
+		isAlive_ = false;
+	}
+
+	// スタン状態にする
+	if (param_.postureStability >= initParam_.postureStability) {
+		stateMachine_->ChangeState<BossStateStan>();
+	}
 }

@@ -88,7 +88,8 @@ void BossActionShotgun::Shot() {
 		Quaternion spreadRot = yawRot * pitchRot;
 
 		Vector3 dir = spreadRot * velocity;
-		pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
+		BossBullet* bullet = pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
+		bullet->SetTakeDamage(10.0f);
 	}
 
 	isFinishShot_ = true;

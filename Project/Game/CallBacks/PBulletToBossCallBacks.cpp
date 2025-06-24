@@ -37,6 +37,7 @@ void PBulletToBossCallBacks::Draw() const {
 
 void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
 	PlayerBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
+	// bulletの処理
 	if (playerBullet != nullptr) {
 		playerBullet->SetIsAlive(false);
 
@@ -63,6 +64,9 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	//hitBossExploadParticles_->SetOnShot(true);
 	hitBossSmoke_->SetIsStop(false);
 	hitBossSmokeBorn_->SetIsStop(false);
+
+	// bossへの処理
+	pBoss_->Damage(playerBullet->GetTakeDamage());
 }
 
 void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {

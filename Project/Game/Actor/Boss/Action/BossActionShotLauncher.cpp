@@ -84,5 +84,6 @@ bool BossActionShotLauncher::IsInput() {
 void BossActionShotLauncher::Shot() {
 	Vector3 pos = pOwner_->GetPosition();
 	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
-	pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
+	BossMissile* bullet = pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
+	bullet->SetTakeDamage(40.0f);
 }

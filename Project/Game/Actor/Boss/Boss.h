@@ -31,7 +31,6 @@ public:
 			fromJson(jsonData, "postureStability", postureStability);
 		}
 	};
-
 public:
 
 	Boss() = default;
@@ -44,10 +43,17 @@ public:
 
 	void Debug_Gui() override;
 
+public:		// menber method
+
+	void Damage(float _takeDamage);
+
 public:
 
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
+
+	// action
+	ActionManager<Boss>* GetActionManager() { return actionManager_.get(); }
 
 	// player座標
 	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
@@ -59,6 +65,8 @@ public:
 
 	// armor
 	PulseArmor* GetPulseArmor() { return pulseArmor_.get(); }
+
+	bool GetIsAlive() const { return isAlive_; }
 
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
@@ -80,6 +88,8 @@ private:
 	// Parameter --------------------------------------------------
 	Parameter param_;
 	Parameter initParam_;
+
+	bool isAlive_;
 
 	// Playerの状態 --------------------------------------------------
 

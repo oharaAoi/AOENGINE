@@ -1,6 +1,6 @@
 {
     "bossParameter": {
-        "health": 100.0,
+        "health": 500.0,
         "postureStability": 100.0
     }
 }

@@ -60,7 +60,6 @@ void BossActionIdle::CheckNextAction() {
 		} else if (rand == 2) {
 			NextAction<BossActionShotLauncher>();
 		}
-		
 	}
 }
 

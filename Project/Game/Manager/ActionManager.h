@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <cassert>
 #include <string>
-
 #include "Game/Actor/Base/BaseAction.h"
 #include "Game/Information/ActionContext.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
@@ -33,6 +32,8 @@ public:
 	
 		name_ = name;
 		EditorWindows::AddObjectWindow(this, name.c_str());
+
+		isActionStop_ = false;
 	}
 
 	void Update() {
@@ -58,9 +59,11 @@ public:
 		addIndexList_.clear();
 
 		// 実行
-		for (auto& [size, action] : runActionMap_) {
-			if (action) {
-				action->OnUpdate();
+		if (!isActionStop_) {
+			for (auto& [size, action] : runActionMap_) {
+				if (action) {
+					action->OnUpdate();
+				}
 			}
 		}
 
@@ -153,6 +156,8 @@ public:
 		return actionMap_[actionTypeIndex]->IsInput();
 	}
 
+	void SetIsActionStop(bool _stop) { isActionStop_ = _stop; }
+
 private:
 	// 持ち主のポインタ
 	OwnerType* pOwner_ = nullptr;
@@ -169,4 +174,6 @@ private:
 
 	// 変数の値を共有したいときに使用するmap
 	std::shared_ptr<ActionContext> context_;
+
+	bool isActionStop_;
 };

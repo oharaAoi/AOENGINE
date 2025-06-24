@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/State/ICharacterState.h"
 #include "Game/Actor/Weapon/PulseArmor.h"

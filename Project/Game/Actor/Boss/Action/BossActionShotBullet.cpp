@@ -89,7 +89,8 @@ void BossActionShotBullet::Shot() {
 	Vector3 pos = pOwner_->GetPosition();
 	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
 
-	pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, velocity * param_.bulletSpeed);
+	BossBullet* bullet = pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, velocity * param_.bulletSpeed);
+	bullet->SetTakeDamage(10.0f);
 
 	if (fireCount_ == 0) {
 		isFinishShot_ = true;

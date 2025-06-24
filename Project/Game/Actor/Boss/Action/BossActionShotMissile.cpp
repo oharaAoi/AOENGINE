@@ -77,7 +77,8 @@ void BossActionShotMissile::Shot() {
 	Vector3 up = pOwner_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * bulletSpeed_;
-	pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
+	BossMissile* missile = pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
+	missile->SetTakeDamage(20.0f);
 
 	if (fireCount_ == 0) {
 		isFinishShot_ = true;

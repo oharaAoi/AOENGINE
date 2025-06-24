@@ -16,7 +16,7 @@ public:
 	void Finalize();
 	void Init(const std::string& bulletName);
 	virtual void Update();
-	
+
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
 	void Debug_Gui() override;
@@ -25,6 +25,9 @@ public:
 
 	void SetIsAlive(bool isAlive) { isAlive_ = isAlive; }
 	bool GetIsAlive() const { return isAlive_; }
+
+	float GetTakeDamage() const { return takeDamage_; }
+	void SetTakeDamage(float _damage) { takeDamage_ = _damage; }
 
 	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
 
@@ -39,6 +42,8 @@ protected:
 	Vector3 targetPosition_;
 
 	bool isAlive_;
+
+	float takeDamage_;
 
 };
 
