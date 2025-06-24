@@ -17,7 +17,7 @@ void JetEngine::Finalize() {
 void JetEngine::Init() {
 	SetName("JetEngine");
 
-	object_ = SceneRenderer::GetInstance()->AddObject(GetName(), "Object_Normal.json");
+	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>(GetName(), "Object_Normal.json");
 	object_->SetObject("jet.obj");
 
 	transform_ = object_->GetTransform();

@@ -7,6 +7,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/ObjectAxis.h"
 #include "Engine/Module/Components/Animation/Animator.h"
@@ -17,16 +18,16 @@
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 
 class BaseGameObject :
-	public AttributeGui {
+	public ISceneObject {
 public:
 
 	BaseGameObject() = default;
 	virtual ~BaseGameObject() ;
 
-	virtual void Finalize();
-	virtual void Init();
-	virtual void Update();
-	virtual void Draw() const;
+	void Finalize();
+	void Init() override;
+	void Update() override;
+	void Draw() const override;
 
 	void PostUpdate();
 
@@ -47,9 +48,6 @@ public:
 	WorldTransform* GetTransform() { return transform_.get(); }
 
 	const Vector3& GetPosition() const { return worldPos_; }
-
-	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
-	bool GetIsDestroy() const { return isDestroy_; }
 
 	// -------------------------------------------------
 	// ↓ Material関連
@@ -96,8 +94,6 @@ private:
 	}
 
 protected:
-
-	bool isDestroy_;
 
 	Model* model_ = nullptr;
 	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい

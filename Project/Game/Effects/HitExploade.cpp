@@ -1,5 +1,6 @@
 #include "HitExploade.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Engine.h"
 
 HitExplode::~HitExplode() {
 	Finalize();
@@ -39,6 +40,7 @@ void HitExplode::Init() {
 	frameRate_ = 40.0f;
 
 	isAlive_ = true;
+
 
 }
 

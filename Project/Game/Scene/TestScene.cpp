@@ -75,7 +75,6 @@ void TestScene::Update() {
 	// -------------------------------------------------
 	// ↓ worldObjectの更新
 	// -------------------------------------------------
-	skydome_->Update();
 	floor_->Update();
 
 	// -------------------------------------------------
@@ -101,8 +100,7 @@ void TestScene::Update() {
 
 void TestScene::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
-	skydome_->Draw();
-
+	
 	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
 		testObjA_[oi]->Draw();
 	}

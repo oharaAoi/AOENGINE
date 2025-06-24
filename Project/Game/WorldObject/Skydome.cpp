@@ -1,23 +1,12 @@
 #include "Skydome.h"
+#include "Engine/Render/SceneRenderer.h"
 
 Skydome::Skydome() {}
 Skydome::~Skydome() {}
 
-void Skydome::Finalize() {
-	BaseGameObject::Finalize();
-}
-
 void Skydome::Init() {
-	BaseGameObject::Init();
-	SetObject("skydome.obj");
-	SetIsLighting(false);
-}
+	/*object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("skydome", "Object_Normal.json");
+	transform_ = object_->GetTransform();
 
-void Skydome::Update() {
-	BaseGameObject::Update();
-}
-
-void Skydome::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
-	BaseGameObject::Draw();
+	object_->SetObject("skydome.obj");*/
 }

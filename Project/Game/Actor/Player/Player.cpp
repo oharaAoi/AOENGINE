@@ -70,7 +70,7 @@ void Player::Init() {
 	SetName("Player");
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
 
-	object_ = SceneRenderer::GetInstance()->GetGameObject("Player");
+	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
 
 	jet_ = std::make_unique<JetEngine>();

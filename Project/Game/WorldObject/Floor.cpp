@@ -14,7 +14,7 @@ void Floor::Finalize() {
 void Floor::Init() {
 	SetName("Ground");
 
-	floor_ = SceneRenderer::GetInstance()->GetGameObject("Field");
+	floor_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Field");
 	transform_ = floor_->GetTransform();
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Field");

@@ -25,8 +25,6 @@ public:
 	/// </summary>
 	void Update();
 
-	void Draw() const;
-
 public:		// accessor method
 
 	void SetPlayerManager(PlayerManager* _manager) { pPlayerManager_ = _manager; }

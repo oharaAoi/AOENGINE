@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Module/Components/Collider/MeshCollider.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
@@ -38,7 +38,6 @@ public:
 	TestObject();
 	~TestObject();
 
-	void Finalize() override;
 	void Init() override;
 	void Update() override;
 	void Draw() const override;

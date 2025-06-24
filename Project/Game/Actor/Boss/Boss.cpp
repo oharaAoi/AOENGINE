@@ -54,7 +54,7 @@ void Boss::Init() {
 	SetName("Boss");
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
 
-	object_ = SceneRenderer::GetInstance()->GetGameObject("Boss");
+	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();
 	
 	object_->SetCollider(ColliderTags::Boss::own, object.colliderType);

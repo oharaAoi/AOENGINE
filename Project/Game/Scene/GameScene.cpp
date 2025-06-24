@@ -106,7 +106,6 @@ void GameScene::Update() {
 
 	skybox_->Update();
 
-	skydome_->Update();
 	floor_->Update();
 	playerManager_->Update();
 
@@ -147,8 +146,6 @@ void GameScene::Draw() const {
 
 	// Sceneの描画
 	sceneRenderer_->Draw();
-
-	gameCallBacksManager_->Draw();
 
 	bossRoot_->GetBoss()->Draw();
 

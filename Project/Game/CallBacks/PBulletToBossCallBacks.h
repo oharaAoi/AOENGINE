@@ -21,8 +21,6 @@ public:
 
 	void Update() override;
 
-	void Draw() const;
-
 	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) override;
 	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
 	void CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
@@ -45,7 +43,7 @@ private:
 
 	BaseParticles* hitSmoke_;
 
-	std::list<std::unique_ptr<HitExplode>> hitExplodeList_;
+	std::list<HitExplode*> hitExplodeList_;
 
 };
 

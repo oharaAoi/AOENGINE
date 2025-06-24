@@ -1,17 +1,17 @@
 #pragma once
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 
-class Skydome : public BaseGameObject {
+class Skydome 
+	: public BaseEntity {
 public:
 
 	Skydome();
 	~Skydome();
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
-	void Draw() const override;
+	void Init();
 
+	void Debug_Gui() override {};
+	
 private:
 
 

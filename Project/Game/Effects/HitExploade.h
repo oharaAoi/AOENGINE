@@ -6,19 +6,19 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 
 class HitExplode :
-	public AttributeGui {
+	public ISceneObject {
 public:
 
 	HitExplode() = default;
 	~HitExplode() ;
 
 	void Finalize();
-	void Init();
-	void Update();
-	void Draw() const;
+	void Init() override;
+	void Update() override;
+	void Draw() const override;
 
 	void Set(const Vector3& pos, const Vector4& color, const std::string& useTexture);
 

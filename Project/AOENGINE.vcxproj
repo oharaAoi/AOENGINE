@@ -111,6 +111,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
@@ -340,6 +341,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />

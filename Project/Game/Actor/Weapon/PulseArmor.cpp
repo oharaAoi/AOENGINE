@@ -1,4 +1,5 @@
 #include "PulseArmor.h"
+#include "Engine/Engine.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Game/Information/ColliderCategory.h"

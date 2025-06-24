@@ -42,7 +42,3 @@ void GameCallBacksManager::Update() {
 	pBBulletToGround_->Update();
 	pBulletToBoss_->Update();
 }
-
-void GameCallBacksManager::Draw() const {
-	pBulletToBoss_->Draw();
-}
