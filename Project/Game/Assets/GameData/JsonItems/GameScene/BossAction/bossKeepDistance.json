@@ -1,0 +1,7 @@
+{
+    "bossKeepDistance": {
+        "getDistance": 8.0,
+        "moveSpeed": 50.0,
+        "moveTime": 2.0
+    }
+}

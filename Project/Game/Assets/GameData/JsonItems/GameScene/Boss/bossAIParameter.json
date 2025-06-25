@@ -1,0 +1,7 @@
+{
+    "bossAIParameter": {
+        "farDistance": 100.0,
+        "midDistance": 70.0,
+        "nearDistance": 10.0
+    }
+}

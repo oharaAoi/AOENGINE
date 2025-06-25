@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include <algorithm>
 #include <memory>
 #include <list>
 #include "Engine/System/Manager/ParticleManager.h"
@@ -18,21 +19,27 @@ public:	// 構造体データ
 		virtual ISceneObject* GetSceneObject() = 0;
 		virtual const std::string& GetRenderingType() const = 0;
 		virtual void SetRenderingType(const std::string& name) = 0;
+		virtual int GetRenderQueue() const = 0;
+		virtual void SetRenderQueue(int num) = 0;
 	};
 
-	template <typename T>
+	template <typename T> 
 	struct ObjectPair : IObjectPair {
-		std::string renderingType;
 		std::unique_ptr<T> object;
+		std::string renderingType;
+		int renderQueue = 0;
 
-		ObjectPair(const std::string& type, std::unique_ptr<T> obj)
-			: renderingType(type), object(std::move(obj)) {
+		ObjectPair(const std::string& _type, int _renderQueue, std::unique_ptr<T> _obj)
+			: renderingType(_type), renderQueue(_renderQueue), object(std::move(_obj)) {
 		}
 
 		T* GetSceneObject() override { return object.get(); }
 
 		const std::string& GetRenderingType() const override { return renderingType; }
 		void SetRenderingType(const std::string& name) override { renderingType = name; }
+
+		int GetRenderQueue() const override { return renderQueue; }
+		void SetRenderQueue(int num) override { renderQueue = num; }
 	};
 
 public:
@@ -61,11 +68,12 @@ public:
 	void CreateObject(const SceneLoader::LevelData* loadData);
 
 	template<typename T, typename... Args>
-	T* AddObject(const std::string& objectName, const std::string& renderingName, Args&&... args) {
+	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, Args&&... args) {
 		static_assert(std::is_base_of<ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		auto pair = std::make_unique<ObjectPair<T>>(
 			renderingName,
+			renderQueue,
 			std::make_unique<T>(std::forward<Args>(args)...)
 		);
 		T* gameObject = static_cast<T*>(pair->object.get());

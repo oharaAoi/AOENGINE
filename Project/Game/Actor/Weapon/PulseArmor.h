@@ -4,11 +4,11 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
 
 class PulseArmor :
-	public AttributeGui {
+	public ISceneObject {
 public:
 
 	// Dissolveに必要な構造体
@@ -24,13 +24,13 @@ public:
 	PulseArmor() = default;
 	~PulseArmor();
 
-	void Init();
+	void Init() override;
 
-	void Update();
+	void Update() override;
 
-	void Draw() const;
+	void Draw() const override;
 
-	void Debug_Gui();
+	void Debug_Gui() override;
 
 public:
 

@@ -13,6 +13,7 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float moveSpeed = 20.f;
+		float moveTime = 2.0f;
 		float deceleration = 2.f;
 		float maxSpinDistance = 0.8f;
 		float quitApproachLength = 5.f;
@@ -22,6 +23,7 @@ public:
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
+				.Add("moveTime", moveTime)
 				.Add("deceleration", deceleration)
 				.Add("maxSpinDistance", maxSpinDistance)
 				.Add("quitApproachLength", quitApproachLength)
@@ -30,6 +32,7 @@ public:
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "moveSpeed", moveSpeed);
+			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "deceleration", deceleration);
 			fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
 			fromJson(jsonData, "quitApproachLength", quitApproachLength);
@@ -52,6 +55,8 @@ public:
 	void Debug_Gui() override;
 
 private:
+
+	void SpinApproach();
 
 	void Approach();
 

@@ -9,6 +9,7 @@
 
 void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
+	ImGui::DragFloat("moveTime", &initParam_.moveTime, .1f);
 	ImGui::DragFloat("deceleration", &initParam_.deceleration, .1f);
 	ImGui::DragFloat("maxSpinDistance", &initParam_.maxSpinDistance, .1f);
 	ImGui::DragFloat("quitApproachLength", &initParam_.quitApproachLength, .1f);
@@ -79,14 +80,18 @@ void BossActionApproach::CheckNextAction() {
 		NextAction<BossActionIdle>();
 	}
 
-	if (param_.moveSpeed < 5.f) {
+	if (actionTimer_ > initParam_.moveTime) {
+		NextAction<BossActionIdle>();
+	}
+
+	/*if (param_.moveSpeed < 5.f) {
 		NextAction<BossActionIdle>();
 	}
 
 	if (isShot_) {
 		AddAction<BossActionShotgun>();
 		isShot_ = false;
-	}
+	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,11 +103,15 @@ bool BossActionApproach::IsInput() {
 }
 
 void BossActionApproach::Approach() {
+	pOwner_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+}
+
+void BossActionApproach::SpinApproach() {
 	// player方向を計算する
 	toPlayer_ = pOwner_->GetPlayerPosition() - pOwner_->GetPosition();
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
-
+	
 	// Y軸を上とした場合、横方向ベクトルを計算
 	lateral_ = Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
 

@@ -240,10 +240,10 @@
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\BossActionApproach.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionShotMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\PlayerActionLeave.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
@@ -268,6 +268,8 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossAI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -479,10 +481,10 @@
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\BossActionApproach.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionShotMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\PlayerActionLeave.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionLeave.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Game\Effects\JetEngineBurn.h" />
     <ClInclude Include="Game\Effects\HitExploade.h" />
@@ -506,6 +508,8 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
+    <ClInclude Include="Game\Actor\Boss\BossAI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

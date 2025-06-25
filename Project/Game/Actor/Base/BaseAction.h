@@ -47,6 +47,9 @@ public:	// base
 		pManager_->DeleteAction(actionIndex_);
 	}
 
+	void NextAction(size_t hash);
+	void AddAction(size_t hash);
+
 	/// <summary>
 	/// 次のアクションに遷移する関数
 	/// </summary>
@@ -114,4 +117,19 @@ protected:
 	float actionTimer_;
 };
 
+template<typename OwnerType>
+inline void BaseAction<OwnerType>::NextAction(size_t hash) {
+	if (!pManager_) {
+		return;
+	}
+	pManager_->AddAction(hash);
+	pManager_->DeleteAction(actionIndex_);
+}
 
+template<typename OwnerType>
+inline void BaseAction<OwnerType>::AddAction(size_t hash) {
+	if (!pManager_) {
+		return;
+	}
+	pManager_->AddAction(hash);
+}

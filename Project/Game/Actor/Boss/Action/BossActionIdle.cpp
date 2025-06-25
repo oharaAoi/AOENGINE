@@ -1,9 +1,6 @@
 #include "BossActionIdle.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/GameTimer.h"
-#include "Game/Actor/Boss/Action/BossActionApproach.h"
-#include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
-#include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
 void BossActionIdle::Debug_Gui() {
@@ -36,7 +33,6 @@ void BossActionIdle::OnUpdate() {
 
 	playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
 	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,15 +47,9 @@ void BossActionIdle::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionIdle::CheckNextAction() {
-	if (actionTimer_ > 4.0f) {
-		int rand = RandomInt(0, 2);
-		if (rand == 0) {
-			NextAction<BossActionApproach>();
-		} else if (rand == 1) {
-			NextAction<BossActionApproach>();
-		} else if (rand == 2) {
-			NextAction<BossActionShotLauncher>();
-		}
+	if (actionTimer_ > 3.0f) {
+		size_t hash = pOwner_->GetAI()->MoveActionAI(pOwner_->GetTransform(), pOwner_->GetPlayerPosition());
+		NextAction(hash);
 	}
 }
 

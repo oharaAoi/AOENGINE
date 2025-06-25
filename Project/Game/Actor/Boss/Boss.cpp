@@ -8,7 +8,9 @@
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
-#include "Game/Actor/Boss/Action/BossActionApproach.h"
+#include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
+#include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
+#include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/BossActionShotBullet.h"
 #include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
@@ -62,7 +64,7 @@ void Boss::Init() {
 	collider->SetSize(object.colliderSize);
 	collider->SetLoacalPos(object.colliderCenter);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);
-	collider->SetTarget(ColliderTags::Field::ground);
+	//collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetIsStatic(false);
 
 	// -------------------------------------------------
@@ -73,6 +75,8 @@ void Boss::Init() {
 	actionManager_->Init(this, "BossAction");
 	actionManager_->BuildAction<BossActionIdle>();
 	actionManager_->BuildAction<BossActionApproach>();
+	actionManager_->BuildAction<BossActionKeepDistance>();
+	actionManager_->BuildAction<BossActionLeave>();
 	actionManager_->BuildAction<BossActionShotMissile>();
 	actionManager_->BuildAction<BossActionShotBullet>();
 	actionManager_->BuildAction<BossActionShotLauncher>();
@@ -94,10 +98,10 @@ void Boss::Init() {
 	// -------------------------------------------------
 	// ↓ weapon関連
 	// -------------------------------------------------
-	pulseArmor_ = std::make_unique<PulseArmor>();
+	pulseArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
 	pulseArmor_->Init();
 	pulseArmor_->GetTransform()->SetParent(transform_->GetWorldMatrix());
-	this->AddChild(pulseArmor_.get());
+	this->AddChild(pulseArmor_);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -108,6 +112,10 @@ void Boss::Init() {
 
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = false;
+
+	AI_ = std::make_unique<BossAI>();
+	AI_->Init();
+	this->AddChild(AI_.get());
 
 	EditorWindows::AddObjectWindow(this, "Boss");
 }

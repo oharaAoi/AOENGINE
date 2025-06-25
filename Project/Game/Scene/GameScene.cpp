@@ -147,8 +147,6 @@ void GameScene::Draw() const {
 	// Sceneの描画
 	sceneRenderer_->Draw();
 
-	bossRoot_->GetBoss()->Draw();
-
 	// -------------------------------------------------
 	// ↓ spriteの描画
 	// -------------------------------------------------

@@ -38,8 +38,11 @@ void SceneRenderer::Update() {
 	}
 
 	objectList_.sort([](const std::unique_ptr<IObjectPair>& a, const std::unique_ptr<IObjectPair>& b) {
-		return a->GetRenderingType() < b->GetRenderingType();
-					 });
+		if (a->GetRenderQueue() == b->GetRenderQueue()) {
+			return a->GetRenderingType() < b->GetRenderingType();
+		}
+		return a->GetRenderQueue() == b->GetRenderQueue();
+	});
 
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
@@ -80,7 +83,7 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 		object->SetObject(data.modelName);
 		object->GetTransform()->SetSRT(data.srt);
 
-		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", std::move(object));
+		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, std::move(object));
 		objectList_.push_back(std::move(pair));
 	}
 }

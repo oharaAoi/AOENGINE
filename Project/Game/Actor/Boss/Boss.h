@@ -7,6 +7,7 @@
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
+#include "Game/Actor/Boss/BossAI.h"
 #include "Game/Actor/Weapon/PulseArmor.h"
 
 class Boss :
@@ -64,7 +65,10 @@ public:
 	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
 
 	// armor
-	PulseArmor* GetPulseArmor() { return pulseArmor_.get(); }
+	PulseArmor* GetPulseArmor() { return pulseArmor_; }
+
+	// AI
+	BossAI* GetAI() { return AI_.get(); }
 
 	bool GetIsAlive() const { return isAlive_; }
 
@@ -83,13 +87,16 @@ private:
 	std::unique_ptr<ActionManager<Boss>> actionManager_;
 
 	// weapon ------------------------------------------------
-	std::unique_ptr<PulseArmor> pulseArmor_;
+	PulseArmor* pulseArmor_;
 
 	// Parameter --------------------------------------------------
 	Parameter param_;
 	Parameter initParam_;
 
 	bool isAlive_;
+
+	// AI --------------------------------------------------
+	std::unique_ptr<BossAI> AI_;
 
 	// Playerの状態 --------------------------------------------------
 
