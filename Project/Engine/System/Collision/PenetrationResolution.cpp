@@ -63,14 +63,15 @@ Vector3 PenetrationResolutionAABBandAABB(const AABB& aabb1, const AABB& aabb2) {
 		mtvDir = Vector3(0.0f, 0.0f, 1.0f);
 	}
 
-	// AとBの位置関係に応じて方向を反転
-	Vector3 centerA = (aabb1.min + aabb1.max) * 0.5f;
-	Vector3 centerB = (aabb2.min + aabb2.max) * 0.5f;
-	Vector3 direction = centerA - centerB;
+	//// AとBの位置関係に応じて方向を反転
+	//Vector3 centerA = (aabb1.min + aabb1.max) * 0.5f;
+	//Vector3 centerB = (aabb2.min + aabb2.max) * 0.5f;
+	//Vector3 direction = centerA - centerB;
 
-	if ((mtvDir.x * direction.x + mtvDir.y * direction.y + mtvDir.z * direction.z) < 0) {
-		mtvDir *= -1.0f;
-	}
+	//float dot = Vector3::Dot(mtvDir, direction);
+	//if (dot < 0) {
+	//	mtvDir *= -1.0f;
+	//}
 
 	return mtvDir * minOverlap;
 }

@@ -69,12 +69,12 @@ void BoxCollider::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::PushBack() {
-	if (std::holds_alternative<AABB>(shape_)) {
-		std::get<AABB>(shape_).min += pushbackDire_; 
-		std::get<AABB>(shape_).max += pushbackDire_;
-	} else if (std::holds_alternative<OBB>(shape_)) {
-		std::get<OBB>(shape_).center += pushbackDire_;
-	}
+	pWorldTransform_->Translate(pushbackDire_);
+	this->Update(QuaternionSRT{ 
+		.scale = pWorldTransform_->GetScale(),
+		.rotate = pWorldTransform_->GetQuaternion(),
+		.translate = pWorldTransform_->GetTranslation()
+	});
 }
 
 void BoxCollider::Debug_Gui() {

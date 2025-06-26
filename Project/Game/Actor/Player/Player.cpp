@@ -86,7 +86,7 @@ void Player::Init() {
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Field::ground);
-	collider->SetIsStatic(false);
+	//collider->SetIsStatic(false);
 
 	// -------------------------------------------------
 	// ↓ State関連

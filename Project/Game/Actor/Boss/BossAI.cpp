@@ -87,24 +87,28 @@ void BossAI::Debug_Gui() {
 	
 	ImGui::Text("PlayerTo : %f", distance_);
 
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode("BossActionApproach")) {
 		scoreMap_.at(typeid(BossActionApproach).hash_code()).Debug();
 		float score = scoreMap_.at(typeid(BossActionApproach).hash_code()).TotalScore(weight);
 		ImGui::Text("score : %f", score);
 		ImGui::TreePop();
 	}
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode("BossActionStrafe")) {
 		scoreMap_.at(typeid(BossActionStrafe).hash_code()).Debug();
 		float score = scoreMap_.at(typeid(BossActionStrafe).hash_code()).TotalScore(weight);
 		ImGui::Text("score : %f", score);
 		ImGui::TreePop();
 	}
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode("BossActionLeave")) {
 		scoreMap_.at(typeid(BossActionLeave).hash_code()).Debug();
 		float score = scoreMap_.at(typeid(BossActionLeave).hash_code()).TotalScore(weight);
 		ImGui::Text("score : %f", score);
 		ImGui::TreePop();
 	}
+	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode("BossActionKeepDistance")) {
 		scoreMap_.at(typeid(BossActionKeepDistance).hash_code()).Debug();
 		float score = scoreMap_.at(typeid(BossActionKeepDistance).hash_code()).TotalScore(weight);
