@@ -13,6 +13,7 @@ void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("deceleration", &initParam_.deceleration, .1f);
 	ImGui::DragFloat("maxSpinDistance", &initParam_.maxSpinDistance, .1f);
 	ImGui::DragFloat("quitApproachLength", &initParam_.quitApproachLength, .1f);
+	ImGui::DragFloat("decayRate", &initParam_.decayRate, 0.1f);
 	
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(pManager_->GetName(), initParam_.ToJson(initParam_.GetName()));
@@ -53,6 +54,7 @@ void BossActionApproach::OnStart() {
 	offsetDire_ = offsetDire_.Normalize();
 
 	isShot_ = true;
+	stopping_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +64,10 @@ void BossActionApproach::OnStart() {
 void BossActionApproach::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
 	Approach();
+
+	if (actionTimer_ > param_.moveTime) {
+		stopping_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

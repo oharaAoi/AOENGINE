@@ -17,6 +17,7 @@ public:
 		float deceleration = 2.f;
 		float maxSpinDistance = 0.8f;
 		float quitApproachLength = 5.f;
+		float decayRate = 5.f;
 
 		Parameter() { SetName("bossActionApproach"); }
 
@@ -27,6 +28,7 @@ public:
 				.Add("deceleration", deceleration)
 				.Add("maxSpinDistance", maxSpinDistance)
 				.Add("quitApproachLength", quitApproachLength)
+				.Add("decayRate", decayRate)
 				.Build();
 		}
 
@@ -36,6 +38,7 @@ public:
 			fromJson(jsonData, "deceleration", deceleration);
 			fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
 			fromJson(jsonData, "quitApproachLength", quitApproachLength);
+			fromJson(jsonData, "decayRate", decayRate);
 		}
 	};
 
@@ -78,5 +81,7 @@ private :
 
 	float spinAmount_;	// 旋回量
 	Vector3 offsetDire_;
+
+	bool stopping_;
 
 };

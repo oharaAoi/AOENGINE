@@ -5,19 +5,19 @@
 class Boss;
 
 /// <summary>
-/// Bossの距離を取る行動
+/// 小刻みに横に動く移動
 /// </summary>
-class BossActionKeepDistance :
+class BossActionStrafe :
 	public BaseAction<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {
 		float moveSpeed = 60.f;
-		float moveTime = 2.0f;
+		float moveTime = 0.5f;
 		float getDistance = 10.0f;
 		float decayRate = 4.0f;
 
-		Parameter() { SetName("bossKeepDistance"); }
+		Parameter() { SetName("bossStrafe"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -38,8 +38,8 @@ public:
 
 public:
 
-	BossActionKeepDistance() = default;
-	~BossActionKeepDistance() = default;
+	BossActionStrafe() = default;
+	~BossActionStrafe() = default;
 
 	void Build() override;
 	void OnStart() override;
@@ -51,9 +51,7 @@ public:
 
 	void Debug_Gui() override;
 
-public:
-
-	void Direct();
+private:
 
 	void Spin();
 
@@ -66,12 +64,6 @@ private:
 	Vector3 velocity_;
 	Vector3 accel_;
 
-	int moveType_;
-
-	// 旋回に必要な座標
-	Vector3 centerPos_;
-
 	bool stopping_;
-
 };
 

@@ -6,6 +6,7 @@
 void BossActionLeave::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
 	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
+	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
 
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
@@ -28,7 +29,9 @@ void BossActionLeave::Build() {
 void BossActionLeave::OnStart() {
 	actionTimer_ = 0;
 
-	accel_ = pOwner_->GetTransform()->rotation_.MakeForward();
+	stopping_ = false;
+
+	accel_ = pOwner_->GetTransform()->rotation_.MakeForward() * param_.moveSpeed;
 	velocity_ = CVector3::ZERO;
 }
 
@@ -39,7 +42,15 @@ void BossActionLeave::OnStart() {
 void BossActionLeave::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
 
-	Leave();
+	if (!stopping_) {
+		Leave();
+	} else {
+		Stop();
+	}
+
+	if (actionTimer_ > param_.moveTime) {
+		stopping_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,8 +65,10 @@ void BossActionLeave::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionLeave::CheckNextAction() {
-	if (actionTimer_ > param_.moveTime) {
-		NextAction<BossActionIdle>();
+	if (stopping_) {
+		if (velocity_.Length() <= 1.0f) {
+			NextAction<BossActionIdle>();
+		}
 	}
 }
 
@@ -73,5 +86,13 @@ bool BossActionLeave::IsInput() {
 
 void BossActionLeave::Leave() {
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->MoveVelocity(velocity_ * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+	pOwner_->GetTransform()->MoveVelocity(velocity_* GameTimer::DeltaTime(), 0.1f);
+}
+
+void BossActionLeave::Stop() {
+	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
+	pOwner_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+
+	Quaternion playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
+	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
 }

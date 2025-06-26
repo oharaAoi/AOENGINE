@@ -14,6 +14,7 @@ public:	// 構造体
 	struct Parameter : public IJsonConverter {
 		float moveSpeed = 40.f;
 		float moveTime = 1.5f;
+		float decayRate = 4.0f;
 
 		Parameter() { SetName("bossActionLeave"); }
 
@@ -21,12 +22,14 @@ public:	// 構造体
 			return JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
+				.Add("decayRate", decayRate)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "moveSpeed", moveSpeed);
 			fromJson(jsonData, "moveTime", moveTime);
+			fromJson(jsonData, "decayRate", decayRate);
 		}
 	};
 
@@ -49,6 +52,8 @@ private:
 
 	void Leave();
 
+	void Stop();
+
 private:
 
 	Parameter param_;
@@ -56,5 +61,6 @@ private:
 	Vector3 velocity_;
 	Vector3 accel_;
 
-};
+	bool stopping_;
 
+};

@@ -270,6 +270,7 @@
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossAI.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -510,6 +511,7 @@
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
     <ClInclude Include="Game\Actor\Boss\BossAI.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

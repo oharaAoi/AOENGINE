@@ -10,6 +10,7 @@
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
+#include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
 #include "Game/Actor/Boss/Action/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/BossActionShotBullet.h"
@@ -64,7 +65,7 @@ void Boss::Init() {
 	collider->SetSize(object.colliderSize);
 	collider->SetLoacalPos(object.colliderCenter);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);
-	//collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetIsStatic(false);
 
 	// -------------------------------------------------
@@ -77,6 +78,7 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionApproach>();
 	actionManager_->BuildAction<BossActionKeepDistance>();
 	actionManager_->BuildAction<BossActionLeave>();
+	actionManager_->BuildAction<BossActionStrafe>();
 	actionManager_->BuildAction<BossActionShotMissile>();
 	actionManager_->BuildAction<BossActionShotBullet>();
 	actionManager_->BuildAction<BossActionShotLauncher>();
