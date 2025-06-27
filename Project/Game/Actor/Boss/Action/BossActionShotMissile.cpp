@@ -2,6 +2,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 void BossActionShotMissile::Debug_Gui() {
 	weight_->Debug_Gui();
@@ -33,6 +34,9 @@ void BossActionShotMissile::OnStart() {
 	fireCount_ = kFireCount_;
 
 	shotInterval_ = 0.2f;
+
+	// 警告を出す
+	pOwner_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

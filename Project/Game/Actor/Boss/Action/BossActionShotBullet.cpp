@@ -3,6 +3,7 @@
 #include "Game/Actor/Boss/Bullet/BossBullet.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -50,6 +51,9 @@ void BossActionShotBullet::OnStart() {
 	fireCount_ = param_.kFireCount;
 
 	isFinishShot_ = false;
+
+	// 警告を出す
+	pOwner_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

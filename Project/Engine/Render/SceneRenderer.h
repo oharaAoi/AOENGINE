@@ -117,6 +117,7 @@ public:
 private:
 
 	std::list<std::unique_ptr<IObjectPair>> objectList_;
+	std::list<std::unique_ptr<IObjectPair>> spriteObjectList_;
 
 	ParticleManager* particleManager_;
 

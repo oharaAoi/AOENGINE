@@ -4,6 +4,7 @@
 // Game
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 /// <summary>
 /// Boss関連の親
@@ -25,6 +26,8 @@ public:
 	BossBulletManager* GetBulletManager() { return bulletManager_.get(); }
 
 	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
+
+	void SetUIs(BossUIs* _pBossUIs) { boss_->SetUIs(_pBossUIs); }
 
 private:
 

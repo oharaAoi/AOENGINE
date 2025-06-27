@@ -4,6 +4,7 @@
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
+#include "Game/UI/Boss/BossUIs.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"

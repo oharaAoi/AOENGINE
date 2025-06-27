@@ -4,6 +4,7 @@
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -49,6 +50,9 @@ void BossActionShotgun::OnStart() {
 	actionTimer_ = 0.0f;
 	isFinishShot_ = false;
 	Shot();
+
+	// 警告を出す
+	pOwner_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

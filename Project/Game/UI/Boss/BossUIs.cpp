@@ -38,11 +38,27 @@ void BossUIs::Update() {
 	const Boss::Parameter& bossParam = pBoss_->GetParameter();
 	const Boss::Parameter& bossInitParam = pBoss_->GetInitParameter();
 
+	// hp
 	health_->Update(bossParam.health/ bossInitParam.health);
-	postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
 
+	// 耐久度
 	if (pBoss_->GetPulseArmor()->GetIsAlive()) {
 		armorDurability_->Update(pBoss_->GetPulseArmor()->ArmorDurability());
+	} else {
+		postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
+	}
+
+	// 警告
+	for (auto it = attackAlertList_.begin(); it != attackAlertList_.end();) {
+		if ((*it)->IsDestroy()) {
+			it = attackAlertList_.erase(it);
+		} else {
+			++it;
+		}
+	}
+
+	for (auto& alert : attackAlertList_) {
+		alert->Update();
 	}
 }
 
@@ -57,6 +73,10 @@ void BossUIs::Draw() const {
 		postureStability_->Draw();
 	} else {
 		armorDurability_->Draw();
+	}
+
+	for (auto& alert : attackAlertList_) {
+		alert->Draw();
 	}
 }
 
@@ -85,4 +105,9 @@ void BossUIs::Debug_Gui() {
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(GetName(), uiItems_.ToJson(uiItems_.GetName()));
 	}
+}
+
+void BossUIs::PopAlert() {
+	auto& alert = attackAlertList_.emplace_back(std::make_unique<EnemyAttackAlert>());
+	alert->Init();
 }

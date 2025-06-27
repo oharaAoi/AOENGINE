@@ -1,4 +1,5 @@
 #pragma once
+#include <list>
 #include <memory>
 // Engine
 #include "Engine/Lib/Json/IJsonConverter.h"
@@ -6,6 +7,7 @@
 // Game
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/UI/Boss/BossHealthUI.h"
+#include "Game/UI/Boss/EnemyAttackAlert.h"
 #include "Game/UI/PostureStability.h"
 #include "Game/UI/ArmorDurabilityUI.h"
 
@@ -56,6 +58,10 @@ public:
 
 	void Debug_Gui() override;
 
+public:
+
+	void PopAlert();
+
 private:
 
 	Boss* pBoss_ = nullptr;
@@ -66,5 +72,6 @@ private:
 	std::unique_ptr<PostureStability> postureStability_;
 	std::unique_ptr<ArmorDurabilityUI> armorDurability_;
 
+	std::list<std::unique_ptr<EnemyAttackAlert>> attackAlertList_;
 };
 

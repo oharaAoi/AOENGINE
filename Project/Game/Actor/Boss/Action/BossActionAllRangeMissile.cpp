@@ -2,6 +2,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 void BossActionAllRangeMissile::Debug_Gui() {
 	weight_->Debug_Gui();
@@ -34,6 +35,9 @@ void BossActionAllRangeMissile::OnStart() {
 	isFinishShot_ = false;
 
 	bulletSpeed_ = 60.f;
+
+	// 警告を出す
+	pOwner_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

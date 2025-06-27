@@ -3,6 +3,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -49,6 +50,9 @@ void BossActionShotLauncher::OnStart() {
 	Shot();
 
 	isFinish_ = true;
+
+	// 警告を出す
+	pOwner_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

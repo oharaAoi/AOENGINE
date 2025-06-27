@@ -42,6 +42,8 @@ public:		// accessor method
 
 	PostureStability* GetPostureStability() { return postureStability_.get(); }
 
+	BossUIs* GetBossUIs() const { return bossUIs_.get(); }
+
 private:
 
 	// ---------------------------------------------------

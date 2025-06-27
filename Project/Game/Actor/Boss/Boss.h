@@ -10,6 +10,8 @@
 #include "Game/Actor/Boss/BossAI.h"
 #include "Game/Actor/Weapon/PulseArmor.h"
 
+class BossUIs;
+
 class Boss :
 	public BaseEntity {
 public:
@@ -70,6 +72,10 @@ public:
 	// AI
 	BossAI* GetAI() { return AI_.get(); }
 
+	// UI
+	void SetUIs(BossUIs* _pBossUIs) { pBossUIs_ = _pBossUIs; }
+	BossUIs* GetUIs() { return pBossUIs_; }
+
 	bool GetIsAlive() const { return isAlive_; }
 
 	const Parameter& GetParameter() const { return param_; }
@@ -101,6 +107,9 @@ private:
 	// Playerの状態 --------------------------------------------------
 
 	Vector3 playerPosition_;
+
+	// UI -----------------------------------------------------------
+	BossUIs* pBossUIs_;
 
 };
 
