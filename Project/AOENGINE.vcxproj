@@ -118,6 +118,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
@@ -351,6 +352,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />

@@ -272,6 +272,7 @@
     <ClCompile Include="Game\Actor\Boss\BossAI.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -514,6 +515,7 @@
     <ClInclude Include="Game\Actor\Boss\BossAI.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

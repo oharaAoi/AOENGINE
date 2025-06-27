@@ -1,7 +1,9 @@
 #pragma once
+#include <memory>
 #include <functional>
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Game/Actor/Base/BaseAction.h"
+#include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 class Boss;
 
@@ -51,6 +53,8 @@ private :
 	bool isFinishShot_;
 
 	std::function<void()> mainAction_;
+
+	std::unique_ptr<BossLotteryAction> weight_;
 
 };
 

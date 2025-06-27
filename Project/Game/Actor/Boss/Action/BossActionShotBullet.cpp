@@ -1,6 +1,7 @@
 #include "BossActionShotBullet.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossBullet.h"
+#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -8,16 +9,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotBullet::Debug_Gui() {
-	ImGui::DragFloat("shotInterval", &param_.shotInterval, .1f);
-	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-	ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
-	
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+	if (ImGui::CollapsingHeader("Parameter")) {
+		ImGui::DragFloat("shotInterval", &param_.shotInterval, .1f);
+		ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
+		ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+		}
+		if (ImGui::Button("Apply")) {
+			param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+		}
 	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
-	}
+
+	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +31,12 @@ void BossActionShotBullet::Debug_Gui() {
 
 void BossActionShotBullet::Build() {
 	SetName("actionShotBullet");
+
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotBulletWeight");
+
+	size_t hash = typeid(BossActionShotBullet).hash_code();
+	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +78,7 @@ void BossActionShotBullet::OnEnd() {
 
 void BossActionShotBullet::CheckNextAction() {
 	if (isFinishShot_) {
-		DeleteSelf();
+		NextAction<BossActionIdle>();
 	}
 }
 

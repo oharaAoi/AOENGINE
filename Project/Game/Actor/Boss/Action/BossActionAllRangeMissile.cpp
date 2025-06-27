@@ -4,7 +4,7 @@
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 
 void BossActionAllRangeMissile::Debug_Gui() {
-
+	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -13,6 +13,12 @@ void BossActionAllRangeMissile::Debug_Gui() {
 
 void BossActionAllRangeMissile::Build() {
 	SetName("allRangeMissile");
+
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("allRangeMissileWeight");
+
+	size_t hash = typeid(BossActionAllRangeMissile).hash_code();
+	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

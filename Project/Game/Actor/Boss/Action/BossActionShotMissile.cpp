@@ -1,8 +1,10 @@
 #include "BossActionShotMissile.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
+#include "Game/Actor/Boss/Action/BossActionIdle.h"
 
 void BossActionShotMissile::Debug_Gui() {
+	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,6 +13,12 @@ void BossActionShotMissile::Debug_Gui() {
 
 void BossActionShotMissile::Build() {
 	SetName("actionShotMissle");
+
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotMissleWeight");
+
+	size_t hash = typeid(BossActionShotMissile).hash_code();
+	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +61,7 @@ void BossActionShotMissile::OnEnd() {
 
 void BossActionShotMissile::CheckNextAction() {
 	if (isFinishShot_) {
-		DeleteSelf();
+		NextAction<BossActionIdle>();
 	}
 }
 

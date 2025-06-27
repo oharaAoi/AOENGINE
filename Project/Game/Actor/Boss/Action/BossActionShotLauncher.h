@@ -1,6 +1,8 @@
 #pragma once
+#include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/Actor/Base/BaseAction.h"
+#include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 class Boss;
 
@@ -54,6 +56,8 @@ private:
 	Parameter param_;
 
 	bool isFinish_;
+
+	std::unique_ptr<BossLotteryAction> weight_;
 
 };
 

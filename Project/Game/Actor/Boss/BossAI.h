@@ -4,6 +4,7 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 /// <summary>
 /// Bossの次の行動を決定するクラス
@@ -78,10 +79,14 @@ public:
 	~BossAI() = default;
 
 	void Init();
-	
+
 	size_t MoveActionAI(const WorldTransform* bossTransform, const Vector3& targetPos);
 
+	size_t AttackActionAI();
+
 	void Debug_Gui() override;
+
+	void SetAttackWeight(size_t id, BossLotteryAction* _weight);
 
 private:
 
@@ -94,6 +99,10 @@ private:
 	ActionScoreWeight weight;
 
 	std::unordered_map<size_t, ActionScore> scoreMap_;
+
+	std::unordered_map<size_t, BossLotteryAction*> attackWeightMap_;
+
+	// Parameter ---------------------------------------
 
 	float distance_;
 };

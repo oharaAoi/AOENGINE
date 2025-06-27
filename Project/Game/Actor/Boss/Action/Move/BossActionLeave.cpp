@@ -67,7 +67,8 @@ void BossActionLeave::OnEnd() {
 void BossActionLeave::CheckNextAction() {
 	if (stopping_) {
 		if (velocity_.Length() <= 1.0f) {
-			NextAction<BossActionIdle>();
+			size_t hash = pOwner_->GetAI()->AttackActionAI();
+			NextAction(hash);
 		}
 	}
 }

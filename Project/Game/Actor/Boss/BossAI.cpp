@@ -6,6 +6,10 @@
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BossAI::Init() {
 	SetName("BossAI");
 	param_.FromJson(JsonItems::GetData("Boss", param_.GetName()));
@@ -15,7 +19,12 @@ void BossAI::Init() {
 	scoreMap_.emplace(typeid(BossActionLeave).hash_code(), ActionScore());
 	scoreMap_.emplace(typeid(BossActionStrafe).hash_code(), ActionScore());
 	scoreMap_.emplace(typeid(BossActionKeepDistance).hash_code(), ActionScore());
+
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 移動に関するAI
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 size_t BossAI::MoveActionAI(const WorldTransform* bossTransform, const Vector3& targetPos) {
 
@@ -61,6 +70,43 @@ size_t BossAI::MoveActionAI(const WorldTransform* bossTransform, const Vector3& 
 
 	return maxId;
 }
+
+size_t BossAI::AttackActionAI() {
+	size_t result = 0;
+	// 合計重みを計算
+	float totalWeight = 0.0f;
+	for (const auto& action : attackWeightMap_) {
+		totalWeight += action.second->GetWeight();
+	}
+
+	// ランダムに抽選する
+	float rand = RandomFloat(0.0f, totalWeight);
+
+	// 重みに基づいて選択
+	float accumWeight = 0.0f;
+	for (const auto& action : attackWeightMap_) {
+		accumWeight += action.second->GetWeight();
+		if (rand <= accumWeight) {
+			result = action.first;
+			break;
+		}
+	}
+
+	// 選ばれたものをリセット、選ばれていないものを増加
+	for (const auto& action : attackWeightMap_) {
+		if (result != action.first) {
+			action.second->Increase();
+		} else {
+			action.second->Reset();
+		}
+	}
+
+	return result;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossAI::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Parameter")) {
@@ -116,6 +162,14 @@ void BossAI::Debug_Gui() {
 		ImGui::TreePop();
 	}
 }
+
+void BossAI::SetAttackWeight(size_t id, BossLotteryAction* _weight) {
+	attackWeightMap_.emplace(id, _weight);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 評価値計算に使用する関数
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 float BossAI::GetProximityScore(float distance, float targetDistance, float maxDistance) {
 	float diff = fabs(distance - targetDistance); // 差の絶対値

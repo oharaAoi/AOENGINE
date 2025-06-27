@@ -83,21 +83,14 @@ void BossActionApproach::OnEnd() {
 
 void BossActionApproach::CheckNextAction() {
 	if (distance_ < param_.quitApproachLength) {
-		NextAction<BossActionIdle>();
+		size_t hash = pOwner_->GetAI()->AttackActionAI();
+		NextAction(hash);
 	}
 
 	if (actionTimer_ > initParam_.moveTime) {
-		NextAction<BossActionIdle>();
+		size_t hash = pOwner_->GetAI()->AttackActionAI();
+		NextAction(hash);
 	}
-
-	/*if (param_.moveSpeed < 5.f) {
-		NextAction<BossActionIdle>();
-	}
-
-	if (isShot_) {
-		AddAction<BossActionShotgun>();
-		isShot_ = false;
-	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

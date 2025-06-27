@@ -9,15 +9,20 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Debug_Gui() {
-	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
-	
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+
+	if (ImGui::CollapsingHeader("Parameter")) {
+		ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
+		ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+		}
+		if (ImGui::Button("Apply")) {
+			param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+		}
 	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
-	}
+
+	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +31,12 @@ void BossActionShotLauncher::Debug_Gui() {
 
 void BossActionShotLauncher::Build() {
 	SetName("actionShotLauncher");
+
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotLauncherWeight");
+
+	size_t hash = typeid(BossActionShotLauncher).hash_code();
+	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
 } 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -68,6 +68,10 @@ void Boss::Init() {
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetIsStatic(false);
 
+	AI_ = std::make_unique<BossAI>();
+	AI_->Init();
+	this->AddChild(AI_.get());
+
 	// -------------------------------------------------
 	// ↓ Action関連
 	// -------------------------------------------------
@@ -79,6 +83,7 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionKeepDistance>();
 	actionManager_->BuildAction<BossActionLeave>();
 	actionManager_->BuildAction<BossActionStrafe>();
+
 	actionManager_->BuildAction<BossActionShotMissile>();
 	actionManager_->BuildAction<BossActionShotBullet>();
 	actionManager_->BuildAction<BossActionShotLauncher>();
@@ -114,10 +119,6 @@ void Boss::Init() {
 
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = false;
-
-	AI_ = std::make_unique<BossAI>();
-	AI_->Init();
-	this->AddChild(AI_.get());
 
 	EditorWindows::AddObjectWindow(this, "Boss");
 }
