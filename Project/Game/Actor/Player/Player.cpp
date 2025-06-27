@@ -86,7 +86,7 @@ void Player::Init() {
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Field::ground);
-	//collider->SetIsStatic(false);
+	collider->SetIsStatic(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -224,8 +224,6 @@ void Player::ConsumeEN(float cousumeAmount) {
 
 void Player::Landing() {
 	isLanding_ = true;
-	size_t hash = typeid(PlayerActionIdle).hash_code();
-	actionManager_->ChangeAction(hash);
 	jet_->JetIsStop();
 }
 

@@ -12,6 +12,9 @@ public:
 	struct Parameter : public IJsonConverter {
 		float speed;
 		float boostSpeed;
+		float moveT = 0.5f;
+		float rotateT = 0.5f;
+		float decayRate = 2.0f;
 
 		Parameter() { SetName("ActionMove"); }
 
@@ -19,12 +22,18 @@ public:
 			return JsonBuilder(id)
 				.Add("speed", speed)
 				.Add("boostSpeed", boostSpeed)
+				.Add("moveT", moveT)
+				.Add("rotateT", rotateT)
+				.Add("decayRate", decayRate)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "speed", speed);
 			fromJson(jsonData, "boostSpeed", boostSpeed);
+			fromJson(jsonData, "moveT", moveT);
+			fromJson(jsonData, "rotateT", rotateT);
+			fromJson(jsonData, "decayRate", decayRate);
 		}
 	};
 
@@ -47,8 +56,6 @@ private:	// action
 
 	void Move();
 
-	void Deceleration(Vector2 currentInput);
-
 	bool IsDirectionReversed(const Vector3& currentVelocity);
 
 private:
@@ -58,13 +65,12 @@ private:
 	const float kDeadZone_ = 0.1f;
 	Vector2 inputStick_;
 
+	Vector3 accel_;
+	Vector3 velocity_;
 	Vector3 preVelocity_;
-
+	
 	Parameter param_;
-	Parameter initParam_;
-
-	int prevNum_ = 6;
-
+	
 	bool isTurnAround_;
 };
 

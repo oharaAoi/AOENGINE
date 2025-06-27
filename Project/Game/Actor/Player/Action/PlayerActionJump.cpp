@@ -80,13 +80,8 @@ void PlayerActionJump::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::CheckNextAction() {
-	/*if (pOwnerTransform_->translate_.y <= 0.0f) {
-		pOwnerTransform_->translate_.y = 0.0f;
-		NextAction<PlayerActionIdle>();
-	}*/
-
-	if (CheckInput<PlayerActionMove>()) {
-		AddAction<PlayerActionMove>();
+	if (pOwner_->GetIsLanding()) {
+		DeleteSelf();
 	}
 }
 

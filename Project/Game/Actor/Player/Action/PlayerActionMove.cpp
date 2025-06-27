@@ -14,6 +14,12 @@
 void PlayerActionMove::Debug_Gui() {
 	ImGui::DragFloat("speed", &param_.speed, 0.1f);
 	ImGui::DragFloat("boostSpeed", &param_.boostSpeed, 0.1f);
+	ImGui::DragFloat("moveT", &param_.moveT, 0.01f);
+	ImGui::DragFloat("rotateT", &param_.rotateT, 0.01f);
+	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+	param_.moveT = std::clamp(param_.moveT, 0.0f, 1.0f);
+	param_.rotateT = std::clamp(param_.rotateT, 0.0f, 1.0f);
+
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
 	}
@@ -28,7 +34,7 @@ void PlayerActionMove::Debug_Gui() {
 
 void PlayerActionMove::Build() {
 	SetName("actionMove");
-	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,12 +52,16 @@ void PlayerActionMove::OnStart() {
 
 	pOwner_->SetIsMoving(true);
 
-	param_ = initParam_;
-
 	isTurnAround_ = false;
 
-	Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
-	preVelocity_ = Vector3(current.x, 0.0f, current.y);
+	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
+	if (pOwner_->GetIsBoostMode()) {
+		accel_ = dire * param_.boostSpeed;
+	} else {
+		accel_ = dire * param_.speed;
+	}
+	velocity_ += accel_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,21 +92,21 @@ void PlayerActionMove::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::CheckNextAction() {
-	if (!IsInput()) {
+	if (velocity_.Length() <= 0.1f) {
 		if (pOwner_->GetIsLanding()) {
 			NextAction<PlayerActionIdle>();
 		}
 	}
 
-	if (isTurnAround_) {
-		// 反対を向く処理をす
-		if (pOwner_->GetIsBoostMode()) {
-			context_->Set<float>("speed", param_.boostSpeed);
-		} else {
-			context_->Set<float>("speed", param_.speed);
-		}
-		NextAction<PlayerActionTurnAround>();
-	}
+	//if (isTurnAround_) {
+	//	// 反対を向く処理をす
+	//	if (pOwner_->GetIsBoostMode()) {
+	//		context_->Set<float>("speed", param_.boostSpeed);
+	//	} else {
+	//		context_->Set<float>("speed", param_.speed);
+	//	}
+	//	NextAction<PlayerActionTurnAround>();
+	//}
 
 	if (CheckInput<PlayerActionJump>()) {
 		AddAction<PlayerActionJump>();
@@ -138,31 +148,40 @@ bool PlayerActionMove::IsInput() {
 
 
 void PlayerActionMove::Move() {
+	WorldTransform* transform = pOwner_->GetTransform();
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
-	WorldTransform* transform = pOwner_->GetTransform();
-	Vector3 velocity = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
+	// speedを設定
+	float speed = 0.0f;
+	if (pOwner_->GetIsBoostMode()) {
+		speed = param_.boostSpeed;
+	} else {
+		speed = param_.speed;
+	}
 
-	// 方向転換をしなかったら
-	if (IsDirectionReversed(velocity)) { 
-		preVelocity_ = velocity;
-		//isTurnAround_ = true;
-		return;
+	// 加速方向を計算する
+	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
+	accel_ = dire * speed;
+	
+	// velocityを加速方向へなじませる
+	velocity_ = Vector3::Lerp(velocity_, accel_, param_.moveT);
+	velocity_ += accel_ * GameTimer::DeltaTime();
+	// 最大速度クランプ
+	if (velocity_.Length() > param_.boostSpeed) {
+		velocity_ = velocity_.Normalize() * param_.boostSpeed;
 	}
 
 	// 減速処理
-	Deceleration(inputStick_);
-
-	if (pOwner_->GetIsBoostMode()) {
-		transform->translate_ += velocity * param_.boostSpeed * GameTimer::DeltaTime();
-	} else {
-		transform->translate_ += velocity * param_.speed * GameTimer::DeltaTime();
+	if (inputStick_.Length() <= 0.01f) {
+		velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	}
 
+	transform->translate_ += velocity_ * GameTimer::DeltaTime();
+	
 	// playerを移動方向に向ける
-	if (velocity.x != 0.0f || velocity.y != 0.0f) {
-		float angle = std::atan2f(velocity.x, velocity.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, CVector3::UP), 0.1f);
+	if (velocity_.x != 0.0f || velocity_.z != 0.0f) {
+		float angle = std::atan2f(velocity_.x, velocity_.z);
+		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, CVector3::UP), param_.rotateT);
 		transform->rotation_ = lerpQuaternion;
 	}
 
@@ -172,22 +191,14 @@ void PlayerActionMove::Move() {
 		pOwner_->GetJetEngine()->JetIsStop();
 	}
 
-	preVelocity_ = velocity;
-}
+	preVelocity_ = velocity_;
 
-void PlayerActionMove::Deceleration(Vector2 currentInput) {
-	if (currentInput.Length() <= 0.0f) {
-		if (pOwner_->GetIsBoostMode()) {
-			param_.boostSpeed -= 2.f * GameTimer::DeltaTime();
-			param_.boostSpeed = std::clamp(param_.boostSpeed, 0.0f, initParam_.boostSpeed);
-		} else {
-			param_.speed -= 2.f * GameTimer::DeltaTime();
-			param_.speed = std::clamp(param_.speed, 0.0f, initParam_.speed);
-		}
-	} else {
-		param_.boostSpeed = initParam_.boostSpeed;
-		param_.speed = initParam_.speed;
-	}
+	// 方向転換をしなかったら
+	//if (IsDirectionReversed(accel)) {
+	//	preVelocity_ = velocity_;
+	//	//isTurnAround_ = true;
+	//	return;
+	//}
 }
 
 bool PlayerActionMove::IsDirectionReversed(const Vector3& currentVelocity) {
