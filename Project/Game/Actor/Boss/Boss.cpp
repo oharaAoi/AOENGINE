@@ -148,11 +148,11 @@ void Boss::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Damage(float _takeDamage) {
-	param_.health -= _takeDamage;
-
 	// スタン状態にする
 	if (!pulseArmor_->GetIsAlive()) {
+		param_.health -= _takeDamage;
 		param_.postureStability += _takeDamage * 0.3f;
+
 		if (param_.postureStability >= initParam_.postureStability) {
 			stateMachine_->ChangeState<BossStateStan>();
 		}

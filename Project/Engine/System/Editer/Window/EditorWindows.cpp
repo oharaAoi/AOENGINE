@@ -26,6 +26,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 
+	sceneReset_ = false;
 	openParticleEditor_ = false;
 	colliderDraw_ = false;
 	gridDraw_ = false;
@@ -146,6 +147,11 @@ void EditorWindows::ParticleEditorWindow() {
 	}
 }
 
+void EditorWindows::Reset() {
+	gameObjectWindow_->Init();
+	sceneReset_ = false;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug機能を描画するWindow
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -167,12 +173,14 @@ void EditorWindows::DebugItemWindow() {
 		D3D12_GPU_DESCRIPTOR_HANDLE skipHandle = tex->GetDxHeapHandles("skip.png").handleGPU;
 		D3D12_GPU_DESCRIPTOR_HANDLE colliderHandle = tex->GetDxHeapHandles("collider.png").handleGPU;
 		D3D12_GPU_DESCRIPTOR_HANDLE gridHandle = tex->GetDxHeapHandles("grid.png").handleGPU;
+		D3D12_GPU_DESCRIPTOR_HANDLE replayHandle = tex->GetDxHeapHandles("replay.png").handleGPU;
 
 		ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
 		ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
 		ImTextureID skipTex = reinterpret_cast<ImTextureID>(skipHandle.ptr);
 		ImTextureID colliderTex = reinterpret_cast<ImTextureID>(colliderHandle.ptr);
 		ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
+		ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
 
 		static bool isPlaying = true;  // トグル状態を保持
 		ImTextureID icon = isPlaying ? pauseTex : playTex;
@@ -194,6 +202,16 @@ void EditorWindows::DebugItemWindow() {
 		}
 		if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
 			GameTimer::SetTimeScale(1.0f);  // 再生・停止
+		}
+		PopStyleColor(pushButton);
+		ImGui::SameLine();
+
+		// -------------------------------------------------
+		// ↓ Replayの描画チェック
+		// -------------------------------------------------
+		pushButton = PushStyleColor(sceneReset_, Vector4(25, 25, 112, 255.0f));
+		if (ImGui::ImageButton("##replay", replayTex, iconSize)) {
+			sceneReset_ = !sceneReset_;  // 状態トグル
 		}
 		PopStyleColor(pushButton);
 		ImGui::SameLine();

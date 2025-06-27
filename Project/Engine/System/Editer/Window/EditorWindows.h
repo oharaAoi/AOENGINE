@@ -66,6 +66,10 @@ public:
 
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
+	void Reset();
+
+	bool GetSceneReset() const { return sceneReset_; }
+	
 	bool GetColliderDraw() const { return colliderDraw_; };
 
 	bool GetOpenParticleEditor() const { return openParticleEditor_; }
@@ -87,6 +91,7 @@ private:
 	std::function<void()> windowUpdate_;
 
 	// editorで使用するフラグ
+	bool sceneReset_;
 	bool openParticleEditor_;
 	bool colliderDraw_;
 	bool gridDraw_;

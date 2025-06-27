@@ -29,6 +29,13 @@ void SceneManager::Update() {
 		SetChange(scene_->GetNextSceneType().value());
 		scene_->SetNextSceneType(std::nullopt);
 	}
+
+	if (EditorWindows::GetInstance()->GetSceneReset()) {
+		EditorWindows::GetInstance()->Reset();
+		scene_->Init();
+		return;
+	}
+
 	scene_->Update();
 	effectSystem_->Update();
 }

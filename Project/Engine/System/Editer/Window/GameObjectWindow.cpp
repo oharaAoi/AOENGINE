@@ -5,6 +5,7 @@ GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
+	attributeArray_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
