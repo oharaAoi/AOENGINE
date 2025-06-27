@@ -1,11 +1,14 @@
 #include "EnemyAttackAlert.h"
 #include "Engine.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 void EnemyAttackAlert::Init() {
 	alert_ = Engine::CreateSprite("attackAlert.png");
 	timer_ = 0.0f;
 	blinkingCount_ = 0;
 	isDraw_ = true;
+
+	AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
 }
 
 void EnemyAttackAlert::Update() {
@@ -34,6 +37,10 @@ void EnemyAttackAlert::Alert() {
 		timer_ = 0.0f;
 		isDraw_ = !isDraw_;
 		blinkingCount_++;
+
+		if (isDraw_) {
+			AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
+		}
 	}
 }
 

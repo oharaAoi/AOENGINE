@@ -38,7 +38,7 @@ private:
 	bool isDraw_;
 	
 	float timer_;
-	float blinkingTime_ = 0.2f;
+	float blinkingTime_ = 0.1f;
 	uint32_t blinkingCount_;
 
 };
