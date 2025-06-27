@@ -86,7 +86,7 @@ void Boss::Init() {
 	actionManager_->BuildAction<BossActionAllRangeMissile>();
 	actionManager_->BuildAction<BossActionDeployArmor>();
 
-	size_t hash = typeid(BossActionIdle).hash_code();
+	size_t hash = typeid(BossActionDeployArmor).hash_code();
 	actionManager_->AddRunAction(hash);
 
 	// -------------------------------------------------
@@ -147,15 +147,22 @@ void Boss::Draw() const {
 
 void Boss::Damage(float _takeDamage) {
 	param_.health -= _takeDamage;
-	param_.postureStability += _takeDamage * 0.3f;
+
+	// スタン状態にする
+	if (!pulseArmor_->GetIsAlive()) {
+		param_.postureStability += _takeDamage * 0.3f;
+		if (param_.postureStability >= initParam_.postureStability) {
+			stateMachine_->ChangeState<BossStateStan>();
+		}
+	} else {
+		pulseArmor_->DamageDurability(_takeDamage * 0.3f);
+		if (pulseArmor_->BreakArmor()) {
+			stateMachine_->ChangeState<BossStateStan>();
+		}
+	}
 
 	// 倒した
 	if (param_.health <= 0.0f) {
 		isAlive_ = false;
-	}
-
-	// スタン状態にする
-	if (param_.postureStability >= initParam_.postureStability) {
-		stateMachine_->ChangeState<BossStateStan>();
 	}
 }

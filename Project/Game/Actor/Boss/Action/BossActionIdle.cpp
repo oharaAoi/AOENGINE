@@ -47,7 +47,7 @@ void BossActionIdle::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionIdle::CheckNextAction() {
-	if (actionTimer_ > 3.0f) {
+	if (actionTimer_ > 1.0f) {
 		size_t hash = pOwner_->GetAI()->MoveActionAI(pOwner_->GetTransform(), pOwner_->GetPlayerPosition());
 		NextAction(hash);
 	}

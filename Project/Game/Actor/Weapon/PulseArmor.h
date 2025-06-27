@@ -56,6 +56,16 @@ public:
 	/// <returns></returns>
 	bool BreakArmor();
 
+	/// <summary>
+	/// Armorの耐久度の割合を返す
+	/// </summary>
+	/// <returns></returns>
+	float ArmorDurability() { return durability_ / initDurability_; }
+
+public:
+
+	bool GetIsAlive() const { return isAlive_; }
+
 	WorldTransform* GetTransform() { return worldTransform_.get(); }
 
 private:
@@ -78,6 +88,7 @@ private:
 
 	// armorに関する変数 -----------------------
 	float durability_;	// 耐久度
+	float initDurability_;
 
 	bool isAlive_;
 

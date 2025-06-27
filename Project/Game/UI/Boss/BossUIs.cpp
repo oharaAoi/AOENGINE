@@ -13,6 +13,9 @@ void BossUIs::Init(Boss* _boss) {
 	postureStability_ = std::make_unique<PostureStability>();
 	postureStability_->Init();
 
+	armorDurability_ = std::make_unique<ArmorDurabilityUI>();
+	armorDurability_->Init();
+
 	pBoss_ = _boss;
 
 	uiItems_.FromJson(JsonItems::GetData(GetName(), uiItems_.GetName()));
@@ -22,6 +25,9 @@ void BossUIs::Init(Boss* _boss) {
 
 	postureStability_->SetScale(uiItems_.postureScale);
 	postureStability_->SetCenterPos(uiItems_.posturePos);
+
+	armorDurability_->SetScale(uiItems_.postureScale);
+	armorDurability_->SetCenterPos(uiItems_.posturePos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +40,10 @@ void BossUIs::Update() {
 
 	health_->Update(bossParam.health/ bossInitParam.health);
 	postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
+
+	if (pBoss_->GetPulseArmor()->GetIsAlive()) {
+		armorDurability_->Update(pBoss_->GetPulseArmor()->ArmorDurability());
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +53,11 @@ void BossUIs::Update() {
 void BossUIs::Draw() const {
 	health_->Draw();
 
-	postureStability_->Draw();
+	if (!pBoss_->GetPulseArmor()->GetIsAlive()) {
+		postureStability_->Draw();
+	} else {
+		armorDurability_->Draw();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

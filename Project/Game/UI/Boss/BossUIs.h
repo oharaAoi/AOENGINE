@@ -7,6 +7,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/UI/Boss/BossHealthUI.h"
 #include "Game/UI/PostureStability.h"
+#include "Game/UI/ArmorDurabilityUI.h"
 
 /// <summary>
 /// BossのUIをまとめたクラス
@@ -63,6 +64,7 @@ private:
 
 	std::unique_ptr<BossHealthUI> health_;
 	std::unique_ptr<PostureStability> postureStability_;
+	std::unique_ptr<ArmorDurabilityUI> armorDurability_;
 
 };
 

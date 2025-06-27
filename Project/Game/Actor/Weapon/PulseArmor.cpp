@@ -137,6 +137,7 @@ void PulseArmor::Debug_Gui() {
 
 void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
 	durability_ = _durability;
+	initDurability_ = _durability;
 	worldTransform_->SetScale(_scale);
 	setting_->color = _color;
 	setting_->edgeColor = _edgeColor;
@@ -154,6 +155,7 @@ void PulseArmor::DamageDurability(float _damage) {
 
 bool PulseArmor::BreakArmor() {
 	if (durability_ <= 0.0f) {
+		isAlive_ = false;
 		return true;
 	}
 	return false;

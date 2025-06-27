@@ -326,6 +326,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
+    <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
     <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
     <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
     <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
@@ -570,6 +571,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
+    <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
     <ClInclude Include="Game\UI\BaseGaugeUI.h" />
     <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
     <ClInclude Include="Game\UI\Boss\BossUIs.h" />
