@@ -58,6 +58,7 @@ public:
 		translate_ = srt.translate;
 		rotation_ = srt.rotate;
 		scale_ = srt.scale;
+
 	}
 
 	QuaternionSRT& GetSRT() { return transform_; }

@@ -19,9 +19,10 @@ public:		// data
 		std::string modelName;
 		QuaternionSRT srt;
 
-		std::string colliderType;
+		std::string colliderType = "";
 		Vector3 colliderCenter;
 		Vector3 colliderSize;
+		float colliderRadius;
 		
 		std::list<Objects> children;
 	};

@@ -37,6 +37,11 @@ void ICollider::SetTarget(const std::string& id) {
 	SetMaskBits(bit);
 }
 
+void ICollider::SetCategory(const std::string& category) {
+	auto& layers = CollisionLayerManager::GetInstance();
+	categoryBits_ = layers.RegisterCategory(category);
+}
+
 void ICollider::SetPushBackDirection(const Vector3& dire) {
 	if (pushbackDire_.x > dire.x) {
 		pushbackDire_.x = dire.x;

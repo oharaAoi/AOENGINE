@@ -3,6 +3,10 @@
 #include <string>
 
 namespace ColliderTags {
+	namespace None {
+		const std::string own = "none";
+	}
+
 	namespace Player {
 		const std::string own = "player";
 	}
@@ -26,6 +30,7 @@ namespace ColliderTags {
 
 inline std::list<std::string> GetColliderTagsList() {
 	std::list<std::string> colliderTags = {
+		ColliderTags::None::own,
 		ColliderTags::Player::own,
 
 		ColliderTags::Boss::own,

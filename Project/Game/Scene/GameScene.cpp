@@ -22,6 +22,9 @@ void GameScene::Init() {
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
+	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_->Init();
+
 	sceneLoader_ = SceneLoader::GetInstance();
 	sceneLoader_->Init();
 	sceneLoader_->Load("./Game/Assets/Scene/", "scene", ".json");
@@ -64,9 +67,6 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ managerの初期化
 	// -------------------------------------------------
-
-	collisionManager_ = std::make_unique<CollisionManager>();
-	collisionManager_->Init();
 
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
 	gameCallBacksManager_->SetBossRoot(bossRoot_.get());

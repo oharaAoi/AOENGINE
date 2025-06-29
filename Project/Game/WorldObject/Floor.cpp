@@ -19,13 +19,11 @@ void Floor::Init() {
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Field");
 	
-	floor_->SetCollider(ColliderTags::Field::ground, ColliderShape::AABB);
 	ICollider* collider = floor_->GetCollider();
+	collider->SetCategory(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
-	collider->SetSize(object.colliderSize);
-	collider->SetLoacalPos(object.colliderCenter);
 	
 	/*for (uint32_t oi = 0; oi < materials.size(); ++oi) {
 		materials[oi]->SetUvScale(Vector3{50.0f, 50.0f, 1.0f});

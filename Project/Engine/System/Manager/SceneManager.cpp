@@ -78,11 +78,10 @@ void SceneManager::Debug_Gui() {
 void SceneManager::SetChange(const SceneType& type) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
-	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
-	nextScene_->Init();
-
 	if (scene_ != nullptr) {
 		scene_->Finalize();
 	}
+	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	scene_ = std::move(nextScene_);
+	scene_->Init();
 }

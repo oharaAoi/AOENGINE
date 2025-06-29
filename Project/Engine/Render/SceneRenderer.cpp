@@ -9,7 +9,6 @@ SceneRenderer* SceneRenderer::GetInstance() {
 
 void SceneRenderer::Finalize() {
 	objectList_.clear();
-
 	particleManager_->Finalize();
 }
 
@@ -82,6 +81,18 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 		object->SetName(data.name);
 		object->SetObject(data.modelName);
 		object->GetTransform()->SetSRT(data.srt);
+
+		// colliderが設定されていたら
+		if (data.colliderType != "") {
+			object->SetCollider("none", data.colliderType);
+			ICollider* collider = object->GetCollider();
+			collider->SetLoacalPos(data.colliderCenter);
+			if (data.colliderType == "BOX") {
+				collider->SetSize(data.colliderSize);
+			} else if (data.colliderType == "SPHERE") {
+				collider->SetRadius(data.colliderRadius);
+			}
+		}
 
 		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, std::move(object));
 		objectList_.push_back(std::move(pair));

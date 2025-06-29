@@ -325,6 +325,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
@@ -337,6 +338,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
+    <ClCompile Include="Game\UI\TitleUIs.cpp" />
+    <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
@@ -572,6 +575,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
@@ -584,6 +588,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
+    <ClInclude Include="Game\UI\TitleUIs.h" />
+    <ClInclude Include="Game\WorldObject\FieldObject.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />

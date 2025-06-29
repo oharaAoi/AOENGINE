@@ -11,6 +11,8 @@ void Camera3d::Init() {
 	BaseCamera::Init();
 
 	parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
+	transform_.rotate = parameter_.rotate;
+	transform_.translate = parameter_.translate;
 
 	EditorWindows::AddObjectWindow(this, "camera3d");
 }

@@ -69,6 +69,8 @@ public:
 	void SetMaskBits(uint32_t bit) { maskBits_ |= bit; }
 	uint32_t GetMaskBits() const { return maskBits_; }
 
+	void SetCategory(const std::string& category);
+
 	// --------------- shapeの設定・取得 -------------- //
 	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
 	const std::variant<Sphere, AABB, OBB>& GetShape() const { return shape_; }

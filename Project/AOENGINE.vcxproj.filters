@@ -274,6 +274,9 @@
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
     <ClCompile Include="Game\UI\Boss\EnemyAttackAlert.cpp" />
+    <ClCompile Include="Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Game\UI\TitleUIs.cpp" />
+    <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -518,6 +521,9 @@
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
     <ClInclude Include="Game\UI\Boss\EnemyAttackAlert.h" />
+    <ClInclude Include="Game\Scene\TitleScene.h" />
+    <ClInclude Include="Game\UI\TitleUIs.h" />
+    <ClInclude Include="Game\WorldObject\FieldObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

@@ -70,6 +70,6 @@ protected:
 
 	float fovY_ = 0.45f;
 	float near_ = 0.1f;
-	float far_ = 100.0f;
+	float far_ = 10000.0f;
 };
 

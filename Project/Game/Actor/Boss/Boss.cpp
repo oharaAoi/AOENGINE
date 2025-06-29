@@ -61,10 +61,8 @@ void Boss::Init() {
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();
 	
-	object_->SetCollider(ColliderTags::Boss::own, object.colliderType);
 	ICollider* collider = object_->GetCollider();
-	collider->SetSize(object.colliderSize);
-	collider->SetLoacalPos(object.colliderCenter);
+	collider->SetCategory(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetIsStatic(false);

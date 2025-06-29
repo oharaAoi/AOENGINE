@@ -101,9 +101,14 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 		objectData.colliderCenter.y = (float)collider["center"][2];
 		objectData.colliderCenter.z = (float)collider["center"][1];
 
-		objectData.colliderSize.x = (float)collider["size"][0];
-		objectData.colliderSize.y = (float)collider["size"][2];
-		objectData.colliderSize.z = (float)collider["size"][1];
+		if (objectData.colliderType == "BOX") {
+			objectData.colliderSize.x = (float)collider["size"][0];
+			objectData.colliderSize.y = (float)collider["size"][2];
+			objectData.colliderSize.z = (float)collider["size"][1];
+
+		} else if (objectData.colliderType == "SPHERE") {
+			objectData.colliderRadius = (float)collider["radius"];
+		}
 	}
 
 	// children

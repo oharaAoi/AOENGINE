@@ -48,9 +48,9 @@
             "name": "Player",
             "transform": {
                 "translation": [
-                    0.0,
-                    -10.328723907470703,
-                    0.0
+                    -12.494457244873047,
+                    -7.961051940917969,
+                    0.2672884166240692
                 ],
                 "rotation": [
                     0.0,
@@ -65,41 +65,14 @@
             },
             "file_name": "player.obj",
             "collider": {
-                "type": "BOX",
+                "type": "SPHERE",
                 "center": [
                     0.0,
                     0.0,
-                    1.3600000143051147
+                    0.550000011920929
                 ],
-                "size": [
-                    2.0,
-                    1.0,
-                    3.0
-                ]
-            },
-            "children": [
-                {
-                    "type": "MESH",
-                    "name": "cube",
-                    "transform": {
-                        "translation": [
-                            0.0,
-                            10.328723907470703,
-                            0.0
-                        ],
-                        "rotation": [
-                            0.0,
-                            -0.0,
-                            0.0
-                        ],
-                        "scaling": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ]
-                    }
-                }
-            ]
+                "radius": 1.0
+            }
         },
         {
             "type": "MESH",
@@ -107,7 +80,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    26.89369773864746,
+                    30.462953567504883,
                     1.8071141242980957
                 ],
                 "rotation": [
@@ -170,6 +143,248 @@
                     9.770000457763672
                 ]
             }
+        },
+        {
+            "type": "MESH",
+            "name": "sbill",
+            "transform": {
+                "translation": [
+                    -22.12684440612793,
+                    -45.4840087890625,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "sbill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.001",
+            "transform": {
+                "translation": [
+                    -59.490447998046875,
+                    -76.23814392089844,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "sbill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.002",
+            "transform": {
+                "translation": [
+                    21.981552124023438,
+                    -76.31726837158203,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "sbill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.003",
+            "transform": {
+                "translation": [
+                    21.77025604248047,
+                    -123.32723236083984,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "sbill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.004",
+            "transform": {
+                "translation": [
+                    -57.206016540527344,
+                    -125.01329040527344,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "file_name": "sbill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill",
+            "transform": {
+                "translation": [
+                    -106.56645202636719,
+                    41.81196975708008,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "file_name": "bill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill.001",
+            "transform": {
+                "translation": [
+                    -154.47125244140625,
+                    41.81196975708008,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "file_name": "bill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill.002",
+            "transform": {
+                "translation": [
+                    -105.55652618408203,
+                    -50.71829605102539,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "file_name": "bill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill.003",
+            "transform": {
+                "translation": [
+                    -154.47125244140625,
+                    -47.97487258911133,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "file_name": "bill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill.004",
+            "transform": {
+                "translation": [
+                    -10.227178573608398,
+                    94.3633804321289,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    40.0,
+                    15.0,
+                    4.0
+                ]
+            },
+            "file_name": "bill.obj"
+        },
+        {
+            "type": "MESH",
+            "name": "bill.005",
+            "transform": {
+                "translation": [
+                    92.33860778808594,
+                    1.3355026245117188,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    40.0,
+                    15.0,
+                    4.0
+                ]
+            },
+            "file_name": "bill.obj"
         }
     ]
 }

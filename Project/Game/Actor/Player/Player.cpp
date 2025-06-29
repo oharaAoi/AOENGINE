@@ -77,12 +77,10 @@ void Player::Init() {
 	jet_->Init();
 	jet_->SetParent(this);
 
-	AddChild(jet_.get());
+	AddChild(jet_.get()); 
 
-	object_->SetCollider(ColliderTags::Player::own, object.colliderType);
 	ICollider* collider = object_->GetCollider();
-	collider->SetSize(object.colliderSize);
-	collider->SetLoacalPos(object.colliderCenter);
+	collider->SetCategory(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Field::ground);
