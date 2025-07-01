@@ -3,7 +3,7 @@
 
 void PlayerToGroundCallBacks::Init() {
 	SetCallBacks();
-	SetPair(pCollisionManager_, ColliderTags::Player::own, ColliderTags::Field::ground);
+	SetPair(pCollisionManager_, ColliderTags::Player::own, ColliderTags::None::own);
 }
 
 void PlayerToGroundCallBacks::Update() {

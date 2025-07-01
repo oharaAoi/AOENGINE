@@ -40,20 +40,11 @@ void ICollider::SetTarget(const std::string& id) {
 void ICollider::SetCategory(const std::string& category) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(category);
+	categoryName_ = category;
 }
 
 void ICollider::SetPushBackDirection(const Vector3& dire) {
-	if (pushbackDire_.x > dire.x) {
-		pushbackDire_.x = dire.x;
-	}
-
-	if (pushbackDire_.y > dire.y) {
-		pushbackDire_.y = dire.y;
-	}
-
-	if (pushbackDire_.z > dire.z) {
-		pushbackDire_.z = dire.z;
-	}
+	pushbackDire_ += dire;
 }
 
 

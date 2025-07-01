@@ -106,6 +106,7 @@ protected:
 	// カテゴリ
 	uint32_t categoryBits_; // 自分が属しているカテゴリ
 	uint32_t maskBits_;     // 誰と衝突してもいいかのマスク
+	std::string categoryName_;
 
 	// 形状
 	std::variant<Sphere, AABB, OBB> shape_;

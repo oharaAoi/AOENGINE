@@ -2,6 +2,7 @@
 #include <memory>
 // Engine
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 // Game
 #include "Game/Actor/Player/Player.h"
@@ -15,6 +16,9 @@ class PlayerUIs :
 public:
 
 	struct UIItems : public IJsonConverter {
+		Vector2 apScale = { 1.0f, 1.0f };
+		Vector2 apPos = { 640.0f, 360.0f };
+
 		Vector2 healthScale = { 1.0f, 1.0f };
 		Vector2 healthPos = { 640.0f, 360.0f };
 
@@ -25,6 +29,8 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("apScale", apScale)
+				.Add("apPos", apPos)
 				.Add("healthScale", healthScale)
 				.Add("healthPos", healthPos)
 				.Add("postureScale", postureScale)
@@ -33,6 +39,8 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "apScale", apScale);
+			fromJson(jsonData, "apPos", apPos);
 			fromJson(jsonData, "healthScale", healthScale);
 			fromJson(jsonData, "healthPos", healthPos);
 			fromJson(jsonData, "postureScale", postureScale);
@@ -58,6 +66,8 @@ private:
 	Player* pPlayer_;
 
 	UIItems uiItems_;
+
+	std::unique_ptr<Sprite> ap_;
 
 	std::unique_ptr<BaseGaugeUI> health_;
 

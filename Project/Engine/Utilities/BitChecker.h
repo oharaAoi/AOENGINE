@@ -18,5 +18,7 @@ bool CheckBit(uint32_t bitA, uint32_t bitB, CheckType type);
 // 含まれているか
 bool HasBit(uint32_t bitA, uint32_t bitB);
 
+bool MatchBit(uint32_t bitA, uint32_t bitB);
+
 // 完全に一致するか
 bool EqualBit(uint32_t bitA, uint32_t bitB);

@@ -27,6 +27,8 @@ constexpr const float kToDegree = 180.0f / std::numbers::pi_v<float>;
 
 constexpr const float kGravity = -9.81f;
 
+constexpr float kInf = std::numeric_limits<float>::infinity();
+
 constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 
 ////////////////////////////////////////////////////////////////////////////////////

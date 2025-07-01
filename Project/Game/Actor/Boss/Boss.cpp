@@ -65,6 +65,7 @@ void Boss::Init() {
 	collider->SetCategory(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
 
 	AI_ = std::make_unique<BossAI>();

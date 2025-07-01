@@ -81,7 +81,7 @@
                 "translation": [
                     0.0,
                     30.462953567504883,
-                    1.8071141242980957
+                    3.1994786262512207
                 ],
                 "rotation": [
                     0.0,
@@ -105,7 +105,7 @@
                 "size": [
                     11.309999465942383,
                     10.779999732971191,
-                    4.720000267028809
+                    6.760000228881836
                 ]
             }
         },
@@ -164,7 +164,20 @@
                     1.0
                 ]
             },
-            "file_name": "sbill.obj"
+            "file_name": "sbill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.799999952316284
+                ],
+                "size": [
+                    40.0,
+                    22.0,
+                    5.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -186,7 +199,20 @@
                     1.0
                 ]
             },
-            "file_name": "sbill.obj"
+            "file_name": "sbill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.799999952316284
+                ],
+                "size": [
+                    40.0,
+                    22.0,
+                    5.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -208,7 +234,20 @@
                     1.0
                 ]
             },
-            "file_name": "sbill.obj"
+            "file_name": "sbill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.799999952316284
+                ],
+                "size": [
+                    40.0,
+                    22.0,
+                    5.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -230,7 +269,20 @@
                     1.0
                 ]
             },
-            "file_name": "sbill.obj"
+            "file_name": "sbill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.799999952316284
+                ],
+                "size": [
+                    40.0,
+                    22.0,
+                    5.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -252,7 +304,20 @@
                     1.0
                 ]
             },
-            "file_name": "sbill.obj"
+            "file_name": "sbill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.799999952316284
+                ],
+                "size": [
+                    40.0,
+                    22.0,
+                    5.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -274,7 +339,20 @@
                     2.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.299999952316284
+                ],
+                "size": [
+                    57.0,
+                    16.0,
+                    6.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -296,7 +374,20 @@
                     2.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.299999952316284
+                ],
+                "size": [
+                    57.0,
+                    16.0,
+                    6.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -318,7 +409,20 @@
                     2.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.380000114440918
+                ],
+                "size": [
+                    57.0,
+                    16.0,
+                    6.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -340,7 +444,20 @@
                     2.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    2.299999952316284
+                ],
+                "size": [
+                    57.0,
+                    16.0,
+                    6.0
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -362,7 +479,20 @@
                     4.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    5.329999923706055
+                ],
+                "size": [
+                    153.34999084472656,
+                    32.25,
+                    9.979999542236328
+                ]
+            }
         },
         {
             "type": "MESH",
@@ -384,7 +514,20 @@
                     4.0
                 ]
             },
-            "file_name": "bill.obj"
+            "file_name": "bill.obj",
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    4.96999979019165
+                ],
+                "size": [
+                    153.66000366210938,
+                    32.06999969482422,
+                    10.0
+                ]
+            }
         }
     ]
 }

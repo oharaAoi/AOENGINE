@@ -44,6 +44,8 @@ void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::strin
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 void GameObjectWindow::Edit() {
+	if (attributeArray_.empty()) { return; }
+
 	// -------------------------------------------------
 	// ↓ Itemの選択
 	// -------------------------------------------------

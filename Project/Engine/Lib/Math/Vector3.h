@@ -174,6 +174,9 @@ public:
 	/// <returns></returns>
 	static Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
 
+	static Vector3 Min(const Vector3& min, const Vector3& target);
+	static Vector3 Max(const Vector3& max, const Vector3& target);
+
 	/// <summary>
 	/// Matrixを作成する(z軸)
 	/// </summary>
@@ -210,4 +213,5 @@ namespace CVector3 {
 	constexpr Vector3 FORWARD	{ 0.0f ,0.0f, 1.0f };
 	constexpr Vector3 ZERO		{ 0.0f, 0.0f, 0.0f };
 	constexpr Vector3 UNIT		{ 1.0f, 1.0f, 1.0f };
+	constexpr Vector3 INF		{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
 }

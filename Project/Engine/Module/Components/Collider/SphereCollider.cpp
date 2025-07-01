@@ -14,6 +14,7 @@ SphereCollider::~SphereCollider() {}
 void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(categoryName);
+	categoryName_ = categoryName;
 
 	collisionState_ = CollisionFlags::NONE;
 
@@ -44,7 +45,7 @@ void SphereCollider::Draw() const {
 	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
 		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Vector4(1, 0, 0, 1));
 	} else {
-		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat());
+		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Vector4(0, 1, 1, 1));
 	}
 }
 

@@ -14,6 +14,7 @@ BoxCollider::~BoxCollider() {}
 void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(categoryName);
+	categoryName_ = categoryName;
 
 	collisionState_ = CollisionFlags::NONE;
 	
@@ -36,12 +37,37 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<AABB>(shape_)) {
-		std::get<AABB>(shape_).min = (srt.translate - (size_ / 2.0f)) + localSRT_.translate;
-		std::get<AABB>(shape_).max = (srt.translate + (size_ / 2.0f)) + localSRT_.translate;
+		// ローカル空間でのAABBの半サイズ
+		Vector3 halfSize = size_ * 0.5f;
 
-		Vector3 min = std::get<AABB>(shape_).min;
-		Vector3 max = std::get<AABB>(shape_).max;
-		std::get<AABB>(shape_).center = ((min + max) * 0.5f) + localSRT_.translate;
+		// ローカル空間での8頂点
+		std::array<Vector3, 8> localPoints = {
+			Vector3{-halfSize.x, -halfSize.y, -halfSize.z},
+			Vector3{ halfSize.x, -halfSize.y, -halfSize.z},
+			Vector3{-halfSize.x,  halfSize.y, -halfSize.z},
+			Vector3{ halfSize.x,  halfSize.y, -halfSize.z},
+			Vector3{-halfSize.x, -halfSize.y,  halfSize.z},
+			Vector3{ halfSize.x, -halfSize.y,  halfSize.z},
+			Vector3{-halfSize.x,  halfSize.y,  halfSize.z},
+			Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
+		};
+
+		// 最小最大初期化
+		Vector3 min = CVector3::INF;
+		Vector3 max = CVector3::INF * -1.0f;
+
+		for (const auto& localPt : localPoints) {
+			// ローカル -> 回転 -> 平行移動
+			Vector3 worldPt = srt.translate + (srt.rotate * (localPt + localSRT_.translate));
+
+			min = Vector3::Min(min, worldPt);
+			max = Vector3::Max(max, worldPt);
+		}
+
+		auto& aabb = std::get<AABB>(shape_);
+		aabb.min = min;
+		aabb.max = max;
+		aabb.center = (min + max) * 0.5f;
 	} else if (std::holds_alternative<OBB>(shape_)) {
 		std::get<OBB>(shape_).center = srt.translate + localSRT_.translate;
 		std::get<OBB>(shape_).MakeOBBAxis(srt.rotate);
@@ -52,7 +78,7 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxCollider::Draw() const {
-	Vector4 color{ 1,1,1,1 };
+	Vector4 color{ 0,1,1,1 };
 	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
 		color = { 1,0,0,1 };
 	}

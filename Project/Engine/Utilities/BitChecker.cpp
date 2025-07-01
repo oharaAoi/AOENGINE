@@ -14,6 +14,10 @@ bool HasBit(uint32_t bitA, uint32_t bitB) {
     return (bitA & bitB) != 0;
 }
 
+bool MatchBit(uint32_t bitA, uint32_t bitB) {
+    return (bitA & bitB) != 0;
+}
+
 bool EqualBit(uint32_t bitA, uint32_t bitB) {
     return (bitA == bitB);
 }

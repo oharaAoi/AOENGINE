@@ -78,6 +78,22 @@ Vector3 Vector3::Lerp(const Vector3& start, const Vector3& end, float t) {
     return result;
 }
 
+Vector3 Vector3::Min(const Vector3& min, const Vector3& target) {
+    Vector3 result{};
+    result.x = std::min(min.x, target.x);
+    result.y = std::min(min.y, target.y);
+    result.z = std::min(min.z, target.z);
+    return result;
+}
+
+Vector3 Vector3::Max(const Vector3& max, const Vector3& target) {
+    Vector3 result{};
+    result.x = std::max(max.x, target.x);
+    result.y = std::max(max.y, target.y);
+    result.z = std::max(max.z, target.z);
+    return result;
+}
+
 Matrix4x4 Vector3::MakeRollMatrix(float z_Roll) const {
     Matrix4x4 result{};
     result.m[0][0] = std::cos(z_Roll);
