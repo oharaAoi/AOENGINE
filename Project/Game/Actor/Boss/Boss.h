@@ -80,6 +80,10 @@ public:
 
 	bool GetIsAlive() const { return isAlive_; }
 
+	// break
+	void SetIsBreak(bool _isBreak) { isBreak_ = _isBreak; }
+	bool GetIsBreak() const { return isBreak_; }
+
 	// stan
 	bool GetIsStan() const { return isStan_; }
 	void SetIsStan(bool isStan) { isStan_ = isStan; }
@@ -106,6 +110,7 @@ private:
 	Parameter initParam_;
 
 	bool isAlive_;
+	bool isBreak_;
 	bool isStan_;
 
 	// AI --------------------------------------------------

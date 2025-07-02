@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include <optional>
+#include "Engine/System/Manager/ParticleManager.h"
 
 SceneManager::SceneManager() {}
 
@@ -32,6 +33,7 @@ void SceneManager::Update() {
 
 	if (EditorWindows::GetInstance()->GetSceneReset()) {
 		EditorWindows::GetInstance()->Reset();
+		ParticleManager::GetInstance()->Init();
 		scene_->Init();
 		return;
 	}

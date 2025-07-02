@@ -8,6 +8,7 @@
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"
+#include "Game/Actor/Boss/State/BossStateBeDestroyed.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
@@ -121,7 +122,7 @@ void Boss::Init() {
 	param_ = initParam_;
 
 	param_.postureStability -= initParam_.postureStability;
-	isAlive_ = false;
+	isAlive_ = true;
 	isStan_ = false;
 
 	EditorWindows::AddObjectWindow(this, "Boss");
@@ -132,7 +133,10 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	if (!isAlive_) { return; }
+	if (!isAlive_) {
+		stateMachine_->Update();
+		return;
+	}
 
 	actionManager_->Update();
 	stateMachine_->Update();
@@ -175,6 +179,7 @@ void Boss::Damage(float _takeDamage) {
 	// 倒した
 	if (param_.health <= 0.0f) {
 		isAlive_ = false;
+		stateMachine_->ChangeState<BossStateBeDestroyed>();
 	}
 }
 

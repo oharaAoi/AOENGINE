@@ -25,6 +25,7 @@ private:
 	using Pair = std::pair<std::string, AttributeGui*>;
 
 	std::vector<Pair> attributeArray_;
+	AttributeGui* selectAttribute_ = nullptr;
 
 };
 

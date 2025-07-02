@@ -6,6 +6,7 @@ GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
 	attributeArray_.clear();
+	selectAttribute_ = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +51,6 @@ void GameObjectWindow::Edit() {
 	// ↓ Itemの選択
 	// -------------------------------------------------
 	ImGui::Begin("Scene Object");
-	static AttributeGui* selectAttribute = nullptr;  // 現在選択されているノード
 	static std::string openNode = "";  // 現在開いているTreeNodeの名前
 	static bool firstOpenRoot = true;
 	for (auto it : attributeArray_) {
@@ -69,17 +69,17 @@ void GameObjectWindow::Edit() {
 				}
 				if (firstOpenRoot) {
 					firstOpenRoot = false;
-					selectAttribute = ptr;
+					selectAttribute_ = ptr;
 					openNode = "";  // 他のノードを閉じる
 				}
 
 				for (auto child : ptr->GetChildren()) {
-					if (ImGui::Selectable(child->GetName().c_str(), selectAttribute == child)) {
+					if (ImGui::Selectable(child->GetName().c_str(), selectAttribute_ == child)) {
 						// 新しく選択されたら開いているノードを変更
-						if (selectAttribute != child) {
+						if (selectAttribute_ != child) {
 							openNode = label;  // 現在の親ノードを記録
 						}
-						selectAttribute = child;
+						selectAttribute_ = child;
 					} 
 				}
 				ImGui::TreePop();
@@ -91,8 +91,8 @@ void GameObjectWindow::Edit() {
 			}
 		} else {
 			// 子供を持たないノードの場合
-			if (ImGui::Selectable(label.c_str(), selectAttribute == ptr)) {
-				selectAttribute = it.second;
+			if (ImGui::Selectable(label.c_str(), selectAttribute_ == ptr)) {
+				selectAttribute_ = it.second;
 				openNode = "";  // 他のノードを閉じる
 			}
 		}
@@ -104,16 +104,16 @@ void GameObjectWindow::Edit() {
 	// ↓ ItemごとのImGuiを編集する
 	// -------------------------------------------------
 	ImGui::Begin("Object Setting");
-	if (selectAttribute != nullptr) {
-		bool isActive = selectAttribute->GetIsActive();
+	if (selectAttribute_ != nullptr) {
+		bool isActive = selectAttribute_->GetIsActive();
 		ImGui::Checkbox(" ", &isActive);
 		ImGui::SameLine();
 		ImGui::Text("Name : ");
 		ImGui::SameLine();
-		ImGui::Text(selectAttribute->GetName().c_str());
+		ImGui::Text(selectAttribute_->GetName().c_str());
 		ImGui::Separator();
-		selectAttribute->Debug_Gui();
-		selectAttribute->SetIsActive(isActive);
+		selectAttribute_->Debug_Gui();
+		selectAttribute_->SetIsActive(isActive);
 	}
 	ImGui::End();
 }
