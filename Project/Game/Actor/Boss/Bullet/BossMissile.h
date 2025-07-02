@@ -19,6 +19,8 @@ public:
 	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed, 
 			   float trackingRaito, bool isTracking);
 
+	void OnCollision(ICollider* other);
+
 private :
 
 	void Tracking();

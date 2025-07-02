@@ -12,6 +12,8 @@ void BossBullet::Init() {
 
 	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Player::own);
+	collider->SetTarget(ColliderTags::None::own);
+	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	//collider->SetTarget(ColliderTags::Field::ground);
 }
 
@@ -34,4 +36,13 @@ void BossBullet::Update() {
 void BossBullet::Reset(const Vector3& pos, const Vector3& velocity) {
 	transform_->translate_ = pos;
 	velocity_ = velocity;
+}
+
+void BossBullet::OnCollision(ICollider* other) {
+	if (other->GetCategoryName() == ColliderTags::None::own) {
+		isAlive_ = false;
+		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		hitEffect->SetPos(object_->GetPosition());
+		hitEffect->Reset();
+	}
 }

@@ -17,6 +17,10 @@ public:
 	
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
+public:
+
+	void OnCollision(ICollider* other);
+
 private:
 
 	BossBulletType type_ = BossBulletType::SHOT;

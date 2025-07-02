@@ -88,6 +88,10 @@ void PlayerActionJump::CheckNextAction() {
 	if (pOwner_->GetIsLanding()) {
 		NextAction<PlayerActionIdle>();
 	}
+
+	if (CheckInput<PlayerActionMove>()) {
+		AddAction<PlayerActionMove>();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

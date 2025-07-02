@@ -128,7 +128,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	//actionManager_->Update();
+	actionManager_->Update();
 	stateMachine_->Update();
 
 	pulseArmor_->Update();

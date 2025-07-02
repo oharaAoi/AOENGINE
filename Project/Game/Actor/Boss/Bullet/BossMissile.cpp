@@ -18,6 +18,8 @@ void BossMissile::Init() {
 	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::None::own);
+	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 
 	trackingLength_ = 10.f;
 	trackingTimer_ = 0.f;
@@ -77,5 +79,14 @@ void BossMissile::Tracking() {
 		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
 		finishTracking_ = true;
+	}
+}
+
+void BossMissile::OnCollision(ICollider* other) {
+	if (other->GetCategoryName() == ColliderTags::None::own) {
+		isAlive_ = false;
+		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		hitEffect->SetPos(object_->GetPosition());
+		hitEffect->Reset();
 	}
 }
