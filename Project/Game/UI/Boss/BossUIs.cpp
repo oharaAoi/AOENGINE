@@ -7,6 +7,9 @@
 
 void BossUIs::Init(Boss* _boss) {
 	SetName("BossUIs");
+	pBoss_ = _boss;
+	uiItems_.FromJson(JsonItems::GetData(GetName(), uiItems_.GetName()));
+
 	health_ = std::make_unique<BossHealthUI>();
 	health_->Init();
 
@@ -16,9 +19,8 @@ void BossUIs::Init(Boss* _boss) {
 	armorDurability_ = std::make_unique<ArmorDurabilityUI>();
 	armorDurability_->Init();
 
-	pBoss_ = _boss;
-
-	uiItems_.FromJson(JsonItems::GetData(GetName(), uiItems_.GetName()));
+	stanGaugeUI_ = std::make_unique<StanGaugeUI>();
+	stanGaugeUI_->Init(uiItems_.postureScale, uiItems_.posturePos);
 
 	health_->SetScale(uiItems_.healthScale);
 	health_->SetCenterPos(uiItems_.healthPos);
@@ -46,6 +48,11 @@ void BossUIs::Update() {
 		armorDurability_->Update(pBoss_->GetPulseArmor()->ArmorDurability());
 	} else {
 		postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
+	}
+
+	// スタン
+	if (pBoss_->GetIsStan()) {
+		stanGaugeUI_->Update();
 	}
 
 	// 警告
@@ -78,6 +85,11 @@ void BossUIs::Draw() const {
 	for (auto& alert : attackAlertList_) {
 		alert->Draw();
 	}
+
+	// stanゲージ
+	if (pBoss_->GetIsStan()) {
+		stanGaugeUI_->Draw();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,6 +113,10 @@ void BossUIs::Debug_Gui() {
 		postureStability_->SetCenterPos(uiItems_.posturePos);
 	}
 
+	if (ImGui::CollapsingHeader("Stan")) {
+		stanGaugeUI_->Debug_Gui();
+	}
+
 
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(GetName(), uiItems_.ToJson(uiItems_.GetName()));
@@ -110,4 +126,8 @@ void BossUIs::Debug_Gui() {
 void BossUIs::PopAlert() {
 	auto& alert = attackAlertList_.emplace_back(std::make_unique<EnemyAttackAlert>());
 	alert->Init();
+}
+
+void BossUIs::PopStan() {
+	stanGaugeUI_->Pop();
 }

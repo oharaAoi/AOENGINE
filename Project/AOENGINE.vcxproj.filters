@@ -278,6 +278,7 @@
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
     <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
+    <ClCompile Include="Game\UI\StanGaugeUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -526,6 +527,7 @@
     <ClInclude Include="Game\UI\TitleUIs.h" />
     <ClInclude Include="Game\WorldObject\FieldObject.h" />
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
+    <ClInclude Include="Game\UI\StanGaugeUI.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

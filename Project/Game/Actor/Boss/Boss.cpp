@@ -68,6 +68,9 @@ void Boss::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
 
+	object_->SetPhysics();
+	object_->GetRigidbody()->SetGravity(false);
+
 	AI_ = std::make_unique<BossAI>();
 	AI_->Init();
 	this->AddChild(AI_.get());
@@ -119,6 +122,7 @@ void Boss::Init() {
 
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = false;
+	isStan_ = false;
 
 	EditorWindows::AddObjectWindow(this, "Boss");
 }
@@ -150,7 +154,11 @@ void Boss::Damage(float _takeDamage) {
 	// スタン状態にする
 	if (!pulseArmor_->GetIsAlive()) {
 		param_.health -= _takeDamage;
-		param_.postureStability += _takeDamage * 0.3f;
+
+		if (!isStan_) {
+			param_.postureStability += _takeDamage * 0.3f;
+			param_.postureStability = std::clamp(param_.postureStability, 0.0f, initParam_.postureStability);
+		}
 
 		if (param_.postureStability >= initParam_.postureStability) {
 			stateMachine_->ChangeState<BossStateStan>();
@@ -166,4 +174,9 @@ void Boss::Damage(float _takeDamage) {
 	if (param_.health <= 0.0f) {
 		isAlive_ = false;
 	}
+}
+
+void Boss::ResetStan() {
+	isStan_ = false;
+	param_.postureStability -= initParam_.postureStability;
 }

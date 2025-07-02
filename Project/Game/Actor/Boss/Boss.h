@@ -50,6 +50,8 @@ public:		// menber method
 
 	void Damage(float _takeDamage);
 
+	void ResetStan();
+
 public:
 
 	// state
@@ -78,6 +80,10 @@ public:
 
 	bool GetIsAlive() const { return isAlive_; }
 
+	// stan
+	bool GetIsStan() const { return isStan_; }
+	void SetIsStan(bool isStan) { isStan_ = isStan; }
+
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
 
@@ -100,6 +106,7 @@ private:
 	Parameter initParam_;
 
 	bool isAlive_;
+	bool isStan_;
 
 	// AI --------------------------------------------------
 	std::unique_ptr<BossAI> AI_;

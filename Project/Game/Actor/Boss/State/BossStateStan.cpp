@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -15,6 +16,10 @@ void BossStateStan::OnStart() {
 	param_.FromJson(JsonItems::GetData(stateMachine_->GetName(), param_.GetName()));
 
 	pOwner_->GetActionManager()->SetIsActionStop(true);
+	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
+
+	pOwner_->SetIsStan(true);
+	pOwner_->GetUIs()->PopStan();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,9 +29,7 @@ void BossStateStan::OnStart() {
 void BossStateStan::OnUpdate() {
 	stateTime_ += GameTimer::DeltaTime();
 
-	ApplyGravity();
-
-	if (stateTime_ >= param_.fallTime) {
+	if (stateTime_ >= param_.stanTime) {
 		stateMachine_->ChangeState<BossStateNormal>();
 	}
 }
@@ -39,6 +42,9 @@ void BossStateStan::OnExit() {
 	size_t hash = typeid(BossActionIdle).hash_code();
 	pOwner_->GetActionManager()->ChangeAction(hash);
 	pOwner_->GetActionManager()->SetIsActionStop(false);
+	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
+
+	pOwner_->ResetStan();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,15 +52,11 @@ void BossStateStan::OnExit() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateStan::Debug_Gui() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 重力の適応
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossStateStan::ApplyGravity() {
-	if (stateTime_ >= param_.fallTime) { return; }
-
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+	ImGui::DragFloat("stanTime", &param_.stanTime, 0.1f);
+	if (ImGui::Button("Save")) {
+		JsonItems::Save(stateMachine_->GetName(), param_.ToJson(param_.GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData(stateMachine_->GetName(), param_.GetName()));
+	}
 }

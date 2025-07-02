@@ -339,6 +339,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
+    <ClCompile Include="Game\UI\StanGaugeUI.cpp" />
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
     <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
@@ -590,6 +591,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
+    <ClInclude Include="Game\UI\StanGaugeUI.h" />
     <ClInclude Include="Game\UI\TitleUIs.h" />
     <ClInclude Include="Game\WorldObject\FieldObject.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />

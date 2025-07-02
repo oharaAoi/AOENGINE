@@ -10,6 +10,7 @@
 #include "Game/UI/Boss/EnemyAttackAlert.h"
 #include "Game/UI/PostureStability.h"
 #include "Game/UI/ArmorDurabilityUI.h"
+#include "Game/UI/StanGaugeUI.h"
 
 /// <summary>
 /// BossのUIをまとめたクラス
@@ -62,6 +63,8 @@ public:
 
 	void PopAlert();
 
+	void PopStan();
+
 private:
 
 	Boss* pBoss_ = nullptr;
@@ -71,6 +74,7 @@ private:
 	std::unique_ptr<BossHealthUI> health_;
 	std::unique_ptr<PostureStability> postureStability_;
 	std::unique_ptr<ArmorDurabilityUI> armorDurability_;
+	std::unique_ptr<StanGaugeUI> stanGaugeUI_;
 
 	std::list<std::unique_ptr<EnemyAttackAlert>> attackAlertList_;
 };

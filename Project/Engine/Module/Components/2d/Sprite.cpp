@@ -263,11 +263,14 @@ void Sprite::Debug_Gui() {
 		ImGui::SliderAngle("uvRotation", &uvTransform_.rotate.z);
 		ImGui::TreePop();
 	}
+
 	ImGui::DragFloat2("anchorPoint", &anchorPoint_.x, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat2("textureSize", &textureSize_.x, 1.0f);
 	ImGui::DragFloat2("drawRange", &drawRange_.x, 1.0f);
 	ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
 	ImGui::DragFloat2("uvMin", &materialData_->uvMinSize.x, 0.01f);
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
+
+	ImGui::ColorEdit4("color", &materialData_->color.x);
 
 }
