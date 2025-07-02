@@ -136,6 +136,7 @@ public:
 
 	// reticle
 	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
+	bool GetIsLockOn() const { return reticle_->GetLockOn(); }
 
 	// targetの座標を
 	Vector3 GetTargetPos() const { return reticle_->GetTargetPos(); }

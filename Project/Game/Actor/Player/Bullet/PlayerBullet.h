@@ -23,6 +23,10 @@ public:
 
 	uint32_t GetType() const { return bulletType; }
 
+public:
+
+	void OnCollision(ICollider* other);
+
 private:
 
 	uint32_t bulletType = MACHINEGUN;

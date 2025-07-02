@@ -19,7 +19,7 @@ public:
 
 public:		// member method
 
-	virtual void Shot(const Vector3& targetPos, uint32_t type) = 0;
+	virtual void Shot(const Vector3& direction, uint32_t type) = 0;
 
 public:		// accessor method
 

@@ -75,7 +75,13 @@ void PlayerActionShotRight::Shot() {
 	// 長押しで反応するようにする
 	if (pInput_->GetPressPadTrigger(XInputButtons::R_SHOULDER)) {
 		// shotを放つ
-		pOwner_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->Shot(pOwner_->GetTargetPos(), 0);
+		if (pOwner_->GetIsLockOn()) {
+			Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
+			pOwner_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->Shot(dire, 0);
+		} else {
+			Vector3 dire = pOwner_->GetTransform()->rotation_.MakeForward();
+			pOwner_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->Shot(dire, 0);
+		}
 
 		// coolTimeの設定
 		shotTimer_ = shotCoolTime_;

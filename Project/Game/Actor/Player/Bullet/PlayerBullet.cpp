@@ -12,6 +12,7 @@ void PlayerBullet::Init() {
 
 	ICollider* collider = object_->GetCollider();
 	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 }
 
 void PlayerBullet::Update() {
@@ -30,3 +31,11 @@ void PlayerBullet::Update() {
 	BaseBullet::Update();
 }
 
+void PlayerBullet::OnCollision(ICollider* other) {
+	if (other->GetCategoryName() == ColliderTags::None::own) {
+		isAlive_ = false;
+		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		hitEffect->SetPos(object_->GetPosition());
+		hitEffect->Reset();
+	}
+}

@@ -54,14 +54,13 @@ void MachineGun::Draw() const {
 // ↓ 弾を撃つ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void MachineGun::Shot(const Vector3& targetPos, uint32_t type) {
+void MachineGun::Shot(const Vector3& direction, uint32_t type) {
 	Vector3 worldPos = object_->GetPosition();
-	Vector3 dire = (targetPos - worldPos).Normalize();
-	PlayerBullet* bullet = pBulletManager_->AddBullet(worldPos, dire * speed_, type);
+	PlayerBullet* bullet = pBulletManager_->AddBullet(worldPos, direction * speed_, type);
 	bullet->SetTakeDamage(10.0f);
 	// effectを出す
 	Vector3 pos = worldPos;
-	pos += (dire * 4.f);
+	pos += (direction * 4.f);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
 }
