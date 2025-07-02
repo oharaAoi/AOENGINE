@@ -13,11 +13,11 @@
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
-#include "Game/Actor/Boss/Action/BossActionShotMissile.h"
-#include "Game/Actor/Boss/Action/BossActionShotBullet.h"
-#include "Game/Actor/Boss/Action/BossActionShotLauncher.h"
-#include "Game/Actor/Boss/Action/BossActionShotgun.h"
-#include "Game/Actor/Boss/Action/BossActionAllRangeMissile.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionShotMissile.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionShotBullet.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionShotLauncher.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionShotgun.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionAllRangeMissile.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 
 void Boss::Finalize() {

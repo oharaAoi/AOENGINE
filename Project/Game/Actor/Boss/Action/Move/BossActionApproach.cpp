@@ -3,9 +3,6 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
-#include "Game/Actor/Boss/Action/BossActionShotMissile.h"
-#include "Game/Actor/Boss/Action/BossActionShotgun.h"
-#include "Game/Actor/Boss/Action/BossActionShotBullet.h"
 
 void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
