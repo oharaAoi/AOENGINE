@@ -30,6 +30,9 @@ public:		// data
 		float energyRecoveyAmount = 1.f;	// EN回復量(m/s)
 		float energyRecoveyCoolTime;	// EN回復までのクールタイム
 
+		float legColliderRadius = 0.5f;
+		float legColliderPosY = -0.1f;
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("health", health)
@@ -38,6 +41,8 @@ public:		// data
 				.Add("energy", energy)
 				.Add("energyRecoveyAmount", energyRecoveyAmount)
 				.Add("energyRecoveyCoolTime", energyRecoveyCoolTime)
+				.Add("legColliderRadius", legColliderRadius)
+				.Add("legColliderPosY", legColliderPosY)
 				.Build();
 		}
 
@@ -48,6 +53,8 @@ public:		// data
 			fromJson(jsonData, "energy", energy);
 			fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
 			fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);
+			fromJson(jsonData, "legColliderRadius", legColliderRadius);
+			fromJson(jsonData, "legColliderPosY", legColliderPosY);
 		}
 	};
 
@@ -97,6 +104,8 @@ public:		// accessor method
 	/// BoostModeにする
 	/// </summary>
 	void IsBoostMode();
+
+	void LegOnCollision([[maybe_unused]] ICollider* other);
 
 public:
 
@@ -173,6 +182,8 @@ private:
 	BaseWeapon* pWeapons_[PlayerWeapon::KMAX];
 	
 	std::unique_ptr<JetEngine> jet_;
+
+	std::unique_ptr<SphereCollider> legCollider_;
 
 };
 

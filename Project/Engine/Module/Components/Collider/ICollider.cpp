@@ -47,4 +47,10 @@ void ICollider::SetPushBackDirection(const Vector3& dire) {
 	pushbackDire_ += dire;
 }
 
+void ICollider::OnCollision(ICollider* other) {
+	if (onCollision_) {
+		onCollision_(other);
+	}
+}
+
 

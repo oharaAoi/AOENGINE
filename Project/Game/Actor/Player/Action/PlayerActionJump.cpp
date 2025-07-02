@@ -57,6 +57,7 @@ void PlayerActionJump::OnStart() {
 
 	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
+	pOwner_->ConsumeEN(param_.jumpEnergy);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

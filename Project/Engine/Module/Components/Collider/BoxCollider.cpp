@@ -16,6 +16,7 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	categoryBits_ = layers.RegisterCategory(categoryName);
 	categoryName_ = categoryName;
 
+	collisionPartnersMap_.clear();
 	collisionState_ = CollisionFlags::NONE;
 	
 	if (shape == ColliderShape::AABB) {

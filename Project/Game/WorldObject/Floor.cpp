@@ -24,6 +24,7 @@ void Floor::Init() {
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
+	collider->SetTarget(ColliderTags::Player::leg);
 	
 	/*for (uint32_t oi = 0; oi < materials.size(); ++oi) {
 		materials[oi]->SetUvScale(Vector3{50.0f, 50.0f, 1.0f});

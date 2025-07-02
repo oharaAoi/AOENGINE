@@ -68,6 +68,7 @@ public:
 	uint32_t GetMaskBits() const { return maskBits_; }
 
 	void SetCategory(const std::string& category);
+	const std::string& GetCategoryName() const { return categoryName_; }
 
 	// --------------- shapeの設定・取得 -------------- //
 	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
@@ -87,15 +88,18 @@ public:
 	// ------------ size ------------ // 
 	void SetSize(const Vector3& size) { size_ = size; }
 
-	// ------------ worldTransform ------------ // 
-	void SetWorldTransform(WorldTransform* _worldTransform) { pWorldTransform_ = _worldTransform; }
-
 	// ------------ 貫通対策 ------------ // 
 	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
 	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
 
 	void SetPushBackDirection(const Vector3& dire);
 	const Vector3& GetPushBackDirection() const { return pushbackDire_; }
+
+	void SetOnCollision(std::function<void(ICollider*)> callback) {
+		onCollision_ = callback;
+	}
+
+	void OnCollision(ICollider* other);
 
 protected:
 
@@ -120,11 +124,12 @@ protected:
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
 
-	// worldTransformを所有しておく
-	WorldTransform* pWorldTransform_;
-
 	// 貫通対策
 	bool penetrationPrevention_;	// 貫通対策を行うかどうか
 	Vector3 pushbackDire_;
+
+	// 汎用用
+	std::function<void(ICollider*)> onCollision_;
+
 };
 

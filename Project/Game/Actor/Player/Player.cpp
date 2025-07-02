@@ -31,6 +31,8 @@ void Player::Debug_Gui() {
 
 	actionManager_->Debug_Gui();
 
+	legCollider_->Debug_Gui();
+
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
 		ImGui::DragFloat("health", &param_.health, 0.1f);
 		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
@@ -49,6 +51,9 @@ void Player::Debug_Gui() {
 		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
 		ImGui::DragFloat("energyRecoveyAmount", &initParam_.energyRecoveyAmount, 0.1f);
 		ImGui::DragFloat("energyRecoveyCoolTime", &initParam_.energyRecoveyCoolTime, 0.1f);
+
+		ImGui::DragFloat("legColliderRadius", &initParam_.legColliderRadius, 0.1f);
+		ImGui::DragFloat("legColliderPosY", &initParam_.legColliderPosY, 0.1f);
 
 		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 
@@ -86,6 +91,21 @@ void Player::Init() {
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
+
+	legCollider_ = std::make_unique<SphereCollider>();
+	legCollider_->Init(ColliderTags::Player::leg, ColliderShape::SPHERE);
+	legCollider_->SetName(ColliderTags::Player::leg);
+	legCollider_->SetCategory(ColliderTags::Player::leg);
+	legCollider_->SetTarget(ColliderTags::None::own);
+	legCollider_->SetRadius(param_.legColliderRadius);
+	legCollider_->SetLoacalPos(Vector3(0.0f, param_.legColliderPosY, 0.0f));
+	ColliderCollector::AddCollider(legCollider_.get());
+	legCollider_->Update(QuaternionSRT{
+		.scale = transform_->GetScale(),
+		.rotate = transform_->GetQuaternion(),
+		.translate = transform_->GetTranslation() }
+		);
+	legCollider_->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
 
 	object_->SetPhysics();
 
@@ -151,6 +171,12 @@ void Player::Update() {
 	}
 
 	jet_->Update();
+
+	legCollider_->Update(QuaternionSRT{
+		.scale = transform_->GetScale(),
+		.rotate = transform_->GetQuaternion(),
+		.translate = transform_->GetTranslation() }
+	);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -231,5 +257,11 @@ void Player::Landing() {
 void Player::IsBoostMode() {
 	if (Input::GetInstance()->GetIsPadTrigger(XInputButtons::BUTTON_B)) {
 		jet_->SetIsBoostMode();
+	}
+}
+
+void Player::LegOnCollision([[maybe_unused]] ICollider* other) {
+	if (other->GetCategoryName() == ColliderTags::None::own) {
+		Landing();
 	}
 }

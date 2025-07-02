@@ -135,11 +135,11 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 	}
 
 	collider_->Init(categoryName, shape);
-	collider_->SetWorldTransform(transform_.get());
 	collider_->SetName(categoryName);
+	collider_->SetCategory(categoryName);
 	ColliderCollector::AddCollider(collider_.get());
 
-	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(),
+	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(), 
 						  .rotate = transform_->GetQuaternion(),
 						  .translate = transform_->GetTranslation() }
 	);
@@ -156,8 +156,8 @@ void BaseGameObject::SetCollider(const std::string& categoryName, const std::str
 	}
 
 	collider_->Init(categoryName, shape);
-	collider_->SetWorldTransform(transform_.get());
 	collider_->SetName(categoryName);
+	collider_->SetCategory(categoryName);
 	ColliderCollector::AddCollider(collider_.get());
 
 	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(),

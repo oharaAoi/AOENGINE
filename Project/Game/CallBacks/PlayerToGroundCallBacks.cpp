@@ -3,14 +3,14 @@
 
 void PlayerToGroundCallBacks::Init() {
 	SetCallBacks();
-	SetPair(pCollisionManager_, ColliderTags::Player::own, ColliderTags::None::own);
+	SetPair(pCollisionManager_, ColliderTags::Player::leg, ColliderTags::None::own);
 }
 
 void PlayerToGroundCallBacks::Update() {
 }
 
 void PlayerToGroundCallBacks::CollisionEnter([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) {
-	pPlayer_->Landing();
+	//pPlayer_->Landing();
 }
 
 void PlayerToGroundCallBacks::CollisionStay([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) {

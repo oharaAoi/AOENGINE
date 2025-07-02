@@ -13,6 +13,7 @@ CollisionManager::~CollisionManager() {}
 
 void CollisionManager::Init() {
 	pColliderCollector_ = ColliderCollector::GetInstance();
+	pColliderCollector_->Init();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,10 +47,12 @@ void CollisionManager::CheckAllCollision() {
 			}
 
 			// マスク処理を行う
-			if (!HasBit(colliderA->GetMaskBits(), colliderB->GetCategoryBit())) {
-				continue;
+			if (colliderA->GetCategoryName() != "none" && colliderB->GetCategoryName() != "none") {
+				if (!HasBit(colliderA->GetMaskBits(), colliderB->GetCategoryBit())) {
+					continue;
+				}
 			}
-
+			
 			// ペアの当たり判定
 			CheckCollisionPair(colliderA, colliderB);
 		}
@@ -67,6 +70,10 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 		colliderB->SwitchCollision(colliderA);
 
 		OnCollision(colliderA, colliderB);
+
+		// 汎用の当たり判定後処理
+		colliderA->OnCollision(colliderB);
+		colliderB->OnCollision(colliderA);
 
 		if (!colliderA->GetIsStatic()) {
 			colliderA->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
