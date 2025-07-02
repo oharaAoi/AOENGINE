@@ -108,6 +108,7 @@ void BossUIs::Debug_Gui() {
 	if (ImGui::CollapsingHeader("PostureStability")) {
 		ImGui::DragFloat2("postureScale", &uiItems_.postureScale.x, 0.1f);
 		ImGui::DragFloat2("posturePos", &uiItems_.posturePos.x, 0.1f);
+		postureStability_->Debug_Gui();
 
 		postureStability_->SetScale(uiItems_.postureScale);
 		postureStability_->SetCenterPos(uiItems_.posturePos);

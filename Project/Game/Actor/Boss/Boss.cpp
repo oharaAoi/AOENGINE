@@ -132,6 +132,8 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	if (!isAlive_) { return; }
+
 	actionManager_->Update();
 	stateMachine_->Update();
 

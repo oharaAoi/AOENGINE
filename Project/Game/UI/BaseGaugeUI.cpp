@@ -56,4 +56,6 @@ void BaseGaugeUI::Debug_Gui() {
 
 	bg_->SetScale(scale_);
 	front_->SetScale(scale_);
+
+	front_->Debug_Gui();
 }

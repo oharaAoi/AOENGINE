@@ -106,4 +106,7 @@ public:
 		//result.w = mat.m[3][0] * x + mat.m[3][1] * y + mat.m[3][2] * z + mat.m[3][4];
 		return result;
 	}
+
+
+	static Vector4 Lerp(const Vector4& start, const Vector4& end, float t);
 };
