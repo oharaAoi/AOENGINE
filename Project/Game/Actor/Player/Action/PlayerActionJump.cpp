@@ -12,6 +12,8 @@ void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
 	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
 	ImGui::DragFloat("maxAcceleration", &param_.maxAcceleration, 0.1f);
+	ImGui::DragFloat("accelDecayRate", &param_.accelDecayRate, 0.1f);
+	ImGui::DragFloat("velocityDecayRate", &param_.velocityDecayRate, 0.1f);
 	ImGui::DragFloat("jumpEnergy", &param_.jumpEnergy, 0.1f);
 	ImGui::DragFloat("cameraShakeTime", &param_.cameraShakeTime, 0.1f);
 	ImGui::DragFloat("cameraShakeStrength", &param_.cameraShakeStrength, 0.1f);
@@ -42,13 +44,16 @@ void PlayerActionJump::Build() {
 
 void PlayerActionJump::OnStart() {
 	actionTimer_ = 0.0f;
-	isFall_ = false;
 	
 	// ジャンプした分のエネルギーを消費しておく
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
+	acceleration_.y = param_.jumpForce;
+	velocity_ = acceleration_;
 	mainAction_ = std::bind(&PlayerActionJump::Jump, this);
-	isJump_ = false;
+	
+	pOwner_->SetIsLanding(false);
+	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
 	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
@@ -62,10 +67,8 @@ void PlayerActionJump::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
 
 	mainAction_();
-	// 上昇をする
-	Rising();
-	// 重力を適用させる
-	ApplyGravity();
+
+	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +76,7 @@ void PlayerActionJump::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnEnd() {
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +85,7 @@ void PlayerActionJump::OnEnd() {
 
 void PlayerActionJump::CheckNextAction() {
 	if (pOwner_->GetIsLanding()) {
-		DeleteSelf();
+		NextAction<PlayerActionIdle>();
 	}
 }
 
@@ -111,13 +115,12 @@ void PlayerActionJump::SmallJump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Jump() {
-	if (isJump_) { return; }
+	velocity_ += acceleration_ * GameTimer::DeltaTime();
+	acceleration_ *= std::exp(-param_.accelDecayRate * GameTimer::DeltaTime());
 
-	velocity_.y = param_.jumpForce;
-	acceleration_.y = param_.jumpForce * GameTimer::DeltaTime();
-	pOwner_->SetIsLanding(false);
-
-	isJump_ = true;
+	if (acceleration_.Length() <= 0.1f) {
+		mainAction_ = std::bind(&PlayerActionJump::Rising, this);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,49 +128,21 @@ void PlayerActionJump::Jump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Rising() {
-	if (!isFall_) { return; }
-
 	// ボタンを押していたら上昇する
 	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A)) {
-		isRising_ = true;
+		acceleration_.y = param_.risingForce;
 		pOwner_->GetJetEngine()->JetIsStart();
-	} else {
-		isRising_ = false;
-		pOwner_->GetJetEngine()->JetIsStop();
-	}
+		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
-	// 上昇していたなら
-	if (isRising_) {
-		acceleration_.y += param_.risingForce * GameTimer::DeltaTime();
-		// エネルギーを消費する
 		pOwner_->ConsumeEN(param_.jumpEnergy * GameTimer::DeltaTime());
+		velocity_ = acceleration_;
 
-		if (velocity_.y <= 0.0f) {
-			acceleration_.y = 0.0f;
-			velocity_.y = 4.0f;
-		}
+	} else {
+		acceleration_.y = 0.0f;
+		pOwner_->GetJetEngine()->JetIsStop();
+		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
+
+		velocity_ *= std::exp(-param_.velocityDecayRate * GameTimer::DeltaTime());
 	}
 
-	// 上昇をやめたら速度を0.0fに近い値にする
-	if (!isRising_ && isPreRising_) {
-		velocity_.y = std::lerp(velocity_.y, 0.0f, 0.8f);
-	}
-
-	isPreRising_ = isRising_;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 重力の適用
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerActionJump::ApplyGravity() {
-	acceleration_.y += (kGravity * pOwner_->GetParam().bodyWeight) * GameTimer::DeltaTime();
-	acceleration_.y = std::clamp(acceleration_.y, -param_.maxAcceleration, param_.maxAcceleration);
-
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
-
-	if (velocity_.y <= 0.0f) {
-		isFall_ = true;
-	}
 }

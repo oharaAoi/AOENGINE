@@ -41,8 +41,7 @@ void BaseGameObject::Init() {
 void BaseGameObject::Update() {
 	// アニメーションが設定されていない場合はTransformのみ更新
 	if (animetor_ == nullptr) {
-		transform_->Update();
-		PostUpdate();
+		UpdateMatrix();
 		return;
 	}
 
@@ -53,8 +52,8 @@ void BaseGameObject::Update() {
 		if (animetor_->GetIsSkinning()) {
 			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
 		} else {
+			UpdateMatrix();
 			transform_->Update(animetor_->GetAnimationMat());
-			PostUpdate();
 			return;
 		}
 	} else {
@@ -63,19 +62,22 @@ void BaseGameObject::Update() {
 		}
 	}
 
-	// デフォルトのTransform更新
-	transform_->Update();
-	PostUpdate();
+	UpdateMatrix();
 }
 
-void BaseGameObject::PostUpdate() {
-
+void BaseGameObject::UpdateMatrix() {
+	transform_->Update();
 #ifdef _DEBUG
 	// Debug軸の更新
 	if (objectAxis_ != nullptr) {
 		objectAxis_->Update(transform_->GetWorldMatrix());
 	}
 #endif
+
+	if (rigidbody_ != nullptr) {
+		rigidbody_->Update();
+		transform_->Translate(rigidbody_->GetMoveForce());
+	}
 
 	if (collider_ != nullptr) {
 		collider_->Update(QuaternionSRT{.scale = transform_->GetScale(),
@@ -91,6 +93,12 @@ void BaseGameObject::PostUpdate() {
 	}
 }
 
+void BaseGameObject::PostUpdate() {
+	if (rigidbody_ != nullptr) {
+		rigidbody_->SetPushbackForce(collider_->GetPushBackDirection());
+		transform_->Translate(rigidbody_->GetPushbackForce());
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　描画処理
@@ -156,6 +164,10 @@ void BaseGameObject::SetCollider(const std::string& categoryName, const std::str
 						  .rotate = transform_->GetQuaternion(),
 						  .translate = transform_->GetTranslation() }
 	);
+}
+
+void BaseGameObject::SetPhysics() {
+	rigidbody_ = std::make_unique<Rigidbody>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -225,9 +237,6 @@ void BaseGameObject::SetTexture(const std::string& path) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Debug_Draw() {
-	if (collider_ != nullptr) {
-		collider_->Draw();
-	}
 	// Debug表示
 	if (objectAxis_ != nullptr) {
 		objectAxis_->Draw();

@@ -12,8 +12,6 @@ public:
 	void Update(const QuaternionSRT& srt) override;
 	void Draw() const override;
 
-	void PushBack() override;
-
 	void Debug_Gui() override;
 
 public:

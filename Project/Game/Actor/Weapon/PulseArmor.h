@@ -28,6 +28,8 @@ public:
 
 	void Update() override;
 
+	void PostUpdate() override {};
+
 	void Draw() const override;
 
 	void Debug_Gui() override;

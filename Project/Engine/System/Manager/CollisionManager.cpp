@@ -54,13 +54,6 @@ void CollisionManager::CheckAllCollision() {
 			CheckCollisionPair(colliderA, colliderB);
 		}
 	}
-
-	// 押し戻しを行う
-	for (auto& collider : colliderList) {
-		if (!collider->GetIsStatic()) {
-			collider->PushBack();
-		}
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

@@ -38,6 +38,8 @@ void SceneManager::Update() {
 
 	scene_->Update();
 	effectSystem_->Update();
+
+	SceneRenderer::GetInstance()->PostUpdate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

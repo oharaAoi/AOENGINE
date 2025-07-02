@@ -90,18 +90,5 @@ void BoxCollider::Draw() const {
 	}
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　押し戻し処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BoxCollider::PushBack() {
-	pWorldTransform_->Translate(pushbackDire_);
-	this->Update(QuaternionSRT{ 
-		.scale = pWorldTransform_->GetScale(),
-		.rotate = pWorldTransform_->GetQuaternion(),
-		.translate = pWorldTransform_->GetTranslation()
-	});
-}
-
 void BoxCollider::Debug_Gui() {
 }

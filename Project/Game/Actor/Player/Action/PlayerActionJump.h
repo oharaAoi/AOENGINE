@@ -18,6 +18,8 @@ public:
 		float jumpForce = 6.0f;
 		float risingForce = 10.0f;
 		float maxAcceleration = 20.0f;
+		float accelDecayRate = 2.0f;
+		float velocityDecayRate = 2.0f;
 
 		float jumpEnergy = 5.0f;		// 消費エネルギー
 
@@ -31,6 +33,8 @@ public:
 				.Add("jumpForce", jumpForce)
 				.Add("risingForce", risingForce)
 				.Add("maxAcceleration", maxAcceleration)
+				.Add("accelDecayRate", accelDecayRate)
+				.Add("velocityDecayRate", velocityDecayRate)
 				.Add("jumpEnergy", jumpEnergy)
 				.Add("cameraShakeTime", cameraShakeTime)
 				.Add("cameraShakeStrength", cameraShakeStrength)
@@ -41,6 +45,8 @@ public:
 			fromJson(jsonData, "jumpForce", jumpForce);
 			fromJson(jsonData, "risingForce", risingForce);
 			fromJson(jsonData, "maxAcceleration", maxAcceleration);
+			fromJson(jsonData, "accelDecayRate", accelDecayRate);
+			fromJson(jsonData, "velocityDecayRate", velocityDecayRate);
 			fromJson(jsonData, "jumpEnergy", jumpEnergy);
 			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
@@ -79,27 +85,17 @@ private:	// action
 	/// </summary>
 	void Rising();
 
-	/// <summary>
-	/// 重力の適用
-	/// </summary>
-	void ApplyGravity();
-
 private:	// variable
 
 	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
 	Parameter param_;
-	bool isFall_;
-
-	bool isRising_;
-	bool isPreRising_;
 
 	WorldTransform* pOwnerTransform_ = nullptr;
 
 	std::function<void()> mainAction_;
-	bool isJump_;
-
+	
 	// 小ジャンプに関する変数
 	float smallJumpTime_ = 0.2f;
 

@@ -57,6 +57,8 @@ public:
 
 	void Update();
 
+	void PostUpdate();
+
 	void Draw() const;
 
 public:

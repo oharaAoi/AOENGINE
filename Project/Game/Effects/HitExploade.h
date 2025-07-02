@@ -18,6 +18,7 @@ public:
 	void Finalize();
 	void Init() override;
 	void Update() override;
+	void PostUpdate() override {};
 	void Draw() const override;
 
 	void Set(const Vector3& pos, const Vector4& color, const std::string& useTexture);

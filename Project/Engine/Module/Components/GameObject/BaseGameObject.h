@@ -11,11 +11,12 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/ObjectAxis.h"
 #include "Engine/Module/Components/Animation/Animator.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 #include "Engine/Module/Components/Collider/ICollider.h"
 #include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
+
+#include "Engine/Module/Components/Physics/Rigidbody.h"
 
 class BaseGameObject :
 	public ISceneObject {
@@ -29,13 +30,19 @@ public:
 	void Update() override;
 	void Draw() const override;
 
-	void PostUpdate();
+	void UpdateMatrix();
+
+	void PostUpdate() override;
+
+public:
 
 	void Debug_Draw();
 
 	void Debug_Gui() override;
 
 	void Debug_Axis();
+
+public:
 
 	void SetObjectAxis(bool isAxis = true);
 
@@ -78,6 +85,9 @@ public:
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);
 
 	void SetIsReflection(bool isReflection) { isReflection_ = isReflection; }
+
+	void SetPhysics();
+	Rigidbody* GetRigidbody() { return rigidbody_.get(); }
 		
 private:
 
@@ -102,6 +112,8 @@ protected:
 	std::unique_ptr<Animator> animetor_ = nullptr;
 
 	std::unique_ptr<ICollider> collider_ = nullptr;
+
+	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 
 	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};

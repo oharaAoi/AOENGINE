@@ -87,6 +87,8 @@ void Player::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
 
+	object_->SetPhysics();
+
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------

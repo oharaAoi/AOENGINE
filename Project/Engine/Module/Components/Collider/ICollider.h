@@ -33,8 +33,6 @@ public:
 	virtual void Update(const QuaternionSRT& srt) = 0;
 	virtual void Draw() const = 0;
 
-	virtual void PushBack() = 0;
-
 	virtual void Debug_Gui() override = 0;
 
 public:
@@ -97,6 +95,7 @@ public:
 	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
 
 	void SetPushBackDirection(const Vector3& dire);
+	const Vector3& GetPushBackDirection() const { return pushbackDire_; }
 
 protected:
 
