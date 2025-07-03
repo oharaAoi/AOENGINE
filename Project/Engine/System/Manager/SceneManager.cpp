@@ -33,6 +33,7 @@ void SceneManager::Update() {
 
 	if (EditorWindows::GetInstance()->GetSceneReset()) {
 		EditorWindows::GetInstance()->Reset();
+		ParticleManager::GetInstance()->Finalize();
 		ParticleManager::GetInstance()->Init();
 		scene_->Init();
 		return;

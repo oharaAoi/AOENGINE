@@ -25,10 +25,15 @@ void CanvasUI::Init() {
 	bossUIs_ = std::make_unique<BossUIs>();
 	bossUIs_->Init(pBoss_);
 
+	// out game
+	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();
+	clearNotificationUI_->Init();
+
 	AddChild(energyOutput_.get());
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
-
+	AddChild(clearNotificationUI_.get());
+	
 	EditorWindows::AddObjectWindow(this, "Canvas");
 }
 
@@ -41,6 +46,11 @@ void CanvasUI::Update() {
 	
 	const Player::Parameter& playerParam = pPlayer_->GetParam();
 	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
+
+	// -------------------------------------------------
+	// ↓ 各更新処理
+	// -------------------------------------------------
+
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 	//postureStability_->Update();
 
@@ -52,6 +62,10 @@ void CanvasUI::Update() {
 	bossUIs_->Update();
 
 	playerUIs_->Update();
+
+	// out game
+	clearNotificationUI_->Update(pBoss_->GetIsBreak());
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +84,9 @@ void CanvasUI::Draw() const {
 	if (pPlayer_->GetIsBoostMode()) {
 		boostOn_->Draw(pso);
 	} 
+
+	clearNotificationUI_->Draw();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

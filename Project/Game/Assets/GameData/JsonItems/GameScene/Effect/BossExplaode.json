@@ -1,0 +1,58 @@
+{
+    "BossExplaode": {
+        "angleMax": 1.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 0.9674418568611145,
+            "y": 0.19260938465595245,
+            "z": 0.004499754868447781
+        },
+        "damping": 0.8999999761581421,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "duration": 5.0,
+        "gravity": 0.0,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": true,
+        "isLoop": false,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 1.5,
+        "maxScale": {
+            "x": 8.0,
+            "y": 8.0,
+            "z": 8.0
+        },
+        "minScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
+        "rateOverTimeCout": 60,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 16.0,
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useTexture": "cross.png"
+    }
+}

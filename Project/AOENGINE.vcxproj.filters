@@ -280,6 +280,8 @@
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
     <ClCompile Include="Game\UI\StanGaugeUI.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp" />
+    <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
+    <ClCompile Include="Game\UI\FadePanel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -530,6 +532,8 @@
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
     <ClInclude Include="Game\UI\StanGaugeUI.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h" />
+    <ClInclude Include="Game\UI\ClearNotificationUI.h" />
+    <ClInclude Include="Game\UI\FadePanel.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

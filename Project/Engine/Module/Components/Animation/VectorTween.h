@@ -31,6 +31,7 @@ public:
 		duration_ = _duration;
 		easeIndex_ = _easeIndex;
 		loopType_ = _loop;
+		isFinish_ = false;
 	}
 
 	/// <summary>
@@ -39,7 +40,10 @@ public:
 	/// <param name="deltaTime">: デルタタイム</param>
 	void Update(float deltaTime) {
 		if (isStop_) { return; }
-		if (currentTime_ >= duration_) { return; }
+		if (currentTime_ >= duration_) { 
+			isFinish_ = true;
+			return;
+		}
 
 		currentTime_ += deltaTime;
 		float t = currentTime_ / duration_;
@@ -80,6 +84,8 @@ public:
 	/// <param name="flag"></param>
 	void SetIsStop(bool flag) { isStop_ = flag; }
 
+	bool GetIsFinish() const { return isFinish_; }
+
 	/// <summary>
 	/// Tweenをやり直す
 	/// </summary>
@@ -100,5 +106,7 @@ private:
 	LoopType loopType_;	// 1周目が終わった後にどのような動きをするか
 
 	bool isStop_;		// tweenを一旦止めるかどうか
+
+	bool isFinish_;
 };
 

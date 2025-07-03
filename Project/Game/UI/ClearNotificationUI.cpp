@@ -1,0 +1,91 @@
+#include "ClearNotificationUI.h"
+#include "Engine.h"
+#include "Engine/Lib/Json/JsonItems.h"
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearNotificationUI::Init() {
+	SetName("ClearNotificationUI");
+	sprite_ = Engine::CreateSprite("missionComplete.png");
+	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+
+	posTween_.Init(&pos_, param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
+	alphaTween_.Init(&alpha_, 0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
+
+	isBreak_ = false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearNotificationUI::Update(bool isBossBreak) {
+	isBreak_ = isBossBreak;
+	if (!isBossBreak) { return; }
+
+	posTween_.Update(GameTimer::DeltaTime());
+	alphaTween_.Update(GameTimer::DeltaTime());
+
+	sprite_->SetTranslate(pos_);
+	sprite_->SetColor(Vector4(1.0f, 1.0f, 1.0f, alpha_));
+	sprite_->Update();
+
+
+	if (posTween_.GetIsFinish()) {
+		if (fadePanel_ == nullptr) {
+			fadePanel_ = std::make_unique<FadePanel>();
+			fadePanel_->Init();
+			fadePanel_->SetBlackOut(3.0f);
+		} else {
+			fadePanel_->Update();
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearNotificationUI::Draw() const {
+	if (!isBreak_) { return; }
+
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	sprite_->Draw(pso);
+
+	if (fadePanel_ != nullptr) {
+		fadePanel_->Draw();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearNotificationUI::Debug_Gui() {
+	ImGui::DragFloat2("pos_", &pos_.x);
+	if (ImGui::Button("Reset")) {
+		Reset();
+	}
+
+	if (ImGui::CollapsingHeader("Parameter")) {
+		ImGui::DragFloat2("startPos", &param_.startPos.x);
+		ImGui::DragFloat2("endPos", &param_.endPos.x);
+		ImGui::DragFloat("duration", &param_.duration);
+
+		if (ImGui::Button("Save")) {
+			JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 再生処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ClearNotificationUI::Reset() {
+	posTween_.Reset();
+	alphaTween_.Reset();
+	fadePanel_->SetBlackOut(2.0f);
+}

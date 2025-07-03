@@ -1,6 +1,7 @@
 #include "BossStateBeDestroyed.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 void BossStateBeDestroyed::OnStart() {
 	SetName("StanBeDestroyed");
@@ -28,6 +29,11 @@ void BossStateBeDestroyed::OnUpdate() {
 
 	if (timer_ > param_.breakTime) {
 		pOwner_->SetIsBreak(true);
+		BaseParticles* particle = ParticleManager::GetInstance()->CrateParticle("BossExplaode");
+		particle->SetPos(pOwner_->GetPosition());
+		particle->Reset();
+
+		pOwner_->Destroy();
 	}
 }
 

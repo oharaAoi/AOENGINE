@@ -336,6 +336,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
     <ClCompile Include="Game\UI\Boss\EnemyAttackAlert.cpp" />
     <ClCompile Include="Game\UI\CanvasUI.cpp" />
+    <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
+    <ClCompile Include="Game\UI\FadePanel.cpp" />
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
     <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
@@ -589,6 +591,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Boss\BossUIs.h" />
     <ClInclude Include="Game\UI\Boss\EnemyAttackAlert.h" />
     <ClInclude Include="Game\UI\CanvasUI.h" />
+    <ClInclude Include="Game\UI\ClearNotificationUI.h" />
+    <ClInclude Include="Game\UI\FadePanel.h" />
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
     <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />

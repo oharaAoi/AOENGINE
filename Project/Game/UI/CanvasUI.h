@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Game/UI/Reticle.h"
 #include "Game/UI/PostureStability.h"
+#include "Game/UI/ClearNotificationUI.h"
 #include "Game/UI/Player/EnergyOutput.h"
 
 #include "Game/Actor/Player/Player.h"
@@ -59,11 +60,15 @@ private:
 	std::unique_ptr<EnergyOutput> energyOutput_;	// energy
 	std::unique_ptr<PostureStability> postureStability_; // 姿勢安定度ゲージ
 	std::unique_ptr<Sprite> boostOn_; // 姿勢安定度ゲージ
+
 	Vector2 boostOnPos_ = {940.0f, 640.0f};
 	Vector2 boostOnScale_ = {0.3f, 0.3f};
 
 	// boss
 	std::unique_ptr<BossUIs> bossUIs_;
+
+	// out game
+	std::unique_ptr<ClearNotificationUI> clearNotificationUI_;
 
 };
 

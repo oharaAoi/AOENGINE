@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnergyOutput::Init() {
+	SetName("EnergyOutput");
 	BaseGaugeUI::Init("gauge_bg.png", "gauge_front.png");
 	centerPos_ = { 640.0f, 640.0f };
 }

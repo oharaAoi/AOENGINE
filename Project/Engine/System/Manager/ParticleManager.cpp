@@ -16,8 +16,8 @@ ParticleManager* ParticleManager::GetInstance() {
 
 void ParticleManager::Finalize() {
 	particlesMap_.clear();
-	particleRenderer_.reset();
 	emitterList_.clear();
+	particleRenderer_ = nullptr;
 }
 
 void ParticleManager::Debug_Gui() {
