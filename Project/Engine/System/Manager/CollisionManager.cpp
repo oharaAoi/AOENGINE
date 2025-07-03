@@ -4,8 +4,9 @@
 #include "Engine/Utilities/BitChecker.h"
 
 CollisionManager::CollisionManager() {}
-CollisionManager::~CollisionManager() {}
-
+CollisionManager::~CollisionManager() {
+	pColliderCollector_->Reset();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
