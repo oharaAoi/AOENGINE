@@ -90,6 +90,10 @@ void FadePanel::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FadePanel::SetBlackOut(float timeLimit) {
+	if (!doNothing_) {
+		return;
+	}
+
 	isBlackOut_ = true;
 	doNothing_ = false;
 	isFinished_ = false;
@@ -102,6 +106,10 @@ void FadePanel::SetBlackOut(float timeLimit) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FadePanel::SetBlackOutOpen(float timeLimit) {
+	if (!doNothing_) {
+		return;
+	}
+
 	isBlackOut_ = false;
 	doNothing_ = false;
 	isFinished_ = false;

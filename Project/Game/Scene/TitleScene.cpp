@@ -15,6 +15,8 @@ void TitleScene::Finalize() {
 }
 
 void TitleScene::Init() {
+	EditorWindows::GetInstance()->Reset();
+
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
@@ -36,9 +38,14 @@ void TitleScene::Init() {
 	skybox_->Init();
 	Render::SetSkyboxTexture(skybox_->GetTexture());
 
-
 	titleUIs_ = std::make_unique<TitleUIs>();
 	titleUIs_->Init();
+
+	fadePanel_ = std::make_unique<FadePanel>();
+	fadePanel_->Init();
+	fadePanel_->SetBlackOutOpen();
+
+	putButton_ = false;
 }
 
 void TitleScene::Update() {
@@ -46,12 +53,21 @@ void TitleScene::Update() {
 
 	titleUIs_->Update();
 
+	fadePanel_->Update();
+
+	if (putButton_) {
+		if (fadePanel_->GetIsFinished()) {
+			nextSceneType_ = SceneType::GAME;
+		}
+	}
+
 	// -------------------------------------------------
 	// ↓ 入力処理
 	// -------------------------------------------------
 
 	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
-		nextSceneType_ = SceneType::GAME;
+		fadePanel_->SetBlackOut();
+		putButton_ = true;
 	} 
 
 	// -------------------------------------------------
@@ -70,4 +86,5 @@ void TitleScene::Draw() const {
 
 	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
 	titleUIs_->Draw();
+	fadePanel_->Draw();
 }

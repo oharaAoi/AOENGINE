@@ -16,6 +16,8 @@ void GameScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Init() {
+	EditorWindows::GetInstance()->Reset();
+
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
@@ -83,6 +85,9 @@ void GameScene::Init() {
 	canvas_->SetFollowCamera(followCamera_.get());
 	canvas_->Init();
 
+	fadePanel_ = std::make_unique<FadePanel>();
+	fadePanel_->Init();
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -118,6 +123,15 @@ void GameScene::Update() {
 	// ↓ spriteの更新
 	// -------------------------------------------------
 	canvas_->Update();
+
+	if (canvas_->IsFinishClearNotification()) {
+		fadePanel_->SetBlackOut(3.0f);
+		fadePanel_->Update();
+
+		if (fadePanel_->GetIsFinished()) {
+			nextSceneType_ = SceneType::TITLE;
+		}
+	}
 	
 	// -------------------------------------------------
 	// ↓ cameraの更新 
@@ -154,5 +168,5 @@ void GameScene::Draw() const {
 	// -------------------------------------------------
 	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
 	canvas_->Draw();
-
+	fadePanel_->Draw();
 }

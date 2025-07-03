@@ -45,6 +45,8 @@ public:		// accessor method
 
 	BossUIs* GetBossUIs() const { return bossUIs_.get(); }
 
+	bool IsFinishClearNotification() { return clearNotificationUI_->IsFinish(); }
+
 private:
 
 	// ---------------------------------------------------

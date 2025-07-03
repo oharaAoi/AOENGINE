@@ -9,6 +9,7 @@
 #include "Game/WorldObject/Skybox.h"
 //ui
 #include "Game/UI/TitleUIs.h"
+#include "Game/UI/FadePanel.h"
 
 class TitleScene : 
 	public BaseScene {
@@ -24,6 +25,8 @@ public:
 
 private:
 
+	bool putButton_ = false;
+
 	// ------------------- camera ------------------- //
 	std::unique_ptr<Camera2d> camera2d_ = nullptr;
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
@@ -33,6 +36,7 @@ private:
 	std::unique_ptr<Skybox> skybox_;
 
 	std::unique_ptr<TitleUIs> titleUIs_;
+	std::unique_ptr<FadePanel> fadePanel_;
 
 	SceneRenderer* sceneRenderer_;
 };

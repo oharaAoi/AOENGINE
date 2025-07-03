@@ -11,10 +11,9 @@
 #include "Game/WorldObject/Skybox.h"
 #include "Game/Actor/Player/PlayerManager.h"
 #include "Game/Actor/Boss/BossRoot.h"
-#include "Game/Effects/HitExploade.h"
 // sprite
 #include "Game/UI/CanvasUI.h"
-#include "Game/UI/Reticle.h"
+#include "Game/UI/FadePanel.h"
 // manager
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
@@ -22,8 +21,6 @@
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
-
-#include "Game/Actor/Weapon/PulseArmor.h"
 
 
 class GameScene 
@@ -59,6 +56,7 @@ private:
 
 	// ------------------- sprite ------------------- //
 	std::unique_ptr<CanvasUI> canvas_;
+	std::unique_ptr<FadePanel> fadePanel_;
 
 	SceneLoader* sceneLoader_;
 	SceneRenderer* sceneRenderer_;

@@ -32,15 +32,8 @@ void ClearNotificationUI::Update(bool isBossBreak) {
 	sprite_->SetColor(Vector4(1.0f, 1.0f, 1.0f, alpha_));
 	sprite_->Update();
 
-
 	if (posTween_.GetIsFinish()) {
-		if (fadePanel_ == nullptr) {
-			fadePanel_ = std::make_unique<FadePanel>();
-			fadePanel_->Init();
-			fadePanel_->SetBlackOut(3.0f);
-		} else {
-			fadePanel_->Update();
-		}
+		
 	}
 }
 
@@ -53,10 +46,6 @@ void ClearNotificationUI::Draw() const {
 
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	sprite_->Draw(pso);
-
-	if (fadePanel_ != nullptr) {
-		fadePanel_->Draw();
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,5 +76,4 @@ void ClearNotificationUI::Debug_Gui() {
 void ClearNotificationUI::Reset() {
 	posTween_.Reset();
 	alphaTween_.Reset();
-	fadePanel_->SetBlackOut(2.0f);
 }

@@ -28,6 +28,10 @@ public:
 	/// </summary>
 	void SetBlackOutOpen(float timeLimit = 1.0f);
 
+	/// <summary>
+	/// 終了状態かを取得する
+	/// </summary>
+	/// <returns></returns>
 	const bool GetIsFinished() const { return isFinished_; }
 
 	const bool GetDoNoting() const { return doNothing_; }

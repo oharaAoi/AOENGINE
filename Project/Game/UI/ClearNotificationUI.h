@@ -4,7 +4,6 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
-#include "Game/UI/FadePanel.h"
 
 /// <summary>
 /// /Clear後の通知を行ってくれるUI
@@ -54,6 +53,8 @@ public:
 
 	bool GetIsBreak() const { return isBreak_; }
 
+	bool IsFinish() { return posTween_.GetIsFinish(); }
+
 private:
 
 	bool isBreak_ = false;
@@ -66,9 +67,6 @@ private:
 
 	float alpha_;
 	VectorTween<float> alphaTween_;
-
-	// panel
-	std::unique_ptr<FadePanel> fadePanel_;
 
 };
 
