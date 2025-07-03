@@ -46,8 +46,6 @@ void Reticle::Draw() const {
 }
 
 void Reticle::LockOn() {
-
-
 	if (isLockOn_) {
 		reticle_->SetTranslate(defaultPosition_);
 		reticle_->ReSetTexture("lockOffReticle.png");
@@ -56,4 +54,10 @@ void Reticle::LockOn() {
 		reticle_->ReSetTexture("lockOnReticle.png");
 		isLockOn_ = true;
 	}
+}
+
+void Reticle::ReleaseLockOn() {
+	reticle_->SetTranslate(defaultPosition_);
+	reticle_->ReSetTexture("lockOffReticle.png");
+	isLockOn_ = false;
 }

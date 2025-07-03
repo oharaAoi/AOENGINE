@@ -21,6 +21,8 @@ public:		// accessor method
 
 	bool GetLockOn() const { return isLockOn_; }
 
+	void ReleaseLockOn();
+
 private:
 
 	std::unique_ptr<Sprite> reticle_;

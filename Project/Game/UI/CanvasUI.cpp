@@ -42,6 +42,9 @@ void CanvasUI::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Update() {
+	if (pBoss_->GetIsBreak()) {
+		reticle_->ReleaseLockOn();
+	}
 	reticle_->Update(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
 	
 	const Player::Parameter& playerParam = pPlayer_->GetParam();
