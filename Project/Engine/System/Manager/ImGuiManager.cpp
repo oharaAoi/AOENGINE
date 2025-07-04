@@ -40,9 +40,15 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+
+	g_Context = ax::NodeEditor::CreateEditor();
+	ax::NodeEditor::SetCurrentEditor(g_Context);
 }
 
 void ImGuiManager::Finalize(){
+	ax::NodeEditor::DestroyEditor(g_Context);
+	g_Context = nullptr;
+
 	ImGui_ImplDX12_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImGui::DestroyContext();
@@ -53,6 +59,8 @@ void ImGuiManager::Begin(){
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 	//ImGui::SetWindowFontScale(0.1f);
+
+	//ax::NodeEditor::SetCurrentEditor(g_Context);
 }
 
 void ImGuiManager::End() {

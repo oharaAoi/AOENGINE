@@ -282,6 +282,10 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp" />
     <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
     <ClCompile Include="Game\UI\FadePanel.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_canvas.cpp" />
+    <ClCompile Include="Externals\ImGui\crude_json.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -534,6 +538,12 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h" />
     <ClInclude Include="Game\UI\ClearNotificationUI.h" />
     <ClInclude Include="Game\UI\FadePanel.h" />
+    <ClInclude Include="Externals\ImGui\imgui_node_editor.h" />
+    <ClInclude Include="Externals\ImGui\imgui_node_editor_internal.h" />
+    <ClInclude Include="Externals\ImGui\imgui_canvas.h" />
+    <ClInclude Include="Externals\ImGui\imgui_extra_math.h" />
+    <ClInclude Include="Externals\ImGui\crude_json.h" />
+    <ClInclude Include="Externals\ImGui\imgui_bezier_math.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
@@ -544,6 +554,9 @@
     <None Include="Engine\Resources\HLSL\ProcessedScene.hlsli" />
     <None Include="Engine\Resources\HLSL\Sprite.hlsli" />
     <None Include="Engine\Assets\HLSL\Skybox.hlsli" />
+    <None Include="Externals\ImGui\imgui_node_editor_internal.inl" />
+    <None Include="Externals\ImGui\imgui_extra_math.inl" />
+    <None Include="Externals\ImGui\imgui_bezier_math.inl" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt" />

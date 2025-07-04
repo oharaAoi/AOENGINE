@@ -119,6 +119,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
+    <ClCompile Include="Externals\ImGui\crude_json.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_canvas.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
@@ -362,6 +366,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
+    <ClInclude Include="Externals\ImGui\crude_json.h" />
+    <ClInclude Include="Externals\ImGui\imgui_bezier_math.h" />
+    <ClInclude Include="Externals\ImGui\imgui_canvas.h" />
+    <ClInclude Include="Externals\ImGui\imgui_extra_math.h" />
+    <ClInclude Include="Externals\ImGui\imgui_node_editor.h" />
+    <ClInclude Include="Externals\ImGui\imgui_node_editor_internal.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
@@ -828,6 +838,9 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <None Include="Engine\Resources\HLSL\Sprite.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </None>
+    <None Include="Externals\ImGui\imgui_bezier_math.inl" />
+    <None Include="Externals\ImGui\imgui_extra_math.inl" />
+    <None Include="Externals\ImGui\imgui_node_editor_internal.inl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">

@@ -140,6 +140,16 @@ void Engine::BeginFrame() {
 	imguiManager_->Begin();
 	editorWindows_->Begin();
 #endif // 
+
+	//ax::NodeEditor::Begin("MyNodeEditor");
+	//// ノードやリンクの定義をここに書く
+	//// 例：
+	//ax::NodeEditor::NodeId nodeId = 1;
+	//ax::NodeEditor::BeginNode(nodeId);
+	//ImGui::Text("Node 1");
+	//ax::NodeEditor::EndNode();
+	//ax::NodeEditor::End();
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
