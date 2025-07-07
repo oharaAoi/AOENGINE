@@ -44,11 +44,13 @@ void IBehaviorNode::DrawNode() {
 		ax::NodeEditor::EndPin();
 	}
 
-	if (node_.outputId.id) {
-		ax::NodeEditor::BeginPin(node_.outputId.id, ax::NodeEditor::PinKind::Output);
-		ImGui::Text("OutputId:%d", node_.outputId.id);
-		ImGui::Text("Out");
-		ax::NodeEditor::EndPin();
+	if (!isLeafNode_) {
+		if (node_.outputId.id) {
+			ax::NodeEditor::BeginPin(node_.outputId.id, ax::NodeEditor::PinKind::Output);
+			ImGui::Text("OutputId:%d", node_.outputId.id);
+			ImGui::Text("Out");
+			ax::NodeEditor::EndPin();
+		}
 	}
 
 	ax::NodeEditor::EndNode();
@@ -61,6 +63,14 @@ void IBehaviorNode::DrawNode() {
 
 void IBehaviorNode::AddChild(IBehaviorNode* child) {
 	children_.push_back(child);
+}
+
+void IBehaviorNode::DeleteChild(IBehaviorNode* _child) {
+	for(size_t index = 0; index < children_.size(); ++index){
+		if (children_[index] == _child) {
+			children_.erase(children_.begin() + index);
+		}
+	}
 }
 
 uint32_t IBehaviorNode::GetNextId() {

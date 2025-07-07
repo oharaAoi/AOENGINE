@@ -291,6 +291,9 @@
     <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\ITaskNode.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
+    <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -554,6 +557,9 @@
     <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\ITaskNode.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
+    <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

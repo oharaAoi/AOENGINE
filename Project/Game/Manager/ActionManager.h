@@ -158,6 +158,8 @@ public:
 
 	void SetIsActionStop(bool _stop) { isActionStop_ = _stop; }
 
+
+
 private:
 	// 持ち主のポインタ
 	OwnerType* pOwner_ = nullptr;

@@ -2,7 +2,7 @@
 
 SelectorNode::SelectorNode() {
 	color_ = ImVec4(147 / 255, 112 / 255, 219 / 255, 1.f);
-	SetName("Selector");
+	SetNodeName("Selector");
 }
 
 BehaviorStatus SelectorNode::Execute() {

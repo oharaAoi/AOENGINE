@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 #include "imgui_node_editor.h"
 
 struct Pin {
@@ -45,6 +46,8 @@ public:
 
 	void AddChild(IBehaviorNode* child);
 
+	void DeleteChild(IBehaviorNode* child);
+
 public:
 
 
@@ -53,7 +56,8 @@ public:
 	const Pin& GetInput() const { return node_.inputId; }
 	const Pin& GetOutput() const { return node_.outputId; }
 
-	void SetName(const std::string& _name) { node_.name = _name; }
+	void SetNodeName(const std::string& _name) { node_.name = _name; }
+	const std::string& GetNodeName() { return node_.name; }
 
 	bool GetIsDelete() const { return isDelete_; }
 
@@ -68,18 +72,24 @@ protected:
 
 	static uint32_t nextSerialNumber_;	// 次のユニークid
 
+	BehaviorStatus state_;	// nodeの状態
+
 	Node node_;		// node本体
 
 	std::vector<IBehaviorNode*> children_;	// 子ども
 	uint32_t currentIndex_;
 
-	BehaviorStatus state_;	// nodeの状態
+	bool isLeafNode_ = false;
 
-	ImVec4 color_;
+	// -------------------------------------------------
+	// ↓ Debug用
+	// -------------------------------------------------
 
 	// 編集フラグ
 	bool isSelect_;
 	bool isDelete_;
+
+	ImVec4 color_;
 
 };
 

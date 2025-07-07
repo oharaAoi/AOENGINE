@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include "Game/Actor/Base/BaseAction.h"
 
 class Boss;
@@ -20,7 +21,6 @@ public:
 	bool IsInput() override;
 
 	void Debug_Gui() override;
-
 
 private:
 

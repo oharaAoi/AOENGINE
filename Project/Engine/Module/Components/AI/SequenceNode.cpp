@@ -2,7 +2,7 @@
 
 SequenceNode::SequenceNode() {
 	color_ = ImVec4(147 / 255, 112 / 255, 219 / 255, 1.f);
-	SetName("Sequence");
+	SetNodeName("Sequence");
 }
 
 BehaviorStatus SequenceNode::Execute() {
@@ -23,5 +23,5 @@ BehaviorStatus SequenceNode::Execute() {
 
 	// 全て成功
 	currentIndex_ = 0;
-	return BehaviorStatus::Success;
+	return BehaviorStatus::Inactive;
 }

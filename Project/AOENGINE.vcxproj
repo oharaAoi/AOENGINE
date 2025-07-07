@@ -113,6 +113,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\ITaskNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
@@ -123,12 +124,14 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
+    <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
     <ClCompile Include="Externals\ImGui\crude_json.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_canvas.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
@@ -366,6 +369,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h" />
     <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\ITaskNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
@@ -375,6 +379,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
+    <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Externals\ImGui\crude_json.h" />
     <ClInclude Include="Externals\ImGui\imgui_bezier_math.h" />
@@ -383,6 +388,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Externals\ImGui\imgui_node_editor.h" />
     <ClInclude Include="Externals\ImGui\imgui_node_editor_internal.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />

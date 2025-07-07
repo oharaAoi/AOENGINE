@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include <memory>
 
 /// <summary>
 /// Treeの根本となるクラス

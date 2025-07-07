@@ -1,6 +1,7 @@
 #include "BehaviorTree.h"
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Module/Components/AI/SequenceNode.h"
 #include "Engine/Module/Components/AI/SelectorNode.h"
 #include "Engine/System/Input/Input.h"
@@ -18,9 +19,8 @@ void BehaviorTree::Init() {
 	context_ = ax::NodeEditor::CreateEditor();
 
 	/*CreateNode("Root");*/
-	auto& nodeC = nodeList_.emplace_back(std::make_unique<BehaviorRootNode>());
-	nodeC->SetName("Root");
-	root_ = nodeC.get();
+	auto& node = nodeList_.emplace_back(std::make_unique<BehaviorRootNode>());
+	root_ = node.get();
 
 	isOpenEditor_ = true;
 	isOpenCreateNode_ = false;
@@ -36,6 +36,7 @@ void BehaviorTree::Init() {
 void BehaviorTree::Run() {
 	if (!context_) return;
 
+	// すべてのnodeの更新を走らせる
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
 		if ((*it)->GetIsDelete()) {
 			it = nodeList_.erase(it);
@@ -45,11 +46,13 @@ void BehaviorTree::Run() {
 		}
 	}
 
+	// nodeの内容を実行させる
 	BehaviorStatus state = root_->Execute();
 	if (state == BehaviorStatus::Failure) {
 		Logger::Log("RootNodeが失敗を返しました");
 	}
 
+	// NodeEditorに関する処理
 	if (isOpenEditor_) {
 		if (ImGui::Begin("BehaviorTree", &isOpenEditor_, windowFlags_)) {
 			DockingButton();
@@ -63,6 +66,9 @@ void BehaviorTree::Run() {
 			// 接続をする
 			Connect();
 
+			// 接続解除
+			UnConnect();
+
 			if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
 				isOpenCreateNode_ = true;
 			}
@@ -72,10 +78,15 @@ void BehaviorTree::Run() {
 		ImGui::End();
 	}
 
+	// Node作成windowの表示
 	if (isOpenCreateNode_) {
 		CreateNodeWindow();
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　接続処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Connect() {
 	for (auto& link : links_) {
@@ -97,9 +108,7 @@ void BehaviorTree::Connect() {
 				std::swap(input, output);
 
 			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
-
 				if (input != output) {
-
 					links_.push_back({ IBehaviorNode::GetNextId(), input, output });
 
 					IBehaviorNode* parent = FindNodeFromPin(output);
@@ -113,7 +122,9 @@ void BehaviorTree::Connect() {
 		}
 	}
 	ax::NodeEditor::EndCreate();
+}
 
+void BehaviorTree::UnConnect() {
 	if (ax::NodeEditor::BeginDelete()) {
 		ax::NodeEditor::LinkId deletedLinkId;
 		while (ax::NodeEditor::QueryDeletedLink(&deletedLinkId)) {
@@ -126,13 +137,43 @@ void BehaviorTree::Connect() {
 									   });
 
 				if (it != links_.end()) {
-					// （必要なら親子関係解除処理などをここで）
+					// 親子関係の削除を行う
+					ax::NodeEditor::PinId from = it->from;
+					ax::NodeEditor::PinId to = it->to;
+
+					IBehaviorNode* parent = FindNodeFromPin(to);
+					IBehaviorNode* child = FindNodeFromPin(from);
+
+					if (parent && child) {
+						parent->DeleteChild(child);
+					}
 
 					links_.erase(it);
 				}
 			}
 		}
 		ax::NodeEditor::EndDelete();
+	}
+
+	// rootNodeに複数の子がついたときの処理
+	if (root_->GetChildren().size() > 1) {
+		auto it = std::find_if(links_.begin(), links_.end(), [&](const Link& link) {
+			IBehaviorNode* firstChild = root_->GetChildren().front();
+			return link.from == firstChild->GetInput().id;
+							   });
+
+		// 親子関係の削除を行う
+		ax::NodeEditor::PinId from = it->from;
+		ax::NodeEditor::PinId to = it->to;
+
+		IBehaviorNode* parent = FindNodeFromPin(to);
+		IBehaviorNode* child = FindNodeFromPin(from);
+
+		if (parent && child) {
+			parent->DeleteChild(child);
+		}
+
+		links_.erase(it);
 	}
 }
 
@@ -162,6 +203,7 @@ void BehaviorTree::Edit() {
 		}
 	}
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Dockingを行うかのボタンの表示
@@ -197,8 +239,23 @@ void BehaviorTree::CreateNodeWindow() {
 	static int nodeType = 0;
 	ImGui::Combo("##type", &nodeType, "Sequence\0Selector\0Task");
 
+	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
+	if (nodeType == NodeType::Task) {
+		std::vector<std::string> typeNames;
+		for (const auto& pair : canTaskMap_) {
+			typeNames.push_back(pair.first);
+		}
+
+		static int selectedIndex = 0;
+		int changedIndex = ContainerOfComb(typeNames, selectedIndex, "Task Type");
+
+		if (changedIndex != -1) {
+			createTaskName_ = typeNames[changedIndex];
+		}
+	}
+
 	if (ImGui::Button("Create Node")) {
-		CreateNode(name, nodeType);
+		CreateNode(nodeType);
 	}
 
 	ImGui::End();
@@ -208,16 +265,15 @@ void BehaviorTree::CreateNodeWindow() {
 // ↓　Nodeを作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTree::CreateNode(const std::string& nodeName, int nodeType) {
+void BehaviorTree::CreateNode(int nodeType) {
 	if (nodeType == NodeType::Sequencer) {
-		nodeList_.emplace_back(std::make_unique<SequenceNode>());
+		nodeList_.emplace_back(std::make_shared<SequenceNode>());
 
 	} else if (nodeType == NodeType::Selector) {
-		nodeList_.emplace_back(std::make_unique<SelectorNode>());
+		nodeList_.emplace_back(std::make_shared<SelectorNode>());
 
 	} else if (nodeType == NodeType::Task) {
-		auto& nodeC = nodeList_.emplace_back(std::make_unique<SequenceNode>());
-		nodeC->SetName(nodeName);
+		nodeList_.push_back(canTaskMap_[createTaskName_]);
 	}
 }
 
@@ -227,19 +283,4 @@ IBehaviorNode* BehaviorTree::FindNodeFromPin(ax::NodeEditor::PinId pin) {
 			return node.get();
 	}
 	return nullptr;
-}
-
-bool BehaviorTree::InputTextWithString(const char* label, std::string& str, size_t maxLength) {
-	// std::vector<char> をバッファとして使用
-	std::vector<char> buffer(str.begin(), str.end());
-	buffer.resize(maxLength); // 必要なサイズにリサイズ
-
-	// ImGui入力フィールド
-	bool changed = ImGui::InputText(label, buffer.data(), buffer.size());
-
-	if (changed) {
-		str = buffer.data(); // 入力された文字列をstd::stringに反映
-	}
-
-	return changed;
 }

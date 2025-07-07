@@ -9,6 +9,8 @@
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"
 #include "Game/Actor/Boss/State/BossStateBeDestroyed.h"
+
+#include "Game/Actor/Boss/Action/BossActionWait.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
@@ -82,6 +84,8 @@ void Boss::Init() {
 
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
+	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "wait"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "Idle"));
 
 	// -------------------------------------------------
 	// ↓ Action関連
