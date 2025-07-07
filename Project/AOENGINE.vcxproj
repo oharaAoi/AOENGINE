@@ -110,6 +110,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
@@ -358,6 +363,11 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h" />
+    <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />

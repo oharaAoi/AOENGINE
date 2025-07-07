@@ -3,6 +3,7 @@
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/AI/BehaviorTree.h"
 // Game
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
@@ -115,6 +116,8 @@ private:
 
 	// AI --------------------------------------------------
 	std::unique_ptr<BossAI> AI_;
+
+	std::unique_ptr<BehaviorTree> behaviorTree_;
 
 	// Playerの状態 --------------------------------------------------
 

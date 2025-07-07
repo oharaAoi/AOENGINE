@@ -49,6 +49,10 @@ void Boss::Debug_Gui() {
 			JsonItems::Save(GetName(), initParam_.ToJson(param_.GetName()));
 		}
 	}
+
+	ImGui::Separator();
+	ImGui::BulletText("BehaviorTree");
+	behaviorTree_->Edit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,6 +79,9 @@ void Boss::Init() {
 	AI_ = std::make_unique<BossAI>();
 	AI_->Init();
 	this->AddChild(AI_.get());
+
+	behaviorTree_ = std::make_unique<BehaviorTree>();
+	behaviorTree_->Init();
 
 	// -------------------------------------------------
 	// ↓ Action関連
@@ -142,6 +149,8 @@ void Boss::Update() {
 	stateMachine_->Update();
 
 	pulseArmor_->Update();
+
+	behaviorTree_->Run();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

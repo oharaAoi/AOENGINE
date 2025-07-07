@@ -286,6 +286,11 @@
     <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_canvas.cpp" />
     <ClCompile Include="Externals\ImGui\crude_json.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -544,6 +549,11 @@
     <ClInclude Include="Externals\ImGui\imgui_extra_math.h" />
     <ClInclude Include="Externals\ImGui\crude_json.h" />
     <ClInclude Include="Externals\ImGui\imgui_bezier_math.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

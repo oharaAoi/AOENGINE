@@ -4,7 +4,6 @@
 #include "Externals/ImGui/imgui.h"
 #include "Externals/ImGui/imgui_impl_dx12.h"
 #include "Externals/ImGui/imgui_impl_win32.h"
-#include "imgui_node_editor.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -55,7 +54,5 @@ public:
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 private:
-
-	ax::NodeEditor::EditorContext* g_Context = nullptr;
 
 };
