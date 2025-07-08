@@ -1,10 +1,13 @@
 #include "BossActionShotgun.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossBullet.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/UI/Boss/BossUIs.h"
+
+BehaviorStatus BossActionShotgun::Execute() {
+	return Action();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -17,10 +20,10 @@ void BossActionShotgun::Debug_Gui() {
 		ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
 
 		if (ImGui::Button("Save")) {
-			JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+			JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
 		}
 		if (ImGui::Button("Apply")) {
-			param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+			param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 		}
 	}
 
@@ -28,68 +31,67 @@ void BossActionShotgun::Debug_Gui() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定処理
+// ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotgun::Build() {
-	SetName("actionShotgun");
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+bool BossActionShotgun::IsFinish() {
+	if (isFinishShot_) {
+		return true;
+	}
+	return false;
+}
 
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("actionShotgunWeight");
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-	size_t hash = typeid(BossActionShotgun).hash_code();
-	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
+bool BossActionShotgun::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotgun::OnStart() {
-	actionTimer_ = 0.0f;
+void BossActionShotgun::Init() {
+	SetName("actionShotgun");
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotgunWeight");
+
+	size_t hash = typeid(BossActionShotgun).hash_code();
+	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
+
+	taskTimer_ = 0.0f;
 	isFinishShot_ = false;
 	Shot();
 
 	// 警告を出す
-	pOwner_->GetUIs()->PopAlert();
+	pTarget_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotgun::OnUpdate() {
+void BossActionShotgun::Update() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotgun::OnEnd() {
+void BossActionShotgun::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションへの遷移確認
+// ↓ user function
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionShotgun::CheckNextAction() {
-	if (isFinishShot_) {
-		NextAction<BossActionIdle>();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionShotgun::IsInput() {
-	return false;
-}
 
 void BossActionShotgun::Shot() {
-	Vector3 pos = pOwner_->GetPosition();
-	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
+	Vector3 pos = pTarget_->GetPosition();
+	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
 	// ばらつきを弧度法に
 	float bulletSpread = param_.bulletSpread * kToRadian;
 
@@ -103,7 +105,7 @@ void BossActionShotgun::Shot() {
 		Quaternion spreadRot = yawRot * pitchRot;
 
 		Vector3 dir = spreadRot * velocity;
-		BossBullet* bullet = pOwner_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
+		BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
 		bullet->SetTakeDamage(10.0f);
 	}
 

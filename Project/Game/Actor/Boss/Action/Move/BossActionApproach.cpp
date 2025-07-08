@@ -4,6 +4,10 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 
+BehaviorStatus BossActionApproach::Execute() {
+	return Action();
+}
+
 void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
 	ImGui::DragFloat("moveTime", &initParam_.moveTime, .1f);
@@ -11,36 +15,22 @@ void BossActionApproach::Debug_Gui() {
 	ImGui::DragFloat("maxSpinDistance", &initParam_.maxSpinDistance, .1f);
 	ImGui::DragFloat("quitApproachLength", &initParam_.quitApproachLength, .1f);
 	ImGui::DragFloat("decayRate", &initParam_.decayRate, 0.1f);
-	
+
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), initParam_.ToJson(initParam_.GetName()));
+		JsonItems::Save("BossAction", initParam_.ToJson(initParam_.GetName()));
 	}
 	if (ImGui::Button("Apply")) {
-		initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), initParam_.GetName()));
+		initParam_.FromJson(JsonItems::GetData("BossAction", initParam_.GetName()));
 		param_ = initParam_;
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionApproach::Build() {
-	SetName("actionApprocach");
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 初期化処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionApproach::OnStart() {
-	actionTimer_ = 0;
-
-	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), initParam_.GetName()));
+void BossActionApproach::Init() {
+	initParam_.FromJson(JsonItems::GetData("BossAction", initParam_.GetName()));
 	param_ = initParam_;
 
 	// player方向を計算する
-	toPlayer_ = pOwner_->GetPlayerPosition() - pOwner_->GetPosition();
+	toPlayer_ = pTarget_->GetPlayerPosition() - pTarget_->GetPosition();
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
 
@@ -54,60 +44,59 @@ void BossActionApproach::OnStart() {
 	stopping_ = false;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionApproach::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionApproach::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 	Approach();
 
-	if (actionTimer_ > param_.moveTime) {
+	if (taskTimer_ > param_.moveTime) {
 		stopping_ = true;
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 終了処理
-///////////////////////////////////////////////////////////////////////////////////////////////
+void BossActionApproach::End() {
+}
 
-void BossActionApproach::OnEnd() {
+bool BossActionApproach::IsFinish() {
+	if (distance_ < param_.quitApproachLength) {
+		return true;
+	}
+
+	if (taskTimer_ > initParam_.moveTime) {
+		return true;
+	}
+	return false;
+}
+
+bool BossActionApproach::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次のアクションのチェック
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionApproach::CheckNextAction() {
-	if (distance_ < param_.quitApproachLength) {
-		size_t hash = pOwner_->GetAI()->AttackActionAI();
-		NextAction(hash);
-	}
-
-	if (actionTimer_ > initParam_.moveTime) {
-		size_t hash = pOwner_->GetAI()->AttackActionAI();
-		NextAction(hash);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionApproach::IsInput() {
-	return false;
-}
+//void BossActionApproach::CheckNextAction() {
+//	if (distance_ < param_.quitApproachLength) {
+//		size_t hash = pTarget_->GetAI()->AttackActionAI();
+//		NextAction(hash);
+//	}
+//
+//	if (actionTimer_ > initParam_.moveTime) {
+//		size_t hash = pTarget_->GetAI()->AttackActionAI();
+//		NextAction(hash);
+//	}
+//}
 
 void BossActionApproach::Approach() {
-	pOwner_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
 }
 
 void BossActionApproach::SpinApproach() {
 	// player方向を計算する
-	toPlayer_ = pOwner_->GetPlayerPosition() - pOwner_->GetPosition();
+	toPlayer_ = pTarget_->GetPlayerPosition() - pTarget_->GetPosition();
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
-	
+
 	// Y軸を上とした場合、横方向ベクトルを計算
 	lateral_ = Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
 
@@ -118,7 +107,7 @@ void BossActionApproach::SpinApproach() {
 	offsetDire_ = offsetDire_.Normalize();
 
 	// 移動をさせる
-	pOwner_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
 
 	param_.moveSpeed -= param_.deceleration * GameTimer::DeltaTime();
 }

@@ -11,7 +11,6 @@ void BossLotteryAction::Init(const std::string& actionName) {
 
 void BossLotteryAction::Debug_Gui() {
 
-	ImGui::SetNextItemOpen(true, ImGuiCond_Once);
 	if (ImGui::TreeNode("LotteryWeight")) {
 
 		ImGui::DragFloat("weight", &weightParameter_.actionWeight_.weight);

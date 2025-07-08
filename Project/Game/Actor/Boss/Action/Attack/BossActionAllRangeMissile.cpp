@@ -1,34 +1,55 @@
 #include "BossActionAllRangeMissile.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/UI/Boss/BossUIs.h"
+
+BehaviorStatus BossActionAllRangeMissile::Execute() {
+	return BehaviorStatus();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Debug_Gui() {
 	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionAllRangeMissile::Build() {
+bool BossActionAllRangeMissile::IsFinish() {
+	if (isFinishShot_) {
+		return true;
+	}
+	return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionAllRangeMissile::CanExecute() {
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossActionAllRangeMissile::Init() {
 	SetName("allRangeMissile");
 
 	weight_ = std::make_unique<BossLotteryAction>();
 	weight_->Init("allRangeMissileWeight");
 
 	size_t hash = typeid(BossActionAllRangeMissile).hash_code();
-	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
-}
+	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 開始処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionAllRangeMissile::OnStart() {
-	actionTimer_ = 0.f;
-	playerToRotation_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
+	// 
+	taskTimer_ = 0.f;
+	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
 
 	mainAction_ = std::bind(&BossActionAllRangeMissile::LookPlayer, this);
 
@@ -37,16 +58,15 @@ void BossActionAllRangeMissile::OnStart() {
 	bulletSpeed_ = 60.f;
 
 	// 警告を出す
-	pOwner_->GetUIs()->PopAlert();
+	pTarget_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionAllRangeMissile::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
-
+void BossActionAllRangeMissile::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 	mainAction_();
 }
 
@@ -54,25 +74,7 @@ void BossActionAllRangeMissile::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionAllRangeMissile::OnEnd() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションのチェック
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionAllRangeMissile::CheckNextAction() {
-	if (isFinishShot_) {
-		NextAction<BossActionIdle>();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionAllRangeMissile::IsInput() {
-	return false;
+void BossActionAllRangeMissile::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,10 +83,10 @@ bool BossActionAllRangeMissile::IsInput() {
 
 void BossActionAllRangeMissile::Shot() {
 	if (isFinishShot_) { return; }
-	Vector3 pos = pOwner_->GetTransform()->translate_;
-	Vector3 forward = pOwner_->GetTransform()->rotation_.MakeForward();
-	Vector3 right = pOwner_->GetTransform()->rotation_.MakeRight();
-	Vector3 up = pOwner_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+	Vector3 pos = pTarget_->GetTransform()->translate_;
+	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
+	Vector3 right = pTarget_->GetTransform()->rotation_.MakeRight();
+	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
 
 	const uint32_t angleUpNum = 4;
 	const uint32_t fireNum = 9;
@@ -105,7 +107,7 @@ void BossActionAllRangeMissile::Shot() {
 			dir = rot.Rotate(dir);
 
 			Vector3 velocity = dir.Normalize() * bulletSpeed_;
-			BossMissile* missile = pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.05f, true);
+			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_, 0.05f, true);
 			missile->SetTakeDamage(30.0f);
 		}
 	}
@@ -118,12 +120,12 @@ void BossActionAllRangeMissile::Shot() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::LookPlayer() {
-	float t = actionTimer_ / lookTime_;
-	Quaternion lookRotation = Quaternion::Slerp(pOwner_->GetTransform()->GetQuaternion(), playerToRotation_, t);
-	pOwner_->GetTransform()->SetQuaternion(lookRotation);
+	float t = taskTimer_ / lookTime_;
+	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetQuaternion(), playerToRotation_, t);
+	pTarget_->GetTransform()->SetQuaternion(lookRotation);
 
 	// 次の行動に遷移する
-	if (actionTimer_ > lookTime_) {
+	if (taskTimer_ > lookTime_) {
 		mainAction_ = std::bind(&BossActionAllRangeMissile::Shot, this);
 	}
 }

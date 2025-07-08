@@ -2,8 +2,11 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/State/BossStateDeployArmor.h"
+
+BehaviorStatus BossActionDeployArmor::Execute() {
+	return Action();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -13,60 +16,51 @@ void BossActionDeployArmor::Debug_Gui() {
 	ImGui::DragFloat("deployTime", &param_.deployTime, 0.1f);
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了確認
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionDeployArmor::IsFinish() {
+	if (taskTimer_ >= param_.deployTime) {
+		return true;
+	}
+	return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::Build() {
-	SetName("actionDeployArmor");
-	actionTimer_ = 0.0f;
+bool BossActionDeployArmor::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::OnStart() {
-	actionTimer_ = 0.0f;
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+void BossActionDeployArmor::Init() {
+	taskTimer_ = 0.0f;
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
-	pOwner_->GetTransform()->temporaryTranslate_ = RandomVector3(Vector3(-2.0f, -2.0f, -2.0f), Vector3(2.0f, 2.0f, 2.0f));
+void BossActionDeployArmor::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
+	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Vector3(-2.0f, -2.0f, -2.0f), Vector3(2.0f, 2.0f, 2.0f));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::OnEnd() {
-	pOwner_->GetState()->ChangeState<BossStateDeployArmor>();
-}
-\
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションへの遷移確認
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionDeployArmor::CheckNextAction() {
-	if (actionTimer_ >= param_.deployTime) {
-		NextAction<BossActionIdle>();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionDeployArmor::IsInput() {
-	return false;
+void BossActionDeployArmor::End() {
+	pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
 }

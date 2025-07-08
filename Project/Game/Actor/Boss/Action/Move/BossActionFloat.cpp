@@ -2,33 +2,32 @@
 #include "Game/Actor/Boss/Boss.h"
 
 BehaviorStatus BossActionFloat::Execute() {
-	if (state_ == BehaviorStatus::Inactive) {
-		Init();
-	}
-
-	Update();
-
-	if (actionTimer_ > 2.0f) {
-		End();
-		return BehaviorStatus::Success;
-	}
-	return BehaviorStatus::Running;
+	return Action();
 }
 
 void BossActionFloat::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 }
 
+bool BossActionFloat::IsFinish() {
+	if (taskTimer_ > 2.0f) {
+		return true;
+	}
+
+	return false;
+}
+
+bool BossActionFloat::CanExecute() {
+	return true;
+}
+
 void BossActionFloat::Init() {
-	state_ = BehaviorStatus::Running;
-	actionTimer_ = 0;
 }
 
 void BossActionFloat::Update() {
-	actionTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += GameTimer::DeltaTime();
 	pTarget_->GetTransform()->translate_.y += 4.0f * GameTimer::DeltaTime();
 }
 
 void BossActionFloat::End() {
-	state_ = BehaviorStatus::Inactive;
 }

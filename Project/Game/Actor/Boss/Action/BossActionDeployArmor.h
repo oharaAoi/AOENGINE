@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Game/Actor/Base/BaseAction.h"
+#include "Engine/Module/Components/AI/ITaskNode.h"
 
 class Boss;
 
@@ -8,7 +8,7 @@ class Boss;
 /// バリアを展開する
 /// </summary>
 class BossActionDeployArmor :
-	public BaseAction<Boss> {
+	public ITaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {
@@ -31,15 +31,16 @@ public:
 	BossActionDeployArmor() = default;
 	~BossActionDeployArmor() override = default;
 
-	void Build() override;
-	void OnStart() override;
-	void OnUpdate() override;
-	void OnEnd() override;
-
-	void CheckNextAction() override;
-	bool IsInput() override;
+	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;
+
+	bool IsFinish() override;
+	bool CanExecute() override;
+
+	void Init() override;
+	void Update() override;
+	void End() override;
 
 private:
 

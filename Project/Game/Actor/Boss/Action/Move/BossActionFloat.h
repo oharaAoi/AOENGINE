@@ -16,12 +16,14 @@ public:
 
 	void Debug_Gui() override; 
 
+	bool IsFinish() override;
+	bool CanExecute() override;
+
 	void Init() override;
 	void Update() override;
 	void End() override;
 
 private:
 
-	float actionTimer_;
 };
 

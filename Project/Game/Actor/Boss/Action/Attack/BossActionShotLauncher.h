@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Game/Actor/Base/BaseAction.h"
+#include "Engine/Module/Components/AI/ITaskNode.h"
 #include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 class Boss;
@@ -10,7 +10,7 @@ class Boss;
 /// ランチャーを撃つ
 /// </summary>
 class BossActionShotLauncher :
-	public BaseAction<Boss> {
+	public ITaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {
@@ -37,15 +37,16 @@ public:
 	BossActionShotLauncher() = default;
 	~BossActionShotLauncher() override = default;
 
-	void Build() override;
-	void OnStart() override;
-	void OnUpdate() override;
-	void OnEnd() override;
-
-	void CheckNextAction() override;
-	bool IsInput() override;
+	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;
+
+	bool IsFinish() override;
+	bool CanExecute() override;
+
+	void Init() override;
+	void Update() override;
+	void End() override;
 
 private:
 

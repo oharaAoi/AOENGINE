@@ -5,21 +5,24 @@
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 #include "Game/UI/Boss/BossUIs.h"
 
+BehaviorStatus BossActionShotLauncher::Execute() {
+	return Action();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Debug_Gui() {
-
 	if (ImGui::CollapsingHeader("Parameter")) {
 		ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
 		ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
 
 		if (ImGui::Button("Save")) {
-			JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+			JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
 		}
 		if (ImGui::Button("Apply")) {
-			param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+			param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 		}
 	}
 
@@ -27,42 +30,53 @@ void BossActionShotLauncher::Debug_Gui() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::Build() {
-	SetName("actionShotLauncher");
+bool BossActionShotLauncher::IsFinish() {
+	if (isFinish_) {
+		return false;
+	}
+	return false;
+}
 
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("actionShotLauncherWeight");
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-	size_t hash = typeid(BossActionShotLauncher).hash_code();
-	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
-} 
+bool BossActionShotLauncher::CanExecute() {
+	return true;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnStart() {
-	actionTimer_ = 0.0f;
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+void BossActionShotLauncher::Init() {
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotLauncherWeight");
+
+	size_t hash = typeid(BossActionShotLauncher).hash_code();
+	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
+
+	taskTimer_ = 0.0f;
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 	Shot();
 
 	isFinish_ = true;
 
 	// 警告を出す
-	pOwner_->GetUIs()->PopAlert();
+	pTarget_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionShotLauncher::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 
-	if (actionTimer_ > param_.stiffenTime) {
+	if (taskTimer_ > param_.stiffenTime) {
 		isFinish_ = true;
 	}
 }
@@ -71,25 +85,7 @@ void BossActionShotLauncher::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotLauncher::OnEnd() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションへの遷移確認
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionShotLauncher::CheckNextAction() {
-	if (isFinish_) {
-		NextAction<BossActionIdle>();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionShotLauncher::IsInput() {
-	return false;
+void BossActionShotLauncher::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,8 +93,8 @@ bool BossActionShotLauncher::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Shot() {
-	Vector3 pos = pOwner_->GetPosition();
-	Vector3 velocity = (pOwner_->GetPlayerPosition() - pos).Normalize();
-	BossMissile* bullet = pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
+	Vector3 pos = pTarget_->GetPosition();
+	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
+	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
 	bullet->SetTakeDamage(40.0f);
 }

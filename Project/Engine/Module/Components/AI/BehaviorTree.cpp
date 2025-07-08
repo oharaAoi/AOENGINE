@@ -41,7 +41,13 @@ void BehaviorTree::Run() {
 			for (auto node : nodeList_) {
 				node->DeleteChild((*it).get());
 			}
+
+			if (selectNode_ == (*it).get()) {
+				selectNode_ = root_;
+			}
+
 			it = nodeList_.erase(it);
+
 		} else {
 			(*it)->Update();
 			it++;

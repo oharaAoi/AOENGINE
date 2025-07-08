@@ -84,33 +84,25 @@ void Boss::Init() {
 	AI_->Init();
 	this->AddChild(AI_.get());
 
+	// -------------------------------------------------
+	// ↓ Tree関連
+	// -------------------------------------------------
+
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
 	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "wait"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionFloat>(this, "Float"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionApproach>(this, "Approach"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionKeepDistance>(this, "KeepDistance"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionLeave>(this, "Leave"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionStrafe>(this, "Strafe"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionShotMissile>(this, "ShotMissile"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionShotBullet>(this, "ShotBullet"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionShotLauncher>(this, "ShotLauncher"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionShotgun>(this, "Shotgun"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionAllRangeMissile>(this, "AllRangeMissile"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree.json");
-
-	// -------------------------------------------------
-	// ↓ Action関連
-	// -------------------------------------------------
-
-	actionManager_ = std::make_unique<ActionManager<Boss>>();
-	actionManager_->Init(this, "BossAction");
-	actionManager_->BuildAction<BossActionIdle>();
-	actionManager_->BuildAction<BossActionApproach>();
-	actionManager_->BuildAction<BossActionKeepDistance>();
-	actionManager_->BuildAction<BossActionLeave>();
-	actionManager_->BuildAction<BossActionStrafe>();
-
-	actionManager_->BuildAction<BossActionShotMissile>();
-	actionManager_->BuildAction<BossActionShotBullet>();
-	actionManager_->BuildAction<BossActionShotLauncher>();
-	actionManager_->BuildAction<BossActionShotgun>();
-	actionManager_->BuildAction<BossActionAllRangeMissile>();
-	actionManager_->BuildAction<BossActionDeployArmor>();
-
-	size_t hash = typeid(BossActionDeployArmor).hash_code();
-	actionManager_->AddRunAction(hash);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -153,7 +145,6 @@ void Boss::Update() {
 	}
 
 	behaviorTree_->Run();
-	//actionManager_->Update();
 	stateMachine_->Update();
 
 	pulseArmor_->Update();

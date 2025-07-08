@@ -58,9 +58,6 @@ public:
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
-	// action
-	ActionManager<Boss>* GetActionManager() { return actionManager_.get(); }
-
 	// player座標
 	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
 	const Vector3& GetPlayerPosition() const { return playerPosition_; }
@@ -100,9 +97,6 @@ private:
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
-
-	std::unique_ptr<ActionManager<Boss>> actionManager_;
-
 	// weapon ------------------------------------------------
 	PulseArmor* pulseArmor_;
 

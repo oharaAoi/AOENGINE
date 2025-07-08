@@ -5,27 +5,63 @@
 #include "Engine/Lib/Math/MyRandom.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 実行処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionKeepDistance::Build() {
-	SetName("actionKeepDistance");
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+BehaviorStatus BossActionKeepDistance::Execute() {
+	return Action();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionKeepDistance::OnStart() {
-	actionTimer_ = 0;
+void BossActionKeepDistance::Debug_Gui() {
+	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
+	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
+	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
+	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了確認
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionKeepDistance::IsFinish() {
+	if (stopping_) {
+		if (velocity_.Length() <= 1.0f) {
+			return true;
+		}
+	}
+	return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionKeepDistance::CanExecute() {
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossActionKeepDistance::Init() {
+	taskTimer_ = 0;
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 
 	stopping_ = false;
 
 	velocity_ = CVector3::ZERO;
 
-	Vector3 bossPosition = pOwner_->GetPosition();
-	Vector3 playerPosition = pOwner_->GetPlayerPosition();
+	Vector3 bossPosition = pTarget_->GetPosition();
+	Vector3 playerPosition = pTarget_->GetPlayerPosition();
 
 	// 距離を計算する
 	Vector3 distance = bossPosition - playerPosition;
@@ -42,7 +78,7 @@ void BossActionKeepDistance::OnStart() {
 	} else if (moveType_ == 1) {	// 旋回移動
 		centerPos_ = bossPosition - targetPos;
 		centerPos_.y = bossPosition.y;
-		
+
 		Vector3 toBoss = bossPosition - playerPosition;
 		Vector3 tangent = Vector3::Cross(CVector3::UP, toBoss);
 
@@ -51,11 +87,11 @@ void BossActionKeepDistance::OnStart() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionKeepDistance::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionKeepDistance::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 
 	if (!stopping_) {
 		if (moveType_ == 0) {
@@ -67,62 +103,30 @@ void BossActionKeepDistance::OnUpdate() {
 		Stop();
 	}
 
-	if (actionTimer_ > param_.moveTime) {
+	if (taskTimer_ > param_.moveTime) {
 		stopping_ = true;
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionKeepDistance::OnEnd() {
+void BossActionKeepDistance::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ user Function
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionKeepDistance::CheckNextAction() {
-	if (stopping_) {
-		if (velocity_.Length() <= 1.0f) {
-			size_t hash = pOwner_->GetAI()->AttackActionAI();
-			NextAction(hash);
-		}
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionKeepDistance::IsInput() {
-	return false;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionKeepDistance::Debug_Gui() {
-	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
-	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
-	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
-	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
-
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
-	}
-}
 
 void BossActionKeepDistance::Direct() {
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
 }
 
 void BossActionKeepDistance::Spin() {
-	Vector3 playerPos = pOwner_->GetPlayerPosition();
-	Vector3 toCenter = playerPos - pOwner_->GetPosition();
+	Vector3 playerPos = pTarget_->GetPlayerPosition();
+	Vector3 toCenter = playerPos - pTarget_->GetPosition();
 	float radius = toCenter.Length();
 	Vector3 centerDire = toCenter.Normalize();
 
@@ -133,14 +137,14 @@ void BossActionKeepDistance::Spin() {
 
 	// 速度と位置を更新
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
 }
 
 void BossActionKeepDistance::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	pOwner_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
-	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
+	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	pTarget_->GetTransform()->rotation_ = Quaternion::Slerp(pTarget_->GetTransform()->rotation_, playerToRotate_, 0.05f);
 
 }

@@ -1,33 +1,51 @@
 #include "BossActionShotMissile.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/UI/Boss/BossUIs.h"
+
+BehaviorStatus BossActionShotMissile::Execute() {
+	return Action();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotMissile::Debug_Gui() {
 	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Build() {
-	SetName("actionShotMissle");
+bool BossActionShotMissile::IsFinish() {
+	if (isFinishShot_) {
+		return true;
+	}
+	return false;
+}
 
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("actionShotMissleWeight");
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-	size_t hash = typeid(BossActionShotMissile).hash_code();
-	pOwner_->GetAI()->SetAttackWeight(hash, weight_.get());
+bool BossActionShotMissile::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnStart() {
-	actionTimer_ = 0.0f;
+void BossActionShotMissile::Init() {
+	weight_ = std::make_unique<BossLotteryAction>();
+	weight_->Init("actionShotMissleWeight");
+
+	size_t hash = typeid(BossActionShotMissile).hash_code();
+	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
+
+	taskTimer_ = 0.0f;
 	bulletSpeed_ = 60.f;
 	isFinishShot_ = false;
 
@@ -36,19 +54,19 @@ void BossActionShotMissile::OnStart() {
 	shotInterval_ = 0.2f;
 
 	// 警告を出す
-	pOwner_->GetUIs()->PopAlert();
+	pTarget_->GetUIs()->PopAlert();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionShotMissile::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 
-	if (actionTimer_ > shotInterval_) {
+	if (taskTimer_ > shotInterval_) {
 		Shot();
-		actionTimer_ = 0.0f;
+		taskTimer_ = 0.0f;
 	}
 }
 
@@ -56,25 +74,7 @@ void BossActionShotMissile::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::OnEnd() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションへの遷移確認
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionShotMissile::CheckNextAction() {
-	if (isFinishShot_) {
-		NextAction<BossActionIdle>();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力確認処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionShotMissile::IsInput() {
-	return false;
+void BossActionShotMissile::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,12 +84,12 @@ bool BossActionShotMissile::IsInput() {
 void BossActionShotMissile::Shot() {
 	fireCount_--;
 
-	Vector3 pos = pOwner_->GetTransform()->translate_;
-	Vector3 forward = pOwner_->GetTransform()->rotation_.MakeForward();
-	Vector3 up = pOwner_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+	Vector3 pos = pTarget_->GetTransform()->translate_;
+	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
+	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * bulletSpeed_;
-	BossMissile* missile = pOwner_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pOwner_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
+	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
 	missile->SetTakeDamage(20.0f);
 
 	if (fireCount_ == 0) {

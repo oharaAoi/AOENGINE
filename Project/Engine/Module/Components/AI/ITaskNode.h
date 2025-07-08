@@ -1,6 +1,7 @@
 #pragma once
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include <memory>
+#include <functional>
+#include "Engine/Module/Components/AI/IBehaviorNode.h"
 
 template<typename OwnerType>
 class ITaskNode :
@@ -16,13 +17,22 @@ public:
 	virtual void Update() = 0;
 	virtual void End() = 0;
 
-	void SetTarget(OwnerType* owner) { pTarget_ = owner; }
+	virtual bool IsFinish() = 0;
+	virtual bool CanExecute() = 0;
 
 	virtual void Debug_Gui() override {};
+
+	virtual BehaviorStatus Action();
+
+	void SetTarget(OwnerType* owner) { pTarget_ = owner; }
 
 protected:
 
 	OwnerType* pTarget_ = nullptr;
+
+	std::function<void()> action_;
+
+	float taskTimer_;
 
 };
 
@@ -32,4 +42,28 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
 	isLeafNode_ = true;
+}
+
+template<typename OwnerType>
+inline BehaviorStatus ITaskNode<OwnerType>::Action() {
+	// 非アクティブ状態なら初期化を行う
+	if (state_ == BehaviorStatus::Inactive) {
+		if (!CanExecute()) {
+			return BehaviorStatus::Failure;
+		}
+		taskTimer_ = 0;
+		state_ = BehaviorStatus::Running;
+		Init();
+	}
+
+	// 更新
+	Update();
+
+	// 終了フラグがtrueなら終了処理を行う
+	if (IsFinish()) {
+		End();
+		state_ = BehaviorStatus::Inactive;
+		return BehaviorStatus::Success;
+	}
+	return BehaviorStatus::Running;
 }

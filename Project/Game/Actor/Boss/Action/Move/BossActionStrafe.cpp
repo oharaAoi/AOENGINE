@@ -4,26 +4,50 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
+BehaviorStatus BossActionStrafe::Execute() {
+	return Action();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionStrafe::Build() {
-	SetName("actionStrafe");
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+void BossActionStrafe::Debug_Gui() {
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了確認
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionStrafe::IsFinish() {
+	if (stopping_) {
+		if (velocity_.Length() <= 1.0f) {
+			return true;
+		}
+	}
+	return false;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行確認
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossActionStrafe::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionStrafe::OnStart() {
-	actionTimer_ = 0;
+void BossActionStrafe::Init() {
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	taskTimer_ = 0;
 	stopping_ = false;
 	velocity_ = CVector3::ZERO;
 
-	Vector3 bossPosition = pOwner_->GetPosition();
-	Vector3 playerPosition = pOwner_->GetPlayerPosition();
+	Vector3 bossPosition = pTarget_->GetPosition();
+	Vector3 playerPosition = pTarget_->GetPlayerPosition();
 
 	// 距離を計算する
 	Vector3 distance = bossPosition - playerPosition;
@@ -55,8 +79,8 @@ void BossActionStrafe::OnStart() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionStrafe::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionStrafe::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 
 	if (!stopping_) {
 		Spin();
@@ -64,7 +88,7 @@ void BossActionStrafe::OnUpdate() {
 		Stop();
 	}
 
-	if (actionTimer_ > param_.moveTime) {
+	if (taskTimer_ > param_.moveTime) {
 		stopping_ = true;
 	}
 }
@@ -73,35 +97,7 @@ void BossActionStrafe::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionStrafe::OnEnd() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次の行動の確認
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionStrafe::CheckNextAction() {
-	if (stopping_) {
-		if (velocity_.Length() <= 1.0f) {
-			size_t hash = pOwner_->GetAI()->AttackActionAI();
-			NextAction(hash);
-		}
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionStrafe::IsInput() {
-	return false;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionStrafe::Debug_Gui() {
+void BossActionStrafe::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,8 +105,8 @@ void BossActionStrafe::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionStrafe::Spin() {
-	Vector3 playerPos = pOwner_->GetPlayerPosition();
-	Vector3 toCenter = playerPos - pOwner_->GetPosition();
+	Vector3 playerPos = pTarget_->GetPlayerPosition();
+	Vector3 toCenter = playerPos - pTarget_->GetPosition();
 	float radius = toCenter.Length();
 	Vector3 centerDire = toCenter.Normalize();
 
@@ -121,7 +117,7 @@ void BossActionStrafe::Spin() {
 
 	// 速度と位置を更新
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -130,8 +126,8 @@ void BossActionStrafe::Spin() {
 
 void BossActionStrafe::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	pOwner_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
-	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
+	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	pTarget_->GetTransform()->rotation_ = Quaternion::Slerp(pTarget_->GetTransform()->rotation_, playerToRotate_, 0.05f);
 }

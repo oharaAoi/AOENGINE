@@ -15,7 +15,6 @@ void BossStateStan::OnStart() {
 	stateTime_ = 0.0f;
 	param_.FromJson(JsonItems::GetData(stateMachine_->GetName(), param_.GetName()));
 
-	pOwner_->GetActionManager()->SetIsActionStop(true);
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
 
 	pOwner_->SetIsStan(true);
@@ -39,9 +38,6 @@ void BossStateStan::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateStan::OnExit() {
-	size_t hash = typeid(BossActionIdle).hash_code();
-	pOwner_->GetActionManager()->ChangeAction(hash);
-	pOwner_->GetActionManager()->SetIsActionStop(false);
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
 	pOwner_->ResetStan();

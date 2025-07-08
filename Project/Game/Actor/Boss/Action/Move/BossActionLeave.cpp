@@ -3,44 +3,65 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 
+BehaviorStatus BossActionLeave::Execute() {
+	return Action();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BossActionLeave::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
 	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
 	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 設定時のみ行う処理
+// ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionLeave::Build() {
-	SetName("actionLeave");
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+bool BossActionLeave::IsFinish() {
+	if (stopping_) {
+		if (velocity_.Length() <= 1.0f) {
+			return true;
+		}
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 初期化処理
+// ↓ 実行確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionLeave::OnStart() {
-	actionTimer_ = 0;
+bool BossActionLeave::CanExecute() {
+	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossActionLeave::Init() {
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	taskTimer_ = 0;
 
 	stopping_ = false;
 
-	accel_ = pOwner_->GetTransform()->rotation_.MakeForward() * param_.moveSpeed;
+	accel_ = pTarget_->GetTransform()->rotation_.MakeForward() * param_.moveSpeed;
 	velocity_ = CVector3::ZERO;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新処理
+// ↓ 更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionLeave::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+void BossActionLeave::Update() {
+	taskTimer_ += GameTimer::DeltaTime();
 
 	if (!stopping_) {
 		Leave();
@@ -48,7 +69,7 @@ void BossActionLeave::OnUpdate() {
 		Stop();
 	}
 
-	if (actionTimer_ > param_.moveTime) {
+	if (taskTimer_ > param_.moveTime) {
 		stopping_ = true;
 	}
 }
@@ -57,28 +78,7 @@ void BossActionLeave::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionLeave::OnEnd() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションのチェック
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionLeave::CheckNextAction() {
-	if (stopping_) {
-		if (velocity_.Length() <= 1.0f) {
-			size_t hash = pOwner_->GetAI()->AttackActionAI();
-			NextAction(hash);
-		}
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 入力処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-bool BossActionLeave::IsInput() {
-	return false;
+void BossActionLeave::End() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,13 +87,13 @@ bool BossActionLeave::IsInput() {
 
 void BossActionLeave::Leave() {
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->MoveVelocity(velocity_* GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_* GameTimer::DeltaTime(), 0.1f);
 }
 
 void BossActionLeave::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	pOwner_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pOwner_->GetPosition(), pOwner_->GetPlayerPosition());
-	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(pOwner_->GetTransform()->rotation_, playerToRotate_, 0.05f);
+	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	pTarget_->GetTransform()->rotation_ = Quaternion::Slerp(pTarget_->GetTransform()->rotation_, playerToRotate_, 0.05f);
 }

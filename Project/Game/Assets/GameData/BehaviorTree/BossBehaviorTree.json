@@ -21,12 +21,12 @@
                     "nodeType": 3
                 }
             ],
-            "name": "Selector",
+            "name": "Sequence",
             "nodePos": {
                 "x": -123.0,
-                "y": -110.0
+                "y": -122.0
             },
-            "nodeType": 2
+            "nodeType": 1
         }
     ],
     "name": "Root",
