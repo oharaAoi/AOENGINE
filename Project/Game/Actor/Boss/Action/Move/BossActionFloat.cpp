@@ -15,6 +15,10 @@ BehaviorStatus BossActionFloat::Execute() {
 	return BehaviorStatus::Running;
 }
 
+void BossActionFloat::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+}
+
 void BossActionFloat::Init() {
 	state_ = BehaviorStatus::Running;
 	actionTimer_ = 0;

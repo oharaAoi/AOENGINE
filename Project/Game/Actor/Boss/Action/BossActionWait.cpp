@@ -15,6 +15,10 @@ BehaviorStatus BossActionWait::Execute() {
 	return BehaviorStatus::Running;
 }
 
+void BossActionWait::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+}
+
 void BossActionWait::Init() {
 	state_ = BehaviorStatus::Running;
 	actionTimer_ = 0;

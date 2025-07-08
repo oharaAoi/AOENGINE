@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 #include "imgui_node_editor.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
@@ -48,7 +49,8 @@ enum NodeType {
 /// <summary>
 /// 各Nodeで共通となる基礎クラス
 /// </summary>
-class IBehaviorNode {
+class IBehaviorNode :
+	public AttributeGui {
 public:
 
 	IBehaviorNode();
@@ -65,6 +67,10 @@ public:
 	void DeleteChild(IBehaviorNode* child);
 
 	json ToJson();
+
+	virtual void Debug_Gui() override {};
+
+	bool IsSelectNode();
 
 public:
 
@@ -102,13 +108,12 @@ protected:
 	Node node_;		// node本体
 
 	std::vector<IBehaviorNode*> children_;	// 子ども
-	uint32_t currentIndex_;
+	uint32_t currentIndex_;					// 現在参照している子のindex
 
-	bool isLeafNode_ = false;
+	bool isLeafNode_ = false;		// リーフノードかどうか
 
-	Vector2 pos_;
-
-	bool setNodePos_;
+	Vector2 pos_;		// Nodeの座標
+	bool setNodePos_;	// Node座標の設定を行ったかどうか
 
 	// -------------------------------------------------
 	// ↓ Debug用

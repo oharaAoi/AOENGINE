@@ -10,8 +10,7 @@ public:
 
 	BehaviorStatus Execute() override;
 
-private:
-
+	void Debug_Gui() override {};
 
 };
 

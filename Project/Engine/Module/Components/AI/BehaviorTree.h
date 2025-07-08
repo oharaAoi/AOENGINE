@@ -30,7 +30,6 @@ public:
 		canTaskMap_[nodeName] = std::move(_task);
 	}
 
-
 	void CreateTree(const std::string& nodeName);
 
 private:
@@ -75,6 +74,10 @@ private:
 	std::string createTaskName_;
 
 	ImGuiWindowFlags windowFlags_;
+
+	IBehaviorNode* selectNode_;
+	ax::NodeEditor::NodeId selectId_;
+	ax::NodeEditor::NodeId preSelectId_;
 };
 
 template<typename ActionT, typename Target>

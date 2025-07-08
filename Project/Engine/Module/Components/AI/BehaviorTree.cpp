@@ -18,9 +18,12 @@ BehaviorTree::~BehaviorTree() {
 
 void BehaviorTree::Init() {
 	context_ = ax::NodeEditor::CreateEditor();
+	ax::NodeEditor::SetCurrentEditor(context_);
+	auto& style = ax::NodeEditor::GetStyle();
+	style.LinkStrength = 0.0f;
 
-	isOpenEditor_ = true;
-	
+	isOpenEditor_ = false;
+
 	windowFlags_ = ImGuiWindowFlags_None;
 }
 
@@ -46,9 +49,11 @@ void BehaviorTree::Run() {
 	}
 
 	// nodeの内容を実行させる
-	BehaviorStatus state = root_->Execute();
-	if (state == BehaviorStatus::Failure) {
-		Logger::Log("RootNodeが失敗を返しました");
+	if (root_ != nullptr) {
+		BehaviorStatus state = root_->Execute();
+		if (state == BehaviorStatus::Failure) {
+			Logger::Log("RootNodeが失敗を返しました");
+		}
 	}
 }
 
@@ -77,13 +82,15 @@ void BehaviorTree::Connect() {
 
 			if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
 				if (input != output) {
-					links_.push_back({ IBehaviorNode::GetNextId(), input, output });
-
 					IBehaviorNode* parent = FindNodeFromPin(output);
 					IBehaviorNode* child = FindNodeFromPin(input);
 
-					if (parent && child) {
-						parent->AddChild(child);
+					if (parent != child) {
+						links_.push_back({ IBehaviorNode::GetNextId(), input, output });
+
+						if (parent && child) {
+							parent->AddChild(child);
+						}
 					}
 				}
 			}
@@ -174,8 +181,8 @@ void BehaviorTree::Edit() {
 		}
 	}
 
-	// NodeEditorに関する処理
 	if (isOpenEditor_) {
+		// Treeに関する処理
 		if (ImGui::Begin("BehaviorTree", &isOpenEditor_, windowFlags_)) {
 			ax::NodeEditor::SetCurrentEditor(context_);
 			ax::NodeEditor::Begin("BehaviorTree");
@@ -193,6 +200,7 @@ void BehaviorTree::Edit() {
 		}
 		ImGui::End();
 
+		// Editorに関する処理
 		if (ImGui::Begin("BehaviorTreeEditor", &isOpenEditor_, windowFlags_)) {
 			std::string filePath;
 			if (ButtonOpenDialog("Save", "Tree", "SaveTree", ".json", filePath)) {
@@ -202,8 +210,23 @@ void BehaviorTree::Edit() {
 			if (ImGui::CollapsingHeader("Nodeの作成")) {
 				CreateNodeWindow();
 			}
+
+			ImGui::Separator();
+			if (selectNode_ != nullptr) {
+				selectNode_->Debug_Gui();
+			}
+
 		}
 		ImGui::End();
+	}
+
+	for (auto node : nodeList_) {
+		if (node->IsSelectNode()) {
+			if (selectId_ != node->GetId()) {
+				selectNode_ = node.get();
+				selectId_ = selectNode_->GetId();
+			}
+		}
 	}
 }
 
@@ -220,7 +243,7 @@ void BehaviorTree::CreateNodeWindow() {
 
 	static int nodeType = 1;
 	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0Task");
-	
+
 	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 	if (nodeType == NodeType::Task) {
 		std::vector<std::string> typeNames;
@@ -275,6 +298,10 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	auto& node = nodeList_.emplace_back(CreateNodeFromJson(nodeTree));
 	root_ = node.get();
+
+	selectNode_ = root_;
+	selectId_ = root_->GetId();
+	preSelectId_ = root_->GetId();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

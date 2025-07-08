@@ -26,7 +26,9 @@ IBehaviorNode::IBehaviorNode() {
 void IBehaviorNode::Update() {
 	if (isSelect_) {
 		if (Input::GetInstance()->GetKey(DIK_DELETE)) {
-			isDelete_ = true;
+			if (type_ != NodeType::Root) {
+				isDelete_ = true;
+			}
 		}
 	}
 
@@ -44,7 +46,6 @@ void IBehaviorNode::DrawNode() {
 	}
 	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_NodeBorder, color_);
 	ax::NodeEditor::BeginNode(node_.id);
-	isSelect_ = ax::NodeEditor::IsNodeSelected(node_.id);
 	// 現在の描画位置
 	ImVec2 textPos = ImGui::GetCursorScreenPos();
 	ImGui::Text("id:%d", node_.id);
@@ -111,6 +112,11 @@ json IBehaviorNode::ToJson() {
 		item["children"].push_back(child->ToJson());
 	}
 	return item;
+}
+
+bool IBehaviorNode::IsSelectNode() {
+	bool selected = ax::NodeEditor::IsNodeSelected(node_.id);
+	return selected;
 }
 
 uint32_t IBehaviorNode::GetNextId() {

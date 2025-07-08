@@ -32,3 +32,7 @@ BehaviorStatus BehaviorRootNode::Execute() {
 	return BehaviorStatus::Success;
 }
 
+void BehaviorRootNode::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+}
+
