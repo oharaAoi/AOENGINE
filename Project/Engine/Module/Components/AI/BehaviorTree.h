@@ -6,14 +6,9 @@
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/BehaviorRootNode.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "imgui_node_editor.h"
-
-enum NodeType {
-	Sequencer,
-	Selector,
-	Task,
-};
 
 /// <summary>
 /// Objectを制御するためのクラス
@@ -35,24 +30,27 @@ public:
 		canTaskMap_[nodeName] = std::move(_task);
 	}
 
+
+	void CreateTree(const std::string& nodeName);
+
 private:
 
 	// 接続
 	void Connect();
 
+	// 接続解除
 	void UnConnect();
 
 	// node描画
 	void DrawNode();
-
-	// dockingボタン描画
-	void DockingButton();
 
 	// node生成Window
 	void CreateNodeWindow();
 
 	// node作成
 	void CreateNode(int nodeType);
+
+	std::shared_ptr<IBehaviorNode> CreateNodeFromJson(const json& _json);
 
 	// nodeの検索
 	IBehaviorNode* FindNodeFromPin(ax::NodeEditor::PinId pin);
@@ -73,9 +71,7 @@ private:
 
 	// フラグ
 	bool isOpenEditor_ = false;
-	bool isOpenCreateNode_ = false;
-	bool canDocking_ = false;
-
+	
 	std::string createTaskName_;
 
 	ImGuiWindowFlags windowFlags_;

@@ -15,6 +15,12 @@ IBehaviorNode::IBehaviorNode() {
 
 	isDelete_ = false;
 	currentIndex_ = 0;
+
+	setNodePos_ = false;
+
+	pos_ = CVector2::ZERO;
+
+	state_ = BehaviorStatus::Inactive;
 }
 
 void IBehaviorNode::Update() {
@@ -23,10 +29,20 @@ void IBehaviorNode::Update() {
 			isDelete_ = true;
 		}
 	}
+
+	if (state_ == BehaviorStatus::Running) {
+		color_ = ImColor(255, 215, 0);
+	} else {
+		color_ = baseColor_;
+	}
 }
 
 void IBehaviorNode::DrawNode() {
-	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_Bg, color_);
+	if (!setNodePos_) {
+		ax::NodeEditor::SetNodePosition(node_.id, ImVec2{ pos_.x, pos_.y }); // 初期位置に配置
+		setNodePos_ = true;
+	}
+	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_NodeBorder, color_);
 	ax::NodeEditor::BeginNode(node_.id);
 	isSelect_ = ax::NodeEditor::IsNodeSelected(node_.id);
 	// 現在の描画位置
@@ -59,6 +75,18 @@ void IBehaviorNode::DrawNode() {
 	for (auto& node : children_) {
 		node->DrawNode();
 	}
+
+	ImVec2 nodePos = ax::NodeEditor::GetNodePosition(node_.id);
+	pos_ = Vector2{ nodePos.x, nodePos.y };
+
+	// 子の順番を左から順にする
+	std::sort(children_.begin(), children_.end(),
+			  [](IBehaviorNode* a, IBehaviorNode* b) {
+				  ImVec2 posA = ax::NodeEditor::GetNodePosition(a->GetId());
+				  ImVec2 posB = ax::NodeEditor::GetNodePosition(b->GetId());
+				  return posA.x < posB.x; // Xが小さい方が左
+			  }
+	);
 }
 
 void IBehaviorNode::AddChild(IBehaviorNode* child) {
@@ -71,6 +99,18 @@ void IBehaviorNode::DeleteChild(IBehaviorNode* _child) {
 			children_.erase(children_.begin() + index);
 		}
 	}
+}
+
+json IBehaviorNode::ToJson() {
+	json item;
+	item["name"] = node_.name;
+	item["nodeType"] = static_cast<int>(type_);
+	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
+	item["children"] = json::array();
+	for (const auto& child : children_) {
+		item["children"].push_back(child->ToJson());
+	}
+	return item;
 }
 
 uint32_t IBehaviorNode::GetNextId() {

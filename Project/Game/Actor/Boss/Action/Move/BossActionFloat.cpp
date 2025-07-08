@@ -1,29 +1,30 @@
-#include "BossActionWait.h"
+#include "BossActionFloat.h"
 #include "Game/Actor/Boss/Boss.h"
 
-BehaviorStatus BossActionWait::Execute() {
+BehaviorStatus BossActionFloat::Execute() {
 	if (state_ == BehaviorStatus::Inactive) {
 		Init();
 	}
 
 	Update();
 
-	if (actionTimer_ > 5.0f) {
+	if (actionTimer_ > 2.0f) {
 		End();
 		return BehaviorStatus::Success;
 	}
 	return BehaviorStatus::Running;
 }
 
-void BossActionWait::Init() {
+void BossActionFloat::Init() {
 	state_ = BehaviorStatus::Running;
 	actionTimer_ = 0;
 }
 
-void BossActionWait::Update() {
+void BossActionFloat::Update() {
 	actionTimer_ += GameTimer::DeltaTime();
+	pTarget_->GetTransform()->translate_.y += 4.0f * GameTimer::DeltaTime();
 }
 
-void BossActionWait::End() {
+void BossActionFloat::End() {
 	state_ = BehaviorStatus::Inactive;
 }

@@ -11,6 +11,8 @@
 #include "Game/Actor/Boss/State/BossStateBeDestroyed.h"
 
 #include "Game/Actor/Boss/Action/BossActionWait.h"
+#include "Game/Actor/Boss/Action/Move/BossActionFloat.h"
+
 #include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
@@ -85,7 +87,8 @@ void Boss::Init() {
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
 	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "wait"));
-	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "Idle"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionFloat>(this, "Float"));
+	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree.json");
 
 	// -------------------------------------------------
 	// ↓ Action関連
@@ -149,12 +152,11 @@ void Boss::Update() {
 		return;
 	}
 
-	actionManager_->Update();
+	behaviorTree_->Run();
+	//actionManager_->Update();
 	stateMachine_->Update();
 
 	pulseArmor_->Update();
-
-	behaviorTree_->Run();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

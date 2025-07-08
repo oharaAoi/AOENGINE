@@ -3,10 +3,12 @@
 #include <vector>
 #include <memory>
 #include "imgui_node_editor.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 struct Pin {
 	ax::NodeEditor::PinId id;
-	ax::NodeEditor::PinKind kind; // ← これを追加！
+	ax::NodeEditor::PinKind kind;
 };
 
 struct Node {
@@ -22,11 +24,25 @@ struct Link {
 	ax::NodeEditor::PinId  to;
 };
 
+struct NodeItems {
+	std::string nodeName;
+	int nodeType;
+	Vector2 nodePos;
+	std::vector<std::string> childName;
+};
+
 enum BehaviorStatus {
 	Inactive,	// 非アクティブ
 	Success,	// 成功
 	Failure,	// 失敗
 	Running		// 実行中
+};
+
+enum NodeType {
+	Root,
+	Sequencer,
+	Selector,
+	Task,
 };
 
 /// <summary>
@@ -48,8 +64,11 @@ public:
 
 	void DeleteChild(IBehaviorNode* child);
 
+	json ToJson();
+
 public:
 
+	ax::NodeEditor::NodeId GetId() { return node_.id; }
 
 	static uint32_t GetNextId();
 
@@ -59,7 +78,12 @@ public:
 	void SetNodeName(const std::string& _name) { node_.name = _name; }
 	const std::string& GetNodeName() { return node_.name; }
 
+	void SetNodeType(NodeType _type) { type_ = _type; }
+
 	bool GetIsDelete() const { return isDelete_; }
+
+	void SetPos(const Vector2& _pos) { pos_ = _pos; }
+	Vector2 GetPos() { return pos_; }
 
 	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }
 
@@ -72,6 +96,7 @@ protected:
 
 	static uint32_t nextSerialNumber_;	// 次のユニークid
 
+	NodeType type_;
 	BehaviorStatus state_;	// nodeの状態
 
 	Node node_;		// node本体
@@ -81,6 +106,10 @@ protected:
 
 	bool isLeafNode_ = false;
 
+	Vector2 pos_;
+
+	bool setNodePos_;
+
 	// -------------------------------------------------
 	// ↓ Debug用
 	// -------------------------------------------------
@@ -89,7 +118,8 @@ protected:
 	bool isSelect_;
 	bool isDelete_;
 
-	ImVec4 color_;
+	ImColor color_;
+	ImColor baseColor_;
 
 };
 

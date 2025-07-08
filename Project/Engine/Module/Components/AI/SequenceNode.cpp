@@ -1,7 +1,9 @@
 #include "SequenceNode.h"
 
 SequenceNode::SequenceNode() {
-	color_ = ImVec4(147 / 255, 112 / 255, 219 / 255, 1.f);
+	color_ = ImColor(144, 238, 144);
+	baseColor_ = color_;
+	type_ = NodeType::Sequencer;
 	SetNodeName("Sequence");
 }
 

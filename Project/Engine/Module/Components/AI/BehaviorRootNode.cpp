@@ -2,7 +2,8 @@
 #include <utility>
 
 BehaviorRootNode::BehaviorRootNode() {
-	color_ = ImVec4(0, 0, 205 / 255, 1.0f);
+	color_ = ImColor(0, 191, 255);
+	baseColor_ = color_;
 	SetNodeName("Root");
 }
 

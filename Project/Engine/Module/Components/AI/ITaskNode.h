@@ -9,7 +9,7 @@ class ITaskNode :
 	public AttributeGui {
 public:
 
-	ITaskNode() = default;
+	ITaskNode();
 	virtual ~ITaskNode() override = default;
 
 	virtual BehaviorStatus Execute() override = 0;
@@ -22,10 +22,16 @@ public:
 
 	void Debug_Gui() override {};
 
-private:
+protected:
 
 	OwnerType* pTarget_ = nullptr;
 
 
 };
 
+template<typename OwnerType>
+inline ITaskNode<OwnerType>::ITaskNode() {
+	type_ = NodeType::Task;
+	color_ = ImColor(153, 102, 204);
+	baseColor_ = color_;
+}

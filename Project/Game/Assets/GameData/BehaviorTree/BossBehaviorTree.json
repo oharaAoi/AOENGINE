@@ -1,0 +1,38 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "name": "Float",
+                    "nodePos": {
+                        "x": -187.0,
+                        "y": 50.0
+                    },
+                    "nodeType": 3
+                },
+                {
+                    "children": [],
+                    "name": "wait",
+                    "nodePos": {
+                        "x": -11.0,
+                        "y": 50.0
+                    },
+                    "nodeType": 3
+                }
+            ],
+            "name": "Sequence",
+            "nodePos": {
+                "x": -110.0,
+                "y": -106.0
+            },
+            "nodeType": 1
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": -75.0,
+        "y": -238.0
+    },
+    "nodeType": 0
+}

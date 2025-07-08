@@ -111,6 +111,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\ITaskNode.cpp" />
@@ -194,6 +195,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.cpp" />
@@ -367,6 +369,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h" />
     <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\ITaskNode.h" />
@@ -451,6 +454,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.h" />
