@@ -89,7 +89,7 @@ void BaseGameObject::UpdateMatrix() {
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 
 	for (auto& material : materials) {
-		material->Update();
+		material.second->Update();
 	}
 }
 
@@ -109,7 +109,8 @@ void BaseGameObject::Draw() const {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
 			if (materials.size() > index) {
 				Pipeline* pso = Engine::GetLastUsedPipeline();
-				Render::DrawEnvironmentModel(pso, model_->GetMesh(index), materials[index].get(), transform_.get());
+				Mesh* pMesh = model_->GetMesh(index);
+				Render::DrawEnvironmentModel(pso, pMesh, materials.at(pMesh->GetUseMaterial()).get(), transform_.get());
 			}
 		}
 		return;
@@ -180,7 +181,7 @@ void BaseGameObject::SetObject(const std::string& objName) {
 
 	model_ = ModelManager::GetModel(objName);
 	for (const auto& material : model_->GetMaterialData()) {
-		materials.emplace_back(Engine::CreateMaterial(material.second));
+		materials[material.first] = (Engine::CreateMaterial(material.second));
 	}
 }
 
@@ -207,8 +208,8 @@ void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetColor(const Vector4& color) {
-	for (size_t oi = 0; oi < materials.size(); ++oi) {
-		materials[oi]->SetColor(color);
+	for (auto& material : materials) {
+		material.second->SetColor(color);
 	}
 }
 
@@ -217,8 +218,8 @@ void BaseGameObject::SetColor(const Vector4& color) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetIsLighting(bool isLighting) {
-	for (size_t oi = 0; oi < materials.size(); ++oi) {
-		materials[oi]->SetIsLighting(isLighting);
+	for (auto& material : materials) {
+		material.second->SetIsLighting(isLighting);
 	}
 }
 
@@ -227,8 +228,8 @@ void BaseGameObject::SetIsLighting(bool isLighting) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetTexture(const std::string& path) {
-	for (size_t oi = 0; oi < materials.size(); ++oi) {
-		materials[oi]->SetUseTexture(path);
+	for (auto& material : materials) {
+		material.second->SetUseTexture(path);
 	}
 }
 
@@ -249,7 +250,7 @@ void BaseGameObject::Debug_Gui() {
 	for (auto& material : materials) {
 		std::string guiId = "material_" + std::to_string(index);
 		if (ImGui::TreeNode(guiId.c_str())) {
-			material->Debug_Gui();
+			material.second->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}

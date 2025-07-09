@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Module/Components/2d/Sprite.h"
@@ -46,10 +47,10 @@ public:
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
 	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
-						  const std::vector<std::unique_ptr<Material>>& materials);
+						  const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 
 	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
-						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
+						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 
 	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform);
 

@@ -85,11 +85,6 @@ void Player::Init() {
 	AddChild(jet_.get()); 
 
 	ICollider* collider = object_->GetCollider();
-	collider->SetCategory(ColliderTags::Player::own);
-	collider->SetTarget(ColliderTags::Boss::own);
-	collider->SetTarget(ColliderTags::Boss::missile);
-	collider->SetTarget(ColliderTags::Field::ground);
-	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
 
 	legCollider_ = std::make_unique<SphereCollider>();

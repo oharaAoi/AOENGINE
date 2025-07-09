@@ -50,20 +50,22 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
 				 const WorldTransform* worldTransform,
 				 const ViewProjection* viewProjection,
-				 const std::vector<std::unique_ptr<Material>>& materials) {
+				 const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 
 	UINT index = 0;
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		std::string useMaterial = meshArray_[oi]->GetUseMaterial();
+		const Material* material = materials.at(useMaterial).get();
 		commandList->IASetVertexBuffers(0, 1, &meshArray_[oi]->GetVBV());
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
-		commandList->SetGraphicsRootConstantBufferView(index, materials[oi]->GetBufferAdress());
+		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAdress());
 		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewProjection->BindCommandList(commandList, index);
 
-		std::string textureName = materials[oi]->GetUseTexture();
+		std::string textureName = material->GetUseTexture();
 		index = pipeline->GetRootSignatureIndex("gTexture");
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 
@@ -74,20 +76,22 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 void Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
 				 const WorldTransform* worldTransform, const ViewProjection* viewprojection, 
-				 const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials) {
+				 const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 
 	UINT index = 0;
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
+		std::string useMaterial = meshArray_[oi]->GetUseMaterial();
+		const Material* material = materials.at(useMaterial).get();
 		commandList->IASetVertexBuffers(0, 1, &vbv);
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
-		commandList->SetGraphicsRootConstantBufferView(index, materials[oi]->GetBufferAdress());
+		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAdress());
 		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewprojection->BindCommandList(commandList, index);
 
-		std::string textureName = materials[oi]->GetUseTexture();
+		std::string textureName = material->GetUseTexture();
 		index = pipeline->GetRootSignatureIndex("gTexture");
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 

@@ -23,6 +23,8 @@ public:		// data
 		Vector3 colliderCenter;
 		Vector3 colliderSize;
 		float colliderRadius;
+		std::string colliderTag = "";
+		std::vector<std::string> collisionFilter;
 		
 		std::list<Objects> children;
 	};

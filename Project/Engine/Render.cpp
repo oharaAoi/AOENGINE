@@ -80,14 +80,14 @@ void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, const std::vector<std::unique_ptr<Material>>& materials) {
+void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
 void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
-					   const std::vector<std::unique_ptr<Material>>& materials) {
+					   const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), vbv, materials);
 }

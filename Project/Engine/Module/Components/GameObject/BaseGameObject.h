@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "Engine/Engine.h"
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
@@ -17,6 +18,7 @@
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 
 #include "Engine/Module/Components/Physics/Rigidbody.h"
+#include <Module/Components/Materials/Material.h>
 
 class BaseGameObject :
 	public ISceneObject {
@@ -106,7 +108,7 @@ private:
 protected:
 
 	Model* model_ = nullptr;
-	std::vector<std::unique_ptr<Material>> materials;	// 後で変えたい
+	std::unordered_map<std::string, std::unique_ptr<Material>> materials;	// 後で変えたい
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;

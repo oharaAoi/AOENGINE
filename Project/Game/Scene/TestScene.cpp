@@ -7,16 +7,24 @@
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
-TestScene::~TestScene() { particleManager_->Finalize(); }
+TestScene::~TestScene() { Finalize(); }
 
 void TestScene::Finalize() {
+	sceneRenderer_->Finalize();
 }
 
 void TestScene::Init() {
+	EditorWindows::GetInstance()->Reset();
+
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("TestScene");
 
-	// カメラ -------------------------------------------------------------------
+	sceneRenderer_ = SceneRenderer::GetInstance();
+	sceneRenderer_->Init();
+
+	// -------------------------------------------------
+	// ↓ cameraの初期化
+	// -------------------------------------------------
 	camera2d_ = std::make_unique<Camera2d>();
 	camera3d_ = std::make_unique<Camera3d>();
 	debugCamera_ = std::make_unique<DebugCamera>();
@@ -25,87 +33,36 @@ void TestScene::Init() {
 	camera3d_->Init();
 	debugCamera_->Init();
 
-	// worldObject -------------------------------------------------------------------
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Init();
+	skybox_ = std::make_unique<Skybox>();
+	skybox_->Init();
+	Render::SetSkyboxTexture(skybox_->GetTexture());
 
-	floor_ = std::make_unique<Floor>();
-	floor_->Init();
-
-	// gameObject -------------------------------------------------------------------
-	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
-		testObjA_[oi] = std::make_unique<TestObject>();
-
-		testObjA_[oi]->Init();
-		testObjA_[oi]->SetCollider("TestObj", ColliderShape::SPHERE);
-	}
-
-	plane_ = std::make_unique<GeometryObject>();
-	plane_->Set<CubeGeometry>();
-
-	particleManager_ = ParticleManager::GetInstance();
-	particleManager_->Init();
-
-	// Manager -------------------------------------------------------------------
-
-	collisionManager_ = std::make_unique<CollisionManager>();
-	collisionManager_->Init();
+	testObject_ = std::make_unique<TestObject>();
+	testObject_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
+	skybox_->Update();
+	testObject_->Update();
+
 	// -------------------------------------------------
-	// ↓ カメラの更新
+	// ↓ cameraの更新 
 	// -------------------------------------------------
-	camera2d_->Update();
-	camera3d_->Update();
-	if (isDebugCamera_) {
+	if (debugCamera_->GetIsActive()) {
 		debugCamera_->Update();
-		
-		EffectSystem::GetInstacne()->SetCameraMatrix(debugCamera_->GetCameraMatrix());
-		EffectSystem::GetInstacne()->SetViewProjectionMatrix(debugCamera_->GetViewMatrix(), debugCamera_->GetProjectionMatrix());
 	} else {
-		
-		EffectSystem::GetInstacne()->SetCameraMatrix(camera3d_->GetCameraMatrix());
-		EffectSystem::GetInstacne()->SetViewProjectionMatrix(camera3d_->GetViewMatrix(), camera3d_->GetProjectionMatrix());
+		camera3d_->Update();
 	}
+	camera2d_->Update();
 
-	// -------------------------------------------------
-	// ↓ worldObjectの更新
-	// -------------------------------------------------
-	floor_->Update();
-
-	// -------------------------------------------------
-	// ↓ GameObjectの更新
-	// -------------------------------------------------
-
-	plane_->Update();
-	
-	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
-		testObjA_[oi]->Update();
-	}
-	
-	collisionManager_->CheckAllCollision();
-
-	// -------------------------------------------------
-	// ↓ ParticleのViewを設定する
-	// -------------------------------------------------
-
-	
-	particleManager_->SetView(debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
-	particleManager_->PostUpdate();
+	sceneRenderer_->Update();
 }
 
 void TestScene::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
-	
-	for (uint32_t oi = 0; oi < kObjectNum_; ++oi) {
-		testObjA_[oi]->Draw();
-	}
-	//plane_->Draw();
-
-	Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
-	ParticleManager::GetInstance()->Draw();
+	skybox_->Draw();
+	// Sceneの描画
+	sceneRenderer_->Draw();
 }

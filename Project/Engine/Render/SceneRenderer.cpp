@@ -95,11 +95,25 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 		if (data.colliderType != "") {
 			object->SetCollider("none", data.colliderType);
 			ICollider* collider = object->GetCollider();
+			// colliderのローカル座標を設定
 			collider->SetLoacalPos(data.colliderCenter);
 			if (data.colliderType == "BOX") {
 				collider->SetSize(data.colliderSize);
 			} else if (data.colliderType == "SPHERE") {
 				collider->SetRadius(data.colliderRadius);
+			}
+			// colliderのtagが設定されていたら代入
+			if (data.colliderTag != "") {
+				collider->SetCategory(data.colliderTag);
+			} else {
+				collider->SetCategory("none");
+			}
+
+			// collisionFilterが設定されていたら
+			if (!data.collisionFilter.empty()) {
+				for (size_t index = 0; index < data.collisionFilter.size(); ++index) {
+					collider->SetTarget(data.collisionFilter[index]);
+				}
 			}
 		}
 

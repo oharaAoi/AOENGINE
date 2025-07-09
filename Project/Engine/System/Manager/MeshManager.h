@@ -45,7 +45,7 @@ public:
 
 private:
 
-	static std::unordered_map<std::string, MeshArray> meshMap_;
+	static std::unordered_map<std::string, MeshArray> meshArrayMap_;
 	static std::vector<std::string> meshNameList_;
 
 };

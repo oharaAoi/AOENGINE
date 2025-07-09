@@ -4,7 +4,7 @@
 #include "Game/UI/Boss/BossUIs.h"
 
 BehaviorStatus BossActionAllRangeMissile::Execute() {
-	return BehaviorStatus();
+	return Action();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

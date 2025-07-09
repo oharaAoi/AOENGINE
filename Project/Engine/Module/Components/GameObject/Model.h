@@ -54,12 +54,12 @@ public:
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const std::vector<std::unique_ptr<Material>>& materials);
+			  const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 	
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::vector<std::unique_ptr<Material>>& materials);
+			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 
 	void Debug_Gui(const std::string& name);
 

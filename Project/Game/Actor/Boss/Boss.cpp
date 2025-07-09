@@ -1,11 +1,9 @@
 #include "Boss.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
-#include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Game/UI/Boss/BossUIs.h"
-#include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"
 #include "Game/Actor/Boss/State/BossStateBeDestroyed.h"
@@ -71,10 +69,6 @@ void Boss::Init() {
 	transform_ = object_->GetTransform();
 	
 	ICollider* collider = object_->GetCollider();
-	collider->SetCategory(ColliderTags::Boss::own);
-	collider->SetTarget(ColliderTags::Bullet::machinegun);
-	collider->SetTarget(ColliderTags::Field::ground);
-	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsStatic(false);
 
 	object_->SetPhysics();

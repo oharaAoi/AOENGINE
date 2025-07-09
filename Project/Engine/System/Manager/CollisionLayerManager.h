@@ -21,7 +21,7 @@ public:
 	uint32_t RegisterCategory(const std::string& name);
 
 	// カテゴリ名からビットを取得（未登録なら例外）
-	uint32_t GetCategoryBit(const std::string& name) const;
+	uint32_t GetCategoryBit(const std::string& name);
 
 	void RegisterCategoryList(const std::list<std::string>& list);
 

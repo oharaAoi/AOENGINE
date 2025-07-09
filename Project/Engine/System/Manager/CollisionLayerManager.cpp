@@ -25,10 +25,10 @@ uint32_t CollisionLayerManager::RegisterCategory(const std::string& name) {
 	return nameToBit_[name];
 }
 
-uint32_t CollisionLayerManager::GetCategoryBit(const std::string& name) const {
+uint32_t CollisionLayerManager::GetCategoryBit(const std::string& name) {
 	auto it = nameToBit_.find(name);
 	if (it == nameToBit_.end()) {
-		return nameToBit_.at("Default");
+		return RegisterCategory(name);
 	}
 	return it->second;
 }

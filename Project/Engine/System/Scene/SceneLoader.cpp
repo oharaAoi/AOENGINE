@@ -119,13 +119,20 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 		}
 	}
 
+	if (objectJson.contains("collider_tag")) {
+		objectData.colliderTag = objectJson["collider_tag"];
+	}
+
+	if (objectJson.contains("collisionFilter_tags")) {
+		objectData.collisionFilter = objectJson["collisionFilter_tags"].get<std::vector<std::string>>();
+	}
+
 	// children
 	if (objectJson.contains("children")) {
 		for (const json& childJson : objectJson["children"]) {
 			objectData.children.push_back(LoadObject(childJson));
 		}
 	}
-
 	return objectData;
 }
 

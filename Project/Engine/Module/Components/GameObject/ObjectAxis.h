@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <unordered_map>
 #include "Engine.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
@@ -21,7 +22,7 @@ public:
 private:
 
 	Model* model_;
-	std::vector<std::unique_ptr<Material>> materials;
+	std::unordered_map<std::string, std::unique_ptr<Material>> materials;
 
 	std::unique_ptr<WorldTransform> transform_;
 

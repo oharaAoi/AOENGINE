@@ -17,9 +17,6 @@ void ObjectAxis::Init() {
 	model_ = nullptr;
 	model_ = ModelManager::GetModel("axis.obj");
 	materials.clear();
-	for (const auto& material : model_->GetMaterialData()) {
-		materials.emplace_back(Engine::CreateMaterial(material.second));
-	}
 }
 
 void ObjectAxis::Update(const Matrix4x4& parentWorldMat) {

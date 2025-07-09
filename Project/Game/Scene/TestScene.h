@@ -1,15 +1,13 @@
 #pragma once
+#include <memory>
+#include "Engine/Render/SceneRenderer.h"
+#include "Engine/Module/Components/GameObject/TestObject.h"
 #include "Game/Scene/BaseScene.h"
+// camera
+#include "Game/Camera/DebugCamera.h"
 #include "Game/Camera/Camera2d.h"
 #include "Game/Camera/Camera3d.h"
-#include "Game/Camera/DebugCamera.h"
-#include "Engine/Module/Components/Collider/MeshCollider.h"
-#include "Engine/Module/Components/GameObject/TestObject.h"
-#include "Engine/Module/Components/GameObject/GeometryObject.h"
-#include "Engine/System/Manager/CollisionManager.h"
-#include "Engine/System/Manager/ParticleManager.h"
-#include "Game/WorldObject/Skydome.h"
-#include "Game/WorldObject/Floor.h"
+#include "Game/WorldObject/Skybox.h"
 
 
 class TestScene 
@@ -29,30 +27,16 @@ public:
 
 private:
 
-	static const uint32_t kObjectNum_ = 1;
-
-	// camera ----------------------------------------------
+	// ------------------- camera ------------------- //
 	std::unique_ptr<Camera2d> camera2d_ = nullptr;
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
-	bool isDebugCamera_ = true;
 
-	// worldObject ------------------------------------
-	std::unique_ptr<Skydome> skydome_ = nullptr;
-	std::unique_ptr<Floor> floor_ = nullptr;
+	// ------------------- actor ------------------- //
+	std::unique_ptr<Skybox> skybox_;
 
-	// gameObject ------------------------------------
-	std::unique_ptr<TestObject> testObjA_[kObjectNum_];
-	
-	std::unique_ptr<MeshCollider> meshColliderA_;
-	std::unique_ptr<MeshCollider> meshColliderB_;
+	std::unique_ptr<TestObject> testObject_;
 
-	std::unique_ptr<GeometryObject> plane_;
-
-	std::unique_ptr<CollisionManager> collisionManager_;
-
-	ParticleManager* particleManager_;
-
-	float raito_ = 0.9f;
+	SceneRenderer* sceneRenderer_;
 };
 

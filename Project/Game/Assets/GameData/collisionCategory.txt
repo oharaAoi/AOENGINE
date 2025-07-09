@@ -8,3 +8,4 @@ bossArmor
 machinegun
 launcher
 ground
+building

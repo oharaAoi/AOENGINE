@@ -1,5 +1,5 @@
 #include "TestObject.h"
-#include "Engine/Lib/Json//JsonItems.h"
+#include "Engine/Render/SceneRenderer.h"
 
 TestObject::TestObject() {
 }
@@ -12,14 +12,12 @@ TestObject::~TestObject() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Init() {
-	BaseGameObject::Init();
-	SetObject("skin.obj");
-	//SetAnimater("./Engine/Resources/Gltf/Animation_Node/", "Animation_Node_01.gltf", false, true, false);
+	SetName("TestObject");
+	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("TestObject", "Object_Normal.json");
+	transform_ = object_->GetTransform();
+	object_->SetObject("multiMaterial.obj");
 
-	test_.ToJson("testParame");
-	test_.FromJson(JsonItems::GetData("Player", "testParame"));
-
-	tween_.Init(&transform_->translate_, Vector3{ 0,0,0 }, Vector3{ 3,0,0 }, 5.0f, 0, LoopType::RETURN);
+	EditorWindows::AddObjectWindow(this, "TestObject");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,37 +25,10 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	tween_.Update(GameTimer::DeltaTime());
-	BaseGameObject::Update();
-}
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　
-//////////////////////////////////////////////////////////////////////////////////////////////////
-void TestObject::Draw() const {
-	
-	BaseGameObject::Draw();
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void TestObject::OnCollisionEnter([[maybe_unused]] MeshCollider& other) {
-	if (other.GetTag() == "testObj") {
-		isCollision_ = true;
-	}
-}
-
-void TestObject::OnCollisionStay([[maybe_unused]] MeshCollider& other) {
 	
 }
 
-void TestObject::OnCollisionExit([[maybe_unused]] MeshCollider& other) {
-	if (other.GetTag() == "testObj") {
-		isCollision_ = true;
-	}
-}
 
 void TestObject::Debug_Gui() {
-	BaseGameObject::Debug_Gui();
+	
 }

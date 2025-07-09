@@ -46,6 +46,7 @@ void IBehaviorNode::DrawNode() {
 	}
 	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_NodeBorder, color_);
 	ax::NodeEditor::BeginNode(node_.id);
+	isSelect_ = ax::NodeEditor::IsNodeSelected(node_.id);
 	// 現在の描画位置
 	ImVec2 textPos = ImGui::GetCursorScreenPos();
 	ImGui::Text("id:%d", node_.id);

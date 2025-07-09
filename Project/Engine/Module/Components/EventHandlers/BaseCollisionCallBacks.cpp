@@ -8,6 +8,6 @@ void BaseCollisionCallBacks::SetCallBacks() {
 }
 
 void BaseCollisionCallBacks::SetPair(CollisionManager* collisionManager, const std::string& attacker, const std::string& defense) {
-	const CollisionLayerManager& layerManager = CollisionLayerManager::GetInstance();
+	CollisionLayerManager& layerManager = CollisionLayerManager::GetInstance();
 	collisionManager->MakeCollisionPair(layerManager.GetCategoryBit(attacker), layerManager.GetCategoryBit(defense), callBacks_);
 }

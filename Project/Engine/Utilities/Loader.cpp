@@ -121,7 +121,7 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	}
 
 	std::vector<std::shared_ptr<Mesh>> result;
-
+	
 	result = MeshManager::GetInstance()->GetMeshes(fileName);
 	uint32_t index = 0;
 	if (!useMaterial.empty()) {
