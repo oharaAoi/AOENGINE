@@ -1,0 +1,10 @@
+none
+player
+playerLeg
+boss
+bossAttack
+bossMissile
+bossArmor
+machinegun
+launcher
+ground

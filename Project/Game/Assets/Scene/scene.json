@@ -129,6 +129,7 @@
                     1.0
                 ]
             },
+            "disabled": true,
             "file_name": "sbill.obj",
             "collider": {
                 "type": "BOX",
@@ -514,6 +515,7 @@
                     1.0
                 ]
             },
+            "disabled": false,
             "file_name": "ground.obj",
             "collider": {
                 "type": "BOX",

@@ -56,6 +56,14 @@ void SceneLoader::Load(const std::string& directory, const std::string& fileName
 	for (json& object : deserialized["objects"]) {
 		assert(object.contains("type"));
 
+		// 無効フラグがtrueなら配置しない
+		if (object.contains("disabled")) {
+			bool disabled = object["disabled"].get<bool>();
+			if (disabled) {
+				continue;
+			}
+		}
+
 		std::string type = object["type"].get<std::string>();
 		if (type.compare("MESH") == 0) {
 			levelData_->objects.push_back(LoadObject(object));
