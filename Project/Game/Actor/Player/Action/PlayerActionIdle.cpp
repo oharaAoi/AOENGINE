@@ -21,8 +21,6 @@ void PlayerActionIdle::OnStart() {
 	actionTimer_ = 0;
 
 	pOwner_->GetJetEngine()->JetIsStop();
-
-	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

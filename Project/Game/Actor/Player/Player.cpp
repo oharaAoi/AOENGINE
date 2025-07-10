@@ -77,8 +77,8 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
-	object_->SetObject("player.gltf");
-	object_->SetAnimater("./Game/Assets/Load/Models/", "player.gltf", true, true, false);
+	/*object_->SetObject("player.gltf");
+	object_->SetAnimater("./Game/Assets/Load/Models/", "player.gltf", true, true, false);*/
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
@@ -181,7 +181,7 @@ void Player::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Draw() const {
-	object_->GetAnimetor()->GetSkeleton()->DrawBone(transform_->GetWorldMatrix());
+	//object_->GetAnimetor()->GetSkeleton()->DrawBone(transform_->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

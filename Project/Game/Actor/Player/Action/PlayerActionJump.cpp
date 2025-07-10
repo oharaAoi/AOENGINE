@@ -59,7 +59,7 @@ void PlayerActionJump::OnStart() {
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
-	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
+	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
