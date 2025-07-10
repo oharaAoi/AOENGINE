@@ -38,6 +38,10 @@ public:
 	BossActionLeave() = default;
 	~BossActionLeave() = default;
 
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<BossActionLeave>(*this);
+	}
+
 	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;

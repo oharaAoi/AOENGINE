@@ -25,8 +25,6 @@ void BossActionShotLauncher::Debug_Gui() {
 			param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 		}
 	}
-
-	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,13 +51,6 @@ bool BossActionShotLauncher::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Init() {
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("actionShotLauncherWeight");
-
-	size_t hash = typeid(BossActionShotLauncher).hash_code();
-	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
-
-	taskTimer_ = 0.0f;
 	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 	Shot();
 

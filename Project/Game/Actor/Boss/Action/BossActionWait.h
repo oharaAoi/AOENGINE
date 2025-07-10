@@ -11,6 +11,10 @@ public:
 	BossActionWait() = default;
 	~BossActionWait() override = default;
 
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<BossActionWait>(*this);
+	}
+
 	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;

@@ -12,7 +12,7 @@ BehaviorStatus BossActionAllRangeMissile::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Debug_Gui() {
-	weight_->Debug_Gui();
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,14 +39,6 @@ bool BossActionAllRangeMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Init() {
-	SetName("allRangeMissile");
-
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("allRangeMissileWeight");
-
-	size_t hash = typeid(BossActionAllRangeMissile).hash_code();
-	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
-
 	// 
 	taskTimer_ = 0.f;
 	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());

@@ -2,7 +2,6 @@
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
-#include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 class Boss;
 
@@ -39,6 +38,10 @@ public:
 	BossActionShotBullet() = default;
 	~BossActionShotBullet() override = default;
 
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<BossActionShotBullet>(*this);
+	}
+
 	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;
@@ -60,8 +63,6 @@ private:
 
 	bool isFinishShot_;
 	int fireCount_;
-
-	std::unique_ptr<BossLotteryAction> weight_;
 
 };
 

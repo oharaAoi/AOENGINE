@@ -12,6 +12,10 @@ public:
 	BehaviorRootNode();
 	~BehaviorRootNode() = default;
 
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<BehaviorRootNode>(*this);
+	}
+
 	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override;

@@ -11,6 +11,8 @@ public:
 	ITaskNode();
 	virtual ~ITaskNode() override = default;
 
+	virtual std::shared_ptr<IBehaviorNode> Clone() const override = 0;
+
 	virtual BehaviorStatus Execute() override = 0;
 
 	virtual void Init() = 0;

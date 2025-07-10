@@ -6,8 +6,8 @@
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/BehaviorRootNode.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
-#include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "imgui_node_editor.h"
 
 /// <summary>
@@ -31,6 +31,8 @@ public:
 	}
 
 	void CreateTree(const std::string& nodeName);
+
+	void SetTarget(BaseEntity* _target) { pTarget_ = _target; }
 
 private:
 
@@ -78,6 +80,8 @@ private:
 	IBehaviorNode* selectNode_;
 	ax::NodeEditor::NodeId selectId_;
 	ax::NodeEditor::NodeId preSelectId_;
+
+	BaseEntity* pTarget_;
 };
 
 template<typename ActionT, typename Target>
@@ -85,5 +89,5 @@ std::shared_ptr<IBehaviorNode> CreateTask(Target* target, const std::string& nod
 	auto result = std::make_shared<ActionT>();
 	result->SetTarget(target);
 	result->SetNodeName(nodeName);
-	return std::shared_ptr<IBehaviorNode>(result);
+	return (result);
 }

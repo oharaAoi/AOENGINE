@@ -55,6 +55,10 @@ public:
 
 	IBehaviorNode();
 	virtual ~IBehaviorNode() = default;
+	// コピーコンストラクタ
+	virtual std::shared_ptr<IBehaviorNode> Clone() const = 0;
+
+	void Init();
 
 	void Update();
 
@@ -88,7 +92,10 @@ public:
 
 	bool GetIsDelete() const { return isDelete_; }
 
-	void SetPos(const Vector2& _pos) { pos_ = _pos; }
+	void SetPos(const Vector2& _pos) { 
+		setNodePos_ = false;
+		pos_ = _pos;
+	}
 	Vector2 GetPos() { return pos_; }
 
 	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }

@@ -81,6 +81,15 @@
                                 },
                                 {
                                     "children": [],
+                                    "name": "wait",
+                                    "nodePos": {
+                                        "x": 245.0,
+                                        "y": 262.0
+                                    },
+                                    "nodeType": 3
+                                },
+                                {
+                                    "children": [],
                                     "name": "AllRangeMissile",
                                     "nodePos": {
                                         "x": 357.0,

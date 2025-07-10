@@ -5,9 +5,12 @@
 #include "Engine/Module/Components/AI/SequenceNode.h"
 #include "Engine/Module/Components/AI/SelectorNode.h"
 #include "Engine/System/Input/Input.h"
+#include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include <fstream>
 
 BehaviorTree::~BehaviorTree() {
+	nodeList_.clear();
+	canTaskMap_.clear();
 	ax::NodeEditor::DestroyEditor(context_);
 	context_ = nullptr;
 }
@@ -38,7 +41,7 @@ void BehaviorTree::Run() {
 	// すべてのnodeの更新を走らせる
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
 		if ((*it)->GetIsDelete()) {
-			for (auto node : nodeList_) {
+			for (auto& node : nodeList_) {
 				node->DeleteChild((*it).get());
 			}
 
@@ -226,7 +229,7 @@ void BehaviorTree::Edit() {
 		ImGui::End();
 	}
 
-	for (auto node : nodeList_) {
+	for (auto& node : nodeList_) {
 		if (node->IsSelectNode()) {
 			if (selectId_ != node->GetId()) {
 				selectNode_ = node.get();
@@ -291,7 +294,9 @@ void BehaviorTree::CreateNode(int nodeType) {
 		nodeList_.emplace_back(std::make_shared<SelectorNode>());
 
 	} else if (nodeType == NodeType::Task) {
-		nodeList_.push_back(canTaskMap_[createTaskName_]);
+		auto& node = nodeList_.emplace_back(canTaskMap_[createTaskName_]->Clone());
+		node->Init();
+		node->SetPos(CVector2::ZERO);
 	}
 }
 
@@ -302,9 +307,8 @@ void BehaviorTree::CreateNode(int nodeType) {
 void BehaviorTree::CreateTree(const std::string& nodeName) {
 	nodeList_.clear();
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
-	auto& node = nodeList_.emplace_back(CreateNodeFromJson(nodeTree));
-	root_ = node.get();
-
+	root_ = nodeList_.emplace_back(CreateNodeFromJson(nodeTree)).get();
+	
 	selectNode_ = root_;
 	selectId_ = root_->GetId();
 	preSelectId_ = root_->GetId();
@@ -325,14 +329,16 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::Root: node = std::make_shared<BehaviorRootNode>(); break;
 	case NodeType::Sequencer: node = std::make_shared<SequenceNode>(); break;
 	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
-	case NodeType::Task: node = canTaskMap_[name]; break;
+	case NodeType::Task:
+		node = canTaskMap_[name]->Clone(); 
+		node->Init();
+		break;
 	}
 
 	// 情報をセットする
 	node->SetNodeName(name);
 	node->SetNodeType(type);
 	node->SetPos(Vector2(_json["nodePos"]["x"], _json["nodePos"]["y"]));
-	// 管理リストの追加
 	nodeList_.push_back(node);
 
 	// 子どもがいたら再帰的に処理

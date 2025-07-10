@@ -12,7 +12,6 @@ BehaviorStatus BossActionShotMissile::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotMissile::Debug_Gui() {
-	weight_->Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,12 +38,6 @@ bool BossActionShotMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotMissile::Init() {
-	weight_ = std::make_unique<BossLotteryAction>();
-	weight_->Init("actionShotMissleWeight");
-
-	size_t hash = typeid(BossActionShotMissile).hash_code();
-	pTarget_->GetAI()->SetAttackWeight(hash, weight_.get());
-
 	taskTimer_ = 0.0f;
 	bulletSpeed_ = 60.f;
 	isFinishShot_ = false;

@@ -5,6 +5,10 @@
 uint32_t IBehaviorNode::nextSerialNumber_ = 1;
 
 IBehaviorNode::IBehaviorNode() {
+	Init();
+}
+
+void IBehaviorNode::Init() {
 	node_.id = GetNextId();
 
 	node_.inputId.id = GetNextId();

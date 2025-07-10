@@ -8,6 +8,10 @@ public:
 	SelectorNode();
 	~SelectorNode() override = default;
 
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<SelectorNode>(*this);
+	}
+
 	BehaviorStatus Execute() override;
 
 	void Debug_Gui() override {};

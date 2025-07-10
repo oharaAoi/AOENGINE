@@ -3,7 +3,6 @@
 #include <functional>
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
-#include "Game/Actor/Boss/Action/Attack/BossLotteryAction.h"
 
 class Boss;
 
@@ -16,6 +15,10 @@ public:
 
 	BossActionAllRangeMissile() = default;
 	~BossActionAllRangeMissile() override = default;
+
+	std::shared_ptr<IBehaviorNode> Clone() const override {
+		return std::make_shared<BossActionAllRangeMissile>(*this);
+	}
 
 	BehaviorStatus Execute() override;
 
@@ -53,8 +56,6 @@ private :
 	bool isFinishShot_;
 
 	std::function<void()> mainAction_;
-
-	std::unique_ptr<BossLotteryAction> weight_;
 
 };
 
