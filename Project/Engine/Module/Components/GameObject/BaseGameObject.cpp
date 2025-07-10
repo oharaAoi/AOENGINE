@@ -50,7 +50,10 @@ void BaseGameObject::Update() {
 		animetor_->Update();
 
 		if (animetor_->GetIsSkinning()) {
-			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
+			Engine::SetCsPipeline(CsPipelineType::Skinning_Pipeline);
+			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+				Engine::SetSkinning(animetor_->GetSkinning(index));
+			}
 		} else {
 			UpdateMatrix();
 			transform_->Update(animetor_->GetAnimationMat());
@@ -58,7 +61,10 @@ void BaseGameObject::Update() {
 		}
 	} else {
 		if (animetor_->GetIsSkinning()) {
-			Engine::SetSkinning(animetor_->GetSkinning(), model_->GetMesh(0));
+			Engine::SetCsPipeline(CsPipelineType::Skinning_Pipeline);
+			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+				Engine::SetSkinning(animetor_->GetSkinning(index));
+			}
 		}
 	}
 
@@ -120,7 +126,9 @@ void BaseGameObject::Draw() const {
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
 		Render::DrawModel(pso, model_, transform_.get(), materials);
 	} else {
-		Render::DrawModel(pso, model_, transform_.get(), animetor_->GetSkinning()->GetVBV(), materials);
+		for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+			Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
+		}
 	}
 }
 

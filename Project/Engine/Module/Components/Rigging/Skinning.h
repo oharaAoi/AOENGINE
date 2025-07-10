@@ -50,7 +50,7 @@ public:
 
 	void RunCs(ID3D12GraphicsCommandList* commandList) const;
 
-	void EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh);
+	void EndCS(ID3D12GraphicsCommandList* commandList);
 
 	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }
 

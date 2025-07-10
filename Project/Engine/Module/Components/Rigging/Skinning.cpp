@@ -42,8 +42,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	uint32_t vertices = (uint32_t)mesh->GetVerticesData().size();
 	uint32_t jointSize = (uint32_t)skeleton->GetJointsSize();
 	vertices_ = (uint32_t)mesh->GetVerticesData().size();
-	mehs_ = mesh;
-
+	
 	// -------------------------------------------------
 	// ↓ palette用のResourceを確保
 	// -------------------------------------------------
@@ -187,10 +186,10 @@ void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
 	commandList->SetComputeRootDescriptorTable(2, influenceSrvHandle_.handleGPU);
 	commandList->SetComputeRootDescriptorTable(3, outputHandle_.handleGPU);
 	commandList->SetComputeRootConstantBufferView(4, skinningInformationResource_->GetGPUVirtualAddress());
-	commandList->Dispatch((UINT(vertices_) + 1023) / 1024, 1, 1);
+	commandList->Dispatch((vertices_ + 255) / 256, 1, 1);
 }
 
-void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
+void Skinning::EndCS(ID3D12GraphicsCommandList* commandList) {
 	//// UAVからVertexBufferとして使用できる用に
 	//TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 	//mesh->SetVBV(vertexBufferView_);
@@ -204,7 +203,6 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList, Mesh* mesh) {
 	VertexData* pVertexDataBegin = nullptr;
 	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
 
-	mesh->GetIndexNum();
 	// skinningされた後のlocal頂点座標を取得する
 	//mesh->SetOutputVertexData(pVertexDataBegin);
 }

@@ -36,8 +36,8 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	dissolve_ = std::make_shared<Dissolve>();
 	dissolve_->Init();
 
-	AddEffect(PostEffectType::RADIALBLUR);
-	AddEffect(PostEffectType::GLITCHNOISE);
+	AddEffect(PostEffectType::GRAYSCALE);
+	//AddEffect(PostEffectType::GLITCHNOISE);
 	//AddEffect(PostEffectType::DISSOLVE);
 
 	EditorWindows::AddObjectWindow(this, "Post Process");

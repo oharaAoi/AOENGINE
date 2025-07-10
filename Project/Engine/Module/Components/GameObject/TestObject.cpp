@@ -15,16 +15,15 @@ void TestObject::Init() {
 	SetName("TestObject");
 	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("TestObject", "Object_Normal.json");
 	transform_ = object_->GetTransform();
-	object_->SetObject("player.gltf");
-	object_->SetAnimater("./Game/Assets/Load/Models/", "player.gltf", true, true, false);
+	object_->SetObject("BrainStem.gltf");
+	object_->SetAnimater("./Engine/Assets/Load/Models/Develop/", "BrainStem.gltf", true, true, false);
 
 	EditorWindows::AddObjectWindow(this, "TestObject");
 
-	swordMat_ = object_->GetAnimetor()->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
-
+	/*swordMat_ = object_->GetAnimetor()->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 	sword_ = std::make_unique<Sword>();
 	sword_->Init();
-	sword_->GetTransform()->SetParent(swordMat_);
+	sword_->GetTransform()->SetParent(swordMat_);*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +31,7 @@ void TestObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TestObject::Update() {
-	swordMat_ = object_->GetAnimetor()->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
+	//swordMat_ = object_->GetAnimetor()->GetSkeleton()->GetSkeltonSpaceMat("mixamorig:RightHand") * transform_->GetWorldMatrix();
 }
 
 void TestObject::Debug_Gui() {

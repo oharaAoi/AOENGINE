@@ -159,7 +159,7 @@ public:
 	/// <param name="kind">設定するパイプライン</param>
 	static void SetCsPipeline(const CsPipelineType& kind);
 
-	static void SetSkinning(Skinning* skinning, Mesh* mesh);
+	static void SetSkinning(Skinning* skinning);
 
 	/// <summary>
 	/// 深度バッファをリセットする

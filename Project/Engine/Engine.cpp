@@ -333,12 +333,10 @@ void Engine::SetCsPipeline(const CsPipelineType& kind) {
 	computeShader_->SetCsPipeline(kind, dxCmdList_);
 }
 
-void Engine::SetSkinning(Skinning* skinning, Mesh* mesh) {
-	computeShader_->SetCsPipeline(CsPipelineType::Skinning_Pipeline, dxCmdList_);
-
-	mesh->SetInitVertex();
+void Engine::SetSkinning(Skinning* skinning) {
+	//mesh->SetInitVertex();
 	skinning->RunCs(dxCmdList_);
-	skinning->EndCS(dxCmdList_, mesh);
+	skinning->EndCS(dxCmdList_);
 }
 
 void Engine::ResetComputeShader() {

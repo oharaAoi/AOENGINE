@@ -51,7 +51,7 @@ public:
 	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 						  const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 
-	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
+	static void DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
 						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
 
 	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform);

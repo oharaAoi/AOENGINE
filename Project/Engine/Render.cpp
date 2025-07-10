@@ -89,11 +89,28 @@ void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransf
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
-void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
+void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
 					   const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
-	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), vbv, materials);
+
+	UINT index = 0;
+	std::string useMaterial = mesh->GetUseMaterial();
+	const Material* material = materials.at(useMaterial).get();
+	commandList_->IASetVertexBuffers(0, 1, &vbv);
+	commandList_->IASetIndexBuffer(&mesh->GetIBV());
+	index = pipeline->GetRootSignatureIndex("gMaterial");
+	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAdress());
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	worldTransform->BindCommandList(commandList_, index);
+	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
+	viewProjection_->BindCommandList(commandList_, index);
+
+	std::string textureName = material->GetUseTexture();
+	index = pipeline->GetRootSignatureIndex("gTexture");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+
+	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
 void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform) {

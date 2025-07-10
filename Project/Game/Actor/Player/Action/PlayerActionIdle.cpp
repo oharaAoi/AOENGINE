@@ -22,7 +22,7 @@ void PlayerActionIdle::OnStart() {
 
 	pOwner_->GetJetEngine()->JetIsStop();
 
-	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("idle", 0.5f);
+	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("idle", 0.1f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

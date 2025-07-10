@@ -9,7 +9,7 @@ Animator::Animator() {
 Animator::~Animator() {}
 
  void Animator::Finalize() {
-	skinning_->Finalize();
+	 skinning_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,9 @@ void Animator::UpdateSkinning() {
 	// skinningをするなら
 	if (isSkinning_) {
 		skeleton_->Update();
-		skinning_->Update(skeleton_.get());
+		for (size_t index = 0; index < skinning_.size(); ++index) {
+			skinning_[index]->Update(skeleton_.get());
+		}
 	}
 }
 
@@ -82,7 +84,10 @@ void Animator::LoadAnimation(const std::string& directoryPath, const std::string
 		skeleton_ = std::make_unique<Skeleton>();
 		skeleton_->CreateSkeleton(model->GetNode());
 		skeleton_->Init();
-		skinning_ = Engine::CreateSkinning(skeleton_.get(), model, 0);
+
+		for (uint32_t index = 0; index < model->GetMeshsNum(); ++index) {
+			skinning_.push_back(Engine::CreateSkinning(skeleton_.get(), model, index));
+		}
 	}
 }
 

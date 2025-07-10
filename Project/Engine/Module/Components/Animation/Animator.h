@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <memory>
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
@@ -52,7 +53,7 @@ public:
 
 	std::string SelectAnimationName() { return animationClip_->SelectAnimationName(); }
 
-	Skinning* GetSkinning() { return skinning_.get(); }
+	Skinning* GetSkinning(uint32_t index) { return skinning_[index].get(); }
 	Skeleton* GetSkeleton() { return skeleton_.get(); }
 	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
@@ -90,7 +91,7 @@ private:
 
 	std::unique_ptr<AnimationClip> animationClip_ = nullptr;
 	std::unique_ptr<Skeleton> skeleton_ = nullptr;
-	std::unique_ptr<Skinning> skinning_ = nullptr;
+	std::vector<std::unique_ptr<Skinning>> skinning_;
 
 	bool isSkinning_ = true;
 

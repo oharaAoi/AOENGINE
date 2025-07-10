@@ -30,34 +30,42 @@ RWStructuredBuffer<Vertex> gOutoutVertices : register(u0);
 // skinningに関するちょっと情報
 ConstantBuffer<SkinningInformation> gSkinningInformation : register(b0);
 
-[numthreads(1024, 1, 1)]
+[numthreads(256, 1, 1)]
 void CSmain(uint3 id : SV_DispatchThreadID) {
 	uint vertexIndex = id.x;
-	if (vertexIndex < gSkinningInformation.numVertices) {
-		// skinning計算
-		Vertex input = gInputVertices[vertexIndex];
-		VertexInfluence influence = gInfluences[vertexIndex];
-		
-		// skinnig後の頂点を計算
-		Vertex skinned;
-		skinned.texcoord = input.texcoord;
-		skinned.tangent = input.tangent;
-		skinned.worldPos = input.worldPos;
-		
-		skinned.position = mul(input.position, gMatrixPalette[influence.index.x].skeletonSpaceMatrix) * influence.weight.x;
-		skinned.position += mul(input.position, gMatrixPalette[influence.index.y].skeletonSpaceMatrix) * influence.weight.y;
-		skinned.position += mul(input.position, gMatrixPalette[influence.index.z].skeletonSpaceMatrix) * influence.weight.z;
-		skinned.position += mul(input.position, gMatrixPalette[influence.index.w].skeletonSpaceMatrix) * influence.weight.w;
-		skinned.position.w = 1.0f;
-		
-		// 法線の変換
-		skinned.normal = mul(input.normal, (float3x3) gMatrixPalette[influence.index.x].skeletonSpaceInverseTransposeMatrix) * influence.weight.x;
-		skinned.normal += mul(input.normal, (float3x3) gMatrixPalette[influence.index.y].skeletonSpaceInverseTransposeMatrix) * influence.weight.y;
-		skinned.normal += mul(input.normal, (float3x3) gMatrixPalette[influence.index.z].skeletonSpaceInverseTransposeMatrix) * influence.weight.z;
-		skinned.normal += mul(input.normal, (float3x3) gMatrixPalette[influence.index.w].skeletonSpaceInverseTransposeMatrix) * influence.weight.w;
-		skinned.normal = normalize(skinned.normal);
-		
-		gOutoutVertices[vertexIndex] = skinned;
-	}
+	if (vertexIndex >= gSkinningInformation.numVertices)
+		return;
 
+	Vertex input = gInputVertices[vertexIndex];
+	VertexInfluence influence = gInfluences[vertexIndex];
+
+	float4x4 m0 = gMatrixPalette[influence.index.x].skeletonSpaceMatrix;
+	float4x4 m1 = gMatrixPalette[influence.index.y].skeletonSpaceMatrix;
+	float4x4 m2 = gMatrixPalette[influence.index.z].skeletonSpaceMatrix;
+	float4x4 m3 = gMatrixPalette[influence.index.w].skeletonSpaceMatrix;
+
+	float3x3 n0 = (float3x3) gMatrixPalette[influence.index.x].skeletonSpaceInverseTransposeMatrix;
+	float3x3 n1 = (float3x3) gMatrixPalette[influence.index.y].skeletonSpaceInverseTransposeMatrix;
+	float3x3 n2 = (float3x3) gMatrixPalette[influence.index.z].skeletonSpaceInverseTransposeMatrix;
+	float3x3 n3 = (float3x3) gMatrixPalette[influence.index.w].skeletonSpaceInverseTransposeMatrix;
+
+	Vertex skinned;
+	skinned.texcoord = input.texcoord;
+	skinned.tangent = input.tangent;
+	skinned.worldPos = input.worldPos;
+
+	skinned.position = mul(input.position, m0) * influence.weight.x +
+	                   mul(input.position, m1) * influence.weight.y +
+	                   mul(input.position, m2) * influence.weight.z +
+	                   mul(input.position, m3) * influence.weight.w;
+	skinned.position.w = 1.0f;
+
+	skinned.normal = normalize(
+		mul(input.normal, n0) * influence.weight.x +
+		mul(input.normal, n1) * influence.weight.y +
+		mul(input.normal, n2) * influence.weight.z +
+		mul(input.normal, n3) * influence.weight.w
+	);
+
+	gOutoutVertices[vertexIndex] = skinned;
 }
