@@ -10,7 +10,7 @@ void BossActionWait::Debug_Gui() {
 }
 
 bool BossActionWait::IsFinish() {
-	if (taskTimer_ > 5.0f) {
+	if (taskTimer_ > 2.0f) {
 		return true;
 	}
 	return false;

@@ -115,6 +115,7 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 					collider->SetTarget(data.collisionFilter[index]);
 				}
 			}
+			collider->Update(data.srt);
 		}
 
 		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, std::move(object));

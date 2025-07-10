@@ -30,5 +30,5 @@ void TestObject::Update() {
 
 
 void TestObject::Debug_Gui() {
-	
+	object_->Debug_Gui();
 }

@@ -10,7 +10,7 @@ void BossActionFloat::Debug_Gui() {
 }
 
 bool BossActionFloat::IsFinish() {
-	if (taskTimer_ > 2.0f) {
+	if (taskTimer_ > 1.0f) {
 		return true;
 	}
 
@@ -26,7 +26,7 @@ void BossActionFloat::Init() {
 
 void BossActionFloat::Update() {
 	taskTimer_ += GameTimer::DeltaTime();
-	pTarget_->GetTransform()->translate_.y += 4.0f * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->translate_.y += 2.0f * GameTimer::DeltaTime();
 }
 
 void BossActionFloat::End() {

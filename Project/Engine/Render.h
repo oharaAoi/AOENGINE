@@ -33,6 +33,8 @@ public:
 	static void PrimitiveDrawCall();
 	static void SetRenderTarget(const RenderTargetType& type);
 
+	static LightGroup* GetLightGroup();
+
 public:
 
 	/// <summary>

@@ -39,6 +39,8 @@ void TestScene::Init() {
 
 	testObject_ = std::make_unique<TestObject>();
 	testObject_->Init();
+
+	EditorWindows::AddObjectWindow(Render::GetLightGroup(), "LightGroup");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

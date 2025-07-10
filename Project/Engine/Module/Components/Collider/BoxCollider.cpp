@@ -53,9 +53,22 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 			Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
 		};
 
-		// 最小最大初期化
-		Vector3 min = CVector3::INF;
-		Vector3 max = CVector3::INF * -1.0f;
+		Vector3 min = Vector3{
+			std::numeric_limits<float>::max(),
+			std::numeric_limits<float>::max(),
+			std::numeric_limits<float>::max()
+		};
+		Vector3 max = Vector3{
+			std::numeric_limits<float>::lowest(),
+			std::numeric_limits<float>::lowest(),
+			std::numeric_limits<float>::lowest()
+		};
+
+		for (const auto& localPt : localPoints) {
+			Vector3 worldPt = srt.translate + (srt.rotate * (localPt + localSRT_.translate));
+			min = Vector3::Min(min, worldPt);
+			max = Vector3::Max(max, worldPt);
+		}
 
 		for (const auto& localPt : localPoints) {
 			// ローカル -> 回転 -> 平行移動

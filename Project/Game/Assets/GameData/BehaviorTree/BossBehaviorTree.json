@@ -4,44 +4,119 @@
             "children": [
                 {
                     "children": [],
-                    "name": "Float",
-                    "nodePos": {
-                        "x": -187.0,
-                        "y": 50.0
-                    },
-                    "nodeType": 3
-                },
-                {
-                    "children": [],
-                    "name": "ShotMissile",
-                    "nodePos": {
-                        "x": -91.0,
-                        "y": 70.0
-                    },
-                    "nodeType": 3
-                },
-                {
-                    "children": [],
                     "name": "wait",
                     "nodePos": {
-                        "x": 73.0,
-                        "y": 38.0
+                        "x": -471.0,
+                        "y": -122.0
                     },
                     "nodeType": 3
+                },
+                {
+                    "children": [],
+                    "name": "Approach",
+                    "nodePos": {
+                        "x": -391.0,
+                        "y": -42.0
+                    },
+                    "nodeType": 3
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Shotgun",
+                            "nodePos": {
+                                "x": -347.0,
+                                "y": 70.0
+                            },
+                            "nodeType": 3
+                        },
+                        {
+                            "children": [],
+                            "name": "Strafe",
+                            "nodePos": {
+                                "x": -219.0,
+                                "y": 70.0
+                            },
+                            "nodeType": 3
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": -251.0,
+                        "y": -58.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Float",
+                            "nodePos": {
+                                "x": -87.0,
+                                "y": 102.0
+                            },
+                            "nodeType": 3
+                        },
+                        {
+                            "children": [],
+                            "name": "ShotMissile",
+                            "nodePos": {
+                                "x": 21.0,
+                                "y": 102.0
+                            },
+                            "nodeType": 3
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "name": "Leave",
+                                    "nodePos": {
+                                        "x": 117.0,
+                                        "y": 246.0
+                                    },
+                                    "nodeType": 3
+                                },
+                                {
+                                    "children": [],
+                                    "name": "AllRangeMissile",
+                                    "nodePos": {
+                                        "x": 357.0,
+                                        "y": 246.0
+                                    },
+                                    "nodeType": 3
+                                }
+                            ],
+                            "name": "Sequence",
+                            "nodePos": {
+                                "x": 194.0,
+                                "y": 82.0
+                            },
+                            "nodeType": 1
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": -43.0,
+                        "y": -58.0
+                    },
+                    "nodeType": 1
                 }
             ],
             "name": "Sequence",
             "nodePos": {
-                "x": -123.0,
-                "y": -122.0
+                "x": -171.0,
+                "y": -234.0
             },
             "nodeType": 1
         }
     ],
     "name": "Root",
     "nodePos": {
-        "x": -103.0,
-        "y": -250.0
+        "x": -155.0,
+        "y": -366.0
     },
     "nodeType": 0
 }
