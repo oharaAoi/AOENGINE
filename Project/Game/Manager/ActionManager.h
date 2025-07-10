@@ -68,9 +68,9 @@ public:
 		}
 
 		// 追加するActionがあるかを判定する
-		for (auto& [size, action] : runActionMap_) {
-			if (action) {
-				action->CheckNextAction();
+		for (auto& action : runActionMap_) {
+			if (action.second != nullptr) {
+				action.second->CheckNextAction();
 			}
 		}
 	}

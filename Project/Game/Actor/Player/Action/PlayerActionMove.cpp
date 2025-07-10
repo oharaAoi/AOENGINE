@@ -62,6 +62,9 @@ void PlayerActionMove::OnStart() {
 		accel_ = dire * param_.speed;
 	}
 	velocity_ += accel_;
+
+	// animetion 
+	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("dash", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

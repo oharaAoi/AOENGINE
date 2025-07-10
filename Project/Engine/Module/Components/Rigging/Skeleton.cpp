@@ -1,5 +1,7 @@
 #include "Skeleton.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Render.h"
+#include "Engine/Utilities/DrawUtils.h"
 #ifdef DEBUG
 #include "Engine/Manager/ImGuiManager.h"
 #endif
@@ -35,12 +37,35 @@ void Skeleton::Update() {
 	}
 }
 
+void Skeleton::DrawBone(const Matrix4x4& worldMat) const {
+	for (const Joint& joint : joints_) {
+		Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
+		DrawSphere(pos, 0.2f, Render::GetViewProjectionMat(), Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+	}
+
+	DrawNodeHierarchy(worldMat);
+}
+
+void Skeleton::DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const {
+	for (const Joint& joint : joints_) {
+		Vector3 parentPos = (joint.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+
+		for (int32_t childIndex : joint.children) {
+			const Joint& child = joints_[childIndex];
+			Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+			// 線を引く
+			Render::DrawLine(parentPos, childPos, Vector4(1.0f, 0.0f, 0.0f, 1.0f), Render::GetViewProjectionMat());
+		}
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　skeletonの作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Skeleton::CreateSkeleton(const Model::Node& node) {
 	root_ = CreateJoint(node, {}, joints_);
+	node_ = node;
 
 	// 名前からIndexを検索可能に
 	for (const Joint& joint : joints_) {

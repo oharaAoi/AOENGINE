@@ -296,6 +296,7 @@
     <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Sword.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -564,6 +565,7 @@
     <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h" />
+    <ClInclude Include="Game\Actor\Weapon\Sword.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

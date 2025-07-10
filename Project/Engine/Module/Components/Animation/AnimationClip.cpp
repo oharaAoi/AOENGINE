@@ -109,11 +109,15 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 	lerpAnimationTime_[0] += GameTimer::DeltaTime() * animationSpeed_;
 	lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
 
-	lerpAnimationTime_[0] = std::clamp(lerpAnimationTime_[0], 0.0f, lerpAnimetion_[0].duration);
-	lerpAnimationTime_[1] = std::clamp(lerpAnimationTime_[1], 0.0f, lerpAnimetion_[1].duration);
+	if (lerpAnimationTime_[0] > lerpAnimetion_[0].duration) {
+		lerpAnimationTime_[0] = 0;
+	}
+
+	if (lerpAnimationTime_[1] > lerpAnimetion_[1].duration) {
+		lerpAnimationTime_[1] = 0;
+	}
 
 	for (Skeleton::Joint& joint : skelton->GetJoints()) {
-
 		auto itA = lerpAnimetion_[0].nodeAnimations.find(joint.name);
 		// アニメーションBのノードアニメーションを取得
 		auto itB = lerpAnimetion_[1].nodeAnimations.find(joint.name);
@@ -155,7 +159,7 @@ void AnimationClip::LerpAnimation(const std::string& preAnimation, const std::st
 	lerpAnimetion_[0] = manager_->GetAnimation(animationFileName_, preAnimation);
 	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, lerpAnimation);
 
-	lerpAnimationTime_[0] = lerpAnimetion_[0].duration;
+	lerpAnimationTime_[0] = animationTime_;
 	lerpAnimationTime_[1] = 0;
 
 	isAnimationChange_ = true;

@@ -35,6 +35,10 @@ public:
 	void Init();
 	void Update();
 
+	void DrawBone(const Matrix4x4& worldMat) const;
+
+	void DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const;
+
 	void CreateSkeleton(const Model::Node& node);
 	int32_t CreateJoint(const Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 
@@ -55,5 +59,7 @@ private:
 	int32_t root_ = 0;	// RootJointのIndex
 	std::map<std::string, int32_t> jointMap_;	// Joint名とIndexの辞書
 	std::vector<Joint> joints_;	// 所属しているジョイント
+
+	Model::Node node_;
 };
 
