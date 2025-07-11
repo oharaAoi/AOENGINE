@@ -16,6 +16,7 @@ class PlayerActionJump :
 public:
 
 	struct Parameter : public IJsonConverter {
+		float chargeTime = 0.5f;
 		float jumpForce = 6.0f;
 		float risingForce = 10.0f;
 		float maxAcceleration = 20.0f;
@@ -31,6 +32,7 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("chargeTime", chargeTime)
 				.Add("jumpForce", jumpForce)
 				.Add("risingForce", risingForce)
 				.Add("maxAcceleration", maxAcceleration)
@@ -43,6 +45,7 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "chargeTime", chargeTime);
 			fromJson(jsonData, "jumpForce", jumpForce);
 			fromJson(jsonData, "risingForce", risingForce);
 			fromJson(jsonData, "maxAcceleration", maxAcceleration);
@@ -85,6 +88,8 @@ private:	// action
 	/// 上昇する
 	/// </summary>
 	void Rising();
+
+	void Charge();
 
 private:	// variable
 

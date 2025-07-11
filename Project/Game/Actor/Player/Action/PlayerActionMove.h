@@ -72,5 +72,7 @@ private:
 	Parameter param_;
 	
 	bool isTurnAround_;
+
+	bool preBoost_;
 };
 

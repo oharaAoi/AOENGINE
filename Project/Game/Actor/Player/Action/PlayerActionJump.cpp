@@ -11,6 +11,7 @@ void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
 
 	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
+	ImGui::DragFloat("chargeTime", &param_.chargeTime, 0.1f);
 	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
 	ImGui::DragFloat("maxAcceleration", &param_.maxAcceleration, 0.1f);
 	ImGui::DragFloat("accelDecayRate", &param_.accelDecayRate, 0.1f);
@@ -62,7 +63,7 @@ void PlayerActionJump::OnStart() {
 
 	acceleration_.y = param_.jumpForce;
 	velocity_ = acceleration_;
-	mainAction_ = std::bind(&PlayerActionJump::Jump, this);
+	mainAction_ = std::bind(&PlayerActionJump::Charge, this);
 	
 	pOwner_->SetIsLanding(false);
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
@@ -71,7 +72,10 @@ void PlayerActionJump::OnStart() {
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
-	
+	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	clip->PoseToAnimation("jump", 0.4f);
+	clip->SetIsLoop(false);
+
 	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
 }
 
@@ -84,8 +88,6 @@ void PlayerActionJump::OnUpdate() {
 
 	mainAction_();
 
-	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
-
 	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
 	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
@@ -97,7 +99,9 @@ void PlayerActionJump::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnEnd() {
-	
+	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	clip->PoseToAnimation("landing", 0.6f);
+	clip->SetIsLoop(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,12 +109,14 @@ void PlayerActionJump::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::CheckNextAction() {
-	if (pOwner_->GetIsLanding()) {
-		NextAction<PlayerActionIdle>();
-	}
+	if (actionTimer_ > param_.chargeTime * 2.0f) {
+		if (pOwner_->GetIsLanding()) {
+			NextAction<PlayerActionIdle>();
+		}
 
-	if (CheckInput<PlayerActionMove>()) {
-		AddAction<PlayerActionMove>();
+		if (CheckInput<PlayerActionMove>()) {
+			AddAction<PlayerActionMove>();
+		}
 	}
 }
 
@@ -148,7 +154,10 @@ void PlayerActionJump::Jump() {
 
 	if (acceleration_.Length() <= 0.1f) {
 		mainAction_ = std::bind(&PlayerActionJump::Rising, this);
+		pOwner_->SetIsLanding(false);
 	}
+
+	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,4 +188,13 @@ void PlayerActionJump::Rising() {
 		velocity_ *= std::exp(-param_.velocityDecayRate * GameTimer::DeltaTime());
 	}
 
+	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+}
+
+void PlayerActionJump::Charge() {
+	if (actionTimer_ > param_.chargeTime) {
+		mainAction_ = std::bind(&PlayerActionJump::Jump, this);
+		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
+		pOwner_->SetIsLanding(false);
+	}
 }

@@ -63,8 +63,15 @@ void PlayerActionMove::OnStart() {
 	}
 	velocity_ += accel_;
 
-	// animetion 
-	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("dash", 0.5f);
+	if (pOwner_->GetIsBoostMode()) {
+		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		clip->PoseToAnimation("move", 0.1f);
+		clip->SetIsLoop(false);
+	} else {
+		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		clip->PoseToAnimation("walk", 0.1f);
+		clip->SetIsLoop(true);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,12 +81,26 @@ void PlayerActionMove::OnStart() {
 void PlayerActionMove::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
 
+	if (preBoost_ != pOwner_->GetIsBoostMode()) {
+		if (preBoost_) {
+			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			clip->PoseToAnimation("walk", 0.1f);
+			clip->SetIsLoop(true);
+		} else {
+			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			clip->PoseToAnimation("move", 0.1f);
+			clip->SetIsLoop(false);
+		}
+	}
+
 	Move();
 
 	// 移動の入力がなかったら回復処理を行っていく
 	if (pOwner_->GetIsLanding()) {
 		pOwner_->RecoveryEN(actionTimer_);
 	}
+
+	preBoost_ = pOwner_->GetIsBoostMode();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +109,15 @@ void PlayerActionMove::OnUpdate() {
 
 void PlayerActionMove::OnEnd() {
 	pOwner_->SetIsMoving(false);
+	if (pOwner_->GetIsBoostMode()) {
+		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		clip->PoseToAnimation("move_cancel", 0.1f);
+		clip->SetIsLoop(false);
+	} else {
+		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		clip->PoseToAnimation("idle", 0.1f);
+		clip->SetIsLoop(false);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
