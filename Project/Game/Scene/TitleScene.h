@@ -10,6 +10,7 @@
 //ui
 #include "Game/UI/TitleUIs.h"
 #include "Game/UI/FadePanel.h"
+#include "Engine/Module/Components/GameObject/TestObject.h"
 
 class TitleScene : 
 	public BaseScene {
@@ -37,6 +38,8 @@ private:
 
 	std::unique_ptr<TitleUIs> titleUIs_;
 	std::unique_ptr<FadePanel> fadePanel_;
+
+	std::unique_ptr<TestObject> testObject_;
 
 	SceneRenderer* sceneRenderer_;
 };

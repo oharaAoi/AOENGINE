@@ -74,6 +74,8 @@ public:
 
 	void SetEyePos(const Vector3& pos) { spotLightData_->eyePos = pos; }
 
+	void SetIntensity(float _intensity) { spotLightData_->intensity = _intensity; }
+
 private:
 
 	SpotLightData* spotLightData_ = nullptr;

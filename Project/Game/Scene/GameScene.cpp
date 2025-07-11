@@ -99,6 +99,9 @@ void GameScene::Init() {
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
+
+	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
+	light->SetIntensity(0.3f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

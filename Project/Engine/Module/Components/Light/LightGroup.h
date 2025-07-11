@@ -32,6 +32,10 @@ public:
 	
 	void Debug_Gui() override;
 
+	DirectionalLight* GetDirectionalLight() { return directionalLight_.get(); }
+	PointLight* GetPointLight() { return pointLight_.get(); }
+	SpotLight* GetSpotLight() { return spotLight_.get(); }
+
 public:
 
 	void SetEyePos(const Vector3& pos) { eyePos_ = pos; }

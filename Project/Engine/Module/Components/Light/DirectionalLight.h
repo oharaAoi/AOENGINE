@@ -65,6 +65,8 @@ public:
 
 	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }
 
+	void SetIntensity(float _intensity) { directionalLightData_->intensity = _intensity; }
+
 private:
 
 	DirectionalLightData* directionalLightData_;

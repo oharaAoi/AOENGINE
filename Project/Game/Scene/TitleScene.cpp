@@ -38,6 +38,9 @@ void TitleScene::Init() {
 	skybox_->Init();
 	Render::SetSkyboxTexture(skybox_->GetTexture());
 
+	testObject_ = std::make_unique<TestObject>();
+	testObject_->Init();
+
 	titleUIs_ = std::make_unique<TitleUIs>();
 	titleUIs_->Init();
 
@@ -45,11 +48,15 @@ void TitleScene::Init() {
 	fadePanel_->Init();
 	fadePanel_->SetBlackOutOpen();
 
+	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
+	light->SetIntensity(0.3f);
+
 	putButton_ = false;
 }
 
 void TitleScene::Update() {
 	skybox_->Update();
+	testObject_->Update();
 
 	titleUIs_->Update();
 
@@ -79,10 +86,14 @@ void TitleScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
+
+	sceneRenderer_->Update();
 }
 
 void TitleScene::Draw() const {
 	skybox_->Draw();
+
+	sceneRenderer_->Draw();
 
 	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
 	titleUIs_->Draw();
