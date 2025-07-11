@@ -9,6 +9,7 @@ void LauncherGun::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LauncherGun::Debug_Gui() {
+	BaseWeapon::Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,8 +20,7 @@ void LauncherGun::Init() {
 	BaseWeapon::Init();
 	object_->SetObject("launcher.obj");
 	SetName("LauncherGun");
-
-	transform_->translate_ = { -1.2f, 1.1f, 0.0f };
+	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
 	// ↓ Effect関連

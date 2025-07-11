@@ -20,6 +20,9 @@ void PlayerActionShotRight::Build() {
 void PlayerActionShotRight::OnStart() {
 	shotTimer_ = 0.0f;
 	notShotTimer_ = 0.0f;
+
+	pOwner_->GetGameObject()->GetAnimetor()
+		->GetAnimationClip()->PoseToAnimation("right_shot", 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +38,8 @@ void PlayerActionShotRight::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotRight::OnEnd() {
+	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	clip->PoseToAnimation("right_shotAfter", 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

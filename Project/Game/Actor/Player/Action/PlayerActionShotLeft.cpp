@@ -20,6 +20,9 @@ void PlayerActionShotLeft::Build() {
 void PlayerActionShotLeft::OnStart() {
 	shotTimer_ = 0.0f;
 	notShotTimer_ = 0.0f;
+
+	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	clip->PoseToAnimation("left_shot", 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,6 +38,8 @@ void PlayerActionShotLeft::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnEnd() {
+	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	clip->PoseToAnimation("left_shotAfter", 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

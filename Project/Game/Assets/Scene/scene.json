@@ -126,7 +126,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -163,7 +166,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -200,7 +206,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -237,7 +246,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -274,7 +286,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -312,7 +327,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -349,7 +367,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -387,7 +408,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -424,7 +448,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -461,7 +488,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -498,7 +528,10 @@
                 ]
             },
             "collider_tag": "building",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -536,7 +569,9 @@
                 ]
             },
             "collider_tag": "ground",
-            "collisionFilter_tags": []
+            "collisionFilter_tags": [
+                "playerLeg"
+            ]
         },
         {
             "type": "MESH",
@@ -601,7 +636,7 @@
                 "center": [
                     0.0,
                     0.0,
-                    0.7699999809265137
+                    1.0
                 ],
                 "radius": 1.0
             },

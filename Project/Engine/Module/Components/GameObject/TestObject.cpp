@@ -15,8 +15,8 @@ void TestObject::Init() {
 	SetName("TestObject");
 	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("TestObject", "Object_Normal.json");
 	transform_ = object_->GetTransform();
-	object_->SetObject("player.gltf");
-	//object_->SetAnimater("./Engine/Assets/Load/Models/Develop/", "BrainStem.gltf", true, true, false);
+	object_->SetObject("BrainStem.gltf");
+	object_->SetAnimater("./Engine/Assets/Load/Models/Develop/", "BrainStem.gltf", true, true, false);
 
 	EditorWindows::AddObjectWindow(this, "TestObject");
 

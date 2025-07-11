@@ -24,8 +24,17 @@ public:
 	void Init(const std::string& rootName, bool isSkinning, bool isLoop);
 	void Update();
 
+	/// <summary>
+	/// Animationの読み込み
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="animationFile"></param>
 	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
 	
+	/// <summary>
+	/// Animationの適応
+	/// </summary>
+	/// <param name="skelton"></param>
 	void ApplyAnimation(Skeleton* skelton);
 
 	/// <summary>
@@ -43,11 +52,21 @@ public:
 	void LerpAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed);
 
 	/// <summary>
+	/// Pose状態からのアニメーションを再生する
+	/// </summary>
+	/// <param name="afterAnimationName"></param>
+	void PoseToAnimation(const std::string& afterAnimationName, float lerpTime);
+
+	/// <summary>
 	/// animationを遷移させる設定をする
 	/// </summary>
 	/// <param name="lerpAnimation">: 遷移後アニメーション</param>
 	void LerpAnimation(const std::string& lerpAnimation, float blendSpeed);
 
+	/// <summary>
+	/// Animationをそのまま切り替える
+	/// </summary>
+	/// <param name="animationName"></param>
 	void ResetAnimation(const std::string& animationName);
 
 	/// <summary>
@@ -58,7 +77,12 @@ public:
 	/// <param name="startTransitionRaito">: 前のAnimationがどのくらいの割合の時に開始するか</param>
 	void ReservationAnimation(const std::string& preAnimation, const std::string& lerpAnimation, float blendSpeed, float startTransitionRaito);
 
+	/// <summary>
+	/// Animationのデバック表示
+	/// </summary>
 	void Debug_Gui();
+
+public:
 
 	std::string SelectAnimationName();
 
@@ -120,10 +144,12 @@ private:
 	bool isAnimationFinish_ = false;
 	// アニメーションをループさせるか
 	bool isLoop_ = false;
-
+	// アニメーションを止めるかどうか
 	bool isStop_ = false;
 
 	int selectedAnimationIndex = 0;
+
+	bool poseToAnimation_ = false;
 
 	// -------------------------------------------------
 	// ↓ アニメーションの遷移に関する変数

@@ -106,15 +106,16 @@ void AnimationClip::ApplyAnimation(Skeleton* skelton) {
 
 void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 	blendFactor_ += GameTimer::DeltaTime() * animationSpeed_;
-	lerpAnimationTime_[0] += GameTimer::DeltaTime() * animationSpeed_;
-	lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
 
-	if (lerpAnimationTime_[0] > lerpAnimetion_[0].duration) {
-		lerpAnimationTime_[0] = 0;
+	if (lerpAnimationTime_[0] < lerpAnimetion_[0].duration) {
+		if (!poseToAnimation_) {
+			lerpAnimationTime_[0] += GameTimer::DeltaTime() * animationSpeed_;
+		}
 	}
 
-	if (lerpAnimationTime_[1] > lerpAnimetion_[1].duration) {
-		lerpAnimationTime_[1] = 0;
+	if (lerpAnimationTime_[1] < lerpAnimetion_[1].duration) {
+		lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
+
 	}
 
 	for (Skeleton::Joint& joint : skelton->GetJoints()) {
@@ -148,6 +149,7 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 		isAnimationChange_ = false;
 		animationTime_ = blendFactor_ / lerpAnimetion_[1].duration;
 		animation_ = lerpAnimetion_[1];
+		poseToAnimation_ = false;
 	}
 }
 
@@ -168,6 +170,21 @@ void AnimationClip::LerpAnimation(const std::string& preAnimation, const std::st
 
 	nowAnimationName_ = lerpAnimation;
 	blendSpeed_ = blendSpeed;
+}
+
+void AnimationClip::PoseToAnimation(const std::string& afterAnimationName, float lerpTime) {
+	lerpAnimetion_[0] = animation_;
+	lerpAnimetion_[1] = manager_->GetAnimation(animationFileName_, afterAnimationName);
+
+	lerpAnimationTime_[0] = animationTime_;
+	lerpAnimationTime_[1] = 0;
+
+	isAnimationChange_ = true;
+	poseToAnimation_ = true;
+
+	blendFactor_ = 0.0f;
+	nowAnimationName_ = afterAnimationName;
+	blendSpeed_ = lerpTime;
 }
 
 
@@ -225,92 +242,90 @@ void AnimationClip::ReservationAnimation(const std::string& preAnimation, const 
 void AnimationClip::Debug_Gui() {
 	bool isChange = false;
 	int isAnimationFinish = (int)isAnimationFinish_;
-	if (ImGui::TreeNode("animation")) {
 
-		if (ImGui::Button("play")) {
-			isStop_ = false;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("stop")) {
-			isStop_ = true;
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("reset")) {
-			animationTime_ = 0.0f;
-		}
+	if (ImGui::Button("play")) {
+		isStop_ = false;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("stop")) {
+		isStop_ = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("reset")) {
+		animationTime_ = 0.0f;
+	}
 
-		ImGui::SliderFloat("time", &animationTime_, 0.0f, animation_.duration);
-		ImGui::DragFloat("speed", &animationSpeed_, 0.1f);
-		ImGui::SliderInt("isFinish", &isAnimationFinish, 0, 1);
-		ImGui::Text(nowAnimationName_.c_str());
+	ImGui::Checkbox("isLoop", &isLoop_);
 
-		{
-			ImGui::BulletText("SelectAnimation");
-			// 現在のanimationを設定する
-			if (ImGui::BeginCombo("## select", animationNames_[selectedAnimationIndex].c_str())) {
-				for (int i = 0; i < animationNames_.size(); ++i) {
-					bool isSelected = (i == selectedAnimationIndex);
-					if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
-						selectedAnimationIndex = i; // インデックスを更新
-						isChange = true;
-					}
-					if (isSelected) {
-						ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
-					}
+	ImGui::SliderFloat("time", &animationTime_, 0.0f, animation_.duration);
+	ImGui::DragFloat("speed", &animationSpeed_, 0.1f);
+	ImGui::SliderInt("isFinish", &isAnimationFinish, 0, 1);
+	ImGui::Text(nowAnimationName_.c_str());
+
+	{
+		ImGui::BulletText("SelectAnimation");
+		// 現在のanimationを設定する
+		if (ImGui::BeginCombo("## select", animationNames_[selectedAnimationIndex].c_str())) {
+			for (int i = 0; i < animationNames_.size(); ++i) {
+				bool isSelected = (i == selectedAnimationIndex);
+				if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
+					selectedAnimationIndex = i; // インデックスを更新
+					isChange = true;
 				}
-				ImGui::EndCombo();
+				if (isSelected) {
+					ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
+				}
 			}
-
-			if (isChange) {
-				std::string animationName = animationNames_[selectedAnimationIndex];
-				animation_ = manager_->GetAnimation(animationFileName_, animationName);
-			}
+			ImGui::EndCombo();
 		}
 
-		{
-			ImGui::BulletText("Transition Animation");
-			ImGui::SliderFloat("lerpAnimationTime_0", &lerpAnimationTime_[0], 0.0f, lerpAnimetion_[0].duration);
-			ImGui::SliderFloat("lerpAnimationTime_1", &lerpAnimationTime_[1], 0.0f, lerpAnimetion_[1].duration);
-			// 遷移前アニメーション
-			if (ImGui::BeginCombo("before", animationNames_[lerpAnimationNamesIndex_[0]].c_str())) {
-				for (int i = 0; i < animationNames_.size(); ++i) {
-					bool isSelected = (i == lerpAnimationNamesIndex_[0]);
-					if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
-						lerpAnimationNamesIndex_[0] = i; // インデックスを更新
-					}
-					if (isSelected) {
-						ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
-					}
+		if (isChange) {
+			std::string animationName = animationNames_[selectedAnimationIndex];
+			animation_ = manager_->GetAnimation(animationFileName_, animationName);
+		}
+	}
+
+	{
+		ImGui::BulletText("Transition Animation");
+		ImGui::SliderFloat("lerpAnimationTime_0", &lerpAnimationTime_[0], 0.0f, lerpAnimetion_[0].duration);
+		ImGui::SliderFloat("lerpAnimationTime_1", &lerpAnimationTime_[1], 0.0f, lerpAnimetion_[1].duration);
+		// 遷移前アニメーション
+		if (ImGui::BeginCombo("before", animationNames_[lerpAnimationNamesIndex_[0]].c_str())) {
+			for (int i = 0; i < animationNames_.size(); ++i) {
+				bool isSelected = (i == lerpAnimationNamesIndex_[0]);
+				if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
+					lerpAnimationNamesIndex_[0] = i; // インデックスを更新
 				}
-				ImGui::EndCombo();
-			}
-
-			// 遷移後アニメーション
-			if (ImGui::BeginCombo("after", animationNames_[lerpAnimationNamesIndex_[1]].c_str())) {
-				for (int i = 0; i < animationNames_.size(); ++i) {
-					bool isSelected = (i == lerpAnimationNamesIndex_[1]);
-					if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
-						lerpAnimationNamesIndex_[1] = i; // インデックスを更新
-					}
-					if (isSelected) {
-						ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
-					}
+				if (isSelected) {
+					ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
 				}
-				ImGui::EndCombo();
 			}
-
-			ImGui::DragFloat("blendSpeed", &blendSpeed_, 0.01f);
-
-			if (ImGui::Button("isChange")) {
-				LerpAnimation(
-					animationNames_[lerpAnimationNamesIndex_[0]],
-					animationNames_[lerpAnimationNamesIndex_[1]],
-					blendSpeed_
-				);
-			}
+			ImGui::EndCombo();
 		}
 
-		ImGui::TreePop();
+		// 遷移後アニメーション
+		if (ImGui::BeginCombo("after", animationNames_[lerpAnimationNamesIndex_[1]].c_str())) {
+			for (int i = 0; i < animationNames_.size(); ++i) {
+				bool isSelected = (i == lerpAnimationNamesIndex_[1]);
+				if (ImGui::Selectable(animationNames_[i].c_str(), isSelected)) {
+					lerpAnimationNamesIndex_[1] = i; // インデックスを更新
+				}
+				if (isSelected) {
+					ImGui::SetItemDefaultFocus(); // 初期選択のフォーカス
+				}
+			}
+			ImGui::EndCombo();
+		}
+
+		ImGui::DragFloat("blendSpeed", &blendSpeed_, 0.01f);
+
+		if (ImGui::Button("isChange")) {
+			LerpAnimation(
+				animationNames_[lerpAnimationNamesIndex_[0]],
+				animationNames_[lerpAnimationNamesIndex_[1]],
+				blendSpeed_
+			);
+		}
 	}
 
 	if (isAnimationChange_) {

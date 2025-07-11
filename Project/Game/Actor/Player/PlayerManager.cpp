@@ -22,9 +22,10 @@ void PlayerManager::Init() {
 	player_->SetWeapon(launcherGun_.get(), LEFT_WEAPON);
 	player_->SetWeapon(machineGun_.get(), RIGHT_WEAPON);
 
-	machineGun_->SetParent(player_.get());
+	machineGun_->GetTransform()->SetParent(player_->GetRightHandMat());
 	machineGun_->SetBulletManager(bulletManager_.get());
-	launcherGun_->SetParent(player_.get());
+
+	launcherGun_->GetTransform()->SetParent(player_->GetLeftHandMat());
 	launcherGun_->SetBulletManager(bulletManager_.get());
 }
 

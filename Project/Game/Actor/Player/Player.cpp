@@ -27,11 +27,13 @@ void Player::Finalize() {
 }
 
 void Player::Debug_Gui() {
-	object_->GetTransform()->Debug_Gui();
-
+	object_->Debug_Gui();
+	
 	actionManager_->Debug_Gui();
 
-	legCollider_->Debug_Gui();
+	if (ImGui::CollapsingHeader("LegCollider")) {
+		legCollider_->Debug_Gui();
+	}
 
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
 		ImGui::DragFloat("health", &param_.health, 0.1f);
@@ -44,7 +46,7 @@ void Player::Debug_Gui() {
 		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 	}
 
-	if (ImGui::CollapsingHeader("Parameter", ImGuiTreeNodeFlags_DefaultOpen)) {
+	if (ImGui::CollapsingHeader("Parameter")) {
 		ImGui::DragFloat("health", &initParam_.health, 0.1f);
 		ImGui::DragFloat("postureStability", &initParam_.postureStability, 0.1f);
 		ImGui::DragFloat("bodyWeight", &initParam_.bodyWeight, 0.1f);
@@ -73,12 +75,15 @@ void Player::Debug_Gui() {
 
 void Player::Init() {
 	SetName("Player");
+	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
+	param_ = initParam_;
+
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
-	/*object_->SetObject("player.gltf");
-	object_->SetAnimater("./Game/Assets/Load/Models/", "player.gltf", true, true, false);*/
+	object_->SetAnimater("./Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
+	object_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
@@ -94,6 +99,8 @@ void Player::Init() {
 	legCollider_->SetName(ColliderTags::Player::leg);
 	legCollider_->SetCategory(ColliderTags::Player::leg);
 	legCollider_->SetTarget(ColliderTags::None::own);
+	legCollider_->SetTarget("building");
+	legCollider_->SetTarget("ground");
 	legCollider_->SetRadius(param_.legColliderRadius);
 	legCollider_->SetLoacalPos(Vector3(0.0f, param_.legColliderPosY, 0.0f));
 	ColliderCollector::AddCollider(legCollider_.get());
@@ -140,9 +147,11 @@ void Player::Init() {
 	isLanding_ = false;
 	isMoving_ = false;
 
-	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
-	param_ = initParam_;
 	param_.postureStability -= initParam_.postureStability;
+
+	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
+	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
+	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
@@ -174,6 +183,10 @@ void Player::Update() {
 		.rotate = transform_->GetQuaternion(),
 		.translate = transform_->GetTranslation() }
 	);
+
+	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
+	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
+	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,7 +271,7 @@ void Player::IsBoostMode() {
 }
 
 void Player::LegOnCollision([[maybe_unused]] ICollider* other) {
-	if (other->GetCategoryName() == ColliderTags::None::own) {
+	if (other->GetCategoryName() == "building" || other->GetCategoryName() == "ground") {
 		Landing();
 	}
 }

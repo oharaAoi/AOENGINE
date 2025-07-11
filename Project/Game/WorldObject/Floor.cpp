@@ -20,7 +20,7 @@ void Floor::Init() {
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Field");
 	
 	ICollider* collider = floor_->GetCollider();
-	collider->SetCategory(ColliderTags::None::own);
+	collider->SetCategory("ground");
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);

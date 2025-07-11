@@ -255,22 +255,28 @@ void BaseGameObject::Debug_Draw() {
 void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	int index = 0;
-	for (auto& material : materials) {
-		std::string guiId = "material_" + std::to_string(index);
-		if (ImGui::TreeNode(guiId.c_str())) {
-			material.second->Debug_Gui();
-			ImGui::TreePop();
+	if (ImGui::CollapsingHeader("Material")) {
+		for (auto& material : materials) {
+			std::string guiId = "material_" + std::to_string(index);
+			if (ImGui::TreeNode(guiId.c_str())) {
+				material.second->Debug_Gui();
+				ImGui::TreePop();
+			}
 		}
 	}
 
 	if (collider_ != nullptr) {
-		collider_->Debug_Gui();
+		if (ImGui::CollapsingHeader("Collider")) {
+			collider_->Debug_Gui();
+		}
 	}
 
 	Debug_Axis();
 
 	if (animetor_ != nullptr) {
-		animetor_->Debug_Gui();
+		if (ImGui::CollapsingHeader("Animator")) {
+			animetor_->Debug_Gui();
+		}
 	}
 }
 

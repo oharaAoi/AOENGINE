@@ -9,8 +9,6 @@ void MachineGun::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Debug_Gui() {
-	transform_->Debug_Gui();
-
 	BaseWeapon::Debug_Gui();
 }
 
@@ -23,8 +21,7 @@ void MachineGun::Init() {
 	
 	object_->SetObject("gun.obj");
 	SetName("MachineGun");
-
-	transform_->translate_ = { 1.2f, 1.1f, 0.0f };
+	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
 	// ↓ Effect関連

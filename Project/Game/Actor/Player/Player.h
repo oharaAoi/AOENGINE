@@ -151,6 +151,9 @@ public:
 	JetEngine* GetJetEngine() { return jet_.get(); }
 	bool GetIsBoostMode() const { return jet_->GetIsBoostMode(); }
 
+	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
+	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
+
 private:
 
 	// 他クラス ------------------------------------------------
@@ -185,6 +188,9 @@ private:
 	std::unique_ptr<JetEngine> jet_;
 
 	std::unique_ptr<SphereCollider> legCollider_;
+	
+	Matrix4x4 leftHandMat_;
+	Matrix4x4 rightHandMat_;
 
 };
 
