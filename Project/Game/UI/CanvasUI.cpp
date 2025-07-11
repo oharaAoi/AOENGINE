@@ -29,6 +29,9 @@ void CanvasUI::Init() {
 	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();
 	clearNotificationUI_->Init();
 
+	control_ = Engine::CreateSprite("control.png");
+	control_->SetTranslate(Vector2(640.0f, 360.0f));
+
 	AddChild(energyOutput_.get());
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
@@ -68,6 +71,7 @@ void CanvasUI::Update() {
 
 	// out game
 	clearNotificationUI_->Update(pBoss_->GetIsBreak());
+	control_->Update();
 	
 }
 
@@ -88,6 +92,7 @@ void CanvasUI::Draw() const {
 		boostOn_->Draw(pso);
 	} 
 
+	control_->Draw(pso);
 	clearNotificationUI_->Draw();
 
 }

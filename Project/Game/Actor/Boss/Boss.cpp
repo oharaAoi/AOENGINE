@@ -138,7 +138,7 @@ void Boss::Update() {
 		return;
 	}
 
-	//behaviorTree_->Run();
+	behaviorTree_->Run();
 	stateMachine_->Update();
 
 	pulseArmor_->Update();

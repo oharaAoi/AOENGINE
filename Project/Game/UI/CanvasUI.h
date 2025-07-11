@@ -72,5 +72,7 @@ private:
 	// out game
 	std::unique_ptr<ClearNotificationUI> clearNotificationUI_;
 
+	std::unique_ptr<Sprite> control_;
+
 };
 
