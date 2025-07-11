@@ -5,6 +5,7 @@
 // Engine
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 void PlayerActionJump::Debug_Gui() {
 	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
@@ -36,6 +37,17 @@ void PlayerActionJump::Build() {
 	SetName("ActionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
 	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+
+	ParticleManager* manager = ParticleManager::GetInstance();
+	jetBurnLeft_ = manager->CrateParticle("legsJet");
+	jetBurnRight_ = manager->CrateParticle("legsJet");
+
+	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
+	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
+
+	jetBurnLeft_->SetParent(feetMatrixLeft_);
+	jetBurnRight_->SetParent(feetMatrixRight_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,6 +71,7 @@ void PlayerActionJump::OnStart() {
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
+	
 	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
 }
 
@@ -72,6 +85,11 @@ void PlayerActionJump::OnUpdate() {
 	mainAction_();
 
 	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+
+	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
+	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +140,9 @@ void PlayerActionJump::SmallJump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Jump() {
+	jetBurnLeft_->SetIsStop(false);
+	jetBurnRight_->SetIsStop(false);
+
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	acceleration_ *= std::exp(-param_.accelDecayRate * GameTimer::DeltaTime());
 
@@ -137,6 +158,9 @@ void PlayerActionJump::Jump() {
 void PlayerActionJump::Rising() {
 	// ボタンを押していたら上昇する
 	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A)) {
+		jetBurnLeft_->SetIsStop(false);
+		jetBurnRight_->SetIsStop(false);
+
 		acceleration_.y = param_.risingForce;
 		pOwner_->GetJetEngine()->JetIsStart();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
@@ -145,6 +169,9 @@ void PlayerActionJump::Rising() {
 		velocity_ = acceleration_;
 
 	} else {
+		jetBurnLeft_->SetIsStop(true);
+		jetBurnRight_->SetIsStop(true);
+
 		acceleration_.y = 0.0f;
 		pOwner_->GetJetEngine()->JetIsStop();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);

@@ -184,6 +184,7 @@ void Player::Update() {
 		.translate = transform_->GetTranslation() }
 	);
 
+	transform_->Update();
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();

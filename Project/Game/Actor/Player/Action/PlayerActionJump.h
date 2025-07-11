@@ -3,6 +3,7 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 // 前方宣言
 class Player;
@@ -98,6 +99,13 @@ private:	// variable
 	
 	// 小ジャンプに関する変数
 	float smallJumpTime_ = 0.2f;
+
+	// particleに関する変数
+	BaseParticles* jetBurnLeft_;
+	BaseParticles* jetBurnRight_;
+
+	Matrix4x4 feetMatrixLeft_;
+	Matrix4x4 feetMatrixRight_;
 
 };
 

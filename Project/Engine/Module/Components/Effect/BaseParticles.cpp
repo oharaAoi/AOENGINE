@@ -154,10 +154,10 @@ void BaseParticles::Debug_Gui() {
 	emitter_.Attribute_Gui();
 
 	ImGui::Separator();
-	if (ImGui::CollapsingHeader("Material")) {
-		ImGui::Text("Particle Parameters");
-		shareMaterial_->Debug_Gui();
-	}
+
+	ImGui::Text("Particle Parameters");
+	shareMaterial_->Debug_Gui();
+	
 	emitter_.useTexture = shareMaterial_->GetUseTexture();
 
 	if (ImGui::Button("Save")) {
