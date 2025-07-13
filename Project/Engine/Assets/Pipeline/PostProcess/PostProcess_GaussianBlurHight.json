@@ -1,7 +1,7 @@
 {
     "Pipeline": {
         "vs": "./Engine/Assets/HLSL/PostEffect/ProcessedScene.VS.hlsl",
-        "ps": "./Engine/Assets/HLSL/PostEffect/Vignette.PS.hlsl",
+        "ps": "./Engine/Assets/HLSL/PostEffect/GaussianBlurHight.PS.hlsl",
         "blendMode": "None",
         "culling" : true,
         "depth" : false,

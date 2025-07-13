@@ -11,7 +11,7 @@ void ProcessedSceneFrame::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	desc.Height = kWindowHeight_;		// 画面の縦幅
 	desc.MipLevels = 1;			// 
 	desc.DepthOrArraySize = 1;
-	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	desc.SampleDesc.Count = 1;
 	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
 	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
@@ -36,7 +36,7 @@ void ProcessedSceneFrame::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	// ------------------------------------------------------------
 	// SRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;

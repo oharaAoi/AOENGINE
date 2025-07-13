@@ -106,7 +106,7 @@ void PrimitivePipeline::CreatePSO() {
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 書き込むRTVの情報
 	desc.NumRenderTargets = 1;
-	desc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	desc.RTVFormats[0] = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	// 利用するトポロジ(形状)のタイプ
 	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
 	// どのように画面に色を打ち込むかの設定

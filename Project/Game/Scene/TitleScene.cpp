@@ -15,7 +15,9 @@ void TitleScene::Finalize() {
 }
 
 void TitleScene::Init() {
+#ifdef _DEBUG
 	EditorWindows::GetInstance()->Reset();
+#endif
 
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");

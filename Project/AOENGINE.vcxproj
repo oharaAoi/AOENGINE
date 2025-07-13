@@ -120,7 +120,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Bloom.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\BrightnessThreshold.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurHeight.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurWidth.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
@@ -379,7 +384,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Bloom.h" />
+    <ClInclude Include="Engine\Module\PostEffect\BrightnessThreshold.h" />
     <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurHeight.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurWidth.h" />
+    <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
@@ -637,13 +647,37 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\WorldObject\Skydome.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Engine\Assets\HLSL\Dissolve.PS.hlsl">
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Bloom.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Assets\HLSL\GlitchNoise.PS.hlsl">
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\BrightnessThreshold.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Dissolve.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianBlurHight.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianBlurWidth.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GlitchNoise.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -663,7 +697,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Assets\HLSL\RadialBlur.PS.hlsl">
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\RadialBlur.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
@@ -683,7 +717,13 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Engine\Assets\HLSL\Vignette.PS.hlsl">
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\ToonMap.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Vignette.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

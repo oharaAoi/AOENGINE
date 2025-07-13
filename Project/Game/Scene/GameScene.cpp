@@ -16,13 +16,21 @@ void GameScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Init() {
+#ifdef _DEBUG
 	EditorWindows::GetInstance()->Reset();
+#endif
 
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
+
+	PostProcess* postProcess = Engine::GetPostProcess();
+	EditorWindows::AddObjectWindow(postProcess, "Post Process");
+
+	LightGroup* lightGroup = Render::GetLightGroup();
+	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
@@ -101,7 +109,8 @@ void GameScene::Init() {
 	followCamera_->SetReticle(canvas_->GetReticle());
 
 	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
-	light->SetIntensity(0.3f);
+	light->SetIntensity(0.5f);
+
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

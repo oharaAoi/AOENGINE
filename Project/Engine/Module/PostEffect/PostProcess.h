@@ -6,6 +6,8 @@
 #include "Engine/Module/PostEffect/GlitchNoise.h"
 #include "Engine/Module/PostEffect/Vignette.h"
 #include "Engine/Module/PostEffect/Dissolve.h"
+#include "Engine/Module/PostEffect/ToonMap.h"
+#include "Engine/Module/PostEffect/Bloom.h"
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
@@ -16,6 +18,8 @@ enum class PostEffectType {
 	GLITCHNOISE,
 	VIGNETTE,
 	DISSOLVE,
+	TOONMAP,
+	BLOOM
 };
 
 /// <summary>
@@ -75,6 +79,8 @@ private:
 	std::shared_ptr<GlitchNoise> glitchNoise_;
 	std::shared_ptr<Vignette> vignette_;
 	std::shared_ptr<Dissolve> dissolve_;
+	std::shared_ptr<ToonMap> toonMap_;
+	std::shared_ptr<Bloom> bloom_;
 
 	std::list<std::shared_ptr<IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;

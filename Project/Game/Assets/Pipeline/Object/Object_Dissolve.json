@@ -1,10 +1,10 @@
 {
     "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Object3d.VS.hlsl",
-        "ps": "./Engine/Assets/HLSL/Dissolve.PS.hlsl",
+        "ps": "./Engine/Assets/HLSL/PostEffect/Dissolve.PS.hlsl",
         "blendMode": "Add",
         "culling" : false,
         "depth" : true,
-        "colorCorrection" : true
+        "rtvFormat" : "16_FLOAT"
     }
 }

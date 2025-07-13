@@ -12,13 +12,14 @@ void PostProcess::Finalize() {
 	glitchNoise_.reset();
 	vignette_.reset();
 	dissolve_.reset();
+	toonMap_.reset();
+	bloom_.reset();
 	effectList_.clear();
 }
 
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
-
 	pingPongBuff_->Init(device, descriptorHeap);
 
 	grayscale_ = std::make_shared<Grayscale>();
@@ -36,8 +37,17 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	dissolve_ = std::make_shared<Dissolve>();
 	dissolve_->Init();
 
+	toonMap_ = std::make_unique<ToonMap>();
+	toonMap_->Init();
+
+	bloom_ = std::make_unique<Bloom>();
+	bloom_->Init();
+	bloom_->SetPongResource(pingPongBuff_.get());
+
 	//AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::GLITCHNOISE);
+	AddEffect(PostEffectType::BLOOM);
+	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);
 
 	EditorWindows::AddObjectWindow(this, "Post Process");
@@ -54,7 +64,6 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 	uint32_t cout = 0;
 	for (auto& effect : effectList_) {
 		effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
-
 
 		pingPongBuff_->Swap(commandList);
 		pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
@@ -110,6 +119,12 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::DISSOLVE:
 			effectList_.push_back(dissolve_);
 			break;
+		case PostEffectType::TOONMAP:
+			effectList_.push_back(toonMap_);
+			break;
+		case PostEffectType::BLOOM:
+			effectList_.push_back(bloom_);
+			break;
 		default:
 			break;
 		}
@@ -142,6 +157,12 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	case PostEffectType::DISSOLVE:
 		return dissolve_;
 		break;
+	case PostEffectType::TOONMAP:
+		return toonMap_;
+		break;
+	case PostEffectType::BLOOM:
+		return bloom_;
+		break;
 	default:
 		return nullptr;
 		break;
@@ -153,4 +174,5 @@ void PostProcess::Debug_Gui() {
 	glitchNoise_->Debug_Gui();
 	vignette_->Debug_Gui();
 	dissolve_->Debug_Gui();
+	bloom_->Debug_Gui();
 }

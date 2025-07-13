@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <FxCompile Include="Engine\Assets\HLSL\GlitchNoise.PS.hlsl" />
-    <FxCompile Include="Engine\Assets\HLSL\RadialBlur.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GlitchNoise.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\RadialBlur.PS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\CS\Blend.CS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\CS\DepthOfField.CS.hlsl" />
     <FxCompile Include="Engine\Resources\HLSL\Grayscale.PS.hlsl" />
@@ -36,8 +36,13 @@
     <FxCompile Include="Engine\Assets\HLSL\Skybox.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Object3dEnviroment.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\ObjectTextureBlend.PS.hlsl" />
-    <FxCompile Include="Engine\Assets\HLSL\Vignette.PS.hlsl" />
-    <FxCompile Include="Engine\Assets\HLSL\Dissolve.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Vignette.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Dissolve.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\ToonMap.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\BrightnessThreshold.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianBlurHight.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianBlurWidth.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Bloom.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -297,6 +302,11 @@
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Sword.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Bloom.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\BrightnessThreshold.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurWidth.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurHeight.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -566,6 +576,11 @@
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h" />
     <ClInclude Include="Game\Actor\Weapon\Sword.h" />
+    <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Bloom.h" />
+    <ClInclude Include="Engine\Module\PostEffect\BrightnessThreshold.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurWidth.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurHeight.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

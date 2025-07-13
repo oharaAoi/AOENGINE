@@ -5,6 +5,6 @@
         "blendMode": "Multiply",
         "culling" : true,
         "depth" : true,
-        "colorCorrection" : true
+        "rtvFormat" : "16_FLOAT"
     }
 }

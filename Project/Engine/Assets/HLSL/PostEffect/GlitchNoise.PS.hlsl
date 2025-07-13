@@ -1,5 +1,5 @@
 #include "ProcessedScene.hlsli"
-#include "Random.hlsli"
+#include "../Random.hlsli"
 
 struct GlitchNoiseSetting {
 	float2 texelSize;
