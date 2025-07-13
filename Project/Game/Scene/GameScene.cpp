@@ -32,6 +32,9 @@ void GameScene::Init() {
 	LightGroup* lightGroup = Render::GetLightGroup();
 	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
+	// -------------------------------------------------
+	// ↓ Sceneの初期化
+	// -------------------------------------------------
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
