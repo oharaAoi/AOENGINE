@@ -2,7 +2,6 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/UI/Boss/BossUIs.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -13,6 +13,7 @@ BehaviorStatus BossActionDeployArmor::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDeployArmor::Debug_Gui() {
+	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("deployTime", &param_.deployTime, 0.1f);
 
 	if (ImGui::Button("Save")) {

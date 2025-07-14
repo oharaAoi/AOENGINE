@@ -1,7 +1,6 @@
 #include "BossActionLeave.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 
 BehaviorStatus BossActionLeave::Execute() {
 	return Action();
@@ -12,6 +11,7 @@ BehaviorStatus BossActionLeave::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionLeave::Debug_Gui() {
+	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
 	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
 	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);

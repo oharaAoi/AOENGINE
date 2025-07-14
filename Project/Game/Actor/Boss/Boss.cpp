@@ -11,7 +11,6 @@
 #include "Game/Actor/Boss/Action/BossActionWait.h"
 #include "Game/Actor/Boss/Action/Move/BossActionFloat.h"
 
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
@@ -84,7 +83,7 @@ void Boss::Init() {
 
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
-	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "wait"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "Wait"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionFloat>(this, "Float"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionApproach>(this, "Approach"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionKeepDistance>(this, "KeepDistance"));

@@ -2,12 +2,14 @@
 #include "imgui.h"
 #include "ImGuiFileDialog.h"
 
-bool InputTextWithString(const char* label, std::string& str, size_t maxLength) {
+bool InputTextWithString(const char* filedName, const char* label, std::string& str, size_t maxLength) {
 	// std::vector<char> をバッファとして使用
 	std::vector<char> buffer(str.begin(), str.end());
 	buffer.resize(maxLength); // 必要なサイズにリサイズ
 
 	// ImGui入力フィールド
+	ImGui::Text(filedName);  // 左側に表示
+	ImGui::SameLine();        // 同じ行に描画
 	bool changed = ImGui::InputText(label, buffer.data(), buffer.size());
 
 	if (changed) {

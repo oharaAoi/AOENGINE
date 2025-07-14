@@ -1,4 +1,5 @@
 #include "SelectorNode.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 SelectorNode::SelectorNode() {
 	color_ = ImColor(144, 238, 144);
@@ -31,4 +32,9 @@ BehaviorStatus SelectorNode::Execute() {
 	// 全て成功
 	currentIndex_ = 0;
 	return BehaviorStatus::Inactive;
+}
+
+void SelectorNode::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+	InputTextWithString("ReName:","##selector", node_.name);
 }

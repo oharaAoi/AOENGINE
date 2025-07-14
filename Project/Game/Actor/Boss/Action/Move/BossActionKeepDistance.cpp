@@ -1,7 +1,6 @@
 #include "BossActionKeepDistance.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -17,6 +16,7 @@ BehaviorStatus BossActionKeepDistance::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionKeepDistance::Debug_Gui() {
+	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
 	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
 	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);

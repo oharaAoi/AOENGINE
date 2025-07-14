@@ -2,13 +2,13 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 
 BehaviorStatus BossActionApproach::Execute() {
 	return Action();
 }
 
 void BossActionApproach::Debug_Gui() {
+	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
 	ImGui::DragFloat("moveTime", &initParam_.moveTime, .1f);
 	ImGui::DragFloat("deceleration", &initParam_.deceleration, .1f);

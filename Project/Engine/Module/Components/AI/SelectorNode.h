@@ -14,5 +14,5 @@ public:
 
 	BehaviorStatus Execute() override;
 
-	void Debug_Gui() override {};
+	void Debug_Gui() override;
 };

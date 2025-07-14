@@ -4,6 +4,7 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Module/Components/AI/SequenceNode.h"
 #include "Engine/Module/Components/AI/SelectorNode.h"
+#include "Engine/Module/Components/AI/WeightSelectorNode.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include <fstream>
@@ -73,10 +74,52 @@ void BehaviorTree::Run() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Connect() {
-	for (auto& link : links_) {
-		ax::NodeEditor::Link(link.id, link.from, link.to);
+	// 現在実行中のNodeを探索する
+	IBehaviorNode* runningNode = nullptr;
+	for (auto& node : nodeList_) {
+		if (node->GetState() == BehaviorStatus::Running) {
+			runningNode = node.get();
+		}
 	}
 
+	// 実行中のnodeまでのidを探索する
+	std::vector<Link> executelinks;
+	if (runningNode != nullptr) {
+		ax::NodeEditor::NodeId id = runningNode->GetId();
+		while (id != root_->GetId()) {
+			ax::NodeEditor::PinId input = runningNode->GetInput().id;
+			IBehaviorNode* parent = nullptr;
+			// inputに向かうlinkを探して親のNodeを割り出す
+			for (auto& link : links_) {
+				if (link.to == input) {
+					parent = FindNodeFromPin(link.from);
+				}
+			}
+
+			// 親が存在していたらNodeを更新する
+			if (parent != nullptr) {
+				executelinks.push_back({ 0, parent->GetOutput().id, input });
+				id = parent->GetId();
+				runningNode = parent;
+			}
+		}
+	}
+
+	// リンクを結ぶ
+	for (auto& link : links_) {
+		ax::NodeEditor::Link(link.id, link.from, link.to);
+
+		// 実行中のリンクと一致していたら
+		for (auto& exeLink : executelinks) {
+			if (exeLink.from == link.from && exeLink.to == link.to) {
+				ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_Flow, ImColor(255, 0, 0));
+				ax::NodeEditor::Flow(link.id);
+				ax::NodeEditor::PopStyleColor();
+			}
+		}
+	}
+
+	// 新たにlinkを結ぶ処理
 	if (ax::NodeEditor::BeginCreate()) {
 		ax::NodeEditor::PinId input, output;
 		if (ax::NodeEditor::QueryNewLink(&input, &output)) {
@@ -249,12 +292,12 @@ void BehaviorTree::Edit() {
 void BehaviorTree::CreateNodeWindow() {
 	ImGui::BulletText("Nodeを作成");
 	static std::string name = "node ";
-	if (!InputTextWithString("nodeの名前", name)) {
+	if (!InputTextWithString("nodeの名前","##createNode", name)) {
 		assert("名前が入力できません");
 	}
 
 	static int nodeType = 1;
-	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0Task");
+	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task");
 
 	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 	if (nodeType == NodeType::Task) {
@@ -296,6 +339,9 @@ void BehaviorTree::CreateNode(int nodeType) {
 	} else if (nodeType == NodeType::Selector) {
 		nodeList_.emplace_back(std::make_shared<SelectorNode>());
 
+	} else if (nodeType == NodeType::WeightSelector) {
+		nodeList_.emplace_back(std::make_shared<WeightSelectorNode>());
+
 	} else if (nodeType == NodeType::Task) {
 		auto& node = nodeList_.emplace_back(canTaskMap_[createTaskName_]->Clone());
 		node->Init();
@@ -332,6 +378,9 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::Root: node = std::make_shared<BehaviorRootNode>(); break;
 	case NodeType::Sequencer: node = std::make_shared<SequenceNode>(); break;
 	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
+	case NodeType::WeightSelector: 
+		node = std::make_shared<WeightSelectorNode>();
+		break;
 	case NodeType::Task:
 		node = canTaskMap_[name]->Clone(); 
 		node->Init();

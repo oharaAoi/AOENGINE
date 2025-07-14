@@ -1,6 +1,5 @@
 #include "BossActionStrafe.h"
 #include "Engine/Lib/Json/JsonItems.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
@@ -13,6 +12,7 @@ BehaviorStatus BossActionStrafe::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionStrafe::Debug_Gui() {
+	ITaskNode::Debug_Gui();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

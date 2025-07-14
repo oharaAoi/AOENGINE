@@ -43,6 +43,7 @@ enum NodeType {
 	Root,
 	Sequencer,
 	Selector,
+	WeightSelector,
 	Task,
 };
 
@@ -89,6 +90,8 @@ public:
 	const std::string& GetNodeName() { return node_.name; }
 
 	void SetNodeType(NodeType _type) { type_ = _type; }
+
+	BehaviorStatus GetState() const { return state_; }
 
 	bool GetIsDelete() const { return isDelete_; }
 

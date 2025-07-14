@@ -14,17 +14,16 @@ BehaviorStatus BossActionShotgun::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotgun::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-		ImGui::DragFloat("stiffenTime", &param_.bulletSpread, .1f);
-		ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
+	ITaskNode::Debug_Gui();
+	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
+	ImGui::DragFloat("stiffenTime", &param_.bulletSpread, .1f);
+	ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
 
-		if (ImGui::Button("Save")) {
-			JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-		}
-		if (ImGui::Button("Apply")) {
-			param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-		}
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 	}
 }
 

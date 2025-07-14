@@ -6,7 +6,7 @@ BehaviorStatus BossActionFloat::Execute() {
 }
 
 void BossActionFloat::Debug_Gui() {
-	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+	ITaskNode::Debug_Gui();
 }
 
 bool BossActionFloat::IsFinish() {

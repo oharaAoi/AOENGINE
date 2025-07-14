@@ -22,7 +22,7 @@ public:
 	virtual bool IsFinish() = 0;
 	virtual bool CanExecute() = 0;
 
-	virtual void Debug_Gui() override {};
+	virtual void Debug_Gui() override;
 
 	virtual BehaviorStatus Action();
 
@@ -44,6 +44,11 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
 	isLeafNode_ = true;
+}
+
+template<typename OwnerType>
+inline void ITaskNode<OwnerType>::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 }
 
 template<typename OwnerType>

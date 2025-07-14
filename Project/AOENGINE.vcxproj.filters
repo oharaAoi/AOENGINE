@@ -241,7 +241,6 @@
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
@@ -307,6 +306,8 @@
     <ClCompile Include="Engine\Module\PostEffect\BrightnessThreshold.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianBlurWidth.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianBlurHeight.cpp" />
+    <ClCompile Include="Engine\Render\TrailRenderer.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -514,7 +515,6 @@
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
@@ -581,6 +581,8 @@
     <ClInclude Include="Engine\Module\PostEffect\BrightnessThreshold.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianBlurWidth.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianBlurHeight.h" />
+    <ClInclude Include="Engine\Render\TrailRenderer.h" />
+    <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

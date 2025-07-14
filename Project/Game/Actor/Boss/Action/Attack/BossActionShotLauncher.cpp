@@ -1,7 +1,6 @@
 #include "BossActionShotLauncher.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/Action/BossActionIdle.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 #include "Game/UI/Boss/BossUIs.h"
 
@@ -14,16 +13,15 @@ BehaviorStatus BossActionShotLauncher::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-		ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
+	ITaskNode::Debug_Gui();
+	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
+	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
 
-		if (ImGui::Button("Save")) {
-			JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-		}
-		if (ImGui::Button("Apply")) {
-			param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-		}
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 	}
 }
 

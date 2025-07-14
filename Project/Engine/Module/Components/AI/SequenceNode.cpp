@@ -1,4 +1,5 @@
 #include "SequenceNode.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 SequenceNode::SequenceNode() {
 	color_ = ImColor(144, 238, 144);
@@ -26,4 +27,9 @@ BehaviorStatus SequenceNode::Execute() {
 	// 全て成功
 	currentIndex_ = 0;
 	return BehaviorStatus::Inactive;
+}
+
+void SequenceNode::Debug_Gui() {
+	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+	InputTextWithString("ReName:", "##sequence", node_.name);
 }

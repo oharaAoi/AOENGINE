@@ -117,6 +117,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\Components\AI\ITaskNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
@@ -128,6 +129,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
+    <ClCompile Include="Engine\Render\TrailRenderer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
     <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
@@ -140,7 +142,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\BossActionIdle.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
@@ -381,6 +382,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Components\AI\ITaskNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
@@ -392,6 +394,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
+    <ClInclude Include="Engine\Render\TrailRenderer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
@@ -405,7 +408,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\BossActionIdle.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
