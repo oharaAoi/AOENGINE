@@ -26,6 +26,7 @@ void BehaviorTree::Init() {
 	style.LinkStrength = 0.0f;
 
 	isOpenEditor_ = false;
+	isExecute_ = true;
 
 	windowFlags_ = ImGuiWindowFlags_None;
 }
@@ -37,6 +38,7 @@ void BehaviorTree::Init() {
 void BehaviorTree::Run() {
 	if (!context_) return;
 	if (root_ == nullptr) { return; }
+	if (!isExecute_) { return; }
 
 	// すべてのnodeの更新を走らせる
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
@@ -180,6 +182,7 @@ void BehaviorTree::DrawNode() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Edit() {
+	ImGui::Checkbox("isExecute", &isExecute_);
 	if (isOpenEditor_) {
 		if (ImGui::Button("Close")) {
 			isOpenEditor_ = false;

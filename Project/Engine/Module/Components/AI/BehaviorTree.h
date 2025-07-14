@@ -72,6 +72,7 @@ private:
 
 	// フラグ
 	bool isOpenEditor_ = false;
+	bool isExecute_ = false;
 	
 	std::string createTaskName_;
 
