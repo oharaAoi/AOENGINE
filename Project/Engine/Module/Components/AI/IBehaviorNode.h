@@ -65,16 +65,28 @@ public:
 
 	void DrawNode();
 
+	void ResetIndex();
+
+public:
+
+	// 実行関数
 	virtual BehaviorStatus Execute() = 0;
 
+	// 評価値の算出を行う
+	virtual float EvaluateWeight() = 0;
+
+	// 子の追加
 	void AddChild(IBehaviorNode* child);
-
+	// 子の削除
 	void DeleteChild(IBehaviorNode* child);
-
+	
+	// json形式への変換
 	json ToJson();
 
+	// 編集関数
 	virtual void Debug_Gui() override {};
 
+	// 現在選択されているNodeかどうか
 	bool IsSelectNode();
 
 public:
@@ -124,6 +136,8 @@ protected:
 
 	Vector2 pos_;		// Nodeの座標
 	bool setNodePos_;	// Node座標の設定を行ったかどうか
+
+	float coolTime_;	// taskのCoolTime
 
 	// -------------------------------------------------
 	// ↓ Debug用

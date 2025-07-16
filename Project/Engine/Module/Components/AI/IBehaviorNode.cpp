@@ -1,6 +1,7 @@
 #include "IBehaviorNode.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Input/Input.h"
+#include "Engine/Lib/GameTimer.h"
 
 uint32_t IBehaviorNode::nextSerialNumber_ = 1;
 
@@ -34,6 +35,10 @@ void IBehaviorNode::Update() {
 				isDelete_ = true;
 			}
 		}
+	}
+
+	if (coolTime_ > 0.0f) {
+		coolTime_ -= GameTimer::DeltaTime();
 	}
 
 	if (state_ == BehaviorStatus::Running) {
@@ -93,6 +98,10 @@ void IBehaviorNode::DrawNode() {
 				  return posA.x < posB.x; // Xが小さい方が左
 			  }
 	);
+}
+
+void IBehaviorNode::ResetIndex() {
+	currentIndex_ = 0;
 }
 
 void IBehaviorNode::AddChild(IBehaviorNode* child) {

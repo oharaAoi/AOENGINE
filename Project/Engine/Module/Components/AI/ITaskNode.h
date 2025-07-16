@@ -2,6 +2,7 @@
 #include <memory>
 #include <functional>
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Lib/GameTimer.h"
 
 template<typename OwnerType>
 class ITaskNode :
@@ -14,6 +15,8 @@ public:
 	virtual std::shared_ptr<IBehaviorNode> Clone() const override = 0;
 
 	virtual BehaviorStatus Execute() override = 0;
+
+	float EvaluateWeight() override = 0;
 
 	virtual void Init() = 0;
 	virtual void Update() = 0;
@@ -35,7 +38,6 @@ protected:
 	std::function<void()> action_;
 
 	float taskTimer_;
-
 };
 
 template<typename OwnerType>
@@ -49,10 +51,15 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+
 }
 
 template<typename OwnerType>
 inline BehaviorStatus ITaskNode<OwnerType>::Action() {
+	if (coolTime_ > 0.0f) {
+		return BehaviorStatus::Failure;
+	}
+
 	// 非アクティブ状態なら初期化を行う
 	if (state_ == BehaviorStatus::Inactive) {
 		if (!CanExecute()) {

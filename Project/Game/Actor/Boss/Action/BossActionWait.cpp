@@ -5,6 +5,10 @@ BehaviorStatus BossActionWait::Execute() {
 	return Action();
 }
 
+float BossActionWait::EvaluateWeight() {
+	return 0.0f;
+}
+
 void BossActionWait::Debug_Gui() {
 	ITaskNode::Debug_Gui();
 }

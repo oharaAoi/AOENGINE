@@ -7,6 +7,10 @@ BehaviorStatus BossActionApproach::Execute() {
 	return Action();
 }
 
+float BossActionApproach::EvaluateWeight() {
+	return 0.0f;
+}
+
 void BossActionApproach::Debug_Gui() {
 	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);

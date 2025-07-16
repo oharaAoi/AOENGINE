@@ -1,21 +1,20 @@
-#include "BossActionShotMissile.h"
+#include "BossActionVerticalMissile.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
-#include "Game/UI/Boss/BossUIs.h"
 
-BehaviorStatus BossActionShotMissile::Execute() {
+BehaviorStatus BossActionVerticalMissile::Execute() {
 	return Action();
 }
 
-float BossActionShotMissile::EvaluateWeight() {
+float BossActionVerticalMissile::EvaluateWeight() {
 	return 0.0f;
 }
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Debug_Gui() {
+void BossActionVerticalMissile::Debug_Gui() {
 	ITaskNode::Debug_Gui();
 }
 
@@ -23,18 +22,18 @@ void BossActionShotMissile::Debug_Gui() {
 // ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool BossActionShotMissile::IsFinish() {
-	if (isFinishShot_) {
+bool BossActionVerticalMissile::IsFinish() {
+	if (param_.kFireCount <= fireCount_) {
 		return true;
 	}
 	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 実行確認
-///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行可能確認
+//////////////////////////////////////////////////////////////////////////////////////////////
 
-bool BossActionShotMissile::CanExecute() {
+bool BossActionVerticalMissile::CanExecute() {
 	return true;
 }
 
@@ -42,55 +41,54 @@ bool BossActionShotMissile::CanExecute() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Init() {
+void BossActionVerticalMissile::Init() {
+	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+
 	taskTimer_ = 0.0f;
-	bulletSpeed_ = 60.f;
-	isFinishShot_ = false;
-
-	fireCount_ = kFireCount_;
-
-	shotInterval_ = 0.2f;
-
-	// 警告を出す
-	pTarget_->GetUIs()->PopAlert();
+	fireCount_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::Update() {
+void BossActionVerticalMissile::Update() {
 	taskTimer_ += GameTimer::DeltaTime();
-
-	if (taskTimer_ > shotInterval_) {
+	if (taskTimer_ > 0.2f) {
 		Shot();
 		taskTimer_ = 0.0f;
-	}
+	} 
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionShotMissile::End() {
+void BossActionVerticalMissile::End() {
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 弾を打つ処理をする
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossActionShotMissile::Shot() {
-	fireCount_--;
-
-	Vector3 pos = pTarget_->GetTransform()->translate_;
+void BossActionVerticalMissile::Shot() {
 	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
+	Vector3 right = pTarget_->GetTransform()->rotation_.MakeRight();
 	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
 
-	Vector3 velocity = forward.Normalize() * bulletSpeed_;
-	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);
-	missile->SetTakeDamage(20.0f);
-
-	if (fireCount_ == 0) {
-		isFinishShot_ = true;
+	const float dx[2] = {2, -2};
+	
+	angle_ = 90.0f - (static_cast<float>(fireCount_) * 10.0f);
+	angle_ *= -kToRadian;
+	// クォータニオンで回転を生成（up軸周りに角度回転）
+	Quaternion rot = Quaternion::AngleAxis(angle_, right);
+	
+	// 正面ベクトルを回転させて発射方向に
+	Vector3 dir = rot.Rotate(forward);
+	
+	for (uint32_t i = 0; i < 2; i++) {
+		Vector3 pos = pTarget_->GetTransform()->translate_ + (param_.fireRadius * dir);
+		pos += right * dx[i];
+		Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
+		BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.05f, true);
+		missile->SetTakeDamage(30.0f);
 	}
+
+	fireCount_++;
 }

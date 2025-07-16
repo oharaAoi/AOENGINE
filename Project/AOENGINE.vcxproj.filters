@@ -308,6 +308,7 @@
     <ClCompile Include="Engine\Module\PostEffect\GaussianBlurHeight.cpp" />
     <ClCompile Include="Engine\Render\TrailRenderer.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -583,6 +584,7 @@
     <ClInclude Include="Engine\Module\PostEffect\GaussianBlurHeight.h" />
     <ClInclude Include="Engine\Render\TrailRenderer.h" />
     <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

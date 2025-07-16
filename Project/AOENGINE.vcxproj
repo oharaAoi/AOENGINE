@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp" />
@@ -374,6 +375,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h" />

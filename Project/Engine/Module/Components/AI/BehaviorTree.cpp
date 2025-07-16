@@ -101,6 +101,8 @@ void BehaviorTree::Connect() {
 				executelinks.push_back({ 0, parent->GetOutput().id, input });
 				id = parent->GetId();
 				runningNode = parent;
+			} else {
+				break;
 			}
 		}
 	}
@@ -174,14 +176,15 @@ void BehaviorTree::UnConnect() {
 					ax::NodeEditor::PinId from = it->from;
 					ax::NodeEditor::PinId to = it->to;
 
-					IBehaviorNode* parent = FindNodeFromPin(to);
-					IBehaviorNode* child = FindNodeFromPin(from);
+					IBehaviorNode* parent = FindNodeFromPin(from);
+					IBehaviorNode* child = FindNodeFromPin(to);
 
 					if (parent && child) {
 						parent->DeleteChild(child);
 					}
 
 					links_.erase(it);
+					root_->ResetIndex();
 				}
 			}
 		}

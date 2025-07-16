@@ -1,43 +1,42 @@
 #pragma once
-#include <memory>
-#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 class Boss;
 
-class BossActionShotgun :
+class BossActionVerticalMissile :
 	public ITaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {
 		float bulletSpeed = 80.0f;
-		float bulletSpread = 20.0f;
-		int kFireCount = 16;
+		float fireRadius = 4.0f;
+		int kFireCount = 10;
 
-		Parameter() { SetName("BossActionShotgun"); }
-		
+		Parameter() { SetName("BossActionVerticalMissile"); }
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("bulletSpeed", bulletSpeed)
-				.Add("bulletSpread", bulletSpread)
+				.Add("fireRadius", fireRadius)
 				.Add("kFireCount", kFireCount)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
-			fromJson(jsonData, "bulletSpread", bulletSpread);
+			fromJson(jsonData, "fireRadius", fireRadius);
 			fromJson(jsonData, "kFireCount", kFireCount);
 		}
 	};
 
 public:
 
-	BossActionShotgun() = default;
-	~BossActionShotgun() override = default;
+	BossActionVerticalMissile() = default;
+	~BossActionVerticalMissile() override = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionShotgun>(*this);
+		return std::make_shared<BossActionVerticalMissile>(*this);
 	}
 
 	BehaviorStatus Execute() override;
@@ -60,7 +59,9 @@ private:
 private:
 
 	Parameter param_;
-	bool isFinishShot_;
+	int fireCount_;
+
+	float angle_;
 
 };
 
