@@ -101,7 +101,7 @@ void PlayerActionQuickBoost::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionQuickBoost::IsInput() {
-	if (pInput_->GetIsPadTrigger(XInputButtons::BUTTON_X)) {
+	if (pInput_->IsTriggerButton(XInputButtons::BUTTON_X)) {
 		return true;
 	}
 	return false;

@@ -125,7 +125,7 @@ void PlayerActionJump::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionJump::IsInput() {
-	if (Input::GetInstance()->GetIsPadTrigger(XInputButtons::BUTTON_A)) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_A)) {
 		return true;
 	}
 	return false;
@@ -166,7 +166,7 @@ void PlayerActionJump::Jump() {
 
 void PlayerActionJump::Rising() {
 	// ボタンを押していたら上昇する
-	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A)) {
+	if (Input::GetInstance()->IsPressButton(XInputButtons::BUTTON_A)) {
 		jetBurnLeft_->SetIsStop(false);
 		jetBurnRight_->SetIsStop(false);
 

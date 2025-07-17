@@ -33,6 +33,11 @@ enum XInputButtons{
 	BUTTON_Y = 0x8000
 };
 
+enum InputDevice {
+	Keybord,
+	Gamepad
+};
+
 // デッドゾーン
 const float DEADZONE = 0.1f;
 
@@ -132,9 +137,9 @@ public: // 入力
 	// ↓　ゲームパッド
 	// ---------------------------------------------------------------
 	// ゲームパッドのボタンを取得
-	static bool GetIsPadTrigger(const XInputButtons& bottons);
+	static bool IsTriggerButton(const XInputButtons& bottons);
 	// ゲームパッドのボタンを取得(長押し)
-	static bool GetPressPadTrigger(const XInputButtons& bottons);
+	static bool IsPressButton(const XInputButtons& bottons);
 	// 左ジョイスティックの値の取得
 	static Vector2 GetLeftJoyStick(float deadZone = 0.0f);
 	// 右ジョイスティックの値の取得
@@ -169,4 +174,5 @@ private:
 	static XINPUT_STATE gamepadState_;
 	static XINPUT_STATE preGamepadState_;
 
+	static InputDevice inputDevice_;
 };

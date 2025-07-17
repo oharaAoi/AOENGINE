@@ -58,7 +58,7 @@ void PlayerActionShotRight::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionShotRight::IsInput() {
-	if (pInput_->GetIsPadTrigger(XInputButtons::R_SHOULDER)) {
+	if (pInput_->IsTriggerButton(XInputButtons::R_SHOULDER)) {
 		return true;
 	}
 	return false;
@@ -78,7 +78,7 @@ void PlayerActionShotRight::Shot() {
 	}
 
 	// 長押しで反応するようにする
-	if (pInput_->GetPressPadTrigger(XInputButtons::R_SHOULDER)) {
+	if (pInput_->IsPressButton(XInputButtons::R_SHOULDER)) {
 		// shotを放つ
 		if (pOwner_->GetIsLockOn()) {
 			Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();

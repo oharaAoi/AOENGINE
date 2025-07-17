@@ -11,6 +11,8 @@ POINT Input::mousePoint_;
 XINPUT_STATE Input::gamepadState_;
 XINPUT_STATE Input::preGamepadState_;
 
+InputDevice Input::inputDevice_;
+
 Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
@@ -128,6 +130,7 @@ void Input::GamePadInitialize() {
 // ---------------------------------------------------------------
 bool Input::IsTriggerKey(uint8_t keyNum) {
 	if (!preKey_[keyNum] && key_[keyNum]) {
+		inputDevice_ = Keybord;
 		return true;
 	}
 
@@ -139,6 +142,7 @@ bool Input::IsTriggerKey(uint8_t keyNum) {
 // ---------------------------------------------------------------
 bool Input::IsReleaseKey(uint8_t keyNum) {
 	if (preKey_[keyNum] && !key_[keyNum]) {
+		inputDevice_ = Keybord;
 		return true;
 	}
 
@@ -150,6 +154,7 @@ bool Input::IsReleaseKey(uint8_t keyNum) {
 // ---------------------------------------------------------------
 bool Input::IsPressKey(uint8_t keyNum) {
 	if (key_[keyNum]) {
+		inputDevice_ = Keybord;
    		return true;
 	}
 
@@ -161,6 +166,7 @@ bool Input::IsPressKey(uint8_t keyNum) {
 // ---------------------------------------------------------------
 bool Input::IsUnPressKey(uint8_t keyNum) {
 	if (!key_[keyNum]) {
+		inputDevice_ = Keybord;
 		return true;
 	}
 
@@ -222,22 +228,24 @@ int Input::GetWheel() {
 // ---------------------------------------------------------------
 // ↓　ゲームパッドのボタンの取得
 // ---------------------------------------------------------------
-bool Input::GetIsPadTrigger(const XInputButtons& bottons) {
+bool Input::IsTriggerButton(const XInputButtons& bottons) {
 	if (bottons == XInputButtons::LT_SHOULDER || bottons == XInputButtons::RT_SHOULDER) {
 		return GetInstance()->IsThumbLR();
 	}
 
 	if ((gamepadState_.Gamepad.wButtons & bottons) &&
 		!(preGamepadState_.Gamepad.wButtons & bottons)) {
+		inputDevice_ = Gamepad;
 		return true;
 	}
 
 	return false;
 }
 
-bool Input::GetPressPadTrigger(const XInputButtons& bottons) {
+bool Input::IsPressButton(const XInputButtons& bottons) {
 	if ((gamepadState_.Gamepad.wButtons & bottons) &&
 		(preGamepadState_.Gamepad.wButtons & bottons)) {
+		inputDevice_ = Gamepad;
 		return true;
 	}
 	return false;
@@ -251,6 +259,10 @@ Vector2 Input::GetLeftJoyStick(float deadZone) {
 	if (std::abs(result.x) < deadZone) { result.x = 0.0f; }
 	if (std::abs(result.y) < deadZone) { result.y = 0.0f; }
 
+	if (result.Length() > deadZone) {
+		inputDevice_ = Gamepad;
+	}
+
 	return result;
 }
 
@@ -261,6 +273,10 @@ Vector2 Input::GetRightJoyStick(float deadZone) {
 
 	if (std::abs(result.x) < deadZone) { result.x = 0.0f; }
 	if (std::abs(result.y) < deadZone) { result.y = 0.0f; }
+
+	if (result.Length() > deadZone) {
+		inputDevice_ = Gamepad;
+	}
 
 	return result;
 }

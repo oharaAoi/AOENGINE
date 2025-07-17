@@ -74,7 +74,7 @@ void TitleScene::Update() {
 	// ↓ 入力処理
 	// -------------------------------------------------
 
-	if (Input::GetInstance()->GetPressPadTrigger(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
+	if (Input::GetInstance()->IsPressButton(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
 		fadePanel_->SetBlackOut();
 		putButton_ = true;
 	} 
