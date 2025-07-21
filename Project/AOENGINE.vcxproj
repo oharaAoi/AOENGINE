@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
@@ -375,6 +376,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
     <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
@@ -706,6 +708,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\Smoothing.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>

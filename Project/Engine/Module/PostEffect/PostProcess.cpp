@@ -14,6 +14,7 @@ void PostProcess::Finalize() {
 	dissolve_.reset();
 	toonMap_.reset();
 	bloom_.reset();
+	smoothing_.reset();
 	effectList_.clear();
 }
 
@@ -37,16 +38,20 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	dissolve_ = std::make_shared<Dissolve>();
 	dissolve_->Init();
 
-	toonMap_ = std::make_unique<ToonMap>();
+	toonMap_ = std::make_shared<ToonMap>();
 	toonMap_->Init();
 
-	bloom_ = std::make_unique<Bloom>();
+	bloom_ = std::make_shared<Bloom>();
 	bloom_->Init();
 	bloom_->SetPongResource(pingPongBuff_.get());
+
+	smoothing_ = std::make_unique<Smoothing>();
+	smoothing_->Init();
 
 	//AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::BLOOM);
+	AddEffect(PostEffectType::SMOOTHING);
 	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);
 
@@ -125,6 +130,9 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::BLOOM:
 			effectList_.push_back(bloom_);
 			break;
+		case PostEffectType::SMOOTHING:
+			effectList_.push_back(smoothing_);
+			break;
 		default:
 			break;
 		}
@@ -163,6 +171,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	case PostEffectType::BLOOM:
 		return bloom_;
 		break;
+	case PostEffectType::SMOOTHING:
+		return smoothing_;
+		break;
 	default:
 		return nullptr;
 		break;
@@ -175,4 +186,5 @@ void PostProcess::Debug_Gui() {
 	vignette_->Debug_Gui();
 	dissolve_->Debug_Gui();
 	bloom_->Debug_Gui();
+	smoothing_->Debug_Gui();
 }
