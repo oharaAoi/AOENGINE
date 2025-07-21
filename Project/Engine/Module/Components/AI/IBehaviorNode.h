@@ -79,6 +79,8 @@ public:
 	void AddChild(IBehaviorNode* child);
 	// 子の削除
 	void DeleteChild(IBehaviorNode* child);
+
+	void ClearChild();
 	
 	// json形式への変換
 	json ToJson();

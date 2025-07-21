@@ -116,6 +116,10 @@ void IBehaviorNode::DeleteChild(IBehaviorNode* _child) {
 	}
 }
 
+void IBehaviorNode::ClearChild() {
+	children_.clear();
+}
+
 json IBehaviorNode::ToJson() {
 	json item;
 	item["name"] = node_.name;

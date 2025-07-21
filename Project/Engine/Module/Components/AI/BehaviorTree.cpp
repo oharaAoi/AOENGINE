@@ -260,6 +260,12 @@ void BehaviorTree::Edit() {
 
 		// Editorに関する処理
 		if (ImGui::Begin("BehaviorTreeEditor", &isOpenEditor_, windowFlags_)) {
+
+			std::string loadFilePath;
+			if (ButtonOpenDialog("Load", "Tree", "LoadTree", ".json", loadFilePath)) {
+				CreateTree(loadFilePath);
+			}
+
 			std::string filePath;
 			if (ButtonOpenDialog("Save", "Tree", "SaveTree", ".json", filePath)) {
 				BehaviorTreeSerializer::Save(filePath, root_->ToJson());
@@ -358,6 +364,9 @@ void BehaviorTree::CreateNode(int nodeType) {
 
 void BehaviorTree::CreateTree(const std::string& nodeName) {
 	nodeList_.clear();
+	if (root_ != nullptr) {
+		root_->ClearChild();
+	}
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(CreateNodeFromJson(nodeTree)).get();
 	
