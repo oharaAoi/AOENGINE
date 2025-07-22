@@ -3,22 +3,6 @@
 Pipeline::Pipeline() {}
 Pipeline::~Pipeline() {}
 
-//void Pipeline::Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler,
-//						  const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
-//						  const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc, const Blend::BlendMode& blendMode, 
-//						  bool isCulling, bool isDepth, bool isSRGB) {
-//	device_ = device;
-//	dxCompiler_ = dxCompiler;
-//
-//	rootSignature_ = std::make_unique<RootSignature>();
-//	rootSignature_->Initialize(device, rootSignatureType);
-//	elementDescs = desc;
-//	ShaderCompile(shaderData);
-//
-//	CreatePSO();
-//}
-
-
 void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData) {
 	parameter_.FromJson(jsonData);
 
@@ -94,12 +78,12 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool isDepth) {
 	desc.DepthEnable = true;
 	// 書き込み
 	//desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
-	if(isDepth){
+	if (isDepth) {
 		desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
-	} else{
+	} else {
 		desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	}
-	
+
 	// 地下駆ければ描画
 	desc.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 
@@ -130,10 +114,10 @@ void Pipeline::CreatePSO() {
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
 		if (parameter_.rtvFormat == "16_FLOAT") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16B16A16_FLOAT;
-		} else if(parameter_.rtvFormat == "8_sRGB") {
+		} else if (parameter_.rtvFormat == "8_sRGB") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		}
-		
+
 	}
 	// 利用するトポロジ(形状)のタイプ
 	desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
@@ -190,62 +174,62 @@ DXGI_FORMAT Pipeline::ReturnFormat(LPCSTR name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 ComPtr<ID3D12RootSignature> Pipeline::CreateRootSignature() {
-    std::vector<D3D12_ROOT_PARAMETER> rootParameters;
-    std::vector<D3D12_DESCRIPTOR_RANGE> srvRangesVertex;
-    std::vector<D3D12_DESCRIPTOR_RANGE> srvRangesPixel;
-    std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
-    std::set<BindingKey> processed;
+	std::vector<D3D12_ROOT_PARAMETER> rootParameters;
+	std::vector<D3D12_DESCRIPTOR_RANGE> srvRangesVertex;
+	std::vector<D3D12_DESCRIPTOR_RANGE> srvRangesPixel;
+	std::vector<D3D12_STATIC_SAMPLER_DESC> staticSamplers;
+	std::set<BindingKey> processed;
 
 	UINT baseDescriptorIndex = 0;
-	
-    auto ProcessReflection = [&](ID3D12ShaderReflection* reflection, D3D12_SHADER_VISIBILITY visibility) {
-        if (!reflection) return;
 
-        D3D12_SHADER_DESC desc;
-        reflection->GetDesc(&desc);
+	auto ProcessReflection = [&](ID3D12ShaderReflection* reflection, D3D12_SHADER_VISIBILITY visibility) {
+		if (!reflection) return;
 
-        for (UINT i = 0; i < desc.BoundResources; ++i) {
-            D3D12_SHADER_INPUT_BIND_DESC bindDesc;
-            reflection->GetResourceBindingDesc(i, &bindDesc);
+		D3D12_SHADER_DESC desc;
+		reflection->GetDesc(&desc);
 
-            BindingKey key{ bindDesc.Type, bindDesc.BindPoint, bindDesc.Space, visibility };
-            //if (processed.count(key)) continue;
-            processed.insert(key);
+		for (UINT i = 0; i < desc.BoundResources; ++i) {
+			D3D12_SHADER_INPUT_BIND_DESC bindDesc;
+			reflection->GetResourceBindingDesc(i, &bindDesc);
 
-            switch (bindDesc.Type) {
-            case D3D_SIT_CBUFFER: {
-                D3D12_ROOT_PARAMETER param = {};
-                param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-                param.ShaderVisibility = visibility;
-                param.Descriptor.ShaderRegister = bindDesc.BindPoint;
-                param.Descriptor.RegisterSpace = bindDesc.Space;
+			BindingKey key{ bindDesc.Type, bindDesc.BindPoint, bindDesc.Space, visibility };
+			//if (processed.count(key)) continue;
+			processed.insert(key);
+
+			switch (bindDesc.Type) {
+			case D3D_SIT_CBUFFER: {
+				D3D12_ROOT_PARAMETER param = {};
+				param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+				param.ShaderVisibility = visibility;
+				param.Descriptor.ShaderRegister = bindDesc.BindPoint;
+				param.Descriptor.RegisterSpace = bindDesc.Space;
 
 				UINT index = (UINT)rootParameters.size();
 				rootParameters.push_back(param);
 
 				rootSignatureIndexMap_[bindDesc.Name] = index;
-                break;
-            }
+				break;
+			}
 
-            case D3D_SIT_TEXTURE:
-            case D3D_SIT_STRUCTURED:
-            case D3D_SIT_BYTEADDRESS:
-            case D3D_SIT_TBUFFER: {
+			case D3D_SIT_TEXTURE:
+			case D3D_SIT_STRUCTURED:
+			case D3D_SIT_BYTEADDRESS:
+			case D3D_SIT_TBUFFER: {
 				descriptorRangeTables.emplace_back(); // 新しいテーブル
 				auto& currentTable = descriptorRangeTables.back();
 
-                D3D12_DESCRIPTOR_RANGE range = {};
-                range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-                range.NumDescriptors = bindDesc.BindCount;
-                range.BaseShaderRegister = bindDesc.BindPoint;
-                range.RegisterSpace = bindDesc.Space;
-                range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+				D3D12_DESCRIPTOR_RANGE range = {};
+				range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+				range.NumDescriptors = bindDesc.BindCount;
+				range.BaseShaderRegister = bindDesc.BindPoint;
+				range.RegisterSpace = bindDesc.Space;
+				range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
 
-                if (visibility == D3D12_SHADER_VISIBILITY_VERTEX) {
-                    srvRangesVertex.push_back(range);
-                } else if (visibility == D3D12_SHADER_VISIBILITY_PIXEL) {
-                    srvRangesPixel.push_back(range);
-                }
+				if (visibility == D3D12_SHADER_VISIBILITY_VERTEX) {
+					srvRangesVertex.push_back(range);
+				} else if (visibility == D3D12_SHADER_VISIBILITY_PIXEL) {
+					srvRangesPixel.push_back(range);
+				}
 
 				currentTable.push_back(range);
 
@@ -262,75 +246,79 @@ ComPtr<ID3D12RootSignature> Pipeline::CreateRootSignature() {
 
 				baseDescriptorIndex++;
 
-                break;
-            }
+				break;
+			}
 
-            case D3D_SIT_SAMPLER: {
-                D3D12_STATIC_SAMPLER_DESC sampler = {};
-                sampler.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-                sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-                sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-                sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-                sampler.ShaderRegister = bindDesc.BindPoint;
-                sampler.RegisterSpace = bindDesc.Space;
-                sampler.ShaderVisibility = visibility;
-                staticSamplers.push_back(sampler);
-                break;
-            }
+			case D3D_SIT_SAMPLER: {
+				D3D12_STATIC_SAMPLER_DESC sampler = {};
+				auto it = samplerOverrides_.find(bindDesc.Name);
+				if (it != samplerOverrides_.end()) {
+					sampler = it->second; // コピー
+				} else {
+					// 名前未登録 → デフォルト Linear Wrap
+					sampler = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_LINEAR);
+				}
 
-            default:
-                // UAV などは今回のケースでは使用しない
-                break;
-            }
-        }
-        };
+				sampler.ShaderRegister = bindDesc.BindPoint;
+				sampler.RegisterSpace = bindDesc.Space;
+				sampler.ShaderVisibility = visibility;
 
-    // シェーダー反映（可視性ごとに処理）
-    ProcessReflection(vsReflection_.Get(), D3D12_SHADER_VISIBILITY_VERTEX);
-    ProcessReflection(psReflection_.Get(), D3D12_SHADER_VISIBILITY_PIXEL);
+				staticSamplers.push_back(sampler);
+				break;
+			}
 
-    //// SRV テーブル（Vertex）
-    //if (!srvRangesVertex.empty()) {
-    //    D3D12_ROOT_PARAMETER srvTable = {};
-    //    srvTable.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    //    srvTable.ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-    //    srvTable.DescriptorTable.NumDescriptorRanges = (UINT)srvRangesVertex.size();
-    //    srvTable.DescriptorTable.pDescriptorRanges = srvRangesVertex.data();
-    //    rootParameters.push_back(srvTable);
-    //}
+			default:
+				// UAV などは今回のケースでは使用しない
+				break;
+			}
+		}
+		};
 
-    //// SRV テーブル（Pixel）
-    //if (!srvRangesPixel.empty()) {
-    //    D3D12_ROOT_PARAMETER srvTable = {};
-    //    srvTable.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    //    srvTable.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    //    srvTable.DescriptorTable.NumDescriptorRanges = (UINT)srvRangesPixel.size();
-    //    srvTable.DescriptorTable.pDescriptorRanges = srvRangesPixel.data();
-    //    rootParameters.push_back(srvTable);
-    //}
+	// シェーダー反映（可視性ごとに処理）
+	ProcessReflection(vsReflection_.Get(), D3D12_SHADER_VISIBILITY_VERTEX);
+	ProcessReflection(psReflection_.Get(), D3D12_SHADER_VISIBILITY_PIXEL);
 
-    // RootSignature 記述と作成
-    D3D12_ROOT_SIGNATURE_DESC desc = {};
-    desc.NumParameters = (UINT)rootParameters.size();
-    desc.pParameters = rootParameters.data();
-    desc.NumStaticSamplers = (UINT)staticSamplers.size();
-    desc.pStaticSamplers = staticSamplers.data();
-    desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+	// RootSignature 記述と作成
+	D3D12_ROOT_SIGNATURE_DESC desc = {};
+	desc.NumParameters = (UINT)rootParameters.size();
+	desc.pParameters = rootParameters.data();
+	desc.NumStaticSamplers = (UINT)staticSamplers.size();
+	desc.pStaticSamplers = staticSamplers.data();
+	desc.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
-    ComPtr<ID3DBlob> sigBlob, errBlob;
-    HRESULT hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, &sigBlob, &errBlob);
-    if (FAILED(hr)) {
-        if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
+	ComPtr<ID3DBlob> sigBlob, errBlob;
+	HRESULT hr = D3D12SerializeRootSignature(&desc, D3D_ROOT_SIGNATURE_VERSION_1, &sigBlob, &errBlob);
+	if (FAILED(hr)) {
+		if (errBlob) OutputDebugStringA((char*)errBlob->GetBufferPointer());
 		assert(SUCCEEDED(hr));
-        return nullptr;
-    }
+		return nullptr;
+	}
 
-    ComPtr<ID3D12RootSignature> rootSig;
-    hr = device_->CreateRootSignature(0, sigBlob->GetBufferPointer(), sigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSig));
-    if (FAILED(hr)) {
-        assert(SUCCEEDED(hr));
-        return nullptr;
-    }
+	ComPtr<ID3D12RootSignature> rootSig;
+	hr = device_->CreateRootSignature(0, sigBlob->GetBufferPointer(), sigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSig));
+	if (FAILED(hr)) {
+		assert(SUCCEEDED(hr));
+		return nullptr;
+	}
 
-    return rootSig;
+	return rootSig;
+}
+
+void Pipeline::SamplerOverrides() {
+	samplerOverrides_["gSampler"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_LINEAR);
+	samplerOverrides_["gSamplerPoint"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_POINT);
+	samplerOverrides_["gSamplerAnisoWrap"] = MakeStaticSampler(D3D12_FILTER_ANISOTROPIC);
+}
+
+D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addr, UINT maxAniso) {
+	D3D12_STATIC_SAMPLER_DESC sampler = {};
+	sampler.Filter = filter;
+	sampler.AddressU = sampler.AddressV = sampler.AddressW = addr;
+	sampler.MipLODBias = 0.f;
+	sampler.MaxAnisotropy = maxAniso;
+	sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+	sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
+	sampler.MinLOD = 0.f;
+	sampler.MaxLOD = D3D12_FLOAT32_MAX;
+	return sampler;
 }

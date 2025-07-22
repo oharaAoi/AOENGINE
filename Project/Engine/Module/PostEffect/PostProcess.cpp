@@ -15,6 +15,8 @@ void PostProcess::Finalize() {
 	toonMap_.reset();
 	bloom_.reset();
 	smoothing_.reset();
+	gaussianFilter_.reset();
+	luminanceOutline_.reset();
 	effectList_.clear();
 }
 
@@ -48,10 +50,16 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	smoothing_ = std::make_unique<Smoothing>();
 	smoothing_->Init();
 
+	gaussianFilter_ = std::make_shared<GaussianFilter>();
+	gaussianFilter_->Init();
+
+	luminanceOutline_ = std::make_shared<LuminanceBasedOutline>();
+	luminanceOutline_->Init();
+
 	//AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::BLOOM);
-	AddEffect(PostEffectType::SMOOTHING);
+	AddEffect(PostEffectType::LUMINANCE_OUTLINE);
 	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);
 
@@ -133,6 +141,12 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::SMOOTHING:
 			effectList_.push_back(smoothing_);
 			break;
+		case PostEffectType::GAUSSIANFILTER:
+			effectList_.push_back(gaussianFilter_);
+			break;
+		case PostEffectType::LUMINANCE_OUTLINE:
+			effectList_.push_back(luminanceOutline_);
+			break;
 		default:
 			break;
 		}
@@ -173,6 +187,12 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 		break;
 	case PostEffectType::SMOOTHING:
 		return smoothing_;
+		break;
+	case PostEffectType::GAUSSIANFILTER:
+		return gaussianFilter_;
+		break;
+	case PostEffectType::LUMINANCE_OUTLINE:
+		return luminanceOutline_;
 		break;
 	default:
 		return nullptr;

@@ -9,6 +9,9 @@
 #include "Engine/Module/PostEffect/ToonMap.h"
 #include "Engine/Module/PostEffect/Bloom.h"
 #include "Engine/Module/PostEffect/Smoothing.h"
+#include "Engine/Module/PostEffect/GaussianFilter.h"
+#include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
+
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
@@ -22,6 +25,8 @@ enum class PostEffectType {
 	TOONMAP,
 	BLOOM,
 	SMOOTHING,
+	GAUSSIANFILTER,
+	LUMINANCE_OUTLINE,
 };
 
 /// <summary>
@@ -84,6 +89,8 @@ private:
 	std::shared_ptr<ToonMap> toonMap_;
 	std::shared_ptr<Bloom> bloom_;
 	std::shared_ptr<Smoothing> smoothing_;
+	std::shared_ptr<GaussianFilter> gaussianFilter_;
+	std::shared_ptr<LuminanceBasedOutline> luminanceOutline_;
 
 	std::list<std::shared_ptr<IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;

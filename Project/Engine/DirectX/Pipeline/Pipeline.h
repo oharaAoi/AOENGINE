@@ -7,6 +7,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <unordered_map>
 // PSO
 #include "Engine/DirectX/RootSignature/RootSignature.h"
 #include "InputLayout.h"
@@ -67,12 +68,6 @@ public:
 	Pipeline();
 	~Pipeline();
 
-	/*void Initialize(ID3D12Device* device, DirectXCompiler* dxCompiler, 
-					const Shader::ShaderData& shaderData, const RootSignatureType& rootSignatureType,
-					const std::vector<D3D12_INPUT_ELEMENT_DESC>& desc, const Blend::BlendMode& blendMode,
-					bool isCulling, bool isDepth, bool isSRGB
-	);*/
-
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
@@ -116,6 +111,12 @@ public:
 
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
 
+private:
+
+	void SamplerOverrides();
+
+	D3D12_STATIC_SAMPLER_DESC MakeStaticSampler(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addr = D3D12_TEXTURE_ADDRESS_MODE_WRAP, UINT maxAniso = 16);
+
 public:
 
 	const UINT GetRootSignatureIndex(const std::string& name) const { return rootSignatureIndexMap_.at(name); }
@@ -154,5 +155,9 @@ private:
 	std::map<std::string, UINT> rootSignatureIndexMap_;
 
 	std::vector<std::vector<D3D12_DESCRIPTOR_RANGE>> descriptorRangeTables;
+
+	// samplerMap
+	std::unordered_map<std::string, D3D12_STATIC_SAMPLER_DESC> samplerOverrides_;
+
 
 };
