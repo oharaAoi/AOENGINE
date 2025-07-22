@@ -73,6 +73,7 @@ public:
 	Vector3 scale_;
 	Quaternion rotation_;
 	Vector3 translate_;
+	Vector3 preTranslate_;
 
 	// 一時的に座標を動かしたい時にこの変数に加算する
 	// 例) 浮遊させるときに浮遊の移動量をthisに足す

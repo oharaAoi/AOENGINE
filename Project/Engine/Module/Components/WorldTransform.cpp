@@ -35,7 +35,10 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	Vector3 worldTranslate = CVector3::ZERO;
 	Quaternion worldRotate = Quaternion();
 
-	data_->matWorldPrev = worldMat_;
+	data_->matWorldPrev = mat * Matrix4x4::MakeAffine(scale_, rotation_, preTranslate_ + temporaryTranslate_);
+	if (parentWorldMat_ != nullptr) {
+		data_->matWorldPrev = data_->matWorldPrev * *parentWorldMat_;
+	}
 
 	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
 	rotation_ = rotation_.Normalize();
@@ -76,6 +79,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	data_->matWorld = worldMat_;
 	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
 
+	preTranslate_ = transform_.translate + temporaryTranslate_;
 	temporaryTranslate_ = CVector3::ZERO;
 }
 

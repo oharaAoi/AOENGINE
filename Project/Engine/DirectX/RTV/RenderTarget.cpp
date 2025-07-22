@@ -37,8 +37,8 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const
 	// MRT用に複数のRTVハンドルを用意
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
 	rtvHandles.reserve(renderTypes.size());
-	for (auto& type : renderTypes) {
-		rtvHandles.push_back(renderTargetResource_[type]->GetRTV().handleCPU);
+	for (size_t index = 0; index < renderTypes.size(); ++index) {
+		rtvHandles.push_back(renderTargetResource_[renderTypes[index]]->GetRTV().handleCPU);
 	}
 
 	commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(),FALSE, &dsvHandle.handleCPU);
@@ -140,11 +140,11 @@ void RenderTarget::CreateRenderTarget() {
 
 	// 実際の初期化
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		if (oi == RenderTargetType::MotionVector_RenderTarget) {
+		/*if (oi == RenderTargetType::MotionVector_RenderTarget) {
 			rtvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
 			srvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
 			desc.Format = DXGI_FORMAT_R16G16_FLOAT;
-		}
+		}*/
 		renderTargetResource_[oi] = std::make_unique<DxResource>();
 		renderTargetResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
 

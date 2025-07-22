@@ -117,7 +117,7 @@ void Pipeline::CreatePSO() {
 		} else if (parameter_.rtvFormats[oi] == "8_sRGB") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		} else if (parameter_.rtvFormats[oi] == "32_R") {
-			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16_FLOAT;
+			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		}
 
 	}

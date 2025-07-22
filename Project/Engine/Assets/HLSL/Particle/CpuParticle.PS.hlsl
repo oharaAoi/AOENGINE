@@ -15,7 +15,7 @@ Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
-	float2 motionVector : SV_TARGET1;
+	float4 motionVector : SV_TARGET1;
 };
 
 PixelShaderOutput main(VertexShaderOutput input) {
@@ -34,7 +34,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		discard;
 	}
 	
-	output.motionVector = float2(0, 0);
+	output.motionVector = float4(0, 0, 0, 1);
 	
 	return output;
 }

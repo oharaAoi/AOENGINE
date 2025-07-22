@@ -14,7 +14,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float2 mv = gMotion.Sample(gSampler, input.texcoord); // currentSS - prevSS
     
     // 片方向トレイル
-	float2 dir = -mv * 5.0f; // UV空間
+	float2 dir = -mv * 0.3f; // UV空間
 
     // 小さいならそのまま
 	if (dot(dir, dir) < 1e-6) {
