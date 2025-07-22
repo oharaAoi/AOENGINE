@@ -47,6 +47,7 @@
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianFilter.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\LuminanceBasedOutline.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\DepthBasedOutline.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\MotionBlur.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -317,6 +318,7 @@
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -597,6 +599,7 @@
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
+    <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
@@ -610,6 +613,7 @@
     <None Include="Externals\ImGui\imgui_node_editor_internal.inl" />
     <None Include="Externals\ImGui\imgui_extra_math.inl" />
     <None Include="Externals\ImGui\imgui_bezier_math.inl" />
+    <None Include="Engine\Assets\HLSL\Light.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt" />

@@ -13,10 +13,12 @@ SamplerState gSampler : register(s0);
 
 struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
+	float2 motionVector : SV_TARGET1;
 };
 
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output;
+	output.motionVector = float2(0.0f, 0.0f);
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	

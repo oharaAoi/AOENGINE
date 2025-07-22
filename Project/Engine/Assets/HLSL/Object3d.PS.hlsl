@@ -1,4 +1,5 @@
 #include "Object3d.hlsli"
+#include "Light.hlsli"
 
 struct Material {
 	float4 color;
@@ -7,114 +8,17 @@ struct Material {
 	float shininess; // 光沢度
 };
 
-struct DirectionalLight {
-	float4 color;
-	float3 direction;
-	float3 eyePos; // 視点の位置
-	float intensity;
-	float limPower;
-};
-
-struct PointLight {
-	float4 color; // ライトの色
-	float3 position; // ライトの位置
-	float3 eyePos;
-	float intensity; // 輝度
-	float radius; // 最大距離
-	float decay; // 減衰率
-};
-
-struct SpotLight {
-	float4 color; // ライトの色
-	float3 position; // ライトの位置
-	float3 eyePos; // 視点の位置
-	float intensity; // 輝度
-	float3 direction; // 方向
-	float distance; // ライトの届く最大距離
-	float decay; // 減衰率
-	float cosAngle; // スポットライトの余弦
-	float cosFalloffStart;
-};
-
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 ConstantBuffer<PointLight> gPointLight : register(b2);
 ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
+
 struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
+	float2 motionVector : SV_TARGET1;
 };
-
-//==========================================
-// Lambert
-//==========================================
-float3 Lambert(float NdotL, float3 textureColor) {
-	float3 resultColor = textureColor * NdotL;
-	return resultColor;
-}
-
-//==========================================
-// HalfLambert
-//==========================================
-float3 HalfLambert(float NdotL, float3 lightColor) {
-	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f)) / 3.1415f;
-	float3 diffuse = lightColor * cos;
-	
-	return diffuse;
-}
-
-//==========================================
-//　phong
-//==========================================
-float3 Phong(float RDotE, float3 lightColor) {
-	// 反射強度
-	float specularPow = pow(saturate(RDotE), gMaterial.shininess);
-	// 鏡面反射
-	float3 specular = lightColor.rbg * specularPow;
-
-	return specular;
-}
-
-//==========================================
-//　BlinnPhong
-//==========================================
-float3 BlinnPhong(float NDotH, float3 lightColor) {
-	// 反射強度
-	float specularPow = pow(saturate(NDotH), gMaterial.shininess);
-	// 鏡面反射
-	float3 specular = lightColor.rbg * specularPow * float3(1.0f, 1.0f, 1.0f);
-
-	return specular;
-}
-
-//================================================================================================//
-//
-//	lightの計算
-//
-//================================================================================================//
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　directionalLight
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-float3 DirectionalLighting(float NdotL, float NdotH, float3 lightColor, float3 materialColor, float3 textureColor) {
-	float3 diffuse = HalfLambert(NdotL, lightColor) * materialColor * textureColor;
-	float3 speculer = BlinnPhong(NdotH, lightColor);
-	
-	return diffuse + speculer;
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　pointLighting
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-float3 PointLighting(float NdotL, float pNdotH, float3 lightColor, float3 materialColor, float3 textureColor) {
-	float3 diffuse = HalfLambert(NdotL, lightColor) * materialColor * textureColor;
-	float3 speculer = BlinnPhong(pNdotH, lightColor);
-	
-	return diffuse + speculer;
-}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　spotLighting
@@ -136,9 +40,20 @@ float3 SpotLighting(ConstantBuffer<SpotLight> spotLight, float NdotL, float Ndot
 	spotDiffuse = HalfLambert(NdotL, spotColor.rgb) * gMaterial.color.rgb * textureColor.rgb;
 	
 	// phong
-	float3 spotSpeculer = BlinnPhong(NdotH, spotColor.rgb) * textureColor.rgb;
+	float3 spotSpeculer = BlinnPhong(NdotH, spotColor.rgb, gMaterial.shininess) * textureColor.rgb;
 	
 	return (spotDiffuse + spotSpeculer) * spotLight.intensity;
+}
+
+float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
+    
+	float2 currentNDC = currentCS.xy / currentCS.w;
+	float2 prevNDC = prevCS.xy / prevCS.w;
+	
+	float2 currentSS = currentNDC;
+	float2 prevSS = prevNDC ;
+	
+	return currentSS - prevSS;
 }
 
 //================================================================================================//
@@ -152,6 +67,8 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
+	// モーションベクトル計算
+	output.motionVector = float2(1, 0);
 	if (textureColor.a == 0.0) {
 		discard;
 	}
@@ -161,7 +78,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		if (output.color.a == 0.0) {
 			discard;
 		}
-		return output;
+		return output; 
 	}
 	float3 normal = normalize(input.normal);
 	float3 pointLightDirection = normalize(input.worldPos.xyz - gPointLight.position);
@@ -180,17 +97,17 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	// --------------------- directional --------------------- //
 	// lambert
-	float3 directionalLight = DirectionalLighting(NdotL, NdotH, gDirectionalLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * gDirectionalLight.intensity;
+	float3 directionalLight = DirectionalLighting(NdotL, NdotH, gMaterial.shininess, gDirectionalLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * gDirectionalLight.intensity;
 	
 	// --------------------- point --------------------- //
 	float3 phalfVector = normalize(-pointLightDirection + toEye);
 	float pNdotH = dot(normalize(input.normal), phalfVector);
 	
-	float3 pointLight = PointLighting(NdotL, pNdotH, gPointLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * gPointLight.intensity;
+	float3 pointLight = PointLighting(NdotL, pNdotH, gMaterial.shininess, gPointLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * gPointLight.intensity;
 	
 	// --------------------- spot --------------------- //
 	
-	float3 spotLight = SpotLighting(gSpotLight, NdotL, NdotH, input.worldPos.xyz, gMaterial.color.rgb, textureColor.rbg);
+	float3 spotLight = SpotLighting(gSpotLight, NdotL, NdotH, input.worldPos.xyz, gMaterial.color.rgb, textureColor.rgb);
 
 	// --------------------- limLight --------------------- //
 	float lim = 1.0f - saturate(dot(normal, toEye));

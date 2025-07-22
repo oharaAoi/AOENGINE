@@ -16,6 +16,7 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 struct WorldTransformData {
 	Matrix4x4 matWorld;
+	Matrix4x4 matWorldPrev;
 	Matrix4x4 worldInverseTranspose;
 };
 

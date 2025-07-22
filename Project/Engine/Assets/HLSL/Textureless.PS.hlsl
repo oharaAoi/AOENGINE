@@ -46,6 +46,7 @@ ConstantBuffer<PointLight> gPointLight : register(b2);
 ConstantBuffer<SpotLight> gSpotLight : register(b3);
 struct PixelShaderOutput{
 	float4 color : SV_TARGET0;
+	float2 motionVector : SV_TARGET1;
 };
 
 //==========================================
@@ -93,6 +94,17 @@ float3 BlinnPhong(float NDotH, float4 lightColor)
 	float3 specular = lightColor.rbg * specularPow * float3(1.0f, 1.0f, 1.0f);
 
 	return specular;
+}
+
+float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
+    
+	float2 currentNDC = currentCS.xy / currentCS.w;
+	float2 prevNDC = prevCS.xy / prevCS.w;
+	
+	float2 currentSS = currentNDC * 0.5f + 0.5f;
+	float2 prevSS = prevNDC * 0.5f + 0.5f;
+	
+	return currentSS - prevSS;
 }
 
 //==========================================
@@ -197,6 +209,9 @@ PixelShaderOutput main(VertexShaderOutput input)
 	{
 		discard;
 	}
+	
+	// モーションベクトル計算
+	output.motionVector = ComputeMotionVector(input.position, input.positionPrev);
 	
 	return output;
 }

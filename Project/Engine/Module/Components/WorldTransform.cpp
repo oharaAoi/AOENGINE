@@ -35,6 +35,8 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	Vector3 worldTranslate = CVector3::ZERO;
 	Quaternion worldRotate = Quaternion();
 
+	data_->matWorldPrev = worldMat_;
+
 	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
 	rotation_ = rotation_.Normalize();
 	moveQuaternion_ = Quaternion();

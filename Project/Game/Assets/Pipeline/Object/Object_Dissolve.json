@@ -5,6 +5,8 @@
         "blendMode": "Add",
         "culling" : false,
         "depth" : true,
-        "rtvFormat" : "16_FLOAT"
+        "rtvFormat" : [
+            "16_FLOAT"
+        ]
     }
 }

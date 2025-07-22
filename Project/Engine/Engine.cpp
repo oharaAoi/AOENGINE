@@ -79,9 +79,12 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	audio_->Init();
 	effectSystem_->Init();
 
-	postProcess_->Init(dxDevice_, dxHeap_);
+	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_);
 
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget, dxCommon_->GetDepthHandle());
+	std::vector<RenderTargetType> types;
+	types.push_back(RenderTargetType::Object3D_RenderTarget);
+	types.push_back(RenderTargetType::MotionVector_RenderTarget);
+	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
@@ -134,7 +137,11 @@ void Engine::BeginFrame() {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget, dxCommon_->GetDepthHandle());
+
+	std::vector<RenderTargetType> types;
+	types.push_back(RenderTargetType::Object3D_RenderTarget);
+	types.push_back(RenderTargetType::MotionVector_RenderTarget);
+	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
 #ifdef _DEBUG
 	imguiManager_->Begin();

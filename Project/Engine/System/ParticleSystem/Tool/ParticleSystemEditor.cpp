@@ -406,7 +406,8 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 
 void ParticleSystemEditor::SetRenderTarget() {
 	// RenderTargetを指定する
-	renderTarget_->SetRenderTarget(commandList_, RenderTargetType::EffectSystem_RenderTarget, depthHandle_);
+	std::vector<RenderTargetType> types(1, RenderTargetType::EffectSystem_RenderTarget);
+	renderTarget_->SetRenderTarget(commandList_, types, depthHandle_);
 	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 0.0f / 255, 0.0f / 255, 0.0f / 255.0f, 255.0f };
 	// RenderTargetをクリアする

@@ -5,6 +5,9 @@
         "blendMode": "Normal",
         "culling" : true,
         "depth" : false,
-        "rtvFormat" : "16_FLOAT"
+        "rtvFormat" : [
+            "16_FLOAT",
+            "32_R"
+        ]
     }
 }

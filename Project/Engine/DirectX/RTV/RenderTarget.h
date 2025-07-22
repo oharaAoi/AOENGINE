@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine/Utilities/Convert.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
@@ -10,6 +11,7 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum RenderTargetType {
 	Object3D_RenderTarget,
+	MotionVector_RenderTarget,
 	OffScreen_RenderTarget,
 	EffectSystem_RenderTarget,
 	PreEffectSystem_RenderTarget,
@@ -27,7 +29,7 @@ public:
 
 	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain);
 
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type, const DescriptorHandles dsvHandle);
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles dsvHandle);
 
 	void ClearDepth(ID3D12GraphicsCommandList* commandList);
 
@@ -52,6 +54,8 @@ public:
 
 	const DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
 	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
+
+	DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type].get(); }
 
 private:
 

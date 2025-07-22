@@ -12,10 +12,12 @@
 #include "Engine/Module/PostEffect/GaussianFilter.h"
 #include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
 #include "Engine/Module/PostEffect/DepthBasedOutline.h"
+#include "Engine/Module/PostEffect/MotionBlur.h"
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
+#include <DirectX/RTV/RenderTarget.h>
 
 enum class PostEffectType {
 	GRAYSCALE,
@@ -29,6 +31,7 @@ enum class PostEffectType {
 	GAUSSIANFILTER,
 	LUMINANCE_OUTLINE,
 	DEPTH_OUTLINE,
+	MOTIONBLUR,
 };
 
 /// <summary>
@@ -43,7 +46,7 @@ public:
 
 	void Finalize();
 
-	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap);
+	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget);
 
 	void Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
 
@@ -97,6 +100,7 @@ private:
 	std::shared_ptr<GaussianFilter> gaussianFilter_;
 	std::shared_ptr<LuminanceBasedOutline> luminanceOutline_;
 	std::shared_ptr<DepthBasedOutline> depthOutline_;
+	std::shared_ptr<MotionBlur> motionBlur_;
 
 	std::list<std::shared_ptr<IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;

@@ -29,7 +29,7 @@ public:
 		std::string blendMode;	// blendModeの名前
 		bool culling;			// カリングを行うか
 		bool depth;				// 深度を書くか
-		std::string rtvFormat;	// 色の補正を行うか
+		std::vector<std::string> rtvFormats;	// 色の補正を行うか
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -38,17 +38,18 @@ public:
 				.Add("blendMode", blendMode)
 				.Add("culling", culling)
 				.Add("depth", depth)
-				.Add("rtvFormat", rtvFormat)
+				.Add("rtvFormat", rtvFormats)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
+			const auto& pipeline = jsonData.at("Pipeline");
 			fromJson(jsonData, "vs", vs);
 			fromJson(jsonData, "ps", ps);
 			fromJson(jsonData, "blendMode", blendMode);
 			fromJson(jsonData, "culling", culling);
 			fromJson(jsonData, "depth", depth);
-			fromJson(jsonData, "rtvFormat", rtvFormat);
+			fromJson(pipeline, "rtvFormat", rtvFormats);
 		}
 	};
 

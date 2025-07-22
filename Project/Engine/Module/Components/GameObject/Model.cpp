@@ -64,6 +64,8 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewProjection->BindCommandList(commandList, index);
+		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+		viewProjection->BindCommandListPrev(commandList, index);
 
 		std::string textureName = material->GetUseTexture();
 		index = pipeline->GetRootSignatureIndex("gTexture");

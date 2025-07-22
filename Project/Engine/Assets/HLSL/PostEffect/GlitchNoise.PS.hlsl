@@ -27,20 +27,20 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float3 color = gTexture.Sample(gSampler, uv).rgb;
 
 	if (gGlitchNoise.glitchStrength > 0.5) {
-		// === ① 横スキャンラインの歪み ===
+		// 横スキャンラインの歪み
 		float scanlineChance = rng.Generated1d();
 		if (scanlineChance > 0.2) {
 			uv.x += rng.Generated1dRange(-0.4, 0.4);
 			uv.y += sin(uv.x * 80.0 + gGlitchNoise.time * 15.0) * 0.02;
 		}
 
-		// === ② stretch ゆがみ ===
+		// stretc
 		float stretchChance = rng.Generated1d();
 		if (stretchChance > 0.9) {
 			uv.y += sin(gGlitchNoise.time * 20.0) * rng.Generated1dRange(0.05, 0.1);
 		}
 
-		// === ③ 画面ブロック崩れ（新規）===
+		// 画面ブロック崩れ
 		float2 blockSize = float2(rng.Generated1dRange(0.5f, 0.9f), rng.Generated1dRange(0.5f, 0.9f)); // 10x10 ブロック
 		float2 blockId = floor(uv / blockSize);
 		RandomGenerator blockRng;
@@ -48,7 +48,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		float2 blockOffset = blockRng.Generated2dRangeSize(float2(-0.03, -0.03), float2(0.03, 0.03));
 		uv += blockOffset;
 
-		// === ④ RGBずれ ===
+		// RGBずれ
 		float2 uvR = uv + float2(gGlitchNoise.texelSize.x * 10.0, 0.0);
 		float2 uvB = uv - float2(gGlitchNoise.texelSize.x * 10.0, 0.0);
 		float r = gTexture.Sample(gSampler, uvR).r;
@@ -57,13 +57,12 @@ PixelShaderOutput main(VertexShaderOutput input) {
 
 		color = float3(r, g, b);
 
-		// === ⑤ ノイズフラッシュ ===
+		// ノイズフラッシュ
 		float flash = rng.Generated1d();
 		if (flash > 0.5) {
 			color += float3(0.2, 0.2, 0.2);
 		}
 
-		// === ⑥ ランダムノイズ加算（乱れ感UP）===
 		float noise = rng.Generated1dRange(-0.05, 0.05);
 		color += noise;
 	}

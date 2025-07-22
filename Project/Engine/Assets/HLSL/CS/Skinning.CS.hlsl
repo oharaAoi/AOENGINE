@@ -53,7 +53,7 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	skinned.texcoord = input.texcoord;
 	skinned.tangent = input.tangent;
 	skinned.worldPos = input.worldPos;
-
+	
 	skinned.position = mul(input.position, m0) * influence.weight.x +
 	                   mul(input.position, m1) * influence.weight.y +
 	                   mul(input.position, m2) * influence.weight.z +

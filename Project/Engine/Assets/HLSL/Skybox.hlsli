@@ -3,4 +3,5 @@ struct VertexShaderOutput {
 	float3 texcoord : TEXCOORD0;
 	float3 normal : NORMAL0;
 	float4 worldPos : WORLDPOS0;
+	float4 positionPrev : POSITIONPREV1;
 };

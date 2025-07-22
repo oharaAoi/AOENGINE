@@ -63,9 +63,8 @@ void Render::PrimitiveDrawCall() {
 // ↓　RenderTargetを任意の物に設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::SetRenderTarget(const RenderTargetType& type, const DescriptorHandles& depthHandle) {
-	currentRenderTarget_ = type;
-	GetInstance()->renderTarget_->SetRenderTarget(commandList_, type, depthHandle);
+void Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle) {
+	GetInstance()->renderTarget_->SetRenderTarget(commandList_, renderTypes, depthHandle);
 }
 
 LightGroup* Render::GetLightGroup() {
@@ -105,6 +104,8 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
+	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+	viewProjection_->BindCommandListPrev(commandList_, index);
 
 	std::string textureName = material->GetUseTexture();
 	index = pipeline->GetRootSignatureIndex("gTexture");
@@ -125,6 +126,8 @@ void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Materia
 	_transform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
+	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+	viewProjection_->BindCommandListPrev(commandList_, index);
 
 	std::string textureName = _material->GetUseTexture();
 	index = pipeline->GetRootSignatureIndex("gTexture");

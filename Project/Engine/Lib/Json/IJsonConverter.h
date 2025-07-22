@@ -51,6 +51,12 @@ protected:
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
+struct is_vector : std::false_type {};
+
+template <typename T, typename A>
+struct is_vector<std::vector<T, A>> : std::true_type {};
+
+template <typename T>
 inline json toJson(const T& v) {
 	if constexpr (std::is_same_v<T, Vector4>) {
 		// Vector4型に対する処理
@@ -79,6 +85,13 @@ inline json toJson(const T& v) {
 	} else if constexpr (std::is_same_v<T, bool>) {
 		// bool型に対する処理
 		return v;
+	} else if constexpr (is_vector<T>::value) {
+		// std::vector対応（後述する is_vector を利用）
+		json arr = json::array();
+		for (const auto& item : v) {
+			arr.push_back(toJson(item));
+		}
+		return arr;
 	} else {
 		assert(false && "Unsupported type in toJson");
 	}
@@ -145,6 +158,12 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 	}
 }
 
+template <typename T>
+inline void fromJson(const json& j, const std::string& key, std::vector<T>& out) {
+	if (j.contains(key) && j[key].is_array()) {
+		out = j[key].get<std::vector<T>>();
+	}
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　json形式のデータを構築するようのクラス
@@ -168,6 +187,12 @@ public:
 		auto jsonValue = toJson(value);
 		jsonData_[hierarchyName_][key] = std::move(jsonValue);
 		return *this;// 自分自身を返す
+	}
+
+	template <typename T>
+	JsonBuilder& AddArray(const std::string& key, const std::vector<T>& values) {
+		jsonData_[hierarchyName_][key] = values;
+		return *this;
 	}
 
 	/// <summary>

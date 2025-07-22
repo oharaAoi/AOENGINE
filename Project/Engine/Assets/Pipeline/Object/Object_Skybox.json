@@ -1,10 +1,13 @@
 {
-    "TestPipeline": {
+    "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Skybox.VS.hlsl",
         "ps": "./Engine/Assets/HLSL/Skybox.PS.hlsl",
         "blendMode": "Normal",
         "culling" : true,
         "depth" : false,
-        "rtvFormat" : "16_FLOAT"
+        "rtvFormat" : [
+            "16_FLOAT",
+            "32_R"
+        ]
     }
 }

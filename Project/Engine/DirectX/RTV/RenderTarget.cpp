@@ -33,13 +33,21 @@ void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, ID
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　RenderTargetを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type, const DescriptorHandles dsvHandle) {
-	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
-	//rtvHandles = RTVHandle_[type].handleCPU;
-	commandList->OMSetRenderTargets(1, &renderTargetResource_[type]->GetRTV().handleCPU, false, &dsvHandle.handleCPU);
-	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
+void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles dsvHandle) {
+	// MRT用に複数のRTVハンドルを用意
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
+	rtvHandles.reserve(renderTypes.size());
+	for (auto& type : renderTypes) {
+		rtvHandles.push_back(renderTargetResource_[type]->GetRTV().handleCPU);
+	}
+
+	commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(),FALSE, &dsvHandle.handleCPU);
+	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
-	commandList->ClearRenderTargetView(renderTargetResource_[type]->GetRTV().handleCPU, clearColor, 0, nullptr);
+	// 各レンダーターゲットをクリア
+	for (auto& rtv : rtvHandles) {
+		commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
+	}
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	// srv
@@ -132,6 +140,11 @@ void RenderTarget::CreateRenderTarget() {
 
 	// 実際の初期化
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		if (oi == RenderTargetType::MotionVector_RenderTarget) {
+			rtvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
+			srvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
+			desc.Format = DXGI_FORMAT_R16G16_FLOAT;
+		}
 		renderTargetResource_[oi] = std::make_unique<DxResource>();
 		renderTargetResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
 

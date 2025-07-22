@@ -5,6 +5,8 @@
         "blendMode": "None",
         "culling" : true,
         "depth" : false,
-        "rtvFormat" : "8_sRGB"
+        "rtvFormat" : [
+            "8_sRGB"
+        ]
     }
 }

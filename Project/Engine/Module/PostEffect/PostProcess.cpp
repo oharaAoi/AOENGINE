@@ -19,11 +19,12 @@ void PostProcess::Finalize() {
 	gaussianFilter_.reset();
 	luminanceOutline_.reset();
 	depthOutline_.reset();
+	motionBlur_.reset();
 	effectList_.clear();
 	depthStencilResource_.Reset();
 }
 
-void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
+void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap);
@@ -77,10 +78,16 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	depthOutline_ = std::make_shared<DepthBasedOutline>();
 	depthOutline_->Init();
 
+	motionBlur_ = std::make_shared<MotionBlur>();
+	motionBlur_->Init();
+	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
+
 	//AddEffect(PostEffectType::GRAYSCALE);
+	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::BLOOM);
 	AddEffect(PostEffectType::DEPTH_OUTLINE);
+	AddEffect(PostEffectType::MOTIONBLUR);
 	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);
 
@@ -88,7 +95,8 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 }
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
-	Render::SetRenderTarget(RenderTargetType::OffScreen_RenderTarget, depthHandle_);
+	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
+	Render::SetRenderTarget(types, depthHandle_);
 	
 	if (effectList_.empty()) {
 		return;
@@ -173,6 +181,9 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::DEPTH_OUTLINE:
 			effectList_.push_back(depthOutline_);
 			break;
+		case PostEffectType::MOTIONBLUR:
+			effectList_.push_back(motionBlur_);
+			break;
 		default:
 			break;
 		}
@@ -222,6 +233,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 		break;
 	case PostEffectType::DEPTH_OUTLINE:
 		return depthOutline_;
+		break;
+	case PostEffectType::MOTIONBLUR:
+		return motionBlur_;
 		break;
 	default:
 		return nullptr;

@@ -110,12 +110,14 @@ void Pipeline::CreatePSO() {
 	desc.DepthStencilState = SetDepthStencilState(parameter_.depth);
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 書き込むRTVの情報
-	desc.NumRenderTargets = renderTargetNum_;
-	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		if (parameter_.rtvFormat == "16_FLOAT") {
+	desc.NumRenderTargets = static_cast<UINT>(parameter_.rtvFormats.size());
+	for (uint32_t oi = 0; oi < parameter_.rtvFormats.size(); ++oi) {
+		if (parameter_.rtvFormats[oi] == "16_FLOAT") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16B16A16_FLOAT;
-		} else if (parameter_.rtvFormat == "8_sRGB") {
+		} else if (parameter_.rtvFormats[oi] == "8_sRGB") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		} else if (parameter_.rtvFormats[oi] == "32_R") {
+			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16_FLOAT;
 		}
 
 	}

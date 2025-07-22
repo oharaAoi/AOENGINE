@@ -31,7 +31,7 @@ public:
 	static void Update();
 
 	static void PrimitiveDrawCall();
-	static void SetRenderTarget(const RenderTargetType& type, const DescriptorHandles& depthHandle);
+	static void SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle);
 
 	static LightGroup* GetLightGroup();
 
