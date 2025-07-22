@@ -63,9 +63,9 @@ void Render::PrimitiveDrawCall() {
 // ↓　RenderTargetを任意の物に設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::SetRenderTarget(const RenderTargetType& type) {
+void Render::SetRenderTarget(const RenderTargetType& type, const DescriptorHandles& depthHandle) {
 	currentRenderTarget_ = type;
-	GetInstance()->renderTarget_->SetRenderTarget(commandList_, type);
+	GetInstance()->renderTarget_->SetRenderTarget(commandList_, type, depthHandle);
 }
 
 LightGroup* Render::GetLightGroup() {

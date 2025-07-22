@@ -30,6 +30,8 @@ void BaseCamera::Update() {
 	viewMatrix_ = Inverse(cameraMatrix_);
 
 	billBordMat_ = transform_.rotate.MakeMatrix();
+
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 
 //================================================================================================//

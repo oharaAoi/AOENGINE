@@ -253,7 +253,8 @@ void DirectXCommon::CreateDSV() {
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
-	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(TYPE_DSV).handleCPU);
+	depthHandle_ = descriptorHeaps_->AllocateDSV();
+	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetBackBufferGpuHandle() {

@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
@@ -378,6 +379,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
@@ -664,6 +666,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\BrightnessThreshold.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\DepthBasedOutline.PS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

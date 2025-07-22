@@ -5,11 +5,17 @@
 
 class DescriptorHeap;
 
+enum DescriptorType {
+	SAHADERVIEW,
+	RTV,
+	DSV,
+};
+
 class DescriptorAllocator {
 public:
 
-	DescriptorAllocator(uint32_t totalDescriptors, uint32_t descriptorSize, int index)
-		: totalDescriptors_(totalDescriptors), descriptorSize_(descriptorSize), currentIndex_(index) {
+	DescriptorAllocator(DescriptorType type, uint32_t totalDescriptors, uint32_t descriptorSize, int index)
+		: type_(type), totalDescriptors_(totalDescriptors), descriptorSize_(descriptorSize), currentIndex_(index) {
 	}
 	~DescriptorAllocator();
 
@@ -22,6 +28,7 @@ public:
 
 private:
 
+	DescriptorType type_;
 
 	uint32_t totalDescriptors_;			// ディスクリプタの総数
 	uint32_t descriptorSize_;			// 各ディスクリプタのサイズ

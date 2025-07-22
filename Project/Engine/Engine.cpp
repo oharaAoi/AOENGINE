@@ -81,7 +81,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	postProcess_->Init(dxDevice_, dxHeap_);
 
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget, dxCommon_->GetDepthHandle());
 
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
@@ -134,7 +134,7 @@ void Engine::BeginFrame() {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
-	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget);
+	Render::SetRenderTarget(RenderTargetType::Object3D_RenderTarget, dxCommon_->GetDepthHandle());
 
 #ifdef _DEBUG
 	imguiManager_->Begin();

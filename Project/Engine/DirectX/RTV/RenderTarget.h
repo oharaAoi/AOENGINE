@@ -27,7 +27,7 @@ public:
 
 	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain);
 
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type);
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type, const DescriptorHandles dsvHandle);
 
 	void ClearDepth(ID3D12GraphicsCommandList* commandList);
 

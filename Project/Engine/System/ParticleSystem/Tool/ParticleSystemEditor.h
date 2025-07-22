@@ -115,6 +115,7 @@ private:
 	RenderTarget* renderTarget_ = nullptr;
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+	DescriptorHandles depthHandle_;
 
 	// renderer関連 ------------------------------------------
 

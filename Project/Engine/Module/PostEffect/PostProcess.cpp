@@ -1,5 +1,6 @@
 #include "PostProcess.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/Render.h"
 
 PostProcess::~PostProcess() {
 	Finalize();
@@ -17,7 +18,9 @@ void PostProcess::Finalize() {
 	smoothing_.reset();
 	gaussianFilter_.reset();
 	luminanceOutline_.reset();
+	depthOutline_.reset();
 	effectList_.clear();
+	depthStencilResource_.Reset();
 }
 
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
@@ -25,6 +28,21 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap);
 
+	// -------------------------------------------------
+	// ↓ 深度バッファの作成
+	// -------------------------------------------------
+	depthStencilResource_ = CreateDepthStencilTextureResource(device, kWindowWidth_, kWindowHeight_);
+	// DSVの生成
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+	depthHandle_ = descriptorHeap->AllocateDSV();
+	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
+
+	// -------------------------------------------------
+	// ↓ PostEffectの作成
+	// -------------------------------------------------
 	grayscale_ = std::make_shared<Grayscale>();
 	grayscale_->Init();
 
@@ -56,10 +74,13 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 	luminanceOutline_ = std::make_shared<LuminanceBasedOutline>();
 	luminanceOutline_->Init();
 
+	depthOutline_ = std::make_shared<DepthBasedOutline>();
+	depthOutline_->Init();
+
 	//AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::BLOOM);
-	AddEffect(PostEffectType::LUMINANCE_OUTLINE);
+	AddEffect(PostEffectType::DEPTH_OUTLINE);
 	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);
 
@@ -67,6 +88,8 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
 }
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
+	Render::SetRenderTarget(RenderTargetType::OffScreen_RenderTarget, depthHandle_);
+	
 	if (effectList_.empty()) {
 		return;
 	}
@@ -147,6 +170,9 @@ void PostProcess::AddEffect(PostEffectType type) {
 		case PostEffectType::LUMINANCE_OUTLINE:
 			effectList_.push_back(luminanceOutline_);
 			break;
+		case PostEffectType::DEPTH_OUTLINE:
+			effectList_.push_back(depthOutline_);
+			break;
 		default:
 			break;
 		}
@@ -194,6 +220,9 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	case PostEffectType::LUMINANCE_OUTLINE:
 		return luminanceOutline_;
 		break;
+	case PostEffectType::DEPTH_OUTLINE:
+		return depthOutline_;
+		break;
 	default:
 		return nullptr;
 		break;
@@ -207,4 +236,5 @@ void PostProcess::Debug_Gui() {
 	dissolve_->Debug_Gui();
 	bloom_->Debug_Gui();
 	smoothing_->Debug_Gui();
+	depthOutline_->Debug_Gui();
 }

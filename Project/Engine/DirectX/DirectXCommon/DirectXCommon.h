@@ -105,6 +105,8 @@ public:
 
 	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_.Get(); }
 
+	const DescriptorHandles& GetDepthHandle() const { return depthHandle_; }
+
 private:
 
 	int32_t kClientWidth_;
@@ -145,5 +147,6 @@ private:
 
 	// dsv
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+	DescriptorHandles depthHandle_;
 };
 

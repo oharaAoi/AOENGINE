@@ -9,7 +9,7 @@ DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptor
 	if (!freeStack_.empty()) {
 		// 再利用可能なインデックスをスタックから取得
 		uint32_t reusedIndex = freeStack_.top();
- 		freeStack_.pop();
+		freeStack_.pop();
 		/*std::string name = std::to_string(reusedIndex);
 		Log("popHeap" + name + "\n");*/
 		return GetDescriptorHandle(descriptorHeap, reusedIndex);
@@ -30,10 +30,15 @@ void DescriptorAllocator::Free(uint32_t index) {
 DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {
 	DescriptorHandles handles;
 	handles.handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
-	handles.handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+
+	if (type_ == SAHADERVIEW) {
+		handles.handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	}
 	handles.assignIndex_ = index;
 	// インデックスに基づきディスクリプタのオフセットを計算
 	handles.handleCPU.ptr += descriptorSize_ * index;
-	handles.handleGPU.ptr += descriptorSize_ * index;
+	if (type_ == SAHADERVIEW) {
+		handles.handleGPU.ptr += descriptorSize_ * index;
+	}
 	return handles;
 }

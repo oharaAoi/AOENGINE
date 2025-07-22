@@ -11,6 +11,7 @@
 #include "Engine/Module/PostEffect/Smoothing.h"
 #include "Engine/Module/PostEffect/GaussianFilter.h"
 #include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
+#include "Engine/Module/PostEffect/DepthBasedOutline.h"
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
@@ -27,6 +28,7 @@ enum class PostEffectType {
 	SMOOTHING,
 	GAUSSIANFILTER,
 	LUMINANCE_OUTLINE,
+	DEPTH_OUTLINE,
 };
 
 /// <summary>
@@ -79,6 +81,9 @@ public:
 
 private:
 
+	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+	DescriptorHandles depthHandle_;
+
 	std::unique_ptr<PingPongBuffer> pingPongBuff_;
 
 	std::shared_ptr<Grayscale> grayscale_;
@@ -91,6 +96,7 @@ private:
 	std::shared_ptr<Smoothing> smoothing_;
 	std::shared_ptr<GaussianFilter> gaussianFilter_;
 	std::shared_ptr<LuminanceBasedOutline> luminanceOutline_;
+	std::shared_ptr<DepthBasedOutline> depthOutline_;
 
 	std::list<std::shared_ptr<IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;

@@ -33,17 +33,15 @@ void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, ID
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　RenderTargetを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type) {
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	
+void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const RenderTargetType& type, const DescriptorHandles dsvHandle) {
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
 	//rtvHandles = RTVHandle_[type].handleCPU;
-	commandList->OMSetRenderTargets(1, &renderTargetResource_[type]->GetRTV().handleCPU, false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTargetResource_[type]->GetRTV().handleCPU, false, &dsvHandle.handleCPU);
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTargetResource_[type]->GetRTV().handleCPU, clearColor, 0, nullptr);
 	// 指定した深度で画面をクリア
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	commandList->ClearDepthStencilView(dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
 	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);

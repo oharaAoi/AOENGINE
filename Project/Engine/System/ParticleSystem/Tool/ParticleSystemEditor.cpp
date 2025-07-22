@@ -6,6 +6,7 @@
 #include <fstream>
 
 void ParticleSystemEditor::Finalize() {
+	descriptorHeaps_->FreeSRV(depthHandle_.assignIndex_);
 	depthStencilResource_.Reset();
 	particleRenderer_.reset();
 	particlesMap_.clear();
@@ -30,7 +31,8 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
-	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, descriptorHeaps_->GetDescriptorHandle(TYPE_DSV).handleCPU);
+	depthHandle_ = descriptorHeaps_->AllocateDSV();
+	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
 
 	// -------------------------------------------------
 	// ↓ Rendererの作成
@@ -403,11 +405,9 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::SetRenderTarget() {
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	dsvHandle.ptr += size_t(descriptorHeaps_->GetDescriptorSize()->GetDSV());
 	// RenderTargetを指定する
-	renderTarget_->SetRenderTarget(commandList_, RenderTargetType::EffectSystem_RenderTarget);
-	commandList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	renderTarget_->SetRenderTarget(commandList_, RenderTargetType::EffectSystem_RenderTarget, depthHandle_);
+	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 0.0f / 255, 0.0f / 255, 0.0f / 255.0f, 255.0f };
 	// RenderTargetをクリアする
 	commandList_->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);

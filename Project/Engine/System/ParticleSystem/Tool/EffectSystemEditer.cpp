@@ -132,7 +132,7 @@ void EffectSystemEditer::Begin() {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
 	dsvHandle.ptr += size_t(descriptorHeaps_->GetDescriptorSize()->GetDSV());
 	// RenderTargetを指定する
-	renderTarget_->SetRenderTarget(dxCmdList_, RenderTargetType::EffectSystem_RenderTarget);
+	//renderTarget_->SetRenderTarget(dxCmdList_, RenderTargetType::EffectSystem_RenderTarget);
 	dxCmdList_->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 35.0f / 255, 59.0f / 255, 108.0f / 255.0f, 0.0f };
 	// RenderTargetをクリアする

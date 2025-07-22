@@ -46,6 +46,7 @@
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\Smoothing.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\GaussianFilter.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\LuminanceBasedOutline.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\PostEffect\DepthBasedOutline.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -315,6 +316,7 @@
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -594,6 +596,7 @@
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
+    <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
