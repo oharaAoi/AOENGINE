@@ -69,6 +69,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 #ifdef _DEBUG
 	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
 	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
+	editorWindows_->SetRenderTarget(renderTarget_);
 
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
@@ -80,6 +81,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	effectSystem_->Init();
 
 	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_);
+
+	canvas2d_ = std::make_unique<Canvas2d>();
+	canvas2d_->Init();
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
@@ -183,6 +187,9 @@ void Engine::EndFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::RenderFrame() {
+	// -------------------------------------------------
+	// ↓ 線の描画
+	// -------------------------------------------------
 	// gameで使用したlineの描画を開始する
 	if (editorWindows_->GetColliderDraw()) {
 		ColliderCollector::GetInstance()->Draw();
@@ -195,35 +202,59 @@ void Engine::RenderFrame() {
 	primitivePipeline_->Draw(dxCmdList_);
 	Render::PrimitiveDrawCall();
 
-	// 最終Textureの作成
-	BlendFinalTexture();
+	// -------------------------------------------------
+	// ↓ PostEffectの実行
+	// -------------------------------------------------
+	BlendFinalTexture(Object3D_RenderTarget);
 
 	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
+
+	// -------------------------------------------------
+	// ↓ Sprite描画
+	// -------------------------------------------------
+	canvas2d_->Update();
+
+	std::vector<RenderTargetType> types;
+	types.push_back(RenderTargetType::Sprite2d_RenderTarget);
+	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
+	processedSceneFrame_->Draw(dxCmdList_);
+	canvas2d_->Draw();
+
+	BlendFinalTexture(Sprite2d_RenderTarget);
+	
+	// -------------------------------------------------
+	// ↓ 最終的なSceneの描画
+	// -------------------------------------------------
+	// swapChainの変更
+	dxCommon_->SetSwapChain();
+
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
+	processedSceneFrame_->Draw(dxCmdList_);
 
 	// guiの描画
 #ifdef _DEBUG
 	editorWindows_->Update();
 #endif
 
-	// swapChainの変更
-	dxCommon_->SetSwapChain();
-	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
-	processedSceneFrame_->Draw(dxCmdList_);
-
+	// -------------------------------------------------
+	// ↓ 次Frameの準備
+	// -------------------------------------------------
 	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	renderTarget_->TransitionResource(dxCmdList_, Sprite2d_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　最終的に描画するTextureを合成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Engine::BlendFinalTexture() {
+void Engine::BlendFinalTexture(RenderTargetType renderTargetType) {
 	// -------------------------------------------------
 	// ↓ Resourceの状態を切り替える(obj3D, sprite2D, renderTexture)
 	// -------------------------------------------------
 	renderTarget_->TransitionResource(
 		dxCmdList_,
-		Object3D_RenderTarget,
+		renderTargetType,
 		D3D12_RESOURCE_STATE_RENDER_TARGET,
 		D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE
 	);
@@ -236,7 +267,7 @@ void Engine::BlendFinalTexture() {
 	// -------------------------------------------------
 	// ↓ object3Dと最終描画のTextureを合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(Object3D_RenderTarget).handleGPU, processedSceneFrame_->GetUAV());
+	computeShader_->BlendRenderTarget(dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(renderTargetType).handleGPU, processedSceneFrame_->GetUAV());
 
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
@@ -348,6 +379,10 @@ void Engine::SetSkinning(Skinning* skinning) {
 
 void Engine::ResetComputeShader() {
 	computeShader_->ResetComputeShader();
+}
+
+Canvas2d* Engine::GetCanvas2d() {
+	return canvas2d_.get();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

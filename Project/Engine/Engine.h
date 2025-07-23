@@ -15,6 +15,7 @@
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Module/Components/Rigging/Skinning.h"
@@ -71,6 +72,8 @@ namespace {
 
 	std::unique_ptr<PostProcess> postProcess_;
 
+	std::unique_ptr<Canvas2d> canvas2d_;
+
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
 
@@ -113,7 +116,7 @@ public:
 
 	static void RenderFrame();
 
-	static void BlendFinalTexture();
+	static void BlendFinalTexture(RenderTargetType renderTargetType);
 
 
 public:
@@ -170,6 +173,8 @@ public:
 	/// CSをResetする
 	/// </summary>
 	static void ResetComputeShader();
+
+	static Canvas2d* GetCanvas2d();
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// sound系

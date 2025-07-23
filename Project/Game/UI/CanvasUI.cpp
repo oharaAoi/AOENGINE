@@ -1,11 +1,14 @@
 #include "CanvasUI.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/Module/Components/2d/Canvas2d.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Init() {
+	Canvas2d* canvas = Engine::GetCanvas2d();
+
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
 
@@ -31,6 +34,9 @@ void CanvasUI::Init() {
 
 	control_ = Engine::CreateSprite("control.png");
 	control_->SetTranslate(Vector2(640.0f, 360.0f));
+
+	canvas->AddSprite(boostOn_.get());
+	canvas->AddSprite(control_.get());
 
 	AddChild(energyOutput_.get());
 	AddChild(bossUIs_.get());
@@ -62,8 +68,12 @@ void CanvasUI::Update() {
 
 	boostOn_->SetTranslate(boostOnPos_);
 	boostOn_->SetScale(boostOnScale_);
-	boostOn_->Update();
-
+	if (pPlayer_->GetIsBoostMode()) {
+		boostOn_->SetEnable(true);
+	} else {
+		boostOn_->SetEnable(false);
+	}
+	
 	// boss
 	bossUIs_->Update();
 
@@ -80,21 +90,6 @@ void CanvasUI::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Draw() const {
-	reticle_->Draw();
-
-	energyOutput_->Draw();
-
-	playerUIs_->Draw();
-	bossUIs_->Draw();
-
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	if (pPlayer_->GetIsBoostMode()) {
-		boostOn_->Draw(pso);
-	} 
-
-	control_->Draw(pso);
-	clearNotificationUI_->Draw();
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

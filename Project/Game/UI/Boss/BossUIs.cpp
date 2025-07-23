@@ -67,6 +67,20 @@ void BossUIs::Update() {
 	for (auto& alert : attackAlertList_) {
 		alert->Update();
 	}
+
+	if (!pBoss_->GetPulseArmor()->GetIsAlive()) {
+		armorDurability_->SetIsEnable(false);
+		postureStability_->SetIsEnable(true);
+	} else {
+		postureStability_->SetIsEnable(false);
+		armorDurability_->SetIsEnable(true);
+	}
+
+	if (pBoss_->GetIsStan()) {
+		stanGaugeUI_->SetIsEnable(true);
+	} else {
+		stanGaugeUI_->SetIsEnable(false);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,22 +88,7 @@ void BossUIs::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUIs::Draw() const {
-	health_->Draw();
-
-	if (!pBoss_->GetPulseArmor()->GetIsAlive()) {
-		postureStability_->Draw();
-	} else {
-		armorDurability_->Draw();
-	}
-
-	for (auto& alert : attackAlertList_) {
-		alert->Draw();
-	}
-
-	// stanゲージ
-	if (pBoss_->GetIsStan()) {
-		stanGaugeUI_->Draw();
-	}
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

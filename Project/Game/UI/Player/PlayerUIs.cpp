@@ -23,6 +23,8 @@ void PlayerUIs::Init(Player* _player) {
 
 	postureStability_->SetScale(uiItems_.postureScale);
 	postureStability_->SetCenterPos(uiItems_.posturePos);
+
+	Engine::GetCanvas2d()->AddSprite(ap_.get());
 }
 
 void PlayerUIs::Update() {
@@ -37,10 +39,7 @@ void PlayerUIs::Update() {
 }
 
 void PlayerUIs::Draw() const {
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	ap_->Draw(pso);
-	health_->Draw();
-	postureStability_->Draw();
+
  }
 
 void PlayerUIs::Debug_Gui() {

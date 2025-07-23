@@ -13,6 +13,8 @@ void Reticle::Init() {
 	reticle_->SetTranslate(defaultPosition_);
 
 	isLockOn_ = false;
+
+	Engine::GetCanvas2d()->AddSprite(reticle_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

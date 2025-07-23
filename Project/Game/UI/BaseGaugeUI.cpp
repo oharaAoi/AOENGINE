@@ -17,6 +17,9 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 
 	bg_->SetScale(scale_);
 	front_->SetScale(scale_);
+
+	Engine::GetCanvas2d()->AddSprite(bg_.get());
+	Engine::GetCanvas2d()->AddSprite(front_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,18 +34,13 @@ void BaseGaugeUI::Update() {
 
 	bg_->SetScale(scale_);
 	front_->SetScale(scale_);
-
-	bg_->Update();
-	front_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void BaseGaugeUI::Draw() const {
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	bg_->Draw(pso);
-	front_->Draw(pso);
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,4 +56,9 @@ void BaseGaugeUI::Debug_Gui() {
 	front_->SetScale(scale_);
 
 	front_->Debug_Gui();
+}
+
+void BaseGaugeUI::SetIsEnable(bool _isActive) {
+	bg_->SetEnable(_isActive);
+	front_->SetEnable(_isActive);
 }

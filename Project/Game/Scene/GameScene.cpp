@@ -20,6 +20,8 @@ void GameScene::Init() {
 	EditorWindows::GetInstance()->Reset();
 #endif
 
+	Engine::GetCanvas2d()->Init();
+
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 

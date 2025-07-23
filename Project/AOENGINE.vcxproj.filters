@@ -319,6 +319,7 @@
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -600,6 +601,7 @@
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
+    <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

@@ -140,11 +140,11 @@ void RenderTarget::CreateRenderTarget() {
 
 	// 実際の初期化
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		/*if (oi == RenderTargetType::MotionVector_RenderTarget) {
-			rtvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
-			srvDesc.Format = DXGI_FORMAT_R16G16_FLOAT;
-			desc.Format = DXGI_FORMAT_R16G16_FLOAT;
-		}*/
+		if (oi == RenderTargetType::Sprite2d_RenderTarget) {
+			rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+			srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+			desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		}
 		renderTargetResource_[oi] = std::make_unique<DxResource>();
 		renderTargetResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
 

@@ -95,6 +95,8 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 		* Matrix4x4::MakeUnit()
 		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
+
+	isEnable_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

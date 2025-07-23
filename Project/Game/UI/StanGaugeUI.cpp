@@ -6,6 +6,9 @@ void StanGaugeUI::Init(const Vector2& scale, const Vector2& pos) {
 	gauge_ = Engine::CreateSprite("gauge.png");
 	bg_ = Engine::CreateSprite("postureStability_bg.png");
 
+	Engine::GetCanvas2d()->AddSprite(gauge_.get());
+	Engine::GetCanvas2d()->AddSprite(bg_.get());
+
 	param_.FromJson(JsonItems::GetData("UI", param_.GetName()));
 
 	scale_ = scale;
@@ -25,15 +28,10 @@ void StanGaugeUI::Update() {
 
 	gauge_->SetScale(scale_);
 	gauge_->SetColor(Vector4(1.0f, 0.2f, 0.2f, alpha_));
-
-	gauge_->Update();
-	bg_->Update();
 }
 
 void StanGaugeUI::Draw() const {
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	bg_->Draw(pso);
-	gauge_->Draw(pso);
+
 }
 
 void StanGaugeUI::Debug_Gui() {
@@ -51,4 +49,9 @@ void StanGaugeUI::Debug_Gui() {
 void StanGaugeUI::Pop() {
 	scaleTween_.Reset();
 	alphaTween_.Reset();
+}
+
+void StanGaugeUI::SetIsEnable(bool _isActive) {
+	gauge_->SetEnable(_isActive);
+	bg_->SetEnable(_isActive);
 }

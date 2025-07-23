@@ -109,6 +109,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
@@ -380,6 +381,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />

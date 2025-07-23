@@ -50,6 +50,8 @@ public:
 
 	void Pop();
 
+	void SetIsEnable(bool _isActive);
+
 private:
 
 	std::unique_ptr<Sprite> gauge_;

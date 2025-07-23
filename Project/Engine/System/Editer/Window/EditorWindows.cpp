@@ -1,6 +1,7 @@
 #include "EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Core/GraphicsContext.h"
 
 EditorWindows::~EditorWindows() {}
 EditorWindows* EditorWindows::GetInstance() {
@@ -129,10 +130,10 @@ void EditorWindows::End() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::GameWindow() {
+
 	if (ImGui::Begin("Game Window", nullptr)) {
 		processedSceneFrame_->DrawGui();
 	}
-
 	gameObjectWindow_->Edit();
 }
 

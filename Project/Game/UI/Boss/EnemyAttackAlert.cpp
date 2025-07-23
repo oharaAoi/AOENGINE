@@ -8,6 +8,7 @@ void EnemyAttackAlert::Init() {
 	blinkingCount_ = 0;
 	isDraw_ = true;
 
+	Engine::GetCanvas2d()->AddSprite(alert_.get());
 	AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
 }
 
@@ -15,8 +16,6 @@ void EnemyAttackAlert::Update() {
 	alert_->SetTranslate(centerPos_);
 	alert_->SetScale(scale_);
 
-	alert_->Update();
-	
 	Alert();
 }
 
@@ -46,6 +45,7 @@ void EnemyAttackAlert::Alert() {
 
 bool EnemyAttackAlert::IsDestroy() {
 	if (blinkingCount_ >= 3) {
+		Engine::GetCanvas2d()->DeleteSprite(alert_.get());
 		return true;
 	}
 	return false;

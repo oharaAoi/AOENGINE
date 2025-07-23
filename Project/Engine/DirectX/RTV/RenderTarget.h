@@ -13,6 +13,7 @@ enum RenderTargetType {
 	Object3D_RenderTarget,
 	MotionVector_RenderTarget,
 	OffScreen_RenderTarget,
+	Sprite2d_RenderTarget,
 	EffectSystem_RenderTarget,
 	PreEffectSystem_RenderTarget,
 };

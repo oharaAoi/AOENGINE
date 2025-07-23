@@ -66,6 +66,8 @@ public:
 
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
+	void SetRenderTarget(RenderTarget* _renderTarget) { renderTarget_ = _renderTarget; }
+
 	void Reset();
 
 	bool GetSceneReset() const { return sceneReset_; }
@@ -87,6 +89,8 @@ private:
 	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
 
 	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
+
+	RenderTarget* renderTarget_;
 
 	std::function<void()> windowUpdate_;
 

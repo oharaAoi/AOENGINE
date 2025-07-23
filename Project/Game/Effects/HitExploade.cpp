@@ -96,6 +96,8 @@ void HitExplode::Draw() const {
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
 	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);

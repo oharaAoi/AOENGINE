@@ -15,6 +15,8 @@ void ClearNotificationUI::Init() {
 	alphaTween_.Init(&alpha_, 0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
 
 	isBreak_ = false;
+
+	Engine::GetCanvas2d()->AddSprite(sprite_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +25,11 @@ void ClearNotificationUI::Init() {
 
 void ClearNotificationUI::Update(bool isBossBreak) {
 	isBreak_ = isBossBreak;
-	if (!isBossBreak) { return; }
+	if (!isBossBreak) { 
+		sprite_->SetEnable(false);
+		return;
+	}
+	sprite_->SetEnable(true);
 
 	posTween_.Update(GameTimer::DeltaTime());
 	alphaTween_.Update(GameTimer::DeltaTime());
@@ -42,10 +48,6 @@ void ClearNotificationUI::Update(bool isBossBreak) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ClearNotificationUI::Draw() const {
-	if (!isBreak_) { return; }
-
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	sprite_->Draw(pso);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

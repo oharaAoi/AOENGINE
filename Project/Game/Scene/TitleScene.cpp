@@ -19,6 +19,8 @@ void TitleScene::Init() {
 	EditorWindows::GetInstance()->Reset();
 #endif
 
+	Engine::GetCanvas2d()->Init();
+
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
@@ -96,8 +98,4 @@ void TitleScene::Draw() const {
 	skybox_->Draw();
 
 	sceneRenderer_->Draw();
-
-	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
-	titleUIs_->Draw();
-	fadePanel_->Draw();
 }

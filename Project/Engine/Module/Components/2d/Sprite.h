@@ -103,8 +103,13 @@ public:
 	const Vector2 GetTextureSize() const { return textureSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
+
+	const bool GetEnable() const { return isEnable_; }
+	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }
 	
 private:
+
+	bool isEnable_;
 
 	// 定数バッファ
 	ComPtr<ID3D12Resource> vertexBuffer_;

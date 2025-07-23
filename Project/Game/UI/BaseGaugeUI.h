@@ -32,6 +32,8 @@ public:	// accessor method
 	void SetScale(const Vector2& scale) { scale_ = scale; }
 	const Vector2& GetScale() const { return scale_; }
 
+	void SetIsEnable(bool _isActive);
+
 protected:
 
 	std::unique_ptr<Sprite> bg_;
