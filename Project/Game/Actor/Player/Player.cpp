@@ -188,6 +188,33 @@ void Player::Update() {
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+
+	// スクリーン座標系でのX成分の差を求める
+	Vector3 screenPos = Transform({ 0.0f, 0.0f, 0.0f },transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
+	Vector3 screenPosPrev = Transform({ 0.0f, 0.0f, 0.0f },transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
+	screenPos_ = Vector2(screenPos.x, screenPos.y);
+	screenPosPrev_ = Vector2(screenPosPrev.x, screenPosPrev.y);
+
+	// ---- 1) ターゲット角度の生計算 ----
+	float diffX = std::abs(screenPos_.x) - std::abs(screenPosPrev_.x);
+	diffX *= -1.0f; // 向きを反転（現行コード準拠）
+
+	// Clamp（過剰な揺れを抑制）
+	diffX = std::clamp(diffX, -0.05f, 0.05f);
+
+	// k は「今回どれだけターゲットに寄せるか」の係数（0～1）
+	// smoothSpeed_ が大きいほど反応が速い
+	float k = 1.0f - std::exp(-5 * GameTimer::DeltaTime());
+	// 念のため数値誤差で1超えを防止
+	k = std::clamp(k, 0.0f, 1.0f);
+
+	smoothedDiffX_ += (diffX - smoothedDiffX_) * k;
+
+	// もし安全のため最終値も範囲内に留めたいなら（任意）
+	smoothedDiffX_ = std::clamp(smoothedDiffX_, -0.05f, 0.05f);
+
+	// ---- 3) カメラに適用 ----
+	pFollowCamera_->SetAngleZ(smoothedDiffX_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

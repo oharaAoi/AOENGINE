@@ -67,6 +67,7 @@ public:
 	const Vector3& GetTranslation() const { return translate_; }
 	const Quaternion& GetQuaternion() const { return rotation_; }
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
+	const Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
 public:
 

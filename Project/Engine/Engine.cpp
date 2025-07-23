@@ -222,6 +222,12 @@ void Engine::RenderFrame() {
 	canvas2d_->Draw();
 
 	BlendFinalTexture(Sprite2d_RenderTarget);
+
+	// guiの描画
+#ifdef _DEBUG
+	editorWindows_->Update();
+#endif
+
 	
 	// -------------------------------------------------
 	// ↓ 最終的なSceneの描画
@@ -231,11 +237,6 @@ void Engine::RenderFrame() {
 
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
-
-	// guiの描画
-#ifdef _DEBUG
-	editorWindows_->Update();
-#endif
 
 	// -------------------------------------------------
 	// ↓ 次Frameの準備

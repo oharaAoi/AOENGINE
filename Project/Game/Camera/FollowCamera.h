@@ -88,6 +88,8 @@ public:		// accessor method
 
 	Quaternion GetAngleX();
 
+	void SetAngleZ(float _angle) { angle_.z = _angle; }
+
 private:
 
 	// 他クラス ------------------------------------------------
@@ -103,8 +105,8 @@ private:
 	CameraParameter followCamera_;
 	CameraParameter initFollowCamera_;
 
-	Vector2 angle_ = {};
-	
+	Vector3 angle_ = {};
+
 	const float kDeadZone_ = 0.4f;
 	Vector2 stick_;
 

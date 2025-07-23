@@ -406,7 +406,14 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 
 void ParticleSystemEditor::SetRenderTarget() {
 	// RenderTargetを指定する
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
 	std::vector<RenderTargetType> types(1, RenderTargetType::EffectSystem_RenderTarget);
+	rtvHandles.reserve(types.size());
+	for (size_t index = 0; index < types.size(); ++index) {
+		rtvHandles.push_back(renderTarget_->GetRenderTargetRTVHandle(EffectSystem_RenderTarget).handleCPU);
+	}
+
+	commandList_->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &depthHandle_.handleCPU);
 	renderTarget_->SetRenderTarget(commandList_, types, depthHandle_);
 	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 0.0f / 255, 0.0f / 255, 0.0f / 255.0f, 255.0f };
@@ -428,6 +435,8 @@ void ParticleSystemEditor::PreDraw() {
 
 	// Grid線描画
 	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

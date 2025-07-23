@@ -30,6 +30,9 @@ void BossUIs::Init(Boss* _boss) {
 
 	armorDurability_->SetScale(uiItems_.postureScale);
 	armorDurability_->SetCenterPos(uiItems_.posturePos);
+	armorDurability_->SetIsEnable(false);
+
+	stanGaugeUI_->SetIsEnable(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

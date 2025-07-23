@@ -86,7 +86,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::BLOOM);
-	AddEffect(PostEffectType::DEPTH_OUTLINE);
+	//AddEffect(PostEffectType::DEPTH_OUTLINE);
 	AddEffect(PostEffectType::MOTIONBLUR);
 	AddEffect(PostEffectType::TOONMAP);
 	//AddEffect(PostEffectType::DISSOLVE);

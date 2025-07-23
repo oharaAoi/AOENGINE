@@ -18,7 +18,7 @@ void FollowCamera::Debug_Gui() {
 	ImGui::Text("stick.Length: %f", stick_.Length());
 	Vector3 pos = transform_.worldMat_.GetPosition();
 	ImGui::DragFloat3("pos", &pos.x, 0.1f);
-	ImGui::DragFloat2("angle", &angle_.x, 0.1f);
+	ImGui::DragFloat3("angle", &angle_.x, 0.1f);
 	ImGui::DragFloat("rotateLength_", &rotateLength_, 0.1f);
 
 	if (ImGui::CollapsingHeader("Base", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -137,15 +137,19 @@ void FollowCamera::InputStick() {
 void FollowCamera::RotateCamera() {
 	if (pReticle_->GetLockOn()) {
 		pivotSRT_.rotate = Quaternion::LookAt(pTarget_->GetGameObject()->GetPosition(), pReticle_->GetTargetPos());
+		Quaternion roll = Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
+		pivotSRT_.rotate = pivotSRT_.rotate * roll;
 
 		Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
 		angle_.x = euler.y;
 		angle_.y = euler.x;
+		angle_.z = euler.z;
 
 	} else {
 		Quaternion yaw = Quaternion::AngleAxis(angle_.x, CVector3::UP);
 		Quaternion pitch = Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
-		pivotSRT_.rotate = yaw * pitch;
+		Quaternion roll = Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
+		pivotSRT_.rotate = yaw * pitch * roll;
 	}
 }
 

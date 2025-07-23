@@ -15,9 +15,6 @@ void CanvasUI::Init() {
 	energyOutput_ = std::make_unique<EnergyOutput>();
 	energyOutput_->Init();
 
-	postureStability_ = std::make_unique<PostureStability>();
-	postureStability_->Init();
-
 	boostOn_ = Engine::CreateSprite("boostOn.png");
 
 	// player

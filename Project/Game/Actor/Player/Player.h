@@ -1,6 +1,7 @@
 #pragma once
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include "Engine/Lib/Math/Vector2.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -191,6 +192,10 @@ private:
 	
 	Matrix4x4 leftHandMat_;
 	Matrix4x4 rightHandMat_;
+
+	Vector2 screenPos_;
+	Vector2 screenPosPrev_;
+	float smoothedDiffX_ = 0.0f;
 
 };
 

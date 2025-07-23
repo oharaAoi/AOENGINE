@@ -144,6 +144,10 @@ void RenderTarget::CreateRenderTarget() {
 			rtvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 			srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 			desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		} else {
+			rtvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+			srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+			desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		}
 		renderTargetResource_[oi] = std::make_unique<DxResource>();
 		renderTargetResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
