@@ -28,6 +28,8 @@ public:
 
 	void SetOwner(OwnerType* owner) { pOwner_ = owner; }
 
+	std::string GetStateName() { return GetName(); }
+
 protected:
 
 	// この状態を管理しているステートマシーンをセット

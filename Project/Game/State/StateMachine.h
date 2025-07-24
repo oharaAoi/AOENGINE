@@ -67,7 +67,7 @@ public:
 		}
 	}
 
-	std::string GetActionName() { return state_->GetStateName(); }
+	std::string GetStateName() { return state_->GetStateName(); }
 
 	void Debug_Gui() override {};
 

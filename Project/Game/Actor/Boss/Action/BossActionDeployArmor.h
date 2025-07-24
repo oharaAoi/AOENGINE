@@ -13,22 +13,25 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float deployTime = 3.0f;
+		float coolTime = 20.0f;
 
 		Parameter() { SetName("bossActionDeployArmor"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("deployTime", deployTime)
+				.Add("coolTime", coolTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "deployTime", deployTime);
+			fromJson(jsonData, "coolTime", coolTime);
 		}
 	};
 public:
 
-	BossActionDeployArmor() = default;
+	BossActionDeployArmor();
 	~BossActionDeployArmor() override = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
@@ -51,6 +54,7 @@ public:
 private:
 
 	Parameter param_;
+	bool isDeploy_ = false;
 
 };
 

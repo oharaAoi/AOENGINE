@@ -262,12 +262,12 @@ void BehaviorTree::Edit() {
 		if (ImGui::Begin("BehaviorTreeEditor", &isOpenEditor_, windowFlags_)) {
 
 			std::string loadFilePath;
-			if (ButtonOpenDialog("Load", "Tree", "LoadTree", ".json", loadFilePath)) {
+			if (ButtonOpenDialog("Load Tree", "Load_Tree", "LoadTree", ".json", loadFilePath)) {
 				CreateTree(loadFilePath);
 			}
 
 			std::string filePath;
-			if (ButtonOpenDialog("Save", "Tree", "SaveTree", ".json", filePath)) {
+			if (ButtonOpenDialog("Save Tree", "Save_Tree", "SaveTree", ".json", filePath)) {
 				BehaviorTreeSerializer::Save(filePath, root_->ToJson());
 			}
 

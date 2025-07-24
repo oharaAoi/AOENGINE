@@ -4,6 +4,10 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/State/BossStateDeployArmor.h"
 
+BossActionDeployArmor::BossActionDeployArmor() {
+	isDeploy_ = false;
+}
+
 BehaviorStatus BossActionDeployArmor::Execute() {
 	return Action();
 }
@@ -19,6 +23,7 @@ float BossActionDeployArmor::EvaluateWeight() {
 void BossActionDeployArmor::Debug_Gui() {
 	ITaskNode::Debug_Gui();
 	ImGui::DragFloat("deployTime", &param_.deployTime, 0.1f);
+	ImGui::DragFloat("coolTime", &param_.coolTime, 0.1f);
 
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
@@ -41,6 +46,15 @@ bool BossActionDeployArmor::IsFinish() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionDeployArmor::CanExecute() {
+	if (pTarget_->GetState()->GetStateName() == "DeployArmorState") {
+		return false;
+	}
+
+	if (pTarget_->GetPhase() == BossPhase::FIRST) {
+		if (isDeploy_) {
+			return false;
+		}
+	}
 	return true;
 }
 
@@ -51,6 +65,7 @@ bool BossActionDeployArmor::CanExecute() {
 void BossActionDeployArmor::Init() {
 	taskTimer_ = 0.0f;
 	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	isDeploy_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,4 +83,5 @@ void BossActionDeployArmor::Update() {
 
 void BossActionDeployArmor::End() {
 	pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
+	coolTime_ = param_.coolTime;
 }

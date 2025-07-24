@@ -126,6 +126,8 @@ void Boss::Init() {
 	isAlive_ = true;
 	isStan_ = false;
 
+	phase_ = BossPhase::FIRST;
+
 	EditorWindows::AddObjectWindow(this, "Boss");
 }
 
@@ -139,8 +141,8 @@ void Boss::Update() {
 		return;
 	}
 
-	behaviorTree_->Run();
 	stateMachine_->Update();
+	behaviorTree_->Run();
 
 	pulseArmor_->Update();
 }
@@ -187,4 +189,5 @@ void Boss::Damage(float _takeDamage) {
 void Boss::ResetStan() {
 	isStan_ = false;
 	param_.postureStability -= initParam_.postureStability;
+	behaviorTree_->SetExecute(true);
 }

@@ -34,6 +34,8 @@ public:
 
 	void SetTarget(BaseEntity* _target) { pTarget_ = _target; }
 
+	void SetExecute(bool _isExecute) { isExecute_ = _isExecute; }
+
 private:
 
 	// 接続

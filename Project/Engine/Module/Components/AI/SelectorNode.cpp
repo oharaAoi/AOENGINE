@@ -17,6 +17,7 @@ BehaviorStatus SelectorNode::Execute() {
 		}
 
 		if (status == BehaviorStatus::Failure) {
+			++currentIndex_;
 			return BehaviorStatus::Failure;
 		}
 

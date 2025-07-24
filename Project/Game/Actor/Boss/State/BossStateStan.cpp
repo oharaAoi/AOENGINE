@@ -18,6 +18,8 @@ void BossStateStan::OnStart() {
 
 	pOwner_->SetIsStan(true);
 	pOwner_->GetUIs()->PopStan();
+
+	pOwner_->StopTree(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

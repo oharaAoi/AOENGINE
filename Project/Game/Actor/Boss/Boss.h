@@ -11,6 +11,11 @@
 #include "Game/Actor/Boss/BossAI.h"
 #include "Game/Actor/Weapon/PulseArmor.h"
 
+enum class BossPhase {
+	FIRST,
+	SECOND,
+};
+
 class BossUIs;
 
 class Boss :
@@ -86,6 +91,13 @@ public:
 	bool GetIsStan() const { return isStan_; }
 	void SetIsStan(bool isStan) { isStan_ = isStan; }
 
+	// Treeを止める
+	void StopTree(bool _isStop) { behaviorTree_->SetExecute(_isStop); }
+
+	// phase
+	void SetPhase(BossPhase _phase) { phase_ = _phase; }
+	BossPhase GetPhase() const { return phase_; }
+
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
 
@@ -97,6 +109,9 @@ private:
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
+
+	BossPhase phase_;
+
 	// weapon ------------------------------------------------
 	PulseArmor* pulseArmor_;
 
