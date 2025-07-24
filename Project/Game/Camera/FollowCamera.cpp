@@ -21,13 +21,13 @@ void FollowCamera::Debug_Gui() {
 	ImGui::DragFloat3("angle", &angle_.x, 0.1f);
 	ImGui::DragFloat("rotateLength_", &rotateLength_, 0.1f);
 
-	if (ImGui::CollapsingHeader("Base", ImGuiTreeNodeFlags_DefaultOpen)) {
+	if (ImGui::CollapsingHeader("Base")) {
 		ImGui::DragFloat("near", &near_, 0.1f);
 		ImGui::DragFloat("far", &far_, 0.1f);
 		ImGui::DragFloat("fovY", &fovY_, 0.1f);
 	}
 
-	if (ImGui::CollapsingHeader("FollowCamera", ImGuiTreeNodeFlags_DefaultOpen)) {
+	if (ImGui::CollapsingHeader("FollowCamera")) {
 		ImGui::DragFloat("distance", &followCamera_.distance, 0.1f);
 		ImGui::DragFloat("rotateDelta", &followCamera_.rotateDelta, 0.1f);
 		ImGui::DragFloat3("offset", &followCamera_.offset.x, 0.1f);
@@ -54,6 +54,28 @@ void FollowCamera::Debug_Gui() {
 		}
 	}
 
+	if (ImGui::CollapsingHeader("AnimationParam")) {
+		ImGui::DragFloat3("firstOffset", &animationParam_.firstOffset.x, 0.1f);
+		ImGui::DragFloat("animationTime", &animationParam_.moveTime, 0.1f);
+		SelectEasing(animationParam_.easingIndex);
+		ImGui::ColorEdit4("color", &animationParam_.scaleColor.x);
+		ImGui::DragFloat("vginetteColor", &animationParam_.vignettePower, 0.01f);
+
+		if (ImGui::Button("Save##Anima")) {
+			JsonItems::Save("FollowCamera", animationParam_.ToJson(animationParam_.GetName()));
+		}
+		if (ImGui::Button("Apply##Anima_apply")) {
+			animationParam_.FromJson(JsonItems::GetData("FollowCamera", animationParam_.GetName()));
+		}
+
+		if (ImGui::Button("Reset")) {
+			isAnimationFinish_ = false;
+			animationTimer_ = 0.0f;
+			grayscale_->SetIsEnable(true);
+			vignette_->SetIsEnable(true);
+		}
+	}
+
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 
@@ -65,16 +87,23 @@ void FollowCamera::Init() {
 	BaseCamera::Init();
 
 	followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
+	animationParam_.FromJson(JsonItems::GetData("FollowCamera", animationParam_.GetName()));
+	animationTimer_ = 0.0f;
 
 	shakeTimer_ = shakeTime_;
-
-	//angle_.y = 30.0f * kToRadian;
+	animationParam_.targetOffset = followCamera_.offset;
+	isAnimationFinish_ = false;
 
 	transform_.rotate = Quaternion(0, 0, 0, 1.0f);
 
 	pivotSRT_.scale = { 1.0f, 1.0f, 1.0f };
 	pivotSRT_.rotate = Quaternion(0, 0, 0, 1.0f);
 	transform_.SetParent(pivotSRT_.worldMat_);
+
+	grayscale_ = Engine::GetPostProcess()->GetGrayscale();
+	vignette_ = Engine::GetPostProcess()->GetVignette();
+	grayscale_->SetIsEnable(true);
+	vignette_->SetIsEnable(true);
 
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "FollowCamera");
@@ -88,6 +117,10 @@ void FollowCamera::Init() {
 void FollowCamera::Update() {
 	if (!pTarget_) {
 		return;
+	}
+
+	if (!isAnimationFinish_) {
+		FirstCameraMove();
 	}
 
 	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
@@ -176,6 +209,27 @@ void FollowCamera::Shake() {
 		float currentShakeStrength_ = std::lerp(shakeStrength_, 0.0f, t);
 		shakeDire *= currentShakeStrength_;
 		transform_.translate += shakeDire;
+	}
+}
+
+void FollowCamera::FirstCameraMove() {
+	animationTimer_ += GameTimer::DeltaTime();
+	float t = animationTimer_ / animationParam_.moveTime;
+	followCamera_.offset = Vector3::Lerp(animationParam_.firstOffset, animationParam_.targetOffset, CallEasing(animationParam_.easingIndex, t));
+
+	// grayscale分
+	float alpha = std::lerp(1.0f, 0.0f, t);
+	animationParam_.scaleColor.w = alpha;
+	grayscale_->SetColor(animationParam_.scaleColor);
+
+	// vignette分
+	float power = std::lerp(animationParam_.vignettePower, 0.0f, t);
+	vignette_->SetPower(power);
+
+	if (animationTimer_ > animationParam_.moveTime) {
+		grayscale_->SetIsEnable(false);
+		vignette_->SetIsEnable(false);
+		isAnimationFinish_ = true;
 	}
 }
 

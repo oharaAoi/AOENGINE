@@ -88,17 +88,17 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
 	motionBlur_->SetIsEnable(true);
 
-	AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
 	AddEffect(PostEffectType::VIGNETTE);
 	AddEffect(PostEffectType::DISSOLVE);
-	AddEffect(PostEffectType::BLOOM);
 	AddEffect(PostEffectType::LUMINANCE_OUTLINE);
 	AddEffect(PostEffectType::DEPTH_OUTLINE);
+	AddEffect(PostEffectType::BLOOM);
 	AddEffect(PostEffectType::MOTIONBLUR);
 	AddEffect(PostEffectType::SMOOTHING);
 	AddEffect(PostEffectType::GAUSSIANFILTER);
+	AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::TOONMAP);
 
 	EditorWindows::AddObjectWindow(this, "Post Process");

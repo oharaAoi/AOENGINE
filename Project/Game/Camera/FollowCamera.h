@@ -1,5 +1,7 @@
 #pragma once
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/PostEffect/Grayscale.h"
+#include "Engine/Module/PostEffect/Vignette.h"
 #include "Game/Camera/BaseCamera.h"
 #include "Game/UI/Reticle.h"
 #include <utility>
@@ -57,6 +59,36 @@ public:
 		}
 	};
 
+	struct AnimationParameter : public IJsonConverter {
+		Vector3 firstOffset;
+		Vector3 targetOffset;
+		float moveTime;
+		int easingIndex;
+		Vector4 scaleColor;
+		float vignettePower;
+
+		AnimationParameter() { SetName("AnimationParameter"); }
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("firstOffset", firstOffset)
+				.Add("moveTime", moveTime)
+				.Add("easingIndex", easingIndex)
+				.Add("scaleColor", scaleColor)
+				.Add("vignettePower", vignettePower)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "firstOffset", firstOffset);
+			fromJson(jsonData, "moveTime", moveTime);
+			fromJson(jsonData, "easingIndex", easingIndex);
+			fromJson(jsonData, "scaleColor", scaleColor);
+			fromJson(jsonData, "vignettePower", vignettePower);
+		}
+
+	};
+
 public:
 
 	FollowCamera() = default;
@@ -77,6 +109,8 @@ private:	// private method
 	void MoveCamera(const Vector3& target);
 
 	void Shake();
+
+	void FirstCameraMove();
 
 public:		// accessor method
 
@@ -120,6 +154,13 @@ private:
 	float shakeTimer_ = 1.0f;
 	float shakeTime_ = 1.0f;
 	float shakeStrength_;
+
+	// Animation ------------------------------------------------
+	AnimationParameter animationParam_;
+	float animationTimer_;
+	bool isAnimationFinish_;
+	std::shared_ptr<Grayscale> grayscale_;
+	std::shared_ptr<Vignette> vignette_;
 
 };
 

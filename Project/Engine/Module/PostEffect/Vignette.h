@@ -25,6 +25,8 @@ public:
 
 	void Debug_Gui() override;
 
+	void SetPower(float _power) { setting_->power = _power; }
+
 private:
 
 	std::unique_ptr<DxResource> settingBuffer_;

@@ -36,7 +36,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
 	newParticle.firstScale = newParticle.scale;
-	newParticle.rotate = Quaternion::AngleAxis(RandomFloat(emitter_.angleMin, emitter_.angleMax), CVector3::FORWARD);
+	newParticle.rotate = Quaternion();
 	newParticle.translate = pos;
 	newParticle.color = emitter_.color;
 	if (emitter_.shape == 0) {
