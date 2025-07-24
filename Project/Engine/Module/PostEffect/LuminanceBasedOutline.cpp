@@ -11,3 +11,7 @@ void LuminanceBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, D
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+void LuminanceBasedOutline::CheckBox() {
+	ImGui::Checkbox("LuminanceBasedOutline##LuminanceBasedOutline_checkbox", &isEnable_);
+}

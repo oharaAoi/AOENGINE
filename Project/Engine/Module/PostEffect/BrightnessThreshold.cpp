@@ -28,6 +28,9 @@ void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, DxR
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
+void BrightnessThreshold::CheckBox() {
+}
+
 void BrightnessThreshold::Debug_Gui() {
 	ImGui::DragFloat("threshold", &bloomSetting_->threshold, 0.01f, 0.0f, 1.0f);
 }

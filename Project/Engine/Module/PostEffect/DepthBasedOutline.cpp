@@ -44,8 +44,12 @@ void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxRes
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,  D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
 
+void DepthBasedOutline::CheckBox() {
+	ImGui::Checkbox("DepthBasedOutline##DepthBasedOutline_CheckBox", &isEnable_);
+}
+
 void DepthBasedOutline::Debug_Gui() {
-	if (ImGui::CollapsingHeader("DepthBasedOutline")) {
+	if (ImGui::CollapsingHeader("DepthBasedOutline##DepthBasedOutline_Header")) {
 		ImGui::DragFloat("edgeGain", &setting_->edgeGain, 0.1f, 0.0f, 10.0f);
 	}
 }

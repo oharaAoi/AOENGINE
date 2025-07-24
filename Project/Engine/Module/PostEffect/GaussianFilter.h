@@ -19,7 +19,9 @@ public:
 
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
-	void Debug_Gui() {};
+	void CheckBox() override;
+
+	void Debug_Gui() override {};
 
 private:
 

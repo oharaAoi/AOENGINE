@@ -14,6 +14,10 @@ public:
 
 	void SetMotionResource(DxResource* _resource) { motionResource_ = _resource; }
 
+	void CheckBox() override;
+
+	void Debug_Gui() override {};
+
 private:
 
 	DxResource* motionResource_;

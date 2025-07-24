@@ -1,6 +1,7 @@
 #include "PostProcess.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render.h"
+#include "imgui.h"
 
 PostProcess::~PostProcess() {
 	Finalize();
@@ -49,9 +50,11 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 
 	radialBlur_ = std::make_shared<RadialBlur>();
 	radialBlur_->Init();
+	radialBlur_->SetIsEnable(true);
 
 	glitchNoise_ = std::make_shared<GlitchNoise>();
 	glitchNoise_->Init();
+	radialBlur_->SetIsEnable(true);
 
 	vignette_ = std::make_shared<Vignette>();
 	vignette_->Init();
@@ -61,10 +64,12 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 
 	toonMap_ = std::make_shared<ToonMap>();
 	toonMap_->Init();
+	toonMap_->SetIsEnable(true);
 
 	bloom_ = std::make_shared<Bloom>();
 	bloom_->Init();
 	bloom_->SetPongResource(pingPongBuff_.get());
+	bloom_->SetIsEnable(true);
 
 	smoothing_ = std::make_unique<Smoothing>();
 	smoothing_->Init();
@@ -81,15 +86,20 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	motionBlur_ = std::make_shared<MotionBlur>();
 	motionBlur_->Init();
 	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
+	motionBlur_->SetIsEnable(true);
 
-	//AddEffect(PostEffectType::GRAYSCALE);
+	AddEffect(PostEffectType::GRAYSCALE);
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);
+	AddEffect(PostEffectType::VIGNETTE);
+	AddEffect(PostEffectType::DISSOLVE);
 	AddEffect(PostEffectType::BLOOM);
-	//AddEffect(PostEffectType::DEPTH_OUTLINE);
+	AddEffect(PostEffectType::LUMINANCE_OUTLINE);
+	AddEffect(PostEffectType::DEPTH_OUTLINE);
 	AddEffect(PostEffectType::MOTIONBLUR);
+	AddEffect(PostEffectType::SMOOTHING);
+	AddEffect(PostEffectType::GAUSSIANFILTER);
 	AddEffect(PostEffectType::TOONMAP);
-	//AddEffect(PostEffectType::DISSOLVE);
 
 	EditorWindows::AddObjectWindow(this, "Post Process");
 }
@@ -107,11 +117,13 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
 	uint32_t cout = 0;
 	for (auto& effect : effectList_) {
-		effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
+		if (effect->GetIsEnable()) {
+			effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
 
-		pingPongBuff_->Swap(commandList);
-		pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
-		cout++;
+			pingPongBuff_->Swap(commandList);
+			pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+			cout++;
+		}
 	}
 
 	if (effectList_.size() % 2 == 0 && !effectList_.empty()) {
@@ -244,11 +256,13 @@ std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 }
 
 void PostProcess::Debug_Gui() {
-	radialBlur_->Debug_Gui();
-	glitchNoise_->Debug_Gui();
-	vignette_->Debug_Gui();
-	dissolve_->Debug_Gui();
-	bloom_->Debug_Gui();
-	smoothing_->Debug_Gui();
-	depthOutline_->Debug_Gui();
+	if (ImGui::CollapsingHeader("CheckList")) {
+		for (auto& effect : effectList_) {
+			effect->CheckBox();
+		}
+	}
+	ImGui::Separator();
+	for (auto& effect : effectList_) {
+		effect->Debug_Gui();
+	}
 }

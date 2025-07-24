@@ -29,6 +29,10 @@ void GaussianBlurHeight::SetCommand(ID3D12GraphicsCommandList* commandList, DxRe
 
 }
 
+void GaussianBlurHeight::CheckBox() {
+	ImGui::Checkbox("GaussianBlurHeight", &isEnable_);
+}
+
 void GaussianBlurHeight::Debug_Gui() {
 	static float sample = 1;
 	ImGui::DragFloat("sampleHeight", &sample, 0.1f, 0.0f, 10.0f);

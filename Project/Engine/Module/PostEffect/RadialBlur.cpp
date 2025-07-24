@@ -51,6 +51,10 @@ void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* 
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
+void RadialBlur::CheckBox() {
+	ImGui::Checkbox("RadialBlur##RadialBlur_checkbox", &isEnable_);
+}
+
 void RadialBlur::Start(float strength, float startTime) {
 	start_ = true;
 	stop_ = false;

@@ -24,3 +24,7 @@ void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, DxResour
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+void GaussianFilter::CheckBox() {
+	ImGui::Checkbox("GaussianFilter##GaussianFilter_checkBox", &isEnable_);
+}

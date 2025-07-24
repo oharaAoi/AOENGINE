@@ -99,8 +99,12 @@ void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingR
 
 }
 
+void Bloom::CheckBox() {
+	ImGui::Checkbox("Bloom###Bloom_Checkbox", &isEnable_);
+}
+
 void Bloom::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Bloom")) {
+	if (ImGui::CollapsingHeader("Bloom###Bloom_Header")) {
 		brightnessBuffer_->Debug_Gui();
 		blurWidthBuffer_->Debug_Gui();
 		blurHeightBuffer_->Debug_Gui();

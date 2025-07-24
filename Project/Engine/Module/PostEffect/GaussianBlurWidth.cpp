@@ -29,6 +29,10 @@ void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, DxRes
 
 }
 
+void GaussianBlurWidth::CheckBox() {
+	ImGui::Checkbox("GaussianBlurWidth", &isEnable_);
+}
+
 void GaussianBlurWidth::Debug_Gui() {
 	static float sample = 1;
 	ImGui::DragFloat("sampleWide", &sample, 0.1f, 0.0f, 10.0f);

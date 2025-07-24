@@ -24,3 +24,7 @@ void Smoothing::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* p
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+void Smoothing::CheckBox() {
+	ImGui::Checkbox("Smoothing##Smoothing_checkbox", &isEnable_);
+}

@@ -28,6 +28,10 @@ void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pi
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
+void Vignette::CheckBox() {
+	ImGui::Checkbox("Vignette##Vignette_checkbox", &isEnable_);
+}
+
 void Vignette::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Vignette")) {
 		ImGui::ColorEdit4("color", &setting_->color.x);

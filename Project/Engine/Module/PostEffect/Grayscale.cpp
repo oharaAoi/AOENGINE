@@ -15,3 +15,7 @@ void Grayscale::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* p
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+void Grayscale::CheckBox() {
+	ImGui::Checkbox("GrayScale##Grayscale_checkBox", &isEnable_);
+}

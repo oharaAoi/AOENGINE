@@ -27,7 +27,9 @@ public:
 
 	void StartNoise(float startStrength, float time);
 
-	void Debug_Gui();
+	void CheckBox() override;
+
+	void Debug_Gui() override;
 
 private:
 
