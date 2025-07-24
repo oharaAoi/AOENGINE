@@ -2,10 +2,12 @@
 #include "Engine/Engine.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/Lib/Math/MyRandom.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Information/ColliderCategory.h"
 
 PulseArmor::~PulseArmor() {
-	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -13,7 +15,7 @@ PulseArmor::~PulseArmor() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Init() {
-	SetName("PulseArmor");
+	armorParam_.FromJson(JsonItems::GetData(GetName(), armorParam_.GetName()));
 	geometry_.Init(CVector2::UNIT, 16, "armor");
 
 	// meshの設定
@@ -25,11 +27,11 @@ void PulseArmor::Init() {
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
 	}
-	
+
 	// material/worldTransformに関する設定
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
 	worldTransform_ = Engine::CreateWorldTransform();
-	material_->SetUseTexture("white.png");
+	material_->SetUseTexture(armorParam_.baseTexture);
 
 	// dissolvebufferに関する設定
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
@@ -39,21 +41,34 @@ void PulseArmor::Init() {
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
 	// uvSrtの初期化
-	uvSrt_.scale = CVector3::UNIT;
-	uvSrt_.rotate = CVector3::ZERO;
-	uvSrt_.translate = CVector3::ZERO;
+	for (size_t index = 0; index < 3; ++index) {
+		uvSrt_[index].scale = CVector3::UNIT;
+		uvSrt_[index].rotate = CVector3::ZERO;
+		uvSrt_[index].translate = CVector3::ZERO;
+
+		setting_->uvTransform[index] = uvSrt_[index].MakeAffine();
+	}
 
 	// bufferPtrの初期化
-	setting_->uvTransform = uvSrt_.MakeAffine();
 	setting_->color = Vector4(CVector3::UNIT, 1.0f);
 	setting_->edgeColor = Vector4(CVector3::UNIT, 1.0f);
 	setting_->threshold = 0.02f;
 
-	noiseTexture_ = "noise1.png";
+	noiseTexture_[0] = "noise0.png";
+	noiseTexture_[1] = "noise5.png";
+	noiseTexture_[2] = "noise6.png";
 
-	uvMovingTween_.Init(&uvMovingValue_, Vector3(-5.0f, 0.0f, 0.0f), Vector3(5.0f, 0.0f, 0.0f), 100.0f, (int)EasingType::None::Liner, LoopType::LOOP);
+	for (size_t index = 0; index < 3; ++index) {
+		Vector3 min = RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
+		Vector3 max = RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
+		uvMovingTween_[index].Init(&uvMovingValue_[index], min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::RETURN);
+	}
+
+	thresholdTween_.Init(&setting_->threshold, armorParam_.minThreshold, armorParam_.maxThreshold, 4.0f, (int)EasingType::None::Liner, LoopType::RETURN);
 
 	isAlive_ = false;
+	worldTransform_->SetScale(CVector3::ZERO);
+	//SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,10 +76,14 @@ void PulseArmor::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Update() {
-	uvMovingTween_.Update(GameTimer::DeltaTime());
-	uvSrt_.translate = uvMovingValue_;
+	for (size_t index = 0; index < 3; ++index) {
+		uvSrt_[index].translate = uvMovingValue_[index];
+		uvMovingTween_[index].Update(GameTimer::DeltaTime());
+		setting_->uvTransform[index] = uvSrt_[index].MakeAffine();
+	}
 
-	setting_->uvTransform = uvSrt_.MakeAffine();
+	thresholdTween_.Update(GameTimer::DeltaTime());
+
 	worldTransform_->Update();
 }
 
@@ -82,7 +101,7 @@ void PulseArmor::Draw() const {
 	// VS
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	
+
 	UINT index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
@@ -95,8 +114,12 @@ void PulseArmor::Draw() const {
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	index = pso->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);
-	index = pso->GetRootSignatureIndex("gMaskTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_, index);
+	index = pso->GetRootSignatureIndex("gMaskTexture1");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[0], index);
+	index = pso->GetRootSignatureIndex("gMaskTexture2");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[1], index);
+	index = pso->GetRootSignatureIndex("gMaskTexture3");
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[2], index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
@@ -111,30 +134,68 @@ void PulseArmor::Debug_Gui() {
 
 	// dissolveに関する設定を行う
 	if (ImGui::CollapsingHeader("Setting")) {
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;// | ImGuiTreeNodeFlags_Framed;
-		if (ImGui::TreeNodeEx("uvTransform", flags)) {
-			if (ImGui::TreeNode("scale")) {
-				ImGui::DragFloat4("uvScale", &uvSrt_.scale.x, 0.01f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("rotation")) {
-				ImGui::DragFloat4("uvRotation", &uvSrt_.rotate.x, 0.01f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("translation")) {
-				ImGui::DragFloat4("uvTranslation", &uvSrt_.translate.x, 0.01f);
-				ImGui::TreePop();
-			}
-			ImGui::TreePop();
-		}
 		ImGui::ColorEdit4("color", &setting_->color.x);
 		ImGui::ColorEdit4("edgeColor", &setting_->edgeColor.x);
 		ImGui::DragFloat("threshold", &setting_->threshold, 0.01f);
 
-		noiseTexture_ = TextureManager::GetInstance()->SelectTexture(noiseTexture_);
+		for (size_t index = 0; index < 3; ++index) {
+			std::string name = "Noise" + std::to_string(index);
+			if (ImGui::TreeNode(name.c_str())) {
+				noiseTexture_[index] = TextureManager::GetInstance()->SelectTexture(noiseTexture_[index]);
+				ImGui::TreePop();
+			}
+		}
 
 		setting_->threshold = std::clamp(setting_->threshold, 0.0f, 1.0f);
 	}
+
+	if (ImGui::CollapsingHeader("Parameter")) {
+		ImGui::DragFloat("durability", &armorParam_.durability, 0.1f);
+		ImGui::DragFloat3("scale", &armorParam_.scale.x, 0.1f);
+
+		ImGui::DragFloat("minThreshold", &armorParam_.minThreshold, 0.01f);
+		ImGui::DragFloat("maxThreshold", &armorParam_.maxThreshold, 0.01f);
+		
+		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
+		if (ImGui::TreeNodeEx("uvTransform", flags)) {
+			if (ImGui::TreeNode("scale")) {
+				ImGui::DragFloat3("uvScale", &armorParam_.uvTransform.scale.x, 0.01f);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("rotation")) {
+				ImGui::DragFloat3("uvRotation", &armorParam_.uvTransform.rotate.x, 0.01f);
+				ImGui::TreePop();
+			}
+			ImGui::TreePop();
+		}
+
+		if (ImGui::Button("Save")) {
+			armorParam_.baseTexture = material_->GetUseTexture();
+			armorParam_.noiseTexture1 = noiseTexture_[0];
+			armorParam_.noiseTexture2 = noiseTexture_[1];
+			armorParam_.noiseTexture3 = noiseTexture_[2];
+			JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
+		}
+
+		if (ImGui::Button("Applay")) {
+			armorParam_.color = setting_->color;
+			armorParam_.edgeColor = setting_->edgeColor;
+			armorParam_.uvTransform.scale = uvSrt_[0].scale;
+			armorParam_.uvTransform.rotate = uvSrt_[0].rotate;
+			thresholdTween_.Init(&setting_->threshold, armorParam_.minThreshold, armorParam_.maxThreshold, RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::RETURN);
+			SetParameter();
+		}
+	}
+}
+
+void PulseArmor::SetParameter() {
+	SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
+
+	noiseTexture_[0] = armorParam_.noiseTexture1;
+	noiseTexture_[1] = armorParam_.noiseTexture2;
+	noiseTexture_[2] = armorParam_.noiseTexture3;
+
+	material_->SetUseTexture(armorParam_.baseTexture);
 }
 
 void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
@@ -144,9 +205,11 @@ void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector
 	setting_->color = _color;
 	setting_->edgeColor = _edgeColor;
 
-	uvSrt_.scale = _uvSrt.scale;
-	uvSrt_.rotate = _uvSrt.rotate;
-	uvSrt_.translate = _uvSrt.translate;
+	for (size_t index = 0; index < 3; ++index) {
+		uvSrt_[index].scale = _uvSrt.scale;
+		uvSrt_[index].rotate = _uvSrt.rotate;
+		uvSrt_[index].translate = _uvSrt.translate;
+	}
 
 	isAlive_ = true;
 }

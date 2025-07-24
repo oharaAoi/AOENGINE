@@ -1,7 +1,7 @@
 {
     "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Object3d.VS.hlsl",
-        "ps": "./Engine/Assets/HLSL/PostEffect/Dissolve.PS.hlsl",
+        "ps": "./Game/Assets/HLSL/Armor.PS.hlsl",
         "blendMode": "Add",
         "culling" : false,
         "depth" : true,

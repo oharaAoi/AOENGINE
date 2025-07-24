@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/State/ICharacterState.h"
-#include "Game/Actor/Weapon/PulseArmor.h"
+#include "Game/Actor/Weapon/Armors.h"
 
 class Boss;
 
@@ -59,7 +59,7 @@ private:
 
 	ArmorParameter armorParam_;
 
-	PulseArmor* armor_;
+	Armors* armor_;
 
 };
 

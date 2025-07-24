@@ -9,7 +9,7 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Boss/BossAI.h"
-#include "Game/Actor/Weapon/PulseArmor.h"
+#include "Game/Actor/Weapon/Armors.h"
 
 enum class BossPhase {
 	FIRST,
@@ -72,7 +72,7 @@ public:
 	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
 
 	// armor
-	PulseArmor* GetPulseArmor() { return pulseArmor_; }
+	Armors* GetPulseArmor() { return pulseArmor_.get(); }
 
 	// AI
 	BossAI* GetAI() { return AI_.get(); }
@@ -113,7 +113,7 @@ private:
 	BossPhase phase_;
 
 	// weapon ------------------------------------------------
-	PulseArmor* pulseArmor_;
+	std::unique_ptr<Armors> pulseArmor_;
 
 	// Parameter --------------------------------------------------
 	Parameter param_;

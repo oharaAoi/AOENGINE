@@ -12,7 +12,7 @@ void BossStateDeployArmor::OnStart() {
 	armorParam_.FromJson(JsonItems::GetData(GetName(), armorParam_.GetName()));
 	// armorを取得しておく
 	armor_ = pOwner_->GetPulseArmor();
-	armor_->SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
+	armor_->SetArmor();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +62,4 @@ void BossStateDeployArmor::Debug_Gui() {
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
 	}
-
-	armor_->SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 }

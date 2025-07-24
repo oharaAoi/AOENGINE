@@ -48,6 +48,7 @@
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\LuminanceBasedOutline.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\DepthBasedOutline.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\MotionBlur.PS.hlsl" />
+    <FxCompile Include="Game\Assets\HLSL\Armor.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -320,6 +321,7 @@
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -602,6 +604,7 @@
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Game\Actor\Weapon\Armors.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

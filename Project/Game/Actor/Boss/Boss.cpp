@@ -110,10 +110,10 @@ void Boss::Init() {
 	// -------------------------------------------------
 	// ↓ weapon関連
 	// -------------------------------------------------
-	pulseArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	pulseArmor_ = std::make_unique<Armors>();
 	pulseArmor_->Init();
-	pulseArmor_->GetTransform()->SetParent(transform_->GetWorldMatrix());
-	this->AddChild(pulseArmor_);
+	pulseArmor_->SetParent(transform_->GetWorldMatrix());
+	this->AddChild(pulseArmor_.get());
 
 	// -------------------------------------------------
 	// ↓ State関連

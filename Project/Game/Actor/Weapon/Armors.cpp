@@ -1,0 +1,69 @@
+#include "Armors.h"
+#include "Engine/Render/SceneRenderer.h"
+
+void Armors::Init() {
+	SetName("Armors");
+	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	inArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	
+	outArmor_->SetName("OutArmor");
+	inArmor_->SetName("InArmor");
+
+	outArmor_->Init();
+	inArmor_->Init();
+}
+
+void Armors::Update() {
+	outArmor_->Update();
+	inArmor_->Update();
+}
+
+void Armors::Draw() const {
+	outArmor_->Draw();
+	inArmor_->Draw();
+}
+
+void Armors::SetParent(const Matrix4x4& mat) {
+	outArmor_->GetTransform()->SetParent(mat);
+	inArmor_->GetTransform()->SetParent(mat);
+}
+
+void Armors::Debug_Gui() {
+	if (ImGui::TreeNode("Out")) {
+		outArmor_->Debug_Gui();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("In")) {
+		inArmor_->Debug_Gui();
+		ImGui::TreePop();
+	}
+}
+
+void Armors::SetArmor() {
+	outArmor_->SetParameter();
+	inArmor_->SetParameter();
+}
+
+void Armors::SetArmorParam(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
+	outArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
+	inArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
+}
+
+void Armors::DamageDurability(float _damage) {
+	outArmor_->DamageDurability(_damage);
+	inArmor_->DamageDurability(_damage);
+}
+
+bool Armors::BreakArmor() {
+	return outArmor_->BreakArmor();
+}
+
+float Armors::ArmorDurability() {
+	return outArmor_->ArmorDurability();
+}
+
+void Armors::SetIsAlive(bool _isAlive) {
+	outArmor_->SetIsAlive(_isAlive);
+	inArmor_->SetIsAlive(_isAlive);
+}

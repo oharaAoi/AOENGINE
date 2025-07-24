@@ -231,6 +231,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionTurnAround.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
@@ -505,6 +506,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionTurnAround.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
+    <ClInclude Include="Game\Actor\Weapon\Armors.h" />
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
@@ -920,6 +922,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
     <FxCompile Include="Engine\Resources\HLSL\CS\VerticalBlur.CS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Game\Assets\HLSL\Armor.PS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
