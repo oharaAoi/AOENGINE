@@ -68,6 +68,9 @@ void SceneRenderer::PostUpdate() {
 
 void SceneRenderer::Draw() const {
 	for (auto& pair : objectList_) {
+		if (pair->GetPostDraw()) {
+			continue;
+		}
 		ISceneObject* obj = pair->GetSceneObject();
 		if (obj->GetIsActive()) {
 			Engine::SetPipeline(PSOType::Object3d, pair->GetRenderingType());
@@ -76,6 +79,19 @@ void SceneRenderer::Draw() const {
 	}
 
 	particleManager_->Draw();
+}
+
+void SceneRenderer::PostDraw() const {
+	for (auto& pair : objectList_) {
+		if (!pair->GetPostDraw()) {
+			continue;
+		}
+		ISceneObject* obj = pair->GetSceneObject();
+		if (obj->GetIsActive()) {
+			Engine::SetPipeline(PSOType::Object3d, pair->GetRenderingType());
+			obj->Draw();
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +134,7 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 			collider->Update(data.srt);
 		}
 
-		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, std::move(object));
+		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false,  std::move(object));
 		objectList_.push_back(std::move(pair));
 	}
 }

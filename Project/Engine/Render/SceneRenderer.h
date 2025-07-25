@@ -21,6 +21,9 @@ public:	// 構造体データ
 		virtual void SetRenderingType(const std::string& name) = 0;
 		virtual int GetRenderQueue() const = 0;
 		virtual void SetRenderQueue(int num) = 0;
+
+		virtual bool GetPostDraw() const = 0;
+		virtual void SetPostDraw(bool _postDraw) = 0;
 	};
 
 	template <typename T> 
@@ -28,9 +31,10 @@ public:	// 構造体データ
 		std::unique_ptr<T> object;
 		std::string renderingType;
 		int renderQueue = 0;
+		bool isPostDraw = false;
 
-		ObjectPair(const std::string& _type, int _renderQueue, std::unique_ptr<T> _obj)
-			: renderingType(_type), renderQueue(_renderQueue), object(std::move(_obj)) {
+		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw,  std::unique_ptr<T> _obj)
+			: renderingType(_type), renderQueue(_renderQueue), isPostDraw(_isPostDraw), object(std::move(_obj)) {
 		}
 
 		T* GetSceneObject() override { return object.get(); }
@@ -40,6 +44,9 @@ public:	// 構造体データ
 
 		int GetRenderQueue() const override { return renderQueue; }
 		void SetRenderQueue(int num) override { renderQueue = num; }
+
+		bool GetPostDraw() const override { return isPostDraw; }
+		void SetPostDraw(bool _postDraw) override { isPostDraw = _postDraw; }
 	};
 
 public:
@@ -61,6 +68,8 @@ public:
 
 	void Draw() const;
 
+	void PostDraw() const;
+
 public:
 
 	/// <summary>
@@ -69,20 +78,34 @@ public:
 	/// <param name="loadData">: 生成データ</param>
 	void CreateObject(const SceneLoader::LevelData* loadData);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="...Args"></typeparam>
+	/// <param name="objectName">: Objectの名前</param>
+	/// <param name="renderingName">: Pipelineの種類</param>
+	/// <param name="renderQueue">: レイヤーの値</param>
+	/// <param name="...args"></param>
+	/// <returns></returns>
 	template<typename T, typename... Args>
-	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, Args&&... args) {
+	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, bool isPostDraw = false,  Args&&... args) {
 		static_assert(std::is_base_of<ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		auto pair = std::make_unique<ObjectPair<T>>(
 			renderingName,
 			renderQueue,
+			isPostDraw,
 			std::make_unique<T>(std::forward<Args>(args)...)
 		);
 		T* gameObject = static_cast<T*>(pair->object.get());
 		pair->object->Init();
 		pair->object->SetName(objectName);
 
-		objectList_.push_back(std::move(pair));
+		auto& newObject = objectList_.emplace_back(std::move(pair));
+		if (isPostDraw) {
+			postDrawObjectList_.emplace_back(newObject.get());
+		}
 
 		return gameObject;
 	}
@@ -119,6 +142,7 @@ public:
 private:
 
 	std::list<std::unique_ptr<IObjectPair>> objectList_;
+	std::list<IObjectPair*> postDrawObjectList_;
 	std::list<std::unique_ptr<IObjectPair>> spriteObjectList_;
 
 	ParticleManager* particleManager_;

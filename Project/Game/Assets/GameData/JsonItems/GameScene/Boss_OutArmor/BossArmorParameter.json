@@ -4,17 +4,22 @@
         "color": {
             "w": 1.0,
             "x": 1.0,
-            "y": 0.1534883975982666,
-            "z": 0.1534883975982666
+            "y": 0.3720930218696594,
+            "z": 0.3720930218696594
         },
-        "durability": 100.0,
+        "durability": 80.30000305175781,
         "edgeColor": {
             "w": 1.0,
             "x": 1.0,
+            "y": 0.24186044931411743,
+            "z": 0.24186044931411743
+        },
+        "localTranslate": {
+            "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "maxThreshold": 0.5,
+        "maxThreshold": 0.3799999952316284,
         "minThreshold": 0.30000001192092896,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "FireNoize.png",

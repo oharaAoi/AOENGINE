@@ -179,13 +179,4 @@ void GameScene::Draw() const {
 
 	// Sceneの描画
 	sceneRenderer_->Draw();
-
-	playerManager_->GetPlayer()->Draw();
-
-	// -------------------------------------------------
-	// ↓ spriteの描画
-	// -------------------------------------------------
-	Engine::SetPipeline(PSOType::Sprite, "Sprite_Normal.json");
-	canvas_->Draw();
-	fadePanel_->Draw();
 }

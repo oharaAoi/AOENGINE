@@ -42,8 +42,8 @@ void TitleScene::Init() {
 	skybox_->Init();
 	Render::SetSkyboxTexture(skybox_->GetTexture());
 
-	testObject_ = std::make_unique<TestObject>();
-	testObject_->Init();
+	//testObject_ = std::make_unique<TestObject>();
+	//testObject_->Init();
 
 	titleUIs_ = std::make_unique<TitleUIs>();
 	titleUIs_->Init();
@@ -60,7 +60,7 @@ void TitleScene::Init() {
 
 void TitleScene::Update() {
 	skybox_->Update();
-	testObject_->Update();
+	//testObject_->Update();
 
 	titleUIs_->Update();
 

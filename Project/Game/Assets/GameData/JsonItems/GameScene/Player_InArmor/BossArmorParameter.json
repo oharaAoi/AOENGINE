@@ -19,15 +19,15 @@
             "y": 1.600000023841858,
             "z": 0.0
         },
-        "maxThreshold": 0.27000001072883606,
-        "minThreshold": 0.49000000953674316,
+        "maxThreshold": 0.5,
+        "minThreshold": 0.27000001072883606,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "noise5.png",
         "noiseTexture3": "noise6.png",
         "scale": {
-            "x": 2.700000047683716,
-            "y": 2.700000047683716,
-            "z": 2.700000047683716
+            "x": 2.200000047683716,
+            "y": 2.200000047683716,
+            "z": 2.200000047683716
         },
         "uvRotate": {
             "x": 0.0,

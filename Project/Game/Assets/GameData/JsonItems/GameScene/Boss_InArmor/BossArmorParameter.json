@@ -3,19 +3,24 @@
         "baseTexture": "FireNoize.png",
         "color": {
             "w": 1.0,
-            "x": 0.8186046481132507,
-            "y": 0.0,
-            "z": 0.0
+            "x": 1.0,
+            "y": 0.18139535188674927,
+            "z": 0.18139535188674927
         },
-        "durability": 100.0,
+        "durability": 102.80000305175781,
         "edgeColor": {
             "w": 1.0,
             "x": 1.0,
+            "y": 0.09302324056625366,
+            "z": 0.09302324056625366
+        },
+        "localTranslate": {
+            "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "maxThreshold": 0.3199999928474426,
-        "minThreshold": 0.6000000238418579,
+        "maxThreshold": 0.5299999713897705,
+        "minThreshold": 0.38999998569488525,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "noise5.png",
         "noiseTexture3": "noise6.png",

@@ -54,7 +54,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 
 	glitchNoise_ = std::make_shared<GlitchNoise>();
 	glitchNoise_->Init();
-	radialBlur_->SetIsEnable(true);
+	glitchNoise_->SetIsEnable(true);
 
 	vignette_ = std::make_shared<Vignette>();
 	vignette_->Init();
@@ -73,15 +73,19 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 
 	smoothing_ = std::make_unique<Smoothing>();
 	smoothing_->Init();
+	smoothing_->SetIsEnable(true);
 
 	gaussianFilter_ = std::make_shared<GaussianFilter>();
 	gaussianFilter_->Init();
+	gaussianFilter_->SetIsEnable(true);
 
 	luminanceOutline_ = std::make_shared<LuminanceBasedOutline>();
 	luminanceOutline_->Init();
+	luminanceOutline_->SetIsEnable(true);
 
 	depthOutline_ = std::make_shared<DepthBasedOutline>();
 	depthOutline_->Init();
+	depthOutline_->SetIsEnable(true);
 
 	motionBlur_ = std::make_shared<MotionBlur>();
 	motionBlur_->Init();

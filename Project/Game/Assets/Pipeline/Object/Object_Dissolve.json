@@ -2,7 +2,7 @@
     "Pipeline": {
         "vs": "./Engine/Assets/HLSL/Object3d.VS.hlsl",
         "ps": "./Game/Assets/HLSL/Armor.PS.hlsl",
-        "blendMode": "Add",
+        "blendMode": "Normal",
         "culling" : false,
         "depth" : true,
         "rtvFormat" : [

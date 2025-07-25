@@ -149,6 +149,8 @@ void Player::Init() {
 	isLanding_ = false;
 	isMoving_ = false;
 
+	deployArmor_ = true;
+
 	param_.postureStability -= initParam_.postureStability;
 
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();

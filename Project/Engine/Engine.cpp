@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Engine/Utilities/Logger.h"
 
 Engine::Engine() {}
@@ -208,6 +209,18 @@ void Engine::RenderFrame() {
 	BlendFinalTexture(Object3D_RenderTarget);
 
 	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
+
+	// -------------------------------------------------
+	// ↓ PostObject描画
+	// -------------------------------------------------
+	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	
+	std::vector<RenderTargetType> postRenderTypes;
+	postRenderTypes.push_back(RenderTargetType::Object3D_RenderTarget);
+	Render::SetRenderTarget(postRenderTypes, dxCommon_->GetDepthHandle());
+	processedSceneFrame_->Draw(dxCmdList_);
+	SceneRenderer::GetInstance()->PostDraw();
+	BlendFinalTexture(Object3D_RenderTarget);
 
 	// -------------------------------------------------
 	// ↓ Sprite描画

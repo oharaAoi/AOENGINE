@@ -60,13 +60,17 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float distortion = sin(transformedUV1.y * 6.0 + combinedMask * 8.0);
 	float marble = sin(distortion);
 	marble = marble * 0.5 + 0.5;
+	
+	if (marble <= gSetting.threshold) {
+		discard;
+	}
 
 	// edge部分の検出
-	float edge = 1.0f - smoothstep(gSetting.threshold, gSetting.threshold + 0.05f, marble);
-	edge *= 4.0f;
+		float edge = 1.0f - smoothstep(gSetting.threshold, gSetting.threshold + 0.05f, marble);
+	edge *= 8.0f;
 	output.color = gTexture.Sample(gSampler, input.texcoord);
 	// materialの色と合成
-	output.color *= gSetting.color;
+	output.color *= gSetting.color * 3.0f;
 	// edge部分ならedgeColorを足す
 	output.color.rgb += edge * gSetting.edgeColor.rgb;
 	return output;
