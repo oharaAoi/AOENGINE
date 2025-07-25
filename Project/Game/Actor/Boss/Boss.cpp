@@ -111,7 +111,7 @@ void Boss::Init() {
 	// ↓ weapon関連
 	// -------------------------------------------------
 	pulseArmor_ = std::make_unique<Armors>();
-	pulseArmor_->Init();
+	pulseArmor_->Init("Boss");
 	pulseArmor_->SetParent(transform_->GetWorldMatrix());
 	this->AddChild(pulseArmor_.get());
 
@@ -152,7 +152,7 @@ void Boss::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Draw() const {
-	pulseArmor_->Draw();
+	//pulseArmor_->Draw();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

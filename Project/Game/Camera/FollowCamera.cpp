@@ -1,6 +1,7 @@
 #include "FollowCamera.h"
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -104,6 +105,8 @@ void FollowCamera::Init() {
 	vignette_ = Engine::GetPostProcess()->GetVignette();
 	grayscale_->SetIsEnable(true);
 	vignette_->SetIsEnable(true);
+
+	Input::SetNotAccepted(true);
 
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "FollowCamera");
@@ -230,6 +233,8 @@ void FollowCamera::FirstCameraMove() {
 		grayscale_->SetIsEnable(false);
 		vignette_->SetIsEnable(false);
 		isAnimationFinish_ = true;
+
+		Input::SetNotAccepted(false);
 	}
 }
 

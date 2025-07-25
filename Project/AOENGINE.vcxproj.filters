@@ -322,6 +322,7 @@
     <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionDeployArmor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -605,6 +606,7 @@
     <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
     <ClInclude Include="Game\Actor\Weapon\Armors.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionDeployArmor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

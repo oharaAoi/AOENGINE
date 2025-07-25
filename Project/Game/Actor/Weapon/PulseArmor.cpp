@@ -170,6 +170,8 @@ void PulseArmor::Debug_Gui() {
 		}
 
 		if (ImGui::Button("Save")) {
+			armorParam_.color = setting_->color;
+			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.baseTexture = material_->GetUseTexture();
 			armorParam_.noiseTexture1 = noiseTexture_[0];
 			armorParam_.noiseTexture2 = noiseTexture_[1];
@@ -178,6 +180,8 @@ void PulseArmor::Debug_Gui() {
 		}
 
 		if (ImGui::Button("Applay")) {
+			armorParam_.scale = worldTransform_->GetScale();
+			armorParam_.localTranslate = worldTransform_->GetTranslation();
 			armorParam_.color = setting_->color;
 			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.uvTransform.scale = uvSrt_[0].scale;
@@ -202,6 +206,7 @@ void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector
 	durability_ = _durability;
 	initDurability_ = _durability;
 	worldTransform_->SetScale(_scale);
+	worldTransform_->SetTranslaion(armorParam_.localTranslate);
 	setting_->color = _color;
 	setting_->edgeColor = _edgeColor;
 

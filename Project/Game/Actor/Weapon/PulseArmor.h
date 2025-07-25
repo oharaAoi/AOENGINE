@@ -24,6 +24,7 @@ public:
 	struct ArmorParameter : public IJsonConverter {
 		float durability = 100.0f;
 		Vector3 scale = CVector3::UNIT;
+		Vector3 localTranslate = CVector3::ZERO;
 		Vector4 color = Vector4(CVector3::UNIT, 1.0f);
 		Vector4 edgeColor = Vector4(CVector3::UNIT, 1.0f);
 
@@ -43,6 +44,7 @@ public:
 			return JsonBuilder(id)
 				.Add("durability", durability)
 				.Add("scale", scale)
+				.Add("localTranslate", localTranslate)
 				.Add("color", color)
 				.Add("edgeColor", edgeColor)
 				.Add("uvScale", uvTransform.scale)
@@ -60,6 +62,7 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "durability", durability);
 			fromJson(jsonData, "scale", scale);
+			fromJson(jsonData, "localTranslate", localTranslate);
 			fromJson(jsonData, "color", color);			fromJson(jsonData, "edgeColor", edgeColor);
 			fromJson(jsonData, "uvScale", uvTransform.scale);
 			fromJson(jsonData, "uvRotate", uvTransform.rotate);

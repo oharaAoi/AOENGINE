@@ -93,6 +93,10 @@ public:
 
 public: // 入力
 
+	// 入力を受け付けない用にする
+	static bool GetNotAccepted() { return notAccepted_; }
+	static void SetNotAccepted(bool notAccepted) { notAccepted_ = notAccepted; }
+
 	// ---------------------------------------------------------------
 	// ↓　キーボード
 	// ---------------------------------------------------------------
@@ -175,4 +179,7 @@ private:
 	static XINPUT_STATE preGamepadState_;
 
 	static InputDevice inputDevice_;
+
+	// 入力を受け付けない用にする
+	static bool notAccepted_;
 };

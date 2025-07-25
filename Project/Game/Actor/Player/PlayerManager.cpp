@@ -6,18 +6,22 @@
 
 void PlayerManager::Init() {
 
+	// player
 	player_ = std::make_unique<Player>();
 	player_->Init();
 
+	// bullet
 	bulletManager_ = std::make_unique<PlayerBulletManager>();
 	bulletManager_->Init();
 
+	// weapon
 	machineGun_ = std::make_unique<MachineGun>();
 	machineGun_->Init();
 
 	launcherGun_ = std::make_unique<LauncherGun>();
 	launcherGun_->Init();
 
+	// 初期設定
 	player_->SetBulletManager(bulletManager_.get());
 	player_->SetWeapon(launcherGun_.get(), LEFT_WEAPON);
 	player_->SetWeapon(machineGun_.get(), RIGHT_WEAPON);
@@ -27,6 +31,11 @@ void PlayerManager::Init() {
 
 	launcherGun_->GetTransform()->SetParent(player_->GetLeftHandMat());
 	launcherGun_->SetBulletManager(bulletManager_.get());
+
+	armors_ = std::make_unique<Armors>();
+	armors_->Init("Player");
+	armors_->SetParent(player_->GetTransform()->GetWorldMatrix());
+	player_->AddChild(armors_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,24 +43,27 @@ void PlayerManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerManager::Update() {
+	CheckAction();
+
 	player_->Update();
 
 	bulletManager_->Update();
 
 	machineGun_->Update();
 	launcherGun_->Update();
+
+	armors_->Update();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画
-///////////////////////////////////////////////////////////////////////////////////////////////
+void PlayerManager::CheckAction() {
+	if (player_->GetIsDeployArmor()) {
+		if (!armors_->GetIsDeploy()) {
+			armors_->SetArmor();
+		}
+	}
 
-void PlayerManager::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
-	player_->Draw();
-
-	bulletManager_->Draw();
-
-	machineGun_->Draw();
-	launcherGun_->Draw();
+	if (armors_->BreakArmor()) {
+		player_->SetDeployArmor(false);
+		armors_->SetIsDeploy(false);
+	}
 }

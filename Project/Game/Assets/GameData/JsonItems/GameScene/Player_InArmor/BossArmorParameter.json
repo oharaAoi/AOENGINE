@@ -1,0 +1,48 @@
+{
+    "BossArmorParameter": {
+        "baseTexture": "FireNoize.png",
+        "color": {
+            "w": 1.0,
+            "x": 0.21711194515228271,
+            "y": 0.8976744413375854,
+            "z": 0.29941248893737793
+        },
+        "durability": 160.0,
+        "edgeColor": {
+            "w": 1.0,
+            "x": 0.13921040296554565,
+            "y": 0.9069767594337463,
+            "z": 0.7248552441596985
+        },
+        "localTranslate": {
+            "x": 0.0,
+            "y": 1.600000023841858,
+            "z": 0.0
+        },
+        "maxThreshold": 0.27000001072883606,
+        "minThreshold": 0.49000000953674316,
+        "noiseTexture1": "noise0.png",
+        "noiseTexture2": "noise5.png",
+        "noiseTexture3": "noise6.png",
+        "scale": {
+            "x": 2.700000047683716,
+            "y": 2.700000047683716,
+            "z": 2.700000047683716
+        },
+        "uvRotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "uvTranslate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        }
+    }
+}

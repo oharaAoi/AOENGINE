@@ -68,7 +68,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float edge = saturate(length(grad) * scale * gSetting.edgeGrain); // edgeGainで調整
 
 	float3 src = gTexture.Sample(gSampler, input.texcoord).rgb;
-	float3 lineColor = 0; // 黒線
+	float3 lineColor = float3(0.6, 0.1f, 0.1f); // 黒線
 	o.color = float4(lerp(src, lineColor, edge), 1);
 	return o;
 }

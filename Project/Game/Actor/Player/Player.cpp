@@ -16,6 +16,7 @@
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 #include "Game/Actor/Player/Action/PlayerActionDamaged.h"
 #include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
+#include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
 
 Player::Player() {}
 Player::~Player() {
@@ -135,6 +136,7 @@ void Player::Init() {
 	actionManager_->BuildAction<PlayerActionShotLeft>();
 	actionManager_->BuildAction<PlayerActionDamaged>();
 	actionManager_->BuildAction<PlayerActionTurnAround>();
+	actionManager_->BuildAction<PlayerActionDeployArmor>();
 
 	size_t hash = typeid(PlayerActionIdle).hash_code();
 	actionManager_->AddRunAction(hash);
@@ -189,32 +191,7 @@ void Player::Update() {
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 
-	// スクリーン座標系でのX成分の差を求める
-	Vector3 screenPos = Transform({ 0.0f, 0.0f, 0.0f },transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
-	Vector3 screenPosPrev = Transform({ 0.0f, 0.0f, 0.0f },transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
-	screenPos_ = Vector2(screenPos.x, screenPos.y);
-	screenPosPrev_ = Vector2(screenPosPrev.x, screenPosPrev.y);
-
-	// ---- 1) ターゲット角度の生計算 ----
-	float diffX = std::abs(screenPos_.x) - std::abs(screenPosPrev_.x);
-	diffX *= -1.0f; // 向きを反転（現行コード準拠）
-
-	// Clamp（過剰な揺れを抑制）
-	diffX = std::clamp(diffX, -0.05f, 0.05f);
-
-	// k は「今回どれだけターゲットに寄せるか」の係数（0～1）
-	// smoothSpeed_ が大きいほど反応が速い
-	float k = 1.0f - std::exp(-5 * GameTimer::DeltaTime());
-	// 念のため数値誤差で1超えを防止
-	k = std::clamp(k, 0.0f, 1.0f);
-
-	smoothedDiffX_ += (diffX - smoothedDiffX_) * k;
-
-	// もし安全のため最終値も範囲内に留めたいなら（任意）
-	smoothedDiffX_ = std::clamp(smoothedDiffX_, -0.05f, 0.05f);
-
-	// ---- 3) カメラに適用 ----
-	pFollowCamera_->SetAngleZ(smoothedDiffX_);
+	CameraIncline();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +261,7 @@ void Player::ConsumeEN(float cousumeAmount) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 
+// ↓ 着地時の処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Landing() {
@@ -292,14 +269,53 @@ void Player::Landing() {
 	jet_->JetIsStop();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ BoostをOnにする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::IsBoostMode() {
 	if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_B)) {
 		jet_->SetIsBoostMode();
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 足のCollider
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::LegOnCollision([[maybe_unused]] ICollider* other) {
 	if (other->GetCategoryName() == "building" || other->GetCategoryName() == "ground") {
 		Landing();
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ カメラを傾ける
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::CameraIncline() {
+	// スクリーン座標系でのX成分の差を求める
+	Vector3 screenPos = Transform({ 0.0f, 0.0f, 0.0f }, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
+	Vector3 screenPosPrev = Transform({ 0.0f, 0.0f, 0.0f }, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
+	screenPos_ = Vector2(screenPos.x, screenPos.y);
+	screenPosPrev_ = Vector2(screenPosPrev.x, screenPosPrev.y);
+
+	// ターゲット角度の生計算
+	float diffX = std::abs(screenPos_.x) - std::abs(screenPosPrev_.x);
+	diffX *= -1.0f; // 向きを反転
+
+	// Clamp
+	diffX = std::clamp(diffX, -0.05f, 0.05f);
+
+	// kは今回どれだけターゲットに寄せるかの係数
+	// smoothSpeed_ が大きいほど反応が速い
+	float k = 1.0f - std::exp(-5 * GameTimer::DeltaTime());
+	k = std::clamp(k, 0.0f, 1.0f);
+
+	smoothedDiffX_ += (diffX - smoothedDiffX_) * k;
+
+	// もし安全のため最終値も範囲内に留めたいなら
+	smoothedDiffX_ = std::clamp(smoothedDiffX_, -0.05f, 0.05f);
+
+	pFollowCamera_->SetAngleZ(smoothedDiffX_);
 }

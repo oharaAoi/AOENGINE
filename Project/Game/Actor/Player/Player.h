@@ -106,7 +106,16 @@ public:		// accessor method
 	/// </summary>
 	void IsBoostMode();
 
+	/// <summary>
+	/// 足のコリジョン
+	/// </summary>
+	/// <param name="other"></param>
 	void LegOnCollision([[maybe_unused]] ICollider* other);
+
+private:
+
+	// カメラの傾きを行う
+	void CameraIncline();
 
 public:
 
@@ -152,6 +161,9 @@ public:
 	JetEngine* GetJetEngine() { return jet_.get(); }
 	bool GetIsBoostMode() const { return jet_->GetIsBoostMode(); }
 
+	void SetDeployArmor(bool _deployArmor) { deployArmor_ = _deployArmor; }
+	bool GetIsDeployArmor() const { return deployArmor_; }
+
 	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
 	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
 
@@ -176,6 +188,8 @@ private:
 	bool isLanding_;
 
 	bool isMoving_;
+
+	bool deployArmor_;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

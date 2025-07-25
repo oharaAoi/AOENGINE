@@ -1,16 +1,18 @@
 #include "Armors.h"
 #include "Engine/Render/SceneRenderer.h"
 
-void Armors::Init() {
+void Armors::Init(const std::string& ownerName) {
 	SetName("Armors");
 	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
 	inArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
 	
-	outArmor_->SetName("OutArmor");
-	inArmor_->SetName("InArmor");
+	outArmor_->SetName(ownerName + "_OutArmor");
+	inArmor_->SetName(ownerName + "_InArmor");
 
 	outArmor_->Init();
 	inArmor_->Init();
+
+	isDeploy_ = false;
 }
 
 void Armors::Update() {
@@ -41,6 +43,7 @@ void Armors::Debug_Gui() {
 }
 
 void Armors::SetArmor() {
+	isDeploy_ = true;
 	outArmor_->SetParameter();
 	inArmor_->SetParameter();
 }

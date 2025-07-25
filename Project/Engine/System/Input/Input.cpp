@@ -13,6 +13,8 @@ XINPUT_STATE Input::preGamepadState_;
 
 InputDevice Input::inputDevice_;
 
+bool Input::notAccepted_ = false;
+
 Input* Input::GetInstance() {
 	static Input instance;
 	return &instance;
@@ -51,6 +53,13 @@ void Input::Init(WNDCLASS wCalss, HWND hwnd) {
 //	↓　更新
 //=================================================================================================================
 void Input::Update() {
+	if (notAccepted_) {
+		ZeroMemory(key_, sizeof(key_));
+		ZeroMemory(&currentMouse_, sizeof(currentMouse_));
+		ZeroMemory(&gamepadState_, sizeof(XINPUT_STATE));
+		return;
+	}
+
 	// keyboard情報の取得開始
 	keyboard_->Acquire();
 	mouse_->Acquire();

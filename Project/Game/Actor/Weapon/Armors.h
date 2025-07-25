@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+#include <string>
 #include "Game/Actor/Weapon/PulseArmor.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
@@ -10,7 +10,7 @@ public:
 	Armors() = default;
 	~Armors() = default;
 
-	void Init();
+	void Init(const std::string& ownerName);
 
 	void Update();
 
@@ -57,10 +57,15 @@ public:
 	void SetIsAlive(bool _isAlive);
 	bool GetIsAlive() const { return outArmor_->GetIsAlive(); }
 
+	void SetIsDeploy(bool _isDeploy) { isDeploy_ = _isDeploy; }
+	bool GetIsDeploy() const { return isDeploy_; }
+
 private:
 
 	PulseArmor* outArmor_;
 	PulseArmor* inArmor_;
+
+	bool isDeploy_;
 
 };
 
