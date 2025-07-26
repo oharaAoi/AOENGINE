@@ -21,6 +21,7 @@
 #include "Game/Actor/Boss/Action/Attack/BossActionShotgun.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionAllRangeMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionVerticalMissile.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionRapidfire.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 
 void Boss::Finalize() {
@@ -97,6 +98,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionAllRangeMissile>(this, "AllRangeMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionVerticalMissile>(this, "VerticalMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree.json");
 
 	// -------------------------------------------------

@@ -1,42 +1,49 @@
 #pragma once
 #include <memory>
-#include <functional>
-#include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Module/Components/AI/ITaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/AI/ITaskNode.h"
 
 class Boss;
 
 /// <summary>
-/// 全方位にミサイルを飛ばすアクション
+/// 連射攻撃
 /// </summary>
-class BossActionAllRangeMissile :
+class BossActionRapidfire :
 	public ITaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {
-		float coolTime = 30.0f;
-		
-		Parameter() { SetName("BossActionAllRangeMissile"); }
+		float shotInterval = 0.1f;
+		float bulletSpeed = 80.0f;
+		int kFireCount = 20;
+		float coolTime = 10.0f;
+
+		Parameter() { SetName("BossActionRapidfire"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("shotInterval", shotInterval)
+				.Add("bulletSpeed", bulletSpeed)
+				.Add("kFireCount", kFireCount)
 				.Add("coolTime", coolTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "shotInterval", shotInterval);
+			fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			fromJson(jsonData, "kFireCount", kFireCount);
 			fromJson(jsonData, "coolTime", coolTime);
 		}
 	};
 
 public:
 
-	BossActionAllRangeMissile() = default;
-	~BossActionAllRangeMissile() override = default;
+	BossActionRapidfire() = default;
+	~BossActionRapidfire() override = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionAllRangeMissile>(*this);
+		return std::make_shared<BossActionRapidfire>(*this);
 	}
 
 	BehaviorStatus Execute() override;
@@ -52,33 +59,14 @@ public:
 	void Update() override;
 	void End() override;
 
-private :
+private:
 
-	/// <summary>
-	/// 発射
-	/// </summary>
 	void Shot();
-
-	/// <summary>
-	/// Playerの方向を向かせる処理
-	/// </summary>
-	void LookPlayer();
-
-private :
 
 	Parameter param_;
 
-	Quaternion playerToRotation_;
-
-	float bulletSpeed_;
-
-	// LookPlayerに関する変数
-	float lookTime_ = 1.f;
-
-	// 弾を打ち終わったかのフラグ
 	bool isFinishShot_;
-
-	std::function<void()> mainAction_;
+	int fireCount_;
 
 };
 

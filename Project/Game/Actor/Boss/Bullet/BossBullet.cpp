@@ -7,7 +7,7 @@ BossBullet::~BossBullet() {
 
 void BossBullet::Init() {
 	BaseBullet::Init("BossBullet");
-	object_->SetObject("missile.obj");
+	object_->SetObject("playerBullet.obj");
 	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
 
 	ICollider* collider = object_->GetCollider();
