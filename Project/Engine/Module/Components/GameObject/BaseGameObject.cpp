@@ -50,7 +50,7 @@ void BaseGameObject::Update() {
 		animetor_->Update();
 
 		if (animetor_->GetIsSkinning()) {
-			Engine::SetCsPipeline(CsPipelineType::Skinning_Pipeline);
+			Engine::SetPipelineCS("Skinning.json");
 			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
 				Engine::SetSkinning(animetor_->GetSkinning(index));
 			}
@@ -61,7 +61,7 @@ void BaseGameObject::Update() {
 		}
 	} else {
 		if (animetor_->GetIsSkinning()) {
-			Engine::SetCsPipeline(CsPipelineType::Skinning_Pipeline);
+			Engine::SetPipelineCS("Skinning.json");
 			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
 				Engine::SetSkinning(animetor_->GetSkinning(index));
 			}

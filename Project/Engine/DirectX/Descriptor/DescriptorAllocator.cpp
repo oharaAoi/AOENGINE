@@ -33,6 +33,8 @@ DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap*
 
 	if (type_ == SAHADERVIEW) {
 		handles.handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+	} else if (type_ == DSV) {
+
 	}
 	handles.assignIndex_ = index;
 	// インデックスに基づきディスクリプタのオフセットを計算

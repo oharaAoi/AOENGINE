@@ -3,7 +3,6 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
-#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}

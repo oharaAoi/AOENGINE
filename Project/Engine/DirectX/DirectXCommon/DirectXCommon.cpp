@@ -27,7 +27,7 @@ void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuffe
 }
 
 void DirectXCommon::Finalize() {
-	depthStencilResource_.Reset();
+	depthStencilResource_->Finalize();
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 	swapChain_.Reset();
@@ -56,8 +56,7 @@ void DirectXCommon::Begin() {
 void DirectXCommon::SetSwapChain() {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = descriptorHeaps_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	commandList->OMSetRenderTargets(1, &renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, false, &dsvHandle);
+	commandList->OMSetRenderTargets(1, &renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, false, &depthHandle_.handleCPU);
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, clearColor, 0, nullptr);
@@ -246,7 +245,9 @@ void DirectXCommon::SetViewport() {
 }
 
 void DirectXCommon::CreateDSV() {
-	depthStencilResource_ = CreateDepthStencilTextureResource(device_, kClientWidth_, kClientHeight_);
+	depthStencilResource_ = std::make_unique<DxResource>();
+	depthStencilResource_->Init(device_, descriptorHeaps_, ResourceType::DEPTH); 
+	depthStencilResource_->CreateDepthResource(kClientWidth_, kClientHeight_);
 
 	// heap上にDSCを構築
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
@@ -254,7 +255,7 @@ void DirectXCommon::CreateDSV() {
 	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
 
 	depthHandle_ = descriptorHeaps_->AllocateDSV();
-	device_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
+	device_->CreateDepthStencilView(depthStencilResource_->GetResource(), &desc, depthHandle_.handleCPU);
 }
 
 D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetBackBufferGpuHandle() {

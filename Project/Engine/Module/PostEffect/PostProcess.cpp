@@ -70,6 +70,8 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	bloom_->Init();
 	bloom_->SetPongResource(pingPongBuff_.get());
 	bloom_->SetIsEnable(true);
+	bloom_->SetDepthHandle(depthHandle_.handleCPU);
+
 
 	smoothing_ = std::make_unique<Smoothing>();
 	smoothing_->Init();
@@ -118,14 +120,14 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 	
 	Copy(commandList, shaderResource);
 
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_.handleCPU);
 	uint32_t cout = 0;
 	for (auto& effect : effectList_) {
 		if (effect->GetIsEnable()) {
 			effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
 
 			pingPongBuff_->Swap(commandList);
-			pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+			pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_.handleCPU);
 			cout++;
 		}
 	}

@@ -8,6 +8,7 @@
 #include "Engine/WinApp/WinApp.h"
 // DirectX
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // DXC
 #include <dxcapi.h>
@@ -103,7 +104,7 @@ public:
 
 	ComPtr<IDXGISwapChain4> GetSwapChain() { return swapChain_.Get(); }
 
-	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_.Get(); }
+	ID3D12Resource* GetDepthStencilResource() { return depthStencilResource_->GetResource(); }
 
 	const DescriptorHandles& GetDepthHandle() const { return depthHandle_; }
 
@@ -146,7 +147,7 @@ private:
 	D3D12_RECT scissorRect_;
 
 	// dsv
-	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
+	std::unique_ptr<DxResource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 };
 

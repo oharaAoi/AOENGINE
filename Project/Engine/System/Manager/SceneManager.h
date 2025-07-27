@@ -5,7 +5,6 @@
 #include "Game/Scene/BaseScene.h"
 #include "Game/Scene/TestScene.h"
 #include "Game/Scene/GameScene.h"
-#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Input/Input.h"
 
@@ -35,8 +34,6 @@ private:
 
 	std::unique_ptr<BaseScene> scene_ = nullptr;
 	std::unique_ptr<BaseScene> nextScene_ = nullptr;
-
-	EffectSystem* effectSystem_ = nullptr;
 
 	SceneType changeScene_;
 

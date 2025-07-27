@@ -7,7 +7,6 @@ SceneManager::SceneManager() {}
 SceneManager::~SceneManager() {}
 
 void SceneManager::Finalize() {
-	effectSystem_->Finalize();
 	scene_.reset();
 }
 
@@ -17,8 +16,6 @@ void SceneManager::Finalize() {
 void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
 	sceneFactory_ = std::make_unique<SceneFactory>();
-
-	effectSystem_ = EffectSystem::GetInstacne();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +37,7 @@ void SceneManager::Update() {
 	}
 
 	scene_->Update();
-	effectSystem_->Update();
-
+	
 	SceneRenderer::GetInstance()->PostUpdate();
 }
 
@@ -51,7 +47,6 @@ void SceneManager::Update() {
 
 void SceneManager::Draw() {
 	scene_->Draw();
-	effectSystem_->Draw();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

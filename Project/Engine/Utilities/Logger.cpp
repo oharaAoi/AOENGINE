@@ -4,6 +4,7 @@
 #include <chrono>
 #include <vector>
 #include <algorithm>
+#include <cassert>
 
 std::string Logger::filePath_;
 
@@ -47,6 +48,13 @@ void Logger::Log(const std::string& message) {
 	std::ofstream logStream(filePath_, std::ios::app);
 	logStream << message << std::endl;
 	OutputDebugStringA(message.c_str());
+}
+
+void Logger::AssertLog(const std::string& message) {
+	std::ofstream logStream(filePath_, std::ios::app);
+	logStream << message << std::endl;
+	OutputDebugStringA(message.c_str());
+	assert(message.c_str());
 }
 
 void Logger::CommentLog(const std::string& message) {

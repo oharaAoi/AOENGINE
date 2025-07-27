@@ -4,7 +4,8 @@
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Core/GraphicsContext.h"
 
-#include "Engine/Module/ComputeShader/ComputeShader.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipelines.h"
+#include "Engine/Module/ComputeShader/BlendTexture.h"
 
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -21,8 +22,6 @@
 #include "Engine/Module/Components/Rigging/Skinning.h"
 
 #include "Engine/Module/PostEffect/PostProcess.h"
-
-#include "Engine/Module/Geometry/GeometryFactory.h"
 
 #include "Engine/Utilities/Shader.h"
 
@@ -41,8 +40,6 @@ namespace {
 	Render* render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
-
-	EffectSystem* effectSystem_;
 
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;
@@ -64,7 +61,8 @@ namespace {
 	RenderTarget* renderTarget_ = nullptr;
 
 	// CS
-	std::unique_ptr<ComputeShader> computeShader_ = nullptr;
+	std::unique_ptr<ComputeShaderPipelines> computeShaderPipelines_ = nullptr;
+	std::unique_ptr<BlendTexture> blendTexture_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
 	// shaderファイルのパスをまとめたクラス
@@ -156,23 +154,14 @@ public:
 
 	static Pipeline* GetLastUsedPipeline();
 
-	/// <summary>
-	/// パイプラインの設定
-	/// </summary>
-	/// <param name="kind">設定するパイプライン</param>
-	static void SetCsPipeline(const CsPipelineType& kind);
-
 	static void SetSkinning(Skinning* skinning);
+
+	static void SetPipelineCS(const std::string& jsonFile);
 
 	/// <summary>
 	/// 深度バッファをリセットする
 	/// </summary>
 	static void ClearDepth();
-
-	/// <summary>
-	/// CSをResetする
-	/// </summary>
-	static void ResetComputeShader();
 
 	static Canvas2d* GetCanvas2d();
 

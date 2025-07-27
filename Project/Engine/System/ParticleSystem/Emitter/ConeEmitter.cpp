@@ -61,12 +61,12 @@ void ConeEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ConeEmitter::Save() {
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	/*EffectPersistence* persistence = EffectPersistence::GetInstance();
 	GpuEmitter::Save();
 	persistence->AddItem(label_, "radius", emitter_->radius);
 	persistence->AddItem(label_, "angle", emitter_->angle);
 	persistence->AddItem(label_, "height", emitter_->height);
-	persistence->Save(false, label_);
+	persistence->Save(false, label_);*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,10 +75,10 @@ void ConeEmitter::Save() {
 
 void ConeEmitter::Load() {
 	GpuEmitter::Load();
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	emitter_->radius = persistence->GetValue<float>(label_, "radius");
-	emitter_->angle = persistence->GetValue<float>(label_, "angle");
-	emitter_->height = persistence->GetValue<float>(label_, "height");
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
+	//emitter_->radius = persistence->GetValue<float>(label_, "radius");
+	//emitter_->angle = persistence->GetValue<float>(label_, "angle");
+	//emitter_->height = persistence->GetValue<float>(label_, "height");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

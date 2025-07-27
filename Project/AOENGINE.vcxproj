@@ -109,12 +109,15 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
+    <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
@@ -200,11 +203,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\BaseCSResource.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShader.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShaderPipeline.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\DepthOfField.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\GaussianBlur.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
@@ -304,13 +303,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Lib\Math\Vector4.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectPersistence.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystem.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp" />
@@ -384,12 +380,15 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
     <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
+    <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
@@ -476,11 +475,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Components\Collider\ICollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\BaseCSResource.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShader.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShaderPipeline.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\DepthOfField.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\GaussianBlur.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
@@ -584,13 +579,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Lib\Math\Vector4.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectPersistence.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystem.h" />
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h" />

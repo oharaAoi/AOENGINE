@@ -53,6 +53,10 @@ void DxResource::CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PR
 	bufferState_ = resourceState;
 }
 
+void DxResource::CreateDepthResource(uint32_t width, uint32_t height) {
+	cBuffer_ = CreateDepthStencilTextureResource(pDevice_, width, height);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　SRVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////

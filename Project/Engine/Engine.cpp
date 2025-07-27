@@ -1,10 +1,10 @@
 #include "Engine.h"
-#include "Engine/System/ParticleSystem/Tool/EffectSystem.h"
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/Utilities/DrawUtils.h"
 
 Engine::Engine() {}
 
@@ -27,13 +27,12 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
 	render_ = Render::GetInstance();
-	effectSystem_ = EffectSystem::GetInstacne();
 	editorWindows_ = EditorWindows::GetInstance();
 
 	winApp_->CreateGameWindow();
 	
 	shaders_ = std::make_unique<Shader>();
-	computeShader_ = std::make_unique<ComputeShader>();
+	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
 
 	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
 	audio_ = std::make_unique<Audio>();
@@ -62,7 +61,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	renderTarget_ = graphicsCxt_->GetRenderTarget();
 
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
-	computeShader_->Init(dxDevice_, graphicsCxt_->GetDxCompiler(), dxHeap_, graphicsCxt_->GetRenderTarget()->GetRenderTargetSRVHandle(RenderTargetType::Object3D_RenderTarget), shaders_.get());
+	computeShaderPipelines_->Init(dxDevice_, graphicsCxt_->GetDxCompiler());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	processedSceneFrame_->Init(dxDevice_, dxHeap_);
 
@@ -74,17 +73,18 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 
 	imguiManager_ = ImGuiManager::GetInstacne();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
-	EffectSystem::GetInstacne()->EditerInit(renderTarget_, dxHeap_, dxCmdList_, dxDevice_);
 #endif
 
 	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
 	audio_->Init();
-	effectSystem_->Init();
-
+	
 	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_);
 
 	canvas2d_ = std::make_unique<Canvas2d>();
 	canvas2d_->Init();
+
+	blendTexture_ = std::make_unique<BlendTexture>();
+	blendTexture_->Init(dxDevice_, dxHeap_);
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
@@ -109,10 +109,11 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::Finalize() {
+	blendTexture_.reset();
 	postProcess_->Finalize();
 	audio_->Finalize();
 	processedSceneFrame_->Finalize();
-	computeShader_->Finalize();
+	computeShaderPipelines_->Finalize();
 	render_->Finalize();
 	input_->Finalize();
 
@@ -151,17 +152,7 @@ void Engine::BeginFrame() {
 #ifdef _DEBUG
 	imguiManager_->Begin();
 	editorWindows_->Begin();
-#endif // 
-
-	//ax::NodeEditor::Begin("MyNodeEditor");
-	//// ノードやリンクの定義をここに書く
-	//// 例：
-	//ax::NodeEditor::NodeId nodeId = 1;
-	//ax::NodeEditor::BeginNode(nodeId);
-	//ImGui::Text("Node 1");
-	//ax::NodeEditor::EndNode();
-	//ax::NodeEditor::End();
-
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,7 +272,9 @@ void Engine::BlendFinalTexture(RenderTargetType renderTargetType) {
 	// -------------------------------------------------
 	// ↓ object3Dと最終描画のTextureを合成する
 	// -------------------------------------------------
-	computeShader_->BlendRenderTarget(dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(renderTargetType).handleGPU, processedSceneFrame_->GetUAV());
+	Engine::SetPipelineCS("BlendTexture.json");
+	Pipeline* pso = computeShaderPipelines_->GetLastUsedPipeline();
+	blendTexture_->Execute(pso, dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(renderTargetType).handleGPU, processedSceneFrame_->GetUAV());
 
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
@@ -331,15 +324,6 @@ std::unique_ptr<PBRMaterial> Engine::CreatePBRMaterial(const Model::ModelMateria
 	return material;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　CSの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::RunCS() {
-	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-	computeShader_->RunComputeShader(dxCmdList_);
-}
-
 void Engine::SetPSOPrimitive() {
 	primitivePipeline_->Draw(dxCmdList_);
 }
@@ -377,22 +361,15 @@ void Engine::ClearDepth() {
 	renderTarget_->ClearDepth(dxCmdList_);
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　CSPipelineの設定
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::SetCsPipeline(const CsPipelineType& kind) {
-	computeShader_->SetCsPipeline(kind, dxCmdList_);
-}
-
 void Engine::SetSkinning(Skinning* skinning) {
+	Pipeline* pso = computeShaderPipelines_->GetLastUsedPipeline();
 	//mesh->SetInitVertex();
-	skinning->RunCs(dxCmdList_);
+	skinning->RunCs(pso, dxCmdList_);
 	skinning->EndCS(dxCmdList_);
 }
 
-void Engine::ResetComputeShader() {
-	computeShader_->ResetComputeShader();
+void Engine::SetPipelineCS(const std::string& jsonFile) {
+	computeShaderPipelines_->SetPipeline(dxCmdList_, jsonFile);
 }
 
 Canvas2d* Engine::GetCanvas2d() {

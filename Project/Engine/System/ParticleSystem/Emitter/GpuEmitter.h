@@ -4,7 +4,6 @@
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/System/ParticleSystem/Tool/EffectPersistence.h"
 
 enum class EmitterShape {
 	Sphere,

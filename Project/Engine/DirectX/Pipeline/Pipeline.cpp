@@ -1,4 +1,5 @@
 #include "Pipeline.h"
+#include "Engine/Utilities/Logger.h"
 
 Pipeline::Pipeline() {}
 Pipeline::~Pipeline() {}
@@ -9,13 +10,26 @@ void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const jso
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
-	ShaderCompile();
-	vsReflection_ = dxCompiler->ReadShaderReflection(vertexShaderBlob_.Get());
-	psReflection_ = dxCompiler->ReadShaderReflection(pixelShaderBlob_.Get());
+	if (parameter_.cs == "") {
+		ShaderCompile();
+		vsReflection_ = dxCompiler->ReadShaderReflection(vertexShaderBlob_.Get());
+		psReflection_ = dxCompiler->ReadShaderReflection(pixelShaderBlob_.Get());
 
-	elementDescs = CreateInputLayout();
-	rootSig_ = CreateRootSignature();
-	CreatePSO();
+		elementDescs = CreateInputLayout();
+		rootSig_ = CreateRootSignature();
+		CreatePSO();
+	} else {
+		ComPtr<IDxcBlob> computeShaderBlob_ = dxCompiler_->CsShaderCompile(parameter_.cs);
+		csReflection_ = dxCompiler->ReadShaderReflection(computeShaderBlob_.Get());
+		rootSig_ = CreateRootSignature();
+
+		D3D12_COMPUTE_PIPELINE_STATE_DESC desc{};
+		desc.pRootSignature = rootSig_.Get();
+		desc.CS = { reinterpret_cast<BYTE*>(computeShaderBlob_->GetBufferPointer()),computeShaderBlob_->GetBufferSize() };
+
+		HRESULT hr = device_->CreateComputePipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
+		assert(SUCCEEDED(hr));
+	}
 }
 
 void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
@@ -23,8 +37,13 @@ void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
 
+void Pipeline::SetComputeState(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetComputeRootSignature(rootSig_.Get());
+	commandList->SetPipelineState(graphicsPipelineState_.Get());
+}
+
 void Pipeline::Finalize() {
-	rootSignature_->Finalize();
+	rootSig_.Reset();
 	vertexShaderBlob_.Reset();
 	pixelShaderBlob_.Reset();
 	graphicsPipelineState_.Reset();
@@ -270,15 +289,42 @@ ComPtr<ID3D12RootSignature> Pipeline::CreateRootSignature() {
 			}
 
 			default:
-				// UAV などは今回のケースでは使用しない
+				descriptorRangeTables.emplace_back(); // 新しいテーブル
+				auto& currentTable = descriptorRangeTables.back();
+
+				D3D12_DESCRIPTOR_RANGE range = {};
+				range.RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_UAV;
+				range.NumDescriptors = bindDesc.BindCount;
+				range.BaseShaderRegister = bindDesc.BindPoint;
+				range.RegisterSpace = bindDesc.Space;
+				range.OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+				currentTable.push_back(range);
+
+				D3D12_ROOT_PARAMETER param = {};
+				param.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+				param.ShaderVisibility = visibility; // たいてい D3D12_SHADER_VISIBILITY_ALL を使う
+				param.DescriptorTable.NumDescriptorRanges = (UINT)currentTable.size();
+				param.DescriptorTable.pDescriptorRanges = currentTable.data();
+
+				UINT index = (UINT)rootParameters.size();
+				rootParameters.push_back(param);
+
+				rootSignatureIndexMap_[bindDesc.Name] = index;
+
+				baseDescriptorIndex++;
 				break;
 			}
 		}
 		};
 
 	// シェーダー反映（可視性ごとに処理）
-	ProcessReflection(vsReflection_.Get(), D3D12_SHADER_VISIBILITY_VERTEX);
-	ProcessReflection(psReflection_.Get(), D3D12_SHADER_VISIBILITY_PIXEL);
+	if (parameter_.cs == "") {
+		ProcessReflection(vsReflection_.Get(), D3D12_SHADER_VISIBILITY_VERTEX);
+		ProcessReflection(psReflection_.Get(), D3D12_SHADER_VISIBILITY_PIXEL);
+	} else {
+		ProcessReflection(csReflection_.Get(), D3D12_SHADER_VISIBILITY_ALL);
+	}
 
 	// RootSignature 記述と作成
 	D3D12_ROOT_SIGNATURE_DESC desc = {};
@@ -323,4 +369,14 @@ D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER filter, D3D12
 	sampler.MinLOD = 0.f;
 	sampler.MaxLOD = D3D12_FLOAT32_MAX;
 	return sampler;
+}
+
+const UINT Pipeline::GetRootSignatureIndex(const std::string& name) const {
+	auto it = rootSignatureIndexMap_.find(name);
+	if (it == rootSignatureIndexMap_.end()) {
+		Logger::Log("class : Pipeline");
+		Logger::AssertLog(name + "が見つかりません");
+		return UINT_MAX; // 見つからないことを示す値
+	}
+	return it->second;
 }

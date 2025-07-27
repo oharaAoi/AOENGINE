@@ -6,6 +6,7 @@
 #include <map>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
 
 const uint32_t kNumMaxInfluence = 4;
@@ -48,7 +49,7 @@ public:
 
 	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
 
-	void RunCs(ID3D12GraphicsCommandList* commandList) const;
+	void RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const;
 
 	void EndCS(ID3D12GraphicsCommandList* commandList);
 

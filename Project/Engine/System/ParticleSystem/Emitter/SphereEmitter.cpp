@@ -61,9 +61,9 @@ void SphereEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 
 void SphereEmitter::Save() {
 	GpuEmitter::Save();
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	persistence->AddItem(label_, "radius", emitter_->radius);
-	persistence->Save(false, label_);
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
+	/*persistence->AddItem(label_, "radius", emitter_->radius);
+	persistence->Save(false, label_);*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,8 +72,8 @@ void SphereEmitter::Save() {
 
 void SphereEmitter::Load() {
 	GpuEmitter::Load();
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	emitter_->radius = persistence->GetValue<float>(label_, "radius");
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
+	//emitter_->radius = persistence->GetValue<float>(label_, "radius");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

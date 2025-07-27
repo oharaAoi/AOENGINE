@@ -84,7 +84,7 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	// ↓ Particleの初期化をGPUで行う
 	// -------------------------------------------------
 
-	Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
+	//Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
 	InitBindCmdList(commandList, 0);
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 }
@@ -94,7 +94,7 @@ void GpuParticles::Update() {
 	perFrame_->time = GameTimer::TotalTime();
 
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
-	Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
+	//Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
 	commandList->SetComputeRootDescriptorTable(0, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(2, freeListResource_->GetUAV().handleGPU);

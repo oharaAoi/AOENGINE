@@ -121,28 +121,28 @@ void GpuEmitter::Move() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuEmitter::Save() {
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	persistence->CreateGroup(label_);
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
+	//persistence->CreateGroup(label_);
 	// commonのSave
-	persistence->AddItem(label_, "translate", commonEmitter_->translate);
-	persistence->AddItem(label_, "rotate", commonEmitter_->rotate);
-	persistence->AddItem(label_, "rotate", commonEmitter_->minScale);
-	persistence->AddItem(label_, "rotate", commonEmitter_->maxScale);
-	persistence->AddItem(label_, "shape", commonEmitter_->shape);
-	persistence->AddItem(label_, "count", commonEmitter_->count);
-	persistence->AddItem(label_, "frequency", commonEmitter_->frequency);
-	persistence->AddItem(label_, "frequencyTime", commonEmitter_->frequencyTime);
-	persistence->AddItem(label_, "color", commonEmitter_->color);
-	persistence->AddItem(label_, "speed", commonEmitter_->speed);
-	persistence->AddItem(label_, "lifeTime", commonEmitter_->lifeTime);
-	persistence->AddItem(label_, "gravity", commonEmitter_->gravity);
-	persistence->AddItem(label_, "dampig", commonEmitter_->dampig);
-	// parameter
-	persistence->AddItem(label_, "modelName", emitterParameter_.particleModel);
-	persistence->AddItem(label_, "velocity", emitterParameter_.velocity);
-	persistence->AddItem(label_, "speed", emitterParameter_.speed);
-	persistence->AddItem(label_, "emitterLifeTime", emitterParameter_.lifeTime);
-	persistence->AddItem(label_, "oneShot", emitterParameter_.oneShot);
+	//persistence->AddItem(label_, "translate", commonEmitter_->translate);
+	//persistence->AddItem(label_, "rotate", commonEmitter_->rotate);
+	//persistence->AddItem(label_, "rotate", commonEmitter_->minScale);
+	//persistence->AddItem(label_, "rotate", commonEmitter_->maxScale);
+	//persistence->AddItem(label_, "shape", commonEmitter_->shape);
+	//persistence->AddItem(label_, "count", commonEmitter_->count);
+	//persistence->AddItem(label_, "frequency", commonEmitter_->frequency);
+	//persistence->AddItem(label_, "frequencyTime", commonEmitter_->frequencyTime);
+	//persistence->AddItem(label_, "color", commonEmitter_->color);
+	//persistence->AddItem(label_, "speed", commonEmitter_->speed);
+	//persistence->AddItem(label_, "lifeTime", commonEmitter_->lifeTime);
+	//persistence->AddItem(label_, "gravity", commonEmitter_->gravity);
+	//persistence->AddItem(label_, "dampig", commonEmitter_->dampig);
+	//// parameter
+	//persistence->AddItem(label_, "modelName", emitterParameter_.particleModel);
+	//persistence->AddItem(label_, "velocity", emitterParameter_.velocity);
+	//persistence->AddItem(label_, "speed", emitterParameter_.speed);
+	//persistence->AddItem(label_, "emitterLifeTime", emitterParameter_.lifeTime);
+	//persistence->AddItem(label_, "oneShot", emitterParameter_.oneShot);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,28 +150,28 @@ void GpuEmitter::Save() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuEmitter::Load() {
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	//EffectPersistence* persistence = EffectPersistence::GetInstance();
 	// commonのLoad
-	commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
-	commonEmitter_->rotate			= persistence->GetValue<Vector4>(label_, "rotate");
-	commonEmitter_->minScale		= persistence->GetValue<Vector3>(label_, "minScale");
-	commonEmitter_->maxScale		= persistence->GetValue<Vector3>(label_, "maxScale");
-	commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
-	commonEmitter_->shape			= persistence->GetValue<uint32_t>(label_, "shape");
-	commonEmitter_->count			= persistence->GetValue<uint32_t>(label_, "count");
-	commonEmitter_->frequency		= persistence->GetValue<float>(label_, "frequency");
-	commonEmitter_->frequencyTime	= persistence->GetValue<float>(label_, "frequencyTime");
-	commonEmitter_->color			= persistence->GetValue<Vector4>(label_, "color");
-	commonEmitter_->speed			= persistence->GetValue<float>(label_, "speed");
-	commonEmitter_->lifeTime		= persistence->GetValue<float>(label_, "lifeTime");
-	commonEmitter_->gravity			= persistence->GetValue<float>(label_, "gravity");
-	commonEmitter_->dampig			= persistence->GetValue<float>(label_, "dampig");
-	// commonのSave
-	emitterParameter_.particleModel = persistence->GetValue<std::string>(label_, "modelName");
-	emitterParameter_.velocity		= persistence->GetValue<Vector3>(label_, "velocity");
-	emitterParameter_.speed			= persistence->GetValue<float>(label_, "speed");
-	emitterParameter_.lifeTime		= persistence->GetValue<float>(label_, "emitterLifeTime");
-	emitterParameter_.oneShot		= persistence->GetValue<bool>(label_, "oneShot");
+	//commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
+	//commonEmitter_->rotate			= persistence->GetValue<Vector4>(label_, "rotate");
+	//commonEmitter_->minScale		= persistence->GetValue<Vector3>(label_, "minScale");
+	//commonEmitter_->maxScale		= persistence->GetValue<Vector3>(label_, "maxScale");
+	//commonEmitter_->translate		= persistence->GetValue<Vector3>(label_, "translate");
+	//commonEmitter_->shape			= persistence->GetValue<uint32_t>(label_, "shape");
+	//commonEmitter_->count			= persistence->GetValue<uint32_t>(label_, "count");
+	//commonEmitter_->frequency		= persistence->GetValue<float>(label_, "frequency");
+	//commonEmitter_->frequencyTime	= persistence->GetValue<float>(label_, "frequencyTime");
+	//commonEmitter_->color			= persistence->GetValue<Vector4>(label_, "color");
+	//commonEmitter_->speed			= persistence->GetValue<float>(label_, "speed");
+	//commonEmitter_->lifeTime		= persistence->GetValue<float>(label_, "lifeTime");
+	//commonEmitter_->gravity			= persistence->GetValue<float>(label_, "gravity");
+	//commonEmitter_->dampig			= persistence->GetValue<float>(label_, "dampig");
+	//// commonのSave
+	//emitterParameter_.particleModel = persistence->GetValue<std::string>(label_, "modelName");
+	//emitterParameter_.velocity		= persistence->GetValue<Vector3>(label_, "velocity");
+	//emitterParameter_.speed			= persistence->GetValue<float>(label_, "speed");
+	//emitterParameter_.lifeTime		= persistence->GetValue<float>(label_, "emitterLifeTime");
+	//emitterParameter_.oneShot		= persistence->GetValue<bool>(label_, "oneShot");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

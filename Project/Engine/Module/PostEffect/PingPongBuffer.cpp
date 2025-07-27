@@ -84,7 +84,7 @@ void PingPongBuffer::CreatePong() {
 	pongResource_->CreateSRV(srvDesc);
 }
 
-void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type) {
+void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
 	DxResource* resource = nullptr;
 	switch (type) {
 	case BufferType::PING:
@@ -97,8 +97,6 @@ void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, Buf
 		break;
 	}
 
-	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHandles{};
 	//rtvHandles = RTVHandle_[type].handleCPU;
 	commandList->OMSetRenderTargets(1, &resource->GetRTV().handleCPU, false, &dsvHandle);

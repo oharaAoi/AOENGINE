@@ -68,25 +68,25 @@ void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingR
 	sceneBuffer_->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// renderTargetを設定
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_);
 
 	// 輝度の抽出
 	brightnessBuffer_->SetCommand(commandList, pingResource);
 	pingPongBuff_->Swap(commandList);
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_);
 
 	// ブラーをかける(横)
 	blurWidthBuffer_->SetCommand(commandList, pingPongBuff_->GetPingResource());
 	pingPongBuff_->Swap(commandList);
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_);
 
 	// ブラーをかける(縦)
 	blurHeightBuffer_->SetCommand(commandList, pingPongBuff_->GetPingResource());
 	pingPongBuff_->Swap(commandList);
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG);
+	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_);
 
 	// textureの合成を行いpongResourceに書き込む
-	postProcessResource_->SetRenderTarget(commandList, BufferType::PONG);
+	postProcessResource_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_);
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Bloom.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gSceneTexture");

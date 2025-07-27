@@ -99,11 +99,7 @@
     <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\BaseCSResource.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShader.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShaderPipeline.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\DepthOfField.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\GaussianBlur.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
@@ -162,13 +158,10 @@
     <ClCompile Include="Engine\Lib\Math\Vector4.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectPersistence.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystem.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp" />
@@ -324,6 +317,9 @@
     <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp" />
+    <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -374,11 +370,7 @@
     <ClInclude Include="Engine\Module\Components\Collider\ICollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\BaseCSResource.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShader.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShaderPipeline.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\DepthOfField.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\GaussianBlur.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
@@ -439,13 +431,10 @@
     <ClInclude Include="Engine\Lib\Math\Vector4.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectPersistence.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystem.h" />
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\EffectSystemEditer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h" />
@@ -609,6 +598,9 @@
     <ClInclude Include="Game\Actor\Weapon\Armors.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h" />
+    <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

@@ -12,6 +12,8 @@ public:
 
 	static void Log(const std::string& message);
 
+	static void AssertLog(const std::string& message);
+
 	static void CommentLog(const std::string& message);
 
 	void DeleteOldLogFile(size_t max);

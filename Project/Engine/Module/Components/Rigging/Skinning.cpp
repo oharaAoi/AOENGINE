@@ -180,12 +180,18 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 // ↓　描画コマンドを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::RunCs(ID3D12GraphicsCommandList* commandList) const {
-	commandList->SetComputeRootDescriptorTable(0, paletteSrvHandle_.handleGPU);
-	commandList->SetComputeRootDescriptorTable(1, inputHandle_.handleGPU);
-	commandList->SetComputeRootDescriptorTable(2, influenceSrvHandle_.handleGPU);
-	commandList->SetComputeRootDescriptorTable(3, outputHandle_.handleGPU);
-	commandList->SetComputeRootConstantBufferView(4, skinningInformationResource_->GetGPUVirtualAddress());
+void Skinning::RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const {
+	UINT index = 0;
+	index = _pipeline->GetRootSignatureIndex("gMatrixPalette");
+	commandList->SetComputeRootDescriptorTable(index, paletteSrvHandle_.handleGPU);
+	index = _pipeline->GetRootSignatureIndex("gInputVertices");
+	commandList->SetComputeRootDescriptorTable(index, inputHandle_.handleGPU);
+	index = _pipeline->GetRootSignatureIndex("gInfluences");
+	commandList->SetComputeRootDescriptorTable(index, influenceSrvHandle_.handleGPU);
+	index = _pipeline->GetRootSignatureIndex("gOutoutVertices");
+	commandList->SetComputeRootDescriptorTable(index, outputHandle_.handleGPU);
+	index = _pipeline->GetRootSignatureIndex("gSkinningInformation");
+	commandList->SetComputeRootConstantBufferView(index, skinningInformationResource_->GetGPUVirtualAddress());
 	commandList->Dispatch((vertices_ + 255) / 256, 1, 1);
 }
 

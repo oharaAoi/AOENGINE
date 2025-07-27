@@ -24,40 +24,6 @@ struct ParticleSingle {
 	bool isScaleUpScale = false;	// 生存時間による透明度
 	bool isAddBlend = true;
 	Vector3 upScale;
-
-	//ParticleSingle() {
-	//	toJsonFunction_ = [this](const std::string& id) {
-	//		return this->ToJson(id);
-	//	};
-	//}
-
-	//json ToJson(const std::string& id) const override {
-	//	return JsonBuilder(id)
-	//		.Add("color", color)
-	//		.Add("scale", scale)
-	//		.Add("rotate", rotate)
-	//		.Add("translate", translate)
-	//		.Add("velocity", velocity)
-	//		.Add("acceleration", acceleration)
-	//		.Add("lifeTime", lifeTime)
-	//		.Add("currentTime", currentTime)
-	//		.Add("damping", damping)
-	//		.Add("gravity", gravity)
-	//		.Build();
-	//}
-
-	//void FromJson(const json& jsonData) override {
-	//	fromJson(jsonData, "color", color);
-	//	fromJson(jsonData, "scale", scale);
-	//	fromJson(jsonData, "rotate", rotate);
-	//	fromJson(jsonData, "translate", translate);
-	//	fromJson(jsonData, "velocity", velocity);
-	//	fromJson(jsonData, "acceleration", acceleration);
-	//	fromJson(jsonData, "lifeTime", lifeTime);
-	//	fromJson(jsonData, "currentTime", currentTime);
-	//	fromJson(jsonData, "damping", damping);
-	//	fromJson(jsonData, "gravity", gravity);
-	//}
 };
 
 struct ParticleEmit : public IJsonConverter {

@@ -63,9 +63,9 @@ void BoxEmitter::DrawShape(const Matrix4x4& viewProjectionMat) {
 
 void BoxEmitter::Save() {
 	GpuEmitter::Save();
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
+	/*EffectPersistence* persistence = EffectPersistence::GetInstance();
 	persistence->AddItem(label_, "size", emitter_->size_);
-	persistence->Save(false, label_);
+	persistence->Save(false, label_);*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,8 +74,8 @@ void BoxEmitter::Save() {
 
 void BoxEmitter::Load() {
 	GpuEmitter::Load();
-	EffectPersistence* persistence = EffectPersistence::GetInstance();
-	emitter_->size_ = persistence->GetValue<Vector3>(label_, "size");
+	/*EffectPersistence* persistence = EffectPersistence::GetInstance();
+	emitter_->size_ = persistence->GetValue<Vector3>(label_, "size");*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

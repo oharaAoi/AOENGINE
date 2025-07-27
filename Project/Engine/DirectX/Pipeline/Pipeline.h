@@ -26,6 +26,7 @@ public:
 	struct PipelineParameter : public IJsonConverter {
 		std::string vs;			// vsのシェーダー名
 		std::string ps;			// psのシェーダー名
+		std::string cs;			// csのシェーダー名
 		std::string blendMode;	// blendModeの名前
 		bool culling;			// カリングを行うか
 		bool depth;				// 深度を書くか
@@ -35,6 +36,7 @@ public:
 			return JsonBuilder(id)
 				.Add("vs", vs)
 				.Add("ps", ps)
+				.Add("cs", cs)
 				.Add("blendMode", blendMode)
 				.Add("culling", culling)
 				.Add("depth", depth)
@@ -46,6 +48,7 @@ public:
 			const auto& pipeline = jsonData.at("Pipeline");
 			fromJson(jsonData, "vs", vs);
 			fromJson(jsonData, "ps", ps);
+			fromJson(jsonData, "cs", cs);
 			fromJson(jsonData, "blendMode", blendMode);
 			fromJson(jsonData, "culling", culling);
 			fromJson(jsonData, "depth", depth);
@@ -72,6 +75,8 @@ public:
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
+
+	void SetComputeState(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();
 
@@ -120,11 +125,10 @@ private:
 
 public:
 
-	const UINT GetRootSignatureIndex(const std::string& name) const { return rootSignatureIndexMap_.at(name); }
+	const UINT GetRootSignatureIndex(const std::string& name) const;
 
 private:
-	// rootSignature
-	std::unique_ptr<RootSignature> rootSignature_ = nullptr;
+	
 	// inputLayout
 	InputLayout inputLayout_;
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
@@ -135,6 +139,7 @@ private:
 
 	ComPtr<ID3D12ShaderReflection> vsReflection_;
 	ComPtr<ID3D12ShaderReflection> psReflection_;
+	ComPtr<ID3D12ShaderReflection> csReflection_;
 
 	ComPtr<ID3D12RootSignature> rootSig_;
 

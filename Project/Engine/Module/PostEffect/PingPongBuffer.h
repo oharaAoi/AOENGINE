@@ -21,7 +21,7 @@ public:
 
 	void CreatePong();
 
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type);
+	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle);
 
 	void Transition(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES after, BufferType type);
 
