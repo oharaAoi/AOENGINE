@@ -38,8 +38,8 @@ void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
 }
 
 void Pipeline::SetComputeState(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetComputeRootSignature(rootSig_.Get());
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
+	commandList->SetComputeRootSignature(rootSig_.Get());
 }
 
 void Pipeline::Finalize() {

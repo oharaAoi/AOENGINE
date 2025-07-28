@@ -5,7 +5,8 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 // particle
 #include "Engine/Render/ParticleInstancingRenderer.h"
-#include "Engine/System/ParticleSystem/Emitter/CpuEmitter.h"
+#include "Engine/Render/GpuParticleRenderer.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/System/ParticleSystem/EffectSystemCamera.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
@@ -43,10 +44,14 @@ private:		// member method
 
 	void ParticlesUpdate();
 
+	void InputText();
+
 	/// <summary>
 	/// 新たに作成する
 	/// </summary>
 	void Create();
+
+	GpuParticleEmitter* CreateOfGpu();
 
 	/// <summary>
 	/// リストに追加する
@@ -122,13 +127,18 @@ private:
 	std::unique_ptr<EffectSystemCamera> camera_ = nullptr;
 
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
+	std::unique_ptr<GpuParticleRenderer> gpuParticleRenderer_;
 
-	std::list<std::unique_ptr<BaseParticles>> emitterList_;
+	std::list<std::unique_ptr<BaseParticles>> cpuEmitterList_;
+	std::list<std::unique_ptr<GpuParticleEmitter>> gpuEmitterList_;
 
 	std::unordered_map<std::string, ParticlesData> particlesMap_;
 
 	// editer関連 ------------------------------------------
 	bool isSave_;
 	bool isLoad_;
+	bool isGpu_ = false;
+
+	std::string newParticleName_ = "new Particle";
 };
 

@@ -153,6 +153,7 @@ public:
 	static void SetPipeline(PSOType type, const std::string& typeName);
 
 	static Pipeline* GetLastUsedPipeline();
+	static Pipeline* GetLastUsedPipelineCS();
 
 	static void SetSkinning(Skinning* skinning);
 

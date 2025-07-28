@@ -5,20 +5,31 @@ struct VertexShaderOutput{
 	float4 color : COLOR0;
 };
 
-struct Particle {
+struct CpuParticle {
+	float4 color;
+	float4x4 worldMat;
+};
+
+struct GpuParticle {
 	float4 color;
 	float3 scale;
+	float3 targetScale;
 	float3 rotate;
-	float3 translate;
+	float3 pos;
 	float3 velocity;
 	float3 acceleration;
+
 	float lifeTime;
 	float currentTime;
 	float damping;
 	float gravity;
+	
+	int emitType;
+	int lifeOfScaleDown;
+	int lifeOfScaleUp;
+	int lifeOfAlpha;
 };
 
-struct CpuParticle {
-	float4 color;
-	float4x4 worldMat;
+struct MaxParticle {
+	int maxParticles;
 };

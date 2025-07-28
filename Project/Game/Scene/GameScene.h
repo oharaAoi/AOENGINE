@@ -16,6 +16,7 @@
 #include "Game/UI/FadePanel.h"
 // manager
 #include "Engine/System/Manager/CollisionManager.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
 
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
@@ -60,4 +61,6 @@ private:
 
 	SceneLoader* sceneLoader_;
 	SceneRenderer* sceneRenderer_;
+
+	GpuParticleEmitter* emitter_;
 };

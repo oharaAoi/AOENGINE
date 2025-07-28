@@ -49,6 +49,8 @@
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\DepthBasedOutline.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\PostEffect\MotionBlur.PS.hlsl" />
     <FxCompile Include="Game\Assets\HLSL\Armor.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\Particle\GpuParticle.VS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\Particle\GpuParticle.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -320,6 +322,9 @@
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
     <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
+    <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
+    <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -601,6 +606,9 @@
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
+    <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
+    <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
@@ -615,6 +623,7 @@
     <None Include="Externals\ImGui\imgui_extra_math.inl" />
     <None Include="Externals\ImGui\imgui_bezier_math.inl" />
     <None Include="Engine\Assets\HLSL\Light.hlsli" />
+    <None Include="Engine\Assets\HLSL\MatrixMath.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt" />

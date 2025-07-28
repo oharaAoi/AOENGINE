@@ -161,10 +161,10 @@ void BaseParticles::Debug_Gui() {
 	emitter_.useTexture = shareMaterial_->GetUseTexture();
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(kGroupName, emitter_.ToJson(particleName_));
+		JsonItems::Save("CPU", emitter_.ToJson(particleName_), "Effect");
 	}
 	if (ImGui::Button("Apply")) {
-		emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
+		emitter_.FromJson(JsonItems::GetData("CPU", particleName_));
 	}
 }
 

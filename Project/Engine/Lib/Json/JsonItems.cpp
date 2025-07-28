@@ -57,6 +57,29 @@ void JsonItems::LoadAllFile() {
 			}
 		}
 	}
+
+	// effect読み込み
+	std::filesystem::directory_iterator rootEffectDir(kDirectoryPath_ + "/" + "Effect");
+	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootEffectDir)) {
+		if (entryDir.is_directory()) {
+			// サブディレクトリの名前を取得
+			const fs::path& subDirPath = entryDir.path();
+
+			for (const fs::directory_entry& subEntry : fs::directory_iterator(subDirPath)) {
+				// サブディレクトリ内のファイルパスを取得
+				const fs::path& filePath = subEntry.path();
+				// ファイル拡張子を取得
+				std::string extension = filePath.extension().string();
+
+				// .jsonファイル以外はスキップ
+				if (extension.compare(".json") != 0) {
+					continue;
+				}
+
+				Load(subDirPath.stem().string(), filePath.stem().string(), "Effect");
+			}
+		}
+	}
 }
 
 void JsonItems::SaveAllFile() {
@@ -85,18 +108,26 @@ void JsonItems::AddGroup(const std::string& groupName, const json& jsonData) {
 // ↓　保存を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void JsonItems::Save(const std::string& groupName, const json& saveData) {
+void JsonItems::Save(const std::string& groupName, const json& saveData, const std::string& rootFold) {
 	// 最上位キーの取得
 	if (saveData.is_object() && !saveData.empty()) {
 		// 最上位のキーの名前をファイル名とする
 		std::string rootKey = saveData.begin().key();
+		std::string filePath;
+		std::filesystem::path dirPath;
 		// ファイルパスの作成
-		std::string filePath = kDirectoryPath_ + nowSceneName_ + "/" + groupName + "/" + rootKey + ".json";
+		if (rootFold == "") {
+			filePath = kDirectoryPath_ + nowSceneName_ + "/" + groupName + "/" + rootKey + ".json";
+			dirPath = std::filesystem::path(kDirectoryPath_ + nowSceneName_ + "/" + groupName);
+		} else {
+			filePath = kDirectoryPath_ + rootFold + "/" + groupName + "/" + rootKey + ".json";
+			dirPath = std::filesystem::path(kDirectoryPath_ + rootFold + "/" + groupName);
+		}
+		
 
 		// -------------------------------------------------
 		// ↓ ディレクトリがなければ作成を行う
 		// -------------------------------------------------
-		std::filesystem::path dirPath = std::filesystem::path(kDirectoryPath_ + nowSceneName_ + "/" + groupName);
 		if (!std::filesystem::exists(dirPath)) {
 			std::filesystem::create_directories(dirPath);
 			std::cout << "Created directory: " << dirPath << std::endl;
@@ -129,8 +160,14 @@ void JsonItems::Save(const std::string& groupName, const json& saveData) {
 // ↓　読み込みを行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void JsonItems::Load(const std::string& groupName, const std::string& rootKey) {
-	std::string filePath = kDirectoryPath_ + nowSceneName_ + "/" + groupName + "/" + rootKey + ".json";
+void JsonItems::Load(const std::string& groupName, const std::string& rootKey, const std::string& rootFold) {
+	std::string filePath;
+	// ファイルパスの作成
+	if (rootFold == "") {
+		filePath = kDirectoryPath_ + nowSceneName_ + "/" + groupName + "/" + rootKey + ".json";
+	} else {
+		filePath = kDirectoryPath_ + rootFold + "/" + groupName + "/" + rootKey + ".json";
+	}
 
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;

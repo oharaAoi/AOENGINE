@@ -1,0 +1,58 @@
+{
+    "legsJet": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 0.9960784316062927,
+            "y": 0.22238029539585114,
+            "z": 0.0
+        },
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "duration": 5.0,
+        "gravity": -0.9800000190734863,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isLoop": true,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 0.20999999344348907,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "rateOverTimeCout": 74,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 360.0,
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "shape": 1,
+        "speed": -0.25999999046325684,
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useTexture": "circle2 (2).png"
+    }
+}

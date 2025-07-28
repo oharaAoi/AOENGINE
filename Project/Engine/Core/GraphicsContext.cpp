@@ -26,7 +26,7 @@ void GraphicsContext::Init(WinApp* win, Shader* shaders, int32_t backBufferWidth
 	dxCompiler_->Init();
 
 	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get());
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get(), dxCommands_->GetCommandList());
 
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders->GetShaderData(Shader::Primitive));

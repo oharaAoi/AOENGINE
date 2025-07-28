@@ -1,0 +1,58 @@
+{
+    "QuickBoost": {
+        "angleMax": 0.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 0.869767427444458,
+            "y": 0.3020336329936981,
+            "z": 0.01618170738220215
+        },
+        "damping": 0.6000000238418579,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "duration": 2.0,
+        "gravity": -7.690000057220459,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": true,
+        "isLoop": true,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 0.800000011920929,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 0.6899999976158142,
+            "y": 0.7699999809265137,
+            "z": 1.0
+        },
+        "rateOverTimeCout": 100,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 13.319999694824219,
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useTexture": "circle2 (2).png"
+    }
+}

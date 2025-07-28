@@ -65,6 +65,9 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	processedSceneFrame_->Init(dxDevice_, dxHeap_);
 
+	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
+	geometryFactory.Init();
+
 
 #ifdef _DEBUG
 	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
@@ -90,9 +93,6 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
 	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
-
-	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
-	geometryFactory.Init();
 
 	// -------------------------------------------------
 	// ↓ その他初期化
@@ -351,6 +351,10 @@ void Engine::SetPipeline(PSOType type, const std::string& typeName) {
 
 Pipeline* Engine::GetLastUsedPipeline() {
 	return lastUsedPipeline_;
+}
+
+Pipeline* Engine::GetLastUsedPipelineCS() {
+	return computeShaderPipelines_->GetLastUsedPipeline();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

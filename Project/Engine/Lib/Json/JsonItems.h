@@ -36,14 +36,14 @@ public:
 	/// </summary>
 	/// <param name="groupName">: ファイルを保存するフォルダ名</param>
 	/// <param name="saveData">: 保存するデータ</param>
-	static void Save(const std::string& groupName, const json& saveData);
+	static void Save(const std::string& groupName, const json& saveData, const std::string& rootFold = "");
 
 	/// <summary>
 	/// jsonファイルを読み込む
 	/// </summary>
 	/// <param name="groupName">: ファイルの保存されたフォルダ名</param>
 	/// <param name="rootKey">: 読み込むファイル名</param>
-	static void Load(const std::string& groupName, const std::string& rootKey);
+	static void Load(const std::string& groupName, const std::string& rootKey, const std::string& rootFold = "");
 
 	/// <summary>
 	/// 値の取得(他クラスで呼び出し用)

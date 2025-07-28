@@ -10,7 +10,10 @@ void ParticleSystemEditor::Finalize() {
 	depthStencilResource_.Reset();
 	particleRenderer_.reset();
 	particlesMap_.clear();
-	emitterList_.clear();
+	cpuEmitterList_.clear();
+
+	gpuEmitterList_.clear();
+	gpuParticleRenderer_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +43,9 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(10000);
 
+	gpuParticleRenderer_ = std::make_unique<GpuParticleRenderer>();
+	gpuParticleRenderer_->Init(10240);
+
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
 
@@ -57,22 +63,32 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 void ParticleSystemEditor::Update() {
 #ifdef _DEBUG
 	// Emitterの更新
-	for (auto& emitter : emitterList_) {
+	for (auto& emitter : cpuEmitterList_) {
+		emitter->Update();
+	}
+
+	for (auto& emitter : gpuEmitterList_) {
 		emitter->Update();
 	}
 
 	// particleの更新
 	ParticlesUpdate();
+
 	// particleをRendererに送る
+	gpuParticleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
+	gpuParticleRenderer_->Update();
+
 	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
 	for (auto& particle : particlesMap_) {
 		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
 	}
 
 	particleRenderer_->PostUpdate();
+
 	// カメラの更新
 	camera_->Update();
 
+	InputText();
 	Create();
 	Edit();
 #endif // _DEBUG
@@ -86,6 +102,7 @@ void ParticleSystemEditor::Draw() {
 #ifdef _DEBUG
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
+	gpuParticleRenderer_->Draw();
 	PostDraw();
 #endif // _DEBUG
 }
@@ -168,25 +185,30 @@ void ParticleSystemEditor::ParticlesUpdate() {
 	}
 }
 
+void ParticleSystemEditor::InputText() {
+	ImGui::Begin("Create Window");
+	char buffer[128];
+	strncpy_s(buffer, sizeof(buffer), newParticleName_.c_str(), _TRUNCATE);
+	buffer[sizeof(buffer) - 1] = '\0'; // 安全のため null 終端
+
+	if (ImGui::InputText("Effect Name", buffer, sizeof(buffer))) {
+		newParticleName_ = buffer;
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 生成する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Create() {
-	// createの準備をする
-	ImGui::Begin("Create Window");
-	static std::string newEffectName = "new Particles";
-	char buffer[128];
-	strncpy_s(buffer, sizeof(buffer), newEffectName.c_str(), _TRUNCATE);
-	buffer[sizeof(buffer) - 1] = '\0'; // 安全のため null 終端
-
-	if (ImGui::InputText("Effect Name", buffer, sizeof(buffer))) {
-		newEffectName = buffer;
-	}
-
 	// createする
+	ImGui::Checkbox("isGpu", &isGpu_);
 	if (ImGui::Button("Create")) {
-		AddList(newEffectName);
+		if (isGpu_) {
+			CreateOfGpu();
+		} else {
+			AddList(newParticleName_);
+		}
 	}
 
 	// 読み込みから行う
@@ -201,12 +223,22 @@ void ParticleSystemEditor::Create() {
 	ImGui::End();
 }
 
+GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
+	auto& newParticles = gpuEmitterList_.emplace_back(std::make_unique<GpuParticleEmitter>());
+	newParticles->Init(newParticleName_);
+	newParticles->SetParticleResourceHandle(gpuParticleRenderer_->GetResourceHandle());
+	newParticles->SetFreeListIndexHandle(gpuParticleRenderer_->GetFreeListIndexHandle());
+	newParticles->SetFreeListHandle(gpuParticleRenderer_->GetFreeListHandle());
+	newParticles->SetMaxParticleResource(gpuParticleRenderer_->GetMaxBufferResource());
+	return newParticles.get();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Particleを追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::AddList(const std::string& _name) {
-	auto& newParticle = emitterList_.emplace_back(std::make_unique<BaseParticles>());
+	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<BaseParticles>());
 	newParticle->Init(_name);
 	newParticle->SetShareMaterial(
 		particleRenderer_->AddParticle(newParticle->GetName(),
@@ -287,34 +319,80 @@ json ParticleSystemEditor::Load(const std::string& filePath) {
 void ParticleSystemEditor::Edit() {
 	// 編集したいParticleの指定を行う
 	ImGui::Begin("List");
-	static BaseParticles* particles = nullptr;
+	static BaseParticles* cpuParticles = nullptr;
+	static GpuParticleEmitter* gpuParticles = nullptr;
 	static std::string openNode = "";
-	for (auto& it : emitterList_) {
+	static bool selectCpu = false;
+	for (auto& it : cpuEmitterList_) {
 		BaseParticles* ptr = it.get();
-		if (ImGui::Selectable(ptr->GetName().c_str(), particles == ptr)) {
-			particles = it.get();
+		if (ImGui::Selectable(ptr->GetName().c_str(), cpuParticles == ptr)) {
+			cpuParticles = it.get();
 			openNode = "";  // 他のノードを閉じる
+			selectCpu = true;
 		}
+	}
+	for (auto& emitter : gpuEmitterList_) {
+		GpuParticleEmitter* ptr = emitter.get();
+		if (ImGui::Selectable(ptr->GetName().c_str(), gpuParticles == ptr)) {
+			gpuParticles = emitter.get();
+			openNode = "";  // 他のノードを閉じる
+			selectCpu = false;
+		}
+	}
+	if (ImGui::BeginPopupContextWindow()) {
+		if (ImGui::MenuItem("Delete")) {
+			if (selectCpu) {
+				BaseParticles* target = cpuParticles;
+				bool deleted = false;
+				cpuEmitterList_.remove_if([&](const std::unique_ptr<BaseParticles>& ptr) {
+					if (ptr.get() == target) {
+						deleted = true;
+						return true;
+					}
+					return false;
+										  });
+				if (deleted) {
+					cpuParticles = nullptr;
+				}
+			} else {
+				GpuParticleEmitter* target = gpuParticles;
+				bool deleted = false;
+				gpuEmitterList_.remove_if([&](const std::unique_ptr<GpuParticleEmitter>& ptr) {
+					if (ptr.get() == target) {
+						deleted = true;
+						return true;
+					}
+					return false;
+										  });
+				if (deleted) {
+					gpuParticles = nullptr;
+				}
+			}
+		}
+		ImGui::EndPopup();
 	}
 	ImGui::End();
 
 	// 指定されたParticleの編集を行う
 	ImGui::Begin("Setting");
-	if (particles != nullptr) {
+	if (cpuParticles != nullptr) {
 		// particle自体を編集する
-		particles->Debug_Gui();
+		cpuParticles->Debug_Gui();
 
-		// 外部へ出力する
-		if (ImGui::CollapsingHeader("Output")) {
-			if (ImGui::Button("Particles Save")) {
-				isSave_ = true;
-			}
-		}
+		//// 外部へ出力する
+		//if (ImGui::CollapsingHeader("Output")) {
+		//	if (ImGui::Button("Particles Save")) {
+		//		isSave_ = true;
+		//	}
+		//}
 
-		if (isSave_) {
-			OpenSaveDialog(particles->GetName(), particles->GetJsonData());
-		}
+		//if (isSave_) {
+		//	OpenSaveDialog(cpuParticles->GetName(), cpuParticles->GetJsonData());
+		//}
+	} else if (gpuParticles != nullptr) {
+		gpuParticles->Debug_Gui();
 	}
+
 	ImGui::End();
 }
 
@@ -435,8 +513,6 @@ void ParticleSystemEditor::PreDraw() {
 
 	// Grid線描画
 	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

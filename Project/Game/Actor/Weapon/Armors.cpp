@@ -3,8 +3,8 @@
 
 void Armors::Init(const std::string& ownerName) {
 	SetName("Armors");
-	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100, true);
-	inArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100, true);
+	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	inArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
 	
 	outArmor_->SetName(ownerName + "_OutArmor");
 	inArmor_->SetName(ownerName + "_InArmor");
@@ -21,6 +21,8 @@ void Armors::Update() {
 }
 
 void Armors::Draw() const {
+	if (!outArmor_->GetIsAlive()) { return; }
+
 	outArmor_->Draw();
 	inArmor_->Draw();
 }

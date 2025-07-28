@@ -72,23 +72,18 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	bloom_->SetIsEnable(true);
 	bloom_->SetDepthHandle(depthHandle_.handleCPU);
 
-
 	smoothing_ = std::make_unique<Smoothing>();
 	smoothing_->Init();
-	smoothing_->SetIsEnable(true);
-
+	
 	gaussianFilter_ = std::make_shared<GaussianFilter>();
 	gaussianFilter_->Init();
-	gaussianFilter_->SetIsEnable(true);
-
+	
 	luminanceOutline_ = std::make_shared<LuminanceBasedOutline>();
 	luminanceOutline_->Init();
-	luminanceOutline_->SetIsEnable(true);
-
+	
 	depthOutline_ = std::make_shared<DepthBasedOutline>();
 	depthOutline_->Init();
-	depthOutline_->SetIsEnable(true);
-
+	
 	motionBlur_ = std::make_shared<MotionBlur>();
 	motionBlur_->Init();
 	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));

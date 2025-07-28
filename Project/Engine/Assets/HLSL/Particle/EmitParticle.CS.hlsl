@@ -1,37 +1,30 @@
 #include "../Random.hlsli"
+#include "../MatrixMath.hlsli"
 #include "Particle.hlsli"
 
-struct CommonEmitter {
-	float4 rotate; // 回転(Quaternion)
-	float3 translate; // 位置
-	int shape; // emitterの形
-	int count; // 射出数
-	float frequency; // 射出間隔
-	float frequencyTime; // 時間調整用
-	int emit; // 射出許可
+struct Emitter {
+	float4 color;
+	float3 minScale;
+	float3 maxScale;
+	float3 targetScale;
+	float3 rotate;
+	float3 pos;
+
+	int count;
+	int emitType;
+	int shape;
+	int lifeOfScaleDown;
+	int lifeOfScaleUp;
+	int lifeOfAlpha;
 	
-	// particle自体の情報
-	float4 color; // 色
-	float3 minScale; // 最小の大きさ
-	float3 maxScale; // 最大の大きさ
-	float speed; // 速度
+	int SeparateByAxisScale;
+	float scaleMinScaler;
+	float scaleMaxScaler;
+
+	float speed;
 	float lifeTime;
 	float gravity;
 	float damping;
-};
-
-struct SphereEmitter {
-	float radius; // 射出半径
-};
-
-struct ConeEmitter {
-	float radius; // 射出半径
-	float angle; // 角度
-	float height; // 高さ
-};
-
-struct BoxEmitter {
-	float3 size;
 };
 
 struct PerFrame {
@@ -39,16 +32,12 @@ struct PerFrame {
 	float deletaTime;
 };
 
-
-static const int kMaxParticles = 1024;
-RWStructuredBuffer<Particle> gParticles : register(u0);
+RWStructuredBuffer<GpuParticle> gParticles : register(u0);
 RWStructuredBuffer<int> gFreeListIndex : register(u1);
 RWStructuredBuffer<int> gFreeList : register(u2);
 ConstantBuffer<PerFrame> gPerFrame : register(b0);
-ConstantBuffer<CommonEmitter> gCommonEmitter : register(b1);
-ConstantBuffer<SphereEmitter> gSphereEmitter : register(b2);
-ConstantBuffer<ConeEmitter> gConeEmitter : register(b3);
-ConstantBuffer<BoxEmitter> gBoxEmitter : register(b4);
+ConstantBuffer<MaxParticle> gMaxParticles : register(b1);
+ConstantBuffer<Emitter> gEmitter : register(b2);
 
 float3 ApplyVelocityWithRotation(float4 rotation, float3 localVelocity, float threshold) {
     // クォータニオンの長さを計算
@@ -72,62 +61,56 @@ float3 ApplyVelocityWithRotation(float4 rotation, float3 localVelocity, float th
 
 [numthreads(1, 1, 1)]
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
-	if (gCommonEmitter.emit == 1) {
-		RandomGenerator generator;
-		generator.seed = (DTid + gPerFrame.time) * gPerFrame.time;
-		for (int countIndex = 0; countIndex < gCommonEmitter.count; ++countIndex) {
-			int freeListIndex;
+	RandomGenerator generator;
+	generator.seed = (DTid + gPerFrame.time) * gPerFrame.time;
+	for (int countIndex = 0; countIndex < gEmitter.count; ++countIndex) {
+		int freeListIndex;
 			// gFreeCounter[0]に1を足し、足す前の値をparticleIndexに格納
-			InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
+		InterlockedAdd(gFreeListIndex[0], -1, freeListIndex);
 			
-			if (0 <= freeListIndex && freeListIndex < kMaxParticles) {
-				int particleIndex = gFreeList[freeListIndex];
-				gParticles[particleIndex] = (Particle) 0;
-				//gParticles[particleIndex].scale = generator.Generated3d();
-				//float x = generator.Generated1dRange(gCommonEmitter.minScale.x, gCommonEmitter.maxScale.x);
-				//float y = generator.Generated1dRange(gCommonEmitter.minScale.y, gCommonEmitter.maxScale.y);
-				//float z = generator.Generated1dRange(gCommonEmitter.minScale.z, gCommonEmitter.maxScale.z);
-				float scale = generator.Generated1dRange(0.1, 1);
-				
+		if (0 <= freeListIndex && freeListIndex < gMaxParticles.maxParticles) {
+			int particleIndex = gFreeList[freeListIndex];
+			if (gEmitter.SeparateByAxisScale == 0) {
+				float scale = generator.Generated1dRange(-gEmitter.scaleMinScaler, gEmitter.scaleMaxScaler);
 				gParticles[particleIndex].scale = float3(scale, scale, scale);
-				gParticles[particleIndex].rotate = float3(0, 0, 0);
-				gParticles[particleIndex].translate = gCommonEmitter.translate;
-				gParticles[particleIndex].color.rgb = gCommonEmitter.color.rgb;
-				gParticles[particleIndex].color.a = gCommonEmitter.color.a;
-				gParticles[particleIndex].lifeTime = gCommonEmitter.lifeTime;
-				gParticles[particleIndex].currentTime = 0.0f;
-				gParticles[particleIndex].acceleration = float3(0, 0, 0);
-				gParticles[particleIndex].damping = gCommonEmitter.damping;
-				gParticles[particleIndex].gravity = gCommonEmitter.gravity;
-				
-				if (gCommonEmitter.shape == 0) { // sphere
-					gParticles[particleIndex].translate = gCommonEmitter.translate + generator.Generated3dRange(-2, 2);
-					gParticles[particleIndex].velocity = generator.Generated3d() * gCommonEmitter.speed;
-				}
-				else if (gCommonEmitter.shape == 1) { // Cone
-					float angle = generator.Generated1dRange(-gConeEmitter.angle, gConeEmitter.angle);
-					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(cos(angle), 1, sin(angle)), 0.01f) * gCommonEmitter.speed;
-				}
-				else if (gCommonEmitter.shape == 2) { // box
-					float x = generator.Generated1dRange(-gBoxEmitter.size.x, gBoxEmitter.size.x);
-					float y = generator.Generated1dRange(-gBoxEmitter.size.y, gBoxEmitter.size.y);
-					float z = generator.Generated1dRange(-gBoxEmitter.size.z, gBoxEmitter.size.z);
-					
-					gParticles[particleIndex].translate = gCommonEmitter.translate;
-					gParticles[particleIndex].translate.x += x;
-					gParticles[particleIndex].translate.y += y;
-					gParticles[particleIndex].translate.z += z;
-					
-					gParticles[particleIndex].velocity = ApplyVelocityWithRotation(gCommonEmitter.rotate, float3(0, 1, 0), 0.01f) * gCommonEmitter.speed;
-				}
-				
 			}
 			else {
-				// 発生しなかったので減らした分を元に戻す
-				InterlockedAdd(gFreeListIndex[0], 1);
-				// これ以上発生しないのでループを抜ける
-				break;
+				float x = generator.Generated1dRange(-gEmitter.minScale.x, gEmitter.maxScale.x);
+				float y = generator.Generated1dRange(-gEmitter.minScale.y, gEmitter.maxScale.y);
+				float z = generator.Generated1dRange(-gEmitter.minScale.z, gEmitter.maxScale.z);
+				gParticles[particleIndex].scale = float3(x, y, z);
 			}
+			
+			gParticles[particleIndex].rotate = float3(0, 0, 0);
+			gParticles[particleIndex].pos = gEmitter.pos;
+			gParticles[particleIndex].color.rgb = gEmitter.color.rgb;
+			gParticles[particleIndex].color.a = gEmitter.color.a;
+			gParticles[particleIndex].lifeTime = gEmitter.lifeTime;
+			gParticles[particleIndex].currentTime = 0.0f;
+			gParticles[particleIndex].acceleration = float3(0, 0, 0);
+			gParticles[particleIndex].damping = gEmitter.damping;
+			gParticles[particleIndex].gravity = gEmitter.gravity;
+			gParticles[particleIndex].lifeOfScaleDown = gEmitter.lifeOfScaleDown;
+			gParticles[particleIndex].lifeOfScaleUp = gEmitter.lifeOfScaleDown;
+			gParticles[particleIndex].lifeOfAlpha = gEmitter.lifeOfAlpha;
+			
+			if (gEmitter.emitType == 0) {
+				gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, float3(0, 1, 0)) * gEmitter.speed;
+				
+			}
+			else if (gEmitter.emitType == 1) {
+				float direX = generator.Generated1dRange(-1, 1);
+				float direY = generator.Generated1dRange(-1, 1);
+				float direZ = generator.Generated1dRange(-1, 1);
+				gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, float3(direX, direY, direZ)) * gEmitter.speed;
+				
+			}
+		}
+		else {
+				// 発生しなかったので減らした分を元に戻す
+			InterlockedAdd(gFreeListIndex[0], 1);
+				// これ以上発生しないのでループを抜ける
+			break;
 		}
 	}
 }

@@ -16,7 +16,7 @@ void RenderTarget::Finalize() {
 	swapChainResource_[1]->Finalize();
 }
 
-void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain) {
+void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain, ID3D12GraphicsCommandList* commandList) {
 	assert(descriptorHeap);
 	assert(swapChain);
 	assert(device);
@@ -28,6 +28,8 @@ void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, ID
 	CrateSwapChainResource();
 	CreateRenderTarget();
 
+	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
+	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

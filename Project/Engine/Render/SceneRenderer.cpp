@@ -10,6 +10,7 @@ SceneRenderer* SceneRenderer::GetInstance() {
 void SceneRenderer::Finalize() {
 	objectList_.clear();
 	particleManager_->Finalize();
+	gpuParticleManager_->Finalize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,6 +22,9 @@ void SceneRenderer::Init() {
 
 	particleManager_ = ParticleManager::GetInstance();
 	particleManager_->Init();
+
+	gpuParticleManager_ = GpuParticleManager::GetInstance();
+	gpuParticleManager_->Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +55,7 @@ void SceneRenderer::Update() {
 	}
 
 	particleManager_->Update();
+	gpuParticleManager_->Update();
 }
 
 void SceneRenderer::PostUpdate() {
@@ -79,6 +84,7 @@ void SceneRenderer::Draw() const {
 	}
 
 	particleManager_->Draw();
+	gpuParticleManager_->Draw();
 }
 
 void SceneRenderer::PostDraw() const {

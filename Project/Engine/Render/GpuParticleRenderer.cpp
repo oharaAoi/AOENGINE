@@ -11,15 +11,19 @@ GpuParticleRenderer::~GpuParticleRenderer() {
 	freeListResource_->Finalize();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	// ポインタの取得
 	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
 	DescriptorHeap* dxHeap = graphicsCxt->GetDxHeap();
 	ID3D12Device* dxDevice = graphicsCxt->GetDevice();
-	//ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
 
 	kInstanceNum_ = _instanceNum;
-
+	
 	// GPUへ送るResourceの作成
 	CreateResource(dxHeap, dxDevice);
 
@@ -28,17 +32,84 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	shape_->Set<PlaneGeometry>();
 	shape_->GetMaterial()->SetUseTexture("white.png");
 
-	/*Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);*/
+	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_->SetUseTexture("circle.png");
+
+	// 初期化コマンドの実行
+	Engine::SetPipelineCS("GpuParticleInit.json");
+	Pipeline* pso =  Engine::GetLastUsedPipelineCS();
+	UINT index = 0;
+	index = pso->GetRootSignatureIndex("gParticles");
+	commandList->SetComputeRootDescriptorTable(index, particleResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gFreeListIndex");
+	commandList->SetComputeRootDescriptorTable(index, freeListIndexResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gFreeList");
+	commandList->SetComputeRootDescriptorTable(index, freeListResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gMaxParticles");
+	commandList->SetComputeRootConstantBufferView(index, maxParticleBuffer_->GetGPUVirtualAddress());
+	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleRenderer::Update() {
+	perFrame_->deltaTime = GameTimer::DeltaTime();
+	perFrame_->time = GameTimer::TotalTime();
 
+	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	Engine::SetPipelineCS("GpuParticleUpdate.json");
+	Pipeline* pso = Engine::GetLastUsedPipelineCS();
+	UINT index = 0;
+	index = pso->GetRootSignatureIndex("gParticles");
+	commandList->SetComputeRootDescriptorTable(index, particleResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gFreeListIndex");
+	commandList->SetComputeRootDescriptorTable(index, freeListIndexResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gFreeList");
+	commandList->SetComputeRootDescriptorTable(index, freeListResource_->GetUAV().handleGPU);
+	index = pso->GetRootSignatureIndex("gPerFrame");
+	commandList->SetComputeRootConstantBufferView(index, perFrameBuffer_->GetGPUVirtualAddress());
+	index = pso->GetRootSignatureIndex("gMaxParticles");
+	commandList->SetComputeRootConstantBufferView(index, maxParticleBuffer_->GetGPUVirtualAddress());
+	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+
+	// UAVの変更
+	D3D12_RESOURCE_BARRIER barrier{};
+	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+	barrier.UAV.pResource = particleResource_->GetResource();
+	commandList->ResourceBarrier(1, &barrier);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleRenderer::Draw() const {
+	Engine::SetPipeline(PSOType::Object3d, "Object_GpuParticle.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 
+	commandList->IASetVertexBuffers(0, 1, &shape_->GetMesh()->GetVBV());
+	commandList->IASetIndexBuffer(&shape_->GetMesh()->GetIBV());
+
+	UINT index = pso->GetRootSignatureIndex("gMaterial");
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	index = pso->GetRootSignatureIndex("gParticles");
+	commandList->SetGraphicsRootDescriptorTable(index, particleResource_->GetSRV().handleGPU);
+	index = pso->GetRootSignatureIndex("gTexture");
+	std::string textureName = material_->GetUseTexture();
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+	index = pso->GetRootSignatureIndex("gPerView");
+	commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
+
+	commandList->DrawIndexedInstanced(shape_->GetMesh()->GetIndexNum(), kInstanceNum_, 0, 0, 0);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Resourceの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleRenderer::CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* _dxDevice) {
 	// gpuに送るResourceの作成
@@ -55,7 +126,7 @@ void GpuParticleRenderer::CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* 
 	// particle
 	particleResource_->Init(_dxDevice, _dxHeap, CreateUavResourceDesc(sizeof(Particle) * kInstanceNum_),
 							&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
-
+	
 	// freeListIndex
 	freeListIndexResource_->Init(_dxDevice, _dxHeap, CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
 								 &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
@@ -83,4 +154,9 @@ void GpuParticleRenderer::CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* 
 
 	perFrameBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+
+	maxParticleBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(MaxParticles));
+	maxParticleBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&maxBuffer_));
+	maxBuffer_->count = kInstanceNum_;
+
 }

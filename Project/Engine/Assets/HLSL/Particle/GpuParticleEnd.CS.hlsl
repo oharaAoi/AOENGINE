@@ -1,7 +1,7 @@
 #include "Particle.hlsli"
 
 static const int kMaxParticles = 1024;
-RWStructuredBuffer<Particle> gParticles : register(u0);
+RWStructuredBuffer<GpuParticle> gParticles : register(u0);
 RWStructuredBuffer<int> gAllAlphaZero : register(u1);
 
 [numthreads(1, 1, 1)]
