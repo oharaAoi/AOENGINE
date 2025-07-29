@@ -8,8 +8,8 @@
                             "children": [],
                             "name": "DeployArmor",
                             "nodePos": {
-                                "x": -513.0,
-                                "y": 82.0
+                                "x": -811.0,
+                                "y": 102.0
                             },
                             "nodeType": 4
                         },
@@ -17,16 +17,35 @@
                             "children": [],
                             "name": "Approach",
                             "nodePos": {
-                                "x": -337.0,
-                                "y": 98.0
+                                "x": -635.0,
+                                "y": 102.0
                             },
                             "nodeType": 4
                         }
                     ],
                     "name": "Sequence",
                     "nodePos": {
-                        "x": -414.0,
+                        "x": -587.0,
                         "y": -78.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Approach",
+                            "nodePos": {
+                                "x": -475.0,
+                                "y": 146.0
+                            },
+                            "nodeType": 4
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": -398.0,
+                        "y": -30.0
                     },
                     "nodeType": 1
                 },

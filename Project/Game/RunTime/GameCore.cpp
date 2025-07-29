@@ -31,6 +31,11 @@ void GameCore::Init() {
 
 void GameCore::Update() {
 	AoiFramework::Update();
+	if (sceneManger_->Reset()) {
+		Engine::EndFrame();
+		return;
+	}
+
 	sceneManger_->Update();
 #ifdef _DEBUG
 	sceneManger_->Debug_Gui();

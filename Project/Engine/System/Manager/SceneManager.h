@@ -28,6 +28,8 @@ public:
 
 	void SetChange(const SceneType& type);
 
+	bool Reset();
+
 private:
 
 	std::unique_ptr<SceneFactory> sceneFactory_;

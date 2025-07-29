@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include <optional>
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Manager/GpuParticleManager.h"
 
 SceneManager::SceneManager() {}
 
@@ -28,16 +29,7 @@ void SceneManager::Update() {
 		scene_->SetNextSceneType(std::nullopt);
 	}
 
-	if (EditorWindows::GetInstance()->GetSceneReset()) {
-		EditorWindows::GetInstance()->Reset();
-		ParticleManager::GetInstance()->Finalize();
-		ParticleManager::GetInstance()->Init();
-		scene_->Init();
-		return;
-	}
-
 	scene_->Update();
-	
 	SceneRenderer::GetInstance()->PostUpdate();
 }
 
@@ -84,4 +76,18 @@ void SceneManager::SetChange(const SceneType& type) {
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	scene_ = std::move(nextScene_);
 	scene_->Init();
+}
+
+bool SceneManager::Reset() {
+	if (EditorWindows::GetInstance()->GetSceneReset()) {
+		EditorWindows::GetInstance()->Reset();
+		ParticleManager::GetInstance()->Finalize();
+		ParticleManager::GetInstance()->Init();
+		GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
+		gpuManager->Finalize();
+		gpuManager->Init();
+		scene_->Init();
+		return true;
+	}
+	return false;
 }
