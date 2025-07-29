@@ -77,7 +77,7 @@ public:
 	/// Objectを生成する
 	/// </summary>
 	/// <param name="loadData">: 生成データ</param>
-	void CreateObject(const SceneLoader::LevelData* loadData);
+	void CreateObject(SceneLoader::LevelData* loadData);
 
 	/// <summary>
 	/// 

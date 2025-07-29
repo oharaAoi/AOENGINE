@@ -9,3 +9,4 @@ machinegun
 launcher
 ground
 building
+invisibleWall

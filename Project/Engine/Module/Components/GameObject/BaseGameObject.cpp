@@ -111,6 +111,10 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
+	if (!isRendering_) {
+		return;
+	}
+
 	if (isReflection_) {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
 			if (materials.size() > index) {

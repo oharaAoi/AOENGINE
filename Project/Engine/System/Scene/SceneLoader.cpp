@@ -1,6 +1,9 @@
 #include "SceneLoader.h"
 #include "Engine/Utilities/Logger.h"
 #include <fstream>
+#include <chrono>
+#include <thread>
+#include <filesystem>
 
 SceneLoader* SceneLoader::GetInstance() {
 	static SceneLoader instance;
@@ -19,6 +22,10 @@ void SceneLoader::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneLoader::Load(const std::string& directory, const std::string& fileName, const std::string& extension) {
+	directory_ = directory;
+	fileName_ = fileName;
+	extension_ = extension;
+
 	const std::string fullPath = directory + fileName + extension;
 
 	// ファイルストリーム
@@ -127,6 +134,13 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 		objectData.collisionFilter = objectJson["collisionFilter_tags"].get<std::vector<std::string>>();
 	}
 
+	// rendering_flag
+	if (objectJson.contains("rendering_flag")) {
+		objectData.isRendering_ = objectJson["rendering_flag"];
+	} else {
+		objectData.isRendering_ = true;
+	}
+
 	// children
 	if (objectJson.contains("children")) {
 		for (const json& childJson : objectJson["children"]) {
@@ -134,6 +148,24 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 		}
 	}
 	return objectData;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ SceneFileを監視する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool SceneLoader::MonitorFileChange() {
+	const std::string fullPath = directory_ + fileName_ + extension_;
+	std::filesystem::file_time_type lastTime = std::filesystem::last_write_time(fullPath);
+	auto currentTime = std::filesystem::last_write_time(fullPath);
+	if (currentTime != lastTime) {
+		lastTime = currentTime;
+
+		// ファイル再読み込み処理
+		Load(directory_, fileName_, extension_);
+		return true;
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

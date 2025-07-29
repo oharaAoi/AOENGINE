@@ -87,7 +87,8 @@
                 "building",
                 "ground",
                 "machinegun",
-                "launcher"
+                "launcher",
+                "invisibleWall"
             ]
         },
         {
@@ -646,7 +647,168 @@
                 "ground",
                 "boss",
                 "bossAttack",
-                "bossMissile"
+                "bossMissile",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.001",
+            "transform": {
+                "translation": [
+                    -1.05303955078125,
+                    -175.80953979492188,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    353.47998046875,
+                    2.0,
+                    240.51998901367188
+                ]
+            },
+            "collider_tag": "invisibleWall",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.002",
+            "transform": {
+                "translation": [
+                    -1.05303955078125,
+                    172.77835083007812,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    353.47998046875,
+                    2.0,
+                    240.51998901367188
+                ]
+            },
+            "collider_tag": "invisibleWall",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.003",
+            "transform": {
+                "translation": [
+                    -177.00970458984375,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    350.2499694824219,
+                    242.3199920654297
+                ]
+            },
+            "collider_tag": "invisibleWall",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.004",
+            "transform": {
+                "translation": [
+                    174.50454711914062,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "collider": {
+                "type": "BOX",
+                "center": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "size": [
+                    2.0,
+                    350.2499694824219,
+                    242.3199920654297
+                ]
+            },
+            "collider_tag": "invisibleWall",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
             ]
         }
     ]

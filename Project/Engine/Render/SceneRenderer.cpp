@@ -104,13 +104,15 @@ void SceneRenderer::PostDraw() const {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
+void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 	// levelDataからobjectを作成する
-	for (const auto& data : loadData->objects) {
+	for (auto& data : loadData->objects) {
 		auto object = std::make_unique<BaseGameObject>();
 		object->Init();
 		object->SetName(data.name);
-		object->SetObject(data.modelName);
+		if (data.modelName != "") {
+			object->SetObject(data.modelName);
+		}
 		object->GetTransform()->SetSRT(data.srt);
 
 		// colliderが設定されていたら
@@ -139,6 +141,8 @@ void SceneRenderer::CreateObject(const SceneLoader::LevelData* loadData) {
 			}
 			collider->Update(data.srt);
 		}
+
+		object->SetIsRendering(data.isRendering_);
 
 		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false,  std::move(object));
 		objectList_.push_back(std::move(pair));

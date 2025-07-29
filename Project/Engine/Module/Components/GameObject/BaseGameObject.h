@@ -88,6 +88,8 @@ public:
 
 	void SetIsReflection(bool isReflection) { isReflection_ = isReflection; }
 
+	void SetIsRendering(bool _isRendering) { isRendering_ = _isRendering; }
+
 	void SetPhysics();
 	Rigidbody* GetRigidbody() { return rigidbody_.get(); }
 		
@@ -123,6 +125,7 @@ protected:
 	bool isAnimation_ = false;
 
 	bool isReflection_;
+	bool isRendering_;
 
 	// 他クラス情報
 	BaseGameObject* pParentObj_;

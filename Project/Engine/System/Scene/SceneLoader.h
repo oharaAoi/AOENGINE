@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
@@ -25,8 +26,11 @@ public:		// data
 		float colliderRadius;
 		std::string colliderTag = "";
 		std::vector<std::string> collisionFilter;
+
+		bool isRendering_;
 		
 		std::list<Objects> children;
+
 	};
 
 	/// <summary>
@@ -65,15 +69,24 @@ public:
 	/// <returns></returns>
 	Objects LoadObject(const json& objectJson);
 
+	/// <summary>
+	/// ファイル変更を監視する
+	/// </summary>
+	bool MonitorFileChange();
+
 public:
 
 	Objects GetObjects(const std::string& objName) const;
 
-	const LevelData* GetLevelData() const { return levelData_.get(); }
+	LevelData* GetLevelData() const { return levelData_.get(); }
 
 private:
 
 	std::unique_ptr<LevelData> levelData_;
+
+	std::string directory_;
+	std::string fileName_;
+	std::string extension_;
 
 };
 
