@@ -81,8 +81,10 @@ public:
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	ICollider* GetCollider() { return collider_.get(); }
+	ICollider* GetCollider(const std::string& name);
+	ICollider* GetCollider();
 	void SetCollider(const std::string& categoryName, ColliderShape shape);
+	void AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape);
 
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);
 
@@ -95,7 +97,7 @@ public:
 		
 private:
 
-	void SetColliderRadius(float radius) {
+	/*void SetColliderRadius(float radius) {
 		if (auto sphere = dynamic_cast<SphereCollider*>(collider_.get())) {
 			sphere->SetRadius(radius);
 		}
@@ -105,7 +107,7 @@ private:
 		if (auto box = dynamic_cast<BoxCollider*>(collider_.get())) {
 			box->SetSize(size);
 		}
-	}
+	}*/
 
 protected:
 
@@ -115,7 +117,7 @@ protected:
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;
 
-	std::unique_ptr<ICollider> collider_ = nullptr;
+	std::vector<std::unique_ptr<ICollider>> colliders_;
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 

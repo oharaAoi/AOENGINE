@@ -15,7 +15,7 @@ void BossMissile::Init() {
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::SPHERE);
 
-	ICollider* collider = object_->GetCollider();
+	ICollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);

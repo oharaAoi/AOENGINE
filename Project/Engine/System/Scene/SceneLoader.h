@@ -15,17 +15,22 @@ public:		// data
 	/// <summary>
 	/// ファイルに記載されている各objectの情報
 	/// </summary>
+	
+	struct ColliderData {
+		std::string colliderType = "";
+		std::string colliderTag = "";
+		Vector3 center;
+		Vector3 size;
+		float radius;
+		std::vector<std::string> filter;
+	};
+
 	struct Objects {
 		std::string name;
 		std::string modelName;
 		QuaternionSRT srt;
 
-		std::string colliderType = "";
-		Vector3 colliderCenter;
-		Vector3 colliderSize;
-		float colliderRadius;
-		std::string colliderTag = "";
-		std::vector<std::string> collisionFilter;
+		std::vector<ColliderData> collidersData;
 
 		bool isRendering_;
 		

@@ -50,7 +50,7 @@ Matrix4x4 Matrix4x4::MakeUnit() {
 }
 
 Matrix4x4 Matrix4x4::MakeAffine(const Matrix4x4& scale, const Matrix4x4& rotate, const Matrix4x4& translate) {
-	return scale * rotate * translate;
+	return Multiply(Multiply(scale, rotate), translate);
 }
 
 Matrix4x4 Matrix4x4::MakeAffine(const Vector3& scale, const Vector3& rotate, const Vector3& translate) {

@@ -116,30 +116,31 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 		object->GetTransform()->SetSRT(data.srt);
 
 		// colliderが設定されていたら
-		if (data.colliderType != "") {
-			object->SetCollider("none", data.colliderType);
-			ICollider* collider = object->GetCollider();
-			// colliderのローカル座標を設定
-			collider->SetLoacalPos(data.colliderCenter);
-			if (data.colliderType == "BOX") {
-				collider->SetSize(data.colliderSize);
-			} else if (data.colliderType == "SPHERE") {
-				collider->SetRadius(data.colliderRadius);
-			}
-			// colliderのtagが設定されていたら代入
-			if (data.colliderTag != "") {
-				collider->SetCategory(data.colliderTag);
-			} else {
-				collider->SetCategory("none");
-			}
-
-			// collisionFilterが設定されていたら
-			if (!data.collisionFilter.empty()) {
-				for (size_t index = 0; index < data.collisionFilter.size(); ++index) {
-					collider->SetTarget(data.collisionFilter[index]);
+		if (!data.collidersData.empty()) {
+			for (auto colliderData : data.collidersData) {
+				object->SetCollider(colliderData.colliderTag, colliderData.colliderType);
+				ICollider* collider = object->GetCollider(colliderData.colliderTag);
+				collider->SetLoacalPos(colliderData.center);
+				if (colliderData.colliderType == "BOX") {
+					collider->SetSize(colliderData.size);
+				} else if (colliderData.colliderType == "SPHERE") {
+					collider->SetRadius(colliderData.radius);
 				}
+				// colliderのtagが設定されていたら代入
+				if (colliderData.colliderTag != "") {
+					collider->SetCategory(colliderData.colliderTag);
+				} else {
+					collider->SetCategory("none");
+				}
+
+				// collisionFilterが設定されていたら
+				if (!colliderData.filter.empty()) {
+					for (size_t index = 0; index < colliderData.filter.size(); ++index) {
+						collider->SetTarget(colliderData.filter[index]);
+					}
+				}
+				collider->Update(data.srt);
 			}
-			collider->Update(data.srt);
 		}
 
 		object->SetIsRendering(data.isRendering_);

@@ -18,10 +18,10 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 
 	collisionPartnersMap_.clear();
 	collisionState_ = CollisionFlags::NONE;
-	
+
 	if (shape == ColliderShape::AABB) {
 		shape_ = AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
-	} else if(shape == ColliderShape::OBB) {
+	} else if (shape == ColliderShape::OBB) {
 		shape_ = OBB{ .center = CVector3::ZERO, .size = CVector3::UNIT };
 	} else {
 		assert("not AABB or OBB Shape");
@@ -65,15 +65,9 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 		};
 
 		for (const auto& localPt : localPoints) {
-			Vector3 worldPt = srt.translate + (srt.rotate * (localPt + localSRT_.translate));
-			min = Vector3::Min(min, worldPt);
-			max = Vector3::Max(max, worldPt);
-		}
-
-		for (const auto& localPt : localPoints) {
-			// ローカル -> 回転 -> 平行移動
-			Vector3 worldPt = srt.translate + (srt.rotate * (localPt + localSRT_.translate));
-
+			Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
+			Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
+			Vector3 worldPt = srt.translate + rotatedPt;                    // 平行移動
 			min = Vector3::Min(min, worldPt);
 			max = Vector3::Max(max, worldPt);
 		}

@@ -29,6 +29,7 @@ public:	// accessor method
 
 	WorldTransform* GetTransform() const { return transform_; }
 
+	ICollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
 	ICollider* GetCollider() const { return object_->GetCollider(); }
 
 	void SetParent(BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }

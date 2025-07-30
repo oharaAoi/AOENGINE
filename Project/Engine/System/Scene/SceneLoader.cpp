@@ -108,30 +108,34 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 	objectData.srt.scale.z = (float)transform["scaling"][1];
 
 	// collider
-	if (objectJson.contains("collider")) {
-		const json& collider = objectJson["collider"];
-		objectData.colliderType = collider["type"];
+	if (objectJson.contains("colliders")) {
+		const json& collidersJson = objectJson["colliders"];
 
-		objectData.colliderCenter.x = (float)collider["center"][0];
-		objectData.colliderCenter.y = (float)collider["center"][2];
-		objectData.colliderCenter.z = (float)collider["center"][1];
+		for (const auto& colliderJson : collidersJson) {
+			ColliderData col;
+			col.colliderType = colliderJson["type"];
+			col.center.x = (float)colliderJson["center"][0];
+			col.center.y = (float)colliderJson["center"][2]; // YとZ入れ替え注意
+			col.center.z = (float)colliderJson["center"][1];
 
-		if (objectData.colliderType == "BOX") {
-			objectData.colliderSize.x = (float)collider["size"][0];
-			objectData.colliderSize.y = (float)collider["size"][2];
-			objectData.colliderSize.z = (float)collider["size"][1];
+			if (col.colliderType == "BOX") {
+				col.size.x = (float)colliderJson["size"][0];
+				col.size.y = (float)colliderJson["size"][2];
+				col.size.z = (float)colliderJson["size"][1];
+			} else if (col.colliderType == "SPHERE") {
+				col.radius = (float)colliderJson["radius"];
+			}
 
-		} else if (objectData.colliderType == "SPHERE") {
-			objectData.colliderRadius = (float)collider["radius"];
+			// タグ系
+			if (colliderJson.contains("tag")) {
+				col.colliderTag = colliderJson["tag"];
+			}
+			if (colliderJson.contains("collisionFilter_tags")) {
+				col.filter = colliderJson["collisionFilter_tags"].get<std::vector<std::string>>();
+			}
+
+			objectData.collidersData.push_back(col);
 		}
-	}
-
-	if (objectJson.contains("collider_tag")) {
-		objectData.colliderTag = objectJson["collider_tag"];
-	}
-
-	if (objectJson.contains("collisionFilter_tags")) {
-		objectData.collisionFilter = objectJson["collisionFilter_tags"].get<std::vector<std::string>>();
 	}
 
 	// rendering_flag

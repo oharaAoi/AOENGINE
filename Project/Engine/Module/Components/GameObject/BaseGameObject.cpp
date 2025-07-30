@@ -15,10 +15,12 @@ void BaseGameObject::Finalize() {
 	if (animetor_ != nullptr) {
 		animetor_->Finalize();
 	}
-	if (collider_ != nullptr) {
-		ColliderCollector::GetInstance()->RemoveCollider(collider_.get());
-		collider_.reset();
-		collider_ = nullptr;
+	if (!colliders_.empty()) {
+		for (uint32_t index = 0; index < colliders_.size(); ++index) {
+			ColliderCollector::GetInstance()->RemoveCollider(colliders_[index].get());
+			colliders_[index].reset();
+			colliders_[index] = nullptr;
+		}
 	}
 	materials.clear();
 }
@@ -85,11 +87,14 @@ void BaseGameObject::UpdateMatrix() {
 		transform_->Translate(rigidbody_->GetMoveForce());
 	}
 
-	if (collider_ != nullptr) {
-		collider_->Update(QuaternionSRT{.scale = transform_->GetScale(),
-						  .rotate = transform_->GetQuaternion(),
-						  .translate = transform_->GetTranslation()}
-		);
+	if (!colliders_.empty()) {
+		for (uint32_t index = 0; index < colliders_.size(); ++index) {
+			colliders_[index]->Update(QuaternionSRT{
+				.scale = transform_->GetScale(),
+				.rotate = transform_->GetQuaternion(),
+				.translate = transform_->GetTranslation() }
+			);
+		}
 	}
 
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
@@ -101,7 +106,11 @@ void BaseGameObject::UpdateMatrix() {
 
 void BaseGameObject::PostUpdate() {
 	if (rigidbody_ != nullptr) {
-		rigidbody_->SetPushbackForce(collider_->GetPushBackDirection());
+		for (uint32_t index = 0; index < colliders_.size(); ++index) {
+			if (!colliders_[index]->GetIsStatic()) {
+				rigidbody_->SetPushbackForce(colliders_[index]->GetPushBackDirection());
+			}
+		}
 		transform_->Translate(rigidbody_->GetPushbackForce());
 	}
 }
@@ -140,19 +149,39 @@ void BaseGameObject::Draw() const {
 // ↓　Colliderを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+ICollider* BaseGameObject::GetCollider(const std::string& name) {
+	for (uint32_t index = 0; index < colliders_.size(); ++index) {
+		if (colliders_[index]->GetCategoryName() == name) {
+			return colliders_[index].get();
+		}
+	}
+	return nullptr;
+}
+
+ICollider* BaseGameObject::GetCollider() {
+	if (!colliders_.empty()) {
+		return colliders_[0].get();
+	}
+	return nullptr;
+}
+
 void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
 	if (shape == ColliderShape::SPHERE) {
-		collider_ = std::make_unique<SphereCollider>();
+		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
+		AddCollider(newCollider.get(), categoryName, shape);
 	} else if (shape == ColliderShape::AABB || shape == ColliderShape::OBB) {
-		collider_ = std::make_unique<BoxCollider>();
+		auto& newCollider = colliders_.emplace_back(std::make_unique<BoxCollider>());
+		AddCollider(newCollider.get(), categoryName, shape);
 	}
+}
 
-	collider_->Init(categoryName, shape);
-	collider_->SetName(categoryName);
-	collider_->SetCategory(categoryName);
-	ColliderCollector::AddCollider(collider_.get());
+void BaseGameObject::AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape) {
+	_collider->Init(categoryName, shape);
+	_collider->SetName(categoryName);
+	_collider->SetCategory(categoryName);
+	ColliderCollector::AddCollider(_collider);
 
-	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(), 
+	_collider->Update(QuaternionSRT{ .scale = transform_->GetScale(),
 						  .rotate = transform_->GetQuaternion(),
 						  .translate = transform_->GetTranslation() }
 	);
@@ -160,23 +189,16 @@ void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape 
 
 void BaseGameObject::SetCollider(const std::string& categoryName, const std::string& shapeName) {
 	ColliderShape shape = ColliderShape::SPHERE;
+
 	if (shapeName == "SPHERE") {
-		collider_ = std::make_unique<SphereCollider>();
+		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
 		shape = ColliderShape::SPHERE;
+		AddCollider(newCollider.get(), categoryName, shape);
 	} else if (shapeName == "BOX") {
-		collider_ = std::make_unique<BoxCollider>();
+		auto& newCollider = colliders_.emplace_back(std::make_unique<BoxCollider>());
 		shape = ColliderShape::AABB;
+		AddCollider(newCollider.get(), categoryName, shape);
 	}
-
-	collider_->Init(categoryName, shape);
-	collider_->SetName(categoryName);
-	collider_->SetCategory(categoryName);
-	ColliderCollector::AddCollider(collider_.get());
-
-	collider_->Update(QuaternionSRT{ .scale = transform_->GetScale(),
-						  .rotate = transform_->GetQuaternion(),
-						  .translate = transform_->GetTranslation() }
-	);
 }
 
 void BaseGameObject::SetPhysics() {
@@ -269,9 +291,14 @@ void BaseGameObject::Debug_Gui() {
 		}
 	}
 
-	if (collider_ != nullptr) {
-		if (ImGui::CollapsingHeader("Collider")) {
-			collider_->Debug_Gui();
+	if (!colliders_.empty()) {
+		for (uint32_t oi = 0; oi < colliders_.size(); ++oi) {
+			std::string tag = colliders_[oi]->GetCategoryName();
+			if (ImGui::TreeNode(tag.c_str())) {
+				colliders_[oi]->Debug_Gui();
+				ImGui::TreePop();
+			}
+
 		}
 	}
 

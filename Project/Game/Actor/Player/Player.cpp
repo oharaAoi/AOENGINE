@@ -92,25 +92,11 @@ void Player::Init() {
 
 	AddChild(jet_.get()); 
 
-	ICollider* collider = object_->GetCollider();
+	ICollider* collider = object_->GetCollider("player");
 	collider->SetIsStatic(false);
 
-	legCollider_ = std::make_unique<SphereCollider>();
-	legCollider_->Init(ColliderTags::Player::leg, ColliderShape::SPHERE);
-	legCollider_->SetName(ColliderTags::Player::leg);
-	legCollider_->SetCategory(ColliderTags::Player::leg);
-	legCollider_->SetTarget(ColliderTags::None::own);
-	legCollider_->SetTarget("building");
-	legCollider_->SetTarget("ground");
-	legCollider_->SetRadius(param_.legColliderRadius);
-	legCollider_->SetLoacalPos(Vector3(0.0f, param_.legColliderPosY, 0.0f));
-	ColliderCollector::AddCollider(legCollider_.get());
-	legCollider_->Update(QuaternionSRT{
-		.scale = transform_->GetScale(),
-		.rotate = transform_->GetQuaternion(),
-		.translate = transform_->GetTranslation() }
-		);
-	legCollider_->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	ICollider* colliderLeg = object_->GetCollider("playerLeg");
+	colliderLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
 
 	object_->SetPhysics();
 
@@ -181,12 +167,6 @@ void Player::Update() {
 	}
 
 	jet_->Update();
-
-	legCollider_->Update(QuaternionSRT{
-		.scale = transform_->GetScale(),
-		.rotate = transform_->GetQuaternion(),
-		.translate = transform_->GetTranslation() }
-	);
 
 	transform_->Update();
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();

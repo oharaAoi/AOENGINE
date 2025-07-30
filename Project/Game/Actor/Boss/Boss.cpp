@@ -69,7 +69,7 @@ void Boss::Init() {
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();
 	
-	ICollider* collider = object_->GetCollider();
+	ICollider* collider = object_->GetCollider("boss");
 	collider->SetIsStatic(false);
 
 	object_->SetPhysics();
@@ -100,6 +100,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree.json");
+	behaviorTree_->SetExecute(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
