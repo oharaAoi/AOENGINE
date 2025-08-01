@@ -1,5 +1,6 @@
 #include "BaseParticles.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Manager/MeshManager.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
@@ -8,15 +9,24 @@ void BaseParticles::Init(const std::string& name) {
 	particleName_ = name;
 	SetName(name);
 	
-	shape_ = std::make_unique<GeometryObject>();
-	shape_->Set<PlaneGeometry>();
-	
+	/*shape_ = std::make_unique<GeometryObject>();
+	shape_->Set<PlaneGeometry>();*/
+
 	emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
-	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
+	if (emitter_.useMesh == "") {
+		shape_ = MeshManager::GetInstance()->GetMesh("plane");
+	} else {
+		shape_ = MeshManager::GetInstance()->GetMesh(emitter_.useMesh);
+	}
+	
+
+	shape_->SetUseMaterial(emitter_.useTexture);
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
 	isStop_ = true;
+
+	changeMesh_ = false;
 }
 
 void BaseParticles::Update() {
@@ -101,6 +111,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.stretchBillboard = emitter_.stretchBillboard;
 	newParticle.stretchScaleFactor = emitter_.stretchScale;
+	newParticle.isBillBord = emitter_.isBillBord;
 }
 
 void BaseParticles::EmitUpdate() {
@@ -160,6 +171,12 @@ void BaseParticles::Debug_Gui() {
 	shareMaterial_->Debug_Gui();
 	
 	emitter_.useTexture = shareMaterial_->GetUseTexture();
+	shareMaterial_->SetUseTexture(emitter_.useTexture);
+
+	meshName_ = MeshManager::GetInstance()->SelectMeshName();
+	if (ImGui::Button("ChangeMesh")) {
+		changeMesh_ = true;
+	}
 
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("CPU", emitter_.ToJson(particleName_), "Effect");
@@ -167,6 +184,12 @@ void BaseParticles::Debug_Gui() {
 	if (ImGui::Button("Apply")) {
 		emitter_.FromJson(JsonItems::GetData("CPU", particleName_));
 	}
+}
+
+void BaseParticles::ChangeMesh() {
+	emitter_.useMesh = meshName_;
+	shape_ = MeshManager::GetInstance()->GetMesh(meshName_);
+	changeMesh_ = false;
 }
 
 void BaseParticles::SetParent(const Matrix4x4& parentMat) {

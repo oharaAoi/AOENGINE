@@ -65,6 +65,10 @@ void ParticleSystemEditor::Update() {
 #ifdef _DEBUG
 	// Emitterの更新
 	for (auto& emitter : cpuEmitterList_) {
+		if (emitter->GetChangeMesh()) {
+			emitter->ChangeMesh();
+			particleRenderer_->ChangeMesh(emitter->GetName(), emitter->GetMesh());
+		}
 		emitter->Update();
 	}
 
@@ -176,9 +180,16 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			}
 
 			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
-			Matrix4x4 billMatrix = camera_->GetBillBordMatrix(); // ← ビルボード行列（カメラからの視線で作る）
-			Matrix4x4 zRot = pr.rotate.MakeMatrix();
-			Matrix4x4 rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+			Matrix4x4 rotateMatrix;
+			if (pr.isBillBord) {
+				Matrix4x4 billMatrix = camera_->GetBillBordMatrix();
+				Matrix4x4 zRot = pr.rotate.MakeMatrix();
+				rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+			} else {
+				Matrix4x4 billMatrix = Matrix4x4::MakeUnit();
+				rotateMatrix = pr.rotate.MakeMatrix();
+			}
+			
 			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
@@ -251,9 +262,11 @@ GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
 void ParticleSystemEditor::AddList(const std::string& _name) {
 	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<BaseParticles>());
 	newParticle->Init(_name);
+	std::string textureName = newParticle->GetUseTexture();
 	newParticle->SetShareMaterial(
 		particleRenderer_->AddParticle(newParticle->GetName(),
-									   newParticle->GetGeometryObject()->GetMesh(),
+									   textureName,
+									   newParticle->GetMesh(),
 									   newParticle->GetIsAddBlend())
 	);
 

@@ -27,7 +27,7 @@ public:
 	GpuParticleField() = default;
 	~GpuParticleField();
 
-	void Debug_Gui() override {};
+	void Debug_Gui() override;
 
 	void Init(uint32_t _instanceNum);
 
@@ -46,6 +46,9 @@ private:
 
 	bool isEnable_;
 
+	float timer_;
+
+	// resource
 	D3D12_GPU_DESCRIPTOR_HANDLE particleResourceHandle_;
 
 	ComPtr<ID3D12Resource> fieldBuffer_;

@@ -25,13 +25,14 @@ public:
 
 	void Debug_Gui() override;
 
+	void ChangeMesh();
+
 public:		// json関連
 
 	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 
 	void SetJsonData(const json& _jsonData) { 
 		emitter_.FromJson(_jsonData);
-		shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
 	};
 	
 public:
@@ -42,7 +43,7 @@ public:
 
 	void SetParent(const Matrix4x4& parentMat);
 
-	GeometryObject* GetGeometryObject() const { return shape_.get(); }
+	std::shared_ptr<Mesh> GetMesh() const { return shape_; }
 
 	void SetParticlesList(const std::shared_ptr<std::list<ParticleSingle>>& list) { particleArray_ = list; }
 
@@ -54,6 +55,8 @@ public:
 	bool GetIsAddBlend() const {return emitter_.isParticleAddBlend;}
 
 	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
+
+	bool GetChangeMesh() const { return changeMesh_; }
 
 protected:
 
@@ -68,7 +71,7 @@ protected:
 	bool isAddBlend_;
 
 	// meshの形状
-	std::unique_ptr<GeometryObject> shape_;
+	std::shared_ptr<Mesh> shape_;
 	std::shared_ptr<Material> shareMaterial_;
 
 	// Particleの情報
@@ -79,6 +82,10 @@ protected:
 	float emitAccumulator_;
 	float currentTimer_;
 	bool isStop_;
+
+	bool changeMesh_ = false;
+
+	std::string meshName_;
 
 	// 親のMatrix
 	const Matrix4x4* parentWorldMat_ = nullptr;

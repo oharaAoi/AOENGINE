@@ -37,6 +37,7 @@ void GpuParticleManager::Update() {
 	GraphicsContext* ctx = GraphicsContext::GetInstance();
 	ID3D12GraphicsCommandList*  commandList = ctx->GetCommandList();
 	for (auto& field : fileds_) {
+		field->Update();
 		field->Execute(commandList);
 	}
 

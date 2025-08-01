@@ -5,6 +5,7 @@ void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {
 		ImGui::Checkbox("IsLoop", &isLoop);
 		ImGui::DragFloat("duration", &duration);
+		ImGui::Checkbox("isBillBord", &isBillBord);
 		ImGui::BulletText("Emitter Settings");
 		ImGui::DragFloat4("Rotate (Quaternion)", (float*)&rotate, 0.01f);
 		ImGui::DragFloat("rotateAngle", (float*)&rotateAngle, 0.01f);

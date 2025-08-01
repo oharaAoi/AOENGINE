@@ -84,7 +84,7 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 	}
 }
 
-std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, Mesh* _pMesh, bool isAddBlend) {
+std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<Mesh> _pMesh, bool isAddBlend) {
 	auto it = particleMap_.find(id);
 	if (it != particleMap_.end()) {
 		return particleMap_[id].materials;		// 見つかったら早期リターン
@@ -105,6 +105,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	particles.pMesh = _pMesh;
 	particles.materials = std::make_shared<Material>();
 	particles.materials->Init(device, Model::ModelMaterialData());
+	particles.textureName = textureName;
 	
 	particles.particleResource_ = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
 	particles.particleData = nullptr;
@@ -131,4 +132,13 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	particleMap_.emplace(id, std::move(particles));
 	
 	return particleMap_[id].materials;
+}
+
+void ParticleInstancingRenderer::ChangeMesh(const std::string& id, std::shared_ptr<Mesh> _mesh) {
+	auto it = particleMap_.find(id);
+	if (it == particleMap_.end()) {
+		assert(false && "対応する名前が見つかりませんでした");
+	}
+	
+	particleMap_[id].pMesh = _mesh;
 }

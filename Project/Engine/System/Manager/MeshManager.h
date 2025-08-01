@@ -43,9 +43,13 @@ public:
 
 	std::shared_ptr<Mesh> GetMesh(const std::string& meshName);
 
+	std::string SelectMeshName();
+
 private:
 
 	static std::unordered_map<std::string, MeshArray> meshArrayMap_;
+	static std::unordered_map<std::string, std::shared_ptr<Mesh>> meshMap_;
+	static std::vector<std::string> modelNameList_;
 	static std::vector<std::string> meshNameList_;
 
 };

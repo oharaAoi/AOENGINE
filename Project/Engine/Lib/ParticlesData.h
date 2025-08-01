@@ -26,6 +26,7 @@ struct ParticleSingle {
 	bool stretchBillboard;
 	float stretchScaleFactor;
 	Vector3 upScale;
+	bool isBillBord = true;
 };
 
 struct ParticleEmit : public IJsonConverter {
@@ -56,11 +57,13 @@ struct ParticleEmit : public IJsonConverter {
 	float stretchScale = 4.0f;
 
 	bool isParticleAddBlend = false;	// blendModeをAddBlendにするかのフラグ
+	bool isBillBord = true;
 
 	bool isScaleUp;				// サイズを大きくするか
 	Vector3 scaleUpScale;
 
 	std::string useTexture = "white.png";
+	std::string useMesh = "plane";
 
 	ParticleEmit() {
 		toJsonFunction_ = [this](const std::string& id) {
@@ -93,7 +96,9 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("isParticleAddBlend", isParticleAddBlend)
 			.Add("isScaleUp", isScaleUp)
 			.Add("scaleUpScale", scaleUpScale)
-			.Add("useTexture", useTexture)  // `damping` の変数名のスペルを修正
+			.Add("isBillBord", isBillBord)
+			.Add("useTexture", useTexture)
+			.Add("useMesh", useMesh)
 			.Build();
 	}
 
@@ -121,7 +126,9 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "isParticleAddBlend", isParticleAddBlend);
 		fromJson(jsonData, "isScaleUp", isScaleUp);
 		fromJson(jsonData, "scaleUpScale", scaleUpScale);
-		fromJson(jsonData, "useTexture", useTexture);  // `damping` の変数名のスペルを修正
+		fromJson(jsonData, "isBillBord", isBillBord);
+		fromJson(jsonData, "useTexture", useTexture);
+		fromJson(jsonData, "useMesh", useMesh);
 	}
 
 	void Attribute_Gui();

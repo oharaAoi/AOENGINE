@@ -100,6 +100,7 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 				std::string nameStr = materialName.C_Str();
 				// DefaultMaterialを除く処理
 				if (nameStr == "DefaultMaterial") {
+					meshVertices.push_back(vertices);
 					continue;
 				}
 				useMaterial.push_back(nameStr);
@@ -107,6 +108,7 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 				std::string nameStr = "not set MaterialName" + std::to_string(meshIndex);
 				// DefaultMaterialを除く処理
 				if (nameStr == "DefaultMaterial") {
+					meshVertices.push_back(vertices);
 					continue;
 				}
 				useMaterial.push_back(nameStr);
