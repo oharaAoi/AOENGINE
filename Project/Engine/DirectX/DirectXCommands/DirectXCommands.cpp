@@ -94,15 +94,14 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 	// 下記の用にするとスレッドが大量終了しない
 	// -----------------------------------------------
 	
-	//// 画面の交換を行う
-	//swapChain->Present(1, 0);
-
-	//// 今フレームで描画コマンドを積ん方の画面のvalueを取得し、valueまでの処理が完了しら次の処理を開始する
+	// 画面の交換を行う
+	
+	// 今フレームで描画コマンドを積ん方の画面のvalueを取得し、valueまでの処理が完了しら次の処理を開始する
 	//const auto currentValue = fanceCounter_[fenceIndex_];
 	//commandQueue_->Signal(fence_.Get(), currentValue);
 
 	//// 現在のbackBufferのIndexを取得する
-	//fenceIndex_ = swapChain->GetCurrentBackBufferIndex();
+	//fenceIndex_ = currentIndex;
 
 	//if (fence_->GetCompletedValue() < fanceCounter_[fenceIndex_]) {
 	//	// 指定下Signal(currentValueのシグナル)にたどりついていないので、たどりつくまで待つようにイベントを設定する
@@ -110,6 +109,6 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 	//	WaitForSingleObject(fenceEvent_, INFINITE);
 	//}
 
-	// 次frameのfaceCounterを増やす
+	////次frameのfaceCounterを増やす
 	//fanceCounter_[fenceIndex_] = currentValue + 1;
 }

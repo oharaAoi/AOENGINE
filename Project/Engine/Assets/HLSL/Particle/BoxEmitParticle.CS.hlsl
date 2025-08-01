@@ -35,6 +35,24 @@ struct PerFrame {
 	float deletaTime;
 };
 
+static const float3 corners[8] = {
+    float3(-1, -1, -1),
+    float3(-1, -1,  1),
+    float3(-1,  1, -1),
+    float3(-1,  1,  1),
+    float3( 1, -1, -1),
+    float3( 1, -1,  1),
+    float3( 1,  1, -1),
+    float3( 1,  1,  1)
+};
+
+static const int2 edges[12] = {
+	int2(0, 1), int2(0, 2), int2(0, 4),
+    int2(1, 3), int2(1, 5), int2(2, 3),
+    int2(2, 6), int2(3, 7), int2(4, 5),
+    int2(4, 6), int2(5, 7), int2(6, 7)
+};
+
 RWStructuredBuffer<GpuParticle> gParticles : register(u0);
 RWStructuredBuffer<int> gFreeListIndex : register(u1);
 RWStructuredBuffer<int> gFreeList : register(u2);
@@ -78,7 +96,8 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			if (gEmitter.SeparateByAxisScale == 0) {
 				float scale = generator.Generated1dRange(-gEmitter.scaleMinScaler, gEmitter.scaleMaxScaler);
 				gParticles[particleIndex].scale = float3(scale, scale, scale);
-			} else {
+			}
+			else {
 				// particleのスケール軸を分けう時
 				float x = generator.Generated1dRange(-gEmitter.minScale.x, gEmitter.maxScale.x);
 				float y = generator.Generated1dRange(-gEmitter.minScale.y, gEmitter.maxScale.y);
@@ -92,34 +111,26 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				emitPos = gEmitter.pos;
 			}
 			else if (gEmitter.emitOrigin == 1) {
-				float rangeX = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
-				float rangeY = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
-				float rangeZ = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
+				float rangeX = generator.Generated1dRange(-gEmitter.size.x, gEmitter.size.x);
+				float rangeY = generator.Generated1dRange(-gEmitter.size.y, gEmitter.size.y);
+				float rangeZ = generator.Generated1dRange(-gEmitter.size.z, gEmitter.size.z);
 				emitPos = float3(rangeX, rangeY, rangeZ) + gEmitter.pos;
 			}
-			else if (gEmitter.emitOrigin == 2 || gEmitter.emitOrigin == 3) {
-				float u = generator.Generated1dRange(0, 1);
-				float v = generator.Generated1dRange(0, 1);
-				float theta = u * 2.0f * 3.1412f;
-				float phi = acos(2.0f * v - 1.0f);
+			else if (gEmitter.emitOrigin == 2) {
+				int edgeIndex = int(floor(generator.Generated1dRange(0, 11)));
+				int2 edge = edges[edgeIndex];
 				
-				float3 dir;
-				dir.x = sin(phi) * cos(theta);
-				dir.y = sin(phi) * sin(theta);
-				dir.z = cos(phi);
-
-				emitPos = gEmitter.pos + (dir * gEmitter.radius);
+				float3 localA = corners[edge.x] * (gEmitter.size);
+				float3 localB = corners[edge.y] * (gEmitter.size);
 				
-				if (gEmitter.emitType == 2) {
-					gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, dir) * gEmitter.speed;
-				}
-				else if (gEmitter.emitType == 3) {
-					gParticles[particleIndex].velocity = normalize(gEmitter.pos - emitPos) * gEmitter.speed;
-				}
+				float3 worldA = gEmitter.pos + localA;
+				float3 worldB = gEmitter.pos + localB;
+				
+				float t = generator.Generated1dRange(0, 1);
+				emitPos = lerp(worldA, worldB, t);
 			}
 			
-			gParticles[particleIndex].
-				rotate = float3(0, 0, 0);
+			gParticles[particleIndex].rotate = float3(0, 0, 0);
 			gParticles[particleIndex].pos = emitPos;
 			gParticles[particleIndex].color.rgb = gEmitter.color.rgb;
 			gParticles[particleIndex].color.a = gEmitter.color.a;

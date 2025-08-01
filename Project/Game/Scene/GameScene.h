@@ -63,4 +63,5 @@ private:
 	SceneRenderer* sceneRenderer_;
 
 	GpuParticleEmitter* emitter_;
+	GpuParticleField* field_;
 };

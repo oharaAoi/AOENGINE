@@ -2,6 +2,7 @@
 #include "ImGuiFileDialog.h"
 #include "Engine/Engine.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include <iostream>
 #include <fstream>
 
@@ -75,10 +76,10 @@ void ParticleSystemEditor::Update() {
 	ParticlesUpdate();
 
 	// particleをRendererに送る
-	gpuParticleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
+	gpuParticleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), camera_->GetBillBordMatrix());
 	gpuParticleRenderer_->Update();
 
-	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Matrix4x4::MakeUnit());
+	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), camera_->GetBillBordMatrix());
 	for (auto& particle : particlesMap_) {
 		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
 	}
@@ -103,6 +104,11 @@ void ParticleSystemEditor::Draw() {
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
 	gpuParticleRenderer_->Draw();
+
+	for (auto& emitter : gpuEmitterList_) {
+		emitter->DrawShape();
+	}
+
 	PostDraw();
 #endif // _DEBUG
 }
@@ -162,6 +168,11 @@ void ParticleSystemEditor::ParticlesUpdate() {
 				float scaleT = pr.lifeTime / pr.firstLifeTime;
 				scaleT = 1.0f - scaleT;
 				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
+			}
+
+			if (pr.stretchBillboard) {
+				float stretchLength = pr.velocity.Length() * pr.stretchScaleFactor;
+				pr.scale.y = pr.firstScale.y * stretchLength;
 			}
 
 			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
@@ -251,6 +262,7 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 		particlesMap_.emplace(_name, ParticleSystemEditor::ParticlesData());
 	}
 	newParticle->SetParticlesList(particlesMap_[_name].particles);
+	newParticle->SetIsStop(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

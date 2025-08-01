@@ -2,6 +2,7 @@
 #include <string>
 #include "Game/Actor/Weapon/PulseArmor.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
 class Armors :
 	public AttributeGui {
@@ -66,6 +67,8 @@ private:
 	PulseArmor* inArmor_;
 
 	bool isDeploy_;
+
+	GpuParticleEmitter* chargeEmitter_;
 
 };
 

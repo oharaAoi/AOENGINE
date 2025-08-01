@@ -2,6 +2,59 @@
     "name": "scene",
     "objects": [
         {
+            "type": "MESH",
+            "name": "sbill.006",
+            "transform": {
+                "translation": [
+                    1.2331829071044922,
+                    -32.753997802734375,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "building",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher"
+                    ]
+                }
+            ],
+            "collider_tag": "building",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
             "type": "LIGHT",
             "name": "Light",
             "transform": {
@@ -100,59 +153,6 @@
                 "machinegun",
                 "launcher",
                 "invisibleWall"
-            ]
-        },
-        {
-            "type": "MESH",
-            "name": "sbill",
-            "transform": {
-                "translation": [
-                    1.2331829071044922,
-                    -32.753997802734375,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    6.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "disabled": false,
-            "file_name": "sbill.obj",
-            "colliders": [
-                {
-                    "type": "BOX",
-                    "center": [
-                        0.0,
-                        0.0,
-                        2.5199999809265137
-                    ],
-                    "size": [
-                        6.679999828338623,
-                        2.0899999141693115,
-                        5.179999828338623
-                    ],
-                    "tag": "building",
-                    "collisionFilter_tags": [
-                        "player",
-                        "playerLeg",
-                        "boss",
-                        "bossAttack",
-                        "bossMissile",
-                        "machinegun",
-                        "launcher"
-                    ]
-                }
-            ],
-            "collider_tag": "building",
-            "collisionFilter_tags": [
-                "player",
-                "playerLeg"
             ]
         },
         {
@@ -326,7 +326,7 @@
                 "rotation": [
                     0.0,
                     -0.0,
-                    0.0
+                    -179.99998474121094
                 ],
                 "scaling": [
                     6.0,
@@ -490,7 +490,7 @@
                 "scaling": [
                     15.0,
                     8.0,
-                    2.0
+                    1.0
                 ]
             },
             "disabled": false,
@@ -765,7 +765,7 @@
                     "center": [
                         0.0,
                         0.0,
-                        1.2599999904632568
+                        1.6800000667572021
                     ],
                     "radius": 0.9399999976158142,
                     "tag": "player",

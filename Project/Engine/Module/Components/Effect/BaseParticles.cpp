@@ -16,9 +16,7 @@ void BaseParticles::Init(const std::string& name) {
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
-
-	currentTimer_ = 0.0f;
-	isStop_ = false;
+	isStop_ = true;
 }
 
 void BaseParticles::Update() {
@@ -100,6 +98,9 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;
+
+	newParticle.stretchBillboard = emitter_.stretchBillboard;
+	newParticle.stretchScaleFactor = emitter_.stretchScale;
 }
 
 void BaseParticles::EmitUpdate() {

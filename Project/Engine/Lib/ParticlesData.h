@@ -23,6 +23,8 @@ struct ParticleSingle {
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
 	bool isScaleUpScale = false;	// 生存時間による透明度
 	bool isAddBlend = true;
+	bool stretchBillboard;
+	float stretchScaleFactor;
 	Vector3 upScale;
 };
 
@@ -49,6 +51,9 @@ struct ParticleEmit : public IJsonConverter {
 	bool isDirectionRotate = false;		// 進行方向にParticleを向ける処理
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
+
+	bool stretchBillboard = false;	// 生存時間による透明度
+	float stretchScale = 4.0f;
 
 	bool isParticleAddBlend = false;	// blendModeをAddBlendにするかのフラグ
 

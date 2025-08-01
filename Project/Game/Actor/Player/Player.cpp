@@ -135,7 +135,7 @@ void Player::Init() {
 	isLanding_ = false;
 	isMoving_ = false;
 
-	deployArmor_ = true;
+	deployArmor_ = false;
 
 	param_.postureStability -= initParam_.postureStability;
 

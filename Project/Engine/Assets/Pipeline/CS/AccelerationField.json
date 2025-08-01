@@ -1,0 +1,5 @@
+{
+    "Pipeline": {
+        "cs" : "./Engine/Assets/HLSL/Particle/AccelerationField.CS.hlsl"
+    }
+}

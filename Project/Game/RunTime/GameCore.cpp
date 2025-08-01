@@ -23,6 +23,8 @@ void GameCore::Init() {
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
 	sceneManger_->SetChange(SceneType::TITLE);
+
+	isReset_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,8 +33,8 @@ void GameCore::Init() {
 
 void GameCore::Update() {
 	AoiFramework::Update();
-	if (sceneManger_->Reset()) {
-		Engine::EndFrame();
+	if (sceneManger_->CheckReset()) {
+		isReset_ = true;
 		return;
 	}
 
@@ -48,6 +50,12 @@ void GameCore::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameCore::Draw() {
+	if (isReset_) {
+		Engine::EndFrame();
+		sceneManger_->Free();
+		isReset_ = false;
+		return;
+	}
 	sceneManger_->Draw();
 	
 	Engine::EndFrame();

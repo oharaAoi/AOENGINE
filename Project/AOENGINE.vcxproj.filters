@@ -51,6 +51,8 @@
     <FxCompile Include="Game\Assets\HLSL\Armor.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Particle\GpuParticle.VS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Particle\GpuParticle.PS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\Particle\BoxEmitParticle.CS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\Particle\AccelerationField.CS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -325,6 +327,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -609,6 +612,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

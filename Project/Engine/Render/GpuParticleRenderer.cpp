@@ -117,9 +117,6 @@ void GpuParticleRenderer::CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* 
 	freeListIndexResource_ = std::make_unique<ShaderResource>();
 	freeListResource_ = std::make_unique<ShaderResource>();
 
-	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
-	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
-
 	D3D12_HEAP_PROPERTIES defaultHeapProperties{};
 	defaultHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 

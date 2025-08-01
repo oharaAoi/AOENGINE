@@ -123,7 +123,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 
 	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
 		particles.particleData->worldMat = Matrix4x4::MakeUnit();
-		particles.particleData->color = { 1,1,1,1 };
+		particles.particleData->color = { 0,0,0,0 };
 	}
 
 	particles.isAddBlend = isAddBlend;

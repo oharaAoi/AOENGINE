@@ -116,7 +116,8 @@ void GameScene::Init() {
 	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
 	light->SetIntensity(0.5f);
 
-	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("new");
+	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("filed");
+	field_ = GpuParticleManager::GetInstance()->CreateField("Window");
 
 }
 

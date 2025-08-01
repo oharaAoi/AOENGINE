@@ -30,6 +30,8 @@ void BossMissile::Init() {
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
+	burn_->SetIsStop(false);
+	smoke_->SetIsStop(false);
 }
 
 void BossMissile::Update() {

@@ -15,11 +15,17 @@ public:	// メンバ構造体
 		Vector3 rotate;			// 回転
 		Vector3 translate;		// 座標
 		Vector3 velocity;		// 速度
-		Vector3 acceleration;	// 加速度
+		Vector3 acceleration;
+		// 加速度
 		float lifeTime;			// 生存時間
 		float currentTime;		// 現在の時間
 		float damping;			// 減衰
 		float gravity;			// 重力
+
+		int emitType;
+		int lifeOfScaleDown;
+		int lifeOfScaleUp;
+		int lifeOfAlpha;
 	};
 
 	struct PerView {

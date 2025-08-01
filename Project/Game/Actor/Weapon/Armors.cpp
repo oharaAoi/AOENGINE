@@ -1,6 +1,7 @@
 #include "Armors.h"
 #include "Engine/Render/SceneRenderer.h"
 
+
 void Armors::Init(const std::string& ownerName) {
 	SetName("Armors");
 	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
@@ -13,6 +14,9 @@ void Armors::Init(const std::string& ownerName) {
 	inArmor_->Init();
 
 	isDeploy_ = false;
+
+	chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
+	chargeEmitter_->SetIsStop(true);
 }
 
 void Armors::Update() {

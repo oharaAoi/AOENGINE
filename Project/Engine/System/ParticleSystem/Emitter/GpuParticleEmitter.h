@@ -17,7 +17,7 @@ public:
 		float time;
 		float deltaTime;
 	};
-
+	
 public:
 
 	GpuParticleEmitter() = default;
@@ -31,6 +31,8 @@ public:
 
 	void EmitCommand(ID3D12GraphicsCommandList* commandList);
 
+	void DrawShape() const;
+
 public:
 
 	void SetParticleResourceHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& _handle) { particleResourceHandle_ = _handle; }
@@ -38,22 +40,29 @@ public:
 	void SetFreeListHandle(const D3D12_GPU_DESCRIPTOR_HANDLE& _handle) { freeListHandle_ = _handle; }
 	void SetMaxParticleResource(ID3D12Resource* _resource) { maxParticleResource_ = _resource; }
 
-private:
+public:
+
+	void SetIsStop(bool _isStop) { isStop_ = _isStop; }
+
+	void SetParent(const Matrix4x4& parentMat);
+
+	void SetLocalPos(const Vector3& _pos) { emitterItem_.pos = _pos; }
+
+protected:
 
 	void SetItem();
 
-	void Emit();
+protected :
 
-	void EmitUpdate();
-
-private:
+	ID3D12Device* dxDevice_;
+	ID3D12GraphicsCommandList* commandList_;
 
 	D3D12_GPU_DESCRIPTOR_HANDLE particleResourceHandle_;
 	D3D12_GPU_DESCRIPTOR_HANDLE freeListIndexHandle_;
 	D3D12_GPU_DESCRIPTOR_HANDLE freeListHandle_;
 
 	ComPtr<ID3D12Resource> emitterResource_;
-	GpuParticleSingleData* gpuData;
+	GpuParticleEmitterData* emitterData_;
 
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
@@ -66,6 +75,10 @@ private:
 	bool isStop_ = false;
 	float emitAccumulator_;
 	float currentTimer_;
+
+	int emitCount_;
+
+	std::string emitCsName_;
 
 	// 親のMatrix
 	const Matrix4x4* parentWorldMat_ = nullptr;

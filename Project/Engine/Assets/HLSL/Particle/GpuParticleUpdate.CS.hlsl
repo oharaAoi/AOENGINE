@@ -18,7 +18,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 		
 		gParticles[particleIndex].currentTime += gPerFrame.deletaTime;
 		
-		gParticles[particleIndex].acceleration *= gParticles[particleIndex].damping;
+		//gParticles[particleIndex].acceleration *= gParticles[particleIndex].damping;
 		gParticles[particleIndex].acceleration.y = gParticles[particleIndex].gravity;
 		gParticles[particleIndex].velocity += gParticles[particleIndex].acceleration * gPerFrame.deletaTime;
 		gParticles[particleIndex].velocity *= exp(-gParticles[particleIndex].damping * gPerFrame.deletaTime);

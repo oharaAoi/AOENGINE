@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include <optional>
+#include "Engine.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 
@@ -17,6 +18,7 @@ void SceneManager::Finalize() {
 void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
 	sceneFactory_ = std::make_unique<SceneFactory>();
+	reset_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +29,11 @@ void SceneManager::Update() {
 	if (scene_->GetNextSceneType()) {
 		SetChange(scene_->GetNextSceneType().value());
 		scene_->SetNextSceneType(std::nullopt);
+	}
+
+	if (reset_) {
+		reset_ = false;
+		scene_->Init();
 	}
 
 	scene_->Update();
@@ -78,15 +85,19 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_->Init();
 }
 
-bool SceneManager::Reset() {
+void SceneManager::Free() {
+	EditorWindows::GetInstance()->Reset();
+	ParticleManager* cpuManager = ParticleManager::GetInstance();
+	GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
+	gpuManager->Finalize();
+	cpuManager->Finalize();
+	scene_->Finalize();
+	reset_ = true;
+
+}
+
+bool SceneManager::CheckReset() {
 	if (EditorWindows::GetInstance()->GetSceneReset()) {
-		EditorWindows::GetInstance()->Reset();
-		ParticleManager::GetInstance()->Finalize();
-		ParticleManager::GetInstance()->Init();
-		GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
-		gpuManager->Finalize();
-		gpuManager->Init();
-		scene_->Init();
 		return true;
 	}
 	return false;

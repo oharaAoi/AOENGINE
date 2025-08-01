@@ -1,9 +1,12 @@
 #include "GpuParticleManager.h"
 #include "Render.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 GpuParticleManager::~GpuParticleManager() {
 	emitterList_.clear();
+	fileds_.clear();
 	renderer_.reset();
 }
 
@@ -14,6 +17,7 @@ GpuParticleManager* GpuParticleManager::GetInstance() {
 
 void GpuParticleManager::Finalize() {
 	emitterList_.clear();
+	fileds_.clear();
 	renderer_.reset();
 }
 
@@ -30,6 +34,12 @@ void GpuParticleManager::Init() {
 }
 
 void GpuParticleManager::Update() {
+	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	ID3D12GraphicsCommandList*  commandList = ctx->GetCommandList();
+	for (auto& field : fileds_) {
+		field->Execute(commandList);
+	}
+
 	renderer_->SetView(Render::GetViewProjectionMat(), Render::GetCameraRotate().MakeMatrix());
 	renderer_->Update();
 
@@ -40,6 +50,10 @@ void GpuParticleManager::Update() {
 
 void GpuParticleManager::Draw() const {
 	renderer_->Draw();
+
+	for (auto& emitter : emitterList_) {
+		emitter->DrawShape();
+	}
 }
 
 GpuParticleEmitter* GpuParticleManager::CreateEmitter(const std::string& particlesFile) {
@@ -51,4 +65,22 @@ GpuParticleEmitter* GpuParticleManager::CreateEmitter(const std::string& particl
 	newParticles->SetMaxParticleResource(renderer_->GetMaxBufferResource());
 	AddChild(newParticles.get());
 	return newParticles.get();
+}
+
+GpuParticleField* GpuParticleManager::CreateField(const std::string& particlesFile) {
+	auto& field = fileds_.emplace_back(std::make_unique<GpuParticleField>());
+	field->Init(10240);
+	field->SetName(particlesFile);
+	field->SetParticleResourceHandle(renderer_->GetResourceHandle());
+	field->SetMaxParticleResource(renderer_->GetMaxBufferResource());
+	AddChild(field.get());
+	return field.get();
+}
+
+void GpuParticleManager::AddEmitter(GpuParticleEmitter* _emitter) {
+	_emitter->SetParticleResourceHandle(renderer_->GetResourceHandle());
+	_emitter->SetFreeListIndexHandle(renderer_->GetFreeListIndexHandle());
+	_emitter->SetFreeListHandle(renderer_->GetFreeListHandle());
+	_emitter->SetMaxParticleResource(renderer_->GetMaxBufferResource());
+	AddChild(_emitter);
 }

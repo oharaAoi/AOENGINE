@@ -1,7 +1,9 @@
 #include "GpuParticleEmitter.h"
 #include "Engine/Engine.h"
+#include "Engine/Render.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Utilities/DrawUtils.h"
 
 GpuParticleEmitter::~GpuParticleEmitter() {
 	emitterResource_.Reset();
@@ -25,37 +27,18 @@ void GpuParticleEmitter::Debug_Gui() {
 
 void GpuParticleEmitter::Init(const std::string& name) {
 	GraphicsContext* ctx = GraphicsContext::GetInstance();
-	ID3D12Device* dxDevice = ctx->GetDevice();
+	dxDevice_ = ctx->GetDevice();
+	commandList_ = ctx->GetCommandList();
 	
 	SetName(name.c_str());
-	// Resourceの作成
-	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
-	uploadHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
-	// 頂点リソースの設定
-	D3D12_RESOURCE_DESC resourceDesc = {};
-	// バッファリソース。テクスチャの場合はまた別の設定をする
-	resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
-	resourceDesc.Width = sizeof(GpuParticleSingleData);
-	// バッファの場合がこれらは1にする決まり
-	resourceDesc.Height = 1;
-	resourceDesc.DepthOrArraySize = 1;
-	resourceDesc.MipLevels = 1;
-	resourceDesc.SampleDesc.Count = 1;
-	resourceDesc.Format = DXGI_FORMAT_UNKNOWN;
-	// バッファの場合はこれにする決まり
-	resourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
-	resourceDesc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+	emitterItem_.FromJson(JsonItems::GetData("GPU", name));
 
-	emitterResource_ = CreateBufferResource(dxDevice, sizeof(GpuParticleSingleData));
-	emitterResource_->Map(0, nullptr, reinterpret_cast<void**>(&gpuData));
+	emitterResource_ = CreateBufferResource(dxDevice_, sizeof(GpuParticleEmitterData));
+	emitterResource_->Map(0, nullptr, reinterpret_cast<void**>(&emitterData_));
 
 	// preFrameの作成
-	perFrameBuffer_ = CreateBufferResource(dxDevice, sizeof(PerFrame));
+	perFrameBuffer_ = CreateBufferResource(dxDevice_, sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
-
-	emitterItem_.FromJson(JsonItems::GetData("GpuParticle", name));
-
-	SetItem();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,18 +46,16 @@ void GpuParticleEmitter::Init(const std::string& name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleEmitter::Update() {
+	if (isStop_) { return; }
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
-
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
-	ID3D12GraphicsCommandList* commandList = ctx->GetCommandList();
 
 	// -------------------------------------------------
 	// ↓ 発射処理
 	// -------------------------------------------------
 	if (!emitterItem_.isLoop) {
 		for (uint32_t count = 0; count < emitterItem_.rateOverTimeCout; ++count) {
-			EmitCommand(commandList);
+			EmitCommand(commandList_);
 		}
 		isStop_ = true;
 	}
@@ -82,9 +63,9 @@ void GpuParticleEmitter::Update() {
 	emitAccumulator_ += emitterItem_.rateOverTimeCout * GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
-	gpuData->count = emitCout;
-	if (emitCout != 0) {
-		EmitCommand(commandList);
+	emitCount_ = emitCout;
+	if (emitCount_ != 0) {
+		EmitCommand(commandList_);
 	}
 	emitAccumulator_ -= emitCout;
 
@@ -102,7 +83,13 @@ void GpuParticleEmitter::Update() {
 }
 
 void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
-	Engine::SetPipelineCS("GpuParticleEmit.json");
+	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
+		Engine::SetPipelineCS("GpuParticleEmit.json");
+	} else if(emitterItem_.shape == GpuEmitterShape::BOX) {
+		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
+	} else if (emitterItem_.shape == GpuEmitterShape::CONE) {
+		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
+	}
 	Pipeline* pso = Engine::GetLastUsedPipelineCS();
 	UINT index = 0;
 	index = pso->GetRootSignatureIndex("gParticles");
@@ -120,39 +107,52 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->Dispatch(1, 1, 1);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ パラメータを設定する
-///////////////////////////////////////////////////////////////////////////////////////////////
+void GpuParticleEmitter::DrawShape() const {
+	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
+		DrawSphere(emitterItem_.pos, emitterItem_.radius, Render::GetViewProjectionMat());
+	} else if(emitterItem_.shape == GpuEmitterShape::BOX) {
+		OBB obb{ .center = emitterItem_.pos, .size = emitterItem_.size };
+		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitterItem_.rotate));
+		DrawOBB(obb, Render::GetViewProjectionMat());
+	} else if (emitterItem_.shape == GpuEmitterShape::CONE) {
+		Quaternion rotate = Quaternion::EulerToQuaternion(emitterItem_.rotate);
+		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, Render::GetViewProjectionMat());
+	}
+}
 
 void GpuParticleEmitter::SetItem() {
-	gpuData->color = emitterItem_.color;
-	gpuData->minScale = emitterItem_.minScale;
-	gpuData->maxScale = emitterItem_.maxScale;
-	gpuData->targetScale = emitterItem_.targetScale;
-	gpuData->rotate = emitterItem_.rotate;
-	gpuData->pos = emitterItem_.pos;
-	gpuData->count = emitterItem_.rateOverTimeCout;
-	gpuData->emitType = emitterItem_.emitType;
-	gpuData->shape = emitterItem_.shape;
-	gpuData->lifeOfScaleDown = emitterItem_.lifeOfScaleDown;
-	gpuData->lifeOfScaleUp = emitterItem_.lifeOfScaleUp;
-	gpuData->lifeOfAlpha = emitterItem_.lifeOfAlpha;
+	emitterData_->color = emitterItem_.color;
+	emitterData_->minScale = emitterItem_.minScale;
+	emitterData_->maxScale = emitterItem_.maxScale;
+	emitterData_->targetScale = emitterItem_.targetScale;
+	emitterData_->rotate = emitterItem_.rotate;
+	if (parentWorldMat_ == nullptr) {
+		emitterData_->pos = emitterItem_.pos;
+	} else {
+		emitterData_->pos = emitterItem_.pos + parentWorldMat_->GetPosition();
+	}
+	emitterData_->count = emitterItem_.rateOverTimeCout;
+	emitterData_->emitType = emitterItem_.emitType;
+	emitterData_->emitOrigin = emitterItem_.emitOrigin;
+	emitterData_->lifeOfScaleDown = emitterItem_.lifeOfScaleDown;
+	emitterData_->lifeOfScaleUp = emitterItem_.lifeOfScaleUp;
+	emitterData_->lifeOfAlpha = emitterItem_.lifeOfAlpha;
 
-	gpuData->separateByAxisScale = emitterItem_.separateByAxisScale;
-	gpuData->scaleMinScaler = emitterItem_.scaleMinScaler;
-	gpuData->scaleMaxScaler = emitterItem_.scaleMaxScaler;
+	emitterData_->separateByAxisScale = emitterItem_.separateByAxisScale;
+	emitterData_->scaleMinScaler = emitterItem_.scaleMinScaler;
+	emitterData_->scaleMaxScaler = emitterItem_.scaleMaxScaler;
 
-
-	gpuData->speed = emitterItem_.speed;
-	gpuData->lifeTime = emitterItem_.lifeTime;
-	gpuData->gravity = emitterItem_.gravity;
-	gpuData->damping = emitterItem_.damping;
+	emitterData_->speed = emitterItem_.speed;
+	emitterData_->lifeTime = emitterItem_.lifeTime;
+	emitterData_->gravity = emitterItem_.gravity;
+	emitterData_->damping = emitterItem_.damping;
+	emitterData_->size = emitterItem_.size;
+	emitterData_->radius = emitterItem_.radius;
+	emitterData_->angle = emitterItem_.angle;
+	emitterData_->height = emitterItem_.height;
 }
 
-void GpuParticleEmitter::Emit() {
-	if (isStop_) { return; }
-}
 
-void GpuParticleEmitter::EmitUpdate() {
-	if (isStop_) { return; }
+void GpuParticleEmitter::SetParent(const Matrix4x4& parentMat) {
+	parentWorldMat_ = &parentMat;
 }

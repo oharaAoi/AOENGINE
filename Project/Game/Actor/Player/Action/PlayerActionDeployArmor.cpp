@@ -1,12 +1,23 @@
 #include "PlayerActionDeployArmor.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
+#include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::Debug_Gui() {
+	ImGui::DragFloat("chargeTime", &parameter_.chargeTime, 01.f);
+	ImGui::DragFloat3("effectOffset", &parameter_.effectOffset.x, 0.1f);
+
+	if (ImGui::Button("Save")) {
+		JsonItems::Save(pManager_->GetName(), parameter_.ToJson(parameter_.GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		parameter_.FromJson(JsonItems::GetData(pManager_->GetName(), parameter_.GetName()));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,6 +27,13 @@ void PlayerActionDeployArmor::Debug_Gui() {
 void PlayerActionDeployArmor::Build() {
 	SetName("ActionDeployArmor");
 	pInput_ = Input::GetInstance();
+
+	parameter_.FromJson(JsonItems::GetData(pManager_->GetName(), parameter_.GetName()));
+
+	chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
+	chargeEmitter_->SetIsStop(true);
+	chargeEmitter_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
+	chargeEmitter_->SetLocalPos(parameter_.effectOffset);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +42,7 @@ void PlayerActionDeployArmor::Build() {
 
 void PlayerActionDeployArmor::OnStart() {
 	actionTimer_ = 0.0f;
+	chargeEmitter_->SetIsStop(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +59,7 @@ void PlayerActionDeployArmor::OnUpdate() {
 
 void PlayerActionDeployArmor::OnEnd() {
 	pOwner_->SetDeployArmor(true);
+	chargeEmitter_->SetIsStop(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

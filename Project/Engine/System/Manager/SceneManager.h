@@ -28,7 +28,11 @@ public:
 
 	void SetChange(const SceneType& type);
 
-	bool Reset();
+	void Reset();
+
+	void Free();
+
+	bool CheckReset();
 
 private:
 
@@ -42,6 +46,7 @@ private:
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;
 	bool isSceneChange_ = 0;
+	bool reset_;
 #endif // _DEBUG
 
 };

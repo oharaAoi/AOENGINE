@@ -1,0 +1,5 @@
+{
+    "Pipeline": {
+        "cs" : "./Engine/Assets/HLSL/Particle/BoxEmitParticle.CS.hlsl"
+    }
+}

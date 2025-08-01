@@ -109,6 +109,13 @@ void ParticleManager::ParticlesUpdate() {
 				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
 			}
 
+			if (pr.stretchBillboard) {
+				Vector3 velocityDir = pr.velocity.Normalize();
+				float stretchLength = pr.velocity.Length() * pr.stretchScaleFactor;
+				pr.scale.z = pr.firstScale.z * stretchLength;
+			}
+
+
 			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 			Matrix4x4 billMatrix = Render::GetCameraRotate().MakeMatrix(); // ← ビルボード行列（カメラからの視線で作る）
 			Matrix4x4 zRot = pr.rotate.MakeMatrix();
@@ -167,7 +174,6 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 	} 
 	newParticles->SetParticlesList(particlesMap_[particlesFile].particles);
 	particlesMap_[particlesFile].isAddBlend = newParticles->GetIsAddBlend();
-
 	return newParticles.get();
 }
 

@@ -25,5 +25,7 @@ private:
 
 	std::unique_ptr<SceneManager> sceneManger_;
 
+	bool isReset_;
+
 };
 

@@ -74,13 +74,15 @@ void GameObjectWindow::Edit() {
 				}
 
 				for (auto child : ptr->GetChildren()) {
-					if (ImGui::Selectable(child->GetName().c_str(), selectAttribute_ == child)) {
-						// 新しく選択されたら開いているノードを変更
-						if (selectAttribute_ != child) {
-							openNode = label;  // 現在の親ノードを記録
+					if (selectAttribute_ != nullptr) {
+						if (ImGui::Selectable(child->GetName().c_str(), selectAttribute_ == child)) {
+							// 新しく選択されたら開いているノードを変更
+							if (selectAttribute_ != child) {
+								openNode = label;  // 現在の親ノードを記録
+							}
+							selectAttribute_ = child;
 						}
-						selectAttribute_ = child;
-					} 
+					}
 				}
 				ImGui::TreePop();
 			} else {
