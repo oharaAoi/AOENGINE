@@ -46,7 +46,6 @@ private:
 
 	void SelectTexture();
 
-
 public:
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetBufferAdress() const { return materialBuffer_->GetGPUVirtualAddress(); }

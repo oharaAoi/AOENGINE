@@ -43,10 +43,11 @@ private:
 
 	SceneType changeScene_;
 
+	bool reset_;
+
 #ifdef _DEBUG
 	int selectSceneNum_ = 0;
 	bool isSceneChange_ = 0;
-	bool reset_;
 #endif // _DEBUG
 
 };

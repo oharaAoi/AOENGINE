@@ -28,13 +28,13 @@
             "z": 1.0
         },
         "radius": 1.0,
-        "rateOverTimeCout": 20,
+        "rateOverTimeCout": 100,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "scaleMaxScaler": 3.0,
+        "scaleMaxScaler": 2.0,
         "scaleMinScaler": 0.20000000298023224,
         "shape": 1,
         "size": {

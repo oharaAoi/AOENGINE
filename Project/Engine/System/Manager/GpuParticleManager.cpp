@@ -28,7 +28,7 @@ void GpuParticleManager::Init() {
 	SetName("GpuParticleManager");
 
 	renderer_ = std::make_unique<GpuParticleRenderer>();
-	renderer_->Init(10240);
+	renderer_->Init(102400);
 
 	EditorWindows::AddObjectWindow(this, "GpuParticleManager");
 }
