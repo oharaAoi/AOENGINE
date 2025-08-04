@@ -35,6 +35,12 @@ BehaviorStatus SelectorNode::Execute() {
 	return BehaviorStatus::Inactive;
 }
 
+float SelectorNode::EvaluateWeight() {
+	if (children_.empty()) { return 0; }
+	// セレクタの場合は先頭の子どもの重さを計算する
+	return children_[0]->EvaluateWeight();
+}
+
 void SelectorNode::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	InputTextWithString("ReName:","##selector", node_.name);

@@ -15,6 +15,7 @@
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
+#include "Game/Actor/Boss/Action/Move/BossActionAdjustHeight.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotBullet.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotLauncher.h"
@@ -99,8 +100,12 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionVerticalMissile>(this, "VerticalMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
-	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
+	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree1.json");
+	behaviorTree_->SetExecute(true);
+
+	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
+	evaluationFormula_->Init(this);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -146,8 +151,10 @@ void Boss::Update() {
 
 	stateMachine_->Update();
 	behaviorTree_->Run();
+	evaluationFormula_->Update();
 
 	pulseArmor_->Update();
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

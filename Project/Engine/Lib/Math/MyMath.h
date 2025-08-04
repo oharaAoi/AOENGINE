@@ -44,6 +44,8 @@ float Clamp01(float value);
 /// <returns></returns>
 float Length(const Vector3& vec3);
 
+float Normalize(float value, float min, float max);
+
 /// <summary>
 /// 正規化
 /// </summary>

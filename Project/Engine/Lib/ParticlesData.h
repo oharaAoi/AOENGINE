@@ -38,6 +38,8 @@ struct ParticleEmit : public IJsonConverter {
 	Vector3 direction = CVector3::UP;		// 射出方向
 	uint32_t shape = 0;						// emitterの種類(0 = 全方向, 1 = 一方方向)
 	uint32_t rateOverTimeCout = 10;			// 射出数
+	int emitType = 1;
+	int emitOrigin = 0;
 	
 	// particle自体のparameter
 	Vector4 color = Vector4{ 1,1,1,1 };			// 色
@@ -62,6 +64,8 @@ struct ParticleEmit : public IJsonConverter {
 	bool isScaleUp;				// サイズを大きくするか
 	Vector3 scaleUpScale;
 
+	float radius;
+
 	std::string useTexture = "white.png";
 	std::string useMesh = "plane";
 
@@ -81,6 +85,8 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("direction", direction)
 			.Add("shape", shape)
 			.Add("rateOverTimeCout", rateOverTimeCout)
+			.Add("emitType", emitType)
+			.Add("emitOrigin", emitOrigin)
 			.Add("color", color)
 			.Add("minScale", minScale)
 			.Add("maxScale", maxScale)
@@ -99,6 +105,7 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("isBillBord", isBillBord)
 			.Add("useTexture", useTexture)
 			.Add("useMesh", useMesh)
+			.Add("radius", radius)
 			.Build();
 	}
 
@@ -111,6 +118,8 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "direction", direction);
 		fromJson(jsonData, "shape", shape);
 		fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		fromJson(jsonData, "emitType", emitType);
+		fromJson(jsonData, "emitOrigin", emitOrigin);
 		fromJson(jsonData, "color", color);
 		fromJson(jsonData, "minScale", minScale);
 		fromJson(jsonData, "maxScale", maxScale);
@@ -129,6 +138,7 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "isBillBord", isBillBord);
 		fromJson(jsonData, "useTexture", useTexture);
 		fromJson(jsonData, "useMesh", useMesh);
+		fromJson(jsonData, "radius", radius);
 	}
 
 	void Attribute_Gui();

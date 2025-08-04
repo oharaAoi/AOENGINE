@@ -9,6 +9,7 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Boss/BossAI.h"
+#include "Game/Actor/Boss/BossEvaluationFormula.h"
 #include "Game/Actor/Weapon/Armors.h"
 
 enum class BossPhase {
@@ -62,6 +63,9 @@ public:
 
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
+
+	// 評価値計算クラス
+	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
 
 	// player座標
 	void SetPlayerPosition(const Vector3& _position) { playerPosition_ = _position; }
@@ -127,6 +131,8 @@ private:
 	std::unique_ptr<BossAI> AI_;
 
 	std::unique_ptr<BehaviorTree> behaviorTree_;
+
+	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;
 
 	// Playerの状態 --------------------------------------------------
 

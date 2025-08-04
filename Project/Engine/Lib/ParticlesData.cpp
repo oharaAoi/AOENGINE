@@ -13,6 +13,12 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat3("Direction", (float*)&direction, 0.1f);
 		ImGui::DragScalar("Shape", ImGuiDataType_U32, &shape, 1.0f);
 		ImGui::DragScalar("RateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout, 1.0f);
+		
+		ImGui::Combo("emitType##type", &emitType, "UP\0ALLDIRE\0CENTER");
+		ImGui::Combo("emitOrigin##emitOrigin", &emitOrigin, "CENTER\0RANGE\0OUTSIDE");
+		
+		ImGui::DragFloat("radius", &radius, 0.1f);
+
 		direction.x = std::clamp(direction.x, -1.0f, 1.0f);
 		direction.y = std::clamp(direction.y, -1.0f, 1.0f);
 		direction.z = std::clamp(direction.z, -1.0f, 1.0f);

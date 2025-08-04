@@ -45,6 +45,30 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
 	newParticle.firstScale = newParticle.scale;
 	newParticle.rotate = Quaternion();
+
+	// particleの出現位置を設定
+	if (emitter_.emitOrigin == 0) {
+		newParticle.translate = pos;
+	} else if (emitter_.emitOrigin == 1) {
+		float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
+		float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
+		float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
+		newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
+	} else if (emitter_.emitOrigin == 2 || emitter_.emitOrigin == 3) {
+		float u = RandomFloat(0, 1);
+		float v = RandomFloat(0, 1);
+
+		float theta = u * 2.0f * kPI;
+		float phi = std::acos(2.0f * v - 1.0f);
+
+		Vector3 dire;
+		dire.x = std::sin(phi) * std::cos(theta);
+		dire.x = std::sin(phi) * std::sin(theta);
+		dire.x = std::cos(phi);
+
+		newParticle.translate = pos + (dire * emitter_.radius);
+	 }
+
 	newParticle.translate = pos;
 	newParticle.color = emitter_.color;
 	if (emitter_.shape == 0) {
@@ -66,6 +90,16 @@ void BaseParticles::Emit(const Vector3& pos) {
 		}
 		Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
 		newParticle.velocity = (rotate * (emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
+	}
+
+	// particleの方向を設定
+	if (emitter_.emitType == 0) {
+		newParticle.velocity = CVector3::UP * emitter_.speed;
+	} else if (emitter_.emitType == 1) {
+		Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
+		newParticle.velocity = dire * emitter_.speed;
+	} else if (emitter_.emitType == 2) {
+		newParticle.velocity = (newParticle.translate - pos).Normalize() * emitter_.speed;
 	}
 
 	// billbordに合わせてz軸を進行方向に向ける

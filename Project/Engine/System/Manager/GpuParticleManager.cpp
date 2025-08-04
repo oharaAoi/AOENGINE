@@ -52,9 +52,9 @@ void GpuParticleManager::Update() {
 void GpuParticleManager::Draw() const {
 	renderer_->Draw();
 
-	for (auto& emitter : emitterList_) {
+	/*for (auto& emitter : emitterList_) {
 		emitter->DrawShape();
-	}
+	}*/
 }
 
 GpuParticleEmitter* GpuParticleManager::CreateEmitter(const std::string& particlesFile) {

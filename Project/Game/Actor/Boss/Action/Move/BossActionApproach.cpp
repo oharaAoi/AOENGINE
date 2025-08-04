@@ -8,7 +8,7 @@ BehaviorStatus BossActionApproach::Execute() {
 }
 
 float BossActionApproach::EvaluateWeight() {
-	return 0.0f;
+	return pTarget_->GetEvaluationFormula()->ApproachEvaluation(10.0f, 200.0f);
 }
 
 void BossActionApproach::Debug_Gui() {

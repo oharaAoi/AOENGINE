@@ -155,6 +155,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
@@ -221,6 +222,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossAI.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
@@ -431,6 +433,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Externals\ImGui\imgui_node_editor_internal.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
@@ -497,6 +500,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionLeave.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
     <ClInclude Include="Game\Actor\Boss\BossAI.h" />
+    <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />

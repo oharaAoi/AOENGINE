@@ -14,7 +14,7 @@ public:
 
 	BehaviorStatus Execute() override;
 
-	float EvaluateWeight() override { return 0; }
+	float EvaluateWeight() override;
 
 	void Debug_Gui() override;
 

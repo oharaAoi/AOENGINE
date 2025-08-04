@@ -328,6 +328,8 @@
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -613,6 +615,8 @@
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.h" />
+    <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

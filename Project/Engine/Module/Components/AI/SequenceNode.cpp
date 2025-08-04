@@ -23,10 +23,15 @@ BehaviorStatus SequenceNode::Execute() {
 		// 成功したので次へ
 		++currentIndex_;
 	}
-
 	// 全て成功
 	currentIndex_ = 0;
 	return BehaviorStatus::Inactive;
+}
+
+float SequenceNode::EvaluateWeight() {
+	if (children_.empty()) { return 0; }
+	// セレクタの場合は先頭の子どもの重さを計算する
+	return children_[0]->EvaluateWeight();
 }
 
 void SequenceNode::Debug_Gui() {

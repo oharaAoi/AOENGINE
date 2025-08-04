@@ -1,4 +1,5 @@
 #pragma once
+#include <unordered_map>
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 
 /// <summary>
@@ -20,6 +21,10 @@ public:
 	float EvaluateWeight() override { return 0; }
 
 	void Debug_Gui() override;
+
+private:
+
+	std::unordered_map<uint32_t, float> weightMap_;
 
 };
 

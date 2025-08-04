@@ -7,7 +7,7 @@ BehaviorStatus BossActionLeave::Execute() {
 }
 
 float BossActionLeave::EvaluateWeight() {
-	return 0.0f;
+	return pTarget_->GetEvaluationFormula()->LeaveEvaluation(6.0f, 12.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

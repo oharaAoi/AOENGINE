@@ -22,6 +22,10 @@ void Armors::Init(const std::string& ownerName) {
 void Armors::Update() {
 	outArmor_->Update();
 	inArmor_->Update();
+
+	if (!outArmor_->GetIsAlive()) {
+		inArmor_->SetIsAlive(false);
+	}
 }
 
 void Armors::Draw() const {
