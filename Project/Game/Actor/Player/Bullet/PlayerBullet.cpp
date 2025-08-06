@@ -13,6 +13,8 @@ void PlayerBullet::Init() {
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+
+	type_ = BulletType::NORMAL;
 }
 
 void PlayerBullet::Update() {

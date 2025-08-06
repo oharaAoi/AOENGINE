@@ -22,6 +22,4 @@ void BossRoot::Update() {
 void BossRoot::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
 	boss_->Draw();
-
-	bulletManager_->Draw();
 }

@@ -15,6 +15,7 @@
 enum PlayerWeapon {
 	LEFT_WEAPON,
 	RIGHT_WEAPON,
+	RIGHT_SHOULDER,
 	KMAX
 };
 
@@ -166,6 +167,7 @@ public:
 
 	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
 	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
+	const Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
 
 private:
 
@@ -206,6 +208,7 @@ private:
 	
 	Matrix4x4 leftHandMat_;
 	Matrix4x4 rightHandMat_;
+	Matrix4x4 rightShoulderMat_;
 
 	Vector2 screenPos_;
 	Vector2 screenPosPrev_;

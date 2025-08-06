@@ -102,7 +102,9 @@ void PlayerActionQuickBoost::CheckNextAction() {
 
 bool PlayerActionQuickBoost::IsInput() {
 	if (pInput_->IsTriggerButton(XInputButtons::BUTTON_X)) {
-		return true;
+		if (pOwner_->GetParam().energy > 0.0f) {
+			return true;
+		}
 	}
 	return false;
 }

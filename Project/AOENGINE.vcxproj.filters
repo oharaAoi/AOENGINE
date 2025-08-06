@@ -330,6 +330,9 @@
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionRightShoulder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -617,6 +620,9 @@
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.h" />
     <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
+    <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionRightShoulder.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

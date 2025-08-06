@@ -4,6 +4,7 @@
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
+#include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +62,10 @@ void PlayerActionIdle::CheckNextAction() {
 
 	if (CheckInput<PlayerActionShotRight>()) {
 		NextAction<PlayerActionShotRight>();
+	}
+
+	if (CheckInput<PlayerActionRightShoulder>()) {
+		AddAction<PlayerActionRightShoulder>();
 	}
 
 	if (CheckInput<PlayerActionShotLeft>()) {

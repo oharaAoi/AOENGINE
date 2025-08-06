@@ -13,14 +13,12 @@ public:
 
 	void Finalize() override;
 	void Init() override;
-	void Update() override;
-	void Draw() const override;
-
+	
 	void Debug_Gui() override;
 
 public:		// member method
 
-	void Shot(const Vector3& direction, uint32_t type) override;
+	void Attack(const AttackContext& cxt) override;
 
 private:
 

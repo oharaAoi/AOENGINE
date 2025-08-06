@@ -3,6 +3,11 @@
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 
+enum BulletType {
+	NORMAL,
+	MISSILE,
+};
+
 /// <summary>
 /// Baseとなる弾クラス
 /// </summary>
@@ -31,6 +36,8 @@ public:
 
 	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
 
+	BulletType GetBulletType() const { return type_; }
+
 protected:
 
 	// State ------------------------------
@@ -44,6 +51,8 @@ protected:
 	bool isAlive_;
 
 	float takeDamage_;
+
+	BulletType type_;
 
 };
 

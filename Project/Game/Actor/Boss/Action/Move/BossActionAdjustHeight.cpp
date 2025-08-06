@@ -43,6 +43,11 @@ bool BossActionAdjustHeight::IsFinish() {
     if (distance_ < 2.0f) {
         return true;
     }
+
+    if (taskTimer_ < 4.0f) {
+        return true;
+    }
+
     return false;
 }
 
@@ -61,6 +66,8 @@ bool BossActionAdjustHeight::CanExecute() {
 void BossActionAdjustHeight::Init() {
     param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
     speed_ = 0.0f;
+
+    taskTimer_ = 0.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,6 +75,7 @@ void BossActionAdjustHeight::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Update() {
+    taskTimer_ += GameTimer::DeltaTime();
     // playerとの高さを合わせる
     distance_ = SmoothDamp(pTarget_->GetPosition().y, pTarget_->GetPlayerPosition().y, speed_, param_.smoothTime, param_.maxSpeed, GameTimer::DeltaTime());
     pTarget_->GetTransform()->SetTranslationY(distance_);

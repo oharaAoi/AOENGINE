@@ -31,12 +31,12 @@ void PBulletToBossCallBacks::Update() {
 }
 
 void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
-	PlayerBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
+	BaseBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
 	// bulletの処理
 	if (playerBullet != nullptr) {
 		playerBullet->SetIsAlive(false);
 
-		if (playerBullet->GetType() == 1) {
+		/*if (playerBullet->GetType() == 1) {
 			auto& newExplodeBurn = hitExplodeList_.emplace_back(SceneRenderer::GetInstance()->AddObject<HitExplode>("hitExplodeBurn", "Object_Normal.json"));
 			newExplodeBurn->SetBlendMode(3);
 			newExplodeBurn->Init();
@@ -49,7 +49,7 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 
 			hitSmoke_->SetPos(bullet->GetCenterPos());
 			hitSmoke_->Reset();
-		}
+		}*/
 
 		// bossへの処理
 		pBoss_->Damage(playerBullet->GetTakeDamage());

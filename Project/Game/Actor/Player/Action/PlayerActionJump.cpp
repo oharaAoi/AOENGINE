@@ -2,6 +2,7 @@
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 // Engine
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
@@ -117,6 +118,10 @@ void PlayerActionJump::CheckNextAction() {
 		if (CheckInput<PlayerActionMove>()) {
 			AddAction<PlayerActionMove>();
 		}
+	}
+
+	if (CheckInput<PlayerActionRightShoulder>()) {
+		AddAction<PlayerActionRightShoulder>();
 	}
 }
 

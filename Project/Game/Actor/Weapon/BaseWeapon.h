@@ -3,6 +3,11 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 
+struct AttackContext {
+	Vector3 direction;
+	Vector3 target;
+};
+
 class BaseWeapon :
 	public BaseEntity {
 public:
@@ -12,14 +17,12 @@ public:
 
 	virtual void Finalize();
 	virtual void Init();
-	virtual void Update();
-	virtual void Draw() const;
 
 	void Debug_Gui() override;
 
 public:		// member method
 
-	virtual void Shot(const Vector3& direction, uint32_t type) = 0;
+	virtual void Attack(const AttackContext& cxt) = 0;
 
 public:		// accessor method
 

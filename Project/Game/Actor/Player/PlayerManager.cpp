@@ -8,7 +8,6 @@ void PlayerManager::Init() {
 
 	// player
 	player_ = std::make_unique<Player>();
-	player_->Init();
 
 	// bullet
 	bulletManager_ = std::make_unique<PlayerBulletManager>();
@@ -21,16 +20,25 @@ void PlayerManager::Init() {
 	launcherGun_ = std::make_unique<LauncherGun>();
 	launcherGun_->Init();
 
+	shoulderMissile_ = std::make_unique<ShoulderMissile>();
+	shoulderMissile_->Init();
+
 	// 初期設定
 	player_->SetBulletManager(bulletManager_.get());
 	player_->SetWeapon(launcherGun_.get(), LEFT_WEAPON);
 	player_->SetWeapon(machineGun_.get(), RIGHT_WEAPON);
+	player_->SetWeapon(shoulderMissile_.get(), RIGHT_SHOULDER);
+
+	player_->Init();
 
 	machineGun_->GetTransform()->SetParent(player_->GetRightHandMat());
 	machineGun_->SetBulletManager(bulletManager_.get());
 
 	launcherGun_->GetTransform()->SetParent(player_->GetLeftHandMat());
 	launcherGun_->SetBulletManager(bulletManager_.get());
+
+	shoulderMissile_->GetTransform()->SetParent(player_->GetRightShoulderMat());
+	shoulderMissile_->SetBulletManager(bulletManager_.get());
 
 	armors_ = std::make_unique<Armors>();
 	armors_->Init("Player");
@@ -47,10 +55,7 @@ void PlayerManager::Update() {
 
 	player_->Update();
 
-	bulletManager_->Update();
-
-	machineGun_->Update();
-	launcherGun_->Update();
+	bulletManager_->Update(player_->GetTargetPos());
 
 	armors_->Update();
 }

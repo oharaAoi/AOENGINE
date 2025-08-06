@@ -24,14 +24,6 @@ void BossBulletManager::Update() {
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画する
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossBulletManager::Draw() const {
-	
-}
-
 BaseBullet* BossBulletManager::SearchCollider(ICollider* collider) {
 	for (const auto& bullet : bulletList_) {
 		if (bullet->GetCollider() == collider) {

@@ -16,43 +16,26 @@ void PlayerBulletManager::Init() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBulletManager::Update() {
+void PlayerBulletManager::Update(const Vector3& playerTargetPos) {
 	// フラグがfalseになったら削除
-	std::erase_if(bulletList_, [](const std::unique_ptr<PlayerBullet>& bullet) {
+	std::erase_if(bulletList_, [](const std::unique_ptr<BaseBullet>& bullet) {
 		return !bullet->GetIsAlive();
 				  });
 
-	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
+		if (bullet->GetBulletType() == MISSILE) {
+			bullet->SetTargetPosition(playerTargetPos);
+		}
 		bullet->Update();
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerBulletManager::Draw() const {
-	
-}
-
-PlayerBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {
-	for (std::unique_ptr<PlayerBullet>& bullet : bulletList_) {
+BaseBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {
+	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
 		if (bullet->GetCollider() == collider) {
 			return bullet.get();
 		}
 	}
 
 	return nullptr;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 弾を追加する
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-PlayerBullet* PlayerBulletManager::AddBullet(const Vector3& pos, const Vector3& velocity, uint32_t type) {
-	auto& bullet = bulletList_.emplace_back(std::make_unique<PlayerBullet>());
-	bullet->Init();
-	bullet->Reset(pos, velocity);
-	bullet->SetType(type);
-	return bullet.get();
 }

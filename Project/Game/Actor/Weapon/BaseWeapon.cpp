@@ -9,14 +9,6 @@ void BaseWeapon::Init() {
 	transform_ = object_->GetTransform();
 }
 
-void BaseWeapon::Update() {
-	
-}
-
-void BaseWeapon::Draw() const {
-	
-}
-
 void BaseWeapon::Debug_Gui() {
 	transform_->Debug_Gui();
 	ImGui::DragFloat("Bullet Speed", &speed_, 0.1f);

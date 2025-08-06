@@ -14,6 +14,7 @@
 #include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
+#include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionDamaged.h"
 #include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 #include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
@@ -120,6 +121,7 @@ void Player::Init() {
 	actionManager_->BuildAction<PlayerActionBoost>();
 	actionManager_->BuildAction<PlayerActionShotRight>();
 	actionManager_->BuildAction<PlayerActionShotLeft>();
+	actionManager_->BuildAction<PlayerActionRightShoulder>();
 	actionManager_->BuildAction<PlayerActionDamaged>();
 	actionManager_->BuildAction<PlayerActionTurnAround>();
 	actionManager_->BuildAction<PlayerActionDeployArmor>();
@@ -142,6 +144,7 @@ void Player::Init() {
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 	
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
@@ -172,6 +175,7 @@ void Player::Update() {
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
 	CameraIncline();
 }
@@ -193,6 +197,8 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 		pWeapons_[LEFT_WEAPON] = _weapon;
 	} else if (type == PlayerWeapon::RIGHT_WEAPON) {
 		pWeapons_[RIGHT_WEAPON] = _weapon;
+	} else if (type == PlayerWeapon::RIGHT_SHOULDER) {
+		pWeapons_[PlayerWeapon::RIGHT_SHOULDER] = _weapon;
 	}
 }
 

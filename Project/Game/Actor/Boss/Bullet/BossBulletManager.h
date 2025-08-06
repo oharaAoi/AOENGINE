@@ -17,8 +17,7 @@ public:
 
 	void Init();
 	void Update();
-	void Draw() const;
-
+	
 public: // member method
 
 	/// <summary>

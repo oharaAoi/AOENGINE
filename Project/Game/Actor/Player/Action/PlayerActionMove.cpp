@@ -6,6 +6,7 @@
 #include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
+#include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 // Engine
 #include "Engine/System/Input/Input.h"
@@ -152,6 +153,11 @@ void PlayerActionMove::CheckNextAction() {
 	if (CheckInput<PlayerActionShotLeft>()) {
 		AddAction<PlayerActionShotLeft>();
 	}
+
+	if (CheckInput<PlayerActionRightShoulder>()) {
+		AddAction<PlayerActionRightShoulder>();
+	}
+
 
 	if (CheckInput<PlayerActionQuickBoost>()) {
 		NextAction<PlayerActionQuickBoost>();
