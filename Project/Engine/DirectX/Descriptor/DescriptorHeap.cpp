@@ -16,10 +16,9 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 	}
 
 	// ヒープの生成
-	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 8 + 4, false);
+	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 9 + 4, false);
 	srvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, (1 << 16), true);
-	// 1つは旧エフェクトエディターで使用
-	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 4, false);
+	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 4 + 1, false);
 
 	srvAllocator_ = std::make_unique<DescriptorAllocator>(
 		DescriptorType::SAHADERVIEW,
@@ -30,7 +29,7 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 
 	dsvAllocator_ = std::make_unique<DescriptorAllocator>(
 		DescriptorType::DSV,
-		4,
+		5,
 		descriptorSize_->GetDSV(),
 		1
 	);

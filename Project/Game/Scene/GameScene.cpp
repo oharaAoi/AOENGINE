@@ -32,6 +32,7 @@ void GameScene::Init() {
 	EditorWindows::AddObjectWindow(postProcess, "Post Process");
 
 	LightGroup* lightGroup = Render::GetLightGroup();
+	lightGroup->GetDirectionalLight()->Reset();
 	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
 	// -------------------------------------------------
@@ -47,7 +48,10 @@ void GameScene::Init() {
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();
 	sceneRenderer_->CreateObject(sceneLoader_->GetLevelData());
-	
+
+	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
+	Render::SetSkyboxTexture(skybox_->GetTexture());
+
 	// -------------------------------------------------
 	// ↓ cameraの初期化
 	// -------------------------------------------------
@@ -68,10 +72,6 @@ void GameScene::Init() {
 
 	floor_ = std::make_unique<Floor>();
 	floor_->Init();
-
-	skybox_ = std::make_unique<Skybox>();
-	skybox_->Init();
-	Render::SetSkyboxTexture(skybox_->GetTexture());
 
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
@@ -130,8 +130,7 @@ void GameScene::Update() {
 	// -------------------------------------------------
 	// ↓ actorの更新
 	// -------------------------------------------------
-	skybox_->Update();
-
+	
 	floor_->Update();
 	playerManager_->Update();
 
@@ -177,8 +176,6 @@ void GameScene::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Draw() const {
-	skybox_->Draw();
-
 	// Sceneの描画
 	sceneRenderer_->Draw();
 }

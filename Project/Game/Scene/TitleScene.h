@@ -34,7 +34,7 @@ private:
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
 	// ------------------- actor ------------------- //
-	std::unique_ptr<Skybox> skybox_;
+	Skybox* skybox_;
 
 	std::unique_ptr<TitleUIs> titleUIs_;
 	std::unique_ptr<FadePanel> fadePanel_;

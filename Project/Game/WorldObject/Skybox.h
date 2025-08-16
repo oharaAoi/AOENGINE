@@ -5,22 +5,29 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// skybox
 /// </summary>
-class Skybox final {
+class Skybox :
+	public ISceneObject {
 public:
 
 	Skybox() = default;
 	~Skybox();
 
-	void Init();
+	void Init() override;
 
-	void Update();
+	void Update() override;
 
-	void Draw() const;
+	void PostUpdate() override {};
+
+	void PreDraw() const override {};
+	void Draw() const override;
+
+	void Debug_Gui() override {};
 
 public:
 

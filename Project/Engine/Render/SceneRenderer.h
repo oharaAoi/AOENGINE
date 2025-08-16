@@ -136,9 +136,13 @@ public:
 			}
 		}
 
-		Logger::Log("[" + objName + "]が見つかりませんでした");
+		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		Logger::Log("[" + objName + "] not find");
+		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		return nullptr;
 	}
+
+	void SetRenderingQueue(const std::string& objName, int num);
 
 private:
 

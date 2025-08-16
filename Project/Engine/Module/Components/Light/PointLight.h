@@ -8,6 +8,7 @@ class PointLight :
 public: // メンバ構造体
 
 	struct PointLightData {
+		Matrix4x4 viewProjection;
 		Vector4 color; // ライトの色
 		Vector3 position; // ライトの位置
 		float pad;

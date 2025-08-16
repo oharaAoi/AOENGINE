@@ -30,6 +30,7 @@ public:
 	void Finalize();
 	void Init() override;
 	void Update() override;
+	void PreDraw() const override;
 	void Draw() const override;
 
 	void UpdateMatrix();
@@ -57,6 +58,8 @@ public:
 	WorldTransform* GetTransform() { return transform_.get(); }
 
 	const Vector3& GetPosition() const { return worldPos_; }
+
+	void SetIsShadow(bool _flag) { isShadow_ = _flag; }
 
 	// -------------------------------------------------
 	// ↓ Material関連
@@ -94,6 +97,7 @@ public:
 
 	void SetPhysics();
 	Rigidbody* GetRigidbody() { return rigidbody_.get(); }
+
 		
 private:
 
@@ -135,4 +139,6 @@ protected:
 	bool isDebugAxis_;
 
 	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
+
+	bool isShadow_ = true;
 };

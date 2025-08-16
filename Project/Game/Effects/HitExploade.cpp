@@ -72,6 +72,10 @@ void HitExplode::Update() {
 	material_->Update();
 }
 
+void HitExplode::PreDraw() const {
+
+}
+
 void HitExplode::Draw() const {
 	if (!isAlive_) { return; }
 

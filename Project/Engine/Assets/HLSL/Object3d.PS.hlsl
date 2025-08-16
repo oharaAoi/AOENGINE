@@ -13,7 +13,9 @@ ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
 ConstantBuffer<PointLight> gPointLight : register(b2);
 ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
+Texture2D<float> gShadowMap : register(t1);
 SamplerState gSampler : register(s0);
+SamplerState gSamplerPoint : register(s1);
 
 struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
@@ -58,6 +60,20 @@ float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
 	return diff;
 }
 
+float ShadowBias(float4 lightPos) {
+	float2 shadowUV = lightPos.xy * 0.5f + 0.5f;
+	shadowUV.y = 1.0f - shadowUV.y;
+	if (shadowUV.x < 0 || shadowUV.x > 1 || shadowUV.y < 0 || shadowUV.y > 1) {
+		return 0.0f; // 影外扱い
+	}
+
+	float shadowDepth = gShadowMap.Sample(gSamplerPoint, shadowUV).r;
+	float currentDepth = lightPos.z * 0.5f + 0.5f;
+
+	float bias = 0.001f;
+	return (currentDepth - bias > shadowDepth) ? 1.0f : 0.0f; // 影中なら1.0
+}
+
 //================================================================================================//
 //	main
 //================================================================================================//
@@ -98,10 +114,24 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float distance = length(gPointLight.position - input.worldPos.xyz);
 	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
 	
+	// ライト空間での座標を計算
+	float4 direLightPos = mul(float4(input.worldPos.xyz, 1.0f), gDirectionalLight.lightViewProj);
+	direLightPos.xyz /= direLightPos.w;
+	float direLightShadow = ShadowBias(direLightPos);
+	float visibility = 1.0f - direLightShadow; 
+	
+	//float4 pointLightPos = mul(float4(input.worldPos.xyz, 1.0f), gPointLight.lightViewProj);
+	//pointLightPos.xyz /= pointLightPos.w;
+	//float pointLightShadow = ShadowBias(pointLightPos);
+	
+	//float4 spotLightPos = mul(float4(input.worldPos.xyz, 1.0f), gSpotLight.lightViewProj);
+	//spotLightPos.xyz /= spotLightPos.w;
+	//float spotLightShadow = ShadowBias(spotLightPos);
+	
 	// -------------------------------------------------
 	// ↓ directional
 	// -------------------------------------------------
-	float3 directionalLight = DirectionalLighting(NdotL, NdotH, gMaterial.shininess, gDirectionalLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * gDirectionalLight.intensity;
+	float3 directionalLight = DirectionalLighting(NdotL, NdotH, gMaterial.shininess, gDirectionalLight.color.rgb, gMaterial.color.rgb, textureColor.rgb) * (gDirectionalLight.intensity * visibility);
 	
 	// -------------------------------------------------
 	// ↓ point

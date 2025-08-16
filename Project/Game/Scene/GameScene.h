@@ -46,7 +46,7 @@ private:
 	// ------------------- actor ------------------- //
 	std::unique_ptr<Skydome> skydome_;
 	std::unique_ptr<Floor> floor_;
-	std::unique_ptr<Skybox> skybox_;
+	Skybox* skybox_;
 	std::unique_ptr<PlayerManager> playerManager_;
 	std::unique_ptr<BossRoot> bossRoot_;
 

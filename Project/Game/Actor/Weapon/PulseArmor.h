@@ -87,6 +87,7 @@ public:
 
 	void PostUpdate() override {};
 
+	void PreDraw() const override;
 	void Draw() const override;
 
 	void Debug_Gui() override;

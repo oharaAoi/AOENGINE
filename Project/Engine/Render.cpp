@@ -9,6 +9,7 @@ void Render::Finalize() {
 	viewProjection_->Finalize();
 	lightGroup_->Finalize();
 	primitiveDrawer_->Finalize();
+	shadowMap_.reset();
 }
 
 Render* Render::GetInstance() {
@@ -26,6 +27,7 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 	viewProjection2D_ = std::make_unique<ViewProjection>();
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 	lightGroup_ = std::make_unique<LightGroup>();
+	shadowMap_ = std::make_unique<ShadowMap>();
 
 	viewProjection_->Init(device);
 	viewProjection2D_->Init(device);
@@ -34,6 +36,8 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 	lightGroup_->Init(device);
 
 	primitiveDrawer_->Init(device);
+
+	shadowMap_->Init();
 
 	nearClip_ = 1.0f;
 	farClip_ = 10000.0f;
@@ -67,8 +71,24 @@ void Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, c
 	GetInstance()->renderTarget_->SetRenderTarget(commandList_, renderTypes, depthHandle);
 }
 
+void Render::SetShadowMap() {
+	shadowMap_->SetCommand();
+}
+
+void Render::ChangeShadowMap() {
+	shadowMap_->ChangeResource(commandList_);
+}
+
+void Render::ResetShadowMap() {
+	shadowMap_->ResetResource(commandList_);
+}
+
 LightGroup* Render::GetLightGroup() {
 	return lightGroup_.get();
+}
+
+ShadowMap* Render::GetShadowMap() {
+	return shadowMap_.get();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +105,10 @@ void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 
 void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
+	UINT index = 0;
+	index = pipeline->GetRootSignatureIndex("gShadowMap");
+	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
+
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
@@ -111,6 +135,9 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	index = pipeline->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 
+	index = pipeline->GetRootSignatureIndex("gShadowMap");
+	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
+
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
@@ -136,6 +163,18 @@ void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Materia
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
 	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
+}
+
+void Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {
+	UINT index = 0;
+	commandList_->IASetVertexBuffers(0, 1, &vbv);
+	commandList_->IASetIndexBuffer(&mesh->GetIBV());
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	worldTransform->BindCommandList(commandList_, index);
+	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
+	lightGroup_->GetDirectionalLight()->BindCommandList(commandList_, index);
+	
+	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -226,4 +265,8 @@ const ViewProjection* Render::GetViewProjection() {
 
 void Render::SetSkyboxTexture(const std::string& _name) {
 	skyboxTexture_ = _name;
+}
+
+ID3D12Resource* Render::GetShadowDepth() {
+	return shadowMap_->GetDepthResource();
 }

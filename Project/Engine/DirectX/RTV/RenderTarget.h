@@ -16,9 +16,11 @@ enum RenderTargetType {
 	Sprite2d_RenderTarget,
 	EffectSystem_RenderTarget,
 	PreEffectSystem_RenderTarget,
+	ShadowMap_RenderTarget,
+	kMAX
 };
 
-static const uint32_t renderTargetNum_ = sizeof(RenderTargetType) + 1;
+static const uint32_t renderTargetNum_ = (RenderTargetType::kMAX);
 
 class RenderTarget {
 public:

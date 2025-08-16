@@ -6,8 +6,8 @@
         "culling" : true,
         "depth" : false,
         "rtvFormat" : [
-            "16_FLOAT",
-            "32_R"
+            "16_RGB",
+            "16_RGB"
         ]
     }
 }

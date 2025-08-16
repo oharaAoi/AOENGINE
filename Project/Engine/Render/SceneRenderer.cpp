@@ -72,6 +72,17 @@ void SceneRenderer::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Draw() const {
+	Render::SetShadowMap();
+	for (auto& pair : objectList_) {
+		ISceneObject* obj = pair->GetSceneObject();
+		if (obj->GetIsActive()) {
+			obj->PreDraw();
+		}
+	}
+
+	Engine::SetRenderTarget();
+	Render::ChangeShadowMap();
+	Render::GetShadowMap()->DrawDepth();
 	for (auto& pair : objectList_) {
 		if (pair->GetPostDraw()) {
 			continue;
@@ -164,6 +175,14 @@ void SceneRenderer::ChangeRenderingType(const std::string& renderingName, IScene
 	for (auto& pair : objectList_) {
 		if (pair->GetSceneObject() == gameObject) {
 			pair->SetRenderingType(renderingName);
+		}
+	}
+}
+
+void SceneRenderer::SetRenderingQueue(const std::string& objName, int num) {
+	for (auto& pair : objectList_) {
+		if (pair->GetSceneObject()->GetName() == objName) {
+			pair->SetRenderQueue(num);
 		}
 	}
 }

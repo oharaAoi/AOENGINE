@@ -1,5 +1,6 @@
 
 struct DirectionalLight {
+	float4x4 lightViewProj;
 	float4 color;
 	float3 direction;
 	float3 eyePos; // 視点の位置
@@ -8,6 +9,7 @@ struct DirectionalLight {
 };
 
 struct PointLight {
+	float4x4 lightViewProj;
 	float4 color; // ライトの色
 	float3 position; // ライトの位置
 	float3 eyePos;
@@ -17,6 +19,7 @@ struct PointLight {
 };
 
 struct SpotLight {
+	float4x4 lightViewProj;
 	float4 color; // ライトの色
 	float3 position; // ライトの位置
 	float3 eyePos; // 視点の位置

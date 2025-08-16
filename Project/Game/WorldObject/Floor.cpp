@@ -15,6 +15,7 @@ void Floor::Init() {
 	SetName("Ground");
 
 	floor_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Field");
+	SceneRenderer::GetInstance()->SetRenderingQueue("Field", -100);
 	transform_ = floor_->GetTransform();
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Field");
@@ -29,10 +30,11 @@ void Floor::Init() {
 		materials[oi]->SetUvScale(Vector3{50.0f, 50.0f, 1.0f});
 	}*/
 
-	floor_->SetIsReflection(true);
+	//floor_->SetIsReflection(true);
 	floor_->SetColor(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
+	floor_->SetIsShadow(false);
 
-	SceneRenderer::GetInstance()->ChangeRenderingType("Object_NormalEnviroment.json", floor_);
+	//SceneRenderer::GetInstance()->ChangeRenderingType("Object_Normal.json", floor_);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }
@@ -42,7 +44,7 @@ void Floor::Update() {
 }
 
 void Floor::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_NormalEnviroment.json");
+	Engine::SetPipeline(PSOType::Object3d, "Object_Normal.json");
 }
 
 void Floor::Debug_Gui() {

@@ -25,6 +25,8 @@ void PointLight::Finalize() {
 }
 
 void PointLight::Update() {
+	CalucViewProjection(lightPos_);
+	pointLightData_->viewProjection = viewProjectionMatrix_;
 	BaseLight::Update();
 }
 

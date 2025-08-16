@@ -30,6 +30,8 @@ void SpotLight::Finalize() {
 }
 
 void SpotLight::Update() {
+	CalucViewProjection(lightPos_);
+	spotLightData_->viewProjection = viewProjectionMatrix_;
 	BaseLight::Update();
 }
 

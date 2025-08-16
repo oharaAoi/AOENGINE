@@ -91,6 +91,9 @@ void PulseArmor::Update() {
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void PulseArmor::PreDraw() const {
+}
+
 void PulseArmor::Draw() const {
 	if (!isAlive_) { return; }
 

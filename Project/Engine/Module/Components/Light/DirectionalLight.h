@@ -9,6 +9,7 @@ class DirectionalLight :
 public: // メンバ構造体
 
 	struct DirectionalLightData {
+		Matrix4x4 viewProjection;
 		Vector4 color; // ライトの色
 		Vector3 direction; // 方向
 		float pad;
@@ -58,6 +59,8 @@ public:
 	void Update() override;
 
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
+
+	void Reset();
 
 public:
 

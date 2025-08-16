@@ -38,9 +38,7 @@ void TitleScene::Init() {
 	camera3d_->Init();
 	debugCamera_->Init();
 	
-	skybox_ = std::make_unique<Skybox>();
-	skybox_->Init();
-	Render::SetSkyboxTexture(skybox_->GetTexture());
+	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
 
 	//testObject_ = std::make_unique<TestObject>();
 	//testObject_->Init();
@@ -59,9 +57,7 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-	skybox_->Update();
-	//testObject_->Update();
-
+	
 	titleUIs_->Update();
 
 	fadePanel_->Update();
@@ -95,7 +91,6 @@ void TitleScene::Update() {
 }
 
 void TitleScene::Draw() const {
-	skybox_->Draw();
-
+	
 	sceneRenderer_->Draw();
 }

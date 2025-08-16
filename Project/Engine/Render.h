@@ -8,6 +8,7 @@
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
+#include "Engine/Render/ShadowMap.h"
 
 /// <summary>
 /// GameObjectの描画を行う
@@ -33,7 +34,12 @@ public:
 	static void PrimitiveDrawCall();
 	static void SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle);
 
+	static void SetShadowMap();
+	static void ChangeShadowMap();
+	static void ResetShadowMap();
+
 	static LightGroup* GetLightGroup();
+	static ShadowMap* GetShadowMap();
 
 public:
 
@@ -75,6 +81,8 @@ public:
 
 	static void DrawLightGroup(Pipeline* pipeline);
 
+	static void SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv);
+
 	//==================================================================================
 	// ↓　設定系
 	//==================================================================================
@@ -114,6 +122,8 @@ public:
 
 	static void SetSkyboxTexture(const std::string& _name);
 
+	static ID3D12Resource* GetShadowDepth();
+
 private:
 
 	RenderTarget* renderTarget_ = nullptr;
@@ -128,6 +138,8 @@ namespace {
 
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	PrimitivePipeline* primitivePipelines_ = nullptr;
+
+	std::unique_ptr<ShadowMap> shadowMap_ = nullptr;
 
 	float nearClip_;
 	float farClip_;

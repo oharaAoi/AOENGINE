@@ -6,7 +6,7 @@
         "culling" : true,
         "depth" : false,
         "rtvFormat" : [
-            "16_FLOAT"
+            "16_RGB"
         ]
     }
 }

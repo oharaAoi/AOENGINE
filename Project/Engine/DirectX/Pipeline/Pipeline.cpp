@@ -131,7 +131,7 @@ void Pipeline::CreatePSO() {
 	// 書き込むRTVの情報
 	desc.NumRenderTargets = static_cast<UINT>(parameter_.rtvFormats.size());
 	for (uint32_t oi = 0; oi < parameter_.rtvFormats.size(); ++oi) {
-		if (parameter_.rtvFormats[oi] == "16_FLOAT") {
+		if (parameter_.rtvFormats[oi] == "16_RGB") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		} else if (parameter_.rtvFormats[oi] == "8_sRGB") {
 			desc.RTVFormats[oi] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;

@@ -116,7 +116,6 @@ public:
 
 	static void BlendFinalTexture(RenderTargetType renderTargetType);
 
-
 public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +220,8 @@ public:
 	static bool GetRunGame();
 
 	static PostProcess* GetPostProcess();
+
+	static void SetRenderTarget();
 
 private:
 

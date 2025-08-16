@@ -169,6 +169,8 @@ void Engine::EndFrame() {
 	editorWindows_->End();
 #endif
 
+	render_->ResetShadowMap();
+
 	dxCommon_->End();
 	dxHeap_->FreeList();
 	audio_->Update();
@@ -426,4 +428,11 @@ bool Engine::GetRunGame() {
 
 PostProcess* Engine::GetPostProcess() {
 	return postProcess_.get();
+}
+
+void Engine::SetRenderTarget() {
+	std::vector<RenderTargetType> types;
+	types.push_back(RenderTargetType::Object3D_RenderTarget);
+	types.push_back(RenderTargetType::MotionVector_RenderTarget);
+	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 }

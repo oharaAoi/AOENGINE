@@ -120,6 +120,20 @@ void BaseGameObject::PostUpdate() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+void BaseGameObject::PreDraw() const {
+	if (!isShadow_) { return; }
+	if (model_ == nullptr) { return; }
+	Engine::SetPipeline(PSOType::Object3d, "Object_ShadowMap.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+		if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
+			Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), model_->GetMesh(index)->GetVBV());
+		} else {
+			Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV());
+		}
+	}
+}
+
 void BaseGameObject::Draw() const {
 	if (!isRendering_) {
 		return;

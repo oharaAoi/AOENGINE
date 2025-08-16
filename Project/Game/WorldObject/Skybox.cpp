@@ -5,7 +5,6 @@ Skybox::~Skybox() {
 }
 
 void Skybox::Init() {
-
 	cube_.Init(Vector3(200,200,200));
 	cube_.Inverse();
 
@@ -29,7 +28,6 @@ void Skybox::Update() {
 }
 
 void Skybox::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_Skybox.json");
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gMaterial");

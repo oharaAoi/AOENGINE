@@ -53,6 +53,8 @@
     <FxCompile Include="Engine\Assets\HLSL\Particle\GpuParticle.PS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Particle\BoxEmitParticle.CS.hlsl" />
     <FxCompile Include="Engine\Assets\HLSL\Particle\AccelerationField.CS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\ShadowMap.VS.hlsl" />
+    <FxCompile Include="Engine\Assets\HLSL\ShadowMap.PS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
@@ -333,6 +335,7 @@
     <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionRightShoulder.cpp" />
+    <ClCompile Include="Engine\Render\ShadowMap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -623,6 +626,7 @@
     <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionRightShoulder.h" />
+    <ClInclude Include="Engine\Render\ShadowMap.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
