@@ -82,7 +82,6 @@ void SceneRenderer::Draw() const {
 
 	Engine::SetRenderTarget();
 	Render::ChangeShadowMap();
-	Render::GetShadowMap()->DrawDepth();
 	for (auto& pair : objectList_) {
 		if (pair->GetPostDraw()) {
 			continue;

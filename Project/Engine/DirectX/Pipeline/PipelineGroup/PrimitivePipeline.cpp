@@ -81,7 +81,7 @@ D3D12_RASTERIZER_DESC PrimitivePipeline::SetRasterizerState() {
 D3D12_DEPTH_STENCIL_DESC PrimitivePipeline::SetDepthStencilState() {
 	D3D12_DEPTH_STENCIL_DESC desc{};
 	// Depthの機能を有効化する
-	desc.DepthEnable = false;
+	desc.DepthEnable = true;
 	// 書き込み
 	desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	// 地下駆ければ描画

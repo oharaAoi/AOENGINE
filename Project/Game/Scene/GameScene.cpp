@@ -35,6 +35,9 @@ void GameScene::Init() {
 	lightGroup->GetDirectionalLight()->Reset();
 	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
+	ShadowMap* shadowMap = Render::GetShadowMap();
+	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+
 	// -------------------------------------------------
 	// ↓ Sceneの初期化
 	// -------------------------------------------------

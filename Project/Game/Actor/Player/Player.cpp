@@ -98,6 +98,7 @@ void Player::Init() {
 
 	ICollider* colliderLeg = object_->GetCollider("playerLeg");
 	colliderLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	colliderLeg->SetIsStatic(false);
 
 	object_->SetPhysics();
 

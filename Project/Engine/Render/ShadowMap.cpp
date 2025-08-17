@@ -31,14 +31,6 @@ void ShadowMap::Init() {
 	device->CreateShaderResourceView(depthStencilResource_->GetResource(), &depthSrvDesc, depthSrvHandle_.handleCPU);
 }
 
-void ShadowMap::DrawDepth() {
-	ImGui::Begin("Depth");
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(depthSrvHandle_.handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
-	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
-	ImGui::End();
-}
-
 void ShadowMap::SetCommand() {
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::ShadowMap_RenderTarget);
@@ -51,4 +43,12 @@ void ShadowMap::ChangeResource(ID3D12GraphicsCommandList* commandList) {
 
 void ShadowMap::ResetResource(ID3D12GraphicsCommandList* commandList) {
 	TransitionResourceState(commandList, depthStencilResource_->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+}
+
+void ShadowMap::Debug_Gui() {
+	ImGui::Begin("Depth");
+	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(depthSrvHandle_.handleGPU.ptr));
+	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
+	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
+	ImGui::End();
 }

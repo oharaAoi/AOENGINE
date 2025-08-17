@@ -1,17 +1,17 @@
 #pragma once
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include <DirectX/Resource/DxResource.h>
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-class ShadowMap {
+class ShadowMap :
+	public AttributeGui {
 public:
 
 	ShadowMap() = default;
 	~ShadowMap();
 
 	void Init();
-
-	void DrawDepth();
 
 	void SetCommand();
 
@@ -22,6 +22,8 @@ public:
 
 	DescriptorHandles GetDepthDsvHandle() { return depthDsvHandle_; }
 	DescriptorHandles GetDeptSrvHandle() { return depthSrvHandle_; }
+
+	void Debug_Gui() override;
 
 private:
 
