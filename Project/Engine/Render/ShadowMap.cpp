@@ -46,9 +46,17 @@ void ShadowMap::ResetResource(ID3D12GraphicsCommandList* commandList) {
 }
 
 void ShadowMap::Debug_Gui() {
-	ImGui::Begin("Depth");
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(depthSrvHandle_.handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
-	ImGui::Image((void*)textureID, ImVec2(640.0f, 360.0f), ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
-	ImGui::End();
+	ImVec2 availSize = ImGui::GetContentRegionAvail();
+	// アスペクト比維持したい場合はここで調整
+	float aspect = 16.0f / 9.0f;
+	if (availSize.x / availSize.y > aspect) {
+		// 横が余る → 高さ基準に合わせる
+		availSize.x = availSize.y * aspect;
+	} else {
+		// 縦が余る → 横基準に合わせる
+		availSize.y = availSize.x / aspect;
+	}
+	ImGui::Image(textureID, availSize, ImVec2(0, 0), ImVec2(1, 1));
 }
