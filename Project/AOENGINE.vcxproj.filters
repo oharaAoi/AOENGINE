@@ -336,6 +336,7 @@
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionRightShoulder.cpp" />
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />
+    <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -627,6 +628,7 @@
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionRightShoulder.h" />
     <ClInclude Include="Engine\Render\ShadowMap.h" />
+    <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

@@ -10,12 +10,12 @@ RocketBullet::~RocketBullet() {
 }
 
 void RocketBullet::Init() {
-	BaseBullet::Init("BossMissile");
+	BaseBullet::Init("RocketMissile");
 	object_->SetObject("missile.obj");
-	object_->SetCollider(ColliderTags::Bullet::launcher, ColliderShape::SPHERE);
+	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::SPHERE);
 
-	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::launcher);
-	collider->SetTarget(ColliderTags::Player::own);
+	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
+	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });

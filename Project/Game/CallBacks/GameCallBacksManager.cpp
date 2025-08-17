@@ -35,6 +35,12 @@ void GameCallBacksManager::Init(CollisionManager* _manager) {
 	pBBulletToGround_->SetBossBulletManager(pBossRoot_->GetBulletManager());
 	pBBulletToGround_->SetGround(pFloor_);
 
+	pRocketToBoss_ = std::make_unique<RocketToBossCallBacks>(pCollisionManager_);
+	pRocketToBoss_->Init();
+	pRocketToBoss_->SetBulletManager(pPlayerManager_->GetBulletManager());
+	pRocketToBoss_->SetBoss(pBossRoot_->GetBoss());
+
+
 }
 
 void GameCallBacksManager::Update() {
