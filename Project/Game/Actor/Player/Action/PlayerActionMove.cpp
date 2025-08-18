@@ -215,13 +215,13 @@ void PlayerActionMove::Move() {
 		velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	}
 
-	transform->translate_ += velocity_ * GameTimer::DeltaTime();
+	transform->srt_.translate += velocity_ * GameTimer::DeltaTime();
 	
 	// playerを移動方向に向ける
 	if (velocity_.x != 0.0f || velocity_.z != 0.0f) {
 		float angle = std::atan2f(velocity_.x, velocity_.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform->rotation_, Quaternion::AngleAxis(angle, CVector3::UP), param_.rotateT);
-		transform->rotation_ = lerpQuaternion;
+		Quaternion lerpQuaternion = Quaternion::Slerp(transform->srt_.rotate, Quaternion::AngleAxis(angle, CVector3::UP), param_.rotateT);
+		transform->srt_.rotate = lerpQuaternion;
 	}
 
 	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {

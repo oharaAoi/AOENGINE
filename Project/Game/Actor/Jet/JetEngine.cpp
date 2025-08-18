@@ -22,8 +22,8 @@ void JetEngine::Init() {
 
 	transform_ = object_->GetTransform();
 
-	transform_->translate_ = { 0.0f, 2.7f, -0.5f };
-	transform_->rotation_ = Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
+	transform_->srt_.translate = { 0.0f, 2.7f, -0.5f };
+	transform_->srt_.rotate = Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
 
 	// -------------------------------------
 	// effectの設定

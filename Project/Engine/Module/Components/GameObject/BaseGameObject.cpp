@@ -92,8 +92,8 @@ void BaseGameObject::UpdateMatrix() {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
 			colliders_[index]->Update(QuaternionSRT{
 				.scale = transform_->GetScale(),
-				.rotate = transform_->GetQuaternion(),
-				.translate = transform_->GetTranslation() }
+				.rotate = transform_->GetRotate(),
+				.translate = transform_->GetTranslate() }
 			);
 		}
 	}
@@ -197,8 +197,8 @@ void BaseGameObject::AddCollider(ICollider* _collider, const std::string& catego
 	ColliderCollector::AddCollider(_collider);
 
 	_collider->Update(QuaternionSRT{ .scale = transform_->GetScale(),
-						  .rotate = transform_->GetQuaternion(),
-						  .translate = transform_->GetTranslation() }
+						  .rotate = transform_->GetRotate(),
+						  .translate = transform_->GetTranslate() }
 	);
 }
 

@@ -162,7 +162,7 @@ void PlayerActionJump::Jump() {
 		pOwner_->SetIsLanding(false);
 	}
 
-	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+	pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -193,7 +193,7 @@ void PlayerActionJump::Rising() {
 		velocity_ *= std::exp(-param_.velocityDecayRate * GameTimer::DeltaTime());
 	}
 
-	pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+	pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 }
 
 void PlayerActionJump::Charge() {

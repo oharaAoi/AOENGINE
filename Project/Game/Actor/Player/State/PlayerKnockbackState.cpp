@@ -35,7 +35,7 @@ void PlayerKnockbackState::Knockback() {
 	Vector3 direction = pOwner_->GetKnockBackDire();
 	acceleration_ = (direction * strength_) * GameTimer::DeltaTime();
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwner_->GetTransform()->translate_ += velocity_;
+	pOwner_->GetTransform()->srt_.translate += velocity_;
 
 	if (timer_ > knockbackTime_) {
 		stateMachine_->ChangeState<PlayerIdleState>();

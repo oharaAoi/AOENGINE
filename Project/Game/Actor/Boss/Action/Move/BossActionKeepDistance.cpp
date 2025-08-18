@@ -146,9 +146,9 @@ void BossActionKeepDistance::Spin() {
 
 void BossActionKeepDistance::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	pTarget_->GetTransform()->translate_ += velocity_ * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
 	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
-	pTarget_->GetTransform()->rotation_ = Quaternion::Slerp(pTarget_->GetTransform()->rotation_, playerToRotate_, 0.05f);
+	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, 0.05f);
 
 }

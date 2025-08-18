@@ -82,9 +82,9 @@ void BossActionShotMissile::End() {
 void BossActionShotMissile::Shot() {
 	fireCount_--;
 
-	Vector3 pos = pTarget_->GetTransform()->translate_;
-	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
-	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+	Vector3 pos = pTarget_->GetTransform()->srt_.translate;
+	Vector3 forward = pTarget_->GetTransform()->srt_.rotate.MakeForward();
+	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * bulletSpeed_;
 	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_, 0.5f, true);

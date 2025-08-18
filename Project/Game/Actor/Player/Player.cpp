@@ -163,11 +163,11 @@ void Player::Update() {
 	IsBoostMode();
 
 	if (reticle_->GetLockOn()) {
-		Vector3 toTarget = reticle_->GetTargetPos() - transform_->translate_;
+		Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
 		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
 		toTarget = toTarget.Normalize();
 		Quaternion targetToRotate = Quaternion::LookRotation(toTarget);
-		transform_->rotation_ = Quaternion::Slerp(transform_->rotation_, targetToRotate, 0.9f);
+		transform_->srt_.rotate = Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
 	}
 
 	jet_->Update();

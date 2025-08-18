@@ -20,7 +20,7 @@ void LauncherGun::Init() {
 	BaseWeapon::Init();
 	object_->SetObject("launcher.obj");
 	SetName("LauncherGun");
-	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
+	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
 	// ↓ Effect関連

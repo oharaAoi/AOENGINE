@@ -20,7 +20,7 @@ void ShoulderMissile::Init() {
 	object_->SetObject("shoulderMissile.obj");
 
 	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-	transform_->SetTranslaion(param_.pos);
+	transform_->SetTranslate(param_.pos);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }
@@ -36,7 +36,7 @@ void ShoulderMissile::Debug_Gui() {
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
 	}
-	transform_->SetTranslaion(param_.pos);
+	transform_->SetTranslate(param_.pos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

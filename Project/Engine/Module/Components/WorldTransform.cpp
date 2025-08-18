@@ -21,9 +21,9 @@ void WorldTransform::Init(ID3D12Device* device) {
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data_));
 
 	// 値を初期化しておく
-	scale_ = { 1.0f, 1.0f, 1.0f };
-	rotation_ = Quaternion();
-	translate_ = { 0.0f, 0.0f, 0.0f };
+	srt_.scale = { 1.0f, 1.0f, 1.0f };
+	srt_.rotate = Quaternion();
+	srt_.translate = { 0.0f, 0.0f, 0.0f };
 	worldMat_ = Matrix4x4::MakeUnit();
 }
 
@@ -34,43 +34,39 @@ void WorldTransform::Init(ID3D12Device* device) {
 void WorldTransform::Update(const Matrix4x4& mat) {
 	Vector3 worldTranslate = CVector3::ZERO;
 	Quaternion worldRotate = Quaternion();
+	srt_.rotate = srt_.rotate.Normalize();
 
-	data_->matWorldPrev = mat * Matrix4x4::MakeAffine(scale_, rotation_, preTranslate_ + temporaryTranslate_);
+	data_->matWorldPrev = mat * Matrix4x4::MakeAffine(srt_.scale, srt_.rotate, preTranslate_ + temporaryTranslate_);
 	if (parentWorldMat_ != nullptr) {
 		data_->matWorldPrev = data_->matWorldPrev * *parentWorldMat_;
 	}
-
-	rotation_ = (rotation_.Normalize() * moveQuaternion_.Normalize());
-	rotation_ = rotation_.Normalize();
-	moveQuaternion_ = Quaternion();
 
 	// -------------------------------------------------
 	// ↓ 平行成分の親子関係があるかを確認
 	// -------------------------------------------------
 	if (parentTranslate_ != nullptr) {
-		worldTranslate = translate_ + *parentTranslate_;
+		worldTranslate = srt_.translate + *parentTranslate_;
 	} else {
-		worldTranslate = translate_;
+		worldTranslate = srt_.translate;
 	}
 
 	// -------------------------------------------------
 	// ↓ 回転成分の親子関係があるかを確認
 	// -------------------------------------------------
 	if (parentRotate_ != nullptr) {
-		worldRotate = *parentRotate_ * rotation_;
+		worldRotate = *parentRotate_ * srt_.rotate;
 	} else {
-		worldRotate = rotation_;
+		worldRotate = srt_.rotate;
 	}
 
 	// -------------------------------------------------
 	// ↓ world行列を生成
 	// -------------------------------------------------
 
-	transform_.scale = scale_;
-	transform_.rotate = worldRotate;
-	transform_.translate = worldTranslate;
+	srt_.rotate = worldRotate;
+	srt_.translate = worldTranslate;
 
-	worldMat_ = mat * Matrix4x4::MakeAffine(scale_, worldRotate, worldTranslate + temporaryTranslate_);
+	worldMat_ = mat * Matrix4x4::MakeAffine(srt_.scale, worldRotate, worldTranslate + temporaryTranslate_);
 	if (parentWorldMat_ != nullptr) {
 		worldMat_ = worldMat_  * *parentWorldMat_;
 	}
@@ -79,22 +75,22 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	data_->matWorld = worldMat_;
 	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
 
-	preTranslate_ = transform_.translate + temporaryTranslate_;
+	preTranslate_ = srt_.translate + temporaryTranslate_;
 	temporaryTranslate_ = CVector3::ZERO;
 }
 
 void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) {
-	translate_ += velocity;
+	srt_.translate += velocity;
 
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
 		Quaternion rotate = Quaternion::LookRotation(velocity.Normalize());
-		rotation_ = Quaternion::Slerp(rotation_, rotate, rotationSpeed);
+		srt_.rotate = Quaternion::Slerp(srt_.rotate, rotate, rotationSpeed);
 	}
 }
 
 void WorldTransform::LookAt(const Vector3& target, const Vector3& up) {
-	Vector3 direction = target - translate_;
-	rotation_ = Quaternion::LookRotation(direction.Normalize(), up);
+	Vector3 direction = target - srt_.translate;
+	srt_.rotate = Quaternion::LookRotation(direction.Normalize(), up);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,28 +108,28 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 void WorldTransform::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Transform")) {
 		if (ImGui::TreeNode("scale")) {
-			ImGui::DragFloat3("scale", &scale_.x, 0.01f);
+			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("rotate")) {
-			Debug_Quaternion();
+			/*Debug_Quaternion();
 			float norm = std::sqrtf(Quaternion::Dot(rotation_, rotation_));
-			ImGui::Text("norm: %f", norm);
+			ImGui::Text("norm: %f", norm);*/
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("translation")) {
-			ImGui::DragFloat3("translation", &translate_.x, 0.1f);
+			ImGui::DragFloat3("translation", &srt_.translate.x, 0.1f);
 			ImGui::TreePop();
 		}
 	}
 }
 
 void WorldTransform::Debug_Quaternion() {
-	ImGui::DragFloat4("rotation", &rotation_.x, 0.1f);
+	/*ImGui::DragFloat4("rotation", &rotation_.x, 0.1f);
 	ImGui::DragFloat4("moveQuaternion", &moveQuaternion_.x, 0.1f);
 	if (ImGui::Button("Reset")) {
 		rotation_ = Quaternion();
-	}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

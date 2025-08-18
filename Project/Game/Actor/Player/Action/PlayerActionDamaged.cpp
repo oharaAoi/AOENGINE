@@ -51,11 +51,11 @@ bool PlayerActionDamaged::IsInput() {
 }
 
 void PlayerActionDamaged::ApplyGravity() {
-	if (pOwnerTransform_->translate_.y > 2.0f) {
+	if (pOwnerTransform_->srt_.translate.y > 2.0f) {
 		acceleration_.y += kGravity * GameTimer::DeltaTime();
 		acceleration_.y = std::clamp(acceleration_.y, -50.f, 50.f);
 
 		velocity_ += acceleration_ * GameTimer::DeltaTime();
-		pOwnerTransform_->translate_ += velocity_ * GameTimer::DeltaTime();
+		pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 	}
 }

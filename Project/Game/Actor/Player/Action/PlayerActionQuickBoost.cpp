@@ -120,7 +120,7 @@ void PlayerActionQuickBoost::Boost() {
 	acceleration_ = direction_ * param_.boostForce;
 
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwnerTransform_->translate_ += velocity_;
+	pOwnerTransform_->srt_.translate += velocity_;
 
 	// 減速計算する
 	param_.boostForce *= param_.decelerationRaito;

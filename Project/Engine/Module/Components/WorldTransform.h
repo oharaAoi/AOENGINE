@@ -31,7 +31,7 @@ public:
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 
-	void Translate(const Vector3& translate) { translate_ += translate; }
+	void Translate(const Vector3& translate) { srt_.translate += translate; }
 
 	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
 
@@ -47,33 +47,30 @@ public:
 	void SetParentRotate(const Quaternion& parentQuaternion);
 
 	void SetMatrix(const Matrix4x4& mat);
-	void SetScale(const Vector3& scale) { scale_ = scale; }
-	void SetTranslaion(const Vector3& translate) { translate_ = translate; }
-	void SetQuaternion(const Quaternion& quaternion) { rotation_ = quaternion; }
+	void SetScale(const Vector3& scale) { srt_.scale = scale; }
+	void SetTranslate(const Vector3& translate) { srt_.translate = translate; }
+	void SetQuaternion(const Quaternion& quaternion) { srt_.rotate = quaternion; }
 
-	void SetTranslationX(float x) { translate_.x = x; }
-	void SetTranslationY(float y) { translate_.y = y; }
-	void SetTranslationZ(float z) { translate_.z = z; }
+	void SetTranslationX(float x) { srt_.translate.x = x; }
+	void SetTranslationY(float y) { srt_.translate.y = y; }
+	void SetTranslationZ(float z) { srt_.translate.z = z; }
 
 	void SetSRT(const QuaternionSRT& srt) {
-		translate_ = srt.translate;
-		rotation_ = srt.rotate;
-		scale_ = srt.scale;
-
+		srt_ = srt;
 	}
 
-	QuaternionSRT& GetSRT() { return transform_; }
-	const Vector3 GetScale() const { return scale_; }
-	const Vector3& GetTranslation() const { return translate_; }
-	const Quaternion& GetQuaternion() const { return rotation_; }
+	Vector3 GetPos() const { return Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
+
+	QuaternionSRT& GetSRT() { return srt_; }
+	const Vector3 GetScale() const { return srt_.scale; }
+	const Vector3& GetTranslate() const { return srt_.translate; }
+	const Quaternion& GetRotate() const { return srt_.rotate; }
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 	const Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
 public:
 
-	Vector3 scale_;
-	Quaternion rotation_;
-	Vector3 translate_;
+	QuaternionSRT srt_;
 	Vector3 preTranslate_;
 
 	// 一時的に座標を動かしたい時にこの変数に加算する
@@ -82,9 +79,6 @@ public:
 
 private:
 
-	Quaternion moveQuaternion_;
-
-	QuaternionSRT transform_;
 	Matrix4x4 worldMat_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;

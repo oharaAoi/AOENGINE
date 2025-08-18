@@ -252,9 +252,9 @@ void FollowCamera::SetTarget(Player* _target) {
 	pTarget_ = _target;
 	//Quaternion rotation = Quaternion::EulerToQuaternion(angle_.y, angle_.x, 0.0f);
 	//Vector3 offset = rotation * Vector3(0.0f, 0.0f, followCamera_.distance);
-	//Vector3 desiredPosition = pTarget_->GetTransform()->translate_ + (offset * -1);
+	//Vector3 desiredPosition = pTarget_->GetTransform()->srt_.translate + (offset * -1);
 	//transform_.translate = desiredPosition;
-	//pivotSRT_.LookAt(pTarget_->GetTransform()->translate_);
+	//pivotSRT_.LookAt(pTarget_->GetTransform()->srt_.translate);
 }
 
 Quaternion FollowCamera::GetAngleX() {

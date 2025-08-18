@@ -90,10 +90,10 @@ void BossActionAllRangeMissile::End() {
 
 void BossActionAllRangeMissile::Shot() {
 	if (isFinishShot_) { return; }
-	Vector3 pos = pTarget_->GetTransform()->translate_;
-	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
-	Vector3 right = pTarget_->GetTransform()->rotation_.MakeRight();
-	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+	Vector3 pos = pTarget_->GetTransform()->GetPos();
+	Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
+	Vector3 right = pTarget_->GetTransform()->GetRotate().MakeRight();
+	Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う
 
 	const uint32_t angleUpNum = 4;
 	const uint32_t fireNum = 9;
@@ -128,7 +128,7 @@ void BossActionAllRangeMissile::Shot() {
 
 void BossActionAllRangeMissile::LookPlayer() {
 	float t = taskTimer_ / lookTime_;
-	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetQuaternion(), playerToRotation_, t);
+	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotation_, t);
 	pTarget_->GetTransform()->SetQuaternion(lookRotation);
 
 	// 次の行動に遷移する

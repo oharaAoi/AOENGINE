@@ -18,8 +18,8 @@ void TestObject::Init() {
 	object_->SetObject("BrainStem.gltf");
 	object_->SetAnimater("./Engine/Assets/Load/Models/Develop/", "BrainStem.gltf", true, true, false);
 
-	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
-	transform_->translate_.y = 2.0f;
+	//transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::UP);
+	//transform_->srt_.translate.y = 2.0f;
 
 	EditorWindows::AddObjectWindow(this, "TestObject");
 

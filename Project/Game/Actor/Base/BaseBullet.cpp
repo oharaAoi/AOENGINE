@@ -14,14 +14,14 @@ void BaseBullet::Init(const std::string& bulletName) {
 
 void BaseBullet::Update() {
 	if (!isAlive_) { return; };
-	transform_->translate_ += velocity_ * GameTimer::DeltaTime();
+	transform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 	if (velocity_.x != 0.0f || velocity_.y != 0.0f) {
-		transform_->rotation_ = Quaternion::LookRotation(velocity_.Normalize());
+		transform_->srt_.rotate = Quaternion::LookRotation(velocity_.Normalize());
 	}
 }
 
 void BaseBullet::Reset(const Vector3& pos, const Vector3& velocity) {
-	transform_->translate_ = pos;
+	transform_->srt_.translate = pos;
 	velocity_ = velocity;
 }
 

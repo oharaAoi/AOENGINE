@@ -129,7 +129,7 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& o
 	obb_.size = size_;
 	obb_.center = (maxSize_ + minSize_) * 0.5f;
 	obb_.center = Transform(obb_.center + offset, worldTransform->GetWorldMatrix());
-	obb_.MakeOBBAxis(worldTransform->GetQuaternion());
+	obb_.MakeOBBAxis(worldTransform->GetRotate());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

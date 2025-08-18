@@ -26,10 +26,10 @@ void BossAI::Init() {
 
 size_t BossAI::MoveActionAI(const WorldTransform* bossTransform, const Vector3& targetPos) {
 
-	Vector3 direction = targetPos - bossTransform->translate_;  // targetへの方向
+	Vector3 direction = targetPos - bossTransform->srt_.translate;  // targetへの方向
 	distance_ = direction.Length();                        // targetとの距離
 	
-	Vector3 bossForward = bossTransform->GetQuaternion().MakeForward(); // bossの前方方向
+	Vector3 bossForward = bossTransform->GetRotate().MakeForward(); // bossの前方方向
 	float dot = Vector3::Dot(direction, bossForward);           // bossと同じ方向を向いているかを計算
 
 	float midScore = GetProximityScore(distance_, param_.midDistance, 100.0f);

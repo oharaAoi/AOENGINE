@@ -10,7 +10,7 @@ void BossStateBeDestroyed::OnStart() {
 	timer_ = 0.0f;
 	GameTimer::SetTimeScale(0.2f);
 
-	preRotate_ = pOwner_->GetTransform()->rotation_;
+	preRotate_ = pOwner_->GetTransform()->srt_.rotate;
 	
 	Quaternion pitchRotate = Quaternion::AngleAxis(-45.0f * kToRadian, CVector3::RIGHT);
 	targetRotate_ = preRotate_ * pitchRotate;
@@ -21,7 +21,7 @@ void BossStateBeDestroyed::OnUpdate() {
 
 	float t = timer_ / param_.slowTime;
 	t = std::clamp(t, 0.0f, param_.slowTime);
-	pOwner_->GetTransform()->rotation_ = Quaternion::Slerp(preRotate_, targetRotate_, t);
+	pOwner_->GetTransform()->srt_.rotate = Quaternion::Slerp(preRotate_, targetRotate_, t);
 
 	if (timer_ > param_.slowTime) {
 		GameTimer::SetTimeScale(1.0f);

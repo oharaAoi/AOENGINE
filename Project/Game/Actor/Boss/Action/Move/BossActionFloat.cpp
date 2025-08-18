@@ -30,7 +30,7 @@ void BossActionFloat::Init() {
 
 void BossActionFloat::Update() {
 	taskTimer_ += GameTimer::DeltaTime();
-	pTarget_->GetTransform()->translate_.y += 2.0f * GameTimer::DeltaTime();
+	pTarget_->GetTransform()->srt_.translate.y += 2.0f * GameTimer::DeltaTime();
 }
 
 void BossActionFloat::End() {

@@ -48,7 +48,7 @@ void PlayerActionIdle::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::CheckNextAction() {
-	/*if (pOwner_->GetTransform()->translate_.y >= 1.f) {
+	/*if (pOwner_->GetTransform()->srt_.translate.y >= 1.f) {
 		AddAction<PlayerActionJump>();
 	}*/
 

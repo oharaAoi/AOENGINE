@@ -134,7 +134,6 @@ void GameScene::Update() {
 	// ↓ actorの更新
 	// -------------------------------------------------
 	
-	floor_->Update();
 	playerManager_->Update();
 
 	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetGameObject()->GetPosition());

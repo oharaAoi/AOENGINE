@@ -116,7 +116,7 @@ void PlayerActionBoost::Boost() {
 	acceleration_ = direction_ * param_.boostForce;
 
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwnerTransform_->translate_ += velocity_;
+	pOwnerTransform_->srt_.translate += velocity_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,10 +127,10 @@ void PlayerActionBoost::BoostCharge() {
 	timer_ += GameTimer::DeltaTime();
 
 	if (timer_ < param_.chargeTime) {
-		Vector3 backDirection = pOwner_->GetTransform()->rotation_.MakeForward();
+		Vector3 backDirection = pOwner_->GetTransform()->srt_.rotate.MakeForward();
 		acceleration_ = (backDirection.Normalize() * -1.0f) * param_.boostForce;
 		velocity_ += acceleration_ * GameTimer::DeltaTime();
-		pOwnerTransform_->translate_ += velocity_;
+		pOwnerTransform_->srt_.translate += velocity_;
 	} else {
 		mainAction_ = std::bind(&PlayerActionBoost::Boost, this);
 		blur_->Start(1.f, 2.0f);
@@ -143,7 +143,7 @@ void PlayerActionBoost::BoostCharge() {
 
 void PlayerActionBoost::BoostStop() {
 	velocity_ *= param_.stopForce;
-	pOwnerTransform_->translate_ += velocity_;
+	pOwnerTransform_->srt_.translate += velocity_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

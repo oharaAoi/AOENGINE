@@ -98,21 +98,6 @@ public:
 	void SetPhysics();
 	Rigidbody* GetRigidbody() { return rigidbody_.get(); }
 
-		
-private:
-
-	/*void SetColliderRadius(float radius) {
-		if (auto sphere = dynamic_cast<SphereCollider*>(collider_.get())) {
-			sphere->SetRadius(radius);
-		}
-	}
-
-	void SetColliderSize(const Vector3& size) {
-		if (auto box = dynamic_cast<BoxCollider*>(collider_.get())) {
-			box->SetSize(size);
-		}
-	}*/
-
 protected:
 
 	Model* model_ = nullptr;

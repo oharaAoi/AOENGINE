@@ -68,9 +68,9 @@ void BossActionVerticalMissile::End() {
 }
 
 void BossActionVerticalMissile::Shot() {
-	Vector3 forward = pTarget_->GetTransform()->rotation_.MakeForward();
-	Vector3 right = pTarget_->GetTransform()->rotation_.MakeRight();
-	Vector3 up = pTarget_->GetTransform()->rotation_.MakeUp(); // Y軸に限らず回転軸として使う
+	Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
+	Vector3 right = pTarget_->GetTransform()->GetRotate().MakeRight();
+	Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う
 
 	const float dx[2] = {2, -2};
 	
@@ -83,7 +83,7 @@ void BossActionVerticalMissile::Shot() {
 	Vector3 dir = rot.Rotate(forward);
 	
 	for (uint32_t i = 0; i < 2; i++) {
-		Vector3 pos = pTarget_->GetTransform()->translate_ + (param_.fireRadius * dir);
+		Vector3 pos = pTarget_->GetTransform()->GetPos() + (param_.fireRadius * dir);
 		pos += right * dx[i];
 		Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
 		BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.05f, true);

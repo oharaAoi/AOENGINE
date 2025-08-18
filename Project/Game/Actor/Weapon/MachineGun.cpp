@@ -21,7 +21,7 @@ void MachineGun::Init() {
 	
 	object_->SetObject("gun.obj");
 	SetName("MachineGun");
-	transform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
+	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
 	// ↓ Effect関連

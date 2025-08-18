@@ -18,15 +18,15 @@ void BossBullet::Init() {
 }
 
 void BossBullet::Update() {
-	if (std::abs(transform_->translate_.x) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->translate_.y) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->translate_.z) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
 		isAlive_ = false;
 	}
 
@@ -34,7 +34,7 @@ void BossBullet::Update() {
 }
 
 void BossBullet::Reset(const Vector3& pos, const Vector3& velocity) {
-	transform_->translate_ = pos;
+	transform_->srt_.translate = pos;
 	velocity_ = velocity;
 }
 

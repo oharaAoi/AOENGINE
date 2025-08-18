@@ -10,10 +10,7 @@ public:
 	Floor();
 	~Floor();
 
-	void Finalize();
 	void Init();
-	void Update();
-	void Draw() const;
 
 	void Debug_Gui() override;
 

@@ -37,15 +37,15 @@ void RocketBullet::Init() {
 void RocketBullet::Update() {
 	Tracking();
 
-	if (std::abs(transform_->translate_.x) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->translate_.y) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->translate_.z) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
 		isAlive_ = false;
 	}
 
@@ -62,7 +62,7 @@ void RocketBullet::OnCollision(ICollider* other) {
 }
 
 void RocketBullet::Reset(const Vector3& pos, const Vector3& target, float bulletSpeed) {
-	transform_->translate_ = pos;
+	transform_->srt_.translate = pos;
 	targetPosition_ = target;
 	speed_ = bulletSpeed;
 }
@@ -70,9 +70,9 @@ void RocketBullet::Reset(const Vector3& pos, const Vector3& target, float bullet
 void RocketBullet::Tracking() {
 	if (finishTracking_) { return; }
 
-	if ((targetPosition_ - transform_->translate_).Length() > trackingLength_) {
+	if ((targetPosition_ - transform_->srt_.translate).Length() > trackingLength_) {
 		// targetの方向に弾を撃つ
-		Vector3 targetToDire = (targetPosition_ - transform_->translate_).Normalize() * speed_;
+		Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
 		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 
 		if (trackingTimer_ < trackingTime_) {

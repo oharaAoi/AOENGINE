@@ -29,7 +29,7 @@ void HitExplode::Init() {
 	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
 	worldTransform_ = Engine::CreateWorldTransform();
 	worldTransform_->SetScale(Vector3(7.0f, 7.0f, 7.0f));
-	worldTransform_->rotation_ = Quaternion::AngleAxis(kPI, CVector3::UP);
+	worldTransform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::UP);
 	
 	material_->SetUseTexture("image.png");
 
@@ -65,9 +65,9 @@ void HitExplode::Update() {
 	
 	material_->SetUvTranslation(Vector3(uvOffset.x, uvOffset.y, 0.0f));
 
-	Vector3 directionToCamera = worldTransform_->translate_ - Render::GetEyePos();
+	Vector3 directionToCamera = worldTransform_->srt_.translate - Render::GetEyePos();
 	Quaternion lookRotation = Quaternion::LookRotation(directionToCamera);
-	worldTransform_->rotation_ = Quaternion::AngleAxis(kPI, lookRotation.MakeUp()) * lookRotation;
+	worldTransform_->srt_.rotate = Quaternion::AngleAxis(kPI, lookRotation.MakeUp()) * lookRotation;
 	worldTransform_->Update();
 	material_->Update();
 }
@@ -113,7 +113,7 @@ void HitExplode::Draw() const {
 
 void HitExplode::Set(const Vector3& pos, const Vector4& color, const std::string& useTexture) {
 	material_->SetColor(color);
-	worldTransform_->translate_ = pos;
+	worldTransform_->srt_.translate = pos;
 	material_->SetUseTexture(useTexture);
 }
 
