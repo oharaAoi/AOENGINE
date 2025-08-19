@@ -120,6 +120,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />
+    <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
@@ -403,6 +404,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Engine\Render\ShadowMap.h" />
+    <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />

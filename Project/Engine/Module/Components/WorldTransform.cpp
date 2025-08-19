@@ -2,6 +2,7 @@
 #include "ImGuizmo.h"
 #include <Lib/Math/MyMatrix.h>
 #include "Engine/Render.h"
+#include "Engine/System/Editer/Tool/ManipulateTool.h"
 
 int WorldTransform::nextId_ = 0;
 
@@ -126,17 +127,13 @@ void WorldTransform::Debug_Gui() {
 	}
 }
 
-void WorldTransform::Manipulate() {
-	ImVec2 windowPos = ImGui::GetWindowPos();
-	ImVec2 gizmoPos = ImVec2(20, 60);
-	ImVec2 gizmoSize = ImVec2(kWindowWidth_ * 0.5f, kWindowHeight_ * 0.5f);
-
+void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	ImGuizmo::PushID(id_);
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
-	ImGuizmo::SetRect(gizmoPos.x, gizmoPos.y, gizmoSize.x, gizmoSize.y);
+	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
 
 	Matrix4x4 viewMat = Render::GetViewport3D();
-	Matrix4x4 projectMat = Matrix4x4::MakePerspectiveFov(0.45f, float(kWindowWidth_ * 0.5f) / float(kWindowHeight_ * 0.5f), 0.1f, 100.0f);
+	Matrix4x4 projectMat = Matrix4x4::MakePerspectiveFov(0.45f, float(windowSize.x) / float(windowSize.y), 0.1f, 100.0f);
 
 	float view[16];
 	float proj[16];
@@ -146,10 +143,22 @@ void WorldTransform::Manipulate() {
 	memcpy(proj, &projectMat, sizeof(proj));
 	memcpy(world, &worldMat_, sizeof(world));
 
-	ImGuizmo::Manipulate(view, proj, ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, world);
+	if (ManipulateTool::type_ == UseManipulate::SCALE) {
+		ImGuizmo::Manipulate(view, proj, ImGuizmo::SCALE, ImGuizmo::LOCAL, world);
+	}
+
+	if (ManipulateTool::type_ == UseManipulate::ROTATE) {
+		ImGuizmo::Manipulate(view, proj, ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
+	}
+
+	if (ManipulateTool::type_ == UseManipulate::TRANSLATE) {
+		ImGuizmo::Manipulate(view, proj, ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, world);
+	}
 
 	if (ImGuizmo::IsUsing()) {
 		memcpy(&worldMat_, world, sizeof(world));
+		srt_.scale = worldMat_.GetScale();
+		srt_.rotate = worldMat_.GetRotate();
 		srt_.translate = worldMat_.GetPosition();
 	}
 

@@ -14,6 +14,14 @@ Matrix4x4 Matrix4x4::Transpose() const {
 	return result;
 }
 
+Vector3 Matrix4x4::GetScale() const {
+	Vector3 scale;
+	scale.x = sqrtf(m[0][0] * m[0][0] + m[1][0] * m[1][0] + m[2][0] * m[2][0]);
+	scale.y = sqrtf(m[0][1] * m[0][1] + m[1][1] * m[1][1] + m[2][1] * m[2][1]);
+	scale.z = sqrtf(m[0][2] * m[0][2] + m[1][2] * m[1][2] + m[2][2] * m[2][2]);
+	return scale;
+}
+
 Vector3 Matrix4x4::GetPosition() const {
 	return Vector3{ m[3][0], m[3][1], m[3][2] };
 }

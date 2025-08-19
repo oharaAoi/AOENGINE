@@ -32,7 +32,7 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
-	void DrawGui();
+	void DrawScene();
 
 	/// <summary>
 	/// Resourceの状態を遷移させる
@@ -48,9 +48,15 @@ public:
 
 	ShaderResource* GetResource() { return renderResource_.get(); }
 
+	const ImVec2 GetAvailSize() const { return availSize_; }
+	const ImVec2 GetImagePos() const { return imagePos_; }
+
 private:
 
 	
 	std::unique_ptr<ShaderResource> renderResource_;
+
+	ImVec2 availSize_;
+	ImVec2 imagePos_;
 };
 

@@ -24,6 +24,8 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	particleSystemEditor_ = std::make_unique<ParticleSystemEditor>();
 	particleSystemEditor_->Init(device, commandList, renderTarget, descriptorHeaps);
 
+	manipulateTool_ = std::make_unique<ManipulateTool>();
+
 	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 
 	sceneReset_ = false;
@@ -131,11 +133,13 @@ void EditorWindows::End() {
 void EditorWindows::GameWindow() {
 
 	if (ImGui::Begin("Game Window", nullptr)) {
-		processedSceneFrame_->DrawGui();
+		processedSceneFrame_->DrawScene();
 
 		if (sceneRenderer_ != nullptr) {
-			sceneRenderer_->EditObject();
+			sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
 		}
+
+		manipulateTool_->SelectUseManipulate();
 	}
 	gameObjectWindow_->Edit();
 }

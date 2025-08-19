@@ -338,6 +338,7 @@
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />
     <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
     <ClCompile Include="Externals\ImGui\ImGuizmo.cpp" />
+    <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -631,6 +632,7 @@
     <ClInclude Include="Engine\Render\ShadowMap.h" />
     <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h" />
     <ClInclude Include="Externals\ImGui\ImGuizmo.h" />
+    <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

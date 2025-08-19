@@ -39,7 +39,7 @@ public:
 
 	void Debug_Gui();
 
-	void Manipulate();
+	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 	
 public:
 

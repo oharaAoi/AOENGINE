@@ -110,11 +110,11 @@ void SceneRenderer::PostDraw() const {
 	}
 }
 
-void SceneRenderer::EditObject() {
+void SceneRenderer::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
 		if (obj->GetIsActive()) {
-			obj->Manipulate();
+			obj->Manipulate(windowSize, imagePos);
 		}
 	}
 }

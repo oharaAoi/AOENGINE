@@ -70,7 +70,7 @@ public:
 
 	void PostDraw() const;
 
-	void EditObject();
+	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
 
 public:
 

@@ -344,8 +344,8 @@ void BaseGameObject::Debug_Axis() {
 
 }
 
-void BaseGameObject::Manipulate() {
-	transform_->Manipulate();
+void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
+	transform_->Manipulate(windowSize, imagePos);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

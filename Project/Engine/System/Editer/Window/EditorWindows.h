@@ -7,6 +7,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/System/Editer/Tool/ManipulateTool.h"
 
 class EditorWindows {
 public:
@@ -89,6 +90,8 @@ private:
 	std::unique_ptr<GameObjectWindow> gameObjectWindow_;
 
 	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
+
+	std::unique_ptr<ManipulateTool> manipulateTool_;
 
 	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 

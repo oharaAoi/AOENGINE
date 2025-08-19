@@ -29,7 +29,7 @@ public:
 
 	void Debug_Gui() override {};
 
-	void Manipulate() override {};
+	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
 
 public:
 

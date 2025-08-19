@@ -81,6 +81,8 @@ public:
 	/// <returns></returns>
 	Matrix4x4 Transpose() const;
 
+	Vector3 GetScale() const;
+
 	/// <summary>
 	/// 平行成分だけ取得する
 	/// </summary>
