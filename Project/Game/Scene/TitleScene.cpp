@@ -26,6 +26,7 @@ void TitleScene::Init() {
 
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();
+	EditorWindows::GetInstance()->SetSceneRenderer(sceneRenderer_);
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

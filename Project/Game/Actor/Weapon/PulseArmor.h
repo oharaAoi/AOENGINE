@@ -94,6 +94,8 @@ public:
 
 	void SetParameter();
 
+	void Manipulate() override {};
+
 public:
 
 	/// <summary>

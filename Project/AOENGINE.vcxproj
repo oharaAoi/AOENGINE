@@ -123,6 +123,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
+    <ClCompile Include="Externals\ImGui\ImGuizmo.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
@@ -405,6 +406,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
+    <ClInclude Include="Externals\ImGui\ImGuizmo.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />

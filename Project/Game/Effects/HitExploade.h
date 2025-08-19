@@ -26,6 +26,8 @@ public:
 
 	void Debug_Gui() override;
 
+	void Manipulate() override {};
+
 public:
 
 	void AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name);

@@ -114,6 +114,8 @@ public:
 		return this;
 	}
 
+	void MakeArray(float* mat);
+
 	/// <summary>
 	/// 単位行列の作成
 	/// </summary>
@@ -180,4 +182,5 @@ public:
 	/// <param name="maxDepth"></param>
 	/// <returns></returns>
 	static Matrix4x4 MakeViewport(float left, float top, float width, float height, float minDepth = 0, float maxDepth = 1);
+
 };

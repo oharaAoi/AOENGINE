@@ -38,8 +38,9 @@ public:
 	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
 
 	void Debug_Gui();
-	void Debug_Quaternion();
 
+	void Manipulate();
+	
 public:
 
 	void SetParent(const Matrix4x4& parentMat);
@@ -80,6 +81,7 @@ public:
 private:
 
 	Matrix4x4 worldMat_;
+	Vector3 guiEulerDeg_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;
 	const Vector3* parentTranslate_ = nullptr;
@@ -89,5 +91,8 @@ private:
 	WorldTransformData* data_;
 
 	float test_angle_ = 0;
+
+	int id_;
+	static int nextId_;
 };
 

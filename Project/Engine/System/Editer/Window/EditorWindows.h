@@ -6,7 +6,7 @@
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
-
+#include "Engine/Render/SceneRenderer.h"
 
 class EditorWindows {
 public:
@@ -78,6 +78,8 @@ public:
 
 	bool GetGridDraw() const { return gridDraw_; }
 
+	void SetSceneRenderer(SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
+
 private:
 
 	GameObjectWindow* GetObjectWindow() { return gameObjectWindow_.get(); }
@@ -91,6 +93,8 @@ private:
 	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 
 	RenderTarget* renderTarget_;
+
+	SceneRenderer* sceneRenderer_;
 
 	std::function<void()> windowUpdate_;
 

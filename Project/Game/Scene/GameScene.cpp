@@ -51,6 +51,7 @@ void GameScene::Init() {
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();
 	sceneRenderer_->CreateObject(sceneLoader_->GetLevelData());
+	EditorWindows::GetInstance()->SetSceneRenderer(sceneRenderer_);
 
 	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
 	Render::SetSkyboxTexture(skybox_->GetTexture());

@@ -1,5 +1,13 @@
 #include "MyMath.h"
 
+Vector3 DegToRad(const Vector3& rotate) {
+	return Vector3(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
+}
+
+Vector3 RadToDeg(const Vector3& rotate) {
+	return Vector3(rotate.x * kToDegree, rotate.y * kToDegree, rotate.z * kToDegree);
+}
+
 float Clamp01(float value) {
 	return std::clamp(value, 0.f, 1.f);
 }

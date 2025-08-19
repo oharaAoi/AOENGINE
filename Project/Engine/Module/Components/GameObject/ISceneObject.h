@@ -17,6 +17,8 @@ public:
 
 	virtual void Debug_Gui() = 0;
 
+	virtual void Manipulate() = 0;
+
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
 	bool GetIsDestroy() const { return isDestroy_; }
 

@@ -1,7 +1,14 @@
 #include "WorldTransform.h"
+#include "ImGuizmo.h"
 #include <Lib/Math/MyMatrix.h>
+#include "Engine/Render.h"
 
-WorldTransform::WorldTransform() {}
+int WorldTransform::nextId_ = 0;
+
+WorldTransform::WorldTransform() {
+	id_ = nextId_;
+	nextId_++;
+}
 WorldTransform::~WorldTransform() {
 	Finalize();
 }
@@ -68,7 +75,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 
 	worldMat_ = mat * Matrix4x4::MakeAffine(srt_.scale, worldRotate, worldTranslate + temporaryTranslate_);
 	if (parentWorldMat_ != nullptr) {
-		worldMat_ = worldMat_  * *parentWorldMat_;
+		worldMat_ = worldMat_ * *parentWorldMat_;
 	}
 
 	// GPUに送るデータを更新
@@ -111,12 +118,7 @@ void WorldTransform::Debug_Gui() {
 			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
 			ImGui::TreePop();
 		}
-		if (ImGui::TreeNode("rotate")) {
-			/*Debug_Quaternion();
-			float norm = std::sqrtf(Quaternion::Dot(rotation_, rotation_));
-			ImGui::Text("norm: %f", norm);*/
-			ImGui::TreePop();
-		}
+
 		if (ImGui::TreeNode("translation")) {
 			ImGui::DragFloat3("translation", &srt_.translate.x, 0.1f);
 			ImGui::TreePop();
@@ -124,12 +126,34 @@ void WorldTransform::Debug_Gui() {
 	}
 }
 
-void WorldTransform::Debug_Quaternion() {
-	/*ImGui::DragFloat4("rotation", &rotation_.x, 0.1f);
-	ImGui::DragFloat4("moveQuaternion", &moveQuaternion_.x, 0.1f);
-	if (ImGui::Button("Reset")) {
-		rotation_ = Quaternion();
-	}*/
+void WorldTransform::Manipulate() {
+	ImVec2 windowPos = ImGui::GetWindowPos();
+	ImVec2 gizmoPos = ImVec2(20, 60);
+	ImVec2 gizmoSize = ImVec2(kWindowWidth_ * 0.5f, kWindowHeight_ * 0.5f);
+
+	ImGuizmo::PushID(id_);
+	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
+	ImGuizmo::SetRect(gizmoPos.x, gizmoPos.y, gizmoSize.x, gizmoSize.y);
+
+	Matrix4x4 viewMat = Render::GetViewport3D();
+	Matrix4x4 projectMat = Matrix4x4::MakePerspectiveFov(0.45f, float(kWindowWidth_ * 0.5f) / float(kWindowHeight_ * 0.5f), 0.1f, 100.0f);
+
+	float view[16];
+	float proj[16];
+	float world[16];
+
+	memcpy(view, &viewMat, sizeof(view));
+	memcpy(proj, &projectMat, sizeof(proj));
+	memcpy(world, &worldMat_, sizeof(world));
+
+	ImGuizmo::Manipulate(view, proj, ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, world);
+
+	if (ImGuizmo::IsUsing()) {
+		memcpy(&worldMat_, world, sizeof(world));
+		srt_.translate = worldMat_.GetPosition();
+	}
+
+	ImGuizmo::PopID();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

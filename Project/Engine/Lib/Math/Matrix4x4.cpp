@@ -102,3 +102,12 @@ Matrix4x4 Matrix4x4::MakeViewport(float left, float top, float width, float heig
 	result.m[3][3] = 1.0f;
 	return result;
 }
+
+void Matrix4x4::MakeArray(float* mat) {
+	// ImGuizmo用に転置してコピー
+	for (int row = 0; row < 4; ++row) {
+		for (int col = 0; col < 4; ++col) {
+			mat[col * 4 + row] = m[row][col]; // 転置
+		}
+	}
+}

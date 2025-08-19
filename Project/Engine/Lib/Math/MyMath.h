@@ -35,6 +35,9 @@ constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 // 基礎関数
 ////////////////////////////////////////////////////////////////////////////////////
 
+Vector3 DegToRad(const Vector3& rotate);
+Vector3 RadToDeg(const Vector3& rotate);
+
 float Clamp01(float value);
 
 /// <summary>

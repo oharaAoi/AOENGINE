@@ -45,6 +45,8 @@ public:
 
 	void Debug_Axis();
 
+	void Manipulate() override;
+
 public:
 
 	void SetObjectAxis(bool isAxis = true);

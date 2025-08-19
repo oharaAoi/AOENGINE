@@ -1,6 +1,5 @@
 #pragma once
 #include <utility>
-#include <algorithm>
 #include <memory>
 #include <list>
 #include "Engine/System/Manager/ParticleManager.h"
@@ -70,6 +69,8 @@ public:
 	void Draw() const;
 
 	void PostDraw() const;
+
+	void EditObject();
 
 public:
 

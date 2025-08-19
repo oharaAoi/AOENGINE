@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include "Engine/Lib/Math/MathStructures.h"
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;

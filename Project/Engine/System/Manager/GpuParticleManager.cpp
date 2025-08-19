@@ -1,7 +1,7 @@
 #include "GpuParticleManager.h"
 #include "Render.h"
 #include "Engine/Core/GraphicsContext.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+//#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 GpuParticleManager::~GpuParticleManager() {
@@ -30,7 +30,7 @@ void GpuParticleManager::Init() {
 	renderer_ = std::make_unique<GpuParticleRenderer>();
 	renderer_->Init(102400);
 
-	EditorWindows::AddObjectWindow(this, "GpuParticleManager");
+	//EditorWindows::AddObjectWindow(this, "GpuParticleManager");
 }
 
 void GpuParticleManager::Update() {
