@@ -135,8 +135,10 @@ void EditorWindows::GameWindow() {
 	if (ImGui::Begin("Game Window", nullptr)) {
 		processedSceneFrame_->DrawScene();
 
-		if (sceneRenderer_ != nullptr) {
-			sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+		if (ManipulateTool::isActive_) {
+			if (sceneRenderer_ != nullptr) {
+				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+			}
 		}
 
 		manipulateTool_->SelectUseManipulate();

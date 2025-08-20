@@ -9,7 +9,7 @@
 class AttributeGui {
 public:	// member method
 
-	AttributeGui() {};
+	AttributeGui();
 	virtual ~AttributeGui() { children_.clear(); };
 
 	virtual void Debug_Gui() = 0;
@@ -46,5 +46,8 @@ protected:
 private:
 
 	std::vector<AttributeGui*> children_;
+
+	int id_;
+	static int nextId_;
 };
 

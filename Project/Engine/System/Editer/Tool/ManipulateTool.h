@@ -23,6 +23,7 @@ private:
 public:
 
 	static UseManipulate type_;
+	static bool isActive_;
 
 };
 

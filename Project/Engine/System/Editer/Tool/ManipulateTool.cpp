@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/Vector4.h"
 
 UseManipulate ManipulateTool::type_ = UseManipulate::TRANSLATE;
+bool ManipulateTool::isActive_ = false;
 
 void ManipulateTool::SelectUseManipulate() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize
@@ -21,6 +22,7 @@ void ManipulateTool::SelectUseManipulate() {
 		ImTextureID rotateTex = reinterpret_cast<ImTextureID>(rotateHandle.ptr);
 		ImTextureID translateTex = reinterpret_cast<ImTextureID>(translateHandle.ptr);
 		
+		ImGui::Checkbox("##activeManipulate", &isActive_);
 		
 		Button(scaleTex, "scale", UseManipulate::SCALE);
 		Button(rotateTex, "rotate", UseManipulate::ROTATE);

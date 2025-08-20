@@ -19,6 +19,9 @@ public:
 
 #ifdef _DEBUG
 	void Edit();
+
+	AttributeGui* GetSelectObject() const { return selectAttribute_; }
+
 #endif // _DEBUG
 private:
 

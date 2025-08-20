@@ -16,7 +16,7 @@ public:
 	virtual void Draw() const = 0;
 
 	virtual void Debug_Gui() = 0;
-
+	
 	virtual void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) = 0;
 
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }

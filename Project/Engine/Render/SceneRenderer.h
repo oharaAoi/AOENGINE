@@ -128,18 +128,28 @@ public:
 public:
 
 	template<typename T>
-	T* GetGameObject(const std::string& objName) {
+	T* GetGameObject(const std::string& _objName) {
 		static_assert(std::is_base_of<ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		for (auto& pair : objectList_) {
-			if (pair->GetSceneObject()->GetName() == objName) {
+			if (pair->GetSceneObject()->GetName() == _objName) {
 				return dynamic_cast<T*>(pair->GetSceneObject());  // 安全にキャスト
 			}
 		}
 
 		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-		Logger::Log("[" + objName + "] not find");
+		Logger::Log("[" + _objName + "] not find");
 		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		return nullptr;
+	}
+
+	template<typename T> 
+	T* GetGameObject(T* _ptr) {
+		for (auto& pair : objectList_) {
+			if (pair->GetSceneObject() == _ptr) {
+				return dynamic_cast<T*>(pair->GetSceneObject());  // 安全にキャスト
+			}
+		}
 		return nullptr;
 	}
 

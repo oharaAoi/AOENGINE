@@ -45,7 +45,7 @@ public:
 
 	void Debug_Axis();
 
-	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) override;
+	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
 public:
 
