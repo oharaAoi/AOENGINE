@@ -339,6 +339,7 @@
     <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
     <ClCompile Include="Externals\ImGui\ImGuizmo.cpp" />
     <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
+    <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -633,6 +634,7 @@
     <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h" />
     <ClInclude Include="Externals\ImGui\ImGuizmo.h" />
     <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
@@ -648,6 +650,7 @@
     <None Include="Externals\ImGui\imgui_bezier_math.inl" />
     <None Include="Engine\Assets\HLSL\Light.hlsli" />
     <None Include="Engine\Assets\HLSL\MatrixMath.hlsli" />
+    <None Include="Engine\Assets\HLSL\ShadowMap.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt" />

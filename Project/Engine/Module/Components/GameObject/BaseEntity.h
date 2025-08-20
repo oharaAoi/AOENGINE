@@ -21,6 +21,8 @@ public:	// accessor method
 	void SetIsActive(bool _isActive) { isActive_ = _isActive; }
 	bool GetIsActive() const { return isActive_; }
 
+	void SetRendering(bool _isRendering) { object_->SetIsRendering(_isRendering); }
+
 	void Destroy() { object_->SetIsDestroy(true); };
 
 	Vector3 GetPosition() { return object_->GetPosition(); }

@@ -1,4 +1,5 @@
 #include "PBR.hlsli"
+#include "Light.hlsli"
 
 // 定数定義
 static const float PI = 3.141592653589f;
@@ -13,34 +14,6 @@ struct Material{
 	float roughness; // 粗さ
 	float metallic;// 金属度
 	float shininess;// 鋭さ
-};
-
-struct DirectionalLight{
-	float4 color;
-	float3 direction;
-	float3 eyePos;
-	float intensity;
-};
-
-struct PointLight {
-	float4 color; // ライトの色
-	float3 position; // ライトの位置
-	float3 eyePos;
-	float intensity; // 輝度
-	float radius; // 最大距離
-	float decay; // 減衰率
-};
-
-struct SpotLight {
-	float4 color; // ライトの色
-	float3 position; // ライトの位置
-	float3 eyePos; // 視点の位置
-	float intensity; // 輝度
-	float3 direction; // 方向
-	float distance; // ライトの届く最大距離
-	float decay; // 減衰率
-	float cosAngle; // スポットライトの余弦
-	float cosFalloffStart;
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
@@ -60,63 +33,6 @@ struct PixelShaderOutput{
 //////////////////////////////////////////////////////////////
 // 関数
 //////////////////////////////////////////////////////////////
-//==========================================
-// Lambert
-//==========================================
-float4 Lambert(float NdotL, float4 textureColor){
-	float4 diffuse = textureColor / PI;
-	float4 resultColor = diffuse * NdotL;
-	return resultColor;
-}
-
-//==========================================
-// HalfLambert
-//==========================================
-float4 HalfLambert(float NdotL){
-	//float4 diffuseColor = gMaterial.diffuseColor + (1.0f / PI);
-	float cos = (pow(NdotL * 0.5f + 0.5f, 2.0f));
-	float4 diffuse = gDirectionalLight.color * cos;
-	
-	return diffuse;
-}
-//==========================================
-// Phong
-//==========================================
-float4 Phong(VertexShaderOutput input){
-	float3 normal = normalize(input.normal);
-	float3 viewDire = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
-	float3 lightDire = -normalize(gDirectionalLight.direction);
-
-	float NdotL = dot(normal, lightDire);
-	//float3 reflection = reflect(lightDire, normal);
-	float spec = 0;
-	// ライトが表面に当たっていたら計算する
-	if (NdotL > 0.0f){
-		float3 reflection = normalize(2.0 * normal * NdotL - lightDire);
-		spec = saturate(dot(reflection, viewDire));
-		spec = pow(spec, gMaterial.shininess);
-	}
-	
-	float4 specColor = spec * gMaterial.specularColor * gMaterial.metallic;
-	return specColor;
-}
-
-float4 NormalizePhong(VertexShaderOutput input){
-	float3 normal = normalize(input.normal);
-	float3 lightDire = normalize(-gDirectionalLight.direction);
-	float3 view = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
-	float3 reflection = reflect(-lightDire, normal);
-	// 
-	float NdotL = saturate(dot(normal, lightDire));
-	float LdotR = saturate(dot(lightDire, reflection));
-	// 拡散色と鏡面反射色を求める
-	float4 diffuse = gMaterial.color * (1.0f - gMaterial.metallic) * (1.0f / PI);
-	float4 specular = gMaterial.color * gMaterial.metallic * ((gMaterial.shininess + 2.0f) / (2.0f * PI)) * pow(LdotR, gMaterial.shininess);
-	// 最終的な色
-	float4 result = (diffuse + specular) * gDirectionalLight.color;
-	
-	return result;
-}
 
 //==========================================
 // Fresnel(Schlick)		F
@@ -216,7 +132,7 @@ PixelShaderOutput main(VertexShaderOutput input){
 	float NDotL = saturate(dot(normal, lightDir));
 	float VDotH = saturate(dot(viewDir, halfVec));
 	
-	diffuse = Lambert(NDotL, gMaterial.color);
+	diffuse.rgb = Lambert(NDotL, textureColor.rgb);
 	
 	//=======================================================
 	// BRDF(双方向反射率分布関数)

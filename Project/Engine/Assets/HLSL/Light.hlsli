@@ -78,7 +78,7 @@ float3 BlinnPhong(float NDotH, float3 lightColor, float shininess) {
 //
 //	lightの計算
 //
-//================================================================================================//
+//==============================================================================================gSpotLight==//
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　directionalLight
@@ -100,4 +100,25 @@ float3 PointLighting(float NdotL, float pNdotH, float shininess, float3 lightCol
 	float3 speculer = BlinnPhong(pNdotH, lightColor, shininess);
 	
 	return diffuse + speculer;
+}
+
+float3 SpotLighting(ConstantBuffer<SpotLight> spotLight, float NdotL, float NdotH, float shininess, float3 inputWorldPos, float3 materialColor, float3 textureColor) {
+	float3 spotLightDirectionOnSurface = normalize(inputWorldPos - spotLight.position);
+	// Falloff
+	float cosAngle = dot(spotLightDirectionOnSurface, spotLight.direction);
+	float falloffFactor = saturate((cosAngle - spotLight.cosAngle) / (spotLight.cosFalloffStart - spotLight.cosAngle));
+	// 距離による減衰
+	float distanceSpot = length(spotLight.position - inputWorldPos);
+	float attenuationFactor = pow(saturate(-distanceSpot / spotLight.distance + 1.0f), spotLight.decay);
+	// スポットライトのカラー
+	float3 spotColor = spotLight.color.rgb * spotLight.intensity * attenuationFactor * falloffFactor;
+	
+	// lambert
+	float3 spotDiffuse;
+	spotDiffuse = HalfLambert(NdotL, spotColor.rgb) * materialColor.rgb * textureColor.rgb;
+	
+	// phong
+	float3 spotSpeculer = BlinnPhong(NdotH, spotColor.rgb, shininess) * textureColor.rgb;
+	
+	return (spotDiffuse + spotSpeculer) * spotLight.intensity;
 }

@@ -62,9 +62,8 @@ protected:
 
 	// 最大数
 	const uint32_t kMaxParticles = 200;
-
 	// groupの名前
-	const std::string kGroupName = "Effect";
+	const std::string kGroupName = "CPU";
 	// particleName
 	std::string particleName_ = "new particles";
 

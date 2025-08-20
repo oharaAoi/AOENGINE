@@ -1,0 +1,63 @@
+{
+    "BulletTrail": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "w": 1.0,
+            "x": 0.9441860318183899,
+            "y": 0.3658478260040283,
+            "z": 0.07465659081935883
+        },
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "duration": 5.0,
+        "emitOrigin": 0,
+        "emitType": 1,
+        "gravity": 0.0,
+        "isBillBord": true,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": false,
+        "isLifeOfScale": true,
+        "isLoop": true,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 0.36000001430511475,
+        "maxScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
+        "minScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
+        "radius": 0.0,
+        "rateOverTimeCout": 194,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "shape": 0,
+        "speed": 0.0,
+        "translate": {
+            "x": 1.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "plane",
+        "useTexture": "circle.png"
+    }
+}

@@ -1,5 +1,6 @@
 #include "Object3d.hlsli"
 #include "Light.hlsli"
+#include "ShadowMap.hlsli"
 
 struct Material {
 	float4 color;
@@ -22,31 +23,6 @@ struct PixelShaderOutput {
 	float4 motionVector : SV_TARGET1;
 };
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　spotLighting
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-float3 SpotLighting(ConstantBuffer<SpotLight> spotLight, float NdotL, float NdotH, float3 inputWorldPos, float3 materialColor, float3 textureColor) {
-	float3 spotLightDirectionOnSurface = normalize(inputWorldPos - gSpotLight.position);
-	// Falloff
-	float cosAngle = dot(spotLightDirectionOnSurface, gSpotLight.direction);
-	float falloffFactor = saturate((cosAngle - gSpotLight.cosAngle) / (gSpotLight.cosFalloffStart - gSpotLight.cosAngle));
-	// 距離による減衰
-	float distanceSpot = length(gSpotLight.position - inputWorldPos);
-	float attenuationFactor = pow(saturate(-distanceSpot / gSpotLight.distance + 1.0f), gSpotLight.decay);
-	// スポットライトのカラー
-	float3 spotColor = gSpotLight.color.rgb * gSpotLight.intensity * attenuationFactor * falloffFactor;
-	
-	// lambert
-	float3 spotDiffuse;
-	spotDiffuse = HalfLambert(NdotL, spotColor.rgb) * gMaterial.color.rgb * textureColor.rgb;
-	
-	// phong
-	float3 spotSpeculer = BlinnPhong(NdotH, spotColor.rgb, gMaterial.shininess) * textureColor.rgb;
-	
-	return (spotDiffuse + spotSpeculer) * spotLight.intensity;
-}
-
 float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
     
 	float2 currentNDC = currentCS.xy / currentCS.w;
@@ -58,20 +34,6 @@ float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
 	float2 diff = currentSS - prevSS;
 	
 	return diff;
-}
-
-float ShadowBias(float4 lightPos) {
-	float2 shadowUV = lightPos.xy * 0.5f + 0.5f;
-	shadowUV.y = 1.0f - shadowUV.y;
-	if (shadowUV.x < 0 || shadowUV.x > 1 || shadowUV.y < 0 || shadowUV.y > 1) {
-		return 0.0f; // 影外扱い
-	}
-
-	float shadowDepth = gShadowMap.Sample(gSamplerPoint, shadowUV).r;
-	float currentDepth = lightPos.z * 0.5f + 0.5f;
-
-	float bias = 0.001f;
-	return (currentDepth - bias > shadowDepth) ? 1.0f : 0.0f; // 影中なら1.0
 }
 
 //================================================================================================//
@@ -117,16 +79,8 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	// ライト空間での座標を計算
 	float4 direLightPos = mul(float4(input.worldPos.xyz, 1.0f), gDirectionalLight.lightViewProj);
 	direLightPos.xyz /= direLightPos.w;
-	float direLightShadow = ShadowBias(direLightPos);
+	float direLightShadow = DrawShadow(gShadowMap, gSamplerPoint, direLightPos);
 	float visibility = 1.0f - direLightShadow; 
-	
-	//float4 pointLightPos = mul(float4(input.worldPos.xyz, 1.0f), gPointLight.lightViewProj);
-	//pointLightPos.xyz /= pointLightPos.w;
-	//float pointLightShadow = ShadowBias(pointLightPos);
-	
-	//float4 spotLightPos = mul(float4(input.worldPos.xyz, 1.0f), gSpotLight.lightViewProj);
-	//spotLightPos.xyz /= spotLightPos.w;
-	//float spotLightShadow = ShadowBias(spotLightPos);
 	
 	// -------------------------------------------------
 	// ↓ directional
@@ -144,7 +98,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	// -------------------------------------------------
 	// ↓ spotLight
 	// -------------------------------------------------
-	float3 spotLight = SpotLighting(gSpotLight, NdotL, NdotH, input.worldPos.xyz, gMaterial.color.rgb, textureColor.rgb);
+	float3 spotLight = SpotLighting(gSpotLight, NdotL, NdotH, gMaterial.shininess, input.worldPos.xyz, gMaterial.color.rgb, textureColor.rgb);
 
 	// -------------------------------------------------
 	// ↓ limLight

@@ -24,11 +24,6 @@ public:
 		float shininess;
 	};
 
-	struct SpriteData {
-		Matrix4x4 uvTransform;
-		Vector4 color;
-	};
-
 public:
 
 	Material();

@@ -1,8 +1,10 @@
 #include "PlayerBullet.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 PlayerBullet::~PlayerBullet() {
 	BaseBullet::Finalize();
+	ParticleManager::GetInstance()->DeleteParticles(trail_);
 }
 
 void PlayerBullet::Init() {
@@ -15,6 +17,13 @@ void PlayerBullet::Init() {
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 
 	type_ = BulletType::NORMAL;
+
+	trail_ = ParticleManager::GetInstance()->CrateParticle("BulletTrail");
+	trail_->SetParent(transform_->GetWorldMatrix());
+	trail_->SetIsStop(false);
+
+	object_->SetIsRendering(false);
+
 }
 
 void PlayerBullet::Update() {
