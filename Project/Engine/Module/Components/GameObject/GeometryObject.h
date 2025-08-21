@@ -53,8 +53,8 @@ public:
 	Mesh* GetMesh() { return mesh_.get(); }
 	Material* GetMaterial() { return material_.get(); }
 
-	void SetUseTexture(const std::string& name) { material_->SetUseTexture(name); }
-	const std::string& GetUseTexture() const { return material_->GetUseTexture(); }
+	void SetUseTexture(const std::string& name) { material_->SetAlbedoTexture(name); }
+	const std::string& GetUseTexture() const { return material_->GetAlbedoTexture(); }
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 

@@ -7,8 +7,11 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Module/Components/GameObject/Model.h"
+#include "Engine/Module/Components/Materials/BaseMaterial.h"
+#include "Engine/Module/Components/Materials/MaterialStructures.h"
 
-class PBRMaterial {
+class PBRMaterial :
+	public BaseMaterial {
 public:
 
 	struct PBRMaterialData {
@@ -28,33 +31,23 @@ public:
 	PBRMaterial();
 	~PBRMaterial();
 
-	void Finalize();
-	void Init(ID3D12Device* device);
-	void Update();
-	void Draw(ID3D12GraphicsCommandList* commandList) const;
+	void Init() override;
 
-	void Debug_Gui();
+	void Update() override;
 
-	void LoadMaterial(const std::string& directoryPath, const std::string& fileName);
+	void SetCommand(ID3D12GraphicsCommandList* commandList) override;
 
-	const std::string GetUseTexture() const { return materials_.textureFilePath; }
+	void Debug_Gui() override;
+
+	void SetMaterialData(ModelMaterialData materialData) override;
+
+public:
 
 	void SetColor(const Vector4& color) { pbrMaterial_->color = color; }
 
-	void SetMaterialData(Model::ModelMaterialData materialData);
-
-	void SetUvScale(const Vector3& scale) { uvScale_ = scale; };
-	void SetUvTransition(const Vector3& transition) { uvTranslation_ = transition; };
 
 private:
 
-	ComPtr<ID3D12Resource> materialBuffer_;
 	PBRMaterialData* pbrMaterial_;
-
-	Model::ModelMaterialData materials_;
-
-	Vector3 uvTranslation_;
-	Vector3 uvScale_;
-	Vector3 uvRotation_;
 };
 

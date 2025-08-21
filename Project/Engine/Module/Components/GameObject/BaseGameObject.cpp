@@ -1,6 +1,8 @@
 #include "BaseGameObject.h"
 #include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
+#include "Engine/Module/Components/Materials/Material.h"
+#include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 
@@ -76,12 +78,6 @@ void BaseGameObject::Update() {
 
 void BaseGameObject::UpdateMatrix() {
 	transform_->Update();
-#ifdef _DEBUG
-	// Debug軸の更新
-	if (objectAxis_ != nullptr) {
-		objectAxis_->Update(transform_->GetWorldMatrix());
-	}
-#endif
 
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
@@ -224,13 +220,19 @@ void BaseGameObject::SetPhysics() {
 // ↓　modelを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetObject(const std::string& objName) {
+void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) {
 	model_ = nullptr;
 	materials.clear();
 
-	model_ = ModelManager::GetModel(objName);
+	model_ = ModelManager::GetModel(_objName);
 	for (const auto& material : model_->GetMaterialData()) {
-		materials[material.first] = (Engine::CreateMaterial(material.second));
+		if (_type == MaterialType::NORMAL) {
+			materials[material.first] = std::make_unique<Material>();
+		} else if (_type == MaterialType::PBR) {
+			materials[material.first] = std::make_unique<PBRMaterial>();
+		}
+		materials[material.first]->Init();
+		materials[material.first]->SetMaterialData(material.second);
 	}
 }
 
@@ -278,18 +280,7 @@ void BaseGameObject::SetIsLighting(bool isLighting) {
 
 void BaseGameObject::SetTexture(const std::string& path) {
 	for (auto& material : materials) {
-		material.second->SetUseTexture(path);
-	}
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Debug
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseGameObject::Debug_Draw() {
-	// Debug表示
-	if (objectAxis_ != nullptr) {
-		objectAxis_->Draw();
+		material.second->SetAlbedoTexture(path);
 	}
 }
 
@@ -317,8 +308,6 @@ void BaseGameObject::Debug_Gui() {
 		}
 	}
 
-	Debug_Axis();
-
 	if (animetor_ != nullptr) {
 		if (ImGui::CollapsingHeader("Animator")) {
 			animetor_->Debug_Gui();
@@ -326,40 +315,6 @@ void BaseGameObject::Debug_Gui() {
 	}
 }
 
-void BaseGameObject::Debug_Axis() {
-	// debug姿勢表示のonoff
-	if (!isDebugAxis_) {
-		ImGui::Checkbox("debugAxis", &isDebugAxis_);
-
-		if (isDebugAxis_) {
-			SetObjectAxis();
-		}
-	} else {
-		ImGui::Checkbox("debugAxis", &isDebugAxis_);
-
-		if (!isDebugAxis_) {
-			SetObjectAxis(false);
-		}
-	}
-
-}
-
 void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	transform_->Manipulate(windowSize, imagePos);
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Objectの姿勢を可視化させる
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseGameObject::SetObjectAxis(bool isAxis) {
-	if (isAxis) {
-		objectAxis_ = std::make_unique<ObjectAxis>();
-		objectAxis_->Init();
-		isDebugAxis_ = true;
-	} else if (objectAxis_ != nullptr) {
-		objectAxis_->Finalize();
-		objectAxis_ = nullptr;
-		isDebugAxis_ = false;
-	}
 }

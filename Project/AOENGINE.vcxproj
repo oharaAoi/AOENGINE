@@ -282,7 +282,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp" />
-    <ClCompile Include="Engine\Module\Components\GameObject\ObjectAxis.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
@@ -398,6 +397,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
@@ -570,7 +570,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\Model.h" />
-    <ClInclude Include="Engine\Module\Components\GameObject\ObjectAxis.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\TestObject.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />

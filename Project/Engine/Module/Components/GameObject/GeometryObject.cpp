@@ -11,16 +11,16 @@
 #include "Engine/Module/Components/GameObject/Model.h"
 
 GeometryObject::~GeometryObject() {
-	material_->Finalize();
+	material_.reset();
 	transform_->Finalize();
 }
 
 void GeometryObject::Update() {
 	transform_->Update();
+	material_->Update();
 }
 
 void GeometryObject::Draw() const {
-
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 
@@ -29,7 +29,7 @@ void GeometryObject::Draw() const {
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	transform_->BindCommandList(commandList, index);
@@ -38,7 +38,7 @@ void GeometryObject::Draw() const {
 	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
-	std::string textureName = material_->GetUseTexture();
+	std::string textureName = material_->GetAlbedoTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 	
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
@@ -55,6 +55,7 @@ void GeometryObject::SetEditorWindow() {
 
 void GeometryObject::Init() {
 	mesh_ = std::make_unique<Mesh>();
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_ = std::make_unique<Material>();
+	material_->Init();
 	transform_ = Engine::CreateWorldTransform();
 }

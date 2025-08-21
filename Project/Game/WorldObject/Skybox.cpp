@@ -19,7 +19,8 @@ void Skybox::Init() {
 	}
 
 	// その他の作成
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_ = std::make_unique<Material>();
+	material_->Init();
 	transform_ = Engine::CreateWorldTransform();
 }
 
@@ -34,7 +35,7 @@ void Skybox::Draw() const {
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	transform_->BindCommandList(commandList, index);

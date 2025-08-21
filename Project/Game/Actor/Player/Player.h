@@ -2,6 +2,7 @@
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector2.h"
+#include <Module/Components/Collider/SphereCollider.h>
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"

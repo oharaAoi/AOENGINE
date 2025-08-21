@@ -8,6 +8,7 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 
 class PulseArmor :
 	public ISceneObject {

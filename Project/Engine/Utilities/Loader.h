@@ -2,11 +2,10 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <sstream>
-#include <cassert>
 #include <unordered_map>
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
+#include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
 #include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/System/Manager/TextureManager.h"
@@ -32,7 +31,7 @@ std::vector<std::shared_ptr<Mesh>>  LoadMesh(const std::string& directoryPath, c
 /// <param name="fileName"></param>
 /// <param name="device"></param>
 /// <returns></returns>
-std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
+std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterial(const std::string& directoryPath, const std::string& fileName);
 
 /// <summary>
 /// materialを構成する情報の読み込み
@@ -40,7 +39,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 /// <param name="directoryPath"></param>
 /// <param name="fileName"></param>
 /// <returns></returns>
-std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName);
+std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName);
 
 /// <summary>
 /// mtlファイルを読み込む

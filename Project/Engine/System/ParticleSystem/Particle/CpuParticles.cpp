@@ -13,7 +13,7 @@ void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	shape_->Set<PlaneGeometry>();
 	
 	emitter_.FromJson(JsonItems::GetData(kGroupName, name_));
-	shape_->GetMaterial()->SetUseTexture(emitter_.useTexture);
+	shape_->GetMaterial()->SetAlbedoTexture(emitter_.useTexture);
 
 	emitAccumulator_ = 0.0f;
 
@@ -211,7 +211,7 @@ void CpuParticles::Debug_Gui() {
 		ImGui::Text("Particle Parameters");
 		shape_->GetMaterial()->Debug_Gui();
 	}
-	emitter_.useTexture = shape_->GetMaterial()->GetUseTexture();
+	emitter_.useTexture = shape_->GetMaterial()->GetAlbedoTexture();
 
 	if (ImGui::Button("Save")) {
 		JsonItems::Save(kGroupName, emitter_.ToJson(name_));

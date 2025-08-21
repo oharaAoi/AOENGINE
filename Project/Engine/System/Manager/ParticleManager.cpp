@@ -178,7 +178,7 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 									   newParticles->GetIsAddBlend())
 	);
 
-	newParticles->GetShareMaterial()->SetUseTexture(newParticles->GetUseTexture());
+	newParticles->GetShareMaterial()->SetAlbedoTexture(newParticles->GetUseTexture());
 
 	if (!particlesMap_.contains(particlesFile)) {
 		particlesMap_.emplace(particlesFile, ParticleManager::ParticlesData());

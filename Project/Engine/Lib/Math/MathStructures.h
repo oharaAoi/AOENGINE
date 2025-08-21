@@ -7,9 +7,9 @@
 /// 拡縮、回転、移動
 /// </summary>
 struct SRT {
-	Vector3 scale;
-	Vector3 rotate;
-	Vector3 translate;
+	Vector3 scale = CVector3::UNIT;
+	Vector3 rotate = CVector3::ZERO;
+	Vector3 translate = CVector3::ZERO;
 
 	Matrix4x4 MakeAffine();
 };

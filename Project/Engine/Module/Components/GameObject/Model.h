@@ -8,6 +8,8 @@
 #include <assimp/postprocess.h>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
+#include "Engine/Module/Components/Materials/MaterialStructures.h"
+#include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/ViewProjection.h"
@@ -36,14 +38,6 @@ public:
 		NodeAnimationData animationsData;	 // ノードに関するアニメーション
 	};
 
-	struct ModelMaterialData {
-		Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		int32_t enableLighting = 1;
-		Matrix4x4 uvTransform = Matrix4x4::MakeUnit();
-		float shininess = 1.0f;
-		std::string textureFilePath = "white.png"; // 使用するtextureのパス
-	};
-
 public:
 
 	Model();
@@ -54,12 +48,12 @@ public:
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
+			  const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 	
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
+			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 
 	void Debug_Gui(const std::string& name);
 
@@ -70,14 +64,6 @@ public:
 	/// <returns></returns>
 	Node ReadNode(aiNode* node, const aiScene* scene);
 
-	/// <summary>
-	/// assimpを使用してモデルファイルをを読む
-	/// </summary>
-	/// <param name="directoryPath"></param>
-	/// <param name="fileName"></param>
-	/// <param name="device"></param>
-	//void LoadObj(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device);
-
 public:
 
 	const std::string& GetRootNodeName() const { return rootNode_.name; }
@@ -86,7 +72,7 @@ public:
 
 	const std::map<std::string, JointWeightData>& GetSkinClustersData(uint32_t index) { return skinClusterArray_[index]->GetSkinClustersData(); }
 
-	std::unordered_map<std::string, Model::ModelMaterialData>& GetMaterialData() { return materialData_; }
+	std::unordered_map<std::string, ModelMaterialData>& GetMaterialData() { return materialData_; }
 
 	Mesh* GetMesh(const uint32_t& index);
 	size_t GetMeshsNum() const { return meshArray_.size(); }
@@ -98,7 +84,7 @@ private:
 	// 頂点バッファやインデックスバッファを持つ
 	std::vector<std::shared_ptr<Mesh>> meshArray_;
 	// materialの情報
-	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
+	std::unordered_map<std::string, ModelMaterialData> materialData_;
 	// skinningのデータ
 	std::vector<std::unique_ptr<SkinCluster>> skinClusterArray_;
 	// ノード

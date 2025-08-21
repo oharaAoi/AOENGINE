@@ -7,7 +7,7 @@ HitExplode::~HitExplode() {
 }
 
 void HitExplode::Finalize() {
-	material_->Finalize();;
+	material_.reset();;
 	worldTransform_->Finalize();
 }
 
@@ -26,12 +26,13 @@ void HitExplode::Init() {
 	}
 
 	// その他の作成
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_ = std::make_unique<Material>();
+	material_->Init();
 	worldTransform_ = Engine::CreateWorldTransform();
 	worldTransform_->SetScale(Vector3(7.0f, 7.0f, 7.0f));
 	worldTransform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::UP);
 	
-	material_->SetUseTexture("image.png");
+	material_->SetAlbedoTexture("image.png");
 
 	Vector2 uvScale = Vector2(1.0f / columns, 1.0f / rows);
 	material_->SetUvScale(Vector3(uvScale.x, uvScale.y, 0.1f));
@@ -63,7 +64,7 @@ void HitExplode::Update() {
 	);
 
 	
-	material_->SetUvTranslation(Vector3(uvOffset.x, uvOffset.y, 0.0f));
+	material_->SetUvTranslate(Vector3(uvOffset.x, uvOffset.y, 0.0f));
 
 	Vector3 directionToCamera = worldTransform_->srt_.translate - Render::GetEyePos();
 	Quaternion lookRotation = Quaternion::LookRotation(directionToCamera);
@@ -94,7 +95,7 @@ void HitExplode::Draw() const {
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
@@ -104,7 +105,7 @@ void HitExplode::Draw() const {
 	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
 	index = pso->GetRootSignatureIndex("gNoiseTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "FireNoize.png", index);
 
@@ -114,7 +115,7 @@ void HitExplode::Draw() const {
 void HitExplode::Set(const Vector3& pos, const Vector4& color, const std::string& useTexture) {
 	material_->SetColor(color);
 	worldTransform_->srt_.translate = pos;
-	material_->SetUseTexture(useTexture);
+	material_->SetAlbedoTexture(useTexture);
 }
 
 void HitExplode::Debug_Gui() {

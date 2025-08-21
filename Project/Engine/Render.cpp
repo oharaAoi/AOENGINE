@@ -103,7 +103,8 @@ void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
+void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, 
+					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
 	UINT index = 0;
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
@@ -114,16 +115,16 @@ void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransf
 
 void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
-					   const std::unordered_map<std::string, std::unique_ptr<Material>>& materials) {
+					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->Draw(pipeline, commandList_);
 
 	UINT index = 0;
 	std::string useMaterial = mesh->GetUseMaterial();
-	const Material* material = materials.at(useMaterial).get();
+	BaseMaterial* material = materials.at(useMaterial).get();
 	commandList_->IASetVertexBuffers(0, 1, &vbv);
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
 	index = pipeline->GetRootSignatureIndex("gMaterial");
-	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAdress());
+	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
 	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
@@ -131,7 +132,7 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
 	viewProjection_->BindCommandListPrev(commandList_, index);
 
-	std::string textureName = material->GetUseTexture();
+	std::string textureName = material->GetAlbedoTexture();
 	index = pipeline->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 
@@ -141,13 +142,13 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform) {
+void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform) {
 	lightGroup_->Draw(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
 
 	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
-	commandList_->SetGraphicsRootConstantBufferView(index, _material->GetBufferAdress());
+	commandList_->SetGraphicsRootConstantBufferView(index, _material->GetBufferAddress());
 
 	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	_transform->BindCommandList(commandList_, index);
@@ -156,7 +157,7 @@ void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Materia
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
 	viewProjection_->BindCommandListPrev(commandList_, index);
 
-	std::string textureName = _material->GetUseTexture();
+	std::string textureName = _material->GetAlbedoTexture();
 	index = pipeline->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");

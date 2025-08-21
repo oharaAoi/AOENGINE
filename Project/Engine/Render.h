@@ -6,7 +6,7 @@
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/GameObject/Model.h"
-#include "Engine/Module/Components/Materials/Material.h"
+#include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 #include "Engine/Render/ShadowMap.h"
 
@@ -55,12 +55,12 @@ public:
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
 	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
-						  const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
+						  const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 
 	static void DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
-						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<Material>>& materials);
+						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 
-	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, Material* _material, const WorldTransform* _transform);
+	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform);
 
 	/// <summary>
 	/// 線の描画

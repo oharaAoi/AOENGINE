@@ -3,94 +3,52 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Utilities/Loader.h"
-
-Material::Material() {
-}
+#include "Engine/Core/GraphicsContext.h"	
 
 Material::~Material() {
-	Finalize();
+	cBuffer_.Reset();
 }
 
-void Material::Finalize() {
-	materialBuffer_.Reset();
-	material_ = nullptr;
-}
+void Material::Init() {
+	GraphicsContext* ctx = GraphicsContext::GetInstance();
 
-void Material::Init(ID3D12Device* device, const Model::ModelMaterialData& materialData) {
 	// ---------------------------------------------------------------
 	// ↓Materialの設定
 	// ---------------------------------------------------------------
-	materialBuffer_ = CreateBufferResource(device, sizeof(MaterialData));
-	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
-	// 色を決める
-	SetMaterialData(materialData);
+	cBuffer_ = CreateBufferResource(ctx->GetDevice(), sizeof(MaterialData));
+	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&material_));
 
-	uvTranslation_ = { 0,0,0 };
-	uvScale_ = { 1,1,1 };
-	uvRotation_ = { 0,0,0 };
+	uvTransform_.scale = CVector3::UNIT;
+	uvTransform_.rotate = CVector3::ZERO;
+	uvTransform_.translate = CVector3::ZERO;
+
+	color_ = Vector4(1, 1, 1, 1);
+	material_->enableLighting = 1;
+	material_->color = color_;
+	material_->shininess = 1.0f;
+	material_->uvTransform = uvTransform_.MakeAffine();
 }
 
 void Material::Update() {
-	material_->uvTransform = SRT(uvScale_, uvRotation_, uvTranslation_).MakeAffine();
+	material_->color = color_;
+	material_->uvTransform = uvTransform_.MakeAffine();
 }
 
-void Material::Draw(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
+void Material::SetCommand(ID3D12GraphicsCommandList* commandList) {
+	commandList->SetGraphicsRootConstantBufferView(0, cBuffer_->GetGPUVirtualAddress());
 }
 
 void Material::Debug_Gui() {
 
-	if (ImGui::CollapsingHeader("Material")) {
-		if (ImGui::TreeNode("uvTramsform")) {
-			if (ImGui::TreeNode("scale")) {
-				ImGui::DragFloat4("uvScale", &uvScale_.x, 0.01f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("rotation")) {
-				ImGui::DragFloat4("uvRotation", &uvRotation_.x, 0.01f);
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("translation")) {
-				ImGui::DragFloat4("uvTranslation", &uvTranslation_.x, 0.01f);
-				ImGui::TreePop();
-			}
-			ImGui::TreePop();
-		}
+	Debug_UV();
+	// Textureを変更する
+	SelectTexture();
+	// 色を変更する
+	ImGui::Separator();
+	ImGui::BulletText("Color");
+	ImGui::ColorEdit4("color", &color_.x);
+	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 
-		// Textureを変更する
-		SelectTexture();
-
-		// 色を変更する
-		ImGui::Separator();
-		ImGui::BulletText("Color");
-		ImGui::ColorEdit4("color", &material_->color.x);
-		ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
-	}
-
-	//IGFD::FileDialogConfig config;
-	//config.path = "."; // 初期フォルダ
-	//if (ImGui::Button("画像を選択")) {
-	//	// 拡張子フィルタ：.png のみ
-	//	ImGuiFileDialog::Instance()->OpenDialog(
-	//		"ChoosePngFile",
-	//		"PNG画像を選択",
-	//		".png",
-	//		config
-	//	);
-	//}
-
-	//// ダイアログ表示・処理
-	//if (ImGuiFileDialog::Instance()->Display("ChoosePngFile")) {
-	//	if (ImGuiFileDialog::Instance()->IsOk()) {
-	//		std::string selectedFile = ImGuiFileDialog::Instance()->GetFilePathName();
-	//		ImGui::Text(selectedFile.c_str());
-	//		// selectedFile に .png ファイルのパスが入っている
-	//		// ここで画像の読み込み処理などが可能
-	//	}
-	//	ImGuiFileDialog::Instance()->Close();
-	//}
-
-	material_->uvTransform = SRT(uvScale_, uvRotation_, uvTranslation_).MakeAffine();
 }
 void Material::SelectTexture() {
 	TextureManager* textureManager = TextureManager::GetInstance();
@@ -103,11 +61,11 @@ void Material::SelectTexture() {
 	// -------------------------------------------------
 	// ↓ 現在のTextureのViewを表示
 	// -------------------------------------------------
-	auto currentHandle = textureManager->GetDxHeapHandles(materialsData_.textureFilePath);
+	auto currentHandle = textureManager->GetDxHeapHandles(textureName_);
 	ImTextureID currentTexID = (ImTextureID)(intptr_t)(currentHandle.handleGPU.ptr);
 	ImGui::SetNextWindowBgAlpha(0.85f);
 	ImGui::Image(currentTexID, ImVec2(128, 128));
-	
+
 	// -------------------------------------------------
 	// ↓ 選択できるTextureのViewｗを表示
 	// -------------------------------------------------
@@ -115,7 +73,7 @@ void Material::SelectTexture() {
 		ImGui::Text(selectedFilename.c_str());
 		ImGui::SameLine();
 		if (ImGui::Button("OK")) {
-			SetUseTexture(selectedFilename.c_str());
+			SetAlbedoTexture(selectedFilename.c_str());
 		}
 		// ListBox を手動で構築（ListBoxHeader + Selectable）
 		if (ImGui::BeginListBox("TextureList")) {
@@ -160,16 +118,10 @@ void Material::SelectTexture() {
 
 }
 
-void Material::SetUseTexture(const std::string& name) {
-	materialsData_.textureFilePath = name;
-}
-
-void Material::SetMaterialData(Model::ModelMaterialData materialData) {
-	materialsData_ = materialData;
-	
+void Material::SetMaterialData(ModelMaterialData materialData) {
 	material_->color = materialData.color;
 	material_->enableLighting = true;
 	material_->uvTransform = Matrix4x4::MakeUnit();
 	material_->shininess = 50;
-	materialsData_.textureFilePath = materialData.textureFilePath;
+	textureName_ = materialData.textureFilePath;
 }

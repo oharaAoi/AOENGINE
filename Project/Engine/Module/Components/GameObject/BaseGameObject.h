@@ -8,17 +8,13 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
+#include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/GameObject/ObjectAxis.h"
 #include "Engine/Module/Components/Animation/Animator.h"
 
 #include "Engine/Module/Components/Collider/ICollider.h"
-#include "Engine/Module/Components/Collider/SphereCollider.h"
-#include "Engine/Module/Components/Collider/BoxCollider.h"
-
 #include "Engine/Module/Components/Physics/Rigidbody.h"
-#include <Module/Components/Materials/Material.h>
 
 class BaseGameObject :
 	public ISceneObject {
@@ -39,19 +35,13 @@ public:
 
 public:
 
-	void Debug_Draw();
-
 	void Debug_Gui() override;
-
-	void Debug_Axis();
 
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
 public:
 
-	void SetObjectAxis(bool isAxis = true);
-
-	void SetObject(const std::string& objName);
+	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::NORMAL);
 
 	void SetParent(BaseGameObject* parent);
 
@@ -103,7 +93,7 @@ public:
 protected:
 
 	Model* model_ = nullptr;
-	std::unordered_map<std::string, std::unique_ptr<Material>> materials;	// 後で変えたい
+	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;	// 後で変えたい
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;
@@ -122,10 +112,6 @@ protected:
 
 	// 他クラス情報
 	BaseGameObject* pParentObj_;
-
-	bool isDebugAxis_;
-
-	std::unique_ptr<ObjectAxis> objectAxis_ = nullptr; // objectの回転を可視化したもの
 
 	bool isShadow_ = true;
 };

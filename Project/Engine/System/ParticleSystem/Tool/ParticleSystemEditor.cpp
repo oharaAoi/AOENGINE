@@ -270,7 +270,7 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 									   newParticle->GetIsAddBlend())
 	);
 
-	newParticle->GetShareMaterial()->SetUseTexture(newParticle->GetUseTexture());
+	newParticle->GetShareMaterial()->SetAlbedoTexture(newParticle->GetUseTexture());
 	if (!particlesMap_.contains(_name)) {
 		particlesMap_.emplace(_name, ParticleSystemEditor::ParticlesData());
 	}

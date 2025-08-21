@@ -18,11 +18,12 @@ void JetEngineBurn::Init() {
 	//}
 
 	// その他の作成
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_ = std::make_unique<Material>();
+	material_->Init();
 	worldTransform_ = Engine::CreateWorldTransform();
 	worldTransform_->SetScale(Vector3(0.1f, 10.0f, 0.1f));
 
-	material_->SetUseTexture("gradationLine.png");
+	material_->SetAlbedoTexture("gradationLine.png");
 }
 
 void JetEngineBurn::Update() {
@@ -38,7 +39,7 @@ void JetEngineBurn::Draw() const {
 
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
@@ -46,7 +47,7 @@ void JetEngineBurn::Draw() const {
 	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
 	index = pso->GetRootSignatureIndex("gNoiseTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "white.png", index);
 

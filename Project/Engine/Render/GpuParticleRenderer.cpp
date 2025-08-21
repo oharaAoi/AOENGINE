@@ -30,10 +30,11 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	// meshの作成
 	shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();
-	shape_->GetMaterial()->SetUseTexture("white.png");
+	shape_->GetMaterial()->SetAlbedoTexture("white.png");
 
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
-	material_->SetUseTexture("circle.png");
+	material_ = std::make_unique<Material>();
+	material_->Init();
+	material_->SetAlbedoTexture("circle.png");
 
 	// 初期化コマンドの実行
 	Engine::SetPipelineCS("GpuParticleInit.json");
@@ -95,11 +96,11 @@ void GpuParticleRenderer::Draw() const {
 	commandList->IASetIndexBuffer(&shape_->GetMesh()->GetIBV());
 
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAdress());
+	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 	index = pso->GetRootSignatureIndex("gParticles");
 	commandList->SetGraphicsRootDescriptorTable(index, particleResource_->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gTexture");
-	std::string textureName = material_->GetUseTexture();
+	std::string textureName = material_->GetAlbedoTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 	index = pso->GetRootSignatureIndex("gPerView");
 	commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());

@@ -141,13 +141,13 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 // ↓　MaterialのLoad
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(const std::string& directoryPath, const std::string& fileName, ID3D12Device* device) {
+std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterial(const std::string& directoryPath, const std::string& fileName) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
-	std::unordered_map<std::string, Model::ModelMaterialData> materialData;
+	std::unordered_map<std::string, ModelMaterialData> materialData;
 	std::vector<std::string> materials;
 	// -------------------------------------------------
 	// ↓ materialの解析
@@ -167,7 +167,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);
 			materials.push_back(materialName.C_Str());
-			materialData[materialName.C_Str()] = Model::ModelMaterialData();
+			materialData[materialName.C_Str()] = ModelMaterialData();
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
 			TextureManager::GetInstance()->StackTexture(directoryPath, textureFilePath.C_Str());
@@ -177,19 +177,20 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterialData(cons
 	std::unordered_map<std::string, std::unique_ptr<Material>> materialResult;// 結果
 	for (uint32_t oi = 0; oi < materials.size(); oi++) {
 		materialResult[materials[oi]] = std::make_unique<Material>();
-		materialResult[materials[oi]]->Init(device, materialData[materials[oi]]);
+		materialResult[materials[oi]]->Init();
+		materialResult[materials[oi]]->SetMaterialData(materialData[materials[oi]]);
 	}
 
 	return materialResult;
 }
 
-std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName) {
+std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
-	std::unordered_map<std::string, Model::ModelMaterialData> materialData;
+	std::unordered_map<std::string, ModelMaterialData> materialData;
 
 	// -------------------------------------------------
 	// ↓ materialの解析
@@ -207,7 +208,7 @@ std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const
 			materialName = "not set MaterialName" + std::to_string(materialIndex);
 		}
 
-		materialData[materialName.C_Str()] = Model::ModelMaterialData();
+		materialData[materialName.C_Str()] = ModelMaterialData();
 		if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
 			aiString textureFilePath;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);			
@@ -230,7 +231,7 @@ std::unordered_map<std::string, Model::ModelMaterialData> LoadMaterialData(const
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale) {
-	std::unordered_map<std::string, Model::ModelMaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
+	std::unordered_map<std::string, ModelMaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
 
 	std::string line;// ファイルから読み込んだ1行を格納する物
 	std::string materialName; // newmtlの名前

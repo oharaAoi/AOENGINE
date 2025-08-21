@@ -29,9 +29,10 @@ void PulseArmor::Init() {
 	}
 
 	// material/worldTransformに関する設定
-	material_ = Engine::CreateMaterial(Model::ModelMaterialData());
+	material_ = std::make_unique<Material>();
+	material_->Init();
 	worldTransform_ = Engine::CreateWorldTransform();
-	material_->SetUseTexture(armorParam_.baseTexture);
+	material_->SetAlbedoTexture(armorParam_.baseTexture);
 
 	// dissolvebufferに関する設定
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
@@ -116,7 +117,7 @@ void PulseArmor::Draw() const {
 	index = pso->GetRootSignatureIndex("gSetting");
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetUseTexture(), index);
+	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
 	index = pso->GetRootSignatureIndex("gMaskTexture1");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[0], index);
 	index = pso->GetRootSignatureIndex("gMaskTexture2");
@@ -175,7 +176,7 @@ void PulseArmor::Debug_Gui() {
 		if (ImGui::Button("Save")) {
 			armorParam_.color = setting_->color;
 			armorParam_.edgeColor = setting_->edgeColor;
-			armorParam_.baseTexture = material_->GetUseTexture();
+			armorParam_.baseTexture = material_->GetAlbedoTexture();
 			armorParam_.noiseTexture1 = noiseTexture_[0];
 			armorParam_.noiseTexture2 = noiseTexture_[1];
 			armorParam_.noiseTexture3 = noiseTexture_[2];
@@ -202,7 +203,7 @@ void PulseArmor::SetParameter() {
 	noiseTexture_[1] = armorParam_.noiseTexture2;
 	noiseTexture_[2] = armorParam_.noiseTexture3;
 
-	material_->SetUseTexture(armorParam_.baseTexture);
+	material_->SetAlbedoTexture(armorParam_.baseTexture);
 }
 
 void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {

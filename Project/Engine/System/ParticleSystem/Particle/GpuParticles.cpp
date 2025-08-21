@@ -72,12 +72,14 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	perFrameBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
-	// mesh・Material情報
+	// mesh・Material情報o
 	meshArray_ = MeshManager::GetInstance()->GetMeshes("sphere.obj");
 	materialData_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
 
 	for (const auto& material : materialData_) {
-		materials_.emplace_back(Engine::CreateMaterial(material.second));
+		auto& newMaterial = materials_.emplace_back(std::make_unique<Material>());
+		newMaterial->Init();
+		newMaterial->SetMaterialData(material.second);
 	}
 
 	// -------------------------------------------------
@@ -113,11 +115,11 @@ void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		commandList->IASetVertexBuffers(0, 1, &meshArray_[oi]->GetVBV());
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
-		commandList->SetGraphicsRootConstantBufferView(0, materials_[oi]->GetBufferAdress());
+		commandList->SetGraphicsRootConstantBufferView(0, materials_[oi]->GetBufferAddress());
 		commandList->SetGraphicsRootDescriptorTable(1, particleResource_->GetSRV().handleGPU);
 		commandList->SetGraphicsRootConstantBufferView(3, perViewBuffer_->GetGPUVirtualAddress());
 
-		std::string textureName = materials_[oi]->GetUseTexture();
+		std::string textureName = materials_[oi]->GetAlbedoTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);

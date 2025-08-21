@@ -19,7 +19,6 @@ void BaseParticles::Init(const std::string& name) {
 		shape_ = MeshManager::GetInstance()->GetMesh(emitter_.useMesh);
 	}
 	
-
 	shape_->SetUseMaterial(emitter_.useTexture);
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
@@ -204,8 +203,8 @@ void BaseParticles::Debug_Gui() {
 	ImGui::Text("Particle Parameters");
 	shareMaterial_->Debug_Gui();
 	
-	emitter_.useTexture = shareMaterial_->GetUseTexture();
-	shareMaterial_->SetUseTexture(emitter_.useTexture);
+	emitter_.useTexture = shareMaterial_->GetAlbedoTexture();
+	shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
 
 	meshName_ = MeshManager::GetInstance()->SelectMeshName();
 	if (ImGui::Button("ChangeMesh")) {

@@ -130,7 +130,6 @@
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp" />
-    <ClCompile Include="Engine\Module\Components\GameObject\ObjectAxis.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
@@ -415,7 +414,6 @@
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\Model.h" />
-    <ClInclude Include="Engine\Module\Components\GameObject\ObjectAxis.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\TestObject.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
@@ -635,6 +633,7 @@
     <ClInclude Include="Externals\ImGui\ImGuizmo.h" />
     <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

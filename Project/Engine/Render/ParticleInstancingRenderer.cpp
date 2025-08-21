@@ -70,12 +70,12 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
 
 		UINT index = pso->GetRootSignatureIndex("gMaterial");
-		commandList->SetGraphicsRootConstantBufferView(index, information.second.materials->GetBufferAdress());
+		commandList->SetGraphicsRootConstantBufferView(index, information.second.materials->GetBufferAddress());
 		index = pso->GetRootSignatureIndex("gParticles");
 		commandList->SetGraphicsRootDescriptorTable(index, information.second.srvHandle_.handleGPU);
 
 		index = pso->GetRootSignatureIndex("gTexture");
-		std::string textureName = information.second.materials->GetUseTexture();
+		std::string textureName = information.second.materials->GetAlbedoTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		index = pso->GetRootSignatureIndex("gPerView");
 		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
@@ -104,7 +104,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	Information particles;
 	particles.pMesh = _pMesh;
 	particles.materials = std::make_shared<Material>();
-	particles.materials->Init(device, Model::ModelMaterialData());
+	particles.materials->Init();
 	particles.textureName = textureName;
 	
 	particles.particleResource_ = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);

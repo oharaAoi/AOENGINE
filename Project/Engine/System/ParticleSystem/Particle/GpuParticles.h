@@ -70,6 +70,6 @@ private:
 	std::vector<std::shared_ptr<Mesh>> meshArray_;
 	std::vector<std::unique_ptr<Material>> materials_;
 
-	std::unordered_map<std::string, Model::ModelMaterialData> materialData_;
+	std::unordered_map<std::string, ModelMaterialData> materialData_;
 };
 
