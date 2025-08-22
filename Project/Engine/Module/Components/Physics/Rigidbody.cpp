@@ -10,6 +10,7 @@ void Rigidbody::Init() {
 
 void Rigidbody::Update() {
 	moveForce_ = CVector3::ZERO;
+	pushbackForce_ = CVector3::ZERO;
 	// 重力の適応
 	if (isGravity_) {
 		gravityVelocity_ += gravityAccel_ * GameTimer::DeltaTime();
@@ -20,7 +21,7 @@ void Rigidbody::Update() {
 }
 
 void Rigidbody::SetPushbackForce(const Vector3& _force) {
-	pushbackForce_ = _force;
+	pushbackForce_ += _force;
 
 	if (isGravity_) {
 		if (pushbackForce_.y > 0.0f) {

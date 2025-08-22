@@ -339,6 +339,7 @@
     <ClCompile Include="Externals\ImGui\ImGuizmo.cpp" />
     <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
+    <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -634,6 +635,7 @@
     <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
+    <ClInclude Include="Engine\Render\RenderingCommands.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />
