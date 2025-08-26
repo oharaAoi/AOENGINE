@@ -260,6 +260,11 @@ Quaternion Render::GetCameraRotate() {
 	return cameraRotate_;
 }
 
+Matrix4x4 Render::GetBillBordMat() {
+	Matrix4x4 billMatrix = Render::GetCameraRotate().MakeMatrix();
+	return Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix);
+}
+
 const ViewProjection* Render::GetViewProjection() {
 	return viewProjection_.get();
 }

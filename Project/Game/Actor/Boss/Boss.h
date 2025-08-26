@@ -49,8 +49,7 @@ public:
 	void Finalize();
 	void Init();
 	void Update();
-	void Draw() const;
-
+	
 	void Debug_Gui() override;
 
 public:		// menber method

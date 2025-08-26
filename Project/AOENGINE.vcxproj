@@ -257,7 +257,6 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
-    <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
     <ClCompile Include="Game\Effects\HitExploade.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
@@ -1002,6 +1001,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Assets\HLSL\Light.hlsli" />
+    <None Include="Engine\Assets\HLSL\Material.hlsli" />
     <None Include="Engine\Assets\HLSL\MatrixMath.hlsli">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>

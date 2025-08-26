@@ -129,7 +129,7 @@ void BossActionAllRangeMissile::Shot() {
 void BossActionAllRangeMissile::LookPlayer() {
 	float t = taskTimer_ / lookTime_;
 	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotation_, t);
-	pTarget_->GetTransform()->SetQuaternion(lookRotation);
+	pTarget_->GetTransform()->SetRotate(lookRotation);
 
 	// 次の行動に遷移する
 	if (taskTimer_ > lookTime_) {

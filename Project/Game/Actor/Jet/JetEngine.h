@@ -18,8 +18,7 @@ public:
 	void Finalize();
 	void Init();
 	void Update();
-	void Draw() const;
-
+	
 	void Debug_Gui() override;
 
 	void JetIsStop();
@@ -41,8 +40,7 @@ private:
 	BaseParticles* jetBurn_;
 	BaseParticles* jetEnergyParticles_;
 
-	std::unique_ptr<GeometryObject> cylinder_;
-
-	std::unique_ptr<JetEngineBurn> jetEngineBurn_;
+	JetEngineBurn* jetEngineBurn_;
+	JetEngineBurn* jetEngineBurn_2;
 
 };

@@ -36,16 +36,22 @@ void GeometryObject::Draw() const {
 
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
 	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	std::string textureName = material_->GetAlbedoTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+
+	index = pso->GetRootSignatureIndex("gShadowMap");
+	commandList->SetGraphicsRootDescriptorTable(index, Render::GetShadowMap()->GetDeptSrvHandle().handleGPU);
 	
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
 
 void GeometryObject::Debug_Gui() {
+	transform_->Debug_Gui();
 	material_->Debug_Gui();
 }
 
@@ -54,6 +60,10 @@ void GeometryObject::SetEditorWindow() {
 }
 
 void GeometryObject::Init() {
+	mesh_.reset();
+	material_.reset();
+	transform_.reset();
+
 	mesh_ = std::make_unique<Mesh>();
 	material_ = std::make_unique<Material>();
 	material_->Init();

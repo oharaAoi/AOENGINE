@@ -1,11 +1,5 @@
 #include "Skybox.hlsli"
-
-struct Material {
-	float4 color;
-	int enableLighting;
-	float4x4 uvTransform;
-	float shininess; // 光沢度
-};
+#include "Material.hlsli"
 
 ConstantBuffer<Material> gMaterial : register(b0);
 TextureCube<float4> gTexture : register(t0);

@@ -1,11 +1,5 @@
 #include "Object3d.hlsli"
-
-struct Material {
-	float4 color;
-	int enableLighting;
-	float4x4 uvTransform;
-	float shininess; // 光沢度
-};
+#include "Material.hlsli"
 
 struct DirectionalLight {
 	float4 color;
@@ -153,7 +147,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
-	if (textureColor.a == 0.0) {
+	if (textureColor.a <= gMaterial.discardValue) {
 		discard;
 	}
 	
@@ -165,7 +159,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
 		output.color.rgb += environmentColor.rbg * 0.2f;
-		if (output.color.a == 0.0) {
+		if (output.color.a <= gMaterial.discardValue) {
 			discard;
 		}
 		return output;
@@ -217,7 +211,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a == 0.0) {
+	if (output.color.a <= gMaterial.discardValue) {
 		discard;
 	}
 	

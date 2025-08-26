@@ -26,5 +26,5 @@ void ViewProjection::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 }
 
 void ViewProjection::BindCommandListPrev(ID3D12GraphicsCommandList* commandList, UINT index) const {
-	commandList->SetGraphicsRootConstantBufferView(index, cBufferPrev_->GetGPUVirtualAddress());
+ 	commandList->SetGraphicsRootConstantBufferView(index, cBufferPrev_->GetGPUVirtualAddress());
 }

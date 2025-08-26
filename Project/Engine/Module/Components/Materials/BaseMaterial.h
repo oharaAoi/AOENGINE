@@ -34,9 +34,11 @@ public:
 
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
-	 
-	void SetAlpha(float _alpha) { color_.w = _alpha; };
+
 	void SetColor(const Vector4& _color) { color_ = _color; }
+	const Vector4 GetColor() const { return color_; }
+
+	void SetAlpha(float _alpha) { color_.w = _alpha; };
 	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
 
 protected:

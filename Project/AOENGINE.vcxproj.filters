@@ -253,7 +253,6 @@
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
-    <ClCompile Include="Game\Effects\EngineJetBurn.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\Effects\HitExploade.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
@@ -652,6 +651,7 @@
     <None Include="Engine\Assets\HLSL\Light.hlsli" />
     <None Include="Engine\Assets\HLSL\MatrixMath.hlsli" />
     <None Include="Engine\Assets\HLSL\ShadowMap.hlsli" />
+    <None Include="Engine\Assets\HLSL\Material.hlsli" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Externals\ImGui\LICENSE.txt" />

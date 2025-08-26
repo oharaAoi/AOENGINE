@@ -1,13 +1,7 @@
 #include "Object3d.hlsli"
 #include "Light.hlsli"
 #include "ShadowMap.hlsli"
-
-struct Material {
-	float4 color;
-	int enableLighting;
-	float4x4 uvTransform;
-	float shininess; // 光沢度
-};
+#include "Material.hlsli"
 
 ConstantBuffer<Material> gMaterial : register(b0);
 ConstantBuffer<DirectionalLight> gDirectionalLight : register(b1);
@@ -49,13 +43,13 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float2 mv = ComputeMotionVector(input.positionNDC, input.positionPrev);
 	output.motionVector = float4(abs(mv), 0, 1); // 正の値に変換して可視化
 	//output.motionVector = float4(1, 0, 0, 1);
-	if (textureColor.a <= 0.01f) {
+	if (textureColor.a <= gMaterial.discardValue) {
 		discard;
 	}
 	
 	if (gMaterial.enableLighting == 0) {
 		output.color = gMaterial.color * textureColor;
-		if (output.color.a <= 0.01f) {
+		if (output.color.a <= gMaterial.discardValue) {
 			discard;
 		}
 		return output; 
@@ -118,7 +112,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a <= 0.01f) {
+	if (output.color.a <= gMaterial.discardValue) {
 		discard;
 	}
 	

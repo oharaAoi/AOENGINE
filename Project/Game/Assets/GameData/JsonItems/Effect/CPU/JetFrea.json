@@ -1,17 +1,17 @@
 {
-    "JetBorn": {
+    "JetFrea": {
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "w": 1.0,
             "x": 1.0,
-            "y": 0.26360195875167847,
-            "z": 0.14418601989746094
+            "y": 1.0,
+            "z": 1.0
         },
         "damping": 0.0,
         "direction": {
             "x": 0.0,
-            "y": -1.0,
+            "y": 1.0,
             "z": 0.0
         },
         "duration": 5.0,
@@ -21,23 +21,23 @@
         "isBillBord": true,
         "isDirectionRotate": false,
         "isLifeOfAlpha": true,
-        "isLifeOfScale": false,
+        "isLifeOfScale": true,
         "isLoop": true,
         "isParticleAddBlend": true,
         "isScaleUp": false,
-        "lifeTime": 0.10000000149011612,
+        "lifeTime": 3.0,
         "maxScale": {
-            "x": 0.800000011920929,
-            "y": 0.800000011920929,
-            "z": 0.800000011920929
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
         },
         "minScale": {
-            "x": 0.5,
-            "y": 0.5,
-            "z": 0.5
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
         },
         "radius": 0.0,
-        "rateOverTimeCout": 80,
+        "rateOverTimeCout": 10,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
@@ -46,18 +46,18 @@
         },
         "rotateAngle": 0.0,
         "scaleUpScale": {
-            "x": 2.0,
-            "y": 2.0,
+            "x": 0.0,
+            "y": 0.0,
             "z": 0.0
         },
-        "shape": 1,
+        "shape": 0,
         "speed": 0.0,
         "translate": {
-            "x": -0.10000000149011612,
+            "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
         "useMesh": "plane",
-        "useTexture": "circle2 (2).png"
+        "useTexture": "renzeFrea.png"
     }
 }

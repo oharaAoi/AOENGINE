@@ -11,12 +11,13 @@
 #include "Engine/Module/Geometry/Polygon/CubeGeometry.h"
 #include "Engine/Module/Geometry/Polygon/RingGeometry.h"
 #include "Engine/Module/Geometry/Polygon/CylinderGeometry.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 
 /// <summary>
 /// Geometryの各形状をScene上に描画する際に使用するクラス
 /// </summary>
 class GeometryObject final 
-	: public AttributeGui {
+	: public ISceneObject {
 public:
 
 	GeometryObject() = default;
@@ -34,19 +35,18 @@ public:
 		GeometryFactory::GetInstance().Create<ShapePolicy>(mesh_, std::forward<Args>(args)...);
 	}
 
-	void Update();
-	void Draw() const;
+	void Init() override;
+
+	void Update() override;
+	void PostUpdate() override {};
+
+	void PreDraw() const override {};
+	void Draw() const override;
 
 	void Debug_Gui() override;
+	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
 
 	void SetEditorWindow();
-
-private:
-
-	/// <summary>
-	/// 初期化は共通して同じ
-	/// </summary>
-	void Init();
 
 public:
 

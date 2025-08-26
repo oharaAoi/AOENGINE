@@ -658,7 +658,7 @@
         },
         {
             "type": "MESH",
-            "name": "Field",
+            "name": "ground",
             "transform": {
                 "translation": [
                     0.0,
@@ -795,6 +795,26 @@
                 ]
             },
             "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "invisibleWall",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
             "collider_tag": "invisibleWall",
             "collisionFilter_tags": [
                 "player",
@@ -822,6 +842,26 @@
                 ]
             },
             "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "invisibleWall",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
             "collider_tag": "invisibleWall",
             "collisionFilter_tags": [
                 "player",
@@ -849,6 +889,26 @@
                 ]
             },
             "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "invisibleWall",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
             "collider_tag": "invisibleWall",
             "collisionFilter_tags": [
                 "player",
@@ -876,6 +936,26 @@
                 ]
             },
             "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "invisibleWall",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
             "collider_tag": "invisibleWall",
             "collisionFilter_tags": [
                 "player",

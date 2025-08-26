@@ -59,21 +59,19 @@ Quaternion Quaternion::AngleAxis(float angle, const Vector3& axis) {
 }
 
 Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) {
-	// 回転順序: Roll(Z) → Pitch(X) → Yaw(Y)
-	float cz = std::cos(euler.z * 0.5f);
-	float sz = std::sin(euler.z * 0.5f);
-	float cx = std::cos(euler.x * 0.5f);
-	float sx = std::sin(euler.x * 0.5f);
-	float cy = std::cos(euler.y * 0.5f);
+	float cy = std::cos(euler.y * 0.5f); // yaw
 	float sy = std::sin(euler.y * 0.5f);
+	float cp = std::cos(euler.x * 0.5f); // pitch
+	float sp = std::sin(euler.x * 0.5f);
+	float cr = std::cos(euler.z * 0.5f); // roll
+	float sr = std::sin(euler.z * 0.5f);
 
 	Quaternion q;
-	q.w = cx * cy * cz + sx * sy * sz;
-	q.x = sx * cy * cz - cx * sy * sz;
-	q.y = cx * sy * cz + sx * cy * sz;
-	q.z = cx * cy * sz - sx * sy * cz;
-
-	return q.Normalize();
+	q.w = cr * cp * cy + sr * sp * sy;
+	q.x = sr * cp * cy - cr * sp * sy;
+	q.y = cr * sp * cy + sr * cp * sy;
+	q.z = cr * cp * sy - sr * sp * cy;
+	return q;
 }
 
 Quaternion Quaternion::FromToRotation(const Vector3& fromDire, const Vector3& toDire) {
@@ -323,25 +321,24 @@ Vector3 Quaternion::MakeRight() const {
 }
 
 Vector3 Quaternion::ToEulerAngles() const {
-	Quaternion q = this->Normalize();
 	Vector3 euler;
 
-	// Roll (Z軸回転)
-	float sinr_cosp = 2.0f * (q.w * q.z + q.x * q.y);
-	float cosr_cosp = 1.0f - 2.0f * (q.z * q.z + q.x * q.x);
-	euler.z = std::atan2(sinr_cosp, cosr_cosp);
+	// pitch (x軸回転)
+	float sinr_cosp = 2.0f * (w * x + y * z);
+	float cosr_cosp = 1.0f - 2.0f * (x * x + y * y);
+	euler.x = std::atan2(sinr_cosp, cosr_cosp);
 
-	// Pitch (X軸回転)
-	float sinp = 2.0f * (q.w * q.x - q.y * q.z);
-	if (std::abs(sinp) >= 1.0f)
-		euler.x = std::copysign(kPI / 2.0f, sinp); // ±90度にクランプ
+	// yaw (y軸回転)
+	float sinp = 2.0f * (w * y - z * x);
+	if (std::fabs(sinp) >= 1)
+		euler.y = std::copysign(kPI / 2.0f, sinp); // クランプ
 	else
-		euler.x = std::asin(sinp);
+		euler.y = std::asin(sinp);
 
-	// Yaw (Y軸回転)
-	float siny_cosp = 2.0f * (q.w * q.y + q.z * q.x);
-	float cosy_cosp = 1.0f - 2.0f * (q.x * q.x + q.y * q.y);
-	euler.y = std::atan2(siny_cosp, cosy_cosp);
+	// roll (z軸回転)
+	float siny_cosp = 2.0f * (w * z + x * y);
+	float cosy_cosp = 1.0f - 2.0f * (y * y + z * z);
+	euler.z = std::atan2(siny_cosp, cosy_cosp);
 
 	return euler;
 }

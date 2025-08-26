@@ -172,6 +172,8 @@ void GameScene::Update() {
 
 	collisionManager_->CheckAllCollision();
 	gameCallBacksManager_->Update();
+
+	//sceneRenderer_->PostUpdate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

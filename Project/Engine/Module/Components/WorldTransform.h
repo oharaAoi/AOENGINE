@@ -50,7 +50,7 @@ public:
 	void SetMatrix(const Matrix4x4& mat);
 	void SetScale(const Vector3& scale) { srt_.scale = scale; }
 	void SetTranslate(const Vector3& translate) { srt_.translate = translate; }
-	void SetQuaternion(const Quaternion& quaternion) { srt_.rotate = quaternion; }
+	void SetRotate(const Quaternion& quaternion) { srt_.rotate = quaternion; }
 
 	void SetTranslationX(float x) { srt_.translate.x = x; }
 	void SetTranslationY(float y) { srt_.translate.y = y; }
@@ -69,6 +69,8 @@ public:
 	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 	const Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
+	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
+
 public:
 
 	QuaternionSRT srt_;
@@ -82,6 +84,7 @@ private:
 
 	Matrix4x4 worldMat_;
 	Vector3 guiEulerDeg_;
+	Quaternion moveQuaternion_;
 
 	const Matrix4x4* parentWorldMat_ = nullptr;
 	const Vector3* parentTranslate_ = nullptr;
@@ -94,5 +97,7 @@ private:
 
 	int id_;
 	static int nextId_;
+
+	bool isBillboard_;
 };
 

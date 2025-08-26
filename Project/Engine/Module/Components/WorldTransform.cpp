@@ -33,6 +33,9 @@ void WorldTransform::Init(ID3D12Device* device) {
 	srt_.rotate = Quaternion();
 	srt_.translate = { 0.0f, 0.0f, 0.0f };
 	worldMat_ = Matrix4x4::MakeUnit();
+
+	moveQuaternion_ = Quaternion();
+	isBillboard_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,6 +45,8 @@ void WorldTransform::Init(ID3D12Device* device) {
 void WorldTransform::Update(const Matrix4x4& mat) {
 	Vector3 worldTranslate = CVector3::ZERO;
 	Quaternion worldRotate = Quaternion();
+
+	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
 
 	data_->matWorldPrev = mat * Matrix4x4::MakeAffine(srt_.scale, srt_.rotate, preTranslate_ + temporaryTranslate_);
@@ -71,10 +76,14 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// ↓ world行列を生成
 	// -------------------------------------------------
 
-	srt_.rotate = worldRotate;
-	srt_.translate = worldTranslate;
+	Matrix4x4 scaleMat = srt_.scale.MakeScaleMat();
+	Matrix4x4 rotateMat = worldRotate.MakeMatrix();
+	if (isBillboard_) {
+		rotateMat = Multiply(rotateMat, Render::GetBillBordMat());
+	}
+	Matrix4x4 translateMat = Vector3(worldTranslate + temporaryTranslate_).MakeTranslateMat();
 
-	worldMat_ = mat * Matrix4x4::MakeAffine(srt_.scale, worldRotate, worldTranslate + temporaryTranslate_);
+	worldMat_ = mat * Multiply(Multiply(scaleMat, rotateMat), translateMat);
 	if (parentWorldMat_ != nullptr) {
 		worldMat_ = worldMat_ * *parentWorldMat_;
 	}
@@ -85,6 +94,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 
 	preTranslate_ = srt_.translate + temporaryTranslate_;
 	temporaryTranslate_ = CVector3::ZERO;
+	moveQuaternion_ = Quaternion();
 }
 
 void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) {
@@ -117,6 +127,13 @@ void WorldTransform::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Transform")) {
 		if (ImGui::TreeNode("scale")) {
 			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("rotate")) {
+			ImGui::DragFloat3("rotate", &srt_.rotate.x, 0.1f);
+			ImGui::DragFloat3("moveRotate", &moveQuaternion_.x, 0.001f);
+
 			ImGui::TreePop();
 		}
 

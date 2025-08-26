@@ -14,6 +14,7 @@ public:
 		float pad[3];
 		Matrix4x4 uvTransform;
 		float shininess;
+		float discardValue;
 	};
 
 public:
@@ -31,9 +32,9 @@ public:
 
 	void SetMaterialData(ModelMaterialData materialData) override;
 
-private:
+public:
 
-	void SelectTexture();
+	void SetDiscardValue(float _value) { material_->discardValue = _value; }
 
 private:
 

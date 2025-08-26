@@ -11,11 +11,11 @@ Floor::~Floor() {}
 void Floor::Init() {
 	SetName("Ground");
 
-	floor_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Field");
-	SceneRenderer::GetInstance()->SetRenderingQueue("Field", -100);
+	floor_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("ground");
+	SceneRenderer::GetInstance()->SetRenderingQueue("ground", -100);
 	transform_ = floor_->GetTransform();
 	
-	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Field");
+	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");
 	
 	ICollider* collider = floor_->GetCollider("ground");
 	collider->SetTarget(ColliderTags::Boss::own);
@@ -24,7 +24,6 @@ void Floor::Init() {
 	collider->SetTarget(ColliderTags::Player::leg);
 
 	//floor_->SetIsReflection(true);
-	floor_->SetColor(Vector4(0.5f, 0.5f, 0.5f, 1.0f));
 	floor_->SetIsShadow(false);
 
 	//SceneRenderer::GetInstance()->ChangeRenderingType("Object_Normal.json", floor_);

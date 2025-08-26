@@ -10,6 +10,7 @@
 
 class HitExplode :
 	public ISceneObject {
+
 public:
 
 	HitExplode() = default;

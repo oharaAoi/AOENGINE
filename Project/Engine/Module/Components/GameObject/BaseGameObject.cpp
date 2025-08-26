@@ -77,12 +77,12 @@ void BaseGameObject::Update() {
 }
 
 void BaseGameObject::UpdateMatrix() {
-	transform_->Update();
-
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
 	}
+
+	transform_->Update();
 
 	if (!colliders_.empty()) {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
@@ -110,6 +110,7 @@ void BaseGameObject::PostUpdate() {
 		}
 		transform_->Translate(rigidbody_->GetPushbackForce());
 	}
+	transform_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

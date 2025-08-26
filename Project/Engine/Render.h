@@ -118,6 +118,8 @@ public:
 	static void SetCameraRotate(const Quaternion& rotate);
 	static Quaternion GetCameraRotate();
 
+	static Matrix4x4 GetBillBordMat();
+
 	static const ViewProjection* GetViewProjection();
 
 	static void SetSkyboxTexture(const std::string& _name);

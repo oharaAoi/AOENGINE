@@ -21,29 +21,36 @@ void JetEngine::Init() {
 	object_->SetObject("jet.obj");
 
 	transform_ = object_->GetTransform();
-
 	transform_->srt_.translate = { 0.0f, 2.7f, -0.5f };
 	transform_->srt_.rotate = Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
 
 	// -------------------------------------
 	// effectの設定
-	ParticleManager* manager = ParticleManager::GetInstance();
-	jetBurn_ = manager->CrateParticle("JetBorn");
-	jetEnergyParticles_ = manager->CrateParticle("JetEnergyParticles");
+	// -------------------------------------
 
-	jetBurn_->SetParent(transform_->GetWorldMatrix());
-	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());
+	//ParticleManager* manager = ParticleManager::GetInstance();
+	/*jetBurn_ = manager->CrateParticle("JetBorn");
+	jetBurn_->SetParent(transform_->GetWorldMatrix());*/
 
-	cylinder_ = std::make_unique<GeometryObject>();
-	cylinder_->Set<SphereGeometry>(Vector2(10.0f, 0.5f), 32);
-	//cylinder_->GetMaterial()->SetIsLighting(false);
-	cylinder_->SetEditorWindow();
+	/*jetEnergyParticles_ = manager->CrateParticle("JetFrea");
+	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());*/
 
-	cylinder_->GetTransform()->SetParent(transform_->GetWorldMatrix());
+	// -------------------------------------
+	// effectの設定
+	// -------------------------------------
 
-	jetEngineBurn_ = std::make_unique<JetEngineBurn>();
+	jetEngineBurn_ = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
 	jetEngineBurn_->Init();
 	jetEngineBurn_->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
+
+	jetEngineBurn_2 = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
+	jetEngineBurn_2->Init();
+	jetEngineBurn_2->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
+	Vector3 scale = jetEngineBurn_2->GetWorldTransform()->GetScale();
+	jetEngineBurn_2->GetWorldTransform()->SetScale(scale * 0.9f);
+	
+	object_->AddChild(jetEngineBurn_);
+	object_->AddChild(jetEngineBurn_2);
 
 	isBoostMode_ = false;
 }
@@ -53,17 +60,7 @@ void JetEngine::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Update() {
-	cylinder_->Update();
-
-	jetEngineBurn_->Update();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void JetEngine::Draw() const {
-	
+	transform_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,21 +68,23 @@ void JetEngine::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Jet")) {
+	if (ImGui::TreeNode("Engine")) {
 		transform_->Debug_Gui();
+		ImGui::TreePop();
 	}
 
-	if(ImGui::CollapsingHeader("jetEngineBurn")) {
+	if (ImGui::TreeNode("Burn")) {
 		jetEngineBurn_->Debug_Gui();
+		ImGui::TreePop();
 	}
 }
 
 void JetEngine::JetIsStop() {
-	jetBurn_->SetIsStop(true);
-	jetEnergyParticles_->SetIsStop(true);
+	//jetBurn_->SetIsStop(true);
+	//jetEnergyParticles_->SetIsStop(true);
 }
 
 void JetEngine::JetIsStart() {
-	jetBurn_->SetIsStop(false);
-	jetEnergyParticles_->SetIsStop(false);
+	//jetBurn_->SetIsStop(false);
+	//jetEnergyParticles_->SetIsStop(false);
 }
