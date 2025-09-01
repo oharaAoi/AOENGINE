@@ -32,6 +32,7 @@ void BossStateBeDestroyed::OnUpdate() {
 		BaseParticles* particle = ParticleManager::GetInstance()->CrateParticle("BossExplaode");
 		particle->SetPos(pOwner_->GetPosition());
 		particle->Reset();
+		particle->SetLoop(false);
 
 		pOwner_->Destroy();
 	}

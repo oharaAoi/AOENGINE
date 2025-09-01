@@ -339,6 +339,8 @@
     <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
     <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\InverseKinematics.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -635,6 +637,8 @@
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\InverseKinematics.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

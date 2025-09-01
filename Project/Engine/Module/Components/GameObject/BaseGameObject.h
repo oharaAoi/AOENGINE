@@ -12,6 +12,7 @@
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Animation/Animator.h"
+#include "Engine/Module/Components/Rigging/EndEffector.h"
 
 #include "Engine/Module/Components/Collider/ICollider.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
@@ -72,6 +73,8 @@ public:
 
 	Animator* GetAnimetor() { return animetor_.get(); }
 
+	void SetEndEffector(const std::string& _name, EndEffector* _effector);
+
 	// -------------------------------------------------
 	// ↓ Collider関連
 	// -------------------------------------------------
@@ -97,6 +100,7 @@ protected:
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;
+	std::unordered_map<std::string, EndEffector*> endEffectors_;
 
 	std::vector<std::unique_ptr<ICollider>> colliders_;
 

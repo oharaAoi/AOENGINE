@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <vector>
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
@@ -30,7 +31,7 @@ void Player::Finalize() {
 
 void Player::Debug_Gui() {
 	object_->Debug_Gui();
-	
+
 	actionManager_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("LegCollider")) {
@@ -91,14 +92,18 @@ void Player::Init() {
 	jet_->Init();
 	jet_->SetParent(this);
 
-	AddChild(jet_.get()); 
+	AddChild(jet_.get());
 
 	ICollider* collider = object_->GetCollider("player");
 	collider->SetIsStatic(false);
 
-	ICollider* colliderLeg = object_->GetCollider("playerLeg");
-	colliderLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
-	colliderLeg->SetIsStatic(false);
+	ICollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
+	colliderLeftLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	colliderLeftLeg->SetIsStatic(false);
+
+	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
+	colliderRightLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	colliderRightLeg->SetIsStatic(false);
 
 	object_->SetPhysics();
 
@@ -146,7 +151,31 @@ void Player::Init() {
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
-	
+
+	leftLegEffector_ = std::make_unique<EndEffector>();
+	rightLegEffector_ = std::make_unique<EndEffector>();
+
+	std::map<std::string, int32_t> jointMap = skeleton->GetJointMap();
+	std::vector<int32_t> leftLegChain = {
+		
+		jointMap["left_thighs"],
+		jointMap["left_leg"],
+		jointMap["left_legNec"],
+		jointMap["left_feetFront"]
+	};
+	std::vector<int32_t> rightLegChain = {
+		
+		jointMap["right_thighs"],
+		jointMap["right_leg"],
+		jointMap["right_legNec"],
+		jointMap["right_feetFront"]
+	};
+	leftLegEffector_->SetChain(leftLegChain);
+	rightLegEffector_->SetChain(rightLegChain);
+
+	/*object_->SetEndEffector("leftLeg", leftLegEffector_.get());
+	object_->SetEndEffector("rightLeg", rightLegEffector_.get());*/
+
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -174,11 +203,16 @@ void Player::Update() {
 
 	transform_->Update();
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
-	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
-	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
-	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
+	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
+	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand") ,transform_->GetWorldMatrix());
+	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"),  transform_->GetWorldMatrix());
 
 	CameraIncline();
+
+	/*ICollider* colliderLeg = object_->GetCollider("playerLeftLeg");
+	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
+	leftLegEffector_->SetTargetPosition(colliderLeg->GetCenterPos());
+	rightLegEffector_->SetTargetPosition(colliderRightLeg->GetCenterPos());*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

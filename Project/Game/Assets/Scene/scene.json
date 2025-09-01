@@ -116,7 +116,7 @@
                     ]
                 }
             ],
-            "collider_tag": "boss",
+            "collider_tag": "playerRightLeg",
             "collisionFilter_tags": [
                 "player",
                 "building",
@@ -161,7 +161,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -169,11 +169,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -214,7 +216,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -222,11 +224,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -267,7 +271,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -275,11 +279,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -320,7 +326,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -328,11 +334,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -373,7 +381,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -381,11 +389,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -426,7 +436,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -434,11 +444,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -479,7 +491,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -487,11 +499,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -532,7 +546,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -540,11 +554,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -585,7 +601,7 @@
                         2.0899999141693115,
                         2.5999999046325684
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -593,11 +609,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -638,7 +656,7 @@
                         2.0899999141693115,
                         2.5999999046325684
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -646,11 +664,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -700,11 +720,12 @@
                         "machinegun",
                         "bossAttack",
                         "player",
-                        "playerLeg"
+                        "playerRightLeg",
+                        "playerLeftLeg"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "launcher",
             "collisionFilter_tags": [
                 "playerLeg"
             ]
@@ -752,12 +773,26 @@
                 {
                     "type": "SPHERE",
                     "center": [
+                        0.38999998569488525,
                         0.0,
-                        0.0,
-                        0.18000002205371857
+                        0.33000001311302185
                     ],
                     "radius": 0.15000000596046448,
-                    "tag": "playerLeg",
+                    "tag": "playerRightLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        -0.30000001192092896,
+                        0.0,
+                        0.33000001311302185
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerLeftLeg",
                     "collisionFilter_tags": [
                         "ground",
                         "building"
@@ -808,14 +843,14 @@
                         0.10000000149011612,
                         246.0800018310547
                     ],
-                    "tag": "invisibleWall",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "invisibleWall",
+            "collider_tag": "building",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -855,14 +890,14 @@
                         0.10000000149011612,
                         246.0800018310547
                     ],
-                    "tag": "invisibleWall",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "invisibleWall",
+            "collider_tag": "building",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -902,14 +937,14 @@
                         2.0,
                         246.0800018310547
                     ],
-                    "tag": "invisibleWall",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "invisibleWall",
+            "collider_tag": "building",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -949,14 +984,14 @@
                         2.0,
                         246.0800018310547
                     ],
-                    "tag": "invisibleWall",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "invisibleWall",
+            "collider_tag": "building",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -995,9 +1030,9 @@
                     "size": [
                         3.799999952316284,
                         2.0899999141693115,
-                        2.8999998569488525
+                        2.9599997997283936
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -1005,11 +1040,13 @@
                         "bossAttack",
                         "bossMissile",
                         "machinegun",
-                        "launcher"
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"

@@ -54,6 +54,11 @@ void BaseGameObject::Update() {
 	if (!animetor_->GetIsControlScript()) {
 		animetor_->Update();
 
+		/*for (auto& effector : endEffectors_) {
+			effector.second->Update(transform_->GetWorldMatrix());
+		}
+		animetor_->UpdateSkinning();*/
+
 		if (animetor_->GetIsSkinning()) {
 			Engine::SetPipelineCS("Skinning.json");
 			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
@@ -64,7 +69,7 @@ void BaseGameObject::Update() {
 			transform_->Update(animetor_->GetAnimationMat());
 			return;
 		}
-	} else {
+	} else { 
 		if (animetor_->GetIsSkinning()) {
 			Engine::SetPipelineCS("Skinning.json");
 			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
@@ -155,6 +160,10 @@ void BaseGameObject::Draw() const {
 			Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
 		}
 	}
+
+	/*if (animetor_ != nullptr) {
+		animetor_->GetSkeleton()->DrawNodeHierarchy(transform_->GetWorldMatrix());
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -253,6 +262,11 @@ void BaseGameObject::SetParent(BaseGameObject* parent) {
 void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
 	animetor_.reset(new Animator);
 	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning, isLoop, isControlScript);
+}
+
+void BaseGameObject::SetEndEffector(const std::string& _name, EndEffector* _effector) {
+	_effector->SetSkelton(animetor_->GetSkeleton());
+	endEffectors_[_name] = _effector;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

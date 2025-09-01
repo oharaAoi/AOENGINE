@@ -9,7 +9,8 @@ namespace ColliderTags {
 
 	namespace Player {
 		const std::string own = "player";
-		const std::string leg = "playerLeg";
+		const std::string leftLeg = "playerLeftLeg";
+		const std::string rightLeg = "playerRightLeg";
 	}
 
 	namespace Boss {
@@ -35,7 +36,8 @@ inline std::list<std::string> GetColliderTagsList() {
 		ColliderTags::None::own,
 
 		ColliderTags::Player::own,
-		ColliderTags::Player::leg,
+		ColliderTags::Player::leftLeg,
+		ColliderTags::Player::rightLeg,
 
 		ColliderTags::Boss::own,
 		ColliderTags::Boss::attack,

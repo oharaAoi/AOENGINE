@@ -1,6 +1,7 @@
 none
 player
-playerLeg
+playerLeftLeg
+playerRightLeg
 boss
 bossAttack
 bossMissile

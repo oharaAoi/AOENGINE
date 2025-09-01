@@ -23,6 +23,7 @@ void JetEngineBurn::Init() {
 	noiseBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(NoiseUV));
 	noiseBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&noiseUV_));
 
+	initScale_ = param_.scale;
 	noiseSRT_.scale = param_.noiseScale;
 	noiseSRT_.rotate = CVector3::ZERO;
 	noiseSRT_.translate = CVector3::ZERO;
@@ -41,6 +42,7 @@ void JetEngineBurn::Init() {
 	noiseAnimation_.Init(&animationValue_, -20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::LOOP);
 
 	// flareの初期化
+	flareScale_ = Vector3(8, 8);
 	enginePos_ = worldTransform_->GetPos();
 	flare_ = SceneRenderer::GetInstance()->AddObject<GeometryObject>("jetFlare", "Object_Add.json", 200);
 	flare_->Set<PlaneGeometry>(Vector2(8.0f, 8.0f));
@@ -49,6 +51,15 @@ void JetEngineBurn::Init() {
 	flare_->GetMaterial()->SetDiscardValue(0.1f);
 	flare_->GetTransform()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
 	flare_->GetTransform()->SetBillBoard(true);
+
+	exeTime_ = 0.5f;
+	onOffTime_ = 0;
+	boostOn_ = false;
+
+	param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, 0);
+	flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, 0);
+	worldTransform_->SetScale(param_.scale);
+	flare_->GetTransform()->SetScale(flareScale_);
 }
 
 void JetEngineBurn::Update() {
@@ -58,6 +69,28 @@ void JetEngineBurn::Update() {
 
 	worldTransform_->Update();
 	material_->Update();
+
+	if (boostOn_) {
+		if (onOffTime_ < exeTime_) {
+			onOffTime_ += GameTimer::DeltaTime();
+			float t = onOffTime_ / exeTime_;
+			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
+			flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, t);
+
+			worldTransform_->SetScale(param_.scale);
+			flare_->GetTransform()->SetScale(flareScale_);
+		}
+	} else {
+		if (onOffTime_ >  0.0f) {
+			onOffTime_ -= GameTimer::DeltaTime();
+			float t = onOffTime_ / exeTime_;
+			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
+			flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, t);
+
+			worldTransform_->SetScale(param_.scale);
+			flare_->GetTransform()->SetScale(flareScale_);
+		}
+	}
 }
 
 void JetEngineBurn::PostUpdate() {
@@ -146,4 +179,12 @@ void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::str
 
 bool JetEngineBurn::ExistMesh(const std::string& name) {
 	return MeshManager::GetInstance()->ExistMesh(name);
+}
+
+void JetEngineBurn::BoostOn() {
+	boostOn_ = true;
+}
+
+void JetEngineBurn::BoostOff() {
+	boostOn_ = false;
 }

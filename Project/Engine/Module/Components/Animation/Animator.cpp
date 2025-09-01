@@ -24,10 +24,12 @@ void Animator::Update() {
 
 	// animationの遷移がなかったらそのままanimationさせる
 	if (isSkinning_) {
-		if (!animationClip_->GetIsChange()) {
-			animationClip_->ApplyAnimation(skeleton_.get());
-		} else {
-			animationClip_->LerpApplyAnimation(skeleton_.get());
+		if (!animationClip_->GetIsStop()) {
+			if (!animationClip_->GetIsChange()) {
+				animationClip_->ApplyAnimation(skeleton_.get());
+			} else {
+				animationClip_->LerpApplyAnimation(skeleton_.get());
+			}
 		}
 	}
 
@@ -104,5 +106,11 @@ void Animator::TransitionAnimation(const std::string& afterAnimation, float blen
 }
 
 void Animator::Debug_Gui() {
-	animationClip_->Debug_Gui();
+	if (ImGui::CollapsingHeader("AnimationClip")) {
+		animationClip_->Debug_Gui();
+	}
+
+	/*if (ImGui::CollapsingHeader("Skeleton")) {
+		skeleton_->Debug_Gui();
+	}*/
 }

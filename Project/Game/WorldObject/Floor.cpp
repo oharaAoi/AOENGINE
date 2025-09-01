@@ -17,11 +17,7 @@ void Floor::Init() {
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");
 	
-	ICollider* collider = floor_->GetCollider("ground");
-	collider->SetTarget(ColliderTags::Boss::own);
-	collider->SetTarget(ColliderTags::Boss::missile);
-	collider->SetTarget(ColliderTags::Player::own);
-	collider->SetTarget(ColliderTags::Player::leg);
+	
 
 	//floor_->SetIsReflection(true);
 	floor_->SetIsShadow(false);

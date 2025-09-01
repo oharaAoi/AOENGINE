@@ -113,6 +113,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
     <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\InverseKinematics.cpp" />
     <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
@@ -398,6 +400,8 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\InverseKinematics.h" />
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
     <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
     <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />

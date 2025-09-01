@@ -40,6 +40,8 @@ Vector3 RadToDeg(const Vector3& rotate);
 
 float Clamp01(float value);
 
+float Distance(const Vector3& v1, const Vector3& v2);
+
 /// <summary>
 /// 長さを計算する
 /// </summary>
@@ -47,6 +49,13 @@ float Clamp01(float value);
 /// <returns></returns>
 float Length(const Vector3& vec3);
 
+/// <summary>
+/// 正規化
+/// </summary>
+/// <param name="value"></param>
+/// <param name="min"></param>
+/// <param name="max"></param>
+/// <returns></returns>
 float Normalize(float value, float min, float max);
 
 /// <summary>

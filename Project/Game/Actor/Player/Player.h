@@ -3,6 +3,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include <Module/Components/Collider/SphereCollider.h>
+#include "Engine/Module/Components/Rigging/EndEffector.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -213,6 +214,10 @@ private:
 	Vector2 screenPos_;
 	Vector2 screenPosPrev_;
 	float smoothedDiffX_ = 0.0f;
+
+	// IK --------------------------------------------------
+	std::unique_ptr<EndEffector> leftLegEffector_;
+	std::unique_ptr<EndEffector> rightLegEffector_;
 
 };
 

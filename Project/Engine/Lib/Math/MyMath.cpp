@@ -12,6 +12,10 @@ float Clamp01(float value) {
 	return std::clamp(value, 0.f, 1.f);
 }
 
+float Distance(const Vector3& v1, const Vector3& v2) {
+	return Length(v1) - Length(v2);
+}
+
 float Length(const Vector3& vec3) {
 	return std::sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }

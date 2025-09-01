@@ -82,9 +82,13 @@ void JetEngine::Debug_Gui() {
 void JetEngine::JetIsStop() {
 	//jetBurn_->SetIsStop(true);
 	//jetEnergyParticles_->SetIsStop(true);
+	jetEngineBurn_->BoostOff();
+	jetEngineBurn_2->BoostOff();
 }
 
 void JetEngine::JetIsStart() {
 	//jetBurn_->SetIsStop(false);
 	//jetEnergyParticles_->SetIsStop(false);
+	jetEngineBurn_->BoostOn();
+	jetEngineBurn_2->BoostOn();
 }

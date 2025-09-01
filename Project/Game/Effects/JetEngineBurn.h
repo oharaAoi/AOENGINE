@@ -98,6 +98,10 @@ public:
 
 	WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
 
+	void BoostOn();
+
+	void BoostOff();
+
 private:
 
 	CylinderGeometry geometry_;
@@ -115,9 +119,17 @@ private:
 	float animationValue_;
 	VectorTween<float> noiseAnimation_;
 
+	Vector3 initScale_;
+
 	// flare
 	GeometryObject* flare_;
 	Vector3 enginePos_;
+	Vector3 flareScale_;
 	FlareParameter flareParameter_;
+
+	// on/offの時間
+	float onOffTime_;
+	float exeTime_;
+	bool boostOn_;
 
 };

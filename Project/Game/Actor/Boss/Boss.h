@@ -95,7 +95,7 @@ public:
 	void SetIsStan(bool isStan) { isStan_ = isStan; }
 
 	// Treeを止める
-	void StopTree(bool _isStop) { behaviorTree_->SetExecute(_isStop); }
+	void SetExecute(bool _isStop) { behaviorTree_->SetExecute(_isStop); }
 
 	// phase
 	void SetPhase(BossPhase _phase) { phase_ = _phase; }

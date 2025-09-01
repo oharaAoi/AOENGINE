@@ -109,6 +109,8 @@ public:
 	const bool GetIsLoop() const { return isLoop_; }	// 取得
 	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
 
+	const bool GetIsStop() const { return isStop_; }
+
 	// 予約があるかの取得
 	const bool GetIsReservation() const { return isReservation_; }
 
