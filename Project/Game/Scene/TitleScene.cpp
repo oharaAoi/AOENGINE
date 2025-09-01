@@ -15,9 +15,6 @@ void TitleScene::Finalize() {
 }
 
 void TitleScene::Init() {
-#ifdef _DEBUG
-	EditorWindows::GetInstance()->Reset();
-#endif
 
 	Engine::GetCanvas2d()->Init();
 

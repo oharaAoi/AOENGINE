@@ -16,10 +16,6 @@ void GameScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Init() {
-#ifdef _DEBUG
-	EditorWindows::GetInstance()->Reset();
-#endif
-
 	Engine::GetCanvas2d()->Init();
 
 	JsonItems* adjust = JsonItems::GetInstance();
@@ -27,16 +23,6 @@ void GameScene::Init() {
 
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
-
-	PostProcess* postProcess = Engine::GetPostProcess();
-	EditorWindows::AddObjectWindow(postProcess, "Post Process");
-
-	LightGroup* lightGroup = Render::GetLightGroup();
-	lightGroup->GetDirectionalLight()->Reset();
-	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
-
-	ShadowMap* shadowMap = Render::GetShadowMap();
-	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
 	// -------------------------------------------------
 	// ↓ Sceneの初期化

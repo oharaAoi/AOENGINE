@@ -33,6 +33,18 @@ void SceneManager::Update() {
 
 	if (reset_) {
 		reset_ = false;
+
+		EditorWindows::GetInstance()->Reset();
+
+		PostProcess* postProcess = Engine::GetPostProcess();
+		EditorWindows::AddObjectWindow(postProcess, "Post Process");
+
+		LightGroup* lightGroup = Render::GetLightGroup();
+		lightGroup->GetDirectionalLight()->Reset();
+		EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
+
+		ShadowMap* shadowMap = Render::GetShadowMap();
+		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 		scene_->Init();
 	}
 
@@ -81,6 +93,19 @@ void SceneManager::SetChange(const SceneType& type) {
 	}
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	scene_ = std::move(nextScene_);
+
+	EditorWindows::GetInstance()->Reset();
+
+	PostProcess* postProcess = Engine::GetPostProcess();
+	EditorWindows::AddObjectWindow(postProcess, "Post Process");
+
+	LightGroup* lightGroup = Render::GetLightGroup();
+	lightGroup->GetDirectionalLight()->Reset();
+	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
+
+	ShadowMap* shadowMap = Render::GetShadowMap();
+	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+
 	scene_->Init();
 }
 
