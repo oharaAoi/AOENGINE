@@ -50,15 +50,13 @@ void GameCore::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameCore::Draw() {
+	sceneManger_->Draw();
+	Engine::EndFrame();
 	if (isReset_) {
-		Engine::EndFrame();
 		sceneManger_->Free();
 		isReset_ = false;
 		return;
 	}
-	sceneManger_->Draw();
-	
-	Engine::EndFrame();
 	// fpsの計算
 	gameTimer_.CalculationFrame();
 }

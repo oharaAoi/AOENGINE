@@ -193,8 +193,8 @@ void EditorWindows::DebugItemWindow() {
 		ImTextureID icon = isPlaying ? pauseTex : playTex;
 		if (ImGui::ImageButton("##toggle", icon, iconSize)) {
 			isPlaying = !isPlaying;
-			GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
 		}
+		GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
 		ImGui::SameLine();
 
 		bool pushButton = false;
