@@ -77,7 +77,7 @@ void PlayerActionJump::OnStart() {
 	clip->PoseToAnimation("jump", 0.4f);
 	clip->SetIsLoop(false);
 
-	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
+	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
