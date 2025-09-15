@@ -152,7 +152,7 @@ void Player::Init() {
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
-	leftLegEffector_ = std::make_unique<EndEffector>();
+	/*leftLegEffector_ = std::make_unique<EndEffector>();
 	rightLegEffector_ = std::make_unique<EndEffector>();
 
 	std::map<std::string, int32_t> jointMap = skeleton->GetJointMap();
@@ -171,7 +171,7 @@ void Player::Init() {
 		jointMap["right_feetFront"]
 	};
 	leftLegEffector_->SetChain(leftLegChain);
-	rightLegEffector_->SetChain(rightLegChain);
+	rightLegEffector_->SetChain(rightLegChain);*/
 
 	/*object_->SetEndEffector("leftLeg", leftLegEffector_.get());
 	object_->SetEndEffector("rightLeg", rightLegEffector_.get());*/
