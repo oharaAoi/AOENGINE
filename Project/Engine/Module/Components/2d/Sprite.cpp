@@ -19,8 +19,9 @@ Sprite::~Sprite() {
 
 void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
+	spriteSize_ = textureSize_;
 	textureName_ = fileName;
-	drawRange_ = textureSize_;
+	drawRange_ = spriteSize_;
 	leftTop_ = { 0.0f, 0.0f };
 	anchorPoint_ = { 0.5f, 0.5f };
 
@@ -104,15 +105,24 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Update() {
-	materialData_->uvTransform = uvTransform_.MakeAffine();
-	
+	float left = (0.0f - anchorPoint_.x) * spriteSize_.x;
+	float right = (1.0f - anchorPoint_.x) * spriteSize_.x;
+	float top = (0.0f - anchorPoint_.y) * spriteSize_.y;
+	float bottom = (1.0f - anchorPoint_.y) * spriteSize_.y;
+
+	vertexData_[0].pos = { left, bottom, 0.0f, 1.0f };
+	vertexData_[1].pos = { left, top, 0.0f, 1.0f };
+	vertexData_[2].pos = { right, bottom, 0.0f, 1.0f };
+	vertexData_[3].pos = { right, top, 0.0f, 1.0f };
+
 	// -------------------------------------------------
 	// ↓ UVの変更
 	// -------------------------------------------------
-	materialData_->uvTransform.m[0][0] = drawRange_.x / textureSize_.x;	// Xスケーリング
-	materialData_->uvTransform.m[1][1] = drawRange_.y / textureSize_.y;	// Yスケーリング
-	materialData_->uvTransform.m[3][0] = leftTop_.x / textureSize_.x;	// Xオフセット
-	materialData_->uvTransform.m[3][1] = leftTop_.y / textureSize_.y;	// Yオフセット
+	materialData_->uvTransform = uvTransform_.MakeAffine();
+	materialData_->uvTransform.m[0][0] = drawRange_.x / spriteSize_.x;	// Xスケーリング
+	materialData_->uvTransform.m[1][1] = drawRange_.y / spriteSize_.y;	// Yスケーリング
+	materialData_->uvTransform.m[3][0] = leftTop_.x / spriteSize_.x;	// Xオフセット
+	materialData_->uvTransform.m[3][1] = leftTop_.y / spriteSize_.y;	// Yオフセット
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,24 +130,16 @@ void Sprite::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
-	Vector2 pivotOffset = {
-		(anchorPoint_.x - 0.5f) * textureSize_.x,  // ピボットオフセット（中心からのオフセット）
-		(anchorPoint_.y - 0.5f) * textureSize_.y   // ピボットオフセット（中心からのオフセット）
-	};
-
 	Matrix4x4 projection = Render::GetProjection2D();
 	if (isBackGround) {
 		transform_.translate.z = Render::GetFarClip();
 	}
 	// アフィン変換行列の作成
 	Matrix4x4 affineMatrix = transform_.MakeAffine();
-	// テクスチャ位置を保持するための補正行列
-	Matrix4x4 correctionTranslation = Vector3({ pivotOffset.x, pivotOffset.y, 0.0f }).MakeTranslateMat();
 
-	// 最終的なスプライトの変換行列
+	// 最終的なスプsライトの変換行列
 	transformData_->wvp = Matrix4x4(
-		affineMatrix *  // ピボットによる変位を元に戻す
-		correctionTranslation *
+		affineMatrix *
 		projection
 	);
 
@@ -167,31 +169,28 @@ void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pi
 void Sprite::ReSetTexture(const std::string& fileName) {
 	textureName_ = fileName;
 	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
-	drawRange_ = textureSize_;
+	drawRange_ = spriteSize_;
 	leftTop_ = { 0.0f, 0.0f };
 
-	Vector3 pivotOffset = {
-		textureSize_.x * anchorPoint_.x,
-		textureSize_.y * anchorPoint_.y,
-		0.0f
-	};
+	float left = 0.0f - anchorPoint_.x;
+	float right = 1.0f - anchorPoint_.x;
+	float top = 0.0f - anchorPoint_.y;
+	float bottom = 1.0f - anchorPoint_.y;
 
-	// スプライトのサイズを基に頂点を設定
-	RectangleVertices rect = {
-		{-pivotOffset.x, -pivotOffset.y, 0.0f, 1.0f},
-		{textureSize_.x - pivotOffset.x, 0.0f - pivotOffset.y, 0.0f, 1.0f},
-		{0.0f - pivotOffset.x, textureSize_.y - pivotOffset.y, 0.0f , 1.0f},
-		{textureSize_.x - pivotOffset.x, textureSize_.y - pivotOffset.y , 0.0f, 1.0f},
-	};
+	vertexData_[0].pos = { left, bottom, 0.0f, 1.0f };
+	vertexData_[1].pos = { left, top, 0.0f, 1.0f };
+	vertexData_[2].pos = { right, bottom, 0.0f, 1.0f };
+	vertexData_[3].pos = { right, top, 0.0f, 1.0f };
 
-	vertexData_[0].pos = rect.leftBottom;
-	vertexData_[0].texcoord = { 0.0f, 1.0f }; // 左下
-	vertexData_[1].pos = rect.leftTop;
-	vertexData_[1].texcoord = { 0.0f, 0.0f }; // 左上
-	vertexData_[2].pos = rect.rightBottom; // 右下
-	vertexData_[2].texcoord = { 1.0f, 1.0f };
-	vertexData_[3].pos = rect.rightTop;		// 右上
-	vertexData_[3].texcoord = { 1.0f, 0.0f };
+	float tex_left = leftTop_.x - spriteSize_.x;
+	float tex_right = (leftTop_.x + drawRange_.x) - spriteSize_.x;
+	float tex_top = leftTop_.y - spriteSize_.y;
+	float tex_bottom = (leftTop_.y + drawRange_.y) - spriteSize_.y;
+
+	vertexData_[0].texcoord = { tex_left, tex_bottom };
+	vertexData_[1].texcoord = { tex_left, tex_top };
+	vertexData_[2].texcoord = { tex_right, tex_bottom };
+	vertexData_[3].texcoord = { tex_right, tex_top };
 
 }
 
@@ -210,28 +209,7 @@ void Sprite::SetTranslate(const Vector2& centerPos) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::ReSetTextureSize(const Vector2& size) {
-	Vector3 pivotOffset = {
-		size.x * anchorPoint_.x,
-		size.y * anchorPoint_.y,
-		0.0f
-	};
-
-	// スプライトのサイズを基に頂点を設定
-	RectangleVertices rect = {
-		{-pivotOffset.x, -pivotOffset.y, 0.0f, 1.0f},
-		{size.x - pivotOffset.x, 0.0f - pivotOffset.y, 0.0f, 1.0f},
-		{0.0f - pivotOffset.x, size.y - pivotOffset.y, 0.0f , 1.0f},
-		{size.x - pivotOffset.x, size.y - pivotOffset.y , 0.0f, 1.0f},
-	};
-
-	vertexData_[0].pos = rect.leftBottom;
-	vertexData_[0].texcoord = { 0.0f, 1.0f }; // 左下
-	vertexData_[1].pos = rect.leftTop;
-	vertexData_[1].texcoord = { 0.0f, 0.0f }; // 左上
-	vertexData_[2].pos = rect.rightBottom; // 右下
-	vertexData_[2].texcoord = { 1.0f, 1.0f };
-	vertexData_[3].pos = rect.rightTop;		// 右上
-	vertexData_[3].texcoord = { 1.0f, 0.0f };
+	spriteSize_ = size;
 }
 
 void Sprite::FillAmount(float amount, int type) {
@@ -267,7 +245,7 @@ void Sprite::Debug_Gui() {
 	}
 
 	ImGui::DragFloat2("anchorPoint", &anchorPoint_.x, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat2("textureSize", &textureSize_.x, 1.0f);
+	ImGui::DragFloat2("textureSize", &spriteSize_.x, 1.0f);
 	ImGui::DragFloat2("drawRange", &drawRange_.x, 1.0f);
 	ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
 	ImGui::DragFloat2("uvMin", &materialData_->uvMinSize.x, 0.01f);

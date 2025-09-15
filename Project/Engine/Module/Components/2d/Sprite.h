@@ -3,10 +3,12 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class Render;
 
-class Sprite {
+class Sprite :
+	public AttributeGui {
 public:
 
 	struct TextureMesh {
@@ -51,7 +53,7 @@ public:
 	/// <param name="commandList"></param>
 	void PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
 
-	void Debug_Gui();
+	void Debug_Gui() override;
 
 public:
 
@@ -100,7 +102,7 @@ public:
 	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
 	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
 	const float GetRotate() const { return transform_.rotate.z; }
-	const Vector2 GetTextureSize() const { return textureSize_; }
+	const Vector2 GetSpriteSize() const { return spriteSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
 
@@ -146,4 +148,5 @@ private:
 
 	// Textureのサイズ
 	Vector2 textureSize_;
+	Vector2 spriteSize_;
 };

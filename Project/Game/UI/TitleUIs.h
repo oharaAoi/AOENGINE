@@ -1,8 +1,10 @@
 #pragma once
 #include <memory>
 #include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-class TitleUIs {
+class TitleUIs :
+	public AttributeGui {
 public:
 
 	TitleUIs() = default;
@@ -11,6 +13,8 @@ public:
 	void Init();
 	void Update();
 	void Draw() const;
+
+	void Debug_Gui() override;
 
 private:
 
