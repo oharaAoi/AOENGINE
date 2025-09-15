@@ -265,8 +265,10 @@ void EditorWindows::PopStyleColor(bool _flag) {
 #endif 
 
 void EditorWindows::Reset() {
+#ifdef _DEBUG
 	gameObjectWindow_->Init();
 	sceneReset_ = false;
+#endif 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
