@@ -8,6 +8,19 @@ SelectorNode::SelectorNode() {
 	SetNodeName("Selector");
 }
 
+json SelectorNode::ToJson() {
+	json item;
+	item["name"] = node_.name;
+	item["nodeType"] = static_cast<int>(type_);
+	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
+	item["children"] = json::array();
+
+	for (const auto& child : children_) {
+		item["children"].push_back(child->ToJson());
+	}
+	return item;
+}
+
 BehaviorStatus SelectorNode::Execute() {
 	while (currentIndex_ < static_cast<uint32_t>(children_.size())) {
 		BehaviorStatus status = children_[currentIndex_]->Execute();

@@ -2,10 +2,13 @@
 #include <list>
 #include <vector>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/BehaviorRootNode.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Module/Components/AI/State/IWorldState.h"
+#include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "imgui_node_editor.h"
@@ -21,7 +24,7 @@ public:
 
 	void Init();
 
-	void Run();
+	bool Run();
 
 	void Edit();
 
@@ -35,6 +38,10 @@ public:
 	void SetTarget(BaseEntity* _target) { pTarget_ = _target; }
 
 	void SetExecute(bool _isExecute) { isExecute_ = _isExecute; }
+
+	void SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap);
+
+	void AddGoal(std::shared_ptr<IOrientedGoal> _goal);
 
 private:
 
@@ -58,7 +65,17 @@ private:
 	// nodeの検索
 	IBehaviorNode* FindNodeFromPin(ax::NodeEditor::PinId pin);
 
+public:
+
+	void SetName(const std::string& _name) { name_ = _name; }
+
+	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
+
 private:
+
+	std::string name_ = "Behavior Tree";
+
+	IWorldState* worldState_ = nullptr;
 
 	// nodeEditorのポインタ
 	ax::NodeEditor::EditorContext* context_ = nullptr;
@@ -71,6 +88,8 @@ private:
 
 	// 行えるTaskをまとめた物
 	std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>> canTaskMap_;
+
+	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 
 	// フラグ
 	bool isOpenEditor_ = false;

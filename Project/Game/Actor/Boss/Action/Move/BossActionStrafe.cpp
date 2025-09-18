@@ -8,7 +8,7 @@ BehaviorStatus BossActionStrafe::Execute() {
 }
 
 float BossActionStrafe::EvaluateWeight() {
-	return pTarget_->GetEvaluationFormula()->StrafeEvaluation(10.0f, 50.0f);;
+	return pTarget_->GetEvaluationFormula()->StrafeEvaluation(10.0f, 50.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

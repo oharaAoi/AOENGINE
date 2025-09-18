@@ -12,6 +12,8 @@ public:
 		return std::make_shared<SequenceNode>(*this);
 	}
 
+	json ToJson() override;
+
 	BehaviorStatus Execute() override;
 
 	float EvaluateWeight() override;

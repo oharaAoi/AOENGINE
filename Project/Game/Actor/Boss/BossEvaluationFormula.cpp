@@ -23,21 +23,21 @@ float BossEvaluationFormula::HeightEvaluation(float min, float max) {
 	// Bossの高さとPlayerの高さの差を取る
 	float distance = pBoss_->GetPosition().y - pBoss_->GetPlayerPosition().y;
 	float value = Normalize(distance, min, max);
-	return value;
+	return std::fabs(value);
 }
 
 float BossEvaluationFormula::ApproachEvaluation(float min, float max) {
 	float distance = (pBoss_->GetPosition() - pBoss_->GetPlayerPosition()).Length();
 	float value = Normalize(distance, min, max);
-	return value;
+	return std::fabs(value);
 }
 
 float BossEvaluationFormula::LeaveEvaluation(float min, float max) {
 	float value = Normalize(nearTimer_, min, max);
-	return value;
+	return std::fabs(value);
 }
 
 float BossEvaluationFormula::StrafeEvaluation(float min, float max) {
 	float value = Normalize(damageRate_, min, max);
-	return value;
+	return std::fabs(value);
 }

@@ -9,7 +9,7 @@ BehaviorStatus BossActionShotBullet::Execute() {
 }
 
 float BossActionShotBullet::EvaluateWeight() {
-	return 0.0f;
+	return 0.9f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

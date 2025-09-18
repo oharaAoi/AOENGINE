@@ -99,6 +99,7 @@ void GameScene::Init() {
 	pPlayer->SetReticle(canvas_->GetReticle());
 
 	bossRoot_->SetUIs(canvas_->GetBossUIs());
+	bossRoot_->SetPlayer(playerManager_->GetPlayer());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
@@ -123,7 +124,6 @@ void GameScene::Update() {
 	
 	playerManager_->Update();
 
-	bossRoot_->SetPlayerPosition(playerManager_->GetPlayer()->GetGameObject()->GetPosition());
 	bossRoot_->Update();
 
 	// -------------------------------------------------

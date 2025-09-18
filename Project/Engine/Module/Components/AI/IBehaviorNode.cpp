@@ -126,6 +126,7 @@ json IBehaviorNode::ToJson() {
 	item["nodeType"] = static_cast<int>(type_);
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
 	item["children"] = json::array();
+
 	for (const auto& child : children_) {
 		item["children"].push_back(child->ToJson());
 	}
@@ -141,6 +142,15 @@ uint32_t IBehaviorNode::GetNextId() {
 	uint32_t result = nextSerialNumber_;
 	nextSerialNumber_++;
 	return result;
+}
+
+void IBehaviorNode::EditNodeName() {
+	char buffer[256];
+	std::snprintf(buffer, sizeof(buffer), "%s", node_.name.c_str());
+
+	if (ImGui::InputText("NodeName :", buffer, sizeof(buffer))) {
+		node_.name = buffer;
+	}
 }
 
 void IBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {

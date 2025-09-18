@@ -166,6 +166,9 @@ public:
 	void SetDeployArmor(bool _deployArmor) { deployArmor_ = _deployArmor; }
 	bool GetIsDeployArmor() const { return deployArmor_; }
 
+	void SetIsDead(bool _isDead) { isDead_ = _isDead; }
+	bool GetIsDead() const { return isDead_; }
+
 	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
 	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
 	const Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
@@ -193,6 +196,8 @@ private:
 	bool isMoving_;
 
 	bool deployArmor_;
+
+	bool isDead_ = false;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

@@ -14,6 +14,8 @@ public:
 
 	virtual std::shared_ptr<IBehaviorNode> Clone() const override = 0;
 
+	json ToJson() override;
+
 	virtual BehaviorStatus Execute() override = 0;
 
 	float EvaluateWeight() override = 0;
@@ -49,6 +51,21 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 }
 
 template<typename OwnerType>
+inline json ITaskNode<OwnerType>::ToJson() {
+	json item;
+	item["name"] = node_.name;
+	item["nodeType"] = static_cast<int>(type_);
+	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
+	item["children"] = json::array();
+	item["weight"] = weight_;
+
+	for (const auto& child : children_) {
+		item["children"].push_back(child->ToJson());
+	}
+	return item;
+}
+
+template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 
@@ -56,9 +73,9 @@ inline void ITaskNode<OwnerType>::Debug_Gui() {
 
 template<typename OwnerType>
 inline BehaviorStatus ITaskNode<OwnerType>::Action() {
-	if (coolTime_ > 0.0f) {
+	/*if (coolTime_ > 0.0f) {
 		return BehaviorStatus::Failure;
-	}
+	}*/
 
 	// 非アクティブ状態なら初期化を行う
 	if (state_ == BehaviorStatus::Inactive) {

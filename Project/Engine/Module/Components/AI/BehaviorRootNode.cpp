@@ -4,7 +4,21 @@
 BehaviorRootNode::BehaviorRootNode() {
 	color_ = ImColor(0, 191, 255);
 	baseColor_ = color_;
+	type_ = NodeType::Root;
 	SetNodeName("Root");
+}
+
+json BehaviorRootNode::ToJson() {
+	json item;
+	item["name"] = node_.name;
+	item["nodeType"] = static_cast<int>(type_);
+	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
+	item["children"] = json::array();
+
+	for (const auto& child : children_) {
+		item["children"].push_back(child->ToJson());
+	}
+	return item;
 }
 
 BehaviorStatus BehaviorRootNode::Execute() {
@@ -17,6 +31,11 @@ BehaviorStatus BehaviorRootNode::Execute() {
 
 		if (status == BehaviorStatus::Running)
 			return BehaviorStatus::Running;
+
+		if (status == BehaviorStatus::Success) {
+			currentIndex_ = 0;
+			return BehaviorStatus::Success;
+		}
 
 		if (status == BehaviorStatus::Failure || BehaviorStatus::Success) {
 			++currentIndex_;

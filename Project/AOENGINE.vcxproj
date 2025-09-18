@@ -112,6 +112,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerSelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp" />
     <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
     <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />
     <ClCompile Include="Engine\Module\Components\Rigging\InverseKinematics.cpp" />
@@ -234,6 +238,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
@@ -398,6 +406,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerSelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
     <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
@@ -523,6 +535,10 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />

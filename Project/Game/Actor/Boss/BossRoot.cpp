@@ -12,10 +12,11 @@ void BossRoot::Init() {
 }
 
 void BossRoot::Update() {
-	boss_->SetPlayerPosition(playerPosition_);
+	boss_->SetIsTargetDead(pPlayer_->GetIsDead());
+	boss_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());
 	boss_->Update();
 
-	bulletManager_->SetPlayerPosition(playerPosition_);
+	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());
 	bulletManager_->Update();
 }
 

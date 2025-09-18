@@ -6,7 +6,7 @@ BehaviorStatus BossActionFloat::Execute() {
 }
 
 float BossActionFloat::EvaluateWeight() {
-	return 0.0f;
+	return 0.7f;
 }
 
 void BossActionFloat::Debug_Gui() {

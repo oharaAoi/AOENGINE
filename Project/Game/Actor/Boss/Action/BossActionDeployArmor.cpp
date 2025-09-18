@@ -13,7 +13,7 @@ BehaviorStatus BossActionDeployArmor::Execute() {
 }
 
 float BossActionDeployArmor::EvaluateWeight() {
-	return 0.0f;
+	return 1.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

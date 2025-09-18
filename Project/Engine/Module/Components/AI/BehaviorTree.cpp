@@ -5,6 +5,8 @@
 #include "Engine/Module/Components/AI/SequenceNode.h"
 #include "Engine/Module/Components/AI/SelectorNode.h"
 #include "Engine/Module/Components/AI/WeightSelectorNode.h"
+#include "Engine/Module/Components/AI/PlannerNode.h"
+#include "Engine/Module/Components/AI/PlannerSelectorNode.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include <fstream>
@@ -30,16 +32,17 @@ void BehaviorTree::Init() {
 	isExecute_ = true;
 
 	windowFlags_ = ImGuiWindowFlags_None;
+
+	root_ = nodeList_.emplace_back(std::make_shared<BehaviorRootNode>()).get();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Tree処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTree::Run() {
-	if (!context_) return;
-	if (root_ == nullptr) { return; }
-	if (!isExecute_) { return; }
+bool BehaviorTree::Run() {
+	if (!context_) return false;
+	if (root_ == nullptr) { return false; }
 
 	// すべてのnodeの更新を走らせる
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
@@ -59,14 +62,25 @@ void BehaviorTree::Run() {
 			it++;
 		}
 	}
-
+	if (!isExecute_) { return false; }
 	// nodeの内容を実行させる
 	if (root_ != nullptr) {
 		BehaviorStatus state = root_->Execute();
 		if (state == BehaviorStatus::Failure) {
 			Logger::Log("RootNodeが失敗を返しました");
+			return false;
 		}
 	}
+	return true;
+}
+
+void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap) {
+	canTaskMap_ = _canTaskMap;
+}
+
+void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
+	auto goal = goalArray_.emplace_back(std::move(_goal));
+	goal->SetWorldState(worldState_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,18 +244,32 @@ void BehaviorTree::DrawNode() {
 void BehaviorTree::Edit() {
 	ImGui::Checkbox("isExecute", &isExecute_);
 	if (isOpenEditor_) {
-		if (ImGui::Button("Close")) {
+		if (ImGui::Button("Close Tree")) {
 			isOpenEditor_ = false;
 		}
 	} else {
-		if (ImGui::Button("Open")) {
+		if (ImGui::Button("Open Tree")) {
 			isOpenEditor_ = true;
+		}
+	}
+
+	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
+		if ((*it)->GetIsDelete()) {
+			for (auto& node : nodeList_) {
+				node->DeleteChild((*it).get());
+			}
+			if (selectNode_ == (*it).get()) {
+				selectNode_ = root_;
+			}
+			it = nodeList_.erase(it);
+		} else {
+			it++;
 		}
 	}
 
 	if (isOpenEditor_) {
 		// Treeに関する処理
-		if (ImGui::Begin("BehaviorTree", &isOpenEditor_, windowFlags_)) {
+		if (ImGui::Begin(name_.c_str(), &isOpenEditor_, windowFlags_)) {
 			ax::NodeEditor::SetCurrentEditor(context_);
 			ax::NodeEditor::Begin("BehaviorTree");
 
@@ -259,15 +287,19 @@ void BehaviorTree::Edit() {
 		ImGui::End();
 
 		// Editorに関する処理
-		if (ImGui::Begin("BehaviorTreeEditor", &isOpenEditor_, windowFlags_)) {
-
+		std::string editorName = name_ + "_Editor";
+		if (ImGui::Begin(editorName.c_str(), &isOpenEditor_, windowFlags_)) {
 			std::string loadFilePath;
-			if (ButtonOpenDialog("Load Tree", "Load_Tree", "LoadTree", ".json", loadFilePath)) {
+			std::string loadLabel = name_ + "_Load Tree";
+			std::string loadDialog = name_ + "_LoadTree";
+			if (ButtonOpenDialog(loadLabel.c_str(), loadDialog.c_str(), "LoadTree", ".json", loadFilePath)) {
 				CreateTree(loadFilePath);
 			}
 
 			std::string filePath;
-			if (ButtonOpenDialog("Save Tree", "Save_Tree", "SaveTree", ".json", filePath)) {
+			std::string saveLabel = name_ + "_Save Tree";
+			std::string saveDialog = name_ + "_SaveTree";
+			if (ButtonOpenDialog(saveLabel.c_str(), saveDialog.c_str(), "SaveTree", ".json", filePath)) {
 				BehaviorTreeSerializer::Save(filePath, root_->ToJson());
 			}
 
@@ -277,6 +309,9 @@ void BehaviorTree::Edit() {
 
 			ImGui::Separator();
 			if (selectNode_ != nullptr) {
+				float weight = selectNode_->GetWeight();
+				ImGui::DragFloat("weight", &weight, 0.01f);
+				selectNode_->SetWeight(weight);
 				selectNode_->Debug_Gui();
 			}
 
@@ -301,12 +336,12 @@ void BehaviorTree::Edit() {
 void BehaviorTree::CreateNodeWindow() {
 	ImGui::BulletText("Nodeを作成");
 	static std::string name = "node ";
-	if (!InputTextWithString("nodeの名前","##createNode", name)) {
+	if (!InputTextWithString("nodeの名前", "##createNode", name)) {
 		assert("名前が入力できません");
 	}
 
 	static int nodeType = 1;
-	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task");
+	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector");
 
 	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 	if (nodeType == NodeType::Task) {
@@ -351,6 +386,12 @@ void BehaviorTree::CreateNode(int nodeType) {
 	} else if (nodeType == NodeType::WeightSelector) {
 		nodeList_.emplace_back(std::make_shared<WeightSelectorNode>());
 
+	} else if (nodeType == NodeType::Planner) {
+		nodeList_.emplace_back(std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_));
+		
+	} else if (nodeType == NodeType::PlannerSelector) {
+		nodeList_.emplace_back(std::make_shared<PlannerSelectorNode>());
+
 	} else if (nodeType == NodeType::Task) {
 		auto& node = nodeList_.emplace_back(canTaskMap_[createTaskName_]->Clone());
 		node->Init();
@@ -369,7 +410,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	}
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(CreateNodeFromJson(nodeTree)).get();
-	
+
 	selectNode_ = root_;
 	selectId_ = root_->GetId();
 	preSelectId_ = root_->GetId();
@@ -390,12 +431,21 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::Root: node = std::make_shared<BehaviorRootNode>(); break;
 	case NodeType::Sequencer: node = std::make_shared<SequenceNode>(); break;
 	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
-	case NodeType::WeightSelector: 
-		node = std::make_shared<WeightSelectorNode>();
+	case NodeType::WeightSelector: node = std::make_shared<WeightSelectorNode>(); break;
+	case NodeType::Planner:
+ 		node = std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_);
+		{
+			PlannerNode* plannerNode = dynamic_cast<PlannerNode*>(node.get());
+			plannerNode->SetGOBT(_json["orientedName"], _json["treeFileName"]);
+		}
+		break;
+	case NodeType::PlannerSelector:
+		node = std::make_shared<PlannerSelectorNode>();
 		break;
 	case NodeType::Task:
-		node = canTaskMap_[name]->Clone(); 
+		node = canTaskMap_[name]->Clone();
 		node->Init();
+		node->SetWeight(_json.contains("weight"));
 		break;
 	}
 
@@ -403,6 +453,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	node->SetNodeName(name);
 	node->SetNodeType(type);
 	node->SetPos(Vector2(_json["nodePos"]["x"], _json["nodePos"]["y"]));
+	node->SetWeightIndex(0);
 	nodeList_.push_back(node);
 
 	// 子どもがいたら再帰的に処理

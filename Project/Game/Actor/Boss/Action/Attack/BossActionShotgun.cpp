@@ -10,7 +10,7 @@ BehaviorStatus BossActionShotgun::Execute() {
 }
 
 float BossActionShotgun::EvaluateWeight() {
-	return 0.0f;
+	return 0.7f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

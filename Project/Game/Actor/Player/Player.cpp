@@ -139,11 +139,10 @@ void Player::Init() {
 	// ↓ Parameter関連
 	// -------------------------------------------------
 	isKnockback_ = false;
-
 	isLanding_ = false;
 	isMoving_ = false;
-
 	deployArmor_ = false;
+	isDead_ = false;
 
 	param_.postureStability -= initParam_.postureStability;
 

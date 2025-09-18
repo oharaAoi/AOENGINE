@@ -4,6 +4,7 @@
 // Game
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
+#include "Game/Actor/Player/Player.h"
 #include "Game/UI/Boss/BossUIs.h"
 
 /// <summary>
@@ -29,6 +30,8 @@ public:
 
 	void SetUIs(BossUIs* _pBossUIs) { boss_->SetUIs(_pBossUIs); }
 
+	void SetPlayer(Player* _player) { pPlayer_ = _player; }
+
 private:
 
 	std::unique_ptr<Boss> boss_;
@@ -36,6 +39,7 @@ private:
 
 	// 他クラス情報
 	Vector3 playerPosition_;
+	Player* pPlayer_ = nullptr;
 
 };
 

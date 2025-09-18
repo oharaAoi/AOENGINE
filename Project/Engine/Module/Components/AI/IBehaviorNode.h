@@ -45,6 +45,8 @@ enum NodeType {
 	Selector,
 	WeightSelector,
 	Task,
+	Planner,
+	PlannerSelector,
 };
 
 /// <summary>
@@ -81,9 +83,9 @@ public:
 	void DeleteChild(IBehaviorNode* child);
 
 	void ClearChild();
-	
+
 	// json形式への変換
-	json ToJson();
+	virtual json ToJson() = 0;
 
 	// 編集関数
 	virtual void Debug_Gui() override {};
@@ -103,19 +105,33 @@ public:
 	void SetNodeName(const std::string& _name) { node_.name = _name; }
 	const std::string& GetNodeName() { return node_.name; }
 
+	void EditNodeName();
+
 	void SetNodeType(NodeType _type) { type_ = _type; }
 
 	BehaviorStatus GetState() const { return state_; }
 
 	bool GetIsDelete() const { return isDelete_; }
 
-	void SetPos(const Vector2& _pos) { 
+	void SetPos(const Vector2& _pos) {
 		setNodePos_ = false;
 		pos_ = _pos;
 	}
 	Vector2 GetPos() { return pos_; }
 
 	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }
+
+	void SetWeight(float _weight) { weight_ = _weight; }
+	float GetWeight() const { return weight_; }
+
+	void SetWeightIndex(uint32_t index) { weightIndex_ = index; }
+	uint32_t GetWeightIndex() const { return weightIndex_; }
+
+	void SetCoolTimer(float _timer) { coolTimer_ = _timer; }
+	float GetCoolTimer() const { return coolTimer_; }
+
+	void SetCoolTime(float _coolTime) { coolTime_ = _coolTime; }
+	float GetCoolTime() const { return coolTime_; }
 
 private:
 
@@ -139,7 +155,12 @@ protected:
 	Vector2 pos_;		// Nodeの座標
 	bool setNodePos_;	// Node座標の設定を行ったかどうか
 
-	float coolTime_;	// taskのCoolTime
+	float coolTime_ = 0;	// taskのCoolTime
+	float coolTimer_ = 0;
+
+	// weight
+	float weight_;
+	uint32_t weightIndex_ = 0;
 
 	// -------------------------------------------------
 	// ↓ Debug用

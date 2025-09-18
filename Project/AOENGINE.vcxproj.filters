@@ -341,6 +341,14 @@
     <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
     <ClCompile Include="Engine\Module\Components\Rigging\InverseKinematics.cpp" />
     <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerSelectorNode.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -639,6 +647,14 @@
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
     <ClInclude Include="Engine\Module\Components\Rigging\InverseKinematics.h" />
     <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h" />
+    <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerSelectorNode.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

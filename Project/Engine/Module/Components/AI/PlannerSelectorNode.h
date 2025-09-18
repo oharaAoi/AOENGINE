@@ -1,15 +1,16 @@
 #pragma once
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include <Lib/Json/IJsonConverter.h>
 
-class SelectorNode :
+class PlannerSelectorNode :
 	public IBehaviorNode {
 public:
 
-	SelectorNode();
-	~SelectorNode() override = default;
+	PlannerSelectorNode();
+	~PlannerSelectorNode() override = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
-		return std::make_shared<SelectorNode>(*this);
+		return std::make_shared<PlannerSelectorNode>(*this);
 	}
 
 	json ToJson() override;
@@ -19,4 +20,11 @@ public:
 	float EvaluateWeight() override;
 
 	void Debug_Gui() override;
+
+private:
+
+	std::unordered_map<uint32_t, float> priorityMap_;
+	bool reset_ = false;
+
 };
+

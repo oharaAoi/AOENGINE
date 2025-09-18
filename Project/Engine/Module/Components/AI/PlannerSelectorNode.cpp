@@ -1,16 +1,15 @@
-#include "WeightSelectorNode.h"
-#include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "PlannerSelectorNode.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
-WeightSelectorNode::WeightSelectorNode() {
-	color_ = ImColor(144, 238, 144);
+PlannerSelectorNode::PlannerSelectorNode() {
+	color_ = ImColor(255, 31, 31);
 	baseColor_ = color_;
-	type_ = NodeType::WeightSelector;
-	SetNodeName("WeightSelector");
-	isReset_ = false;
+	type_ = NodeType::PlannerSelector;
+	SetNodeName("PlannerSelector");
+	reset_ = false;
 }
 
-json WeightSelectorNode::ToJson() {
+json PlannerSelectorNode::ToJson() {
 	json item;
 	item["name"] = node_.name;
 	item["nodeType"] = static_cast<int>(type_);
@@ -23,33 +22,32 @@ json WeightSelectorNode::ToJson() {
 	return item;
 }
 
-BehaviorStatus WeightSelectorNode::Execute() {
+BehaviorStatus PlannerSelectorNode::Execute() {
 	if (children_.empty()) {
 		currentIndex_ = 0;
 		return BehaviorStatus::Inactive;
 	}
 
 	// すべてのNodeを実行する
-	if (weightMap_.empty() || isReset_) {
+	if (priorityMap_.empty() || reset_) {
 		for (uint32_t index = 0; index < children_.size(); ++index) {
 			float weight = children_[index]->EvaluateWeight();
-			weightMap_[index] = weight;
+			priorityMap_[index] = weight;
 		}
 
-		if (weightMap_.empty()) {
+		if (priorityMap_.empty()) {
 			return BehaviorStatus::Success;
 		}
 
-		// weightの中から一番値の高いものを取得する
-		/*auto it = std::max_element(
-			weightMap_.begin(), weightMap_.end(),
-			[](const auto& a, const auto& b) {
-				return a.second < b.second;
-			}
-		);*/
+		//// weightの中から一番値の高いものを取得する
+		//priorityMap_.begin(), priorityMap_.end(),
+		//	[](const auto& a, const auto& b) {
+		//	return a.second < b.second;
+		//	};
+		  // key と weight の配列を作る
 		std::vector<uint32_t> keys;
 		std::vector<double> weights;
-		for (auto& [key, value] : weightMap_) {
+		for (auto& [key, value] : priorityMap_) {
 			keys.push_back(key);
 			weights.push_back(static_cast<double>(value));
 		}
@@ -59,15 +57,16 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		std::mt19937 gen(rd());
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
-		currentIndex_ = keys[dist(gen)];;
-		isReset_ = false;
+
+ 		currentIndex_ = keys[dist(gen)];;
+		reset_ = false;
 		return BehaviorStatus::Running;
 	} else {
 		// 選択されたindexを実行する
 		BehaviorStatus status = children_[currentIndex_]->Execute();
 
 		if (status == BehaviorStatus::Success) {
-			isReset_ = true;
+			reset_ = true;
 			return BehaviorStatus::Success;
 		}
 		if (status == BehaviorStatus::Running) {
@@ -82,7 +81,9 @@ BehaviorStatus WeightSelectorNode::Execute() {
 	return BehaviorStatus::Inactive;
 }
 
-void WeightSelectorNode::Debug_Gui() {
-	ImGui::BulletText("Task Name : %s", node_.name.c_str());
-	InputTextWithString("ReName:", "##wightSelector", node_.name);
+float PlannerSelectorNode::EvaluateWeight() {
+	return 0.0f;
+}
+
+void PlannerSelectorNode::Debug_Gui() {
 }

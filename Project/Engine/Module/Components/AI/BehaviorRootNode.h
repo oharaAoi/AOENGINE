@@ -16,6 +16,8 @@ public:
 		return std::make_shared<BehaviorRootNode>(*this);
 	}
 
+	json ToJson() override;
+
 	BehaviorStatus Execute() override;
 
 	float EvaluateWeight() override { return 0; }

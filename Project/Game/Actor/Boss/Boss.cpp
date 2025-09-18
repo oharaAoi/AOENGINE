@@ -10,7 +10,6 @@
 
 #include "Game/Actor/Boss/Action/BossActionWait.h"
 #include "Game/Actor/Boss/Action/Move/BossActionFloat.h"
-
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
 #include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
@@ -25,6 +24,10 @@
 #include "Game/Actor/Boss/Action/Attack/BossActionRapidfire.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 
+#include "Game/Actor/Boss/GoalOriented/TargetDeadOriented.h"
+#include "Game/Actor/Boss/GoalOriented/SafeDistanceOriented.h"
+#include "Game/Actor/Boss/GoalOriented/DeployArmorOriented.h"
+
 void Boss::Finalize() {
 }
 
@@ -38,6 +41,7 @@ void Boss::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Parameter")) {
 		ImGui::DragFloat("Health", &param_.health, 0.1f);
 		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
+		ImGui::DragFloat("armorCoolTime", &param_.armorCoolTime, 0.1f);
 
 		if (ImGui::Button("Reset")) {
 			initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
@@ -76,16 +80,30 @@ void Boss::Init() {
 	object_->SetPhysics();
 	object_->GetRigidbody()->SetGravity(false);
 
-	AI_ = std::make_unique<BossAI>();
-	AI_->Init();
-	this->AddChild(AI_.get());
+	initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+	param_ = initParam_;
 
 	// -------------------------------------------------
 	// ↓ Tree関連
 	// -------------------------------------------------
 
+	worldState_ = std::make_unique<BossWorldState>();
+	worldState_->Set<float>("hp", param_.health);
+	worldState_->Set<float>("maxHp", param_.health);
+	worldState_->Set<float>("postureStability", 0);
+	worldState_->Set<float>("maxPostureStability", param_.postureStability);
+	worldState_->Set<float>("targetToDistance", 0.0f);
+	worldState_->Set<float>("idealDistance", 50.0f);
+	worldState_->Set<bool>("isTargetDead", false);
+	worldState_->Set<bool>("isDeployArmor", true);
+
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
+	behaviorTree_->SetName("Boss Behavior Tree");
+	behaviorTree_->SetWorldState(worldState_.get());
+	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());
+	behaviorTree_->AddGoal(std::make_shared<SafeDistanceOriented>());
+	behaviorTree_->AddGoal(std::make_shared<DeployArmorOriented>());
 	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "Wait"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionFloat>(this, "Float"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionApproach>(this, "Approach"));
@@ -101,8 +119,8 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
-	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossBehaviorTree1.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->CreateTree("./Game/Assets/GameData/BehaviorTree/BossTree.json");
+	behaviorTree_->SetExecute(true);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
 	evaluationFormula_->Init(this);
@@ -127,12 +145,10 @@ void Boss::Init() {
 	// ↓ State関連
 	// -------------------------------------------------
 
-	initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-	param_ = initParam_;
-
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = true;
 	isStan_ = false;
+	isArmorDeploy_ = true;
 
 	phase_ = BossPhase::FIRST;
 
@@ -148,6 +164,21 @@ void Boss::Update() {
 		stateMachine_->Update();
 		return;
 	}
+
+	if (!pulseArmor_->GetIsAlive()) {
+		isArmorDeploy_ = false;
+		param_.armorCoolTime -= GameTimer::DeltaTime();
+		if (param_.armorCoolTime <= 0.0f) {
+			isArmorDeploy_ = true;
+			param_.armorCoolTime = initParam_.armorCoolTime;
+		}
+	}
+
+	worldState_->Set("hp", param_.health);
+	worldState_->Set("postureStability", param_.postureStability);
+	worldState_->Set("targetToDistance", Length(GetPosition() - playerPosition_));
+	worldState_->Set("isTargetDead", isTargetDead_);
+	worldState_->Set("isDeployArmor", isArmorDeploy_);
 
 	stateMachine_->Update();
 	behaviorTree_->Run();

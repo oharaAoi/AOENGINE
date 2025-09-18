@@ -1,0 +1,53 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "name": "TargetEnemy",
+                    "nodePos": {
+                        "x": -459.0,
+                        "y": -74.0
+                    },
+                    "nodeType": 5,
+                    "orientedName": "TargetDead",
+                    "treeFileName": "./Game/Assets/GameData/BehaviorTree/BossAttackTree.json"
+                },
+                {
+                    "children": [],
+                    "name": "SafeDistance",
+                    "nodePos": {
+                        "x": -267.0,
+                        "y": -78.0
+                    },
+                    "nodeType": 5,
+                    "orientedName": "SafeDistance",
+                    "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Game\\Assets\\GameData\\BehaviorTree\\SafeDistanceTree.json"
+                },
+                {
+                    "children": [],
+                    "name": "Planner",
+                    "nodePos": {
+                        "x": -75.0,
+                        "y": -78.0
+                    },
+                    "nodeType": 5,
+                    "orientedName": "DeployArmor",
+                    "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Game\\Assets\\GameData\\BehaviorTree\\DeployArmorTree.json"
+                }
+            ],
+            "name": "PlannerSelector",
+            "nodePos": {
+                "x": -350.0,
+                "y": -234.0
+            },
+            "nodeType": 6
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": -283.0,
+        "y": -410.0
+    },
+    "nodeType": 0
+}

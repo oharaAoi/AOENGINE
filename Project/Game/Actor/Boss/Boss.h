@@ -10,6 +10,7 @@
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Boss/BossAI.h"
 #include "Game/Actor/Boss/BossEvaluationFormula.h"
+#include "Game/Actor/Boss/GoalOriented/BossWorldState.h"
 #include "Game/Actor/Weapon/Armors.h"
 
 enum class BossPhase {
@@ -26,6 +27,7 @@ public:
 	struct Parameter : public IJsonConverter {
 		float health;
 		float postureStability;
+		float armorCoolTime = 20.0f;
 
 		Parameter() { SetName("bossParameter"); }
 
@@ -33,12 +35,14 @@ public:
 			return JsonBuilder(id)
 				.Add("health", health)
 				.Add("postureStability", postureStability)
+				.Add("armorCoolTime", armorCoolTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "health", health);
 			fromJson(jsonData, "postureStability", postureStability);
+			fromJson(jsonData, "armorCoolTime", armorCoolTime);
 		}
 	};
 public:
@@ -49,7 +53,7 @@ public:
 	void Finalize();
 	void Init();
 	void Update();
-	
+
 	void Debug_Gui() override;
 
 public:		// menber method
@@ -77,9 +81,6 @@ public:
 	// armor
 	Armors* GetPulseArmor() { return pulseArmor_.get(); }
 
-	// AI
-	BossAI* GetAI() { return AI_.get(); }
-
 	// UI
 	void SetUIs(BossUIs* _pBossUIs) { pBossUIs_ = _pBossUIs; }
 	BossUIs* GetUIs() { return pBossUIs_; }
@@ -91,8 +92,12 @@ public:
 	bool GetIsBreak() const { return isBreak_; }
 
 	// stan
-	bool GetIsStan() const { return isStan_; }
 	void SetIsStan(bool isStan) { isStan_ = isStan; }
+	bool GetIsStan() const { return isStan_; }
+
+	// targetDead
+	void SetIsTargetDead(bool _isTargetDead) { isTargetDead_ = _isTargetDead; }
+	bool GetIsTargetDead() const { return isTargetDead_; }
 
 	// Treeを止める
 	void SetExecute(bool _isStop) { behaviorTree_->SetExecute(_isStop); }
@@ -125,11 +130,12 @@ private:
 	bool isAlive_;
 	bool isBreak_;
 	bool isStan_;
+	bool isTargetDead_;
+	bool isArmorDeploy_;
 
 	// AI --------------------------------------------------
-	std::unique_ptr<BossAI> AI_;
-
 	std::unique_ptr<BehaviorTree> behaviorTree_;
+	std::unique_ptr<BossWorldState> worldState_;
 
 	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;
 

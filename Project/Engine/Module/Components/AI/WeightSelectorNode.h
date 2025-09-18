@@ -16,6 +16,8 @@ public:
 		return std::make_shared<WeightSelectorNode>(*this);
 	}
 
+	json ToJson() override;
+
 	BehaviorStatus Execute() override;
 
 	float EvaluateWeight() override { return 0; }
@@ -25,6 +27,7 @@ public:
 private:
 
 	std::unordered_map<uint32_t, float> weightMap_;
+	bool isReset_ = false;
 
 };
 
