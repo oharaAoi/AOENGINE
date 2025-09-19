@@ -31,6 +31,7 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 	// すべてのNodeを実行する
 	if (priorityMap_.empty() || reset_) {
 		for (uint32_t index = 0; index < children_.size(); ++index) {
+			children_[index]->SetState(BehaviorStatus::Inactive);
 			float weight = children_[index]->EvaluateWeight();
 			priorityMap_[index] = weight;
 		}
@@ -58,7 +59,9 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
 
- 		currentIndex_ = keys[dist(gen)];;
+ 		currentIndex_ = keys[dist(gen)];
+		children_[currentIndex_]->Execute();
+		children_[currentIndex_]->SetState(BehaviorStatus::Running);
 		reset_ = false;
 		return BehaviorStatus::Running;
 	} else {

@@ -1,0 +1,10 @@
+{
+    "bossActionApproach": {
+        "decayRate": 5.0,
+        "deceleration": 2.0,
+        "maxSpinDistance": 0.800000011920929,
+        "moveSpeed": 30.0,
+        "moveTime": 1.399999976158142,
+        "quitApproachLength": 5.0
+    }
+}

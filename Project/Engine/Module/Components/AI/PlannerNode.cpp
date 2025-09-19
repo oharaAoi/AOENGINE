@@ -43,15 +43,16 @@ json PlannerNode::ToJson() {
 }
 
 BehaviorStatus PlannerNode::Execute() {
+	bool isExecute = tree_->Run();
+
 	if (goal_) {
 		if (goal_->IsGoal()) {
 			return BehaviorStatus::Success;
 		}
 	}
 
-	bool isExecute = tree_->Run();
 	if (isExecute) {
-		return BehaviorStatus::Success;
+		return BehaviorStatus::Running;
 	} else {
 		return BehaviorStatus::Failure;
 	}

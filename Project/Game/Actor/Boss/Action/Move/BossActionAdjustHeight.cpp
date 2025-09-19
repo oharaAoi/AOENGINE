@@ -44,7 +44,7 @@ bool BossActionAdjustHeight::IsFinish() {
         return true;
     }
 
-    if (taskTimer_ < 4.0f) {
+    if (taskTimer_ < 2.0f) {
         return true;
     }
 
@@ -68,6 +68,9 @@ void BossActionAdjustHeight::Init() {
     speed_ = 0.0f;
 
     taskTimer_ = 0.0f;
+
+    pTarget_->SetIsMove(true);
+    pTarget_->SetIsAttack(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,4 +89,5 @@ void BossActionAdjustHeight::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::End() {
+    pTarget_->SetIsMove(false);
 }

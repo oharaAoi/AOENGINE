@@ -94,7 +94,9 @@ void SceneManager::SetChange(const SceneType& type) {
 	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
 	scene_ = std::move(nextScene_);
 
+#ifdef _DEBUG
 	EditorWindows::GetInstance()->Reset();
+#endif // _DEBUG
 
 	PostProcess* postProcess = Engine::GetPostProcess();
 	EditorWindows::AddObjectWindow(postProcess, "Post Process");

@@ -109,6 +109,7 @@ public:
 
 	void SetNodeType(NodeType _type) { type_ = _type; }
 
+	void SetState(BehaviorStatus state) { state_ = state; }
 	BehaviorStatus GetState() const { return state_; }
 
 	bool GetIsDelete() const { return isDelete_; }

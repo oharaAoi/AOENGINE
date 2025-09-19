@@ -96,6 +96,8 @@ void Boss::Init() {
 	worldState_->Set<float>("idealDistance", 50.0f);
 	worldState_->Set<bool>("isTargetDead", false);
 	worldState_->Set<bool>("isDeployArmor", true);
+	worldState_->Set<bool>("isAttack", false);
+	worldState_->Set<bool>("isMove", false);
 
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
@@ -139,6 +141,7 @@ void Boss::Init() {
 	pulseArmor_ = std::make_unique<Armors>();
 	pulseArmor_->Init("Boss");
 	pulseArmor_->SetParent(transform_->GetWorldMatrix());
+	pulseArmor_->SetArmor();
 	this->AddChild(pulseArmor_.get());
 
 	// -------------------------------------------------
@@ -148,7 +151,9 @@ void Boss::Init() {
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = true;
 	isStan_ = false;
-	isArmorDeploy_ = true;
+	isArmorDeploy_ = false;
+	isAttack_ = false;
+	isMove_ = false;
 
 	phase_ = BossPhase::FIRST;
 
@@ -166,7 +171,6 @@ void Boss::Update() {
 	}
 
 	if (!pulseArmor_->GetIsAlive()) {
-		isArmorDeploy_ = false;
 		param_.armorCoolTime -= GameTimer::DeltaTime();
 		if (param_.armorCoolTime <= 0.0f) {
 			isArmorDeploy_ = true;
@@ -179,6 +183,8 @@ void Boss::Update() {
 	worldState_->Set("targetToDistance", Length(GetPosition() - playerPosition_));
 	worldState_->Set("isTargetDead", isTargetDead_);
 	worldState_->Set("isDeployArmor", isArmorDeploy_);
+	worldState_->Set<bool>("isAttack", isAttack_);
+	worldState_->Set<bool>("isMove", isMove_);
 
 	stateMachine_->Update();
 	behaviorTree_->Run();

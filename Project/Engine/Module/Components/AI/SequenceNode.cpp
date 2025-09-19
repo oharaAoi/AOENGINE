@@ -48,8 +48,12 @@ BehaviorStatus SequenceNode::Execute() {
 
 float SequenceNode::EvaluateWeight() {
 	if (children_.empty()) { return 0; }
-	// セレクタの場合は先頭の子どもの重さを計算する
-	return children_[0]->EvaluateWeight();
+	float value = 0;
+	for (auto child : children_) {
+		value += child->EvaluateWeight();
+	}
+	value /= static_cast<float>(children_.size());
+	return value;
 }
 
 void SequenceNode::Debug_Gui() {

@@ -59,7 +59,8 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		std::mt19937 gen(rd());
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
-		currentIndex_ = keys[dist(gen)];;
+		currentIndex_ = keys[dist(gen)];
+		children_[currentIndex_]->Execute();
 		isReset_ = false;
 		return BehaviorStatus::Running;
 	} else {

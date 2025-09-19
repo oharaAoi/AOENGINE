@@ -5,7 +5,7 @@ SafeDistanceOriented::SafeDistanceOriented() {
 }
 
 bool SafeDistanceOriented::IsGoal() {
-    if (worldState_->Get<float>("targetToDistance") < 100.0f) {
+    if (!worldState_->Get<bool>("isMove")) {
         return true;
     }
     return false;
@@ -15,5 +15,10 @@ float SafeDistanceOriented::CalculationScore() {
     float current = worldState_->Get<float>("postureStability");
     float maxCurrent = worldState_->Get<float>("maxPostureStability");
     float raito = current / maxCurrent;
-    return raito;
+
+    float distance = worldState_->Get<float>("targetToDistance");
+    float idealDistance = worldState_->Get<float>("idealDistance");
+    float totalDistance = std::fabs(distance - idealDistance) / idealDistance;
+
+    return (raito + totalDistance) / 2.0f;
 }

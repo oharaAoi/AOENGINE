@@ -17,6 +17,17 @@ float BossActionStrafe::EvaluateWeight() {
 
 void BossActionStrafe::Debug_Gui() {
 	ITaskNode::Debug_Gui();
+	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
+	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
+	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
+	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+
+	if (ImGui::Button("Save")) {
+		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
+	}
+	if (ImGui::Button("Apply")) {
+		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,6 +88,9 @@ void BossActionStrafe::Init() {
 	}
 
 	velocity_ = tangent.Normalize() * param_.moveSpeed;
+
+	pTarget_->SetIsMove(true);
+	pTarget_->SetIsAttack(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,6 +116,7 @@ void BossActionStrafe::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionStrafe::End() {
+	pTarget_->SetIsMove(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

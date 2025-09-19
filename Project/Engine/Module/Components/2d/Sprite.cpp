@@ -182,7 +182,7 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 	vertexData_[2].pos = { right, bottom, 0.0f, 1.0f };
 	vertexData_[3].pos = { right, top, 0.0f, 1.0f };
 
-	float tex_left = leftTop_.x - spriteSize_.x;
+	/*float tex_left = leftTop_.x - spriteSize_.x;
 	float tex_right = (leftTop_.x + drawRange_.x) - spriteSize_.x;
 	float tex_top = leftTop_.y - spriteSize_.y;
 	float tex_bottom = (leftTop_.y + drawRange_.y) - spriteSize_.y;
@@ -190,7 +190,12 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 	vertexData_[0].texcoord = { tex_left, tex_bottom };
 	vertexData_[1].texcoord = { tex_left, tex_top };
 	vertexData_[2].texcoord = { tex_right, tex_bottom };
-	vertexData_[3].texcoord = { tex_right, tex_top };
+	vertexData_[3].texcoord = { tex_right, tex_top };*/
+
+	vertexData_[0].texcoord = { 0.0f, 1.0f };
+	vertexData_[1].texcoord = { 0.0f, 0.0f };
+	vertexData_[2].texcoord = { 1.0f, 1.0f };
+	vertexData_[3].texcoord = { 1.0f, 0.0f };
 
 }
 

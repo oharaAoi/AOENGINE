@@ -8,7 +8,7 @@ BehaviorStatus BossActionApproach::Execute() {
 }
 
 float BossActionApproach::EvaluateWeight() {
-	return pTarget_->GetEvaluationFormula()->ApproachEvaluation(10.0f, 200.0f);
+	return pTarget_->GetEvaluationFormula()->ApproachEvaluation(50.0f, 100.0f);
 }
 
 void BossActionApproach::Debug_Gui() {
@@ -46,6 +46,8 @@ void BossActionApproach::Init() {
 
 	isShot_ = true;
 	stopping_ = false;
+	pTarget_->SetIsMove(true);
+	pTarget_->SetIsAttack(false);
 }
 
 void BossActionApproach::Update() {
@@ -58,6 +60,7 @@ void BossActionApproach::Update() {
 }
 
 void BossActionApproach::End() {
+	pTarget_->SetIsMove(false);
 }
 
 bool BossActionApproach::IsFinish() {

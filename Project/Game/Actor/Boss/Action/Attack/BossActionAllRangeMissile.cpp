@@ -65,6 +65,7 @@ void BossActionAllRangeMissile::Init() {
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert();
+	pTarget_->SetIsAttack(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +83,7 @@ void BossActionAllRangeMissile::Update() {
 
 void BossActionAllRangeMissile::End() {
 	coolTime_ = param_.coolTime;
+	pTarget_->SetIsAttack(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

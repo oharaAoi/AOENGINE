@@ -11,20 +11,21 @@ class BossActionShotMissile :
 public:
 
 	struct Parameter : public IJsonConverter {
-		AttackActionWeight actionWeight_;
+		float shotInterval = 0.1f;
+		float bulletSpeed = 100.0f;
 
 		Parameter() { SetName("bossActionShotMissile"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
-				.Add("weight", actionWeight_.weight)
-				.Add("weightInc", actionWeight_.weightInc)
+				.Add("shotInterval", shotInterval)
+				.Add("bulletSpeed", bulletSpeed)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "weight", actionWeight_.weight);
-			fromJson(jsonData, "weightInc", actionWeight_.weightInc);
+			fromJson(jsonData, "shotInterval", shotInterval);
+			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 		}
 	};
 
@@ -55,12 +56,10 @@ private:
 	void Shot();
 
 private :
+	Parameter param_;
 
 	// 弾を打ち終わったかのフラグ
 	bool isFinishShot_;
-	float shotInterval_;
-
-	float bulletSpeed_;
 
 	const uint32_t kFireCount_ = 4;
 	uint32_t fireCount_;

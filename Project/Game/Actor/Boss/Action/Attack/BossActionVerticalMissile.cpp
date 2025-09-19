@@ -8,7 +8,7 @@ BehaviorStatus BossActionVerticalMissile::Execute() {
 }
 
 float BossActionVerticalMissile::EvaluateWeight() {
-	return 0.3f;
+	return 0.2f;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -46,6 +46,8 @@ void BossActionVerticalMissile::Init() {
 
 	taskTimer_ = 0.0f;
 	fireCount_ = 0;
+
+	pTarget_->SetIsAttack(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -65,6 +67,7 @@ void BossActionVerticalMissile::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionVerticalMissile::End() {
+	pTarget_->SetIsAttack(true);
 }
 
 void BossActionVerticalMissile::Shot() {

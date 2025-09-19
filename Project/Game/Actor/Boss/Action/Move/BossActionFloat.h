@@ -1,11 +1,33 @@
 #pragma once
 #include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 class Boss;
 
 
 class BossActionFloat :
 	public ITaskNode<Boss>{
+
+public:
+
+	struct Parameter : public IJsonConverter {
+		float moveTime = 0.5f;
+		float moveSpeed = 10.0f;
+
+		Parameter() { SetName("BossActionFloat"); }
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("moveTime", moveTime)
+				.Add("moveSpeed", moveSpeed)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "moveTime", moveTime);
+			fromJson(jsonData, "moveSpeed", moveSpeed);
+		}
+	};
 
 public:
 
@@ -30,6 +52,6 @@ public:
 	void End() override;
 
 private:
-
+	Parameter param_;
 };
 

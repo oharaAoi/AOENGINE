@@ -62,6 +62,7 @@ void BossActionRapidfire::Init() {
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert();
+	pTarget_->SetIsAttack(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +84,7 @@ void BossActionRapidfire::Update() {
 
 void BossActionRapidfire::End() {
 	coolTime_ = param_.coolTime;
+	pTarget_->SetIsAttack(true);
 }
 
 void BossActionRapidfire::Shot() {

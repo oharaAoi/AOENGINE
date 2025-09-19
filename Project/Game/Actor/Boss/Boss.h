@@ -99,6 +99,13 @@ public:
 	void SetIsTargetDead(bool _isTargetDead) { isTargetDead_ = _isTargetDead; }
 	bool GetIsTargetDead() const { return isTargetDead_; }
 
+	void SetIsArmorDeploy(bool _isDeployArmor) { isArmorDeploy_ = _isDeployArmor; }
+
+	void SetIsAttack(bool _isAttack) { isAttack_ = _isAttack; }
+	bool GetIsAttack() const { return isAttack_; }
+
+	void SetIsMove(bool _isMove) { isMove_ = _isMove; }
+
 	// Treeを止める
 	void SetExecute(bool _isStop) { behaviorTree_->SetExecute(_isStop); }
 
@@ -132,6 +139,8 @@ private:
 	bool isStan_;
 	bool isTargetDead_;
 	bool isArmorDeploy_;
+	bool isAttack_;
+	bool isMove_;
 
 	// AI --------------------------------------------------
 	std::unique_ptr<BehaviorTree> behaviorTree_;
