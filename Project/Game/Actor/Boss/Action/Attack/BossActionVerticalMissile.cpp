@@ -48,6 +48,7 @@ void BossActionVerticalMissile::Init() {
 	fireCount_ = 0;
 
 	pTarget_->SetIsAttack(false);
+	pTarget_->LogAI(GetNodeName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

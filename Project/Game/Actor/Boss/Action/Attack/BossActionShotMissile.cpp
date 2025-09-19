@@ -9,7 +9,7 @@ BehaviorStatus BossActionShotMissile::Execute() {
 }
 
 float BossActionShotMissile::EvaluateWeight() {
-	return 0.4f;
+	return 0.3f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +61,7 @@ void BossActionShotMissile::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert();
 	pTarget_->SetIsAttack(false);
+	pTarget_->LogAI(GetNodeName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

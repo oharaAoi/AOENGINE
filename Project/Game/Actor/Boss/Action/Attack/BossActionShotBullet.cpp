@@ -62,6 +62,7 @@ void BossActionShotBullet::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert();
 	pTarget_->SetIsAttack(false);
+	pTarget_->LogAI(GetNodeName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

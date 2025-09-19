@@ -7,6 +7,7 @@ void BossLotteryAction::Init(const std::string& actionName) {
 	weightParameter_.FromJson(JsonItems::GetData("BossActionWeight", weightParameter_.GetName()));
 
 	initWeightParameter_ = weightParameter_;
+
 }
 
 void BossLotteryAction::Debug_Gui() {

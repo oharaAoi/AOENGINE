@@ -62,6 +62,8 @@ public:		// menber method
 
 	void ResetStan();
 
+	void LogAI(const std::string& message);
+
 public:
 
 	// state
@@ -155,5 +157,7 @@ private:
 	// UI -----------------------------------------------------------
 	BossUIs* pBossUIs_;
 
+	static std::string taskLogFile_;
+	int logCount_;
 };
 

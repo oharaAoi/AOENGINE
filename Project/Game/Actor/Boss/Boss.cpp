@@ -28,6 +28,8 @@
 #include "Game/Actor/Boss/GoalOriented/SafeDistanceOriented.h"
 #include "Game/Actor/Boss/GoalOriented/DeployArmorOriented.h"
 
+std::string Boss::taskLogFile_;
+
 void Boss::Finalize() {
 }
 
@@ -82,6 +84,25 @@ void Boss::Init() {
 
 	initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
 	param_ = initParam_;
+
+	std::filesystem::create_directory("Log_AI");
+	
+	// 現在時刻を取得
+	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+	// ログ・ファイルの名前にコンマ秒はいらないので削る
+	std::chrono::time_point<std::chrono::system_clock, std::chrono::seconds> nowSeconds
+		= std::chrono::time_point_cast<std::chrono::seconds>(now);
+	// 日本時間に変換
+	std::chrono::zoned_time localTime{ std::chrono::current_zone(), nowSeconds };
+	// 年月日の文字列に変更
+	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
+	// 時刻を使ってファイル名を決定
+	taskLogFile_ = std::string("Log_AI/") + dateString + ".log";
+	// ファイルを作って書き込み準備
+	std::ofstream logStream(taskLogFile_);
+
+	logStream << "SUCCESS CREATE LOG" << std::endl;
+	logCount_ = 0;
 
 	// -------------------------------------------------
 	// ↓ Tree関連
@@ -228,4 +249,14 @@ void Boss::ResetStan() {
 	isStan_ = false;
 	param_.postureStability -= initParam_.postureStability;
 	behaviorTree_->SetExecute(true);
+}
+
+void Boss::LogAI(const std::string& message) {
+	if (logCount_ > 50) {
+ 		return;
+	}
+	std::ofstream logStream(taskLogFile_, std::ios::app);
+	logStream << message << std::endl;
+	OutputDebugStringA(message.c_str());
+	logCount_++;
 }
