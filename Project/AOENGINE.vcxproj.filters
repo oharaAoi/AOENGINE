@@ -349,6 +349,7 @@
     <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\PlannerSelectorNode.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_bezier_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -655,6 +656,7 @@
     <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h" />
     <ClInclude Include="Engine\Module\Components\AI\PlannerSelectorNode.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
+    <ClInclude Include="Externals\ImGui\imgui_bezier_editor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

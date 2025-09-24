@@ -4,6 +4,7 @@
             "children": [
                 {
                     "children": [],
+                    "coolTime": 0.0,
                     "name": "TargetEnemy",
                     "nodePos": {
                         "x": -459.0,
@@ -15,6 +16,7 @@
                 },
                 {
                     "children": [],
+                    "coolTime": 0.0,
                     "name": "SafeDistance",
                     "nodePos": {
                         "x": -267.0,
@@ -26,7 +28,8 @@
                 },
                 {
                     "children": [],
-                    "name": "Planner",
+                    "coolTime": 0.0,
+                    "name": "DeployArmor",
                     "nodePos": {
                         "x": -75.0,
                         "y": -78.0
@@ -38,7 +41,7 @@
             ],
             "name": "PlannerSelector",
             "nodePos": {
-                "x": -350.0,
+                "x": -283.0,
                 "y": -234.0
             },
             "nodeType": 6
@@ -47,7 +50,7 @@
     "name": "Root",
     "nodePos": {
         "x": -283.0,
-        "y": -410.0
+        "y": -382.0
     },
     "nodeType": 0
 }

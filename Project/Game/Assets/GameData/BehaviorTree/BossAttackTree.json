@@ -12,17 +12,17 @@
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         },
                         {
                             "children": [],
                             "name": "AllRangeMissile",
                             "nodePos": {
-                                "x": -382.0,
-                                "y": 482.0
+                                "x": -379.0,
+                                "y": 470.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -42,7 +42,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         },
                         {
                             "children": [],
@@ -52,7 +52,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -72,7 +72,7 @@
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         },
                         {
                             "children": [],
@@ -82,7 +82,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -91,6 +91,16 @@
                         "y": 354.0
                     },
                     "nodeType": 1
+                },
+                {
+                    "children": [],
+                    "name": "Strafe",
+                    "nodePos": {
+                        "x": 274.0,
+                        "y": 358.0
+                    },
+                    "nodeType": 4,
+                    "weight": 0.0
                 },
                 {
                     "children": [
@@ -102,7 +112,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         },
                         {
                             "children": [],
@@ -112,7 +122,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -132,7 +142,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         },
                         {
                             "children": [],
@@ -142,7 +152,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 0.0
+                            "weight": 1.0
                         }
                     ],
                     "name": "Sequence",

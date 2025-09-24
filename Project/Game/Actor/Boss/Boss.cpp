@@ -199,6 +199,10 @@ void Boss::Update() {
 		}
 	}
 
+	if (Input::IsTriggerKey(DIK_S)) {
+		behaviorTree_->SetExecute(true);
+	}
+
 	worldState_->Set("hp", param_.health);
 	worldState_->Set("postureStability", param_.postureStability);
 	worldState_->Set("targetToDistance", Length(GetPosition() - playerPosition_));

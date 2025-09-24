@@ -206,7 +206,7 @@ void Player::Update() {
 	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand") ,transform_->GetWorldMatrix());
 	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"),  transform_->GetWorldMatrix());
 
-	CameraIncline();
+	//CameraIncline();
 
 	/*ICollider* colliderLeg = object_->GetCollider("playerLeftLeg");
 	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
