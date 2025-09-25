@@ -81,6 +81,16 @@ public:		// accessor method
 	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
 
 	/// <summary>
+	/// 攻撃を行う
+	/// </summary>
+	void Attack(PlayerWeapon _weapon, AttackContext _contex);
+
+	/// <summary>
+	/// jointの座標の更新
+	/// </summary>
+	void UpdateJoint();
+
+	/// <summary>
 	/// ノックバック処理
 	/// </summary>
 	/// <param name="direction"></param>
@@ -219,6 +229,8 @@ private:
 	Vector2 screenPos_;
 	Vector2 screenPosPrev_;
 	float smoothedDiffX_ = 0.0f;
+
+	std::deque<std::pair<PlayerWeapon, AttackContext>> attackHistory_;
 
 	// IK --------------------------------------------------
 	std::unique_ptr<EndEffector> leftLegEffector_;

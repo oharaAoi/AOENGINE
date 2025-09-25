@@ -199,14 +199,16 @@ void Player::Update() {
 	}
 
 	jet_->Update();
+	UpdateJoint();
 
-	transform_->Update();
-	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
-	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
-	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand") ,transform_->GetWorldMatrix());
-	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"),  transform_->GetWorldMatrix());
+	CameraIncline();
 
-	//CameraIncline();
+	// 攻撃を行う
+	while (!attackHistory_.empty()) {
+		auto [weapon, context] = attackHistory_.front();
+		GetWeapon(weapon)->Attack(context);  // 使う
+		attackHistory_.pop_front();    // 先頭を削除
+	}
 
 	/*ICollider* colliderLeg = object_->GetCollider("playerLeftLeg");
 	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
@@ -226,6 +228,18 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 	} else if (type == PlayerWeapon::RIGHT_SHOULDER) {
 		pWeapons_[PlayerWeapon::RIGHT_SHOULDER] = _weapon;
 	}
+}
+
+void Player::Attack(PlayerWeapon _weapon, AttackContext _contex) {
+	attackHistory_.emplace_back(std::make_pair(_weapon, _contex));
+}
+
+void Player::UpdateJoint() {
+	transform_->Update();
+	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
+	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
+	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand"), transform_->GetWorldMatrix());
+	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"), transform_->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

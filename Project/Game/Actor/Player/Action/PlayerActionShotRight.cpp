@@ -82,10 +82,10 @@ void PlayerActionShotRight::Shot() {
 		// shotを放つ
 		if (pOwner_->GetIsLockOn()) {
 			Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
-			pOwner_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->Attack(AttackContext(dire, CVector3::ZERO));
+			pOwner_->Attack(PlayerWeapon::RIGHT_WEAPON, AttackContext(dire, CVector3::ZERO));
 		} else {
 			Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
-			pOwner_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->Attack(AttackContext(dire, CVector3::ZERO));
+			pOwner_->Attack(PlayerWeapon::RIGHT_WEAPON, AttackContext(dire, CVector3::ZERO));
 		}
 
 		// coolTimeの設定

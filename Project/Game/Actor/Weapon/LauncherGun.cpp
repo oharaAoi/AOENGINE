@@ -10,6 +10,7 @@ void LauncherGun::Finalize() {
 
 void LauncherGun::Debug_Gui() {
 	BaseWeapon::Debug_Gui();
+	ImGui::DragFloat3("offset", &offset_.x, .1f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,7 @@ void LauncherGun::Init() {
 	// -------------------------------------------------
 
 	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
+	gunFireParticles_->SetParent(transform_->GetWorldMatrix());
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }
@@ -36,12 +38,14 @@ void LauncherGun::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
  
 void LauncherGun::Attack(const AttackContext& cxt) {
+	object_->Update();
+
 	Vector3 worldPos = object_->GetPosition();
 	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * speed_);
 	bullet->SetTakeDamage(20.0f);
 	// effectを出す
-	Vector3 pos = worldPos;
-	pos += (cxt.direction * 4.f);
+	Vector3 pos = offset_;
+	pos = (cxt.direction * offset_.z);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
 }

@@ -73,6 +73,8 @@ void PlayerActionMove::OnStart() {
 		clip->PoseToAnimation("walk", 0.1f);
 		clip->SetIsLoop(true);
 	}
+
+	pOwner_->UpdateJoint();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

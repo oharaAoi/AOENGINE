@@ -33,7 +33,7 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		for (uint32_t index = 0; index < children_.size(); ++index) {
 			children_[index]->SetState(BehaviorStatus::Inactive);
 			float weight = children_[index]->EvaluateWeight();
-			priorityMap_[index] = weight;
+			priorityMap_[index] = std::clamp(weight, 0.0f, 1.0f);
 		}
 
 		if (priorityMap_.empty()) {

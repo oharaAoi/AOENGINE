@@ -23,6 +23,7 @@ public:		// member method
 private:
 
 	BaseParticles* gunFireParticles_;
+	Vector3 offset_;
 
 };
 

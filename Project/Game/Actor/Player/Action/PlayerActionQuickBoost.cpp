@@ -76,6 +76,7 @@ void PlayerActionQuickBoost::OnStart() {
 
 void PlayerActionQuickBoost::OnUpdate() {
 	Boost();
+	pOwner_->UpdateJoint();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
