@@ -32,6 +32,8 @@ public:
 
 	GpuParticleField* CreateField(const std::string& particlesFile);
 
+	void DeleteEmitter(GpuParticleEmitter* _emitter);
+
 private:
 
 	void AddEmitter(GpuParticleEmitter* _emitter);

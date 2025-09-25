@@ -28,7 +28,7 @@ void GpuParticleManager::Init() {
 	SetName("GpuParticleManager");
 
 	renderer_ = std::make_unique<GpuParticleRenderer>();
-	renderer_->Init(102400);
+	renderer_->Init(246000);
 
 	//EditorWindows::AddObjectWindow(this, "GpuParticleManager");
 }
@@ -76,6 +76,17 @@ GpuParticleField* GpuParticleManager::CreateField(const std::string& particlesFi
 	field->SetMaxParticleResource(renderer_->GetMaxBufferResource());
 	AddChild(field.get());
 	return field.get();
+}
+
+void GpuParticleManager::DeleteEmitter(GpuParticleEmitter* _emitter) {
+	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
+		if (it->get() == _emitter) {
+			DeleteChild(it->get()); // 削除時の追加処理
+			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
+		} else {
+			++it;
+		}
+	}
 }
 
 void GpuParticleManager::AddEmitter(GpuParticleEmitter* _emitter) {

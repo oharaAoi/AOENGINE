@@ -126,6 +126,7 @@ void GpuParticleEmitter::SetItem() {
 	emitterData_->maxScale = emitterItem_.maxScale;
 	emitterData_->targetScale = emitterItem_.targetScale;
 	emitterData_->rotate = emitterItem_.rotate;
+	emitterData_->prePos = emitterData_->pos;
 	if (parentWorldMat_ == nullptr) {
 		emitterData_->pos = emitterItem_.pos;
 	} else {

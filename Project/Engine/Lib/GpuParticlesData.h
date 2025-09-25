@@ -16,6 +16,8 @@ struct GpuParticleEmitterData {
 	float pad4;
 	Vector3 pos;
 	float pad5;
+	Vector3 prePos;
+	float pad6;
 	Vector3 size;
 
 	uint32_t count;
@@ -38,7 +40,7 @@ struct GpuParticleEmitterData {
 	float radius;
 	float angle;
 	float height;
-	float pad6;
+	float pad7;
 };
 
 enum EmitType {

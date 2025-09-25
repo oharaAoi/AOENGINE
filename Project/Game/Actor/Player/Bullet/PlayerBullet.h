@@ -1,6 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
 enum PlayerBulletType {
 	MACHINEGUN,
@@ -31,7 +32,7 @@ public:
 private:
 
 	uint32_t bulletType = MACHINEGUN;
-	BaseParticles* trail_;
+	GpuParticleEmitter* trail_;
 
 };
 

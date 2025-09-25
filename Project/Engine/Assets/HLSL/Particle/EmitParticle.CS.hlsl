@@ -9,6 +9,7 @@ struct Emitter {
 	float3 targetScale;
 	float3 rotate;
 	float3 pos;
+	float3 prePos;
 	float3 size;
 
 	int count;
@@ -86,16 +87,22 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].scale = float3(x, y, z);
 			}
 			
+			float t = 0;
+			if (countIndex > 1) {
+				t = (countIndex) / float(gEmitter.count - 1);
+			}
+			float3 pos = lerp(gEmitter.prePos, gEmitter.pos, t);
+			
 			// 半径から射出位置を決定する
 			float3 emitPos;
 			if (gEmitter.emitOrigin == 0) {
-				emitPos = gEmitter.pos;
+				emitPos = pos;
 			}
 			else if (gEmitter.emitOrigin == 1) {
 				float rangeX = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
 				float rangeY = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
 				float rangeZ = generator.Generated1dRange(-gEmitter.radius, gEmitter.radius);
-				emitPos = float3(rangeX, rangeY, rangeZ) + gEmitter.pos;
+				emitPos = float3(rangeX, rangeY, rangeZ) + pos;
 			}
 			else if (gEmitter.emitOrigin == 2 || gEmitter.emitOrigin == 3) {
 				float u = generator.Generated1dRange(0, 1);
@@ -108,13 +115,13 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				dir.y = sin(phi) * sin(theta);
 				dir.z = cos(phi);
 
-				emitPos = gEmitter.pos + (dir * gEmitter.radius);
+				emitPos = pos + (dir * gEmitter.radius);
 				
 				if (gEmitter.emitType == 2) {
 					gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, dir) * gEmitter.speed;
 				}
 				else if (gEmitter.emitType == 3) {
-					gParticles[particleIndex].velocity = normalize(gEmitter.pos - emitPos) * gEmitter.speed;
+					gParticles[particleIndex].velocity = normalize(pos - emitPos) * gEmitter.speed;
 				}
 			}
 			

@@ -1,48 +1,50 @@
 {
-    "filed": {
+    "bulletTrail": {
         "SeparateByAxisScale": false,
+        "angle": 1.2000000476837158,
         "color": {
             "w": 1.0,
-            "x": 0.036343999207019806,
-            "y": 0.9767441749572754,
-            "z": 0.307529091835022
+            "x": 1.0,
+            "y": 0.195348858833313,
+            "z": 0.0
         },
         "damping": 0.0,
         "duration": 5.0,
-        "emitOrigin": 1,
+        "emitOrigin": 0,
         "emitType": 0,
         "gravity": 0.0,
+        "height": 2.0,
         "isLoop": true,
-        "lifeOfAlpha": false,
+        "lifeOfAlpha": true,
         "lifeOfScaleDown": false,
         "lifeOfScaleUp": false,
-        "lifeTime": 7.900000095367432,
+        "lifeTime": 0.4,
         "maxScale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 6.0,
+            "y": 6.0,
+            "z": 6.0
         },
         "minScale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 6.0,
+            "y": 6.0,
+            "z": 6.0
         },
         "radius": 1.0,
-        "rateOverTimeCout": 60,
+        "rateOverTimeCout": 80,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "scaleMaxScaler": 2.0,
-        "scaleMinScaler": 0.20000000298023224,
-        "shape": 1,
+        "scaleMaxScaler": 1.0,
+        "scaleMinScaler": 1.0,
+        "shape": 0,
         "size": {
-            "x": 178.89999389648438,
+            "x": 1.0,
             "y": 1.0,
-            "z": 179.5
+            "z": 1.0
         },
-        "speed": 10.0,
+        "speed": 0.0,
         "targetScale": {
             "x": 1.0,
             "y": 1.0,

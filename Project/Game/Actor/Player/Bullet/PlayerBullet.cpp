@@ -4,7 +4,7 @@
 
 PlayerBullet::~PlayerBullet() {
 	BaseBullet::Finalize();
-	ParticleManager::GetInstance()->DeleteParticles(trail_);
+	GpuParticleManager::GetInstance()->DeleteEmitter(trail_);
 }
 
 void PlayerBullet::Init() {
@@ -18,9 +18,8 @@ void PlayerBullet::Init() {
 
 	type_ = BulletType::NORMAL;
 
-	trail_ = ParticleManager::GetInstance()->CrateParticle("BulletTrail");
+	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
 	trail_->SetParent(transform_->GetWorldMatrix());
-	trail_->SetIsStop(false);
 
 	object_->SetIsRendering(false);
 

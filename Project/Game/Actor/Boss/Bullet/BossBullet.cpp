@@ -3,6 +3,7 @@
 
 BossBullet::~BossBullet() {
 	BaseBullet::Finalize();
+	ParticleManager::GetInstance()->DeleteParticles(trail_);
 }
 
 void BossBullet::Init() {
@@ -15,6 +16,12 @@ void BossBullet::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	//collider->SetTarget(ColliderTags::Field::ground);
+
+	trail_ = ParticleManager::GetInstance()->CrateParticle("BulletTrail");
+	trail_->SetParent(transform_->GetWorldMatrix());
+	trail_->SetIsStop(false);
+
+	object_->SetIsRendering(false);
 }
 
 void BossBullet::Update() {

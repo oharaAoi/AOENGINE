@@ -30,10 +30,10 @@ void PlayerActionDeployArmor::Build() {
 
 	parameter_.FromJson(JsonItems::GetData(pManager_->GetName(), parameter_.GetName()));
 
-	chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
+	/*chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
 	chargeEmitter_->SetIsStop(true);
 	chargeEmitter_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
-	chargeEmitter_->SetLocalPos(parameter_.effectOffset);
+	chargeEmitter_->SetLocalPos(parameter_.effectOffset);*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
