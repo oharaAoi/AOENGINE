@@ -19,7 +19,7 @@ void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 
 void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend) {
 	uint32_t currentUseIndex = particleMap_[id].useIndex;
-	
+
 	// 現在使用しているindexから引数のサイズ分colorを0にする
 	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
 		particleMap_[id].particleData[currentUseIndex + oi].color = { 0,0,0,0 };
@@ -31,6 +31,8 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 		if (currentUseIndex + oi < maxInstanceNum_) {
 			particleMap_[id].particleData[currentUseIndex + oi].worldMat = particleData[oi].worldMat;
 			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
+			particleMap_[id].particleData[currentUseIndex + oi].draw2d = particleData[oi].draw2d;
+			particleMap_[id].particleData[currentUseIndex + oi].discardValue = particleData[oi].discardValue;
 			// 使用しているindexを更新する
 			particleMap_[id].useIndex = oi + 1;
 		}
@@ -106,7 +108,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	particles.materials = std::make_shared<Material>();
 	particles.materials->Init();
 	particles.textureName = textureName;
-	
+
 	particles.particleResource_ = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
 	particles.particleData = nullptr;
 	particles.particleResource_->Map(0, nullptr, reinterpret_cast<void**>(&particles.particleData));
@@ -130,7 +132,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	particles.isAddBlend = isAddBlend;
 
 	particleMap_.emplace(id, std::move(particles));
-	
+
 	return particleMap_[id].materials;
 }
 
@@ -139,6 +141,6 @@ void ParticleInstancingRenderer::ChangeMesh(const std::string& id, std::shared_p
 	if (it == particleMap_.end()) {
 		assert(false && "対応する名前が見つかりませんでした");
 	}
-	
+
 	particleMap_[id].pMesh = _mesh;
 }

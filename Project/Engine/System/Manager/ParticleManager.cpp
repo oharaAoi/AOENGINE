@@ -18,10 +18,11 @@ void ParticleManager::Finalize() {
 	particlesMap_.clear();
 	emitterList_.clear();
 	particleRenderer_ = nullptr;
+	ClearChild();
 }
 
 void ParticleManager::Debug_Gui() {
-	
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +33,7 @@ void ParticleManager::Init() {
 	SetName("ParticleManager");
 
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(20000);
+	particleRenderer_->Init(15000);
 
 	EditorWindows::AddObjectWindow(this, "ParticleManager");
 }
@@ -42,7 +43,7 @@ void ParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Update() {
-	this->SetView(Render::GetViewProjectionMat(), Matrix4x4::MakeUnit());
+	this->SetView(Render::GetViewProjectionMat(), Render::GetProjection2D(), Matrix4x4::MakeUnit());
 
 	ParticlesUpdate();
 
@@ -54,7 +55,7 @@ void ParticleManager::Update() {
 		emitter->Update();
 	}
 
-	for (auto & particles : particlesMap_) {
+	for (auto& particles : particlesMap_) {
 		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.isAddBlend);
 	}
 
@@ -76,8 +77,9 @@ void ParticleManager::ParticlesUpdate() {
 			// ---------------------------
 			// 生存時間の更新
 			// ---------------------------
-			pr.lifeTime -= GameTimer::DeltaTime();
-			if (pr.lifeTime <= 0.0f) {
+
+			pr.currentTime += GameTimer::DeltaTime();
+			if (pr.currentTime >= pr.lifeTime) {
 				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
 				continue;
 			}
@@ -85,6 +87,13 @@ void ParticleManager::ParticlesUpdate() {
 			// ---------------------------
 			// Parameterの更新
 			// ---------------------------
+
+			if (pr.isCenterFor) {
+				if (Length(pr.emitterCenter - pr.translate) < 0.1f) {
+					pr.velocity = CVector3::ZERO;
+				}
+			}
+
 			// 速度を更新
 			pr.velocity *= std::powf((1.0f - pr.damping), GameTimer::DeltaTime());
 
@@ -97,8 +106,7 @@ void ParticleManager::ParticlesUpdate() {
 			// ---------------------------
 			// 状態の更新
 			// ---------------------------
-			float t = pr.lifeTime / pr.firstLifeTime;
-			t = 1.0f - t;
+			float t = pr.currentTime / pr.lifeTime;
 			if (pr.isLifeOfAlpha) {
 				pr.color.w = Lerp(1.0f, 0.0f, t);
 			}
@@ -108,17 +116,25 @@ void ParticleManager::ParticlesUpdate() {
 			}
 
 			if (pr.isScaleUpScale) {
-				float scaleT = pr.lifeTime / pr.firstLifeTime;
-				scaleT = 1.0f - scaleT;
-				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
+				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, t);
 			}
 
-			if (pr.stretchBillboard) {
-				Vector3 velocityDir = pr.velocity.Normalize();
-				float stretchLength = pr.velocity.Length() * pr.stretchScaleFactor;
-				pr.scale.z = pr.firstScale.z * stretchLength;
+			if (pr.isFadeInOut) {
+				if (pr.currentTime <= pr.fadeInTime) {
+					float alphaT = pr.currentTime / pr.fadeInTime;
+					pr.color.w = Lerp(0.0f, pr.initAlpha_, alphaT);
+				}
+
+				if ((pr.lifeTime - pr.currentTime) <= pr.fadeOutTime) {
+					float alphaT = (pr.fadeOutTime - (pr.lifeTime - pr.currentTime)) / pr.fadeOutTime;
+					pr.color.w = Lerp(pr.initAlpha_, 0.0f, alphaT);
+				}
 			}
 
+			// 閾値を更新
+			if (pr.isLerpDiscardValue) {
+				pr.discardValue = std::lerp(pr.startDiscard, pr.endDiscard, t);
+			}
 
 			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 			Matrix4x4 rotateMatrix;
@@ -130,11 +146,16 @@ void ParticleManager::ParticlesUpdate() {
 				Matrix4x4 billMatrix = Matrix4x4::MakeUnit();
 				rotateMatrix = pr.rotate.MakeMatrix();
 			}
+			if (pr.isDraw2d) {
+				pr.translate.z = 0.0f;
+			}
 			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
+			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
+			particles.second.forGpuData_[index].discardValue = pr.discardValue;
 
 			particles.second.isAddBlend = pr.isAddBlend;
 
@@ -183,7 +204,7 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 	if (!particlesMap_.contains(particlesFile)) {
 		particlesMap_.emplace(particlesFile, ParticleManager::ParticlesData());
 		AddChild(newParticles.get());
-	} 
+	}
 	newParticles->SetParticlesList(particlesMap_[particlesFile].particles);
 	particlesMap_[particlesFile].isAddBlend = newParticles->GetIsAddBlend();
 	return newParticles.get();

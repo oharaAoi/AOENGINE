@@ -1,4 +1,4 @@
- #pragma once
+#pragma once
 #include <memory>
 #include <list>
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
@@ -17,6 +17,8 @@ public:
 
 	void Update();
 
+	void DrawShape();
+
 	void Emit(const Vector3& pos);
 
 	void EmitUpdate();
@@ -31,10 +33,10 @@ public:		// json関連
 
 	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 
-	void SetJsonData(const json& _jsonData) { 
+	void SetJsonData(const json& _jsonData) {
 		emitter_.FromJson(_jsonData);
 	};
-	
+
 public:
 
 	void SetIsStop(bool _stop) { isStop_ = _stop; }
@@ -52,7 +54,7 @@ public:
 	std::shared_ptr<Material> GetShareMaterial() { return shareMaterial_; }
 	void SetShareMaterial(std::shared_ptr<Material> _material) { shareMaterial_ = _material; }
 
-	bool GetIsAddBlend() const {return emitter_.isParticleAddBlend;}
+	bool GetIsAddBlend() const { return emitter_.isParticleAddBlend; }
 
 	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
 

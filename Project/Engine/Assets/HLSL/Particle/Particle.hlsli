@@ -1,13 +1,16 @@
 
-struct VertexShaderOutput{
+struct VertexShaderOutput {
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD0;
 	float4 color : COLOR0;
+	float discardValue : DISCARD0;
 };
 
 struct CpuParticle {
-	float4 color;
 	float4x4 worldMat;
+	float4 color;
+	int draw2d;
+	float discardValue;
 };
 
 struct GpuParticle {
@@ -28,6 +31,8 @@ struct GpuParticle {
 	int lifeOfScaleDown;
 	int lifeOfScaleUp;
 	int lifeOfAlpha;
+	
+	int isDraw2d;
 };
 
 struct MaxParticle {

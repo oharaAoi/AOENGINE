@@ -4,11 +4,12 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Utilities/DrawUtils.h"
 
 void BaseParticles::Init(const std::string& name) {
 	particleName_ = name;
 	SetName(name);
-	
+
 	/*shape_ = std::make_unique<GeometryObject>();
 	shape_->Set<PlaneGeometry>();*/
 
@@ -18,7 +19,7 @@ void BaseParticles::Init(const std::string& name) {
 	} else {
 		shape_ = MeshManager::GetInstance()->GetMesh(emitter_.useMesh);
 	}
-	
+
 	shape_->SetUseMaterial(emitter_.useTexture);
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
@@ -29,11 +30,29 @@ void BaseParticles::Init(const std::string& name) {
 }
 
 void BaseParticles::Update() {
-
-	// ---------------------------
-	// Emitterの更新
-	// ---------------------------
 	EmitUpdate();
+}
+
+void BaseParticles::DrawShape() {
+	Matrix4x4 mat{};
+	if (!emitter_.isDraw2d) {
+		mat = Render::GetViewProjectionMat();
+	} else {
+		mat = Render::GetProjection2D();
+	}
+	if (emitter_.shape == (int)CpuEmitterShape::BOX) {
+		OBB obb = {
+			.center = emitter_.translate,
+			.size = emitter_.size
+		};
+		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitter_.rotate));
+		DrawOBB(obb, mat, Vector4(0, 1, 0, 1));
+	} else if (emitter_.shape == (int)CpuEmitterShape::SPHERE) {
+		DrawSphere(emitter_.translate, emitter_.radius, mat, Vector4(0, 1, 0, 1));
+	} else if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+		Quaternion rotate = Quaternion::EulerToQuaternion(emitter_.rotate);
+		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
+	}
 }
 
 void BaseParticles::Emit(const Vector3& pos) {
@@ -41,65 +60,90 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	auto& newParticle = particleArray_->emplace_back();
 
-	newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+	// scaleの決定
+	if (emitter_.separateByAxisScale) {
+		newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+	} else {
+		float scaler = RandomFloat(emitter_.minScale.x, emitter_.maxScale.x);
+		newParticle.scale = Vector3(scaler, scaler, scaler);
+	}
+
 	newParticle.firstScale = newParticle.scale;
 	newParticle.rotate = Quaternion();
 
 	// particleの出現位置を設定
-	if (emitter_.emitOrigin == 0) {
+	if (emitter_.emitOrigin == (int)CpuEmitOrigin::CENTER) {
 		newParticle.translate = pos;
-	} else if (emitter_.emitOrigin == 1) {
-		float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
-		float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
-		float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
-		newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
-	} else if (emitter_.emitOrigin == 2 || emitter_.emitOrigin == 3) {
-		float u = RandomFloat(0, 1);
-		float v = RandomFloat(0, 1);
 
-		float theta = u * 2.0f * kPI;
-		float phi = std::acos(2.0f * v - 1.0f);
-
-		Vector3 dire;
-		dire.x = std::sin(phi) * std::cos(theta);
-		dire.x = std::sin(phi) * std::sin(theta);
-		dire.x = std::cos(phi);
-
-		newParticle.translate = pos + (dire * emitter_.radius);
-	 }
-
-	newParticle.translate = pos;
-	newParticle.color = emitter_.color;
-	if (emitter_.shape == 0) {
-		// 親の回転成分を取り出す
-		Quaternion rotate;
-		if (parentWorldMat_ != nullptr) {
-			rotate = parentWorldMat_->GetRotate();
-		} else {
-			rotate = Quaternion();
+	} else if (emitter_.emitOrigin == (int)CpuEmitOrigin::RANGE) {
+		if (emitter_.shape == (int)CpuEmitterShape::BOX) {
+			float rangeX = RandomFloat(-emitter_.size.x, emitter_.size.x);
+			float rangeY = RandomFloat(-emitter_.size.y, emitter_.size.y);
+			float rangeZ = RandomFloat(-emitter_.size.z, emitter_.size.z);
+			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
+		} else if (emitter_.shape == (int)CpuEmitterShape::SPHERE) {
+			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
+			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
+		} else if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
+			newParticle.translate = Vector3(rangeX, 0.f, rangeZ) + pos;
 		}
-		newParticle.velocity = (rotate * (RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize())) * emitter_.speed;
-	} else if (emitter_.shape == 1) {
-		// 親の回転成分を取り出す
-		Quaternion rotate;
-		if (parentWorldMat_ != nullptr) {
-			rotate = parentWorldMat_->GetRotate();
-		} else {
-			rotate = Quaternion();
-		}
-		Vector3 randVector3 = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * 0.1f;
-		newParticle.velocity = (rotate * (emitter_.direction.Normalize() + randVector3).Normalize()) * emitter_.speed;
+	}
+
+	// 色の決定
+	if (emitter_.isRandomColor) {
+		float t = RandomFloat(0.f, 1.f);
+		newParticle.color.x = Lerp(emitter_.randColor1.x, emitter_.randColor2.x, t);
+		t = RandomFloat(0.f, 1.f);
+		newParticle.color.y = Lerp(emitter_.randColor1.y, emitter_.randColor2.y, t);
+		t = RandomFloat(0.f, 1.f);
+		newParticle.color.z = Lerp(emitter_.randColor1.z, emitter_.randColor2.z, t);
+	} else {
+		newParticle.color = emitter_.color;
 	}
 
 	// particleの方向を設定
-	if (emitter_.emitType == 0) {
+	if (emitter_.emitDirection == (int)CpuEmitDirection::UP) {
 		newParticle.velocity = CVector3::UP * emitter_.speed;
-	} else if (emitter_.emitType == 1) {
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::RANDOM) {
 		Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
 		newParticle.velocity = dire * emitter_.speed;
-	} else if (emitter_.emitType == 2) {
+
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::OUTSIDE) {
 		newParticle.velocity = (newParticle.translate - pos).Normalize() * emitter_.speed;
+
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::CENTERFOR) {
+		newParticle.velocity = (pos - newParticle.translate).Normalize() * emitter_.speed;
 	}
+
+	// Coneの場合はConeの形状で射出させる
+	if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+		float angle = emitter_.angle * kToRadian;
+		float u = RandomFloat(0, 1);
+		float v = RandomFloat(0, 1);
+
+		float phi = 2.0f * kPI * u;
+		float cosTheta = Lerp(cos(angle), 1.0f, v);
+		float sinTheta = std::sqrt(1.0f - cosTheta * cosTheta);
+
+		Vector3 localDir(
+			sinTheta * cos(phi),
+			sinTheta * sin(phi),
+			cosTheta
+		);
+		Vector3 up = CVector3::UP;
+		Vector3 right = CVector3::RIGHT;
+		Vector3 forward = CVector3::FORWARD;
+		newParticle.velocity = right * localDir.x + forward * localDir.y + CVector3::UP * localDir.z;
+	}
+
+	// Objectの回転に進行方向をあわせる
+	Vector3 dire = newParticle.velocity.Normalize();
+	Vector3 worldDire = Quaternion::EulerToQuaternion(emitter_.rotate) * dire;
+	newParticle.velocity = worldDire * emitter_.speed;
 
 	// billbordに合わせてz軸を進行方向に向ける
 	if (emitter_.isDirectionRotate) {
@@ -129,8 +173,12 @@ void BaseParticles::Emit(const Vector3& pos) {
 	}
 
 	// EmitterからParticleのパラメータを取得する
+	newParticle.isLerpDiscardValue = emitter_.isLerpDiscardValue;
+	newParticle.discardValue = emitter_.discardValue;
+	newParticle.startDiscard = emitter_.startDiscard;
+	newParticle.endDiscard = emitter_.endDiscard;
+
 	newParticle.lifeTime = emitter_.lifeTime;
-	newParticle.firstLifeTime = emitter_.lifeTime;
 	newParticle.currentTime = 0.0f;
 	newParticle.damping = emitter_.dampig;
 	newParticle.gravity = emitter_.gravity;
@@ -139,12 +187,21 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
 	newParticle.isAddBlend = emitter_.isParticleAddBlend;
 
+	newParticle.isFadeInOut = emitter_.isFadeInOut;
+	newParticle.fadeInTime = emitter_.fadeInTime;
+	newParticle.fadeOutTime = emitter_.fadeOutTime;
+	newParticle.initAlpha_ = emitter_.color.w;
+
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;
 
-	newParticle.stretchBillboard = emitter_.stretchBillboard;
-	newParticle.stretchScaleFactor = emitter_.stretchScale;
 	newParticle.isBillBord = emitter_.isBillBord;
+	newParticle.isDraw2d = emitter_.isDraw2d;
+	if (emitter_.emitDirection == (int)CpuEmitDirection::CENTERFOR) {
+		newParticle.isCenterFor = true;
+	} else {
+		newParticle.isCenterFor = false;
+	}
 }
 
 void BaseParticles::EmitUpdate() {
@@ -182,7 +239,7 @@ void BaseParticles::EmitUpdate() {
 			isStop_ = true;
 		}
 	}
-	
+
 }
 void BaseParticles::Reset() {
 	emitAccumulator_ = 0.0f;
@@ -202,7 +259,7 @@ void BaseParticles::Debug_Gui() {
 
 	ImGui::Text("Particle Parameters");
 	shareMaterial_->Debug_Gui();
-	
+
 	emitter_.useTexture = shareMaterial_->GetAlbedoTexture();
 	shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
 

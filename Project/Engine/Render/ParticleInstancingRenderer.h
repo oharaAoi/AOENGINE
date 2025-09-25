@@ -16,8 +16,10 @@ class ParticleInstancingRenderer {
 public:		// 構造体
 
 	struct ParticleData {
-		Vector4 color;
-		Matrix4x4 worldMat;
+		Matrix4x4 worldMat;		// 座標
+		Vector4 color;			// 色
+		uint32_t draw2d;		// 2d描画かどうか
+		float discardValue;	// discardの値
 	};
 
 	struct Information {
@@ -34,6 +36,7 @@ public:		// 構造体
 
 	struct PerView {
 		Matrix4x4 viewProjection;
+		Matrix4x4 viewProjection2d;
 		Matrix4x4 billboardMat;
 	};
 
@@ -56,8 +59,9 @@ public:
 
 	void ChangeMesh(const std::string& id, std::shared_ptr<Mesh> _mesh);
 
-	void SetView(const Matrix4x4& view, const Matrix4x4& bill) {
+	void SetView(const Matrix4x4& view, const Matrix4x4& view2d, const Matrix4x4& bill) {
 		perView_->viewProjection = view;
+		perView_->viewProjection2d = view2d;
 		perView_->billboardMat = bill;
 	}
 
