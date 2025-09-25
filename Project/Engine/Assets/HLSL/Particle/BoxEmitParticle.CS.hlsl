@@ -9,6 +9,7 @@ struct Emitter {
 	float3 targetScale;
 	float3 rotate;
 	float3 pos;
+	float3 prePos;
 	float3 size;
 
 	int count;
@@ -105,16 +106,22 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].scale = float3(x, y, z);
 			}
 			
+			float t = 0;
+			if (countIndex > 1) {
+				t = (countIndex) / float(gEmitter.count - 1);
+			}
+			float3 pos = lerp(gEmitter.prePos, gEmitter.pos, t);
+			
 			// 半径から射出位置を決定する
 			float3 emitPos;
 			if (gEmitter.emitOrigin == 0) {
-				emitPos = gEmitter.pos;
+				emitPos = pos;
 			}
 			else if (gEmitter.emitOrigin == 1) {
 				float rangeX = generator.Generated1dRange(-gEmitter.size.x, gEmitter.size.x);
 				float rangeY = generator.Generated1dRange(-gEmitter.size.y, gEmitter.size.y);
 				float rangeZ = generator.Generated1dRange(-gEmitter.size.z, gEmitter.size.z);
-				emitPos = float3(rangeX, rangeY, rangeZ) + gEmitter.pos;
+				emitPos = float3(rangeX, rangeY, rangeZ) + pos;
 			}
 			else if (gEmitter.emitOrigin == 2) {
 				int edgeIndex = int(floor(generator.Generated1dRange(0, 11)));
@@ -123,8 +130,8 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				float3 localA = corners[edge.x] * (gEmitter.size);
 				float3 localB = corners[edge.y] * (gEmitter.size);
 				
-				float3 worldA = gEmitter.pos + localA;
-				float3 worldB = gEmitter.pos + localB;
+				float3 worldA = pos + localA;
+				float3 worldB = pos + localB;
 				
 				float t = generator.Generated1dRange(0, 1);
 				emitPos = lerp(worldA, worldB, t);

@@ -1,7 +1,7 @@
 #pragma once
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Game/Actor/Boss/Bullet/BossBullets.h"
-#include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
 /// <summary>
 /// Bossの通常の弾を撃つ処理
@@ -26,7 +26,7 @@ private:
 
 	BossBulletType type_ = BossBulletType::SHOT;
 
-	BaseParticles* trail_;
+	GpuParticleEmitter* trail_;
 	float speed_;
 
 };

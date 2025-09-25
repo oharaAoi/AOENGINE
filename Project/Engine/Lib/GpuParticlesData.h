@@ -6,6 +6,7 @@
 
 struct GpuParticleEmitterData {
 	Vector4 color;
+
 	Vector3 minScale;
 	float pad1;
 	Vector3 maxScale;

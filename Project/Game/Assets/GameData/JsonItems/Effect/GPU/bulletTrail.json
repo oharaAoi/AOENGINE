@@ -18,7 +18,7 @@
         "lifeOfAlpha": true,
         "lifeOfScaleDown": false,
         "lifeOfScaleUp": false,
-        "lifeTime": 0.4,
+        "lifeTime": 0.2,
         "maxScale": {
             "x": 6.0,
             "y": 6.0,
@@ -30,7 +30,7 @@
             "z": 6.0
         },
         "radius": 1.0,
-        "rateOverTimeCout": 80,
+        "rateOverTimeCout": 70,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
