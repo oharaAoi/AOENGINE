@@ -1,9 +1,13 @@
-#pragma once
-#define IMGUI_DEFINE_MATH_OPERATORS
-#include <imgui.h>
+#include "imgui_curve_bezier.h"
 #include <imgui_internal.h>
+#include <time.h>
 
 namespace ImGui {
+
+    //----------------------------------------
+    // テンプレートはヘッダに書かないとリンクできないので
+    // 明示的にインライン実装にしておくのも手
+    //----------------------------------------
     template<int steps>
     void bezier_table(ImVec2 P[4], ImVec2 results[steps + 1]) {
         static float C[(steps + 1) * 4], * K = 0;
@@ -11,30 +15,34 @@ namespace ImGui {
             K = C;
             for (unsigned step = 0; step <= steps; ++step) {
                 float t = (float)step / (float)steps;
-                C[step * 4 + 0] = (1 - t) * (1 - t) * (1 - t);   // * P0
-                C[step * 4 + 1] = 3 * (1 - t) * (1 - t) * t; // * P1
-                C[step * 4 + 2] = 3 * (1 - t) * t * t;     // * P2
-                C[step * 4 + 3] = t * t * t;               // * P3
+                C[step * 4 + 0] = (1 - t) * (1 - t) * (1 - t);
+                C[step * 4 + 1] = 3 * (1 - t) * (1 - t) * t;
+                C[step * 4 + 2] = 3 * (1 - t) * t * t;
+                C[step * 4 + 3] = t * t * t;
             }
         }
         for (unsigned step = 0; step <= steps; ++step) {
             ImVec2 point = {
-                K[step * 4 + 0] * P[0].x + K[step * 4 + 1] * P[1].x + K[step * 4 + 2] * P[2].x + K[step * 4 + 3] * P[3].x,
-                K[step * 4 + 0] * P[0].y + K[step * 4 + 1] * P[1].y + K[step * 4 + 2] * P[2].y + K[step * 4 + 3] * P[3].y
+                K[step * 4 + 0] * P[0].x + K[step * 4 + 1] * P[1].x +
+                K[step * 4 + 2] * P[2].x + K[step * 4 + 3] * P[3].x,
+                K[step * 4 + 0] * P[0].y + K[step * 4 + 1] * P[1].y +
+                K[step * 4 + 2] * P[2].y + K[step * 4 + 3] * P[3].y
             };
             results[step] = point;
         }
     }
 
+    //----------------------------------------
     float BezierValue(float dt01, float P[4]) {
         enum { STEPS = 256 };
-        ImVec2 Q[4] = { { 0, 0 }, { P[0], P[1] }, { P[2], P[3] }, { 1, 1 } };
+        ImVec2 Q[4] = { {0, 0}, {P[0], P[1]}, {P[2], P[3]}, {1, 1} };
         ImVec2 results[STEPS + 1];
         bezier_table<STEPS>(Q, results);
         return results[(int)((dt01 < 0 ? 0 : dt01 > 1 ? 1 : dt01) * (float)STEPS)].y;
     }
 
-    int Bezier(const char* label, float P[4]) {
+    //----------------------------------------
+    int Bezier(const char* label, float P[5]) {
         // visuals
         enum { SMOOTHNESS = 64 }; // curve smoothness: the higher number of segments, the smoother curve
         enum { CURVE_WIDTH = 4 }; // main curved line width
@@ -43,7 +51,7 @@ namespace ImGui {
         enum { GRAB_BORDER = 2 }; // handlers: circle border width
 
         const ImGuiStyle& Style = GetStyle();
-        const ImGuiIO& IO = GetIO();
+        //const ImGuiIO& IO = GetIO();
         ImDrawList* DrawList = GetWindowDrawList();
         ImGuiWindow* Window = GetCurrentWindow();
         if (Window->SkipItems)
@@ -64,10 +72,10 @@ namespace ImGui {
         if (!ItemAdd(bb, NULL))
             return changed;
 
-        const ImGuiID id = Window->GetID(label);
+       // const ImGuiID id = Window->GetID(label);
         ImVec2 mouse = ImGui::GetIO().MousePos;
         hovered = (mouse.x >= bb.Min.x && mouse.x <= bb.Max.x &&
-                        mouse.y >= bb.Min.y && mouse.y <= bb.Max.y);
+                   mouse.y >= bb.Min.y && mouse.y <= bb.Max.y);
 
         RenderFrame(bb.Min, bb.Max, GetColorU32(ImGuiCol_FrameBg, 1), true, Style.FrameRounding);
 
@@ -133,9 +141,9 @@ namespace ImGui {
             DrawList->AddLine(ImVec2(bb.Min.x, bb.Max.y), p1, ImColor(white), LINE_WIDTH);
             DrawList->AddLine(ImVec2(bb.Max.x, bb.Min.y), p2, ImColor(white), LINE_WIDTH);
             DrawList->AddCircleFilled(p1, GRAB_RADIUS, ImColor(white));
-            DrawList->AddCircleFilled(p1, GRAB_RADIUS - GRAB_BORDER, ImColor(pink));
+            DrawList->AddCircleFilled(p1, (float)GRAB_RADIUS - (float)GRAB_BORDER, ImColor(pink));
             DrawList->AddCircleFilled(p2, GRAB_RADIUS, ImColor(white));
-            DrawList->AddCircleFilled(p2, GRAB_RADIUS - GRAB_BORDER, ImColor(cyan));
+            DrawList->AddCircleFilled(p2, (float)GRAB_RADIUS - (float)GRAB_BORDER, ImColor(cyan));
 
             if (hovered || changed) DrawList->PopClipRect();
 
@@ -144,39 +152,13 @@ namespace ImGui {
         }
 
         return changed;
+
     }
 
+    //----------------------------------------
     void ShowBezierDemo() {
-        { static float v[] = { 0.000f, 0.000f, 1.000f, 1.000f }; Bezier("easeLinear", v); }
-        { static float v[] = { 0.470f, 0.000f, 0.745f, 0.715f }; Bezier("easeInSine", v); }
-        { static float v[] = { 0.390f, 0.575f, 0.565f, 1.000f }; Bezier("easeOutSine", v); }
-        { static float v[] = { 0.445f, 0.050f, 0.550f, 0.950f }; Bezier("easeInOutSine", v); }
-        { static float v[] = { 0.550f, 0.085f, 0.680f, 0.530f }; Bezier("easeInQuad", v); }
-        { static float v[] = { 0.250f, 0.460f, 0.450f, 0.940f }; Bezier("easeOutQuad", v); }
-        { static float v[] = { 0.455f, 0.030f, 0.515f, 0.955f }; Bezier("easeInOutQuad", v); }
-        { static float v[] = { 0.550f, 0.055f, 0.675f, 0.190f }; Bezier("easeInCubic", v); }
-        { static float v[] = { 0.215f, 0.610f, 0.355f, 1.000f }; Bezier("easeOutCubic", v); }
-        { static float v[] = { 0.645f, 0.045f, 0.355f, 1.000f }; Bezier("easeInOutCubic", v); }
-        { static float v[] = { 0.895f, 0.030f, 0.685f, 0.220f }; Bezier("easeInQuart", v); }
-        { static float v[] = { 0.165f, 0.840f, 0.440f, 1.000f }; Bezier("easeOutQuart", v); }
-        { static float v[] = { 0.770f, 0.000f, 0.175f, 1.000f }; Bezier("easeInOutQuart", v); }
-        { static float v[] = { 0.755f, 0.050f, 0.855f, 0.060f }; Bezier("easeInQuint", v); }
-        { static float v[] = { 0.230f, 1.000f, 0.320f, 1.000f }; Bezier("easeOutQuint", v); }
-        { static float v[] = { 0.860f, 0.000f, 0.070f, 1.000f }; Bezier("easeInOutQuint", v); }
-        { static float v[] = { 0.950f, 0.050f, 0.795f, 0.035f }; Bezier("easeInExpo", v); }
-        { static float v[] = { 0.190f, 1.000f, 0.220f, 1.000f }; Bezier("easeOutExpo", v); }
-        { static float v[] = { 1.000f, 0.000f, 0.000f, 1.000f }; Bezier("easeInOutExpo", v); }
-        { static float v[] = { 0.600f, 0.040f, 0.980f, 0.335f }; Bezier("easeInCirc", v); }
-        { static float v[] = { 0.075f, 0.820f, 0.165f, 1.000f }; Bezier("easeOutCirc", v); }
-        { static float v[] = { 0.785f, 0.135f, 0.150f, 0.860f }; Bezier("easeInOutCirc", v); }
-        { static float v[] = { 0.600f, -0.28f, 0.735f, 0.045f }; Bezier("easeInBack", v); }
-        { static float v[] = { 0.175f, 0.885f, 0.320f, 1.275f }; Bezier("easeOutBack", v); }
-        { static float v[] = { 0.680f, -0.55f, 0.265f, 1.550f }; Bezier("easeInOutBack", v); }
-        // easeInElastic: not a bezier
-        // easeOutElastic: not a bezier
-        // easeInOutElastic: not a bezier
-        // easeInBounce: not a bezier
-        // easeOutBounce: not a bezier
-        // easeInOutBounce: not a bezier
+        static float v[5] = { 0.950f, 0.050f, 0.795f, 0.035f };
+        Bezier("easeInExpo", v);
     }
-}
+
+} // namespace ImGui

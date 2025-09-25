@@ -22,6 +22,12 @@ void BossActionStrafe::Debug_Gui() {
 	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
 	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
 
+	//static float v[4] = { 1, 2, 3, 4 };
+	//if (ImGui::Bezier("curve label", v)) {
+	//	// v が変化したら何かする
+	//}
+	//float y = ImGui::BezierValue(0.1f, v);
+
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
 	}
