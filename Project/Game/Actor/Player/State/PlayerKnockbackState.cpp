@@ -6,7 +6,7 @@
 
 void PlayerKnockbackState::OnStart() {
 	timer_ = 0.0f;
-	knockbackTime_ = 0.6f;
+	knockbackTime_ = 2.0f;
 
 	strength_ = 150.0f;
 
@@ -39,5 +39,6 @@ void PlayerKnockbackState::Knockback() {
 
 	if (timer_ > knockbackTime_) {
 		stateMachine_->ChangeState<PlayerIdleState>();
+		pOwner_->SetPostureStability(0.0f);
 	}
 }

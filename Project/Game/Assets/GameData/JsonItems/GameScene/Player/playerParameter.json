@@ -4,7 +4,7 @@
         "energy": 100.0,
         "energyRecoveyAmount": 50.0,
         "energyRecoveyCoolTime": 1.0,
-        "health": 100.0,
+        "health": 1000.0,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
         "postureStability": 100.0

@@ -313,13 +313,14 @@ void BaseGameObject::Debug_Gui() {
 	}
 
 	if (!colliders_.empty()) {
-		for (uint32_t oi = 0; oi < colliders_.size(); ++oi) {
-			std::string tag = colliders_[oi]->GetCategoryName();
-			if (ImGui::TreeNode(tag.c_str())) {
-				colliders_[oi]->Debug_Gui();
-				ImGui::TreePop();
+		if (ImGui::CollapsingHeader("Colliders")) {
+			for (uint32_t oi = 0; oi < colliders_.size(); ++oi) {
+				std::string tag = colliders_[oi]->GetCategoryName();
+				if (ImGui::TreeNode(tag.c_str())) {
+					colliders_[oi]->Debug_Gui();
+					ImGui::TreePop();
+				}
 			}
-
 		}
 	}
 

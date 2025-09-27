@@ -34,10 +34,6 @@ void Player::Debug_Gui() {
 
 	actionManager_->Debug_Gui();
 
-	if (ImGui::CollapsingHeader("LegCollider")) {
-		legCollider_->Debug_Gui();
-	}
-
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
 		ImGui::DragFloat("health", &param_.health, 0.1f);
 		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
@@ -286,6 +282,26 @@ void Player::RecoveryEN(float timer) {
 void Player::ConsumeEN(float cousumeAmount) {
 	param_.energy -= cousumeAmount;
 	param_.energy = std::clamp(param_.energy, 0.0f, initParam_.energy);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ エネルギーを消費する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::Damage(float _damage) {
+	// hpを減らす
+	param_.health -= _damage;
+	if (param_.health <= 0.f) {
+		isDead_ = true;
+	}
+	// 姿勢安定性を減らす
+	param_.postureStability += _damage * 0.5f;
+	if (param_.postureStability >= initParam_.postureStability) {
+		Knockback(transform_->GetRotate().MakeForward() * -1.0f);
+	}
+
+	// カメラを揺らす
+	pFollowCamera_->SetShake(.5f, 3.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

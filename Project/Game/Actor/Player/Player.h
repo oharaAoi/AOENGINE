@@ -109,6 +109,12 @@ public:		// accessor method
 	void ConsumeEN(float cousumeAmount);
 
 	/// <summary>
+	/// Damageを与える
+	/// </summary>
+	/// <param name="_damage"></param>
+	void Damage(float _damage);
+
+	/// <summary>
 	/// 着地した時
 	/// </summary>
 	void Landing();
@@ -142,6 +148,8 @@ public:
 	// parameter
 	Parameter& GetParam() { return param_; }
 	const Parameter& GetInitParam() { return initParam_; }
+
+	void SetPostureStability(float _postureStability) { param_.postureStability = _postureStability; }
 
 	// jet
 	BaseGameObject* GetJet() { return jet_->GetGameObject(); }

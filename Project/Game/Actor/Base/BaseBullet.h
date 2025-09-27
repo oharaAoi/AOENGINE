@@ -50,7 +50,7 @@ protected:
 
 	bool isAlive_;
 
-	float takeDamage_;
+	float takeDamage_ = 10.0f;
 
 	BulletType type_;
 
