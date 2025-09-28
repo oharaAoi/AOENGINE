@@ -10,10 +10,10 @@ class ShoulderMissile :
 	public BaseWeapon {
 public:
 
-	struct Parameter : IJsonConverter {
+	struct ShoulderMissileParam : IJsonConverter {
 		Vector3 pos;
 
-		Parameter() { SetName("ShoulderMissile"); }
+		ShoulderMissileParam() { SetName("ShoulderMissile"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -44,7 +44,7 @@ public:		// member method
 
 private:
 
-	Parameter param_;
+	ShoulderMissileParam weaponParam_;
 
 };
 

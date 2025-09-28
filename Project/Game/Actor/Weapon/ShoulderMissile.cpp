@@ -17,10 +17,13 @@ void ShoulderMissile::Finalize() {
 void ShoulderMissile::Init() {
 	SetName("ShoulderMissile");
 	BaseWeapon::Init();
+	attackParam_.SetName("ShoulderMissileAttackParam");
+	attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
+	weaponParam_.FromJson(JsonItems::GetData(GetName(), weaponParam_.GetName()));
+
 	object_->SetObject("shoulderMissile.obj");
 
-	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-	transform_->SetTranslate(param_.pos);
+	transform_->SetTranslate(weaponParam_.pos);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }
@@ -31,12 +34,12 @@ void ShoulderMissile::Init() {
 
 void ShoulderMissile::Debug_Gui() {
 	BaseWeapon::Debug_Gui();
-	ImGui::DragFloat3("pos", &param_.pos.x, 0.1f);
+	ImGui::DragFloat3("pos", &weaponParam_.pos.x, 0.1f);
 
 	if (ImGui::Button("Save")) {
-		JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
+		JsonItems::Save(GetName(), weaponParam_.ToJson(weaponParam_.GetName()));
 	}
-	transform_->SetTranslate(param_.pos);
+	transform_->SetTranslate(weaponParam_.pos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +48,6 @@ void ShoulderMissile::Debug_Gui() {
 
 void ShoulderMissile::Attack(const AttackContext& cxt) {
 	Vector3 worldPos = object_->GetPosition();
-	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, cxt.target, speed_);
+	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, cxt.target, attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(20.0f);
 }

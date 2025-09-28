@@ -30,9 +30,6 @@ private:
 
 private:
 
-	float shotCoolTime_ = 0.2f;	// 弾を放つ時のクールタイム
-	float shotTimer_ = 0.0f;
-
 	float notShotTime_ = 1.0f;	// 弾を放っていない時間を計測するよう
 	float notShotTimer_ = 0.0f;
 

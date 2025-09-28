@@ -18,7 +18,6 @@ void PlayerActionShotLeft::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnStart() {
-	shotTimer_ = 0.0f;
 	notShotTimer_ = 0.0f;
 
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
@@ -69,14 +68,6 @@ bool PlayerActionShotLeft::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::Shot() {
-	// timerがゼロでなかったら新たに弾を撃たないようにして早期リターンする
-	if (shotTimer_ > 0.0f) {
-		shotTimer_ -= GameTimer::DeltaTime();
-		return;
-	} else {
-		shotTimer_ = 0.0f;
-	}
-
 	// 長押しで反応するようにする
 	if (pInput_->IsPressButton(XInputButtons::L_SHOULDER)) {
 		// shotを放つ
@@ -88,8 +79,6 @@ void PlayerActionShotLeft::Shot() {
 			pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
 		}
 
-		// coolTimeの設定
-		shotTimer_ = shotCoolTime_;
 		notShotTimer_ = 0.0f;
 	} else {
 		// ボタンを押していない時間を計測

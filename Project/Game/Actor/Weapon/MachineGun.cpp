@@ -1,5 +1,6 @@
 #include "MachineGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Lib/Json/JsonItems.h"
 
 void MachineGun::Finalize() {
 }
@@ -18,10 +19,12 @@ void MachineGun::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Init() {
+	SetName("MachineGun");
 	BaseWeapon::Init();
+	attackParam_.SetName("MachineGunAttackParam");
+	attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
 	
 	object_->SetObject("gun.obj");
-	SetName("MachineGun");
 	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
@@ -38,12 +41,16 @@ void MachineGun::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void MachineGun::Attack(const AttackContext& cxt) {
+	if (!isCanAttack_) { return; }
+
 	Vector3 worldPos = object_->GetPosition();
-	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * speed_);
+	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(10.0f);
 	// effectを出す
 	Vector3 pos = offset_;
 	pos = (cxt.direction * offset_.z);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
+
+	AttackAfter();
 }
