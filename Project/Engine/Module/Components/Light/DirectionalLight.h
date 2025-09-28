@@ -45,6 +45,8 @@ public: // メンバ構造体
 			fromJson(jsonData, "intensity", intensity);
 			fromJson(jsonData, "limPower", limPower);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

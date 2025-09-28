@@ -27,6 +27,8 @@ public:
 			fromJson(jsonData, "speed", speed);
 			fromJson(jsonData, "rotateTime", rotateTime);
 		}
+
+		void Debug_Gui() override;
 	};
 public:
 

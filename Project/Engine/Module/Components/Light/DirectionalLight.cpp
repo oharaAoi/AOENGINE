@@ -17,6 +17,8 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	directionalLightData_->intensity = parameter_.intensity;
 	directionalLightData_->limPower = parameter_.limPower;
 
+	parameter_.SetGroupName("Light");
+
 	parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
 	baseParameter_.FromJson(JsonItems::GetData("Light", "BaseDirectional"));
 	parameter_.direction = Normalize(parameter_.direction);
@@ -55,16 +57,7 @@ void DirectionalLight::Debug_Gui() {
 	}
 	
 	if (ImGui::CollapsingHeader("Unique")) {
-		ImGui::ColorEdit4("color", &parameter_.color.x);
-		ImGui::DragFloat("intensity", &parameter_.intensity, 0.1f, 0.0f, 1.0f);
-		ImGui::DragFloat("limPower", &parameter_.limPower, 0.1f, 0.0f, 10.0f);
-
-		if (ImGui::Button("Save")) {
-			JsonItems::Save("Light", parameter_.ToJson("directionalLight"));
-		}
-		if (ImGui::Button("Apply")) {
-			parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
-		}
+		parameter_.Debug_Gui();
 	}
 	parameter_.direction = Normalize(parameter_.direction);
 
@@ -75,7 +68,7 @@ void DirectionalLight::Debug_Gui() {
 }
 
 void DirectionalLight::Reset() {
-	baseParameter_.FromJson(JsonItems::GetData("Light", "BaseDirectional"));
+	baseParameter_.Load();
 	parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
 
 	parameter_.direction = Normalize(parameter_.direction);
@@ -91,4 +84,12 @@ void DirectionalLight::Reset() {
 	fovY_ = baseParameter_.fovY;
 	near_ = baseParameter_.nearClip;
 	far_ = baseParameter_.farClip;
+}
+
+void DirectionalLight::Paramter::Debug_Gui() {
+	ImGui::ColorEdit4("color", &color.x);
+	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
+	ImGui::DragFloat("limPower", &limPower, 0.1f, 0.0f, 10.0f);
+
+	SaveAndLoad();
 }

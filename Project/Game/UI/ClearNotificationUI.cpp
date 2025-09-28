@@ -9,7 +9,7 @@
 void ClearNotificationUI::Init() {
 	SetName("ClearNotificationUI");
 	sprite_ = Engine::CreateSprite("missionComplete.png");
-	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+	param_.Load();
 
 	posTween_.Init(&pos_, param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
 	alphaTween_.Init(&alpha_, 0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
@@ -60,15 +60,14 @@ void ClearNotificationUI::Debug_Gui() {
 		Reset();
 	}
 
-	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat2("startPos", &param_.startPos.x);
-		ImGui::DragFloat2("endPos", &param_.endPos.x);
-		ImGui::DragFloat("duration", &param_.duration);
+	param_.Debug_Gui();
+}
 
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
-		}
-	}
+void ClearNotificationUI::Parameter::Debug_Gui() {
+	ImGui::DragFloat2("startPos", &startPos.x);
+	ImGui::DragFloat2("endPos", &endPos.x);
+	ImGui::DragFloat("duration", &duration);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

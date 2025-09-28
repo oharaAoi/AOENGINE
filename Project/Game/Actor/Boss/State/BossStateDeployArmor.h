@@ -42,6 +42,8 @@ public:
 			fromJson(jsonData, "uvRotate", uvTransform.rotate);
 			fromJson(jsonData, "uvTranslate", uvTransform.translate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

@@ -32,6 +32,11 @@ public:
 
 		int easingIndex;
 
+		CameraParameter() {
+			SetGroupName("Camera");
+			SetName("FollowCamera");
+		}
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("distance", distance)
@@ -57,6 +62,8 @@ public:
 			fromJson(jsonData, "maxSpeed", maxSpeed);
 			fromJson(jsonData, "easingIndex", easingIndex);
 		}
+
+		void Debug_Gui() override;
 	};
 
 	struct AnimationParameter : public IJsonConverter {
@@ -67,7 +74,10 @@ public:
 		Vector4 scaleColor;
 		float vignettePower;
 
-		AnimationParameter() { SetName("AnimationParameter"); }
+		AnimationParameter() { 
+			SetGroupName("Camera");
+			SetName("AnimationParameter");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -87,6 +97,7 @@ public:
 			fromJson(jsonData, "vignettePower", vignettePower);
 		}
 
+		void Debug_Gui() override;
 	};
 
 public:

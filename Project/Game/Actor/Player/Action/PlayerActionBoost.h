@@ -40,6 +40,8 @@ public:
 			fromJson(jsonData, "boostForce", boostForce);
 			fromJson(jsonData, "stopForce", stopForce);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

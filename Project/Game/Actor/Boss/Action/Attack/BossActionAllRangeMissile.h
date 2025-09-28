@@ -28,6 +28,8 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "coolTime", coolTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

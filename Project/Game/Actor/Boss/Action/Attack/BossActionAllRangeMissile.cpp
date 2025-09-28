@@ -18,14 +18,12 @@ float BossActionAllRangeMissile::EvaluateWeight() {
 
 void BossActionAllRangeMissile::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("coolTime", &param_.coolTime, 1.0f);
-	
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-	}
+	param_.Debug_Gui();
+}
+
+void BossActionAllRangeMissile::Parameter::Debug_Gui() {
+	ImGui::DragFloat("coolTime", &coolTime, 1.0f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,7 +50,8 @@ bool BossActionAllRangeMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 	// 
 	taskTimer_ = 0.f;
 	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());

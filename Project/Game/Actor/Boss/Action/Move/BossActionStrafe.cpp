@@ -17,23 +17,21 @@ float BossActionStrafe::EvaluateWeight() {
 
 void BossActionStrafe::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
-	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
-	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
-	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+	param_.Debug_Gui();
 
 	//static float v[4] = { 1, 2, 3, 4 };
 	//if (ImGui::Bezier("curve label", v)) {
 	//	// v が変化したら何かする
 	//}
 	//float y = ImGui::BezierValue(0.1f, v);
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-	}
+void BossActionStrafe::Parameter::Debug_Gui() {
+	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
+	ImGui::DragFloat("getDistance", &getDistance, 0.1f);
+	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +60,8 @@ bool BossActionStrafe::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionStrafe::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 	taskTimer_ = 0;
 	stopping_ = false;
 	velocity_ = CVector3::ZERO;

@@ -29,45 +29,15 @@ void FollowCamera::Debug_Gui() {
 	}
 
 	if (ImGui::CollapsingHeader("FollowCamera")) {
-		ImGui::DragFloat("distance", &followCamera_.distance, 0.1f);
-		ImGui::DragFloat("rotateDelta", &followCamera_.rotateDelta, 0.1f);
-		ImGui::DragFloat3("offset", &followCamera_.offset.x, 0.1f);
-		ImGui::DragFloat("complement", &followCamera_.complement, 0.01f);
-
-		ImGui::DragFloat("followHeight", &followCamera_.followHeight, 0.01f);
-
-		ImGui::DragFloat("limitMinY", &followCamera_.limitMinY, 0.01f);
-		ImGui::DragFloat("limitMaxY", &followCamera_.limitMaxY, 0.01f);
-
-		ImGui::DragFloat("smoothTime", &followCamera_.smoothTime, 0.01f);
-		ImGui::DragFloat("maxSpeed", &followCamera_.maxSpeed, 0.01f);
-		SelectEasing(followCamera_.easingIndex);
+		followCamera_.Debug_Gui();
 
 		followCamera_.complement = std::clamp(followCamera_.complement, 0.0f, 1.0f);
 		followCamera_.smoothTime = std::clamp(followCamera_.smoothTime, 0.001f, 100.0f);
 		followCamera_.maxSpeed = std::clamp(followCamera_.maxSpeed, 0.0f, 1000000.0f);
-
-		if (ImGui::Button("Save")) {
-			JsonItems::Save("FollowCamera", followCamera_.ToJson("FollowCamera"));
-		}
-		if (ImGui::Button("Apply")) {
-			followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
-		}
 	}
 
 	if (ImGui::CollapsingHeader("AnimationParam")) {
-		ImGui::DragFloat3("firstOffset", &animationParam_.firstOffset.x, 0.1f);
-		ImGui::DragFloat("animationTime", &animationParam_.moveTime, 0.1f);
-		SelectEasing(animationParam_.easingIndex);
-		ImGui::ColorEdit4("color", &animationParam_.scaleColor.x);
-		ImGui::DragFloat("vginetteColor", &animationParam_.vignettePower, 0.01f);
-
-		if (ImGui::Button("Save##Anima")) {
-			JsonItems::Save("FollowCamera", animationParam_.ToJson(animationParam_.GetName()));
-		}
-		if (ImGui::Button("Apply##Anima_apply")) {
-			animationParam_.FromJson(JsonItems::GetData("FollowCamera", animationParam_.GetName()));
-		}
+		animationParam_.Debug_Gui();
 
 		if (ImGui::Button("Reset")) {
 			isAnimationFinish_ = false;
@@ -80,6 +50,32 @@ void FollowCamera::Debug_Gui() {
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 
+void FollowCamera::CameraParameter::Debug_Gui() {
+	ImGui::DragFloat("distance", &distance, 0.1f);
+	ImGui::DragFloat("rotateDelta", &rotateDelta, 0.1f);
+	ImGui::DragFloat3("offset", &offset.x, 0.1f);
+	ImGui::DragFloat("complement", &complement, 0.01f);
+
+	ImGui::DragFloat("followHeight", &followHeight, 0.01f);
+
+	ImGui::DragFloat("limitMinY", &limitMinY, 0.01f);
+	ImGui::DragFloat("limitMaxY", &limitMaxY, 0.01f);
+
+	ImGui::DragFloat("smoothTime", &smoothTime, 0.01f);
+	ImGui::DragFloat("maxSpeed", &maxSpeed, 0.01f);
+	SelectEasing(easingIndex);
+	SaveAndLoad();
+}
+
+void FollowCamera::AnimationParameter::Debug_Gui() {
+	ImGui::DragFloat3("firstOffset", &firstOffset.x, 0.1f);
+	ImGui::DragFloat("animationTime", &moveTime, 0.1f);
+	SelectEasing(easingIndex);
+	ImGui::ColorEdit4("color", &scaleColor.x);
+	ImGui::DragFloat("vginetteColor", &vignettePower, 0.01f);
+	SaveAndLoad();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,8 +83,9 @@ void FollowCamera::Debug_Gui() {
 void FollowCamera::Init() {
 	BaseCamera::Init();
 
-	followCamera_.FromJson(JsonItems::GetData("FollowCamera", "FollowCamera"));
-	animationParam_.FromJson(JsonItems::GetData("FollowCamera", animationParam_.GetName()));
+	followCamera_.Load();
+	animationParam_.Load();
+
 	animationTimer_ = 0.0f;
 
 	shakeTimer_ = shakeTime_;

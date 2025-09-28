@@ -8,17 +8,15 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::Debug_Gui() {
-	ImGui::DragFloat("chargeTime", &initialPram_.chargeTime, .1f);
-	ImGui::DragFloat("chargeForce", &initialPram_.chargeForce, .1f);
-	ImGui::DragFloat("boostForce", &initialPram_.boostForce, .1f);
-	ImGui::DragFloat("stopForce", &initialPram_.stopForce, .1f);
+	initialPram_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), initialPram_.ToJson(initialPram_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		initialPram_.FromJson(JsonItems::GetData(pManager_->GetName(), initialPram_.GetName()));
-	}
+void PlayerActionBoost::Parameter::Debug_Gui() {
+	ImGui::DragFloat("chargeTime", &chargeTime, .1f);
+	ImGui::DragFloat("chargeForce", &chargeForce, .1f);
+	ImGui::DragFloat("boostForce", &boostForce, .1f);
+	ImGui::DragFloat("stopForce", &stopForce, .1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +32,8 @@ void PlayerActionBoost::Build() {
 	pInput_ = Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 
-	initialPram_.FromJson(JsonItems::GetData(pManager_->GetName(), initialPram_.GetName()));
+	initialPram_.SetGroupName(pManager_->GetName());
+	initialPram_.Load();
 
 	blur_ = Engine::GetPostProcess()->GetRadialBlur();
 }

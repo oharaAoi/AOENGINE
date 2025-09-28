@@ -31,18 +31,7 @@ void BaseWeapon::Update() {
 void BaseWeapon::Debug_Gui() {
 	transform_->Debug_Gui();
 	ImGui::SliderFloat("coolTime", &coolTime_, 0.0f, attackParam_.fireInterval);
-	ImGui::DragFloat("bulletSpeed", &attackParam_.bulletSpeed, 0.1f);
-	ImGui::DragInt("maxBulletsNum", &attackParam_.maxBulletsNum);
-	ImGui::DragInt("fireBulletsNum", &attackParam_.fireBulletsNum);
-	ImGui::DragFloat("fireInterval", &attackParam_.fireInterval, 0.1f);
-	ImGui::DragFloat("reloadTime", &attackParam_.reloadTime, 0.1f);
-
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(GetName(), attackParam_.ToJson(attackParam_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
-	}
+	attackParam_.Debug_Gui();
 }
 
 void BaseWeapon::AttackAfter() {
@@ -55,4 +44,13 @@ void BaseWeapon::AttackAfter() {
 	} else {
 		coolTime_ = attackParam_.fireInterval;
 	}
+}
+
+void BaseWeapon::AttackParam::Debug_Gui() {
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
+	ImGui::DragInt("maxBulletsNum", &maxBulletsNum);
+	ImGui::DragInt("fireBulletsNum", &fireBulletsNum);
+	ImGui::DragFloat("fireInterval", &fireInterval, 0.1f);
+	ImGui::DragFloat("reloadTime", &reloadTime, 0.1f);
+	SaveAndLoad();
 }

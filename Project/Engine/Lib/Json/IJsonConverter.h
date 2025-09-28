@@ -27,22 +27,33 @@ public:
 	/// json形式"に"変換する純粋仮想関数
 	/// </summary>
 	/// <returns>: jsonファイル形式に格納されたデータ</returns>
-	virtual json ToJson(const std::string& id) const = 0;
+	virtual json ToJson(const std::string& _id) const = 0;
 
 	/// <summary>
 	/// json形式"から"変換する純粋仮想関数
 	/// </summary>
 	/// <param name="jsonData">: 任意のデータが格納されたjsonデータ</param>
-	virtual void FromJson(const json& jsonData) = 0;
+	virtual void FromJson(const json& _jsonData) = 0;
 
-	void SetName(const std::string& name) { name_ = name; }
+	virtual void Debug_Gui() = 0;
+
+	void SetName(const std::string& _name) { name_ = _name; }
 	const std::string& GetName() const { return name_; }
+
+	void SetGroupName(const std::string& _groupName) { groupName_ = _groupName; }
+	const std::string& GetGroupName() const { return groupName_; }
+
+	void SaveAndLoad();
+	void Save();
+	void Load();
 
 protected:
 
 	std::function<json(const std::string&)> toJsonFunction_;
 
 	std::string name_ = "new Parameter";
+
+	std::string groupName_;
 
 };
 

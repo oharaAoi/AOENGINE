@@ -18,15 +18,14 @@ float BossActionShotLauncher::EvaluateWeight() {
 
 void BossActionShotLauncher::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-	ImGui::DragFloat("stiffenTime", &param_.stiffenTime, .1f);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-	}
+void BossActionShotLauncher::Parameter::Debug_Gui() {
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
+	ImGui::DragFloat("stiffenTime", &stiffenTime, .1f);
+
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +52,9 @@ bool BossActionShotLauncher::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
+	
 	Shot();
 
 	isFinish_ = true;

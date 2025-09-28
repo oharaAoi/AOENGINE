@@ -16,13 +16,14 @@ float BossActionLeave::EvaluateWeight() {
 
 void BossActionLeave::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
-	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
-	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
+void BossActionLeave::Parameter::Debug_Gui() {
+	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
+	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,7 +52,8 @@ bool BossActionLeave::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionLeave::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 	taskTimer_ = 0;
 
 	stopping_ = false;

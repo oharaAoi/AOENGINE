@@ -162,4 +162,6 @@ struct GpuParticleEmitterItem : public IJsonConverter {
 	}
 
 	void Attribute_Gui();
+
+	void Debug_Gui() override {};
 };

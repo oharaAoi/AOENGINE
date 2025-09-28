@@ -54,6 +54,8 @@ public:
 			fromJson(jsonData, "depth", depth);
 			fromJson(pipeline, "rtvFormat", rtvFormats);
 		}
+
+		void Debug_Gui() override {};
 	};
 
 	struct BindingKey {

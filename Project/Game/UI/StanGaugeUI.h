@@ -31,6 +31,8 @@ public:
 			fromJson(jsonData, "minAlpha", minAlpha);
 			fromJson(jsonData, "maxAlpha", maxAlpha);
 		}
+
+		void Debug_Gui() override {};
 	};
 
 public:

@@ -54,6 +54,8 @@ public:
 			fromJson(jsonData, "cosAngle", cosAngle);
 			fromJson(jsonData, "cosFalloffStart", cosFalloffStart);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public :

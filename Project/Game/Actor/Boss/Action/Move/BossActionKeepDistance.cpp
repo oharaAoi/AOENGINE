@@ -21,14 +21,15 @@ float BossActionKeepDistance::EvaluateWeight() {
 
 void BossActionKeepDistance::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
-	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
-	ImGui::DragFloat("getDistance", &param_.getDistance, 0.1f);
-	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
+void BossActionKeepDistance::Parameter::Debug_Gui() {
+	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
+	ImGui::DragFloat("getDistance", &getDistance, 0.1f);
+	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,9 +58,10 @@ bool BossActionKeepDistance::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionKeepDistance::Init() {
-	taskTimer_ = 0;
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 
+	taskTimer_ = 0;
 	stopping_ = false;
 
 	velocity_ = CVector3::ZERO;

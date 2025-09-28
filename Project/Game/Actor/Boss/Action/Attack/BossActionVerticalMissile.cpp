@@ -16,6 +16,14 @@ float BossActionVerticalMissile::EvaluateWeight() {
 
 void BossActionVerticalMissile::Debug_Gui() {
 	ITaskNode::Debug_Gui();
+	param_.Debug_Gui();
+}
+
+void BossActionVerticalMissile::Parameter::Debug_Gui() {
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed);
+	ImGui::DragFloat("fireRadius", &fireRadius);
+	ImGui::DragInt("kFireCount", &kFireCount);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,7 +50,8 @@ bool BossActionVerticalMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionVerticalMissile::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 
 	taskTimer_ = 0.0f;
 	fireCount_ = 0;

@@ -9,24 +9,19 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::Debug_Gui() {
-	ImGui::DragFloat("first_boostForce", &initParam_.boostForce, 0.1f);
-	ImGui::DragFloat("first_decelerationRaito", &initParam_.decelerationRaito, 0.01f);
-	ImGui::DragFloat("first_boostEnergy", &initParam_.boostEnergy, 0.01f);
-	ImGui::DragFloat("cameraShakeTime", &initParam_.cameraShakeTime, 0.1f);
-	ImGui::DragFloat("cameraShakeStrength", &initParam_.cameraShakeStrength, 0.1f);
-
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
 	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
 	ImGui::Text("boostEnergy: (%.2f)", param_.boostEnergy);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), initParam_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
-		param_ = initParam_;
-	}
-
+void PlayerActionQuickBoost::Parameter::Debug_Gui() {
+	ImGui::DragFloat("first_boostForce", &boostForce, 0.1f);
+	ImGui::DragFloat("first_decelerationRaito", &decelerationRaito, 0.01f);
+	ImGui::DragFloat("first_boostEnergy", &boostEnergy, 0.01f);
+	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
+	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +38,8 @@ void PlayerActionQuickBoost::Build() {
 	boostParticle_->SetIsStop(true);
 	boostParticle_->SetLoop(false);
 
-	initParam_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+	initParam_.SetGroupName(pManager_->GetName());
+	initParam_.Load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

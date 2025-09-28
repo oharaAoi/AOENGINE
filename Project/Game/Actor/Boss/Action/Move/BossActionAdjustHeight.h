@@ -27,6 +27,8 @@ public:
 			fromJson(jsonData, "smoothTime", smoothTime);
 			fromJson(jsonData, "maxSpeed", maxSpeed);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

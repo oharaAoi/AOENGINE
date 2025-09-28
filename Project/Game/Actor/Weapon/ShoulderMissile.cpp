@@ -18,8 +18,8 @@ void ShoulderMissile::Init() {
 	SetName("ShoulderMissile");
 	BaseWeapon::Init();
 	attackParam_.SetName("ShoulderMissileAttackParam");
-	attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
-	weaponParam_.FromJson(JsonItems::GetData(GetName(), weaponParam_.GetName()));
+	attackParam_.Load();
+	weaponParam_.Load();
 
 	object_->SetObject("shoulderMissile.obj");
 
@@ -33,13 +33,20 @@ void ShoulderMissile::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShoulderMissile::Debug_Gui() {
-	BaseWeapon::Debug_Gui();
-	ImGui::DragFloat3("pos", &weaponParam_.pos.x, 0.1f);
-
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(GetName(), weaponParam_.ToJson(weaponParam_.GetName()));
+	if (ImGui::CollapsingHeader("Base")) {
+		BaseWeapon::Debug_Gui();
 	}
+
+	if (ImGui::CollapsingHeader("Unique")) {
+		weaponParam_.Debug_Gui();
+	}
+	
 	transform_->SetTranslate(weaponParam_.pos);
+}
+
+void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
+	ImGui::DragFloat3("pos", &pos.x, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

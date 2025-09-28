@@ -26,6 +26,8 @@ public:
 			fromJson(jsonData, "normalColor", normalColor);
 			fromJson(jsonData, "pinchColor", pinchColor);
 		}
+
+		void Debug_Gui() override {};
 	};
 
 public:

@@ -29,6 +29,8 @@ public:
 			fromJson(jsonData, "bulletSpread", bulletSpread);
 			fromJson(jsonData, "kFireCount", kFireCount);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

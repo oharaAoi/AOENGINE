@@ -205,6 +205,8 @@ struct ParticleEmit : public IJsonConverter {
 
 	void Attribute_Gui();
 
+	void Debug_Gui() override {};
+
 public:
 	// ======== Setters / Getters ========
 	void SetIsLoop(bool _isLoop) { isLoop = _isLoop; }

@@ -9,15 +9,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::Debug_Gui() {
-	ImGui::DragFloat("chargeTime", &parameter_.chargeTime, 01.f);
-	ImGui::DragFloat3("effectOffset", &parameter_.effectOffset.x, 0.1f);
+	parameter_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), parameter_.ToJson(parameter_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(JsonItems::GetData(pManager_->GetName(), parameter_.GetName()));
-	}
+void PlayerActionDeployArmor::Parameter::Debug_Gui() {
+	ImGui::DragFloat("chargeTime", &chargeTime, 01.f);
+	ImGui::DragFloat3("effectOffset", &effectOffset.x, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +26,8 @@ void PlayerActionDeployArmor::Build() {
 	SetName("ActionDeployArmor");
 	pInput_ = Input::GetInstance();
 
-	parameter_.FromJson(JsonItems::GetData(pManager_->GetName(), parameter_.GetName()));
+	parameter_.SetGroupName(pManager_->GetName());
+	parameter_.Load();
 
 	/*chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
 	chargeEmitter_->SetIsStop(true);
@@ -42,7 +41,7 @@ void PlayerActionDeployArmor::Build() {
 
 void PlayerActionDeployArmor::OnStart() {
 	actionTimer_ = 0.0f;
-	chargeEmitter_->SetIsStop(false);
+	//chargeEmitter_->SetIsStop(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +58,7 @@ void PlayerActionDeployArmor::OnUpdate() {
 
 void PlayerActionDeployArmor::OnEnd() {
 	pOwner_->SetDeployArmor(true);
-	chargeEmitter_->SetIsStop(true);
+	//chargeEmitter_->SetIsStop(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

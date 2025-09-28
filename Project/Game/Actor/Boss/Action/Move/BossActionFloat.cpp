@@ -13,14 +13,13 @@ float BossActionFloat::EvaluateWeight() {
 
 void BossActionFloat::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("moveTime", &param_.moveTime, 0.1f);
-	ImGui::DragFloat("moveSpeed", &param_.moveSpeed, 0.1f);
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-	}
+	param_.Debug_Gui();
+}
+
+void BossActionFloat::Parameter::Debug_Gui() {
+	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
+	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	SaveAndLoad();
 }
 
 bool BossActionFloat::IsFinish() {
@@ -36,7 +35,8 @@ bool BossActionFloat::CanExecute() {
 }
 
 void BossActionFloat::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
 }

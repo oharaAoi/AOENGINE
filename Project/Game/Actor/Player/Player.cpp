@@ -35,37 +35,28 @@ void Player::Debug_Gui() {
 	actionManager_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("CurrentParameter")) {
-		ImGui::DragFloat("health", &param_.health, 0.1f);
-		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
-		ImGui::DragFloat("bodyWeight", &param_.bodyWeight, 0.1f);
-		ImGui::DragFloat("energy", &param_.energy, 0.1f);
-		ImGui::DragFloat("energyRecoveyAmount", &param_.energyRecoveyAmount, 0.1f);
-		ImGui::DragFloat("energyRecoveyCoolTime", &param_.energyRecoveyCoolTime, 0.1f);
-
-		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
+		param_.Debug_Gui();
 	}
 
 	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat("health", &initParam_.health, 0.1f);
-		ImGui::DragFloat("postureStability", &initParam_.postureStability, 0.1f);
-		ImGui::DragFloat("bodyWeight", &initParam_.bodyWeight, 0.1f);
-		ImGui::DragFloat("energy", &initParam_.energy, 0.1f);
-		ImGui::DragFloat("energyRecoveyAmount", &initParam_.energyRecoveyAmount, 0.1f);
-		ImGui::DragFloat("energyRecoveyCoolTime", &initParam_.energyRecoveyCoolTime, 0.1f);
-
-		ImGui::DragFloat("legColliderRadius", &initParam_.legColliderRadius, 0.1f);
-		ImGui::DragFloat("legColliderPosY", &initParam_.legColliderPosY, 0.1f);
-
-		param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
-
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), initParam_.ToJson("playerParameter"));
-		}
-		if (ImGui::Button("Apply")) {
-			initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
-			param_ = initParam_;
-		}
+		initParam_.Debug_Gui();
 	}
+
+	param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
+}
+
+void Player::Parameter::Debug_Gui() {
+	ImGui::DragFloat("health", &health, 0.1f);
+	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
+	ImGui::DragFloat("bodyWeight", &bodyWeight, 0.1f);
+	ImGui::DragFloat("energy", &energy, 0.1f);
+	ImGui::DragFloat("energyRecoveyAmount", &energyRecoveyAmount, 0.1f);
+	ImGui::DragFloat("energyRecoveyCoolTime", &energyRecoveyCoolTime, 0.1f);
+
+	ImGui::DragFloat("legColliderRadius", &legColliderRadius, 0.1f);
+	ImGui::DragFloat("legColliderPosY", &legColliderPosY, 0.1f);
+
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,7 +65,7 @@ void Player::Debug_Gui() {
 
 void Player::Init() {
 	SetName("Player");
-	initParam_.FromJson(JsonItems::GetData(GetName(), "playerParameter"));
+	initParam_.Load();
 	param_ = initParam_;
 
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");

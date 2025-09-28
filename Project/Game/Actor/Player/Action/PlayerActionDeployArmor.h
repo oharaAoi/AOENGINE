@@ -28,6 +28,8 @@ public:
 			fromJson(jsonData, "chargeTime", chargeTime);
 			fromJson(jsonData, "effectOffset", effectOffset);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

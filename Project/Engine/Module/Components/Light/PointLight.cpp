@@ -13,6 +13,7 @@ void PointLight::Init(ID3D12Device* device, const size_t& size) {
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 
+	parameter_.SetGroupName("Light");
 	pointLightData_->color = parameter_.color;
 	pointLightData_->position = parameter_.position;
 	pointLightData_->intensity = parameter_.intensity;
@@ -35,22 +36,19 @@ void PointLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& ro
 }
 
 void PointLight::Debug_Gui() {
-	ImGui::ColorEdit4("color", &parameter_.color.x);
-	ImGui::DragFloat3("position", &parameter_.position.x, 0.1f);
-	ImGui::DragFloat("intensity", &parameter_.intensity, 0.1f, 0.0f, 1.0f);
-	ImGui::DragFloat("radius", &parameter_.radius, 0.1f, 0.0f, 10.0f);
-	ImGui::DragFloat("decay", &parameter_.decay, 0.1f, 0.0f, 1.0f);
-
 	pointLightData_->color = parameter_.color;
 	pointLightData_->position = parameter_.position;
 	pointLightData_->intensity = parameter_.intensity;
 	pointLightData_->radius = parameter_.radius;
 	pointLightData_->decay = parameter_.decay;
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("Light", parameter_.ToJson("pointLight"));
-	}
-	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(JsonItems::GetData("Light", "pointLight"));
-	}
+void PointLight::Paramter::Debug_Gui() {
+	ImGui::ColorEdit4("color", &color.x);
+	ImGui::DragFloat3("position", &position.x, 0.1f);
+	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
+	ImGui::DragFloat("radius", &radius, 0.1f, 0.0f, 10.0f);
+	ImGui::DragFloat("decay", &decay, 0.1f, 0.0f, 1.0f);
+
+	SaveAndLoad();
 }

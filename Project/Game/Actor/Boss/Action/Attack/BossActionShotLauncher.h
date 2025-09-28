@@ -29,6 +29,8 @@ public:
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "stiffenTime", stiffenTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

@@ -8,7 +8,8 @@
 void BossUIs::Init(Boss* _boss) {
 	SetName("BossUIs");
 	pBoss_ = _boss;
-	uiItems_.FromJson(JsonItems::GetData(GetName(), uiItems_.GetName()));
+
+	uiItems_.Load();
 
 	health_ = std::make_unique<BossHealthUI>();
 	health_->Init();
@@ -99,31 +100,31 @@ void BossUIs::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUIs::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Health")) {
-		ImGui::DragFloat2("HealthScale", &uiItems_.healthScale.x, 0.1f);
-		ImGui::DragFloat2("HealthPos", &uiItems_.healthPos.x, 0.1f);
-
-		health_->SetScale(uiItems_.healthScale);
-		health_->SetCenterPos(uiItems_.healthPos);
-	}
-
-	if (ImGui::CollapsingHeader("PostureStability")) {
-		ImGui::DragFloat2("postureScale", &uiItems_.postureScale.x, 0.1f);
-		ImGui::DragFloat2("posturePos", &uiItems_.posturePos.x, 0.1f);
-		postureStability_->Debug_Gui();
-
-		postureStability_->SetScale(uiItems_.postureScale);
-		postureStability_->SetCenterPos(uiItems_.posturePos);
-	}
+	uiItems_.Debug_Gui();
 
 	if (ImGui::CollapsingHeader("Stan")) {
 		stanGaugeUI_->Debug_Gui();
 	}
 
+	health_->SetScale(uiItems_.healthScale);
+	health_->SetCenterPos(uiItems_.healthPos);
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(GetName(), uiItems_.ToJson(uiItems_.GetName()));
+	postureStability_->Debug_Gui();
+	postureStability_->SetScale(uiItems_.postureScale);
+	postureStability_->SetCenterPos(uiItems_.posturePos);
+}
+
+void BossUIs::UIItems::Debug_Gui() {
+	if (ImGui::CollapsingHeader("Health")) {
+		ImGui::DragFloat2("HealthScale", &healthScale.x, 0.1f);
+		ImGui::DragFloat2("HealthPos", &healthPos.x, 0.1f);
 	}
+
+	if (ImGui::CollapsingHeader("PostureStability")) {
+		ImGui::DragFloat2("postureScale", &postureScale.x, 0.1f);
+		ImGui::DragFloat2("posturePos", &posturePos.x, 0.1f);
+	}
+	SaveAndLoad();
 }
 
 void BossUIs::PopAlert() {

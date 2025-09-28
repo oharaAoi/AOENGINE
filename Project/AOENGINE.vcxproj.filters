@@ -276,10 +276,8 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossAI.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.cpp" />
     <ClCompile Include="Game\UI\Boss\EnemyAttackAlert.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
@@ -580,10 +578,8 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
-    <ClInclude Include="Game\Actor\Boss\BossAI.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossLotteryAction.h" />
     <ClInclude Include="Game\UI\Boss\EnemyAttackAlert.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
     <ClInclude Include="Game\UI\TitleUIs.h" />

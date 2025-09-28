@@ -31,6 +31,8 @@ public:	// 構造体
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "decayRate", decayRate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

@@ -17,7 +17,10 @@ public:
 		Vector2 endPos;
 		float duration;
 
-		Parameter() { SetName("clearNotificationUI"); }
+		Parameter() { 
+			SetGroupName("CanvasUI");
+			SetName("clearNotificationUI");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -32,6 +35,8 @@ public:
 			fromJson(jsonData, "endPos", endPos);
 			fromJson(jsonData, "duration", duration);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

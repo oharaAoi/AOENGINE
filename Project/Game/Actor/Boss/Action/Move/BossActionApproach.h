@@ -40,6 +40,8 @@ public:
 			fromJson(jsonData, "quitApproachLength", quitApproachLength);
 			fromJson(jsonData, "decayRate", decayRate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

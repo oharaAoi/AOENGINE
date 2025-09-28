@@ -42,30 +42,23 @@ void Boss::Debug_Gui() {
 	transform_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat("Health", &param_.health, 0.1f);
-		ImGui::DragFloat("postureStability", &param_.postureStability, 0.1f);
-		ImGui::DragFloat("armorCoolTime", &param_.armorCoolTime, 0.1f);
-
-		if (ImGui::Button("Reset")) {
-			initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-			param_ = initParam_;
-		}
+		param_.Debug_Gui();
 	}
 
 	if (ImGui::CollapsingHeader("InitParameter")) {
-		ImGui::DragFloat("Health", &initParam_.health, 0.1f);
-		ImGui::DragFloat("postureStability", &initParam_.postureStability, 0.1f);
-
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), initParam_.ToJson(param_.GetName()));
-		}
+		initParam_.Debug_Gui();
 	}
-
-	//ImGui::ShowBezierDemo();
 
 	ImGui::Separator();
 	ImGui::BulletText("BehaviorTree");
 	behaviorTree_->Edit();
+}
+
+void Boss::Parameter::Debug_Gui() {
+	ImGui::DragFloat("Health", &health, 0.1f);
+	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
+	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +78,8 @@ void Boss::Init() {
 	object_->SetPhysics();
 	object_->GetRigidbody()->SetGravity(false);
 
-	initParam_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
+	initParam_.SetGroupName("Boss");
+	initParam_.Load();
 	param_ = initParam_;
 
 	std::filesystem::create_directory("Log_AI");

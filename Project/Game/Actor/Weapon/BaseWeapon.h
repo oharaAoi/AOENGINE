@@ -20,7 +20,10 @@ public:
 		float fireInterval = 0.3f;	// 発射間隔
 		float reloadTime = 2.0f;	// リロード時間
 
-		AttackParam() { SetName("AttackParam"); }
+		AttackParam() {
+			SetName("AttackParam");
+			SetGroupName("Weapon");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -39,6 +42,8 @@ public:
 			fromJson(jsonData, "fireInterval", fireInterval);
 			fromJson(jsonData, "reloadTime", reloadTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

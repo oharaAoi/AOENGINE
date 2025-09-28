@@ -28,6 +28,8 @@ public:
 			fromJson(jsonData, "fireRadius", fireRadius);
 			fromJson(jsonData, "kFireCount", kFireCount);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

@@ -8,7 +8,6 @@
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
-#include "Game/Actor/Boss/BossAI.h"
 #include "Game/Actor/Boss/BossEvaluationFormula.h"
 #include "Game/Actor/Boss/GoalOriented/BossWorldState.h"
 #include "Game/Actor/Weapon/Armors.h"
@@ -44,6 +43,8 @@ public:
 			fromJson(jsonData, "postureStability", postureStability);
 			fromJson(jsonData, "armorCoolTime", armorCoolTime);
 		}
+
+		void Debug_Gui() override;
 	};
 public:
 

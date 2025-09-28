@@ -9,7 +9,9 @@
 
 void BossStateDeployArmor::OnStart() {
 	SetName("DeployArmorState");
-	armorParam_.FromJson(JsonItems::GetData(GetName(), armorParam_.GetName()));
+
+	armorParam_.SetGroupName(GetName());
+	armorParam_.Load();
 	// armorを取得しておく
 	armor_ = pOwner_->GetPulseArmor();
 	armor_->SetArmor();
@@ -38,29 +40,30 @@ void BossStateDeployArmor::OnExit() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateDeployArmor::Debug_Gui() {
-	ImGui::DragFloat("durability", &armorParam_.durability, 0.1f);
-	ImGui::DragFloat3("scale", &armorParam_.scale.x, 0.1f);
-	ImGui::ColorEdit4("baseColor", &armorParam_.color.x);
-	ImGui::ColorEdit4("edgeColor", &armorParam_.edgeColor.x);
+	armorParam_.Debug_Gui();
+}
+
+void BossStateDeployArmor::ArmorParameter::Debug_Gui() {
+	ImGui::DragFloat("durability", &durability, 0.1f);
+	ImGui::DragFloat3("scale", &scale.x, 0.1f);
+	ImGui::ColorEdit4("baseColor", &color.x);
+	ImGui::ColorEdit4("edgeColor", &edgeColor.x);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::TreeNodeEx("uvTransform", flags)) {
 		if (ImGui::TreeNode("scale")) {
-			ImGui::DragFloat3("uvScale", &armorParam_.uvTransform.scale.x, 0.01f);
+			ImGui::DragFloat3("uvScale", &uvTransform.scale.x, 0.01f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("rotation")) {
-			ImGui::DragFloat3("uvRotation", &armorParam_.uvTransform.rotate.x, 0.01f);
+			ImGui::DragFloat3("uvRotation", &uvTransform.rotate.x, 0.01f);
 			ImGui::TreePop();
 		}
 		if (ImGui::TreeNode("translation")) {
-			ImGui::DragFloat3("uvTranslation", &armorParam_.uvTransform.translate.x, 0.01f);
+			ImGui::DragFloat3("uvTranslation", &uvTransform.translate.x, 0.01f);
 			ImGui::TreePop();
 		}
 		ImGui::TreePop();
 	}
-	
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
-	}
+	SaveAndLoad();
 }

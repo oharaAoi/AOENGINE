@@ -22,7 +22,7 @@ void MachineGun::Init() {
 	SetName("MachineGun");
 	BaseWeapon::Init();
 	attackParam_.SetName("MachineGunAttackParam");
-	attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
+	attackParam_.Load();
 	
 	object_->SetObject("gun.obj");
 	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);

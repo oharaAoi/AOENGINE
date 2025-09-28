@@ -4,12 +4,29 @@
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerActionTurnAround::Debug_Gui() {
+	param_.Debug_Gui();
+}
+
+void PlayerActionTurnAround::Parameter::Debug_Gui() {
+	ImGui::DragFloat("speed", &speed, 0.1f);
+	ImGui::DragFloat("rotateTime", &rotateTime, 0.1f);
+	SaveAndLoad();
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionTurnAround::Build() {
 	SetName("actionTurnAround");
-	param_.FromJson(JsonItems::GetData("PlayerAction", param_.GetName()));
+
+	param_.SetGroupName(pManager_->GetName());
+	param_.Load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,14 +87,3 @@ bool PlayerActionTurnAround::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ main action
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerActionTurnAround::Debug_Gui() {
-	ImGui::DragFloat("speed", &param_.speed, 0.1f);
-	ImGui::DragFloat("rotateTime", &param_.rotateTime, 0.1f);
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("PlayerAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("PlayerAction", param_.GetName()));
-	}
-}

@@ -13,24 +13,22 @@ float BossActionApproach::EvaluateWeight() {
 
 void BossActionApproach::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("moveSpeed", &initParam_.moveSpeed, .1f);
-	ImGui::DragFloat("moveTime", &initParam_.moveTime, .1f);
-	ImGui::DragFloat("deceleration", &initParam_.deceleration, .1f);
-	ImGui::DragFloat("maxSpinDistance", &initParam_.maxSpinDistance, .1f);
-	ImGui::DragFloat("quitApproachLength", &initParam_.quitApproachLength, .1f);
-	ImGui::DragFloat("decayRate", &initParam_.decayRate, 0.1f);
+	initParam_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", initParam_.ToJson(initParam_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		initParam_.FromJson(JsonItems::GetData("BossAction", initParam_.GetName()));
-		param_ = initParam_;
-	}
+void BossActionApproach::Parameter::Debug_Gui() {
+	ImGui::DragFloat("moveSpeed", &moveSpeed, .1f);
+	ImGui::DragFloat("moveTime", &moveTime, .1f);
+	ImGui::DragFloat("deceleration", &deceleration, .1f);
+	ImGui::DragFloat("maxSpinDistance", &maxSpinDistance, .1f);
+	ImGui::DragFloat("quitApproachLength", &quitApproachLength, .1f);
+	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	SaveAndLoad();
 }
 
 void BossActionApproach::Init() {
-	initParam_.FromJson(JsonItems::GetData("BossAction", initParam_.GetName()));
+	initParam_.SetGroupName("BossAction");
+	initParam_.Load();
 	param_ = initParam_;
 
 	// player方向を計算する

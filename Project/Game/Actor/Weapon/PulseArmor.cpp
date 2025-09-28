@@ -196,6 +196,10 @@ void PulseArmor::Debug_Gui() {
 	}
 }
 
+void PulseArmor::ArmorParameter::Debug_Gui() {
+
+}
+
 void PulseArmor::SetParameter() {
 	SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 

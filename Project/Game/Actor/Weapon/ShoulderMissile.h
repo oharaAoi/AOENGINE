@@ -13,7 +13,10 @@ public:
 	struct ShoulderMissileParam : IJsonConverter {
 		Vector3 pos;
 
-		ShoulderMissileParam() { SetName("ShoulderMissile"); }
+		ShoulderMissileParam() {
+			SetGroupName("Weapon");
+			SetName("ShoulderMissile");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -24,6 +27,8 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "pos", pos);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

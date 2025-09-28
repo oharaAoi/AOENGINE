@@ -24,15 +24,13 @@ float BossActionAdjustHeight::EvaluateWeight() {
 
 void BossActionAdjustHeight::Debug_Gui() {
     ITaskNode::Debug_Gui();
-    ImGui::DragFloat("smoothTime", &param_.smoothTime, 0.1f);
-    ImGui::DragFloat("maxSpeed", &param_.maxSpeed, 0.1f);
+    param_.Debug_Gui();
+}
 
-    if (ImGui::Button("Save")) {
-        JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-    }
-    if (ImGui::Button("Apply")) {
-        param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-    }
+void BossActionAdjustHeight::Parameter::Debug_Gui() {
+    ImGui::DragFloat("smoothTime", &smoothTime, 0.1f);
+    ImGui::DragFloat("maxSpeed", &maxSpeed, 0.1f);
+    SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +62,8 @@ bool BossActionAdjustHeight::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Init() {
-    param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+    param_.SetGroupName("BossAction");
+    param_.Load();
     speed_ = 0.0f;
 
     taskTimer_ = 0.0f;

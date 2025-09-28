@@ -2,7 +2,6 @@
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
-#include "Game/Actor/Boss/BossAI.h"
 
 class Boss;
 
@@ -27,6 +26,8 @@ public:
 			fromJson(jsonData, "shotInterval", shotInterval);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

@@ -35,6 +35,8 @@ public:
 			fromJson(jsonData, "rotateT", rotateT);
 			fromJson(jsonData, "decayRate", decayRate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

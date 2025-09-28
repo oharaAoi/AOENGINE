@@ -31,7 +31,10 @@ public:
 		std::string  materialTexture = "white.png";
 		std::string  blendTexture = "white.png";
 
-		Parameter() { SetName("jetBurnParameter"); }
+		Parameter() {
+			SetGroupName("Effect");
+			SetName("jetBurnParameter");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -54,12 +57,18 @@ public:
 			fromJson(jsonData, "materialTexture", materialTexture);
 			fromJson(jsonData, "blendTexture", blendTexture);
 		}
+
+		void Debug_Gui() override;
 	};
 
 	struct FlareParameter : public IJsonConverter {
 		Vector3 translate;
 
-		FlareParameter() { SetName("jetFlera"); }
+		FlareParameter() { 
+			SetGroupName("Effect");
+			SetName("jetFlera");
+		}
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("translate", translate)
@@ -69,6 +78,8 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "translate", translate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

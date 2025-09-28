@@ -43,6 +43,8 @@ public:
 			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

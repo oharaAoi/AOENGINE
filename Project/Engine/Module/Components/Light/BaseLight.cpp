@@ -10,6 +10,8 @@ void BaseLight::Init(ID3D12Device* device, const size_t& size) {
 	lightPos_ = Vector3(0, 200, 0);
 	direction_ = Vector3(0, -1, 0);
 	direction_ = direction_.Normalize();
+
+	baseParameter_.SetGroupName("Light");
 }
 
 void BaseLight::Finalize() {
@@ -43,17 +45,8 @@ void BaseLight::CalucViewProjection(const Vector3& pos) {
 }
 
 void BaseLight::EditParameter(const std::string& name) {
-	ImGui::DragFloat3("pos", &baseParameter_.lightPos.x, 0.1f);
-	ImGui::DragFloat3("direction", &baseParameter_.direction.x, 0.1f);
-	ImGui::DragFloat("fovY", &baseParameter_.fovY, 0.1f);
-	ImGui::DragFloat("nearClip", &baseParameter_.nearClip, 0.1f);
-	ImGui::DragFloat("farClip", &baseParameter_.farClip, 0.1f);
-
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("Light", baseParameter_.ToJson(name));
-	}
-	if (ImGui::Button("Apply")) {
-		baseParameter_.FromJson(JsonItems::GetData("Light", name));
+	if (ImGui::CollapsingHeader(name.c_str())) {
+		baseParameter_.Debug_Gui();
 	}
 
 	baseParameter_.direction = baseParameter_.direction.Normalize();
@@ -63,4 +56,14 @@ void BaseLight::EditParameter(const std::string& name) {
 	fovY_ = baseParameter_.fovY;
 	near_ = baseParameter_.nearClip;
 	far_ = baseParameter_.farClip;
+}
+
+void BaseLight::BaseParameter::Debug_Gui() {
+	ImGui::DragFloat3("pos", &lightPos.x, 0.1f);
+	ImGui::DragFloat3("direction", &direction.x, 0.1f);
+	ImGui::DragFloat("fovY", &fovY, 0.1f);
+	ImGui::DragFloat("nearClip", &nearClip, 0.1f);
+	ImGui::DragFloat("farClip", &farClip, 0.1f);
+
+	SaveAndLoad();
 }

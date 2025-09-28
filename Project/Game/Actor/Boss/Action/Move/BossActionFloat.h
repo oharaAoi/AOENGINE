@@ -27,6 +27,8 @@ public:
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "moveSpeed", moveSpeed);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

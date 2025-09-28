@@ -34,6 +34,8 @@ public:
 			fromJson(jsonData, "getDistance", getDistance);
 			fromJson(jsonData, "decayRate", decayRate);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

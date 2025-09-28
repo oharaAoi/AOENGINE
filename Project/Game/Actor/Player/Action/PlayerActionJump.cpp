@@ -9,26 +9,24 @@
 #include "Engine/System/Manager/ParticleManager.h"
 
 void PlayerActionJump::Debug_Gui() {
-	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
-
-	ImGui::DragFloat("jumpForce", &param_.jumpForce, 0.1f);
-	ImGui::DragFloat("chargeTime", &param_.chargeTime, 0.1f);
-	ImGui::DragFloat("risingForce", &param_.risingForce, 0.1f);
-	ImGui::DragFloat("maxAcceleration", &param_.maxAcceleration, 0.1f);
-	ImGui::DragFloat("accelDecayRate", &param_.accelDecayRate, 0.1f);
-	ImGui::DragFloat("velocityDecayRate", &param_.velocityDecayRate, 0.1f);
-	ImGui::DragFloat("jumpEnergy", &param_.jumpEnergy, 0.1f);
-	ImGui::DragFloat("cameraShakeTime", &param_.cameraShakeTime, 0.1f);
-	ImGui::DragFloat("cameraShakeStrength", &param_.cameraShakeStrength, 0.1f);
-	
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
-	}
 	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
 	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
+	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
+
+	param_.Debug_Gui();
+}
+
+void PlayerActionJump::Parameter::Debug_Gui() {
+	ImGui::DragFloat("jumpForce", &jumpForce, 0.1f);
+	ImGui::DragFloat("chargeTime", &chargeTime, 0.1f);
+	ImGui::DragFloat("risingForce", &risingForce, 0.1f);
+	ImGui::DragFloat("maxAcceleration", &maxAcceleration, 0.1f);
+	ImGui::DragFloat("accelDecayRate", &accelDecayRate, 0.1f);
+	ImGui::DragFloat("velocityDecayRate", &velocityDecayRate, 0.1f);
+	ImGui::DragFloat("jumpEnergy", &jumpEnergy, 0.1f);
+	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
+	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +36,9 @@ void PlayerActionJump::Debug_Gui() {
 void PlayerActionJump::Build() {
 	SetName("ActionJump");
 	pOwnerTransform_ = pOwner_->GetTransform();
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+
+	param_.SetGroupName(pManager_->GetName());
+	param_.Load();
 
 	ParticleManager* manager = ParticleManager::GetInstance();
 	jetBurnLeft_ = manager->CrateParticle("legsJet");

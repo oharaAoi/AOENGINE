@@ -18,16 +18,15 @@ float BossActionShotBullet::EvaluateWeight() {
 
 void BossActionShotBullet::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("shotInterval", &param_.shotInterval, .1f);
-	ImGui::DragFloat("bulletSpeed", &param_.bulletSpeed, .1f);
-	ImGui::DragInt("kFireCount", &param_.kFireCount, 1);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
-	}
+void BossActionShotBullet::Parameter::Debug_Gui() {
+	ImGui::DragFloat("shotInterval", &shotInterval, .1f);
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
+	ImGui::DragInt("kFireCount", &kFireCount, 1);
+
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +53,9 @@ bool BossActionShotBullet::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotBullet::Init() {
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
+	param_.SetGroupName("BossAction");
+	param_.Load();
+
 	fireCount_ = param_.kFireCount;
 
 	isFinishShot_ = false;

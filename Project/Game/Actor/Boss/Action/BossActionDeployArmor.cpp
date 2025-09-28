@@ -22,12 +22,13 @@ float BossActionDeployArmor::EvaluateWeight() {
 
 void BossActionDeployArmor::Debug_Gui() {
 	ITaskNode::Debug_Gui();
-	ImGui::DragFloat("deployTime", &param_.deployTime, 0.1f);
-	ImGui::DragFloat("coolTime", &param_.coolTime, 0.1f);
+	param_.Debug_Gui();
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("BossAction", param_.ToJson(param_.GetName()));
-	}
+void BossActionDeployArmor::Parameter::Debug_Gui() {
+	ImGui::DragFloat("deployTime", &deployTime, 0.1f);
+	ImGui::DragFloat("coolTime", &coolTime, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,8 +64,9 @@ bool BossActionDeployArmor::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDeployArmor::Init() {
+	param_.SetGroupName("BossAction");
+	param_.Load();
 	taskTimer_ = 0.0f;
-	param_.FromJson(JsonItems::GetData("BossAction", param_.GetName()));
 	isDeploy_ = true;
 }
 

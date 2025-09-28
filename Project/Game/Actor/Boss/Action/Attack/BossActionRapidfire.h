@@ -35,6 +35,8 @@ public:
 			fromJson(jsonData, "kFireCount", kFireCount);
 			fromJson(jsonData, "coolTime", coolTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

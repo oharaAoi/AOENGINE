@@ -32,6 +32,8 @@ public:
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "kFireCount", kFireCount);
 		}
+
+		void Debug_Gui() override;
 	};
 public:
 

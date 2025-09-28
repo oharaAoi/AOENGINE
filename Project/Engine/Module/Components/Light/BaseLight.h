@@ -49,6 +49,8 @@ public:
 			fromJson(jsonData, "nearClip", nearClip);
 			fromJson(jsonData, "farClip", farClip);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

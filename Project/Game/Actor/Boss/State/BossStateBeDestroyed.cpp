@@ -5,7 +5,9 @@
 
 void BossStateBeDestroyed::OnStart() {
 	SetName("StanBeDestroyed");
-	param_.FromJson(JsonItems::GetData(stateMachine_->GetName(), param_.GetName()));
+
+	param_.SetGroupName(stateMachine_->GetName());
+	param_.Load();
 
 	timer_ = 0.0f;
 	GameTimer::SetTimeScale(0.2f);
@@ -42,12 +44,11 @@ void BossStateBeDestroyed::OnExit() {
 }
 
 void BossStateBeDestroyed::Debug_Gui() {
-	ImGui::DragFloat("slowTime", &param_.slowTime, 0.1f);
-	ImGui::DragFloat("breakTime", &param_.breakTime, 0.1f);
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(stateMachine_->GetName(), param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData(stateMachine_->GetName(), param_.GetName()));
-	}
+	param_.Debug_Gui();
+}
+
+void BossStateBeDestroyed::Parameter::Debug_Gui() {
+	ImGui::DragFloat("slowTime", &slowTime, 0.1f);
+	ImGui::DragFloat("breakTime", &breakTime, 0.1f);
+	SaveAndLoad();
 }

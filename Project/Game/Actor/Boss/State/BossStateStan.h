@@ -26,6 +26,8 @@ public:	// メンバ構造体
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "stanTime", stanTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

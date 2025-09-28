@@ -29,6 +29,8 @@ public:
 			fromJson(jsonData, "slowTime", slowTime);
 			fromJson(jsonData, "breakTime", breakTime);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

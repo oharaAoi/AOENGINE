@@ -13,20 +13,18 @@
 #include "Engine/Lib/Json/JsonItems.h"
 
 void PlayerActionMove::Debug_Gui() {
-	ImGui::DragFloat("speed", &param_.speed, 0.1f);
-	ImGui::DragFloat("boostSpeed", &param_.boostSpeed, 0.1f);
-	ImGui::DragFloat("moveT", &param_.moveT, 0.01f);
-	ImGui::DragFloat("rotateT", &param_.rotateT, 0.01f);
-	ImGui::DragFloat("decayRate", &param_.decayRate, 0.1f);
+	param_.Debug_Gui();
 	param_.moveT = std::clamp(param_.moveT, 0.0f, 1.0f);
 	param_.rotateT = std::clamp(param_.rotateT, 0.0f, 1.0f);
+}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save(pManager_->GetName(), param_.ToJson(param_.GetName()));
-	}
-	if (ImGui::Button("Apply")) {
-		param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
-	}
+void PlayerActionMove::Parameter::Debug_Gui() {
+	ImGui::DragFloat("speed", &speed, 0.1f);
+	ImGui::DragFloat("boostSpeed", &boostSpeed, 0.1f);
+	ImGui::DragFloat("moveT", &moveT, 0.01f);
+	ImGui::DragFloat("rotateT", &rotateT, 0.01f);
+	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +33,9 @@ void PlayerActionMove::Debug_Gui() {
 
 void PlayerActionMove::Build() {
 	SetName("actionMove");
-	param_.FromJson(JsonItems::GetData(pManager_->GetName(), param_.GetName()));
+
+	param_.SetGroupName(pManager_->GetName());
+	param_.Load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

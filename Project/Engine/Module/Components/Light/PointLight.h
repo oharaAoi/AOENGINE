@@ -43,6 +43,8 @@ public: // メンバ構造体
 			fromJson(jsonData, "radius", radius);
 			fromJson(jsonData, "decay", decay);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

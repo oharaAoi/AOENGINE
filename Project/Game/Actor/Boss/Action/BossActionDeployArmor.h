@@ -28,6 +28,8 @@ public:
 			fromJson(jsonData, "deployTime", deployTime);
 			fromJson(jsonData, "coolTime", coolTime);
 		}
+
+		void Debug_Gui() override;
 	};
 public:
 

@@ -22,7 +22,7 @@ void LauncherGun::Init() {
 	SetName("LauncherGun");
 	BaseWeapon::Init();
 	attackParam_.SetName("LauncherAttackParam");
-	attackParam_.FromJson(JsonItems::GetData(GetName(), attackParam_.GetName()));
+	attackParam_.Load();
 
 	object_->SetObject("launcher.obj");
 	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);

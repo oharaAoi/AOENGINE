@@ -7,8 +7,8 @@ void JetEngineBurn::Finalize() {
 
 void JetEngineBurn::Init() {
 	geometry_.Init(32, 0.1f, 1.8f, 2.0f);
-	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-	flareParameter_.FromJson(JsonItems::GetData(GetName(), flareParameter_.GetName()));
+	param_.Load();
+	flareParameter_.Load();
 
 	// meshの作成dw 
 	std::string name = geometry_.GetGeometryName();
@@ -151,26 +151,23 @@ void JetEngineBurn::Debug_Gui() {
 			param_.noiseScale = noiseSRT_.scale;
 		}
 
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
-		}
-		if (ImGui::Button("Apply")) {
-			param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-		}
+		param_.SaveAndLoad();
 		ImGui::TreePop();
 	}
 
 	if (ImGui::TreeNode("Flare")) {
 		flare_->Debug_Gui();
 		ImGui::DragFloat3("translate", &flareParameter_.translate.x, 0.1f);
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), flareParameter_.ToJson(flareParameter_.GetName()));
-		}
-		if (ImGui::Button("Apply")) {
-			flareParameter_.FromJson(JsonItems::GetData(GetName(), flareParameter_.GetName()));
-		}
+		flareParameter_.SaveAndLoad();
 		ImGui::TreePop();
 	}
+}
+
+
+void JetEngineBurn::Parameter::Debug_Gui() {
+}
+
+void JetEngineBurn::FlareParameter::Debug_Gui() {
 }
 
 void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {

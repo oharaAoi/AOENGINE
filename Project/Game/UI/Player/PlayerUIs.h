@@ -25,7 +25,10 @@ public:
 		Vector2 postureScale = { 1.0f, 1.0f };
 		Vector2 posturePos = { 640.0f, 360.0f };
 
-		UIItems() { SetName("PlayerUIItems"); }
+		UIItems() { 
+			SetGroupName("PlayerUIs");
+			SetName("PlayerUIItems");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -46,6 +49,8 @@ public:
 			fromJson(jsonData, "postureScale", postureScale);
 			fromJson(jsonData, "posturePos", posturePos);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:

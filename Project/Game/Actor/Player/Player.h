@@ -37,6 +37,11 @@ public:		// data
 		float legColliderRadius = 0.5f;
 		float legColliderPosY = -0.1f;
 
+		Parameter() {
+			SetGroupName("Player");
+			SetName("playerParameter");
+		}
+
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("health", health)
@@ -60,6 +65,8 @@ public:		// data
 			fromJson(jsonData, "legColliderRadius", legColliderRadius);
 			fromJson(jsonData, "legColliderPosY", legColliderPosY);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:		// base

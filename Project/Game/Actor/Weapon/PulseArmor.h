@@ -75,6 +75,8 @@ public:
 			fromJson(jsonData, "minThreshold", minThreshold);
 			fromJson(jsonData, "maxThreshold", maxThreshold);
 		}
+
+		void Debug_Gui() override;
 	};
 
 public:
