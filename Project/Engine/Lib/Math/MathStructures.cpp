@@ -53,11 +53,25 @@ Matrix4x4 SRT::MakeAffine() {
 	return affineMatrix;
 }
 
+json SRT::ToJson() const {
+	return {
+		{"scale", toJson(scale)},
+		{"rotate", toJson(rotate)},
+		{"translate", toJson(translate)}
+	};
+}
+
+void SRT::FromJson(const json& _json) {
+	fromJson(_json, "scale", scale);
+	fromJson(_json, "rotate", rotate);
+	fromJson(_json, "translate", translate);
+}
+
 Matrix4x4 QuaternionSRT::MakeAffine() {
 	Matrix4x4 scaleMatrix{};
 	Matrix4x4 rotateMatrix{};
 	Matrix4x4 translateMatrix{};
-	
+
 	scaleMatrix = scale.MakeScaleMat();
 	rotateMatrix = rotate.MakeMatrix();
 	translateMatrix = translate.MakeTranslateMat();
@@ -69,6 +83,20 @@ Matrix4x4 QuaternionSRT::MakeAffine() {
 	}
 
 	return worldMat_;
+}
+
+json QuaternionSRT::ToJson() const {
+	return {
+		{"scale", toJson(scale)},
+		{"rotate", toJson(rotate)},
+		{"translate", toJson(translate)}
+	};
+}
+
+void QuaternionSRT::FromJson(const json& _json) {
+	fromJson(_json, "scale", scale);
+	fromJson(_json, "rotate", rotate);
+	fromJson(_json, "translate", translate);
 }
 
 void QuaternionSRT::SetParent(const Matrix4x4& parentMat) {

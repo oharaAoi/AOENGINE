@@ -2,6 +2,7 @@
 #include <vector>
 #include "MyMath.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 /// <summary>
 /// 拡縮、回転、移動
@@ -12,6 +13,10 @@ struct SRT {
 	Vector3 translate = CVector3::ZERO;
 
 	Matrix4x4 MakeAffine();
+
+	json ToJson() const;
+
+	void FromJson(const json& _json);
 };
 
 struct QuaternionSRT {
@@ -29,6 +34,9 @@ struct QuaternionSRT {
 
 	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
 
+	json ToJson() const;
+
+	void FromJson(const json& _json);
 };
 
 /// <summary>

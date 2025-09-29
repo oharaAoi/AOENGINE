@@ -260,7 +260,7 @@ std::string TextureManager::SelectTexture(const std::string& filePath) {
 	auto currentHandle = this->GetDxHeapHandles(filePath);
 	ImTextureID currentTexID = (ImTextureID)(intptr_t)(currentHandle.handleGPU.ptr);
 	ImGui::SetNextWindowBgAlpha(0.85f);
-	ImGui::Image(currentTexID, ImVec2(128, 128));
+	ImGui::Image(currentTexID, ImVec2(64, 64));
 
 	// -------------------------------------------------
 	// ↓ 選択できるTextureのViewｗを表示

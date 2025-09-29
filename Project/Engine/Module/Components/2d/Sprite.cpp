@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 Sprite::Sprite() {}
 Sprite::~Sprite() {
@@ -25,7 +26,10 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	leftTop_ = { 0.0f, 0.0f };
 	anchorPoint_ = { 0.5f, 0.5f };
 
-	// ----------------------------------------------------------------------------------
+	// -------------------------------------------------
+	// ↓ Meshの初期化
+	// -------------------------------------------------
+
 	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 4);
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
@@ -61,7 +65,6 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	vertexData_[3].pos = rect.rightTop;			// 右上
 	vertexData_[3].texcoord = { 1.0f, 0.0f };
 
-	// ----------------------------------------------------------------------------------
 	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * 6);
 	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
 	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * 6);
@@ -76,15 +79,23 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	indexData_[3] = 1;
 	indexData_[4] = 3;
 	indexData_[5] = 2;
-	// ----------------------------------------------------------------------------------
+
+	// -------------------------------------------------
+	// ↓ Materialの初期化
+	// -------------------------------------------------
+
 	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	materialData_->uvTransform = Matrix4x4::MakeUnit();
 	materialData_->uvMinSize = { 0.0f, 0.0f };
 	materialData_->uvMaxSize = { 1.0f, 1.0f };
+	materialData_->arcType = 0;
 
-	// ----------------------------------------------------------------------------------
+	// -------------------------------------------------
+	// ↓ Transformの初期化
+	// -------------------------------------------------
+
 	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
 	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
 
@@ -97,7 +108,28 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
 	);
 
+	// -------------------------------------------------
+	// ↓ 塗りつぶしの初期化
+	// -------------------------------------------------
+
+	arcGaugeParamBuffer_ = CreateBufferResource(device, sizeof(ArcGaugeParam));
+	arcGaugeParamBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&arcData_));
+
+	arcData_->center = { 0.5f, 0.5f };
+	arcData_->fillAmount = 1.0f;
+	arcData_->innerRadius = 0.0f;
+	arcData_->outerRadius = 0.0f;
+	arcData_->startAngle = 0.0f;
+	arcData_->arcRange = kPI2;
+
+	// -------------------------------------------------
+	// ↓ メンバ変数の初期化
+	// -------------------------------------------------
+
 	isEnable_ = true;
+
+	fillMethod_ = FillMethod::Vertical;
+	fillStartingPoint_ = FillStartingPoint::Top;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,6 +137,12 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Update() {
+	if (fillMethod_ == FillMethod::Radial) {
+		materialData_->arcType = 1;
+	} else {
+		materialData_->arcType = 0;
+	}
+
 	float left = (0.0f - anchorPoint_.x) * spriteSize_.x;
 	float right = (1.0f - anchorPoint_.x) * spriteSize_.x;
 	float top = (0.0f - anchorPoint_.y) * spriteSize_.y;
@@ -151,10 +189,12 @@ void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const {
-	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
+	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList->SetGraphicsRootConstantBufferView(index, materialBuffer_->GetGPUVirtualAddress());
+	index = pipeline->GetRootSignatureIndex("gArcParam");
+	commandList->SetGraphicsRootConstantBufferView(index, arcGaugeParamBuffer_->GetGPUVirtualAddress());
 	index = pipeline->GetRootSignatureIndex("gTransformationMatrix");
 	commandList->SetGraphicsRootConstantBufferView(index, transformBuffer_->GetGPUVirtualAddress());
 	index = pipeline->GetRootSignatureIndex("gTexture");
@@ -181,22 +221,6 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 	vertexData_[1].pos = { left, top, 0.0f, 1.0f };
 	vertexData_[2].pos = { right, bottom, 0.0f, 1.0f };
 	vertexData_[3].pos = { right, top, 0.0f, 1.0f };
-
-	/*float tex_left = leftTop_.x - spriteSize_.x;
-	float tex_right = (leftTop_.x + drawRange_.x) - spriteSize_.x;
-	float tex_top = leftTop_.y - spriteSize_.y;
-	float tex_bottom = (leftTop_.y + drawRange_.y) - spriteSize_.y;
-
-	vertexData_[0].texcoord = { tex_left, tex_bottom };
-	vertexData_[1].texcoord = { tex_left, tex_top };
-	vertexData_[2].texcoord = { tex_right, tex_bottom };
-	vertexData_[3].texcoord = { tex_right, tex_top };*/
-
-	vertexData_[0].texcoord = { 0.0f, 1.0f };
-	vertexData_[1].texcoord = { 0.0f, 0.0f };
-	vertexData_[2].texcoord = { 1.0f, 1.0f };
-	vertexData_[3].texcoord = { 1.0f, 0.0f };
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,16 +241,27 @@ void Sprite::ReSetTextureSize(const Vector2& size) {
 	spriteSize_ = size;
 }
 
-void Sprite::FillAmount(float amount, int type) {
-	// 右が動く
-	if (type == 0) {
-		materialData_->uvMaxSize = Vector2(amount, 1.0f);
-
-		// 中心から
-	} else if (type == 1) {
-		float halfAmount = amount * 0.5f;
-		materialData_->uvMaxSize = Vector2(1.0f - (0.5f - halfAmount), 1.0f);
-		materialData_->uvMinSize = Vector2(0.5f - halfAmount, 0.0f);
+void Sprite::FillAmount(float amount) {
+	switch (fillMethod_) {
+	case FillMethod::Vertical:
+		if (fillStartingPoint_ == FillStartingPoint::Top) {
+			materialData_->uvMaxSize = Vector2(1.0f, amount);
+		} else if (fillStartingPoint_ == FillStartingPoint::Bottom) {
+			materialData_->uvMinSize = Vector2(1.0f, amount);
+		}
+		break;
+	case FillMethod::Horizontal:
+		if (fillStartingPoint_ == FillStartingPoint::Left) {
+			materialData_->uvMaxSize = Vector2(amount, 1.0f);
+		} else if (fillStartingPoint_ == FillStartingPoint::Right) {
+			materialData_->uvMinSize = Vector2(amount, 1.0f);
+		}
+		break;
+	case FillMethod::Radial:
+		arcData_->fillAmount = amount;
+		break;
+	default:
+		break;
 	}
 }
 
@@ -257,5 +292,58 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
 	ImGui::ColorEdit4("color", &materialData_->color.x);
+	TextureManager* textureManager = TextureManager::GetInstance();
+	textureName_ = textureManager->SelectTexture(textureName_);
+
+	static const char* items[] = { "Vertical", "Horizontal", "Radial" };
+	int current = static_cast<int>(fillMethod_);
+	if (ImGui::Combo("Fill Method", &current, items, IM_ARRAYSIZE(items))) {
+		fillMethod_ = static_cast<FillMethod>(current);
+	}
+
+	switch (fillMethod_) {
+	case FillMethod::Vertical:
+		{
+			static const char* pointItems[] = { "Top", "Bottom" };
+			int currentPoint = static_cast<int>(fillStartingPoint_);
+			if (ImGui::Combo("Fill Starting Point", &currentPoint, pointItems, IM_ARRAYSIZE(pointItems))) {
+				fillStartingPoint_ = static_cast<FillStartingPoint>(currentPoint);
+			}
+		}
+		break;
+	case FillMethod::Horizontal:
+		{
+			static const char* pointItems[] = { "Left", "Right" };
+			int currentPoint = static_cast<int>(fillStartingPoint_);
+			if (ImGui::Combo("Fill Starting Point", &currentPoint, pointItems, IM_ARRAYSIZE(pointItems))) {
+				fillStartingPoint_ = static_cast<FillStartingPoint>(currentPoint);
+			}
+		}
+		break;
+	case FillMethod::Radial:
+		{
+		ImGui::SliderFloat("FillAmount", &arcData_->fillAmount, 0.0f, 1.0f);
+		ImGui::SameLine();
+		ImGui::DragFloat(":", &arcData_->fillAmount,0.01f);
+		ImGui::DragFloat2("center", &arcData_->center.x, 0.01f);
+		ImGui::DragFloat("innerRadius",&arcData_->innerRadius, 0.01f);
+		ImGui::DragFloat("outerRadius",&arcData_->outerRadius, 0.01f);
+
+		float startAngle = (arcData_->startAngle) * kToDegree;
+		ImGui::DragFloat("startAngle",&startAngle, 1.0f, 0.0f, 360.0f);
+		arcData_->startAngle = startAngle * kToRadian;
+
+		float arcRange = (arcData_->arcRange) * kToDegree;
+		ImGui::DragFloat("arcRange",&arcRange, 1.0f, 0.0f, 360.0f);
+		arcData_->arcRange = arcRange * kToRadian;
+		
+		bool clockwise = arcData_->clockwise;
+		ImGui::Checkbox("clockwise", &clockwise);
+		arcData_->clockwise = clockwise;
+		break;
+		}
+	default:
+		break;
+	}
 
 }

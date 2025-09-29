@@ -200,6 +200,11 @@ public:
 		return *this;// 自分自身を返す
 	}
 
+	JsonBuilder& Add(const std::string& key, const json& value) {
+		jsonData_[hierarchyName_][key] = value;
+		return *this;// 自分自身を返す
+	}
+
 	template <typename T>
 	JsonBuilder& AddArray(const std::string& key, const std::vector<T>& values) {
 		jsonData_[hierarchyName_][key] = values;

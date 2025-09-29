@@ -4,8 +4,32 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 class Render;
+
+enum class FillStartingPoint {
+	Top,
+	Bottom,
+	Left,
+	Right,
+};
+
+enum class FillMethod {
+	Vertical,		// 垂直
+	Horizontal,		// 水平
+	Radial,			// 円形
+};
+
+struct ArcGaugeParam {
+	Vector2 center;		// 中心座標
+	float fillAmount;	// 塗りつぶし量
+	float innerRadius;	// 内半径
+	float outerRadius;	// 外半径
+	float startAngle;	// 開始角度
+	float arcRange;		// 弧の最大角度
+	int clockwise;		// 回転方向
+};
 
 class Sprite :
 	public AttributeGui {
@@ -22,6 +46,8 @@ public:
 		Matrix4x4 uvTransform;
 		Vector2 uvMinSize;		// 0~1の範囲で指定
 		Vector2 uvMaxSize;		// 0~1の範囲で指定
+		int arcType;
+		float pad[3];
 	};
 
 	struct TextureTransformData {
@@ -53,6 +79,9 @@ public:
 	/// <param name="commandList"></param>
 	void PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
 
 public:
@@ -97,7 +126,7 @@ public:
 
 	void SetUvMaxSize(const Vector2& range) { materialData_->uvMaxSize = range; }
 
-	void FillAmount(float amount, int type);
+	void FillAmount(float amount);
 
 	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
 	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
@@ -113,11 +142,16 @@ private:
 
 	bool isEnable_;
 
+	// -------------------
+	// DirectX関連
+	// -------------------
+
 	// 定数バッファ
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	ComPtr<ID3D12Resource> indexBuffer_;
 	ComPtr<ID3D12Resource> materialBuffer_;
 	ComPtr<ID3D12Resource> transformBuffer_;
+	ComPtr<ID3D12Resource> arcGaugeParamBuffer_;
 
 	// view
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
@@ -128,6 +162,11 @@ private:
 	uint32_t* indexData_;
 	TextureMaterial* materialData_;
 	TextureTransformData* transformData_;
+	ArcGaugeParam* arcData_;
+
+	// -------------------
+	// Sprite情報
+	// -------------------
 
 	// Transform情報
 	SRT transform_;
@@ -139,7 +178,6 @@ private:
 	Vector2 drawRange_ = { 0.0f, 0.0f };
 	// 左上座標
 	Vector2 leftTop_ = { 0.0f, 0.0f };
-	Vector2 centerPos_; 
 	
 	Vector2 anchorPoint_;
 
@@ -149,4 +187,48 @@ private:
 	// Textureのサイズ
 	Vector2 textureSize_;
 	Vector2 spriteSize_;
+
+	// -------------------
+	// 塗りつぶしに関する変数
+	// -------------------
+
+	FillMethod fillMethod_;
+	FillStartingPoint fillStartingPoint_;	// 塗りつぶし起点
+
 };
+
+//struct SpriteParameter : public IJsonConverter {
+//	SRT transform;
+//	SRT uvTransform;
+//	std::string textureName;
+//	Vector2 drawRange;
+//	Vector2 leftTop;
+//	Vector2 anchorPoint;
+//	bool isFlipX;
+//	bool isFlipY;
+//	Vector2 spriteSize;
+//
+//	int fillMethod;
+//	int fillStartingPoint;
+//
+//	Vector2 center;		// 中心座標
+//	float fillAmount;	// 塗りつぶし量
+//	float innerRadius;	// 内半径
+//	float outerRadius;	// 外半径
+//	float startAngle;	// 開始角度
+//	float arcRange;		// 弧の最大角度
+//	int clockwise;		// 回転方向
+//
+//	json ToJson(const std::string& id) const override {
+//		json srt = transform.ToJson();
+//		json uvSrt = transform.ToJson();
+//		return JsonBuilder(id)
+//			.Add("health", srt)
+//			.Add("health", uvSrt)
+//			.Build();
+//	}
+//
+//	void FromJson(const json& jsonData) override {
+//		fromJson(jsonData, "health", );
+//	}
+//};

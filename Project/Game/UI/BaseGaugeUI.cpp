@@ -27,7 +27,7 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Update() {
-	front_->FillAmount(fillAmount_, fillMoveType_);
+	front_->FillAmount(fillAmount_);
 	
 	bg_->SetTranslate(centerPos_);
 	front_->SetTranslate(centerPos_);

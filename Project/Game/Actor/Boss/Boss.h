@@ -161,4 +161,3 @@ private:
 	static std::string taskLogFile_;
 	int logCount_;
 };
-
