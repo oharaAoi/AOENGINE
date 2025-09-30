@@ -27,7 +27,6 @@
 #include "Game/Actor/Boss/GoalOriented/TargetDeadOriented.h"
 #include "Game/Actor/Boss/GoalOriented/SafeDistanceOriented.h"
 #include "Game/Actor/Boss/GoalOriented/DeployArmorOriented.h"
-#include "imgui_curve_bezier.h"
 
 std::string Boss::taskLogFile_;
 
@@ -52,6 +51,7 @@ void Boss::Debug_Gui() {
 	ImGui::Separator();
 	ImGui::BulletText("BehaviorTree");
 	behaviorTree_->Edit();
+
 }
 
 void Boss::Parameter::Debug_Gui() {

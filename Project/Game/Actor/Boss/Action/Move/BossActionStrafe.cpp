@@ -18,12 +18,6 @@ float BossActionStrafe::EvaluateWeight() {
 void BossActionStrafe::Debug_Gui() {
 	ITaskNode::Debug_Gui();
 	param_.Debug_Gui();
-
-	//static float v[4] = { 1, 2, 3, 4 };
-	//if (ImGui::Bezier("curve label", v)) {
-	//	// v が変化したら何かする
-	//}
-	//float y = ImGui::BezierValue(0.1f, v);
 }
 
 void BossActionStrafe::Parameter::Debug_Gui() {
@@ -31,6 +25,7 @@ void BossActionStrafe::Parameter::Debug_Gui() {
 	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
 	ImGui::DragFloat("getDistance", &getDistance, 0.1f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	curve.Debug_Gui();
 	SaveAndLoad();
 }
 

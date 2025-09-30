@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Lib/Math/Curve.h"
 #include "Engine/Module/Components/AI/ITaskNode.h"
 
 class Boss;
@@ -17,14 +18,18 @@ public:
 		float getDistance = 10.0f;
 		float decayRate = 4.0f;
 
+		Curve curve;
+
 		Parameter() { SetName("bossStrafe"); }
 
 		json ToJson(const std::string& id) const override {
+			json curveData = curve.ToJson();
 			return JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
 				.Add("getDistance", getDistance)
 				.Add("decayRate", decayRate)
+				.Add("curveData", curveData)
 				.Build();
 		}
 
@@ -33,6 +38,7 @@ public:
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "getDistance", getDistance);
 			fromJson(jsonData, "decayRate", decayRate);
+			curve.FromJson(jsonData);
 		}
 
 		void Debug_Gui() override;
