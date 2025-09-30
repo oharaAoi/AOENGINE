@@ -110,6 +110,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
+    <ClCompile Include="Engine\Lib\Color.cpp" />
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
@@ -405,6 +406,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
+    <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />

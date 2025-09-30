@@ -104,6 +104,9 @@ void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Vector4& 
 
 void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
 	uint32_t indeices = useIndex_ - preUseIndex_;
+	if (indeices == 0) {
+		return; // 描画するものがないので早期リターン
+	}
 	// コマンドリストの設定
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);

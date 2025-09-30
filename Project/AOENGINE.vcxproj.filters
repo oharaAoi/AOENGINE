@@ -350,6 +350,7 @@
     <ClCompile Include="Externals\ImGui\imgui_curve_bezier.cpp" />
     <ClCompile Include="Game\UI\Player\WeaponRemainingRounds.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
+    <ClCompile Include="Engine\Lib\Color.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -657,6 +658,7 @@
     <ClInclude Include="Externals\ImGui\imgui_curve_bezier.h" />
     <ClInclude Include="Game\UI\Player\WeaponRemainingRounds.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
+    <ClInclude Include="Engine\Lib\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

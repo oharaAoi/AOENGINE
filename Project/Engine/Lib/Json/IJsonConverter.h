@@ -4,6 +4,7 @@
 #include <functional>
 #include <assert.h>
 #include <type_traits>
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -103,6 +104,8 @@ inline json toJson(const T& v) {
 			arr.push_back(toJson(item));
 		}
 		return arr;
+	} else if constexpr (std::is_same_v<T, Color>) {
+		return json{ {"r", v.r}, {"g", v.g}, {"b", v.b}, {"a", v.a} };
 	} else {
 		assert(false && "Unsupported type in toJson");
 	}
@@ -159,6 +162,12 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 			} else if constexpr (std::is_same_v<T, bool>) {
 				// int型に対する処理
 				value = j.at(rootKey).at(name).get<bool>();
+			} else if constexpr (std::is_same_v<T, Color>) {
+				// Color型に対する処理
+				value.r = j.at(rootKey).at(name).at("r").get<float>();
+				value.g = j.at(rootKey).at(name).at("g").get<float>();
+				value.b = j.at(rootKey).at(name).at("b").get<float>();
+				value.a = j.at(rootKey).at(name).at("a").get<float>();
 			}
 		} else {
 			// json内にnameが存在していなかったら
