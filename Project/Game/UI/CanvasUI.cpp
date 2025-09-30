@@ -74,7 +74,7 @@ void CanvasUI::Update() {
 	// boss
 	bossUIs_->Update();
 
-	playerUIs_->Update();
+	playerUIs_->Update(reticle_->GetPos());
 
 	// out game
 	clearNotificationUI_->Update(pBoss_->GetIsBreak());

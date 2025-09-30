@@ -36,6 +36,8 @@ void Reticle::Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat) {
 		targetMat_ = bossMat;
 		reticle_->SetTranslate(WorldToScreenCoordinate(bossMat, vpvpMat));
 	}
+
+	reticlePos_ = reticle_->GetTranslate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

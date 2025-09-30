@@ -19,6 +19,7 @@ public:
 		int fireBulletsNum = 50;	// マガジンの量
 		float fireInterval = 0.3f;	// 発射間隔
 		float reloadTime = 2.0f;	// リロード時間
+		float takeDamage = 20;		// ダメージを与える量
 
 		AttackParam() {
 			SetName("AttackParam");
@@ -32,6 +33,7 @@ public:
 				.Add("fireBulletsNum", fireBulletsNum)
 				.Add("fireInterval", fireInterval)
 				.Add("reloadTime", reloadTime)
+				.Add("takeDamage", takeDamage)
 				.Build();
 		}
 
@@ -41,6 +43,7 @@ public:
 			fromJson(jsonData, "fireBulletsNum", fireBulletsNum);
 			fromJson(jsonData, "fireInterval", fireInterval);
 			fromJson(jsonData, "reloadTime", reloadTime);
+			fromJson(jsonData, "takeDamage", takeDamage);
 		}
 
 		void Debug_Gui() override;
@@ -53,6 +56,7 @@ public:
 
 	virtual void Finalize();
 	virtual void Init();
+
 	virtual void Update();
 
 	void Debug_Gui() override;
@@ -62,6 +66,9 @@ public:		// member method
 	void AttackAfter();
 
 	virtual void Attack(const AttackContext& cxt) = 0;
+
+	// 残弾数の割合
+	float BulletsFill();
 
 public:		// accessor method
 

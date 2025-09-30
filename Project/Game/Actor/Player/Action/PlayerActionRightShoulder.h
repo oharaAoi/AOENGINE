@@ -33,9 +33,6 @@ private:
 	Input* pInput_;
 	ShoulderMissile* pWeapon_;
 
-	float shotCoolTime_ = 0.2f;	// 弾を放つ時のクールタイム
-	float shotTimer_ = 0.0f;
-
-	uint32_t shotCount_;
+	bool isFinish_;
 };
 

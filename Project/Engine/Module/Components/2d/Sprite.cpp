@@ -4,7 +4,6 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 Sprite::Sprite() {}
 Sprite::~Sprite() {
@@ -346,4 +345,59 @@ void Sprite::Debug_Gui() {
 		break;
 	}
 
+}
+
+void Sprite::ApplyParam() {
+	transform_ = saveParam_.transform;
+	uvTransform_ = saveParam_.uvTransform;
+	textureName_ = saveParam_.textureName;
+	drawRange_ = saveParam_.drawRange;
+	leftTop_ = saveParam_.leftTop;
+	anchorPoint_ = saveParam_.anchorPoint;
+	isFlipX_ = saveParam_.isFlipX;
+	isFlipY_ = saveParam_.isFlipY;
+	spriteSize_ = saveParam_.spriteSize;
+	fillMethod_ = static_cast<FillMethod>(saveParam_.fillMethod);
+	fillStartingPoint_ = static_cast<FillStartingPoint>(saveParam_.fillStartingPoint);
+
+	arcData_->center = saveParam_.center;
+	arcData_->fillAmount = saveParam_.fillAmount;
+	arcData_->innerRadius = saveParam_.innerRadius;
+	arcData_->outerRadius = saveParam_.outerRadius;
+	arcData_->startAngle = saveParam_.startAngle;
+	arcData_->arcRange = saveParam_.arcRange;
+	arcData_->clockwise = saveParam_.clockwise;
+}
+
+void Sprite::Load(const std::string& _group, const std::string& _key) {
+	saveParam_.SetGroupName(_group);
+	saveParam_.SetName(_key);
+	saveParam_.Load();
+	ApplyParam();
+}
+
+void Sprite::Save(const std::string& _group, const std::string& _key) {
+	saveParam_.transform = transform_;
+	saveParam_.uvTransform = uvTransform_;
+	saveParam_.textureName = textureName_;
+	saveParam_.drawRange = drawRange_;
+	saveParam_.leftTop = leftTop_;
+	saveParam_.anchorPoint = anchorPoint_;
+	saveParam_.isFlipX = isFlipX_;
+	saveParam_.isFlipY = isFlipY_;
+	saveParam_.spriteSize = spriteSize_;
+	saveParam_.fillMethod = (int)fillMethod_;
+	saveParam_.fillStartingPoint = (int)fillStartingPoint_;
+
+	saveParam_.center = arcData_->center;
+	saveParam_.fillAmount = arcData_->fillAmount;
+	saveParam_.innerRadius = arcData_->innerRadius;
+	saveParam_.outerRadius = arcData_->outerRadius;
+	saveParam_.startAngle = arcData_->startAngle;
+	saveParam_.arcRange = arcData_->arcRange;
+	saveParam_.clockwise = arcData_->clockwise;
+
+	saveParam_.SetGroupName(_group);
+	saveParam_.SetName(_key);
+	saveParam_.Save();
 }

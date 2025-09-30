@@ -23,6 +23,8 @@ public:		// accessor method
 
 	void ReleaseLockOn();
 
+	const Vector2& GetPos() const { return reticlePos_; }
+
 private:
 
 	std::unique_ptr<Sprite> reticle_;
@@ -32,5 +34,6 @@ private:
 
 	Matrix4x4 targetMat_;
 
+	Vector2 reticlePos_;
 };
 

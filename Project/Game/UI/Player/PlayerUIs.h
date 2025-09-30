@@ -7,6 +7,7 @@
 // Game
 #include "Game/Actor/Player/Player.h"
 #include "Game/UI/PostureStability.h"
+#include "Game/UI/Player/WeaponRemainingRounds.h"
 
 /// <summary>
 /// PlayerのUIをまとめたクラス
@@ -60,7 +61,7 @@ public:
 
 	void Init(Player* _player);
 
-	void Update();
+	void Update(const Vector2& reticlePos);
 
 	void Draw() const;
 
@@ -77,6 +78,9 @@ private:
 	std::unique_ptr<BaseGaugeUI> health_;
 
 	std::unique_ptr<PostureStability> postureStability_;
+
+	std::unique_ptr<WeaponRemainingRounds> leftWeapon_;
+	std::unique_ptr<WeaponRemainingRounds> rightWeapon_;
 
 };
 

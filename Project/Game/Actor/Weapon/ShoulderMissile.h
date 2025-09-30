@@ -38,6 +38,7 @@ public:
 
 	void Finalize() override;
 	void Init() override;
+	void Update() override;
 	
 	void Debug_Gui() override;
 
@@ -45,11 +46,18 @@ public:		// member method
 
 	void Attack(const AttackContext& cxt) override;
 
+	void Shot();
+
 	void Execute(const Vector3& pos);
 
 private:
 
+
 	ShoulderMissileParam weaponParam_;
+
+	AttackContext attackCxt_;
+	bool isFinish_;
+	int shotCount_;
 
 };
 

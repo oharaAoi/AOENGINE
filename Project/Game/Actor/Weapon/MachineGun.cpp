@@ -45,7 +45,7 @@ void MachineGun::Attack(const AttackContext& cxt) {
 
 	Vector3 worldPos = object_->GetPosition();
 	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
-	bullet->SetTakeDamage(10.0f);
+	bullet->SetTakeDamage(attackParam_.takeDamage);
 	// effectを出す
 	Vector3 pos = offset_;
 	pos = (cxt.direction * offset_.z);

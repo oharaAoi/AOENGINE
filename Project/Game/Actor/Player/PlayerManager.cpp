@@ -56,6 +56,7 @@ void PlayerManager::Update() {
 	player_->Update();
 	machineGun_->Update();
 	launcherGun_->Update();
+	shoulderMissile_->Update();
 
 	bulletManager_->Update(player_->GetTargetPos());
 

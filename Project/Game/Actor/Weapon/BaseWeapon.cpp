@@ -46,11 +46,16 @@ void BaseWeapon::AttackAfter() {
 	}
 }
 
+float BaseWeapon::BulletsFill() {
+	return static_cast<float>(attackParam_.fireBulletsNum - fireCount_) / static_cast<float>(attackParam_.fireBulletsNum);
+}
+
 void BaseWeapon::AttackParam::Debug_Gui() {
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
 	ImGui::DragInt("maxBulletsNum", &maxBulletsNum);
 	ImGui::DragInt("fireBulletsNum", &fireBulletsNum);
 	ImGui::DragFloat("fireInterval", &fireInterval, 0.1f);
 	ImGui::DragFloat("reloadTime", &reloadTime, 0.1f);
+	ImGui::DragFloat("takeDamage", &takeDamage, 0.1f);
 	SaveAndLoad();
 }

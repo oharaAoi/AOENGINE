@@ -24,10 +24,20 @@ void PlayerUIs::Init(Player* _player) {
 	postureStability_->SetScale(uiItems_.postureScale);
 	postureStability_->SetCenterPos(uiItems_.posturePos);
 
+	leftWeapon_ = std::make_unique<WeaponRemainingRounds>();
+	rightWeapon_ = std::make_unique<WeaponRemainingRounds>();
+	leftWeapon_->Init("leftWeaponGauge");
+	rightWeapon_->Init("rightWeaponGauge");
+
+	AddChild(leftWeapon_.get());
+	AddChild(rightWeapon_.get());
+
 	Engine::GetCanvas2d()->AddSprite(ap_.get());
+
+	EditorWindows::AddObjectWindow(this, "PlayerUIs");
 }
 
-void PlayerUIs::Update() {
+void PlayerUIs::Update(const Vector2& reticlePos) {
 	const Player::Parameter& playerParam = pPlayer_->GetParam();
 	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
 
@@ -36,6 +46,9 @@ void PlayerUIs::Update() {
 	health_->SetFillAmount(playerParam.health / playerInitParam.health);
 	health_->Update();
 	postureStability_->Update(playerParam.postureStability / playerInitParam.postureStability);
+
+	leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->BulletsFill());
+	rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->BulletsFill());
 }
 
 void PlayerUIs::Draw() const {

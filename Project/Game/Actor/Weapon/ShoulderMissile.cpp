@@ -25,7 +25,24 @@ void ShoulderMissile::Init() {
 
 	transform_->SetTranslate(weaponParam_.pos);
 
+	isFinish_ = true;
+
 	EditorWindows::AddObjectWindow(this, GetName());
+}
+
+void ShoulderMissile::Update() {
+	if (isFinish_) { return; }
+
+	if (coolTime_ > 0) {
+		coolTime_ -= GameTimer::DeltaTime();
+	} else {
+		Shot();
+
+		if (shotCount_ >= attackParam_.fireBulletsNum) {
+			coolTime_ = attackParam_.reloadTime;
+			isFinish_ = true;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +71,16 @@ void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShoulderMissile::Attack(const AttackContext& cxt) {
+	attackCxt_ = cxt;
+	isFinish_ = false;
+	Shot();
+}
+
+void ShoulderMissile::Shot() {
 	Vector3 worldPos = object_->GetPosition();
-	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, cxt.target, attackParam_.bulletSpeed);
-	bullet->SetTakeDamage(20.0f);
+	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, attackCxt_.target, attackParam_.bulletSpeed);
+	bullet->SetTakeDamage(attackParam_.takeDamage);
+
+	coolTime_ = attackParam_.fireInterval;
+	shotCount_++;
 }

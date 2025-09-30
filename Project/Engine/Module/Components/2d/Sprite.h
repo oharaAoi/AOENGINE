@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/Vector2.h"
@@ -29,6 +30,76 @@ struct ArcGaugeParam {
 	float startAngle;	// 開始角度
 	float arcRange;		// 弧の最大角度
 	int clockwise;		// 回転方向
+};
+
+struct SpriteParameter : public IJsonConverter {
+	SRT transform;
+	SRT uvTransform;
+	std::string textureName;
+	Vector2 drawRange;
+	Vector2 leftTop;
+	Vector2 anchorPoint;
+	bool isFlipX;
+	bool isFlipY;
+	Vector2 spriteSize;
+
+	int fillMethod;
+	int fillStartingPoint;
+
+	Vector2 center;		// 中心座標
+	float fillAmount;	// 塗りつぶし量
+	float innerRadius;	// 内半径
+	float outerRadius;	// 外半径
+	float startAngle;	// 開始角度
+	float arcRange;		// 弧の最大角度
+	int clockwise;		// 回転方向
+
+	json ToJson(const std::string& id) const override {
+		json srt = transform.ToJson();
+		json uvSrt = transform.ToJson();
+		return JsonBuilder(id)
+			.Add("health", srt)
+			.Add("health", uvSrt)
+			.Add("textureName", textureName)
+			.Add("drawRange", drawRange)
+			.Add("leftTop", leftTop)
+			.Add("anchorPoint", anchorPoint)
+			.Add("isFlipX", isFlipX)
+			.Add("isFlipY", isFlipY)
+			.Add("spriteSize", spriteSize)
+			.Add("fillMethod", fillMethod)
+			.Add("fillStartingPoint", fillStartingPoint)
+			.Add("center", center)
+			.Add("fillAmount", fillAmount)
+			.Add("innerRadius", innerRadius)
+			.Add("outerRadius", outerRadius)
+			.Add("startAngle", startAngle)
+			.Add("arcRange", arcRange)
+			.Add("clockwise", clockwise)
+			.Build();
+	}
+
+	void FromJson(const json& jsonData) override {
+		transform.FromJson(jsonData);
+		uvTransform.FromJson(jsonData);
+		fromJson(jsonData, "textureName", textureName);
+		fromJson(jsonData, "drawRange", drawRange);
+		fromJson(jsonData, "anchorPoint", anchorPoint);
+		fromJson(jsonData, "isFlipX", isFlipX);
+		fromJson(jsonData, "isFlipY", isFlipY);
+		fromJson(jsonData, "spriteSize", spriteSize);
+		fromJson(jsonData, "fillMethod", fillMethod);
+		fromJson(jsonData, "fillStartingPoint", fillStartingPoint);
+		fromJson(jsonData, "center", center);
+		fromJson(jsonData, "fillAmount", fillAmount);
+		fromJson(jsonData, "innerRadius", innerRadius);
+		fromJson(jsonData, "outerRadius", outerRadius);
+		fromJson(jsonData, "startAngle", startAngle);
+		fromJson(jsonData, "arcRange", arcRange);
+		fromJson(jsonData, "clockwise", clockwise);
+	}
+
+	void Debug_Gui() override {};
 };
 
 class Sprite :
@@ -195,40 +266,17 @@ private:
 	FillMethod fillMethod_;
 	FillStartingPoint fillStartingPoint_;	// 塗りつぶし起点
 
-};
+	// -------------------
+	// 外部保存のための変数
+	// -------------------
 
-//struct SpriteParameter : public IJsonConverter {
-//	SRT transform;
-//	SRT uvTransform;
-//	std::string textureName;
-//	Vector2 drawRange;
-//	Vector2 leftTop;
-//	Vector2 anchorPoint;
-//	bool isFlipX;
-//	bool isFlipY;
-//	Vector2 spriteSize;
-//
-//	int fillMethod;
-//	int fillStartingPoint;
-//
-//	Vector2 center;		// 中心座標
-//	float fillAmount;	// 塗りつぶし量
-//	float innerRadius;	// 内半径
-//	float outerRadius;	// 外半径
-//	float startAngle;	// 開始角度
-//	float arcRange;		// 弧の最大角度
-//	int clockwise;		// 回転方向
-//
-//	json ToJson(const std::string& id) const override {
-//		json srt = transform.ToJson();
-//		json uvSrt = transform.ToJson();
-//		return JsonBuilder(id)
-//			.Add("health", srt)
-//			.Add("health", uvSrt)
-//			.Build();
-//	}
-//
-//	void FromJson(const json& jsonData) override {
-//		fromJson(jsonData, "health", );
-//	}
-//};
+	SpriteParameter saveParam_;
+
+public:
+
+	void ApplyParam();
+
+	void Load(const std::string& _group, const std::string& _key);
+	void Save(const std::string& _group, const std::string& _key);
+
+};

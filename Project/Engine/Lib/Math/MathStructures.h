@@ -15,7 +15,6 @@ struct SRT {
 	Matrix4x4 MakeAffine();
 
 	json ToJson() const;
-
 	void FromJson(const json& _json);
 };
 
@@ -35,7 +34,6 @@ struct QuaternionSRT {
 	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
 
 	json ToJson() const;
-
 	void FromJson(const json& _json);
 };
 
