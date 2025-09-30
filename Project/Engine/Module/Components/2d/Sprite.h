@@ -208,6 +208,9 @@ public:
 
 	const bool GetEnable() const { return isEnable_; }
 	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }
+
+	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
+	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
 	
 private:
 

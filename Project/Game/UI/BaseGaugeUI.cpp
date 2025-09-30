@@ -8,6 +8,8 @@
 void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTexture) {
 	bg_ = Engine::CreateSprite(bgTexture);
 	front_ = Engine::CreateSprite(frontTexture);
+	front_->SetFillStartingPoint(FillStartingPoint::Left);
+	front_->SetFillMethod(FillMethod::Horizontal);
 
 	fillAmount_ = 1.0f;
 	centerPos_ = Vector2(kWindowWidth_ * 0.5f, kWindowHeight_ * 0.5f);

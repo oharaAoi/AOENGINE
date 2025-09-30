@@ -13,6 +13,7 @@ void StanGaugeUI::Init(const Vector2& scale, const Vector2& pos) {
 
 	scale_ = scale;
 
+	gauge_->SetFillStartingPoint(FillStartingPoint::Left);
 	gauge_->SetTranslate(pos);
 	gauge_->SetScale(scale);
 	bg_->SetTranslate(pos);
