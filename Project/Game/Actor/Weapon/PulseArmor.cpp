@@ -51,8 +51,8 @@ void PulseArmor::Init() {
 	}
 
 	// bufferPtrの初期化
-	setting_->color = Vector4(CVector3::UNIT, 1.0f);
-	setting_->edgeColor = Vector4(CVector3::UNIT, 1.0f);
+	setting_->color = Color::white;
+	setting_->edgeColor = Color::white;
 	setting_->threshold = 0.02f;
 
 	noiseTexture_[0] = "noise0.png";
@@ -139,8 +139,8 @@ void PulseArmor::Debug_Gui() {
 
 	// dissolveに関する設定を行う
 	if (ImGui::CollapsingHeader("Setting")) {
-		ImGui::ColorEdit4("color", &setting_->color.x);
-		ImGui::ColorEdit4("edgeColor", &setting_->edgeColor.x);
+		ImGui::ColorEdit4("color", &setting_->color.r);
+		ImGui::ColorEdit4("edgeColor", &setting_->edgeColor.r);
 		ImGui::DragFloat("threshold", &setting_->threshold, 0.01f);
 
 		for (size_t index = 0; index < 3; ++index) {
@@ -211,7 +211,7 @@ void PulseArmor::SetParameter() {
 	material_->SetAlbedoTexture(armorParam_.baseTexture);
 }
 
-void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt) {
+void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt) {
 	durability_ = _durability;
 	initDurability_ = _durability;
 	worldTransform_->SetScale(_scale);

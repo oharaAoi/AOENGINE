@@ -46,8 +46,8 @@ void BossStateDeployArmor::Debug_Gui() {
 void BossStateDeployArmor::ArmorParameter::Debug_Gui() {
 	ImGui::DragFloat("durability", &durability, 0.1f);
 	ImGui::DragFloat3("scale", &scale.x, 0.1f);
-	ImGui::ColorEdit4("baseColor", &color.x);
-	ImGui::ColorEdit4("edgeColor", &edgeColor.x);
+	ImGui::ColorEdit4("baseColor", &color.r);
+	ImGui::ColorEdit4("edgeColor", &edgeColor.r);
 
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
 	if (ImGui::TreeNodeEx("uvTransform", flags)) {

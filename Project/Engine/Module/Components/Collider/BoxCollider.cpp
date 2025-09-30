@@ -86,9 +86,9 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxCollider::Draw() const {
-	Vector4 color{ 0,1,1,1 };
+	Color color = Color::white;
 	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
-		color = { 1,0,0,1 };
+		color = Color::red;
 	}
 
 	if (std::holds_alternative<AABB>(shape_)) {

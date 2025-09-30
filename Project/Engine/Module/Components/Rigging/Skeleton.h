@@ -4,6 +4,7 @@
 #include <vector>
 #include <map>
 #include <optional>
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Lib/Math/Matrix4x4.h"

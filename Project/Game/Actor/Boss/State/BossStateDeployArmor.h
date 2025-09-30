@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Game/State/ICharacterState.h"
 #include "Game/Actor/Weapon/Armors.h"
@@ -15,8 +16,8 @@ public:
 	struct ArmorParameter : public IJsonConverter {
 		float durability = 100.0f;
 		Vector3 scale = CVector3::UNIT;
-		Vector4 color = Vector4(CVector3::UNIT, 1.0f);
-		Vector4 edgeColor = Vector4(CVector3::UNIT, 1.0f);
+		Color color = Color::white;
+		Color edgeColor = Color::white;
 
 		SRT uvTransform;
 

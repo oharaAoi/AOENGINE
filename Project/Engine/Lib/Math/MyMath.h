@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -180,6 +181,7 @@ float Lerp(float v1, float v2, float t);
 Vector2 Lerp(const Vector2& v1, const Vector2& v2, float t);
 Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
 Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t);
+Color Lerp(const Color& v1, const Color& v2, float t);
 
 /// <summary>
 /// 線形補完

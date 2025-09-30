@@ -290,7 +290,7 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("uvMin", &materialData_->uvMinSize.x, 0.01f);
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
-	ImGui::ColorEdit4("color", &materialData_->color.x);
+	ImGui::ColorEdit4("color", &materialData_->color.r);
 	TextureManager* textureManager = TextureManager::GetInstance();
 	textureName_ = textureManager->SelectTexture(textureName_);
 
@@ -351,6 +351,7 @@ void Sprite::ApplyParam() {
 	transform_ = saveParam_.transform;
 	uvTransform_ = saveParam_.uvTransform;
 	textureName_ = saveParam_.textureName;
+	materialData_->color = saveParam_.color;
 	drawRange_ = saveParam_.drawRange;
 	leftTop_ = saveParam_.leftTop;
 	anchorPoint_ = saveParam_.anchorPoint;
@@ -380,6 +381,7 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 	saveParam_.transform = transform_;
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;
+	saveParam_.color = materialData_->color;
 	saveParam_.drawRange = drawRange_;
 	saveParam_.leftTop = leftTop_;
 	saveParam_.anchorPoint = anchorPoint_;

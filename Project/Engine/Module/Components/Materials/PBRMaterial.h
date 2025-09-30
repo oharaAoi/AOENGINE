@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
@@ -15,12 +16,12 @@ class PBRMaterial :
 public:
 
 	struct PBRMaterialData {
-		Vector4 color;				// albedo
+		Color color;				// albedo
 		int32_t enableLighting;
 		float pad[3];
 		Matrix4x4 uvTransform;
-		Vector4 diffuseColor;		// 拡散反射率
-		Vector4 specularColor;		// 鏡面反射の色
+		Color diffuseColor;		// 拡散反射率
+		Color specularColor;		// 鏡面反射の色
 		float roughness;			// 粗さ
 		float metallic;				// 金属度
 		float shininess;			// 鋭さ
@@ -43,7 +44,7 @@ public:
 
 public:
 
-	void SetColor(const Vector4& color) { pbrMaterial_->color = color; }
+	void SetColor(const Color& color) { pbrMaterial_->color = color; }
 
 
 private:

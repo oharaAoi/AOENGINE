@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
 class Grayscale :
@@ -7,7 +7,7 @@ class Grayscale :
 public:
 
 	struct Setting {
-		Vector4 color;
+		Color color;
 	};
 
 public:
@@ -25,7 +25,7 @@ public:
 
 public:
 
-	void SetColor(const Vector4& _color) { setting_->color = _color; }
+	void SetColor(const Color& _color) { setting_->color = _color; }
 
 private:
 

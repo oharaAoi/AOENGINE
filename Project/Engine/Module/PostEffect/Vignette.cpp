@@ -13,7 +13,7 @@ void Vignette::Init() {
 	settingBuffer_->CreateResource(sizeof(VignetteSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
-	setting_->color = Vector4(0, 0, 0, 1.0f);
+	setting_->color = Color(0, 0, 0, 1.0f);
 	setting_->scale = 16.0f;
 	setting_->power = 0.8f;
 }
@@ -34,7 +34,7 @@ void Vignette::CheckBox() {
 
 void Vignette::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Vignette")) {
-		ImGui::ColorEdit4("color", &setting_->color.x);
+		ImGui::ColorEdit4("color", &setting_->color.r);
 		ImGui::DragFloat("scale", &setting_->scale, 0.1f);
 		ImGui::DragFloat("power", &setting_->power, 0.01f);
 

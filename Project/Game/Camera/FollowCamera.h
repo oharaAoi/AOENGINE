@@ -71,7 +71,7 @@ public:
 		Vector3 targetOffset;
 		float moveTime;
 		int easingIndex;
-		Vector4 scaleColor;
+		Color scaleColor;
 		float vignettePower;
 
 		AnimationParameter() { 

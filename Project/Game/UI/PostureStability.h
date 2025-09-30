@@ -10,8 +10,8 @@ class PostureStability :
 public:
 
 	struct Parameter : public IJsonConverter {
-		Vector4 normalColor;
-		Vector4 pinchColor;
+		Color normalColor;
+		Color pinchColor;
 
 		Parameter() { SetName("postureStability"); }
 

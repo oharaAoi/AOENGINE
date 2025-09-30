@@ -35,7 +35,7 @@ void ClearNotificationUI::Update(bool isBossBreak) {
 	alphaTween_.Update(GameTimer::DeltaTime());
 
 	sprite_->SetTranslate(posTween_.GetValue());
-	sprite_->SetColor(Vector4(1.0f, 1.0f, 1.0f, alphaTween_.GetValue()));
+	sprite_->SetColor(Color(1.0f, 1.0f, 1.0f, alphaTween_.GetValue()));
 	sprite_->Update();
 
 	if (posTween_.GetIsFinish()) {

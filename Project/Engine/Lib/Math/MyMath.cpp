@@ -83,6 +83,15 @@ Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t) {
 	return result;
 }
 
+Color Lerp(const Color& v1, const Color& v2, float t) {
+	Color result{};
+	result.r = std::lerp(v1.r, v2.r, t);
+	result.g = std::lerp(v1.g, v2.g, t);
+	result.b = std::lerp(v1.b, v2.b, t);
+	result.a = std::lerp(v1.a, v2.a, t);
+	return result;
+}
+
 Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	Vector3 result{};
 	// なす角を求める

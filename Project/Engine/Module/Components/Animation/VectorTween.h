@@ -1,5 +1,6 @@
 #pragma once
 #include <utility>
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"

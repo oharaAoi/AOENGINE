@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
 
 enum class MaterialType {
@@ -8,6 +9,6 @@ enum class MaterialType {
 };
 
 struct ModelMaterialData {
-	Vector4 color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	std::string textureFilePath = "white.png";
 };

@@ -7,7 +7,6 @@
 class Color final {
 public:
 
-	constexpr Color() : r(0), g(0), b(0), a(1) {}
 	constexpr Color(float _r = 0, float _g = 0, float _b = 0, float _a = 1.0f)
 		: r(_r), g(_g), b(_b), a(_a) {
 	}
@@ -24,7 +23,7 @@ public:
 
 public: // method
 
-	Color Lerp(const Color& _a, const Color& b, float _t);
+	static Color Lerp(const Color& _a, const Color& b, float _t);
 
 public: // operator
 
@@ -80,6 +79,9 @@ public: // operator
 		return *this;
 	}
 
+	operator Vector4() const {
+		return Vector4(r, g, b, a);
+	}
 };
 
 inline constexpr Color Color::black{ 0,0,0,1 };

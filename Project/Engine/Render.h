@@ -9,6 +9,7 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 #include "Engine/Render/ShadowMap.h"
+#include "Engine/Lib/Color.h"
 
 /// <summary>
 /// GameObjectの描画を行う
@@ -69,7 +70,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="vpMat">: viewProjection</param>
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat);
+	static void DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat);
 
 	/// <summary>
 	/// 線の描画
@@ -77,7 +78,7 @@ public:
 	/// <param name="p1">: 始点</param>
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color);
+	static void DrawLine(const Vector3& p1, const Vector3& p2, const Color& color);
 
 	static void DrawLightGroup(Pipeline* pipeline);
 

@@ -182,11 +182,11 @@ void Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTran
 // ↓　線の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
+void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
 	primitiveDrawer_->Draw(p1, p2, color, vpMat);
 }
 
-void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Vector4& color) {
+void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color) {
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 

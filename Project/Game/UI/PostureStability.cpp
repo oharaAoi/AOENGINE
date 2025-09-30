@@ -27,7 +27,7 @@ void PostureStability::Init() {
 
 void PostureStability::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
-	Vector4 color = Vector4::Lerp(param_.normalColor, param_.pinchColor, fillAmount_);
+	Color color = Color::Lerp(param_.normalColor, param_.pinchColor, fillAmount_);
 	front_->SetColor(color);
 
 	BaseGaugeUI::Update();
@@ -54,8 +54,8 @@ void PostureStability::Debug_Gui() {
 	BaseGaugeUI::Debug_Gui();
 
 	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::ColorEdit4("normalColor", &param_.normalColor.x);
-		ImGui::ColorEdit4("pinchColor", &param_.pinchColor.x);
+		ImGui::ColorEdit4("normalColor", &param_.normalColor.r);
+		ImGui::ColorEdit4("pinchColor", &param_.pinchColor.r);
 
 		if (ImGui::Button("Save")) {
 			JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));

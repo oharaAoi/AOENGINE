@@ -71,7 +71,7 @@ void FollowCamera::AnimationParameter::Debug_Gui() {
 	ImGui::DragFloat3("firstOffset", &firstOffset.x, 0.1f);
 	ImGui::DragFloat("animationTime", &moveTime, 0.1f);
 	SelectEasing(easingIndex);
-	ImGui::ColorEdit4("color", &scaleColor.x);
+	ImGui::ColorEdit4("color", &scaleColor.r);
 	ImGui::DragFloat("vginetteColor", &vignettePower, 0.01f);
 	SaveAndLoad();
 }
@@ -219,7 +219,7 @@ void FollowCamera::FirstCameraMove() {
 
 	// grayscale分
 	float alpha = std::lerp(1.0f, 0.0f, t);
-	animationParam_.scaleColor.w = alpha;
+	animationParam_.scaleColor.a = alpha;
 	grayscale_->SetColor(animationParam_.scaleColor);
 
 	// vignette分

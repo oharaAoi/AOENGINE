@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
 class Vignette :
@@ -7,7 +7,7 @@ class Vignette :
 public:	// 構造体
 
 	struct VignetteSetting {
-		Vector4 color;
+		Color color;
 		float scale = 16.0f;
 		float power = 0.8f;
 	};

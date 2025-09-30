@@ -16,7 +16,7 @@ void FadePanel::Init() {
 
 	panel_ = Engine::CreateSprite("panel.png");
 	panel_->SetTranslate(Vector2(640.0f, 360.0f));
-	panel_->SetColor(Vector4(0.0f, 0.0f, 0.0f, 0.0f));
+	panel_->SetColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
 
 	Engine::GetCanvas2d()->AddSprite(panel_.get());
 }
@@ -46,7 +46,7 @@ void FadePanel::Update() {
 		float t = time_ / timeLimit_;
 		panelAlpha_ = std::lerp(0.0f, 1.0f, t);
 
-		panel_->SetColor(Vector4(0.0f, 0.0f, 0.0f, panelAlpha_));
+		panel_->SetColor(Color(0.0f, 0.0f, 0.0f, panelAlpha_));
 
 	} else {			// ブラックアウトから抜ける
 		time_ += GameTimer::DeltaTime();
@@ -55,7 +55,7 @@ void FadePanel::Update() {
 		float t = time_ / timeLimit_;
 		panelAlpha_ = std::lerp(1.0f, 0.0f, t);
 
-		panel_->SetColor(Vector4(0.0f, 0.0f, 0.0f, panelAlpha_));
+		panel_->SetColor(Color(0.0f, 0.0f, 0.0f, panelAlpha_));
 	}
 }
 

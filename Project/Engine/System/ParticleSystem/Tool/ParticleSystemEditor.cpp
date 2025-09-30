@@ -168,7 +168,7 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			// ---------------------------
 			float t = pr.currentTime / pr.lifeTime;
 			if (pr.isLifeOfAlpha) {
-				pr.color.w = Lerp(1.0f, 0.0f, t);
+				pr.color.a = Lerp(1.0f, 0.0f, t);
 			}
 
 			if (pr.isLifeOfScale) {
@@ -182,12 +182,12 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			if (pr.isFadeInOut) {
 				if (pr.currentTime <= pr.fadeInTime) {
 					float alphaT = pr.currentTime / pr.fadeInTime;
-					pr.color.w = Lerp(0.0f, pr.initAlpha_, alphaT);
+					pr.color.a = Lerp(0.0f, pr.initAlpha_, alphaT);
 				}
 
 				if ((pr.lifeTime - pr.currentTime) <= pr.fadeOutTime) {
 					float alphaT = (pr.fadeOutTime - (pr.lifeTime - pr.currentTime)) / pr.fadeOutTime;
-					pr.color.w = Lerp(pr.initAlpha_, 0.0f, alphaT);
+					pr.color.a = Lerp(pr.initAlpha_, 0.0f, alphaT);
 				}
 			}
 

@@ -58,8 +58,8 @@ public:
 	// ↓ Material関連
 	// -------------------------------------------------
 
-	const Vector4& GetColor()const { return color_; }
-	void SetColor(const Vector4& color);
+	const Color& GetColor()const { return color_; }
+	void SetColor(const Color& color);
 
 	void SetIsLighting(bool isLighting);
 
@@ -106,7 +106,7 @@ protected:
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 
-	Vector4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
+	Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
 
 	bool isAnimation_ = false;

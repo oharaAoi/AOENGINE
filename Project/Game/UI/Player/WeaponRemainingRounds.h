@@ -33,6 +33,6 @@ private:
 	std::unique_ptr<Sprite> gauge_;
 	float timer_;
 
-	VectorTween<Vector4> colorAnimation_;
+	VectorTween<Color> colorAnimation_;
 };
 

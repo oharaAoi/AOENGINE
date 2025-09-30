@@ -9,7 +9,7 @@ public: // メンバ構造体
 
 	struct PointLightData {
 		Matrix4x4 viewProjection;
-		Vector4 color; // ライトの色
+		Color color; // ライトの色
 		Vector3 position; // ライトの位置
 		float pad;
 		Vector3 eyePos;
@@ -20,7 +20,7 @@ public: // メンバ構造体
 	};
 
 	struct Paramter : public IJsonConverter {
-		Vector4 color = Vector4(1,1,1,1);		// ライトの色
+		Color color = Color(1,1,1,1);		// ライトの色
 		Vector3 position = Vector3(0,1,0);	// ライトの位置
 		float intensity = 1.0f;	// 輝度
 		float radius = 5.0f;		// 範囲

@@ -74,7 +74,7 @@ void PrimitiveDrawer::Finalize() {
 	wvpBuffer_.Reset();
 }
 
-void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& vpMat) {
+void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
 	// 使用する頂点のインデックスの更新
 	size_t materialIndex = (useIndex_) - 1;
 

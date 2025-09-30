@@ -273,7 +273,7 @@ void BaseGameObject::SetEndEffector(const std::string& _name, EndEffector* _effe
 // ↓　materialの色を変える
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetColor(const Vector4& color) {
+void BaseGameObject::SetColor(const Color& color) {
 	for (auto& material : materials) {
 		material.second->SetColor(color);
 	}

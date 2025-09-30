@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Game/Actor/Weapon/PulseArmor.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
@@ -33,7 +34,7 @@ public:
 	/// <param name="_color">: baseColor</param>
 	/// <param name="_edgeColor"> : edgeColor</param>
 	/// <param name="_uvSrt"> : uv座標系</param>
-	void SetArmorParam(float _durability, const Vector3& _scale, const Vector4& _color, const Vector4& _edgeColor, const SRT& _uvSrt);
+	void SetArmorParam(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt);
 
 	/// <summary>
 	/// 耐久度を減らす関数

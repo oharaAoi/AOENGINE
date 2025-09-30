@@ -23,7 +23,7 @@ public:
 	void PreDraw() const override;
 	void Draw() const override;
 
-	void Set(const Vector3& pos, const Vector4& color, const std::string& useTexture);
+	void Set(const Vector3& pos, const Color& color, const std::string& useTexture);
 
 	void Debug_Gui() override;
 

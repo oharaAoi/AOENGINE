@@ -112,7 +112,7 @@ void HitExplode::Draw() const {
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void HitExplode::Set(const Vector3& pos, const Vector4& color, const std::string& useTexture) {
+void HitExplode::Set(const Vector3& pos, const Color& color, const std::string& useTexture) {
 	material_->SetColor(color);
 	worldTransform_->srt_.translate = pos;
 	material_->SetAlbedoTexture(useTexture);

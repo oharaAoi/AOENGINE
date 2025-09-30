@@ -22,7 +22,7 @@ void Material::Init() {
 	uvTransform_.rotate = CVector3::ZERO;
 	uvTransform_.translate = CVector3::ZERO;
 
-	color_ = Vector4(1, 1, 1, 1);
+	color_ = Color::white;
 	material_->enableLighting = 1;
 	material_->color = color_;
 	material_->shininess = 1.0f;
@@ -48,7 +48,7 @@ void Material::Debug_Gui() {
 		// 色を変更する
 		ImGui::Separator();
 		ImGui::BulletText("Color");
-		ImGui::ColorEdit4("color", &color_.x);
+		ImGui::ColorEdit4("color", &color_.r);
 		ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 		ImGui::DragFloat("discard", &material_->discardValue, 0.01f);
 	}

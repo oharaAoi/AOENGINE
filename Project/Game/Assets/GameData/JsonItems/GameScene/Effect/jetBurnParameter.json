@@ -2,10 +2,10 @@
     "jetBurnParameter": {
         "blendTexture": "noise9.png",
         "color": {
-            "w": 1.0,
-            "x": 1.0,
-            "y": 0.25214773416519165,
-            "z": 0.07058823108673096
+            "a": 1.0,
+            "r": 1.0,
+            "g": 0.25214773416519165,
+            "b": 0.07058823108673096
         },
         "materialTexture": "gradeation.png",
         "noiseScale": {

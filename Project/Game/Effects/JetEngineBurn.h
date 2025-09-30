@@ -22,7 +22,7 @@ public:
 public:
 
 	struct Parameter : public IJsonConverter {
-		Vector4 color;
+		Color color;
 		Vector3 scale;
 		Quaternion rotate;
 		Vector3 translate;

@@ -26,7 +26,7 @@ void StanGaugeUI::Update() {
 	alphaTween_.Update(GameTimer::DeltaTime());
 
 	gauge_->SetScale(scaleTween_.GetValue());
-	gauge_->SetColor(Vector4(1.0f, 0.2f, 0.2f, alphaTween_.GetValue()));
+	gauge_->SetColor(Color(1.0f, 0.2f, 0.2f, alphaTween_.GetValue()));
 }
 
 void StanGaugeUI::Draw() const {

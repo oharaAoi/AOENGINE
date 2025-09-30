@@ -8,7 +8,7 @@ void WeaponRemainingRounds::Init(const std::string& _name) {
 	gauge_->ReSetTexture("white.png");
 	Engine::GetCanvas2d()->AddSprite(gauge_.get());
 
-	colorAnimation_.Init(Vector4{ 1,0,0,1 }, Vector4{1,1,1,1}, .4f, (int)EasingType::None::Liner, LoopType::RETURN);
+	colorAnimation_.Init(Color::red, Color::white, .4f, (int)EasingType::None::Liner, LoopType::RETURN);
 	timer_ = 0;
 }
 

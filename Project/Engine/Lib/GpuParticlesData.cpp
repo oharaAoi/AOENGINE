@@ -26,7 +26,7 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 
 		ImGui::Separator();
 		ImGui::BulletText("Particle Setting");
-		ImGui::ColorEdit4("color", &color.x);
+		ImGui::ColorEdit4("color", &color.r);
 		ImGui::Checkbox("SeparateByAxisScale", &separateByAxisScale);
 		if (separateByAxisScale) {
 			ImGui::DragFloat3("minScale", &minScale.x, 0.1f);

@@ -20,10 +20,10 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 
 		// 中央軸ラインの色を変更
 		if (xIndex == kSubdivision_ / 2) {
-			Render::DrawLine(stPos, endPos, { 0.0f, 0.0f, 1.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, Color::blue, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
@@ -37,10 +37,10 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 
 		// 中央軸ラインの色を変更
 		if (zIndex == kSubdivision_ / 2) {
-			Render::DrawLine(stPos, endPos, { 1.0f, 0.0f, 0.0f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, Color::red, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, { 0.8f, 0.8f, 0.8f, 1.0f }, Multiply(viewMatrix, projectionMatrix));
+			Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }
@@ -49,7 +49,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 // ↓　球の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix, const Vector4& color) {
+void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix, const Color& color) {
 	const uint32_t kSubdivision = 8;
 	const float kLonEvery = 2.0f * float(M_PI) / kSubdivision;
 	const float kLatEvery = float(M_PI) / kSubdivision;
@@ -135,12 +135,12 @@ void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, flo
 		Vector3 topP1 = topPoints[i] + rotateHeight;
 		Vector3 topP2 = topPoints[(i + 1) % segment] + rotateHeight;
 
-		Render::DrawLine(p1, p2, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
-		Render::DrawLine(topP1, topP2, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+		Render::DrawLine(p1, p2, Color::green, viewProjectionMatrix);
+		Render::DrawLine(topP1, topP2, Color::green, viewProjectionMatrix);
 
 		if (i % 9 == 0) {
 			// 頂点と底面の点を結ぶ（側面の線）
-			Render::DrawLine(topP1, p1, { 0.0f, 1.0f, 0.0f, 1.0f }, viewProjectionMatrix);
+			Render::DrawLine(topP1, p1, Color::green, viewProjectionMatrix);
 		}
 	}
 }
@@ -150,7 +150,7 @@ void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, flo
 // ↓　AABBの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color) {
+void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Color& color) {
 	std::array<Vector3, 8> point = {
 		Vector3{aabb.min.x,aabb.max.y, aabb.min.z }, // front_LT
 		Vector3{aabb.max.x,aabb.max.y, aabb.min.z }, // front_RT
@@ -176,7 +176,7 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Vector4& color)
 // ↓　OBBの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
+void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Color& color) {
 	Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
 	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
@@ -189,14 +189,14 @@ void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Vector4& color) {
 	Vector3 min = obb.size * -1;
 	Vector3 max = obb.size;
 	std::array<Vector3, 8> point = {
-		Vector3{min.x, max.y, min.z } * worldMat, // front_LT
-		Vector3{max.x, max.y, min.z } * worldMat, // front_RT
-		Vector3{max.x, min.y, min.z } * worldMat, // front_RB
-		Vector3{min.x, min.y, min.z } * worldMat, // front_LB
-		Vector3{min.x, max.y, max.z } * worldMat, // back_LT
-		Vector3{max.x, max.y, max.z } * worldMat, // back_RT
-		Vector3{max.x, min.y, max.z } * worldMat, // back_RB
-		Vector3{min.x, min.y, max.z } * worldMat, // back_LB
+		Vector3{min.x, max.y, min.z } *worldMat, // front_LT
+		Vector3{max.x, max.y, min.z } *worldMat, // front_RT
+		Vector3{max.x, min.y, min.z } *worldMat, // front_RB
+		Vector3{min.x, min.y, min.z } *worldMat, // front_LB
+		Vector3{min.x, max.y, max.z } *worldMat, // back_LT
+		Vector3{max.x, max.y, max.z } *worldMat, // back_RT
+		Vector3{max.x, min.y, max.z } *worldMat, // back_RB
+		Vector3{min.x, min.y, max.z } *worldMat, // back_LB
 	};
 
 

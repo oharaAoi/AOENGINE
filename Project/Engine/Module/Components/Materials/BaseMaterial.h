@@ -2,6 +2,7 @@
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
 
 class BaseMaterial {
@@ -35,10 +36,10 @@ public:
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
-	void SetColor(const Vector4& _color) { color_ = _color; }
-	const Vector4 GetColor() const { return color_; }
+	void SetColor(const Color& _color) { color_ = _color; }
+	const Color GetColor() const { return color_; }
 
-	void SetAlpha(float _alpha) { color_.w = _alpha; };
+	void SetAlpha(float _alpha) { color_.a = _alpha; };
 	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
 
 protected:
@@ -48,7 +49,7 @@ protected:
 	SRT uvTransform_ = SRT();
 	std::string textureName_ = "white.png";
 
-	Vector4 color_;
+	Color color_;
 	bool isLighting_;
 };
 

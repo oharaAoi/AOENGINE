@@ -9,7 +9,7 @@ public:
 
 	struct SpotLightData {
 		Matrix4x4 viewProjection;
-		Vector4 color; // ライトの色
+		Color color; // ライトの色
 		Vector3 position; // ライトの位置
 		float pad;
 		Vector3 eyePos;
@@ -23,7 +23,7 @@ public:
 	};
 
 	struct Parameter : public IJsonConverter {
-		Vector4 color = Vector4(1, 1, 1, 1);		// ライトの色
+		Color color = Color::white;		// ライトの色
 		Vector3 position = Vector3(0, 1, 0);
 		float intensity = 1.0f; 
 		Vector3 direction = Vector3(0, -1, 0);

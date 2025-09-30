@@ -148,11 +148,11 @@ void CpuParticles::Emit(const Vector3& pos) {
 	// 色の決定
 	if (emitter_.isRandomColor) {
 		float t = RandomFloat(0.f, 1.f);
-		newParticle.color.x = Lerp(emitter_.randColor1.x, emitter_.randColor2.x, t);
+		newParticle.color.r = Lerp(emitter_.randColor1.r, emitter_.randColor2.r, t);
 		t = RandomFloat(0.f, 1.f);
-		newParticle.color.y = Lerp(emitter_.randColor1.y, emitter_.randColor2.y, t);
+		newParticle.color.g = Lerp(emitter_.randColor1.g, emitter_.randColor2.g, t);
 		t = RandomFloat(0.f, 1.f);
-		newParticle.color.z = Lerp(emitter_.randColor1.z, emitter_.randColor2.z, t);
+		newParticle.color.b = Lerp(emitter_.randColor1.b, emitter_.randColor2.b, t);
 	} else {
 		newParticle.color = emitter_.color;
 	}
@@ -237,7 +237,7 @@ void CpuParticles::Emit(const Vector3& pos) {
 	newParticle.isFadeInOut = emitter_.isFadeInOut;
 	newParticle.fadeInTime = emitter_.fadeInTime;
 	newParticle.fadeOutTime = emitter_.fadeOutTime;
-	newParticle.initAlpha_ = emitter_.color.w;
+	newParticle.initAlpha_ = emitter_.color.a;
 
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;

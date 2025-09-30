@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/ParticlesData.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 
 class BaseParticles :

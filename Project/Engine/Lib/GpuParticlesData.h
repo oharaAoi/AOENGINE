@@ -1,11 +1,12 @@
 #pragma once
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 struct GpuParticleEmitterData {
-	Vector4 color;
+	Color color;
 
 	Vector3 minScale;
 	float pad1;
@@ -74,7 +75,7 @@ struct GpuParticleEmitterItem : public IJsonConverter {
 	int emitType = 0;
 	int emitOrigin = 0;
 
-	Vector4 color = Vector4(1,1,1,1);
+	Color color = Color(1,1,1,1);
 
 	bool separateByAxisScale = false;
 	float scaleMinScaler = 1.0f;

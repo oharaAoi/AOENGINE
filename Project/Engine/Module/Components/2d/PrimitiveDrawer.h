@@ -2,6 +2,7 @@
 #include <memory>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -11,7 +12,7 @@ public : // データ構造体
 
 	struct PrimitiveData {
 		Vector4 pos;
-		Vector4 color;
+		Color color;
 	};
 
 public:
@@ -31,7 +32,7 @@ public:
 
 	void Finalize();
 
-	void Draw(const Vector3& p1, const Vector3& p2, const Vector4& color, const Matrix4x4& wvpMat);
+	void Draw(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& wvpMat);
 
 	void DrawCall(ID3D12GraphicsCommandList* commandList);
 

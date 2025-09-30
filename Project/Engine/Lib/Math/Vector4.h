@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Color.h"
 
 class Vector4 final {
 public:

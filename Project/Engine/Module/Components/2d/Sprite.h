@@ -2,6 +2,7 @@
 #include <string>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
@@ -36,6 +37,7 @@ struct SpriteParameter : public IJsonConverter {
 	SRT transform;
 	SRT uvTransform;
 	std::string textureName;
+	Color color;
 	Vector2 drawRange;
 	Vector2 leftTop;
 	Vector2 anchorPoint;
@@ -61,6 +63,7 @@ struct SpriteParameter : public IJsonConverter {
 			.Add("health", srt)
 			.Add("health", uvSrt)
 			.Add("textureName", textureName)
+			.Add("color", color)
 			.Add("drawRange", drawRange)
 			.Add("leftTop", leftTop)
 			.Add("anchorPoint", anchorPoint)
@@ -83,6 +86,7 @@ struct SpriteParameter : public IJsonConverter {
 		transform.FromJson(jsonData);
 		uvTransform.FromJson(jsonData);
 		fromJson(jsonData, "textureName", textureName);
+		fromJson(jsonData, "color", color);
 		fromJson(jsonData, "drawRange", drawRange);
 		fromJson(jsonData, "anchorPoint", anchorPoint);
 		fromJson(jsonData, "isFlipX", isFlipX);
@@ -113,7 +117,7 @@ public:
 	};
 
 	struct TextureMaterial {
-		Vector4 color;
+		Color color;
 		Matrix4x4 uvTransform;
 		Vector2 uvMinSize;		// 0~1の範囲で指定
 		Vector2 uvMaxSize;		// 0~1の範囲で指定
@@ -185,7 +189,7 @@ public:
 	void SetScale(const Vector2 scale) { transform_.scale.x = scale.x, transform_.scale.y = scale.y, transform_.scale.z = 1.0f; }
 	void SetRotate(float rotate) { transform_.rotate.z = rotate; }
 
-	void SetColor(const Vector4& color) { materialData_->color = color; };
+	void SetColor(const Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
 	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
 

@@ -44,7 +44,7 @@ void PointLight::Debug_Gui() {
 }
 
 void PointLight::Paramter::Debug_Gui() {
-	ImGui::ColorEdit4("color", &color.x);
+	ImGui::ColorEdit4("color", &color.r);
 	ImGui::DragFloat3("position", &position.x, 0.1f);
 	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
 	ImGui::DragFloat("radius", &radius, 0.1f, 0.0f, 10.0f);

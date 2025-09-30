@@ -13,7 +13,7 @@ void Grayscale::Init() {
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
-	setting_->color = Vector4(0, 0, 0, 1.0f);
+	setting_->color = Color::black;
 }
 
 void Grayscale::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
@@ -32,6 +32,6 @@ void Grayscale::CheckBox() {
 
 void Grayscale::Debug_Gui() {
 	if (ImGui::CollapsingHeader("GrayScale##Grayscale_Header")) {
-		ImGui::ColorEdit4("color", &setting_->color.x);
+		ImGui::ColorEdit4("color", &setting_->color.r);
 	}
 }

@@ -25,7 +25,7 @@ enum class CpuEmitterShape {
 };
 
 struct ParticleSingle {
-	Vector4 color;			// 色
+	Color color;			// 色
 	Vector3 scale;			// 拡縮
 	Quaternion rotate;		// 回転
 	Vector3 translate;		// 座標
@@ -67,9 +67,9 @@ struct ParticleEmit : public IJsonConverter {
 
 	// particle自体のparameter
 	bool isRandomColor = false;
-	Vector4 color = Vector4{ 1,1,1,1 };			// 色
-	Vector4 randColor1 = Vector4{ 1,0,0,1 };	// 色
-	Vector4 randColor2 = Vector4{ 0,0,1,1 };	// 色
+	Color color = Color{ 1,1,1,1 };			// 色
+	Color randColor1 = Color{ 1,0,0,1 };	// 色
+	Color randColor2 = Color{ 0,0,1,1 };	// 色
 	bool isLerpDiscardValue;					// discardの値をlerpさせるか
 	float discardValue = 0.01f;					// discardをするしきい値
 	float startDiscard = 0.01f;					// discardの初期値
@@ -236,14 +236,14 @@ public:
 	void SetIsRandomColor(bool _isRandomColor) { isRandomColor = _isRandomColor; }
 	bool GetIsRandomColor() const { return isRandomColor; }
 
-	void SetColor(const Vector4& _color) { color = _color; }
-	const Vector4& GetColor() const { return color; }
+	void SetColor(const Color& _color) { color = _color; }
+	const Color& GetColor() const { return color; }
 
-	void SetRandColor1(const Vector4& _randColor1) { randColor1 = _randColor1; }
-	const Vector4& GetRandColor1() const { return randColor1; }
+	void SetRandColor1(const Color& _randColor1) { randColor1 = _randColor1; }
+	const Color& GetRandColor1() const { return randColor1; }
 
-	void SetRandColor2(const Vector4& _randColor2) { randColor2 = _randColor2; }
-	const Vector4& GetRandColor2() const { return randColor2; }
+	void SetRandColor2(const Color& _randColor2) { randColor2 = _randColor2; }
+	const Color& GetRandColor2() const { return randColor2; }
 
 	void SetIsLerpDiscard(bool _isDiscard) { isLerpDiscardValue = _isDiscard; }
 	bool GetIsLerpDiscard() const { return isLerpDiscardValue; }

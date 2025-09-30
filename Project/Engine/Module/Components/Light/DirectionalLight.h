@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include "BaseLight.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class DirectionalLight :
@@ -10,7 +11,7 @@ public: // メンバ構造体
 
 	struct DirectionalLightData {
 		Matrix4x4 viewProjection;
-		Vector4 color; // ライトの色
+		Color color; // ライトの色
 		Vector3 direction; // 方向
 		float pad;
 		Vector3 eyePos;
@@ -19,7 +20,7 @@ public: // メンバ構造体
 	};
 
 	struct Paramter : public IJsonConverter {
-		Vector4 color = Vector4(1,1,1,1);		// ライトの色
+		Color color = Color(1,1,1,1);		// ライトの色
 		Vector3 direction = Vector3(0,-1,0);	// 方向
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
