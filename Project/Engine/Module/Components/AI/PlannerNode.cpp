@@ -68,19 +68,20 @@ float PlannerNode::EvaluateWeight() {
 
 void PlannerNode::Debug_Gui() {
 	EditNodeName();
+
 	// Treeの編集
-	tree_->Edit();
-
-	std::string loadFilePath;
-	if (ButtonOpenDialog("Select Tree", "Select_Tree", "SelectTree", ".json", loadFilePath)) {
-		treeFileName_ = loadFilePath;
+	if (ImGui::TreeNode("Have Tree")) {
+		tree_->Edit();
+		ImGui::TreePop();
 	}
-
-	// 目標を設定する
-	if (goal_) {
-		std::string currentOriented = "Oriented : " + goal_->GetName();
-		ImGui::Text(currentOriented.c_str());
+	if (ImGui::TreeNode("Select Tree")) {
+		std::string loadFilePath;
+		if (ButtonOpenDialog("Select Tree", "Select_Tree", "SelectTree", ".json", loadFilePath)) {
+			treeFileName_ = loadFilePath;
+		}
+		ImGui::TreePop();
 	}
+	ImGui::Separator();
 	// 現在選択中のインデックス
 	static int currentGoalIndex = -1;
 	if (ImGui::BeginCombo("Select Goal",
@@ -97,6 +98,12 @@ void PlannerNode::Debug_Gui() {
 			}
 		}
 		ImGui::EndCombo();
+	}
+	// 目標を設定する
+	if (goal_) {
+		std::string currentOriented = "Oriented : " + goal_->GetName();
+		ImGui::Text(currentOriented.c_str());
+		goal_->Debug_Gui();
 	}
 
 	// 選択されたゴールにアクセス

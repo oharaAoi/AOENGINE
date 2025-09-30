@@ -289,32 +289,33 @@ void BehaviorTree::Edit() {
 		// Editorに関する処理
 		std::string editorName = name_ + "_Editor";
 		if (ImGui::Begin(editorName.c_str(), &isOpenEditor_, windowFlags_)) {
-			std::string loadFilePath;
-			std::string loadLabel = name_ + "_Load Tree";
-			std::string loadDialog = name_ + "_LoadTree";
-			if (ButtonOpenDialog(loadLabel.c_str(), loadDialog.c_str(), "LoadTree", ".json", loadFilePath)) {
-				CreateTree(loadFilePath);
-			}
+			if (ImGui::CollapsingHeader("Treeの読み込み/保存")) {
+				std::string loadFilePath;
+				std::string loadLabel = name_ + "_Load Tree";
+				std::string loadDialog = name_ + "_LoadTree";
+				if (ButtonOpenDialog(loadLabel.c_str(), loadDialog.c_str(), "LoadTree", ".json", loadFilePath)) {
+					CreateTree(loadFilePath);
+				}
 
-			std::string filePath;
-			std::string saveLabel = name_ + "_Save Tree";
-			std::string saveDialog = name_ + "_SaveTree";
-			if (ButtonOpenDialog(saveLabel.c_str(), saveDialog.c_str(), "SaveTree", ".json", filePath)) {
-				BehaviorTreeSerializer::Save(filePath, root_->ToJson());
+				std::string filePath;
+				std::string saveLabel = name_ + "_Save Tree";
+				std::string saveDialog = name_ + "_SaveTree";
+				if (ButtonOpenDialog(saveLabel.c_str(), saveDialog.c_str(), "SaveTree", ".json", filePath)) {
+					BehaviorTreeSerializer::Save(filePath, root_->ToJson());
+				}
 			}
 
 			if (ImGui::CollapsingHeader("Nodeの作成")) {
 				CreateNodeWindow();
 			}
-
 			ImGui::Separator();
+
 			if (selectNode_ != nullptr) {
-				float weight = selectNode_->GetWeight();
+				/*float weight = selectNode_->GetWeight();
 				ImGui::DragFloat("weight", &weight, 0.01f);
-				selectNode_->SetWeight(weight);
+				selectNode_->SetWeight(weight);*/
 				selectNode_->Debug_Gui();
 			}
-
 		}
 		ImGui::End();
 	}

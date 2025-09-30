@@ -1,4 +1,5 @@
 #include "DeployArmorOriented.h"
+#include <imgui.h>
 
 DeployArmorOriented::DeployArmorOriented() {
 	SetName("DeployArmor");
@@ -16,4 +17,8 @@ float DeployArmorOriented::CalculationScore() {
 		return 1.0f;
 	}
 	return 0.0f;
+}
+
+void DeployArmorOriented::Debug_Gui() {
+	ImGui::DragInt("priority", &priority_, 1);
 }

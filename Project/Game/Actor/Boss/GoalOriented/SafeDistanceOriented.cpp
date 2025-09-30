@@ -1,4 +1,5 @@
 #include "SafeDistanceOriented.h"
+#include <imgui.h>
 
 SafeDistanceOriented::SafeDistanceOriented() {
     SetName("SafeDistance");
@@ -21,4 +22,8 @@ float SafeDistanceOriented::CalculationScore() {
     float totalDistance = std::fabs(distance - idealDistance) / idealDistance;
 
     return (raito + totalDistance) / 2.0f;
+}
+
+void SafeDistanceOriented::Debug_Gui() {
+    ImGui::DragInt("priority", &priority_, 1);
 }

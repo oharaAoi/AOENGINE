@@ -19,5 +19,7 @@ public:
 
 	float CalculationScore() override;
 
+	void Debug_Gui() override;
+
 };
 

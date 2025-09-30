@@ -151,6 +151,7 @@ void IBehaviorNode::EditNodeName() {
 	if (ImGui::InputText("NodeName :", buffer, sizeof(buffer))) {
 		node_.name = buffer;
 	}
+	ImGui::Separator();
 }
 
 void IBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {

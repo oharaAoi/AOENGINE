@@ -1,4 +1,5 @@
 #include "TargetDeadOriented.h"
+#include <imgui.h>
 #include <algorithm>
 
 TargetDeadOriented::TargetDeadOriented() {
@@ -22,4 +23,8 @@ float TargetDeadOriented::CalculationScore() {
     float diff = std::fabs(distance - idealDistance);
 
     return diff / idealDistance;
+}
+
+void TargetDeadOriented::Debug_Gui() {
+    ImGui::DragInt("priority", &priority_, 1);
 }

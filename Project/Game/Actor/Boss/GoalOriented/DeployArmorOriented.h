@@ -16,5 +16,7 @@ public:
 	bool IsGoal() override;
 
 	float CalculationScore() override;
+
+	void Debug_Gui() override;
 };
 
