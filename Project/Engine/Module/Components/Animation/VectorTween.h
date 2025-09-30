@@ -10,6 +10,7 @@ enum class LoopType {
 	LOOP,
 	STOP,
 	RETURN,
+	ROUNDTRIP
 };
 
 /// <summary>
@@ -24,14 +25,16 @@ public:
 	~VectorTween() {};
 
 	template <typename T>
-	void Init(T* _value, const T& _start, const T& _end, float _duration, int _easeIndex, LoopType _loop) {
-		value_ = _value;
+	void Init(const T& _start, const T& _end, float _duration, int _easeIndex, LoopType _loop) {
+		value_ = T{};
 		start_ = _start;
 		end_ = _end;
 		duration_ = _duration;
 		easeIndex_ = _easeIndex;
 		loopType_ = _loop;
 		isFinish_ = false;
+		isReturn_ = true;
+		currentTime_ = 0.0f;
 	}
 
 	/// <summary>
@@ -40,16 +43,15 @@ public:
 	/// <param name="deltaTime">: デルタタイム</param>
 	void Update(float deltaTime) {
 		if (isStop_) { return; }
-		if (currentTime_ >= duration_) { 
+		if (currentTime_ >= duration_) {
 			isFinish_ = true;
 			return;
 		}
 
 		currentTime_ += deltaTime;
 		float t = currentTime_ / duration_;
-		if (value_) {
-			*value_ = Lerp(start_, end_, CallEasing(easeIndex_, t));
-		}
+		value_ = Lerp(start_, end_, CallEasing(easeIndex_, t));
+
 
 		// 現在の進行状態を変更するかを判別
 		ChangeState();
@@ -70,6 +72,12 @@ public:
 				std::swap(start_, end_);
 				currentTime_ = 0.0f;
 				break;
+			case LoopType::ROUNDTRIP:
+				if (!isReturn_) { break; }
+				std::swap(start_, end_);
+				currentTime_ = 0.0f;
+				isReturn_ = false;
+				break;
 			default:
 				break;
 			}
@@ -86,14 +94,21 @@ public:
 
 	bool GetIsFinish() const { return isFinish_; }
 
+	void SetLoopType(LoopType type) { loopType_ = type; }
+
+	void SetStart(const T& _start) { start_ = _start; }
+	void SetEnd(const T& _end) { end_ = _end; }
+
 	/// <summary>
 	/// Tweenをやり直す
 	/// </summary>
 	void Reset() { currentTime_ = 0.0f; }
 
+	T GetValue() { return value_; }
+
 private:
 
-	T* value_;			// 変更する値
+	T value_;			// 変更する値
 
 	T start_;			// 進行開始地点
 	T end_;				// 進行終了地点
@@ -107,6 +122,8 @@ private:
 
 	bool isStop_;		// tweenを一旦止めるかどうか
 
-	bool isFinish_;
+	bool isFinish_;		// 終了したかどうか
+
+	bool isReturn_;		// リターンを行ったかどうか
 };
 

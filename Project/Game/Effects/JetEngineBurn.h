@@ -127,7 +127,6 @@ private:
 
 	Parameter param_;
 
-	float animationValue_;
 	VectorTween<float> noiseAnimation_;
 
 	Vector3 initScale_;

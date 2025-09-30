@@ -11,8 +11,8 @@ void ClearNotificationUI::Init() {
 	sprite_ = Engine::CreateSprite("missionComplete.png");
 	param_.Load();
 
-	posTween_.Init(&pos_, param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
-	alphaTween_.Init(&alpha_, 0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
+	posTween_.Init(param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
+	alphaTween_.Init(0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
 
 	isBreak_ = false;
 
@@ -34,8 +34,8 @@ void ClearNotificationUI::Update(bool isBossBreak) {
 	posTween_.Update(GameTimer::DeltaTime());
 	alphaTween_.Update(GameTimer::DeltaTime());
 
-	sprite_->SetTranslate(pos_);
-	sprite_->SetColor(Vector4(1.0f, 1.0f, 1.0f, alpha_));
+	sprite_->SetTranslate(posTween_.GetValue());
+	sprite_->SetColor(Vector4(1.0f, 1.0f, 1.0f, alphaTween_.GetValue()));
 	sprite_->Update();
 
 	if (posTween_.GetIsFinish()) {

@@ -159,7 +159,6 @@ private:
 
 	bool isAlive_;
 
-	Vector3 uvMovingValue_[3];
 	VectorTween<Vector3> uvMovingTween_[3];
 
 	VectorTween<float> thresholdTween_;

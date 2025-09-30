@@ -62,10 +62,7 @@ private:
 	// 色の変化に関する変数
 	Parameter param_;
 
-	Vector2 scale_;
 	VectorTween<Vector2> scaleTween_;
-
-	float alpha_;
 	VectorTween<float> alphaTween_;
 
 };

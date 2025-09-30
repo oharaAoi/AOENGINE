@@ -2,7 +2,7 @@
 #include "Game/Actor/Player/Player.h"
 
 void PlayerIdleState::OnStart() {
-	floatingTween_.Init(&floatingValue_, -0.2f, 0.2f, 1.0f, (int)EasingType::InOut::Sine, LoopType::RETURN);
+	floatingTween_.Init(-0.2f, 0.2f, 1.0f, (int)EasingType::InOut::Sine, LoopType::RETURN);
 }
 
 void PlayerIdleState::OnUpdate() {

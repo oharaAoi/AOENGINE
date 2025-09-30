@@ -70,9 +70,14 @@ public:		// member method
 	// 残弾数の割合
 	float BulletsFill();
 
+	// リロード時間の表示
+	float ReloadFill();
+
 public:		// accessor method
 
 	void SetBulletManager(PlayerBulletManager* _bulletManager) { pBulletManager_ = _bulletManager; }
+
+	bool GetIsReload() const { return isReload_; }
 
 protected:	// 
 
@@ -82,6 +87,7 @@ protected:	//
 
 	// 攻撃に関するパラメータ
 	bool isCanAttack_ = true;
+	bool isReload_ = false;
 	float coolTime_ = 0.0f;
 	int fireCount_ = 0;
 

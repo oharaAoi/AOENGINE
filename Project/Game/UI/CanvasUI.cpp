@@ -12,9 +12,6 @@ void CanvasUI::Init() {
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
 
-	energyOutput_ = std::make_unique<EnergyOutput>();
-	energyOutput_->Init();
-
 	boostOn_ = Engine::CreateSprite("boostOn.png");
 
 	// player
@@ -35,7 +32,6 @@ void CanvasUI::Init() {
 	canvas->AddSprite(boostOn_.get());
 	canvas->AddSprite(control_.get());
 
-	AddChild(energyOutput_.get());
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
 	AddChild(clearNotificationUI_.get());
@@ -53,15 +49,9 @@ void CanvasUI::Update() {
 	}
 	reticle_->Update(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
 	
-	const Player::Parameter& playerParam = pPlayer_->GetParam();
-	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
-
 	// -------------------------------------------------
 	// ↓ 各更新処理
 	// -------------------------------------------------
-
-	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
-	//postureStability_->Update();
 
 	boostOn_->SetTranslate(boostOnPos_);
 	boostOn_->SetScale(boostOnScale_);

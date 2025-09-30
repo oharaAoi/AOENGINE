@@ -11,24 +11,22 @@ void StanGaugeUI::Init(const Vector2& scale, const Vector2& pos) {
 
 	param_.FromJson(JsonItems::GetData("UI", param_.GetName()));
 
-	scale_ = scale;
-
 	gauge_->SetFillStartingPoint(FillStartingPoint::Left);
 	gauge_->SetTranslate(pos);
 	gauge_->SetScale(scale);
 	bg_->SetTranslate(pos);
 	bg_->SetScale(scale);
 
-	scaleTween_.Init(&scale_, (scale_ * 1.2f), scale_, 0.2f, (int)EasingType::InOut::Sine, LoopType::STOP);
-	alphaTween_.Init(&alpha_, param_.minAlpha, param_.maxAlpha, param_.popInterval, (int)EasingType::InOut::Sine, LoopType::RETURN);
+	scaleTween_.Init((scale * 1.2f), scale, 0.2f, (int)EasingType::InOut::Sine, LoopType::STOP);
+	alphaTween_.Init(param_.minAlpha, param_.maxAlpha, param_.popInterval, (int)EasingType::InOut::Sine, LoopType::RETURN);
 }
 
 void StanGaugeUI::Update() {
 	scaleTween_.Update(GameTimer::DeltaTime());
 	alphaTween_.Update(GameTimer::DeltaTime());
 
-	gauge_->SetScale(scale_);
-	gauge_->SetColor(Vector4(1.0f, 0.2f, 0.2f, alpha_));
+	gauge_->SetScale(scaleTween_.GetValue());
+	gauge_->SetColor(Vector4(1.0f, 0.2f, 0.2f, alphaTween_.GetValue()));
 }
 
 void StanGaugeUI::Draw() const {

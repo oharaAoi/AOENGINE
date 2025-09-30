@@ -5,7 +5,6 @@
 #include "Game/UI/Reticle.h"
 #include "Game/UI/PostureStability.h"
 #include "Game/UI/ClearNotificationUI.h"
-#include "Game/UI/Player/EnergyOutput.h"
 
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Boss/Boss.h"
@@ -41,8 +40,6 @@ public:		// accessor method
 
 	Reticle* GetReticle() { return reticle_.get(); }
 
-	PostureStability* GetPostureStability() { return postureStability_.get(); }
-
 	BossUIs* GetBossUIs() const { return bossUIs_.get(); }
 
 	bool IsFinishClearNotification() { return clearNotificationUI_->IsFinish(); }
@@ -59,8 +56,6 @@ private:
 	// player
 	std::unique_ptr<PlayerUIs> playerUIs_;
 	std::unique_ptr<Reticle> reticle_;	// reticle
-	std::unique_ptr<EnergyOutput> energyOutput_;	// energy
-	std::unique_ptr<PostureStability> postureStability_; // 姿勢安定度ゲージ
 	std::unique_ptr<Sprite> boostOn_; // 姿勢安定度ゲージ
 
 	Vector2 boostOnPos_ = {940.0f, 640.0f};

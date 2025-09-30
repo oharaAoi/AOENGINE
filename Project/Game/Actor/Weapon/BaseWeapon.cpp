@@ -9,6 +9,7 @@ void BaseWeapon::Init() {
 	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("Weapon", "Object_Normal.json");
 	transform_ = object_->GetTransform();
 	isCanAttack_ = true;
+	isReload_ = false;
 	coolTime_ = 0.0f;
 	fireCount_ = 0;
 }
@@ -17,6 +18,7 @@ void BaseWeapon::Update() {
 	if (coolTime_ >= 0.0f) {
 		coolTime_ -= GameTimer::DeltaTime();
 	} else {
+		isReload_ = false;
 		isCanAttack_ = true;
 		coolTime_ = 0;
 
@@ -41,6 +43,7 @@ void BaseWeapon::AttackAfter() {
 	// マガジンのの上限を超えたらリロードのタイムをcoolTimeに
 	if (fireCount_ >= attackParam_.fireBulletsNum) {
 		coolTime_ = attackParam_.reloadTime;
+		isReload_ = true;
 	} else {
 		coolTime_ = attackParam_.fireInterval;
 	}
@@ -48,6 +51,10 @@ void BaseWeapon::AttackAfter() {
 
 float BaseWeapon::BulletsFill() {
 	return static_cast<float>(attackParam_.fireBulletsNum - fireCount_) / static_cast<float>(attackParam_.fireBulletsNum);
+}
+
+float BaseWeapon::ReloadFill() {
+	return  (attackParam_.reloadTime - coolTime_) / attackParam_.reloadTime;
 }
 
 void BaseWeapon::AttackParam::Debug_Gui() {

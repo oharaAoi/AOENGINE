@@ -22,7 +22,6 @@ public:
 
 public:
 
-	float floatingValue_;
 	VectorTween<float> floatingTween_;
 
 };

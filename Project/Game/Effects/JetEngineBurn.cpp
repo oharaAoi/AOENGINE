@@ -39,7 +39,7 @@ void JetEngineBurn::Init() {
 	worldTransform_->SetRotate(param_.rotate);
 	worldTransform_->SetTranslate(param_.translate);
 
-	noiseAnimation_.Init(&animationValue_, -20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::LOOP);
+	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::LOOP);
 
 	// flareの初期化
 	flareScale_ = Vector3(8, 8);
@@ -64,7 +64,7 @@ void JetEngineBurn::Init() {
 
 void JetEngineBurn::Update() {
 	noiseAnimation_.Update(GameTimer::DeltaTime());
-	noiseSRT_.translate.y = animationValue_;
+	noiseSRT_.translate.y = noiseAnimation_.GetValue();
 	noiseUV_->uv = noiseSRT_.MakeAffine();
 
 	worldTransform_->Update();

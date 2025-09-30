@@ -70,7 +70,6 @@ private:
 	Vector2 pos_;
 	VectorTween<Vector2> posTween_;
 
-	float alpha_;
 	VectorTween<float> alphaTween_;
 
 };

@@ -4,12 +4,12 @@
 
 void BossIdleState::OnStart() {
 	SetName("IdleState");
-	floatingTween_.Init(&floatingValue_, -0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::RETURN);
+	floatingTween_.Init(-0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::RETURN);
 }
 
 void BossIdleState::OnUpdate() {
 	floatingTween_.Update(GameTimer::DeltaTime());
-	pOwner_->GetTransform()->temporaryTranslate_.y += floatingValue_;
+	pOwner_->GetTransform()->temporaryTranslate_.y += floatingTween_.GetValue();
 }
 
 void BossIdleState::OnExit() {

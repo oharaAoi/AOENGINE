@@ -7,6 +7,9 @@ void PlayerUIs::Init(Player* _player) {
 
 	ap_ = Engine::CreateSprite("AP.png");
 
+	energyOutput_ = std::make_unique<EnergyOutput>();
+	energyOutput_->Init();
+
 	health_ = std::make_unique<BaseGaugeUI>();
 	health_->Init("gauge_bg.png", "gauge_front.png");
 
@@ -29,6 +32,7 @@ void PlayerUIs::Init(Player* _player) {
 	leftWeapon_->Init("leftWeaponGauge");
 	rightWeapon_->Init("rightWeaponGauge");
 
+	AddChild(energyOutput_.get());
 	AddChild(leftWeapon_.get());
 	AddChild(rightWeapon_.get());
 
@@ -43,12 +47,32 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 
 	ap_->Update();
 
+	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
+
 	health_->SetFillAmount(playerParam.health / playerInitParam.health);
 	health_->Update();
 	postureStability_->Update(playerParam.postureStability / playerInitParam.postureStability);
 
-	leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->BulletsFill());
-	rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->BulletsFill());
+	// ---------------------------
+	// ↓ weaponの残弾数ゲージを更新
+	// ---------------------------
+
+	BaseWeapon* left = pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON);
+	BaseWeapon* right = pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON);
+
+	if (left->GetIsReload()) {
+		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->ReloadFill());
+		leftWeapon_->Blinking();
+	} else {
+		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->BulletsFill());
+	}
+
+	if (right->GetIsReload()) {
+		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->ReloadFill());
+		rightWeapon_->Blinking();
+	} else {
+		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->BulletsFill());
+	}
 }
 
 void PlayerUIs::Draw() const {
