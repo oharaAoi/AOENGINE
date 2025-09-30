@@ -26,6 +26,8 @@ public:	// メンバ構造体
 		int lifeOfScaleDown;
 		int lifeOfScaleUp;
 		int lifeOfAlpha;
+
+		int isDraw2d;
 	};
 
 	struct PerView {

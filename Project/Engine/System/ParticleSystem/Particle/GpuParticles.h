@@ -24,6 +24,8 @@ public:	// メンバ構造体
 		float currentTime;		// 現在の時間
 		float damping;			// 減衰
 		float gravity;			// 重力
+
+		float pad;
 	};
 
 	struct PerView {

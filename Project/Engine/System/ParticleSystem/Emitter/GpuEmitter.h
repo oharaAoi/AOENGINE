@@ -35,6 +35,8 @@ public:
 		float lifeTime;		// particleの生存時間
 		float gravity;			// 重力を付与するか
 		float dampig;			// 減衰率
+
+		float pad2;
 	};
 
 	struct EmitterParameter {
