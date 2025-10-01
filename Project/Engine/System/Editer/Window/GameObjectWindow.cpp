@@ -1,5 +1,6 @@
 #include "GameObjectWindow.h"
 #include <sstream>
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
@@ -15,27 +16,12 @@ void GameObjectWindow::Init() {
 
 void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::string& label) {
 	std::string uniqueLabel = label;
-	int counter = 1;
 
-	// ラベルがすでにリスト内に存在するかチェック
-	auto isLabelDuplicate = [&](const std::string& labelToCheck) {
-		for (const auto& pair : attributeArray_) {
-			if (pair.first == labelToCheck) {
-				return true;
-			}
-		}
-		return false;
-		};
-
-	// 重複があれば、末尾に番号を追加してユニークにする
-	while (isLabelDuplicate(uniqueLabel)) {
-		std::ostringstream oss;
-		oss << label << counter++;
-		uniqueLabel = oss.str();
-	}
+	std::string newName = MakeUniqueName(uniqueLabel);
+	attribute->SetName(newName);
 
 	// ユニークなラベルでリストに追加
-	attributeArray_.emplace_back(uniqueLabel, attribute);
+	attributeArray_.emplace_back(attribute);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,15 +40,16 @@ void GameObjectWindow::Edit() {
 	static std::string openNode = "";  // 現在開いているTreeNodeの名前
 	static bool firstOpenRoot = true;
 	for (auto it : attributeArray_) {
-		std::string label = it.first;
-		AttributeGui* ptr = it.second;
+		AttributeGui* ptr = it;
+		std::string label = ptr->GetName();
+		std::string id = "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
+		label += id;
 		// 子供を所有している場合
 		if (ptr->HasChild()) {
 			bool isOpen = (label == openNode);  // 現在開いているノードか確認
 			if (isOpen) {
 				ImGui::SetNextItemOpen(true);  // 強制的に開いた状態にする
 			}
-
 			if (ImGui::TreeNode(label.c_str())) {
 				if (ImGui::IsItemClicked()) {
 					firstOpenRoot = true;
@@ -94,7 +81,7 @@ void GameObjectWindow::Edit() {
 		} else {
 			// 子供を持たないノードの場合
 			if (ImGui::Selectable(label.c_str(), selectAttribute_ == ptr)) {
-				selectAttribute_ = it.second;
+				selectAttribute_ = it;
 				openNode = "";  // 他のノードを閉じる
 			}
 		}
@@ -110,13 +97,33 @@ void GameObjectWindow::Edit() {
 		bool isActive = selectAttribute_->GetIsActive();
 		ImGui::Checkbox(" ", &isActive);
 		ImGui::SameLine();
-		ImGui::Text("Name : ");
-		ImGui::SameLine();
-		ImGui::Text(selectAttribute_->GetName().c_str());
+		std::string selectName = selectAttribute_->GetName();
+		if (InputTextWithString("Name :", "##selectName", selectName)) {
+			selectAttribute_->SetName(MakeUniqueName(selectName));
+		}
+
 		ImGui::Separator();
 		selectAttribute_->Debug_Gui();
 		selectAttribute_->SetIsActive(isActive);
 	}
 	ImGui::End();
+}
+std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
+	int count = 0;
+	std::string newName = baseName;
+
+	auto isDuplicate = [&](const std::string& name) {
+		for (auto* attr : attributeArray_) {
+			if (attr->GetName() == name) return true;
+		}
+		return false;
+		};
+
+	while (isDuplicate(newName)) {
+		++count;
+		newName = baseName + "(" + std::to_string(count) + ")";
+	}
+
+	return newName;
 }
 #endif // _DEBUG

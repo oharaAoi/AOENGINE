@@ -23,11 +23,14 @@ public:
 	AttributeGui* GetSelectObject() const { return selectAttribute_; }
 
 #endif // _DEBUG
+
 private:
 
-	using Pair = std::pair<std::string, AttributeGui*>;
+	std::string MakeUniqueName(const std::string& baseName);
 
-	std::vector<Pair> attributeArray_;
+private:
+
+	std::vector<AttributeGui*> attributeArray_;
 	AttributeGui* selectAttribute_ = nullptr;
 
 };
