@@ -44,15 +44,9 @@ void PlayerActionMove::Build() {
 
 void PlayerActionMove::OnStart() {
 	actionTimer_ = 0;
-
-	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
-		pOwner_->GetJetEngine()->JetIsStart();
-	} else {
-		pOwner_->GetJetEngine()->JetIsStop();
-	}
+	pRigidbody_ = pOwner_->GetGameObject()->GetRigidbody();
 
 	pOwner_->SetIsMoving(true);
-
 	isTurnAround_ = false;
 
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
@@ -62,8 +56,11 @@ void PlayerActionMove::OnStart() {
 	} else {
 		accel_ = dire * param_.speed;
 	}
-	velocity_ += accel_;
+	velocity_ = accel_ + pRigidbody_->GetVelocity();
 
+	// ----------------------
+	// ↓ Animationの設定
+	// ----------------------
 	if (pOwner_->GetIsBoostMode()) {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("move", 0.1f);
@@ -72,6 +69,15 @@ void PlayerActionMove::OnStart() {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("walk", 0.1f);
 		clip->SetIsLoop(true);
+	}
+
+	// ----------------------
+	// ↓ boostの設定
+	// ----------------------
+	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
+		pOwner_->GetJetEngine()->JetIsStart();
+	} else {
+		pOwner_->GetJetEngine()->JetIsStop();
 	}
 
 	pOwner_->UpdateJoint();
@@ -128,21 +134,11 @@ void PlayerActionMove::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::CheckNextAction() {
-	if (velocity_.Length() <= 0.1f) {
+	if (pRigidbody_->GetVelocity().Length() <= 0.01f) {
 		if (pOwner_->GetIsLanding()) {
 			NextAction<PlayerActionIdle>();
 		}
 	}
-
-	//if (isTurnAround_) {
-	//	// 反対を向く処理をす
-	//	if (pOwner_->GetIsBoostMode()) {
-	//		context_->Set<float>("speed", param_.boostSpeed);
-	//	} else {
-	//		context_->Set<float>("speed", param_.speed);
-	//	}
-	//	NextAction<PlayerActionTurnAround>();
-	//}
 
 	if (CheckInput<PlayerActionJump>()) {
 		AddAction<PlayerActionJump>();
@@ -176,6 +172,10 @@ void PlayerActionMove::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionMove::IsInput() {
+	if (pManager_->ExistAction(typeid(PlayerActionQuickBoost).hash_code())) {
+		return false;
+	}
+
 	Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
 	if (current.x != 0.0f || current.y != 0.0f) {
 		return true;
@@ -192,7 +192,10 @@ void PlayerActionMove::Move() {
 	WorldTransform* transform = pOwner_->GetTransform();
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
-	// speedを設定
+
+	// ----------------------
+	// ↓ speedを設定
+	// ----------------------
 	float speed = 0.0f;
 	if (pOwner_->GetIsBoostMode()) {
 		speed = param_.boostSpeed;
@@ -203,7 +206,7 @@ void PlayerActionMove::Move() {
 	// 加速方向を計算する
 	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
 	accel_ = dire * speed;
-	
+
 	// velocityを加速方向へなじませる
 	velocity_ = Vector3::Lerp(velocity_, accel_, param_.moveT);
 	velocity_ += accel_ * GameTimer::DeltaTime();
@@ -211,14 +214,18 @@ void PlayerActionMove::Move() {
 	if (velocity_.Length() > param_.boostSpeed) {
 		velocity_ = velocity_.Normalize() * param_.boostSpeed;
 	}
-
-	// 減速処理
 	if (inputStick_.Length() <= 0.01f) {
 		velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	}
 
-	transform->srt_.translate += velocity_ * GameTimer::DeltaTime();
-	
+	pRigidbody_->AddVelocityX(velocity_.x * GameTimer::DeltaTime());
+	pRigidbody_->AddVelocityZ(velocity_.z * GameTimer::DeltaTime());
+
+	float length = pRigidbody_->GetVelocity().Length();
+	if (length > speed) {
+		pRigidbody_->SetVelocity(velocity_.Normalize() * speed);
+	}
+
 	// playerを移動方向に向ける
 	if (velocity_.x != 0.0f || velocity_.z != 0.0f) {
 		float angle = std::atan2f(velocity_.x, velocity_.z);
@@ -233,13 +240,6 @@ void PlayerActionMove::Move() {
 	}
 
 	preVelocity_ = velocity_;
-
-	// 方向転換をしなかったら
-	//if (IsDirectionReversed(accel)) {
-	//	preVelocity_ = velocity_;
-	//	//isTurnAround_ = true;
-	//	return;
-	//}
 }
 
 bool PlayerActionMove::IsDirectionReversed(const Vector3& currentVelocity) {

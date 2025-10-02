@@ -54,13 +54,20 @@ void PlayerManager::Update() {
 	CheckAction();
 
 	player_->Update();
-	machineGun_->Update();
+	/*machineGun_->Update();
 	launcherGun_->Update();
-	shoulderMissile_->Update();
+	shoulderMissile_->Update();*/
 
 	bulletManager_->Update(player_->GetTargetPos());
 
 	armors_->Update();
+}
+
+void PlayerManager::PostUpdate() {
+	player_->UpdateJoint();
+	machineGun_->Update();
+	launcherGun_->Update();
+	shoulderMissile_->Update();
 }
 
 void PlayerManager::CheckAction() {

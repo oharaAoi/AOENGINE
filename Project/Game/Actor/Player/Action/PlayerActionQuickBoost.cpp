@@ -12,15 +12,20 @@ void PlayerActionQuickBoost::Debug_Gui() {
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
 	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
 	ImGui::Text("boostEnergy: (%.2f)", param_.boostEnergy);
-	param_.Debug_Gui();
+	float t = actionTimer_ / param_.decelerationTime;
+	float bezierValue = param_.decelerationCurve.BezierValue(1 - t);
+	ImGui::Text("bezierValue: (%.2f)", bezierValue);
+	initParam_.Debug_Gui();
 }
 
 void PlayerActionQuickBoost::Parameter::Debug_Gui() {
-	ImGui::DragFloat("first_boostForce", &boostForce, 0.1f);
-	ImGui::DragFloat("first_decelerationRaito", &decelerationRaito, 0.01f);
-	ImGui::DragFloat("first_boostEnergy", &boostEnergy, 0.01f);
+	ImGui::DragFloat("boostForce", &boostForce, 0.1f);
+	ImGui::DragFloat("decelerationRaito", &decelerationRaito, 0.01f);
+	ImGui::DragFloat("boostEnergy", &boostEnergy, 0.01f);
 	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
 	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
+	ImGui::DragFloat("decelerationTime", &decelerationTime, 0.1f);
+	decelerationCurve.Debug_Gui();
 	SaveAndLoad();
 }
 
@@ -40,6 +45,8 @@ void PlayerActionQuickBoost::Build() {
 
 	initParam_.SetGroupName(pManager_->GetName());
 	initParam_.Load();
+
+	pRigidBody_ = pOwner_->GetGameObject()->GetRigidbody();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,20 +57,24 @@ void PlayerActionQuickBoost::OnStart() {
 	param_ = initParam_;
 
 	// 初速度を求める
-	stick_ = pInput_->GetLeftJoyStick();
+	stick_ = pInput_->GetLeftJoyStick().Normalize();
 	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
 
 	acceleration_ = direction_ * param_.boostForce;
-	velocity_ = { 0.0f, 0.0f, 0.0f };
+	pRigidBody_->SetVelocity(acceleration_ * GameTimer::DeltaTime());
 
 	// エネルギーを消費する
-	Player::Parameter& ownerParam_ = pOwner_->GetParam();
+ 	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
 	//pOwner_->GetFollowCamera()->SetShake(initParam_.cameraShakeTime, initParam_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
 
 	boostParticle_->Reset();
+
+	actionTimer_ = 0;
+
+	pManager_->DeleteAction(typeid(PlayerActionMove).hash_code());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +82,8 @@ void PlayerActionQuickBoost::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnUpdate() {
+	actionTimer_ += GameTimer::DeltaTime();
+
 	Boost();
 	pOwner_->UpdateJoint();
 }
@@ -80,7 +93,6 @@ void PlayerActionQuickBoost::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnEnd() {
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +100,7 @@ void PlayerActionQuickBoost::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::CheckNextAction() {
-	if (param_.boostForce <= 0.1f) {
+	if (actionTimer_ >= param_.decelerationTime) {
 		NextAction<PlayerActionMove>();
 	}
 }
@@ -111,14 +123,17 @@ bool PlayerActionQuickBoost::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::Boost() {
+	float t = actionTimer_ / param_.decelerationTime;
+	float bezierValue = param_.decelerationCurve.BezierValue(1 - t);
+
 	pOwner_->GetJetEngine()->JetIsStart();
-	stick_ = pInput_->GetLeftJoyStick();
-	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
-	acceleration_ = direction_ * param_.boostForce;
 
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwnerTransform_->srt_.translate += velocity_;
+	param_.boostForce *= bezierValue;
+	acceleration_ = direction_ * (initParam_.boostForce * bezierValue);
 
-	// 減速計算する
-	param_.boostForce *= param_.decelerationRaito;
+	pRigidBody_->AddVelocity(acceleration_ * GameTimer::DeltaTime());
+}
+
+void PlayerActionQuickBoost::Deceleration() {
+
 }

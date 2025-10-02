@@ -7,6 +7,7 @@
         "health": 1000.0,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
-        "postureStability": 100.0
+        "postureStability": 100.0,
+        "windDrag": 3.0
     }
 }

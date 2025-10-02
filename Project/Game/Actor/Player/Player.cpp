@@ -42,6 +42,8 @@ void Player::Debug_Gui() {
 		initParam_.Debug_Gui();
 	}
 
+	object_->GetRigidbody()->SetDrag(param_.windDrag);
+
 	param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 }
 
@@ -55,6 +57,8 @@ void Player::Parameter::Debug_Gui() {
 
 	ImGui::DragFloat("legColliderRadius", &legColliderRadius, 0.1f);
 	ImGui::DragFloat("legColliderPosY", &legColliderPosY, 0.1f);
+
+	ImGui::DragFloat("windDrag", &windDrag, 0.1f);
 
 	SaveAndLoad();
 }
@@ -93,6 +97,7 @@ void Player::Init() {
 	colliderRightLeg->SetIsStatic(false);
 
 	object_->SetPhysics();
+	object_->GetRigidbody()->SetDrag(param_.windDrag);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -186,8 +191,7 @@ void Player::Update() {
 	}
 
 	jet_->Update();
-	UpdateJoint();
-
+	
 	CameraIncline();
 
 	// 攻撃を行う
@@ -222,7 +226,6 @@ void Player::Attack(PlayerWeapon _weapon, AttackContext _contex) {
 }
 
 void Player::UpdateJoint() {
-	transform_->Update();
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
 	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand"), transform_->GetWorldMatrix());

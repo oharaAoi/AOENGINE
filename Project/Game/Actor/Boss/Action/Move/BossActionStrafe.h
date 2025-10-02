@@ -17,7 +17,6 @@ public:
 		float moveTime = 0.5f;
 		float getDistance = 10.0f;
 		float decayRate = 4.0f;
-
 		Curve curve;
 
 		Parameter() { SetName("bossStrafe"); }
@@ -38,7 +37,7 @@ public:
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "getDistance", getDistance);
 			fromJson(jsonData, "decayRate", decayRate);
-			curve.FromJson(jsonData);
+			curve.FromJson(jsonData, "curveData");
 		}
 
 		void Debug_Gui() override;

@@ -31,6 +31,7 @@ void ShoulderMissile::Init() {
 }
 
 void ShoulderMissile::Update() {
+	transform_->Update();
 	if (isFinish_) { return; }
 
 	if (coolTime_ > 0) {

@@ -22,9 +22,24 @@ json Curve::ToJson() const {
     };
 }
 
-void Curve::FromJson(const json& _json) {
-    fromJson(_json, "controlPoints_1", controlPoints_[0]);
-    fromJson(_json, "controlPoints_2", controlPoints_[1]);
-    fromJson(_json, "controlPoints_3", controlPoints_[2]);
-    fromJson(_json, "controlPoints_4", controlPoints_[3]);
+void Curve::FromJson(const json& _json, const std::string& _name) {
+    json curve;
+
+    if (_json.is_object()) {
+        // 最上位キー（例: "ActionQuickBoost"）を取得
+        auto rootKey = _json.begin().key();
+
+        // rootKey の下に _name ("decelerationCurve") があるか確認
+        if (_json.at(rootKey).contains(_name)) {
+            // curve に "decelerationCurve" をキーごと保持
+            curve[_name] = _json.at(rootKey).at(_name);
+        } else {
+            return;
+        }
+    }
+
+    fromJson(curve, "controlPoints_1", controlPoints_[0]);
+    fromJson(curve, "controlPoints_2", controlPoints_[1]);
+    fromJson(curve, "controlPoints_3", controlPoints_[2]);
+    fromJson(curve, "controlPoints_4", controlPoints_[3]);
 }

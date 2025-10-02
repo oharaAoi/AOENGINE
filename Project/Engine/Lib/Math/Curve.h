@@ -39,7 +39,7 @@ public:
 	void Debug_Gui() override; 
 
 	json ToJson() const;
-	void FromJson(const json& _json);
+	void FromJson(const json& _json, const std::string& _name);
 
 public:
 

@@ -1,9 +1,9 @@
 {
     "ActionMove": {
-        "boostSpeed": 25.0,
-        "decayRate": 6.0,
+        "boostSpeed": 2.0,
+        "decayRate": 179.3000030517578,
         "moveT": 0.05000000074505806,
         "rotateT": 0.10000000149011612,
-        "speed": 3.0
+        "speed": 0.20000000298023224
     }
 }

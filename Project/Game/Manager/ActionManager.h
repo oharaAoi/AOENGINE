@@ -46,6 +46,9 @@ public:
 			}
 		}
 
+		// 削除リストをクリア
+		deleteIndexList_.clear();
+
 		// 実際に追加する
 		for (const auto& addAction : addIndexList_) {
 			auto it = runActionMap_.find(addAction);
@@ -54,8 +57,6 @@ public:
 			}
 		}
 
-		// 削除リストをクリア
-		deleteIndexList_.clear();
 		addIndexList_.clear();
 
 		// 実行
@@ -152,13 +153,28 @@ public:
 		}
 	}
 
+	void DeleteOther(size_t actionTypeIndex) {
+		for (auto& [size, action] : runActionMap_) {
+			if (size != actionTypeIndex) {
+				DeleteAction(size);
+			}
+		}
+	}
+
 	bool CheckInput(size_t actionTypeIndex) {
 		return actionMap_[actionTypeIndex]->IsInput();
 	}
 
 	void SetIsActionStop(bool _stop) { isActionStop_ = _stop; }
 
+	bool ExistAction(size_t actionTypeIndex) {
+		auto action = runActionMap_.find(actionTypeIndex);
+		if (action == runActionMap_.end()) {
+			return false;
+		}
 
+		return true;
+	}
 
 private:
 	// 持ち主のポインタ

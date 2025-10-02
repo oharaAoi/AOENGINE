@@ -1,7 +1,9 @@
 #pragma once
 #include "Engine/System/Input/Input.h"
+#include "Engine/Lib/Math/Curve.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Game/Actor/Base/BaseAction.h"
 
@@ -24,15 +26,21 @@ public:
 		float cameraShakeTime = 0.2f;
 		float cameraShakeStrength = 0.1f;
 
+		float decelerationTime = 1.0f;		// 減速までの時間
+		Curve decelerationCurve;	// 減速の際のカーブ
+
 		Parameter() { SetName("ActionQuickBoost"); }
 
 		json ToJson(const std::string& id) const override {
+			json curveJson = decelerationCurve.ToJson();
 			return JsonBuilder(id)
 				.Add("boostForce", boostForce)
 				.Add("decelerationRaito", decelerationRaito)
 				.Add("boostEnergy", boostEnergy)
 				.Add("cameraShakeTime", cameraShakeTime)
 				.Add("cameraShakeStrength", cameraShakeStrength)
+				.Add("decelerationTime", decelerationTime)
+				.Add("decelerationCurve", curveJson)
 				.Build();
 		}
 
@@ -42,6 +50,8 @@ public:
 			fromJson(jsonData, "boostEnergy", boostEnergy);
 			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			fromJson(jsonData, "decelerationTime", decelerationTime);
+			decelerationCurve.FromJson(jsonData, "decelerationCurve");
 		}
 
 		void Debug_Gui() override;
@@ -69,6 +79,11 @@ private:
 	/// </summary>
 	void Boost();
 
+	/// <summary>
+	/// 減速を行う
+	/// </summary>
+	void Deceleration();
+
 private:
 
 	// 他クラス ------------------------------------------------
@@ -76,7 +91,6 @@ private:
 	WorldTransform* pOwnerTransform_ = nullptr;
 
 	// State/Parameter ------------------------------------------------
-	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
 	Vector3 direction_;
 
@@ -87,6 +101,8 @@ private:
 	Parameter initParam_;
 
 	BaseParticles* boostParticle_;
+
+	Rigidbody* pRigidBody_;
 
 };
 

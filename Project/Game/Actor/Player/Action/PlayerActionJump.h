@@ -2,6 +2,7 @@
 #include "Game/Actor/Base/BaseAction.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 
@@ -95,7 +96,6 @@ private:	// action
 
 private:	// variable
 
-	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
 	Parameter param_;
@@ -113,6 +113,8 @@ private:	// variable
 
 	Matrix4x4 feetMatrixLeft_;
 	Matrix4x4 feetMatrixRight_;
+
+	Rigidbody* pRigidbody_;
 
 };
 

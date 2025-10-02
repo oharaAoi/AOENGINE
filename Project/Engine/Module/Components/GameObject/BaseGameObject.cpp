@@ -37,6 +37,8 @@ void BaseGameObject::Init() {
 
 	isDestroy_ = false;
 	isRendering_ = true;
+
+	transform_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +87,7 @@ void BaseGameObject::UpdateMatrix() {
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
+		transform_->Translate(rigidbody_->GetVelocity());
 	}
 
 	transform_->Update();

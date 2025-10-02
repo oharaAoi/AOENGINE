@@ -37,6 +37,8 @@ public:		// data
 		float legColliderRadius = 0.5f;
 		float legColliderPosY = -0.1f;
 
+		float windDrag;	// 空気抵抗量
+
 		Parameter() {
 			SetGroupName("Player");
 			SetName("playerParameter");
@@ -52,6 +54,7 @@ public:		// data
 				.Add("energyRecoveyCoolTime", energyRecoveyCoolTime)
 				.Add("legColliderRadius", legColliderRadius)
 				.Add("legColliderPosY", legColliderPosY)
+				.Add("windDrag", windDrag)
 				.Build();
 		}
 
@@ -64,6 +67,7 @@ public:		// data
 			fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);
 			fromJson(jsonData, "legColliderRadius", legColliderRadius);
 			fromJson(jsonData, "legColliderPosY", legColliderPosY);
+			fromJson(jsonData, "windDrag", windDrag);
 		}
 
 		void Debug_Gui() override;

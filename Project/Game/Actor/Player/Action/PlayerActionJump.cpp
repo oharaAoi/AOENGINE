@@ -10,7 +10,6 @@
 
 void PlayerActionJump::Debug_Gui() {
 	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
-	ImGui::Text("velocity: (%.2f, %.2f, %.2f)", velocity_.x, velocity_.y, velocity_.z);
 	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
 
 	param_.Debug_Gui();
@@ -50,6 +49,8 @@ void PlayerActionJump::Build() {
 
 	jetBurnLeft_->SetParent(feetMatrixLeft_);
 	jetBurnRight_->SetParent(feetMatrixRight_);
+
+	pRigidbody_ = pOwner_->GetGameObject()->GetRigidbody();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +64,6 @@ void PlayerActionJump::OnStart() {
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
 	acceleration_.y = param_.jumpForce;
-	velocity_ = acceleration_;
 	mainAction_ = std::bind(&PlayerActionJump::Charge, this);
 	
 	pOwner_->SetIsLanding(false);
@@ -110,6 +110,11 @@ void PlayerActionJump::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::CheckNextAction() {
+	if (pOwner_->GetParam().energy <= 0.0f) {
+		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
+		NextAction<PlayerActionIdle>();
+	}
+
 	if (actionTimer_ > param_.chargeTime * 2.0f) {
 		if (pOwner_->GetIsLanding()) {
 			NextAction<PlayerActionIdle>();
@@ -154,15 +159,13 @@ void PlayerActionJump::Jump() {
 	jetBurnLeft_->SetIsStop(false);
 	jetBurnRight_->SetIsStop(false);
 
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
+	pRigidbody_->AddVelocity(acceleration_ * GameTimer::DeltaTime());
 	acceleration_ *= std::exp(-param_.accelDecayRate * GameTimer::DeltaTime());
 
 	if (acceleration_.Length() <= 0.1f) {
 		mainAction_ = std::bind(&PlayerActionJump::Rising, this);
 		pOwner_->SetIsLanding(false);
 	}
-
-	pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,20 +183,15 @@ void PlayerActionJump::Rising() {
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
 		pOwner_->ConsumeEN(param_.jumpEnergy * GameTimer::DeltaTime());
-		velocity_ = acceleration_;
+		pRigidbody_->SetVelocityY(acceleration_.y * GameTimer::DeltaTime());
 
 	} else {
 		jetBurnLeft_->SetIsStop(true);
 		jetBurnRight_->SetIsStop(true);
 
-		acceleration_.y = 0.0f;
 		pOwner_->GetJetEngine()->JetIsStop();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
-
-		velocity_ *= std::exp(-param_.velocityDecayRate * GameTimer::DeltaTime());
 	}
-
-	pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 }
 
 void PlayerActionJump::Charge() {

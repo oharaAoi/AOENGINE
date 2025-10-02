@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Game/Actor/Base/BaseAction.h"
 #include <Lib/Json/IJsonConverter.h>
 
@@ -6,7 +7,7 @@
 class Player;
 
 class PlayerActionMove :
-	public BaseAction<Player>{
+	public BaseAction<Player> {
 public:
 
 	struct Parameter : public IJsonConverter {
@@ -64,15 +65,17 @@ private:
 
 	// Parameter -------------------------------
 
+	Rigidbody* pRigidbody_ = nullptr;
+
 	const float kDeadZone_ = 0.1f;
 	Vector2 inputStick_;
 
 	Vector3 accel_;
 	Vector3 velocity_;
 	Vector3 preVelocity_;
-	
+
 	Parameter param_;
-	
+
 	bool isTurnAround_;
 
 	bool preBoost_;

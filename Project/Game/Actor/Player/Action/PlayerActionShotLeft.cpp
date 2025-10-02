@@ -22,6 +22,9 @@ void PlayerActionShotLeft::OnStart() {
 
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shot", 0.2f);
+
+	size_t hash = typeid(PlayerActionShotLeft).hash_code();
+	pManager_->DeleteOther(hash);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
