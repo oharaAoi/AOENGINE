@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "Engine/Lib/GameTimer.h"
 
 BYTE Input::key_[256];
 BYTE Input::preKey_[256];
@@ -14,6 +15,8 @@ XINPUT_STATE Input::preGamepadState_;
 InputDevice Input::inputDevice_;
 
 bool Input::notAccepted_ = false;
+
+ControllerVibration Input::vibrations_;
 
 Input* Input::GetInstance() {
 	static Input instance;
@@ -81,6 +84,17 @@ void Input::Update() {
 	ScreenToClient(FindWindowA("AOENGINE", nullptr), &mousePoint_);
 
 	GamePadInitialize();
+
+	if (vibrations_.active) {
+		if (vibrations_.duration > 0.0f) {
+			vibrations_.timer += GameTimer::DeltaTime();
+			if (vibrations_.timer >= vibrations_.duration) {
+				Vibrate(0.0f, 0.0f);
+				vibrations_.active = false;
+			}
+		}
+		ApplyVibrate();
+	}
 }
 
 //=================================================================================================================
@@ -299,6 +313,21 @@ bool Input::IsControllerConnected() {
 		return false;
 	}
 	return true;
+}
+
+void Input::Vibrate(float strength, float duration) {
+	vibrations_.duration = duration;
+	vibrations_.leftStrength = strength;
+	vibrations_.rightStrength = strength;
+	vibrations_.active = true;
+	vibrations_.timer = 0.0f;
+}
+
+void Input::ApplyVibrate() {
+	XINPUT_VIBRATION vib = {};
+	vib.wLeftMotorSpeed = static_cast<WORD>(vibrations_.leftStrength * 65535);
+	vib.wRightMotorSpeed = static_cast<WORD>(vibrations_.rightStrength * 65535);
+	XInputSetState(0, &vib);
 }
 
 bool Input::IsThumbLR() {

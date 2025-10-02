@@ -38,6 +38,14 @@ enum InputDevice {
 	Gamepad
 };
 
+struct ControllerVibration {
+	float leftStrength = 0.0f;
+	float rightStrength = 0.0f;
+	float duration = 0.0f;
+	float timer = 0.0f;
+	bool active = false;
+};
+
 // デッドゾーン
 const float DEADZONE = 0.1f;
 
@@ -151,6 +159,13 @@ public: // 入力
 	// コントローラーと繋がっているか
 	static bool IsControllerConnected();
 
+	// ---------------------------------------------------------------
+	// ↓　振動
+	// ---------------------------------------------------------------
+
+	static void Vibrate(float strength, float duration);
+	static void ApplyVibrate();
+
 private:
 
 	bool IsThumbLR();
@@ -182,4 +197,6 @@ private:
 
 	// 入力を受け付けない用にする
 	static bool notAccepted_;
+
+	static ControllerVibration vibrations_;
 };

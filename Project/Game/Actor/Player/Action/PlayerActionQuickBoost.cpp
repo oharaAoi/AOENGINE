@@ -75,6 +75,7 @@ void PlayerActionQuickBoost::OnStart() {
 	actionTimer_ = 0;
 
 	pManager_->DeleteAction(typeid(PlayerActionMove).hash_code());
+	pInput_->Vibrate(1.0f, 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
