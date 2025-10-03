@@ -320,7 +320,7 @@ void Input::Vibrate(float strength, float duration) {
 	vibrations_.leftStrength = strength;
 	vibrations_.rightStrength = strength;
 	vibrations_.active = true;
-	vibrations_.timer = 0.0f;
+	vibrations_.timer = 0.0f; 
 }
 
 void Input::ApplyVibrate() {

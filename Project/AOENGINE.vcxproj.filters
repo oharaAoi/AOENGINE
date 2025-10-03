@@ -351,6 +351,7 @@
     <ClCompile Include="Game\UI\Player\WeaponRemainingRounds.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
     <ClCompile Include="Engine\Lib\Color.cpp" />
+    <ClCompile Include="Game\Camera\CameraAnimation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -659,6 +660,7 @@
     <ClInclude Include="Game\UI\Player\WeaponRemainingRounds.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
+    <ClInclude Include="Game\Camera\CameraAnimation.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

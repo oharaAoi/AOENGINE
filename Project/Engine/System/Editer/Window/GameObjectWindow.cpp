@@ -24,6 +24,25 @@ void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::strin
 	attributeArray_.emplace_back(attribute);
 }
 
+std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
+	int count = 0;
+	std::string newName = baseName;
+
+	auto isDuplicate = [&](const std::string& name) {
+		for (auto* attr : attributeArray_) {
+			if (attr->GetName() == name) return true;
+		}
+		return false;
+		};
+
+	while (isDuplicate(newName)) {
+		++count;
+		newName = baseName + "(" + std::to_string(count) + ")";
+	}
+
+	return newName;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　編集画面を表示する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,23 +126,5 @@ void GameObjectWindow::Edit() {
 		selectAttribute_->SetIsActive(isActive);
 	}
 	ImGui::End();
-}
-std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
-	int count = 0;
-	std::string newName = baseName;
-
-	auto isDuplicate = [&](const std::string& name) {
-		for (auto* attr : attributeArray_) {
-			if (attr->GetName() == name) return true;
-		}
-		return false;
-		};
-
-	while (isDuplicate(newName)) {
-		++count;
-		newName = baseName + "(" + std::to_string(count) + ")";
-	}
-
-	return newName;
 }
 #endif // _DEBUG

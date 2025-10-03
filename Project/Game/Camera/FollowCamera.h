@@ -74,7 +74,7 @@ public:
 		Color scaleColor;
 		float vignettePower;
 
-		AnimationParameter() { 
+		AnimationParameter() {
 			SetGroupName("Camera");
 			SetName("AnimationParameter");
 		}
@@ -124,6 +124,9 @@ private:	// private method
 	void FirstCameraMove();
 
 public:		// accessor method
+
+	void SetOffset(const Vector3& _offset) { followCamera_.offset = _offset; }
+	const Vector3& GetOffset() const { return followCamera_.offset; }
 
 	void SetShake(float time, float strength);
 
