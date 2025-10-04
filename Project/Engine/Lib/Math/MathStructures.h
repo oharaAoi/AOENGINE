@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <vector>
 #include "MyMath.h"
 #include "Engine/Lib/Math/Quaternion.h"
@@ -15,7 +16,7 @@ struct SRT {
 	Matrix4x4 MakeAffine();
 
 	json ToJson() const;
-	void FromJson(const json& _json);
+	void FromJson(const json& _json, const std::string& _name);
 };
 
 struct QuaternionSRT {
@@ -34,7 +35,7 @@ struct QuaternionSRT {
 	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
 
 	json ToJson() const;
-	void FromJson(const json& _json);
+	void FromJson(const json& _json, const std::string& _name);
 };
 
 /// <summary>

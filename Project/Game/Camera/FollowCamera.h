@@ -4,6 +4,7 @@
 #include "Engine/Module/PostEffect/Vignette.h"
 #include "Game/Camera/BaseCamera.h"
 #include "Game/UI/Reticle.h"
+#include "Game/Camera/CameraAnimation.h"
 #include <utility>
 
 class Player;
@@ -102,7 +103,7 @@ public:
 
 public:
 
-	FollowCamera() = default;
+	FollowCamera();
 	~FollowCamera() override = default;
 
 	void Finalize() override;
@@ -125,8 +126,12 @@ private:	// private method
 
 public:		// accessor method
 
+	CameraAnimation* GetCameraAnimation() const { return cameraAnimation_.get(); }
+
 	void SetOffset(const Vector3& _offset) { followCamera_.offset = _offset; }
 	const Vector3& GetOffset() const { return followCamera_.offset; }
+
+	const Vector3& GetInitOffset() const { return initFollowCamera_.offset; }
 
 	void SetShake(float time, float strength);
 
@@ -175,6 +180,8 @@ private:
 	bool isAnimationFinish_;
 	std::shared_ptr<Grayscale> grayscale_;
 	std::shared_ptr<Vignette> vignette_;
+
+	std::unique_ptr<CameraAnimation> cameraAnimation_;
 
 };
 

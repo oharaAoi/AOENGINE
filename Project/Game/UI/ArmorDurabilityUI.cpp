@@ -1,32 +1,24 @@
 #include "ArmorDurabilityUI.h"
 #include "Engine.h"
 
-void ArmorDurabilityUI::Init() {
+void ArmorDurabilityUI::Init(const std::string& _groupName, const std::string& _itemName) {
+	SetName("ArmorDurabilityUI");
+	groupName_ = _groupName;
 	BaseGaugeUI::Init("postureStability_bg.png", "pulseArmorGauge.png");
+	front_->Load(_groupName, _itemName);
 
+	// 柵の初期化
 	fence_ = Engine::CreateSprite("postureStability_fence.png");
+	fence_->SetTranslate(front_->GetTranslate());
+	fence_->SetScale(front_->GetScale());
 
-	fence_->SetTranslate(centerPos_);
-	fence_->SetScale(scale_);
-
-	fillMoveType_ = 1;
+	Engine::GetCanvas2d()->AddSprite(fence_.get());
 }
 
 void ArmorDurabilityUI::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
 	BaseGaugeUI::Update();
-
-	fence_->SetTranslate(centerPos_);
-	fence_->SetScale(scale_);
-
 	fence_->Update();
-}
-
-void ArmorDurabilityUI::Draw() const {
-	BaseGaugeUI::Draw();
-
-	Pipeline* pso = Engine::GetLastUsedPipeline();
-	fence_->Draw(pso);
 }
 
 void ArmorDurabilityUI::Debug_Gui() {

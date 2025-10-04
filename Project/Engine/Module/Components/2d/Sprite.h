@@ -15,12 +15,15 @@ enum class FillStartingPoint {
 	Bottom,
 	Left,
 	Right,
+	TopBottom,
+	LeftRight,
 };
 
 enum class FillMethod {
 	Vertical,		// 垂直
 	Horizontal,		// 水平
 	Radial,			// 円形
+	BothEnds		// 両端
 };
 
 struct ArcGaugeParam {
@@ -34,34 +37,34 @@ struct ArcGaugeParam {
 };
 
 struct SpriteParameter : public IJsonConverter {
-	SRT transform;
-	SRT uvTransform;
-	std::string textureName;
-	Color color;
-	Vector2 drawRange;
-	Vector2 leftTop;
-	Vector2 anchorPoint;
-	bool isFlipX;
-	bool isFlipY;
-	Vector2 spriteSize;
+	SRT transform = SRT();
+	SRT uvTransform = SRT();
+	std::string textureName = "white.png";
+	Color color = Color::white;
+	Vector2 drawRange = Vector2(64.0f, 64.0f);
+	Vector2 leftTop = CVector2::ZERO;
+	Vector2 anchorPoint = Vector2(0.5f, 0.5f);
+	bool isFlipX = false;
+	bool isFlipY = false;
+	Vector2 spriteSize = Vector2(64.0f, 64.0f);
 
-	int fillMethod;
-	int fillStartingPoint;
+	int fillMethod = static_cast<int>(FillMethod::Vertical);
+	int fillStartingPoint = static_cast<int>(FillStartingPoint::Left);
 
-	Vector2 center;		// 中心座標
-	float fillAmount;	// 塗りつぶし量
-	float innerRadius;	// 内半径
-	float outerRadius;	// 外半径
-	float startAngle;	// 開始角度
-	float arcRange;		// 弧の最大角度
-	int clockwise;		// 回転方向
+	Vector2 center = Vector2(0.5f, 0.5f);	// 中心座標
+	float fillAmount = 1.0f;				// 塗りつぶし量
+	float innerRadius = 0.0f;				// 内半径
+	float outerRadius = 1.0f;				// 外半径
+	float startAngle = 0.0f;				// 開始角度
+	float arcRange = kPI;					// 弧の最大角度
+	int clockwise = 0;						// 回転方向
 
 	json ToJson(const std::string& id) const override {
 		json srt = transform.ToJson();
 		json uvSrt = transform.ToJson();
 		return JsonBuilder(id)
-			.Add("health", srt)
-			.Add("health", uvSrt)
+			.Add("transform", srt)
+			.Add("uvTransform", uvSrt)
 			.Add("textureName", textureName)
 			.Add("color", color)
 			.Add("drawRange", drawRange)
@@ -83,8 +86,8 @@ struct SpriteParameter : public IJsonConverter {
 	}
 
 	void FromJson(const json& jsonData) override {
-		transform.FromJson(jsonData);
-		uvTransform.FromJson(jsonData);
+		transform.FromJson(jsonData, "transform");
+		uvTransform.FromJson(jsonData, "uvTransform");
 		fromJson(jsonData, "textureName", textureName);
 		fromJson(jsonData, "color", color);
 		fromJson(jsonData, "drawRange", drawRange);
@@ -278,6 +281,8 @@ private:
 	// -------------------
 
 	SpriteParameter saveParam_;
+	std::string saveGroupName_;
+	std::string saveKeyName_;
 
 public:
 

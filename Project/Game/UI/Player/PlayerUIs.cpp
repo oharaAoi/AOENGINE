@@ -6,33 +6,27 @@ void PlayerUIs::Init(Player* _player) {
 	pPlayer_ = _player;
 
 	ap_ = Engine::CreateSprite("AP.png");
+	ap_->SetName("AP");
+	ap_->Load("PlayerUIs", "AP");
 
 	energyOutput_ = std::make_unique<EnergyOutput>();
-	energyOutput_->Init();
+	energyOutput_->Init("PlayerUIs", "EnergyOutput");
 
-	health_ = std::make_unique<BaseGaugeUI>();
-	health_->Init("gauge_bg.png", "gauge_front.png");
+	health_ = std::make_unique<Health>();
+	health_->Init("PlayerUIs", "Health");
 
 	postureStability_ = std::make_unique<PostureStability>();
-	postureStability_->Init();
-
-	uiItems_.Load();
-
-	ap_->SetScale(uiItems_.apScale);
-	ap_->SetTranslate(uiItems_.apPos);
-
-	health_->SetScale(uiItems_.healthScale);
-	health_->SetCenterPos(uiItems_.healthPos);
-
-	postureStability_->SetScale(uiItems_.postureScale);
-	postureStability_->SetCenterPos(uiItems_.posturePos);
+	postureStability_->Init("PlayerUIs", "PostureStability");
 
 	leftWeapon_ = std::make_unique<WeaponRemainingRounds>();
 	rightWeapon_ = std::make_unique<WeaponRemainingRounds>();
 	leftWeapon_->Init("leftWeaponGauge");
 	rightWeapon_->Init("rightWeaponGauge");
 
+	AddChild(ap_.get());
+	AddChild(health_.get());
 	AddChild(energyOutput_.get());
+	AddChild(postureStability_.get());
 	AddChild(leftWeapon_.get());
 	AddChild(rightWeapon_.get());
 
@@ -49,8 +43,7 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 
-	health_->SetFillAmount(playerParam.health / playerInitParam.health);
-	health_->Update();
+	health_->Update(playerParam.health / playerInitParam.health);
 	postureStability_->Update(playerParam.postureStability / playerInitParam.postureStability);
 
 	// ---------------------------
@@ -75,27 +68,6 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 	}
 }
 
-void PlayerUIs::Draw() const {
-
- }
-
 void PlayerUIs::Debug_Gui() {
-	uiItems_.Debug_Gui();
-
-	ap_->SetScale(uiItems_.apScale);
-	ap_->SetTranslate(uiItems_.apPos);
-	health_->SetScale(uiItems_.healthScale);
-	health_->SetCenterPos(uiItems_.healthPos);
-	postureStability_->SetScale(uiItems_.postureScale);
-	postureStability_->SetCenterPos(uiItems_.posturePos);
-}
-
-void PlayerUIs::UIItems::Debug_Gui() {
-	ImGui::DragFloat2("apScale", &apScale.x, 0.1f);
-	ImGui::DragFloat2("apPos", &apPos.x, 0.1f);
-	ImGui::DragFloat2("HealthScale", &healthScale.x, 0.1f);
-	ImGui::DragFloat2("HealthPos", &healthPos.x, 0.1f);
-	ImGui::DragFloat2("postureScale", &postureScale.x, 0.1f);
-	ImGui::DragFloat2("posturePos", &posturePos.x, 0.1f);
-	SaveAndLoad();
+	
 }

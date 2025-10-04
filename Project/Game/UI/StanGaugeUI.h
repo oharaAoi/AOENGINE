@@ -3,12 +3,12 @@
 #include <string>
 // Engine
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Module/Components/2d/Sprite.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
+// Game
+#include "Game/UI/BaseGaugeUI.h"
 
 class StanGaugeUI :
-	public AttributeGui {
+	public BaseGaugeUI {
 public:
 
 	struct Parameter : public IJsonConverter {
@@ -40,11 +40,9 @@ public:
 	StanGaugeUI() = default;
 	~StanGaugeUI() = default;
 
-	void Init(const Vector2& scale, const Vector2& pos);
+	void Init(const std::string& _groupName, const std::string& _itemName);
 
-	void Update();
-
-	void Draw() const;
+	void Update(float _fillAmount);
 
 	void Debug_Gui() override;
 
@@ -55,9 +53,6 @@ public:
 	void SetIsEnable(bool _isActive);
 
 private:
-
-	std::unique_ptr<Sprite> gauge_;
-	std::unique_ptr<Sprite> bg_;
 
 	// 色の変化に関する変数
 	Parameter param_;

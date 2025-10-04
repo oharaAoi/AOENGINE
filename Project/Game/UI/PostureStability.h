@@ -1,6 +1,7 @@
 #pragma once
-#include "Game/UI/BaseGaugeUI.h"
+#include <string>
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Game/UI/BaseGaugeUI.h"
 
 /// <summary>
 /// 姿勢安定のゲージ
@@ -35,11 +36,9 @@ public:
 	PostureStability() = default;
 	~PostureStability() override = default;
 
-	void Init();
+	void Init(const std::string& _groupName, const std::string& _itemName);
 	
 	void Update(float _fillAmount);
-
-	void Draw() const override;
 
 	void Debug_Gui() override;
 

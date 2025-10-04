@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Game/Camera/FollowCamera.h"
+
+class FollowCamera;
 
 /// <summary>
 /// カメラのアニメーションを行うクラス
@@ -9,8 +10,9 @@ class CameraAnimation {
 public:	// 構造体
 
 	struct ShotAnimationParam : public IJsonConverter {
-		bool isExcute;
+		bool isExecute;
 		bool isApproach;
+		float timer;
 		// editor, dragFloat, 0.1
 		float offsetZ;
 		// editor, dragFloat, 0.1
@@ -18,13 +20,13 @@ public:	// 構造体
 
 		ShotAnimationParam() {
 			SetGroupName("Camera");
-			SetName("FollowCamera");
+			SetName("ShotAnimation");
 		};
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
-				.Add("distance", offsetZ)
-				.Add("rotateDelta", time)
+				.Add("offsetZ", offsetZ)
+				.Add("time", time)
 				.Build();
 		}
 
@@ -38,15 +40,19 @@ public:	// 構造体
 
 public: // default method
 
-	CameraAnimation() = default;
-	~CameraAnimation() = default;
+	CameraAnimation();
+	~CameraAnimation();
 
 	void Init();
 	void Update();
 
 	void ExecuteShotAnimation(bool _isApproach);
 
-private: // private method
+	void Debug_Gui();
+
+	bool GetShotAnimationFinish() const { return shotAnimation_.isExecute; }
+
+private: // private method 
 
 	void ShotAnimation();
 
@@ -59,8 +65,6 @@ private: // private variable
 	FollowCamera* pFollowCamera_ = nullptr;
 
 	ShotAnimationParam shotAnimation_;
-
-	float timer_;
-
+	Vector3 offset_;
 };
 

@@ -2,14 +2,14 @@
 #include "Game/UI/BaseGaugeUI.h"
 
 /// <summary>
-/// EN出力のゲージ
+/// HpGauge
 /// </summary>
-class EnergyOutput :
+class Health :
 	public BaseGaugeUI {
 public:
 
-	EnergyOutput() = default;
-	~EnergyOutput() override = default;
+	Health() = default;
+	~Health() override = default;
 
 	void Init(const std::string& _groupName, const std::string& _itemName);
 

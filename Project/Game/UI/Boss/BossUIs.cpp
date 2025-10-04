@@ -9,31 +9,27 @@ void BossUIs::Init(Boss* _boss) {
 	SetName("BossUIs");
 	pBoss_ = _boss;
 
-	uiItems_.Load();
-
 	health_ = std::make_unique<BossHealthUI>();
-	health_->Init();
+	health_->Init("BossUIs", "BossHealthUI");
 
 	postureStability_ = std::make_unique<PostureStability>();
-	postureStability_->Init();
+	postureStability_->Init("BossUIs", "PostureStability");
 
 	armorDurability_ = std::make_unique<ArmorDurabilityUI>();
-	armorDurability_->Init();
+	armorDurability_->Init("BossUIs", "ArmorDurabilityUI");
 
 	stanGaugeUI_ = std::make_unique<StanGaugeUI>();
-	stanGaugeUI_->Init(uiItems_.postureScale, uiItems_.posturePos);
+	stanGaugeUI_->Init("BossUIs", "StanGaugeUI");
 
-	health_->SetScale(uiItems_.healthScale);
-	health_->SetCenterPos(uiItems_.healthPos);
-
-	postureStability_->SetScale(uiItems_.postureScale);
-	postureStability_->SetCenterPos(uiItems_.posturePos);
-
-	armorDurability_->SetScale(uiItems_.postureScale);
-	armorDurability_->SetCenterPos(uiItems_.posturePos);
 	armorDurability_->SetIsEnable(false);
-
 	stanGaugeUI_->SetIsEnable(false);
+
+	AddChild(health_.get());
+	AddChild(postureStability_.get());
+	AddChild(armorDurability_.get());
+	AddChild(stanGaugeUI_.get());
+
+	EditorWindows::AddObjectWindow(this, "BossUIs");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +52,7 @@ void BossUIs::Update() {
 
 	// スタン
 	if (pBoss_->GetIsStan()) {
-		stanGaugeUI_->Update();
+		stanGaugeUI_->Update(0);
 	}
 
 	// 警告
@@ -88,43 +84,10 @@ void BossUIs::Update() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BossUIs::Draw() const {
-	
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUIs::Debug_Gui() {
-	uiItems_.Debug_Gui();
-
-	if (ImGui::CollapsingHeader("Stan")) {
-		stanGaugeUI_->Debug_Gui();
-	}
-
-	health_->SetScale(uiItems_.healthScale);
-	health_->SetCenterPos(uiItems_.healthPos);
-
-	postureStability_->Debug_Gui();
-	postureStability_->SetScale(uiItems_.postureScale);
-	postureStability_->SetCenterPos(uiItems_.posturePos);
-}
-
-void BossUIs::UIItems::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Health")) {
-		ImGui::DragFloat2("HealthScale", &healthScale.x, 0.1f);
-		ImGui::DragFloat2("HealthPos", &healthPos.x, 0.1f);
-	}
-
-	if (ImGui::CollapsingHeader("PostureStability")) {
-		ImGui::DragFloat2("postureScale", &postureScale.x, 0.1f);
-		ImGui::DragFloat2("posturePos", &posturePos.x, 0.1f);
-	}
-	SaveAndLoad();
 }
 
 void BossUIs::PopAlert() {

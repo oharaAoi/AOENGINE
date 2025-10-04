@@ -11,11 +11,9 @@ public:
 	ArmorDurabilityUI() = default;
 	~ArmorDurabilityUI() override = default;
 
-	void Init();
+	void Init(const std::string& _groupName, const std::string& _itemName);
 
 	void Update(float _fillAmount);
-
-	void Draw() const override;
 
 	void Debug_Gui() override;
 

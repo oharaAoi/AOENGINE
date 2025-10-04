@@ -20,11 +20,22 @@ void PlayerActionShotLeft::Build() {
 void PlayerActionShotLeft::OnStart() {
 	notShotTimer_ = 0.0f;
 
+	// playerのAnimationを変更する
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shot", 0.2f);
 
+	// 武器とアクションを設定する
+	pWeapon_ = pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON);
+	action_ = [&] { this->StartUp(); };
+
+	// 他のアクションを削除する(このアクションに専念させるため)
 	size_t hash = typeid(PlayerActionShotLeft).hash_code();
 	pManager_->DeleteOther(hash);
+
+	// カメラアクションを実行させる
+	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation();
+	pCameraAnimation_->ExecuteShotAnimation(true);
+	isFinish_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +43,7 @@ void PlayerActionShotLeft::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnUpdate() {
-	Shot();
+	action_();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +61,7 @@ void PlayerActionShotLeft::OnEnd() {
 
 void PlayerActionShotLeft::CheckNextAction() {
 	// ボタンを押して入なかったら待機状態に行く
-	if (notShotTimer_ >= notShotTime_) {
+	if (isFinish_) {
 		NextAction<PlayerActionIdle>();
 	}
 }
@@ -71,20 +82,27 @@ bool PlayerActionShotLeft::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::Shot() {
-	// 長押しで反応するようにする
-	if (pInput_->IsPressButton(XInputButtons::L_SHOULDER)) {
-		// shotを放つ
-		if (pOwner_->GetIsLockOn()) {
-			Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
-			pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
-		} else {
-			Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
-			pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
-		}
-
-		notShotTimer_ = 0.0f;
+	// shotを放つ
+	if (pOwner_->GetIsLockOn()) {
+		Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
+		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
 	} else {
-		// ボタンを押していない時間を計測
-		notShotTimer_ += GameTimer::DeltaTime();
+		Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
+		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
+	}
+	action_ = [&] { this->Recoil(); };
+	pCameraAnimation_->ExecuteShotAnimation(false);// カメラを離す
+}
+
+void PlayerActionShotLeft::StartUp() {
+	if (!pCameraAnimation_->GetShotAnimationFinish()) {
+		action_ = [&] { this->Shot(); };
+		actionTimer_ = 0;
+	}
+}
+
+void PlayerActionShotLeft::Recoil() {
+	if (!pCameraAnimation_->GetShotAnimationFinish()) {
+		isFinish_ = true;
 	}
 }

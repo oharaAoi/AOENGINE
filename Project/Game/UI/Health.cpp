@@ -1,13 +1,13 @@
-#include "BossHealthUI.h"
+#include "Health.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossHealthUI::Init(const std::string& _groupName, const std::string& _itemName) {
-	SetName("BossHealthUI");
-	groupName_ = _groupName;
+void Health::Init(const std::string& _groupName, const std::string& _itemName) {
+	SetName("Health");
 	BaseGaugeUI::Init("gauge_bg.png", "gauge_front.png");
+
 	front_->Load(_groupName, _itemName);
 }
 
@@ -15,7 +15,7 @@ void BossHealthUI::Init(const std::string& _groupName, const std::string& _itemN
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossHealthUI::Update(float _fillAmount) {
+void Health::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
 	BaseGaugeUI::Update();
 }
@@ -24,6 +24,6 @@ void BossHealthUI::Update(float _fillAmount) {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossHealthUI::Debug_Gui() {
+void Health::Debug_Gui() {
 	BaseGaugeUI::Debug_Gui();
 }

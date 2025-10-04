@@ -6,18 +6,18 @@
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostureStability::Init() {
+void PostureStability::Init(const std::string& _groupName, const std::string& _itemName) {
+	SetName("PostureStability");
+	groupName_ = _groupName;
 	BaseGaugeUI::Init("postureStability_bg.png", "postureStability_front.png");
+	front_->Load(_groupName, _itemName);
 
+	// 柵の初期化
 	fence_ = Engine::CreateSprite("postureStability_fence.png");
+	fence_->SetTranslate(front_->GetTranslate());
+	fence_->SetScale(front_->GetScale());
 
-	param_.FromJson(JsonItems::GetData(GetName(), param_.GetName()));
-
-	fence_->SetTranslate(centerPos_);
-	fence_->SetScale(scale_);
-
-	fillMoveType_ = 1;
-
+	param_.FromJson(JsonItems::GetData("PostureStability", param_.GetName()));
 	Engine::GetCanvas2d()->AddSprite(fence_.get());
 }
 
@@ -32,18 +32,10 @@ void PostureStability::Update(float _fillAmount) {
 
 	BaseGaugeUI::Update();
 
-	fence_->SetTranslate(centerPos_);
-	fence_->SetScale(scale_);
+	fence_->SetTranslate(front_->GetTranslate());
+	fence_->SetScale(front_->GetScale());
 
 	fence_->Update();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PostureStability::Draw() const {
-	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

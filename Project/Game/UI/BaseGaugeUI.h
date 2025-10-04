@@ -18,32 +18,25 @@ public: // base
 
 	void Update();
 
-	virtual void Draw() const;
-
 	virtual void Debug_Gui() override;
 
 public:	// accessor method
 
 	void SetFillAmount(float _amount) { fillAmount_ = _amount; }
 
-	void SetCenterPos(const Vector2& pos) { centerPos_ = pos; }
-	const Vector2& GetCenterPos() const { return centerPos_; }
-
-	void SetScale(const Vector2& scale) { scale_ = scale; }
-	const Vector2& GetScale() const { return scale_; }
-
 	void SetIsEnable(bool _isActive);
+
+	void SetGroupName(const std::string& _groupName) { groupName_ = _groupName; }
+	const std::string& GetGroupName() const { return groupName_; }
 
 protected:
 
 	std::unique_ptr<Sprite> bg_;
 	std::unique_ptr<Sprite> front_;
 
-	Vector2 scale_ = CVector2::UNIT;
-	Vector2 centerPos_ = CVector2::ZERO;
 	float fillAmount_;
 
-	int fillMoveType_ = 0;
+	std::string groupName_;
 
 };
 

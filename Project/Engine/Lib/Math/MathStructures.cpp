@@ -53,6 +53,7 @@ Matrix4x4 SRT::MakeAffine() {
 	return affineMatrix;
 }
 
+
 json SRT::ToJson() const {
 	return {
 		{"scale", toJson(scale)},
@@ -61,10 +62,23 @@ json SRT::ToJson() const {
 	};
 }
 
-void SRT::FromJson(const json& _json) {
-	fromJson(_json, "scale", scale);
-	fromJson(_json, "rotate", rotate);
-	fromJson(_json, "translate", translate);
+void SRT::FromJson(const json& _json, const std::string& _name) {
+	json transform;
+	if (_json.is_object()) {
+		// 最上位キー（例: "ActionQuickBoost"）を取得
+		auto rootKey = _json.begin().key();
+
+		// rootKey の下に _name ("decelerationCurve") があるか確認
+		if (_json.at(rootKey).contains(_name)) {
+			// curve に "decelerationCurve" をキーごと保持
+			transform[_name] = _json.at(rootKey).at(_name);
+		} else {
+			return;
+		}
+	}
+	fromJson(transform, "scale", scale);
+	fromJson(transform, "rotate", rotate);
+	fromJson(transform, "translate", translate);
 }
 
 Matrix4x4 QuaternionSRT::MakeAffine() {
@@ -93,10 +107,23 @@ json QuaternionSRT::ToJson() const {
 	};
 }
 
-void QuaternionSRT::FromJson(const json& _json) {
-	fromJson(_json, "scale", scale);
-	fromJson(_json, "rotate", rotate);
-	fromJson(_json, "translate", translate);
+void QuaternionSRT::FromJson(const json& _json, const std::string& _name) {
+	json transform;
+	if (_json.is_object()) {
+		// 最上位キー（例: "ActionQuickBoost"）を取得
+		auto rootKey = _json.begin().key();
+
+		// rootKey の下に _name ("decelerationCurve") があるか確認
+		if (_json.at(rootKey).contains(_name)) {
+			// curve に "decelerationCurve" をキーごと保持
+			transform[_name] = _json.at(rootKey).at(_name);
+		} else {
+			return;
+		}
+	}
+	fromJson(transform, "scale", scale);
+	fromJson(transform, "rotate", rotate);
+	fromJson(transform, "translate", translate);
 }
 
 void QuaternionSRT::SetParent(const Matrix4x4& parentMat) {

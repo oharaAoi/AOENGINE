@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 Sprite::Sprite() {}
 Sprite::~Sprite() {
@@ -246,18 +247,29 @@ void Sprite::FillAmount(float amount) {
 		if (fillStartingPoint_ == FillStartingPoint::Top) {
 			materialData_->uvMaxSize = Vector2(1.0f, amount);
 		} else if (fillStartingPoint_ == FillStartingPoint::Bottom) {
-			materialData_->uvMinSize = Vector2(1.0f, amount);
+			materialData_->uvMinSize = Vector2(0.0f, amount);
 		}
 		break;
 	case FillMethod::Horizontal:
 		if (fillStartingPoint_ == FillStartingPoint::Left) {
 			materialData_->uvMaxSize = Vector2(amount, 1.0f);
 		} else if (fillStartingPoint_ == FillStartingPoint::Right) {
-			materialData_->uvMinSize = Vector2(amount, 1.0f);
+			materialData_->uvMinSize = Vector2(amount, 0.0f);
 		}
 		break;
 	case FillMethod::Radial:
 		arcData_->fillAmount = amount;
+		break;
+	case FillMethod::BothEnds:
+		if (fillStartingPoint_ == FillStartingPoint::TopBottom) {
+			float halfAmount = amount * 0.5f;
+			materialData_->uvMaxSize = Vector2(1.0f - (0.5f - halfAmount), 1.0f);
+			materialData_->uvMinSize = Vector2(0.5f - halfAmount, 0.0f);
+		} else if (fillStartingPoint_ == FillStartingPoint::LeftRight) {
+			float halfAmount = amount * 0.5f;
+			materialData_->uvMaxSize = Vector2(1.0f, 1.0f - (0.5f - halfAmount));
+			materialData_->uvMinSize = Vector2(0.0f, 0.5f - halfAmount);
+		}
 		break;
 	default:
 		break;
@@ -269,6 +281,13 @@ void Sprite::FillAmount(float amount) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Debug_Gui() {
+	ImGui::Checkbox("isEnable", &isEnable_);
+	if (ImGui::Button("ResetSize")) {
+		textureSize_ = TextureManager::GetInstance()->GetTextureSize(textureName_);
+		spriteSize_ = textureSize_;
+		drawRange_ = spriteSize_;
+	}
+
 	if (ImGui::TreeNode("transform")) {
 		ImGui::DragFloat3("translation", &transform_.translate.x, 0.1f);
 		ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f);
@@ -294,7 +313,7 @@ void Sprite::Debug_Gui() {
 	TextureManager* textureManager = TextureManager::GetInstance();
 	textureName_ = textureManager->SelectTexture(textureName_);
 
-	static const char* items[] = { "Vertical", "Horizontal", "Radial" };
+	static const char* items[] = { "Vertical", "Horizontal", "Radial", "BothEnds"};
 	int current = static_cast<int>(fillMethod_);
 	if (ImGui::Combo("Fill Method", &current, items, IM_ARRAYSIZE(items))) {
 		fillMethod_ = static_cast<FillMethod>(current);
@@ -315,7 +334,7 @@ void Sprite::Debug_Gui() {
 			static const char* pointItems[] = { "Left", "Right" };
 			int currentPoint = static_cast<int>(fillStartingPoint_);
 			if (ImGui::Combo("Fill Starting Point", &currentPoint, pointItems, IM_ARRAYSIZE(pointItems))) {
-				fillStartingPoint_ = static_cast<FillStartingPoint>(currentPoint);
+ 				fillStartingPoint_ = static_cast<FillStartingPoint>(currentPoint + 2);
 			}
 		}
 		break;
@@ -341,10 +360,30 @@ void Sprite::Debug_Gui() {
 		arcData_->clockwise = clockwise;
 		break;
 		}
+	case FillMethod::BothEnds:
+	{
+		static const char* pointItems[] = { "TopBottom", "LeftRight" };
+		int currentPoint = static_cast<int>(fillStartingPoint_) - 3;
+		if (ImGui::Combo("Fill Starting Point", &currentPoint, pointItems, IM_ARRAYSIZE(pointItems))) {
+			fillStartingPoint_ = static_cast<FillStartingPoint>(currentPoint + 3);
+		}
+	}
+		break;
 	default:
 		break;
 	}
 
+	if (ImGui::CollapsingHeader("Save & Load")) {
+		InputTextWithString("GroupName", "##group", saveGroupName_);
+		InputTextWithString("KeyName", "##key", saveKeyName_);
+
+		if (ImGui::Button("Save")) {
+			Save(saveGroupName_, saveKeyName_);
+		}
+		if (ImGui::Button("Load")) {
+			Load(saveGroupName_, saveKeyName_);
+		}
+	}
 }
 
 void Sprite::ApplyParam() {
@@ -371,6 +410,9 @@ void Sprite::ApplyParam() {
 }
 
 void Sprite::Load(const std::string& _group, const std::string& _key) {
+	saveGroupName_ = _group;
+	saveKeyName_ = _key;
+
 	saveParam_.SetGroupName(_group);
 	saveParam_.SetName(_key);
 	saveParam_.Load();
@@ -399,6 +441,8 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 	saveParam_.arcRange = arcData_->arcRange;
 	saveParam_.clockwise = arcData_->clockwise;
 
+	saveGroupName_ = _group;
+	saveKeyName_ = _key;
 	saveParam_.SetGroupName(_group);
 	saveParam_.SetName(_key);
 	saveParam_.Save();

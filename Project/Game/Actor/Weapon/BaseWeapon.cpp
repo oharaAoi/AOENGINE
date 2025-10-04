@@ -5,6 +5,24 @@
 void BaseWeapon::Finalize() {
 }
 
+void BaseWeapon::Debug_Gui() {
+	transform_->Debug_Gui();
+	ImGui::SliderFloat("coolTime", &coolTime_, 0.0f, attackParam_.fireInterval);
+	attackParam_.Debug_Gui();
+}
+
+void BaseWeapon::AttackParam::Debug_Gui() {
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
+	ImGui::DragInt("maxBulletsNum", &maxBulletsNum);
+	ImGui::DragInt("fireBulletsNum", &fireBulletsNum);
+	ImGui::DragFloat("fireInterval", &fireInterval, 0.1f);
+	ImGui::DragFloat("reloadTime", &reloadTime, 0.1f);
+	ImGui::DragFloat("takeDamage", &takeDamage, 0.1f);
+	ImGui::DragFloat("startUpTime", &startUpTime, 0.1f);
+	ImGui::DragFloat("recoilTime", &recoilTime, 0.1f);
+	SaveAndLoad();
+}
+
 void BaseWeapon::Init() {
 	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>("Weapon", "Object_Normal.json");
 	transform_ = object_->GetTransform();
@@ -31,12 +49,6 @@ void BaseWeapon::Update() {
 	}
 }
 
-void BaseWeapon::Debug_Gui() {
-	transform_->Debug_Gui();
-	ImGui::SliderFloat("coolTime", &coolTime_, 0.0f, attackParam_.fireInterval);
-	attackParam_.Debug_Gui();
-}
-
 void BaseWeapon::AttackAfter() {
 	isCanAttack_ = false;	// 攻撃のcoolTimeフラグ
 	fireCount_++;			// 現在の発射数
@@ -56,14 +68,4 @@ float BaseWeapon::BulletsFill() {
 
 float BaseWeapon::ReloadFill() {
 	return  (attackParam_.reloadTime - coolTime_) / attackParam_.reloadTime;
-}
-
-void BaseWeapon::AttackParam::Debug_Gui() {
-	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
-	ImGui::DragInt("maxBulletsNum", &maxBulletsNum);
-	ImGui::DragInt("fireBulletsNum", &fireBulletsNum);
-	ImGui::DragFloat("fireInterval", &fireInterval, 0.1f);
-	ImGui::DragFloat("reloadTime", &reloadTime, 0.1f);
-	ImGui::DragFloat("takeDamage", &takeDamage, 0.1f);
-	SaveAndLoad();
 }

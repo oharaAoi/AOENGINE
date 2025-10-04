@@ -8,17 +8,8 @@
 void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTexture) {
 	bg_ = Engine::CreateSprite(bgTexture);
 	front_ = Engine::CreateSprite(frontTexture);
-	front_->SetFillStartingPoint(FillStartingPoint::Left);
-	front_->SetFillMethod(FillMethod::Horizontal);
-
+	
 	fillAmount_ = 1.0f;
-	centerPos_ = Vector2(kWindowWidth_ * 0.5f, kWindowHeight_ * 0.5f);
-
-	bg_->SetTranslate(centerPos_);
-	front_->SetTranslate(centerPos_);
-
-	bg_->SetScale(scale_);
-	front_->SetScale(scale_);
 
 	Engine::GetCanvas2d()->AddSprite(bg_.get());
 	Engine::GetCanvas2d()->AddSprite(front_.get());
@@ -29,20 +20,16 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Update() {
+	Vector2 centerPos = front_->GetTranslate();
+	Vector2 scale = front_->GetScale();
+
 	front_->FillAmount(fillAmount_);
 	
-	bg_->SetTranslate(centerPos_);
-	front_->SetTranslate(centerPos_);
+	bg_->SetTranslate(centerPos);
+	front_->SetTranslate(centerPos);
 
-	bg_->SetScale(scale_);
-	front_->SetScale(scale_);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-void BaseGaugeUI::Draw() const {
-	
+	bg_->SetScale(scale);
+	front_->SetScale(scale);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,14 +37,14 @@ void BaseGaugeUI::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Debug_Gui() {
-	ImGui::DragFloat2("Scale", &scale_.x, 0.1f);
-	ImGui::DragFloat2("CenterPos", &centerPos_.x, 0.1f);
 	ImGui::DragFloat("FillAmount", &fillAmount_, 0.01f);
 
-	bg_->SetScale(scale_);
-	front_->SetScale(scale_);
-
-	front_->Debug_Gui();
+	if (ImGui::CollapsingHeader("Front")) {
+		front_->Debug_Gui();
+	}
+	if (ImGui::CollapsingHeader("Bg")) {
+		bg_->Debug_Gui();
+	}
 }
 
 void BaseGaugeUI::SetIsEnable(bool _isActive) {

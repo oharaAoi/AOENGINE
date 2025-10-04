@@ -8,6 +8,8 @@
 #include "Engine/Lib/Math/Easing.h"
 #include "Game/Actor/Player/Player.h"
 
+FollowCamera::FollowCamera() = default;
+
 void FollowCamera::Finalize() {
 }
 
@@ -47,6 +49,8 @@ void FollowCamera::Debug_Gui() {
 		}
 	}
 
+	cameraAnimation_->Debug_Gui();
+
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
 }
 
@@ -83,8 +87,9 @@ void FollowCamera::AnimationParameter::Debug_Gui() {
 void FollowCamera::Init() {
 	BaseCamera::Init();
 
-	followCamera_.Load();
+	initFollowCamera_.Load();
 	animationParam_.Load();
+	followCamera_ = initFollowCamera_;
 
 	animationTimer_ = 0.0f;
 
@@ -105,6 +110,10 @@ void FollowCamera::Init() {
 
 	Input::SetNotAccepted(true);
 
+	cameraAnimation_ = std::make_unique<CameraAnimation>();
+	cameraAnimation_->Init();
+	cameraAnimation_->SetFollowCamera(this);
+
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "FollowCamera");
 #endif // _DEBUG
@@ -122,6 +131,8 @@ void FollowCamera::Update() {
 	if (!isAnimationFinish_) {
 		FirstCameraMove();
 	}
+
+	cameraAnimation_->Update();
 
 	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
 	

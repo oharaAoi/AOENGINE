@@ -1,4 +1,5 @@
 #include "TextureManager.h"
+#include <algorithm>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/Loader.h"
@@ -249,62 +250,81 @@ void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* c
 
 std::string TextureManager::SelectTexture(const std::string& filePath) {
 	static std::string selectedFilename;
-	static int selectedIndex = -1; // 選択されたインデックス
+	static int selectedIndex = -1;
+	static std::array<char, 128> searchBuffer = {};
 
 	ImGui::Separator();
 	ImGui::BulletText("TextureView");
 
-	// -------------------------------------------------
-	// ↓ 現在のTextureのViewを表示
-	// -------------------------------------------------
+	// 現在のテクスチャプレビュー
 	auto currentHandle = this->GetDxHeapHandles(filePath);
 	ImTextureID currentTexID = (ImTextureID)(intptr_t)(currentHandle.handleGPU.ptr);
-	ImGui::SetNextWindowBgAlpha(0.85f);
 	ImGui::Image(currentTexID, ImVec2(64, 64));
 
-	// -------------------------------------------------
-	// ↓ 選択できるTextureのViewｗを表示
-	// -------------------------------------------------
 	if (ImGui::TreeNode("Files")) {
-		ImGui::Text(selectedFilename.c_str());
+
+		// 検索入力欄を追加
+		ImGui::InputTextWithHint("##Search", "Search texture...", searchBuffer.data(), searchBuffer.size());
+
+		ImGui::Text("Selected: %s", selectedFilename.c_str());
 		ImGui::SameLine();
 		if (ImGui::Button("OK")) {
 			ImGui::TreePop();
-			return selectedFilename.c_str();
+			return selectedFilename;
 		}
-		// ListBox を手動で構築（ListBoxHeader + Selectable）
+
+		// リスト表示
 		if (ImGui::BeginListBox("TextureList")) {
 			for (int i = 0; i < fileNames_.size(); ++i) {
-				std::string textureName = fileNames_[i];
+				const std::string& textureName = fileNames_[i];
 				const char* ext = GetFileExtension(textureName.c_str());
 				std::string extension(ext);
-				// 拡張子で判別する
-				if ((extension == "png") || (extension == "jpeg")) {
 
-					const bool isSelected = (i == selectedIndex);
-					if (ImGui::Selectable(textureName.c_str(), isSelected)) {
-						selectedIndex = i;
-						selectedFilename = fileNames_[i];
-					}
-					// ホバー中のファイルにプレビューを表示
-					if (ImGui::IsItemHovered()) {
-						auto handle = this->GetDxHeapHandles(textureName);
-						ImTextureID texID = (ImTextureID)(intptr_t)(handle.handleGPU.ptr);
+				// 拡張子でフィルタ
+				if ((extension != "png") && (extension != "jpeg"))
+					continue;
 
-						ImVec2 mousePos = ImGui::GetMousePos();
-						ImGui::SetNextWindowPos(ImVec2(mousePos.x + 16, mousePos.y + 16));
-						ImGui::SetNextWindowBgAlpha(0.85f);
-						ImGui::Begin("Preview", nullptr,
-									 ImGuiWindowFlags_NoTitleBar |
-									 ImGuiWindowFlags_NoResize |
-									 ImGuiWindowFlags_AlwaysAutoResize |
-									 ImGuiWindowFlags_NoSavedSettings |
-									 ImGuiWindowFlags_NoFocusOnAppearing |
-									 ImGuiWindowFlags_NoNav |
-									 ImGuiWindowFlags_NoMove);
-						ImGui::Image(texID, ImVec2(128, 128));
-						ImGui::End();
-					}
+				// 検索文字列でフィルタ
+				if (searchBuffer[0] != '\0') {
+					std::string lowerName = textureName;
+					std::string lowerSearch = searchBuffer.data();
+					std::transform(
+						lowerName.begin(), lowerName.end(),
+						lowerName.begin(),
+						[](unsigned char c) { return static_cast<char>(std::tolower(c)); }
+					);
+
+					std::transform(
+						lowerSearch.begin(), lowerSearch.end(),
+						lowerSearch.begin(),
+						[](unsigned char c) { return static_cast<char>(std::tolower(c)); }
+					);
+
+					if (lowerName.find(lowerSearch) == std::string::npos)
+						continue; // 一致しない場合はスキップ
+				}
+
+				// 選択リスト
+				const bool isSelected = (i == selectedIndex);
+				if (ImGui::Selectable(textureName.c_str(), isSelected)) {
+					selectedIndex = i;
+					selectedFilename = fileNames_[i];
+				}
+
+				// ホバー時プレビュー
+				if (ImGui::IsItemHovered()) {
+					auto handle = this->GetDxHeapHandles(textureName);
+					ImTextureID texID = (ImTextureID)(intptr_t)(handle.handleGPU.ptr);
+
+					ImVec2 mousePos = ImGui::GetMousePos();
+					ImGui::SetNextWindowPos(ImVec2(mousePos.x + 16, mousePos.y + 16));
+					ImGui::SetNextWindowBgAlpha(0.85f);
+					ImGui::Begin("Preview", nullptr,
+								 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize |
+								 ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings |
+								 ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove);
+					ImGui::Image(texID, ImVec2(128, 128));
+					ImGui::End();
 				}
 			}
 			ImGui::EndListBox();

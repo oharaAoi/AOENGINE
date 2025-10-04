@@ -20,6 +20,8 @@ public:
 		float fireInterval = 0.3f;	// 発射間隔
 		float reloadTime = 2.0f;	// リロード時間
 		float takeDamage = 20;		// ダメージを与える量
+		float startUpTime = 0.0f;	// 攻撃前の準備時間
+		float recoilTime = 0.0f;	// 攻撃後の硬直時間
 
 		AttackParam() {
 			SetName("AttackParam");
@@ -34,6 +36,8 @@ public:
 				.Add("fireInterval", fireInterval)
 				.Add("reloadTime", reloadTime)
 				.Add("takeDamage", takeDamage)
+				.Add("startUpTime", startUpTime)
+				.Add("recoilTime", recoilTime)
 				.Build();
 		}
 
@@ -44,6 +48,8 @@ public:
 			fromJson(jsonData, "fireInterval", fireInterval);
 			fromJson(jsonData, "reloadTime", reloadTime);
 			fromJson(jsonData, "takeDamage", takeDamage);
+			fromJson(jsonData, "startUpTime", startUpTime);
+			fromJson(jsonData, "recoilTime", recoilTime);
 		}
 
 		void Debug_Gui() override;
@@ -63,8 +69,10 @@ public:
 
 public:		// member method
 
+	// 攻撃後時間
 	void AttackAfter();
 
+	// 攻撃関数
 	virtual void Attack(const AttackContext& cxt) = 0;
 
 	// 残弾数の割合
@@ -78,6 +86,9 @@ public:		// accessor method
 	void SetBulletManager(PlayerBulletManager* _bulletManager) { pBulletManager_ = _bulletManager; }
 
 	bool GetIsReload() const { return isReload_; }
+
+	float GetStartUpTime() const { return attackParam_.startUpTime; }
+	float GetRecoilTime() const { return attackParam_.recoilTime; }
 
 protected:	// 
 

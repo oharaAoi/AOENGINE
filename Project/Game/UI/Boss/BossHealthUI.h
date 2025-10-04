@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "Game/UI/BaseGaugeUI.h"
 
 /// <summary>
@@ -11,11 +12,9 @@ public:
 	BossHealthUI() = default;
 	~BossHealthUI() override = default;
 
-	void Init();
+	void Init(const std::string& _groupName, const std::string& _itemName);
 
 	void Update(float _fillAmount);
-
-	void Draw() const override;
 
 	void Debug_Gui() override;
 

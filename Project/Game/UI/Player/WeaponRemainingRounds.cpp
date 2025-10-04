@@ -20,9 +20,6 @@ void WeaponRemainingRounds::Update(const Vector2& pos, float _fillAmount) {
 
 void WeaponRemainingRounds::Debug_Gui() {
 	gauge_->Debug_Gui();
-	if (ImGui::Button("Save")) {
-		gauge_->Save("PlayerUIs", GetName());
-	}
 }
 
 void WeaponRemainingRounds::Blinking() {
