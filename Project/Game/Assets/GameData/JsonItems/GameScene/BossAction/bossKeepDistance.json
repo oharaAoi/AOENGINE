@@ -1,8 +1,0 @@
-{
-    "bossKeepDistance": {
-        "decayRate": 2.0,
-        "getDistance": 10.0,
-        "moveSpeed": 40.0,
-        "moveTime": 2.0
-    }
-}

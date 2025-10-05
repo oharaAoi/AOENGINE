@@ -6,13 +6,13 @@ PrimitivePipeline::PrimitivePipeline() {
 
 PrimitivePipeline::~PrimitivePipeline() {
 }
-void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader) {
+void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
 	rootSignature_->Initialize(device, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitive();
-	ShaderCompile(shader.vsShader, shader.psShader);
+	ShaderCompile("Packages/Engine/Assets/HLSL/Primitive.VS.hlsl", "Packages/Engine/Assets/HLSL/Primitive.PS.hlsl");
 
 	CreatePSO();
 }

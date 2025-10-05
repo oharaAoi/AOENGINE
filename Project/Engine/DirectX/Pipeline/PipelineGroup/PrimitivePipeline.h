@@ -17,7 +17,7 @@ public:
 	PrimitivePipeline();
 	~PrimitivePipeline();
 
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const Shader::ShaderData& shader);
+	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
 
 	void Draw(ID3D12GraphicsCommandList* commandList);
 

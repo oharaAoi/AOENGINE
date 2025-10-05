@@ -24,7 +24,7 @@ public:
 
 	static GraphicsContext* GetInstance();
 
-	void Init(WinApp* win, Shader* shaders, int32_t backBufferWidth, int32_t backBufferHeight);
+	void Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight);
 
 	void Finalize();
 

@@ -48,7 +48,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_->Init();
 
 	graphicsCxt_ = GraphicsContext::GetInstance();
-	graphicsCxt_->Init(winApp_, shaders_.get(), kClientWidth_, kClientHeight_);
+	graphicsCxt_->Init(winApp_, kClientWidth_, kClientHeight_);
 
 	dxDevice_ = graphicsCxt_->GetDevice();
 	dxCmdList_ = graphicsCxt_->GetCommandList();

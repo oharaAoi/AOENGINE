@@ -5,7 +5,7 @@ GraphicsContext* GraphicsContext::GetInstance() {
 	return &instance;
 }
 
-void GraphicsContext::Init(WinApp* win, Shader* shaders, int32_t backBufferWidth, int32_t backBufferHeight) {
+void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
 	dxCommon_ = std::make_unique<DirectXCommon>();
 	dxCommon_->Init(win, backBufferWidth, backBufferHeight);
 
@@ -29,7 +29,7 @@ void GraphicsContext::Init(WinApp* win, Shader* shaders, int32_t backBufferWidth
 	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get(), dxCommands_->GetCommandList());
 
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
-	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get(), shaders->GetShaderData(Shader::Primitive));
+	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
 
 }
 
