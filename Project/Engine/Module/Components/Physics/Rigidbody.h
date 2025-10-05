@@ -30,6 +30,7 @@ public:
 	const Vector3& GetMoveForce() const { return moveForce_; }
 
 	void SetGravity(bool _isGravity) { isGravity_ = _isGravity; }
+	bool GetGravity() const { return isGravity_; }
 
 	void SetDrag(float _drag) { drag_ = _drag; }
 	float GetDrag() const { return drag_; }

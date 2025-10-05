@@ -2,6 +2,7 @@
 // c++
 #include <memory>
 #include <list>
+#include <map>
 #include <unordered_map>
 #include <cassert>
 #include <string>
@@ -181,7 +182,7 @@ private:
 	OwnerType* pOwner_ = nullptr;
 
 	// 今のAction
-	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> runActionMap_;
+	std::map<size_t, std::shared_ptr<BaseAction<OwnerType>>> runActionMap_;
 	// ownerが行うActionのインスタンスをまとめたMap
 	std::unordered_map<size_t, std::shared_ptr<BaseAction<OwnerType>>> actionMap_;
 

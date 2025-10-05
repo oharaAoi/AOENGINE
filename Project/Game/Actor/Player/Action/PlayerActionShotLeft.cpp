@@ -36,6 +36,12 @@ void PlayerActionShotLeft::OnStart() {
 	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation();
 	pCameraAnimation_->ExecuteShotAnimation(true);
 	isFinish_ = false;
+
+	// 重力が適応されている場合は重力を無効にする
+	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	if (rigidbody != nullptr) {
+		rigidbody->SetGravity(false);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,6 +59,13 @@ void PlayerActionShotLeft::OnUpdate() {
 void PlayerActionShotLeft::OnEnd() {
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shotAfter", 0.2f);
+
+	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	if (rigidbody != nullptr) {
+		if (rigidbody->GetGravity()) {
+			rigidbody->SetGravity(true);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +84,10 @@ void PlayerActionShotLeft::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionShotLeft::IsInput() {
+	if (pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->GetIsReload()) {
+		return false;
+	}
+
 	if (pInput_->IsTriggerButton(XInputButtons::L_SHOULDER)) {
 		return true;
 	}
@@ -92,6 +109,9 @@ void PlayerActionShotLeft::Shot() {
 	}
 	action_ = [&] { this->Recoil(); };
 	pCameraAnimation_->ExecuteShotAnimation(false);// カメラを離す
+
+	// カメラを揺らす
+	pOwner_->GetFollowCamera()->SetShake(0.2f, 1.0f);
 }
 
 void PlayerActionShotLeft::StartUp() {

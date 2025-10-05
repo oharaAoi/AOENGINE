@@ -24,7 +24,7 @@
                     },
                     "nodeType": 5,
                     "orientedName": "SafeDistance",
-                    "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\SafeDistanceTree.json"
+                    "treeFileName": "./Packages\\Game\\Assets\\GameData\\BehaviorTree\\SafeDistanceTree.json"
                 },
                 {
                     "children": [],
@@ -36,7 +36,7 @@
                     },
                     "nodeType": 5,
                     "orientedName": "DeployArmor",
-                    "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\DeployArmorTree.json"
+                    "treeFileName": "./Packages\\Game\\Assets\\GameData\\BehaviorTree\\DeployArmorTree.json"
                 }
             ],
             "name": "PlannerSelector",

@@ -76,6 +76,9 @@ void PlayerActionQuickBoost::OnStart() {
 
 	pManager_->DeleteAction(typeid(PlayerActionMove).hash_code());
 	pInput_->Vibrate(1.0f, 0.2f);
+
+	// カメラを揺らす
+	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
