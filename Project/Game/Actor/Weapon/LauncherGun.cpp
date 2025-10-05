@@ -1,6 +1,7 @@
 #include "LauncherGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Game/Actor/Weapon/Bullet/LauncherBullet.h"
 
 void LauncherGun::Finalize() {
 }
@@ -47,7 +48,7 @@ void LauncherGun::Attack(const AttackContext& cxt) {
 	object_->Update();
 
 	Vector3 worldPos = object_->GetPosition();
-	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
+	LauncherBullet* bullet = pBulletManager_->AddBullet<LauncherBullet>(worldPos, cxt.direction);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 	// effectを出す
 	Vector3 pos = offset_;

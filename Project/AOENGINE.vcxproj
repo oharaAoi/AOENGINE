@@ -257,6 +257,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
@@ -558,6 +559,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
     <ClInclude Include="Game\Actor\Weapon\Armors.h" />
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />

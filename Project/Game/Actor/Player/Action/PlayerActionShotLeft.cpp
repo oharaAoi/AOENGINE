@@ -102,7 +102,7 @@ void PlayerActionShotLeft::Shot() {
 	// shotを放つ
 	if (pOwner_->GetIsLockOn()) {
 		Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
-		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
+		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, pOwner_->GetTargetPos()));
 	} else {
 		Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
 		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));

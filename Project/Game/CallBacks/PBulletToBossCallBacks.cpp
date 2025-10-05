@@ -36,20 +36,20 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	if (playerBullet != nullptr) {
 		playerBullet->SetIsAlive(false);
 
-		/*if (playerBullet->GetType() == 1) {
+		if (playerBullet->GetBulletType() == BulletType::LAUNCHER) {
 			auto& newExplodeBurn = hitExplodeList_.emplace_back(SceneRenderer::GetInstance()->AddObject<HitExplode>("hitExplodeBurn", "Object_Normal.json"));
 			newExplodeBurn->SetBlendMode(3);
 			newExplodeBurn->Init();
-			newExplodeBurn->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "image.png");
+			newExplodeBurn->Set(bullet->GetCenterPos(), Color::RgbTo01(255.0f / 255.0f, 69.0f / 256.0f, 0), "image.png");
 
 			auto& newExplode = hitExplodeList_.emplace_back(SceneRenderer::GetInstance()->AddObject<HitExplode>("hitExplode", "Object_Normal.json"));
 			newExplode->SetBlendMode(3);
 			newExplode->Init();
-			newExplode->Set(bullet->GetCenterPos(), Vector4(255.0f / 255.0f, 69.0f / 256.0f, 0, 1.0f), "explode.png");
+			newExplode->Set(bullet->GetCenterPos(), Color::RgbTo01(255.0f / 255.0f, 69.0f / 256.0f, 0), "explode.png");
 
 			hitSmoke_->SetPos(bullet->GetCenterPos());
 			hitSmoke_->Reset();
-		}*/
+		}
 
 		// bossへの処理
 		pBoss_->Damage(playerBullet->GetTakeDamage());

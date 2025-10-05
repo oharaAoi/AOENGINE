@@ -353,6 +353,7 @@
     <ClCompile Include="Engine\Lib\Color.cpp" />
     <ClCompile Include="Game\Camera\CameraAnimation.cpp" />
     <ClCompile Include="Game\UI\Health.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -663,6 +664,7 @@
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Game\Camera\CameraAnimation.h" />
     <ClInclude Include="Game\UI\Health.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

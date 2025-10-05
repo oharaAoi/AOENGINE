@@ -59,6 +59,7 @@ struct ParticleEmit : public IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
 	Vector3 translate = CVector3::ZERO;		// 位置
+	Vector3 preTranslate = CVector3::ZERO;		// 位置
 	Vector3 rotate = CVector3::ZERO;		// 射出方向
 	uint32_t rateOverTimeCout = 10;			// 射出数
 	int shape = 0;						// emitterの種類

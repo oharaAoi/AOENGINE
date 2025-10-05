@@ -224,10 +224,15 @@ void BaseParticles::EmitUpdate() {
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	for (int count = 0; count < emitCout; ++count) {
+		float t = 0;
+		if (count > 1) {
+			t = (count) / float(emitCout - 1);
+		}
+		Vector3 pos = Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
 		if (parentWorldMat_ != nullptr) {
-			Emit(emitter_.translate + parentWorldMat_->GetPosition());
+			Emit(pos + parentWorldMat_->GetPosition());
 		} else {
-			Emit(emitter_.translate);
+			Emit(pos);
 		}
 	}
 	emitAccumulator_ -= emitCout;
@@ -240,6 +245,7 @@ void BaseParticles::EmitUpdate() {
 		}
 	}
 
+	emitter_.preTranslate = emitter_.translate;
 }
 void BaseParticles::Reset() {
 	emitAccumulator_ = 0.0f;

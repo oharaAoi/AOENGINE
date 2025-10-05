@@ -33,7 +33,7 @@
             "y": 5.0,
             "z": 1.0
         },
-        "rateOverTimeCout": 50,
+        "rateOverTimeCout": 99,
         "rotate": {
             "w": 1.0,
             "x": 0.0,
