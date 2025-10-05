@@ -1,0 +1,54 @@
+{
+    "bulletTrail": {
+        "SeparateByAxisScale": false,
+        "angle": 1.2000000476837158,
+        "color": {
+            "a": 1.0,
+            "r": 1.0,
+            "g": 0.195348858833313,
+            "b": 0.0
+        },
+        "damping": 0.0,
+        "duration": 5.0,
+        "emitOrigin": 0,
+        "emitType": 0,
+        "gravity": 0.0,
+        "height": 2.0,
+        "isLoop": true,
+        "lifeOfAlpha": true,
+        "lifeOfScaleDown": false,
+        "lifeOfScaleUp": false,
+        "lifeTime": 0.2,
+        "maxScale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 6.0
+        },
+        "minScale": {
+            "x": 6.0,
+            "y": 6.0,
+            "z": 6.0
+        },
+        "radius": 1.0,
+        "rateOverTimeCout": 70,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleMaxScaler": 1.0,
+        "scaleMinScaler": 1.0,
+        "shape": 0,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": 0.0,
+        "targetScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

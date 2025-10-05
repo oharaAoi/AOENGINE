@@ -1,0 +1,1128 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "wall",
+            "transform": {
+                "translation": [
+                    0.0,
+                    214.0343780517578,
+                    31.044763565063477
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "wall.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    7.358891487121582,
+                    -6.925790786743164,
+                    4.958309173583984
+                ],
+                "rotation": [
+                    63.559295654296875,
+                    2.2983238068263745e-07,
+                    46.69194412231445
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Boss",
+            "transform": {
+                "translation": [
+                    0.0,
+                    74.08243560791016,
+                    7.636070728302002
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "boss.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        11.149999618530273,
+                        10.09999942779541,
+                        4.099999904632568
+                    ],
+                    "tag": "boss",
+                    "collisionFilter_tags": [
+                        "player",
+                        "machinegun",
+                        "launcher",
+                        "ground",
+                        "building",
+                        "invisibleWall"
+                    ]
+                }
+            ],
+            "collider_tag": "playerRightLeg",
+            "collisionFilter_tags": [
+                "player",
+                "building",
+                "ground",
+                "machinegun",
+                "launcher",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "sbill",
+            "transform": {
+                "translation": [
+                    1.2331829071044922,
+                    -32.753997802734375,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.001",
+            "transform": {
+                "translation": [
+                    -36.13042068481445,
+                    -63.50813293457031,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.002",
+            "transform": {
+                "translation": [
+                    45.34157943725586,
+                    -63.587257385253906,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.003",
+            "transform": {
+                "translation": [
+                    45.13028335571289,
+                    -110.59722137451172,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "sbill.004",
+            "transform": {
+                "translation": [
+                    -33.84598922729492,
+                    -112.28328704833984,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    6.0,
+                    10.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "sbill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        2.5199999809265137
+                    ],
+                    "size": [
+                        6.679999828338623,
+                        2.0899999141693115,
+                        5.179999828338623
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill",
+            "transform": {
+                "translation": [
+                    -91.55691528320312,
+                    62.46754455566406,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.9599997997283936
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill.001",
+            "transform": {
+                "translation": [
+                    -139.4617156982422,
+                    62.46754455566406,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.9599997997283936
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill.003",
+            "transform": {
+                "translation": [
+                    -139.4617156982422,
+                    -27.319299697875977,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.9599997997283936
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill.004",
+            "transform": {
+                "translation": [
+                    18.040666580200195,
+                    123.26042938232422,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    40.0,
+                    15.0,
+                    4.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.5999999046325684
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill.005",
+            "transform": {
+                "translation": [
+                    124.0396728515625,
+                    -20.014373779296875,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    40.0,
+                    15.0,
+                    4.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.5999999046325684
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "ground",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    -9.617547988891602
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.0,
+                    1.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "ground.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        364.94000244140625,
+                        348.55999755859375,
+                        20.029998779296875
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "boss",
+                        "ground",
+                        "bossMissile",
+                        "launcher",
+                        "machinegun",
+                        "bossAttack",
+                        "player",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "launcher",
+            "collisionFilter_tags": [
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Player",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.18797656893730164
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "player.gltf",
+            "colliders": [
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.6800000667572021
+                    ],
+                    "radius": 0.9399999976158142,
+                    "tag": "player",
+                    "collisionFilter_tags": [
+                        "boss",
+                        "building",
+                        "ground",
+                        "invisibleWall",
+                        "bossAttack",
+                        "bossMissile"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.38999998569488525,
+                        0.0,
+                        0.33000001311302185
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerRightLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        -0.30000001192092896,
+                        0.0,
+                        0.33000001311302185
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerLeftLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                }
+            ],
+            "collider_tag": "player",
+            "collisionFilter_tags": [
+                "building",
+                "ground",
+                "boss",
+                "bossAttack",
+                "bossMissile",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.001",
+            "transform": {
+                "translation": [
+                    -1.05303955078125,
+                    -175.80953979492188,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "building",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "building",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.002",
+            "transform": {
+                "translation": [
+                    -1.05303955078125,
+                    172.77835083007812,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "building",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "building",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.003",
+            "transform": {
+                "translation": [
+                    -177.00970458984375,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "building",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "building",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.004",
+            "transform": {
+                "translation": [
+                    174.50454711914062,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "building",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "building",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "bill.002",
+            "transform": {
+                "translation": [
+                    -91.67536163330078,
+                    -27.319299697875977,
+                    0.23745842278003693
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    90.00000762939453
+                ],
+                "scaling": [
+                    15.0,
+                    8.0,
+                    2.0
+                ]
+            },
+            "disabled": false,
+            "file_name": "bill.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.2000000476837158
+                    ],
+                    "size": [
+                        3.799999952316284,
+                        2.0899999141693115,
+                        2.9599997997283936
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeg",
+                        "boss",
+                        "bossAttack",
+                        "bossMissile",
+                        "machinegun",
+                        "launcher",
+                        "playerLeftLeg",
+                        "playerRightLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "BillsOriginal",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -284.5255126953125,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "BillsOriginal.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Pipe",
+            "transform": {
+                "translation": [
+                    182.4359130859375,
+                    0.0,
+                    -6.353143215179443
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Pipe.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Pipe.001",
+            "transform": {
+                "translation": [
+                    -184.07968139648438,
+                    0.0,
+                    -6.353143215179443
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "Pipe.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        }
+    ]
+}

@@ -1,0 +1,13 @@
+{
+    "ActionJump": {
+        "accelDecayRate": 10.5,
+        "cameraShakeStrength": 0.20000000298023224,
+        "cameraShakeTime": 0.10000000149011612,
+        "chargeTime": 0.5,
+        "jumpEnergy": 5.0,
+        "jumpForce": 8.0,
+        "maxAcceleration": 50.0,
+        "risingForce": 7.199999809265137,
+        "velocityDecayRate": 2.0
+    }
+}

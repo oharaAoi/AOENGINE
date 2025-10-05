@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "./Packages/Engine/Assets/HLSL/PostEffect/ProcessedScene.VS.hlsl",
+        "ps": "./Packages/Engine/Assets/HLSL/PostEffect/LuminanceBasedOutline.PS.hlsl",
+        "blendMode": "None",
+        "culling" : true,
+        "depth" : false,
+        "rtvFormat" : [
+            "16_RGB"
+        ]
+    }
+}

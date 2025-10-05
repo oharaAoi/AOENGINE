@@ -1,0 +1,56 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [],
+                    "name": "Leave",
+                    "nodePos": {
+                        "x": -251.0,
+                        "y": 278.0
+                    },
+                    "nodeType": 4
+                },
+                {
+                    "children": [],
+                    "name": "KeepDistance",
+                    "nodePos": {
+                        "x": -123.0,
+                        "y": 294.0
+                    },
+                    "nodeType": 4
+                },
+                {
+                    "children": [],
+                    "name": "Strafe",
+                    "nodePos": {
+                        "x": 66.0,
+                        "y": 294.0
+                    },
+                    "nodeType": 4
+                },
+                {
+                    "children": [],
+                    "name": "Approach",
+                    "nodePos": {
+                        "x": 226.0,
+                        "y": 278.0
+                    },
+                    "nodeType": 4
+                }
+            ],
+            "name": "WeightSelector",
+            "nodePos": {
+                "x": -27.0,
+                "y": 134.0
+            },
+            "nodeType": 3
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": 0.0,
+        "y": 0.0
+    },
+    "nodeType": 0
+}

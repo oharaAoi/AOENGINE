@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "./Packages/Engine/Assets/HLSL/Object3d.VS.hlsl",
+        "ps": "./Packages/Game/Assets/HLSL/Armor.PS.hlsl",
+        "blendMode": "Normal",
+        "culling" : false,
+        "depth" : true,
+        "rtvFormat" : [
+            "16_RGB"
+        ]
+    }
+}

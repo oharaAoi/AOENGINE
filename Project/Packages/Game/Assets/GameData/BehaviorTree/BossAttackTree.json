@@ -1,0 +1,180 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "VerticalMissile",
+                            "nodePos": {
+                                "x": -574.0,
+                                "y": 482.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        },
+                        {
+                            "children": [],
+                            "name": "AllRangeMissile",
+                            "nodePos": {
+                                "x": -379.0,
+                                "y": 470.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": -401.0,
+                        "y": 354.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Approach",
+                            "nodePos": {
+                                "x": -174.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        },
+                        {
+                            "children": [],
+                            "name": "Shotgun",
+                            "nodePos": {
+                                "x": -30.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": -110.0,
+                        "y": 358.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Float",
+                            "nodePos": {
+                                "x": 114.0,
+                                "y": 482.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        },
+                        {
+                            "children": [],
+                            "name": "ShotMissile",
+                            "nodePos": {
+                                "x": 226.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": 143.0,
+                        "y": 354.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [],
+                    "name": "Strafe",
+                    "nodePos": {
+                        "x": 274.0,
+                        "y": 358.0
+                    },
+                    "nodeType": 4,
+                    "weight": 0.0
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Float",
+                            "nodePos": {
+                                "x": 386.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        },
+                        {
+                            "children": [],
+                            "name": "ShotLauncher",
+                            "nodePos": {
+                                "x": 498.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": 447.0,
+                        "y": 342.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "children": [],
+                            "name": "Approach",
+                            "nodePos": {
+                                "x": 690.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        },
+                        {
+                            "children": [],
+                            "name": "Rapidfire",
+                            "nodePos": {
+                                "x": 834.0,
+                                "y": 486.0
+                            },
+                            "nodeType": 4,
+                            "weight": 1.0
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": 754.0,
+                        "y": 342.0
+                    },
+                    "nodeType": 1
+                }
+            ],
+            "name": "WeightSelector",
+            "nodePos": {
+                "x": 4.0,
+                "y": 140.0
+            },
+            "nodeType": 3
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": 34.0,
+        "y": -10.0
+    },
+    "nodeType": 0
+}

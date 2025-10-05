@@ -1,0 +1,7 @@
+{
+    "bossActionLeave": {
+        "decayRate": 4.0,
+        "moveSpeed": 30.0,
+        "moveTime": 1.5
+    }
+}

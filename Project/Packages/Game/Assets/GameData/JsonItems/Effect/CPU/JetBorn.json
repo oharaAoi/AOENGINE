@@ -1,0 +1,63 @@
+{
+    "JetBorn": {
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "a": 1.0,
+            "r": 1.0,
+            "g": 0.26360195875167847,
+            "b": 0.14418601989746094
+        },
+        "damping": 0.0,
+        "direction": {
+            "x": 0.0,
+            "y": -1.0,
+            "z": 0.0
+        },
+        "duration": 5.0,
+        "emitOrigin": 0,
+        "emitType": 1,
+        "gravity": 0.0,
+        "isBillBord": true,
+        "isDirectionRotate": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isLoop": true,
+        "isParticleAddBlend": true,
+        "isScaleUp": false,
+        "lifeTime": 0.10000000149011612,
+        "maxScale": {
+            "x": 0.800000011920929,
+            "y": 0.800000011920929,
+            "z": 0.800000011920929
+        },
+        "minScale": {
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
+        },
+        "radius": 0.0,
+        "rateOverTimeCout": 80,
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "rotateAngle": 0.0,
+        "scaleUpScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 0.0
+        },
+        "shape": 1,
+        "speed": 0.0,
+        "translate": {
+            "x": -0.10000000149011612,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "plane",
+        "useTexture": "circle2 (2).png"
+    }
+}

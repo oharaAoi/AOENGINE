@@ -1,0 +1,75 @@
+{
+    "AP": {
+        "anchorPoint": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "arcRange": 6.2831854820251465,
+        "center": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "clockwise": 0,
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "drawRange": {
+            "x": 400.0,
+            "y": 260.0
+        },
+        "fillAmount": 1.0,
+        "fillMethod": 0,
+        "fillStartingPoint": 0,
+        "innerRadius": 0.0,
+        "isFlipX": false,
+        "isFlipY": false,
+        "leftTop": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "outerRadius": 0.0,
+        "spriteSize": {
+            "x": 400.0,
+            "y": 260.0
+        },
+        "startAngle": 0.0,
+        "textureName": "AP.png",
+        "transform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 100.0,
+                "y": 540.0,
+                "z": 0.0
+            }
+        },
+        "uvTransform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 100.0,
+                "y": 540.0,
+                "z": 0.0
+            }
+        }
+    }
+}

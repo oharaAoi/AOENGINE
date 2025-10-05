@@ -348,3 +348,6 @@ DirectXGame/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
+
+# ---- Custom rule: include my resource Packages folder ----
+!Project/Packages/**

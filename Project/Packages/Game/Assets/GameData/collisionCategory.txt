@@ -1,0 +1,13 @@
+none
+player
+playerLeftLeg
+playerRightLeg
+boss
+bossAttack
+bossMissile
+bossArmor
+machinegun
+launcher
+ground
+building
+invisibleWall
