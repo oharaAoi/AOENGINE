@@ -252,8 +252,12 @@ int Input::GetWheel() {
 // ↓　ゲームパッドのボタンの取得
 // ---------------------------------------------------------------
 bool Input::IsTriggerButton(const XInputButtons& bottons) {
-	if (bottons == XInputButtons::LT_SHOULDER || bottons == XInputButtons::RT_SHOULDER) {
-		return GetInstance()->IsThumbLR();
+	if (bottons == XInputButtons::LT_SHOULDER) {
+		return GetInstance()->IsThumbLT();
+	}
+
+	if (bottons == XInputButtons::RT_SHOULDER) {
+		return GetInstance()->IsThumbRT();
 	}
 
 	if ((gamepadState_.Gamepad.wButtons & bottons) &&
@@ -330,13 +334,16 @@ void Input::ApplyVibrate() {
 	XInputSetState(0, &vib);
 }
 
-bool Input::IsThumbLR() {
+bool Input::IsThumbLT() {
 	if (preGamepadState_.Gamepad.bLeftTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 		if (gamepadState_.Gamepad.bLeftTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 			return true;
 		}
 	}
+	return false;
+}
 
+bool Input::IsThumbRT() {
 	if (preGamepadState_.Gamepad.bRightTrigger < XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 		if (gamepadState_.Gamepad.bRightTrigger > XINPUT_GAMEPAD_TRIGGER_THRESHOLD) {
 			return true;

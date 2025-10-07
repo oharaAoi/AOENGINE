@@ -168,7 +168,8 @@ public: // 入力
 
 private:
 
-	bool IsThumbLR();
+	bool IsThumbLT();
+	bool IsThumbRT();
 
 private:
 	// DirectInputオブジェクトの生成

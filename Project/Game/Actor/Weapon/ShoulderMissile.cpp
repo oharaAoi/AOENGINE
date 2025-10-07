@@ -26,6 +26,7 @@ void ShoulderMissile::Init() {
 	transform_->SetTranslate(weaponParam_.pos);
 
 	isFinish_ = true;
+	isReload_ = false;
 	coolTime_ = 5;
 
 	EditorWindows::AddObjectWindow(this, GetName());
@@ -35,16 +36,25 @@ void ShoulderMissile::Update() {
 	transform_->Update();
 	if (isFinish_) { return; }
 
+	if (isReload_) {
+		coolTime_ -= GameTimer::DeltaTime();
+		if (coolTime_ < 0.0f) {
+			isReload_ = false;
+			isFinish_ = true;
+			isCanAttack_ = true;
+			shotCount_ = 0;
+		}
+		return;
+	}
+
 	if (coolTime_ > 0) {
 		coolTime_ -= GameTimer::DeltaTime();
 	} else {
-		isCanAttack_ = true;
 		Shot();
 
 		if (shotCount_ >= attackParam_.fireBulletsNum) {
 			coolTime_ = attackParam_.reloadTime;
-			isFinish_ = true;
-			isCanAttack_ = false;
+			isReload_ = true;
 		}
 	}
 }
@@ -77,6 +87,7 @@ void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
 bool ShoulderMissile::Attack(const AttackContext& cxt) {
 	if (!isCanAttack_) { return false; }
 
+	isCanAttack_ = false;
 	attackCxt_ = cxt;
 	isFinish_ = false;
 	Shot();

@@ -49,6 +49,12 @@ void PlayerActionShotLeft::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnUpdate() {
+	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	if (rigidbody != nullptr) {
+		rigidbody->SetGravity(false);
+	}
+
+	// main
 	action_();
 }
 
@@ -62,7 +68,7 @@ void PlayerActionShotLeft::OnEnd() {
 
 	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
 	if (rigidbody != nullptr) {
-		if (rigidbody->GetGravity()) {
+		if (!rigidbody->GetGravity()) {
 			rigidbody->SetGravity(true);
 		}
 	}
