@@ -86,7 +86,7 @@ void GameScene::Init() {
 	canvas_->SetPlayer(playerManager_->GetPlayer());
 	canvas_->SetBoss(bossRoot_->GetBoss());
 	canvas_->SetFollowCamera(followCamera_.get());
-	canvas_->Init();
+	canvas_->Init(false);
 
 	fadePanel_ = std::make_unique<FadePanel>();
 	fadePanel_->Init();

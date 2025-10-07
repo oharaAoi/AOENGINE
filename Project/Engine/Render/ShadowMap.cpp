@@ -46,6 +46,7 @@ void ShadowMap::ResetResource(ID3D12GraphicsCommandList* commandList) {
 }
 
 void ShadowMap::Debug_Gui() {
+	ImGui::Begin("ShadowMao View");
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(depthSrvHandle_.handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
 	ImVec2 availSize = ImGui::GetContentRegionAvail();
@@ -59,4 +60,5 @@ void ShadowMap::Debug_Gui() {
 		availSize.y = availSize.x / aspect;
 	}
 	ImGui::Image(textureID, availSize, ImVec2(0, 0), ImVec2(1, 1));
+	ImGui::End();
 }

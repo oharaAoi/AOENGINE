@@ -1,0 +1,8 @@
+{
+    "actionBoost": {
+        "boostForce": 0.800000011920929,
+        "chargeForce": 0.4000000059604645,
+        "chargeTime": 0.4000000059604645,
+        "stopForce": 0.949999988079071
+    }
+}

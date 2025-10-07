@@ -42,8 +42,8 @@ void LauncherGun::Init() {
 // ↓ 弾を撃つ
 ///////////////////////////////////////////////////////////////////////////////////////////////
  
-void LauncherGun::Attack(const AttackContext& cxt) {
-	if (!isCanAttack_) { return; }
+bool LauncherGun::Attack(const AttackContext& cxt) {
+	if (!isCanAttack_) { return false; }
 
 	object_->Update();
 
@@ -57,4 +57,5 @@ void LauncherGun::Attack(const AttackContext& cxt) {
 	gunFireParticles_->SetIsStop(false);
 
 	AttackAfter();
+	return true;
 }

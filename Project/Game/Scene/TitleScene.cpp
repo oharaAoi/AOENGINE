@@ -48,6 +48,9 @@ void TitleScene::Init() {
 	fadePanel_->Init();
 	fadePanel_->SetBlackOutOpen();
 
+	gameModeGuide_ = std::make_unique<GameModeGuide>();
+	gameModeGuide_->Init();
+
 	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
 	light->SetIntensity(0.3f);
 
@@ -62,18 +65,24 @@ void TitleScene::Update() {
 
 	if (putButton_) {
 		if (fadePanel_->GetIsFinished()) {
-			nextSceneType_ = SceneType::GAME;
+			gameModeGuide_->Open();
+		}
+	} else {
+		if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
+			fadePanel_->SetBlackOut();
+			putButton_ = true;
 		}
 	}
 
-	// -------------------------------------------------
-	// ↓ 入力処理
-	// -------------------------------------------------
+	gameModeGuide_->Update();
 
-	if (Input::GetInstance()->IsPressButton(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
-		fadePanel_->SetBlackOut();
-		putButton_ = true;
-	} 
+	if (gameModeGuide_->Decide()) {
+		if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToGame) {
+			nextSceneType_ = SceneType::GAME;
+		} else if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToTutorial) {
+			nextSceneType_ = SceneType::TUTORIAL;
+		}
+	}
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

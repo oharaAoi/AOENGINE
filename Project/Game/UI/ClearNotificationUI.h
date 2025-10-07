@@ -60,6 +60,8 @@ public:
 
 	bool IsFinish() { return posTween_.GetIsFinish(); }
 
+	Sprite* GetSprite() const { return sprite_.get(); }
+
 private:
 
 	bool isBreak_ = false;

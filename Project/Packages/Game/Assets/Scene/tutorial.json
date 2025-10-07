@@ -1,0 +1,426 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    7.358891487121582,
+                    -6.925790786743164,
+                    4.958309173583984
+                ],
+                "rotation": [
+                    63.559295654296875,
+                    2.2983238068263745e-07,
+                    46.69194412231445
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "ground",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "roomFloor.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        400.0,
+                        400.0,
+                        21.0
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeftLeg",
+                        "playerRightLeg",
+                        "machinegun",
+                        "launcher",
+                        "bossMissile",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Player",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -93.27044677734375,
+                    10.01351261138916
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "player.gltf",
+            "colliders": [
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.6800000667572021
+                    ],
+                    "radius": 0.9399999976158142,
+                    "tag": "player",
+                    "collisionFilter_tags": [
+                        "boss",
+                        "building",
+                        "ground",
+                        "invisibleWall",
+                        "bossAttack",
+                        "bossMissile"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.38999998569488525,
+                        0.0,
+                        0.33000001311302185
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerRightLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        -0.30000001192092896,
+                        0.0,
+                        0.33000001311302185
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerLeftLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                }
+            ],
+            "collider_tag": "player",
+            "collisionFilter_tags": [
+                "building",
+                "ground",
+                "boss",
+                "bossAttack",
+                "bossMissile",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Boss",
+            "transform": {
+                "translation": [
+                    0.0,
+                    74.08243560791016,
+                    19.814926147460938
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "boss.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        11.149999618530273,
+                        10.09999942779541,
+                        4.099999904632568
+                    ],
+                    "tag": "boss",
+                    "collisionFilter_tags": [
+                        "player",
+                        "machinegun",
+                        "launcher",
+                        "ground",
+                        "building",
+                        "invisibleWall"
+                    ]
+                }
+            ],
+            "collider_tag": "playerRightLeg",
+            "collisionFilter_tags": [
+                "player",
+                "building",
+                "ground",
+                "machinegun",
+                "launcher",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "ground.001",
+            "transform": {
+                "translation": [
+                    0.0,
+                    201.1087646484375,
+                    188.45175170898438
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "roomFloor.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        400.0,
+                        400.0,
+                        21.0
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeftLeg",
+                        "playerRightLeg",
+                        "machinegun",
+                        "launcher",
+                        "bossMissile"
+                    ]
+                }
+            ],
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "ground.002",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -203.342529296875,
+                    188.45175170898438
+                ],
+                "rotation": [
+                    90.00000762939453,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "roomFloor.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        400.0,
+                        400.0,
+                        21.0
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeftLeg",
+                        "playerRightLeg",
+                        "machinegun",
+                        "launcher",
+                        "bossMissile"
+                    ]
+                }
+            ],
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "ground.003",
+            "transform": {
+                "translation": [
+                    -207.8604278564453,
+                    7.022247314453125,
+                    188.45175170898438
+                ],
+                "rotation": [
+                    90.0,
+                    -0.0,
+                    90.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "roomFloor.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        400.0,
+                        400.0,
+                        21.0
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeftLeg",
+                        "playerRightLeg",
+                        "machinegun",
+                        "launcher",
+                        "bossMissile"
+                    ]
+                }
+            ],
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "ground.004",
+            "transform": {
+                "translation": [
+                    208.4865264892578,
+                    7.022247314453125,
+                    188.45175170898438
+                ],
+                "rotation": [
+                    90.0,
+                    -0.0,
+                    90.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "file_name": "roomFloor.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        400.0,
+                        400.0,
+                        21.0
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "playerLeftLeg",
+                        "playerRightLeg",
+                        "machinegun",
+                        "launcher",
+                        "bossMissile"
+                    ]
+                }
+            ],
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        }
+    ]
+}

@@ -73,7 +73,7 @@ public:		// member method
 	void AttackAfter();
 
 	// 攻撃関数
-	virtual void Attack(const AttackContext& cxt) = 0;
+	virtual bool Attack(const AttackContext& cxt) = 0;
 
 	// 残弾数の割合
 	float BulletsFill();

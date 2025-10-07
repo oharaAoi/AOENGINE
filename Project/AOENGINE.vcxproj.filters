@@ -354,6 +354,11 @@
     <ClCompile Include="Game\Camera\CameraAnimation.cpp" />
     <ClCompile Include="Game\UI\Health.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
+    <ClCompile Include="Game\Scene\TutorialScene.cpp" />
+    <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
+    <ClCompile Include="Game\UI\Canvas\TutorialCanvas.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -665,6 +670,11 @@
     <ClInclude Include="Game\Camera\CameraAnimation.h" />
     <ClInclude Include="Game\UI\Health.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
+    <ClInclude Include="Game\Scene\TutorialScene.h" />
+    <ClInclude Include="Game\UI\Guide\GameModeGuide.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialBehavior.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
+    <ClInclude Include="Game\UI\Canvas\TutorialCanvas.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

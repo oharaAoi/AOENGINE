@@ -1,0 +1,9 @@
+{
+    "LauncherAttackParam": {
+        "bulletSpeed": 100.0,
+        "fireBulletsNum": 1,
+        "fireInterval": 0.0,
+        "maxBulletsNum": 95,
+        "reloadTime": 4.0
+    }
+}

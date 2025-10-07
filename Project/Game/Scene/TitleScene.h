@@ -11,6 +11,7 @@
 #include "Game/UI/TitleUIs.h"
 #include "Game/UI/FadePanel.h"
 #include "Engine/Module/Components/GameObject/TestObject.h"
+#include "Game/UI/Guide/GameModeGuide.h"
 
 class TitleScene : 
 	public BaseScene {
@@ -32,6 +33,8 @@ private:
 	std::unique_ptr<Camera2d> camera2d_ = nullptr;
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+
+	std::unique_ptr<GameModeGuide> gameModeGuide_;
 
 	// ------------------- actor ------------------- //
 	Skybox* skybox_;

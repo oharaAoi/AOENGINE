@@ -135,6 +135,7 @@ void Player::Init() {
 	isMoving_ = false;
 	deployArmor_ = false;
 	isDead_ = false;
+	isAttack_ = false;
 
 	param_.postureStability -= initParam_.postureStability;
 
@@ -195,10 +196,16 @@ void Player::Update() {
 	CameraIncline();
 
 	// 攻撃を行う
+	isAttack_ = false;
 	while (!attackHistory_.empty()) {
+		bool isCurrentFrameAttack = false;
 		auto [weapon, context] = attackHistory_.front();
-		GetWeapon(weapon)->Attack(context);  // 使う
+		isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
 		attackHistory_.pop_front();    // 先頭を削除
+		
+		if (isCurrentFrameAttack) {
+			isAttack_ = true;
+		}
 	}
 
 	/*ICollider* colliderLeg = object_->GetCollider("playerLeftLeg");
@@ -325,6 +332,13 @@ void Player::LegOnCollision([[maybe_unused]] ICollider* other) {
 	if (other->GetCategoryName() == "building" || other->GetCategoryName() == "ground") {
 		Landing();
 	}
+}
+
+bool Player::IsAttack() {
+	if (isAttack_) {
+		return true;
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

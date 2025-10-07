@@ -380,6 +380,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Game\Scene\TutorialScene.cpp" />
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
@@ -388,8 +389,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
     <ClCompile Include="Game\UI\Boss\EnemyAttackAlert.cpp" />
     <ClCompile Include="Game\UI\CanvasUI.cpp" />
+    <ClCompile Include="Game\UI\Canvas\TutorialCanvas.cpp" />
     <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
     <ClCompile Include="Game\UI\FadePanel.cpp" />
+    <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
     <ClCompile Include="Game\UI\Health.cpp" />
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
     <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
@@ -694,6 +699,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\TitleScene.h" />
+    <ClInclude Include="Game\Scene\TutorialScene.h" />
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
@@ -702,8 +708,12 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Game\UI\Boss\BossUIs.h" />
     <ClInclude Include="Game\UI\Boss\EnemyAttackAlert.h" />
     <ClInclude Include="Game\UI\CanvasUI.h" />
+    <ClInclude Include="Game\UI\Canvas\TutorialCanvas.h" />
     <ClInclude Include="Game\UI\ClearNotificationUI.h" />
     <ClInclude Include="Game\UI\FadePanel.h" />
+    <ClInclude Include="Game\UI\Guide\GameModeGuide.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialBehavior.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
     <ClInclude Include="Game\UI\Health.h" />
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
     <ClInclude Include="Game\UI\Player\PlayerUIs.h" />

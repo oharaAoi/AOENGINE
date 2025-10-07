@@ -68,6 +68,8 @@ public:
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
+	BehaviorTree* GetBehaviorTree() { return behaviorTree_.get(); }
+
 	// 評価値計算クラス
 	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
 

@@ -6,7 +6,7 @@
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void CanvasUI::Init() {
+void CanvasUI::Init(bool _isTutorial) {
 	Canvas2d* canvas = Engine::GetCanvas2d();
 
 	reticle_ = std::make_unique<Reticle>();
@@ -25,12 +25,17 @@ void CanvasUI::Init() {
 	// out game
 	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();
 	clearNotificationUI_->Init();
+	if (isTutorial_) {
+		clearNotificationUI_->GetSprite()->SetEnable(false);
+	}
 
-	control_ = Engine::CreateSprite("control.png");
-	control_->SetTranslate(Vector2(640.0f, 360.0f));
+	isTutorial_ = _isTutorial;
+
+	/*control_ = Engine::CreateSprite("control.png");
+	control_->SetTranslate(Vector2(640.0f, 360.0f));*/
 
 	canvas->AddSprite(boostOn_.get());
-	canvas->AddSprite(control_.get());
+	//canvas->AddSprite(control_.get());
 
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
@@ -67,8 +72,10 @@ void CanvasUI::Update() {
 	playerUIs_->Update(reticle_->GetPos());
 
 	// out game
-	clearNotificationUI_->Update(pBoss_->GetIsBreak());
-	control_->Update();
+	if (!isTutorial_) {
+		clearNotificationUI_->Update(pBoss_->GetIsBreak());
+	}
+	//control_->Update();
 	
 }
 

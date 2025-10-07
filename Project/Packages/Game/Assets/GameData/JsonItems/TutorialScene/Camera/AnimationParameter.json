@@ -1,0 +1,18 @@
+{
+    "AnimationParameter": {
+        "easingIndex": 7,
+        "firstOffset": {
+            "x": 0.0,
+            "y": 1.0,
+            "z": 2.0
+        },
+        "moveTime": 2.0,
+        "scaleColor": {
+            "a": 1.0,
+            "r": 0.0,
+            "g": 0.11764705926179886,
+            "b": 0.0
+        },
+        "vignettePower": 0.20000000298023224
+    }
+}

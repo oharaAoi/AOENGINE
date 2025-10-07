@@ -18,7 +18,7 @@ public:
 
 public:		// member method
 
-	void Attack(const AttackContext& cxt) override;
+	bool Attack(const AttackContext& cxt) override;
 
 private:
 

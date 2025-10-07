@@ -410,6 +410,7 @@ void Sprite::ApplyParam() {
 }
 
 void Sprite::Load(const std::string& _group, const std::string& _key) {
+	SetName(_key);
 	saveGroupName_ = _group;
 	saveKeyName_ = _key;
 

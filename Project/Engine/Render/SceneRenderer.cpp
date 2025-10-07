@@ -95,6 +95,8 @@ void SceneRenderer::Draw() const {
 
 	particleManager_->Draw();
 	gpuParticleManager_->Draw();
+
+	Render::GetShadowMap()->Debug_Gui();
 }
 
 void SceneRenderer::PostDraw() const {

@@ -40,8 +40,8 @@ void MachineGun::Init() {
 // ↓ 弾を撃つ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void MachineGun::Attack(const AttackContext& cxt) {
-	if (!isCanAttack_) { return; }
+bool MachineGun::Attack(const AttackContext& cxt) {
+	if (!isCanAttack_) { return false; }
 
 	Vector3 worldPos = object_->GetPosition();
 	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
@@ -53,4 +53,5 @@ void MachineGun::Attack(const AttackContext& cxt) {
 	gunFireParticles_->SetIsStop(false);
 
 	AttackAfter();
+	return true;
 }

@@ -22,7 +22,7 @@ public:	// base
 	CanvasUI() = default;
 	~CanvasUI() = default;
 
-	void Init();
+	void Init(bool _isTutorial);
 
 	void Update();
 
@@ -68,6 +68,8 @@ private:
 	std::unique_ptr<ClearNotificationUI> clearNotificationUI_;
 
 	std::unique_ptr<Sprite> control_;
+
+	bool isTutorial_;
 
 };
 

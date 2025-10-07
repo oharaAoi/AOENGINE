@@ -141,6 +141,8 @@ public:		// accessor method
 	/// <param name="other"></param>
 	void LegOnCollision([[maybe_unused]] ICollider* other);
 
+	bool IsAttack();
+
 private:
 
 	// カメラの傾きを行う
@@ -227,6 +229,8 @@ private:
 	bool deployArmor_;
 
 	bool isDead_ = false;
+
+	bool isAttack_ = false;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

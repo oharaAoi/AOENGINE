@@ -103,7 +103,10 @@ public:
 	/// <summary>
 	/// Tweenをやり直す
 	/// </summary>
-	void Reset() { currentTime_ = 0.0f; }
+	void Reset() { 
+		currentTime_ = 0.0f;
+		isFinish_ = false;
+	}
 
 	T GetValue() { return value_; }
 
