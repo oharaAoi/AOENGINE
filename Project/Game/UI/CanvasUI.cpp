@@ -7,12 +7,13 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Init(bool _isTutorial) {
+	isTutorial_ = _isTutorial;
 	Canvas2d* canvas = Engine::GetCanvas2d();
 
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
 
-	boostOn_ = Engine::CreateSprite("boostOn.png");
+	boostOn_ = canvas->AddSprite("boostOn.png", "boostOn");
 
 	// player
 	playerUIs_ = std::make_unique<PlayerUIs>();
@@ -28,14 +29,6 @@ void CanvasUI::Init(bool _isTutorial) {
 	if (isTutorial_) {
 		clearNotificationUI_->GetSprite()->SetEnable(false);
 	}
-
-	isTutorial_ = _isTutorial;
-
-	/*control_ = Engine::CreateSprite("control.png");
-	control_->SetTranslate(Vector2(640.0f, 360.0f));*/
-
-	canvas->AddSprite(boostOn_.get());
-	//canvas->AddSprite(control_.get());
 
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());

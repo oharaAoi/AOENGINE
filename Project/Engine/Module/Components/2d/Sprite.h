@@ -139,7 +139,7 @@ public:
 	Sprite();
 	~Sprite();
 
-	void Init(ID3D12Device* device, const std::string& fileName);
+	void Init(const std::string& fileName);
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -165,6 +165,8 @@ public:
 	void Debug_Gui() override;
 
 public:
+
+	ScreenTransform* GetTransform() const { return transform_.get(); }
 
 	/// <summary>
 	/// Textureをセットする
@@ -213,12 +215,23 @@ public:
 	const bool GetEnable() const { return isEnable_; }
 	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }
 
+	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
+	bool GetIsDestroy() const { return isDestroy_; }
+
+	void SetIsBackGround(bool _isBackGround) { isBackGround_ = _isBackGround; }
+	bool GetIsBackGround() const { return isBackGround_; }
+
+	void SetIsFront(bool _isFront) { isFront_ = _isFront; }
+
 	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
 	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
 	
 private:
 
 	bool isEnable_;
+	bool isDestroy_;
+	bool isBackGround_;
+	bool isFront_;
 
 	// -------------------
 	// DirectX関連

@@ -3,12 +3,12 @@
 #include "Engine/System/Audio/AudioPlayer.h"
 
 void EnemyAttackAlert::Init() {
-	alert_ = Engine::CreateSprite("attackAlert.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	alert_ = canvas->AddSprite("attackAlert.png", "alert");;
 	timer_ = 0.0f;
 	blinkingCount_ = 0;
 	isDraw_ = true;
 
-	Engine::GetCanvas2d()->AddSprite(alert_.get());
 	AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
 }
 
@@ -45,7 +45,7 @@ void EnemyAttackAlert::Alert() {
 
 bool EnemyAttackAlert::IsDestroy() {
 	if (blinkingCount_ >= 3) {
-		Engine::GetCanvas2d()->DeleteSprite(alert_.get());
+		alert_->SetIsDestroy(true);
 		return true;
 	}
 	return false;

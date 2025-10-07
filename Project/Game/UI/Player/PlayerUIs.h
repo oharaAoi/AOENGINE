@@ -31,7 +31,7 @@ private:
 
 	Player* pPlayer_;
 
-	std::unique_ptr<Sprite> ap_;
+	Sprite* ap_;
 	std::unique_ptr<EnergyOutput> energyOutput_;
 	std::unique_ptr<Health> health_;
 

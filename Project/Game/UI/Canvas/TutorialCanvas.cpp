@@ -8,13 +8,11 @@ void TutorialCanvas::Init() {
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
 
-	boostOn_ = Engine::CreateSprite("boostOn.png");
+	boostOn_ = canvas->AddSprite("boostOn.png", "boostOn");
 
 	// player
 	playerUIs_ = std::make_unique<PlayerUIs>();
 	playerUIs_->Init(pPlayer_);
-
-	canvas->AddSprite(boostOn_.get());
 
 	AddChild(playerUIs_.get());
 

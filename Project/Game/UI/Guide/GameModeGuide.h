@@ -41,9 +41,9 @@ public:
 
 private:
 
-	std::unique_ptr<Sprite> goGame_;
-	std::unique_ptr<Sprite> goTutorial_;
-	std::unique_ptr<Sprite> select_;
+	Sprite* goGame_;
+	Sprite* goTutorial_;
+	Sprite* select_;
 
 	SelectModeType selectModeType_;
 	int selectModeIndex_;

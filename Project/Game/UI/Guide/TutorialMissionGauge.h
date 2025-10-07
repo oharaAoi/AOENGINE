@@ -34,12 +34,12 @@ public:
 
 private:
 
-	std::unique_ptr<Sprite> gauge_;
-	std::unique_ptr<Sprite> gaugeBg_;
-	std::unique_ptr<Sprite> success_;
+	Sprite* gauge_;
+	Sprite* gaugeBg_;
+	Sprite* success_;
 
-	std::unique_ptr<Sprite> control_;
-	std::unique_ptr<Sprite> controlBg_;
+	Sprite* control_;
+	Sprite* controlBg_;
 
 	VectorTween<float> alphaAnimation_;
 	bool isSuccessFinish_ = false;

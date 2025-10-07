@@ -60,13 +60,13 @@ public:
 
 	bool IsFinish() { return posTween_.GetIsFinish(); }
 
-	Sprite* GetSprite() const { return sprite_.get(); }
+	Sprite* GetSprite() const { return sprite_; }
 
 private:
 
 	bool isBreak_ = false;
 
-	std::unique_ptr<Sprite> sprite_;
+	Sprite* sprite_;
 	Parameter param_;
 
 	Vector2 pos_;

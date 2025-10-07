@@ -18,7 +18,7 @@ Sprite::~Sprite() {
 	transform_.reset();
 }
 
-void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
+void Sprite::Init(const std::string& fileName) {
 	GraphicsContext* ctx = GraphicsContext::GetInstance();
 	ID3D12Device* pDevice = ctx->GetDevice();
 
@@ -33,7 +33,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	// ↓ Meshの初期化
 	// -------------------------------------------------
 
-	vertexBuffer_ = CreateBufferResource(device, sizeof(TextureMesh) * 4);
+	vertexBuffer_ = CreateBufferResource(pDevice, sizeof(TextureMesh) * 4);
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
@@ -68,7 +68,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	vertexData_[3].pos = rect.rightTop;			// 右上
 	vertexData_[3].texcoord = { 1.0f, 0.0f };
 
-	indexBuffer_ = CreateBufferResource(device, sizeof(uint32_t) * 6);
+	indexBuffer_ = CreateBufferResource(pDevice, sizeof(uint32_t) * 6);
 	indexBufferView_.BufferLocation = indexBuffer_->GetGPUVirtualAddress();
 	indexBufferView_.SizeInBytes = UINT(sizeof(uint32_t) * 6);
 	indexBufferView_.Format = DXGI_FORMAT_R32_UINT;
@@ -87,7 +87,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	// ↓ Materialの初期化
 	// -------------------------------------------------
 
-	materialBuffer_ = CreateBufferResource(device, sizeof(TextureMaterial));
+	materialBuffer_ = CreateBufferResource(pDevice, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	materialData_->uvTransform = Matrix4x4::MakeUnit();
@@ -107,7 +107,7 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	// ↓ 塗りつぶしの初期化
 	// -------------------------------------------------
 
-	arcGaugeParamBuffer_ = CreateBufferResource(device, sizeof(ArcGaugeParam));
+	arcGaugeParamBuffer_ = CreateBufferResource(pDevice, sizeof(ArcGaugeParam));
 	arcGaugeParamBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&arcData_));
 
 	arcData_->center = { 0.5f, 0.5f };
@@ -125,6 +125,10 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 
 	fillMethod_ = FillMethod::Vertical;
 	fillStartingPoint_ = FillStartingPoint::Top;
+
+	isEnable_ = true;
+	isDestroy_ = false;
+	isBackGround_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,7 +167,7 @@ void Sprite::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
-	Matrix4x4 projection = Render::GetProjection2D();
+	Matrix4x4 projection = Render::GetViewport2D() * Render::GetProjection2D();
 	if (isBackGround) {
 		transform_->SetTranslateZ(Render::GetFarClip());
 	}

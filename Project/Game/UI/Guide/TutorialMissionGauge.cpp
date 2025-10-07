@@ -3,11 +3,12 @@
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
 void TutorialMissionGauge::Init() {
-	gauge_ = Engine::CreateSprite("gauge.png");
-	gaugeBg_ = Engine::CreateSprite("gauge_frame.png");
-	success_ = Engine::CreateSprite("success.png");
-	control_ = Engine::CreateSprite("tutorial_move.png");
-	controlBg_ = Engine::CreateSprite("white.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	gauge_ = canvas->AddSprite("gauge.png", "gauge");
+	gaugeBg_ = canvas->AddSprite("gauge_frame.png", "gaugeBg");
+	success_ = canvas->AddSprite("success.png", "succes");
+	control_ = canvas->AddSprite("tutorial_move.png", "control");
+	controlBg_ = canvas->AddSprite("white.png", "controlBg", "Sprite_Normal.json", -1);
 
 	gauge_->Load("Mission", "gauge");
 	gaugeBg_->Load("Mission", "gauge_frame");
@@ -18,17 +19,11 @@ void TutorialMissionGauge::Init() {
 
 	isSuccessFinish_ = false;
 
-	AddChild(gauge_.get());
-	AddChild(gaugeBg_.get());
-	AddChild(success_.get());
-	AddChild(control_.get());
-	AddChild(controlBg_.get());
-
-	Engine::GetCanvas2d()->AddSprite(gauge_.get());
-	Engine::GetCanvas2d()->AddSprite(gaugeBg_.get());
-	Engine::GetCanvas2d()->AddSprite(success_.get());
-	Engine::GetCanvas2d()->AddSprite(controlBg_.get());
-	Engine::GetCanvas2d()->AddSprite(control_.get());
+	AddChild(gauge_);
+	AddChild(gaugeBg_);
+	AddChild(success_);
+	AddChild(control_);
+	AddChild(controlBg_);
 
 	alphaAnimation_.Init(1.0f, 0.0f, 1.0f, (int)EasingType::None::Liner, LoopType::STOP);
 

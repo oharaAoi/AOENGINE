@@ -8,15 +8,14 @@
 
 void ClearNotificationUI::Init() {
 	SetName("ClearNotificationUI");
-	sprite_ = Engine::CreateSprite("missionComplete.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	sprite_ = canvas->AddSprite("missionComplete.png", "missionComplete");
 	param_.Load();
 
 	posTween_.Init(param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
 	alphaTween_.Init(0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
 
 	isBreak_ = false;
-
-	Engine::GetCanvas2d()->AddSprite(sprite_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

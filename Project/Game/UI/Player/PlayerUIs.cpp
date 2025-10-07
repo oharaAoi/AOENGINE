@@ -5,7 +5,8 @@ void PlayerUIs::Init(Player* _player) {
 	SetName("PlayerUIs");
 	pPlayer_ = _player;
 
-	ap_ = Engine::CreateSprite("AP.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	ap_ = canvas->AddSprite("AP.png", "ap");
 	ap_->SetName("AP");
 	ap_->Load("PlayerUIs", "AP");
 
@@ -23,14 +24,12 @@ void PlayerUIs::Init(Player* _player) {
 	leftWeapon_->Init("leftWeaponGauge");
 	rightWeapon_->Init("rightWeaponGauge");
 
-	AddChild(ap_.get());
+	AddChild(ap_);
 	AddChild(health_.get());
 	AddChild(energyOutput_.get());
 	AddChild(postureStability_.get());
 	AddChild(leftWeapon_.get());
 	AddChild(rightWeapon_.get());
-
-	Engine::GetCanvas2d()->AddSprite(ap_.get());
 
 	EditorWindows::AddObjectWindow(this, "PlayerUIs");
 }

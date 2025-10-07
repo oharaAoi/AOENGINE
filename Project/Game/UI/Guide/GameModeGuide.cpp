@@ -12,9 +12,10 @@ GameModeGuide::~GameModeGuide() = default;
 
 void GameModeGuide::Init() {
 	SetName("GameModeGuide");
-	goGame_ = Engine::CreateSprite("goGame.png");
-	goTutorial_ = Engine::CreateSprite("goTutorial.png");
-	select_ = Engine::CreateSprite("gradation.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	goGame_ = canvas->AddSprite("goGame.png", "goGame");
+	goTutorial_ = canvas->AddSprite("goTutorial.png", "goTutorial");
+	select_ = canvas->AddSprite("gradation.png", "select", "Sprite_Normal.json", 20);
 
 	goGame_->Load("Guide","goGame");
 	goTutorial_->Load("Guide","goTutorial");
@@ -23,13 +24,9 @@ void GameModeGuide::Init() {
 	goTutorial_->SetEnable(false);
 	select_->SetEnable(false);
 
-	AddChild(goGame_.get());
-	AddChild(goTutorial_.get());
-	AddChild(select_.get());
-	
-	Engine::GetCanvas2d()->AddSprite(goGame_.get());
-	Engine::GetCanvas2d()->AddSprite(goTutorial_.get());
-	Engine::GetCanvas2d()->AddSprite(select_.get());
+	AddChild(goGame_);
+	AddChild(goTutorial_);
+	AddChild(select_);
 
 	selectModeType_ = SelectModeType::ToTutorial;
 	selectModeIndex_ = 1;

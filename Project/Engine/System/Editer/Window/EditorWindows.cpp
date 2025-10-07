@@ -139,6 +139,10 @@ void EditorWindows::GameWindow() {
 			if (sceneRenderer_ != nullptr) {
 				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
 			}
+
+			if (canvas2d_ != nullptr) {
+				canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+			}
 		}
 
 		manipulateTool_->SelectUseManipulate();

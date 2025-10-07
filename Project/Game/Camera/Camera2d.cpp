@@ -10,6 +10,7 @@ Camera2d::~Camera2d() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Init() {
+	translate_ = CVector3::ZERO;
 	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(kWindowWidth_), float(kWindowHeight_), near_, far_);
 	viewMatrix_ = Matrix4x4::MakeUnit();
 

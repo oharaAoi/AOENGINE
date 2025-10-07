@@ -121,8 +121,6 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// 生成系
 	/////////////////////////////////////////////////////////////////////////////////////////////
-	// スプライトのポインタを作成
-	static std::unique_ptr<Sprite> CreateSprite(const std::string& fileName);
 	// モデルのポインタを作成
 	static std::unique_ptr<Model> CreateModel(const std::string& directoryPath, const std::string& filePath);
 	// ワールドトランスフォームを作成
@@ -145,7 +143,7 @@ public:
 
 	static void SetPSOPrimitive();
 
-	static void SetPipeline(PSOType type, const std::string& typeName);
+	static Pipeline* SetPipeline(PSOType type, const std::string& typeName);
 
 	static Pipeline* GetLastUsedPipeline();
 	static Pipeline* GetLastUsedPipelineCS();

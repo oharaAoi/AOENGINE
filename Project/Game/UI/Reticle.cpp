@@ -9,12 +9,10 @@
 void Reticle::Init() {
 	defaultPosition_ = Vector2{ 640.0f, 400.0f };
 
-	reticle_ = Engine::CreateSprite("lockOffReticle.png");
+	reticle_ = Engine::GetCanvas2d()->AddSprite("lockOffReticle.png", "reticle");
 	reticle_->SetTranslate(defaultPosition_);
 
 	isLockOn_ = false;
-
-	Engine::GetCanvas2d()->AddSprite(reticle_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

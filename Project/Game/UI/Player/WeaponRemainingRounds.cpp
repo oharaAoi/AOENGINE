@@ -3,11 +3,11 @@
 
 void WeaponRemainingRounds::Init(const std::string& _name) {
 	SetName(_name);
-	gauge_ = Engine::CreateSprite("white.png");
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	gauge_ = canvas->AddSprite("white.png", "WeaponRemainingRounds");
 	gauge_->Load("PlayerUIs", _name);
 	gauge_->ReSetTexture("white.png");
-	Engine::GetCanvas2d()->AddSprite(gauge_.get());
-
+	
 	colorAnimation_.Init(Color::red, Color::white, .4f, (int)EasingType::None::Liner, LoopType::RETURN);
 	timer_ = 0;
 }

@@ -26,11 +26,11 @@ public:
 
 public:
 
-	Sprite* GetSprite() { return gauge_.get(); }
+	Sprite* GetSprite() { return gauge_; }
 
 private:
 
-	std::unique_ptr<Sprite> gauge_;
+	Sprite* gauge_;
 	float timer_;
 
 	VectorTween<Color> colorAnimation_;

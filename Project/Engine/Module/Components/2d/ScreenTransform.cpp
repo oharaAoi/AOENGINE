@@ -30,10 +30,10 @@ void ScreenTransform::Init(ID3D12Device* _pDevice) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ScreenTransform::Update(const Matrix4x4& _projection) {
-	Matrix4x4 affineMatrix = transform_.MakeAffine();
+	screenMat_ = transform_.MakeAffine();
 	// 最終的なスプsライトの変換行列
 	transformData_->wvp = Matrix4x4(
-		affineMatrix *
+		screenMat_ *
 		_projection
 	);
 }

@@ -30,7 +30,7 @@ public:
 
 private:
 
-	std::unique_ptr<Sprite> alert_;
+	Sprite* alert_;
 
 	Vector2 scale_ = Vector2{ 0.5f, 0.5f };
 	Vector2 centerPos_ = Vector2{ 640.0f, 360.0f };

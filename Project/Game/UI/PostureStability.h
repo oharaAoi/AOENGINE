@@ -44,7 +44,7 @@ public:
 
 private:
 
-	std::unique_ptr<Sprite> fence_;
+	Sprite* fence_;
 
 	Parameter param_;
 

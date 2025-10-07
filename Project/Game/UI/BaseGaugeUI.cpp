@@ -6,13 +6,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTexture) {
-	bg_ = Engine::CreateSprite(bgTexture);
-	front_ = Engine::CreateSprite(frontTexture);
+	Canvas2d* canvas = Engine::GetCanvas2d();
+	bg_ = canvas->AddSprite(bgTexture, "bg");
+	front_ = canvas->AddSprite(frontTexture, "front");
 	
 	fillAmount_ = 1.0f;
-
-	Engine::GetCanvas2d()->AddSprite(bg_.get());
-	Engine::GetCanvas2d()->AddSprite(front_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

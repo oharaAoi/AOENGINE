@@ -31,8 +31,8 @@ public:	// accessor method
 
 protected:
 
-	std::unique_ptr<Sprite> bg_;
-	std::unique_ptr<Sprite> front_;
+	Sprite* bg_;
+	Sprite* front_;
 
 	float fillAmount_;
 

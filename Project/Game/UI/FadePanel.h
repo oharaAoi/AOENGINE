@@ -38,7 +38,7 @@ public:
 
 private:
 
-	std::unique_ptr<Sprite> panel_;
+	Sprite* panel_;
 
 	float panelAlpha_ = 0.0f;
 

@@ -7,6 +7,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
 
 class EditorWindows {
@@ -80,6 +81,7 @@ public:
 	bool GetGridDraw() const { return gridDraw_; }
 
 	void SetSceneRenderer(SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
+	void SetCanvas2d(Canvas2d* _canvas) { canvas2d_ = _canvas; }
 
 private:
 
@@ -98,6 +100,7 @@ private:
 	RenderTarget* renderTarget_;
 
 	SceneRenderer* sceneRenderer_;
+	Canvas2d* canvas2d_;
 
 	std::function<void()> windowUpdate_;
 

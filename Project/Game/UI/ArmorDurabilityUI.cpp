@@ -8,11 +8,9 @@ void ArmorDurabilityUI::Init(const std::string& _groupName, const std::string& _
 	front_->Load(_groupName, _itemName);
 
 	// 柵の初期化
-	fence_ = Engine::CreateSprite("postureStability_fence.png");
+	fence_ = Engine::GetCanvas2d()->AddSprite("postureStability_fence.png", "fence");
 	fence_->SetTranslate(front_->GetTranslate());
 	fence_->SetScale(front_->GetScale());
-
-	Engine::GetCanvas2d()->AddSprite(fence_.get());
 }
 
 void ArmorDurabilityUI::Update(float _fillAmount) {

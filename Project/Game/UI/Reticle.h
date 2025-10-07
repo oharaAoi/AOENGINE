@@ -27,7 +27,7 @@ public:		// accessor method
 
 private:
 
-	std::unique_ptr<Sprite> reticle_;
+	Sprite* reticle_;
 
 	bool isLockOn_ = false;
 	Vector2 defaultPosition_;

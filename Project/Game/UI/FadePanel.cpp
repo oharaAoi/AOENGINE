@@ -14,11 +14,9 @@ void FadePanel::Init() {
 	isBlackOut_ = false;
 	isFinished_ = false;
 
-	panel_ = Engine::CreateSprite("panel.png");
+	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 10);
 	panel_->SetTranslate(Vector2(640.0f, 360.0f));
 	panel_->SetColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
-
-	Engine::GetCanvas2d()->AddSprite(panel_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
