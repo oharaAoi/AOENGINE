@@ -1,11 +1,13 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/2d/ScreenTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class Render;
@@ -171,12 +173,6 @@ public:
 	void ReSetTexture(const std::string& fileName);
 
 	/// <summary>
-	/// Textureの中心位置を変える(Screen座標系)
-	/// </summary>
-	/// <param name="centerPos">: position</param>
-	void SetTranslate(const Vector2& centerPos);
-
-	/// <summary>
 	/// Textureのサイズを再設計する
 	/// </summary>
 	/// <param name="size"></param>
@@ -189,8 +185,9 @@ public:
 	// Pivotの位置を変更する
 	void SetAnchorPoint(const Vector2& point) { anchorPoint_ = point; }
 
-	void SetScale(const Vector2 scale) { transform_.scale.x = scale.x, transform_.scale.y = scale.y, transform_.scale.z = 1.0f; }
-	void SetRotate(float rotate) { transform_.rotate.z = rotate; }
+	void SetScale(const Vector2 scale) { transform_->SetScale(scale); }
+	void SetRotate(float rotate) { transform_->SetRotateZ(rotate); }
+	void SetTranslate(const Vector2& _pos) { transform_->SetTranslate(_pos); }
 
 	void SetColor(const Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
@@ -206,9 +203,9 @@ public:
 
 	void FillAmount(float amount);
 
-	const Vector2 GetTranslate() const { return Vector2{ transform_.translate.x, transform_.translate.y}; }
-	const Vector2 GetScale() const { return Vector2(transform_.scale.x, transform_.scale.y); }
-	const float GetRotate() const { return transform_.rotate.z; }
+	const Vector2 GetTranslate() const { return transform_->GetTranslate(); }
+	const Vector2 GetScale() const { return transform_->GetScale(); }
+	const float GetRotate() const { return transform_->GetRotateZ(); }
 	const Vector2 GetSpriteSize() const { return spriteSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
@@ -231,7 +228,6 @@ private:
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	ComPtr<ID3D12Resource> indexBuffer_;
 	ComPtr<ID3D12Resource> materialBuffer_;
-	ComPtr<ID3D12Resource> transformBuffer_;
 	ComPtr<ID3D12Resource> arcGaugeParamBuffer_;
 
 	// view
@@ -242,16 +238,16 @@ private:
 	TextureMesh* vertexData_;
 	uint32_t* indexData_;
 	TextureMaterial* materialData_;
-	TextureTransformData* transformData_;
 	ArcGaugeParam* arcData_;
 
+	// Transform情報
+	std::unique_ptr<ScreenTransform> transform_;
+	SRT* parentTransform_ = nullptr;
+	SRT uvTransform_;
+	
 	// -------------------
 	// Sprite情報
 	// -------------------
-
-	// Transform情報
-	SRT transform_;
-	SRT uvTransform_;
 
 	std::string textureName_;
 

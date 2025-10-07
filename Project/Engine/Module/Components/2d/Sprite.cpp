@@ -1,5 +1,6 @@
 #include "Sprite.h"
 #include "Render.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/System/Manager/TextureManager.h"
@@ -11,14 +12,16 @@ Sprite::~Sprite() {
 	vertexData_ = nullptr;
 	indexData_ = nullptr;
 	materialData_ = nullptr;
-	transformData_ = nullptr;
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
 	materialBuffer_.Reset();
-	transformBuffer_.Reset();
+	transform_.reset();
 }
 
 void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
+	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	ID3D12Device* pDevice = ctx->GetDevice();
+
 	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
 	spriteSize_ = textureSize_;
 	textureName_ = fileName;
@@ -96,17 +99,9 @@ void Sprite::Init(ID3D12Device* device, const std::string& fileName) {
 	// ↓ Transformの初期化
 	// -------------------------------------------------
 
-	transformBuffer_ = CreateBufferResource(device, sizeof(TextureTransformData));
-	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
-
-	transform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
+	transform_ = std::make_unique<ScreenTransform>();
+	transform_->Init(pDevice);
 	uvTransform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
-
-	transformData_->wvp = Matrix4x4(
-		transform_.MakeAffine()
-		* Matrix4x4::MakeUnit()
-		* Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(1280), float(720), 0.0f, 100.0f)
-	);
 
 	// -------------------------------------------------
 	// ↓ 塗りつぶしの初期化
@@ -170,16 +165,9 @@ void Sprite::Update() {
 void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
 	Matrix4x4 projection = Render::GetProjection2D();
 	if (isBackGround) {
-		transform_.translate.z = Render::GetFarClip();
+		transform_->SetTranslateZ(Render::GetFarClip());
 	}
-	// アフィン変換行列の作成
-	Matrix4x4 affineMatrix = transform_.MakeAffine();
-
-	// 最終的なスプsライトの変換行列
-	transformData_->wvp = Matrix4x4(
-		affineMatrix *
-		projection
-	);
+	transform_->Update(projection);
 
 	Render::DrawSprite(this, pipeline);
 }
@@ -196,7 +184,7 @@ void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pi
 	index = pipeline->GetRootSignatureIndex("gArcParam");
 	commandList->SetGraphicsRootConstantBufferView(index, arcGaugeParamBuffer_->GetGPUVirtualAddress());
 	index = pipeline->GetRootSignatureIndex("gTransformationMatrix");
-	commandList->SetGraphicsRootConstantBufferView(index, transformBuffer_->GetGPUVirtualAddress());
+	transform_->BindCommand(commandList, index);
 	index = pipeline->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, index);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
@@ -221,16 +209,6 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 	vertexData_[1].pos = { left, top, 0.0f, 1.0f };
 	vertexData_[2].pos = { right, bottom, 0.0f, 1.0f };
 	vertexData_[3].pos = { right, top, 0.0f, 1.0f };
-}
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Textureの中心位置を変更する
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Sprite::SetTranslate(const Vector2& centerPos) {
-	transform_.translate.x = centerPos.x;
-	transform_.translate.y = centerPos.y;
-	transform_.translate.z = 0;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -288,12 +266,7 @@ void Sprite::Debug_Gui() {
 		drawRange_ = spriteSize_;
 	}
 
-	if (ImGui::TreeNode("transform")) {
-		ImGui::DragFloat3("translation", &transform_.translate.x, 0.1f);
-		ImGui::DragFloat2("scale", &transform_.scale.x, 0.01f);
-		ImGui::SliderAngle("rotation", &transform_.rotate.z);
-		ImGui::TreePop();
-	}
+	transform_->Debug_Gui();
 
 	if (ImGui::TreeNode("uv")) {
 		ImGui::DragFloat2("uvTranslation", &uvTransform_.translate.x, 0.01f);
@@ -387,7 +360,7 @@ void Sprite::Debug_Gui() {
 }
 
 void Sprite::ApplyParam() {
-	transform_ = saveParam_.transform;
+	transform_->SetSRT(saveParam_.transform);
 	uvTransform_ = saveParam_.uvTransform;
 	textureName_ = saveParam_.textureName;
 	materialData_->color = saveParam_.color;
@@ -421,7 +394,7 @@ void Sprite::Load(const std::string& _group, const std::string& _key) {
 }
 
 void Sprite::Save(const std::string& _group, const std::string& _key) {
-	saveParam_.transform = transform_;
+	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;
 	saveParam_.color = materialData_->color;

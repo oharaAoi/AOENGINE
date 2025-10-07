@@ -359,6 +359,7 @@
     <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp" />
     <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
     <ClCompile Include="Game\UI\Canvas\TutorialCanvas.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
@@ -675,6 +676,7 @@
     <ClInclude Include="Game\UI\Guide\TutorialBehavior.h" />
     <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
     <ClInclude Include="Game\UI\Canvas\TutorialCanvas.h" />
+    <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Engine\Resources\HLSL\Object3d.hlsli" />

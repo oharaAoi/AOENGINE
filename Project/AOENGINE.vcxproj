@@ -114,6 +114,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\PlannerNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\PlannerSelectorNode.cpp" />
@@ -418,6 +419,7 @@ copy "$(ProjectDir)Externals\assimp\build\bin\Release\assimp-vc143-mt.dll" "$(Ta
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.h" />
     <ClInclude Include="Engine\Module\Components\AI\PlannerNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\PlannerSelectorNode.h" />
