@@ -17,7 +17,7 @@
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
-#include <DirectX/RTV/RenderTarget.h>
+#include "EngineDirectX/RTV/RenderTarget.h"
 
 enum class PostEffectType {
 	GRAYSCALE,

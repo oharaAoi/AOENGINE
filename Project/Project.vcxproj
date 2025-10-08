@@ -1,0 +1,705 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5C2CF323-C80B-72BF-D123-FD953D82D820}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Project</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\bin\Debug\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Debug\Game\</IntDir>
+    <TargetName>Project</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(ProjectDir)..\bin\Release\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Release\Game\</IntDir>
+    <TargetName>Project</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;Externals;Externals\assimp\include;Externals\DirectXTex;Externals\ImGui;Externals\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;assimp-vc143-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll" "..\bin\Debug" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll" "..\bin\Debug" &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;Externals;Externals\assimp\include;Externals\DirectXTex;Externals\ImGui;Externals\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;assimp-vc143-mt.lib;DirectXTex.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll"\ (xcopy /Q /E /Y /I "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll" "..\bin\Release" &gt; nul) ELSE (xcopy /Q /Y /I "$(SolutionDir)\..\Project\Externals\assimp\bin\*.dll" "..\bin\Release" &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Engine\Core\AoiFramework.h" />
+    <ClInclude Include="Engine\Core\GraphicsContext.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCommon\DirectXCommon.h" />
+    <ClInclude Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.h" />
+    <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h" />
+    <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
+    <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
+    <ClInclude Include="Engine\DirectX\Template\Pool.h" />
+    <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
+    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
+    <ClInclude Include="Engine\Lib\Color.h" />
+    <ClInclude Include="Engine\Lib\GameTimer.h" />
+    <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
+    <ClInclude Include="Engine\Lib\Json\IJsonConverter.h" />
+    <ClInclude Include="Engine\Lib\Json\JsonItems.h" />
+    <ClInclude Include="Engine\Lib\Math\Curve.h" />
+    <ClInclude Include="Engine\Lib\Math\Easing.h" />
+    <ClInclude Include="Engine\Lib\Math\MathStructures.h" />
+    <ClInclude Include="Engine\Lib\Math\Matrix3x3.h" />
+    <ClInclude Include="Engine\Lib\Math\Matrix4x4.h" />
+    <ClInclude Include="Engine\Lib\Math\MyMath.h" />
+    <ClInclude Include="Engine\Lib\Math\MyMatrix.h" />
+    <ClInclude Include="Engine\Lib\Math\MyRandom.h" />
+    <ClInclude Include="Engine\Lib\Math\Quaternion.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector2.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector3.h" />
+    <ClInclude Include="Engine\Lib\Math\Vector4.h" />
+    <ClInclude Include="Engine\Lib\ParticlesData.h" />
+    <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
+    <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
+    <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorRootNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h" />
+    <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h" />
+    <ClInclude Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.h" />
+    <ClInclude Include="Engine\Module\Components\AI\IBehaviorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\ITaskNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\PlannerSelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
+    <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h" />
+    <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\AnimationStructures.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\VectorTween.h" />
+    <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\Collider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\ICollider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
+    <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
+    <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\GeometryObject.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\Model.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\TestObject.h" />
+    <ClInclude Include="Engine\Module\Components\Light\BaseLight.h" />
+    <ClInclude Include="Engine\Module\Components\Light\DirectionalLight.h" />
+    <ClInclude Include="Engine\Module\Components\Light\LightGroup.h" />
+    <ClInclude Include="Engine\Module\Components\Light\Phong.h" />
+    <ClInclude Include="Engine\Module\Components\Light\PointLight.h" />
+    <ClInclude Include="Engine\Module\Components\Light\SpotLight.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\Material.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\PBRMaterial.h" />
+    <ClInclude Include="Engine\Module\Components\Meshes\Mesh.h" />
+    <ClInclude Include="Engine\Module\Components\Meshes\ParticleMesh.h" />
+    <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
+    <ClInclude Include="Engine\Module\Components\ProcessedSceneFrame.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\InverseKinematics.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\Skeleton.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\SkinCluster.h" />
+    <ClInclude Include="Engine\Module\Components\Rigging\Skinning.h" />
+    <ClInclude Include="Engine\Module\Components\TransformationMatrix.h" />
+    <ClInclude Include="Engine\Module\Components\ViewProjection.h" />
+    <ClInclude Include="Engine\Module\Components\WorldTransform.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\BaseCSResource.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\ComputeShader.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\DepthOfField.h" />
+    <ClInclude Include="Engine\Module\ComputeShader\GaussianBlur.h" />
+    <ClInclude Include="Engine\Module\Geometry\GeometryFactory.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\CubeGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\CylinderGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\IGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\PlaneGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\RingGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Polygon\SphereGeometry.h" />
+    <ClInclude Include="Engine\Module\Geometry\Structs\Vertices.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Bloom.h" />
+    <ClInclude Include="Engine\Module\PostEffect\BrightnessThreshold.h" />
+    <ClInclude Include="Engine\Module\PostEffect\DepthBasedOutline.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Dissolve.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurHeight.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianBlurWidth.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GaussianFilter.h" />
+    <ClInclude Include="Engine\Module\PostEffect\GlitchNoise.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Grayscale.h" />
+    <ClInclude Include="Engine\Module\PostEffect\IPostEffect.h" />
+    <ClInclude Include="Engine\Module\PostEffect\LuminanceBasedOutline.h" />
+    <ClInclude Include="Engine\Module\PostEffect\MotionBlur.h" />
+    <ClInclude Include="Engine\Module\PostEffect\PingPongBuffer.h" />
+    <ClInclude Include="Engine\Module\PostEffect\PostProcess.h" />
+    <ClInclude Include="Engine\Module\PostEffect\RadialBlur.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
+    <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
+    <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
+    <ClInclude Include="Engine\Render.h" />
+    <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
+    <ClInclude Include="Engine\Render\InstancingRenderer.h" />
+    <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
+    <ClInclude Include="Engine\Render\RenderingCommands.h" />
+    <ClInclude Include="Engine\Render\SceneRenderer.h" />
+    <ClInclude Include="Engine\Render\ShadowMap.h" />
+    <ClInclude Include="Engine\Render\TrailRenderer.h" />
+    <ClInclude Include="Engine\System\Audio\Audio.h" />
+    <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
+    <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
+    <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
+    <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
+    <ClInclude Include="Engine\System\Editer\Window\EditorWindows.h" />
+    <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h" />
+    <ClInclude Include="Engine\System\Input\Input.h" />
+    <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
+    <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
+    <ClInclude Include="Engine\System\Manager\AudioManager.h" />
+    <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h" />
+    <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
+    <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
+    <ClInclude Include="Engine\System\Manager\ImGuiManager.h" />
+    <ClInclude Include="Engine\System\Manager\MeshManager.h" />
+    <ClInclude Include="Engine\System\Manager\ModelManager.h" />
+    <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
+    <ClInclude Include="Engine\System\Manager\SceneManager.h" />
+    <ClInclude Include="Engine\System\Manager\TextureManager.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
+    <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
+    <ClInclude Include="Engine\Utilities\BitChecker.h" />
+    <ClInclude Include="Engine\Utilities\Convert.h" />
+    <ClInclude Include="Engine\Utilities\Debug.h" />
+    <ClInclude Include="Engine\Utilities\DrawUtils.h" />
+    <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
+    <ClInclude Include="Engine\Utilities\Loader.h" />
+    <ClInclude Include="Engine\Utilities\Logger.h" />
+    <ClInclude Include="Engine\Utilities\Shader.h" />
+    <ClInclude Include="Engine\WinApp\WinApp.h" />
+    <ClInclude Include="Game\Actor\Base\BaseAction.h" />
+    <ClInclude Include="Game\Actor\Base\BaseBullet.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotLauncher.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionLeave.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
+    <ClInclude Include="Game\Actor\Boss\Boss.h" />
+    <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
+    <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
+    <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h" />
+    <ClInclude Include="Game\Actor\Jet\JetEngine.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionDeployArmor.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionIdle.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionQuickBoost.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionRightShoulder.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotLeft.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionShotRight.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionTurnAround.h" />
+    <ClInclude Include="Game\Actor\Player\Bullet\PlayerBullet.h" />
+    <ClInclude Include="Game\Actor\Player\Bullet\PlayerBulletManager.h" />
+    <ClInclude Include="Game\Actor\Player\Player.h" />
+    <ClInclude Include="Game\Actor\Player\PlayerManager.h" />
+    <ClInclude Include="Game\Actor\Player\State\PlayerIdleState.h" />
+    <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
+    <ClInclude Include="Game\Actor\Weapon\Armors.h" />
+    <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
+    <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
+    <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
+    <ClInclude Include="Game\Actor\Weapon\PulseArmor.h" />
+    <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h" />
+    <ClInclude Include="Game\Actor\Weapon\Sword.h" />
+    <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
+    <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h" />
+    <ClInclude Include="Game\Camera\BaseCamera.h" />
+    <ClInclude Include="Game\Camera\Camera2d.h" />
+    <ClInclude Include="Game\Camera\Camera3d.h" />
+    <ClInclude Include="Game\Camera\CameraAnimation.h" />
+    <ClInclude Include="Game\Camera\DebugCamera.h" />
+    <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Effects\HitExploade.h" />
+    <ClInclude Include="Game\Effects\JetEngineBurn.h" />
+    <ClInclude Include="Game\Information\ActionContext.h" />
+    <ClInclude Include="Game\Information\ColliderCategory.h" />
+    <ClInclude Include="Game\Manager\ActionManager.h" />
+    <ClInclude Include="Game\RunTime\GameCore.h" />
+    <ClInclude Include="Game\Scene\BaseScene.h" />
+    <ClInclude Include="Game\Scene\GameScene.h" />
+    <ClInclude Include="Game\Scene\SceneFactory.h" />
+    <ClInclude Include="Game\Scene\SceneType.h" />
+    <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\Scene\TitleScene.h" />
+    <ClInclude Include="Game\Scene\TutorialScene.h" />
+    <ClInclude Include="Game\State\ICharacterState.h" />
+    <ClInclude Include="Game\State\StateMachine.h" />
+    <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
+    <ClInclude Include="Game\UI\BaseGaugeUI.h" />
+    <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
+    <ClInclude Include="Game\UI\Boss\BossUIs.h" />
+    <ClInclude Include="Game\UI\Boss\EnemyAttackAlert.h" />
+    <ClInclude Include="Game\UI\Canvas\TutorialCanvas.h" />
+    <ClInclude Include="Game\UI\CanvasUI.h" />
+    <ClInclude Include="Game\UI\ClearNotificationUI.h" />
+    <ClInclude Include="Game\UI\FadePanel.h" />
+    <ClInclude Include="Game\UI\Guide\GameModeGuide.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialBehavior.h" />
+    <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
+    <ClInclude Include="Game\UI\Health.h" />
+    <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
+    <ClInclude Include="Game\UI\Player\PlayerUIs.h" />
+    <ClInclude Include="Game\UI\Player\WeaponRemainingRounds.h" />
+    <ClInclude Include="Game\UI\PostureStability.h" />
+    <ClInclude Include="Game\UI\Reticle.h" />
+    <ClInclude Include="Game\UI\StanGaugeUI.h" />
+    <ClInclude Include="Game\UI\TitleUIs.h" />
+    <ClInclude Include="Game\WorldObject\FieldObject.h" />
+    <ClInclude Include="Game\WorldObject\Floor.h" />
+    <ClInclude Include="Game\WorldObject\Skybox.h" />
+    <ClInclude Include="Game\WorldObject\Skydome.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine\Core\AoiFramework.cpp" />
+    <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCommon\DirectXCommon.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXCompiler\DirectXCompiler.cpp" />
+    <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
+    <ClCompile Include="Engine\DirectX\Template\Pool.cpp" />
+    <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
+    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Lib\Color.cpp" />
+    <ClCompile Include="Engine\Lib\GameTimer.cpp" />
+    <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
+    <ClCompile Include="Engine\Lib\Json\IJsonConverter.cpp" />
+    <ClCompile Include="Engine\Lib\Json\JsonItems.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Easing.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MathStructures.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Matrix4x4.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyMath.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyMatrix.cpp" />
+    <ClCompile Include="Engine\Lib\Math\MyRandom.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Quaternion.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector2.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector3.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Vector4.cpp" />
+    <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorRootNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\IBehaviorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\ITaskNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\PlannerSelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\VectorTween.cpp" />
+    <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\Collider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
+    <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\GeometryObject.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\TestObject.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\BaseLight.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\DirectionalLight.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\LightGroup.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\Phong.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\PointLight.cpp" />
+    <ClCompile Include="Engine\Module\Components\Light\SpotLight.cpp" />
+    <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />
+    <ClCompile Include="Engine\Module\Components\Materials\Material.cpp" />
+    <ClCompile Include="Engine\Module\Components\Materials\PBRMaterial.cpp" />
+    <ClCompile Include="Engine\Module\Components\Meshes\Mesh.cpp" />
+    <ClCompile Include="Engine\Module\Components\Meshes\ParticleMesh.cpp" />
+    <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
+    <ClCompile Include="Engine\Module\Components\ProcessedSceneFrame.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\InverseKinematics.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\Skeleton.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\SkinCluster.cpp" />
+    <ClCompile Include="Engine\Module\Components\Rigging\Skinning.cpp" />
+    <ClCompile Include="Engine\Module\Components\TransformationMatrix.cpp" />
+    <ClCompile Include="Engine\Module\Components\ViewProjection.cpp" />
+    <ClCompile Include="Engine\Module\Components\WorldTransform.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\BaseCSResource.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\ComputeShader.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\DepthOfField.cpp" />
+    <ClCompile Include="Engine\Module\ComputeShader\GaussianBlur.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\GeometryFactory.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\CubeGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\CylinderGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\IGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\PlaneGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\RingGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Polygon\SphereGeometry.cpp" />
+    <ClCompile Include="Engine\Module\Geometry\Structs\Vertices.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Bloom.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\BrightnessThreshold.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\DepthBasedOutline.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Dissolve.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurHeight.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianBlurWidth.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GaussianFilter.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\GlitchNoise.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Grayscale.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\IPostEffect.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\LuminanceBasedOutline.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\MotionBlur.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\PingPongBuffer.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\PostProcess.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\RadialBlur.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
+    <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
+    <ClCompile Include="Engine\Render.cpp" />
+    <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
+    <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
+    <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
+    <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
+    <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
+    <ClCompile Include="Engine\Render\ShadowMap.cpp" />
+    <ClCompile Include="Engine\Render\TrailRenderer.cpp" />
+    <ClCompile Include="Engine\System\Audio\Audio.cpp" />
+    <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
+    <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
+    <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\EditorWindows.cpp" />
+    <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp" />
+    <ClCompile Include="Engine\System\Input\Input.cpp" />
+    <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\AudioManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
+    <ClCompile Include="Engine\Utilities\Convert.cpp" />
+    <ClCompile Include="Engine\Utilities\Debug.cpp" />
+    <ClCompile Include="Engine\Utilities\DrawUtils.cpp" />
+    <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
+    <ClCompile Include="Engine\Utilities\Loader.cpp" />
+    <ClCompile Include="Engine\Utilities\Logger.cpp" />
+    <ClCompile Include="Engine\Utilities\Shader.cpp" />
+    <ClCompile Include="Engine\WinApp\WinApp.cpp" />
+    <ClCompile Include="Game\Actor\Base\BaseAction.cpp" />
+    <ClCompile Include="Game\Actor\Base\BaseBullet.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotLauncher.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp" />
+    <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionDeployArmor.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionIdle.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionQuickBoost.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionRightShoulder.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotLeft.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionShotRight.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionTurnAround.cpp" />
+    <ClCompile Include="Game\Actor\Player\Bullet\PlayerBullet.cpp" />
+    <ClCompile Include="Game\Actor\Player\Bullet\PlayerBulletManager.cpp" />
+    <ClCompile Include="Game\Actor\Player\Player.cpp" />
+    <ClCompile Include="Game\Actor\Player\PlayerManager.cpp" />
+    <ClCompile Include="Game\Actor\Player\State\PlayerIdleState.cpp" />
+    <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\PulseArmor.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Sword.cpp" />
+    <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
+    <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
+    <ClCompile Include="Game\Camera\BaseCamera.cpp" />
+    <ClCompile Include="Game\Camera\Camera2d.cpp" />
+    <ClCompile Include="Game\Camera\Camera3d.cpp" />
+    <ClCompile Include="Game\Camera\CameraAnimation.cpp" />
+    <ClCompile Include="Game\Camera\DebugCamera.cpp" />
+    <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Effects\HitExploade.cpp" />
+    <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
+    <ClCompile Include="Game\Manager\ActionManager.cpp" />
+    <ClCompile Include="Game\RunTime\GameCore.cpp" />
+    <ClCompile Include="Game\Scene\BaseScene.cpp" />
+    <ClCompile Include="Game\Scene\GameScene.cpp" />
+    <ClCompile Include="Game\Scene\SceneFactory.cpp" />
+    <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\Scene\TitleScene.cpp" />
+    <ClCompile Include="Game\Scene\TutorialScene.cpp" />
+    <ClCompile Include="Game\State\ICharacterState.cpp" />
+    <ClCompile Include="Game\State\StateMachine.cpp" />
+    <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
+    <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
+    <ClCompile Include="Game\UI\Boss\BossUIs.cpp" />
+    <ClCompile Include="Game\UI\Boss\EnemyAttackAlert.cpp" />
+    <ClCompile Include="Game\UI\Canvas\TutorialCanvas.cpp" />
+    <ClCompile Include="Game\UI\CanvasUI.cpp" />
+    <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
+    <ClCompile Include="Game\UI\FadePanel.cpp" />
+    <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp" />
+    <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
+    <ClCompile Include="Game\UI\Health.cpp" />
+    <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
+    <ClCompile Include="Game\UI\Player\PlayerUIs.cpp" />
+    <ClCompile Include="Game\UI\Player\WeaponRemainingRounds.cpp" />
+    <ClCompile Include="Game\UI\PostureStability.cpp" />
+    <ClCompile Include="Game\UI\Reticle.cpp" />
+    <ClCompile Include="Game\UI\StanGaugeUI.cpp" />
+    <ClCompile Include="Game\UI\TitleUIs.cpp" />
+    <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
+    <ClCompile Include="Game\WorldObject\Floor.cpp" />
+    <ClCompile Include="Game\WorldObject\Skybox.cpp" />
+    <ClCompile Include="Game\WorldObject\Skydome.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
