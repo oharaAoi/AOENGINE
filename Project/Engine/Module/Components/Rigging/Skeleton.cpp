@@ -3,7 +3,7 @@
 #include "Engine/Render.h"
 #include "Engine/Utilities/DrawUtils.h"
 #ifdef DEBUG
-#include "Engine/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #endif
 
 Skeleton::Skeleton() {}

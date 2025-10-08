@@ -1,14 +1,15 @@
+-- ===============================================================
+-- AOENGINE Premake5 Build Script
+-- ===============================================================
 workspace "AOENGINE"
     architecture "x64"
     configurations { "Debug", "Release" }
-    location "Project"
+    location "Generated"
     startproject "Game"
 
--- ===============================================================
--- 共通設定
--- ===============================================================
     filter "system:windows"
         systemversion "latest"
+        buildoptions { "/utf-8" }
 
     filter "configurations:Debug"
         defines { "DEBUG" }
@@ -20,19 +21,15 @@ workspace "AOENGINE"
         optimize "Full"
         runtime "Release"
 
--- ===============================================================
--- [2] Game プロジェクト（実行ファイル）
--- ===============================================================
-
-project "Project"
+project "Game"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
     staticruntime "off"
 
-    location "Project"
-    targetdir "bin/%{cfg.buildcfg}"
-    objdir    "bin-int/%{cfg.buildcfg}/Game"
+    location "Generated/Game"
+    targetdir "%{wks.location}/../Project/bin/%{cfg.buildcfg}/%{prj.name}"
+    objdir    "%{wks.location}/../Project/bin-int/%{cfg.buildcfg}/%{prj.name}"
 
     files {
         "Project/Game/**.h",
@@ -55,7 +52,6 @@ project "Project"
         "Project/Externals/assimp/lib"
     }
 
-    -- Engine と外部リンク
     links {
         "d3d12",
         "dxgi",
@@ -64,10 +60,20 @@ project "Project"
         "DirectXTex"
     }
 
-    -- 実行時ディレクトリを指定
     debugdir "Project/Game"
+    -- DirectXTexを参照プロジェクトとして追加
+    dependson { "DirectXTex" }
 
-    -- DLL 自動コピー
     postbuildcommands {
         '{COPY} "%{wks.location}/../Project/Externals/assimp/bin/*.dll" "%{cfg.targetdir}"'
     }
+
+-- ===============================================================
+-- 外部プロジェクト登録
+-- ===============================================================
+
+externalproject "DirectXTex"
+    location "Project/Externals/DirectXTex"
+    kind "StaticLib"
+    language "C++"
+    filename "DirectXTex_Desktop_2022_Win10"
