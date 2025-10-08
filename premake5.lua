@@ -14,18 +14,19 @@ workspace "AOENGINE"
     filter "configurations:Debug"
         defines { "DEBUG" }
         symbols "On"
+        staticruntime "on"
         runtime "Debug"
 
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "Full"
-        runtime "Release"
+        staticruntime "on"     -- /MT または /MTd
+        runtime "Release"      -- リリース版なので /MT になる
 
 project "Game"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++20"
-    staticruntime "off"
 
     location "Generated/Game"
     targetdir "%{wks.location}/../Project/bin/%{cfg.buildcfg}/%{prj.name}"
@@ -77,3 +78,9 @@ externalproject "DirectXTex"
     kind "StaticLib"
     language "C++"
     filename "DirectXTex_Desktop_2022_Win10"
+
+ externalproject "ImGui"
+    location "Project/Externals/ImGui"
+    kind "StaticLib"
+    language "C++"
+    filename "ImGui"
