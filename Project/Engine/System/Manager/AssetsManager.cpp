@@ -31,6 +31,11 @@ void AssetsManager::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AssetsManager::LoadTextures(const std::string& rootPath) {
+	if (!fs::exists(rootPath)) {
+		std::cerr << "Warning: path not found -> " << rootPath << std::endl;
+		return;
+	}
+
 	TextureManager* manager = TextureManager::GetInstance();
 	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
 		std::string ext = entry.path().extension().string();
@@ -49,6 +54,10 @@ void AssetsManager::LoadTextures(const std::string& rootPath) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AssetsManager::LoadModels(const std::string& rootPath) {
+	if (!fs::exists(rootPath)) {
+		std::cerr << "Warning: path not found -> " << rootPath << std::endl;
+		return;
+	}
 	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
 
 		if (entry.is_regular_file()) {
@@ -70,8 +79,12 @@ void AssetsManager::LoadModels(const std::string& rootPath) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AssetsManager::LoadSounds(const std::string& rootPath) {
-	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
+	if (!fs::exists(rootPath)) {
+		std::cerr << "Warning: path not found -> " << rootPath << std::endl;
+		return;
+	}
 
+	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
 		if (entry.is_regular_file()) {
 			std::string ext = entry.path().extension().string();
 			
