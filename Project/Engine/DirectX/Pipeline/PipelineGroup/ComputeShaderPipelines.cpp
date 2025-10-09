@@ -1,6 +1,7 @@
 #include "ComputeShaderPipelines.h"
 #include <fstream>
 #include <filesystem>
+#include <iostream>
 
 namespace fs = std::filesystem;
 
@@ -27,6 +28,10 @@ void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompi
 }
 
 void ComputeShaderPipelines::Load(const std::string& path) {
+	if (!fs::exists(path)) {
+		std::cerr << "Warning: path not found -> " << path << std::endl;
+		return;
+	}
 	for (const auto& entry : fs::recursive_directory_iterator(path)) {
 
 		if (entry.is_regular_file()) {

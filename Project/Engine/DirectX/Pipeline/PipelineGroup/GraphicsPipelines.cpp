@@ -43,6 +43,11 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) 
 }
 
 void GraphicsPipelines::Load(const std::string& path, PSOType type) {
+	if (!fs::exists(path)) {
+		std::cerr << "Warning: path not found -> " << path << std::endl;
+		return;
+	}
+
 	for (const auto& entry : fs::recursive_directory_iterator(path)) {
 
 		if (entry.is_regular_file()) {
