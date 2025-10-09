@@ -172,8 +172,6 @@ void EditorWindows::DebugItemWindow() {
 		| ImGuiWindowFlags_AlwaysAutoResize
 		| ImGuiWindowFlags_NoScrollbar
 		| ImGuiWindowFlags_NoCollapse
-		| ImGuiWindowFlags_NoBackground
-		| ImGuiWindowFlags_NoMove
 		| ImGuiWindowFlags_NoDocking;
 
 	if (ImGui::Begin("DebugItems", nullptr, flags)) {
