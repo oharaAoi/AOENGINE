@@ -37,7 +37,7 @@ void TutorialScene::Init() {
 
 	sceneLoader_ = SceneLoader::GetInstance();
 	sceneLoader_->Init();
-	sceneLoader_->Load("./Packages/Game/Assets/Scene/", "tutorial", ".json");
+	sceneLoader_->Load("./Project/Packages/Game/Assets/Scene/", "tutorial", ".json");
 
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();

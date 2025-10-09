@@ -27,6 +27,7 @@ workspace "AOENGINE"
     location "Project"
     startproject "Game"
     flags {"MultiProcessorCompile"}
+    warnings "Extra"
 
     filter "system:windows"
         systemversion "latest"
@@ -85,7 +86,7 @@ project "Game"
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
-            'copy /Y "%{wks.location}\\Externals\\assimp\\build\\lib\\%{cfg.buildcfg}\\assimp-vc143-mtd.dll" "$(TargetDir)"',
+            'copy /Y "%{wks.location}\\Externals\\assimp\\lib\\%{cfg.buildcfg}\\assimp-vc143-mtd.dll" "$(TargetDir)"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
@@ -96,7 +97,7 @@ project "Game"
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
-            'copy /Y "%{wks.location}\\Externals\\assimp\\build\\lib\\%{cfg.buildcfg}\\assimp-vc143-mt.dll" "$(TargetDir)"',
+            'copy /Y "%{wks.location}\\Externals\\assimp\\lib\\%{cfg.buildcfg}\\assimp-vc143-mt.dll" "$(TargetDir)"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
