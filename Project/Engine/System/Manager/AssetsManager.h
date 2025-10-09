@@ -38,14 +38,14 @@ private:
 private:
 
 	const AssetPaths kEngineAssets = {
-		"./Packages/Engine/Assets/Load/Textures/",
-		"./Packages/Engine/Assets/Load/Models/",
-		"./Packages/Engine/Assets/Load/Sounds/"
+		"./Project/Packages/Engine/Assets/Load/Textures/",
+		"./Project/Packages/Engine/Assets/Load/Models/",
+		"./Project/Packages/Engine/Assets/Load/Sounds/"
 	};
 
 	const AssetPaths kGameAssets = {
-		"./Packages/Game/Assets/Load/Textures/",
-		"./Packages/Game/Assets/Load/Models/",
-		"./Packages/Game/Assets/Load/Sounds/"
+		"./Project/Packages/Game/Assets/Load/Textures/",
+		"./Project/Packages/Game/Assets/Load/Models/",
+		"./Project/Packages/Game/Assets/Load/Sounds/"
 	};
 };

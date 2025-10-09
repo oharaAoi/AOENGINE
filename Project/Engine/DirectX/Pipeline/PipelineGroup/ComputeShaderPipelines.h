@@ -28,8 +28,8 @@ public:
 
 private:
 
-	const std::string kEngineAssets = "./Packages/Engine/Assets/Pipeline/CS/";
-	const  std::string kGameAssets = "./Packages/Game/Assets/Pipeline/CS/";
+	const std::string kEngineAssets = "./Project/Packages/Engine/Assets/Pipeline/CS/";
+	const  std::string kGameAssets = "./Project/Packages/Game/Assets/Pipeline/CS/";
 
 	std::unique_ptr<ComputeShaderPipeline> computeShaderPipeline_;
 

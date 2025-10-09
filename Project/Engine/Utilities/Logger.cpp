@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <cassert>
+#include <iostream>
 
 std::string Logger::filePath_;
 
@@ -18,7 +19,14 @@ Logger::~Logger() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Logger::Init() {
-	std::filesystem::create_directory("Logs");
+	try {
+		std::filesystem::create_directories("./Project/Logs");
+	}
+	catch (const std::filesystem::filesystem_error& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+		std::cerr << "Path1: " << e.path1() << std::endl;
+		std::cerr << "Path2: " << e.path2() << std::endl;
+	}
 	// Logの数を制限する
 	DeleteOldLogFile(10);
 
@@ -71,7 +79,7 @@ void Logger::DeleteOldLogFile(size_t max) {
     std::vector<std::filesystem::directory_entry> files;
 
     // フォルダ内の通常ファイルを収集
-    for (const auto& entry : std::filesystem::directory_iterator("Logs/")) {
+    for (const auto& entry : std::filesystem::directory_iterator("./Project/Logs")) {
         if (std::filesystem::is_regular_file(entry)) {
             files.push_back(entry);
         }

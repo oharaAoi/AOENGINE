@@ -46,15 +46,15 @@ public:
 private:
 
 	const AssetPaths kEngineAssets = {
-		"./Packages/Engine/Assets/Pipeline/Object/",
-		"./Packages/Engine/Assets/Pipeline/Sprite/",
-		"./Packages/Engine/Assets/Pipeline/PostProcess/"
+		"./Project/Packages/Engine/Assets/Pipeline/Object/",
+		"./Project/Packages/Engine/Assets/Pipeline/Sprite/",
+		"./Project/Packages/Engine/Assets/Pipeline/PostProcess/"
 	};
 
 	const AssetPaths kGameAssets = {
-		"./Packages/Game/Assets/Pipeline/Object/",
-		"./Packages/Game/Assets/Pipeline/Sprite/",
-		"./Packages/Game/Assets/Pipeline/PostProcess/"
+		"./Project/Packages/Game/Assets/Pipeline/Object/",
+		"./Project/Packages/Game/Assets/Pipeline/Sprite/",
+		"./Project/Packages/Game/Assets/Pipeline/PostProcess/"
 	};
 
 	std::unique_ptr<Object3dPipelines> obj3dPipeline_;

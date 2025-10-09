@@ -32,7 +32,7 @@ void GameScene::Init() {
 
 	sceneLoader_ = SceneLoader::GetInstance();
 	sceneLoader_->Init();
-	sceneLoader_->Load("./Packages/Game/Assets/Scene/", "scene", ".json");
+	sceneLoader_->Load("./Project/Packages/Game/Assets/Scene/", "scene", ".json");
 
 	sceneRenderer_ = SceneRenderer::GetInstance();
 	sceneRenderer_->Init();

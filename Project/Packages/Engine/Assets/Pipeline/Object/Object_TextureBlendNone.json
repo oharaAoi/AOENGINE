@@ -1,7 +1,7 @@
 {
     "Pipeline": {
-        "vs": "./Packages/Engine/Assets/HLSL/Object3d.VS.hlsl",
-        "ps": "./Packages/Engine/Assets/HLSL/ObjectTextureBlend.PS.hlsl",
+        "vs": "./Project/Packages/Engine/Assets/HLSL/Object3d.VS.hlsl",
+        "ps": "./Project/Packages/Engine/Assets/HLSL/ObjectTextureBlend.PS.hlsl",
         "blendMode": "None",
         "culling" : true,
         "depth" : false,

@@ -118,7 +118,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
-	behaviorTree_->CreateTree("./Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
+	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
 	behaviorTree_->SetExecute(true);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();

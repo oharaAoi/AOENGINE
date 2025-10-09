@@ -76,7 +76,7 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
-	object_->SetAnimater("./Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
+	object_->SetAnimater("./Project/Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
 	object_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 
 	jet_ = std::make_unique<JetEngine>();

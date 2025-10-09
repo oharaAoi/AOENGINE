@@ -1,10 +1,30 @@
 -- ===============================================================
+-- DXC (dxcompiler.dll, dxil.dll) コピー関数
+-- ===============================================================
+function Add_DXC_DLL_CopyCommands()
+    local sdkRoot = "C:/Program Files (x86)/Windows Kits/10/bin/"
+    local sdkVer = "10.0.26100.0"
+    local base = sdkRoot .. sdkVer .. "/x64/"
+    local dxcompilerPath = base .. "dxcompiler.dll"
+    local dxilPath       = base .. "dxil.dll"
+
+    return {
+        'echo 🔧 Copying DirectX Compiler DLLs...',
+        string.format('if not exist "$(TargetDir)" mkdir "$(TargetDir)"'),
+        string.format('if exist "%s" xcopy /Y /I "%s" "$(TargetDir)"', dxcompilerPath, dxcompilerPath),
+        string.format('if exist "%s" xcopy /Y /I "%s" "$(TargetDir)"', dxilPath, dxilPath),
+        'echo ✅ DXC copy done.'
+    }
+end
+
+
+-- ===============================================================
 -- AOENGINE Premake5 Build Script
 -- ===============================================================
 workspace "AOENGINE"
     architecture "x64"
     configurations { "Debug", "Release" }
-    location "Generated"
+    location "Project"
     startproject "Game"
 
     filter "system:windows"
@@ -20,23 +40,29 @@ workspace "AOENGINE"
     filter "configurations:Release"
         defines { "NDEBUG" }
         optimize "Full"
-        staticruntime "on"     -- /MT または /MTd
-        runtime "Release"      -- リリース版なので /MT になる
+        staticruntime "on"
+        runtime "Release"
 
 project "Game"
-    kind "ConsoleApp"
+    kind "WindowedApp"
     language "C++"
     cppdialect "C++20"
 
-    location "Generated/Game"
-    targetdir "%{wks.location}/../Project/bin/%{cfg.buildcfg}/%{prj.name}"
-    objdir    "%{wks.location}/../Project/bin-int/%{cfg.buildcfg}/%{prj.name}"
+    -- 🔹 各 .vcxproj の出力先（Project内）
+    location "Project"
 
+    -- 🔹 exe / pdb / dll などの出力先
+    targetdir "%{wks.location}/../Generated/Outputs/%{cfg.buildcfg}/"
+    objdir    "%{wks.location}/../Generated/Outputs/Intermediate/%{cfg.buildcfg}/%{prj.name}"
+    debugdir  ("%{wks.location}/..")
+
+    -- 🔹 ソース
     files {
-        "Project/Game/**.h",
-        "Project/Game/**.cpp",
-        "Project/Engine/**.h",
-        "Project/Engine/**.cpp"
+        "Project/main.cpp",
+        "Project/Enviroment.h",
+        "Project/Game/**.h", "Project/Game/**.cpp",
+        "Project/Engine/**.h", "Project/Engine/**.cpp",
+        "Project/Externals/ImGui/**.h", "Project/Externals/ImGui/**.cpp"
     }
 
     includedirs {
@@ -49,37 +75,41 @@ project "Game"
         "Project/Externals/nlohmann"
     }
 
-    libdirs {
-        "Project/Externals/assimp/lib"
-    }
+    filter "configurations:Debug"
+        links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mtd" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/bin/Debug" }
 
-    links {
-        "d3d12",
-        "dxgi",
-        "dxguid",
-        "assimp-vc143-mt",
-        "DirectXTex"
-    }
+        postbuildcommands {
+            'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
+            'copy /Y "%{wks.location}/../Project/Externals/assimp/bin/Debug/assimp-vc143-mtd.dll" "$(TargetDir)"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
+        }
 
-    debugdir "Project/Game"
-    -- DirectXTexを参照プロジェクトとして追加
-    dependson { "DirectXTex" }
+    filter "configurations:Release"
+        links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/bin/Release" }
 
-    postbuildcommands {
-        '{COPY} "%{wks.location}/../Project/Externals/assimp/bin/*.dll" "%{cfg.targetdir}"'
-    }
+        postbuildcommands {
+            'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
+            'copy /Y "%{wks.location}/../Project/Externals/assimp/bin/Release/assimp-vc143-mt.dll" "$(TargetDir)"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
+        }
+
+    filter {}
+    dependson { "DirectXTex", "ImGui" }
 
 -- ===============================================================
--- 外部プロジェクト登録
+-- 外部プロジェクト
 -- ===============================================================
-
 externalproject "DirectXTex"
     location "Project/Externals/DirectXTex"
     kind "StaticLib"
     language "C++"
     filename "DirectXTex_Desktop_2022_Win10"
 
- externalproject "ImGui"
+externalproject "ImGui"
     location "Project/Externals/ImGui"
     kind "StaticLib"
     language "C++"

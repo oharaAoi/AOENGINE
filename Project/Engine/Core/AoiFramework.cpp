@@ -19,6 +19,7 @@ void AoiFramework::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AoiFramework::Init() {
+	endRequest_ = false;
 	logger_.Init();
 
 	Engine::Initialize(kWindowWidth_, kWindowHeight_);

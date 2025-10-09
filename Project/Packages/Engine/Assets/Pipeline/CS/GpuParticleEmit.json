@@ -1,5 +1,5 @@
 {
     "Pipeline": {
-        "cs" : "./Packages/Engine/Assets/HLSL/Particle/EmitParticle.CS.hlsl"
+        "cs" : "./Project/Packages/Engine/Assets/HLSL/Particle/EmitParticle.CS.hlsl"
     }
 }

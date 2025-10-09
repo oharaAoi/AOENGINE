@@ -1,7 +1,7 @@
 {
     "Pipeline": {
-        "vs": "./Packages/Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl",
-        "ps": "./Packages/Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl",
+        "vs": "./Project/Packages/Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl",
+        "ps": "./Project/Packages/Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl",
         "blendMode": "Add",
         "culling" : true,
         "depth" : false, 

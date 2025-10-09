@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 
-const std::string JsonItems::kDirectoryPath_ = "./Packages/Game/Assets/GameData/JsonItems/";
+const std::string JsonItems::kDirectoryPath_ = "./Project/Packages/Game/Assets/GameData/JsonItems/";
 std::string JsonItems::nowSceneName_ = "";
 
 namespace fs = std::filesystem;
@@ -36,7 +36,7 @@ void JsonItems::Init(const std::string& nowScene) {
 
 void JsonItems::LoadAllFile() {
 	jsonMap_.clear();
-	std::filesystem::directory_iterator rootDir(kDirectoryPath_ + "/" + nowSceneName_ );
+	std::filesystem::directory_iterator rootDir(kDirectoryPath_ + nowSceneName_ );
 	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootDir)) {
 		if (entryDir.is_directory()) {
 			// サブディレクトリの名前を取得
@@ -59,7 +59,7 @@ void JsonItems::LoadAllFile() {
 	}
 
 	// effect読み込み
-	std::filesystem::directory_iterator rootEffectDir(kDirectoryPath_ + "/" + "Effect");
+	std::filesystem::directory_iterator rootEffectDir(kDirectoryPath_  + "Effect");
 	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootEffectDir)) {
 		if (entryDir.is_directory()) {
 			// サブディレクトリの名前を取得

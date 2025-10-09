@@ -12,7 +12,7 @@ void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) 
 
 	rootSignature_->Initialize(device, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitive();
-	ShaderCompile("Packages/Engine/Assets/HLSL/Primitive.VS.hlsl", "Packages/Engine/Assets/HLSL/Primitive.PS.hlsl");
+	ShaderCompile("./Project/Packages/Engine/Assets/HLSL/Primitive.VS.hlsl", "./Project/Packages/Engine/Assets/HLSL/Primitive.PS.hlsl");
 
 	CreatePSO();
 }
