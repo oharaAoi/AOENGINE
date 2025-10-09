@@ -9,11 +9,11 @@ function Add_DXC_DLL_CopyCommands()
     local dxilPath       = base .. "dxil.dll"
 
     return {
-        'echo 🔧 Copying DirectX Compiler DLLs...',
+        'echo Copying DirectX Compiler DLLs...',
         string.format('if not exist "$(TargetDir)" mkdir "$(TargetDir)"'),
         string.format('if exist "%s" xcopy /Y /I "%s" "$(TargetDir)"', dxcompilerPath, dxcompilerPath),
         string.format('if exist "%s" xcopy /Y /I "%s" "$(TargetDir)"', dxilPath, dxilPath),
-        'echo ✅ DXC copy done.'
+        'echo DXC copy done.'
     }
 end
 
@@ -26,6 +26,7 @@ workspace "AOENGINE"
     configurations { "Debug", "Release" }
     location "Project"
     startproject "Game"
+    flags {"MultiProcessorCompile"}
 
     filter "system:windows"
         systemversion "latest"
@@ -43,20 +44,23 @@ workspace "AOENGINE"
         staticruntime "on"
         runtime "Release"
 
+-- ===============================================================
+-- Game Build Script
+-- ===============================================================
 project "Game"
     kind "WindowedApp"
     language "C++"
     cppdialect "C++20"
 
-    -- 🔹 各 .vcxproj の出力先（Project内）
+    -- 各 .vcxproj の出力先（Project内）
     location "Project"
 
-    -- 🔹 exe / pdb / dll などの出力先
+    -- exe / pdb / dll などの出力先
     targetdir "%{wks.location}/../Generated/Outputs/%{cfg.buildcfg}/"
     objdir    "%{wks.location}/../Generated/Outputs/Intermediate/%{cfg.buildcfg}/%{prj.name}"
     debugdir  ("%{wks.location}/..")
 
-    -- 🔹 ソース
+    -- ソース
     files {
         "Project/main.cpp",
         "Project/Enviroment.h",
@@ -77,22 +81,22 @@ project "Game"
 
     filter "configurations:Debug"
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mtd" }
-        libdirs { "%{wks.location}/../Project/Externals/assimp/bin/Debug" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/build/lib/Debug" }
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
-            'copy /Y "%{wks.location}/../Project/Externals/assimp/bin/Debug/assimp-vc143-mtd.dll" "$(TargetDir)"',
+            'copy /Y "%{wks.location}\\Externals\\assimp\\build\\lib\\%{cfg.buildcfg}\\assimp-vc143-mtd.dll" "$(TargetDir)"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
 
     filter "configurations:Release"
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
-        libdirs { "%{wks.location}/../Project/Externals/assimp/bin/Release" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/build/lib/Release" }
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
-            'copy /Y "%{wks.location}/../Project/Externals/assimp/bin/Release/assimp-vc143-mt.dll" "$(TargetDir)"',
+            'copy /Y "%{wks.location}\\Externals\\assimp\\build\\lib\\%{cfg.buildcfg}\\assimp-vc143-mt.dll" "$(TargetDir)"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
