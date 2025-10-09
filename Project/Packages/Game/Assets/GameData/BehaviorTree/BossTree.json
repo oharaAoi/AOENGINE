@@ -24,7 +24,7 @@
                     },
                     "nodeType": 5,
                     "orientedName": "SafeDistance",
-                    "treeFileName": ".\\Project\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\SafeDistanceTree.json"
+                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/SafeDistanceTree.json"
                 },
                 {
                     "children": [],
@@ -36,7 +36,7 @@
                     },
                     "nodeType": 5,
                     "orientedName": "DeployArmor",
-                    "treeFileName": ".\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\DeployArmorTree.json"
+                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/DeployArmorTree.json"
                 }
             ],
             "name": "PlannerSelector",

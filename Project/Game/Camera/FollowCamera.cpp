@@ -114,6 +114,9 @@ void FollowCamera::Init() {
 	cameraAnimation_->Init();
 	cameraAnimation_->SetFollowCamera(this);
 
+	prePosition_ = CVector3::ZERO;
+	velocity_ = CVector3::ZERO;
+
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, "FollowCamera");
 #endif // _DEBUG

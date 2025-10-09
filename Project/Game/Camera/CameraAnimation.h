@@ -10,8 +10,8 @@ class CameraAnimation {
 public:	// 構造体
 
 	struct ShotAnimationParam : public IJsonConverter {
-		bool isExecute;
-		bool isApproach;
+		bool isExecute = false;
+		bool isApproach = false;
 		float timer;
 		// editor, dragFloat, 0.1
 		float offsetZ;
