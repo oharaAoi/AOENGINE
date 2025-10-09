@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36310.24 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game", "Game.vcxproj", "{7FA9857C-6BE0-860D-14CD-6C1000E3020F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AOENGINE", "AOENGINE.vcxproj", "{2BB142E0-177E-9DEB-4097-8B932CC3D279}"
 	ProjectSection(ProjectDependencies) = postProject
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77} = {371B9FA9-4C90-4AC6-A123-ACED756D6C77}
 		{B8015C45-B976-4F13-904A-070A0C410897} = {B8015C45-B976-4F13-904A-070A0C410897}
@@ -19,10 +19,10 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.ActiveCfg = Debug|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Debug|x64.Build.0 = Debug|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.ActiveCfg = Release|x64
-		{7FA9857C-6BE0-860D-14CD-6C1000E3020F}.Release|x64.Build.0 = Release|x64
+		{2BB142E0-177E-9DEB-4097-8B932CC3D279}.Debug|x64.ActiveCfg = Debug|x64
+		{2BB142E0-177E-9DEB-4097-8B932CC3D279}.Debug|x64.Build.0 = Debug|x64
+		{2BB142E0-177E-9DEB-4097-8B932CC3D279}.Release|x64.ActiveCfg = Release|x64
+		{2BB142E0-177E-9DEB-4097-8B932CC3D279}.Release|x64.Build.0 = Release|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.ActiveCfg = Debug|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Debug|x64.Build.0 = Debug|x64
 		{371B9FA9-4C90-4AC6-A123-ACED756D6C77}.Release|x64.ActiveCfg = Release|x64

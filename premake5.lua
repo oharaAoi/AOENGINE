@@ -25,7 +25,7 @@ workspace "AOENGINE"
     architecture "x64"
     configurations { "Debug", "Release" }
     location "Project"
-    startproject "Game"
+    startproject "AOENGINE"
     flags {"MultiProcessorCompile"}
     warnings "Extra"
 
@@ -48,7 +48,7 @@ workspace "AOENGINE"
 -- ===============================================================
 -- Game Build Script
 -- ===============================================================
-project "Game"
+project "AOENGINE"
     kind "WindowedApp"
     language "C++"
     cppdialect "C++20"
@@ -82,7 +82,7 @@ project "Game"
 
     filter "configurations:Debug"
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mtd" }
-        libdirs { "%{wks.location}/../Project/Externals/assimp/build/lib/Debug" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/lib/Debug" }
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
@@ -93,7 +93,7 @@ project "Game"
 
     filter "configurations:Release"
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
-        libdirs { "%{wks.location}/../Project/Externals/assimp/build/lib/Release" }
+        libdirs { "%{wks.location}/../Project/Externals/assimp/lib/Release" }
 
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
