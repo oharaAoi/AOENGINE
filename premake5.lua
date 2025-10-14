@@ -21,37 +21,37 @@ end
 -- ===============================================================
 -- AOENGINE Premake5 Build Script
 -- ===============================================================
-workspace "AOENGINE"
-    architecture "x64"
-    configurations { "Debug", "Release" }
-    location "Project"
-    startproject "AOENGINE"
-    flags {"MultiProcessorCompile"}
-    warnings "Extra"
+workspace "AOENGINE" -- ソリューションの名前
+    architecture "x64" -- 構成プラットフォーム
+    configurations { "Debug", "Release" } -- ビルド構成
+    location "Project" -- 配置するフォルダ
+    startproject "AOENGINE" -- 最初に起動するプロジェクト
+    flags {"MultiProcessorCompile"} -- 複数プロサッサによるコンパイル
+    warnings "Extra" -- 警告レベル
 
-    filter "system:windows"
-        systemversion "latest"
-        buildoptions { "/utf-8" }
+    filter "system:windows" -- windowsのときに起動する
+        systemversion "latest" -- 最新のwindowsSDKを使用してビルドする
+        buildoptions { "/utf-8" } -- ソースコードの文字コード
 
-    filter "configurations:Debug"
-        defines { "DEBUG" }
-        symbols "On"
-        staticruntime "on"
-        runtime "Debug"
+    filter "configurations:Debug" -- DEBUG時の設定
+        defines { "DEBUG" } -- #define DEBUGを有効化
+        symbols "On" -- .pdbファイルを生成する
+        staticruntime "on" -- 静的リンクにする
+        runtime "Debug" -- ランタイムをMDd or MTdにする
 
     filter "configurations:Release"
-        defines { "NDEBUG" }
-        optimize "Full"
-        staticruntime "on"
-        runtime "Release"
+        defines { "NDEBUG" } -- #define NDEBUGを有効化
+        optimize "Full" -- コンパイラ最適化を最大にする(o2)
+        staticruntime "on" -- 静的ランタイムリンク
+        runtime "Release" -- MT or MD
 
 -- ===============================================================
 -- Game Build Script
 -- ===============================================================
-project "AOENGINE"
-    kind "WindowedApp"
-    language "C++"
-    cppdialect "C++20"
+project "AOENGINE" -- .vcxprojを定義する
+    kind "WindowedApp" -- windowのアプリにする
+    language "C++" -- 言語設定
+    cppdialect "C++20" -- C++の規格設定
 
     -- 各 .vcxproj の出力先（Project内）
     location "Project"
@@ -61,7 +61,7 @@ project "AOENGINE"
     objdir    "%{wks.location}/../Generated/Outputs/Intermediate/%{cfg.buildcfg}/%{prj.name}"
     debugdir  ("%{wks.location}/..")
 
-    -- ソース
+    -- ソース登録
     files {
         "Project/main.cpp",
         "Project/Enviroment.h",
@@ -70,6 +70,7 @@ project "AOENGINE"
         "Project/Externals/ImGui/**.h", "Project/Externals/ImGui/**.cpp"
     }
 
+    -- 追加のインクルード
     includedirs {
         "Project",
         "Project/Engine",
@@ -80,10 +81,14 @@ project "AOENGINE"
         "Project/Externals/nlohmann"
     }
 
+
     filter "configurations:Debug"
+        -- 追加の依存ファイル
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mtd" }
+        -- 追加のライブラリ
         libdirs { "%{wks.location}/../Project/Externals/assimp/lib/Debug" }
 
+        -- ビルド後イベント
         postbuildcommands {
             'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
             'copy /Y "%{wks.location}\\Externals\\assimp\\lib\\%{cfg.buildcfg}\\assimp-vc143-mtd.dll" "$(TargetDir)"',
@@ -92,7 +97,9 @@ project "AOENGINE"
         }
 
     filter "configurations:Release"
+        -- 追加の依存ファイル
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
+        -- 追加のライブラリ
         libdirs { "%{wks.location}/../Project/Externals/assimp/lib/Release" }
 
         postbuildcommands {
@@ -102,7 +109,9 @@ project "AOENGINE"
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
 
+    -- フィルタ解除(Dbug/Release共通の設定にする)
     filter {}
+    -- プロジェクト依存関係を設定
     dependson { "DirectXTex", "ImGui" }
 
 -- ===============================================================
