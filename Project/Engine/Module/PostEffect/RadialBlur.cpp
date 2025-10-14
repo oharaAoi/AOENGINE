@@ -18,27 +18,16 @@ void RadialBlur::Init() {
 	setting_->blurStart = 0.2f;
 	setting_->sampleCount = 16;
 
-	stop_ = false;
 }
 
 void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
-	if (start_) {
-		timer_ += GameTimer::DeltaTime();
-		float t = timer_ / startTime_;
-		setting_->blurStrength = std::lerp(0.0f, preStrength_, t);
+	if (run_) {
+		blurStrengthTween_.Update(GameTimer::DeltaTime());
+		setting_->blurStrength = blurStrengthTween_.GetValue();
 
-		if (timer_ > startTime_) {
-			start_ = false;
-		}
-	}
 
-	if (stop_) {
-		timer_ += GameTimer::DeltaTime();
-		float t = timer_ / stopTime_;
-		setting_->blurStrength = std::lerp(preStrength_, 0.0f, t);
-
-		if (timer_ > stopTime_) {
-			stop_ = false;
+		if (blurStrengthTween_.GetIsFinish()) {
+			run_ = false;
 		}
 	}
 
@@ -56,19 +45,12 @@ void RadialBlur::CheckBox() {
 }
 
 void RadialBlur::Start(float strength, float startTime) {
-	start_ = true;
-	stop_ = false;
-	setting_->blurStrength = strength;
-	startTime_ = startTime;
-	preStrength_ = strength;
-	timer_ = 0.0f;
+	run_ = true;
+	blurStrengthTween_.Init(0.0f, strength, startTime, (int)EasingType::None::Liner, LoopType::ROUNDTRIP);
 }
 
 void RadialBlur::Stop(float stopTime) {
-	start_ = false;
-	stop_ = true;
-	stopTime_ = stopTime;
-	timer_ = 0.0f;
+	run_ = false;
 }
 
 void RadialBlur::Debug_Gui() {

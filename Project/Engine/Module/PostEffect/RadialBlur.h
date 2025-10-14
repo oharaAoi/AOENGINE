@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
 
 /// <summary>
 /// 放射ブラー
@@ -42,14 +43,7 @@ private:
 	std::unique_ptr<DxResource> blurSettingBuffer_;
 	BlurSetting* setting_;
 
-	bool start_;
-	bool stop_;
-
-	float targetStrength_;
-	float preStrength_;
-
-	float startTime_;
-	float stopTime_;
-	float timer_;
+	bool run_;
+	VectorTween<float> blurStrengthTween_;
 };
 

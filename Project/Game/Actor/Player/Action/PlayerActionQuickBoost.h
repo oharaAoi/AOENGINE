@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/PostEffect/RadialBlur.h"
 #include "Game/Actor/Base/BaseAction.h"
 
 // 前方宣言
@@ -89,6 +90,7 @@ private:
 	// 他クラス ------------------------------------------------
 	Input* pInput_;
 	WorldTransform* pOwnerTransform_ = nullptr;
+	std::shared_ptr<RadialBlur> pRadialBlur_;
 
 	// State/Parameter ------------------------------------------------
 	Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };

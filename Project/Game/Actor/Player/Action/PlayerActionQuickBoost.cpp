@@ -47,6 +47,8 @@ void PlayerActionQuickBoost::Build() {
 	initParam_.Load();
 
 	pRigidBody_ = pOwner_->GetGameObject()->GetRigidbody();
+
+	pRadialBlur_ = Engine::GetPostProcess()->GetRadialBlur();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +81,8 @@ void PlayerActionQuickBoost::OnStart() {
 
 	// カメラを揺らす
 	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
+	// ブラーを画面にかける
+	pRadialBlur_->Start(0.2f, 0.2f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
