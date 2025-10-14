@@ -140,7 +140,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
-    <ClInclude Include="Engine\DirectX\Template\Pool.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
@@ -185,7 +184,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Animation\VectorTween.h" />
     <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\Collider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Collider\ICollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
@@ -460,7 +458,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
-    <ClCompile Include="Engine\DirectX\Template\Pool.cpp" />
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Lib\Color.cpp" />
@@ -503,7 +500,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Animation\VectorTween.cpp" />
     <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\Collider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />

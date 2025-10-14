@@ -354,9 +354,6 @@
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
       <Filter>Engine\DirectX\RootSignature</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Template\Pool.h">
-      <Filter>Engine\DirectX\Template</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClInclude>
@@ -487,9 +484,6 @@
       <Filter>Engine\Module\Components\Attribute</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h">
-      <Filter>Engine\Module\Components\Collider</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Collider\Collider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h">
@@ -1308,9 +1302,6 @@
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
       <Filter>Engine\DirectX\RootSignature</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Template\Pool.cpp">
-      <Filter>Engine\DirectX\Template</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClCompile>
@@ -1435,9 +1426,6 @@
       <Filter>Engine\Module\Components\Attribute</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp">
-      <Filter>Engine\Module\Components\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Collider\Collider.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp">
