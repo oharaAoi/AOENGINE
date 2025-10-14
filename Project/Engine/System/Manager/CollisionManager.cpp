@@ -77,11 +77,15 @@ void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colli
 		colliderB->OnCollision(colliderA);
 
 		if (!colliderA->GetIsStatic()) {
-			colliderA->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+			if (!colliderB->GetIsTrigger()) {
+				colliderA->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+			}
 		}
 
 		if (!colliderB->GetIsStatic()) {
-			colliderB->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+			if (!colliderA->GetIsTrigger()) {
+				colliderB->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+			}
 		}
 		
 	} else {

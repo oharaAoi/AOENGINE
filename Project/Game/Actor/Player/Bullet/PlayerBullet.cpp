@@ -15,6 +15,7 @@ void PlayerBullet::Init() {
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	collider->SetIsTrigger(true);
 
 	type_ = BulletType::NORMAL;
 

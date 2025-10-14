@@ -19,6 +19,7 @@ void LauncherBullet::Init() {
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	collider->SetIsTrigger(true);
 
 	speed_ = 90.0f;
 

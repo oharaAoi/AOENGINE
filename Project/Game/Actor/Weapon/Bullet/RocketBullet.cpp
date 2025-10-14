@@ -19,6 +19,7 @@ void RocketBullet::Init() {
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	collider->SetIsTrigger(true);
 
 	trackingLength_ = 10.f;
 	trackingTimer_ = 0.f;

@@ -20,9 +20,9 @@ struct SRT {
 };
 
 struct QuaternionSRT {
-	Vector3 scale;
-	Quaternion rotate;
-	Vector3 translate;
+	Vector3 scale = CVector3::UNIT;
+	Quaternion rotate = Quaternion(0,0,0,1);
+	Vector3 translate = CVector3::ZERO;
 
 	Matrix4x4 worldMat_;
 	const Matrix4x4* parentWorldMat = nullptr;
@@ -42,7 +42,7 @@ struct QuaternionSRT {
 /// 球
 /// </summary>
 struct Sphere {
-	Vector3 center;
+	Vector3 center = CVector3::ZERO;
 	float radius;
 };
 

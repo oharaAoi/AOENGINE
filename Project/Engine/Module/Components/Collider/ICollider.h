@@ -58,6 +58,9 @@ public:
 	void SetIsStatic(bool isStatic) { isStatic_ = isStatic; }
 	bool GetIsStatic() const { return isStatic_; }
 
+	void SetIsTrigger(bool _isTrigger) { isTrigger_ = _isTrigger; }
+	bool GetIsTrigger() const { return isTrigger_; }
+
 	// --------------- categoryの設定・取得 -------------- //
 	void SetCategoryBit(uint32_t bit) { categoryBits_ = bit; }
 	uint32_t GetCategoryBit() const { return categoryBits_; }
@@ -105,28 +108,29 @@ protected:
 
 	bool isActive_ = false;
 	bool isStatic_ = true;	// 移動するかどうか(押し戻すか)
+	bool isTrigger_ = false;	// 判定だけを行うか
 	
 	// カテゴリ
-	uint32_t categoryBits_; // 自分が属しているカテゴリ
-	uint32_t maskBits_;     // 誰と衝突してもいいかのマスク
-	std::string categoryName_;
+	uint32_t categoryBits_ = 0; // 自分が属しているカテゴリ
+	uint32_t maskBits_ = 0;     // 誰と衝突してもいいかのマスク
+	std::string categoryName_ = "None";
 
 	// 形状
 	std::variant<Sphere, AABB, OBB> shape_;
 	// 当たり判定の状態
-	int collisionState_;
+	int collisionState_ = 0;
 	// Colliderの中心座標
-	Vector3 centerPos_;
+	Vector3 centerPos_ = CVector3::ZERO;
 	// AABBやOBBで使用するsize
-	Vector3 size_;
+	Vector3 size_ = CVector3::UNIT;
 
-	QuaternionSRT localSRT_;
+	QuaternionSRT localSRT_ = QuaternionSRT();
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
 
 	// 貫通対策
 	bool penetrationPrevention_;	// 貫通対策を行うかどうか
-	Vector3 pushbackDire_;
+	Vector3 pushbackDire_ = CVector3::ZERO;
 
 	// 汎用用
 	std::function<void(ICollider*)> onCollision_;
