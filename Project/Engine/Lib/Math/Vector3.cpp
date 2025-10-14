@@ -70,6 +70,15 @@ Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2) {
     return result;
 }
 
+float Vector3::AngleBetween(const Vector3& v1, const Vector3& v2) {
+    float dot = Dot(v1, v2);
+    float len = v1.Length() * v2.Length();
+    float cosTheta = dot / len;
+
+    cosTheta = std::fmax(-1.0f, std::fmin(1.0f, cosTheta));
+    return std::acos(cosTheta);
+}
+
 Vector3 Vector3::Lerp(const Vector3& start, const Vector3& end, float t) {
     Vector3 result{};
     result.x = std::lerp(start.x, end.x, t);

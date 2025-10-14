@@ -4,6 +4,13 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+enum class AttackAlertDirection {
+	Front,
+	Back,
+	Left,
+	Right
+};
+
 /// <summary>
 /// 敵が攻撃してくる際のアラート表示
 /// </summary>
@@ -14,7 +21,7 @@ public:
 	EnemyAttackAlert() = default;
 	~EnemyAttackAlert() = default;
 
-	void Init();
+	void Init(AttackAlertDirection _dir);
 
 	void Update();
 
@@ -32,7 +39,7 @@ private:
 
 	Sprite* alert_;
 
-	Vector2 scale_ = Vector2{ 0.5f, 0.5f };
+	Vector2 scale_ = Vector2{ 0.6f, 0.6f };
 	Vector2 centerPos_ = Vector2{ 640.0f, 360.0f };
 
 	bool isDraw_;

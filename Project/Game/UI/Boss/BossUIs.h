@@ -1,10 +1,12 @@
 #pragma once
+#define NOMINMAX
 #include <list>
 #include <memory>
 // Engine
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 // Game
+#include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/UI/Boss/BossHealthUI.h"
 #include "Game/UI/Boss/EnemyAttackAlert.h"
@@ -22,7 +24,7 @@ public:
 	BossUIs() = default;
 	~BossUIs() = default;
 
-	void Init(Boss* _boss);
+	void Init(Boss* _boss, Player* _player);
 
 	void Update();
 
@@ -30,13 +32,14 @@ public:
 
 public:
 
-	void PopAlert();
+	void PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos);
 
 	void PopStan();
 
 private:
 
 	Boss* pBoss_ = nullptr;
+	Player* pPlayer_ = nullptr;
 
 	std::unique_ptr<BossHealthUI> health_;
 	std::unique_ptr<PostureStability> postureStability_;

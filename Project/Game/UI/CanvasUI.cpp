@@ -21,7 +21,7 @@ void CanvasUI::Init(bool _isTutorial) {
 
 	// boss
 	bossUIs_ = std::make_unique<BossUIs>();
-	bossUIs_->Init(pBoss_);
+	bossUIs_->Init(pBoss_, pPlayer_);
 
 	// out game
 	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();

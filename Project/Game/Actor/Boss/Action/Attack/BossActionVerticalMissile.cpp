@@ -2,6 +2,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
+#include "Game/UI/Boss/BossUIs.h"
 
 BehaviorStatus BossActionVerticalMissile::Execute() {
 	return Action();
@@ -56,6 +57,7 @@ void BossActionVerticalMissile::Init() {
 	taskTimer_ = 0.0f;
 	fireCount_ = 0;
 
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 }
 

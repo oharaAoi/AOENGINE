@@ -63,7 +63,7 @@ void BossActionAllRangeMissile::Init() {
 	bulletSpeed_ = 60.f;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert();
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 }
 

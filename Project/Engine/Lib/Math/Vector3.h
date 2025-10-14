@@ -166,6 +166,14 @@ public:
 	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
 
 	/// <summary>
+	/// 2つのベクトルから角度を求める
+	/// </summary>
+	/// <param name="v1"></param>
+	/// <param name="v2"></param>
+	/// <returns></returns>
+	static float AngleBetween(const Vector3& v1, const Vector3& v2);
+
+	/// <summary>
 	/// 線形補完
 	/// </summary>
 	/// <param name="start">: 開始</param>
