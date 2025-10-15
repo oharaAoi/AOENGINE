@@ -3,10 +3,14 @@
 #include "imgui.h"
 
 void IJsonConverter::SaveAndLoad() {
-	if (ImGui::Button("Save")) {
+	std::string saveName = "Save##";
+	saveName += name_.c_str();
+	if (ImGui::Button(saveName.c_str())) {
 		Save();
 	}
-	if (ImGui::Button("Load")) {
+	std::string loadName = "Load##";
+	loadName += name_.c_str();
+	if (ImGui::Button(loadName.c_str())) {
 		Load();
 	}
 }

@@ -6,7 +6,7 @@ BehaviorStatus BossActionWait::Execute() {
 }
 
 float BossActionWait::EvaluateWeight() {
-	return 0.0f;
+	return 0;
 }
 
 void BossActionWait::Debug_Gui() {
@@ -25,6 +25,7 @@ bool BossActionWait::CanExecute() {
 }
 
 void BossActionWait::Init() {
+	//evaluator_.LoadJson("EvaluationFunction", "BossWait");
 }
 
 void BossActionWait::Update() {

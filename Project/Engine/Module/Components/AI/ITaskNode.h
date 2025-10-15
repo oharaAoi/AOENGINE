@@ -2,6 +2,7 @@
 #include <memory>
 #include <functional>
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
 
 template<typename OwnerType>
@@ -40,6 +41,8 @@ protected:
 	std::function<void()> action_;
 
 	float taskTimer_;
+
+	UtilityEvaluator evaluator_;
 };
 
 template<typename OwnerType>
@@ -48,6 +51,7 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
 	isLeafNode_ = true;
+	evaluator_ = UtilityEvaluator();
 }
 
 template<typename OwnerType>
@@ -69,6 +73,7 @@ template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 
+	evaluator_.Debug_Gui();
 }
 
 template<typename OwnerType>

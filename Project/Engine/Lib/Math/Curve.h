@@ -11,7 +11,7 @@ public:
 	~Curve() override = default;
 
 	template<int steps>
-	void bezier_table(Vector2 P[4], Vector2 results[steps + 1]) {
+	void bezier_table(Vector2 P[4], Vector2 results[steps + 1]) const {
 		static float C[(steps + 1) * 4], * K = 0;
 		if (!K) {
 			K = C;
@@ -34,16 +34,16 @@ public:
 		}
 	}
 
-	float BezierValue(float dt01);
+	float BezierValue(float dt01) const;
 
-	void Debug_Gui() override; 
+	void Debug_Gui() override;
 
 	json ToJson() const;
 	void FromJson(const json& _json, const std::string& _name);
 
 public:
 
-	float controlPoints_[4];
+	float controlPoints_[4] = { 0, 0, 1,1 };
 
 };
 

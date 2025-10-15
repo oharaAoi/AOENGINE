@@ -176,6 +176,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\AI\SelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\SequenceNode.h" />
     <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h" />
+    <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h" />
     <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
@@ -493,6 +494,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\AI\SelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\SequenceNode.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />

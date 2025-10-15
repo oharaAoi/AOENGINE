@@ -94,17 +94,13 @@
             "file_name": "boss.obj",
             "colliders": [
                 {
-                    "type": "BOX",
+                    "type": "SPHERE",
                     "center": [
                         0.0,
                         0.0,
                         0.0
                     ],
-                    "size": [
-                        11.149999618530273,
-                        10.09999942779541,
-                        4.099999904632568
-                    ],
+                    "radius": 4.179999828338623,
                     "tag": "boss",
                     "collisionFilter_tags": [
                         "player",
@@ -116,7 +112,7 @@
                     ]
                 }
             ],
-            "collider_tag": "playerRightLeg",
+            "collider_tag": "boss",
             "collisionFilter_tags": [
                 "player",
                 "building",
@@ -720,6 +716,7 @@
                         "machinegun",
                         "bossAttack",
                         "player",
+                        "playerLeg",
                         "playerRightLeg",
                         "playerLeftLeg"
                     ]
@@ -799,7 +796,7 @@
                     ]
                 }
             ],
-            "collider_tag": "player",
+            "collider_tag": "playerRightLeg",
             "collisionFilter_tags": [
                 "building",
                 "ground",

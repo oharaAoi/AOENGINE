@@ -1222,6 +1222,7 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2134,5 +2135,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp" />
   </ItemGroup>
 </Project>

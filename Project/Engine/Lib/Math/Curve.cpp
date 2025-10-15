@@ -1,7 +1,7 @@
 #include "Curve.h"
 #include "imgui_curve_bezier.h"
 
-float Curve::BezierValue(float dt01) {
+float Curve::BezierValue(float dt01) const {
     enum { STEPS = 256 };
     Vector2 Q[4] = { {0, 0}, {controlPoints_[0], controlPoints_[1]}, {controlPoints_[2], controlPoints_[3]}, {1, 1} };
     Vector2 results[STEPS + 1];

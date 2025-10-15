@@ -93,58 +93,41 @@ void BossUIs::Debug_Gui() {
 }
 
 void BossUIs::PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos) {
-	// targetと攻撃者の方向を求める
-	Vector3 toEnemy = (_attackerPos, _targetPos).Normalize();
+	// 前方方向ベクトル
 	Vector3 forward = pPlayer_->GetTransform()->GetRotate().MakeForward();
-	Vector3 right = Normalize(Vector3::Cross({0,1,0}, forward));
-	
-	// y軸は考慮しない
-	toEnemy.y = 0;
-	// 内積を割合化する
-	float dotF = std::clamp(Dot(forward, toEnemy), -1.0f, 1.0f);
-	float dotR = std::clamp(Dot(right, toEnemy), -1.0f, 1.0f);
+	forward.y = 0;
+	forward = forward.Normalize();
 
-	// clampをする
-	float forwardRatio = std::max(0.0f, dotF);  // 前方向
-	float backwardRatio = std::max(0.0f, -dotF);  // 後方向
-	float rightRatio = std::max(0.0f, dotR);  // 右方向
-	float leftRatio = std::max(0.0f, -dotR);  // 左方向
+	// 右方向ベクトル
+	Vector3 right = pPlayer_->GetTransform()->GetRotate().MakeRight();
+	right.y = 0;
+	right = right.Normalize();
 
-	// 正規化をする
-	float sum = forwardRatio + backwardRatio + rightRatio + leftRatio;
-	if (sum > 0.0f) {
-		forwardRatio /= sum;
-		backwardRatio /= sum;
-		rightRatio /= sum;
-		leftRatio /= sum;
-	}
+	// Targetへのベクトル
+	Vector3 toEnemy = (_attackerPos - _targetPos).Normalize();
 
-	// 最大方向を決定する
-	float ratios[4] = { forwardRatio, backwardRatio, rightRatio, leftRatio };
-	int maxIndex = 0;
-	for (int i = 0; i < 4; ++i) {
-		if (ratios[i] > ratios[maxIndex]) {
-			maxIndex = i;
+	// 4方向を用意
+	std::array<std::pair<AttackAlertDirection, Vector3>, 4> dirs = { {
+		{AttackAlertDirection::Front, forward},
+		{AttackAlertDirection::Back,  forward * -1.0f},
+		{AttackAlertDirection::Right, right},
+		{AttackAlertDirection::Left,  right * -1.0f}
+	} };
+
+	// Dot値が最大の方向を選ぶ
+	float bestDot = -9999.0f;
+	AttackAlertDirection bestDir = AttackAlertDirection::Front;
+
+	for (auto& [dir, vec] : dirs) {
+		float dot = Vector3::Dot(toEnemy, vec);
+		if (dot > bestDot) {
+			bestDot = dot;
+			bestDir = dir;
 		}
 	}
-	// directionに代入する
-	AttackAlertDirection alertDirection = AttackAlertDirection::Front;
-	if (maxIndex == (int)AttackAlertDirection::Front) {
-		alertDirection = AttackAlertDirection::Front;
 
-	} else if (maxIndex == (int)AttackAlertDirection::Back) {
-		alertDirection = AttackAlertDirection::Back;
-
-	} else if (maxIndex == (int)AttackAlertDirection::Right) {
-		alertDirection = AttackAlertDirection::Right;
-
-	} else if (maxIndex == (int)AttackAlertDirection::Left) {
-		alertDirection = AttackAlertDirection::Left;
-	}
-
-	// alertを出す
 	auto& alert = attackAlertList_.emplace_back(std::make_unique<EnemyAttackAlert>());
-	alert->Init(alertDirection);
+	alert->Init(bestDir);
 }
 
 void BossUIs::PopStan() {
