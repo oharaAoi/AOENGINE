@@ -59,6 +59,7 @@ void BossActionShotBullet::Init() {
 	fireCount_ = param_.kFireCount;
 
 	isFinishShot_ = false;
+	attackStart_ = false;
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
@@ -70,8 +71,12 @@ void BossActionShotBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotBullet::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	if (!attackStart_) {
+		attackStart_ = pTarget_->TargetLook();
+		return;
+	}
 
+	taskTimer_ += GameTimer::DeltaTime();
 	if (taskTimer_ > param_.shotInterval) {
 		Shot();
 		taskTimer_ = 0.0f;

@@ -60,7 +60,7 @@ void BossActionAllRangeMissile::Init() {
 
 	isFinishShot_ = false;
 
-	bulletSpeed_ = 60.f;
+	bulletSpeed_ = 80.f;
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
@@ -115,7 +115,7 @@ void BossActionAllRangeMissile::Shot() {
 			dir = rot.Rotate(dir);
 
 			Vector3 velocity = dir.Normalize() * bulletSpeed_;
-			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_, 0.05f, true);
+			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_,0.1f, 0.05f, true);
 			missile->SetTakeDamage(30.0f);
 		}
 	}

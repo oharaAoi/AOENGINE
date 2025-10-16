@@ -62,6 +62,8 @@ private :
 	// 弾を打ち終わったかのフラグ
 	bool isFinishShot_;
 
+	bool attackStart_;
+
 	const uint32_t kFireCount_ = 4;
 	uint32_t fireCount_;
 

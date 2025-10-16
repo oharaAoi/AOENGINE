@@ -55,6 +55,7 @@ void BossActionShotMissile::Init() {
 	param_.Load();
 	taskTimer_ = 0.0f;
 	isFinishShot_ = false;
+	attackStart_ = false;
 
 	fireCount_ = kFireCount_;
 
@@ -68,8 +69,12 @@ void BossActionShotMissile::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotMissile::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	if (!attackStart_) {
+		attackStart_ = pTarget_->TargetLook();
+		return;
+	}
 
+	taskTimer_ += GameTimer::DeltaTime();
 	if (taskTimer_ > param_.shotInterval) {
 		Shot();
 		taskTimer_ = 0.0f;
@@ -96,7 +101,7 @@ void BossActionShotMissile::Shot() {
 	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * param_.bulletSpeed;
-	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.5f, true);
+	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.2f, 0.5f, true);
 	missile->SetTakeDamage(20.0f);
 
 	if (fireCount_ == 0) {

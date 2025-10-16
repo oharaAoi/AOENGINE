@@ -65,5 +65,7 @@ private:
 
 	float angle_;
 
+	bool attackStart_;
+
 };
 

@@ -27,6 +27,8 @@ public:
 		float health;
 		float postureStability;
 		float armorCoolTime = 20.0f;
+		float angularVelocity = 90.f; // 角速度
+		float angularThreshold = 10.f; // 角速度
 
 		Parameter() { SetName("bossParameter"); }
 
@@ -35,6 +37,8 @@ public:
 				.Add("health", health)
 				.Add("postureStability", postureStability)
 				.Add("armorCoolTime", armorCoolTime)
+				.Add("angularVelocity", angularVelocity)
+				.Add("angularThreshold", angularThreshold)
 				.Build();
 		}
 
@@ -42,6 +46,8 @@ public:
 			fromJson(jsonData, "health", health);
 			fromJson(jsonData, "postureStability", postureStability);
 			fromJson(jsonData, "armorCoolTime", armorCoolTime);
+			fromJson(jsonData, "angularVelocity", angularVelocity);
+			fromJson(jsonData, "angularThreshold", angularThreshold);
 		}
 
 		void Debug_Gui() override;
@@ -59,9 +65,21 @@ public:
 
 public:		// menber method
 
+	/// <summary>
+	/// Damageを与える処理
+	/// </summary>
+	/// <param name="_takeDamage"></param>
 	void Damage(float _takeDamage);
 
+	/// <summary>
+	/// スタンから解除される処理
+	/// </summary>
 	void ResetStan();
+
+	/// <summary>
+	/// Targetの方向を向く処理
+	/// </summary>
+	bool TargetLook();
 
 public:
 

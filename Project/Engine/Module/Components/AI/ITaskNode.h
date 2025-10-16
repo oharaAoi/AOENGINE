@@ -32,7 +32,13 @@ public:
 
 	virtual BehaviorStatus Action();
 
+public:
+
 	void SetTarget(OwnerType* owner) { pTarget_ = owner; }
+
+private:
+
+	bool Wait();
 
 protected:
 
@@ -40,9 +46,13 @@ protected:
 
 	std::function<void()> action_;
 
-	float taskTimer_;
+	float taskTimer_ = 0.0f;
+
+	float waitTime_ = 1.0f;
+	float waitTimer_ = 0.0f;
 
 	UtilityEvaluator evaluator_;
+
 };
 
 template<typename OwnerType>
@@ -51,6 +61,7 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
 	isLeafNode_ = true;
+	waitTime_ = 1;
 	evaluator_ = UtilityEvaluator();
 }
 
@@ -61,8 +72,7 @@ inline json ITaskNode<OwnerType>::ToJson() {
 	item["nodeType"] = static_cast<int>(type_);
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
 	item["children"] = json::array();
-	item["weight"] = weight_;
-
+	
 	for (const auto& child : children_) {
 		item["children"].push_back(child->ToJson());
 	}
@@ -72,7 +82,7 @@ inline json ITaskNode<OwnerType>::ToJson() {
 template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
-
+	ImGui::DragFloat("waitTime", &waitTime_, 0.1f);
 	evaluator_.Debug_Gui();
 }
 
@@ -88,18 +98,30 @@ inline BehaviorStatus ITaskNode<OwnerType>::Action() {
 			return BehaviorStatus::Failure;
 		}
 		taskTimer_ = 0;
+		waitTimer_ = 0;
 		state_ = BehaviorStatus::Running;
 		Init();
 	}
 
 	// 更新
-	Update();
-
-	// 終了フラグがtrueなら終了処理を行う
-	if (IsFinish()) {
-		End();
-		state_ = BehaviorStatus::Inactive;
-		return BehaviorStatus::Success;
+	if (!IsFinish()) {
+		Update();
+	} else {
+		if (Wait()) {
+			End();
+			state_ = BehaviorStatus::Inactive;
+			return BehaviorStatus::Success;
+		}
 	}
+
 	return BehaviorStatus::Running;
+}
+
+template<typename OwnerType>
+inline bool ITaskNode<OwnerType>::Wait() {
+	waitTimer_ += GameTimer::DeltaTime();
+	if (waitTimer_ >= waitTime_) {
+		return true;
+	}
+	return false;
 }

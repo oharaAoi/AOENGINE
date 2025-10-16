@@ -1,6 +1,7 @@
 #include "BossMissile.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Lib/Math/Easing.h"
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
@@ -21,10 +22,12 @@ void BossMissile::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 
-	trackingLength_ = 10.f;
+	trackingLength_ = 5.f;
 	trackingTimer_ = 0.f;
 
 	finishTracking_ = false;
+
+	accelTimer_ = Timer(1.0f);
 
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
@@ -35,7 +38,7 @@ void BossMissile::Init() {
 }
 
 void BossMissile::Update() {
-
+	Accelerate();
 	Tracking();
 	
 	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
@@ -55,16 +58,17 @@ void BossMissile::Update() {
 
 
 void BossMissile::Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition,
-						float bulletSpeed, float trackingRaito, bool isTracking) {
+						float bulletSpeed, float firstSpeedRaito, float trackingRaito, bool isTracking) {
 	transform_->srt_.translate = pos;
 	velocity_ = velocity;
 	targetPosition_ = targetPosition;
-	speed_ = bulletSpeed;
+	targetSpeed_ = bulletSpeed;
+	firstSpeedRaito_ = firstSpeedRaito;
 	trackingRaito_ = trackingRaito;
 
 	if (!isTracking) {
 		finishTracking_ = true;
-		velocity_ = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
+		velocity_ = (targetPosition_ - transform_->srt_.translate).Normalize() * targetSpeed_;
 	}
 }
 
@@ -81,6 +85,13 @@ void BossMissile::Tracking() {
 		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
 		finishTracking_ = true;
+	}
+}
+
+void BossMissile::Accelerate() {
+	if (accelTimer_.Run(GameTimer::DeltaTime())) {
+		speed_ = std::lerp(targetSpeed_ * firstSpeedRaito_, targetSpeed_, Ease::In::Quart(accelTimer_.t_));
+		velocity_ = velocity_.Normalize() * speed_;
 	}
 }
 

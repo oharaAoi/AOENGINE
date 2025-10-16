@@ -58,7 +58,7 @@ void BossActionShotgun::Init() {
 	
 	taskTimer_ = 0.0f;
 	isFinishShot_ = false;
-	Shot();
+	attackStart_ = false;
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
@@ -70,6 +70,12 @@ void BossActionShotgun::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotgun::Update() {
+	if (!attackStart_) {
+		attackStart_ = pTarget_->TargetLook();
+		return;
+	}
+
+	Shot();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

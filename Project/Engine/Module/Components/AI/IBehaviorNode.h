@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/AI/State/IWorldState.h"
 
 struct Pin {
 	ax::NodeEditor::PinId id;
@@ -122,17 +123,13 @@ public:
 
 	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }
 
-	void SetWeight(float _weight) { weight_ = _weight; }
-	float GetWeight() const { return weight_; }
-
-	void SetWeightIndex(uint32_t index) { weightIndex_ = index; }
-	uint32_t GetWeightIndex() const { return weightIndex_; }
-
 	void SetCoolTimer(float _timer) { coolTimer_ = _timer; }
 	float GetCoolTimer() const { return coolTimer_; }
 
 	void SetCoolTime(float _coolTime) { coolTime_ = _coolTime; }
 	float GetCoolTime() const { return coolTime_; }
+
+	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
 private:
 
@@ -159,9 +156,7 @@ protected:
 	float coolTime_ = 0;	// taskのCoolTime
 	float coolTimer_ = 0;
 
-	// weight
-	float weight_;
-	uint32_t weightIndex_ = 0;
+	IWorldState* worldState_;
 
 	// -------------------------------------------------
 	// ↓ Debug用

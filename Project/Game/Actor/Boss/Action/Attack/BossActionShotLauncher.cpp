@@ -58,6 +58,7 @@ void BossActionShotLauncher::Init() {
 	Shot();
 
 	isFinish_ = true;
+	attackStart_ = false;
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
@@ -69,8 +70,12 @@ void BossActionShotLauncher::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	if (!attackStart_) {
+		attackStart_ = pTarget_->TargetLook();
+		return;
+	}
 
+	taskTimer_ += GameTimer::DeltaTime();
 	if (taskTimer_ > param_.stiffenTime) {
 		isFinish_ = true;
 	}
@@ -91,6 +96,6 @@ void BossActionShotLauncher::End() {
 void BossActionShotLauncher::Shot() {
 	Vector3 pos = pTarget_->GetPosition();
 	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
-	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.0f, false);
+	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 1.0f, 0.0f, false);
 	bullet->SetTakeDamage(40.0f);
 }

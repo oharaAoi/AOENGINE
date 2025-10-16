@@ -56,6 +56,8 @@ void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("Health", &health, 0.1f);
 	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
 	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
+	ImGui::DragFloat("angularVelocity", &angularVelocity, 0.1f);
+	ImGui::DragFloat("angularThreshold", &angularThreshold, 0.1f);
 	SaveAndLoad();
 }
 
@@ -175,7 +177,7 @@ void Boss::Update() {
 		}
 	}
 
-	if (Input::IsTriggerKey(DIK_S)) {
+	if (Input::IsTriggerKey(DIK_M)) {
 		behaviorTree_->SetExecute(true);
 	}
 
@@ -225,8 +227,34 @@ void Boss::Damage(float _takeDamage) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ stan解除
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Boss::ResetStan() {
 	isStan_ = false;
 	param_.postureStability -= initParam_.postureStability;
 	behaviorTree_->SetExecute(true);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Targetの方向を向く
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Boss::TargetLook() {
+	// 目標の方向を計算する
+	Quaternion targetRotate = Quaternion::LookRotation(playerPosition_ - transform_->GetPos());
+	// なす角を求める
+	float angle = Quaternion::Angle(transform_->GetRotate(), targetRotate);
+
+	if (angle > param_.angularThreshold) {
+		// 経過時間で変化させる角度
+		float deltaAngle = param_.angularVelocity * GameTimer::DeltaTime();
+		// 実際に方向を決定
+		transform_->SetRotate(Quaternion::Slerp(transform_->GetRotate(), targetRotate, deltaAngle));
+	} else {
+		return true;
+	}
+
+	return false;
 }

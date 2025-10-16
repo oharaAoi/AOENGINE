@@ -63,6 +63,7 @@ private:
 
 	Parameter param_;
 	bool isFinishShot_;
+	bool attackStart_;
 
 };
 

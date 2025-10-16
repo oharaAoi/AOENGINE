@@ -65,6 +65,7 @@ private:
 
 	Parameter param_;
 
+	bool attackStart_;
 	bool isFinishShot_;
 	int fireCount_;
 

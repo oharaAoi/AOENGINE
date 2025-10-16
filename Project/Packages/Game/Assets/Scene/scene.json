@@ -91,7 +91,7 @@
                     1.0
                 ]
             },
-            "file_name": "boss.obj",
+            "file_name": "boss.gltf",
             "colliders": [
                 {
                     "type": "SPHERE",

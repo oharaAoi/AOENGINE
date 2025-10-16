@@ -58,6 +58,7 @@ void BossActionRapidfire::Init() {
 	fireCount_ = param_.kFireCount;
 
 	isFinishShot_ = false;
+	attackStart_ = false;
 
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
@@ -69,8 +70,12 @@ void BossActionRapidfire::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionRapidfire::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	if (!attackStart_) {
+		attackStart_ = pTarget_->TargetLook();
+		return;
+	}
 
+	taskTimer_ += GameTimer::DeltaTime();
 	if (taskTimer_ > param_.shotInterval) {
 		Shot();
 		taskTimer_ = 0.0f;

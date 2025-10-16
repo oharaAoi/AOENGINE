@@ -70,5 +70,7 @@ private:
 	bool isFinishShot_;
 	int fireCount_;
 
+	bool attackStart_;
+
 };
 

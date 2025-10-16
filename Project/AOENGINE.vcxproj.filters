@@ -1223,6 +1223,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h" />
+    <ClInclude Include="Engine\Utilities\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2136,5 +2137,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp" />
+    <ClCompile Include="Engine\Utilities\Timer.cpp" />
   </ItemGroup>
 </Project>

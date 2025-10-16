@@ -397,6 +397,7 @@ void BehaviorTree::CreateNode(int nodeType) {
 		auto& node = nodeList_.emplace_back(canTaskMap_[createTaskName_]->Clone());
 		node->Init();
 		node->SetPos(CVector2::ZERO);
+		node->SetWorldState(worldState_);
 	}
 }
 
@@ -446,7 +447,6 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::Task:
 		node = canTaskMap_[name]->Clone();
 		node->Init();
-		node->SetWeight(_json.contains("weight"));
 		break;
 	}
 
@@ -454,7 +454,6 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	node->SetNodeName(name);
 	node->SetNodeType(type);
 	node->SetPos(Vector2(_json["nodePos"]["x"], _json["nodePos"]["y"]));
-	node->SetWeightIndex(0);
 	nodeList_.push_back(node);
 
 	// 子どもがいたら再帰的に処理

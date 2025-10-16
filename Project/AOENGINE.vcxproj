@@ -299,6 +299,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\Loader.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Engine\Utilities\Shader.h" />
+    <ClInclude Include="Engine\Utilities\Timer.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
     <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h" />
@@ -615,6 +616,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Utilities\Loader.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
     <ClCompile Include="Engine\Utilities\Shader.cpp" />
+    <ClCompile Include="Engine\Utilities\Timer.cpp" />
     <ClCompile Include="Engine\WinApp\WinApp.cpp" />
     <ClCompile Include="Externals\ImGui\ImGuiFileDialog.cpp" />
     <ClCompile Include="Externals\ImGui\ImGuizmo.cpp" />

@@ -64,6 +64,7 @@ private:
 	Parameter param_;
 
 	bool isFinish_;
+	bool attackStart_;
 
 };
 

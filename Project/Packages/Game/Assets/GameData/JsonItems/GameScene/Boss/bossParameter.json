@@ -1,6 +1,9 @@
 {
     "bossParameter": {
+        "angularThreshold": 10.0,
+        "angularVelocity": 4.0,
+        "armorCoolTime": 20.0,
         "health": 2000.0,
-        "postureStability": 400.0
+        "postureStability": 0.0
     }
 }
