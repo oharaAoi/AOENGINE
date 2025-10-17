@@ -185,6 +185,8 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
+	newParticle.lifeOfMinScale = emitter_.lifeOfMinScale;
+	newParticle.lifeOfMaxScale = emitter_.lifeOfMaxScale;
 	newParticle.isAddBlend = emitter_.isParticleAddBlend;
 
 	newParticle.isFadeInOut = emitter_.isFadeInOut;

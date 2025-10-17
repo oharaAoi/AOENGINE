@@ -11,5 +11,10 @@ public:
 
 	void Init(const Vector2& size = CVector2::UNIT, uint32_t division = 16, const std::string& name = "sphereGeometry");
 
+	void Debug_Gui();
+
+private:
+	Vector2 size_;
+	uint32_t division_;
 };
 

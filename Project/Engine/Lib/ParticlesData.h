@@ -42,6 +42,8 @@ struct ParticleSingle {
 	float startDiscard = 0.01f;		// discardの初期値
 	float endDiscard = 1.0f;		// discardの終了値
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
+	Vector3 lifeOfMinScale;
+	Vector3 lifeOfMaxScale;
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
 	bool isFadeInOut = false;
 	float fadeInTime = 0.0f;
@@ -86,6 +88,8 @@ struct ParticleEmit : public IJsonConverter {
 	float angleMax = 360.0f;					// 最大の回転
 	bool isDirectionRotate = false;				// 進行方向にParticleを向ける処理
 	bool isLifeOfScale = false;					// 生存時間によるサイズ
+	Vector3 lifeOfMinScale = CVector3::UNIT;
+	Vector3 lifeOfMaxScale = CVector3::ZERO;
 	bool isLifeOfAlpha = false;					// 生存時間による透明度
 	bool isFadeInOut = false;					// FadeInOutで出現
 	float fadeInTime = 0;
@@ -141,6 +145,8 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("angleMax", angleMax)
 			.Add("isDirectionRotate", isDirectionRotate)
 			.Add("isLifeOfScale", isLifeOfScale)
+			.Add("lifeOfMinScale", lifeOfMinScale)
+			.Add("lifeOfMaxScale", lifeOfMaxScale)
 			.Add("isLifeOfAlpha", isLifeOfAlpha)
 			.Add("isFadeInOut", isFadeInOut)
 			.Add("fadeInTime", fadeInTime)
@@ -187,6 +193,8 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "angleMax", angleMax);
 		fromJson(jsonData, "isDirectionRotate", isDirectionRotate);
 		fromJson(jsonData, "isLifeOfScale", isLifeOfScale);
+		fromJson(jsonData, "lifeOfMinScale", lifeOfMinScale);
+		fromJson(jsonData, "lifeOfMaxScale", lifeOfMaxScale);
 		fromJson(jsonData, "isLifeOfAlpha", isLifeOfAlpha);
 		fromJson(jsonData, "isFadeInOut", isFadeInOut);
 		fromJson(jsonData, "fadeInTime", fadeInTime);

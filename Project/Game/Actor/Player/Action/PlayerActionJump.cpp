@@ -40,8 +40,8 @@ void PlayerActionJump::Build() {
 	param_.Load();
 
 	ParticleManager* manager = ParticleManager::GetInstance();
-	jetBurnLeft_ = manager->CrateParticle("legsJet");
-	jetBurnRight_ = manager->CrateParticle("legsJet");
+	jetBurnLeft_ = manager->CrateParticle("Jet");
+	jetBurnRight_ = manager->CrateParticle("Jet");
 
 	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();

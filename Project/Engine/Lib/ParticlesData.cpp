@@ -60,6 +60,10 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Text("Life of");
 		ImGui::Checkbox("isDirectionRotate", &isDirectionRotate);
 		ImGui::Checkbox("isLifeOfScale", &isLifeOfScale);
+		if (isLifeOfScale) {
+			ImGui::DragFloat3("lifeOfMinScale", &lifeOfMinScale.x, 0.1f);
+			ImGui::DragFloat3("lifeOfMaxScale", &lifeOfMaxScale.x, 0.1f);
+		}
 		ImGui::Checkbox("isLifeOfAlpha", &isLifeOfAlpha);
 		ImGui::Checkbox("FadeInOut", &isFadeInOut);
 		if (isFadeInOut) {

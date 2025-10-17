@@ -3,6 +3,7 @@
 #include <Lib/Math/MyMatrix.h>
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
+#include "Engine/Lib/GameTimer.h"
 
 int WorldTransform::nextId_ = 0;
 
@@ -117,6 +118,10 @@ void WorldTransform::LookAt(const Vector3& target, const Vector3& up) {
 
 void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const {
 	commandList->SetGraphicsRootConstantBufferView(index, cBuffer_->GetGPUVirtualAddress());
+}
+
+void WorldTransform::Translate(const Vector3& translate) {
+	srt_.translate += translate;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -85,5 +85,6 @@ void BossActionDeployArmor::Update() {
 
 void BossActionDeployArmor::End() {
 	pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
+	pTarget_->SetIsArmorDeploy(false);
 	coolTime_ = param_.coolTime;
 }

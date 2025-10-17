@@ -115,7 +115,7 @@ public:
 
 private:
 
-	CylinderGeometry geometry_;
+	SphereGeometry geometry_;
 
 	std::shared_ptr<Mesh> mesh_;
 	std::unique_ptr<Material> material_ = nullptr;

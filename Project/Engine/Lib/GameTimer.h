@@ -15,7 +15,7 @@ public:
 
 	void CalculationFrame();
 
-	static float DeltaTime() { return deletaTime_; }
+	static float DeltaTime() { return deltaTime_; }
 	static float TotalTime(){ return totalTime_; }
 	static float TimeRate() { return timeRate_; }
 
@@ -26,7 +26,7 @@ public:
 private:
 	std::chrono::steady_clock::time_point preFrameTime_;	// 前フレームの時間
 	std::chrono::milliseconds frameDuration_;				// フレームの間隔
-	static float deletaTime_;
+	static float deltaTime_;
 	static float timeRate_;
 	static float totalTime_;
 

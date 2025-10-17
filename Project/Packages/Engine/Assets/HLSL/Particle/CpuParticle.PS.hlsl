@@ -14,14 +14,14 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), gMaterial.uvTransform);
 	float4 textureColor = gTexture.Sample(gSampler, transformedUV.xy);
 	
-	if (textureColor.a <= gMaterial.discardValue) {
+	if (textureColor.a <= input.discardValue) {
 		discard;
 	}
 	
 	output.color.rgb = textureColor.rgb * gMaterial.color.rgb * input.color.rgb;
 	output.color.a = textureColor.a * input.color.a * gMaterial.color.a;
 	
-	if (output.color.a <= gMaterial.discardValue) {
+	if (output.color.a <= input.discardValue) {
 		discard;
 	}
 	

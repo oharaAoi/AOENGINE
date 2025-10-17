@@ -31,7 +31,7 @@ public:
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 
-	void Translate(const Vector3& translate) { srt_.translate += translate; }
+	void Translate(const Vector3& translate);
 
 	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
 

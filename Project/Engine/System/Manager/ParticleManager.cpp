@@ -112,7 +112,7 @@ void ParticleManager::ParticlesUpdate() {
 			}
 
 			if (pr.isLifeOfScale) {
-				pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
+				pr.scale = Vector3::Lerp(pr.lifeOfMinScale, pr.lifeOfMaxScale, t);
 			}
 
 			if (pr.isScaleUpScale) {

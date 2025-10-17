@@ -6,7 +6,8 @@ void JetEngineBurn::Finalize() {
 }
 
 void JetEngineBurn::Init() {
-	geometry_.Init(32, 0.1f, 1.8f, 2.0f);
+	//geometry_.Init(32, 0.1f, 1.8f, 2.0f);
+	geometry_.Init(Vector2(1,1));
 	param_.Load();
 	flareParameter_.Load();
 
@@ -130,6 +131,9 @@ void JetEngineBurn::Draw() const {
 
 void JetEngineBurn::Debug_Gui() {
 	if (ImGui::TreeNode("Burn")) {
+		static bool isDebug = false;
+		ImGui::Checkbox("isDebug", &isDebug);
+		boostOn_ = isDebug;
 		worldTransform_->Debug_Gui();
 		material_->Debug_Gui();
 
@@ -159,6 +163,12 @@ void JetEngineBurn::Debug_Gui() {
 		flare_->Debug_Gui();
 		ImGui::DragFloat3("translate", &flareParameter_.translate.x, 0.1f);
 		flareParameter_.SaveAndLoad();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Mesh")) {
+		geometry_.Debug_Gui();
+		mesh_->SetVertexData(geometry_.GetVertex());
 		ImGui::TreePop();
 	}
 }
