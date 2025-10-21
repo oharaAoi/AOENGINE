@@ -137,6 +137,9 @@ public:
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
 
+	void SetStanRemainingTime(float _time) { stanRemainingTime_ = _time; }
+	float GetStanRemainingTime() const { return stanRemainingTime_; }
+
 private:
 
 	// ポインタ  --------------------------------------------------
@@ -162,6 +165,8 @@ private:
 	bool isArmorDeploy_;
 	bool isAttack_;
 	bool isMove_;
+
+	float stanRemainingTime_; // スタンの残り時間
 
 	// AI --------------------------------------------------
 	std::unique_ptr<BehaviorTree> behaviorTree_;

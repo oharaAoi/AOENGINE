@@ -17,6 +17,7 @@ public:
 		float bulletSpeed = 80.0f;
 		int kFireCount = 20;
 		float coolTime = 10.0f;
+		float recoveryTime = 0.5f;
 
 		Parameter() { SetName("BossActionRapidfire"); }
 
@@ -26,6 +27,7 @@ public:
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("kFireCount", kFireCount)
 				.Add("coolTime", coolTime)
+				.Add("recoveryTime", recoveryTime)
 				.Build();
 		}
 
@@ -34,6 +36,7 @@ public:
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "kFireCount", kFireCount);
 			fromJson(jsonData, "coolTime", coolTime);
+			fromJson(jsonData, "recoveryTime", recoveryTime);
 		}
 
 		void Debug_Gui() override;

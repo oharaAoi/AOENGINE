@@ -20,7 +20,7 @@ void DirectXCompiler::Finalize() {
 
 ComPtr<IDxcBlob> DirectXCompiler::VsShaderCompile(const std::string& shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"main", L"vs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(shader), L"main", L"vs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();
@@ -28,7 +28,7 @@ ComPtr<IDxcBlob> DirectXCompiler::VsShaderCompile(const std::string& shader) {
 
 ComPtr<IDxcBlob> DirectXCompiler::PsShaderCompile(const std::string& shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"main", L"ps_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(shader), L"main", L"ps_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();
@@ -36,7 +36,7 @@ ComPtr<IDxcBlob> DirectXCompiler::PsShaderCompile(const std::string& shader) {
 
 ComPtr<IDxcBlob> DirectXCompiler::CsShaderCompile(const std::string& shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"CSmain", L"cs_6_0", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(shader), L"CSmain", L"cs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();

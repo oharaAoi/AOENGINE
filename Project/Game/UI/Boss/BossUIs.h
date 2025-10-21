@@ -34,8 +34,6 @@ public:
 
 	void PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos);
 
-	void PopStan();
-
 private:
 
 	Boss* pBoss_ = nullptr;
@@ -43,8 +41,6 @@ private:
 
 	std::unique_ptr<BossHealthUI> health_;
 	std::unique_ptr<PostureStability> postureStability_;
-	std::unique_ptr<ArmorDurabilityUI> armorDurability_;
-	std::unique_ptr<StanGaugeUI> stanGaugeUI_;
 
 	std::list<std::unique_ptr<EnemyAttackAlert>> attackAlertList_;
 };

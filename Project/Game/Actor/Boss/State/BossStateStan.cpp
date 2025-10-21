@@ -18,8 +18,6 @@ void BossStateStan::OnStart() {
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
 
 	pOwner_->SetIsStan(true);
-	pOwner_->GetUIs()->PopStan();
-
 	pOwner_->SetExecute(false);
 }
 
@@ -29,6 +27,7 @@ void BossStateStan::OnStart() {
 
 void BossStateStan::OnUpdate() {
 	stateTime_ += GameTimer::DeltaTime();
+	pOwner_->SetStanRemainingTime(stateTime_ / param_.stanTime);
 
 	if (stateTime_ >= param_.stanTime) {
 		stateMachine_->ChangeState<BossStateNormal>();

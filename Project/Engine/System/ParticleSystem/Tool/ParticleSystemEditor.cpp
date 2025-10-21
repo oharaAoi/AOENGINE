@@ -449,7 +449,7 @@ void ParticleSystemEditor::Edit() {
 void ParticleSystemEditor::OpenSaveDialog(const std::string& _name, const json& _jsonData) {
 	// configデータを作成する
 	IGFD::FileDialogConfig config;
-	config.path = "./Game/Assets/"; // 初期ディレクトリ
+	config.path = "Project/Packages/Game/Assets/GameData/"; // 初期ディレクトリ
 	config.fileName = _name; // 初期ファイル名
 	config.flags = ImGuiFileDialogFlags_ConfirmOverwrite; // ←ここ！
 	
@@ -540,7 +540,7 @@ void ParticleSystemEditor::SetRenderTarget() {
 	commandList_->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &depthHandle_.handleCPU);
 	renderTarget_->SetRenderTarget(commandList_, types, depthHandle_);
 	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 0.0f / 255, 0.0f / 255, 0.0f / 255.0f, 255.0f };
+	float clearColor[] = { 105.0f / 255, 105.0f / 255, 105.0f / 255.0f, 255.0f };
 	// RenderTargetをクリアする
 	commandList_->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }

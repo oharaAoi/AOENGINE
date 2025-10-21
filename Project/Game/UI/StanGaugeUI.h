@@ -58,7 +58,7 @@ private:
 	Parameter param_;
 
 	VectorTween<Vector2> scaleTween_;
-	VectorTween<float> alphaTween_;
+	VectorTween<Color> colorTween_;
 
 };
 

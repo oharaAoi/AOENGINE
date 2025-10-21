@@ -15,6 +15,7 @@ public:
 	struct Parameter : public IJsonConverter {
 		float bulletSpeed = 80.0f;
 		float stiffenTime = 1.0f;
+		float recoveryTime = 1.0f;
 
 		Parameter() { SetName("BossActionShotLuncher"); }
 		
@@ -22,12 +23,14 @@ public:
 			return JsonBuilder(id)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("stiffenTime", stiffenTime)
+				.Add("recoveryTime", recoveryTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "stiffenTime", stiffenTime);
+			fromJson(jsonData, "recoveryTime", recoveryTime);
 		}
 
 		void Debug_Gui() override;

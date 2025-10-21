@@ -1,7 +1,14 @@
 #pragma once
 #include <string>
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
 #include "Game/UI/BaseGaugeUI.h"
+
+enum class GaugeType {
+	Posturebility,
+	Armor,
+	Stan
+};
 
 /// <summary>
 /// 姿勢安定のゲージ
@@ -13,6 +20,8 @@ public:
 	struct Parameter : public IJsonConverter {
 		Color normalColor;
 		Color pinchColor;
+		Color armorColor;
+		Color stanColor;
 
 		Parameter() { SetName("postureStability"); }
 
@@ -20,12 +29,16 @@ public:
 			return JsonBuilder(id)
 				.Add("normalColor", normalColor)
 				.Add("pinchColor", pinchColor)
+				.Add("armorColor", armorColor)
+				.Add("stanColor", stanColor)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "normalColor", normalColor);
 			fromJson(jsonData, "pinchColor", pinchColor);
+			fromJson(jsonData, "armorColor", armorColor);
+			fromJson(jsonData, "stanColor", stanColor);
 		}
 
 		void Debug_Gui() override {};
@@ -42,11 +55,18 @@ public:
 
 	void Debug_Gui() override;
 
+public:
+
+	void SetGaugeType(GaugeType _type) { gaugeType_ = _type; }
+
 private:
 
 	Sprite* fence_;
 
 	Parameter param_;
 
+	GaugeType gaugeType_;
+
+	VectorTween<Color> stanAnimation_;
 };
 

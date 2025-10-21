@@ -11,16 +11,16 @@ void StanGaugeUI::Init(const std::string& _groupName, const std::string& _itemNa
 	front_->Load(_groupName, _itemName);
 
 	scaleTween_.Init((front_->GetScale() * 1.2f), front_->GetScale(), 0.2f, (int)EasingType::InOut::Sine, LoopType::STOP);
-	alphaTween_.Init(param_.minAlpha, param_.maxAlpha, param_.popInterval, (int)EasingType::InOut::Sine, LoopType::RETURN);
 }
 
 void StanGaugeUI::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
 	scaleTween_.Update(GameTimer::DeltaTime());
-	alphaTween_.Update(GameTimer::DeltaTime());
-
+	colorTween_.Update(GameTimer::DeltaTime());
+	
 	front_->SetScale(scaleTween_.GetValue());
-	front_->SetColor(Color(1.0f, 0.2f, 0.2f, alphaTween_.GetValue()));
+	Color color = colorTween_.GetValue();
+	front_->SetColor(color);
 
 	BaseGaugeUI::Update();
 }
@@ -39,10 +39,14 @@ void StanGaugeUI::Debug_Gui() {
 
 void StanGaugeUI::Pop() {
 	scaleTween_.Reset();
-	alphaTween_.Reset();
+	colorTween_.Reset();
 }
 
 void StanGaugeUI::SetIsEnable(bool _isActive) {
 	front_->SetEnable(_isActive);
 	bg_->SetEnable(_isActive);
+
+	if (_isActive) {
+		colorTween_.Init(Color(1.f, 0.2f, 0.2f, 1.0f), Color(1.f, 0.2f, 0.2f, 0.0f), param_.popInterval, (int)EasingType::InOut::Sine, LoopType::RETURN);
+	} 
 }

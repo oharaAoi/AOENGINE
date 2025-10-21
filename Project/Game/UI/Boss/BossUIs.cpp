@@ -17,20 +17,9 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	postureStability_ = std::make_unique<PostureStability>();
 	postureStability_->Init("BossUIs", "PostureStability");
 
-	armorDurability_ = std::make_unique<ArmorDurabilityUI>();
-	armorDurability_->Init("BossUIs", "ArmorDurabilityUI");
-
-	stanGaugeUI_ = std::make_unique<StanGaugeUI>();
-	stanGaugeUI_->Init("BossUIs", "StanGaugeUI");
-
-	armorDurability_->SetIsEnable(false);
-	stanGaugeUI_->SetIsEnable(false);
-
 	AddChild(health_.get());
 	AddChild(postureStability_.get());
-	AddChild(armorDurability_.get());
-	AddChild(stanGaugeUI_.get());
-
+	
 	EditorWindows::AddObjectWindow(this, "BossUIs");
 }
 
@@ -47,14 +36,19 @@ void BossUIs::Update() {
 
 	// 耐久度
 	if (pBoss_->GetPulseArmor()->GetIsAlive()) {
-		armorDurability_->Update(pBoss_->GetPulseArmor()->ArmorDurability());
-	} else {
-		postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
-	}
+		// armorの表示
+		postureStability_->SetGaugeType(GaugeType::Armor);
+		postureStability_->Update(pBoss_->GetPulseArmor()->ArmorDurability());
 
-	// スタン
-	if (pBoss_->GetIsStan()) {
-		stanGaugeUI_->Update(0);
+	} else if(pBoss_->GetIsStan()) {
+		// Stan時の表示
+		postureStability_->SetGaugeType(GaugeType::Stan);
+		postureStability_->Update(1.0f - pBoss_->GetStanRemainingTime());
+
+	} else {
+		// 通常時の表示
+		postureStability_->SetGaugeType(GaugeType::Posturebility);
+		postureStability_->Update(bossParam.postureStability / bossInitParam.postureStability);
 	}
 
 	// 警告
@@ -68,20 +62,6 @@ void BossUIs::Update() {
 
 	for (auto& alert : attackAlertList_) {
 		alert->Update();
-	}
-
-	if (!pBoss_->GetPulseArmor()->GetIsAlive()) {
-		armorDurability_->SetIsEnable(false);
-		postureStability_->SetIsEnable(true);
-	} else {
-		postureStability_->SetIsEnable(false);
-		armorDurability_->SetIsEnable(true);
-	}
-
-	if (pBoss_->GetIsStan()) {
-		stanGaugeUI_->SetIsEnable(true);
-	} else {
-		stanGaugeUI_->SetIsEnable(false);
 	}
 }
 
@@ -128,8 +108,4 @@ void BossUIs::PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos) {
 
 	auto& alert = attackAlertList_.emplace_back(std::make_unique<EnemyAttackAlert>());
 	alert->Init(bestDir);
-}
-
-void BossUIs::PopStan() {
-	stanGaugeUI_->Pop();
 }

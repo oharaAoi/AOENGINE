@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Utilities/Timer.h"
 
 template<typename OwnerType>
 class ITaskNode :
@@ -48,8 +49,7 @@ protected:
 
 	float taskTimer_ = 0.0f;
 
-	float waitTime_ = 1.0f;
-	float waitTimer_ = 0.0f;
+	Timer waitTimer_;
 
 	UtilityEvaluator evaluator_;
 
@@ -61,7 +61,7 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
 	isLeafNode_ = true;
-	waitTime_ = 1;
+	waitTimer_.targetTime_ = 1;
 	evaluator_ = UtilityEvaluator();
 }
 
@@ -82,7 +82,7 @@ inline json ITaskNode<OwnerType>::ToJson() {
 template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
-	ImGui::DragFloat("waitTime", &waitTime_, 0.1f);
+	ImGui::DragFloat("waitTime", &waitTimer_.targetTime_, 0.1f);
 	evaluator_.Debug_Gui();
 }
 
@@ -98,7 +98,7 @@ inline BehaviorStatus ITaskNode<OwnerType>::Action() {
 			return BehaviorStatus::Failure;
 		}
 		taskTimer_ = 0;
-		waitTimer_ = 0;
+		waitTimer_.timer_ = 0;
 		state_ = BehaviorStatus::Running;
 		Init();
 	}
@@ -119,8 +119,7 @@ inline BehaviorStatus ITaskNode<OwnerType>::Action() {
 
 template<typename OwnerType>
 inline bool ITaskNode<OwnerType>::Wait() {
-	waitTimer_ += GameTimer::DeltaTime();
-	if (waitTimer_ >= waitTime_) {
+	if (!waitTimer_.Run(GameTimer::DeltaTime())) {
 		return true;
 	}
 	return false;

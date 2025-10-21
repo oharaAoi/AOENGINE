@@ -208,11 +208,13 @@ void Boss::Damage(float _takeDamage) {
 		if (!isStan_) {
 			param_.postureStability += _takeDamage * 0.3f;
 			param_.postureStability = std::clamp(param_.postureStability, 0.0f, initParam_.postureStability);
+
+			if (param_.postureStability >= initParam_.postureStability) {
+				isStan_ = true;
+				stateMachine_->ChangeState<BossStateStan>();
+			}
 		}
 
-		if (param_.postureStability >= initParam_.postureStability) {
-			stateMachine_->ChangeState<BossStateStan>();
-		}
 	} else {
 		pulseArmor_->DamageDurability(_takeDamage * 0.3f);
 		if (pulseArmor_->BreakArmor()) {

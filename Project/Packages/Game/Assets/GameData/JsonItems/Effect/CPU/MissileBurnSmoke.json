@@ -1,58 +1,95 @@
 {
     "MissileBurnSmoke": {
+        "angle": 27.0,
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "a": 1.0,
-            "r": 0.05581396818161011,
-            "g": 0.05581396818161011,
-            "b": 0.05581396818161011
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
         },
         "damping": 0.0,
-        "direction": {
-            "x": 0.0,
-            "y": 1.0,
-            "z": 0.0
-        },
-        "emit": true,
+        "discardValue": 0.009999999776482582,
+        "duration": 5.0,
+        "emitDirection": 1,
+        "emitOrigin": 0,
+        "endDiscard": 0.800000011920929,
+        "fadeInTime": 0.0,
+        "fadeOutTime": 0.0,
         "gravity": 0.0,
+        "height": 1.0,
+        "isBillBord": true,
         "isDirectionRotate": false,
+        "isDraw2d": false,
+        "isFadeInOut": false,
+        "isLerpDiscardValue": true,
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
-        "isOneShot": false,
+        "isLoop": true,
         "isParticleAddBlend": false,
+        "isRandomColor": false,
         "isScaleUp": false,
-        "lifeTime": 0.5,
-        "maxScale": {
-            "x": 4.920000076293945,
-            "y": 4.369999885559082,
-            "z": 1.0
-        },
-        "minScale": {
-            "x": 0.8799999952316284,
-            "y": 0.9100000262260437,
-            "z": 1.0
-        },
-        "rateOverTimeCout": 50,
-        "rotate": {
-            "w": 1.0,
+        "lifeOfMaxScale": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "rotateAngle": 0.0,
+        "lifeOfMinScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "lifeTime": 0.5,
+        "maxScale": {
+            "x": 2.0,
+            "y": 4.369999885559082,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 0.6000000238418579,
+            "y": 0.9100000262260437,
+            "z": 1.0
+        },
+        "radius": 0.5,
+        "randColor1": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "randColor2": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "rateOverTimeCout": 50,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "scaleUpScale": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
+        "separateByAxisScale": false,
         "shape": 0,
-        "speed": 0.1899999976158142,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": 0.4099999964237213,
+        "startDiscard": 0.009999999776482582,
         "translate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "useTexture": "circle.png"
+        "useMesh": "plane",
+        "useTexture": "smoke.png"
     }
 }

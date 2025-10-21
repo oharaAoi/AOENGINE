@@ -25,7 +25,7 @@ bool BossActionWait::CanExecute() {
 }
 
 void BossActionWait::Init() {
-	//evaluator_.LoadJson("EvaluationFunction", "BossWait");
+	evaluator_.LoadJson("EvaluationFunction", name_);
 }
 
 void BossActionWait::Update() {

@@ -4,6 +4,6 @@
         "angularVelocity": 4.0,
         "armorCoolTime": 20.0,
         "health": 2000.0,
-        "postureStability": 0.0
+        "postureStability": 100.0
     }
 }

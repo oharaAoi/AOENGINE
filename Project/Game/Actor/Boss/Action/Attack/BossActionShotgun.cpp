@@ -23,6 +23,7 @@ void BossActionShotgun::Debug_Gui() {
 }
 
 void BossActionShotgun::Parameter::Debug_Gui() {
+	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragFloat("stiffenTime", &bulletSpread, .1f);
 	ImGui::DragInt("kFireCount", &kFireCount, 1);
@@ -63,6 +64,8 @@ void BossActionShotgun::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
+
+	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
