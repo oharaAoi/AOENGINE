@@ -25,6 +25,8 @@ public:
 
 	void JetIsStart();
 
+	void BoostOn() { isBoostMode_ = true; }
+
 public:	// accessor Method
 
 	void SetIsBoostMode() { isBoostMode_ = !isBoostMode_; }

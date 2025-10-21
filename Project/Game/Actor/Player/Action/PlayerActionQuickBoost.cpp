@@ -83,6 +83,8 @@ void PlayerActionQuickBoost::OnStart() {
 	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
 	// ブラーを画面にかける
 	pRadialBlur_->Start(0.2f, 0.2f);
+	// boostをonにする
+	pOwner_->GetJetEngine()->BoostOn();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
