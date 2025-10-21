@@ -40,13 +40,6 @@ BehaviorStatus WeightSelectorNode::Execute() {
 			return BehaviorStatus::Success;
 		}
 
-		// weightの中から一番値の高いものを取得する
-		/*auto it = std::max_element(
-			weightMap_.begin(), weightMap_.end(),
-			[](const auto& a, const auto& b) {
-				return a.second < b.second;
-			}
-		);*/
 		std::vector<uint32_t> keys;
 		std::vector<double> weights;
 		for (auto& [key, value] : weightMap_) {

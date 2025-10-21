@@ -40,31 +40,20 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 			return BehaviorStatus::Success;
 		}
 
-		// weightの中から一番値の高いものを取得する
-		float maxScore = 0;
-		uint32_t maxKey = 0;
-		for (auto& score : priorityMap_) {
-			if (score.second > maxScore) {
-				maxScore = score.second;
-				maxKey = score.first;
-			}
+		 // key と weight の配列を作る
+		std::vector<uint32_t> keys;
+		std::vector<double> weights;
+		for (auto& [key, value] : priorityMap_) {
+			keys.push_back(key);
+			weights.push_back(static_cast<double>(std::clamp(value, 0.0f, 1.0f)));
 		}
 
-		 // key と weight の配列を作る
-		//std::vector<uint32_t> keys;
-		//std::vector<double> weights;
-		//for (auto& [key, value] : priorityMap_) {
-		//	keys.push_back(key);
-		//	weights.push_back(static_cast<double>(std::clamp(value, 0.0f, 1.0f)));
-		//}
+		// 重みに基づく乱択
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
-		//// 重みに基づく乱択
-		//std::random_device rd;
-		//std::mt19937 gen(rd());
-		//std::discrete_distribution<> dist(weights.begin(), weights.end());
-
- 		//currentIndex_ = keys[dist(gen)];
- 		currentIndex_ = maxKey;
+ 		currentIndex_ = keys[dist(gen)];
 		children_[currentIndex_]->Execute();
 		children_[currentIndex_]->SetState(BehaviorStatus::Running);
 		reset_ = false;

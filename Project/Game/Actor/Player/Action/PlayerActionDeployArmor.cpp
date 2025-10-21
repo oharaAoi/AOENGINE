@@ -15,6 +15,9 @@ void PlayerActionDeployArmor::Debug_Gui() {
 void PlayerActionDeployArmor::Parameter::Debug_Gui() {
 	ImGui::DragFloat("chargeTime", &chargeTime, 01.f);
 	ImGui::DragFloat3("effectOffset", &effectOffset.x, 0.1f);
+	ImGui::DragFloat("cameraApproachTime", &cameraApproachTime, 0.1f);
+	ImGui::DragFloat("cameraLeaveTime", &cameraLeaveTime, 0.1f);
+	ImGui::DragFloat("cameraOffsetZ", &cameraOffsetZ, 0.1f);
 	SaveAndLoad();
 }
 
@@ -28,11 +31,6 @@ void PlayerActionDeployArmor::Build() {
 
 	parameter_.SetGroupName(pManager_->GetName());
 	parameter_.Load();
-
-	/*chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
-	chargeEmitter_->SetIsStop(true);
-	chargeEmitter_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
-	chargeEmitter_->SetLocalPos(parameter_.effectOffset);*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +39,9 @@ void PlayerActionDeployArmor::Build() {
 
 void PlayerActionDeployArmor::OnStart() {
 	actionTimer_ = 0.0f;
-	//chargeEmitter_->SetIsStop(false);
+
+	cameraInitOffsetZ_ = pOwner_->GetFollowCamera()->GetOffset().z;
+	cameraOffsetZ_.Init(cameraInitOffsetZ_, parameter_.cameraOffsetZ, parameter_.cameraApproachTime, (int)EasingType::None::Liner, LoopType::STOP);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,22 @@ void PlayerActionDeployArmor::OnStart() {
 
 void PlayerActionDeployArmor::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
+	
+	// カメラを動かす時間計算する
+	FollowCamera* followCamera = pOwner_->GetFollowCamera();
+	cameraOffsetZ_.Update(GameTimer::DeltaTime());
+	
+	// Animationが終了したときの処理
+	if (cameraOffsetZ_.GetIsFinish()) {
+		// まだ展開をしていなければ展開して次のアニメーションを設定する
+		if (!isDeploy_) {
+			isDeploy_ = true;
+			pOwner_->SetDeployArmor(true);
+			cameraOffsetZ_.Init(parameter_.cameraOffsetZ, cameraInitOffsetZ_, parameter_.cameraLeaveTime, (int)EasingType::None::Liner, LoopType::STOP);
+		} 
+	}
+
+	followCamera->SetOffsetZ(cameraOffsetZ_.GetValue());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,17 +73,17 @@ void PlayerActionDeployArmor::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::OnEnd() {
-	pOwner_->SetDeployArmor(true);
-	//chargeEmitter_->SetIsStop(true);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次のアクション確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::CheckNextAction() {
-	if (actionTimer_ > 2.0f) {
-		NextAction<PlayerActionIdle>();
+	if (cameraOffsetZ_.GetIsFinish()) {
+		if (isDeploy_) {
+			NextAction<PlayerActionIdle>();
+		}
 	}
 }
 

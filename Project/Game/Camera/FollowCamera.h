@@ -131,6 +131,8 @@ public:		// accessor method
 	void SetOffset(const Vector3& _offset) { followCamera_.offset = _offset; }
 	const Vector3& GetOffset() const { return followCamera_.offset; }
 
+	void SetOffsetZ(float _offsetZ) { followCamera_.offset.z = _offsetZ; }
+
 	const Vector3& GetInitOffset() const { return initFollowCamera_.offset; }
 
 	void SetShake(float time, float strength);
