@@ -94,6 +94,11 @@ public:
 	// 現在選択されているNodeかどうか
 	bool IsSelectNode();
 
+	/// <summary>
+	/// Nodeの名前をつなぐ
+	/// </summary>
+	std::string NodeNameCombination();
+
 public:
 
 	ax::NodeEditor::NodeId GetId() { return node_.id; }
@@ -103,7 +108,10 @@ public:
 	const Pin& GetInput() const { return node_.inputId; }
 	const Pin& GetOutput() const { return node_.outputId; }
 
-	void SetNodeName(const std::string& _name) { node_.name = _name; }
+	void SetNodeName(const std::string& _name) { 
+		node_.name = _name;
+		name_ = _name;
+	}
 	const std::string& GetNodeName() { return node_.name; }
 
 	void EditNodeName();
@@ -133,7 +141,10 @@ public:
 
 private:
 
-	// NodeにLineを描画
+	/// <summary>
+	/// NodeにLineを描画
+	/// </summary>
+	/// <param name="_texPos"></param>
 	void DrawImGuiLine(const ImVec2& _texPos);
 
 protected:
@@ -168,6 +179,5 @@ protected:
 
 	ImColor color_;
 	ImColor baseColor_;
-
 };
 

@@ -43,7 +43,14 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 
 	health_->Update(playerParam.health / playerInitParam.health);
-	postureStability_->Update(playerParam.postureStability / playerInitParam.postureStability);
+
+	if (pPlayer_->GetIsDeployArmor()) {
+		postureStability_->SetGaugeType(GaugeType::Armor);
+		postureStability_->Update(1.0f - (playerParam.postureStability / playerInitParam.postureStability));
+	} else {
+		postureStability_->SetGaugeType(GaugeType::Posturebility);
+		postureStability_->Update(playerParam.postureStability / playerInitParam.postureStability);
+	}
 
 	// ---------------------------
 	// ↓ weaponの残弾数ゲージを更新

@@ -40,7 +40,7 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 			return BehaviorStatus::Success;
 		}
 
-		 // key と weight の配列を作る
+		// key と weight の配列を作る
 		std::vector<uint32_t> keys;
 		std::vector<double> weights;
 		for (auto& [key, value] : priorityMap_) {
@@ -53,14 +53,23 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		std::mt19937 gen(rd());
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
- 		currentIndex_ = keys[dist(gen)];
+		currentIndex_ = keys[dist(gen)];
 		children_[currentIndex_]->Execute();
 		children_[currentIndex_]->SetState(BehaviorStatus::Running);
 		reset_ = false;
+
+#ifdef _DEBUG
+		PriorityDisplay();
+#endif
+
 		return BehaviorStatus::Running;
 	} else {
 		// 選択されたindexを実行する
 		BehaviorStatus status = children_[currentIndex_]->Execute();
+
+#ifdef _DEBUG
+		PriorityDisplay();
+#endif
 
 		if (status == BehaviorStatus::Success) {
 			reset_ = true;
@@ -83,4 +92,25 @@ float PlannerSelectorNode::EvaluateWeight() {
 }
 
 void PlannerSelectorNode::Debug_Gui() {
+
+}
+
+void PlannerSelectorNode::PriorityDisplay() {
+	std::vector<std::pair<uint32_t, float>> priorityArray(priorityMap_.begin(), priorityMap_.end());
+
+	// 値を降順でソート
+	std::sort(priorityArray.begin(), priorityArray.end(), [](const auto& a, const auto& b) {
+		return a.second > b.second;
+			  });
+
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking;
+
+	if (ImGui::Begin("PlannerSelector Priority Window", nullptr, flags)) {
+		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
+			ImGui::Text(children_[priorityArray[index].first]->GetName().c_str());
+			ImGui::Text("priority : %f", priorityArray[index].second);
+			ImGui::Separator();
+		}
+	}
+	ImGui::End();
 }

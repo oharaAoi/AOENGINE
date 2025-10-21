@@ -297,8 +297,14 @@ void Player::Damage(float _damage) {
 	}
 	// 姿勢安定性を減らす
 	param_.postureStability += _damage * 0.5f;
+
 	if (param_.postureStability >= initParam_.postureStability) {
-		Knockback(transform_->GetRotate().MakeForward() * -1.0f);
+		if (deployArmor_) {
+			deployArmor_ = false;
+			param_.postureStability = 0;
+		} else {
+			Knockback(transform_->GetRotate().MakeForward() * -1.0f);
+		}
 	}
 
 	// カメラを揺らす

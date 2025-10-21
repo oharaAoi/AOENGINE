@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 
+/// <summary>
+/// 左から実行をし、 失敗したら次へ成功したら親へ戻るNode
+/// </summary>
 class SelectorNode :
 	public IBehaviorNode {
 public:

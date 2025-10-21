@@ -55,10 +55,19 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		currentIndex_ = keys[dist(gen)];
 		children_[currentIndex_]->Execute();
 		isReset_ = false;
+
+#ifdef _DEBUG
+		PriorityDisplay();
+#endif
+
 		return BehaviorStatus::Running;
 	} else {
 		// 選択されたindexを実行する
 		BehaviorStatus status = children_[currentIndex_]->Execute();
+
+#ifdef _DEBUG
+		PriorityDisplay();
+#endif
 
 		if (status == BehaviorStatus::Success) {
 			isReset_ = true;
@@ -79,4 +88,24 @@ BehaviorStatus WeightSelectorNode::Execute() {
 void WeightSelectorNode::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	InputTextWithString("ReName:", "##wightSelector", node_.name);
+}
+
+void WeightSelectorNode::PriorityDisplay() {
+	std::vector<std::pair<uint32_t, float>> priorityArray(weightMap_.begin(), weightMap_.end());
+
+	// 値を降順でソート
+	std::sort(priorityArray.begin(), priorityArray.end(), [](const auto& a, const auto& b) {
+		return a.second > b.second;
+			  });
+
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking;
+
+	if (ImGui::Begin("WeightSelector Priority Window", nullptr, flags)) {
+		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
+			ImGui::Text(children_[priorityArray[index].first]->NodeNameCombination().c_str());
+			ImGui::Text("priority : %f", priorityArray[index].second);
+			ImGui::Separator();
+		}
+	}
+	ImGui::End();
 }

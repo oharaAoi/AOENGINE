@@ -1,9 +1,4 @@
 #include "GameTimer.h"
-#include "Engine/System/Manager/TextureManager.h"
-#ifdef _DEBUG
-#include "Externals/ImGui/imgui.h"
-#include "Engine/System/Manager/ImGuiManager.h"
-#endif
 
 float GameTimer::deltaTime_ = 0.0f;
 float GameTimer::fps_ = 60.0f;

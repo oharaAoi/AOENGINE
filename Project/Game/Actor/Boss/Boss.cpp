@@ -102,6 +102,7 @@ void Boss::Init() {
 	behaviorTree_->Init();
 	behaviorTree_->SetName("Boss Behavior Tree");
 	behaviorTree_->SetWorldState(worldState_.get());
+	behaviorTree_->SetTarget(this);
 	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());
 	behaviorTree_->AddGoal(std::make_shared<SafeDistanceOriented>());
 	behaviorTree_->AddGoal(std::make_shared<DeployArmorOriented>());
@@ -121,7 +122,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
 	evaluationFormula_->Init(this);

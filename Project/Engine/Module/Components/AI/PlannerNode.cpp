@@ -118,8 +118,9 @@ void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _tr
 	// goalを設定する
 	if (orientedName_ != "") {
 		for (auto goal : goalArray_) {
-			if (goal->GetName() == orientedName_) {
+			if (goal->GetName()  == orientedName_) {
 				goal_ = goal;
+				SetName(goal_->GetName());
 			}
 		}
 	}

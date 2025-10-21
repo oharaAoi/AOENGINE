@@ -26,6 +26,13 @@ public:
 
 private:
 
+	/// <summary>
+	/// 評価値を表示する
+	/// </summary>
+	void PriorityDisplay();
+
+private:
+
 	std::unordered_map<uint32_t, float> weightMap_;
 	bool isReset_ = false;
 

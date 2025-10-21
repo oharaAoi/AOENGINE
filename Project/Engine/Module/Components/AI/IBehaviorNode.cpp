@@ -179,3 +179,14 @@ void IBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {
 		1.0f                          // 太さ
 	);
 }
+
+std::string IBehaviorNode::NodeNameCombination() {
+	std::string result = name_ + " - ";
+	for (size_t index = 0; index < children_.size(); ++index) {
+		result += children_[index]->GetName();
+		if (index != children_.size() - 1) {
+			result += " - ";
+		}
+	}
+	return result;
+}

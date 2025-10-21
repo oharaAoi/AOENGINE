@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine/Module/Components/AI/IBehaviorNode.h"
 
+/// <summary>
+/// 一番左の子が成功したら次の子へと遷移するNode
+/// </summary>
 class SequenceNode :
 	public IBehaviorNode {
 public:

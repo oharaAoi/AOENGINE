@@ -23,6 +23,13 @@ public:
 
 private:
 
+	/// <summary>
+	/// 評価値を表示する
+	/// </summary>
+	void PriorityDisplay();
+
+private:
+
 	std::unordered_map<uint32_t, float> priorityMap_;
 	bool reset_ = false;
 

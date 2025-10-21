@@ -226,6 +226,14 @@ Matrix4x4 Render::GetViewProjectionMat() {
 	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
 }
 
+void Render::SetVpvpMatrix(const Matrix4x4& _mat) {
+	vpvpMatrix = _mat;
+}
+
+Matrix4x4 Render::GetVpvpMatrix() {
+	return vpvpMatrix;
+}
+
 float Render::GetNearClip() {
 	return nearClip_;
 }

@@ -50,11 +50,11 @@ void PlayerActionDeployArmor::OnStart() {
 
 void PlayerActionDeployArmor::OnUpdate() {
 	actionTimer_ += GameTimer::DeltaTime();
-	
+
 	// カメラを動かす時間計算する
 	FollowCamera* followCamera = pOwner_->GetFollowCamera();
 	cameraOffsetZ_.Update(GameTimer::DeltaTime());
-	
+
 	// Animationが終了したときの処理
 	if (cameraOffsetZ_.GetIsFinish()) {
 		// まだ展開をしていなければ展開して次のアニメーションを設定する
@@ -62,7 +62,7 @@ void PlayerActionDeployArmor::OnUpdate() {
 			isDeploy_ = true;
 			pOwner_->SetDeployArmor(true);
 			cameraOffsetZ_.Init(parameter_.cameraOffsetZ, cameraInitOffsetZ_, parameter_.cameraLeaveTime, (int)EasingType::None::Liner, LoopType::STOP);
-		} 
+		}
 	}
 
 	followCamera->SetOffsetZ(cameraOffsetZ_.GetValue());
@@ -73,6 +73,7 @@ void PlayerActionDeployArmor::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::OnEnd() {
+	pOwner_->SetDeployArmor(true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +93,8 @@ void PlayerActionDeployArmor::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionDeployArmor::IsInput() {
+	if (pOwner_->GetIsDeployArmor()) { return false; }
+
 	if (pInput_->IsPressButton(XInputButtons::LSTICK_THUMB)
 		&& pInput_->IsPressButton(XInputButtons::BUTTON_Y)) {
 		return true;

@@ -1,5 +1,6 @@
 #include "BaseCamera.h"
 #include "Engine/Lib/Json//JsonItems.h"
+#include "Engine/Render.h"
 
 BaseCamera::~BaseCamera() {Finalize();}
 void BaseCamera::Finalize() {}
@@ -32,6 +33,8 @@ void BaseCamera::Update() {
 	billBordMat_ = transform_.rotate.MakeMatrix();
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
+
+	Render::SetVpvpMatrix(this->GetVpvpMatrix());
 }
 
 //================================================================================================//

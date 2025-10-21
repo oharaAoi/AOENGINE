@@ -42,9 +42,18 @@ void EditorWindows::Update() {
 	// 現在選択されているwindowを描画する
 	windowUpdate_();
 
-	float fps = 1.0f / GameTimer::DeltaTime();
-	ImGui::Text("%f fps", fps);
-	ImGui::Text("%f m/s", GameTimer::DeltaTime() * 1000.0f);
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
+		| ImGuiWindowFlags_AlwaysAutoResize
+		| ImGuiWindowFlags_NoScrollbar
+		| ImGuiWindowFlags_NoCollapse
+		| ImGuiWindowFlags_NoDocking
+		| ImGuiWindowFlags_NoBackground;
+	if (ImGui::Begin("GameTimer", nullptr, flags)) {
+		float fps = 1.0f / GameTimer::DeltaTime();
+		ImGui::Text("%f fps", fps);
+		ImGui::Text("%f m/s", GameTimer::DeltaTime() * 1000.0f);
+	}
+	ImGui::End();
 
 	ImGui::End();
 }

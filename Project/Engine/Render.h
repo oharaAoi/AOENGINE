@@ -123,6 +123,9 @@ public:
 
 	static const ViewProjection* GetViewProjection();
 
+	static void SetVpvpMatrix(const Matrix4x4& _mat);
+	static Matrix4x4 GetVpvpMatrix();
+
 	static void SetSkyboxTexture(const std::string& _name);
 
 	static ID3D12Resource* GetShadowDepth();
@@ -138,6 +141,8 @@ namespace {
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
 	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
+
+	Matrix4x4 vpvpMatrix;
 
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	PrimitivePipeline* primitivePipelines_ = nullptr;
