@@ -76,7 +76,8 @@ void PlayerActionDeployArmor::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionDeployArmor::IsInput() {
-	if (pInput_->IsTriggerButton(XInputButtons::RSTICK_THUMB)) {
+	if (pInput_->IsPressButton(XInputButtons::LSTICK_THUMB)
+		&& pInput_->IsPressButton(XInputButtons::BUTTON_Y)) {
 		return true;
 	}
 	return false;
