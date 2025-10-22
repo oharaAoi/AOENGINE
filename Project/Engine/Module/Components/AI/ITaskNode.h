@@ -6,31 +6,50 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Timer.h"
 
+/// <summary>
+/// nodeのtask
+/// </summary>
+/// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class ITaskNode :
 	public IBehaviorNode {
-public:
+public: // コンストラクタ
 
 	ITaskNode();
 	virtual ~ITaskNode() override = default;
 
 	virtual std::shared_ptr<IBehaviorNode> Clone() const override = 0;
 
+public:
+
+	// jsonへ
 	json ToJson() override;
 
+	/// <summary>
+	/// 実行処理
+	/// </summary>
+	/// <returns></returns>
 	virtual BehaviorStatus Execute() override = 0;
 
+	/// <summary>
+	/// weightを算出
+	/// </summary>
+	/// <returns></returns>
 	float EvaluateWeight() override = 0;
 
+	// 初期化処理
 	virtual void Init() = 0;
+	// 更新処理
 	virtual void Update() = 0;
+	// 終了処理
 	virtual void End() = 0;
-
+	// 終了確認
 	virtual bool IsFinish() = 0;
+	// 実行できるを判別
 	virtual bool CanExecute() = 0;
-
+	// 編集処理
 	virtual void Debug_Gui() override;
-
+	// 行動を行う
 	virtual BehaviorStatus Action();
 
 public:
@@ -39,6 +58,7 @@ public:
 
 private:
 
+	// 待機処理
 	bool Wait();
 
 protected:

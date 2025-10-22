@@ -12,6 +12,9 @@
 
 class Render;
 
+/// <summary>
+/// spriteのgaugeAnimation
+/// </summary>
 enum class FillStartingPoint {
 	Top,
 	Bottom,
@@ -21,6 +24,9 @@ enum class FillStartingPoint {
 	LeftRight,
 };
 
+/// <summary>
+/// どの方向にSpriteを満たすか
+/// </summary>
 enum class FillMethod {
 	Vertical,		// 垂直
 	Horizontal,		// 水平
@@ -38,6 +44,9 @@ struct ArcGaugeParam {
 	int clockwise;		// 回転方向
 };
 
+/// <summary>
+/// Spriteのパラメータ
+/// </summary>
 struct SpriteParameter : public IJsonConverter {
 	SRT transform = SRT();
 	SRT uvTransform = SRT();
@@ -111,6 +120,10 @@ struct SpriteParameter : public IJsonConverter {
 	void Debug_Gui() override {};
 };
 
+
+/// <summary>
+/// 2d描画
+/// </summary>
 class Sprite :
 	public AttributeGui {
 public:
@@ -139,7 +152,14 @@ public:
 	Sprite();
 	~Sprite();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="fileName"></param>
 	void Init(const std::string& fileName);
+
 	/// <summary>
 	/// 更新処理
 	/// </summary>

@@ -24,8 +24,19 @@ public:
 
 	static GraphicsContext* GetInstance();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="win">: winApp</param>
+	/// <param name="backBufferWidth">: 画面横幅</param>
+	/// <param name="backBufferHeight">: 画面縦幅</param>
 	void Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
 public:

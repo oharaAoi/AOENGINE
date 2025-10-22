@@ -135,11 +135,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
@@ -455,11 +455,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Lib\Color.cpp" />

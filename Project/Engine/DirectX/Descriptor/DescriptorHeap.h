@@ -19,11 +19,16 @@ enum DescriptorHeapType {
 	TYPE_DSV
 };
 
+/// <summary>
+/// Heap
+/// </summary>
 class DescriptorHeap {
-public:
+public: // コンストラクタ
 
 	DescriptorHeap() = default;
 	~DescriptorHeap() = default;
+
+public:
 
 	/// <summary>
 	/// 初期化関数

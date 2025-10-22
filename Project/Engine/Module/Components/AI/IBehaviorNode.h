@@ -55,19 +55,25 @@ enum NodeType {
 /// </summary>
 class IBehaviorNode :
 	public AttributeGui {
-public:
+public: // コンストラクタ
 
 	IBehaviorNode();
 	virtual ~IBehaviorNode() = default;
 	// コピーコンストラクタ
 	virtual std::shared_ptr<IBehaviorNode> Clone() const = 0;
 
+public: 
+
+	// 初期化処理
 	void Init();
 
+	// 更新処理
 	void Update();
 
+	// nodeの描画
 	void DrawNode();
 
+	// indexをリセットする
 	void ResetIndex();
 
 public:
@@ -80,9 +86,11 @@ public:
 
 	// 子の追加
 	void AddChild(IBehaviorNode* child);
+
 	// 子の削除
 	void DeleteChild(IBehaviorNode* child);
 
+	// 子を削除する
 	void ClearChild();
 
 	// json形式への変換

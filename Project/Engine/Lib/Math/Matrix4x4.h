@@ -81,6 +81,10 @@ public:
 	/// <returns></returns>
 	Matrix4x4 Transpose() const;
 
+	/// <summary>
+	/// Scale成分を返す
+	/// </summary>
+	/// <returns></returns>
 	Vector3 GetScale() const;
 
 	/// <summary>

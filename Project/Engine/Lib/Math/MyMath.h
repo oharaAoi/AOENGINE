@@ -36,7 +36,18 @@ constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 // 基礎関数
 ////////////////////////////////////////////////////////////////////////////////////
 
+/// <summary>
+/// 度数法 → 弧度法
+/// </summary>
+/// <param name="rotate"></param>
+/// <returns></returns>
 Vector3 DegToRad(const Vector3& rotate);
+
+/// <summary>
+/// 弧度法 → 度数法
+/// </summary>
+/// <param name="rotate"></param>
+/// <returns></returns>
 Vector3 RadToDeg(const Vector3& rotate);
 
 float Clamp01(float value);
@@ -81,6 +92,14 @@ float Dot(const Vector3& v1, const Vector3& v2);
 /// <param name="v2"></param>
 /// <returns></returns>
 Vector3 Cross(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
+/// 正射影ベクトル
+/// </summary>
+/// <param name="v1">: ベクトル1</param>
+/// <param name="v2">: ベクトル2</param>
+/// <returns></returns>
+Vector3 Projection(const Vector3& v1, const Vector3& v2);
 
 /// <summary>
 /// スクリーン座標からワールド座標に変換する関数

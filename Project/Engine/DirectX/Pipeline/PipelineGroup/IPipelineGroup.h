@@ -6,13 +6,24 @@
 /// Piplelineをまとめたクラスの原型となるもの
 /// </summary>
 class IPipelineGroup {
-public:
+public: // コンストラクタ
 
 	IPipelineGroup() = default;
 	virtual ~IPipelineGroup() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="dxCompiler">: コンパイラ</param>
 	virtual void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) = 0;
 
+	/// <summary>
+	/// 最後に使用したパイプラインを返す
+	/// </summary>
+	/// <returns></returns>
 	Pipeline* GetLastUsedPipeline() const { return lastUsePipeline_; };
 
 protected:

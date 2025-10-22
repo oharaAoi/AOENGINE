@@ -36,7 +36,7 @@ public:
 
 	void Start(float strength, float startTime);
 
-	void Stop(float stopTime);
+	void Stop();
 
 private:
 

@@ -69,15 +69,31 @@ public:
 		}
 	};
 
-public:
+public: // コンストラクタ
 
 	Pipeline();
 	~Pipeline();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="dxCompiler">: コンパイラ</param>
+	/// <param name="jsonData">: jsonデータ</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData);
 
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
 	void SetComputeState(ID3D12GraphicsCommandList* commandList);
 
 	void Finalize();

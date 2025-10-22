@@ -1,6 +1,9 @@
 #pragma once
 #include <cstdint>
 
+/// <summary>
+/// 各Heapのサイズ場所
+/// </summary>
 class DescriptorSize{
 private:
 

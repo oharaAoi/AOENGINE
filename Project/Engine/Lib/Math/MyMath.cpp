@@ -51,6 +51,18 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+Vector3 Projection(const Vector3& v1, const Vector3& v2) {
+	Vector3 result{};
+	float middle{};
+	Vector3 unitVector = Normalize(v2);
+
+	middle = Dot(v1, unitVector);
+
+	result = unitVector * middle;
+
+	return result;
+}
+
 float Lerp(float v1, float v2, float t) {
 	return std::lerp(v1, v2, t);
 }

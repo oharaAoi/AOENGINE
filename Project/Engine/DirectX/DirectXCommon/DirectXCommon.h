@@ -22,11 +22,16 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// 初期化やFrameの開始に必要な変数を持ったクラス
+/// </summary>
 class DirectXCommon {
-public:
+public: // コンストラクタ
 
 	DirectXCommon() = default;
 	~DirectXCommon() = default;
+
+public:
 
 	/// <summary>
 	/// 初期化
@@ -67,6 +72,9 @@ public:
 	/// </summary>
 	void SetUseGPU();
 
+	/// <summary>
+	/// エラーの設定
+	/// </summary>
 	void SetError();
 
 	/// <summary>

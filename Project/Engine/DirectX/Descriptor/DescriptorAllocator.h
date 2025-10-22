@@ -11,6 +11,9 @@ enum DescriptorType {
 	DSV,
 };
 
+/// <summary>
+/// DescriptorのPoolを行うクラス
+/// </summary>
 class DescriptorAllocator {
 public:
 
@@ -19,9 +22,22 @@ public:
 	}
 	~DescriptorAllocator();
 
+public:
+
+	/// <summary>
+	/// 生成
+	/// </summary>
+	/// <param name="descriptorHeap">: Heap</param>
+	/// <returns></returns>
 	DescriptorHandles Allocate(ID3D12DescriptorHeap* descriptorHeap);
 
+	/// <summary>
+	/// 解放
+	/// </summary>
+	/// <param name="index">: heapのindex</param>
 	void Free(uint32_t index);
+
+public:
 
 	DescriptorHandles GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap,
 														  uint32_t index);

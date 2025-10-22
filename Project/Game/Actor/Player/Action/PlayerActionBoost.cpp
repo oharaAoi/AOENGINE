@@ -71,7 +71,7 @@ void PlayerActionBoost::OnUpdate() {
 			mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
 			finishBoost_ = true;
 
-			blur_->Stop(0.5f);
+			blur_->Stop();
 		}
 	}
 	pOwner_->UpdateJoint();

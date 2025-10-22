@@ -3,10 +3,16 @@
 #include <unordered_map>
 #include <string>
 
+/// <summary>
+/// Nodeごとに情報を共有するためのクラス
+/// </summary>
 class IWorldState {
-public:
+public: // コンストラクタ
+
 	IWorldState() = default;
 	virtual ~IWorldState() = default;
+
+public:
 
 	template<typename T>
 	void Set(const std::string& key, const T& value) {

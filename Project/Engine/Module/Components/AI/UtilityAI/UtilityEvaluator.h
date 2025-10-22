@@ -21,6 +21,11 @@ struct UtilityEvaluator : IJsonConverter {
 	/// <returns></returns>
 	float Evaluate(float _inputValue) const;
 
+	/// <summary>
+	/// jsonへ
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
 	json ToJson(const std::string& id) const override {
 		json curveJson = curve.ToJson();
 		return JsonBuilder(id)
@@ -31,6 +36,10 @@ struct UtilityEvaluator : IJsonConverter {
 			.Build();
 	}
 
+	/// <summary>
+	/// jsonから
+	/// </summary>
+	/// <param name="jsonData"></param>
 	void FromJson(const json& jsonData) override {
 		fromJson(jsonData, "name", name_);
 		fromJson(jsonData, "weight", weight);
@@ -38,8 +47,16 @@ struct UtilityEvaluator : IJsonConverter {
 		curve.FromJson(jsonData, "decelerationCurve");
 	}
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
 
+	/// <summary>
+	/// jsondataを読み込む
+	/// </summary>
+	/// <param name="_group"></param>
+	/// <param name="_key"></param>
 	void LoadJson(const std::string& _group, const std::string& _key);
 
 };

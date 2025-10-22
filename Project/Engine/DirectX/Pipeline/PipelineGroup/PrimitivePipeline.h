@@ -11,16 +11,33 @@
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 #include "Engine/Utilities/Shader.h"
 
+/// <summary>
+/// 線描がのパイプライン
+/// </summary>
 class PrimitivePipeline {
-public:
+public: // コンストラクタ
 
 	PrimitivePipeline();
 	~PrimitivePipeline();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="dxCompiler">: コンパイラ</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
 
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
 public:

@@ -24,6 +24,9 @@ enum class CpuEmitterShape {
 	CONE
 };
 
+/// <summary>
+/// Particle単体のパラメータ
+/// </summary>
 struct ParticleSingle {
 	Color color;			// 色
 	Vector3 scale;			// 拡縮
@@ -57,6 +60,9 @@ struct ParticleSingle {
 	bool isCenterFor = false;
 };
 
+/// <summary>
+/// Particleのエミッターのパラメータ
+/// </summary>
 struct ParticleEmit : public IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間

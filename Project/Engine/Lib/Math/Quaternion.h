@@ -58,7 +58,11 @@ public:
 	/// <returns></returns>
 	static Quaternion AngleAxis(float angle, const Vector3& axis);
 
-
+	/// <summary>
+	/// オイラー角をQuaternionにする
+	/// </summary>
+	/// <param name="euler">: オイラー角</param>
+	/// <returns></returns>
 	static Quaternion EulerToQuaternion(const Vector3& euler);
 
 	/// <summary>
@@ -93,6 +97,12 @@ public:
 	/// <returns></returns>
 	static float Dot(const Quaternion& q1, const Quaternion& q2);
 
+	/// <summary>
+	/// 角度の算出
+	/// </summary>
+	/// <param name="a"></param>
+	/// <param name="b"></param>
+	/// <returns></returns>
 	static float Angle(Quaternion a, Quaternion b);
 
 	/// <summary>
@@ -104,8 +114,8 @@ public:
 	/// <returns></returns>
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
 
-	static Quaternion RotateTowards(const Quaternion& q1, const Quaternion& q2, float maxDegreesDelta);
 
+	static Quaternion RotateTowards(const Quaternion& q1, const Quaternion& q2, float maxDegreesDelta);
 
 	// オイラー角（ラジアン）をクォータニオンに変換
 	static Quaternion EulerToQuaternion(float pitch, float yaw, float roll);
@@ -113,6 +123,11 @@ public:
 	// クォータニオンをオイラー角（ラジアン）に変換
 	Vector3 QuaternionToEuler() const;
 
+	/// <summary>
+	/// Quaternionに変換
+	/// </summary>
+	/// <param name="v"></param>
+	/// <returns></returns>
 	static Quaternion ToQuaternion(const Vector4& v);
 
 	/// <summary>

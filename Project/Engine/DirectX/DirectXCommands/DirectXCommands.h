@@ -12,14 +12,26 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// DirectX関連のコマンド
+/// </summary>
 class DirectXCommands {
 public:
 
 	DirectXCommands() = default;
 	~DirectXCommands() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device"></param>
 	void Init(ID3D12Device* device);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
 	/// <summary>

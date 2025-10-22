@@ -3,12 +3,17 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+/// <summary>
+/// ImGuiでCurveをするクラス
+/// </summary>
 class Curve :
 	public AttributeGui {
-public:
+public: // コンストラクタ
 
 	Curve() = default;
 	~Curve() override = default;
+
+public:
 
 	template<int steps>
 	void bezier_table(Vector2 P[4], Vector2 results[steps + 1]) const {
@@ -34,6 +39,11 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Curveの値を返す
+	/// </summary>
+	/// <param name="dt01"></param>
+	/// <returns></returns>
 	float BezierValue(float dt01) const;
 
 	void Debug_Gui() override;

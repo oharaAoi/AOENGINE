@@ -49,7 +49,7 @@ void RadialBlur::Start(float strength, float startTime) {
 	blurStrengthTween_.Init(0.0f, strength, startTime, (int)EasingType::None::Liner, LoopType::ROUNDTRIP);
 }
 
-void RadialBlur::Stop(float stopTime) {
+void RadialBlur::Stop() {
 	run_ = false;
 }
 

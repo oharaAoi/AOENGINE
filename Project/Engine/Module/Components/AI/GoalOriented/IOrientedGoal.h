@@ -8,17 +8,33 @@
 /// </summary>
 class IOrientedGoal :
 	public AttributeGui {
-public:
+public: // コンストラクタ
 
 	IOrientedGoal() = default;
 	virtual ~IOrientedGoal() = default;
 
+public:
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	virtual void Update() = 0;
 
+	/// <summary>
+	/// 目標の成否
+	/// </summary>
+	/// <returns>true : 達成 | false : 未達成</returns>
 	virtual bool IsGoal() = 0;
 
+	/// <summary>
+	/// Scoreを計算する
+	/// </summary>
+	/// <returns></returns>
 	virtual float CalculationScore() = 0;
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	virtual void Debug_Gui() override = 0;
 
 public:

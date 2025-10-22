@@ -9,27 +9,60 @@ enum class ResourceType {
 	DEPTH
 };
 
+/// <summary>
+/// DirectXのResource
+/// </summary>
 class DxResource {
-public:
+public: // コンストラクタ
 
 	DxResource();
 	~DxResource();
 
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="dxHeap"></param>
+	/// <param name="type"></param>
 	void Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type);
 
+	/// <summary>
+	/// リソース作成
+	/// </summary>
+	/// <param name="size"></param>
 	void CreateResource(const size_t& size);
 	void CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
 							const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState);
 	void CreateDepthResource(uint32_t width, uint32_t height);
 
+	/// <summary>
+	/// Viewの作成
+	/// </summary>
+	/// <param name="desc"></param>
 	void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc);
 	void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
 	void CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& desc);
 
+	/// <summary>
+	/// Swapchainの設定
+	/// </summary>
+	/// <param name="swapChain"></param>
+	/// <param name="indexn"></param>
 	void SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t indexn);
 
+	/// <summary>
+	/// 遷移
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="befor"></param>
+	/// <param name="after"></param>
 	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after);
 	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after);
 

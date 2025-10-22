@@ -9,14 +9,26 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// DirectXDeviceのクラス
+/// </summary>
 class DirectXDevice {
-public:
+public:	// コンストラクタ
 
 	DirectXDevice() = default;
 	~DirectXDevice() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="useAdapter"></param>
 	void Init(IDXGIAdapter4* useAdapter);
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
 public:

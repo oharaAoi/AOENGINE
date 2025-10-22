@@ -19,6 +19,9 @@ struct SRT {
 	void FromJson(const json& _json, const std::string& _name);
 };
 
+/// <summary>
+/// 拡縮、回転(Quaternion)、移動
+/// </summary>
 struct QuaternionSRT {
 	Vector3 scale = CVector3::UNIT;
 	Quaternion rotate = Quaternion(0,0,0,1);

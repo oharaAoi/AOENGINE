@@ -11,6 +11,9 @@ enum class PSOType{
 	Primitive,
 };
 
+/// <summary>
+/// 描画のパイプラインをまとめたクラス
+/// </summary>
 class GraphicsPipelines {
 public:
 
@@ -20,11 +23,16 @@ public:
 		std::string postProcess;
 	};
 
-public:
+public: // コンストラクタ
 
 	GraphicsPipelines();
 	~GraphicsPipelines();
 
+public :
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
 	/// <summary>
@@ -35,12 +43,33 @@ public:
 	/// <param name="shaders">シェーダーファイルパスをまとめたクラス</param>
 	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
 
+	/// <summary>
+	/// 読み込み関数
+	/// </summary>
+	/// <param name="path">: ファイルパス</param>
+	/// <param name="type">; パイプラインのタイプ</param>
 	void Load(const std::string& path, PSOType type);
 
+	/// <summary>
+	/// jsonデータ読み込み
+	/// </summary>
+	/// <param name="directory">: ディレクトリパス</param>
+	/// <param name="fileName">: ファイル名</param>
+	/// <returns></returns>
 	json LoadJson(const std::string& directory, const std::string& fileName);
 
+	/// <summary>
+	/// パイプラインの設定
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
+	/// <param name="type">: タイプ</param>
+	/// <param name="typeName">: パイプラインのファイル名</param>
 	void SetPipeline(ID3D12GraphicsCommandList* commandList, PSOType type, const std::string& typeName);
 
+	/// <summary>
+	/// 最後に使用したパイプラインのポインタを返す
+	/// </summary>
+	/// <returns></returns>
 	Pipeline* GetLastUsedPipeline() const { return lastUsedPipeline_; }
 
 private:

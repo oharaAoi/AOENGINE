@@ -22,18 +22,43 @@ enum RenderTargetType {
 
 static const uint32_t renderTargetNum_ = (RenderTargetType::kMAX);
 
+/// <summary>
+/// RenderTargetクラス
+/// </summary>
 class RenderTarget {
-public:
+public: // コンストラクタ
 
 	RenderTarget();
 	~RenderTarget();
 
+public: 
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="descriptorHeap">: ヒープ</param>
+	/// <param name="swapChain">: スワップチェイン</param>
+	/// <param name="commandList">: コマンドリスト</param>
 	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain, ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// RenderTargetを設定する
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
+	/// <param name="renderTypes">: レンダーターゲットのタイプ</param>
+	/// <param name="dsvHandle">: デプスハンドル</param>
 	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles dsvHandle);
 
+	/// <summary>
+	/// 深度バッファ
+	/// </summary>
+	/// <param name="commandList"></param>
 	void ClearDepth(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
@@ -46,6 +71,13 @@ public:
 	/// </summary>
 	void CreateRenderTarget();
 
+	/// <summary>
+	/// RenderTargetを遷移させる
+	/// </summary>
+	/// <param name="commandList">: commandList</param>
+	/// <param name="renderType">: RenderTargetのタイプ</param>
+	/// <param name="beforState">: 遷移前の状態</param>
+	/// <param name="afterState">: 遷移後の状態</param>
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
 
 public:

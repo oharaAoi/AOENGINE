@@ -17,30 +17,56 @@
 /// Objectを制御するためのクラス
 /// </summary>
 class BehaviorTree {
-public:
+public: // コンストラクタ
 
 	BehaviorTree() = default;
 	virtual ~BehaviorTree();
 
+public:
+
+	// 初期化処理
 	void Init();
 
+	// 実行処理
 	bool Run();
 
+	// 編集処理
 	void Edit();
 
+	// タスクの追加
 	void AddCanTask(std::shared_ptr<IBehaviorNode> _task) {
 		std::string nodeName = _task->GetNodeName();
 		canTaskMap_[nodeName] = std::move(_task);
 	}
 
+	/// <summary>
+	/// Treeの作成
+	/// </summary>
+	/// <param name="nodeName"></param>
 	void CreateTree(const std::string& nodeName);
 
+	/// <summary>
+	/// treeの所有者の設定
+	/// </summary>
+	/// <param name="_target"></param>
 	void SetTarget(BaseEntity* _target) { pTarget_ = _target; }
 
+	/// <summary>
+	/// 実行設定の処理
+	/// </summary>
+	/// <param name="_isExecute"></param>
 	void SetExecute(bool _isExecute) { isExecute_ = _isExecute; }
 
+	/// <summary>
+	/// 実行できるタスクの設定
+	/// </summary>
+	/// <param name="_canTaskMap"></param>
 	void SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap);
 
+	/// <summary>
+	/// 目標の設定
+	/// </summary>
+	/// <param name="_goal"></param>
 	void AddGoal(std::shared_ptr<IOrientedGoal> _goal);
 
 private:
@@ -60,6 +86,7 @@ private:
 	// node作成
 	void CreateNode(int nodeType);
 
+	// jsonからtreeの作成
 	std::shared_ptr<IBehaviorNode> CreateNodeFromJson(const json& _json);
 
 	// nodeの検索

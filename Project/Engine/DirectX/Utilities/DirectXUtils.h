@@ -15,16 +15,43 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// DescriptorのHandle
+/// </summary>
 struct DescriptorHandles {
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU;
 	int assignIndex_;
 };
 
+/// <summary>
+/// uavDescの作成
+/// </summary>
+/// <param name="numElemnts"></param>
+/// <param name="structureByte"></param>
+/// <returns></returns>
 D3D12_UNORDERED_ACCESS_VIEW_DESC CreateUavDesc(UINT numElemnts, UINT structureByte);
+
+/// <summary>
+/// srvDescの作成
+/// </summary>
+/// <param name="numElemnts"></param>
+/// <param name="structureByte"></param>
+/// <returns></returns>
 D3D12_SHADER_RESOURCE_VIEW_DESC CreateSrvDesc(UINT numElemnts, UINT structureByte);
 
+/// <summary>
+/// UploadResourceDescの作成
+/// </summary>
+/// <param name="sizeInBytes"></param>
+/// <returns></returns>
 D3D12_RESOURCE_DESC CreateUploadResourceDesc(size_t sizeInBytes);
+
+/// <summary>
+/// uavResourceDescの作成
+/// </summary>
+/// <param name="sizeInBytes"></param>
+/// <returns></returns>
 D3D12_RESOURCE_DESC CreateUavResourceDesc(size_t sizeInBytes);
 
 /// <summary>
@@ -49,8 +76,20 @@ ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL::ComPtr<ID3D12D
 /// <returns></returns>
 ComPtr<ID3D12Resource> CreateBufferResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const size_t& sizeInBytes);
 
+/// <summary>
+/// uavResourceの作成
+/// </summary>
+/// <param name="device"></param>
+/// <param name="sizeInBytes"></param>
+/// <returns></returns>
 ComPtr<ID3D12Resource> CreateUAVResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const size_t& sizeInBytes);
 
+/// <summary>
+/// srvResourceの作成
+/// </summary>
+/// <param name="device"></param>
+/// <param name="sizeInBytes"></param>
+/// <returns></returns>
 ComPtr<ID3D12Resource> CreateSRVResource(Microsoft::WRL::ComPtr<ID3D12Device> device, const size_t& sizeInBytes);
 
 /// <summary>
@@ -90,6 +129,11 @@ ComPtr<IDxcBlob> CompilerShader(
 	ComPtr<IDxcIncludeHandler> includeHandler
 );
 
+/// <summary>
+/// resourceのstateをstring型に変換する
+/// </summary>
+/// <param name="state"></param>
+/// <returns></returns>
 std::string ResourceStateToString(D3D12_RESOURCE_STATES state);
 
 /// <summary>
@@ -101,6 +145,20 @@ std::string ResourceStateToString(D3D12_RESOURCE_STATES state);
 /// <param name="afterState">遷移後状態</param>
 void TransitionResourceState(ID3D12GraphicsCommandList* commandList, ID3D12Resource* resource, D3D12_RESOURCE_STATES beforState, D3D12_RESOURCE_STATES afterState);
 
+/// <summary>
+/// CPUHandleの作成
+/// </summary>
+/// <param name="descriptorHeap"></param>
+/// <param name="descriptorSize"></param>
+/// <param name="index"></param>
+/// <returns></returns>
 D3D12_CPU_DESCRIPTOR_HANDLE GetCPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);
 
+/// <summary>
+/// GPUHandleの作成
+/// </summary>
+/// <param name="descriptorHeap"></param>
+/// <param name="descriptorSize"></param>
+/// <param name="index"></param>
+/// <returns></returns>
 D3D12_GPU_DESCRIPTOR_HANDLE GetGPUDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t descriptorSize, uint32_t index);

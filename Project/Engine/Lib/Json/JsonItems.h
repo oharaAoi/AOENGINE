@@ -6,6 +6,9 @@
 
 using json = nlohmann::json;
 
+/// <summary>
+/// Jsonの情報をまとめたクラス
+/// </summary>
 class JsonItems {
 public:
 
@@ -18,7 +21,7 @@ public:
 		std::string key;
 	};
 
-public:
+public: // コンストラクタ
 
 	JsonItems() = default;
 	~JsonItems() = default;
@@ -28,6 +31,12 @@ public:
 	JsonItems& operator=(const JsonItems&) = delete;
 	static JsonItems* GetInstance();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="nowScene">: 現在のシーン</param>
 	void Init(const std::string& nowScene);
 
 	/// <summary>

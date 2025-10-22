@@ -303,15 +303,6 @@
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
-      <Filter>Engine\DirectX\Pipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
-      <Filter>Engine\DirectX\Pipeline</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
-      <Filter>Engine\DirectX\Pipeline</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
@@ -347,12 +338,6 @@
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h">
       <Filter>Engine\DirectX\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
-      <Filter>Engine\DirectX\RootSignature</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
@@ -1224,6 +1209,11 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h" />
     <ClInclude Include="Engine\Utilities\Timer.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
+    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1252,15 +1242,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
-      <Filter>Engine\DirectX\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
-      <Filter>Engine\DirectX\Pipeline</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
-      <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
@@ -1297,12 +1278,6 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp">
       <Filter>Engine\DirectX\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
-      <Filter>Engine\DirectX\RootSignature</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
@@ -2138,5 +2113,10 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp" />
     <ClCompile Include="Engine\Utilities\Timer.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
+    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
   </ItemGroup>
 </Project>

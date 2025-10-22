@@ -5,6 +5,9 @@
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+/// <summary>
+/// GPUParticleの単体のパラメータ
+/// </summary>
 struct GpuParticleEmitterData {
 	Color color;
 
@@ -63,6 +66,9 @@ enum GpuEmitterShape {
 	CONE
 };
 
+/// <summary>
+/// Emitterのパラメータ
+/// </summary>
 struct GpuParticleEmitterItem : public IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
