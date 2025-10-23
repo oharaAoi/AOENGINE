@@ -10,8 +10,11 @@ public:
 	Rigidbody() { Init(); }
 	~Rigidbody() = default;
 
-	void Init();
+public:
 
+	// 初期化
+	void Init();
+	// 更新
 	void Update();
 
 public:

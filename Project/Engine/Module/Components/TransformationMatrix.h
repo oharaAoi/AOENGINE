@@ -12,6 +12,9 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// Transformをgpuに送るクラス
+/// </summary>
 class TransformationMatrix {
 public:
 
@@ -27,12 +30,15 @@ public:
 	TransformationMatrix();
 	~TransformationMatrix();
 
+public:
+
+	// 終了
 	void Finalize();
-
+	// 初期化
 	void Init(ID3D12Device* device, const uint32_t& instanceSize);
-
+	// 更新
 	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
-
+	// コマンドを積む
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
 public:

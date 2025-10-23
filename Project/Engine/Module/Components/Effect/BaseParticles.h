@@ -7,30 +7,46 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 
+/// <summary>
+/// Particleを射出する
+/// </summary>
 class BaseParticles :
 	public AttributeGui {
-public:
+public: // コンストラクタ
 
 	BaseParticles() = default;
 	virtual ~BaseParticles() override {};
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="name"></param>
 	void Init(const std::string& name);
 
+	// 更新処理
 	void Update();
 
+	// 描画処理
 	void DrawShape();
 
+	// 放出
 	void Emit(const Vector3& pos);
 
+	// 放出時間の更新
 	void EmitUpdate();
 
+	// リセット
 	void Reset();
 
+	// 編集処理
 	void Debug_Gui() override;
 
+	// particleのMesh変更
 	void ChangeMesh();
 
-public:		// json関連
+public:	// json関連
 
 	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 

@@ -36,9 +36,6 @@ void TestScene::Init() {
 	skybox_->Init();
 	Render::SetSkyboxTexture(skybox_->GetTexture());
 
-	testObject_ = std::make_unique<TestObject>();
-	testObject_->Init();
-
 	EditorWindows::AddObjectWindow(Render::GetLightGroup(), "LightGroup");
 }
 
@@ -47,7 +44,6 @@ void TestScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
 	skybox_->Update();
-	testObject_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

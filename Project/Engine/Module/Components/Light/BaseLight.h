@@ -11,6 +11,9 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+/// <summary>
+/// lightの基底クラス
+/// </summary>
 class BaseLight {
 public:
 
@@ -58,18 +61,21 @@ public:
 	BaseLight() = default;
 	virtual ~BaseLight() = default;
 
+public:
+
+	// 初期化
 	virtual void Init(ID3D12Device* device, const size_t& size);
-
+	// 終了
 	virtual void Finalize();
-
+	// 更新
 	virtual void Update();
-
+	// 描画処理
 	virtual void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
-
+	// コマンドを積む
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
-
+	// 透視投影行列の計算
 	void CalucViewProjection(const Vector3& pos);
-
+	// パラメータの編集
 	void EditParameter(const std::string& name);
 
 protected:

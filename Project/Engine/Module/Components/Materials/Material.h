@@ -4,6 +4,9 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 
+/// <summary>
+/// material
+/// </summary>
 class Material :
 	public BaseMaterial {
 public:
@@ -22,14 +25,17 @@ public:
 	Material() = default;
 	~Material() override;
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// 更新
 	void Update() override;
-
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList) override;
-
+	// 編集処理
 	void Debug_Gui() override;
-
+	// materialを設定
 	void SetMaterialData(ModelMaterialData materialData) override;
 
 public:

@@ -7,7 +7,7 @@
 /// </summary>
 class WeightSelectorNode :
 	public IBehaviorNode {
-public:
+public: // コンストラクタ
 
 	WeightSelectorNode();
 	~WeightSelectorNode() override = default;
@@ -16,12 +16,18 @@ public:
 		return std::make_shared<WeightSelectorNode>(*this);
 	}
 
+public:
+
+	// jsonへ
 	json ToJson() override;
 
+	// 実行
 	BehaviorStatus Execute() override;
 
+	// ウェイト値の算出
 	float EvaluateWeight() override { return 0; }
 
+	// 編集処理
 	void Debug_Gui() override;
 
 private:

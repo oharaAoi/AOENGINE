@@ -2,6 +2,9 @@
 #include <string>
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 
+/// <summary>
+/// 球形状
+/// </summary>
 class SphereGeometry final
 	: public IGeometry {
 public:

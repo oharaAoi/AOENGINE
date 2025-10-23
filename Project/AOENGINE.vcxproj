@@ -196,11 +196,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\GameObject\GeometryObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\Model.h" />
-    <ClInclude Include="Engine\Module\Components\GameObject\TestObject.h" />
     <ClInclude Include="Engine\Module\Components\Light\BaseLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\DirectionalLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\LightGroup.h" />
-    <ClInclude Include="Engine\Module\Components\Light\Phong.h" />
     <ClInclude Include="Engine\Module\Components\Light\PointLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
@@ -514,11 +512,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\GameObject\GeometryObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp" />
-    <ClCompile Include="Engine\Module\Components\GameObject\TestObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\BaseLight.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\DirectionalLight.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\LightGroup.cpp" />
-    <ClCompile Include="Engine\Module\Components\Light\Phong.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\PointLight.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\SpotLight.cpp" />
     <ClCompile Include="Engine\Module\Components\Materials\BaseMaterial.cpp" />

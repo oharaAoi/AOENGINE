@@ -20,25 +20,50 @@ struct WorldTransformData {
 	Matrix4x4 worldInverseTranspose;
 };
 
+/// <summary>
+/// 3d空間での座標などを持ったクラス
+/// </summary>
 class WorldTransform {
 public:
 
 	WorldTransform();
 	~WorldTransform();
 
+public:
+
+	// 終了
 	void Finalize();
+	// 初期化
 	void Init(ID3D12Device* device);
+	// 更新
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
+	// コマンドを積む
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 
+	/// <summary>
+	/// 並行移動させる
+	/// </summary>
+	/// <param name="translate"></param>
 	void Translate(const Vector3& translate);
 
+	/// <summary>
+	/// 移動速度を加算する
+	/// </summary>
+	/// <param name="velocity"></param>
+	/// <param name="rotationSpeed"></param>
 	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
 
+	/// <summary>
+	/// target方向を向く
+	/// </summary>
+	/// <param name="target"></param>
+	/// <param name="up"></param>
 	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
 
+	// 編集処理
 	void Debug_Gui();
 
+	// gizumo描画
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 	
 public:

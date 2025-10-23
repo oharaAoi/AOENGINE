@@ -6,7 +6,7 @@
 /// </summary>
 class SelectorNode :
 	public IBehaviorNode {
-public:
+public: // コンストラクタ
 
 	SelectorNode();
 	~SelectorNode() override = default;
@@ -15,11 +15,17 @@ public:
 		return std::make_shared<SelectorNode>(*this);
 	}
 
+public:
+
+	// jsonへ
 	json ToJson() override;
 
+	// 実行
 	BehaviorStatus Execute() override;
 
+	// ウェイト値の算出
 	float EvaluateWeight() override;
 
+	// 編集処理
 	void Debug_Gui() override;
 };

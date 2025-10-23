@@ -38,18 +38,23 @@ public:
 		NodeAnimationData animationsData;	 // ノードに関するアニメーション
 	};
 
-public:
+public: // コンストラクタ
 
 	Model();
 	~Model();
 
+public:
+
+	// 初期化処理
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 	
+	// 静的meshObjectの描画処理
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 	
+	// 動的meshObjectの描画処理
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const Pipeline* pipeline,
 			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,

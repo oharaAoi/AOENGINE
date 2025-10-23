@@ -2,6 +2,16 @@
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
+/// <summary>
+/// インスタンス描画用のコマンドを積む
+/// </summary>
+/// <param name="vertexView"></param>
+/// <param name="indexView"></param>
+/// <param name="materialBuffer"></param>
+/// <param name="instancingHandleGpu"></param>
+/// <param name="useTexture"></param>
+/// <param name="indexNum"></param>
+/// <param name="instanceNum"></param>
 void InstancingRender(const D3D12_VERTEX_BUFFER_VIEW& vertexView, 
 					  const D3D12_INDEX_BUFFER_VIEW& indexView,
 					  const D3D12_GPU_VIRTUAL_ADDRESS& materialBuffer,

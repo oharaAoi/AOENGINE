@@ -3,6 +3,9 @@
 #include "Engine/System/Audio/Audio.h"
 #include "Engine/System/Manager/AudioManager.h"
 
+/// <summary>
+/// 音を鳴らしたりするクラス
+/// </summary>
 class AudioPlayer {
 public:
 

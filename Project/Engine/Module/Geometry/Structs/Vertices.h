@@ -3,6 +3,9 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 
+/// <summary>
+/// 頂点データ構造体
+/// </summary>
 struct VertexData {
 	Vector4 pos;
 	Vector2 texcoord;

@@ -7,7 +7,9 @@
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-
+/// <summary>
+/// lightをまとめたクラス
+/// </summary>
 class LightGroup : 
 	public AttributeGui {
 public:
@@ -22,15 +24,20 @@ public:
 	LightGroup();
 	~LightGroup();
 
+public:
+
+	// 初期化
 	void Init(ID3D12Device* device);
-
+	// 終了
 	void Finalize();
-
+	// 更新
 	void Update();
-
+	// コマンドを積む
 	void Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
-	
+	// 編集処理
 	void Debug_Gui() override;
+
+public:
 
 	DirectionalLight* GetDirectionalLight() { return directionalLight_.get(); }
 	PointLight* GetPointLight() { return pointLight_.get(); }

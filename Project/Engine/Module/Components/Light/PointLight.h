@@ -2,6 +2,9 @@
 #include "BaseLight.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+/// <summary>
+/// 点光源
+/// </summary>
 class PointLight :
 	public BaseLight,
 	public AttributeGui {
@@ -52,15 +55,20 @@ public:
 	PointLight();
 	~PointLight();
 
+public:
+
+	// 初期化
 	void Init(ID3D12Device* device, const size_t& size) override;
-
+	// 終了
 	void Finalize() override;
-
+	// 更新
 	void Update() override;
-
+	// コマンドを積む
 	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
-
+	// 編集処理
 	void Debug_Gui();
+
+public:
 
 	void SetEyePos(const Vector3& pos) { pointLightData_->eyePos = pos; }
 

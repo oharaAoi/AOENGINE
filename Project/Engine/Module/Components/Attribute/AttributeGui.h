@@ -20,7 +20,8 @@ public:
 	void SetName(const std::string& name) { name_ = name; }
 	const std::string& GetName() const { return name_; }
 
-	void EditName(); // 名前の編集
+	// 名前の編集
+	void EditName(); 
 
 	// children 
 	void AddChild(AttributeGui* child) { children_.emplace_back(child); }

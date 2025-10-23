@@ -32,6 +32,9 @@ public:
 	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// Sceneの描画
+	/// </summary>
 	void DrawScene();
 
 	/// <summary>

@@ -5,20 +5,26 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
 
+/// <summary>
+/// BaseとなるMaterial
+/// </summary>
 class BaseMaterial {
 public:
 
 	BaseMaterial() = default;
 	virtual ~BaseMaterial() = default;
 
+public:
+
+	// 初期化
 	virtual void Init() = 0;
-
+	// 更新
 	virtual void Update() = 0;
-
+	// コマンドを積む
 	virtual void SetCommand(ID3D12GraphicsCommandList* commandList) = 0;
-
+	// 編集処理
 	virtual void Debug_Gui() = 0;
-
+	// materialの設定
 	virtual void SetMaterialData(ModelMaterialData materialData) = 0;
 
 protected:

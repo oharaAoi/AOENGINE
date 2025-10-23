@@ -3,21 +3,27 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+/// <summary>
+/// 3dMesh
+/// </summary>
 class Mesh final {
 public:
 
 	Mesh();
 	~Mesh();
 
+public:
+
+	// 初期化
 	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices);
+	// コマンドを積む
 	void Draw(ID3D12GraphicsCommandList* commandList);
+	// 終了
 	void Finalize();
-
+	// indexのみをコマンドに積む
 	void DrawIndex(ID3D12GraphicsCommandList* commandList);
-
+	// 頂点を初期化
 	void SetInitVertex();
-
-	void CopyMesh(Mesh* mesh);
 
 public:
 

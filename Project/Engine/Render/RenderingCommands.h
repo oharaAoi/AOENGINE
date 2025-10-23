@@ -5,6 +5,9 @@
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 
+/// <summary>
+/// レンダリング用のコマンドをまとめたクラス
+/// </summary>
 class RenderingCommands {
 public:
 

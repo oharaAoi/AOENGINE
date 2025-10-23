@@ -15,14 +15,20 @@ struct JointWeightData {
 	std::vector<VertexWeightData> vertexWeight;
 };
 
+/// <summary>
+/// jointごとの行列を持ったクラス
+/// </summary>
 class SkinCluster {
 public:
 
 	SkinCluster();
 	~SkinCluster();
 
-	void Init();
+public:
 
+	// 初期化
+	void Init();
+	// データの追加
 	void AddData(std::map<std::string, JointWeightData> mapData);
 
 	const std::map<std::string, JointWeightData>& GetSkinClustersData() { return skinClusterData_; }

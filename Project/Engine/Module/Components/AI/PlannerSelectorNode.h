@@ -4,7 +4,7 @@
 
 class PlannerSelectorNode :
 	public IBehaviorNode {
-public:
+public: // コンストラクタ
 
 	PlannerSelectorNode();
 	~PlannerSelectorNode() override = default;
@@ -13,12 +13,18 @@ public:
 		return std::make_shared<PlannerSelectorNode>(*this);
 	}
 
+public:
+
+	// jsonへ
 	json ToJson() override;
 
+	// 実行
 	BehaviorStatus Execute() override;
 
+	// ウェイト値の算出
 	float EvaluateWeight() override;
 
+	// 編集処理
 	void Debug_Gui() override;
 
 private:

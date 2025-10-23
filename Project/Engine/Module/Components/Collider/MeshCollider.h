@@ -6,6 +6,9 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Collider/ICollider.h"
 
+/// <summary>
+/// Meshの形状をベースとしたCollider
+/// </summary>
 class MeshCollider {
 public:
 

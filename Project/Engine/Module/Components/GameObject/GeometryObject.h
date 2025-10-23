@@ -35,17 +35,21 @@ public:
 		GeometryFactory::GetInstance().Create<ShapePolicy>(mesh_, std::forward<Args>(args)...);
 	}
 
+	// 初期化処理
 	void Init() override;
-
+	// 更新処理
 	void Update() override;
+	// 後から更新する処理
 	void PostUpdate() override {};
-
+	// モデル描画前に行う処理
 	void PreDraw() const override {};
+	// 描画処理
 	void Draw() const override;
-
+	// 編集処理
 	void Debug_Gui() override;
+	// gizumo表示
 	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
-
+	// editorに登録
 	void SetEditorWindow();
 
 public:

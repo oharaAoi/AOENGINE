@@ -15,6 +15,9 @@ struct TrailVertex {
     float alpha;
 };
 
+/// <summary>
+/// Trail描画のクラス
+/// </summary>
 class TrailRenderer {
 public:
 

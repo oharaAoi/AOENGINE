@@ -6,7 +6,7 @@
 /// </summary>
 class SequenceNode :
 	public IBehaviorNode {
-public:
+public: // コンストラクタ
 
 	SequenceNode();
 	~SequenceNode() override = default;
@@ -15,12 +15,18 @@ public:
 		return std::make_shared<SequenceNode>(*this);
 	}
 
+public:
+
+	// jsonへ
 	json ToJson() override;
 
+	// 実行
 	BehaviorStatus Execute() override;
 
+	// ウェイト値の算出
 	float EvaluateWeight() override;
 
+	// 編集処理
 	void Debug_Gui() override;
 
 };

@@ -17,27 +17,38 @@
 #include "Engine/Module/Components/Collider/ICollider.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 
+/// <summary>
+/// MeshやMaterialを持ったGameObject
+/// </summary>
 class BaseGameObject :
 	public ISceneObject {
-public:
+public: // コンストラクタ
 
 	BaseGameObject() = default;
 	virtual ~BaseGameObject() ;
 
+public:
+
+	// 終了処理
 	void Finalize();
+	// 初期化処理
 	void Init() override;
+	// 更新処理
 	void Update() override;
+	// 影の描画
 	void PreDraw() const override;
+	// 描画処理
 	void Draw() const override;
-
+	// 行列の更新
 	void UpdateMatrix();
-
+	// 後から更新する処理
 	void PostUpdate() override;
 
 public:
 
+	// 編集処理
 	void Debug_Gui() override;
-
+	// Gizumo表示
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
 public:

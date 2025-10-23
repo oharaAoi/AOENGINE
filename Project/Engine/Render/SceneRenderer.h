@@ -26,6 +26,10 @@ public:	// 構造体データ
 		virtual void SetPostDraw(bool _postDraw) = 0;
 	};
 
+	/// <summary>
+	/// Objectとレンダリング情報を結びつけたクラス
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	template <typename T> 
 	struct ObjectPair : IObjectPair {
 		std::unique_ptr<T> object;
@@ -58,18 +62,21 @@ public:
 
 	static SceneRenderer* GetInstance();
 
+public:
+
+	// 終了処理
 	void Finalize();
-
+	// 初期化処理
 	void Init();
-
+	// 更新処理
 	void Update();
-
+	// 後から行う更新
 	void PostUpdate();
-
+	// 描画処理
 	void Draw() const;
-
+	// Particleなどの描画
 	void PostDraw() const;
-
+	// objectの編集
 	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
 
 public:

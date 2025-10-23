@@ -5,6 +5,9 @@
 #include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 
+/// <summary>
+/// gpuParticleを描画する
+/// </summary>
 class GpuParticleRenderer {
 public:	// メンバ構造体
 
@@ -49,14 +52,27 @@ public:
 	GpuParticleRenderer() = default;
 	~GpuParticleRenderer();
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_instanceNum">: インスタンス数</param>
 	void Init(uint32_t _instanceNum);
 
+	// 更新
 	void Update();
 
+	// 描画
 	void Draw() const;
 
 private:
 
+	/// <summary>
+	/// resourceの作成
+	/// </summary>
+	/// <param name="_dxHeap"></param>
+	/// <param name="_dxDevice"></param>
 	void CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* _dxDevice);
 
 public:

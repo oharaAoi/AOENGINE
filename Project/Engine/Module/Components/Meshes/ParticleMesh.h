@@ -2,14 +2,20 @@
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
+/// <summary>
+/// particle用のmesh
+/// </summary>
 class ParticleMesh final {
 public:
 
 	ParticleMesh() = default;
 	~ParticleMesh();
 
-	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices);
+public:
 
+	// 初期化
+	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices);
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList);
 
 private:

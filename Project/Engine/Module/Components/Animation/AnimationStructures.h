@@ -28,6 +28,9 @@ struct NodeAnimation {
 	AnimationCurve<Vector3> scale;
 };
 
+/// <summary>
+/// アニメーションの情報
+/// </summary>
 struct Animation {
 	float duration;		// アニメーション全体の尺
 	// NodeAnimationの集合。Node名で引けるようにしておく

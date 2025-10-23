@@ -21,16 +21,22 @@ struct ViewProjectionPrevData {
 	Matrix4x4 projection;
 };
 
+/// <summary>
+/// 透視投影行列
+/// </summary>
 class ViewProjection {
 public:
 
 	ViewProjection();
 	~ViewProjection();
 
+public:
+
+	// 終了
 	void Finalize();
-
+	// 初期化
 	void Init(ID3D12Device* device);
-
+	// コマンドを積む
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 	void BindCommandListPrev(ID3D12GraphicsCommandList* commandList, UINT index) const;
 

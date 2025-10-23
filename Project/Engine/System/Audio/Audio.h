@@ -49,6 +49,9 @@ struct AudioData {
 	IXAudio2SourceVoice* pSourceVoice;
 };
 
+/// <summary>
+/// 音を管理するクラス
+/// </summary>
 class Audio {
 public: // データ構造体
 
@@ -67,6 +70,9 @@ public:
 	/// </summary>
 	void Init();
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
 	/// <summary>

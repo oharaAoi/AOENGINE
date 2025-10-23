@@ -45,12 +45,21 @@ public:
 	ParticleInstancingRenderer() = default;
 	~ParticleInstancingRenderer();
 
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="instanceNum">: インスタンス数</param>
 	void Init(uint32_t instanceNum);
 
+	// 更新
 	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend);
 
+	// 後から更新
 	void PostUpdate();
 
+	// 描画処理
 	void Draw(ID3D12GraphicsCommandList* commandList) const;
 
 public:

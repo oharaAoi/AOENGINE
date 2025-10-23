@@ -1,7 +1,6 @@
 #pragma once
 #include <memory>
 #include "Engine/Render/SceneRenderer.h"
-#include "Engine/Module/Components/GameObject/TestObject.h"
 #include "Game/Scene/BaseScene.h"
 // camera
 #include "Game/Camera/DebugCamera.h"
@@ -34,8 +33,6 @@ private:
 
 	// ------------------- actor ------------------- //
 	std::unique_ptr<Skybox> skybox_;
-
-	std::unique_ptr<TestObject> testObject_;
 
 	SceneRenderer* sceneRenderer_;
 };

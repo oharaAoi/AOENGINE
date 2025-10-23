@@ -33,14 +33,19 @@ public:
 	Skeleton();
 	~Skeleton();
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-
+	// 骨の描画
 	void DrawBone(const Matrix4x4& worldMat) const;
-
+	// 小骨の描画
 	void DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const;
-
+	// skeltonの生成
 	void CreateSkeleton(const Model::Node& node);
+	// jointの生成
 	int32_t CreateJoint(const Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 
 public:

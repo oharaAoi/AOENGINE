@@ -2,6 +2,9 @@
 #include <utility>
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 
+/// <summary>
+/// 箱形状
+/// </summary>
 class CubeGeometry final
 	: public IGeometry {
 public:

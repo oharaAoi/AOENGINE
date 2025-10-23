@@ -18,11 +18,15 @@ public:
 	Animator();
 	~Animator();
 
+public:
+
+	// 終了処理
 	void Finalize();
+	// 更新処理
 	void Update();
-
+	// animationTimeを指定する更新処理
 	void UpdateScript(float& animationTime);
-
+	// スキニングの更新
 	void UpdateSkinning();
 
 	/// <summary>
@@ -50,6 +54,8 @@ public:
 	void TransitionAnimation(const std::string& afterAnimation, float blendSpeed);
 
 	void Debug_Gui();
+
+public:
 
 	std::string SelectAnimationName() { return animationClip_->SelectAnimationName(); }
 

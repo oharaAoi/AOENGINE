@@ -3,6 +3,9 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Module/Components/Rigging/Skeleton.h"
 
+/// <summary>
+/// IKなどで使用する
+/// </summary>
 class EndEffector {
 public:
 
@@ -17,6 +20,9 @@ public:
 	EndEffector() = default;
 	~EndEffector() = default;
 
+public:
+
+	// 更新
 	void Update(const Matrix4x4& _worldMat);
 
 public:

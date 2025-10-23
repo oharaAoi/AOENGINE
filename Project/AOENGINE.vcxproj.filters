@@ -504,9 +504,6 @@
     <ClInclude Include="Engine\Module\Components\GameObject\Model.h">
       <Filter>Engine\Module\Components\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\GameObject\TestObject.h">
-      <Filter>Engine\Module\Components\GameObject</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Light\BaseLight.h">
       <Filter>Engine\Module\Components\Light</Filter>
     </ClInclude>
@@ -514,9 +511,6 @@
       <Filter>Engine\Module\Components\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Light\LightGroup.h">
-      <Filter>Engine\Module\Components\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Light\Phong.h">
       <Filter>Engine\Module\Components\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Light\PointLight.h">
@@ -1438,9 +1432,6 @@
     <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp">
       <Filter>Engine\Module\Components\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\GameObject\TestObject.cpp">
-      <Filter>Engine\Module\Components\GameObject</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Components\Light\BaseLight.cpp">
       <Filter>Engine\Module\Components\Light</Filter>
     </ClCompile>
@@ -1448,9 +1439,6 @@
       <Filter>Engine\Module\Components\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Light\LightGroup.cpp">
-      <Filter>Engine\Module\Components\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Light\Phong.cpp">
       <Filter>Engine\Module\Components\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Light\PointLight.cpp">
