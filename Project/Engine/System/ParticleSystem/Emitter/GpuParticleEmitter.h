@@ -9,6 +9,9 @@
 #include "Engine/Lib/GpuParticlesData.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+/// <summary>
+/// gpuParticleを射出するemitter
+/// </summary>
 class GpuParticleEmitter :
 	public AttributeGui {
 public:
@@ -23,14 +26,21 @@ public:
 	GpuParticleEmitter() = default;
 	~GpuParticleEmitter();
 
+public:
+
+	// 編集処理
 	void Debug_Gui() override;
 
+	// 初期化処理
 	void Init(const std::string& name);
 
+	// 更新処理
 	void Update();
 
+	// コマンドのバインドする
 	void EmitCommand(ID3D12GraphicsCommandList* commandList);
 
+	// 形状の描画
 	void DrawShape() const;
 
 public:

@@ -17,6 +17,8 @@ public:
 	SceneManager();
 	~SceneManager();
 
+public:
+
 	void Finalize();
 	void Init();
 	void Update();

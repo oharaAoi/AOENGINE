@@ -12,6 +12,9 @@
 #include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
 
+/// <summary>
+/// animationの情報をまとめたクラス
+/// </summary>
 class AnimationManager {
 public:
 
@@ -22,10 +25,24 @@ public:
 
 	static AnimationManager* GetInstance();
 
+public:
+
+	// 初期化
 	void Init();
 
+	/// <summary>
+	/// Animationが存在するかチェックする
+	/// </summary>
+	/// <param name="animationFile">: アニメーションファイル名</param>
+	/// <returns></returns>
 	bool CheckAnimationMap(const std::string& animationFile);
 
+	/// <summary>
+	/// Animationファイルを読み込む
+	/// </summary>
+	/// <param name="directory"></param>
+	/// <param name="animationFile"></param>
+	/// <returns></returns>
 	Animation LoadAnimationFile(const std::string& directory, const std::string& animationFile);
 
 	/// <summary>
@@ -43,10 +60,25 @@ public:
 	/// <returns></returns>
 	Animation GetAnimation(const std::string& fileName, const std::string& animationName);
 	
+	/// <summary>
+	/// 指定したファイルが持っている最初のanimationを返す
+	/// </summary>
+	/// <param name="animationFileName"></param>
+	/// <returns></returns>
 	std::string GetAnimationFirstName(const std::string& animationFileName);
 
+	/// <summary>
+	/// 指定したモデルが持っているアニメーションの名前を返す
+	/// </summary>
+	/// <param name="animationFileName"></param>
+	/// <returns></returns>
 	std::vector<std::string>& GetModelHaveAnimationNames(const std::string& animationFileName) { return modelHaveAnimationNames_[animationFileName]; }
 
+	/// <summary>
+	/// 指定したアニメーションが存在しているかをチェックする
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
 	bool CheckAnimation(const std::string& name);
 
 private:

@@ -28,15 +28,50 @@ public:
 	/// <returns></returns>
 	static Render* GetInstance();
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="device"></param>
+	/// <param name="primitive"></param>
+	/// <param name="renderTarget"></param>
 	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
+	
+	/// <summary>
+	/// 更新
+	/// </summary>
 	static void Update();
 
+	/// <summary>
+	/// 線の描画
+	/// </summary>
 	static void PrimitiveDrawCall();
+
+	/// <summary>
+	/// RenderTargetの設定
+	/// </summary>
+	/// <param name="renderTypes"></param>
+	/// <param name="depthHandle"></param>
 	static void SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle);
 
+	/// <summary>
+	/// ShadowMapの設定
+	/// </summary>
 	static void SetShadowMap();
+
+	/// <summary>
+	/// ShadowMapのresourceStateを変更する
+	/// </summary>
 	static void ChangeShadowMap();
+
+	/// <summary>
+	/// ShadowMapのリソースの状態を基に戻す
+	/// </summary>
 	static void ResetShadowMap();
 
 	static LightGroup* GetLightGroup();

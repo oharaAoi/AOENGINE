@@ -57,23 +57,29 @@ public:
 	GpuEmitter() = default;
 	virtual ~GpuEmitter() = default;
 
+public:
+
+	// 初期化
 	virtual void Init();
+	// 更新
 	virtual void Update() ;
+	// コマンドを積む
 	virtual void BindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
-
+	// 形状の描画
 	virtual void DrawShape(const Matrix4x4& viewProjectionMat) = 0;
-
+	// emitterの設定
 	void SetEmitter(const std::string& name);
-
+	// 移動処理
 	void Move();
-
+	// 保存
 	virtual void Save();
-
+	// 読み込み
 	virtual void Load();
 
 #ifdef _DEBUG
+	// 編集処理
 	virtual void Debug_Gui();
-
+	// 射出するモデルの選択
 	void SelectEmitModel();
 #endif
 

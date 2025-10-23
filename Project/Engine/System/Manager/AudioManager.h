@@ -5,6 +5,9 @@
 #include "Engine/System/Audio/Audio.h"
 #include "Engine/Engine.h"
 
+/// <summary>
+/// soundDataを管理しているクラス
+/// </summary>
 class AudioManager {
 public:
 

@@ -19,7 +19,11 @@ public:
 
 	static ModelManager* GetInstance();
 
+public:
+	
+	// 初期化
 	void Init();
+	// 終了
 	void Finalize();
 
 	/// <summary>
@@ -35,7 +39,12 @@ public:
 	/// <param name="modelName"></param>
 	/// <returns></returns>
 	static Model* GetModel(const std::string& modelName);
-
+	
+	/// <summary>
+	/// modelのパスを取得
+	/// </summary>
+	/// <param name="modelName"></param>
+	/// <returns></returns>
 	static std::string GetModelPath(const std::string& modelName);
 
 	std::vector<std::string>& GetModelNameList() { return modelNameList_; }

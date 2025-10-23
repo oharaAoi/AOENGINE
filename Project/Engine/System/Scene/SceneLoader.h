@@ -8,13 +8,15 @@
 
 using json = nlohmann::json;
 
+/// <summary>
+/// Sceneを読み込みクラス
+/// </summary>
 class SceneLoader {
 public:		// data
 
 	/// <summary>
 	/// ファイルに記載されている各objectの情報
 	/// </summary>
-	
 	struct ColliderData {
 		std::string colliderType = "";
 		std::string colliderTag = "";

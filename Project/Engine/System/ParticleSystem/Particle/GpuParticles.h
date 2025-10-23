@@ -10,6 +10,9 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/ShaderResource.h"
 
+/// <summary>
+/// GpuParticleを行うクラス
+/// </summary>
 class GpuParticles {
 public:	// メンバ構造体
 
@@ -43,15 +46,45 @@ public:
 	GpuParticles();
 	~GpuParticles();
 
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="instanceNum">: インスタンス数</param>
 	void Init(uint32_t instanceNum);
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList"></param>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 
+	/// <summary>
+	/// Particle全体を初期化する
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="rootParameterIndex"></param>
 	void InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
 
+	/// <summary>
+	/// 射出する際のコマンドを積む
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="rootParameterIndex"></param>
 	void EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex);
+
+public:
 
 	void SetViewProjection(const Matrix4x4& viewProjection);
 	

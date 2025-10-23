@@ -31,18 +31,48 @@ public:
 
 	static MeshManager* GetInstance();
 
+public:
+
+	// 初期化処理
 	void Init();
+	// 終了処理
 	void Finalize();
 
+	/// <summary>
+	/// Meshの追加
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="modelName"></param>
+	/// <param name="meshName"></param>
+	/// <param name="vertexData"></param>
+	/// <param name="indices"></param>
 	static void AddMesh(ID3D12Device* device, const std::string& modelName,
 						const std::string& meshName, const std::vector<VertexData>& vertexData, const std::vector<uint32_t>& indices);
-
+	/// <summary>
+	/// MultiMeshの取得
+	/// </summary>
+	/// <param name="modelName"></param>
+	/// <returns></returns>
 	static std::vector<std::shared_ptr<Mesh>> GetMeshes(const std::string& modelName);
 
+	/// <summary>
+	/// Meshが存在するかチェック
+	/// </summary>
+	/// <param name="modelName"></param>
+	/// <returns></returns>
 	bool ExistMesh(const std::string& modelName);
 
+	/// <summary>
+	/// Mesh単体の取得
+	/// </summary>
+	/// <param name="meshName"></param>
+	/// <returns></returns>
 	std::shared_ptr<Mesh> GetMesh(const std::string& meshName);
 
+	/// <summary>
+	/// Meshを選択する
+	/// </summary>
+	/// <returns></returns>
 	std::string SelectMeshName();
 
 private:

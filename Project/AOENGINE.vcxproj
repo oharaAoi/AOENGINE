@@ -282,11 +282,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
@@ -597,11 +594,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />

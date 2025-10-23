@@ -16,6 +16,9 @@ struct D3DResourceLeakChecker {
 	}
 };
 
+/// <summary>
+/// Logを出すクラス
+/// </summary>
 class Debug {
 public:
 

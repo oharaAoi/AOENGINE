@@ -10,6 +10,9 @@
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
 
+/// <summary>
+/// 編集画面の表示を管理する
+/// </summary>
 class EditorWindows {
 public:
 
@@ -21,9 +24,20 @@ public:
 
 	static EditorWindows* GetInstance();
 
+public:
+
+	// 終了
 	void Finalize();
 
 #ifdef _DEBUG
+
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="commandList"></param>
+	/// <param name="renderTarget"></param>
+	/// <param name="descriptorHeaps"></param>
 	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps);
 
 	/// <summary>

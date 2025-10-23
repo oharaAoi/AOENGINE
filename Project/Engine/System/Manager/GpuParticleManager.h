@@ -7,6 +7,9 @@
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+/// <summary>
+/// gpuParticleを管理しているクラス
+/// </summary>
 class GpuParticleManager :
 	public AttributeGui {
 public:
@@ -18,20 +21,37 @@ public:
 
 	static GpuParticleManager* GetInstance();
 
+public:
+
+	// 終了処理
 	void Finalize();
-
+	// 初期化処理
 	void Init();
-
+	// 更新処理
 	void Update();
-
+	// 描画処理
 	void Draw() const;
-
+	// 編集処理
 	void Debug_Gui() override;
 
+	/// <summary>
+	/// Emitterの作成
+	/// </summary>
+	/// <param name="particlesFile">: emitterのファイル名</param>
+	/// <returns></returns>
 	GpuParticleEmitter* CreateEmitter(const std::string& particlesFile);
 
+	/// <summary>
+	/// Fieldの作成
+	/// </summary>
+	/// <param name="particlesFile">: 影響を受けるファイル名</param>
+	/// <returns></returns>
 	GpuParticleField* CreateField(const std::string& particlesFile);
 
+	/// <summary>
+	/// Emitterの削除
+	/// </summary>
+	/// <param name="_emitter"></param>
 	void DeleteEmitter(GpuParticleEmitter* _emitter);
 
 private:

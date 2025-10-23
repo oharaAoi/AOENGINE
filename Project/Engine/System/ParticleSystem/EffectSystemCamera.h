@@ -14,10 +14,26 @@ public:
 	EffectSystemCamera();
 	~EffectSystemCamera();
 
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize() override;
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Init() override;
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update() override;
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
 
 	/// <summary>

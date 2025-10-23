@@ -23,6 +23,7 @@ public:
 	// カテゴリ名からビットを取得（未登録なら例外）
 	uint32_t GetCategoryBit(const std::string& name);
 
+	// リストごとカテゴリを登録する
 	void RegisterCategoryList(const std::list<std::string>& list);
 
 private:

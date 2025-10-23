@@ -84,6 +84,9 @@ namespace {
 	Pipeline* lastUsedPipeline_;
 }
 
+/// <summary>
+/// GameEngine
+/// </summary>
 class Engine {
 public:
 

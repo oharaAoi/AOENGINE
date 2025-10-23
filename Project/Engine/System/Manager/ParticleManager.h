@@ -29,18 +29,21 @@ public:
 
 	static ParticleManager* GetInstance();
 
+public:
+
+	// 終了
 	void Finalize();
-
+	// 初期化
 	void Init();
-
+	// 更新
 	void Update();
-
+	// particleの更新
 	void ParticlesUpdate();
-
+	// 全体更新後の更新
 	void PostUpdate();
-
+	// 描画処理
 	void Draw() const;
-
+	// 編集処理
 	void Debug_Gui() override;
 
 public:

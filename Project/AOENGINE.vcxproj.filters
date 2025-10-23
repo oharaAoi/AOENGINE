@@ -762,20 +762,11 @@
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\GpuEffect.h">
-      <Filter>Engine\System\ParticleSystem</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\ParticleField.h">
-      <Filter>Engine\System\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.h">
-      <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
@@ -1687,20 +1678,11 @@
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\GpuEffect.cpp">
-      <Filter>Engine\System\ParticleSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\ParticleField.cpp">
-      <Filter>Engine\System\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleForGPU.cpp">
-      <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>

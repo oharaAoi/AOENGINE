@@ -49,6 +49,9 @@ struct ControllerVibration {
 // デッドゾーン
 const float DEADZONE = 0.1f;
 
+/// <summary>
+/// 入力処理
+/// </summary>
 class Input {
 public:
 

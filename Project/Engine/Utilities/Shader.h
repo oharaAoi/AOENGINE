@@ -4,6 +4,9 @@
 #include <map>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
+/// <summary>
+/// Shaderの種類のクラス
+/// </summary>
 class Shader {
 public:
 

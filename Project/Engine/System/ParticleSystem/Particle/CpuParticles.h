@@ -5,6 +5,9 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/ParticlesData.h"
 
+/// <summary>
+/// CpuParticleのクラス
+/// </summary>
 class CpuParticles :
 	public AttributeGui {
 public:
@@ -12,15 +15,36 @@ public:
 	CpuParticles() = default;
 	virtual ~CpuParticles() override {};
 
+public:
+
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	/// <param name="name"></param>
+	/// <param name="isAddBlend"></param>
 	void Init(const std::string& name, bool isAddBlend = true);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
+	/// <param name="bill"></param>
 	void Update(const Quaternion& bill);
 
+	/// <summary>
+	/// 射出処理
+	/// </summary>
+	/// <param name="pos"></param>
 	void Emit(const Vector3& pos);
 
+	/// <summary>
+	/// 射出更新処理
+	/// </summary>
 	void EmitUpdate();
 
 #ifdef _DEBUG
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
 #endif
 

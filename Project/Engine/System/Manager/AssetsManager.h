@@ -29,10 +29,13 @@ public:
 
 private:
 
+	// Textureの読み込み
 	void LoadTextures(const std::string& rootPath);
 
+	// modelの読み込み
 	void LoadModels(const std::string& rootPath);
 
+	// soundの読み込み
 	void LoadSounds(const std::string& rootPath);
 
 private:

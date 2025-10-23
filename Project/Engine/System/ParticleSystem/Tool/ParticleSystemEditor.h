@@ -11,6 +11,9 @@
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 
+/// <summary>
+/// Particleを編集するEditor
+/// </summary>
 class ParticleSystemEditor final {
 public:
 
@@ -30,18 +33,39 @@ public:
 	ParticleSystemEditor() = default;
 	~ParticleSystemEditor() = default;
 
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device"></param>
+	/// <param name="commandList"></param>
+	/// <param name="renderTarget"></param>
+	/// <param name="descriptorHeaps"></param>
 	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps);
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
 private:		// member method
 
 #ifdef _DEBUG
-
+	
+	/// <summary>
+	/// Particleを更新する
+	/// </summary>
 	void ParticlesUpdate();
 
 	void InputText();

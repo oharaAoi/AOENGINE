@@ -31,6 +31,10 @@ public:
 	/// <param name="_collider"></param>
 	static void AddCollider(ICollider* _collider);
 
+	/// <summary>
+	/// Colldierを削除する
+	/// </summary>
+	/// <param name="_collider"></param>
 	void RemoveCollider(ICollider* _collider);
 
 	/// <summary>

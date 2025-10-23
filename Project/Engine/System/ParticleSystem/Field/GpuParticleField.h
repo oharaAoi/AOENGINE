@@ -3,7 +3,9 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-
+/// <summary>
+/// GpuParticleが影響を受けるFieldクラス
+/// </summary>
 class GpuParticleField :
 	public AttributeGui {
 public:
@@ -27,14 +29,17 @@ public:
 	GpuParticleField() = default;
 	~GpuParticleField();
 
+public:
+
+	// 編集処理
 	void Debug_Gui() override;
-
+	// 初期化処理
 	void Init(uint32_t _instanceNum);
-
+	// 更新処理
 	void Update();
-
+	// 領域の描画
 	void DrawShape() const;
-
+	// 実行
 	void Execute(ID3D12GraphicsCommandList* commandList);
 
 public:
