@@ -14,10 +14,23 @@ public: // base
 	BaseGaugeUI() = default;
 	virtual ~BaseGaugeUI() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="bgTexture"></param>
+	/// <param name="frontTexture"></param>
 	void Init(const std::string& bgTexture, const std::string& frontTexture);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 編集
+	/// </summary>
 	virtual void Debug_Gui() override;
 
 public:	// accessor method

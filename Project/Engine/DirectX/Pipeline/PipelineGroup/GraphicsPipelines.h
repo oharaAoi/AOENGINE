@@ -17,6 +17,9 @@ enum class PSOType{
 class GraphicsPipelines {
 public:
 
+	/// <summary>
+	/// ファイルパスの種類
+	/// </summary>
 	struct AssetPaths {
 		std::string object;
 		std::string sprite;

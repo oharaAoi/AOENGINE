@@ -16,12 +16,18 @@ public:
 	BBulletToGroundCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~BBulletToGroundCallBacks() = default;
 
-	void Init() override;
+public:
 
+	// 初期化
+	void Init() override;
+	// 更新
 	void Update() override;
 
+	// 衝突開始
 	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const ground) override;
+	// 衝突中
 	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const ground)  override;
+	// 衝突終わり
 	void CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const ground)  override;
 
 public:

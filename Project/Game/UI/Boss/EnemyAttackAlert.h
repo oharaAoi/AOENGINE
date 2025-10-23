@@ -21,18 +21,40 @@ public:
 	EnemyAttackAlert() = default;
 	~EnemyAttackAlert() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_dir"></param>
 	void Init(AttackAlertDirection _dir);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() const;
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
 
 public:
 
+	/// <summary>
+	/// 警告
+	/// </summary>
 	void Alert();
 
+	/// <summary>
+	/// 破壊処理
+	/// </summary>
+	/// <returns></returns>
 	bool IsDestroy();
 
 private:

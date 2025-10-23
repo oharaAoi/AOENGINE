@@ -29,11 +29,17 @@ public:
 		std::array<uint32_t, kNumMaxInfluence> jointIndices;
 	};
 
+	/// <summary>
+	/// skelton空間で行列
+	/// </summary>
 	struct WellForGPU {
 		Matrix4x4 skeltonSpaceMatrix;
 		Matrix4x4 skeltonSpaceInverseTransposeMat;
 	};
 
+	/// <summary>
+	/// skeltonの情報
+	/// </summary>
 	struct SkinningInformation {
 		uint32_t numVertices;
 	};

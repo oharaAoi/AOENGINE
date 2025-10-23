@@ -42,8 +42,13 @@ public: // member method
 	BaseCamera() = default;
 	virtual ~BaseCamera();
 
+public:
+
+	// 終了
 	virtual void Finalize();
+	// 初期化
 	virtual void Init();
+	// 更新
 	virtual void Update();
 
 public:	// accesseor method

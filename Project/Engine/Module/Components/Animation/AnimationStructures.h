@@ -5,6 +5,10 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
 
+/// <summary>
+/// キーフレーム
+/// </summary>
+/// <typeparam name="tValue"></typeparam>
 template <typename tValue>
 struct Keyframe {
 	float time;
@@ -14,6 +18,10 @@ struct Keyframe {
 using KeyframeVector3 = Keyframe<Vector3>;
 using KeyframeQuaternion = Keyframe<Quaternion>;
 
+/// <summary>
+/// Animationのカーブ
+/// </summary>
+/// <typeparam name="tValue"></typeparam>
 template <typename tValue>
 struct AnimationCurve {
 	std::vector<Keyframe<tValue>> keyframes;

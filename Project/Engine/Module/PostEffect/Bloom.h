@@ -5,6 +5,9 @@
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+/// <summary>
+/// Bloomクラス
+/// </summary>
 class Bloom :
 	public IPostEffect {
 public:	// 構造体
@@ -17,13 +20,18 @@ public:
 	Bloom() = default;
 	~Bloom() override;
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
-
+	// チェックボックスを表示
 	void CheckBox() override;
-
+	// 編集処理
 	void Debug_Gui() override;
+
+public:
 
 	void SetPongResource(PingPongBuffer* _resource) { postProcessResource_ = _resource; }
 

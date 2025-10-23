@@ -5,6 +5,9 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
+/// <summary>
+/// pulseArmorを管理しているクラス
+/// </summary>
 class Armors :
 	public AttributeGui {
 public:
@@ -12,14 +15,21 @@ public:
 	Armors() = default;
 	~Armors() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="ownerName">: 所有者の名前</param>
 	void Init(const std::string& ownerName);
 
+	// 更新
 	void Update();
-
+	// 描画
 	void Draw() const;
-
+	// 編集
 	void Debug_Gui() override;
-
+	// アーマーを装備する
 	void SetArmor();
 
 public:

@@ -9,6 +9,9 @@ struct AttackContext {
 	Vector3 target;
 };
 
+/// <summary>
+/// 武器のベースとなるクラス
+/// </summary>
 class BaseWeapon :
 	public BaseEntity {
 public:
@@ -60,11 +63,15 @@ public:
 	BaseWeapon() = default;
 	virtual ~BaseWeapon() = default;
 
+public:
+
+	// 終了
 	virtual void Finalize();
+	// 初期化
 	virtual void Init();
-
+	// 更新
 	virtual void Update();
-
+	// 編集
 	void Debug_Gui() override;
 
 public:		// member method

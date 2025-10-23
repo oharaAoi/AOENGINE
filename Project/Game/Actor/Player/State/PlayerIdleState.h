@@ -11,10 +11,15 @@ public:
 	PlayerIdleState() = default;
 	~PlayerIdleState() = default;
 
-	void OnStart() override;
-	void OnUpdate() override;
-	void OnExit() override;
+public:
 
+	// 初期化
+	void OnStart() override;
+	// 更新
+	void OnUpdate() override;
+	// 終了
+	void OnExit() override;
+	// 編集
 	void Debug_Gui() override {};
 
 private:

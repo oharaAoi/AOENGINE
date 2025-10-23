@@ -6,10 +6,6 @@ TargetDeadOriented::TargetDeadOriented() {
     SetName("TargetDead");
 }
 
-void TargetDeadOriented::Update() {
-
-}
-
 bool TargetDeadOriented::IsGoal() {
     if(worldState_->Get<bool>("isAttack")){
         return true;

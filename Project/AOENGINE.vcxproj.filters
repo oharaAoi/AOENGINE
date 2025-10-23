@@ -1036,9 +1036,6 @@
     <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h">
       <Filter>Game\Actor\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Weapon\Sword.h">
-      <Filter>Game\Actor\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h">
       <Filter>Game\CallBacks</Filter>
     </ClInclude>
@@ -1172,9 +1169,6 @@
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\Reticle.h">
-      <Filter>Game\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\UI\StanGaugeUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\TitleUIs.h">
@@ -1933,9 +1927,6 @@
     <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp">
       <Filter>Game\Actor\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Weapon\Sword.cpp">
-      <Filter>Game\Actor\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp">
       <Filter>Game\CallBacks</Filter>
     </ClCompile>
@@ -2060,9 +2051,6 @@
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\Reticle.cpp">
-      <Filter>Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\UI\StanGaugeUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\TitleUIs.cpp">

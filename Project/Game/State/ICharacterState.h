@@ -15,17 +15,22 @@ protected:
 	// ステートマシン以外から呼び出し関数などにアクセスできないように
 	friend class StateMachine<OwnerType>;
 public:
+
 	ICharacterState() = default;
 	virtual ~ICharacterState() = default;
 
 public:
 
+	// 開始処理
 	virtual void OnStart() = 0;
+	// 更新処理
 	virtual void OnUpdate() = 0;
+	// 終了処理
 	virtual void OnExit() = 0;
-
+	// 編集処理
 	virtual void Debug_Gui() override = 0;
 
+	// オーナーの設定
 	void SetOwner(OwnerType* owner) { pOwner_ = owner; }
 
 	std::string GetStateName() { return GetName(); }

@@ -19,12 +19,28 @@ public:
 	BaseBullet() = default;
 	virtual ~BaseBullet() = default;
 
-	void Finalize();
-	void Init(const std::string& bulletName);
-	virtual void Update();
+public:
 
+	// 終了処理
+	void Finalize();
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="bulletName">: バレットの名前</param>
+	void Init(const std::string& bulletName);
+
+	// 更新
+	virtual void Update();
+	
+	/// <summary>
+	/// 座標や速度の設定
+	/// </summary>
+	/// <param name="pos">: 座標</param>
+	/// <param name="velocity">: 速度</param>
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
+	// 編集
 	void Debug_Gui() override;
 
 public:

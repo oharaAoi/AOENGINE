@@ -17,9 +17,14 @@ public:
 	PlayerBullet() = default;
 	~PlayerBullet() override;
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update() override;
 	
+public:
 	void SetType(uint32_t type) { bulletType = type; }
 
 	uint32_t GetType() const { return bulletType; }

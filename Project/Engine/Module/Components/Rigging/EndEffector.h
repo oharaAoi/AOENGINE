@@ -9,6 +9,9 @@
 class EndEffector {
 public:
 
+	/// <summary>
+	/// joints情報
+	/// </summary>
 	struct JointsData {
 		Vector3& pos;
 		Quaternion rotate;

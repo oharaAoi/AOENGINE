@@ -19,10 +19,15 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 
-
+/// <summary>
+/// パイプラインクラス
+/// </summary>
 class Pipeline {
 public:
 
+	/// <summary>
+	/// パイプラインの情報
+	/// </summary>
 	struct PipelineParameter : public IJsonConverter {
 		std::string vs;			// vsのシェーダー名
 		std::string ps;			// psのシェーダー名
@@ -58,6 +63,9 @@ public:
 		void Debug_Gui() override {};
 	};
 
+	/// <summary>
+	/// keyと結びつける
+	/// </summary>
 	struct BindingKey {
 		D3D_SHADER_INPUT_TYPE type;
 		UINT bindPoint;

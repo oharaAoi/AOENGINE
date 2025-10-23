@@ -13,6 +13,9 @@
 class PrimitiveDrawer {
 public : // データ構造体
 
+	/// <summary>
+	/// Gpuに送る構造体
+	/// </summary>
 	struct PrimitiveData {
 		Vector4 pos;
 		Color color;

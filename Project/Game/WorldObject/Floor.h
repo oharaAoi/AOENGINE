@@ -3,6 +3,9 @@
 #include "Engine/Module/Components//WorldTransform.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+/// <summary>
+/// 床
+/// </summary>
 class Floor :
 	public AttributeGui {
 public:
@@ -10,8 +13,11 @@ public:
 	Floor();
 	~Floor();
 
-	void Init();
+public:
 
+	// 初期化
+	void Init();
+	// 編集
 	void Debug_Gui() override;
 
 private:

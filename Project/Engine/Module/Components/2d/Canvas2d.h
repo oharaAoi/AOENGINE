@@ -11,6 +11,9 @@
 class Canvas2d {
 public:
 
+	/// <summary>
+	/// Spriteを含めた情報
+	/// </summary>
 	struct ObjectPair {
 		std::unique_ptr<Sprite> sprite;
 		std::string psoName;

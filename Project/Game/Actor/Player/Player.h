@@ -21,6 +21,9 @@ enum PlayerWeapon {
 	KMAX
 };
 
+/// <summary>
+/// Playerクラス
+/// </summary>
 class Player :
 	public BaseEntity {
 public:		// data
@@ -73,23 +76,23 @@ public:		// data
 		void Debug_Gui() override;
 	};
 
-public:		// base
+public:	// コンストラクタ
 
 	Player();
 	~Player();
 
+public:
+
+	// 終了処理
 	void Finalize();
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-	
+	// 編集
 	void Debug_Gui() override;
 
-public:		// accessor method
-
-	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
-	bool GetKnockBack() { return isKnockback_; }
-
-	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
+public:	// member method
 
 	/// <summary>
 	/// 攻撃を行う
@@ -148,7 +151,12 @@ private:
 	// カメラの傾きを行う
 	void CameraIncline();
 
-public:
+public: // accessor method
+
+	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
+	bool GetKnockBack() { return isKnockback_; }
+
+	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
 
 	// 着地したかのフラグ
 	bool GetIsLanding() const { return isLanding_; }

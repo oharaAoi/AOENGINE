@@ -7,7 +7,9 @@
 
 class Player;
 
-
+/// <summary>
+/// アーマーを展開する処理
+/// </summary>
 class PlayerActionDeployArmor :
 	public BaseAction<Player> {
 public:
@@ -48,15 +50,22 @@ public:
 	PlayerActionDeployArmor() = default;
 	~PlayerActionDeployArmor() override = default;
 
-	void Debug_Gui() override;
+public:
 
+	// ビルド処理
 	void Build() override;
+	// 初期化
 	void OnStart() override;
+	// 更新
 	void OnUpdate() override;
+	// 終了処理
 	void OnEnd() override;
-
+	// 次のアクションの判定
 	void CheckNextAction() override;
+	// actionの入力判定
 	bool IsInput() override;
+	// 編集処理
+	void Debug_Gui() override;
 
 private:
 

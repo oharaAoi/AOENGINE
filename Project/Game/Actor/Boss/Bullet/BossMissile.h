@@ -14,12 +14,30 @@ public:
 	BossMissile() = default;
 	~BossMissile() override;
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update() override;
 	
+	/// <summary>
+	/// ミサイルをリセットする
+	/// </summary>
+	/// <param name="pos">: 座標</param>
+	/// <param name="velocity">: 速度</param>
+	/// <param name="targetPosition">: ターゲットの座標</param>
+	/// <param name="bulletSpeed">: 球の速度</param>
+	/// <param name="firstSpeedRaito">: 初めの速度の割合</param>
+	/// <param name="trackingRaito">: 追尾性能の値</param>
+	/// <param name="isTracking">: 追尾を行うか</param>
 	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed, float firstSpeedRaito,
 			   float trackingRaito, bool isTracking);
 
+	/// <summary>
+	/// 衝突時の処理
+	/// </summary>
+	/// <param name="other"></param>
 	void OnCollision(ICollider* other);
 
 private :

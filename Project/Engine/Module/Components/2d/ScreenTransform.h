@@ -9,6 +9,9 @@
 class ScreenTransform {
 public:
 
+	/// <summary>
+	/// Gpuに送る構造体
+	/// </summary>
 	struct TransformData {
 		Matrix4x4 wvp;
 	};

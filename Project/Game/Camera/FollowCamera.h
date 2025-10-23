@@ -106,22 +106,43 @@ public:
 	FollowCamera();
 	~FollowCamera() override = default;
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
+public:
 
+	// 終了処理
+	void Finalize() override;
+	// 初期化
+	void Init() override;
+	// 更新
+	void Update() override;
+	// 編集
 	void Debug_Gui() override;
 
 private:	// private method
 
+	/// <summary>
+	/// Stick入力を受け取る
+	/// </summary>
 	void InputStick();
 
+	/// <summary>
+	/// Cameraを回転させる
+	/// </summary>
 	void RotateCamera();
 
+	/// <summary>
+	/// カメラを動かす
+	/// </summary>
+	/// <param name="target"></param>
 	void MoveCamera(const Vector3& target);
 
+	/// <summary>
+	/// カメラをシェイクさせる
+	/// </summary>
 	void Shake();
 
+	/// <summary>
+	/// ゲーム開始時のカメラの動き
+	/// </summary>
 	void FirstCameraMove();
 
 public:		// accessor method

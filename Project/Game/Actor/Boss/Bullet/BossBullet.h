@@ -13,13 +13,26 @@ public:
 	BossBullet() = default;
 	~BossBullet() override;
 
+public:
+
+	// 初期化処理
 	void Init();
+	// 更新処理
 	void Update() override;
 	
+	/// <summary>
+	/// 球の情報をリセって
+	/// </summary>
+	/// <param name="pos">: 座標</param>
+	/// <param name="velocity">: 速度</param>
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
 public:
 
+	/// <summary>
+	/// 衝突時の処理
+	/// </summary>
+	/// <param name="other"></param>
 	void OnCollision(ICollider* other);
 
 private:

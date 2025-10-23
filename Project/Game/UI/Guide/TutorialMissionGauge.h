@@ -17,15 +17,17 @@ public:
 
 public:
 
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-
+	// 編集
 	void Debug_Gui() override;
-
+	// 塗りつぶし量
 	void FillAmountGauge(float _fillAmount);
-
+	// 成功
 	void Success(bool _isSuccess);
-
+	// チャージゲージ
 	void ChangeControlUI(const std::string& _fileName);
 
 public:

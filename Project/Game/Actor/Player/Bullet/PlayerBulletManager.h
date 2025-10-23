@@ -15,9 +15,18 @@ public:
 	PlayerBulletManager() = default;
 	~PlayerBulletManager();
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update(const Vector3& playerTargetPos);
 
+	/// <summary>
+	/// Colliderのポインタからbulletのポインタを探索する
+	/// </summary>
+	/// <param name="collider">; コライダーのポインタ</param>
+	/// <returns></returns>
 	BaseBullet* SearchCollider(ICollider* collider);
 
 public: // member method

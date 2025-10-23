@@ -13,10 +13,15 @@ public:
 	Camera3d();
 	~Camera3d() override;
 
-	void Finalize() override;
-	void Init() override;
-	void Update() override;
+public:
 
+	// 終了
+	void Finalize() override;
+	// 初期化
+	void Init() override;
+	// 更新
+	void Update() override;
+	// 編集
 	void Debug_Gui() override;
 
 private:

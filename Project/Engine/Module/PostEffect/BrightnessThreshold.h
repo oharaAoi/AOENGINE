@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+/// <summary>
+/// 閾値以上の輝度を抽出
+/// </summary>
 class BrightnessThreshold :
 	public IPostEffect {
 public:	// 構造体
@@ -14,8 +17,11 @@ public:
 	BrightnessThreshold() = default;
 	~BrightnessThreshold() override;
 
-	void Init() override;
+public:
 
+	// 初期化
+	void Init() override;
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
 
 	void CheckBox() override;

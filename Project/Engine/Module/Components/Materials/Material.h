@@ -11,6 +11,9 @@ class Material :
 	public BaseMaterial {
 public:
 
+	/// <summary>
+	/// Gpuに送る構造体
+	/// </summary>
 	struct MaterialData {
 		Vector4 color;
 		int32_t enableLighting;

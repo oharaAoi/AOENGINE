@@ -10,10 +10,15 @@ public:
 	FadePanel() = default;
 	~FadePanel() = default;
 
-	void Init();
-	void Update();
-	void Draw() const;
+public:
 
+	// 初期化
+	void Init();
+	// 更新
+	void Update();
+	// 描画
+	void Draw() const;
+	// 編集
 	void Debug_Gui() override;
 
 public:

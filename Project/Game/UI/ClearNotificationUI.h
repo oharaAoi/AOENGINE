@@ -44,12 +44,18 @@ public:
 	ClearNotificationUI() = default;
 	~ClearNotificationUI() = default;
 
-	void Init();
+public:
 
+	// 初期化
+	void Init();
+	
+	// 更新
 	void Update(bool isBossBreak);
 
+	// 描画
 	void Draw() const;
 
+	// 編集
 	void Debug_Gui() override;
 
 public:

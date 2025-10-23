@@ -22,12 +22,27 @@ public:	// base
 	CanvasUI() = default;
 	~CanvasUI() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_isTutorial"></param>
 	void Init(bool _isTutorial);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
+	/// <summary>
+	/// 描画
+	/// </summary>
 	void Draw() const;
 
+	/// <summary>
+	/// 編集
+	/// </summary>
 	void Debug_Gui();
 
 public:		// accessor method

@@ -17,12 +17,18 @@ public:
 	PBulletToBossCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~PBulletToBossCallBacks() = default;
 
-	void Init() override;
+public:
 
+	// 初期化
+	void Init() override;
+	// 更新
 	void Update() override;
 
+	// 衝突開始
 	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) override;
+	// 衝突中
 	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
+	// 衝突終わり
 	void CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
 
 public:		// accessor method

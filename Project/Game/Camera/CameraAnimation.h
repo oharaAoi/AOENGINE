@@ -43,20 +43,25 @@ public: // default method
 	CameraAnimation();
 	~CameraAnimation();
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-
+	// 弾を撃つ際のアニメーションを実行する
 	void ExecuteShotAnimation(bool _isApproach);
-
+	// 編集処理
 	void Debug_Gui();
-
-	bool GetShotAnimationFinish() const { return shotAnimation_.isExecute; }
 
 private: // private method 
 
+	// 
 	void ShotAnimation();
 
 public: // accessor method
+
+	bool GetShotAnimationFinish() const { return shotAnimation_.isExecute; }
 
 	void SetFollowCamera(FollowCamera* _followCamera) { pFollowCamera_ = _followCamera; }
 

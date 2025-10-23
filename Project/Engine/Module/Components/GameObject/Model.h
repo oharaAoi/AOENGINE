@@ -23,6 +23,9 @@ class PBRMaterial;
 class Model {
 public:
 
+	/// <summary>
+	/// AnimationのNode
+	/// </summary>
 	struct NodeAnimationData {
 		std::vector<NodeAnimation> animations;
 		float tickPerSecond;	// 一秒間に何回の処理が行われるか
@@ -30,6 +33,9 @@ public:
 		float animationTime;	// animationをする時間
 	};
 
+	/// <summary>
+	/// Node構造体
+	/// </summary>
 	struct Node {
 		QuaternionSRT transform;
 		Matrix4x4 localMatrix;				 // NodeのLocalMatrix

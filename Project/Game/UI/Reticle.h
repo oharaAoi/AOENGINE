@@ -3,16 +3,24 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include <Lib/Math/Vector3.h>
 
+/// <summary>
+/// レティクル
+/// </summary>
 class Reticle {
 public:
 
 	Reticle() = default;
 	~Reticle() = default;
 
-	void Init();
-	void Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat);
-	void Draw() const;
+public:
 
+	// 初期化
+	void Init();
+	// 更新
+	void Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat);
+	// 描画
+	void Draw() const;
+	// ロックオン
 	void LockOn();
 
 public:		// accessor method

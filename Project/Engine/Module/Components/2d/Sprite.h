@@ -34,6 +34,9 @@ enum class FillMethod {
 	BothEnds		// 両端
 };
 
+/// <summary>
+/// 円ゲージに必要な構造体
+/// </summary>
 struct ArcGaugeParam {
 	Vector2 center;		// 中心座標
 	float fillAmount;	// 塗りつぶし量
@@ -128,12 +131,18 @@ class Sprite :
 	public AttributeGui {
 public:
 
+	/// <summary>
+	/// Mesh構造体
+	/// </summary>
 	struct TextureMesh {
 		Vector4 pos;
 		Vector2 texcoord;
 		float padding[2];
 	};
 
+	/// <summary>
+	/// Material構造体
+	/// </summary>
 	struct TextureMaterial {
 		Color color;
 		Matrix4x4 uvTransform;
@@ -143,6 +152,9 @@ public:
 		float pad[3];
 	};
 
+	/// <summary>
+	/// Transform情報
+	/// </summary>
 	struct TextureTransformData {
 		Matrix4x4 wvp;
 	};

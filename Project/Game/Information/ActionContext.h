@@ -8,6 +8,9 @@ struct ActionValue {
 	T value;
 };
 
+/// <summary>
+/// Actionの変数をAction間で共有したいときに使用
+/// </summary>
 struct ActionContext {
 	std::unordered_map<std::string, std::any> values;
 

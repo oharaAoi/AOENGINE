@@ -16,16 +16,26 @@ public:
 	PlayerActionShotRight() = default;
 	~PlayerActionShotRight() override {};
 
-	void Build() override;
-	void OnStart() override;
-	void OnUpdate() override;
-	void OnEnd() override;
+public:
 
+	// ビルド処理
+	void Build() override;
+	// 初期化
+	void OnStart() override;
+	// 更新
+	void OnUpdate() override;
+	// 終了処理
+	void OnEnd() override;
+	// 次のアクションの判定
 	void CheckNextAction() override;
+	// actionの入力判定
 	bool IsInput() override;
+	// 編集処理
+	void Debug_Gui() override;
 
 private:
 
+	// 攻撃
 	void Shot();
 
 private:

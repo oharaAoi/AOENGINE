@@ -21,10 +21,23 @@ public:
 	PlayerUIs() = default;
 	~PlayerUIs() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_player"></param>
 	void Init(Player* _player);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="reticlePos"></param>
 	void Update(const Vector2& reticlePos);
 
+	/// <summary>
+	/// 編集
+	/// </summary>
 	void Debug_Gui() override;
 
 private:

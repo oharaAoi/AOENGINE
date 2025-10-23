@@ -58,6 +58,9 @@ public:
 			};
 	}
 
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update() {
 		// ステートの変更命令があれば処理する
 		functionChangeState_();
@@ -69,6 +72,9 @@ public:
 
 	std::string GetStateName() { return state_->GetStateName(); }
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override {};
 
 private:

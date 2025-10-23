@@ -19,7 +19,3 @@ void BossRoot::Update() {
 	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());
 	bulletManager_->Update();
 }
-
-void BossRoot::Draw() const {
-
-}

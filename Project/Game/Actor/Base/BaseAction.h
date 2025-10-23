@@ -11,6 +11,10 @@
 template<typename OwnerType>
 class ActionManager;
 
+/// <summary>
+/// BaseとなるAction
+/// </summary>
+/// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class BaseAction 
 	: public AttributeGui {
@@ -24,17 +28,21 @@ public:	// base
 	BaseAction() = default;
 	virtual ~BaseAction() override = default;
 
-	/// <summary>
-	/// 設定ジのみ行う処理
-	/// </summary>
+public:
+
+	// 設定ジのみ行う処理
 	virtual void Build() = 0;
-
+	// 開始処理
 	virtual void OnStart() = 0;
+	// 更新処理
 	virtual void OnUpdate() = 0;
+	// 終了処理
 	virtual void OnEnd() = 0;
+	// 次のアクションのチェック
 	virtual void CheckNextAction() = 0;
+	// アクションの入力判定
 	virtual bool IsInput() = 0;
-
+	// 編集処理
 	void Debug_Gui() override {};
 
 	/// <summary>
@@ -47,7 +55,9 @@ public:	// base
 		pManager_->DeleteAction(actionIndex_);
 	}
 
+	// 次のアクションへの遷移
 	void NextAction(size_t hash);
+	// 新たなアクションの追加
 	void AddAction(size_t hash);
 
 	/// <summary>

@@ -11,9 +11,13 @@ public:
 	Camera2d();
 	~Camera2d();
 
-	void Init();
-	void Update();
+public:
 
+	// 初期化
+	void Init();
+	// 更新
+	void Update();
+	// 編集
 	void Debug_Gui();
 
 public:

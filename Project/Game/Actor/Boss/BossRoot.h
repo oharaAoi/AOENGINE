@@ -16,9 +16,12 @@ public:
 	BossRoot() = default;
 	~BossRoot() = default;
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-	void Draw() const;
 
 public:
 

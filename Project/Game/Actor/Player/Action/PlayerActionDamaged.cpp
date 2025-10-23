@@ -18,6 +18,7 @@ void PlayerActionDamaged::OnStart() {
 	actionTimer_ += GameTimer::DeltaTime();
 
 	pOwner_->GetJetEngine()->JetIsStop();
+	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,7 +26,7 @@ void PlayerActionDamaged::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDamaged::OnUpdate() {
-	ApplyGravity();
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,14 +49,4 @@ void PlayerActionDamaged::CheckNextAction() {
 
 bool PlayerActionDamaged::IsInput() {
 	return false;
-}
-
-void PlayerActionDamaged::ApplyGravity() {
-	if (pOwnerTransform_->srt_.translate.y > 2.0f) {
-		acceleration_.y += kGravity * GameTimer::DeltaTime();
-		acceleration_.y = std::clamp(acceleration_.y, -50.f, 50.f);
-
-		velocity_ += acceleration_ * GameTimer::DeltaTime();
-		pOwnerTransform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
-	}
 }

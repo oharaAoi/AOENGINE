@@ -19,6 +19,9 @@ enum class BossPhase {
 
 class BossUIs;
 
+/// <summary>
+/// Bossクラス
+/// </summary>
 class Boss :
 	public BaseEntity {
 public:
@@ -57,10 +60,15 @@ public:
 	Boss() = default;
 	~Boss() = default;
 
-	void Finalize();
-	void Init();
-	void Update();
+public:
 
+	// 終了処理
+	void Finalize();
+	// 初期化
+	void Init();
+	// 更新
+	void Update();
+	// 編集
 	void Debug_Gui() override;
 
 public:		// menber method

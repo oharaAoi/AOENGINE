@@ -18,6 +18,9 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 class TransformationMatrix {
 public:
 
+	/// <summary>
+	/// gpuに送る情報
+	/// </summary>
 	struct TransformationData {
 		Matrix4x4 world;
 		Matrix4x4 view;

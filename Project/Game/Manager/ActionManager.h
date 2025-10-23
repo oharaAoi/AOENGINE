@@ -11,6 +11,10 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
+/// <summary>
+/// Action管理クラス
+/// </summary>
+/// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class ActionManager :
 	public AttributeGui {
@@ -21,11 +25,19 @@ public:
 		Finalize();
 	};
 
+public:
+
+	// 終了
 	void Finalize() {
 		runActionMap_.clear();
 		actionMap_.clear();
 	}
 
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="pOwner">：所有者</param>
+	/// <param name="name">: 対象の名前</param>
 	void Init(OwnerType* pOwner, const std::string& name) {
 		pOwner_ = pOwner;
 
@@ -37,6 +49,9 @@ public:
 		isActionStop_ = false;
 	}
 
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update() {
 		// 終了するActionの終了処理を行う
 		for (const auto& deleteAction : deleteIndexList_) {
@@ -89,6 +104,9 @@ public:
 
 public:
 
+	/// <summary>
+	/// 編集
+	/// </summary>
 	void Debug_Gui() override {
 		DisplayRunActions();
 	}
@@ -121,6 +139,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// Actionの変更
+	/// </summary>
+	/// <param name="actionTypeIndex"></param>
 	void ChangeAction(size_t actionTypeIndex) {
 		// actionMap_ に actionTypeIndex が存在するか確認
 		assert(actionMap_.find(actionTypeIndex) != actionMap_.end() && "actionTypeIndex not found in actionMap_");
@@ -154,6 +176,10 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// 他のアクションを削除する
+	/// </summary>
+	/// <param name="actionTypeIndex"></param>
 	void DeleteOther(size_t actionTypeIndex) {
 		for (auto& [size, action] : runActionMap_) {
 			if (size != actionTypeIndex) {
@@ -162,12 +188,26 @@ public:
 		}
 	}
 
+	/// <summary>
+	/// 入力判定を検知する
+	/// </summary>
+	/// <param name="actionTypeIndex"></param>
+	/// <returns></returns>
 	bool CheckInput(size_t actionTypeIndex) {
 		return actionMap_[actionTypeIndex]->IsInput();
 	}
 
+	/// <summary>
+	/// アクションを止める
+	/// </summary>
+	/// <param name="_stop"></param>
 	void SetIsActionStop(bool _stop) { isActionStop_ = _stop; }
 
+	/// <summary>
+	/// 指定のアクションが存在するか確認する
+	/// </summary>
+	/// <param name="actionTypeIndex">: インデックス</param>
+	/// <returns></returns>
 	bool ExistAction(size_t actionTypeIndex) {
 		auto action = runActionMap_.find(actionTypeIndex);
 		if (action == runActionMap_.end()) {

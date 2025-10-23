@@ -18,6 +18,9 @@ class PBRMaterial :
 	public BaseMaterial {
 public:
 
+	/// <summary>
+	/// Gpuに送る構造体
+	/// </summary>
 	struct PBRMaterialData {
 		Color color;				// albedo
 		int32_t enableLighting;

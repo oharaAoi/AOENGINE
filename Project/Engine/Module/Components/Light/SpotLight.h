@@ -3,13 +3,16 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
-/// 一部の光源
+/// 集中光源
 /// </summary>
 class SpotLight :
 	public BaseLight,
 	public AttributeGui {
 public:
 
+	/// <summary>
+	/// 集中光源の構造体
+	/// </summary>
 	struct SpotLightData {
 		Matrix4x4 viewProjection;
 		Color color; // ライトの色
@@ -25,6 +28,9 @@ public:
 		float padding[1];
 	};
 
+	/// <summary>
+	/// 保存のパラメータ
+	/// </summary>
 	struct Parameter : public IJsonConverter {
 		Color color = Color::white;		// ライトの色
 		Vector3 position = Vector3(0, 1, 0);

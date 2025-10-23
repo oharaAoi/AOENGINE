@@ -12,7 +12,6 @@
 #include "Game/UI/Boss/EnemyAttackAlert.h"
 #include "Game/UI/PostureStability.h"
 #include "Game/UI/ArmorDurabilityUI.h"
-#include "Game/UI/StanGaugeUI.h"
 
 /// <summary>
 /// BossのUIをまとめたクラス
@@ -24,14 +23,28 @@ public:
 	BossUIs() = default;
 	~BossUIs() = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_boss"></param>
+	/// <param name="_player"></param>
 	void Init(Boss* _boss, Player* _player);
 
+	// 更新
 	void Update();
 
+	// 編集
 	void Debug_Gui() override;
 
 public:
 
+	/// <summary>
+	/// 警告の出現
+	/// </summary>
+	/// <param name="_targetPos">: ターゲットの位置</param>
+	/// <param name="_attackerPos">: 攻撃者の位置</param>
 	void PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos);
 
 private:

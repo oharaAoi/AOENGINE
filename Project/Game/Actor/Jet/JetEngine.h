@@ -15,16 +15,30 @@ public:
 	JetEngine() = default;
 	~JetEngine();
 
+public:
+
+	// 終了
 	void Finalize();
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
-	
+	// 編集
 	void Debug_Gui() override;
 
+	/// <summary>
+	/// 止める
+	/// </summary>
 	void JetIsStop();
 
+	/// <summary>
+	/// スタートさせる
+	/// </summary>
 	void JetIsStart();
 
+	/// <summary>
+	/// Boostをonにする
+	/// </summary>
 	void BoostOn() { isBoostMode_ = true; }
 
 public:	// accessor Method

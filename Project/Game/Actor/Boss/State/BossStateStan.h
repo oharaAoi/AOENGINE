@@ -35,10 +35,15 @@ public:
 	BossStateStan() = default;
 	~BossStateStan() = default;
 
-	void OnStart() override;
-	void OnUpdate() override;
-	void OnExit() override;
+public:
 
+	// 初期化
+	void OnStart() override;
+	// 更新
+	void OnUpdate() override;
+	// 終了時
+	void OnExit() override;
+	// 編集処理
 	void Debug_Gui() override;
 
 private:

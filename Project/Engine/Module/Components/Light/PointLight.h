@@ -10,6 +10,9 @@ class PointLight :
 	public AttributeGui {
 public: // メンバ構造体
 
+	/// <summary>
+	/// 点光源の構造体
+	/// </summary>
 	struct PointLightData {
 		Matrix4x4 viewProjection;
 		Color color; // ライトの色
@@ -22,6 +25,9 @@ public: // メンバ構造体
 		float padding[2];
 	};
 
+	/// <summary>
+	/// 保存パラメータ
+	/// </summary>
 	struct Paramter : public IJsonConverter {
 		Color color = Color(1,1,1,1);		// ライトの色
 		Vector3 position = Vector3(0,1,0);	// ライトの位置

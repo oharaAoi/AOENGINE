@@ -11,6 +11,9 @@
 #include "Engine/Module/Components/Animation/VectorTween.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
+/// <summary>
+/// アーマー単体のクラス
+/// </summary>
 class PulseArmor :
 	public ISceneObject {
 public:
@@ -85,19 +88,23 @@ public:
 	PulseArmor() = default;
 	~PulseArmor();
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// 更新
 	void Update() override;
-
+	// 遅れて更新
 	void PostUpdate() override {};
-
-	void PreDraw() const override;
+	// 描画前関数
+	void PreDraw() const override {};
+	// 描画
 	void Draw() const override;
-
+	// 編集
 	void Debug_Gui() override;
-
+	// parameterを設定
 	void SetParameter();
-
+	// gizumo操作
 	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
 
 public:

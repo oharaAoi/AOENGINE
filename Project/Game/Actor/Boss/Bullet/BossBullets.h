@@ -6,6 +6,9 @@ enum class BossBulletType {
 	MISSILE,
 };
 
+/// <summary>
+/// bulletの基礎パラメータ
+/// </summary>
 struct MissileInitParam {
 	Vector3 pos;
 	Vector3 velocity;

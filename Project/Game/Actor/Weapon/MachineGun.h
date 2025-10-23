@@ -4,6 +4,9 @@
 // Game
 #include "Game/Actor/Weapon/BaseWeapon.h"
 
+/// <summary>
+/// マシンガン
+/// </summary>
 class MachineGun :
 	public BaseWeapon {
 public:
@@ -11,13 +14,18 @@ public:
 	MachineGun() = default;
 	~MachineGun() override = default;
 
-	void Finalize() override;
-	void Init() override;
+public:
 
+	// 終了
+	void Finalize() override;
+	// 初期化
+	void Init() override;
+	// 編集
 	void Debug_Gui() override;
 
 public:		// member method
 
+	// 攻撃
 	bool Attack(const AttackContext& cxt) override;
 
 private:

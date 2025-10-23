@@ -5,11 +5,17 @@
 #include <map>
 #include "Engine/Lib/Math/Matrix4x4.h"
 
+/// <summary>
+/// 頂点ごとの重み
+/// </summary>
 struct VertexWeightData {
 	float weight;
 	uint32_t vertexIndex;
 };
 
+/// <summary>
+/// jointごとの重み
+/// </summary>
 struct JointWeightData {
 	Matrix4x4 inverseBindPoseMatrix;
 	std::vector<VertexWeightData> vertexWeight;

@@ -17,11 +17,17 @@
 class BaseLight {
 public:
 
+	/// <summary>
+	/// Gpuに送る情報
+	/// </summary>
 	struct LightViewProjectionData {
 		Matrix4x4 view;
 		Matrix4x4 projection;
 	};
 
+	/// <summary>
+	/// Lightのパラメータ
+	/// </summary>
 	struct BaseParameter : public IJsonConverter {
 		Vector3 lightPos = CVector3::ZERO;
 		Vector3 direction = Vector3(0, -1, 0);	

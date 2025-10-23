@@ -15,10 +15,22 @@ public:
 	WeaponRemainingRounds() = default;
 	~WeaponRemainingRounds() override = default;
 
+public:
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	/// <param name="_name"></param>
 	void Init(const std::string& _name);
 
+	/// <summary>
+	/// 更新
+	/// </summary>
+	/// <param name="pos"></param>
+	/// <param name="_fillAmount"></param>
 	void Update(const Vector2& pos, float _fillAmount);
 
+	// 編集
 	void Debug_Gui() override;
 
 	// 点滅させる

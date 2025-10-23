@@ -12,6 +12,9 @@ class DirectionalLight :
 	public AttributeGui {
 public: // メンバ構造体
 
+	/// <summary>
+	/// 平行光源の構造体
+	/// </summary>
 	struct DirectionalLightData {
 		Matrix4x4 viewProjection;
 		Color color; // ライトの色
@@ -22,6 +25,9 @@ public: // メンバ構造体
 		float limPower; // リムライトの強さ
 	};
 
+	/// <summary>
+	/// 保存のパラメータ
+	/// </summary>
 	struct Paramter : public IJsonConverter {
 		Color color = Color(1,1,1,1);		// ライトの色
 		Vector3 direction = Vector3(0,-1,0);	// 方向

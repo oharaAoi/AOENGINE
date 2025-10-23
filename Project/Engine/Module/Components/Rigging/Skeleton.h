@@ -18,6 +18,9 @@ class BaseGameObject;
 class Skeleton {
 public:
 
+	/// <summary>
+	/// joint情報
+	/// </summary>
 	struct Joint {
 		QuaternionSRT transform;	// transform
 		Matrix4x4 localMat;				// localMatrix

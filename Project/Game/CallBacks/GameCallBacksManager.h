@@ -19,6 +19,9 @@ public:
 	GameCallBacksManager() = default;
 	~GameCallBacksManager() = default;
 
+public:
+
+	// 初期化
 	void Init(CollisionManager* _manager);
 
 	/// <summary>

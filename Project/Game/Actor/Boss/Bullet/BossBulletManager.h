@@ -15,7 +15,9 @@ public:
 	BossBulletManager() = default;
 	~BossBulletManager() = default;
 
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
 	
 public: // member method

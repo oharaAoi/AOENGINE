@@ -375,7 +375,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
     <ClInclude Include="Game\Actor\Weapon\PulseArmor.h" />
     <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h" />
-    <ClInclude Include="Game\Actor\Weapon\Sword.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
@@ -421,7 +420,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\Player\WeaponRemainingRounds.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
-    <ClInclude Include="Game\UI\StanGaugeUI.h" />
     <ClInclude Include="Game\UI\TitleUIs.h" />
     <ClInclude Include="Game\WorldObject\FieldObject.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
@@ -680,7 +678,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\PulseArmor.cpp" />
     <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp" />
-    <ClCompile Include="Game\Actor\Weapon\Sword.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
@@ -723,7 +720,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\Player\WeaponRemainingRounds.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
-    <ClCompile Include="Game\UI\StanGaugeUI.cpp" />
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
     <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />

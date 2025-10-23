@@ -8,25 +8,35 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 
+/// <summary>
+/// ヒット時の爆発クラス
+/// </summary>
 class HitExplode :
 	public ISceneObject {
-
 public:
 
 	HitExplode() = default;
 	~HitExplode() ;
 
+public:
+
+	// 終了処理
 	void Finalize();
+	// 初期化
 	void Init() override;
+	// 更新
 	void Update() override;
+	// 後から更新
 	void PostUpdate() override {};
+	// 前景描画
 	void PreDraw() const override;
+	// 描画
 	void Draw() const override;
-
+	// 爆破をセットする
 	void Set(const Vector3& pos, const Color& color, const std::string& useTexture);
-
+	// 編集処理
 	void Debug_Gui() override;
-
+	// gizumo表示
 	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
 
 public:

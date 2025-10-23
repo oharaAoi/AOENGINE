@@ -9,18 +9,27 @@
 #include "Game/Actor/Weapon/ShoulderMissile.h"
 #include "Game/Actor/Weapon/Armors.h"
 
+/// <summary>
+/// Player関連を管理しているクラス
+/// </summary>
 class PlayerManager {
 public:
 
 	PlayerManager() = default;
 	~PlayerManager() = default;
 
+public:
+
+	// 初期化
 	void Init();
+	// 更新
 	void Update();
+	// 遅れて更新
 	void PostUpdate();
 
 private:
 
+	// 各アクションのチェック項目を判定する
 	void CheckAction();
 	
 public:		// accessor method

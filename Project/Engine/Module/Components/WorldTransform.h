@@ -14,6 +14,9 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// Gpuに送る情報
+/// </summary>
 struct WorldTransformData {
 	Matrix4x4 matWorld;
 	Matrix4x4 matWorldPrev;

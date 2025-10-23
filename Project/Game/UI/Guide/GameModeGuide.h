@@ -17,24 +17,23 @@ class GameModeGuide :
 	public AttributeGui {
 public:
 
-	struct SelectParam : public IJsonConverter {
-		
-	};
-
-public:
-
 	GameModeGuide();
 	~GameModeGuide();
 
-	void Init();
-	void Update();
+public:
 
+	// 初期化
+	void Init();
+	// 更新
+	void Update();
+	// 編集
 	void Debug_Gui() override;
 
 public:
 
+	// 開く
 	void Open();
-
+	// 決定
 	bool Decide();
 
 	SelectModeType GetSelectModeType() const { return selectModeType_; }

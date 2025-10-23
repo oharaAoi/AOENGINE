@@ -11,11 +11,17 @@
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
+/// <summary>
+/// gpuに送る情報
+/// </summary>
 struct ViewProjectionData {
 	Matrix4x4 view;
 	Matrix4x4 projection;
 };
 
+/// <summary>
+/// 前フレーム分の情報
+/// </summary>
 struct ViewProjectionPrevData {
 	Matrix4x4 view;
 	Matrix4x4 projection;

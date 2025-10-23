@@ -11,6 +11,9 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
 
+/// <summary>
+/// ジェットエンジンのエフェクト
+/// </summary>
 class JetEngineBurn :
 	public ISceneObject {
 public:
@@ -87,18 +90,23 @@ public:
 	JetEngineBurn() = default;
 	~JetEngineBurn() override = default;
 
+public:
+
+	// 終了処理
 	void Finalize() ;
+	// 初期化
 	void Init() override;
-
+	// 更新
 	void Update() override;
-
+	// あとから更新
 	void PostUpdate() override;
-
+	// 前景描画
 	void PreDraw() const override {};
+	// 描画
 	void Draw() const override;
-
+	// 編集
 	void Debug_Gui() override;
-
+	// gizumo表示
 	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
 
 public:
