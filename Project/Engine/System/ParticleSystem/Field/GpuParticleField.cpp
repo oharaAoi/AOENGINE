@@ -1,7 +1,7 @@
 #include "GpuParticleField.h"
 #include "Engine/Engine.h"
-#include "Engine/Render.h"
 #include "Engine/Lib/Math/MyRandom.h"
+#include "Engine/Lib/GameTimer.h"
 
 GpuParticleField::~GpuParticleField() {
 

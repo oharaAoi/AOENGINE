@@ -1,17 +1,18 @@
 #include "WinApp.h"
 #include "Engine/Utilities/Convert.h"
 
-//#include "ImGuiManager.h"
+uint32_t WinApp::sWindowWidth = 0;
+uint32_t WinApp::sWindowHeight = 0;
 
-WinApp* WinApp::GetInstance(){
-    static WinApp instance;
-    return &instance;
+WinApp* WinApp::GetInstance() {
+	static WinApp instance;
+	return &instance;
 }
 
 /*==========================================================================
-    ウィンドウプロシージャ
+	ウィンドウプロシージャ
 ==========================================================================*/
-LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
+LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 #ifdef _DEBUG
 	if (ImGuiManager::ImGuiHandler(hwnd, msg, wparam, lparam)) {
 		return true;
@@ -32,14 +33,14 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-WinApp::~WinApp(){
+WinApp::~WinApp() {
 	Finalize();
 }
 
 /*==========================================================================
 	windowを生成する
 ==========================================================================*/
-void WinApp::CreateGameWindow(){
+void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle) {
 	hwnd_ = nullptr;
 	//windowClass -------------------------------------------
 	wc.lpfnWndProc = WindowProc;
@@ -55,19 +56,19 @@ void WinApp::CreateGameWindow(){
 
 	//windowSize ---------------------------------------------
 	// クライアント領域のサイズ
-	const int32_t kClientWidth = kWindowWidth_;
-	const int32_t kClientHeight = kWindowHeight_;
+	sWindowWidth = _backBufferWidth;
+	sWindowHeight = _backBufferHeight;
 
 	// ウィンドウサイズをあらわs構造体にクライアント領域を入れる
-	RECT wrc = { 0,0, kClientWidth, kClientHeight };
-	
+	RECT wrc = { 0,0, static_cast<LONG>(_backBufferWidth), static_cast<LONG>(_backBufferHeight) };
+
 	// クライアント領域を元に実際のサイズにwrcを変更してもらう
 	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
-	
+
 	// windowの生成 ---------------------------------------------
 	hwnd_ = CreateWindow(
 		wc.lpszClassName,		// 利用するクラス名
-		ConvertWString(kTitleBar.c_str()).c_str(),// タイトルバーの文字
+		ConvertWString(_windowTitle).c_str(),// タイトルバーの文字
 		WS_OVERLAPPEDWINDOW,	// よく見るウィンドウスタイル
 		CW_USEDEFAULT,			// 表示x座標
 		CW_USEDEFAULT,			// 表示y座標
@@ -118,6 +119,7 @@ void WinApp::SetFullScreen(bool fullscreen) {
 				SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
 			ShowWindow(hwnd_, SW_NORMAL);
+
 		}
 	}
 
@@ -127,7 +129,7 @@ void WinApp::SetFullScreen(bool fullscreen) {
 //===============================================================================================================
 //	
 //===============================================================================================================
-bool WinApp::ProcessMessage(){
+bool WinApp::ProcessMessage() {
 	MSG msg{};
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
 		TranslateMessage(&msg);
@@ -142,6 +144,6 @@ bool WinApp::ProcessMessage(){
 	return false;
 }
 
-void WinApp::Finalize(){
+void WinApp::Finalize() {
 	CloseWindow(hwnd_);
 }

@@ -1,6 +1,7 @@
 #include "EffectSystemCamera.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Render.h"
+#include "Engine/Lib/GameTimer.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif // _DEBUG

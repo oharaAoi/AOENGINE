@@ -2,11 +2,11 @@
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/Easing.h"
 #include "Game/Actor/Player/Player.h"
+#include "Engine/WinApp/WinApp.h"
 
 FollowCamera::FollowCamera() = default;
 
@@ -51,7 +51,7 @@ void FollowCamera::Debug_Gui() {
 
 	cameraAnimation_->Debug_Gui();
 
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }
 
 void FollowCamera::CameraParameter::Debug_Gui() {

@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "Enviroment.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Core/GraphicsContext.h"
 
@@ -14,8 +13,6 @@
 #include "Engine/System/Audio/Audio.h"
 
 #include "Engine/Module/Components/GameObject/Model.h"
-#include "Engine/Module/Components/Materials/PBRMaterial.h"
-#include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
@@ -34,9 +31,6 @@ class EffectSystemEditer;
 // 無名名前空間で内部リンゲージする
 // ======================================================== //
 namespace {
-	int32_t kClientWidth_;
-	int32_t kClientHeight_;
-
 	Render* render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
@@ -93,7 +87,7 @@ public:
 	Engine();
 	~Engine();
 
-	static void Initialize(uint32_t backBufferWidth, int32_t backBufferHeight);
+	static void Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle);
 
 	static void Finalize();
 

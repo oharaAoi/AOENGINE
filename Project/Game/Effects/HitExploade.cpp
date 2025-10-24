@@ -1,5 +1,6 @@
 #include "HitExploade.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/Engine.h"
 
 HitExplode::~HitExplode() {

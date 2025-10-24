@@ -2,8 +2,8 @@
 #include "dxgidebug.h"
 #include <wrl/client.h>
 #pragma comment(lib, "dxguid.lib")
-
 #include <string>
+#include <dxgi1_3.h>
 
 struct D3DResourceLeakChecker {
 	~D3DResourceLeakChecker() {

@@ -1,5 +1,6 @@
 #include "DebugCamera.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Input/Input.h"
 #include "Engine/Render.h"
 
 DebugCamera::DebugCamera() {}

@@ -1,7 +1,6 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
-#include "Enviroment.h"
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif
@@ -12,11 +11,9 @@
 class WinApp{
 public: // 静的メンバ変数
 	// ウィンドウサイズ
-	//static const int32_t kWindowWidth = 1280;	// 横幅
-	//static const int32_t kWindowHeight = 720;	// 縦幅
-	// ウィンドウクラス名
-	static const wchar_t kWindowClassName[];
-
+	static uint32_t sWindowWidth;	// 横幅
+	static uint32_t sWindowHeight;	// 縦幅
+	
 public: // 静的メンバ関数
 
 	/// <summary>
@@ -41,7 +38,7 @@ public: // メンバ関数
 	WinApp(const WinApp& obj) = delete;
 	const WinApp& operator=(const WinApp&) = delete;
 
-	void CreateGameWindow();
+	void CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle);
 
 	void SetFullScreen(bool fullscreen);
 
@@ -73,7 +70,5 @@ private: // メンバ変数
 	UINT windowStyle_ = WS_OVERLAPPEDWINDOW;
 
 	bool isFullscreen_;
-	int32_t windowWidth_;
-	int32_t windowHeight_;
 };
 

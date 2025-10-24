@@ -1,8 +1,6 @@
 #pragma once
 #include <cstdint>
 #include <chrono>
-#include <thread>
-
 
 /// <summary>
 /// フレームレートを固定するためのクラス

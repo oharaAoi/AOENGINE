@@ -14,7 +14,6 @@
 #include "Game/CallBacks/GameCallBacksManager.h"
 // scene
 #include "Engine/Render/SceneRenderer.h"
-#include "Engine/System/Scene/SceneLoader.h"
 // actor
 #include "Game/WorldObject/Skybox.h"
 #include "Game/Actor/Player/PlayerManager.h"
@@ -37,8 +36,8 @@ public:
 	void Finalize() override;
 	void Init() override;
 	void Update() override;
-	void Draw() const override;
-
+	void PostUpdate() override;
+	
 private:
 
 	void ChangeBehavior(ITutorialBehavior* _newBehavior);
@@ -70,9 +69,5 @@ private:
 	std::unique_ptr<BossRoot> bossRoot_;
 
 	std::unique_ptr<ITutorialBehavior> tutorialBehavior_;
-
-	SceneLoader* sceneLoader_;
-	SceneRenderer* sceneRenderer_;
-
 };
 

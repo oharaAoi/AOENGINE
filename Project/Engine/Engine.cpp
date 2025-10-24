@@ -14,10 +14,7 @@ Engine::~Engine() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
-	kClientWidth_ = backBufferWidth;
-	kClientHeight_ = backBufferHeight;
-
+void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle) {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
 	// -------------------------------------------------
@@ -29,7 +26,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	render_ = Render::GetInstance();
 	editorWindows_ = EditorWindows::GetInstance();
 
-	winApp_->CreateGameWindow();
+	winApp_->CreateGameWindow(_backBufferWidth, _backBufferHeight, _windowTitle);
 	
 	shaders_ = std::make_unique<Shader>();
 	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
@@ -48,7 +45,7 @@ void Engine::Initialize(uint32_t backBufferWidth, int32_t backBufferHeight) {
 	shaders_->Init();
 
 	graphicsCxt_ = GraphicsContext::GetInstance();
-	graphicsCxt_->Init(winApp_, kClientWidth_, kClientHeight_);
+	graphicsCxt_->Init(winApp_, _backBufferWidth, _backBufferHeight);
 
 	dxDevice_ = graphicsCxt_->GetDevice();
 	dxCmdList_ = graphicsCxt_->GetCommandList();

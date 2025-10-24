@@ -12,9 +12,7 @@ TutorialScene::~TutorialScene() { Finalize(); }
 // ↓　終了処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TutorialScene::Finalize() {
-	sceneRenderer_->Finalize();
-}
+void TutorialScene::Finalize() {}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化
@@ -35,17 +33,7 @@ void TutorialScene::Init() {
 	collisionManager_ = std::make_unique<CollisionManager>();
 	collisionManager_->Init();
 
-	sceneLoader_ = SceneLoader::GetInstance();
-	sceneLoader_->Init();
-	sceneLoader_->Load("./Project/Packages/Game/Assets/Scene/", "tutorial", ".json");
-
-	sceneRenderer_ = SceneRenderer::GetInstance();
-	sceneRenderer_->Init();
-	sceneRenderer_->CreateObject(sceneLoader_->GetLevelData());
-	EditorWindows::GetInstance()->SetSceneRenderer(sceneRenderer_);
-
-	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-	Render::SetSkyboxTexture(skybox_->GetTexture());
+	LoadScene("./Project/Packages/Game/Assets/Scene/", "tutorial", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -155,28 +143,16 @@ void TutorialScene::Update() {
 		followCamera_->Update();
 	}
 	camera2d_->Update();
+}
 
-	// -------------------------------------------------
-	// ↓ particleの更新 
-	// -------------------------------------------------
-
-	sceneRenderer_->Update();
-
-	collisionManager_->CheckAllCollision();
+void TutorialScene::PostUpdate() {
 	gameCallBacksManager_->Update();
-
 	playerManager_->PostUpdate();
-
-	sceneRenderer_->PostUpdate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　描画
+// ↓　behaviorの更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-void TutorialScene::Draw() const {
-	sceneRenderer_->Draw();
-}
 
 void TutorialScene::ChangeBehavior(ITutorialBehavior* _newBehavior) {
 	tutorialBehavior_.reset(_newBehavior);
@@ -184,6 +160,10 @@ void TutorialScene::ChangeBehavior(ITutorialBehavior* _newBehavior) {
 		tutorialBehavior_->Init();
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　gameSceneへのfade
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::ToGameScene() {
 	fadePanel_->SetBlackOut(3.0f);

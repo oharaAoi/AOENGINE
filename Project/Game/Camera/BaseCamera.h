@@ -1,11 +1,7 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/MathStructures.h"
-#include "Engine/Module/Components/WorldTransform.h"
-#include "Enviroment.h"
-#include "Engine/Lib/GameTimer.h"
 
 /// <summary>
 /// BaseとなるCamera

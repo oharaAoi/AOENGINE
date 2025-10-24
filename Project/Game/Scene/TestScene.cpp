@@ -1,16 +1,12 @@
 #include "TestScene.h"
 #include "Engine.h"
-#include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
-#include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() { Finalize(); }
 
-void TestScene::Finalize() {
-	sceneRenderer_->Finalize();
-}
+void TestScene::Finalize() {}
 
 void TestScene::Init() {
 	EditorWindows::GetInstance()->Reset();
@@ -18,8 +14,7 @@ void TestScene::Init() {
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("TestScene");
 
-	sceneRenderer_ = SceneRenderer::GetInstance();
-	sceneRenderer_->Init();
+	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -32,10 +27,6 @@ void TestScene::Init() {
 	camera3d_->Init();
 	debugCamera_->Init();
 
-	skybox_ = std::make_unique<Skybox>();
-	skybox_->Init();
-	Render::SetSkyboxTexture(skybox_->GetTexture());
-
 	EditorWindows::AddObjectWindow(Render::GetLightGroup(), "LightGroup");
 }
 
@@ -43,8 +34,6 @@ void TestScene::Init() {
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
-	skybox_->Update();
-
 	// -------------------------------------------------
 	// ↓ cameraの更新 
 	// -------------------------------------------------
@@ -54,12 +43,4 @@ void TestScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
-
-	sceneRenderer_->Update();
-}
-
-void TestScene::Draw() const {
-	skybox_->Draw();
-	// Sceneの描画
-	sceneRenderer_->Draw();
 }

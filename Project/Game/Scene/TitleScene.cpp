@@ -3,16 +3,10 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
-TitleScene::TitleScene() {
-}
+TitleScene::TitleScene() {}
+TitleScene::~TitleScene() {Finalize();}
 
-TitleScene::~TitleScene() {
-	Finalize();
-}
-
-void TitleScene::Finalize() {
-	sceneRenderer_->Finalize();
-}
+void TitleScene::Finalize() {}
 
 void TitleScene::Init() {
 
@@ -21,9 +15,7 @@ void TitleScene::Init() {
 	JsonItems* adjust = JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
-	sceneRenderer_ = SceneRenderer::GetInstance();
-	sceneRenderer_->Init();
-	EditorWindows::GetInstance()->SetSceneRenderer(sceneRenderer_);
+	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -36,11 +28,6 @@ void TitleScene::Init() {
 	camera3d_->Init();
 	debugCamera_->Init();
 	
-	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-
-	//testObject_ = std::make_unique<TestObject>();
-	//testObject_->Init();
-
 	titleUIs_ = std::make_unique<TitleUIs>();
 	titleUIs_->Init();
 
@@ -93,11 +80,4 @@ void TitleScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
-
-	sceneRenderer_->Update();
-}
-
-void TitleScene::Draw() const {
-	
-	sceneRenderer_->Draw();
 }

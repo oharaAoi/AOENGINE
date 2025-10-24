@@ -28,9 +28,9 @@ void Bloom::Init() {
 	// ブルームを実行するのに必要なResourceを作詞絵する
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = kWindowWidth_;			// 画面の横幅
-	desc.Height = kWindowHeight_;			// 画面の縦幅
-	desc.MipLevels = 1;			// 
+	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
+	desc.Height = WinApp::sWindowHeight;		// 画面の縦幅
+	desc.MipLevels = 1;
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	desc.SampleDesc.Count = 1;

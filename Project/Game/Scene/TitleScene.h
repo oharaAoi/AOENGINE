@@ -1,6 +1,5 @@
 #pragma once
 #include <memory>
-#include "Engine/Render/SceneRenderer.h"
 #include "Game/Scene/BaseScene.h"
 // camera
 #include "Game/Camera/DebugCamera.h"
@@ -22,7 +21,6 @@ public:
 	void Finalize() override;
 	void Init() override;
 	void Update() override;
-	void Draw() const override;
 
 private:
 
@@ -36,11 +34,7 @@ private:
 	std::unique_ptr<GameModeGuide> gameModeGuide_;
 
 	// ------------------- actor ------------------- //
-	Skybox* skybox_;
-
 	std::unique_ptr<TitleUIs> titleUIs_;
 	std::unique_ptr<FadePanel> fadePanel_;
-
-	SceneRenderer* sceneRenderer_;
 };
 

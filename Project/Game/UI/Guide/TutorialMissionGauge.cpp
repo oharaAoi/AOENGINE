@@ -1,5 +1,6 @@
 #include "TutorialMissionGauge.h"
 #include "Engine.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
 void TutorialMissionGauge::Init() {

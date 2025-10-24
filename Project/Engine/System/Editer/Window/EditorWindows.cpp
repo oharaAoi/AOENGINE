@@ -1,6 +1,8 @@
 #include "EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/WinApp/WinApp.h"
+#include "Engine/Lib/GameTimer.h"
 
 EditorWindows::~EditorWindows() {}
 EditorWindows* EditorWindows::GetInstance() {
@@ -68,7 +70,7 @@ void EditorWindows::Begin() {
 	// ↓ BaseとなるWidowの描画開始
 	// -------------------------------------------------
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(kWindowWidth_, kWindowHeight_));
+	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(WinApp::sWindowWidth), static_cast<float>(WinApp::sWindowHeight)));
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar |
 		ImGuiWindowFlags_NoBringToFrontOnFocus |
 		ImGuiWindowFlags_NoTitleBar |

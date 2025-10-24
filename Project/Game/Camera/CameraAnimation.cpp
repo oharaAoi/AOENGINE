@@ -1,5 +1,6 @@
 #include "CameraAnimation.h"
 #include "Game/Camera/FollowCamera.h"
+#include "Engine/Lib/GameTimer.h"
 
 CameraAnimation::CameraAnimation() = default;
 CameraAnimation::~CameraAnimation() = default;

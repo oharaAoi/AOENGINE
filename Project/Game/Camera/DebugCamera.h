@@ -1,6 +1,6 @@
 #pragma once
 #include "Game/Camera/BaseCamera.h"
-#include "Engine/System/Input/Input.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 

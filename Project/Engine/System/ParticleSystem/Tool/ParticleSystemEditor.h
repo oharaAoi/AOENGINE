@@ -135,9 +135,6 @@ public:
 
 private:
 
-	const int32_t kClientWidth_ = 1280;
-	const int32_t kClientHeight_ = 720;
-
 	// directX関連 -------------------------------------------
 
 	ID3D12GraphicsCommandList* commandList_;

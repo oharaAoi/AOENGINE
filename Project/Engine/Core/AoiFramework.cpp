@@ -18,11 +18,17 @@ void AoiFramework::Finalize() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+AoiFramework::AoiFramework(uint32_t _kWindowWidth, uint32_t kWindowHeight, const char* _windowTitle) {
+	windowWidth_ = _kWindowWidth;
+	windowHeight_ = kWindowHeight;
+	windowTitle_ = _windowTitle;
+}
+
 void AoiFramework::Init() {
 	endRequest_ = false;
 	logger_.Init();
 
-	Engine::Initialize(kWindowWidth_, kWindowHeight_);
+	Engine::Initialize(windowWidth_, windowHeight_, windowTitle_);
 	AssetsManager::GetInstance()->Init();
 
 	logger_.CommentLog("Game Start!");

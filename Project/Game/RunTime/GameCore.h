@@ -9,7 +9,8 @@
 class GameCore : public AoiFramework {
 public:
 
-	GameCore();
+	GameCore(uint32_t _kWindowWidth, uint32_t _kWindowHeight, const char* _windowTitle)
+		: AoiFramework(_kWindowWidth, _kWindowHeight, _windowTitle) {}
 	~GameCore();
 
 public:

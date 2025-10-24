@@ -8,7 +8,6 @@ GameScene::GameScene() {}
 GameScene::~GameScene() { Finalize(); }
 
 void GameScene::Finalize() {
-	sceneRenderer_->Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,20 +26,8 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ Sceneの初期化
 	// -------------------------------------------------
-	collisionManager_ = std::make_unique<CollisionManager>();
-	collisionManager_->Init();
 
-	sceneLoader_ = SceneLoader::GetInstance();
-	sceneLoader_->Init();
-	sceneLoader_->Load("./Project/Packages/Game/Assets/Scene/", "scene", ".json");
-
-	sceneRenderer_ = SceneRenderer::GetInstance();
-	sceneRenderer_->Init();
-	sceneRenderer_->CreateObject(sceneLoader_->GetLevelData());
-	EditorWindows::GetInstance()->SetSceneRenderer(sceneRenderer_);
-
-	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-	Render::SetSkyboxTexture(skybox_->GetTexture());
+	LoadScene("./Project/Packages/Game/Assets/Scene/", "scene", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化
@@ -56,9 +43,6 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	// ↓ actorの初期化
 	// -------------------------------------------------
-	
-	skydome_ = std::make_unique<Skydome>();
-	skydome_->Init();
 
 	floor_ = std::make_unique<Floor>();
 	floor_->Init();
@@ -149,26 +133,9 @@ void GameScene::Update() {
 		followCamera_->Update();
 	}
 	camera2d_->Update();
-
-	// -------------------------------------------------
-	// ↓ particleの更新 
-	// -------------------------------------------------
-
-	sceneRenderer_->Update();
-
-	collisionManager_->CheckAllCollision();
-	gameCallBacksManager_->Update();
-
-	playerManager_->PostUpdate();
-
-	sceneRenderer_->PostUpdate();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void GameScene::Draw() const {
-	// Sceneの描画
-	sceneRenderer_->Draw();
+void GameScene::PostUpdate() {
+	gameCallBacksManager_->Update();
+	playerManager_->PostUpdate();
 }

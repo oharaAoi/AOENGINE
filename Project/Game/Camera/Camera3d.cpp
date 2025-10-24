@@ -2,6 +2,7 @@
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/WinApp/WinApp.h"
 
 Camera3d::Camera3d() {}
 Camera3d::~Camera3d() {}
@@ -43,5 +44,5 @@ void Camera3d::Debug_Gui() {
 		parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
 	}
 
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(kWindowWidth_) / float(kWindowHeight_), near_, far_);
+	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }

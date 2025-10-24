@@ -1,16 +1,11 @@
 #pragma once
 // DirectX
 #include <d3d12.h>
-#include <dxgi1_6.h>
 #include <cassert>
-#include <dxgidebug.h>
 #include <wrl.h>
 #include <dxcapi.h>
-#include <vector>
 #include <string>
 #include "Engine/Utilities/Convert.h"
-#include "Enviroment.h"
-#include "Engine/Lib/Math/Vector3.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;

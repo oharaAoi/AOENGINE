@@ -296,7 +296,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\Shader.h" />
     <ClInclude Include="Engine\Utilities\Timer.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
-    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h" />
     <ClInclude Include="Externals\ImGui\ImGuiFileDialogConfig.h" />
     <ClInclude Include="Externals\ImGui\ImGuizmo.h" />

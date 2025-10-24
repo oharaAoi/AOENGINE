@@ -1,6 +1,8 @@
 #include "GlitchNoise.h"
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/WinApp/WinApp.h"
+#include "Engine/Lib/GameTimer.h"
 
 GlitchNoise::~GlitchNoise() {
 	glitchBuffer_->Finalize();
@@ -17,7 +19,7 @@ void GlitchNoise::Init() {
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
-	setting_->texelSize = { 2.0f / (float)kWindowWidth_, 2.0f / (float)kWindowHeight_ };
+	setting_->texelSize = { 2.0f / (float)WinApp::sWindowWidth, 2.0f / (float)WinApp::sWindowHeight};
 	setting_->time = 0.0f;
 	setting_->strength = 0.0f;
 }

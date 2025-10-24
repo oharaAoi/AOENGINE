@@ -801,7 +801,6 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>

@@ -1,6 +1,7 @@
 #include "PostProcess.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render.h"
+#include "Engine/WinApp/WinApp.h"
 #include "imgui.h"
 
 PostProcess::~PostProcess() {
@@ -33,7 +34,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	// -------------------------------------------------
 	// ↓ 深度バッファの作成
 	// -------------------------------------------------
-	depthStencilResource_ = CreateDepthStencilTextureResource(device, kWindowWidth_, kWindowHeight_);
+	depthStencilResource_ = CreateDepthStencilTextureResource(device, WinApp::sWindowWidth, WinApp::sWindowHeight);
 	// DSVの生成
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;

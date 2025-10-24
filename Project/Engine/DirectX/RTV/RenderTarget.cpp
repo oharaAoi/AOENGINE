@@ -1,4 +1,5 @@
 #include "RenderTarget.h"
+#include "Engine/WinApp/WinApp.h"
 
 RenderTarget::RenderTarget() {
 }
@@ -68,9 +69,9 @@ void RenderTarget::ClearDepth(ID3D12GraphicsCommandList* commandList) {
 
 void RenderTarget::CrateSwapChainResource() {
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = kWindowWidth_;			// 画面の横幅
-	desc.Height = kWindowHeight_;			// 画面の縦幅
-	desc.MipLevels = 1;			// 
+	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
+	desc.Height = WinApp::sWindowHeight;		// 画面の縦幅
+	desc.MipLevels = 1;
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	desc.SampleDesc.Count = 1;
@@ -115,9 +116,9 @@ void RenderTarget::CrateSwapChainResource() {
 void RenderTarget::CreateRenderTarget() {
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = kWindowWidth_;			// 画面の横幅
-	desc.Height = kWindowHeight_;			// 画面の縦幅
-	desc.MipLevels = 1;			// 
+	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
+	desc.Height = WinApp::sWindowHeight;		// 画面の縦幅
+	desc.MipLevels = 1;
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	desc.SampleDesc.Count = 1;

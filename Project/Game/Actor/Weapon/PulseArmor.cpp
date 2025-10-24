@@ -4,6 +4,7 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Game/Information/ColliderCategory.h"
 
 PulseArmor::~PulseArmor() {

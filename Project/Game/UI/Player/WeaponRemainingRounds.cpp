@@ -1,5 +1,6 @@
 #include "WeaponRemainingRounds.h"
 #include "Engine.h"
+#include "Engine/Lib/GameTimer.h"
 
 void WeaponRemainingRounds::Init(const std::string& _name) {
 	SetName(_name);

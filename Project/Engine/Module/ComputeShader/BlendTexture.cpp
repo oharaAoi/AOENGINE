@@ -1,4 +1,5 @@
 #include "BlendTexture.h"
+#include "Engine/WinApp/WinApp.h"
 
 BlendTexture::BlendTexture() {
 }
@@ -8,9 +9,12 @@ BlendTexture::~BlendTexture() {
 }
 
 void BlendTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
+	const uint32_t width = WinApp::sWindowWidth;
+	const uint32_t height = WinApp::sWindowHeight;
+
 	D3D12_RESOURCE_DESC desc{};
-	desc.Width = kWindowWidth_;			// 画面の横幅
-	desc.Height = kWindowHeight_;			// 画面の縦幅
+	desc.Width = width;			// 画面の横幅
+	desc.Height = height;			// 画面の縦幅
 	desc.MipLevels = 1;			// 
 	desc.DepthOrArraySize = 1;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -43,8 +47,8 @@ void BlendTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	srvDesc.Texture2D.MipLevels = 1;
 	resultResource_->CreateSRV(srvDesc);
 
-	groupCountX_ = (kWindowWidth_ + 16 - 1) / 16;
-	groupCountY_ = (kWindowHeight_ + 16 - 1) / 16;
+	groupCountX_ = (width + 16 - 1) / 16;
+	groupCountY_ = (height + 16 - 1) / 16;
 
 }
 

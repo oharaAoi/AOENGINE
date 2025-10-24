@@ -1,6 +1,7 @@
 #include "ShadowMap.h"
 #include "Engine/Render.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/WinApp/WinApp.h"
 
 ShadowMap::~ShadowMap() {
 }
@@ -12,7 +13,7 @@ void ShadowMap::Init() {
 
 	depthStencilResource_ = std::make_unique<DxResource>();
 	depthStencilResource_->Init(device, descriptorHeap, ResourceType::DEPTH);
-	depthStencilResource_->CreateDepthResource(kWindowWidth_, kWindowHeight_);
+	depthStencilResource_->CreateDepthResource(WinApp::sWindowWidth, WinApp::sWindowHeight);
 
 	// heap上にDSCを構築
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};

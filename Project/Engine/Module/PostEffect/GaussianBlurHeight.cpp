@@ -1,6 +1,7 @@
 #include "GaussianBlurHeight.h"
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/WinApp/WinApp.h"
 
 GaussianBlurHeight::~GaussianBlurHeight() {
 	blurBuffer_->Finalize();
@@ -14,7 +15,7 @@ void GaussianBlurHeight::Init() {
 	blurBuffer_->CreateResource(sizeof(BlurSettings));
 	blurBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&blurSetting_));
 
-	blurSetting_->texelSize = { 1.0f / (float)kWindowWidth_, 1.0f / (float)kWindowHeight_ };
+	blurSetting_->texelSize = { 1.0f / (float)WinApp::sWindowWidth, 1.0f / (float)WinApp::sWindowHeight};
 }
 
 void GaussianBlurHeight::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
@@ -36,5 +37,5 @@ void GaussianBlurHeight::CheckBox() {
 void GaussianBlurHeight::Debug_Gui() {
 	static float sample = 1;
 	ImGui::DragFloat("sampleHeight", &sample, 0.1f, 0.0f, 10.0f);
-	blurSetting_->texelSize = { sample / (float)kWindowWidth_, sample / (float)kWindowHeight_ };
+	blurSetting_->texelSize = { sample / (float)WinApp::sWindowHeight, sample / (float)WinApp::sWindowHeight };
 }

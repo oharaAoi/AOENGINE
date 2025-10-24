@@ -1,4 +1,6 @@
 #pragma once
+#include <string>
+#include <cstdint>
 #include "Engine/Utilities/Logger.h"
 
 /// <summary>
@@ -7,8 +9,8 @@
 class AoiFramework {
 public:	// コンストラクタ
 
-	AoiFramework() {};
-	virtual ~AoiFramework() {};
+	AoiFramework(uint32_t _kWindowWidth, uint32_t _kWindowHeight, const char* _windowTitle);
+	virtual ~AoiFramework() = default;
 
 public:
 
@@ -54,6 +56,11 @@ public:
 	virtual bool isEndRequest() { return endRequest_; }
 
 private:
+
+	uint32_t windowWidth_ = 1280;
+	uint32_t windowHeight_ = 720;
+
+	const char* windowTitle_;
 
 	bool endRequest_;
 

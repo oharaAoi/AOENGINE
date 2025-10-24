@@ -1,6 +1,6 @@
 #include "Camera2d.h"
-#include "Enviroment.h"
 #include "Engine/Render.h"
+#include "Engine/WinApp/WinApp.h"
 
 Camera2d::Camera2d() {}
 Camera2d::~Camera2d() {}
@@ -10,11 +10,14 @@ Camera2d::~Camera2d() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Init() {
+	const float windowWidth = static_cast<float>(WinApp::sWindowWidth);
+	const float windowHeight = static_cast<float>(WinApp::sWindowHeight);
+
 	translate_ = CVector3::ZERO;
-	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(kWindowWidth_), float(kWindowHeight_), near_, far_);
+	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, windowWidth, windowHeight, near_, far_);
 	viewMatrix_ = Matrix4x4::MakeUnit();
 
-	viewportMatrix_ = Matrix4x4::MakeViewport(0, 0, kWindowWidth_, kWindowHeight_, 0, 1);
+	viewportMatrix_ = Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,9 +38,12 @@ void Camera2d::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Debug_Gui() {
+	const uint32_t windowWidth = WinApp::sWindowWidth;
+	const uint32_t windowHeight = WinApp::sWindowHeight;
+
 	ImGui::DragFloat("near", &near_, 0.1f);
 	ImGui::DragFloat("far", &far_, 0.1f);
 	ImGui::DragFloat2("translate", &translate_.x, 1.0f);
 
-	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(kWindowWidth_), float(kWindowHeight_), near_, far_);
+	projectionMatrix_ = Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(windowWidth), float(windowHeight), near_, far_);
 }

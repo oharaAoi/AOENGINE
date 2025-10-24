@@ -1,6 +1,7 @@
 #include "EnemyAttackAlert.h"
 #include "Engine.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/Lib/GameTimer.h"
 
 void EnemyAttackAlert::Init(AttackAlertDirection _dir) {
 	Canvas2d* canvas = Engine::GetCanvas2d();

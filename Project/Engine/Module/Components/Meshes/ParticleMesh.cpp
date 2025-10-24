@@ -5,7 +5,7 @@ ParticleMesh::~ParticleMesh() {
 	indexBuffer_.Reset();
 }
 
-void ParticleMesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices) {
+void ParticleMesh::Init(ID3D12Device* device, const std::vector<VertexData>& vertexData, std::vector<uint32_t> indices) {
 	// ---------------------------------------------------------------
 	// ↓Vetrtexの設定
 	// ---------------------------------------------------------------
