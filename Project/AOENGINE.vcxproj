@@ -142,7 +142,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
-    <ClInclude Include="Engine\Lib\AbstractSceneFactory.h" />
+    <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />

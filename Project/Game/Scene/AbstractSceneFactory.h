@@ -1,6 +1,6 @@
 #pragma once
-#include <string>
 #include "Game/Scene/BaseScene.h"
+#include "Game/Scene/SceneType.h"
 
 /// <summary>
 /// シーン工場
@@ -17,6 +17,6 @@ public:
 	/// </summary>
 	/// <param name="sceneName">: sceneの名前</param>
 	/// <returns>: scene</returns>
-	virtual std::unique_ptr<BaseScene> CreateScene(const std::string& sceneName) = 0;
+	virtual std::unique_ptr<BaseScene> CreateScene(SceneType _sceneType) = 0;
 };
 

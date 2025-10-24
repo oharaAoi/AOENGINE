@@ -90,7 +90,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	if (scene_ != nullptr) {
 		scene_->Finalize();
 	}
-	nextScene_ = sceneFactory_->CreateScene(sceneFactory_->SceneTypeToString(type));
+	nextScene_ = sceneFactory_->CreateScene(type);
 	scene_ = std::move(nextScene_);
 
 #ifdef _DEBUG

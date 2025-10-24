@@ -345,7 +345,7 @@
     <ClInclude Include="Engine\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Lib\AbstractSceneFactory.h">
+    <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\Color.h">

@@ -4,17 +4,20 @@
 #include "Game/Scene/TutorialScene.h"
 #include "Game/Scene/TestScene.h"
 
-std::unique_ptr<BaseScene> SceneFactory::CreateScene(const std::string& sceneName) {
+std::unique_ptr<BaseScene> SceneFactory::CreateScene(SceneType _sceneType) {
 	// 次のシーンを作成
 	std::unique_ptr<BaseScene> newScene;
 
-	if (sceneName == SceneTypeToString(SceneType::TITLE)) {
+	if (_sceneType == SceneType::TITLE) {
 		newScene = std::make_unique<TitleScene>();
-	} else if (sceneName == SceneTypeToString(SceneType::GAME)) {
+
+	} else if (_sceneType == SceneType::GAME) {
 		newScene = std::make_unique<GameScene>();
-	} else if (sceneName == SceneTypeToString(SceneType::TUTORIAL)) {
+
+	} else if (_sceneType == SceneType::TUTORIAL) {
 		newScene = std::make_unique<TutorialScene>();
-	} else if (sceneName == SceneTypeToString(SceneType::TEST)) {
+
+	} else if (_sceneType == SceneType::TEST) {
 		newScene = std::make_unique<TestScene>();
 	}
 
