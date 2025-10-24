@@ -1,6 +1,21 @@
 #include "PrimitiveDrawer.h"
 #include "Engine/Core/GraphicsContext.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PrimitiveDrawer::Finalize() {
+	vertexBuffer_.Reset();
+	indexBuffer_.Reset();
+	materialBuffer_.Reset();
+	wvpBuffer_.Reset();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// ---------------------------------------------------------------
 	// ↓Vertexの設定
@@ -67,12 +82,19 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	useIndex_ = 0;
 }
 
-void PrimitiveDrawer::Finalize() {
-	vertexBuffer_.Reset();
-	indexBuffer_.Reset();
-	materialBuffer_.Reset();
-	wvpBuffer_.Reset();
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PrimitiveDrawer::Update() {
+	// 使用量を更新する
+	useIndex_ = 0;
+	preUseIndex_ = 0;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
 	// 使用する頂点のインデックスの更新
@@ -102,6 +124,10 @@ void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& co
 	useIndex_ += 2;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ instance描画を行う
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
 	uint32_t indeices = useIndex_ - preUseIndex_;
 	if (indeices == 0) {
@@ -117,9 +143,4 @@ void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
 	commandList->DrawIndexedInstanced(indeices, indeices / 2, preUseIndex_, 0, 0);
 
 	preUseIndex_ = useIndex_;
-}
-
-void PrimitiveDrawer::Begin() {
-	useIndex_ = 0;
-	preUseIndex_ = 0;
 }

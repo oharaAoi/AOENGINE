@@ -52,7 +52,7 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 
 void Render::Update() {
 	lightGroup_->Update();
-	primitiveDrawer_->Begin();
+	primitiveDrawer_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

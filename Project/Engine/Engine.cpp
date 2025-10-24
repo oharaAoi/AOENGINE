@@ -152,6 +152,8 @@ void Engine::BeginFrame() {
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
 	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
+	render_->Update();
+
 #ifdef _DEBUG
 	imguiManager_->Begin();
 	editorWindows_->Begin();

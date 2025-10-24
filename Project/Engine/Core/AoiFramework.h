@@ -25,12 +25,22 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update();
+	virtual void Update() = 0;
 
 	/// <summary>
 	/// 描画処理
 	/// </summary>
 	virtual void Draw() = 0;
+
+	/// <summary>
+	/// Frame開始処理
+	/// </summary>
+	virtual void BeginFrame() = 0;
+
+	/// <summary>
+	/// Frame終了処理
+	/// </summary>
+	virtual void EndFrame() = 0;
 
 	/// <summary>
 	/// 実行処理

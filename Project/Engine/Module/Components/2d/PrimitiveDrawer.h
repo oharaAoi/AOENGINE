@@ -39,6 +39,11 @@ public:
 	void Init(ID3D12Device* device);
 
 	/// <summary>
+	/// 開始処理
+	/// </summary>
+	void Update();
+
+	/// <summary>
 	/// 解放
 	/// </summary>
 	void Finalize();
@@ -63,11 +68,6 @@ public:
 	/// </summary>
 	/// <param name="count"></param>
 	void SetUseIndex(const uint32_t& count) { useIndex_ = count; }
-
-	/// <summary>
-	/// 開始処理
-	/// </summary>
-	void Begin();
 
 private:
 

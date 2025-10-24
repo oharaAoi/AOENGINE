@@ -5,7 +5,6 @@
 #include "Engine/System/Manager/GpuParticleManager.h"
 
 SceneManager::SceneManager() {}
-
 SceneManager::~SceneManager() {}
 
 void SceneManager::Finalize() {
@@ -37,7 +36,7 @@ void SceneManager::Update() {
 		EditorWindows::GetInstance()->Reset();
 
 		PostProcess* postProcess = Engine::GetPostProcess();
-		EditorWindows::AddObjectWindow(postProcess, "Post Process");
+		EditorWindows::AddObjectWindow(postProcess, "PostProcess");
 
 		LightGroup* lightGroup = Render::GetLightGroup();
 		lightGroup->GetDirectionalLight()->Reset();
@@ -119,7 +118,6 @@ void SceneManager::Free() {
 	cpuManager->Finalize();
 	scene_->Finalize();
 	reset_ = true;
-
 }
 
 bool SceneManager::CheckReset() {

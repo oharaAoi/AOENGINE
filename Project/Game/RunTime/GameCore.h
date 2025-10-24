@@ -22,8 +22,10 @@ public:
 	void Update() override;
 	// 描画
 	void Draw() override;
-	// 編集
-	void Debug_Gui();
+	// frame開始処理
+	void BeginFrame() override;
+	// frame終了処理
+	void EndFrame() override;
 
 private:
 
