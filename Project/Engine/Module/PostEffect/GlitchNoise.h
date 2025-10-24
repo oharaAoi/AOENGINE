@@ -21,15 +21,23 @@ public:
 	GlitchNoise() = default;
 	~GlitchNoise() override ;
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
-
-	void StartNoise(float startStrength, float time);
-
+	// チェックボックスの表示
 	void CheckBox() override;
-
+	// 編集処理
 	void Debug_Gui() override;
+
+	/// <summary>
+	/// Noiseを実行させる
+	/// </summary>
+	/// <param name="startStrength">: 開始の強さ</param>
+	/// <param name="time">: ノイズの時間</param>
+	void StartNoise(float startStrength, float time);
 
 private:
 

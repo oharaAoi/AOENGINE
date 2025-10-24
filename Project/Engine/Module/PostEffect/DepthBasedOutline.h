@@ -2,6 +2,9 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 
+/// <summary>
+/// 深度ベースアウトライン
+/// </summary>
 class DepthBasedOutline :
 	public IPostEffect {
 public:
@@ -16,12 +19,15 @@ public:
 	DepthBasedOutline() = default;
 	~DepthBasedOutline() override;
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
-
+	// チェックボックス
 	void CheckBox() override;
-
+	// 編集書処理
 	void Debug_Gui() override;
 
 private:

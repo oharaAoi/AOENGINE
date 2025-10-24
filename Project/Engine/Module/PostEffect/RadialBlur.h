@@ -22,21 +22,30 @@ public:
 	RadialBlur() = default;
 	~RadialBlur() override;
 
+public:
+
+	// 初期化
 	void Init() override;
-
+	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
-
+	// チェックボックスの表示
 	void CheckBox() override;
-
+	// 編集処理
 	void Debug_Gui() override;
+
+	/// <summary>
+	/// 開始処理
+	/// </summary>
+	/// <param name="strength">: 強さ</param>
+	/// <param name="startTime">: 時間</param>
+	void Start(float strength, float startTime);
+
+	// 止める
+	void Stop();
 
 public:
 
 	void SetStrength(float strength) { setting_->blurStrength = strength; }
-
-	void Start(float strength, float startTime);
-
-	void Stop();
 
 private:
 

@@ -1,6 +1,9 @@
 #pragma once
 #include "Engine/DirectX/Resource/DxResource.h"
 
+/// <summary>
+/// PostEffectの基底クラス
+/// </summary>
 class IPostEffect {
 public:
 

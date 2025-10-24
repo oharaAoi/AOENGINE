@@ -44,14 +44,17 @@ public:
 	PostProcess() = default;
 	~PostProcess();
 
+public:
+
+	// 終了
 	void Finalize();
-
+	// 初期化
 	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget);
-
+	// 実行
 	void Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
-
+	// コピー
 	void Copy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
-
+	// 後で行うコピー
 	void PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
 
 	/// <summary>
