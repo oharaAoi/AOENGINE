@@ -60,7 +60,7 @@ void CanvasUI::Update() {
 	}
 	
 	// boss
-	bossUIs_->Update();
+	bossUIs_->Update(reticle_->GetPos());
 
 	playerUIs_->Update(reticle_->GetPos());
 

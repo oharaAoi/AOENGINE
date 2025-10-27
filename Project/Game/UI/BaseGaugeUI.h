@@ -35,6 +35,12 @@ public:
 
 public:	// accessor method
 
+	Sprite* GetFront() const { return front_; }
+	
+	Sprite* GetBg() const { return bg_; }
+
+	void SetPos(const Vector2& _pos);
+
 	void SetFillAmount(float _amount) { fillAmount_ = _amount; }
 
 	void SetIsEnable(bool _isActive);

@@ -49,3 +49,8 @@ void BaseGaugeUI::SetIsEnable(bool _isActive) {
 	bg_->SetEnable(_isActive);
 	front_->SetEnable(_isActive);
 }
+
+void BaseGaugeUI::SetPos(const Vector2& _pos) {
+	bg_->SetTranslate(_pos);
+	front_->SetTranslate(_pos);
+}

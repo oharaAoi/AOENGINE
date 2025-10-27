@@ -1,6 +1,6 @@
 #include "BossStateStan.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/UI/Boss/BossUIs.h"
 
@@ -19,6 +19,8 @@ void BossStateStan::OnStart() {
 
 	pOwner_->SetIsStan(true);
 	pOwner_->SetExecute(false);
+
+	AudioPlayer::SinglShotPlay("stan_se.mp3", 0.4f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

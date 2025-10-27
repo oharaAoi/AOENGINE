@@ -200,6 +200,8 @@ public:
 
 	ScreenTransform* GetTransform() const { return transform_.get(); }
 
+	const Matrix4x4& GetMatrix() const { return transform_->GetMatrix(); }
+
 	/// <summary>
 	/// Textureをセットする
 	/// </summary>
@@ -243,6 +245,8 @@ public:
 	const Vector2 GetSpriteSize() const { return spriteSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
+
+	const Color& GetColor() const { return materialData_->color; }
 
 	const bool GetEnable() const { return isEnable_; }
 	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }

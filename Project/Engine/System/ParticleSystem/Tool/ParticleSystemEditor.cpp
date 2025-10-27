@@ -426,16 +426,6 @@ void ParticleSystemEditor::Edit() {
 		// particle自体を編集する
 		cpuParticles->Debug_Gui();
 
-		//// 外部へ出力する
-		//if (ImGui::CollapsingHeader("Output")) {
-		//	if (ImGui::Button("Particles Save")) {
-		//		isSave_ = true;
-		//	}
-		//}
-
-		//if (isSave_) {
-		//	OpenSaveDialog(cpuParticles->GetName(), cpuParticles->GetJsonData());
-		//}
 	} else if (gpuParticles != nullptr) {
 		gpuParticles->Debug_Gui();
 	}
@@ -541,7 +531,7 @@ void ParticleSystemEditor::SetRenderTarget() {
 	commandList_->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &depthHandle_.handleCPU);
 	renderTarget_->SetRenderTarget(commandList_, types, depthHandle_);
 	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-	float clearColor[] = { 105.0f / 255, 105.0f / 255, 105.0f / 255.0f, 255.0f };
+	float clearColor[] = { 2.0f / 255, 2.0f / 255, 3.0f / 255.0f, 255.0f };
 	// RenderTargetをクリアする
 	commandList_->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }

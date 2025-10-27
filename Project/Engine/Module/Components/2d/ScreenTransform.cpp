@@ -23,6 +23,7 @@ void ScreenTransform::Init(ID3D12Device* _pDevice) {
 	transformBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&transformData_));
 
 	transform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 1} };
+	parentMat_ = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,9 +32,15 @@ void ScreenTransform::Init(ID3D12Device* _pDevice) {
 
 void ScreenTransform::Update(const Matrix4x4& _projection) {
 	screenMat_ = transform_.MakeAffine();
+
+	Matrix4x4 matrix = screenMat_;
+	if (parentMat_ != nullptr) {
+		matrix = screenMat_ * *parentMat_;
+	}
+
 	// 最終的なスプsライトの変換行列
 	transformData_->wvp = Matrix4x4(
-		screenMat_ *
+		matrix *
 		_projection
 	);
 }
@@ -96,4 +103,8 @@ void ScreenTransform::Debug_Gui() {
 		ImGui::SliderAngle("rotation", &transform_.rotate.z);
 		ImGui::TreePop();
 	}
+}
+
+void ScreenTransform::SetParent(const Matrix4x4& _parentMat) {
+	parentMat_ = &_parentMat;
 }

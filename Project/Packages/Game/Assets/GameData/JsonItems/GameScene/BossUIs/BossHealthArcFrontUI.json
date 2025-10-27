@@ -1,0 +1,75 @@
+{
+    "BossHealthArcFrontUI": {
+        "anchorPoint": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "arcRange": 1.5707963705062866,
+        "center": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "clockwise": 0,
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "drawRange": {
+            "x": 360.0,
+            "y": 360.0
+        },
+        "fillAmount": 1.0,
+        "fillMethod": 2,
+        "fillStartingPoint": 2,
+        "innerRadius": 0.3400000035762787,
+        "isFlipX": false,
+        "isFlipY": false,
+        "leftTop": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "outerRadius": 0.3700000047683716,
+        "spriteSize": {
+            "x": 360.0,
+            "y": 360.0
+        },
+        "startAngle": 3.9269871711730957,
+        "textureName": "white.png",
+        "transform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 640.0,
+                "y": 400.0,
+                "z": 1.0
+            }
+        },
+        "uvTransform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 640.0,
+                "y": 400.0,
+                "z": 1.0
+            }
+        }
+    }
+}

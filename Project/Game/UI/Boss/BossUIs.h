@@ -33,7 +33,7 @@ public:
 	void Init(Boss* _boss, Player* _player);
 
 	// 更新
-	void Update();
+	void Update(const Vector2& _reticlePos);
 
 	// 編集
 	void Debug_Gui() override;
@@ -52,8 +52,16 @@ private:
 	Boss* pBoss_ = nullptr;
 	Player* pPlayer_ = nullptr;
 
+	// hp関連
 	std::unique_ptr<BossHealthUI> health_;
+	std::unique_ptr<BaseGaugeUI> healthArc_;
+	
+	// 姿勢制御関連
 	std::unique_ptr<PostureStability> postureStability_;
+	std::unique_ptr<BaseGaugeUI> postureStabilityArc_;
+
+	// スタン系
+	Sprite* stanPromote_;
 
 	std::list<std::unique_ptr<EnemyAttackAlert>> attackAlertList_;
 };
