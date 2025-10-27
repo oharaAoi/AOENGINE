@@ -87,7 +87,7 @@ void BaseGameObject::UpdateMatrix() {
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
-		transform_->Translate(rigidbody_->GetVelocity());
+		transform_->Translate(rigidbody_->GetVelocity(), GameTimer::DeltaTime());
 	}
 
 	transform_->Update();
@@ -324,6 +324,12 @@ void BaseGameObject::Debug_Gui() {
 					ImGui::TreePop();
 				}
 			}
+		}
+	}
+
+	if (rigidbody_) {
+		if (ImGui::CollapsingHeader("Rigidbody")) {
+			rigidbody_->Debug_Gui();
 		}
 	}
 

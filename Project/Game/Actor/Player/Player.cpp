@@ -144,30 +144,6 @@ void Player::Init() {
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
-	/*leftLegEffector_ = std::make_unique<EndEffector>();
-	rightLegEffector_ = std::make_unique<EndEffector>();
-
-	std::map<std::string, int32_t> jointMap = skeleton->GetJointMap();
-	std::vector<int32_t> leftLegChain = {
-		
-		jointMap["left_thighs"],
-		jointMap["left_leg"],
-		jointMap["left_legNec"],
-		jointMap["left_feetFront"]
-	};
-	std::vector<int32_t> rightLegChain = {
-		
-		jointMap["right_thighs"],
-		jointMap["right_leg"],
-		jointMap["right_legNec"],
-		jointMap["right_feetFront"]
-	};
-	leftLegEffector_->SetChain(leftLegChain);
-	rightLegEffector_->SetChain(rightLegChain);*/
-
-	/*object_->SetEndEffector("leftLeg", leftLegEffector_.get());
-	object_->SetEndEffector("rightLeg", rightLegEffector_.get());*/
-
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG

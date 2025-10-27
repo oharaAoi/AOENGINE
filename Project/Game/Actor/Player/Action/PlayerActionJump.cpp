@@ -159,8 +159,8 @@ void PlayerActionJump::Jump() {
 	jetBurnLeft_->SetIsStop(false);
 	jetBurnRight_->SetIsStop(false);
 
-	pRigidbody_->AddVelocity(acceleration_ * GameTimer::DeltaTime());
-	acceleration_ *= std::exp(-param_.accelDecayRate * GameTimer::DeltaTime());
+	pRigidbody_->SetVelocityY(acceleration_.y);
+	acceleration_ *= std::exp(-param_.accelDecayRate);
 
 	if (acceleration_.Length() <= 0.1f) {
 		mainAction_ = std::bind(&PlayerActionJump::Rising, this);
@@ -183,7 +183,7 @@ void PlayerActionJump::Rising() {
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
 		pOwner_->ConsumeEN(param_.jumpEnergy * GameTimer::DeltaTime());
-		pRigidbody_->SetVelocityY(acceleration_.y * GameTimer::DeltaTime());
+		pRigidbody_->SetVelocityY(acceleration_.y);
 
 	} else {
 		jetBurnLeft_->SetIsStop(true);

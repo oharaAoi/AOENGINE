@@ -120,8 +120,8 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 	commandList->SetGraphicsRootConstantBufferView(index, cBuffer_->GetGPUVirtualAddress());
 }
 
-void WorldTransform::Translate(const Vector3& translate) {
-	srt_.translate += translate;
+void WorldTransform::Translate(const Vector3& translate, float _deltaTime) {
+	srt_.translate += translate * _deltaTime;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

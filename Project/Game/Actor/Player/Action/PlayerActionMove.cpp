@@ -13,17 +13,21 @@
 #include "Engine/Lib/Json/JsonItems.h"
 
 void PlayerActionMove::Debug_Gui() {
+	const Vector3 velocity = pOwner_->GetGameObject()->GetRigidbody()->GetMoveForce();
+	ImGui::Text("accel_ : x(%f) y(%f) z(%f)", accel_.x, accel_.y, accel_.z);
+	ImGui::Text("velocity : x(%f) y(%f) z(%f)", velocity_.x, velocity_.y, velocity_.z);
+	ImGui::Text("rigidBodyVelocity : x(%f) y(%f) z(%f)", velocity.x, velocity.y, velocity.z);
 	param_.Debug_Gui();
-	param_.moveT = std::clamp(param_.moveT, 0.0f, 1.0f);
 	param_.rotateT = std::clamp(param_.rotateT, 0.0f, 1.0f);
 }
 
 void PlayerActionMove::Parameter::Debug_Gui() {
 	ImGui::DragFloat("speed", &speed, 0.1f);
 	ImGui::DragFloat("boostSpeed", &boostSpeed, 0.1f);
-	ImGui::DragFloat("moveT", &moveT, 0.01f);
+	ImGui::DragFloat("maxSpeed", &maxSpeed, 0.1f);
 	ImGui::DragFloat("rotateT", &rotateT, 0.01f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	ImGui::DragFloat("turnAroundThreshold", &turnAroundThreshold, 0.1f);
 	SaveAndLoad();
 }
 
@@ -192,47 +196,72 @@ void PlayerActionMove::Move() {
 	WorldTransform* transform = pOwner_->GetTransform();
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
-
 	// ----------------------
-	// ↓ speedを設定
+	// 移動スピード設定
 	// ----------------------
-	float speed = 0.0f;
-	if (pOwner_->GetIsBoostMode()) {
-		speed = param_.boostSpeed;
-	} else {
-		speed = param_.speed;
-	}
+	float speed = pOwner_->GetIsBoostMode() ? param_.boostSpeed : param_.speed;
 
-	// 加速方向を計算する
+	// 入力方向ベクトル
 	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
-	accel_ = dire * speed;
+	Vector3 targetVelocity = dire * speed;
 
-	// velocityを加速方向へなじませる
-	velocity_ = Vector3::Lerp(velocity_, accel_, param_.moveT);
-	velocity_ += accel_ * GameTimer::DeltaTime();
-	// 最大速度クランプ
-	if (velocity_.Length() > param_.boostSpeed) {
-		velocity_ = velocity_.Normalize() * param_.boostSpeed;
-	}
-	if (inputStick_.Length() <= 0.01f) {
-		velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	}
+	// ----------------------
+	// 滑りの実装
+	// ----------------------
+	if (inputStick_.Length() > 0.1f) {
+		Vector3 forward = targetVelocity.Normalize();
+		float forwardMag = Vector3::Dot(velocity_, forward);
+		Vector3 side = velocity_ - forward * forwardMag;
 
-	pRigidbody_->AddVelocityX(velocity_.x * GameTimer::DeltaTime());
-	pRigidbody_->AddVelocityZ(velocity_.z * GameTimer::DeltaTime());
-
-	float length = pRigidbody_->GetVelocity().Length();
-	if (length > speed) {
-		pRigidbody_->SetVelocity(velocity_.Normalize() * speed);
+		// 横成分を減衰（重量感に合わせて 5〜10 程度）
+		side = Lerp(side, CVector3::ZERO, 5.0f * GameTimer::DeltaTime());
+		velocity_ = forward * forwardMag + side;
 	}
 
-	// playerを移動方向に向ける
+	// ----------------------
+	// 反転処理
+	// ----------------------
+	float dot = Vector2::Dot(preInputStick_, inputStick_);
+	if (dot < param_.turnAroundThreshold) {
+		velocity_ *= 0.3f;
+	}
+
+	// ----------------------
+	// 加減速制御
+	// ----------------------
+	float accel = 20.0f;
+	float decel = 30.0f;
+
+	if (inputStick_.Length() > 0.1f) {
+		velocity_ = Lerp(velocity_, targetVelocity, accel * GameTimer::DeltaTime());
+	} else {
+		velocity_ = Lerp(velocity_, CVector3::ZERO, decel * GameTimer::DeltaTime());
+	}
+
+	// ----------------------
+	// 速度制限
+	// ----------------------
+	float length = velocity_.Length();
+	if (length > param_.maxSpeed) {
+		velocity_ = velocity_.Normalize() * param_.maxSpeed;
+	}
+
+	// Rigidbodyへ適用
+	pRigidbody_->AddVelocityX(velocity_.x);
+	pRigidbody_->AddVelocityZ(velocity_.z);
+
+	// ----------------------
+	// 向き更新
+	// ----------------------
 	if (velocity_.x != 0.0f || velocity_.z != 0.0f) {
 		float angle = std::atan2f(velocity_.x, velocity_.z);
 		Quaternion lerpQuaternion = Quaternion::Slerp(transform->srt_.rotate, Quaternion::AngleAxis(angle, CVector3::UP), param_.rotateT);
 		transform->srt_.rotate = lerpQuaternion;
 	}
 
+	// ----------------------
+	// ブーストエフェクト制御
+	// ----------------------
 	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
 		pOwner_->GetJetEngine()->JetIsStart();
 	} else {
@@ -240,6 +269,7 @@ void PlayerActionMove::Move() {
 	}
 
 	preVelocity_ = velocity_;
+	preInputStick_ = inputStick_;
 }
 
 bool PlayerActionMove::IsDirectionReversed(const Vector3& currentVelocity) {

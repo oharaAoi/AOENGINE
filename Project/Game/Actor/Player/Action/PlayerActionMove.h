@@ -14,11 +14,12 @@ class PlayerActionMove :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float speed;
-		float boostSpeed;
-		float moveT = 0.5f;
-		float rotateT = 0.5f;
-		float decayRate = 2.0f;
+		float speed;				// 歩く速度
+		float boostSpeed;			// ブーストの速度
+		float maxSpeed;
+		float rotateT = 0.5f;		// 回転の速度
+		float decayRate = 2.0f;		// 減速の際の倍率
+		float turnAroundThreshold;	// 回転をする際の
 
 		Parameter() { SetName("ActionMove"); }
 
@@ -26,18 +27,20 @@ public:
 			return JsonBuilder(id)
 				.Add("speed", speed)
 				.Add("boostSpeed", boostSpeed)
-				.Add("moveT", moveT)
+				.Add("maxSpeed", maxSpeed)
 				.Add("rotateT", rotateT)
 				.Add("decayRate", decayRate)
+				.Add("turnAroundThreshold", turnAroundThreshold)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "speed", speed);
 			fromJson(jsonData, "boostSpeed", boostSpeed);
-			fromJson(jsonData, "moveT", moveT);
+			fromJson(jsonData, "maxSpeed", maxSpeed);
 			fromJson(jsonData, "rotateT", rotateT);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "turnAroundThreshold", turnAroundThreshold);
 		}
 
 		void Debug_Gui() override;
@@ -87,6 +90,7 @@ private:
 
 	const float kDeadZone_ = 0.1f;
 	Vector2 inputStick_;
+	Vector2 preInputStick_;
 
 	Vector3 accel_;
 	Vector3 velocity_;

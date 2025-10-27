@@ -27,6 +27,14 @@ void Rigidbody::Update() {
 	}
 }
 
+void Rigidbody::Debug_Gui() {
+	ImGui::DragFloat3("gravityAccele", &gravityAccel_.x);
+	ImGui::DragFloat3("gravityVelocity", &gravityVelocity_.x);
+	ImGui::DragFloat3("moveForce_", &moveForce_.x);
+	ImGui::DragFloat3("velocity", &velocity_.x);
+	ImGui::DragFloat("drag_", &drag_);
+}
+
 void Rigidbody::SetPushbackForce(const Vector3& _force) {
 	pushbackForce_ += _force;
 

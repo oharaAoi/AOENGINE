@@ -1,10 +1,12 @@
 #pragma once
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// 物理計算ようの
 /// </summary>
-class Rigidbody {
+class Rigidbody :
+	public AttributeGui {
 public:
 
 	Rigidbody() { Init(); }
@@ -16,6 +18,8 @@ public:
 	void Init();
 	// 更新
 	void Update();
+	// 編集処理
+	void Debug_Gui() override;
 
 public:
 

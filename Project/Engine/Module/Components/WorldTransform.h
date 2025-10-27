@@ -47,7 +47,7 @@ public:
 	/// 並行移動させる
 	/// </summary>
 	/// <param name="translate"></param>
-	void Translate(const Vector3& translate);
+	void Translate(const Vector3& translate, float _deltaTime = 1.0f);
 
 	/// <summary>
 	/// 移動速度を加算する
