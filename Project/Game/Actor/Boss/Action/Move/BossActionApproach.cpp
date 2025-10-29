@@ -23,6 +23,7 @@ void BossActionApproach::Parameter::Debug_Gui() {
 	ImGui::DragFloat("maxSpinDistance", &maxSpinDistance, .1f);
 	ImGui::DragFloat("quitApproachLength", &quitApproachLength, .1f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	ImGui::DragFloat("recoveryTime", &recoveryTime, 0.1f);
 	SaveAndLoad();
 }
 
@@ -46,6 +47,8 @@ void BossActionApproach::Init() {
 	stopping_ = false;
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
+
+	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 void BossActionApproach::Update() {

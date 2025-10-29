@@ -16,7 +16,10 @@ public:
 		float slowTime = 1.0f;
 		float breakTime = 3.0f;
 
-		Parameter() { SetName("BossStateBeDestroyed"); }
+		Parameter() { 
+			SetGroupName("BossState");
+			SetName("BossStateBeDestroyed"); 
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

@@ -11,8 +11,8 @@ class BossActionFloat :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float moveTime = 0.5f;
-		float moveSpeed = 10.0f;
+		float moveTime = 0.5f;		// 移動時間
+		float moveSpeed = 10.0f;	// 移動速度
 
 		Parameter() { SetName("BossActionFloat"); }
 

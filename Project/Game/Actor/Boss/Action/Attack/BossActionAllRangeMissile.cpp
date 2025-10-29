@@ -22,7 +22,6 @@ void BossActionAllRangeMissile::Debug_Gui() {
 }
 
 void BossActionAllRangeMissile::Parameter::Debug_Gui() {
-	ImGui::DragFloat("coolTime", &coolTime, 1.0f);
 	ImGui::DragFloat("recovery", &recoveryTime, 1.0f);
 	SaveAndLoad();
 }
@@ -84,7 +83,6 @@ void BossActionAllRangeMissile::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::End() {
-	coolTime_ = param_.coolTime;
 	pTarget_->SetIsAttack(true);
 }
 

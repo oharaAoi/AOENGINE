@@ -64,27 +64,6 @@ public:
 		void Debug_Gui() override;
 	};
 
-	struct FlareParameter : public IJsonConverter {
-		Vector3 translate;
-
-		FlareParameter() { 
-			SetGroupName("Effect");
-			SetName("jetFlera");
-		}
-
-		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
-				.Add("translate", translate)
-				.Build();
-		}
-
-		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "translate", translate);
-		}
-
-		void Debug_Gui() override;
-	};
-
 public:
 
 	JetEngineBurn() = default;
@@ -138,12 +117,6 @@ private:
 	VectorTween<float> noiseAnimation_;
 
 	Vector3 initScale_;
-
-	// flare
-	GeometryObject* flare_;
-	Vector3 enginePos_;
-	Vector3 flareScale_;
-	FlareParameter flareParameter_;
 
 	// on/offの時間
 	float onOffTime_;

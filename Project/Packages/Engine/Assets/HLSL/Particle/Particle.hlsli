@@ -1,4 +1,3 @@
-
 struct VertexShaderOutput {
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD0;
@@ -9,8 +8,11 @@ struct VertexShaderOutput {
 struct CpuParticle {
 	float4x4 worldMat;
 	float4 color;
-	int draw2d;
+	float3 cameraPos;
+	float3 velocity;
 	float discardValue;
+	int isStretch;
+	int draw2d;
 };
 
 struct GpuParticle {

@@ -12,12 +12,13 @@ class BossActionApproach :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float moveSpeed = 20.f;
-		float moveTime = 2.0f;
-		float deceleration = 2.f;
-		float maxSpinDistance = 0.8f;
-		float quitApproachLength = 5.f;
-		float decayRate = 5.f;
+		float moveSpeed = 20.f;			// 移動速度
+		float moveTime = 2.0f;			// 移動時間
+		float deceleration = 2.f;		// 減速率
+		float maxSpinDistance = 0.8f;	// 旋回量
+		float quitApproachLength = 5.f;	// どのくらいまで近づくか
+		float decayRate = 5.f;			// 減衰率
+		float recoveryTime = 0.0f;		// 硬直時間
 
 		Parameter() { SetName("bossActionApproach"); }
 
@@ -29,6 +30,7 @@ public:
 				.Add("maxSpinDistance", maxSpinDistance)
 				.Add("quitApproachLength", quitApproachLength)
 				.Add("decayRate", decayRate)
+				.Add("recoveryTime", recoveryTime)
 				.Build();
 		}
 
@@ -39,6 +41,7 @@ public:
 			fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
 			fromJson(jsonData, "quitApproachLength", quitApproachLength);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "recoveryTime", recoveryTime);
 		}
 
 		void Debug_Gui() override;

@@ -21,7 +21,10 @@ public:
 
 		SRT uvTransform;
 
-		ArmorParameter() { SetName("BossArmorParameter"); }
+		ArmorParameter() { 
+			SetGroupName("BossState");
+			SetName("BossStateDeployArmor");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)

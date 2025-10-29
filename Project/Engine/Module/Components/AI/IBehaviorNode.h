@@ -96,15 +96,16 @@ public:
 	// json形式への変換
 	virtual json ToJson() = 0;
 
+	// 保存項目を適応する
+	virtual void FromJson(const json& _jsonData);
+
 	// 編集関数
 	virtual void Debug_Gui() override {};
 
 	// 現在選択されているNodeかどうか
 	bool IsSelectNode();
 
-	/// <summary>
-	/// Nodeの名前をつなぐ
-	/// </summary>
+	// Nodeの名前をつなぐ
 	std::string NodeNameCombination();
 
 public:
@@ -139,12 +140,6 @@ public:
 
 	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }
 
-	void SetCoolTimer(float _timer) { coolTimer_ = _timer; }
-	float GetCoolTimer() const { return coolTimer_; }
-
-	void SetCoolTime(float _coolTime) { coolTime_ = _coolTime; }
-	float GetCoolTime() const { return coolTime_; }
-
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
 private:
@@ -171,9 +166,6 @@ protected:
 
 	Vector2 pos_;		// Nodeの座標
 	bool setNodePos_;	// Node座標の設定を行ったかどうか
-
-	float coolTime_ = 0;	// taskのCoolTime
-	float coolTimer_ = 0;
 
 	IWorldState* worldState_;
 

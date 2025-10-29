@@ -73,7 +73,10 @@ void GpuParticleRenderer::Update() {
 	commandList->SetComputeRootConstantBufferView(index, perFrameBuffer_->GetGPUVirtualAddress());
 	index = pso->GetRootSignatureIndex("gMaxParticles");
 	commandList->SetComputeRootConstantBufferView(index, maxParticleBuffer_->GetGPUVirtualAddress());
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+
+	const UINT threadGroupSize = 128; // numthreadsのx成分と一致させる
+	UINT dispatchCount = (kInstanceNum_ + threadGroupSize - 1) / threadGroupSize;
+	commandList->Dispatch(dispatchCount, 1, 1);
 
 	// UAVの変更
 	D3D12_RESOURCE_BARRIER barrier{};

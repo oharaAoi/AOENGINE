@@ -53,6 +53,7 @@ struct ParticleSingle {
 	float fadeOutTime = 0.0f;
 	float initAlpha_ = 0.0f;
 	bool isScaleUpScale = false;	// 生存時間による透明度
+	bool isStretch = false;
 	bool isAddBlend = true;
 	Vector3 upScale;
 	bool isBillBord = true;
@@ -101,6 +102,7 @@ struct ParticleEmit : public IJsonConverter {
 	float fadeInTime = 0;
 	float fadeOutTime = 0;
 
+	bool isStretch = false;
 	bool isParticleAddBlend = false;			// blendModeをAddBlendにするかのフラグ
 	bool isDraw2d = false;						// blendModeをAddBlendにするかのフラグ
 	bool isBillBord = true;
@@ -157,6 +159,7 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("isFadeInOut", isFadeInOut)
 			.Add("fadeInTime", fadeInTime)
 			.Add("fadeOutTime", fadeOutTime)
+			.Add("isStretch", isStretch)
 			.Add("isParticleAddBlend", isParticleAddBlend)
 			.Add("isDraw2d", isDraw2d)
 			.Add("isScaleUp", isScaleUp)
@@ -205,6 +208,7 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "isFadeInOut", isFadeInOut);
 		fromJson(jsonData, "fadeInTime", fadeInTime);
 		fromJson(jsonData, "fadeOutTime", fadeOutTime);
+		fromJson(jsonData, "isStretch", isStretch);
 		fromJson(jsonData, "isParticleAddBlend", isParticleAddBlend);
 		fromJson(jsonData, "isDraw2d", isDraw2d);
 		fromJson(jsonData, "isScaleUp", isScaleUp);
@@ -221,132 +225,4 @@ struct ParticleEmit : public IJsonConverter {
 	void Attribute_Gui();
 
 	void Debug_Gui() override {};
-
-public:
-	// ======== Setters / Getters ========
-	void SetIsLoop(bool _isLoop) { isLoop = _isLoop; }
-	bool GetIsLoop() const { return isLoop; }
-
-	void SetDuration(float _duration) { duration = _duration; }
-	float GetDuration() const { return duration; }
-
-	void SetTranslate(const Vector3& _translate) { translate = _translate; }
-	const Vector3& GetTranslate() const { return translate; }
-
-	void SetRotate(const Vector3& _rotate) { rotate = _rotate; }
-	const Vector3& GetRotate() const { return rotate; }
-
-	void SetRateOverTimeCout(uint32_t _count) { rateOverTimeCout = _count; }
-	uint32_t GetRateOverTimeCout() const { return rateOverTimeCout; }
-
-	void SetShape(int _shape) { shape = _shape; }
-	int GetShape() const { return shape; }
-
-	void SetEmitDirection(int _emitDirection) { emitDirection = _emitDirection; }
-	int GetEmitDirection() const { return emitDirection; }
-
-	void SetEmitOrigin(int _emitOrigin) { emitOrigin = _emitOrigin; }
-	int GetEmitOrigin() const { return emitOrigin; }
-
-	void SetIsRandomColor(bool _isRandomColor) { isRandomColor = _isRandomColor; }
-	bool GetIsRandomColor() const { return isRandomColor; }
-
-	void SetColor(const Color& _color) { color = _color; }
-	const Color& GetColor() const { return color; }
-
-	void SetRandColor1(const Color& _randColor1) { randColor1 = _randColor1; }
-	const Color& GetRandColor1() const { return randColor1; }
-
-	void SetRandColor2(const Color& _randColor2) { randColor2 = _randColor2; }
-	const Color& GetRandColor2() const { return randColor2; }
-
-	void SetIsLerpDiscard(bool _isDiscard) { isLerpDiscardValue = _isDiscard; }
-	bool GetIsLerpDiscard() const { return isLerpDiscardValue; }
-
-	void SetDiscardValue(float _discardValue) { discardValue = _discardValue; }
-	float GetDiscardValue() const { return discardValue; }
-
-	void SetStartDiscard(float _stDiscard) { startDiscard = _stDiscard; }
-	float GetStartDiscard() const { return startDiscard; }
-
-	void SetEndDiscard(float _endDiscard) { endDiscard = _endDiscard; }
-	bool GetEndDiscard() const { return endDiscard; }
-
-	void SetSeparateByAxisScale(bool _flag) { separateByAxisScale = _flag; }
-	bool GetSeparateByAxisScale() const { return separateByAxisScale; }
-
-	void SetMinScale(const Vector3& _minScale) { minScale = _minScale; }
-	const Vector3& GetMinScale() const { return minScale; }
-
-	void SetMaxScale(const Vector3& _maxScale) { maxScale = _maxScale; }
-	const Vector3& GetMaxScale() const { return maxScale; }
-
-	void SetSpeed(float _speed) { speed = _speed; }
-	float GetSpeed() const { return speed; }
-
-	void SetLifeTime(float _lifeTime) { lifeTime = _lifeTime; }
-	float GetLifeTime() const { return lifeTime; }
-
-	void SetGravity(float _gravity) { gravity = _gravity; }
-	float GetGravity() const { return gravity; }
-
-	void SetDampig(float _dampig) { dampig = _dampig; }
-	float GetDampig() const { return dampig; }
-
-	void SetAngleMin(float _angleMin) { angleMin = _angleMin; }
-	float GetAngleMin() const { return angleMin; }
-
-	void SetAngleMax(float _angleMax) { angleMax = _angleMax; }
-	float GetAngleMax() const { return angleMax; }
-
-	void SetIsDirectionRotate(bool _flag) { isDirectionRotate = _flag; }
-	bool GetIsDirectionRotate() const { return isDirectionRotate; }
-
-	void SetIsLifeOfScale(bool _flag) { isLifeOfScale = _flag; }
-	bool GetIsLifeOfScale() const { return isLifeOfScale; }
-
-	void SetIsLifeOfAlpha(bool _flag) { isLifeOfAlpha = _flag; }
-	bool GetIsLifeOfAlpha() const { return isLifeOfAlpha; }
-
-	void SetIsFadeInOut(bool _flag) { isFadeInOut = _flag; }
-	bool GetIsFadeInOut() const { return isFadeInOut; }
-
-	void SetFadeInTime(float _time) { fadeInTime = _time; }
-	float GetFadeInTime() const { return fadeInTime; }
-
-	void SetFadeOutTime(float _time) { fadeOutTime = _time; }
-	float GetFadeOutTime() const { return fadeOutTime; }
-
-	void SetIsParticleAddBlend(bool _flag) { isParticleAddBlend = _flag; }
-	bool GetIsParticleAddBlend() const { return isParticleAddBlend; }
-
-	void SetIsDraw2d(bool _flag) { isDraw2d = _flag; }
-	bool GetIsDraw2d() const { return isDraw2d; }
-
-	void SetIsBillBord(bool _flag) { isBillBord = _flag; }
-	bool GetIsBillBord() const { return isBillBord; }
-
-	void SetIsScaleUp(bool _flag) { isScaleUp = _flag; }
-	bool GetIsScaleUp() const { return isScaleUp; }
-
-	void SetScaleUpScale(const Vector3& _scale) { scaleUpScale = _scale; }
-	const Vector3& GetScaleUpScale() const { return scaleUpScale; }
-
-	void SetRadius(float _radius) { radius = _radius; }
-	float GetRadius() const { return radius; }
-
-	void SetAngle(float _angle) { angle = _angle; }
-	float GetAngle() const { return angle; }
-
-	void SetHeight(float _height) { height = _height; }
-	float GetHeight() const { return height; }
-
-	void SetSize(const Vector3& _size) { size = _size; }
-	const Vector3& GetSize() const { return size; }
-
-	void SetUseTexture(const std::string& _useTexture) { useTexture = _useTexture; }
-	const std::string& GetUseTexture() const { return useTexture; }
-
-	void SetUseMesh(const std::string& _useMesh) { useMesh = _useMesh; }
-	const std::string& GetUseMesh() const { return useMesh; }
 };

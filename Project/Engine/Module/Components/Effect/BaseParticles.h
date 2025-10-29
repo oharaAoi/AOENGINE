@@ -57,6 +57,7 @@ public:	// json関連
 public:
 
 	void SetIsStop(bool _stop) { isStop_ = _stop; }
+	bool GetIsStop() const { return isStop_; }
 
 	void SetPos(const Vector3& pos) { emitter_.translate = pos; }
 

@@ -450,10 +450,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 		break;
 	}
 
-	// 情報をセットする
-	node->SetNodeName(name);
-	node->SetNodeType(type);
-	node->SetPos(Vector2(_json["nodePos"]["x"], _json["nodePos"]["y"]));
+	node->FromJson(_json);
 	nodeList_.push_back(node);
 
 	// 子どもがいたら再帰的に処理

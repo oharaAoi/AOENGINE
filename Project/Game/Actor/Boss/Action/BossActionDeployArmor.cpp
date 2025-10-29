@@ -27,7 +27,6 @@ void BossActionDeployArmor::Debug_Gui() {
 
 void BossActionDeployArmor::Parameter::Debug_Gui() {
 	ImGui::DragFloat("deployTime", &deployTime, 0.1f);
-	ImGui::DragFloat("coolTime", &coolTime, 0.1f);
 	SaveAndLoad();
 }
 
@@ -86,5 +85,4 @@ void BossActionDeployArmor::Update() {
 void BossActionDeployArmor::End() {
 	pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
 	pTarget_->SetIsArmorDeploy(false);
-	coolTime_ = param_.coolTime;
 }

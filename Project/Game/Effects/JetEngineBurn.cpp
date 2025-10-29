@@ -9,8 +9,7 @@ void JetEngineBurn::Init() {
 	//geometry_.Init(32, 0.1f, 1.8f, 2.0f);
 	geometry_.Init(Vector2(1,1));
 	param_.Load();
-	flareParameter_.Load();
-
+	
 	// meshの作成dw 
 	std::string name = geometry_.GetGeometryName();
 	if (!ExistMesh(name)) {
@@ -42,25 +41,12 @@ void JetEngineBurn::Init() {
 
 	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::LOOP);
 
-	// flareの初期化
-	flareScale_ = Vector3(8, 8);
-	enginePos_ = worldTransform_->GetPos();
-	flare_ = SceneRenderer::GetInstance()->AddObject<GeometryObject>("jetFlare", "Object_Add.json", 200);
-	flare_->Set<PlaneGeometry>(Vector2(8.0f, 8.0f));
-	flare_->GetMaterial()->SetAlbedoTexture("renzeFrea.png");
-	flare_->GetMaterial()->SetIsLighting(false);
-	flare_->GetMaterial()->SetDiscardValue(0.1f);
-	flare_->GetTransform()->SetScale(Vector3(2.0f, 2.0f, 2.0f));
-	flare_->GetTransform()->SetBillBoard(true);
-
 	exeTime_ = 0.5f;
 	onOffTime_ = 0;
 	boostOn_ = false;
 
 	param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, 0);
-	flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, 0);
 	worldTransform_->SetScale(param_.scale);
-	flare_->GetTransform()->SetScale(flareScale_);
 }
 
 void JetEngineBurn::Update() {
@@ -76,29 +62,22 @@ void JetEngineBurn::Update() {
 			onOffTime_ += GameTimer::DeltaTime();
 			float t = onOffTime_ / exeTime_;
 			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
-			flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, t);
-
+			
 			worldTransform_->SetScale(param_.scale);
-			flare_->GetTransform()->SetScale(flareScale_);
 		}
 	} else {
 		if (onOffTime_ >  0.0f) {
 			onOffTime_ -= GameTimer::DeltaTime();
 			float t = onOffTime_ / exeTime_;
 			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
-			flareScale_ = Vector3::Lerp(CVector3::ZERO, CVector3::UNIT, t);
-
+	
 			worldTransform_->SetScale(param_.scale);
-			flare_->GetTransform()->SetScale(flareScale_);
 		}
 	}
 }
 
 void JetEngineBurn::PostUpdate() {
 	worldTransform_->Update();
-	enginePos_ = worldTransform_->GetPos();
-	flare_->GetTransform()->SetTranslate(flareParameter_.translate + worldTransform_->GetPos());
-	flare_->Update();
 }
 
 void JetEngineBurn::Draw() const {
@@ -159,13 +138,6 @@ void JetEngineBurn::Debug_Gui() {
 		ImGui::TreePop();
 	}
 
-	if (ImGui::TreeNode("Flare")) {
-		flare_->Debug_Gui();
-		ImGui::DragFloat3("translate", &flareParameter_.translate.x, 0.1f);
-		flareParameter_.SaveAndLoad();
-		ImGui::TreePop();
-	}
-
 	if (ImGui::TreeNode("Mesh")) {
 		geometry_.Debug_Gui();
 		mesh_->SetVertexData(geometry_.GetVertex());
@@ -175,9 +147,6 @@ void JetEngineBurn::Debug_Gui() {
 
 
 void JetEngineBurn::Parameter::Debug_Gui() {
-}
-
-void JetEngineBurn::FlareParameter::Debug_Gui() {
 }
 
 void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {

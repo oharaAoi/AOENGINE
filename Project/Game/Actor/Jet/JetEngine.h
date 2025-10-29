@@ -57,6 +57,5 @@ private:
 	BaseParticles* jetEnergyParticles_;
 
 	JetEngineBurn* jetEngineBurn_;
-	JetEngineBurn* jetEngineBurn_2;
 
 };

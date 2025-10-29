@@ -15,20 +15,17 @@ class BossActionAllRangeMissile :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float coolTime = 30.0f;
 		float recoveryTime = 1.0f;	// 攻撃後の硬直時間
 		
 		Parameter() { SetName("BossActionAllRangeMissile"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
-				.Add("coolTime", coolTime)
 				.Add("recoveryTime", recoveryTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "coolTime", coolTime);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
 		}
 

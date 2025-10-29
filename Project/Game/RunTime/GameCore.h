@@ -2,6 +2,7 @@
 #include <memory>
 #include "Engine/Core/AoiFramework.h"
 #include "Engine/System/Manager/SceneManager.h"
+#include "Engine/Lib/Profiler.h"
 
 /// <summary>
 /// ゲーム全体
@@ -31,6 +32,7 @@ public:
 private:
 
 	GameTimer gameTimer_ = GameTimer(60);
+	Profiler profiler_;
 
 	std::unique_ptr<SceneManager> sceneManger_;
 

@@ -197,6 +197,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.isScaleUpScale = emitter_.isScaleUp;
 	newParticle.upScale = emitter_.scaleUpScale;
 
+	newParticle.isStretch = emitter_.isStretch;
 	newParticle.isBillBord = emitter_.isBillBord;
 	newParticle.isDraw2d = emitter_.isDraw2d;
 	if (emitter_.emitDirection == (int)CpuEmitDirection::CENTERFOR) {
@@ -207,6 +208,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 }
 
 void BaseParticles::EmitUpdate() {
+
 	if (isStop_) { return; }
 
 	// 一度だけ打つフラグがtrueだったら

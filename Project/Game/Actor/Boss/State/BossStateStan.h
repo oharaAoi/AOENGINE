@@ -1,7 +1,8 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Game/State/ICharacterState.h"
 #include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Game/State/ICharacterState.h"
 
 class Boss;
 
@@ -14,17 +15,23 @@ public:	// メンバ構造体
 
 	struct Parameter : public IJsonConverter {
 		float stanTime = 5.0f;
+		float stanSlowTime = 0.4f;
 		
-		Parameter() { SetName("BossStanParameter"); }
+		Parameter() { 
+			SetGroupName("BossState");
+			SetName("BossStanParameter");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("stanTime", stanTime)
+				.Add("stanSlowTime", stanSlowTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "stanTime", stanTime);
+			fromJson(jsonData, "stanSlowTime", stanSlowTime);
 		}
 
 		void Debug_Gui() override;
@@ -51,5 +58,6 @@ private:
 	Parameter param_;
 	float stateTime_;
 
+	BaseParticles* effect_;
 };
 

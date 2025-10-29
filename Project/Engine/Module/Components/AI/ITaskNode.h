@@ -22,8 +22,17 @@ public: // コンストラクタ
 
 public:
 
-	// jsonへ
+	/// <summary>
+	/// jsonへ変換
+	/// </summary>
+	/// <returns></returns>
 	json ToJson() override;
+
+	/// <summary>
+	/// jsonから適応させる
+	/// </summary>
+	/// <param name="_jsonData"></param>
+	void FromJson(const json& _jsonData) override;
 
 	/// <summary>
 	/// 実行処理
@@ -70,6 +79,7 @@ protected:
 	float taskTimer_ = 0.0f;
 
 	Timer waitTimer_;
+	Timer coolTimer_;
 
 	UtilityEvaluator evaluator_;
 
@@ -91,6 +101,8 @@ inline json ITaskNode<OwnerType>::ToJson() {
 	item["name"] = node_.name;
 	item["nodeType"] = static_cast<int>(type_);
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
+	item["waitTime"] = waitTimer_.targetTime_;
+	item["coolTime"] = coolTimer_.targetTime_;
 	item["children"] = json::array();
 	
 	for (const auto& child : children_) {
@@ -100,17 +112,34 @@ inline json ITaskNode<OwnerType>::ToJson() {
 }
 
 template<typename OwnerType>
+inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
+	node_.name = _jsonData["name"];
+	type_ = _jsonData["nodeType"];
+	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
+
+	if (_jsonData.contains("waitTIme")) {
+		waitTimer_.targetTime_ = _jsonData["waitTime"].get<float>();
+	}
+	if (_jsonData.contains("coolTime")) {
+		coolTimer_.targetTime_ = _jsonData["coolTime"].get<float>();
+	}
+}
+
+template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+	ImGui::SliderFloat("wait_timer", &waitTimer_.timer_, 0.0f, waitTimer_.targetTime_);
 	ImGui::DragFloat("waitTime", &waitTimer_.targetTime_, 0.1f);
+	ImGui::SliderFloat("cool_timer", &coolTimer_.timer_, 0.0f, coolTimer_.targetTime_);
+	ImGui::DragFloat("coolTime", &coolTimer_.targetTime_, 0.1f);
 	evaluator_.Debug_Gui();
 }
 
 template<typename OwnerType>
 inline BehaviorStatus ITaskNode<OwnerType>::Action() {
-	/*if (coolTime_ > 0.0f) {
+	if (coolTimer_.Run(GameTimer::DeltaTime())) {
 		return BehaviorStatus::Failure;
-	}*/
+	}
 
 	// 非アクティブ状態なら初期化を行う
 	if (state_ == BehaviorStatus::Inactive) {
@@ -129,6 +158,7 @@ inline BehaviorStatus ITaskNode<OwnerType>::Action() {
 	} else {
 		if (Wait()) {
 			End();
+			coolTimer_.timer_ = 0;
 			state_ = BehaviorStatus::Inactive;
 			return BehaviorStatus::Success;
 		}

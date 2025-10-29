@@ -25,7 +25,6 @@ void BossActionRapidfire::Parameter::Debug_Gui() {
 	ImGui::DragFloat("shotInterval", &shotInterval, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragInt("kFireCount", &kFireCount, 1);
-	ImGui::DragFloat("coolTime", &coolTime, 0.1f);
 	ImGui::DragFloat("recoveryTime", &recoveryTime, 0.1f);
 	SaveAndLoad();
 }
@@ -90,7 +89,6 @@ void BossActionRapidfire::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionRapidfire::End() {
-	coolTime_ = param_.coolTime;
 	pTarget_->SetIsAttack(true);
 }
 

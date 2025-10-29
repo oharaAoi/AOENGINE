@@ -86,7 +86,7 @@ void BossUIs::Update(const Vector2& _reticlePos) {
 		postureStabilityArc_->SetFillAmount(pBoss_->GetPulseArmor()->ArmorDurability());
 
 	} else if(pBoss_->GetIsStan()) {
-		float fillAmount = 1.0f - pBoss_->GetStanRemainingTime();
+		fillAmount = 1.0f - pBoss_->GetStanRemainingTime();
 
 		// Stan時の表示
 		postureStability_->SetGaugeType(GaugeType::Stan);

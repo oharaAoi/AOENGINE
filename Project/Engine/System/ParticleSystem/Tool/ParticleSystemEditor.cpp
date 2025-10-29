@@ -217,6 +217,9 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			particles.second.forGpuData_[index].color = pr.color;
 			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
 			particles.second.forGpuData_[index].discardValue = pr.discardValue;
+			particles.second.forGpuData_[index].cameraPos = camera_->GetWorldPosition();
+			particles.second.forGpuData_[index].velocity = pr.velocity;
+			particles.second.forGpuData_[index].isStretch = pr.isStretch;
 
 			particles.second.isAddBlend = pr.isAddBlend;
 

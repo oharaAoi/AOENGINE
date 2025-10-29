@@ -6,23 +6,25 @@
                     "children": [
                         {
                             "children": [],
+                            "coolTime": 14.300000190734863,
                             "name": "VerticalMissile",
                             "nodePos": {
                                 "x": -574.0,
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         },
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "AllRangeMissile",
                             "nodePos": {
                                 "x": -379.0,
-                                "y": 470.0
+                                "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -36,23 +38,25 @@
                     "children": [
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Approach",
                             "nodePos": {
                                 "x": -174.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         },
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Shotgun",
                             "nodePos": {
                                 "x": -30.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -66,23 +70,25 @@
                     "children": [
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Float",
                             "nodePos": {
                                 "x": 114.0,
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         },
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "ShotMissile",
                             "nodePos": {
                                 "x": 226.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -94,35 +100,38 @@
                 },
                 {
                     "children": [],
+                    "coolTime": 1.0,
                     "name": "Strafe",
                     "nodePos": {
                         "x": 274.0,
                         "y": 358.0
                     },
                     "nodeType": 4,
-                    "weight": 0.0
+                    "waitTime": 1.0
                 },
                 {
                     "children": [
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Float",
                             "nodePos": {
                                 "x": 386.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         },
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "ShotLauncher",
                             "nodePos": {
                                 "x": 498.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         }
                     ],
                     "name": "Sequence",
@@ -136,23 +145,25 @@
                     "children": [
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Approach",
                             "nodePos": {
                                 "x": 690.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         },
                         {
                             "children": [],
+                            "coolTime": 1.0,
                             "name": "Rapidfire",
                             "nodePos": {
                                 "x": 834.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "weight": 1.0
+                            "waitTime": 1.0
                         }
                     ],
                     "name": "Sequence",

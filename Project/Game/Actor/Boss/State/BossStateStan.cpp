@@ -1,5 +1,6 @@
 #include "BossStateStan.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/Lib/Math/MyRandom.h"
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/UI/Boss/BossUIs.h"
@@ -20,6 +21,15 @@ void BossStateStan::OnStart() {
 	pOwner_->SetIsStan(true);
 	pOwner_->SetExecute(false);
 
+	// ----------------------
+	// ↓ 演出関連
+	// ----------------------
+
+	effect_ = ParticleManager::GetInstance()->CrateParticle("BossStanEffect");
+	effect_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
+
+	GameTimer::SetTimeScale(0.1f);
+
 	AudioPlayer::SinglShotPlay("stan_se.mp3", 0.4f);
 }
 
@@ -31,6 +41,19 @@ void BossStateStan::OnUpdate() {
 	stateTime_ += GameTimer::DeltaTime();
 	pOwner_->SetStanRemainingTime(stateTime_ / param_.stanTime);
 
+	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
+	if (effect_->GetIsStop()) {
+		Vector3 newPos = RandomVector3(CVector3::UNIT * -3.0f, CVector3::UNIT * 3.0f);
+		effect_->Reset();
+		effect_->SetPos(newPos);
+	}
+
+	// ヒットスロウ
+	if (stateTime_ >= param_.stanSlowTime) {
+		GameTimer::SetTimeScale(1.0f);
+	}
+
+	// スタンの終了
 	if (stateTime_ >= param_.stanTime) {
 		stateMachine_->ChangeState<BossStateNormal>();
 	}
@@ -56,5 +79,6 @@ void BossStateStan::Debug_Gui() {
 
 void BossStateStan::Parameter::Debug_Gui() {
 	ImGui::DragFloat("stanTime", &stanTime, 0.1f);
+	ImGui::DragFloat("stanSlowTime", &stanSlowTime, 0.1f);
 	SaveAndLoad();
 }

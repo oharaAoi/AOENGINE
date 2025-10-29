@@ -32,7 +32,6 @@ json PlannerNode::ToJson() {
 	item["nodeType"] = static_cast<int>(type_);
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
 	item["children"] = json::array();
-	item["coolTime"] = coolTime_;
 	item["orientedName"] = orientedName_;
 	item["treeFileName"] = treeFileName_;
 
@@ -40,6 +39,19 @@ json PlannerNode::ToJson() {
 		item["children"].push_back(child->ToJson());
 	}
 	return item;
+}
+
+void PlannerNode::FromJson(const json& _jsonData) {
+	node_.name = _jsonData["name"];
+	type_ = _jsonData["nodeType"];
+	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
+	if (_jsonData.contains("orientedName")) {
+		orientedName_ = _jsonData["orientedName"];
+	}
+	
+	if (_jsonData.contains("treeFileName")) {
+		treeFileName_ = _jsonData["treeFileName"];
+	}
 }
 
 BehaviorStatus PlannerNode::Execute() {

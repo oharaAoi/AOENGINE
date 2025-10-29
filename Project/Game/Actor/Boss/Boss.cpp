@@ -42,7 +42,7 @@ void Boss::Debug_Gui() {
 		param_.Debug_Gui();
 	}
 
-	if (ImGui::CollapsingHeader("InitParameter")) {
+	if (ImGui::CollapsingHeader("InitParameter(保存の際はこちらを編集)")) {
 		initParam_.Debug_Gui();
 	}
 

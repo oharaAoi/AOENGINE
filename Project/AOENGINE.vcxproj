@@ -142,6 +142,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Lib\Profiler.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
@@ -472,6 +473,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Lib\Math\Vector3.cpp" />
     <ClCompile Include="Engine\Lib\Math\Vector4.cpp" />
     <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
+    <ClCompile Include="Engine\Lib\Profiler.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />

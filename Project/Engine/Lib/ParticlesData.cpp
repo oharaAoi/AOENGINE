@@ -58,6 +58,7 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat("angleMin", &angleMin, 0.01f);
 		ImGui::DragFloat("angleMax", &angleMax, 0.01f);
 		ImGui::Text("Life of");
+
 		ImGui::Checkbox("isDirectionRotate", &isDirectionRotate);
 		ImGui::Checkbox("isLifeOfScale", &isLifeOfScale);
 		if (isLifeOfScale) {
@@ -71,6 +72,7 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat("fadeOutTime", &fadeOutTime, 0.1f);
 		}
 
+		ImGui::Checkbox("isStretch", &isStretch);
 		ImGui::Checkbox("isParticleAddBlend", &isParticleAddBlend);
 		ImGui::Checkbox("isDraw2d", &isDraw2d);
 		ImGui::Checkbox("isScaleUp", &isScaleUp);

@@ -28,30 +28,13 @@ void JetEngine::Init() {
 	// effectの設定
 	// -------------------------------------
 
-	//ParticleManager* manager = ParticleManager::GetInstance();
-	/*jetBurn_ = manager->CrateParticle("JetBorn");
-	jetBurn_->SetParent(transform_->GetWorldMatrix());*/
-
-	/*jetEnergyParticles_ = manager->CrateParticle("JetFrea");
-	jetEnergyParticles_->SetParent(transform_->GetWorldMatrix());*/
-
-	// -------------------------------------
-	// effectの設定
-	// -------------------------------------
-
 	jetEngineBurn_ = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
 	jetEngineBurn_->Init();
 	jetEngineBurn_->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
 
-	jetEngineBurn_2 = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
-	jetEngineBurn_2->Init();
-	jetEngineBurn_2->GetWorldTransform()->SetParent(transform_->GetWorldMatrix());
-	Vector3 scale = jetEngineBurn_2->GetWorldTransform()->GetScale();
-	jetEngineBurn_2->GetWorldTransform()->SetScale(scale * 0.9f);
-	
+	jetEngineBurn_->GetWorldTransform()->SetParent(object_->GetTransform()->GetWorldMatrix());
 	object_->AddChild(jetEngineBurn_);
-	object_->AddChild(jetEngineBurn_2);
-
+	
 	isBoostMode_ = false;
 }
 
@@ -80,15 +63,9 @@ void JetEngine::Debug_Gui() {
 }
 
 void JetEngine::JetIsStop() {
-	//jetBurn_->SetIsStop(true);
-	//jetEnergyParticles_->SetIsStop(true);
 	jetEngineBurn_->BoostOff();
-	jetEngineBurn_2->BoostOff();
 }
 
 void JetEngine::JetIsStart() {
-	//jetBurn_->SetIsStop(false);
-	//jetEnergyParticles_->SetIsStop(false);
 	jetEngineBurn_->BoostOn();
-	jetEngineBurn_2->BoostOn();
 }

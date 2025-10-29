@@ -25,17 +25,34 @@ public: // コンストラクタ
 
 public:
 
-	// jsonへ
+	/// <summary>
+	/// jsonへ変換
+	/// </summary>
+	/// <returns></returns>
 	json ToJson() override;
 
-	// 実行
+	/// <summary>
+	/// jsonから保存項目を適応
+	/// </summary>
+	/// <param name="_jsonData"></param>
+	void FromJson(const json& _jsonData) override;
+
+	/// <summary>
+	/// 実行
+	/// </summary>
+	/// <returns></returns>
 	BehaviorStatus Execute() override;
 
-	// weight値を算出
+	/// <summary>
+	/// weight値を算出
+	/// </summary>
+	/// <returns></returns>
 	float EvaluateWeight() override;
 
 	// 編集処理
 	void Debug_Gui() override;
+
+public:
 
 	/// <summary>
 	/// 目標の設定

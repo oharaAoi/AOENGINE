@@ -37,10 +37,6 @@ void IBehaviorNode::Update() {
 		}
 	}
 
-	if (coolTime_ > 0.0f) {
-		coolTime_ -= GameTimer::DeltaTime();
-	}
-
 	if (state_ == BehaviorStatus::Running) {
 		color_ = ImColor(255, 215, 0);
 	} else {
@@ -131,6 +127,12 @@ json IBehaviorNode::ToJson() {
 		item["children"].push_back(child->ToJson());
 	}
 	return item;
+}
+
+void IBehaviorNode::FromJson(const json& _jsonData) {
+	node_.name = _jsonData["name"];
+	type_ = _jsonData["nodeType"];
+	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
 }
 
 bool IBehaviorNode::IsSelectNode() {

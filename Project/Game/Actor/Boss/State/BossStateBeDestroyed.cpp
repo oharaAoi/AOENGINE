@@ -4,7 +4,7 @@
 #include "Engine/System/Manager/ParticleManager.h"
 
 void BossStateBeDestroyed::OnStart() {
-	SetName("StanBeDestroyed");
+	SetName("BossStateBeDestroyed");
 
 	param_.SetGroupName(stateMachine_->GetName());
 	param_.Load();

@@ -130,19 +130,19 @@ void WorldTransform::Translate(const Vector3& translate, float _deltaTime) {
 
 void WorldTransform::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Transform")) {
-		if (ImGui::TreeNode("scale")) {
+		if (ImGui::TreeNodeEx("scale", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNode("rotate")) {
+		if (ImGui::TreeNodeEx("rotate", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::DragFloat3("rotate", &srt_.rotate.x, 0.1f);
 			ImGui::DragFloat3("moveRotate", &moveQuaternion_.x, 0.001f);
 
 			ImGui::TreePop();
 		}
 
-		if (ImGui::TreeNode("translation")) {
+		if (ImGui::TreeNodeEx("translation", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::DragFloat3("translation", &srt_.translate.x, 0.1f);
 			ImGui::TreePop();
 		}

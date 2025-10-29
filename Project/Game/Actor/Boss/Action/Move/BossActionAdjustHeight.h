@@ -13,6 +13,7 @@ public:
 	struct Parameter : public IJsonConverter {
 		float smoothTime = 0.1f;	// 追従の速度
 		float maxSpeed = 10 ^ 8;	// 追従の最大速度
+		float recoveryTime = 0.0f;	// 硬直時間
 
 		Parameter() { SetName("BossActionAdjustHeight"); }
 
@@ -20,12 +21,14 @@ public:
 			return JsonBuilder(id)
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
+				.Add("recoveryTime", recoveryTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "smoothTime", smoothTime);
 			fromJson(jsonData, "maxSpeed", maxSpeed);
+			fromJson(jsonData, "recoveryTime", recoveryTime);
 		}
 
 		void Debug_Gui() override;

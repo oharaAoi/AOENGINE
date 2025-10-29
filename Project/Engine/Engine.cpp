@@ -162,8 +162,6 @@ void Engine::BeginFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
-	Engine::RenderFrame();
-	
 #ifdef _DEBUG
 	imguiManager_->End();
 	imguiManager_->Draw(dxCmdList_);
