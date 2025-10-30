@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/AI/State/IWorldState.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
+#include "Engine/Utilities/Timer.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
@@ -170,6 +171,9 @@ protected:
 	bool setNodePos_;			// Node座標の設定を行ったかどうか
 
 	IWorldState* worldState_;
+
+	Timer coolTimer_;
+	bool isCoolTime_ = false;
 
 	// -------------------------------------------------
 	// ↓ Debug用

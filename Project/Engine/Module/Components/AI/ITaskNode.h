@@ -79,8 +79,7 @@ protected:
 	float taskTimer_ = 0.0f;
 
 	Timer waitTimer_;
-	Timer coolTimer_;
-
+	
 	UtilityEvaluator evaluator_;
 
 };
@@ -123,6 +122,8 @@ inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	if (_jsonData.contains("coolTime")) {
 		coolTimer_.targetTime_ = _jsonData["coolTime"].get<float>();
 	}
+
+	coolTimer_.timer_ = coolTimer_.targetTime_;
 }
 
 template<typename OwnerType>
@@ -137,7 +138,7 @@ inline void ITaskNode<OwnerType>::Debug_Gui() {
 
 template<typename OwnerType>
 inline BehaviorStatus ITaskNode<OwnerType>::Action() {
-	if (coolTimer_.Run(GameTimer::DeltaTime())) {
+	if (isCoolTime_) {
 		return BehaviorStatus::Failure;
 	}
 

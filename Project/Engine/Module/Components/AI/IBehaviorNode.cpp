@@ -24,6 +24,7 @@ void IBehaviorNode::Init() {
 	// ----------------------
 	isDelete_ = false;
 	setNodePos_ = false;
+	isCoolTime_ = false;
 	currentIndex_ = 0;
 
 	pos_ = CVector2::ZERO;
@@ -46,6 +47,13 @@ void IBehaviorNode::Update() {
 		color_ = ImColor(255, 215, 0);
 	} else {
 		color_ = baseColor_;
+	}
+
+	// クールタイムの更新を行なう
+	if (coolTimer_.Run(GameTimer::DeltaTime())) {
+		isCoolTime_ = true;
+	} else {
+		isCoolTime_ = false;
 	}
 }
 
