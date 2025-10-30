@@ -4,9 +4,10 @@
 #include <memory>
 #include "imgui_node_editor.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/AI/State/IWorldState.h"
+#include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Module/Components/AI/State/IWorldState.h"
 
 struct Pin {
 	ax::NodeEditor::PinId id;
@@ -62,7 +63,7 @@ public: // コンストラクタ
 	// コピーコンストラクタ
 	virtual std::shared_ptr<IBehaviorNode> Clone() const = 0;
 
-public: 
+public:
 
 	// 初期化処理
 	void Init();
@@ -117,7 +118,7 @@ public:
 	const Pin& GetInput() const { return node_.inputId; }
 	const Pin& GetOutput() const { return node_.outputId; }
 
-	void SetNodeName(const std::string& _name) { 
+	void SetNodeName(const std::string& _name) {
 		node_.name = _name;
 		name_ = _name;
 	}
@@ -142,6 +143,8 @@ public:
 
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
+	void SetLogger(BehaviorTreeLogger* _logger) { pLogger_ = _logger; }
+
 private:
 
 	/// <summary>
@@ -154,18 +157,17 @@ protected:
 
 	static uint32_t nextSerialNumber_;	// 次のユニークid
 
-	NodeType type_;
+	Node node_;				// node本体
+	NodeType type_;			// nodeのタイプ
 	BehaviorStatus state_;	// nodeの状態
-
-	Node node_;		// node本体
 
 	std::vector<IBehaviorNode*> children_;	// 子ども
 	uint32_t currentIndex_;					// 現在参照している子のindex
 
-	bool isLeafNode_ = false;		// リーフノードかどうか
+	bool isLeafNode_ = false;				// リーフノードかどうか
 
-	Vector2 pos_;		// Nodeの座標
-	bool setNodePos_;	// Node座標の設定を行ったかどうか
+	Vector2 pos_;				// Nodeの座標
+	bool setNodePos_;			// Node座標の設定を行ったかどうか
 
 	IWorldState* worldState_;
 
@@ -177,7 +179,11 @@ protected:
 	bool isSelect_;
 	bool isDelete_;
 
+	// 選択カラー
 	ImColor color_;
 	ImColor baseColor_;
+
+	// loggerポインタ
+	BehaviorTreeLogger* pLogger_;
 };
 

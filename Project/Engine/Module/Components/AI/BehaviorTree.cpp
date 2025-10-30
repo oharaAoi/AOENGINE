@@ -416,6 +416,11 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	if (root_ != nullptr) {
 		root_->ClearChild();
 	}
+
+	// treeの生成前にloggerを作成しておく
+	logger_ = std::make_unique<BehaviorTreeLogger>();
+	logger_->Init(nodeName);
+
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(CreateNodeFromJson(nodeTree)).get();
 
@@ -458,6 +463,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 
 	// jsonからnodeの情報を取得
 	node->FromJson(_json);
+	node->SetLogger(logger_.get());
 	nodeList_.push_back(node);
 
 	// 子どもがいたら再帰的に処理

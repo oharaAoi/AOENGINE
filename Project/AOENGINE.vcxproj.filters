@@ -1193,6 +1193,7 @@
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\Lib\Profiler.h" />
+    <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2077,5 +2078,6 @@
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\Lib\Profiler.cpp" />
+    <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
   </ItemGroup>
 </Project>

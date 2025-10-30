@@ -76,6 +76,8 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		PriorityDisplay();
 #endif
 
+		PriorityOutput();
+
 		return BehaviorStatus::Running;
 	} else {
 		// 選択されたindexを実行する
@@ -135,10 +137,39 @@ void PlannerSelectorNode::PriorityDisplay() {
 
 	if (ImGui::Begin("PlannerSelector Priority Window", nullptr, flags)) {
 		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
-			ImGui::Text(children_[priorityArray[index].first]->GetName().c_str());
-			ImGui::Text("priority : %f", priorityArray[index].second);
+			std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
+			std::string nodeName = "[" + children_[priorityArray[index].first]->GetName() + "]";
+
+			ImGui::Text(nodeName.c_str());
+			ImGui::Text(priorityText.c_str());
 			ImGui::Separator();
 		}
 	}
 	ImGui::End();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 評価値の出力
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlannerSelectorNode::PriorityOutput() {
+	std::vector<std::pair<uint32_t, float>> priorityArray(priorityMap_.begin(), priorityMap_.end());
+
+	// 値を降順でソート
+	std::sort(priorityArray.begin(), priorityArray.end(), [](const auto& a, const auto& b) {
+		return a.second > b.second;
+			  });
+
+	// weightの表示
+	for (uint32_t index = 0; index < priorityArray.size(); ++index) {
+		std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
+		std::string nodeName = "[" + children_[priorityArray[index].first]->NodeNameCombination() + "] - ";
+
+		// logに出力
+		pLogger_->Log(nodeName.c_str());
+		pLogger_->Log(priorityText);
+		pLogger_->Log("\n");
+	}
+
+	pLogger_->Log("----------------------------------------------\n");
 }

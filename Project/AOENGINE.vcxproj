@@ -143,6 +143,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Lib\Profiler.h" />
+    <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
@@ -597,6 +598,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />

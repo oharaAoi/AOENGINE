@@ -11,6 +11,7 @@
 #include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "imgui_node_editor.h"
 
 /// <summary>
@@ -104,6 +105,9 @@ private:
 
 	IWorldState* worldState_ = nullptr;
 
+	// treeの所有者のポインタ
+	BaseEntity* pTarget_;
+
 	// nodeEditorのポインタ
 	ax::NodeEditor::EditorContext* context_ = nullptr;
 	// 接続のidをまとめたコンテナ
@@ -124,13 +128,21 @@ private:
 	
 	std::string createTaskName_;
 
+	// ----------------------
+	// ↓ imgui関連
+	// ----------------------
 	ImGuiWindowFlags windowFlags_;
 
 	IBehaviorNode* selectNode_;
 	ax::NodeEditor::NodeId selectId_;
 	ax::NodeEditor::NodeId preSelectId_;
 
-	BaseEntity* pTarget_;
+	// ----------------------
+	// ↓ loggerポインタ
+	// ----------------------
+
+	std::unique_ptr<BehaviorTreeLogger> logger_;
+
 };
 
 template<typename ActionT, typename Target>

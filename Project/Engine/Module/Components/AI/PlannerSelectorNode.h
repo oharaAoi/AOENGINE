@@ -34,6 +34,11 @@ private:
 	/// </summary>
 	void PriorityDisplay();
 
+	/// <summary>
+	/// 評価値を外部に出す
+	/// </summary>
+	void PriorityOutput();
+
 private:
 
 	std::unordered_map<uint32_t, float> priorityMap_;
