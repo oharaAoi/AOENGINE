@@ -122,5 +122,4 @@ private:
 	float onOffTime_;
 	float exeTime_;
 	bool boostOn_;
-
 };

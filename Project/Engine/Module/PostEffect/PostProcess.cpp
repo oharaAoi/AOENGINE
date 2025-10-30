@@ -88,7 +88,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	motionBlur_ = std::make_shared<MotionBlur>();
 	motionBlur_->Init();
 	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
-	motionBlur_->SetIsEnable(true);
+	motionBlur_->SetIsEnable(false);
 
 	AddEffect(PostEffectType::RADIALBLUR);
 	AddEffect(PostEffectType::GLITCHNOISE);

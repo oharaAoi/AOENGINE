@@ -167,8 +167,6 @@ void Player::Update() {
 		transform_->srt_.rotate = Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
 	}
 
-	jet_->Update();
-	
 	CameraIncline();
 
 	// 攻撃を行う
@@ -183,11 +181,10 @@ void Player::Update() {
 			isAttack_ = true;
 		}
 	}
+}
 
-	/*ICollider* colliderLeg = object_->GetCollider("playerLeftLeg");
-	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
-	leftLegEffector_->SetTargetPosition(colliderLeg->GetCenterPos());
-	rightLegEffector_->SetTargetPosition(colliderRightLeg->GetCenterPos());*/
+void Player::PosUpdate() {
+	jet_->Update(smoothedDiffX_ * 100.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

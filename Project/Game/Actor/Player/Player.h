@@ -91,6 +91,8 @@ public:
 	void Update();
 	// 編集
 	void Debug_Gui() override;
+	// 後から更新
+	void PosUpdate();
 
 public:	// member method
 

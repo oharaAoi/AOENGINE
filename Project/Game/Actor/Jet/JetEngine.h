@@ -22,7 +22,7 @@ public:
 	// 初期化
 	void Init();
 	// 更新
-	void Update();
+	void Update(float diftX);
 	// 編集
 	void Debug_Gui() override;
 
@@ -52,10 +52,12 @@ private:
 	// Parameter -------------------------------------------------
 	bool isBoostMode_;
 
-	// effects -------------------------------------------------
-	BaseParticles* jetBurn_;
-	BaseParticles* jetEnergyParticles_;
+	std::unique_ptr<WorldTransform> burnParentTransform_ = nullptr;
 
+	// effects -------------------------------------------------
+	BaseParticles* burnParticle_;
+	
 	JetEngineBurn* jetEngineBurn_;
+	JetEngineBurn* jetEngineBurn2_;
 
 };

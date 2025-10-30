@@ -1,23 +1,23 @@
 {
-    "BossStanEffect": {
+    "BurnParticle": {
         "angle": 27.0,
         "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 0.7266415357589722,
-            "r": 0.4976744055747986
+            "b": 0.07906979322433472,
+            "g": 0.3360735774040222,
+            "r": 1.0
         },
-        "damping": 0.49000000953674316,
+        "damping": 0.0,
         "discardValue": 0.009999999776482582,
-        "duration": 1.0,
-        "emitDirection": 2,
+        "duration": 5.0,
+        "emitDirection": 1,
         "emitOrigin": 1,
-        "endDiscard": 1.0,
+        "endDiscard": 0.5199999809265137,
         "fadeInTime": 0.0,
         "fadeOutTime": 0.0,
-        "gravity": -9.399999618530273,
+        "gravity": -56.65999984741211,
         "height": 1.0,
         "isBillBord": true,
         "isDirectionRotate": false,
@@ -26,10 +26,11 @@
         "isLerpDiscardValue": false,
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
-        "isLoop": false,
+        "isLoop": true,
         "isParticleAddBlend": true,
         "isRandomColor": false,
         "isScaleUp": false,
+        "isStretch": false,
         "lifeOfMaxScale": {
             "x": 0.0,
             "y": 0.0,
@@ -40,18 +41,18 @@
             "y": 1.0,
             "z": 1.0
         },
-        "lifeTime": 1.0,
+        "lifeTime": 0.10000000149011612,
         "maxScale": {
-            "x": 2.0,
+            "x": 1.5,
             "y": 1.0,
             "z": 1.0
         },
         "minScale": {
-            "x": 1.0,
+            "x": 0.10000000149011612,
             "y": 1.0,
             "z": 1.0
         },
-        "radius": 1.2000000476837158,
+        "radius": 0.5,
         "randColor1": {
             "a": 1.0,
             "b": 0.0,
@@ -64,7 +65,7 @@
             "g": 0.0,
             "r": 0.0
         },
-        "rateOverTimeCout": 32,
+        "rateOverTimeCout": 64,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
@@ -76,13 +77,13 @@
             "z": 0.0
         },
         "separateByAxisScale": false,
-        "shape": 0,
+        "shape": 2,
         "size": {
             "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
-        "speed": 11.09000015258789,
+        "speed": -17.670000076293945,
         "startDiscard": 0.009999999776482582,
         "translate": {
             "x": 0.0,

@@ -53,7 +53,7 @@ void GameCore::Update() {
 void GameCore::Draw() {
 	profiler_.Start();
 	sceneManger_->Draw();
-	profiler_.End("End");
+	profiler_.End("Draw");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

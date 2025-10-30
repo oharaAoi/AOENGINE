@@ -64,6 +64,7 @@ void PlayerManager::Update() {
 }
 
 void PlayerManager::PostUpdate() {
+	player_->PosUpdate();
 	player_->UpdateJoint();
 	machineGun_->Update();
 	launcherGun_->Update();
