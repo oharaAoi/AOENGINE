@@ -5,21 +5,29 @@ GraphicsContext* GraphicsContext::GetInstance() {
 	return &instance;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
+	// dxcommonの初期化
 	dxCommon_ = std::make_unique<DirectXCommon>();
 	dxCommon_->Init(win, backBufferWidth, backBufferHeight);
 
+	// ----------------------
+	// ↓ 定義処理
+	// ----------------------
 	dxDevice_ = std::make_shared<DirectXDevice>();
 	dxCommands_ = std::make_unique<DirectXCommands>();
 	descriptorHeap_ = std::make_unique<DescriptorHeap>();
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
-
 	renderTarget_ = std::make_unique<RenderTarget>();
-
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 
-	// 初期化
+	// ----------------------
+	// ↓ 初期化処理
+	// ----------------------
 	dxDevice_->Init(dxCommon_->GetUseAdapter());
 	dxCommands_->Init(dxDevice_->GetDevice());
 	descriptorHeap_->Init(dxDevice_->GetDevice());
@@ -32,6 +40,10 @@ void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuf
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
 
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsContext::Finalize() {
 	primitivePipeline_->Finalize();

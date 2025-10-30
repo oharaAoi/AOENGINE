@@ -39,8 +39,10 @@ void AoiFramework::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AoiFramework::Run() {
+	// 初期化
 	Init();
 
+	// ゲームループ
 	while (Engine::ProcessMessage()) {
 
 		// frame更新
@@ -55,10 +57,12 @@ void AoiFramework::Run() {
 		// frame終了
 		EndFrame();
 
+		// 終了リクエスト
 		if (isEndRequest()) {
 			break;
 		}
 	}
 
+	// 解放処理
 	Finalize();
 }

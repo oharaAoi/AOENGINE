@@ -1,12 +1,18 @@
  #include "DescriptorHeap.h"
 #include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
 
 std::list<int> DescriptorHeap::freeSrvList_;
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DescriptorHeap::Init(ID3D12Device* device) {
 	assert(device);
 	device_ = device;
 
+	// サイズに定義
 	if (!descriptorSize_) {
 		descriptorSize_ = std::make_unique<DescriptorSize>(
 			device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV),
@@ -15,11 +21,19 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 		);
 	}
 
+	// rtvの数
+	UINT rtvNum = RenderTargetType::kMAX;
+	UINT swapChainNum = 2;
+	UINT postProcessNum = 2;
+	UINT particleEditorNum = 1;
+	UINT sceneNum = 1;
+
 	// ヒープの生成
-	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, 9 + 4, false);
+	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, rtvNum + swapChainNum + postProcessNum + particleEditorNum + sceneNum, false);
 	srvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, (1 << 16), true);
 	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 4 + 1, false);
 
+	// アロケータの初期化
 	srvAllocator_ = std::make_unique<DescriptorAllocator>(
 		DescriptorType::SAHADERVIEW,
 		(1 << 16),
@@ -34,28 +48,24 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 		1
 	);
 
-	/*rtvAllocator_ = std::make_unique<DescriptorAllocator>(
-		 7,
-		descriptorSize_->GetRTV(),
-		0
-	);
-
-	dsvAllocator_ = std::make_unique<DescriptorAllocator>(
-		2,
-		descriptorSize_->GetDSV(),
-		0
-	);*/
-
 	useSrvIndex_ = 0;	// SRVの先頭はImGuiで使うため0にして先頭を開けておく
 	useDsvIndex_ = -1;	// 他は先頭から始められるように-1にしておくことで
 	useRtvIndex_ = -1;	// GetDescriptorHandle時に先頭が0になる
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DescriptorHeap::Finalize() {
 	rtvHeap_.Reset();
 	srvHeap_.Reset();
 	dsvHeap_.Reset();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ accessor
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* commandList) {
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvHeap_.Get() };
@@ -102,6 +112,10 @@ void DescriptorHeap::AddFreeSrvList(int index) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 生成処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 DescriptorHandles DescriptorHeap::AllocateSRV() {
  	return srvAllocator_->Allocate(srvHeap_.Get());
 }
@@ -113,6 +127,10 @@ DescriptorHandles DescriptorHeap::AllocateRTV() {
 DescriptorHandles DescriptorHeap::AllocateDSV() {
 	return dsvAllocator_->Allocate(dsvHeap_.Get());
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 解放処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DescriptorHeap::FreeSRV(uint32_t index) {
 	srvAllocator_->Free(index);

@@ -4,21 +4,29 @@
 Pipeline::Pipeline() {}
 Pipeline::~Pipeline() {}
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData) {
 	parameter_.FromJson(jsonData);
 
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
+	// パイプラインの設定
 	if (parameter_.cs == "") {
+		// shaderを読み込む
 		ShaderCompile();
 		vsReflection_ = dxCompiler->ReadShaderReflection(vertexShaderBlob_.Get());
 		psReflection_ = dxCompiler->ReadShaderReflection(pixelShaderBlob_.Get());
 
 		elementDescs = CreateInputLayout();
 		rootSig_ = CreateRootSignature();
+		// 生成
 		CreatePSO();
 	} else {
+		// shaderを読み込む
 		ComPtr<IDxcBlob> computeShaderBlob_ = dxCompiler_->CsShaderCompile(parameter_.cs);
 		csReflection_ = dxCompiler->ReadShaderReflection(computeShaderBlob_.Get());
 		rootSig_ = CreateRootSignature();
@@ -27,20 +35,33 @@ void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const jso
 		desc.pRootSignature = rootSig_.Get();
 		desc.CS = { reinterpret_cast<BYTE*>(computeShaderBlob_->GetBufferPointer()),computeShaderBlob_->GetBufferSize() };
 
+		// 生成
 		HRESULT hr = device_->CreateComputePipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
 		assert(SUCCEEDED(hr));
 	}
 }
 
-void Pipeline::Draw(ID3D12GraphicsCommandList* commandList) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Pipeline::BindCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootSignature(rootSig_.Get());
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ CS用のコマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Pipeline::SetComputeState(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 	commandList->SetComputeRootSignature(rootSig_.Get());
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Pipeline::Finalize() {
 	rootSig_.Reset();
@@ -49,9 +70,10 @@ void Pipeline::Finalize() {
 	graphicsPipelineState_.Reset();
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓Iputlayoutの生成
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ InputlayOutの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
 	D3D12_INPUT_LAYOUT_DESC result{};
 	result.pInputElementDescs = elementDesc.data();
@@ -59,9 +81,10 @@ D3D12_INPUT_LAYOUT_DESC Pipeline::CreateInputLayout(const std::vector<D3D12_INPU
 	return result;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓shaderを読む
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ shaderを読み込む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Pipeline::ShaderCompile() {
 	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(parameter_.vs);
 	assert(vertexShaderBlob_ != nullptr);
@@ -70,9 +93,10 @@ void Pipeline::ShaderCompile() {
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓ラスタライズの設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ラスタライザの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState(bool isCulling) {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
@@ -87,10 +111,11 @@ D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState(bool isCulling) {
 	return rasterizerDesc;
 }
 
-/// <summary>
-/// DepthStencilStateの設定
-/// </summary>
-/// <returns></returns>
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 深度情報の設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool isDepth) {
 	D3D12_DEPTH_STENCIL_DESC desc{};
 	// Depthの機能を有効化する
@@ -109,9 +134,10 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool isDepth) {
 	return desc;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓PSOの追加
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ PSOを作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Pipeline::CreatePSO() {
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
@@ -203,12 +229,14 @@ ComPtr<ID3D12RootSignature> Pipeline::CreateRootSignature() {
 
 	UINT baseDescriptorIndex = 0;
 
+	// reflectionのラムダ式
 	auto ProcessReflection = [&](ID3D12ShaderReflection* reflection, D3D12_SHADER_VISIBILITY visibility) {
 		if (!reflection) return;
 
 		D3D12_SHADER_DESC desc;
 		reflection->GetDesc(&desc);
 
+		// 定義されている
 		for (UINT i = 0; i < desc.BoundResources; ++i) {
 			D3D12_SHADER_INPUT_BIND_DESC bindDesc;
 			reflection->GetResourceBindingDesc(i, &bindDesc);
@@ -352,11 +380,19 @@ ComPtr<ID3D12RootSignature> Pipeline::CreateRootSignature() {
 	return rootSig;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ サンプラーの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Pipeline::SamplerOverrides() {
 	samplerOverrides_["gSampler"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_LINEAR);
 	samplerOverrides_["gSamplerPoint"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_POINT);
 	samplerOverrides_["gSamplerAnisoWrap"] = MakeStaticSampler(D3D12_FILTER_ANISOTROPIC);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 定例のサンプラーの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addr, UINT maxAniso) {
 	D3D12_STATIC_SAMPLER_DESC sampler = {};
@@ -370,6 +406,10 @@ D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER filter, D3D12
 	sampler.MaxLOD = D3D12_FLOAT32_MAX;
 	return sampler;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ RootSignatureのIndexを返す
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 const UINT Pipeline::GetRootSignatureIndex(const std::string& name) const {
 	auto it = rootSignatureIndexMap_.find(name);

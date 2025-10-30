@@ -193,7 +193,7 @@ void Engine::RenderFrame() {
 		DrawGrid(render_->GetViewport3D(), render_->GetProjection3D());
 	}
 	
-	primitivePipeline_->Draw(dxCmdList_);
+	primitivePipeline_->BindCommand(dxCmdList_);
 	Render::PrimitiveDrawCall();
 
 	// -------------------------------------------------
@@ -304,7 +304,7 @@ std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, Model* mode
 }
 
 void Engine::SetPSOPrimitive() {
-	primitivePipeline_->Draw(dxCmdList_);
+	primitivePipeline_->BindCommand(dxCmdList_);
 }
 
 Pipeline* Engine::SetPipeline(PSOType type, const std::string& typeName) {

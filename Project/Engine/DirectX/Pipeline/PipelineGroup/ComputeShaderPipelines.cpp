@@ -9,6 +9,10 @@ void ComputeShaderPipelines::Finalize() {
 	computeShaderPipeline_.reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	assert(device);
 	assert(dxCompiler);
@@ -16,8 +20,8 @@ void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompi
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
+	// cs用のパイプラインの作成
 	computeShaderPipeline_ = std::make_unique<ComputeShaderPipeline>();
-
 	computeShaderPipeline_->Init(device, dxCompiler);
 	
 	// engine用
@@ -27,13 +31,19 @@ void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompi
 	Load(kGameAssets);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ComputeShaderPipelines::Load(const std::string& path) {
+	// パスが存在しないなら早期リターン
 	if (!fs::exists(path)) {
 		std::cerr << "Warning: path not found -> " << path << std::endl;
 		return;
 	}
-	for (const auto& entry : fs::recursive_directory_iterator(path)) {
 
+	// jsonファイルの読み込み
+	for (const auto& entry : fs::recursive_directory_iterator(path)) {
 		if (entry.is_regular_file()) {
 			std::string ext = entry.path().extension().string();
 
@@ -47,6 +57,10 @@ void ComputeShaderPipelines::Load(const std::string& path) {
 
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ jsonからパイプライン情報の読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 json ComputeShaderPipelines::LoadJson(const std::string& directory, const std::string& fileName) {
 	std::string filePath = directory + "/" + fileName;

@@ -142,6 +142,7 @@ void Sprite::Update() {
 		materialData_->arcType = 0;
 	}
 
+	// 各頂点を更新する
 	float left = (0.0f - anchorPoint_.x) * spriteSize_.x;
 	float right = (1.0f - anchorPoint_.x) * spriteSize_.x;
 	float top = (0.0f - anchorPoint_.y) * spriteSize_.y;

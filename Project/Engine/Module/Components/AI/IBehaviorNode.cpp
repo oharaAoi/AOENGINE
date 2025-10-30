@@ -10,18 +10,21 @@ IBehaviorNode::IBehaviorNode() {
 }
 
 void IBehaviorNode::Init() {
+	// ----------------------
+	// ↓ idの取得
+	// ----------------------
 	node_.id = GetNextId();
-
 	node_.inputId.id = GetNextId();
 	node_.inputId.kind = ax::NodeEditor::PinKind::Input;
-
 	node_.outputId.id = GetNextId();
 	node_.outputId.kind = ax::NodeEditor::PinKind::Output;
 
+	// ----------------------
+	// ↓ その他の情報を初期化
+	// ----------------------
 	isDelete_ = false;
-	currentIndex_ = 0;
-
 	setNodePos_ = false;
+	currentIndex_ = 0;
 
 	pos_ = CVector2::ZERO;
 
@@ -29,6 +32,7 @@ void IBehaviorNode::Init() {
 }
 
 void IBehaviorNode::Update() {
+	// 選択されているなら削除を可能にする
 	if (isSelect_) {
 		if (Input::GetInstance()->GetKey(DIK_DELETE)) {
 			if (type_ != NodeType::Root) {
@@ -37,6 +41,7 @@ void IBehaviorNode::Update() {
 		}
 	}
 
+	// 走っているなら色を変える
 	if (state_ == BehaviorStatus::Running) {
 		color_ = ImColor(255, 215, 0);
 	} else {
@@ -45,6 +50,7 @@ void IBehaviorNode::Update() {
 }
 
 void IBehaviorNode::DrawNode() {
+	// nodeの描画
 	if (!setNodePos_) {
 		ax::NodeEditor::SetNodePosition(node_.id, ImVec2{ pos_.x, pos_.y }); // 初期位置に配置
 		setNodePos_ = true;
@@ -60,6 +66,7 @@ void IBehaviorNode::DrawNode() {
 
 	DrawImGuiLine(textPos);
 	
+	// idの描画
 	if (node_.inputId.id) {
 		ax::NodeEditor::BeginPin(node_.inputId.id, ax::NodeEditor::PinKind::Input);
 		ImGui::Text("InputId:%d", node_.inputId.id);

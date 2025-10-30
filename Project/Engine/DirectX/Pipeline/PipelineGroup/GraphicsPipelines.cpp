@@ -5,17 +5,22 @@
 
 namespace fs = std::filesystem;
 
-GraphicsPipelines::GraphicsPipelines() {
-}
+GraphicsPipelines::GraphicsPipelines() {}
+GraphicsPipelines::~GraphicsPipelines() {}
 
-GraphicsPipelines::~GraphicsPipelines() {
-}
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsPipelines::Finalize() {
 	obj3dPipeline_.reset();
 	spritePipeline_.reset();
 	processedScenePipeline_.reset();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	assert(device);
@@ -42,14 +47,18 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) 
 	Load(kGameAssets.postProcess, PSOType::ProcessedScene);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GraphicsPipelines::Load(const std::string& path, PSOType type) {
 	if (!fs::exists(path)) {
 		std::cerr << "Warning: path not found -> " << path << std::endl;
 		return;
 	}
 
+	// パイプラン情報を読み込む
 	for (const auto& entry : fs::recursive_directory_iterator(path)) {
-
 		if (entry.is_regular_file()) {
 			std::string ext = entry.path().extension().string();
 
@@ -78,6 +87,10 @@ void GraphicsPipelines::Load(const std::string& path, PSOType type) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ jsonからパイプライン情報を読取る
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 json GraphicsPipelines::LoadJson(const std::string& directory, const std::string& fileName) {
 	std::string filePath = directory + "/" + fileName;
 
@@ -100,6 +113,10 @@ json GraphicsPipelines::LoadJson(const std::string& directory, const std::string
 	// 値の追加
 	return root;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプラインを設定する
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsPipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, PSOType type, const std::string& typeName) {
 	switch (type) {

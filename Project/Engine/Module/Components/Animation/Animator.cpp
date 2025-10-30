@@ -105,12 +105,12 @@ void Animator::TransitionAnimation(const std::string& afterAnimation, float blen
 	animationClip_->LerpAnimation(afterAnimation, blendSpeed);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Animator::Debug_Gui() {
 	if (ImGui::CollapsingHeader("AnimationClip")) {
 		animationClip_->Debug_Gui();
 	}
-
-	/*if (ImGui::CollapsingHeader("Skeleton")) {
-		skeleton_->Debug_Gui();
-	}*/
 }

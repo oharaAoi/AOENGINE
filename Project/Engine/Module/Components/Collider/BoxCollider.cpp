@@ -53,6 +53,7 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 			Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
 		};
 
+		// 最大値と最小値を決定
 		Vector3 min = Vector3{
 			std::numeric_limits<float>::max(),
 			std::numeric_limits<float>::max(),
@@ -64,6 +65,7 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 			std::numeric_limits<float>::lowest()
 		};
 
+		// aabbの各頂点を計算
 		for (const auto& localPt : localPoints) {
 			Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
 			Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
@@ -97,6 +99,10 @@ void BoxCollider::Draw() const {
 		DrawOBB(std::get<OBB>(shape_), Render::GetViewProjectionMat(), color);
 	}
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::Debug_Gui() {
 }

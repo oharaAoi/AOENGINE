@@ -31,14 +31,16 @@ void ScreenTransform::Init(ID3D12Device* _pDevice) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ScreenTransform::Update(const Matrix4x4& _projection) {
+	// 行列の作成
 	screenMat_ = transform_.MakeAffine();
 
+	// 親がいる場合親を考慮
 	Matrix4x4 matrix = screenMat_;
 	if (parentMat_ != nullptr) {
 		matrix = screenMat_ * *parentMat_;
 	}
 
-	// 最終的なスプsライトの変換行列
+	// 最終的なスプライトの変換行列
 	transformData_->wvp = Matrix4x4(
 		matrix *
 		_projection

@@ -7,6 +7,10 @@
 AnimationClip::AnimationClip() {}
 AnimationClip ::~AnimationClip() {}
 
+//==================================================================================
+// ↓　初期化処理
+//==================================================================================
+
 void AnimationClip::Init(const std::string& rootName, bool isSkinning, bool isLoop) {
 	manager_ = AnimationManager::GetInstance();
 
@@ -56,10 +60,7 @@ void AnimationClip::Update() {
 
 	// skinningを行わない場合アニメーションの行列を更新する
 	if (!isSkinnig_) {
-		// =======================================================================================
 		NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName_];
-		// =======================================================================================
-
 		Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
 		Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
 		Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);

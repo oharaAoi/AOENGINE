@@ -96,7 +96,7 @@ public:
 	/// コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	void BindCommand(ID3D12GraphicsCommandList* commandList);
 
 	/// <summary>
 	/// 

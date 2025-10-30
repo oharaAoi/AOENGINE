@@ -23,14 +23,17 @@ BehaviorTree::~BehaviorTree() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Init() {
+	// nodeEditorの初期化
 	context_ = ax::NodeEditor::CreateEditor();
 	ax::NodeEditor::SetCurrentEditor(context_);
 	auto& style = ax::NodeEditor::GetStyle();
 	style.LinkStrength = 0.0f;
 
+	// フラグをfalseにしておく
 	isOpenEditor_ = false;
 	isExecute_ = true;
 
+	// windowのフラグ
 	windowFlags_ = ImGuiWindowFlags_None;
 
 	root_ = nodeList_.emplace_back(std::make_shared<BehaviorRootNode>()).get();
@@ -47,6 +50,7 @@ bool BehaviorTree::Run() {
 	// すべてのnodeの更新を走らせる
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
 		if ((*it)->GetIsDelete()) {
+			// 削除を行う
 			for (auto& node : nodeList_) {
 				node->DeleteChild((*it).get());
 			}
@@ -290,6 +294,7 @@ void BehaviorTree::Edit() {
 		std::string editorName = name_ + "_Editor";
 		if (ImGui::Begin(editorName.c_str(), &isOpenEditor_, windowFlags_)) {
 			if (ImGui::CollapsingHeader("Treeの読み込み/保存")) {
+				// 読み込み
 				std::string loadFilePath;
 				std::string loadLabel = name_ + "_Load Tree";
 				std::string loadDialog = name_ + "_LoadTree";
@@ -297,6 +302,7 @@ void BehaviorTree::Edit() {
 					CreateTree(loadFilePath);
 				}
 
+				// 保存
 				std::string filePath;
 				std::string saveLabel = name_ + "_Save Tree";
 				std::string saveDialog = name_ + "_SaveTree";
@@ -305,21 +311,21 @@ void BehaviorTree::Edit() {
 				}
 			}
 
+			// nodeの作成
 			if (ImGui::CollapsingHeader("Nodeの作成")) {
 				CreateNodeWindow();
 			}
 			ImGui::Separator();
 
+			// 選択中の編集を表示
 			if (selectNode_ != nullptr) {
-				/*float weight = selectNode_->GetWeight();
-				ImGui::DragFloat("weight", &weight, 0.01f);
-				selectNode_->SetWeight(weight);*/
 				selectNode_->Debug_Gui();
 			}
 		}
 		ImGui::End();
 	}
 
+	// 選択中のnodeのIdを取得
 	for (auto& node : nodeList_) {
 		if (node->IsSelectNode()) {
 			if (selectId_ != node->GetId()) {
@@ -450,6 +456,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 		break;
 	}
 
+	// jsonからnodeの情報を取得
 	node->FromJson(_json);
 	nodeList_.push_back(node);
 

@@ -5,13 +5,15 @@
 DescriptorAllocator::~DescriptorAllocator() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 生成をする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptorHeap) {
 	if (!freeStack_.empty()) {
 		// 再利用可能なインデックスをスタックから取得
 		uint32_t reusedIndex = freeStack_.top();
 		freeStack_.pop();
-		/*std::string name = std::to_string(reusedIndex);
-		Log("popHeap" + name + "\n");*/
 		return GetDescriptorHandle(descriptorHeap, reusedIndex);
 	} else if (currentIndex_ < (int)totalDescriptors_) {
 		// 新しいディスクリプタを割り当て
@@ -21,11 +23,19 @@ DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptor
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 解放をする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DescriptorAllocator::Free(uint32_t index) {
 	freeStack_.push(index);  // フリースタックに戻す
 	std::string name = std::to_string(index);
 	Logger::Log("pushFreeHeap" + name + "\n");
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 次のポインタハンドルを返す
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {
 	DescriptorHandles handles;

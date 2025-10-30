@@ -101,12 +101,6 @@ void RenderTarget::CrateSwapChainResource() {
 		swapChainResource_[oi]->CreateRTV(rtvDesc);
 		swapChainResource_[oi]->CreateSRV(srvDesc);
 	}
-
-	//// バックバッファとフロントバッファを作成する
-	//hr = swapChain_->GetBuffer(0, IID_PPV_ARGS(&swapChainResource_[0]->GetCompResource()));
-	//assert(SUCCEEDED(hr));
-	//hr = swapChain_->GetBuffer(1, IID_PPV_ARGS(&swapChainResource_[1]->GetCompResource()));
-	//assert(SUCCEEDED(hr));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

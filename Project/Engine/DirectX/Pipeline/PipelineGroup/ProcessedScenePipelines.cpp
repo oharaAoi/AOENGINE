@@ -4,6 +4,10 @@ ProcessedScenePipelines::~ProcessedScenePipelines() {
 	pipelineMap_.clear();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ProcessedScenePipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	assert(device);
 	assert(dxCompiler);
@@ -12,12 +16,20 @@ void ProcessedScenePipelines::Init(ID3D12Device* device, DirectXCompiler* dxComp
 	dxCompiler_ = dxCompiler;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプラインの生成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ProcessedScenePipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName) {
-	pipelineMap_[typeName]->Draw(commandList);
+	pipelineMap_[typeName]->BindCommand(commandList);
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	lastUsePipeline_ = pipelineMap_[typeName].get();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプラインの追加
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ProcessedScenePipelines::AddPipeline(const std::string& fileName, json jsonData) {
 	pipelineMap_[fileName] = std::make_unique<Pipeline>();

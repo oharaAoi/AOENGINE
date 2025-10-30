@@ -4,7 +4,10 @@
 #pragma comment(lib, "dxcompiler.lib")
 #include "Engine/Utilities/Logger.h"
 
-//
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
 	assert(win);
 	winApp_ = win;
@@ -26,6 +29,10 @@ void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuffe
 	SetUseGPU();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::Finalize() {
 	depthStencilResource_->Finalize();
 	CloseHandle(fenceEvent_);
@@ -36,23 +43,24 @@ void DirectXCommon::Finalize() {
 	debugController_.Reset();
 }
 
-//------------------------------------------------------------------------------------------------------
-// 命令
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Frame開始処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::Begin() {
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	TransitionResourceState(commandList, renderTarget_->GetSwapChainRenderResource(backBufferIndex), D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-	// ---------------------------------------------------------------
 	commandList->RSSetViewports(1, &viewport_);
 	commandList->RSSetScissorRects(1, &scissorRect_);
 }
 
-/// <summary>
-/// RenderTargetをバックバッファに変更
-/// </summary>
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ swapChainをセット
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::SetSwapChain() {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
@@ -61,6 +69,10 @@ void DirectXCommon::SetSwapChain() {
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, clearColor, 0, nullptr);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Frame終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::End() {
 	// ---------------------------------------------------------------
@@ -90,6 +102,10 @@ void DirectXCommon::End() {
 	assert(SUCCEEDED(hr));
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ DXGIの処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::CreateDXGI() {
 	dxgiFactory_ = nullptr;
 	// HRESULはwidows系のエラーコードであり
@@ -100,6 +116,10 @@ void DirectXCommon::CreateDXGI() {
 	// どうにもできない場合が多いのでassertにしておく
 	assert(SUCCEEDED(hr));
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 使用するGPUの検索
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::SetUseGPU() {
 	HRESULT hr;
@@ -159,9 +179,10 @@ void DirectXCommon::SetError() {
 #endif // DEBUG
 }
 
-//------------------------------------------------------------------------------------------------------
-// 設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ DixrectXの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget) {
 	assert(device);
 	assert(descriptorHeaps);
@@ -187,9 +208,10 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	SetViewport();
 }
 
-//------------------------------------------------------------------------------------------------------
-// swapChainの生成
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ swapChainの生成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::CreateSwapChain() {
 	HRESULT hr = S_FALSE;
 	DXGI_SWAP_CHAIN_DESC1 desc{};
@@ -209,9 +231,10 @@ void DirectXCommon::CreateSwapChain() {
 	assert(SUCCEEDED(hr));
 }
 
-//------------------------------------------------------------------------------------------------------
-// Fenceの生成
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ fenceの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::CrateFence() {
 	HRESULT hr = S_FALSE;
 	fenceValue_ = 0;
@@ -223,9 +246,10 @@ void DirectXCommon::CrateFence() {
 	assert(fenceEvent_ != nullptr);
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓viewportの生成
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ viewportの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::SetViewport() {
 	// ビューポート
 	// クライアント領域のサイズと一緒にして画面全体を表示
@@ -244,6 +268,10 @@ void DirectXCommon::SetViewport() {
 	scissorRect_.bottom = static_cast<LONG>(kClientHeight_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 深度ビューの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommon::CreateDSV() {
 	depthStencilResource_ = std::make_unique<DxResource>();
 	depthStencilResource_->Init(device_, descriptorHeaps_, ResourceType::DEPTH); 
@@ -257,6 +285,10 @@ void DirectXCommon::CreateDSV() {
 	depthHandle_ = descriptorHeaps_->AllocateDSV();
 	device_->CreateDepthStencilView(depthStencilResource_->GetResource(), &desc, depthHandle_.handleCPU);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ バックバッファのアドレスを返す
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 D3D12_GPU_DESCRIPTOR_HANDLE DirectXCommon::GetBackBufferGpuHandle() {
 	UINT backBufferIndex = swapChain_->GetCurrentBackBufferIndex();

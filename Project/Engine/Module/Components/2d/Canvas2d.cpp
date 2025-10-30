@@ -17,6 +17,7 @@ void Canvas2d::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Canvas2d::Update() {
+	// 生存確認
 	for (auto it = spriteList_.begin(); it != spriteList_.end(); ) {
 		if ((*it)->sprite->GetIsDestroy()) {
 			it = spriteList_.erase(it);
@@ -25,10 +26,12 @@ void Canvas2d::Update() {
 		}
 	}
 
+	// ソートを行う
 	spriteList_.sort([](const std::unique_ptr<ObjectPair>& a, const std::unique_ptr<ObjectPair>& b) {
 		return a->renderQueue < b->renderQueue;
 					 });
 
+	// 更新処理
 	for (auto& it : spriteList_) {
 		if (it->sprite->GetEnable()) {
 			it->sprite->Update();

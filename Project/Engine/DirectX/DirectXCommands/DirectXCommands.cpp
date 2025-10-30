@@ -1,5 +1,9 @@
 #include "DirectXCommands.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommands::Init(ID3D12Device* device) {
 	assert(device);
 	device_ = device;
@@ -7,6 +11,10 @@ void DirectXCommands::Init(ID3D12Device* device) {
 	CreateCommand();
 	CreateFence();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommands::Finalize() {
 	CloseHandle(fenceEvent_);
@@ -19,13 +27,14 @@ void DirectXCommands::Finalize() {
 	commandList_.Reset();
 }
 
-/// <summary>
-/// DirectX12のコマンドを生成する
-/// </summary>
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ DirectXのコマンドを生成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommands::CreateCommand() {
 	HRESULT hr = S_FALSE;
-	// graphics用のコマンド系の初期化 ======================================================================
-	// GPUに命令を投げてくれる人　--------------------------
+	// graphics用のコマンド系の初期化 --------------------------
+	// GPUに命令を投げてくれる人　
 	// コマンドキューを生成する
 	D3D12_COMMAND_QUEUE_DESC commandQueueDesc{};
 	hr = device_->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&commandQueue_));
@@ -43,15 +52,16 @@ void DirectXCommands::CreateCommand() {
 	assert(SUCCEEDED(hr));
 }
 
-/// <summary>
-/// Fenceを作成する
-/// </summary>
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Fenceの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommands::CreateFence() {
 	for (auto oi = 0; oi < kFrameCount_; ++oi) {
 		fanceCounter_[oi] = 0;
 	}
 
-	// graphics用のフェンスの初期化 ======================================================================
+	// graphics用のフェンスの初期化 --------------------------
 	HRESULT hr = S_FALSE;
 	hr = device_->CreateFence(fanceCounter_[fenceIndex_], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
@@ -63,9 +73,10 @@ void DirectXCommands::CreateFence() {
 	assert(fenceEvent_ != nullptr);
 }
 
-/// <summary>
-/// CPUとGPUの同期をはかる
-/// </summary>
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ GPUと同期を取る
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 	// -----------------------------------------------
 	// 下記の用にするとスレッドが大量終了する
@@ -89,26 +100,4 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
 
 	// **フェンスのカウンターを更新**
 	fanceCounter_[fenceIndex_] = currentValue + 1;
-
-	// -----------------------------------------------
-	// 下記の用にするとスレッドが大量終了しない
-	// -----------------------------------------------
-	
-	// 画面の交換を行う
-	
-	// 今フレームで描画コマンドを積ん方の画面のvalueを取得し、valueまでの処理が完了しら次の処理を開始する
-	//const auto currentValue = fanceCounter_[fenceIndex_];
-	//commandQueue_->Signal(fence_.Get(), currentValue);
-
-	//// 現在のbackBufferのIndexを取得する
-	//fenceIndex_ = currentIndex;
-
-	//if (fence_->GetCompletedValue() < fanceCounter_[fenceIndex_]) {
-	//	// 指定下Signal(currentValueのシグナル)にたどりついていないので、たどりつくまで待つようにイベントを設定する
-	//	fence_->SetEventOnCompletion(fanceCounter_[fenceIndex_], fenceEvent_);
-	//	WaitForSingleObject(fenceEvent_, INFINITE);
-	//}
-
-	////次frameのfaceCounterを増やす
-	//fanceCounter_[fenceIndex_] = currentValue + 1;
 }

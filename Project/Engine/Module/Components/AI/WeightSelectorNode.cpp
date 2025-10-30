@@ -2,6 +2,10 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コンストラクタ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 WeightSelectorNode::WeightSelectorNode() {
 	color_ = ImColor(144, 238, 144);
 	baseColor_ = color_;
@@ -9,6 +13,10 @@ WeightSelectorNode::WeightSelectorNode() {
 	SetNodeName("WeightSelector");
 	isReset_ = false;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ jsonに変換
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 json WeightSelectorNode::ToJson() {
 	json item;
@@ -22,6 +30,10 @@ json WeightSelectorNode::ToJson() {
 	}
 	return item;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 BehaviorStatus WeightSelectorNode::Execute() {
 	if (children_.empty()) {
@@ -52,6 +64,7 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		std::mt19937 gen(rd());
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
+		// 選択されたnodeを実行
 		currentIndex_ = keys[dist(gen)];
 		children_[currentIndex_]->Execute();
 		isReset_ = false;
@@ -85,10 +98,18 @@ BehaviorStatus WeightSelectorNode::Execute() {
 	return BehaviorStatus::Inactive;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void WeightSelectorNode::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	InputTextWithString("ReName:", "##wightSelector", node_.name);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 評価値の計算
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void WeightSelectorNode::PriorityDisplay() {
 	std::vector<std::pair<uint32_t, float>> priorityArray(weightMap_.begin(), weightMap_.end());
@@ -100,6 +121,7 @@ void WeightSelectorNode::PriorityDisplay() {
 
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking;
 
+	// weightの表示
 	if (ImGui::Begin("WeightSelector Priority Window", nullptr, flags)) {
 		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
 			ImGui::Text(children_[priorityArray[index].first]->NodeNameCombination().c_str());

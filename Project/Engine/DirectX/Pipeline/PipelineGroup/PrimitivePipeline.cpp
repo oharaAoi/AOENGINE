@@ -4,24 +4,38 @@ PrimitivePipeline::PrimitivePipeline() {
 	rootSignature_ = std::make_unique<RootSignature>();
 }
 
-PrimitivePipeline::~PrimitivePipeline() {
-}
+PrimitivePipeline::~PrimitivePipeline() {}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
 	device_ = device;
 	dxCompiler_ = dxCompiler;
 
+	// パイプライン生成の準備
 	rootSignature_->Initialize(device, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitive();
 	ShaderCompile("./Project/Packages/Engine/Assets/HLSL/Primitive.VS.hlsl", "./Project/Packages/Engine/Assets/HLSL/Primitive.PS.hlsl");
 
+	// パイプラインの生成
 	CreatePSO();
 }
 
-void PrimitivePipeline::Draw(ID3D12GraphicsCommandList* commandList) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PrimitivePipeline::BindCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootSignature(rootSignature_->GetRootSignature());
 	commandList->SetPipelineState(graphicsPipelineState_.Get());
 	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PrimitivePipeline::Finalize() {
 	rootSignature_->Finalize();
@@ -30,9 +44,10 @@ void PrimitivePipeline::Finalize() {
 	graphicsPipelineState_.Reset();
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓Iputlayoutの生成
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Inputlayoutの作詞絵
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
 	D3D12_INPUT_LAYOUT_DESC result{};
 	result.pInputElementDescs = elementDesc.data();
@@ -40,9 +55,10 @@ D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D
 	return result;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓shaderを読む
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ shaderを読み込む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PrimitivePipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
 	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(vertexShader);
 	assert(vertexShaderBlob_ != nullptr);
@@ -51,9 +67,10 @@ void PrimitivePipeline::ShaderCompile(const std::string& vertexShader, const std
 	assert(pixelShaderBlob_ != nullptr);
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓ブレンドの設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ blendnの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_BLEND_DESC PrimitivePipeline::SetBlendState() {
 	D3D12_BLEND_DESC blendDesc{};
 	// すべての色要素を書き込む
@@ -62,9 +79,10 @@ D3D12_BLEND_DESC PrimitivePipeline::SetBlendState() {
 	return blendDesc;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓ラスタライズの設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ラスタライザの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_RASTERIZER_DESC PrimitivePipeline::SetRasterizerState() {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
@@ -75,9 +93,10 @@ D3D12_RASTERIZER_DESC PrimitivePipeline::SetRasterizerState() {
 	return rasterizerDesc;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓depthの設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 深度情報の設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_DEPTH_STENCIL_DESC PrimitivePipeline::SetDepthStencilState() {
 	D3D12_DEPTH_STENCIL_DESC desc{};
 	// Depthの機能を有効化する
@@ -90,9 +109,10 @@ D3D12_DEPTH_STENCIL_DESC PrimitivePipeline::SetDepthStencilState() {
 	return desc;
 }
 
-//------------------------------------------------------------------------------------------------------
-// ↓PSOの設定
-//------------------------------------------------------------------------------------------------------
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプライン生成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PrimitivePipeline::CreatePSO() {
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};

@@ -1,6 +1,10 @@
 #include "PlannerSelectorNode.h"
 #include "Engine/Lib/Math/MyRandom.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コンストラクタ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 PlannerSelectorNode::PlannerSelectorNode() {
 	color_ = ImColor(255, 31, 31);
 	baseColor_ = color_;
@@ -8,6 +12,10 @@ PlannerSelectorNode::PlannerSelectorNode() {
 	SetNodeName("PlannerSelector");
 	reset_ = false;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ jsonに変換
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 json PlannerSelectorNode::ToJson() {
 	json item;
@@ -21,6 +29,10 @@ json PlannerSelectorNode::ToJson() {
 	}
 	return item;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 BehaviorStatus PlannerSelectorNode::Execute() {
 	if (children_.empty()) {
@@ -53,12 +65,14 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		std::mt19937 gen(rd());
 		std::discrete_distribution<> dist(weights.begin(), weights.end());
 
+		// 選択された子の実行
 		currentIndex_ = keys[dist(gen)];
 		children_[currentIndex_]->Execute();
 		children_[currentIndex_]->SetState(BehaviorStatus::Running);
 		reset_ = false;
 
 #ifdef _DEBUG
+		// 評価値の表示
 		PriorityDisplay();
 #endif
 
@@ -68,16 +82,20 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		BehaviorStatus status = children_[currentIndex_]->Execute();
 
 #ifdef _DEBUG
+		// 評価値の表示
 		PriorityDisplay();
 #endif
 
+		// 成功したら
 		if (status == BehaviorStatus::Success) {
 			reset_ = true;
 			return BehaviorStatus::Success;
 		}
+		// 実行中なら
 		if (status == BehaviorStatus::Running) {
 			return BehaviorStatus::Running;
 		}
+		// 失敗したら
 		if (status == BehaviorStatus::Failure) {
 			currentIndex_ = 0;
 			return BehaviorStatus::Failure;
@@ -87,13 +105,23 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 	return BehaviorStatus::Inactive;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 評価値の計算
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 float PlannerSelectorNode::EvaluateWeight() {
 	return 0.0f;
 }
 
-void PlannerSelectorNode::Debug_Gui() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-}
+void PlannerSelectorNode::Debug_Gui() {}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 評価値の表示
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlannerSelectorNode::PriorityDisplay() {
 	std::vector<std::pair<uint32_t, float>> priorityArray(priorityMap_.begin(), priorityMap_.end());
