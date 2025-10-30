@@ -4,6 +4,7 @@
 #include "Externals/ImGui/imgui.h"
 #include "Externals/ImGui/imgui_impl_dx12.h"
 #include "Externals/ImGui/imgui_impl_win32.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -48,11 +49,10 @@ public:
 	/// </summary>
 	void End();
 
+	void UpdateMousePosition(HWND _winHwnd, const Vector2& _renderTargetSize);
+
 	/// <summary>
 	/// 描画する
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* commandList);
-
-private:
-
 };

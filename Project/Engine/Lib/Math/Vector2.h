@@ -59,6 +59,22 @@ public:
 		return *this;
 	}
 
+	// 除算
+	Vector2 operator/(const Vector2& obj) const { return Vector2(x / obj.x, y / obj.y); }
+	Vector2 operator/(float obj) const { return Vector2(x / obj, y / obj); }
+
+	// 乗算代入
+	Vector2& operator/=(const Vector2& obj) {
+		x /= obj.x;
+		y /= obj.y;
+		return *this;
+	}
+	Vector2& operator/=(float obj) {
+		x /= obj;
+		y /= obj;
+		return *this;
+	}
+
 	// =============================================
 	// 数学用関数
 	// =============================================

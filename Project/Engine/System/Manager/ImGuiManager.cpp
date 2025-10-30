@@ -1,5 +1,6 @@
 #include "ImGuiManager.h"
 #include "ImGuizmo.h"
+#include "Engine/WinApp/WinApp.h"
 
 ImGuiManager* ImGuiManager::GetInstacne() {
 	static ImGuiManager instance;
@@ -41,6 +42,7 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 
 	ImGuiStyle& style = ImGui::GetStyle();
 	style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+
 }
 
 void ImGuiManager::Finalize(){
@@ -52,6 +54,7 @@ void ImGuiManager::Finalize(){
 void ImGuiManager::Begin(){
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
+	UpdateMousePosition(WinApp::GetInstance()->GetHwnd(), Vector2(float(WinApp::sWindowWidth), float(WinApp::sWindowHeight)));
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
 	//ImGui::SetWindowFontScale(0.1f);
@@ -60,6 +63,30 @@ void ImGuiManager::Begin(){
 void ImGuiManager::End() {
 	
 	ImGui::Render();
+}
+
+void ImGuiManager::UpdateMousePosition(HWND _winHwnd, const Vector2& _renderTargetSize) {
+	POINT point;
+	GetCursorPos(&point);
+
+	ScreenToClient(_winHwnd, &point);
+
+	RECT clientRect;
+	GetClientRect(_winHwnd, &clientRect);
+
+	Vector2 clientSize = {
+		static_cast<float>(clientRect.right - clientRect.left),
+		static_cast<float>(clientRect.bottom - clientRect.top)
+	};
+
+	/// 補正
+	Vector2 scale = _renderTargetSize / clientSize;
+	Vector2 corrected = {
+		point.x * scale.x,
+		point.y * scale.y
+	};
+
+	ImGui::GetIO().AddMousePosEvent(corrected.x, corrected.y);
 }
 
 void ImGuiManager::Draw(ID3D12GraphicsCommandList* commandList) {

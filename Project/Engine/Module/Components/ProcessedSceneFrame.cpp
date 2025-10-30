@@ -57,7 +57,7 @@ void ProcessedSceneFrame::DrawScene() {
 	availSize_ = ImGui::GetContentRegionAvail();
 	imagePos_ = ImGui::GetCursorScreenPos();
 	// アスペクト比維持したい場合はここで調整
-	float aspect = 16.0f / 9.0f;
+	const float aspect = 16.0f / 9.0f;
 	if (availSize_.x / availSize_.y > aspect) {
 		// 横が余る → 高さ基準に合わせる
 		availSize_.x = availSize_.y * aspect;
