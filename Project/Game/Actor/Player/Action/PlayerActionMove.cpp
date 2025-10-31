@@ -165,9 +165,9 @@ void PlayerActionMove::CheckNextAction() {
 		NextAction<PlayerActionQuickBoost>();
 	}
 
-	/*if (CheckInput<PlayerActionBoost>()) {
+	if (CheckInput<PlayerActionBoost>()) {
 		NextAction<PlayerActionBoost>();
-	}*/
+	}
 
 }
 

@@ -36,9 +36,16 @@ public:
 	/// <summary>
 	/// 開始処理
 	/// </summary>
-	/// <param name="strength">: 強さ</param>
-	/// <param name="startTime">: 時間</param>
-	void Start(float strength, float startTime);
+	/// <param name="_strength">: 強さ</param>
+	/// <param name="_startTime">: 時間</param>
+	/// <param name="_continuation">: 継続するか</param>
+	void Start(float _strength, float _startTime, bool _continuation);
+
+	/// <summary>
+	/// 徐々に止める
+	/// </summary>
+	/// <param name="time"></param>
+	void SlowDown(float time);
 
 	// 止める
 	void Stop();
@@ -52,7 +59,8 @@ private:
 	std::unique_ptr<DxResource> blurSettingBuffer_;
 	BlurSetting* setting_;
 
-	bool run_;
+	bool run_ = false;
+	bool continuation_ = false; // 継続するか
 	VectorTween<float> blurStrengthTween_;
 };
 

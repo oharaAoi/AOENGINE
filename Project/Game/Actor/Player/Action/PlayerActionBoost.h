@@ -1,10 +1,14 @@
 #pragma once
 #include <functional>
+// Engine
 #include "Engine/System/Input/Input.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Game/Actor/Base/BaseAction.h"
 #include "Engine/Module/PostEffect/RadialBlur.h"
+#include "Engine/Module/Components/Physics/Rigidbody.h"
+// Game
+#include "Game/Actor/Base/BaseAction.h"
+#include "Game/Camera/Animation/ICameraAnimation.h"
 
 // 前方宣言
 class Player;
@@ -17,28 +21,42 @@ class PlayerActionBoost :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float chargeTime;
-		float chargeForce;
+		float chargeTime;		// 溜める時間
+	
+		float boostForce;		// ブーストの力
+		float stopForce;		// 止める力
 
-		float boostForce;
-		float stopForce;
+		float bluerStrength;	// ブラーの強さ
+		float bluerStartTime;	// ブラーがかかるまでの時間
+		float bluerStopTime;	// ブラーが止まるまでの時間
 
-		Parameter() { SetName("actionBoost"); }
+		float consumeEnergy;	// 消費エネルギー
+
+		Parameter() { 
+			SetGroupName("PlayerAction");
+			SetName("ActionBoost"); 
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
-				.Add("chargeForce", chargeForce)
 				.Add("boostForce", boostForce)
 				.Add("stopForce", stopForce)
+				.Add("bluerStrength", bluerStrength)
+				.Add("bluerStartTime", bluerStartTime)
+				.Add("bluerStopTime", bluerStopTime)
+				.Add("consumeEnergy", consumeEnergy)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "chargeTime", chargeTime);
-			fromJson(jsonData, "chargeForce", chargeForce);
 			fromJson(jsonData, "boostForce", boostForce);
 			fromJson(jsonData, "stopForce", stopForce);
+			fromJson(jsonData, "bluerStrength", bluerStrength);
+			fromJson(jsonData, "bluerStartTime", bluerStartTime);
+			fromJson(jsonData, "bluerStopTime", bluerStopTime);
+			fromJson(jsonData, "consumeEnergy", consumeEnergy);
 		}
 
 		void Debug_Gui() override;
@@ -93,20 +111,21 @@ private:
 
 	// 他クラス ------------------------------------------------
 	Input* pInput_;
+	Rigidbody* pRigidbody_ = nullptr;
 	WorldTransform* pOwnerTransform_ = nullptr;
+	ICameraAnimation* pCameraAnimation_ = nullptr;
 
 	// State/Parameter ------------------------------------------------
 	Parameter param_;
 	Parameter initialPram_;
 	
-	Vector3 velocity_;
 	Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
 	Vector3 direction_;
 
 	// boost
 	std::function<void()> mainAction_;
-	bool finishBoost_;
-
+	bool isStop_ = false;
+	
 	// time
 	float timer_;
 

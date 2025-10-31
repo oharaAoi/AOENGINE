@@ -5,8 +5,10 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/Easing.h"
-#include "Game/Actor/Player/Player.h"
 #include "Engine/WinApp/WinApp.h"
+#include "Game/Actor/Player/Player.h"
+#include "Game/Camera/Animation/CameraAnimationShot.h"
+#include "Game/Camera/Animation/CameraAnimationBoost.h"
 
 FollowCamera::FollowCamera() = default;
 
@@ -49,8 +51,11 @@ void FollowCamera::Debug_Gui() {
 		}
 	}
 
-	cameraAnimation_->Debug_Gui();
-
+	// animationの変更
+	for (auto& animation : animationMap_) {
+		animation.second->Debug_Gui();
+	}
+	
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }
 
@@ -110,9 +115,13 @@ void FollowCamera::Init() {
 
 	Input::SetNotAccepted(true);
 
-	cameraAnimation_ = std::make_unique<CameraAnimation>();
-	cameraAnimation_->Init();
-	cameraAnimation_->SetFollowCamera(this);
+	animationMap_["shotAnimation"] = std::make_unique<CameraAnimationShot>();
+	animationMap_["boostAnimation"] = std::make_unique<CameraAnimationBoost>();
+ 
+	for (auto& animation : animationMap_) {
+		animation.second->Init();
+		animation.second->SetFollowCamera(this);
+	}
 
 	prePosition_ = CVector3::ZERO;
 	velocity_ = CVector3::ZERO;
@@ -135,7 +144,9 @@ void FollowCamera::Update() {
 		FirstCameraMove();
 	}
 
-	cameraAnimation_->Update();
+	for (auto& animation : animationMap_) {
+		animation.second->Update();
+	}
 
 	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
 	

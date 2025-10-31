@@ -1,11 +1,12 @@
 #pragma once
+#include <string>
+#include <unordered_map>
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/PostEffect/Grayscale.h"
 #include "Engine/Module/PostEffect/Vignette.h"
 #include "Game/Camera/BaseCamera.h"
 #include "Game/UI/Reticle.h"
-#include "Game/Camera/CameraAnimation.h"
-#include <utility>
+#include "Game/Camera/Animation/ICameraAnimation.h"
 
 class Player;
 
@@ -147,7 +148,7 @@ private:	// private method
 
 public:		// accessor method
 
-	CameraAnimation* GetCameraAnimation() const { return cameraAnimation_.get(); }
+	ICameraAnimation* GetCameraAnimation(const std::string& _name) const { return animationMap_.at(_name).get(); }
 
 	void SetOffset(const Vector3& _offset) { followCamera_.offset = _offset; }
 	const Vector3& GetOffset() const { return followCamera_.offset; }
@@ -204,7 +205,7 @@ private:
 	std::shared_ptr<Grayscale> grayscale_;
 	std::shared_ptr<Vignette> vignette_;
 
-	std::unique_ptr<CameraAnimation> cameraAnimation_;
+	std::unordered_map<std::string, std::unique_ptr<ICameraAnimation>> animationMap_;
 
 };
 

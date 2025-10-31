@@ -6,7 +6,7 @@
 // Game
 #include "Game/Actor/Base/BaseAction.h"
 #include "Game/Actor/Weapon/BaseWeapon.h"
-#include "Game/Camera/CameraAnimation.h"
+#include "Game/Camera/Animation/ICameraAnimation.h"
 
 
 class Player;
@@ -56,7 +56,7 @@ private:
 	bool isFinish_ = true;
 
 	Input* pInput_;
-	CameraAnimation* pCameraAnimation_ = nullptr;
+	ICameraAnimation* pCameraAnimation_ = nullptr;
 	BaseWeapon* pWeapon_ = nullptr;
 
 	std::function<void()> action_;

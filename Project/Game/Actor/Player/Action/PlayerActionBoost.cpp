@@ -1,7 +1,10 @@
 #include "PlayerActionBoost.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
-#include "Engine/Lib/Json/JsonItems.h"
+
+PlayerActionBoost::~PlayerActionBoost() {
+	blur_.reset();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -13,9 +16,12 @@ void PlayerActionBoost::Debug_Gui() {
 
 void PlayerActionBoost::Parameter::Debug_Gui() {
 	ImGui::DragFloat("chargeTime", &chargeTime, .1f);
-	ImGui::DragFloat("chargeForce", &chargeForce, .1f);
 	ImGui::DragFloat("boostForce", &boostForce, .1f);
 	ImGui::DragFloat("stopForce", &stopForce, .1f);
+	ImGui::DragFloat("bluerStrength", &bluerStrength, .1f);
+	ImGui::DragFloat("bluerStartTime", &bluerStartTime, .1f);
+	ImGui::DragFloat("bluerStopTime", &bluerStopTime, .1f);
+	ImGui::DragFloat("consumeEN", &consumeEnergy, .1f);
 	SaveAndLoad();
 }
 
@@ -23,14 +29,11 @@ void PlayerActionBoost::Parameter::Debug_Gui() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlayerActionBoost::~PlayerActionBoost() {
-	blur_.reset();
-}
-
 void PlayerActionBoost::Build() {
-	SetName("actionBoost");
+	SetName("ActionBoost");
 	pInput_ = Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
+	pRigidbody_ = pOwner_->GetGameObject()->GetRigidbody();
 
 	initialPram_.SetGroupName(pManager_->GetName());
 	initialPram_.Load();
@@ -45,16 +48,18 @@ void PlayerActionBoost::Build() {
 void PlayerActionBoost::OnStart() {
 	param_ = initialPram_;
 
-	stick_ = pInput_->GetLeftJoyStick();
-	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
-
-	acceleration_ = direction_ * param_.boostForce;
-	velocity_ = { 0.0f, 0.0f, 0.0f };
-
 	timer_ = .0f;
-	finishBoost_ = false;
+	isStop_ = false;
+
+	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation("boostAnimation");
+	pCameraAnimation_->CallExecute(true);
 
 	mainAction_ = std::bind(&PlayerActionBoost::BoostCharge, this);
+
+	blur_->Start(param_.bluerStrength, param_.bluerStartTime, true);
+
+	// boostをonにする
+	pOwner_->GetJetEngine()->BoostOn();
 	pOwner_->GetJetEngine()->JetIsStart();
 }
 
@@ -63,16 +68,15 @@ void PlayerActionBoost::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::OnUpdate() {
-
+	// mainのアクションを実行する
 	mainAction_();
 
-	if (!finishBoost_) {
-		if (CheckStop()) {
-			mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
-			finishBoost_ = true;
-
-			blur_->Stop();
-		}
+	// 中止判定を行なう
+	if (CheckStop()) {
+		isStop_ = true;
+		mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
+		
+		blur_->SlowDown(param_.bluerStopTime);
 	}
 	pOwner_->UpdateJoint();
 }
@@ -82,6 +86,7 @@ void PlayerActionBoost::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::OnEnd() {
+	pCameraAnimation_->CallExecute(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,8 +94,9 @@ void PlayerActionBoost::OnEnd() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::CheckNextAction() {
-	if (finishBoost_) {
-		if (velocity_.Length() < 0.1f) {
+	if (isStop_) {
+		const Vector3 velocity = pRigidbody_->GetVelocity();
+		if (velocity.Length() < 0.1f) {
 			NextAction<PlayerActionMove>();
 		}
 	}
@@ -108,33 +114,30 @@ bool PlayerActionBoost::IsInput() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ main action
+// ↓ Boost開始前の溜める時間
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerActionBoost::BoostCharge() {
+	timer_ += GameTimer::DeltaTime();
+
+	if (timer_ >= param_.chargeTime) {
+		mainAction_ = std::bind(&PlayerActionBoost::Boost, this);
+	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実際にブーストを行なう処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::Boost() {
 	direction_ = pOwner_->GetFollowCamera()->GetAngleX().MakeForward();
 	acceleration_ = direction_ * param_.boostForce;
 
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
-	pOwnerTransform_->srt_.translate += velocity_;
-}
+	pRigidbody_->AddVelocity(acceleration_);
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ boostCharge
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerActionBoost::BoostCharge() {
-	timer_ += GameTimer::DeltaTime();
-
-	if (timer_ < param_.chargeTime) {
-		Vector3 backDirection = pOwner_->GetTransform()->srt_.rotate.MakeForward();
-		acceleration_ = (backDirection.Normalize() * -1.0f) * param_.boostForce;
-		velocity_ += acceleration_ * GameTimer::DeltaTime();
-		pOwnerTransform_->srt_.translate += velocity_;
-	} else {
-		mainAction_ = std::bind(&PlayerActionBoost::Boost, this);
-		blur_->Start(1.f, 2.0f);
-	}
+	// エネルギーを消費する
+	pOwner_->ConsumeEN(param_.consumeEnergy * GameTimer::DeltaTime());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +145,8 @@ void PlayerActionBoost::BoostCharge() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::BoostStop() {
-	velocity_ *= param_.stopForce;
-	pOwnerTransform_->srt_.translate += velocity_;
+	const Vector3 velocity = pRigidbody_->GetVelocity() * param_.stopForce;
+	pRigidbody_->SetVelocity(velocity);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

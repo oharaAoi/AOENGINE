@@ -1,12 +1,14 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Game/Camera/Animation/ICameraAnimation.h"
 
 class FollowCamera;
 
 /// <summary>
 /// カメラのアニメーションを行うクラス
 /// </summary>
-class CameraAnimation {
+class CameraAnimationShot :
+	public ICameraAnimation {
 public:	// 構造体
 
 	struct ShotAnimationParam : public IJsonConverter {
@@ -40,34 +42,26 @@ public:	// 構造体
 
 public: // default method
 
-	CameraAnimation();
-	~CameraAnimation();
+	CameraAnimationShot();
+	~CameraAnimationShot();
 
 public:
 
 	// 初期化
-	void Init();
+	void Init() override;
 	// 更新
-	void Update();
+	void Update() override;
 	// 弾を撃つ際のアニメーションを実行する
-	void ExecuteShotAnimation(bool _isApproach);
+	void CallExecute(bool _isRevers) override;
 	// 編集処理
-	void Debug_Gui();
+	void Debug_Gui() override;
 
 private: // private method 
 
 	// 
 	void ShotAnimation();
 
-public: // accessor method
-
-	bool GetShotAnimationFinish() const { return shotAnimation_.isExecute; }
-
-	void SetFollowCamera(FollowCamera* _followCamera) { pFollowCamera_ = _followCamera; }
-
 private: // private variable
-
-	FollowCamera* pFollowCamera_ = nullptr;
 
 	ShotAnimationParam shotAnimation_;
 	Vector3 offset_;

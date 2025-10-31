@@ -33,8 +33,8 @@ void PlayerActionShotLeft::OnStart() {
 	pManager_->DeleteOther(hash);
 
 	// カメラアクションを実行させる
-	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation();
-	pCameraAnimation_->ExecuteShotAnimation(true);
+	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation("shotAnimation");
+	pCameraAnimation_->CallExecute(true);
 	isFinish_ = false;
 
 	// 重力が適応されている場合は重力を無効にする
@@ -114,21 +114,21 @@ void PlayerActionShotLeft::Shot() {
 		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
 	}
 	action_ = [&] { this->Recoil(); };
-	pCameraAnimation_->ExecuteShotAnimation(false);// カメラを離す
+	pCameraAnimation_->CallExecute(false);// カメラを離す
 
 	// カメラを揺らす
 	pOwner_->GetFollowCamera()->SetShake(0.2f, 1.0f);
 }
 
 void PlayerActionShotLeft::StartUp() {
-	if (!pCameraAnimation_->GetShotAnimationFinish()) {
+	if (pCameraAnimation_->GetIsFinish()) {
 		action_ = [&] { this->Shot(); };
 		actionTimer_ = 0;
 	}
 }
 
 void PlayerActionShotLeft::Recoil() {
-	if (!pCameraAnimation_->GetShotAnimationFinish()) {
+	if (pCameraAnimation_->GetIsFinish()) {
 		isFinish_ = true;
 	}
 }

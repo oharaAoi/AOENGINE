@@ -1,35 +1,40 @@
-#include "CameraAnimation.h"
+#include "CameraAnimationShot.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Engine/Lib/GameTimer.h"
 
-CameraAnimation::CameraAnimation() = default;
-CameraAnimation::~CameraAnimation() = default;
+CameraAnimationShot::CameraAnimationShot() = default;
+CameraAnimationShot::~CameraAnimationShot() = default;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraAnimation::Init() {
+void CameraAnimationShot::Init() {
 	shotAnimation_.Load();
+	isFinish_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void CameraAnimation::Update() {
+void CameraAnimationShot::Update() {
 	if (shotAnimation_.isExecute) {
 		ShotAnimation();
 	}
 }
 
-void CameraAnimation::Debug_Gui() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void CameraAnimationShot::Debug_Gui() {
 	if (ImGui::CollapsingHeader("ShotAnimation")) {
 		shotAnimation_.Debug_Gui();
 	}
 }
 
-void CameraAnimation::ShotAnimationParam::Debug_Gui() {
+void CameraAnimationShot::ShotAnimationParam::Debug_Gui() {
 	ImGui::Checkbox("isExecute", &isExecute);
 	ImGui::Checkbox("isApproach", &isApproach);
 	// offsetZ: editor, dragFloat, 0.1
@@ -39,19 +44,29 @@ void CameraAnimation::ShotAnimationParam::Debug_Gui() {
 	SaveAndLoad();
 }
 
-void CameraAnimation::ExecuteShotAnimation(bool _isApproach) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行を呼ぶ処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void CameraAnimationShot::CallExecute(bool _isRevers) {
 	shotAnimation_.isExecute = true;
-	shotAnimation_.isApproach = _isApproach;
+	shotAnimation_.isApproach = _isRevers;
 	shotAnimation_.timer = 0.0f;
 	offset_ = pFollowCamera_->GetInitOffset();
+	isFinish_ = false;
 }
 
-void CameraAnimation::ShotAnimation() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ animationの内容
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void CameraAnimationShot::ShotAnimation() {
 	if (pFollowCamera_ == nullptr) { return ; }
 	if (!shotAnimation_.isExecute) { return ; }
 
 	shotAnimation_.timer += GameTimer::DeltaTime();
 	float t = shotAnimation_.timer / shotAnimation_.time;
+
 	float z = 0;
 	if (shotAnimation_.isApproach) {
 		z = std::lerp(offset_.z, shotAnimation_.offsetZ, t);
@@ -62,5 +77,6 @@ void CameraAnimation::ShotAnimation() {
 
 	if (shotAnimation_.timer >= shotAnimation_.time) {
 		shotAnimation_.isExecute = false;
+		isFinish_ = true;
 	}
 }

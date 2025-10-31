@@ -144,6 +144,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Lib\Profiler.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationBoost.h" />
+    <ClInclude Include="Game\Camera\Animation\ICameraAnimation.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
@@ -385,7 +387,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Camera\BaseCamera.h" />
     <ClInclude Include="Game\Camera\Camera2d.h" />
     <ClInclude Include="Game\Camera\Camera3d.h" />
-    <ClInclude Include="Game\Camera\CameraAnimation.h" />
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationShot.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Effects\HitExploade.h" />
@@ -687,10 +689,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationBoost.cpp" />
+    <ClCompile Include="Game\Camera\Animation\ICameraAnimation.cpp" />
     <ClCompile Include="Game\Camera\BaseCamera.cpp" />
     <ClCompile Include="Game\Camera\Camera2d.cpp" />
     <ClCompile Include="Game\Camera\Camera3d.cpp" />
-    <ClCompile Include="Game\Camera\CameraAnimation.cpp" />
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationShot.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Effects\HitExploade.cpp" />

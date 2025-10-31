@@ -69,8 +69,6 @@ void PlayerActionQuickBoost::OnStart() {
  	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
-	//pOwner_->GetFollowCamera()->SetShake(initParam_.cameraShakeTime, initParam_.cameraShakeStrength);
-	pOwner_->GetJetEngine()->JetIsStart();
 
 	boostParticle_->Reset();
 
@@ -82,9 +80,10 @@ void PlayerActionQuickBoost::OnStart() {
 	// カメラを揺らす
 	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
 	// ブラーを画面にかける
-	pRadialBlur_->Start(0.2f, 0.2f);
+	pRadialBlur_->Start(0.2f, 0.2f, false);
 	// boostをonにする
 	pOwner_->GetJetEngine()->BoostOn();
+	pOwner_->GetJetEngine()->JetIsStart();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -135,8 +134,6 @@ bool PlayerActionQuickBoost::IsInput() {
 void PlayerActionQuickBoost::Boost() {
 	float t = actionTimer_ / param_.decelerationTime;
 	float bezierValue = param_.decelerationCurve.BezierValue(1 - t);
-
-	pOwner_->GetJetEngine()->JetIsStart();
 
 	param_.boostForce *= bezierValue;
 	acceleration_ = direction_ * (initParam_.boostForce * bezierValue);

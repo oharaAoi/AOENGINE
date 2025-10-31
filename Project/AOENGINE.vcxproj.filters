@@ -1062,7 +1062,7 @@
     <ClInclude Include="Game\Camera\Camera3d.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Camera\CameraAnimation.h">
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationShot.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game\Camera\DebugCamera.h">
@@ -1194,6 +1194,8 @@
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\Lib\Profiler.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
+    <ClInclude Include="Game\Camera\Animation\ICameraAnimation.h" />
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationBoost.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1955,7 +1957,7 @@
     <ClCompile Include="Game\Camera\Camera3d.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Camera\CameraAnimation.cpp">
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationShot.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\DebugCamera.cpp">
@@ -2079,5 +2081,7 @@
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\Lib\Profiler.cpp" />
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
+    <ClCompile Include="Game\Camera\Animation\ICameraAnimation.cpp" />
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationBoost.cpp" />
   </ItemGroup>
 </Project>
