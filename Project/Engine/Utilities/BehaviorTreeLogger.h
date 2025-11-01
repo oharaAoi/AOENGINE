@@ -30,6 +30,12 @@ public:
 	/// <param name="message">: メッセージ</param>
 	void AssertLog(const std::string& _message);
 
+	/// <summary>
+	/// 古いlogファイルを消す
+	/// </summary>
+	/// <param name="max"></param>
+	void DeleteOldLogFile(size_t max);
+
 private:
 
 	std::string filePath_;
