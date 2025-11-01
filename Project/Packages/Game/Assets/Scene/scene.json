@@ -124,65 +124,10 @@
         },
         {
             "type": "MESH",
-            "name": "sbill",
-            "transform": {
-                "translation": [
-                    1.2331829071044922,
-                    -32.753997802734375,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    6.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "disabled": false,
-            "file_name": "sbill.obj",
-            "colliders": [
-                {
-                    "type": "BOX",
-                    "center": [
-                        0.0,
-                        0.0,
-                        2.5199999809265137
-                    ],
-                    "size": [
-                        6.679999828338623,
-                        2.0899999141693115,
-                        5.179999828338623
-                    ],
-                    "tag": "ground",
-                    "collisionFilter_tags": [
-                        "player",
-                        "playerLeg",
-                        "boss",
-                        "bossAttack",
-                        "bossMissile",
-                        "machinegun",
-                        "launcher",
-                        "playerRightLeg",
-                        "playerLeftLeg"
-                    ]
-                }
-            ],
-            "collider_tag": "ground",
-            "collisionFilter_tags": [
-                "player",
-                "playerLeg"
-            ]
-        },
-        {
-            "type": "MESH",
             "name": "sbill.001",
             "transform": {
                 "translation": [
-                    -36.13042068481445,
+                    -47.409732818603516,
                     -63.50813293457031,
                     0.0
                 ],
@@ -237,7 +182,7 @@
             "name": "sbill.002",
             "transform": {
                 "translation": [
-                    45.34157943725586,
+                    65.00287628173828,
                     -63.587257385253906,
                     0.0
                 ],
@@ -292,7 +237,7 @@
             "name": "sbill.003",
             "transform": {
                 "translation": [
-                    45.13028335571289,
+                    64.79158020019531,
                     -110.59722137451172,
                     0.0
                 ],
@@ -347,7 +292,7 @@
             "name": "sbill.004",
             "transform": {
                 "translation": [
-                    -33.84598922729492,
+                    -45.125301361083984,
                     -112.28328704833984,
                     0.0
                 ],
@@ -622,7 +567,7 @@
             "name": "bill.005",
             "transform": {
                 "translation": [
-                    124.0396728515625,
+                    129.2681121826172,
                     -20.014373779296875,
                     0.0
                 ],
@@ -733,7 +678,7 @@
             "transform": {
                 "translation": [
                     0.0,
-                    0.0,
+                    -84.30654907226562,
                     0.18797656893730164
                 ],
                 "rotation": [
@@ -811,7 +756,7 @@
             "name": "InvisibleWall.001",
             "transform": {
                 "translation": [
-                    -1.05303955078125,
+                    18.608257293701172,
                     -175.80953979492188,
                     96.65318298339844
                 ],

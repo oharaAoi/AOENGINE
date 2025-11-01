@@ -76,14 +76,26 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
+
+	// -------------------------------------------------
+	// ↓ Animationの設定
+	// -------------------------------------------------
 	object_->SetAnimater("./Project/Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
+	object_->GetAnimetor()->GetAnimationClip()->PoseToAnimation("idle", 0.2f);
 	object_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
+
+	// -------------------------------------------------
+	// ↓ Jet関連
+	// -------------------------------------------------
 
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
 	jet_->SetParent(this);
-
 	AddChild(jet_.get());
+
+	// -------------------------------------------------
+	// ↓ Collider関連
+	// -------------------------------------------------
 
 	ICollider* collider = object_->GetCollider("player");
 	collider->SetIsStatic(false);
@@ -157,8 +169,9 @@ void Player::Init() {
 void Player::Update() {
 	// boostの判定
 	IsBoostMode();
-
+	// actionの更新
 	actionManager_->Update();
+	// stateの更新
 	stateMachine_->Update();
 
 	// カメラを傾ける

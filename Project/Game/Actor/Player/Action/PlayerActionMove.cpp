@@ -138,7 +138,7 @@ void PlayerActionMove::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::CheckNextAction() {
-	if (pRigidbody_->GetVelocity().Length() <= 0.01f) {
+	if (pRigidbody_->GetVelocity().Length() <= 0.1f) {
 		if (pOwner_->GetIsLanding()) {
 			NextAction<PlayerActionIdle>();
 		}
