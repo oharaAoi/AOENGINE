@@ -21,16 +21,19 @@ class PlayerActionBoost :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float chargeTime;		// 溜める時間
+		float chargeTime;			// 溜める時間
 	
-		float boostForce;		// ブーストの力
-		float stopForce;		// 止める力
+		float boostForce;			// ブーストの力
+		float stopForce;			// 止める力
 
-		float bluerStrength;	// ブラーの強さ
-		float bluerStartTime;	// ブラーがかかるまでの時間
-		float bluerStopTime;	// ブラーが止まるまでの時間
+		float bluerStrength;		// ブラーの強さ
+		float bluerStartTime;		// ブラーがかかるまでの時間
+		float bluerStopTime;		// ブラーが止まるまでの時間
 
-		float consumeEnergy;	// 消費エネルギー
+		float consumeEnergy;		// 消費エネルギー
+
+		float overTakingThreshold;	// 追い越し防止閾値
+		float stopThreshold;		// 止まる閾値
 
 		Parameter() { 
 			SetGroupName("PlayerAction");
@@ -46,6 +49,8 @@ public:
 				.Add("bluerStartTime", bluerStartTime)
 				.Add("bluerStopTime", bluerStopTime)
 				.Add("consumeEnergy", consumeEnergy)
+				.Add("overTakingThreshold", overTakingThreshold)
+				.Add("stopThreshold", stopThreshold)
 				.Build();
 		}
 
@@ -57,6 +62,8 @@ public:
 			fromJson(jsonData, "bluerStartTime", bluerStartTime);
 			fromJson(jsonData, "bluerStopTime", bluerStopTime);
 			fromJson(jsonData, "consumeEnergy", consumeEnergy);
+			fromJson(jsonData, "overTakingThreshold", overTakingThreshold);
+			fromJson(jsonData, "stopThreshold", stopThreshold);
 		}
 
 		void Debug_Gui() override;
@@ -125,6 +132,7 @@ private:
 	// boost
 	std::function<void()> mainAction_;
 	bool isStop_ = false;
+	bool isSlow_ = false;
 	
 	// time
 	float timer_;

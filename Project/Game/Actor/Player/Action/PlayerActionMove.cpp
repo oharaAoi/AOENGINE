@@ -193,7 +193,6 @@ bool PlayerActionMove::IsInput() {
 
 
 void PlayerActionMove::Move() {
-	WorldTransform* transform = pOwner_->GetTransform();
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
 	// ----------------------
@@ -253,11 +252,7 @@ void PlayerActionMove::Move() {
 	// ----------------------
 	// 向き更新
 	// ----------------------
-	if (velocity_.x != 0.0f || velocity_.z != 0.0f) {
-		float angle = std::atan2f(velocity_.x, velocity_.z);
-		Quaternion lerpQuaternion = Quaternion::Slerp(transform->srt_.rotate, Quaternion::AngleAxis(angle, CVector3::UP), param_.rotateT);
-		transform->srt_.rotate = lerpQuaternion;
-	}
+	pOwner_->LookTarget(param_.rotateT, pOwner_->GetReticle()->GetLockOn());
 
 	// ----------------------
 	// ブーストエフェクト制御

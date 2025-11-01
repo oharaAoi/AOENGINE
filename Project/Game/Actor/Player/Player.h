@@ -97,6 +97,11 @@ public:
 public:	// member method
 
 	/// <summary>
+	/// targetの方向を見る
+	/// </summary>
+	void LookTarget(float _rotateT_, bool isLockOn);
+
+	/// <summary>
 	/// 攻撃を行う
 	/// </summary>
 	void Attack(PlayerWeapon _weapon, AttackContext _contex);
@@ -189,6 +194,7 @@ public: // accessor method
 
 	// reticle
 	void SetReticle(Reticle* reticle) { reticle_ = reticle; }
+	Reticle* GetReticle() const { return reticle_; }
 	bool GetIsLockOn() const { return reticle_->GetLockOn(); }
 
 	// targetの座標を

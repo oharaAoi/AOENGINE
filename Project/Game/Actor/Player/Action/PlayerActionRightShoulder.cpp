@@ -24,6 +24,12 @@ void PlayerActionRightShoulder::OnStart() {
 
 void PlayerActionRightShoulder::OnUpdate() {
 	Shot();
+
+	// ----------------------
+	// 向き更新
+	// ----------------------
+	pOwner_->LookTarget(1.0f, pOwner_->GetReticle()->GetLockOn());
+
 	isFinish_ = true;
 }
 

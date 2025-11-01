@@ -35,6 +35,12 @@ void Rigidbody::Debug_Gui() {
 	ImGui::DragFloat("drag_", &drag_);
 }
 
+Quaternion Rigidbody::LookVelocity(const Quaternion& _rotate, float _rotateT, const Vector3& _axis) {
+	float angle = std::atan2f(velocity_.x, velocity_.z);
+	Quaternion lerpQuaternion = Quaternion::Slerp(_rotate, Quaternion::AngleAxis(angle, _axis), _rotateT);
+	return lerpQuaternion;
+}
+
 void Rigidbody::SetPushbackForce(const Vector3& _force) {
 	pushbackForce_ += _force;
 

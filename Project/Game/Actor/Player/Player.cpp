@@ -155,18 +155,13 @@ void Player::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
-	actionManager_->Update();
-	stateMachine_->Update();
+	// boostの判定
 	IsBoostMode();
 
-	if (reticle_->GetLockOn()) {
-		Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
-		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
-		toTarget = toTarget.Normalize();
-		Quaternion targetToRotate = Quaternion::LookRotation(toTarget);
-		transform_->srt_.rotate = Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
-	}
+	actionManager_->Update();
+	stateMachine_->Update();
 
+	// カメラを傾ける
 	CameraIncline();
 
 	// 攻撃を行う
@@ -198,6 +193,22 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 		pWeapons_[RIGHT_WEAPON] = _weapon;
 	} else if (type == PlayerWeapon::RIGHT_SHOULDER) {
 		pWeapons_[PlayerWeapon::RIGHT_SHOULDER] = _weapon;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ targetの方向をみる
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::LookTarget(float _rotateT_, bool isLockOn) {
+	if (isLockOn) {
+		Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
+		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
+		toTarget = toTarget.Normalize();
+		Quaternion targetToRotate = Quaternion::LookRotation(toTarget);
+		transform_->srt_.rotate = Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
+	} else {
+		transform_->SetRotate(object_->GetRigidbody()->LookVelocity(transform_->GetRotate(), _rotateT_));
 	}
 }
 

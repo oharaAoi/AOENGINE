@@ -1,6 +1,7 @@
 #include "PlayerActionBoost.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 
 PlayerActionBoost::~PlayerActionBoost() {
 	blur_.reset();
@@ -22,6 +23,8 @@ void PlayerActionBoost::Parameter::Debug_Gui() {
 	ImGui::DragFloat("bluerStartTime", &bluerStartTime, .1f);
 	ImGui::DragFloat("bluerStopTime", &bluerStopTime, .1f);
 	ImGui::DragFloat("consumeEN", &consumeEnergy, .1f);
+	ImGui::DragFloat("overTakingThreshold", &overTakingThreshold, .1f);
+	ImGui::DragFloat("stopThreshold", &stopThreshold, .1f);
 	SaveAndLoad();
 }
 
@@ -50,6 +53,7 @@ void PlayerActionBoost::OnStart() {
 
 	timer_ = .0f;
 	isStop_ = false;
+	isSlow_ = false;
 
 	pCameraAnimation_ = pOwner_->GetFollowCamera()->GetCameraAnimation("boostAnimation");
 	pCameraAnimation_->CallExecute(true);
@@ -73,12 +77,33 @@ void PlayerActionBoost::OnUpdate() {
 
 	// 中止判定を行なう
 	if (CheckStop()) {
-		isStop_ = true;
+		// stopに入る
 		mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
-		
 		blur_->SlowDown(param_.bluerStopTime);
+		isSlow_ = true;
 	}
 	pOwner_->UpdateJoint();
+
+	// ----------------------
+	// 向き更新
+	// ----------------------
+	pOwner_->LookTarget(0.1f, false);
+
+	// ----------------------
+	// 追い越し防止処理を行なう
+	// ----------------------
+
+	const Vector3 targetPos = pOwner_->GetReticle()->GetTargetPos();
+	Vector3 sub = targetPos - pOwnerTransform_->GetPos();
+	sub.y = 0;
+	float distance = sub.Length();
+
+	if (distance < param_.overTakingThreshold) {
+		// stopに入る
+		mainAction_ = std::bind(&PlayerActionBoost::BoostStop, this);
+		blur_->SlowDown(param_.bluerStopTime);
+		isSlow_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,9 +120,12 @@ void PlayerActionBoost::OnEnd() {
 
 void PlayerActionBoost::CheckNextAction() {
 	if (isStop_) {
-		const Vector3 velocity = pRigidbody_->GetVelocity();
-		if (velocity.Length() < 0.1f) {
-			NextAction<PlayerActionMove>();
+		NextAction<PlayerActionMove>();
+	}
+
+	if (!isSlow_) {
+		if (std::fabs(stick_.x) > 0.8f) {
+			AddAction<PlayerActionQuickBoost>();
 		}
 	}
 }
@@ -145,8 +173,12 @@ void PlayerActionBoost::Boost() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::BoostStop() {
-	const Vector3 velocity = pRigidbody_->GetVelocity() * param_.stopForce;
+	Vector3 velocity = pRigidbody_->GetVelocity();
+	velocity *= std::pow(param_.stopForce, GameTimer::DeltaTime());
 	pRigidbody_->SetVelocity(velocity);
+	if (velocity.Length() < param_.stopThreshold) {
+		isStop_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,7 +187,7 @@ void PlayerActionBoost::BoostStop() {
 
 bool PlayerActionBoost::CheckStop() {
 	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
-	if (stick_.y < -0.1f) {
+	if (stick_.y < -0.9f) {
 		return true;
 	}
 

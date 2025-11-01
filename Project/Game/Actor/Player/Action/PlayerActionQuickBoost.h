@@ -113,5 +113,7 @@ private:
 
 	Rigidbody* pRigidBody_;
 
+	size_t boostClassId_;
+
 };
 

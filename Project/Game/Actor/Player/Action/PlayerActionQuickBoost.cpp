@@ -2,6 +2,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
+#include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Engine/System/Manager/ParticleManager.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +50,8 @@ void PlayerActionQuickBoost::Build() {
 	pRigidBody_ = pOwner_->GetGameObject()->GetRigidbody();
 
 	pRadialBlur_ = Engine::GetPostProcess()->GetRadialBlur();
+
+	boostClassId_ = typeid(PlayerActionBoost).hash_code();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,7 +63,13 @@ void PlayerActionQuickBoost::OnStart() {
 
 	// 初速度を求める
 	stick_ = pInput_->GetLeftJoyStick().Normalize();
-	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
+
+	if (pManager_->ExistAction(boostClassId_)) {
+		Vector3 right = pOwnerTransform_->GetRotate().MakeRight()* stick_.x;
+		direction_ = right;
+	} else {
+		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
+	}
 
 	acceleration_ = direction_ * param_.boostForce;
 	pRigidBody_->SetVelocity(acceleration_ * GameTimer::DeltaTime());
@@ -110,7 +119,12 @@ void PlayerActionQuickBoost::OnEnd() {
 
 void PlayerActionQuickBoost::CheckNextAction() {
 	if (actionTimer_ >= param_.decelerationTime) {
-		NextAction<PlayerActionMove>();
+		// boost中であるならば自身を削除
+		if (pManager_->ExistAction(boostClassId_)) {
+			DeleteSelf();
+		} else {
+			NextAction<PlayerActionMove>();
+		}
 	}
 }
 

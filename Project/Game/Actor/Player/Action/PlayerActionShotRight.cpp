@@ -30,6 +30,11 @@ void PlayerActionShotRight::OnStart() {
 
 void PlayerActionShotRight::OnUpdate() {
 	Shot();
+
+	// ----------------------
+	// 向き更新
+	// ----------------------
+	pOwner_->LookTarget(1.0f, pOwner_->GetReticle()->GetLockOn());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
@@ -20,6 +21,15 @@ public:
 	void Update();
 	// 編集処理
 	void Debug_Gui() override;
+
+	/// <summary>
+	/// 速度方向の回転を返す
+	/// </summary>
+	/// <param name="_rotate">: もともとの回</param>
+	/// <param name="_rotateT">: 回転率</param>
+	/// 	/// <param name="_axis">: 軸</param>
+	/// <returns></returns>
+	Quaternion LookVelocity(const Quaternion& _rotate, float _rotateT, const Vector3& _axis = CVector3::UP);
 
 public:
 
