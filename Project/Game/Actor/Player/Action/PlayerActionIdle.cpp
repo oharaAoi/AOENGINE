@@ -6,6 +6,8 @@
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 #include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
+#include "Game/Actor/Player/Action/PlayerActionBoost.h"
+#include "Game/Actor/Player/Action/PlayerActionQuickBoost.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
@@ -48,9 +50,13 @@ void PlayerActionIdle::OnEnd() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::CheckNextAction() {
-	/*if (pOwner_->GetTransform()->srt_.translate.y >= 1.f) {
-		AddAction<PlayerActionJump>();
-	}*/
+	if (CheckInput<PlayerActionBoost>()) {
+		NextAction<PlayerActionBoost>();
+	}
+
+	if (CheckInput<PlayerActionQuickBoost>()) {
+		NextAction<PlayerActionQuickBoost>();
+	}
 
 	if (CheckInput<PlayerActionMove>()) {
 		NextAction<PlayerActionMove>();

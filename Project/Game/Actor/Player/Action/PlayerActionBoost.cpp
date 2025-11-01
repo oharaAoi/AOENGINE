@@ -195,5 +195,9 @@ bool PlayerActionBoost::CheckStop() {
 		return true;
 	}
 
+	if (pOwner_->GetParam().energy <= 0.0f) {
+		return true;
+	}
+
 	return false;
 }
