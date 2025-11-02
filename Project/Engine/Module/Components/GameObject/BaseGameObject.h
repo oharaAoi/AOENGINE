@@ -61,9 +61,11 @@ public:
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 
-	const Vector3& GetPosition() const { return worldPos_; }
+	Vector3 GetPosition() const { return worldPos_ + offset_; }
 
 	void SetIsShadow(bool _flag) { isShadow_ = _flag; }
+
+	void SetOffset(const Vector3& _offset) { offset_ = _offset; }
 
 	// -------------------------------------------------
 	// ↓ Material関連
@@ -119,6 +121,7 @@ protected:
 
 	Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
+	Vector3 offset_ = CVector3::ZERO;
 
 	bool isAnimation_ = false;
 

@@ -123,5 +123,5 @@ private:
 	bool openParticleEditor_;
 	bool colliderDraw_;
 	bool gridDraw_;
-
+	bool isSkip_;
 };

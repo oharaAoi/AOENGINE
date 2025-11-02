@@ -3,6 +3,7 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 // Engine
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理

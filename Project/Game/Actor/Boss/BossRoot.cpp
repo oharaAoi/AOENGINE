@@ -13,7 +13,7 @@ void BossRoot::Init() {
 
 void BossRoot::Update() {
 	boss_->SetIsTargetDead(pPlayer_->GetIsDead());
-	boss_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());
+	boss_->SetPlayerPosition(pPlayer_->GetGameObject()->GetPosition());
 	boss_->Update();
 
 	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());

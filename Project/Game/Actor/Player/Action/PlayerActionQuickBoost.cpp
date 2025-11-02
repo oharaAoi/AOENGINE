@@ -69,6 +69,9 @@ void PlayerActionQuickBoost::OnStart() {
 		direction_ = right;
 	} else {
 		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
+
+		// ブラーを画面にかける
+		pRadialBlur_->Start(0.2f, 0.2f, false);
 	}
 
 	acceleration_ = direction_ * param_.boostForce;
@@ -88,8 +91,6 @@ void PlayerActionQuickBoost::OnStart() {
 
 	// カメラを揺らす
 	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
-	// ブラーを画面にかける
-	pRadialBlur_->Start(0.2f, 0.2f, false);
 	// boostをonにする
 	pOwner_->GetJetEngine()->BoostOn();
 	pOwner_->GetJetEngine()->JetIsStart();

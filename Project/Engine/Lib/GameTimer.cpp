@@ -1,6 +1,7 @@
 #include "GameTimer.h"
 
 float GameTimer::deltaTime_ = 0.0f;
+float GameTimer::fixedDeltaTime_ = 1.0f / 60.0f;
 float GameTimer::fps_ = 60.0f;
 float GameTimer::timeRate_ = 0.0f;
 float GameTimer::totalTime_ = 0.0f;

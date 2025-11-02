@@ -95,8 +95,7 @@ void PlayerActionDeployArmor::CheckNextAction() {
 bool PlayerActionDeployArmor::IsInput() {
 	if (pOwner_->GetIsDeployArmor()) { return false; }
 
-	if (pInput_->IsPressButton(XInputButtons::LSTICK_THUMB)
-		&& pInput_->IsPressButton(XInputButtons::BUTTON_Y)) {
+	if (pInput_->IsPressButton(XInputButtons::BUTTON_Y)) {
 		return true;
 	}
 	return false;

@@ -34,6 +34,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	openParticleEditor_ = false;
 	colliderDraw_ = false;
 	gridDraw_ = false;
+	isSkip_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -206,6 +207,7 @@ void EditorWindows::DebugItemWindow() {
 		ImTextureID icon = isPlaying ? pauseTex : playTex;
 		if (ImGui::ImageButton("##toggle", icon, iconSize)) {
 			isPlaying = !isPlaying;
+			isSkip_ = false;
 			GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
 		}
 		ImGui::SameLine();
@@ -220,8 +222,13 @@ void EditorWindows::DebugItemWindow() {
 		} else {
 			pushButton = PushStyleColor(false, Vector4(25, 25, 112, 255.0f));
 		}
+		if (isSkip_) {
+			GameTimer::SetTimeScale(0.0f);  // 再生・停止
+			isSkip_ = false;
+		}
 		if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
 			GameTimer::SetTimeScale(1.0f);  // 再生・停止
+			isSkip_ = true;
 		}
 		PopStyleColor(pushButton);
 		ImGui::SameLine();

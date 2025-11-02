@@ -1,7 +1,8 @@
 #include "PBulletToBossCallBacks.h"
 #include "Engine/Render/SceneRenderer.h"
-#include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Game/Information/ColliderCategory.h"
 
 void PBulletToBossCallBacks::Init() {
 	SetCallBacks();
@@ -55,13 +56,13 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 		pBoss_->Damage(playerBullet->GetTakeDamage());
 	}
 
-	//hitBossExploadParticles_->SetPos(bullet->GetCenterPos());
 	hitBossSmoke_->SetPos(bullet->GetCenterPos());
 	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
 
-	//hitBossExploadParticles_->SetOnShot(true);
 	hitBossSmoke_->SetIsStop(false);
 	hitBossSmokeBorn_->SetIsStop(false);
+
+	AudioPlayer::SinglShotPlay("bulletHit.mp3", 0.04f);
 }
 
 void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {

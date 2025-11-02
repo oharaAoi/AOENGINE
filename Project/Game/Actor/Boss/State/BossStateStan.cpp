@@ -13,6 +13,7 @@ void BossStateStan::OnStart() {
 	SetName("StanState");
 
 	stateTime_ = 0.0f;
+	slowTime_ = 0.0f;
 	param_.SetGroupName(stateMachine_->GetName());
 	param_.Load();
 
@@ -39,6 +40,7 @@ void BossStateStan::OnStart() {
 
 void BossStateStan::OnUpdate() {
 	stateTime_ += GameTimer::DeltaTime();
+	slowTime_ += GameTimer::FixedDeltaTime();
 	pOwner_->SetStanRemainingTime(stateTime_ / param_.stanTime);
 
 	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
@@ -49,7 +51,7 @@ void BossStateStan::OnUpdate() {
 	}
 
 	// ヒットスロウ
-	if (stateTime_ >= param_.stanSlowTime) {
+	if (slowTime_ >= param_.stanSlowTime) {
 		GameTimer::SetTimeScale(1.0f);
 	}
 

@@ -57,6 +57,7 @@ private:
 
 	Parameter param_;
 	float stateTime_;
+	float slowTime_;
 
 	BaseParticles* effect_;
 };

@@ -14,6 +14,7 @@ public:
 	void CalculationFrame();
 
 	static float DeltaTime() { return deltaTime_; }
+	static float FixedDeltaTime() { return fixedDeltaTime_; }
 	static float TotalTime(){ return totalTime_; }
 	static float TimeRate() { return timeRate_; }
 
@@ -27,6 +28,7 @@ private:
 	static float deltaTime_;
 	static float timeRate_;
 	static float totalTime_;
+	static float fixedDeltaTime_;
 
 	static float timeScale_;
 };

@@ -93,6 +93,7 @@ void PlayerActionShotRight::Shot() {
 
 		// coolTimeの設定
 		notShotTimer_ = 0.0f;
+
 	} else {
 		// ボタンを押していない時間を計測
 		notShotTimer_ += GameTimer::DeltaTime();

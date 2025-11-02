@@ -119,6 +119,7 @@ void BaseGameObject::PostUpdate() {
 		transform_->Translate(rigidbody_->GetPushbackForce());
 	}
 	transform_->Update();
+	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

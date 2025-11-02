@@ -1,6 +1,6 @@
 #include "MachineGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 void MachineGun::Finalize() {
 }
@@ -51,6 +51,8 @@ bool MachineGun::Attack(const AttackContext& cxt) {
 	pos = (cxt.direction * offset_.z);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
+
+	AudioPlayer::SinglShotPlay("shotBullet.mp3", 0.06f);
 
 	AttackAfter();
 	return true;

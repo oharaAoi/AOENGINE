@@ -1,6 +1,7 @@
 #include "LauncherGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Actor/Weapon/Bullet/LauncherBullet.h"
 
 void LauncherGun::Finalize() {
@@ -55,6 +56,8 @@ bool LauncherGun::Attack(const AttackContext& cxt) {
 	pos = (cxt.direction * offset_.z);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
+
+	AudioPlayer::SinglShotPlay("shotLauncher.mp3", 0.08f);
 
 	AttackAfter();
 	return true;

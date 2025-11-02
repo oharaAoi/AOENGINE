@@ -76,6 +76,7 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
+	object_->SetOffset(Vector3(0, 2.5f, 1.0f));
 
 	// -------------------------------------------------
 	// ↓ Animationの設定
@@ -184,7 +185,7 @@ void Player::Update() {
 		auto [weapon, context] = attackHistory_.front();
 		isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
 		attackHistory_.pop_front();    // 先頭を削除
-		
+
 		if (isCurrentFrameAttack) {
 			isAttack_ = true;
 		}
