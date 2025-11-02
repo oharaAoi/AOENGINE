@@ -40,7 +40,7 @@ void Logger::Init() {
 	// 年月日の文字列に変更
 	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
 	// 時刻を使ってファイル名を決定
-	filePath_ = std::string("Logs/") + dateString + ".log";
+	filePath_ = std::string("./Project/Logs/") + dateString + ".log";
 	// ファイルを作って書き込み準備
 	std::ofstream logStream(filePath_);
 
