@@ -412,6 +412,7 @@ void BehaviorTree::CreateNode(int nodeType) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::CreateTree(const std::string& nodeName) {
+	Logger::Log("[Create][BehaviorTree] : " + nodeName);
 	nodeList_.clear();
 	if (root_ != nullptr) {
 		root_->ClearChild();
@@ -427,6 +428,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	selectNode_ = root_;
 	selectId_ = root_->GetId();
 	preSelectId_ = root_->GetId();
+	Logger::Log("--- success!");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

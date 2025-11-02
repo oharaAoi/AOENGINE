@@ -1,6 +1,7 @@
 #include "BehaviorTreeSerializer.h"
 #include <iostream>
 #include <fstream>
+#include "Engine/Utilities/Logger.h"
 
 void BehaviorTreeSerializer::Save(const std::string& filePath, const json& _json) {
 	// -------------------------------------------------
@@ -22,8 +23,10 @@ void BehaviorTreeSerializer::Save(const std::string& filePath, const json& _json
 }
 
 json BehaviorTreeSerializer::LoadToJson(const std::string& filePath) {
+	Logger::Log("[Create][BehaviorTree] : " + filePath);
 	std::ifstream inFile(filePath);
 	json j;
 	inFile >> j;
+	Logger::Log("--- success!");
 	return j;
 }

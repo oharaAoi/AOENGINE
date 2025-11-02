@@ -7,6 +7,7 @@
 #include <format>
 #include "Engine/Utilities/Convert.h"
 #include "Engine/Utilities/Loader.h"
+#include "Engine/Utilities/Logger.h"
 
 BehaviorTreeLogger::~BehaviorTreeLogger() {
 	std::ofstream logStream(filePath_, std::ios::app);
@@ -19,11 +20,13 @@ BehaviorTreeLogger::~BehaviorTreeLogger() {
 
 void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	// ファイル数が多くなりすぎないように
-	DeleteOldLogFile(20);
+	//DeleteOldLogFile(20);
 
 	std::filesystem::path path(_fileName);
+
 	try {
 		std::filesystem::create_directories("./Project/Logs/BehaviorTree");
+		Logger::Log("Create --- ./Project/Logs/BehaviorTree");
 	}
 	catch (const std::filesystem::filesystem_error& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -39,7 +42,7 @@ void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	// 日本時間に変換
 	std::chrono::zoned_time localTime{ std::chrono::current_zone(), nowSeconds };
 	// 年月日の文字列に変更
-	std::string dateString = std::format("{:%Y%m%d_%H%M%S}", localTime);
+	std::string dateString = std::format("{:%Y%m%d%H%M%S}", localTime);
 	// 時刻を使ってファイル名を決定
 	filePath_ = std::string("./Project/Logs/BehaviorTree/") + path.stem().string() + "_" + dateString + ".log";
 	// ファイルを作って書き込み準備
