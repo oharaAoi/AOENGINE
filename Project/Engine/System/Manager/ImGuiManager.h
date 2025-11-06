@@ -1,9 +1,14 @@
 #pragma once
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#define IMGUI_DEFINE_MATH_OPERATORS
 #include "Externals/ImGui/imgui.h"
 #include "Externals/ImGui/imgui_impl_dx12.h"
 #include "Externals/ImGui/imgui_impl_win32.h"
+#include "Flow/ImNodeFlow.h"
+#include "ImGuizmo.h"
+#include "ImGuiFileDialog.h"
+#include "imgui_node_editor.h"
 #include "Engine/Lib/Math/Vector2.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

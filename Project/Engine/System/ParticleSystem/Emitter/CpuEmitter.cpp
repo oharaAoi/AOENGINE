@@ -1,6 +1,6 @@
 #include "CpuEmitter.h"
 #include "Engine/Lib/GameTimer.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 CpuEmitter::CpuEmitter() {}
 CpuEmitter::~CpuEmitter() {}

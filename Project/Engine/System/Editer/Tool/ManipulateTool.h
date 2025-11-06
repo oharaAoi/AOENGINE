@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <imgui.h>
+#include "Engine/System/Manager/ImGuiManager.h"
 
 enum class UseManipulate {
 	SCALE,

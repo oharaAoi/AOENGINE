@@ -28,6 +28,9 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 	manipulateTool_ = std::make_unique<ManipulateTool>();
 
+	shaderGraphEditor_ = std::make_unique<ShaderGraphEditor>();
+	shaderGraphEditor_->Init();
+
 	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 
 	sceneReset_ = false;
@@ -123,6 +126,14 @@ void EditorWindows::Begin() {
 	}
 	ImGui::End();
 
+	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			windowUpdate_ = std::bind(&EditorWindows::ShaderGraphEditorWindow, this);
+			openParticleEditor_ = false;
+		}
+	}
+	ImGui::End();
+
 	// 一番上のbegineの分
 	ImGui::End();
 
@@ -172,6 +183,18 @@ void EditorWindows::ParticleEditorWindow() {
 		particleSystemEditor_->Update();
 		particleSystemEditor_->Draw();
 		openParticleEditor_ = true;
+	}
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ShaderGraphの編集を行う描画
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EditorWindows::ShaderGraphEditorWindow() {
+	openParticleEditor_ = false;
+	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
+		shaderGraphEditor_->Update();
 	}
 }
 

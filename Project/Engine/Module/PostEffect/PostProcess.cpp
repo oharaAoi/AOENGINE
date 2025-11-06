@@ -2,7 +2,7 @@
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render.h"
 #include "Engine/WinApp/WinApp.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 PostProcess::~PostProcess() {
 	Finalize();

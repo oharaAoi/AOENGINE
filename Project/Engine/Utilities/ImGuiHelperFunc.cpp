@@ -1,6 +1,4 @@
 #include "ImGuiHelperFunc.h"
-#include "imgui.h"
-#include "ImGuiFileDialog.h"
 
 bool InputTextWithString(const char* filedName, const char* label, std::string& str, size_t maxLength) {
 	// std::vector<char> をバッファとして使用

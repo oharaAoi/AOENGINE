@@ -1,5 +1,5 @@
 #include "GpuParticlesData.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void GpuParticleEmitterItem::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {

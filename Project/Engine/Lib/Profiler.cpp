@@ -1,5 +1,5 @@
 #include "Profiler.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void Profiler::Start() {
 	start_ = std::chrono::high_resolution_clock::now();

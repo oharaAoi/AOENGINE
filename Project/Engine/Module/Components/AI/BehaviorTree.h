@@ -12,7 +12,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
-#include "imgui_node_editor.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 /// <summary>
 /// Objectを制御するためのクラス

@@ -2,38 +2,15 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include "imgui_node_editor.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/AI/State/IWorldState.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "Engine/Utilities/Timer.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Lib/Node/NodeItems.h"
 
-struct Pin {
-	ax::NodeEditor::PinId id;
-	ax::NodeEditor::PinKind kind;
-};
-
-struct Node {
-	ax::NodeEditor::NodeId id;
-	Pin inputId;
-	Pin outputId;
-	std::string name;
-};
-
-struct Link {
-	ax::NodeEditor::LinkId id;
-	ax::NodeEditor::PinId  from;
-	ax::NodeEditor::PinId  to;
-};
-
-struct NodeItems {
-	std::string nodeName;
-	int nodeType;
-	Vector2 nodePos;
-	std::vector<std::string> childName;
-};
 
 enum BehaviorStatus {
 	Inactive,	// 非アクティブ

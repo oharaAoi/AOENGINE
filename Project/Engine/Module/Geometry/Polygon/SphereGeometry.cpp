@@ -1,6 +1,6 @@
 #include "SphereGeometry.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void SphereGeometry::Init(const Vector2& size, uint32_t division, const std::string& name) {
 	geometryName_ = name;

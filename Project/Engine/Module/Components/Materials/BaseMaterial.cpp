@@ -1,5 +1,5 @@
 #include "BaseMaterial.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void BaseMaterial::Debug_UV() {
 	if (ImGui::TreeNode("uvTramsform")) {

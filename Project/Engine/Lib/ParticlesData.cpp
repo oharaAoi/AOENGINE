@@ -1,5 +1,5 @@
 #include "ParticlesData.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {

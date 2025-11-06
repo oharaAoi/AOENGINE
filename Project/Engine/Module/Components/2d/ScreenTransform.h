@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MathStructures.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 /// <summary>
 /// 2d用のTransformをGPUに送るクラス

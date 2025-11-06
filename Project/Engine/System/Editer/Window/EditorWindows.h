@@ -9,6 +9,7 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
+#include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
 
 /// <summary>
 /// 編集画面の表示を管理する
@@ -55,6 +56,9 @@ public:
 	/// </summary>
 	void End();
 
+
+private:
+
 	/// <summary>
 	/// ゲーム画面の描画
 	/// </summary>
@@ -64,6 +68,11 @@ public:
 	/// ParticleEditorの描画
 	/// </summary>
 	void ParticleEditorWindow();
+
+	/// <summary>
+	/// ShaderGraphEditorの描画
+	/// </summary>
+	void ShaderGraphEditorWindow();
 
 	/// <summary>
 	/// Debug機能を描画するWindow
@@ -103,16 +112,22 @@ private:
 
 private:
 
+	// ----------------------
+	// ↓ 編集項目
+	// ----------------------
 	std::unique_ptr<GameObjectWindow> gameObjectWindow_;
 
 	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
 
 	std::unique_ptr<ManipulateTool> manipulateTool_;
 
+	std::unique_ptr<ShaderGraphEditor> shaderGraphEditor_;
+
+	// ----------------------
+	// ↓ 他ポインタ
+	// ----------------------
 	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
-
 	RenderTarget* renderTarget_;
-
 	SceneRenderer* sceneRenderer_;
 	Canvas2d* canvas2d_;
 

@@ -1,5 +1,5 @@
 #include "Material.h"
-#include "ImGuiFileDialog.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Utilities/Loader.h"

@@ -1,6 +1,6 @@
 #include "IJsonConverter.h"
 #include "Engine/Lib/Json/JsonItems.h"
-#include "imgui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存と読み込み

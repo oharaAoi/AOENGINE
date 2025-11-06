@@ -40,9 +40,6 @@
     <Filter Include="Engine\DirectX\RootSignature">
       <UniqueIdentifier>{829BDBCB-6E56-CB77-170E-44C203A81508}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\DirectX\Template">
-      <UniqueIdentifier>{4871849F-B4A8-CC36-BDB2-305A2969F32F}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\DirectX\Utilities">
       <UniqueIdentifier>{48E2009F-3407-501F-5D52-35AF49D64E3D}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="Engine\Lib\Math">
       <UniqueIdentifier>{DA9D2CFB-4629-9ABF-4F3A-1DB4BB44F6BF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Lib\Node">
+      <UniqueIdentifier>{B6632DFB-22EF-9ABF-2B00-1EB4970AF7BF}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module">
       <UniqueIdentifier>{30D9DE4B-9C99-5A82-65D4-A3FFD1539F5E}</UniqueIdentifier>
@@ -72,6 +72,9 @@
     </Filter>
     <Filter Include="Engine\Module\Components\AI\State">
       <UniqueIdentifier>{8E8CADB7-FAFA-0237-43E4-BD36AF91F8D2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Components\AI\UtilityAI">
+      <UniqueIdentifier>{EBAF48F4-5774-47E4-20DA-77AE8C5DE319}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Components\Animation">
       <UniqueIdentifier>{7433ED7E-606F-F0E8-C981-08E0B5DC9803}</UniqueIdentifier>
@@ -166,6 +169,15 @@
     <Filter Include="Engine\System\Scene">
       <UniqueIdentifier>{ECD2FB4F-5834-D95D-E1A1-1F104D02101D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\ShaderGraph">
+      <UniqueIdentifier>{E726A373-53E9-D6FD-9C99-658A089BAFDB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Editor">
+      <UniqueIdentifier>{3DBA755D-290B-619F-526F-4F613E1FF408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node">
+      <UniqueIdentifier>{FCB9E1F3-E8DF-AB5A-D125-3126BDEAD026}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Utilities">
       <UniqueIdentifier>{06BA1B4B-F2B2-3A9D-1BE5-1F22073D1AA9}</UniqueIdentifier>
     </Filter>
@@ -177,6 +189,9 @@
     </Filter>
     <Filter Include="Externals\ImGui">
       <UniqueIdentifier>{E563C69E-51EF-3363-5A00-B757C60A9063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Externals\ImGui\Flow">
+      <UniqueIdentifier>{6C57E4D2-58E6-6D9C-0105-8297ED727E42}</UniqueIdentifier>
     </Filter>
     <Filter Include="Externals\ImGui\dirent">
       <UniqueIdentifier>{FAC21D63-E6BC-46B5-CF29-DDC5BBC2AC21}</UniqueIdentifier>
@@ -237,6 +252,9 @@
     </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera\Animation">
+      <UniqueIdentifier>{C6FACDC3-3267-89BE-FB5A-211C6786AB26}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Effects">
       <UniqueIdentifier>{2E38C036-1A9B-4FDB-C320-8891AF621B5E}</UniqueIdentifier>
@@ -303,6 +321,15 @@
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
@@ -339,14 +366,17 @@
     <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine.h">
       <Filter>Engine</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
-      <Filter>Engine\Lib</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\Color.h">
       <Filter>Engine\Lib</Filter>
@@ -399,7 +429,13 @@
     <ClInclude Include="Engine\Lib\Math\Vector4.h">
       <Filter>Engine\Lib\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Lib\Node\NodeItems.h">
+      <Filter>Engine\Lib\Node</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Lib\ParticlesData.h">
+      <Filter>Engine\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Lib\Profiler.h">
       <Filter>Engine\Lib</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h">
@@ -446,6 +482,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h">
       <Filter>Engine\Module\Components\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h">
+      <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\AI\WeightSelectorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
@@ -774,6 +813,24 @@
     <ClInclude Include="Engine\System\Scene\SceneLoader.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h">
+      <Filter>Engine\System\ShaderGraph\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PropertyNode.h">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.h">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Utilities\BitChecker.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
@@ -798,8 +855,24 @@
     <ClInclude Include="Engine\Utilities\Shader.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utilities\Timer.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
+    </ClInclude>
+    <ClInclude Include="Enviroment.h" />
+    <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
+      <Filter>Externals\ImGui\Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\Flow\context_wrapper.h">
+      <Filter>Externals\ImGui\Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\Flow\imgui_bezier_math.h">
+      <Filter>Externals\ImGui\Flow</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\Flow\imgui_extra_math.h">
+      <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
     <ClInclude Include="Externals\ImGui\ImGuiFileDialog.h">
       <Filter>Externals\ImGui</Filter>
@@ -847,6 +920,12 @@
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imgui_node_editor_internal.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imnodes.h">
+      <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Externals\ImGui\imnodes_internal.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h">
@@ -1053,6 +1132,15 @@
     <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h">
       <Filter>Game\CallBacks</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationBoost.h">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\Animation\CameraAnimationShot.h">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\Animation\ICameraAnimation.h">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Camera\BaseCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
@@ -1060,9 +1148,6 @@
       <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game\Camera\Camera3d.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Animation\CameraAnimationShot.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game\Camera\DebugCamera.h">
@@ -1088,6 +1173,9 @@
     </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
+      <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
@@ -1185,17 +1273,6 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h" />
-    <ClInclude Include="Engine\Utilities\Timer.h" />
-    <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h" />
-    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h" />
-    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h" />
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
-    <ClInclude Include="Engine\Lib\Profiler.h" />
-    <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
-    <ClInclude Include="Game\Camera\Animation\ICameraAnimation.h" />
-    <ClInclude Include="Game\Camera\Animation\CameraAnimationBoost.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1224,6 +1301,15 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
+      <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
@@ -1260,6 +1346,12 @@
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp">
       <Filter>Engine\DirectX\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
+      <Filter>Engine\DirectX\RootSignature</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
+      <Filter>Engine\DirectX\RootSignature</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
@@ -1321,6 +1413,9 @@
     <ClCompile Include="Engine\Lib\ParticlesData.cpp">
       <Filter>Engine\Lib</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Lib\Profiler.cpp">
+      <Filter>Engine\Lib</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
@@ -1365,6 +1460,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp">
       <Filter>Engine\Module\Components\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp">
+      <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\AI\WeightSelectorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
@@ -1687,6 +1785,24 @@
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp">
+      <Filter>Engine\System\ShaderGraph\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\PropertyNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Utilities\BitChecker.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
@@ -1711,8 +1827,14 @@
     <ClCompile Include="Engine\Utilities\Shader.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utilities\Timer.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\WinApp\WinApp.cpp">
       <Filter>Engine\WinApp</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\Flow\ImNodeFlow.cpp">
+      <Filter>Externals\ImGui\Flow</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\ImGuiFileDialog.cpp">
       <Filter>Externals\ImGui</Filter>
@@ -1754,6 +1876,9 @@
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Base\BaseAction.cpp">
@@ -1948,6 +2073,15 @@
     <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp">
       <Filter>Game\CallBacks</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationBoost.cpp">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\Animation\CameraAnimationShot.cpp">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\Animation\ICameraAnimation.cpp">
+      <Filter>Game\Camera\Animation</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Camera\BaseCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
@@ -1955,9 +2089,6 @@
       <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\Camera3d.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Animation\CameraAnimationShot.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\DebugCamera.cpp">
@@ -2072,16 +2203,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp" />
-    <ClCompile Include="Engine\Utilities\Timer.cpp" />
-    <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp" />
-    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp" />
-    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp" />
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
-    <ClCompile Include="Engine\Lib\Profiler.cpp" />
-    <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
-    <ClCompile Include="Game\Camera\Animation\ICameraAnimation.cpp" />
-    <ClCompile Include="Game\Camera\Animation\CameraAnimationBoost.cpp" />
   </ItemGroup>
 </Project>
