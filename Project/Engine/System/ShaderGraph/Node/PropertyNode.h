@@ -46,14 +46,109 @@ private:
 template<typename T>
 inline void PropertyNode<T>::draw() {
 	// -------- 出力ピン ----------
-	showOUT<T>(
-		variableType_,
-		[=]() -> T {
-			// 簡易的なカラー出力 (本来はGPUサンプリング)
-			return value_;
-		},
-		ImFlow::PinStyle::blue()
-	);
+	if constexpr (std::is_same_v<T, float>) {
+		showOUT<float>(
+			" x ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return value_;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		showOUT<float>(
+			" x ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return value_.x;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" y ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.y;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		showOUT<float>(
+			" x ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return value_.x;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" y ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.y;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" z ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.z;
+			},
+			ImFlow::PinStyle::blue()
+		);
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		showOUT<float>(
+			" x ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return value_.x;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" y ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.y;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" z ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.z;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+		showOUT<float>(
+			" w ",
+			[=]() -> float {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return  value_.w;
+			},
+			ImFlow::PinStyle::blue()
+		);
+
+	} else if constexpr (std::is_same_v<T, Color>) {
+		showOUT<Color>(
+			variableType_,
+			[=]() -> Color {
+				// 簡易的なカラー出力 (本来はGPUサンプリング)
+				return value_;
+			},
+			ImFlow::PinStyle::blue()
+		);
+	}
 
 	// -------- 内部プレビュー ----------
 	ImGui::Spacing();

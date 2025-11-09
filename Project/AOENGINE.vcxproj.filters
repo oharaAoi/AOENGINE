@@ -1276,6 +1276,10 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2209,8 +2213,13 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\SampleTexture.CS.hlsl" />
   </ItemGroup>
 </Project>

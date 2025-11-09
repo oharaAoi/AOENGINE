@@ -69,7 +69,6 @@ void BlendNode::draw() {
     showOUT<DxResource*>(
         "DxResource",
         [=]() -> DxResource* {
-            // 簡易的なカラー出力 (本来はGPUサンプリング)
             return blendResource_.get();
         },
         ImFlow::PinStyle::green()

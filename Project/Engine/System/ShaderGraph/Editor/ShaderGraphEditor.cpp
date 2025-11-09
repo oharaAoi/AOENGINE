@@ -1,8 +1,12 @@
 #include "ShaderGraphEditor.h"
 #include "Engine/System/ShaderGraph/Node/PropertyNode.h"
+#include "Engine/System/ShaderGraph/Node/InOutPriorityNode.h"
 #include "Engine/System/ShaderGraph/Node/SampleTexture2dNode.h"
 #include "Engine/System/ShaderGraph/Node/TextureNode.h"
 #include "Engine/System/ShaderGraph/Node/BlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
+#include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
+#include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
 #include <map>
 
 static float zoom = 1.0f;           // 現在のズーム倍率
@@ -23,10 +27,20 @@ void ShaderGraphEditor::Init() {
 	RegisterNode<PropertyNode<Vector4>>("Property/Vector4");
 	RegisterNode<PropertyNode<Color>>("Property/Color");
 
+	RegisterNode<InOutPriorityNode<float>>("InOutPriority/Float");
+	RegisterNode<InOutPriorityNode<Vector2>>("InOutPriority/Vector2");
+	RegisterNode<InOutPriorityNode<Vector3>>("InOutPriority/Vector3");
+	RegisterNode<InOutPriorityNode<Vector4>>("InOutPriority/Vector4");
+	RegisterNode<InOutPriorityNode<Color>>("InOutPriority/Color");
+
 	RegisterNode<TextureNode>("Texture/Texture");
 	RegisterNode<SampleTexture2dNode>("Texture/SampleTexture2D");
 
 	RegisterNode<BlendNode>("Merge/Blend");
+
+	RegisterNode<MathAddNode>("Math/Add");
+	RegisterNode<MathSubtractionNode>("Math/Subtraction");
+	RegisterNode<MathMultiplyNode>("Math/Multiply");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

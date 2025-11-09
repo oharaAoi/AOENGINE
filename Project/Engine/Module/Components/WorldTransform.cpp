@@ -37,6 +37,9 @@ void WorldTransform::Init(ID3D12Device* device) {
 
 	moveQuaternion_ = Quaternion();
 	isBillboard_ = false;
+
+	data_->matWorldPrev = Matrix4x4::MakeUnit();
+	data_->matWorld = Matrix4x4::MakeUnit();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +53,6 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
 
-	data_->matWorldPrev = mat * Matrix4x4::MakeAffine(srt_.scale, srt_.rotate, preTranslate_ + temporaryTranslate_);
 	if (parentWorldMat_ != nullptr) {
 		data_->matWorldPrev = data_->matWorldPrev * *parentWorldMat_;
 	}
@@ -96,6 +98,10 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	preTranslate_ = srt_.translate + temporaryTranslate_;
 	temporaryTranslate_ = CVector3::ZERO;
 	moveQuaternion_ = Quaternion();
+}
+
+void WorldTransform::PostUpdate() {
+	data_->matWorldPrev = worldMat_;
 }
 
 void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) {

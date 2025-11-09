@@ -60,6 +60,9 @@ void Player::Parameter::Debug_Gui() {
 
 	ImGui::DragFloat("windDrag", &windDrag, 0.1f);
 
+	ImGui::DragFloat("inclineStrength", &inclineStrength, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("inclineReactionRate", &inclineReactionRate, 0.01f, 0.0f, 10.0f);
+
 	SaveAndLoad();
 }
 
@@ -175,9 +178,6 @@ void Player::Update() {
 	// stateの更新
 	stateMachine_->Update();
 
-	// カメラを傾ける
-	CameraIncline();
-
 	// 攻撃を行う
 	isAttack_ = false;
 	while (!attackHistory_.empty()) {
@@ -193,6 +193,8 @@ void Player::Update() {
 }
 
 void Player::PosUpdate() {
+	// カメラを傾ける
+	CameraIncline();
 	jet_->Update(smoothedDiffX_ * 100.0f);
 }
 
@@ -361,17 +363,17 @@ void Player::CameraIncline() {
 	diffX *= -1.0f; // 向きを反転
 
 	// Clamp
-	diffX = std::clamp(diffX, -0.05f, 0.05f);
+	diffX = std::clamp(diffX, -param_.inclineStrength, param_.inclineStrength);
 
 	// kは今回どれだけターゲットに寄せるかの係数
 	// smoothSpeed_ が大きいほど反応が速い
-	float k = 1.0f - std::exp(-5 * GameTimer::DeltaTime());
+	float k = 1.0f - std::exp(-param_.inclineReactionRate * GameTimer::DeltaTime());
 	k = std::clamp(k, 0.0f, 1.0f);
 
 	smoothedDiffX_ += (diffX - smoothedDiffX_) * k;
 
 	// もし安全のため最終値も範囲内に留めたいなら
-	smoothedDiffX_ = std::clamp(smoothedDiffX_, -0.05f, 0.05f);
+	smoothedDiffX_ = std::clamp(smoothedDiffX_, -param_.inclineStrength, param_.inclineStrength);
 
 	pFollowCamera_->SetAngleZ(smoothedDiffX_);
 }

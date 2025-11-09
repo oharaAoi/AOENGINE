@@ -42,6 +42,9 @@ public:		// data
 
 		float windDrag;	// 空気抵抗量
 
+		float inclineStrength = 0.1f;		// 傾きの強さ
+		float inclineReactionRate = 5.0f;	// 傾きの反応速度
+
 		Parameter() {
 			SetGroupName("Player");
 			SetName("playerParameter");
@@ -58,6 +61,8 @@ public:		// data
 				.Add("legColliderRadius", legColliderRadius)
 				.Add("legColliderPosY", legColliderPosY)
 				.Add("windDrag", windDrag)
+				.Add("inclineStrength", inclineStrength)
+				.Add("inclineReactionRate", inclineReactionRate)
 				.Build();
 		}
 
@@ -71,6 +76,8 @@ public:		// data
 			fromJson(jsonData, "legColliderRadius", legColliderRadius);
 			fromJson(jsonData, "legColliderPosY", legColliderPosY);
 			fromJson(jsonData, "windDrag", windDrag);
+			fromJson(jsonData, "inclineStrength", inclineStrength);
+			fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
 		}
 
 		void Debug_Gui() override;

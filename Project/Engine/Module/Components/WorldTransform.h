@@ -40,6 +40,8 @@ public:
 	void Init(ID3D12Device* device);
 	// 更新
 	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
+
+	void PostUpdate();
 	// コマンドを積む
 	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
 

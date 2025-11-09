@@ -5,6 +5,8 @@
         "energyRecoveyAmount": 100.0,
         "energyRecoveyCoolTime": 1.0,
         "health": 10000.0,
+        "inclineReactionRate": 3.5,
+        "inclineStrength": 0.07000000029802322,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
         "postureStability": 300.0,
