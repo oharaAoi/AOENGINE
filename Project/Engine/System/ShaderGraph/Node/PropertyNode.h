@@ -11,8 +11,9 @@ class PropertyNode :
 	public BaseShaderGraphNode {
 public: // コンストラクタ
 
-	PropertyNode(const std::string& _variableType) : variableType_(_variableType) {}
-	~PropertyNode() = default;
+	PropertyNode() = default;
+	PropertyNode(const std::string& _variableType) : variableType_(_variableType) {};
+	~PropertyNode() override = default;
 
 public:
 
@@ -24,7 +25,12 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void Update() override {};
+	void customUpdate() override {};
+
+	/// <summary>
+	/// guiの更新
+	/// </summary>
+	void updateGui() override {};
 
 	/// <summary>
 	/// Node描画

@@ -2,6 +2,7 @@
 #include <d3d12.h>
 #include <cassert>
 #include <vector>
+#include <memory>
 #include <map>
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
@@ -9,6 +10,7 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Lib/Math/Vector2.h"
 
 class TextureManager {
@@ -54,8 +56,6 @@ public:
 	/// <returns></returns>
 	DirectX::ScratchImage LoadMipImage(const std::string& directoryPath, const std::string& filePath);
 
-	void LoadWhite1x1Texture(const std::string& directoryPath, const std::string& filePath, ID3D12GraphicsCommandList* commandList);
-
 	/// <summary>
 	/// TextureResourceにデータを転送する
 	/// </summary>
@@ -71,7 +71,25 @@ public:
 		Microsoft::WRL::ComPtr<ID3D12Device> device,
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> commandList);
 
+	/// <summary>
+	/// ResourceDescを作成する
+	/// </summary>
+	/// <param name="metadata"></param>
+	/// <returns></returns>
+	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
+
+	/// <summary>
+	/// Textureを選択し名前を返す
+	/// </summary>
+	/// <param name="filePath"></param>
+	/// <returns></returns>
 	std::string SelectTexture(const std::string& filePath);
+
+	/// <summary>
+	/// textureのpreviewを出す
+	/// </summary>
+	/// <returns></returns>
+	bool PreviewTexture(std::string& _textureName);
 
 public:
 
@@ -83,12 +101,7 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
 
-	/// <summary>
-	/// ResourceDescを作成する
-	/// </summary>
-	/// <param name="metadata"></param>
-	/// <returns></returns>
-	D3D12_RESOURCE_DESC CreateResourceDesc(const DirectX::TexMetadata& metadata);
+	DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_.get(); }
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
@@ -96,17 +109,15 @@ public:
 
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
-	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_.at(fileName).address_; }
+	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_.at(fileName).resource_->GetSRV(); }
 
 	void StackTexture(const std::string& directoryPath, const std::string& filePath);
  
 private:
 
 	struct TextureData {
-		ComPtr<ID3D12Resource> textureResource_ = nullptr;
+		std::unique_ptr<DxResource> resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
-
-		DescriptorHandles address_;
 		Vector2 textureSize_;
 	};
 

@@ -38,9 +38,11 @@ public:
 	/// </summary>
 	/// <param name="size"></param>
 	void CreateResource(const size_t& size);
-	void CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
+	void CreateResource(const D3D12_RESOURCE_DESC* resourceDesc, const D3D12_HEAP_PROPERTIES* heapProperties,
 							const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState);
 	void CreateDepthResource(uint32_t width, uint32_t height);
+
+	void CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source);
 
 	/// <summary>
 	/// Viewの作成
@@ -77,6 +79,8 @@ public:
 	const DescriptorHandles& GetUAV() const;
 	const DescriptorHandles& GetRTV() const;
 
+	const D3D12_RESOURCE_DESC* GetDesc() const { return &desc_; }
+
 private:
 
 	ID3D12Device* pDevice_ = nullptr;
@@ -88,6 +92,8 @@ private:
 	std::optional<DescriptorHandles> uavAddress_ = std::nullopt;
 	std::optional<DescriptorHandles> srvAddress_ = std::nullopt;
 	std::optional<DescriptorHandles> rtvAddress_ = std::nullopt;
+
+	D3D12_RESOURCE_DESC desc_;
 
 	ResourceType type_;
 };

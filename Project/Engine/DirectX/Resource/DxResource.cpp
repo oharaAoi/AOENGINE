@@ -1,6 +1,7 @@
 #include "DxResource.h"
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
+#include "Engine/WinApp/WinApp.h"
 
 DxResource::DxResource() {}
 DxResource::~DxResource() {}
@@ -37,9 +38,9 @@ void DxResource::CreateResource(const size_t& size) {
 	cBuffer_ = CreateBufferResource(pDevice_, size);
 }
 
-void DxResource::CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
+void DxResource::CreateResource(const D3D12_RESOURCE_DESC* resourceDesc, const D3D12_HEAP_PROPERTIES* heapProperties,
 									const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
-
+	desc_ = *resourceDesc;
 	HRESULT hr = pDevice_->CreateCommittedResource(
 		heapProperties,
 		heapFlags,
@@ -55,6 +56,44 @@ void DxResource::CreateResource(D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PR
 
 void DxResource::CreateDepthResource(uint32_t width, uint32_t height) {
 	cBuffer_ = CreateDepthStencilTextureResource(pDevice_, width, height);
+}
+
+void DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source) {
+	// ----------------------
+	// ↓ resourceの作成
+	// ----------------------
+	// resourceの設定
+	D3D12_RESOURCE_DESC desc{};
+	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
+	desc.Height = WinApp::sWindowHeight;			// 画面の縦幅
+	desc.MipLevels = 1;			// 
+	desc.DepthOrArraySize = 1;
+	desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	desc.SampleDesc.Count = 1;
+	desc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+	desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+
+	// HEAPの設定
+	D3D12_HEAP_PROPERTIES heapProperties{};
+	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	this->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+	srvDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+	srvDesc.Texture2D.MipLevels = 1;
+
+	CreateSRV(srvDesc);
+
+	// ----------------------
+	// ↓ 基のresourceをコピーする
+	// ----------------------
+	D3D12_RESOURCE_STATES sourceState = _source->GetState();
+	_source->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	_commandList->CopyResource(cBuffer_.Get(), _source->GetResource());
+	_source->Transition(_commandList, sourceState);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,6 +154,7 @@ void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_
 		bufferState_ = after;
 	}
 }
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　ViewのGetter

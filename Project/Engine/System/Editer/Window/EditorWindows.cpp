@@ -12,6 +12,7 @@ EditorWindows* EditorWindows::GetInstance() {
 
 void EditorWindows::Finalize() {
 	particleSystemEditor_->Finalize();
+	shaderGraphEditor_.reset();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,9 +46,6 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::Update() {
-	// 現在選択されているwindowを描画する
-	windowUpdate_();
-
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
 		| ImGuiWindowFlags_AlwaysAutoResize
 		| ImGuiWindowFlags_NoScrollbar
@@ -60,6 +58,9 @@ void EditorWindows::Update() {
 		ImGui::Text("%f m/s", GameTimer::DeltaTime() * 1000.0f);
 	}
 	ImGui::End();
+
+	// 現在選択されているwindowを描画する
+	windowUpdate_();
 
 	ImGui::End();
 }

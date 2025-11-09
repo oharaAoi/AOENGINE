@@ -1,18 +1,18 @@
 #pragma once
-#include "Engine/Lib/Color.h"
-#include "Engine/Lib/Math/Vector2.h"
+#include "memory"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
+#include "Engine/Core/GraphicsContext.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
 /// <summary>
-/// Textureを入力してTextureを出力するNode
+/// Textureを合成するNode
 /// </summary>
-class SampleTexture2dNode :
+class BlendNode :
 	public BaseShaderGraphNode {
 public:	// コンストラクタ
 
-	SampleTexture2dNode();
-	~SampleTexture2dNode() override;
+	BlendNode();
+	~BlendNode() override;
 
 public:
 
@@ -24,7 +24,7 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void customUpdate() override {};
+	void customUpdate() override;
 
 	/// <summary>
 	/// guiの更新
@@ -38,10 +38,12 @@ public:
 
 private:
 
-	DxResource* resource_ = nullptr;
+	DxResource* resourceA_ = nullptr;
+	DxResource* resourceB_ = nullptr;
 
-	// ノード内部の状態
-	Vector2 uv_ = { 0.0f, 0.0f };         // UV入力のデフォルト値
-	Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
+	std::unique_ptr<DxResource> blendResource_;
 
+	GraphicsContext* ctx_;
+	ID3D12GraphicsCommandList* cmdList_;
 };
+

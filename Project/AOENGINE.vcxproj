@@ -289,8 +289,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\BlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\PropertyNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
@@ -615,8 +618,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\BlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PropertyNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
@@ -758,6 +764,16 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{A90EE592-95C6-26E0-FECD-FF3BEAA4C1D0}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

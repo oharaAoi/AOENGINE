@@ -546,6 +546,11 @@ namespace ImFlow
         virtual ~BaseNode() = default;
         BaseNode() = default;
 
+        virtual void customUpdate() {};
+
+        // custom
+        virtual void updateGui() {};
+
         /**
          * @brief <BR>Main loop of the node
          * @details Updates position, hovering and selected status, and renders the node. Must be called each frame.

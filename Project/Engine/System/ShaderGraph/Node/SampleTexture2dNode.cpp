@@ -8,13 +8,8 @@ SampleTexture2dNode::~SampleTexture2dNode() {}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SampleTexture2dNode::Init() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新関数
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void SampleTexture2dNode::Update() {
+    addIN<std::shared_ptr<DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
+    addIN<std::shared_ptr<DxResource*>>("UV", nullptr, ImFlow::ConnectionFilter::None());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,11 +18,11 @@ void SampleTexture2dNode::Update() {
 
 void SampleTexture2dNode::draw() {
     // -------- 入力ピン ----------
-    textureID_ = showIN<ImTextureID>(
+    resource_ = showIN<DxResource*>(
         "Texture",
         nullptr,
-        ImFlow::ConnectionFilter::None(),
-        ImFlow::PinStyle::white()
+        ImFlow::ConnectionFilter::SameType(),
+        ImFlow::PinStyle::green()
     );
 
     uv_ = showIN<Vector2>(
@@ -48,9 +43,9 @@ void SampleTexture2dNode::draw() {
     );
 
     // -------- 内部プレビュー ----------
-    if (textureID_) {
-        ImGui::Image(textureID_, ImVec2(64, 64));
-    } else {
-        ImGui::Dummy(ImVec2(64, 64)); // placeholder
+    if (resource_) {
+        ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
+        ImGui::SetNextWindowBgAlpha(0.85f);
+        ImGui::Image(texID, ImVec2(64, 64));
     }
 }

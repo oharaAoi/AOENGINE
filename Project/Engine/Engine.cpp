@@ -353,8 +353,9 @@ void Engine::SetSkinning(Skinning* skinning) {
 	skinning->EndCS(dxCmdList_);
 }
 
-void Engine::SetPipelineCS(const std::string& jsonFile) {
+Pipeline* Engine::SetPipelineCS(const std::string& jsonFile) {
 	computeShaderPipelines_->SetPipeline(dxCmdList_, jsonFile);
+	return computeShaderPipelines_->GetLastUsedPipeline();
 }
 
 Canvas2d* Engine::GetCanvas2d() {

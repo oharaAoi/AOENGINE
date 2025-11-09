@@ -13,7 +13,7 @@ class BaseShaderGraphNode :
 public:	// コンストラクタ
 	
 	BaseShaderGraphNode() = default;
-	virtual ~BaseShaderGraphNode();
+	virtual ~BaseShaderGraphNode() override;
 
 public:
 
@@ -25,7 +25,12 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	virtual void Update() = 0;
+	virtual void customUpdate() override = 0;
+
+	/// <summary>
+	/// Guiの更新
+	/// </summary>
+	virtual void updateGui() override = 0;
 
 	/// <summary>
 	/// Node描画

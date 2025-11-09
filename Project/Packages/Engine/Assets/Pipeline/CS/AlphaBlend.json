@@ -1,0 +1,5 @@
+{
+    "Pipeline": {
+        "cs" : "./Project/Packages/Engine/Assets/HLSL/CS/AlphaBlend.CS.hlsl"
+    }
+}

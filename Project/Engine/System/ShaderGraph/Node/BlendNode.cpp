@@ -1,0 +1,85 @@
+#include "BlendNode.h"
+#include "Engine/Engine.h"
+
+BlendNode::BlendNode() {}
+BlendNode::~BlendNode() { 
+    blendResource_->Finalize();
+}
+
+void BlendNode::Init() {
+	ctx_ = GraphicsContext::GetInstance();
+    cmdList_ = ctx_->GetCommandList();
+
+	blendResource_ = std::make_unique<DxResource>();
+	blendResource_->Init(ctx_->GetDevice(), ctx_->GetDxHeap(), ResourceType::COMMON);
+
+    addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
+    addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
+}
+
+void BlendNode::customUpdate() {
+    if (resourceA_ && resourceB_) {
+        blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+        Pipeline* pso = Engine::SetPipelineCS("AlphaBlend.json");
+        UINT index = 0;
+        index = pso->GetRootSignatureIndex("texA");
+        cmdList_->SetComputeRootDescriptorTable(index, resourceA_->GetSRV().handleGPU);
+        index = pso->GetRootSignatureIndex("texB");
+        cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
+        index = pso->GetRootSignatureIndex("outputTex");
+        cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
+        cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
+
+        blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+    }
+}
+
+void BlendNode::draw() {
+    resourceA_ = getInVal<DxResource*>("TextureA");
+    resourceB_ = getInVal<DxResource*>("TextureB");
+
+    if (resourceA_) {
+        if (!blendResource_->GetResource()) {
+            D3D12_RESOURCE_DESC desc = *resourceA_->GetDesc();
+            desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+            desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            const D3D12_HEAP_PROPERTIES heapProperties{ .Type = D3D12_HEAP_TYPE_DEFAULT };
+            blendResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+
+            // ------------------------------------------------------------
+            // UAVの設定
+            D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
+            uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
+            uavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            blendResource_->CreateUAV(uavDesc);
+
+            // ------------------------------------------------------------
+            // SRVの設定
+            D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+            srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+            srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MipLevels = 1;
+            blendResource_->CreateSRV(srvDesc);
+        }
+    }
+
+    // -------- 出力ピン ----------
+    showOUT<DxResource*>(
+        "DxResource",
+        [=]() -> DxResource* {
+            // 簡易的なカラー出力 (本来はGPUサンプリング)
+            return blendResource_.get();
+        },
+        ImFlow::PinStyle::green()
+    );
+
+    if (blendResource_->GetResource()) {
+        if (resourceA_ && resourceB_) {
+            ImTextureID texID = (ImTextureID)(intptr_t)(blendResource_->GetSRV().handleGPU.ptr);
+            ImGui::SetNextWindowBgAlpha(0.85f);
+            ImGui::Image(texID, ImVec2(64, 64));
+        }
+    }
+}

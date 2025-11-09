@@ -1,18 +1,17 @@
 #pragma once
-#include "Engine/Lib/Color.h"
-#include "Engine/Lib/Math/Vector2.h"
+#include <memory>
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
 /// <summary>
-/// Textureを入力してTextureを出力するNode
+/// Textureを出力するNode
 /// </summary>
-class SampleTexture2dNode :
+class TextureNode :
 	public BaseShaderGraphNode {
 public:	// コンストラクタ
 
-	SampleTexture2dNode();
-	~SampleTexture2dNode() override;
+	TextureNode() = default;
+	~TextureNode() override;
 
 public:
 
@@ -29,7 +28,7 @@ public:
 	/// <summary>
 	/// guiの更新
 	/// </summary>
-	void updateGui() override {};
+	void updateGui() override;
 
 	/// <summary>
 	/// Node描画
@@ -38,10 +37,13 @@ public:
 
 private:
 
+	void SelectTexture();
+
+private:
+
+	std::string textureName_ = "";
+
 	DxResource* resource_ = nullptr;
 
-	// ノード内部の状態
-	Vector2 uv_ = { 0.0f, 0.0f };         // UV入力のデフォルト値
-	Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
-
 };
+

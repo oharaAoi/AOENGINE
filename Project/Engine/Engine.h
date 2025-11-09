@@ -147,7 +147,7 @@ public:
 
 	static void SetSkinning(Skinning* skinning);
 
-	static void SetPipelineCS(const std::string& jsonFile);
+	static Pipeline* SetPipelineCS(const std::string& jsonFile);
 
 	/// <summary>
 	/// 深度バッファをリセットする
