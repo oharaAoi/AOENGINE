@@ -2,7 +2,9 @@
 #include "Engine/Engine.h"
 
 SampleTexture2dNode::SampleTexture2dNode() { }
-SampleTexture2dNode::~SampleTexture2dNode() {}
+SampleTexture2dNode::~SampleTexture2dNode() {
+    resource_->Finalize();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化関数
@@ -77,11 +79,11 @@ void SampleTexture2dNode::draw() {
         }
     }
     // -------- 出力ピン ----------
-    showOUT<Color>(
-        "Color",
-        [=]() -> Color {
+    showOUT<DxResource*>(
+        "DxResource",
+        [=]() -> DxResource* {
             // 簡易的なカラー出力 (本来はGPUサンプリング)
-            return Color(uv_.x, uv_.y, 1.0f - uv_.x, 1.0f);
+            return resource_.get();
         },
         ImFlow::PinStyle::green()
     );

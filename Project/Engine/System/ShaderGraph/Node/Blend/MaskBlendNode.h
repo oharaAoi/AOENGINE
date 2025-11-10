@@ -1,15 +1,18 @@
 #pragma once
+#include "memory"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
+#include "Engine/Core/GraphicsContext.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 
 /// <summary>
-/// Time更新用のNode
+/// Textureを合成するNode
 /// </summary>
-class TimeNode :
+class MaskBlendNode :
 	public BaseShaderGraphNode {
 public:	// コンストラクタ
 
-	TimeNode();
-	~TimeNode() override = default;
+	MaskBlendNode() {};
+	~MaskBlendNode() override;
 
 public:
 
@@ -35,8 +38,11 @@ public:
 
 private:
 
-	float time_ = 0;
+	DxResource* resourceA_ = nullptr;
+	DxResource* resourceB_ = nullptr;
 
-	float sineTime_ = 0;
+	std::unique_ptr<DxResource> blendResource_;
 
+	GraphicsContext* ctx_;
+	ID3D12GraphicsCommandList* cmdList_;
 };

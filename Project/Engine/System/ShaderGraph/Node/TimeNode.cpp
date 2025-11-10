@@ -10,6 +10,7 @@ TimeNode::TimeNode() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TimeNode::Init() {
+    time_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +29,7 @@ void TimeNode::customUpdate() {
 void TimeNode::draw() {
     // -------- 出力ピン ----------
     showOUT<float>(
-        "Time",
+        "time",
         [=]() -> float {
             // 簡易的なカラー出力 (本来はGPUサンプリング)
             return time_;
@@ -37,7 +38,7 @@ void TimeNode::draw() {
     );
 
     showOUT<float>(
-        "SineTime",
+        "sineTime",
         [=]() -> float {
             // 簡易的なカラー出力 (本来はGPUサンプリング)
             return sineTime_;

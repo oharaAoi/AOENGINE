@@ -119,17 +119,17 @@ void EditorWindows::Begin() {
 	}
 	ImGui::End();
 
-	if (ImGui::Begin("Game Window", nullptr)) {
+	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
+			windowUpdate_ = std::bind(&EditorWindows::ShaderGraphEditorWindow, this);
 			openParticleEditor_ = false;
 		}
 	}
 	ImGui::End();
 
-	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
+	if (ImGui::Begin("Game Window", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::ShaderGraphEditorWindow, this);
+			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 			openParticleEditor_ = false;
 		}
 	}

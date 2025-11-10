@@ -4,6 +4,8 @@
 #include "Engine/System/ShaderGraph/Node/SampleTexture2dNode.h"
 #include "Engine/System/ShaderGraph/Node/TextureNode.h"
 #include "Engine/System/ShaderGraph/Node/BlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Blend/MaskBlendNode.h"
+#include "Engine/System/ShaderGraph/Node/TimeNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
@@ -37,10 +39,13 @@ void ShaderGraphEditor::Init() {
 	RegisterNode<SampleTexture2dNode>("Texture/SampleTexture2D");
 
 	RegisterNode<BlendNode>("Merge/Blend");
+	RegisterNode<MaskBlendNode>("Merge/MaskBlend");
 
 	RegisterNode<MathAddNode>("Math/Add");
 	RegisterNode<MathSubtractionNode>("Math/Subtraction");
 	RegisterNode<MathMultiplyNode>("Math/Multiply");
+
+	RegisterNode<TimeNode>("Other/TimeNode");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +72,12 @@ void ShaderGraphEditor::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<I
 
 		node->customUpdate();
 	}
+
+	if (node->getIns().empty()) {
+		node->customUpdate();
+		return;
+	}
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
