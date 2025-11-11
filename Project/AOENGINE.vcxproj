@@ -288,6 +288,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
@@ -300,6 +301,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
@@ -622,6 +624,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
@@ -633,6 +636,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />

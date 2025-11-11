@@ -32,6 +32,18 @@ public:
 	/// </summary>
 	void draw() override;
 
+	/// <summary>
+	/// json形式にする
+	/// </summary>
+	/// <returns></returns>
+	nlohmann::json toJson() override;
+
+	/// <summary>
+	/// json形式から情報を設定する
+	/// </summary>
+	/// <param name="_json"></param>
+	void fromJson(const nlohmann::json& _json) override;
+
 private:
 
 	T inputValue_;
@@ -63,6 +75,15 @@ inline void InOutPriorityNode<T>::Init() {
 	} else if constexpr (std::is_same_v<T, Color>) {
 		addIN<Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
 	}
+
+	showOUT<T>(
+		"output",
+		[=]() -> T {
+			// 簡易的なカラー出力 (本来はGPUサンプリング)
+			return value_;
+		},
+		ImFlow::PinStyle::blue()
+	);
 }
 
 template<typename T>
@@ -94,13 +115,16 @@ inline void InOutPriorityNode<T>::draw() {
 	} else if constexpr (std::is_same_v<T, Color>) {
 		inputValue_ = getInVal<Color>("color");
 	}
+}
 
-	showOUT<T>(
-		"output",
-		[=]() -> T {
-			// 簡易的なカラー出力 (本来はGPUサンプリング)
-			return value_;
-		},
-		ImFlow::PinStyle::blue()
-	);
+template<typename T>
+inline nlohmann::json InOutPriorityNode<T>::toJson() {
+	nlohmann::json result;
+	BaseInfoToJson(result);
+	return result;
+}
+
+template<typename T>
+inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
+	BaseInfoFromJson(_json);
 }

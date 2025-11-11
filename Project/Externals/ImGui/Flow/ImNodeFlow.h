@@ -16,6 +16,8 @@
 #include "imgui_bezier_math.h"
 #include "context_wrapper.h"
 
+#include <nlohmann/json.hpp>
+
 //#define ConnectionFilter_None       [](ImFlow::Pin* out, ImFlow::Pin* in){ return true; }
 //#define ConnectionFilter_SameType   [](ImFlow::Pin* out, ImFlow::Pin* in){ return out->getDataType() == in->getDataType(); }
 //#define ConnectionFilter_Numbers    [](ImFlow::Pin* out, ImFlow::Pin* in){ return out->getDataType() == typeid(double) || out->getDataType() == typeid(float) || out->getDataType() == typeid(int); }
@@ -548,8 +550,12 @@ namespace ImFlow
 
         virtual void customUpdate() {};
 
-        // custom
+        // custom ---------------------------------------------
         virtual void updateGui() {};
+
+        virtual nlohmann::json toJson() { return nlohmann::json(); }
+        virtual void fromJson([[maybe_unused]] const nlohmann::json& _json) {}
+        // ----------------------------------------------------
 
         /**
          * @brief <BR>Main loop of the node

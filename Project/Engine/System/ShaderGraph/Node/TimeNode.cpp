@@ -11,6 +11,13 @@ TimeNode::TimeNode() {
 
 void TimeNode::Init() {
     time_ = 0;
+    sineTime_ = 0;
+
+    auto timeOut = addOUT<float>("time", ImFlow::PinStyle::green());
+    timeOut->behaviour([this]() { return time_; });
+
+    auto sineTimeOut = addOUT<float>("sineTime", ImFlow::PinStyle::green());
+    sineTimeOut->behaviour([this]() { return sineTime_; });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,4 +52,14 @@ void TimeNode::draw() {
         },
         ImFlow::PinStyle::blue()
     );
+}
+
+nlohmann::json TimeNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void TimeNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
 }

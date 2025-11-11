@@ -37,5 +37,31 @@ public:
 	/// </summary>
 	virtual void draw() override = 0;
 
+	/// <summary>
+	/// json形式にする
+	/// </summary>
+	/// <returns></returns>
+	virtual nlohmann::json toJson() = 0;
+
+	/// <summary>
+	/// json形式から情報を設定する
+	/// </summary>
+	/// <param name="_json"></param>
+	virtual void fromJson(const nlohmann::json& _json) = 0;
+
+protected:
+
+	/// <summary>
+	/// 基本の情報を取り出す
+	/// </summary>
+	/// <param name="_json"></param>
+	void BaseInfoFromJson(const nlohmann::json& _json);
+
+	/// <summary>
+	/// 基本の情報をjsonにする
+	/// </summary>
+	/// <param name="_json"></param>
+	void BaseInfoToJson(nlohmann::json& _json);
+
 };
 

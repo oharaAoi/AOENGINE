@@ -15,6 +15,9 @@ void BlendNode::Init() {
 
     addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
     addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
+
+    auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+    texOut->behaviour([this]() { return blendResource_.get(); });
 }
 
 void BlendNode::customUpdate() {
@@ -65,15 +68,6 @@ void BlendNode::draw() {
         }
     }
 
-    // -------- 出力ピン ----------
-    showOUT<DxResource*>(
-        "DxResource",
-        [=]() -> DxResource* {
-            return blendResource_.get();
-        },
-        ImFlow::PinStyle::green()
-    );
-
     if (blendResource_->GetResource()) {
         if (resourceA_ && resourceB_) {
             ImTextureID texID = (ImTextureID)(intptr_t)(blendResource_->GetSRV().handleGPU.ptr);
@@ -81,4 +75,14 @@ void BlendNode::draw() {
             ImGui::Image(texID, ImVec2(64, 64));
         }
     }
+}
+
+nlohmann::json BlendNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void BlendNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
 }

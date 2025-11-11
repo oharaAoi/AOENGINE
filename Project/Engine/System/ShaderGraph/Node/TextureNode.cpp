@@ -10,6 +10,8 @@ TextureNode::~TextureNode() {
 }
 
 void TextureNode::Init() {
+    auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+    texOut->behaviour([this]() { return resource_; });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,22 +27,27 @@ void TextureNode::updateGui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextureNode::draw() {
-    // -------- 出力ピン ----------
-    showOUT<DxResource*>(
-        "Texture",
-        [=]() -> DxResource* {
-            // 簡易的なカラー出力 (本来はGPUサンプリング)
-            return resource_;
-        },
-        ImFlow::PinStyle::green()
-    );
-
     // -------- 内部プレビュー ----------
     if (textureName_ != "") {
-        ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
-        ImGui::SetNextWindowBgAlpha(0.85f);
-        ImGui::Image(texID, ImVec2(64, 64));
+        if (resource_) {
+            ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
+            ImGui::SetNextWindowBgAlpha(0.85f);
+            ImGui::Image(texID, ImVec2(64, 64));
+        }
     }
+}
+
+nlohmann::json TextureNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    result["props"]["textureName"] = textureName_;
+    return result;
+}
+
+void TextureNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
+    textureName_ = _json.at("props").at("textureName").get<std::string>();
+    resource_ = TextureManager::GetInstance()->GetResource(textureName_);
 }
 
 void TextureNode::SelectTexture() {

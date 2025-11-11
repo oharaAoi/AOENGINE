@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include <functional>
 
@@ -11,13 +12,6 @@
 /// ShaderGraphを編集するクラス
 /// </summary>
 class ShaderGraphEditor {
-public:
-
-	struct NodeEntry {
-		std::string path;
-		std::function<void(const ImVec2&)> spawn;
-	};
-
 public:	// コンストラクタ
 
 	ShaderGraphEditor() = default;
@@ -50,42 +44,20 @@ private:
 	void CreateNode();
 
 	/// <summary>
-	/// propertyの作成
+	/// Nodeを保存する
 	/// </summary>
-	void CreateProperty();
+	void SaveGraph();
 
 	/// <summary>
-	/// TextureNodeの作成
+	/// Graphを読み込む
 	/// </summary>
-	void CreteTexture();
-
-	/// <summary>
-	/// 合成Nodeの作成
-	/// </summary>
-	void CreateMerge();
-
-	template<class T>
-	void RegisterNode(const std::string& menuPath) {
-		nodeEntries_.push_back({
-			menuPath,
-			[this, menuPath](const ImVec2& pos) {
-				auto node = editor.addNode<T>(pos);
-
-				// 全ノードで Init を必ず呼ぶ
-				node->Init();
-
-				// setTitle: "Category/Name" → "Name"
-				auto name = menuPath.substr(menuPath.find_last_of('/') + 1);
-				node->setTitle(name.c_str());
-			}
-							  });
-	}
+	void LoadGraph();
 
 private:
 
 	ImFlow::ImNodeFlow editor;
 
-	std::vector<NodeEntry> nodeEntries_;
+	ShaderGraphNodeFactory nodeFactory_;
 
 };
 

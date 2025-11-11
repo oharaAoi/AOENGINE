@@ -44,6 +44,18 @@ public:
 	/// </summary>
 	void draw() override;
 
+	/// <summary>
+	/// json形式にする
+	/// </summary>
+	/// <returns></returns>
+	nlohmann::json toJson() override;
+
+	/// <summary>
+	/// json形式から情報を設定する
+	/// </summary>
+	/// <param name="_json"></param>
+	void fromJson(const nlohmann::json& _json) override;
+
 private:
 
 	std::unique_ptr<DxResource> resource_ = nullptr;

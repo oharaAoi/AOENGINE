@@ -22,6 +22,9 @@ void SampleTexture2dNode::Init() {
 
     addIN<std::shared_ptr<DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
     addIN<Vector2>("UV", uvParam_->uv, ImFlow::ConnectionFilter::None());
+
+    auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+    texOut->behaviour([this]() { return resource_.get(); });
 }
 
 void SampleTexture2dNode::customUpdate() {
@@ -78,16 +81,7 @@ void SampleTexture2dNode::draw() {
             resource_->CreateSRV(srvDesc);
         }
     }
-    // -------- 出力ピン ----------
-    showOUT<DxResource*>(
-        "DxResource",
-        [=]() -> DxResource* {
-            // 簡易的なカラー出力 (本来はGPUサンプリング)
-            return resource_.get();
-        },
-        ImFlow::PinStyle::green()
-    );
-
+    
     // -------- 内部プレビュー ----------
     if (resource_->GetResource()) {
         if (inputResource_) {
@@ -96,4 +90,14 @@ void SampleTexture2dNode::draw() {
             ImGui::Image(texID, ImVec2(64, 64));
         }
     }
+}
+
+nlohmann::json SampleTexture2dNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void SampleTexture2dNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
 }

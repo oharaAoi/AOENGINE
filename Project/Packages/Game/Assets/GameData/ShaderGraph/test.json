@@ -1,0 +1,48 @@
+{
+    "links": [
+        {
+            "fromNode": 2066084298800,
+            "fromPin": "DxResource",
+            "toNode": 2072096981920,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 2066084304176,
+            "fromPin": "DxResource",
+            "toNode": 2072096981920,
+            "toPin": "TextureB"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 2066084298800,
+            "name": "Texture",
+            "pos": [
+                190.0,
+                100.0
+            ],
+            "props": {
+                "textureName": "uvChecker.png"
+            }
+        },
+        {
+            "id": 2066084304176,
+            "name": "Texture",
+            "pos": [
+                180.0,
+                250.0
+            ],
+            "props": {
+                "textureName": "noise9.png"
+            }
+        },
+        {
+            "id": 2072096981920,
+            "name": "Blend",
+            "pos": [
+                460.0,
+                200.0
+            ]
+        }
+    ]
+}

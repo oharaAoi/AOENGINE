@@ -14,6 +14,9 @@ void MaskBlendNode::Init() {
 
 	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
 	addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
+
+    auto texOut = addOUT<DxResource*>("Texture", ImFlow::PinStyle::green());
+    texOut->behaviour([this]() { return blendResource_.get(); });
 }
 
 void MaskBlendNode::customUpdate() {
@@ -64,15 +67,6 @@ void MaskBlendNode::draw() {
         }
     }
 
-    // -------- 出力ピン ----------
-    showOUT<DxResource*>(
-        "DxResource",
-        [=]() -> DxResource* {
-            return blendResource_.get();
-        },
-        ImFlow::PinStyle::green()
-    );
-
     if (blendResource_->GetResource()) {
         if (resourceA_ && resourceB_) {
             ImTextureID texID = (ImTextureID)(intptr_t)(blendResource_->GetSRV().handleGPU.ptr);
@@ -80,4 +74,14 @@ void MaskBlendNode::draw() {
             ImGui::Image(texID, ImVec2(64, 64));
         }
     }
+}
+
+nlohmann::json MaskBlendNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void MaskBlendNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
 }

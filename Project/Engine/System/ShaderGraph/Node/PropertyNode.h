@@ -37,6 +37,18 @@ public:
 	/// </summary>
 	void draw() override;
 
+	/// <summary>
+	/// json形式にする
+	/// </summary>
+	/// <returns></returns>
+	nlohmann::json toJson() override;
+
+	/// <summary>
+	/// json形式から情報を設定する
+	/// </summary>
+	/// <param name="_json"></param>
+	void fromJson(const nlohmann::json& _json) override;
+
 private:
 
 	T value_;
@@ -154,4 +166,51 @@ inline void PropertyNode<T>::draw() {
 	ImGui::Spacing();
 	ImGui::SetNextItemWidth(150);
 	TemplateValueGui(value_);
+}
+
+template<typename T>
+inline nlohmann::json PropertyNode<T>::toJson() {
+	nlohmann::json result;
+	BaseInfoToJson(result);
+	if constexpr (std::is_same_v<T, float>) {
+		result["props"]["value"] = { value_ };
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		result["props"]["value"] = { value_.x, value_.y };
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		result["props"]["value"] = { value_.x, value_.y, value_.z };
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
+	} else if constexpr (std::is_same_v<T, Color>) {
+		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
+	}
+	return result;
+}
+
+template<typename T>
+inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
+	BaseInfoFromJson(_json);
+	if constexpr (std::is_same_v<T, float>) {
+		value_ = _json.at("props").at("value").get<float>();
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		auto& value = _json.at("props").at("props");
+		value_.x = value.at("0").get<float>();
+		value_.y = value.at("1").get<float>();
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		auto& value = _json.at("props").at("props");
+		value_.x = value.at("0").get<float>();
+		value_.y = value.at("1").get<float>();
+		value_.z = value.at("2").get<float>();
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		auto& value = _json.at("props").at("props");
+		value_.x = value.at("0").get<float>();
+		value_.y = value.at("1").get<float>();
+		value_.z = value.at("2").get<float>();
+		value_.w = value.at("3").get<float>();
+	} else if constexpr (std::is_same_v<T, Color>) {
+		auto& value = _json.at("props").at("props");
+		value_.r = value.at("0").get<float>();
+		value_.g = value.at("1").get<float>();
+		value_.b = value.at("2").get<float>();
+		value_.a = value.at("3").get<float>();
+	}
 }
