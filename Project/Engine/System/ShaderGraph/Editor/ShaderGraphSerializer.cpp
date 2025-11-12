@@ -1,7 +1,7 @@
 #include "ShaderGraphSerializer.h"
 #include <iostream>
 
-bool ShaderGraphSerializer::Save(const std::string& _direPath, const std::string& _fileName, ImFlow::ImNodeFlow& _editor) {
+bool ShaderGraphSerializer::Save(const std::string& _direPath, const std::string& _fileName, ImFlow::ImNodeFlow* _editor) {
 	
 	// -------------------------------------------------
 		// ↓ ディレクトリがなければ作成を行う
@@ -28,11 +28,11 @@ bool ShaderGraphSerializer::Save(const std::string& _direPath, const std::string
     json result;
 
     // nodeを保存
-    for (auto& node : _editor.getNodes()) {
+    for (auto& node : _editor->getNodes()) {
         result["nodes"].push_back(node.second.get()->toJson());
     }
 
-	for (auto& weakLink : _editor.getLinks()) {
+	for (auto& weakLink : _editor->getLinks()) {
 		if (weakLink.expired()) continue;
 		auto link = weakLink.lock();
 
@@ -54,15 +54,15 @@ bool ShaderGraphSerializer::Save(const std::string& _direPath, const std::string
     return true;
 }
 
-json ShaderGraphSerializer::Load(const std::string& _direPath, const std::string& _fileName) {
+json ShaderGraphSerializer::Load(const std::string& _filePath) {
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;
 	// ファイルを読み込みように開く
-	ifs.open(_direPath + _fileName);
+	ifs.open(_filePath);
 
 	json root;
 	if (ifs.fail()) {
-		std::string message = "not Exist " + (_direPath + _fileName) + ".json";
+		std::string message = "not Exist " + (_filePath) + ".json";
 		assert(0);
 		return root;
 	}

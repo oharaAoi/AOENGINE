@@ -14,7 +14,7 @@
 class ShaderGraphEditor {
 public:	// コンストラクタ
 
-	ShaderGraphEditor() = default;
+	ShaderGraphEditor();
 	~ShaderGraphEditor();
 
 public:
@@ -55,7 +55,7 @@ private:
 
 private:
 
-	ImFlow::ImNodeFlow editor;
+	std::unique_ptr<ImFlow::ImNodeFlow> editor_;
 
 	ShaderGraphNodeFactory nodeFactory_;
 

@@ -10,7 +10,8 @@
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
 
-void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow& _editor) {
+void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
+	nodeEntries_.clear();
 	RegisterNode<PropertyNode<float>>("Property/Float", _editor);
 	RegisterNode<PropertyNode<Vector2>>("Property/Vector2", _editor);
 	RegisterNode<PropertyNode<Vector3>>("Property/Vector3", _editor);
