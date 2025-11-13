@@ -50,11 +50,9 @@ void GpuParticleManager::Update() {
 	renderer_->SetView(Render::GetViewProjectionMat(), Render::GetCameraRotate().MakeMatrix());
 	renderer_->Update();
 
-#ifdef _DEBUG
 	for (auto& emitter : emitterList_) {
 		emitter->Update();
 	}
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,9 +62,11 @@ void GpuParticleManager::Update() {
 void GpuParticleManager::Draw() const {
 	renderer_->Draw();
 
+#ifdef _DEBUG
 	for (auto& emitter : emitterList_) {
 		emitter->DrawShape();
 	}
+#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

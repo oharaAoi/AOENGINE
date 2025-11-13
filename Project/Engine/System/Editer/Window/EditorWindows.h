@@ -30,6 +30,8 @@ public:
 	// 終了
 	void Finalize();
 
+	static void AddObjectWindow([[maybe_unused]] AttributeGui* attribute, [[maybe_unused]] const std::string& label);
+
 #ifdef _DEBUG
 
 	/// <summary>
@@ -55,7 +57,6 @@ public:
 	/// 終了処理
 	/// </summary>
 	void End();
-
 
 private:
 
@@ -86,8 +87,6 @@ private:
 #endif 
 
 public:
-
-	static void AddObjectWindow(AttributeGui* attribute, const std::string& label);
 
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 

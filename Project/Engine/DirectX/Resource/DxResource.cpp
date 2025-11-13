@@ -41,7 +41,8 @@ void DxResource::CreateResource(const size_t& size) {
 void DxResource::CreateResource(const D3D12_RESOURCE_DESC* resourceDesc, const D3D12_HEAP_PROPERTIES* heapProperties,
 									const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
 	desc_ = *resourceDesc;
-	HRESULT hr = pDevice_->CreateCommittedResource(
+	HRESULT hr;
+	hr = pDevice_->CreateCommittedResource(
 		heapProperties,
 		heapFlags,
 		resourceDesc,

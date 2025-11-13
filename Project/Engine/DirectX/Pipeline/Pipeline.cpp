@@ -26,6 +26,7 @@ void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const jso
 		// 生成
 		CreatePSO();
 	} else {
+		HRESULT hr;
 		// shaderを読み込む
 		ComPtr<IDxcBlob> computeShaderBlob_ = dxCompiler_->CsShaderCompile(parameter_.cs);
 		csReflection_ = dxCompiler->ReadShaderReflection(computeShaderBlob_.Get());
@@ -36,7 +37,7 @@ void Pipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const jso
 		desc.CS = { reinterpret_cast<BYTE*>(computeShaderBlob_->GetBufferPointer()),computeShaderBlob_->GetBufferSize() };
 
 		// 生成
-		HRESULT hr = device_->CreateComputePipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
+		hr = device_->CreateComputePipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
 		assert(SUCCEEDED(hr));
 	}
 }
@@ -139,6 +140,7 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool isDepth) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Pipeline::CreatePSO() {
+	HRESULT hr;
 	// PSOの生成
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSig_.Get();
@@ -172,7 +174,7 @@ void Pipeline::CreatePSO() {
 	desc.SampleDesc.Count = 1;
 	desc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 	// 実際に生成
-	HRESULT hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
+	hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 }
 

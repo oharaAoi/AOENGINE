@@ -107,10 +107,11 @@ void DirectXCommon::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::CreateDXGI() {
+	HRESULT hr;
 	dxgiFactory_ = nullptr;
 	// HRESULはwidows系のエラーコードであり
 	// 関数が成功したかどうかをSUCCEEDEマクロ判定で判定できる
-	HRESULT hr = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
+	hr = CreateDXGIFactory(IID_PPV_ARGS(&dxgiFactory_));
 
 	// 初期化の根本的な部分でエラーが出た場合はプログラムが間違っているか、
 	// どうにもできない場合が多いのでassertにしておく
