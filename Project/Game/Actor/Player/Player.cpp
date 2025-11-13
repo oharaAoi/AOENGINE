@@ -64,8 +64,9 @@ void Player::Parameter::Debug_Gui() {
 
 	ImGui::DragFloat("windDrag", &windDrag, 0.1f);
 
-	ImGui::DragFloat("inclineStrength", &inclineStrength, 0.01f, 0.0f, 1.0f);
-	ImGui::DragFloat("inclineReactionRate", &inclineReactionRate, 0.01f, 0.0f, 10.0f);
+	ImGui::DragFloat("inclineStrength", &inclineStrength, 0.01f, 0.0f);
+	ImGui::DragFloat("inclineReactionRate", &inclineReactionRate, 0.01f, 0.0f);
+	ImGui::DragFloat("inclineThreshold", &inclineThreshold, 0.01f, 0.0f);
 
 	SaveAndLoad();
 }
@@ -364,13 +365,16 @@ void Player::CameraIncline() {
 
 	// ターゲット角度の生計算
 	float diffX = std::abs(screenPos_.x) - std::abs(screenPosPrev_.x);
+	if (std::abs(diffX) < param_.inclineThreshold) {
+		diffX = 0;
+	}
 	diffX *= -1.0f; // 向きを反転
 
 	// Clamp
 	diffX = std::clamp(diffX, -param_.inclineStrength, param_.inclineStrength);
 
 	// kは今回どれだけターゲットに寄せるかの係数
-	// smoothSpeed_ が大きいほど反応が速い
+	// smoothSpeed_が大きいほど反応が速い
 	float k = 1.0f - std::exp(-param_.inclineReactionRate * GameTimer::DeltaTime());
 	k = std::clamp(k, 0.0f, 1.0f);
 

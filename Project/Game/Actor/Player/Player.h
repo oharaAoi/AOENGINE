@@ -44,6 +44,7 @@ public:		// data
 
 		float inclineStrength = 0.1f;		// 傾きの強さ
 		float inclineReactionRate = 5.0f;	// 傾きの反応速度
+		float inclineThreshold = 10.0f;
 
 		Parameter() {
 			SetGroupName("Player");
@@ -63,6 +64,7 @@ public:		// data
 				.Add("windDrag", windDrag)
 				.Add("inclineStrength", inclineStrength)
 				.Add("inclineReactionRate", inclineReactionRate)
+				.Add("inclineThreshold", inclineThreshold)
 				.Build();
 		}
 
@@ -78,6 +80,7 @@ public:		// data
 			fromJson(jsonData, "windDrag", windDrag);
 			fromJson(jsonData, "inclineStrength", inclineStrength);
 			fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
+			fromJson(jsonData, "inclineThreshold", inclineThreshold);
 		}
 
 		void Debug_Gui() override;

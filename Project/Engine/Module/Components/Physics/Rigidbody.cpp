@@ -23,7 +23,7 @@ void Rigidbody::Update() {
 
 	float dragFactor = 1.0f / (1.0f + drag_ * dt);
 	velocity_ *= dragFactor;
-
+	
 	moveForce_ = CVector3::ZERO;
 	pushbackForce_ = CVector3::ZERO;
 	// 重力の適応
