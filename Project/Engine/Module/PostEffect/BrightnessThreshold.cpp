@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 BrightnessThreshold::~BrightnessThreshold() {
-	bloomBuffer_->Finalize();
+	bloomBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

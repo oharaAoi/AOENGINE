@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Dissolve::~Dissolve() {
-	settingBuffer_->Finalize();
+	settingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

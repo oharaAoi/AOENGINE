@@ -5,7 +5,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 GlitchNoise::~GlitchNoise() {
-	glitchBuffer_->Finalize();
+	glitchBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

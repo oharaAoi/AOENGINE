@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Vignette::~Vignette() {
-	settingBuffer_->Finalize();
+	settingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

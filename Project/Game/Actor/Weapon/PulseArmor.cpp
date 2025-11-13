@@ -8,7 +8,7 @@
 #include "Game/Information/ColliderCategory.h"
 
 PulseArmor::~PulseArmor() {
-
+	settingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

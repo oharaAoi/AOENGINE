@@ -1247,7 +1247,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\BlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
@@ -1257,6 +1257,7 @@
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2155,7 +2156,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\BlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
@@ -2167,6 +2168,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

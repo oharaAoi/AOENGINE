@@ -23,7 +23,7 @@ void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comma
 
 void TextureManager::Finalize() {
 	for (auto& data : textureData_) {
-		data.second.resource_->Finalize();
+		data.second.resource_->ReleaseRequest();
 		data.second.intermediateResource_.Reset();
 	}
 }

@@ -2,8 +2,8 @@
 #include "Engine/WinApp/WinApp.h"
 
 PingPongBuffer::~PingPongBuffer() {
-	pingResource_.reset();
-	pongResource_.reset();
+	pingResource_->ReleaseRequest();
+	pongResource_->ReleaseRequest();
 }
 
 void PingPongBuffer::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {

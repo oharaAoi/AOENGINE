@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 MotionBlur::~MotionBlur() {
+	motionResource_->ReleaseRequest();
 }
 
 void MotionBlur::Init() {

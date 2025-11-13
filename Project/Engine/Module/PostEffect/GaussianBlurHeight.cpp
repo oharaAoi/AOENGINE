@@ -4,7 +4,7 @@
 #include "Engine/WinApp/WinApp.h"
 
 GaussianBlurHeight::~GaussianBlurHeight() {
-	blurBuffer_->Finalize();
+	blurBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

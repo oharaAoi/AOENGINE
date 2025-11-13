@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/WinApp/WinApp.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 DxResource::DxResource() {}
 DxResource::~DxResource() {}
@@ -15,8 +16,12 @@ void DxResource::Finalize() {
 		DescriptorHeap::AddFreeSrvList(uavAddress_.value().assignIndex_);
 	}
 	if (rtvAddress_ != std::nullopt) {
-		DescriptorHeap::AddFreeSrvList(rtvAddress_.value().assignIndex_);
+		DescriptorHeap::AddFreeRtvList(rtvAddress_.value().assignIndex_);
 	}
+}
+
+void DxResource::ReleaseRequest() {
+	pDxHeap_->GetFreeCollector()->AddList(this);
 }
 
 void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type) {

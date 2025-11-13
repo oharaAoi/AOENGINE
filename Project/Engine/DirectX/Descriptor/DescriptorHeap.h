@@ -8,6 +8,7 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
+#include "Engine/DirectX/Descriptor/DescriptorFreeCollector.h"
 
 
 template<typename T>
@@ -65,6 +66,7 @@ public:
 	/// </summary>
 	/// <param name="index"></param>
 	static void AddFreeSrvList(int index);
+	static void AddFreeRtvList(int index);
 
 public:
 
@@ -100,6 +102,7 @@ public:
 	void FreeRTV(uint32_t index);
 	void FreeDSV(uint32_t index);
 
+	DescriptorFreeCollector* GetFreeCollector() { return freeCollector_.get(); }
 
 private:
 
@@ -120,4 +123,7 @@ private:
 	int32_t useRtvIndex_;
 
 	static std::list<int> freeSrvList_;
+	static std::list<int> freeRtvList_;
+
+	std::unique_ptr<DescriptorFreeCollector> freeCollector_;
 };

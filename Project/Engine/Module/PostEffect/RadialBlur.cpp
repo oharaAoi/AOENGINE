@@ -3,7 +3,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 RadialBlur::~RadialBlur() {
-	blurSettingBuffer_->Finalize();
+	blurSettingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

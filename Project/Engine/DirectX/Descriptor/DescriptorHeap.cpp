@@ -3,6 +3,7 @@
 #include "Engine/DirectX/RTV/RenderTarget.h"
 
 std::list<int> DescriptorHeap::freeSrvList_;
+std::list<int> DescriptorHeap::freeRtvList_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -60,6 +61,8 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 	useSrvIndex_ = 0;	// SRVの先頭はImGuiで使うため0にして先頭を開けておく
 	useDsvIndex_ = -1;	// 他は先頭から始められるように-1にしておくことで
 	useRtvIndex_ = -1;	// GetDescriptorHandle時に先頭が0になる
+
+	freeCollector_ = std::make_unique<DescriptorFreeCollector>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,15 +112,27 @@ DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& 
 }
 
 void DescriptorHeap::FreeList() {
+	freeCollector_->Free();
+
 	for (int index : freeSrvList_) {
 		FreeSRV(index);
 	}
+	for (int index : freeRtvList_) {
+		FreeRTV(index);
+	}
 	freeSrvList_.clear();
+	freeRtvList_.clear();
 }
 
 void DescriptorHeap::AddFreeSrvList(int index) {
 	if (index >= 0) {
 		freeSrvList_.push_back(index);
+	}
+}
+
+void DescriptorHeap::AddFreeRtvList(int index) {
+	if (index >= 0) {
+		freeRtvList_.push_back(index);
 	}
 }
 

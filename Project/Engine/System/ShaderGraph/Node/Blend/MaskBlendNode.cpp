@@ -2,7 +2,7 @@
 #include "Engine/Engine.h"
 
 MaskBlendNode::~MaskBlendNode() {
-	blendResource_->Finalize();
+	blendResource_->ReleaseRequest();
 }
 
 void MaskBlendNode::Init() {

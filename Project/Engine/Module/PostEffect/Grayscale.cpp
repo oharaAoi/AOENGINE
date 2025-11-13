@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Grayscale::~Grayscale() {
-	settingBuffer_->Finalize();
+	settingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

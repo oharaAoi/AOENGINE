@@ -3,7 +3,7 @@
 #include "Render.h"
 
 DepthBasedOutline::~DepthBasedOutline() {
-	settingBuffer_.reset();
+	settingBuffer_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

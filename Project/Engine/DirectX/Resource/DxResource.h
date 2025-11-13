@@ -1,13 +1,18 @@
 #pragma once
 #include <optional>
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include "dxgidebug.h"
+#include <cassert>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 enum class ResourceType {
 	COMMON,
 	RENDERTARGET,
 	DEPTH
 };
+
+class DescriptorHeap;
 
 /// <summary>
 /// DirectXのResource
@@ -24,6 +29,11 @@ public:
 	/// 終了処理
 	/// </summary>
 	void Finalize();
+
+	/// <summary>
+	/// 解放要求
+	/// </summary>
+	void ReleaseRequest();
 
 	/// <summary>
 	/// 初期化処理

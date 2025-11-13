@@ -123,48 +123,53 @@ void ShaderGraphEditor::LoadGraph() {
 		editor_.reset(new ImFlow::ImNodeFlow);
 		nodeFactory_.Init(editor_.get());
 
-		std::wstring path;
-		IFileOpenDialog* pFileOpen = nullptr;
-		HRESULT hr = CoCreateInstance(
-			CLSID_FileOpenDialog, nullptr, CLSCTX_ALL,
-			IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen)
-		);
-
-		wchar_t buffer[MAX_PATH];
-		GetModuleFileNameW(nullptr, buffer, MAX_PATH);
-
-		namespace fs = std::filesystem;
-		fs::path exePath = buffer;
-		exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
-
-		if (SUCCEEDED(hr)) {
-
-			// ★ 初期フォルダの指定
-			IShellItem* pFolder;
-			if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
-				pFileOpen->SetFolder(pFolder);
-				pFolder->Release();
-			}
-
-			// ダイアログ表示
-			if (SUCCEEDED(pFileOpen->Show(nullptr))) {
-				IShellItem* pItem;
-				if (SUCCEEDED(pFileOpen->GetResult(&pItem))) {
-					PWSTR filePath;
-					if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath))) {
-						path = filePath;
-						CoTaskMemFree(filePath);
-					}
-					pItem->Release();
-				}
-			}
-			pFileOpen->Release();
-		}
-
-		if (ConvertString(path) != "") {
-			nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(ConvertString(path)));
+		// ファイルを選択
+		std::string path = OpenWindowsExplore();
+		if (path != "") {
+			nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(path));
 		}
 	}
+}
+
+std::string ShaderGraphEditor::OpenWindowsExplore() {
+	std::wstring path;
+	IFileOpenDialog* pFileOpen = nullptr;
+	HRESULT hr = CoCreateInstance(
+		CLSID_FileOpenDialog, nullptr, CLSCTX_ALL,
+		IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen)
+	);
+
+	wchar_t buffer[MAX_PATH];
+	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
+
+	namespace fs = std::filesystem;
+	fs::path exePath = buffer;
+	exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
+
+	if (SUCCEEDED(hr)) {
+
+		// ★ 初期フォルダの指定
+		IShellItem* pFolder;
+		if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
+			pFileOpen->SetFolder(pFolder);
+			pFolder->Release();
+		}
+
+		// ダイアログ表示
+		if (SUCCEEDED(pFileOpen->Show(nullptr))) {
+			IShellItem* pItem;
+			if (SUCCEEDED(pFileOpen->GetResult(&pItem))) {
+				PWSTR filePath;
+				if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath))) {
+					path = filePath;
+					CoTaskMemFree(filePath);
+				}
+				pItem->Release();
+			}
+		}
+		pFileOpen->Release();
+	}
+	return ConvertString(path);
 }
 
 void ShaderGraphEditor::SaveGraph() {

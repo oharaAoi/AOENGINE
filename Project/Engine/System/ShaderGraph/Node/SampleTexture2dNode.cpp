@@ -3,7 +3,7 @@
 
 SampleTexture2dNode::SampleTexture2dNode() { }
 SampleTexture2dNode::~SampleTexture2dNode() {
-    resource_->Finalize();
+    resource_->ReleaseRequest();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

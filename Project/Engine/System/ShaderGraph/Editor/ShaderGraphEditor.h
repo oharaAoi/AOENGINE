@@ -53,6 +53,8 @@ private:
 	/// </summary>
 	void LoadGraph();
 
+	std::string OpenWindowsExplore();
+
 private:
 
 	std::unique_ptr<ImFlow::ImNodeFlow> editor_;

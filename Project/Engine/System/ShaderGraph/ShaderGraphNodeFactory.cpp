@@ -3,7 +3,7 @@
 #include "Engine/System/ShaderGraph/Node/InOutPriorityNode.h"
 #include "Engine/System/ShaderGraph/Node/SampleTexture2dNode.h"
 #include "Engine/System/ShaderGraph/Node/TextureNode.h"
-#include "Engine/System/ShaderGraph/Node/BlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Blend/BlendNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/MaskBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/TimeNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"

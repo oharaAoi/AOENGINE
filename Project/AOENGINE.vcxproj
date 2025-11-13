@@ -117,6 +117,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
+    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
@@ -283,7 +284,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\BlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
@@ -448,6 +449,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
+    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
@@ -611,7 +613,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\BlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />

@@ -5,7 +5,7 @@ BlendTexture::BlendTexture() {
 }
 
 BlendTexture::~BlendTexture() {
-	resultResource_->Finalize();
+	resultResource_->ReleaseRequest();
 }
 
 void BlendTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
