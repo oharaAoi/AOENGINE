@@ -76,9 +76,9 @@ public:
 	// 更新
 	virtual void Update();
 	// 描画処理
-	virtual void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
+	virtual void BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex);
 	// コマンドを積む
-	void BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const;
+	void ViewBindCommand(ID3D12GraphicsCommandList* commandList, UINT index) const;
 	// 透視投影行列の計算
 	void CalucViewProjection(const Vector3& pos);
 	// パラメータの編集

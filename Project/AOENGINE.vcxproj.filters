@@ -606,13 +606,7 @@
     <ClInclude Include="Engine\Module\Components\WorldTransform.h">
       <Filter>Engine\Module\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\ComputeShader\BaseCSResource.h">
-      <Filter>Engine\Module\ComputeShader</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h">
-      <Filter>Engine\Module\ComputeShader</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShader.h">
       <Filter>Engine\Module\ComputeShader</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Geometry\GeometryFactory.h">
@@ -779,24 +773,6 @@
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\System\ParticleSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
@@ -1283,6 +1259,7 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1588,13 +1565,7 @@
     <ClCompile Include="Engine\Module\Components\WorldTransform.cpp">
       <Filter>Engine\Module\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\ComputeShader\BaseCSResource.cpp">
-      <Filter>Engine\Module\ComputeShader</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp">
-      <Filter>Engine\Module\ComputeShader</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShader.cpp">
       <Filter>Engine\Module\ComputeShader</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Geometry\GeometryFactory.cpp">
@@ -1761,24 +1732,6 @@
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp">
       <Filter>Engine\System\ParticleSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp">
-      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
@@ -2223,6 +2176,7 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

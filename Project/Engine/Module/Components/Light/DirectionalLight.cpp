@@ -7,6 +7,14 @@ DirectionalLight::DirectionalLight() {
 DirectionalLight::~DirectionalLight() {
 }
 
+void DirectionalLight::Finalize() {
+	BaseLight::Finalize();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	AttributeGui::SetName("Directional Light");
 	BaseLight::Init(device, size);
@@ -28,9 +36,9 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	directionalLightData_->limPower = parameter_.limPower;
 }
 
-void DirectionalLight::Finalize() {
-	BaseLight::Finalize();
-}
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectionalLight::Update() {
 	parameter_.direction = Normalize(parameter_.direction);
@@ -47,25 +55,17 @@ void DirectionalLight::Update() {
 	BaseLight::Update();
 }
 
-void DirectionalLight::Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
-	BaseLight::Draw(commandList, rootParameterIndex);
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void DirectionalLight::BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
+	BaseLight::BindCommand(commandList, rootParameterIndex);
 }
 
-void DirectionalLight::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Base")) {
-		EditParameter("BaseDirectional");
-	}
-	
-	if (ImGui::CollapsingHeader("Unique")) {
-		parameter_.Debug_Gui();
-	}
-	parameter_.direction = Normalize(parameter_.direction);
-
-	directionalLightData_->color = parameter_.color;
-	directionalLightData_->direction = baseParameter_.direction;
-	directionalLightData_->intensity = parameter_.intensity;
-	directionalLightData_->limPower = parameter_.limPower;
-}
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 再読み込み処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectionalLight::Reset() {
 	baseParameter_.Load();
@@ -84,6 +84,26 @@ void DirectionalLight::Reset() {
 	fovY_ = baseParameter_.fovY;
 	near_ = baseParameter_.nearClip;
 	far_ = baseParameter_.farClip;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void DirectionalLight::Debug_Gui() {
+	if (ImGui::CollapsingHeader("Base")) {
+		EditParameter("BaseDirectional");
+	}
+
+	if (ImGui::CollapsingHeader("Unique")) {
+		parameter_.Debug_Gui();
+	}
+	parameter_.direction = Normalize(parameter_.direction);
+
+	directionalLightData_->color = parameter_.color;
+	directionalLightData_->direction = baseParameter_.direction;
+	directionalLightData_->intensity = parameter_.intensity;
+	directionalLightData_->limPower = parameter_.limPower;
 }
 
 void DirectionalLight::Paramter::Debug_Gui() {

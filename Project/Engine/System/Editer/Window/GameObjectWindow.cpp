@@ -24,6 +24,10 @@ void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::strin
 	attributeArray_.emplace_back(attribute);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　同じ名前の場合の処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
 	int count = 0;
 	std::string newName = baseName;

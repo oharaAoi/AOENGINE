@@ -26,6 +26,10 @@ void PostProcess::Finalize() {
 	depthStencilResource_.Reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
@@ -106,6 +110,10 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	EditorWindows::AddObjectWindow(this, "Post Process");
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
 	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
 	Render::SetRenderTarget(types, depthHandle_);
@@ -114,10 +122,12 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 		return;
 	}
 	
+	// sceneのリソースをコピーする
 	Copy(commandList, shaderResource);
-
+	// renderTargetをセットする
 	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_.handleCPU);
 	uint32_t cout = 0;
+	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
 		if (effect->GetIsEnable()) {
 			effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
@@ -128,13 +138,18 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 		}
 	}
 
+	// resourceを入れ替える
 	if (effectList_.size() % 2 == 0 && !effectList_.empty()) {
 		pingPongBuff_->Swap(commandList);
 	}
 
-	
+	// 最終的な描画をシーンにコピーする
 	PostCopy(commandList, shaderResource);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コピーする
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PostProcess::Copy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
@@ -157,6 +172,10 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResourc
 	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ effectの追加
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PostProcess::AddEffect(PostEffectType type) {
 	if (CheckAddEffect(type)) {

@@ -257,6 +257,7 @@ void BehaviorTree::Edit() {
 		}
 	}
 
+	// 選択しているNodeのポインタを取得
 	for (auto it = nodeList_.begin(); it != nodeList_.end();) {
 		if ((*it)->GetIsDelete()) {
 			for (auto& node : nodeList_) {
@@ -422,6 +423,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	logger_ = std::make_unique<BehaviorTreeLogger>();
 	logger_->Init(nodeName);
 
+	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(CreateNodeFromJson(nodeTree)).get();
 

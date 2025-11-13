@@ -12,6 +12,10 @@ void Mesh::Finalize() {
 	indexBuffer_.Reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices) {
 	// ---------------------------------------------------------------
 	// ↓Vetrtexの設定
@@ -57,14 +61,22 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	indexNum_ = (uint32_t)indices.size();
 }
 
-void Mesh::Draw(ID3D12GraphicsCommandList* commandList) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Mesh::BindCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
 }
 
-void Mesh::DrawIndex(ID3D12GraphicsCommandList* commandList) {
+void Mesh::IndexBindCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->IASetIndexBuffer(&indexBufferView_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ setter系
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Mesh::SetInitVertex() {
 	for (size_t i = 0; i < vertexDataSize_; ++i) {

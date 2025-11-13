@@ -105,7 +105,7 @@ void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 
 void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, 
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
-	lightGroup_->Draw(pipeline, commandList_);
+	lightGroup_->BindCommand(pipeline, commandList_);
 	UINT index = 0;
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
@@ -116,7 +116,7 @@ void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransf
 void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
-	lightGroup_->Draw(pipeline, commandList_);
+	lightGroup_->BindCommand(pipeline, commandList_);
 
 	UINT index = 0;
 	std::string useMaterial = mesh->GetUseMaterial();
@@ -143,7 +143,7 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 }
 
 void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform) {
-	lightGroup_->Draw(pipeline, commandList_);
+	lightGroup_->BindCommand(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
 
@@ -173,7 +173,7 @@ void Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTran
 	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
-	lightGroup_->GetDirectionalLight()->BindCommandList(commandList_, index);
+	lightGroup_->GetDirectionalLight()->ViewBindCommand(commandList_, index);
 	
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
@@ -191,7 +191,7 @@ void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color) 
 }
 
 void Render::DrawLightGroup(Pipeline* pipeline) {
-	lightGroup_->Draw(pipeline, commandList_);
+	lightGroup_->BindCommand(pipeline, commandList_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

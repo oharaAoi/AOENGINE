@@ -32,6 +32,7 @@ void SceneRenderer::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Update() {
+	// 削除処理
 	for (auto it = objectList_.begin(); it != objectList_.end(); ) {
 		if ((*it)->GetSceneObject()->GetIsDestroy()) {
 			it = objectList_.erase(it);
@@ -40,6 +41,7 @@ void SceneRenderer::Update() {
 		}
 	}
 
+	// ソートする
 	objectList_.sort([](const std::unique_ptr<IObjectPair>& a, const std::unique_ptr<IObjectPair>& b) {
 		if (a->GetRenderQueue() == b->GetRenderQueue()) {
 			return a->GetRenderingType() < b->GetRenderingType();
@@ -47,6 +49,7 @@ void SceneRenderer::Update() {
 		return a->GetRenderQueue() == b->GetRenderQueue();
 	});
 
+	// objectの更新
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
 		if (obj->GetIsActive()) {
@@ -54,6 +57,7 @@ void SceneRenderer::Update() {
 		}
 	}
 
+	// particleの更新
 	particleManager_->Update();
 	gpuParticleManager_->Update();
 }
@@ -72,6 +76,7 @@ void SceneRenderer::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Draw() const {
+	// 影の描画
 	Render::SetShadowMap();
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
@@ -80,6 +85,7 @@ void SceneRenderer::Draw() const {
 		}
 	}
 
+	// objectの描画
 	Engine::SetRenderTarget();
 	Render::ChangeShadowMap();
 	for (auto& pair : objectList_) {
@@ -93,6 +99,7 @@ void SceneRenderer::Draw() const {
 		}
 	}
 
+	// particleの描画
 	particleManager_->Draw();
 	gpuParticleManager_->Draw();
 
@@ -113,6 +120,10 @@ void SceneRenderer::PostDraw() const {
 		}
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (auto& pair : objectList_) {

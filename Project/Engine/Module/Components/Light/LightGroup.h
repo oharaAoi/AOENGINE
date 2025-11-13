@@ -33,7 +33,7 @@ public:
 	// 更新
 	void Update();
 	// コマンドを積む
-	void Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
+	void BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
 	// 編集処理
 	void Debug_Gui() override;
 

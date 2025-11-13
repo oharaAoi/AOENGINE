@@ -6,6 +6,10 @@ Grayscale::~Grayscale() {
 	settingBuffer_->Finalize();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Grayscale::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	settingBuffer_ = std::make_unique<DxResource>();
@@ -16,6 +20,10 @@ void Grayscale::Init() {
 	setting_->color = Color::black;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Grayscale::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Grayscale.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -25,6 +33,10 @@ void Grayscale::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* p
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Grayscale::CheckBox() {
 	ImGui::Checkbox("GrayScale##Grayscale_checkBox", &isEnable_);

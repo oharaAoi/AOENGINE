@@ -6,6 +6,10 @@
 ShadowMap::~ShadowMap() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ShadowMap::Init() {
 	GraphicsContext* ctx = GraphicsContext::GetInstance();
 	ID3D12Device* device = ctx->GetDevice();
@@ -32,11 +36,19 @@ void ShadowMap::Init() {
 	device->CreateShaderResourceView(depthStencilResource_->GetResource(), &depthSrvDesc, depthSrvHandle_.handleCPU);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ShadowMap::SetCommand() {
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::ShadowMap_RenderTarget);
 	Render::SetRenderTarget(types, depthDsvHandle_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ resourceを遷移させる
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShadowMap::ChangeResource(ID3D12GraphicsCommandList* commandList) {
 	TransitionResourceState(commandList, depthStencilResource_->GetResource(), D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
@@ -45,6 +57,10 @@ void ShadowMap::ChangeResource(ID3D12GraphicsCommandList* commandList) {
 void ShadowMap::ResetResource(ID3D12GraphicsCommandList* commandList) {
 	TransitionResourceState(commandList, depthStencilResource_->GetResource(), D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShadowMap::Debug_Gui() {
 	ImGui::Begin("ShadowMao View");

@@ -4,6 +4,10 @@
 GaussianFilter::~GaussianFilter() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GaussianFilter::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	settingBuffer_ = std::make_unique<DxResource>();
@@ -15,6 +19,10 @@ void GaussianFilter::Init() {
 	setting_->size = 5;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GaussianFilter.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -24,6 +32,10 @@ void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, DxResour
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GaussianFilter::CheckBox() {
 	ImGui::Checkbox("GaussianFilter##GaussianFilter_checkBox", &isEnable_);

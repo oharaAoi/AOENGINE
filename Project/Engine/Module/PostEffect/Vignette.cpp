@@ -6,6 +6,10 @@ Vignette::~Vignette() {
 	settingBuffer_->Finalize();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Vignette::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	settingBuffer_ = std::make_unique<DxResource>();
@@ -18,6 +22,10 @@ void Vignette::Init() {
 	setting_->power = 0.8f;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Vignette.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -27,6 +35,10 @@ void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pi
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Vignette::CheckBox() {
 	ImGui::Checkbox("Vignette##Vignette_checkbox", &isEnable_);

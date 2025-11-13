@@ -4,6 +4,16 @@
 LightGroup::LightGroup() {}
 LightGroup::~LightGroup() {}
 
+void LightGroup::Finalize() {
+	directionalLight_->Finalize();
+	pointLight_->Finalize();
+	spotLight_->Finalize();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void LightGroup::Init(ID3D12Device* device) {
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	pointLight_ = std::make_unique<PointLight>();
@@ -20,11 +30,9 @@ void LightGroup::Init(ID3D12Device* device) {
 	EditorWindows::AddObjectWindow(this, "LightGroup");
 }
 
-void LightGroup::Finalize() {
-	directionalLight_->Finalize();
-	pointLight_->Finalize();
-	spotLight_->Finalize();
-}
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LightGroup::Update() {
 	directionalLight_->SetEyePos(eyePos_);
@@ -36,13 +44,17 @@ void LightGroup::Update() {
 	spotLight_->Update();
 }
 
-void LightGroup::Draw(const Pipeline* pso, ID3D12GraphicsCommandList* commandList) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void LightGroup::BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* commandList) {
 	UINT index = pso->GetRootSignatureIndex("gDirectionalLight");
-	directionalLight_->Draw(commandList, index);
+	directionalLight_->BindCommand(commandList, index);
 	index = pso->GetRootSignatureIndex("gPointLight");
-	pointLight_->Draw(commandList, index);
+	pointLight_->BindCommand(commandList, index);
 	index = pso->GetRootSignatureIndex("gSpotLight");
-	spotLight_->Draw(commandList, index);
+	spotLight_->BindCommand(commandList, index);
 }
 
 void LightGroup::Debug_Gui() {

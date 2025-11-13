@@ -27,9 +27,11 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 	UINT postProcessNum = 2;
 	UINT particleEditorNum = 1;
 	UINT sceneNum = 1;
+	UINT imguiNum = 1;
+	UINT totalRTVNum = rtvNum + swapChainNum + postProcessNum + particleEditorNum + sceneNum + imguiNum;
 
 	// ヒープの生成
-	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, rtvNum + swapChainNum + postProcessNum + particleEditorNum + sceneNum, false);
+	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, totalRTVNum, false);
 	srvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, (1 << 16), true);
 	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 4 + 1, false);
 
@@ -45,6 +47,13 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 		DescriptorType::DSV,
 		5,
 		descriptorSize_->GetDSV(),
+		1
+	);
+
+	rtvAllocator_ = std::make_unique<DescriptorAllocator>(
+		DescriptorType::RTV,
+		totalRTVNum,
+		descriptorSize_->GetRTV(),
 		1
 	);
 

@@ -4,6 +4,10 @@
 void LuminanceBasedOutline::Init() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void LuminanceBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_LuminanceBasedOutline.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();

@@ -84,13 +84,6 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	desc.Buffer.StructureByteStride = sizeof(VertexInfluence);
 	device->CreateShaderResourceView(influenceResource_.Get(), &desc, influenceSrvHandle_.handleCPU);
 
-	// -------------------------------------------------
-	// ↓ influence用VBVを作成
-	// -------------------------------------------------
-	/*influenceBuffeView_.BufferLocation = influenceResource_->GetGPUVirtualAddress();
-	influenceBuffeView_.SizeInBytes = UINT(sizeof(VertexInfluence) * vertices);
-	influenceBuffeView_.StrideInBytes = sizeof(VertexInfluence);*/
-
 	// -------------------------------------------------------------
 	// ↓ InverseBindPoseMatを格納する場所を作成して、単位行列で埋める
 	// -------------------------------------------------------------
@@ -196,10 +189,6 @@ void Skinning::RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList
 }
 
 void Skinning::EndCS(ID3D12GraphicsCommandList* commandList) {
-	//// UAVからVertexBufferとして使用できる用に
-	//TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-	//mesh->SetVBV(vertexBufferView_);
-
 	// 出力された頂点データを読み取るためのResourceにコピーする
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	commandList->CopyResource(copyResource_.Get(), outputResource_.Get());
@@ -208,7 +197,4 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList) {
 	// マップしてデータを取得
 	VertexData* pVertexDataBegin = nullptr;
 	copyResource_->Map(0, nullptr, reinterpret_cast<void**>(&pVertexDataBegin));
-
-	// skinningされた後のlocal頂点座標を取得する
-	//mesh->SetOutputVertexData(pVertexDataBegin);
 }

@@ -5,6 +5,10 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	name_ = name;
 	isAddBlend_ = isAddBlend;
@@ -23,6 +27,10 @@ void CpuParticles::Init(const std::string& name, bool isAddBlend) {
 	EditorWindows::AddObjectWindow(this, name_);
 #endif // _DEBUG
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CpuParticles::Update(const Quaternion& bill) {
 
@@ -62,25 +70,6 @@ void CpuParticles::Update(const Quaternion& bill) {
 		// 座標を適応
 		pr.translate += pr.velocity * GameTimer::DeltaTime();
 
-		// ---------------------------
-		// 状態の更新
-		// ---------------------------
-		/*float t = pr.lifeTime / pr.firstLifeTime;
-		t = 1.0f - t;
-		if (pr.isLifeOfAlpha) {
-			pr.color.w = Lerp(1.0f, 0.0f, t);
-		}
-
-		if (pr.isLifeOfScale) {
-			pr.scale = Vector3::Lerp(pr.firstScale, CVector3::ZERO, t);
-		}
-
-		if (pr.isScaleUpScale) {
-			float scaleT = pr.lifeTime / pr.firstLifeTime;
-			scaleT = 1.0f - scaleT;
-			pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, scaleT);
-		}*/
-
 		Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 		Matrix4x4 billMatrix = bill.MakeMatrix(); // ← ビルボード行列（カメラからの視線で作る）
 		Matrix4x4 zRot = pr.rotate.MakeMatrix();
@@ -108,6 +97,10 @@ void CpuParticles::Update(const Quaternion& bill) {
 		++it;
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 射出
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CpuParticles::Emit(const Vector3& pos) {
 	if (particleArray_.size() >= kMaxParticles) { return; }
@@ -252,6 +245,10 @@ void CpuParticles::Emit(const Vector3& pos) {
 	newParticle.isDraw2d = emitter_.isDraw2d;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 射出の更新
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void CpuParticles::EmitUpdate() {
 	if (isStop_) { return; }
 
@@ -288,6 +285,10 @@ void CpuParticles::EmitUpdate() {
 		}
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
 void CpuParticles::Debug_Gui() {

@@ -82,6 +82,10 @@ void GpuParticleEmitter::Update() {
 	SetItem();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 射出処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
 		Engine::SetPipelineCS("GpuParticleEmit.json");
@@ -107,6 +111,10 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 	commandList->Dispatch(1, 1, 1);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 形状の描画
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticleEmitter::DrawShape() const {
 	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
 		DrawSphere(emitterItem_.pos, emitterItem_.radius, Render::GetViewProjectionMat());
@@ -119,6 +127,10 @@ void GpuParticleEmitter::DrawShape() const {
 		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, Render::GetViewProjectionMat());
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の設定
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleEmitter::SetItem() {
 	emitterData_->color = emitterItem_.color;

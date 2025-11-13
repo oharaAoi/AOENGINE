@@ -42,7 +42,7 @@ public:
 	// 更新
 	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
 	// コマンドを積む
-	void Draw(ID3D12GraphicsCommandList* commandList);
+	void BindCommand(ID3D12GraphicsCommandList* commandList);
 
 public:
 

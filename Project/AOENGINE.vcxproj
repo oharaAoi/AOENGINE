@@ -218,9 +218,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\TransformationMatrix.h" />
     <ClInclude Include="Engine\Module\Components\ViewProjection.h" />
     <ClInclude Include="Engine\Module\Components\WorldTransform.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\BaseCSResource.h" />
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h" />
-    <ClInclude Include="Engine\Module\ComputeShader\ComputeShader.h" />
     <ClInclude Include="Engine\Module\Geometry\GeometryFactory.h" />
     <ClInclude Include="Engine\Module\Geometry\Polygon\CubeGeometry.h" />
     <ClInclude Include="Engine\Module\Geometry\Polygon\CylinderGeometry.h" />
@@ -276,12 +274,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
@@ -554,9 +547,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\TransformationMatrix.cpp" />
     <ClCompile Include="Engine\Module\Components\ViewProjection.cpp" />
     <ClCompile Include="Engine\Module\Components\WorldTransform.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\BaseCSResource.cpp" />
     <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp" />
-    <ClCompile Include="Engine\Module\ComputeShader\ComputeShader.cpp" />
     <ClCompile Include="Engine\Module\Geometry\GeometryFactory.cpp" />
     <ClCompile Include="Engine\Module\Geometry\Polygon\CubeGeometry.cpp" />
     <ClCompile Include="Engine\Module\Geometry\Polygon\CylinderGeometry.cpp" />
@@ -612,12 +603,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\BoxEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\ConeEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\CpuEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\SphereEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />

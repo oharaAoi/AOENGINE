@@ -6,6 +6,10 @@ DepthBasedOutline::~DepthBasedOutline() {
 	settingBuffer_.reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DepthBasedOutline::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	settingBuffer_ = std::make_unique<DxResource>();
@@ -26,6 +30,10 @@ void DepthBasedOutline::Init() {
 	setting_->edgeGain = 5.0f;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	setting_->projectionInverse = Render::GetProjection3D().Inverse();
 	
@@ -43,6 +51,10 @@ void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxRes
 
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,  D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DepthBasedOutline::CheckBox() {
 	ImGui::Checkbox("DepthBasedOutline##DepthBasedOutline_CheckBox", &isEnable_);

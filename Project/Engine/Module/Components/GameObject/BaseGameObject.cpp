@@ -56,11 +56,6 @@ void BaseGameObject::Update() {
 	if (!animetor_->GetIsControlScript()) {
 		animetor_->Update();
 
-		/*for (auto& effector : endEffectors_) {
-			effector.second->Update(transform_->GetWorldMatrix());
-		}
-		animetor_->UpdateSkinning();*/
-
 		if (animetor_->GetIsSkinning()) {
 			Engine::SetPipelineCS("Skinning.json");
 			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
@@ -84,14 +79,17 @@ void BaseGameObject::Update() {
 }
 
 void BaseGameObject::UpdateMatrix() {
+	// 移動量や追加する
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
 		transform_->Translate(rigidbody_->GetVelocity(), GameTimer::DeltaTime());
 	}
 
+	// transformの更新
 	transform_->Update();
 
+	// colliderの更新
 	if (!colliders_.empty()) {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
 			colliders_[index]->Update(QuaternionSRT{
@@ -110,6 +108,7 @@ void BaseGameObject::UpdateMatrix() {
 }
 
 void BaseGameObject::PostUpdate() {
+	// colliderから押し戻し量を取得する
 	if (rigidbody_ != nullptr) {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
 			if (!colliders_[index]->GetIsStatic()) {
@@ -118,13 +117,15 @@ void BaseGameObject::PostUpdate() {
 		}
 		transform_->Translate(rigidbody_->GetPushbackForce());
 	}
+
+	// 押し戻し後の更新を行なう
 	transform_->Update();
 	transform_->PostUpdate();
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　描画処理
+// ↓　影の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::PreDraw() const {
@@ -141,11 +142,16 @@ void BaseGameObject::PreDraw() const {
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　描画処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void BaseGameObject::Draw() const {
 	if (!isRendering_) {
 		return;
 	}
 
+	// 鏡面反射をする場合の描画
 	if (isReflection_) {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
 			if (materials.size() > index) {
@@ -165,10 +171,6 @@ void BaseGameObject::Draw() const {
 			Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
 		}
 	}
-
-	/*if (animetor_ != nullptr) {
-		animetor_->GetSkeleton()->DrawNodeHierarchy(transform_->GetWorldMatrix());
-	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,12 +10,20 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 	perViewBuffer_.Reset();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 	maxInstanceNum_ = instanceNum;
 
 	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend) {
 	uint32_t currentUseIndex = particleMap_[id].useIndex;
@@ -61,6 +69,10 @@ void ParticleInstancingRenderer::PostUpdate() {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
 	for (auto& information : particleMap_) {
 		if (information.second.isAddBlend) {
@@ -88,6 +100,10 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 		commandList->DrawIndexedInstanced(information.second.pMesh->GetIndexNum(), maxInstanceNum_, 0, 0, 0);
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ particleを追加
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<Mesh> _pMesh, bool isAddBlend) {
 	auto it = particleMap_.find(id);

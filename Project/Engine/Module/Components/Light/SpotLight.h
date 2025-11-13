@@ -81,7 +81,7 @@ public:
 	// 更新
 	void Update() override;
 	// コマンドを積む
-	void Draw(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
+	void BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
 	// 編集
 	void Debug_Gui();
 

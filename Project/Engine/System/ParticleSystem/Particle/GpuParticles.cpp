@@ -19,6 +19,10 @@ void GpuParticles::Finalize() {
 	materials_.clear();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticles::Init(uint32_t instanceNum) {
 	// ポインタの取得
 	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
@@ -91,6 +95,10 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticles::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
@@ -111,6 +119,10 @@ void GpuParticles::Update() {
 	commandList->ResourceBarrier(1, &barrier);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 描画処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 	for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 		commandList->IASetVertexBuffers(0, 1, &meshArray_[oi]->GetVBV());
@@ -125,6 +137,10 @@ void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticles::InitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT rootParameterIndex) {
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex, particleResource_->GetUAV().handleGPU);

@@ -512,7 +512,6 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 		outFile << std::setw(4) << jsonData << std::endl;
 		outFile.close();
 
-		//Log("JSON data saved as: " + filePath + "\n");
 	} else {
 		//Log("Invalid or empty JSON data\n");
 	}

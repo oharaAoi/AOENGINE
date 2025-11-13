@@ -6,6 +6,10 @@ RadialBlur::~RadialBlur() {
 	blurSettingBuffer_->Finalize();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void RadialBlur::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	blurSettingBuffer_ = std::make_unique<DxResource>();
@@ -20,6 +24,10 @@ void RadialBlur::Init() {
 
 	continuation_ = false;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	if (run_) {
@@ -42,9 +50,28 @@ void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* 
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void RadialBlur::CheckBox() {
 	ImGui::Checkbox("RadialBlur##RadialBlur_checkbox", &isEnable_);
 }
+
+void RadialBlur::Debug_Gui() {
+	if (ImGui::CollapsingHeader("RadialBlur")) {
+		ImGui::DragFloat2("center", &setting_->blurCenter.x, 0.1f);
+		ImGui::DragFloat("strength", &setting_->blurStrength, 0.01f, 0.0f, 1.0f);
+		ImGui::DragFloat("blurStart", &setting_->blurStart, 0.1f, 0.0f, 1.0f);
+		ImGui::DragInt("sampleCount", &setting_->sampleCount, 1, 1, 20);
+
+		setting_->blurCenter.Clamp(CVector2::ZERO, CVector2::UNIT);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行関数
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RadialBlur::Start(float _strength, float _startTime, bool _continuation) {
 	run_ = true;
@@ -61,15 +88,4 @@ void RadialBlur::Stop() {
 void RadialBlur::SlowDown(float time) {
 	run_ = true;
 	blurStrengthTween_.Init(setting_->blurStrength, 0.0f, time, (int)EasingType::None::Liner, LoopType::STOP);
-}
-
-void RadialBlur::Debug_Gui() {
-	if (ImGui::CollapsingHeader("RadialBlur")) {
-		ImGui::DragFloat2("center", &setting_->blurCenter.x, 0.1f);
-		ImGui::DragFloat("strength", &setting_->blurStrength, 0.01f, 0.0f, 1.0f);
-		ImGui::DragFloat("blurStart", &setting_->blurStart, 0.1f, 0.0f, 1.0f);
-		ImGui::DragInt("sampleCount", &setting_->sampleCount, 1, 1, 20);
-
-		setting_->blurCenter.Clamp(CVector2::ZERO, CVector2::UNIT);
-	}
 }

@@ -79,9 +79,9 @@ void ScreenTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePo
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::SCALE, ImGuizmo::LOCAL, world);
 	}
 
-	/*if (ManipulateTool::type_ == UseManipulate::ROTATE) {
+	if (ManipulateTool::type_ == UseManipulate::ROTATE) {
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
-	}*/
+	}
 
 	if (ManipulateTool::type_ == UseManipulate::TRANSLATE) {
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, world);

@@ -23,6 +23,10 @@ void MeshManager::Finalize() {
 	meshMap_.clear();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ meshの追加
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, const std::string& meshName,
 						  const std::vector<VertexData>& vertexData, const std::vector<uint32_t>& indices) {
 
@@ -48,6 +52,10 @@ void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, co
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ meshの取得
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 std::vector<std::shared_ptr<Mesh>> MeshManager::GetMeshes(const std::string& modelName) {
 	std::vector<std::shared_ptr<Mesh>> result;
 
@@ -63,14 +71,6 @@ std::vector<std::shared_ptr<Mesh>> MeshManager::GetMeshes(const std::string& mod
 	return result;
 }
 
-bool MeshManager::ExistMesh(const std::string& modelName) {
-	if (meshArrayMap_.find(modelName) == meshArrayMap_.end()) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
 std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 	for (auto& meshes : meshArrayMap_) {
 		const std::vector<MeshPair>& meshPair = meshes.second.meshArray;
@@ -83,6 +83,19 @@ std::shared_ptr<Mesh> MeshManager::GetMesh(const std::string& meshName) {
 
 	// エラー出力する
 	return nullptr;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ meshがあるかをチェック
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool MeshManager::ExistMesh(const std::string& modelName) {
+	if (meshArrayMap_.find(modelName) == meshArrayMap_.end()) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 std::string MeshManager::SelectMeshName() {

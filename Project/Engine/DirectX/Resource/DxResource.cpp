@@ -119,7 +119,7 @@ void DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& desc) {
-	rtvAddress_ = pDxHeap_->GetDescriptorHandle(TYPE_RTV);
+	rtvAddress_ = pDxHeap_->AllocateRTV();
 	pDevice_->CreateRenderTargetView(cBuffer_.Get(), &desc, rtvAddress_.value().handleCPU);
 }
 

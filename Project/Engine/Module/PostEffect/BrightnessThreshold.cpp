@@ -6,6 +6,10 @@ BrightnessThreshold::~BrightnessThreshold() {
 	bloomBuffer_->Finalize();
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BrightnessThreshold::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	// 輝度抽出の設定
@@ -18,6 +22,10 @@ void BrightnessThreshold::Init() {
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_BrightnessThreshold.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -27,6 +35,10 @@ void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, DxR
 	commandList->SetGraphicsRootConstantBufferView(index, bloomBuffer_->GetResource()->GetGPUVirtualAddress());
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BrightnessThreshold::CheckBox() {
 }

@@ -45,8 +45,10 @@ void ParticleManager::Init() {
 void ParticleManager::Update() {
 	this->SetView(Render::GetViewProjectionMat(), Render::GetProjection2D(), Matrix4x4::MakeUnit());
 
+	// particleの更新
 	ParticlesUpdate();
 
+	// emitterの更新
 	for (auto& emitter : emitterList_) {
 		if (emitter->GetChangeMesh()) {
 			emitter->ChangeMesh();
@@ -55,6 +57,7 @@ void ParticleManager::Update() {
 		emitter->Update();
 	}
 
+	// renderの更新
 	for (auto& particles : particlesMap_) {
 		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.isAddBlend);
 	}
@@ -152,6 +155,9 @@ void ParticleManager::ParticlesUpdate() {
 			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
+			// ---------------------------
+			// パラメーターの更新
+			// ---------------------------
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
 			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
