@@ -1820,13 +1820,7 @@
     <ClCompile Include="Externals\ImGui\imgui_draw.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp">
-      <Filter>Externals\ImGui</Filter>
-    </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp">
-      <Filter>Externals\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp">
@@ -2171,6 +2165,8 @@
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
+    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />
