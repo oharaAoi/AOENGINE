@@ -133,7 +133,7 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	viewProjection_->BindCommandListPrev(commandList_, index);
 
 	std::string textureName = material->GetAlbedoTexture();
-	index = pipeline->GetRootSignatureIndex("gTexture");
+	index = pipeline->GetRootSignatureIndex("gTexture"); 
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 
 	index = pipeline->GetRootSignatureIndex("gShadowMap");

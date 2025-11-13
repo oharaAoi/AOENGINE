@@ -16,13 +16,7 @@ void Floor::Init() {
 	transform_ = floor_->GetTransform();
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");
-	
-	
-
-	//floor_->SetIsReflection(true);
 	floor_->SetIsShadow(false);
-
-	//SceneRenderer::GetInstance()->ChangeRenderingType("Object_Normal.json", floor_);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }

@@ -64,9 +64,11 @@ void CameraAnimationShot::ShotAnimation() {
 	if (pFollowCamera_ == nullptr) { return ; }
 	if (!shotAnimation_.isExecute) { return ; }
 
+	// 時間計測
 	shotAnimation_.timer += GameTimer::DeltaTime();
 	float t = shotAnimation_.timer / shotAnimation_.time;
 
+	// カメラを近づける
 	float z = 0;
 	if (shotAnimation_.isApproach) {
 		z = std::lerp(offset_.z, shotAnimation_.offsetZ, t);
@@ -75,6 +77,7 @@ void CameraAnimationShot::ShotAnimation() {
 	}
 	pFollowCamera_->SetOffset(Vector3(offset_.x, offset_.y, z));
 
+	// 終了処理
 	if (shotAnimation_.timer >= shotAnimation_.time) {
 		shotAnimation_.isExecute = false;
 		isFinish_ = true;

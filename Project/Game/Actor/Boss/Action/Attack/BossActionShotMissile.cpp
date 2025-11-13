@@ -98,7 +98,7 @@ void BossActionShotMissile::End() {
 
 void BossActionShotMissile::Shot() {
 	fireCount_--;
-
+	// 前方向のベクトルを計算する
 	Vector3 pos = pTarget_->GetTransform()->srt_.translate;
 	Vector3 forward = pTarget_->GetTransform()->srt_.rotate.MakeForward();
 	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う

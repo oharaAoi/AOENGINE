@@ -140,22 +140,28 @@ void FollowCamera::Update() {
 		return;
 	}
 
+	// 最初のカメラの動き
 	if (!isAnimationFinish_) {
 		FirstCameraMove();
 	}
 
+	// animationの更新
 	for (auto& animation : animationMap_) {
 		animation.second->Update();
 	}
 
 	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
 	
+	// パッドのスティクを入力
 	InputStick();
 
+	// カメラの回転
 	RotateCamera();
 
+	// カメラの移動
 	MoveCamera(targetPos);
 
+	// カメラのシェイク
 	Shake();
 
 	pivotSRT_.worldMat_ = pivotSRT_.MakeAffine();
@@ -237,6 +243,10 @@ void FollowCamera::Shake() {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 最初のカメラ移動
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void FollowCamera::FirstCameraMove() {
 	animationTimer_ += GameTimer::DeltaTime();
 	float t = animationTimer_ / animationParam_.moveTime;
@@ -272,15 +282,9 @@ void FollowCamera::SetShake(float time, float strength) {
 
 void FollowCamera::SetTarget(Player* _target) {
 	pTarget_ = _target;
-	//Quaternion rotation = Quaternion::EulerToQuaternion(angle_.y, angle_.x, 0.0f);
-	//Vector3 offset = rotation * Vector3(0.0f, 0.0f, followCamera_.distance);
-	//Vector3 desiredPosition = pTarget_->GetTransform()->srt_.translate + (offset * -1);
-	//transform_.translate = desiredPosition;
-	//pivotSRT_.LookAt(pTarget_->GetTransform()->srt_.translate);
 }
 
 Quaternion FollowCamera::GetAngleX() {
-	//return Quaternion::AngleAxis(angle_.x, CVector3::UP);
 	Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
 	return Quaternion::AngleAxis(euler.y, CVector3::UP);
 }

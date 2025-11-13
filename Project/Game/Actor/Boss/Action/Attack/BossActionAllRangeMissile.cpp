@@ -101,6 +101,7 @@ void BossActionAllRangeMissile::Shot() {
 	const uint32_t fireNum = 9;
 	const float halfAngle = kPI * 0.5f; // 90度
 
+	// 発射の数文ループする
 	for (uint32_t upCount = 0; upCount < angleUpNum; ++upCount) {
 		for (uint32_t i = 0; i < fireNum; ++i) {
 			// -90度〜+90度に等間隔で弾を発射

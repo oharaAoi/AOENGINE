@@ -41,9 +41,11 @@ void CameraAnimationBoost::BoostAnimation() {
 	if (pFollowCamera_ == nullptr) { return; }
 	if (!param_.isExecute) { return; }
 
+	// 時間の更新
 	param_.timer += GameTimer::DeltaTime();
 	float t = param_.timer / param_.time;
 
+	// offsetの更新
 	Vector3 offset = CVector3::ZERO;
 	if (param_.isApproach) {
 		offset = Vector3::Lerp(cameraOffset_, param_.offset, t);
@@ -52,6 +54,7 @@ void CameraAnimationBoost::BoostAnimation() {
 	}
 	pFollowCamera_->SetOffset(offset);
 
+	// 終了計測
 	if (param_.timer >= param_.time) {
 		param_.isExecute = false;
 		isFinish_ = true;

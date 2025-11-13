@@ -7,7 +7,6 @@ void PlayerIdleState::OnStart() {
 
 void PlayerIdleState::OnUpdate() {
 	floatingTween_.Update(GameTimer::DeltaTime());
-	//pOwner_->GetTransform()->temporaryTranslate_.y += floatingValue_;
 }
 
 void PlayerIdleState::OnExit() {

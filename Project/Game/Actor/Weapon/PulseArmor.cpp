@@ -70,7 +70,6 @@ void PulseArmor::Init() {
 
 	isAlive_ = false;
 	worldTransform_->SetScale(CVector3::ZERO);
-	//SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -152,6 +151,7 @@ void PulseArmor::Debug_Gui() {
 		setting_->threshold = std::clamp(setting_->threshold, 0.0f, 1.0f);
 	}
 
+	// アーマーのパラメータを編集する
 	if (ImGui::CollapsingHeader("Parameter")) {
 		ImGui::DragFloat("durability", &armorParam_.durability, 0.1f);
 		ImGui::DragFloat3("scale", &armorParam_.scale.x, 0.1f);
@@ -199,6 +199,10 @@ void PulseArmor::ArmorParameter::Debug_Gui() {
 
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パラメータの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void PulseArmor::SetParameter() {
 	SetArmor(armorParam_.durability, armorParam_.scale, armorParam_.color, armorParam_.edgeColor, armorParam_.uvTransform);
 
@@ -225,6 +229,10 @@ void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Color&
 
 	isAlive_ = true;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ダメージ処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::DamageDurability(float _damage) {
 	durability_ -= _damage;

@@ -166,11 +166,13 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	// stateの更新
 	if (!isAlive_) {
 		stateMachine_->Update();
 		return;
 	}
 
+	// アーマーのクールタイムを更新
 	if (!pulseArmor_->GetIsAlive()) {
 		param_.armorCoolTime -= GameTimer::DeltaTime();
 		if (param_.armorCoolTime <= 0.0f) {
@@ -179,10 +181,12 @@ void Boss::Update() {
 		}
 	}
 
+	// treeの実行開始
 	if (Input::IsTriggerKey(DIK_M)) {
 		behaviorTree_->SetExecute(true);
 	}
 
+	// worldStateの更新
 	worldState_->Set("hp", param_.health);
 	worldState_->Set("postureStability", param_.postureStability);
 	worldState_->Set("targetToDistance", Length(GetPosition() - playerPosition_));
@@ -191,6 +195,7 @@ void Boss::Update() {
 	worldState_->Set<bool>("isAttack", isAttack_);
 	worldState_->Set<bool>("isMove", isMove_);
 
+	// 各項目の更新
 	stateMachine_->Update();
 	behaviorTree_->Run();
 	evaluationFormula_->Update(); 

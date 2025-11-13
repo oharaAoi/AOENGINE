@@ -32,6 +32,7 @@ void PostureStability::Init(const std::string& _groupName, const std::string& _i
 void PostureStability::Update(float _fillAmount) {
 	fillAmount_ = _fillAmount;
 
+	// タイプによってカラーを変える
 	switch (gaugeType_) {
 	case GaugeType::Posturebility:
 	{

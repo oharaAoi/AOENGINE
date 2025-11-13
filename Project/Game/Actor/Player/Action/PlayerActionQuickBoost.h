@@ -87,11 +87,6 @@ private:
 	/// </summary>
 	void Boost();
 
-	/// <summary>
-	/// 減速を行う
-	/// </summary>
-	void Deceleration();
-
 private:
 
 	// 他クラス ------------------------------------------------

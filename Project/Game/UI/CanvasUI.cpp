@@ -62,14 +62,13 @@ void CanvasUI::Update() {
 	// boss
 	bossUIs_->Update(reticle_->GetPos());
 
+	// player
 	playerUIs_->Update(reticle_->GetPos());
 
 	// out game
 	if (!isTutorial_) {
 		clearNotificationUI_->Update(pBoss_->GetIsBreak());
 	}
-	//control_->Update();
-	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

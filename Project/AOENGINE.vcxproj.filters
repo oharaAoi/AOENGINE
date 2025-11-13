@@ -1237,9 +1237,6 @@
     <ClInclude Include="Game\UI\TitleUIs.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\WorldObject\FieldObject.h">
-      <Filter>Game\WorldObject</Filter>
-    </ClInclude>
     <ClInclude Include="Game\WorldObject\Floor.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
@@ -2152,9 +2149,6 @@
     </ClCompile>
     <ClCompile Include="Game\UI\TitleUIs.cpp">
       <Filter>Game\UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\WorldObject\FieldObject.cpp">
-      <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Floor.cpp">
       <Filter>Game\WorldObject</Filter>

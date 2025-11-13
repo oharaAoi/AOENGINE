@@ -81,7 +81,6 @@ void PlayerActionQuickBoost::OnStart() {
  	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
-
 	boostParticle_->Reset();
 
 	actionTimer_ = 0;
@@ -154,8 +153,4 @@ void PlayerActionQuickBoost::Boost() {
 	acceleration_ = direction_ * (initParam_.boostForce * bezierValue);
 
 	pRigidBody_->AddVelocity(acceleration_ * GameTimer::DeltaTime());
-}
-
-void PlayerActionQuickBoost::Deceleration() {
-
 }

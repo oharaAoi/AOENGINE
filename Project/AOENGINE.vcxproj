@@ -440,7 +440,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
     <ClInclude Include="Game\UI\TitleUIs.h" />
-    <ClInclude Include="Game\WorldObject\FieldObject.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Skydome.h" />
@@ -753,7 +752,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
-    <ClCompile Include="Game\WorldObject\FieldObject.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
