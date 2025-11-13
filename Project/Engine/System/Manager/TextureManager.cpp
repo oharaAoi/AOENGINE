@@ -152,10 +152,9 @@ ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> 
 	assert(subresources.data() != nullptr); // ポインタが有効か
 
 	for (size_t i = 0; i < subresources.size(); ++i) {
-		const D3D12_SUBRESOURCE_DATA& sub = subresources[i];
-		assert(sub.pData != nullptr);  // 転送元ポインタが有効か
-		assert(sub.RowPitch > 0);
-		assert(sub.SlicePitch >= sub.RowPitch);
+		assert(subresources[i].pData != nullptr);  // 転送元ポインタが有効か
+		assert(subresources[i].RowPitch > 0);
+		assert(subresources[i].SlicePitch >= subresources[i].RowPitch);
 	}
 
 	// データ転送をコマンドに積む

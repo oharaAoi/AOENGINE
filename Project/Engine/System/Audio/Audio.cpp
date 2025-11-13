@@ -228,11 +228,12 @@ SoundData Audio::LoadMP3(const wchar_t* filename) {
 
 AudioData Audio::LoadAudio(const SoundData& loadAudioData) {
 	// 読み込んだ音声データをreturn
+	HRESULT hr;
 	AudioData result = {};
 	result.data.wfex = loadAudioData.wfex;
 	result.data.pBuffer = reinterpret_cast<BYTE*>(loadAudioData.pBuffer);
 	result.data.bufferSize = loadAudioData.bufferSize;
-	HRESULT hr = xAudio2_->CreateSourceVoice(&result.pSourceVoice, &result.data.wfex);
+	hr = xAudio2_->CreateSourceVoice(&result.pSourceVoice, &result.data.wfex);
 	assert(SUCCEEDED(hr));
 
 	return result;
@@ -375,7 +376,8 @@ void Audio::StopAudio(IXAudio2SourceVoice* pSourceVoice) {
 /// <param name="xAudio2"></param>
 /// <param name="soundData"></param>
 void Audio::PauseAudio(IXAudio2SourceVoice* pSourceVoice) {
-	HRESULT result = pSourceVoice->Stop(0);
+	HRESULT result;
+	result = pSourceVoice->Stop(0);
 	assert(SUCCEEDED(result));
 }
 
@@ -385,7 +387,8 @@ void Audio::PauseAudio(IXAudio2SourceVoice* pSourceVoice) {
 /// <param name="xAudio2"></param>
 /// <param name="soundData"></param>
 void Audio::ReStartAudio(IXAudio2SourceVoice* pSourceVoice) {
-	HRESULT result = pSourceVoice->Start();
+	HRESULT result;
+	result = pSourceVoice->Start();
 	assert(SUCCEEDED(result));
 }
 

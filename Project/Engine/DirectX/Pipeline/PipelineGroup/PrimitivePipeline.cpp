@@ -115,6 +115,7 @@ D3D12_DEPTH_STENCIL_DESC PrimitivePipeline::SetDepthStencilState() {
 
 void PrimitivePipeline::CreatePSO() {
 	// PSOの生成
+	HRESULT hr;
 	D3D12_GRAPHICS_PIPELINE_STATE_DESC desc{};
 	desc.pRootSignature = rootSignature_->GetRootSignature();
 	desc.InputLayout = CreateInputLayout(elementDescs);
@@ -133,6 +134,6 @@ void PrimitivePipeline::CreatePSO() {
 	desc.SampleDesc.Count = 1;
 	desc.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;
 	// 実際に生成
-	HRESULT hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
+	hr = device_->CreateGraphicsPipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
 	assert(SUCCEEDED(hr));
 }

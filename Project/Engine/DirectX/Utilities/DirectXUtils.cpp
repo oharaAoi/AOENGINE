@@ -73,12 +73,13 @@ ComPtr<ID3D12DescriptorHeap> CreateDescriptorHeap(Microsoft::WRL::ComPtr<ID3D12D
 												  const UINT& numDescriptor,
 												  const bool& shaderVisible) {
 
+	HRESULT hr;
 	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> descriptorHeap = nullptr;
 	D3D12_DESCRIPTOR_HEAP_DESC desc{};
 	desc.Type = heapType;
 	desc.NumDescriptors = numDescriptor;
 	desc.Flags = shaderVisible ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	HRESULT hr = device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap));
+	hr = device->CreateDescriptorHeap(&desc, IID_PPV_ARGS(&descriptorHeap));
 	assert(SUCCEEDED(hr));
 
 	return descriptorHeap;
@@ -187,6 +188,7 @@ ComPtr<ID3D12Resource> CreateSRVResource(Microsoft::WRL::ComPtr<ID3D12Device> de
 /// <returns></returns>
 ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(ComPtr<ID3D12Device> device, const int32_t& width, const int32_t& height){
 	// 生成するResourceの設定
+	HRESULT hr;
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = width;										// textureの幅
 	desc.Height = height;									// textureの高さ
@@ -207,7 +209,7 @@ ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(ComPtr<ID3D12Device> de
 	value.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;	// フォーマット。Resourceと合わせる
 
 	ComPtr<ID3D12Resource> resource = nullptr;
-	HRESULT hr = device->CreateCommittedResource(
+	hr = device->CreateCommittedResource(
 		&heapProperties,					// Heapの設定
 		D3D12_HEAP_FLAG_NONE,				// Heapの特殊な設定。
 		&desc,								// Resourceの設定
@@ -224,9 +226,9 @@ ComPtr<ID3D12Resource> CreateDepthStencilTextureResource(ComPtr<ID3D12Device> de
 ComPtr<ID3D12Resource> CerateShaderResource(ComPtr<ID3D12Device> device, 
 						D3D12_RESOURCE_DESC* resourceDesc, D3D12_HEAP_PROPERTIES* heapProperties,
 						const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
-	
+	HRESULT hr;
 	ComPtr<ID3D12Resource> resource = nullptr;
-	HRESULT hr = device->CreateCommittedResource(
+	hr = device->CreateCommittedResource(
 		heapProperties,					// Heapの設定
 		heapFlags,				// Heapの特殊の設定
 		resourceDesc,								// Resourceの設定
