@@ -5,7 +5,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 GlitchNoise::~GlitchNoise() {
-	glitchBuffer_->ReleaseRequest();
+	glitchBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,8 +14,7 @@ GlitchNoise::~GlitchNoise() {
 
 void GlitchNoise::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	glitchBuffer_ = std::make_unique<DxResource>();
-	glitchBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	glitchBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

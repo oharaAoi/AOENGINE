@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Vignette::~Vignette() {
-	settingBuffer_->ReleaseRequest();
+	settingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,8 +12,7 @@ Vignette::~Vignette() {
 
 void Vignette::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = std::make_unique<DxResource>();
-	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(VignetteSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

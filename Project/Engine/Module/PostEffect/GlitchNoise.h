@@ -41,7 +41,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> glitchBuffer_;
+	DxResource* glitchBuffer_;
 	GlitchSetting* setting_;
 
 	float noiseTime_;

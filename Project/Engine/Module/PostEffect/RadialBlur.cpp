@@ -3,7 +3,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 RadialBlur::~RadialBlur() {
-	blurSettingBuffer_->ReleaseRequest();
+	blurSettingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,8 +12,7 @@ RadialBlur::~RadialBlur() {
 
 void RadialBlur::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	blurSettingBuffer_ = std::make_unique<DxResource>();
-	blurSettingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	blurSettingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	blurSettingBuffer_->CreateResource(sizeof(BlurSetting));
 	blurSettingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

@@ -56,7 +56,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> blurSettingBuffer_;
+	DxResource* blurSettingBuffer_;
 	BlurSetting* setting_;
 
 	bool run_ = false;

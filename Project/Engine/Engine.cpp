@@ -57,10 +57,10 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 
 	renderTarget_ = graphicsCxt_->GetRenderTarget();
 
-	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_);
+	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_, graphicsCxt_->GetDxResourceManager());
 	computeShaderPipelines_->Init(dxDevice_, graphicsCxt_->GetDxCompiler());
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	processedSceneFrame_->Init(dxDevice_, dxHeap_);
+	processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
 
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
@@ -78,7 +78,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
 	audio_->Init();
 	
-	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_);
+	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
 
 	canvas2d_ = std::make_unique<Canvas2d>();
 	canvas2d_->Init();
@@ -86,7 +86,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	editorWindows_->SetCanvas2d(canvas2d_.get());
 #endif
 	blendTexture_ = std::make_unique<BlendTexture>();
-	blendTexture_->Init(dxDevice_, dxHeap_);
+	blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
@@ -172,6 +172,7 @@ void Engine::EndFrame() {
 	render_->ResetShadowMap();
 
 	dxCommon_->End();
+	graphicsCxt_->GetDxResourceManager()->Update();
 	dxHeap_->FreeList();
 	audio_->Update();
 }

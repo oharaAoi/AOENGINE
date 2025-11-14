@@ -30,10 +30,10 @@ void PostProcess::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget) {
+void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
-	pingPongBuff_->Init(device, descriptorHeap);
+	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
 
 	// -------------------------------------------------
 	// ↓ 深度バッファの作成
@@ -114,7 +114,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 // ↓ 実行
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
+void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
 	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
 	Render::SetRenderTarget(types, depthHandle_);
 	
@@ -123,54 +123,54 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* commandList, ShaderResource
 	}
 	
 	// sceneのリソースをコピーする
-	Copy(commandList, shaderResource);
+	Copy(_commandList, _dxResource);
 	// renderTargetをセットする
-	pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_.handleCPU);
+	pingPongBuff_->SetRenderTarget(_commandList, BufferType::PONG, depthHandle_.handleCPU);
 	uint32_t cout = 0;
 	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
 		if (effect->GetIsEnable()) {
-			effect->SetCommand(commandList, pingPongBuff_->GetPingResource());
+			effect->SetCommand(_commandList, pingPongBuff_->GetPingResource());
 
-			pingPongBuff_->Swap(commandList);
-			pingPongBuff_->SetRenderTarget(commandList, BufferType::PONG, depthHandle_.handleCPU);
+			pingPongBuff_->Swap(_commandList);
+			pingPongBuff_->SetRenderTarget(_commandList, BufferType::PONG, depthHandle_.handleCPU);
 			cout++;
 		}
 	}
 
 	// resourceを入れ替える
 	if (effectList_.size() % 2 == 0 && !effectList_.empty()) {
-		pingPongBuff_->Swap(commandList);
+		pingPongBuff_->Swap(_commandList);
 	}
 
 	// 最終的な描画をシーンにコピーする
-	PostCopy(commandList, shaderResource);
+	PostCopy(_commandList, _dxResource);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ コピーする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Copy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
-	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
-	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::PING);
-	commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), shaderResource->GetResource());
+void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
+	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::PING);
+	_commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), _dxResource->GetResource());
 
-	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::PING);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::PING);
 }
 
-void PostProcess::PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource) {
+void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
 	const bool isEven = (effectList_.size() % 2 == 0);
 	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
 
 	// 遷移
-	finalResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
-	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
+	finalResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
+	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST);
 	// コピー
-	commandList->CopyResource(shaderResource->GetResource(), finalResource->GetResource());
+	_commandList->CopyResource(_dxResource->GetResource(), finalResource->GetResource());
 	// 元の状態に戻す
-	shaderResource->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	pingPongBuff_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
+	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

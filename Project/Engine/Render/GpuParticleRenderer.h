@@ -2,7 +2,8 @@
 #include <string>
 #include <memory>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 
 /// <summary>
@@ -73,7 +74,7 @@ private:
 	/// </summary>
 	/// <param name="_dxHeap"></param>
 	/// <param name="_dxDevice"></param>
-	void CreateResource(DescriptorHeap* _dxHeap, ID3D12Device* _dxDevice);
+	void CreateResource(DxResourceManager* _resourceManager);
 
 public:
 
@@ -91,9 +92,9 @@ private:
 
 	uint32_t kInstanceNum_;
 
-	std::unique_ptr<ShaderResource> particleResource_;
-	std::unique_ptr<ShaderResource> freeListIndexResource_;
-	std::unique_ptr<ShaderResource> freeListResource_;
+	DxResource* particleResource_;
+	DxResource* freeListIndexResource_;
+	DxResource* freeListResource_;
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;

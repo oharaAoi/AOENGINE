@@ -2,14 +2,14 @@
 #include "Engine/WinApp/WinApp.h"
 
 void ProcessedSceneFrame::Finalize() {
-	renderResource_->Finalize();
+	renderResource_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ProcessedSceneFrame::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
+void ProcessedSceneFrame::Init(DxResourceManager* _dxResourceManager) {
 	// 最終的に描画させるResourceの作成
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
@@ -27,8 +27,8 @@ void ProcessedSceneFrame::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 
 	// HEAPの設定
 	// Resourceの作成
-	renderResource_ = std::make_unique<ShaderResource>();
-	renderResource_->Init(device, dxHeap, desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	renderResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
+	renderResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// ------------------------------------------------------------
 	// UAVの設定

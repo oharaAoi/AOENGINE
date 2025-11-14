@@ -45,11 +45,11 @@ private:
 	std::unique_ptr<GaussianBlurWidth> blurWidthBuffer_;
 	std::unique_ptr<GaussianBlurHeight> blurHeightBuffer_;
 	
-	std::unique_ptr<DxResource> settingBuffer_;
+	DxResource* settingBuffer_;
 	BloomSettings* setting_;
 
 	PingPongBuffer* postProcessResource_;
-	std::unique_ptr<DxResource> sceneBuffer_;
+	DxResource* sceneBuffer_;
 
 
 	ID3D12Device* device_ = nullptr;

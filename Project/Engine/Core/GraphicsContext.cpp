@@ -24,6 +24,7 @@ void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuf
 	renderTarget_ = std::make_unique<RenderTarget>();
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
+	dxResourceManager_ = std::make_unique<DxResourceManager>();
 
 	// ----------------------
 	// ↓ 初期化処理
@@ -32,9 +33,10 @@ void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuf
 	dxCommands_->Init(dxDevice_->GetDevice());
 	descriptorHeap_->Init(dxDevice_->GetDevice());
 	dxCompiler_->Init();
+	dxResourceManager_->Init(dxDevice_->GetDevice(), descriptorHeap_.get());
 
-	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get());
-	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get(), dxCommands_->GetCommandList());
+	dxCommon_->Setting(dxDevice_->GetDevice(), dxCommands_.get(), descriptorHeap_.get(), renderTarget_.get(), dxResourceManager_.get());
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get(), dxCommands_->GetCommandList(), dxResourceManager_.get());
 
 	graphicsPipelines_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
 	primitivePipeline_->Init(dxDevice_->GetDevice(), dxCompiler_.get());
@@ -52,8 +54,13 @@ void GraphicsContext::Finalize() {
 	renderTarget_->Finalize();
 
 	dxCompiler_->Finalize();
+	dxResourceManager_->Finalize();
 	descriptorHeap_->Finalize();
 	dxCommands_->Finalize();
 	dxDevice_->Finalize();
 	dxCommon_->Finalize();
+}
+
+DxResource* GraphicsContext::CreateDxResource(ResourceType _type) {
+	return dxResourceManager_->CreateResource(_type);
 }

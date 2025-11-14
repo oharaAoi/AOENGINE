@@ -8,7 +8,7 @@
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 
 /// <summary>
 /// GpuParticleを行うクラス
@@ -92,9 +92,9 @@ private:
 
 	uint32_t kInstanceNum_;
 
-	std::unique_ptr<ShaderResource> particleResource_;
-	std::unique_ptr<ShaderResource> freeListIndexResource_;
-	std::unique_ptr<ShaderResource> freeListResource_;
+	DxResource* particleResource_;
+	DxResource* freeListIndexResource_;
+	DxResource* freeListResource_;
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;

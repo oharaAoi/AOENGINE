@@ -6,6 +6,7 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
@@ -39,6 +40,8 @@ public:
 	/// </summary>
 	void Finalize();
 
+	DxResource* CreateDxResource(ResourceType _type);
+
 public:
 
 	DirectXCommon* GetDxCommon() { return dxCommon_.get(); }
@@ -46,6 +49,8 @@ public:
 	ID3D12Device* GetDevice() { return dxDevice_->GetDevice(); }
 
 	ID3D12GraphicsCommandList* GetCommandList() { return dxCommands_->GetCommandList(); }
+
+	DxResourceManager* GetDxResourceManager() { return dxResourceManager_.get(); }
 
 	DirectXCompiler* GetDxCompiler() { return dxCompiler_.get(); }
 
@@ -65,6 +70,8 @@ private :
 	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
 	// descriptorHeap
 	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
+	// dxResourceManager
+	std::unique_ptr<DxResourceManager> dxResourceManager_ = nullptr;
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 	// renderTarget

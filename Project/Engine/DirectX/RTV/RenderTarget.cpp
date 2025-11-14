@@ -10,27 +10,29 @@ RenderTarget::~RenderTarget() {
 
 void RenderTarget::Finalize() {
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		renderTargetResource_[oi]->Finalize();
+		renderTargetResource_[oi]->Destroy();
 	}
 	
-	swapChainResource_[0]->Finalize();
-	swapChainResource_[1]->Finalize();
+	swapChainResource_[0]->Destroy();
+	swapChainResource_[1]->Destroy();
 }
 
-void RenderTarget::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain, ID3D12GraphicsCommandList* commandList) {
-	assert(descriptorHeap);
-	assert(swapChain);
-	assert(device);
+void RenderTarget::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
+						ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager) {
+	assert(_descriptorHeap);
+	assert(_swapChain);
+	assert(_device);
 
-	dxHeap_ = descriptorHeap;
-	swapChain_ = swapChain;
-	device_ = device;
+	dxHeap_ = _descriptorHeap;
+	swapChain_ = _swapChain;
+	device_ = _device;
+	resourceManager_ = _resourceManager;
 
 	CrateSwapChainResource();
 	CreateRenderTarget();
 
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
-	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,8 +95,7 @@ void RenderTarget::CrateSwapChainResource() {
 	srvDesc.Texture2D.MipLevels = 1;
 
 	for (uint32_t oi = 0; oi < 2; ++oi) {
-		swapChainResource_[oi] = std::make_unique<DxResource>();
-		swapChainResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
+		swapChainResource_[oi] = resourceManager_->CreateResource(ResourceType::RENDERTARGET);
 
 		swapChainResource_[oi]->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 		swapChainResource_[oi]->SetSwapChainBuffer(swapChain_, oi);
@@ -146,8 +147,7 @@ void RenderTarget::CreateRenderTarget() {
 			srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 			desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		}
-		renderTargetResource_[oi] = std::make_unique<DxResource>();
-		renderTargetResource_[oi]->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
+		renderTargetResource_[oi] = resourceManager_->CreateResource(ResourceType::RENDERTARGET);
 
 		renderTargetResource_[oi]->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 

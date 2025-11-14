@@ -2,23 +2,23 @@
 #include "Engine/WinApp/WinApp.h"
 
 PingPongBuffer::~PingPongBuffer() {
-	pingResource_->ReleaseRequest();
-	pongResource_->ReleaseRequest();
+	pingResource_->Destroy();
+	pongResource_->Destroy();
 }
 
-void PingPongBuffer::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap) {
-	device_ = device;
-	dxHeap_ = descriptorHeap;
+void PingPongBuffer::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager) {
+	device_ = _device;
+	dxHeap_ = _descriptorHeap;
 
-	CreatePing();
-	CreatePong();
+	CreatePing(_dxResourceManager);
+	CreatePong(_dxResourceManager);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ pingバッファを作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PingPongBuffer::CreatePing() {
+void PingPongBuffer::CreatePing(DxResourceManager* _dxResourceManager) {
 	// 最終的に描画させるResourceの作成
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
@@ -46,9 +46,7 @@ void PingPongBuffer::CreatePing() {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pingResource_ = std::make_unique<DxResource>();
-	pingResource_->Init(device_, dxHeap_, ResourceType::COMMON);
-
+	pingResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
 	pingResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingResource_->CreateRTV(rtvDesc);
 	pingResource_->CreateSRV(srvDesc);
@@ -58,7 +56,7 @@ void PingPongBuffer::CreatePing() {
 // ↓ pongバッファを作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PingPongBuffer::CreatePong() {
+void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
@@ -85,9 +83,7 @@ void PingPongBuffer::CreatePong() {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pongResource_ = std::make_unique<DxResource>();
-	pongResource_->Init(device_, dxHeap_, ResourceType::RENDERTARGET);
-
+	pongResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
 	pongResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	pongResource_->CreateRTV(rtvDesc);
 	pongResource_->CreateSRV(srvDesc);
@@ -101,10 +97,10 @@ void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, Buf
 	DxResource* resource = nullptr;
 	switch (type) {
 	case BufferType::PING:
-		resource = pingResource_.get();
+		resource = pingResource_;
 		break;
 	case BufferType::PONG:
-		resource = pongResource_.get();
+		resource = pongResource_;
 		break;
 	default:
 		break;

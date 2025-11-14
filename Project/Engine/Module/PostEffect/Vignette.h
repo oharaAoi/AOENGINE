@@ -37,7 +37,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> settingBuffer_;
+	DxResource* settingBuffer_;
 	VignetteSetting* setting_;
 
 };

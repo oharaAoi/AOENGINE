@@ -4,7 +4,6 @@
 #include <memory>
 #include <unordered_map>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"

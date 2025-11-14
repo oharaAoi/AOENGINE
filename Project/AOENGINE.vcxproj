@@ -117,7 +117,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorAllocator.h" />
-    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorHeap.h" />
     <ClInclude Include="Engine\DirectX\Descriptor\DescriptorSize.h" />
     <ClInclude Include="Engine\DirectX\DirectXCommands\DirectXCommands.h" />
@@ -136,9 +135,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
-    <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h" />
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
@@ -449,7 +448,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorAllocator.cpp" />
-    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorHeap.cpp" />
     <ClCompile Include="Engine\DirectX\Descriptor\DescriptorSize.cpp" />
     <ClCompile Include="Engine\DirectX\DirectXCommands\DirectXCommands.cpp" />
@@ -468,9 +466,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
-    <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp" />
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp" />
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />

@@ -2,24 +2,29 @@
 #include "Engine/Engine.h"
 
 MaskBlendNode::~MaskBlendNode() {
-	blendResource_->ReleaseRequest();
+	blendResource_->Destroy();
 }
 
 void MaskBlendNode::Init() {
 	ctx_ = GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
-	blendResource_ = std::make_unique<DxResource>();
-	blendResource_->Init(ctx_->GetDevice(), ctx_->GetDxHeap(), ResourceType::COMMON);
-
+	blendResource_ = ctx_->CreateDxResource(ResourceType::COMMON);
+	
+    // inputの設定
 	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
 	addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
 
+    // outputの設定
     auto texOut = addOUT<DxResource*>("Texture", ImFlow::PinStyle::green());
-    texOut->behaviour([this]() { return blendResource_.get(); });
+    texOut->behaviour([this]() { return blendResource_; });
 }
 
 void MaskBlendNode::customUpdate() {
+    // 入力の受取
+    resourceA_ = getInVal<DxResource*>("TextureA");
+    resourceB_ = getInVal<DxResource*>("TextureB");
+
     if (resourceA_ && resourceB_) {
         blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
@@ -38,9 +43,6 @@ void MaskBlendNode::customUpdate() {
 }
 
 void MaskBlendNode::draw() {
-    resourceA_ = getInVal<DxResource*>("TextureA");
-    resourceB_ = getInVal<DxResource*>("TextureB");
-
     if (resourceA_) {
         if (!blendResource_->GetResource()) {
             D3D12_RESOURCE_DESC desc = *resourceA_->GetDesc();

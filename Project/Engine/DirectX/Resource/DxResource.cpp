@@ -5,9 +5,10 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 DxResource::DxResource() {}
-DxResource::~DxResource() {}
-
-void DxResource::Finalize() {
+DxResource::~DxResource() {
+	if (cBuffer_ = nullptr) {
+		return;
+	}
 	cBuffer_.Reset();
 	if (srvAddress_ != std::nullopt) {
 		DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
@@ -20,8 +21,8 @@ void DxResource::Finalize() {
 	}
 }
 
-void DxResource::ReleaseRequest() {
-	pDxHeap_->GetFreeCollector()->AddList(this);
+void DxResource::Destroy() {
+	isDestroy_ = true;
 }
 
 void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type) {
@@ -33,6 +34,8 @@ void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType
 	pDxHeap_ = dxHeap;
 
 	type_ = type;
+
+	isDestroy_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

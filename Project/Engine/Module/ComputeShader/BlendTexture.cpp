@@ -5,10 +5,10 @@ BlendTexture::BlendTexture() {
 }
 
 BlendTexture::~BlendTexture() {
-	resultResource_->ReleaseRequest();
+	resultResource_->Destroy();
 }
 
-void BlendTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
+void BlendTexture::Init(DxResourceManager* _dxManager) {
 	const uint32_t width = WinApp::sWindowWidth;
 	const uint32_t height = WinApp::sWindowHeight;
 
@@ -27,8 +27,7 @@ void BlendTexture::Init(ID3D12Device* device, DescriptorHeap* dxHeap) {
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// resourceの作成
-	resultResource_ = std::make_unique<DxResource>();
-	resultResource_->Init(device, dxHeap, ResourceType::COMMON);
+	resultResource_ = _dxManager->CreateResource(ResourceType::COMMON);
 	resultResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 	
 	// ------------------------------------------------------------

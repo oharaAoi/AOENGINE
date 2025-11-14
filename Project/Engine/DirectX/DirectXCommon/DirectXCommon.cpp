@@ -34,7 +34,6 @@ void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBuffe
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::Finalize() {
-	depthStencilResource_->Finalize();
 	CloseHandle(fenceEvent_);
 	fence_.Reset();
 	swapChain_.Reset();
@@ -184,7 +183,7 @@ void DirectXCommon::SetError() {
 // ↓ DixrectXの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget) {
+void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget, DxResourceManager* resourceManager) {
 	assert(device);
 	assert(descriptorHeaps);
 	assert(dxCommands);
@@ -194,6 +193,7 @@ void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, D
 	descriptorHeaps_ = descriptorHeaps;
 	dxCommands_ = dxCommands;
 	renderTarget_ = renderTarget;
+	dxResourceManager_ = resourceManager;
 
 	// ----------------------------------------------------------------------------------------
 	SetError();
@@ -274,8 +274,7 @@ void DirectXCommon::SetViewport() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::CreateDSV() {
-	depthStencilResource_ = std::make_unique<DxResource>();
-	depthStencilResource_->Init(device_, descriptorHeaps_, ResourceType::DEPTH); 
+	depthStencilResource_ = dxResourceManager_->CreateResource(ResourceType::DEPTH);
 	depthStencilResource_->CreateDepthResource(kClientWidth_, kClientHeight_);
 
 	// heap上にDSCを構築

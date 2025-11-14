@@ -3,7 +3,8 @@
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -24,7 +25,7 @@ public:
 	/// </summary>
 	/// <param name="device"></param>
 	/// <param name="dxHeap"></param>
-	void Init(ID3D12Device* device, DescriptorHeap* dxHeap);
+	void Init(DxResourceManager* _dxResourceManager);
 
 	/// <summary>
 	/// 描画
@@ -49,7 +50,7 @@ public:
 
 	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderResource_->GetUAV().handleGPU; }
 
-	ShaderResource* GetResource() { return renderResource_.get(); }
+	DxResource* GetResource() { return renderResource_; }
 
 	const ImVec2 GetAvailSize() const { return availSize_; }
 	const ImVec2 GetImagePos() const { return imagePos_; }
@@ -57,7 +58,7 @@ public:
 private:
 
 	
-	std::unique_ptr<ShaderResource> renderResource_;
+	DxResource* renderResource_;
 
 	ImVec2 availSize_;
 	ImVec2 imagePos_;

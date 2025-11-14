@@ -34,7 +34,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> depthStencilResource_ = nullptr;
+	DxResource* depthStencilResource_ = nullptr;
 	DescriptorHandles depthDsvHandle_;
 	DescriptorHandles depthSrvHandle_;
 

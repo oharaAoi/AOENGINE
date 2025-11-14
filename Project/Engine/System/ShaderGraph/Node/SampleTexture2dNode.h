@@ -58,7 +58,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> resource_ = nullptr;
+	DxResource* resource_ = nullptr;
 	ComPtr<ID3D12Resource> uvBuffer_;
 	UVParam* uvParam_ = nullptr;
 

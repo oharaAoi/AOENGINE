@@ -4,7 +4,7 @@
 #include "Engine/WinApp/WinApp.h"
 
 GaussianBlurWidth::~GaussianBlurWidth() {
-	blurBuffer_->ReleaseRequest();
+	blurBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,8 +14,7 @@ GaussianBlurWidth::~GaussianBlurWidth() {
 void GaussianBlurWidth::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	// blurの設定
-	blurBuffer_ = std::make_unique<DxResource>();
-	blurBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	blurBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	blurBuffer_->CreateResource(sizeof(BlurSettings));
 	blurBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&blurSetting_));
 

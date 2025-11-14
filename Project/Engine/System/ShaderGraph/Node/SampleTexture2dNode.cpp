@@ -3,7 +3,7 @@
 
 SampleTexture2dNode::SampleTexture2dNode() { }
 SampleTexture2dNode::~SampleTexture2dNode() {
-    resource_->ReleaseRequest();
+    resource_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -14,20 +14,26 @@ void SampleTexture2dNode::Init() {
     ctx_ = GraphicsContext::GetInstance();
     cmdList_ = ctx_->GetCommandList();
 
-    resource_ = std::make_unique<DxResource>();
-    resource_->Init(ctx_->GetDevice(), ctx_->GetDxHeap(), ResourceType::COMMON);
-
+    resource_ = ctx_->CreateDxResource(ResourceType::COMMON);
+    
     uvBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(UVParam));
     uvBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&uvParam_));
 
+    // inputの設定
     addIN<std::shared_ptr<DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
     addIN<Vector2>("UV", uvParam_->uv, ImFlow::ConnectionFilter::None());
 
+    // outputの設定
     auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
-    texOut->behaviour([this]() { return resource_.get(); });
+    texOut->behaviour([this]() { return resource_; });
 }
 
 void SampleTexture2dNode::customUpdate() {
+    // 入力の受取
+    inputResource_ = getInVal<DxResource*>("Texture");
+    uvParam_->uv = getInVal<Vector2>("UV");
+
+    // textureの合成
     if (inputResource_) {
         if (resource_->GetResource()) {
             resource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
@@ -52,10 +58,6 @@ void SampleTexture2dNode::customUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SampleTexture2dNode::draw() {
-    // -------- 入力ピン ----------
-    inputResource_ = getInVal<DxResource*>("Texture");
-    uvParam_->uv = getInVal<Vector2>("UV");
-
     if (inputResource_) {
         if (!resource_->GetResource()) {
             D3D12_RESOURCE_DESC desc = *inputResource_->GetDesc();

@@ -8,8 +8,6 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
-#include "Engine/DirectX/Descriptor/DescriptorFreeCollector.h"
-
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -102,8 +100,6 @@ public:
 	void FreeRTV(uint32_t index);
 	void FreeDSV(uint32_t index);
 
-	DescriptorFreeCollector* GetFreeCollector() { return freeCollector_.get(); }
-
 private:
 
 	ID3D12Device* device_ = nullptr;
@@ -124,6 +120,4 @@ private:
 
 	static std::list<int> freeSrvList_;
 	static std::list<int> freeRtvList_;
-
-	std::unique_ptr<DescriptorFreeCollector> freeCollector_;
 };

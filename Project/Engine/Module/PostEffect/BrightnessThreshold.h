@@ -30,7 +30,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> bloomBuffer_;
+	DxResource* bloomBuffer_;
 	BloomSettings* bloomSetting_;
 
 };

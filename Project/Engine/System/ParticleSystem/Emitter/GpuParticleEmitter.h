@@ -5,7 +5,6 @@
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
 #include "Engine/Lib/GpuParticlesData.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 

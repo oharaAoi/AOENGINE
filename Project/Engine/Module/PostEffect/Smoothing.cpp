@@ -2,7 +2,7 @@
 #include "Engine.h"
 
 Smoothing::~Smoothing() {
-	settingBuffer_->ReleaseRequest();
+	settingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -11,8 +11,7 @@ Smoothing::~Smoothing() {
 
 void Smoothing::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = std::make_unique<DxResource>();
-	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

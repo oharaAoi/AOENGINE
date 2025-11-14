@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Grayscale::~Grayscale() {
-	settingBuffer_->ReleaseRequest();
+	settingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,8 +12,7 @@ Grayscale::~Grayscale() {
 
 void Grayscale::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = std::make_unique<DxResource>();
-	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

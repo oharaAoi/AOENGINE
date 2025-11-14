@@ -31,7 +31,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> blurBuffer_;
+	DxResource* blurBuffer_;
 	BlurSettings* blurSetting_;
 };
 

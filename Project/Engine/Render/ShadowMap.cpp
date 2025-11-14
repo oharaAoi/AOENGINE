@@ -4,7 +4,7 @@
 #include "Engine/WinApp/WinApp.h"
 
 ShadowMap::~ShadowMap() {
-	depthStencilResource_->Finalize();
+	depthStencilResource_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,8 +16,7 @@ void ShadowMap::Init() {
 	ID3D12Device* device = ctx->GetDevice();
 	DescriptorHeap* descriptorHeap = ctx->GetDxHeap();
 
-	depthStencilResource_ = std::make_unique<DxResource>();
-	depthStencilResource_->Init(device, descriptorHeap, ResourceType::DEPTH);
+	depthStencilResource_ = ctx->CreateDxResource(ResourceType::DEPTH);
 	depthStencilResource_->CreateDepthResource(WinApp::sWindowWidth, WinApp::sWindowHeight);
 
 	// heap上にDSCを構築

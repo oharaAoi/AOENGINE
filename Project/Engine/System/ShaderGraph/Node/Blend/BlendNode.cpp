@@ -5,24 +5,29 @@ BlendNode::BlendNode() {}
 BlendNode::~BlendNode() {
 	resourceA_ = nullptr;
 	resourceB_ = nullptr;
-	blendResource_->ReleaseRequest();
+	blendResource_->Destroy();
 }
 
 void BlendNode::Init() {
 	ctx_ = GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
-	blendResource_ = std::make_unique<DxResource>();
-	blendResource_->Init(ctx_->GetDevice(), ctx_->GetDxHeap(), ResourceType::COMMON);
+	blendResource_ = ctx_->CreateDxResource(ResourceType::COMMON);
 
+	// inputの設定
 	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
 	addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
 
+	// outputの設定
 	auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
-	texOut->behaviour([this]() { return blendResource_.get(); });
+	texOut->behaviour([this]() { return blendResource_; });
 }
 
 void BlendNode::customUpdate() {
+	// 入力からの受け取り
+	resourceA_ = getInVal<DxResource*>("TextureA");
+	resourceB_ = getInVal<DxResource*>("TextureB");
+
 	if (resourceA_ && resourceB_) {
 		if (blendResource_->GetResource()) {
 			blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
@@ -43,9 +48,6 @@ void BlendNode::customUpdate() {
 }
 
 void BlendNode::draw() {
-	resourceA_ = getInVal<DxResource*>("TextureA");
-	resourceB_ = getInVal<DxResource*>("TextureB");
-
 	if (resourceA_) {
 		if (!blendResource_->GetResource()) {
 			D3D12_RESOURCE_DESC desc = *resourceA_->GetDesc();
@@ -72,6 +74,7 @@ void BlendNode::draw() {
 		}
 	}
 
+	// 合成結果の描画
 	if (blendResource_->GetResource()) {
 		if (resourceA_ && resourceB_) {
 			ImTextureID texID = (ImTextureID)(intptr_t)(blendResource_->GetSRV().handleGPU.ptr);

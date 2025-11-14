@@ -61,8 +61,6 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 	useSrvIndex_ = 0;	// SRVの先頭はImGuiで使うため0にして先頭を開けておく
 	useDsvIndex_ = -1;	// 他は先頭から始められるように-1にしておくことで
 	useRtvIndex_ = -1;	// GetDescriptorHandle時に先頭が0になる
-
-	freeCollector_ = std::make_unique<DescriptorFreeCollector>();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +68,7 @@ void DescriptorHeap::Init(ID3D12Device* device) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DescriptorHeap::Finalize() {
+	FreeList();
 	rtvHeap_.Reset();
 	srvHeap_.Reset();
 	dsvHeap_.Reset();
@@ -112,8 +111,6 @@ DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& 
 }
 
 void DescriptorHeap::FreeList() {
-	freeCollector_->Free();
-
 	for (int index : freeSrvList_) {
 		FreeSRV(index);
 	}

@@ -363,9 +363,6 @@
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Resource\ShaderResource.h">
-      <Filter>Engine\DirectX\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h">
       <Filter>Engine\DirectX\RootSignature</Filter>
     </ClInclude>
@@ -1257,7 +1254,7 @@
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
-    <ClInclude Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1327,9 +1324,6 @@
       <Filter>Engine\DirectX\RTV</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp">
-      <Filter>Engine\DirectX\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Resource\ShaderResource.cpp">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
@@ -2168,7 +2162,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
-    <ClCompile Include="Engine\DirectX\Descriptor\DescriptorFreeCollector.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

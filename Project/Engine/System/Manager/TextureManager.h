@@ -9,8 +9,8 @@
 #include "Engine/Utilities/Convert.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/Lib/Math/Vector2.h"
 
 class TextureManager {
@@ -33,7 +33,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* dxDevice, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap);
+	void Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger);
 
 	/// <summary>
 	/// 終了処理
@@ -101,7 +101,7 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
 
-	DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_.get(); }
+	DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_; }
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
@@ -116,7 +116,7 @@ public:
 private:
 
 	struct TextureData {
-		std::unique_ptr<DxResource> resource_;
+		DxResource* resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Vector2 textureSize_;
 	};
@@ -138,4 +138,5 @@ private:
 	ID3D12Device* device_;
 	DescriptorHeap* dxHeap_;
 	ID3D12GraphicsCommandList* commandList_;
+	DxResourceManager* resourceManager_;
 };

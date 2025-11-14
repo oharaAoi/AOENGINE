@@ -3,8 +3,8 @@
 #include "Engine/Core/GraphicsContext.h"
 
 Bloom::~Bloom() {
-	sceneBuffer_->Finalize();
-	settingBuffer_->ReleaseRequest();
+	sceneBuffer_->Destroy();
+	settingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,8 +23,7 @@ void Bloom::Init() {
 	blurHeightBuffer_->Init();
 
 	// ブルームの情報
-	settingBuffer_ = std::make_unique<DxResource>();
-	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(BloomSettings));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 	
@@ -51,15 +50,14 @@ void Bloom::Init() {
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
-	sceneBuffer_ = std::make_unique<DxResource>();
-	sceneBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	sceneBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	sceneBuffer_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	sceneBuffer_->CreateSRV(srvDesc);
 
 	device_ = graphicsCtx->GetDevice();
 	dxHeap_ = graphicsCtx->GetDxHeap();
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
-	pingPongBuff_->Init(device_, dxHeap_);
+	pingPongBuff_->Init(device_, dxHeap_, graphicsCtx->GetDxResourceManager());
 
 }
 

@@ -5,6 +5,7 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 
 template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
@@ -45,7 +46,7 @@ public:
 	/// <param name="descriptorHeap">: ヒープ</param>
 	/// <param name="swapChain">: スワップチェイン</param>
 	/// <param name="commandList">: コマンドリスト</param>
-	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, IDXGISwapChain4* swapChain, ID3D12GraphicsCommandList* commandList);
+	void Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// RenderTargetを設定する
@@ -90,16 +91,18 @@ public:
 	const DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
 	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
 
-	DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type].get(); }
+	DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type]; }
 
 private:
 
-	std::unique_ptr<DxResource> swapChainResource_[2];
-	std::unique_ptr<DxResource> renderTargetResource_[renderTargetNum_];
+	DxResource* swapChainResource_[2];
+	DxResource* renderTargetResource_[renderTargetNum_];
 
 	ID3D12Device* device_ = nullptr;
 	// heap
 	DescriptorHeap* dxHeap_ = nullptr;
 	// swapChain
 	IDXGISwapChain4* swapChain_ = nullptr;
+	// resourceManager
+	DxResourceManager* resourceManager_ = nullptr;
 };

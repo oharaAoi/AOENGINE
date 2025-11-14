@@ -35,7 +35,7 @@ public:
 
 private:
 
-	std::unique_ptr<DxResource> settingBuffer_;
+	DxResource* settingBuffer_;
 	Setting* setting_;
 
 };

@@ -8,7 +8,7 @@
 #include "Game/Information/ColliderCategory.h"
 
 PulseArmor::~PulseArmor() {
-	settingBuffer_->ReleaseRequest();
+	settingBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,8 +37,7 @@ void PulseArmor::Init() {
 
 	// dissolvebufferに関する設定
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = std::make_unique<DxResource>();
-	settingBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

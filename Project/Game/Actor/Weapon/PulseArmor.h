@@ -154,7 +154,7 @@ private:
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 	// dissolveに必要な変数 -----------------------
-	std::unique_ptr<DxResource> settingBuffer_;
+	DxResource* settingBuffer_;
 	DissolveSetting* setting_;
 
 	std::string noiseTexture_[3];

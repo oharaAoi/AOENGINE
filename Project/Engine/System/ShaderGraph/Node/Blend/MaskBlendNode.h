@@ -53,7 +53,7 @@ private:
 	DxResource* resourceA_ = nullptr;
 	DxResource* resourceB_ = nullptr;
 
-	std::unique_ptr<DxResource> blendResource_;
+	DxResource* blendResource_;
 
 	GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;

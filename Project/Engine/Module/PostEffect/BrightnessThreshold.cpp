@@ -3,7 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 BrightnessThreshold::~BrightnessThreshold() {
-	bloomBuffer_->ReleaseRequest();
+	bloomBuffer_->Destroy();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -13,8 +13,7 @@ BrightnessThreshold::~BrightnessThreshold() {
 void BrightnessThreshold::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	// 輝度抽出の設定
-	bloomBuffer_ = std::make_unique<DxResource>();
-	bloomBuffer_->Init(graphicsCtx->GetDevice(), graphicsCtx->GetDxHeap(), ResourceType::COMMON);
+	bloomBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
 	bloomBuffer_->CreateResource(sizeof(BloomSettings));
 	bloomBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&bloomSetting_));
 

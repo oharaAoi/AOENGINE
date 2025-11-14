@@ -9,21 +9,22 @@ TextureManager* TextureManager::GetInstance() {
 	return &instance;
 }
 
-void TextureManager::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, DescriptorHeap* dxHeap) {
-	assert(device);
-	assert(dxHeap);
+void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger) {
+	assert(_dxDevice);
+	assert(_dxHeap);
 
-	device_ = device;
-	dxHeap_ = dxHeap;
+	device_ = _dxDevice;
+	dxHeap_ = _dxHeap;
 
 	textureData_.clear();
 
-	commandList_ = commandList;
+	commandList_ = _commandList;
+	resourceManager_ = _resourceManger;
 }
 
 void TextureManager::Finalize() {
 	for (auto& data : textureData_) {
-		data.second.resource_->ReleaseRequest();
+		data.second.resource_->Destroy();
 		data.second.intermediateResource_.Reset();
 	}
 }
@@ -69,8 +70,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.resource_ = std::make_unique<DxResource>();
-	data.resource_->Init(device_, dxHeap_, ResourceType::COMMON);
+	data.resource_ = resourceManager_->CreateResource(ResourceType::COMMON);
 	data.resource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
 	data.intermediateResource_ = UploadTextureData(data.resource_->GetCompResource(), mipImage, device_, commandList_);
 

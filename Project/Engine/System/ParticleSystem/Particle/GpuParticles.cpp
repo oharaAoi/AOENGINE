@@ -12,9 +12,9 @@ GpuParticles::~GpuParticles() {}
 void GpuParticles::Finalize() {
 	perViewBuffer_.Reset();
 	perFrameBuffer_.Reset();
-	particleResource_->Finalize();
-	freeListIndexResource_->Finalize();
-	freeListResource_->Finalize();
+	particleResource_->Destroy();
+	freeListIndexResource_->Destroy();
+	freeListResource_->Destroy();
 	meshArray_.clear();
 	materials_.clear();
 }
@@ -26,34 +26,34 @@ void GpuParticles::Finalize() {
 void GpuParticles::Init(uint32_t instanceNum) {
 	// ポインタの取得
 	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
-	DescriptorHeap* dxHeap = graphicsCxt->GetDxHeap();
-	ID3D12Device* dxDevice = graphicsCxt->GetDevice();
 	ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
 
 	kInstanceNum_ = instanceNum;
 
 	// gpuに送るResourceの作成
-	particleResource_ = std::make_unique<ShaderResource>();
-	freeListIndexResource_ = std::make_unique<ShaderResource>();
-	freeListResource_ = std::make_unique<ShaderResource>();
+	particleResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
+	freeListIndexResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
+	freeListResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
 
+	// propertiesの作成
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
 
 	D3D12_HEAP_PROPERTIES defaultHeapProperties{};
 	defaultHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
-	// particle
-	particleResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(Particle) * kInstanceNum_),
-							&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
+	// descの作成
+	D3D12_RESOURCE_DESC resourceDesc = CreateUavResourceDesc(sizeof(Particle) * kInstanceNum_);
+	D3D12_RESOURCE_DESC freeListIndexDesc = CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_);
+	D3D12_RESOURCE_DESC freeListDesc = CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_);
 
-	// freeListIndex
-	freeListIndexResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
-								 &defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
+	particleResource_->CreateResource(&resourceDesc, &defaultHeapProperties,
+									  D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
 
-	// freeList
-	freeListResource_->Init(dxDevice, dxHeap, CreateUavResourceDesc(sizeof(uint32_t) * kInstanceNum_),
-							&defaultHeapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
+	freeListIndexResource_->CreateResource(&freeListIndexDesc, &defaultHeapProperties,
+										   D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON); 
+	freeListResource_->CreateResource(&freeListDesc, &defaultHeapProperties,
+									  D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COMMON);
 
 	// 各UAV, SRV
 	particleResource_->CreateUAV(CreateUavDesc(kInstanceNum_, sizeof(Particle)));

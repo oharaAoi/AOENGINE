@@ -16,7 +16,8 @@
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/DirectX/Resource/ShaderResource.h"
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 
 enum class PostEffectType {
@@ -49,13 +50,13 @@ public:
 	// 終了
 	void Finalize();
 	// 初期化
-	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget);
+	void Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager);
 	// 実行
-	void Execute(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
+	void Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
 	// コピー
-	void Copy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
+	void Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
 	// 後で行うコピー
-	void PostCopy(ID3D12GraphicsCommandList* commandList, ShaderResource* shaderResource);
+	void PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
 
 	/// <summary>
 	/// effectの追加

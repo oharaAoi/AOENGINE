@@ -26,14 +26,9 @@ public: // コンストラクタ
 public:
 
 	/// <summary>
-	/// 終了処理
-	/// </summary>
-	void Finalize();
-
-	/// <summary>
 	/// 解放要求
 	/// </summary>
-	void ReleaseRequest();
+	void Destroy();
 
 	/// <summary>
 	/// 初期化処理
@@ -91,6 +86,8 @@ public:
 
 	const D3D12_RESOURCE_DESC* GetDesc() const { return &desc_; }
 
+	bool GetIsDestroy() const { return isDestroy_; }
+
 private:
 
 	ID3D12Device* pDevice_ = nullptr;
@@ -106,5 +103,7 @@ private:
 	D3D12_RESOURCE_DESC desc_;
 
 	ResourceType type_;
+
+	bool isDestroy_ = false;
 };
 
