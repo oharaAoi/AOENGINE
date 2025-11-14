@@ -9,6 +9,7 @@
 // DirectX
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
 // DXC
 #include <dxcapi.h>
@@ -41,7 +42,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget);
+	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget, DxResourceManager* resourceManager);
 
 	/// <summary>
 	/// 終了関数
@@ -127,6 +128,7 @@ private:
 	DescriptorHeap* descriptorHeaps_ = nullptr;
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;
+	DxResourceManager* dxResourceManager_ = nullptr;
 
 	RenderTarget* renderTarget_ = nullptr;
 
@@ -155,7 +157,7 @@ private:
 	D3D12_RECT scissorRect_;
 
 	// dsv
-	std::unique_ptr<DxResource> depthStencilResource_ = nullptr;
+	DxResource* depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 };
 
