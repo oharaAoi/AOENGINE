@@ -32,32 +32,8 @@ void ShaderGraphEditor::Update() {
 	Edit();
 }
 
-void ShaderGraphEditor::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow::BaseNode*>& visited) {
-	if (!node || visited.contains(node)) return;
-	visited.insert(node);
-
-	// すべての入力ピンをチェック
-	for (auto& in : node->getIns()) {
-		// このInPinがリンクされているなら
-		auto link = in->getLink().lock();
-		if (link) {
-			// 左側（出力ピン）の親ノードを取得
-			ImFlow::BaseNode* srcNode = link->left()->getParent();
-			ExecuteFrom(srcNode, visited); // 依存ノードを先に実行
-		}
-
-		node->customUpdate();
-	}
-
-	if (node->getIns().empty()) {
-		node->customUpdate();
-		return;
-	}
-
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理dw
+// ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Edit() {
@@ -79,8 +55,8 @@ void ShaderGraphEditor::Edit() {
 				continue;
 			}
 		}
-		
-		// たとえば PreviewNode が末端とする
+
+		// 末端からたどるようにする
 		ExecuteFrom(node, visited);
 	}
 
@@ -102,21 +78,59 @@ void ShaderGraphEditor::Edit() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 親Nodeから子Nodeにたどるようにする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShaderGraphEditor::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow::BaseNode*>& visited) {
+	// 訪れたNodeかどうかを確認する
+	if (!node || visited.contains(node)) return;
+	visited.insert(node);
+
+	// すべての入力ピンをチェック
+	for (auto& in : node->getIns()) {
+		// このInPinがリンクされているなら
+		auto link = in->getLink().lock();
+		if (link) {
+			// 左側（出力ピン）の親ノードを取得
+			ImFlow::BaseNode* srcNode = link->left()->getParent();
+			ExecuteFrom(srcNode, visited); // 依存ノードを先に実行
+		}
+
+		node->customUpdate();
+	}
+
+	if (node->getIns().empty()) {
+		node->customUpdate();
+		return;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ nodeの作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::CreateNode() {
+	// 毎フレーム呼ばれる更新処理の中で
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+		popupPos_ = ImGui::GetMousePos();
+		popupRequested_ = true;
+	}
+
 	editor_->rightClickPopUpContent([this](ImFlow::BaseNode*) {
-
-		ImGui::Begin("PopUpMenu", nullptr);
+		if (popupRequested_) {
+			ImGui::SetNextWindowPos(popupPos_);
+			popupRequested_ = false;
+		}
+	
 		ImGui::TextUnformatted(" NodeContextMenu ");
-		ImGui::Separator();
+		nodeFactory_.CreateGui(popupPos_);
 
-		nodeFactory_.CreateGui();
-
-		ImGui::End();
 								  });
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Graphの読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::LoadGraph() {
 	if (ImGui::Button("Load")) {
@@ -131,6 +145,24 @@ void ShaderGraphEditor::LoadGraph() {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Graphを保存する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShaderGraphEditor::SaveGraph() {
+	if (ImGui::Button("Save")) {
+		std::string path = SaveWindowsExplore();
+
+		if (path != "") {
+			ShaderGraphSerializer::Save(path, editor_.get());
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ windowsのエクスプローラーを開く
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 std::string ShaderGraphEditor::OpenWindowsExplore() {
 	std::wstring path;
 	IFileOpenDialog* pFileOpen = nullptr;
@@ -139,16 +171,16 @@ std::string ShaderGraphEditor::OpenWindowsExplore() {
 		IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen)
 	);
 
+	// 現在のルートパスを探索する
 	wchar_t buffer[MAX_PATH];
 	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
-	namespace fs = std::filesystem;
-	fs::path exePath = buffer;
+	std::filesystem::path exePath = buffer;
 	exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
 
+	// ダイアログを開く処理
 	if (SUCCEEDED(hr)) {
-
-		// ★ 初期フォルダの指定
+		// 初期フォルダの指定
 		IShellItem* pFolder;
 		if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
 			pFileOpen->SetFolder(pFolder);
@@ -172,8 +204,53 @@ std::string ShaderGraphEditor::OpenWindowsExplore() {
 	return ConvertString(path);
 }
 
-void ShaderGraphEditor::SaveGraph() {
-	if (ImGui::Button("Save")) {
-		ShaderGraphSerializer::Save("./Project/Packages/Game/Assets/GameData/ShaderGraph/", "test.json", editor_.get());
+std::string ShaderGraphEditor::SaveWindowsExplore() {
+	std::wstring path;
+	IFileSaveDialog* pFileSave = nullptr;
+
+	// 現在のルートパスを探索する
+	wchar_t buffer[MAX_PATH];
+	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
+
+	std::filesystem::path exePath = buffer;
+	exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
+
+	// ダイアログを開く処理
+	if (SUCCEEDED(CoCreateInstance(
+		CLSID_FileSaveDialog, nullptr, CLSCTX_ALL,
+		IID_IFileSaveDialog, (void**)&pFileSave))) {
+
+		// 初期フォルダ指定
+		if (!exePath.empty()) {
+			IShellItem* pFolder = nullptr;
+			if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
+				pFileSave->SetFolder(pFolder);
+				pFolder->Release();
+			}
+		}
+
+		// フィルター
+		COMDLG_FILTERSPEC filters[] = {
+			{L"Text Files", L"*.json"},
+			{L"All Files",  L"*.*"}
+		};
+		pFileSave->SetFileTypes(ARRAYSIZE(filters), filters);
+		pFileSave->SetFileName(L"newfile.txt"); // 初期ファイル名
+
+		// ダイアログ表示
+		if (SUCCEEDED(pFileSave->Show(nullptr))) {
+			IShellItem* pItem = nullptr;
+			if (SUCCEEDED(pFileSave->GetResult(&pItem))) {
+				PWSTR pszFilePath = nullptr;
+				if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath))) {
+					path = pszFilePath; // 完全パス
+					CoTaskMemFree(pszFilePath);
+				}
+				pItem->Release();
+			}
+		}
+
+		pFileSave->Release();
 	}
+	return ConvertString(path);
 }

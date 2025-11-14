@@ -31,7 +31,7 @@ public:
 
 	void CreateGraph(const json& _json);
 
-	void CreateGui();
+	void CreateGui(const ImVec2& _pos);
 
 	template<class T>
 	void RegisterNode(const std::string& menuPath, ImFlow::ImNodeFlow* _editor) {

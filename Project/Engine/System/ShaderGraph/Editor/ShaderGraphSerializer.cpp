@@ -1,20 +1,11 @@
 #include "ShaderGraphSerializer.h"
 #include <iostream>
 
-bool ShaderGraphSerializer::Save(const std::string& _direPath, const std::string& _fileName, ImFlow::ImNodeFlow* _editor) {
-	
-	// -------------------------------------------------
-		// ↓ ディレクトリがなければ作成を行う
-		// -------------------------------------------------
-	if (!std::filesystem::exists(_direPath)) {
-		std::filesystem::create_directories(_direPath);
-		std::cout << "Created directory: " << _direPath << std::endl;
-	}
-	
+bool ShaderGraphSerializer::Save(const std::string& _filePath, ImFlow::ImNodeFlow* _editor) {
 	// -------------------------------------------------
 	// ↓ ファイルを開けるかのチェックを行う
 	// -------------------------------------------------
-	std::ofstream outFile(_direPath + _fileName);
+	std::ofstream outFile(_filePath);
 	if (outFile.fail()) {
 		std::string message = "Faild open data file for write\n";
 		assert(0);

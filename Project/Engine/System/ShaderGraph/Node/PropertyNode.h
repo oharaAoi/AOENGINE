@@ -62,7 +62,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" x ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return value_;
 			},
 			ImFlow::PinStyle::blue()
@@ -72,7 +71,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" x ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return value_.x;
 			},
 			ImFlow::PinStyle::blue()
@@ -81,7 +79,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" y ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.y;
 			},
 			ImFlow::PinStyle::blue()
@@ -91,7 +88,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" x ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return value_.x;
 			},
 			ImFlow::PinStyle::blue()
@@ -100,7 +96,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" y ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.y;
 			},
 			ImFlow::PinStyle::blue()
@@ -109,7 +104,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" z ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.z;
 			},
 			ImFlow::PinStyle::blue()
@@ -118,7 +112,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" x ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return value_.x;
 			},
 			ImFlow::PinStyle::blue()
@@ -127,7 +120,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" y ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.y;
 			},
 			ImFlow::PinStyle::blue()
@@ -136,7 +128,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" z ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.z;
 			},
 			ImFlow::PinStyle::blue()
@@ -145,7 +136,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<float>(
 			" w ",
 			[=]() -> float {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return  value_.w;
 			},
 			ImFlow::PinStyle::blue()
@@ -155,7 +145,6 @@ inline void PropertyNode<T>::draw() {
 		showOUT<Color>(
 			variableType_,
 			[=]() -> Color {
-				// 簡易的なカラー出力 (本来はGPUサンプリング)
 				return value_;
 			},
 			ImFlow::PinStyle::blue()
@@ -192,25 +181,25 @@ inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
 	if constexpr (std::is_same_v<T, float>) {
 		value_ = _json.at("props").at("value").get<float>();
 	} else if constexpr (std::is_same_v<T, Vector2>) {
-		auto& value = _json.at("props").at("props");
-		value_.x = value.at("0").get<float>();
-		value_.y = value.at("1").get<float>();
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
 	} else if constexpr (std::is_same_v<T, Vector3>) {
-		auto& value = _json.at("props").at("props");
-		value_.x = value.at("0").get<float>();
-		value_.y = value.at("1").get<float>();
-		value_.z = value.at("2").get<float>();
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
+		value_.z = value.at(2).get<float>();
 	} else if constexpr (std::is_same_v<T, Vector4>) {
-		auto& value = _json.at("props").at("props");
-		value_.x = value.at("0").get<float>();
-		value_.y = value.at("1").get<float>();
-		value_.z = value.at("2").get<float>();
-		value_.w = value.at("3").get<float>();
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
+		value_.z = value.at(2).get<float>();
+		value_.w = value.at(3).get<float>();
 	} else if constexpr (std::is_same_v<T, Color>) {
-		auto& value = _json.at("props").at("props");
-		value_.r = value.at("0").get<float>();
-		value_.g = value.at("1").get<float>();
-		value_.b = value.at("2").get<float>();
-		value_.a = value.at("3").get<float>();
+		auto& value = _json.at("props").at("color");
+		value_.r = value.at(0).get<float>();
+		value_.g = value.at(1).get<float>();
+		value_.b = value.at(2).get<float>();
+		value_.a = value.at(3).get<float>();
 	}
 }

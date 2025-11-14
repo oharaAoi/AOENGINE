@@ -19,11 +19,6 @@ BehaviorTreeLogger::~BehaviorTreeLogger() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTreeLogger::Init(const std::string& _fileName) {
-	// ファイル数が多くなりすぎないように
-	//DeleteOldLogFile(20);
-
-	std::filesystem::path path(_fileName);
-
 	try {
 		std::filesystem::create_directories("./Project/Logs/BehaviorTree");
 		Logger::Log("Create --- ./Project/Logs/BehaviorTree");
@@ -34,6 +29,10 @@ void BehaviorTreeLogger::Init(const std::string& _fileName) {
 		std::cerr << "Path2: " << e.path2() << std::endl;
 	}
 
+	// ファイル数が多くなりすぎないように
+	DeleteOldLogFile(20);
+
+	std::filesystem::path path(_fileName);
 	// 現在時刻を取得
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
 	// ログ・ファイルの名前にコンマ秒はいらないので削る

@@ -26,19 +26,21 @@ void MaskBlendNode::customUpdate() {
     resourceB_ = getInVal<DxResource*>("TextureB");
 
     if (resourceA_ && resourceB_) {
-        blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+        if (blendResource_->GetResource()) {
+            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
-        Pipeline* pso = Engine::SetPipelineCS("MaskBlend.json");
-        UINT index = 0;
-        index = pso->GetRootSignatureIndex("texA");
-        cmdList_->SetComputeRootDescriptorTable(index, resourceA_->GetSRV().handleGPU);
-        index = pso->GetRootSignatureIndex("texB");
-        cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
-        index = pso->GetRootSignatureIndex("outputTex");
-        cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
-        cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
+            Pipeline* pso = Engine::SetPipelineCS("MaskBlend.json");
+            UINT index = 0;
+            index = pso->GetRootSignatureIndex("texA");
+            cmdList_->SetComputeRootDescriptorTable(index, resourceA_->GetSRV().handleGPU);
+            index = pso->GetRootSignatureIndex("texB");
+            cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
+            index = pso->GetRootSignatureIndex("outputTex");
+            cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
+            cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
 
-        blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+        }
     }
 }
 

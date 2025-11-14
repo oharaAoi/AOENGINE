@@ -50,6 +50,13 @@ public:
 
 private:
 
+	/// <summary>
+	/// 合成結果のResourceを作成する
+	/// </summary>
+	void CreateBlendResource();
+
+private:
+
 	DxResource* resourceA_ = nullptr;
 	DxResource* resourceB_ = nullptr;
 

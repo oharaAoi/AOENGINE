@@ -53,7 +53,7 @@ private:
 
 template<typename T>
 inline void InOutPriorityNode<T>::Init() {
-	// -------- 入力ピン ----------
+	// 入力の設定
 	if constexpr (std::is_same_v<T, float>) {
 		addIN<float>("x", inputValue_, ImFlow::ConnectionFilter::SameType());
 
@@ -76,14 +76,9 @@ inline void InOutPriorityNode<T>::Init() {
 		addIN<Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
 	}
 
-	showOUT<T>(
-		"output",
-		[=]() -> T {
-			// 簡易的なカラー出力 (本来はGPUサンプリング)
-			return value_;
-		},
-		ImFlow::PinStyle::blue()
-	);
+	// outputの設定
+	auto texOut = addOUT<T>("output", ImFlow::PinStyle::blue());
+	texOut->behaviour([this]() { return value_; });
 }
 
 template<typename T>
@@ -121,10 +116,45 @@ template<typename T>
 inline nlohmann::json InOutPriorityNode<T>::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
+	if constexpr (std::is_same_v<T, float>) {
+		result["props"]["value"] = { value_ };
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		result["props"]["value"] = { value_.x, value_.y };
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		result["props"]["value"] = { value_.x, value_.y, value_.z };
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
+	} else if constexpr (std::is_same_v<T, Color>) {
+		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
+	}
 	return result;
 }
 
 template<typename T>
 inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
+	if constexpr (std::is_same_v<T, float>) {
+		value_ = _json.at("props").at("value").get<float>();
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
+		value_.z = value.at(2).get<float>();
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		auto& value = _json.at("props").at("value");
+		value_.x = value.at(0).get<float>();
+		value_.y = value.at(1).get<float>();
+		value_.z = value.at(2).get<float>();
+		value_.w = value.at(3).get<float>();
+	} else if constexpr (std::is_same_v<T, Color>) {
+		auto& value = _json.at("props").at("color");
+		value_.r = value.at(0).get<float>();
+		value_.g = value.at(1).get<float>();
+		value_.b = value.at(2).get<float>();
+		value_.a = value.at(3).get<float>();
+	}
 }

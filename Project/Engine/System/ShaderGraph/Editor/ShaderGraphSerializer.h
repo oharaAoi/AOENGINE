@@ -16,7 +16,7 @@ public: // コンストラクタ
 
 public:
 
-	static bool Save(const std::string& _direPath, const std::string& _fileName, ImFlow::ImNodeFlow* _editor);
+	static bool Save(const std::string& _filePath, ImFlow::ImNodeFlow* _editor);
 
 	static json Load(const std::string& _filePath);
 

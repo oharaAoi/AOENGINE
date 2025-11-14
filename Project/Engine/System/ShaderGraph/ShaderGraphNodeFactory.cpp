@@ -10,19 +10,23 @@
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
 	nodeEntries_.clear();
-	RegisterNode<PropertyNode<float>>("Property/Float", _editor);
-	RegisterNode<PropertyNode<Vector2>>("Property/Vector2", _editor);
-	RegisterNode<PropertyNode<Vector3>>("Property/Vector3", _editor);
-	RegisterNode<PropertyNode<Vector4>>("Property/Vector4", _editor);
-	RegisterNode<PropertyNode<Color>>("Property/Color", _editor);
+	RegisterNode<PropertyNode<float>>("Property/Property_Float", _editor);
+	RegisterNode<PropertyNode<Vector2>>("Property/Property_Vector2", _editor);
+	RegisterNode<PropertyNode<Vector3>>("Property/Property_Vector3", _editor);
+	RegisterNode<PropertyNode<Vector4>>("Property/Property_Vector4", _editor);
+	RegisterNode<PropertyNode<Color>>("Property/Property_Color", _editor);
 
-	RegisterNode<InOutPriorityNode<float>>("InOutPriority/Float", _editor);
-	RegisterNode<InOutPriorityNode<Vector2>>("InOutPriority/Vector2", _editor);
-	RegisterNode<InOutPriorityNode<Vector3>>("InOutPriority/Vector3", _editor);
-	RegisterNode<InOutPriorityNode<Vector4>>("InOutPriority/Vector4", _editor);
-	RegisterNode<InOutPriorityNode<Color>>("InOutPriority/Color", _editor);
+	RegisterNode<InOutPriorityNode<float>>("InOutPriority/InOut_Float", _editor);
+	RegisterNode<InOutPriorityNode<Vector2>>("InOutPriority/InOut_Vector2", _editor);
+	RegisterNode<InOutPriorityNode<Vector3>>("InOutPriority/InOut_Vector3", _editor);
+	RegisterNode<InOutPriorityNode<Vector4>>("InOutPriority/InOut_Vector4", _editor);
+	RegisterNode<InOutPriorityNode<Color>>("InOutPriority/InOut_Color", _editor);
 
 	RegisterNode<TextureNode>("Texture/Texture", _editor);
 	RegisterNode<SampleTexture2dNode>("Texture/SampleTexture2D", _editor);
@@ -37,6 +41,10 @@ void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
 	RegisterNode<TimeNode>("Other/TimeNode", _editor);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Graphを作成する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 	std::map<std::string, std::vector<NodeEntry>> tree;
 	for (auto& e : nodeEntries_) {
@@ -46,12 +54,13 @@ void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 	}
 
 	std::unordered_map<uintptr_t, std::shared_ptr<ImFlow::BaseNode>> nodeMap;
-
+	// nodeを作成する
 	for (auto& jsonNode : _json["nodes"]) {
 		std::string dataName = jsonNode["name"];
 		uintptr_t id = jsonNode["id"];
 
 		for (auto& [category, entries] : tree) {
+			bool isBreak = false;
 			for (auto& enter : entries) {
 				std::string name = enter.path.substr(enter.path.find('/') + 1);
 				if (name == dataName) {
@@ -60,24 +69,32 @@ void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 					if (createdNode) {
 						createdNode->fromJson(jsonNode);
 						nodeMap[id] = createdNode;
+						isBreak = true;
+						break;
 					}
 				}
+			}
+
+			if (isBreak) {
+				break;
 			}
 		}
 	}
 
+	// リンクを結ぶ
 	for (auto& jlink : _json["links"]) {
 		uintptr_t fromNode = jlink["fromNode"].get<uintptr_t>();
 		uintptr_t toNode = jlink["toNode"].get<uintptr_t>();
 
+		// mapに登録されているNodeとidが一致するものを取得する
 		auto outNode = nodeMap[fromNode];
 		auto inNode = nodeMap[toNode];
 
-		// JSON は string なので std::string で受け取る
+		// jsonから各ピンの名前を取得する
 		std::string fromPin = jlink["fromPin"].get<std::string>();
 		std::string toPin = jlink["toPin"].get<std::string>();
 
-		// ★ ここが大事：char* ではなく std::string 版を使う
+		// 名前と一致するピンを作成する
 		ImFlow::Pin* outPin = outNode->outPin(fromPin);
 		ImFlow::Pin* inPin = inNode->inPin(toPin);
 
@@ -87,7 +104,11 @@ void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 	}
 }
 
-void ShaderGraphNodeFactory::CreateGui() {
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ GraphをGui上から作成する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShaderGraphNodeFactory::CreateGui(const ImVec2& _pos) {
 	std::map<std::string, std::vector<NodeEntry>> tree;
 	for (auto& e : nodeEntries_) {
 		auto slash = e.path.find('/');
@@ -104,7 +125,7 @@ void ShaderGraphNodeFactory::CreateGui() {
 					ImGui::CloseCurrentPopup();
 					ImGui::SetWindowFocus(nullptr);
 					ImGui::SetActiveID(0, nullptr);
-					e.spawn(ImVec2(300, 200));
+					e.spawn(_pos);
 				}
 			}
 			ImGui::EndMenu();

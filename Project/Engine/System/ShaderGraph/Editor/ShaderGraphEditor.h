@@ -53,7 +53,17 @@ private:
 	/// </summary>
 	void LoadGraph();
 
+	/// <summary>
+	/// 読み取りの際のエクスプローラーを開く
+	/// </summary>
+	/// <returns></returns>
 	std::string OpenWindowsExplore();
+
+	/// <summary>
+	/// 保存の際のエクスプローラーを開く
+	/// </summary>
+	/// <returns></returns>
+	std::string SaveWindowsExplore();
 
 private:
 
@@ -61,5 +71,8 @@ private:
 
 	ShaderGraphNodeFactory nodeFactory_;
 
+	// 編集のための変数
+	ImVec2 popupPos_;
+	bool popupRequested_ = false;
 };
 
