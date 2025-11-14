@@ -1,47 +1,61 @@
 {
     "links": [
         {
-            "fromNode": 2066084298800,
+            "fromNode": 2394622715680,
             "fromPin": "DxResource",
-            "toNode": 2072096981920,
+            "toNode": 2395317968272,
             "toPin": "TextureA"
         },
         {
-            "fromNode": 2066084304176,
+            "fromNode": 2394807379712,
             "fromPin": "DxResource",
-            "toNode": 2072096981920,
+            "toNode": 2395317968272,
             "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2395317968272,
+            "fromPin": "Texture",
+            "toNode": 2394819651728,
+            "toPin": "DxResource"
         }
     ],
     "nodes": [
         {
-            "id": 2066084298800,
+            "id": 2394819651728,
+            "name": "ResultNode",
+            "pos": [
+                750.0,
+                160.0
+            ]
+        },
+        {
+            "id": 2394622715680,
             "name": "Texture",
             "pos": [
-                190.0,
-                100.0
+                260.0,
+                70.0
             ],
             "props": {
                 "textureName": "uvChecker.png"
             }
         },
         {
-            "id": 2066084304176,
+            "id": 2394807379712,
             "name": "Texture",
             "pos": [
-                180.0,
-                250.0
+                250.0,
+                260.0
             ],
             "props": {
                 "textureName": "noise9.png"
             }
         },
         {
-            "id": 2072096981920,
-            "name": "Blend",
+            "id": 2395317968272,
+            "name": "MaskBlend",
             "pos": [
-                460.0,
-                200.0
+                480.0,
+                130.0
             ]
         }
     ]

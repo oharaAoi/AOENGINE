@@ -1,4 +1,5 @@
 #include "ShaderGraphNodeFactory.h"
+#include "Engine/Utilities/Logger.h"
 #include "Engine/System/ShaderGraph/Node/PropertyNode.h"
 #include "Engine/System/ShaderGraph/Node/InOutPriorityNode.h"
 #include "Engine/System/ShaderGraph/Node/SampleTexture2dNode.h"
@@ -14,7 +15,7 @@
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
+std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
 	nodeEntries_.clear();
 	RegisterNode<PropertyNode<float>>("Property/Property_Float", _editor);
 	RegisterNode<PropertyNode<Vector2>>("Property/Property_Vector2", _editor);
@@ -39,13 +40,20 @@ void ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
 	RegisterNode<MathMultiplyNode>("Math/Multiply", _editor);
 
 	RegisterNode<TimeNode>("Other/TimeNode", _editor);
+
+	RegisterNode<ShaderGraphResultNode>("Result/ResultNode", _editor);
+
+	std::shared_ptr<ShaderGraphResultNode> root = _editor->addNode<ShaderGraphResultNode>(ImVec2(200, 300));
+	root->Init();
+	root->setTitle("ResultNode");
+	return root;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Graphを作成する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
+std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 	std::map<std::string, std::vector<NodeEntry>> tree;
 	for (auto& e : nodeEntries_) {
 		auto slash = e.path.find('/');
@@ -102,6 +110,22 @@ void ShaderGraphNodeFactory::CreateGraph(const json& _json) {
 			outPin->createLink(inPin);
 		}
 	}
+
+	std::shared_ptr<ShaderGraphResultNode> result = nullptr;
+	for (auto& [id, node] : nodeMap) {
+		if (node->getName() == "ResultNode") {
+			result = std::dynamic_pointer_cast<ShaderGraphResultNode>(node);
+		
+			if (result) {
+				return result;
+			} else {
+				// 型が違っていた場合
+				Logger::AssertLog("Don`t Find ResultNode");
+			}
+		}
+	}
+
+	return nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -291,6 +291,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\PropertyNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
@@ -617,6 +618,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PropertyNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />

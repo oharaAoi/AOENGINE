@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
+#include "Engine/System/ShaderGraph/Node/ShaderGraphResultNode.h"
 #include <functional>
 #include <memory>
 
@@ -27,9 +28,9 @@ public: // コンストラクタ
 
 public:
 
-	void Init(ImFlow::ImNodeFlow* _editor);
+	std::shared_ptr<ShaderGraphResultNode> Init(ImFlow::ImNodeFlow* _editor);
 
-	void CreateGraph(const json& _json);
+	std::shared_ptr<ShaderGraphResultNode> CreateGraph(const json& _json);
 
 	void CreateGui(const ImVec2& _pos);
 
@@ -42,7 +43,7 @@ public:
 			node->Init();
 			auto name = menuPath.substr(menuPath.find_last_of('/') + 1);
 			node->setTitle(name.c_str());
-			return node; // ✅ 生成したノードを返す
+			return node;
 		}
 							   });
 	}

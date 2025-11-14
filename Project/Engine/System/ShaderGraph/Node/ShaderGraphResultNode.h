@@ -1,16 +1,17 @@
 #pragma once
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/DirectX/Resource/DxResource.h"
+#include <json.hpp>
 
 /// <summary>
-/// Textureを出力するNode
+/// 最終結果を出力するNode
 /// </summary>
-class TextureNode :
+class ShaderGraphResultNode :
 	public BaseShaderGraphNode {
-public:	// コンストラクタ
+public: // コンストラクタ
 
-	TextureNode() = default;
-	~TextureNode() override;
+	ShaderGraphResultNode() = default;
+	~ShaderGraphResultNode() override;
 
 public:
 
@@ -22,12 +23,12 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void customUpdate() override {};
+	void customUpdate() override;
 
 	/// <summary>
 	/// guiの更新
 	/// </summary>
-	void updateGui() override;
+	void updateGui() override {};
 
 	/// <summary>
 	/// Node描画
@@ -48,13 +49,6 @@ public:
 
 private:
 
-	void SelectTexture();
-
-private:
-
-	std::string textureName_ = "";
-
 	DxResource* resource_ = nullptr;
 
 };
-

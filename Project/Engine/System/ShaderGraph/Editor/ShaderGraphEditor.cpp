@@ -21,7 +21,7 @@ ShaderGraphEditor::~ShaderGraphEditor() {
 
 void ShaderGraphEditor::Init() {
 	editor_ = std::make_unique<ImFlow::ImNodeFlow>();
-	nodeFactory_.Init(editor_.get());
+	resultNode_ = nodeFactory_.Init(editor_.get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,13 +134,12 @@ void ShaderGraphEditor::CreateNode() {
 
 void ShaderGraphEditor::LoadGraph() {
 	if (ImGui::Button("Load")) {
-		editor_.reset(new ImFlow::ImNodeFlow);
-		nodeFactory_.Init(editor_.get());
-
+		editor_->getNodes().clear();
+		
 		// ファイルを選択
 		std::string path = OpenWindowsExplore();
 		if (path != "") {
-			nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(path));
+			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(path));
 		}
 	}
 }

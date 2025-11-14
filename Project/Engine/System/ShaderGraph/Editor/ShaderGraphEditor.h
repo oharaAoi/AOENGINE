@@ -6,6 +6,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
+#include "Engine/System/ShaderGraph/Node/ShaderGraphResultNode.h"
 #include <functional>
 
 /// <summary>
@@ -70,6 +71,7 @@ private:
 	std::unique_ptr<ImFlow::ImNodeFlow> editor_;
 
 	ShaderGraphNodeFactory nodeFactory_;
+	std::shared_ptr<ShaderGraphResultNode> resultNode_ = nullptr;
 
 	// 編集のための変数
 	ImVec2 popupPos_;
