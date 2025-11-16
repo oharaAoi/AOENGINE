@@ -1255,6 +1255,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
+    <ClInclude Include="Engine\Utilities\FileDialogFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2164,6 +2165,7 @@
     <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
+    <ClCompile Include="Engine\Utilities\FileDialogFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

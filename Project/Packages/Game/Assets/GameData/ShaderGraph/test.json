@@ -3,17 +3,17 @@
         {
             "fromNode": 2394622715680,
             "fromPin": "DxResource",
-            "toNode": 2395317968272,
+            "toNode": 2508562680832,
             "toPin": "TextureA"
         },
         {
             "fromNode": 2394807379712,
             "fromPin": "DxResource",
-            "toNode": 2395317968272,
+            "toNode": 2508562680832,
             "toPin": "TextureB"
         },
         {
-            "fromNode": 2395317968272,
+            "fromNode": 2508562680832,
             "fromPin": "Texture",
             "toNode": 2394819651728,
             "toPin": "DxResource"
@@ -51,11 +51,11 @@
             }
         },
         {
-            "id": 2395317968272,
+            "id": 2508562680832,
             "name": "MaskBlend",
             "pos": [
-                480.0,
-                130.0
+                510.0,
+                140.0
             ]
         }
     ]

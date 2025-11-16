@@ -3,10 +3,7 @@
 #include <shobjidl.h>
 #include <iostream>
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphSerializer.h"
-#include "Engine/Utilities/Convert.h"
-
-static float zoom = 1.0f;           // 現在のズーム倍率
-static ImVec2 pan = ImVec2(0, 0);   // 平行移動（パン）量
+#include "Engine/Utilities/FileDialogFunc.h"
 
 ShaderGraphEditor::ShaderGraphEditor() {
 }
@@ -22,6 +19,8 @@ ShaderGraphEditor::~ShaderGraphEditor() {
 void ShaderGraphEditor::Init() {
 	editor_ = std::make_unique<ImFlow::ImNodeFlow>();
 	resultNode_ = nodeFactory_.Init(editor_.get());
+
+	graphPath_ = "";
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,6 +36,9 @@ void ShaderGraphEditor::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Edit() {
+	ImGui::Text(graphPath_.c_str());
+	OverwriteGraph();
+	ImGui::SameLine();
 	SaveGraph();
 	ImGui::SameLine();
 	LoadGraph();
@@ -134,12 +136,25 @@ void ShaderGraphEditor::CreateNode() {
 
 void ShaderGraphEditor::LoadGraph() {
 	if (ImGui::Button("Load")) {
-		editor_->getNodes().clear();
-		
 		// ファイルを選択
-		std::string path = OpenWindowsExplore();
-		if (path != "") {
-			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(path));
+		graphPath_ = FileOpenDialogFunc();
+		if (graphPath_ != "") {
+			editor_->getNodes().clear();
+			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(graphPath_));
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Graphの上書き保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShaderGraphEditor::OverwriteGraph() {
+	if (ImGui::Button("Overwrite")) {
+		if (graphPath_ != "") {
+			ShaderGraphSerializer::Save(graphPath_, editor_.get());
+			editor_->getNodes().clear();
+			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(graphPath_));
 		}
 	}
 }
@@ -150,106 +165,12 @@ void ShaderGraphEditor::LoadGraph() {
 
 void ShaderGraphEditor::SaveGraph() {
 	if (ImGui::Button("Save")) {
-		std::string path = SaveWindowsExplore();
+		std::string path = FileSaveDialogFunc();
 
 		if (path != "") {
+			graphPath_ = path;
 			ShaderGraphSerializer::Save(path, editor_.get());
 		}
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ windowsのエクスプローラーを開く
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-std::string ShaderGraphEditor::OpenWindowsExplore() {
-	std::wstring path;
-	IFileOpenDialog* pFileOpen = nullptr;
-	HRESULT hr = CoCreateInstance(
-		CLSID_FileOpenDialog, nullptr, CLSCTX_ALL,
-		IID_IFileOpenDialog, reinterpret_cast<void**>(&pFileOpen)
-	);
-
-	// 現在のルートパスを探索する
-	wchar_t buffer[MAX_PATH];
-	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
-
-	std::filesystem::path exePath = buffer;
-	exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
-
-	// ダイアログを開く処理
-	if (SUCCEEDED(hr)) {
-		// 初期フォルダの指定
-		IShellItem* pFolder;
-		if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
-			pFileOpen->SetFolder(pFolder);
-			pFolder->Release();
-		}
-
-		// ダイアログ表示
-		if (SUCCEEDED(pFileOpen->Show(nullptr))) {
-			IShellItem* pItem;
-			if (SUCCEEDED(pFileOpen->GetResult(&pItem))) {
-				PWSTR filePath;
-				if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &filePath))) {
-					path = filePath;
-					CoTaskMemFree(filePath);
-				}
-				pItem->Release();
-			}
-		}
-		pFileOpen->Release();
-	}
-	return ConvertString(path);
-}
-
-std::string ShaderGraphEditor::SaveWindowsExplore() {
-	std::wstring path;
-	IFileSaveDialog* pFileSave = nullptr;
-
-	// 現在のルートパスを探索する
-	wchar_t buffer[MAX_PATH];
-	GetModuleFileNameW(nullptr, buffer, MAX_PATH);
-
-	std::filesystem::path exePath = buffer;
-	exePath = exePath.parent_path().parent_path().parent_path().parent_path().wstring();
-
-	// ダイアログを開く処理
-	if (SUCCEEDED(CoCreateInstance(
-		CLSID_FileSaveDialog, nullptr, CLSCTX_ALL,
-		IID_IFileSaveDialog, (void**)&pFileSave))) {
-
-		// 初期フォルダ指定
-		if (!exePath.empty()) {
-			IShellItem* pFolder = nullptr;
-			if (SUCCEEDED(SHCreateItemFromParsingName(exePath.c_str(), nullptr, IID_PPV_ARGS(&pFolder)))) {
-				pFileSave->SetFolder(pFolder);
-				pFolder->Release();
-			}
-		}
-
-		// フィルター
-		COMDLG_FILTERSPEC filters[] = {
-			{L"Text Files", L"*.json"},
-			{L"All Files",  L"*.*"}
-		};
-		pFileSave->SetFileTypes(ARRAYSIZE(filters), filters);
-		pFileSave->SetFileName(L"newfile.txt"); // 初期ファイル名
-
-		// ダイアログ表示
-		if (SUCCEEDED(pFileSave->Show(nullptr))) {
-			IShellItem* pItem = nullptr;
-			if (SUCCEEDED(pFileSave->GetResult(&pItem))) {
-				PWSTR pszFilePath = nullptr;
-				if (SUCCEEDED(pItem->GetDisplayName(SIGDN_FILESYSPATH, &pszFilePath))) {
-					path = pszFilePath; // 完全パス
-					CoTaskMemFree(pszFilePath);
-				}
-				pItem->Release();
-			}
-		}
-
-		pFileSave->Release();
-	}
-	return ConvertString(path);
-}

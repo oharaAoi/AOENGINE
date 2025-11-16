@@ -55,16 +55,9 @@ private:
 	void LoadGraph();
 
 	/// <summary>
-	/// 読み取りの際のエクスプローラーを開く
+	/// Graphを上書き保存する
 	/// </summary>
-	/// <returns></returns>
-	std::string OpenWindowsExplore();
-
-	/// <summary>
-	/// 保存の際のエクスプローラーを開く
-	/// </summary>
-	/// <returns></returns>
-	std::string SaveWindowsExplore();
+	void OverwriteGraph();
 
 private:
 
@@ -76,5 +69,7 @@ private:
 	// 編集のための変数
 	ImVec2 popupPos_;
 	bool popupRequested_ = false;
+
+	std::string graphPath_ = "";
 };
 
