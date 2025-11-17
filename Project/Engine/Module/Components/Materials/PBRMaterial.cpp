@@ -53,7 +53,7 @@ void PBRMaterial::SetCommand(ID3D12GraphicsCommandList* commandList) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Debug_Gui() {
-	Debug_UV();
+	EditUV();
 	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
 }

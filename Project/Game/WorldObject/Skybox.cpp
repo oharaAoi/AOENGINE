@@ -42,7 +42,7 @@ void Skybox::Update() {
 
 void Skybox::Draw() const {
 	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
-	Pipeline* pso = Engine::GetLastUsedPipeline();
+	Pipeline* pso = Engine::SetPipeline(PSOType::Object3d, "Object_Skybox.json");
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());

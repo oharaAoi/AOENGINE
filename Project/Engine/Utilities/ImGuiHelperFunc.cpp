@@ -56,5 +56,5 @@ int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, c
 		return selectedIndex; // 選択が変更された
 	}
 
-	return -1; // 選択は変更されなかった
+	return selectedIndex; // 選択は変更されなかった
 }

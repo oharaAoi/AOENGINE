@@ -1,7 +1,9 @@
 #include "BaseMaterial.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
+#include <vector>
 
-void BaseMaterial::Debug_UV() {
+void BaseMaterial::EditUV() {
 	if (ImGui::TreeNode("uvTramsform")) {
 		if (ImGui::TreeNode("scale")) {
 			ImGui::DragFloat4("uvScale", &uvTransform_.scale.x, 0.01f);
@@ -17,4 +19,10 @@ void BaseMaterial::Debug_UV() {
 		}
 		ImGui::TreePop();
 	}
+}
+
+void BaseMaterial::EditShaderType() {
+	std::vector<std::string> typeArray = { "Universal Render", "ShaderGraph Render" };
+	shaderTypeIndex_ = ContainerOfComb(typeArray, shaderTypeIndex_, "ShaderType##Material");
+	shaderType_ = static_cast<MaterialShaderType>(shaderTypeIndex_);
 }

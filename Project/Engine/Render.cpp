@@ -132,9 +132,24 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
 	viewProjection_->BindCommandListPrev(commandList_, index);
 
-	std::string textureName = material->GetAlbedoTexture();
-	index = pipeline->GetRootSignatureIndex("gTexture"); 
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+	// MaterialのShaderTypeによってバインドするものを変える
+	index = pipeline->GetRootSignatureIndex("gTexture");
+	if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
+		std::string textureName = material->GetAlbedoTexture();
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+	} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
+		DxResource* dxResource = material->GetShaderGraphResource();
+		if (dxResource) {
+			ID3D12Resource* resource = material->GetShaderGraphResource()->GetResource();
+			if (resource) {
+				commandList_->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+			} else {
+				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
+			}
+		} else {
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
+		}
+	}
 
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);

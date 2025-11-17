@@ -67,9 +67,24 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
 		viewProjection->BindCommandListPrev(commandList, index);
 
-		std::string textureName = material->GetAlbedoTexture();
+		// MaterialのShaderTypeによってバインドするものを変える
 		index = pipeline->GetRootSignatureIndex("gTexture");
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
+			std::string textureName = material->GetAlbedoTexture();
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
+			DxResource* dxResource = material->GetShaderGraphResource();
+			if (dxResource) {
+				ID3D12Resource* resource = material->GetShaderGraphResource()->GetResource();
+				if (resource) {
+					commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+				} else {
+					TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+				}
+			} else {
+				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+			}
+		}
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), 1, 0, 0, 0);
 	}
@@ -93,9 +108,24 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewprojection->BindCommandList(commandList, index);
 
-		std::string textureName = material->GetAlbedoTexture();
+		// MaterialのShaderTypeによってバインドするものを変える
 		index = pipeline->GetRootSignatureIndex("gTexture");
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
+			std::string textureName = material->GetAlbedoTexture();
+			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
+			DxResource* dxResource = material->GetShaderGraphResource();
+			if (dxResource) {
+				ID3D12Resource* resource = material->GetShaderGraphResource()->GetResource();
+				if (resource) {
+					commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+				} else {
+					TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+				}
+			} else {
+				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+			}
+		}
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), 1, 0, 0, 0);
 	}

@@ -306,6 +306,12 @@ void BaseGameObject::SetTexture(const std::string& path) {
 	}
 }
 
+void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
+	for (auto& material : materials) {
+		material.second->SetShaderGraphResource(_shaderGraph->GetResource());
+	}
+}
+
 void BaseGameObject::Debug_Gui() {
 	transform_->Debug_Gui();
 	int index = 0;
@@ -316,6 +322,7 @@ void BaseGameObject::Debug_Gui() {
 				material.second->Debug_Gui();
 				ImGui::TreePop();
 			}
+			index++;
 		}
 	}
 

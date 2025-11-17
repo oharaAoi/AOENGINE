@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <unordered_set>
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
@@ -9,13 +10,17 @@
 /// <summary>
 /// ShaderGraphクラス
 /// </summary>
-class ShaderGraph {
+class ShaderGraph :
+ public AttributeGui {
 public:
 
 	struct FilePathParam : public IJsonConverter {
-		std::string path;
+		std::string path = "";
 
-		FilePathParam() { SetName("shaderGraph"); }
+		FilePathParam() {
+			SetGroupName("shaderGraph");
+			SetName("graph");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -33,14 +38,14 @@ public:
 public: // コンストラクタ
 
 	ShaderGraph() = default;
-	~ShaderGraph();
+	~ShaderGraph() override;
 
 public:
 
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	void Init();
+	void Init(const std::string& _name);
 
 	/// <summary>
 	/// 更新処理
@@ -48,18 +53,32 @@ public:
 	void Update();
 
 	/// <summary>
-	/// 
+	/// Nodeの更新を実行する
 	/// </summary>
 	/// <param name="node"></param>
 	/// <param name="visited"></param>
 	void ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow::BaseNode*>& visited);
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
+	void Debug_Gui();
+
+public:
+
+	DxResource* GetResource() const { return resultNode_->GetResultSource(); }
+
 private:
 
+	// editor関連
 	ShaderGraphNodeFactory nodeFactory_;
 	std::unique_ptr<ImFlow::ImNodeFlow> editor_;
 
+	// 最終的なNodeのポインタ
 	std::shared_ptr<ShaderGraphResultNode> resultNode_ = nullptr;
+
+	// pathを持ったパラメータ
+	FilePathParam param_;
 
 };
 

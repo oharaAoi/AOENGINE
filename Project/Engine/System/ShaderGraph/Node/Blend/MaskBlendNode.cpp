@@ -25,26 +25,6 @@ void MaskBlendNode::customUpdate() {
     resourceA_ = getInVal<DxResource*>("TextureA");
     resourceB_ = getInVal<DxResource*>("TextureB");
 
-    if (resourceA_ && resourceB_) {
-        if (blendResource_->GetResource()) {
-            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
-
-            Pipeline* pso = Engine::SetPipelineCS("MaskBlend.json");
-            UINT index = 0;
-            index = pso->GetRootSignatureIndex("texA");
-            cmdList_->SetComputeRootDescriptorTable(index, resourceA_->GetSRV().handleGPU);
-            index = pso->GetRootSignatureIndex("texB");
-            cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
-            index = pso->GetRootSignatureIndex("outputTex");
-            cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
-            cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
-
-            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-        }
-    }
-}
-
-void MaskBlendNode::draw() {
     if (resourceA_) {
         if (!blendResource_->GetResource()) {
             D3D12_RESOURCE_DESC desc = *resourceA_->GetDesc();
@@ -71,6 +51,26 @@ void MaskBlendNode::draw() {
         }
     }
 
+    if (resourceA_ && resourceB_) {
+        if (blendResource_->GetResource()) {
+            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+
+            Pipeline* pso = Engine::SetPipelineCS("MaskBlend.json");
+            UINT index = 0;
+            index = pso->GetRootSignatureIndex("texA");
+            cmdList_->SetComputeRootDescriptorTable(index, resourceA_->GetSRV().handleGPU);
+            index = pso->GetRootSignatureIndex("texB");
+            cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
+            index = pso->GetRootSignatureIndex("outputTex");
+            cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
+            cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
+
+            blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+        }
+    }
+}
+
+void MaskBlendNode::draw() {
     if (blendResource_->GetResource()) {
         if (resourceA_ && resourceB_) {
             ImTextureID texID = (ImTextureID)(intptr_t)(blendResource_->GetSRV().handleGPU.ptr);

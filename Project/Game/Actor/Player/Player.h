@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include <Module/Components/Collider/SphereCollider.h>
 #include "Engine/Module/Components/Rigging/EndEffector.h"
+#include "Engine/System/ShaderGraph/ShaderGraph.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -249,13 +250,9 @@ private:
 	Vector3 knockBackDire_;
 
 	bool isLanding_;
-
 	bool isMoving_;
-
 	bool deployArmor_;
-
 	bool isDead_ = false;
-
 	bool isAttack_ = false;
 
 	// Parameter --------------------------------------------------
@@ -284,6 +281,8 @@ private:
 	// IK --------------------------------------------------
 	std::unique_ptr<EndEffector> leftLegEffector_;
 	std::unique_ptr<EndEffector> rightLegEffector_;
+
+	std::unique_ptr<ShaderGraph> shaderGraph_;
 
 };
 

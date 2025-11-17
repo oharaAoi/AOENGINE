@@ -32,6 +32,11 @@ public:
 
 private:
 
+	/// <summary>
+	/// Nodeの更新を実行する
+	/// </summary>
+	/// <param name="node">: 現在のNodeのポインタ</param>
+	/// <param name="visited">: 訪れたNodeのポインタマップ</param>
 	void ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow::BaseNode*>& visited);
 
 	/// <summary>
@@ -58,6 +63,10 @@ private:
 	/// Graphを上書き保存する
 	/// </summary>
 	void OverwriteGraph();
+
+public:
+
+	DxResource* GetResource() const { return resultNode_->GetResultSource(); }
 
 private:
 

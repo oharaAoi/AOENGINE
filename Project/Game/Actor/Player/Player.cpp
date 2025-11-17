@@ -34,6 +34,7 @@ void Player::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Debug_Gui() {
+	shaderGraph_->Debug_Gui();
 	object_->Debug_Gui();
 
 	actionManager_->Debug_Gui();
@@ -165,6 +166,10 @@ void Player::Init() {
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
+	shaderGraph_ = std::make_unique<ShaderGraph>();
+	shaderGraph_->Init("player");
+	object_->SetShaderGraph(shaderGraph_.get());
+
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -195,6 +200,9 @@ void Player::Update() {
 			isAttack_ = true;
 		}
 	}
+
+	shaderGraph_->Update();
+	object_->SetShaderGraph(shaderGraph_.get());
 }
 
 void Player::PosUpdate() {

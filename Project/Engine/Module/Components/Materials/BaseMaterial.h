@@ -1,9 +1,15 @@
 #pragma once
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
+
+enum class MaterialShaderType {
+	UniversalRender,	// 一般的なレンダリング
+	ShaderGraphRender,	// shaderGraphを利用したレンダリング
+};
 
 /// <summary>
 /// BaseとなるMaterial
@@ -29,11 +35,22 @@ public:
 
 protected:
 
-	void Debug_UV();
+	/// <summary>
+	/// UVを編集する
+	/// </summary>
+	void EditUV();
+
+	/// <summary>
+	/// ShaderTypeを編集する
+	/// </summary>
+	void EditShaderType();
 
 public:
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetBufferAddress() const { return cBuffer_->GetGPUVirtualAddress(); }
+
+	void SetShaderType(MaterialShaderType _type) { shaderType_ = _type; }
+	MaterialShaderType GetShaderType() const { return shaderType_; }
 
 	void SetUvScale(const Vector3& _scale) { uvTransform_.scale = _scale; }
 	void SetUvRotate(const Vector3& _rotate) { uvTransform_.rotate = _rotate; }
@@ -41,6 +58,9 @@ public:
 
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
+
+	void SetShaderGraphResource(DxResource* _resource) { shaderGraphResource_ = _resource; }
+	DxResource* GetShaderGraphResource() const { return shaderGraphResource_; }
 
 	void SetColor(const Color& _color) { color_ = _color; }
 	const Color GetColor() const { return color_; }
@@ -50,12 +70,17 @@ public:
 
 protected:
 
+	MaterialShaderType shaderType_ = MaterialShaderType::UniversalRender;
+	int shaderTypeIndex_ = -1;
+
 	ComPtr<ID3D12Resource> cBuffer_;
 
 	SRT uvTransform_ = SRT();
 	std::string textureName_ = "white.png";
 
+	DxResource* shaderGraphResource_ = nullptr;
+
 	Color color_;
 	bool isLighting_;
-};
 
+};

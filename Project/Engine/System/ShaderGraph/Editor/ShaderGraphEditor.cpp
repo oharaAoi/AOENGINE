@@ -36,7 +36,9 @@ void ShaderGraphEditor::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Edit() {
-	ImGui::Text(graphPath_.c_str());
+	if (graphPath_ != "") {
+		ImGui::Text(graphPath_.c_str());
+	}
 	OverwriteGraph();
 	ImGui::SameLine();
 	SaveGraph();

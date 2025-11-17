@@ -47,6 +47,10 @@ public:
 	/// <param name="_json"></param>
 	void fromJson(const nlohmann::json& _json) override;
 
+public:
+
+	DxResource* GetResultSource() const { return resource_; }
+
 private:
 
 	DxResource* resource_ = nullptr;

@@ -1,17 +1,37 @@
 #include "ShaderGraph.h"
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphSerializer.h"
+#include "Engine/Utilities/FileDialogFunc.h"
 
 ShaderGraph::~ShaderGraph() {
 	editor_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShaderGraph::Debug_Gui() {
+	ImGui::Text(param_.path.c_str());
+	if (ImGui::Button("Load")) {
+		// ファイルを選択
+		param_.path = FileOpenDialogFunc();
+		if (param_.path != "") {
+			editor_->getNodes().clear();
+			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(param_.path));
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化関数
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ShaderGraph::Init() {
+void ShaderGraph::Init(const std::string& _name) {
 	editor_ = std::make_unique<ImFlow::ImNodeFlow>();
 	resultNode_ = nodeFactory_.Init(editor_.get());
+
+	param_.SetName(_name);
+	param_.Load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

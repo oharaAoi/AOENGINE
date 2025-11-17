@@ -7,6 +7,7 @@
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ModelManager.h"
+#include "Engine/System/ShaderGraph/ShaderGraph.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
@@ -78,6 +79,8 @@ public:
 
 	void SetTexture(const std::string& path);
 
+	void SetShaderGraph(ShaderGraph* _shaderGraph);
+
 	// -------------------------------------------------
 	// ↓ Animation関連
 	// -------------------------------------------------
@@ -109,7 +112,7 @@ public:
 protected:
 
 	Model* model_ = nullptr;
-	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;	// 後で変えたい
+	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<Animator> animetor_ = nullptr;
