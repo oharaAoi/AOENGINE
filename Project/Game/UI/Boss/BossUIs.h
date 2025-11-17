@@ -33,7 +33,7 @@ public:
 	void Init(Boss* _boss, Player* _player);
 
 	// 更新
-	void Update(const Vector2& _reticlePos);
+	void Update(const Vector2& _reticlePos, bool isLockOn);
 
 	// 編集
 	void Debug_Gui() override;
