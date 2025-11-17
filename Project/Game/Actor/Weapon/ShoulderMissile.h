@@ -64,9 +64,7 @@ private:
 	ShoulderMissileParam weaponParam_;
 
 	AttackContext attackCxt_;
-	bool isReload_;
 	bool isFinish_;
-	int shotCount_;
 
 };
 

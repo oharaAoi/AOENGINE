@@ -21,8 +21,10 @@ void PlayerUIs::Init(Player* _player) {
 
 	leftWeapon_ = std::make_unique<WeaponRemainingRounds>();
 	rightWeapon_ = std::make_unique<WeaponRemainingRounds>();
+	rightShoulderWeapon_ = std::make_unique<WeaponRemainingRounds>();
 	leftWeapon_->Init("leftWeaponGauge");
 	rightWeapon_->Init("rightWeaponGauge");
+	rightShoulderWeapon_->Init("rightShoulderWeaponGauge");
 
 	AddChild(ap_);
 	AddChild(health_.get());
@@ -30,6 +32,7 @@ void PlayerUIs::Init(Player* _player) {
 	AddChild(postureStability_.get());
 	AddChild(leftWeapon_.get());
 	AddChild(rightWeapon_.get());
+	AddChild(rightShoulderWeapon_.get());
 
 	EditorWindows::AddObjectWindow(this, "PlayerUIs");
 }
@@ -58,7 +61,9 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 
 	BaseWeapon* left = pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON);
 	BaseWeapon* right = pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON);
+	BaseWeapon* rightShoulder = pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER);
 
+	// 左手武器の残弾数
 	if (left->GetIsReload()) {
 		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->ReloadFill());
 		leftWeapon_->Blinking();
@@ -66,11 +71,20 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->BulletsFill());
 	}
 
+	// 右手武器の残弾数
 	if (right->GetIsReload()) {
 		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->ReloadFill());
 		rightWeapon_->Blinking();
 	} else {
 		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->BulletsFill());
+	}
+
+	// 右肩武器の残弾数
+	if (rightShoulder->GetIsReload()) {
+		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER)->ReloadFill());
+		rightShoulderWeapon_->Blinking();
+	} else {
+		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER)->BulletsFill());
 	}
 }
 

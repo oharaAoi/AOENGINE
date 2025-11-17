@@ -46,7 +46,7 @@ void ShoulderMissile::Update() {
 			isReload_ = false;
 			isFinish_ = true;
 			isCanAttack_ = true;
-			shotCount_ = 0;
+			fireCount_ = 0;
 		}
 		return;
 	}
@@ -56,7 +56,7 @@ void ShoulderMissile::Update() {
 	} else {
 		Shot();
 
-		if (shotCount_ >= attackParam_.fireBulletsNum) {
+		if (fireCount_ >= attackParam_.fireBulletsNum) {
 			coolTime_ = attackParam_.reloadTime;
 			isReload_ = true;
 		}
@@ -108,5 +108,5 @@ void ShoulderMissile::Shot() {
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 
 	coolTime_ = attackParam_.fireInterval;
-	shotCount_++;
+	fireCount_++;
 }

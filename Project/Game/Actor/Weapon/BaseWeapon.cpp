@@ -87,5 +87,5 @@ float BaseWeapon::BulletsFill() {
 }
 
 float BaseWeapon::ReloadFill() {
-	return  (attackParam_.reloadTime - coolTime_) / attackParam_.reloadTime;
+	return (attackParam_.reloadTime - coolTime_) / attackParam_.reloadTime;
 }
