@@ -10,7 +10,30 @@
 /// </summary>
 class JetEngine :
 	public BaseEntity {
-public:
+public: // データ構造体
+
+	struct Parameter : public IJsonConverter {
+		float engineIncline = 10.0f;
+
+		Parameter() {
+			SetGroupName("JetEngine");
+			SetName("jetEngine");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("engineIncline", engineIncline)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "engineIncline", engineIncline);
+		}
+
+		void Debug_Gui();
+	};
+
+public: // コンストラクタ
 
 	JetEngine() = default;
 	~JetEngine();
@@ -53,6 +76,8 @@ private:
 	bool isBoostMode_;
 
 	std::unique_ptr<WorldTransform> burnParentTransform_ = nullptr;
+
+	Parameter param_;
 
 	// effects -------------------------------------------------
 	BaseParticles* burnParticle_;

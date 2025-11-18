@@ -49,6 +49,8 @@ void Player::Debug_Gui() {
 
 	object_->GetRigidbody()->SetDrag(param_.windDrag);
 
+	ImGui::Text("smoothedDiffX :%f", smoothedDiffX_);
+
 	param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 }
 
@@ -208,7 +210,7 @@ void Player::Update() {
 void Player::PosUpdate() {
 	// カメラを傾ける
 	CameraIncline();
-	jet_->Update(smoothedDiffX_ * 100.0f);
+	jet_->Update(smoothedDiffX_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

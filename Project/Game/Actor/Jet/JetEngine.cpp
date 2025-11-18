@@ -10,12 +10,18 @@ JetEngine::~JetEngine() {
 void JetEngine::Finalize() {
 }
 
+void JetEngine::Parameter::Debug_Gui() {
+	ImGui::DragFloat("engineIncline", &engineIncline);
+	SaveAndLoad();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Init() {
 	SetName("JetEngine");
+	param_.Load();
 
 	// -------------------------------------
 	// 基本の初期化
@@ -60,8 +66,9 @@ void JetEngine::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Update(float diftX) {
-	Quaternion engineRotate = Quaternion::AngleAxis(-diftX, CVector3::FORWARD);
-	transform_->SetRotate(engineRotate * Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT));
+	Quaternion engineRotate = Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
+	Quaternion rotate = Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.1f);
+	transform_->SetRotate(rotate);
 	transform_->Update();
 	burnParentTransform_->Update();
 }
@@ -89,6 +96,8 @@ void JetEngine::Debug_Gui() {
 		jetEngineBurn2_->Debug_Gui();
 		ImGui::TreePop();
 	}
+
+	param_.Debug_Gui();
 }
 
 void JetEngine::JetIsStop() {

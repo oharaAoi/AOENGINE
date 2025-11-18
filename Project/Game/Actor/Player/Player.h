@@ -5,6 +5,7 @@
 #include <Module/Components/Collider/SphereCollider.h>
 #include "Engine/Module/Components/Rigging/EndEffector.h"
 #include "Engine/System/ShaderGraph/ShaderGraph.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
