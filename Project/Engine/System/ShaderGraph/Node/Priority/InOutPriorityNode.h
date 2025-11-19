@@ -2,30 +2,25 @@
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
-/// <summary>
-/// floatやVector2などのtemplateに基本の型のNode
-/// </summary>
-/// <typeparam name="T"></typeparam>
 template<typename T>
-class PropertyNode :
+class InOutPriorityNode :
 	public BaseShaderGraphNode {
 public: // コンストラクタ
 
-	PropertyNode() = default;
-	PropertyNode(const std::string& _variableType) : variableType_(_variableType) {};
-	~PropertyNode() override = default;
+	InOutPriorityNode() = default;
+	~InOutPriorityNode() override = default;
 
 public:
 
 	/// <summary>
 	/// 初期化関数
 	/// </summary>
-	void Init() override {};
+	void Init() override;
 
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void customUpdate() override {};
+	void customUpdate() override;
 
 	/// <summary>
 	/// guiの更新
@@ -51,114 +46,76 @@ public:
 
 private:
 
+	T inputValue_;
 	T value_;
-	std::string variableType_;
+
 };
 
 template<typename T>
-inline void PropertyNode<T>::draw() {
-	// -------- 出力ピン ----------
+inline void InOutPriorityNode<T>::Init() {
+	// 入力の設定
 	if constexpr (std::is_same_v<T, float>) {
-		showOUT<float>(
-			" x ",
-			[=]() -> float {
-				return value_;
-			},
-			ImFlow::PinStyle::blue()
-		);
+		addIN<float>("x", inputValue_, ImFlow::ConnectionFilter::SameType());
 
 	} else if constexpr (std::is_same_v<T, Vector2>) {
-		showOUT<float>(
-			" x ",
-			[=]() -> float {
-				return value_.x;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" y ",
-			[=]() -> float {
-				return  value_.y;
-			},
-			ImFlow::PinStyle::blue()
-		);
+		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
 
 	} else if constexpr (std::is_same_v<T, Vector3>) {
-		showOUT<float>(
-			" x ",
-			[=]() -> float {
-				return value_.x;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" y ",
-			[=]() -> float {
-				return  value_.y;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" z ",
-			[=]() -> float {
-				return  value_.z;
-			},
-			ImFlow::PinStyle::blue()
-		);
+		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
+		
 	} else if constexpr (std::is_same_v<T, Vector4>) {
-		showOUT<float>(
-			" x ",
-			[=]() -> float {
-				return value_.x;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" y ",
-			[=]() -> float {
-				return  value_.y;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" z ",
-			[=]() -> float {
-				return  value_.z;
-			},
-			ImFlow::PinStyle::blue()
-		);
-
-		showOUT<float>(
-			" w ",
-			[=]() -> float {
-				return  value_.w;
-			},
-			ImFlow::PinStyle::blue()
-		);
+		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
+		addIN<float>("w", inputValue_.w, ImFlow::ConnectionFilter::SameType());
 
 	} else if constexpr (std::is_same_v<T, Color>) {
-		showOUT<Color>(
-			variableType_,
-			[=]() -> Color {
-				return value_;
-			},
-			ImFlow::PinStyle::blue()
-		);
+		addIN<Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
 	}
 
-	// -------- 内部プレビュー ----------
-	ImGui::Spacing();
-	ImGui::SetNextItemWidth(150);
-	TemplateValueGui(value_);
+	// outputの設定
+	auto texOut = addOUT<T>("output", ImFlow::PinStyle::blue());
+	texOut->behaviour([this]() { return value_; });
 }
 
 template<typename T>
-inline nlohmann::json PropertyNode<T>::toJson() {
+inline void InOutPriorityNode<T>::customUpdate() {
+	// 入力の受取
+	if constexpr (std::is_same_v<T, float>) {
+		inputValue_ = getInVal<float>("x");
+
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		inputValue_.x = getInVal<float>("x");
+		inputValue_.y = getInVal<float>("y");
+
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		inputValue_.x = getInVal<float>("x");
+		inputValue_.y = getInVal<float>("y");
+		inputValue_.z = getInVal<float>("z");
+
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		inputValue_.x = getInVal<float>("x");
+		inputValue_.y = getInVal<float>("y");
+		inputValue_.z = getInVal<float>("z");
+		inputValue_.w = getInVal<float>("w");
+
+	} else if constexpr (std::is_same_v<T, Color>) {
+		inputValue_ = getInVal<Color>("color");
+	}
+
+	// 値の更新
+	value_ = inputValue_;
+}
+
+template<typename T>
+inline void InOutPriorityNode<T>::draw() {
+}
+
+template<typename T>
+inline nlohmann::json InOutPriorityNode<T>::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
 	if constexpr (std::is_same_v<T, float>) {
@@ -176,7 +133,7 @@ inline nlohmann::json PropertyNode<T>::toJson() {
 }
 
 template<typename T>
-inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
+inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 	if constexpr (std::is_same_v<T, float>) {
 		value_ = _json.at("props").at("value").get<float>();

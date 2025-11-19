@@ -2,13 +2,18 @@
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+/// <summary>
+/// floatやVector2などのtemplateに基本の型のNode
+/// </summary>
+/// <typeparam name="T"></typeparam>
 template<typename T>
-class InOutPriorityNode :
+class PropertyNode :
 	public BaseShaderGraphNode {
 public: // コンストラクタ
 
-	InOutPriorityNode() = default;
-	~InOutPriorityNode() override = default;
+	PropertyNode() = default;
+	PropertyNode(const std::string& _variableType) : variableType_(_variableType) {};
+	~PropertyNode() override = default;
 
 public:
 
@@ -20,7 +25,7 @@ public:
 	/// <summary>
 	/// 更新関数
 	/// </summary>
-	void customUpdate() override;
+	void customUpdate() override {};
 
 	/// <summary>
 	/// guiの更新
@@ -46,74 +51,27 @@ public:
 
 private:
 
-	T inputValue_;
 	T value_;
-
+	std::string variableType_;
 };
 
 template<typename T>
-inline void InOutPriorityNode<T>::Init() {
-	// 入力の設定
-	if constexpr (std::is_same_v<T, float>) {
-		addIN<float>("x", inputValue_, ImFlow::ConnectionFilter::SameType());
-
-	} else if constexpr (std::is_same_v<T, Vector2>) {
-		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
-
-	} else if constexpr (std::is_same_v<T, Vector3>) {
-		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
-		
-	} else if constexpr (std::is_same_v<T, Vector4>) {
-		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
-		addIN<float>("w", inputValue_.w, ImFlow::ConnectionFilter::SameType());
-
-	} else if constexpr (std::is_same_v<T, Color>) {
-		addIN<Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
-	}
-
+inline void PropertyNode<T>::Init() {
 	// outputの設定
 	auto texOut = addOUT<T>("output", ImFlow::PinStyle::blue());
 	texOut->behaviour([this]() { return value_; });
 }
 
 template<typename T>
-inline void InOutPriorityNode<T>::customUpdate() {
-	value_ = inputValue_;
+inline void PropertyNode<T>::draw() {
+	// -------- 内部プレビュー ----------
+	ImGui::Spacing();
+	ImGui::SetNextItemWidth(150);
+	TemplateValueGui(value_);
 }
 
 template<typename T>
-inline void InOutPriorityNode<T>::draw() {
-	// -------- 入力ピン ----------
-	if constexpr (std::is_same_v<T, float>) {
-		inputValue_ = getInVal<float>("x");
-
-	} else if constexpr (std::is_same_v<T, Vector2>) {
-		inputValue_.x = getInVal<float>("x");
-		inputValue_.y = getInVal<float>("y");
-
-	} else if constexpr (std::is_same_v<T, Vector3>) {
-		inputValue_.x = getInVal<float>("x");
-		inputValue_.y = getInVal<float>("y");
-		inputValue_.z = getInVal<float>("z");
-
-	} else if constexpr (std::is_same_v<T, Vector4>) {
-		inputValue_.x = getInVal<float>("x");
-		inputValue_.y = getInVal<float>("y");
-		inputValue_.z = getInVal<float>("z");
-		inputValue_.w = getInVal<float>("w");
-
-	} else if constexpr (std::is_same_v<T, Color>) {
-		inputValue_ = getInVal<Color>("color");
-	}
-}
-
-template<typename T>
-inline nlohmann::json InOutPriorityNode<T>::toJson() {
+inline nlohmann::json PropertyNode<T>::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
 	if constexpr (std::is_same_v<T, float>) {
@@ -131,10 +89,10 @@ inline nlohmann::json InOutPriorityNode<T>::toJson() {
 }
 
 template<typename T>
-inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
+inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 	if constexpr (std::is_same_v<T, float>) {
-		value_ = _json.at("props").at("value").get<float>();
+		value_ = _json.at("props").at("value").at(0).get<float>();
 	} else if constexpr (std::is_same_v<T, Vector2>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();

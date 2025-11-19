@@ -34,7 +34,6 @@ void Player::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Debug_Gui() {
-	shaderGraph_->Debug_Gui();
 	object_->Debug_Gui();
 
 	actionManager_->Debug_Gui();

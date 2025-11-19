@@ -1,14 +1,14 @@
-#include "BlendNode.h"
+#include "AlphaBlendNode.h"
 #include "Engine/Engine.h"
 
-BlendNode::BlendNode() {}
-BlendNode::~BlendNode() {
+AlphaBlendNode::AlphaBlendNode() {}
+AlphaBlendNode::~AlphaBlendNode() {
 	resourceA_ = nullptr;
 	resourceB_ = nullptr;
 	blendResource_->Destroy();
 }
 
-void BlendNode::Init() {
+void AlphaBlendNode::Init() {
 	ctx_ = GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
@@ -23,7 +23,7 @@ void BlendNode::Init() {
 	texOut->behaviour([this]() { return blendResource_; });
 }
 
-void BlendNode::customUpdate() {
+void AlphaBlendNode::customUpdate() {
 	// 入力からの受け取り
 	resourceA_ = getInVal<DxResource*>("TextureA");
 	resourceB_ = getInVal<DxResource*>("TextureB");
@@ -50,7 +50,7 @@ void BlendNode::customUpdate() {
 	}
 }
 
-void BlendNode::draw() {
+void AlphaBlendNode::draw() {
 	// 合成結果の描画
 	if (blendResource_->GetResource()) {
 		if (resourceA_ && resourceB_) {
@@ -61,17 +61,17 @@ void BlendNode::draw() {
 	}
 }
 
-nlohmann::json BlendNode::toJson() {
+nlohmann::json AlphaBlendNode::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
 	return result;
 }
 
-void BlendNode::fromJson(const nlohmann::json& _json) {
+void AlphaBlendNode::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 }
 
-void BlendNode::CreateBlendResource() {
+void AlphaBlendNode::CreateBlendResource() {
 	if (resourceA_) {
 		if (!blendResource_->GetResource()) {
 			D3D12_RESOURCE_DESC desc = *resourceA_->GetDesc();

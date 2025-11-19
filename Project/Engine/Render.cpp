@@ -138,9 +138,9 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 		std::string textureName = material->GetAlbedoTexture();
 		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 	} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
-		DxResource* dxResource = material->GetShaderGraphResource();
+		DxResource* dxResource = material->GetShaderGraph()->GetResource();
 		if (dxResource) {
-			ID3D12Resource* resource = material->GetShaderGraphResource()->GetResource();
+			ID3D12Resource* resource = dxResource->GetResource();
 			if (resource) {
 				commandList_->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
 			} else {

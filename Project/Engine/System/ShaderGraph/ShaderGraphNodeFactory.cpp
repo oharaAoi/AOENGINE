@@ -1,11 +1,14 @@
 #include "ShaderGraphNodeFactory.h"
 #include "Engine/Utilities/Logger.h"
-#include "Engine/System/ShaderGraph/Node/PropertyNode.h"
-#include "Engine/System/ShaderGraph/Node/InOutPriorityNode.h"
-#include "Engine/System/ShaderGraph/Node/SampleTexture2dNode.h"
-#include "Engine/System/ShaderGraph/Node/TextureNode.h"
-#include "Engine/System/ShaderGraph/Node/Blend/BlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Priority/PropertyNode.h"
+#include "Engine/System/ShaderGraph/Node/Priority/InOutPriorityNode.h"
+#include "Engine/System/ShaderGraph/Node/Texture/SampleTexture2dNode.h"
+#include "Engine/System/ShaderGraph/Node/Texture/TextureNode.h"
+#include "Engine/System/ShaderGraph/Node/Blend/AlphaBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/MaskBlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Blend/AddBlendNode.h"
+#include "Engine/System/ShaderGraph/Node/Blend/DifferenceBlendNode.h"
+#include "Engine/System/ShaderGraph/Node/UV/UVTransformNode.h"
 #include "Engine/System/ShaderGraph/Node/TimeNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
@@ -32,14 +35,18 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 	RegisterNode<TextureNode>("Texture/Texture", _editor);
 	RegisterNode<SampleTexture2dNode>("Texture/SampleTexture2D", _editor);
 
-	RegisterNode<BlendNode>("Merge/Blend", _editor);
+	RegisterNode<AlphaBlendNode>("Merge/AlphaBlend", _editor);
 	RegisterNode<MaskBlendNode>("Merge/MaskBlend", _editor);
+	RegisterNode<AddBlendNode>("Merge/AddBlend", _editor);
+	RegisterNode<DifferenceBlendNode>("Merge/DifferenceBlend", _editor);
 
 	RegisterNode<MathAddNode>("Math/Add", _editor);
 	RegisterNode<MathSubtractionNode>("Math/Subtraction", _editor);
 	RegisterNode<MathMultiplyNode>("Math/Multiply", _editor);
 
 	RegisterNode<TimeNode>("Other/TimeNode", _editor);
+
+	RegisterNode<UVTransformNode>("UV/UVTransform", _editor);
 
 	RegisterNode<ShaderGraphResultNode>("Result/ResultNode", _editor);
 

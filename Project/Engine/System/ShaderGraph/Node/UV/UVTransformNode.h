@@ -1,18 +1,17 @@
 #pragma once
-#include "memory"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
-#include "Engine/Core/GraphicsContext.h"
-#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/Lib/Node/NodeItems.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 /// <summary>
-/// Textureを合成するNode
+/// uvTransformを変化させるNode
 /// </summary>
-class BlendNode :
+class UVTransformNode :
 	public BaseShaderGraphNode {
 public:	// コンストラクタ
 
-	BlendNode();
-	~BlendNode() override;
+	UVTransformNode() = default;
+	~UVTransformNode() override = default;
 
 public:
 
@@ -50,19 +49,13 @@ public:
 
 private:
 
-	/// <summary>
-	/// 合成結果のResourceを作成する
-	/// </summary>
-	void CreateBlendResource();
+	Vector2 inputUV_ = CVector2::ZERO;
+	NodeUVTransform outputUV_;
 
-private:
+	Vector2 scale_ = CVector2::UNIT;
+	Vector2 offset_ = CVector2::ZERO;
+	float rotate_ = 0.f;
 
-	DxResource* resourceA_ = nullptr;
-	DxResource* resourceB_ = nullptr;
 
-	DxResource* blendResource_;
 
-	GraphicsContext* ctx_;
-	ID3D12GraphicsCommandList* cmdList_;
 };
-

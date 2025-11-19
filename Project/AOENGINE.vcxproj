@@ -283,17 +283,20 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\PropertyNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\TextureNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
@@ -612,16 +615,19 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\BlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\InOutPriorityNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\PropertyNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\SampleTexture2dNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\TextureNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
@@ -767,6 +773,22 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\AddBlend.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\DifferenceBlend.CS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MasKBlend.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>

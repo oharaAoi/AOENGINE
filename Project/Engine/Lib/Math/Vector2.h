@@ -125,16 +125,16 @@ public:
 	static Vector2 Lerp(const Vector2& st, const Vector2& end, float t);
 
 	/*拡縮行列*/
-	Matrix3x3 MakeScaleMat(const Vector2& scale);
+	static Matrix3x3 MakeScaleMat(const Vector2& scale);
 
 	/*回転行列*/
-	Matrix3x3 MakeRotateMat(float theta);
+	static Matrix3x3 MakeRotateMat(float theta);
 
 	/*平行移動行列*/
-	Matrix3x3 MakeTranslateMat(const Vector2& translate);
+	static Matrix3x3 MakeTranslateMat(const Vector2& translate);
 
 	/*アフィン*/
-	Matrix3x3 MakeAffine(const Vector2& scale, float theta, const Vector2& translate);
+	static Matrix3x3 MakeAffine(const Vector2& scale, float theta, const Vector2& translate);
 };
 
 /// <summary>

@@ -16,12 +16,12 @@ void SampleTexture2dNode::Init() {
 
     resource_ = ctx_->CreateDxResource(ResourceType::COMMON);
     
-    uvBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(UVParam));
+    uvBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(NodeUVTransform));
     uvBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&uvParam_));
 
     // inputの設定
     addIN<std::shared_ptr<DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
-    addIN<Vector2>("UV", uvParam_->uv, ImFlow::ConnectionFilter::None());
+    addIN<NodeUVTransform>("UV", uv_, ImFlow::ConnectionFilter::None());
 
     // outputの設定
     auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
@@ -31,7 +31,10 @@ void SampleTexture2dNode::Init() {
 void SampleTexture2dNode::customUpdate() {
     // 入力の受取
     inputResource_ = getInVal<DxResource*>("Texture");
-    uvParam_->uv = getInVal<Vector2>("UV");
+    uv_ = getInVal<NodeUVTransform>("UV");
+    uvParam_->scale = uv_.scale;
+    uvParam_->rotate = uv_.rotate;
+    uvParam_->translate = uv_.translate;
 
     // textureの合成
     if (inputResource_) {

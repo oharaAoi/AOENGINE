@@ -25,4 +25,8 @@ void BaseMaterial::EditShaderType() {
 	std::vector<std::string> typeArray = { "Universal Render", "ShaderGraph Render" };
 	shaderTypeIndex_ = ContainerOfComb(typeArray, shaderTypeIndex_, "ShaderType##Material");
 	shaderType_ = static_cast<MaterialShaderType>(shaderTypeIndex_);
+
+	if (shaderType_ == MaterialShaderType::ShaderGraphRender) {
+		shaderGraph_->Debug_Gui();
+	}
 }

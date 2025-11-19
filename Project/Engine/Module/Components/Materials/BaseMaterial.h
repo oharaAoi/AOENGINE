@@ -2,6 +2,7 @@
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/System/ShaderGraph/ShaderGraph.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
@@ -26,8 +27,6 @@ public:
 	virtual void Init() = 0;
 	// 更新
 	virtual void Update() = 0;
-	// コマンドを積む
-	virtual void SetCommand(ID3D12GraphicsCommandList* commandList) = 0;
 	// 編集処理
 	virtual void Debug_Gui() = 0;
 	// materialの設定
@@ -59,8 +58,8 @@ public:
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
-	void SetShaderGraphResource(DxResource* _resource) { shaderGraphResource_ = _resource; }
-	DxResource* GetShaderGraphResource() const { return shaderGraphResource_; }
+	void SetShaderGraph(ShaderGraph* _graph) { shaderGraph_ = _graph; }
+	ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
 
 	void SetColor(const Color& _color) { color_ = _color; }
 	const Color GetColor() const { return color_; }
@@ -71,14 +70,14 @@ public:
 protected:
 
 	MaterialShaderType shaderType_ = MaterialShaderType::UniversalRender;
-	int shaderTypeIndex_ = -1;
+	int shaderTypeIndex_ = 0;
 
 	ComPtr<ID3D12Resource> cBuffer_;
 
 	SRT uvTransform_ = SRT();
 	std::string textureName_ = "white.png";
 
-	DxResource* shaderGraphResource_ = nullptr;
+	ShaderGraph* shaderGraph_ = nullptr;
 
 	Color color_;
 	bool isLighting_;

@@ -1,0 +1,112 @@
+{
+    "links": [
+        {
+            "fromNode": 1679730384656,
+            "fromPin": "output",
+            "toNode": 1680116321264,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 1679730382352,
+            "fromPin": "output",
+            "toNode": 1680116321264,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 1679730382736,
+            "fromPin": "DxResource",
+            "toNode": 1680116186512,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1680116321264,
+            "fromPin": "uv(2)",
+            "toNode": 1680116186512,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 1679730383504,
+            "fromPin": "output",
+            "toNode": 1680116321264,
+            "toPin": "rotate"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1679633951296,
+            "name": "ResultNode",
+            "pos": [
+                750.0,
+                300.0
+            ]
+        },
+        {
+            "id": 1679730382736,
+            "name": "Texture",
+            "pos": [
+                280.0,
+                140.0
+            ],
+            "props": {
+                "textureName": "uvChecker.png"
+            }
+        },
+        {
+            "id": 1679730384656,
+            "name": "Property_Vector2",
+            "pos": [
+                30.0,
+                240.0
+            ],
+            "props": {
+                "value": [
+                    9.300000190734863,
+                    9.6899995803833
+                ]
+            }
+        },
+        {
+            "id": 1680116321264,
+            "name": "UVTransform",
+            "pos": [
+                310.0,
+                280.0
+            ]
+        },
+        {
+            "id": 1679730382352,
+            "name": "Property_Vector2",
+            "pos": [
+                30.0,
+                310.0
+            ],
+            "props": {
+                "value": [
+                    8.020000457763672,
+                    1.7000000476837158
+                ]
+            }
+        },
+        {
+            "id": 1679730383504,
+            "name": "Property_Float",
+            "pos": [
+                20.0,
+                400.0
+            ],
+            "props": {
+                "value": [
+                    0.8799999952316284
+                ]
+            }
+        },
+        {
+            "id": 1680116186512,
+            "name": "SampleTexture2D",
+            "pos": [
+                470.0,
+                260.0
+            ]
+        }
+    ]
+}

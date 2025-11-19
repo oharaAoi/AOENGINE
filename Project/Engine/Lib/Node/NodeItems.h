@@ -75,3 +75,9 @@ namespace Custom {
 		int32_t to;
 	};
 }
+
+struct NodeUVTransform {
+	Vector2 scale = CVector2::UNIT;
+	Vector2 translate = CVector2::ZERO;
+	float rotate = 0;
+};

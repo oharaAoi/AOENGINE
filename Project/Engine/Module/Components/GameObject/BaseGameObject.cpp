@@ -308,7 +308,7 @@ void BaseGameObject::SetTexture(const std::string& path) {
 
 void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
 	for (auto& material : materials) {
-		material.second->SetShaderGraphResource(_shaderGraph->GetResource());
+		material.second->SetShaderGraph(_shaderGraph);
 	}
 }
 
