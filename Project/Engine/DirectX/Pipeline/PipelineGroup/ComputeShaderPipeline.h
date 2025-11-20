@@ -35,14 +35,14 @@ public:
 	/// </summary>
 	/// <param name="device">: デバイス</param>
 	/// <param name="dxCompiler">: コンパイラ</param>
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) override;
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) override;
 
 	/// <summary>
 	/// パイプラインの設定
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="typeName">: パイプライン情報ファイルの名前</param>
-	void SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName);
+	void SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName);
 
 	/// <summary>
 	/// パイプラインの追加
@@ -50,8 +50,6 @@ public:
 	/// <param name="fileName">; ファイルの名前</param>
 	/// <param name="jsonData">: jsonデータ</param>
 	void AddPipeline(const std::string& fileName, json jsonData);
-
-private:
 
 };
 

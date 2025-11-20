@@ -14,13 +14,13 @@ public:
 	PipelineFactory() = default;
 	~PipelineFactory() = default;
 
-	void Init(DirectXDevice* dxDevice, DirectXCompiler* dxCompiler);
+	void Init(DirectXDevice* _dxDevice, DirectXCompiler* _dxCompiler);
 
 	void ShaderCompile();
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateInputLayout();
 
-	DXGI_FORMAT ReturnFormat(LPCSTR name);
+	DXGI_FORMAT ReturnFormat(LPCSTR _name);
 
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
 

@@ -54,13 +54,13 @@ public:
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="renderTypes">: レンダーターゲットのタイプ</param>
 	/// <param name="dsvHandle">: デプスハンドル</param>
-	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles dsvHandle);
+	void SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle);
 
 	/// <summary>
 	/// 深度バッファ
 	/// </summary>
 	/// <param name="commandList"></param>
-	void ClearDepth(ID3D12GraphicsCommandList* commandList);
+	void ClearDepth(ID3D12GraphicsCommandList* _commandList);
 
 	/// <summary>
 	/// swawChainで使用するRenderTargetを作成する

@@ -24,13 +24,13 @@ public:
 	/// <param name="device">デバイス</param>
 	/// <param name="dxCompiler">コンパイラー</param>
 	/// <param name="shaders">シェーダーファイルパスをまとめたクラス</param>
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler);
 
 	/// <summary>
 	/// 読み込み関数
 	/// </summary>
 	/// <param name="path">" パス</param>
-	void Load(const std::string& path);
+	void Load(const std::string& _path);
 
 	/// <summary>
 	/// Jsonファイルを読み込む関数
@@ -38,11 +38,11 @@ public:
 	/// <param name="directory">: ディレクトリパス</param>
 	/// <param name="fileName">: ファイル名</param>
 	/// <returns></returns>
-	json LoadJson(const std::string& directory, const std::string& fileName);
+	json LoadJson(const std::string& _directory, const std::string& _fileName);
 
 public:
 
-	void SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName);
+	void SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName);
 
 	Pipeline* GetLastUsedPipeline() const { return lastUsedPipeline_; }
 

@@ -24,7 +24,7 @@ public:
 	/// 初期化処理
 	/// </summary>
 	/// <param name="useAdapter"></param>
-	void Init(IDXGIAdapter4* useAdapter);
+	void Init(IDXGIAdapter4* _useAdapter);
 
 	/// <summary>
 	/// 終了処理

@@ -33,7 +33,7 @@ public:
 	/// 初期化関数
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* device);
+	void Init(ID3D12Device* _device);
 
 	/// <summary>
 	/// 終了関数
@@ -44,7 +44,7 @@ public:
 	/// SRVをセットする
 	/// </summary>
 	/// <param name="commandList"></param>
-	void SetSRVHeap(ID3D12GraphicsCommandList* commandList);
+	void SetSRVHeap(ID3D12GraphicsCommandList* _commandList);
 
 	/// <summary>
 	/// Viewを作成する際のアドレスを取得するための関数
@@ -52,7 +52,7 @@ public:
 	/// <param name="type">descriptorの種類</param>
 	/// <param name="descriptorSize">サイズ</param>
 	/// <returns></returns>
-	DescriptorHandles GetDescriptorHandle(const DescriptorHeapType& type);
+	DescriptorHandles GetDescriptorHandle(const DescriptorHeapType& _type);
 
 	/// <summary>
 	/// リストに入っているindexをheapから解放する
@@ -63,8 +63,8 @@ public:
 	/// リストに追加する
 	/// </summary>
 	/// <param name="index"></param>
-	static void AddFreeSrvList(int index);
-	static void AddFreeRtvList(int index);
+	static void AddFreeSrvList(int _index);
+	static void AddFreeRtvList(int _index);
 
 public:
 
@@ -96,9 +96,9 @@ public:
 	DescriptorHandles AllocateRTV();
 	DescriptorHandles AllocateDSV();
 
-	void FreeSRV(uint32_t index);
-	void FreeRTV(uint32_t index);
-	void FreeDSV(uint32_t index);
+	void FreeSRV(uint32_t _index);
+	void FreeRTV(uint32_t _index);
+	void FreeDSV(uint32_t _index);
 
 private:
 

@@ -4,9 +4,9 @@
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommands::Init(ID3D12Device* device) {
-	assert(device);
-	device_ = device;
+void DirectXCommands::Init(ID3D12Device* _device) {
+	assert(_device);
+	device_ = _device;
 
 	CreateCommand();
 	CreateFence();
@@ -77,14 +77,14 @@ void DirectXCommands::CreateFence() {
 // ↓ GPUと同期を取る
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommands::SyncGPUAndCPU(uint32_t currentIndex){
+void DirectXCommands::SyncGPUAndCPU(uint32_t _currentIndex){
 	// -----------------------------------------------
 	// 下記の用にするとスレッドが大量終了する
 	// -----------------------------------------------
 
 	// 現在のバックバッファの Index を取得する（この時点では fenceIndex_ は古いフレームのまま）
 	const auto prevFenceIndex = fenceIndex_;
-	fenceIndex_ = currentIndex;
+	fenceIndex_ = _currentIndex;
 
 	// 今フレームのフェンス値を取得
 	const auto currentValue = fanceCounter_[prevFenceIndex];

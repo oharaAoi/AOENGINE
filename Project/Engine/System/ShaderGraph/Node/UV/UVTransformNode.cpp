@@ -18,12 +18,6 @@ void UVTransformNode::customUpdate() {
 	offset_ = getInVal<Vector2>("offset");
 	rotate_ = getInVal<float>("rotate");
 
-	float cos = std::cosf(rotate_);
-	float sin = std::sinf(rotate_);
-
-	float x = inputUV_.x * (scale_.x * cos) - inputUV_.y * (scale_.x * sin) + offset_.x;
-	float y = inputUV_.x * (scale_.y * sin) + inputUV_.y * (scale_.y * cos) + offset_.y;
-
 	outputUV_.scale = scale_;
 	outputUV_.rotate = rotate_;
 	outputUV_.translate = offset_;

@@ -36,16 +36,16 @@ public:
 	/// <param name="device"></param>
 	/// <param name="dxHeap"></param>
 	/// <param name="type"></param>
-	void Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type);
+	void Init(ID3D12Device* _device, DescriptorHeap* _dxHeap, ResourceType _type);
 
 	/// <summary>
 	/// リソース作成
 	/// </summary>
 	/// <param name="size"></param>
-	void CreateResource(const size_t& size);
-	void CreateResource(const D3D12_RESOURCE_DESC* resourceDesc, const D3D12_HEAP_PROPERTIES* heapProperties,
-							const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState);
-	void CreateDepthResource(uint32_t width, uint32_t height);
+	void CreateResource(const size_t& _size);
+	void CreateResource(const D3D12_RESOURCE_DESC* _resourceDesc, const D3D12_HEAP_PROPERTIES* _heapProperties,
+							const D3D12_HEAP_FLAGS& _heapFlags, const D3D12_RESOURCE_STATES& _resourceState);
+	void CreateDepthResource(uint32_t _width, uint32_t _height);
 
 	void CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source);
 
@@ -53,16 +53,16 @@ public:
 	/// Viewの作成
 	/// </summary>
 	/// <param name="desc"></param>
-	void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc);
-	void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc);
-	void CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& desc);
+	void CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& _desc);
+	void CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& _desc);
+	void CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& _desc);
 
 	/// <summary>
 	/// Swapchainの設定
 	/// </summary>
 	/// <param name="swapChain"></param>
-	/// <param name="indexn"></param>
-	void SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t indexn);
+	/// <param name="index"></param>
+	void SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint32_t index);
 
 	/// <summary>
 	/// 遷移
@@ -70,8 +70,8 @@ public:
 	/// <param name="commandList"></param>
 	/// <param name="befor"></param>
 	/// <param name="after"></param>
-	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after);
-	void Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after);
+	void Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after);
+	void Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after);
 
 public:
 

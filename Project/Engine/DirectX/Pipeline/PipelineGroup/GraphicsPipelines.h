@@ -44,14 +44,14 @@ public :
 	/// <param name="device">デバイス</param>
 	/// <param name="dxCompiler">コンパイラー</param>
 	/// <param name="shaders">シェーダーファイルパスをまとめたクラス</param>
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler);
 
 	/// <summary>
 	/// 読み込み関数
 	/// </summary>
 	/// <param name="path">: ファイルパス</param>
 	/// <param name="type">; パイプラインのタイプ</param>
-	void Load(const std::string& path, PSOType type);
+	void Load(const std::string& _path, PSOType _type);
 
 	/// <summary>
 	/// jsonデータ読み込み
@@ -59,7 +59,7 @@ public :
 	/// <param name="directory">: ディレクトリパス</param>
 	/// <param name="fileName">: ファイル名</param>
 	/// <returns></returns>
-	json LoadJson(const std::string& directory, const std::string& fileName);
+	json LoadJson(const std::string& _directory, const std::string& _fileName);
 
 	/// <summary>
 	/// パイプラインの設定
@@ -67,7 +67,7 @@ public :
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="type">: タイプ</param>
 	/// <param name="typeName">: パイプラインのファイル名</param>
-	void SetPipeline(ID3D12GraphicsCommandList* commandList, PSOType type, const std::string& typeName);
+	void SetPipeline(ID3D12GraphicsCommandList* _commandList, PSOType _type, const std::string& _typeName);
 
 	/// <summary>
 	/// 最後に使用したパイプラインのポインタを返す

@@ -1,13 +1,13 @@
 #include "PipelineFactory.h"
 
 
-void PipelineFactory::Init(DirectXDevice* dxDevice, DirectXCompiler* dxCompiler) {
-	dxDevice_ = dxDevice;
-	dxCompiler_ = dxCompiler;
+void PipelineFactory::Init(DirectXDevice* _dxDevice, DirectXCompiler* _dxCompiler) {
+	dxDevice_ = _dxDevice;
+	dxCompiler_ = _dxCompiler;
 	
 	ShaderCompile();
-	vsReflection_ = dxCompiler->ReadShaderReflection(vertexShaderBlob_.Get());
-	psReflection_ = dxCompiler->ReadShaderReflection(pixelShaderBlob_.Get());
+	vsReflection_ = _dxCompiler->ReadShaderReflection(vertexShaderBlob_.Get());
+	psReflection_ = _dxCompiler->ReadShaderReflection(pixelShaderBlob_.Get());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,12 +50,12 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> PipelineFactory::CreateInputLayout() {
 	return inputLayout;
 }
 
-DXGI_FORMAT PipelineFactory::ReturnFormat(LPCSTR name) {
-	if (name == static_cast<LPCSTR>("TEXCOORD")) {
+DXGI_FORMAT PipelineFactory::ReturnFormat(LPCSTR _name) {
+	if (_name == static_cast<LPCSTR>("TEXCOORD")) {
 		return DXGI_FORMAT_R32G32_FLOAT;
-	} else if (name == static_cast<LPCSTR>("NORMAL") || name == static_cast<LPCSTR>("TANGENT")) {
+	} else if (_name == static_cast<LPCSTR>("NORMAL") || _name == static_cast<LPCSTR>("TANGENT")) {
 		return DXGI_FORMAT_R32G32B32_FLOAT;
-	} else if (name == static_cast<LPCSTR>("INDEX")) {
+	} else if (_name == static_cast<LPCSTR>("INDEX")) {
 		return DXGI_FORMAT_R32G32B32A32_SINT;
 	} else {
 		return DXGI_FORMAT_R32G32B32A32_FLOAT;

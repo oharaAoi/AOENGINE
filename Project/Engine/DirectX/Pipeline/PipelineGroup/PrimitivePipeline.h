@@ -27,13 +27,13 @@ public:
 	/// </summary>
 	/// <param name="device">: デバイス</param>
 	/// <param name="dxCompiler">: コンパイラ</param>
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler);
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler);
 
 	/// <summary>
 	/// コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	void BindCommand(ID3D12GraphicsCommandList* commandList);
+	void BindCommand(ID3D12GraphicsCommandList* _commandList);
 
 	/// <summary>
 	/// 終了処理
@@ -47,12 +47,12 @@ public:
 	/// </summary>
 	/// <param name="elementDesc">要素の配列</param>
 	/// <returns></returns>
-	D3D12_INPUT_LAYOUT_DESC CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc);
+	D3D12_INPUT_LAYOUT_DESC CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& _elementDesc);
 
 	/// <summary>
 	/// Shaderをcompileする
 	/// </summary>
-	void ShaderCompile(const std::string& vertexShader, const std::string& pixelShader);
+	void ShaderCompile(const std::string& _vertexShader, const std::string& _pixelShader);
 
 	/// <summary>
 	/// BlendStateの設定

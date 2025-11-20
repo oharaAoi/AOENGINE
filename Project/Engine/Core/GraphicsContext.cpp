@@ -9,10 +9,10 @@ GraphicsContext* GraphicsContext::GetInstance() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsContext::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
+void GraphicsContext::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight) {
 	// dxcommonの初期化
 	dxCommon_ = std::make_unique<DirectXCommon>();
-	dxCommon_->Init(win, backBufferWidth, backBufferHeight);
+	dxCommon_->Init(_win, _backBufferWidth, _backBufferHeight);
 
 	// ----------------------
 	// ↓ 定義処理

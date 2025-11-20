@@ -9,9 +9,9 @@ std::list<int> DescriptorHeap::freeRtvList_;
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::Init(ID3D12Device* device) {
-	assert(device);
-	device_ = device;
+void DescriptorHeap::Init(ID3D12Device* _device) {
+	assert(_device);
+	device_ = _device;
 
 	// サイズに定義
 	if (!descriptorSize_) {
@@ -78,15 +78,15 @@ void DescriptorHeap::Finalize() {
 // ↓ accessor
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* commandList) {
+void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* _commandList) {
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvHeap_.Get() };
-	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
-DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& type) {
+DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& _type) {
 	DescriptorHandles handle{};
 
-	switch (type) {
+	switch (_type) {
 	case DescriptorHeapType::TYPE_SRV:
 		handle.handleCPU = GetCPUDescriptorHandle(srvHeap_.Get(), descriptorSize_->GetSRV(), (static_cast<int>(useSrvIndex_) + 1));
 		handle.handleGPU = GetGPUDescriptorHandle(srvHeap_.Get(), descriptorSize_->GetSRV(), (static_cast<int>(useSrvIndex_) + 1));
@@ -121,15 +121,15 @@ void DescriptorHeap::FreeList() {
 	freeRtvList_.clear();
 }
 
-void DescriptorHeap::AddFreeSrvList(int index) {
-	if (index >= 0) {
-		freeSrvList_.push_back(index);
+void DescriptorHeap::AddFreeSrvList(int _index) {
+	if (_index >= 0) {
+		freeSrvList_.push_back(_index);
 	}
 }
 
-void DescriptorHeap::AddFreeRtvList(int index) {
-	if (index >= 0) {
-		freeRtvList_.push_back(index);
+void DescriptorHeap::AddFreeRtvList(int _index) {
+	if (_index >= 0) {
+		freeRtvList_.push_back(_index);
 	}
 }
 
@@ -153,14 +153,14 @@ DescriptorHandles DescriptorHeap::AllocateDSV() {
 // ↓ 解放処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::FreeSRV(uint32_t index) {
-	srvAllocator_->Free(index);
+void DescriptorHeap::FreeSRV(uint32_t _index) {
+	srvAllocator_->Free(_index);
 }
 
-void DescriptorHeap::FreeRTV(uint32_t index) {
-	rtvAllocator_->Free(index);
+void DescriptorHeap::FreeRTV(uint32_t _index) {
+	rtvAllocator_->Free(_index);
 }
 
-void DescriptorHeap::FreeDSV(uint32_t index) {
-	dsvAllocator_->Free(index);
+void DescriptorHeap::FreeDSV(uint32_t _index) {
+	dsvAllocator_->Free(_index);
 }

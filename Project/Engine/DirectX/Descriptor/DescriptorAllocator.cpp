@@ -9,15 +9,15 @@ DescriptorAllocator::~DescriptorAllocator() {
 // ↓ 生成をする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptorHeap) {
+DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* _descriptorHeap) {
 	if (!freeStack_.empty()) {
 		// 再利用可能なインデックスをスタックから取得
 		uint32_t reusedIndex = freeStack_.top();
 		freeStack_.pop();
-		return GetDescriptorHandle(descriptorHeap, reusedIndex);
+		return GetDescriptorHandle(_descriptorHeap, reusedIndex);
 	} else if (currentIndex_ < (int)totalDescriptors_) {
 		// 新しいディスクリプタを割り当て
-		return GetDescriptorHandle(descriptorHeap, currentIndex_++);
+		return GetDescriptorHandle(_descriptorHeap, currentIndex_++);
 	} else {
 		throw std::runtime_error("No more descriptors available.");
 	}
@@ -27,9 +27,9 @@ DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* descriptor
 // ↓ 解放をする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorAllocator::Free(uint32_t index) {
-	freeStack_.push(index);  // フリースタックに戻す
-	std::string name = std::to_string(index);
+void DescriptorAllocator::Free(uint32_t _index) {
+	freeStack_.push(_index);  // フリースタックに戻す
+	std::string name = std::to_string(_index);
 	Logger::Log("pushFreeHeap" + name + "\n");
 }
 
@@ -37,20 +37,20 @@ void DescriptorAllocator::Free(uint32_t index) {
 // ↓ 次のポインタハンドルを返す
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap, uint32_t index) {
+DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap* _descriptorHeap, uint32_t _index) {
 	DescriptorHandles handles;
-	handles.handleCPU = descriptorHeap->GetCPUDescriptorHandleForHeapStart();
+	handles.handleCPU = _descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
 	if (type_ == SAHADERVIEW) {
-		handles.handleGPU = descriptorHeap->GetGPUDescriptorHandleForHeapStart();
+		handles.handleGPU = _descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	} else if (type_ == DSV) {
 
 	}
-	handles.assignIndex_ = index;
+	handles.assignIndex_ = _index;
 	// インデックスに基づきディスクリプタのオフセットを計算
-	handles.handleCPU.ptr += descriptorSize_ * index;
+	handles.handleCPU.ptr += descriptorSize_ * _index;
 	if (type_ == SAHADERVIEW) {
-		handles.handleGPU.ptr += descriptorSize_ * index;
+		handles.handleGPU.ptr += descriptorSize_ * _index;
 	}
 	return handles;
 }

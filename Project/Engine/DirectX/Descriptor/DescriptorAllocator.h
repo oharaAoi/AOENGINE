@@ -17,8 +17,8 @@ enum DescriptorType {
 class DescriptorAllocator {
 public:
 
-	DescriptorAllocator(DescriptorType type, uint32_t totalDescriptors, uint32_t descriptorSize, int index)
-		: type_(type), totalDescriptors_(totalDescriptors), descriptorSize_(descriptorSize), currentIndex_(index) {
+	DescriptorAllocator(DescriptorType _type, uint32_t _totalDescriptors, uint32_t _descriptorSize, int _index)
+		: type_(_type), totalDescriptors_(_totalDescriptors), descriptorSize_(_descriptorSize), currentIndex_(_index) {
 	}
 	~DescriptorAllocator();
 
@@ -29,18 +29,17 @@ public:
 	/// </summary>
 	/// <param name="descriptorHeap">: Heap</param>
 	/// <returns></returns>
-	DescriptorHandles Allocate(ID3D12DescriptorHeap* descriptorHeap);
+	DescriptorHandles Allocate(ID3D12DescriptorHeap* _descriptorHeap);
 
 	/// <summary>
 	/// 解放
 	/// </summary>
 	/// <param name="index">: heapのindex</param>
-	void Free(uint32_t index);
+	void Free(uint32_t _index);
 
 public:
 
-	DescriptorHandles GetDescriptorHandle(ID3D12DescriptorHeap* descriptorHeap,
-														  uint32_t index);
+	DescriptorHandles GetDescriptorHandle(ID3D12DescriptorHeap* _descriptorHeap, uint32_t _index);
 
 private:
 

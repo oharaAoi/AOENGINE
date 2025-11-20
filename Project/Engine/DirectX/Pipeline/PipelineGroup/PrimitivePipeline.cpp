@@ -10,12 +10,12 @@ PrimitivePipeline::~PrimitivePipeline() {}
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
-	device_ = device;
-	dxCompiler_ = dxCompiler;
+void PrimitivePipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) {
+	device_ = _device;
+	dxCompiler_ = _dxCompiler;
 
 	// パイプライン生成の準備
-	rootSignature_->Initialize(device, RootSignatureType::Primitive);
+	rootSignature_->Initialize(_device, RootSignatureType::Primitive);
 	elementDescs = inputLayout_.CreatePrimitive();
 	ShaderCompile("./Project/Packages/Engine/Assets/HLSL/Primitive.VS.hlsl", "./Project/Packages/Engine/Assets/HLSL/Primitive.PS.hlsl");
 
@@ -27,10 +27,10 @@ void PrimitivePipeline::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) 
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitivePipeline::BindCommand(ID3D12GraphicsCommandList* commandList) {
-	commandList->SetGraphicsRootSignature(rootSignature_->GetRootSignature());
-	commandList->SetPipelineState(graphicsPipelineState_.Get());
-	commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+void PrimitivePipeline::BindCommand(ID3D12GraphicsCommandList* _commandList) {
+	_commandList->SetGraphicsRootSignature(rootSignature_->GetRootSignature());
+	_commandList->SetPipelineState(graphicsPipelineState_.Get());
+	_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -48,10 +48,10 @@ void PrimitivePipeline::Finalize() {
 // ↓ Inputlayoutの作詞絵
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc) {
+D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& _elementDesc) {
 	D3D12_INPUT_LAYOUT_DESC result{};
-	result.pInputElementDescs = elementDesc.data();
-	result.NumElements = static_cast<UINT>(elementDesc.size());
+	result.pInputElementDescs = _elementDesc.data();
+	result.NumElements = static_cast<UINT>(_elementDesc.size());
 	return result;
 }
 
@@ -59,11 +59,11 @@ D3D12_INPUT_LAYOUT_DESC PrimitivePipeline::CreateInputLayout(const std::vector<D
 // ↓ shaderを読み込む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitivePipeline::ShaderCompile(const std::string& vertexShader, const std::string& pixelShader) {
-	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(vertexShader);
+void PrimitivePipeline::ShaderCompile(const std::string& _vertexShader, const std::string& _pixelShader) {
+	vertexShaderBlob_ = dxCompiler_->VsShaderCompile(_vertexShader);
 	assert(vertexShaderBlob_ != nullptr);
 
-	pixelShaderBlob_ = dxCompiler_->PsShaderCompile(pixelShader);
+	pixelShaderBlob_ = dxCompiler_->PsShaderCompile(_pixelShader);
 	assert(pixelShaderBlob_ != nullptr);
 }
 

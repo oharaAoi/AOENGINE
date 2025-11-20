@@ -13,10 +13,10 @@ private:
 
 public:
 
-	DescriptorSize(uint32_t srvSize, uint32_t rtvSize, uint32_t dsvSize) :
-		descriptorSizeSRV_(srvSize),
-		descriptorSizeRTV_(rtvSize),
-		descriptorSizeDSV_(dsvSize)
+	DescriptorSize(uint32_t _srvSize, uint32_t _rtvSize, uint32_t _dsvSize) :
+		descriptorSizeSRV_(_srvSize),
+		descriptorSizeRTV_(_rtvSize),
+		descriptorSizeDSV_(_dsvSize)
 	{}
 	
 	uint32_t GetSRV() const { return descriptorSizeSRV_; }

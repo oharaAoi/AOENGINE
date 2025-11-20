@@ -30,9 +30,9 @@ void DirectXCompiler::Finalize() {
 // ↓ vertex shaderのコンパイル
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<IDxcBlob> DirectXCompiler::VsShaderCompile(const std::string& shader) {
+ComPtr<IDxcBlob> DirectXCompiler::VsShaderCompile(const std::string& _shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"main", L"vs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(_shader), L"main", L"vs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();
@@ -42,9 +42,9 @@ ComPtr<IDxcBlob> DirectXCompiler::VsShaderCompile(const std::string& shader) {
 // ↓ pixel shaderのコンパイル
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<IDxcBlob> DirectXCompiler::PsShaderCompile(const std::string& shader) {
+ComPtr<IDxcBlob> DirectXCompiler::PsShaderCompile(const std::string& _shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"main", L"ps_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(_shader), L"main", L"ps_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();
@@ -54,9 +54,9 @@ ComPtr<IDxcBlob> DirectXCompiler::PsShaderCompile(const std::string& shader) {
 // ↓ compute shaderのコンパイル
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<IDxcBlob> DirectXCompiler::CsShaderCompile(const std::string& shader) {
+ComPtr<IDxcBlob> DirectXCompiler::CsShaderCompile(const std::string& _shader) {
 	ComPtr<IDxcBlob> result{};
-	result = CompilerShader(ConvertWString(shader), L"CSmain", L"cs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
+	result = CompilerShader(ConvertWString(_shader), L"CSmain", L"cs_6_6", dxcUtils_.Get(), dxcCompiler_.Get(), includeHandler_.Get());
 	assert(result != nullptr);
 
 	return result.Get();
@@ -66,14 +66,14 @@ ComPtr<IDxcBlob> DirectXCompiler::CsShaderCompile(const std::string& shader) {
 // ↓ shaderからパイプライン生成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-ComPtr<ID3D12ShaderReflection> DirectXCompiler::ReadShaderReflection(IDxcBlob* blob) {
+ComPtr<ID3D12ShaderReflection> DirectXCompiler::ReadShaderReflection(IDxcBlob* _blob) {
 	ComPtr<IDxcUtils> dxcUtils;
 	HRESULT hr = DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
 	assert(SUCCEEDED(hr));
 
 	DxcBuffer dxcBuffer = {};
-	dxcBuffer.Ptr = blob->GetBufferPointer();
-	dxcBuffer.Size = blob->GetBufferSize();
+	dxcBuffer.Ptr = _blob->GetBufferPointer();
+	dxcBuffer.Size = _blob->GetBufferSize();
 	dxcBuffer.Encoding = DXC_CP_ACP; // ANSI, 通常これでOK
 
 	ComPtr<ID3D12ShaderReflection> pReflector;

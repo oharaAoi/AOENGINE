@@ -25,15 +25,15 @@ void DxResource::Destroy() {
 	isDestroy_ = true;
 }
 
-void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType type) {
+void DxResource::Init(ID3D12Device* _device, DescriptorHeap* _dxHeap, ResourceType _type) {
 
-	assert(device);
-	assert(dxHeap);
+	assert(_device);
+	assert(_dxHeap);
 
-	pDevice_ = device;
-	pDxHeap_ = dxHeap;
+	pDevice_ = _device;
+	pDxHeap_ = _dxHeap;
 
-	type_ = type;
+	type_ = _type;
 
 	isDestroy_ = false;
 }
@@ -42,29 +42,29 @@ void DxResource::Init(ID3D12Device* device, DescriptorHeap* dxHeap, ResourceType
 // ↓　BufferResourceの作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateResource(const size_t& size) {
-	cBuffer_ = CreateBufferResource(pDevice_, size);
+void DxResource::CreateResource(const size_t& _size) {
+	cBuffer_ = CreateBufferResource(pDevice_, _size);
 }
 
-void DxResource::CreateResource(const D3D12_RESOURCE_DESC* resourceDesc, const D3D12_HEAP_PROPERTIES* heapProperties,
-									const D3D12_HEAP_FLAGS& heapFlags, const D3D12_RESOURCE_STATES& resourceState) {
-	desc_ = *resourceDesc;
+void DxResource::CreateResource(const D3D12_RESOURCE_DESC* _resourceDesc, const D3D12_HEAP_PROPERTIES* _heapProperties,
+									const D3D12_HEAP_FLAGS& _heapFlags, const D3D12_RESOURCE_STATES& _resourceState) {
+	desc_ = *_resourceDesc;
 	HRESULT hr;
 	hr = pDevice_->CreateCommittedResource(
-		heapProperties,
-		heapFlags,
-		resourceDesc,
-		resourceState,
+		_heapProperties,
+		_heapFlags,
+		_resourceDesc,
+		_resourceState,
 		nullptr,
 		IID_PPV_ARGS(&cBuffer_)
 	);
 	assert(SUCCEEDED(hr));
 
-	bufferState_ = resourceState;
+	bufferState_ = _resourceState;
 }
 
-void DxResource::CreateDepthResource(uint32_t width, uint32_t height) {
-	cBuffer_ = CreateDepthStencilTextureResource(pDevice_, width, height);
+void DxResource::CreateDepthResource(uint32_t _width, uint32_t _height) {
+	cBuffer_ = CreateDepthStencilTextureResource(pDevice_, _width, _height);
 }
 
 void DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source) {
@@ -109,36 +109,36 @@ void DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxR
 // ↓　SRVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& desc) {
+void DxResource::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& _desc) {
 	srvAddress_ = pDxHeap_->AllocateSRV();
-	pDevice_->CreateShaderResourceView(cBuffer_.Get(), &desc, srvAddress_.value().handleCPU);
+	pDevice_->CreateShaderResourceView(cBuffer_.Get(), &_desc, srvAddress_.value().handleCPU);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ UAVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& desc) {
+void DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& _desc) {
 	uavAddress_ = pDxHeap_->AllocateSRV();
-	pDevice_->CreateUnorderedAccessView(cBuffer_.Get(), nullptr, &desc, uavAddress_.value().handleCPU);
+	pDevice_->CreateUnorderedAccessView(cBuffer_.Get(), nullptr, &_desc, uavAddress_.value().handleCPU);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　RTVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& desc) {
+void DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& _desc) {
 	rtvAddress_ = pDxHeap_->AllocateRTV();
-	pDevice_->CreateRenderTargetView(cBuffer_.Get(), &desc, rtvAddress_.value().handleCPU);
+	pDevice_->CreateRenderTargetView(cBuffer_.Get(), &_desc, rtvAddress_.value().handleCPU);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　swapChainのBufferにResourceを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t index) {
+void DxResource::SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint32_t _index) {
 	HRESULT hr = S_FALSE;
-	hr = swapChain->GetBuffer(index, IID_PPV_ARGS(&cBuffer_));
+	hr = _swapChain->GetBuffer(_index, IID_PPV_ARGS(&cBuffer_));
 	assert(SUCCEEDED(hr));
 }
 
@@ -146,21 +146,21 @@ void DxResource::SetSwapChainBuffer(IDXGISwapChain4* swapChain, uint32_t index) 
 // ↓　遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& befor, const D3D12_RESOURCE_STATES& after) {
-	if (befor != bufferState_) {
+void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after) {
+	if (_befor != bufferState_) {
 		Logger::Log("now : " + ResourceStateToString(bufferState_) + "\n");
-		Logger::Log("target : " + ResourceStateToString(befor) + "\n");
+		Logger::Log("target : " + ResourceStateToString(_befor) + "\n");
 		Logger::Log("ResourceState MissMatch\n");
 		assert("ResourceState MissMatch");
 	}
-	TransitionResourceState(commandList, cBuffer_.Get(), befor, after);
-	bufferState_ = after;
+	TransitionResourceState(_commandList, cBuffer_.Get(), _befor, _after);
+	bufferState_ = _after;
 }
 
-void DxResource::Transition(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& after) {
-	if (bufferState_ != after) {
-		TransitionResourceState(commandList, cBuffer_.Get(), bufferState_, after);
-		bufferState_ = after;
+void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after) {
+	if (bufferState_ != _after) {
+		TransitionResourceState(_commandList, cBuffer_.Get(), bufferState_, _after);
+		bufferState_ = _after;
 	}
 }
 

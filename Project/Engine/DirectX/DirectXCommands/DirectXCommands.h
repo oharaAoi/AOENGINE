@@ -27,7 +27,7 @@ public:
 	/// 初期化処理
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* device);
+	void Init(ID3D12Device* _device);
 
 	/// <summary>
 	/// 終了処理
@@ -47,7 +47,7 @@ public:
 	/// <summary>
 	/// CPUとGPUの同期をはかる
 	/// </summary>
-	void SyncGPUAndCPU(uint32_t currentIndex);
+	void SyncGPUAndCPU(uint32_t _currentIndex);
 
 
 public:

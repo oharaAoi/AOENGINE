@@ -8,11 +8,11 @@
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight) {
-	assert(win);
-	winApp_ = win;
-	kClientWidth_ = backBufferWidth;
-	kClientHeight_ = backBufferHeight;
+void DirectXCommon::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight) {
+	assert(_win);
+	winApp_ = _win;
+	kClientWidth_ = _backBufferWidth;
+	kClientHeight_ = _backBufferHeight;
 
 	// --------------------- DirectXの初期化 --------------------- //
 
@@ -183,17 +183,17 @@ void DirectXCommon::SetError() {
 // ↓ DixrectXの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget, DxResourceManager* resourceManager) {
-	assert(device);
-	assert(descriptorHeaps);
-	assert(dxCommands);
-	assert(renderTarget);
+void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager) {
+	assert(_device);
+	assert(_descriptorHeaps);
+	assert(_dxCommands);
+	assert(_renderTarget);
 
-	device_ = device;
-	descriptorHeaps_ = descriptorHeaps;
-	dxCommands_ = dxCommands;
-	renderTarget_ = renderTarget;
-	dxResourceManager_ = resourceManager;
+	device_ = _device;
+	descriptorHeaps_ = _descriptorHeaps;
+	dxCommands_ = _dxCommands;
+	renderTarget_ = _renderTarget;
+	dxResourceManager_ = _resourceManager;
 
 	// ----------------------------------------------------------------------------------------
 	SetError();

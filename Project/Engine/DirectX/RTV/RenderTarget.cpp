@@ -38,31 +38,31 @@ void RenderTarget::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　RenderTargetを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* commandList, const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles dsvHandle) {
+void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle) {
 	// MRT用に複数のRTVハンドルを用意
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
-	rtvHandles.reserve(renderTypes.size());
-	for (size_t index = 0; index < renderTypes.size(); ++index) {
-		rtvHandles.push_back(renderTargetResource_[renderTypes[index]]->GetRTV().handleCPU);
+	rtvHandles.reserve(_renderTypes.size());
+	for (size_t index = 0; index < _renderTypes.size(); ++index) {
+		rtvHandles.push_back(renderTargetResource_[_renderTypes[index]]->GetRTV().handleCPU);
 	}
 
-	commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(),FALSE, &dsvHandle.handleCPU);
+	_commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(),FALSE, &_dsvHandle.handleCPU);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	// 各レンダーターゲットをクリア
 	for (auto& rtv : rtvHandles) {
-		commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
+		_commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
 	}
 	// 指定した深度で画面をクリア
-	commandList->ClearDepthStencilView(dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	_commandList->ClearDepthStencilView(_dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
-	commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
+	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
-void RenderTarget::ClearDepth(ID3D12GraphicsCommandList* commandList) {
+void RenderTarget::ClearDepth(ID3D12GraphicsCommandList* _commandList) {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
-	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+	_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,7 +160,7 @@ void RenderTarget::CreateRenderTarget() {
 // ↓　RenderTargetの状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RenderTarget::TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	renderTargetResource_[renderType]->Transition(commandList, beforState, afterState);
+void RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforState, const D3D12_RESOURCE_STATES& _afterState) {
+	renderTargetResource_[_renderType]->Transition(_commandList, _beforState, _afterState);
 }
 

@@ -22,20 +22,20 @@ void GraphicsPipelines::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
-	assert(device);
-	assert(dxCompiler);
+void GraphicsPipelines::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) {
+	assert(_device);
+	assert(_dxCompiler);
 	
-	device_ = device;
-	dxCompiler_ = dxCompiler;
+	device_ = _device;
+	dxCompiler_ = _dxCompiler;
 	
 	obj3dPipeline_ = std::make_unique<Object3dPipelines>();
 	spritePipeline_ = std::make_unique<SpritePipelines>();
 	processedScenePipeline_ = std::make_unique<ProcessedScenePipelines>();
 
-	obj3dPipeline_->Init(device, dxCompiler);
-	spritePipeline_->Init(device, dxCompiler);
-	processedScenePipeline_->Init(device, dxCompiler);
+	obj3dPipeline_->Init(device_, dxCompiler_);
+	spritePipeline_->Init(device_, dxCompiler_);
+	processedScenePipeline_->Init(device_, dxCompiler_);
 
 	// engine用
 	Load(kEngineAssets.object, PSOType::Object3d);
@@ -51,14 +51,14 @@ void GraphicsPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) 
 // ↓ 読み込み処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsPipelines::Load(const std::string& path, PSOType type) {
-	if (!fs::exists(path)) {
-		std::cerr << "Warning: path not found -> " << path << std::endl;
+void GraphicsPipelines::Load(const std::string& _path, PSOType _type) {
+	if (!fs::exists(_path)) {
+		std::cerr << "Warning: path not found -> " << _path << std::endl;
 		return;
 	}
 
 	// パイプラン情報を読み込む
-	for (const auto& entry : fs::recursive_directory_iterator(path)) {
+	for (const auto& entry : fs::recursive_directory_iterator(_path)) {
 		if (entry.is_regular_file()) {
 			std::string ext = entry.path().extension().string();
 
@@ -66,7 +66,7 @@ void GraphicsPipelines::Load(const std::string& path, PSOType type) {
 				std::string directory = entry.path().parent_path().string();
 				std::string fileName = entry.path().filename().string();
 				
-				switch (type) {
+				switch (_type) {
 				case PSOType::Object3d:
 					obj3dPipeline_->AddPipeline(fileName, LoadJson(directory, fileName));
 					break;
@@ -91,8 +91,8 @@ void GraphicsPipelines::Load(const std::string& path, PSOType type) {
 // ↓ jsonからパイプライン情報を読取る
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-json GraphicsPipelines::LoadJson(const std::string& directory, const std::string& fileName) {
-	std::string filePath = directory + "/" + fileName;
+json GraphicsPipelines::LoadJson(const std::string& _directory, const std::string& _fileName) {
+	std::string filePath = _directory + "/" + _fileName;
 
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;
@@ -118,18 +118,18 @@ json GraphicsPipelines::LoadJson(const std::string& directory, const std::string
 // ↓ パイプラインを設定する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GraphicsPipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, PSOType type, const std::string& typeName) {
-	switch (type) {
+void GraphicsPipelines::SetPipeline(ID3D12GraphicsCommandList* _commandList, PSOType _type, const std::string& _typeName) {
+	switch (_type) {
 	case PSOType::Object3d:
-		obj3dPipeline_->SetPipeline(commandList, typeName);
+		obj3dPipeline_->SetPipeline(_commandList, _typeName);
 		lastUsedPipeline_ = obj3dPipeline_->GetLastUsedPipeline();
 		break;
 	case PSOType::Sprite:
-		spritePipeline_->SetPipeline(commandList, typeName);
+		spritePipeline_->SetPipeline(_commandList, _typeName);
 		lastUsedPipeline_ = spritePipeline_->GetLastUsedPipeline();
 		break;
 	case PSOType::ProcessedScene:
-		processedScenePipeline_->SetPipeline(commandList, typeName);
+		processedScenePipeline_->SetPipeline(_commandList, _typeName);
 		lastUsedPipeline_ = processedScenePipeline_->GetLastUsedPipeline();
 		break;
 	default:

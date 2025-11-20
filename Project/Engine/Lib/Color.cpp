@@ -9,6 +9,6 @@ Color Color::Lerp(const Color& _a, const Color& _b, float _t) {
 	);
 }
 
-Color Color::RgbTo01(float r, float g, float b) {
-	return Color(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f);
+Color Color::RgbTo01(float _r, float _g, float _b) {
+	return Color(_r / 255.0f, _g / 255.0f, _b / 255.0f, 1.0f);
 }

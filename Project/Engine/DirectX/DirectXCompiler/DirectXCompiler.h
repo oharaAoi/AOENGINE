@@ -31,16 +31,16 @@ public:
 	/// </summary>
 	void Finalize();
 
-	ComPtr<IDxcBlob> VsShaderCompile(const std::string& shader);
-	ComPtr<IDxcBlob> PsShaderCompile(const std::string& shader);
-	ComPtr<IDxcBlob> CsShaderCompile(const std::string& shader);
+	ComPtr<IDxcBlob> VsShaderCompile(const std::string& _shader);
+	ComPtr<IDxcBlob> PsShaderCompile(const std::string& _shader);
+	ComPtr<IDxcBlob> CsShaderCompile(const std::string& _shader);
 
 	/// <summary>
 	/// ShaderReflectionを返す
 	/// </summary>
 	/// <param name="blob"></param>
 	/// <returns></returns>
-	ComPtr<ID3D12ShaderReflection> ReadShaderReflection(IDxcBlob* blob);
+	ComPtr<ID3D12ShaderReflection> ReadShaderReflection(IDxcBlob* _blob);
 
 private:
 

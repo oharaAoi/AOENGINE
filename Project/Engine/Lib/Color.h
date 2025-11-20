@@ -25,7 +25,7 @@ public: // method
 
 	static Color Lerp(const Color& _a, const Color& b, float _t);
 
-	static Color RgbTo01(float r, float g, float b);
+	static Color RgbTo01(float _r, float _g, float _b);
 
 public: // operator
 

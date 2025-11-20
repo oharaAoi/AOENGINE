@@ -11,7 +11,7 @@ void DirectXDevice::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXDevice::Init(IDXGIAdapter4* useAdapter) {
+void DirectXDevice::Init(IDXGIAdapter4* _useAdapter) {
 	HRESULT hr;
 	device_ = nullptr;
 	// 機能レベルとログ出力四の文字列
@@ -24,7 +24,7 @@ void DirectXDevice::Init(IDXGIAdapter4* useAdapter) {
 	// 高い順に生成できるか試していく
 	for (size_t levels = 0; levels < _countof(featureLevels); ++levels) {
 		// 採用したアダプターでデバイスを生成
-		hr = D3D12CreateDevice(useAdapter, featureLevels[levels], IID_PPV_ARGS(&device_));
+		hr = D3D12CreateDevice(_useAdapter, featureLevels[levels], IID_PPV_ARGS(&device_));
 
 		// 指定した機能レベルでデバイスが生成出来たか確認
 		if (SUCCEEDED(hr)) {

@@ -37,12 +37,12 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init(WinApp* win, int32_t backBufferWidth, int32_t backBufferHeight);
+	void Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
 
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* device, DirectXCommands* dxCommands, DescriptorHeap* descriptorHeaps, RenderTarget* renderTarget, DxResourceManager* resourceManager);
+	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// 終了関数

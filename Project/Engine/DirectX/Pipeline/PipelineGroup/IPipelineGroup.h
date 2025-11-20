@@ -18,7 +18,7 @@ public:
 	/// </summary>
 	/// <param name="device">: デバイス</param>
 	/// <param name="dxCompiler">: コンパイラ</param>
-	virtual void Init(ID3D12Device* device, DirectXCompiler* dxCompiler) = 0;
+	virtual void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) = 0;
 
 	/// <summary>
 	/// 最後に使用したパイプラインを返す

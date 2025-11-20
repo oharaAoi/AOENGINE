@@ -90,19 +90,19 @@ public:
 	/// <param name="device">: デバイス</param>
 	/// <param name="dxCompiler">: コンパイラ</param>
 	/// <param name="jsonData">: jsonデータ</param>
-	void Init(ID3D12Device* device, DirectXCompiler* dxCompiler, const json& jsonData);
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const json& _jsonData);
 
 	/// <summary>
 	/// コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	void BindCommand(ID3D12GraphicsCommandList* commandList);
+	void BindCommand(ID3D12GraphicsCommandList* _commandList);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="commandList"></param>
-	void SetComputeState(ID3D12GraphicsCommandList* commandList);
+	void SetComputeState(ID3D12GraphicsCommandList* _commandList);
 
 	void Finalize();
 
@@ -113,7 +113,7 @@ public:
 	/// </summary>
 	/// <param name="elementDesc">要素の配列</param>
 	/// <returns></returns>
-	D3D12_INPUT_LAYOUT_DESC CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& elementDesc);
+	D3D12_INPUT_LAYOUT_DESC CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& _elementDesc);
 
 	/// <summary>
 	/// Shaderをcompileする
@@ -123,13 +123,13 @@ public:
 	/// <summary>
 	/// RasterizerStateの設定
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterizerState(bool isCulling);
+	D3D12_RASTERIZER_DESC SetRasterizerState(bool _isCulling);
 
 	/// <summary>
 	/// DepthStencilStateの設定
 	/// </summary>
 	/// <returns></returns>
-	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState(bool isDepth);
+	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState(bool _isDepth);
 
 	/// <summary>
 	/// PSOの生成
@@ -139,7 +139,7 @@ public:
 
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateInputLayout();
 
-	DXGI_FORMAT ReturnFormat(LPCSTR name);
+	DXGI_FORMAT ReturnFormat(LPCSTR _name);
 
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
 
@@ -147,11 +147,11 @@ private:
 
 	void SamplerOverrides();
 
-	D3D12_STATIC_SAMPLER_DESC MakeStaticSampler(D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addr = D3D12_TEXTURE_ADDRESS_MODE_WRAP, UINT maxAniso = 16);
+	D3D12_STATIC_SAMPLER_DESC MakeStaticSampler(D3D12_FILTER _filter, D3D12_TEXTURE_ADDRESS_MODE _addr = D3D12_TEXTURE_ADDRESS_MODE_WRAP, UINT _maxAniso = 16);
 
 public:
 
-	const UINT GetRootSignatureIndex(const std::string& name) const;
+	const UINT GetRootSignatureIndex(const std::string& _name) const;
 
 private:
 	

@@ -13,16 +13,16 @@ void ComputeShaderPipelines::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompiler) {
-	assert(device);
-	assert(dxCompiler);
+void ComputeShaderPipelines::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) {
+	assert(_device);
+	assert(_dxCompiler);
 
-	device_ = device;
-	dxCompiler_ = dxCompiler;
+	device_ = _device;
+	dxCompiler_ =_dxCompiler;
 
 	// cs用のパイプラインの作成
 	computeShaderPipeline_ = std::make_unique<ComputeShaderPipeline>();
-	computeShaderPipeline_->Init(device, dxCompiler);
+	computeShaderPipeline_->Init(_device, _dxCompiler);
 	
 	// engine用
 	Load(kEngineAssets);
@@ -35,15 +35,15 @@ void ComputeShaderPipelines::Init(ID3D12Device* device, DirectXCompiler* dxCompi
 // ↓ 読み込み処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ComputeShaderPipelines::Load(const std::string& path) {
+void ComputeShaderPipelines::Load(const std::string& _path) {
 	// パスが存在しないなら早期リターン
-	if (!fs::exists(path)) {
-		std::cerr << "Warning: path not found -> " << path << std::endl;
+	if (!fs::exists(_path)) {
+		std::cerr << "Warning: path not found -> " << _path << std::endl;
 		return;
 	}
 
 	// jsonファイルの読み込み
-	for (const auto& entry : fs::recursive_directory_iterator(path)) {
+	for (const auto& entry : fs::recursive_directory_iterator(_path)) {
 		if (entry.is_regular_file()) {
 			std::string ext = entry.path().extension().string();
 
@@ -62,8 +62,8 @@ void ComputeShaderPipelines::Load(const std::string& path) {
 // ↓ jsonからパイプライン情報の読み込み
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-json ComputeShaderPipelines::LoadJson(const std::string& directory, const std::string& fileName) {
-	std::string filePath = directory + "/" + fileName;
+json ComputeShaderPipelines::LoadJson(const std::string& _directory, const std::string& _fileName) {
+	std::string filePath = _directory + "/" + _fileName;
 
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;
@@ -85,7 +85,7 @@ json ComputeShaderPipelines::LoadJson(const std::string& directory, const std::s
 	return root;
 }
 
-void ComputeShaderPipelines::SetPipeline(ID3D12GraphicsCommandList* commandList, const std::string& typeName) {
-	computeShaderPipeline_->SetPipeline(commandList, typeName);
+void ComputeShaderPipelines::SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName) {
+	computeShaderPipeline_->SetPipeline(_commandList, _typeName);
 	lastUsedPipeline_ = computeShaderPipeline_->GetLastUsedPipeline();
 }
