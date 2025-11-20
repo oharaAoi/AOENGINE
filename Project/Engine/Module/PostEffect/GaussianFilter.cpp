@@ -11,7 +11,7 @@ GaussianFilter::~GaussianFilter() {
 
 void GaussianFilter::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

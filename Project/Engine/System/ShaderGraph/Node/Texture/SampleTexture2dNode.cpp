@@ -14,7 +14,7 @@ void SampleTexture2dNode::Init() {
     ctx_ = GraphicsContext::GetInstance();
     cmdList_ = ctx_->GetCommandList();
 
-    resource_ = ctx_->CreateDxResource(ResourceType::COMMON);
+    resource_ = ctx_->CreateDxResource(ResourceType::Common);
     
     uvBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(NodeUVTransform));
     uvBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&uvParam_));

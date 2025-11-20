@@ -88,16 +88,9 @@ void Boss::Init() {
 	// -------------------------------------------------
 
 	worldState_ = std::make_unique<BossWorldState>();
-	worldState_->Set<float>("hp", param_.health);
-	worldState_->Set<float>("maxHp", param_.health);
-	worldState_->Set<float>("postureStability", 0);
-	worldState_->Set<float>("maxPostureStability", param_.postureStability);
-	worldState_->Set<float>("targetToDistance", 0.0f);
-	worldState_->Set<float>("idealDistance", 50.0f);
-	worldState_->Set<bool>("isTargetDead", false);
-	worldState_->Set<bool>("isDeployArmor", true);
-	worldState_->Set<bool>("isAttack", false);
-	worldState_->Set<bool>("isMove", false);
+	worldState_->SetRef<float>("hp", param_.health);
+	worldState_->SetRef<float>("maxHp", param_.health);
+	worldState_->SetRef<float>("maxPostureStability", param_.postureStability);
 
 	behaviorTree_ = std::make_unique<BehaviorTree>();
 	behaviorTree_->Init();
@@ -156,7 +149,7 @@ void Boss::Init() {
 	isAttack_ = false;
 	isMove_ = false;
 
-	phase_ = BossPhase::FIRST;
+	phase_ = BossPhase::First;
 
 	EditorWindows::AddObjectWindow(this, "Boss");
 }
@@ -185,15 +178,6 @@ void Boss::Update() {
 	if (Input::IsTriggerKey(DIK_M)) {
 		behaviorTree_->SetExecute(true);
 	}
-
-	// worldStateの更新
-	worldState_->Set("hp", param_.health);
-	worldState_->Set("postureStability", param_.postureStability);
-	worldState_->Set("targetToDistance", Length(GetPosition() - playerPosition_));
-	worldState_->Set("isTargetDead", isTargetDead_);
-	worldState_->Set("isDeployArmor", isArmorDeploy_);
-	worldState_->Set<bool>("isAttack", isAttack_);
-	worldState_->Set<bool>("isMove", isMove_);
 
 	// 各項目の更新
 	stateMachine_->Update();

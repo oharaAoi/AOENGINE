@@ -1,11 +1,11 @@
 #pragma once
 
 enum class SceneType {
-	TITLE,
-	GAME,
-	GAMEOVER,
-	TUTORIAL,
-	TEST,
+	Title,
+	Game,
+	GameOver,
+	Tutorial,
+	Test,
 };
 
 static const char* kSceneTypeNames[] = { "TITLE", "GAME", "GAMEOVER","TUTORIAL", "TEST"};

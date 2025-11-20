@@ -30,7 +30,7 @@ void TutorialMissionGauge::Init() {
 	AddChild(control_);
 	AddChild(controlBg_);
 
-	alphaAnimation_.Init(1.0f, 0.0f, 1.0f, (int)EasingType::None::Liner, LoopType::STOP);
+	alphaAnimation_.Init(1.0f, 0.0f, 1.0f, (int)EasingType::None::Liner, LoopType::Stop);
 
 	EditorWindows::AddObjectWindow(this, "TutorialMissionGauge");
 }

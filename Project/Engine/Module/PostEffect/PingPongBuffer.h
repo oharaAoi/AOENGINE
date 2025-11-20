@@ -6,8 +6,8 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 enum class BufferType {
-	PING,
-	PONG
+	Ping,
+	Pong
 };
 
 /// <summary>

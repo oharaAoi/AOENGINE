@@ -46,7 +46,7 @@ void PingPongBuffer::CreatePing(DxResourceManager* _dxResourceManager) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pingResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
+	pingResource_ = _dxResourceManager->CreateResource(ResourceType::Common);
 	pingResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingResource_->CreateRTV(rtvDesc);
 	pingResource_->CreateSRV(srvDesc);
@@ -83,7 +83,7 @@ void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pongResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
+	pongResource_ = _dxResourceManager->CreateResource(ResourceType::Common);
 	pongResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	pongResource_->CreateRTV(rtvDesc);
 	pongResource_->CreateSRV(srvDesc);
@@ -96,10 +96,10 @@ void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
 void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
 	DxResource* resource = nullptr;
 	switch (type) {
-	case BufferType::PING:
+	case BufferType::Ping:
 		resource = pingResource_;
 		break;
-	case BufferType::PONG:
+	case BufferType::Pong:
 		resource = pongResource_;
 		break;
 	default:
@@ -125,10 +125,10 @@ void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, Buf
 
 void PingPongBuffer::Transition(ID3D12GraphicsCommandList* commandList, D3D12_RESOURCE_STATES after, BufferType type) {
 	switch (type) {
-	case BufferType::PING:
+	case BufferType::Ping:
 		pingResource_->Transition(commandList, after);
 		break;
-	case BufferType::PONG:
+	case BufferType::Pong:
 		pongResource_->Transition(commandList, after);
 		break;
 	default:

@@ -13,9 +13,9 @@ template<typename T>
 using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum DescriptorHeapType {
-	TYPE_RTV,
-	TYPE_SRV,
-	TYPE_DSV
+	Type_RTV,
+	Type_SRV,
+	Type_DSV
 };
 
 /// <summary>

@@ -27,6 +27,7 @@ enum NodeType {
 	Task,
 	Planner,
 	PlannerSelector,
+	Condition,
 };
 
 /// <summary>

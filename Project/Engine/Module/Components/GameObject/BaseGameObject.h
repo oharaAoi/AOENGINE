@@ -54,7 +54,7 @@ public:
 
 public:
 
-	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::NORMAL);
+	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::Normal);
 
 	void SetParent(BaseGameObject* parent);
 

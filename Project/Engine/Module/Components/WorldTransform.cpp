@@ -171,15 +171,15 @@ void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos
 	memcpy(proj, &projectMat, sizeof(proj));
 	memcpy(world, &worldMat_, sizeof(world));
 
-	if (ManipulateTool::type_ == UseManipulate::SCALE) {
+	if (ManipulateTool::type_ == UseManipulate::Scale) {
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::SCALE, ImGuizmo::LOCAL, world);
 	}
 
-	if (ManipulateTool::type_ == UseManipulate::ROTATE) {
+	if (ManipulateTool::type_ == UseManipulate::Rotate) {
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::ROTATE, ImGuizmo::LOCAL, world);
 	}
 
-	if (ManipulateTool::type_ == UseManipulate::TRANSLATE) {
+	if (ManipulateTool::type_ == UseManipulate::Translate) {
 		ImGuizmo::Manipulate(view, proj, ImGuizmo::TRANSLATE, ImGuizmo::LOCAL, world);
 	}
 

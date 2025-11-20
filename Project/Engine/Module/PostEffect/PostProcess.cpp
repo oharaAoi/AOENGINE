@@ -94,18 +94,18 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
 	motionBlur_->SetIsEnable(true);
 
-	AddEffect(PostEffectType::RADIALBLUR);
-	AddEffect(PostEffectType::GLITCHNOISE);
-	AddEffect(PostEffectType::VIGNETTE);
-	AddEffect(PostEffectType::DISSOLVE);
-	AddEffect(PostEffectType::LUMINANCE_OUTLINE);
-	AddEffect(PostEffectType::DEPTH_OUTLINE);
-	AddEffect(PostEffectType::BLOOM);
-	AddEffect(PostEffectType::MOTIONBLUR);
-	AddEffect(PostEffectType::SMOOTHING);
-	AddEffect(PostEffectType::GAUSSIANFILTER);
-	AddEffect(PostEffectType::GRAYSCALE);
-	AddEffect(PostEffectType::TOONMAP);
+	AddEffect(PostEffectType::RadialBlur);
+	AddEffect(PostEffectType::GlitchNoise);
+	AddEffect(PostEffectType::Vignette);
+	AddEffect(PostEffectType::Dissolve);
+	AddEffect(PostEffectType::LuminanceOutline);
+	AddEffect(PostEffectType::DepthOutline);
+	AddEffect(PostEffectType::Bloom);
+	AddEffect(PostEffectType::MotionBlur);
+	AddEffect(PostEffectType::Smoothing);
+	AddEffect(PostEffectType::GaussianFilter);
+	AddEffect(PostEffectType::Grayscale);
+	AddEffect(PostEffectType::ToonMap);
 
 	EditorWindows::AddObjectWindow(this, "Post Process");
 }
@@ -125,7 +125,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _
 	// sceneのリソースをコピーする
 	Copy(_commandList, _dxResource);
 	// renderTargetをセットする
-	pingPongBuff_->SetRenderTarget(_commandList, BufferType::PONG, depthHandle_.handleCPU);
+	pingPongBuff_->SetRenderTarget(_commandList, BufferType::Ping, depthHandle_.handleCPU);
 	uint32_t cout = 0;
 	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
@@ -133,7 +133,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _
 			effect->SetCommand(_commandList, pingPongBuff_->GetPingResource());
 
 			pingPongBuff_->Swap(_commandList);
-			pingPongBuff_->SetRenderTarget(_commandList, BufferType::PONG, depthHandle_.handleCPU);
+			pingPongBuff_->SetRenderTarget(_commandList, BufferType::Pong, depthHandle_.handleCPU);
 			cout++;
 		}
 	}
@@ -153,10 +153,10 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _
 
 void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
 	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
-	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::PING);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::Ping);
 	_commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), _dxResource->GetResource());
 
-	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::PING);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Pong);
 }
 
 void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
@@ -170,7 +170,7 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* 
 	_commandList->CopyResource(_dxResource->GetResource(), finalResource->GetResource());
 	// 元の状態に戻す
 	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::PONG);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::Pong);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,40 +181,40 @@ void PostProcess::AddEffect(PostEffectType type) {
 	if (CheckAddEffect(type)) {
 		addEffectList_.push_back(type);
 		switch (type) {
-		case PostEffectType::GRAYSCALE:
+		case PostEffectType::Grayscale:
 			effectList_.push_back(grayscale_);
 			break;
-		case PostEffectType::RADIALBLUR:
+		case PostEffectType::RadialBlur:
 			effectList_.push_back(radialBlur_);
 			break;
-		case PostEffectType::GLITCHNOISE:
+		case PostEffectType::GlitchNoise:
 			effectList_.push_back(glitchNoise_);
 			break;
-		case PostEffectType::VIGNETTE:
+		case PostEffectType::Vignette:
 			effectList_.push_back(vignette_);
 			break;
-		case PostEffectType::DISSOLVE:
+		case PostEffectType::Dissolve:
 			effectList_.push_back(dissolve_);
 			break;
-		case PostEffectType::TOONMAP:
+		case PostEffectType::ToonMap:
 			effectList_.push_back(toonMap_);
 			break;
-		case PostEffectType::BLOOM:
+		case PostEffectType::Bloom:
 			effectList_.push_back(bloom_);
 			break;
-		case PostEffectType::SMOOTHING:
+		case PostEffectType::Smoothing:
 			effectList_.push_back(smoothing_);
 			break;
-		case PostEffectType::GAUSSIANFILTER:
+		case PostEffectType::GaussianFilter:
 			effectList_.push_back(gaussianFilter_);
 			break;
-		case PostEffectType::LUMINANCE_OUTLINE:
+		case PostEffectType::LuminanceOutline:
 			effectList_.push_back(luminanceOutline_);
 			break;
-		case PostEffectType::DEPTH_OUTLINE:
+		case PostEffectType::DepthOutline:
 			effectList_.push_back(depthOutline_);
 			break;
-		case PostEffectType::MOTIONBLUR:
+		case PostEffectType::MotionBlur:
 			effectList_.push_back(motionBlur_);
 			break;
 		default:
@@ -234,45 +234,32 @@ bool PostProcess::CheckAddEffect(PostEffectType type) {
 
 std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
 	switch (type) {
-	case PostEffectType::GRAYSCALE:
+	case PostEffectType::Grayscale:
 		return grayscale_;
-		break;
-	case PostEffectType::RADIALBLUR:
+	case PostEffectType::RadialBlur:
 		return radialBlur_;
-		break;
-	case PostEffectType::GLITCHNOISE:
+	case PostEffectType::GlitchNoise:
 		return glitchNoise_;
-		break;
-	case PostEffectType::VIGNETTE:
+	case PostEffectType::Vignette:
 		return vignette_;
-		break;
-	case PostEffectType::DISSOLVE:
+	case PostEffectType::Dissolve:
 		return dissolve_;
-		break;
-	case PostEffectType::TOONMAP:
+	case PostEffectType::ToonMap:
 		return toonMap_;
-		break;
-	case PostEffectType::BLOOM:
+	case PostEffectType::Bloom:
 		return bloom_;
-		break;
-	case PostEffectType::SMOOTHING:
+	case PostEffectType::Smoothing:
 		return smoothing_;
-		break;
-	case PostEffectType::GAUSSIANFILTER:
+	case PostEffectType::GaussianFilter:
 		return gaussianFilter_;
-		break;
-	case PostEffectType::LUMINANCE_OUTLINE:
+	case PostEffectType::LuminanceOutline:
 		return luminanceOutline_;
-		break;
-	case PostEffectType::DEPTH_OUTLINE:
+	case PostEffectType::DepthOutline:
 		return depthOutline_;
-		break;
-	case PostEffectType::MOTIONBLUR:
+	case PostEffectType::MotionBlur:
 		return motionBlur_;
-		break;
 	default:
 		return nullptr;
-		break;
 	}
 }
 

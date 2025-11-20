@@ -3,7 +3,7 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Lib/Math/Vector4.h"
 
-UseManipulate ManipulateTool::type_ = UseManipulate::TRANSLATE;
+UseManipulate ManipulateTool::type_ = UseManipulate::Translate;
 bool ManipulateTool::isActive_ = false;
 
 void ManipulateTool::SelectUseManipulate() {
@@ -24,9 +24,9 @@ void ManipulateTool::SelectUseManipulate() {
 		
 		ImGui::Checkbox("##activeManipulate", &isActive_);
 		
-		Button(scaleTex, "scale", UseManipulate::SCALE);
-		Button(rotateTex, "rotate", UseManipulate::ROTATE);
-		Button(translateTex, "translate", UseManipulate::TRANSLATE);
+		Button(scaleTex, "scale", UseManipulate::Scale);
+		Button(rotateTex, "rotate", UseManipulate::Rotate);
+		Button(translateTex, "translate", UseManipulate::Translate);
 	}
 	ImGui::End();
 }

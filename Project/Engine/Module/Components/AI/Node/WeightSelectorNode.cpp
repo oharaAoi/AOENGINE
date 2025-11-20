@@ -121,10 +121,8 @@ void WeightSelectorNode::PriorityDisplay() {
 		return a.second > b.second;
 			  });
 
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking;
-
 	// weightの表示
-	if (ImGui::Begin("WeightSelector Priority Window", nullptr, flags)) {
+	if (ImGui::Begin("WeightSelector Priority Window", nullptr)) {
 		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
 			std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
 			std::string nodeName = "[" + children_[priorityArray[index].first]->NodeNameCombination() + "]";

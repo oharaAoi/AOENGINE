@@ -2,11 +2,12 @@
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
-#include "Engine/Module/Components/AI/SequenceNode.h"
-#include "Engine/Module/Components/AI/SelectorNode.h"
-#include "Engine/Module/Components/AI/WeightSelectorNode.h"
-#include "Engine/Module/Components/AI/PlannerNode.h"
-#include "Engine/Module/Components/AI/PlannerSelectorNode.h"
+#include "Engine/Module/Components/AI/Node/SequenceNode.h"
+#include "Engine/Module/Components/AI/Node/SelectorNode.h"
+#include "Engine/Module/Components/AI/Node/WeightSelectorNode.h"
+#include "Engine/Module/Components/AI/Node/PlannerNode.h"
+#include "Engine/Module/Components/AI/Node/PlannerSelectorNode.h"
+#include "Engine/Module/Components/AI/Node/ConditionNode.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Module/Components/AI/BehaviorTreeSerializer.h"
 #include <fstream>
@@ -335,6 +336,12 @@ void BehaviorTree::Edit() {
 			}
 		}
 	}
+
+	ImGui::Begin("WorldState"); 
+	if (worldState_) {
+		worldState_->Debug_Gui();
+	}
+	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -349,7 +356,7 @@ void BehaviorTree::CreateNodeWindow() {
 	}
 
 	static int nodeType = 1;
-	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector");
+	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition");
 
 	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 	if (nodeType == NodeType::Task) {
@@ -400,12 +407,16 @@ void BehaviorTree::CreateNode(int nodeType) {
 	} else if (nodeType == NodeType::PlannerSelector) {
 		nodeList_.emplace_back(std::make_shared<PlannerSelectorNode>());
 
+	} else if (nodeType == NodeType::Condition) {
+		auto& node =  nodeList_.emplace_back(std::make_shared<ConditionNode>());
+		node->SetWorldState(worldState_);
+
 	} else if (nodeType == NodeType::Task) {
 		auto& node = nodeList_.emplace_back(canTaskMap_[createTaskName_]->Clone());
 		node->Init();
 		node->SetPos(CVector2::ZERO);
 		node->SetWorldState(worldState_);
-	}
+	} 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -449,6 +460,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::Sequencer: node = std::make_shared<SequenceNode>(); break;
 	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
 	case NodeType::WeightSelector: node = std::make_shared<WeightSelectorNode>(); break;
+	case NodeType::Condition: node = std::make_shared<ConditionNode>(); break;
 	case NodeType::Planner:
  		node = std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_);
 		{

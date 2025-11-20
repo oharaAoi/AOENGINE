@@ -56,7 +56,7 @@ void PlayerActionRightShoulder::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionRightShoulder::IsInput() {
-	if (pInput_->IsTriggerButton(XInputButtons::RT_SHOULDER)) {
+	if (pInput_->IsTriggerButton(XInputButtons::RtShoulder)) {
 		return true;
 	}
 	return false;

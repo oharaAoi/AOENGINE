@@ -8,16 +8,16 @@ std::unique_ptr<BaseScene> SceneFactory::CreateScene(SceneType _sceneType) {
 	// 次のシーンを作成
 	std::unique_ptr<BaseScene> newScene;
 
-	if (_sceneType == SceneType::TITLE) {
+	if (_sceneType == SceneType::Title) {
 		newScene = std::make_unique<TitleScene>();
 
-	} else if (_sceneType == SceneType::GAME) {
+	} else if (_sceneType == SceneType::Game) {
 		newScene = std::make_unique<GameScene>();
 
-	} else if (_sceneType == SceneType::TUTORIAL) {
+	} else if (_sceneType == SceneType::Tutorial) {
 		newScene = std::make_unique<TutorialScene>();
 
-	} else if (_sceneType == SceneType::TEST) {
+	} else if (_sceneType == SceneType::Test) {
 		newScene = std::make_unique<TestScene>();
 	}
 

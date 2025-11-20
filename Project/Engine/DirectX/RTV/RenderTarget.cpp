@@ -95,7 +95,7 @@ void RenderTarget::CrateSwapChainResource() {
 	srvDesc.Texture2D.MipLevels = 1;
 
 	for (uint32_t oi = 0; oi < 2; ++oi) {
-		swapChainResource_[oi] = resourceManager_->CreateResource(ResourceType::RENDERTARGET);
+		swapChainResource_[oi] = resourceManager_->CreateResource(ResourceType::RenderTarget);
 
 		swapChainResource_[oi]->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 		swapChainResource_[oi]->SetSwapChainBuffer(swapChain_, oi);
@@ -147,7 +147,7 @@ void RenderTarget::CreateRenderTarget() {
 			srvDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 			desc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		}
-		renderTargetResource_[oi] = resourceManager_->CreateResource(ResourceType::RENDERTARGET);
+		renderTargetResource_[oi] = resourceManager_->CreateResource(ResourceType::RenderTarget);
 
 		renderTargetResource_[oi]->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 

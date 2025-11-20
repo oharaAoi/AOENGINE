@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Timer.h"

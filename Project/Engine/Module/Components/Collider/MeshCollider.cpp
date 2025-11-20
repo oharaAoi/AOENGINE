@@ -147,13 +147,13 @@ void MeshCollider::Draw() const {
 void MeshCollider::SwitchCollision() {
 	switch (collisionState_) {
 	case 0b00:	// 衝突していない
-		collisionState_ = CollisionFlags::ENTER;	// NONE → ENTER
+		collisionState_ = (int)CollisionFlags::Enter;	// NONE → ENTER
 		break;
 	case 0b01:	// 初衝突
-		collisionState_ = CollisionFlags::STAY;		// ENTER → STAY
+		collisionState_ = (int)CollisionFlags::Stay;		// ENTER → STAY
 		break;
 	case 0b10:	// 衝突しなくなった直後
-		collisionState_ = CollisionFlags::NONE;		// EXIT → NONE
+		collisionState_ = (int)CollisionFlags::None;		// EXIT → NONE
 		break;
 	case 0b11:	// 連続衝突時
 		break;

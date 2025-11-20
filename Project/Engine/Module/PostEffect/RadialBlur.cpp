@@ -12,7 +12,7 @@ RadialBlur::~RadialBlur() {
 
 void RadialBlur::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	blurSettingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	blurSettingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	blurSettingBuffer_->CreateResource(sizeof(BlurSetting));
 	blurSettingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
@@ -75,7 +75,7 @@ void RadialBlur::Debug_Gui() {
 void RadialBlur::Start(float _strength, float _startTime, bool _continuation) {
 	run_ = true;
 	continuation_ = _continuation;
-	blurStrengthTween_.Init(0.0f, _strength, _startTime, (int)EasingType::None::Liner, LoopType::STOP);
+	blurStrengthTween_.Init(0.0f, _strength, _startTime, (int)EasingType::None::Liner, LoopType::Stop);
 }
 
 void RadialBlur::Stop() {
@@ -86,5 +86,5 @@ void RadialBlur::Stop() {
 
 void RadialBlur::SlowDown(float time) {
 	run_ = true;
-	blurStrengthTween_.Init(setting_->blurStrength, 0.0f, time, (int)EasingType::None::Liner, LoopType::STOP);
+	blurStrengthTween_.Init(setting_->blurStrength, 0.0f, time, (int)EasingType::None::Liner, LoopType::Stop);
 }

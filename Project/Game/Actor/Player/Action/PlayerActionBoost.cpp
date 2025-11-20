@@ -135,7 +135,7 @@ void PlayerActionBoost::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionBoost::IsInput() {
-	if (pInput_->IsTriggerButton(XInputButtons::LSTICK_THUMB)) {
+	if (pInput_->IsTriggerButton(XInputButtons::LStickThumb)) {
 		return true;
 	}
 	return false;
@@ -191,7 +191,7 @@ bool PlayerActionBoost::CheckStop() {
 		return true;
 	}
 
-	if (pInput_->IsTriggerButton(XInputButtons::BUTTON_B)) {
+	if (pInput_->IsTriggerButton(XInputButtons::ButtonB)) {
 		return true;
 	}
 

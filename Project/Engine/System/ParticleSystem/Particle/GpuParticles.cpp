@@ -31,9 +31,9 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	kInstanceNum_ = instanceNum;
 
 	// gpuに送るResourceの作成
-	particleResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
-	freeListIndexResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
-	freeListResource_ = graphicsCxt->CreateDxResource(ResourceType::COMMON);
+	particleResource_ = graphicsCxt->CreateDxResource(ResourceType::Common);
+	freeListIndexResource_ = graphicsCxt->CreateDxResource(ResourceType::Common);
+	freeListResource_ = graphicsCxt->CreateDxResource(ResourceType::Common);
 
 	// propertiesの作成
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};

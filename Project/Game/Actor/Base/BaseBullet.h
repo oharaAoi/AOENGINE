@@ -4,9 +4,9 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 
 enum BulletType {
-	NORMAL,
-	MISSILE,
-	LAUNCHER,
+	Normal,
+	Missile,
+	Launcher,
 };
 
 /// <summary>

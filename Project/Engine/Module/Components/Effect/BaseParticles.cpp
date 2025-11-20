@@ -53,16 +53,16 @@ void BaseParticles::DrawShape() {
 	}
 
 	// 形状の描画
-	if (emitter_.shape == (int)CpuEmitterShape::BOX) {
+	if (emitter_.shape == (int)CpuEmitterShape::Box) {
 		OBB obb = {
 			.center = emitter_.translate,
 			.size = emitter_.size
 		};
 		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitter_.rotate));
 		DrawOBB(obb, mat, Color::green);
-	} else if (emitter_.shape == (int)CpuEmitterShape::SPHERE) {
+	} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
 		DrawSphere(emitter_.translate, emitter_.radius, mat, Color::green);
-	} else if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		Quaternion rotate = Quaternion::EulerToQuaternion(emitter_.rotate);
 		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
 	}
@@ -85,21 +85,21 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.rotate = Quaternion();
 
 	// particleの出現位置を設定
-	if (emitter_.emitOrigin == (int)CpuEmitOrigin::CENTER) {
+	if (emitter_.emitOrigin == (int)CpuEmitOrigin::Center) {
 		newParticle.translate = pos;
 
-	} else if (emitter_.emitOrigin == (int)CpuEmitOrigin::RANGE) {
-		if (emitter_.shape == (int)CpuEmitterShape::BOX) {
+	} else if (emitter_.emitOrigin == (int)CpuEmitOrigin::Range) {
+		if (emitter_.shape == (int)CpuEmitterShape::Box) {
 			float rangeX = RandomFloat(-emitter_.size.x, emitter_.size.x);
 			float rangeY = RandomFloat(-emitter_.size.y, emitter_.size.y);
 			float rangeZ = RandomFloat(-emitter_.size.z, emitter_.size.z);
 			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
-		} else if (emitter_.shape == (int)CpuEmitterShape::SPHERE) {
+		} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
 			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
 			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
-		} else if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+		} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
 			newParticle.translate = Vector3(rangeX, 0.f, rangeZ) + pos;
@@ -119,21 +119,21 @@ void BaseParticles::Emit(const Vector3& pos) {
 	}
 
 	// particleの方向を設定
-	if (emitter_.emitDirection == (int)CpuEmitDirection::UP) {
+	if (emitter_.emitDirection == (int)CpuEmitDirection::Up) {
 		newParticle.velocity = CVector3::UP * emitter_.speed;
-	} else if (emitter_.emitDirection == (int)CpuEmitDirection::RANDOM) {
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Random) {
 		Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
 		newParticle.velocity = dire * emitter_.speed;
 
-	} else if (emitter_.emitDirection == (int)CpuEmitDirection::OUTSIDE) {
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Outside) {
 		newParticle.velocity = (newParticle.translate - pos).Normalize() * emitter_.speed;
 
-	} else if (emitter_.emitDirection == (int)CpuEmitDirection::CENTERFOR) {
+	} else if (emitter_.emitDirection == (int)CpuEmitDirection::CenterFor) {
 		newParticle.velocity = (pos - newParticle.translate).Normalize() * emitter_.speed;
 	}
 
 	// Coneの場合はConeの形状で射出させる
-	if (emitter_.shape == (int)CpuEmitterShape::CONE) {
+	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		float angle = emitter_.angle * kToRadian;
 		float u = RandomFloat(0, 1);
 		float v = RandomFloat(0, 1);
@@ -213,7 +213,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.isStretch = emitter_.isStretch;
 	newParticle.isBillBord = emitter_.isBillBord;
 	newParticle.isDraw2d = emitter_.isDraw2d;
-	if (emitter_.emitDirection == (int)CpuEmitDirection::CENTERFOR) {
+	if (emitter_.emitDirection == (int)CpuEmitDirection::CenterFor) {
 		newParticle.isCenterFor = true;
 	} else {
 		newParticle.isCenterFor = false;

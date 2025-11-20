@@ -14,23 +14,23 @@
 #pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "Xinput.lib")
 
-enum XInputButtons{
-	DPAD_UP = 0x0001,
-	DPAD_DOWN = 0x0002,
-	DPAD_LEFT = 0x0004,
-	DPAD_RIGHT = 0x0008,
-	START = 0x0010,
-	BACK = 0x0020,
-	LSTICK_THUMB = 0x0040,
-	RSTICK_THUMB = 0x0080,
-	L_SHOULDER = 0x0100,
-	R_SHOULDER = 0x0200,
-	LT_SHOULDER = 0x0400,
-	RT_SHOULDER = 0x0800,
-	BUTTON_A = 0x1000,
-	BUTTON_B = 0x2000,
-	BUTTON_X = 0x4000,
-	BUTTON_Y = 0x8000
+enum XInputButtons {
+	DpadUp = 0x0001,
+	DpadDown = 0x0002,
+	DpadLeft = 0x0004,
+	DpadRight = 0x0008,
+	Start = 0x0010,
+	Back = 0x0020,
+	LStickThumb = 0x0040,
+	RStickThumb = 0x0080,
+	LShoulder = 0x0100,
+	RShoulder = 0x0200,
+	LtShoulder = 0x0400,
+	RtShoulder = 0x0800,
+	ButtonA = 0x1000,
+	ButtonB = 0x2000,
+	ButtonX = 0x4000,
+	ButtonY = 0x8000
 };
 
 enum InputDevice {

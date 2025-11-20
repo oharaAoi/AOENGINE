@@ -22,7 +22,7 @@ void Reticle::Init() {
 void Reticle::Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat) {
 	reticle_->Update();
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::RSTICK_THUMB)) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {
 		LockOn();
 	}
 

@@ -22,7 +22,7 @@ void PostureStability::Init(const std::string& _groupName, const std::string& _i
 
 	Color color = param_.stanColor;
 	color.a = 0.0f;
-	stanAnimation_.Init(param_.stanColor, color, 0.2f, (int)EasingType::None::Liner, LoopType::RETURN);
+	stanAnimation_.Init(param_.stanColor, color, 0.2f, (int)EasingType::None::Liner, LoopType::Return);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

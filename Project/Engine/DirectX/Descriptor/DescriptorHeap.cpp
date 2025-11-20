@@ -38,7 +38,7 @@ void DescriptorHeap::Init(ID3D12Device* _device) {
 
 	// アロケータの初期化
 	srvAllocator_ = std::make_unique<DescriptorAllocator>(
-		DescriptorType::SAHADERVIEW,
+		DescriptorType::ShaderView,
 		(1 << 16),
 		descriptorSize_->GetSRV(),
 		1
@@ -87,20 +87,20 @@ DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& 
 	DescriptorHandles handle{};
 
 	switch (_type) {
-	case DescriptorHeapType::TYPE_SRV:
+	case DescriptorHeapType::Type_SRV:
 		handle.handleCPU = GetCPUDescriptorHandle(srvHeap_.Get(), descriptorSize_->GetSRV(), (static_cast<int>(useSrvIndex_) + 1));
 		handle.handleGPU = GetGPUDescriptorHandle(srvHeap_.Get(), descriptorSize_->GetSRV(), (static_cast<int>(useSrvIndex_) + 1));
 		useSrvIndex_++;
 		handle.assignIndex_ = useSrvIndex_;
 		break;
 
-	case DescriptorHeapType::TYPE_DSV:
+	case DescriptorHeapType::Type_DSV:
 		handle.handleCPU = GetCPUDescriptorHandle(dsvHeap_.Get(), descriptorSize_->GetDSV(), (static_cast<int>(useDsvIndex_) + 1));
 		useDsvIndex_++;
 		handle.assignIndex_ = useDsvIndex_;
 		break;
 
-	case DescriptorHeapType::TYPE_RTV:
+	case DescriptorHeapType::Type_RTV:
 		handle.handleCPU = GetCPUDescriptorHandle(rtvHeap_.Get(), descriptorSize_->GetRTV(), (static_cast<int>(useRtvIndex_) + 1));
 		useRtvIndex_++;
 		handle.assignIndex_ = useRtvIndex_;

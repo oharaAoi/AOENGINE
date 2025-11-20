@@ -11,7 +11,7 @@ TargetDeadOriented::TargetDeadOriented() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 bool TargetDeadOriented::IsGoal() {
-    if(worldState_->Get<bool>("isAttack")){
+    if(worldState_->Get("isAttack").As<bool>()){
         return true;
     }
     return false;
@@ -22,8 +22,8 @@ bool TargetDeadOriented::IsGoal() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float TargetDeadOriented::CalculationScore() {
-    float distance = worldState_->Get<float>("targetToDistance");
-    float idealDistance = worldState_->Get<float>("idealDistance");
+    float distance = worldState_->Get("targetToDistance").As<float>();
+    float idealDistance = worldState_->Get("idealDistance").As<float>();
     float diff = std::fabs(distance - idealDistance);
 
     return diff / idealDistance;

@@ -21,18 +21,18 @@
 #include "Engine/DirectX/RTV/RenderTarget.h"
 
 enum class PostEffectType {
-	GRAYSCALE,
-	RADIALBLUR,
-	GLITCHNOISE,
-	VIGNETTE,
-	DISSOLVE,
-	TOONMAP,
-	BLOOM,
-	SMOOTHING,
-	GAUSSIANFILTER,
-	LUMINANCE_OUTLINE,
-	DEPTH_OUTLINE,
-	MOTIONBLUR,
+	Grayscale,
+	RadialBlur,
+	GlitchNoise,
+	Vignette,
+	Dissolve,
+	ToonMap,
+	Bloom,
+	Smoothing,
+	GaussianFilter,
+	LuminanceOutline,
+	DepthOutline,
+	MotionBlur,
 };
 
 /// <summary>

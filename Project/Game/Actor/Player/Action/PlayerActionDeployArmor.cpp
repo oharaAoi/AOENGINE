@@ -41,7 +41,7 @@ void PlayerActionDeployArmor::OnStart() {
 	actionTimer_ = 0.0f;
 
 	cameraInitOffsetZ_ = pOwner_->GetFollowCamera()->GetOffset().z;
-	cameraOffsetZ_.Init(cameraInitOffsetZ_, parameter_.cameraOffsetZ, parameter_.cameraApproachTime, (int)EasingType::None::Liner, LoopType::STOP);
+	cameraOffsetZ_.Init(cameraInitOffsetZ_, parameter_.cameraOffsetZ, parameter_.cameraApproachTime, (int)EasingType::None::Liner, LoopType::Stop);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,7 +61,7 @@ void PlayerActionDeployArmor::OnUpdate() {
 		if (!isDeploy_) {
 			isDeploy_ = true;
 			pOwner_->SetDeployArmor(true);
-			cameraOffsetZ_.Init(parameter_.cameraOffsetZ, cameraInitOffsetZ_, parameter_.cameraLeaveTime, (int)EasingType::None::Liner, LoopType::STOP);
+			cameraOffsetZ_.Init(parameter_.cameraOffsetZ, cameraInitOffsetZ_, parameter_.cameraLeaveTime, (int)EasingType::None::Liner, LoopType::Stop);
 		}
 	}
 
@@ -95,7 +95,7 @@ void PlayerActionDeployArmor::CheckNextAction() {
 bool PlayerActionDeployArmor::IsInput() {
 	if (pOwner_->GetIsDeployArmor()) { return false; }
 
-	if (pInput_->IsPressButton(XInputButtons::BUTTON_Y)) {
+	if (pInput_->IsPressButton(XInputButtons::ButtonY)) {
 		return true;
 	}
 	return false;

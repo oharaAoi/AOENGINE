@@ -14,11 +14,11 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 		ImGui::Combo("emitOrigin##emitOrigin", &emitOrigin, "CENTER\0RANGE\0EDGE\0OUTSIDE");
 		ImGui::DragScalar("shape", ImGuiDataType_U32, &emitOrigin);
 
-		if (shape == GpuEmitterShape::SPHERE) {
+		if (shape == (int)GpuEmitterShape::Sphere) {
 			ImGui::DragFloat("radius", &radius, 0.1f);
-		} else if (shape == GpuEmitterShape::BOX) {
+		} else if (shape == (int)GpuEmitterShape::Box) {
 			ImGui::DragFloat3("size", &size.x, 0.1f);
-		} else if (shape == GpuEmitterShape::CONE) {
+		} else if (shape == (int)GpuEmitterShape::Cone) {
 			ImGui::DragFloat("radius", &radius, 0.1f);
 			ImGui::DragFloat("angle", &angle, 0.1f);
 			ImGui::DragFloat("height", &height, 0.1f);

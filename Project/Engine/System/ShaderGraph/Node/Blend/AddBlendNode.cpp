@@ -11,7 +11,7 @@ void AddBlendNode::Init() {
 	ctx_ = GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
-	blendResource_ = ctx_->CreateDxResource(ResourceType::COMMON);
+	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);
 
 	// inputの設定
 	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());

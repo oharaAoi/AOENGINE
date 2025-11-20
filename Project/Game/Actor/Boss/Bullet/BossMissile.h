@@ -58,7 +58,7 @@ public:
 
 private :
 
-	BossBulletType type_ = BossBulletType::MISSILE;
+	BossBulletType type_ = BossBulletType::Missile;
 
 	// 追尾に関する変数
 	float trackingLength_;		// 長さ

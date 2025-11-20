@@ -14,7 +14,7 @@ GaussianBlurWidth::~GaussianBlurWidth() {
 void GaussianBlurWidth::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	// blurの設定
-	blurBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	blurBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	blurBuffer_->CreateResource(sizeof(BlurSettings));
 	blurBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&blurSetting_));
 

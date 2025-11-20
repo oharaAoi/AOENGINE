@@ -7,9 +7,9 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
 enum class ResourceType {
-	COMMON,
-	RENDERTARGET,
-	DEPTH
+	Common,
+	RenderTarget,
+	Depth
 };
 
 class DescriptorHeap;

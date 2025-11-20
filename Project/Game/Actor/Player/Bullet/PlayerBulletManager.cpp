@@ -23,7 +23,7 @@ void PlayerBulletManager::Update(const Vector3& playerTargetPos) {
 				  });
 
 	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
-		if (bullet->GetBulletType() == MISSILE) {
+		if (bullet->GetBulletType() == Missile) {
 			bullet->SetTargetPosition(playerTargetPos);
 		}
 		bullet->Update();

@@ -339,7 +339,7 @@ void Player::Landing() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::IsBoostMode() {
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_B)) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonB)) {
 		jet_->SetIsBoostMode();
 	}
 }

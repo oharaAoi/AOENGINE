@@ -7,7 +7,7 @@
 
 void BossStateNormal::OnStart() {
 	SetName("NormalState");
-	floatingTween_.Init(-0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::RETURN);
+	floatingTween_.Init(-0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType:: Return);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

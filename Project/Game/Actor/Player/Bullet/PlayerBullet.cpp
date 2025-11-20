@@ -14,14 +14,14 @@ PlayerBullet::~PlayerBullet() {
 void PlayerBullet::Init() {
 	BaseBullet::Init("PlayerBullet");
 	object_->SetObject("playerBullet.obj");
-	object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::SPHERE);
+	object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Sphere);
 
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
-	type_ = BulletType::NORMAL;
+	type_ = BulletType::Normal;
 
 	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
 	trail_->SetParent(transform_->GetWorldMatrix());

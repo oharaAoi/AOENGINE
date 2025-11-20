@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
 #include <memory>
 
 /// <summary>

@@ -12,8 +12,8 @@ void ClearNotificationUI::Init() {
 	sprite_ = canvas->AddSprite("missionComplete.png", "missionComplete");
 	param_.Load();
 
-	posTween_.Init(param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
-	alphaTween_.Init(0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::STOP);
+	posTween_.Init(param_.startPos, param_.endPos, param_.duration, (int)EasingType::In::Expo, LoopType::Stop);
+	alphaTween_.Init(0.0f, 1.0f, param_.duration, (int)EasingType::In::Expo, LoopType::Stop);
 
 	isBreak_ = false;
 }

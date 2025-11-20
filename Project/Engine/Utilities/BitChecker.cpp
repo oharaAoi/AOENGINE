@@ -1,9 +1,9 @@
 #include "BitChecker.h"
 
 bool CheckBit(uint32_t bitA, uint32_t bitB, CheckType type) {
-    if (type == CheckType::HAS) {
+    if (type == CheckType::Has) {
         return HasBit(bitA, bitB);
-    }else if(type == CheckType::EQUAL){
+    }else if(type == CheckType::Equal){
         return EqualBit(bitA, bitB);
     }
 

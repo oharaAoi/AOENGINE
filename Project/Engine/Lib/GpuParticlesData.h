@@ -48,22 +48,22 @@ struct GpuParticleEmitterData {
 	float pad7;
 };
 
-enum EmitType {
-	UP,
-	RANDOM,
-	OUTSIDE
+enum class EmitType {
+	Up,
+	Random,
+	Outside
 };
 
-enum EmitOrigin {
-	CENTER,
-	RANGE,
-	EDGE
+enum class EmitOrigin {
+	Center,
+	Range,
+	Edge
 };
 
-enum GpuEmitterShape {
-	SPHERE,
-	BOX,
-	CONE
+enum class GpuEmitterShape {
+	Sphere,
+	Box,
+	Cone
 };
 
 /// <summary>

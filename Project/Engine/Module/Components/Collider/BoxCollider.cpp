@@ -17,7 +17,7 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	categoryName_ = categoryName;
 
 	collisionPartnersMap_.clear();
-	collisionState_ = CollisionFlags::NONE;
+	collisionState_ = (int)CollisionFlags::None;
 
 	if (shape == ColliderShape::AABB) {
 		shape_ = AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
@@ -89,7 +89,7 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxCollider::Draw() const {
 	Color color = Color::white;
-	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
+	if (collisionState_ == (int)CollisionFlags::Enter || collisionState_ == (int)CollisionFlags::Stay) {
 		color = Color::red;
 	}
 

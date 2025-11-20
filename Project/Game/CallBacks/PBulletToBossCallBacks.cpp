@@ -49,7 +49,7 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	if (playerBullet != nullptr) {
 		playerBullet->SetIsAlive(false);
 
-		if (playerBullet->GetBulletType() == BulletType::LAUNCHER) {
+		if (playerBullet->GetBulletType() == BulletType::Launcher) {
 			auto& newExplodeBurn = hitExplodeList_.emplace_back(SceneRenderer::GetInstance()->AddObject<HitExplode>("hitExplodeBurn", "Object_Normal.json"));
 			newExplodeBurn->SetBlendMode(3);
 			newExplodeBurn->Init();

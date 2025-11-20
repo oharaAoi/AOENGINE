@@ -17,9 +17,9 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 	categoryName_ = categoryName;
 
 	collisionPartnersMap_.clear();
-	collisionState_ = CollisionFlags::NONE;
+	collisionState_ = (int)CollisionFlags::None;
 
-	if (shape == ColliderShape::SPHERE) {
+	if (shape == ColliderShape::Sphere) {
 		shape_ = Sphere{ .center = CVector3::ZERO, .radius = 1.0f };
 	} else {
 		assert("not Sphere Shape");
@@ -43,7 +43,7 @@ void SphereCollider::Update(const QuaternionSRT& srt) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SphereCollider::Draw() const {
-	if (collisionState_ == CollisionFlags::ENTER || collisionState_ == CollisionFlags::STAY) {
+	if (collisionState_ == (int)CollisionFlags::Enter || collisionState_ == (int)CollisionFlags::Stay) {
 		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Color::red);
 	} else {
 		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Color(0, 1, 1, 1));

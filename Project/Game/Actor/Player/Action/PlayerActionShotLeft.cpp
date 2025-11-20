@@ -100,7 +100,7 @@ bool PlayerActionShotLeft::IsInput() {
 		return false;
 	}
 
-	if (pInput_->IsTriggerButton(XInputButtons::L_SHOULDER)) {
+	if (pInput_->IsTriggerButton(XInputButtons::LShoulder)) {
 		return true;
 	}
 	return false;

@@ -12,7 +12,7 @@ Dissolve::~Dissolve() {
 
 void Dissolve::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

@@ -41,7 +41,7 @@ DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap*
 	DescriptorHandles handles;
 	handles.handleCPU = _descriptorHeap->GetCPUDescriptorHandleForHeapStart();
 
-	if (type_ == SAHADERVIEW) {
+	if (type_ == ShaderView) {
 		handles.handleGPU = _descriptorHeap->GetGPUDescriptorHandleForHeapStart();
 	} else if (type_ == DSV) {
 
@@ -49,7 +49,7 @@ DescriptorHandles DescriptorAllocator::GetDescriptorHandle(ID3D12DescriptorHeap*
 	handles.assignIndex_ = _index;
 	// インデックスに基づきディスクリプタのオフセットを計算
 	handles.handleCPU.ptr += descriptorSize_ * _index;
-	if (type_ == SAHADERVIEW) {
+	if (type_ == ShaderView) {
 		handles.handleGPU.ptr += descriptorSize_ * _index;
 	}
 	return handles;

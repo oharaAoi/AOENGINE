@@ -12,7 +12,7 @@ Vignette::~Vignette() {
 
 void Vignette::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(VignetteSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

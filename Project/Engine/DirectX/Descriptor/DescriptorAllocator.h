@@ -6,7 +6,7 @@
 class DescriptorHeap;
 
 enum DescriptorType {
-	SAHADERVIEW,
+	ShaderView,
 	RTV,
 	DSV,
 };

@@ -13,8 +13,8 @@
 #include "Game/Actor/Weapon/Armors.h"
 
 enum class BossPhase {
-	FIRST,
-	SECOND,
+	First,
+	Second,
 };
 
 class BossUIs;

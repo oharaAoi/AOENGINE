@@ -14,7 +14,7 @@ GlitchNoise::~GlitchNoise() {
 
 void GlitchNoise::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	glitchBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	glitchBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 

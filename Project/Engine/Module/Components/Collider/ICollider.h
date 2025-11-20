@@ -6,15 +6,15 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
-enum CollisionFlags {
-	NONE = 0b00,
-	ENTER = 0b01,
-	EXIT = 0b10,
-	STAY = 0b11,
+enum class CollisionFlags {
+	None = 0b00,
+	Enter = 0b01,
+	Exit = 0b10,
+	Stay = 0b11,
 };
 
 enum class ColliderShape {
-	SPHERE,
+	Sphere,
 	AABB,
 	OBB
 };

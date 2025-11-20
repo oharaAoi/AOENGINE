@@ -120,7 +120,7 @@ void GameScene::Update() {
 		fadePanel_->Update();
 
 		if (fadePanel_->GetIsFinished()) {
-			nextSceneType_ = SceneType::TITLE;
+			nextSceneType_ = SceneType::Title;
 		}
 	}
 	

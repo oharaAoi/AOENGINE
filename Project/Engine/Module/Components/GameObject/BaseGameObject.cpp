@@ -194,7 +194,7 @@ ICollider* BaseGameObject::GetCollider() {
 }
 
 void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
-	if (shape == ColliderShape::SPHERE) {
+	if (shape == ColliderShape::Sphere) {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
 		AddCollider(newCollider.get(), categoryName, shape);
 	} else if (shape == ColliderShape::AABB || shape == ColliderShape::OBB) {
@@ -216,11 +216,11 @@ void BaseGameObject::AddCollider(ICollider* _collider, const std::string& catego
 }
 
 void BaseGameObject::SetCollider(const std::string& categoryName, const std::string& shapeName) {
-	ColliderShape shape = ColliderShape::SPHERE;
+	ColliderShape shape = ColliderShape::Sphere;
 
 	if (shapeName == "SPHERE") {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
-		shape = ColliderShape::SPHERE;
+		shape = ColliderShape::Sphere;
 		AddCollider(newCollider.get(), categoryName, shape);
 	} else if (shapeName == "BOX") {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<BoxCollider>());
@@ -243,7 +243,7 @@ void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) 
 
 	model_ = ModelManager::GetModel(_objName);
 	for (const auto& material : model_->GetMaterialData()) {
-		if (_type == MaterialType::NORMAL) {
+		if (_type == MaterialType::Normal) {
 			materials[material.first] = std::make_unique<Material>();
 		} else if (_type == MaterialType::PBR) {
 			materials[material.first] = std::make_unique<PBRMaterial>();

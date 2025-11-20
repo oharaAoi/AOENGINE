@@ -42,7 +42,7 @@ void JetEngineBurn::Init() {
 	worldTransform_->SetRotate(param_.rotate);
 	worldTransform_->SetTranslate(param_.translate);
 
-	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::LOOP);
+	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::Loop);
 
 	exeTime_ = 0.5f;
 	onOffTime_ = 0;

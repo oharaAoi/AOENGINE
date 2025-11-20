@@ -1,18 +1,18 @@
 #pragma once
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
 
 /// <summary>
-/// 一番左の子が成功したら次の子へと遷移するNode
+/// 左から実行をし、 失敗したら次へ成功したら親へ戻るNode
 /// </summary>
-class SequenceNode :
+class SelectorNode :
 	public IBehaviorNode {
 public: // コンストラクタ
 
-	SequenceNode();
-	~SequenceNode() override = default;
+	SelectorNode();
+	~SelectorNode() override = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
-		return std::make_shared<SequenceNode>(*this);
+		return std::make_shared<SelectorNode>(*this);
 	}
 
 public:
@@ -28,6 +28,4 @@ public:
 
 	// 編集処理
 	void Debug_Gui() override;
-
 };
-

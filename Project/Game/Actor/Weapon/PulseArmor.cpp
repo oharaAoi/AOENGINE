@@ -37,7 +37,7 @@ void PulseArmor::Init() {
 
 	// dissolvebufferに関する設定
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
-	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
@@ -62,10 +62,10 @@ void PulseArmor::Init() {
 	for (size_t index = 0; index < 3; ++index) {
 		Vector3 min = RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
 		Vector3 max = RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
-		uvMovingTween_[index].Init(min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::RETURN);
+		uvMovingTween_[index].Init(min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
 	}
 
-	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, 4.0f, (int)EasingType::None::Liner, LoopType::RETURN);
+	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, 4.0f, (int)EasingType::None::Liner, LoopType::Return);
 
 	isAlive_ = false;
 	worldTransform_->SetScale(CVector3::ZERO);
@@ -188,7 +188,7 @@ void PulseArmor::Debug_Gui() {
 			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.uvTransform.scale = uvSrt_[0].scale;
 			armorParam_.uvTransform.rotate = uvSrt_[0].rotate;
-			thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::RETURN);
+			thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::Return);
 			SetParameter();
 		}
 	}

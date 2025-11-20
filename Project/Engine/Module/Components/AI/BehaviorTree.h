@@ -4,9 +4,9 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
-#include "Engine/Module/Components/AI/BehaviorRootNode.h"
-#include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/Node/BehaviorRootNode.h"
+#include "Engine/Module/Components/AI/Node/ITaskNode.h"
 #include "Engine/Module/Components/AI/State/IWorldState.h"
 #include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"

@@ -3,9 +3,9 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 
 enum class UseManipulate {
-	SCALE,
-	ROTATE,
-	TRANSLATE,
+	Scale,
+	Rotate,
+	Translate,
 };
 
 /// <summary>

@@ -8,10 +8,10 @@
 #include "Engine/Lib/Math/Easing.h"
 
 enum class LoopType {
-	LOOP,
-	STOP,
-	RETURN,
-	ROUNDTRIP
+	Loop,
+	Stop,
+	Return,
+	RoundTrip
 };
 
 /// <summary>
@@ -64,22 +64,20 @@ public:
 	void ChangeState() {
 		if (currentTime_ >= duration_) {
 			switch (loopType_) {
-			case LoopType::LOOP:
+			case LoopType::Loop:
 				currentTime_ = 0.0f;
 				break;
-			case LoopType::STOP:
+			case LoopType::Stop:
 				break;
-			case LoopType::RETURN:
+			case LoopType::Return:
 				std::swap(start_, end_);
 				currentTime_ = 0.0f;
 				break;
-			case LoopType::ROUNDTRIP:
+			case LoopType::RoundTrip:
 				if (!isReturn_) { break; }
 				std::swap(start_, end_);
 				currentTime_ = 0.0f;
 				isReturn_ = false;
-				break;
-			default:
 				break;
 			}
 		}

@@ -4,7 +4,7 @@
 #include "Engine/Lib/Math/MathStructures.h"
 
 enum class MaterialType {
-	NORMAL,
+	Normal,
 	PBR
 };
 

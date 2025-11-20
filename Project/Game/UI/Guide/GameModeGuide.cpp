@@ -82,7 +82,7 @@ void GameModeGuide::Open() {
 bool GameModeGuide::Decide() {
 	if (!isOpen_) { return false; }
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_A)) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
 		return true;
 	}
 	return false;
@@ -95,12 +95,12 @@ bool GameModeGuide::Decide() {
 bool GameModeGuide::Select() {
 	// 選択する
 	bool isSelect = false;
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DPAD_UP) || Input::GetInstance()->GetLeftJoyStick(.5f).y > 0.0f) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DpadUp) || Input::GetInstance()->GetLeftJoyStick(.5f).y > 0.0f) {
 		selectModeIndex_++;
 		isSelect = true;
 	}
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DPAD_DOWN) || Input::GetInstance()->GetLeftJoyStick(.5f).y < 0.0f) {
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DpadDown) || Input::GetInstance()->GetLeftJoyStick(.5f).y < 0.0f) {
 		selectModeIndex_--;
 		isSelect = true;
 	}

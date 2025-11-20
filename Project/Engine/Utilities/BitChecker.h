@@ -2,8 +2,8 @@
 #include <cstdint>
 
 enum class CheckType {
-	HAS,		// 含まれているか
-	EQUAL		// 完全一致するか
+	Has,		// 含まれているか
+	Equal		// 完全一致するか
 };
 
 /// <summary>

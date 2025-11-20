@@ -274,7 +274,7 @@ void DirectXCommon::SetViewport() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectXCommon::CreateDSV() {
-	depthStencilResource_ = dxResourceManager_->CreateResource(ResourceType::DEPTH);
+	depthStencilResource_ = dxResourceManager_->CreateResource(ResourceType::Depth);
 	depthStencilResource_->CreateDepthResource(kClientWidth_, kClientHeight_);
 
 	// heap上にDSCを構築

@@ -50,7 +50,7 @@ bool BossActionDeployArmor::CanExecute() {
 		return false;
 	}
 
-	if (pTarget_->GetPhase() == BossPhase::FIRST) {
+	if (pTarget_->GetPhase() == BossPhase::First) {
 		if (isDeploy_) {
 			return false;
 		}

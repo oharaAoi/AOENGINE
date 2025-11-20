@@ -70,7 +70,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// shaderResourceの作成
-	data.resource_ = resourceManager_->CreateResource(ResourceType::COMMON);
+	data.resource_ = resourceManager_->CreateResource(ResourceType::Common);
 	data.resource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_NONE, D3D12_RESOURCE_STATE_COPY_DEST);
 	data.intermediateResource_ = UploadTextureData(data.resource_->GetCompResource(), mipImage, device_, commandList_);
 

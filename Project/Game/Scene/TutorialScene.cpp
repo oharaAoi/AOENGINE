@@ -119,8 +119,8 @@ void TutorialScene::Update() {
 	tutorialMissionGauge_->Update();
 	tutorialBehavior_->Update();
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::START)) {
-		nextSceneType_ = SceneType::GAME;
+	if (Input::GetInstance()->IsTriggerButton(XInputButtons::Start)) {
+		nextSceneType_ = SceneType::Game;
 	}
 
 	// -------------------------------------------------
@@ -131,7 +131,7 @@ void TutorialScene::Update() {
 	fadePanel_->Update();
 
 	if (fadePanel_->GetIsFinished()) {
-		nextSceneType_ = SceneType::GAME;
+		nextSceneType_ = SceneType::Game;
 	}
 
 	// -------------------------------------------------

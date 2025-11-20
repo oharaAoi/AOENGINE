@@ -37,7 +37,7 @@ public:
 
 private:
 
-	BossBulletType type_ = BossBulletType::SHOT;
+	BossBulletType type_ = BossBulletType::Shot;
 
 	GpuParticleEmitter* trail_;
 	float speed_;

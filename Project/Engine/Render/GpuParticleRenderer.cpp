@@ -115,9 +115,9 @@ void GpuParticleRenderer::Draw() const {
 
 void GpuParticleRenderer::CreateResource(DxResourceManager* _resourceManager) {
 	// gpuに送るResourceの作成
-	particleResource_ = _resourceManager->CreateResource(ResourceType::COMMON);
-	freeListIndexResource_ = _resourceManager->CreateResource(ResourceType::COMMON);
-	freeListResource_ = _resourceManager->CreateResource(ResourceType::COMMON);
+	particleResource_ = _resourceManager->CreateResource(ResourceType::Common);
+	freeListIndexResource_ = _resourceManager->CreateResource(ResourceType::Common);
+	freeListResource_ = _resourceManager->CreateResource(ResourceType::Common);
 
 	D3D12_HEAP_PROPERTIES defaultHeapProperties{};
 	defaultHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;

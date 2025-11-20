@@ -16,7 +16,7 @@ LauncherBullet::~LauncherBullet() {
 void LauncherBullet::Init() {
 	BaseBullet::Init("LauncherBullet");
 	object_->SetObject("missile.obj");
-	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::SPHERE);
+	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::Sphere);
 
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
@@ -34,7 +34,7 @@ void LauncherBullet::Init() {
 	burn_->SetIsStop(false);
 	smoke_->SetIsStop(false);
 
-	type_ = BulletType::LAUNCHER;
+	type_ = BulletType::Launcher;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

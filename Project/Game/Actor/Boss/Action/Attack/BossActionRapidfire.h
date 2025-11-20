@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Module/Components/AI/ITaskNode.h"
+#include "Engine/Module/Components/AI/Node/ITaskNode.h"
 
 class Boss;
 

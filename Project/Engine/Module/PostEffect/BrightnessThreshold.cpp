@@ -13,7 +13,7 @@ BrightnessThreshold::~BrightnessThreshold() {
 void BrightnessThreshold::Init() {
 	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
 	// 輝度抽出の設定
-	bloomBuffer_ = graphicsCtx->CreateDxResource(ResourceType::COMMON);
+	bloomBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	bloomBuffer_->CreateResource(sizeof(BloomSettings));
 	bloomBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&bloomSetting_));
 

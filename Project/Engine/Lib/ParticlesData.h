@@ -7,21 +7,21 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 enum class CpuEmitDirection {
-	UP,			// 上方向に射出
-	RANDOM,		// ランダム方向に射出
-	OUTSIDE,	// 中心から反対に射出
-	CENTERFOR	// 中心に向かって射出
+	Up,			// 上方向に射出
+	Random,		// ランダム方向に射出
+	Outside,	// 中心から反対に射出
+	CenterFor	// 中心に向かって射出
 };
 
 enum class CpuEmitOrigin {
-	CENTER,		// 中心から
-	RANGE,		// 範囲からランダムに
+	Center,		// 中心から
+	Range,		// 範囲からランダムに
 };
 
 enum class CpuEmitterShape {
-	SPHERE,
-	BOX,
-	CONE
+	Shere,
+	Box,
+	Cone
 };
 
 /// <summary>

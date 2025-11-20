@@ -252,11 +252,11 @@ int Input::GetWheel() {
 // ↓　ゲームパッドのボタンの取得
 // ---------------------------------------------------------------
 bool Input::IsTriggerButton(const XInputButtons& bottons) {
-	if (bottons == XInputButtons::LT_SHOULDER) {
+	if (bottons == XInputButtons::LtShoulder) {
 		return GetInstance()->IsThumbLT();
 	}
 
-	if (bottons == XInputButtons::RT_SHOULDER) {
+	if (bottons == XInputButtons::RtShoulder) {
 		return GetInstance()->IsThumbRT();
 	}
 

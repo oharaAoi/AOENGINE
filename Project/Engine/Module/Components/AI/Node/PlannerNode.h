@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "Engine/Module/Components/AI/IBehaviorNode.h"
+#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
 #include "Engine/Module/Components/AI/BehaviorTree.h"
 #include "Engine/Module/Components/AI/State/IWorldState.h"
 #include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"

@@ -27,7 +27,7 @@ void BlendTexture::Init(DxResourceManager* _dxManager) {
 	heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
 	// resourceの作成
-	resultResource_ = _dxManager->CreateResource(ResourceType::COMMON);
+	resultResource_ = _dxManager->CreateResource(ResourceType::Common);
 	resultResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 	
 	// ------------------------------------------------------------

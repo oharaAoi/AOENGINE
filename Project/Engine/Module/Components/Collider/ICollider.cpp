@@ -7,16 +7,16 @@ void ICollider::SwitchCollision(ICollider* partner) {
 
 	switch (state) {
 	case 0b00:	// 衝突していない
-		collisionState_ = CollisionFlags::ENTER;	// NONE → ENTER
-		state = CollisionFlags::ENTER;
+		collisionState_ = (int)CollisionFlags::Enter;	// NONE → ENTER
+		state = (int)CollisionFlags::Enter;
 		break;
 	case 0b01:	// 初衝突
-		collisionState_ = CollisionFlags::STAY;		// ENTER → STAY
-		state = CollisionFlags::STAY;
+		collisionState_ = (int)CollisionFlags::Stay;		// ENTER → STAY
+		state = (int)CollisionFlags::Stay;
 		break;
 	case 0b10:	// 衝突しなくなった直後
-		collisionState_ = CollisionFlags::NONE;		// EXIT → NONE
-		state = CollisionFlags::NONE;
+		collisionState_ = (int)CollisionFlags::None;		// EXIT → NONE
+		state = (int)CollisionFlags::None;
 		break;
 	case 0b11:	// 連続衝突時
 		break;

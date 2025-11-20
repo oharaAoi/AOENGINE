@@ -55,7 +55,7 @@ void TitleScene::Update() {
 			gameModeGuide_->Open();
 		}
 	} else {
-		if (Input::GetInstance()->IsTriggerButton(XInputButtons::BUTTON_A) || Input::GetInstance()->GetKey(DIK_SPACE)) {
+		if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA) || Input::GetInstance()->GetKey(DIK_SPACE)) {
 			fadePanel_->SetBlackOut();
 			putButton_ = true;
 		}
@@ -65,9 +65,9 @@ void TitleScene::Update() {
 
 	if (gameModeGuide_->Decide()) {
 		if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToGame) {
-			nextSceneType_ = SceneType::GAME;
+			nextSceneType_ = SceneType::Game;
 		} else if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToTutorial) {
-			nextSceneType_ = SceneType::TUTORIAL;
+			nextSceneType_ = SceneType::Tutorial;
 		}
 	}
 

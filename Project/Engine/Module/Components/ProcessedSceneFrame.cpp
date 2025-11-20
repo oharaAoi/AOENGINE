@@ -27,7 +27,7 @@ void ProcessedSceneFrame::Init(DxResourceManager* _dxResourceManager) {
 
 	// HEAPの設定
 	// Resourceの作成
-	renderResource_ = _dxResourceManager->CreateResource(ResourceType::COMMON);
+	renderResource_ = _dxResourceManager->CreateResource(ResourceType::Common);
 	renderResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	// ------------------------------------------------------------

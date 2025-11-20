@@ -135,12 +135,12 @@ void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 	}
 
 	switch (collisionPair.first->GetCollisionState()) {
-	case CollisionFlags::ENTER:
+	case (int)CollisionFlags::Enter:
 		if (callbacks.enter) {
 			callbacks.enter(collisionPair.first, collisionPair.second);
 		}
 		break;
-	case CollisionFlags::STAY:
+	case (int)CollisionFlags::Stay:
 		if (callbacks.stay) {
 			callbacks.stay(collisionPair.first, collisionPair.second);
 		}
@@ -150,12 +150,12 @@ void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 	}
 
 	switch (collisionPair.second->GetCollisionState()) {
-	case CollisionFlags::ENTER:
+	case (int)CollisionFlags::Enter:
 		if (callbacks.enter) {
 			callbacks.enter(collisionPair.first, collisionPair.second);
 		}
 		break;
-	case CollisionFlags::STAY:
+	case (int)CollisionFlags::Stay:
 		if (callbacks.stay) {
 			callbacks.stay(collisionPair.first, collisionPair.second);
 		}
@@ -172,10 +172,10 @@ void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 void CollisionManager::ExitCollision(ICollider* colliderA, ICollider* colliderB) {
 	// 衝突している状態だったら脱出した状態にする
 	for (auto collider : { colliderA, colliderB }) {
-		if (collider->GetCollisionState() == CollisionFlags::STAY) {
-			collider->SetCollisionState(CollisionFlags::EXIT);
+		if (collider->GetCollisionState() == (int)CollisionFlags::Stay) {
+			collider->SetCollisionState((int)CollisionFlags::Exit);
 		} else {
-			collider->SetCollisionState(CollisionFlags::NONE);
+			collider->SetCollisionState((int)CollisionFlags::None);
 			collider->DeletePartner(colliderA == collider ? colliderB : colliderA);
 		}
 	}
@@ -183,12 +183,12 @@ void CollisionManager::ExitCollision(ICollider* colliderA, ICollider* colliderB)
 
 void CollisionManager::CallBackCollision(ICollider* colliderA, ICollider* colliderB, CallBackKinds callBack) {
 	switch (colliderA->GetCollisionState()) {
-	case CollisionFlags::ENTER:
+	case (int)CollisionFlags::Enter:
 		if (callBack.enter) {
 			callBack.enter(colliderA, colliderB);
 		}
 		break;
-	case CollisionFlags::STAY:
+	case (int)CollisionFlags::Stay:
 		if (callBack.stay) {
 			callBack.stay(colliderA, colliderB);
 		}

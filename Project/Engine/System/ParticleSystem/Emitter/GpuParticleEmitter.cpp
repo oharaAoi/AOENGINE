@@ -87,11 +87,11 @@ void GpuParticleEmitter::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
-	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
+	if (emitterItem_.shape == (int)GpuEmitterShape::Sphere) {
 		Engine::SetPipelineCS("GpuParticleEmit.json");
-	} else if(emitterItem_.shape == GpuEmitterShape::BOX) {
+	} else if(emitterItem_.shape == (int)GpuEmitterShape::Box) {
 		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
-	} else if (emitterItem_.shape == GpuEmitterShape::CONE) {
+	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
 		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
 	}
 	Pipeline* pso = Engine::GetLastUsedPipelineCS();
@@ -116,13 +116,13 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleEmitter::DrawShape() const {
-	if (emitterItem_.shape == GpuEmitterShape::SPHERE) {
+	if (emitterItem_.shape == (int)GpuEmitterShape::Sphere) {
 		DrawSphere(emitterItem_.pos, emitterItem_.radius, Render::GetViewProjectionMat());
-	} else if(emitterItem_.shape == GpuEmitterShape::BOX) {
+	} else if(emitterItem_.shape == (int)GpuEmitterShape::Box) {
 		OBB obb{ .center = emitterItem_.pos, .size = emitterItem_.size };
 		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitterItem_.rotate));
 		DrawOBB(obb, Render::GetViewProjectionMat());
-	} else if (emitterItem_.shape == GpuEmitterShape::CONE) {
+	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
 		Quaternion rotate = Quaternion::EulerToQuaternion(emitterItem_.rotate);
 		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, Render::GetViewProjectionMat());
 	}

@@ -2,9 +2,9 @@
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 
-enum PlayerBulletType {
-	MACHINEGUN,
-	LANCHER,
+enum class PlayerBulletType{
+	MachineGun,
+	Launcher,
 };
 
 /// <summary>
@@ -35,7 +35,7 @@ public:
 
 private:
 
-	uint32_t bulletType = MACHINEGUN;
+	uint32_t bulletType = (int)PlayerBulletType::MachineGun;
 	GpuParticleEmitter* trail_;
 
 };

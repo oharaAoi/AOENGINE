@@ -9,7 +9,7 @@ void WeaponRemainingRounds::Init(const std::string& _name) {
 	gauge_->Load("PlayerUIs", _name);
 	gauge_->ReSetTexture("white.png");
 	
-	colorAnimation_.Init(Color::red, Color::white, .4f, (int)EasingType::None::Liner, LoopType::RETURN);
+	colorAnimation_.Init(Color::red, Color::white, .4f, (int)EasingType::None::Liner, LoopType::Return);
 	timer_ = 0;
 }
 
