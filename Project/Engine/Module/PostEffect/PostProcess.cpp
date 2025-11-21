@@ -125,7 +125,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _
 	// sceneのリソースをコピーする
 	Copy(_commandList, _dxResource);
 	// renderTargetをセットする
-	pingPongBuff_->SetRenderTarget(_commandList, BufferType::Ping, depthHandle_.handleCPU);
+	pingPongBuff_->SetRenderTarget(_commandList, BufferType::Pong, depthHandle_.handleCPU);
 	uint32_t cout = 0;
 	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
@@ -156,7 +156,7 @@ void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxR
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::Ping);
 	_commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), _dxResource->GetResource());
 
-	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Pong);
+	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Ping);
 }
 
 void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {

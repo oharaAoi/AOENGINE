@@ -102,10 +102,11 @@ void EditorWindows::Begin() {
 		}
 
 	}
-	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
-	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
 
 	DebugItemWindow();
+
+	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
+	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
 
 	// -------------------------------------------------
 	// ↓ BaseとなるWidowの描画開始
@@ -204,13 +205,8 @@ void EditorWindows::ShaderGraphEditorWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::DebugItemWindow() {
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
-		| ImGuiWindowFlags_AlwaysAutoResize
-		| ImGuiWindowFlags_NoScrollbar
-		| ImGuiWindowFlags_NoCollapse
-		| ImGuiWindowFlags_NoDocking;
-
-	if (ImGui::Begin("DebugItems", nullptr, flags)) {
+	
+	
 		TextureManager* tex = TextureManager::GetInstance();
 		ImVec2 iconSize(16, 16);
 		D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
@@ -227,6 +223,12 @@ void EditorWindows::DebugItemWindow() {
 		ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
 		ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
 
+		ImVec2 winPos = ImGui::GetWindowPos();
+		ImVec2 winSize = ImGui::GetWindowSize();
+		// ウィンドウ中央
+		float centerX = winPos.x + winSize.x * 0.5f;
+		float startX = centerX - iconSize.x * 0.5f * iconSize.x;
+		ImGui::SetCursorPosX(startX);
 		static bool isPlaying = true;  // トグル状態を保持
 		ImTextureID icon = isPlaying ? pauseTex : playTex;
 		if (ImGui::ImageButton("##toggle", icon, iconSize)) {
@@ -285,8 +287,6 @@ void EditorWindows::DebugItemWindow() {
 			gridDraw_ = !gridDraw_;  // 状態トグル
 		}
 		PopStyleColor(pushButton);
-	}
-	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

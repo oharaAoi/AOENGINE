@@ -46,7 +46,7 @@ void PingPongBuffer::CreatePing(DxResourceManager* _dxResourceManager) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pingResource_ = _dxResourceManager->CreateResource(ResourceType::Common);
+	pingResource_ = _dxResourceManager->CreateResource(ResourceType::RenderTarget);
 	pingResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingResource_->CreateRTV(rtvDesc);
 	pingResource_->CreateSRV(srvDesc);
@@ -83,7 +83,7 @@ void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	pongResource_ = _dxResourceManager->CreateResource(ResourceType::Common);
+	pongResource_ = _dxResourceManager->CreateResource(ResourceType::RenderTarget);
 	pongResource_->CreateResource(&desc, &heapProperties, D3D12_HEAP_FLAG_ALLOW_DISPLAY, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	pongResource_->CreateRTV(rtvDesc);
 	pongResource_->CreateSRV(srvDesc);

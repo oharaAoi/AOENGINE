@@ -25,9 +25,7 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 	fontConfig.OversampleV = 3;
 	io.Fonts->AddFontFromFileTTF("./Project/Packages/Engine/Assets/Font/Cica-Regular.ttf", 14.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
 	io.Fonts->Build();
-	//io.Fonts->AddFontFromFileTTF("./Engine/Resources/Font/FiraMono-Medium.ttf", 80 * 10.f);
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//ImGui::GetIO().FontGlobalScale = 1.0f / 50.f;
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX12_Init(

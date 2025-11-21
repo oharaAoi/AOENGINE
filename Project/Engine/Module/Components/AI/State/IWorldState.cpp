@@ -1,5 +1,6 @@
 #include "IWorldState.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 void IWorldState::Debug_Gui() {
 	if (ImGui::BeginTable("WorldStateTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
@@ -18,15 +19,7 @@ void IWorldState::Debug_Gui() {
 			std::visit([&](auto&& v) {
 				using T = std::decay_t<decltype(v)>;
 
-				if constexpr (std::is_same_v<T, int32_t*>) {
-					ImGui::Text("%d", *v);
-				} else if constexpr (std::is_same_v<T, float*>) {
-					ImGui::Text("%.3f", *v);
-				} else if constexpr (std::is_same_v<T, bool*>) {
-					ImGui::Text(*v ? "true" : "false");
-				} else if constexpr (std::is_same_v<T, std::string*>) {
-					ImGui::TextUnformatted(v->c_str());
-				}
+				TemplateValueText(v);
 
 			}, value.Get());
 		}

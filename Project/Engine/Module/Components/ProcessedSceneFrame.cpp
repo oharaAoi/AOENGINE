@@ -65,9 +65,7 @@ void ProcessedSceneFrame::Draw(ID3D12GraphicsCommandList* commandList) {
 void ProcessedSceneFrame::DrawScene() {
 	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);  // アルファの影響を無効化
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(40, 70));
 	availSize_ = ImGui::GetContentRegionAvail();
-	imagePos_ = ImGui::GetCursorScreenPos();
 	// アスペクト比維持したい場合はここで調整
 	const float aspect = 16.0f / 9.0f;
 	if (availSize_.x / availSize_.y > aspect) {

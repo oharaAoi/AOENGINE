@@ -26,6 +26,11 @@ public:
         stateMap_[key] = WorldStateValue(&ref);
 	}
 
+	template<typename T>
+	void Set(const std::string& key, const T& value) {
+		stateMap_[key] = WorldStateValue(value);
+	}
+
 	WorldStateValue Get(const std::string& key) const {
 		return stateMap_.at(key).Get();
 	}
