@@ -3,6 +3,9 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
 void IWorldState::Debug_Gui() {
+	// 値の追加
+	CreateValue();
+
 	if (ImGui::BeginTable("WorldStateTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Key");
 		ImGui::TableSetupColumn("Value");
@@ -28,10 +31,35 @@ void IWorldState::Debug_Gui() {
 	}
 }
 
+void IWorldState::CreateValue() {
+	static std::string newKey = "";
+	static int combIndex = 0;
+	InputTextWithString("key", "##worldStateKey", newKey, 16, 100);
+	ImGui::SameLine();
+	std::vector<std::string> valueArray = { "int", "float", "bool", "string" };
+	combIndex =	ContainerOfComb(valueArray, combIndex, "##worldStateComb", 100);
+	ImGui::SameLine();
+	if (ImGui::Button(" + ")) {
+		switch (combIndex) {
+		case 0: // int型
+			return this->Set(newKey, int32_t(0));
+		case 1: // float型
+			return this->Set(newKey, float(0));
+		case 2: // bool型
+			return this->Set(newKey, bool(false));
+		case 3: // string型
+			return this->Set(newKey, std::string(""));
+		default:
+			break;
+		}
+	}
+}
+
 void IWorldState::KeyCombo(std::string& _key, int32_t& index, const std::string& _label) {
 	std::vector<std::string> keys;
 	for (auto& [k, _] : stateMap_) keys.push_back(k);
 
+	ImGui::SetNextItemWidth(80);
 	if (ImGui::BeginCombo(_label.c_str(), _key.c_str())) {
 		for (int i = 0; i < keys.size(); i++) {
 			bool isSelected = (_key == keys[i]);

@@ -1,6 +1,6 @@
 #include "ImGuiHelperFunc.h"
 
-bool InputTextWithString(const char* filedName, const char* label, std::string& str, size_t maxLength) {
+bool InputTextWithString(const char* filedName, const char* label, std::string& str, size_t maxLength, float inputFiledSize) {
 	// std::vector<char> をバッファとして使用
 	std::vector<char> buffer(str.begin(), str.end());
 	buffer.resize(maxLength); // 必要なサイズにリサイズ
@@ -8,6 +8,7 @@ bool InputTextWithString(const char* filedName, const char* label, std::string& 
 	// ImGui入力フィールド
 	ImGui::Text(filedName);  // 左側に表示
 	ImGui::SameLine();        // 同じ行に描画
+	ImGui::SetNextItemWidth(inputFiledSize);
 	bool changed = ImGui::InputText(label, buffer.data(), buffer.size());
 
 	if (changed) {
@@ -44,7 +45,7 @@ bool ButtonOpenDialog(const char* buttonLabel, const char* dialogKey, const char
 	return false;
 }
 
-int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, const char* label) {
+int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, const char* label, float inputFiledSize) {
 	std::vector<const char*> itemPtrs;
 	itemPtrs.reserve(items.size());
 
@@ -52,6 +53,7 @@ int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, c
 		itemPtrs.push_back(str.c_str());
 	}
 
+	ImGui::SetNextItemWidth(inputFiledSize);
 	if (ImGui::Combo(label, &selectedIndex, itemPtrs.data(), static_cast<int>(itemPtrs.size()))) {
 		return selectedIndex; // 選択が変更された
 	}

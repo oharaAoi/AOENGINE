@@ -4,11 +4,9 @@
 #include <string>
 #include <variant>
 #include <stdexcept>
+#include <vector>
 // engine
 #include "Engine/Module/Components/AI/State/WorldStateValue.h"
-#include "Engine/Lib/Math/Vector2.h"
-#include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Math/Vector4.h"
 
 /// <summary>
 /// Nodeごとに情報を共有するためのクラス
@@ -34,9 +32,14 @@ public:
 	WorldStateValue Get(const std::string& key) const {
 		return stateMap_.at(key).Get();
 	}
+
 	void Debug_Gui();
 
 	void KeyCombo(std::string& _key, int32_t& index, const std::string& _label);
+
+private:
+
+	void CreateValue();
 
 protected:
 	std::unordered_map<std::string, WorldStateValue> stateMap_;

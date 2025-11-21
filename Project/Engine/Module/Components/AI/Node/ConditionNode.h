@@ -18,8 +18,17 @@ public: // コンストラクタ
 
 public:
 
-	// jsonへ
+	/// <summary>
+	/// jsonへ
+	/// </summary>
+	/// <returns></returns>
 	json ToJson() override;
+
+	/// <summary>
+	/// jsonから保存項目を適応
+	/// </summary>
+	/// <param name="_jsonData"></param>
+	void FromJson(const json& _jsonData) override;
 
 	// 実行
 	BehaviorStatus Execute() override;
@@ -45,7 +54,7 @@ private:
 	const char* conditionOps[kOperatorCount_] = {
 	"==", "!=", ">", "<", ">=", "<="
 	};
-	int32_t opIndex32_ = 0;
+	int32_t opIndex_ = 0;
 	int32_t leftKeyIndex_ = 0;
 	int32_t rightKeyIndex_ = 0;
 

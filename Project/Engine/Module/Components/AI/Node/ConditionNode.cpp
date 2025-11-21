@@ -15,6 +15,12 @@ json ConditionNode::ToJson() {
 	item["nodeType"] = static_cast<int>(type_);
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
 	item["children"] = json::array();
+	// 特有の項目
+	item["leftKey"] = leftKey_;
+	item["leftKeyIndex"] = leftKeyIndex_;
+	item["rightKey"] = rightKey_;
+	item["rightKeyIndex"] = rightKeyIndex_;
+	item["operatorIndex"] = opIndex_;
 
 	for (const auto& child : children_) {
 		item["children"].push_back(child->ToJson());
@@ -22,11 +28,36 @@ json ConditionNode::ToJson() {
 	return item;
 }
 
+void ConditionNode::FromJson(const json& _jsonData) {
+	node_.name = _jsonData["name"];
+	type_ = _jsonData["nodeType"];
+	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
+	if (_jsonData.contains("leftKey")) {
+		leftKey_ = _jsonData["leftKey"];
+	}
+
+	if (_jsonData.contains("leftKeyIndex")) {
+		leftKeyIndex_ = _jsonData["leftKeyIndex"];
+	}
+
+	if (_jsonData.contains("rightKey")) {
+		rightKey_ = _jsonData["rightKey"];
+	}
+
+	if (_jsonData.contains("rightKeyIndex")) {
+		rightKeyIndex_ = _jsonData["rightKeyIndex"];
+	}
+
+	if (_jsonData.contains("operatorIndex")) {
+		opIndex_ = _jsonData["operatorIndex"];
+	}
+}
+
 BehaviorStatus ConditionNode::Execute() {
 	if (children_.empty()) {return BehaviorStatus::Inactive;}
 
 	BehaviorStatus status;
-	if (Compare(worldState_->Get(leftKey_), worldState_->Get(rightKey_), conditionOps[opIndex32_])) {
+	if (Compare(worldState_->Get(leftKey_), worldState_->Get(rightKey_), conditionOps[opIndex_])) {
 		status = children_[0]->Execute();
 	} else {
 		status = children_[1]->Execute();
@@ -55,15 +86,11 @@ float ConditionNode::EvaluateWeight() {
 
 void ConditionNode::Debug_Gui() {
 	worldState_->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
-	ImGui::Combo("Operator", &opIndex32_, conditionOps, kOperatorCount_);
-	ImGui::RadioButton("Free", &radioButtonIndex_, 0);
 	ImGui::SameLine();
-	ImGui::RadioButton("Key", &radioButtonIndex_, 1);
-	if (radioButtonIndex_ == 0) {
-		ImGui::DragFloat("value", &freeValue_);
-	} else if (radioButtonIndex_ == 1) {
-		worldState_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
-	}
+	ImGui::SetNextItemWidth(80);
+	ImGui::Combo("Operator", &opIndex_, conditionOps, kOperatorCount_);
+	ImGui::SameLine();
+	worldState_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
 }
 
 bool ConditionNode::Compare(const WorldStateValue& lhs, const WorldStateValue& rhs, const std::string& op) {

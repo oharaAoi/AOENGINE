@@ -2,6 +2,7 @@
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/FileDialogFunc.h"
 #include "Engine/Module/Components/AI/Node/SequenceNode.h"
 #include "Engine/Module/Components/AI/Node/SelectorNode.h"
 #include "Engine/Module/Components/AI/Node/WeightSelectorNode.h"
@@ -276,6 +277,13 @@ void BehaviorTree::Edit() {
 	if (isOpenEditor_) {
 		// Treeに関する処理
 		if (ImGui::Begin(name_.c_str(), &isOpenEditor_, windowFlags_)) {
+
+			// 保存読み込み
+			SaveAndLoad();
+
+			// nodeの作成
+			CreateNodeWindow();
+
 			ax::NodeEditor::SetCurrentEditor(context_);
 			ax::NodeEditor::Begin("BehaviorTree");
 
@@ -289,42 +297,19 @@ void BehaviorTree::Edit() {
 			UnConnect();
 
 			ax::NodeEditor::End();
+
+			ImGui::Begin("WorldState");
+			if (worldState_) {
+				worldState_->Debug_Gui();
+			}
+			ImGui::End();
 		}
 		ImGui::End();
+	}
 
-		// Editorに関する処理
-		std::string editorName = name_ + "_Editor";
-		if (ImGui::Begin(editorName.c_str(), &isOpenEditor_, windowFlags_)) {
-			if (ImGui::CollapsingHeader("Treeの読み込み/保存")) {
-				// 読み込み
-				std::string loadFilePath;
-				std::string loadLabel = name_ + "_Load Tree";
-				std::string loadDialog = name_ + "_LoadTree";
-				if (ButtonOpenDialog(loadLabel.c_str(), loadDialog.c_str(), "LoadTree", ".json", loadFilePath)) {
-					CreateTree(loadFilePath);
-				}
-
-				// 保存
-				std::string filePath;
-				std::string saveLabel = name_ + "_Save Tree";
-				std::string saveDialog = name_ + "_SaveTree";
-				if (ButtonOpenDialog(saveLabel.c_str(), saveDialog.c_str(), "SaveTree", ".json", filePath)) {
-					BehaviorTreeSerializer::Save(filePath, root_->ToJson());
-				}
-			}
-
-			// nodeの作成
-			if (ImGui::CollapsingHeader("Nodeの作成")) {
-				CreateNodeWindow();
-			}
-			ImGui::Separator();
-
-			// 選択中の編集を表示
-			if (selectNode_ != nullptr) {
-				selectNode_->Debug_Gui();
-			}
-		}
-		ImGui::End();
+	// 選択中の編集を表示
+	if (selectNode_ != nullptr) {
+		selectNode_->Debug_Gui();
 	}
 
 	// 選択中のnodeのIdを取得
@@ -336,12 +321,6 @@ void BehaviorTree::Edit() {
 			}
 		}
 	}
-
-	ImGui::Begin("WorldState"); 
-	if (worldState_) {
-		worldState_->Debug_Gui();
-	}
-	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -349,40 +328,71 @@ void BehaviorTree::Edit() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::CreateNodeWindow() {
-	ImGui::BulletText("Nodeを作成");
-	static std::string name = "node ";
-	if (!InputTextWithString("nodeの名前", "##createNode", name)) {
-		assert("名前が入力できません");
+	// 毎フレーム呼ばれる更新処理の中で
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+		popupPos_ = ImGui::GetMousePos();
+		popupRequested_ = !popupRequested_;
 	}
 
-	static int nodeType = 1;
-	ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition");
+	if (!popupRequested_) return;
 
-	// taskを生成しようとしていたら生成するtaskの名前を選ぶ
-	if (nodeType == NodeType::Task) {
-		std::vector<std::string> typeNames;
-		for (const auto& pair : canTaskMap_) {
-			typeNames.push_back(pair.first);
+	if (ImGui::Begin("Nodeを作成", &popupRequested_)) {
+		static std::string name = "node ";
+		if (!InputTextWithString("nodeの名前", "##createNode", name)) {
+			assert("名前が入力できません");
 		}
 
-		static int selectedIndex = 0;
-		int changedIndex = ContainerOfComb(typeNames, selectedIndex, "Task Type");
+		static int nodeType = 1;
+		ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition");
 
-		if (changedIndex != -1) {
-			createTaskName_ = typeNames[changedIndex];
+		// taskを生成しようとしていたら生成するtaskの名前を選ぶ
+		if (nodeType == NodeType::Task) {
+			std::vector<std::string> typeNames;
+			for (const auto& pair : canTaskMap_) {
+				typeNames.push_back(pair.first);
+			}
+
+			static int selectedIndex = 0;
+			int changedIndex = ContainerOfComb(typeNames, selectedIndex, "Task Type");
+
+			if (changedIndex != -1) {
+				createTaskName_ = typeNames[changedIndex];
+			}
+
+			// nameが空だったら
+			if (createTaskName_ == "") {
+				if (!typeNames.empty()) {
+					createTaskName_ = typeNames[0];
+				}
+			}
 		}
 
-		// nameが空だったら
-		if (createTaskName_ == "") {
-			if (!typeNames.empty()) {
-				createTaskName_ = typeNames[0];
+		if (nodeType != NodeType::Root) {
+			if (ImGui::Button("Create Node")) {
+				CreateNode(nodeType);
+				popupRequested_ = false;
 			}
 		}
 	}
+	ImGui::End();
+}
 
-	if (nodeType != NodeType::Root) {
-		if (ImGui::Button("Create Node")) {
-			CreateNode(nodeType);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　保存と読み込みをする
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void BehaviorTree::SaveAndLoad() {
+	if (ImGui::Button("save")) {
+		std::string path = FileSaveDialogFunc();
+		if (path != "") {
+			BehaviorTreeSerializer::Save(path, root_->ToJson());
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("load")) {
+		std::string path = FileOpenDialogFunc();
+		if (path != "") {
+			CreateTree(path);
 		}
 	}
 }
@@ -403,12 +413,12 @@ void BehaviorTree::CreateNode(int nodeType) {
 
 	} else if (nodeType == NodeType::Planner) {
 		nodeList_.emplace_back(std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_));
-		
+
 	} else if (nodeType == NodeType::PlannerSelector) {
 		nodeList_.emplace_back(std::make_shared<PlannerSelectorNode>());
 
 	} else if (nodeType == NodeType::Condition) {
-		auto& node =  nodeList_.emplace_back(std::make_shared<ConditionNode>());
+		auto& node = nodeList_.emplace_back(std::make_shared<ConditionNode>());
 		node->SetWorldState(worldState_);
 
 	} else if (nodeType == NodeType::Task) {
@@ -416,7 +426,7 @@ void BehaviorTree::CreateNode(int nodeType) {
 		node->Init();
 		node->SetPos(CVector2::ZERO);
 		node->SetWorldState(worldState_);
-	} 
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -462,7 +472,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	case NodeType::WeightSelector: node = std::make_shared<WeightSelectorNode>(); break;
 	case NodeType::Condition: node = std::make_shared<ConditionNode>(); break;
 	case NodeType::Planner:
- 		node = std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_);
+		node = std::make_shared<PlannerNode>(canTaskMap_, worldState_, goalArray_);
 		{
 			PlannerNode* plannerNode = dynamic_cast<PlannerNode*>(node.get());
 			plannerNode->SetGOBT(_json["orientedName"], _json["treeFileName"]);
@@ -478,6 +488,7 @@ std::shared_ptr<IBehaviorNode> BehaviorTree::CreateNodeFromJson(const json& _jso
 	}
 
 	// jsonからnodeの情報を取得
+	node->SetWorldState(worldState_);
 	node->FromJson(_json);
 	node->SetLogger(logger_.get());
 	nodeList_.push_back(node);

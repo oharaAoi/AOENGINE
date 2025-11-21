@@ -84,6 +84,9 @@ private:
 	// node生成Window
 	void CreateNodeWindow();
 
+	// 保存と読み込み
+	void SaveAndLoad();
+
 	// node作成
 	void CreateNode(int nodeType);
 
@@ -123,7 +126,6 @@ private:
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 
 	// フラグ
-	bool isOpenEditor_ = false;
 	bool isExecute_ = false;
 	
 	std::string createTaskName_;
@@ -136,6 +138,11 @@ private:
 	IBehaviorNode* selectNode_;
 	ax::NodeEditor::NodeId selectId_;
 	ax::NodeEditor::NodeId preSelectId_;
+
+	ImVec2 popupPos_;
+	bool popupRequested_ = false;
+
+	bool isOpenEditor_ = false;
 
 	// ----------------------
 	// ↓ loggerポインタ
