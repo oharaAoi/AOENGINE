@@ -2,6 +2,7 @@
 #include <memory>
 #include "Engine/Core/AoiFramework.h"
 #include "Engine/System/Manager/SceneManager.h"
+#include "Engine/System/Manager/SystemManager.h"
 #include "Engine/Lib/Profiler.h"
 
 /// <summary>
@@ -35,6 +36,7 @@ private:
 	Profiler profiler_;
 
 	std::unique_ptr<SceneManager> sceneManger_;
+	std::unique_ptr<SystemManager> systemManager_;
 
 	bool isReset_;
 

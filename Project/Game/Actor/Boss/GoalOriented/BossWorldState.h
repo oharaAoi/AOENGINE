@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Module/Components/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/IWorldState.h"
 
 /// <summary>
 /// Bossの状態を所有しているクラス

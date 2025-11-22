@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
+#include <utility>
 #include "Engine/System/Editer/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
@@ -31,6 +32,16 @@ public:
 	void Finalize();
 
 	static void AddObjectWindow([[maybe_unused]] AttributeGui* attribute, [[maybe_unused]] const std::string& label);
+
+	template<typename Ptr, typename Func>
+	void SetFocusedInspector(Ptr ptr, Func&& func) {
+		auto ptrHandle = ptr;
+
+		auto& update = GetWindowUpdate();
+		update = [ptrHandle, f = std::forward<Func>(func)]() mutable {
+			f();   // ★ ptrHandle を渡さない
+			};
+	}
 
 #ifdef _DEBUG
 
@@ -66,16 +77,6 @@ private:
 	void GameWindow();
 
 	/// <summary>
-	/// ParticleEditorの描画
-	/// </summary>
-	void ParticleEditorWindow();
-
-	/// <summary>
-	/// ShaderGraphEditorの描画
-	/// </summary>
-	void ShaderGraphEditorWindow();
-
-	/// <summary>
 	/// Debug機能を描画するWindow
 	/// </summary>
 	void DebugItemWindow();
@@ -95,15 +96,15 @@ public:
 	void Reset();
 
 	bool GetSceneReset() const { return sceneReset_; }
-	
-	bool GetColliderDraw() const { return colliderDraw_; };
 
-	bool GetOpenParticleEditor() const { return openParticleEditor_; }
+	bool GetColliderDraw() const { return colliderDraw_; };
 
 	bool GetGridDraw() const { return gridDraw_; }
 
 	void SetSceneRenderer(SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
 	void SetCanvas2d(Canvas2d* _canvas) { canvas2d_ = _canvas; }
+
+	std::function<void()>& GetWindowUpdate() { return windowUpdate_; }
 
 private:
 
@@ -134,7 +135,6 @@ private:
 
 	// editorで使用するフラグ
 	bool sceneReset_;
-	bool openParticleEditor_;
 	bool colliderDraw_;
 	bool gridDraw_;
 	bool isSkip_;

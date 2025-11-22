@@ -1,0 +1,109 @@
+#include "BehaviorTreeNodeFactory.h"
+#include "Engine/System/AI/Node/BehaviorRootNode.h"
+#include "Engine/System/AI/Node/SequenceNode.h"
+#include "Engine/System/AI/Node/SelectorNode.h"
+#include "Engine/System/AI/Node/WeightSelectorNode.h"
+#include "Engine/System/AI/Node/PlannerNode.h"
+#include "Engine/System/AI/Node/PlannerSelectorNode.h"
+#include "Engine/System/AI/Node/ConditionNode.h"
+#include "Engine/System/AI/BehaviorTreeSerializer.h"
+
+void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateTaskName, std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+										 IWorldState* _worldState, std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap, 
+										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+	if (nodeType == NodeType::Sequencer) {
+		_nodeList.emplace_back(std::make_shared<SequenceNode>());
+
+	} else if (nodeType == NodeType::Selector) {
+		_nodeList.emplace_back(std::make_shared<SelectorNode>());
+
+	} else if (nodeType == NodeType::WeightSelector) {
+		_nodeList.emplace_back(std::make_shared<WeightSelectorNode>());
+
+	} else if (nodeType == NodeType::Planner) {
+		_nodeList.emplace_back(std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray));
+
+	} else if (nodeType == NodeType::PlannerSelector) {
+		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+
+	} else if (nodeType == NodeType::Condition) {
+		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
+		node->SetWorldState(_worldState);
+
+	} else if (nodeType == NodeType::Task) {
+		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
+		node->Init();
+		node->SetPos(CVector2::ZERO);
+		node->SetWorldState(_worldState);
+	}
+}
+
+std::shared_ptr<IBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(const json& _json, std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+																		   std::vector<Link>& _link, IWorldState* _worldState, 
+																		   std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+																		   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+	// nodeを作成
+	std::shared_ptr<IBehaviorNode> node;
+	NodeType type = static_cast<NodeType>(_json["nodeType"]);
+	std::string name = _json["name"];
+
+	// 種類によってインスタンスを変える
+	switch (type) {
+	case NodeType::Root: node = std::make_shared<BehaviorRootNode>(); break;
+	case NodeType::Sequencer: node = std::make_shared<SequenceNode>(); break;
+	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
+	case NodeType::WeightSelector: node = std::make_shared<WeightSelectorNode>(); break;
+	case NodeType::Condition: node = std::make_shared<ConditionNode>(); break;
+	case NodeType::Planner:
+		node = std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray);
+		{
+			PlannerNode* plannerNode = dynamic_cast<PlannerNode*>(node.get());
+			plannerNode->SetGOBT(_json["orientedName"], _json["treeFileName"]);
+		}
+		break;
+	case NodeType::PlannerSelector:
+		node = std::make_shared<PlannerSelectorNode>();
+		break;
+	case NodeType::Task:
+		node = _canTaskMap[name]->Clone();
+		node->Init();
+		break;
+	}
+
+	// jsonからnodeの情報を取得
+	node->SetWorldState(_worldState);
+	node->FromJson(_json);
+	_nodeList.push_back(node);
+
+	// 子どもがいたら再帰的に処理
+	for (const auto& childJson : _json["children"]) {
+		std::shared_ptr<IBehaviorNode> child = CreateNodeFromJson(childJson, _nodeList, _link, _worldState, _canTaskMap, _goalArray);
+		node->AddChild(child.get());
+
+		// nodeと子どもをリンクでつなぐ
+		Link link;
+		link.id = IBehaviorNode::GetNextId();
+		link.from = node->GetOutput().id;
+		link.to = child->GetInput().id;
+		_link.push_back(link);
+	}
+
+	return node;
+}
+
+void BehaviorTreeNodeFactory::CreateTree(const std::string& nodeName, std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+										 std::vector<Link>& _link, IBehaviorNode* _root, IWorldState* _worldState, 
+										 std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+	Logger::Log("[Create][BehaviorTree] : " + nodeName);
+	_nodeList.clear();
+	if (_root != nullptr) {
+		_root->ClearChild();
+	}
+
+	// jsonからtreeの情報を読み取る
+	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
+	_root = _nodeList.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, _nodeList, _link, _worldState, _canTaskMap, _goalArray)).get();
+
+	Logger::Log("--- success!");
+}

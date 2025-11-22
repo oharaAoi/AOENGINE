@@ -3,6 +3,7 @@
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
+#include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/UI/Boss/BossUIs.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
@@ -48,9 +49,6 @@ void Boss::Debug_Gui() {
 	}
 
 	ImGui::Separator();
-	ImGui::BulletText("BehaviorTree");
-	behaviorTree_->Edit();
-
 }
 
 void Boss::Parameter::Debug_Gui() {
@@ -92,9 +90,9 @@ void Boss::Init() {
 	worldState_->SetRef<float>("maxHp", param_.health);
 	worldState_->SetRef<float>("maxPostureStability", param_.postureStability);
 
-	behaviorTree_ = std::make_unique<BehaviorTree>();
+	behaviorTree_ = BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
-	behaviorTree_->SetName("Boss Behavior Tree");
+	behaviorTree_->SetName("BossBehaviorTree");
 	behaviorTree_->SetWorldState(worldState_.get());
 	behaviorTree_->SetTarget(this);
 	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());

@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "Engine/Module/Components/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/ITaskNode.h"
 
 class Boss;
 

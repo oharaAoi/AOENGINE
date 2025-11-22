@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/IBehaviorNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class PlannerSelectorNode :

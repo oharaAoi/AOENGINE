@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Engine/Module/Components/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/IWorldState.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>

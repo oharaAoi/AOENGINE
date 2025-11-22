@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
+#include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 // game
 #include "Game/Actor/Boss/GoalOriented/BossWorldState.h"
 

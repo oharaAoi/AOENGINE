@@ -35,7 +35,6 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
 
 	sceneReset_ = false;
-	openParticleEditor_ = false;
 	colliderDraw_ = false;
 	gridDraw_ = false;
 	isSkip_ = false;
@@ -61,6 +60,19 @@ void EditorWindows::Update() {
 
 	// 現在選択されているwindowを描画する
 	windowUpdate_();
+
+	// sceneを描画する
+	processedSceneFrame_->DrawScene();
+	particleSystemEditor_->Draw();
+	shaderGraphEditor_->Update();
+
+	if (ImGui::Begin("Game Window", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
+		}
+
+	}
+	ImGui::End();
 
 	ImGui::End();
 }
@@ -108,34 +120,6 @@ void EditorWindows::Begin() {
 	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
 
-	// -------------------------------------------------
-	// ↓ BaseとなるWidowの描画開始
-	// -------------------------------------------------
-
-	if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
-		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::ParticleEditorWindow, this);
-			openParticleEditor_ = true;
-		}
-	}
-	ImGui::End();
-
-	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
-		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::ShaderGraphEditorWindow, this);
-			openParticleEditor_ = false;
-		}
-	}
-	ImGui::End();
-
-	if (ImGui::Begin("Game Window", nullptr)) {
-		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
-			openParticleEditor_ = false;
-		}
-	}
-	ImGui::End();
-
 	// 一番上のbegineの分
 	ImGui::End();
 
@@ -146,9 +130,7 @@ void EditorWindows::Begin() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::End() {
-	if (openParticleEditor_) {
-		particleSystemEditor_->End();
-	}
+	particleSystemEditor_->End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,48 +138,18 @@ void EditorWindows::End() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::GameWindow() {
-
-	if (ImGui::Begin("Game Window", nullptr)) {
-		processedSceneFrame_->DrawScene();
-
-		if (ManipulateTool::isActive_) {
-			if (sceneRenderer_ != nullptr) {
-				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
-			}
-
-			if (canvas2d_ != nullptr) {
-				canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
-			}
+	gameObjectWindow_->InspectorWindow();
+	if (ManipulateTool::isActive_) {
+		if (sceneRenderer_ != nullptr) {
+			sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
 		}
 
-		manipulateTool_->SelectUseManipulate();
+		if (canvas2d_ != nullptr) {
+			canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+		}
 	}
-	gameObjectWindow_->Edit();
-}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　Effectの編集を行う描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void EditorWindows::ParticleEditorWindow() {
-	openParticleEditor_ = false;
-	if (ImGui::Begin("ParticleSystemEditor", nullptr)) {
-		particleSystemEditor_->Update();
-		particleSystemEditor_->Draw();
-		openParticleEditor_ = true;
-	}
-}
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　ShaderGraphの編集を行う描画
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void EditorWindows::ShaderGraphEditorWindow() {
-	openParticleEditor_ = false;
-	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
-		shaderGraphEditor_->Update();
-	}
+	manipulateTool_->SelectUseManipulate();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,88 +157,86 @@ void EditorWindows::ShaderGraphEditorWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::DebugItemWindow() {
-	
-	
-		TextureManager* tex = TextureManager::GetInstance();
-		ImVec2 iconSize(16, 16);
-		D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE skipHandle = tex->GetDxHeapHandles("skip.png").handleGPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE colliderHandle = tex->GetDxHeapHandles("collider.png").handleGPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE gridHandle = tex->GetDxHeapHandles("grid.png").handleGPU;
-		D3D12_GPU_DESCRIPTOR_HANDLE replayHandle = tex->GetDxHeapHandles("replay.png").handleGPU;
+	TextureManager* tex = TextureManager::GetInstance();
+	ImVec2 iconSize(16, 16);
+	D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE skipHandle = tex->GetDxHeapHandles("skip.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE colliderHandle = tex->GetDxHeapHandles("collider.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE gridHandle = tex->GetDxHeapHandles("grid.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE replayHandle = tex->GetDxHeapHandles("replay.png").handleGPU;
 
-		ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
-		ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
-		ImTextureID skipTex = reinterpret_cast<ImTextureID>(skipHandle.ptr);
-		ImTextureID colliderTex = reinterpret_cast<ImTextureID>(colliderHandle.ptr);
-		ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
-		ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
+	ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
+	ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
+	ImTextureID skipTex = reinterpret_cast<ImTextureID>(skipHandle.ptr);
+	ImTextureID colliderTex = reinterpret_cast<ImTextureID>(colliderHandle.ptr);
+	ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
+	ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
 
-		ImVec2 winPos = ImGui::GetWindowPos();
-		ImVec2 winSize = ImGui::GetWindowSize();
-		// ウィンドウ中央
-		float centerX = winPos.x + winSize.x * 0.5f;
-		float startX = centerX - iconSize.x * 0.5f * iconSize.x;
-		ImGui::SetCursorPosX(startX);
-		static bool isPlaying = true;  // トグル状態を保持
-		ImTextureID icon = isPlaying ? pauseTex : playTex;
-		if (ImGui::ImageButton("##toggle", icon, iconSize)) {
-			isPlaying = !isPlaying;
-			isSkip_ = false;
-			GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
-		}
-		ImGui::SameLine();
+	ImVec2 winPos = ImGui::GetWindowPos();
+	ImVec2 winSize = ImGui::GetWindowSize();
+	// ウィンドウ中央
+	float centerX = winPos.x + winSize.x * 0.5f;
+	float startX = centerX - iconSize.x * 0.5f * iconSize.x;
+	ImGui::SetCursorPosX(startX);
+	static bool isPlaying = true;  // トグル状態を保持
+	ImTextureID icon = isPlaying ? pauseTex : playTex;
+	if (ImGui::ImageButton("##toggle", icon, iconSize)) {
+		isPlaying = !isPlaying;
+		isSkip_ = false;
+		GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
+	}
+	ImGui::SameLine();
 
-		bool pushButton = false;
-		// -------------------------------------------------
-		// ↓ skipの描画チェック
-		// -------------------------------------------------
+	bool pushButton = false;
+	// -------------------------------------------------
+	// ↓ skipの描画チェック
+	// -------------------------------------------------
 
-		if (isPlaying) {
-			pushButton = PushStyleColor(true, Vector4(34.0f, 34.0f, 32.0f, 255.0f));
-		} else {
-			pushButton = PushStyleColor(false, Vector4(25, 25, 112, 255.0f));
-		}
-		if (isSkip_) {
-			GameTimer::SetTimeScale(0.0f);  // 再生・停止
-			isSkip_ = false;
-		}
-		if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
-			GameTimer::SetTimeScale(1.0f);  // 再生・停止
-			isSkip_ = true;
-		}
-		PopStyleColor(pushButton);
-		ImGui::SameLine();
+	if (isPlaying) {
+		pushButton = PushStyleColor(true, Vector4(34.0f, 34.0f, 32.0f, 255.0f));
+	} else {
+		pushButton = PushStyleColor(false, Vector4(25, 25, 112, 255.0f));
+	}
+	if (isSkip_) {
+		GameTimer::SetTimeScale(0.0f);  // 再生・停止
+		isSkip_ = false;
+	}
+	if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
+		GameTimer::SetTimeScale(1.0f);  // 再生・停止
+		isSkip_ = true;
+	}
+	PopStyleColor(pushButton);
+	ImGui::SameLine();
 
-		// -------------------------------------------------
-		// ↓ Replayの描画チェック
-		// -------------------------------------------------
-		pushButton = PushStyleColor(sceneReset_, Vector4(25, 25, 112, 255.0f));
-		if (ImGui::ImageButton("##replay", replayTex, iconSize)) {
-			sceneReset_ = !sceneReset_;  // 状態トグル
-		}
-		PopStyleColor(pushButton);
-		ImGui::SameLine();
+	// -------------------------------------------------
+	// ↓ Replayの描画チェック
+	// -------------------------------------------------
+	pushButton = PushStyleColor(sceneReset_, Vector4(25, 25, 112, 255.0f));
+	if (ImGui::ImageButton("##replay", replayTex, iconSize)) {
+		sceneReset_ = !sceneReset_;  // 状態トグル
+	}
+	PopStyleColor(pushButton);
+	ImGui::SameLine();
 
-		// -------------------------------------------------
-		// ↓ colliderの描画チェック
-		// -------------------------------------------------
-		pushButton = PushStyleColor(colliderDraw_, Vector4(25, 25, 112, 255.0f));
-		if (ImGui::ImageButton("##collider", colliderTex, iconSize)) {
-			colliderDraw_ = !colliderDraw_;  // 状態トグル
-		}
-		PopStyleColor(pushButton);
-		ImGui::SameLine();
+	// -------------------------------------------------
+	// ↓ colliderの描画チェック
+	// -------------------------------------------------
+	pushButton = PushStyleColor(colliderDraw_, Vector4(25, 25, 112, 255.0f));
+	if (ImGui::ImageButton("##collider", colliderTex, iconSize)) {
+		colliderDraw_ = !colliderDraw_;  // 状態トグル
+	}
+	PopStyleColor(pushButton);
+	ImGui::SameLine();
 
-		// -------------------------------------------------
-		// ↓ gridの描画チェック
-		// -------------------------------------------------
-		pushButton = PushStyleColor(gridDraw_, Vector4(25, 25, 112, 255.0f));
-		if (ImGui::ImageButton("##grid", gridTex, iconSize)) {
-			gridDraw_ = !gridDraw_;  // 状態トグル
-		}
-		PopStyleColor(pushButton);
+	// -------------------------------------------------
+	// ↓ gridの描画チェック
+	// -------------------------------------------------
+	pushButton = PushStyleColor(gridDraw_, Vector4(25, 25, 112, 255.0f));
+	if (ImGui::ImageButton("##grid", gridTex, iconSize)) {
+		gridDraw_ = !gridDraw_;  // 状態トグル
+	}
+	PopStyleColor(pushButton);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,7 +3,7 @@
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Module/Components/AI/BehaviorTree.h"
+#include "Engine/System/AI/BehaviorTree.h"
 // Game
 #include "Game/State/StateMachine.h"
 #include "Game/Manager/ActionManager.h"
@@ -94,7 +94,7 @@ public:
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
-	BehaviorTree* GetBehaviorTree() { return behaviorTree_.get(); }
+	BehaviorTree* GetBehaviorTree() { return behaviorTree_; }
 
 	// 評価値計算クラス
 	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
@@ -177,7 +177,7 @@ private:
 	float stanRemainingTime_; // スタンの残り時間
 
 	// AI --------------------------------------------------
-	std::unique_ptr<BehaviorTree> behaviorTree_;
+	BehaviorTree* behaviorTree_;
 	std::unique_ptr<BossWorldState> worldState_;
 
 	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;

@@ -4,7 +4,7 @@
 #include <memory>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/Module/Components/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/IWorldState.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "Engine/Utilities/Timer.h"
 #include "Engine/Lib/Math/Vector2.h"
@@ -122,8 +122,6 @@ public:
 
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
-	void SetLogger(BehaviorTreeLogger* _logger) { pLogger_ = _logger; }
-
 private:
 
 	/// <summary>
@@ -164,8 +162,5 @@ protected:
 	// 選択カラー
 	ImColor color_;
 	ImColor baseColor_;
-
-	// loggerポインタ
-	BehaviorTreeLogger* pLogger_;
 };
 

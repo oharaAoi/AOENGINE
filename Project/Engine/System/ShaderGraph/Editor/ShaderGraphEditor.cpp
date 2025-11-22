@@ -3,6 +3,7 @@
 #include <shobjidl.h>
 #include <iostream>
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphSerializer.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 
 ShaderGraphEditor::ShaderGraphEditor() {
@@ -36,49 +37,64 @@ void ShaderGraphEditor::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Edit() {
-	if (graphPath_ != "") {
-		ImGui::Text(graphPath_.c_str());
-	}
-	OverwriteGraph();
-	ImGui::SameLine();
-	SaveGraph();
-	ImGui::SameLine();
-	LoadGraph();
-
-	editor_->update();
-
-	// ----------------------
-	// ↓ node更新処理
-	// ----------------------
-	std::unordered_set<ImFlow::BaseNode*> visited;
-	for (auto& [id, nodePtr] : editor_->getNodes()) {
-		ImFlow::BaseNode* node = nodePtr.get();
-
-		for (auto& out : node->getOuts()) {
-			if (out->isConnected()) {
-				continue;
-			}
+	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
 		}
 
-		// 末端からたどるようにする
-		ExecuteFrom(node, visited);
-	}
+		if (graphPath_ != "") {
+			ImGui::Text(graphPath_.c_str());
+		}
+		OverwriteGraph();
+		ImGui::SameLine();
+		SaveGraph();
+		ImGui::SameLine();
+		LoadGraph();
 
-	// ----------------------
-	// ↓ 編集処理
-	// ----------------------
-	ImGui::Begin("Inspector");
+		editor_->update();
+
+		// ----------------------
+		// ↓ node更新処理
+		// ----------------------
+		std::unordered_set<ImFlow::BaseNode*> visited;
+		for (auto& [id, nodePtr] : editor_->getNodes()) {
+			ImFlow::BaseNode* node = nodePtr.get();
+
+			for (auto& out : node->getOuts()) {
+				if (out->isConnected()) {
+					continue;
+				}
+			}
+
+			// 末端からたどるようにする
+			ExecuteFrom(node, visited);
+		}
+
+		// ----------------------
+		// ↓ 編集処理
+		// ----------------------
+		/*ImGui::Begin("Inspector");
+		for (auto& node : editor_->getNodes()) {
+			if (node.second.get()->isSelected()) {
+				node.second.get()->updateGui();
+			}
+		}
+		ImGui::End();*/
+
+		// ---------------------- 
+		// ↓ 作成処理
+		// ----------------------
+		CreateNode();
+	}
+	ImGui::End();
+}
+
+void ShaderGraphEditor::InspectorWindow() {
 	for (auto& node : editor_->getNodes()) {
 		if (node.second.get()->isSelected()) {
 			node.second.get()->updateGui();
 		}
 	}
-	ImGui::End();
-
-	// ---------------------- 
-	// ↓ 作成処理
-	// ----------------------
-	CreateNode();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

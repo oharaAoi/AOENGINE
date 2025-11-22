@@ -4,11 +4,12 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
-#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
-#include "Engine/Module/Components/AI/Node/BehaviorRootNode.h"
-#include "Engine/Module/Components/AI/Node/ITaskNode.h"
-#include "Engine/Module/Components/AI/State/IWorldState.h"
-#include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
+#include "Engine/System/AI/BehaviorTreeEditor.h"
+#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BehaviorRootNode.h"
+#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
@@ -21,7 +22,7 @@ class BehaviorTree {
 public: // コンストラクタ
 
 	BehaviorTree() = default;
-	virtual ~BehaviorTree();
+	~BehaviorTree();
 
 public:
 
@@ -33,6 +34,9 @@ public:
 
 	// 編集処理
 	void Edit();
+
+	// 選択したものを編集
+	void EditSelect();
 
 	// タスクの追加
 	void AddCanTask(std::shared_ptr<IBehaviorNode> _task) {
@@ -72,33 +76,13 @@ public:
 
 private:
 
-	// 接続
-	void Connect();
-
-	// 接続解除
-	void UnConnect();
-
-	// node描画
-	void DrawNode();
-
-	// node生成Window
-	void CreateNodeWindow();
-
-	// 保存と読み込み
-	void SaveAndLoad();
-
-	// node作成
-	void CreateNode(int nodeType);
-
 	// jsonからtreeの作成
 	std::shared_ptr<IBehaviorNode> CreateNodeFromJson(const json& _json);
-
-	// nodeの検索
-	IBehaviorNode* FindNodeFromPin(ax::NodeEditor::PinId pin);
 
 public:
 
 	void SetName(const std::string& _name) { name_ = _name; }
+	const std::string& GetName() const { return name_; }
 
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
@@ -110,9 +94,6 @@ private:
 
 	// treeの所有者のポインタ
 	BaseEntity* pTarget_;
-
-	// nodeEditorのポインタ
-	ax::NodeEditor::EditorContext* context_ = nullptr;
 	// 接続のidをまとめたコンテナ
 	std::vector<Link> links_;
 	// nodeのリスト
@@ -127,22 +108,8 @@ private:
 
 	// フラグ
 	bool isExecute_ = false;
-	
-	std::string createTaskName_;
 
-	// ----------------------
-	// ↓ imgui関連
-	// ----------------------
-	ImGuiWindowFlags windowFlags_;
-
-	IBehaviorNode* selectNode_;
-	ax::NodeEditor::NodeId selectId_;
-	ax::NodeEditor::NodeId preSelectId_;
-
-	ImVec2 popupPos_;
-	bool popupRequested_ = false;
-
-	bool isOpenEditor_ = false;
+	BehaviorTreeEditor editor_;
 
 	// ----------------------
 	// ↓ loggerポインタ

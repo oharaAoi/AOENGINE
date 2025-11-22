@@ -2,10 +2,10 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
-#include "Engine/Module/Components/AI/BehaviorTree.h"
-#include "Engine/Module/Components/AI/State/IWorldState.h"
-#include "Engine/Module/Components/AI/GoalOriented/IOrientedGoal.h"
+#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/BehaviorTree.h"
+#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
 /// <summary>
 /// GoalまでのNodeたちを格納したNode
@@ -63,7 +63,7 @@ public:
 
 private:
 
-	std::unique_ptr<BehaviorTree> tree_;
+	BehaviorTree* tree_;
 	std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>> canTask_;
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 	IWorldState* pWorldState_ = nullptr;

@@ -2,7 +2,7 @@
 #include <memory>
 #include <functional>
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Module/Components/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/ITaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class Boss;

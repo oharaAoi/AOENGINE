@@ -95,7 +95,7 @@ private:		// member method
 	/// <summary>
 	/// 編集する
 	/// </summary>
-	void Edit();
+	void InspectorWindow();
 
 	/// <summary>
 	/// SaveDialogを開く

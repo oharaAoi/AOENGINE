@@ -10,9 +10,9 @@ DeployArmorOriented::DeployArmorOriented() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool DeployArmorOriented::IsGoal() {
-	if (worldState_->Get("isDeployArmor").As<float>()) {
+	/*if (worldState_->Get("isDeployArmor").As<float>()) {
 		return true;
-	}
+	}*/
 	return false;
 }
 
@@ -21,10 +21,10 @@ bool DeployArmorOriented::IsGoal() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float DeployArmorOriented::CalculationScore() {
-	if (worldState_->Get("isDeployArmor").As<float>()) {
+	/*if (worldState_->Get("isDeployArmor").As<float>()) {
 		return 1.0f;
-	}
-	return 0.0f;
+	}*/
+	return 1.0f;
 }
 
 void DeployArmorOriented::Debug_Gui() {

@@ -17,12 +17,9 @@ public:
 
 	void AddAttributeGui(AttributeGui* attribute, const std::string& label);
 
-#ifdef _DEBUG
-	void Edit();
+	void InspectorWindow();
 
 	AttributeGui* GetSelectObject() const { return selectAttribute_; }
-
-#endif // _DEBUG
 
 private:
 

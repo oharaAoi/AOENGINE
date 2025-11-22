@@ -2,7 +2,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Engine.h"
 #include "Engine/Utilities/DrawUtils.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
 #include <iostream>
 #include <fstream>
@@ -93,10 +93,6 @@ void ParticleSystemEditor::Update() {
 
 	// カメラの更新
 	camera_->Update();
-
-	InputText();
-	Create();
-	Edit();
 #endif // _DEBUG
 }
 
@@ -366,7 +362,10 @@ json ParticleSystemEditor::Load(const std::string& filePath) {
 // ↓ 編集を行う
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleSystemEditor::Edit() {
+void ParticleSystemEditor::InspectorWindow() {
+	InputText();
+	Create();
+
 	// 編集したいParticleの指定を行う
 	ImGui::Begin("List");
 	static BaseParticles* cpuParticles = nullptr;
@@ -549,6 +548,10 @@ void ParticleSystemEditor::PreDraw() {
 				 ImGuiWindowFlags_NoTitleBar |
 				 ImGuiWindowFlags_NoResize |
 				 ImGuiWindowFlags_NoBackground);
+
+	if (ImGui::IsWindowFocused()) {
+		EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
+	}
 
 	// Grid線描画
 	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());

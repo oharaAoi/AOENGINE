@@ -1,6 +1,6 @@
 #pragma once
-#include "Engine/Module/Components/AI/Node/IBehaviorNode.h"
-#include "Engine/Module/Components/AI/State/WorldStateValue.h"
+#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/State/WorldStateValue.h"
 
 /// <summary>
 /// if文の代わりとなるNode

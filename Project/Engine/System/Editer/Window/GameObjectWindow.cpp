@@ -1,6 +1,7 @@
 #include "GameObjectWindow.h"
 #include <sstream>
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
@@ -51,9 +52,7 @@ std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
 // ↓　編集画面を表示する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
-#include "Engine/System/Manager/ImGuiManager.h"
-void GameObjectWindow::Edit() {
+void GameObjectWindow::InspectorWindow() {
 	if (attributeArray_.empty()) { return; }
 
 	// -------------------------------------------------
@@ -131,4 +130,3 @@ void GameObjectWindow::Edit() {
 	}
 	ImGui::End();
 }
-#endif // _DEBUG

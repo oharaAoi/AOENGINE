@@ -447,43 +447,43 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\BehaviorRootNode.h">
+    <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\BehaviorTree.h">
+    <ClInclude Include="Engine\System\AI\BehaviorTree.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\BehaviorTreeSerializer.h">
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.h">
+    <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h">
       <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\IBehaviorNode.h">
+    <ClInclude Include="Engine\System\AI\Node\IBehaviorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\ITaskNode.h">
+    <ClInclude Include="Engine\System\AI\Node\ITaskNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\PlannerNode.h">
+    <ClInclude Include="Engine\System\AI\Node\PlannerNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\PlannerSelectorNode.h">
+    <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\SelectorNode.h">
+    <ClInclude Include="Engine\System\AI\Node\SelectorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\SequenceNode.h">
+    <ClInclude Include="Engine\System\AI\Node\SequenceNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\State\IWorldState.h">
+    <ClInclude Include="Engine\System\AI\State\IWorldState.h">
       <Filter>Engine\Module\Components\AI\State</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.h">
+    <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h">
       <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\AI\Node\WeightSelectorNode.h">
+    <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h">
@@ -1259,8 +1259,12 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
-    <ClInclude Include="Engine\Module\Components\AI\Node\ConditionNode.h" />
-    <ClInclude Include="Engine\Module\Components\AI\State\WorldStateValue.h" />
+    <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
+    <ClInclude Include="Engine\System\AI\State\WorldStateValue.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
+    <ClInclude Include="Engine\System\Manager\SystemManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1413,43 +1417,43 @@
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\BehaviorRootNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\BehaviorTree.cpp">
+    <ClCompile Include="Engine\System\AI\BehaviorTree.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\BehaviorTreeSerializer.cpp">
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\GoalOriented\IOrientedGoal.cpp">
+    <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp">
       <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\IBehaviorNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\IBehaviorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\ITaskNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\ITaskNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\PlannerNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\PlannerSelectorNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\SelectorNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\SequenceNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\State\IWorldState.cpp">
+    <ClCompile Include="Engine\System\AI\State\IWorldState.cpp">
       <Filter>Engine\Module\Components\AI\State</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\UtilityAI\UtilityEvaluator.cpp">
+    <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp">
       <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\AI\Node\WeightSelectorNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp">
@@ -2174,8 +2178,12 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
-    <ClCompile Include="Engine\Module\Components\AI\Node\ConditionNode.cpp" />
-    <ClCompile Include="Engine\Module\Components\AI\State\WorldStateValue.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
+    <ClCompile Include="Engine\System\AI\State\WorldStateValue.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
+    <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

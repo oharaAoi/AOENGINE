@@ -1,4 +1,5 @@
 #include "PlannerNode.h"
+#include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
 namespace fs = std::filesystem;
@@ -15,7 +16,7 @@ PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<I
 	goalArray_ = _goals;
 
 	// 所有する
-	tree_ = std::make_unique<BehaviorTree>();
+	tree_ = BehaviorTreeSystem::GetInstance()->Create();
 	tree_->Init();
 	tree_->SetCanTaskMap(_rootNodeCanTask);
 	tree_->SetWorldState(pWorldState_);
@@ -107,10 +108,6 @@ void PlannerNode::Debug_Gui() {
 	EditNodeName();
 
 	// Treeの編集
-	if (ImGui::TreeNode("Have Tree")) {
-		tree_->Edit();
-		ImGui::TreePop();
-	}
 	if (ImGui::TreeNode("Select Tree")) {
 		std::string loadFilePath;
 		if (ButtonOpenDialog("Select Tree", "Select_Tree", "SelectTree", ".json", loadFilePath)) {
@@ -167,6 +164,9 @@ void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _tr
 	}
 	// treeを設定する
 	if (treeFileName_ != "") {
+		std::filesystem::path p(treeFileName_);
+		std::string fileName = p.filename().string();
+		tree_->SetName(fileName);
 		tree_->CreateTree(treeFileName_);
 	}
 }

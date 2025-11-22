@@ -30,6 +30,8 @@ public:
 	/// </summary>
 	void Update();
 
+	void InspectorWindow();
+
 private:
 
 	/// <summary>

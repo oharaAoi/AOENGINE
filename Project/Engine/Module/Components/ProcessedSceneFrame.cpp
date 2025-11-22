@@ -63,20 +63,22 @@ void ProcessedSceneFrame::Draw(ID3D12GraphicsCommandList* commandList) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ProcessedSceneFrame::DrawScene() {
-	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);  // アルファの影響を無効化
-	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
-	availSize_ = ImGui::GetContentRegionAvail();
-	// アスペクト比維持したい場合はここで調整
-	const float aspect = 16.0f / 9.0f;
-	if (availSize_.x / availSize_.y > aspect) {
-		// 横が余る → 高さ基準に合わせる
-		availSize_.x = availSize_.y * aspect;
-	} else {
-		// 縦が余る → 横基準に合わせる
-		availSize_.y = availSize_.x / aspect;
+	if (ImGui::Begin("Game Window", nullptr)) {
+		ImGui::PushStyleVar(ImGuiStyleVar_Alpha, 1.0f);  // アルファの影響を無効化
+		ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderResource_->GetSRV().handleGPU.ptr));
+		availSize_ = ImGui::GetContentRegionAvail();
+		// アスペクト比維持したい場合はここで調整
+		const float aspect = 16.0f / 9.0f;
+		if (availSize_.x / availSize_.y > aspect) {
+			// 横が余る → 高さ基準に合わせる
+			availSize_.x = availSize_.y * aspect;
+		} else {
+			// 縦が余る → 横基準に合わせる
+			availSize_.y = availSize_.x / aspect;
+		}
+		ImGui::Image((void*)textureID, availSize_, ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
+		ImGui::PopStyleVar();
 	}
-	ImGui::Image((void*)textureID, availSize_, ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
-	ImGui::PopStyleVar();
 }
 
 void ProcessedSceneFrame::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {

@@ -153,8 +153,10 @@ void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12
 		Logger::Log("ResourceState MissMatch\n");
 		assert("ResourceState MissMatch");
 	}
-	TransitionResourceState(_commandList, cBuffer_.Get(), _befor, _after);
-	bufferState_ = _after;
+	if (bufferState_ != _after) {
+		TransitionResourceState(_commandList, cBuffer_.Get(), _befor, _after);
+		bufferState_ = _after;
+	}
 }
 
 void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after) {
