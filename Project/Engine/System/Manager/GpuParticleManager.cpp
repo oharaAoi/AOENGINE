@@ -1,7 +1,7 @@
 #include "GpuParticleManager.h"
 #include "Render.h"
 #include "Engine/Core/GraphicsContext.h"
-//#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 GpuParticleManager::~GpuParticleManager() {
@@ -63,8 +63,10 @@ void GpuParticleManager::Draw() const {
 	renderer_->Draw();
 
 #ifdef _DEBUG
-	for (auto& emitter : emitterList_) {
-		emitter->DrawShape();
+	if (EditorWindows::GetInstance()->GetGridDraw()) {
+		for (auto& emitter : emitterList_) {
+			emitter->DrawShape();
+		}
 	}
 #endif
 }

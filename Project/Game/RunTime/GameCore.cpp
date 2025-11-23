@@ -42,8 +42,8 @@ void GameCore::Update() {
 	}
 
 	// sceneの更新
-	sceneManger_->Update();
 	systemManager_->Update();
+	sceneManger_->Update();
 #ifdef _DEBUG
 	sceneManger_->Debug_Gui();
 #endif

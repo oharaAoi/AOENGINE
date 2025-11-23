@@ -60,18 +60,12 @@ void EditorWindows::Update() {
 
 	// 現在選択されているwindowを描画する
 	windowUpdate_();
-
+	
 	// sceneを描画する
 	processedSceneFrame_->DrawScene();
 	particleSystemEditor_->Draw();
 	shaderGraphEditor_->Update();
 
-	if (ImGui::Begin("Game Window", nullptr)) {
-		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
-		}
-
-	}
 	ImGui::End();
 
 	ImGui::End();
@@ -115,14 +109,22 @@ void EditorWindows::Begin() {
 
 	}
 
+	// Debugのためのボタンを表示する
 	DebugItemWindow();
 
+	// ドッキングスペーズの確保
 	ImGuiID dockspace_id = ImGui::GetID("BaseDockspace");
 	ImGui::DockSpace(dockspace_id, ImVec2(0, 0), ImGuiDockNodeFlags_None);
 
 	// 一番上のbegineの分
 	ImGui::End();
 
+	if (ImGui::Begin("Game Window", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
+		}
+
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

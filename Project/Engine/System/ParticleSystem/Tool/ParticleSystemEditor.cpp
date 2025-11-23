@@ -64,6 +64,9 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 
 void ParticleSystemEditor::Update() {
 #ifdef _DEBUG
+	// カメラの更新
+	camera_->Update();
+
 	// Emitterの更新
 	for (auto& emitter : cpuEmitterList_) {
 		if (emitter->GetChangeMesh()) {
@@ -91,8 +94,6 @@ void ParticleSystemEditor::Update() {
 
 	particleRenderer_->PostUpdate();
 
-	// カメラの更新
-	camera_->Update();
 #endif // _DEBUG
 }
 
@@ -363,6 +364,8 @@ json ParticleSystemEditor::Load(const std::string& filePath) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::InspectorWindow() {
+	Update();
+
 	InputText();
 	Create();
 
@@ -554,7 +557,11 @@ void ParticleSystemEditor::PreDraw() {
 	}
 
 	// Grid線描画
-	DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+	Render::Update();
+
+	if (EditorWindows::GetInstance()->GetGridDraw()) {
+		DrawGrid(Render::GetViewport3D(), Render::GetProjection3D());
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
