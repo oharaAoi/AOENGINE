@@ -10,11 +10,23 @@ RenderTarget::~RenderTarget() {
 
 void RenderTarget::Finalize() {
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
-		renderTargetResource_[oi]->Destroy();
+		if (renderTargetResource_[oi] != nullptr) {
+			renderTargetResource_[oi]->Destroy();
+		}
 	}
-	
-	swapChainResource_[0]->Destroy();
-	swapChainResource_[1]->Destroy();
+
+	for (uint32_t oi = 0; oi < 2; ++oi) {
+		if (swapChainResource_[oi] != nullptr) {
+			swapChainResource_[oi]->Destroy();
+		}
+	}
+
+	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
+		renderTargetResource_[oi] = nullptr;
+	}
+
+	swapChainResource_[0] = nullptr;
+	swapChainResource_[1] = nullptr;
 }
 
 void RenderTarget::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
@@ -46,7 +58,7 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, cons
 		rtvHandles.push_back(renderTargetResource_[_renderTypes[index]]->GetRTV().handleCPU);
 	}
 
-	_commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(),FALSE, &_dsvHandle.handleCPU);
+	_commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &_dsvHandle.handleCPU);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// RenderTargetはoffScreen用のRenderTargetを指定しておく
 	// 各レンダーターゲットをクリア

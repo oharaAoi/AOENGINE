@@ -774,9 +774,6 @@
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticles.h">
-      <Filter>Engine\System\ParticleSystem\Particle</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
     </ClInclude>
@@ -1737,9 +1734,6 @@
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticles.cpp">
-      <Filter>Engine\System\ParticleSystem\Particle</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp">
       <Filter>Engine\System\ParticleSystem\Particle</Filter>
