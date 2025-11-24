@@ -59,6 +59,10 @@ struct ParticleSingle {
 	bool isBillBord = true;
 	bool isDraw2d = true;
 	bool isCenterFor = false;
+
+	bool isTextureAnimation = false;
+	Vector2 tileSize = CVector2::UNIT;
+	Matrix4x4 uvMat;
 };
 
 /// <summary>
@@ -118,6 +122,9 @@ struct ParticleEmit : public IJsonConverter {
 	std::string useTexture = "circle.png";
 	std::string useMesh = "plane";
 
+	bool isTextureSheetAnimation = false;
+	Vector2 tiles = CVector2::UNIT;
+
 	ParticleEmit() {
 		toJsonFunction_ = [this](const std::string& id) {
 			return this->ToJson(id);
@@ -171,6 +178,8 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("isTextureSheetAnimation", isTextureSheetAnimation)
+			.Add("tiles", tiles)
 			.Build();
 	}
 
@@ -220,6 +229,8 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "size", size);
 		fromJson(jsonData, "angle", angle);
 		fromJson(jsonData, "height", height);
+		fromJson(jsonData, "isTextureSheetAnimation", isTextureSheetAnimation);
+		fromJson(jsonData, "tiles", tiles);
 	}
 
 	void Attribute_Gui();

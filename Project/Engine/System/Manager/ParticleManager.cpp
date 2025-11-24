@@ -155,9 +155,25 @@ void ParticleManager::ParticlesUpdate() {
 			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
+			if (pr.isTextureAnimation) {
+				Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y  };
+
+				int frameX = (int)pr.lifeTime % (int)pr.tileSize.x;      // 列
+				int frameY = (int)pr.lifeTime / (int)pr.tileSize.x;      // 行
+
+				Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
+
+				Matrix4x4 scaleMat = Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
+				Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
+				pr.uvMat = Multiply(scaleMat, transMat);
+			} else {
+				pr.uvMat = Matrix4x4::MakeUnit();
+			}
+
 			// ---------------------------
 			// パラメーターの更新
 			// ---------------------------
+			particles.second.forGpuData_[index].uvTransform = pr.uvMat;
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
 			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
@@ -166,6 +182,7 @@ void ParticleManager::ParticlesUpdate() {
 			particles.second.forGpuData_[index].cameraPos = Render::GetEyePos();
 			particles.second.forGpuData_[index].isStretch = pr.isStretch;
 
+			particles.second.isAddBlend = pr.isAddBlend;
 			particles.second.isAddBlend = pr.isAddBlend;
 
 			// ---------------------------

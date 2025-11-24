@@ -1,4 +1,5 @@
 struct VertexShaderOutput {
+	float4x4 uvTransform : UVTRANSFORM;
 	float4 position : SV_POSITION;
 	float2 texcoord : TEXCOORD0;
 	float4 color : COLOR0;
@@ -7,6 +8,7 @@ struct VertexShaderOutput {
 
 struct CpuParticle {
 	float4x4 worldMat;
+	float4x4 uvTransform;
 	float4 color;
 	float3 cameraPos;
 	float3 velocity;

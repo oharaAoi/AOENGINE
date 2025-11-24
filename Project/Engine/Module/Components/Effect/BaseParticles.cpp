@@ -213,6 +213,10 @@ void BaseParticles::Emit(const Vector3& pos) {
 	newParticle.isStretch = emitter_.isStretch;
 	newParticle.isBillBord = emitter_.isBillBord;
 	newParticle.isDraw2d = emitter_.isDraw2d;
+
+	newParticle.isTextureAnimation = emitter_.isTextureSheetAnimation;
+	newParticle.tileSize = emitter_.tiles;
+
 	if (emitter_.emitDirection == (int)CpuEmitDirection::CenterFor) {
 		newParticle.isCenterFor = true;
 	} else {

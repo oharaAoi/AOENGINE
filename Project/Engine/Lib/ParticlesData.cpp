@@ -78,6 +78,12 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Checkbox("isScaleUp", &isScaleUp);
 		ImGui::DragFloat3("scaleUpScale", (float*)&scaleUpScale, 0.01f);
 
+		ImGui::Checkbox("##isTextureSheetAnimation", &isTextureSheetAnimation);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("TextureSheetAnimation")) {
+			ImGui::DragFloat2("tiles", &tiles.x, 1.0f);
+		}
+
 		minScale.Clamp(minScale, maxScale);
 	}
 }

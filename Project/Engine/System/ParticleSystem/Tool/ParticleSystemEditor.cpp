@@ -210,6 +210,25 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
+			if (pr.isTextureAnimation) {
+				int totalFrames = (int)(pr.tileSize.x * pr.tileSize.y);
+				int frame = (int)(t * (totalFrames - 1));
+
+				Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y };
+
+				int frameX = frame % (int)pr.tileSize.x;      // 列
+				int frameY = frame / (int)pr.tileSize.x;      // 行
+
+				Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
+
+				Matrix4x4 scaleMat = Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
+				Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
+				pr.uvMat = Multiply(scaleMat, transMat);
+			} else {
+				pr.uvMat = Matrix4x4::MakeUnit();
+			}
+
+			particles.second.forGpuData_[index].uvTransform = pr.uvMat;
 			particles.second.forGpuData_[index].worldMat = localWorld;
 			particles.second.forGpuData_[index].color = pr.color;
 			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;

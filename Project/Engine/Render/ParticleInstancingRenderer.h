@@ -16,6 +16,7 @@ public:		// 構造体
 
 	struct ParticleData {
 		Matrix4x4 worldMat;		// 座標
+		Matrix4x4 uvTransform;	// uv座標
 		Vector4 color;			// 色
 		Vector3 cameraPos;		// カメラの位置
 		Vector3 velocity;		// 速度

@@ -37,6 +37,7 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 	//uint32_t maxParticlesCount = currentUseIndex + static_cast<uint32_t>(particleData.size());
 	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
 		if (currentUseIndex + oi < maxInstanceNum_) {
+			particleMap_[id].particleData[currentUseIndex + oi].uvTransform = particleData[oi].uvTransform;
 			particleMap_[id].particleData[currentUseIndex + oi].worldMat = particleData[oi].worldMat;
 			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
 			particleMap_[id].particleData[currentUseIndex + oi].draw2d = particleData[oi].draw2d;
