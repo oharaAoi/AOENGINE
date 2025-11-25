@@ -2,7 +2,8 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
-
+#include "Engine/Lib/Math/Curve.h"
+#include "Engine/Utilities/Timer.h"
 #include "Game/Effects/JetEngineBurn.h"
 
 /// <summary>
@@ -14,6 +15,9 @@ public: // データ構造体
 
 	struct Parameter : public IJsonConverter {
 		float engineIncline = 10.0f;
+		Vector3 burnMoveScale = Vector3(0.4f, 1.0 , 0.4f);
+		float burnScaleUpTime = 0.5f;
+		Curve burnMoveScaleCurve;
 
 		Parameter() {
 			SetGroupName("JetEngine");
@@ -21,13 +25,20 @@ public: // データ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
+			json curveJson = burnMoveScaleCurve.ToJson();
 			return JsonBuilder(id)
 				.Add("engineIncline", engineIncline)
+				.Add("burnMoveScale", burnMoveScale)
+				.Add("burnScaleUpTime", burnScaleUpTime)
+				.Add("burnMoveScaleCurve", curveJson)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "engineIncline", engineIncline);
+			fromJson(jsonData, "burnMoveScale", burnMoveScale);
+			fromJson(jsonData, "burnScaleUpTime", burnScaleUpTime);
+			burnMoveScaleCurve.FromJson(jsonData, "burnMoveScaleCurve");
 		}
 
 		void Debug_Gui();
@@ -85,4 +96,7 @@ private:
 	JetEngineBurn* jetEngineBurn_;
 	JetEngineBurn* jetEngineBurn2_;
 
+	// moveによる炎のScale関連 ------------------------------------
+	Timer burnScaleUpTimer_;
+	bool isStop_ = true;
 };

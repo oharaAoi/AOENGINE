@@ -44,11 +44,6 @@ void JetEngineBurn::Init() {
 
 	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::Loop);
 
-	exeTime_ = 0.5f;
-	onOffTime_ = 0;
-	boostOn_ = false;
-
-	param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, 0);
 	worldTransform_->SetScale(param_.scale);
 }
 
@@ -63,24 +58,6 @@ void JetEngineBurn::Update() {
 
 	worldTransform_->Update();
 	material_->Update();
-
-	if (boostOn_) {
-		if (onOffTime_ < exeTime_) {
-			onOffTime_ += GameTimer::DeltaTime();
-			float t = onOffTime_ / exeTime_;
-			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
-			
-			worldTransform_->SetScale(param_.scale);
-		}
-	} else {
-		if (onOffTime_ >  0.0f) {
-			onOffTime_ -= GameTimer::DeltaTime();
-			float t = onOffTime_ / exeTime_;
-			param_.scale = Vector3::Lerp(CVector3::ZERO, initScale_, t);
-	
-			worldTransform_->SetScale(param_.scale);
-		}
-	}
 }
 
 void JetEngineBurn::PostUpdate() {
@@ -127,7 +104,6 @@ void JetEngineBurn::Debug_Gui() {
 	if (ImGui::TreeNode("Burn")) {
 		static bool isDebug = false;
 		ImGui::Checkbox("isDebug", &isDebug);
-		boostOn_ = isDebug;
 		worldTransform_->Debug_Gui();
 		material_->Debug_Gui();
 
@@ -174,12 +150,4 @@ void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::str
 
 bool JetEngineBurn::ExistMesh(const std::string& name) {
 	return MeshManager::GetInstance()->ExistMesh(name);
-}
-
-void JetEngineBurn::BoostOn() {
-	boostOn_ = true;
-}
-
-void JetEngineBurn::BoostOff() {
-	boostOn_ = false;
 }

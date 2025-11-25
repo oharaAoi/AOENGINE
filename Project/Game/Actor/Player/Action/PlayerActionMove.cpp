@@ -122,6 +122,7 @@ void PlayerActionMove::OnUpdate() {
 
 void PlayerActionMove::OnEnd() {
 	pOwner_->SetIsMoving(false);
+	pOwner_->GetJetEngine()->JetIsStop();
 	if (pOwner_->GetIsBoostMode()) {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("move_cancel", 0.1f);
@@ -253,15 +254,6 @@ void PlayerActionMove::Move() {
 	// 向き更新
 	// ----------------------
 	pOwner_->LookTarget(param_.rotateT, pOwner_->GetReticle()->GetLockOn());
-
-	// ----------------------
-	// ブーストエフェクト制御
-	// ----------------------
-	if (pOwner_->GetIsBoostMode() || !pOwner_->GetIsLanding()) {
-		pOwner_->GetJetEngine()->JetIsStart();
-	} else {
-		pOwner_->GetJetEngine()->JetIsStop();
-	}
 
 	preVelocity_ = velocity_;
 	preInputStick_ = inputStick_;

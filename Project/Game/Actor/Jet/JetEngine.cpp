@@ -12,6 +12,9 @@ void JetEngine::Finalize() {
 
 void JetEngine::Parameter::Debug_Gui() {
 	ImGui::DragFloat("engineIncline", &engineIncline);
+	ImGui::DragFloat("burnScaleUpTime", &burnScaleUpTime);
+	ImGui::DragFloat3("burnMoveScale", &burnMoveScale.x);
+	burnMoveScaleCurve.Debug_Gui();
 	SaveAndLoad();
 }
 
@@ -58,7 +61,12 @@ void JetEngine::Init() {
 
 	object_->AddChild(jetEngineBurn_);
 	
+	// -------------------------------------
+	// その他初期化
+	// -------------------------------------
+	burnScaleUpTimer_.targetTime_ = param_.burnScaleUpTime;
 	isBoostMode_ = false;
+	isStop_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,6 +74,19 @@ void JetEngine::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngine::Update(float diftX) {
+	// 炎が大きくなる時間がまだ過ぎていないならその処理を行なう
+	if (burnScaleUpTimer_.Run(GameTimer::DeltaTime())) {
+		float value = param_.burnMoveScaleCurve.BezierValue(burnScaleUpTimer_.t_);
+
+		Vector3 scale;
+		if (isStop_) {
+			scale = Vector3::Lerp(param_.burnMoveScale, CVector3::ZERO, value);
+		} else {
+			scale = Vector3::Lerp(CVector3::ZERO, param_.burnMoveScale, value);
+		}
+		burnParentTransform_->SetScale(scale);
+	}
+
 	Quaternion engineRotate = Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
 	Quaternion rotate = Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.1f);
 	transform_->SetRotate(rotate);
@@ -83,10 +104,6 @@ void JetEngine::Debug_Gui() {
 		ImGui::TreePop();
 	}
 
-	if (ImGui::CollapsingHeader("burnParent")) {
-		burnParentTransform_->Debug_Gui();
-	}
-
 	if (ImGui::TreeNode("Burn1")) {
 		jetEngineBurn_->Debug_Gui();
 		ImGui::TreePop();
@@ -97,17 +114,21 @@ void JetEngine::Debug_Gui() {
 		ImGui::TreePop();
 	}
 
+	if (ImGui::CollapsingHeader("burnParent")) {
+		burnParentTransform_->Debug_Gui();
+	}
+
 	param_.Debug_Gui();
 }
 
 void JetEngine::JetIsStop() {
-	jetEngineBurn_->BoostOff();
-	jetEngineBurn2_->BoostOff();
+	isStop_ = true;
+	burnScaleUpTimer_.timer_ = 0;
 	burnParticle_->SetIsStop(true);
 }
 
 void JetEngine::JetIsStart() {
-	jetEngineBurn_->BoostOn();
-	jetEngineBurn2_->BoostOn();
+	isStop_ = false;
+	burnScaleUpTimer_.timer_ = 0;
 	burnParticle_->SetIsStop(false);
 }

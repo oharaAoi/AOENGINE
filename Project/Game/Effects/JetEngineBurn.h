@@ -96,10 +96,6 @@ public:
 
 	WorldTransform* GetWorldTransform() { return worldTransform_.get(); }
 
-	void BoostOn();
-
-	void BoostOff();
-
 private:
 
 	SphereGeometry geometry_;
@@ -117,9 +113,4 @@ private:
 	VectorTween<float> noiseAnimation_;
 
 	Vector3 initScale_;
-
-	// on/offの時間
-	float onOffTime_;
-	float exeTime_;
-	bool boostOn_;
 };
