@@ -16,7 +16,7 @@ void PBulletToBossCallBacks::Init() {
 	//hitBossExploadParticles_ = manager->CrateParticle("HitBossExploadParticles");
 	hitBossSmoke_ = manager->CrateParticle("MachineGunHit");
 	hitBossSmokeBorn_ = manager->CrateParticle("MachineGunHit2");
-	hitSmoke_ = manager->CrateParticle("HitSmoke");
+	hitSmoke_ = manager->CrateParticle("Expload");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

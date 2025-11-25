@@ -1,0 +1,117 @@
+{
+    "Expload": {
+        "angle": 27.0,
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "damping": 0.0,
+        "discardValue": 0.009999999776482582,
+        "duration": 5.0,
+        "emitDirection": 1,
+        "emitOrigin": 0,
+        "endDiscard": 1.0,
+        "fadeInTime": 0.0,
+        "fadeOutTime": 0.0,
+        "gravity": 0.0,
+        "height": 1.0,
+        "isBillBord": true,
+        "isColorAnimation": true,
+        "isDirectionRotate": false,
+        "isDraw2d": false,
+        "isFadeInOut": false,
+        "isLerpDiscardValue": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isLoop": false,
+        "isParticleAddBlend": false,
+        "isRandomColor": false,
+        "isRandomRotate": true,
+        "isScaleUp": false,
+        "isStretch": false,
+        "isTextureSheetAnimation": true,
+        "lifeOfMaxScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "lifeOfMinScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "lifeTime": 0.6000000238418579,
+        "maxAngle": 360.0,
+        "maxScale": {
+            "x": 10.0,
+            "y": 6.0,
+            "z": 1.0
+        },
+        "minAngle": 0.0,
+        "minScale": {
+            "x": 6.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "postColor": {
+            "a": 1.0,
+            "b": 0.009302318096160889,
+            "g": 0.009302318096160889,
+            "r": 0.009302318096160889
+        },
+        "preColor": {
+            "a": 1.0,
+            "b": 0.004651188850402832,
+            "g": 0.14353710412979126,
+            "r": 1.0
+        },
+        "radius": 0.5,
+        "randColor1": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "randColor2": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "rateOverTimeCout": 10,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "separateByAxisScale": false,
+        "shape": 0,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": 1.0,
+        "startDiscard": 0.009999999776482582,
+        "tiles": {
+            "x": 6.0,
+            "y": 6.0
+        },
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "plane",
+        "useTexture": "Explosion_transparent.png"
+    }
+}

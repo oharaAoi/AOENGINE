@@ -63,6 +63,12 @@ struct ParticleSingle {
 	bool isTextureAnimation = false;
 	Vector2 tileSize = CVector2::UNIT;
 	Matrix4x4 uvMat;
+
+	bool isColorAnimation = false;
+	Color preColor;
+	Color postColor;
+
+	float rotateZ = 0;
 };
 
 /// <summary>
@@ -125,6 +131,14 @@ struct ParticleEmit : public IJsonConverter {
 	bool isTextureSheetAnimation = false;
 	Vector2 tiles = CVector2::UNIT;
 
+	bool isColorAnimation = false;
+	Color preColor;
+	Color postColor;
+
+	bool isRandomRotate = true;
+	float minAngle = 0;
+	float maxAngle = 360;
+
 	ParticleEmit() {
 		toJsonFunction_ = [this](const std::string& id) {
 			return this->ToJson(id);
@@ -180,6 +194,12 @@ struct ParticleEmit : public IJsonConverter {
 			.Add("height", height)
 			.Add("isTextureSheetAnimation", isTextureSheetAnimation)
 			.Add("tiles", tiles)
+			.Add("isColorAnimation", isColorAnimation)
+			.Add("preColor", preColor)
+			.Add("postColor", postColor)
+			.Add("isRandomRotate", isRandomRotate)
+			.Add("minAngle", minAngle)
+			.Add("maxAngle", maxAngle)
 			.Build();
 	}
 
@@ -231,6 +251,12 @@ struct ParticleEmit : public IJsonConverter {
 		fromJson(jsonData, "height", height);
 		fromJson(jsonData, "isTextureSheetAnimation", isTextureSheetAnimation);
 		fromJson(jsonData, "tiles", tiles);
+		fromJson(jsonData, "isColorAnimation", isColorAnimation);
+		fromJson(jsonData, "preColor", preColor);
+		fromJson(jsonData, "postColor", postColor);
+		fromJson(jsonData, "isRandomRotate", isRandomRotate);
+		fromJson(jsonData, "minAngle", minAngle);
+		fromJson(jsonData, "maxAngle", maxAngle);
 	}
 
 	void Attribute_Gui();

@@ -81,8 +81,12 @@ void BaseParticles::Emit(const Vector3& pos) {
 		newParticle.scale = Vector3(scaler, scaler, scaler);
 	}
 
+	if (emitter_.isRandomRotate) {
+		newParticle.rotateZ = RandomFloat(emitter_.minAngle, emitter_.maxAngle);
+	}
+
 	newParticle.firstScale = newParticle.scale;
-	newParticle.rotate = Quaternion();
+	newParticle.rotate = Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
 
 	// particleの出現位置を設定
 	if (emitter_.emitOrigin == (int)CpuEmitOrigin::Center) {
@@ -216,6 +220,12 @@ void BaseParticles::Emit(const Vector3& pos) {
 
 	newParticle.isTextureAnimation = emitter_.isTextureSheetAnimation;
 	newParticle.tileSize = emitter_.tiles;
+
+	newParticle.isColorAnimation = emitter_.isColorAnimation;
+	if (emitter_.isColorAnimation) {
+		newParticle.preColor = emitter_.preColor;
+		newParticle.postColor = emitter_.postColor;
+	}
 
 	if (emitter_.emitDirection == (int)CpuEmitDirection::CenterFor) {
 		newParticle.isCenterFor = true;

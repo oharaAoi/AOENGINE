@@ -84,6 +84,20 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat2("tiles", &tiles.x, 1.0f);
 		}
 
+		ImGui::Checkbox("##isColorAnimation", &isColorAnimation);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("ColorAnimation")) {
+			ImGui::ColorEdit4("preColor", &preColor.r);
+			ImGui::ColorEdit4("postColor", &postColor.r);
+		}
+
+		ImGui::Checkbox("##isRandomRotate", &isRandomRotate);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("RandomRotate")) {
+			ImGui::DragFloat("minAngle", &minAngle);
+			ImGui::DragFloat("maxAngle", &maxAngle);
+		}
+
 		minScale.Clamp(minScale, maxScale);
 	}
 }

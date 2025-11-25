@@ -165,6 +165,11 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			// 状態の更新
 			// ---------------------------
 			float t = pr.currentTime / pr.lifeTime;
+
+			if (pr.isColorAnimation) {
+				pr.color = Color::Lerp(pr.preColor, pr.postColor, t);
+			}
+
 			if (pr.isLifeOfAlpha) {
 				pr.color.a = Lerp(1.0f, 0.0f, t);
 			}

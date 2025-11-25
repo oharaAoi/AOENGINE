@@ -110,6 +110,10 @@ void ParticleManager::ParticlesUpdate() {
 			// 状態の更新
 			// ---------------------------
 			float t = pr.currentTime / pr.lifeTime;
+			if (pr.isColorAnimation) {
+				pr.color = Color::Lerp(pr.preColor, pr.postColor, t);
+			}
+
 			if (pr.isLifeOfAlpha) {
 				pr.color.a = Lerp(1.0f, 0.0f, t);
 			}
@@ -156,10 +160,13 @@ void ParticleManager::ParticlesUpdate() {
 			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
 			if (pr.isTextureAnimation) {
-				Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y  };
+				int totalFrames = (int)(pr.tileSize.x * pr.tileSize.y);
+				int frame = (int)(t * (totalFrames - 1));
 
-				int frameX = (int)pr.lifeTime % (int)pr.tileSize.x;      // 列
-				int frameY = (int)pr.lifeTime / (int)pr.tileSize.x;      // 行
+				Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y };
+
+				int frameX = frame % (int)pr.tileSize.x;      // 列
+				int frameY = frame / (int)pr.tileSize.x;      // 行
 
 				Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
 

@@ -64,7 +64,7 @@ void LauncherBullet::Update() {
 void LauncherBullet::OnCollision(ICollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
-		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
 	}

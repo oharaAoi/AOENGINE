@@ -74,7 +74,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 	bloom_ = std::make_shared<Bloom>();
 	bloom_->Init();
 	bloom_->SetPongResource(pingPongBuff_.get());
-	bloom_->SetIsEnable(true);
+	bloom_->SetIsEnable(false);
 	bloom_->SetDepthHandle(depthHandle_.handleCPU);
 
 	smoothing_ = std::make_unique<Smoothing>();
