@@ -23,6 +23,9 @@ void GameScene::Init() {
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
+	Render::GetLightGroup()->Load();
+
+
 	// -------------------------------------------------
 	// ↓ Sceneの初期化
 	// -------------------------------------------------
@@ -87,9 +90,6 @@ void GameScene::Init() {
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
-
-	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
-	light->SetIntensity(0.5f);
 
 	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("filed");
 	field_ = GpuParticleManager::GetInstance()->CreateField("Window");

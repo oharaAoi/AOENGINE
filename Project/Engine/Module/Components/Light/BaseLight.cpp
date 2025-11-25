@@ -20,6 +20,7 @@ void BaseLight::Init(ID3D12Device* device, const size_t& size) {
 	direction_ = direction_.Normalize();
 
 	baseParameter_.SetGroupName("Light");
+	baseParameter_.SetName("baseParameter");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +28,12 @@ void BaseLight::Init(ID3D12Device* device, const size_t& size) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseLight::Update() {
+	baseParameter_.direction = baseParameter_.direction.Normalize();
+	lightPos_ = baseParameter_.lightPos;
+	direction_ = baseParameter_.direction;
+	fovY_ = baseParameter_.fovY;
+	near_ = baseParameter_.nearClip;
+	far_ = baseParameter_.farClip;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,14 +78,6 @@ void BaseLight::EditParameter(const std::string& name) {
 	if (ImGui::CollapsingHeader(name.c_str())) {
 		baseParameter_.Debug_Gui();
 	}
-
-	baseParameter_.direction = baseParameter_.direction.Normalize();
-
-	lightPos_ = baseParameter_.lightPos;
-	direction_ = baseParameter_.direction;
-	fovY_ = baseParameter_.fovY;
-	near_ = baseParameter_.nearClip;
-	far_ = baseParameter_.farClip;
 }
 
 void BaseLight::BaseParameter::Debug_Gui() {

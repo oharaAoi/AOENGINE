@@ -76,6 +76,8 @@ public:
 	void BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
 	// リセット
 	void Reset();
+	// 外部情報の読み込み
+	void LoadData() override;
 
 public:
 

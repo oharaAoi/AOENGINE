@@ -83,6 +83,8 @@ public:
 	void CalucViewProjection(const Vector3& pos);
 	// パラメータの編集
 	void EditParameter(const std::string& name);
+	// 外部情報の読み込み
+	virtual void LoadData() = 0;
 
 protected:
 

@@ -60,3 +60,9 @@ void LightGroup::BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* com
 void LightGroup::Debug_Gui() {
 
 }
+
+void LightGroup::Load() {
+	directionalLight_->LoadData();
+	pointLight_->LoadData();
+	spotLight_->LoadData();
+}

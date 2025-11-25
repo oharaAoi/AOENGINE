@@ -26,9 +26,8 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 	directionalLightData_->limPower = parameter_.limPower;
 
 	parameter_.SetGroupName("Light");
+	parameter_.SetName("directionalLight");
 
-	parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
-	baseParameter_.FromJson(JsonItems::GetData("Light", "BaseDirectional"));
 	parameter_.direction = Normalize(parameter_.direction);
 	directionalLightData_->color = parameter_.color;
 	directionalLightData_->direction = baseParameter_.direction;
@@ -86,14 +85,17 @@ void DirectionalLight::Reset() {
 	far_ = baseParameter_.farClip;
 }
 
+void DirectionalLight::LoadData() {
+	parameter_.Load();
+	baseParameter_.Load();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectionalLight::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Base")) {
-		EditParameter("BaseDirectional");
-	}
+	EditParameter("BaseDirectional");
 
 	if (ImGui::CollapsingHeader("Unique")) {
 		parameter_.Debug_Gui();

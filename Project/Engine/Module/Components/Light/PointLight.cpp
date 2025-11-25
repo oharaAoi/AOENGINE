@@ -22,6 +22,7 @@ void PointLight::Init(ID3D12Device* device, const size_t& size) {
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 
 	parameter_.SetGroupName("Light");
+	parameter_.SetName("pointLight");
 	pointLightData_->color = parameter_.color;
 	pointLightData_->position = parameter_.position;
 	pointLightData_->intensity = parameter_.intensity;
@@ -58,6 +59,10 @@ void PointLight::Debug_Gui() {
 	pointLightData_->intensity = parameter_.intensity;
 	pointLightData_->radius = parameter_.radius;
 	pointLightData_->decay = parameter_.decay;
+}
+
+void PointLight::LoadData() {
+	parameter_.Load();
 }
 
 void PointLight::Paramter::Debug_Gui() {

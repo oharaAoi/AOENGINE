@@ -84,6 +84,8 @@ public:
 	void BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
 	// 編集
 	void Debug_Gui();
+	// 外部情報の読み込み
+	void LoadData() override;
 
 public:
 

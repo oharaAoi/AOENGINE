@@ -21,6 +21,7 @@ void SpotLight::Init(ID3D12Device* device, const size_t& size) {
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 
 	parameter_.SetGroupName("Light");
+	parameter_.SetName("spotLight");
 	spotLightData_->color = parameter_.color;
 	spotLightData_->position = parameter_.position;
 	spotLightData_->intensity = parameter_.intensity;
@@ -61,7 +62,6 @@ void SpotLight::Debug_Gui() {
 	ImGui::SliderFloat("cosAngle", &cosDegree_, 0.0f, (std::numbers::pi_v<float>));
 	ImGui::SliderFloat("falloffDegree ", &falloffDegree_, 0.0f, (std::numbers::pi_v<float>));
 
-
 	parameter_.direction = Normalize(parameter_.direction);
 	parameter_.cosAngle = std::cos(cosDegree_);
 	parameter_.cosFalloffStart = std::cos(falloffDegree_);
@@ -80,6 +80,10 @@ void SpotLight::Debug_Gui() {
 	}
 
 	parameter_.SaveAndLoad();
+}
+
+void SpotLight::LoadData() {
+	parameter_.Load();
 }
 
 void SpotLight::Parameter::Debug_Gui() {

@@ -36,6 +36,8 @@ public:
 	void BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
 	// 編集処理
 	void Debug_Gui() override;
+	// 保存項目を読み込む
+	void Load();
 
 public:
 
