@@ -16,6 +16,7 @@
 #include "Game/Actor/Player/Action/PlayerActionShotRight.h"
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 #include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
+#include "Game/Actor/Player/Action/PlayerActionLeftShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionDamaged.h"
 #include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 #include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
@@ -143,6 +144,7 @@ void Player::Init() {
 	actionManager_->BuildAction<PlayerActionShotRight>();
 	actionManager_->BuildAction<PlayerActionShotLeft>();
 	actionManager_->BuildAction<PlayerActionRightShoulder>();
+	actionManager_->BuildAction<PlayerActionLeftShoulder>();
 	actionManager_->BuildAction<PlayerActionDamaged>();
 	actionManager_->BuildAction<PlayerActionTurnAround>();
 	actionManager_->BuildAction<PlayerActionDeployArmor>();
@@ -165,6 +167,7 @@ void Player::Init() {
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	leftShoulderMat_ = skeleton->GetSkeltonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
 	shaderGraph_ = std::make_unique<ShaderGraph>();
@@ -217,12 +220,17 @@ void Player::PosUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
-	if (type == PlayerWeapon::LEFT_WEAPON) {
-		pWeapons_[LEFT_WEAPON] = _weapon;
-	} else if (type == PlayerWeapon::RIGHT_WEAPON) {
-		pWeapons_[RIGHT_WEAPON] = _weapon;
-	} else if (type == PlayerWeapon::RIGHT_SHOULDER) {
-		pWeapons_[PlayerWeapon::RIGHT_SHOULDER] = _weapon;
+	if (type == PlayerWeapon::Left_Weapon) {
+		pWeapons_[Left_Weapon] = _weapon;
+
+	} else if (type == PlayerWeapon::Right_Weapon) {
+		pWeapons_[Right_Weapon] = _weapon;
+
+	} else if (type == PlayerWeapon::Left_Shoulder) {
+		pWeapons_[PlayerWeapon::Left_Shoulder] = _weapon;
+
+	} else if (type == PlayerWeapon::Right_Shoulder) {
+		pWeapons_[PlayerWeapon::Right_Shoulder] = _weapon;
 	}
 }
 
@@ -250,6 +258,7 @@ void Player::UpdateJoint() {
 	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
 	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand"), transform_->GetWorldMatrix());
+	leftShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_shoulder"), transform_->GetWorldMatrix());
 	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"), transform_->GetWorldMatrix());
 }
 

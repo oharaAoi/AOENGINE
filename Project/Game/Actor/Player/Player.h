@@ -17,10 +17,11 @@
 #include "Game/Actor/Jet/JetEngine.h"
 
 enum PlayerWeapon {
-	LEFT_WEAPON,
-	RIGHT_WEAPON,
-	RIGHT_SHOULDER,
-	KMAX
+	Left_Weapon,
+	Right_Weapon,
+	Left_Shoulder,
+	Right_Shoulder,
+	KMax
 };
 
 /// <summary>
@@ -229,6 +230,7 @@ public: // accessor method
 	bool GetIsDead() const { return isDead_; }
 
 	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
+	const Matrix4x4& GetLeftShoulderMat() { return leftShoulderMat_; }
 	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
 	const Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
 
@@ -263,7 +265,7 @@ private:
 
 	// weapon --------------------------------------------------
 
-	BaseWeapon* pWeapons_[PlayerWeapon::KMAX];
+	BaseWeapon* pWeapons_[PlayerWeapon::KMax];
 	
 	std::unique_ptr<JetEngine> jet_;
 
@@ -271,6 +273,7 @@ private:
 	
 	Matrix4x4 leftHandMat_;
 	Matrix4x4 rightHandMat_;
+	Matrix4x4 leftShoulderMat_;
 	Matrix4x4 rightShoulderMat_;
 
 	Vector2 screenPos_;

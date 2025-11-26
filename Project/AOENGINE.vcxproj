@@ -382,6 +382,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDeployArmor.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionIdle.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionQuickBoost.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionRightShoulder.h" />
@@ -712,6 +713,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionIdle.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionQuickBoost.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionRightShoulder.cpp" />

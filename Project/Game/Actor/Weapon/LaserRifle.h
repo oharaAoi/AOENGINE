@@ -7,7 +7,30 @@
 /// </summary>
 class LaserRifle :
 	public BaseWeapon {
-public:
+public: // データ構造体
+
+	struct LaserRifleParam : IJsonConverter {
+		Vector3 pos;
+
+		LaserRifleParam() {
+			SetGroupName("Weapon");
+			SetName("LaserRifle");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("pos", pos)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "pos", pos);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
 
 	LaserRifle() = default;
 	~LaserRifle() override = default;
@@ -27,6 +50,8 @@ public:		// member method
 	bool Attack(const AttackContext& cxt) override;
 
 private:
+
+	LaserRifleParam weaponParam_;
 
 };
 

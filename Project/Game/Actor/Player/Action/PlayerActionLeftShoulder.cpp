@@ -1,34 +1,31 @@
-#include "PlayerActionRightShoulder.h"
+#include "PlayerActionLeftShoulder.h"
 #include "Game/Actor/Player/Player.h"
-#include "Game/Actor/Player/Action/PlayerActionIdle.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::Build() {
-	SetName("ActionRightShoulder");
+void PlayerActionLeftShoulder::Build() {
+	SetName("ActionLeftShoulder");
 	pInput_ = Input::GetInstance();
-	pWeapon_ = dynamic_cast<ShoulderMissile*>(pOwner_->GetWeapon(PlayerWeapon::Right_Shoulder));
+	pWeapon_ = dynamic_cast<LaserRifle*>(pOwner_->GetWeapon(PlayerWeapon::Left_Shoulder));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::OnStart() {
+void PlayerActionLeftShoulder::OnStart() {
+	isFinish_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::OnUpdate() {
+void PlayerActionLeftShoulder::OnUpdate() {
 	Shot();
 
-	// ----------------------
-	// 向き更新
-	// ----------------------
 	pOwner_->LookTarget(1.0f, pOwner_->GetReticle()->GetLockOn());
 
 	isFinish_ = true;
@@ -38,15 +35,14 @@ void PlayerActionRightShoulder::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::OnEnd() {
-
+void PlayerActionLeftShoulder::OnEnd() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 次のアクションの確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::CheckNextAction() {
+void PlayerActionLeftShoulder::CheckNextAction() {
 	if (isFinish_) {
 		DeleteSelf();
 	}
@@ -56,8 +52,8 @@ void PlayerActionRightShoulder::CheckNextAction() {
 // ↓ 入力確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool PlayerActionRightShoulder::IsInput() {
-	if (pInput_->IsTriggerButton(XInputButtons::RtShoulder)) {
+bool PlayerActionLeftShoulder::IsInput() {
+	if (pInput_->IsTriggerButton(XInputButtons::LtShoulder)) {
 		return true;
 	}
 	return false;
@@ -67,14 +63,14 @@ bool PlayerActionRightShoulder::IsInput() {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::Debug_Gui() {
+void PlayerActionLeftShoulder::Debug_Gui() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 攻撃処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerActionRightShoulder::Shot() {
+void PlayerActionLeftShoulder::Shot() {
 	if (pOwner_->GetIsLockOn()) {
 		pWeapon_->Attack(AttackContext(CVector3::ZERO, pOwner_->GetTargetPos()));
 	} else {

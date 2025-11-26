@@ -1,11 +1,13 @@
 #include "LaserRifle.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Game/Actor/Weapon/Bullet/LaserBullet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LaserRifle::Debug_Gui() {
+	weaponParam_.Debug_Gui();
 	BaseWeapon::Debug_Gui();
 }
 
@@ -24,10 +26,12 @@ void LaserRifle::Init() {
 	// 初期化と保存項目の取得
 	SetName("LaserRifle");
 	BaseWeapon::Init();
-	attackParam_.SetName("MachineGunAttackParam");
+	attackParam_.SetName("LaserRifleAttackParam");
 	attackParam_.Load();
+	weaponParam_.Load();
 
 	object_->SetObject("gun.obj");
+	transform_->SetTranslate(weaponParam_.pos);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }
@@ -40,9 +44,14 @@ bool LaserRifle::Attack(const AttackContext& cxt) {
 	if (!isCanAttack_) { return false; }
 
 	Vector3 worldPos = object_->GetPosition();
-	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
+	LaserBullet* bullet = pBulletManager_->AddBullet<LaserBullet>(worldPos, cxt.target, attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 
 	AttackAfter();
 	return true;
+}
+
+void LaserRifle::LaserRifleParam::Debug_Gui() {
+	ImGui::DragFloat3("pos", &pos.x, 0.1f);
+	SaveAndLoad();
 }

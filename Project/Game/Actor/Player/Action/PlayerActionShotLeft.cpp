@@ -26,7 +26,7 @@ void PlayerActionShotLeft::OnStart() {
 	clip->PoseToAnimation("left_shot", 0.2f);
 
 	// 武器とアクションを設定する
-	pWeapon_ = pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON);
+	pWeapon_ = pOwner_->GetWeapon(PlayerWeapon::Left_Weapon);
 	action_ = [&] { this->StartUp(); };
 
 	// 他のアクションを削除する(このアクションに専念させるため)
@@ -96,7 +96,7 @@ void PlayerActionShotLeft::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionShotLeft::IsInput() {
-	if (pOwner_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->GetIsReload()) {
+	if (pOwner_->GetWeapon(PlayerWeapon::Left_Weapon)->GetIsReload()) {
 		return false;
 	}
 
@@ -114,10 +114,10 @@ void PlayerActionShotLeft::Shot() {
 	// shotを放つ
 	if (pOwner_->GetIsLockOn()) {
 		Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
-		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, pOwner_->GetTargetPos()));
+		pOwner_->Attack(PlayerWeapon::Left_Weapon, AttackContext(dire, pOwner_->GetTargetPos()));
 	} else {
 		Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
-		pOwner_->Attack(PlayerWeapon::LEFT_WEAPON, AttackContext(dire, CVector3::ZERO));
+		pOwner_->Attack(PlayerWeapon::Left_Weapon, AttackContext(dire, CVector3::ZERO));
 	}
 	action_ = [&] { this->Recoil(); };
 	pCameraAnimation_->CallExecute(false);// カメラを離す

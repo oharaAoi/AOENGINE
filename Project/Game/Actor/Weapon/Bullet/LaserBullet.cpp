@@ -48,10 +48,10 @@ void LaserBullet::Init() {
 	transform_->SetTranslationZ(1.0f);
 	transform_->SetParent(parentTransform_->GetWorldMatrix());
 
-	isShot_ = false;
+	isShot_ = true;
 
 	SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
-	EditorWindows::AddObjectWindow(this, "Laser");
+	//EditorWindows::AddObjectWindow(this, "Laser");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +67,7 @@ void LaserBullet::Update() {
 
 		if (scale.z >= param_.maxLength) {
 			isShot_ = false;
+			isAlive_ = false;
 		}
 	}
 

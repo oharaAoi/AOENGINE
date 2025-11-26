@@ -7,6 +7,7 @@
 #include "Game/Actor/Weapon/MachineGun.h"
 #include "Game/Actor/Weapon/LauncherGun.h"
 #include "Game/Actor/Weapon/ShoulderMissile.h"
+#include "Game/Actor/Weapon/LaserRifle.h"
 #include "Game/Actor/Weapon/Armors.h"
 
 /// <summary>
@@ -47,6 +48,7 @@ private:
 	std::unique_ptr<MachineGun> machineGun_;
 	std::unique_ptr<LauncherGun> launcherGun_;
 	std::unique_ptr<ShoulderMissile> shoulderMissile_;
+	std::unique_ptr<LaserRifle> laserRifle_;
 
 	std::unique_ptr<Armors> armors_;
 

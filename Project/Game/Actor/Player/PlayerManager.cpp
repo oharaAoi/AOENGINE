@@ -23,11 +23,15 @@ void PlayerManager::Init() {
 	shoulderMissile_ = std::make_unique<ShoulderMissile>();
 	shoulderMissile_->Init();
 
+	laserRifle_ = std::make_unique<LaserRifle>();
+	laserRifle_->Init();
+
 	// 初期設定
 	player_->SetBulletManager(bulletManager_.get());
-	player_->SetWeapon(launcherGun_.get(), LEFT_WEAPON);
-	player_->SetWeapon(machineGun_.get(), RIGHT_WEAPON);
-	player_->SetWeapon(shoulderMissile_.get(), RIGHT_SHOULDER);
+	player_->SetWeapon(launcherGun_.get(), Left_Weapon);
+	player_->SetWeapon(machineGun_.get(), Right_Weapon);
+	player_->SetWeapon(shoulderMissile_.get(), Right_Shoulder);
+	player_->SetWeapon(laserRifle_.get(), Left_Shoulder);
 
 	player_->Init();
 
@@ -39,6 +43,9 @@ void PlayerManager::Init() {
 
 	shoulderMissile_->GetTransform()->SetParent(player_->GetRightShoulderMat());
 	shoulderMissile_->SetBulletManager(bulletManager_.get());
+
+	laserRifle_->GetTransform()->SetParent(player_->GetLeftShoulderMat());
+	laserRifle_->SetBulletManager(bulletManager_.get());
 
 	armors_ = std::make_unique<Armors>();
 	armors_->Init("Player");
@@ -66,6 +73,7 @@ void PlayerManager::PostUpdate() {
 	machineGun_->Update();
 	launcherGun_->Update();
 	shoulderMissile_->Update();
+	laserRifle_->Update();
 }
 
 void PlayerManager::CheckAction() {

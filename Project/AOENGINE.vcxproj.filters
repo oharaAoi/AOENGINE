@@ -1266,6 +1266,7 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
     <ClInclude Include="Game\Actor\Weapon\LaserRifle.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h" />
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2186,6 +2187,7 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LaserRifle.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp" />
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

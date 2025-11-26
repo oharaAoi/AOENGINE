@@ -59,32 +59,32 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 	// ↓ weaponの残弾数ゲージを更新
 	// ---------------------------
 
-	BaseWeapon* left = pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON);
-	BaseWeapon* right = pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON);
-	BaseWeapon* rightShoulder = pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER);
+	BaseWeapon* left = pPlayer_->GetWeapon(PlayerWeapon::Left_Weapon);
+	BaseWeapon* right = pPlayer_->GetWeapon(PlayerWeapon::Right_Weapon);
+	BaseWeapon* rightShoulder = pPlayer_->GetWeapon(PlayerWeapon::Right_Shoulder);
 
 	// 左手武器の残弾数
 	if (left->GetIsReload()) {
-		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->ReloadFill());
+		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Left_Weapon)->ReloadFill());
 		leftWeapon_->Blinking();
 	} else {
-		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::LEFT_WEAPON)->BulletsFill());
+		leftWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Left_Weapon)->BulletsFill());
 	}
 
 	// 右手武器の残弾数
 	if (right->GetIsReload()) {
-		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->ReloadFill());
+		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Right_Weapon)->ReloadFill());
 		rightWeapon_->Blinking();
 	} else {
-		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_WEAPON)->BulletsFill());
+		rightWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Right_Weapon)->BulletsFill());
 	}
 
 	// 右肩武器の残弾数
 	if (rightShoulder->GetIsReload()) {
-		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER)->ReloadFill());
+		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Right_Shoulder)->ReloadFill());
 		rightShoulderWeapon_->Blinking();
 	} else {
-		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::RIGHT_SHOULDER)->BulletsFill());
+		rightShoulderWeapon_->Update(reticlePos, pPlayer_->GetWeapon(PlayerWeapon::Right_Shoulder)->BulletsFill());
 	}
 }
 

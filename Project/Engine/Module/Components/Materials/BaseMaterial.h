@@ -80,6 +80,6 @@ protected:
 	ShaderGraph* shaderGraph_ = nullptr;
 
 	Color color_;
-	bool isLighting_;
+	bool isLighting_ = true;
 
 };

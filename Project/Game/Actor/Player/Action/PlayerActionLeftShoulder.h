@@ -1,18 +1,19 @@
 #pragma once
 #include "Game/Actor/Base/BaseAction.h"
-#include "Game/Actor/Weapon/ShoulderMissile.h"
+#include "Game/Actor/Weapon/LaserRifle.h"
 #include "Engine/System/Input/Input.h"
 
 class Player;
 
-class PlayerActionRightShoulder :
+/// <summary>
+/// Playerの左肩攻撃
+/// </summary>
+class PlayerActionLeftShoulder :
 	public BaseAction<Player> {
-public:
+public: // コンストラクタ
 
-public:
-
-	PlayerActionRightShoulder() = default;
-	~PlayerActionRightShoulder() override = default;
+	PlayerActionLeftShoulder() = default;
+	~PlayerActionLeftShoulder() override = default;
 
 public:
 
@@ -39,8 +40,8 @@ private:
 private:
 
 	Input* pInput_ = nullptr;
-	ShoulderMissile* pWeapon_ = nullptr;
+	LaserRifle* pWeapon_ = nullptr;
 
-	bool isFinish_;
+	bool isFinish_ = false;
 };
 
