@@ -16,7 +16,6 @@
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
 
-
 class GameScene 
 	: public BaseScene {
 public:

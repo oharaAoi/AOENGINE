@@ -38,4 +38,5 @@ void BaseBullet::Reset(const Vector3& pos, const Vector3& velocity) {
 }
 
 void BaseBullet::Debug_Gui() {
+	object_->Debug_Gui();
 }

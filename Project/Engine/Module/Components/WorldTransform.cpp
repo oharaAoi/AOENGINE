@@ -135,7 +135,8 @@ void WorldTransform::Translate(const Vector3& translate, float _deltaTime) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void WorldTransform::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Transform")) {
+	const std::string id = "Transform##id" + std::to_string(id_);
+	if (ImGui::CollapsingHeader(id.c_str())) {
 		if (ImGui::TreeNodeEx("scale", ImGuiTreeNodeFlags_DefaultOpen)) {
 			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
 			ImGui::TreePop();

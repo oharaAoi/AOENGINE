@@ -18,6 +18,7 @@ void LauncherBullet::Init() {
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::Sphere);
 
+	// colliderの設定
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
@@ -27,6 +28,7 @@ void LauncherBullet::Init() {
 
 	speed_ = 90.0f;
 
+	// effectの初期化
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("Launcher");
 	burn_->SetParent(transform_->GetWorldMatrix());

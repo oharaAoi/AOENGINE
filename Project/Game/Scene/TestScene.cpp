@@ -26,14 +26,19 @@ void TestScene::Init() {
 	camera2d_->Init();
 	camera3d_->Init();
 	debugCamera_->Init();
+	debugCamera_->SetIsActive(true);
 
-	EditorWindows::AddObjectWindow(Render::GetLightGroup(), "LightGroup");
+	laser_ = std::make_unique<LaserBullet>();
+	laser_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
+
+	laser_->Update();
+
 	// -------------------------------------------------
 	// ↓ cameraの更新 
 	// -------------------------------------------------
@@ -43,4 +48,6 @@ void TestScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
+
+
 }

@@ -7,6 +7,7 @@
 #include "Game/Camera/Camera3d.h"
 #include "Game/WorldObject/Skybox.h"
 
+#include "Game/Actor/Weapon/Bullet/LaserBullet.h"
 
 class TestScene 
 : public BaseScene {
@@ -29,5 +30,7 @@ private:
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 	
+	std::unique_ptr<LaserBullet> laser_;
+
 };
 

@@ -7,6 +7,7 @@ enum BulletType {
 	Normal,
 	Missile,
 	Launcher,
+	Laser
 };
 
 /// <summary>
@@ -41,7 +42,7 @@ public:
 	void Reset(const Vector3& pos, const Vector3& velocity);
 
 	// 編集
-	void Debug_Gui() override;
+	virtual void Debug_Gui() override;
 
 public:
 
