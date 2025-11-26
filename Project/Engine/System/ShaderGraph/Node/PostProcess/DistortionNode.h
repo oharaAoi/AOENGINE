@@ -1,0 +1,87 @@
+#pragma once
+#include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/Core/GraphicsContext.h"
+
+/// <summary>
+/// 歪みを行なうNode
+/// </summary>
+class DistortionNode :
+	public BaseShaderGraphNode {
+public:	// データ構造体
+
+	struct DistortionParam {
+		Vector2 tiling = CVector2::UNIT;
+		Vector2 scroll = CVector2::UNIT;;
+		float strength = 1.0f;
+		float time = 0;
+	};
+
+public:	// コンストラクタ
+
+	DistortionNode() = default;
+	~DistortionNode() override;
+
+public:
+
+	/// <summary>
+	/// 初期化関数
+	/// </summary>
+	void Init() override;
+
+	/// <summary>
+	/// 更新関数
+	/// </summary>
+	void customUpdate() override;
+
+	/// <summary>
+	/// guiの更新
+	/// </summary>
+	void updateGui() override;
+
+	/// <summary>
+	/// Node描画
+	/// </summary>
+	void draw() override;
+
+	/// <summary>
+	/// json形式にする
+	/// </summary>
+	/// <returns></returns>
+	nlohmann::json toJson() override;
+
+	/// <summary>
+	/// json形式から情報を設定する
+	/// </summary>
+	/// <param name="_json"></param>
+	void fromJson(const nlohmann::json& _json) override;
+
+private:
+
+	/// <summary>
+	/// Viewの作成
+	/// </summary>
+	void CreateView();
+
+	/// <summary>
+	/// Csを実行する
+	/// </summary>
+	void ExecuteCommand();
+
+private:
+
+	GraphicsContext* ctx_;
+	ID3D12GraphicsCommandList* cmdList_;
+
+	// input情報
+	DxResource* inputBaseResource_ = nullptr;
+	DxResource* inputNoiseResource_ = nullptr;
+
+	// output情報
+	DxResource* outputResource_ = nullptr;
+
+	// distortion情報
+	ComPtr<ID3D12Resource> buffer_;
+	DistortionParam* param_;
+
+};

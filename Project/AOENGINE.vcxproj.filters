@@ -1262,6 +1262,8 @@
     <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
     <ClInclude Include="Engine\System\Manager\SystemManager.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2178,6 +2180,8 @@
     <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />
@@ -2185,5 +2189,7 @@
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MasKBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\AddBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\DifferenceBlend.CS.hlsl" />
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Distortion.CS.hlsl" />
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Dissolve.CS.hlsl" />
   </ItemGroup>
 </Project>

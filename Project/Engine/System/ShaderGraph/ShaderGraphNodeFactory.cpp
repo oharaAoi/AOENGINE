@@ -13,6 +13,8 @@
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
+#include "Engine/System/ShaderGraph/Node/PostProcess/DistortionNode.h"
+#include "Engine/System/ShaderGraph/Node/PostProcess/DissolveNode.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
@@ -47,6 +49,9 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 	RegisterNode<TimeNode>("Other/TimeNode", _editor);
 
 	RegisterNode<UVTransformNode>("UV/UVTransform", _editor);
+
+	RegisterNode<DistortionNode>("PostProcess/Distortion", _editor);
+	RegisterNode<DissolveNode>("PostProcess/Dissolve", _editor);
 
 	RegisterNode<ShaderGraphResultNode>("Result/ResultNode", _editor);
 

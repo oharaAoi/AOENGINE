@@ -73,13 +73,13 @@ void ShaderGraphEditor::Edit() {
 		// ----------------------
 		// ↓ 編集処理
 		// ----------------------
-		/*ImGui::Begin("Inspector");
+		ImGui::Begin("Inspector");
 		for (auto& node : editor_->getNodes()) {
 			if (node.second.get()->isSelected()) {
 				node.second.get()->updateGui();
 			}
 		}
-		ImGui::End();*/
+		ImGui::End();
 
 		// ---------------------- 
 		// ↓ 作成処理
