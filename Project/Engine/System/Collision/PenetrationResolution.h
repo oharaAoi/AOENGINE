@@ -12,10 +12,15 @@ Vector3 PenetrationResolutionAABBandAABB(const AABB& aabb1, const AABB& aabb2);
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
 
+template<typename T1, typename T2>
+Vector3 PenetrationResolution(const T1&, const T2&) {
+    return CVector3::ZERO;
+}
+
 Vector3 PenetrationResolution(const Sphere& s, const AABB& aabb);
 Vector3 PenetrationResolution(const AABB& aabb, const Sphere& s);
 
 Vector3 PenetrationResolution(const AABB& aabb1, const AABB& aabb2);
 
-Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB>& shape1,
-                              const std::variant<Sphere, AABB, OBB>& shape2);
+Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB, Line>& shape1,
+                              const std::variant<Sphere, AABB, OBB, Line>& shape2);

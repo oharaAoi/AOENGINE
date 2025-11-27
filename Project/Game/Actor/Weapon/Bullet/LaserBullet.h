@@ -1,7 +1,8 @@
 #pragma once
-#include "Game/Actor/Base/BaseBullet.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Collider/LineCollider.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Game/Actor/Base/BaseBullet.h"
 
 /// <summary>
 /// レーザーの弾
@@ -43,6 +44,12 @@ public:
 	void Debug_Gui() override;
 
 	/// <summary>
+	/// 衝突時の処理
+	/// </summary>
+	/// <param name="other"></param>
+	void OnCollision(ICollider* _other);
+
+	/// <summary>
 	/// 発射した際に行なう初期化処理
 	/// </summary>
 	/// <param name="_pos"></param>
@@ -58,5 +65,9 @@ private:
 
 	bool isShot_ = false;
 	Vector3 targetPos_;
+
+	LineCollider* lineCollider_ = nullptr;
+
+	Vector3 dire_;
 };
 

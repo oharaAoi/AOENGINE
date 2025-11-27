@@ -54,6 +54,30 @@ bool CheckCollisionOBBandSphere(const OBB& obb, const Sphere& sphere);
 /// <returns></returns>
 bool CheckCollisionAABBandOBB(const OBB& obb, const AABB& aabb);
 
+/// <summary>
+/// SphereとLineの当たり判定
+/// </summary>
+/// <param name="sphere"></param>
+/// <param name="line"></param>
+/// <returns></returns>
+bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line);
+
+/// <summary>///
+/// AABBとLineの当たり判定
+/// </summary>///
+///  <param name="aabb">箱</param>
+/// <param name="segment">線分</param>
+/// <returns>true: 当たっている false: 当たっていない</returns>
+bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line);
+
+/// <summary>
+/// OBBとLineの当たり判定
+/// </summary>
+/// <param name="obb"></param>
+/// <param name="line"></param>
+/// <returns></returns>
+bool CheckCollisionOBBandLine(const OBB& obb, const Line& line);
+
 
 //================================================================================================//
 //								当たり判定の呼び出し関数群											　//
@@ -68,5 +92,9 @@ bool CheckCollision(const Sphere& sphere, const OBB& obb);
 bool CheckCollision(const OBB& obb, const AABB& aabb);
 bool CheckCollision(const AABB& aabb, const OBB& obb);
 
-bool CheckCollision(const std::variant<Sphere, AABB, OBB>& shape1,
-                    const std::variant<Sphere, AABB, OBB>& shape2);
+bool CheckCollision(const Sphere& sphere, const Line& line);
+bool CheckCollision(const AABB& aabb, const Line& line);
+bool CheckCollision(const OBB& obb, const Line& line);
+
+bool CheckCollision(const std::variant<Sphere, AABB, OBB, Line>& shape1,
+                    const std::variant<Sphere, AABB, OBB, Line>& shape2);

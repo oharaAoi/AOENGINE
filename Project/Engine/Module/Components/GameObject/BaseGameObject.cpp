@@ -1,6 +1,7 @@
 #include "BaseGameObject.h"
 #include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
+#include "Engine/Module/Components/Collider/LineCollider.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/System/Collision/ColliderCollector.h"
@@ -95,7 +96,7 @@ void BaseGameObject::UpdateMatrix() {
 			colliders_[index]->Update(QuaternionSRT{
 				.scale = transform_->GetScale(),
 				.rotate = transform_->GetRotate(),
-				.translate = transform_->GetTranslate() }
+				.translate = transform_->GetPos() }
 			);
 		}
 	}
@@ -193,14 +194,21 @@ ICollider* BaseGameObject::GetCollider() {
 	return nullptr;
 }
 
-void BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
+ICollider* BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
 	if (shape == ColliderShape::Sphere) {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
 		AddCollider(newCollider.get(), categoryName, shape);
+		return newCollider.get();
 	} else if (shape == ColliderShape::AABB || shape == ColliderShape::OBB) {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<BoxCollider>());
 		AddCollider(newCollider.get(), categoryName, shape);
+		return newCollider.get();
+	} else if (shape == ColliderShape::Line) {
+		auto& newCollider = colliders_.emplace_back(std::make_unique<LineCollider>());
+		AddCollider(newCollider.get(), categoryName, shape);
+		return newCollider.get();
 	}
+	return nullptr;
 }
 
 void BaseGameObject::AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape) {
@@ -226,7 +234,7 @@ void BaseGameObject::SetCollider(const std::string& categoryName, const std::str
 		auto& newCollider = colliders_.emplace_back(std::make_unique<BoxCollider>());
 		shape = ColliderShape::AABB;
 		AddCollider(newCollider.get(), categoryName, shape);
-	}
+	} 
 }
 
 void BaseGameObject::SetPhysics() {

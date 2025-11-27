@@ -97,7 +97,7 @@ public:
 
 	ICollider* GetCollider(const std::string& name);
 	ICollider* GetCollider();
-	void SetCollider(const std::string& categoryName, ColliderShape shape);
+	ICollider* SetCollider(const std::string& categoryName, ColliderShape shape);
 	void AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape);
 
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);

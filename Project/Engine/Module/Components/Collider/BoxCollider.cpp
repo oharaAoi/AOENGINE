@@ -3,6 +3,7 @@
 #include "Engine/Render.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
+#include <array>
 
 BoxCollider::BoxCollider() {}
 BoxCollider::~BoxCollider() {}
@@ -28,6 +29,7 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	}
 
 	isActive_ = true;
+	size_ = CVector3::UNIT;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

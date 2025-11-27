@@ -16,7 +16,8 @@ enum class CollisionFlags {
 enum class ColliderShape {
 	Sphere,
 	AABB,
-	OBB
+	OBB,
+	Line
 };
 
 /// <summary>
@@ -26,7 +27,7 @@ class ICollider :
 	public AttributeGui {
 public:
 
-	ICollider() = default;
+	ICollider();
 	virtual ~ICollider() = default;
 
 	virtual void Init(const std::string& categoryName, ColliderShape shape) = 0;
@@ -74,8 +75,8 @@ public:
 	const std::string& GetCategoryName() const { return categoryName_; }
 
 	// --------------- shapeの設定・取得 -------------- //
-	void SetShape(const std::variant<Sphere, AABB, OBB>& shape) { shape_ = shape; }
-	const std::variant<Sphere, AABB, OBB>& GetShape() const { return shape_; }
+	void SetShape(const std::variant<Sphere, AABB, OBB, Line>& shape) { shape_ = shape; }
+	const std::variant<Sphere, AABB, OBB, Line>& GetShape() const { return shape_; }
 
 	// --------------- stateの設定・取得 -------------- //
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
@@ -87,9 +88,6 @@ public:
 
 	// ------------ Colliderの中心座標 ------------ // 
 	const Vector3& GetCenterPos() const { return centerPos_; }
-
-	// ------------ size ------------ // 
-	void SetSize(const Vector3& size) { size_ = size; }
 
 	// ------------ 貫通対策 ------------ // 
 	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
@@ -116,20 +114,18 @@ protected:
 	std::string categoryName_ = "None";
 
 	// 形状
-	std::variant<Sphere, AABB, OBB> shape_;
+	std::variant<Sphere, AABB, OBB, Line> shape_;
 	// 当たり判定の状態
 	int collisionState_ = 0;
 	// Colliderの中心座標
 	Vector3 centerPos_ = CVector3::ZERO;
-	// AABBやOBBで使用するsize
-	Vector3 size_ = CVector3::UNIT;
 
 	QuaternionSRT localSRT_ = QuaternionSRT();
 
 	std::unordered_map<ICollider*, int> collisionPartnersMap_;
 
 	// 貫通対策
-	bool penetrationPrevention_;	// 貫通対策を行うかどうか
+	bool penetrationPrevention_ = false;	// 貫通対策を行うかどうか
 	Vector3 pushbackDire_ = CVector3::ZERO;
 
 	// 汎用用

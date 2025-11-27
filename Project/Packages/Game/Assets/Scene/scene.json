@@ -108,7 +108,8 @@
                         "launcher",
                         "ground",
                         "building",
-                        "invisibleWall"
+                        "invisibleWall",
+                        "laser"
                     ]
                 }
             ],
@@ -157,7 +158,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -167,11 +168,12 @@
                         "machinegun",
                         "launcher",
                         "playerRightLeg",
-                        "playerLeftLeg"
+                        "playerLeftLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -212,7 +214,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -222,11 +224,12 @@
                         "machinegun",
                         "launcher",
                         "playerRightLeg",
-                        "playerLeftLeg"
+                        "playerLeftLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -267,7 +270,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -277,11 +280,12 @@
                         "machinegun",
                         "launcher",
                         "playerRightLeg",
-                        "playerLeftLeg"
+                        "playerLeftLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -322,7 +326,7 @@
                         2.0899999141693115,
                         5.179999828338623
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -332,11 +336,12 @@
                         "machinegun",
                         "launcher",
                         "playerRightLeg",
-                        "playerLeftLeg"
+                        "playerLeftLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -377,7 +382,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -387,11 +392,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -432,7 +438,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -442,11 +448,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -487,7 +494,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -497,11 +504,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -542,7 +550,7 @@
                         2.0899999141693115,
                         2.5999999046325684
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -552,11 +560,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -597,7 +606,7 @@
                         2.0899999141693115,
                         2.5999999046325684
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -607,11 +616,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"
@@ -652,7 +662,7 @@
                         348.55999755859375,
                         20.029998779296875
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "boss",
                         "ground",
@@ -785,14 +795,14 @@
                         0.10000000149011612,
                         246.0800018310547
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -832,14 +842,14 @@
                         0.10000000149011612,
                         246.0800018310547
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -879,14 +889,14 @@
                         2.0,
                         246.0800018310547
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -926,14 +936,14 @@
                         2.0,
                         246.0800018310547
                     ],
-                    "tag": "building",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "boss"
                     ]
                 }
             ],
-            "collider_tag": "building",
+            "collider_tag": "ground",
             "collisionFilter_tags": [
                 "player",
                 "boss"
@@ -974,7 +984,7 @@
                         2.0899999141693115,
                         2.9599997997283936
                     ],
-                    "tag": "ground",
+                    "tag": "building",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeg",
@@ -984,11 +994,12 @@
                         "machinegun",
                         "launcher",
                         "playerLeftLeg",
-                        "playerRightLeg"
+                        "playerRightLeg",
+                        "laser"
                     ]
                 }
             ],
-            "collider_tag": "ground",
+            "collider_tag": "laser",
             "collisionFilter_tags": [
                 "player",
                 "playerLeg"

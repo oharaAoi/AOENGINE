@@ -1,6 +1,7 @@
 #include "MyMatrix.h"
 #include <stdexcept>
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 /// <summary>
 /// 加算

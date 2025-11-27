@@ -24,6 +24,7 @@ namespace ColliderTags {
 		const std::string machinegun = "machinegun";
 		const std::string launcher = "launcher";
 		const std::string rocket = "launcher";
+		const std::string laser = "laser";
 	}
 
 	namespace Field {

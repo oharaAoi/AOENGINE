@@ -92,9 +92,10 @@ Vector3 PenetrationResolution(const AABB& aabb1, const AABB& aabb2) {
 	return PenetrationResolutionAABBandAABB(aabb1, aabb2);
 }
 
-Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB>& shape1,
-						   const std::variant<Sphere, AABB, OBB>& shape2) {
-	Vector3 pushbackVector = std::visit(
+Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB, Line>& shape1,
+						   const std::variant<Sphere, AABB, OBB, Line>& shape2) {
+	Vector3 pushbackVector = CVector3::ZERO;
+	pushbackVector = std::visit(
 		[](const auto& lhs, const auto& rhs) {
 			return PenetrationResolution(lhs, rhs); // 各組み合わせの CheckCollision を呼び出す
 		},

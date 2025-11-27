@@ -1,5 +1,8 @@
 #pragma once
-#include "Engine/Lib/Math/MyMath.h"
+#include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 
 class Quaternion final {
 public:

@@ -1,19 +1,16 @@
 #pragma once
-#define NOMINMAX
-#include <windows.h>
-#include <limits>
-#include <string>
 #include "Engine/Module/Components/Collider/ICollider.h"
+#include <string>
 
 /// <summary>
-/// 箱型Collider
+/// Box型のCollider
 /// </summary>
-class BoxCollider 
-	: public ICollider {
+class LineCollider : 
+	public ICollider {
 public: // コンストラクタ
 
-	BoxCollider();
-	~BoxCollider() override;
+	LineCollider() = default;
+	~LineCollider() override = default;
 
 public:
 
@@ -39,14 +36,11 @@ public:
 	/// 編集処理
 	/// </summary>
 	void Debug_Gui() override;
-
+	
 public:
 
-	void SetSize(const Vector3& _size) { size_ = _size; }
-	const Vector3& GetSize() const { return size_; }
-
-private:
-
-	Vector3 size_;
+	void SetDiff(const Vector3& _diff);
+	const Vector3& GetDiff() const;
 
 };
+

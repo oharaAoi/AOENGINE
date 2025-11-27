@@ -6,6 +6,7 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/2d/ScreenTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"

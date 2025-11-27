@@ -1,6 +1,7 @@
 #include "SceneRenderer.h"
 #include "Engine/Engine.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
 
 SceneRenderer* SceneRenderer::GetInstance() {
 	static SceneRenderer instance;
@@ -156,7 +157,8 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 				ICollider* collider = object->GetCollider(colliderData.colliderTag);
 				collider->SetLoacalPos(colliderData.center);
 				if (colliderData.colliderType == "BOX") {
-					collider->SetSize(colliderData.size);
+					BoxCollider* box = dynamic_cast<BoxCollider*>(collider);
+					box->SetSize(colliderData.size);
 				} else if (colliderData.colliderType == "SPHERE") {
 					collider->SetRadius(colliderData.radius);
 				}

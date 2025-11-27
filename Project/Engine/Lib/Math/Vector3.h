@@ -77,6 +77,23 @@ public:
 		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
 
+	/// <summary>
+	/// 除算
+	/// </summary>
+	/// <param name="obj"></param>
+	/// <returns></returns>
+	Vector3 operator/(const Vector3& obj) const { return Vector3(x / obj.x, y / obj.y, z / obj.z); }
+
+	// メンバー関数としてのスカラー乗算 (Vector3 / float)
+	[[nodiscard]] constexpr Vector3 operator/(float scalar) const {
+		return Vector3(x / scalar, y / scalar, z / scalar);
+	}
+
+	// フリー関数としてのスカラー乗算 (float * Vector3)
+	[[nodiscard]] friend constexpr Vector3 operator/(float scalar, const Vector3& vec) {
+		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+	}
+
 
 	Vector3 operator*=(const Vector3& obj) {
 		x *= obj.x;
@@ -122,6 +139,12 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	float Length() const;
+
+	/// <summary>
+	/// ベクトルの2乗の長さを返す
+	/// </summary>
+	/// <returns></returns>
+	float LengthSquared() const;
 
 	/// <summary>
 	/// 範囲内に収める

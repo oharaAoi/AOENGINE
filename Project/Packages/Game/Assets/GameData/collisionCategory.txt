@@ -8,6 +8,7 @@ bossMissile
 bossArmor
 machinegun
 launcher
+laser
 ground
 building
 invisibleWall

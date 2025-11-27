@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include <cmath>
 #define NOMINMAX
 #define _USE_MATH_DEFINES
@@ -100,6 +101,14 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 /// <param name="v2">: ベクトル2</param>
 /// <returns></returns>
 Vector3 Projection(const Vector3& v1, const Vector3& v2);
+
+/// <summary>
+/// 最近接点を求める関数
+/// </summary>
+/// <param name="point">点P(ここから線分へのベクトルをベクトル射影する)</param>
+/// <param name="segment"></param>
+/// <returns></returns>
+Vector3 ClosestPoint(const Vector3& point, const Line& segment);
 
 /// <summary>
 /// スクリーン座標からワールド座標に変換する関数
@@ -267,13 +276,6 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
 ///  <param name="controlPoint">制御点がまとまった配列</param>
 ///  <returns></returns>
 Vector3 Bezier(const std::vector<Vector3>& controlPoint, const float& t);
-//
-///// <summary>
-///// ベジエ曲線を書く
-///// </summary>
-///// <param name="controlPoint">制御点がまとまった配列</param>
-///// <returns></returns>
-//Vector3 Bezier(const Vector3& v1, const Vector3& v2, const Vector3& v3, const float& t);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // 変換

@@ -1,6 +1,7 @@
 #include "LaserBullet.h"
 #include "Engine/Engine.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Game/Information/ColliderCategory.h"
 
 LaserBullet::~LaserBullet() {
 	BaseBullet::Finalize();
@@ -38,6 +39,13 @@ void LaserBullet::Init() {
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);
 	object_->SetIsShadow(false);
+	ICollider* collider = object_->SetCollider(ColliderTags::Bullet::laser, ColliderShape::Line);
+	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::None::own);
+	collider->SetIsTrigger(true);
+	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	lineCollider_ = dynamic_cast<LineCollider*>(collider);
 
 	type_ = BulletType::Laser;
 
@@ -69,8 +77,12 @@ void LaserBullet::Update() {
 			isShot_ = false;
 			isAlive_ = false;
 		}
+
+		Vector3 diff = dire_ * scale.z;
+		lineCollider_->SetDiff(diff);
 	}
 
+	lineCollider_->Update(QuaternionSRT(CVector3::ZERO, Quaternion(), parentTransform_->GetTranslate()));
 	parentTransform_->Update();
 }
 
@@ -80,7 +92,17 @@ void LaserBullet::Update() {
 
 void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _speed) {
 	parentTransform_->SetTranslate(_pos);
-	Vector3 dir = Vector3(_targetPos - _pos).Normalize();
-	parentTransform_->SetRotate(Quaternion::LookRotation(dir));
+	dire_ = Vector3(_targetPos - _pos).Normalize();
+	parentTransform_->SetRotate(Quaternion::LookRotation(dire_));
 	speed_ = _speed;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 衝突処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void LaserBullet::OnCollision(ICollider* _other) {
+	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
+		isAlive_ = false;
+	}
 }

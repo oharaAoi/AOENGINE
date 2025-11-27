@@ -181,6 +181,156 @@ bool CheckCollisionAABBandOBB(const OBB& obb, const AABB& aabb) {
 	return false;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　SphereとLineの当たり判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line) {
+	Vector3 A = line.origin;
+	Vector3 B = line.origin + line.diff;
+
+	Vector3 segment = B - A;
+	float segLen2 = Vector3::Dot(segment, segment);
+
+	// 退避：長さ0の線分は origin との距離判定にする
+	if (segLen2 == 0.0f) {
+		float dist2 = (A - sphere.center).LengthSquared();
+		return dist2 <= sphere.radius * sphere.radius;
+	}
+
+	Vector3 AC = sphere.center - A;
+
+	// 射影
+	float t = Vector3::Dot(AC, segment) / segLen2;
+	t = std::clamp(t, 0.0f, 1.0f);
+
+	// 線分上の最接近点
+	Vector3 P = A + segment * t;
+
+	// 距離²で比較
+	float dist2 = (P - sphere.center).LengthSquared();
+	return dist2 <= sphere.radius * sphere.radius;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　AABBとLineの当たり判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line) {
+	// 衝突点の媒介変数を求める
+	Vector3 tMin = (aabb.min - line.origin) / line.diff;
+	Vector3 tMax = (aabb.max - line.origin) / line.diff;
+
+	if (std::isnan(tMin.x)) { tMin.x = 0; }
+	if (std::isnan(tMin.y)) { tMin.y = 0; }
+	if (std::isnan(tMin.z)) { tMin.z = 0; }
+
+	if (std::isnan(tMax.x)) { tMax.x = 99; }
+	if (std::isnan(tMax.y)) { tMax.y = 99; }
+	if (std::isnan(tMax.z)) { tMax.z = 99; }
+
+	// 衝突点の内近い方と小さい方を求める
+	Vector3 tNear{
+		std::min(tMin.x, tMax.x),
+		std::min(tMin.y, tMax.y),
+		std::min(tMin.z, tMax.z),
+	};
+
+	// 遠い方
+	Vector3 tFar{
+		std::max(tMin.x, tMax.x),
+		std::max(tMin.y, tMax.y),
+		std::max(tMin.z, tMax.z),
+	};
+
+	// 貫通している状況かを調べる
+	// 近い方の大きい方を求める
+	float tmin = std::max(std::max(tNear.x, tNear.y), tNear.z);
+	// 遠い方の小さい方を求める
+	float tmax = std::min(std::min(tFar.x, tFar.y), tFar.z);
+
+	if (tmin <= tmax) {
+		if (0 <= tmin && tmin <= 1) {
+			return true;
+		}
+
+		if (0 <= tmax && tmax <= 1) {
+			return true;
+		}
+
+		if (tmin <= 0 && tmax >= 1) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　OBBとLineの当たり判定
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool CheckCollisionOBBandLine(const OBB& obb, const Line& line) {
+	// 回転行列を作成する
+	Matrix4x4 rotateMatrix = obb.matRotate;
+	// 平行移動分を作成
+	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
+	// ワールド行列を作成
+	Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
+	// -M
+	Matrix4x4 obbMatWorldInverse = Inverse(obbMatWorld);
+
+	// 線分の始点と終点をAABBのローカル空間に変換する
+	Vector3 localOrigin = Transform(line.origin, obbMatWorldInverse);
+	Vector3 localEnd = Transform(line.origin + line.diff, obbMatWorldInverse);
+
+	// OBBからABBを作成
+	AABB aabbOBBLocal{ .min = obb.size * -1, .max = obb.size };
+	// ローカルの線分を生成
+	Line localLine = {
+		.origin = localOrigin,
+		.diff = localEnd - localOrigin
+	};
+
+	// 衝突点の媒介変数を求める
+	Vector3 tMin = (aabbOBBLocal.min - line.origin) / line.diff;
+	Vector3 tMax = (aabbOBBLocal.max - line.origin) / line.diff;
+
+	if (std::isnan(tMin.x)) { tMin.x = 0; }
+	if (std::isnan(tMin.y)) { tMin.y = 0; }
+	if (std::isnan(tMin.z)) { tMin.z = 0; }
+
+	if (std::isnan(tMax.x)) { tMax.x = 99; }
+	if (std::isnan(tMax.y)) { tMax.y = 99; }
+	if (std::isnan(tMax.z)) { tMax.z = 99; }
+
+	// 衝突点の内近い方と小さい方を求める
+	Vector3 tNear{
+		std::min(tMin.x, tMax.x),
+		std::min(tMin.y, tMax.y),
+		std::min(tMin.z, tMax.z),
+	};
+
+	// 遠い方
+	Vector3 tFar{
+		std::max(tMin.x, tMax.x),
+		std::max(tMin.y, tMax.y),
+		std::max(tMin.z, tMax.z),
+	};
+
+	// 貫通している状況かを調べる
+	// 近い方の大きい方を求める
+	float tmin = std::max(std::max(tNear.x, tNear.y), tNear.z);
+	// 遠い方の小さい方を求める
+	float tmax = std::min(std::min(tFar.x, tFar.y), tFar.z);
+
+	if (tmin <= tmax) {
+		return true;
+	}
+
+	return false;
+}
+
 //================================================================================================//
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
@@ -206,7 +356,18 @@ bool CheckCollision(const AABB& aabb, const OBB& obb) {
 	return CheckCollisionAABBandOBB(obb, aabb);
 }
 
-bool CheckCollision(const std::variant<Sphere, AABB, OBB>& shape1, const std::variant<Sphere, AABB, OBB>& shape2) {
+bool CheckCollision(const Sphere& sphere, const Line& line) {
+	return CheckCollisionSphereAndLine(sphere, line);
+}
+bool CheckCollision(const AABB& aabb, const Line& line) {
+	return CheckCollisionAABBandLine(aabb, line);
+}
+bool CheckCollision(const OBB& obb, const Line& line) {
+	return CheckCollisionOBBandLine(obb, line);
+}
+
+
+bool CheckCollision(const std::variant<Sphere, AABB, OBB, Line>& shape1, const std::variant<Sphere, AABB, OBB, Line>& shape2) {
 	return std::visit(
 		[](const auto& lhs, const auto& rhs) {
 			return CheckCollision(lhs, rhs); // 各組み合わせの CheckCollision を呼び出す

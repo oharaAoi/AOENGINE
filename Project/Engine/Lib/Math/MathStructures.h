@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "MyMath.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 /// <summary>
@@ -56,6 +58,14 @@ struct AABB {
 	Vector3 min;
 	Vector3 max;
 	Vector3 center; // 中心点
+};
+
+/// <summary>
+/// 直線
+/// </summary>
+struct Line {
+	Vector3 origin; // 原点
+	Vector3 diff;	// 差分
 };
 
 /// <summary>

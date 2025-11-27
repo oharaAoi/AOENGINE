@@ -1,4 +1,5 @@
 #include "Quaternion.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 Quaternion Quaternion::Normalize() const {
 	float length = std::sqrt(x * x + y * y + z * z + w * w);

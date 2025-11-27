@@ -63,6 +63,15 @@ Vector3 Projection(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
+Vector3 ClosestPoint(const Vector3& point, const Line& segment) {
+	Vector3 result{};
+	// 正射影ベクトルを求める
+	Vector3 projVector = Projection(point - segment.origin, segment.diff);
+	// 最近接点を求める
+	result = segment.origin + projVector;
+	return result;
+}
+
 float Lerp(float v1, float v2, float t) {
 	return std::lerp(v1, v2, t);
 }

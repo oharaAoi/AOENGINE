@@ -13,6 +13,10 @@ float Vector3::Length() const {
     return std::sqrtf(x * x + y * y + z * z);
 }
 
+float Vector3::LengthSquared() const {
+    return (x * x + y * y + z * z);
+}
+
 void Vector3::Clamp(const Vector3& min, const Vector3& max) {
     if (min.x >= max.x) {
         x = max.x;

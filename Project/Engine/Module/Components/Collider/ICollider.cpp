@@ -2,6 +2,11 @@
 #include <assert.h>
 #include "Engine/System/Manager/CollisionLayerManager.h"
 
+ICollider::ICollider() {
+	penetrationPrevention_ = false;	// 貫通対策を行うかどうか
+	pushbackDire_ = CVector3::ZERO;
+}
+
 void ICollider::SwitchCollision(ICollider* partner) {
 	int& state = collisionPartnersMap_[partner];
 
