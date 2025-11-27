@@ -61,13 +61,15 @@ private :
 	BossBulletType type_ = BossBulletType::Missile;
 
 	// 追尾に関する変数
-	float trackingLength_;		// 長さ
-	float trackingTimer_;		// 計測時間
+	float trackingLength_ = 5.0f;		// 長さ
+	float trackingTimer_ = 0;		// 計測時間
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
 
 	bool finishTracking_;		// 追尾を終了するか
 
 	float trackingRaito_;		// 追従を行う割合
+
+	float deadLength_ = 200.0f;
 
 	float firstSpeedRaito_;		// 初期速度の割合
 	float targetSpeed_;			// 目標の速度

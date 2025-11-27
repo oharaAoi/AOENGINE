@@ -8,7 +8,8 @@
 
 void BossIdleState::OnStart() {
 	SetName("IdleState");
-	floatingTween_.Init(-0.5f, 0.5f, 1.5f, (int)EasingType::InOut::Sine, LoopType::Return);
+	param_.Load();
+	floatingTween_.Init(param_.start, param_.end, param_.time, (int)EasingType::InOut::Sine, LoopType::Return);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,4 +26,15 @@ void BossIdleState::OnUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossIdleState::OnExit() {
+}
+
+void BossIdleState::Debug_Gui() {
+	param_.Debug_Gui();
+}
+
+void BossIdleState::Parameter::Debug_Gui() {
+	ImGui::DragFloat("start", &start, 0.1f);
+	ImGui::DragFloat("end", &end, 0.1f);
+	ImGui::DragFloat("time", &time, 0.1f);
+	SaveAndLoad();
 }

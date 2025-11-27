@@ -13,17 +13,20 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float deployTime = 3.0f;
+		float randShakeValue = 2.0f;
 
 		Parameter() { SetName("bossActionDeployArmor"); }
 		
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("deployTime", deployTime)
+				.Add("randShakeValue", randShakeValue)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "deployTime", deployTime);
+			fromJson(jsonData, "randShakeValue", randShakeValue);
 		}
 
 		void Debug_Gui() override;

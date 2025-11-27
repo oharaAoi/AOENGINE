@@ -25,6 +25,7 @@ void BossActionShotLauncher::Parameter::Debug_Gui() {
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragFloat("stiffenTime", &stiffenTime, .1f);
 	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
+	ImGui::DragFloat("takeDamage", &takeDamage, .1f);
 
 	SaveAndLoad();
 }
@@ -99,6 +100,7 @@ void BossActionShotLauncher::End() {
 void BossActionShotLauncher::Shot() {
 	Vector3 pos = pTarget_->GetPosition();
 	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
-	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 1.0f, 0.0f, false);
-	bullet->SetTakeDamage(40.0f);
+	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+																			   param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, false);
+	bullet->SetTakeDamage(param_.takeDamage);
 }

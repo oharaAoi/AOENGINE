@@ -15,6 +15,8 @@ public:	// 構造体
 		float moveSpeed = 40.f;
 		float moveTime = 1.5f;
 		float decayRate = 4.0f;
+		float finishDistance = 1.0f;
+		float rotateT = 0.1f;
 
 		Parameter() { SetName("bossActionLeave"); }
 
@@ -23,6 +25,8 @@ public:	// 構造体
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
 				.Add("decayRate", decayRate)
+				.Add("finishDistance", finishDistance)
+				.Add("rotateT", rotateT)
 				.Build();
 		}
 
@@ -30,6 +34,8 @@ public:	// 構造体
 			fromJson(jsonData, "moveSpeed", moveSpeed);
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "finishDistance", finishDistance);
+			fromJson(jsonData, "rotateT", rotateT);
 		}
 
 		void Debug_Gui() override;

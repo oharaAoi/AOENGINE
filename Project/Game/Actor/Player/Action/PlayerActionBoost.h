@@ -35,6 +35,8 @@ public:
 		float overTakingThreshold;	// 追い越し防止閾値
 		float stopThreshold;		// 止まる閾値
 
+		float toQuickBoostThreshold = 0.8f; // quickBoostに遷移する際の閾値
+
 		Parameter() { 
 			SetGroupName("PlayerAction");
 			SetName("ActionBoost"); 
@@ -51,6 +53,7 @@ public:
 				.Add("consumeEnergy", consumeEnergy)
 				.Add("overTakingThreshold", overTakingThreshold)
 				.Add("stopThreshold", stopThreshold)
+				.Add("toQuickBoostThreshold", toQuickBoostThreshold)
 				.Build();
 		}
 
@@ -64,6 +67,7 @@ public:
 			fromJson(jsonData, "consumeEnergy", consumeEnergy);
 			fromJson(jsonData, "overTakingThreshold", overTakingThreshold);
 			fromJson(jsonData, "stopThreshold", stopThreshold);
+			fromJson(jsonData, "toQuickBoostThreshold", toQuickBoostThreshold);
 		}
 
 		void Debug_Gui() override;

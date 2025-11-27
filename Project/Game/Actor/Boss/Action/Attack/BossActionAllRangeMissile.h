@@ -16,17 +16,32 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float recoveryTime = 1.0f;	// 攻撃後の硬直時間
+		float bulletSpeed = 90.0f;
+		float takeDamage = 30.0f;
+		uint32_t fireNum = 9;
+		float firstSpeedRaito = 0.1f;
+		float trakingRaito = 0.05f;
 		
 		Parameter() { SetName("BossActionAllRangeMissile"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("recoveryTime", recoveryTime)
+				.Add("bulletSpeed", bulletSpeed)
+				.Add("takeDamage", takeDamage)
+				.Add("fireNum", fireNum)
+				.Add("firstSpeedRaito", firstSpeedRaito)
+				.Add("trakingRaito", trakingRaito)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "recoveryTime", recoveryTime);
+			fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			fromJson(jsonData, "takeDamage", takeDamage);
+			fromJson(jsonData, "fireNum", fireNum);
+			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			fromJson(jsonData, "trakingRaito", trakingRaito);
 		}
 
 		void Debug_Gui() override;
@@ -77,8 +92,6 @@ private :
 	Parameter param_;
 
 	Quaternion playerToRotation_;
-
-	float bulletSpeed_;
 
 	// LookPlayerに関する変数
 	float lookTime_ = 1.f;

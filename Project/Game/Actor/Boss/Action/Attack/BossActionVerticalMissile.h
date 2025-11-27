@@ -15,6 +15,8 @@ public:
 		float bulletSpeed = 80.0f;
 		float fireRadius = 4.0f;
 		int kFireCount = 10;
+		float firstSpeedRaito = 0.1f;
+		float trakingRaito = 0.05f;
 
 		Parameter() { SetName("BossActionVerticalMissile"); }
 
@@ -23,6 +25,8 @@ public:
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("fireRadius", fireRadius)
 				.Add("kFireCount", kFireCount)
+				.Add("firstSpeedRaito", firstSpeedRaito)
+				.Add("trakingRaito", trakingRaito)
 				.Build();
 		}
 
@@ -30,6 +34,8 @@ public:
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "fireRadius", fireRadius);
 			fromJson(jsonData, "kFireCount", kFireCount);
+			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			fromJson(jsonData, "trakingRaito", trakingRaito);
 		}
 
 		void Debug_Gui() override;

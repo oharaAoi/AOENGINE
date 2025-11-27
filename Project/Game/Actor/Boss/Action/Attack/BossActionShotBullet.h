@@ -17,6 +17,7 @@ public:
 		float shotInterval = 0.1f;
 		float bulletSpeed = 80.0f;
 		int kFireCount = 20;
+		float takeDamage = 10.0f;
 
 		Parameter() { SetName("bossActionShotBullet"); }
 		
@@ -26,6 +27,7 @@ public:
 				.Add("shotInterval", shotInterval)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("kFireCount", kFireCount)
+				.Add("takeDamage", takeDamage)
 				.Build();
 		}
 
@@ -34,6 +36,7 @@ public:
 			fromJson(jsonData, "shotInterval", shotInterval);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "kFireCount", kFireCount);
+			fromJson(jsonData, "takeDamage", takeDamage);
 		}
 
 		void Debug_Gui() override;

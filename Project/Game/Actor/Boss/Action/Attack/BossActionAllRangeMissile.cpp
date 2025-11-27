@@ -23,6 +23,9 @@ void BossActionAllRangeMissile::Debug_Gui() {
 
 void BossActionAllRangeMissile::Parameter::Debug_Gui() {
 	ImGui::DragFloat("recovery", &recoveryTime, 1.0f);
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 1.0f);
+	ImGui::DragFloat("takeDamage", &takeDamage, 1.0f);
+	ImGui::DragScalar("fireNum", ImGuiDataType_U32, &fireNum);
 	SaveAndLoad();
 }
 
@@ -60,8 +63,6 @@ void BossActionAllRangeMissile::Init() {
 
 	isFinishShot_ = false;
 
-	bulletSpeed_ = 80.f;
-
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
@@ -98,14 +99,13 @@ void BossActionAllRangeMissile::Shot() {
 	Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う
 
 	const uint32_t angleUpNum = 4;
-	const uint32_t fireNum = 9;
 	const float halfAngle = kPI * 0.5f; // 90度
 
 	// 発射の数文ループする
 	for (uint32_t upCount = 0; upCount < angleUpNum; ++upCount) {
-		for (uint32_t i = 0; i < fireNum; ++i) {
+		for (uint32_t i = 0; i < param_.fireNum; ++i) {
 			// -90度〜+90度に等間隔で弾を発射
-			float angle = -halfAngle + (kPI * i) / (fireNum - 1);
+			float angle = -halfAngle + (kPI * i) / (param_.fireNum - 1);
 			float upAngle = -halfAngle * ((float)upCount / (float)angleUpNum);
 
 			// クォータニオンで回転を生成（up軸周りに角度回転）
@@ -116,9 +116,10 @@ void BossActionAllRangeMissile::Shot() {
 			Vector3 dir = upoRot.Rotate(forward);
 			dir = rot.Rotate(dir);
 
-			Vector3 velocity = dir.Normalize() * bulletSpeed_;
-			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), bulletSpeed_,0.1f, 0.05f, true);
-			missile->SetTakeDamage(30.0f);
+			Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
+			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+																						param_.bulletSpeed, param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
+			missile->SetTakeDamage(param_.takeDamage);
 		}
 	}
 

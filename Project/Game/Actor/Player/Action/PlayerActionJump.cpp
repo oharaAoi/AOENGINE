@@ -18,6 +18,7 @@ void PlayerActionJump::Debug_Gui() {
 void PlayerActionJump::Parameter::Debug_Gui() {
 	ImGui::DragFloat("jumpForce", &jumpForce, 0.1f);
 	ImGui::DragFloat("chargeTime", &chargeTime, 0.1f);
+	ImGui::DragFloat("finishChargeTime", &finishChargeTime, 0.1f);
 	ImGui::DragFloat("risingForce", &risingForce, 0.1f);
 	ImGui::DragFloat("maxAcceleration", &maxAcceleration, 0.1f);
 	ImGui::DragFloat("accelDecayRate", &accelDecayRate, 0.1f);
@@ -25,6 +26,7 @@ void PlayerActionJump::Parameter::Debug_Gui() {
 	ImGui::DragFloat("jumpEnergy", &jumpEnergy, 0.1f);
 	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
 	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
+	ImGui::DragFloat("animationBlendTime", &animationBlendTime, 0.1f);
 	SaveAndLoad();
 }
 
@@ -74,10 +76,8 @@ void PlayerActionJump::OnStart() {
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-	clip->PoseToAnimation("jump", 0.4f);
+	clip->PoseToAnimation("jump", param_.animationBlendTime);
 	clip->SetIsLoop(false);
-
-	//pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("jump", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +101,7 @@ void PlayerActionJump::OnUpdate() {
 
 void PlayerActionJump::OnEnd() {
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-	clip->PoseToAnimation("landing", 0.6f);
+	clip->PoseToAnimation("landing", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 }
 
@@ -115,7 +115,7 @@ void PlayerActionJump::CheckNextAction() {
 		NextAction<PlayerActionIdle>();
 	}
 
-	if (actionTimer_ > param_.chargeTime * 2.0f) {
+	if (actionTimer_ > param_.finishChargeTime) {
 		if (pOwner_->GetIsLanding()) {
 			NextAction<PlayerActionIdle>();
 		}

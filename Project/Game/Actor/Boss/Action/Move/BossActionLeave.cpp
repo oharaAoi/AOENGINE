@@ -23,6 +23,8 @@ void BossActionLeave::Parameter::Debug_Gui() {
 	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
 	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	ImGui::DragFloat("rotateT", &rotateT, 0.1f);
+	ImGui::DragFloat("finishDistance", &finishDistance, 0.1f);
 	SaveAndLoad();
 }
 
@@ -32,7 +34,7 @@ void BossActionLeave::Parameter::Debug_Gui() {
 
 bool BossActionLeave::IsFinish() {
 	if (stopping_) {
-		if (velocity_.Length() <= 1.0f) {
+		if (velocity_.Length() <= param_.finishDistance) {
 			return true;
 		}
 	}
@@ -97,7 +99,7 @@ void BossActionLeave::End() {
 
 void BossActionLeave::Leave() {
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pTarget_->GetTransform()->MoveVelocity(velocity_* GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_* GameTimer::DeltaTime(), param_.rotateT);
 }
 
 void BossActionLeave::Stop() {
@@ -105,5 +107,5 @@ void BossActionLeave::Stop() {
 	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
 	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
-	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->srt_.rotate, playerToRotate_, 0.05f);
+	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->srt_.rotate, playerToRotate_, param_.rotateT);
 }

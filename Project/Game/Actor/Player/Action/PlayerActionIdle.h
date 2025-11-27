@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Game/Actor/Base/BaseAction.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 class Player;
 
@@ -9,6 +10,29 @@ class Player;
 /// </summary>
 class PlayerActionIdle :
 	public BaseAction<Player>{
+public:
+
+	struct Parameter : public IJsonConverter {
+		float animationBlendTime = 0.2f;
+		
+		Parameter() { 
+			SetGroupName("PlayerAction");
+			SetName("actionIdle");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("animationBlendTime", animationBlendTime)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "animationBlendTime", animationBlendTime);
+		}
+
+		void Debug_Gui() override;
+	};
+
 public:
 
 	PlayerActionIdle() = default;
@@ -30,5 +54,10 @@ public:
 	bool IsInput() override;
 	// 編集処理
 	void Debug_Gui() override {};
+
+private:
+
+	Parameter param_;
+
 };
 

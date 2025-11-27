@@ -25,6 +25,8 @@ void BossActionStrafe::Parameter::Debug_Gui() {
 	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
 	ImGui::DragFloat("getDistance", &getDistance, 0.1f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
+	ImGui::DragFloat("rotateT", &rotateT, 0.1f);
+	ImGui::DragFloat("finishDistance", &finishDistance, 0.1f);
 	curve.Debug_Gui();
 	SaveAndLoad();
 }
@@ -35,7 +37,7 @@ void BossActionStrafe::Parameter::Debug_Gui() {
 
 bool BossActionStrafe::IsFinish() {
 	if (stopping_) {
-		if (velocity_.Length() <= 1.0f) {
+		if (velocity_.Length() <= param_.finishDistance) {
 			return true;
 		}
 	}
@@ -136,7 +138,7 @@ void BossActionStrafe::Spin() {
 
 	// 速度と位置を更新
 	velocity_ += accel_ * GameTimer::DeltaTime();
-	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), param_.rotateT);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -148,5 +150,5 @@ void BossActionStrafe::Stop() {
 	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
 	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
-	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->srt_.rotate, playerToRotate_, 0.05f);
+	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->srt_.rotate, playerToRotate_, param_.rotateT);
 }

@@ -31,6 +31,8 @@ void BossActionAdjustHeight::Parameter::Debug_Gui() {
     ImGui::DragFloat("smoothTime", &smoothTime, 0.1f);
     ImGui::DragFloat("maxSpeed", &maxSpeed, 0.1f);
     ImGui::DragFloat("recoveryTime", &recoveryTime, 0.1f);
+    ImGui::DragFloat("finishDistance", &finishDistance, 0.1f);
+    ImGui::DragFloat("finishTime", &finishTime, 0.1f);
     SaveAndLoad();
 }
 
@@ -39,11 +41,11 @@ void BossActionAdjustHeight::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionAdjustHeight::IsFinish() {
-    if (distance_ < 2.0f) {
+    if (distance_ < param_.finishDistance) {
         return true;
     }
 
-    if (taskTimer_ < 2.0f) {
+    if (taskTimer_ >= param_.finishTime) {
         return true;
     }
 

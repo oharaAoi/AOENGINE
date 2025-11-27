@@ -16,6 +16,7 @@ public:	// メンバ構造体
 	struct Parameter : public IJsonConverter {
 		float stanTime = 5.0f;
 		float stanSlowTime = 0.4f;
+		float effectRandDistance = 3.0f;
 		
 		Parameter() { 
 			SetGroupName("BossState");
@@ -26,12 +27,14 @@ public:	// メンバ構造体
 			return JsonBuilder(id)
 				.Add("stanTime", stanTime)
 				.Add("stanSlowTime", stanSlowTime)
+				.Add("effectRandDistance", effectRandDistance)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "stanTime", stanTime);
 			fromJson(jsonData, "stanSlowTime", stanSlowTime);
+			fromJson(jsonData, "effectRandDistance", effectRandDistance);
 		}
 
 		void Debug_Gui() override;

@@ -104,8 +104,9 @@ void BossActionShotMissile::Shot() {
 	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * param_.bulletSpeed;
-	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(), param_.bulletSpeed, 0.2f, 0.5f, true);
-	missile->SetTakeDamage(20.0f);
+	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+																				param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
+	missile->SetTakeDamage(param_.takeDamage);
 
 	if (fireCount_ == 0) {
 		isFinishShot_ = true;

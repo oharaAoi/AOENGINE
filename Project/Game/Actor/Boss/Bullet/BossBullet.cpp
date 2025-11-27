@@ -19,8 +19,7 @@ void BossBullet::Init() {
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
-	//collider->SetTarget(ColliderTags::Field::ground);
-
+	
 	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
 	trail_->SetParent(transform_->GetWorldMatrix());
 
@@ -32,15 +31,15 @@ void BossBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBullet::Update() {
-	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.x) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.y) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.z) >= deadLength_) {
 		isAlive_ = false;
 	}
 

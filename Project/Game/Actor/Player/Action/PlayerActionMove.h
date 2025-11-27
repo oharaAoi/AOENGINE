@@ -20,6 +20,10 @@ public:
 		float rotateT = 0.5f;		// 回転の速度
 		float decayRate = 2.0f;		// 減速の際の倍率
 		float turnAroundThreshold;	// 回転をする際の
+		float turnSpeed = 0.3f;	// 回転をする際の
+		float animationTime = 0.1f;
+		float accel = 20.0f;
+		float decel = 30.0f;
 
 		Parameter() { SetName("ActionMove"); }
 
@@ -30,7 +34,11 @@ public:
 				.Add("maxSpeed", maxSpeed)
 				.Add("rotateT", rotateT)
 				.Add("decayRate", decayRate)
+				.Add("animationTime", animationTime)
 				.Add("turnAroundThreshold", turnAroundThreshold)
+				.Add("turnSpeed", turnSpeed)
+				.Add("accel", accel)
+				.Add("decel", decel)
 				.Build();
 		}
 
@@ -40,7 +48,11 @@ public:
 			fromJson(jsonData, "maxSpeed", maxSpeed);
 			fromJson(jsonData, "rotateT", rotateT);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "animationTime", animationTime);
 			fromJson(jsonData, "turnAroundThreshold", turnAroundThreshold);
+			fromJson(jsonData, "turnSpeed", turnSpeed);
+			fromJson(jsonData, "accel", accel);
+			fromJson(jsonData, "decel", decel);
 		}
 
 		void Debug_Gui() override;
@@ -74,13 +86,6 @@ private:	// action
 	/// 動く処理
 	/// </summary>
 	void Move();
-
-	/// <summary>
-	/// プレイヤーの反転処理
-	/// </summary>
-	/// <param name="currentVelocity"></param>
-	/// <returns></returns>
-	bool IsDirectionReversed(const Vector3& currentVelocity);
 
 private:
 

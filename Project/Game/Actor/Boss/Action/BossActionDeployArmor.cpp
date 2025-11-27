@@ -27,6 +27,7 @@ void BossActionDeployArmor::Debug_Gui() {
 
 void BossActionDeployArmor::Parameter::Debug_Gui() {
 	ImGui::DragFloat("deployTime", &deployTime, 0.1f);
+	ImGui::DragFloat("randShakeValue", &randShakeValue, 0.1f);
 	SaveAndLoad();
 }
 
@@ -75,7 +76,8 @@ void BossActionDeployArmor::Init() {
 
 void BossActionDeployArmor::Update() {
 	taskTimer_ += GameTimer::DeltaTime();
-	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Vector3(-2.0f, -2.0f, -2.0f), Vector3(2.0f, 2.0f, 2.0f));
+	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
+																  Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

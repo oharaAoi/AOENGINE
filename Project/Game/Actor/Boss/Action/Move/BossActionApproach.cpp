@@ -24,6 +24,7 @@ void BossActionApproach::Parameter::Debug_Gui() {
 	ImGui::DragFloat("quitApproachLength", &quitApproachLength, .1f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
 	ImGui::DragFloat("recoveryTime", &recoveryTime, 0.1f);
+	ImGui::DragFloat("rotateT", &rotateT, 0.1f);
 	SaveAndLoad();
 }
 
@@ -79,23 +80,8 @@ bool BossActionApproach::CanExecute() {
 	return true;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 次のアクションのチェック
-///////////////////////////////////////////////////////////////////////////////////////////////
-//void BossActionApproach::CheckNextAction() {
-//	if (distance_ < param_.quitApproachLength) {
-//		size_t hash = pTarget_->GetAI()->AttackActionAI();
-//		NextAction(hash);
-//	}
-//
-//	if (actionTimer_ > initParam_.moveTime) {
-//		size_t hash = pTarget_->GetAI()->AttackActionAI();
-//		NextAction(hash);
-//	}
-//}
-
 void BossActionApproach::Approach() {
-	pTarget_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), param_.rotateT);
 }
 
 void BossActionApproach::SpinApproach() {
@@ -114,7 +100,7 @@ void BossActionApproach::SpinApproach() {
 	offsetDire_ = offsetDire_.Normalize();
 
 	// 移動をさせる
-	pTarget_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * GameTimer::DeltaTime(), 0.1f);
+	pTarget_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * GameTimer::DeltaTime(), param_.rotateT);
 
 	param_.moveSpeed -= param_.deceleration * GameTimer::DeltaTime();
 }

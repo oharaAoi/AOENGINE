@@ -17,6 +17,8 @@ public:
 		float moveTime = 0.5f;
 		float getDistance = 10.0f;
 		float decayRate = 4.0f;
+		float rotateT = 0.1f;
+		float finishDistance = 1.0f;
 		Curve curve;
 
 		Parameter() { SetName("bossStrafe"); }
@@ -28,6 +30,8 @@ public:
 				.Add("moveTime", moveTime)
 				.Add("getDistance", getDistance)
 				.Add("decayRate", decayRate)
+				.Add("rotateT", rotateT)
+				.Add("finishDistance", finishDistance)
 				.Add("curveData", curveData)
 				.Build();
 		}
@@ -37,6 +41,8 @@ public:
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "getDistance", getDistance);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "rotateT", rotateT);
+			fromJson(jsonData, "finishDistance", finishDistance);
 			curve.FromJson(jsonData, "curveData");
 		}
 

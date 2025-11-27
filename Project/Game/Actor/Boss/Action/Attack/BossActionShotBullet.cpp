@@ -26,6 +26,7 @@ void BossActionShotBullet::Parameter::Debug_Gui() {
 	ImGui::DragFloat("shotInterval", &shotInterval, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragInt("kFireCount", &kFireCount, 1);
+	ImGui::DragFloat("takeDamage", &takeDamage, 1);
 
 	SaveAndLoad();
 }
@@ -105,7 +106,7 @@ void BossActionShotBullet::Shot() {
 	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
 
 	BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, velocity * param_.bulletSpeed);
-	bullet->SetTakeDamage(10.0f);
+	bullet->SetTakeDamage(param_.takeDamage);
 
 	if (fireCount_ == 0) {
 		isFinishShot_ = true;

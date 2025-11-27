@@ -42,5 +42,6 @@ private:
 	GpuParticleEmitter* trail_;
 	float speed_;
 
+	float deadLength_ = 200.f;
 };
 

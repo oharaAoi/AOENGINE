@@ -16,6 +16,9 @@ public:
 		float recoveryTime = 0.1f;
 		float shotInterval = 0.1f;
 		float bulletSpeed = 100.0f;
+		float takeDamage = 40.0f;
+		float firstSpeedRaito = 0.2f;
+		float trakingRaito = 0.5f;
 
 		Parameter() { SetName("bossActionShotMissile"); }
 
@@ -24,6 +27,9 @@ public:
 				.Add("recoveryTime", recoveryTime)
 				.Add("shotInterval", shotInterval)
 				.Add("bulletSpeed", bulletSpeed)
+				.Add("takeDamage", takeDamage)
+				.Add("firstSpeedRaito", firstSpeedRaito)
+				.Add("trakingRaito", trakingRaito)
 				.Build();
 		}
 
@@ -31,6 +37,9 @@ public:
 			fromJson(jsonData, "recoveryTime", recoveryTime);
 			fromJson(jsonData, "shotInterval", shotInterval);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			fromJson(jsonData, "takeDamage", takeDamage);
+			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			fromJson(jsonData, "trakingRaito", trakingRaito);
 		}
 
 		void Debug_Gui() override;

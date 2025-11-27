@@ -31,7 +31,7 @@ void BossStateStan::OnStart() {
 
 	GameTimer::SetTimeScale(0.1f);
 
-	AudioPlayer::SinglShotPlay("stan_se.mp3", 0.4f);
+	AudioPlayer::SinglShotPlay("stan_se.mp3", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ void BossStateStan::OnUpdate() {
 
 	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
 	if (effect_->GetIsStop()) {
-		Vector3 newPos = RandomVector3(CVector3::UNIT * -3.0f, CVector3::UNIT * 3.0f);
+		Vector3 newPos = RandomVector3(CVector3::UNIT * -param_.effectRandDistance, CVector3::UNIT * param_.effectRandDistance);
 		effect_->Reset();
 		effect_->SetPos(newPos);
 	}
@@ -82,5 +82,6 @@ void BossStateStan::Debug_Gui() {
 void BossStateStan::Parameter::Debug_Gui() {
 	ImGui::DragFloat("stanTime", &stanTime, 0.1f);
 	ImGui::DragFloat("stanSlowTime", &stanSlowTime, 0.1f);
+	ImGui::DragFloat("effectRandDistance", &effectRandDistance, 0.1f);
 	SaveAndLoad();
 }

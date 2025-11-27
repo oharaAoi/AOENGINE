@@ -14,6 +14,8 @@ public:
 		float smoothTime = 0.1f;	// 追従の速度
 		float maxSpeed = 10 ^ 8;	// 追従の最大速度
 		float recoveryTime = 0.0f;	// 硬直時間
+		float finishDistance = 2.0f; // 離れる距離
+		float finishTime = 2.0f; // 離れる距離
 
 		Parameter() { SetName("BossActionAdjustHeight"); }
 
@@ -22,6 +24,8 @@ public:
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
 				.Add("recoveryTime", recoveryTime)
+				.Add("finishDistance", finishDistance)
+				.Add("finishTime", finishTime)
 				.Build();
 		}
 
@@ -29,6 +33,8 @@ public:
 			fromJson(jsonData, "smoothTime", smoothTime);
 			fromJson(jsonData, "maxSpeed", maxSpeed);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
+			fromJson(jsonData, "finishDistance", finishDistance);
+			fromJson(jsonData, "finishTime", finishTime);
 		}
 
 		void Debug_Gui() override;

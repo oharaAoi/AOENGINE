@@ -16,6 +16,9 @@ public:
 		float bulletSpeed = 80.0f;
 		float stiffenTime = 1.0f;
 		float recoveryTime = 1.0f;
+		float takeDamage = 40.0f;
+		float firstSpeedRaito = 0.2f;
+		float trakingRaito = 0.5f;
 
 		Parameter() { SetName("BossActionShotLuncher"); }
 		
@@ -24,6 +27,9 @@ public:
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("stiffenTime", stiffenTime)
 				.Add("recoveryTime", recoveryTime)
+				.Add("takeDamage", takeDamage)
+				.Add("firstSpeedRaito", firstSpeedRaito)
+				.Add("trakingRaito", trakingRaito)
 				.Build();
 		}
 
@@ -31,6 +37,9 @@ public:
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "stiffenTime", stiffenTime);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
+			fromJson(jsonData, "takeDamage", takeDamage);
+			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			fromJson(jsonData, "trakingRaito", trakingRaito);
 		}
 
 		void Debug_Gui() override;

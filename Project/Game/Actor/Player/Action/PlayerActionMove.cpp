@@ -29,6 +29,10 @@ void PlayerActionMove::Parameter::Debug_Gui() {
 	ImGui::DragFloat("rotateT", &rotateT, 0.01f);
 	ImGui::DragFloat("decayRate", &decayRate, 0.1f);
 	ImGui::DragFloat("turnAroundThreshold", &turnAroundThreshold, 0.1f);
+	ImGui::DragFloat("turnSpeed", &turnSpeed, 0.1f);
+	ImGui::DragFloat("animtionTime", &animationTime, 0.1f);
+	ImGui::DragFloat("accel", &accel, 0.1f);
+	ImGui::DragFloat("decel", &decel, 0.1f);
 	SaveAndLoad();
 }
 
@@ -68,11 +72,11 @@ void PlayerActionMove::OnStart() {
 	// ----------------------
 	if (pOwner_->GetIsBoostMode()) {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-		clip->PoseToAnimation("move", 0.1f);
+		clip->PoseToAnimation("move", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-		clip->PoseToAnimation("walk", 0.1f);
+		clip->PoseToAnimation("walk", param_.animationTime);
 		clip->SetIsLoop(true);
 	}
 
@@ -98,11 +102,11 @@ void PlayerActionMove::OnUpdate() {
 	if (preBoost_ != pOwner_->GetIsBoostMode()) {
 		if (preBoost_) {
 			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-			clip->PoseToAnimation("walk", 0.1f);
+			clip->PoseToAnimation("walk", param_.animationTime);
 			clip->SetIsLoop(true);
 		} else {
 			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-			clip->PoseToAnimation("move", 0.1f);
+			clip->PoseToAnimation("move", param_.animationTime);
 			clip->SetIsLoop(false);
 		}
 	}
@@ -126,11 +130,11 @@ void PlayerActionMove::OnEnd() {
 	pOwner_->GetJetEngine()->JetIsStop();
 	if (pOwner_->GetIsBoostMode()) {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-		clip->PoseToAnimation("move_cancel", 0.1f);
+		clip->PoseToAnimation("move_cancel", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
 		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-		clip->PoseToAnimation("idle", 0.1f);
+		clip->PoseToAnimation("idle", param_.animationTime);
 		clip->SetIsLoop(false);
 	}
 }
@@ -227,19 +231,16 @@ void PlayerActionMove::Move() {
 	// ----------------------
 	float dot = Vector2::Dot(preInputStick_, inputStick_);
 	if (dot < param_.turnAroundThreshold) {
-		velocity_ *= 0.3f;
+		velocity_ *= param_.turnSpeed;
 	}
 
 	// ----------------------
 	// 加減速制御
 	// ----------------------
-	float accel = 20.0f;
-	float decel = 30.0f;
-
 	if (inputStick_.Length() > 0.1f) {
-		velocity_ = Lerp(velocity_, targetVelocity, accel * GameTimer::DeltaTime());
+		velocity_ = Lerp(velocity_, targetVelocity, param_.accel * GameTimer::DeltaTime());
 	} else {
-		velocity_ = Lerp(velocity_, CVector3::ZERO, decel * GameTimer::DeltaTime());
+		velocity_ = Lerp(velocity_, CVector3::ZERO, param_.decel * GameTimer::DeltaTime());
 	}
 
 	// ----------------------
@@ -261,14 +262,4 @@ void PlayerActionMove::Move() {
 
 	preVelocity_ = velocity_;
 	preInputStick_ = inputStick_;
-}
-
-bool PlayerActionMove::IsDirectionReversed(const Vector3& currentVelocity) {
-	if (currentVelocity.Length() > 0.3f || preVelocity_.Length() > 0.3f) {
-		float dot = Vector3::Dot(currentVelocity, preVelocity_);
-		if (dot < -0.5f) {
-			return true;
-		}
-	}
-	return false;
 }

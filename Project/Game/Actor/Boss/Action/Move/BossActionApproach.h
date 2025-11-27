@@ -19,6 +19,7 @@ public:
 		float quitApproachLength = 5.f;	// どのくらいまで近づくか
 		float decayRate = 5.f;			// 減衰率
 		float recoveryTime = 0.0f;		// 硬直時間
+		float rotateT = 0.1f;
 
 		Parameter() { SetName("bossActionApproach"); }
 
@@ -31,6 +32,7 @@ public:
 				.Add("quitApproachLength", quitApproachLength)
 				.Add("decayRate", decayRate)
 				.Add("recoveryTime", recoveryTime)
+				.Add("rotateT", rotateT)
 				.Build();
 		}
 
@@ -42,6 +44,7 @@ public:
 			fromJson(jsonData, "quitApproachLength", quitApproachLength);
 			fromJson(jsonData, "decayRate", decayRate);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
+			fromJson(jsonData, "rotateT", rotateT);
 		}
 
 		void Debug_Gui() override;

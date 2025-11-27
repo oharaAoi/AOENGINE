@@ -26,6 +26,7 @@ void BossActionShotgun::Parameter::Debug_Gui() {
 	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragFloat("stiffenTime", &bulletSpread, .1f);
+	ImGui::DragFloat("takeDamage", &takeDamage, .1f);
 	ImGui::DragInt("kFireCount", &kFireCount, 1);
 	SaveAndLoad();
 }
@@ -110,7 +111,7 @@ void BossActionShotgun::Shot() {
 
 		Vector3 dir = spreadRot * velocity;
 		BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
-		bullet->SetTakeDamage(10.0f);
+		bullet->SetTakeDamage(param_.takeDamage);
 	}
 
 	isFinishShot_ = true;

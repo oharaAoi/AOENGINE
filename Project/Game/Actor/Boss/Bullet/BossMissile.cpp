@@ -26,7 +26,6 @@ void BossMissile::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 
-	trackingLength_ = 5.f;
 	trackingTimer_ = 0.f;
 
 	finishTracking_ = false;
@@ -49,15 +48,15 @@ void BossMissile::Update() {
 	Accelerate();
 	Tracking();
 	
-	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.x) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.y) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.z) >= deadLength_) {
 		isAlive_ = false;
 	}
 

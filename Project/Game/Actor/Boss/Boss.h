@@ -27,8 +27,9 @@ class Boss :
 public:
 
 	struct Parameter : public IJsonConverter {
-		float health;
-		float postureStability;
+		float health = 100;
+		float postureStability = 100.0f;
+		float postureStabilityScrapeRaito = 0.3f;	// 耐久度を削る割合
 		float armorCoolTime = 20.0f;
 		float angularVelocity = 90.f; // 角速度
 		float angularThreshold = 10.f; // 角速度
@@ -39,6 +40,7 @@ public:
 			return JsonBuilder(id)
 				.Add("health", health)
 				.Add("postureStability", postureStability)
+				.Add("postureStabilityScrapeRaito", postureStabilityScrapeRaito)
 				.Add("armorCoolTime", armorCoolTime)
 				.Add("angularVelocity", angularVelocity)
 				.Add("angularThreshold", angularThreshold)
@@ -48,6 +50,7 @@ public:
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "health", health);
 			fromJson(jsonData, "postureStability", postureStability);
+			fromJson(jsonData, "postureStabilityScrapeRaito", postureStabilityScrapeRaito);
 			fromJson(jsonData, "armorCoolTime", armorCoolTime);
 			fromJson(jsonData, "angularVelocity", angularVelocity);
 			fromJson(jsonData, "angularThreshold", angularThreshold);

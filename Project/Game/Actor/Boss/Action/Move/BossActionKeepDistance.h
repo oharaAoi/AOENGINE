@@ -16,6 +16,7 @@ public:
 		float moveTime = 2.0f;
 		float getDistance = 10.0f;
 		float decayRate = 4.0f;
+		float rotateT = 0.1f;
 
 		Parameter() { SetName("bossKeepDistance"); }
 
@@ -25,6 +26,7 @@ public:
 				.Add("moveTime", moveTime)
 				.Add("getDistance", getDistance)
 				.Add("decayRate", decayRate)
+				.Add("rotateT", rotateT)
 				.Build();
 		}
 
@@ -33,6 +35,7 @@ public:
 			fromJson(jsonData, "moveTime", moveTime);
 			fromJson(jsonData, "getDistance", getDistance);
 			fromJson(jsonData, "decayRate", decayRate);
+			fromJson(jsonData, "rotateT", rotateT);
 		}
 
 		void Debug_Gui() override;

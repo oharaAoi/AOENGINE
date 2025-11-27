@@ -18,6 +18,7 @@ public:
 
 	struct Parameter : public IJsonConverter {
 		float chargeTime = 0.5f;
+		float finishChargeTime = 1.0f;
 		float jumpForce = 6.0f;
 		float risingForce = 10.0f;
 		float maxAcceleration = 20.0f;
@@ -29,11 +30,14 @@ public:
 		float cameraShakeTime = 0.2f;
 		float cameraShakeStrength = 0.1f;
 
+		float animationBlendTime = 0.5f;
+
 		Parameter() { SetName("ActionJump"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
+				.Add("finishChargeTime", finishChargeTime)
 				.Add("jumpForce", jumpForce)
 				.Add("risingForce", risingForce)
 				.Add("maxAcceleration", maxAcceleration)
@@ -42,11 +46,13 @@ public:
 				.Add("jumpEnergy", jumpEnergy)
 				.Add("cameraShakeTime", cameraShakeTime)
 				.Add("cameraShakeStrength", cameraShakeStrength)
+				.Add("animationBlendTime", animationBlendTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "chargeTime", chargeTime);
+			fromJson(jsonData, "finishChargeTime", finishChargeTime);
 			fromJson(jsonData, "jumpForce", jumpForce);
 			fromJson(jsonData, "risingForce", risingForce);
 			fromJson(jsonData, "maxAcceleration", maxAcceleration);
@@ -55,6 +61,7 @@ public:
 			fromJson(jsonData, "jumpEnergy", jumpEnergy);
 			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			fromJson(jsonData, "animationBlendTime", animationBlendTime);
 		}
 
 		void Debug_Gui() override;

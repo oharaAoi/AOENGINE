@@ -14,7 +14,7 @@ void BossStateBeDestroyed::OnStart() {
 	param_.Load();
 
 	timer_ = 0.0f;
-	GameTimer::SetTimeScale(0.2f);
+	GameTimer::SetTimeScale(param_.slowScale);
 
 	preRotate_ = pOwner_->GetTransform()->srt_.rotate;
 	
@@ -69,5 +69,6 @@ void BossStateBeDestroyed::Debug_Gui() {
 void BossStateBeDestroyed::Parameter::Debug_Gui() {
 	ImGui::DragFloat("slowTime", &slowTime, 0.1f);
 	ImGui::DragFloat("breakTime", &breakTime, 0.1f);
+	ImGui::DragFloat("slowScale", &slowScale, 0.1f);
 	SaveAndLoad();
 }

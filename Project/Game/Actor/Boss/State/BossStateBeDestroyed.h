@@ -15,6 +15,7 @@ public:
 	struct Parameter : public IJsonConverter {
 		float slowTime = 1.0f;
 		float breakTime = 3.0f;
+		float slowScale = 0.2f;
 
 		Parameter() { 
 			SetGroupName("BossState");
@@ -25,12 +26,14 @@ public:
 			return JsonBuilder(id)
 				.Add("slowTime", slowTime)
 				.Add("breakTime", breakTime)
+				.Add("slowScale", slowScale)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "slowTime", slowTime);
 			fromJson(jsonData, "breakTime", breakTime);
+			fromJson(jsonData, "slowScale", slowScale);
 		}
 
 		void Debug_Gui() override;

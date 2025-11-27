@@ -124,7 +124,7 @@ void PlayerActionBoost::CheckNextAction() {
 	}
 
 	if (!isSlow_) {
-		if (std::fabs(stick_.x) > 0.8f) {
+		if (std::fabs(stick_.x) > param_.toQuickBoostThreshold) {
 			AddAction<PlayerActionQuickBoost>();
 		}
 	}
@@ -187,7 +187,7 @@ void PlayerActionBoost::BoostStop() {
 
 bool PlayerActionBoost::CheckStop() {
 	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
-	if (stick_.y < -0.9f) {
+	if (stick_.y < -param_.stopThreshold) {
 		return true;
 	}
 

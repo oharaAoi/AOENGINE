@@ -16,6 +16,7 @@ public:
 		float recoveryTime = 0.2f;
 		float bulletSpeed = 80.0f;
 		float bulletSpread = 20.0f;
+		float takeDamage = 10.0f;
 		int kFireCount = 16;
 
 		Parameter() { SetName("BossActionShotgun"); }
@@ -25,6 +26,7 @@ public:
 				.Add("recoveryTime", recoveryTime)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("bulletSpread", bulletSpread)
+				.Add("takeDamage", takeDamage)
 				.Add("kFireCount", kFireCount)
 				.Build();
 		}
@@ -33,6 +35,7 @@ public:
 			fromJson(jsonData, "recoveryTime", recoveryTime);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "bulletSpread", bulletSpread);
+			fromJson(jsonData, "takeDamage", takeDamage);
 			fromJson(jsonData, "kFireCount", kFireCount);
 		}
 
