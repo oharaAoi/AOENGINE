@@ -70,5 +70,7 @@ private:
 	float blinkingTime_ = 0.1f;
 	uint32_t blinkingCount_;
 
+	const uint32_t kBlinkingCount_ = 3;
+
 };
 

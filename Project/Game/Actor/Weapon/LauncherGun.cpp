@@ -49,7 +49,7 @@ bool LauncherGun::Attack(const AttackContext& cxt) {
 	object_->Update();
 
 	Vector3 worldPos = object_->GetPosition();
-	LauncherBullet* bullet = pBulletManager_->AddBullet<LauncherBullet>(worldPos, cxt.direction);
+	LauncherBullet* bullet = pBulletManager_->AddBullet<LauncherBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 	// effectを出す
 	Vector3 pos = offset_;

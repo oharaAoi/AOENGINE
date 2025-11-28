@@ -25,7 +25,6 @@ void RocketBullet::Init() {
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
-	trackingLength_ = 10.f;
 	trackingTimer_ = 0.f;
 	finishTracking_ = false;
 
@@ -74,10 +73,13 @@ void RocketBullet::OnCollision(ICollider* other) {
 	}
 }
 
-void RocketBullet::Reset(const Vector3& pos, const Vector3& target, float bulletSpeed) {
-	transform_->srt_.translate = pos;
-	targetPosition_ = target;
-	speed_ = bulletSpeed;
+void RocketBullet::Reset(const Vector3& _pos, const Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito) {
+	transform_->srt_.translate = _pos;
+	targetPosition_ = _target;
+	speed_ = _bulletSpeed;
+	trackingLength_ = _trackingLength;
+	trackingTime_ = _trackingTime;
+	trackingRaito_ = _trackingRaito;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

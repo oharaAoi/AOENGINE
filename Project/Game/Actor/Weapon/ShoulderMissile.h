@@ -12,20 +12,29 @@ public:
 
 	struct ShoulderMissileParam : IJsonConverter {
 		Vector3 pos;
+		float trackingLength;	// 追従する長さ
+		float trackingTime;		// 追従する時間
+		float trackingRaito;	// 追従の割合
 
 		ShoulderMissileParam() {
 			SetGroupName("Weapon");
-			SetName("ShoulderMissile");
+			SetName("shoulderMissile");
 		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("pos", pos)
+				.Add("trackingLength", trackingLength)
+				.Add("trackingTime", trackingTime)
+				.Add("trackingRaito", trackingRaito)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "pos", pos);
+			fromJson(jsonData, "trackingLength", trackingLength);
+			fromJson(jsonData, "trackingTime", trackingTime);
+			fromJson(jsonData, "trackingRaito", trackingRaito);
 		}
 
 		void Debug_Gui() override;

@@ -5,20 +5,35 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerKnockbackState::Debug_Gui() {
+	param_.Debug_Gui();
+}
+
+void PlayerKnockbackState::Parameter::Debug_Gui() {
+	ImGui::DragFloat("knockbackTime", &knockbackTime, 0.1f);
+	ImGui::DragFloat("knockStrength", &knockStrength, 0.1f);
+	ImGui::DragFloat("knockDecay", &knockDecay, 0.1f);
+	ImGui::DragFloat("glitchNoiseTime", &glitchNoiseTime, 0.1f);
+	ImGui::DragFloat("glitchNoiseStrength", &glitchNoiseStrength, 0.1f);
+	SaveAndLoad();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 開始処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerKnockbackState::OnStart() {
+	param_.Load();
 	timer_ = 0.0f;
-	knockbackTime_ = 2.0f;
-
-	strength_ = 150.0f;
 
 	velocity_;
 	acceleration_;
 
 	glitchNoise_ = Engine::GetPostProcess()->GetGlitchNoise();
-	glitchNoise_->StartNoise(1.0f, knockbackTime_ * 0.6f);
+	glitchNoise_->StartNoise(param_.glitchNoiseStrength, param_.glitchNoiseTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,15 +61,15 @@ void PlayerKnockbackState::OnExit() {
 
 void PlayerKnockbackState::Knockback() {
 	timer_ += GameTimer::DeltaTime();
-	strength_ *= 0.8f;
+	param_.knockStrength *= param_.knockDecay;
 
 	// ノックバック方向のベクトルを取得
 	Vector3 direction = pOwner_->GetKnockBackDire();
-	acceleration_ = (direction * strength_) * GameTimer::DeltaTime();
+	acceleration_ = (direction * param_.knockStrength) * GameTimer::DeltaTime();
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	pOwner_->GetTransform()->srt_.translate += velocity_;
 
-	if (timer_ > knockbackTime_) {
+	if (timer_ > param_.knockbackTime) {
 		stateMachine_->ChangeState<PlayerIdleState>();
 		pOwner_->SetPostureStability(0.0f);
 	}

@@ -35,15 +35,15 @@ void PlayerBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBullet::Update() {
-	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.x) >= deadDistance_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.y) >= deadDistance_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
+	if (std::abs(transform_->srt_.translate.z) >= deadDistance_) {
 		isAlive_ = false;
 	}
 

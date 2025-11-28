@@ -9,7 +9,7 @@
 void TitleUIs::Init() {
 	SetName("TitleUIs");
 	gameTitle_ = Engine::GetCanvas2d()->AddSprite("title.png", "title");
-	gameTitle_->SetTranslate(Vector2(640.0f, 360.0f));
+	gameTitle_->SetTranslate(Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f));
 	
 	AddChild(gameTitle_);
 	EditorWindows::AddObjectWindow(this, GetName());

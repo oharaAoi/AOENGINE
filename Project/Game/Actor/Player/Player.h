@@ -49,6 +49,8 @@ public:		// data
 		float inclineReactionRate = 5.0f;	// 傾きの反応速度
 		float inclineThreshold = 10.0f;
 
+		Vector3 cameraOffset = CVector3::ZERO;
+
 		Parameter() {
 			SetGroupName("Player");
 			SetName("playerParameter");
@@ -68,6 +70,7 @@ public:		// data
 				.Add("inclineStrength", inclineStrength)
 				.Add("inclineReactionRate", inclineReactionRate)
 				.Add("inclineThreshold", inclineThreshold)
+				.Add("cameraOffset", cameraOffset)
 				.Build();
 		}
 
@@ -84,6 +87,7 @@ public:		// data
 			fromJson(jsonData, "inclineStrength", inclineStrength);
 			fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
 			fromJson(jsonData, "inclineThreshold", inclineThreshold);
+			fromJson(jsonData, "cameraOffset", cameraOffset);
 		}
 
 		void Debug_Gui() override;

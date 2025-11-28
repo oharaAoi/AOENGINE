@@ -5,6 +5,17 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 
+void PlayerActionShotLeft::Debug_Gui() {
+	param_.Debug_Gui();
+}
+
+void PlayerActionShotLeft::Parameter::Debug_Gui() {
+	ImGui::DragFloat("animationTime", &animationTime);
+	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime);
+	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength);
+	SaveAndLoad();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,7 +34,7 @@ void PlayerActionShotLeft::OnStart() {
 
 	// playerのAnimationを変更する
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-	clip->PoseToAnimation("left_shot", 0.2f);
+	clip->PoseToAnimation("left_shot", param_.animationTime);
 
 	// 武器とアクションを設定する
 	pWeapon_ = pOwner_->GetWeapon(PlayerWeapon::Left_Weapon);
@@ -70,7 +81,7 @@ void PlayerActionShotLeft::OnUpdate() {
 
 void PlayerActionShotLeft::OnEnd() {
 	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
-	clip->PoseToAnimation("left_shotAfter", 0.2f);
+	clip->PoseToAnimation("left_shotAfter", param_.animationTime);
 
 	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
 	if (rigidbody != nullptr) {
@@ -123,7 +134,7 @@ void PlayerActionShotLeft::Shot() {
 	pCameraAnimation_->CallExecute(false);// カメラを離す
 
 	// カメラを揺らす
-	pOwner_->GetFollowCamera()->SetShake(0.2f, 1.0f);
+	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 }
 
 void PlayerActionShotLeft::StartUp() {

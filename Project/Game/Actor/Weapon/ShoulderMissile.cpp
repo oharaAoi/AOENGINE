@@ -11,13 +11,37 @@ void ShoulderMissile::Finalize() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ShoulderMissile::Debug_Gui() {
+	if (ImGui::CollapsingHeader("Base")) {
+		BaseWeapon::Debug_Gui();
+	}
+
+	if (ImGui::CollapsingHeader("Unique")) {
+		weaponParam_.Debug_Gui();
+	}
+
+	transform_->SetTranslate(weaponParam_.pos);
+}
+
+void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
+	ImGui::DragFloat3("pos", &pos.x, 0.1f);
+	ImGui::DragFloat("trackingLength", &trackingLength, 0.1f);
+	ImGui::DragFloat("trackingTime", &trackingTime, 0.1f);
+	ImGui::DragFloat("trackingRaito", &trackingRaito, 0.1f);
+	SaveAndLoad();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShoulderMissile::Init() {
 	SetName("ShoulderMissile");
 	BaseWeapon::Init();
-	attackParam_.SetName("ShoulderMissileAttackParam");
+	attackParam_.SetName("shoulderMissileAttackParam");
 	attackParam_.Load();
 	weaponParam_.Load();
 
@@ -64,27 +88,6 @@ void ShoulderMissile::Update() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ShoulderMissile::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Base")) {
-		BaseWeapon::Debug_Gui();
-	}
-
-	if (ImGui::CollapsingHeader("Unique")) {
-		weaponParam_.Debug_Gui();
-	}
-	
-	transform_->SetTranslate(weaponParam_.pos);
-}
-
-void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
-	ImGui::DragFloat3("pos", &pos.x, 0.1f);
-	SaveAndLoad();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 攻撃処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +107,8 @@ bool ShoulderMissile::Attack(const AttackContext& cxt) {
 
 void ShoulderMissile::Shot() {
 	Vector3 worldPos = object_->GetPosition();
-	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, attackCxt_.target, attackParam_.bulletSpeed);
+	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, attackCxt_.target, attackParam_.bulletSpeed,
+																	weaponParam_.trackingLength, weaponParam_.trackingTime, weaponParam_.trackingRaito);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 
 	coolTime_ = attackParam_.fireInterval;

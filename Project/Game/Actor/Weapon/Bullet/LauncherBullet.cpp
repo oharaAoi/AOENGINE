@@ -15,6 +15,8 @@ LauncherBullet::~LauncherBullet() {
 
 void LauncherBullet::Init() {
 	BaseBullet::Init("LauncherBullet");
+
+
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::Sphere);
 
@@ -25,8 +27,6 @@ void LauncherBullet::Init() {
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
-
-	speed_ = 90.0f;
 
 	// effectの初期化
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
@@ -74,5 +74,5 @@ void LauncherBullet::OnCollision(ICollider* other) {
 
 void LauncherBullet::Reset(const Vector3& _pos, const Vector3& _velocity) {
 	transform_->srt_.translate = _pos;
-	velocity_ = _velocity * speed_;
+	velocity_ = _velocity;
 }

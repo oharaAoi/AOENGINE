@@ -30,7 +30,7 @@ public:
 			fromJson(jsonData, "animationBlendTime", animationBlendTime);
 		}
 
-		void Debug_Gui() override;
+		void Debug_Gui() override {};
 	};
 
 public:

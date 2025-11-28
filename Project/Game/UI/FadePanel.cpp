@@ -1,5 +1,6 @@
 #include "FadePanel.h"
 #include "Engine.h"
+#include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/GameTimer.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +17,7 @@ void FadePanel::Init() {
 	isFinished_ = false;
 
 	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 10);
-	panel_->SetTranslate(Vector2(640.0f, 360.0f));
+	panel_->SetTranslate(Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f));
 	panel_->SetColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
 }
 

@@ -32,6 +32,9 @@ public:
 		float blurTime = 0.2f;
 		float blurStrength = 0.2f;
 
+		float vibrateTime = 0.2f;
+		float vibrateStrength = 1.0f;
+
 		Curve decelerationCurve;	// 減速の際のカーブ
 
 		Parameter() { SetName("ActionQuickBoost"); }
@@ -47,6 +50,8 @@ public:
 				.Add("blurTime", blurTime)
 				.Add("blurStrength", blurStrength)
 				.Add("decelerationTime", decelerationTime)
+				.Add("vibrateTime", vibrateTime)
+				.Add("vibrateStrength", vibrateStrength)
 				.Add("decelerationCurve", curveJson)
 				.Build();
 		}
@@ -60,6 +65,8 @@ public:
 			fromJson(jsonData, "blurTime", blurTime);
 			fromJson(jsonData, "blurStrength", blurStrength);
 			fromJson(jsonData, "decelerationTime", decelerationTime);
+			fromJson(jsonData, "vibrateTime", vibrateTime);
+			fromJson(jsonData, "vibrateStrength", vibrateStrength);
 			decelerationCurve.FromJson(jsonData, "decelerationCurve");
 		}
 

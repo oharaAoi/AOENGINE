@@ -82,7 +82,7 @@ void EnemyAttackAlert::Alert() {
 }
 
 bool EnemyAttackAlert::IsDestroy() {
-	if (blinkingCount_ >= 3) {
+	if (blinkingCount_ >= kBlinkingCount_) {
 		alert_->SetIsDestroy(true);
 		return true;
 	}

@@ -70,6 +70,7 @@ void Player::Parameter::Debug_Gui() {
 	ImGui::DragFloat("inclineStrength", &inclineStrength, 0.01f, 0.0f);
 	ImGui::DragFloat("inclineReactionRate", &inclineReactionRate, 0.01f, 0.0f);
 	ImGui::DragFloat("inclineThreshold", &inclineThreshold, 0.01f, 0.0f);
+	ImGui::DragFloat3("cameraOffset", &cameraOffset.x, 0.01f, 0.0f);
 
 	SaveAndLoad();
 }
@@ -87,7 +88,7 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
-	object_->SetOffset(Vector3(0, 2.5f, 1.0f));
+	object_->SetOffset(param_.cameraOffset);
 
 	// -------------------------------------------------
 	// ↓ Animationの設定
@@ -378,8 +379,8 @@ bool Player::IsAttack() {
 
 void Player::CameraIncline() {
 	// スクリーン座標系でのX成分の差を求める
-	Vector3 screenPos = Transform({ 0.0f, 0.0f, 0.0f }, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
-	Vector3 screenPosPrev = Transform({ 0.0f, 0.0f, 0.0f }, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
+	Vector3 screenPos = Transform(CVector3::ZERO, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
+	Vector3 screenPosPrev = Transform(CVector3::ZERO, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
 	screenPos_ = Vector2(screenPos.x, screenPos.y);
 	screenPosPrev_ = Vector2(screenPosPrev.x, screenPosPrev.y);
 

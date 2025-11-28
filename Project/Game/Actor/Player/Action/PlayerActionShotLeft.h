@@ -3,11 +3,11 @@
 #include <functional>
 // Engine
 #include "Engine/System/Input/Input.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 // Game
 #include "Game/Actor/Base/BaseAction.h"
 #include "Game/Actor/Weapon/BaseWeapon.h"
 #include "Game/Camera/Animation/ICameraAnimation.h"
-
 
 class Player;
 
@@ -17,6 +17,35 @@ class Player;
 class PlayerActionShotLeft :
 	public BaseAction<Player> {
 public:
+
+	struct Parameter : public IJsonConverter {
+		float animationTime = 0.2f;
+		float cameraShakeTime = 0.2f;
+		float cameraShakeStrength = 1.0f;
+
+		Parameter() {
+			SetGroupName("PlayerAction");
+			SetName("actionShotLeft");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("animationTime", animationTime)
+				.Add("cameraShakeTime", cameraShakeTime)
+				.Add("cameraShakeStrength", cameraShakeStrength)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "animationTime", animationTime);
+			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
 
 	PlayerActionShotLeft() = default;
 	~PlayerActionShotLeft()  override {};
@@ -36,7 +65,7 @@ public:
 	// actionの入力判定
 	bool IsInput() override;
 	// 編集処理
-	void Debug_Gui() override {};
+	void Debug_Gui() override;
 
 private:
 
@@ -58,6 +87,8 @@ private:
 	Input* pInput_;
 	ICameraAnimation* pCameraAnimation_ = nullptr;
 	BaseWeapon* pWeapon_ = nullptr;
+
+	Parameter param_;
 
 	std::function<void()> action_;
 

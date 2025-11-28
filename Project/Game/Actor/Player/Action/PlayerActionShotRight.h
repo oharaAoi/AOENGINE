@@ -13,6 +13,29 @@ class PlayerActionShotRight :
 	public BaseAction<Player> {
 public:
 
+	struct Parameter : public IJsonConverter {
+		float animationTime = 0.2f;
+		
+		Parameter() {
+			SetGroupName("PlayerAction");
+			SetName("actionShotLeft");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("animationTime", animationTime)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "animationTime", animationTime);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
+
 	PlayerActionShotRight() = default;
 	~PlayerActionShotRight() override {};
 
@@ -44,6 +67,8 @@ private:
 	float notShotTimer_ = 0.0f;
 
 	Input* pInput_;
+
+	Parameter param_;
 
 };
 

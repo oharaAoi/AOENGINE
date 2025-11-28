@@ -1,5 +1,5 @@
 {
-    "ShoulderMissileAttackParam": {
+    "shoulderMissileAttackParam": {
         "bulletSpeed": 80.0,
         "fireBulletsNum": 4,
         "fireInterval": 0.30000001192092896,

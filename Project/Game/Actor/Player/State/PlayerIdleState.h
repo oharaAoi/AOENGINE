@@ -1,6 +1,5 @@
 #pragma once
 #include <Game/State/ICharacterState.h>
-#include "Engine/Module/Components/Animation/VectorTween.h"
 
 class Player;
 
@@ -23,8 +22,6 @@ public:
 	void Debug_Gui() override {};
 
 private:
-
-	VectorTween<float> floatingTween_;
 
 };
 

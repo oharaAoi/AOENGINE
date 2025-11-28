@@ -38,5 +38,6 @@ private:
 	uint32_t bulletType = (int)PlayerBulletType::MachineGun;
 	GpuParticleEmitter* trail_;
 
+	float deadDistance_ = 200.0f;
 };
 

@@ -5,7 +5,6 @@
 // Game
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Game/Effects/HitExploade.h"
 
 /// <summary>
 /// PlayerのBulletとボスとのCallBack
@@ -48,8 +47,5 @@ private:
 	BaseParticles* hitBossSmokeBorn_;
 
 	BaseParticles* hitSmoke_;
-
-	std::list<HitExplode*> hitExplodeList_;
-
 };
 

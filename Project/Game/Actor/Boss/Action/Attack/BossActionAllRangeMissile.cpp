@@ -118,7 +118,7 @@ void BossActionAllRangeMissile::Shot() {
 
 			Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
 			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
-																						param_.bulletSpeed, param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
+																						param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 			missile->SetTakeDamage(param_.takeDamage);
 		}
 	}

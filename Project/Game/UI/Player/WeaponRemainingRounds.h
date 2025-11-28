@@ -46,5 +46,6 @@ private:
 	float timer_;
 
 	VectorTween<Color> colorAnimation_;
+	const float kAnimationDuration_ = 0.5f;
 };
 

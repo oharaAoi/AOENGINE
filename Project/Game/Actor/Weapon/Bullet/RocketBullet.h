@@ -31,7 +31,7 @@ public:
 	/// <param name="pos">: 弾の座標</param>
 	/// <param name="target">: 目標の座標</param>
 	/// <param name="bulletSpeed">: 弾の速度</param>
-	void Reset(const Vector3& pos, const Vector3& target, float bulletSpeed);
+	void Reset(const Vector3& _pos, const Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito);
 
 private:
 
@@ -43,8 +43,8 @@ private:
 	float trackingLength_;		// 長さ
 	float trackingTimer_;		// 計測時間
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
-	bool finishTracking_;		// 追尾を終了するか
 	float trackingRaito_ = 0.8f;
+	bool finishTracking_;		// 追尾を終了するか
 
 	BaseParticles* burn_;
 	BaseParticles* smoke_;

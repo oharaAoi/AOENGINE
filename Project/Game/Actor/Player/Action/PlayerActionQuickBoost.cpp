@@ -71,7 +71,7 @@ void PlayerActionQuickBoost::OnStart() {
 		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
 
 		// ブラーを画面にかける
-		pRadialBlur_->Start(0.2f, 0.2f, false);
+		pRadialBlur_->Start(param_.blurStrength, param_.blurTime, false);
 	}
 
 	acceleration_ = direction_ * param_.boostForce;
@@ -86,10 +86,10 @@ void PlayerActionQuickBoost::OnStart() {
 	actionTimer_ = 0;
 
 	pManager_->DeleteAction(typeid(PlayerActionMove).hash_code());
-	pInput_->Vibrate(1.0f, 0.2f);
+	pInput_->Vibrate(param_.vibrateStrength, param_.vibrateTime);
 
 	// カメラを揺らす
-	pOwner_->GetFollowCamera()->SetShake(0.2f, 0.6f);
+	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 	// boostをonにする
 	pOwner_->GetJetEngine()->BoostOn();
 	pOwner_->GetJetEngine()->JetIsStart();

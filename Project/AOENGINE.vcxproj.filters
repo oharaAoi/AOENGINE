@@ -1125,9 +1125,6 @@
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Effects\HitExploade.h">
-      <Filter>Game\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Effects\JetEngineBurn.h">
       <Filter>Game\Effects</Filter>
     </ClInclude>
@@ -2055,9 +2052,6 @@
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Effects\HitExploade.cpp">
-      <Filter>Game\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp">
       <Filter>Game\Effects</Filter>
