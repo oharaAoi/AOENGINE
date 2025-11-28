@@ -738,7 +738,7 @@
     <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Manager\AudioManager.h">
+    <ClInclude Include="Engine\System\Audio\SoundDatabase.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h">
@@ -1702,7 +1702,7 @@
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Manager\AudioManager.cpp">
+    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp">

@@ -1,7 +1,7 @@
 #include "AssetsManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ModelManager.h"
-#include "Engine/System/Manager/AudioManager.h"
+#include "Engine/System/Audio/SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
 
 namespace fs = std::filesystem;
@@ -96,7 +96,7 @@ void AssetsManager::LoadSounds(const std::string& rootPath) {
 				std::string directory = entry.path().parent_path().string();
 				std::string fileName = entry.path().filename().string();
 				directory += "/";
-				AudioManager::LoadAudio(directory, fileName);
+				SoundDatabase::LoadAudio(directory, fileName);
 			}
 		}
 

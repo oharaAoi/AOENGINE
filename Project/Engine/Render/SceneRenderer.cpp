@@ -86,8 +86,12 @@ void SceneRenderer::Draw() const {
 		}
 	}
 
-	// objectの描画
-	Engine::SetRenderTarget();
+	// objectの描
+	std::vector<RenderTargetType> types;
+	types.push_back(RenderTargetType::Object3D_RenderTarget);
+	types.push_back(RenderTargetType::MotionVector_RenderTarget);
+	Render::SetRenderTarget(types, GraphicsContext::GetInstance()->GetDxCommon()->GetDepthHandle());
+
 	Render::ChangeShadowMap();
 	for (auto& pair : objectList_) {
 		if (pair->GetPostDraw()) {

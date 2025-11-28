@@ -269,7 +269,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
-    <ClInclude Include="Engine\System\Manager\AudioManager.h" />
+    <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
@@ -611,7 +611,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
-    <ClCompile Include="Engine\System\Manager\AudioManager.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />

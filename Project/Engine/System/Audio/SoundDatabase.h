@@ -8,15 +8,15 @@
 /// <summary>
 /// soundDataを管理しているクラス
 /// </summary>
-class AudioManager {
+class SoundDatabase {
 public:
 
-	AudioManager() = default;
-	~AudioManager();
-	AudioManager(const AudioManager&) = delete;
-	const AudioManager& operator=(const AudioManager&) = delete;
+	SoundDatabase() = default;
+	~SoundDatabase();
+	SoundDatabase(const SoundDatabase&) = delete;
+	const SoundDatabase& operator=(const SoundDatabase&) = delete;
 
-	static AudioManager* GetInstance();
+	static SoundDatabase* GetInstance();
 
 	void Init();
 

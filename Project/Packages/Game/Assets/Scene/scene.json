@@ -662,7 +662,7 @@
                         348.55999755859375,
                         20.029998779296875
                     ],
-                    "tag": "laser",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "boss",
                         "ground",

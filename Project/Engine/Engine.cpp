@@ -10,6 +10,58 @@ Engine::Engine() {}
 
 Engine::~Engine() {}
 
+// ======================================================== //
+// 無名名前空間で内部リンゲージする
+// ======================================================== //
+namespace {
+	Render* render_ = nullptr;
+
+	WinApp* winApp_ = nullptr;
+
+#ifdef _DEBUG
+	ImGuiManager* imguiManager_ = nullptr;
+#endif
+	Input* input_ = nullptr;
+	TextureManager* textureManager_ = nullptr;
+
+	GraphicsContext* graphicsCxt_ = nullptr;
+
+	ID3D12Device* dxDevice_ = nullptr;
+	ID3D12GraphicsCommandList* dxCmdList_ = nullptr;
+	DescriptorHeap* dxHeap_ = nullptr;
+
+	DirectXCommon* dxCommon_ = nullptr;
+
+	GraphicsPipelines* graphicsPipeline_ = nullptr;
+	PrimitivePipeline* primitivePipeline_ = nullptr;
+
+	RenderTarget* renderTarget_ = nullptr;
+
+	// CS
+	std::unique_ptr<ComputeShaderPipelines> computeShaderPipelines_ = nullptr;
+	std::unique_ptr<BlendTexture> blendTexture_ = nullptr;
+	// audio
+	std::unique_ptr<Audio> audio_ = nullptr;
+	// shaderファイルのパスをまとめたクラス
+	std::shared_ptr<Shader> shaders_;
+
+	std::unique_ptr<PostProcess> postProcess_;
+
+	std::unique_ptr<Canvas2d> canvas2d_;
+
+	// オフスクリーンレンダリングで生成したTextureを描画するクラス
+	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
+
+	EditorWindows* editorWindows_ = nullptr;
+
+	bool isFullScreen_;
+
+	bool runGame_;
+
+	Pipeline* lastUsedPipeline_;
+}
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -339,14 +391,6 @@ Pipeline* Engine::GetLastUsedPipelineCS() {
 	return computeShaderPipelines_->GetLastUsedPipeline();
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　深度バッファをリセットする
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-void Engine::ClearDepth() {
-	renderTarget_->ClearDepth(dxCmdList_);
-}
-
 void Engine::SetSkinning(Skinning* skinning) {
 	Pipeline* pso = computeShaderPipelines_->GetLastUsedPipeline();
 	//mesh->SetInitVertex();
@@ -367,53 +411,10 @@ Canvas2d* Engine::GetCanvas2d() {
 // ↓　Sound系
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-SoundData Engine::LoadAudio(const std::string filePath) {
-	return audio_->SoundLoad(filePath.c_str());
-}
-
-AudioData Engine::LoadAudio(const SoundData& loadAudioData) {
-	return audio_->LoadAudio(loadAudioData);
-}
-
-void Engine::PlayAudio(const AudioData& soundData, bool isLoop, float volume, bool checkPlaying) {
-	audio_->PlayAudio(soundData, isLoop, volume, checkPlaying);
-}
-
-void Engine::Pause(const AudioData& soundData) {
-	audio_->PauseAudio(soundData.pSourceVoice);
-}
-
-void Engine::ReStart(const AudioData& soundData) {
-	audio_->ReStartAudio(soundData.pSourceVoice);
-}
-
-void Engine::Stop(const AudioData& soundData) {
-	audio_->StopAudio(soundData.pSourceVoice);
-}
-
-void Engine::SetVolume(const AudioData& soundData, float volume) {
-	audio_->SetVolume(soundData.pSourceVoice, volume);
-}
-
-bool Engine::GetIsPlaying(const AudioData& soundData) {
-	return audio_->IsPlaying(soundData.pSourceVoice);
-}
-
-void Engine::SingleShotPlay(const SoundData& loadAudioData, float volume) {
-	audio_->SinglShotPlay(loadAudioData, volume);
-}
-
-bool Engine::GetRunGame() {
-	return runGame_;
+Audio* Engine::GetAudio() {
+	return audio_.get();
 }
 
 PostProcess* Engine::GetPostProcess() {
 	return postProcess_.get();
-}
-
-void Engine::SetRenderTarget() {
-	std::vector<RenderTargetType> types;
-	types.push_back(RenderTargetType::Object3D_RenderTarget);
-	types.push_back(RenderTargetType::MotionVector_RenderTarget);
-	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 }

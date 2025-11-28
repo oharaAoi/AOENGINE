@@ -1,23 +1,23 @@
-#include "AudioManager.h"
+#include "SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
 
-AudioManager::~AudioManager() {
+SoundDatabase::~SoundDatabase() {
 	for (auto& pair : audioLoadData_) {
 		delete[] pair.second.pBuffer; 
 	}
 	audioLoadData_.clear();
 }
 
-AudioManager* AudioManager::GetInstance() {
-	static AudioManager instance;
+SoundDatabase* SoundDatabase::GetInstance() {
+	static SoundDatabase instance;
 	return &instance;
 }
 
-void AudioManager::Init() {
+void SoundDatabase::Init() {
 	audioLoadData_.clear();
 }
 
-void AudioManager::AddMap(const std::string& directoryPath, const std::string& fileName) {
+void SoundDatabase::AddMap(const std::string& directoryPath, const std::string& fileName) {
 	std::string name = directoryPath + fileName;
 	Logger::Log("[Load][Audio] :" + fileName);
 	if (auto it = audioLoadData_.find(fileName); it != audioLoadData_.end()) {
@@ -25,16 +25,16 @@ void AudioManager::AddMap(const std::string& directoryPath, const std::string& f
 	}
 	Logger::Log(" --- success!\n");
 
-	audioLoadData_.try_emplace(fileName, Engine::LoadAudio(name));
+	audioLoadData_.try_emplace(fileName, Engine::GetAudio()->SoundLoad(name.c_str()));
 }
 
-SoundData AudioManager::GetAudioData(const std::string& fileName) {
+SoundData SoundDatabase::GetAudioData(const std::string& fileName) {
 	if (auto it = audioLoadData_.find(fileName); it == audioLoadData_.end()) {
 		assert(false && "Audio not found!");
 	}
 	return audioLoadData_[fileName];
 }
 
-void AudioManager::LoadAudio(const std::string& directoryPath, const std::string& fileName) {
+void SoundDatabase::LoadAudio(const std::string& directoryPath, const std::string& fileName) {
 	GetInstance()->AddMap(directoryPath, fileName);
 }

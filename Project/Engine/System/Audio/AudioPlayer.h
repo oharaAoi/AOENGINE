@@ -1,7 +1,6 @@
 #pragma once
-#include "Engine/Engine.h"
+#include <string>
 #include "Engine/System/Audio/Audio.h"
-#include "Engine/System/Manager/AudioManager.h"
 
 /// <summary>
 /// 音を鳴らしたりするクラス
@@ -53,7 +52,9 @@ public:
 
 private:
 
-	AudioData audio_;
+	AudioData audioData_;
+
+	Audio* pAudio_ = nullptr;
 
 };
 
