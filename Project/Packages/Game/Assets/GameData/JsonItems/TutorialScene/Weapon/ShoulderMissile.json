@@ -1,9 +1,13 @@
 {
-    "ShoulderMissile": {
+    "shoulderMissile": {
         "pos": {
             "x": 0.6000000238418579,
             "y": 3.5,
             "z": -0.4000000059604645
-        }
+        },
+        "shotSeVolum": 0.20000000298023224,
+        "trackingLength": 10.0,
+        "trackingRaito": 0.800000011920929,
+        "trackingTime": 1.0
     }
 }

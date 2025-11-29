@@ -5,9 +5,9 @@
         "cameraShakeTime": 0.10000000149011612,
         "chargeTime": 0.5,
         "jumpEnergy": 5.0,
-        "jumpForce": 8.0,
+        "jumpForce": 35.79999923706055,
         "maxAcceleration": 50.0,
-        "risingForce": 7.199999809265137,
+        "risingForce": 10.0,
         "velocityDecayRate": 2.0
     }
 }

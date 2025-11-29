@@ -1,0 +1,17 @@
+{
+    "jetEngine": {
+        "burnMoveScale": {
+            "x": 0.800000011920929,
+            "y": 1.0,
+            "z": 0.4000000059604645
+        },
+        "burnMoveScaleCurve": {
+            "controlPoints_1": 0.0078125,
+            "controlPoints_2": 1.1953125,
+            "controlPoints_3": 1.0,
+            "controlPoints_4": 1.0
+        },
+        "burnScaleUpTime": 0.20000000298023224,
+        "engineIncline": 10.0
+    }
+}
