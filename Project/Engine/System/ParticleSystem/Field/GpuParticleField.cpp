@@ -29,7 +29,7 @@ void GpuParticleField::Init(uint32_t _instanceNum) {
 	perFrameBuffer_ = CreateBufferResource(dxDevice, sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
-	fieldData_->acceleration = { -3.0f, 0.0f, 0.0f };
+	fieldData_->acceleration = { -10.0f, 0.0f, 0.0f };
 	fieldData_->max = { 1000, 1000, 1000 };
 	fieldData_->min = { -1000, -1000, -1000 };
 

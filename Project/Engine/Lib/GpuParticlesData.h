@@ -115,6 +115,7 @@ struct GpuParticleEmitterItem : public IJsonConverter {
 			.Add("minScale", minScale)
 			.Add("maxScale", maxScale)
 			.Add("rotate", rotate)
+			.Add("pos", pos)
 			.Add("rateOverTimeCout", rateOverTimeCout)
 			.Add("shape", shape)
 			.Add("emitType", emitType)

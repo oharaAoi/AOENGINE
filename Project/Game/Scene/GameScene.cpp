@@ -91,9 +91,8 @@ void GameScene::Init() {
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
 
-	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("filed");
+	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("rain");
 	field_ = GpuParticleManager::GetInstance()->CreateField("Window");
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

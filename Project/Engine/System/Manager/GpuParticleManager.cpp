@@ -32,7 +32,7 @@ void GpuParticleManager::Init() {
 	SetName("GpuParticleManager");
 
 	renderer_ = std::make_unique<GpuParticleRenderer>();
-	renderer_->Init(512000);
+	renderer_->Init(1280000);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

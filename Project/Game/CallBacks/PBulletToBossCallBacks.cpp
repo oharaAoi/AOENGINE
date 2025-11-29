@@ -38,7 +38,7 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 			hitSmoke_->Reset();
 		}
 
-		if (!playerBullet->GetBulletType() == BulletType::Laser) {
+		if (!(playerBullet->GetBulletType() == BulletType::Laser)) {
 			playerBullet->SetIsAlive(false);
 		}
 

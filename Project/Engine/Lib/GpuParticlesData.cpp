@@ -7,6 +7,7 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 		ImGui::Checkbox("IsLoop", &isLoop);
 		ImGui::DragFloat("duration", &duration);
 		ImGui::DragFloat3("rotate", &rotate.x, 0.1f);
+		ImGui::DragFloat3("pos", &pos.x, 0.1f);
 		ImGui::DragScalar("rateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout);
 		ImGui::DragScalar("emitType", ImGuiDataType_U32, &emitType);
 		ImGui::Combo("shape##", &shape, "SPHERE\0BOX\0CONE");
