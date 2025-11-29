@@ -4,7 +4,7 @@
         "ps": "./Project/Packages/Engine/Assets/HLSL/Object3d.PS.hlsl",
         "blendMode": "Add",
         "culling" : false,
-        "depth" : true,
+        "depth" : false,
         "rtvFormat" : [
             "16_RGB",
             "16_RGB"

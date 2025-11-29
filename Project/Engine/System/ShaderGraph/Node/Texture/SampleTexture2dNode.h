@@ -52,6 +52,13 @@ public:
 
 private:
 
+	/// <summary>
+	/// Viewの作成
+	/// </summary>
+	void CreateView();
+
+private:
+
 	DxResource* resource_ = nullptr;
 	ComPtr<ID3D12Resource> uvBuffer_;
 	NodeUVTransform* uvParam_ = nullptr;

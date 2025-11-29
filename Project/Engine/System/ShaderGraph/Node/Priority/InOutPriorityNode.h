@@ -136,7 +136,7 @@ template<typename T>
 inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 	if constexpr (std::is_same_v<T, float>) {
-		value_ = _json.at("props").at("value").get<float>();
+		value_ = _json.at("props").at("value").at(0).get<float>();
 	} else if constexpr (std::is_same_v<T, Vector2>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();

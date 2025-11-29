@@ -10,7 +10,7 @@ struct Timer {
 	/// 実行
 	/// </summary>
 	/// <param name="_deltaTime"></param>
-	/// <returns></returns>
+	/// <returns>目標時間まで達していないならTrueを返す</returns>
 	bool Run(float _deltaTime);
 
 	float timer_ = 0;

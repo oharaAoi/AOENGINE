@@ -106,6 +106,11 @@ void ShaderGraphEditor::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<I
 	if (!node || visited.contains(node)) return;
 	visited.insert(node);
 
+	if (node->getIns().empty()) {
+		node->customUpdate();
+		return;
+	}
+
 	// すべての入力ピンをチェック
 	for (auto& in : node->getIns()) {
 		// このInPinがリンクされているなら
@@ -115,14 +120,9 @@ void ShaderGraphEditor::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<I
 			ImFlow::BaseNode* srcNode = link->left()->getParent();
 			ExecuteFrom(srcNode, visited); // 依存ノードを先に実行
 		}
-
-		node->customUpdate();
 	}
 
-	if (node->getIns().empty()) {
-		node->customUpdate();
-		return;
-	}
+	node->customUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

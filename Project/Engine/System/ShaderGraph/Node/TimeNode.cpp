@@ -34,24 +34,6 @@ void TimeNode::customUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TimeNode::draw() {
-    // -------- 出力ピン ----------
-    showOUT<float>(
-        "time",
-        [=]() -> float {
-            // 簡易的なカラー出力 (本来はGPUサンプリング)
-            return time_;
-        },
-        ImFlow::PinStyle::blue()
-    );
-
-    showOUT<float>(
-        "sineTime",
-        [=]() -> float {
-            // 簡易的なカラー出力 (本来はGPUサンプリング)
-            return sineTime_;
-        },
-        ImFlow::PinStyle::blue()
-    );
 }
 
 nlohmann::json TimeNode::toJson() {

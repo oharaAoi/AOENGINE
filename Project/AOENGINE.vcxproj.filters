@@ -1265,6 +1265,7 @@
     <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
+    <ClInclude Include="Game\Effects\LaserCylinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2184,6 +2185,7 @@
     <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
+    <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

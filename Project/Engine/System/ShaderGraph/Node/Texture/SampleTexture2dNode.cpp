@@ -36,6 +36,8 @@ void SampleTexture2dNode::customUpdate() {
     uvParam_->rotate = uv_.rotate;
     uvParam_->translate = uv_.translate;
 
+    CreateView();
+
     // textureの合成
     if (inputResource_) {
         if (resource_->GetResource()) {
@@ -61,6 +63,31 @@ void SampleTexture2dNode::customUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SampleTexture2dNode::draw() {
+    // -------- 内部プレビュー ----------
+    if (resource_->GetResource()) {
+        if (inputResource_) {
+            ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
+            ImGui::SetNextWindowBgAlpha(0.85f);
+            ImGui::Image(texID, ImVec2(64, 64));
+        }
+    }
+}
+
+nlohmann::json SampleTexture2dNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void SampleTexture2dNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ viewの作成
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void SampleTexture2dNode::CreateView() {
     if (inputResource_) {
         if (!resource_->GetResource()) {
             D3D12_RESOURCE_DESC desc = *inputResource_->GetDesc();
@@ -86,23 +113,4 @@ void SampleTexture2dNode::draw() {
             resource_->CreateSRV(srvDesc);
         }
     }
-    
-    // -------- 内部プレビュー ----------
-    if (resource_->GetResource()) {
-        if (inputResource_) {
-            ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
-            ImGui::SetNextWindowBgAlpha(0.85f);
-            ImGui::Image(texID, ImVec2(64, 64));
-        }
-    }
-}
-
-nlohmann::json SampleTexture2dNode::toJson() {
-    nlohmann::json result;
-    BaseInfoToJson(result);
-    return result;
-}
-
-void SampleTexture2dNode::fromJson(const nlohmann::json& _json) {
-    BaseInfoFromJson(_json);
 }

@@ -1,61 +1,89 @@
 {
     "links": [
         {
-            "fromNode": 2394622715680,
+            "fromNode": 2447935908704,
             "fromPin": "DxResource",
-            "toNode": 2508562680832,
+            "toNode": 2447838795968,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2447935910240,
+            "fromPin": "uv",
+            "toNode": 2447838795968,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2447813991072,
+            "fromPin": "DxResource",
+            "toNode": 2447935000416,
             "toPin": "TextureA"
         },
         {
-            "fromNode": 2394807379712,
+            "fromNode": 2447838795968,
             "fromPin": "DxResource",
-            "toNode": 2508562680832,
+            "toNode": 2447935000416,
             "toPin": "TextureB"
         },
         {
-            "fromNode": 2508562680832,
+            "fromNode": 2447935000416,
             "fromPin": "Texture",
-            "toNode": 2394819651728,
+            "toNode": 2447836648208,
             "toPin": "DxResource"
         }
     ],
     "nodes": [
         {
-            "id": 2394819651728,
+            "id": 2447836648208,
             "name": "ResultNode",
             "pos": [
-                750.0,
+                800.0,
                 160.0
             ]
         },
         {
-            "id": 2394622715680,
+            "id": 2447935908704,
             "name": "Texture",
             "pos": [
-                260.0,
-                70.0
+                210.0,
+                180.0
+            ],
+            "props": {
+                "textureName": "noise5.png"
+            }
+        },
+        {
+            "id": 2447813991072,
+            "name": "Texture",
+            "pos": [
+                290.0,
+                30.0
             ],
             "props": {
                 "textureName": "uvChecker.png"
             }
         },
         {
-            "id": 2394807379712,
-            "name": "Texture",
-            "pos": [
-                250.0,
-                260.0
-            ],
-            "props": {
-                "textureName": "noise9.png"
-            }
-        },
-        {
-            "id": 2508562680832,
+            "id": 2447935000416,
             "name": "MaskBlend",
             "pos": [
-                510.0,
-                140.0
+                580.0,
+                120.0
+            ]
+        },
+        {
+            "id": 2447935910240,
+            "name": "UVTransform",
+            "pos": [
+                220.0,
+                310.0
+            ]
+        },
+        {
+            "id": 2447838795968,
+            "name": "SampleTexture2D",
+            "pos": [
+                400.0,
+                220.0
             ]
         }
     ]

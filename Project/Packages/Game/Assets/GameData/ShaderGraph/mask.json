@@ -1,0 +1,62 @@
+{
+    "links": [
+        {
+            "fromNode": 2324553877664,
+            "fromPin": "DxResource",
+            "toNode": 2324552760080,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 2324553873824,
+            "fromPin": "DxResource",
+            "toNode": 2324552760080,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2324552760080,
+            "fromPin": "Texture",
+            "toNode": 2323937155168,
+            "toPin": "DxResource"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 2323937155168,
+            "name": "ResultNode",
+            "pos": [
+                800.0,
+                190.0
+            ]
+        },
+        {
+            "id": 2324552760080,
+            "name": "MaskBlend",
+            "pos": [
+                550.0,
+                210.0
+            ]
+        },
+        {
+            "id": 2324553877664,
+            "name": "Texture",
+            "pos": [
+                320.0,
+                130.0
+            ],
+            "props": {
+                "textureName": "uvChecker.png"
+            }
+        },
+        {
+            "id": 2324553873824,
+            "name": "Texture",
+            "pos": [
+                380.0,
+                300.0
+            ],
+            "props": {
+                "textureName": "noise9.png"
+            }
+        }
+    ]
+}

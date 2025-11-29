@@ -58,7 +58,7 @@ public:
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
-	void SetShaderGraph(ShaderGraph* _graph) { shaderGraph_ = _graph; }
+	void SetShaderGraph(ShaderGraph* _graph);
 	ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
 
 	void SetColor(const Color& _color) { color_ = _color; }

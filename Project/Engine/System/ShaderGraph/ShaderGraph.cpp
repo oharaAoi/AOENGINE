@@ -39,6 +39,7 @@ void ShaderGraph::Init(const std::string& _name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraph::Update() {
+	editor_->get_recursion_blacklist().clear();
 	// ----------------------
 	// ↓ node更新処理
 	// ----------------------
@@ -62,6 +63,11 @@ void ShaderGraph::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow:
 	if (!node || visited.contains(node)) return;
 	visited.insert(node);
 
+	if (node->getIns().empty()) {
+		node->customUpdate();
+		return;
+	}
+
 	// すべての入力ピンをチェック
 	for (auto& in : node->getIns()) {
 		// このInPinがリンクされているなら
@@ -71,12 +77,7 @@ void ShaderGraph::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow:
 			ImFlow::BaseNode* srcNode = link->left()->getParent();
 			ExecuteFrom(srcNode, visited); // 依存ノードを先に実行
 		}
-
-		node->customUpdate();
 	}
 
-	if (node->getIns().empty()) {
-		node->customUpdate();
-		return;
-	}
+	node->customUpdate();
 }

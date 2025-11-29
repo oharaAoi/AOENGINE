@@ -421,6 +421,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\Effects\JetEngineBurn.h" />
+    <ClInclude Include="Game\Effects\LaserCylinder.h" />
     <ClInclude Include="Game\Information\ActionContext.h" />
     <ClInclude Include="Game\Information\ColliderCategory.h" />
     <ClInclude Include="Game\Manager\ActionManager.h" />
@@ -752,6 +753,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
+    <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
     <ClCompile Include="Game\Manager\ActionManager.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />

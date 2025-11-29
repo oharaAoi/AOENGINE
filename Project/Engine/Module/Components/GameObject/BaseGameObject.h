@@ -81,6 +81,8 @@ public:
 
 	void SetShaderGraph(ShaderGraph* _shaderGraph);
 
+	const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& GetMaterials() const { return materials; }
+
 	// -------------------------------------------------
 	// ↓ Animation関連
 	// -------------------------------------------------

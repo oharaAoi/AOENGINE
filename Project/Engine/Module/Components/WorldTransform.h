@@ -82,6 +82,10 @@ public:
 	void SetTranslate(const Vector3& translate) { srt_.translate = translate; }
 	void SetRotate(const Quaternion& quaternion) { srt_.rotate = quaternion; }
 
+	void SetScaleX(float x) { srt_.scale.x = x; }
+	void SetScaleY(float y) { srt_.scale.y = y; }
+	void SetScaleZ(float z) { srt_.scale.z = z; }
+
 	void SetTranslationX(float x) { srt_.translate.x = x; }
 	void SetTranslationY(float y) { srt_.translate.y = y; }
 	void SetTranslationZ(float z) { srt_.translate.z = z; }

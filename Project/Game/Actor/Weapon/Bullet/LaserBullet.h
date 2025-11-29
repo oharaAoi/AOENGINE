@@ -1,8 +1,12 @@
 #pragma once
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Collider/LineCollider.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
+// game
 #include "Game/Actor/Base/BaseBullet.h"
+#include "Game/Effects/LaserCylinder.h"
 
 /// <summary>
 /// レーザーの弾
@@ -13,17 +17,20 @@ public: // データ構造体
 
 	struct LaserParameter : public IJsonConverter {
 		float maxLength = 1000.0f;  // 最大距離
+		float fadeTime = 1.0f;
 
 		LaserParameter() { SetName("LaserParameter"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("maxLength", maxLength)
+				.Add("fadeTime", fadeTime)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "maxLength", maxLength);
+			fromJson(jsonData, "fadeTime", fadeTime);
 		}
 
 		void Debug_Gui() override;
@@ -59,15 +66,29 @@ public:
 
 private:
 
+	void Stretch();
+
+	void Fade();
+
+private:
+
 	std::unique_ptr<WorldTransform> parentTransform_;
+	std::unique_ptr<LaserCylinder> laserCylinder_;
 
 	LaserParameter param_;
 
 	bool isShot_ = false;
+	bool isFade_ = false;
 	Vector3 targetPos_;
 
 	LineCollider* lineCollider_ = nullptr;
 
 	Vector3 dire_;
+
+	Timer fadeTimer_;
+	Color fadeColor_;
+
+	BaseParticles* shotEffect_;
+
 };
 

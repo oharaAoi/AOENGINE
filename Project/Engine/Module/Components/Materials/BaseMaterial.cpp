@@ -27,6 +27,15 @@ void BaseMaterial::EditShaderType() {
 	shaderType_ = static_cast<MaterialShaderType>(shaderTypeIndex_);
 
 	if (shaderType_ == MaterialShaderType::ShaderGraphRender) {
-		shaderGraph_->Debug_Gui();
+		if (shaderGraph_) {
+			shaderGraph_->Debug_Gui();
+		}
+	}
+}
+
+void BaseMaterial::SetShaderGraph(ShaderGraph* _graph) {
+	if (_graph) {
+		shaderGraph_ = _graph;
+		shaderType_ = MaterialShaderType::ShaderGraphRender;
 	}
 }

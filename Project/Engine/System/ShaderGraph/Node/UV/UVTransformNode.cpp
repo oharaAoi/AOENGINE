@@ -8,7 +8,7 @@ void UVTransformNode::Init() {
 	addIN<float>("rotate", rotate_, ImFlow::ConnectionFilter::SameType());
 
 	// outputの設定
-	auto texOut = addOUT<NodeUVTransform>("uv(2)", ImFlow::PinStyle::cyan());
+	auto texOut = addOUT<NodeUVTransform>("uv", ImFlow::PinStyle::cyan());
 	texOut->behaviour([this]() { return outputUV_; });
 }
 
