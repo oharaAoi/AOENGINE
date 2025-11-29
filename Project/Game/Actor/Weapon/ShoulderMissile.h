@@ -16,6 +16,8 @@ public:
 		float trackingTime;		// 追従する時間
 		float trackingRaito;	// 追従の割合
 
+		float shotSeVolum;		// 発射音の大きさ
+
 		ShoulderMissileParam() {
 			SetGroupName("Weapon");
 			SetName("shoulderMissile");
@@ -27,6 +29,7 @@ public:
 				.Add("trackingLength", trackingLength)
 				.Add("trackingTime", trackingTime)
 				.Add("trackingRaito", trackingRaito)
+				.Add("shotSeVolum", shotSeVolum)
 				.Build();
 		}
 
@@ -35,6 +38,7 @@ public:
 			fromJson(jsonData, "trackingLength", trackingLength);
 			fromJson(jsonData, "trackingTime", trackingTime);
 			fromJson(jsonData, "trackingRaito", trackingRaito);
+			fromJson(jsonData, "shotSeVolum", shotSeVolum);
 		}
 
 		void Debug_Gui() override;

@@ -2,6 +2,7 @@
 #include "Engine/Engine.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Information/ColliderCategory.h"
 
 LaserBullet::~LaserBullet() {
@@ -31,6 +32,7 @@ void LaserBullet::Debug_Gui() {
 void LaserBullet::LaserParameter::Debug_Gui() {
 	ImGui::DragFloat("maxLength", &maxLength);
 	ImGui::DragFloat("fadeTime", &fadeTime);
+	ImGui::DragFloat("shotSeValue", &shotSeValue);
 	ImGui::ColorEdit4("color", &cylinderColor.r);
 	ImGui::Text("shaderGraphPath : %s", shaderGraphPath.c_str());
 	SaveAndLoad();
@@ -127,6 +129,9 @@ void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _s
 	isFade_ = false;
 
 	fadeTimer_ = Timer(param_.fadeTime);
+
+	// 音を鳴らす
+	AudioPlayer::SinglShotPlay("laser.mp3", param_.shotSeValue);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

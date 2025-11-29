@@ -1,5 +1,5 @@
 #include "ShoulderMissile.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Actor/Weapon/Bullet/RocketBullet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +31,7 @@ void ShoulderMissile::ShoulderMissileParam::Debug_Gui() {
 	ImGui::DragFloat("trackingLength", &trackingLength, 0.1f);
 	ImGui::DragFloat("trackingTime", &trackingTime, 0.1f);
 	ImGui::DragFloat("trackingRaito", &trackingRaito, 0.1f);
+	ImGui::DragFloat("shotSeVolum", &shotSeVolum, 0.1f);
 	SaveAndLoad();
 }
 
@@ -113,4 +114,7 @@ void ShoulderMissile::Shot() {
 
 	coolTime_ = attackParam_.fireInterval;
 	fireCount_++;
+
+	// 音を鳴らす
+	AudioPlayer::SinglShotPlay("missileShot.mp3", weaponParam_.shotSeVolum);
 }

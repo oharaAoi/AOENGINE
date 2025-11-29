@@ -1,4 +1,5 @@
 #include "LauncherBullet.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Information/ColliderCategory.h"
 
 LauncherBullet::~LauncherBullet() {
@@ -15,12 +16,12 @@ LauncherBullet::~LauncherBullet() {
 
 void LauncherBullet::Init() {
 	BaseBullet::Init("LauncherBullet");
-
-
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::Sphere);
 
-	// colliderの設定
+	// ----------------------
+	// ↓ colliderの設定
+	// ----------------------
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
@@ -28,7 +29,9 @@ void LauncherBullet::Init() {
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
-	// effectの初期化
+	// ----------------------
+	// ↓ effectの初期化
+	// ----------------------
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("Launcher");
 	burn_->SetParent(transform_->GetWorldMatrix());
@@ -69,10 +72,16 @@ void LauncherBullet::OnCollision(ICollider* other) {
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
+
+		AudioPlayer::SinglShotPlay("luncherHit.mp3", param_.hitSeVolume);
 	}
 }
 
 void LauncherBullet::Reset(const Vector3& _pos, const Vector3& _velocity) {
 	transform_->srt_.translate = _pos;
 	velocity_ = _velocity;
+}
+
+void LauncherBullet::BulletParam::Debug_Gui() {
+	ImGui::DragFloat("hitSeVolume", &hitSeVolume, 0.1f);
 }

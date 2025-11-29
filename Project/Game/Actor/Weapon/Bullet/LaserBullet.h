@@ -18,7 +18,9 @@ public: // データ構造体
 	struct LaserParameter : public IJsonConverter {
 		float maxLength = 1000.0f;  // 最大距離
 		float fadeTime = 1.0f;
+		float shotSeValue = 0.4f;
 		std::string shaderGraphPath = "";
+
 		Color cylinderColor;
 
 		LaserParameter() { 
@@ -30,6 +32,7 @@ public: // データ構造体
 			return JsonBuilder(id)
 				.Add("maxLength", maxLength)
 				.Add("fadeTime", fadeTime)
+				.Add("shotSeValue", shotSeValue)
 				.Add("shaderGraphPath", shaderGraphPath)
 				.Add("cylinderColor", cylinderColor)
 				.Build();
@@ -38,6 +41,7 @@ public: // データ構造体
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "maxLength", maxLength);
 			fromJson(jsonData, "fadeTime", fadeTime);
+			fromJson(jsonData, "shotSeValue", shotSeValue);
 			fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
 			fromJson(jsonData, "cylinderColor", cylinderColor);
 		}

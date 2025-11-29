@@ -1,5 +1,6 @@
 #include "RocketBullet.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Audio/AudioPlayer.h"
 
 RocketBullet::~RocketBullet() {
 	BaseBullet::Finalize();
@@ -7,6 +8,11 @@ RocketBullet::~RocketBullet() {
 	ParticleManager::GetInstance()->DeleteParticles(smoke_);
 	burn_ = nullptr;
 	smoke_ = nullptr;
+}
+
+void RocketBullet::BulletParam::Debug_Gui() {
+	ImGui::DragFloat("hitSeVolume", &hitSeVolume, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,6 +24,9 @@ void RocketBullet::Init() {
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Bullet::rocket, ColliderShape::Sphere);
 
+	// ----------------------
+	// ↓ colliderの設定
+	// ----------------------
 	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
@@ -28,6 +37,9 @@ void RocketBullet::Init() {
 	trackingTimer_ = 0.f;
 	finishTracking_ = false;
 
+	// ----------------------
+	// ↓ effectの設定
+	// ----------------------
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("Launcher");
 	burn_->SetParent(transform_->GetWorldMatrix());
@@ -65,11 +77,13 @@ void RocketBullet::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RocketBullet::OnCollision(ICollider* other) {
-	if (other->GetCategoryName() == ColliderTags::None::own) {
+	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
+
+		AudioPlayer::SinglShotPlay("missileHit.mp3", param_.hitSeVolume);
 	}
 }
 

@@ -1,13 +1,37 @@
 #pragma once
-#include "Game/Actor/Base/BaseBullet.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Game/Actor/Base/BaseBullet.h"
 
 /// <summary>
 /// 追尾をしない爆発弾
 /// </summary>
 class LauncherBullet :
 	public BaseBullet {
-public:
+public: // データ構造体
+
+	struct BulletParam : IJsonConverter {
+		float hitSeVolume = 0.3f;
+
+		BulletParam() {
+			SetGroupName("Bullet");
+			SetName("launcherBullet");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("hitSeVolume", hitSeVolume)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "hitSeVolume", hitSeVolume);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
 
 	LauncherBullet() = default;
 	~LauncherBullet() override;
@@ -36,5 +60,6 @@ private:
 	BaseParticles* burn_;
 	BaseParticles* smoke_;
 
+	BulletParam param_;
 };
 
