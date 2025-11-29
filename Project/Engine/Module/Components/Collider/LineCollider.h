@@ -42,5 +42,7 @@ public:
 	void SetDiff(const Vector3& _diff);
 	const Vector3& GetDiff() const;
 
+	const Vector3& GetOrigine() const;
+
 };
 

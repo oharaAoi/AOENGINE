@@ -37,3 +37,7 @@ void LineCollider::SetDiff(const Vector3& _diff) {
 const Vector3& LineCollider::GetDiff() const {
 	return std::get<Line>(shape_).diff;
 }
+
+const Vector3& LineCollider::GetOrigine() const {
+	return std::get<Line>(shape_).origin;
+}

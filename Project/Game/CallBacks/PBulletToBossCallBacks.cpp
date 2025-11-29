@@ -33,11 +33,13 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	BaseBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
 	// bulletの処理
 	if (playerBullet != nullptr) {
-		playerBullet->SetIsAlive(false);
-
 		if (playerBullet->GetBulletType() == BulletType::Launcher) {
 			hitSmoke_->SetPos(bullet->GetCenterPos());
 			hitSmoke_->Reset();
+		}
+
+		if (!playerBullet->GetBulletType() == BulletType::Laser) {
+			playerBullet->SetIsAlive(false);
 		}
 
 		// bossへの処理

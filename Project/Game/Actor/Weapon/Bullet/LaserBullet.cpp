@@ -56,7 +56,7 @@ void LaserBullet::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	ICollider* collider = object_->SetCollider(ColliderTags::Bullet::laser, ColliderShape::Line);
+	ICollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
@@ -86,6 +86,7 @@ void LaserBullet::Init() {
 
 	ParticleManager* manager = ParticleManager::GetInstance();
 	shotEffect_ = manager->CrateParticle("laserShot");
+	shotParticle_ = manager->CrateParticle("laserParticle");
 
 	fadeTimer_ = Timer(param_.fadeTime);
 
@@ -117,7 +118,9 @@ void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _s
 	dire_ = Vector3(_targetPos - _pos).Normalize();
 	parentTransform_->SetRotate(Quaternion::LookRotation(dire_));
 	speed_ = _speed;
+	shotParticle_->SetPos(_pos);
 	shotEffect_->SetPos(_pos);
+	shotParticle_->Reset();
 	shotEffect_->Reset();
 
 	isShot_ = true;
@@ -178,5 +181,19 @@ void LaserBullet::Fade() {
 void LaserBullet::OnCollision(ICollider* _other) {
 	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
 		isFade_ = true;
+
+		ParticleManager* manager = ParticleManager::GetInstance();
+		BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
+		BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
+
+		Vector3 scale = parentTransform_->GetScale();
+		Vector3 hitPos = lineCollider_->GetOrigine() + lineCollider_->GetDiff();
+
+		hitLaserEffect_->SetPos(hitPos);
+		hitLaserParticle_->SetPos(hitPos);
+		hitLaserEffect_->Reset();
+		hitLaserParticle_->Reset();
+
+		lineCollider_->SetIsActive(false);
 	}
 }

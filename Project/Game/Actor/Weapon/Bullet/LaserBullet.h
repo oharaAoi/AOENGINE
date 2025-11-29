@@ -98,6 +98,7 @@ private:
 	Color fadeColor_;
 
 	BaseParticles* shotEffect_;
+	BaseParticles* shotParticle_;
 
 };
 
