@@ -1,0 +1,13 @@
+{
+    "LaserParameter": {
+        "cylinderColor": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.8023796081542969,
+            "r": 0.05581396818161011
+        },
+        "fadeTime": 1.0,
+        "maxLength": 1000.0,
+        "shaderGraphPath": ".\\Project\\Packages\\Game\\Assets\\GameData\\ShaderGraph\\laser.json"
+    }
+}

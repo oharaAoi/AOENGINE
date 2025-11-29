@@ -1,0 +1,7 @@
+{
+    "LaserParameter": {
+        "fadeTime": 1.0,
+        "maxLength": 1000.0,
+        "shaderGraphPath": ".\\Project\\Packages\\Game\\Assets\\GameData\\ShaderGraph\\laser.json"
+    }
+}

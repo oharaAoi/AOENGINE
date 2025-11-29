@@ -15,10 +15,7 @@ void ShaderGraph::Debug_Gui() {
 	if (ImGui::Button("Load")) {
 		// ファイルを選択
 		param_.path = FileOpenDialogFunc();
-		if (param_.path != "") {
-			editor_->getNodes().clear();
-			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(param_.path));
-		}
+		Load(param_.path);
 	}
 }
 
@@ -80,4 +77,11 @@ void ShaderGraph::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow:
 	}
 
 	node->customUpdate();
+}
+
+void ShaderGraph::Load(const std::string& _filePath) {
+	if (_filePath != "") {
+		editor_->getNodes().clear();
+		resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(_filePath));
+	}
 }

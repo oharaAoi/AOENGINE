@@ -19,10 +19,11 @@ void LaserBullet::Debug_Gui() {
 	parentTransform_->Debug_Gui();
 	BaseBullet::Debug_Gui();
 	ImGui::DragFloat3("targetPos", &targetPos_.x);
+
+	param_.shaderGraphPath = laserCylinder_->GetShaderGraphPath();
 	if (ImGui::Button("shot")) {
 		isShot_ = true;
 		parentTransform_->SetScale(Vector3(1, 1, 0.0f));
-
 		Reset(CVector3::ZERO, targetPos_, 200.0f);
 	}
 }
@@ -30,6 +31,8 @@ void LaserBullet::Debug_Gui() {
 void LaserBullet::LaserParameter::Debug_Gui() {
 	ImGui::DragFloat("maxLength", &maxLength);
 	ImGui::DragFloat("fadeTime", &fadeTime);
+	ImGui::ColorEdit4("color", &cylinderColor.r);
+	ImGui::Text("shaderGraphPath : %s", shaderGraphPath.c_str());
 	SaveAndLoad();
 }
 
@@ -76,7 +79,8 @@ void LaserBullet::Init() {
 	// ↓ Effectの設定
 	// ----------------------
 	laserCylinder_ = std::make_unique<LaserCylinder>();
-	laserCylinder_->Init();
+	laserCylinder_->Init(param_.cylinderColor);
+	laserCylinder_->GetShaderGraph()->Load(param_.shaderGraphPath);
 	laserCylinder_->GetTransform()->SetParent(parentTransform_->GetWorldMatrix());
 	AddChild(laserCylinder_.get());
 
@@ -86,7 +90,7 @@ void LaserBullet::Init() {
 	fadeTimer_ = Timer(param_.fadeTime);
 
 	SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
-	EditorWindows::AddObjectWindow(this, "Laser");
+	//EditorWindows::AddObjectWindow(this, "Laser");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +126,10 @@ void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _s
 	fadeTimer_ = Timer(param_.fadeTime);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 伸ばす
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void LaserBullet::Stretch() {
 	// scaleを大きくする
 	if (isShot_) {
@@ -139,6 +147,10 @@ void LaserBullet::Stretch() {
 		laserCylinder_->SetUvScale(scale.z);
 	}
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 消える
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LaserBullet::Fade() {
 	if (isFade_) {
@@ -166,6 +178,5 @@ void LaserBullet::Fade() {
 void LaserBullet::OnCollision(ICollider* _other) {
 	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
 		isFade_ = true;
-		isShot_ = false;
 	}
 }

@@ -18,19 +18,28 @@ public: // データ構造体
 	struct LaserParameter : public IJsonConverter {
 		float maxLength = 1000.0f;  // 最大距離
 		float fadeTime = 1.0f;
+		std::string shaderGraphPath = "";
+		Color cylinderColor;
 
-		LaserParameter() { SetName("LaserParameter"); }
+		LaserParameter() { 
+			SetGroupName("Bullet");
+			SetName("LaserParameter");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
 				.Add("maxLength", maxLength)
 				.Add("fadeTime", fadeTime)
+				.Add("shaderGraphPath", shaderGraphPath)
+				.Add("cylinderColor", cylinderColor)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			fromJson(jsonData, "maxLength", maxLength);
 			fromJson(jsonData, "fadeTime", fadeTime);
+			fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
+			fromJson(jsonData, "cylinderColor", cylinderColor);
 		}
 
 		void Debug_Gui() override;

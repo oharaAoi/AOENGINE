@@ -11,14 +11,14 @@
 /// ShaderGraphクラス
 /// </summary>
 class ShaderGraph :
- public AttributeGui {
+	public AttributeGui {
 public:
 
 	struct FilePathParam : public IJsonConverter {
 		std::string path = "";
 
 		FilePathParam() {
-			SetGroupName("shaderGraph");
+			SetGroupName("ShaderGraph");
 			SetName("graph");
 		}
 
@@ -64,9 +64,17 @@ public:
 	/// </summary>
 	void Debug_Gui();
 
+	/// <summary>
+	/// 読み込み
+	/// </summary>
+	/// <param name="_filePath"></param>
+	void Load(const std::string& _filePath);
+
 public:
 
 	DxResource* GetResource() const { return resultNode_->GetResultSource(); }
+
+	const std::string& GetPath() const { return param_.path; }
 
 private:
 

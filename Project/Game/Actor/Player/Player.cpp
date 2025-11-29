@@ -171,10 +171,6 @@ void Player::Init() {
 	leftShoulderMat_ = skeleton->GetSkeltonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
-	shaderGraph_ = std::make_unique<ShaderGraph>();
-	shaderGraph_->Init("player");
-	object_->SetShaderGraph(shaderGraph_.get());
-
 #ifdef _DEBUG
 	EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -205,9 +201,6 @@ void Player::Update() {
 			isAttack_ = true;
 		}
 	}
-
-	shaderGraph_->Update();
-	object_->SetShaderGraph(shaderGraph_.get());
 }
 
 void Player::PosUpdate() {

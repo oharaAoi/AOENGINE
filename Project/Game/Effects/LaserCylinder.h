@@ -20,7 +20,7 @@ public:
 	void Finalize() {};
 
 	// 初期化
-	void Init();
+	void Init(const Color& _color);
 
 	// 更新
 	void Update();
@@ -30,6 +30,12 @@ public:
 
 	void SetUvScale(float _scaleZ);
 	void SetScaleZ(float _scaleZ);
+
+public:
+
+	ShaderGraph* GetShaderGraph() { return shaderGraph_.get(); }
+
+	const std::string& GetShaderGraphPath() const { return shaderGraph_->GetPath(); }
 
 private:
 
