@@ -12,6 +12,7 @@ void BaseWeapon::Finalize() {
 void BaseWeapon::Debug_Gui() {
 	transform_->Debug_Gui();
 	ImGui::SliderFloat("coolTime", &coolTime_, 0.0f, attackParam_.fireInterval);
+	ImGui::Text("fireCount : %d", fireCount_);
 	attackParam_.Debug_Gui();
 }
 

@@ -52,6 +52,7 @@ private:
 
 	std::unique_ptr<WeaponRemainingRounds> leftWeapon_;
 	std::unique_ptr<WeaponRemainingRounds> rightWeapon_;
+	std::unique_ptr<WeaponRemainingRounds> leftShoulderWeapon_;
 	std::unique_ptr<WeaponRemainingRounds> rightShoulderWeapon_;
 
 };
