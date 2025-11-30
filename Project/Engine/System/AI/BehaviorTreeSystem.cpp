@@ -6,6 +6,10 @@ BehaviorTreeSystem* BehaviorTreeSystem::GetInstance() {
 	return &instance;
 }
 
+void BehaviorTreeSystem::Init() {
+	trees_.clear();
+}
+
 void BehaviorTreeSystem::Update() {
 	// 各Treeの表示
 	for (auto& tree : trees_) {

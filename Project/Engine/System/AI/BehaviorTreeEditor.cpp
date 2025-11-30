@@ -11,6 +11,10 @@ BehaviorTreeEditor::~BehaviorTreeEditor() {
 	context_ = nullptr;
 }
 
+void BehaviorTreeEditor::Finalize() {
+	selectNode_ = nullptr;
+}
+
 void BehaviorTreeEditor::Init() {
 	// nodeEditorの初期化
 	context_ = ax::NodeEditor::CreateEditor();
@@ -111,7 +115,7 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<IBehaviorNod
 		ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition");
 
 		// taskを生成しようとしていたら生成するtaskの名前を選ぶ
-		if (nodeType == NodeType::Task) {
+		if (nodeType == (int)NodeType::Task) {
 			std::vector<std::string> typeNames;
 			for (const auto& pair : _canTaskMap) {
 				typeNames.push_back(pair.first);
@@ -132,7 +136,7 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<IBehaviorNod
 			}
 		}
 
-		if (nodeType != NodeType::Root) {
+		if (nodeType != (int)NodeType::Root) {
 			if (ImGui::Button("Create Node")) {
 				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _canTaskMap, _goalArray);
 				popupRequested_ = false;

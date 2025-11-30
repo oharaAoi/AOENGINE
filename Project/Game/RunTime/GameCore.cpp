@@ -21,10 +21,7 @@ void GameCore::Init() {
 	// シーンの初期化
 	sceneManger_ = std::make_unique<SceneManager>();
 	sceneManger_->Init();
-	sceneManger_->SetChange(SceneType::Title);
-
-	systemManager_ = std::make_unique<SystemManager>();
-	systemManager_->Init();
+	sceneManger_->SetChange(SceneType::Game);
 
 	isReset_ = false;
 }
@@ -42,7 +39,6 @@ void GameCore::Update() {
 	}
 
 	// sceneの更新
-	systemManager_->Update();
 	sceneManger_->Update();
 #ifdef _DEBUG
 	sceneManger_->Debug_Gui();

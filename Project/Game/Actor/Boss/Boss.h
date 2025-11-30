@@ -34,6 +34,8 @@ public:
 		float angularVelocity = 90.f; // 角速度
 		float angularThreshold = 10.f; // 角速度
 
+		std::string worldStatePath = "";		// worldStateのパス
+
 		Parameter() { SetName("bossParameter"); }
 
 		json ToJson(const std::string& id) const override {
@@ -44,6 +46,7 @@ public:
 				.Add("armorCoolTime", armorCoolTime)
 				.Add("angularVelocity", angularVelocity)
 				.Add("angularThreshold", angularThreshold)
+				.Add("worldStatePath", worldStatePath)
 				.Build();
 		}
 
@@ -54,6 +57,7 @@ public:
 			fromJson(jsonData, "armorCoolTime", armorCoolTime);
 			fromJson(jsonData, "angularVelocity", angularVelocity);
 			fromJson(jsonData, "angularThreshold", angularThreshold);
+			fromJson(jsonData, "worldStatePath", worldStatePath);
 		}
 
 		void Debug_Gui() override;
@@ -132,6 +136,7 @@ public:
 	bool GetIsTargetDead() const { return isTargetDead_; }
 
 	void SetIsArmorDeploy(bool _isDeployArmor) { isArmorDeploy_ = _isDeployArmor; }
+	bool GetIsArmorDeploy() const { return isArmorDeploy_; }
 
 	void SetIsAttack(bool _isAttack) { isAttack_ = _isAttack; }
 	bool GetIsAttack() const { return isAttack_; }

@@ -6,6 +6,7 @@
 #include "Engine/System/AI/BehaviorTree.h"
 #include "Engine/System/AI/State/IWorldState.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
+#include "Engine/System/AI/Other/Condition.h"
 
 /// <summary>
 /// GoalまでのNodeたちを格納したNode
@@ -74,5 +75,6 @@ private:
 	std::string orientedName_;
 	std::string treeFileName_;
 
+	Condition condition_;
 };
 

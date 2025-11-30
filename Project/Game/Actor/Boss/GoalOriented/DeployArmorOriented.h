@@ -16,9 +16,6 @@ public:
 	// 更新処理
 	void Update() override {};
 
-	// 目標達成の判別
-	bool IsGoal() override;
-
 	// スコアの計算
 	float CalculationScore() override;
 

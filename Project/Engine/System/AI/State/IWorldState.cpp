@@ -1,6 +1,8 @@
 #include "IWorldState.h"
+#include "Engine/System/AI/State/WorldStateSerializer.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/FileDialogFunc.h"
 
 void IWorldState::Debug_Gui() {
 	// 値の追加
@@ -29,6 +31,20 @@ void IWorldState::Debug_Gui() {
 
 		ImGui::EndTable();
 	}
+
+	for (auto& [key, value] : stateMap_) {
+		value.DebugValue(key, value);
+	}
+
+	if (ImGui::Button("Save##worldStateSave")) {
+		Save();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load##worldStateLoad")) {
+		path_ = FileOpenDialogFunc();
+		Load(path_);
+	}
+
 }
 
 void IWorldState::CreateValue() {
@@ -70,5 +86,18 @@ void IWorldState::KeyCombo(std::string& _key, int32_t& index, const std::string&
 			if (isSelected) ImGui::SetItemDefaultFocus();
 		}
 		ImGui::EndCombo();
+	}
+}
+
+void IWorldState::Load(const std::string& _filePath) {
+	if (_filePath != "") {
+		WorldStateSerializer::Load(_filePath, stateMap_);
+	}
+}
+
+void IWorldState::Save() {
+	path_ = FileSaveDialogFunc();
+	if (path_ != "") {
+		WorldStateSerializer::Save(path_, stateMap_);
 	}
 }

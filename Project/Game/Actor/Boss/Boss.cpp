@@ -86,6 +86,7 @@ void Boss::Init() {
 	// -------------------------------------------------
 
 	worldState_ = std::make_unique<BossWorldState>();
+	worldState_->Load(param_.worldStatePath);
 	worldState_->SetRef<float>("hp", param_.health);
 	worldState_->SetRef<float>("maxHp", param_.health);
 	worldState_->SetRef<float>("maxPostureStability", param_.postureStability);
@@ -114,7 +115,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
 	evaluationFormula_->Init(this);
@@ -157,6 +158,11 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	initParam_.worldStatePath = worldState_->GetPath();
+	worldState_->Set<float>("BossToPlayer", (transform_->GetPos() - playerPosition_).Length());
+	worldState_->Set<bool>("deployArmor", isArmorDeploy_);
+	worldState_->Set<bool>("isAttack", isAttack_);
+
 	// stateの更新
 	if (!isAlive_) {
 		stateMachine_->Update();

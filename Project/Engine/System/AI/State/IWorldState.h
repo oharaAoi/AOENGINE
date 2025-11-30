@@ -19,23 +19,66 @@ public: // コンストラクタ
 
 public:
 
+	/// <summary>
+	/// 参照の設定
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key"></param>
+	/// <param name="ref"></param>
 	template<typename T>
 	void SetRef(const std::string& key, T& ref) {
         stateMap_[key] = WorldStateValue(&ref);
 	}
 
+	/// <summary>
+	/// 値の設定
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
 	template<typename T>
 	void Set(const std::string& key, const T& value) {
 		stateMap_[key] = WorldStateValue(value);
 	}
 
+	/// <summary>
+	/// 値の取得
+	/// </summary>
+	/// <param name="key"></param>
+	/// <returns></returns>
 	WorldStateValue Get(const std::string& key) const {
-		return stateMap_.at(key).Get();
+		auto it = stateMap_.find(key);
+		if (it != stateMap_.end()) {
+			return stateMap_.at(key).Get();
+		}
+		return WorldStateValue();
 	}
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui();
 
+	/// <summary>
+	/// Keyのcombを表示
+	/// </summary>
+	/// <param name="_key"></param>
+	/// <param name="index"></param>
+	/// <param name="_label"></param>
 	void KeyCombo(std::string& _key, int32_t& index, const std::string& _label);
+
+	/// <summary>
+	/// 読み込み処理
+	/// </summary>
+	/// <param name="_filePath"></param>
+	void Load(const std::string& _filePath);
+
+	/// <summary>
+	/// 保存
+	/// </summary>
+	void Save();
+
+	const std::string& GetPath() const { return path_; }
 
 private:
 
@@ -43,5 +86,7 @@ private:
 
 protected:
 	std::unordered_map<std::string, WorldStateValue> stateMap_;
+
+	std::string path_;
 };
     

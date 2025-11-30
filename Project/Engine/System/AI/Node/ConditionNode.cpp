@@ -5,7 +5,7 @@
 ConditionNode::ConditionNode() {
 	color_ = ImColor(238, 130, 238);
 	baseColor_ = color_;
-	type_ = NodeType::Selector;
+	type_ = NodeType::Condition;
 	SetNodeName("Condition");
 }
 

@@ -32,6 +32,7 @@ void LaserBullet::Debug_Gui() {
 void LaserBullet::LaserParameter::Debug_Gui() {
 	ImGui::DragFloat("maxLength", &maxLength);
 	ImGui::DragFloat("fadeTime", &fadeTime);
+	ImGui::DragFloat("lifeTime", &lifeTime);
 	ImGui::DragFloat("shotSeValue", &shotSeValue);
 	ImGui::ColorEdit4("color", &cylinderColor.r);
 	ImGui::Text("shaderGraphPath : %s", shaderGraphPath.c_str());
@@ -91,6 +92,7 @@ void LaserBullet::Init() {
 	shotParticle_ = manager->CrateParticle("laserParticle");
 
 	fadeTimer_ = Timer(param_.fadeTime);
+	lifeTimer_ = Timer(param_.lifeTime);
 
 	SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
 	//EditorWindows::AddObjectWindow(this, "Laser");
@@ -101,6 +103,9 @@ void LaserBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LaserBullet::Update() {
+	if (!lifeTimer_.Run(GameTimer::DeltaTime())) {
+		isAlive_ = false;
+	}
 
 	Stretch();
 

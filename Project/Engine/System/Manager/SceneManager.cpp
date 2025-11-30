@@ -16,6 +16,9 @@ void SceneManager::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void SceneManager::Init() {
 	// gameに必要なResourceの読み込み
+	systemManager_ = std::make_unique<SystemManager>();
+	systemManager_->Init();
+
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	reset_ = false;
 }
@@ -44,11 +47,14 @@ void SceneManager::Update() {
 
 		ShadowMap* shadowMap = Render::GetShadowMap();
 		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+
+		systemManager_->Init();
 		scene_->Init();
 	}
 
 	scene_->UpdateProcess();
 
+	systemManager_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +113,7 @@ void SceneManager::SetChange(const SceneType& type) {
 
 	ShadowMap* shadowMap = Render::GetShadowMap();
 	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
-
+	systemManager_->Init();
 	scene_->Init();
 }
 
@@ -118,6 +124,7 @@ void SceneManager::Free() {
 	gpuManager->Finalize();
 	cpuManager->Finalize();
 	scene_->Finalize();
+	systemManager_->Init();
 	reset_ = true;
 }
 

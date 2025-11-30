@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 // ↓ コンストラクタ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _rootNodeCanTask, 
+PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _rootNodeCanTask,
 						 IWorldState* _worldState,
 						 const std::vector<std::shared_ptr<IOrientedGoal>>& _goals) {
 	canTask_ = _rootNodeCanTask;
@@ -44,6 +44,7 @@ json PlannerNode::ToJson() {
 	item["children"] = json::array();
 	item["orientedName"] = orientedName_;
 	item["treeFileName"] = treeFileName_;
+	item["goalCondition"] = condition_.ToJson();
 
 	for (const auto& child : children_) {
 		item["children"].push_back(child->ToJson());
@@ -62,9 +63,13 @@ void PlannerNode::FromJson(const json& _jsonData) {
 	if (_jsonData.contains("orientedName")) {
 		orientedName_ = _jsonData["orientedName"];
 	}
-	
+
 	if (_jsonData.contains("treeFileName")) {
 		treeFileName_ = _jsonData["treeFileName"];
+	}
+
+	if (_jsonData.contains("goalCondition")) {
+		condition_.FromJson(_jsonData["goalCondition"]);
 	}
 }
 
@@ -74,11 +79,8 @@ void PlannerNode::FromJson(const json& _jsonData) {
 
 BehaviorStatus PlannerNode::Execute() {
 	bool isExecute = tree_->Run();
-
-	if (goal_) {
-		if (goal_->IsGoal()) {
-			return BehaviorStatus::Success;
-		}
+	if (condition_.Execute(pWorldState_)) {
+		return BehaviorStatus::Success;
 	}
 
 	if (isExecute) {
@@ -133,6 +135,7 @@ void PlannerNode::Debug_Gui() {
 		}
 		ImGui::EndCombo();
 	}
+	condition_.Debug_Gui(pWorldState_);
 	// 目標を設定する
 	if (goal_) {
 		std::string currentOriented = "Oriented : " + goal_->GetName();
@@ -156,7 +159,7 @@ void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _tr
 	// goalを設定する
 	if (orientedName_ != "") {
 		for (auto goal : goalArray_) {
-			if (goal->GetName()  == orientedName_) {
+			if (goal->GetName() == orientedName_) {
 				goal_ = goal;
 				SetName(goal_->GetName());
 			}

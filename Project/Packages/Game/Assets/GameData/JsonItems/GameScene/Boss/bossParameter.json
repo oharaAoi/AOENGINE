@@ -4,6 +4,8 @@
         "angularVelocity": 4.0,
         "armorCoolTime": 20.0,
         "health": 5000.0,
-        "postureStability": 300.0
+        "postureStability": 300.0,
+        "postureStabilityScrapeRaito": 0.30000001192092896,
+        "worldStatePath": ".\\Project\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\bossWorldState.json"
     }
 }

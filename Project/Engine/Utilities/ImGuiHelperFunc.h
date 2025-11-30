@@ -14,19 +14,21 @@ bool ButtonOpenDialog(const char* buttonLabel, const char* dialogKey, const char
 int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, const char* label = "##combo", float inputFiledSize = 124.f);
 
 template<typename T>
-void TemplateValueGui(T& value) {
-	if constexpr (std::is_same_v<T, float>) {
-		ImGui::DragFloat("Value", &value, 0.01f);
-	} else if constexpr (std::is_same_v<T, Vector2>) {
-		ImGui::DragFloat2("Value", &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Vector3>) {
-		ImGui::DragFloat3("Value", &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Vector4>) {
-		ImGui::DragFloat4("Value", &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Color>) {
-		ImGui::ColorEdit4("color", &value.r);
+void TemplateValueGui(const std::string& _name, T& value) {
+	 if constexpr (std::is_same_v<T, float>) {
+		ImGui::DragFloat(_name.c_str(), &value, 0.01f);
 	} else if constexpr (std::is_same_v<T, int32_t>) {
-		ImGui::DragInt("Value", &value);
+		ImGui::DragInt(_name.c_str(), &value, 1);
+	} else if constexpr (std::is_same_v<T, bool>) {
+		ImGui::Checkbox(_name.c_str(), &value);
+	} else if constexpr (std::is_same_v<T, Vector2>) {
+		ImGui::DragFloat2(_name.c_str(), &value.x, 0.01f);
+	} else if constexpr (std::is_same_v<T, Vector3>) {
+		ImGui::DragFloat3(_name.c_str(), &value.x, 0.01f);
+	} else if constexpr (std::is_same_v<T, Vector4>) {
+		ImGui::DragFloat4(_name.c_str(), &value.x, 0.01f);
+	} else if constexpr (std::is_same_v<T, Color>) {
+		ImGui::ColorEdit4(_name.c_str(), &value.r);
 	} else if constexpr (std::is_same_v<T, std::string>) {
 		ImGui::Text(value);
 	}

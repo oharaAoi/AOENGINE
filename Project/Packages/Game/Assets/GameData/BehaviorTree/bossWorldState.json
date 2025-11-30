@@ -1,0 +1,42 @@
+{
+    "BossToPlayer": {
+        "type": "float",
+        "value": 106.84674072265625
+    },
+    "SafeDistance": {
+        "type": "float",
+        "value": 60.0
+    },
+    "dangerDistance": {
+        "type": "float",
+        "value": 10.0
+    },
+    "deployArmor": {
+        "type": "bool",
+        "value": true
+    },
+    "hp": {
+        "type": "float",
+        "value": 4640.0
+    },
+    "isAttack": {
+        "type": "bool",
+        "value": false
+    },
+    "isTrue": {
+        "type": "bool",
+        "value": true
+    },
+    "maxHp": {
+        "type": "float",
+        "value": 4640.0
+    },
+    "maxPostureStability": {
+        "type": "float",
+        "value": 96.0
+    },
+    "test": {
+        "type": "int",
+        "value": 0
+    }
+}

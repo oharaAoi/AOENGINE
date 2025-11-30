@@ -15,6 +15,8 @@ public: // コンストラクタ
 
 public:
 
+	void Finalize();
+
 	void Init();
 
 	/// <summary>

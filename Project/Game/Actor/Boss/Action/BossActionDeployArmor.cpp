@@ -47,16 +47,10 @@ bool BossActionDeployArmor::IsFinish() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionDeployArmor::CanExecute() {
-	if (pTarget_->GetState()->GetStateName() == "DeployArmorState") {
-		return false;
+	if (pTarget_->GetIsArmorDeploy()) {
+		return true;
 	}
-
-	if (pTarget_->GetPhase() == BossPhase::First) {
-		if (isDeploy_) {
-			return false;
-		}
-	}
-	return true;
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

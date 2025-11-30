@@ -2,6 +2,7 @@
 #include <variant>
 #include <string>
 #include <stdexcept>
+#include <nlohmann/json.hpp>
 
 /// <summary>
 /// WorldState内で使用する値
@@ -23,6 +24,8 @@ public:
 	WorldStateValue(Value v) : value_(v) {}
 	~WorldStateValue() = default;
 
+	void DebugValue(const std::string& name, WorldStateValue& wv);
+
 	const Value& Get() const { return value_; }
 
 	template<typename T>
@@ -41,6 +44,10 @@ public:
 
 		return result;
 	}
+
+	nlohmann::json to_json(const WorldStateValue& v) const;
+
+	void from_json(const nlohmann::json& j, WorldStateValue& v);
 
 };
 

@@ -67,7 +67,7 @@ inline void PropertyNode<T>::draw() {
 	// -------- 内部プレビュー ----------
 	ImGui::Spacing();
 	ImGui::SetNextItemWidth(150);
-	TemplateValueGui(value_);
+	TemplateValueGui("value", value_);
 }
 
 template<typename T>

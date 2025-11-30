@@ -1266,6 +1266,8 @@
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Game\Effects\LaserCylinder.h" />
+    <ClInclude Include="Engine\System\AI\State\WorldStateSerializer.h" />
+    <ClInclude Include="Engine\System\AI\Other\Condition.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2186,6 +2188,8 @@
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
+    <ClCompile Include="Engine\System\AI\State\WorldStateSerializer.cpp" />
+    <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

@@ -181,7 +181,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h" />
     <ClInclude Include="Engine\System\AI\Node\SelectorNode.h" />
     <ClInclude Include="Engine\System\AI\Node\SequenceNode.h" />
+    <ClInclude Include="Engine\System\AI\Other\Condition.h" />
     <ClInclude Include="Engine\System\AI\State\IWorldState.h" />
+    <ClInclude Include="Engine\System\AI\State\WorldStateSerializer.h" />
     <ClInclude Include="Engine\System\AI\State\WorldStateValue.h" />
     <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h" />
     <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h" />
@@ -526,7 +528,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
     <ClCompile Include="Engine\System\AI\State\IWorldState.cpp" />
+    <ClCompile Include="Engine\System\AI\State\WorldStateSerializer.cpp" />
     <ClCompile Include="Engine\System\AI\State\WorldStateValue.cpp" />
     <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp" />
     <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp" />

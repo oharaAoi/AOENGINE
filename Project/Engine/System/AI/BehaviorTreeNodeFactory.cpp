@@ -11,26 +11,26 @@
 void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateTaskName, std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
 										 IWorldState* _worldState, std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap, 
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
-	if (nodeType == NodeType::Sequencer) {
+	if (nodeType == (int)NodeType::Sequencer) {
 		_nodeList.emplace_back(std::make_shared<SequenceNode>());
 
-	} else if (nodeType == NodeType::Selector) {
+	} else if (nodeType == (int)NodeType::Selector) {
 		_nodeList.emplace_back(std::make_shared<SelectorNode>());
 
-	} else if (nodeType == NodeType::WeightSelector) {
+	} else if (nodeType == (int)NodeType::WeightSelector) {
 		_nodeList.emplace_back(std::make_shared<WeightSelectorNode>());
 
-	} else if (nodeType == NodeType::Planner) {
+	} else if (nodeType == (int)NodeType::Planner) {
 		_nodeList.emplace_back(std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray));
 
-	} else if (nodeType == NodeType::PlannerSelector) {
+	} else if (nodeType == (int)NodeType::PlannerSelector) {
 		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
 
-	} else if (nodeType == NodeType::Condition) {
+	} else if (nodeType == (int)NodeType::Condition) {
 		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
 		node->SetWorldState(_worldState);
 
-	} else if (nodeType == NodeType::Task) {
+	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
 		node->Init();
 		node->SetPos(CVector2::ZERO);

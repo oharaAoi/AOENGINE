@@ -19,7 +19,7 @@ enum BehaviorStatus {
 	Running		// 実行中
 };
 
-enum NodeType {
+enum class NodeType {
 	Root,
 	Sequencer,
 	Selector,

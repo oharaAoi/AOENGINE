@@ -22,6 +22,8 @@ public: // コンストラクタ
 
 public:
 
+	void Init();
+
 	void Update();
 
 	BehaviorTree* Create();

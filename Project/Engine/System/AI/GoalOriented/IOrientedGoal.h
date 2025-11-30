@@ -21,12 +21,6 @@ public:
 	virtual void Update() = 0;
 
 	/// <summary>
-	/// 目標の成否
-	/// </summary>
-	/// <returns>true : 達成 | false : 未達成</returns>
-	virtual bool IsGoal() = 0;
-
-	/// <summary>
 	/// Scoreを計算する
 	/// </summary>
 	/// <returns></returns>
@@ -48,7 +42,7 @@ public:
 protected:
 
 	// 優先度
-	int priority_;
+	int priority_ = 0;
 
 	IWorldState* worldState_ = nullptr;
 
