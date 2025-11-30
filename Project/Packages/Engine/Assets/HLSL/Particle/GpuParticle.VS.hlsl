@@ -17,6 +17,7 @@ ConstantBuffer<PerView> gPerView : register(b0);
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID) {
 	VertexShaderOutput output;
 	GpuParticle particle = gParticles[instanceId];
+	
 	float4x4 worldMat = gPerView.billboardMat;
 	worldMat[0] *= particle.scale.x;
 	worldMat[1] *= particle.scale.y;

@@ -34,6 +34,8 @@ void GpuParticleField::Init(uint32_t _instanceNum) {
 	fieldData_->min = { -1000, -1000, -1000 };
 
 	isEnable_ = true;
+
+	EditorWindows::AddObjectWindow(this, "GpuParticleField");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,11 +48,11 @@ void GpuParticleField::Update() {
 	if (!isEnable_) { return; }
 	
 	timer_ += GameTimer::DeltaTime();
-	if (timer_ > 3.0f) {
+	/*if (timer_ > 3.0f) {
 		timer_ = 0;
 		float randomScaler = RandomFloat(-3.0f, 3.0f);
 		fieldData_->acceleration = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize() * randomScaler;
-	}
+	}*/
 }
 
 void GpuParticleField::DrawShape() const {

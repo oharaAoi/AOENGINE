@@ -88,7 +88,7 @@ GpuParticleEmitter* GpuParticleManager::CreateEmitter(const std::string& particl
 
 GpuParticleField* GpuParticleManager::CreateField(const std::string& particlesFile) {
 	auto& field = fileds_.emplace_back(std::make_unique<GpuParticleField>());
-	field->Init(10240);
+	field->Init(1280000);
 	field->SetName(particlesFile);
 	field->SetParticleResourceHandle(renderer_->GetResourceHandle());
 	field->SetMaxParticleResource(renderer_->GetMaxBufferResource());

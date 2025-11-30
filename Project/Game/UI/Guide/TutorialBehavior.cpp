@@ -1,4 +1,5 @@
 #include "TutorialBehavior.h"
+#include "Engine/System/Input/Input.h"
 #include "Game/Actor/Player/Player.h"
 #include <Game/Actor/Player/Action/PlayerActionMove.h>
 #include <Game/Actor/Player/Action/PlayerActionJump.h>
@@ -16,9 +17,9 @@ void TutorialMoveBehavior::Init() {
 }
 
 void TutorialMoveBehavior::Update() {
-	Player* pPlayer = host_->playerManager_->GetPlayer();
 	// 移動のアクションが実行されている間は時間を計測’する
-	if (pPlayer->GetActionManager()->ExistAction(typeid(PlayerActionMove).hash_code())) {
+	Input* input = Input::GetInstance();
+	if (input->GetLeftJoyStick().x != 0 || input->GetLeftJoyStick().y != 0) {
 		totalMoveTime_ += GameTimer::DeltaTime();
 	}
 
