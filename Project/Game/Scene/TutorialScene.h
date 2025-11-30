@@ -28,6 +28,7 @@ class TutorialScene :
 	friend class TutorialBoostBehavior;
 	friend class TutorialLockOnBehavior;
 	friend class TutorialAttackBehavior;
+	friend class TutorialFreeModeBehavior;
 public:
 
 	TutorialScene();

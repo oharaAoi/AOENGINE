@@ -119,10 +119,6 @@ void TutorialScene::Update() {
 	tutorialMissionGauge_->Update();
 	tutorialBehavior_->Update();
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::Start)) {
-		nextSceneType_ = SceneType::Game;
-	}
-
 	// -------------------------------------------------
 	// ↓ spriteの更新
 	// -------------------------------------------------

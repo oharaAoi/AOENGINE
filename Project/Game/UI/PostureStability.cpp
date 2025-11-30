@@ -53,9 +53,9 @@ void PostureStability::Update(float _fillAmount) {
 
 	BaseGaugeUI::Update();
 
+	fence_->SetEnable(this->GetIsEnable());
 	fence_->SetTranslate(front_->GetTranslate());
 	fence_->SetScale(front_->GetScale());
-
 	fence_->Update();
 }
 

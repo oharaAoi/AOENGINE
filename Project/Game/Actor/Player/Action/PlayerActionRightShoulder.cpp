@@ -76,9 +76,9 @@ void PlayerActionRightShoulder::Debug_Gui() {
 
 void PlayerActionRightShoulder::Shot() {
 	if (pOwner_->GetIsLockOn()) {
-		pWeapon_->Attack(AttackContext(CVector3::ZERO, pOwner_->GetTargetPos()));
+		pOwner_->Attack(PlayerWeapon::Right_Shoulder, AttackContext(CVector3::ZERO, pOwner_->GetTargetPos()));
 	} else {
 		Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
-		pWeapon_->Attack(AttackContext(CVector3::ZERO, dire));
+		pOwner_->Attack(PlayerWeapon::Right_Shoulder, AttackContext(CVector3::ZERO, dire));
 	}
 }

@@ -202,6 +202,7 @@ void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pi
 void Sprite::ReSetTexture(const std::string& fileName) {
 	textureName_ = fileName;
 	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
+	spriteSize_ = textureSize_;
 	drawRange_ = spriteSize_;
 	leftTop_ = { 0.0f, 0.0f };
 

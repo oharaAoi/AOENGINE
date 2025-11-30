@@ -46,7 +46,6 @@ void TextureManager::LoadTexture(const std::string& directoryPath, const std::st
 // Textureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
 void TextureManager::LoadTextureFile(const std::string& directoryPath, const std::string& filePath) {
-
 	// 一度読み込んだファイルか確認する
 	auto it = textureData_.find(filePath);
 	if (it != textureData_.end()) {
@@ -190,7 +189,11 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 }
 
 const Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
-	return  textureData_[filePath].textureSize_;
+	auto it = textureData_.find(filePath);
+	if (it != textureData_.end()) {
+		return textureData_[filePath].textureSize_;
+	}
+	return Vector2();
 }
 
 void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
@@ -198,7 +201,12 @@ void TextureManager::StackTexture(const std::string& directoryPath, const std::s
 }
 
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex) {
-	commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_[filePath].resource_->GetSRV().handleGPU);
+	auto it = textureData_.find(filePath);
+	if (it != textureData_.end()) {
+		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_[filePath].resource_->GetSRV().handleGPU);
+	} else {
+		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_["error.png"].resource_->GetSRV().handleGPU);
+	}
 }
 
 std::string TextureManager::SelectTexture(const std::string& filePath) {

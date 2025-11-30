@@ -44,6 +44,7 @@ public:	// accessor method
 	void SetFillAmount(float _amount) { fillAmount_ = _amount; }
 
 	void SetIsEnable(bool _isActive);
+	bool GetIsEnable() const;
 
 	void SetGroupName(const std::string& _groupName) { groupName_ = _groupName; }
 	const std::string& GetGroupName() const { return groupName_; }

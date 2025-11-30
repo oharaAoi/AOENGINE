@@ -55,9 +55,13 @@ void TutorialJumpBehavior::Init() {
 }
 
 void TutorialJumpBehavior::Update() {
-	Player* pPlayer = host_->playerManager_->GetPlayer();
+	Input* input = Input::GetInstance();
 	// 移動のアクションが実行されている間は時間を計測’する
-	if (pPlayer->GetActionManager()->ExistAction(typeid(PlayerActionJump).hash_code())) {
+	if (input->IsTriggerButton(XInputButtons::ButtonA)) {
+		totalJumpTime_ += (targetValue_ * 0.2f);
+	}
+
+	if (input->IsPressButton(XInputButtons::ButtonA)) {
 		totalJumpTime_ += GameTimer::DeltaTime();
 	}
 
@@ -184,11 +188,36 @@ void TutorialAttackBehavior::Update() {
 		if (totalAttackCout_ >= targetValue_) {
 			isNext_ = true;
 			host_->tutorialMissionGauge_->Success(true);
-			host_->ToGameScene();
 		}
 	}
 
 	// 割合を求めておく
 	float ratio = (float)totalAttackCout_ / (float)targetValue_;
 	host_->tutorialMissionGauge_->FillAmountGauge(ratio);
+
+	if (isNext_) {
+		if (host_->tutorialMissionGauge_->GetIsSuccessFinish()) {
+			host_->ChangeBehavior(new TutorialFreeModeBehavior(host_));
+			return;
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ freModeのチュートリアル
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TutorialFreeModeBehavior::Init() {
+	isNext_ = false;
+	host_->tutorialMissionGauge_->ChangeControlUI("tutorial_gameStart.png");
+}
+
+void TutorialFreeModeBehavior::Update() {
+	Input* input = Input::GetInstance();
+	if (!isNext_) {
+		if (input->IsTriggerButton(XInputButtons::Start)) {
+			isNext_ = true;
+			host_->ToGameScene();
+		}
+	}
 }

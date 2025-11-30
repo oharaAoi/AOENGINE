@@ -94,3 +94,15 @@ private:
 	int totalAttackCout_;
 	int targetValue_ = 10;
 };
+
+/// <summary>
+/// Freeモードのチュートリアル
+/// </summary>
+class TutorialFreeModeBehavior :
+	public ITutorialBehavior {
+public:
+	TutorialFreeModeBehavior(TutorialScene* _host) :ITutorialBehavior(_host) {}
+	~TutorialFreeModeBehavior() override = default;
+	void Init() override;
+	void Update() override;
+};

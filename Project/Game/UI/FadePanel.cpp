@@ -16,7 +16,7 @@ void FadePanel::Init() {
 	isBlackOut_ = false;
 	isFinished_ = false;
 
-	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 10);
+	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 100);
 	panel_->SetTranslate(Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f));
 	panel_->SetColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
 }
