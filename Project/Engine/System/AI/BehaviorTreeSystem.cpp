@@ -11,6 +11,7 @@ void BehaviorTreeSystem::Init() {
 }
 
 void BehaviorTreeSystem::Update() {
+#ifdef _DEBUG
 	// 各Treeの表示
 	for (auto& tree : trees_) {
 		if (ImGui::Begin(tree->GetName().c_str(), nullptr, ImGuiWindowFlags_None)) {
@@ -26,6 +27,7 @@ void BehaviorTreeSystem::Update() {
 		}
 		ImGui::End();
 	}
+#endif
 }
 
 BehaviorTree* BehaviorTreeSystem::Create() {
