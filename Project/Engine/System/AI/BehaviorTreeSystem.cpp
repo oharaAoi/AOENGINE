@@ -12,6 +12,10 @@ void BehaviorTreeSystem::Init() {
 
 void BehaviorTreeSystem::Update() {
 #ifdef _DEBUG
+	if (trees_.empty()) {
+		return;
+	}
+
 	// 各Treeの表示
 	for (auto& tree : trees_) {
 		if (ImGui::Begin(tree->GetName().c_str(), nullptr, ImGuiWindowFlags_None)) {

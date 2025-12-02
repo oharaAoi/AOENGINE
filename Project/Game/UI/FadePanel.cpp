@@ -115,3 +115,7 @@ void FadePanel::SetBlackOutOpen(float timeLimit) {
 	time_ = 0.0f;
 	timeLimit_ = timeLimit;
 }
+
+void FadePanel::SetColor(const Color& _color) {
+	panel_->SetColor(_color);
+}

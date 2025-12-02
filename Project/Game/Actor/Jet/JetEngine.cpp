@@ -10,6 +10,42 @@ JetEngine::~JetEngine() {
 void JetEngine::Finalize() {
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void JetEngine::Debug_Gui() {
+	if (ImGui::TreeNode("Engine")) {
+		transform_->Debug_Gui();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Burn1")) {
+		jetEngineBurn_->Debug_Gui();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNode("Burn2")) {
+		jetEngineBurn2_->Debug_Gui();
+		ImGui::TreePop();
+	}
+
+	if (ImGui::CollapsingHeader("burnParent")) {
+		burnParentTransform_->Debug_Gui();
+	}
+
+	param_.Debug_Gui();
+
+	if (ImGui::Button("Stop")) {
+		this->JetIsStop();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Start")) {
+		this->JetIsStart();
+	}
+}
+
+
 void JetEngine::Parameter::Debug_Gui() {
 	ImGui::DragFloat("engineIncline", &engineIncline);
 	ImGui::DragFloat("burnScaleUpTime", &burnScaleUpTime);
@@ -92,33 +128,6 @@ void JetEngine::Update(float diftX) {
 	transform_->SetRotate(rotate);
 	transform_->Update();
 	burnParentTransform_->Update();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void JetEngine::Debug_Gui() {
-	if (ImGui::TreeNode("Engine")) {
-		transform_->Debug_Gui();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Burn1")) {
-		jetEngineBurn_->Debug_Gui();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Burn2")) {
-		jetEngineBurn2_->Debug_Gui();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::CollapsingHeader("burnParent")) {
-		burnParentTransform_->Debug_Gui();
-	}
-
-	param_.Debug_Gui();
 }
 
 void JetEngine::JetIsStop() {

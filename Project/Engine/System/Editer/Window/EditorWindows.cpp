@@ -59,7 +59,9 @@ void EditorWindows::Update() {
 	ImGui::End();
 
 	// 現在選択されているwindowを描画する
-	windowUpdate_();
+	if (windowUpdate_) {
+		windowUpdate_();
+	}
 	
 	// sceneを描画する
 	processedSceneFrame_->DrawScene();

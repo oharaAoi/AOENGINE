@@ -1,0 +1,117 @@
+{
+    "groundSpark": {
+        "angle": 12.100000381469727,
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "damping": 0.0,
+        "discardValue": 0.009999999776482582,
+        "duration": 5.0,
+        "emitDirection": 1,
+        "emitOrigin": 0,
+        "endDiscard": 1.0,
+        "fadeInTime": 0.0,
+        "fadeOutTime": 0.0,
+        "gravity": -9.729999542236328,
+        "height": 8.5,
+        "isBillBord": true,
+        "isColorAnimation": true,
+        "isDirectionRotate": false,
+        "isDraw2d": false,
+        "isFadeInOut": false,
+        "isLerpDiscardValue": false,
+        "isLifeOfAlpha": false,
+        "isLifeOfScale": true,
+        "isLoop": true,
+        "isParticleAddBlend": true,
+        "isRandomColor": false,
+        "isRandomRotate": true,
+        "isScaleUp": false,
+        "isStretch": false,
+        "isTextureSheetAnimation": false,
+        "lifeOfMaxScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "lifeOfMinScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "lifeTime": 0.6700000166893005,
+        "maxAngle": 360.0,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minAngle": 0.0,
+        "minScale": {
+            "x": 0.4000000059604645,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "postColor": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.2511627674102783,
+            "r": 1.0
+        },
+        "preColor": {
+            "a": 1.0,
+            "b": 0.5209302306175232,
+            "g": 0.6546241044998169,
+            "r": 1.0
+        },
+        "radius": -18.700000762939453,
+        "randColor1": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "randColor2": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "rateOverTimeCout": 96,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleUpScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "separateByAxisScale": false,
+        "shape": 2,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": 2.9700000286102295,
+        "startDiscard": 0.009999999776482582,
+        "tiles": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "plane",
+        "useTexture": "circle.png"
+    }
+}

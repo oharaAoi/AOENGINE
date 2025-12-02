@@ -48,6 +48,9 @@ void SceneManager::Update() {
 		ShadowMap* shadowMap = Render::GetShadowMap();
 		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
+		auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+		window = {};
+
 		systemManager_->Init();
 		scene_->Init();
 	}
@@ -113,6 +116,10 @@ void SceneManager::SetChange(const SceneType& type) {
 
 	ShadowMap* shadowMap = Render::GetShadowMap();
 	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+
+	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+	window = {};
+
 	systemManager_->Init();
 	scene_->Init();
 }
@@ -121,6 +128,10 @@ void SceneManager::Free() {
 	EditorWindows::GetInstance()->Reset();
 	ParticleManager* cpuManager = ParticleManager::GetInstance();
 	GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
+
+	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+	window = {};
+
 	gpuManager->Finalize();
 	cpuManager->Finalize();
 	scene_->Finalize();

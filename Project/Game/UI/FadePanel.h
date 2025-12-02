@@ -41,6 +41,8 @@ public:
 
 	const bool GetDoNoting() const { return doNothing_; }
 
+	void SetColor(const Color& _color);
+
 private:
 
 	Sprite* panel_;

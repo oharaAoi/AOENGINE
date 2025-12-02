@@ -14,11 +14,11 @@ void ParticleEmit::Attribute_Gui() {
 
 		ImGui::Combo("Shape##", &shape, "SPHERE\0BOX\0CONE");
 		if (shape == (int)CpuEmitterShape::Shere) {
-			ImGui::DragFloat("radius", &radius, 0.1f);
+			ImGui::DragFloat("radius", &radius, 0.1f, 0.0f);
 		} else if (shape == (int)CpuEmitterShape::Box) {
 			ImGui::DragFloat3("size", &size.x, 0.1f);
 		} else if (shape == (int)CpuEmitterShape::Cone) {
-			ImGui::DragFloat("radius", &radius, 0.1f);
+			ImGui::DragFloat("radius", &radius, 0.1f, 0.0f);
 			ImGui::DragFloat("angle", &angle, 0.1f);
 			ImGui::DragFloat("height", &height, 0.1f);
 		}

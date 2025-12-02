@@ -4,7 +4,7 @@
         "ps": "./Project/Packages/Engine/Assets/HLSL/Sprite.PS.hlsl",
         "blendMode": "Normal",
         "culling" : true,
-        "depth" : true,
+        "depth" : false,
         "rtvFormat" : [
             "8_sRGB"
         ]

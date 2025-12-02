@@ -35,8 +35,7 @@ void TitleScene::Init() {
 	fadePanel_->Init();
 	fadePanel_->SetBlackOutOpen();
 
-	gameModeGuide_ = std::make_unique<GameModeGuide>();
-	gameModeGuide_->Init();
+	ChangeBehavior(new TitlePushSpaceBehavior(this));
 
 	DirectionalLight* light = Render::GetLightGroup()->GetDirectionalLight();
 	light->SetIntensity(0.3f);
@@ -50,26 +49,7 @@ void TitleScene::Update() {
 
 	fadePanel_->Update();
 
-	if (putButton_) {
-		if (fadePanel_->GetIsFinished()) {
-			gameModeGuide_->Open();
-		}
-	} else {
-		if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA) || Input::GetInstance()->GetKey(DIK_SPACE)) {
-			fadePanel_->SetBlackOut();
-			putButton_ = true;
-		}
-	}
-
-	gameModeGuide_->Update();
-
-	if (gameModeGuide_->Decide()) {
-		if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToGame) {
-			nextSceneType_ = SceneType::Game;
-		} else if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToTutorial) {
-			nextSceneType_ = SceneType::Tutorial;
-		}
-	}
+	titleBehavior_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 
@@ -80,4 +60,55 @@ void TitleScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
+}
+
+void TitleScene::ChangeBehavior(ITitleBahavior* _newBehavior) {
+	titleBehavior_.reset(_newBehavior);
+	if (titleBehavior_) {
+		titleBehavior_->Init();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ pushSpace用のBehavior
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TitlePushSpaceBehavior::Init() {
+	putButton_ = false;
+}
+
+void TitlePushSpaceBehavior::Update() {
+	if (!putButton_) {
+		if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
+			putButton_ = true;
+			host_->GetFadePanel()->SetBlackOut();
+		}
+	} else {
+		if (host_->GetFadePanel()->GetIsFinished()) {
+			host_->ChangeBehavior(new TitleGameModeGuideBehavior(host_));
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ GameMode選択用のBehavior
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TitleGameModeGuideBehavior::Init() {
+	gameModeGuide_ = std::make_unique<GameModeGuide>();
+	gameModeGuide_->Init();
+	gameModeGuide_->Open();
+	host_->GetFadePanel()->SetColor(Color::black);
+}
+
+void TitleGameModeGuideBehavior::Update() {
+	gameModeGuide_->Update();
+
+	if (gameModeGuide_->Decide()) {
+		if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToGame) {
+			host_->SetNextSceneType(SceneType::Game);
+		} else if (gameModeGuide_->GetSelectModeType() == SelectModeType::ToTutorial) {
+			host_->SetNextSceneType(SceneType::Tutorial);
+		}
+	}
 }
