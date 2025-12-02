@@ -49,7 +49,7 @@ public:
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
 				for (int oi = 0; oi < 4; oi++) {
-					result.m[row][col] += this->m[row][oi] * obj.m[oi][col];
+					result.m[row][col] += m[row][oi] * obj.m[oi][col];
 				}
 			}
 		}

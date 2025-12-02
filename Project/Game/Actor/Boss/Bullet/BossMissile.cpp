@@ -33,7 +33,7 @@ void BossMissile::Init() {
 	accelTimer_ = Timer(1.0f);
 
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = ParticleManager::GetInstance()->CrateParticle("MissileBurnSmoke");
+	smoke_ = ParticleManager::GetInstance()->CrateParticle("cloud");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);

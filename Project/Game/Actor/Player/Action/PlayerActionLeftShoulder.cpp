@@ -75,7 +75,6 @@ void PlayerActionLeftShoulder::Shot() {
 	if (pOwner_->GetIsLockOn()) {
 		pOwner_->Attack(PlayerWeapon::Left_Shoulder, AttackContext(dire, pOwner_->GetTargetPos()));
 	} else {
-		Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
 		pOwner_->Attack(PlayerWeapon::Left_Shoulder, AttackContext(dire, dire * 200.0f));
 	}
 }
