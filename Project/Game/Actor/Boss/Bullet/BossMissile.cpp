@@ -23,6 +23,7 @@ void BossMissile::Init() {
 	ICollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::Field::ground);
+	collider->SetTarget(ColliderTags::Field::building);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
 
@@ -114,7 +115,7 @@ void BossMissile::Accelerate() {
 }
 
 void BossMissile::OnCollision(ICollider* other) {
-	if (other->GetCategoryName() == ColliderTags::None::own) {
+	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Field::building) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());

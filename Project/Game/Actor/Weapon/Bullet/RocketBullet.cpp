@@ -41,7 +41,7 @@ void RocketBullet::Init() {
 	// ↓ effectの設定
 	// ----------------------
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = ParticleManager::GetInstance()->CrateParticle("Launcher");
+	smoke_ = ParticleManager::GetInstance()->CrateParticle("cloud");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);

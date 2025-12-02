@@ -29,6 +29,7 @@ namespace ColliderTags {
 
 	namespace Field {
 		const std::string ground = "ground";
+		const std::string building = "building";
 	}
 }
 
@@ -50,6 +51,7 @@ inline std::list<std::string> GetColliderTagsList() {
 		ColliderTags::Bullet::rocket,
 
 		ColliderTags::Field::ground,
+		ColliderTags::Field::building
 	};
 
 	return colliderTags;
