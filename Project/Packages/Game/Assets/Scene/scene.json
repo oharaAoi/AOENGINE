@@ -181,62 +181,6 @@
         },
         {
             "type": "MESH",
-            "name": "sbill.002",
-            "transform": {
-                "translation": [
-                    65.00287628173828,
-                    -63.587257385253906,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    6.0,
-                    10.0,
-                    1.0
-                ]
-            },
-            "disabled": false,
-            "file_name": "sbill.obj",
-            "colliders": [
-                {
-                    "type": "BOX",
-                    "center": [
-                        0.0,
-                        0.0,
-                        2.5199999809265137
-                    ],
-                    "size": [
-                        6.679999828338623,
-                        2.0899999141693115,
-                        5.179999828338623
-                    ],
-                    "tag": "building",
-                    "collisionFilter_tags": [
-                        "player",
-                        "playerLeg",
-                        "boss",
-                        "bossAttack",
-                        "bossMissile",
-                        "machinegun",
-                        "launcher",
-                        "playerRightLeg",
-                        "playerLeftLeg",
-                        "laser"
-                    ]
-                }
-            ],
-            "collider_tag": "laser",
-            "collisionFilter_tags": [
-                "player",
-                "playerLeg"
-            ]
-        },
-        {
-            "type": "MESH",
             "name": "sbill.003",
             "transform": {
                 "translation": [
@@ -337,62 +281,6 @@
                         "launcher",
                         "playerRightLeg",
                         "playerLeftLeg",
-                        "laser"
-                    ]
-                }
-            ],
-            "collider_tag": "laser",
-            "collisionFilter_tags": [
-                "player",
-                "playerLeg"
-            ]
-        },
-        {
-            "type": "MESH",
-            "name": "bill",
-            "transform": {
-                "translation": [
-                    -91.55691528320312,
-                    62.46754455566406,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    90.00000762939453
-                ],
-                "scaling": [
-                    15.0,
-                    8.0,
-                    2.0
-                ]
-            },
-            "disabled": false,
-            "file_name": "bill.obj",
-            "colliders": [
-                {
-                    "type": "BOX",
-                    "center": [
-                        0.0,
-                        0.0,
-                        1.2000000476837158
-                    ],
-                    "size": [
-                        3.799999952316284,
-                        2.0899999141693115,
-                        2.9599997997283936
-                    ],
-                    "tag": "building",
-                    "collisionFilter_tags": [
-                        "player",
-                        "playerLeg",
-                        "boss",
-                        "bossAttack",
-                        "bossMissile",
-                        "machinegun",
-                        "launcher",
-                        "playerLeftLeg",
-                        "playerRightLeg",
                         "laser"
                     ]
                 }
@@ -947,62 +835,6 @@
             "collisionFilter_tags": [
                 "player",
                 "boss"
-            ]
-        },
-        {
-            "type": "MESH",
-            "name": "bill.002",
-            "transform": {
-                "translation": [
-                    -91.67536163330078,
-                    -27.319299697875977,
-                    0.23745842278003693
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    90.00000762939453
-                ],
-                "scaling": [
-                    15.0,
-                    8.0,
-                    2.0
-                ]
-            },
-            "disabled": false,
-            "file_name": "bill.obj",
-            "colliders": [
-                {
-                    "type": "BOX",
-                    "center": [
-                        0.0,
-                        0.0,
-                        1.2000000476837158
-                    ],
-                    "size": [
-                        3.799999952316284,
-                        2.0899999141693115,
-                        2.9599997997283936
-                    ],
-                    "tag": "building",
-                    "collisionFilter_tags": [
-                        "player",
-                        "playerLeg",
-                        "boss",
-                        "bossAttack",
-                        "bossMissile",
-                        "machinegun",
-                        "launcher",
-                        "playerLeftLeg",
-                        "playerRightLeg",
-                        "laser"
-                    ]
-                }
-            ],
-            "collider_tag": "laser",
-            "collisionFilter_tags": [
-                "player",
-                "playerLeg"
             ]
         },
         {
