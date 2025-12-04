@@ -95,6 +95,7 @@ public:
 	}
 
 	Vector3 GetPos() const { return Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
+	Vector3 GetOffsetPos() const { return Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
 
 	QuaternionSRT& GetSRT() { return srt_; }
 	const Vector3 GetScale() const { return srt_.scale; }
@@ -104,6 +105,8 @@ public:
 	const Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
 	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
+
+	void SetOffset(const Vector3& _offset) { offset_ = _offset; }
 
 public:
 
@@ -133,5 +136,7 @@ private:
 	static int nextId_;
 
 	bool isBillboard_;
+
+	Vector3 offset_ = CVector3::ZERO;
 };
 

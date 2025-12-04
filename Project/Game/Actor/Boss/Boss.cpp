@@ -58,6 +58,7 @@ void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
 	ImGui::DragFloat("angularVelocity", &angularVelocity, 0.1f);
 	ImGui::DragFloat("angularThreshold", &angularThreshold, 0.1f);
+	ImGui::Text("text : %s", worldStatePath.c_str());
 	SaveAndLoad();
 }
 
@@ -160,7 +161,7 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
-	targetPos_ = targetTransform_->GetPos();
+	targetPos_ = targetTransform_->GetOffsetPos();
 
 	initParam_.worldStatePath = worldState_->GetPath();
 	worldState_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());

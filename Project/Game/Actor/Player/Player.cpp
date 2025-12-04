@@ -8,6 +8,7 @@
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
+#include "Game/Actor/Player/State/PlayerDeadState.h"
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionJump.h"
@@ -72,6 +73,8 @@ void Player::Parameter::Debug_Gui() {
 	ImGui::DragFloat("inclineThreshold", &inclineThreshold, 0.01f, 0.0f);
 	ImGui::DragFloat3("cameraOffset", &cameraOffset.x, 0.01f, 0.0f);
 
+	ImGui::DragFloat3("translateOffset", &translateOffset.x, 0.01f, 0.0f);
+
 	SaveAndLoad();
 }
 
@@ -88,6 +91,7 @@ void Player::Init() {
 
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
+	transform_->SetOffset(param_.translateOffset);
 	object_->SetOffset(param_.cameraOffset);
 
 	// -------------------------------------------------
@@ -162,6 +166,7 @@ void Player::Init() {
 	deployArmor_ = false;
 	isDead_ = false;
 	isAttack_ = false;
+	isExpload_ = false;
 
 	param_.postureStability -= initParam_.postureStability;
 
@@ -182,6 +187,7 @@ void Player::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
+	transform_->SetOffset(param_.translateOffset);
 	// boostの判定
 	IsBoostMode();
 	// actionの更新
@@ -311,6 +317,7 @@ void Player::Damage(float _damage) {
 	param_.health -= _damage;
 	if (param_.health <= 0.f) {
 		isDead_ = true;
+		stateMachine_->ChangeState<PlayerDeadState>();
 	}
 	// 姿勢安定性を減らす
 	param_.postureStability += _damage * 0.5f;

@@ -11,7 +11,7 @@ RWStructuredBuffer<int> gFreeList : register(u2);
 ConstantBuffer<PerFrame> gPerFrame : register(b0);
 ConstantBuffer<MaxParticle> gMaxParticles : register(b1);
 
-[numthreads(128, 1, 1)]
+[numthreads(256, 1, 1)]
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	int particleIndex = DTid.x;
 	if (DTid.x >= gMaxParticles.maxParticles) {

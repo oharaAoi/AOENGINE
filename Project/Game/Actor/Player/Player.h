@@ -49,6 +49,7 @@ public:		// data
 		float inclineThreshold = 10.0f;
 
 		Vector3 cameraOffset = CVector3::ZERO;
+		Vector3 translateOffset = CVector3::ZERO;
 
 		Parameter() {
 			SetGroupName("Player");
@@ -70,6 +71,7 @@ public:		// data
 				.Add("inclineReactionRate", inclineReactionRate)
 				.Add("inclineThreshold", inclineThreshold)
 				.Add("cameraOffset", cameraOffset)
+				.Add("translateOffset", translateOffset)
 				.Build();
 		}
 
@@ -87,6 +89,7 @@ public:		// data
 			fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
 			fromJson(jsonData, "inclineThreshold", inclineThreshold);
 			fromJson(jsonData, "cameraOffset", cameraOffset);
+			fromJson(jsonData, "translateOffset", translateOffset);
 		}
 
 		void Debug_Gui() override;
@@ -232,6 +235,9 @@ public: // accessor method
 	void SetIsDead(bool _isDead) { isDead_ = _isDead; }
 	bool GetIsDead() const { return isDead_; }
 
+	void SetIsExpload(bool _isExpload) { isExpload_ = _isExpload; }
+	bool GetIsExpload() const { return isExpload_; }
+
 	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
 	const Matrix4x4& GetLeftShoulderMat() { return leftShoulderMat_; }
 	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
@@ -260,6 +266,7 @@ private:
 	bool deployArmor_;
 	bool isDead_ = false;
 	bool isAttack_ = false;
+	bool isExpload_ = false;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

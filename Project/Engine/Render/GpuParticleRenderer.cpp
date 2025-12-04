@@ -34,6 +34,8 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	material_->Init();
 	material_->SetAlbedoTexture("circle.png");
 
+	groups_ = (_instanceNum + threads_ - 1) / threads_;
+
 	// 初期化コマンドの実行
 	Engine::SetPipelineCS("GpuParticleInit.json");
 	Pipeline* pso =  Engine::GetLastUsedPipelineCS();
@@ -46,7 +48,7 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	commandList->SetComputeRootDescriptorTable(index, freeListResource_->GetUAV().handleGPU);
 	index = pso->GetRootSignatureIndex("gMaxParticles");
 	commandList->SetComputeRootConstantBufferView(index, maxParticleBuffer_->GetGPUVirtualAddress());
-	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
+	commandList->Dispatch(groups_, 1, 1);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,9 +74,7 @@ void GpuParticleRenderer::Update() {
 	index = pso->GetRootSignatureIndex("gMaxParticles");
 	commandList->SetComputeRootConstantBufferView(index, maxParticleBuffer_->GetGPUVirtualAddress());
 
-	const UINT threadGroupSize = 128; // numthreadsのx成分と一致させる
-	UINT dispatchCount = (kInstanceNum_ + threadGroupSize - 1) / threadGroupSize;
-	commandList->Dispatch(dispatchCount, 1, 1);
+	commandList->Dispatch(groups_, 1, 1);
 
 	// UAVの変更
 	D3D12_RESOURCE_BARRIER barrier{};

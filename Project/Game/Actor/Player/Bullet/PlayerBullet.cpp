@@ -23,11 +23,7 @@ void PlayerBullet::Init() {
 
 	type_ = BulletType::Normal;
 
-	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
-	trail_->SetParent(transform_->GetWorldMatrix());
-
 	object_->SetIsRendering(false);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,4 +57,13 @@ void PlayerBullet::OnCollision(ICollider* other) {
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 	}
+}
+
+void PlayerBullet::Reset(const Vector3& pos, const Vector3& velocity) {
+	transform_->srt_.translate = pos;
+	transform_->Update();
+	velocity_ = velocity;
+
+	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
+	trail_->SetParent(transform_->GetWorldMatrix());
 }

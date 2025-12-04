@@ -76,6 +76,10 @@ void PlayerManager::PostUpdate() {
 	laserRifle_->Update();
 }
 
+bool PlayerManager::CheckIsDead() {
+	return player_->GetIsExpload();
+}
+
 void PlayerManager::CheckAction() {
 	if (player_->GetIsDeployArmor()) {
 		if (!armors_->GetIsDeploy()) {

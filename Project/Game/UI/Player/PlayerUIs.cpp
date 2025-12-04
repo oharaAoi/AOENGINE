@@ -10,6 +10,9 @@ void PlayerUIs::Init(Player* _player) {
 	ap_->SetName("AP");
 	ap_->Load("PlayerUIs", "AP");
 
+	boostOn_ = canvas->AddSprite("boostOn.png", "boostOn");
+	boostOn_->Load("PlayerUIs", "BoostOn");
+
 	energyOutput_ = std::make_unique<EnergyOutput>();
 	energyOutput_->Init("PlayerUIs", "EnergyOutput");
 
@@ -29,6 +32,7 @@ void PlayerUIs::Init(Player* _player) {
 	rightShoulderWeapon_->Init("rightShoulderWeaponGauge");
 
 	AddChild(ap_);
+	AddChild(boostOn_);
 	AddChild(health_.get());
 	AddChild(energyOutput_.get());
 	AddChild(postureStability_.get());
@@ -45,6 +49,12 @@ void PlayerUIs::Update(const Vector2& reticlePos) {
 	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
 
 	ap_->Update();
+
+	if (pPlayer_->GetIsBoostMode()) {
+		boostOn_->SetEnable(true);
+	} else {
+		boostOn_->SetEnable(false);
+	}
 
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);
 

@@ -33,6 +33,7 @@ void BossMissile::Init() {
 
 	accelTimer_ = Timer(1.0f);
 
+	shotFrea_ = ParticleManager::GetInstance()->CrateParticle("shotFrea");
 	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
 	smoke_ = ParticleManager::GetInstance()->CrateParticle("cloud");
 	burn_->SetParent(transform_->GetWorldMatrix());
@@ -81,6 +82,8 @@ void BossMissile::Reset(const Vector3& pos, const Vector3& velocity, const Vecto
 		finishTracking_ = true;
 		velocity_ = (targetPosition_ - transform_->srt_.translate).Normalize() * targetSpeed_;
 	}
+
+	shotFrea_->SetPos(pos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

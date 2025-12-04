@@ -5,7 +5,7 @@ RWStructuredBuffer<int> gFreeListIndex : register(u1);
 RWStructuredBuffer<uint> gFreeList : register(u2);
 ConstantBuffer<MaxParticle> gMaxParticles : register(b0);
 
-[numthreads(1024, 1, 1)]
+[numthreads(256, 1, 1)]
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	int countIndex = DTid.x;
 	

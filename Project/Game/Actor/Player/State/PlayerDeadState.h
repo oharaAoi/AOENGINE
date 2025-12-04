@@ -1,0 +1,69 @@
+#pragma once
+#include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
+#include "Game/State/ICharacterState.h"
+
+class Player;
+
+class PlayerDeadState :
+	public ICharacterState<Player> {
+public: // データ構造体
+
+	struct Parameter : public IJsonConverter {
+		float knockbackTime = 0.2f;			// ノックバックの時間
+		float knockStrength = 10.0f;			// ノックバックの強さ
+		float knockDecay = 0.8f;			// ノックバックの減衰
+
+		Parameter() {
+			SetGroupName("PlayerState");
+			SetName("DeadState");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return JsonBuilder(id)
+				.Add("knockbackTime", knockbackTime)
+				.Add("knockStrength", knockStrength)
+				.Add("knockDecay", knockDecay)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "knockbackTime", knockbackTime);
+			fromJson(jsonData, "knockStrength", knockStrength);
+			fromJson(jsonData, "knockDecay", knockDecay);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
+
+	PlayerDeadState() = default;
+	~PlayerDeadState() = default;
+
+public:
+
+	// 初期化
+	void OnStart() override;
+	// 更新
+	void OnUpdate() override;
+	// 終了
+	void OnExit() override;
+	// 編集
+	void Debug_Gui() override;
+
+private:
+
+	// ノックバック処理
+	void Knockback();
+
+private:
+
+	Parameter param_;
+
+	Timer timer_;
+
+	Vector3 velocity_ = CVector3::ZERO;
+	Vector3 acceleration_ = CVector3::ZERO;
+};
+

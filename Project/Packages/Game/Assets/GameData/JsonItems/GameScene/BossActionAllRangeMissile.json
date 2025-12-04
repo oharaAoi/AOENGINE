@@ -1,5 +1,10 @@
 {
     "BossActionAllRangeMissile": {
-        "recoveryTime": 1.0
+        "bulletSpeed": 90.0,
+        "fireNum": 9,
+        "firstSpeedRaito": 0.10000000149011612,
+        "recoveryTime": 1.0,
+        "takeDamage": 20.0,
+        "trakingRaito": 0.05000000074505806
     }
 }

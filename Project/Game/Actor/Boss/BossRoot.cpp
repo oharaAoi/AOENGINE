@@ -20,6 +20,10 @@ void BossRoot::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossRoot::Update() {
+	if (pPlayer_->GetIsDead()) {
+		boss_->GetBehaviorTree()->SetExecute(false);
+	}
+
 	boss_->SetIsTargetDead(pPlayer_->GetIsDead());
 	boss_->Update();
 

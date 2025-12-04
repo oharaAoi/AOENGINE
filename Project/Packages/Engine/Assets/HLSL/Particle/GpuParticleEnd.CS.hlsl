@@ -4,7 +4,7 @@ static const int kMaxParticles = 1024;
 RWStructuredBuffer<GpuParticle> gParticles : register(u0);
 RWStructuredBuffer<int> gAllAlphaZero : register(u1);
 
-[numthreads(1, 1, 1)]
+[numthreads(256, 1, 1)]
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	 // 初期化
 	gAllAlphaZero[0] = 1;

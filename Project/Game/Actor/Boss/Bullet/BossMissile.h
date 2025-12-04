@@ -77,6 +77,7 @@ private :
 
 	BaseParticles* burn_;
 	BaseParticles* smoke_;
+	BaseParticles* shotFrea_;
 
 };
 

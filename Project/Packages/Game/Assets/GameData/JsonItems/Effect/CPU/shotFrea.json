@@ -1,7 +1,7 @@
 {
-    "cloud": {
+    "shotFrea": {
         "angle": 27.0,
-        "angleMax": 1.0,
+        "angleMax": 360.0,
         "angleMin": 0.0,
         "color": {
             "a": 1.0,
@@ -27,13 +27,13 @@
         "isLerpDiscardValue": false,
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
-        "isLoop": true,
-        "isParticleAddBlend": false,
+        "isLoop": false,
+        "isParticleAddBlend": true,
         "isRandomColor": false,
-        "isRandomRotate": true,
-        "isScaleUp": false,
+        "isRandomRotate": false,
+        "isScaleUp": true,
         "isStretch": false,
-        "isTextureSheetAnimation": true,
+        "isTextureSheetAnimation": false,
         "lifeOfMaxScale": {
             "x": 0.0,
             "y": 0.0,
@@ -44,24 +44,24 @@
             "y": 1.0,
             "z": 1.0
         },
-        "lifeTime": 0.6000000238418579,
+        "lifeTime": 0.4000000059604645,
         "maxAngle": 360.0,
         "maxScale": {
-            "x": 3.0,
+            "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
         "minAngle": 0.0,
         "minScale": {
-            "x": 2.0,
+            "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
         "postColor": {
             "a": 1.0,
-            "b": 0.6372092962265015,
-            "g": 0.6372092962265015,
-            "r": 0.6372092962265015
+            "b": 0.03651706501841545,
+            "g": 0.3529413640499115,
+            "r": 0.9813953638076782
         },
         "preColor": {
             "a": 1.0,
@@ -82,16 +82,16 @@
             "g": 0.0,
             "r": 0.0
         },
-        "rateOverTimeCout": 16,
+        "rateOverTimeCout": 4,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
         "scaleUpScale": {
-            "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "x": 10.0,
+            "y": 10.0,
+            "z": 1.0
         },
         "separateByAxisScale": false,
         "shape": 0,
@@ -103,8 +103,8 @@
         "speed": 0.0,
         "startDiscard": 0.009999999776482582,
         "tiles": {
-            "x": 8.0,
-            "y": 4.0
+            "x": 1.0,
+            "y": 1.0
         },
         "translate": {
             "x": 0.0,
@@ -112,6 +112,6 @@
             "z": 0.0
         },
         "useMesh": "plane",
-        "useTexture": "cloudAnimation.png"
+        "useTexture": "cross.png"
     }
 }

@@ -92,8 +92,8 @@ void GameScene::Init() {
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
 
-	emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("rain");
-	field_ = GpuParticleManager::GetInstance()->CreateField("Window");
+	/*emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("rain");
+	field_ = GpuParticleManager::GetInstance()->CreateField("Window");*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,6 +116,18 @@ void GameScene::Update() {
 	canvas_->Update();
 
 	if (canvas_->IsFinishClearNotification()) {
+		fadePanel_->SetBlackOut(3.0f);
+		fadePanel_->Update();
+
+		if (fadePanel_->GetIsFinished()) {
+			nextSceneType_ = SceneType::Title;
+		}
+	}
+
+	// -------------------------------------------------
+	// ↓ playerの死亡確認
+	// -------------------------------------------------
+	if (playerManager_->CheckIsDead()) {
 		fadePanel_->SetBlackOut(3.0f);
 		fadePanel_->Update();
 

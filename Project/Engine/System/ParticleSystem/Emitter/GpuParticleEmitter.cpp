@@ -168,4 +168,6 @@ void GpuParticleEmitter::SetItem() {
 
 void GpuParticleEmitter::SetParent(const Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
+	emitterData_->pos = emitterItem_.pos + parentWorldMat_->GetPosition();
+	emitterData_->prePos = emitterData_->pos;
 }

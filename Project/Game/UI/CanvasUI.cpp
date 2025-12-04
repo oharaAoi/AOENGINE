@@ -8,12 +8,9 @@
 
 void CanvasUI::Init(bool _isTutorial) {
 	isTutorial_ = _isTutorial;
-	Canvas2d* canvas = Engine::GetCanvas2d();
 
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();
-
-	boostOn_ = canvas->AddSprite("boostOn.png", "boostOn");
 
 	// player
 	playerUIs_ = std::make_unique<PlayerUIs>();
@@ -50,14 +47,6 @@ void CanvasUI::Update() {
 	// -------------------------------------------------
 	// ↓ 各更新処理
 	// -------------------------------------------------
-
-	boostOn_->SetTranslate(boostOnPos_);
-	boostOn_->SetScale(boostOnScale_);
-	if (pPlayer_->GetIsBoostMode()) {
-		boostOn_->SetEnable(true);
-	} else {
-		boostOn_->SetEnable(false);
-	}
 	
 	// boss
 	bossUIs_->Update(reticle_->GetPos(), reticle_->GetLockOn());
@@ -83,7 +72,6 @@ void CanvasUI::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Debug_Gui() {
-	boostOn_->Debug_Gui();
 	ImGui::DragFloat2("boostOnPos_", &boostOnPos_.x);
 	ImGui::DragFloat2("boostOnScale_", &boostOnScale_.x);
 }

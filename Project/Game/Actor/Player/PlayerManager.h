@@ -28,6 +28,9 @@ public:
 	// 遅れて更新
 	void PostUpdate();
 
+	// player死亡確認
+	bool CheckIsDead();
+
 private:
 
 	// 各アクションのチェック項目を判定する

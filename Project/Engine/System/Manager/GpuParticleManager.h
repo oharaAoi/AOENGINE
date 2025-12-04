@@ -66,5 +66,7 @@ private:
 
 	std::list<std::unique_ptr<GpuParticleField>> fileds_;
 
+	const uint32_t instance_ = 1280000;
+
 };
 

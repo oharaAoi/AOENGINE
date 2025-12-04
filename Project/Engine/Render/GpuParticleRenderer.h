@@ -109,5 +109,8 @@ private:
 	std::unique_ptr<GeometryObject> shape_;
 	std::unique_ptr<Material> material_;
 
+	uint32_t groups_;
+	const uint32_t threads_ = 256;
+
 };
 

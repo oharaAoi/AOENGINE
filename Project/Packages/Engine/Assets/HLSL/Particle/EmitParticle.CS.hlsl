@@ -91,6 +91,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			if (countIndex > 1) {
 				t = (countIndex) / float(gEmitter.count - 1);
 			}
+			t = clamp(t, 0.0f, 1.0f);
 			float3 pos = lerp(gEmitter.prePos, gEmitter.pos, t);
 			
 			// 半径から射出位置を決定する
@@ -125,8 +126,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				}
 			}
 			
-			gParticles[particleIndex].
-				rotate = float3(0, 0, 0);
+			gParticles[particleIndex].rotate = float3(0, 0, 0);
 			gParticles[particleIndex].pos = emitPos;
 			gParticles[particleIndex].color.rgb = gEmitter.color.rgb;
 			gParticles[particleIndex].color.a = gEmitter.color.a;
@@ -148,7 +148,6 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				float direY = generator.Generated1dRange(-1, 1);
 				float direZ = generator.Generated1dRange(-1, 1);
 				gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, float3(direX, direY, direZ)) * gEmitter.speed;
-				
 			}
 		}
 		else {

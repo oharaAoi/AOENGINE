@@ -71,8 +71,7 @@ private:
 	// player
 	std::unique_ptr<PlayerUIs> playerUIs_;
 	std::unique_ptr<Reticle> reticle_;	// reticle
-	Sprite* boostOn_; // 姿勢安定度ゲージ
-
+	
 	Vector2 boostOnPos_ = {940.0f, 640.0f};
 	Vector2 boostOnScale_ = {0.3f, 0.3f};
 
