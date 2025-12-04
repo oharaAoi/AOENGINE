@@ -2,7 +2,6 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
 #include "Game/UI/Boss/BossUIs.h"
-#include "Engine/Lib/Json/JsonItems.h"
 
 BehaviorStatus BossActionAllRangeMissile::Execute() {
 	return Action();
@@ -57,14 +56,14 @@ void BossActionAllRangeMissile::Init() {
 	param_.Load();
 	// 
 	taskTimer_ = 0.f;
-	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 
 	mainAction_ = std::bind(&BossActionAllRangeMissile::LookPlayer, this);
 
 	isFinishShot_ = false;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
 	waitTimer_.targetTime_ = param_.recoveryTime;
@@ -117,7 +116,7 @@ void BossActionAllRangeMissile::Shot() {
 			dir = rot.Rotate(dir);
 
 			Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
-			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																						param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 			missile->SetTakeDamage(param_.takeDamage);
 		}

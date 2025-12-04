@@ -35,6 +35,8 @@ public:
 
 	void SetPlayer(Player* _player) { pPlayer_ = _player; }
 
+	void SetTargetTransform(WorldTransform* _transform) { boss_->SetTargerTransform(_transform); }
+
 private:
 
 	std::unique_ptr<Boss> boss_;

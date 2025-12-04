@@ -115,7 +115,7 @@ public:
 	/// <param name="q2"></param>
 	/// <param name="t"></param>
 	/// <returns></returns>
-	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t);
+	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float& t = 0.1f);
 
 
 	static Quaternion RotateTowards(const Quaternion& q1, const Quaternion& q2, float maxDegreesDelta);
@@ -153,8 +153,7 @@ public:
 public:
 
 	Quaternion operator*(const Quaternion& q2) const;
-	//Vector3 operator*(const Vector3& v);
-
+	
 	Vector3 operator*(const Vector3& v) const;
 
 	operator Vector4() const {

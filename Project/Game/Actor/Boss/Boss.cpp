@@ -24,6 +24,7 @@
 #include "Game/Actor/Boss/Action/Attack/BossActionAllRangeMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionVerticalMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionRapidfire.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionDualStageMissile.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 
 #include "Game/Actor/Boss/GoalOriented/TargetDeadOriented.h"
@@ -114,8 +115,9 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDeployArmor>(this, "DeployArmor"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(true);
+	behaviorTree_->SetExecute(false);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
 	evaluationFormula_->Init(this);
@@ -158,8 +160,10 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	targetPos_ = targetTransform_->GetPos();
+
 	initParam_.worldStatePath = worldState_->GetPath();
-	worldState_->Set<float>("BossToPlayer", (transform_->GetPos() - playerPosition_).Length());
+	worldState_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());
 	worldState_->Set<bool>("deployArmor", isArmorDeploy_);
 	worldState_->Set<bool>("isAttack", isAttack_);
 
@@ -242,7 +246,7 @@ void Boss::ResetStan() {
 
 bool Boss::TargetLook() {
 	// 目標の方向を計算する
-	Quaternion targetRotate = Quaternion::LookRotation(playerPosition_ - transform_->GetPos());
+	Quaternion targetRotate = Quaternion::LookRotation(targetTransform_->GetPos() - transform_->GetPos());
 	// なす角を求める
 	float angle = Quaternion::Angle(transform_->GetRotate(), targetRotate);
 

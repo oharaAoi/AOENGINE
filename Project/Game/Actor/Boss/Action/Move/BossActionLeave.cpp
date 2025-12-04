@@ -106,6 +106,6 @@ void BossActionLeave::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->srt_.rotate, playerToRotate_, param_.rotateT);
 }

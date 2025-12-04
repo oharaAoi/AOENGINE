@@ -34,7 +34,7 @@ void BossActionApproach::Init() {
 	param_ = initParam_;
 
 	// player方向を計算する
-	toPlayer_ = pTarget_->GetPlayerPosition() - pTarget_->GetPosition();
+	toPlayer_ = pTarget_->GetTargetPos() - pTarget_->GetPosition();
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
 
@@ -86,7 +86,7 @@ void BossActionApproach::Approach() {
 
 void BossActionApproach::SpinApproach() {
 	// player方向を計算する
-	toPlayer_ = pTarget_->GetPlayerPosition() - pTarget_->GetPosition();
+	toPlayer_ = pTarget_->GetTargetPos() - pTarget_->GetPosition();
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
 

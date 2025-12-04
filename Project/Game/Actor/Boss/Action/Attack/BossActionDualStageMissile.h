@@ -1,59 +1,72 @@
 #pragma once
 #include <memory>
-#include <functional>
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/System/AI/Node/ITaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
 
 class Boss;
 
 /// <summary>
-/// 全方位にミサイルを飛ばすアクション
+/// 2弾式のミサイル
 /// </summary>
-class BossActionAllRangeMissile :
+class BossActionDualStageMissile :
 	public ITaskNode<Boss> {
-public:
+public: // データ構造体
 
 	struct Parameter : public IJsonConverter {
-		float recoveryTime = 1.0f;		// 攻撃後の硬直時間
-		float bulletSpeed = 90.0f;		// 弾速
-		float takeDamage = 30.0f;		// 与えるダメージ
-		uint32_t fireNum = 9;			// 発射する数
+		float weight = 0.5f;
+		float recoveryTime = 1.0f;	// 攻撃後の硬直時間
+		float bulletSpeed = 90.0f;	// 弾速
+		float takeDamage = 30.0f;	// 与えるダメージ
+		uint32_t fireNum = 14;		// 発射する数
 		float firstSpeedRaito = 0.1f;	// 初期速度の割合
 		float trakingRaito = 0.05f;		// 追従の割合
-		
-		Parameter() { SetName("BossActionAllRangeMissile"); }
+
+		float spreadAngleDeg = 60.0f;	// 拡散する角度
+		float secondPhaseTime = 0.5f;	// 2発目までの時間
+		float lineOffset = 1.0f;		// 2列間の距離
+
+		Parameter() { SetName("BossActionDualStageMissile"); }
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
+				.Add("weight", weight)
 				.Add("recoveryTime", recoveryTime)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("takeDamage", takeDamage)
 				.Add("fireNum", fireNum)
 				.Add("firstSpeedRaito", firstSpeedRaito)
 				.Add("trakingRaito", trakingRaito)
+				.Add("spreadAngleDeg", spreadAngleDeg)
+				.Add("secondPhaseTime", secondPhaseTime)
+				.Add("lineOffset", lineOffset)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
+			fromJson(jsonData, "weight", weight);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "takeDamage", takeDamage);
 			fromJson(jsonData, "fireNum", fireNum);
 			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
 			fromJson(jsonData, "trakingRaito", trakingRaito);
+			fromJson(jsonData, "spreadAngleDeg", spreadAngleDeg);
+			fromJson(jsonData, "secondPhaseTime", secondPhaseTime);
+			fromJson(jsonData, "lineOffset", lineOffset);
 		}
 
 		void Debug_Gui() override;
 	};
 
-public:
+public: // コンストラクタ
 
-	BossActionAllRangeMissile() = default;
-	~BossActionAllRangeMissile() override = default;
+	BossActionDualStageMissile() = default;
+	~BossActionDualStageMissile() = default;
 
 	std::shared_ptr<IBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionAllRangeMissile>(*this);
+		return std::make_shared<BossActionDualStageMissile>(*this);
 	}
 
 public:
@@ -75,7 +88,7 @@ public:
 	// 終了処理
 	void End() override;
 
-private :
+private:
 
 	/// <summary>
 	/// 発射
@@ -87,19 +100,16 @@ private :
 	/// </summary>
 	void LookPlayer();
 
-private :
+private:
 
 	Parameter param_;
 
-	Quaternion playerToRotation_;
-
-	// LookPlayerに関する変数
-	float lookTime_ = 1.f;
-
 	// 弾を打ち終わったかのフラグ
-	bool isFinishShot_;
+	bool isFinishShot_ = false;
 
-	std::function<void()> mainAction_;
+	// 2発目かどうか
+	bool isSecondPhase_ = false;
 
+	Timer secondPhaseTimer_;
 };
 

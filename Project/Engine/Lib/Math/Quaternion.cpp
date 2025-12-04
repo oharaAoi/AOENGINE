@@ -380,12 +380,6 @@ Quaternion Quaternion::operator*(const Quaternion& q2) const {
 	Vector3 vector = cross + (v1 * q2.w) + (v2 * this->w);
 	return Quaternion(vector.x, vector.y, vector.z, newW);
 }
-//
-//Vector3 Quaternion::operator*(const Vector3& v) {
-//	Quaternion vecQuaternion = Quaternion(v.x, v.y, v.z, 0.0f);
-//	Quaternion vecAfterRotate = (*this) * vecQuaternion * Inverse((*this)).Normalize();
-//	return Vector3(vecAfterRotate.x, vecAfterRotate.y, vecAfterRotate.z);
-//}
 
 Vector3 Quaternion::operator*(const Vector3& v) const {
 	Vector3 qVec{ x, y, z };

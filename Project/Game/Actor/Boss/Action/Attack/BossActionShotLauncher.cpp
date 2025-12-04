@@ -63,7 +63,7 @@ void BossActionShotLauncher::Init() {
 	attackStart_ = false;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
 	waitTimer_.targetTime_ = param_.recoveryTime;
@@ -99,8 +99,8 @@ void BossActionShotLauncher::End() {
 
 void BossActionShotLauncher::Shot() {
 	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
-	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
+	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																			   param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, false);
 	bullet->SetTakeDamage(param_.takeDamage);
 }

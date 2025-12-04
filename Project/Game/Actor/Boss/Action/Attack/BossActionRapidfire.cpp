@@ -62,7 +62,7 @@ void BossActionRapidfire::Init() {
 	attackStart_ = false;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
 	waitTimer_.targetTime_ = param_.recoveryTime;
@@ -97,7 +97,7 @@ void BossActionRapidfire::Shot() {
 	fireCount_--;
 
 	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
+	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
 
 	BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, velocity * param_.bulletSpeed);
 	bullet->SetTakeDamage(param_.takeDamage);

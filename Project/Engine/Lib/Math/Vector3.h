@@ -60,6 +60,11 @@ public:
 		return *this;
 	}
 
+	// 単項マイナス
+	Vector3 operator-() const {
+		return Vector3{ -x, -y, -z };
+	}
+
 	/// <summary>
 	/// 乗算
 	/// </summary>

@@ -68,7 +68,7 @@ void BossActionKeepDistance::Init() {
 	velocity_ = CVector3::ZERO;
 
 	Vector3 bossPosition = pTarget_->GetPosition();
-	Vector3 playerPosition = pTarget_->GetPlayerPosition();
+	Vector3 playerPosition = pTarget_->GetTargetPos();
 
 	// 距離を計算する
 	Vector3 distance = bossPosition - playerPosition;
@@ -136,7 +136,7 @@ void BossActionKeepDistance::Direct() {
 }
 
 void BossActionKeepDistance::Spin() {
-	Vector3 playerPos = pTarget_->GetPlayerPosition();
+	Vector3 playerPos = pTarget_->GetTargetPos();
 	Vector3 toCenter = playerPos - pTarget_->GetPosition();
 	float radius = toCenter.Length();
 	Vector3 centerDire = toCenter.Normalize();
@@ -155,7 +155,7 @@ void BossActionKeepDistance::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetPlayerPosition());
+	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
 
 }

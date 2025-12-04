@@ -63,7 +63,7 @@ void BossActionShotgun::Init() {
 	attackStart_ = false;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
 	waitTimer_.targetTime_ = param_.recoveryTime;
@@ -96,7 +96,7 @@ void BossActionShotgun::End() {
 
 void BossActionShotgun::Shot() {
 	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetPlayerPosition() - pos).Normalize();
+	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
 	// ばらつきを弧度法に
 	float bulletSpread = param_.bulletSpread * kToRadian;
 

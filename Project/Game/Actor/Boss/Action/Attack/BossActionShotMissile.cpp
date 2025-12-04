@@ -61,7 +61,7 @@ void BossActionShotMissile::Init() {
 	fireCount_ = kFireCount_;
 
 	// 警告を出す
-	pTarget_->GetUIs()->PopAlert(pTarget_->GetPlayerPosition(), pTarget_->GetPosition());
+	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
 	waitTimer_.targetTime_ = param_.recoveryTime;
@@ -104,7 +104,7 @@ void BossActionShotMissile::Shot() {
 	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
 
 	Vector3 velocity = forward.Normalize() * param_.bulletSpeed;
-	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetPlayerPosition(),
+	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																				param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 	missile->SetTakeDamage(param_.takeDamage);
 
