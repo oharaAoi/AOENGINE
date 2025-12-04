@@ -55,6 +55,7 @@ void Boss::Debug_Gui() {
 void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("Health", &health, 0.1f);
 	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
+	ImGui::DragFloat("postureStabilityScrapeRaito", &postureStabilityScrapeRaito, 0.1f);
 	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
 	ImGui::DragFloat("angularVelocity", &angularVelocity, 0.1f);
 	ImGui::DragFloat("angularThreshold", &angularThreshold, 0.1f);

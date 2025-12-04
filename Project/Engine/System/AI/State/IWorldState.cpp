@@ -92,6 +92,7 @@ void IWorldState::KeyCombo(std::string& _key, int32_t& index, const std::string&
 void IWorldState::Load(const std::string& _filePath) {
 	if (_filePath != "") {
 		WorldStateSerializer::Load(_filePath, stateMap_);
+		path_ = _filePath;
 	}
 }
 
