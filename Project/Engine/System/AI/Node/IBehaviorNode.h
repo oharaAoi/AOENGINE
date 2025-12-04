@@ -56,14 +56,6 @@ public:
 	// indexをリセットする
 	void ResetIndex();
 
-public:
-
-	// 実行関数
-	virtual BehaviorStatus Execute() = 0;
-
-	// 評価値の算出を行う
-	virtual float EvaluateWeight() = 0;
-
 	// 子の追加
 	void AddChild(IBehaviorNode* child);
 
@@ -72,6 +64,17 @@ public:
 
 	// 子を削除する
 	void ClearChild();
+
+public:
+
+	// 実行関数
+	virtual BehaviorStatus Execute() = 0;
+
+	// 評価値の算出を行う
+	virtual float EvaluateWeight() = 0;
+
+	// 実行中のNodeの名前を取得する
+	virtual std::string RunNodeName() = 0;
 
 	// json形式への変換
 	virtual json ToJson() = 0;
@@ -122,6 +125,8 @@ public:
 
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
+	const std::string GetCurrentRunNodeName() const { return currentRunNodeName_; }
+
 private:
 
 	/// <summary>
@@ -162,5 +167,7 @@ protected:
 	// 選択カラー
 	ImColor color_;
 	ImColor baseColor_;
+
+	std::string currentRunNodeName_;		// 現在実行中のNodeの名前
 };
 

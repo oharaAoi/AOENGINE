@@ -39,6 +39,8 @@ BehaviorStatus BehaviorRootNode::Execute() {
 		children_.erase(children_.begin());
 	}
 
+	currentRunNodeName_ = RunNodeName();
+
 	// nodeを実行する
 	while (currentIndex_ < static_cast<uint32_t>(children_.size())) {
 		BehaviorStatus status = children_[currentIndex_]->Execute();
@@ -73,3 +75,10 @@ void BehaviorRootNode::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 }
 
+std::string BehaviorRootNode::RunNodeName() {
+	if (children_.empty()) {
+		return this->GetName();
+	} else {
+		return children_[currentIndex_]->RunNodeName();
+	}
+}

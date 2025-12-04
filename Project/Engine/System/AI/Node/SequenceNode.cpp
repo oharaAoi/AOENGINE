@@ -80,3 +80,15 @@ void SequenceNode::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	InputTextWithString("ReName:", "##sequence", node_.name);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行中の名前を返す
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string SequenceNode::RunNodeName() {
+	if (children_.empty()) {
+		return this->GetName();
+	} else {
+		return children_[currentIndex_]->RunNodeName();
+	}
+}

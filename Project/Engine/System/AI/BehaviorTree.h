@@ -74,6 +74,14 @@ public:
 	/// <param name="_goal"></param>
 	void AddGoal(std::shared_ptr<IOrientedGoal> _goal);
 
+	/// <summary>
+	/// 現在の状態を表示する
+	/// </summary>
+	/// <param name="ownerWorldPos">: Treeの所有者のワールド座標</param>
+	void DisplayState(const Matrix4x4& ownerWorldPos);
+
+	IBehaviorNode* GetRootNode() const { return root_; }
+
 private:
 
 	// jsonからtreeの作成

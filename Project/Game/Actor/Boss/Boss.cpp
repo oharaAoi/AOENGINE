@@ -195,6 +195,9 @@ void Boss::Update() {
 	evaluationFormula_->Update(); 
 	pulseArmor_->Update();
 
+#ifdef _DEBUG
+	behaviorTree_->DisplayState(transform_->GetWorldMatrix());
+#endif // _DEBUG
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

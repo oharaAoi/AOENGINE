@@ -41,6 +41,9 @@ public:
 	/// </summary>
 	void Debug_Gui() override;
 
+	// 実行中のNodeの名前を取得する
+	std::string RunNodeName() override;
+
 private:
 
 

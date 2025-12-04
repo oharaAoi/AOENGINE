@@ -3,7 +3,10 @@
         "bulletSpeed": 100.0,
         "fireBulletsNum": 1,
         "fireInterval": 0.0,
-        "maxBulletsNum": 95,
-        "reloadTime": 4.0
+        "maxBulletsNum": 97,
+        "recoilTime": 0.0,
+        "reloadTime": 8.0,
+        "startUpTime": 0.0,
+        "takeDamage": 80.0
     }
 }

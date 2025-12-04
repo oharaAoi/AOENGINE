@@ -46,6 +46,9 @@ public:
 	/// <returns></returns>
 	float EvaluateWeight() override = 0;
 
+	// 実行中のNodeの名前を取得する
+	std::string RunNodeName() override;
+
 	// 初期化処理
 	virtual void Init() = 0;
 	// 更新処理
@@ -174,4 +177,13 @@ inline bool ITaskNode<OwnerType>::Wait() {
 		return true;
 	}
 	return false;
+}
+
+template<typename OwnerType>
+inline std::string ITaskNode<OwnerType>::RunNodeName() {
+	if (children_.empty()) {
+		return this->GetName();
+	} else {
+		return children_[currentIndex_]->RunNodeName();
+	}
 }

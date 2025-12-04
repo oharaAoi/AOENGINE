@@ -55,11 +55,13 @@ void ConditionNode::FromJson(const json& _jsonData) {
 
 BehaviorStatus ConditionNode::Execute() {
 	if (children_.empty()) {return BehaviorStatus::Inactive;}
-
+	
 	BehaviorStatus status;
 	if (Compare(worldState_->Get(leftKey_), worldState_->Get(rightKey_), conditionOps[opIndex_])) {
+		currentIndex_ = 0;
 		status = children_[0]->Execute();
 	} else {
+		currentIndex_ = 1;
 		status = children_[1]->Execute();
 	}
 
@@ -91,6 +93,14 @@ void ConditionNode::Debug_Gui() {
 	ImGui::Combo("Operator", &opIndex_, conditionOps, kOperatorCount_);
 	ImGui::SameLine();
 	worldState_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
+}
+
+std::string ConditionNode::RunNodeName() {
+	if (children_.empty()) {
+		return this->GetName();
+	} else {
+		return children_[currentIndex_]->RunNodeName();
+	}
 }
 
 bool ConditionNode::Compare(const WorldStateValue& lhs, const WorldStateValue& rhs, const std::string& op) {

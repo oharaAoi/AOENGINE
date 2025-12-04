@@ -9,13 +9,18 @@
         "energy": 100.0,
         "energyRecoveyAmount": 100.0,
         "energyRecoveyCoolTime": 1.0,
-        "health": 10000.0,
+        "health": 1000.0,
         "inclineReactionRate": 3.5,
         "inclineStrength": 0.07000000029802322,
         "inclineThreshold": 10.0,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
         "postureStability": 300.0,
+        "translateOffset": {
+            "x": 0.0,
+            "y": 2.0,
+            "z": 0.0
+        },
         "windDrag": 3.0
     }
 }
