@@ -20,7 +20,7 @@ class PlayerActionBoost :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float chargeTime;			// 溜める時間
 	
 		float boostForce;			// ブーストの力
@@ -43,7 +43,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
 				.Add("boostForce", boostForce)
 				.Add("stopForce", stopForce)

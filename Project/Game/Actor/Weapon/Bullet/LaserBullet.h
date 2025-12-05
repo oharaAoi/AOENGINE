@@ -15,7 +15,7 @@ class LaserBullet :
 	public BaseBullet {
 public: // データ構造体
 
-	struct LaserParameter : public IJsonConverter {
+	struct LaserParameter : public AOENGINE::IJsonConverter {
 		float maxLength = 1000.0f;  // 最大距離
 		float lifeTime = 3.0f;
 		float fadeTime = 1.0f;
@@ -30,7 +30,7 @@ public: // データ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("maxLength", maxLength)
 				.Add("fadeTime", fadeTime)
 				.Add("lifeTime", lifeTime)

@@ -16,7 +16,7 @@ class BaseWeapon :
 	public BaseEntity {
 public:
 
-	struct AttackParam : public IJsonConverter {
+	struct AttackParam : public AOENGINE::IJsonConverter {
 		float bulletSpeed = 100;	// 弾の速さ
 		int maxBulletsNum = 400;	// 最大弾数
 		int fireBulletsNum = 50;	// マガジンの量
@@ -32,7 +32,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("maxBulletsNum", maxBulletsNum)
 				.Add("fireBulletsNum", fireBulletsNum)

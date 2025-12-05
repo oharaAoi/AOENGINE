@@ -9,7 +9,8 @@
 
 void PostureStability::Init(const std::string& _groupName, const std::string& _itemName) {
 	SetName("PostureStability");
-	param_.FromJson(JsonItems::GetData("PostureStability", param_.GetName()));
+	param_.SetGroupName(_groupName);
+	param_.Load();
 
 	groupName_ = _groupName;
 	BaseGaugeUI::Init("postureStability_bg.png", "postureStability_front.png");
@@ -72,8 +73,6 @@ void PostureStability::Debug_Gui() {
 		ImGui::ColorEdit4("armorColor", &param_.armorColor.r);
 		ImGui::ColorEdit4("stanColor", &param_.stanColor.r);
 
-		if (ImGui::Button("Save")) {
-			JsonItems::Save(GetName(), param_.ToJson(param_.GetName()));
-		}
+		param_.SaveAndLoad();
 	}
 }

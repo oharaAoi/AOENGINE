@@ -6,7 +6,7 @@
 /// <summary>
 /// 評価関数となるクラス
 /// </summary>
-struct UtilityEvaluator : IJsonConverter {
+struct UtilityEvaluator : AOENGINE::IJsonConverter {
 
 	UtilityEvaluator() = default;
 
@@ -28,7 +28,7 @@ struct UtilityEvaluator : IJsonConverter {
 	/// <returns></returns>
 	json ToJson(const std::string& id) const override {
 		json curveJson = curve.ToJson();
-		return JsonBuilder(id)
+		return AOENGINE::JsonBuilder(id)
 			.Add("name", name_)
 			.Add("weight", weight)
 			.Add("maxValue", maxValue)

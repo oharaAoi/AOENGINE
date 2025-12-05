@@ -12,7 +12,7 @@ class BossActionStrafe :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveSpeed = 60.f;
 		float moveTime = 0.5f;
 		float getDistance = 10.0f;
@@ -25,7 +25,7 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			json curveData = curve.ToJson();
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
 				.Add("getDistance", getDistance)

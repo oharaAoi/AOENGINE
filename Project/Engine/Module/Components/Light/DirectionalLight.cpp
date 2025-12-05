@@ -1,5 +1,6 @@
 #include "DirectionalLight.h"
-#include "Engine/Lib/Json//JsonItems.h"
+
+using namespace AOENGINE;
 
 DirectionalLight::DirectionalLight() {
 }
@@ -27,6 +28,7 @@ void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
 
 	parameter_.SetGroupName("Light");
 	parameter_.SetName("directionalLight");
+	parameter_.Load();
 
 	parameter_.direction = Normalize(parameter_.direction);
 	directionalLightData_->color = parameter_.color;
@@ -68,7 +70,7 @@ void DirectionalLight::BindCommand(ID3D12GraphicsCommandList* commandList, const
 
 void DirectionalLight::Reset() {
 	baseParameter_.Load();
-	parameter_.FromJson(JsonItems::GetData("Light", "directionalLight"));
+	parameter_.Load();
 
 	parameter_.direction = Normalize(parameter_.direction);
 	directionalLightData_->color = parameter_.color;

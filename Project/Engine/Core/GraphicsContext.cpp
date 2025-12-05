@@ -23,7 +23,7 @@ void GraphicsContext::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _back
 	dxCommands_ = std::make_unique<DirectXCommands>();
 	descriptorHeap_ = std::make_unique<DescriptorHeap>();
 	dxCompiler_ = std::make_unique<DirectXCompiler>();
-	renderTarget_ = std::make_unique<RenderTarget>();
+	renderTarget_ = std::make_unique<AOENGINE::RenderTarget>();
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 	dxResourceManager_ = std::make_unique<AOENGINE::DxResourceManager>();

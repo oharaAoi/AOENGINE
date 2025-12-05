@@ -12,7 +12,7 @@ class BossStateBeDestroyed :
 	public ICharacterState<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float slowTime = 1.0f;
 		float breakTime = 3.0f;
 		float slowScale = 0.2f;
@@ -23,7 +23,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("slowTime", slowTime)
 				.Add("breakTime", breakTime)
 				.Add("slowScale", slowScale)

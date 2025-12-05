@@ -13,7 +13,7 @@ class JetEngine :
 	public BaseEntity {
 public: // データ構造体
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float engineIncline = 10.0f;
 		Vector3 burnMoveScale = Vector3(0.4f, 1.0 , 0.4f);
 		float burnScaleUpTime = 0.5f;
@@ -26,7 +26,7 @@ public: // データ構造体
 
 		json ToJson(const std::string& id) const override {
 			json curveJson = burnMoveScaleCurve.ToJson();
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("engineIncline", engineIncline)
 				.Add("burnMoveScale", burnMoveScale)
 				.Add("burnScaleUpTime", burnScaleUpTime)

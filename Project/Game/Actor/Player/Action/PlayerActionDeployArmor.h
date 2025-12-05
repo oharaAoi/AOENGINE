@@ -14,7 +14,7 @@ class PlayerActionDeployArmor :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float chargeTime = 2.0f;
 		Vector3 effectOffset = {0, 2, 0};
 
@@ -25,7 +25,7 @@ public:
 		Parameter() { SetName("PlayerActionDeployArmor"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
 				.Add("effectOffset", effectOffset)
 				.Add("cameraApproachTime", cameraApproachTime)

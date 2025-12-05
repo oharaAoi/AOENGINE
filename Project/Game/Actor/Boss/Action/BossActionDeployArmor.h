@@ -11,14 +11,14 @@ class BossActionDeployArmor :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float deployTime = 3.0f;
 		float randShakeValue = 2.0f;
 
 		Parameter() { SetName("bossActionDeployArmor"); }
 		
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("deployTime", deployTime)
 				.Add("randShakeValue", randShakeValue)
 				.Build();

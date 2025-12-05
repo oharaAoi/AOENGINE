@@ -1,14 +1,9 @@
 #pragma once
 #include <vector>
-#include "Engine/Utilities/Convert.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
-#include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Resource/DxResourceManager.h"
-
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
 
 enum RenderTargetType {
 	Object3D_RenderTarget,
@@ -23,16 +18,18 @@ enum RenderTargetType {
 
 static const uint32_t renderTargetNum_ = (RenderTargetType::kMAX);
 
+namespace AOENGINE {
+
 /// <summary>
-/// RenderTargetクラス
+/// AOENGINE::RenderTargetクラス
 /// </summary>
 class RenderTarget {
 public: // コンストラクタ
 
-	RenderTarget();
+	RenderTarget() = default;
 	~RenderTarget();
 
-public: 
+public:
 
 	/// <summary>
 	/// 終了処理
@@ -49,7 +46,7 @@ public:
 	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResourceManager* _resourceManager);
 
 	/// <summary>
-	/// RenderTargetを設定する
+	/// AOENGINE::RenderTargetを設定する
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="renderTypes">: レンダーターゲットのタイプ</param>
@@ -63,20 +60,20 @@ public:
 	void ClearDepth(ID3D12GraphicsCommandList* _commandList);
 
 	/// <summary>
-	/// swawChainで使用するRenderTargetを作成する
+	/// swawChainで使用するAOENGINE::RenderTargetを作成する
 	/// </summary>
 	void CrateSwapChainResource();
 
 	/// <summary>
-	/// swawChain以外のRenderTargetを作成する
+	/// swawChain以外のAOENGINE::RenderTargetを作成する
 	/// </summary>
 	void CreateRenderTarget();
 
 	/// <summary>
-	/// RenderTargetを遷移させる
+	/// AOENGINE::RenderTargetを遷移させる
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
-	/// <param name="renderType">: RenderTargetのタイプ</param>
+	/// <param name="renderType">: AOENGINE::RenderTargetのタイプ</param>
 	/// <param name="beforState">: 遷移前の状態</param>
 	/// <param name="afterState">: 遷移後の状態</param>
 	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
@@ -106,3 +103,4 @@ private:
 	// resourceManager
 	AOENGINE::DxResourceManager* resourceManager_ = nullptr;
 };
+}

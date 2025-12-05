@@ -13,7 +13,7 @@ class PlayerActionShotRight :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float animationTime = 0.2f;
 		
 		Parameter() {
@@ -22,7 +22,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("animationTime", animationTime)
 				.Build();
 		}

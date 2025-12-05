@@ -10,7 +10,7 @@ class BossActionAdjustHeight :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float smoothTime = 0.1f;	// 追従の速度
 		float maxSpeed = 10 ^ 8;	// 追従の最大速度
 		float recoveryTime = 0.0f;	// 硬直時間
@@ -20,7 +20,7 @@ public:
 		Parameter() { SetName("BossActionAdjustHeight"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
 				.Add("recoveryTime", recoveryTime)

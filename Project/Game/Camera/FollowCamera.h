@@ -18,7 +18,7 @@ class FollowCamera :
 	public AttributeGui {
 public:
 
-	struct CameraParameter : public IJsonConverter {
+	struct CameraParameter : public AOENGINE::IJsonConverter {
 		float distance = 20.0f;	// カメラの距離
 		float rotateDelta = 0.04f;
 		Vector3 offset = { 0,2.5f,0.0f };
@@ -40,7 +40,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("distance", distance)
 				.Add("rotateDelta", rotateDelta)
 				.Add("offset", offset)
@@ -68,7 +68,7 @@ public:
 		void Debug_Gui() override;
 	};
 
-	struct AnimationParameter : public IJsonConverter {
+	struct AnimationParameter : public AOENGINE::IJsonConverter {
 		Vector3 firstOffset;
 		Vector3 targetOffset;
 		float moveTime;
@@ -82,7 +82,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("firstOffset", firstOffset)
 				.Add("moveTime", moveTime)
 				.Add("easingIndex", easingIndex)

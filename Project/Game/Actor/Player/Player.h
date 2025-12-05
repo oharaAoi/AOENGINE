@@ -30,7 +30,7 @@ class Player :
 	public BaseEntity {
 public:		// data
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float health;				// hp
 		float postureStability;		// 姿勢安定
 		float bodyWeight = 1.0f;	// 機体の重さ
@@ -57,7 +57,7 @@ public:		// data
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("health", health)
 				.Add("postureStability", postureStability)
 				.Add("bodyWeight", bodyWeight)

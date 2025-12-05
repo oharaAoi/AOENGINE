@@ -11,7 +11,7 @@ class BossActionLeave :
 	public BaseTaskNode<Boss> {
 public:	// 構造体
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveSpeed = 40.f;
 		float moveTime = 1.5f;
 		float decayRate = 4.0f;
@@ -21,7 +21,7 @@ public:	// 構造体
 		Parameter() { SetName("bossActionLeave"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
 				.Add("decayRate", decayRate)

@@ -10,7 +10,7 @@ class ShoulderMissile :
 	public BaseWeapon {
 public:
 
-	struct ShoulderMissileParam : IJsonConverter {
+	struct ShoulderMissileParam : AOENGINE::IJsonConverter {
 		Vector3 pos;
 		float trackingLength;	// 追従する長さ
 		float trackingTime;		// 追従する時間
@@ -24,7 +24,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("pos", pos)
 				.Add("trackingLength", trackingLength)
 				.Add("trackingTime", trackingTime)

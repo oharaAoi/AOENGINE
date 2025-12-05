@@ -11,7 +11,7 @@ class BossActionApproach :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveSpeed = 20.f;			// 移動速度
 		float moveTime = 2.0f;			// 移動時間
 		float deceleration = 2.f;		// 減速率
@@ -24,7 +24,7 @@ public:
 		Parameter() { SetName("bossActionApproach"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("moveSpeed", moveSpeed)
 				.Add("moveTime", moveTime)
 				.Add("deceleration", deceleration)

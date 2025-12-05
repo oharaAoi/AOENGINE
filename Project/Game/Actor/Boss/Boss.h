@@ -25,7 +25,7 @@ class Boss :
 	public BaseEntity {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float health = 100;
 		float postureStability = 100.0f;
 		float postureStabilityScrapeRaito = 0.3f;	// 耐久度を削る割合
@@ -38,7 +38,7 @@ public:
 		Parameter() { SetName("bossParameter"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("health", health)
 				.Add("postureStability", postureStability)
 				.Add("postureStabilityScrapeRaito", postureStabilityScrapeRaito)

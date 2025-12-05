@@ -9,7 +9,7 @@
 class BaseCamera {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		Quaternion rotate = Quaternion::AngleAxis(25.0f * kToRadian, CVector3::RIGHT);
 		Vector3 translate = Vector3(0.0f,4.0f,-8.0f);
 
@@ -19,7 +19,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("rotate", rotate)
 				.Add("translate", translate)
 				.Build();

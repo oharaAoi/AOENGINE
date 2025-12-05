@@ -36,7 +36,7 @@ namespace {
 
 	GraphicsPipelines* graphicsPipeline_ = nullptr;
 	
-	RenderTarget* renderTarget_ = nullptr;
+	AOENGINE::RenderTarget* renderTarget_ = nullptr;
 
 	// CS
 	std::unique_ptr<ComputeShaderPipelines> computeShaderPipelines_ = nullptr;

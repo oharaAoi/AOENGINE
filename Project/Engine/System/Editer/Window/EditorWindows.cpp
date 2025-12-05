@@ -1,8 +1,10 @@
 #include "EditorWindows.h"
-#include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Json/JsonItems.h"
+
+using namespace AOENGINE;
 
 EditorWindows::~EditorWindows() {}
 EditorWindows* EditorWindows::GetInstance() {
@@ -20,7 +22,7 @@ void EditorWindows::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
+void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
 	gameObjectWindow_ = std::make_unique<GameObjectWindow>();
 	gameObjectWindow_->Init();
 

@@ -47,7 +47,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <param name="renderTarget"></param>
 	/// <param name="descriptorHeaps"></param>
-	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps);
 
 	/// <summary>
 	/// 更新処理
@@ -110,7 +110,7 @@ private:		// member method
 	void Save(const std::string& directoryPath, const std::string& fileName, const json& jsonData);
 
 	/// <summary>
-	/// RenderTarget設定
+	/// AOENGINE::RenderTarget設定
 	/// </summary>
 	void SetRenderTarget();
 
@@ -138,7 +138,7 @@ private:
 	// directX関連 -------------------------------------------
 
 	ID3D12GraphicsCommandList* commandList_;
-	RenderTarget* renderTarget_ = nullptr;
+	AOENGINE::RenderTarget* renderTarget_ = nullptr;
 	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;

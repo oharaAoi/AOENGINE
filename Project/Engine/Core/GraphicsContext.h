@@ -60,7 +60,7 @@ public:
 
 	PrimitivePipeline* GetPrimitivePipeline() { return primitivePipeline_.get(); }
 
-	RenderTarget* GetRenderTarget() { return renderTarget_.get(); }
+	AOENGINE::RenderTarget* GetRenderTarget() { return renderTarget_.get(); }
 
 private:
 
@@ -75,7 +75,7 @@ private:
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 	// renderTarget
-	std::shared_ptr<RenderTarget> renderTarget_ = nullptr;
+	std::shared_ptr<AOENGINE::RenderTarget> renderTarget_ = nullptr;
 	// dxCompiler
 	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
 	// pipeline

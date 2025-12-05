@@ -24,7 +24,7 @@ public:
 
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		Color color;
 		Vector3 scale;
 		Quaternion rotate;
@@ -40,7 +40,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("color", color)
 				.Add("scale", scale)
 				.Add("rotate", rotate)

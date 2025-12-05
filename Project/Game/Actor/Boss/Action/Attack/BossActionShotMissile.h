@@ -12,7 +12,7 @@ class BossActionShotMissile :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float recoveryTime = 0.1f;
 		float shotInterval = 0.1f;
 		float bulletSpeed = 100.0f;
@@ -23,7 +23,7 @@ public:
 		Parameter() { SetName("bossActionShotMissile"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("recoveryTime", recoveryTime)
 				.Add("shotInterval", shotInterval)
 				.Add("bulletSpeed", bulletSpeed)

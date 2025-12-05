@@ -18,7 +18,7 @@ class PlayerActionQuickBoost :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float boostForce = 10.0f;		// boostの強さ
 		float decelerationRaito = 0.8f;	// 減速の割合
 
@@ -41,7 +41,7 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			json curveJson = decelerationCurve.ToJson();
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("boostForce", boostForce)
 				.Add("decelerationRaito", decelerationRaito)
 				.Add("boostEnergy", boostEnergy)

@@ -22,7 +22,7 @@ void ParticleSystemEditor::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
+void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
 	commandList_ = commandList;
 	renderTarget_ = renderTarget;
 	descriptorHeaps_ = descriptorHeaps;
@@ -544,11 +544,11 @@ void ParticleSystemEditor::Save(const std::string& directoryPath, const std::str
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ RenderTargetをEffectEditer用にする
+// ↓ AOENGINE::RenderTargetをEffectEditer用にする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::SetRenderTarget() {
-	// RenderTargetを指定する
+	// AOENGINE::RenderTargetを指定する
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
 	std::vector<RenderTargetType> types(1, RenderTargetType::EffectSystem_RenderTarget);
 	rtvHandles.reserve(types.size());
@@ -560,7 +560,7 @@ void ParticleSystemEditor::SetRenderTarget() {
 	renderTarget_->SetRenderTarget(commandList_, types, depthHandle_);
 	commandList_->ClearDepthStencilView(depthHandle_.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	float clearColor[] = { 2.0f / 255, 2.0f / 255, 3.0f / 255.0f, 255.0f };
-	// RenderTargetをクリアする
+	// AOENGINE::RenderTargetをクリアする
 	commandList_->ClearRenderTargetView(renderTarget_->GetRenderTargetRTVHandle(RenderTargetType::EffectSystem_RenderTarget).handleCPU, clearColor, 0, nullptr);
 }
 

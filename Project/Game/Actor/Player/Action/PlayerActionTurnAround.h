@@ -10,14 +10,14 @@ class PlayerActionTurnAround :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float speed;
 		float rotateTime;
 
 		Parameter() { SetName("actionTurnAround"); }
 		
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("speed", speed)
 				.Add("rotateTime", rotateTime)
 				.Build();

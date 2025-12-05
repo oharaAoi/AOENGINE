@@ -74,7 +74,7 @@ struct ParticleSingle {
 /// <summary>
 /// Particleのエミッターのパラメータ
 /// </summary>
-struct ParticleEmit : public IJsonConverter {
+struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
 	Vector3 translate = CVector3::ZERO;		// 位置
@@ -146,7 +146,7 @@ struct ParticleEmit : public IJsonConverter {
 	}
 
 	json ToJson(const std::string& id) const override {
-		return JsonBuilder(id)
+		return AOENGINE::JsonBuilder(id)
 			.Add("isLoop", isLoop)
 			.Add("duration", duration)
 			.Add("rotate", rotate)

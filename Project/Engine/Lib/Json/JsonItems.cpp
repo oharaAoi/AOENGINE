@@ -2,10 +2,11 @@
 #include <iostream>
 #include <fstream>
 
+namespace fs = std::filesystem;
+using namespace AOENGINE;
+
 const std::string JsonItems::sDirectoryPath_ = "./Project/Packages/Game/Assets/GameData/JsonItems/";
 std::string JsonItems::sNowSceneName_ = "";
-
-namespace fs = std::filesystem;
 
 JsonItems* JsonItems::GetInstance() {
 	static JsonItems instance;

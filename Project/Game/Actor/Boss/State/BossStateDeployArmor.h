@@ -13,7 +13,7 @@ class BossStateDeployArmor :
 	public ICharacterState<Boss> {
 public:
 
-	struct ArmorParameter : public IJsonConverter {
+	struct ArmorParameter : public AOENGINE::IJsonConverter {
 		float durability = 100.0f;
 		Vector3 scale = CVector3::UNIT;
 		Color color = Color::white;
@@ -27,7 +27,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("durability", durability)
 				.Add("scale", scale)
 				.Add("color", color)

@@ -11,7 +11,7 @@ class CameraAnimationBoost :
 	public ICameraAnimation {
 public: // データ構造体
 
-	struct BoostAnimationParam : public IJsonConverter {
+	struct BoostAnimationParam : public AOENGINE::IJsonConverter {
 		bool isExecute = false;
 		bool isApproach = false;
 		float timer;
@@ -26,7 +26,7 @@ public: // データ構造体
 		};
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("offset", offset)
 				.Add("time", time)
 				.Build(); 

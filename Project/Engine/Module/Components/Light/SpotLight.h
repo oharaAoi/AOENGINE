@@ -31,7 +31,7 @@ public:
 	/// <summary>
 	/// 保存のパラメータ
 	/// </summary>
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		Color color = Color::white;		// ライトの色
 		Vector3 position = Vector3(0, 1, 0);
 		float intensity = 1.0f; 
@@ -42,7 +42,7 @@ public:
 		float cosFalloffStart = std::cos(std::numbers::pi_v<float> / 4.0f);
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("color", color)
 				.Add("position", position)
 				.Add("intensity", intensity)

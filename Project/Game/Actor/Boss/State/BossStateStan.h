@@ -13,7 +13,7 @@ class BossStateStan :
 	public ICharacterState<Boss> {
 public:	// メンバ構造体
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float stanTime = 5.0f;
 		float stanSlowTime = 0.4f;
 		float effectRandDistance = 3.0f;
@@ -24,7 +24,7 @@ public:	// メンバ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("stanTime", stanTime)
 				.Add("stanSlowTime", stanSlowTime)
 				.Add("effectRandDistance", effectRandDistance)

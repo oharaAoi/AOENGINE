@@ -14,7 +14,7 @@ class BossActionDualStageMissile :
 	public BaseTaskNode<Boss> {
 public: // データ構造体
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float recoveryTime = 1.0f;	// 攻撃後の硬直時間
 		float bulletSpeed = 90.0f;	// 弾速
 		float takeDamage = 30.0f;	// 与えるダメージ
@@ -29,7 +29,7 @@ public: // データ構造体
 		Parameter() { SetName("BossActionDualStageMissile"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("recoveryTime", recoveryTime)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("takeDamage", takeDamage)

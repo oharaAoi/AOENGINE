@@ -51,7 +51,7 @@ struct ArcGaugeParam {
 /// <summary>
 /// Spriteのパラメータ
 /// </summary>
-struct SpriteParameter : public IJsonConverter {
+struct SpriteParameter : public AOENGINE::IJsonConverter {
 	SRT transform = SRT();
 	SRT uvTransform = SRT();
 	std::string textureName = "white.png";
@@ -77,7 +77,7 @@ struct SpriteParameter : public IJsonConverter {
 	json ToJson(const std::string& id) const override {
 		json srt = transform.ToJson();
 		json uvSrt = transform.ToJson();
-		return JsonBuilder(id)
+		return AOENGINE::JsonBuilder(id)
 			.Add("transform", srt)
 			.Add("uvTransform", uvSrt)
 			.Add("textureName", textureName)

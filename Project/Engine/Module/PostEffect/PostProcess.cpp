@@ -30,7 +30,7 @@ void PostProcess::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
+void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);

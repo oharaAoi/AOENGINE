@@ -28,7 +28,7 @@ public: // メンバ構造体
 	/// <summary>
 	/// 保存のパラメータ
 	/// </summary>
-	struct Paramter : public IJsonConverter {
+	struct Paramter : public AOENGINE::IJsonConverter {
 		Color color = Color(1,1,1,1);		// ライトの色
 		Vector3 direction = Vector3(0,-1,0);	// 方向
 		float intensity = 1.0f;	// 輝度
@@ -41,7 +41,7 @@ public: // メンバ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("color", color)
 				.Add("direction", direction)
 				.Add("intensity", intensity)

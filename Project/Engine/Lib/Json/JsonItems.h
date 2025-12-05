@@ -6,6 +6,8 @@
 
 using json = nlohmann::json;
 
+namespace AOENGINE {
+
 /// <summary>
 /// Jsonの情報をまとめたクラス
 /// </summary>
@@ -79,7 +81,7 @@ public:
 	/// </summary>
 	void SaveAllFile();
 
-private :
+private:
 
 	/// <summary>
 	/// json項目を追加する
@@ -100,11 +102,13 @@ private :
 	void AddConverterGroup(const std::string& _groupName, const std::string& _rootKey, std::function<json(const std::string&)> _function);
 
 private:
-	
+
 	static const std::string sDirectoryPath_;
 	static std::string sNowSceneName_;
-	
+
 	std::unordered_map<std::string, Group> jsonMap_;
 
 	std::unordered_map<std::string, ConverterGroup> jsonConverterMap_;
 };
+
+}

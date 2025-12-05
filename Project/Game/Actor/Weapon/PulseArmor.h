@@ -26,7 +26,7 @@ public:
 		float threshold = 0.5f;
 	};
 
-	struct ArmorParameter : public IJsonConverter {
+	struct ArmorParameter : public AOENGINE::IJsonConverter {
 		float durability = 100.0f;
 		Vector3 scale = CVector3::UNIT;
 		Vector3 localTranslate = CVector3::ZERO;
@@ -46,7 +46,7 @@ public:
 		ArmorParameter() { SetName("BossArmorParameter"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("durability", durability)
 				.Add("scale", scale)
 				.Add("localTranslate", localTranslate)

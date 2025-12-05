@@ -28,7 +28,7 @@ public:
 	/// <summary>
 	/// Lightのパラメータ
 	/// </summary>
-	struct BaseParameter : public IJsonConverter {
+	struct BaseParameter : public AOENGINE::IJsonConverter {
 		Vector3 lightPos = CVector3::ZERO;
 		Vector3 direction = Vector3(0, -1, 0);	
 		float fovY = 0.45f;
@@ -42,7 +42,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("lightPos", lightPos)
 				.Add("direction", direction)
 				.Add("fovY", fovY)

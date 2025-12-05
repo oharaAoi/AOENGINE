@@ -16,7 +16,7 @@ class PlayerActionJump :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float chargeTime = 0.5f;
 		float finishChargeTime = 1.0f;
 		float jumpForce = 6.0f;
@@ -35,7 +35,7 @@ public:
 		Parameter() { SetName("ActionJump"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
 				.Add("finishChargeTime", finishChargeTime)
 				.Add("jumpForce", jumpForce)

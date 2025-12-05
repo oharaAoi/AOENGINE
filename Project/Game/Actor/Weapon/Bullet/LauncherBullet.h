@@ -10,7 +10,7 @@ class LauncherBullet :
 	public BaseBullet {
 public: // データ構造体
 
-	struct BulletParam : IJsonConverter {
+	struct BulletParam : AOENGINE::IJsonConverter {
 		float hitSeVolume = 0.3f;
 
 		BulletParam() {
@@ -19,7 +19,7 @@ public: // データ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("hitSeVolume", hitSeVolume)
 				.Build();
 		}

@@ -17,7 +17,7 @@ class PostureStability :
 	public BaseGaugeUI {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		Color normalColor;
 		Color pinchColor;
 		Color armorColor;
@@ -26,7 +26,7 @@ public:
 		Parameter() { SetName("postureStability"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("normalColor", normalColor)
 				.Add("pinchColor", pinchColor)
 				.Add("armorColor", armorColor)

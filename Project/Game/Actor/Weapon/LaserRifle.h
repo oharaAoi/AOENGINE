@@ -9,7 +9,7 @@ class LaserRifle :
 	public BaseWeapon {
 public: // データ構造体
 
-	struct LaserRifleParam : IJsonConverter {
+	struct LaserRifleParam : AOENGINE::IJsonConverter {
 		Vector3 pos;
 
 		LaserRifleParam() {
@@ -18,7 +18,7 @@ public: // データ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("pos", pos)
 				.Build();
 		}

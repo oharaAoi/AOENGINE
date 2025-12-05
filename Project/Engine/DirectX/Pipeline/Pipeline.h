@@ -26,7 +26,7 @@ public:
 	/// <summary>
 	/// パイプラインの情報
 	/// </summary>
-	struct PipelineParameter : public IJsonConverter {
+	struct PipelineParameter : public AOENGINE::IJsonConverter {
 		std::string vs = "";					// vsのシェーダー名
 		std::string ps = "";					// psのシェーダー名
 		std::string cs = "";					// csのシェーダー名
@@ -37,7 +37,7 @@ public:
 		std::string primitiveTopologyType = "";	// 形状のタイプ
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("vs", vs)
 				.Add("ps", ps)
 				.Add("cs", cs)

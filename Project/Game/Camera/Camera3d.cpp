@@ -14,8 +14,10 @@ void Camera3d::Finalize() {}
 
 void Camera3d::Init() {
 	BaseCamera::Init();
+	parameter_.SetGroupName("Camera");
+	parameter_.SetGroupName("camera3d");
+	parameter_.Load();
 
-	parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
 
@@ -49,12 +51,7 @@ void Camera3d::Debug_Gui() {
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("Camera", parameter_.ToJson("camera3d"));
-	}
-	if (ImGui::Button("Apply")) {
-		parameter_.FromJson(JsonItems::GetData("Camera", "camera3d"));
-	}
+	parameter_.SaveAndLoad();
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }

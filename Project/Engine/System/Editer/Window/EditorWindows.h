@@ -52,7 +52,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <param name="renderTarget"></param>
 	/// <param name="descriptorHeaps"></param>
-	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps);
 
 	/// <summary>
 	/// 更新処理
@@ -91,7 +91,7 @@ public:
 
 	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
-	void SetRenderTarget(RenderTarget* _renderTarget) { renderTarget_ = _renderTarget; }
+	void SetRenderTarget(AOENGINE::RenderTarget* _renderTarget) { renderTarget_ = _renderTarget; }
 
 	void Reset();
 
@@ -127,7 +127,7 @@ private:
 	// ↓ 他ポインタ
 	// ----------------------
 	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
-	RenderTarget* renderTarget_;
+	AOENGINE::RenderTarget* renderTarget_;
 	SceneRenderer* sceneRenderer_;
 	Canvas2d* canvas2d_;
 

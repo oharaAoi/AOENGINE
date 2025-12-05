@@ -2,11 +2,13 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存と読み込み
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void IJsonConverter::SaveAndLoad() {
+void AOENGINE::IJsonConverter::SaveAndLoad() {
 	std::string saveName = "Save##";
 	saveName += name_.c_str();
 	if (ImGui::Button(saveName.c_str())) {
@@ -23,7 +25,7 @@ void IJsonConverter::SaveAndLoad() {
 // ↓ 保存
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void IJsonConverter::Save() {
+void AOENGINE::IJsonConverter::Save() {
 	JsonItems::Save(groupName_, ToJson(name_));
 }
 
@@ -31,6 +33,6 @@ void IJsonConverter::Save() {
 // ↓ 読み込み
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void IJsonConverter::Load() {
+void AOENGINE::IJsonConverter::Load() {
 	FromJson(JsonItems::GetData(groupName_, name_));
 }

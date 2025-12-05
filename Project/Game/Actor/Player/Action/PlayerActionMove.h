@@ -13,7 +13,7 @@ class PlayerActionMove :
 	public BaseAction<Player> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float speed;				// 歩く速度
 		float boostSpeed;			// ブーストの速度
 		float maxSpeed;
@@ -28,7 +28,7 @@ public:
 		Parameter() { SetName("ActionMove"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("speed", speed)
 				.Add("boostSpeed", boostSpeed)
 				.Add("maxSpeed", maxSpeed)

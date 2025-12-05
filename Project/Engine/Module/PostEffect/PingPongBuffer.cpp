@@ -90,7 +90,7 @@ void PingPongBuffer::CreatePong(AOENGINE::DxResourceManager* _dxResourceManager)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ RenderTargetを設定
+// ↓ AOENGINE::RenderTargetを設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
@@ -110,7 +110,7 @@ void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, Buf
 	//rtvHandles = RTVHandle_[type].handleCPU;
 	commandList->OMSetRenderTargets(1, &resource->GetRTV().handleCPU, false, &dsvHandle);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	// RenderTargetはoffScreen用のRenderTargetを指定しておく
+	// AOENGINE::RenderTargetはoffScreen用のAOENGINE::RenderTargetを指定しておく
 	commandList->ClearRenderTargetView(resource->GetRTV().handleCPU, clearColor, 0, nullptr);
 	// 指定した深度で画面をクリア
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);

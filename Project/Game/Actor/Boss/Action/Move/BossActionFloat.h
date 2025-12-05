@@ -10,14 +10,14 @@ class BossActionFloat :
 
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveTime = 0.5f;		// 移動時間
 		float moveSpeed = 10.0f;	// 移動速度
 
 		Parameter() { SetName("BossActionFloat"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("moveTime", moveTime)
 				.Add("moveSpeed", moveSpeed)
 				.Build();

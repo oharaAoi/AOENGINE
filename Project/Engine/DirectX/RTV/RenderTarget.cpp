@@ -1,14 +1,13 @@
 #include "RenderTarget.h"
 #include "Engine/WinApp/WinApp.h"
 
-RenderTarget::RenderTarget() {
-}
+using namespace AOENGINE;
 
-RenderTarget::~RenderTarget() {
+AOENGINE::RenderTarget::~RenderTarget() {
 	Finalize();
 }
 
-void RenderTarget::Finalize() {
+void AOENGINE::RenderTarget::Finalize() {
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
 		if (renderTargetResource_[oi] != nullptr) {
 			renderTargetResource_[oi]->Destroy();
@@ -29,7 +28,7 @@ void RenderTarget::Finalize() {
 	swapChainResource_[1] = nullptr;
 }
 
-void RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
+void AOENGINE::RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
 						ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_descriptorHeap);
 	assert(_swapChain);
@@ -48,9 +47,9 @@ void RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descri
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　RenderTargetを設定する
+// ↓　AOENGINE::RenderTargetを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle) {
+void AOENGINE::RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle) {
 	// MRT用に複数のRTVハンドルを用意
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
 	rtvHandles.reserve(_renderTypes.size());
@@ -60,7 +59,7 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, cons
 
 	_commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &_dsvHandle.handleCPU);
 	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	// RenderTargetはoffScreen用のRenderTargetを指定しておく
+	// AOENGINE::RenderTargetはoffScreen用のAOENGINE::RenderTargetを指定しておく
 	// 各レンダーターゲットをクリア
 	for (auto& rtv : rtvHandles) {
 		_commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
@@ -72,16 +71,16 @@ void RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, cons
 	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
-void RenderTarget::ClearDepth(ID3D12GraphicsCommandList* _commandList) {
+void AOENGINE::RenderTarget::ClearDepth(ID3D12GraphicsCommandList* _commandList) {
 	D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = dxHeap_->GetDSVHeap()->GetCPUDescriptorHandleForHeapStart();
 	_commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　swawChainで使用するRenderTargetを作成する
+// ↓　swawChainで使用するAOENGINE::RenderTargetを作成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RenderTarget::CrateSwapChainResource() {
+void AOENGINE::RenderTarget::CrateSwapChainResource() {
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
 	desc.Height = WinApp::sWindowHeight;		// 画面の縦幅
@@ -117,10 +116,10 @@ void RenderTarget::CrateSwapChainResource() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　swawChain以外のRenderTargetを作成する
+// ↓　swawChain以外のAOENGINE::RenderTargetを作成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RenderTarget::CreateRenderTarget() {
+void AOENGINE::RenderTarget::CreateRenderTarget() {
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
@@ -169,10 +168,10 @@ void RenderTarget::CreateRenderTarget() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　RenderTargetの状態を遷移させる
+// ↓　AOENGINE::RenderTargetの状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforState, const D3D12_RESOURCE_STATES& _afterState) {
+void AOENGINE::RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforState, const D3D12_RESOURCE_STATES& _afterState) {
 	renderTargetResource_[_renderType]->Transition(_commandList, _beforState, _afterState);
 }
 

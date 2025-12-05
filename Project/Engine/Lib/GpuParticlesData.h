@@ -69,7 +69,7 @@ enum class GpuEmitterShape {
 /// <summary>
 /// Emitterのパラメータ
 /// </summary>
-struct GpuParticleEmitterItem : public IJsonConverter {
+struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
 	Vector3 minScale = Vector3(1, 1, 1);
@@ -109,7 +109,7 @@ struct GpuParticleEmitterItem : public IJsonConverter {
 	}
 
 	json ToJson(const std::string& id) const override {
-		return JsonBuilder(id)
+		return AOENGINE::JsonBuilder(id)
 			.Add("isLoop", isLoop)
 			.Add("duration", duration)
 			.Add("minScale", minScale)

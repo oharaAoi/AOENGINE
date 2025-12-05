@@ -50,7 +50,7 @@ public:
 	// 終了
 	void Finalize();
 	// 初期化
-	void Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager);
+	void Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 	// 実行
 	void Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource);
 	// コピー

@@ -9,7 +9,7 @@ class PlayerDeadState :
 	public ICharacterState<Player> {
 public: // データ構造体
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float knockbackTime = 0.2f;			// ノックバックの時間
 		float knockStrength = 10.0f;			// ノックバックの強さ
 		float knockDecay = 0.8f;			// ノックバックの減衰
@@ -20,7 +20,7 @@ public: // データ構造体
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("knockbackTime", knockbackTime)
 				.Add("knockStrength", knockStrength)
 				.Add("knockDecay", knockDecay)

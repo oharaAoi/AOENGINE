@@ -12,7 +12,7 @@ class ClearNotificationUI :
 	public AttributeGui {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		Vector2 startPos;
 		Vector2 endPos;
 		float duration;
@@ -23,7 +23,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("startPos", startPos)
 				.Add("endPos", endPos)
 				.Add("duration", duration)

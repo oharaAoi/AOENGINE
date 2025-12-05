@@ -11,7 +11,7 @@ class BossActionVerticalMissile :
 	public BaseTaskNode<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float bulletSpeed = 80.0f;
 		float fireRadius = 4.0f;
 		int kFireCount = 10;
@@ -21,7 +21,7 @@ public:
 		Parameter() { SetName("BossActionVerticalMissile"); }
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("fireRadius", fireRadius)
 				.Add("kFireCount", kFireCount)

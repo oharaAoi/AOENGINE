@@ -11,7 +11,7 @@ void TestScene::Finalize() {}
 void TestScene::Init() {
 	EditorWindows::GetInstance()->Reset();
 
-	JsonItems* adjust = JsonItems::GetInstance();
+	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init("TestScene");
 
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");

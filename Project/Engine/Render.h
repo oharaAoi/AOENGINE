@@ -41,7 +41,7 @@ public:
 	/// <param name="device"></param>
 	/// <param name="primitive"></param>
 	/// <param name="renderTarget"></param>
-	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, RenderTarget* renderTarget);
+	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, AOENGINE::RenderTarget* renderTarget);
 
 	/// <summary>
 	/// 更新
@@ -54,7 +54,7 @@ public:
 	static void PrimitiveDrawCall();
 
 	/// <summary>
-	/// RenderTargetの設定
+	/// AOENGINE::RenderTargetの設定
 	/// </summary>
 	/// <param name="renderTypes"></param>
 	/// <param name="depthHandle"></param>
@@ -168,7 +168,7 @@ public:
 
 private:
 
-	RenderTarget* renderTarget_ = nullptr;
+	AOENGINE::RenderTarget* renderTarget_ = nullptr;
 
 };
 }

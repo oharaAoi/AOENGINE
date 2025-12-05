@@ -41,7 +41,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager);
+	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, AOENGINE::RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// 終了関数
@@ -129,7 +129,7 @@ private:
 	ID3D12Device* device_ = nullptr;
 	AOENGINE::DxResourceManager* dxResourceManager_ = nullptr;
 
-	RenderTarget* renderTarget_ = nullptr;
+	AOENGINE::RenderTarget* renderTarget_ = nullptr;
 
 private:
 

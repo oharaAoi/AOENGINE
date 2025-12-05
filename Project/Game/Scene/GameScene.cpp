@@ -17,7 +17,7 @@ void GameScene::Finalize() {
 void GameScene::Init() {
 	Engine::GetCanvas2d()->Init();
 
-	JsonItems* adjust = JsonItems::GetInstance();
+	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
 	auto& layers = CollisionLayerManager::GetInstance();

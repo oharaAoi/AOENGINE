@@ -14,7 +14,7 @@ class ShaderGraph :
 	public AttributeGui {
 public:
 
-	struct FilePathParam : public IJsonConverter {
+	struct FilePathParam : public AOENGINE::IJsonConverter {
 		std::string path = "";
 
 		FilePathParam() {
@@ -23,7 +23,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("path", path)
 				.Build();
 		}

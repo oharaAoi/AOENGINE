@@ -44,7 +44,7 @@ AOENGINE::Render* AOENGINE::Render::GetInstance() {
 	return &instance;
 }
 
-void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, RenderTarget* renderTarget) {
+void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, AOENGINE::RenderTarget* renderTarget) {
 	assert(commandList);
 	commandList_ = commandList;
 	GetInstance()->renderTarget_ = renderTarget;
@@ -90,7 +90,7 @@ void AOENGINE::Render::PrimitiveDrawCall() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　RenderTargetを任意の物に設定する
+// ↓　AOENGINE::RenderTargetを任意の物に設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle) {

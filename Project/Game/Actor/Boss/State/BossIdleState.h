@@ -12,7 +12,7 @@ class BossIdleState :
 	public ICharacterState<Boss> {
 public:
 
-	struct Parameter : public IJsonConverter {
+	struct Parameter : public AOENGINE::IJsonConverter {
 		float start = -0.5f;
 		float end = 0.5f;
 		float time = 1.5f;
@@ -23,7 +23,7 @@ public:
 		}
 
 		json ToJson(const std::string& id) const override {
-			return JsonBuilder(id)
+			return AOENGINE::JsonBuilder(id)
 				.Add("start", start)
 				.Add("end", end)
 				.Add("time", time)

@@ -67,7 +67,7 @@ void DirectXCommon::SetSwapChain() {
 	ID3D12GraphicsCommandList* commandList = dxCommands_->GetCommandList();
 	commandList->OMSetRenderTargets(1, &renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, false, &depthHandle_.handleCPU);
 	float clearColor[] = { 0.1f, 0.25f, 0.5f, 1.0f };
-	// RenderTargetはoffScreen用のRenderTargetを指定しておく
+	// AOENGINE::RenderTargetはoffScreen用のAOENGINE::RenderTargetを指定しておく
 	commandList->ClearRenderTargetView(renderTarget_->GetSwapChainHandle(backBufferIndex).handleCPU, clearColor, 0, nullptr);
 }
 
@@ -185,7 +185,7 @@ void DirectXCommon::SetError() {
 // ↓ DixrectXの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
+void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, AOENGINE::RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_device);
 	assert(_descriptorHeaps);
 	assert(_dxCommands);
