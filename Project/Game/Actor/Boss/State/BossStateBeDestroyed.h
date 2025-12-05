@@ -60,8 +60,8 @@ private:
 	float timer_;
 	Parameter param_;
 
-	Quaternion preRotate_;
-	Quaternion targetRotate_;
+	Math::Quaternion preRotate_;
+	Math::Quaternion targetRotate_;
 
 };
 

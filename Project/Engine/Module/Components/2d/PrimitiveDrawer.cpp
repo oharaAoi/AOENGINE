@@ -34,7 +34,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	primitiveData_ = nullptr;
 	// アドレスを取得
 	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&primitiveData_));
-	//std::memcpy(vertexData_, , sizeof(Vector4) * kMaxLineCount);
+	//std::memcpy(vertexData_, , sizeof(Math::Vector4) * kMaxLineCount);
 
 	// ---------------------------------------------------------------
 	// ↓Indexの設定

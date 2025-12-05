@@ -13,7 +13,7 @@ void WeaponRemainingRounds::Init(const std::string& _name) {
 	timer_ = 0;
 }
 
-void WeaponRemainingRounds::Update(const Vector2& pos, float _fillAmount) {
+void WeaponRemainingRounds::Update(const Math::Vector2& pos, float _fillAmount) {
 	gauge_->SetColor({ 1,1,1,1 });
 	gauge_->SetTranslate(pos);
 	gauge_->FillAmount(_fillAmount);

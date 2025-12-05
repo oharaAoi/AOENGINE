@@ -20,7 +20,7 @@ public:
 
 	// Dissolveに必要な構造体
 	struct DissolveSetting {
-		Matrix4x4 uvTransform[3];
+		Math::Matrix4x4 uvTransform[3];
 		Color color;
 		Color edgeColor;
 		float threshold = 0.5f;
@@ -28,12 +28,12 @@ public:
 
 	struct ArmorParameter : public AOENGINE::IJsonConverter {
 		float durability = 100.0f;
-		Vector3 scale = CVector3::UNIT;
-		Vector3 localTranslate = CVector3::ZERO;
+		Math::Vector3 scale = CVector3::UNIT;
+		Math::Vector3 localTranslate = CVector3::ZERO;
 		Color color = Color::white;
 		Color edgeColor = Color::white;
 
-		SRT uvTransform;
+		Math::SRT uvTransform;
 
 		std::string baseTexture = "white.png";
 		std::string noiseTexture1;
@@ -117,7 +117,7 @@ public:
 	/// <param name="_color">: baseColor</param>
 	/// <param name="_edgeColor"> : edgeColor</param>
 	/// <param name="_uvSrt"> : uv座標系</param>
-	void SetArmor(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt);
+	void SetArmor(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt);
 
 	/// <summary>
 	/// 耐久度を減らす関数
@@ -159,7 +159,7 @@ private:
 
 	std::string noiseTexture_[3];
 
-	SRT uvSrt_[3];
+	Math::SRT uvSrt_[3];
 
 	// armorに関する変数 -----------------------
 	float durability_;	// 耐久度
@@ -167,7 +167,7 @@ private:
 
 	bool isAlive_;
 
-	VectorTween<Vector3> uvMovingTween_[3];
+	VectorTween<Math::Vector3> uvMovingTween_[3];
 
 	VectorTween<float> thresholdTween_;
 

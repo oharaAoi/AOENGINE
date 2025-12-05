@@ -48,16 +48,16 @@ void Rigidbody::Debug_Gui() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ velocity方向のQuaternionを返す
+// ↓ velocity方向のMath::Quaternionを返す
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-Quaternion Rigidbody::LookVelocity(const Quaternion& _rotate, float _rotateT, const Vector3& _axis) {
+Math::Quaternion Rigidbody::LookVelocity(const Math::Quaternion& _rotate, float _rotateT, const Math::Vector3& _axis) {
 	float angle = std::atan2f(velocity_.x, velocity_.z);
-	Quaternion lerpQuaternion = Quaternion::Slerp(_rotate, Quaternion::AngleAxis(angle, _axis), _rotateT);
+	Math::Quaternion lerpQuaternion = Math::Quaternion::Slerp(_rotate, Math::Quaternion::AngleAxis(angle, _axis), _rotateT);
 	return lerpQuaternion;
 }
 
-void Rigidbody::SetPushbackForce(const Vector3& _force) {
+void Rigidbody::SetPushbackForce(const Math::Vector3& _force) {
 	pushbackForce_ += _force;
 
 	if (isGravity_) {

@@ -240,11 +240,11 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 
 void Player::LookTarget(float _rotateT_, bool isLockOn) {
 	if (isLockOn) {
-		Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
+		Math::Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
 		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
 		toTarget = toTarget.Normalize();
-		Quaternion targetToRotate = Quaternion::LookRotation(toTarget);
-		transform_->srt_.rotate = Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
+		Math::Quaternion targetToRotate = Math::Quaternion::LookRotation(toTarget);
+		transform_->srt_.rotate = Math::Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
 	} else {
 		transform_->SetRotate(object_->GetRigidbody()->LookVelocity(transform_->GetRotate(), _rotateT_));
 	}
@@ -266,9 +266,9 @@ void Player::UpdateJoint() {
 // ↓ ノックバック処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Knockback(const Vector3& direction) {
+void Player::Knockback(const Math::Vector3& direction) {
 	if (isKnockback_) { return; }
-	Vector3 dire = direction;
+	Math::Vector3 dire = direction;
 
 	// playerが地面についている際はy軸方向にノックバックしない用に対策する
 	if (isLanding_) {
@@ -379,10 +379,10 @@ bool Player::IsAttack() {
 
 void Player::CameraIncline() {
 	// スクリーン座標系でのX成分の差を求める
-	Vector3 screenPos = Transform(CVector3::ZERO, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
-	Vector3 screenPosPrev = Transform(CVector3::ZERO, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
-	screenPos_ = Vector2(screenPos.x, screenPos.y);
-	screenPosPrev_ = Vector2(screenPosPrev.x, screenPosPrev.y);
+	Math::Vector3 screenPos = Transform(CVector3::ZERO, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
+	Math::Vector3 screenPosPrev = Transform(CVector3::ZERO, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
+	screenPos_ = Math::Vector2(screenPos.x, screenPos.y);
+	screenPosPrev_ = Math::Vector2(screenPosPrev.x, screenPosPrev.y);
 
 	// ターゲット角度の生計算
 	float diffX = std::abs(screenPos_.x) - std::abs(screenPosPrev_.x);

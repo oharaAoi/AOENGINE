@@ -106,7 +106,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="vpMat">: viewProjection</param>
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat);
+	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat);
 
 	/// <summary>
 	/// 線の描画
@@ -114,7 +114,7 @@ public:
 	/// <param name="p1">: 始点</param>
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
-	static void DrawLine(const Vector3& p1, const Vector3& p2, const Color& color);
+	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color);
 
 	static void DrawLightGroup(Pipeline* pipeline);
 
@@ -129,38 +129,38 @@ public:
 	/// </summary>
 	/// <param name="view"></param>
 	/// <param name="projection"></param>
-	static void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection);
+	static void SetViewProjection(const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 
 	/// <summary>
 	/// 
 	/// </summary>
 	/// <param name="view"></param>
 	/// <param name="projection"></param>
-	static void SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection);
+	static void SetViewProjection2D(const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 
-	static Matrix4x4 GetViewport2D();
-	static Matrix4x4 GetProjection2D();
-	static Matrix4x4 GetViewport3D();
-	static Matrix4x4 GetProjection3D();
-	static Matrix4x4 GetViewProjectionMat();
+	static Math::Matrix4x4 GetViewport2D();
+	static Math::Matrix4x4 GetProjection2D();
+	static Math::Matrix4x4 GetViewport3D();
+	static Math::Matrix4x4 GetProjection3D();
+	static Math::Matrix4x4 GetViewProjectionMat();
 
 	static float GetNearClip();
 	static float GetNearClip2D();
 	static float GetFarClip();
 	static float GetFarClip2D();
 
-	static void SetEyePos(const Vector3& eyePos);
-	static const Vector3& GetEyePos();
+	static void SetEyePos(const Math::Vector3& eyePos);
+	static const Math::Vector3& GetEyePos();
 
-	static void SetCameraRotate(const Quaternion& rotate);
-	static Quaternion GetCameraRotate();
+	static void SetCameraRotate(const Math::Quaternion& rotate);
+	static Math::Quaternion GetCameraRotate();
 
-	static Matrix4x4 GetBillBordMat();
+	static Math::Matrix4x4 GetBillBordMat();
 
 	static const ViewProjection* GetViewProjection();
 
-	static void SetVpvpMatrix(const Matrix4x4& _mat);
-	static Matrix4x4 GetVpvpMatrix();
+	static void SetVpvpMatrix(const Math::Matrix4x4& _mat);
+	static Math::Matrix4x4 GetVpvpMatrix();
 
 	static void SetSkyboxTexture(const std::string& _name);
 

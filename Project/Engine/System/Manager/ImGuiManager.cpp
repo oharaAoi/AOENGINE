@@ -51,7 +51,7 @@ void ImGuiManager::Finalize(){
 void ImGuiManager::Begin(){
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
-	UpdateMousePosition(WinApp::GetInstance()->GetHwnd(), Vector2(float(WinApp::sWindowWidth), float(WinApp::sWindowHeight)));
+	UpdateMousePosition(WinApp::GetInstance()->GetHwnd(), Math::Vector2(float(WinApp::sWindowWidth), float(WinApp::sWindowHeight)));
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
 	//ImGui::SetWindowFontScale(0.1f);
@@ -62,7 +62,7 @@ void ImGuiManager::End() {
 	ImGui::Render();
 }
 
-void ImGuiManager::UpdateMousePosition(HWND _winHwnd, const Vector2& _renderTargetSize) {
+void ImGuiManager::UpdateMousePosition(HWND _winHwnd, const Math::Vector2& _renderTargetSize) {
 	POINT point;
 	GetCursorPos(&point);
 
@@ -71,14 +71,14 @@ void ImGuiManager::UpdateMousePosition(HWND _winHwnd, const Vector2& _renderTarg
 	RECT clientRect;
 	GetClientRect(_winHwnd, &clientRect);
 
-	Vector2 clientSize = {
+	Math::Vector2 clientSize = {
 		static_cast<float>(clientRect.right - clientRect.left),
 		static_cast<float>(clientRect.bottom - clientRect.top)
 	};
 
 	/// 補正
-	Vector2 scale = _renderTargetSize / clientSize;
-	Vector2 corrected = {
+	Math::Vector2 scale = _renderTargetSize / clientSize;
+	Math::Vector2 corrected = {
 		point.x * scale.x,
 		point.y * scale.y
 	};

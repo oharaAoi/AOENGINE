@@ -2,25 +2,25 @@
 #include "Engine/Lib/Math/MathStructures.h"
 #include <variant>
 
-Vector3 PenetrationResolution(const Sphere& s1, const Sphere& s2);
+Math::Vector3 PenetrationResolution(const Math::Sphere& s1, const Math::Sphere& s2);
 
-Vector3 PenetrationResolutionAABBandSphere(const AABB& aabb, const Sphere& s1);
+Math::Vector3 PenetrationResolutionAABBandSphere(const Math::AABB& aabb, const Math::Sphere& s1);
 
-Vector3 PenetrationResolutionAABBandAABB(const AABB& aabb1, const AABB& aabb2);
+Math::Vector3 PenetrationResolutionAABBandAABB(const Math::AABB& aabb1, const Math::AABB& aabb2);
 
 //================================================================================================//
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
 
 template<typename T1, typename T2>
-Vector3 PenetrationResolution(const T1&, const T2&) {
+Math::Vector3 PenetrationResolution(const T1&, const T2&) {
     return CVector3::ZERO;
 }
 
-Vector3 PenetrationResolution(const Sphere& s, const AABB& aabb);
-Vector3 PenetrationResolution(const AABB& aabb, const Sphere& s);
+Math::Vector3 PenetrationResolution(const Math::Sphere& s, const Math::AABB& aabb);
+Math::Vector3 PenetrationResolution(const Math::AABB& aabb, const Math::Sphere& s);
 
-Vector3 PenetrationResolution(const AABB& aabb1, const AABB& aabb2);
+Math::Vector3 PenetrationResolution(const Math::AABB& aabb1, const Math::AABB& aabb2);
 
-Vector3 PenetrationResolution(const std::variant<Sphere, AABB, OBB, Line>& shape1,
-                              const std::variant<Sphere, AABB, OBB, Line>& shape2);
+Math::Vector3 PenetrationResolution(const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape1,
+                              const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape2);

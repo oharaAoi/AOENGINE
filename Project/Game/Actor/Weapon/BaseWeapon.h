@@ -5,8 +5,8 @@
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
 
 struct AttackContext {
-	Vector3 direction;
-	Vector3 target;
+	Math::Vector3 direction;
+	Math::Vector3 target;
 };
 
 /// <summary>

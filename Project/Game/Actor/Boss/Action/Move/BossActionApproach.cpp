@@ -38,7 +38,7 @@ void BossActionApproach::Init() {
 	distance_ = toPlayer_.Length();
 	direToPlayer_ = toPlayer_.Normalize();
 
-	lateral_ = Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
+	lateral_ = Math::Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
 
 	spinAmount_ = Clamp01(distance_ / param_.maxSpinDistance);
 	offsetDire_ = direToPlayer_ + lateral_ * spinAmount_;
@@ -91,7 +91,7 @@ void BossActionApproach::SpinApproach() {
 	direToPlayer_ = toPlayer_.Normalize();
 
 	// Y軸を上とした場合、横方向ベクトルを計算
-	lateral_ = Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
+	lateral_ = Math::Vector3::Cross(CVector3::UP, direToPlayer_).Normalize();
 
 	// 旋回の強さを距離に応じて調整（例：最大1.0）
 	spinAmount_ = Clamp01(distance_ / param_.maxSpinDistance);

@@ -44,7 +44,7 @@ void PlayerUIs::Init(Player* _player) {
 	EditorWindows::AddObjectWindow(this, "PlayerUIs");
 }
 
-void PlayerUIs::Update(const Vector2& reticlePos) {
+void PlayerUIs::Update(const Math::Vector2& reticlePos) {
 	const Player::Parameter& playerParam = pPlayer_->GetParam();
 	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
 

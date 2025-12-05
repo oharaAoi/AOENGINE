@@ -251,15 +251,15 @@ void Boss::ResetStan() {
 
 bool Boss::TargetLook() {
 	// 目標の方向を計算する
-	Quaternion targetRotate = Quaternion::LookRotation(targetTransform_->GetPos() - transform_->GetPos());
+	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(targetTransform_->GetPos() - transform_->GetPos());
 	// なす角を求める
-	float angle = Quaternion::Angle(transform_->GetRotate(), targetRotate);
+	float angle = Math::Quaternion::Angle(transform_->GetRotate(), targetRotate);
 
 	if (angle > param_.angularThreshold) {
 		// 経過時間で変化させる角度
 		float deltaAngle = param_.angularVelocity * GameTimer::DeltaTime();
 		// 実際に方向を決定
-		transform_->SetRotate(Quaternion::Slerp(transform_->GetRotate(), targetRotate, deltaAngle));
+		transform_->SetRotate(Math::Quaternion::Slerp(transform_->GetRotate(), targetRotate, deltaAngle));
 	} else {
 		return true;
 	}

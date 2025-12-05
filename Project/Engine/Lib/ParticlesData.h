@@ -1,5 +1,5 @@
-
 #pragma once
+#include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Quaternion.h"
@@ -61,7 +61,7 @@ struct ParticleSingle {
 	bool isCenterFor = false;
 
 	bool isTextureAnimation = false;
-	Math::Vector2 tileSize = CVector2::UNIT;
+	Math::Vector2 tileSize = CMath::Vector2::UNIT;
 	Math::Matrix4x4 uvMat;
 
 	bool isColorAnimation = false;
@@ -129,7 +129,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	std::string useMesh = "plane";
 
 	bool isTextureSheetAnimation = false;
-	Math::Vector2 tiles = CVector2::UNIT;
+	Math::Vector2 tiles = CMath::Vector2::UNIT;
 
 	bool isColorAnimation = false;
 	Color preColor;

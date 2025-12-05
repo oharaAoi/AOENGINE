@@ -10,7 +10,7 @@ class LaserRifle :
 public: // データ構造体
 
 	struct LaserRifleParam : AOENGINE::IJsonConverter {
-		Vector3 pos;
+		Math::Vector3 pos;
 
 		LaserRifleParam() {
 			SetGroupName("Weapon");

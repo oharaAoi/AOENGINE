@@ -18,8 +18,8 @@ void CylinderGeometry::Init(uint32_t division, float bottomRadius, float topRadi
 		float u = float(index) / float(division);
 		float uNext = float(index + 1) / float(division);
 
-		Vector3 outerNormal = Vector3(-sin, 0.0f, cos).Normalize();
-		Vector3 outerNormalNext = Vector3(-sinNext, 0.0f, cosNext).Normalize();
+		Math::Vector3 outerNormal = Math::Vector3(-sin, 0.0f, cos).Normalize();
+		Math::Vector3 outerNormalNext = Math::Vector3(-sinNext, 0.0f, cosNext).Normalize();
 
 		uint32_t oi = index * 4;
 		// 実際に入力
@@ -50,7 +50,7 @@ void CylinderGeometry::Init(uint32_t division, float bottomRadius, float topRadi
 	}
 }
 
-void CylinderGeometry::Init(uint32_t division, Vector2 bottomRadius, Vector2 topRadius, float height) {
+void CylinderGeometry::Init(uint32_t division, Math::Vector2 bottomRadius, Math::Vector2 topRadius, float height) {
 	geometryName_ = "cylinderGeometryCollapsed";
 
 	const float radianPreDivde = kPI2 / float(division);
@@ -67,8 +67,8 @@ void CylinderGeometry::Init(uint32_t division, Vector2 bottomRadius, Vector2 top
 		float u = float(index) / float(division);
 		float uNext = float(index + 1) / float(division);
 
-		Vector3 outerNormal = Vector3(-sin, 0.0f, cos).Normalize();
-		Vector3 outerNormalNext = Vector3(-sinNext, 0.0f, cosNext).Normalize();
+		Math::Vector3 outerNormal = Math::Vector3(-sin, 0.0f, cos).Normalize();
+		Math::Vector3 outerNormalNext = Math::Vector3(-sinNext, 0.0f, cosNext).Normalize();
 
 		uint32_t oi = index * 4;
 		// 実際に入力

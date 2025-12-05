@@ -3,7 +3,7 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
 /// <summary>
-/// floatやVector2などのtemplateに基本の型のNode
+/// floatやMath::Vector2などのtemplateに基本の型のNode
 /// </summary>
 /// <typeparam name="T"></typeparam>
 template<typename T>
@@ -76,11 +76,11 @@ inline nlohmann::json PropertyNode<T>::toJson() {
 	BaseInfoToJson(result);
 	if constexpr (std::is_same_v<T, float>) {
 		result["props"]["value"] = { value_ };
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		result["props"]["value"] = { value_.x, value_.y };
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z };
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
 	} else if constexpr (std::is_same_v<T, Color>) {
 		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
@@ -93,16 +93,16 @@ inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 	if constexpr (std::is_same_v<T, float>) {
 		value_ = _json.at("props").at("value").at(0).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();
 		value_.z = value.at(2).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();

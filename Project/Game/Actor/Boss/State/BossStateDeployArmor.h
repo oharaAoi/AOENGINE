@@ -15,11 +15,11 @@ public:
 
 	struct ArmorParameter : public AOENGINE::IJsonConverter {
 		float durability = 100.0f;
-		Vector3 scale = CVector3::UNIT;
+		Math::Vector3 scale = CVector3::UNIT;
 		Color color = Color::white;
 		Color edgeColor = Color::white;
 
-		SRT uvTransform;
+		Math::SRT uvTransform;
 
 		ArmorParameter() { 
 			SetGroupName("BossState");

@@ -39,7 +39,7 @@ public:	// accessor method
 	
 	Sprite* GetBg() const { return bg_; }
 
-	void SetPos(const Vector2& _pos);
+	void SetPos(const Math::Vector2& _pos);
 
 	void SetFillAmount(float _amount) { fillAmount_ = _amount; }
 

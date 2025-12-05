@@ -29,7 +29,7 @@ public:
 	/// <param name="_rotateT">: 回転率</param>
 	/// 	/// <param name="_axis">: 軸</param>
 	/// <returns></returns>
-	Quaternion LookVelocity(const Quaternion& _rotate, float _rotateT, const Vector3& _axis = CVector3::UP);
+	Math::Quaternion LookVelocity(const Math::Quaternion& _rotate, float _rotateT, const Math::Vector3& _axis = CVector3::UP);
 
 public:
 
@@ -40,11 +40,11 @@ public:
 	void SetVelocityY(float _y) { velocity_.y = _y; }
 	void SetVelocityZ(float _z) { velocity_.z = _z; }
 
-	void AddVelocity(const Vector3& _velocity) { velocity_ += _velocity; }
-	void SetVelocity(const Vector3& _velocity) { velocity_ = _velocity; }
-	const Vector3& GetVelocity() const { return velocity_; }
+	void AddVelocity(const Math::Vector3& _velocity) { velocity_ += _velocity; }
+	void SetVelocity(const Math::Vector3& _velocity) { velocity_ = _velocity; }
+	const Math::Vector3& GetVelocity() const { return velocity_; }
 
-	const Vector3& GetMoveForce() const { return moveForce_; }
+	const Math::Vector3& GetMoveForce() const { return moveForce_; }
 
 	void SetGravity(bool _isGravity) { isGravity_ = _isGravity; }
 	bool GetGravity() const { return isGravity_; }
@@ -52,25 +52,25 @@ public:
 	void SetDrag(float _drag) { drag_ = _drag; }
 	float GetDrag() const { return drag_; }
 
-	const Vector3& GetPushbackForce() const { return pushbackForce_; }
-	void SetPushbackForce(const Vector3& _force);
+	const Math::Vector3& GetPushbackForce() const { return pushbackForce_; }
+	void SetPushbackForce(const Math::Vector3& _force);
 
 private:
 
-	Vector3 velocity_;
+	Math::Vector3 velocity_;
 	// 移動させる力
-	Vector3 moveForce_;
+	Math::Vector3 moveForce_;
 
 	// 重力に関する変数
 	bool isGravity_;
-	Vector3 gravityAccel_;
-	Vector3 gravityVelocity_;
+	Math::Vector3 gravityAccel_;
+	Math::Vector3 gravityVelocity_;
 
 	// 空気抵抗
 	float drag_;
 
 	// 押し戻しに関する変数
-	Vector3 pushbackForce_;
+	Math::Vector3 pushbackForce_;
 
 };
 

@@ -14,8 +14,8 @@ public:
 	//*======================================================================
 	//	加算
 	//*======================================================================
-	Matrix4x4 operator+(const Matrix4x4& obj) const {
-		Matrix4x4 result{};
+	Math::Matrix4x4 operator+(const Math::Matrix4x4& obj) const {
+		Math::Matrix4x4 result{};
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
@@ -29,8 +29,8 @@ public:
 	//*======================================================================
 	//	減算
 	//*======================================================================
-	Matrix4x4 operator-(const Matrix4x4& obj) const {
-		Matrix4x4 result{};
+	Math::Matrix4x4 operator-(const Math::Matrix4x4& obj) const {
+		Math::Matrix4x4 result{};
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
@@ -44,8 +44,8 @@ public:
 	//*======================================================================
 	//	掛算
 	//*======================================================================
-	Matrix4x4 operator*(const Matrix4x4& obj) const {
-		Matrix4x4 result{};
+	Math::Matrix4x4 operator*(const Math::Matrix4x4& obj) const {
+		Math::Matrix4x4 result{};
 
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 4; col++) {
@@ -58,8 +58,8 @@ public:
 		return result;
 	}
 
-	Matrix4x4& operator*=(const Matrix4x4& other) {
-		Matrix4x4 result;
+	Math::Matrix4x4& operator*=(const Math::Matrix4x4& other) {
+		Math::Matrix4x4 result;
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
 				result.m[i][j] = 0;

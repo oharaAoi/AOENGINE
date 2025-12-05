@@ -34,7 +34,7 @@ public:
 
 public:
 
-	void SetParent(const Matrix4x4& mat);
+	void SetParent(const Math::Matrix4x4& mat);
 
 	/// <summary>
 	/// Armorをセットする
@@ -44,7 +44,7 @@ public:
 	/// <param name="_color">: baseColor</param>
 	/// <param name="_edgeColor"> : edgeColor</param>
 	/// <param name="_uvSrt"> : uv座標系</param>
-	void SetArmorParam(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt);
+	void SetArmorParam(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt);
 
 	/// <summary>
 	/// 耐久度を減らす関数

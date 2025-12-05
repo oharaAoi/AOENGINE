@@ -56,7 +56,7 @@ void BossActionAllRangeMissile::Init() {
 	param_.Load();
 	// 
 	taskTimer_ = 0.f;
-	playerToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
+	playerToRotation_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 
 	mainAction_ = std::bind(&BossActionAllRangeMissile::LookPlayer, this);
 
@@ -92,10 +92,10 @@ void BossActionAllRangeMissile::End() {
 
 void BossActionAllRangeMissile::Shot() {
 	if (isFinishShot_) { return; }
-	Vector3 pos = pTarget_->GetTransform()->GetPos();
-	Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
-	Vector3 right = pTarget_->GetTransform()->GetRotate().MakeRight();
-	Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う
+	Math::Vector3 pos = pTarget_->GetTransform()->GetPos();
+	Math::Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
+	Math::Vector3 right = pTarget_->GetTransform()->GetRotate().MakeRight();
+	Math::Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う
 
 	const uint32_t angleUpNum = 4;
 	const float halfAngle = kPI * 0.5f; // 90度
@@ -108,14 +108,14 @@ void BossActionAllRangeMissile::Shot() {
 			float upAngle = -halfAngle * ((float)upCount / (float)angleUpNum);
 
 			// クォータニオンで回転を生成（up軸周りに角度回転）
-			Quaternion rot = Quaternion::AngleAxis(angle, up);
-			Quaternion upoRot = Quaternion::AngleAxis(upAngle, right);
+			Math::Quaternion rot = Math::Quaternion::AngleAxis(angle, up);
+			Math::Quaternion upoRot = Math::Quaternion::AngleAxis(upAngle, right);
 
 			// 正面ベクトルを回転させて発射方向に
-			Vector3 dir = upoRot.Rotate(forward);
+			Math::Vector3 dir = upoRot.Rotate(forward);
 			dir = rot.Rotate(dir);
 
-			Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
+			Math::Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
 			BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																						param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 			missile->SetTakeDamage(param_.takeDamage);
@@ -131,7 +131,7 @@ void BossActionAllRangeMissile::Shot() {
 
 void BossActionAllRangeMissile::LookPlayer() {
 	float t = taskTimer_ / lookTime_;
-	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotation_, t);
+	Math::Quaternion lookRotation = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotation_, t);
 	pTarget_->GetTransform()->SetRotate(lookRotation);
 
 	// 次の行動に遷移する

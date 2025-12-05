@@ -25,7 +25,7 @@ void MachineGun::Init() {
 	attackParam_.Load();
 	
 	object_->SetObject("gun.obj");
-	transform_->srt_.rotate = Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
+	transform_->srt_.rotate = Math::Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Math::Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------
 	// ↓ Effect関連
@@ -43,12 +43,12 @@ void MachineGun::Init() {
 bool MachineGun::Attack(const AttackContext& cxt) {
 	if (!isCanAttack_) { return false; }
 
-	Vector3 worldPos = object_->GetPosition();
+	Math::Vector3 worldPos = object_->GetPosition();
 	PlayerBullet* bullet = pBulletManager_->AddBullet<PlayerBullet>(worldPos, cxt.direction * attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 
 	// effectを出す
-	Vector3 pos = offset_;
+	Math::Vector3 pos = offset_;
 	pos = (cxt.direction * offset_.z);
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);

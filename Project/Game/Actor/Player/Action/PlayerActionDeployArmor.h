@@ -16,7 +16,7 @@ public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float chargeTime = 2.0f;
-		Vector3 effectOffset = {0, 2, 0};
+		Math::Vector3 effectOffset = {0, 2, 0};
 
 		float cameraApproachTime;
 		float cameraLeaveTime;

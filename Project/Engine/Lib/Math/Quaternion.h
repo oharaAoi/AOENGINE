@@ -9,9 +9,8 @@ namespace Math {
 class Quaternion final {
 public:
 
-
-	Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {};
-	Quaternion(const float& _x, const float& _y, const float& _z, const float& _w) :
+	Math::Quaternion() : x(0.0f), y(0.0f), z(0.0f), w(1.0f) {};
+	Math::Quaternion(const float& _x, const float& _y, const float& _z, const float& _w) :
 		x(_x), y(_y), z(_z), w(_w) {
 	};
 
@@ -27,7 +26,7 @@ public:
 	/// 行列を返す
 	/// </summary>
 	/// <returns>: 回転行列</returns>
-	Matrix4x4 MakeMatrix() const;
+	Math::Matrix4x4 MakeMatrix() const;
 
 	Math::Vector3 MakeForward() const;
 	Math::Vector3 MakeUp() const;
@@ -157,8 +156,8 @@ public:
 
 	Math::Vector3 operator*(const Math::Vector3& v) const;
 
-	operator Vector4() const {
-		return Vector4(x, y, z, w);
+	operator Math::Vector4() const {
+		return Math::Vector4(x, y, z, w);
 	}
 
 public:

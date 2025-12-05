@@ -33,8 +33,8 @@ public:
 	/// skelton空間で行列
 	/// </summary>
 	struct WellForGPU {
-		Matrix4x4 skeltonSpaceMatrix;
-		Matrix4x4 skeltonSpaceInverseTransposeMat;
+		Math::Matrix4x4 skeltonSpaceMatrix;
+		Math::Matrix4x4 skeltonSpaceInverseTransposeMat;
 	};
 
 	/// <summary>
@@ -83,7 +83,7 @@ private:
 	DescriptorHandles influenceSrvHandle_;
 
 	// well
-	std::vector<Matrix4x4> inverseBindPoseMatrices_;
+	std::vector<Math::Matrix4x4> inverseBindPoseMatrices_;
 
 	// skinningInformation
 	SkinningInformation* skinningInformation_;

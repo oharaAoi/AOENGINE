@@ -21,9 +21,9 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	collisionState_ = (int)CollisionFlags::None;
 
 	if (shape == ColliderShape::AABB) {
-		shape_ = AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
+		shape_ = Math::AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
 	} else if (shape == ColliderShape::OBB) {
-		shape_ = OBB{ .center = CVector3::ZERO, .size = CVector3::UNIT };
+		shape_ = Math::OBB{ .center = CVector3::ZERO, .size = CVector3::UNIT };
 	} else {
 		assert("not AABB or OBB Shape");
 	}
@@ -36,32 +36,32 @@ void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BoxCollider::Update(const QuaternionSRT& srt) {
+void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate;
-	if (std::holds_alternative<AABB>(shape_)) {
+	if (std::holds_alternative<Math::AABB>(shape_)) {
 		// ローカル空間でのAABBの半サイズ
-		Vector3 halfSize = size_ * 0.5f;
+		Math::Vector3 halfSize = size_ * 0.5f;
 
 		// ローカル空間での8頂点
-		std::array<Vector3, 8> localPoints = {
-			Vector3{-halfSize.x, -halfSize.y, -halfSize.z},
-			Vector3{ halfSize.x, -halfSize.y, -halfSize.z},
-			Vector3{-halfSize.x,  halfSize.y, -halfSize.z},
-			Vector3{ halfSize.x,  halfSize.y, -halfSize.z},
-			Vector3{-halfSize.x, -halfSize.y,  halfSize.z},
-			Vector3{ halfSize.x, -halfSize.y,  halfSize.z},
-			Vector3{-halfSize.x,  halfSize.y,  halfSize.z},
-			Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
+		std::array<Math::Vector3, 8> localPoints = {
+			Math::Vector3{-halfSize.x, -halfSize.y, -halfSize.z},
+			Math::Vector3{ halfSize.x, -halfSize.y, -halfSize.z},
+			Math::Vector3{-halfSize.x,  halfSize.y, -halfSize.z},
+			Math::Vector3{ halfSize.x,  halfSize.y, -halfSize.z},
+			Math::Vector3{-halfSize.x, -halfSize.y,  halfSize.z},
+			Math::Vector3{ halfSize.x, -halfSize.y,  halfSize.z},
+			Math::Vector3{-halfSize.x,  halfSize.y,  halfSize.z},
+			Math::Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
 		};
 
 		// 最大値と最小値を決定
-		Vector3 min = Vector3{
+		Math::Vector3 min = Math::Vector3{
 			std::numeric_limits<float>::max(),
 			std::numeric_limits<float>::max(),
 			std::numeric_limits<float>::max()
 		};
-		Vector3 max = Vector3{
+		Math::Vector3 max = Math::Vector3{
 			std::numeric_limits<float>::lowest(),
 			std::numeric_limits<float>::lowest(),
 			std::numeric_limits<float>::lowest()
@@ -69,20 +69,20 @@ void BoxCollider::Update(const QuaternionSRT& srt) {
 
 		// aabbの各頂点を計算
 		for (const auto& localPt : localPoints) {
-			Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
-			Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
-			Vector3 worldPt = srt.translate + rotatedPt;                    // 平行移動
-			min = Vector3::Min(min, worldPt);
-			max = Vector3::Max(max, worldPt);
+			Math::Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
+			Math::Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
+			Math::Vector3 worldPt = srt.translate + rotatedPt;                    // 平行移動
+			min = Math::Vector3::Min(min, worldPt);
+			max = Math::Vector3::Max(max, worldPt);
 		}
 
-		auto& aabb = std::get<AABB>(shape_);
+		auto& aabb = std::get<Math::AABB>(shape_);
 		aabb.min = min;
 		aabb.max = max;
 		aabb.center = (min + max) * 0.5f;
-	} else if (std::holds_alternative<OBB>(shape_)) {
-		std::get<OBB>(shape_).center = srt.translate + localSRT_.translate;
-		std::get<OBB>(shape_).MakeOBBAxis(srt.rotate);
+	} else if (std::holds_alternative<Math::OBB>(shape_)) {
+		std::get<Math::OBB>(shape_).center = srt.translate + localSRT_.translate;
+		std::get<Math::OBB>(shape_).MakeOBBAxis(srt.rotate);
 	}
 }
 
@@ -95,10 +95,10 @@ void BoxCollider::Draw() const {
 		color = Color::red;
 	}
 
-	if (std::holds_alternative<AABB>(shape_)) {
-		DrawAABB(std::get<AABB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
-	} else if (std::holds_alternative<OBB>(shape_)) {
-		DrawOBB(std::get<OBB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
+	if (std::holds_alternative<Math::AABB>(shape_)) {
+		DrawAABB(std::get<Math::AABB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
+	} else if (std::holds_alternative<Math::OBB>(shape_)) {
+		DrawOBB(std::get<Math::OBB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
 	}
 }
 

@@ -115,11 +115,11 @@ public:
 
 	bool GetIsDelete() const { return isDelete_; }
 
-	void SetPos(const Vector2& _pos) {
+	void SetPos(const Math::Vector2& _pos) {
 		setNodePos_ = false;
 		pos_ = _pos;
 	}
-	Vector2 GetPos() { return pos_; }
+	Math::Vector2 GetPos() { return pos_; }
 
 	const std::vector<BaseBehaviorNode*>& GetChildren() const { return children_; }
 
@@ -148,7 +148,7 @@ protected:
 
 	bool isLeafNode_ = false;				// リーフノードかどうか
 
-	Vector2 pos_;				// Nodeの座標
+	Math::Vector2 pos_;				// Nodeの座標
 	bool setNodePos_;			// Node座標の設定を行ったかどうか
 
 	Blackboard* blackboard_;

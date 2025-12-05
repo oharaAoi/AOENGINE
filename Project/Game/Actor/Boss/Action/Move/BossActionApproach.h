@@ -94,14 +94,14 @@ private :
 	bool isShot_;
 
 	// 近づく挙動に必要な変数
-	Vector3 toPlayer_;
+	Math::Vector3 toPlayer_;
 	float distance_;
-	Vector3 direToPlayer_;
+	Math::Vector3 direToPlayer_;
 
-	Vector3 lateral_; // player方向に対する垂直なベクトル
+	Math::Vector3 lateral_; // player方向に対する垂直なベクトル
 
 	float spinAmount_;	// 旋回量
-	Vector3 offsetDire_;
+	Math::Vector3 offsetDire_;
 
 	bool stopping_;
 

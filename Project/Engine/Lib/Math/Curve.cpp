@@ -3,19 +3,19 @@
 
 using namespace Math;
 
-float Curve::BezierValue(float dt01) const {
+float Math::Curve::BezierValue(float dt01) const {
     enum { STEPS = 256 };
-    Vector2 Q[4] = { {0, 0}, {controlPoints_[0], controlPoints_[1]}, {controlPoints_[2], controlPoints_[3]}, {1, 1} };
-    Vector2 results[STEPS + 1];
+    Math::Vector2 Q[4] = { {0, 0}, {controlPoints_[0], controlPoints_[1]}, {controlPoints_[2], controlPoints_[3]}, {1, 1} };
+    Math::Vector2 results[STEPS + 1];
     bezier_table<STEPS>(Q, results);
     return results[(int)((dt01 < 0 ? 0 : dt01 > 1 ? 1 : dt01) * (float)STEPS)].y;
 }
 
-void Curve::Debug_Gui() {
+void Math::Curve::Debug_Gui() {
     ImGui::Bezier("curve label", controlPoints_);
 }
 
-json Curve::ToJson() const {
+json Math::Curve::ToJson() const {
     return {
         {"controlPoints_1", toJson(controlPoints_[0])},
         {"controlPoints_2", toJson(controlPoints_[1])},
@@ -24,7 +24,7 @@ json Curve::ToJson() const {
     };
 }
 
-void Curve::FromJson(const json& _json, const std::string& _name) {
+void Math::Curve::FromJson(const json& _json, const std::string& _name) {
     json curve;
 
     if (_json.is_object()) {

@@ -8,7 +8,7 @@ public:
 	float m[3][3];
 
 	//3x3の行列の積
-	static Matrix3x3 Multiply(const Matrix3x3& matrix1, const Matrix3x3& matrix2);
+	static Math::Matrix3x3 Multiply(const Math::Matrix3x3& matrix1, const Math::Matrix3x3& matrix2);
 
 	void SetRow(int row, const Math::Vector3& v) {
 		m[row][0] = v.x;

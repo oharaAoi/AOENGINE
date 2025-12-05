@@ -105,7 +105,7 @@ public:
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
-	const Vector2 GetTextureSize(const std::string& filePath);
+	const Math::Vector2 GetTextureSize(const std::string& filePath);
 
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
@@ -118,7 +118,7 @@ private:
 	struct TextureData {
 		AOENGINE::DxResource* resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
-		Vector2 textureSize_;
+		Math::Vector2 textureSize_;
 	};
 
 	struct TexturePath {

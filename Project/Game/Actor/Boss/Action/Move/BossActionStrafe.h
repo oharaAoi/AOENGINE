@@ -19,7 +19,7 @@ public:
 		float decayRate = 4.0f;
 		float rotateT = 0.1f;
 		float finishDistance = 1.0f;
-		Curve curve;
+		Math::Curve curve;
 
 		Parameter() { SetName("bossStrafe"); }
 
@@ -87,8 +87,8 @@ private:
 
 	Parameter param_;
 
-	Vector3 velocity_;
-	Vector3 accel_;
+	Math::Vector3 velocity_;
+	Math::Vector3 accel_;
 
 	bool stopping_;
 };

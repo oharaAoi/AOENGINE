@@ -15,8 +15,8 @@ public:
 	float y;
 	float z;
 
-	constexpr Vector3() : x(0), y(0), z(0) {}
-	constexpr Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+	constexpr Math::Vector3() : x(0), y(0), z(0) {}
+	constexpr Math::Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
 
 	// =============================================
 	/// <summary>
@@ -128,7 +128,7 @@ public:
 	}
 
 	// Matrix
-	Math::Vector3 operator*(const Matrix4x4& mat) {
+	Math::Vector3 operator*(const Math::Matrix4x4& mat) {
 		Math::Vector3 result{};
 
 		result.x = mat.m[0][0] * x + mat.m[1][0] * y + mat.m[2][0] * z + mat.m[3][0];

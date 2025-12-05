@@ -32,7 +32,7 @@ void ManipulateTool::SelectUseManipulate() {
 }
 
 void ManipulateTool::Button(const ImTextureID& texId, const std::string& label, UseManipulate checkType) {
-	Vector4 color = Vector4(25, 25, 112, 255.0f);
+	Math::Vector4 color = Math::Vector4(25, 25, 112, 255.0f);
 	ImVec2 iconSize(16, 16);
 	std::string id = "##" + label;
 	bool flag = false;

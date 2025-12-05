@@ -39,8 +39,8 @@ public:
 	/// Node構造体
 	/// </summary>
 	struct Node {
-		QuaternionSRT transform;
-		Matrix4x4 localMatrix;				 // NodeのLocalMatrix
+		Math::QuaternionSRT transform;
+		Math::Matrix4x4 localMatrix;				 // NodeのLocalMatrix
 		std::string name;					 // Nodeの名前
 		std::vector<Node> children;			 // 子供のNode
 		NodeAnimationData animationsData;	 // ノードに関するアニメーション

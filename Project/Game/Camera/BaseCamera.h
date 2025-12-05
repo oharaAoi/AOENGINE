@@ -10,8 +10,8 @@ class BaseCamera {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		Quaternion rotate = Quaternion::AngleAxis(25.0f * kToRadian, CVector3::RIGHT);
-		Vector3 translate = Vector3(0.0f,4.0f,-8.0f);
+		Math::Quaternion rotate = Math::Quaternion::AngleAxis(25.0f * kToRadian, CVector3::RIGHT);
+		Math::Vector3 translate = Math::Vector3(0.0f,4.0f,-8.0f);
 
 		Parameter() {
 			SetGroupName("Camera");
@@ -49,32 +49,32 @@ public:
 
 public:	// accesseor method
 
-	const Quaternion& GetRotate() const { return transform_.rotate; }
+	const Math::Quaternion& GetRotate() const { return transform_.rotate; }
 
-	const Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
+	const Math::Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
 
-	Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
-	Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
+	Math::Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
+	Math::Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
 
-	const Matrix4x4 GetVpvpMatrix() const;
+	const Math::Matrix4x4 GetVpvpMatrix() const;
 
-	const Matrix4x4 GetBillBordMatrix() const { return billBordMat_; }
+	const Math::Matrix4x4 GetBillBordMatrix() const { return billBordMat_; }
 
-	const Matrix4x4 GetVPVMatrix() const;
-	const Vector3 GetWorldPosition() const;
+	const Math::Matrix4x4 GetVPVMatrix() const;
+	const Math::Vector3 GetWorldPosition() const;
 
 protected:
 
 	Parameter parameter_;
 
-	QuaternionSRT transform_;
+	Math::QuaternionSRT transform_;
 
-	Matrix4x4 cameraMatrix_;
-	Matrix4x4 projectionMatrix_;
-	Matrix4x4 viewMatrix_;
-	Matrix4x4 viewportMatrix_;
+	Math::Matrix4x4 cameraMatrix_;
+	Math::Matrix4x4 projectionMatrix_;
+	Math::Matrix4x4 viewMatrix_;
+	Math::Matrix4x4 viewportMatrix_;
 
-	Matrix4x4 billBordMat_;
+	Math::Matrix4x4 billBordMat_;
 
 	float fovY_ = 0.45f;
 	float near_ = 0.1f;

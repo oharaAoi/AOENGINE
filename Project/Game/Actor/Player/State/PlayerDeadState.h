@@ -63,7 +63,7 @@ private:
 
 	Timer timer_;
 
-	Vector3 velocity_ = CVector3::ZERO;
-	Vector3 acceleration_ = CVector3::ZERO;
+	Math::Vector3 velocity_ = CVector3::ZERO;
+	Math::Vector3 acceleration_ = CVector3::ZERO;
 };
 

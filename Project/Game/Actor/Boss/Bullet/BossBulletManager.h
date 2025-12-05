@@ -39,7 +39,7 @@ public: // member method
 		return type;
 	}
 
-	void SetPlayerPosition(const Vector3& pos) { playerPosition_ = pos; }
+	void SetPlayerPosition(const Math::Vector3& pos) { playerPosition_ = pos; }
 
 	BaseBullet* SearchCollider(BaseCollider* collider);
 
@@ -47,7 +47,7 @@ private:
 
 	std::list<std::unique_ptr<BaseBullet>> bulletList_;
 
-	Vector3 playerPosition_;
+	Math::Vector3 playerPosition_;
 
 };
 

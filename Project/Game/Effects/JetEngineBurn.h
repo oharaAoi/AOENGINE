@@ -19,17 +19,17 @@ class JetEngineBurn :
 public:
 
 	struct NoiseUV {
-		Matrix4x4 uv;
+		Math::Matrix4x4 uv;
 	};
 
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		Color color;
-		Vector3 scale;
-		Quaternion rotate;
-		Vector3 translate;
-		Vector3 noiseScale;
+		Math::Vector3 scale;
+		Math::Quaternion rotate;
+		Math::Vector3 translate;
+		Math::Vector3 noiseScale;
 
 		std::string  materialTexture = "white.png";
 		std::string  blendTexture = "white.png";
@@ -106,11 +106,11 @@ private:
 
 	ComPtr<ID3D12Resource> noiseBuffer_;
 	NoiseUV* noiseUV_;
-	SRT noiseSRT_;
+	Math::SRT noiseSRT_;
 
 	Parameter param_;
 
 	VectorTween<float> noiseAnimation_;
 
-	Vector3 initScale_;
+	Math::Vector3 initScale_;
 };

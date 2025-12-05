@@ -69,7 +69,7 @@ void BossMissile::Update() {
 // ↓ リセット処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossMissile::Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition,
+void BossMissile::Reset(const Math::Vector3& pos, const Math::Vector3& velocity, const Math::Vector3& targetPosition,
 						float bulletSpeed, float firstSpeedRaito, float trackingRaito, bool isTracking) {
 	transform_->srt_.translate = pos;
 	velocity_ = velocity;
@@ -99,8 +99,8 @@ void BossMissile::Tracking() {
 		if (trackingTimer_ < trackingTime_) { return; }
 
 		// targetの方向に弾を撃つ
-		Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
-		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
+		Math::Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
+		velocity_ = Math::Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
 		finishTracking_ = true;
 	}

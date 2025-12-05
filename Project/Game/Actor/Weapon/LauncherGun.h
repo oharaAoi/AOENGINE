@@ -35,7 +35,7 @@ public:		// member method
 private:
 
 	BaseParticles* gunFireParticles_;
-	Vector3 offset_;
+	Math::Vector3 offset_;
 
 };
 

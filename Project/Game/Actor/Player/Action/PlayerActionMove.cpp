@@ -14,7 +14,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 
 void PlayerActionMove::Debug_Gui() {
-	const Vector3 velocity = pOwner_->GetGameObject()->GetRigidbody()->GetMoveForce();
+	const Math::Vector3 velocity = pOwner_->GetGameObject()->GetRigidbody()->GetMoveForce();
 	ImGui::Text("accel_ : x(%f) y(%f) z(%f)", accel_.x, accel_.y, accel_.z);
 	ImGui::Text("velocity : x(%f) y(%f) z(%f)", velocity_.x, velocity_.y, velocity_.z);
 	ImGui::Text("rigidBodyVelocity : x(%f) y(%f) z(%f)", velocity.x, velocity.y, velocity.z);
@@ -59,7 +59,7 @@ void PlayerActionMove::OnStart() {
 	isTurnAround_ = false;
 
 	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
-	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
+	Math::Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ inputStick_.x, 0.0f, inputStick_.y });
 	if (pOwner_->GetIsBoostMode()) {
 		accel_ = dire * param_.boostSpeed;
 	} else {
@@ -189,7 +189,7 @@ bool PlayerActionMove::IsInput() {
 		return false;
 	}
 
-	Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
+	Math::Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
 	if (current.x != 0.0f || current.y != 0.0f) {
 		return true;
 	}
@@ -210,16 +210,16 @@ void PlayerActionMove::Move() {
 	float speed = pOwner_->GetIsBoostMode() ? param_.boostSpeed : param_.speed;
 
 	// 入力方向ベクトル
-	Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ inputStick_.x, 0.0f, inputStick_.y });
-	Vector3 targetVelocity = dire * speed;
+	Math::Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ inputStick_.x, 0.0f, inputStick_.y });
+	Math::Vector3 targetVelocity = dire * speed;
 
 	// ----------------------
 	// 滑りの実装
 	// ----------------------
 	if (inputStick_.Length() > 0.1f) {
-		Vector3 forward = targetVelocity.Normalize();
-		float forwardMag = Vector3::Dot(velocity_, forward);
-		Vector3 side = velocity_ - forward * forwardMag;
+		Math::Vector3 forward = targetVelocity.Normalize();
+		float forwardMag = Math::Vector3::Dot(velocity_, forward);
+		Math::Vector3 side = velocity_ - forward * forwardMag;
 
 		// 横成分を減衰（重量感に合わせて 5〜10 程度）
 		side = Lerp(side, CVector3::ZERO, 5.0f * GameTimer::DeltaTime());
@@ -229,7 +229,7 @@ void PlayerActionMove::Move() {
 	// ----------------------
 	// 反転処理
 	// ----------------------
-	float dot = Vector2::Dot(preInputStick_, inputStick_);
+	float dot = Math::Vector2::Dot(preInputStick_, inputStick_);
 	if (dot < param_.turnAroundThreshold) {
 		velocity_ *= param_.turnSpeed;
 	}

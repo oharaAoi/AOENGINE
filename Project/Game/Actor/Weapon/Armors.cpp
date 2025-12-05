@@ -51,7 +51,7 @@ void Armors::Draw() const {
 // ↓ 親の設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Armors::SetParent(const Matrix4x4& mat) {
+void Armors::SetParent(const Math::Matrix4x4& mat) {
 	outArmor_->GetTransform()->SetParent(mat);
 	inArmor_->GetTransform()->SetParent(mat);
 }
@@ -82,7 +82,7 @@ void Armors::SetArmor() {
 	inArmor_->SetParameter();
 }
 
-void Armors::SetArmorParam(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt) {
+void Armors::SetArmorParam(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt) {
 	outArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
 	inArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
 }

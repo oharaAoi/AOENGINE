@@ -11,7 +11,7 @@
 /// グリット線を描画する
 /// </summary>
 /// <param name="viewProjectionMatrix"></param>
-void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix);
+void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projectionMatrix);
 
 /// <summary>
 /// 球を描画する
@@ -19,7 +19,7 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix);
 /// <param name="center">: 球の中心点</param>
 /// <param name="radius">: 球の半径</param>
 /// <param name="viewProjectionMatrix">: viewProjectionMatrix</param>
-void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjectionMatrix, const Color& color = Color::white);
+void DrawSphere(const Math::Vector3& center, float radius, const Math::Matrix4x4& viewProjectionMatrix, const Color& color = Color::white);
 
 /// <summary>
 /// Cone形状を描画
@@ -29,7 +29,7 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 /// <param name="angle"></param>
 /// <param name="height"></param>
 /// <param name="viewProjectionMatrix"></param>
-void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, float angle, float height, const Matrix4x4& viewProjectionMatrix);
+void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float radius, float angle, float height, const Math::Matrix4x4& viewProjectionMatrix);
 
 /// <summary>
 /// AABBを描画する
@@ -37,7 +37,7 @@ void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, flo
 /// <param name="aabb"></param>
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
-void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Color& color = Color::white);
+void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const Color& color = Color::white);
 
 /// <summary>
 /// OBBを描画する
@@ -45,4 +45,4 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Color& color = 
 /// <param name="aabb"></param>
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
-void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Color& color = Color::white);
+void DrawOBB(const Math::OBB& obb, const Math::Matrix4x4& vpMatrix, const Color& color = Color::white);

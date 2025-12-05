@@ -20,7 +20,7 @@ void AddBlendNode::Init() {
 	addIN<AOENGINE::DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
 
 	// outputの設定
-	auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
+	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return blendResource_; });
 }
 

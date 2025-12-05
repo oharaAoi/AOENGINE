@@ -9,7 +9,7 @@ namespace {
 	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
 	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
 	
-	Matrix4x4 vpvpMatrix;
+	Math::Matrix4x4 vpvpMatrix;
 	
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
 	
@@ -22,8 +22,8 @@ namespace {
 	
 	RenderTargetType currentRenderTarget_;
 	
-	Quaternion cameraRotate_;
-	Vector3 eyePos_;
+	Math::Quaternion cameraRotate_;
+	Math::Vector3 eyePos_;
 	
 	std::string skyboxTexture_;
 }
@@ -223,11 +223,11 @@ void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const
 // ↓　線の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
+void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat) {
 	primitiveDrawer_->Draw(p1, p2, color, vpMat);
 }
 
-void AOENGINE::Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color) {
+void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color) {
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 
@@ -239,39 +239,39 @@ void AOENGINE::Render::DrawLightGroup(Pipeline* pipeline) {
 // ↓　設定系の関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::Render::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
+void AOENGINE::Render::SetViewProjection(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 	viewProjection_->SetViewProjection(view, projection);
 }
 
-void AOENGINE::Render::SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection) {
+void AOENGINE::Render::SetViewProjection2D(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 	viewProjection2D_->SetViewProjection(view, projection);
 }
 
-Matrix4x4 AOENGINE::Render::GetViewport2D() {
+Math::Matrix4x4 AOENGINE::Render::GetViewport2D() {
 	return  viewProjection2D_->GetViewMatrix();
 }
 
-Matrix4x4 AOENGINE::Render::GetViewport3D() {
+Math::Matrix4x4 AOENGINE::Render::GetViewport3D() {
 	return viewProjection_->GetViewMatrix();
 }
 
-Matrix4x4 AOENGINE::Render::GetProjection2D() {
+Math::Matrix4x4 AOENGINE::Render::GetProjection2D() {
 	return  viewProjection2D_->GetProjectionMatrix();
 }
 
-Matrix4x4 AOENGINE::Render::GetProjection3D() {
+Math::Matrix4x4 AOENGINE::Render::GetProjection3D() {
 	return viewProjection_->GetProjectionMatrix();
 }
 
-Matrix4x4 AOENGINE::Render::GetViewProjectionMat() {
+Math::Matrix4x4 AOENGINE::Render::GetViewProjectionMat() {
 	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
 }
 
-void AOENGINE::Render::SetVpvpMatrix(const Matrix4x4& _mat) {
+void AOENGINE::Render::SetVpvpMatrix(const Math::Matrix4x4& _mat) {
 	vpvpMatrix = _mat;
 }
 
-Matrix4x4 AOENGINE::Render::GetVpvpMatrix() {
+Math::Matrix4x4 AOENGINE::Render::GetVpvpMatrix() {
 	return vpvpMatrix;
 }
 
@@ -291,27 +291,27 @@ float AOENGINE::Render::GetFarClip2D() {
 	return farClip2D_;
 }
 
-void AOENGINE::Render::SetEyePos(const Vector3& eyePos) {
+void AOENGINE::Render::SetEyePos(const Math::Vector3& eyePos) {
 	eyePos_ = eyePos;
 	lightGroup_->SetEyePos(eyePos);
 }
 
-const Vector3& AOENGINE::Render::GetEyePos() {
+const Math::Vector3& AOENGINE::Render::GetEyePos() {
 	return eyePos_;
 	// TODO: return ステートメントをここに挿入します
 }
 
-void AOENGINE::Render::SetCameraRotate(const Quaternion& rotate) {
+void AOENGINE::Render::SetCameraRotate(const Math::Quaternion& rotate) {
 	cameraRotate_ = rotate;
 }
 
-Quaternion AOENGINE::Render::GetCameraRotate() {
+Math::Quaternion AOENGINE::Render::GetCameraRotate() {
 	return cameraRotate_;
 }
 
-Matrix4x4 AOENGINE::Render::GetBillBordMat() {
-	Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
-	return Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix);
+Math::Matrix4x4 AOENGINE::Render::GetBillBordMat() {
+	Math::Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
+	return Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix);
 }
 
 const ViewProjection* AOENGINE::Render::GetViewProjection() {

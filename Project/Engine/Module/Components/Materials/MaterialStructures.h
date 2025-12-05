@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MathStructures.h"
 

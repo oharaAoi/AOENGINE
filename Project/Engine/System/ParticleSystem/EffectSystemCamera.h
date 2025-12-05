@@ -48,18 +48,18 @@ public:
 
 public:
 
-	const Matrix4x4 GetCameraMatrix() const { return cameraMatrix_; }
-	const Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
-	const Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
+	const Math::Matrix4x4 GetCameraMatrix() const { return cameraMatrix_; }
+	const Math::Matrix4x4 GetViewMatrix() const { return viewMatrix_; }
+	const Math::Matrix4x4 GetProjectionMatrix() const { return projectionMatrix_; }
 
 	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
 	const bool GetIsFocused() const { return isFocused_; }
 
 private:
 
-	Quaternion quaternion_;
-	// 回転する前のQuaternion
-	Quaternion moveQuaternion_;
+	Math::Quaternion quaternion_;
+	// 回転する前のMath::Quaternion
+	Math::Quaternion moveQuaternion_;
 
 	bool isFocused_;
 
@@ -71,14 +71,14 @@ private:
 	float moveBaseSpeed_;
 	float moveSpeed_;
 	float moveMaxSpeed_ = 30.0f;
-	Vector3 moveDirection_;
-	Vector2 preMousePos_;
+	Math::Vector3 moveDirection_;
+	Math::Vector2 preMousePos_;
 	
 	float yaw_ = 0.0f;
 	float pitch_ = 0.0f;
 	float sensitivity_ = 0.05f; // 回転感度
 
-	Quaternion qYaw;
-	Quaternion qPitch;
+	Math::Quaternion qYaw;
+	Math::Quaternion qPitch;
 };
 

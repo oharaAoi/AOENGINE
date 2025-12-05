@@ -107,7 +107,7 @@ bool ShoulderMissile::Attack(const AttackContext& cxt) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShoulderMissile::Shot() {
-	Vector3 worldPos = object_->GetPosition();
+	Math::Vector3 worldPos = object_->GetPosition();
 	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, attackCxt_.target, attackParam_.bulletSpeed,
 																	weaponParam_.trackingLength, weaponParam_.trackingTime, weaponParam_.trackingRaito);
 	bullet->SetTakeDamage(attackParam_.takeDamage);

@@ -93,8 +93,8 @@ void PlayerActionBoost::OnUpdate() {
 	// 追い越し防止処理を行なう
 	// ----------------------
 
-	const Vector3 targetPos = pOwner_->GetReticle()->GetTargetPos();
-	Vector3 sub = targetPos - pOwnerTransform_->GetPos();
+	const Math::Vector3 targetPos = pOwner_->GetReticle()->GetTargetPos();
+	Math::Vector3 sub = targetPos - pOwnerTransform_->GetPos();
 	sub.y = 0;
 	float distance = sub.Length();
 
@@ -173,7 +173,7 @@ void PlayerActionBoost::Boost() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::BoostStop() {
-	Vector3 velocity = pRigidbody_->GetVelocity();
+	Math::Vector3 velocity = pRigidbody_->GetVelocity();
 	velocity *= std::pow(param_.stopForce, GameTimer::DeltaTime());
 	pRigidbody_->SetVelocity(velocity);
 	if (velocity.Length() < param_.stopThreshold) {

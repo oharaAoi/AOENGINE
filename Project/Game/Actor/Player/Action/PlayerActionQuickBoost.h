@@ -35,7 +35,7 @@ public:
 		float vibrateTime = 0.2f;
 		float vibrateStrength = 1.0f;
 
-		Curve decelerationCurve;	// 減速の際のカーブ
+		Math::Curve decelerationCurve;	// 減速の際のカーブ
 
 		Parameter() { SetName("ActionQuickBoost"); }
 
@@ -110,11 +110,11 @@ private:
 	std::shared_ptr<RadialBlur> pRadialBlur_;
 
 	// State/Parameter ------------------------------------------------
-	Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
-	Vector3 direction_;
+	Math::Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
+	Math::Vector3 direction_;
 
 	const float kDeadZone_ = 0.1f;
-	Vector2 stick_;
+	Math::Vector2 stick_;
 
 	Parameter param_;
 	Parameter initParam_;

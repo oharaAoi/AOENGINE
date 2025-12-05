@@ -109,7 +109,7 @@ public:
 	void SetTargerTransform(WorldTransform* _transform) { targetTransform_ = _transform; }
 	WorldTransform* GetTargetTransform() const { return targetTransform_; }
 
-	const Vector3& GetTargetPos() const { return targetPos_; }
+	const Math::Vector3& GetTargetPos() const { return targetPos_; }
 
 	// bulletManager
 	void SetBulletManager(BossBulletManager* _manager) { pBossBulletManager_ = _manager; }
@@ -194,7 +194,7 @@ private:
 	// Playerの状態 --------------------------------------------------
 
 	WorldTransform* targetTransform_;
-	Vector3 targetPos_;
+	Math::Vector3 targetPos_;
 
 	// UI -----------------------------------------------------------
 	BossUIs* pBossUIs_;

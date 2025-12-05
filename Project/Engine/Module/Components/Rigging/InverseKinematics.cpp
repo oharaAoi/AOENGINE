@@ -1,6 +1,6 @@
 #include "InverseKinematics.h"
 
-void FABRIK(std::vector<Vector3>& born, const Vector3& target, float tolerance, uint32_t maxIter) {
+void FABRIK(std::vector<Math::Vector3>& born, const Math::Vector3& target, float tolerance, uint32_t maxIter) {
 	uint32_t bornNum = uint32_t(born.size() - 1);
 	std::vector<float> distances(bornNum);
 	float totalLength = 0;
@@ -22,7 +22,7 @@ void FABRIK(std::vector<Vector3>& born, const Vector3& target, float tolerance, 
 	}
 
 	// FABRIK反復
-	Vector3 base = born[0];
+	Math::Vector3 base = born[0];
 	for (uint32_t iter = 0; iter < maxIter; ++iter) {
 		// 前進ステップ
 		born[bornNum] = target;

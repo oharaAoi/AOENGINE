@@ -10,4 +10,4 @@
 /// <param name="target"></param>
 /// <param name="tolerance"></param>
 /// <param name="maxIter"></param>
-void FABRIK(std::vector<Vector3>& born, const Vector3& target, float tolerance = 0.001f, uint32_t maxIter = 10);
+void FABRIK(std::vector<Math::Vector3>& born, const Math::Vector3& target, float tolerance = 0.001f, uint32_t maxIter = 10);

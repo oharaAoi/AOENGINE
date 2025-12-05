@@ -3,8 +3,8 @@
 
 using namespace Math;
 
-void OBB::MakeOBBAxis(const Quaternion& rotate) {
-	Matrix4x4 rotateMatrix = rotate.MakeMatrix();
+void OBB::MakeOBBAxis(const Math::Quaternion& rotate) {
+	Math::Matrix4x4 rotateMatrix = rotate.MakeMatrix();
 
 	// 回転行列から軸を抽出
 	orientations[0].x = rotateMatrix.m[0][0];
@@ -22,18 +22,18 @@ void OBB::MakeOBBAxis(const Quaternion& rotate) {
 	matRotate = rotateMatrix;
 }
 
-std::vector<Vector3> OBB::MakeIndex() const {
-	std::vector<Vector3> vertices;
+std::vector<Math::Vector3> OBB::MakeIndex() const {
+	std::vector<Math::Vector3> vertices;
 	for (uint8_t x = 0; x < 2; ++x) {
 		for (uint8_t y = 0; y < 2; ++y) {
 			for (uint8_t z = 0; z < 2; ++z) {
-				Vector3 localVertex = {
+				Math::Vector3 localVertex = {
 					(x ? size.x : -size.x),
 					(y ? size.y : -size.y),
 					(z ? size.z : -size.z),
 				};
 
-				Vector3 worldVertex = Transform(localVertex, matRotate);
+				Math::Vector3 worldVertex = Transform(localVertex, matRotate);
 				vertices.push_back(worldVertex + center);
 			}
 		}
@@ -41,11 +41,11 @@ std::vector<Vector3> OBB::MakeIndex() const {
 	return vertices;
 }
 
-Matrix4x4 SRT::MakeAffine() {
-	Matrix4x4 scaleMatrix{};
-	Matrix4x4 rotateMatrix{};
-	Matrix4x4 translateMatrix{};
-	Matrix4x4 affineMatrix{};
+Math::Matrix4x4 Math::SRT::MakeAffine() {
+	Math::Matrix4x4 scaleMatrix{};
+	Math::Matrix4x4 rotateMatrix{};
+	Math::Matrix4x4 translateMatrix{};
+	Math::Matrix4x4 affineMatrix{};
 
 	scaleMatrix = scale.MakeScaleMat();
 	rotateMatrix = rotate.MakeRotateMat();
@@ -57,7 +57,7 @@ Matrix4x4 SRT::MakeAffine() {
 }
 
 
-json SRT::ToJson() const {
+json Math::SRT::ToJson() const {
 	return {
 		{"scale", toJson(scale)},
 		{"rotate", toJson(rotate)},
@@ -65,7 +65,7 @@ json SRT::ToJson() const {
 	};
 }
 
-void SRT::FromJson(const json& _json, const std::string& _name) {
+void Math::SRT::FromJson(const json& _json, const std::string& _name) {
 	json transform;
 	if (_json.is_object()) {
 		// 最上位キー（例: "ActionQuickBoost"）を取得
@@ -84,10 +84,10 @@ void SRT::FromJson(const json& _json, const std::string& _name) {
 	fromJson(transform, "translate", translate);
 }
 
-Matrix4x4 QuaternionSRT::MakeAffine() {
-	Matrix4x4 scaleMatrix{};
-	Matrix4x4 rotateMatrix{};
-	Matrix4x4 translateMatrix{};
+Math::Matrix4x4 Math::QuaternionSRT::MakeAffine() {
+	Math::Matrix4x4 scaleMatrix{};
+	Math::Matrix4x4 rotateMatrix{};
+	Math::Matrix4x4 translateMatrix{};
 
 	scaleMatrix = scale.MakeScaleMat();
 	rotateMatrix = rotate.MakeMatrix();
@@ -102,7 +102,7 @@ Matrix4x4 QuaternionSRT::MakeAffine() {
 	return worldMat_;
 }
 
-json QuaternionSRT::ToJson() const {
+json Math::QuaternionSRT::ToJson() const {
 	return {
 		{"scale", toJson(scale)},
 		{"rotate", toJson(rotate)},
@@ -110,7 +110,7 @@ json QuaternionSRT::ToJson() const {
 	};
 }
 
-void QuaternionSRT::FromJson(const json& _json, const std::string& _name) {
+void Math::QuaternionSRT::FromJson(const json& _json, const std::string& _name) {
 	json transform;
 	if (_json.is_object()) {
 		// 最上位キー（例: "ActionQuickBoost"）を取得
@@ -129,14 +129,14 @@ void QuaternionSRT::FromJson(const json& _json, const std::string& _name) {
 	fromJson(transform, "translate", translate);
 }
 
-void QuaternionSRT::SetParent(const Matrix4x4& parentMat) {
+void Math::QuaternionSRT::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat = &parentMat;
 }
 
-void QuaternionSRT::LookAt(const Vector3& target, const Vector3& up) {
-	Vector3 direction = target - translate;
+void Math::QuaternionSRT::LookAt(const Math::Vector3& target, const Math::Vector3& up) {
+	Math::Vector3 direction = target - translate;
 
 	if (direction.Length() > 0.0001f) {
-		rotate = Quaternion::LookRotation(direction, up);
+		rotate = Math::Quaternion::LookRotation(direction, up);
 	}
 }

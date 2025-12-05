@@ -13,8 +13,8 @@ public:
 	/// joints情報
 	/// </summary>
 	struct JointsData {
-		Vector3& pos;
-		Quaternion rotate;
+		Math::Vector3& pos;
+		Math::Quaternion rotate;
 		int32_t index;
 	};
 
@@ -26,7 +26,7 @@ public:
 public:
 
 	// 更新
-	void Update(const Matrix4x4& _worldMat);
+	void Update(const Math::Matrix4x4& _worldMat);
 
 public:
 
@@ -34,16 +34,16 @@ public:
 
 	void SetSkelton(Skeleton* _skelton) { pSkeleton_ = _skelton; }
 
-	void SetTargetPosition(const Vector3& _pos) { targetPos_ = _pos; }
+	void SetTargetPosition(const Math::Vector3& _pos) { targetPos_ = _pos; }
 
 private:
 
 	Skeleton* pSkeleton_;
 	std::vector<int32_t> chain_;
-	std::vector<Vector3> positions_;
+	std::vector<Math::Vector3> positions_;
 	std::vector<JointsData> jointsData_;
 
-	Vector3 targetPos_;
+	Math::Vector3 targetPos_;
 
 };
 

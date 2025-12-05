@@ -98,8 +98,8 @@ void BossActionShotLauncher::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Shot() {
-	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
+	Math::Vector3 pos = pTarget_->GetPosition();
+	Math::Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
 	BossMissile* bullet = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																			   param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, false);
 	bullet->SetTakeDamage(param_.takeDamage);

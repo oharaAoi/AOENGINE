@@ -82,13 +82,13 @@ private:
 
 	Parameter param_;
 
-	Vector3 velocity_;
-	Vector3 accel_;
+	Math::Vector3 velocity_;
+	Math::Vector3 accel_;
 
 	int moveType_;
 
 	// 旋回に必要な座標
-	Vector3 centerPos_;
+	Math::Vector3 centerPos_;
 
 	bool stopping_;
 

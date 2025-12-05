@@ -21,11 +21,11 @@ void TemplateValueGui(const std::string& _name, T& value) {
 		ImGui::DragInt(_name.c_str(), &value, 1);
 	} else if constexpr (std::is_same_v<T, bool>) {
 		ImGui::Checkbox(_name.c_str(), &value);
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		ImGui::DragFloat2(_name.c_str(), &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		ImGui::DragFloat3(_name.c_str(), &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		ImGui::DragFloat4(_name.c_str(), &value.x, 0.01f);
 	} else if constexpr (std::is_same_v<T, Color>) {
 		ImGui::ColorEdit4(_name.c_str(), &value.r);
@@ -48,11 +48,11 @@ void TemplateValueText(const T& value) {
 	// 値型の場合
 	if constexpr (std::is_same_v<T, float>) {
 		ImGui::Text("float(%f)", value);
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		ImGui::Text("x(%f) y(%f)", value.x, value.y);
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		ImGui::Text("x(%f) y(%f) z(%f)", value.x, value.y, value.z);
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		ImGui::Text("x(%f) y(%f) z(%f) w(%f)", value.x, value.y, value.z, value.w);
 	} else if constexpr (std::is_same_v<T, Color>) {
 		ImGui::Text("r(%f) g(%f) b(%f) a(%f)", value.r, value.g, value.b, value.a);

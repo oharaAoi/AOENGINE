@@ -10,7 +10,7 @@ class GlitchNoise :
 public:
 
 	struct GlitchSetting {
-		Vector2 texelSize;	// texelのサイズ
+		Math::Vector2 texelSize;	// texelのサイズ
 		float time;			// 時間
 		float strength;
 		int frameIndex;

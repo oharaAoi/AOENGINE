@@ -2,9 +2,9 @@
 
 void UVTransformNode::Init() {
 	// inputの設定
-	addIN<Vector2>("inputUV", inputUV_, ImFlow::ConnectionFilter::SameType());
-	addIN<Vector2>("scale", scale_, ImFlow::ConnectionFilter::SameType());
-	addIN<Vector2>("offset", offset_, ImFlow::ConnectionFilter::SameType());
+	addIN<Math::Vector2>("inputUV", inputUV_, ImFlow::ConnectionFilter::SameType());
+	addIN<Math::Vector2>("scale", scale_, ImFlow::ConnectionFilter::SameType());
+	addIN<Math::Vector2>("offset", offset_, ImFlow::ConnectionFilter::SameType());
 	addIN<float>("rotate", rotate_, ImFlow::ConnectionFilter::SameType());
 
 	// outputの設定
@@ -13,9 +13,9 @@ void UVTransformNode::Init() {
 }
 
 void UVTransformNode::customUpdate() {
-	inputUV_ = getInVal<Vector2>("inputUV");
-	scale_ = getInVal<Vector2>("scale");
-	offset_ = getInVal<Vector2>("offset");
+	inputUV_ = getInVal<Math::Vector2>("inputUV");
+	scale_ = getInVal<Math::Vector2>("scale");
+	offset_ = getInVal<Math::Vector2>("offset");
 	rotate_ = getInVal<float>("rotate");
 
 	outputUV_.scale = scale_;

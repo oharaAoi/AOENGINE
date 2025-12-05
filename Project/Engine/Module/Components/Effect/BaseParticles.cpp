@@ -47,7 +47,7 @@ void BaseParticles::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseParticles::DrawShape() {
-	Matrix4x4 mat{};
+	Math::Matrix4x4 mat{};
 	if (!emitter_.isDraw2d) {
 		mat = AOENGINE::Render::GetViewProjectionMat();
 	} else {
@@ -56,21 +56,21 @@ void BaseParticles::DrawShape() {
 
 	// 形状の描画
 	if (emitter_.shape == (int)CpuEmitterShape::Box) {
-		OBB obb = {
+		Math::OBB obb = {
 			.center = emitter_.translate,
 			.size = emitter_.size
 		};
-		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitter_.rotate));
+		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
 		DrawOBB(obb, mat, Color::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
 		DrawSphere(emitter_.translate, emitter_.radius, mat, Color::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
-		Quaternion rotate = Quaternion::EulerToQuaternion(emitter_.rotate);
+		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
 		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
 	}
 }
 
-void BaseParticles::Emit(const Vector3& pos) {
+void BaseParticles::Emit(const Math::Vector3& pos) {
 	if (particleArray_->size() >= kMaxParticles) { return; }
 
 	auto& newParticle = particleArray_->emplace_back();
@@ -80,7 +80,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 		newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
 	} else {
 		float scaler = RandomFloat(emitter_.minScale.x, emitter_.maxScale.x);
-		newParticle.scale = Vector3(scaler, scaler, scaler);
+		newParticle.scale = Math::Vector3(scaler, scaler, scaler);
 	}
 
 	if (emitter_.isRandomRotate) {
@@ -88,7 +88,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 	}
 
 	newParticle.firstScale = newParticle.scale;
-	newParticle.rotate = Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
+	newParticle.rotate = Math::Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
 
 	// particleの出現位置を設定
 	if (emitter_.emitOrigin == (int)CpuEmitOrigin::Center) {
@@ -99,16 +99,16 @@ void BaseParticles::Emit(const Vector3& pos) {
 			float rangeX = RandomFloat(-emitter_.size.x, emitter_.size.x);
 			float rangeY = RandomFloat(-emitter_.size.y, emitter_.size.y);
 			float rangeZ = RandomFloat(-emitter_.size.z, emitter_.size.z);
-			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
+			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
 		} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
 			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
-			newParticle.translate = Vector3(rangeX, rangeY, rangeZ) + pos;
+			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
 		} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
-			newParticle.translate = Vector3(rangeX, 0.f, rangeZ) + pos;
+			newParticle.translate = Math::Vector3(rangeX, 0.f, rangeZ) + pos;
 		}
 	}
 
@@ -128,7 +128,7 @@ void BaseParticles::Emit(const Vector3& pos) {
 	if (emitter_.emitDirection == (int)CpuEmitDirection::Up) {
 		newParticle.velocity = CVector3::UP * emitter_.speed;
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Random) {
-		Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
+		Math::Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
 		newParticle.velocity = dire * emitter_.speed;
 
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Outside) {
@@ -148,28 +148,28 @@ void BaseParticles::Emit(const Vector3& pos) {
 		float cosTheta = Lerp(cos(angle), 1.0f, v);
 		float sinTheta = std::sqrt(1.0f - cosTheta * cosTheta);
 
-		Vector3 localDir(
+		Math::Vector3 localDir(
 			sinTheta * cos(phi),
 			sinTheta * sin(phi),
 			cosTheta
 		);
-		Vector3 up = CVector3::UP;
-		Vector3 right = CVector3::RIGHT;
-		Vector3 forward = CVector3::FORWARD;
+		Math::Vector3 up = CVector3::UP;
+		Math::Vector3 right = CVector3::RIGHT;
+		Math::Vector3 forward = CVector3::FORWARD;
 		newParticle.velocity = right * localDir.x + forward * localDir.y + CVector3::UP * localDir.z;
 	}
 
 	// Objectの回転に進行方向をあわせる
-	Vector3 dire = newParticle.velocity.Normalize();
-	Vector3 worldDire = Quaternion::EulerToQuaternion(emitter_.rotate) * dire;
+	Math::Vector3 dire = newParticle.velocity.Normalize();
+	Math::Vector3 worldDire = Math::Quaternion::EulerToQuaternion(emitter_.rotate) * dire;
 	newParticle.velocity = worldDire * emitter_.speed;
 
 	// billbordに合わせてz軸を進行方向に向ける
 	if (emitter_.isDirectionRotate) {
-		Vector3 forward = newParticle.velocity.Normalize();
+		Math::Vector3 forward = newParticle.velocity.Normalize();
 
 		// 上方向（カメラ視点に合わせるなら bill.MakeMatrix() などから取得も可）
-		Vector3 up = CVector3::UP;
+		Math::Vector3 up = CVector3::UP;
 
 		// forwardとupが平行だと問題なのでチェック
 		if (fabsf(Dot(forward, up)) > 0.99f) {
@@ -177,18 +177,18 @@ void BaseParticles::Emit(const Vector3& pos) {
 		}
 
 		// オルソン直交基底を構築（右・上・前）
-		Vector3 right = Cross(up, forward).Normalize();
-		Vector3 adjustedUp = Cross(forward, right).Normalize();
+		Math::Vector3 right = Cross(up, forward).Normalize();
+		Math::Vector3 adjustedUp = Cross(forward, right).Normalize();
 
 		// 回転行列を作成（Z軸 = forward）
-		Matrix4x4 rotMat;
+		Math::Matrix4x4 rotMat;
 		rotMat.m[0][0] = right.x;   rotMat.m[0][1] = right.y;   rotMat.m[0][2] = right.z;   rotMat.m[0][3] = 0;
 		rotMat.m[1][0] = adjustedUp.x; rotMat.m[1][1] = adjustedUp.y; rotMat.m[1][2] = adjustedUp.z; rotMat.m[1][3] = 0;
 		rotMat.m[2][0] = forward.x; rotMat.m[2][1] = forward.y; rotMat.m[2][2] = forward.z; rotMat.m[2][3] = 0;
 		rotMat.m[3][0] = 0;         rotMat.m[3][1] = 0;         rotMat.m[3][2] = 0;         rotMat.m[3][3] = 1;
 
 		// 行列からクォータニオンへ変換
-		newParticle.rotate = Quaternion::FromMatrix(rotMat);
+		newParticle.rotate = Math::Quaternion::FromMatrix(rotMat);
 	}
 
 	// EmitterからParticleのパラメータを取得する
@@ -265,7 +265,7 @@ void BaseParticles::EmitUpdate() {
 		if (count > 1) {
 			t = (count) / float(emitCout - 1);
 		}
-		Vector3 pos = Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
+		Math::Vector3 pos = Math::Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
 		if (parentWorldMat_ != nullptr) {
 			Emit(pos + parentWorldMat_->GetPosition());
 		} else {
@@ -342,6 +342,6 @@ void BaseParticles::ChangeMesh() {
 // ↓ 親の設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::SetParent(const Matrix4x4& parentMat) {
+void BaseParticles::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
 }

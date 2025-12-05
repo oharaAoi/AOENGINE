@@ -49,11 +49,11 @@ public:
 
 private:
 
-	Vector2 inputUV_ = CVector2::ZERO;
+	Math::Vector2 inputUV_ = CMath::Vector2::ZERO;
 	NodeUVTransform outputUV_;
 
-	Vector2 scale_ = CVector2::UNIT;
-	Vector2 offset_ = CVector2::ZERO;
+	Math::Vector2 scale_ = CMath::Vector2::UNIT;
+	Math::Vector2 offset_ = CMath::Vector2::ZERO;
 	float rotate_ = 0.f;
 
 

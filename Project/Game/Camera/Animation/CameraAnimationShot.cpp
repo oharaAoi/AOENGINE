@@ -75,7 +75,7 @@ void CameraAnimationShot::ShotAnimation() {
 	} else {
 		z = std::lerp(shotAnimation_.offsetZ, offset_.z, t);
 	}
-	pFollowCamera_->SetOffset(Vector3(offset_.x, offset_.y, z));
+	pFollowCamera_->SetOffset(Math::Vector3(offset_.x, offset_.y, z));
 
 	// 終了処理
 	if (shotAnimation_.timer >= shotAnimation_.time) {

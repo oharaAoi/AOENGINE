@@ -113,7 +113,7 @@ private:	// action
 
 private:	// variable
 
-	Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
+	Math::Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
 	Parameter param_;
 
@@ -128,8 +128,8 @@ private:	// variable
 	BaseParticles* jetBurnLeft_;
 	BaseParticles* jetBurnRight_;
 
-	Matrix4x4 feetMatrixLeft_;
-	Matrix4x4 feetMatrixRight_;
+	Math::Matrix4x4 feetMatrixLeft_;
+	Math::Matrix4x4 feetMatrixRight_;
 
 	Rigidbody* pRigidbody_;
 

@@ -99,11 +99,11 @@ void BossActionShotMissile::End() {
 void BossActionShotMissile::Shot() {
 	fireCount_--;
 	// 前方向のベクトルを計算する
-	Vector3 pos = pTarget_->GetTransform()->srt_.translate;
-	Vector3 forward = pTarget_->GetTransform()->srt_.rotate.MakeForward();
-	Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
+	Math::Vector3 pos = pTarget_->GetTransform()->srt_.translate;
+	Math::Vector3 forward = pTarget_->GetTransform()->srt_.rotate.MakeForward();
+	Math::Vector3 up = pTarget_->GetTransform()->srt_.rotate.MakeUp(); // Y軸に限らず回転軸として使う
 
-	Vector3 velocity = forward.Normalize() * param_.bulletSpeed;
+	Math::Vector3 velocity = forward.Normalize() * param_.bulletSpeed;
 	BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),
 																				param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 	missile->SetTakeDamage(param_.takeDamage);

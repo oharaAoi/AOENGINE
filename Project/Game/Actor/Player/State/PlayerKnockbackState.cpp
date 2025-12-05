@@ -62,7 +62,7 @@ void PlayerKnockbackState::Knockback() {
 	param_.knockStrength *= param_.knockDecay;
 
 	// ノックバック方向のベクトルを取得
-	Vector3 direction = pOwner_->GetKnockBackDire();
+	Math::Vector3 direction = pOwner_->GetKnockBackDire();
 	acceleration_ = (direction * param_.knockStrength) * GameTimer::DeltaTime();
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	pOwner_->GetTransform()->srt_.translate += velocity_;

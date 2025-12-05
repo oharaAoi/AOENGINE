@@ -13,8 +13,8 @@ class ClearNotificationUI :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		Vector2 startPos;
-		Vector2 endPos;
+		Math::Vector2 startPos;
+		Math::Vector2 endPos;
 		float duration;
 
 		Parameter() { 
@@ -75,8 +75,8 @@ private:
 	Sprite* sprite_;
 	Parameter param_;
 
-	Vector2 pos_;
-	VectorTween<Vector2> posTween_;
+	Math::Vector2 pos_;
+	VectorTween<Math::Vector2> posTween_;
 
 	VectorTween<float> alphaTween_;
 

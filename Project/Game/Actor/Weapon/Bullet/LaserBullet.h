@@ -78,7 +78,7 @@ public:
 	/// <param name="_pos"></param>
 	/// <param name="_targetPos"></param>
 	/// <param name="speed"></param>
-	void Reset(const Vector3& _pos, const Vector3& _targetPos, float _speed);
+	void Reset(const Math::Vector3& _pos, const Math::Vector3& _targetPos, float _speed);
 
 private:
 
@@ -95,11 +95,11 @@ private:
 
 	bool isShot_ = false;
 	bool isFade_ = false;
-	Vector3 targetPos_;
+	Math::Vector3 targetPos_;
 
 	LineCollider* lineCollider_ = nullptr;
 
-	Vector3 dire_;
+	Math::Vector3 dire_;
 
 	Timer lifeTimer_;
 	Timer fadeTimer_;

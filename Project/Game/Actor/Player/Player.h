@@ -48,8 +48,8 @@ public:		// data
 		float inclineReactionRate = 5.0f;	// 傾きの反応速度
 		float inclineThreshold = 10.0f;
 
-		Vector3 cameraOffset = CVector3::ZERO;
-		Vector3 translateOffset = CVector3::ZERO;
+		Math::Vector3 cameraOffset = CVector3::ZERO;
+		Math::Vector3 translateOffset = CVector3::ZERO;
 
 		Parameter() {
 			SetGroupName("Player");
@@ -134,7 +134,7 @@ public:	// member method
 	/// ノックバック処理
 	/// </summary>
 	/// <param name="direction"></param>
-	void Knockback(const Vector3& direction);
+	void Knockback(const Math::Vector3& direction);
 
 	/// <summary>
 	/// エネルギー回復処理
@@ -182,7 +182,7 @@ public: // accessor method
 	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
 	bool GetKnockBack() { return isKnockback_; }
 
-	const Vector3& GetKnockBackDire() const { return knockBackDire_; }
+	const Math::Vector3& GetKnockBackDire() const { return knockBackDire_; }
 
 	// 着地したかのフラグ
 	bool GetIsLanding() const { return isLanding_; }
@@ -217,7 +217,7 @@ public: // accessor method
 	bool GetIsLockOn() const { return reticle_->GetLockOn(); }
 
 	// targetの座標を
-	Vector3 GetTargetPos() const { return reticle_->GetTargetPos(); }
+	Math::Vector3 GetTargetPos() const { return reticle_->GetTargetPos(); }
 
 	// bullet
 	void SetBulletManager(PlayerBulletManager* bulletManager) { pBulletManager_ = bulletManager; }
@@ -238,10 +238,10 @@ public: // accessor method
 	void SetIsExpload(bool _isExpload) { isExpload_ = _isExpload; }
 	bool GetIsExpload() const { return isExpload_; }
 
-	const Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
-	const Matrix4x4& GetLeftShoulderMat() { return leftShoulderMat_; }
-	const Matrix4x4& GetRightHandMat() { return rightHandMat_; }
-	const Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
+	const Math::Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
+	const Math::Matrix4x4& GetLeftShoulderMat() { return leftShoulderMat_; }
+	const Math::Matrix4x4& GetRightHandMat() { return rightHandMat_; }
+	const Math::Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
 
 private:
 
@@ -259,7 +259,7 @@ private:
 	std::unique_ptr<ActionManager<Player>> actionManager_;
 
 	bool isKnockback_;
-	Vector3 knockBackDire_;
+	Math::Vector3 knockBackDire_;
 
 	bool isLanding_;
 	bool isMoving_;
@@ -281,13 +281,13 @@ private:
 
 	std::unique_ptr<SphereCollider> legCollider_;
 	
-	Matrix4x4 leftHandMat_;
-	Matrix4x4 rightHandMat_;
-	Matrix4x4 leftShoulderMat_;
-	Matrix4x4 rightShoulderMat_;
+	Math::Matrix4x4 leftHandMat_;
+	Math::Matrix4x4 rightHandMat_;
+	Math::Matrix4x4 leftShoulderMat_;
+	Math::Matrix4x4 rightShoulderMat_;
 
-	Vector2 screenPos_;
-	Vector2 screenPosPrev_;
+	Math::Vector2 screenPos_;
+	Math::Vector2 screenPosPrev_;
 	float smoothedDiffX_ = 0.0f;
 
 	std::deque<std::pair<PlayerWeapon, AttackContext>> attackHistory_;

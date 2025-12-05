@@ -61,8 +61,8 @@ private:
 
 	Sprite* alert_;
 
-	Vector2 scale_ = Vector2{ 0.6f, 0.6f };
-	Vector2 centerPos_ = Vector2{ 640.0f, 360.0f };
+	Math::Vector2 scale_ = Math::Vector2{ 0.6f, 0.6f };
+	Math::Vector2 centerPos_ = Math::Vector2{ 640.0f, 360.0f };
 
 	bool isDraw_;
 	

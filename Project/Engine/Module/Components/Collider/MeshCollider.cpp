@@ -18,8 +18,8 @@ void MeshCollider::Init(Mesh* mesh) {
 	// meshのVertexから各軸での最大の値を取り出す
 	VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
-		//Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z), worldMat);
-		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z);
+		//Math::Vector3 size = Transform(Math::Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z), worldMat);
+		Math::Vector3 size = Math::Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z);
 
 		// -------------------------------------------------
 		// ↓ 最小を取得
@@ -66,15 +66,15 @@ void MeshCollider::Init(Mesh* mesh) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void MeshCollider::Update(const WorldTransform* worldTransform, const Vector3& offset) {
+void MeshCollider::Update(const WorldTransform* worldTransform, const Math::Vector3& offset) {
 	maxSize_ = { -9999.0f, -9999.0f, -9999.0f };
 	minSize_ = { 9999.0f, 9999.0f, 9999.0f };
 
 	// meshのVertexから各軸での最大の値を取り出す
 	VertexData* vertices = mesh_->GetOutputVertexData();
 	for (uint32_t index = 0; index < mesh_->GetVertexSize(); ++index) {
-		Vector3 size = Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
-		//Vector3 size = Transform(Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());
+		Math::Vector3 size = Math::Vector3(vertices[index].pos.x, vertices[index].pos.y , vertices[index].pos.z);
+		//Math::Vector3 size = Transform(Math::Vector3(vertices[index].pos.x, vertices[index].pos.y, vertices[index].pos.z), worldTransform->GetWorldMatrix());
 
 		// -------------------------------------------------
 		// ↓ 最小を取得

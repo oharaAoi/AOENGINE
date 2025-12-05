@@ -17,7 +17,7 @@ void PBRMaterial::Init() {
 
 	pbrMaterial_->color = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->enableLighting = false;
-	pbrMaterial_->uvTransform = Matrix4x4::MakeUnit();
+	pbrMaterial_->uvTransform = Math::Matrix4x4::MakeUnit();
 
 	pbrMaterial_->diffuseColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->specularColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -55,7 +55,7 @@ void PBRMaterial::SetMaterialData(ModelMaterialData materialData) {
 
 	pbrMaterial_->color = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->enableLighting = true;
-	pbrMaterial_->uvTransform = Matrix4x4::MakeUnit();
+	pbrMaterial_->uvTransform = Math::Matrix4x4::MakeUnit();
 
 	pbrMaterial_->diffuseColor = Color(1.0f, 1.0f, 1.0f, 1.0f);
 	pbrMaterial_->specularColor = Color(1.0f, 1.0f, 1.0f, 1.0f);

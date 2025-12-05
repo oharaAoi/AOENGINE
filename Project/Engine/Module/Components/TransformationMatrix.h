@@ -22,10 +22,10 @@ public:
 	/// gpuに送る情報
 	/// </summary>
 	struct TransformationData {
-		Matrix4x4 world;
-		Matrix4x4 view;
-		Matrix4x4 projection;
-		Matrix4x4 worldInverseTranspose;
+		Math::Matrix4x4 world;
+		Math::Matrix4x4 view;
+		Math::Matrix4x4 projection;
+		Math::Matrix4x4 worldInverseTranspose;
 	};
 
 public:
@@ -40,7 +40,7 @@ public:
 	// 初期化
 	void Init(ID3D12Device* device, const uint32_t& instanceSize);
 	// 更新
-	void Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection);
+	void Update(const Math::Matrix4x4& world, const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
 	// コマンドを積む
 	void BindCommand(ID3D12GraphicsCommandList* commandList);
 

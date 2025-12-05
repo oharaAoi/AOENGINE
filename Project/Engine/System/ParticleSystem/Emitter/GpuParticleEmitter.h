@@ -53,9 +53,9 @@ public:
 
 	void SetIsStop(bool _isStop) { isStop_ = _isStop; }
 
-	void SetParent(const Matrix4x4& parentMat);
+	void SetParent(const Math::Matrix4x4& parentMat);
 
-	void SetLocalPos(const Vector3& _pos) { emitterItem_.pos = _pos; }
+	void SetLocalPos(const Math::Vector3& _pos) { emitterItem_.pos = _pos; }
 
 protected:
 
@@ -90,7 +90,7 @@ protected :
 	std::string emitCsName_;
 
 	// 親のMatrix
-	const Matrix4x4* parentWorldMat_ = nullptr;
+	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 
 };
 

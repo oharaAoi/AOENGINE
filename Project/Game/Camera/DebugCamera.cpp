@@ -54,9 +54,9 @@ void DebugCamera::Update() {
 
 void DebugCamera::Debug_Gui() {
 	ImGui::Checkbox("isActive", &isActive_);
-	Vector3 right = moveRotate_.MakeRight();
-	Vector3 up = moveRotate_.MakeUp();
-	Vector3 forward = moveRotate_.MakeForward();
+	Math::Vector3 right = moveRotate_.MakeRight();
+	Math::Vector3 up = moveRotate_.MakeUp();
+	Math::Vector3 forward = moveRotate_.MakeForward();
 
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat4("rotate", &moveRotate_.x, 0.01f);
@@ -66,8 +66,8 @@ void DebugCamera::Debug_Gui() {
 	ImGui::DragFloat4("qPitch", &qPitch.x, 0.01f);
 
 	if (ImGui::Button("Reset")) {
-		transform_ = { {1.0f, 1.0f, 1.0f}, Quaternion(), {0.0f, 5.0f, -30.0f} };
-		moveRotate_ = Quaternion();
+		transform_ = { {1.0f, 1.0f, 1.0f}, Math::Quaternion(), {0.0f, 5.0f, -30.0f} };
+		moveRotate_ = Math::Quaternion();
 		yaw_ = 0.0f;
 		pitch_ = 0.0f;
 	}
@@ -79,7 +79,7 @@ void DebugCamera::Debug_Gui() {
 
 void DebugCamera::TransitionMove() {
 
-	moveDirection_ = Vector3();
+	moveDirection_ = Math::Vector3();
 
 	if (Input::IsPressKey(DIK_A)) {
 		moveDirection_ -= moveRotate_.MakeRight() * moveSpeed_;
@@ -121,15 +121,15 @@ void DebugCamera::TransitionMove() {
 void DebugCamera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
 
-		Vector2 dire = Input::GetMousePosition() - preMousePos_;
+		Math::Vector2 dire = Input::GetMousePosition() - preMousePos_;
 
 		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
 		yaw_ += dire.x * sensitivity_ * kCameraDeltaTime_;
-		qYaw = Quaternion::AngleAxis(yaw_, Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+		qYaw = Math::Quaternion::AngleAxis(yaw_, Math::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
 
 		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
 		pitch_ += dire.y * sensitivity_ * kCameraDeltaTime_;
-		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
+		qPitch = Math::Quaternion::AngleAxis(pitch_, Math::Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
 		// 回転合成
 		moveRotate_ = (qYaw * preMoveRotate_ * qPitch).Normalize();

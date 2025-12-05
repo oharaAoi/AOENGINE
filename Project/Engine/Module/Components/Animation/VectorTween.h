@@ -15,9 +15,9 @@ enum class LoopType {
 };
 
 /// <summary>
-/// Vector(float, Vector2, Vector3, Vector4)関係をTween(Animation)させるクラス
+/// Vector(float, Math::Vector2, Math::Vector3, Math::Vector4)関係をTween(Animation)させるクラス
 /// </summary>
-/// <typeparam name="T">: float, Vector2, Vector3, Vector4</typeparam>
+/// <typeparam name="T">: float, Math::Vector2, Math::Vector3, Math::Vector4</typeparam>
 template <typename T>
 class VectorTween {
 public:
@@ -51,7 +51,7 @@ public:
 
 		currentTime_ += deltaTime;
 		float t = currentTime_ / duration_;
-		value_ = Lerp(start_, end_, CallEasing(easeIndex_, t));
+		value_ = Lerp(start_, end_, Math::CallEasing(easeIndex_, t));
 
 
 		// 現在の進行状態を変更するかを判別

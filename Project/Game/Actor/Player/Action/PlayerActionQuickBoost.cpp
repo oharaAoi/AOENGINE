@@ -65,10 +65,10 @@ void PlayerActionQuickBoost::OnStart() {
 	stick_ = pInput_->GetLeftJoyStick().Normalize();
 
 	if (pManager_->ExistAction(boostClassId_)) {
-		Vector3 right = pOwnerTransform_->GetRotate().MakeRight()* stick_.x;
+		Math::Vector3 right = pOwnerTransform_->GetRotate().MakeRight()* stick_.x;
 		direction_ = right;
 	} else {
-		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Vector3{ stick_.x, 0.0f, stick_.y });
+		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ stick_.x, 0.0f, stick_.y });
 
 		// ブラーを画面にかける
 		pRadialBlur_->Start(param_.blurStrength, param_.blurTime, false);

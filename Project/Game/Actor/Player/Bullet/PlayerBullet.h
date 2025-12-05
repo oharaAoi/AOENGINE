@@ -38,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="pos">: 座標</param>
 	/// <param name="velocity">: 速度</param>
-	void Reset(const Vector3& pos, const Vector3& velocity);
+	void Reset(const Math::Vector3& pos, const Math::Vector3& velocity);
 
 private:
 

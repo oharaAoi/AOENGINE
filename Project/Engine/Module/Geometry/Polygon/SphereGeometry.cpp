@@ -2,7 +2,7 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
-void SphereGeometry::Init(const Vector2& size, uint32_t division, const std::string& name) {
+void SphereGeometry::Init(const Math::Vector2& size, uint32_t division, const std::string& name) {
 	geometryName_ = name;
 	size_ = size;
 	division_ = division;

@@ -78,7 +78,7 @@ public:
 	/// 現在の状態を表示する
 	/// </summary>
 	/// <param name="ownerWorldPos">: Treeの所有者のワールド座標</param>
-	void DisplayState(const Matrix4x4& ownerWorldPos);
+	void DisplayState(const Math::Matrix4x4& ownerWorldPos);
 
 	BaseBehaviorNode* GetRootNode() const { return root_; }
 

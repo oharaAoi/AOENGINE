@@ -144,7 +144,7 @@ public:
 /// <summary>
 /// Math::Vector2定数
 /// </summary>
-namespace CVector2 {
+namespace CMath::Vector2 {
 constexpr Math::Vector2 RIGHT{ 1.0f, 0.0f };
 constexpr Math::Vector2 UP{ 0.0f, 1.0f };
 constexpr Math::Vector2 ZERO{ 0.0f, 0.0f };

@@ -11,7 +11,7 @@ class RadialBlur :
 public:
 
 	struct BlurSetting {
-		Vector2 blurCenter = {0.5f, 0.5f};	// 放射ブラーの中心（通常はfloat2(0.5, 0.5)）
+		Math::Vector2 blurCenter = {0.5f, 0.5f};	// 放射ブラーの中心（通常はfloat2(0.5, 0.5)）
 		float blurStrength = 0.00f;			// ブラーの強度（例: 0.02）
 		float blurStart = 0.2f;				// ブラーの開始距離
 		int sampleCount = 16;				// サンプル数（例: 16）

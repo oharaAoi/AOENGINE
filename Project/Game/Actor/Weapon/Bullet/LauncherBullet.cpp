@@ -77,7 +77,7 @@ void LauncherBullet::OnCollision(BaseCollider* other) {
 	}
 }
 
-void LauncherBullet::Reset(const Vector3& _pos, const Vector3& _velocity) {
+void LauncherBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _velocity) {
 	transform_->srt_.translate = _pos;
 	velocity_ = _velocity;
 }

@@ -50,7 +50,7 @@ void BossBullet::Update() {
 // ↓ リセット処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossBullet::Reset(const Vector3& pos, const Vector3& velocity) {
+void BossBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
 	transform_->srt_.translate = pos;
 	velocity_ = velocity;
 }

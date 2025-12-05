@@ -62,11 +62,11 @@ public:
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 
-	Vector3 GetPosition() const { return worldPos_ + offset_; }
+	Math::Vector3 GetPosition() const { return worldPos_ + offset_; }
 
 	void SetEnableShadow(bool _flag) { enableShadow_ = _flag; }
 
-	void SetOffset(const Vector3& _offset) { offset_ = _offset; }
+	void SetOffset(const Math::Vector3& _offset) { offset_ = _offset; }
 
 	// -------------------------------------------------
 	// ↓ Material関連
@@ -125,8 +125,8 @@ protected:
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 
 	Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
-	Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
-	Vector3 offset_ = CVector3::ZERO;
+	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
+	Math::Vector3 offset_ = CVector3::ZERO;
 
 	bool isAnimation_ = false;
 

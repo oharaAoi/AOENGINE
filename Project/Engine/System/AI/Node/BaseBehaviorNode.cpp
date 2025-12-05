@@ -27,7 +27,7 @@ void BaseBehaviorNode::Init() {
 	isCoolTime_ = false;
 	currentIndex_ = 0;
 
-	pos_ = CVector2::ZERO;
+	pos_ = CMath::Vector2::ZERO;
 
 	state_ = BehaviorStatus::Inactive;
 }
@@ -99,7 +99,7 @@ void BaseBehaviorNode::DrawNode() {
 	}
 
 	ImVec2 nodePos = ax::NodeEditor::GetNodePosition(node_.id);
-	pos_ = Vector2{ nodePos.x, nodePos.y };
+	pos_ = Math::Vector2{ nodePos.x, nodePos.y };
 
 	// 子の順番を左から順にする
 	std::sort(children_.begin(), children_.end(),
@@ -147,7 +147,7 @@ json BaseBehaviorNode::ToJson() {
 void BaseBehaviorNode::FromJson(const json& _jsonData) {
 	node_.name = _jsonData["name"];
 	type_ = _jsonData["nodeType"];
-	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
+	pos_ = Math::Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
 }
 
 bool BaseBehaviorNode::IsSelectNode() {

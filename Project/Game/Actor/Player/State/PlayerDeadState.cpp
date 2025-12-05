@@ -56,7 +56,7 @@ void PlayerDeadState::Knockback() {
 	param_.knockStrength *= param_.knockDecay;
 
 	// ノックバック方向のベクトルを取得
-	Vector3 direction = -pOwner_->GetTransform()->GetRotate().MakeForward();
+	Math::Vector3 direction = -pOwner_->GetTransform()->GetRotate().MakeForward();
 	acceleration_ = (direction * param_.knockStrength) * GameTimer::DeltaTime();
 	velocity_ += acceleration_ * GameTimer::DeltaTime();
 	pOwner_->GetTransform()->srt_.translate += velocity_;

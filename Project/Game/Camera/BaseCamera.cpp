@@ -14,7 +14,7 @@ void BaseCamera::Init() {
 	const float windowWidth = static_cast<float>(WinApp::sWindowWidth);
 	const float windowHeight = static_cast<float>(WinApp::sWindowHeight);
 
-	transform_.scale = Vector3(1, 1, 1);
+	transform_.scale = Math::Vector3(1, 1, 1);
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
 
@@ -22,8 +22,8 @@ void BaseCamera::Init() {
 	cameraMatrix_ = transform_.MakeAffine();
 
 	viewMatrix_ = Inverse(cameraMatrix_);
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
-	viewportMatrix_ = Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
+	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
+	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ void BaseCamera::Update() {
 
 	billBordMat_ = transform_.rotate.MakeMatrix();
 
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
+	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
 
 	AOENGINE::Render::SetVpvpMatrix(this->GetVpvpMatrix());
 }
@@ -48,16 +48,16 @@ void BaseCamera::Update() {
 // ↓　アクセッサ
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-const Matrix4x4 BaseCamera::GetVpvpMatrix() const {
-	Matrix4x4 matViewProjection = viewMatrix_ * projectionMatrix_;
+const Math::Matrix4x4 BaseCamera::GetVpvpMatrix() const {
+	Math::Matrix4x4 matViewProjection = viewMatrix_ * projectionMatrix_;
 	return matViewProjection * viewportMatrix_;
 }
 
-const Matrix4x4 BaseCamera::GetVPVMatrix() const {
+const Math::Matrix4x4 BaseCamera::GetVPVMatrix() const {
 	return viewMatrix_ * projectionMatrix_ * viewportMatrix_;
 }
 
-const Vector3 BaseCamera::GetWorldPosition() const {
-	Matrix4x4 matViewInverse = Inverse(viewMatrix_);
+const Math::Vector3 BaseCamera::GetWorldPosition() const {
+	Math::Matrix4x4 matViewInverse = Inverse(viewMatrix_);
 	return { matViewInverse.m[3][0], matViewInverse.m[3][1] ,matViewInverse.m[3][2] };
 }

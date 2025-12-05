@@ -278,8 +278,8 @@ bool Input::IsPressButton(const XInputButtons& bottons) {
 	return false;
 }
 
-Vector2 Input::GetLeftJoyStick(float deadZone) {
-	Vector2 result;
+Math::Vector2 Input::GetLeftJoyStick(float deadZone) {
+	Math::Vector2 result;
 	result.x = (float)gamepadState_.Gamepad.sThumbLX / std::numeric_limits<SHORT>::max();
 	result.y = (float)gamepadState_.Gamepad.sThumbLY / std::numeric_limits<SHORT>::max();
 
@@ -293,8 +293,8 @@ Vector2 Input::GetLeftJoyStick(float deadZone) {
 	return result;
 }
 
-Vector2 Input::GetRightJoyStick(float deadZone) {
-	Vector2 result;
+Math::Vector2 Input::GetRightJoyStick(float deadZone) {
+	Math::Vector2 result;
 	result.x = (float)gamepadState_.Gamepad.sThumbRX / std::numeric_limits<SHORT>::max();
 	result.y = (float)gamepadState_.Gamepad.sThumbRY / std::numeric_limits<SHORT>::max();
 

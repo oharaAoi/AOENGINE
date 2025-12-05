@@ -87,7 +87,7 @@ void RocketBullet::OnCollision(BaseCollider* other) {
 	}
 }
 
-void RocketBullet::Reset(const Vector3& _pos, const Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito) {
+void RocketBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito) {
 	transform_->srt_.translate = _pos;
 	targetPosition_ = _target;
 	speed_ = _bulletSpeed;
@@ -105,8 +105,8 @@ void RocketBullet::Tracking() {
 
 	if ((targetPosition_ - transform_->srt_.translate).Length() > trackingLength_) {
 		// targetの方向に弾を撃つ
-		Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
-		velocity_ = Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
+		Math::Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
+		velocity_ = Math::Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 
 		if (trackingTimer_ < trackingTime_) {
 			trackingTimer_ += GameTimer::DeltaTime();

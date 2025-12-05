@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Reticle::Init() {
-	defaultPosition_ = Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f);
+	defaultPosition_ = Math::Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f);
 
 	reticle_ = Engine::GetCanvas2d()->AddSprite("lockOffReticle.png", "reticle");
 	reticle_->SetTranslate(defaultPosition_);
@@ -19,7 +19,7 @@ void Reticle::Init() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Reticle::Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat) {
+void Reticle::Update(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat) {
 	reticle_->Update();
 
 	if (Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {

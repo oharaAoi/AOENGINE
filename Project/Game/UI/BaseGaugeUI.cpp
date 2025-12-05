@@ -18,8 +18,8 @@ void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTex
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Update() {
-	Vector2 centerPos = front_->GetTranslate();
-	Vector2 scale = front_->GetScale();
+	Math::Vector2 centerPos = front_->GetTranslate();
+	Math::Vector2 scale = front_->GetScale();
 
 	front_->FillAmount(fillAmount_);
 	
@@ -54,7 +54,7 @@ bool BaseGaugeUI::GetIsEnable() const {
 	return bg_->GetEnable();
 }
 
-void BaseGaugeUI::SetPos(const Vector2& _pos) {
+void BaseGaugeUI::SetPos(const Math::Vector2& _pos) {
 	bg_->SetTranslate(_pos);
 	front_->SetTranslate(_pos);
 }

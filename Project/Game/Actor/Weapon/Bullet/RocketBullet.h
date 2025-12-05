@@ -55,7 +55,7 @@ public:
 	/// <param name="pos">: 弾の座標</param>
 	/// <param name="target">: 目標の座標</param>
 	/// <param name="bulletSpeed">: 弾の速度</param>
-	void Reset(const Vector3& _pos, const Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito);
+	void Reset(const Math::Vector3& _pos, const Math::Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito);
 
 private:
 

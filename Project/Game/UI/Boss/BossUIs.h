@@ -33,7 +33,7 @@ public:
 	void Init(Boss* _boss, Player* _player);
 
 	// 更新
-	void Update(const Vector2& _reticlePos, bool isLockOn);
+	void Update(const Math::Vector2& _reticlePos, bool isLockOn);
 
 	// 編集
 	void Debug_Gui() override;
@@ -45,7 +45,7 @@ public:
 	/// </summary>
 	/// <param name="_targetPos">: ターゲットの位置</param>
 	/// <param name="_attackerPos">: 攻撃者の位置</param>
-	void PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos);
+	void PopAlert(const Math::Vector3& _targetPos, const Math::Vector3& _attackerPos);
 
 private:
 

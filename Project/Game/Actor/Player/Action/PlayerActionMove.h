@@ -94,12 +94,12 @@ private:
 	Rigidbody* pRigidbody_ = nullptr;
 
 	const float kDeadZone_ = 0.1f;
-	Vector2 inputStick_;
-	Vector2 preInputStick_;
+	Math::Vector2 inputStick_;
+	Math::Vector2 preInputStick_;
 
-	Vector3 accel_;
-	Vector3 velocity_;
-	Vector3 preVelocity_;
+	Math::Vector3 accel_;
+	Math::Vector3 velocity_;
+	Math::Vector3 preVelocity_;
 
 	Parameter param_;
 

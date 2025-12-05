@@ -67,16 +67,16 @@ void BossActionKeepDistance::Init() {
 
 	velocity_ = CVector3::ZERO;
 
-	Vector3 bossPosition = pTarget_->GetPosition();
-	Vector3 playerPosition = pTarget_->GetTargetPos();
+	Math::Vector3 bossPosition = pTarget_->GetPosition();
+	Math::Vector3 playerPosition = pTarget_->GetTargetPos();
 
 	// 距離を計算する
-	Vector3 distance = bossPosition - playerPosition;
+	Math::Vector3 distance = bossPosition - playerPosition;
 	distance.y = 0.0f;
 	distance = distance.Normalize() * -1.0f;	// playerからBoss方向へのベクトルを反対方向にする
 
 	// 最終的な目標地点の座標
-	Vector3 targetPos = playerPosition + (distance * param_.getDistance);
+	Math::Vector3 targetPos = playerPosition + (distance * param_.getDistance);
 	targetPos.y = bossPosition.y;
 
 	moveType_ = RandomInt(0, 1);
@@ -86,8 +86,8 @@ void BossActionKeepDistance::Init() {
 		centerPos_ = bossPosition - targetPos;
 		centerPos_.y = bossPosition.y;
 
-		Vector3 toBoss = bossPosition - playerPosition;
-		Vector3 tangent = Vector3::Cross(CVector3::UP, toBoss);
+		Math::Vector3 toBoss = bossPosition - playerPosition;
+		Math::Vector3 tangent = Math::Vector3::Cross(CVector3::UP, toBoss);
 
 		velocity_ = tangent.Normalize() * param_.moveSpeed;
 	}
@@ -136,10 +136,10 @@ void BossActionKeepDistance::Direct() {
 }
 
 void BossActionKeepDistance::Spin() {
-	Vector3 playerPos = pTarget_->GetTargetPos();
-	Vector3 toCenter = playerPos - pTarget_->GetPosition();
+	Math::Vector3 playerPos = pTarget_->GetTargetPos();
+	Math::Vector3 toCenter = playerPos - pTarget_->GetPosition();
 	float radius = toCenter.Length();
-	Vector3 centerDire = toCenter.Normalize();
+	Math::Vector3 centerDire = toCenter.Normalize();
 
 	// 敵の速度が常に円の接線方向になるように加速度を加える
 	float speed = velocity_.Length();
@@ -155,7 +155,7 @@ void BossActionKeepDistance::Stop() {
 	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
 	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
 
-	Quaternion playerToRotate_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
-	pTarget_->GetTransform()->srt_.rotate = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
+	Math::Quaternion playerToRotate_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
+	pTarget_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
 
 }

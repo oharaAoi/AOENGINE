@@ -95,8 +95,8 @@ void BossActionShotgun::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotgun::Shot() {
-	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
+	Math::Vector3 pos = pTarget_->GetPosition();
+	Math::Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
 	// ばらつきを弧度法に
 	float bulletSpread = param_.bulletSpread * kToRadian;
 
@@ -105,11 +105,11 @@ void BossActionShotgun::Shot() {
 		float yawOffset = RandomFloat(-bulletSpread, bulletSpread);
 		float pitchOffset = RandomFloat(-bulletSpread, bulletSpread);
 
-		Quaternion yawRot = Quaternion::AngleAxis(yawOffset, CVector3::UP);
-		Quaternion pitchRot = Quaternion::AngleAxis(pitchOffset, CVector3::RIGHT);
-		Quaternion spreadRot = yawRot * pitchRot;
+		Math::Quaternion yawRot = Math::Quaternion::AngleAxis(yawOffset, CVector3::UP);
+		Math::Quaternion pitchRot = Math::Quaternion::AngleAxis(pitchOffset, CVector3::RIGHT);
+		Math::Quaternion spreadRot = yawRot * pitchRot;
 
-		Vector3 dir = spreadRot * velocity;
+		Math::Vector3 dir = spreadRot * velocity;
 		BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, dir * param_.bulletSpeed);
 		bullet->SetTakeDamage(param_.takeDamage);
 	}

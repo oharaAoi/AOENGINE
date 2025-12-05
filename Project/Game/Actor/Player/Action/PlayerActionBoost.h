@@ -130,8 +130,8 @@ private:
 	Parameter param_;
 	Parameter initialPram_;
 	
-	Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
-	Vector3 direction_;
+	Math::Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };
+	Math::Vector3 direction_;
 
 	// boost
 	std::function<void()> mainAction_;
@@ -143,7 +143,7 @@ private:
 
 	// input
 	const float kDeadZone_ = 0.1f;
-	Vector2 stick_;
+	Math::Vector2 stick_;
 
 	std::shared_ptr<RadialBlur> blur_;
 

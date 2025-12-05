@@ -96,8 +96,8 @@ void BossActionRapidfire::End() {
 void BossActionRapidfire::Shot() {
 	fireCount_--;
 
-	Vector3 pos = pTarget_->GetPosition();
-	Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
+	Math::Vector3 pos = pTarget_->GetPosition();
+	Math::Vector3 velocity = (pTarget_->GetTargetPos() - pos).Normalize();
 
 	BossBullet* bullet = pTarget_->GetBulletManager()->AddBullet<BossBullet>(pos, velocity * param_.bulletSpeed);
 	bullet->SetTakeDamage(param_.takeDamage);

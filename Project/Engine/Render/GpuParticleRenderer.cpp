@@ -151,8 +151,8 @@ void GpuParticleRenderer::CreateResource(AOENGINE::DxResourceManager* _resourceM
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
 	// ゲーム情報
-	perView_->viewProjection = Matrix4x4::MakeUnit();
-	perView_->billboardMat = Matrix4x4::MakeUnit();
+	perView_->viewProjection = Math::Matrix4x4::MakeUnit();
+	perView_->billboardMat = Math::Matrix4x4::MakeUnit();
 
 	perFrameBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));

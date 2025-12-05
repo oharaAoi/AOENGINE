@@ -32,7 +32,7 @@ public:
 	void DrawShape();
 
 	// 放出
-	void Emit(const Vector3& pos);
+	void Emit(const Math::Vector3& pos);
 
 	// 放出時間の更新
 	void EmitUpdate();
@@ -59,9 +59,9 @@ public:
 	void SetIsStop(bool _stop) { isStop_ = _stop; }
 	bool GetIsStop() const { return isStop_; }
 
-	void SetPos(const Vector3& pos) { emitter_.translate = pos; }
+	void SetPos(const Math::Vector3& pos) { emitter_.translate = pos; }
 
-	void SetParent(const Matrix4x4& parentMat);
+	void SetParent(const Math::Matrix4x4& parentMat);
 
 	std::shared_ptr<Mesh> GetMesh() const { return shape_; }
 
@@ -107,6 +107,6 @@ protected:
 	std::string meshName_;
 
 	// 親のMatrix
-	const Matrix4x4* parentWorldMat_ = nullptr;
+	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 };
 

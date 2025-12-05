@@ -90,10 +90,10 @@ void PlayerActionShotRight::Shot() {
 	if (pInput_->IsPressButton(XInputButtons::RShoulder)) {
 		// shotを放つ
 		if (pOwner_->GetIsLockOn()) {
-			Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
+			Math::Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
 			pOwner_->Attack(PlayerWeapon::Right_Weapon, AttackContext(dire, CVector3::ZERO));
 		} else {
-			Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
+			Math::Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
 			pOwner_->Attack(PlayerWeapon::Right_Weapon, AttackContext(dire, CVector3::ZERO));
 		}
 

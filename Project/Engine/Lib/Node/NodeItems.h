@@ -3,6 +3,7 @@
 #include <vector>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
 
 enum class PinType {
 	Flow,
@@ -77,7 +78,7 @@ namespace Custom {
 }
 
 struct NodeUVTransform {
-	Math::Vector2 scale = CVector2::UNIT;
-	Math::Vector2 translate = CVector2::ZERO;
+	Math::Vector2 scale = CMath::Vector2::UNIT;
+	Math::Vector2 translate = CMath::Vector2::ZERO;
 	float rotate = 0;
 };

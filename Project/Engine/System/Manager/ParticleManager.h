@@ -53,7 +53,7 @@ public:
 	/// </summary>
 	/// <param name="view">: viewMatrix</param>
 	/// <param name="bill">: billBordMatrix</param>
-	void SetView(const Matrix4x4& view, const Matrix4x4& viewProj2d, const Matrix4x4& bill) {
+	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& viewProj2d, const Math::Matrix4x4& bill) {
 		particleRenderer_->SetView(view, viewProj2d, bill);
 	}
 

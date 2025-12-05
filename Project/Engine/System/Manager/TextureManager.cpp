@@ -188,12 +188,12 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 	return desc;
 }
 
-const Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
+const Math::Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
 	auto it = textureData_.find(filePath);
 	if (it != textureData_.end()) {
 		return textureData_[filePath].textureSize_;
 	}
-	return Vector2();
+	return Math::Vector2();
 }
 
 void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {

@@ -67,8 +67,8 @@ private:
 
 	float timer_ = 0.0f;
 	
-	Vector3 velocity_;
-	Vector3 acceleration_;
+	Math::Vector3 velocity_;
+	Math::Vector3 acceleration_;
 
 	Parameter param_;
 

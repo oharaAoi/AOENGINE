@@ -10,8 +10,8 @@ using namespace Math;
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2) {
-    Matrix4x4 result{};
+Math::Matrix4x4 Add(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2) {
+    Math::Matrix4x4 result{};
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             result.m[row][col] = m1.m[row][col] + m2.m[row][col];
@@ -27,8 +27,8 @@ Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2) {
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2) {
-    Matrix4x4 result{};
+Math::Matrix4x4 Subtract(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2) {
+    Math::Matrix4x4 result{};
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
             result.m[row][col] = m1.m[row][col] - m2.m[row][col];
@@ -44,8 +44,8 @@ Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2) {
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
-    Matrix4x4 result{};
+Math::Matrix4x4 Multiply(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2) {
+    Math::Matrix4x4 result{};
 
     for (int row = 0; row < 4; row++) {
         for (int col = 0; col < 4; col++) {
@@ -63,8 +63,8 @@ Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2) {
 /// </summary>
 /// <param name="matrix">元の行列</param>
 /// <returns>逆行列</returns>
-Matrix4x4 Inverse(Matrix4x4 matrix) {
-    Matrix4x4 result;
+Math::Matrix4x4 Inverse(Math::Matrix4x4 matrix) {
+    Math::Matrix4x4 result;
 
     // 単位行列を初期化
     for (int i = 0; i < 4; ++i) {
@@ -123,7 +123,7 @@ Matrix4x4 Inverse(Matrix4x4 matrix) {
 /// <param name="matrix">操作対象の行列</param>
 /// <param name="row1">入れ替える行1</param>
 /// <param name="row2">入れ替える行2</param>
-void swapRows(Matrix4x4& matrix, int row1, int row2) {
+void swapRows(Math::Matrix4x4& matrix, int row1, int row2) {
     for (int i = 0; i < 4; ++i) {
         float temp = matrix.m[row1][i];
         matrix.m[row1][i] = matrix.m[row2][i];
@@ -137,7 +137,7 @@ void swapRows(Matrix4x4& matrix, int row1, int row2) {
 /// <param name="matrix">操作対象の行列</param>
 /// <param name="row">操作対象の行</param>
 /// <param name="scalar">スカラー値</param>
-void scaleRow(Matrix4x4& matrix, int row, float scalar) {
+void scaleRow(Math::Matrix4x4& matrix, int row, float scalar) {
     for (int i = 0; i < 4; ++i) {
         matrix.m[row][i] *= scalar;
     }
@@ -150,7 +150,7 @@ void scaleRow(Matrix4x4& matrix, int row, float scalar) {
 /// <param name="targetRow">操作対象の行</param>
 /// <param name="sourceRow">加える行</param>
 /// <param name="scalar">スケール値</param>
-void addScaledRow(Matrix4x4& matrix, int targetRow, int sourceRow, float scalar) {
+void addScaledRow(Math::Matrix4x4& matrix, int targetRow, int sourceRow, float scalar) {
     for (int i = 0; i < 4; ++i) {
         matrix.m[targetRow][i] += scalar * matrix.m[sourceRow][i];
     }
@@ -162,8 +162,8 @@ void addScaledRow(Matrix4x4& matrix, int targetRow, int sourceRow, float scalar)
 /// <param name="vector"></param>
 /// <param name="matrix"></param>
 /// <returns></returns>
-Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
-    Vector3 result;
+Math::Vector3 Transform(const Math::Vector3& vector, const Math::Matrix4x4& matrix) {
+    Math::Vector3 result;
     result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] + 1.0f * matrix.m[3][0];
     result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] + 1.0f * matrix.m[3][1];
     result.z = vector.x * matrix.m[0][2] + vector.y * matrix.m[1][2] + vector.z * matrix.m[2][2] + 1.0f * matrix.m[3][2];
@@ -177,8 +177,8 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
     return result;
 }
 
-Vector3 GetEulerAnglesFromRotationMat(const Matrix4x4& R) {
-    Vector3 angles;
+Math::Vector3 GetEulerAnglesFromRotationMat(const Math::Matrix4x4& R) {
+    Math::Vector3 angles;
 
     // Pitch (x軸の回転)
     angles.x = std::asin(-R.m[2][0]);

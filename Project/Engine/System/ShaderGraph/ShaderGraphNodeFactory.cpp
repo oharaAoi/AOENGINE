@@ -23,15 +23,15 @@
 std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNodeFlow* _editor) {
 	nodeEntries_.clear();
 	RegisterNode<PropertyNode<float>>("Property/Property_Float", _editor);
-	RegisterNode<PropertyNode<Vector2>>("Property/Property_Vector2", _editor);
-	RegisterNode<PropertyNode<Vector3>>("Property/Property_Vector3", _editor);
-	RegisterNode<PropertyNode<Vector4>>("Property/Property_Vector4", _editor);
+	RegisterNode<PropertyNode<Math::Vector2>>("Property/Property_Vector2", _editor);
+	RegisterNode<PropertyNode<Math::Vector3>>("Property/Property_Vector3", _editor);
+	RegisterNode<PropertyNode<Math::Vector4>>("Property/Property_Vector4", _editor);
 	RegisterNode<PropertyNode<Color>>("Property/Property_Color", _editor);
 
 	RegisterNode<InOutPriorityNode<float>>("InOutPriority/InOut_Float", _editor);
-	RegisterNode<InOutPriorityNode<Vector2>>("InOutPriority/InOut_Vector2", _editor);
-	RegisterNode<InOutPriorityNode<Vector3>>("InOutPriority/InOut_Vector3", _editor);
-	RegisterNode<InOutPriorityNode<Vector4>>("InOutPriority/InOut_Vector4", _editor);
+	RegisterNode<InOutPriorityNode<Math::Vector2>>("InOutPriority/InOut_Vector2", _editor);
+	RegisterNode<InOutPriorityNode<Math::Vector3>>("InOutPriority/InOut_Vector3", _editor);
+	RegisterNode<InOutPriorityNode<Math::Vector4>>("InOutPriority/InOut_Vector4", _editor);
 	RegisterNode<InOutPriorityNode<Color>>("InOutPriority/InOut_Color", _editor);
 
 	RegisterNode<TextureNode>("Texture/Texture", _editor);

@@ -24,7 +24,7 @@ void LaserBullet::Debug_Gui() {
 	param_.shaderGraphPath = laserCylinder_->GetShaderGraphPath();
 	if (ImGui::Button("shot")) {
 		isShot_ = true;
-		parentTransform_->SetScale(Vector3(1, 1, 0.0f));
+		parentTransform_->SetScale(Math::Vector3(1, 1, 0.0f));
 		Reset(CVector3::ZERO, targetPos_, 200.0f);
 	}
 }
@@ -112,7 +112,7 @@ void LaserBullet::Update() {
 	Fade();
 
 	laserCylinder_->Update();
-	lineCollider_->Update(QuaternionSRT(CVector3::ZERO, Quaternion(), parentTransform_->GetTranslate()));
+	lineCollider_->Update(Math::QuaternionSRT(CVector3::ZERO, Math::Quaternion(), parentTransform_->GetTranslate()));
 	parentTransform_->Update();
 }
 
@@ -120,10 +120,10 @@ void LaserBullet::Update() {
 // ↓ リセット処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _speed) {
+void LaserBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _targetPos, float _speed) {
 	parentTransform_->SetTranslate(_pos);
-	dire_ = Vector3(_targetPos - _pos).Normalize();
-	parentTransform_->SetRotate(Quaternion::LookRotation(dire_));
+	dire_ = Math::Vector3(_targetPos - _pos).Normalize();
+	parentTransform_->SetRotate(Math::Quaternion::LookRotation(dire_));
 	speed_ = _speed;
 	shotParticle_->SetPos(_pos);
 	shotEffect_->SetPos(_pos);
@@ -146,7 +146,7 @@ void LaserBullet::Reset(const Vector3& _pos, const Vector3& _targetPos, float _s
 void LaserBullet::Stretch() {
 	// scaleを大きくする
 	if (isShot_) {
-		Vector3 scale = parentTransform_->GetScale();
+		Math::Vector3 scale = parentTransform_->GetScale();
 		scale.z += speed_ * GameTimer::DeltaTime();
 		parentTransform_->SetScale(scale);
 
@@ -155,7 +155,7 @@ void LaserBullet::Stretch() {
 			isFade_ = true;
 		}
 
-		Vector3 diff = dire_ * scale.z;
+		Math::Vector3 diff = dire_ * scale.z;
 		lineCollider_->SetDiff(diff);
 		laserCylinder_->SetUvScale(scale.z);
 	}
@@ -196,8 +196,8 @@ void LaserBullet::OnCollision(BaseCollider* _other) {
 		BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
 		BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
 
-		Vector3 scale = parentTransform_->GetScale();
-		Vector3 hitPos = lineCollider_->GetOrigine() + lineCollider_->GetDiff();
+		Math::Vector3 scale = parentTransform_->GetScale();
+		Math::Vector3 hitPos = lineCollider_->GetOrigine() + lineCollider_->GetDiff();
 
 		hitLaserEffect_->SetPos(hitPos);
 		hitLaserParticle_->SetPos(hitPos);

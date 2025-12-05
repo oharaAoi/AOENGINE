@@ -71,7 +71,7 @@ void JetEngine::Init() {
 
 	transform_ = object_->GetTransform();
 	transform_->srt_.translate = { 0.0f, 2.7f, -0.5f };
-	transform_->srt_.rotate = Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
+	transform_->srt_.rotate = Math::Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
 
 	// -------------------------------------
 	// effectの親にする空のTransform作成
@@ -114,17 +114,17 @@ void JetEngine::Update(float diftX) {
 	if (burnScaleUpTimer_.Run(GameTimer::DeltaTime())) {
 		float value = param_.burnMoveScaleCurve.BezierValue(burnScaleUpTimer_.t_);
 
-		Vector3 scale;
+		Math::Vector3 scale;
 		if (isStop_) {
-			scale = Vector3::Lerp(param_.burnMoveScale, CVector3::ZERO, value);
+			scale = Math::Vector3::Lerp(param_.burnMoveScale, CVector3::ZERO, value);
 		} else {
-			scale = Vector3::Lerp(CVector3::ZERO, param_.burnMoveScale, value);
+			scale = Math::Vector3::Lerp(CVector3::ZERO, param_.burnMoveScale, value);
 		}
 		burnParentTransform_->SetScale(scale);
 	}
 
-	Quaternion engineRotate = Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
-	Quaternion rotate = Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.1f);
+	Math::Quaternion engineRotate = Math::Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
+	Math::Quaternion rotate = Math::Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.1f);
 	transform_->SetRotate(rotate);
 	transform_->Update();
 	burnParentTransform_->Update();

@@ -15,16 +15,16 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 /// gpuに送る情報
 /// </summary>
 struct ViewProjectionData {
-	Matrix4x4 view;
-	Matrix4x4 projection;
+	Math::Matrix4x4 view;
+	Math::Matrix4x4 projection;
 };
 
 /// <summary>
 /// 前フレーム分の情報
 /// </summary>
 struct ViewProjectionPrevData {
-	Matrix4x4 view;
-	Matrix4x4 projection;
+	Math::Matrix4x4 view;
+	Math::Matrix4x4 projection;
 };
 
 /// <summary>
@@ -51,17 +51,17 @@ public:
 	/// </summary>
 	/// <param name="view"></param>
 	/// <param name="projection"></param>
-	void SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
+	void SetViewProjection(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 		dataPrev_->view = data_->view;
 		dataPrev_->projection = data_->projection;
 		data_->view = view;
 		data_->projection = projection;
 	}
 
-	const Matrix4x4 GetViewProjection() { return data_->view * data_->projection; }
+	const Math::Matrix4x4 GetViewProjection() { return data_->view * data_->projection; }
 
-	const Matrix4x4 GetViewMatrix() { return data_->view; }
-	const Matrix4x4 GetProjectionMatrix() { return data_->projection; }
+	const Math::Matrix4x4 GetViewMatrix() { return data_->view; }
+	const Math::Matrix4x4 GetProjectionMatrix() { return data_->projection; }
 
 private:
 

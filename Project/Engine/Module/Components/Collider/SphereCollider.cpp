@@ -20,7 +20,7 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 	collisionState_ = (int)CollisionFlags::None;
 
 	if (shape == ColliderShape::Sphere) {
-		shape_ = Sphere{ .center = CVector3::ZERO, .radius = 1.0f };
+		shape_ = Math::Sphere{ .center = CVector3::ZERO, .radius = 1.0f };
 	} else {
 		assert("not Sphere Shape");
 	}
@@ -32,10 +32,10 @@ void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) 
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SphereCollider::Update(const QuaternionSRT& srt) {
+void SphereCollider::Update(const Math::QuaternionSRT& srt) {
 	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate + localSRT_.translate;
-	std::get<Sphere>(shape_).center = centerPos_;
+	std::get<Math::Sphere>(shape_).center = centerPos_;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,13 +44,13 @@ void SphereCollider::Update(const QuaternionSRT& srt) {
 
 void SphereCollider::Draw() const {
 	if (collisionState_ == (int)CollisionFlags::Enter || collisionState_ == (int)CollisionFlags::Stay) {
-		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color::red);
+		DrawSphere(std::get<Math::Sphere>(shape_).center, std::get<Math::Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color::red);
 	} else {
-		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color(0, 1, 1, 1));
+		DrawSphere(std::get<Math::Sphere>(shape_).center, std::get<Math::Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color(0, 1, 1, 1));
 	}
 }
 
 void SphereCollider::Debug_Gui() {
 	ImGui::DragFloat3("translate", &localSRT_.translate.x, 0.1f);
-	ImGui::DragFloat("radius", &std::get<Sphere>(shape_).radius, 0.1f);
+	ImGui::DragFloat("radius", &std::get<Math::Sphere>(shape_).radius, 0.1f);
 }

@@ -24,7 +24,7 @@ void BaseBullet::Update() {
 	if (!isAlive_) { return; };
 	transform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
 	if (velocity_.x != 0.0f || velocity_.y != 0.0f) {
-		transform_->srt_.rotate = Quaternion::LookRotation(velocity_.Normalize());
+		transform_->srt_.rotate = Math::Quaternion::LookRotation(velocity_.Normalize());
 	}
 }
 
@@ -32,7 +32,7 @@ void BaseBullet::Update() {
 // ↓ リセット処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseBullet::Reset(const Vector3& pos, const Vector3& velocity) {
+void BaseBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
 	transform_->srt_.translate = pos;
 	velocity_ = velocity;
 }

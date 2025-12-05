@@ -28,7 +28,7 @@ public:
 	/// 更新処理
 	/// </summary>
 	/// <param name="srt"></param>
-	void Update(const QuaternionSRT& srt) override;
+	void Update(const Math::QuaternionSRT& srt) override;
 
 	/// <summary>
 	/// 描画処理
@@ -42,11 +42,11 @@ public:
 
 public:
 
-	void SetSize(const Vector3& _size) { size_ = _size; }
-	const Vector3& GetSize() const { return size_; }
+	void SetSize(const Math::Vector3& _size) { size_ = _size; }
+	const Math::Vector3& GetSize() const { return size_; }
 
 private:
 
-	Vector3 size_;
+	Math::Vector3 size_;
 
 };

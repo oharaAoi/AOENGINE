@@ -59,7 +59,7 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossUIs::Update(const Vector2& _reticlePos, bool isLockOn) {
+void BossUIs::Update(const Math::Vector2& _reticlePos, bool isLockOn) {
 	const Boss::Parameter& bossParam = pBoss_->GetParameter();
 	const Boss::Parameter& bossInitParam = pBoss_->GetInitParameter();
 
@@ -140,22 +140,22 @@ void BossUIs::Update(const Vector2& _reticlePos, bool isLockOn) {
 void BossUIs::Debug_Gui() {
 }
 
-void BossUIs::PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos) {
+void BossUIs::PopAlert(const Math::Vector3& _targetPos, const Math::Vector3& _attackerPos) {
 	// 前方方向ベクトル
-	Vector3 forward = pPlayer_->GetTransform()->GetRotate().MakeForward();
+	Math::Vector3 forward = pPlayer_->GetTransform()->GetRotate().MakeForward();
 	forward.y = 0;
 	forward = forward.Normalize();
 
 	// 右方向ベクトル
-	Vector3 right = pPlayer_->GetTransform()->GetRotate().MakeRight();
+	Math::Vector3 right = pPlayer_->GetTransform()->GetRotate().MakeRight();
 	right.y = 0;
 	right = right.Normalize();
 
 	// Targetへのベクトル
-	Vector3 toEnemy = (_attackerPos - _targetPos).Normalize();
+	Math::Vector3 toEnemy = (_attackerPos - _targetPos).Normalize();
 
 	// 4方向を用意
-	std::array<std::pair<AttackAlertDirection, Vector3>, 4> dirs = { {
+	std::array<std::pair<AttackAlertDirection, Math::Vector3>, 4> dirs = { {
 		{AttackAlertDirection::Front, forward},
 		{AttackAlertDirection::Back,  forward * -1.0f},
 		{AttackAlertDirection::Right, right},
@@ -167,7 +167,7 @@ void BossUIs::PopAlert(const Vector3& _targetPos, const Vector3& _attackerPos) {
 	AttackAlertDirection bestDir = AttackAlertDirection::Front;
 
 	for (auto& [dir, vec] : dirs) {
-		float dot = Vector3::Dot(toEnemy, vec);
+		float dot = Math::Vector3::Dot(toEnemy, vec);
 		if (dot > bestDot) {
 			bestDot = dot;
 			bestDir = dir;

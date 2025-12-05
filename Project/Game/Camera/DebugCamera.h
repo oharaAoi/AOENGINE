@@ -49,9 +49,9 @@ private:
 
 	const float kCameraDeltaTime_ = 1.0f / GameTimer::fps_;
 
-	Quaternion moveRotate_;
-	// 回転する前のQuaternion
-	Quaternion preMoveRotate_;
+	Math::Quaternion moveRotate_;
+	// 回転する前のMath::Quaternion
+	Math::Quaternion preMoveRotate_;
 
 	// ---------------------------------------------------------------
 	// ↓ デバックカメラで使う変数
@@ -60,8 +60,8 @@ private:
 	float moveBaseSpeed_;
 	float moveSpeed_;
 	float moveMaxSpeed_ = 30.0f;
-	Vector3 moveDirection_;
-	Vector2 preMousePos_;
+	Math::Vector3 moveDirection_;
+	Math::Vector2 preMousePos_;
 
 	float yaw_ = 0.0f;
 	float pitch_ = 0.0f;
@@ -69,8 +69,8 @@ private:
 
 	bool isMove = false;
 
-	Quaternion qYaw;
-	Quaternion qPitch;
+	Math::Quaternion qYaw;
+	Math::Quaternion qPitch;
 
 	bool isFocused_;
 };

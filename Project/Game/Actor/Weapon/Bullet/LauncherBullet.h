@@ -54,7 +54,7 @@ public:
 	/// </summary>
 	/// <param name="_pos">: 弾の座標</param>
 	/// <param name="_velocity">: 速度</param>
-	void Reset(const Vector3& _pos, const Vector3& _velocity);
+	void Reset(const Math::Vector3& _pos, const Math::Vector3& _velocity);
 
 private:
 	BaseParticles* burn_;

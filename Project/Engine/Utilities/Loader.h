@@ -47,7 +47,7 @@ std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::s
 /// <param name="directoryPath"></param>
 /// <param name="fileName"></param>
 /// <param name="scale"></param>
-void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale);
+void LoadMtl(const std::string& directoryPath, const std::string& fileName, Math::Vector3& scale);
 
 /// <summary>
 /// 

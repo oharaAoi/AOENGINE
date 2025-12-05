@@ -24,7 +24,7 @@ struct SRT {
 };
 
 /// <summary>
-/// 拡縮、回転(Quaternion)、移動
+/// 拡縮、回転(Math::Quaternion)、移動
 /// </summary>
 struct QuaternionSRT {
 	Math::Vector3 scale = CVector3::UNIT;

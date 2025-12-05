@@ -12,7 +12,7 @@ void JetEngineBurn::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Init() {
-	geometry_.Init(Vector2(1,1));
+	geometry_.Init(Math::Vector2(1,1));
 	param_.Load();
 	
 	// meshの作成dw 

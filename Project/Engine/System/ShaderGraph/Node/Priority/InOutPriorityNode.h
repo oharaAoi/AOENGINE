@@ -57,16 +57,16 @@ inline void InOutPriorityNode<T>::Init() {
 	if constexpr (std::is_same_v<T, float>) {
 		addIN<float>("x", inputValue_, ImFlow::ConnectionFilter::SameType());
 
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
 
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
 		
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
@@ -87,16 +87,16 @@ inline void InOutPriorityNode<T>::customUpdate() {
 	if constexpr (std::is_same_v<T, float>) {
 		inputValue_ = getInVal<float>("x");
 
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		inputValue_.x = getInVal<float>("x");
 		inputValue_.y = getInVal<float>("y");
 
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		inputValue_.x = getInVal<float>("x");
 		inputValue_.y = getInVal<float>("y");
 		inputValue_.z = getInVal<float>("z");
 
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		inputValue_.x = getInVal<float>("x");
 		inputValue_.y = getInVal<float>("y");
 		inputValue_.z = getInVal<float>("z");
@@ -120,11 +120,11 @@ inline nlohmann::json InOutPriorityNode<T>::toJson() {
 	BaseInfoToJson(result);
 	if constexpr (std::is_same_v<T, float>) {
 		result["props"]["value"] = { value_ };
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		result["props"]["value"] = { value_.x, value_.y };
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z };
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
 	} else if constexpr (std::is_same_v<T, Color>) {
 		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
@@ -137,16 +137,16 @@ inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
 	if constexpr (std::is_same_v<T, float>) {
 		value_ = _json.at("props").at("value").at(0).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();
 		value_.z = value.at(2).get<float>();
-	} else if constexpr (std::is_same_v<T, Vector4>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		auto& value = _json.at("props").at("value");
 		value_.x = value.at(0).get<float>();
 		value_.y = value.at(1).get<float>();

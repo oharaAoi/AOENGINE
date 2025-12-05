@@ -53,5 +53,5 @@ void Camera3d::Debug_Gui() {
 
 	parameter_.SaveAndLoad();
 
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
+	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }

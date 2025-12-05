@@ -25,7 +25,7 @@ void DissolveNode::Init() {
 	buffer_->Map(0, nullptr, reinterpret_cast<void**>(&param_));
 
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
-	auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
+	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
 }
 

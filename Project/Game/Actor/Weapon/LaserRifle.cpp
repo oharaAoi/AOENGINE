@@ -43,7 +43,7 @@ void LaserRifle::Init() {
 bool LaserRifle::Attack(const AttackContext& cxt) {
 	if (!isCanAttack_) { return false; }
 
-	Vector3 worldPos = object_->GetPosition();
+	Math::Vector3 worldPos = object_->GetPosition();
 	LaserBullet* bullet = pBulletManager_->AddBullet<LaserBullet>(worldPos, cxt.target, attackParam_.bulletSpeed);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 

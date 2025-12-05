@@ -22,7 +22,7 @@ void Skeleton::Init() {
 
 void Skeleton::Update() {
 	for (Joint& joint : joints_) {
-		joint.localMat = Matrix4x4::MakeAffine(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
+		joint.localMat = Math::Matrix4x4::MakeAffine(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
 
 		if (joint.parent) {
 			joint.skeltonSpaceMat = joint.localMat * joints_[*joint.parent].skeltonSpaceMat;
@@ -36,22 +36,22 @@ void Skeleton::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::DrawBone(const Matrix4x4& worldMat) const {
+void Skeleton::DrawBone(const Math::Matrix4x4& worldMat) const {
 	for (const Joint& joint : joints_) {
-		Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
+		Math::Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
 		DrawSphere(pos, 0.2f, AOENGINE::Render::GetViewProjectionMat(), Color::red);
 	}
 
 	DrawNodeHierarchy(worldMat);
 }
 
-void Skeleton::DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const {
+void Skeleton::DrawNodeHierarchy(const Math::Matrix4x4& parentWorldMatrix) const {
 	for (const Joint& joint : joints_) {
-		Vector3 parentPos = (joint.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+		Math::Vector3 parentPos = (joint.skeltonSpaceMat * parentWorldMatrix).GetPosition();
 
 		for (int32_t childIndex : joint.children) {
 			const Joint& child = joints_[childIndex];
-			Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+			Math::Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
 			// 線を引く
 			AOENGINE::Render::DrawLine(parentPos, childPos, Color::red, AOENGINE::Render::GetViewProjectionMat());
 		}
@@ -80,7 +80,7 @@ int32_t Skeleton::CreateJoint(const AOENGINE::Model::Node& node, const std::opti
 	Joint joint;
 	joint.name = node.name;
 	joint.localMat = node.localMatrix;
-	joint.skeltonSpaceMat = Matrix4x4::MakeUnit();
+	joint.skeltonSpaceMat = Math::Matrix4x4::MakeUnit();
 	joint.transform = node.transform;
 	joint.index = int32_t(joints_.size());	// 登録されている数
 	joint.parent = parent;

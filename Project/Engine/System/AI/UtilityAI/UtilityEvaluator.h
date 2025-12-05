@@ -12,7 +12,7 @@ struct UtilityEvaluator : AOENGINE::IJsonConverter {
 
 	float weight = 1.0f;
 	float maxValue = 50.0f;
-	Curve curve;
+	Math::Curve curve;
 
 	/// <summary>
 	/// 評価式

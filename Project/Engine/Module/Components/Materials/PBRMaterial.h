@@ -25,7 +25,7 @@ public:
 		Color color;				// albedo
 		int32_t enableLighting;
 		float pad[3];
-		Matrix4x4 uvTransform;
+		Math::Matrix4x4 uvTransform;
 		Color diffuseColor;		// 拡散反射率
 		Color specularColor;		// 鏡面反射の色
 		float roughness;			// 粗さ

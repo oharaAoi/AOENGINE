@@ -24,10 +24,10 @@ bool CheckCollision(const Sphere& s1, const Sphere& s2) {
 
 bool CheckCollison(const OBB& colliderA, const OBB& colliderB) {
 	// 分離軸の組み合わせを取得
-	std::vector<Vector3> crossSeparatingAxises;
+	std::vector<Math::Vector3> crossSeparatingAxises;
 	for (uint8_t obb1Index = 0; obb1Index < 3; obb1Index++) {
 		for (uint8_t obb2Index = 0; obb2Index < 3; obb2Index++) {
-			Vector3 crossAxis = Cross(colliderA.orientations[obb1Index], colliderB.orientations[obb2Index]);
+			Math::Vector3 crossAxis = Cross(colliderA.orientations[obb1Index], colliderB.orientations[obb2Index]);
 			if (Length(crossAxis) > kEpsilon) { // 長さが非常に小さい場合を除外
 				Normalize(crossAxis);
 				crossSeparatingAxises.push_back(crossAxis);
@@ -36,26 +36,26 @@ bool CheckCollison(const OBB& colliderA, const OBB& colliderB) {
 	}
 
 	// 面法線をまとめる
-	std::vector<Vector3> obb1SurfaceNormals;
+	std::vector<Math::Vector3> obb1SurfaceNormals;
 	for (uint8_t obbIndex = 0; obbIndex < 3; obbIndex++) {
 		obb1SurfaceNormals.push_back(Normalize(TransformNormal(colliderA.orientations[obbIndex], colliderA.matRotate)));
 	}
 
-	std::vector<Vector3> obb2SurfaceNormals;
+	std::vector<Math::Vector3> obb2SurfaceNormals;
 	for (uint8_t obbIndex = 0; obbIndex < 3; obbIndex++) {
 		obb2SurfaceNormals.push_back(Normalize(TransformNormal(colliderB.orientations[obbIndex], colliderB.matRotate)));
 	}
 
 	// ------------------------------------------------------------
 	// 分離軸を割り出す
-	std::vector<Vector3> separatingAxises;
+	std::vector<Math::Vector3> separatingAxises;
 	separatingAxises.insert(separatingAxises.end(), obb1SurfaceNormals.begin(), obb1SurfaceNormals.end());
 	separatingAxises.insert(separatingAxises.end(), obb2SurfaceNormals.begin(), obb2SurfaceNormals.end());
 	separatingAxises.insert(separatingAxises.end(), crossSeparatingAxises.begin(), crossSeparatingAxises.end());
 
 	// obbから頂点を取り出す
-	std::vector<Vector3> obb1Indecies = colliderA.MakeIndex();
-	std::vector<Vector3> obb2Indecies = colliderB.MakeIndex();
+	std::vector<Math::Vector3> obb1Indecies = colliderA.MakeIndex();
+	std::vector<Math::Vector3> obb2Indecies = colliderB.MakeIndex();
 
 	// 頂点を分離軸候補に射影したベクトルを格納する
 
@@ -125,7 +125,7 @@ bool CheckCollision(const AABB& aabb1, const AABB& aabb2) {
 
 bool CheckCollisionAABBandSphere(const AABB& aabb, const Sphere& sphere) {
 	// 最近傍点を求める
-	Vector3 closestPoint{
+	Math::Vector3 closestPoint{
 		std::clamp(sphere.center.x, aabb.min.x, aabb.max.x),
 		std::clamp(sphere.center.y, aabb.min.y, aabb.max.y),
 		std::clamp(sphere.center.z, aabb.min.z, aabb.max.z)
@@ -148,15 +148,15 @@ bool CheckCollisionAABBandSphere(const AABB& aabb, const Sphere& sphere) {
 
 bool CheckCollisionOBBandSphere(const OBB& obb, const Sphere& sphere) {
 	// 回転行列を作成する
-	Matrix4x4 rotateMatrix = obb.matRotate;
+	Math::Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
-	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
+	Math::Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
 	// ワールド行列を作成
-	Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
-	Matrix4x4 obbMatWorldInverse = obbMatWorld.Inverse();
+	Math::Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
+	Math::Matrix4x4 obbMatWorldInverse = obbMatWorld.Inverse();
 
 	// 中心点を作成
-	Vector3 centerInOBBLocal = Transform(sphere.center, obbMatWorldInverse);
+	Math::Vector3 centerInOBBLocal = Transform(sphere.center, obbMatWorldInverse);
 
 	// OBBからABBを作成
 	AABB aabbOBBLocal{ .min = obb.size * -1, .max = obb.size };
@@ -188,11 +188,11 @@ bool CheckCollisionAABBandOBB(const OBB& obb, const AABB& aabb) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line) {
-	Vector3 A = line.origin;
-	Vector3 B = line.origin + line.diff;
+	Math::Vector3 A = line.origin;
+	Math::Vector3 B = line.origin + line.diff;
 
-	Vector3 segment = B - A;
-	float segLen2 = Vector3::Dot(segment, segment);
+	Math::Vector3 segment = B - A;
+	float segLen2 = Math::Vector3::Dot(segment, segment);
 
 	// 退避：長さ0の線分は origin との距離判定にする
 	if (segLen2 == 0.0f) {
@@ -200,14 +200,14 @@ bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line) {
 		return dist2 <= sphere.radius * sphere.radius;
 	}
 
-	Vector3 AC = sphere.center - A;
+	Math::Vector3 AC = sphere.center - A;
 
 	// 射影
-	float t = Vector3::Dot(AC, segment) / segLen2;
+	float t = Math::Vector3::Dot(AC, segment) / segLen2;
 	t = std::clamp(t, 0.0f, 1.0f);
 
 	// 線分上の最接近点
-	Vector3 P = A + segment * t;
+	Math::Vector3 P = A + segment * t;
 
 	// 距離²で比較
 	float dist2 = (P - sphere.center).LengthSquared();
@@ -220,8 +220,8 @@ bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line) {
 
 bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line) {
 	// 衝突点の媒介変数を求める
-	Vector3 tMin = (aabb.min - line.origin) / line.diff;
-	Vector3 tMax = (aabb.max - line.origin) / line.diff;
+	Math::Vector3 tMin = (aabb.min - line.origin) / line.diff;
+	Math::Vector3 tMax = (aabb.max - line.origin) / line.diff;
 
 	if (std::isnan(tMin.x)) { tMin.x = 0; }
 	if (std::isnan(tMin.y)) { tMin.y = 0; }
@@ -232,14 +232,14 @@ bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line) {
 	if (std::isnan(tMax.z)) { tMax.z = 99; }
 
 	// 衝突点の内近い方と小さい方を求める
-	Vector3 tNear{
+	Math::Vector3 tNear{
 		std::min(tMin.x, tMax.x),
 		std::min(tMin.y, tMax.y),
 		std::min(tMin.z, tMax.z),
 	};
 
 	// 遠い方
-	Vector3 tFar{
+	Math::Vector3 tFar{
 		std::max(tMin.x, tMax.x),
 		std::max(tMin.y, tMax.y),
 		std::max(tMin.z, tMax.z),
@@ -274,17 +274,17 @@ bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line) {
 
 bool CheckCollisionOBBandLine(const OBB& obb, const Line& line) {
 	// 回転行列を作成する
-	Matrix4x4 rotateMatrix = obb.matRotate;
+	Math::Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
-	Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
+	Math::Matrix4x4 matTranslate = obb.center.MakeTranslateMat();
 	// ワールド行列を作成
-	Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
+	Math::Matrix4x4 obbMatWorld = rotateMatrix * matTranslate;
 	// -M
-	Matrix4x4 obbMatWorldInverse = Inverse(obbMatWorld);
+	Math::Matrix4x4 obbMatWorldInverse = Inverse(obbMatWorld);
 
 	// 線分の始点と終点をAABBのローカル空間に変換する
-	Vector3 localOrigin = Transform(line.origin, obbMatWorldInverse);
-	Vector3 localEnd = Transform(line.origin + line.diff, obbMatWorldInverse);
+	Math::Vector3 localOrigin = Transform(line.origin, obbMatWorldInverse);
+	Math::Vector3 localEnd = Transform(line.origin + line.diff, obbMatWorldInverse);
 
 	// OBBからABBを作成
 	AABB aabbOBBLocal{ .min = obb.size * -1, .max = obb.size };
@@ -295,8 +295,8 @@ bool CheckCollisionOBBandLine(const OBB& obb, const Line& line) {
 	};
 
 	// 衝突点の媒介変数を求める
-	Vector3 tMin = (aabbOBBLocal.min - line.origin) / line.diff;
-	Vector3 tMax = (aabbOBBLocal.max - line.origin) / line.diff;
+	Math::Vector3 tMin = (aabbOBBLocal.min - line.origin) / line.diff;
+	Math::Vector3 tMax = (aabbOBBLocal.max - line.origin) / line.diff;
 
 	if (std::isnan(tMin.x)) { tMin.x = 0; }
 	if (std::isnan(tMin.y)) { tMin.y = 0; }
@@ -307,14 +307,14 @@ bool CheckCollisionOBBandLine(const OBB& obb, const Line& line) {
 	if (std::isnan(tMax.z)) { tMax.z = 99; }
 
 	// 衝突点の内近い方と小さい方を求める
-	Vector3 tNear{
+	Math::Vector3 tNear{
 		std::min(tMin.x, tMax.x),
 		std::min(tMin.y, tMax.y),
 		std::min(tMin.z, tMax.z),
 	};
 
 	// 遠い方
-	Vector3 tFar{
+	Math::Vector3 tFar{
 		std::max(tMin.x, tMax.x),
 		std::max(tMin.y, tMax.y),
 		std::max(tMin.z, tMax.z),

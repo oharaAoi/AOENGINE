@@ -31,7 +31,7 @@ public:
 	/// <param name="firstSpeedRaito">: 初めの速度の割合</param>
 	/// <param name="trackingRaito">: 追尾性能の値</param>
 	/// <param name="isTracking">: 追尾を行うか</param>
-	void Reset(const Vector3& pos, const Vector3& velocity, const Vector3& targetPosition, float bulletSpeed, float firstSpeedRaito,
+	void Reset(const Math::Vector3& pos, const Math::Vector3& velocity, const Math::Vector3& targetPosition, float bulletSpeed, float firstSpeedRaito,
 			   float trackingRaito, bool isTracking);
 
 	/// <summary>
@@ -54,7 +54,7 @@ private :
 
 public:
 
-	void SetTargetPosition(const Vector3& pos) { targetPosition_ = pos; }
+	void SetTargetPosition(const Math::Vector3& pos) { targetPosition_ = pos; }
 
 private :
 

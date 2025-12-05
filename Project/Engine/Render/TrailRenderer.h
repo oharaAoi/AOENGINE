@@ -5,13 +5,13 @@
 #include "Engine/Lib/Math/Vector3.h"
 
 struct TrailPoint {
-    Vector3 position;
+    Math::Vector3 position;
     float lifetime;
 };
 
 struct TrailVertex {
-    Vector3 position;
-    Vector2 uv;
+    Math::Vector3 position;
+    Math::Vector2 uv;
     float alpha;
 };
 

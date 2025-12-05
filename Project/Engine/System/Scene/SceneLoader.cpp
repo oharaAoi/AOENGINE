@@ -98,11 +98,11 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 	objectData.srt.translate.y = (float)transform["translation"][2];
 	objectData.srt.translate.z = (float)transform["translation"][1];
 
-	Vector3 rotate = CVector3::ZERO;
+	Math::Vector3 rotate = CVector3::ZERO;
 	rotate.x = -(float)transform["rotation"][0];
 	rotate.y = -(float)transform["rotation"][2];
 	rotate.z = -(float)transform["rotation"][1];
-	objectData.srt.rotate = Quaternion::EulerToQuaternion(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
+	objectData.srt.rotate = Math::Quaternion::EulerToQuaternion(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
 
 	objectData.srt.scale.x = (float)transform["scaling"][0];
 	objectData.srt.scale.y = (float)transform["scaling"][2];

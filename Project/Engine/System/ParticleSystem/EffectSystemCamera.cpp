@@ -24,7 +24,7 @@ void EffectSystemCamera::Init() {
 
 	moveBaseSpeed_ = 5.0f;
 	moveSpeed_ = 5.0f;
-	quaternion_ = Quaternion::AngleAxis(20.0f * kToRadian, CVector3::RIGHT);
+	quaternion_ = Math::Quaternion::AngleAxis(20.0f * kToRadian, CVector3::RIGHT);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +50,7 @@ void EffectSystemCamera::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EffectSystemCamera::TransitionMove() {
-	moveDirection_ = Vector3();
+	moveDirection_ = Math::Vector3();
 
 	if (Input::IsPressKey(DIK_A)) {
 		moveDirection_ -= quaternion_.MakeRight() * moveSpeed_;
@@ -86,15 +86,15 @@ void EffectSystemCamera::TransitionMove() {
 void EffectSystemCamera::RotateMove() {
 	if (Input::IsPressMouse(1)) {
 
-		Vector2 dire = Input::GetMousePosition() - preMousePos_;
+		Math::Vector2 dire = Input::GetMousePosition() - preMousePos_;
 
 		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
 		yaw_ += dire.x * sensitivity_ * GameTimer::DeltaTime();
-		qYaw = Quaternion::AngleAxis(yaw_, Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+		qYaw = Math::Quaternion::AngleAxis(yaw_, Math::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
 
 		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
 		pitch_ += dire.y * sensitivity_ * GameTimer::DeltaTime();
-		qPitch = Quaternion::AngleAxis(pitch_, Vector3(1.0f, 0.0f, 0.0f)).Normalize();
+		qPitch = Math::Quaternion::AngleAxis(pitch_, Math::Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
 		// 回転合成
 		quaternion_ = (qYaw * moveQuaternion_ * qPitch).Normalize();

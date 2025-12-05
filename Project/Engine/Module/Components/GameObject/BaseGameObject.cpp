@@ -95,7 +95,7 @@ void BaseGameObject::UpdateMatrix() {
 	// colliderの更新
 	if (!colliders_.empty()) {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
-			colliders_[index]->Update(QuaternionSRT{
+			colliders_[index]->Update(Math::QuaternionSRT{
 				.scale = transform_->GetScale(),
 				.rotate = transform_->GetRotate(),
 				.translate = transform_->GetPos() }
@@ -219,7 +219,7 @@ void BaseGameObject::AddCollider(BaseCollider* _collider, const std::string& cat
 	_collider->SetCategory(categoryName);
 	ColliderCollector::AddCollider(_collider);
 
-	_collider->Update(QuaternionSRT{ .scale = transform_->GetScale(),
+	_collider->Update(Math::QuaternionSRT{ .scale = transform_->GetScale(),
 						  .rotate = transform_->GetRotate(),
 						  .translate = transform_->GetTranslate() }
 	);

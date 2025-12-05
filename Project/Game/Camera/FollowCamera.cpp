@@ -21,7 +21,7 @@ void FollowCamera::Finalize() {
 
 void FollowCamera::Debug_Gui() {
 	ImGui::Text("stick.Length: %f", stick_.Length());
-	Vector3 pos = transform_.worldMat_.GetPosition();
+	Math::Vector3 pos = transform_.worldMat_.GetPosition();
 	ImGui::DragFloat3("pos", &pos.x, 0.1f);
 	ImGui::DragFloat3("angle", &angle_.x, 0.1f);
 	ImGui::DragFloat("rotateLength_", &rotateLength_, 0.1f);
@@ -56,7 +56,7 @@ void FollowCamera::Debug_Gui() {
 		animation.second->Debug_Gui();
 	}
 	
-	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
+	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(WinApp::sWindowWidth) / float(WinApp::sWindowHeight), near_, far_);
 }
 
 void FollowCamera::CameraParameter::Debug_Gui() {
@@ -72,14 +72,14 @@ void FollowCamera::CameraParameter::Debug_Gui() {
 
 	ImGui::DragFloat("smoothTime", &smoothTime, 0.01f);
 	ImGui::DragFloat("maxSpeed", &maxSpeed, 0.01f);
-	SelectEasing(easingIndex);
+	Math::SelectEasing(easingIndex);
 	SaveAndLoad();
 }
 
 void FollowCamera::AnimationParameter::Debug_Gui() {
 	ImGui::DragFloat3("firstOffset", &firstOffset.x, 0.1f);
 	ImGui::DragFloat("animationTime", &moveTime, 0.1f);
-	SelectEasing(easingIndex);
+	Math::SelectEasing(easingIndex);
 	ImGui::ColorEdit4("color", &scaleColor.r);
 	ImGui::DragFloat("vginetteColor", &vignettePower, 0.01f);
 	SaveAndLoad();
@@ -102,10 +102,10 @@ void FollowCamera::Init() {
 	animationParam_.targetOffset = followCamera_.offset;
 	isAnimationFinish_ = false;
 
-	transform_.rotate = Quaternion(0, 0, 0, 1.0f);
+	transform_.rotate = Math::Quaternion(0, 0, 0, 1.0f);
 
 	pivotSRT_.scale = { 1.0f, 1.0f, 1.0f };
-	pivotSRT_.rotate = Quaternion(0, 0, 0, 1.0f);
+	pivotSRT_.rotate = Math::Quaternion(0, 0, 0, 1.0f);
 	transform_.SetParent(pivotSRT_.worldMat_);
 
 	grayscale_ = Engine::GetPostProcess()->GetGrayscale();
@@ -150,7 +150,7 @@ void FollowCamera::Update() {
 		animation.second->Update();
 	}
 
-	Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
+	Math::Vector3 targetPos = pTarget_->GetGameObject()->GetPosition();
 	
 	// パッドのスティクを入力
 	InputStick();
@@ -200,19 +200,19 @@ void FollowCamera::InputStick() {
 
 void FollowCamera::RotateCamera() {
 	if (pReticle_->GetLockOn()) {
-		pivotSRT_.rotate = Quaternion::LookAt(pTarget_->GetGameObject()->GetPosition(), pReticle_->GetTargetPos());
-		Quaternion roll = Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
+		pivotSRT_.rotate = Math::Quaternion::LookAt(pTarget_->GetGameObject()->GetPosition(), pReticle_->GetTargetPos());
+		Math::Quaternion roll = Math::Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
 		pivotSRT_.rotate = pivotSRT_.rotate * roll;
 
-		Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
+		Math::Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
 		angle_.x = euler.y;
 		angle_.y = euler.x;
 		angle_.z = euler.z;
 
 	} else {
-		Quaternion yaw = Quaternion::AngleAxis(angle_.x, CVector3::UP);
-		Quaternion pitch = Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
-		Quaternion roll = Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
+		Math::Quaternion yaw = Math::Quaternion::AngleAxis(angle_.x, CVector3::UP);
+		Math::Quaternion pitch = Math::Quaternion::AngleAxis(angle_.y, CVector3::RIGHT);
+		Math::Quaternion roll = Math::Quaternion::AngleAxis(angle_.z, CVector3::FORWARD);
 		pivotSRT_.rotate = yaw * pitch * roll;
 	}
 }
@@ -221,7 +221,7 @@ void FollowCamera::RotateCamera() {
 // ↓ カメラを移動させる
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void FollowCamera::MoveCamera(const Vector3& target) {
+void FollowCamera::MoveCamera(const Math::Vector3& target) {
 	pivotSRT_.translate = SmoothDamp(prePosition_, target, velocity_, followCamera_.smoothTime, followCamera_.maxSpeed, GameTimer::DeltaTime());
 	transform_.translate = followCamera_.offset;
 	prePosition_ = pivotSRT_.translate;
@@ -234,7 +234,7 @@ void FollowCamera::MoveCamera(const Vector3& target) {
 void FollowCamera::Shake() {
 	if (shakeTimer_ <= shakeTime_) {
 		shakeTimer_ += GameTimer::DeltaTime();
-		Vector3 shakeDire = RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
+		Math::Vector3 shakeDire = RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
 
 		float t = shakeTimer_ / shakeTime_;
 		float currentShakeStrength_ = std::lerp(shakeStrength_, 0.0f, t);
@@ -250,7 +250,7 @@ void FollowCamera::Shake() {
 void FollowCamera::FirstCameraMove() {
 	animationTimer_ += GameTimer::DeltaTime();
 	float t = animationTimer_ / animationParam_.moveTime;
-	followCamera_.offset = Vector3::Lerp(animationParam_.firstOffset, animationParam_.targetOffset, CallEasing(animationParam_.easingIndex, t));
+	followCamera_.offset = Math::Vector3::Lerp(animationParam_.firstOffset, animationParam_.targetOffset, Math::CallEasing(animationParam_.easingIndex, t));
 
 	// grayscale分
 	float alpha = std::lerp(1.0f, 0.0f, t);
@@ -284,7 +284,7 @@ void FollowCamera::SetTarget(Player* _target) {
 	pTarget_ = _target;
 }
 
-Quaternion FollowCamera::GetAngleX() {
-	Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
-	return Quaternion::AngleAxis(euler.y, CVector3::UP);
+Math::Quaternion FollowCamera::GetAngleX() {
+	Math::Vector3 euler = pivotSRT_.rotate.QuaternionToEuler();
+	return Math::Quaternion::AngleAxis(euler.y, CVector3::UP);
 }

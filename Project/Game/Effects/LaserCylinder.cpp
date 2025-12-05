@@ -31,7 +31,7 @@ void LaserCylinder::Debug_Gui() {
 void LaserCylinder::SetUvScale(float _scaleZ) {
 	for (auto& material : object_->GetMaterials()) {
 		material.second->SetShaderGraph(shaderGraph_.get());
-		material.second->SetUvScale(Vector3(1, _scaleZ, 1));
+		material.second->SetUvScale(Math::Vector3(1, _scaleZ, 1));
 	}
 }
 

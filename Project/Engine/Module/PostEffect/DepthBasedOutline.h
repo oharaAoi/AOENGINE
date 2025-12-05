@@ -10,7 +10,7 @@ class DepthBasedOutline :
 public:
 
 	struct Setting {
-		Matrix4x4 projectionInverse;
+		Math::Matrix4x4 projectionInverse;
 		float edgeGain;
 	};
 

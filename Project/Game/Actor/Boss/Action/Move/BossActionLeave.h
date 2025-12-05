@@ -79,8 +79,8 @@ private:
 
 	Parameter param_;
 
-	Vector3 velocity_;
-	Vector3 accel_;
+	Math::Vector3 velocity_;
+	Math::Vector3 accel_;
 
 	bool stopping_;
 

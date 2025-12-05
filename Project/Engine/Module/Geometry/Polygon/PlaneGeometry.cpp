@@ -1,6 +1,6 @@
 #include "PlaneGeometry.h"
 
-void PlaneGeometry::Init(const Vector2& sizeRaito) {
+void PlaneGeometry::Init(const Math::Vector2& sizeRaito) {
 	geometryName_ = "planeGeometry";
 
 	// 頂点数を決定しておく

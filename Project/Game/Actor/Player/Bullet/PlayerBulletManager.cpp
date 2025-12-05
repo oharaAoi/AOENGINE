@@ -16,7 +16,7 @@ void PlayerBulletManager::Init() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBulletManager::Update(const Vector3& playerTargetPos) {
+void PlayerBulletManager::Update(const Math::Vector3& playerTargetPos) {
 	// フラグがfalseになったら削除
 	std::erase_if(bulletList_, [](const std::unique_ptr<BaseBullet>& bullet) {
 		return !bullet->GetIsAlive();

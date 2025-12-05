@@ -19,7 +19,7 @@ public:
 		: x(x), y(y), z(z), w(w) {
 	}
 
-	Math::Vector4(const Vector3& vec3, float w = 1.0f)
+	Math::Vector4(const Math::Vector3& vec3, float w = 1.0f)
 		: x(vec3.x), y(vec3.y), z(vec3.z), w(w) {
 	}
 
@@ -100,7 +100,7 @@ public:
 	}
 
 	// Matrix
-	Math::Vector4 operator*(const Matrix4x4& mat) {
+	Math::Vector4 operator*(const Math::Matrix4x4& mat) {
 		Math::Vector4 result{};
 		result.x = mat.m[0][0] * x + mat.m[0][1] * y + mat.m[0][2] * z + mat.m[0][4];
 		result.y = mat.m[1][0] * x + mat.m[1][1] * y + mat.m[1][2] * z + mat.m[1][4];

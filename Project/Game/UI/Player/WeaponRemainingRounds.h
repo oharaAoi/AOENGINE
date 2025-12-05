@@ -28,7 +28,7 @@ public:
 	/// </summary>
 	/// <param name="pos"></param>
 	/// <param name="_fillAmount"></param>
-	void Update(const Vector2& pos, float _fillAmount);
+	void Update(const Math::Vector2& pos, float _fillAmount);
 
 	// 編集
 	void Debug_Gui() override;

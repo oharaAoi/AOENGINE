@@ -11,7 +11,7 @@ class ShoulderMissile :
 public:
 
 	struct ShoulderMissileParam : AOENGINE::IJsonConverter {
-		Vector3 pos;
+		Math::Vector3 pos;
 		float trackingLength;	// 追従する長さ
 		float trackingTime;		// 追従する時間
 		float trackingRaito;	// 追従の割合
@@ -69,7 +69,7 @@ public:		// member method
 	void Shot();
 
 	// 実行
-	void Execute(const Vector3& pos);
+	void Execute(const Math::Vector3& pos);
 
 private:
 

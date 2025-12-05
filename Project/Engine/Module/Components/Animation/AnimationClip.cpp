@@ -61,10 +61,10 @@ void AnimationClip::Update() {
 	// skinningを行わない場合アニメーションの行列を更新する
 	if (!isSkinnig_) {
 		NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName_];
-		Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
-		Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
-		Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
-		animationMat_ = Matrix4x4::MakeAffine(scale, rotate, translate);
+		Math::Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
+		Math::Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
+		Math::Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
+		animationMat_ = Math::Matrix4x4::MakeAffine(scale, rotate, translate);
 	}
 }
 
@@ -129,18 +129,18 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 			const NodeAnimation& nodeAnimationB = itB->second;
 
 			// アニメーションAとBのそれぞれの変換を取得
-			Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, lerpAnimationTime_[0]);
-			Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, lerpAnimationTime_[0]);
-			Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, lerpAnimationTime_[0]);
+			Math::Vector3 translateA = CalculateValue(nodeAnimationA.translate.keyframes, lerpAnimationTime_[0]);
+			Math::Quaternion rotateA = CalculateQuaternion(nodeAnimationA.rotate.keyframes, lerpAnimationTime_[0]);
+			Math::Vector3 scaleA = CalculateValue(nodeAnimationA.scale.keyframes, lerpAnimationTime_[0]);
 
-			Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
-			Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
-			Vector3 scaleB = CalculateValue(nodeAnimationB.scale.keyframes, lerpAnimationTime_[1]);
+			Math::Vector3 translateB = CalculateValue(nodeAnimationB.translate.keyframes, lerpAnimationTime_[1]);
+			Math::Quaternion rotateB = CalculateQuaternion(nodeAnimationB.rotate.keyframes, lerpAnimationTime_[1]);
+			Math::Vector3 scaleB = CalculateValue(nodeAnimationB.scale.keyframes, lerpAnimationTime_[1]);
 
 			// blendFactor（補間率）に基づいて補間
 			float t = blendFactor_ / blendSpeed_;
 			joint.transform.translate = Lerp(translateA, translateB, t);
-			joint.transform.rotate = Quaternion::Slerp(rotateA, rotateB, t);
+			joint.transform.rotate = Math::Quaternion::Slerp(rotateA, rotateB, t);
 			joint.transform.scale = Lerp(scaleA, scaleB, t);
 		}
 	}

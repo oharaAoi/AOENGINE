@@ -43,7 +43,7 @@ void ParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Update() {
-	this->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetProjection2D(), Matrix4x4::MakeUnit());
+	this->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetProjection2D(), Math::Matrix4x4::MakeUnit());
 
 	// particleの更新
 	ParticlesUpdate();
@@ -119,11 +119,11 @@ void ParticleManager::ParticlesUpdate() {
 			}
 
 			if (pr.isLifeOfScale) {
-				pr.scale = Vector3::Lerp(pr.lifeOfMinScale, pr.lifeOfMaxScale, t);
+				pr.scale = Math::Vector3::Lerp(pr.lifeOfMinScale, pr.lifeOfMaxScale, t);
 			}
 
 			if (pr.isScaleUpScale) {
-				pr.scale = Vector3::Lerp(CVector3::ZERO, pr.upScale, t);
+				pr.scale = Math::Vector3::Lerp(CVector3::ZERO, pr.upScale, t);
 			}
 
 			if (pr.isFadeInOut) {
@@ -143,38 +143,38 @@ void ParticleManager::ParticlesUpdate() {
 				pr.discardValue = std::lerp(pr.startDiscard, pr.endDiscard, t);
 			}
 
-			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
-			Matrix4x4 rotateMatrix;
+			Math::Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
+			Math::Matrix4x4 rotateMatrix;
 			if (pr.isBillBord) {
-				Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
-				Matrix4x4 zRot = pr.rotate.MakeMatrix();
-				rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+				Math::Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
+				Math::Matrix4x4 zRot = pr.rotate.MakeMatrix();
+				rotateMatrix = Multiply(zRot, Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
 			} else {
-				Matrix4x4 billMatrix = Matrix4x4::MakeUnit();
+				Math::Matrix4x4 billMatrix = Math::Matrix4x4::MakeUnit();
 				rotateMatrix = pr.rotate.MakeMatrix();
 			}
 			if (pr.isDraw2d) {
 				pr.translate.z = 0.0f;
 			}
-			Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
-			Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+			Math::Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
+			Math::Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
 			if (pr.isTextureAnimation) {
 				int totalFrames = (int)(pr.tileSize.x * pr.tileSize.y);
 				int frame = (int)(t * (totalFrames - 1));
 
-				Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y };
+				Math::Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y };
 
 				int frameX = frame % (int)pr.tileSize.x;      // 列
 				int frameY = frame / (int)pr.tileSize.x;      // 行
 
-				Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
+				Math::Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
 
-				Matrix4x4 scaleMat = Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
-				Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
+				Math::Matrix4x4 scaleMat = Math::Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
+				Math::Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
 				pr.uvMat = Multiply(scaleMat, transMat);
 			} else {
-				pr.uvMat = Matrix4x4::MakeUnit();
+				pr.uvMat = Math::Matrix4x4::MakeUnit();
 			}
 
 			// ---------------------------

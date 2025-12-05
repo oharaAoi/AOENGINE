@@ -200,9 +200,9 @@ void EditorWindows::DebugItemWindow() {
 	// -------------------------------------------------
 
 	if (isPlaying) {
-		pushButton = PushStyleColor(true, Vector4(34.0f, 34.0f, 32.0f, 255.0f));
+		pushButton = PushStyleColor(true, Math::Vector4(34.0f, 34.0f, 32.0f, 255.0f));
 	} else {
-		pushButton = PushStyleColor(false, Vector4(25, 25, 112, 255.0f));
+		pushButton = PushStyleColor(false, Math::Vector4(25, 25, 112, 255.0f));
 	}
 	if (isSkip_) {
 		GameTimer::SetTimeScale(0.0f);  // 再生・停止
@@ -218,7 +218,7 @@ void EditorWindows::DebugItemWindow() {
 	// -------------------------------------------------
 	// ↓ Replayの描画チェック
 	// -------------------------------------------------
-	pushButton = PushStyleColor(sceneReset_, Vector4(25, 25, 112, 255.0f));
+	pushButton = PushStyleColor(sceneReset_, Math::Vector4(25, 25, 112, 255.0f));
 	if (ImGui::ImageButton("##replay", replayTex, iconSize)) {
 		sceneReset_ = !sceneReset_;  // 状態トグル
 	}
@@ -228,7 +228,7 @@ void EditorWindows::DebugItemWindow() {
 	// -------------------------------------------------
 	// ↓ colliderの描画チェック
 	// -------------------------------------------------
-	pushButton = PushStyleColor(colliderDraw_, Vector4(25, 25, 112, 255.0f));
+	pushButton = PushStyleColor(colliderDraw_, Math::Vector4(25, 25, 112, 255.0f));
 	if (ImGui::ImageButton("##collider", colliderTex, iconSize)) {
 		colliderDraw_ = !colliderDraw_;  // 状態トグル
 	}
@@ -238,7 +238,7 @@ void EditorWindows::DebugItemWindow() {
 	// -------------------------------------------------
 	// ↓ gridの描画チェック
 	// -------------------------------------------------
-	pushButton = PushStyleColor(gridDraw_, Vector4(25, 25, 112, 255.0f));
+	pushButton = PushStyleColor(gridDraw_, Math::Vector4(25, 25, 112, 255.0f));
 	if (ImGui::ImageButton("##grid", gridTex, iconSize)) {
 		gridDraw_ = !gridDraw_;  // 状態トグル
 	}
@@ -248,7 +248,7 @@ void EditorWindows::DebugItemWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　ButtonColorの変更
 //////////////////////////////////////////////////////////////////////////////////////////////////
-bool EditorWindows::PushStyleColor(bool _flag, const Vector4& color) {
+bool EditorWindows::PushStyleColor(bool _flag, const Math::Vector4& color) {
 	bool isChangeColor = false;
 	if (_flag) {
 		ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(color.x / 255.0f, color.y / 255.0f, color.z / 255.0f, color.w / 255.0f)); // 背景色

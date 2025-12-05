@@ -79,11 +79,11 @@ void TrailRenderer::GenerateTrailMesh(const std::vector<TrailPoint>& points, flo
 	if (points.size() < 2) return;
 
 	for (size_t i = 0; i < points.size() - 1; ++i) {
-		Vector3 p0 = points[i].position;
-		Vector3 p1 = points[i + 1].position;
+		Math::Vector3 p0 = points[i].position;
+		Math::Vector3 p1 = points[i + 1].position;
 
-		Vector3 dir = (p1 - p0).Normalize();
-		Vector3 side = (Vector3::Cross(dir, CVector3::UP)).Normalize() * 0.05f;
+		Math::Vector3 dir = (p1 - p0).Normalize();
+		Math::Vector3 side = (Math::Vector3::Cross(dir, CVector3::UP)).Normalize() * 0.05f;
 
 		float alpha0 = points[i].lifetime / maxLifetime;
 		float alpha1 = points[i + 1].lifetime / maxLifetime;

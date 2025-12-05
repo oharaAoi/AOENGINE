@@ -138,14 +138,14 @@ public: // 入力
 	/// マウスの座標を返す
 	/// </summary>
 	/// <returns></returns>
-	static Vector2 GetMousePosition() { return { static_cast<float>(mousePoint_.x),static_cast<float>(mousePoint_.y) }; }
+	static Math::Vector2 GetMousePosition() { return { static_cast<float>(mousePoint_.x),static_cast<float>(mousePoint_.y) }; }
 
 	/// <summary>
 	/// マウスの移動量を返す
 	/// </summary>
 	/// <returns></returns>
-	static Vector2 GetMouseVelocity() {
-		return Vector2((static_cast<float>(currentMouse_.lX), static_cast<float>(currentMouse_.lY)));
+	static Math::Vector2 GetMouseVelocity() {
+		return Math::Vector2(static_cast<float>(currentMouse_.lX), static_cast<float>(currentMouse_.lY));
 	}
 
 	// ---------------------------------------------------------------
@@ -156,9 +156,9 @@ public: // 入力
 	// ゲームパッドのボタンを取得(長押し)
 	static bool IsPressButton(const XInputButtons& bottons);
 	// 左ジョイスティックの値の取得
-	static Vector2 GetLeftJoyStick(float deadZone = 0.1f);
+	static Math::Vector2 GetLeftJoyStick(float deadZone = 0.1f);
 	// 右ジョイスティックの値の取得
-	static Vector2 GetRightJoyStick(float deadZone = 0.1f);
+	static Math::Vector2 GetRightJoyStick(float deadZone = 0.1f);
 	// コントローラーと繋がっているか
 	static bool IsControllerConnected();
 

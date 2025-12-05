@@ -33,7 +33,7 @@ public:
 	/// 更新
 	/// </summary>
 	/// <param name="reticlePos"></param>
-	void Update(const Vector2& reticlePos);
+	void Update(const Math::Vector2& reticlePos);
 
 	/// <summary>
 	/// 編集

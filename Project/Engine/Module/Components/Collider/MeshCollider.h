@@ -21,7 +21,7 @@ public:
 	/// </summary>
 	/// <param name="worldTransform">: 生成するOBBの元となるworldTransform</param>
 	/// <param name="offset">: offset座標(指定しなかったらZEROが入っている)</param>
-	void Update(const WorldTransform* worldTransform, const Vector3& offset = CVector3::ZERO);
+	void Update(const WorldTransform* worldTransform, const Math::Vector3& offset = CVector3::ZERO);
 	void Draw() const;
 
 	/// <summary>
@@ -97,27 +97,27 @@ public:
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
 	const int GetCollisionState() const { return collisionState_; }
 
-	const OBB& GetOBB() { return obb_; }
+	const Math::OBB& GetOBB() { return obb_; }
 
-	const Vector3 GetObbCenter() const { return obb_.center; }
+	const Math::Vector3 GetObbCenter() const { return obb_.center; }
 
 private:
 
 	// OBBのサイズ
-	Vector3 size_;
-	Vector3 maxSize_;
-	Vector3 minSize_;
+	Math::Vector3 size_;
+	Math::Vector3 maxSize_;
+	Math::Vector3 minSize_;
 
 	// 半径
 	float radius_ = 1.0f;
 	
 	// 当たり判定用
-	OBB obb_;
+	Math::OBB obb_;
 	// タグ
 	std::string tag_;
 
 	bool isHitting_;
-	Vector4 color_;
+	Math::Vector4 color_;
 
 	int collisionState_;
 

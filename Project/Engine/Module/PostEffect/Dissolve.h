@@ -10,7 +10,7 @@ class Dissolve :
 public:
 
 	struct DissolveSetting {
-		Matrix4x4 uvTransform;
+		Math::Matrix4x4 uvTransform;
 		Color color;
 		Color edgeColor;
 		float threshold = 0.5f;

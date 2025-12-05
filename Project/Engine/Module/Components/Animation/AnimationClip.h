@@ -97,7 +97,7 @@ public:
 	const std::string& GetAnimationName() const { return animation_.animationName; }
 
 	// animationの行列を取得
-	const Matrix4x4 GetMatrix() const { return animationMat_; }
+	const Math::Matrix4x4 GetMatrix() const { return animationMat_; }
 
 	// animationが終了しているかを取得
 	const bool GetIsAnimationFinish() const { return isAnimationFinish_; }
@@ -132,7 +132,7 @@ private:
 	// アニメーションの速度
 	float animationSpeed_ = 1.0f;
 
-	Matrix4x4 animationMat_ = Matrix4x4::MakeUnit();
+	Math::Matrix4x4 animationMat_ = Math::Matrix4x4::MakeUnit();
 
 	std::string rootName_;
 	// アニメーションの入っているファイルの名前

@@ -59,7 +59,7 @@ void PlayerBullet::OnCollision(BaseCollider* other) {
 	}
 }
 
-void PlayerBullet::Reset(const Vector3& pos, const Vector3& velocity) {
+void PlayerBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
 	transform_->srt_.translate = pos;
 	transform_->Update();
 	velocity_ = velocity;

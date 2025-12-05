@@ -17,7 +17,7 @@ PulseArmor::~PulseArmor() {
 
 void PulseArmor::Init() {
 	armorParam_.FromJson(JsonItems::GetData(GetName(), armorParam_.GetName()));
-	geometry_.Init(CVector2::UNIT, 16, "armor");
+	geometry_.Init(CMath::Vector2::UNIT, 16, "armor");
 
 	// meshの設定
 	std::string name = geometry_.GetGeometryName();
@@ -60,8 +60,8 @@ void PulseArmor::Init() {
 	noiseTexture_[2] = "noise6.png";
 
 	for (size_t index = 0; index < 3; ++index) {
-		Vector3 min = RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
-		Vector3 max = RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
+		Math::Vector3 min = RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
+		Math::Vector3 max = RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
 		uvMovingTween_[index].Init(min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
 	}
 
@@ -212,7 +212,7 @@ void PulseArmor::SetParameter() {
 	material_->SetAlbedoTexture(armorParam_.baseTexture);
 }
 
-void PulseArmor::SetArmor(float _durability, const Vector3& _scale, const Color& _color, const Color& _edgeColor, const SRT& _uvSrt) {
+void PulseArmor::SetArmor(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt) {
 	durability_ = _durability;
 	initDurability_ = _durability;
 	worldTransform_->SetScale(_scale);

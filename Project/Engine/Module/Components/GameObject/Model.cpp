@@ -168,7 +168,7 @@ AOENGINE::Model::Node AOENGINE::Model::ReadNode(aiNode* node, const aiScene* sce
 	result.transform.scale = { scale.x, scale.y, scale.z };
 	result.transform.rotate = { rotate.x, -rotate.y, -rotate.z, rotate.w };
 	result.transform.translate = { -translate.x, translate.y, translate.z };
-	result.localMatrix = Matrix4x4::MakeAffine(result.transform.scale, result.transform.rotate.Normalize(), result.transform.translate);
+	result.localMatrix = Math::Matrix4x4::MakeAffine(result.transform.scale, result.transform.rotate.Normalize(), result.transform.translate);
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
 
 	// ----------------------------------

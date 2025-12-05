@@ -12,7 +12,7 @@ void LineCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	collisionState_ = (int)CollisionFlags::None;
 
 	if (shape == ColliderShape::Line) {
-		shape_ = Line{ .origin = CVector3::ZERO, .diff = CVector3::ZERO };
+		shape_ = Math::Line{ .origin = CVector3::ZERO, .diff = CVector3::ZERO };
 	} else {
 		assert("not Line Shape");
 	}
@@ -20,8 +20,8 @@ void LineCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	isActive_ = true;
 }
 
-void LineCollider::Update(const QuaternionSRT& srt) {
-	std::get<Line>(shape_).origin = srt.translate;
+void LineCollider::Update(const Math::QuaternionSRT& srt) {
+	std::get<Math::Line>(shape_).origin = srt.translate;
 }
 
 void LineCollider::Draw() const {
@@ -30,14 +30,14 @@ void LineCollider::Draw() const {
 void LineCollider::Debug_Gui() {
 }
 
-void LineCollider::SetDiff(const Vector3& _diff) {
-	std::get<Line>(shape_).diff = _diff;
+void LineCollider::SetDiff(const Math::Vector3& _diff) {
+	std::get<Math::Line>(shape_).diff = _diff;
 }
 
-const Vector3& LineCollider::GetDiff() const {
-	return std::get<Line>(shape_).diff;
+const Math::Vector3& LineCollider::GetDiff() const {
+	return std::get<Math::Line>(shape_).diff;
 }
 
-const Vector3& LineCollider::GetOrigine() const {
-	return std::get<Line>(shape_).origin;
+const Math::Vector3& LineCollider::GetOrigine() const {
+	return std::get<Math::Line>(shape_).origin;
 }

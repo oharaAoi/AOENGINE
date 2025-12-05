@@ -2,23 +2,23 @@
 
 using namespace Math;
 
-Vector3 DegToRad(const Vector3& rotate) {
-	return Vector3(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
+Math::Vector3 DegToRad(const Math::Vector3& rotate) {
+	return Math::Vector3(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
 }
 
-Vector3 RadToDeg(const Vector3& rotate) {
-	return Vector3(rotate.x * kToDegree, rotate.y * kToDegree, rotate.z * kToDegree);
+Math::Vector3 RadToDeg(const Math::Vector3& rotate) {
+	return Math::Vector3(rotate.x * kToDegree, rotate.y * kToDegree, rotate.z * kToDegree);
 }
 
 float Clamp01(float value) {
 	return std::clamp(value, 0.f, 1.f);
 }
 
-float Length(const Vector3& vec3) {
+float Length(const Math::Vector3& vec3) {
 	return std::sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
 }
 
-float Distance(const Vector3& v1, const Vector3& v2) {
+float Distance(const Math::Vector3& v1, const Math::Vector3& v2) {
 	return Length(v1 - v2);
 }
 
@@ -26,8 +26,8 @@ float Normalize(float value, float min, float max) {
 	return (value - min) / (max - min);
 }
 
-Vector3 Normalize(const Vector3& vec3) {
-	Vector3 result = vec3;
+Math::Vector3 Normalize(const Math::Vector3& vec3) {
+	Math::Vector3 result = vec3;
 
 	float len = Length(vec3);
 	if (len != 0) {
@@ -39,24 +39,24 @@ Vector3 Normalize(const Vector3& vec3) {
 	return result;
 }
 
-float Dot(const Vector3& v1, const Vector3& v2) {
+float Dot(const Math::Vector3& v1, const Math::Vector3& v2) {
 	float result{};
 	result = (v1.x * v2.x) + (v1.y * v2.y) + (v1.z * v2.z);
 	return result;
 }
 
-Vector3 Cross(const Vector3& v1, const Vector3& v2) {
-	Vector3 result{};
+Math::Vector3 Cross(const Math::Vector3& v1, const Math::Vector3& v2) {
+	Math::Vector3 result{};
 	result.x = v1.y * v2.z - v1.z * v2.y;
 	result.y = v1.z * v2.x - v1.x * v2.z;
 	result.z = v1.x * v2.y - v1.y * v2.x;
 	return result;
 }
 
-Vector3 Projection(const Vector3& v1, const Vector3& v2) {
-	Vector3 result{};
+Math::Vector3 Projection(const Math::Vector3& v1, const Math::Vector3& v2) {
+	Math::Vector3 result{};
 	float middle{};
-	Vector3 unitVector = Normalize(v2);
+	Math::Vector3 unitVector = Normalize(v2);
 
 	middle = Dot(v1, unitVector);
 
@@ -65,10 +65,10 @@ Vector3 Projection(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
-Vector3 ClosestPoint(const Vector3& point, const Math::Line& segment) {
-	Vector3 result{};
+Math::Vector3 ClosestPoint(const Math::Vector3& point, const Math::Line& segment) {
+	Math::Vector3 result{};
 	// 正射影ベクトルを求める
-	Vector3 projVector = Projection(point - segment.origin, segment.diff);
+	Math::Vector3 projVector = Projection(point - segment.origin, segment.diff);
 	// 最近接点を求める
 	result = segment.origin + projVector;
 	return result;
@@ -78,16 +78,16 @@ float Lerp(float v1, float v2, float t) {
 	return std::lerp(v1, v2, t);
 }
 
-Vector2 Lerp(const Vector2& v1, const Vector2& v2, float t) {
-	Vector2 result{};
+Math::Vector2 Lerp(const Math::Vector2& v1, const Math::Vector2& v2, float t) {
+	Math::Vector2 result{};
 	result.x = std::lerp(v1.x, v2.x, t);
 	result.y = std::lerp(v1.y, v2.y, t);
 
 	return result;
 }
 
-Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
-	Vector3 result{};
+Math::Vector3 Lerp(const Math::Vector3& v1, const Math::Vector3& v2, float t) {
+	Math::Vector3 result{};
 	result.x = std::lerp(v1.x, v2.x, t);
 	result.y = std::lerp(v1.y, v2.y, t);
 	result.z = std::lerp(v1.z, v2.z, t);
@@ -97,8 +97,8 @@ Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t) {
 	return result;
 }
 
-Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t) {
-	Vector4 result{};
+Math::Vector4 Lerp(const Math::Vector4& v1, const Math::Vector4& v2, float t) {
+	Math::Vector4 result{};
 	result.x = std::lerp(v1.x, v2.x, t);
 	result.y = std::lerp(v1.y, v2.y, t);
 	result.z = std::lerp(v1.z, v2.z, t);
@@ -115,8 +115,8 @@ Color Lerp(const Color& v1, const Color& v2, float t) {
 	return result;
 }
 
-Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
-	Vector3 result{};
+Math::Vector3 Slerp(const Math::Vector3& v1, const Math::Vector3& v2, float t) {
+	Math::Vector3 result{};
 	// なす角を求める
 	float theta = Angle(v1, v2);
 
@@ -124,8 +124,8 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	float lerp = (1 - t) * Length(v1) + (t * Length(v2)); // s
 
 	// 引数のベクトルの単位ベクトルを求める
-	Vector3 unitV1 = Normalize(v1);    // ea
-	Vector3 unitV2 = Normalize(v2);    // eb
+	Math::Vector3 unitV1 = Normalize(v1);    // ea
+	Math::Vector3 unitV2 = Normalize(v2);    // eb
 
 	// ベクトルの角度を求める
 	float midTheta1;
@@ -141,10 +141,10 @@ Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t) {
 	}
 
 	// 角度からベクトルを求める
-	Vector3 midV1 = unitV1 * midTheta1;
-	Vector3 midV2 = unitV2 * midTheta2;
+	Math::Vector3 midV1 = unitV1 * midTheta1;
+	Math::Vector3 midV2 = unitV2 * midTheta2;
 
-	Vector3 mid = midV1 + midV2;
+	Math::Vector3 mid = midV1 + midV2;
 
 	// 正規の補完分と求めたベクトルを掛ける
 	result = mid * lerp;
@@ -169,7 +169,7 @@ float LerpShortAngle(const float& originalAngle, const float& targetAngle, const
 	return originalAngle + (diff * t);
 }
 
-float Angle(const Vector3& v1, const Vector3& v2) {
+float Angle(const Math::Vector3& v1, const Math::Vector3& v2) {
 	float result;
 
 	// ベクトル長さを求める
@@ -229,8 +229,8 @@ float SmoothDamp(float current, float target, float& currentVelocity, float smoo
 	return output;
 }
 
-Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime) {
-	return Vector3(
+Math::Vector3 SmoothDamp(const Math::Vector3& current, const Math::Vector3& target, Math::Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime) {
+	return Math::Vector3(
 		SmoothDamp(current.x, target.x, currentVelocity.x, smoothTime, maxSpeed, deltaTime),
 		SmoothDamp(current.y, target.y, currentVelocity.y, smoothTime, maxSpeed, deltaTime),
 		SmoothDamp(current.z, target.z, currentVelocity.z, smoothTime, maxSpeed, deltaTime)
@@ -246,17 +246,17 @@ Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& curre
 /// <param name="p3">点3の座標</param>///
 /// <param name="t">点1と点2の間で指定された座標</param>///
 /// <returns>点1と点2の間で指定された座標</returns>
-Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t) {
+Math::Vector3 CatmullRomInterpolation(const Math::Vector3& p0, const Math::Vector3& p1, const Math::Vector3& p2, const Math::Vector3& p3, float t) {
 	const float s = 0.5f; // 数式に出てくる 1/2のこと
 
 	float t2 = t * t; // tの2乗
 	float t3 = t2 * t; // tの3乗
 
 	// ベクトル値関数の式
-	Vector3 e3 = (p0 * -1) + (p1 * 3) - (p2 * 3) + p3;
-	Vector3 e2 = (p0 * 2) - (p1 * 5) + (p2 * 4) - p3;
-	Vector3 e1 = (p0 * -1) + p2;
-	Vector3 e0 = p1 * 2;
+	Math::Vector3 e3 = (p0 * -1) + (p1 * 3) - (p2 * 3) + p3;
+	Math::Vector3 e2 = (p0 * 2) - (p1 * 5) + (p2 * 4) - p3;
+	Math::Vector3 e1 = (p0 * -1) + p2;
+	Math::Vector3 e0 = p1 * 2;
 
 	return ((e3 * t3) + (e2 * t2) + (e1 * t) + e0) * s;
 }
@@ -267,7 +267,7 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 /// <param name="points">制御点の集合</param>///
 /// <param name="t">スプライン全区間の中で割合指定</param>///
 /// <returns>座標</returns>
-Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
+Math::Vector3 CatmullRomPosition(const std::vector<Math::Vector3>& points, float t) {
 	assert(points.size() >= 4 && "制御点は4以上必要です");
 	// 区間数は制御点の数の-1
 	size_t division = points.size() - 1;
@@ -300,10 +300,10 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 	}
 
 	// 4点の座標
-	const Vector3& p0 = points[index0];
-	const Vector3& p1 = points[index1];
-	const Vector3& p2 = points[index2];
-	const Vector3& p3 = points[index3];
+	const Math::Vector3& p0 = points[index0];
+	const Math::Vector3& p1 = points[index1];
+	const Math::Vector3& p2 = points[index2];
+	const Math::Vector3& p3 = points[index3];
 
 	return CatmullRomInterpolation(p0, p1, p2, p3, t2);
 }
@@ -313,12 +313,12 @@ Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t) {
 /// </summary>
 /// <param name="controlPoint">制御点がまとまった配列</param>
 /// <returns></returns>
-Vector3 Bezier(const std::vector<Vector3>& controlPoint, const float& t) {
+Math::Vector3 Bezier(const std::vector<Math::Vector3>& controlPoint, const float& t) {
 	if (controlPoint.size() == 1) {
 		return controlPoint[0];
 	}
 
-	std::vector<Vector3> lerpVec;
+	std::vector<Math::Vector3> lerpVec;
 	for (size_t i = 0; i < controlPoint.size() - 1; ++i) {
 		lerpVec.push_back(Lerp(controlPoint[i], controlPoint[i + 1], t));
 	}
@@ -334,21 +334,21 @@ Vector3 Bezier(const std::vector<Vector3>& controlPoint, const float& t) {
 /// <param name="inverseWvpMat">:逆ワールドプロジェクション行列</param>
 /// <param name="setDirection">:ワールド上のどこに設定するか</param>
 /// <returns>ワールド座標</returns>
-Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inverseWvpMat, const float& setDirection) {
+Math::Vector3 ScreenToWorldCoordinate(const Math::Vector2& screenPos, const Math::Matrix4x4& inverseWvpMat, const float& setDirection) {
 	// ニアとファーを求める
-	Vector3 posNear = Vector3(screenPos.x, screenPos.y, 0);
-	Vector3 posFar = Vector3(screenPos.x, screenPos.y, 1);
+	Math::Vector3 posNear = Math::Vector3(screenPos.x, screenPos.y, 0);
+	Math::Vector3 posFar = Math::Vector3(screenPos.x, screenPos.y, 1);
 
 	//　スクリーン座標系からワールド座標形に
 	posNear = Transform(posNear, inverseWvpMat);
 	posFar = Transform(posFar, inverseWvpMat);
 
 	// ニアの点からファーの点に向かう光線を求める
-	Vector3 mouseDirection = posFar - posNear;
+	Math::Vector3 mouseDirection = posFar - posNear;
 	mouseDirection = Normalize(mouseDirection);
 
 	// 結果
-	Vector3 result = posNear + (mouseDirection * setDirection);
+	Math::Vector3 result = posNear + (mouseDirection * setDirection);
 
 	return result;
 }
@@ -360,9 +360,9 @@ Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inver
 /// <param name="inverseWvpMat">逆ワールドプロジェクション行列</param>
 /// <param name="setDirection">ワールド上のどこに設定するか</param>
 /// <returns>ワールド座標</returns>
-Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4& vpvpMat) {
-	Vector3 pos = Transform(CVector3::ZERO, targetWorldMat * vpvpMat);
-	return Vector2(pos.x, pos.y);
+Math::Vector2 WorldToScreenCoordinate(const Math::Matrix4x4& targetWorldMat, const Math::Matrix4x4& vpvpMat) {
+	Math::Vector3 pos = Transform(CVector3::ZERO, targetWorldMat * vpvpMat);
+	return Math::Vector2(pos.x, pos.y);
 }
 
 /// <summary>
@@ -371,8 +371,8 @@ Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4
 /// <param name="v"></param>
 /// <param name="m"></param>
 /// <returns></returns>
-Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
-	Vector3 result{
+Math::Vector3 TransformNormal(const Math::Vector3& v, const Math::Matrix4x4& m) {
+	Math::Vector3 result{
 		v.x * m.m[0][0] + v.y * m.m[1][0] + v.z * m.m[2][0],
 		v.x * m.m[0][1] + v.y * m.m[1][1] + v.z * m.m[2][1],
 		v.x * m.m[0][2] + v.y * m.m[1][2] + v.z * m.m[2][2],
@@ -386,9 +386,9 @@ Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m) {
 /// </summary>
 /// <param name="controlPoint">制御点がまとまった配列</param>
 /// <returns></returns>
-Vector3 Bezier(const Vector3& v1, const Vector3& v2, const Vector3& v3, const float& t) {
+Math::Vector3 Bezier(const Math::Vector3& v1, const Math::Vector3& v2, const Math::Vector3& v3, const float& t) {
 
-	Vector3 lerpVec[2]{};
+	Math::Vector3 lerpVec[2]{};
 	lerpVec[0] = (v2 - v1).Normalize() * Length(v2 - v1) * t;
 	lerpVec[1] = (v3 - v2).Normalize() * Length(v3 - v2) * t;
 	return (lerpVec[1] - lerpVec[0]).Normalize() * Length(lerpVec[1] - lerpVec[0]) * t;
@@ -401,11 +401,11 @@ uint32_t Blue(uint32_t color) { return (color >> 8) & 0xFF; }
 uint32_t Alpha(uint32_t color) { return color & 0xFF; }
 
 
-// RGBA形式のカラーコードをVector4形式に変換する関数 (各要素は0~1に収まる)
-Vector4 FloatColor(uint32_t color) {
+// RGBA形式のカラーコードをMath::Vector4形式に変換する関数 (各要素は0~1に収まる)
+Math::Vector4 FloatColor(uint32_t color) {
 	float delta = 1.0f / 255.0f;
 
-	Vector4 colorf = {
+	Math::Vector4 colorf = {
 		float(Red(color)) * delta,
 		float(Green(color)) * delta,
 		float(Blue(color)) * delta,
@@ -416,7 +416,7 @@ Vector4 FloatColor(uint32_t color) {
 }
 
 
-uint32_t IntColor(const Vector4& color) {
+uint32_t IntColor(const Math::Vector4& color) {
 	uint32_t red = std::clamp(int(color.x * 255.0f), 0, 255) << 24;
 	uint32_t green = std::clamp(int(color.y * 255.0f), 0, 255) << 16;
 	uint32_t blue = std::clamp(int(color.z * 255.0f), 0, 255) << 8;
@@ -429,7 +429,7 @@ uint32_t HSV_to_RGB(float h, float s, float v, float alpha) {
 
 	// 彩度が0なので明度のみを反映
 	if (s == 0.0) {
-		return IntColor(Vector4(v, v, v, alpha));
+		return IntColor(Math::Vector4(v, v, v, alpha));
 	}
 
 	h *= 6.0;
@@ -441,16 +441,16 @@ uint32_t HSV_to_RGB(float h, float s, float v, float alpha) {
 	float t = v * (1.0f - s * (1.0f - f));
 
 	if (i % 6 == 0) {
-		return  IntColor(Vector4(v, t, p, alpha));
+		return  IntColor(Math::Vector4(v, t, p, alpha));
 	} else if (i % 6 == 1) {
-		return  IntColor(Vector4(q, v, p, alpha));
+		return  IntColor(Math::Vector4(q, v, p, alpha));
 	} else if (i % 6 == 2) {
-		return  IntColor(Vector4(p, v, t, alpha));
+		return  IntColor(Math::Vector4(p, v, t, alpha));
 	} else if (i % 6 == 3) {
-		return  IntColor(Vector4(p, q, v, alpha));
+		return  IntColor(Math::Vector4(p, q, v, alpha));
 	} else if (i % 6 == 4) {
-		return  IntColor(Vector4(t, p, v, alpha));
+		return  IntColor(Math::Vector4(t, p, v, alpha));
 	} else {
-		return  IntColor(Vector4(v, p, q, alpha));
+		return  IntColor(Math::Vector4(v, p, q, alpha));
 	}
 }

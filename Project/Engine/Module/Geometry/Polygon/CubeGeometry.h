@@ -1,6 +1,7 @@
 #pragma once
 #include <utility>
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
+#include "Engine/Lib/Math/Vector3.h"
 
 /// <summary>
 /// 箱形状

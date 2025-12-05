@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 /// <summary>
 /// 平面の形状
@@ -11,7 +12,7 @@ public:
 	PlaneGeometry() = default;
 	~PlaneGeometry() override = default;
 
-	void Init(const Vector2& sizeRaito = CVector2::UNIT);
+	void Init(const Math::Vector2& sizeRaito = CMath::Vector2::UNIT);
 
 };
 

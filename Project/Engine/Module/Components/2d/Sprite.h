@@ -57,7 +57,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	std::string textureName = "white.png";
 	Color color = Color::white;
 	Math::Vector2 drawRange = Math::Vector2(64.0f, 64.0f);
-	Math::Vector2 leftTop = CVector2::ZERO;
+	Math::Vector2 leftTop = CMath::Vector2::ZERO;
 	Math::Vector2 anchorPoint = Math::Vector2(0.5f, 0.5f);
 	bool isFlipX = false;
 	bool isFlipY = false;

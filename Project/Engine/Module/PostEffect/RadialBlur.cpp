@@ -66,7 +66,7 @@ void RadialBlur::Debug_Gui() {
 		ImGui::DragFloat("blurStart", &setting_->blurStart, 0.1f, 0.0f, 1.0f);
 		ImGui::DragInt("sampleCount", &setting_->sampleCount, 1, 1, 20);
 
-		setting_->blurCenter.Clamp(CVector2::ZERO, CVector2::UNIT);
+		setting_->blurCenter.Clamp(CMath::Vector2::ZERO, CMath::Vector2::UNIT);
 	}
 }
 

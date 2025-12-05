@@ -70,8 +70,8 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
 	// ゲーム情報
-	perView_->viewProjection = Matrix4x4::MakeUnit();
-	perView_->billboardMat = Matrix4x4::MakeUnit();
+	perView_->viewProjection = Math::Matrix4x4::MakeUnit();
+	perView_->billboardMat = Math::Matrix4x4::MakeUnit();
 
 	perFrameBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
@@ -154,6 +154,6 @@ void GpuParticles::EmitBindCmdList(ID3D12GraphicsCommandList* commandList, UINT 
 	commandList->SetComputeRootDescriptorTable(rootParameterIndex + 2, freeListResource_->GetUAV().handleGPU);
 }
 
-void GpuParticles::SetViewProjection(const Matrix4x4& viewProjection) {
+void GpuParticles::SetViewProjection(const Math::Matrix4x4& viewProjection) {
 	perView_->viewProjection = viewProjection;
 }

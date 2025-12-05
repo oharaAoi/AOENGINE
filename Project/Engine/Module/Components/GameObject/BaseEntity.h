@@ -25,7 +25,7 @@ public:	// accessor method
 
 	void Destroy() { object_->SetIsDestroy(true); };
 
-	Vector3 GetPosition() { return object_->GetPosition(); }
+	Math::Vector3 GetPosition() { return object_->GetPosition(); }
 
 	BaseGameObject* GetGameObject() const { return object_; }
 

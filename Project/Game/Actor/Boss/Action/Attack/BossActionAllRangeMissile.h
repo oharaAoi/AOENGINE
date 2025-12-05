@@ -91,7 +91,7 @@ private :
 
 	Parameter param_;
 
-	Quaternion playerToRotation_;
+	Math::Quaternion playerToRotation_;
 
 	// LookPlayerに関する変数
 	float lookTime_ = 1.f;

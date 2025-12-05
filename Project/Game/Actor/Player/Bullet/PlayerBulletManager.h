@@ -20,7 +20,7 @@ public:
 	// 初期化
 	void Init();
 	// 更新
-	void Update(const Vector3& playerTargetPos);
+	void Update(const Math::Vector3& playerTargetPos);
 
 	/// <summary>
 	/// Colliderのポインタからbulletのポインタを探索する

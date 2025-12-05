@@ -39,7 +39,7 @@ public:
 	/// </summary>
 	/// <param name="pos">: 座標</param>
 	/// <param name="velocity">: 速度</param>
-	void Reset(const Vector3& pos, const Vector3& velocity);
+	void Reset(const Math::Vector3& pos, const Math::Vector3& velocity);
 
 	// 編集
 	virtual void Debug_Gui() override;
@@ -52,19 +52,19 @@ public:
 	float GetTakeDamage() const { return takeDamage_; }
 	void SetTakeDamage(float _damage) { takeDamage_ = _damage; }
 
-	void SetTargetPosition(const Vector3& targetPosition) { targetPosition_ = targetPosition; }
+	void SetTargetPosition(const Math::Vector3& targetPosition) { targetPosition_ = targetPosition; }
 
 	BulletType GetBulletType() const { return type_; }
 
 protected:
 
 	// State ------------------------------
-	Vector3 velocity_;
-	Vector3 acceleration_;
+	Math::Vector3 velocity_;
+	Math::Vector3 acceleration_;
 
 	float speed_;
 
-	Vector3 targetPosition_;
+	Math::Vector3 targetPosition_;
 
 	bool isAlive_;
 

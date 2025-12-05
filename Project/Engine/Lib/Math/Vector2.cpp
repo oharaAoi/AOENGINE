@@ -2,12 +2,12 @@
 
 using namespace Math;
 
-float Vector2::Length() const {
+float Math::Vector2::Length() const {
 	return std::sqrt((x * x) + (y * y));
 }
 
-Vector2 Vector2::Normalize() const {
-	Vector2 result = { x, y };
+Math::Vector2 Math::Vector2::Normalize() const {
+	Math::Vector2 result = { x, y };
 	float len = this->Length();
 	if (len != 0) {
 		result.x /= len;
@@ -16,7 +16,7 @@ Vector2 Vector2::Normalize() const {
 	return result;
 }
 
-void Vector2::Clamp(const Vector2& min, const Vector2& max) {
+void Math::Vector2::Clamp(const Math::Vector2& min, const Math::Vector2& max) {
 	if (min.x > max.x) {
 		x = std::clamp(x, min.x, max.x);
 	}
@@ -26,23 +26,23 @@ void Vector2::Clamp(const Vector2& min, const Vector2& max) {
 	}
 }
 
-float Vector2::Dot(const Vector2& v1, const Vector2& v2) {
+float Math::Vector2::Dot(const Math::Vector2& v1, const Math::Vector2& v2) {
 	return ((v1.x * v2.x) + (v1.y * v2.y));
 }
 
-float Vector2::Cross(const Vector2& v1, const Vector2& v2) {
+float Math::Vector2::Cross(const Math::Vector2& v1, const Math::Vector2& v2) {
 	return (v1.x * v2.y) - (v2.x * v1.y);
 }
 
-Vector2 Vector2::Lerp(const Vector2& st, const Vector2& end, float t) {
+Math::Vector2 Math::Vector2::Lerp(const Math::Vector2& st, const Math::Vector2& end, float t) {
 	return {
 		std::lerp(st.x, end.x, t),
 		std::lerp(st.y, end.y, t)
 	};
 }
 
-Matrix3x3 Vector2::MakeScaleMat(const Vector2& scale) {
-	Matrix3x3 result{};
+Math::Matrix3x3 Math::Vector2::MakeScaleMat(const Math::Vector2& scale) {
+	Math::Matrix3x3 result{};
 	result.m[0][0] = scale.x;
 	result.m[1][1] = scale.y;
 	result.m[2][2] = 1;
@@ -50,8 +50,8 @@ Matrix3x3 Vector2::MakeScaleMat(const Vector2& scale) {
 	return result;
 }
 
-Matrix3x3 Vector2::MakeRotateMat(float theta) {
-	Matrix3x3 result{};
+Math::Matrix3x3 Math::Vector2::MakeRotateMat(float theta) {
+	Math::Matrix3x3 result{};
 	result.m[0][0] = cosf(theta);
 	result.m[0][1] = sinf(theta);
 	result.m[1][0] = -sinf(theta);
@@ -61,8 +61,8 @@ Matrix3x3 Vector2::MakeRotateMat(float theta) {
 	return result;
 }
 
-Matrix3x3 Vector2::MakeTranslateMat(const Vector2& translate) {
-	Matrix3x3 result{};
+Math::Matrix3x3 Math::Vector2::MakeTranslateMat(const Math::Vector2& translate) {
+	Math::Matrix3x3 result{};
 	result.m[0][0] = 1;
 	result.m[1][1] = 1;
 	result.m[2][0] = translate.x;
@@ -72,17 +72,17 @@ Matrix3x3 Vector2::MakeTranslateMat(const Vector2& translate) {
 	return result;
 }
 
-Matrix3x3 Vector2::MakeAffine(const Vector2& scale, float theta, const Vector2& translate) {
-	Matrix3x3 scaleMatrix{};
-	Matrix3x3 rotateMatrix{};
-	Matrix3x3 translateMatrix{};
-	Matrix3x3 worldMatrix{};
+Math::Matrix3x3 Math::Vector2::MakeAffine(const Math::Vector2& scale, float theta, const Math::Vector2& translate) {
+	Math::Matrix3x3 scaleMatrix{};
+	Math::Matrix3x3 rotateMatrix{};
+	Math::Matrix3x3 translateMatrix{};
+	Math::Matrix3x3 worldMatrix{};
 
 	scaleMatrix = MakeScaleMat(scale);
 	rotateMatrix = MakeRotateMat(theta);
 	translateMatrix = MakeTranslateMat(translate);
 
-	worldMatrix = Matrix3x3::Multiply(Matrix3x3::Multiply(scaleMatrix, rotateMatrix), translateMatrix);
+	worldMatrix = Math::Matrix3x3::Multiply(Math::Matrix3x3::Multiply(scaleMatrix, rotateMatrix), translateMatrix);
 
 	return worldMatrix;
 }

@@ -23,7 +23,7 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	std::vector<std::string> meshNames;
 
 	// mtlファイルを読み込んでおく
-	Vector3 uvScale = Vector3(1, 1, 1);
+	Math::Vector3 uvScale = Math::Vector3(1, 1, 1);
 	if (std::strcmp(GetFileExtension(fileName.c_str()), "obj") == 0) {
 		LoadMtl(directoryPath, RemoveExtension(fileName) + ".mtl", uvScale);
 	}
@@ -230,7 +230,7 @@ std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::s
 // ↓　MaterialのLoad
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vector3& scale) {
+void LoadMtl(const std::string& directoryPath, const std::string& fileName, Math::Vector3& scale) {
 	std::unordered_map<std::string, ModelMaterialData> materialDatas;// 後で一気に結果の変数に代入するための物
 
 	std::string line;// ファイルから読み込んだ1行を格納する物
@@ -262,28 +262,28 @@ void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vect
 				float scaleX, scaleY, scaleZ;
 				s >> scaleX >> scaleY >> scaleZ;
 				// スケーリング情報を保存
-				scale = Vector3(scaleX, scaleY, scaleZ);
+				scale = Math::Vector3(scaleX, scaleY, scaleZ);
 			}
 
 		} else if (materialIdentifier == "Ka") {
 			// アルベド色を読み取る(環境反射率)
-			Vector4 color;
+			Math::Vector4 color;
 			s >> color.x >> color.y >> color.z;
 			
 		} else if (materialIdentifier == "Kd") {
 			// ディフューズ色を読み取る(拡散反射率)
-			Vector4 color;
+			Math::Vector4 color;
 			s >> color.x >> color.y >> color.z;
 			
 		} else if (materialIdentifier == "Ks") {
 			// スペキュラ色(鏡面反射率)
-			Vector4 color;
+			Math::Vector4 color;
 			s >> color.x >> color.y >> color.z;
 			
 
 		} else if (materialIdentifier == "Ke") {
 			// 自己発光
-			Vector4 color;
+			Math::Vector4 color;
 			s >> color.x >> color.y >> color.z;
 			
 
@@ -327,7 +327,7 @@ AOENGINE::Model::Node ReadNode(aiNode* node, const aiScene* scene) {
 	result.transform.scale = { scale.x, scale.y, scale.z };
 	result.transform.rotate = { rotate.x, -rotate.y, -rotate.z, rotate.w };
 	result.transform.translate = { -translate.x, translate.y, translate.z };
-	result.localMatrix = Matrix4x4::MakeAffine(result.transform.scale, result.transform.rotate.Normalize(), result.transform.translate);
+	result.localMatrix = Math::Matrix4x4::MakeAffine(result.transform.scale, result.transform.rotate.Normalize(), result.transform.translate);
 	result.name = node->mName.C_Str(); // Nodeの名前を格納
 
 	// ----------------------------------
@@ -377,7 +377,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 			NodeAnimation& nodeAnimation = animationData.nodeAnimations[nodeAnimationAssimp->mNodeName.C_Str()];
 
 			// -------------------------------------------------
-			// ↓ Vector3の読み込み
+			// ↓ Math::Vector3の読み込み
 			// -------------------------------------------------
 			
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumPositionKeys; ++keyIndex) {
@@ -386,21 +386,10 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { -keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.translate.keyframes.push_back(keyframe);
-				/*Log("---------------------------------\n");
-				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);
-
-				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
-				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
-				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
-
-				Log(valueXLog);
-				Log(valueYLog);
-				Log(valueZLog);*/
 			}
 
 			// -------------------------------------------------
-			// ↓ Quaternionの読み込み
+			// ↓ Math::Quaternionの読み込み
 			// -------------------------------------------------
 			
 			for (uint32_t keyIndex = 0; keyIndex < nodeAnimationAssimp->mNumRotationKeys; ++keyIndex) {
@@ -410,14 +399,6 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x, -keyAssimp.mValue.y, -keyAssimp.mValue.z, keyAssimp.mValue.w };
 				nodeAnimation.rotate.keyframes.push_back(keyframe);
-				/*std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);*/
-				/*Log("--------------------------------------------------\n");
-				std::string timeLog = "TicksPerSecond : " + std::to_string(animationAssimp->mTicksPerSecond) + "\n";
-				Log(timeLog);
-
-				Log("--------------------------------------------------\n");*/
-
 			}
 
 			// -------------------------------------------------
@@ -480,8 +461,8 @@ std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& dir
 			aiVector3D scale, translate;
 			aiQuaternion rotate;
 			bindPoseMatrixAssimp.Decompose(scale, rotate, translate);
-			Matrix4x4 bindPoseMatrix = Matrix4x4::MakeAffine({ scale.x, scale.y, scale.z },
-															 Quaternion{ rotate.x, -rotate.y, -rotate.z, rotate.w },
+			Math::Matrix4x4 bindPoseMatrix = Math::Matrix4x4::MakeAffine({ scale.x, scale.y, scale.z },
+															 Math::Quaternion{ rotate.x, -rotate.y, -rotate.z, rotate.w },
 															 { -translate.x, translate.y, translate.z }
 			);
 			jointWeightData.inverseBindPoseMatrix = bindPoseMatrix.Inverse();

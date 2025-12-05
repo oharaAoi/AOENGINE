@@ -17,12 +17,12 @@ class GpuParticles {
 public:	// メンバ構造体
 
 	struct Particle {
-		Vector4 color;			// 色
-		Vector3 scale;			// 拡縮
-		Vector3 rotate;			// 回転
-		Vector3 translate;		// 座標
-		Vector3 velocity;		// 速度
-		Vector3 acceleration;	// 加速度
+		Math::Vector4 color;			// 色
+		Math::Vector3 scale;			// 拡縮
+		Math::Vector3 rotate;			// 回転
+		Math::Vector3 translate;		// 座標
+		Math::Vector3 velocity;		// 速度
+		Math::Vector3 acceleration;	// 加速度
 		float lifeTime;			// 生存時間
 		float currentTime;		// 現在の時間
 		float damping;			// 減衰
@@ -32,8 +32,8 @@ public:	// メンバ構造体
 	};
 
 	struct PerView {
-		Matrix4x4 viewProjection;
-		Matrix4x4 billboardMat;
+		Math::Matrix4x4 viewProjection;
+		Math::Matrix4x4 billboardMat;
 	};
 
 	struct PerFrame {
@@ -86,7 +86,7 @@ public:
 
 public:
 
-	void SetViewProjection(const Matrix4x4& viewProjection);
+	void SetViewProjection(const Math::Matrix4x4& viewProjection);
 	
 private:
 

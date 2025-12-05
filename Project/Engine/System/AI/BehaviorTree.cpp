@@ -56,14 +56,14 @@ void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
 	goal->SetBlackboard(blackboard_);
 }
 
-void BehaviorTree::DisplayState(const Matrix4x4& ownerWorldPos) {
+void BehaviorTree::DisplayState(const Math::Matrix4x4& ownerWorldPos) {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
 		| ImGuiWindowFlags_AlwaysAutoResize
 		| ImGuiWindowFlags_NoScrollbar
 		| ImGuiWindowFlags_NoCollapse
 		| ImGuiWindowFlags_NoDocking
 		| ImGuiWindowFlags_NoBackground;
-	Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
+	Math::Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
 	ImGui::SetNextWindowPos(ImVec2(screenPos.x, screenPos.y), ImGuiCond_Always);
 	if (ImGui::Begin("TreeRunName", nullptr, flags)) {
 		ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());

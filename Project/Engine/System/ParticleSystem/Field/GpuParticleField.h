@@ -11,11 +11,11 @@ class GpuParticleField :
 public:
 
 	struct AccelerationField {
-		Vector3 acceleration;
+		Math::Vector3 acceleration;
 		float pad1;
-		Vector3 min;
+		Math::Vector3 min;
 		float pad2;
-		Vector3 max;
+		Math::Vector3 max;
 		float pad3;
 	};
 

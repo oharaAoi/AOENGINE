@@ -21,7 +21,7 @@ public:
 	struct CameraParameter : public AOENGINE::IJsonConverter {
 		float distance = 20.0f;	// カメラの距離
 		float rotateDelta = 0.04f;
-		Vector3 offset = { 0,2.5f,0.0f };
+		Math::Vector3 offset = { 0,2.5f,0.0f };
 		float complement = 0.5f; // カメラ移動の際の補完
 
 		float limitMinY;	// カメラ回転の限界(最小)
@@ -69,8 +69,8 @@ public:
 	};
 
 	struct AnimationParameter : public AOENGINE::IJsonConverter {
-		Vector3 firstOffset;
-		Vector3 targetOffset;
+		Math::Vector3 firstOffset;
+		Math::Vector3 targetOffset;
 		float moveTime;
 		int easingIndex;
 		Color scaleColor;
@@ -134,7 +134,7 @@ private:	// private method
 	/// カメラを動かす
 	/// </summary>
 	/// <param name="target"></param>
-	void MoveCamera(const Vector3& target);
+	void MoveCamera(const Math::Vector3& target);
 
 	/// <summary>
 	/// カメラをシェイクさせる
@@ -150,12 +150,12 @@ public:		// accessor method
 
 	ICameraAnimation* GetCameraAnimation(const std::string& _name) const { return animationMap_.at(_name).get(); }
 
-	void SetOffset(const Vector3& _offset) { followCamera_.offset = _offset; }
-	const Vector3& GetOffset() const { return followCamera_.offset; }
+	void SetOffset(const Math::Vector3& _offset) { followCamera_.offset = _offset; }
+	const Math::Vector3& GetOffset() const { return followCamera_.offset; }
 
 	void SetOffsetZ(float _offsetZ) { followCamera_.offset.z = _offsetZ; }
 
-	const Vector3& GetInitOffset() const { return initFollowCamera_.offset; }
+	const Math::Vector3& GetInitOffset() const { return initFollowCamera_.offset; }
 
 	void SetShake(float time, float strength);
 
@@ -163,7 +163,7 @@ public:		// accessor method
 
 	void SetReticle(Reticle* reticle) { pReticle_ = reticle; }
 
-	Quaternion GetAngleX();
+	Math::Quaternion GetAngleX();
 
 	void SetAngleZ(float _angle) { angle_.z = _angle; }
 
@@ -177,21 +177,21 @@ private:
 
 	// Parameter ------------------------------------------------
 
-	QuaternionSRT pivotSRT_;
+	Math::QuaternionSRT pivotSRT_;
 
 	CameraParameter followCamera_;
 	CameraParameter initFollowCamera_;
 
-	Vector3 angle_ = {};
+	Math::Vector3 angle_ = {};
 
 	const float kDeadZone_ = 0.4f;
-	Vector2 stick_;
+	Math::Vector2 stick_;
 
-	Vector3 velocity_;
+	Math::Vector3 velocity_;
 
 	float rotateLength_;
 
-	Vector3 prePosition_;
+	Math::Vector3 prePosition_;
 
 	// Shake ------------------------------------------------
 	float shakeTimer_ = 1.0f;

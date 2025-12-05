@@ -110,15 +110,15 @@ void BossActionDualStageMissile::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDualStageMissile::Shot() {
-	Vector3 pos = pTarget_->GetTransform()->GetPos();
-	Quaternion rot = pTarget_->GetTransform()->GetRotate();
+	Math::Vector3 pos = pTarget_->GetTransform()->GetPos();
+	Math::Quaternion rot = pTarget_->GetTransform()->GetRotate();
 
-	Vector3 forward = rot.MakeForward();
-	Vector3 right = rot.MakeRight();
-	Vector3 up = rot.MakeUp(); // Y軸に限らず回転軸として使う
-	Vector3 left = -right;
+	Math::Vector3 forward = rot.MakeForward();
+	Math::Vector3 right = rot.MakeRight();
+	Math::Vector3 up = rot.MakeUp(); // Y軸に限らず回転軸として使う
+	Math::Vector3 left = -right;
 
-	Vector3 baseDire[3] = { right, up, left };
+	Math::Vector3 baseDire[3] = { right, up, left };
 
 	// バラけさせる最大角度
 	float totalAngleRad = param_.spreadAngleDeg * (kPI / 180.f);
@@ -138,22 +138,22 @@ void BossActionDualStageMissile::Shot() {
 			float angleRad = (float(fireAngle) - centerIndex) * stepAngleRad;
 
 			// up軸周りにangleRad回転するクォータニオンを作成
-			Quaternion q = Quaternion::AngleAxis(angleRad, up);
+			Math::Quaternion q = Math::Quaternion::AngleAxis(angleRad, up);
 
 			// 基準方向を回転させてdirectionを作る
-			Vector3 dire = q * baseDire[filreAngleCount];
+			Math::Vector3 dire = q * baseDire[filreAngleCount];
 			dire = dire.Normalize();
 
 			for (int line = -1; line <= 1; line += 2) {
 				// -1 = 左列,  +1 = 右列
-				Vector3 col = up;
+				Math::Vector3 col = up;
 				if (filreAngleCount == 1) {
 					col = right;
 				}
 
-				Vector3 spawnPos = pos + col * (line * param_.lineOffset);
+				Math::Vector3 spawnPos = pos + col * (line * param_.lineOffset);
 
-				Vector3 velocity = dire.Normalize() * param_.bulletSpeed;
+				Math::Vector3 velocity = dire.Normalize() * param_.bulletSpeed;
 				BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(spawnPos, velocity, pTarget_->GetTargetPos(),
 																							param_.bulletSpeed, param_.firstSpeedRaito, param_.trakingRaito, true);
 				missile->SetTakeDamage(param_.takeDamage);
@@ -173,7 +173,7 @@ void BossActionDualStageMissile::Shot() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDualStageMissile::LookPlayer() {
-	Quaternion targetToRotation_ = Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
-	Quaternion lookRotation = Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), targetToRotation_);
+	Math::Quaternion targetToRotation_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
+	Math::Quaternion lookRotation = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), targetToRotation_);
 	pTarget_->GetTransform()->SetRotate(lookRotation);
 }

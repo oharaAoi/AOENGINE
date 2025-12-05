@@ -10,7 +10,7 @@ class GaussianBlurHeight :
 public:	// 構造体
 
 	struct BlurSettings {
-		Vector2 texelSize;
+		Math::Vector2 texelSize;
 	};
 
 public:

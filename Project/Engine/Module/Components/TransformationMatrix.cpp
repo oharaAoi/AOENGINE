@@ -26,7 +26,7 @@ void TransformationMatrix::Init(ID3D12Device* device, const uint32_t& instanceSi
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void TransformationMatrix::Update(const Matrix4x4& world, const Matrix4x4& view, const Matrix4x4& projection) {
+void TransformationMatrix::Update(const Math::Matrix4x4& world, const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 	for (uint32_t oi = 0; oi < instanceSize_; oi++) {
 		TransformationData_[oi].world = world;
 		TransformationData_[oi].view = view;

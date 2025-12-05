@@ -6,7 +6,7 @@
 namespace Math {
 
 /// <summary>
-/// ImGuiでCurveをするクラス
+/// ImGuiでMath::Curveをするクラス
 /// </summary>
 class Curve :
 	public AttributeGui {
@@ -42,7 +42,7 @@ public:
 	}
 
 	/// <summary>
-	/// Curveの値を返す
+	/// Math::Curveの値を返す
 	/// </summary>
 	/// <param name="dt01"></param>
 	/// <returns></returns>

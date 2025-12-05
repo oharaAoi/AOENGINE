@@ -15,9 +15,9 @@ public: // データ構造体
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float engineIncline = 10.0f;
-		Vector3 burnMoveScale = Vector3(0.4f, 1.0 , 0.4f);
+		Math::Vector3 burnMoveScale = Math::Vector3(0.4f, 1.0 , 0.4f);
 		float burnScaleUpTime = 0.5f;
-		Curve burnMoveScaleCurve;
+		Math::Curve burnMoveScaleCurve;
 
 		Parameter() {
 			SetGroupName("JetEngine");

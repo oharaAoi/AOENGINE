@@ -33,7 +33,7 @@ void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateT
 	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
 		node->Init();
-		node->SetPos(CVector2::ZERO);
+		node->SetPos(CMath::Vector2::ZERO);
 		node->SetBlackboard(_worldState);
 	}
 }

@@ -70,8 +70,8 @@ void BossActionDeployArmor::Init() {
 
 void BossActionDeployArmor::Update() {
 	taskTimer_ += GameTimer::DeltaTime();
-	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
-																  Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue));
+	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Math::Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
+																  Math::Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

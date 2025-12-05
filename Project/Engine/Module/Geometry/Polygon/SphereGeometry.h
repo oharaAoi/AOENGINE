@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 /// <summary>
 /// 球形状
@@ -12,12 +13,12 @@ public:
 	SphereGeometry() = default;
 	~SphereGeometry() override = default;
 
-	void Init(const Vector2& size = CVector2::UNIT, uint32_t division = 16, const std::string& name = "sphereGeometry");
+	void Init(const Math::Vector2& size = CMath::Vector2::UNIT, uint32_t division = 16, const std::string& name = "sphereGeometry");
 
 	void Debug_Gui();
 
 private:
-	Vector2 size_;
+	Math::Vector2 size_;
 	uint32_t division_;
 };
 

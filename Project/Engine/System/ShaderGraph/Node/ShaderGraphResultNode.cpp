@@ -10,7 +10,7 @@ ShaderGraphResultNode::~ShaderGraphResultNode() {
 
 void ShaderGraphResultNode::Init() {
 	// inputの設定
-	addIN<AOENGINE::DxResource*>("AOENGINE::DxResource", resource_, ImFlow::ConnectionFilter::SameType());
+	addIN<AOENGINE::DxResource*>("DxResource", resource_, ImFlow::ConnectionFilter::SameType());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +19,7 @@ void ShaderGraphResultNode::Init() {
 
 void ShaderGraphResultNode::customUpdate() {
 	// 入力からの受け取り
-	resource_ = getInVal<AOENGINE::DxResource*>("AOENGINE::DxResource");
+	resource_ = getInVal<AOENGINE::DxResource*>("DxResource");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

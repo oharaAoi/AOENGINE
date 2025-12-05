@@ -31,7 +31,7 @@ public:
 	virtual ~BaseCollider() = default;
 
 	virtual void Init(const std::string& categoryName, ColliderShape shape) = 0;
-	virtual void Update(const QuaternionSRT& srt) = 0;
+	virtual void Update(const Math::QuaternionSRT& srt) = 0;
 	virtual void Draw() const = 0;
 
 	virtual void Debug_Gui() override = 0;
@@ -49,7 +49,7 @@ public:
 	/// <param name="partner"></param>
 	void DeletePartner(BaseCollider* partner);
 
-	void SetLoacalPos(const Vector3& pos) { localSRT_.translate = pos; }
+	void SetLoacalPos(const Math::Vector3& pos) { localSRT_.translate = pos; }
 
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
@@ -75,26 +75,26 @@ public:
 	const std::string& GetCategoryName() const { return categoryName_; }
 
 	// --------------- shapeの設定・取得 -------------- //
-	void SetShape(const std::variant<Sphere, AABB, OBB, Line>& shape) { shape_ = shape; }
-	const std::variant<Sphere, AABB, OBB, Line>& GetShape() const { return shape_; }
+	void SetShape(const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape) { shape_ = shape; }
+	const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& GetShape() const { return shape_; }
 
 	// --------------- stateの設定・取得 -------------- //
 	void SetCollisionState(int stateBit) { collisionState_ = stateBit; }
 	int GetCollisionState() const { return collisionState_; }
 
 	// ------------ 半径の設定・取得 ------------ // 
-	void SetRadius(const float& radius) { std::get<Sphere>(shape_).radius = radius; }
-	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
+	void SetRadius(const float& radius) { std::get<Math::Sphere>(shape_).radius = radius; }
+	float GetRadius() const { return std::get<Math::Sphere>(shape_).radius; }
 
 	// ------------ Colliderの中心座標 ------------ // 
-	const Vector3& GetCenterPos() const { return centerPos_; }
+	const Math::Vector3& GetCenterPos() const { return centerPos_; }
 
 	// ------------ 貫通対策 ------------ // 
 	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
 	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
 
-	void SetPushBackDirection(const Vector3& dire);
-	const Vector3& GetPushBackDirection() const { return pushbackDire_; }
+	void SetPushBackDirection(const Math::Vector3& dire);
+	const Math::Vector3& GetPushBackDirection() const { return pushbackDire_; }
 
 	void SetOnCollision(std::function<void(BaseCollider*)> callback) {
 		onCollision_ = callback;
@@ -114,19 +114,19 @@ protected:
 	std::string categoryName_ = "None";
 
 	// 形状
-	std::variant<Sphere, AABB, OBB, Line> shape_;
+	std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line> shape_;
 	// 当たり判定の状態
 	int collisionState_ = 0;
 	// Colliderの中心座標
-	Vector3 centerPos_ = CVector3::ZERO;
+	Math::Vector3 centerPos_ = CVector3::ZERO;
 
-	QuaternionSRT localSRT_ = QuaternionSRT();
+	Math::QuaternionSRT localSRT_ = Math::QuaternionSRT();
 
 	std::unordered_map<BaseCollider*, int> collisionPartnersMap_;
 
 	// 貫通対策
 	bool penetrationPrevention_ = false;	// 貫通対策を行うかどうか
-	Vector3 pushbackDire_ = CVector3::ZERO;
+	Math::Vector3 pushbackDire_ = CVector3::ZERO;
 
 	// 汎用用
 	std::function<void(BaseCollider*)> onCollision_;

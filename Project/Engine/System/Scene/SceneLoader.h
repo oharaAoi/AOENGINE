@@ -20,8 +20,8 @@ public:		// data
 	struct ColliderData {
 		std::string colliderType = "";
 		std::string colliderTag = "";
-		Vector3 center;
-		Vector3 size;
+		Math::Vector3 center;
+		Math::Vector3 size;
 		float radius;
 		std::vector<std::string> filter;
 	};
@@ -29,7 +29,7 @@ public:		// data
 	struct Objects {
 		std::string name;
 		std::string modelName;
-		QuaternionSRT srt;
+		Math::QuaternionSRT srt;
 
 		std::vector<ColliderData> collidersData;
 

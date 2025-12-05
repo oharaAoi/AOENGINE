@@ -63,10 +63,10 @@ private:
 	
 	const float kDeadZone_ = 0.1f;
 	float speed_;
-	Vector3 direction_;
+	Math::Vector3 direction_;
 
-	Quaternion targetRotate_;
-	Quaternion prevRotate_;
+	Math::Quaternion targetRotate_;
+	Math::Quaternion prevRotate_;
 
 };
 

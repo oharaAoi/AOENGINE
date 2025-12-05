@@ -25,7 +25,7 @@ public:
 	/// 更新処理
 	/// </summary>
 	/// <param name="srt"></param>
-	void Update(const QuaternionSRT& srt) override;
+	void Update(const Math::QuaternionSRT& srt) override;
 
 	/// <summary>
 	/// 描画処理
@@ -39,10 +39,10 @@ public:
 	
 public:
 
-	void SetDiff(const Vector3& _diff);
-	const Vector3& GetDiff() const;
+	void SetDiff(const Math::Vector3& _diff);
+	const Math::Vector3& GetDiff() const;
 
-	const Vector3& GetOrigine() const;
+	const Math::Vector3& GetOrigine() const;
 
 };
 

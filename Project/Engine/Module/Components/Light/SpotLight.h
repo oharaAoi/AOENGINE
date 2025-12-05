@@ -33,7 +33,7 @@ public:
 	/// </summary>
 	struct Parameter : public AOENGINE::IJsonConverter {
 		Color color = Color::white;		// ライトの色
-		Math::Math::Vector3 position = Math::Vector3(0, 1, 0);
+		Math::Vector3 position = Math::Vector3(0, 1, 0);
 		float intensity = 1.0f; 
 		Math::Vector3 direction = Math::Vector3(0, -1, 0);
 		float distance = 5.0f;

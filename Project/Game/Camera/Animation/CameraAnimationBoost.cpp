@@ -46,11 +46,11 @@ void CameraAnimationBoost::BoostAnimation() {
 	float t = param_.timer / param_.time;
 
 	// offsetの更新
-	Vector3 offset = CVector3::ZERO;
+	Math::Vector3 offset = CVector3::ZERO;
 	if (param_.isApproach) {
-		offset = Vector3::Lerp(cameraOffset_, param_.offset, t);
+		offset = Math::Vector3::Lerp(cameraOffset_, param_.offset, t);
 	} else {
-		offset = Vector3::Vector3::Lerp(param_.offset, cameraOffset_, t);
+		offset = Math::Vector3::Lerp(param_.offset, cameraOffset_, t);
 	}
 	pFollowCamera_->SetOffset(offset);
 

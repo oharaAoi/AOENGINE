@@ -16,7 +16,7 @@ public: // データ構造体
 		bool isApproach = false;
 		float timer;
 		// editor, dragFloat3, 0.1
-		Vector3 offset;
+		Math::Vector3 offset;
 		// editor, dragFloat, 0.1
 		float time;
 
@@ -66,7 +66,7 @@ private:
 private:
 
 	BoostAnimationParam param_;
-	Vector3 cameraOffset_;
+	Math::Vector3 cameraOffset_;
 
 };
 

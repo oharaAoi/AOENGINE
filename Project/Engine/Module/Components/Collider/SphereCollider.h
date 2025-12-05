@@ -24,7 +24,7 @@ public:
 	/// 更新処理
 	/// </summary>
 	/// <param name="srt"></param>
-	void Update(const QuaternionSRT& srt) override;
+	void Update(const Math::QuaternionSRT& srt) override;
 
 	/// <summary>
 	/// 描画処理
@@ -39,11 +39,8 @@ public:
 public:
 
 	// ------------ 半径 ------------ // 
-	void SetRadius(const float& radius) { std::get<Sphere>(shape_).radius = radius; }
-	float GetRadius() const { return std::get<Sphere>(shape_).radius; }
-
-private:
-
+	void SetRadius(const float& radius) { std::get<Math::Sphere>(shape_).radius = radius; }
+	float GetRadius() const { return std::get<Math::Sphere>(shape_).radius; }
 
 
 };

@@ -90,7 +90,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	// ↓ InverseBindPoseMatを格納する場所を作成して、単位行列で埋める
 	// -------------------------------------------------------------
 	inverseBindPoseMatrices_.resize(jointSize);
-	std::generate(inverseBindPoseMatrices_.begin(), inverseBindPoseMatrices_.end(), Matrix4x4::MakeUnit);
+	std::generate(inverseBindPoseMatrices_.begin(), inverseBindPoseMatrices_.end(), Math::Matrix4x4::MakeUnit);
 
 	// -------------------------------------------------
 	// ↓ skinningInformationを作成

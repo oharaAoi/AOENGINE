@@ -81,7 +81,7 @@ private:
 	/// </summary>
 	void DebugItemWindow();
 
-	bool PushStyleColor(bool _flag, const Vector4& color);
+	bool PushStyleColor(bool _flag, const Math::Vector4& color);
 
 	void PopStyleColor(bool _flag);
 

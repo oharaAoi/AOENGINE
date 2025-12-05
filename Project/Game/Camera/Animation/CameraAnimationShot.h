@@ -64,6 +64,6 @@ private: // private method
 private: // private variable
 
 	ShotAnimationParam shotAnimation_;
-	Vector3 offset_;
+	Math::Vector3 offset_;
 };
 

@@ -1,14 +1,14 @@
 #include "EndEffector.h"
 #include "Engine/Module/Components/Rigging/InverseKinematics.h"
 
-void EndEffector::Update(const Matrix4x4& _worldMat) {
+void EndEffector::Update(const Math::Matrix4x4& _worldMat) {
 	// 現在のworld座標を配列に格納
 	positions_.clear();
 	jointsData_.clear();
 	for (int32_t idx : chain_) {
-		Matrix4x4 jointWorldMat = Multiply(pSkeleton_->GetJoint(idx).skeltonSpaceMat, _worldMat);
+		Math::Matrix4x4 jointWorldMat = Multiply(pSkeleton_->GetJoint(idx).skeltonSpaceMat, _worldMat);
 		auto& pos = positions_.emplace_back(jointWorldMat.GetPosition());
-		jointsData_.push_back(JointsData(pos, Quaternion(), idx));
+		jointsData_.push_back(JointsData(pos, Math::Quaternion(), idx));
 	}
 
 	// IKを適応した際の座標を計算

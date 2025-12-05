@@ -48,7 +48,7 @@ void BaseCollider::SetCategory(const std::string& category) {
 	categoryName_ = category;
 }
 
-void BaseCollider::SetPushBackDirection(const Vector3& dire) {
+void BaseCollider::SetPushBackDirection(const Math::Vector3& dire) {
 	pushbackDire_ += dire;
 }
 

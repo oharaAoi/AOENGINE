@@ -120,7 +120,7 @@ template<typename OwnerType>
 inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	node_.name = _jsonData["name"];
 	type_ = _jsonData["nodeType"];
-	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
+	pos_ = Math::Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
 
 	if (_jsonData.contains("waitTIme")) {
 		waitTimer_.targetTime_ = _jsonData["waitTime"].get<float>();
