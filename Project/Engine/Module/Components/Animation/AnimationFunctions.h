@@ -8,11 +8,11 @@
 // ↓　補完(Vector3)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
+Math::Vector3 CalculateValue(const std::vector<KeyframeVector3>& keyframes, const float& time);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　補完(Quaternion)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
+Math::Quaternion CalculateQuaternion(const std::vector<KeyframeQuaternion>& keyframes, const float& time);
 

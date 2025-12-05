@@ -81,8 +81,8 @@ public: // operator
 		return *this;
 	}
 
-	operator Vector4() const {
-		return Vector4(r, g, b, a);
+	operator Math::Vector4() const {
+		return Math::Vector4(r, g, b, a);
 	}
 };
 

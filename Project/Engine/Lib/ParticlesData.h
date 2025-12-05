@@ -29,13 +29,13 @@ enum class CpuEmitterShape {
 /// </summary>
 struct ParticleSingle {
 	Color color;			// 色
-	Vector3 scale;			// 拡縮
-	Quaternion rotate;		// 回転
-	Vector3 translate;		// 座標
-	Vector3 velocity;		// 速度
-	Vector3 acceleration;	// 加速度
-	Vector3 firstScale;		// 初期拡縮
-	Vector3 emitterCenter;	// Emitterの中心
+	Math::Vector3 scale;			// 拡縮
+	Math::Quaternion rotate;		// 回転
+	Math::Vector3 translate;		// 座標
+	Math::Vector3 velocity;		// 速度
+	Math::Vector3 acceleration;	// 加速度
+	Math::Vector3 firstScale;		// 初期拡縮
+	Math::Vector3 emitterCenter;	// Emitterの中心
 	float lifeTime;			// 生存時間
 	float currentTime;		// 現在の時間
 	float damping;			// 減衰
@@ -45,8 +45,8 @@ struct ParticleSingle {
 	float startDiscard = 0.01f;		// discardの初期値
 	float endDiscard = 1.0f;		// discardの終了値
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
-	Vector3 lifeOfMinScale;
-	Vector3 lifeOfMaxScale;
+	Math::Vector3 lifeOfMinScale;
+	Math::Vector3 lifeOfMaxScale;
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
 	bool isFadeInOut = false;
 	float fadeInTime = 0.0f;
@@ -55,14 +55,14 @@ struct ParticleSingle {
 	bool isScaleUpScale = false;	// 生存時間による透明度
 	bool isStretch = false;
 	bool isAddBlend = true;
-	Vector3 upScale;
+	Math::Vector3 upScale;
 	bool isBillBord = true;
 	bool isDraw2d = true;
 	bool isCenterFor = false;
 
 	bool isTextureAnimation = false;
-	Vector2 tileSize = CVector2::UNIT;
-	Matrix4x4 uvMat;
+	Math::Vector2 tileSize = CVector2::UNIT;
+	Math::Matrix4x4 uvMat;
 
 	bool isColorAnimation = false;
 	Color preColor;
@@ -77,9 +77,9 @@ struct ParticleSingle {
 struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
-	Vector3 translate = CVector3::ZERO;		// 位置
-	Vector3 preTranslate = CVector3::ZERO;		// 位置
-	Vector3 rotate = CVector3::ZERO;		// 射出方向
+	Math::Vector3 translate = CVector3::ZERO;		// 位置
+	Math::Vector3 preTranslate = CVector3::ZERO;		// 位置
+	Math::Vector3 rotate = CVector3::ZERO;		// 射出方向
 	uint32_t rateOverTimeCout = 10;			// 射出数
 	int shape = 0;						// emitterの種類
 	int emitDirection = 1;
@@ -95,8 +95,8 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	float startDiscard = 0.01f;					// discardの初期値
 	float endDiscard = 1.0f;					// discardの終了値
 	bool separateByAxisScale = false;
-	Vector3 minScale = CVector3::UNIT;			// 最小の大きさ
-	Vector3 maxScale = CVector3::UNIT;			// 最大の大きさ
+	Math::Vector3 minScale = CVector3::UNIT;			// 最小の大きさ
+	Math::Vector3 maxScale = CVector3::UNIT;			// 最大の大きさ
 	float speed = 1.0f;							// 速度
 	float lifeTime = 5.0f;						// particleの生存時間
 	float gravity = 0;							// 重力を付与するか
@@ -105,8 +105,8 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	float angleMax = 360.0f;					// 最大の回転
 	bool isDirectionRotate = false;				// 進行方向にParticleを向ける処理
 	bool isLifeOfScale = false;					// 生存時間によるサイズ
-	Vector3 lifeOfMinScale = CVector3::UNIT;
-	Vector3 lifeOfMaxScale = CVector3::ZERO;
+	Math::Vector3 lifeOfMinScale = CVector3::UNIT;
+	Math::Vector3 lifeOfMaxScale = CVector3::ZERO;
 	bool isLifeOfAlpha = false;					// 生存時間による透明度
 	bool isFadeInOut = false;					// FadeInOutで出現
 	float fadeInTime = 0;
@@ -118,18 +118,18 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isBillBord = true;
 
 	bool isScaleUp;								// サイズを大きくするか
-	Vector3 scaleUpScale;
+	Math::Vector3 scaleUpScale;
 
 	float radius = 0.5f;
 	float angle = 27.f;
 	float height = 1;
-	Vector3 size = CVector3::UNIT;
+	Math::Vector3 size = CVector3::UNIT;
 
 	std::string useTexture = "circle.png";
 	std::string useMesh = "plane";
 
 	bool isTextureSheetAnimation = false;
-	Vector2 tiles = CVector2::UNIT;
+	Math::Vector2 tiles = CVector2::UNIT;
 
 	bool isColorAnimation = false;
 	Color preColor;

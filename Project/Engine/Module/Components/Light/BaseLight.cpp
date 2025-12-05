@@ -15,8 +15,8 @@ void BaseLight::Init(ID3D12Device* device, const size_t& size) {
 	cBuffer_ = CreateBufferResource(device, sizeof(LightViewProjectionData));
 	// データをマップ
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data_));
-	lightPos_ = Vector3(0, 200, 0);
-	direction_ = Vector3(0, -1, 0);
+	lightPos_ = Math::Vector3(0, 200, 0);
+	direction_ = Math::Vector3(0, -1, 0);
 	direction_ = direction_.Normalize();
 
 	baseParameter_.SetGroupName("Light");
@@ -56,14 +56,14 @@ void BaseLight::ViewBindCommand(ID3D12GraphicsCommandList* commandList, UINT ind
 // ↓ viewの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseLight::CalucViewProjection(const Vector3& pos) {
-	Matrix4x4 translateMat = pos.MakeTranslateMat();
-	Quaternion rot = Quaternion::LookRotation(direction_);
-	Matrix4x4 rotateMat = rot.MakeMatrix();
-	Matrix4x4 lightMat = Multiply(Multiply(Matrix4x4::MakeUnit(), rotateMat), translateMat);
+void BaseLight::CalucViewProjection(const Math::Vector3& pos) {
+	Math::Matrix4x4 translateMat = pos.MakeTranslateMat();
+	Math::Quaternion rot = Math::Quaternion::LookRotation(direction_);
+	Math::Matrix4x4 rotateMat = rot.MakeMatrix();
+	Math::Matrix4x4 lightMat = Multiply(Multiply(Math::Matrix4x4::MakeUnit(), rotateMat), translateMat);
 
-	Matrix4x4 viewMatrix_ = Inverse(lightMat);
-	Matrix4x4 projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, float(1000.0f) / float(1000.0f), near_, far_);
+	Math::Matrix4x4 viewMatrix_ = Inverse(lightMat);
+	Math::Matrix4x4 projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(1000.0f) / float(1000.0f), near_, far_);
 	viewProjectionMatrix_ = viewMatrix_ * projectionMatrix_;
 
 	data_->view = viewMatrix_;

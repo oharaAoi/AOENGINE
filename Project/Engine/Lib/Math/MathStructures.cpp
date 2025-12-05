@@ -1,6 +1,8 @@
 #include "MathStructures.h"
 #include "MyMath.h"
 
+using namespace Math;
+
 void OBB::MakeOBBAxis(const Quaternion& rotate) {
 	Matrix4x4 rotateMatrix = rotate.MakeMatrix();
 

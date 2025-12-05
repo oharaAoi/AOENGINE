@@ -53,7 +53,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// ---------------------------------------------------------------
 	// ↓wvpの設定
 	// ---------------------------------------------------------------
-	wvpBuffer_ = CreateBufferResource(device, sizeof(Matrix4x4) * kMaxLineCount);
+	wvpBuffer_ = CreateBufferResource(device, sizeof(Math::Matrix4x4) * kMaxLineCount);
 	wvpData_ = nullptr;
 	wvpBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
 	// SRVの設定
@@ -63,7 +63,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	srvDesc.Buffer.FirstElement = 0;
 	srvDesc.Buffer.NumElements = static_cast<UINT>(kMaxLineCount);  // 頂点の数
-	srvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);  // 頂点1つあたりのサイズ
+	srvDesc.Buffer.StructureByteStride = sizeof(Math::Matrix4x4);  // 頂点1つあたりのサイズ
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
 	wvpSRV_ = AOENGINE::GraphicsContext::GetInstance()->GetDxHeap()->AllocateSRV();
 	// 生成
@@ -86,7 +86,7 @@ void PrimitiveDrawer::Update() {
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
+void PrimitiveDrawer::Draw(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat) {
 	// 使用する頂点のインデックスの更新
 	size_t materialIndex = (useIndex_) - 1;
 
@@ -102,11 +102,11 @@ void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& co
 	primitiveData_[useIndex_].color = color;
 	primitiveData_[useIndex_ + 1].color = color;
 
-	Matrix4x4 mat1 = Matrix4x4::MakeUnit();
-	Matrix4x4 mat2 = Matrix4x4::MakeUnit();
+	Math::Matrix4x4 mat1 = Math::Matrix4x4::MakeUnit();
+	Math::Matrix4x4 mat2 = Math::Matrix4x4::MakeUnit();
 
-	mat1 = Multiply(Multiply(mat1, Vector3(p1.x, p1.y, p1.z).MakeTranslateMat()), vpMat);
-	mat2 = Multiply(Multiply(mat2, Vector3(p2.x, p2.y, p2.z).MakeTranslateMat()), vpMat);
+	mat1 = Multiply(Multiply(mat1, Math::Vector3(p1.x, p1.y, p1.z).MakeTranslateMat()), vpMat);
+	mat2 = Multiply(Multiply(mat2, Math::Vector3(p2.x, p2.y, p2.z).MakeTranslateMat()), vpMat);
 
 	wvpData_[useIndex_] = vpMat;
 	wvpData_[useIndex_ + 1] = vpMat;

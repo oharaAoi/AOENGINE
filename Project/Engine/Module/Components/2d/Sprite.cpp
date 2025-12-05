@@ -47,7 +47,7 @@ void Sprite::Init(const std::string& fileName) {
 	// アドレスを取得
 	vertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&vertexData_));
 
-	Vector3 pivotOffset = {
+	Math::Vector3 pivotOffset = {
 		textureSize_.x * anchorPoint_.x,
 		textureSize_.y * anchorPoint_.y,
 		0.0f
@@ -92,7 +92,7 @@ void Sprite::Init(const std::string& fileName) {
 	materialBuffer_ = CreateBufferResource(pDevice, sizeof(TextureMaterial));
 	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
 	materialData_->color = { 1.0f, 1.0f, 1.0f, 1.0f };
-	materialData_->uvTransform = Matrix4x4::MakeUnit();
+	materialData_->uvTransform = Math::Matrix4x4::MakeUnit();
 	materialData_->uvMinSize = { 0.0f, 0.0f };
 	materialData_->uvMaxSize = { 1.0f, 1.0f };
 	materialData_->arcType = 0;
@@ -170,7 +170,7 @@ void Sprite::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
-	Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
+	Math::Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
 	if (isBackGround) {
 		transform_->SetTranslateZ(AOENGINE::Render::GetFarClip());
 	}
@@ -223,7 +223,7 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 // ↓　Textureのサイズを再設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Sprite::ReSetTextureSize(const Vector2& size) {
+void Sprite::ReSetTextureSize(const Math::Vector2& size) {
 	spriteSize_ = size;
 }
 
@@ -231,16 +231,16 @@ void Sprite::FillAmount(float amount) {
 	switch (fillMethod_) {
 	case FillMethod::Vertical:
 		if (fillStartingPoint_ == FillStartingPoint::Top) {
-			materialData_->uvMaxSize = Vector2(1.0f, amount);
+			materialData_->uvMaxSize = Math::Vector2(1.0f, amount);
 		} else if (fillStartingPoint_ == FillStartingPoint::Bottom) {
-			materialData_->uvMinSize = Vector2(0.0f, amount);
+			materialData_->uvMinSize = Math::Vector2(0.0f, amount);
 		}
 		break;
 	case FillMethod::Horizontal:
 		if (fillStartingPoint_ == FillStartingPoint::Left) {
-			materialData_->uvMaxSize = Vector2(amount, 1.0f);
+			materialData_->uvMaxSize = Math::Vector2(amount, 1.0f);
 		} else if (fillStartingPoint_ == FillStartingPoint::Right) {
-			materialData_->uvMinSize = Vector2(amount, 0.0f);
+			materialData_->uvMinSize = Math::Vector2(amount, 0.0f);
 		}
 		break;
 	case FillMethod::Radial:
@@ -249,12 +249,12 @@ void Sprite::FillAmount(float amount) {
 	case FillMethod::BothEnds:
 		if (fillStartingPoint_ == FillStartingPoint::TopBottom) {
 			float halfAmount = amount * 0.5f;
-			materialData_->uvMaxSize = Vector2(1.0f - (0.5f - halfAmount), 1.0f);
-			materialData_->uvMinSize = Vector2(0.5f - halfAmount, 0.0f);
+			materialData_->uvMaxSize = Math::Vector2(1.0f - (0.5f - halfAmount), 1.0f);
+			materialData_->uvMinSize = Math::Vector2(0.5f - halfAmount, 0.0f);
 		} else if (fillStartingPoint_ == FillStartingPoint::LeftRight) {
 			float halfAmount = amount * 0.5f;
-			materialData_->uvMaxSize = Vector2(1.0f, 1.0f - (0.5f - halfAmount));
-			materialData_->uvMinSize = Vector2(0.0f, 0.5f - halfAmount);
+			materialData_->uvMaxSize = Math::Vector2(1.0f, 1.0f - (0.5f - halfAmount));
+			materialData_->uvMinSize = Math::Vector2(0.0f, 0.5f - halfAmount);
 		}
 		break;
 	default:

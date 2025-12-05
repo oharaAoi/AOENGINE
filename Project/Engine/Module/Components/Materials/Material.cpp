@@ -65,7 +65,7 @@ void Material::Debug_Gui() {
 void Material::SetMaterialData(ModelMaterialData materialData) {
 	material_->color = materialData.color;
 	material_->enableLighting = true;
-	material_->uvTransform = Matrix4x4::MakeUnit();
+	material_->uvTransform = Math::Matrix4x4::MakeUnit();
 	material_->shininess = 100;
 	material_->discardValue = 0.01f;
 	textureName_ = materialData.textureFilePath;

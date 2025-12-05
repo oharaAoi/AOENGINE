@@ -12,7 +12,7 @@ public:
 	CubeGeometry() = default;
 	~CubeGeometry() override = default;
 
-	void Init(const Vector3& size = CVector3::UNIT);
+	void Init(const Math::Vector3& size = CVector3::UNIT);
 
 	void Inverse();
 };

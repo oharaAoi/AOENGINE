@@ -15,8 +15,8 @@ struct Keyframe {
 	tValue value;
 };
 
-using KeyframeVector3 = Keyframe<Vector3>;
-using KeyframeQuaternion = Keyframe<Quaternion>;
+using KeyframeVector3 = Keyframe<Math::Vector3>;
+using KeyframeQuaternion = Keyframe<Math::Quaternion>;
 
 /// <summary>
 /// Animationのカーブ
@@ -31,9 +31,9 @@ struct AnimationCurve {
 /// Nodeごとのアニメーション
 /// </summary>
 struct NodeAnimation {
-	AnimationCurve<Vector3> translate;
-	AnimationCurve<Quaternion> rotate;
-	AnimationCurve<Vector3> scale;
+	AnimationCurve<Math::Vector3> translate;
+	AnimationCurve<Math::Quaternion> rotate;
+	AnimationCurve<Math::Vector3> scale;
 };
 
 /// <summary>

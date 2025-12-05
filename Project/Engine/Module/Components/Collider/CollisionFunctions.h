@@ -12,15 +12,15 @@
 /// <param name="s1">球1</param>///
 /// <param name="s2">球2</param>///
 /// <returns></returns>
-bool CheckCollision(const Sphere& s1, const Sphere& s2);
+bool CheckCollision(const Math::Sphere& s1, const Math::Sphere& s2);
 
 /// <summary>
-/// OBB同士の当たり判定
+/// Math::OBB同士の当たり判定
 /// </summary>
-/// <param name="colliderA">: OBBA</param>
-/// <param name="colliderB">: OBBB</param>
+/// <param name="colliderA">: Math::OBBA</param>
+/// <param name="colliderB">: Math::OBBB</param>
 /// <returns></returns>
-bool CheckCollison(const OBB& colliderA, const OBB& colliderB);
+bool CheckCollison(const Math::OBB& colliderA, const Math::OBB& colliderB);
 
 /// <summary>
 /// 当たり判定
@@ -28,7 +28,7 @@ bool CheckCollison(const OBB& colliderA, const OBB& colliderB);
 /// <param name="aabb1">箱1</param>
 /// <param name="aabb2">箱2</param>
 /// <returns>true: 当たっている false: 当たっていない</returns>
-bool CheckCollision(const AABB& aabb1, const AABB& aabb2);
+bool CheckCollision(const Math::AABB& aabb1, const Math::AABB& aabb2);
 
 /// <summary>
 /// 球との当たり判定
@@ -36,65 +36,65 @@ bool CheckCollision(const AABB& aabb1, const AABB& aabb2);
 /// <param name="aabb">箱</param>
 /// <param name="sphere">球</param>
 /// <returns>true: 当たっている false: 当たっていない</returns>
-bool CheckCollisionAABBandSphere(const AABB& aabb, const Sphere& sphere);
+bool CheckCollisionAABBandSphere(const Math::AABB& aabb, const Math::Sphere& sphere);
 
 /// <summary>
-/// OBBと球の当たり判定
+/// Math::OBBと球の当たり判定
 /// </summary>
 ///  <param name="obb"></param>
 /// <param name="sphere"></param>
 ///  <returns></returns>
-bool CheckCollisionOBBandSphere(const OBB& obb, const Sphere& sphere);
+bool CheckCollisionOBBandSphere(const Math::OBB& obb, const Math::Sphere& sphere);
 
 /// <summary>
-/// OBBとAABBの当たり判定
+/// Math::OBBとMath::AABBの当たり判定
 /// </summary>
 /// <param name="obb"></param>
 /// <param name="aabb"></param>
 /// <returns></returns>
-bool CheckCollisionAABBandOBB(const OBB& obb, const AABB& aabb);
+bool CheckCollisionAABBandOBB(const Math::OBB& obb, const Math::AABB& aabb);
 
 /// <summary>
-/// SphereとLineの当たり判定
+/// Math::SphereとMath::Lineの当たり判定
 /// </summary>
 /// <param name="sphere"></param>
 /// <param name="line"></param>
 /// <returns></returns>
-bool CheckCollisionSphereAndLine(const Sphere& sphere, const Line& line);
+bool CheckCollisionSphereAndLine(const Math::Sphere& sphere, const Math::Line& line);
 
 /// <summary>///
-/// AABBとLineの当たり判定
+/// Math::AABBとMath::Lineの当たり判定
 /// </summary>///
 ///  <param name="aabb">箱</param>
 /// <param name="segment">線分</param>
 /// <returns>true: 当たっている false: 当たっていない</returns>
-bool CheckCollisionAABBandLine(const AABB& aabb, const Line& line);
+bool CheckCollisionAABBandLine(const Math::AABB& aabb, const Math::Line& line);
 
 /// <summary>
-/// OBBとLineの当たり判定
+/// Math::OBBとMath::Lineの当たり判定
 /// </summary>
 /// <param name="obb"></param>
 /// <param name="line"></param>
 /// <returns></returns>
-bool CheckCollisionOBBandLine(const OBB& obb, const Line& line);
+bool CheckCollisionOBBandLine(const Math::OBB& obb, const Math::Line& line);
 
 
 //================================================================================================//
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
 
-bool CheckCollision(const AABB& aabb, const Sphere& sphere);
-bool CheckCollision(const Sphere& sphere, const AABB& aabb);
+bool CheckCollision(const Math::AABB& aabb, const Math::Sphere& sphere);
+bool CheckCollision(const Math::Sphere& sphere, const Math::AABB& aabb);
 
-bool CheckCollision(const OBB& obb, const Sphere& sphere);
-bool CheckCollision(const Sphere& sphere, const OBB& obb);
+bool CheckCollision(const Math::OBB& obb, const Math::Sphere& sphere);
+bool CheckCollision(const Math::Sphere& sphere, const Math::OBB& obb);
 
-bool CheckCollision(const OBB& obb, const AABB& aabb);
-bool CheckCollision(const AABB& aabb, const OBB& obb);
+bool CheckCollision(const Math::OBB& obb, const Math::AABB& aabb);
+bool CheckCollision(const Math::AABB& aabb, const Math::OBB& obb);
 
-bool CheckCollision(const Sphere& sphere, const Line& line);
-bool CheckCollision(const AABB& aabb, const Line& line);
-bool CheckCollision(const OBB& obb, const Line& line);
+bool CheckCollision(const Math::Sphere& sphere, const Math::Line& line);
+bool CheckCollision(const Math::AABB& aabb, const Math::Line& line);
+bool CheckCollision(const Math::OBB& obb, const Math::Line& line);
 
-bool CheckCollision(const std::variant<Sphere, AABB, OBB, Line>& shape1,
-                    const std::variant<Sphere, AABB, OBB, Line>& shape2);
+bool CheckCollision(const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape1,
+                    const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape2);

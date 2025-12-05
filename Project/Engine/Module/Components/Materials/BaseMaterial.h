@@ -5,6 +5,7 @@
 #include "Engine/System/ShaderGraph/ShaderGraph.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/MathStructures.h"
 
 enum class MaterialShaderType {
@@ -51,9 +52,9 @@ public:
 	void SetShaderType(MaterialShaderType _type) { shaderType_ = _type; }
 	MaterialShaderType GetShaderType() const { return shaderType_; }
 
-	void SetUvScale(const Vector3& _scale) { uvTransform_.scale = _scale; }
-	void SetUvRotate(const Vector3& _rotate) { uvTransform_.rotate = _rotate; }
-	void SetUvTranslate(const Vector3& _translate) { uvTransform_.translate = _translate; }
+	void SetUvScale(const Math::Vector3& _scale) { uvTransform_.scale = _scale; }
+	void SetUvRotate(const Math::Vector3& _rotate) { uvTransform_.rotate = _rotate; }
+	void SetUvTranslate(const Math::Vector3& _translate) { uvTransform_.translate = _translate; }
 
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
@@ -74,7 +75,7 @@ protected:
 
 	ComPtr<ID3D12Resource> cBuffer_;
 
-	SRT uvTransform_ = SRT();
+	Math::SRT uvTransform_ = Math::SRT();
 	std::string textureName_ = "white.png";
 
 	ShaderGraph* shaderGraph_ = nullptr;

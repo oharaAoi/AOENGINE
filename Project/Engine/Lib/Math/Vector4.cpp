@@ -1,5 +1,7 @@
 #include "Vector4.h"
 
+using namespace Math;
+
 Vector4 Vector4::Lerp(const Vector4& start, const Vector4& end, float t) {
     Vector4 result{};
     result.x = std::lerp(start.x, end.x, t);

@@ -21,16 +21,16 @@ public:
 	/// Gpuに送る情報
 	/// </summary>
 	struct LightViewProjectionData {
-		Matrix4x4 view;
-		Matrix4x4 projection;
+		Math::Matrix4x4 view;
+		Math::Matrix4x4 projection;
 	};
 
 	/// <summary>
 	/// Lightのパラメータ
 	/// </summary>
 	struct BaseParameter : public AOENGINE::IJsonConverter {
-		Vector3 lightPos = CVector3::ZERO;
-		Vector3 direction = Vector3(0, -1, 0);	
+		Math::Vector3 lightPos = CVector3::ZERO;
+		Math::Vector3 direction = Math::Vector3(0, -1, 0);
 		float fovY = 0.45f;
 		float nearClip = 0.1f;
 		float farClip = 100.0f;
@@ -80,7 +80,7 @@ public:
 	// コマンドを積む
 	void ViewBindCommand(ID3D12GraphicsCommandList* commandList, UINT index) const;
 	// 透視投影行列の計算
-	void CalucViewProjection(const Vector3& pos);
+	void CalucViewProjection(const Math::Vector3& pos);
 	// パラメータの編集
 	void EditParameter(const std::string& name);
 	// 外部情報の読み込み
@@ -90,13 +90,13 @@ protected:
 
 	Microsoft::WRL::ComPtr<ID3D12Resource>lightBuffer_;
 
-	Vector3 lightPos_ = Vector3(0, 200, 0);
-	Vector3 direction_ = Vector3(0, -1, 0);
+	Math::Vector3 lightPos_ = Math::Vector3(0, 200, 0);
+	Math::Vector3 direction_ = Math::Vector3(0, -1, 0);
 
 	ComPtr<ID3D12Resource> cBuffer_;
 	LightViewProjectionData* data_;
-	Matrix4x4 lightMatrix_;
-	Matrix4x4 viewProjectionMatrix_;
+	Math::Matrix4x4 lightMatrix_;
+	Math::Matrix4x4 viewProjectionMatrix_;
 
 	float fovY_ = 0.45f;
 	float near_ = -500.f;

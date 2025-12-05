@@ -1,5 +1,7 @@
 #include "Vector2.h"
 
+using namespace Math;
+
 float Vector2::Length() const {
 	return std::sqrt((x * x) + (y * y));
 }

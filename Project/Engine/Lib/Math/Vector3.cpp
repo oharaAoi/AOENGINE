@@ -1,5 +1,6 @@
 #include "Vector3.h"
 
+using namespace Math;
 
 Vector3 Vector3::Normalize() const {
     float length = Length();

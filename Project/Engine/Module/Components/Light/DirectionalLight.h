@@ -16,11 +16,11 @@ public: // メンバ構造体
 	/// 平行光源の構造体
 	/// </summary>
 	struct DirectionalLightData {
-		Matrix4x4 viewProjection;
+		Math::Matrix4x4 viewProjection;
 		Color color; // ライトの色
-		Vector3 direction; // 方向
+		Math::Vector3 direction; // 方向
 		float pad;
-		Vector3 eyePos;
+		Math::Vector3 eyePos;
 		float intensity; // 輝度
 		float limPower; // リムライトの強さ
 	};
@@ -30,7 +30,7 @@ public: // メンバ構造体
 	/// </summary>
 	struct Paramter : public AOENGINE::IJsonConverter {
 		Color color = Color(1,1,1,1);		// ライトの色
-		Vector3 direction = Vector3(0,-1,0);	// 方向
+		Math::Vector3 direction = Math::Vector3(0,-1,0);	// 方向
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
 
@@ -84,7 +84,7 @@ public:
 	// 編集処理
 	void Debug_Gui() override;
 
-	void SetEyePos(const Vector3& pos) { directionalLightData_->eyePos = pos; }
+	void SetEyePos(const Math::Vector3& pos) { directionalLightData_->eyePos = pos; }
 
 	void SetIntensity(float _intensity) { directionalLightData_->intensity = _intensity; }
 

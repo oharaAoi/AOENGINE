@@ -14,13 +14,13 @@ public:
 	/// 集中光源の構造体
 	/// </summary>
 	struct SpotLightData {
-		Matrix4x4 viewProjection;
+		Math::Matrix4x4 viewProjection;
 		Color color; // ライトの色
-		Vector3 position; // ライトの位置
+		Math::Vector3 position; // ライトの位置
 		float pad;
-		Vector3 eyePos;
+		Math::Vector3 eyePos;
 		float intensity; // 輝度
-		Vector3 direction; // 方向
+		Math::Vector3 direction; // 方向
 		float distance;
 		float decay;	// 減衰
 		float cosAngle; // スポットライトの余弦
@@ -33,9 +33,9 @@ public:
 	/// </summary>
 	struct Parameter : public AOENGINE::IJsonConverter {
 		Color color = Color::white;		// ライトの色
-		Vector3 position = Vector3(0, 1, 0);
+		Math::Math::Vector3 position = Math::Vector3(0, 1, 0);
 		float intensity = 1.0f; 
-		Vector3 direction = Vector3(0, -1, 0);
+		Math::Vector3 direction = Math::Vector3(0, -1, 0);
 		float distance = 5.0f;
 		float decay = 2.0f;
 		float cosAngle = std::cos(std::numbers::pi_v<float>);
@@ -90,7 +90,7 @@ public:
 public:
 
 
-	void SetEyePos(const Vector3& pos) { spotLightData_->eyePos = pos; }
+	void SetEyePos(const Math::Vector3& pos) { spotLightData_->eyePos = pos; }
 
 	void SetIntensity(float _intensity) { spotLightData_->intensity = _intensity; }
 

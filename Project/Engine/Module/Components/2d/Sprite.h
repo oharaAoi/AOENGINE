@@ -39,7 +39,7 @@ enum class FillMethod {
 /// 円ゲージに必要な構造体
 /// </summary>
 struct ArcGaugeParam {
-	Vector2 center;		// 中心座標
+	Math::Vector2 center;		// 中心座標
 	float fillAmount;	// 塗りつぶし量
 	float innerRadius;	// 内半径
 	float outerRadius;	// 外半径
@@ -52,21 +52,21 @@ struct ArcGaugeParam {
 /// Spriteのパラメータ
 /// </summary>
 struct SpriteParameter : public AOENGINE::IJsonConverter {
-	SRT transform = SRT();
-	SRT uvTransform = SRT();
+	Math::SRT transform = Math::SRT();
+	Math::SRT uvTransform = Math::SRT();
 	std::string textureName = "white.png";
 	Color color = Color::white;
-	Vector2 drawRange = Vector2(64.0f, 64.0f);
-	Vector2 leftTop = CVector2::ZERO;
-	Vector2 anchorPoint = Vector2(0.5f, 0.5f);
+	Math::Vector2 drawRange = Math::Vector2(64.0f, 64.0f);
+	Math::Vector2 leftTop = CVector2::ZERO;
+	Math::Vector2 anchorPoint = Math::Vector2(0.5f, 0.5f);
 	bool isFlipX = false;
 	bool isFlipY = false;
-	Vector2 spriteSize = Vector2(64.0f, 64.0f);
+	Math::Vector2 spriteSize = Math::Vector2(64.0f, 64.0f);
 
 	int fillMethod = static_cast<int>(FillMethod::Vertical);
 	int fillStartingPoint = static_cast<int>(FillStartingPoint::Left);
 
-	Vector2 center = Vector2(0.5f, 0.5f);	// 中心座標
+	Math::Vector2 center = Math::Vector2(0.5f, 0.5f);	// 中心座標
 	float fillAmount = 1.0f;				// 塗りつぶし量
 	float innerRadius = 0.0f;				// 内半径
 	float outerRadius = 1.0f;				// 外半径
@@ -136,8 +136,8 @@ public:
 	/// Mesh構造体
 	/// </summary>
 	struct TextureMesh {
-		Vector4 pos;
-		Vector2 texcoord;
+		Math::Vector4 pos;
+		Math::Vector2 texcoord;
 		float padding[2];
 	};
 
@@ -146,9 +146,9 @@ public:
 	/// </summary>
 	struct TextureMaterial {
 		Color color;
-		Matrix4x4 uvTransform;
-		Vector2 uvMinSize;		// 0~1の範囲で指定
-		Vector2 uvMaxSize;		// 0~1の範囲で指定
+		Math::Matrix4x4 uvTransform;
+		Math::Vector2 uvMinSize;		// 0~1の範囲で指定
+		Math::Vector2 uvMaxSize;		// 0~1の範囲で指定
 		int arcType;
 		float pad[3];
 	};
@@ -157,7 +157,7 @@ public:
 	/// Transform情報
 	/// </summary>
 	struct TextureTransformData {
-		Matrix4x4 wvp;
+		Math::Matrix4x4 wvp;
 	};
 
 public:
@@ -201,7 +201,7 @@ public:
 
 	ScreenTransform* GetTransform() const { return transform_.get(); }
 
-	const Matrix4x4& GetMatrix() const { return transform_->GetMatrix(); }
+	const Math::Matrix4x4& GetMatrix() const { return transform_->GetMatrix(); }
 
 	/// <summary>
 	/// Textureをセットする
@@ -213,18 +213,18 @@ public:
 	/// Textureのサイズを再設計する
 	/// </summary>
 	/// <param name="size"></param>
-	void ReSetTextureSize(const Vector2& size);
+	void ReSetTextureSize(const Math::Vector2& size);
 
 	// 描画する範囲の設定
-	void SetDrawRange(const Vector2& rectRange) { drawRange_ = rectRange; };
+	void SetDrawRange(const Math::Vector2& rectRange) { drawRange_ = rectRange; };
 	// 描画する範囲の設定
-	void SetLeftTop(const Vector2& leftTop) { leftTop_ = leftTop; }
+	void SetLeftTop(const Math::Vector2& leftTop) { leftTop_ = leftTop; }
 	// Pivotの位置を変更する
-	void SetAnchorPoint(const Vector2& point) { anchorPoint_ = point; }
+	void SetAnchorPoint(const Math::Vector2& point) { anchorPoint_ = point; }
 
-	void SetScale(const Vector2 scale) { transform_->SetScale(scale); }
+	void SetScale(const Math::Vector2 scale) { transform_->SetScale(scale); }
 	void SetRotate(float rotate) { transform_->SetRotateZ(rotate); }
-	void SetTranslate(const Vector2& _pos) { transform_->SetTranslate(_pos); }
+	void SetTranslate(const Math::Vector2& _pos) { transform_->SetTranslate(_pos); }
 
 	void SetColor(const Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
@@ -234,16 +234,16 @@ public:
 	/// UVを直接する
 	/// </summary>
 	/// <param name="range"></param>
-	void SetUvMinSize(const Vector2& range) { materialData_->uvMinSize = range; }
+	void SetUvMinSize(const Math::Vector2& range) { materialData_->uvMinSize = range; }
 
-	void SetUvMaxSize(const Vector2& range) { materialData_->uvMaxSize = range; }
+	void SetUvMaxSize(const Math::Vector2& range) { materialData_->uvMaxSize = range; }
 
 	void FillAmount(float amount);
 
-	const Vector2 GetTranslate() const { return transform_->GetTranslate(); }
-	const Vector2 GetScale() const { return transform_->GetScale(); }
+	const Math::Vector2 GetTranslate() const { return transform_->GetTranslate(); }
+	const Math::Vector2 GetScale() const { return transform_->GetScale(); }
 	const float GetRotate() const { return transform_->GetRotateZ(); }
-	const Vector2 GetSpriteSize() const { return spriteSize_; }
+	const Math::Vector2 GetSpriteSize() const { return spriteSize_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
 
@@ -292,8 +292,8 @@ private:
 
 	// Transform情報
 	std::unique_ptr<ScreenTransform> transform_;
-	SRT* parentTransform_ = nullptr;
-	SRT uvTransform_;
+	Math::SRT* parentTransform_ = nullptr;
+	Math::SRT uvTransform_;
 	
 	// -------------------
 	// Sprite情報
@@ -302,18 +302,18 @@ private:
 	std::string textureName_;
 
 	// 描画する範囲
-	Vector2 drawRange_ = { 0.0f, 0.0f };
+	Math::Vector2 drawRange_ = { 0.0f, 0.0f };
 	// 左上座標
-	Vector2 leftTop_ = { 0.0f, 0.0f };
+	Math::Vector2 leftTop_ = { 0.0f, 0.0f };
 	
-	Vector2 anchorPoint_;
+	Math::Vector2 anchorPoint_;
 
 	bool isFlipX_ = false;	// 左右フリップ
 	bool isFlipY_ = false;	// 上下フリップ
 
 	// Textureのサイズ
-	Vector2 textureSize_;
-	Vector2 spriteSize_;
+	Math::Vector2 textureSize_;
+	Math::Vector2 spriteSize_;
 
 	// -------------------
 	// 塗りつぶしに関する変数

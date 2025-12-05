@@ -9,4 +9,4 @@ inline std::mt19937 randomEngine(seedGenerator());
 float RandomFloat(const float& min, const float& max);
 int RandomInt(int min, int max);
 
-Vector3 RandomVector3(const Vector3& min, const Vector3& max);
+Math::Vector3 RandomVector3(const Math::Vector3& min, const Math::Vector3& max);

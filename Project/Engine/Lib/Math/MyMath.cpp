@@ -1,4 +1,6 @@
-#include "MyMath.h"
+#include "MyMath.h" 
+
+using namespace Math;
 
 Vector3 DegToRad(const Vector3& rotate) {
 	return Vector3(rotate.x * kToRadian, rotate.y * kToRadian, rotate.z * kToRadian);
@@ -12,12 +14,12 @@ float Clamp01(float value) {
 	return std::clamp(value, 0.f, 1.f);
 }
 
-float Distance(const Vector3& v1, const Vector3& v2) {
-	return Length(v1) - Length(v2);
-}
-
 float Length(const Vector3& vec3) {
 	return std::sqrt(vec3.x * vec3.x + vec3.y * vec3.y + vec3.z * vec3.z);
+}
+
+float Distance(const Vector3& v1, const Vector3& v2) {
+	return Length(v1 - v2);
 }
 
 float Normalize(float value, float min, float max) {
@@ -63,7 +65,7 @@ Vector3 Projection(const Vector3& v1, const Vector3& v2) {
 	return result;
 }
 
-Vector3 ClosestPoint(const Vector3& point, const Line& segment) {
+Vector3 ClosestPoint(const Vector3& point, const Math::Line& segment) {
 	Vector3 result{};
 	// 正射影ベクトルを求める
 	Vector3 projVector = Projection(point - segment.origin, segment.diff);

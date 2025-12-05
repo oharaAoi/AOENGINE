@@ -17,7 +17,7 @@ struct VertexWeightData {
 /// jointごとの重み
 /// </summary>
 struct JointWeightData {
-	Matrix4x4 inverseBindPoseMatrix;
+	Math::Matrix4x4 inverseBindPoseMatrix;
 	std::vector<VertexWeightData> vertexWeight;
 };
 

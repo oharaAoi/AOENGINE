@@ -19,13 +19,13 @@ struct is_vector<std::vector<T, A>> : std::true_type {};
 
 template <typename T>
 inline json toJson(const T& v) {
-	if constexpr (std::is_same_v<T, Vector4>) {
+	if constexpr (std::is_same_v<T, Math::Vector4>) {
 		// Vector4型に対する処理
 		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z}, {"w", v.w} };
-	} else if constexpr (std::is_same_v<T, Vector3>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 		// Vector3型に対する処理
 		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z} };
-	} else if constexpr (std::is_same_v<T, Vector2>) {
+	} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 		// Vector2型に対する処理
 		return json{ {"x", v.x}, {"y", v.y} };
 	} else if constexpr (std::is_same_v<T, float>) {
@@ -40,7 +40,7 @@ inline json toJson(const T& v) {
 	} else if constexpr (std::is_same_v<T, std::string>) {
 		// std::string型に対する処理
 		return v;
-	} else if constexpr (std::is_same_v<T, Quaternion>) {
+	} else if constexpr (std::is_same_v<T, Math::Quaternion>) {
 		// Quaternion型に対する処理
 		return json{ {"x", v.x}, {"y", v.y}, {"z", v.z}, {"w", v.w} };
 	} else if constexpr (std::is_same_v<T, bool>) {
@@ -68,20 +68,20 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 
 		// jsonにnameが含まれていたら
 		if (j.at(rootKey).contains(name)) {
-			if constexpr (std::is_same_v<T, Vector4>) {
+			if constexpr (std::is_same_v<T, Math::Vector4>) {
 				// Vector4型に対する処理
 				value.x = j.at(rootKey).at(name).at("x").get<float>();
 				value.y = j.at(rootKey).at(name).at("y").get<float>();
 				value.z = j.at(rootKey).at(name).at("z").get<float>();
 				value.w = j.at(rootKey).at(name).at("w").get<float>();
 
-			} else if constexpr (std::is_same_v<T, Vector3>) {
+			} else if constexpr (std::is_same_v<T, Math::Vector3>) {
 				// Vector3型に対する処理
 				value.x = j.at(rootKey).at(name).at("x").get<float>();
 				value.y = j.at(rootKey).at(name).at("y").get<float>();
 				value.z = j.at(rootKey).at(name).at("z").get<float>();
 
-			} else if constexpr (std::is_same_v<T, Vector2>) {
+			} else if constexpr (std::is_same_v<T, Math::Vector2>) {
 				// Vector2型に対する処理
 				value.x = j.at(rootKey).at(name).at("x").get<float>();
 				value.y = j.at(rootKey).at(name).at("y").get<float>();
@@ -101,7 +101,7 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 				// std::string型に対する処理
 				value = j.at(rootKey).at(name).get<std::string>();
 
-			} else if constexpr (std::is_same_v<T, Quaternion>) {
+			} else if constexpr (std::is_same_v<T, Math::Quaternion>) {
 				// Quaternion型に対する処理
 				value.x = j.at(rootKey).at(name).at("x").get<float>();
 				value.y = j.at(rootKey).at(name).at("y").get<float>();

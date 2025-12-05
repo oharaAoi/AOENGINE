@@ -12,8 +12,8 @@ int RandomInt(int min, int max){
     return result;
 }
 
-Vector3 RandomVector3(const Vector3& min, const Vector3& max) {
-    Vector3 result;
+Math::Vector3 RandomVector3(const Math::Vector3& min, const Math::Vector3& max) {
+    Math::Vector3 result;
 
     result.x = RandomFloat(min.x, max.x);
     result.y = RandomFloat(min.y, max.y);

@@ -1,6 +1,8 @@
 #include "Quaternion.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+using namespace Math;
+
 Quaternion Quaternion::Normalize() const {
 	float length = std::sqrt(x * x + y * y + z * z + w * w);
 	if (length < 1e-6f) { // 長さが非常に小さい場合

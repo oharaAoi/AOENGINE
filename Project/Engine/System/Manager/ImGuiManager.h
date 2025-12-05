@@ -54,7 +54,7 @@ public:
 	/// </summary>
 	void End();
 
-	void UpdateMousePosition(HWND _winHwnd, const Vector2& _renderTargetSize);
+	void UpdateMousePosition(HWND _winHwnd, const Math::Vector2& _renderTargetSize);
 
 	/// <summary>
 	/// 描画する

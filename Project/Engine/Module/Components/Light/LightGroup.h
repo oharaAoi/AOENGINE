@@ -47,7 +47,7 @@ public:
 
 public:
 
-	void SetEyePos(const Vector3& pos) { eyePos_ = pos; }
+	void SetEyePos(const Math::Vector3& pos) { eyePos_ = pos; }
 
 private:
 
@@ -55,5 +55,5 @@ private:
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
 	
-	Vector3 eyePos_;
+	Math::Vector3 eyePos_;
 };

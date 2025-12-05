@@ -147,7 +147,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	device->CreateShaderResourceView(particles.particleResource_.Get(), &desc, particles.srvHandle_.handleCPU);
 
 	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
-		particles.particleData->worldMat = Matrix4x4::MakeUnit();
+		particles.particleData->worldMat = Math::Matrix4x4::MakeUnit();
 		particles.particleData->color = { 0,0,0,0 };
 	}
 

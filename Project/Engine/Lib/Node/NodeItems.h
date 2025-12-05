@@ -45,7 +45,7 @@ struct Link {
 struct NodeItems {
 	std::string nodeName;
 	int nodeType;
-	Vector2 nodePos;
+	Math::Vector2 nodePos;
 	std::vector<std::string> childName;
 };
 
@@ -77,7 +77,7 @@ namespace Custom {
 }
 
 struct NodeUVTransform {
-	Vector2 scale = CVector2::UNIT;
-	Vector2 translate = CVector2::ZERO;
+	Math::Vector2 scale = CVector2::UNIT;
+	Math::Vector2 translate = CVector2::ZERO;
 	float rotate = 0;
 };

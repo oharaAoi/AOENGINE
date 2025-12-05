@@ -4,6 +4,8 @@
 #include "Engine/Lib/Math/Matrix3x3.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+using namespace Math;
+
 Matrix4x4 Matrix4x4::Transpose() const {
 	Matrix4x4 result{};
 	for (int i = 0; i < 4; ++i) {

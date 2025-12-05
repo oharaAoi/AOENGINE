@@ -15,10 +15,10 @@ public:
 	/// Gpuに送る構造体
 	/// </summary>
 	struct MaterialData {
-		Vector4 color;
+		Math::Vector4 color;
 		int32_t enableLighting;
 		float pad[3];
-		Matrix4x4 uvTransform;
+		Math::Matrix4x4 uvTransform;
 		float shininess;
 		float discardValue;
 	};

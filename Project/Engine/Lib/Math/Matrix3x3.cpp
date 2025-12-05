@@ -1,5 +1,7 @@
 #include "Matrix3x3.h"
 
+using namespace Math;
+
 Matrix3x3 Matrix3x3::Multiply(const Matrix3x3& matrix1, const Matrix3x3& matrix2) {
 	Matrix3x3 result{};
 	for (int row = 0; row < 3; row++) {

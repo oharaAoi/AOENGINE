@@ -30,18 +30,18 @@ void ScreenTransform::Init(ID3D12Device* _pDevice) {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ScreenTransform::Update(const Matrix4x4& _projection) {
+void ScreenTransform::Update(const Math::Matrix4x4& _projection) {
 	// 行列の作成
 	screenMat_ = transform_.MakeAffine();
 
 	// 親がいる場合親を考慮
-	Matrix4x4 matrix = screenMat_;
+	Math::Matrix4x4 matrix = screenMat_;
 	if (parentMat_ != nullptr) {
 		matrix = screenMat_ * *parentMat_;
 	}
 
 	// 最終的なスプライトの変換行列
-	transformData_->wvp = Matrix4x4(
+	transformData_->wvp = Math::Matrix4x4(
 		matrix *
 		_projection
 	);
@@ -64,8 +64,8 @@ void ScreenTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePo
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
 	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
 
-	Matrix4x4 viewMat = AOENGINE::Render::GetViewport2D();
-	Matrix4x4 projectMat = AOENGINE::Render::GetProjection2D();
+	Math::Matrix4x4 viewMat = AOENGINE::Render::GetViewport2D();
+	Math::Matrix4x4 projectMat = AOENGINE::Render::GetProjection2D();
 
 	float view[16];
 	float proj[16];
@@ -89,8 +89,8 @@ void ScreenTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePo
 
 	if (ImGuizmo::IsUsing()) {
 		memcpy(&screenMat_, world, sizeof(world));
-		Vector3 scale = screenMat_.GetScale();
-		Vector3 translate = screenMat_.GetPosition();
+		Math::Vector3 scale = screenMat_.GetScale();
+		Math::Vector3 translate = screenMat_.GetPosition();
 		transform_.scale = scale;
 		transform_.translate = translate;
 	}
@@ -107,6 +107,6 @@ void ScreenTransform::Debug_Gui() {
 	}
 }
 
-void ScreenTransform::SetParent(const Matrix4x4& _parentMat) {
+void ScreenTransform::SetParent(const Math::Matrix4x4& _parentMat) {
 	parentMat_ = &_parentMat;
 }

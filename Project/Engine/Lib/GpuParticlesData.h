@@ -11,19 +11,19 @@
 struct GpuParticleEmitterData {
 	Color color;
 
-	Vector3 minScale;
+	Math::Vector3 minScale;
 	float pad1;
-	Vector3 maxScale;
+	Math::Vector3 maxScale;
 	float pad2;
-	Vector3 targetScale;
+	Math::Vector3 targetScale;
 	float pad3;
-	Vector3 rotate;
+	Math::Vector3 rotate;
 	float pad4;
-	Vector3 pos;
+	Math::Vector3 pos;
 	float pad5;
-	Vector3 prePos;
+	Math::Vector3 prePos;
 	float pad6;
-	Vector3 size;
+	Math::Vector3 size;
 
 	uint32_t count;
 	uint32_t emitType;
@@ -72,10 +72,10 @@ enum class GpuEmitterShape {
 struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
-	Vector3 minScale = Vector3(1, 1, 1);
-	Vector3 maxScale = Vector3(1, 1, 1);
-	Vector3 rotate = Vector3(0, 0, 0);
-	Vector3 pos = Vector3(0, 0, 0);
+	Math::Vector3 minScale = Math::Vector3(1, 1, 1);
+	Math::Vector3 maxScale = Math::Vector3(1, 1, 1);
+	Math::Vector3 rotate = Math::Vector3(0, 0, 0);
+	Math::Vector3 pos = Math::Vector3(0, 0, 0);
 	uint32_t rateOverTimeCout = 10;
 	int shape;
 	int emitType = 0;
@@ -94,11 +94,11 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 
 	bool lifeOfScaleDown = false;
 	bool lifeOfScaleUp = false;
-	Vector3 targetScale = Vector3(1, 1, 1);
+	Math::Vector3 targetScale = Math::Vector3(1, 1, 1);
 	bool lifeOfAlpha = false;
 
 	float radius = 1.0f;
-	Vector3 size = CVector3::UNIT;
+	Math::Vector3 size = CVector3::UNIT;
 	float angle = 1.2f;
 	float height = 2.0f;
 

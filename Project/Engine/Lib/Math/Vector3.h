@@ -3,6 +3,8 @@
 #include <algorithm>
 #include "Matrix4x4.h"
 
+namespace Math {
+
 /// <summary>
 /// 3次元ベクトル
 /// </summary>
@@ -13,24 +15,27 @@ public:
 	float y;
 	float z;
 
+	constexpr Vector3() : x(0), y(0), z(0) {}
+	constexpr Vector3(float x, float y, float z) : x(x), y(y), z(z) {}
+
 	// =============================================
 	/// <summary>
 	/// 加算
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator+(const Vector3& obj) const { return Vector3(x + obj.x, y + obj.y, z + obj.z); }
+	Math::Vector3 operator+(const Math::Vector3& obj) const { return Math::Vector3(x + obj.x, y + obj.y, z + obj.z); }
 
-	Vector3 operator+(const float& obj) const { return Vector3(x + obj, y + obj, z + obj); }
+	Math::Vector3 operator+(const float& obj) const { return Math::Vector3(x + obj, y + obj, z + obj); }
 
-	Vector3 operator+=(const Vector3& obj) {
+	Math::Vector3 operator+=(const Math::Vector3& obj) {
 		x += obj.x;
 		y += obj.y;
 		z += obj.z;
 		return *this;
 	}
 
-	Vector3 operator+=(const float& obj) {
+	Math::Vector3 operator+=(const float& obj) {
 		x += obj;
 		y += obj;
 		z += obj;
@@ -42,18 +47,18 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator-(const Vector3& obj) const { return Vector3(x - obj.x, y - obj.y, z - obj.z); }
+	Math::Vector3 operator-(const Math::Vector3& obj) const { return Math::Vector3(x - obj.x, y - obj.y, z - obj.z); }
 
-	Vector3 operator-(const float& obj) const { return Vector3(x - obj, y - obj, z - obj); }
+	Math::Vector3 operator-(const float& obj) const { return Math::Vector3(x - obj, y - obj, z - obj); }
 
-	Vector3 operator-=(const Vector3& obj) {
+	Math::Vector3 operator-=(const Math::Vector3& obj) {
 		x -= obj.x;
 		y -= obj.y;
 		z -= obj.z;
 		return *this;
 	}
 
-	Vector3 operator-=(const float& obj) {
+	Math::Vector3 operator-=(const float& obj) {
 		x -= obj;
 		y -= obj;
 		z -= obj;
@@ -61,8 +66,8 @@ public:
 	}
 
 	// 単項マイナス
-	Vector3 operator-() const {
-		return Vector3{ -x, -y, -z };
+	Math::Vector3 operator-() const {
+		return Math::Vector3{ -x, -y, -z };
 	}
 
 	/// <summary>
@@ -70,16 +75,16 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator*(const Vector3& obj) const { return Vector3(x * obj.x, y * obj.y, z * obj.z); }
+	Math::Vector3 operator*(const Math::Vector3& obj) const { return Math::Vector3(x * obj.x, y * obj.y, z * obj.z); }
 
-	// メンバー関数としてのスカラー乗算 (Vector3 * float)
-	[[nodiscard]] constexpr Vector3 operator*(float scalar) const {
-		return Vector3(x * scalar, y * scalar, z * scalar);
+	// メンバー関数としてのスカラー乗算 (Math::Vector3 * float)
+	[[nodiscard]] constexpr Math::Vector3 operator*(float scalar) const {
+		return Math::Vector3(x * scalar, y * scalar, z * scalar);
 	}
 
-	// フリー関数としてのスカラー乗算 (float * Vector3)
-	[[nodiscard]] friend constexpr Vector3 operator*(float scalar, const Vector3& vec) {
-		return Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
+	// フリー関数としてのスカラー乗算 (float * Math::Vector3)
+	[[nodiscard]] friend constexpr Math::Vector3 operator*(float scalar, const Math::Vector3& vec) {
+		return Math::Vector3(vec.x * scalar, vec.y * scalar, vec.z * scalar);
 	}
 
 	/// <summary>
@@ -87,34 +92,34 @@ public:
 	/// </summary>
 	/// <param name="obj"></param>
 	/// <returns></returns>
-	Vector3 operator/(const Vector3& obj) const { return Vector3(x / obj.x, y / obj.y, z / obj.z); }
+	Math::Vector3 operator/(const Math::Vector3& obj) const { return Math::Vector3(x / obj.x, y / obj.y, z / obj.z); }
 
-	// メンバー関数としてのスカラー乗算 (Vector3 / float)
-	[[nodiscard]] constexpr Vector3 operator/(float scalar) const {
-		return Vector3(x / scalar, y / scalar, z / scalar);
+	// メンバー関数としてのスカラー乗算 (Math::Vector3 / float)
+	[[nodiscard]] constexpr Math::Vector3 operator/(float scalar) const {
+		return Math::Vector3(x / scalar, y / scalar, z / scalar);
 	}
 
-	// フリー関数としてのスカラー乗算 (float * Vector3)
-	[[nodiscard]] friend constexpr Vector3 operator/(float scalar, const Vector3& vec) {
-		return Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
+	// フリー関数としてのスカラー乗算 (float * Math::Vector3)
+	[[nodiscard]] friend constexpr Math::Vector3 operator/(float scalar, const Math::Vector3& vec) {
+		return Math::Vector3(vec.x / scalar, vec.y / scalar, vec.z / scalar);
 	}
 
 
-	Vector3 operator*=(const Vector3& obj) {
+	Math::Vector3 operator*=(const Math::Vector3& obj) {
 		x *= obj.x;
 		y *= obj.y;
 		z *= obj.z;
 		return *this;
 	}
 
-	Vector3 operator*=(const float& obj) {
+	Math::Vector3 operator*=(const float& obj) {
 		x *= obj;
 		y *= obj;
 		z *= obj;
 		return *this;
 	}
 
-	Vector3 operator/(const float& obj) {
+	Math::Vector3 operator/(const float& obj) {
 		return{
 		x / obj,
 		y / obj,
@@ -123,8 +128,8 @@ public:
 	}
 
 	// Matrix
-	Vector3 operator*(const Matrix4x4& mat) {
-		Vector3 result{};
+	Math::Vector3 operator*(const Matrix4x4& mat) {
+		Math::Vector3 result{};
 
 		result.x = mat.m[0][0] * x + mat.m[1][0] * y + mat.m[2][0] * z + mat.m[3][0];
 		result.y = mat.m[0][1] * x + mat.m[1][1] * y + mat.m[2][1] * z + mat.m[3][1];
@@ -137,7 +142,7 @@ public:
 	/// 正規化
 	/// </summary>
 	/// <returns></returns>
-	Vector3 Normalize() const;
+	Math::Vector3 Normalize() const;
 
 	/// <summary>
 	/// 長さをとる
@@ -157,25 +162,25 @@ public:
 	/// <param name="min"></param>
 	/// <param name="max"></param>
 	/// <returns></returns>
-	void Clamp(const Vector3& min, const Vector3& max);
+	void Clamp(const Math::Vector3& min, const Math::Vector3& max);
 
 	/// <summary>
 	/// 拡縮行列の作成
 	/// </summary>
 	/// <returns></returns>
-	Matrix4x4 MakeScaleMat() const;
+	Math::Matrix4x4 MakeScaleMat() const;
 
 	/// <summary>
 	/// 回転行列の作成
 	/// </summary>
 	/// <returns></returns>
-	Matrix4x4 MakeRotateMat() const;
+	Math::Matrix4x4 MakeRotateMat() const;
 
 	/// <summary>
 	/// 平行行列の作成
 	/// </summary>
 	/// <returns></returns>
-	Matrix4x4 MakeTranslateMat() const;
+	Math::Matrix4x4 MakeTranslateMat() const;
 
 	/// <summary>
 	/// 内積
@@ -183,7 +188,7 @@ public:
 	/// <param name="v1">: ベクトル1</param>
 	/// <param name="v2">: ベクトル2</param>
 	/// <returns></returns>
-	static float Dot(const Vector3& v1, const Vector3& v2);
+	static float Dot(const Math::Vector3& v1, const Math::Vector3& v2);
 
 	/// <summary>
 	/// 外積
@@ -191,7 +196,7 @@ public:
 	/// <param name="v1">: ベクトル1</param>
 	/// <param name="v2">: ベクトル2</param>
 	/// <returns></returns>
-	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
+	static Math::Vector3 Cross(const Math::Vector3& v1, const Math::Vector3& v2);
 
 	/// <summary>
 	/// 2つのベクトルから角度を求める
@@ -199,7 +204,7 @@ public:
 	/// <param name="v1"></param>
 	/// <param name="v2"></param>
 	/// <returns></returns>
-	static float AngleBetween(const Vector3& v1, const Vector3& v2);
+	static float AngleBetween(const Math::Vector3& v1, const Math::Vector3& v2);
 
 	/// <summary>
 	/// 線形補完
@@ -208,46 +213,43 @@ public:
 	/// <param name="end">: 終わり</param>
 	/// <param name="t">: 補完係数</param>
 	/// <returns></returns>
-	static Vector3 Lerp(const Vector3& start, const Vector3& end, float t);
+	static Math::Vector3 Lerp(const Math::Vector3& start, const Math::Vector3& end, float t);
 
-	static Vector3 Min(const Vector3& min, const Vector3& target);
-	static Vector3 Max(const Vector3& max, const Vector3& target);
+	static Math::Vector3 Min(const Math::Vector3& min, const Math::Vector3& target);
+	static Math::Vector3 Max(const Math::Vector3& max, const Math::Vector3& target);
 
 	/// <summary>
 	/// Matrixを作成する(z軸)
 	/// </summary>
 	/// <param name="z"></param>
 	/// <returns></returns>
-	Matrix4x4 MakeRollMatrix(float z_Roll) const;
+	Math::Matrix4x4 MakeRollMatrix(float z_Roll) const;
 
 	/// <summary>
 	/// Matrixを作成する(x軸)
 	/// </summary>
 	/// <param name="x"></param>
 	/// <returns></returns>
-	Matrix4x4 MakePitchMatrix(float x_Picth) const;
+	Math::Matrix4x4 MakePitchMatrix(float x_Picth) const;
 
 	/// <summary>
 	/// Matrixを作成する(y軸)
 	/// </summary>
 	/// <param name="y"></param>
 	/// <returns></returns>
-	Matrix4x4 MakeYawMatrix(float y_Yaw) const;
+	Math::Matrix4x4 MakeYawMatrix(float y_Yaw) const;
 };
 
-// フリー関数
-//inline Vector3 operator*(const float& obj, const Vector3& vec) {
-//	return Vector3(vec.x * obj, vec.y * obj, vec.z * obj);
-//}
+}
 
 /// <summary>
-/// Vector3定数
+/// Math::Vector3定数
 /// </summary>
 namespace CVector3 {
-	constexpr Vector3 RIGHT		{ 1.0f, 0.0f, 0.0f };
-	constexpr Vector3 UP		{ 0.0f, 1.0f, 0.0f };
-	constexpr Vector3 FORWARD	{ 0.0f ,0.0f, 1.0f };
-	constexpr Vector3 ZERO		{ 0.0f, 0.0f, 0.0f };
-	constexpr Vector3 UNIT		{ 1.0f, 1.0f, 1.0f };
-	constexpr Vector3 INF		{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
+	constexpr Math::Vector3 RIGHT		{ 1.0f, 0.0f, 0.0f };
+	constexpr Math::Vector3 UP		{ 0.0f, 1.0f, 0.0f };
+	constexpr Math::Vector3 FORWARD	{ 0.0f ,0.0f, 1.0f };
+	constexpr Math::Vector3 ZERO		{ 0.0f, 0.0f, 0.0f };
+	constexpr Math::Vector3 UNIT		{ 1.0f, 1.0f, 1.0f };
+	constexpr Math::Vector3 INF		{ std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity(), std::numeric_limits<float>::infinity() };
 }

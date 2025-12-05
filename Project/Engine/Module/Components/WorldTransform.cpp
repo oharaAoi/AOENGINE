@@ -31,24 +31,24 @@ void WorldTransform::Init(ID3D12Device* device) {
 
 	// 値を初期化しておく
 	srt_.scale = { 1.0f, 1.0f, 1.0f };
-	srt_.rotate = Quaternion();
+	srt_.rotate = Math::Quaternion();
 	srt_.translate = { 0.0f, 0.0f, 0.0f };
-	worldMat_ = Matrix4x4::MakeUnit();
+	worldMat_ = Math::Matrix4x4::MakeUnit();
 
-	moveQuaternion_ = Quaternion();
+	moveQuaternion_ = Math::Quaternion();
 	isBillboard_ = false;
 
-	data_->matWorldPrev = Matrix4x4::MakeUnit();
-	data_->matWorld = Matrix4x4::MakeUnit();
+	data_->matWorldPrev = Math::Matrix4x4::MakeUnit();
+	data_->matWorld = Math::Matrix4x4::MakeUnit();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::Update(const Matrix4x4& mat) {
-	Vector3 worldTranslate = CVector3::ZERO;
-	Quaternion worldRotate = Quaternion();
+void WorldTransform::Update(const Math::Matrix4x4& mat) {
+	Math::Vector3 worldTranslate = CVector3::ZERO;
+	Math::Quaternion worldRotate = Math::Quaternion();
 
 	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
@@ -79,12 +79,12 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	// ↓ world行列を生成
 	// -------------------------------------------------
 
-	Matrix4x4 scaleMat = srt_.scale.MakeScaleMat();
-	Matrix4x4 rotateMat = worldRotate.MakeMatrix();
+	Math::Matrix4x4 scaleMat = srt_.scale.MakeScaleMat();
+	Math::Matrix4x4 rotateMat = worldRotate.MakeMatrix();
 	if (isBillboard_) {
 		rotateMat = Multiply(rotateMat, AOENGINE::Render::GetBillBordMat());
 	}
-	Matrix4x4 translateMat = Vector3(worldTranslate + temporaryTranslate_).MakeTranslateMat();
+	Math::Matrix4x4 translateMat = Math::Vector3(worldTranslate + temporaryTranslate_).MakeTranslateMat();
 
 	worldMat_ = mat * Multiply(Multiply(scaleMat, rotateMat), translateMat);
 	if (parentWorldMat_ != nullptr) {
@@ -97,25 +97,25 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 
 	preTranslate_ = srt_.translate + temporaryTranslate_;
 	temporaryTranslate_ = CVector3::ZERO;
-	moveQuaternion_ = Quaternion();
+	moveQuaternion_ = Math::Quaternion();
 }
 
 void WorldTransform::PostUpdate() {
 	data_->matWorldPrev = worldMat_;
 }
 
-void WorldTransform::MoveVelocity(const Vector3& velocity, float rotationSpeed) {
+void WorldTransform::MoveVelocity(const Math::Vector3& velocity, float rotationSpeed) {
 	srt_.translate += velocity;
 
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
-		Quaternion rotate = Quaternion::LookRotation(velocity.Normalize());
-		srt_.rotate = Quaternion::Slerp(srt_.rotate, rotate, rotationSpeed);
+		Math::Quaternion rotate = Math::Quaternion::LookRotation(velocity.Normalize());
+		srt_.rotate = Math::Quaternion::Slerp(srt_.rotate, rotate, rotationSpeed);
 	}
 }
 
-void WorldTransform::LookAt(const Vector3& target, const Vector3& up) {
-	Vector3 direction = target - srt_.translate;
-	srt_.rotate = Quaternion::LookRotation(direction.Normalize(), up);
+void WorldTransform::LookAt(const Math::Vector3& target, const Math::Vector3& up) {
+	Math::Vector3 direction = target - srt_.translate;
+	srt_.rotate = Math::Quaternion::LookRotation(direction.Normalize(), up);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UIN
 	commandList->SetGraphicsRootConstantBufferView(index, cBuffer_->GetGPUVirtualAddress());
 }
 
-void WorldTransform::Translate(const Vector3& translate, float _deltaTime) {
+void WorldTransform::Translate(const Math::Vector3& translate, float _deltaTime) {
 	srt_.translate += translate * _deltaTime;
 }
 
@@ -161,8 +161,8 @@ void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
 	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
 
-	Matrix4x4 viewMat = AOENGINE::Render::GetViewport3D();
-	Matrix4x4 projectMat = Matrix4x4::MakePerspectiveFov(0.45f, float(windowSize.x) / float(windowSize.y), 0.1f, 100.0f);
+	Math::Matrix4x4 viewMat = AOENGINE::Render::GetViewport3D();
+	Math::Matrix4x4 projectMat = Math::Matrix4x4::MakePerspectiveFov(0.45f, float(windowSize.x) / float(windowSize.y), 0.1f, 100.0f);
 
 	float view[16];
 	float proj[16];
@@ -198,19 +198,19 @@ void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos
 // ↓　Setter系
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::SetParent(const Matrix4x4& parentMat) {
+void WorldTransform::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
 }
 
-void WorldTransform::SetParentTranslate(const Vector3& parentTranslate) {
+void WorldTransform::SetParentTranslate(const Math::Vector3& parentTranslate) {
 	parentTranslate_ = &parentTranslate;
 }
 
-void WorldTransform::SetParentRotate(const Quaternion& parentQuaternion) {
+void WorldTransform::SetParentRotate(const Math::Quaternion& parentQuaternion) {
 	parentRotate_ = &parentQuaternion;
 }
 
-void WorldTransform::SetMatrix(const Matrix4x4& mat) {
+void WorldTransform::SetMatrix(const Math::Matrix4x4& mat) {
 	data_->matWorld = mat;
 	data_->worldInverseTranspose = Inverse(data_->matWorld).Transpose();
 }

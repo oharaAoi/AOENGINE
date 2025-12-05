@@ -124,6 +124,8 @@ const std::array<EasingFunc, 31> easingFuncs = {
 	Ease::None::Liner
 };
 
+namespace Math {
+
 /// <summary> 
 /// Easingを関数を呼び出す
 /// </summary> 
@@ -133,3 +135,5 @@ const std::array<EasingFunc, 31> easingFuncs = {
 float CallEasing(int index, float t);
 
 void SelectEasing(int& easeKind);
+
+}

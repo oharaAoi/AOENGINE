@@ -7,31 +7,31 @@
 /// 頂点データ構造体
 /// </summary>
 struct VertexData {
-	Vector4 pos;
-	Vector2 texcoord;
-	Vector3 normal;
-	Vector4 worldPos;
-	Vector3 tangent;
+	Math::Vector4 pos;
+	Math::Vector2 texcoord;
+	Math::Vector3 normal;
+	Math::Vector4 worldPos;
+	Math::Vector3 tangent;
 };
 
 struct ParticleVertexData {
-	Vector4 pos;
-	Vector2 texcoord;
+	Math::Vector4 pos;
+	Math::Vector2 texcoord;
 };
 
 struct TriangleVertices {
-	Vector4 vertex1;// 左下
-	Vector4 vertex2;// 上
-	Vector4 vertex3;// 右下
+	Math::Vector4 vertex1;// 左下
+	Math::Vector4 vertex2;// 上
+	Math::Vector4 vertex3;// 右下
 };
 
 struct RectangleVertices {
-	Vector4 leftTop		= {-1.0f, -1.0f, 0.0f, 1.0f};
-	Vector4 rightTop	= { 1.0f, -1.0f, 0.0f, 1.0f };
-	Vector4 leftBottom	= { -1.0f, 1.0f, 0.0f, 1.0f };
-	Vector4 rightBottom = { 1.0f, 1.0f, 0.0f, 1.0f };
+	Math::Vector4 leftTop		= {-1.0f, -1.0f, 0.0f, 1.0f};
+	Math::Vector4 rightTop	= { 1.0f, -1.0f, 0.0f, 1.0f };
+	Math::Vector4 leftBottom	= { -1.0f, 1.0f, 0.0f, 1.0f };
+	Math::Vector4 rightBottom = { 1.0f, 1.0f, 0.0f, 1.0f };
 
-	void SetSize(const Vector2& sizeRaito){
+	void SetSize(const Math::Vector2& sizeRaito){
 		leftTop.x *= sizeRaito.x;
 		leftTop.y *= sizeRaito.y;
 

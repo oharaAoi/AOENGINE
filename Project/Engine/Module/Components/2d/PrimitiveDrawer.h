@@ -17,7 +17,7 @@ public : // データ構造体
 	/// Gpuに送る構造体
 	/// </summary>
 	struct PrimitiveData {
-		Vector4 pos;
+		Math::Vector4 pos;
 		Color color;
 	};
 
@@ -55,7 +55,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="wvpMat">: 透視投影行列</param>
-	void Draw(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& wvpMat);
+	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& wvpMat);
 
 	/// <summary>
 	/// 描画コマンドを積む
@@ -85,7 +85,7 @@ private:
 	// データポインタ
 	PrimitiveData* primitiveData_;
 	uint32_t* indexData_ = nullptr;
-	Matrix4x4* wvpData_;
+	Math::Matrix4x4* wvpData_;
 
 	// 使用している線の頂点の数
 	uint32_t useIndex_ = 0;

@@ -18,9 +18,9 @@ using ComPtr = Microsoft::WRL::ComPtr <T>;
 /// Gpuに送る情報
 /// </summary>
 struct WorldTransformData {
-	Matrix4x4 matWorld;
-	Matrix4x4 matWorldPrev;
-	Matrix4x4 worldInverseTranspose;
+	Math::Matrix4x4 matWorld;
+	Math::Matrix4x4 matWorldPrev;
+	Math::Matrix4x4 worldInverseTranspose;
 };
 
 /// <summary>
@@ -39,7 +39,7 @@ public:
 	// 初期化
 	void Init(ID3D12Device* device);
 	// 更新
-	void Update(const Matrix4x4& mat = Matrix4x4::MakeUnit());
+	void Update(const Math::Matrix4x4& mat = Math::Matrix4x4::MakeUnit());
 
 	void PostUpdate();
 	// コマンドを積む
@@ -49,21 +49,21 @@ public:
 	/// 並行移動させる
 	/// </summary>
 	/// <param name="translate"></param>
-	void Translate(const Vector3& translate, float _deltaTime = 1.0f);
+	void Translate(const Math::Vector3& translate, float _deltaTime = 1.0f);
 
 	/// <summary>
 	/// 移動速度を加算する
 	/// </summary>
 	/// <param name="velocity"></param>
 	/// <param name="rotationSpeed"></param>
-	void MoveVelocity(const Vector3& velocity, float rotationSpeed);
+	void MoveVelocity(const Math::Vector3& velocity, float rotationSpeed);
 
 	/// <summary>
 	/// target方向を向く
 	/// </summary>
 	/// <param name="target"></param>
 	/// <param name="up"></param>
-	void LookAt(const Vector3& target, const Vector3& up = CVector3::UP);
+	void LookAt(const Math::Vector3& target, const Math::Vector3& up = CVector3::UP);
 
 	// 編集処理
 	void Debug_Gui();
@@ -73,14 +73,14 @@ public:
 	
 public:
 
-	void SetParent(const Matrix4x4& parentMat);
-	void SetParentTranslate(const Vector3& parentTranslate);
-	void SetParentRotate(const Quaternion& parentQuaternion);
+	void SetParent(const Math::Matrix4x4& parentMat);
+	void SetParentTranslate(const Math::Vector3& parentTranslate);
+	void SetParentRotate(const Math::Quaternion& parentQuaternion);
 
-	void SetMatrix(const Matrix4x4& mat);
-	void SetScale(const Vector3& scale) { srt_.scale = scale; }
-	void SetTranslate(const Vector3& translate) { srt_.translate = translate; }
-	void SetRotate(const Quaternion& quaternion) { srt_.rotate = quaternion; }
+	void SetMatrix(const Math::Matrix4x4& mat);
+	void SetScale(const Math::Vector3& scale) { srt_.scale = scale; }
+	void SetTranslate(const Math::Vector3& translate) { srt_.translate = translate; }
+	void SetRotate(const Math::Quaternion& quaternion) { srt_.rotate = quaternion; }
 
 	void SetScaleX(float x) { srt_.scale.x = x; }
 	void SetScaleY(float y) { srt_.scale.y = y; }
@@ -90,42 +90,42 @@ public:
 	void SetTranslationY(float y) { srt_.translate.y = y; }
 	void SetTranslationZ(float z) { srt_.translate.z = z; }
 
-	void SetSRT(const QuaternionSRT& srt) {
+	void SetSRT(const Math::QuaternionSRT& srt) {
 		srt_ = srt;
 	}
 
-	Vector3 GetPos() const { return Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
-	Vector3 GetOffsetPos() const { return Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
+	Math::Vector3 GetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
+	Math::Vector3 GetOffsetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
 
-	QuaternionSRT& GetSRT() { return srt_; }
-	const Vector3 GetScale() const { return srt_.scale; }
-	const Vector3& GetTranslate() const { return srt_.translate; }
-	const Quaternion& GetRotate() const { return srt_.rotate; }
-	const Matrix4x4& GetWorldMatrix() const { return worldMat_; }
-	const Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
+	Math::QuaternionSRT& GetSRT() { return srt_; }
+	const Math::Vector3 GetScale() const { return srt_.scale; }
+	const Math::Vector3& GetTranslate() const { return srt_.translate; }
+	const Math::Quaternion& GetRotate() const { return srt_.rotate; }
+	const Math::Matrix4x4& GetWorldMatrix() const { return worldMat_; }
+	const Math::Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
 	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
 
-	void SetOffset(const Vector3& _offset) { offset_ = _offset; }
+	void SetOffset(const Math::Vector3& _offset) { offset_ = _offset; }
 
 public:
 
-	QuaternionSRT srt_;
-	Vector3 preTranslate_;
+	Math::QuaternionSRT srt_;
+	Math::Vector3 preTranslate_;
 
 	// 一時的に座標を動かしたい時にこの変数に加算する
 	// 例) 浮遊させるときに浮遊の移動量をthisに足す
-	Vector3 temporaryTranslate_{};
+	Math::Vector3 temporaryTranslate_{};
 
 private:
 
-	Matrix4x4 worldMat_;
-	Vector3 guiEulerDeg_;
-	Quaternion moveQuaternion_;
+	Math::Matrix4x4 worldMat_;
+	Math::Vector3 guiEulerDeg_;
+	Math::Quaternion moveQuaternion_;
 
-	const Matrix4x4* parentWorldMat_ = nullptr;
-	const Vector3* parentTranslate_ = nullptr;
-	const Quaternion* parentRotate_ = nullptr;
+	const Math::Matrix4x4* parentWorldMat_ = nullptr;
+	const Math::Vector3* parentTranslate_ = nullptr;
+	const Math::Quaternion* parentRotate_ = nullptr;
 
 	ComPtr<ID3D12Resource> cBuffer_;
 	WorldTransformData* data_;
@@ -137,6 +137,6 @@ private:
 
 	bool isBillboard_;
 
-	Vector3 offset_ = CVector3::ZERO;
+	Math::Vector3 offset_ = CVector3::ZERO;
 };
 

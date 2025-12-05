@@ -42,25 +42,25 @@ constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
 /// </summary>
 /// <param name="rotate"></param>
 /// <returns></returns>
-Vector3 DegToRad(const Vector3& rotate);
+Math::Vector3 DegToRad(const Math::Vector3& rotate);
 
 /// <summary>
 /// 弧度法 → 度数法
 /// </summary>
 /// <param name="rotate"></param>
 /// <returns></returns>
-Vector3 RadToDeg(const Vector3& rotate);
-
-float Clamp01(float value);
-
-float Distance(const Vector3& v1, const Vector3& v2);
+Math::Vector3 RadToDeg(const Math::Vector3& rotate);
 
 /// <summary>
 /// 長さを計算する
 /// </summary>
 /// <param name="vec3"></param>
 /// <returns></returns>
-float Length(const Vector3& vec3);
+float Length(const Math::Vector3& vec3);
+
+float Clamp01(float value);
+
+float Distance(const Math::Vector3& v1, const Math::Vector3& v2);
 
 /// <summary>
 /// 正規化
@@ -76,7 +76,7 @@ float Normalize(float value, float min, float max);
 /// </summary>
 /// <param name="vec3"></param>
 /// <returns></returns>
-Vector3 Normalize(const Vector3& vec3);
+Math::Vector3 Normalize(const Math::Vector3& vec3);
 
 /// <summary>
 /// 内積
@@ -84,7 +84,7 @@ Vector3 Normalize(const Vector3& vec3);
 /// <param name="v1"></param>
 /// <param name="v2"></param>
 /// <returns></returns>
-float Dot(const Vector3& v1, const Vector3& v2);
+float Dot(const Math::Vector3& v1, const Math::Vector3& v2);
 
 /// <summary>
 /// クロス積
@@ -92,7 +92,7 @@ float Dot(const Vector3& v1, const Vector3& v2);
 /// <param name="v1"></param>
 /// <param name="v2"></param>
 /// <returns></returns>
-Vector3 Cross(const Vector3& v1, const Vector3& v2);
+Math::Vector3 Cross(const Math::Vector3& v1, const Math::Vector3& v2);
 
 /// <summary>
 /// 正射影ベクトル
@@ -100,7 +100,7 @@ Vector3 Cross(const Vector3& v1, const Vector3& v2);
 /// <param name="v1">: ベクトル1</param>
 /// <param name="v2">: ベクトル2</param>
 /// <returns></returns>
-Vector3 Projection(const Vector3& v1, const Vector3& v2);
+Math::Vector3 Projection(const Math::Vector3& v1, const Math::Vector3& v2);
 
 /// <summary>
 /// 最近接点を求める関数
@@ -108,7 +108,7 @@ Vector3 Projection(const Vector3& v1, const Vector3& v2);
 /// <param name="point">点P(ここから線分へのベクトルをベクトル射影する)</param>
 /// <param name="segment"></param>
 /// <returns></returns>
-Vector3 ClosestPoint(const Vector3& point, const Line& segment);
+Math::Vector3 ClosestPoint(const Math::Vector3& point, const Math::Line& segment);
 
 /// <summary>
 /// スクリーン座標からワールド座標に変換する関数
@@ -117,7 +117,7 @@ Vector3 ClosestPoint(const Vector3& point, const Line& segment);
 /// <param name="inverseWvpMat">逆ワールドプロジェクション行列</param>
 /// <param name="setDirection">ワールド上のどこに設定するか</param>
 /// <returns>ワールド座標</returns>
-Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inverseWvpMat, const float& setDirection);
+Math::Vector3 ScreenToWorldCoordinate(const Math::Vector2& screenPos, const Math::Matrix4x4& inverseWvpMat, const float& setDirection);
 
 /// <summary>
 /// ワールド座標系からスクリーン座標系の座標を取得する関数
@@ -125,7 +125,7 @@ Vector3 ScreenToWorldCoordinate(const Vector2& screenPos, const Matrix4x4& inver
 /// <param name="targetWorldMat">: 対象のMatrix</param>
 /// <param name="vpvpMat">: viewProjection * viewPort </param>
 /// <returns>スクリーン座標</returns>
-Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4& vpvpMat);
+Math::Vector2 WorldToScreenCoordinate(const Math::Matrix4x4& targetWorldMat, const Math::Matrix4x4& vpvpMat);
 
 /// <summary>
 /// ベクトル変換
@@ -133,7 +133,7 @@ Vector2 WorldToScreenCoordinate(const Matrix4x4& targetWorldMat, const Matrix4x4
 /// <param name="v"></param>
 /// <param name="m"></param>
 /// <returns></returns>
-Vector3 TransformNormal(const Vector3& v, const Matrix4x4& m);
+Math::Vector3 TransformNormal(const Math::Vector3& v, const Math::Matrix4x4& m);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // 数字を求めたり
@@ -177,7 +177,7 @@ T IntegerCount(T value, int n) {
 /// <param name="size"></param>
 /// <returns></returns>
 template <typename T>
-Vector2 NumberSpriteLt(T value, const Vector2& size) {
+Math::Vector2 NumberSpriteLt(T value, const Math::Vector2& size) {
 	if (value == 0) {
 		return { 0.0f, 0.0f };
 	} else if (value == 1) {
@@ -206,9 +206,9 @@ Vector2 NumberSpriteLt(T value, const Vector2& size) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 float Lerp(float v1, float v2, float t);
-Vector2 Lerp(const Vector2& v1, const Vector2& v2, float t);
-Vector3 Lerp(const Vector3& v1, const Vector3& v2, float t);
-Vector4 Lerp(const Vector4& v1, const Vector4& v2, float t);
+Math::Vector2 Lerp(const Math::Vector2& v1, const Math::Vector2& v2, float t);
+Math::Vector3 Lerp(const Math::Vector3& v1, const Math::Vector3& v2, float t);
+Math::Vector4 Lerp(const Math::Vector4& v1, const Math::Vector4& v2, float t);
 Color Lerp(const Color& v1, const Color& v2, float t);
 
 /// <summary>
@@ -218,7 +218,7 @@ Color Lerp(const Color& v1, const Color& v2, float t);
 /// <param name="v2"></param>
 /// <param name="t"></param>
 /// <returns></returns>
-Vector3 Slerp(const Vector3& v1, const Vector3& v2, float t);
+Math::Vector3 Slerp(const Math::Vector3& v1, const Math::Vector3& v2, float t);
 
 /// <summary>
 /// 最短角度を求める
@@ -235,7 +235,7 @@ float LerpShortAngle(const float& originalAngle, const float& targetAngle, const
 ///  <param name="v1"></param>/// 
 /// <param name="v2"></param>///
 ///  <returns></returns>
-float Angle(const Vector3& v1, const Vector3& v2);
+float Angle(const Math::Vector3& v1, const Math::Vector3& v2);
 
 /// <summary>
 /// 臨界減衰スプリング
@@ -249,7 +249,7 @@ float Angle(const Vector3& v1, const Vector3& v2);
 /// <returns></returns>
 float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
 
-Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
+Math::Vector3 SmoothDamp(const Math::Vector3& current, const Math::Vector3& target, Math::Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
 
 /// <summary>/// 
 /// CatmullRom補完
@@ -260,7 +260,7 @@ Vector3 SmoothDamp(const Vector3& current, const Vector3& target, Vector3& curre
 /// <param name="p3">点3の座標</param>/// 
 /// <param name="t">点1と点2の間で指定された座標</param>/// 
 /// <returns>点1と点2の間で指定された座標</returns>
-Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vector3& p2, const Vector3& p3, float t);
+Math::Vector3 CatmullRomInterpolation(const Math::Vector3& p0, const Math::Vector3& p1, const Math::Vector3& p2, const Math::Vector3& p3, float t);
 
 /// <summary>/// 
 /// CatmullRomスプライン曲線上の座標を得る
@@ -268,14 +268,14 @@ Vector3 CatmullRomInterpolation(const Vector3& p0, const Vector3& p1, const Vect
 /// <param name="points">制御点の集合</param>/// 
 /// <param name="t">スプライン全区間の中で割合指定</param>/// 
 /// <returns>座標</returns>
-Vector3 CatmullRomPosition(const std::vector<Vector3>& points, float t);
+Math::Vector3 CatmullRomPosition(const std::vector<Math::Vector3>& points, float t);
 
 /// <summary>
 /// ベジエ曲線を書く
 /// </summary>
 ///  <param name="controlPoint">制御点がまとまった配列</param>
 ///  <returns></returns>
-Vector3 Bezier(const std::vector<Vector3>& controlPoint, const float& t);
+Math::Vector3 Bezier(const std::vector<Math::Vector3>& controlPoint, const float& t);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // 変換
@@ -303,6 +303,6 @@ uint32_t Red(uint32_t color);
 uint32_t Green(uint32_t color);
 uint32_t Blue(uint32_t color);
 uint32_t Alpha(uint32_t color);
-Vector4 FloatColor(uint32_t color);
-uint32_t IntColor(const Vector4& color);
+Math::Vector4 FloatColor(uint32_t color);
+uint32_t IntColor(const Math::Vector4& color);
 uint32_t HSV_to_RGB(float h, float s, float v, float alpha);

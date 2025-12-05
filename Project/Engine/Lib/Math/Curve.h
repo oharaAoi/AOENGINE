@@ -3,6 +3,8 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace Math {
+
 /// <summary>
 /// ImGuiでCurveをするクラス
 /// </summary>
@@ -16,7 +18,7 @@ public: // コンストラクタ
 public:
 
 	template<int steps>
-	void bezier_table(Vector2 P[4], Vector2 results[steps + 1]) const {
+	void bezier_table(Math::Vector2 P[4], Math::Vector2 results[steps + 1]) const {
 		static float C[(steps + 1) * 4], * K = 0;
 		if (!K) {
 			K = C;
@@ -29,7 +31,7 @@ public:
 			}
 		}
 		for (unsigned step = 0; step <= steps; ++step) {
-			Vector2 point = {
+			Math::Vector2 point = {
 				K[step * 4 + 0] * P[0].x + K[step * 4 + 1] * P[1].x +
 				K[step * 4 + 2] * P[2].x + K[step * 4 + 3] * P[3].x,
 				K[step * 4 + 0] * P[0].y + K[step * 4 + 1] * P[1].y +
@@ -57,3 +59,4 @@ public:
 
 };
 
+}

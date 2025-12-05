@@ -5,15 +5,13 @@
 #include <assert.h>
 #include <cmath>
 
-class Quaternion;
-
 /// <summary>
 /// 加算
 /// </summary>
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);
+Math::Matrix4x4 Add(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2);
 
 /// <summary>
 /// 減算
@@ -21,7 +19,7 @@ Matrix4x4 Add(const Matrix4x4& m1, const Matrix4x4& m2);
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2);
+Math::Matrix4x4 Subtract(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2);
 
 /// <summary>
 /// 積
@@ -29,18 +27,18 @@ Matrix4x4 Subtract(const Matrix4x4& m1, const Matrix4x4& m2);
 /// <param name="m1"></param>
 /// <param name="m2"></param>
 /// <returns></returns>
-Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
+Math::Matrix4x4 Multiply(const Math::Matrix4x4& m1, const Math::Matrix4x4& m2);
 
 /// <summary>
 /// 逆行列
 /// </summary>
 /// <param name="m"></param>
 /// <returns></returns>
-Matrix4x4 Inverse(Matrix4x4 matrix);
+Math::Matrix4x4 Inverse(Math::Matrix4x4 matrix);
 
-void swapRows(Matrix4x4& matrix, int row1, int row2);
-void scaleRow(Matrix4x4& matrix, int row, float scalar);
-void addScaledRow(Matrix4x4& matrix, int targetRow, int sourceRow, float scalar);
+void swapRows(Math::Matrix4x4& matrix, int row1, int row2);
+void scaleRow(Math::Matrix4x4& matrix, int row, float scalar);
+void addScaledRow(Math::Matrix4x4& matrix, int targetRow, int sourceRow, float scalar);
 
 /// <summary>
 /// 座標変換
@@ -48,6 +46,6 @@ void addScaledRow(Matrix4x4& matrix, int targetRow, int sourceRow, float scalar)
 /// <param name="vector"></param>
 /// <param name="matrix"></param>
 /// <returns></returns>
-Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix);
+Math::Vector3 Transform(const Math::Vector3& vector, const Math::Matrix4x4& matrix);
 
-Vector3 GetEulerAnglesFromRotationMat(const Matrix4x4& R);
+Math::Vector3 GetEulerAnglesFromRotationMat(const Math::Matrix4x4& R);
