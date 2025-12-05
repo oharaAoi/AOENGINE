@@ -185,7 +185,7 @@ void DirectXCommon::SetError() {
 // ↓ DixrectXの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager) {
+void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_device);
 	assert(_descriptorHeaps);
 	assert(_dxCommands);

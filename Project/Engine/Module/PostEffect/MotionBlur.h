@@ -16,7 +16,7 @@ public:
 	// 初期化
 	void Init() override;
 	// コマンドを積む
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
+	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
 	// チェックボックスの表示
 	void CheckBox() override;
 	// 編集処理
@@ -24,11 +24,11 @@ public:
 
 public:
 
-	void SetMotionResource(DxResource* _resource) { motionResource_ = _resource; }
+	void SetMotionResource(AOENGINE::DxResource* _resource) { motionResource_ = _resource; }
 
 private:
 
-	DxResource* motionResource_;
+	AOENGINE::DxResource* motionResource_;
 
 };
 

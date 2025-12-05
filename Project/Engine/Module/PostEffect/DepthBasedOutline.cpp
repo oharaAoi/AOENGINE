@@ -35,7 +35,7 @@ void DepthBasedOutline::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	setting_->projectionInverse = AOENGINE::Render::GetProjection3D().Inverse();
 	
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);

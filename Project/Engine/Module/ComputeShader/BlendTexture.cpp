@@ -10,7 +10,7 @@ BlendTexture::~BlendTexture() {
 	resultResource_->Destroy();
 }
 
-void BlendTexture::Init(DxResourceManager* _dxManager) {
+void BlendTexture::Init(AOENGINE::DxResourceManager* _dxManager) {
 	const uint32_t width = WinApp::sWindowWidth;
 	const uint32_t height = WinApp::sWindowHeight;
 

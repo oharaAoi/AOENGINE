@@ -30,7 +30,7 @@ void PostProcess::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager) {
+void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
@@ -114,7 +114,7 @@ void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descripto
 // ↓ 実行
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
+void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
 	AOENGINE::Render::SetRenderTarget(types, depthHandle_);
 	
@@ -151,7 +151,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _
 // ↓ コピーする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
+void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::Ping);
 	_commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), _dxResource->GetResource());
@@ -159,7 +159,7 @@ void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxR
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Ping);
 }
 
-void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
+void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	const bool isEven = (effectList_.size() % 2 == 0);
 	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
 

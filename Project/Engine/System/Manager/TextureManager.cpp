@@ -9,7 +9,7 @@ TextureManager* TextureManager::GetInstance() {
 	return &instance;
 }
 
-void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger) {
+void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, AOENGINE::DxResourceManager* _resourceManger) {
 	assert(_dxDevice);
 	assert(_dxHeap);
 

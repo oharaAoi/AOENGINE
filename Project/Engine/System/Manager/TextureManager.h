@@ -33,7 +33,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger);
+	void Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, AOENGINE::DxResourceManager* _resourceManger);
 
 	/// <summary>
 	/// 終了処理
@@ -101,7 +101,7 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
 
-	DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_; }
+	AOENGINE::DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_; }
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
@@ -116,7 +116,7 @@ public:
 private:
 
 	struct TextureData {
-		DxResource* resource_;
+		AOENGINE::DxResource* resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Vector2 textureSize_;
 	};
@@ -138,5 +138,5 @@ private:
 	ID3D12Device* device_;
 	AOENGINE::DescriptorHeap* dxHeap_;
 	ID3D12GraphicsCommandList* commandList_;
-	DxResourceManager* resourceManager_;
+	AOENGINE::DxResourceManager* resourceManager_;
 };

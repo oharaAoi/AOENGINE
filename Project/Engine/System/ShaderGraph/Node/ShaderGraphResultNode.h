@@ -49,10 +49,10 @@ public:
 
 public:
 
-	DxResource* GetResultSource() const { return resource_; }
+	AOENGINE::DxResource* GetResultSource() const { return resource_; }
 
 private:
 
-	DxResource* resource_ = nullptr;
+	AOENGINE::DxResource* resource_ = nullptr;
 
 };

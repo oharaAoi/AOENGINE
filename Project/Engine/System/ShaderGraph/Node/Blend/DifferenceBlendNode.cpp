@@ -17,18 +17,18 @@ void DifferenceBlendNode::Init() {
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);
 
 	// inputの設定
-	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
-	addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
+	addIN<AOENGINE::DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
+	addIN<AOENGINE::DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
 
 	// outputの設定
-	auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+	auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return blendResource_; });
 }
 
 void DifferenceBlendNode::customUpdate() {
 	// 入力からの受け取り
-	resourceA_ = getInVal<DxResource*>("TextureA");
-	resourceB_ = getInVal<DxResource*>("TextureB");
+	resourceA_ = getInVal<AOENGINE::DxResource*>("TextureA");
+	resourceB_ = getInVal<AOENGINE::DxResource*>("TextureB");
 
 	// 入力があるのなら合成結果のresourceを作成する
 	CreateBlendResource();

@@ -14,7 +14,7 @@ void MotionBlur::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void MotionBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void MotionBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	motionResource_->Transition(commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_MotionBlur.json");

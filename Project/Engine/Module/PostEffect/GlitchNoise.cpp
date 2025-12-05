@@ -29,7 +29,7 @@ void GlitchNoise::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GlitchNoise::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void GlitchNoise::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	if (setting_->strength != 0.0f) {
 		setting_->time += GameTimer::DeltaTime();
 		setting_->frameIndex++;

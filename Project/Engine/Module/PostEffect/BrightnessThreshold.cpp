@@ -27,7 +27,7 @@ void BrightnessThreshold::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_BrightnessThreshold.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");

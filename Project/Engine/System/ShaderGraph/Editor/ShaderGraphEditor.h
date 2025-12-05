@@ -68,7 +68,7 @@ private:
 
 public:
 
-	DxResource* GetResource() const { return resultNode_->GetResultSource(); }
+	AOENGINE::DxResource* GetResource() const { return resultNode_->GetResultSource(); }
 
 private:
 

@@ -25,7 +25,7 @@ void GaussianFilter::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GaussianFilter.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");

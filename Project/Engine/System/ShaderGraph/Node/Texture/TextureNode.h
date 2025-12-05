@@ -54,7 +54,7 @@ private:
 
 	std::string textureName_ = "";
 
-	DxResource* resource_ = nullptr;
+	AOENGINE::DxResource* resource_ = nullptr;
 
 };
 

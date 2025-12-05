@@ -10,7 +10,7 @@ TextureNode::~TextureNode() {
 }
 
 void TextureNode::Init() {
-    auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+    auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return resource_; });
 }
 

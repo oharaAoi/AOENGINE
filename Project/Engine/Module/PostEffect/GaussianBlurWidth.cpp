@@ -27,7 +27,7 @@ void GaussianBlurWidth::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	// blur
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GaussianBlurWidth.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();

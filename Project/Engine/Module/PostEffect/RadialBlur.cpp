@@ -30,7 +30,7 @@ void RadialBlur::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	if (run_) {
 		blurStrengthTween_.Update(GameTimer::DeltaTime());
 		setting_->blurStrength = blurStrengthTween_.GetValue();

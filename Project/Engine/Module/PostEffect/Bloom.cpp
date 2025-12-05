@@ -67,7 +67,7 @@ void Bloom::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	// Sceneの状態を保存しておく
 	pingResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	sceneBuffer_->Transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);

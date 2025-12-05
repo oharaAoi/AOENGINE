@@ -25,7 +25,7 @@ public:
 	// 初期化
 	void Init() override;
 	// コマンドを積む
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
+	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
 	// チェックボックスを表示
 	void CheckBox() override;
 	// 編集処理
@@ -45,11 +45,11 @@ private:
 	std::unique_ptr<GaussianBlurWidth> blurWidthBuffer_;
 	std::unique_ptr<GaussianBlurHeight> blurHeightBuffer_;
 	
-	DxResource* settingBuffer_;
+	AOENGINE::DxResource* settingBuffer_;
 	BloomSettings* setting_;
 
 	PingPongBuffer* postProcessResource_;
-	DxResource* sceneBuffer_;
+	AOENGINE::DxResource* sceneBuffer_;
 
 
 	ID3D12Device* device_ = nullptr;

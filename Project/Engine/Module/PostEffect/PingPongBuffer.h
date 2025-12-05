@@ -22,11 +22,11 @@ public:
 public:
 
 	// 初期化
-	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, AOENGINE::DxResourceManager* _dxResourceManager);
 	// pingBufferの作成
-	void CreatePing(DxResourceManager* _dxResourceManager);
+	void CreatePing(AOENGINE::DxResourceManager* _dxResourceManager);
 	// pongBufferの作成
-	void CreatePong(DxResourceManager* _dxResourceManager);
+	void CreatePong(AOENGINE::DxResourceManager* _dxResourceManager);
 	// renderTargetの作成
 	void SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle);
 	// 遷移
@@ -36,13 +36,13 @@ public:
 
 public:		// accessor method
 
-	DxResource* GetPingResource() { return pingResource_; }
-	DxResource* GetPongResource() { return pongResource_; }
+	AOENGINE::DxResource* GetPingResource() { return pingResource_; }
+	AOENGINE::DxResource* GetPongResource() { return pongResource_; }
 
 private:
 
-	DxResource* pingResource_;	// pixelShaderで使用するtexture
-	DxResource* pongResource_;	// renderTarget
+	AOENGINE::DxResource* pingResource_;	// pixelShaderで使用するtexture
+	AOENGINE::DxResource* pongResource_;	// renderTarget
 
 	ID3D12Device* device_ = nullptr;
 	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;

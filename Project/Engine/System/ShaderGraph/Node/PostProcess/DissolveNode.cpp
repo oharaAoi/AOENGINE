@@ -17,15 +17,15 @@ void DissolveNode::Init() {
 	cmdList_ = ctx_->GetCommandList();
 
 	// inputの設定
-	addIN<DxResource*>("BaseTex", nullptr, ImFlow::ConnectionFilter::None());
-	addIN<DxResource*>("NoiseTex", nullptr, ImFlow::ConnectionFilter::None());
+	addIN<AOENGINE::DxResource*>("BaseTex", nullptr, ImFlow::ConnectionFilter::None());
+	addIN<AOENGINE::DxResource*>("NoiseTex", nullptr, ImFlow::ConnectionFilter::None());
 
 	// paremterのバッファを確保
 	buffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(DissolveParams));
 	buffer_->Map(0, nullptr, reinterpret_cast<void**>(&param_));
 
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
-	auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+	auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
 }
 
@@ -34,8 +34,8 @@ void DissolveNode::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DissolveNode::customUpdate() {
-	inputBaseResource_ = getInVal<DxResource*>("BaseTex");
-	inputNoiseResource_ = getInVal<DxResource*>("NoiseTex");
+	inputBaseResource_ = getInVal<AOENGINE::DxResource*>("BaseTex");
+	inputNoiseResource_ = getInVal<AOENGINE::DxResource*>("NoiseTex");
 
 	// resourceの作成
 	CreateView();

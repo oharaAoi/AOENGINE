@@ -27,7 +27,7 @@ void GaussianBlurHeight::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GaussianBlurHeight::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void GaussianBlurHeight::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	// blur
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GaussianBlurHight.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();

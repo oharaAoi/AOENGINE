@@ -26,7 +26,7 @@ void GraphicsContext::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _back
 	renderTarget_ = std::make_unique<RenderTarget>();
 	graphicsPipelines_ = std::make_unique<GraphicsPipelines>();
 	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
-	dxResourceManager_ = std::make_unique<DxResourceManager>();
+	dxResourceManager_ = std::make_unique<AOENGINE::DxResourceManager>();
 
 	// ----------------------
 	// ↓ 初期化処理
@@ -63,6 +63,6 @@ void GraphicsContext::Finalize() {
 	dxCommon_->Finalize();
 }
 
-DxResource* GraphicsContext::CreateDxResource(ResourceType _type) {
+AOENGINE::DxResource* GraphicsContext::CreateDxResource(ResourceType _type) {
 	return dxResourceManager_->CreateResource(_type);
 }

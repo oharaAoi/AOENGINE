@@ -41,7 +41,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager);
+	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// 終了関数
@@ -127,7 +127,7 @@ private:
 	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;
-	DxResourceManager* dxResourceManager_ = nullptr;
+	AOENGINE::DxResourceManager* dxResourceManager_ = nullptr;
 
 	RenderTarget* renderTarget_ = nullptr;
 
@@ -156,7 +156,7 @@ private:
 	D3D12_RECT scissorRect_;
 
 	// dsv
-	DxResource* depthStencilResource_ = nullptr;
+	AOENGINE::DxResource* depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 };
 

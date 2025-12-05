@@ -50,13 +50,13 @@ public:
 	// 終了
 	void Finalize();
 	// 初期化
-	void Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager);
+	void Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 	// 実行
-	void Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
+	void Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource);
 	// コピー
-	void Copy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
+	void Copy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource);
 	// 後で行うコピー
-	void PostCopy(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource);
+	void PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource);
 
 	/// <summary>
 	/// effectの追加

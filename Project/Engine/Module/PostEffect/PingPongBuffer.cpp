@@ -6,7 +6,7 @@ PingPongBuffer::~PingPongBuffer() {
 	pongResource_->Destroy();
 }
 
-void PingPongBuffer::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager) {
+void PingPongBuffer::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, AOENGINE::DxResourceManager* _dxResourceManager) {
 	device_ = _device;
 	dxHeap_ = _descriptorHeap;
 
@@ -18,7 +18,7 @@ void PingPongBuffer::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _desc
 // ↓ pingバッファを作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PingPongBuffer::CreatePing(DxResourceManager* _dxResourceManager) {
+void PingPongBuffer::CreatePing(AOENGINE::DxResourceManager* _dxResourceManager) {
 	// 最終的に描画させるResourceの作成
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
@@ -56,7 +56,7 @@ void PingPongBuffer::CreatePing(DxResourceManager* _dxResourceManager) {
 // ↓ pongバッファを作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
+void PingPongBuffer::CreatePong(AOENGINE::DxResourceManager* _dxResourceManager) {
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅
@@ -94,7 +94,7 @@ void PingPongBuffer::CreatePong(DxResourceManager* _dxResourceManager) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PingPongBuffer::SetRenderTarget(ID3D12GraphicsCommandList* commandList, BufferType type, const D3D12_CPU_DESCRIPTOR_HANDLE& dsvHandle) {
-	DxResource* resource = nullptr;
+	AOENGINE::DxResource* resource = nullptr;
 	switch (type) {
 	case BufferType::Ping:
 		resource = pingResource_;

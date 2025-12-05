@@ -25,7 +25,7 @@ public:
 	/// </summary>
 	/// <param name="device"></param>
 	/// <param name="dxHeap"></param>
-	void Init(DxResourceManager* _dxResourceManager);
+	void Init(AOENGINE::DxResourceManager* _dxResourceManager);
 
 	/// <summary>
 	/// 描画
@@ -50,7 +50,7 @@ public:
 
 	const D3D12_GPU_DESCRIPTOR_HANDLE& GetUAV() { return renderResource_->GetUAV().handleGPU; }
 
-	DxResource* GetResource() { return renderResource_; }
+	AOENGINE::DxResource* GetResource() { return renderResource_; }
 
 	const ImVec2 GetAvailSize() const { return availSize_; }
 	const ImVec2 GetImagePos() const { return imagePos_; }
@@ -58,7 +58,7 @@ public:
 private:
 
 	
-	DxResource* renderResource_;
+	AOENGINE::DxResource* renderResource_;
 
 	ImVec2 availSize_;
 	ImVec2 imagePos_;

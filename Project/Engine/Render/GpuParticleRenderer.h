@@ -74,7 +74,7 @@ private:
 	/// </summary>
 	/// <param name="_dxHeap"></param>
 	/// <param name="_dxDevice"></param>
-	void CreateResource(DxResourceManager* _resourceManager);
+	void CreateResource(AOENGINE::DxResourceManager* _resourceManager);
 
 public:
 
@@ -92,9 +92,9 @@ private:
 
 	uint32_t kInstanceNum_;
 
-	DxResource* particleResource_;
-	DxResource* freeListIndexResource_;
-	DxResource* freeListResource_;
+	AOENGINE::DxResource* particleResource_;
+	AOENGINE::DxResource* freeListIndexResource_;
+	AOENGINE::DxResource* freeListResource_;
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;

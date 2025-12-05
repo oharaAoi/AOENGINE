@@ -115,7 +115,7 @@ void GpuParticleRenderer::Draw() const {
 // ↓ Resourceの作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuParticleRenderer::CreateResource(DxResourceManager* _resourceManager) {
+void GpuParticleRenderer::CreateResource(AOENGINE::DxResourceManager* _resourceManager) {
 	// gpuに送るResourceの作成
 	particleResource_ = _resourceManager->CreateResource(ResourceType::Common);
 	freeListIndexResource_ = _resourceManager->CreateResource(ResourceType::Common);

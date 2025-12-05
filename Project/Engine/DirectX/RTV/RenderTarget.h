@@ -46,7 +46,7 @@ public:
 	/// <param name="descriptorHeap">: ヒープ</param>
 	/// <param name="swapChain">: スワップチェイン</param>
 	/// <param name="commandList">: コマンドリスト</param>
-	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// RenderTargetを設定する
@@ -91,12 +91,12 @@ public:
 	const DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
 	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
 
-	DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type]; }
+	AOENGINE::DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type]; }
 
 private:
 
-	DxResource* swapChainResource_[2];
-	DxResource* renderTargetResource_[renderTargetNum_];
+	AOENGINE::DxResource* swapChainResource_[2];
+	AOENGINE::DxResource* renderTargetResource_[renderTargetNum_];
 
 	ID3D12Device* device_ = nullptr;
 	// heap
@@ -104,5 +104,5 @@ private:
 	// swapChain
 	IDXGISwapChain4* swapChain_ = nullptr;
 	// resourceManager
-	DxResourceManager* resourceManager_ = nullptr;
+	AOENGINE::DxResourceManager* resourceManager_ = nullptr;
 };

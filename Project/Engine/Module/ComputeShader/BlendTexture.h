@@ -19,13 +19,13 @@ public:
 public:
 
 	// 初期化
-	void Init(DxResourceManager* _dxManager);
+	void Init(AOENGINE::DxResourceManager* _dxManager);
 	// 実行
 	void Execute(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& refarebceGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
 
 private:
 
-	DxResource* resultResource_ = nullptr;
+	AOENGINE::DxResource* resultResource_ = nullptr;
 
 	UINT groupCountX_;
 	UINT groupCountY_;

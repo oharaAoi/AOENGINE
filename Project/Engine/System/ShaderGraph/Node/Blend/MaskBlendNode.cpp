@@ -14,18 +14,18 @@ void MaskBlendNode::Init() {
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);
 	
     // inputの設定
-	addIN<DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
-	addIN<DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
+	addIN<AOENGINE::DxResource*>("TextureA", nullptr, ImFlow::ConnectionFilter::SameType());
+	addIN<AOENGINE::DxResource*>("TextureB", nullptr, ImFlow::ConnectionFilter::SameType());
 
     // outputの設定
-    auto texOut = addOUT<DxResource*>("Texture", ImFlow::PinStyle::green());
+    auto texOut = addOUT<AOENGINE::DxResource*>("Texture", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return blendResource_; });
 }
 
 void MaskBlendNode::customUpdate() {
     // 入力の受取
-    resourceA_ = getInVal<DxResource*>("TextureA");
-    resourceB_ = getInVal<DxResource*>("TextureB");
+    resourceA_ = getInVal<AOENGINE::DxResource*>("TextureA");
+    resourceB_ = getInVal<AOENGINE::DxResource*>("TextureB");
 
     if (resourceA_) {
         if (!blendResource_->GetResource()) {

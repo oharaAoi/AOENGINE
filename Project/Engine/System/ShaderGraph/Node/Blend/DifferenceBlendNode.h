@@ -56,10 +56,10 @@ private:
 
 private:
 
-	DxResource* resourceA_ = nullptr;
-	DxResource* resourceB_ = nullptr;
+	AOENGINE::DxResource* resourceA_ = nullptr;
+	AOENGINE::DxResource* resourceB_ = nullptr;
 
-	DxResource* blendResource_;
+	AOENGINE::DxResource* blendResource_;
 
 	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;

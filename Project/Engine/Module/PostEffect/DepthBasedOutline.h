@@ -24,7 +24,7 @@ public:
 	// 初期化
 	void Init() override;
 	// コマンドを積む
-	void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) override;
+	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
 	// チェックボックス
 	void CheckBox() override;
 	// 編集書処理
@@ -32,7 +32,7 @@ public:
 
 private:
 
-	DxResource* settingBuffer_;
+	AOENGINE::DxResource* settingBuffer_;
 	Setting* setting_;
 
 	ID3D12Resource* depthResource_;

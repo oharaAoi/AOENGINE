@@ -30,7 +30,7 @@ void RenderTarget::Finalize() {
 }
 
 void RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
-						ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager) {
+						ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_descriptorHeap);
 	assert(_swapChain);
 	assert(_device);

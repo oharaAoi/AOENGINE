@@ -13,13 +13,15 @@ enum class ResourceType {
 	Depth
 };
 
+namespace AOENGINE{
+
 /// <summary>
 /// DirectXのResource
 /// </summary>
 class DxResource {
 public: // コンストラクタ
 
-	DxResource();
+	DxResource() = default;
 	~DxResource();
 
 public:
@@ -46,7 +48,7 @@ public:
 							const D3D12_HEAP_FLAGS& _heapFlags, const D3D12_RESOURCE_STATES& _resourceState);
 	void CreateDepthResource(uint32_t _width, uint32_t _height);
 
-	void CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source);
+	void CreateCopyResource(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _source);
 
 	/// <summary>
 	/// Viewの作成
@@ -106,3 +108,4 @@ private:
 	bool isDestroy_ = false;
 };
 
+}

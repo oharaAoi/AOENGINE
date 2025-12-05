@@ -34,7 +34,7 @@ public:
 
 private:
 
-	DxResource* depthStencilResource_ = nullptr;
+	AOENGINE::DxResource* depthStencilResource_ = nullptr;
 	DescriptorHandles depthDsvHandle_;
 	DescriptorHandles depthSrvHandle_;
 

@@ -42,7 +42,7 @@ public:
 	/// </summary>
 	void Finalize();
 
-	DxResource* CreateDxResource(ResourceType _type);
+	AOENGINE::DxResource* CreateDxResource(ResourceType _type);
 
 public:
 
@@ -52,7 +52,7 @@ public:
 
 	ID3D12GraphicsCommandList* GetCommandList() { return dxCommands_->GetCommandList(); }
 
-	DxResourceManager* GetDxResourceManager() { return dxResourceManager_.get(); }
+	AOENGINE::DxResourceManager* GetDxResourceManager() { return dxResourceManager_.get(); }
 
 	DirectXCompiler* GetDxCompiler() { return dxCompiler_.get(); }
 
@@ -73,7 +73,7 @@ private:
 	// descriptorHeap
 	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
 	// dxResourceManager
-	std::unique_ptr<DxResourceManager> dxResourceManager_ = nullptr;
+	std::unique_ptr<AOENGINE::DxResourceManager> dxResourceManager_ = nullptr;
 	// dxCommand
 	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
 	// renderTarget

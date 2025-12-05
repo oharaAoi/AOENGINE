@@ -10,7 +10,7 @@ void ToonMap::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ToonMap::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void ToonMap::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_ToonMap.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");

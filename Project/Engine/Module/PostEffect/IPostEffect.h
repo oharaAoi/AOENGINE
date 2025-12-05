@@ -12,7 +12,7 @@ public:
 
 	virtual void Init() = 0;
 
-	virtual void SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) = 0;
+	virtual void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) = 0;
 
 	virtual void CheckBox() = 0;
 

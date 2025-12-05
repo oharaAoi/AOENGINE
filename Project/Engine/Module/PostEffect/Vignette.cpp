@@ -27,7 +27,7 @@ void Vignette::Init() {
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
+void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Vignette.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");

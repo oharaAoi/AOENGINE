@@ -22,17 +22,17 @@ void SampleTexture2dNode::Init() {
     uvBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&uvParam_));
 
     // inputの設定
-    addIN<std::shared_ptr<DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
+    addIN<std::shared_ptr<AOENGINE::DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
     addIN<NodeUVTransform>("UV", uv_, ImFlow::ConnectionFilter::None());
 
     // outputの設定
-    auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+    auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return resource_; });
 }
 
 void SampleTexture2dNode::customUpdate() {
     // 入力の受取
-    inputResource_ = getInVal<DxResource*>("Texture");
+    inputResource_ = getInVal<AOENGINE::DxResource*>("Texture");
     uv_ = getInVal<NodeUVTransform>("UV");
     uvParam_->scale = uv_.scale;
     uvParam_->rotate = uv_.rotate;

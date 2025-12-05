@@ -59,7 +59,7 @@ private:
 
 private:
 
-	DxResource* resource_ = nullptr;
+	AOENGINE::DxResource* resource_ = nullptr;
 	ComPtr<ID3D12Resource> uvBuffer_;
 	NodeUVTransform* uvParam_ = nullptr;
 
@@ -67,7 +67,7 @@ private:
 	ID3D12GraphicsCommandList* cmdList_;
 
 	// ノード内部の状態
-	DxResource* inputResource_ = nullptr;
+	AOENGINE::DxResource* inputResource_ = nullptr;
 	NodeUVTransform uv_ ;         // UV入力のデフォルト値
 	Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 

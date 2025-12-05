@@ -9,7 +9,7 @@ void ProcessedSceneFrame::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ProcessedSceneFrame::Init(DxResourceManager* _dxResourceManager) {
+void ProcessedSceneFrame::Init(AOENGINE::DxResourceManager* _dxResourceManager) {
 	// 最終的に描画させるResourceの作成
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sWindowWidth;			// 画面の横幅

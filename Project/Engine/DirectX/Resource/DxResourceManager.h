@@ -4,6 +4,8 @@
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// DirectXのリソースを管理する
 /// </summary>
@@ -11,7 +13,7 @@ class DxResourceManager {
 public: // コンストラクタ
 
 	DxResourceManager() = default;
-	~DxResourceManager();
+	~DxResourceManager() = default;;
 
 public:
 
@@ -21,13 +23,14 @@ public:
 
 	void Update();
 
-	DxResource* CreateResource(ResourceType _type);
+	AOENGINE::DxResource* CreateResource(ResourceType _type);
 
 private:
 
 	ID3D12Device* device_;
 	AOENGINE::DescriptorHeap* dxHeap_;
-	std::list<std::unique_ptr<DxResource>> resourceList_;
+	std::list<std::unique_ptr<AOENGINE::DxResource>> resourceList_;
 
 };
 
+}

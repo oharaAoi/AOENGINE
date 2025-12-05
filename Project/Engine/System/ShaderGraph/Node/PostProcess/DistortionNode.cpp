@@ -17,21 +17,21 @@ void DistortionNode::Init() {
 	cmdList_ = ctx_->GetCommandList();
 
 	// inputの設定
-	addIN<DxResource*>("BaseTexture", nullptr, ImFlow::ConnectionFilter::None());
-	addIN<DxResource*>("SampleNoise", nullptr, ImFlow::ConnectionFilter::None());
+	addIN<AOENGINE::DxResource*>("BaseTexture", nullptr, ImFlow::ConnectionFilter::None());
+	addIN<AOENGINE::DxResource*>("SampleNoise", nullptr, ImFlow::ConnectionFilter::None());
 
 	// paremterのバッファを確保
 	buffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(DistortionParam));
 	buffer_->Map(0, nullptr, reinterpret_cast<void**>(&param_));
 
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
-	auto texOut = addOUT<DxResource*>("DxResource", ImFlow::PinStyle::green());
+	auto texOut = addOUT<AOENGINE::DxResource*>("AOENGINE::DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
 }
 
 void DistortionNode::customUpdate() {
-	inputBaseResource_ = getInVal<DxResource*>("BaseTexture");
-	inputNoiseResource_ = getInVal<DxResource*>("SampleNoise");
+	inputBaseResource_ = getInVal<AOENGINE::DxResource*>("BaseTexture");
+	inputNoiseResource_ = getInVal<AOENGINE::DxResource*>("SampleNoise");
 
 	param_->time += GameTimer::DeltaTime();
 

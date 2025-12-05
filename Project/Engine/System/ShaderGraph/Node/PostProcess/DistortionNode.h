@@ -74,11 +74,11 @@ private:
 	ID3D12GraphicsCommandList* cmdList_;
 
 	// input情報
-	DxResource* inputBaseResource_ = nullptr;
-	DxResource* inputNoiseResource_ = nullptr;
+	AOENGINE::DxResource* inputBaseResource_ = nullptr;
+	AOENGINE::DxResource* inputNoiseResource_ = nullptr;
 
 	// output情報
-	DxResource* outputResource_ = nullptr;
+	AOENGINE::DxResource* outputResource_ = nullptr;
 
 	// distortion情報
 	ComPtr<ID3D12Resource> buffer_;

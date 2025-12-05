@@ -3,8 +3,9 @@
 #include "Engine/Utilities/Logger.h"
 #include "Engine/WinApp/WinApp.h"
 
-DxResource::DxResource() {}
-DxResource::~DxResource() {
+using namespace AOENGINE;
+
+AOENGINE::DxResource::~DxResource() {
 	if (cBuffer_ = nullptr) {
 		return;
 	}
@@ -20,11 +21,11 @@ DxResource::~DxResource() {
 	}
 }
 
-void DxResource::Destroy() {
+void AOENGINE::DxResource::Destroy() {
 	isDestroy_ = true;
 }
 
-void DxResource::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap, ResourceType _type) {
+void AOENGINE::DxResource::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap, ResourceType _type) {
 
 	assert(_device);
 	assert(_dxHeap);
@@ -41,11 +42,11 @@ void DxResource::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap, 
 // ↓　BufferResourceの作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateResource(const size_t& _size) {
+void AOENGINE::DxResource::CreateResource(const size_t& _size) {
 	cBuffer_ = CreateBufferResource(pDevice_, _size);
 }
 
-void DxResource::CreateResource(const D3D12_RESOURCE_DESC* _resourceDesc, const D3D12_HEAP_PROPERTIES* _heapProperties,
+void AOENGINE::DxResource::CreateResource(const D3D12_RESOURCE_DESC* _resourceDesc, const D3D12_HEAP_PROPERTIES* _heapProperties,
 									const D3D12_HEAP_FLAGS& _heapFlags, const D3D12_RESOURCE_STATES& _resourceState) {
 	desc_ = *_resourceDesc;
 	HRESULT hr;
@@ -62,11 +63,11 @@ void DxResource::CreateResource(const D3D12_RESOURCE_DESC* _resourceDesc, const 
 	bufferState_ = _resourceState;
 }
 
-void DxResource::CreateDepthResource(uint32_t _width, uint32_t _height) {
+void AOENGINE::DxResource::CreateDepthResource(uint32_t _width, uint32_t _height) {
 	cBuffer_ = CreateDepthStencilTextureResource(pDevice_, _width, _height);
 }
 
-void DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxResource* _source) {
+void AOENGINE::DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _source) {
 	// ----------------------
 	// ↓ resourceの作成
 	// ----------------------
@@ -108,7 +109,7 @@ void DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _commandList, DxR
 // ↓　SRVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& _desc) {
+void AOENGINE::DxResource::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& _desc) {
 	srvAddress_ = pDxHeap_->AllocateSRV();
 	pDevice_->CreateShaderResourceView(cBuffer_.Get(), &_desc, srvAddress_.value().handleCPU);
 }
@@ -117,7 +118,7 @@ void DxResource::CreateSRV(const D3D12_SHADER_RESOURCE_VIEW_DESC& _desc) {
 // ↓ UAVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& _desc) {
+void AOENGINE::DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& _desc) {
 	uavAddress_ = pDxHeap_->AllocateSRV();
 	pDevice_->CreateUnorderedAccessView(cBuffer_.Get(), nullptr, &_desc, uavAddress_.value().handleCPU);
 }
@@ -126,7 +127,7 @@ void DxResource::CreateUAV(const D3D12_UNORDERED_ACCESS_VIEW_DESC& _desc) {
 // ↓　RTVの生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& _desc) {
+void AOENGINE::DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& _desc) {
 	rtvAddress_ = pDxHeap_->AllocateRTV();
 	pDevice_->CreateRenderTargetView(cBuffer_.Get(), &_desc, rtvAddress_.value().handleCPU);
 }
@@ -135,7 +136,7 @@ void DxResource::CreateRTV(const D3D12_RENDER_TARGET_VIEW_DESC& _desc) {
 // ↓　swapChainのBufferにResourceを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint32_t _index) {
+void AOENGINE::DxResource::SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint32_t _index) {
 	HRESULT hr = S_FALSE;
 	hr = _swapChain->GetBuffer(_index, IID_PPV_ARGS(&cBuffer_));
 	assert(SUCCEEDED(hr));
@@ -145,7 +146,7 @@ void DxResource::SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint32_t _index
 // ↓　遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after) {
+void AOENGINE::DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after) {
 	if (_befor != bufferState_) {
 		Logger::Log("now : " + ResourceStateToString(bufferState_) + "\n");
 		Logger::Log("target : " + ResourceStateToString(_befor) + "\n");
@@ -158,7 +159,7 @@ void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12
 	}
 }
 
-void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after) {
+void AOENGINE::DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after) {
 	if (bufferState_ != _after) {
 		TransitionResourceState(_commandList, cBuffer_.Get(), bufferState_, _after);
 		bufferState_ = _after;
@@ -170,21 +171,21 @@ void DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12
 // ↓　ViewのGetter
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-const DescriptorHandles& DxResource::GetSRV() const {
+const DescriptorHandles& AOENGINE::DxResource::GetSRV() const {
 	if (srvAddress_ == std::nullopt) {
 		assert("not Setting SRV");
 	}
 	return srvAddress_.value();
 }
 
-const DescriptorHandles& DxResource::GetUAV() const {
+const DescriptorHandles& AOENGINE::DxResource::GetUAV() const {
 	if (uavAddress_ == std::nullopt) {
 		assert("not Setting UAV");
 	}
 	return uavAddress_.value();
 }
 
-const DescriptorHandles& DxResource::GetRTV() const {
+const DescriptorHandles& AOENGINE::DxResource::GetRTV() const {
 	if (rtvAddress_ == std::nullopt) {
 		assert("not Setting RTV");
 	}
