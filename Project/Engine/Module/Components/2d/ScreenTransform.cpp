@@ -64,8 +64,8 @@ void ScreenTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePo
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
 	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
 
-	Matrix4x4 viewMat = Render::GetViewport2D();
-	Matrix4x4 projectMat = Render::GetProjection2D();
+	Matrix4x4 viewMat = AOENGINE::Render::GetViewport2D();
+	Matrix4x4 projectMat = AOENGINE::Render::GetProjection2D();
 
 	float view[16];
 	float proj[16];

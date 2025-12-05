@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 
+using namespace AOENGINE;
+
 Bloom::~Bloom() {
 	sceneBuffer_->Destroy();
 	settingBuffer_->Destroy();
@@ -12,7 +14,7 @@ Bloom::~Bloom() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Bloom::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	
 	// ブルームに必要なクラスの初期化を行う
 	brightnessBuffer_ = std::make_unique<BrightnessThreshold>();

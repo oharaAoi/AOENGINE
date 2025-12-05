@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 
+using namespace AOENGINE;
+
 Dissolve::~Dissolve() {
 	settingBuffer_->Destroy();
 }
@@ -11,7 +13,7 @@ Dissolve::~Dissolve() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Dissolve::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));

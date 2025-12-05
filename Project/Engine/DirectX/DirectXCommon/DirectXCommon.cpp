@@ -4,6 +4,8 @@
 #pragma comment(lib, "dxcompiler.lib")
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +185,7 @@ void DirectXCommon::SetError() {
 // ↓ DixrectXの設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager) {
+void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager) {
 	assert(_device);
 	assert(_descriptorHeaps);
 	assert(_dxCommands);

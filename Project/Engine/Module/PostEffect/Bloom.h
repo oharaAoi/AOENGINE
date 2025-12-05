@@ -53,7 +53,7 @@ private:
 
 
 	ID3D12Device* device_ = nullptr;
-	DescriptorHeap* dxHeap_ = nullptr;
+	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;
 
 	D3D12_CPU_DESCRIPTOR_HANDLE depthHandle_;
 };

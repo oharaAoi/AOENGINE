@@ -7,13 +7,15 @@
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 
+using namespace AOENGINE;
+
 Skinning::Skinning() {}
 Skinning::~Skinning() {}
 
 void Skinning::Finalize() {
 	paletteResource_.Reset();
 	influenceResource_.Reset();
-	DescriptorHeap::AddFreeSrvList(paletteSrvHandle_.assignIndex_);
+	AOENGINE::DescriptorHeap::AddFreeSrvList(paletteSrvHandle_.assignIndex_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +40,7 @@ void Skinning::Update(Skeleton* skeleton) {
 // ↓　CPUで作られたデータをGPUで扱えるように
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData) {
+void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, AOENGINE::DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData) {
 	uint32_t vertices = (uint32_t)mesh->GetVerticesData().size();
 	uint32_t jointSize = (uint32_t)skeleton->GetJointsSize();
 	vertices_ = (uint32_t)mesh->GetVerticesData().size();

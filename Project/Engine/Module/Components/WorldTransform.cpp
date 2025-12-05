@@ -82,7 +82,7 @@ void WorldTransform::Update(const Matrix4x4& mat) {
 	Matrix4x4 scaleMat = srt_.scale.MakeScaleMat();
 	Matrix4x4 rotateMat = worldRotate.MakeMatrix();
 	if (isBillboard_) {
-		rotateMat = Multiply(rotateMat, Render::GetBillBordMat());
+		rotateMat = Multiply(rotateMat, AOENGINE::Render::GetBillBordMat());
 	}
 	Matrix4x4 translateMat = Vector3(worldTranslate + temporaryTranslate_).MakeTranslateMat();
 
@@ -161,7 +161,7 @@ void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
 	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
 
-	Matrix4x4 viewMat = Render::GetViewport3D();
+	Matrix4x4 viewMat = AOENGINE::Render::GetViewport3D();
 	Matrix4x4 projectMat = Matrix4x4::MakePerspectiveFov(0.45f, float(windowSize.x) / float(windowSize.y), 0.1f, 100.0f);
 
 	float view[16];

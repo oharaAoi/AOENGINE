@@ -1,6 +1,8 @@
 #include "LightGroup.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
+using namespace AOENGINE;
+
 LightGroup::LightGroup() {}
 LightGroup::~LightGroup() {}
 

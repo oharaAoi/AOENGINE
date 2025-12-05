@@ -20,10 +20,10 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 
 		// 中央軸ラインの色を変更
 		if (xIndex == kSubdivision_ / 2) {
-			Render::DrawLine(stPos, endPos, Color::blue, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Color::blue, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
@@ -37,10 +37,10 @@ void DrawGrid(const Matrix4x4& viewMatrix, const Matrix4x4& projectionMatrix) {
 
 		// 中央軸ラインの色を変更
 		if (zIndex == kSubdivision_ / 2) {
-			Render::DrawLine(stPos, endPos, Color::red, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Color::red, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }
@@ -99,8 +99,8 @@ void DrawSphere(const Vector3& center, float radius, const Matrix4x4& viewProjec
 				localC.z + center.z,
 			};
 
-			Render::DrawLine(a, b, color, viewProjectionMatrix);
-			Render::DrawLine(a, c, color, viewProjectionMatrix);
+			AOENGINE::Render::DrawLine(a, b, color, viewProjectionMatrix);
+			AOENGINE::Render::DrawLine(a, c, color, viewProjectionMatrix);
 		}
 	}
 }
@@ -135,12 +135,12 @@ void DrawCone(const Vector3& center, const Quaternion& rotate, float radius, flo
 		Vector3 topP1 = topPoints[i] + rotateHeight;
 		Vector3 topP2 = topPoints[(i + 1) % segment] + rotateHeight;
 
-		Render::DrawLine(p1, p2, Color::green, viewProjectionMatrix);
-		Render::DrawLine(topP1, topP2, Color::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(p1, p2, Color::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(topP1, topP2, Color::green, viewProjectionMatrix);
 
 		if (i % 9 == 0) {
 			// 頂点と底面の点を結ぶ（側面の線）
-			Render::DrawLine(topP1, p1, Color::green, viewProjectionMatrix);
+			AOENGINE::Render::DrawLine(topP1, p1, Color::green, viewProjectionMatrix);
 		}
 	}
 }
@@ -163,10 +163,10 @@ void DrawAABB(const AABB& aabb, const Matrix4x4& vpMatrix, const Color& color) {
 	};
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
 		uint32_t j = oi + 4;
-		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
-		Render::DrawLine(point[oi], point[j], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
 
 
@@ -201,9 +201,9 @@ void DrawOBB(const OBB& obb, const Matrix4x4& vpMatrix, const Color& color) {
 
 
 	for (uint32_t oi = 0; oi < 4; oi++) {
-		Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[oi], point[(oi + 1) % 4], color, vpMatrix);
 		uint32_t j = oi + 4;
-		Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
-		Render::DrawLine(point[oi], point[j], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[j], point[(j + 1) % 4 + 4], color, vpMatrix);
+		AOENGINE::Render::DrawLine(point[oi], point[j], color, vpMatrix);
 	}
 }

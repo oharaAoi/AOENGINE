@@ -1,6 +1,8 @@
 #include "ToonMap.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 void ToonMap::Init() {
 }
 

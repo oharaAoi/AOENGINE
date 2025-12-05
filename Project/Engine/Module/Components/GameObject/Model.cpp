@@ -14,17 +14,19 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Logger.h"
 
-Model::Model() {
+using namespace AOENGINE;
+
+AOENGINE::Model::Model() {
 }
 
-Model::~Model() {
+AOENGINE::Model::~Model() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
+void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
 	Logger::Log("[Load][Model] :" + fileName);
 	//LoadObj(directorPath, fileName, device);
 
@@ -46,7 +48,7 @@ void Model::Init(ID3D12Device* device, const std::string& directorPath, const st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 描画関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Draw(ID3D12GraphicsCommandList* commandList,
+void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
 				 const WorldTransform* worldTransform,
 				 const ViewProjection* viewProjection,
@@ -90,7 +92,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 	}
 }
 
-void Model::Draw(ID3D12GraphicsCommandList* commandList,
+void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
 				 const WorldTransform* worldTransform, const ViewProjection* viewprojection, 
 				 const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
@@ -134,7 +136,7 @@ void Model::Draw(ID3D12GraphicsCommandList* commandList,
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Debug
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void Model::Debug_Gui(const std::string& name) {
+void AOENGINE::Model::Debug_Gui(const std::string& name) {
 	if (ImGui::TreeNode(name.c_str())) {
 		for (uint32_t oi = 0; oi < meshArray_.size(); oi++) {
 			std::string materialNum = std::to_string(oi);
@@ -153,7 +155,7 @@ void Model::Debug_Gui(const std::string& name) {
 // ↓　 assimpでのNode解析
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
+AOENGINE::Model::Node AOENGINE::Model::ReadNode(aiNode* node, const aiScene* scene) {
 	Node result;
 	// ----------------------------------
 	// LocalMatrixを取得する
@@ -181,6 +183,6 @@ Model::Node Model::ReadNode(aiNode* node, const aiScene* scene) {
 	return result;
 }
 
-Mesh* Model::GetMesh(const uint32_t& index) {
+Mesh* AOENGINE::Model::GetMesh(const uint32_t& index) {
 	return meshArray_[index].get();
 }

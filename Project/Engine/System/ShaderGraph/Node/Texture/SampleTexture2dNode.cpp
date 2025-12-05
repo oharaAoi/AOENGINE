@@ -1,6 +1,8 @@
 #include "SampleTexture2dNode.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 SampleTexture2dNode::SampleTexture2dNode() { }
 SampleTexture2dNode::~SampleTexture2dNode() {
     resource_->Destroy();
@@ -11,7 +13,7 @@ SampleTexture2dNode::~SampleTexture2dNode() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SampleTexture2dNode::Init() {
-    ctx_ = GraphicsContext::GetInstance();
+    ctx_ = AOENGINE::GraphicsContext::GetInstance();
     cmdList_ = ctx_->GetCommandList();
 
     resource_ = ctx_->CreateDxResource(ResourceType::Common);

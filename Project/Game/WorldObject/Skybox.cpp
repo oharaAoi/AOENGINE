@@ -1,6 +1,8 @@
 #include "Skybox.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 Skybox::~Skybox() {
 }
 
@@ -16,7 +18,7 @@ void Skybox::Init() {
 	std::string name = cube_.GetGeometryName();
 	if (!ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
+		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
@@ -41,7 +43,7 @@ void Skybox::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Skybox::Draw() const {
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	Pipeline* pso = Engine::SetPipeline(PSOType::Object3d, "Object_Skybox.json");
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
 
@@ -52,9 +54,9 @@ void Skybox::Draw() const {
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	transform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture_, index);
@@ -63,7 +65,7 @@ void Skybox::Draw() const {
 }
 
 void Skybox::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool Skybox::ExistMesh(const std::string& name) {

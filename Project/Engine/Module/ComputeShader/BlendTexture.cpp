@@ -1,6 +1,8 @@
 #include "BlendTexture.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 BlendTexture::BlendTexture() {
 }
 

@@ -4,13 +4,11 @@
 #include <cassert>
 #include <wrl.h>
 // utilities
-#include "Engine/Utilities/Convert.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 // DirectX系
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// DirectX関連のコマンド
@@ -66,7 +64,7 @@ private:
 	static const uint32_t kFrameCount_ = 2;
 
 	ID3D12Device* device_ = nullptr;
-	
+
 	// graphics用のコマンド系 ---------------------------------------------
 	ComPtr<ID3D12CommandQueue> commandQueue_ = nullptr;
 	ComPtr<ID3D12CommandAllocator> commandAllocators_[kFrameCount_];
@@ -79,3 +77,4 @@ private:
 	uint32_t fenceIndex_;
 
 };
+}

@@ -6,7 +6,7 @@ PingPongBuffer::~PingPongBuffer() {
 	pongResource_->Destroy();
 }
 
-void PingPongBuffer::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager) {
+void PingPongBuffer::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager) {
 	device_ = _device;
 	dxHeap_ = _descriptorHeap;
 

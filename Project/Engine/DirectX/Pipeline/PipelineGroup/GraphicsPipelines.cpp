@@ -4,6 +4,7 @@
 #include <filesystem>
 
 namespace fs = std::filesystem;
+using namespace AOENGINE;
 
 GraphicsPipelines::GraphicsPipelines() {}
 GraphicsPipelines::~GraphicsPipelines() {}

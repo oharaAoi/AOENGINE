@@ -14,7 +14,7 @@ Material::~Material() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Material::Init() {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 
 	// ---------------------------------------------------------------
 	// ↓Materialの設定

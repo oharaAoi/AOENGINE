@@ -11,6 +11,8 @@
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/Lib/Color.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GameObjectの描画を行う
 /// </summary>
@@ -41,7 +43,7 @@ public:
 	/// <param name="primitive"></param>
 	/// <param name="renderTarget"></param>
 	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
-	
+
 	/// <summary>
 	/// 更新
 	/// </summary>
@@ -170,29 +172,4 @@ private:
 	RenderTarget* renderTarget_ = nullptr;
 
 };
-
-namespace {
-	ID3D12GraphicsCommandList* commandList_ = nullptr;
-	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
-	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
-	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
-
-	Matrix4x4 vpvpMatrix;
-
-	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
-	PrimitivePipeline* primitivePipelines_ = nullptr;
-
-	std::unique_ptr<ShadowMap> shadowMap_ = nullptr;
-
-	float nearClip_;
-	float farClip_;
-	float nearClip2D_;
-	float farClip2D_;
-
-	RenderTargetType currentRenderTarget_;
-
-	Quaternion cameraRotate_;
-	Vector3 eyePos_;
-
-	std::string skyboxTexture_;
 }

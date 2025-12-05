@@ -1,6 +1,8 @@
 #include "GaussianFilter.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 GaussianFilter::~GaussianFilter() {
 	settingBuffer_->Destroy();
 }
@@ -10,7 +12,7 @@ GaussianFilter::~GaussianFilter() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GaussianFilter::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));

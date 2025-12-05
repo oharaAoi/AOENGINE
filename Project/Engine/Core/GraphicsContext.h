@@ -12,6 +12,8 @@
 #include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// DirectXの内容をまとめたクラス
 /// </summary>
@@ -62,7 +64,7 @@ public:
 
 	RenderTarget* GetRenderTarget() { return renderTarget_.get(); }
 
-private :
+private:
 
 	// dxCommon
 	std::unique_ptr<DirectXCommon> dxCommon_ = nullptr;
@@ -84,3 +86,4 @@ private :
 
 };
 
+}

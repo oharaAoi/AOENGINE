@@ -1,11 +1,11 @@
 #include "PulseArmor.h"
 #include "Engine/Engine.h"
-#include "Engine/Render/SceneRenderer.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/GameTimer.h"
-#include "Game/Information/ColliderCategory.h"
+
+using namespace AOENGINE;
 
 PulseArmor::~PulseArmor() {
 	settingBuffer_->Destroy();
@@ -23,8 +23,8 @@ void PulseArmor::Init() {
 	std::string name = geometry_.GetGeometryName();
 	if (!MeshManager::GetInstance()->ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
-		MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, mesh_->GetVerticesData(), mesh_->GetIndices());
+		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
+		MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, mesh_->GetVerticesData(), mesh_->GetIndices());
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
 	}
@@ -36,7 +36,7 @@ void PulseArmor::Init() {
 	material_->SetAlbedoTexture(armorParam_.baseTexture);
 
 	// dissolvebufferに関する設定
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(DissolveSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
@@ -97,7 +97,7 @@ void PulseArmor::Draw() const {
 
 	Engine::SetPipeline(PSOType::Object3d, "Object_Dissolve.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 
 	// VS
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
@@ -106,9 +106,9 @@ void PulseArmor::Draw() const {
 	UINT index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	// PS
 	index = pso->GetRootSignatureIndex("gSetting");

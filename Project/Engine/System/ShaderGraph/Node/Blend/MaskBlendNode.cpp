@@ -1,12 +1,14 @@
 #include "MaskBlendNode.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 MaskBlendNode::~MaskBlendNode() {
 	blendResource_->Destroy();
 }
 
 void MaskBlendNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);

@@ -5,14 +5,13 @@
 #include "dxgidebug.h"
 #include <cassert>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 enum class ResourceType {
 	Common,
 	RenderTarget,
 	Depth
 };
-
-class DescriptorHeap;
 
 /// <summary>
 /// DirectXのResource
@@ -36,7 +35,7 @@ public:
 	/// <param name="device"></param>
 	/// <param name="dxHeap"></param>
 	/// <param name="type"></param>
-	void Init(ID3D12Device* _device, DescriptorHeap* _dxHeap, ResourceType _type);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap, ResourceType _type);
 
 	/// <summary>
 	/// リソース作成
@@ -91,7 +90,7 @@ public:
 private:
 
 	ID3D12Device* pDevice_ = nullptr;
-	DescriptorHeap* pDxHeap_ = nullptr;
+	AOENGINE::DescriptorHeap* pDxHeap_ = nullptr;
 
 	ComPtr<ID3D12Resource> cBuffer_;
 	D3D12_RESOURCE_STATES bufferState_;

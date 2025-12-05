@@ -11,6 +11,8 @@
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 #include "Engine/Utilities/Shader.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 線描がのパイプライン
 /// </summary>
@@ -98,3 +100,5 @@ private:
 	// device
 	ID3D12Device* device_ = nullptr;
 };
+
+}

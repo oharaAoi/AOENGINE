@@ -3,6 +3,8 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 GaussianBlurWidth::~GaussianBlurWidth() {
 	blurBuffer_->Destroy();
 }
@@ -12,7 +14,7 @@ GaussianBlurWidth::~GaussianBlurWidth() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GaussianBlurWidth::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	// blurの設定
 	blurBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	blurBuffer_->CreateResource(sizeof(BlurSettings));

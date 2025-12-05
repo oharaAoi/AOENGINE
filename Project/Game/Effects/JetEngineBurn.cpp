@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 void JetEngineBurn::Finalize() {
 }
 
@@ -17,13 +19,13 @@ void JetEngineBurn::Init() {
 	std::string name = geometry_.GetGeometryName();
 	if (!ExistMesh(name)) {
 		mesh_ = std::make_shared<Mesh>();
-		mesh_->Init(GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
+		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
 		mesh_ = MeshManager::GetInstance()->GetMesh(name);
 	}
 
-	noiseBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(NoiseUV));
+	noiseBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(NoiseUV));
 	noiseBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&noiseUV_));
 
 	initScale_ = param_.scale;
@@ -70,7 +72,7 @@ void JetEngineBurn::PostUpdate() {
 
 void JetEngineBurn::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_TextureBlendAdd.json");
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
@@ -84,9 +86,9 @@ void JetEngineBurn::Draw() const {
 	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
@@ -145,7 +147,7 @@ void JetEngineBurn::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool JetEngineBurn::ExistMesh(const std::string& name) {

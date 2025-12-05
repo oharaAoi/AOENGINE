@@ -1,6 +1,8 @@
 #include "DifferenceBlendNode.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 DifferenceBlendNode::DifferenceBlendNode() {}
 DifferenceBlendNode::~DifferenceBlendNode() {
 	resourceA_ = nullptr;
@@ -9,7 +11,7 @@ DifferenceBlendNode::~DifferenceBlendNode() {
 }
 
 void DifferenceBlendNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);

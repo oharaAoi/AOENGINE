@@ -24,7 +24,7 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 	EditorWindows::GetInstance()->SetSceneRenderer(pSceneRenderer_);
 
 	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-	Render::SetSkyboxTexture(skybox_->GetTexture());
+	AOENGINE::Render::SetSkyboxTexture(skybox_->GetTexture());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

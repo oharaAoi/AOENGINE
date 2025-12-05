@@ -40,14 +40,14 @@ void GpuParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleManager::Update() {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12GraphicsCommandList*  commandList = ctx->GetCommandList();
 	for (auto& field : fileds_) {
 		field->Update();
 		field->Execute(commandList);
 	}
 
-	renderer_->SetView(Render::GetViewProjectionMat(), Render::GetCameraRotate().MakeMatrix());
+	renderer_->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetCameraRotate().MakeMatrix());
 	renderer_->Update();
 
 	for (auto& emitter : emitterList_) {

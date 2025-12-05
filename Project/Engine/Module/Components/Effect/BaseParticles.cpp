@@ -47,9 +47,9 @@ void BaseParticles::Update() {
 void BaseParticles::DrawShape() {
 	Matrix4x4 mat{};
 	if (!emitter_.isDraw2d) {
-		mat = Render::GetViewProjectionMat();
+		mat = AOENGINE::Render::GetViewProjectionMat();
 	} else {
-		mat = Render::GetProjection2D();
+		mat = AOENGINE::Render::GetProjection2D();
 	}
 
 	// 形状の描画

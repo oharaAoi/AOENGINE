@@ -38,7 +38,7 @@ public:
 	/// <param name="isSkinning">: スキニングを行うか</param>
 	/// <param name="isLoop">: animationのloopを行うか</param>
 	/// <param name="isControlScript">: animationをスクリプトで制御するか</param>
-	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript);
+	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model, bool isSkinning, bool isLoop, bool isControlScript);
 
 	/// <summary>
 	/// Animationを遷移させる

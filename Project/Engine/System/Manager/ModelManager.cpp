@@ -1,7 +1,7 @@
 #include "ModelManager.h"
 #include "Engine/Utilities/Logger.h"
 
-std::unordered_map<std::string, std::unique_ptr<Model>> ModelManager::modelMap_;
+std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> ModelManager::modelMap_;
 std::unordered_map<std::string, std::string> ModelManager::modelPathMap_;
 std::vector<std::string> ModelManager::modelNameList_;
 
@@ -29,7 +29,7 @@ void ModelManager::LoadModel(const std::string& directoryPath, const std::string
 	modelMap_.try_emplace(modelName, Engine::CreateModel(directoryPath, modelName));
 }
 
-Model* ModelManager::GetModel(const std::string& modelName) {
+AOENGINE::Model* ModelManager::GetModel(const std::string& modelName) {
 	if (auto it = modelMap_.find(modelName); it == modelMap_.end()) {
 		Logger::Log(std::string("Not Found : " + modelName + "\n"));
 		assert(false && "Model not found!");

@@ -22,7 +22,7 @@ void ParticleSystemEditor::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps) {
+void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
 	commandList_ = commandList;
 	renderTarget_ = renderTarget;
 	descriptorHeaps_ = descriptorHeaps;
@@ -87,7 +87,7 @@ void ParticleSystemEditor::Update() {
 	gpuParticleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), camera_->GetBillBordMatrix());
 	gpuParticleRenderer_->Update();
 
-	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), Render::GetProjection2D(), camera_->GetBillBordMatrix());
+	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), AOENGINE::Render::GetProjection2D(), camera_->GetBillBordMatrix());
 	for (auto& particle : particlesMap_) {
 		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
 	}
@@ -581,10 +581,10 @@ void ParticleSystemEditor::PreDraw() {
 	}
 
 	// Grid線描画
-	Render::Update();
+	AOENGINE::Render::Update();
 
 	if (EditorWindows::GetInstance()->GetGridDraw()) {
-		DrawGrid(Render::GetViewport3D(), Render::GetProjection3D());
+		DrawGrid(AOENGINE::Render::GetViewport3D(), AOENGINE::Render::GetProjection3D());
 	}
 }
 
@@ -594,7 +594,7 @@ void ParticleSystemEditor::PreDraw() {
 
 void ParticleSystemEditor::PostDraw() {
 	Engine::SetPSOPrimitive();
-	Render::PrimitiveDrawCall();
+	AOENGINE::Render::PrimitiveDrawCall();
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(commandList_, EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);

@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 
+using namespace AOENGINE;
+
 Vignette::~Vignette() {
 	settingBuffer_->Destroy();
 }
@@ -11,7 +13,7 @@ Vignette::~Vignette() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Vignette::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(VignetteSetting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));

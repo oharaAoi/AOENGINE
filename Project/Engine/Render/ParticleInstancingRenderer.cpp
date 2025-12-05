@@ -1,10 +1,12 @@
 #include "ParticleInstancingRenderer.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 	for (auto& particle : particleMap_) {
 		particle.second.particleResource_.Reset();
-		DescriptorHeap::AddFreeSrvList(particle.second.srvHandle_.assignIndex_);
+		AOENGINE::DescriptorHeap::AddFreeSrvList(particle.second.srvHandle_.assignIndex_);
 	}
 	particleMap_.clear();
 	perViewBuffer_.Reset();
@@ -17,7 +19,7 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 	maxInstanceNum_ = instanceNum;
 
-	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 }
 
@@ -42,7 +44,7 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
 			particleMap_[id].particleData[currentUseIndex + oi].draw2d = particleData[oi].draw2d;
 			particleMap_[id].particleData[currentUseIndex + oi].discardValue = particleData[oi].discardValue;
-			particleMap_[id].particleData[currentUseIndex + oi].cameraPos = Render::GetEyePos();
+			particleMap_[id].particleData[currentUseIndex + oi].cameraPos = AOENGINE::Render::GetEyePos();
 			particleMap_[id].particleData[currentUseIndex + oi].velocity = particleData[oi].velocity;
 			particleMap_[id].particleData[currentUseIndex + oi].isStretch = particleData[oi].isStretch;
 			// 使用しているindexを更新する
@@ -111,10 +113,10 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	if (it != particleMap_.end()) {
 		return particleMap_[id].materials;		// 見つかったら早期リターン
 	}
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 
 	ID3D12Device* device = graphicsCtx->GetDevice();
-	DescriptorHeap* dxHeap = graphicsCtx->GetDxHeap();
+	AOENGINE::DescriptorHeap* dxHeap = graphicsCtx->GetDxHeap();
 
 	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
 	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;

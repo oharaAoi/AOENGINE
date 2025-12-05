@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 出力ウィンドウへの文字出力
 	D3DResourceLeakChecker debugChecker;
 
-	std::unique_ptr<AoiFramework> game = std::make_unique<GameCore>(kWindowWidth_, kWindowHeight_, kTitleBar);
+	std::unique_ptr<AOENGINE::AoiFramework> game = std::make_unique<GameCore>(kWindowWidth_, kWindowHeight_, kTitleBar);
 	game->Run();
 
 	return 0;

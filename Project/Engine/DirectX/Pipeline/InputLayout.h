@@ -9,6 +9,8 @@
 // Engine
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 
+namespace AOENGINE {
+
 class InputLayout {
 public:
 
@@ -34,3 +36,5 @@ public:
 	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateSkybox();
 
 };
+
+}

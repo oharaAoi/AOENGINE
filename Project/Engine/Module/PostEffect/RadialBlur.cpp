@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 RadialBlur::~RadialBlur() {
 	blurSettingBuffer_->Destroy();
 }
@@ -11,7 +13,7 @@ RadialBlur::~RadialBlur() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RadialBlur::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	blurSettingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	blurSettingBuffer_->CreateResource(sizeof(BlurSetting));
 	blurSettingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));

@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Render.h"
 
+using namespace AOENGINE;
+
 DepthBasedOutline::~DepthBasedOutline() {
 	settingBuffer_->Destroy();
 }
@@ -11,7 +13,7 @@ DepthBasedOutline::~DepthBasedOutline() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DepthBasedOutline::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
@@ -34,7 +36,7 @@ void DepthBasedOutline::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, DxResource* pingResource) {
-	setting_->projectionInverse = Render::GetProjection3D().Inverse();
+	setting_->projectionInverse = AOENGINE::Render::GetProjection3D().Inverse();
 	
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 

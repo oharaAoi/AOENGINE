@@ -2,7 +2,6 @@
 #include <cassert>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/WinApp/WinApp.h"
-#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 
 DxResource::DxResource() {}
 DxResource::~DxResource() {
@@ -11,13 +10,13 @@ DxResource::~DxResource() {
 	}
 	cBuffer_.Reset();
 	if (srvAddress_ != std::nullopt) {
-		DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
+		AOENGINE::DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
 	}
 	if (uavAddress_ != std::nullopt) {
-		DescriptorHeap::AddFreeSrvList(uavAddress_.value().assignIndex_);
+		AOENGINE::DescriptorHeap::AddFreeSrvList(uavAddress_.value().assignIndex_);
 	}
 	if (rtvAddress_ != std::nullopt) {
-		DescriptorHeap::AddFreeRtvList(rtvAddress_.value().assignIndex_);
+		AOENGINE::DescriptorHeap::AddFreeRtvList(rtvAddress_.value().assignIndex_);
 	}
 }
 
@@ -25,7 +24,7 @@ void DxResource::Destroy() {
 	isDestroy_ = true;
 }
 
-void DxResource::Init(ID3D12Device* _device, DescriptorHeap* _dxHeap, ResourceType _type) {
+void DxResource::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap, ResourceType _type) {
 
 	assert(_device);
 	assert(_dxHeap);

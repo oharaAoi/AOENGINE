@@ -4,6 +4,7 @@
 #include <iostream>
 
 namespace fs = std::filesystem;
+using namespace AOENGINE;
 
 void ComputeShaderPipelines::Finalize() {
 	computeShaderPipeline_.reset();

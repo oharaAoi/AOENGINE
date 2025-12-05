@@ -1,5 +1,7 @@
 #include "Object3dPipelines.h"
 
+using namespace AOENGINE;
+
 Object3dPipelines::~Object3dPipelines() {
 	pipelineMap_.clear();
 }

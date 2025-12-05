@@ -1,5 +1,7 @@
 #include "SpritePipelines.h"
 
+namespace AOENGINE {
+
 SpritePipelines::~SpritePipelines() {
 	pipelineMap_.clear();
 }
@@ -35,4 +37,6 @@ void SpritePipelines::SetPipeline(ID3D12GraphicsCommandList* _commandList, const
 void SpritePipelines::AddPipeline(const std::string& _fileName, json _jsonData) {
 	pipelineMap_[_fileName] = std::make_unique<Pipeline>();
 	pipelineMap_[_fileName]->Init(device_, dxCompiler_, _jsonData);
+}
+
 }

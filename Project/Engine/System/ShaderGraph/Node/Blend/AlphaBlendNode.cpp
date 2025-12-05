@@ -1,6 +1,8 @@
 #include "AlphaBlendNode.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 AlphaBlendNode::AlphaBlendNode() {}
 AlphaBlendNode::~AlphaBlendNode() {
 	resourceA_ = nullptr;
@@ -9,7 +11,7 @@ AlphaBlendNode::~AlphaBlendNode() {
 }
 
 void AlphaBlendNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);

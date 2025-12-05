@@ -1,10 +1,38 @@
 #include "Render.h"
 #include "Engine/System/Manager/TextureManager.h"
 
-Render::Render() {}
-Render::~Render() {}
+using namespace AOENGINE;
 
-void Render::Finalize() {
+namespace {
+	ID3D12GraphicsCommandList* commandList_ = nullptr;
+	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
+	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
+	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
+	
+	Matrix4x4 vpvpMatrix;
+	
+	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
+	PrimitivePipeline* primitivePipelines_ = nullptr;
+	
+	std::unique_ptr<ShadowMap> shadowMap_ = nullptr;
+	
+	float nearClip_;
+	float farClip_;
+	float nearClip2D_;
+	float farClip2D_;
+	
+	RenderTargetType currentRenderTarget_;
+	
+	Quaternion cameraRotate_;
+	Vector3 eyePos_;
+	
+	std::string skyboxTexture_;
+}
+
+AOENGINE::Render::Render() {}
+AOENGINE::Render::~Render() {}
+
+void AOENGINE::Render::Finalize() {
 	viewProjection2D_->Finalize();
 	viewProjection_->Finalize();
 	lightGroup_->Finalize();
@@ -12,12 +40,12 @@ void Render::Finalize() {
 	shadowMap_.reset();
 }
 
-Render* Render::GetInstance() {
-	static Render instance;
+AOENGINE::Render* AOENGINE::Render::GetInstance() {
+	static AOENGINE::Render instance;
 	return &instance;
 }
 
-void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget) {
+void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget) {
 	assert(commandList);
 	commandList_ = commandList;
 	primitivePipelines_ = primitive;
@@ -50,7 +78,7 @@ void Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, 
 // ↓　Renderの更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::Update() {
+void AOENGINE::Render::Update() {
 	lightGroup_->Update();
 	primitiveDrawer_->Update();
 }
@@ -59,7 +87,7 @@ void Render::Update() {
 // ↓　LineのDrawCallを呼び出す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::PrimitiveDrawCall() {
+void AOENGINE::Render::PrimitiveDrawCall() {
 	primitiveDrawer_->DrawCall(commandList_);
 }
 
@@ -67,27 +95,27 @@ void Render::PrimitiveDrawCall() {
 // ↓　RenderTargetを任意の物に設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle) {
+void AOENGINE::Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle) {
 	GetInstance()->renderTarget_->SetRenderTarget(commandList_, renderTypes, depthHandle);
 }
 
-void Render::SetShadowMap() {
+void AOENGINE::Render::SetShadowMap() {
 	shadowMap_->SetCommand();
 }
 
-void Render::ChangeShadowMap() {
+void AOENGINE::Render::ChangeShadowMap() {
 	shadowMap_->ChangeResource(commandList_);
 }
 
-void Render::ResetShadowMap() {
+void AOENGINE::Render::ResetShadowMap() {
 	shadowMap_->ResetResource(commandList_);
 }
 
-LightGroup* Render::GetLightGroup() {
+LightGroup* AOENGINE::Render::GetLightGroup() {
 	return lightGroup_.get();
 }
 
-ShadowMap* Render::GetShadowMap() {
+ShadowMap* AOENGINE::Render::GetShadowMap() {
 	return shadowMap_.get();
 }
 
@@ -95,7 +123,7 @@ ShadowMap* Render::GetShadowMap() {
 // ↓　Spriteの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
+void AOENGINE::Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 	sprite->PostDraw(commandList_, pipeline);
 }
 
@@ -103,7 +131,7 @@ void Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform, 
+void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	UINT index = 0;
@@ -113,7 +141,7 @@ void Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransf
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
-void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
+void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->BindCommand(pipeline, commandList_);
@@ -157,7 +185,7 @@ void Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransfor
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform) {
+void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
@@ -181,7 +209,7 @@ void Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMat
 	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {
+void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {
 	UINT index = 0;
 	commandList_->IASetVertexBuffers(0, 1, &vbv);
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
@@ -197,15 +225,15 @@ void Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTran
 // ↓　線の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
+void AOENGINE::Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color, const Matrix4x4& vpMat) {
 	primitiveDrawer_->Draw(p1, p2, color, vpMat);
 }
 
-void Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color) {
+void AOENGINE::Render::DrawLine(const Vector3& p1, const Vector3& p2, const Color& color) {
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 
-void Render::DrawLightGroup(Pipeline* pipeline) {
+void AOENGINE::Render::DrawLightGroup(Pipeline* pipeline) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 }
 
@@ -213,89 +241,89 @@ void Render::DrawLightGroup(Pipeline* pipeline) {
 // ↓　設定系の関数
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Render::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
+void AOENGINE::Render::SetViewProjection(const Matrix4x4& view, const Matrix4x4& projection) {
 	viewProjection_->SetViewProjection(view, projection);
 }
 
-void Render::SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection) {
+void AOENGINE::Render::SetViewProjection2D(const Matrix4x4& view, const Matrix4x4& projection) {
 	viewProjection2D_->SetViewProjection(view, projection);
 }
 
-Matrix4x4 Render::GetViewport2D() {
+Matrix4x4 AOENGINE::Render::GetViewport2D() {
 	return  viewProjection2D_->GetViewMatrix();
 }
 
-Matrix4x4 Render::GetViewport3D() {
+Matrix4x4 AOENGINE::Render::GetViewport3D() {
 	return viewProjection_->GetViewMatrix();
 }
 
-Matrix4x4 Render::GetProjection2D() {
+Matrix4x4 AOENGINE::Render::GetProjection2D() {
 	return  viewProjection2D_->GetProjectionMatrix();
 }
 
-Matrix4x4 Render::GetProjection3D() {
+Matrix4x4 AOENGINE::Render::GetProjection3D() {
 	return viewProjection_->GetProjectionMatrix();
 }
 
-Matrix4x4 Render::GetViewProjectionMat() {
+Matrix4x4 AOENGINE::Render::GetViewProjectionMat() {
 	return viewProjection_->GetViewMatrix() * viewProjection_->GetProjectionMatrix();
 }
 
-void Render::SetVpvpMatrix(const Matrix4x4& _mat) {
+void AOENGINE::Render::SetVpvpMatrix(const Matrix4x4& _mat) {
 	vpvpMatrix = _mat;
 }
 
-Matrix4x4 Render::GetVpvpMatrix() {
+Matrix4x4 AOENGINE::Render::GetVpvpMatrix() {
 	return vpvpMatrix;
 }
 
-float Render::GetNearClip() {
+float AOENGINE::Render::GetNearClip() {
 	return nearClip_;
 }
 
-float Render::GetNearClip2D() {
+float AOENGINE::Render::GetNearClip2D() {
 	return nearClip2D_;
 }
 
-float Render::GetFarClip() {
+float AOENGINE::Render::GetFarClip() {
 	return farClip_;
 }
 
-float Render::GetFarClip2D() {
+float AOENGINE::Render::GetFarClip2D() {
 	return farClip2D_;
 }
 
-void Render::SetEyePos(const Vector3& eyePos) {
+void AOENGINE::Render::SetEyePos(const Vector3& eyePos) {
 	eyePos_ = eyePos;
 	lightGroup_->SetEyePos(eyePos);
 }
 
-const Vector3& Render::GetEyePos() {
+const Vector3& AOENGINE::Render::GetEyePos() {
 	return eyePos_;
 	// TODO: return ステートメントをここに挿入します
 }
 
-void Render::SetCameraRotate(const Quaternion& rotate) {
+void AOENGINE::Render::SetCameraRotate(const Quaternion& rotate) {
 	cameraRotate_ = rotate;
 }
 
-Quaternion Render::GetCameraRotate() {
+Quaternion AOENGINE::Render::GetCameraRotate() {
 	return cameraRotate_;
 }
 
-Matrix4x4 Render::GetBillBordMat() {
-	Matrix4x4 billMatrix = Render::GetCameraRotate().MakeMatrix();
+Matrix4x4 AOENGINE::Render::GetBillBordMat() {
+	Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
 	return Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix);
 }
 
-const ViewProjection* Render::GetViewProjection() {
+const ViewProjection* AOENGINE::Render::GetViewProjection() {
 	return viewProjection_.get();
 }
 
-void Render::SetSkyboxTexture(const std::string& _name) {
+void AOENGINE::Render::SetSkyboxTexture(const std::string& _name) {
 	skyboxTexture_ = _name;
 }
 
-ID3D12Resource* Render::GetShadowDepth() {
+ID3D12Resource* AOENGINE::Render::GetShadowDepth() {
 	return shadowMap_->GetDepthResource();
 }

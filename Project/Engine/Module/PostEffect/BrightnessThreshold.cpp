@@ -2,6 +2,8 @@
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 
+using namespace AOENGINE;
+
 BrightnessThreshold::~BrightnessThreshold() {
 	bloomBuffer_->Destroy();
 }
@@ -11,7 +13,7 @@ BrightnessThreshold::~BrightnessThreshold() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BrightnessThreshold::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	// 輝度抽出の設定
 	bloomBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	bloomBuffer_->CreateResource(sizeof(BloomSettings));

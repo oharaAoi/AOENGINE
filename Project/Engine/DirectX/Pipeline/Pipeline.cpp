@@ -1,6 +1,8 @@
 #include "Pipeline.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 Pipeline::Pipeline() {}
 Pipeline::~Pipeline() {}
 

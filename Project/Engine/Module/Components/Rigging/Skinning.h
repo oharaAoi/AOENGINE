@@ -56,9 +56,9 @@ public:
 	// 更新
 	void Update(Skeleton* skeleton);
 	// 行列計算用のクラスを生成
-	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
+	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, AOENGINE::DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
 	// CSを走らせる
-	void RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const;
+	void RunCs(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const;
 	// CS後の処理
 	void EndCS(ID3D12GraphicsCommandList* commandList);
 

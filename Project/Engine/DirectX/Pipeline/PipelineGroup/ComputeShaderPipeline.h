@@ -18,6 +18,8 @@ enum class CsPipelineType {
 	EmitGpuParticle,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// ComputeShaderPipelineのクラス
 /// </summary>
@@ -53,3 +55,4 @@ public:
 
 };
 
+}

@@ -1,5 +1,7 @@
 #include "ComputeShaderPipeline.h"
 
+using namespace AOENGINE;
+
 ComputeShaderPipeline::~ComputeShaderPipeline() {
 	pipelineMap_.clear();
 }

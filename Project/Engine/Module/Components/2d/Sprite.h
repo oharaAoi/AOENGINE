@@ -184,13 +184,13 @@ public:
 	/// 描画
 	/// </summary>
 	/// <param name="isBackGround">: バックグラウンド描画を行うか</param>
-	void Draw(const Pipeline* pipeline, bool isBackGround = false);
+	void Draw(const AOENGINE::Pipeline* pipeline, bool isBackGround = false);
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="commandList"></param>
-	void PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pipeline) const;
+	void PostDraw(ID3D12GraphicsCommandList* commandList, const AOENGINE::Pipeline* pipeline) const;
 
 	/// <summary>
 	/// 編集処理

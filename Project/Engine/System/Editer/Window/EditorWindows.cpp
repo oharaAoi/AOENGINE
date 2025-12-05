@@ -20,7 +20,7 @@ void EditorWindows::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _DEBUG
-void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps) {
+void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
 	gameObjectWindow_ = std::make_unique<GameObjectWindow>();
 	gameObjectWindow_->Init();
 

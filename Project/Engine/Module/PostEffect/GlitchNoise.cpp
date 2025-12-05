@@ -4,6 +4,8 @@
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 GlitchNoise::~GlitchNoise() {
 	glitchBuffer_->Destroy();
 }
@@ -13,7 +15,7 @@ GlitchNoise::~GlitchNoise() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GlitchNoise::Init() {
-	GraphicsContext* graphicsCtx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
 	glitchBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));

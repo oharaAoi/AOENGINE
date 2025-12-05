@@ -10,6 +10,8 @@
 #include "Engine/Module/Geometry/Polygon/CylinderGeometry.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
+using namespace AOENGINE;
+
 GeometryObject::~GeometryObject() {
 	material_.reset();
 	transform_->Finalize();
@@ -21,10 +23,10 @@ void GeometryObject::Update() {
 }
 
 void GeometryObject::Draw() const {
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 
-	Render::DrawLightGroup(pso);
+	AOENGINE::Render::DrawLightGroup(pso);
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 
@@ -35,16 +37,16 @@ void GeometryObject::Draw() const {
 	transform_->BindCommandList(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
-	Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
+	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	std::string textureName = material_->GetAlbedoTexture();
 	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 
 	index = pso->GetRootSignatureIndex("gShadowMap");
-	commandList->SetGraphicsRootDescriptorTable(index, Render::GetShadowMap()->GetDeptSrvHandle().handleGPU);
+	commandList->SetGraphicsRootDescriptorTable(index, AOENGINE::Render::GetShadowMap()->GetDeptSrvHandle().handleGPU);
 	
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }

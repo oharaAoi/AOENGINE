@@ -9,14 +9,14 @@ GameCore::~GameCore() {}
 
 void GameCore::Finalize() {
 	sceneManger_->Finalize();
-	AoiFramework::Finalize();
+	AOENGINE::AoiFramework::Finalize();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void GameCore::Init() {
-	AoiFramework::Init();
+	AOENGINE::AoiFramework::Init();
 
 	// シーンの初期化
 	sceneManger_ = std::make_unique<SceneManager>();

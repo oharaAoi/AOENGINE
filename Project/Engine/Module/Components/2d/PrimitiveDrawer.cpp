@@ -75,7 +75,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	srvDesc.Buffer.NumElements = static_cast<UINT>(kMaxLineCount);  // 頂点の数
 	srvDesc.Buffer.StructureByteStride = sizeof(Matrix4x4);  // 頂点1つあたりのサイズ
 	srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	wvpSRV_ = GraphicsContext::GetInstance()->GetDxHeap()->AllocateSRV();
+	wvpSRV_ = AOENGINE::GraphicsContext::GetInstance()->GetDxHeap()->AllocateSRV();
 	// 生成
 	device->CreateShaderResourceView(wvpBuffer_.Get(), &srvDesc, wvpSRV_.handleCPU);
 

@@ -10,7 +10,7 @@ PBRMaterial::~PBRMaterial() { cBuffer_.Reset(); }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Init() {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 
 	cBuffer_ = CreateBufferResource(ctx->GetDevice(), sizeof(PBRMaterialData));
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pbrMaterial_));

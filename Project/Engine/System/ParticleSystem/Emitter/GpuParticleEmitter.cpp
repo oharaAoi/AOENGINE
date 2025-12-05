@@ -5,6 +5,8 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Utilities/DrawUtils.h"
 
+using namespace AOENGINE;
+
 GpuParticleEmitter::~GpuParticleEmitter() {
 	emitterResource_.Reset();
 	perFrameBuffer_.Reset();
@@ -26,7 +28,7 @@ void GpuParticleEmitter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleEmitter::Init(const std::string& name) {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	dxDevice_ = ctx->GetDevice();
 	commandList_ = ctx->GetCommandList();
 	
@@ -117,14 +119,14 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 
 void GpuParticleEmitter::DrawShape() const {
 	if (emitterItem_.shape == (int)GpuEmitterShape::Sphere) {
-		DrawSphere(emitterItem_.pos, emitterItem_.radius, Render::GetViewProjectionMat());
+		DrawSphere(emitterItem_.pos, emitterItem_.radius, AOENGINE::Render::GetViewProjectionMat());
 	} else if(emitterItem_.shape == (int)GpuEmitterShape::Box) {
 		OBB obb{ .center = emitterItem_.pos, .size = emitterItem_.size };
 		obb.MakeOBBAxis(Quaternion::EulerToQuaternion(emitterItem_.rotate));
-		DrawOBB(obb, Render::GetViewProjectionMat());
+		DrawOBB(obb, AOENGINE::Render::GetViewProjectionMat());
 	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
 		Quaternion rotate = Quaternion::EulerToQuaternion(emitterItem_.rotate);
-		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, Render::GetViewProjectionMat());
+		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, AOENGINE::Render::GetViewProjectionMat());
 	}
 }
 

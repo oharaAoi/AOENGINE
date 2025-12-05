@@ -8,7 +8,7 @@ void DxResourceManager::Finalize() {
 	resourceList_.clear();
 }
 
-void DxResourceManager::Init(ID3D12Device* _device, DescriptorHeap* _dxHeap) {
+void DxResourceManager::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap) {
 	device_ = _device;
 	dxHeap_ = _dxHeap;
 }

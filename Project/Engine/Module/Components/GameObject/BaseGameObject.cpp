@@ -7,6 +7,8 @@
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Render/SceneRenderer.h"
 
+using namespace AOENGINE;
+
 BaseGameObject::~BaseGameObject() {
 	Finalize();
 }
@@ -136,9 +138,9 @@ void BaseGameObject::PreDraw() const {
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
 		if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
-			Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), model_->GetMesh(index)->GetVBV());
+			AOENGINE::Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), model_->GetMesh(index)->GetVBV());
 		} else {
-			Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV());
+			AOENGINE::Render::SetShadowMesh(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV());
 		}
 	}
 }
@@ -158,7 +160,7 @@ void BaseGameObject::Draw() const {
 			if (materials.size() > index) {
 				Pipeline* pso = Engine::GetLastUsedPipeline();
 				Mesh* pMesh = model_->GetMesh(index);
-				Render::DrawEnvironmentModel(pso, pMesh, materials.at(pMesh->GetUseMaterial()).get(), transform_.get());
+				AOENGINE::Render::DrawEnvironmentModel(pso, pMesh, materials.at(pMesh->GetUseMaterial()).get(), transform_.get());
 			}
 		}
 		return;
@@ -166,10 +168,10 @@ void BaseGameObject::Draw() const {
 
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
-		Render::DrawModel(pso, model_, transform_.get(), materials);
+		AOENGINE::Render::DrawModel(pso, model_, transform_.get(), materials);
 	} else {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
-			Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
+			AOENGINE::Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
 		}
 	}
 }

@@ -3,6 +3,8 @@
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
+namespace AOENGINE {
+
 class DescriptorHeap;
 
 enum DescriptorType {
@@ -52,3 +54,4 @@ private:
 
 };
 
+}

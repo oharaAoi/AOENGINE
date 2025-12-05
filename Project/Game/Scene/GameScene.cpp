@@ -23,7 +23,7 @@ void GameScene::Init() {
 	auto& layers = CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
-	Render::GetLightGroup()->Load();
+	AOENGINE::Render::GetLightGroup()->Load();
 
 
 	// -------------------------------------------------

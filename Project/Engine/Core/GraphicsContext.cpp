@@ -1,7 +1,9 @@
 #include "GraphicsContext.h"
 
-GraphicsContext* GraphicsContext::GetInstance() {
-	static GraphicsContext instance;
+using namespace AOENGINE;
+
+GraphicsContext* AOENGINE::GraphicsContext::GetInstance() {
+	static AOENGINE::GraphicsContext instance;
 	return &instance;
 }
 

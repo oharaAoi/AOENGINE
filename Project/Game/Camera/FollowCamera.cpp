@@ -169,9 +169,9 @@ void FollowCamera::Update() {
 	BaseCamera::Update();
 
 	// renderの更新
-	Render::SetEyePos(GetWorldPosition());
-	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
-	Render::SetCameraRotate(pivotSRT_.rotate);
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	AOENGINE::Render::SetCameraRotate(pivotSRT_.rotate);
 }
 
 

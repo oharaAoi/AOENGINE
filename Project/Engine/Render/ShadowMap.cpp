@@ -12,9 +12,9 @@ ShadowMap::~ShadowMap() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShadowMap::Init() {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12Device* device = ctx->GetDevice();
-	DescriptorHeap* descriptorHeap = ctx->GetDxHeap();
+	AOENGINE::DescriptorHeap* descriptorHeap = ctx->GetDxHeap();
 
 	depthStencilResource_ = ctx->CreateDxResource(ResourceType::Depth);
 	depthStencilResource_->CreateDepthResource(WinApp::sWindowWidth, WinApp::sWindowHeight);
@@ -43,7 +43,7 @@ void ShadowMap::Init() {
 void ShadowMap::SetCommand() {
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::ShadowMap_RenderTarget);
-	Render::SetRenderTarget(types, depthDsvHandle_);
+	AOENGINE::Render::SetRenderTarget(types, depthDsvHandle_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

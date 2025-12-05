@@ -30,7 +30,7 @@ void Camera2d::Update() {
 	viewMatrix_ = Inverse(translate_.MakeTranslateMat());
 	worldMat_ = Multiply(Multiply(Matrix4x4::MakeUnit(), Matrix4x4::MakeUnit()), translate_.MakeTranslateMat());
 	// Renderに設定
-	Render::SetViewProjection2D(viewMatrix_, projectionMatrix_);
+	AOENGINE::Render::SetViewProjection2D(viewMatrix_, projectionMatrix_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

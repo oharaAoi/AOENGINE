@@ -11,6 +11,8 @@ enum class PSOType{
 	Primitive,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// 描画のパイプラインをまとめたクラス
 /// </summary>
@@ -105,3 +107,4 @@ private:
 
 };
 
+}

@@ -33,7 +33,7 @@ public:
 	// 更新
 	void Update();
 	// コマンドを積む
-	void BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* commandList);
+	void BindCommand(const AOENGINE::Pipeline* pso, ID3D12GraphicsCommandList* commandList);
 	// 編集処理
 	void Debug_Gui() override;
 	// 保存項目を読み込む

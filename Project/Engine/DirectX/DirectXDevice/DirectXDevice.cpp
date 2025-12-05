@@ -3,6 +3,8 @@
 #pragma comment(lib, "dxgi.lib")
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 void DirectXDevice::Finalize() {
 	device_.Reset();
 }

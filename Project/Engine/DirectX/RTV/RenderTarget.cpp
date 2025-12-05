@@ -29,7 +29,7 @@ void RenderTarget::Finalize() {
 	swapChainResource_[1] = nullptr;
 }
 
-void RenderTarget::Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
+void RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain,
 						ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager) {
 	assert(_descriptorHeap);
 	assert(_swapChain);

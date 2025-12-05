@@ -1,5 +1,7 @@
 #include "InputLayout.h"
 
+using namespace AOENGINE;
+
 InputLayout::InputLayout() {}
 
 InputLayout::~InputLayout() {}

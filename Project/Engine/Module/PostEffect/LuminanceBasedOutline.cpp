@@ -1,6 +1,8 @@
 #include "LuminanceBasedOutline.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 void LuminanceBasedOutline::Init() {
 }
 

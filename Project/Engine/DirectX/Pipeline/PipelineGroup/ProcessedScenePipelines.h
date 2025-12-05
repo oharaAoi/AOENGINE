@@ -9,6 +9,8 @@ enum class ProcessedScenePSO {
 	Vignette,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// Scene全体の描画が終わった後に行うような処理のPipelineをまとめたクラス
 /// </summary>
@@ -42,9 +44,6 @@ public:
 	/// <param name="jsonData">: jsonデータ</param>
 	void AddPipeline(const std::string& _fileName, json _jsonData);
 
-private:
-
-	
-
 };
 
+}

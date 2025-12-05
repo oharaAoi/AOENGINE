@@ -17,7 +17,7 @@ public:
 
 	void Finalize();
 
-	void Init(ID3D12Device* _device, DescriptorHeap* _dxHeap);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _dxHeap);
 
 	void Update();
 
@@ -26,7 +26,7 @@ public:
 private:
 
 	ID3D12Device* device_;
-	DescriptorHeap* dxHeap_;
+	AOENGINE::DescriptorHeap* dxHeap_;
 	std::list<std::unique_ptr<DxResource>> resourceList_;
 
 };

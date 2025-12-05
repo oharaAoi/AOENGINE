@@ -16,6 +16,8 @@ enum class Object3dPSO {
 	TextureBlendAdd,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// 3dObjectを描画するためのPipelineをまとめたクラス
 /// </summary>
@@ -33,7 +35,7 @@ public:
 	/// </summary>
 	/// <param name="device"></param>
 	/// <param name="dxCompiler"></param>
-	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) override;
+	void Init(ID3D12Device* _device, AOENGINE::DirectXCompiler* _dxCompiler) override;
 
 	/// <summary>
 	/// パイプラインの設定
@@ -49,9 +51,6 @@ public:
 	/// <param name="jsonData">: jsonデータ</param>
 	void AddPipeline(const std::string& _fileName, json _jsonData);
 
-private:
-
-
-
 };
 
+}

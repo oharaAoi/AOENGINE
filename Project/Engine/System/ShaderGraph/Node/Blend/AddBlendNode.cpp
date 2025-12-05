@@ -1,6 +1,8 @@
 #include "AddBlendNode.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 AddBlendNode::~AddBlendNode() {
 	resourceA_ = nullptr;
 	resourceB_ = nullptr;
@@ -8,7 +10,7 @@ AddBlendNode::~AddBlendNode() {
 }
 
 void AddBlendNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	blendResource_ = ctx_->CreateDxResource(ResourceType::Common);

@@ -7,11 +7,11 @@
 /// <summary>
 /// ゲーム全体
 /// </summary>
-class GameCore : public AoiFramework {
+class GameCore : public AOENGINE::AoiFramework {
 public:
 
 	GameCore(uint32_t _kWindowWidth, uint32_t _kWindowHeight, const char* _windowTitle)
-		: AoiFramework(_kWindowWidth, _kWindowHeight, _windowTitle) {}
+		: AOENGINE::AoiFramework(_kWindowWidth, _kWindowHeight, _windowTitle) {}
 	~GameCore();
 
 public:

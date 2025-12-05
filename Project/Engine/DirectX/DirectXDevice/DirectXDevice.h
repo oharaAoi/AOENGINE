@@ -6,8 +6,7 @@
 #include <dxgidebug.h>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// DirectXDeviceのクラス
@@ -40,3 +39,5 @@ private:
 	ComPtr<ID3D12Device> device_ = nullptr;
 
 };
+
+}

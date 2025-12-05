@@ -7,8 +7,7 @@
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// Compilerクラス
@@ -47,5 +46,7 @@ private:
 	ComPtr<IDxcUtils> dxcUtils_ = nullptr;
 	ComPtr<IDxcCompiler3> dxcCompiler_ = nullptr;
 	ComPtr<IDxcIncludeHandler> includeHandler_ = nullptr;
-	
+
 };
+
+}

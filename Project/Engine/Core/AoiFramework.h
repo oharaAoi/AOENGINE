@@ -2,6 +2,8 @@
 #include <cstdint>
 #include "Engine/Utilities/Logger.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// ゲーム全体
 /// </summary>
@@ -16,7 +18,7 @@ public:
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	virtual void Init(); 
+	virtual void Init();
 
 	/// <summary>
 	/// 終了処理
@@ -67,3 +69,4 @@ private:
 
 };
 
+}

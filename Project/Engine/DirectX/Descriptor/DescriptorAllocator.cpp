@@ -2,6 +2,8 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 DescriptorAllocator::~DescriptorAllocator() {
 }
 

@@ -1,6 +1,8 @@
 #include "Canvas2d.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 Canvas2d::~Canvas2d() {
 }
 

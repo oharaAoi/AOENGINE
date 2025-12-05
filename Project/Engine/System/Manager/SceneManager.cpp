@@ -41,11 +41,11 @@ void SceneManager::Update() {
 		PostProcess* postProcess = Engine::GetPostProcess();
 		EditorWindows::AddObjectWindow(postProcess, "PostProcess");
 
-		LightGroup* lightGroup = Render::GetLightGroup();
+		LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
 		lightGroup->GetDirectionalLight()->Reset();
 		EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
-		ShadowMap* shadowMap = Render::GetShadowMap();
+		ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
 		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
 		auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
@@ -110,11 +110,11 @@ void SceneManager::SetChange(const SceneType& type) {
 	PostProcess* postProcess = Engine::GetPostProcess();
 	EditorWindows::AddObjectWindow(postProcess, "Post Process");
 
-	LightGroup* lightGroup = Render::GetLightGroup();
+	LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
 	lightGroup->GetDirectionalLight()->Reset();
 	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
-	ShadowMap* shadowMap = Render::GetShadowMap();
+	ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
 	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
 	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();

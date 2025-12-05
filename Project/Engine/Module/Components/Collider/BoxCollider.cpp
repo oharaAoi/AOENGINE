@@ -96,9 +96,9 @@ void BoxCollider::Draw() const {
 	}
 
 	if (std::holds_alternative<AABB>(shape_)) {
-		DrawAABB(std::get<AABB>(shape_), Render::GetViewProjectionMat(), color);
+		DrawAABB(std::get<AABB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
 	} else if (std::holds_alternative<OBB>(shape_)) {
-		DrawOBB(std::get<OBB>(shape_), Render::GetViewProjectionMat(), color);
+		DrawOBB(std::get<OBB>(shape_), AOENGINE::Render::GetViewProjectionMat(), color);
 	}
 }
 

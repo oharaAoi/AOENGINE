@@ -9,14 +9,13 @@
 #include "Engine/DirectX/Descriptor/DescriptorSize.h"
 #include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
-
 enum DescriptorHeapType {
 	Type_RTV,
 	Type_SRV,
 	Type_DSV
 };
+
+namespace AOENGINE {
 
 /// <summary>
 /// Heap
@@ -110,10 +109,10 @@ private:
 	ComPtr<ID3D12DescriptorHeap> srvHeap_ = nullptr;
 	ComPtr<ID3D12DescriptorHeap> dsvHeap_ = nullptr;
 
-	std::unique_ptr<DescriptorAllocator> srvAllocator_;
-	std::unique_ptr<DescriptorAllocator> rtvAllocator_;
-	std::unique_ptr<DescriptorAllocator> dsvAllocator_;
-	
+	std::unique_ptr<AOENGINE::DescriptorAllocator> srvAllocator_;
+	std::unique_ptr<AOENGINE::DescriptorAllocator> rtvAllocator_;
+	std::unique_ptr<AOENGINE::DescriptorAllocator> dsvAllocator_;
+
 	int32_t useSrvIndex_;
 	int32_t useDsvIndex_;
 	int32_t useRtvIndex_;
@@ -121,3 +120,5 @@ private:
 	static std::list<int> freeSrvList_;
 	static std::list<int> freeRtvList_;
 };
+
+}

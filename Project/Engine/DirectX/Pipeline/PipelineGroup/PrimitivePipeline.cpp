@@ -1,5 +1,7 @@
 #include "PrimitivePipeline.h"
 
+using namespace AOENGINE;
+
 PrimitivePipeline::PrimitivePipeline() {
 	rootSignature_ = std::make_unique<RootSignature>();
 }

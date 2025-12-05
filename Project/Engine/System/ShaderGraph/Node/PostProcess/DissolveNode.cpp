@@ -2,6 +2,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 DissolveNode::~DissolveNode() {
 	outputResource_->Destroy();
 }
@@ -11,7 +13,7 @@ DissolveNode::~DissolveNode() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DissolveNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	// inputの設定

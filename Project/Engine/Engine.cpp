@@ -6,6 +6,8 @@
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/DrawUtils.h"
 
+using namespace AOENGINE;
+
 Engine::Engine() {}
 
 Engine::~Engine() {}
@@ -14,7 +16,7 @@ Engine::~Engine() {}
 // 無名名前空間で内部リンゲージする
 // ======================================================== //
 namespace {
-	Render* render_ = nullptr;
+	AOENGINE::Render * render_ = nullptr;
 
 	WinApp* winApp_ = nullptr;
 
@@ -24,7 +26,7 @@ namespace {
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 
-	GraphicsContext* graphicsCxt_ = nullptr;
+	AOENGINE::GraphicsContext* graphicsCxt_ = nullptr;
 
 	ID3D12Device* dxDevice_ = nullptr;
 	ID3D12GraphicsCommandList* dxCmdList_ = nullptr;
@@ -75,7 +77,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	winApp_ = WinApp::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
 	input_ = Input::GetInstance();
-	render_ = Render::GetInstance();
+	render_ = AOENGINE::Render::GetInstance();
 	editorWindows_ = EditorWindows::GetInstance();
 
 	winApp_->CreateGameWindow(_backBufferWidth, _backBufferHeight, _windowTitle);
@@ -96,7 +98,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	// -------------------------------------------------
 	shaders_->Init();
 
-	graphicsCxt_ = GraphicsContext::GetInstance();
+	graphicsCxt_ = AOENGINE::GraphicsContext::GetInstance();
 	graphicsCxt_->Init(winApp_, _backBufferWidth, _backBufferHeight);
 
 	dxDevice_ = graphicsCxt_->GetDevice();
@@ -143,7 +145,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
-	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+	AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
 	// -------------------------------------------------
 	// ↓ その他初期化
@@ -199,7 +201,7 @@ void Engine::BeginFrame() {
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
-	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+	AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
 	render_->Update();
 
@@ -247,7 +249,7 @@ void Engine::RenderFrame() {
 	}
 	
 	primitivePipeline_->BindCommand(dxCmdList_);
-	Render::PrimitiveDrawCall();
+	AOENGINE::Render::PrimitiveDrawCall();
 
 	// -------------------------------------------------
 	// ↓ PostEffectの実行
@@ -263,7 +265,7 @@ void Engine::RenderFrame() {
 	
 	std::vector<RenderTargetType> postRenderTypes;
 	postRenderTypes.push_back(RenderTargetType::Object3D_RenderTarget);
-	Render::SetRenderTarget(postRenderTypes, dxCommon_->GetDepthHandle());
+	AOENGINE::Render::SetRenderTarget(postRenderTypes, dxCommon_->GetDepthHandle());
 	processedSceneFrame_->Draw(dxCmdList_);
 	SceneRenderer::GetInstance()->PostDraw();
 	BlendFinalTexture(Object3D_RenderTarget);
@@ -275,7 +277,7 @@ void Engine::RenderFrame() {
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Sprite2d_RenderTarget);
-	Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+	AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
 	canvas2d_->Draw();
@@ -338,8 +340,8 @@ void Engine::BlendFinalTexture(RenderTargetType renderTargetType) {
 
 }
 
-std::unique_ptr<Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {
-	std::unique_ptr<Model> model = std::make_unique<Model>();
+std::unique_ptr<AOENGINE::Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {
+	std::unique_ptr<AOENGINE::Model> model = std::make_unique<AOENGINE::Model>();
 	model->Init(dxDevice_, directoryPath, filePath);
 	return model;
 }
@@ -350,7 +352,7 @@ std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {
 	return result;
 }
 
-std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, Model* model, uint32_t index) {
+std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, AOENGINE::Model* model, uint32_t index) {
 	std::unique_ptr<Skinning> result = std::make_unique<Skinning>();
 	result->CreateSkinCluster(dxDevice_, skeleton, model->GetMesh(index), dxHeap_, model->GetSkinClustersData(index));
 	return result;

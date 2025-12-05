@@ -43,7 +43,7 @@ void Reticle::Update(const Matrix4x4& bossMat, const Matrix4x4& vpvpMat) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Reticle::Draw() const {
-	Pipeline* pso = Engine::GetLastUsedPipeline();
+	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
 	reticle_->Draw(pso);
 }
 

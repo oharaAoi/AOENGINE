@@ -25,7 +25,7 @@ void GpuParticles::Finalize() {
 
 void GpuParticles::Init(uint32_t instanceNum) {
 	// ポインタの取得
-	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCxt = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
 
 	kInstanceNum_ = instanceNum;
@@ -66,14 +66,14 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	freeListResource_->CreateSRV(CreateSrvDesc(kInstanceNum_, sizeof(uint32_t)));
 
 
-	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
 	// ゲーム情報
 	perView_->viewProjection = Matrix4x4::MakeUnit();
 	perView_->billboardMat = Matrix4x4::MakeUnit();
 
-	perFrameBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
+	perFrameBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	// mesh・Material情報o
@@ -103,7 +103,7 @@ void GpuParticles::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
 
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	//Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);
 	commandList->SetComputeRootDescriptorTable(0, particleResource_->GetUAV().handleGPU);
 	commandList->SetComputeRootDescriptorTable(1, freeListIndexResource_->GetUAV().handleGPU);

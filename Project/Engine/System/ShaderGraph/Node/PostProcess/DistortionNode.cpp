@@ -2,6 +2,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 DistortionNode::~DistortionNode() {
 	outputResource_->Destroy();
 }
@@ -11,7 +13,7 @@ DistortionNode::~DistortionNode() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DistortionNode::Init() {
-	ctx_ = GraphicsContext::GetInstance();
+	ctx_ = AOENGINE::GraphicsContext::GetInstance();
 	cmdList_ = ctx_->GetCommandList();
 
 	// inputの設定

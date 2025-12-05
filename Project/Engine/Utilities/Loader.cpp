@@ -303,19 +303,19 @@ void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vect
 // ↓　Nodeを返す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName) {
+AOENGINE::Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName) {
 	Assimp::Importer importer;
 	std::string filePath = directoryPath + fileName;
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	
-	Model::Node result;
+	AOENGINE::Model::Node result;
 	result = ReadNode(scene->mRootNode, scene);
 
 	return result;
 }
 
-Model::Node ReadNode(aiNode* node, const aiScene* scene) {
-	Model::Node result;
+AOENGINE::Model::Node ReadNode(aiNode* node, const aiScene* scene) {
+	AOENGINE::Model::Node result;
 	// ----------------------------------
 	// LocalMatrixを取得する
 	// ----------------------------------

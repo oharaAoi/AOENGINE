@@ -22,7 +22,7 @@ public:
 public:
 
 	// 初期化
-	void Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, DxResourceManager* _dxResourceManager);
 	// pingBufferの作成
 	void CreatePing(DxResourceManager* _dxResourceManager);
 	// pongBufferの作成
@@ -45,7 +45,7 @@ private:
 	DxResource* pongResource_;	// renderTarget
 
 	ID3D12Device* device_ = nullptr;
-	DescriptorHeap* dxHeap_ = nullptr;
+	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;
 
 };
 

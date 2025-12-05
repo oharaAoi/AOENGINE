@@ -20,8 +20,7 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Utilities/Debug.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// 初期化やFrameの開始に必要な変数を持ったクラス
@@ -42,7 +41,7 @@ public:
 	/// <summary>
 	/// 色々な設定をする
 	/// </summary>
-	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager);
+	void Setting(ID3D12Device* _device, DirectXCommands* _dxCommands, AOENGINE::DescriptorHeap* _descriptorHeaps, RenderTarget* _renderTarget, DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// 終了関数
@@ -99,11 +98,11 @@ public:
 	/// </summary>
 	void CreateDSV();
 
-////////////////////////////////////////////////////////////////////////////////////
-// accessor
-////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////
+	// accessor
+	////////////////////////////////////////////////////////////////////////////////////
 
-	int32_t GetSwapChainBfCount() {return swapChainBufferCount_;}
+	int32_t GetSwapChainBfCount() { return swapChainBufferCount_; }
 
 	D3D12_GPU_DESCRIPTOR_HANDLE GetBackBufferGpuHandle();
 
@@ -125,7 +124,7 @@ private:
 	int32_t swapChainBufferCount_;
 
 	WinApp* winApp_ = nullptr;
-	DescriptorHeap* descriptorHeaps_ = nullptr;
+	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;
 	DxResourceManager* dxResourceManager_ = nullptr;
@@ -144,7 +143,7 @@ private:
 	// 生成する変数 =======================================================================================
 	// swapChaim
 	ComPtr<IDXGISwapChain4> swapChain_ = nullptr;
-	
+
 	// Fence & Event
 	ComPtr<ID3D12Fence> fence_ = nullptr;
 	uint64_t fenceValue_;
@@ -161,3 +160,4 @@ private:
 	DescriptorHandles depthHandle_;
 };
 
+}

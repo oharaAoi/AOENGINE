@@ -63,7 +63,7 @@ void BehaviorTree::DisplayState(const Matrix4x4& ownerWorldPos) {
 		| ImGuiWindowFlags_NoCollapse
 		| ImGuiWindowFlags_NoDocking
 		| ImGuiWindowFlags_NoBackground;
-	Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, Render::GetVpvpMatrix());
+	Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
 	ImGui::SetNextWindowPos(ImVec2(screenPos.x, screenPos.y), ImGuiCond_Always);
 	if (ImGui::Begin("TreeRunName", nullptr, flags)) {
 		ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());

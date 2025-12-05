@@ -39,7 +39,7 @@ void Skeleton::Update() {
 void Skeleton::DrawBone(const Matrix4x4& worldMat) const {
 	for (const Joint& joint : joints_) {
 		Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
-		DrawSphere(pos, 0.2f, Render::GetViewProjectionMat(), Color::red);
+		DrawSphere(pos, 0.2f, AOENGINE::Render::GetViewProjectionMat(), Color::red);
 	}
 
 	DrawNodeHierarchy(worldMat);
@@ -53,7 +53,7 @@ void Skeleton::DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const {
 			const Joint& child = joints_[childIndex];
 			Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
 			// 線を引く
-			Render::DrawLine(parentPos, childPos, Color::red, Render::GetViewProjectionMat());
+			AOENGINE::Render::DrawLine(parentPos, childPos, Color::red, AOENGINE::Render::GetViewProjectionMat());
 		}
 	}
 }
@@ -62,7 +62,7 @@ void Skeleton::DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const {
 // ↓　skeletonの作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skeleton::CreateSkeleton(const Model::Node& node) {
+void Skeleton::CreateSkeleton(const AOENGINE::Model::Node& node) {
 	root_ = CreateJoint(node, {}, joints_);
 	node_ = node;
 
@@ -76,7 +76,7 @@ void Skeleton::CreateSkeleton(const Model::Node& node) {
 // ↓　再帰的にbornの情報を取り込む
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-int32_t Skeleton::CreateJoint(const Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
+int32_t Skeleton::CreateJoint(const AOENGINE::Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints) {
 	Joint joint;
 	joint.name = node.name;
 	joint.localMat = node.localMatrix;
@@ -85,7 +85,7 @@ int32_t Skeleton::CreateJoint(const Model::Node& node, const std::optional<int32
 	joint.index = int32_t(joints_.size());	// 登録されている数
 	joint.parent = parent;
 	joints.push_back(std::move(joint));	// skeltonのjoint列に追加
-	for (const Model::Node& child : node.children) {
+	for (const AOENGINE::Model::Node& child : node.children) {
 		// 子のjointを作成し、そのIndexを登録
 		int32_t chileIndex = CreateJoint(child, joint.index, joints);
 		joints[joint.index].children.push_back(chileIndex);

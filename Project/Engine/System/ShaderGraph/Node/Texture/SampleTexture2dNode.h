@@ -63,7 +63,7 @@ private:
 	ComPtr<ID3D12Resource> uvBuffer_;
 	NodeUVTransform* uvParam_ = nullptr;
 
-	GraphicsContext* ctx_;
+	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;
 
 	// ノード内部の状態

@@ -51,7 +51,7 @@ void EnemyAttackAlert::Update() {
 
 void EnemyAttackAlert::Draw() const {
 	if (!isDraw_) { return; }
-	Pipeline* pso = Engine::GetLastUsedPipeline();
+	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
 	alert_->Draw(pso);
 }
 

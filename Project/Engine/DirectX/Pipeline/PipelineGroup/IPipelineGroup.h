@@ -2,6 +2,8 @@
 #include <unordered_map>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Piplelineをまとめたクラスの原型となるもの
 /// </summary>
@@ -37,3 +39,4 @@ protected:
 
 };
 
+}

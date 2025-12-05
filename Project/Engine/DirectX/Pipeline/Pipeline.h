@@ -18,6 +18,7 @@
 // Json
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AOENGINE {
 
 /// <summary>
 /// パイプラインクラス
@@ -154,7 +155,7 @@ public:
 	const UINT GetRootSignatureIndex(const std::string& _name) const;
 
 private:
-	
+
 	// inputLayout
 	InputLayout inputLayout_;
 	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
@@ -193,3 +194,5 @@ private:
 
 
 };
+
+}

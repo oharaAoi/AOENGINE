@@ -8,6 +8,8 @@
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/Utilities/Shader.h"
 
+namespace AOENGINE {
+
 class PipelineFactory {
 public:
 
@@ -24,7 +26,7 @@ public:
 
 	ComPtr<ID3D12RootSignature> CreateRootSignature();
 
-private :
+private:
 
 	DirectXDevice* dxDevice_;
 	DirectXCompiler* dxCompiler_;
@@ -41,3 +43,4 @@ private :
 
 };
 
+}

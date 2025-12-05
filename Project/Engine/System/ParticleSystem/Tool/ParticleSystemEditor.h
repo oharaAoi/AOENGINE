@@ -47,7 +47,7 @@ public:
 	/// <param name="commandList"></param>
 	/// <param name="renderTarget"></param>
 	/// <param name="descriptorHeaps"></param>
-	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, DescriptorHeap* descriptorHeaps);
+	void Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps);
 
 	/// <summary>
 	/// 更新処理
@@ -139,7 +139,7 @@ private:
 
 	ID3D12GraphicsCommandList* commandList_;
 	RenderTarget* renderTarget_ = nullptr;
-	DescriptorHeap* descriptorHeaps_ = nullptr;
+	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 

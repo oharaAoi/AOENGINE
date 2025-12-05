@@ -58,7 +58,7 @@ public:
 
 	void SetParent(BaseGameObject* parent);
 
-	Model* GetModel() { return model_; }
+	AOENGINE::Model* GetModel() { return model_; }
 
 	WorldTransform* GetTransform() { return transform_.get(); }
 
@@ -113,7 +113,7 @@ public:
 
 protected:
 
-	Model* model_ = nullptr;
+	AOENGINE::Model* model_ = nullptr;
 	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;

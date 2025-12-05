@@ -2,6 +2,8 @@
 #include <string>
 #include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipeline.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// ComputeShaderPipelineを管理しているクラス
 /// </summary>
@@ -64,3 +66,4 @@ private:
 	Pipeline* lastUsedPipeline_;
 };
 
+}

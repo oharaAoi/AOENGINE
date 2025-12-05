@@ -1,5 +1,7 @@
 #include "ProcessedScenePipelines.h"
 
+using namespace AOENGINE;
+
 ProcessedScenePipelines::~ProcessedScenePipelines() {
 	pipelineMap_.clear();
 }

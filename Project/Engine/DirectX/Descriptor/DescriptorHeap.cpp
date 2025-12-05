@@ -2,14 +2,14 @@
 #include "Engine/DirectX/Descriptor/DescriptorAllocator.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 
-std::list<int> DescriptorHeap::freeSrvList_;
-std::list<int> DescriptorHeap::freeRtvList_;
+std::list<int> AOENGINE::DescriptorHeap::freeSrvList_;
+std::list<int> AOENGINE::DescriptorHeap::freeRtvList_;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::Init(ID3D12Device* _device) {
+void AOENGINE::DescriptorHeap::Init(ID3D12Device* _device) {
 	assert(_device);
 	device_ = _device;
 
@@ -67,7 +67,7 @@ void DescriptorHeap::Init(ID3D12Device* _device) {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::Finalize() {
+void AOENGINE::DescriptorHeap::Finalize() {
 	FreeList();
 	rtvHeap_.Reset();
 	srvHeap_.Reset();
@@ -78,12 +78,12 @@ void DescriptorHeap::Finalize() {
 // ↓ accessor
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* _commandList) {
+void AOENGINE::DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* _commandList) {
 	ID3D12DescriptorHeap* descriptorHeaps[] = { srvHeap_.Get() };
 	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
-DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& _type) {
+DescriptorHandles AOENGINE::DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& _type) {
 	DescriptorHandles handle{};
 
 	switch (_type) {
@@ -110,7 +110,7 @@ DescriptorHandles DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& 
 	return handle;
 }
 
-void DescriptorHeap::FreeList() {
+void AOENGINE::DescriptorHeap::FreeList() {
 	for (int index : freeSrvList_) {
 		FreeSRV(index);
 	}
@@ -121,13 +121,13 @@ void DescriptorHeap::FreeList() {
 	freeRtvList_.clear();
 }
 
-void DescriptorHeap::AddFreeSrvList(int _index) {
+void AOENGINE::DescriptorHeap::AddFreeSrvList(int _index) {
 	if (_index >= 0) {
 		freeSrvList_.push_back(_index);
 	}
 }
 
-void DescriptorHeap::AddFreeRtvList(int _index) {
+void AOENGINE::DescriptorHeap::AddFreeRtvList(int _index) {
 	if (_index >= 0) {
 		freeRtvList_.push_back(_index);
 	}
@@ -137,15 +137,15 @@ void DescriptorHeap::AddFreeRtvList(int _index) {
 // ↓ 生成処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-DescriptorHandles DescriptorHeap::AllocateSRV() {
+DescriptorHandles AOENGINE::DescriptorHeap::AllocateSRV() {
  	return srvAllocator_->Allocate(srvHeap_.Get());
 }
 
-DescriptorHandles DescriptorHeap::AllocateRTV() {
+DescriptorHandles AOENGINE::DescriptorHeap::AllocateRTV() {
 	return rtvAllocator_->Allocate(rtvHeap_.Get());
 }
 
-DescriptorHandles DescriptorHeap::AllocateDSV() {
+DescriptorHandles AOENGINE::DescriptorHeap::AllocateDSV() {
 	return dsvAllocator_->Allocate(dsvHeap_.Get());
 }
 
@@ -153,14 +153,14 @@ DescriptorHandles DescriptorHeap::AllocateDSV() {
 // ↓ 解放処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DescriptorHeap::FreeSRV(uint32_t _index) {
+void AOENGINE::DescriptorHeap::FreeSRV(uint32_t _index) {
 	srvAllocator_->Free(_index);
 }
 
-void DescriptorHeap::FreeRTV(uint32_t _index) {
+void AOENGINE::DescriptorHeap::FreeRTV(uint32_t _index) {
 	rtvAllocator_->Free(_index);
 }
 
-void DescriptorHeap::FreeDSV(uint32_t _index) {
+void AOENGINE::DescriptorHeap::FreeDSV(uint32_t _index) {
 	dsvAllocator_->Free(_index);
 }

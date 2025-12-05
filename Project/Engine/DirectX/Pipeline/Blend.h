@@ -5,6 +5,8 @@
 #include <cassert>
 #include <string>
 
+namespace AOENGINE {
+
 class Blend {
 public:
 
@@ -44,9 +46,6 @@ public:
 
 	void SetScreenBlend(D3D12_BLEND_DESC& blendDesc);
 
-private:
-
-
-
 };
 
+}

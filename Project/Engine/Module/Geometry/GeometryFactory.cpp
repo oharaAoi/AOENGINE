@@ -7,7 +7,7 @@ GeometryFactory& GeometryFactory::GetInstance() {
 }
 
 void GeometryFactory::Init() {
-	pDevice_ = GraphicsContext::GetInstance()->GetDevice();
+	pDevice_ = AOENGINE::GraphicsContext::GetInstance()->GetDevice();
 }
 
 void GeometryFactory::SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {

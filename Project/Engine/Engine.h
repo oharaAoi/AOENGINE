@@ -68,11 +68,11 @@ public:
 	// 生成系
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// モデルのポインタを作成
-	static std::unique_ptr<Model> CreateModel(const std::string& directoryPath, const std::string& filePath);
+	static std::unique_ptr<AOENGINE::Model> CreateModel(const std::string& directoryPath, const std::string& filePath);
 	// ワールドトランスフォームを作成
 	static std::unique_ptr<WorldTransform> CreateWorldTransform();
 	// Skinningの作成
-	static std::unique_ptr<Skinning> CreateSkinning(Skeleton* skeleton, Model* model, uint32_t index);
+	static std::unique_ptr<Skinning> CreateSkinning(Skeleton* skeleton, AOENGINE::Model* model, uint32_t index);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Pipelineの設定
@@ -80,14 +80,14 @@ public:
 
 	static void SetPSOPrimitive();
 
-	static Pipeline* SetPipeline(PSOType type, const std::string& typeName);
+	static AOENGINE::Pipeline* SetPipeline(PSOType type, const std::string& typeName);
 
-	static Pipeline* GetLastUsedPipeline();
-	static Pipeline* GetLastUsedPipelineCS();
+	static AOENGINE::Pipeline* GetLastUsedPipeline();
+	static AOENGINE::Pipeline* GetLastUsedPipelineCS();
 
 	static void SetSkinning(Skinning* skinning);
 
-	static Pipeline* SetPipelineCS(const std::string& jsonFile);
+	static AOENGINE::Pipeline* SetPipelineCS(const std::string& jsonFile);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Getter/Setter
@@ -99,4 +99,3 @@ public:
 
 	static PostProcess* GetPostProcess();
 };
-

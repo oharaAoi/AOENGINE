@@ -61,7 +61,7 @@ private:
 
 	DxResource* blendResource_;
 
-	GraphicsContext* ctx_;
+	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;
 };
 

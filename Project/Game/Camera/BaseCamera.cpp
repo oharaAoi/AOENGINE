@@ -41,7 +41,7 @@ void BaseCamera::Update() {
 
 	projectionMatrix_ = Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
 
-	Render::SetVpvpMatrix(this->GetVpvpMatrix());
+	AOENGINE::Render::SetVpvpMatrix(this->GetVpvpMatrix());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

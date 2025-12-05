@@ -3,6 +3,8 @@
 #include "Engine/Module/Components/Rigging/Skeleton.h"
 #include "Engine/Module/Components/Rigging/Skinning.h"
 
+using namespace AOENGINE;
+
 Animator::Animator() {
 	manager_ = AnimationManager::GetInstance();
 }
@@ -68,7 +70,7 @@ void Animator::UpdateSkinning() {
 // ↓　ファイル読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Animator::LoadAnimation(const std::string& directoryPath, const std::string& fileName, Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
+void Animator::LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
 	isSkinning_ = isSkinning;
 	isControlScript_ = isControlScript;
 

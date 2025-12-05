@@ -30,9 +30,9 @@ void Camera3d::Update() {
 	BaseCamera::Update();
 
 	// renderの更新
-	Render::SetEyePos(GetWorldPosition());
-	Render::SetViewProjection(viewMatrix_, projectionMatrix_);
-	Render::SetCameraRotate(transform_.rotate);
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	AOENGINE::Render::SetCameraRotate(transform_.rotate);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

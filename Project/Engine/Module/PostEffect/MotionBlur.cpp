@@ -1,6 +1,8 @@
 #include "MotionBlur.h"
 #include "Engine.h"
 
+using namespace AOENGINE;
+
 MotionBlur::~MotionBlur() {
 	motionResource_->Destroy();
 }

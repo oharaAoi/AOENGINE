@@ -33,7 +33,7 @@ public:
 	/// 初期化
 	/// </summary>
 	/// <param name="device"></param>
-	void Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger);
+	void Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, DxResourceManager* _resourceManger);
 
 	/// <summary>
 	/// 終了処理
@@ -136,7 +136,7 @@ private:
 
 	// 生成で使う変数
 	ID3D12Device* device_;
-	DescriptorHeap* dxHeap_;
+	AOENGINE::DescriptorHeap* dxHeap_;
 	ID3D12GraphicsCommandList* commandList_;
 	DxResourceManager* resourceManager_;
 };

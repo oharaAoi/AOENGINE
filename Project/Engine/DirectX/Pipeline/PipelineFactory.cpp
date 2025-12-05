@@ -1,5 +1,6 @@
 #include "PipelineFactory.h"
 
+using namespace AOENGINE;
 
 void PipelineFactory::Init(DirectXDevice* _dxDevice, DirectXCompiler* _dxCompiler) {
 	dxDevice_ = _dxDevice;

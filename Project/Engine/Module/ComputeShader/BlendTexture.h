@@ -5,6 +5,8 @@
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// resourceの合成
 /// </summary>
@@ -19,7 +21,7 @@ public:
 	// 初期化
 	void Init(DxResourceManager* _dxManager);
 	// 実行
-	void Execute(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& refarebceGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
+	void Execute(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList, const D3D12_GPU_DESCRIPTOR_HANDLE& refarebceGpuHandle, const D3D12_GPU_DESCRIPTOR_HANDLE& rendrerGpuHandle);
 
 private:
 
@@ -30,3 +32,4 @@ private:
 
 };
 
+}

@@ -46,7 +46,7 @@ public:
 	/// <param name="descriptorHeap">: ヒープ</param>
 	/// <param name="swapChain">: スワップチェイン</param>
 	/// <param name="commandList">: コマンドリスト</param>
-	void Init(ID3D12Device* _device, DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager);
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, DxResourceManager* _resourceManager);
 
 	/// <summary>
 	/// RenderTargetを設定する
@@ -100,7 +100,7 @@ private:
 
 	ID3D12Device* device_ = nullptr;
 	// heap
-	DescriptorHeap* dxHeap_ = nullptr;
+	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;
 	// swapChain
 	IDXGISwapChain4* swapChain_ = nullptr;
 	// resourceManager

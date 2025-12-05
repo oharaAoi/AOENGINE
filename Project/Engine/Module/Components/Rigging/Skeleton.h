@@ -47,9 +47,9 @@ public:
 	// 小骨の描画
 	void DrawNodeHierarchy(const Matrix4x4& parentWorldMatrix) const;
 	// skeltonの生成
-	void CreateSkeleton(const Model::Node& node);
+	void CreateSkeleton(const AOENGINE::Model::Node& node);
 	// jointの生成
-	int32_t CreateJoint(const Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
+	int32_t CreateJoint(const AOENGINE::Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
 
 public:
 
@@ -69,6 +69,6 @@ private:
 	std::map<std::string, int32_t> jointMap_;	// Joint名とIndexの辞書
 	std::vector<Joint> joints_;	// 所属しているジョイント
 
-	Model::Node node_;
+	AOENGINE::Model::Node node_;
 };
 

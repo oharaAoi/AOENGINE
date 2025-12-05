@@ -7,6 +7,8 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+using namespace AOENGINE;
+
 Sprite::Sprite() {}
 Sprite::~Sprite() {
 	vertexData_ = nullptr;
@@ -19,7 +21,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::Init(const std::string& fileName) {
-	GraphicsContext* ctx = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12Device* pDevice = ctx->GetDevice();
 
 	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
@@ -168,13 +170,13 @@ void Sprite::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
-	Matrix4x4 projection = Render::GetViewport2D() * Render::GetProjection2D();
+	Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
 	if (isBackGround) {
-		transform_->SetTranslateZ(Render::GetFarClip());
+		transform_->SetTranslateZ(AOENGINE::Render::GetFarClip());
 	}
 	transform_->Update(projection);
 
-	Render::DrawSprite(this, pipeline);
+	AOENGINE::Render::DrawSprite(this, pipeline);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,8 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 GpuParticleRenderer::~GpuParticleRenderer() {
 	perViewBuffer_.Reset();
 	perFrameBuffer_.Reset();
@@ -17,7 +19,7 @@ GpuParticleRenderer::~GpuParticleRenderer() {
 
 void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	// ポインタの取得
-	GraphicsContext* graphicsCxt = GraphicsContext::GetInstance();
+	AOENGINE::GraphicsContext* graphicsCxt = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12GraphicsCommandList* commandList = graphicsCxt->GetCommandList();
 
 	kInstanceNum_ = _instanceNum;
@@ -59,7 +61,7 @@ void GpuParticleRenderer::Update() {
 	perFrame_->deltaTime = GameTimer::DeltaTime();
 	perFrame_->time = GameTimer::TotalTime();
 
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	Engine::SetPipelineCS("GpuParticleUpdate.json");
 	Pipeline* pso = Engine::GetLastUsedPipelineCS();
 	UINT index = 0;
@@ -91,7 +93,7 @@ void GpuParticleRenderer::Update() {
 void GpuParticleRenderer::Draw() const {
 	Engine::SetPipeline(PSOType::Object3d, "Object_GpuParticle.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
-	ID3D12GraphicsCommandList* commandList = GraphicsContext::GetInstance()->GetCommandList();
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 
 	commandList->IASetVertexBuffers(0, 1, &shape_->GetMesh()->GetVBV());
 	commandList->IASetIndexBuffer(&shape_->GetMesh()->GetIBV());
@@ -145,17 +147,17 @@ void GpuParticleRenderer::CreateResource(DxResourceManager* _resourceManager) {
 	freeListResource_->CreateUAV(CreateUavDesc(kInstanceNum_, sizeof(uint32_t)));
 	freeListResource_->CreateSRV(CreateSrvDesc(kInstanceNum_, sizeof(uint32_t)));
 
-	perViewBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
 	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
 
 	// ゲーム情報
 	perView_->viewProjection = Matrix4x4::MakeUnit();
 	perView_->billboardMat = Matrix4x4::MakeUnit();
 
-	perFrameBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
+	perFrameBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
-	maxParticleBuffer_ = CreateBufferResource(GraphicsContext::GetInstance()->GetDevice(), sizeof(MaxParticles));
+	maxParticleBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(MaxParticles));
 	maxParticleBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&maxBuffer_));
 	maxBuffer_->count = kInstanceNum_;
 

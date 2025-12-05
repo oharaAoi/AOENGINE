@@ -44,9 +44,9 @@ void SphereCollider::Update(const QuaternionSRT& srt) {
 
 void SphereCollider::Draw() const {
 	if (collisionState_ == (int)CollisionFlags::Enter || collisionState_ == (int)CollisionFlags::Stay) {
-		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Color::red);
+		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color::red);
 	} else {
-		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, Render::GetViewProjectionMat(), Color(0, 1, 1, 1));
+		DrawSphere(std::get<Sphere>(shape_).center, std::get<Sphere>(shape_).radius, AOENGINE::Render::GetViewProjectionMat(), Color(0, 1, 1, 1));
 	}
 }
 

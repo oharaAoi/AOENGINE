@@ -70,7 +70,7 @@ private:
 
 private:
 
-	GraphicsContext* ctx_;
+	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;
 
 	// input情報

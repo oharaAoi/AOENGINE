@@ -30,7 +30,7 @@ void PostProcess::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager) {
+void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, RenderTarget* renderTarget, DxResourceManager* _resourceManager) {
 	AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
@@ -116,7 +116,7 @@ void PostProcess::Init(ID3D12Device* device, DescriptorHeap* descriptorHeap, Ren
 
 void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, DxResource* _dxResource) {
 	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
-	Render::SetRenderTarget(types, depthHandle_);
+	AOENGINE::Render::SetRenderTarget(types, depthHandle_);
 	
 	if (effectList_.empty()) {
 		return;

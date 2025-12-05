@@ -38,7 +38,7 @@ public:
 	/// </summary>
 	/// <param name="modelName"></param>
 	/// <returns></returns>
-	static Model* GetModel(const std::string& modelName);
+	static AOENGINE::Model* GetModel(const std::string& modelName);
 	
 	/// <summary>
 	/// modelのパスを取得
@@ -52,7 +52,7 @@ public:
 
 private:
 
-	static std::unordered_map<std::string, std::unique_ptr<Model>> modelMap_;
+	static std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> modelMap_;
 	static std::vector<std::string> modelNameList_;
 
 	static std::unordered_map<std::string, std::string> modelPathMap_;

@@ -43,7 +43,7 @@ void ParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Update() {
-	this->SetView(Render::GetViewProjectionMat(), Render::GetProjection2D(), Matrix4x4::MakeUnit());
+	this->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetProjection2D(), Matrix4x4::MakeUnit());
 
 	// particleの更新
 	ParticlesUpdate();
@@ -146,7 +146,7 @@ void ParticleManager::ParticlesUpdate() {
 			Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 			Matrix4x4 rotateMatrix;
 			if (pr.isBillBord) {
-				Matrix4x4 billMatrix = Render::GetCameraRotate().MakeMatrix();
+				Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
 				Matrix4x4 zRot = pr.rotate.MakeMatrix();
 				rotateMatrix = Multiply(zRot, Multiply(Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
 			} else {
@@ -186,7 +186,7 @@ void ParticleManager::ParticlesUpdate() {
 			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
 			particles.second.forGpuData_[index].discardValue = pr.discardValue;
 			particles.second.forGpuData_[index].velocity = pr.velocity;
-			particles.second.forGpuData_[index].cameraPos = Render::GetEyePos();
+			particles.second.forGpuData_[index].cameraPos = AOENGINE::Render::GetEyePos();
 			particles.second.forGpuData_[index].isStretch = pr.isStretch;
 
 			particles.second.isAddBlend = pr.isAddBlend;
@@ -214,7 +214,7 @@ void ParticleManager::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Draw() const {
-	particleRenderer_->Draw(GraphicsContext::GetInstance()->GetCommandList());
+	particleRenderer_->Draw(AOENGINE::GraphicsContext::GetInstance()->GetCommandList());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

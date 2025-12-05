@@ -3,6 +3,8 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 
+using namespace AOENGINE;
+
 SceneRenderer* SceneRenderer::GetInstance() {
 	static SceneRenderer instance;
 	return &instance;
@@ -78,7 +80,7 @@ void SceneRenderer::PostUpdate() {
 
 void SceneRenderer::Draw() const {
 	// 影の描画
-	Render::SetShadowMap();
+	AOENGINE::Render::SetShadowMap();
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
 		if (obj->GetIsActive()) {
@@ -90,9 +92,9 @@ void SceneRenderer::Draw() const {
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
-	Render::SetRenderTarget(types, GraphicsContext::GetInstance()->GetDxCommon()->GetDepthHandle());
+	AOENGINE::Render::SetRenderTarget(types, AOENGINE::GraphicsContext::GetInstance()->GetDxCommon()->GetDepthHandle());
 
-	Render::ChangeShadowMap();
+	AOENGINE::Render::ChangeShadowMap();
 	for (auto& pair : objectList_) {
 		if (pair->GetPostDraw()) {
 			continue;
@@ -109,7 +111,7 @@ void SceneRenderer::Draw() const {
 	gpuParticleManager_->Draw();
 
 #ifdef _DEBUG
-	Render::GetShadowMap()->Debug_Gui();
+	AOENGINE::Render::GetShadowMap()->Debug_Gui();
 #endif
 }
 

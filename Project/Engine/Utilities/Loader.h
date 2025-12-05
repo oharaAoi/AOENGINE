@@ -55,9 +55,9 @@ void LoadMtl(const std::string& directoryPath, const std::string& fileName, Vect
 /// <param name="directoryPath"></param>
 /// <param name="fileName"></param>
 /// <returns></returns>
-Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName);
+AOENGINE::Model::Node LoadNode(const std::string& directoryPath, const std::string& fileName);
 
-Model::Node ReadNode(aiNode* node, const aiScene* scene);
+AOENGINE::Model::Node ReadNode(aiNode* node, const aiScene* scene);
 
 /// <summary>
 /// Animationを読み込む

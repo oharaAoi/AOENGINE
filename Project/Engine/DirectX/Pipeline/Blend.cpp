@@ -1,5 +1,7 @@
 #include "Blend.h"
 
+using namespace AOENGINE;
+
 Blend::Blend() {}
 Blend::~Blend() {}
 

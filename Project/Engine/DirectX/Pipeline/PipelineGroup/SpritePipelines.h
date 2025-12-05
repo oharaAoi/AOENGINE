@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
 
-
 enum class SpritePSO {
 	None,		// ブレンドなし
 	Normal,		// 通常αブレンド
@@ -10,6 +9,8 @@ enum class SpritePSO {
 	Multily,	// 乗算
 	Screen,		// 反転
 };
+
+namespace AOENGINE {
 
 /// <summary>
 /// 2d描画を行うPipelineをまとめたクラス
@@ -48,3 +49,4 @@ private:
 
 };
 
+}
