@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -8,7 +8,7 @@ class Boss;
 /// Bossの離れるアクション
 /// </summary>
 class BossActionLeave :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:	// 構造体
 
 	struct Parameter : public IJsonConverter {

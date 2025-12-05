@@ -11,12 +11,12 @@
 /// </summary>
 /// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
-class ITaskNode :
+class BaseTaskNode :
 	public BaseBehaviorNode {
 public: // コンストラクタ
 
-	ITaskNode();
-	virtual ~ITaskNode() override = default;
+	BaseTaskNode();
+	virtual ~BaseTaskNode() override = default;
 
 	virtual std::shared_ptr<BaseBehaviorNode> Clone() const override = 0;
 
@@ -90,7 +90,7 @@ protected:
 };
 
 template<typename OwnerType>
-inline ITaskNode<OwnerType>::ITaskNode() {
+inline BaseTaskNode<OwnerType>::BaseTaskNode() {
 	type_ = NodeType::Task;
 	color_ = ImColor(153, 102, 204);
 	baseColor_ = color_;
@@ -100,7 +100,7 @@ inline ITaskNode<OwnerType>::ITaskNode() {
 }
 
 template<typename OwnerType>
-inline json ITaskNode<OwnerType>::ToJson() {
+inline json BaseTaskNode<OwnerType>::ToJson() {
 	json item;
 	item["name"] = node_.name;
 	item["nodeType"] = static_cast<int>(type_);
@@ -117,7 +117,7 @@ inline json ITaskNode<OwnerType>::ToJson() {
 }
 
 template<typename OwnerType>
-inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
+inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	node_.name = _jsonData["name"];
 	type_ = _jsonData["nodeType"];
 	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
@@ -136,7 +136,7 @@ inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
 }
 
 template<typename OwnerType>
-inline void ITaskNode<OwnerType>::Debug_Gui() {
+inline void BaseTaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	ImGui::DragFloat("weight", &weight_, 0.1f);
 	ImGui::SliderFloat("wait_timer", &waitTimer_.timer_, 0.0f, waitTimer_.targetTime_);
@@ -147,7 +147,7 @@ inline void ITaskNode<OwnerType>::Debug_Gui() {
 }
 
 template<typename OwnerType>
-inline BehaviorStatus ITaskNode<OwnerType>::Action() {
+inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 	if (isCoolTime_) {
 		return BehaviorStatus::Failure;
 	}
@@ -179,7 +179,7 @@ inline BehaviorStatus ITaskNode<OwnerType>::Action() {
 }
 
 template<typename OwnerType>
-inline bool ITaskNode<OwnerType>::Wait() {
+inline bool BaseTaskNode<OwnerType>::Wait() {
 	if (!waitTimer_.Run(GameTimer::DeltaTime())) {
 		return true;
 	}
@@ -187,7 +187,7 @@ inline bool ITaskNode<OwnerType>::Wait() {
 }
 
 template<typename OwnerType>
-inline std::string ITaskNode<OwnerType>::RunNodeName() {
+inline std::string BaseTaskNode<OwnerType>::RunNodeName() {
 	if (children_.empty()) {
 		return this->GetName();
 	} else {

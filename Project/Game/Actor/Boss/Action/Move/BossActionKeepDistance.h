@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -8,7 +8,7 @@ class Boss;
 /// Bossの距離を取る行動
 /// </summary>
 class BossActionKeepDistance :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {

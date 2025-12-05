@@ -1,11 +1,11 @@
 #pragma once
 #include <functional>
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
 class BossActionWait :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	BossActionWait() = default;

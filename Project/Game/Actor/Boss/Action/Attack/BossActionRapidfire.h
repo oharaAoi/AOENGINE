@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -9,7 +9,7 @@ class Boss;
 /// 連射攻撃
 /// </summary>
 class BossActionRapidfire :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {

@@ -462,7 +462,7 @@
     <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\ITaskNode.h">
+    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\AI\Node\PlannerNode.h">
@@ -1438,7 +1438,7 @@
     <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\ITaskNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp">

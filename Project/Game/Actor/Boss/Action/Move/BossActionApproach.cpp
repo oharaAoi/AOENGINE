@@ -12,7 +12,7 @@ float BossActionApproach::EvaluateWeight() {
 }
 
 void BossActionApproach::Debug_Gui() {
-	ITaskNode::Debug_Gui();
+	BaseTaskNode::Debug_Gui();
 	initParam_.Debug_Gui();
 }
 

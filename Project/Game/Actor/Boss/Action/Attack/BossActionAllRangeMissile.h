@@ -2,7 +2,7 @@
 #include <memory>
 #include <functional>
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class Boss;
@@ -11,7 +11,7 @@ class Boss;
 /// 全方位にミサイルを飛ばすアクション
 /// </summary>
 class BossActionAllRangeMissile :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {

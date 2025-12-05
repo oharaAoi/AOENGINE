@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Utilities/Timer.h"
 
@@ -11,7 +11,7 @@ class Boss;
 /// 2弾式のミサイル
 /// </summary>
 class BossActionDualStageMissile :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public: // データ構造体
 
 	struct Parameter : public IJsonConverter {

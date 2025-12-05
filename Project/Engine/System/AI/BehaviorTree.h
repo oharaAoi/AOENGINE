@@ -7,7 +7,7 @@
 #include "Engine/System/AI/BehaviorTreeEditor.h"
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/Node/BehaviorRootNode.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/System/AI/State/IWorldState.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"

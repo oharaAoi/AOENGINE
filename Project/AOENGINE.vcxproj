@@ -176,7 +176,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
     <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h" />
     <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\ITaskNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h" />
     <ClInclude Include="Engine\System\AI\Node\PlannerNode.h" />
     <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h" />
     <ClInclude Include="Engine\System\AI\Node\SelectorNode.h" />
@@ -526,7 +526,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
     <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp" />
     <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\ITaskNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp" />

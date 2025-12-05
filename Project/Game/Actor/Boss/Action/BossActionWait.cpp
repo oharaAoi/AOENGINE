@@ -10,7 +10,7 @@ float BossActionWait::EvaluateWeight() {
 }
 
 void BossActionWait::Debug_Gui() {
-	ITaskNode::Debug_Gui();
+	BaseTaskNode::Debug_Gui();
 }
 
 bool BossActionWait::IsFinish() {

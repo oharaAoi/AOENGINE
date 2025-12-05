@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -7,7 +7,7 @@ class Boss;
 /// プレイヤーと高さをあわせる
 /// </summary>
 class BossActionAdjustHeight :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {

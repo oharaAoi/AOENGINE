@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -8,7 +8,7 @@ class Boss;
 /// 敵の背後に回る処理
 /// </summary>
 class BossActionTurnBehind :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public: // データ構造体
 
 

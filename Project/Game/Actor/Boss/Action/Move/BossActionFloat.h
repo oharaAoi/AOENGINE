@@ -1,12 +1,12 @@
 #pragma once
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class Boss;
 
 
 class BossActionFloat :
-	public ITaskNode<Boss>{
+	public BaseTaskNode<Boss>{
 
 public:
 

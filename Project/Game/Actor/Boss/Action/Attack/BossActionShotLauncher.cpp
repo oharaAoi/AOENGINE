@@ -17,7 +17,7 @@ float BossActionShotLauncher::EvaluateWeight() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Debug_Gui() {
-	ITaskNode::Debug_Gui();
+	BaseTaskNode::Debug_Gui();
 	param_.Debug_Gui();
 }
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Lib/Math/Curve.h"
-#include "Engine/System/AI/Node/ITaskNode.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
 
 class Boss;
 
@@ -9,7 +9,7 @@ class Boss;
 /// 小刻みに横に動く移動
 /// </summary>
 class BossActionStrafe :
-	public ITaskNode<Boss> {
+	public BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public IJsonConverter {

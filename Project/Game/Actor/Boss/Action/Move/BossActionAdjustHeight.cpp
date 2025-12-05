@@ -23,7 +23,7 @@ float BossActionAdjustHeight::EvaluateWeight() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Debug_Gui() {
-    ITaskNode::Debug_Gui();
+    BaseTaskNode::Debug_Gui();
     param_.Debug_Gui();
 }
 

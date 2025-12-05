@@ -17,7 +17,7 @@ float BossActionRapidfire::EvaluateWeight() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionRapidfire::Debug_Gui() {
-	ITaskNode::Debug_Gui();
+	BaseTaskNode::Debug_Gui();
 	param_.Debug_Gui();
 }
 
