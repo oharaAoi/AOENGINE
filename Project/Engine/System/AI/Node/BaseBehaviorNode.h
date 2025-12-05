@@ -33,14 +33,14 @@ enum class NodeType {
 /// <summary>
 /// 各Nodeで共通となる基礎クラス
 /// </summary>
-class IBehaviorNode :
+class BaseBehaviorNode :
 	public AttributeGui {
 public: // コンストラクタ
 
-	IBehaviorNode();
-	virtual ~IBehaviorNode() = default;
+	BaseBehaviorNode();
+	virtual ~BaseBehaviorNode() = default;
 	// コピーコンストラクタ
-	virtual std::shared_ptr<IBehaviorNode> Clone() const = 0;
+	virtual std::shared_ptr<BaseBehaviorNode> Clone() const = 0;
 
 public:
 
@@ -57,10 +57,10 @@ public:
 	void ResetIndex();
 
 	// 子の追加
-	void AddChild(IBehaviorNode* child);
+	void AddChild(BaseBehaviorNode* child);
 
 	// 子の削除
-	void DeleteChild(IBehaviorNode* child);
+	void DeleteChild(BaseBehaviorNode* child);
 
 	// 子を削除する
 	void ClearChild();
@@ -121,7 +121,7 @@ public:
 	}
 	Vector2 GetPos() { return pos_; }
 
-	const std::vector<IBehaviorNode*>& GetChildren() const { return children_; }
+	const std::vector<BaseBehaviorNode*>& GetChildren() const { return children_; }
 
 	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
 
@@ -143,7 +143,7 @@ protected:
 	NodeType type_;			// nodeのタイプ
 	BehaviorStatus state_;	// nodeの状態
 
-	std::vector<IBehaviorNode*> children_;	// 子ども
+	std::vector<BaseBehaviorNode*> children_;	// 子ども
 	uint32_t currentIndex_;					// 現在参照している子のindex
 
 	bool isLeafNode_ = false;				// リーフノードかどうか

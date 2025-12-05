@@ -28,13 +28,13 @@ public:
 
 	BehaviorTree* Create();
 
-	void SetSelectNode(IBehaviorNode* _node) { selectNode_ = _node; }
+	void SetSelectNode(BaseBehaviorNode* _node) { selectNode_ = _node; }
 
 private:
 
 	std::list<std::unique_ptr<BehaviorTree>> trees_;
 
-	IBehaviorNode* selectNode_;
+	BaseBehaviorNode* selectNode_;
 
 };
 

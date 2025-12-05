@@ -8,7 +8,7 @@ BehaviorStatus BossActionAllRangeMissile::Execute() {
 }
 
 float BossActionAllRangeMissile::EvaluateWeight() {
-	return 0.1f;
+	return weight_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,15 +1,15 @@
-#include "IBehaviorNode.h"
+#include "BaseBehaviorNode.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/GameTimer.h"
 
-uint32_t IBehaviorNode::nextSerialNumber_ = 1;
+uint32_t BaseBehaviorNode::nextSerialNumber_ = 1;
 
-IBehaviorNode::IBehaviorNode() {
+BaseBehaviorNode::BaseBehaviorNode() {
 	Init();
 }
 
-void IBehaviorNode::Init() {
+void BaseBehaviorNode::Init() {
 	// ----------------------
 	// ↓ idの取得
 	// ----------------------
@@ -32,7 +32,7 @@ void IBehaviorNode::Init() {
 	state_ = BehaviorStatus::Inactive;
 }
 
-void IBehaviorNode::Update() {
+void BaseBehaviorNode::Update() {
 	// 選択されているなら削除を可能にする
 	if (isSelect_) {
 		if (Input::GetInstance()->GetKey(DIK_DELETE)) {
@@ -57,7 +57,7 @@ void IBehaviorNode::Update() {
 	}
 }
 
-void IBehaviorNode::DrawNode() {
+void BaseBehaviorNode::DrawNode() {
 	// nodeの描画
 	if (!setNodePos_) {
 		ax::NodeEditor::SetNodePosition(node_.id, ImVec2{ pos_.x, pos_.y }); // 初期位置に配置
@@ -103,7 +103,7 @@ void IBehaviorNode::DrawNode() {
 
 	// 子の順番を左から順にする
 	std::sort(children_.begin(), children_.end(),
-			  [](IBehaviorNode* a, IBehaviorNode* b) {
+			  [](BaseBehaviorNode* a, BaseBehaviorNode* b) {
 				  ImVec2 posA = ax::NodeEditor::GetNodePosition(a->GetId());
 				  ImVec2 posB = ax::NodeEditor::GetNodePosition(b->GetId());
 				  return posA.x < posB.x; // Xが小さい方が左
@@ -111,15 +111,15 @@ void IBehaviorNode::DrawNode() {
 	);
 }
 
-void IBehaviorNode::ResetIndex() {
+void BaseBehaviorNode::ResetIndex() {
 	currentIndex_ = 0;
 }
 
-void IBehaviorNode::AddChild(IBehaviorNode* child) {
+void BaseBehaviorNode::AddChild(BaseBehaviorNode* child) {
 	children_.push_back(child);
 }
 
-void IBehaviorNode::DeleteChild(IBehaviorNode* _child) {
+void BaseBehaviorNode::DeleteChild(BaseBehaviorNode* _child) {
 	for(size_t index = 0; index < children_.size(); ++index){
 		if (children_[index] == _child) {
 			children_.erase(children_.begin() + index);
@@ -127,11 +127,11 @@ void IBehaviorNode::DeleteChild(IBehaviorNode* _child) {
 	}
 }
 
-void IBehaviorNode::ClearChild() {
+void BaseBehaviorNode::ClearChild() {
 	children_.clear();
 }
 
-json IBehaviorNode::ToJson() {
+json BaseBehaviorNode::ToJson() {
 	json item;
 	item["name"] = node_.name;
 	item["nodeType"] = static_cast<int>(type_);
@@ -144,24 +144,24 @@ json IBehaviorNode::ToJson() {
 	return item;
 }
 
-void IBehaviorNode::FromJson(const json& _jsonData) {
+void BaseBehaviorNode::FromJson(const json& _jsonData) {
 	node_.name = _jsonData["name"];
 	type_ = _jsonData["nodeType"];
 	pos_ = Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
 }
 
-bool IBehaviorNode::IsSelectNode() {
+bool BaseBehaviorNode::IsSelectNode() {
 	bool selected = ax::NodeEditor::IsNodeSelected(node_.id);
 	return selected;
 }
 
-uint32_t IBehaviorNode::GetNextId() {
+uint32_t BaseBehaviorNode::GetNextId() {
 	uint32_t result = nextSerialNumber_;
 	nextSerialNumber_++;
 	return result;
 }
 
-void IBehaviorNode::EditNodeName() {
+void BaseBehaviorNode::EditNodeName() {
 	char buffer[256];
 	std::snprintf(buffer, sizeof(buffer), "%s", node_.name.c_str());
 
@@ -171,7 +171,7 @@ void IBehaviorNode::EditNodeName() {
 	ImGui::Separator();
 }
 
-void IBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {
+void BaseBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {
 	// 各テキストを描画
 	std::string idText = "id : ";
 	std::string nameText = " " + node_.name;
@@ -197,7 +197,7 @@ void IBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {
 	);
 }
 
-std::string IBehaviorNode::NodeNameCombination() {
+std::string BaseBehaviorNode::NodeNameCombination() {
 	std::string result = name_ + " - ";
 	for (size_t index = 0; index < children_.size(); ++index) {
 		result += children_[index]->GetName();

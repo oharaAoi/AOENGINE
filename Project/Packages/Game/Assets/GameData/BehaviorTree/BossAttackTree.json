@@ -13,7 +13,8 @@
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.30000001192092896
                         },
                         {
                             "children": [],
@@ -24,7 +25,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.30000001192092896
                         }
                     ],
                     "name": "Sequence",
@@ -41,11 +43,12 @@
                             "coolTime": 1.0,
                             "name": "DualStageMissile",
                             "nodePos": {
-                                "x": -622.0,
+                                "x": -619.0,
                                 "y": 246.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.20000000298023224
                         }
                     ],
                     "name": "Sequence",
@@ -66,7 +69,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 0.0,
+                            "weight": 0.0
                         },
                         {
                             "children": [],
@@ -77,7 +81,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 0.20000000298023224,
+                            "weight": 0.6000000238418579
                         }
                     ],
                     "name": "Sequence",
@@ -98,7 +103,8 @@
                                 "y": 482.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.0
                         },
                         {
                             "children": [],
@@ -109,7 +115,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.5
                         }
                     ],
                     "name": "Sequence",
@@ -128,7 +135,8 @@
                         "y": 358.0
                     },
                     "nodeType": 4,
-                    "waitTime": 1.0
+                    "waitTime": 1.0,
+                    "weight": 0.0
                 },
                 {
                     "children": [
@@ -141,7 +149,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.0
                         },
                         {
                             "children": [],
@@ -152,7 +161,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.6000000238418579
                         }
                     ],
                     "name": "Sequence",
@@ -173,7 +183,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 0.0,
+                            "weight": 0.0
                         },
                         {
                             "children": [],
@@ -184,7 +195,8 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0
+                            "waitTime": 1.0,
+                            "weight": 0.8999999761581421
                         }
                     ],
                     "name": "Sequence",

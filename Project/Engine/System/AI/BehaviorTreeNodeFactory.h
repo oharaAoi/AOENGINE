@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
 /// <summary>
@@ -26,9 +26,9 @@ public:
 	/// <param name="_goalArray"></param>
 	static void CreateNode(int nodeType,
 						   const std::string& crateTaskName,
-						   std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						   IWorldState* _worldState,
-						   std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
@@ -41,12 +41,12 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	/// <returns></returns>
-	static std::shared_ptr<IBehaviorNode> CreateNodeFromJson(const json& _json,
-															 std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+	static std::shared_ptr<BaseBehaviorNode> CreateNodeFromJson(const json& _json,
+															 std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 															 std::vector<Link>& _link,
 															 IWorldState* _worldState,
 															 std::unordered_map<std::string,
-															 std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+															 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 															 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
@@ -60,11 +60,11 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	static void CreateTree(const std::string& nodeName,
-						   std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						   std::vector<Link>& _link,
-						   IBehaviorNode* _root,
+						   BaseBehaviorNode* _root,
 						   IWorldState* _worldState,
-						   std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 };

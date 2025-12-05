@@ -459,7 +459,7 @@
     <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h">
       <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\IBehaviorNode.h">
+    <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\AI\Node\ITaskNode.h">
@@ -1270,6 +1270,7 @@
     <ClInclude Include="Engine\System\AI\Other\Condition.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1434,7 +1435,7 @@
     <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp">
       <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\IBehaviorNode.cpp">
+    <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\AI\Node\ITaskNode.cpp">
@@ -2194,6 +2195,7 @@
     <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

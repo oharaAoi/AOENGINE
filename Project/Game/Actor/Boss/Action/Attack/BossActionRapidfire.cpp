@@ -9,7 +9,7 @@ BehaviorStatus BossActionRapidfire::Execute() {
 }
 
 float BossActionRapidfire::EvaluateWeight() {
-	return 0.9f;
+	return weight_;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

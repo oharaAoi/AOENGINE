@@ -1,18 +1,18 @@
 #pragma once
 #include <unordered_map>
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 
 /// <summary>
 /// 重みの計算を行ってから選択をするセレクタ
 /// </summary>
 class WeightSelectorNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	WeightSelectorNode();
 	~WeightSelectorNode() override = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<WeightSelectorNode>(*this);
 	}
 

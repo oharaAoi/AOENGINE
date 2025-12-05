@@ -9,7 +9,7 @@ void LaserCylinder::Init(const Color& _color) {
 	object_->SetObject("laserCylinder.obj");
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);
-	object_->SetIsShadow(false);
+	object_->SetEnableShadow(false);
 	object_->SetColor(_color);
 	transform_ = object_->GetTransform();
 	transform_->SetTranslationZ(1.0f);

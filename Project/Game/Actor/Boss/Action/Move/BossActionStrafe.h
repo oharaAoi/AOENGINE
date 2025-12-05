@@ -54,7 +54,7 @@ public:
 	BossActionStrafe() = default;
 	~BossActionStrafe() = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionStrafe>(*this);
 	}
 

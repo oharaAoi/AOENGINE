@@ -2,7 +2,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/BehaviorTree.h"
 #include "Engine/System/AI/State/IWorldState.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
@@ -12,15 +12,15 @@
 /// GoalまでのNodeたちを格納したNode
 /// </summary>
 class PlannerNode : 
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
-	PlannerNode(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _rootNodeCanTask,
+	PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
 				IWorldState* _worldState, 
 				const std::vector<std::shared_ptr<IOrientedGoal>>& _goals);
 	~PlannerNode() override = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<PlannerNode>(canTask_, pWorldState_, goalArray_);
 	}
 
@@ -68,7 +68,7 @@ public:
 private:
 
 	BehaviorTree* tree_;
-	std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>> canTask_;
+	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTask_;
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 	IWorldState* pWorldState_ = nullptr;
 

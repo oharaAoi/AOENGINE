@@ -8,7 +8,7 @@ float UtilityEvaluator::Evaluate(float _inputValue) const {
 }
 
 void UtilityEvaluator::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Evaluator", ImGuiTreeNodeFlags_DefaultOpen)) {
+	if (ImGui::CollapsingHeader("Evaluator")) {
 		InputTextWithString("Group", "##Utility AI Group", groupName_);
 		InputTextWithString("Key", "##Utility AI Key", name_);
 		ImGui::DragFloat("Weight", &weight);

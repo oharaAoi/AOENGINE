@@ -16,7 +16,7 @@ void Floor::Init() {
 	transform_ = floor_->GetTransform();
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");
-	floor_->SetIsShadow(false);
+	floor_->SetEnableShadow(false);
 
 	EditorWindows::AddObjectWindow(this, GetName());
 }

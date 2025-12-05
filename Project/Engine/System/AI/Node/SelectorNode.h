@@ -1,17 +1,17 @@
 #pragma once
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 
 /// <summary>
 /// 左から実行をし、 失敗したら次へ成功したら親へ戻るNode
 /// </summary>
 class SelectorNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	SelectorNode();
 	~SelectorNode() override = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<SelectorNode>(*this);
 	}
 

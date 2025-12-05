@@ -130,7 +130,7 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::PreDraw() const {
-	if (!isShadow_) { return; }
+	if (!enableShadow_) { return; }
 	if (model_ == nullptr) { return; }
 	Engine::SetPipeline(PSOType::Object3d, "Object_ShadowMap.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -274,7 +274,7 @@ void BaseGameObject::SetParent(BaseGameObject* parent) {
 // ↓　アニメーションを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
+void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
 	animetor_.reset(new Animator);
 	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning, isLoop, isControlScript);
 }

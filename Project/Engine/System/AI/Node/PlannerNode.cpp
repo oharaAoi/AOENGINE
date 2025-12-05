@@ -8,7 +8,7 @@ namespace fs = std::filesystem;
 // ↓ コンストラクタ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _rootNodeCanTask,
+PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
 						 IWorldState* _worldState,
 						 const std::vector<std::shared_ptr<IOrientedGoal>>& _goals) {
 	canTask_ = _rootNodeCanTask;

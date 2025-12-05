@@ -1,15 +1,15 @@
 #pragma once
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
 class PlannerSelectorNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	PlannerSelectorNode();
 	~PlannerSelectorNode() override = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<PlannerSelectorNode>(*this);
 	}
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include "Engine/System/AI/BehaviorTreeEditor.h"
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/Node/BehaviorRootNode.h"
 #include "Engine/System/AI/Node/ITaskNode.h"
 #include "Engine/System/AI/State/IWorldState.h"
@@ -39,7 +39,7 @@ public:
 	void EditSelect();
 
 	// タスクの追加
-	void AddCanTask(std::shared_ptr<IBehaviorNode> _task) {
+	void AddCanTask(std::shared_ptr<BaseBehaviorNode> _task) {
 		std::string nodeName = _task->GetNodeName();
 		canTaskMap_[nodeName] = std::move(_task);
 	}
@@ -66,7 +66,7 @@ public:
 	/// 実行できるタスクの設定
 	/// </summary>
 	/// <param name="_canTaskMap"></param>
-	void SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap);
+	void SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap);
 
 	/// <summary>
 	/// 目標の設定
@@ -80,12 +80,12 @@ public:
 	/// <param name="ownerWorldPos">: Treeの所有者のワールド座標</param>
 	void DisplayState(const Matrix4x4& ownerWorldPos);
 
-	IBehaviorNode* GetRootNode() const { return root_; }
+	BaseBehaviorNode* GetRootNode() const { return root_; }
 
 private:
 
 	// jsonからtreeの作成
-	std::shared_ptr<IBehaviorNode> CreateNodeFromJson(const json& _json);
+	std::shared_ptr<BaseBehaviorNode> CreateNodeFromJson(const json& _json);
 
 public:
 
@@ -105,12 +105,12 @@ private:
 	// 接続のidをまとめたコンテナ
 	std::vector<Link> links_;
 	// nodeのリスト
-	std::list<std::shared_ptr<IBehaviorNode>> nodeList_;
+	std::list<std::shared_ptr<BaseBehaviorNode>> nodeList_;
 	// 最上位Node
-	IBehaviorNode* root_;
+	BaseBehaviorNode* root_;
 
 	// 行えるTaskをまとめた物
-	std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>> canTaskMap_;
+	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTaskMap_;
 
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 
@@ -128,7 +128,7 @@ private:
 };
 
 template<typename ActionT, typename Target>
-std::shared_ptr<IBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
+std::shared_ptr<BaseBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
 	auto result = std::make_shared<ActionT>();
 	result->SetTarget(target);
 	result->SetNodeName(nodeName);

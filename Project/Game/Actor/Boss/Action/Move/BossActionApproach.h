@@ -55,7 +55,7 @@ public:
 	BossActionApproach() = default;
 	~BossActionApproach() = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionApproach>(*this);
 	}
 

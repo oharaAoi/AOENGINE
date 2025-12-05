@@ -1,7 +1,7 @@
 #pragma once
 #include <list>
 #include <memory>
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
 /// <summary>
@@ -29,11 +29,11 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	void Edit(const std::string& _name, 
-			  std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+			  std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 			  std::vector<Link>& _link,
-			  IBehaviorNode* _root,
+			  BaseBehaviorNode* _root,
 			  IWorldState* _worldState,
-			  std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap, 
+			  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
 			  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	void EditSelect();
@@ -49,12 +49,12 @@ private:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void SaveAndLoad(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+	void SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 					 std::vector<Link>& _link,
-					 IBehaviorNode* _root,
+					 BaseBehaviorNode* _root,
 					 IWorldState* _worldState,
 					 std::unordered_map<std::string,
-					 std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+					 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 					 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
@@ -64,23 +64,23 @@ private:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void CreateNodeWindow(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList,
+	void CreateNodeWindow(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						  IWorldState* _worldState,
-						  std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap,
+						  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
 	/// セレクトされているNodeを確認する
 	/// </summary>
 	/// <param name="_nodeList"></param>
-	void CheckSelectNode(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList);
+	void CheckSelectNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList);
 
 	/// <summary>
 	/// 削除するNodeを確認する
 	/// </summary>
 	/// <param name="_nodeList"></param>
 	/// <param name="_root"></param>
-	void CheckDeleteNode(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList, IBehaviorNode* _root);
+	void CheckDeleteNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, BaseBehaviorNode* _root);
 
 	/// <summary>
 	/// 接続処理
@@ -88,7 +88,7 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void Connect(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList, std::vector<Link>& _link, IBehaviorNode* _root);
+	void Connect(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root);
 
 	/// <summary>
 	/// 接続解除処理
@@ -96,13 +96,13 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void UnConnect(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList, std::vector<Link>& _link, IBehaviorNode* _root);
+	void UnConnect(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root);
 
 	/// <summary>
 	/// Node描画
 	/// </summary>
 	/// <param name="_nodeList"></param>
-	void DrawNode(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList);
+	void DrawNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList);
 
 	/// <summary>
 	/// Nodeの検索
@@ -110,14 +110,14 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_pin"></param>
 	/// <returns></returns>
-	IBehaviorNode* FindNodeFromPin(std::list<std::shared_ptr<IBehaviorNode>>& _nodeList, ax::NodeEditor::PinId _pin);
+	BaseBehaviorNode* FindNodeFromPin(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, ax::NodeEditor::PinId _pin);
 
 private:
 
 	// nodeEditorのポインタ
 	ax::NodeEditor::EditorContext* context_ = nullptr;
 
-	IBehaviorNode* selectNode_;
+	BaseBehaviorNode* selectNode_;
 	ax::NodeEditor::NodeId selectId_;
 
 	ImVec2 popupPos_;

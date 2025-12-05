@@ -15,7 +15,6 @@ class BossActionDualStageMissile :
 public: // データ構造体
 
 	struct Parameter : public IJsonConverter {
-		float weight = 0.5f;
 		float recoveryTime = 1.0f;	// 攻撃後の硬直時間
 		float bulletSpeed = 90.0f;	// 弾速
 		float takeDamage = 30.0f;	// 与えるダメージ
@@ -31,7 +30,6 @@ public: // データ構造体
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
-				.Add("weight", weight)
 				.Add("recoveryTime", recoveryTime)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("takeDamage", takeDamage)
@@ -45,7 +43,6 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "weight", weight);
 			fromJson(jsonData, "recoveryTime", recoveryTime);
 			fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			fromJson(jsonData, "takeDamage", takeDamage);
@@ -65,7 +62,7 @@ public: // コンストラクタ
 	BossActionDualStageMissile() = default;
 	~BossActionDualStageMissile() = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionDualStageMissile>(*this);
 	}
 

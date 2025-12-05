@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Timer.h"
@@ -12,13 +12,13 @@
 /// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class ITaskNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	ITaskNode();
 	virtual ~ITaskNode() override = default;
 
-	virtual std::shared_ptr<IBehaviorNode> Clone() const override = 0;
+	virtual std::shared_ptr<BaseBehaviorNode> Clone() const override = 0;
 
 public:
 
@@ -81,6 +81,8 @@ protected:
 
 	float taskTimer_ = 0.0f;
 
+	float weight_ = 0;
+
 	Timer waitTimer_;
 	
 	UtilityEvaluator evaluator_;
@@ -105,6 +107,7 @@ inline json ITaskNode<OwnerType>::ToJson() {
 	item["nodePos"] = json{ {"x", pos_.x}, {"y", pos_.y} };
 	item["waitTime"] = waitTimer_.targetTime_;
 	item["coolTime"] = coolTimer_.targetTime_;
+	item["weight"] = weight_;
 	item["children"] = json::array();
 	
 	for (const auto& child : children_) {
@@ -125,6 +128,9 @@ inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	if (_jsonData.contains("coolTime")) {
 		coolTimer_.targetTime_ = _jsonData["coolTime"].get<float>();
 	}
+	if (_jsonData.contains("weight")) {
+		weight_ = _jsonData["weight"].get<float>();
+	}
 
 	coolTimer_.timer_ = coolTimer_.targetTime_;
 }
@@ -132,6 +138,7 @@ inline void ITaskNode<OwnerType>::FromJson(const json& _jsonData) {
 template<typename OwnerType>
 inline void ITaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
+	ImGui::DragFloat("weight", &weight_, 0.1f);
 	ImGui::SliderFloat("wait_timer", &waitTimer_.timer_, 0.0f, waitTimer_.targetTime_);
 	ImGui::DragFloat("waitTime", &waitTimer_.targetTime_, 0.1f);
 	ImGui::SliderFloat("cool_timer", &coolTimer_.timer_, 0.0f, coolTimer_.targetTime_);

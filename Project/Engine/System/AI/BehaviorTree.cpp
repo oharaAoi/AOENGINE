@@ -47,7 +47,7 @@ bool BehaviorTree::Run() {
 	return true;
 }
 
-void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<IBehaviorNode>>& _canTaskMap) {
+void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap) {
 	canTaskMap_ = _canTaskMap;
 }
 

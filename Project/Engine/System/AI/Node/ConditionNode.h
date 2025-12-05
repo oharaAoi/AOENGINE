@@ -1,18 +1,18 @@
 #pragma once
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/State/WorldStateValue.h"
 
 /// <summary>
 /// if文の代わりとなるNode
 /// </summary>
 class ConditionNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	ConditionNode();
 	~ConditionNode() override = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<ConditionNode>(*this);
 	}
 

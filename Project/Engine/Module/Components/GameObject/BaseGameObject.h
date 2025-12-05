@@ -64,7 +64,7 @@ public:
 
 	Vector3 GetPosition() const { return worldPos_ + offset_; }
 
-	void SetIsShadow(bool _flag) { isShadow_ = _flag; }
+	void SetEnableShadow(bool _flag) { enableShadow_ = _flag; }
 
 	void SetOffset(const Vector3& _offset) { offset_ = _offset; }
 
@@ -87,7 +87,7 @@ public:
 	// ↓ Animation関連
 	// -------------------------------------------------
 
-	void SetAnimater(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
+	void SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
 	Animator* GetAnimetor() { return animetor_.get(); }
 
@@ -136,5 +136,5 @@ protected:
 	// 他クラス情報
 	BaseGameObject* pParentObj_;
 
-	bool isShadow_ = true;
+	bool enableShadow_ = true;
 };

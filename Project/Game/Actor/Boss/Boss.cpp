@@ -184,11 +184,6 @@ void Boss::Update() {
 		}
 	}
 
-	// treeの実行開始
-	if (Input::IsTriggerKey(DIK_M)) {
-		behaviorTree_->SetExecute(true);
-	}
-
 	// 各項目の更新
 	stateMachine_->Update();
 	behaviorTree_->Run();
@@ -196,6 +191,11 @@ void Boss::Update() {
 	pulseArmor_->Update();
 
 #ifdef _DEBUG
+	// treeの実行開始
+	if (Input::IsTriggerKey(DIK_M)) {
+		behaviorTree_->SetExecute(true);
+	}
+
 	behaviorTree_->DisplayState(transform_->GetWorldMatrix());
 #endif // _DEBUG
 }

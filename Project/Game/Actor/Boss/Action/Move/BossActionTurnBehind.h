@@ -1,18 +1,24 @@
 #pragma once
-#include <functional>
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/Node/ITaskNode.h"
 
 class Boss;
 
-class BossActionWait :
+/// <summary>
+/// 敵の背後に回る処理
+/// </summary>
+class BossActionTurnBehind :
 	public ITaskNode<Boss> {
-public:
+public: // データ構造体
 
-	BossActionWait() = default;
-	~BossActionWait() override = default;
+
+public: // コンストラクタ
+
+	BossActionTurnBehind() = default;
+	~BossActionTurnBehind() = default;
 
 	std::shared_ptr<BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionWait>(*this);
+		return std::make_shared<BossActionTurnBehind>(*this);
 	}
 
 public:
@@ -34,7 +40,5 @@ public:
 	// 終了処理
 	void End() override;
 
-private:
-	
 };
 

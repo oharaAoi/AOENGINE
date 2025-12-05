@@ -97,7 +97,7 @@ void Player::Init() {
 	// -------------------------------------------------
 	// ↓ Animationの設定
 	// -------------------------------------------------
-	object_->SetAnimater("./Project/Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
+	object_->SetAnimator("./Project/Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
 	object_->GetAnimetor()->GetAnimationClip()->PoseToAnimation("idle", 0.2f);
 	object_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
 

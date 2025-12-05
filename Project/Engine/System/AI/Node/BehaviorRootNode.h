@@ -1,18 +1,18 @@
 #pragma once
-#include "Engine/System/AI/Node/IBehaviorNode.h"
+#include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include <memory>
 
 /// <summary>
 /// Treeの根本となるクラス
 /// </summary>
 class BehaviorRootNode :
-	public IBehaviorNode {
+	public BaseBehaviorNode {
 public: //コンストラクタ
 
 	BehaviorRootNode();
 	~BehaviorRootNode() = default;
 
-	std::shared_ptr<IBehaviorNode> Clone() const override {
+	std::shared_ptr<BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BehaviorRootNode>(*this);
 	}
 

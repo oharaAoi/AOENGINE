@@ -54,7 +54,7 @@ void LaserBullet::Init() {
 	object_->SetObject("laser.obj");
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);
-	object_->SetIsShadow(false);
+	object_->SetEnableShadow(false);
 
 	// ----------------------
 	// ↓ colliderの設定
