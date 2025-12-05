@@ -43,9 +43,7 @@ namespace {
 	std::unique_ptr<BlendTexture> blendTexture_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
-	// shaderファイルのパスをまとめたクラス
-	std::shared_ptr<Shader> shaders_;
-
+	
 	std::unique_ptr<PostProcess> postProcess_;
 
 	std::unique_ptr<Canvas2d> canvas2d_;
@@ -81,7 +79,6 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 
 	winApp_->CreateGameWindow(_backBufferWidth, _backBufferHeight, _windowTitle);
 	
-	shaders_ = std::make_unique<Shader>();
 	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
 
 	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
@@ -95,8 +92,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	// -------------------------------------------------
 	// ↓ 各初期化
 	// -------------------------------------------------
-	shaders_->Init();
-
+	
 	graphicsCxt_ = AOENGINE::GraphicsContext::GetInstance();
 	graphicsCxt_->Init(winApp_, _backBufferWidth, _backBufferHeight);
 

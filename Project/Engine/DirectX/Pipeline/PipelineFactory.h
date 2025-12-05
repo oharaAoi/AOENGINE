@@ -6,7 +6,6 @@
 // Engine
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
-#include "Engine/Utilities/Shader.h"
 
 namespace AOENGINE {
 

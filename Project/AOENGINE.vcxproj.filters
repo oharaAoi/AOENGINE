@@ -363,12 +363,6 @@
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignature.h">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\RootSignature\RootSignatureBuilder.h">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClInclude>
@@ -820,9 +814,6 @@
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\Logger.h">
-      <Filter>Engine\Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Utilities\Shader.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\Timer.h">
@@ -1339,12 +1330,6 @@
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignature.cpp">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\RootSignature\RootSignatureBuilder.cpp">
-      <Filter>Engine\DirectX\RootSignature</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClCompile>
@@ -1787,9 +1772,6 @@
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\Logger.cpp">
-      <Filter>Engine\Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Utilities\Shader.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\Timer.cpp">

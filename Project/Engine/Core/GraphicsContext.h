@@ -1,7 +1,5 @@
 #pragma once
 #include "Engine/WinApp/WinApp.h"
-#include "Engine/Utilities/Shader.h"
-
 #include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
 #include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
 #include "Engine/DirectX/DirectXCommands/DirectXCommands.h"

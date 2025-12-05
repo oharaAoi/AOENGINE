@@ -20,8 +20,6 @@
 
 #include "Engine/Module/PostEffect/PostProcess.h"
 
-#include "Engine/Utilities/Shader.h"
-
 #include "Render.h"
 
 class EffectSystem;
