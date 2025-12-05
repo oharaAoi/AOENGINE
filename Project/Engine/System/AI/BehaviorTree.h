@@ -8,7 +8,7 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/Node/BehaviorRootNode.h"
 #include "Engine/System/AI/Node/BaseTaskNode.h"
-#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/Blackboard.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
@@ -92,13 +92,13 @@ public:
 	void SetName(const std::string& _name) { name_ = _name; }
 	const std::string& GetName() const { return name_; }
 
-	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
+	void SetBlackboard(Blackboard* _blackboard) { blackboard_ = _blackboard; }
 
 private:
 
 	std::string name_ = "Behavior Tree";
 
-	IWorldState* worldState_ = nullptr;
+	Blackboard* blackboard_ = nullptr;
 
 	// treeの所有者のポインタ
 	BaseEntity* pTarget_;

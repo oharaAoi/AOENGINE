@@ -26,7 +26,7 @@ void BehaviorTreeEditor::Init() {
 }
 
 void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link,
-							  BaseBehaviorNode* _root,  IWorldState* _worldState, 
+							  BaseBehaviorNode* _root,  Blackboard* _worldState, 
 							  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 							  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	if (!context_) return;
@@ -71,7 +71,7 @@ void BehaviorTreeEditor::EditSelect() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root,
-									 IWorldState* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+									 Blackboard* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 									 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	if (ImGui::Button("save")) {
 		std::string path = FileSaveDialogFunc();
@@ -92,7 +92,7 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>
 // ↓　Node生成のwindowを表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, IWorldState* _worldState,
+void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, Blackboard* _worldState,
 										  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 										  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	// 毎フレーム呼ばれる更新処理の中で

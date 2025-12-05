@@ -24,7 +24,7 @@ void BBulletToPlayerCallBacks::Update() {
 // ↓ コリジョン処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BBulletToPlayerCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player) {
+void BBulletToPlayerCallBacks::CollisionEnter([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player) {
 	BaseBullet* hitBullet = pBossBulletManager_->SearchCollider(bullet);
 	if (hitBullet != nullptr) {
 		hitBullet->SetIsAlive(false);
@@ -35,8 +35,8 @@ void BBulletToPlayerCallBacks::CollisionEnter([[maybe_unused]] ICollider* const 
 	pPlayer_->Damage(hitBullet->GetTakeDamage());
 }
 
-void BBulletToPlayerCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player) {
+void BBulletToPlayerCallBacks::CollisionStay([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player) {
 }
 
-void BBulletToPlayerCallBacks::CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player) {
+void BBulletToPlayerCallBacks::CollisionExit([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player) {
 }

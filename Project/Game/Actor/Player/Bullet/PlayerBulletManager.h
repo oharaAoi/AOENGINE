@@ -4,7 +4,7 @@
 #include <memory>
 // Game
 #include "Game/Actor/Player/Bullet/PlayerBullet.h"
-#include <Module/Components/Collider/ICollider.h>
+#include <Module/Components/Collider/BaseCollider.h>
 
 /// <summary>
 /// PlayerのBulletを管理するクラス
@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	/// <param name="collider">; コライダーのポインタ</param>
 	/// <returns></returns>
-	BaseBullet* SearchCollider(ICollider* collider);
+	BaseBullet* SearchCollider(BaseCollider* collider);
 
 public: // member method
 

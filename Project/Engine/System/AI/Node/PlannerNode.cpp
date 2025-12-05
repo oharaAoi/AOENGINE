@@ -9,17 +9,17 @@ namespace fs = std::filesystem;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
-						 IWorldState* _worldState,
+						 Blackboard* _worldState,
 						 const std::vector<std::shared_ptr<IOrientedGoal>>& _goals) {
 	canTask_ = _rootNodeCanTask;
-	pWorldState_ = _worldState;
+	pBlackboard_ = _worldState;
 	goalArray_ = _goals;
 
 	// 所有する
 	tree_ = BehaviorTreeSystem::GetInstance()->Create();
 	tree_->Init();
 	tree_->SetCanTaskMap(_rootNodeCanTask);
-	tree_->SetWorldState(pWorldState_);
+	tree_->SetBlackboard(pBlackboard_);
 	tree_->SetName("plannerTree");
 
 	color_ = ImColor(255, 99, 71);
@@ -79,7 +79,7 @@ void PlannerNode::FromJson(const json& _jsonData) {
 
 BehaviorStatus PlannerNode::Execute() {
 	bool isExecute = tree_->Run();
-	if (condition_.Execute(pWorldState_)) {
+	if (condition_.Execute(pBlackboard_)) {
 		return BehaviorStatus::Success;
 	}
 
@@ -139,7 +139,7 @@ void PlannerNode::Debug_Gui() {
 		}
 		ImGui::EndCombo();
 	}
-	condition_.Debug_Gui(pWorldState_);
+	condition_.Debug_Gui(pBlackboard_);
 	// 目標を設定する
 	if (goal_) {
 		std::string currentOriented = "Oriented : " + goal_->GetName();

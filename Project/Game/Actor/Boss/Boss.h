@@ -9,7 +9,6 @@
 #include "Game/Manager/ActionManager.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Boss/BossEvaluationFormula.h"
-#include "Game/Actor/Boss/GoalOriented/BossWorldState.h"
 #include "Game/Actor/Weapon/Armors.h"
 
 enum class BossPhase {
@@ -188,7 +187,7 @@ private:
 
 	// AI --------------------------------------------------
 	BehaviorTree* behaviorTree_;
-	std::unique_ptr<BossWorldState> worldState_;
+	std::unique_ptr<Blackboard> blackboard_;
 
 	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;
 

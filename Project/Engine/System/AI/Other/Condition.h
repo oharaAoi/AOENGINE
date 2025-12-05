@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <nlohmann/json.hpp>
-#include "Engine/System/AI/State/WorldStateValue.h"
-#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/BlackboardValue.h"
+#include "Engine/System/AI/State/Blackboard.h"
 
 /// <summary>
 /// if文となるクラス
@@ -15,16 +15,16 @@ public:
 
 public:
 
-	bool Execute(IWorldState* _state);
+	bool Execute(Blackboard* _state);
 
 	/// <summary>
 	/// 判断する
 	/// </summary>
-	bool Compare(const WorldStateValue& lhs,
-				 const WorldStateValue& rhs,
+	bool Compare(const BlackboardValue& lhs,
+				 const BlackboardValue& rhs,
 				 const std::string& op);
 
-	void Debug_Gui(IWorldState* _state);
+	void Debug_Gui(Blackboard* _state);
 
 	nlohmann::json ToJson();
 

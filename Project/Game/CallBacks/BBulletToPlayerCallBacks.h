@@ -24,11 +24,11 @@ public:
 	void Update() override;
 
 	// 衝突開始
-	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player) override;
+	void CollisionEnter([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player) override;
 	// 衝突中
-	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player)  override;
+	void CollisionStay([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player)  override;
 	// 衝突終わり
-	void CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const player)  override;
+	void CollisionExit([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const player)  override;
 
 public:
 

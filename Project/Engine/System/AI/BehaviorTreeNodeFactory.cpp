@@ -9,7 +9,7 @@
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
 
 void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateTaskName, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
-										 IWorldState* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
+										 Blackboard* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	if (nodeType == (int)NodeType::Sequencer) {
 		_nodeList.emplace_back(std::make_shared<SequenceNode>());
@@ -28,18 +28,18 @@ void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateT
 
 	} else if (nodeType == (int)NodeType::Condition) {
 		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
-		node->SetWorldState(_worldState);
+		node->SetBlackboard(_worldState);
 
 	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
 		node->Init();
 		node->SetPos(CVector2::ZERO);
-		node->SetWorldState(_worldState);
+		node->SetBlackboard(_worldState);
 	}
 }
 
 std::shared_ptr<BaseBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(const json& _json, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
-																		   std::vector<Link>& _link, IWorldState* _worldState, 
+																		   std::vector<Link>& _link, Blackboard* _worldState, 
 																		   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 																		   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	// nodeを作成
@@ -71,7 +71,7 @@ std::shared_ptr<BaseBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(co
 	}
 
 	// jsonからnodeの情報を取得
-	node->SetWorldState(_worldState);
+	node->SetBlackboard(_worldState);
 	node->FromJson(_json);
 	_nodeList.push_back(node);
 
@@ -92,7 +92,7 @@ std::shared_ptr<BaseBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(co
 }
 
 void BehaviorTreeNodeFactory::CreateTree(const std::string& nodeName, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
-										 std::vector<Link>& _link, BaseBehaviorNode* _root, IWorldState* _worldState, 
+										 std::vector<Link>& _link, BaseBehaviorNode* _root, Blackboard* _worldState, 
 										 std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	Logger::Log("[Create][BehaviorTree] : " + nodeName);

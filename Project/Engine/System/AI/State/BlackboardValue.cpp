@@ -1,9 +1,9 @@
-#include "WorldStateValue.h"
+#include "BlackboardValue.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 using json = nlohmann::json;
 
-json WorldStateValue::to_json(const WorldStateValue& v) const {
+json BlackboardValue::to_json(const BlackboardValue& v) const {
     json result;
     std::visit([&](auto&& arg) {
         using T = std::decay_t<decltype(arg)>;
@@ -38,20 +38,20 @@ json WorldStateValue::to_json(const WorldStateValue& v) const {
     return result;
 }
 
-void WorldStateValue::from_json(const json& j, WorldStateValue& v) {
+void BlackboardValue::from_json(const json& j, BlackboardValue& v) {
     std::string type = j.at("type");
     if (type == "int") {
-        v = WorldStateValue(j.at("value").get<int>());
+        v = BlackboardValue(j.at("value").get<int>());
     } else if (type == "float") {
-        v = WorldStateValue(j.at("value").get<float>());
+        v = BlackboardValue(j.at("value").get<float>());
     } else if (type == "bool") {
-        v = WorldStateValue(j.at("value").get<bool>());
+        v = BlackboardValue(j.at("value").get<bool>());
     } else if (type == "string") {
-        v = WorldStateValue(j.at("value").get<std::string>());
+        v = BlackboardValue(j.at("value").get<std::string>());
     }
 }
 
-void WorldStateValue::DebugValue(const std::string& name, WorldStateValue& wv) {
+void BlackboardValue::DebugValue(const std::string& name, BlackboardValue& wv) {
     std::visit([&](auto&& arg) {
         using T = std::decay_t<decltype(arg)>;
 

@@ -1,11 +1,11 @@
 #pragma once
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 /// <summary>
 /// 球型のコライダー
 /// </summary>
 class SphereCollider
-	: public ICollider {
+	: public BaseCollider {
 public: // コンストラクタ
 
 	SphereCollider();

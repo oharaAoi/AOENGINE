@@ -168,7 +168,7 @@ public:	// member method
 	/// 足のコリジョン
 	/// </summary>
 	/// <param name="other"></param>
-	void LegOnCollision([[maybe_unused]] ICollider* other);
+	void LegOnCollision([[maybe_unused]] BaseCollider* other);
 
 	bool IsAttack();
 

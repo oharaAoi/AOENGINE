@@ -182,9 +182,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\AI\Node\SelectorNode.h" />
     <ClInclude Include="Engine\System\AI\Node\SequenceNode.h" />
     <ClInclude Include="Engine\System\AI\Other\Condition.h" />
-    <ClInclude Include="Engine\System\AI\State\IWorldState.h" />
-    <ClInclude Include="Engine\System\AI\State\WorldStateSerializer.h" />
-    <ClInclude Include="Engine\System\AI\State\WorldStateValue.h" />
+    <ClInclude Include="Engine\System\AI\State\Blackboard.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
     <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h" />
     <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
@@ -195,7 +195,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\ICollider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
@@ -372,7 +372,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
-    <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
@@ -532,9 +531,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp" />
     <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
-    <ClCompile Include="Engine\System\AI\State\IWorldState.cpp" />
-    <ClCompile Include="Engine\System\AI\State\WorldStateSerializer.cpp" />
-    <ClCompile Include="Engine\System\AI\State\WorldStateValue.cpp" />
+    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
     <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp" />
     <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
@@ -544,7 +543,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
@@ -709,7 +708,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
-    <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />

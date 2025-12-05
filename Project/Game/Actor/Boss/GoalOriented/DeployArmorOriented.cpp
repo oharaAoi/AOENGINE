@@ -10,7 +10,7 @@ DeployArmorOriented::DeployArmorOriented() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float DeployArmorOriented::CalculationScore() {
-	if (worldState_->Get("deployArmor").As<bool>()) {
+	if (blackboard_->Get("deployArmor").As<bool>()) {
 		return 1.0f;
 	}
 	return 0.0f;

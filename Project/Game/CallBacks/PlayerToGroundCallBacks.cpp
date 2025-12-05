@@ -21,11 +21,11 @@ void PlayerToGroundCallBacks::Update() {
 // ↓ コリジョン処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerToGroundCallBacks::CollisionEnter([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) {
+void PlayerToGroundCallBacks::CollisionEnter([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground) {
 }
 
-void PlayerToGroundCallBacks::CollisionStay([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) {
+void PlayerToGroundCallBacks::CollisionStay([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground) {
 }
 
-void PlayerToGroundCallBacks::CollisionExit([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) {
+void PlayerToGroundCallBacks::CollisionExit([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground) {
 }

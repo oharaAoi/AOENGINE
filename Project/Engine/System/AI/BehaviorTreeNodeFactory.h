@@ -27,7 +27,7 @@ public:
 	static void CreateNode(int nodeType,
 						   const std::string& crateTaskName,
 						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
-						   IWorldState* _worldState,
+						   Blackboard* _worldState,
 						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
@@ -44,7 +44,7 @@ public:
 	static std::shared_ptr<BaseBehaviorNode> CreateNodeFromJson(const json& _json,
 															 std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 															 std::vector<Link>& _link,
-															 IWorldState* _worldState,
+															 Blackboard* _worldState,
 															 std::unordered_map<std::string,
 															 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 															 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
@@ -63,7 +63,7 @@ public:
 						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						   std::vector<Link>& _link,
 						   BaseBehaviorNode* _root,
-						   IWorldState* _worldState,
+						   Blackboard* _worldState,
 						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 

@@ -1,5 +1,6 @@
 #include "SafeDistanceOriented.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/System/AI/State/Blackboard.h"
 
 SafeDistanceOriented::SafeDistanceOriented() {
     SetName("SafeDistance");
@@ -10,8 +11,8 @@ SafeDistanceOriented::SafeDistanceOriented() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float SafeDistanceOriented::CalculationScore() {
-	float distance = worldState_->Get("BossToPlayer").As<float>();
-	float dangerDistance = worldState_->Get("dangerDistance").As<float>();
+	float distance = blackboard_->Get("BossToPlayer").As<float>();
+	float dangerDistance = blackboard_->Get("dangerDistance").As<float>();
 
 	if (distance < dangerDistance) {
 		return 1.0f;

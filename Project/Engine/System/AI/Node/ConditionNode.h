@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
-#include "Engine/System/AI/State/WorldStateValue.h"
+#include "Engine/System/AI/State/BlackboardValue.h"
 
 /// <summary>
 /// if文の代わりとなるNode
@@ -47,8 +47,8 @@ private:
 	/// <summary>
 	/// 判断する
 	/// </summary>
-	bool Compare(const WorldStateValue& lhs,
-				 const WorldStateValue& rhs,
+	bool Compare(const BlackboardValue& lhs,
+				 const BlackboardValue& rhs,
 				 const std::string& op);
 
 private:
@@ -68,6 +68,6 @@ private:
 
 	int32_t radioButtonIndex_ = 0;
 
-	WorldStateValue value_;
+	BlackboardValue value_;
 
 };

@@ -70,7 +70,7 @@ public:
 	/// 衝突時の処理
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(ICollider* _other);
+	void OnCollision(BaseCollider* _other);
 
 	/// <summary>
 	/// 発射した際に行なう初期化処理

@@ -22,11 +22,11 @@ void LauncherBullet::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	ICollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
+	BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
-	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
 	// ----------------------
@@ -66,7 +66,7 @@ void LauncherBullet::Update() {
 // ↓ 衝突時の処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void LauncherBullet::OnCollision(ICollider* other) {
+void LauncherBullet::OnCollision(BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");

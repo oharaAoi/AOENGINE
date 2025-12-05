@@ -12,7 +12,7 @@ void ColliderCollector::Init() {
 
 void ColliderCollector::Update() {
     // colliderのポインタがnullになっていたらリストから削除する
-    colliderList_.remove_if([](ICollider* _collider) {
+    colliderList_.remove_if([](BaseCollider* _collider) {
         return _collider == nullptr;
     });
 }
@@ -24,16 +24,16 @@ void ColliderCollector::Draw() const {
     }
 }
 
-void ColliderCollector::AddCollider(ICollider* _collider) {
+void ColliderCollector::AddCollider(BaseCollider* _collider) {
     GetInstance()->AddColliderList(_collider);
 }
 
-void ColliderCollector::AddColliderList(ICollider* _collider) {
+void ColliderCollector::AddColliderList(BaseCollider* _collider) {
     if (std::find(colliderList_.begin(), colliderList_.end(), _collider) == colliderList_.end()) {
         colliderList_.push_back(_collider);
     }
 }
 
-void ColliderCollector::RemoveCollider(ICollider* _collider) {
+void ColliderCollector::RemoveCollider(BaseCollider* _collider) {
     colliderList_.remove(_collider);
 }

@@ -57,7 +57,7 @@ BehaviorStatus ConditionNode::Execute() {
 	if (children_.empty()) {return BehaviorStatus::Inactive;}
 	
 	BehaviorStatus status;
-	if (Compare(worldState_->Get(leftKey_), worldState_->Get(rightKey_), conditionOps[opIndex_])) {
+	if (Compare(blackboard_->Get(leftKey_), blackboard_->Get(rightKey_), conditionOps[opIndex_])) {
 		currentIndex_ = 0;
 		status = children_[0]->Execute();
 	} else {
@@ -87,12 +87,12 @@ float ConditionNode::EvaluateWeight() {
 }
 
 void ConditionNode::Debug_Gui() {
-	worldState_->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
+	blackboard_->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(80);
 	ImGui::Combo("Operator", &opIndex_, conditionOps, kOperatorCount_);
 	ImGui::SameLine();
-	worldState_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
+	blackboard_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
 }
 
 std::string ConditionNode::RunNodeName() {
@@ -103,7 +103,7 @@ std::string ConditionNode::RunNodeName() {
 	}
 }
 
-bool ConditionNode::Compare(const WorldStateValue& lhs, const WorldStateValue& rhs, const std::string& op) {
+bool ConditionNode::Compare(const BlackboardValue& lhs, const BlackboardValue& rhs, const std::string& op) {
 	return std::visit([&](auto&& a, auto&& b) -> bool {
 		using A = std::decay_t<decltype(a)>;
 		using B = std::decay_t<decltype(b)>;

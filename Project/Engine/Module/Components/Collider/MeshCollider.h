@@ -4,7 +4,7 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 /// <summary>
 /// Meshの形状をベースとしたCollider

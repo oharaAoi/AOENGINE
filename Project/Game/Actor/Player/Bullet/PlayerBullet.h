@@ -31,7 +31,7 @@ public:
 
 public:
 
-	void OnCollision(ICollider* other);
+	void OnCollision(BaseCollider* other);
 
 	/// <summary>
 	/// 座標や速度の設定

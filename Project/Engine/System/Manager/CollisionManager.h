@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <functional>
 #include "Engine/System/Collision/ColliderCollector.h"
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 struct CollisionPair {
 	uint32_t categoryA;
@@ -40,7 +40,7 @@ namespace std {
 class CollisionManager {
 public:	// using
 
-	using CollisionFunctions = std::function<void(ICollider* const, ICollider* const)>;
+	using CollisionFunctions = std::function<void(BaseCollider* const, BaseCollider* const)>;
 
 	struct CallBackKinds {
 		CollisionFunctions enter;
@@ -66,7 +66,7 @@ public:
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void CheckCollisionPair(ICollider* colliderA, ICollider* colliderB);
+	void CheckCollisionPair(BaseCollider* colliderA, BaseCollider* colliderB);
 
 	/// <summary>
 	/// CollisionのPairを作成する
@@ -91,16 +91,16 @@ public:
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void OnCollision(ICollider* colliderA, ICollider* colliderB);
+	void OnCollision(BaseCollider* colliderA, BaseCollider* colliderB);
 
 	/// <summary>
 	/// 衝突しなくなった瞬間に行う関数
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void ExitCollision(ICollider* colliderA, ICollider* colliderB);
+	void ExitCollision(BaseCollider* colliderA, BaseCollider* colliderB);
 
-	void CallBackCollision(ICollider* colliderA, ICollider* colliderB, CallBackKinds callBack);
+	void CallBackCollision(BaseCollider* colliderA, BaseCollider* colliderB, CallBackKinds callBack);
 
 private:
 

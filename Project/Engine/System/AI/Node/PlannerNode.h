@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/BehaviorTree.h"
-#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/Blackboard.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/AI/Other/Condition.h"
 
@@ -16,12 +16,12 @@ class PlannerNode :
 public: // コンストラクタ
 
 	PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
-				IWorldState* _worldState, 
+				Blackboard* _worldState, 
 				const std::vector<std::shared_ptr<IOrientedGoal>>& _goals);
 	~PlannerNode() override = default;
 
 	std::shared_ptr<BaseBehaviorNode> Clone() const override {
-		return std::make_shared<PlannerNode>(canTask_, pWorldState_, goalArray_);
+		return std::make_shared<PlannerNode>(canTask_, pBlackboard_, goalArray_);
 	}
 
 public:
@@ -70,7 +70,7 @@ private:
 	BehaviorTree* tree_;
 	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTask_;
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
-	IWorldState* pWorldState_ = nullptr;
+	Blackboard* pBlackboard_ = nullptr;
 
 	std::shared_ptr<IOrientedGoal> goal_;
 

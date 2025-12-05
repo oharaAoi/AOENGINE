@@ -41,7 +41,7 @@ public: // member method
 
 	void SetPlayerPosition(const Vector3& pos) { playerPosition_ = pos; }
 
-	BaseBullet* SearchCollider(ICollider* collider);
+	BaseBullet* SearchCollider(BaseCollider* collider);
 
 private:
 

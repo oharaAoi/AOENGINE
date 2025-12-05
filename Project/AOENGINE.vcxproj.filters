@@ -477,7 +477,7 @@
     <ClInclude Include="Engine\System\AI\Node\SequenceNode.h">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\AI\State\IWorldState.h">
+    <ClInclude Include="Engine\System\AI\State\Blackboard.h">
       <Filter>Engine\Module\Components\AI\State</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h">
@@ -510,7 +510,7 @@
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Collider\ICollider.h">
+    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h">
@@ -978,9 +978,6 @@
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h">
       <Filter>Game\Actor\Boss\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\GoalOriented\BossWorldState.h">
-      <Filter>Game\Actor\Boss\GoalOriented</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h">
       <Filter>Game\Actor\Boss\GoalOriented</Filter>
     </ClInclude>
@@ -1254,7 +1251,7 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
-    <ClInclude Include="Engine\System\AI\State\WorldStateValue.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
@@ -1266,7 +1263,7 @@
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Game\Effects\LaserCylinder.h" />
-    <ClInclude Include="Engine\System\AI\State\WorldStateSerializer.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
     <ClInclude Include="Engine\System\AI\Other\Condition.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
@@ -1453,7 +1450,7 @@
     <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp">
       <Filter>Engine\Module\Components\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\AI\State\IWorldState.cpp">
+    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp">
       <Filter>Engine\Module\Components\AI\State</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp">
@@ -1483,7 +1480,7 @@
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Collider\ICollider.cpp">
+    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp">
@@ -1912,9 +1909,6 @@
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp">
       <Filter>Game\Actor\Boss\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\GoalOriented\BossWorldState.cpp">
-      <Filter>Game\Actor\Boss\GoalOriented</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp">
       <Filter>Game\Actor\Boss\GoalOriented</Filter>
     </ClCompile>
@@ -2179,7 +2173,7 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
-    <ClCompile Include="Engine\System\AI\State\WorldStateValue.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
@@ -2191,7 +2185,7 @@
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
-    <ClCompile Include="Engine\System\AI\State\WorldStateSerializer.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
     <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />

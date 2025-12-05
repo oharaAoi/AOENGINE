@@ -15,7 +15,7 @@
 #include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/Rigging/EndEffector.h"
 
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 
 /// <summary>
@@ -97,10 +97,10 @@ public:
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	ICollider* GetCollider(const std::string& name);
-	ICollider* GetCollider();
-	ICollider* SetCollider(const std::string& categoryName, ColliderShape shape);
-	void AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape);
+	BaseCollider* GetCollider(const std::string& name);
+	BaseCollider* GetCollider();
+	BaseCollider* SetCollider(const std::string& categoryName, ColliderShape shape);
+	void AddCollider(BaseCollider* _collider, const std::string& categoryName, ColliderShape shape);
 
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);
 
@@ -120,7 +120,7 @@ protected:
 	std::unique_ptr<Animator> animetor_ = nullptr;
 	std::unordered_map<std::string, EndEffector*> endEffectors_;
 
-	std::vector<std::unique_ptr<ICollider>> colliders_;
+	std::vector<std::unique_ptr<BaseCollider>> colliders_;
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 

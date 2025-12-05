@@ -47,7 +47,7 @@ public:
 	/// 衝突判定
 	/// </summary>
 	/// <param name="other">: 衝突collider</param>
-	void OnCollision(ICollider* other);
+	void OnCollision(BaseCollider* other);
 
 	/// <summary>
 	/// 弾の情報をリセットする

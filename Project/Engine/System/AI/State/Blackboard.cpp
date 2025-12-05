@@ -1,14 +1,14 @@
-#include "IWorldState.h"
-#include "Engine/System/AI/State/WorldStateSerializer.h"
+#include "Blackboard.h"
+#include "Engine/System/AI/State/BlackboardSerializer.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 
-void IWorldState::Debug_Gui() {
+void Blackboard::Debug_Gui() {
 	// 値の追加
 	CreateValue();
 
-	if (ImGui::BeginTable("WorldStateTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+	if (ImGui::BeginTable("BlackboardTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
 		ImGui::TableSetupColumn("Key");
 		ImGui::TableSetupColumn("Value");
 		ImGui::TableHeadersRow();
@@ -47,7 +47,7 @@ void IWorldState::Debug_Gui() {
 
 }
 
-void IWorldState::CreateValue() {
+void Blackboard::CreateValue() {
 	static std::string newKey = "";
 	static int combIndex = 0;
 	InputTextWithString("key", "##worldStateKey", newKey, 16, 100);
@@ -71,7 +71,7 @@ void IWorldState::CreateValue() {
 	}
 }
 
-void IWorldState::KeyCombo(std::string& _key, int32_t& index, const std::string& _label) {
+void Blackboard::KeyCombo(std::string& _key, int32_t& index, const std::string& _label) {
 	std::vector<std::string> keys;
 	for (auto& [k, _] : stateMap_) keys.push_back(k);
 
@@ -89,16 +89,16 @@ void IWorldState::KeyCombo(std::string& _key, int32_t& index, const std::string&
 	}
 }
 
-void IWorldState::Load(const std::string& _filePath) {
+void Blackboard::Load(const std::string& _filePath) {
 	if (_filePath != "") {
-		WorldStateSerializer::Load(_filePath, stateMap_);
+		BlackboardSerializer::Load(_filePath, stateMap_);
 		path_ = _filePath;
 	}
 }
 
-void IWorldState::Save() {
+void Blackboard::Save() {
 	path_ = FileSaveDialogFunc();
 	if (path_ != "") {
-		WorldStateSerializer::Save(path_, stateMap_);
+		BlackboardSerializer::Save(path_, stateMap_);
 	}
 }

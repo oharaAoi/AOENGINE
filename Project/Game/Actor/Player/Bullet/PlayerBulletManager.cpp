@@ -34,7 +34,7 @@ void PlayerBulletManager::Update(const Vector3& playerTargetPos) {
 // ↓ ポインタに対するColliderの探索
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-BaseBullet* PlayerBulletManager::SearchCollider(ICollider* collider) {
+BaseBullet* PlayerBulletManager::SearchCollider(BaseCollider* collider) {
 	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
 		if (bullet->GetCollider() == collider) {
 			return bullet.get();

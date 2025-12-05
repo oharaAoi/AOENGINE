@@ -32,7 +32,7 @@ public:
 			  std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 			  std::vector<Link>& _link,
 			  BaseBehaviorNode* _root,
-			  IWorldState* _worldState,
+			  Blackboard* _worldState,
 			  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
 			  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
@@ -52,7 +52,7 @@ private:
 	void SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 					 std::vector<Link>& _link,
 					 BaseBehaviorNode* _root,
-					 IWorldState* _worldState,
+					 Blackboard* _worldState,
 					 std::unordered_map<std::string,
 					 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 					 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
@@ -65,7 +65,7 @@ private:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	void CreateNodeWindow(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
-						  IWorldState* _worldState,
+						  Blackboard* _worldState,
 						  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 						  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 

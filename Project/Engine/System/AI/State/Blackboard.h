@@ -6,16 +6,16 @@
 #include <stdexcept>
 #include <vector>
 // engine
-#include "Engine/System/AI/State/WorldStateValue.h"
+#include "Engine/System/AI/State/BlackboardValue.h"
 
 /// <summary>
 /// Nodeごとに情報を共有するためのクラス
 /// </summary>
-class IWorldState {
+class Blackboard {
 public: // コンストラクタ
 
-	IWorldState() = default;
-	virtual ~IWorldState() = default;
+	Blackboard() = default;
+	virtual ~Blackboard() = default;
 
 public:
 
@@ -27,7 +27,7 @@ public:
 	/// <param name="ref"></param>
 	template<typename T>
 	void SetRef(const std::string& key, T& ref) {
-        stateMap_[key] = WorldStateValue(&ref);
+        stateMap_[key] = BlackboardValue(&ref);
 	}
 
 	/// <summary>
@@ -38,7 +38,7 @@ public:
 	/// <param name="value"></param>
 	template<typename T>
 	void Set(const std::string& key, const T& value) {
-		stateMap_[key] = WorldStateValue(value);
+		stateMap_[key] = BlackboardValue(value);
 	}
 
 	/// <summary>
@@ -46,12 +46,12 @@ public:
 	/// </summary>
 	/// <param name="key"></param>
 	/// <returns></returns>
-	WorldStateValue Get(const std::string& key) const {
+	BlackboardValue Get(const std::string& key) const {
 		auto it = stateMap_.find(key);
 		if (it != stateMap_.end()) {
 			return stateMap_.at(key).Get();
 		}
-		return WorldStateValue();
+		return BlackboardValue();
 	}
 
 	/// <summary>
@@ -85,7 +85,7 @@ private:
 	void CreateValue();
 
 protected:
-	std::unordered_map<std::string, WorldStateValue> stateMap_;
+	std::unordered_map<std::string, BlackboardValue> stateMap_;
 
 	std::string path_;
 };

@@ -59,12 +59,12 @@ void LaserBullet::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	ICollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
+	BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsTrigger(true);
-	collider->SetOnCollision([this](ICollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
 	lineCollider_ = dynamic_cast<LineCollider*>(collider);
 
 	// ----------------------
@@ -188,7 +188,7 @@ void LaserBullet::Fade() {
 // ↓ 衝突処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void LaserBullet::OnCollision(ICollider* _other) {
+void LaserBullet::OnCollision(BaseCollider* _other) {
 	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
 		isFade_ = true;
 

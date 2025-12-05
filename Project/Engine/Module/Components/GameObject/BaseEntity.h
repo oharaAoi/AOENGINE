@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/WorldTransform.h"
 
 /// <summary>
@@ -31,8 +31,8 @@ public:	// accessor method
 
 	WorldTransform* GetTransform() const { return transform_; }
 
-	ICollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
-	ICollider* GetCollider() const { return object_->GetCollider(); }
+	BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
+	BaseCollider* GetCollider() const { return object_->GetCollider(); }
 
 	void SetParent(BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }
 

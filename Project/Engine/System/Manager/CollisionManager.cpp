@@ -23,12 +23,12 @@ void CollisionManager::Init() {
 
 void CollisionManager::CheckAllCollision() {
 	
-	std::list<ICollider*>& colliderList = pColliderCollector_->GetColliderList();
+	std::list<BaseCollider*>& colliderList = pColliderCollector_->GetColliderList();
 
 	// リスト内のペアの総当たり判定
-	std::list<ICollider*>::iterator iterA = colliderList.begin();
+	std::list<BaseCollider*>::iterator iterA = colliderList.begin();
 	for (; iterA != colliderList.end(); ++iterA) {
-		ICollider* colliderA = *iterA;
+		BaseCollider* colliderA = *iterA;
 
 		// 非アクティブなら次の要素に
 		if (!colliderA->GetIsActive()) {
@@ -36,11 +36,11 @@ void CollisionManager::CheckAllCollision() {
 		}
 
 		// イテレータBはイテレータAの次の要素から回す
-		std::list<ICollider*>::iterator iterB = iterA;
+		std::list<BaseCollider*>::iterator iterB = iterA;
 		iterB++;
 
 		for (; iterB != colliderList.end(); ++iterB) {
-			ICollider* colliderB = *iterB;
+			BaseCollider* colliderB = *iterB;
 
 			// 非アクティブなら次の要素に
 			if (!colliderB->GetIsActive()) {
@@ -64,7 +64,7 @@ void CollisionManager::CheckAllCollision() {
 // ↓　コライダー2つの衝突判定と応答
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CollisionManager::CheckCollisionPair(ICollider* colliderA, ICollider* colliderB) {
+void CollisionManager::CheckCollisionPair(BaseCollider* colliderA, BaseCollider* colliderB) {
 	if (CheckCollision(colliderA->GetShape(), colliderB->GetShape())) {
 		// Colliderの状態を変化させる
 		colliderA->SwitchCollision(colliderB);
@@ -105,7 +105,7 @@ void CollisionManager::MakeCollisionPair(uint32_t bitA, uint32_t bitB, const Cal
 // ↓　衝突している時に行う関数
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
+void CollisionManager::OnCollision(BaseCollider* colliderA, BaseCollider* colliderB) {
 	// ペアを作成する
 	auto pair = CollisionPair(colliderA->GetCategoryBit(), colliderB->GetCategoryBit());
 	auto reversePair = CollisionPair(colliderB->GetCategoryBit(), colliderA->GetCategoryBit());
@@ -122,7 +122,7 @@ void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 		}
 	}
 	
-	std::pair<ICollider*, ICollider*> collisionPair;
+	std::pair<BaseCollider*, BaseCollider*> collisionPair;
 	CallBackKinds callbacks;
 	if (isReverse) {
 		callbacks = reverseIt->second;
@@ -169,7 +169,7 @@ void CollisionManager::OnCollision(ICollider* colliderA, ICollider* colliderB) {
 // ↓　衝突しなくなった瞬間に行う関数
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
-void CollisionManager::ExitCollision(ICollider* colliderA, ICollider* colliderB) {
+void CollisionManager::ExitCollision(BaseCollider* colliderA, BaseCollider* colliderB) {
 	// 衝突している状態だったら脱出した状態にする
 	for (auto collider : { colliderA, colliderB }) {
 		if (collider->GetCollisionState() == (int)CollisionFlags::Stay) {
@@ -181,7 +181,7 @@ void CollisionManager::ExitCollision(ICollider* colliderA, ICollider* colliderB)
 	}
 }
 
-void CollisionManager::CallBackCollision(ICollider* colliderA, ICollider* colliderB, CallBackKinds callBack) {
+void CollisionManager::CallBackCollision(BaseCollider* colliderA, BaseCollider* colliderB, CallBackKinds callBack) {
 	switch (colliderA->GetCollisionState()) {
 	case (int)CollisionFlags::Enter:
 		if (callBack.enter) {

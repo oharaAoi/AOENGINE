@@ -1,8 +1,8 @@
-#include "WorldStateSerializer.h"
+#include "BlackboardSerializer.h"
 #include <iostream>
 #include <fstream>
 
-bool WorldStateSerializer::Save(const std::string& _filePath, const std::unordered_map<std::string, WorldStateValue>& _map) {
+bool BlackboardSerializer::Save(const std::string& _filePath, const std::unordered_map<std::string, BlackboardValue>& _map) {
 	// -------------------------------------------------
 	// ↓ ファイルを開けるかのチェックを行う
 	// -------------------------------------------------
@@ -35,7 +35,7 @@ bool WorldStateSerializer::Save(const std::string& _filePath, const std::unorder
 	return true;
 }
 
-bool WorldStateSerializer::Load(const std::string& _filePath, std::unordered_map<std::string, WorldStateValue>& _map) {
+bool BlackboardSerializer::Load(const std::string& _filePath, std::unordered_map<std::string, BlackboardValue>& _map) {
 	std::ifstream inFile(_filePath);
 	if (inFile.fail()) {
 		assert(false && "Failed to open file");
@@ -47,7 +47,7 @@ bool WorldStateSerializer::Load(const std::string& _filePath, std::unordered_map
 
 	_map.clear();
 	for (auto& [key, val] : j.items()) {
-		WorldStateValue v;
+		BlackboardValue v;
 		v.from_json(val, v);
 		_map[key] = v;
 	}

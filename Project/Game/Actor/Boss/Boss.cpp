@@ -74,7 +74,7 @@ void Boss::Init() {
 	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();
 	
-	ICollider* collider = object_->GetCollider("boss");
+	BaseCollider* collider = object_->GetCollider("boss");
 	collider->SetIsStatic(false);
 
 	object_->SetPhysics();
@@ -88,16 +88,16 @@ void Boss::Init() {
 	// ↓ Tree関連
 	// -------------------------------------------------
 
-	worldState_ = std::make_unique<BossWorldState>();
-	worldState_->Load(param_.worldStatePath);
-	worldState_->SetRef<float>("hp", param_.health);
-	worldState_->SetRef<float>("maxHp", param_.health);
-	worldState_->SetRef<float>("maxPostureStability", param_.postureStability);
+	blackboard_ = std::make_unique<Blackboard>();
+	blackboard_->Load(param_.worldStatePath);
+	blackboard_->SetRef<float>("hp", param_.health);
+	blackboard_->SetRef<float>("maxHp", param_.health);
+	blackboard_->SetRef<float>("maxPostureStability", param_.postureStability);
 
 	behaviorTree_ = BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
 	behaviorTree_->SetName("BossBehaviorTree");
-	behaviorTree_->SetWorldState(worldState_.get());
+	behaviorTree_->SetBlackboard(blackboard_.get());
 	behaviorTree_->SetTarget(this);
 	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());
 	behaviorTree_->AddGoal(std::make_shared<SafeDistanceOriented>());
@@ -164,10 +164,10 @@ void Boss::Init() {
 void Boss::Update() {
 	targetPos_ = targetTransform_->GetOffsetPos();
 
-	initParam_.worldStatePath = worldState_->GetPath();
-	worldState_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());
-	worldState_->Set<bool>("deployArmor", isArmorDeploy_);
-	worldState_->Set<bool>("isAttack", isAttack_);
+	initParam_.worldStatePath = blackboard_->GetPath();
+	blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());
+	blackboard_->Set<bool>("deployArmor", isArmorDeploy_);
+	blackboard_->Set<bool>("isAttack", isAttack_);
 
 	// stateの更新
 	if (!isAlive_) {

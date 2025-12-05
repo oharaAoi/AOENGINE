@@ -114,15 +114,15 @@ void Player::Init() {
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	ICollider* collider = object_->GetCollider("player");
+	BaseCollider* collider = object_->GetCollider("player");
 	collider->SetIsStatic(false);
 
-	ICollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
-	colliderLeftLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	BaseCollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
+	colliderLeftLeg->SetOnCollision([this](BaseCollider* other) { LegOnCollision(other); });
 	colliderLeftLeg->SetIsStatic(false);
 
-	ICollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
-	colliderRightLeg->SetOnCollision([this](ICollider* other) { LegOnCollision(other); });
+	BaseCollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
+	colliderRightLeg->SetOnCollision([this](BaseCollider* other) { LegOnCollision(other); });
 	colliderRightLeg->SetIsStatic(false);
 
 	object_->SetPhysics();
@@ -360,7 +360,7 @@ void Player::IsBoostMode() {
 // ↓ 足のCollider
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::LegOnCollision([[maybe_unused]] ICollider* other) {
+void Player::LegOnCollision([[maybe_unused]] BaseCollider* other) {
 	if (other->GetCategoryName() == "building" || other->GetCategoryName() == "ground") {
 		Landing();
 	}

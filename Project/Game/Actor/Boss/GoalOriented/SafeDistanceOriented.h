@@ -1,7 +1,6 @@
 #pragma once
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
-// game
-#include "Game/Actor/Boss/GoalOriented/BossWorldState.h"
+
 
 /// <summary>
 /// 敵と距離を取る目標

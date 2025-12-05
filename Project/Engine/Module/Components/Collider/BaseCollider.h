@@ -23,12 +23,12 @@ enum class ColliderShape {
 /// <summary>
 /// Colliderの基底クラス
 /// </summary>
-class ICollider :
+class BaseCollider :
 	public AttributeGui {
 public:
 
-	ICollider();
-	virtual ~ICollider() = default;
+	BaseCollider();
+	virtual ~BaseCollider() = default;
 
 	virtual void Init(const std::string& categoryName, ColliderShape shape) = 0;
 	virtual void Update(const QuaternionSRT& srt) = 0;
@@ -41,13 +41,13 @@ public:
 	/// <summary>
 	/// 状態の変更
 	/// </summary>
-	void SwitchCollision(ICollider* partner);
+	void SwitchCollision(BaseCollider* partner);
 
 	/// <summary>
 	/// 当たっている相手を削除する
 	/// </summary>
 	/// <param name="partner"></param>
-	void DeletePartner(ICollider* partner);
+	void DeletePartner(BaseCollider* partner);
 
 	void SetLoacalPos(const Vector3& pos) { localSRT_.translate = pos; }
 
@@ -96,11 +96,11 @@ public:
 	void SetPushBackDirection(const Vector3& dire);
 	const Vector3& GetPushBackDirection() const { return pushbackDire_; }
 
-	void SetOnCollision(std::function<void(ICollider*)> callback) {
+	void SetOnCollision(std::function<void(BaseCollider*)> callback) {
 		onCollision_ = callback;
 	}
 
-	void OnCollision(ICollider* other);
+	void OnCollision(BaseCollider* other);
 
 protected:
 
@@ -122,14 +122,14 @@ protected:
 
 	QuaternionSRT localSRT_ = QuaternionSRT();
 
-	std::unordered_map<ICollider*, int> collisionPartnersMap_;
+	std::unordered_map<BaseCollider*, int> collisionPartnersMap_;
 
 	// 貫通対策
 	bool penetrationPrevention_ = false;	// 貫通対策を行うかどうか
 	Vector3 pushbackDire_ = CVector3::ZERO;
 
 	// 汎用用
-	std::function<void(ICollider*)> onCollision_;
+	std::function<void(BaseCollider*)> onCollision_;
 
 };
 

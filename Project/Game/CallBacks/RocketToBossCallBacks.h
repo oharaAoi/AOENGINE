@@ -21,11 +21,11 @@ public:
 	void Update() override;
 
 	// 衝突開始
-	void CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) override;
+	void CollisionEnter([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss) override;
 	// 衝突中
-	void CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
+	void CollisionStay([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss)  override;
 	// 衝突終わり
-	void CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss)  override;
+	void CollisionExit([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss)  override;
 
 public:		// accessor method
 

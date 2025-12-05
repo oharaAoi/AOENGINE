@@ -178,7 +178,7 @@ void BaseGameObject::Draw() const {
 // ↓　Colliderを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-ICollider* BaseGameObject::GetCollider(const std::string& name) {
+BaseCollider* BaseGameObject::GetCollider(const std::string& name) {
 	for (uint32_t index = 0; index < colliders_.size(); ++index) {
 		if (colliders_[index]->GetCategoryName() == name) {
 			return colliders_[index].get();
@@ -187,14 +187,14 @@ ICollider* BaseGameObject::GetCollider(const std::string& name) {
 	return nullptr;
 }
 
-ICollider* BaseGameObject::GetCollider() {
+BaseCollider* BaseGameObject::GetCollider() {
 	if (!colliders_.empty()) {
 		return colliders_[0].get();
 	}
 	return nullptr;
 }
 
-ICollider* BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
+BaseCollider* BaseGameObject::SetCollider(const std::string& categoryName, ColliderShape shape) {
 	if (shape == ColliderShape::Sphere) {
 		auto& newCollider = colliders_.emplace_back(std::make_unique<SphereCollider>());
 		AddCollider(newCollider.get(), categoryName, shape);
@@ -211,7 +211,7 @@ ICollider* BaseGameObject::SetCollider(const std::string& categoryName, Collider
 	return nullptr;
 }
 
-void BaseGameObject::AddCollider(ICollider* _collider, const std::string& categoryName, ColliderShape shape) {
+void BaseGameObject::AddCollider(BaseCollider* _collider, const std::string& categoryName, ColliderShape shape) {
 	_collider->Init(categoryName, shape);
 	_collider->SetName(categoryName);
 	_collider->SetCategory(categoryName);

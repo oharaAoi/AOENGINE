@@ -53,7 +53,7 @@ void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, std::shar
 
 void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
 	auto goal = goalArray_.emplace_back(std::move(_goal));
-	goal->SetWorldState(worldState_);
+	goal->SetBlackboard(blackboard_);
 }
 
 void BehaviorTree::DisplayState(const Matrix4x4& ownerWorldPos) {
@@ -81,11 +81,11 @@ void BehaviorTree::Edit() {
 	ImGui::SameLine();
 	ImGui::Checkbox("##isExecute", &isExecute_);
 	ImGui::SameLine();
-	editor_.Edit(name_, nodeList_, links_, root_, worldState_, canTaskMap_, goalArray_);
+	editor_.Edit(name_, nodeList_, links_, root_, blackboard_, canTaskMap_, goalArray_);
 
-	ImGui::Begin("WorldState");
-	if (worldState_) {
-		worldState_->Debug_Gui();
+	ImGui::Begin("Blackboard");
+	if (blackboard_) {
+		blackboard_->Debug_Gui();
 	}
 	ImGui::End();
 }
@@ -111,7 +111,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 
 	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
-	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, worldState_, canTaskMap_, goalArray_)).get();
+	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, canTaskMap_, goalArray_)).get();
 
 	Logger::Log("--- success!");
 }

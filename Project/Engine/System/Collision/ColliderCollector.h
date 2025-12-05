@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <list>
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 /// <summary>
 /// Colliderを収集する
@@ -29,19 +29,19 @@ public:
 	/// Colliderの追加
 	/// </summary>
 	/// <param name="_collider"></param>
-	static void AddCollider(ICollider* _collider);
+	static void AddCollider(BaseCollider* _collider);
 
 	/// <summary>
 	/// Colldierを削除する
 	/// </summary>
 	/// <param name="_collider"></param>
-	void RemoveCollider(ICollider* _collider);
+	void RemoveCollider(BaseCollider* _collider);
 
 	/// <summary>
 	/// Colliderのリストを取得する
 	/// </summary>
 	/// <returns></returns>
-	std::list<ICollider*>& GetColliderList() { return colliderList_; }
+	std::list<BaseCollider*>& GetColliderList() { return colliderList_; }
 
 private:
 
@@ -49,11 +49,11 @@ private:
 	/// Colliderの追加
 	/// </summary>
 	/// <param name="_collider"></param>
-	void AddColliderList(ICollider* _collider);
+	void AddColliderList(BaseCollider* _collider);
 
 private:
 
-	std::list<ICollider*> colliderList_;
+	std::list<BaseCollider*> colliderList_;
  
 };
 

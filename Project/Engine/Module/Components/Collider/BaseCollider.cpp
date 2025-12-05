@@ -1,13 +1,13 @@
-#include "ICollider.h"
+#include "BaseCollider.h"
 #include <assert.h>
 #include "Engine/System/Manager/CollisionLayerManager.h"
 
-ICollider::ICollider() {
+BaseCollider::BaseCollider() {
 	penetrationPrevention_ = false;	// 貫通対策を行うかどうか
 	pushbackDire_ = CVector3::ZERO;
 }
 
-void ICollider::SwitchCollision(ICollider* partner) {
+void BaseCollider::SwitchCollision(BaseCollider* partner) {
 	int& state = collisionPartnersMap_[partner];
 
 	switch (state) {
@@ -32,27 +32,27 @@ void ICollider::SwitchCollision(ICollider* partner) {
 	}
 }
 
-void ICollider::DeletePartner(ICollider* partner) {
+void BaseCollider::DeletePartner(BaseCollider* partner) {
 	collisionPartnersMap_.erase(partner);
 }
 
-void ICollider::SetTarget(const std::string& id) {
+void BaseCollider::SetTarget(const std::string& id) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	uint32_t bit = layers.GetCategoryBit(id);
 	SetMaskBits(bit);
 }
 
-void ICollider::SetCategory(const std::string& category) {
+void BaseCollider::SetCategory(const std::string& category) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(category);
 	categoryName_ = category;
 }
 
-void ICollider::SetPushBackDirection(const Vector3& dire) {
+void BaseCollider::SetPushBackDirection(const Vector3& dire) {
 	pushbackDire_ += dire;
 }
 
-void ICollider::OnCollision(ICollider* other) {
+void BaseCollider::OnCollision(BaseCollider* other) {
 	if (onCollision_) {
 		onCollision_(other);
 	}

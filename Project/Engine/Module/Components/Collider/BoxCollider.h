@@ -3,13 +3,13 @@
 #include <windows.h>
 #include <limits>
 #include <string>
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 /// <summary>
 /// 箱型Collider
 /// </summary>
 class BoxCollider 
-	: public ICollider {
+	: public BaseCollider {
 public: // コンストラクタ
 
 	BoxCollider();

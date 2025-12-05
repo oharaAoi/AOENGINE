@@ -29,7 +29,7 @@ void PBulletToBossCallBacks::Update() {
 // ↓ コリジョン処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
+void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss) {
 	BaseBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
 	// bulletの処理
 	if (playerBullet != nullptr) {
@@ -55,8 +55,8 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] ICollider* const bu
 	AudioPlayer::SinglShotPlay("bulletHit.mp3", 0.04f);
 }
 
-void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
+void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss) {
 }
 
-void PBulletToBossCallBacks::CollisionExit([[maybe_unused]] ICollider* const bullet, [[maybe_unused]] ICollider* const boss) {
+void PBulletToBossCallBacks::CollisionExit([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const boss) {
 }

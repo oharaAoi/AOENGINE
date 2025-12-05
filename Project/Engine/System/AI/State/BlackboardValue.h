@@ -5,9 +5,9 @@
 #include <nlohmann/json.hpp>
 
 /// <summary>
-/// WorldState内で使用する値
+/// Blackboard内で使用する値
 /// </summary>
-struct WorldStateValue{
+struct BlackboardValue{
 public:
 
 	using Value = std::variant<
@@ -20,11 +20,11 @@ public:
 
 public:
 
-	WorldStateValue() = default;
-	WorldStateValue(Value v) : value_(v) {}
-	~WorldStateValue() = default;
+	BlackboardValue() = default;
+	BlackboardValue(Value v) : value_(v) {}
+	~BlackboardValue() = default;
 
-	void DebugValue(const std::string& name, WorldStateValue& wv);
+	void DebugValue(const std::string& name, BlackboardValue& wv);
 
 	const Value& Get() const { return value_; }
 
@@ -45,9 +45,9 @@ public:
 		return result;
 	}
 
-	nlohmann::json to_json(const WorldStateValue& v) const;
+	nlohmann::json to_json(const BlackboardValue& v) const;
 
-	void from_json(const nlohmann::json& j, WorldStateValue& v);
+	void from_json(const nlohmann::json& j, BlackboardValue& v);
 
 };
 

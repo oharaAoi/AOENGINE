@@ -3,7 +3,7 @@
 
 using json = nlohmann::json;
 
-void Condition::Debug_Gui(IWorldState* _state) {
+void Condition::Debug_Gui(Blackboard* _state) {
 	_state->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(80);
@@ -12,7 +12,7 @@ void Condition::Debug_Gui(IWorldState* _state) {
 	_state->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
 }
 
-bool Condition::Execute(IWorldState* _state) {
+bool Condition::Execute(Blackboard* _state) {
 	if (leftKey_ != "" && rightKey_ != "") {
 		if (Compare(_state->Get(leftKey_), _state->Get(rightKey_), conditionOps[opIndex_])) {
 			return true;
@@ -21,8 +21,8 @@ bool Condition::Execute(IWorldState* _state) {
 	return false;
 }
 
-bool Condition::Compare(const WorldStateValue& lhs,
-						const WorldStateValue& rhs,
+bool Condition::Compare(const BlackboardValue& lhs,
+						const BlackboardValue& rhs,
 						const std::string& op) {
 	return std::visit([&](auto&& a, auto&& b) -> bool {
 		using A = std::decay_t<decltype(a)>;

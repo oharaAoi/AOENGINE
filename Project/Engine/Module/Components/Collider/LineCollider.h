@@ -1,12 +1,12 @@
 #pragma once
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include <string>
 
 /// <summary>
 /// Box型のCollider
 /// </summary>
 class LineCollider : 
-	public ICollider {
+	public BaseCollider {
 public: // コンストラクタ
 
 	LineCollider() = default;

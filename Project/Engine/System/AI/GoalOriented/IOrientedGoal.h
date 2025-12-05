@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/Blackboard.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
@@ -36,14 +36,14 @@ public:
 	void SetPriority(int _priority) { priority_ = _priority; }
 	int GetPriority() const { return priority_; }
 
-	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
-	IWorldState* GetWorldState() const { return worldState_; }
+	void SetBlackboard(Blackboard* _worldState) { blackboard_ = _worldState; }
+	Blackboard* GetBlackboard() const { return blackboard_; }
 
 protected:
 
 	// 優先度
 	int priority_ = 0;
 
-	IWorldState* worldState_ = nullptr;
+	Blackboard* blackboard_ = nullptr;
 
 };

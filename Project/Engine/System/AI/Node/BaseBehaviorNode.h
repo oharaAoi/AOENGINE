@@ -4,7 +4,7 @@
 #include <memory>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/System/AI/State/IWorldState.h"
+#include "Engine/System/AI/State/Blackboard.h"
 #include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "Engine/Utilities/Timer.h"
 #include "Engine/Lib/Math/Vector2.h"
@@ -123,7 +123,7 @@ public:
 
 	const std::vector<BaseBehaviorNode*>& GetChildren() const { return children_; }
 
-	void SetWorldState(IWorldState* _worldState) { worldState_ = _worldState; }
+	void SetBlackboard(Blackboard* _worldState) { blackboard_ = _worldState; }
 
 	const std::string GetCurrentRunNodeName() const { return currentRunNodeName_; }
 
@@ -151,7 +151,7 @@ protected:
 	Vector2 pos_;				// Nodeの座標
 	bool setNodePos_;			// Node座標の設定を行ったかどうか
 
-	IWorldState* worldState_;
+	Blackboard* blackboard_;
 
 	Timer coolTimer_;
 	bool isCoolTime_ = false;

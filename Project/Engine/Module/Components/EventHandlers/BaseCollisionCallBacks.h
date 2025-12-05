@@ -3,7 +3,7 @@
 #include <functional>
 // collider
 #include "Engine/System/Manager/CollisionManager.h"
-#include "Engine/Module/Components/Collider/ICollider.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 #define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
 
@@ -26,9 +26,9 @@ public:
 	/// </summary>
 	virtual void Update() = 0;
 
-	virtual void CollisionEnter([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
-	virtual void CollisionStay([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
-	virtual void CollisionExit([[maybe_unused]] ICollider* const, [[maybe_unused]] ICollider* const) = 0;
+	virtual void CollisionEnter([[maybe_unused]] BaseCollider* const, [[maybe_unused]] BaseCollider* const) = 0;
+	virtual void CollisionStay([[maybe_unused]] BaseCollider* const, [[maybe_unused]] BaseCollider* const) = 0;
+	virtual void CollisionExit([[maybe_unused]] BaseCollider* const, [[maybe_unused]] BaseCollider* const) = 0;
 
 	/// <summary>
 	/// コールバック関数を設定する

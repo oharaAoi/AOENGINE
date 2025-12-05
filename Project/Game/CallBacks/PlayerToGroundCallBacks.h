@@ -19,11 +19,11 @@ public:
 	void Update() override;
 
 	// 衝突開始
-	void CollisionEnter([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground) override;
+	void CollisionEnter([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground) override;
 	// 衝突中
-	void CollisionStay([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground)  override;
+	void CollisionStay([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground)  override;
 	// 衝突終わり
-	void CollisionExit([[maybe_unused]] ICollider* const player, [[maybe_unused]] ICollider* const ground)  override;
+	void CollisionExit([[maybe_unused]] BaseCollider* const player, [[maybe_unused]] BaseCollider* const ground)  override;
 
 public:		// accessor method
 
