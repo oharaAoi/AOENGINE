@@ -3,6 +3,7 @@
 #include "Engine/DirectX/Pipeline/PipelineGroup/Object3dPipelines.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/SpritePipelines.h"
 #include "Engine/DirectX/Pipeline/PipelineGroup/ProcessedScenePipelines.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 
 enum class PSOType{
 	Object3d,
@@ -26,6 +27,7 @@ public:
 		std::string object;
 		std::string sprite;
 		std::string postProcess;
+		std::string primitive;
 	};
 
 public: // コンストラクタ
@@ -82,18 +84,21 @@ private:
 	const AssetPaths kEngineAssets = {
 		"./Project/Packages/Engine/Assets/Pipeline/Object/",
 		"./Project/Packages/Engine/Assets/Pipeline/Sprite/",
-		"./Project/Packages/Engine/Assets/Pipeline/PostProcess/"
+		"./Project/Packages/Engine/Assets/Pipeline/PostProcess/",
+		"./Project/Packages/Engine/Assets/Pipeline/Primitive/",
 	};
 
 	const AssetPaths kGameAssets = {
 		"./Project/Packages/Game/Assets/Pipeline/Object/",
 		"./Project/Packages/Game/Assets/Pipeline/Sprite/",
-		"./Project/Packages/Game/Assets/Pipeline/PostProcess/"
+		"./Project/Packages/Game/Assets/Pipeline/PostProcess/",
+		""
 	};
 
 	std::unique_ptr<Object3dPipelines> obj3dPipeline_;
 	std::unique_ptr<SpritePipelines> spritePipeline_;
 	std::unique_ptr<ProcessedScenePipelines> processedScenePipeline_;
+	std::unique_ptr<PrimitivePipeline> primitivePipeline_;
 
 	// inputLayout
 	InputLayout inputLayout_;

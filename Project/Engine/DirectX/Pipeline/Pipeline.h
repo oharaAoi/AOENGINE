@@ -30,13 +30,14 @@ public:
 	/// パイプラインの情報
 	/// </summary>
 	struct PipelineParameter : public IJsonConverter {
-		std::string vs;			// vsのシェーダー名
-		std::string ps;			// psのシェーダー名
-		std::string cs;			// csのシェーダー名
-		std::string blendMode;	// blendModeの名前
-		bool culling;			// カリングを行うか
-		bool depth;				// 深度を書くか
+		std::string vs = "";					// vsのシェーダー名
+		std::string ps = "";					// psのシェーダー名
+		std::string cs = "";					// csのシェーダー名
+		std::string blendMode = "";				// blendModeの名前
+		bool culling = false;					// カリングを行うか
+		bool depth = false;						// 深度を書くか
 		std::vector<std::string> rtvFormats;	// 色の補正を行うか
+		std::string primitiveTopologyType = "";	// 形状のタイプ
 
 		json ToJson(const std::string& id) const override {
 			return JsonBuilder(id)
@@ -47,6 +48,7 @@ public:
 				.Add("culling", culling)
 				.Add("depth", depth)
 				.Add("rtvFormat", rtvFormats)
+				.Add("primitiveTopologyType", primitiveTopologyType)
 				.Build();
 		}
 
@@ -58,6 +60,7 @@ public:
 			fromJson(jsonData, "blendMode", blendMode);
 			fromJson(jsonData, "culling", culling);
 			fromJson(jsonData, "depth", depth);
+			fromJson(jsonData, "primitiveTopologyType", primitiveTopologyType);
 			fromJson(pipeline, "rtvFormat", rtvFormats);
 		}
 

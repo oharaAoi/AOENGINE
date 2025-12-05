@@ -17,6 +17,7 @@ void GraphicsPipelines::Finalize() {
 	obj3dPipeline_.reset();
 	spritePipeline_.reset();
 	processedScenePipeline_.reset();
+	primitivePipeline_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,15 +34,18 @@ void GraphicsPipelines::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler
 	obj3dPipeline_ = std::make_unique<Object3dPipelines>();
 	spritePipeline_ = std::make_unique<SpritePipelines>();
 	processedScenePipeline_ = std::make_unique<ProcessedScenePipelines>();
+	primitivePipeline_ = std::make_unique<PrimitivePipeline>();
 
 	obj3dPipeline_->Init(device_, dxCompiler_);
 	spritePipeline_->Init(device_, dxCompiler_);
 	processedScenePipeline_->Init(device_, dxCompiler_);
+	primitivePipeline_->Init(device_, dxCompiler_);
 
 	// engine用
 	Load(kEngineAssets.object, PSOType::Object3d);
 	Load(kEngineAssets.sprite, PSOType::Sprite);
 	Load(kEngineAssets.postProcess, PSOType::ProcessedScene);
+	Load(kEngineAssets.primitive, PSOType::Primitive);
 	// game用
 	Load(kGameAssets.object, PSOType::Object3d);
 	Load(kGameAssets.sprite, PSOType::Sprite);
@@ -53,6 +57,7 @@ void GraphicsPipelines::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsPipelines::Load(const std::string& _path, PSOType _type) {
+	if (_path == "") { return; }
 	if (!fs::exists(_path)) {
 		std::cerr << "Warning: path not found -> " << _path << std::endl;
 		return;
@@ -78,6 +83,7 @@ void GraphicsPipelines::Load(const std::string& _path, PSOType _type) {
 					processedScenePipeline_->AddPipeline(fileName, LoadJson(directory, fileName));
 					break;
 				case PSOType::Primitive:
+					primitivePipeline_->AddPipeline(fileName, LoadJson(directory, fileName));
 					break;
 				default:
 					break;
@@ -132,6 +138,10 @@ void GraphicsPipelines::SetPipeline(ID3D12GraphicsCommandList* _commandList, PSO
 	case PSOType::ProcessedScene:
 		processedScenePipeline_->SetPipeline(_commandList, _typeName);
 		lastUsedPipeline_ = processedScenePipeline_->GetLastUsedPipeline();
+		break;
+	case PSOType::Primitive:
+		primitivePipeline_->SetPipeline(_commandList, _typeName);
+		lastUsedPipeline_ = primitivePipeline_->GetLastUsedPipeline();
 		break;
 	default:
 		break;

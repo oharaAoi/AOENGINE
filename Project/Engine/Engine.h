@@ -78,8 +78,6 @@ public:
 	// Pipelineの設定
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	static void SetPSOPrimitive();
-
 	static AOENGINE::Pipeline* SetPipeline(PSOType type, const std::string& typeName);
 
 	static AOENGINE::Pipeline* GetLastUsedPipeline();

@@ -35,8 +35,7 @@ namespace {
 	DirectXCommon* dxCommon_ = nullptr;
 
 	GraphicsPipelines* graphicsPipeline_ = nullptr;
-	PrimitivePipeline* primitivePipeline_ = nullptr;
-
+	
 	RenderTarget* renderTarget_ = nullptr;
 
 	// CS
@@ -107,8 +106,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	dxCommon_ = graphicsCxt_->GetDxCommon();
 
 	graphicsPipeline_ = graphicsCxt_->GetGraphicsPipeline();
-	primitivePipeline_ = graphicsCxt_->GetPrimitivePipeline();
-
+	
 	renderTarget_ = graphicsCxt_->GetRenderTarget();
 
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_, graphicsCxt_->GetDxResourceManager());
@@ -129,7 +127,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
 #endif
 
-	render_->Init(dxCmdList_, dxDevice_, primitivePipeline_, graphicsCxt_->GetRenderTarget());
+	render_->Init(dxCmdList_, dxDevice_, graphicsCxt_->GetRenderTarget());
 	audio_->Init();
 	
 	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
@@ -248,7 +246,6 @@ void Engine::RenderFrame() {
 		DrawGrid(render_->GetViewport3D(), render_->GetProjection3D());
 	}
 	
-	primitivePipeline_->BindCommand(dxCmdList_);
 	AOENGINE::Render::PrimitiveDrawCall();
 
 	// -------------------------------------------------
@@ -358,10 +355,6 @@ std::unique_ptr<Skinning> Engine::CreateSkinning(Skeleton* skeleton, AOENGINE::M
 	return result;
 }
 
-void Engine::SetPSOPrimitive() {
-	primitivePipeline_->BindCommand(dxCmdList_);
-}
-
 Pipeline* Engine::SetPipeline(PSOType type, const std::string& typeName) {
 	switch (type) {
 	case PSOType::Object3d:
@@ -377,6 +370,8 @@ Pipeline* Engine::SetPipeline(PSOType type, const std::string& typeName) {
 		lastUsedPipeline_ = graphicsPipeline_->GetLastUsedPipeline();
 		break;
 	case PSOType::Primitive:
+		graphicsPipeline_->SetPipeline(dxCmdList_, type, typeName);
+		lastUsedPipeline_ = graphicsPipeline_->GetLastUsedPipeline();
 		break;
 	default:
 		break;

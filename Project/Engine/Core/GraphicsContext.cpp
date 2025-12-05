@@ -50,7 +50,6 @@ void GraphicsContext::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _back
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GraphicsContext::Finalize() {
-	primitivePipeline_->Finalize();
 	graphicsPipelines_->Finalize();
 
 	renderTarget_->Finalize();

@@ -12,7 +12,6 @@ namespace {
 	Matrix4x4 vpvpMatrix;
 	
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
-	PrimitivePipeline* primitivePipelines_ = nullptr;
 	
 	std::unique_ptr<ShadowMap> shadowMap_ = nullptr;
 	
@@ -45,10 +44,9 @@ AOENGINE::Render* AOENGINE::Render::GetInstance() {
 	return &instance;
 }
 
-void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget) {
+void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, RenderTarget* renderTarget) {
 	assert(commandList);
 	commandList_ = commandList;
-	primitivePipelines_ = primitive;
 	GetInstance()->renderTarget_ = renderTarget;
 
 	viewProjection_ = std::make_unique<ViewProjection>();

@@ -18,7 +18,6 @@ void ColliderCollector::Update() {
 }
 
 void ColliderCollector::Draw() const {
-    Engine::SetPSOPrimitive();
     for (auto& collider : colliderList_) {
         collider->Draw();
     }

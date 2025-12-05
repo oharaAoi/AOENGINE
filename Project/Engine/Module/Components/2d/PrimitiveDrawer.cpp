@@ -1,5 +1,8 @@
 #include "PrimitiveDrawer.h"
+#include "Engine/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+
+using namespace AOENGINE;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
@@ -8,7 +11,6 @@
 void PrimitiveDrawer::Finalize() {
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
-	materialBuffer_.Reset();
 	wvpBuffer_.Reset();
 }
 
@@ -46,18 +48,6 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	indexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&indexData_));
 	for (uint32_t oi = 0; oi < kMaxLineCount; oi++) {
 		indexData_[oi] = oi;
-	}
-
-	// ---------------------------------------------------------------
-	// ↓colorの設定
-	// ---------------------------------------------------------------
-	materialBuffer_ = CreateBufferResource(device, sizeof(PrimitiveData) * kMaxLineCount);
-	materialData_ = nullptr;
-	materialBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&materialData_));
-	//*materialData_ = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-
-	for (uint32_t oi = 0; oi < kMaxLineCount; oi++) {
-		materialData_[oi] = Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	// ---------------------------------------------------------------
@@ -129,6 +119,8 @@ void PrimitiveDrawer::Draw(const Vector3& p1, const Vector3& p2, const Color& co
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
+	Pipeline* pso = Engine::SetPipeline(PSOType::Primitive, "Primitive_Line.json");
+
 	uint32_t indeices = useIndex_ - preUseIndex_;
 	if (indeices == 0) {
 		return; // 描画するものがないので早期リターン
@@ -136,8 +128,9 @@ void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
 	// コマンドリストの設定
 	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
 	commandList->IASetIndexBuffer(&indexBufferView_);
-	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer_->GetGPUVirtualAddress());
-	commandList->SetGraphicsRootDescriptorTable(1, wvpSRV_.handleGPU);
+	uint32_t roorIndex = 0;
+	roorIndex = pso->GetRootSignatureIndex("gTransformationMatrix");
+	commandList->SetGraphicsRootDescriptorTable(roorIndex, wvpSRV_.handleGPU);
 
 	// インデックスを使用して線を描画
 	commandList->DrawIndexedInstanced(indeices, indeices / 2, preUseIndex_, 0, 0);

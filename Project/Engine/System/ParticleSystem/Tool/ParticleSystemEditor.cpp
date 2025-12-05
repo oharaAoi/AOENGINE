@@ -593,7 +593,6 @@ void ParticleSystemEditor::PreDraw() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::PostDraw() {
-	Engine::SetPSOPrimitive();
 	AOENGINE::Render::PrimitiveDrawCall();
 
 	// 最後にImGui上でEffectを描画する

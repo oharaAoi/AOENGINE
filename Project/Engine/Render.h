@@ -7,7 +7,6 @@
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/Lib/Color.h"
 
@@ -42,7 +41,7 @@ public:
 	/// <param name="device"></param>
 	/// <param name="primitive"></param>
 	/// <param name="renderTarget"></param>
-	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, PrimitivePipeline* primitive, RenderTarget* renderTarget);
+	void Init(ID3D12GraphicsCommandList* commandList, ID3D12Device* device, RenderTarget* renderTarget);
 
 	/// <summary>
 	/// 更新

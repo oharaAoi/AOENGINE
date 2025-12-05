@@ -74,7 +74,6 @@ private:
 	// 定数バッファ
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	ComPtr<ID3D12Resource> indexBuffer_;
-	ComPtr<ID3D12Resource> materialBuffer_;
 	ComPtr<ID3D12Resource> wvpBuffer_;
 
 	// バッファビュー
@@ -86,7 +85,6 @@ private:
 	// データポインタ
 	PrimitiveData* primitiveData_;
 	uint32_t* indexData_ = nullptr;
-	Vector4* materialData_;
 	Matrix4x4* wvpData_;
 
 	// 使用している線の頂点の数
