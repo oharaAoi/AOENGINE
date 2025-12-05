@@ -33,7 +33,6 @@ void PrimitivePipeline::BindCommand(ID3D12GraphicsCommandList* _commandList) {
 	_commandList->SetGraphicsRootSignature(rootSignature_->GetRootSignature());
 	_commandList->SetPipelineState(graphicsPipelineState_.Get());
 	_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
