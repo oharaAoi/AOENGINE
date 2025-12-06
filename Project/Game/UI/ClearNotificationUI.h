@@ -66,13 +66,13 @@ public:
 
 	bool IsFinish() { return posTween_.GetIsFinish(); }
 
-	Sprite* GetSprite() const { return sprite_; }
+	AOENGINE::Sprite* GetSprite() const { return sprite_; }
 
 private:
 
 	bool isBreak_ = false;
 
-	Sprite* sprite_;
+	AOENGINE::Sprite* sprite_;
 	Parameter param_;
 
 	Math::Vector2 pos_;

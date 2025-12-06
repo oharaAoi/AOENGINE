@@ -59,7 +59,7 @@ public:
 
 private:
 
-	Sprite* alert_;
+	AOENGINE::Sprite* alert_;
 
 	Math::Vector2 scale_ = Math::Vector2{ 0.6f, 0.6f };
 	Math::Vector2 centerPos_ = Math::Vector2{ 640.0f, 360.0f };

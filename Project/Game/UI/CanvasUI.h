@@ -81,7 +81,7 @@ private:
 	// out game
 	std::unique_ptr<ClearNotificationUI> clearNotificationUI_;
 
-	std::unique_ptr<Sprite> control_;
+	std::unique_ptr<AOENGINE::Sprite> control_;
 
 	bool isTutorial_;
 

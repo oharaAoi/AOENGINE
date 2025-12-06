@@ -50,7 +50,7 @@ private:
 	// player
 	std::unique_ptr<PlayerUIs> playerUIs_;
 	std::unique_ptr<Reticle> reticle_;	// reticle
-	Sprite* boostOn_; // 
+	AOENGINE::Sprite* boostOn_; // 
 
 	Math::Vector2 boostOnPos_ = { 940.0f, 640.0f };
 	Math::Vector2 boostOnScale_ = { 0.3f, 0.3f };

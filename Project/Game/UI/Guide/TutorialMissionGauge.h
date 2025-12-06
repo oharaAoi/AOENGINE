@@ -36,12 +36,12 @@ public:
 
 private:
 
-	Sprite* gauge_;
-	Sprite* gaugeBg_;
-	Sprite* success_;
+	AOENGINE::Sprite* gauge_;
+	AOENGINE::Sprite* gaugeBg_;
+	AOENGINE::Sprite* success_;
 
-	Sprite* control_;
-	Sprite* controlBg_;
+	AOENGINE::Sprite* control_;
+	AOENGINE::Sprite* controlBg_;
 
 	VectorTween<float> alphaAnimation_;
 	bool isSuccessFinish_ = false;

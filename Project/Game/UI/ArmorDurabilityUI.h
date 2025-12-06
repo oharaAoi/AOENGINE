@@ -33,6 +33,6 @@ public:
 
 private:
 
-	Sprite* fence_;
+	AOENGINE::Sprite* fence_;
 };
 

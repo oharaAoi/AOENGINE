@@ -35,9 +35,9 @@ public:
 
 public:	// accessor method
 
-	Sprite* GetFront() const { return front_; }
+	AOENGINE::Sprite* GetFront() const { return front_; }
 	
-	Sprite* GetBg() const { return bg_; }
+	AOENGINE::Sprite* GetBg() const { return bg_; }
 
 	void SetPos(const Math::Vector2& _pos);
 
@@ -51,8 +51,8 @@ public:	// accessor method
 
 protected:
 
-	Sprite* bg_;
-	Sprite* front_;
+	AOENGINE::Sprite* bg_;
+	AOENGINE::Sprite* front_;
 
 	float fillAmount_;
 

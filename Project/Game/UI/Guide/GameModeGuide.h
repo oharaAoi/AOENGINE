@@ -40,9 +40,9 @@ public:
 
 private:
 
-	Sprite* goGame_;
-	Sprite* goTutorial_;
-	Sprite* select_;
+	AOENGINE::Sprite* goGame_;
+	AOENGINE::Sprite* goTutorial_;
+	AOENGINE::Sprite* select_;
 
 	SelectModeType selectModeType_;
 	int selectModeIndex_;

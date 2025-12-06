@@ -44,9 +44,9 @@ private:
 
 	Player* pPlayer_;
 
-	Sprite* ap_;
+	AOENGINE::Sprite* ap_;
 
-	Sprite* boostOn_; // 姿勢安定度ゲージ
+	AOENGINE::Sprite* boostOn_; // 姿勢安定度ゲージ
 
 	std::unique_ptr<EnergyOutput> energyOutput_;
 	std::unique_ptr<Health> health_;

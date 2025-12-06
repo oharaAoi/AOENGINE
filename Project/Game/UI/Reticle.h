@@ -35,7 +35,7 @@ public:		// accessor method
 
 private:
 
-	Sprite* reticle_;
+	AOENGINE::Sprite* reticle_;
 
 	bool isLockOn_ = false;
 	Math::Vector2 defaultPosition_;

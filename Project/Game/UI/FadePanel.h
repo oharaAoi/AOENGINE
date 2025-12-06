@@ -45,7 +45,7 @@ public:
 
 private:
 
-	Sprite* panel_;
+	AOENGINE::Sprite* panel_;
 
 	float panelAlpha_ = 0.0f;
 

@@ -38,11 +38,11 @@ public:
 
 public:
 
-	Sprite* GetSprite() { return gauge_; }
+	AOENGINE::Sprite* GetSprite() { return gauge_; }
 
 private:
 
-	Sprite* gauge_;
+	AOENGINE::Sprite* gauge_;
 	float timer_;
 
 	VectorTween<AOENGINE::Color> colorAnimation_;

@@ -26,7 +26,7 @@ public:
 
 private:
 
-	Sprite* gameTitle_;
+	AOENGINE::Sprite* gameTitle_;
 
 };
 

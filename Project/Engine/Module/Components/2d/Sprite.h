@@ -35,6 +35,8 @@ enum class FillMethod {
 	BothEnds		// 両端
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// 円ゲージに必要な構造体
 /// </summary>
@@ -262,7 +264,7 @@ public:
 
 	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
 	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
-	
+
 private:
 
 	bool isEnable_;
@@ -288,13 +290,13 @@ private:
 	TextureMesh* vertexData_;
 	uint32_t* indexData_;
 	TextureMaterial* materialData_;
-	ArcGaugeParam* arcData_;
+	AOENGINE::ArcGaugeParam* arcData_;
 
 	// Transform情報
 	std::unique_ptr<AOENGINE::ScreenTransform> transform_;
 	Math::SRT* parentTransform_ = nullptr;
 	Math::SRT uvTransform_;
-	
+
 	// -------------------
 	// Sprite情報
 	// -------------------
@@ -305,7 +307,7 @@ private:
 	Math::Vector2 drawRange_ = { 0.0f, 0.0f };
 	// 左上座標
 	Math::Vector2 leftTop_ = { 0.0f, 0.0f };
-	
+
 	Math::Vector2 anchorPoint_;
 
 	bool isFlipX_ = false;	// 左右フリップ
@@ -326,7 +328,7 @@ private:
 	// 外部保存のための変数
 	// -------------------
 
-	SpriteParameter saveParam_;
+	AOENGINE::SpriteParameter saveParam_;
 	std::string saveGroupName_;
 	std::string saveKeyName_;
 
@@ -338,3 +340,4 @@ public:
 	void Save(const std::string& _group, const std::string& _key);
 
 };
+}

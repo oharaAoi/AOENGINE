@@ -83,7 +83,7 @@ public:
 	/// Spriteの描画
 	/// </summary>
 	/// <param name="sprite">: spriteのポインタ</param>
-	static void DrawSprite(Sprite* sprite, const Pipeline* pipeline);
+	static void DrawSprite(AOENGINE::Sprite* sprite, const Pipeline* pipeline);
 
 	/// <summary>
 	/// モデルの描画
