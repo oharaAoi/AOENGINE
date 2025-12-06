@@ -62,7 +62,7 @@ public:
 
 	AOENGINE::Model* GetModel() { return model_; }
 
-	WorldTransform* GetTransform() { return transform_.get(); }
+	AOENGINE::WorldTransform* GetTransform() { return transform_.get(); }
 
 	Math::Vector3 GetPosition() const { return worldPos_ + offset_; }
 
@@ -118,7 +118,7 @@ protected:
 	AOENGINE::Model* model_ = nullptr;
 	std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>> materials;
 
-	std::unique_ptr<WorldTransform> transform_ = nullptr;
+	std::unique_ptr<AOENGINE::WorldTransform> transform_ = nullptr;
 	std::unique_ptr<AOENGINE::Animator> animetor_ = nullptr;
 	std::unordered_map<std::string, EndEffector*> endEffectors_;
 

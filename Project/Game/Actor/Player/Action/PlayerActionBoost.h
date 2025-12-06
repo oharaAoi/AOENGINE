@@ -123,7 +123,7 @@ private:
 	// 他クラス ------------------------------------------------
 	Input* pInput_;
 	AOENGINE::Rigidbody* pRigidbody_ = nullptr;
-	WorldTransform* pOwnerTransform_ = nullptr;
+	AOENGINE::WorldTransform* pOwnerTransform_ = nullptr;
 	ICameraAnimation* pCameraAnimation_ = nullptr;
 
 	// State/Parameter ------------------------------------------------

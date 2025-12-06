@@ -1,5 +1,7 @@
 #include "ViewProjection.h"
 
+using namespace AOENGINE;
+
 ViewProjection::ViewProjection() {
 }
 

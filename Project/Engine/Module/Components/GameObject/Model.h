@@ -59,13 +59,13 @@ public:
 	// 静的meshObjectの描画処理
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const AOENGINE::Pipeline* pipeline,
-			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
+			  const AOENGINE::WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 
 	// 動的meshObjectの描画処理
 	void Draw(ID3D12GraphicsCommandList* commandList,
 			  const AOENGINE::Pipeline* pipeline,
-			  const WorldTransform* worldTransform, const ViewProjection* viewprojection,
+			  const AOENGINE::WorldTransform* worldTransform, const ViewProjection* viewprojection,
 			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
 
 	void Debug_Gui(const std::string& name);

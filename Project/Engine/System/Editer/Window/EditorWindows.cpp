@@ -3,6 +3,7 @@
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 using namespace AOENGINE;
 

@@ -1,6 +1,8 @@
 #include "ProcessedSceneFrame.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 void ProcessedSceneFrame::Finalize() {
 	renderResource_->Destroy();
 }

@@ -339,8 +339,8 @@ std::unique_ptr<AOENGINE::Model> Engine::CreateModel(const std::string& director
 	return model;
 }
 
-std::unique_ptr<WorldTransform> Engine::CreateWorldTransform() {
-	std::unique_ptr<WorldTransform> result = std::make_unique<WorldTransform>();
+std::unique_ptr<AOENGINE::WorldTransform> Engine::CreateWorldTransform() {
+	std::unique_ptr<AOENGINE::WorldTransform> result = std::make_unique<AOENGINE::WorldTransform>();
 	result->Init(dxDevice_);
 	return result;
 }

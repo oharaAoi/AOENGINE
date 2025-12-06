@@ -1,5 +1,7 @@
 #include "SkinCluster.h"
 
+using namespace AOENGINE;
+
 SkinCluster::SkinCluster() {
 }
 

@@ -9,8 +9,7 @@
 // math
 #include "Engine/Lib/Math/MyMath.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// Transformをgpuに送るクラス
@@ -55,3 +54,5 @@ private:
 	ComPtr<ID3D12Resource> cBuffer_;
 	TransformationData* TransformationData_;
 };
+
+}

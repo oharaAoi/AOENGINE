@@ -10,9 +10,7 @@
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
-
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// Gpuに送る情報
@@ -70,7 +68,7 @@ public:
 
 	// gizumo描画
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
-	
+
 public:
 
 	void SetParent(const Math::Matrix4x4& parentMat);
@@ -128,7 +126,7 @@ private:
 	const Math::Quaternion* parentRotate_ = nullptr;
 
 	ComPtr<ID3D12Resource> cBuffer_;
-	WorldTransformData* data_;
+	AOENGINE::WorldTransformData* data_;
 
 	float test_angle_ = 0;
 
@@ -140,3 +138,4 @@ private:
 	Math::Vector3 offset_ = CVector3::ZERO;
 };
 
+}

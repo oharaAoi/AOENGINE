@@ -31,7 +31,7 @@ public:	// accessor method
 
 	BaseGameObject* GetGameObject() const { return object_; }
 
-	WorldTransform* GetTransform() const { return transform_; }
+	AOENGINE::WorldTransform* GetTransform() const { return transform_; }
 
 	AOENGINE::BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
 	AOENGINE::BaseCollider* GetCollider() const { return object_->GetCollider(); }
@@ -41,7 +41,7 @@ public:	// accessor method
 protected:
 
 	BaseGameObject* object_;
-	WorldTransform* transform_;
+	AOENGINE::WorldTransform* transform_;
 
 };
 

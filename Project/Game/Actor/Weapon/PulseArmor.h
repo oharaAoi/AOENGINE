@@ -142,7 +142,7 @@ public:
 	void SetIsAlive(bool _isAlive) { isAlive_ = _isAlive; }
 	bool GetIsAlive() const { return isAlive_; }
 
-	WorldTransform* GetTransform() { return worldTransform_.get(); }
+	AOENGINE::WorldTransform* GetTransform() { return worldTransform_.get(); }
 
 private:
 
@@ -151,7 +151,7 @@ private:
 
 	std::shared_ptr<AOENGINE::Mesh> mesh_;
 	std::unique_ptr<AOENGINE::Material> material_ = nullptr;
-	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
+	std::unique_ptr<AOENGINE::WorldTransform> worldTransform_ = nullptr;
 
 	// dissolveに必要な変数 -----------------------
 	AOENGINE::DxResource* settingBuffer_;

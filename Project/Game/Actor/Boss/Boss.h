@@ -106,8 +106,8 @@ public:
 	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
 
 	// targetTransform
-	void SetTargerTransform(WorldTransform* _transform) { targetTransform_ = _transform; }
-	WorldTransform* GetTargetTransform() const { return targetTransform_; }
+	void SetTargerTransform(AOENGINE::WorldTransform* _transform) { targetTransform_ = _transform; }
+	AOENGINE::WorldTransform* GetTargetTransform() const { return targetTransform_; }
 
 	const Math::Vector3& GetTargetPos() const { return targetPos_; }
 
@@ -193,7 +193,7 @@ private:
 
 	// Playerの状態 --------------------------------------------------
 
-	WorldTransform* targetTransform_;
+	AOENGINE::WorldTransform* targetTransform_;
 	Math::Vector3 targetPos_;
 
 	// UI -----------------------------------------------------------

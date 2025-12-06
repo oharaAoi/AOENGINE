@@ -62,7 +62,7 @@ public:
 	void SetUseTexture(const std::string& name) { material_->SetAlbedoTexture(name); }
 	const std::string& GetUseTexture() const { return material_->GetAlbedoTexture(); }
 
-	WorldTransform* GetTransform() { return transform_.get(); }
+	AOENGINE::WorldTransform* GetTransform() { return transform_.get(); }
 
 private:
 
@@ -70,7 +70,7 @@ private:
 
 	std::shared_ptr<AOENGINE::Mesh> mesh_;
 	std::unique_ptr<AOENGINE::Material> material_ = nullptr;
-	std::unique_ptr<WorldTransform> transform_ = nullptr;
+	std::unique_ptr<AOENGINE::WorldTransform> transform_ = nullptr;
 
 	std::string useTexture_ = "circle.png";
 

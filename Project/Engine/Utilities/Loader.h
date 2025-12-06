@@ -74,7 +74,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 /// </summary>
 /// <param name="directoryPath"></param>
 /// <param name="fileName"></param>
-std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& directoryPath, const std::string& fileName);
+std::vector<std::unique_ptr<AOENGINE::SkinCluster>> LoadSkinCluster(const std::string& directoryPath, const std::string& fileName);
 
 //================================================================================================//
 //

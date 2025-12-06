@@ -117,7 +117,7 @@ private:	// variable
 
 	Parameter param_;
 
-	WorldTransform* pOwnerTransform_ = nullptr;
+	AOENGINE::WorldTransform* pOwnerTransform_ = nullptr;
 
 	std::function<void()> mainAction_;
 	

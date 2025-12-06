@@ -50,7 +50,7 @@ void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
-				 const WorldTransform* worldTransform,
+				 const AOENGINE::WorldTransform* worldTransform,
 				 const ViewProjection* viewProjection,
 				 const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 
@@ -62,7 +62,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
 		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+		index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewProjection->BindCommandList(commandList, index);
@@ -94,7 +94,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 
 void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				 const Pipeline* pipeline,
-				 const WorldTransform* worldTransform, const ViewProjection* viewprojection, 
+				 const AOENGINE::WorldTransform* worldTransform, const ViewProjection* viewprojection, 
 				 const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 
 	UINT index = 0;
@@ -105,7 +105,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
 		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+		index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewprojection->BindCommandList(commandList, index);

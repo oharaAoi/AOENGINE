@@ -23,7 +23,7 @@ public:
 private:
 
 	AOENGINE::BaseGameObject* floor_;
-	WorldTransform* transform_;
+	AOENGINE::WorldTransform* transform_;
 
 };
 

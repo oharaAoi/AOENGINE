@@ -89,7 +89,7 @@ private:
 
 public:
 
-	void SetProcessedSceneFrame(ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
+	void SetProcessedSceneFrame(AOENGINE::ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
 	void SetRenderTarget(AOENGINE::RenderTarget* _renderTarget) { renderTarget_ = _renderTarget; }
 
@@ -126,7 +126,7 @@ private:
 	// ----------------------
 	// ↓ 他ポインタ
 	// ----------------------
-	ProcessedSceneFrame* processedSceneFrame_ = nullptr;
+	AOENGINE::ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 	AOENGINE::RenderTarget* renderTarget_;
 	SceneRenderer* sceneRenderer_;
 	AOENGINE::Canvas2d* canvas2d_;

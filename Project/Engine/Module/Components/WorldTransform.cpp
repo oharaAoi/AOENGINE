@@ -3,9 +3,10 @@
 #include <Lib/Math/MyMatrix.h>
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
-#include "Engine/Lib/GameTimer.h"
 
-int WorldTransform::nextId_ = 0;
+using namespace AOENGINE;
+
+int AOENGINE::WorldTransform::nextId_ = 0;
 
 WorldTransform::WorldTransform() {
 	id_ = nextId_;
@@ -15,7 +16,7 @@ WorldTransform::~WorldTransform() {
 	Finalize();
 }
 
-void WorldTransform::Finalize() {
+void AOENGINE::WorldTransform::Finalize() {
 	cBuffer_.Reset();
 	data_ = nullptr;
 }
@@ -24,8 +25,8 @@ void WorldTransform::Finalize() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::Init(ID3D12Device* device) {
-	cBuffer_ = CreateBufferResource(device, sizeof(WorldTransformData));
+void AOENGINE::WorldTransform::Init(ID3D12Device* device) {
+	cBuffer_ = CreateBufferResource(device, sizeof(AOENGINE::WorldTransformData));
 	// データをマップ
 	cBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&data_));
 
@@ -46,7 +47,7 @@ void WorldTransform::Init(ID3D12Device* device) {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::Update(const Math::Matrix4x4& mat) {
+void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
 	Math::Vector3 worldTranslate = CVector3::ZERO;
 	Math::Quaternion worldRotate = Math::Quaternion();
 
@@ -100,11 +101,11 @@ void WorldTransform::Update(const Math::Matrix4x4& mat) {
 	moveQuaternion_ = Math::Quaternion();
 }
 
-void WorldTransform::PostUpdate() {
+void AOENGINE::WorldTransform::PostUpdate() {
 	data_->matWorldPrev = worldMat_;
 }
 
-void WorldTransform::MoveVelocity(const Math::Vector3& velocity, float rotationSpeed) {
+void AOENGINE::WorldTransform::MoveVelocity(const Math::Vector3& velocity, float rotationSpeed) {
 	srt_.translate += velocity;
 
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
@@ -113,7 +114,7 @@ void WorldTransform::MoveVelocity(const Math::Vector3& velocity, float rotationS
 	}
 }
 
-void WorldTransform::LookAt(const Math::Vector3& target, const Math::Vector3& up) {
+void AOENGINE::WorldTransform::LookAt(const Math::Vector3& target, const Math::Vector3& up) {
 	Math::Vector3 direction = target - srt_.translate;
 	srt_.rotate = Math::Quaternion::LookRotation(direction.Normalize(), up);
 }
@@ -122,11 +123,11 @@ void WorldTransform::LookAt(const Math::Vector3& target, const Math::Vector3& up
 // ↓　コマンドリストに送る
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const {
+void AOENGINE::WorldTransform::BindCommandList(ID3D12GraphicsCommandList* commandList, UINT index) const {
 	commandList->SetGraphicsRootConstantBufferView(index, cBuffer_->GetGPUVirtualAddress());
 }
 
-void WorldTransform::Translate(const Math::Vector3& translate, float _deltaTime) {
+void AOENGINE::WorldTransform::Translate(const Math::Vector3& translate, float _deltaTime) {
 	srt_.translate += translate * _deltaTime;
 }
 
@@ -134,7 +135,7 @@ void WorldTransform::Translate(const Math::Vector3& translate, float _deltaTime)
 // ↓　編集
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::Debug_Gui() {
+void AOENGINE::WorldTransform::Debug_Gui() {
 	const std::string id = "Transform##id" + std::to_string(id_);
 	if (ImGui::CollapsingHeader(id.c_str())) {
 		if (ImGui::TreeNodeEx("scale", ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -156,7 +157,7 @@ void WorldTransform::Debug_Gui() {
 	}
 }
 
-void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
+void AOENGINE::WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	ImGuizmo::PushID(id_);
 	ImGuizmo::SetDrawlist(ImGui::GetWindowDrawList()); // ←画面全体描画リスト
 	ImGuizmo::SetRect(imagePos.x, imagePos.y, windowSize.x, windowSize.y);
@@ -198,19 +199,19 @@ void WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos
 // ↓　Setter系
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void WorldTransform::SetParent(const Math::Matrix4x4& parentMat) {
+void AOENGINE::WorldTransform::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
 }
 
-void WorldTransform::SetParentTranslate(const Math::Vector3& parentTranslate) {
+void AOENGINE::WorldTransform::SetParentTranslate(const Math::Vector3& parentTranslate) {
 	parentTranslate_ = &parentTranslate;
 }
 
-void WorldTransform::SetParentRotate(const Math::Quaternion& parentQuaternion) {
+void AOENGINE::WorldTransform::SetParentRotate(const Math::Quaternion& parentQuaternion) {
 	parentRotate_ = &parentQuaternion;
 }
 
-void WorldTransform::SetMatrix(const Math::Matrix4x4& mat) {
+void AOENGINE::WorldTransform::SetMatrix(const Math::Matrix4x4& mat) {
 	data_->matWorld = mat;
 	data_->worldInverseTranspose = Inverse(data_->matWorld).Transpose();
 }

@@ -5,7 +5,7 @@
 #include <map>
 #include "Engine/Lib/Math/Matrix4x4.h"
 
-
+namespace AOENGINE {
 
 /// <summary>
 /// 頂点ごとの重み
@@ -47,3 +47,4 @@ private:
 
 };
 
+}

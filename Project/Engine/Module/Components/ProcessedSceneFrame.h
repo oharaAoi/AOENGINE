@@ -1,13 +1,9 @@
 #pragma once
-#include "Engine/Module/Components/Meshes/Mesh.h"
-#include "Engine/Module/Components/Materials/Material.h"
-#include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// Sceneを描画した後のResourceを所有
@@ -57,10 +53,11 @@ public:
 
 private:
 
-	
+
 	AOENGINE::DxResource* renderResource_;
 
 	ImVec2 availSize_;
 	ImVec2 imagePos_;
 };
 
+}

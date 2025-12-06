@@ -33,7 +33,7 @@ void GeometryObject::Draw() const {
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
 	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
-	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
+	index = pso->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 	transform_->BindCommandList(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");

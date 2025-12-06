@@ -100,7 +100,7 @@ void PulseArmor::Draw() const {
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 
-	UINT index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
+	UINT index = pso->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
 	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);

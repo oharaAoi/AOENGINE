@@ -8,8 +8,7 @@
 // math
 #include "Engine/Lib/Math/MyMath.h"
 
-template<typename T>
-using ComPtr = Microsoft::WRL::ComPtr <T>;
+namespace AOENGINE {
 
 /// <summary>
 /// gpuに送る情報
@@ -72,3 +71,4 @@ private:
 	ViewProjectionPrevData* dataPrev_;
 };
 
+}

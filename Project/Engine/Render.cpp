@@ -130,7 +130,7 @@ void AOENGINE::Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 // ↓　モデルの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
+void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	UINT index = 0;
@@ -140,7 +140,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const W
 	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
-void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
+void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const AOENGINE::WorldTransform* worldTransform,
 					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
 					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	lightGroup_->BindCommand(pipeline, commandList_);
@@ -152,7 +152,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const Wor
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
 	index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
@@ -184,7 +184,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const Wor
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const WorldTransform* _transform) {
+void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
@@ -192,7 +192,7 @@ void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mes
 	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList_->SetGraphicsRootConstantBufferView(index, _material->GetBufferAddress());
 
-	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 	_transform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
@@ -208,11 +208,11 @@ void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mes
 	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
 }
 
-void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {
+void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const AOENGINE::WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {
 	UINT index = 0;
 	commandList_->IASetVertexBuffers(0, 1, &vbv);
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
-	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	lightGroup_->GetDirectionalLight()->ViewBindCommand(commandList_, index);

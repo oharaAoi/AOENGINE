@@ -39,7 +39,7 @@ private :
 	
 	Math::Vector3 velocity_;
 	Math::Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
-	WorldTransform* pOwnerTransform_ = nullptr;
+	AOENGINE::WorldTransform* pOwnerTransform_ = nullptr;
 
 };
 

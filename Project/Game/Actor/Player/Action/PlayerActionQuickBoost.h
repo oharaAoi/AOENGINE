@@ -106,7 +106,7 @@ private:
 
 	// 他クラス ------------------------------------------------
 	Input* pInput_;
-	WorldTransform* pOwnerTransform_ = nullptr;
+	AOENGINE::WorldTransform* pOwnerTransform_ = nullptr;
 	std::shared_ptr<RadialBlur> pRadialBlur_;
 
 	// State/Parameter ------------------------------------------------

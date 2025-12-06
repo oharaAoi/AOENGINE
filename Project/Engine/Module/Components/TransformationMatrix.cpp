@@ -1,5 +1,7 @@
 #include "TransformationMatrix.h"
 
+using namespace AOENGINE;
+
 TransformationMatrix::TransformationMatrix() {
 }
 

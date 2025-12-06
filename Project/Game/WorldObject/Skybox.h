@@ -49,7 +49,7 @@ private:
 
 	std::shared_ptr<AOENGINE::Mesh> mesh_;
 	std::unique_ptr<AOENGINE::Material> material_ = nullptr;
-	std::unique_ptr<WorldTransform> transform_ = nullptr;
+	std::unique_ptr<AOENGINE::WorldTransform> transform_ = nullptr;
 
 	std::string useTexture_ = "output_skybox.dds";
 };

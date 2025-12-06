@@ -86,7 +86,7 @@ private:
 	// Parameter -------------------------------------------------
 	bool isBoostMode_;
 
-	std::unique_ptr<WorldTransform> burnParentTransform_ = nullptr;
+	std::unique_ptr<AOENGINE::WorldTransform> burnParentTransform_ = nullptr;
 
 	Parameter param_;
 

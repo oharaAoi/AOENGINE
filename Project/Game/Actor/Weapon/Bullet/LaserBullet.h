@@ -89,7 +89,7 @@ private:
 
 private:
 
-	std::unique_ptr<WorldTransform> parentTransform_;
+	std::unique_ptr<AOENGINE::WorldTransform> parentTransform_;
 	std::unique_ptr<LaserCylinder> laserCylinder_;
 
 	LaserParameter param_;
