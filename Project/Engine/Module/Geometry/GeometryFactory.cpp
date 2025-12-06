@@ -1,6 +1,8 @@
 #include "GeometryFactory.h"
 #include "Engine/Engine.h"
 
+using namespace AOENGINE;
+
 GeometryFactory& GeometryFactory::GetInstance() {
 	static GeometryFactory instance;
 	return instance;

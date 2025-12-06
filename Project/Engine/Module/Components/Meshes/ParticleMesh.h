@@ -3,6 +3,8 @@
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// particle用のmesh
 /// </summary>
@@ -35,3 +37,4 @@ private:
 
 };
 
+}

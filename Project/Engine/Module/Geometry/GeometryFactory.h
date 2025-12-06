@@ -26,13 +26,13 @@ public:
 	/// <param name="_pMesh">: meshのポインタ</param>
 	/// <param name="...args">: 可変長引数</param>
 	template <typename ShapePolicy, typename... Args>
-	void Create(std::shared_ptr<Mesh>& _pMesh, Args&&... args) {
+	void Create(std::shared_ptr<AOENGINE::Mesh>& _pMesh, Args&&... args) {
 		createMesh_ = false;
 		ShapePolicy geometry;
 		geometry.Init(std::forward<Args>(args)...);
 		std::string name = geometry.GetGeometryName();
 		if (!ExistMesh(name)) {
-			_pMesh = std::make_shared<Mesh>();
+			_pMesh = std::make_shared<AOENGINE::Mesh>();
 			_pMesh->Init(pDevice_, geometry.GetVertex(), geometry.GetIndex());
 			AddMeshManager(_pMesh, name);
 		} else {
@@ -42,9 +42,9 @@ public:
 
 private:
 
-	void SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& name);
+	void SetMesh(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name);
 
-	void AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name);
+	void AddMeshManager(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name);
 
 	bool ExistMesh(const std::string& name);
 

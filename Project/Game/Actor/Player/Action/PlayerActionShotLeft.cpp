@@ -51,7 +51,7 @@ void PlayerActionShotLeft::OnStart() {
 	isFinish_ = false;
 
 	// 重力が適応されている場合は重力を無効にする
-	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	AOENGINE::Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
 	if (rigidbody != nullptr) {
 		rigidbody->SetGravity(false);
 	}
@@ -62,7 +62,7 @@ void PlayerActionShotLeft::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnUpdate() {
-	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	AOENGINE::Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
 	if (rigidbody != nullptr) {
 		rigidbody->SetGravity(false);
 	}
@@ -84,7 +84,7 @@ void PlayerActionShotLeft::OnEnd() {
 	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shotAfter", param_.animationTime);
 
-	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
+	AOENGINE::Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();
 	if (rigidbody != nullptr) {
 		if (!rigidbody->GetGravity()) {
 			rigidbody->SetGravity(true);

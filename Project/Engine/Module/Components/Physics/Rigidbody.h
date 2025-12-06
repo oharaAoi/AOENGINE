@@ -3,6 +3,8 @@
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 物理計算ようの
 /// </summary>
@@ -74,3 +76,4 @@ private:
 
 };
 
+}

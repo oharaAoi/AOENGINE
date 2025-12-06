@@ -56,7 +56,7 @@ public:
 
 public:
 
-	Mesh* GetMesh() { return mesh_.get(); }
+	AOENGINE::Mesh* GetMesh() { return mesh_.get(); }
 	AOENGINE::Material* GetMaterial() { return material_.get(); }
 
 	void SetUseTexture(const std::string& name) { material_->SetAlbedoTexture(name); }
@@ -68,7 +68,7 @@ private:
 
 	std::string id_ = "new GeometryObject";
 
-	std::shared_ptr<Mesh> mesh_;
+	std::shared_ptr<AOENGINE::Mesh> mesh_;
 	std::unique_ptr<AOENGINE::Material> material_ = nullptr;
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 

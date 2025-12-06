@@ -102,7 +102,7 @@ private:
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
 
-	std::vector<std::shared_ptr<Mesh>> meshArray_;
+	std::vector<std::shared_ptr<AOENGINE::Mesh>> meshArray_;
 	std::vector<std::unique_ptr<AOENGINE::Material>> materials_;
 
 	std::unordered_map<std::string, ModelMaterialData> materialData_;

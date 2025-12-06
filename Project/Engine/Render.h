@@ -93,10 +93,10 @@ public:
 	static void DrawModel(const Pipeline* pipeline, Model* model, const WorldTransform* worldTransform,
 						  const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
 
-	static void DrawModel(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform,
+	static void DrawModel(const Pipeline* pipeline, AOENGINE::Mesh* mesh, const WorldTransform* worldTransform,
 						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
 
-	static void DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, AOENGINE::BaseMaterial* _material, const WorldTransform* _transform);
+	static void DrawEnvironmentModel(const Pipeline* pipeline, AOENGINE::Mesh* _mesh, AOENGINE::BaseMaterial* _material, const WorldTransform* _transform);
 
 	/// <summary>
 	/// 線の描画
@@ -117,7 +117,7 @@ public:
 
 	static void DrawLightGroup(Pipeline* pipeline);
 
-	static void SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv);
+	static void SetShadowMesh(const Pipeline* pipeline, AOENGINE::Mesh* mesh, const WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv);
 
 	//==================================================================================
 	// ↓　設定系

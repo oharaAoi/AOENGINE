@@ -2,8 +2,6 @@
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
 
-using namespace AOENGINE;
-
 void JetEngineBurn::Finalize() {
 }
 
@@ -18,7 +16,7 @@ void JetEngineBurn::Init() {
 	// meshの作成dw 
 	std::string name = geometry_.GetGeometryName();
 	if (!ExistMesh(name)) {
-		mesh_ = std::make_shared<Mesh>();
+		mesh_ = std::make_shared<AOENGINE::Mesh>();
 		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
@@ -34,7 +32,7 @@ void JetEngineBurn::Init() {
 	noiseSRT_.translate = CVector3::ZERO;
 	
 	// その他の作成
-	material_ = std::make_unique<Material>();
+	material_ = std::make_unique<AOENGINE::Material>();
 	material_->Init();
 	material_->SetColor(param_.color);
 	material_->SetAlbedoTexture(param_.materialTexture);
@@ -77,7 +75,7 @@ void JetEngineBurn::Draw() const {
 	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 
-	Pipeline* pso = Engine::GetLastUsedPipeline();
+	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gMaterial");
 	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 	index = pso->GetRootSignatureIndex("gNoiseUV");
@@ -146,7 +144,7 @@ void JetEngineBurn::Parameter::Debug_Gui() {
 // ↓ meshの処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void JetEngineBurn::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
+void JetEngineBurn::AddMeshManager(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name) {
 	MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 

@@ -91,7 +91,7 @@ private:
 
 	// Parameter -------------------------------
 
-	Rigidbody* pRigidbody_ = nullptr;
+	AOENGINE::Rigidbody* pRigidbody_ = nullptr;
 
 	const float kDeadZone_ = 0.1f;
 	Math::Vector2 inputStick_;

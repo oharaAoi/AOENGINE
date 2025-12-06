@@ -121,7 +121,7 @@ private:
 
 	AOENGINE::BaseParticles* boostParticle_;
 
-	Rigidbody* pRigidBody_;
+	AOENGINE::Rigidbody* pRigidBody_;
 
 	size_t boostClassId_;
 

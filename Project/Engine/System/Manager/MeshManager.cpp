@@ -1,6 +1,8 @@
 #include "MeshManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 std::unordered_map<std::string, MeshManager::MeshArray> MeshManager::meshArrayMap_;
 std::unordered_map<std::string, std::shared_ptr<Mesh>> MeshManager::meshMap_;
 std::vector<std::string> MeshManager::modelNameList_;

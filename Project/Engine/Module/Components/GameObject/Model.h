@@ -87,7 +87,7 @@ public:
 
 	std::unordered_map<std::string, ModelMaterialData>& GetMaterialData() { return materialData_; }
 
-	Mesh* GetMesh(const uint32_t& index);
+	AOENGINE::Mesh* GetMesh(const uint32_t& index);
 	size_t GetMeshsNum() const { return meshArray_.size(); }
 
 	const size_t GetMaterialsSize() const { return materialData_.size(); }
@@ -95,7 +95,7 @@ public:
 private:
 
 	// 頂点バッファやインデックスバッファを持つ
-	std::vector<std::shared_ptr<Mesh>> meshArray_;
+	std::vector<std::shared_ptr<AOENGINE::Mesh>> meshArray_;
 	// materialの情報
 	std::unordered_map<std::string, ModelMaterialData> materialData_;
 	// skinningのデータ

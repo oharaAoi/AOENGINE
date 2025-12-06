@@ -65,7 +65,7 @@ public:
 
 	void SetParent(const Math::Matrix4x4& parentMat);
 
-	std::shared_ptr<Mesh> GetMesh() const { return shape_; }
+	std::shared_ptr<AOENGINE::Mesh> GetMesh() const { return shape_; }
 
 	void SetParticlesList(const std::shared_ptr<std::list<AOENGINE::ParticleSingle>>& list) { particleArray_ = list; }
 
@@ -92,7 +92,7 @@ protected:
 	bool isAddBlend_;
 
 	// meshの形状
-	std::shared_ptr<Mesh> shape_;
+	std::shared_ptr<AOENGINE::Mesh> shape_;
 	std::shared_ptr<AOENGINE::Material> shareMaterial_;
 
 	// Particleの情報

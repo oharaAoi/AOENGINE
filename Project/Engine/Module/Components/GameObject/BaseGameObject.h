@@ -111,7 +111,7 @@ public:
 	void SetIsRendering(bool _isRendering) { isRendering_ = _isRendering; }
 
 	void SetPhysics();
-	Rigidbody* GetRigidbody() { return rigidbody_.get(); }
+	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_.get(); }
 
 protected:
 
@@ -124,7 +124,7 @@ protected:
 
 	std::vector<std::unique_ptr<AOENGINE::BaseCollider>> colliders_;
 
-	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
+	std::unique_ptr<AOENGINE::Rigidbody> rigidbody_ = nullptr;
 
 	AOENGINE::Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
 	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f };

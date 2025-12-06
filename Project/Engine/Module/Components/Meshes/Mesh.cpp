@@ -1,5 +1,7 @@
 #include "Mesh.h"
 
+using namespace AOENGINE;
+
 Mesh::Mesh() {
 }
 

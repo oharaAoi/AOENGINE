@@ -10,9 +10,9 @@ public:
 
 	struct MeshPair {
 		std::string meshName;
-		std::shared_ptr<Mesh> mesh;
+		std::shared_ptr<AOENGINE::Mesh> mesh;
 
-		MeshPair(const std::string& name, std::shared_ptr<Mesh> pMesh) {
+		MeshPair(const std::string& name, std::shared_ptr<AOENGINE::Mesh> pMesh) {
 			meshName = name;
 			mesh = std::move(pMesh);
 		}
@@ -53,7 +53,7 @@ public:
 	/// </summary>
 	/// <param name="modelName"></param>
 	/// <returns></returns>
-	static std::vector<std::shared_ptr<Mesh>> GetMeshes(const std::string& modelName);
+	static std::vector<std::shared_ptr<AOENGINE::Mesh>> GetMeshes(const std::string& modelName);
 
 	/// <summary>
 	/// Meshが存在するかチェック
@@ -67,7 +67,7 @@ public:
 	/// </summary>
 	/// <param name="meshName"></param>
 	/// <returns></returns>
-	std::shared_ptr<Mesh> GetMesh(const std::string& meshName);
+	std::shared_ptr<AOENGINE::Mesh> GetMesh(const std::string& meshName);
 
 	/// <summary>
 	/// Meshを選択する
@@ -78,7 +78,7 @@ public:
 private:
 
 	static std::unordered_map<std::string, MeshArray> meshArrayMap_;
-	static std::unordered_map<std::string, std::shared_ptr<Mesh>> meshMap_;
+	static std::unordered_map<std::string, std::shared_ptr<AOENGINE::Mesh>> meshMap_;
 	static std::vector<std::string> modelNameList_;
 	static std::vector<std::string> meshNameList_;
 

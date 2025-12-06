@@ -131,7 +131,7 @@ private:	// variable
 	Math::Matrix4x4 feetMatrixLeft_;
 	Math::Matrix4x4 feetMatrixRight_;
 
-	Rigidbody* pRigidbody_;
+	AOENGINE::Rigidbody* pRigidbody_;
 
 };
 

@@ -12,10 +12,10 @@
 
 const uint32_t kNumMaxInfluence = 4;
 
+namespace AOENGINE {
+
 class Model;
 class Mesh;
-
-namespace AOENGINE {
 
 /// <summary>
 /// skinningの情報を管理しているクラス

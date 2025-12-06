@@ -4,9 +4,6 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/GameTimer.h"
-
-using namespace AOENGINE;
-
 PulseArmor::~PulseArmor() {
 	settingBuffer_->Destroy();
 }
@@ -16,13 +13,13 @@ PulseArmor::~PulseArmor() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Init() {
-	armorParam_.FromJson(JsonItems::GetData(GetName(), armorParam_.GetName()));
+	armorParam_.FromJson(AOENGINE::JsonItems::GetData(GetName(), armorParam_.GetName()));
 	geometry_.Init(CMath::Vector2::UNIT, 16, "armor");
 
 	// meshの設定
 	std::string name = geometry_.GetGeometryName();
 	if (!MeshManager::GetInstance()->ExistMesh(name)) {
-		mesh_ = std::make_shared<Mesh>();
+		mesh_ = std::make_shared<AOENGINE::Mesh>();
 		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
 		MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, mesh_->GetVerticesData(), mesh_->GetIndices());
 	} else {
@@ -30,7 +27,7 @@ void PulseArmor::Init() {
 	}
 
 	// material/worldTransformに関する設定
-	material_ = std::make_unique<Material>();
+	material_ = std::make_unique<AOENGINE::Material>();
 	material_->Init();
 	worldTransform_ = Engine::CreateWorldTransform();
 	material_->SetAlbedoTexture(armorParam_.baseTexture);
@@ -96,7 +93,7 @@ void PulseArmor::Draw() const {
 	if (!isAlive_) { return; }
 
 	Engine::SetPipeline(PSOType::Object3d, "Object_Dissolve.json");
-	Pipeline* pso = Engine::GetLastUsedPipeline();
+	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
 	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 
 	// VS
@@ -178,7 +175,7 @@ void PulseArmor::Debug_Gui() {
 			armorParam_.noiseTexture1 = noiseTexture_[0];
 			armorParam_.noiseTexture2 = noiseTexture_[1];
 			armorParam_.noiseTexture3 = noiseTexture_[2];
-			JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
+			AOENGINE::JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
 		}
 
 		if (ImGui::Button("Applay")) {

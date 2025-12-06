@@ -26,7 +26,7 @@ public:		// 構造体
 	};
 
 	struct Information {
-		std::shared_ptr<Mesh> pMesh;
+		std::shared_ptr<AOENGINE::Mesh> pMesh;
 		std::shared_ptr<AOENGINE::Material> materials;
 		std::string textureName;
 		ComPtr<ID3D12Resource> particleResource_;
@@ -67,9 +67,9 @@ public:
 
 public:
 
-	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<Mesh> _pMesh, bool isAddBlend = true);
+	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<AOENGINE::Mesh> _pMesh, bool isAddBlend = true);
 
-	void ChangeMesh(const std::string& id, std::shared_ptr<Mesh> _mesh);
+	void ChangeMesh(const std::string& id, std::shared_ptr<AOENGINE::Mesh> _mesh);
 
 	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& view2d, const Math::Matrix4x4& bill) {
 		perView_->viewProjection = view;

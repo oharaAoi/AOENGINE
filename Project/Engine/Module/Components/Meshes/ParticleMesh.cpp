@@ -1,5 +1,7 @@
 #include "ParticleMesh.h"
 
+using namespace AOENGINE;
+
 ParticleMesh::~ParticleMesh() {
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();

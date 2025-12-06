@@ -3,6 +3,8 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 3dMesh
 /// </summary>
@@ -112,8 +114,10 @@ private:
 	std::string useMaterial_;
 	// meshの名前
 	std::string meshName_;
-	
+
 	uint32_t indexNum_;
 	UINT vbvSize_;
 	uint32_t vertexDataSize_;
 };
+
+}
