@@ -31,8 +31,8 @@ public:
 
 private:
 
-	GameTimer gameTimer_ = GameTimer(60);
-	Profiler profiler_;
+	AOENGINE::GameTimer gameTimer_ = AOENGINE::GameTimer(60);
+	AOENGINE::Profiler profiler_;
 
 	std::unique_ptr<SceneManager> sceneManger_;
 

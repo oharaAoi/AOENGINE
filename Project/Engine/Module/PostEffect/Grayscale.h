@@ -10,7 +10,7 @@ class Grayscale :
 public:
 
 	struct Setting {
-		Color color;
+		AOENGINE::Color color;
 	};
 
 public:
@@ -31,7 +31,7 @@ public:
 
 public:
 
-	void SetColor(const Color& _color) { setting_->color = _color; }
+	void SetColor(const AOENGINE::Color& _color) { setting_->color = _color; }
 
 private:
 

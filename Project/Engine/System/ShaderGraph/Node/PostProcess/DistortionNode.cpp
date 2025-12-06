@@ -33,7 +33,7 @@ void DistortionNode::customUpdate() {
 	inputBaseResource_ = getInVal<AOENGINE::DxResource*>("BaseTexture");
 	inputNoiseResource_ = getInVal<AOENGINE::DxResource*>("SampleNoise");
 
-	param_->time += GameTimer::DeltaTime();
+	param_->time += AOENGINE::GameTimer::DeltaTime();
 
 	// resourceの作成
 	CreateView();

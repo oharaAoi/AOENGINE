@@ -17,7 +17,7 @@ void BossIdleState::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossIdleState::OnUpdate() {
-	floatingTween_.Update(GameTimer::DeltaTime());
+	floatingTween_.Update(AOENGINE::GameTimer::DeltaTime());
 	pOwner_->GetTransform()->temporaryTranslate_.y += floatingTween_.GetValue();
 }
 

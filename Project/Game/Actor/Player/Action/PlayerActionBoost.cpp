@@ -146,7 +146,7 @@ bool PlayerActionBoost::IsInput() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionBoost::BoostCharge() {
-	timer_ += GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::DeltaTime();
 
 	if (timer_ >= param_.chargeTime) {
 		mainAction_ = std::bind(&PlayerActionBoost::Boost, this);
@@ -165,7 +165,7 @@ void PlayerActionBoost::Boost() {
 	pRigidbody_->AddVelocity(acceleration_);
 
 	// エネルギーを消費する
-	pOwner_->ConsumeEN(param_.consumeEnergy * GameTimer::DeltaTime());
+	pOwner_->ConsumeEN(param_.consumeEnergy * AOENGINE::GameTimer::DeltaTime());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ void PlayerActionBoost::Boost() {
 
 void PlayerActionBoost::BoostStop() {
 	Math::Vector3 velocity = pRigidbody_->GetVelocity();
-	velocity *= std::pow(param_.stopForce, GameTimer::DeltaTime());
+	velocity *= std::pow(param_.stopForce, AOENGINE::GameTimer::DeltaTime());
 	pRigidbody_->SetVelocity(velocity);
 	if (velocity.Length() < param_.stopThreshold) {
 		isStop_ = true;

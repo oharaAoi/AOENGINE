@@ -101,7 +101,7 @@ void BossActionKeepDistance::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionKeepDistance::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	if (!stopping_) {
 		if (moveType_ == 0) {
@@ -131,8 +131,8 @@ void BossActionKeepDistance::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionKeepDistance::Direct() {
-	velocity_ += accel_ * GameTimer::DeltaTime();
-	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), param_.rotateT);
+	velocity_ += accel_ * AOENGINE::GameTimer::DeltaTime();
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * AOENGINE::GameTimer::DeltaTime(), param_.rotateT);
 }
 
 void BossActionKeepDistance::Spin() {
@@ -147,13 +147,13 @@ void BossActionKeepDistance::Spin() {
 	accel_.y = 0.0f;
 
 	// 速度と位置を更新
-	velocity_ += accel_ * GameTimer::DeltaTime();
-	pTarget_->GetTransform()->MoveVelocity(velocity_ * GameTimer::DeltaTime(), param_.rotateT);
+	velocity_ += accel_ * AOENGINE::GameTimer::DeltaTime();
+	pTarget_->GetTransform()->MoveVelocity(velocity_ * AOENGINE::GameTimer::DeltaTime(), param_.rotateT);
 }
 
 void BossActionKeepDistance::Stop() {
-	velocity_ *= std::exp(-param_.decayRate * GameTimer::DeltaTime());
-	pTarget_->GetTransform()->srt_.translate += velocity_ * GameTimer::DeltaTime();
+	velocity_ *= std::exp(-param_.decayRate * AOENGINE::GameTimer::DeltaTime());
+	pTarget_->GetTransform()->srt_.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
 
 	Math::Quaternion playerToRotate_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 	pTarget_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);

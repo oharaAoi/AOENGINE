@@ -1,6 +1,8 @@
 #include "Profiler.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 void Profiler::Start() {
 	start_ = std::chrono::high_resolution_clock::now();
 }

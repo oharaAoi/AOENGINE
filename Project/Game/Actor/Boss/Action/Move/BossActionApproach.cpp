@@ -53,7 +53,7 @@ void BossActionApproach::Init() {
 }
 
 void BossActionApproach::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	Approach();
 
 	if (taskTimer_ > param_.moveTime) {
@@ -81,7 +81,7 @@ bool BossActionApproach::CanExecute() {
 }
 
 void BossActionApproach::Approach() {
-	pTarget_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * GameTimer::DeltaTime(), param_.rotateT);
+	pTarget_->GetTransform()->MoveVelocity(toPlayer_.Normalize() * param_.moveSpeed * AOENGINE::GameTimer::DeltaTime(), param_.rotateT);
 }
 
 void BossActionApproach::SpinApproach() {
@@ -100,7 +100,7 @@ void BossActionApproach::SpinApproach() {
 	offsetDire_ = offsetDire_.Normalize();
 
 	// 移動をさせる
-	pTarget_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * GameTimer::DeltaTime(), param_.rotateT);
+	pTarget_->GetTransform()->MoveVelocity(offsetDire_ * param_.moveSpeed * AOENGINE::GameTimer::DeltaTime(), param_.rotateT);
 
-	param_.moveSpeed -= param_.deceleration * GameTimer::DeltaTime();
+	param_.moveSpeed -= param_.deceleration * AOENGINE::GameTimer::DeltaTime();
 }

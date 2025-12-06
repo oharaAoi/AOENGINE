@@ -49,11 +49,11 @@ void PlayerActionDeployArmor::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDeployArmor::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	// カメラを動かす時間計算する
 	FollowCamera* followCamera = pOwner_->GetFollowCamera();
-	cameraOffsetZ_.Update(GameTimer::DeltaTime());
+	cameraOffsetZ_.Update(AOENGINE::GameTimer::DeltaTime());
 
 	// Animationが終了したときの処理
 	if (cameraOffsetZ_.GetIsFinish()) {

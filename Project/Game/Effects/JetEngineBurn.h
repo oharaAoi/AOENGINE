@@ -25,7 +25,7 @@ public:
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		Color color;
+		AOENGINE::Color color;
 		Math::Vector3 scale;
 		Math::Quaternion rotate;
 		Math::Vector3 translate;

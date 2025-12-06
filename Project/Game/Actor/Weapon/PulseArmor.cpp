@@ -51,8 +51,8 @@ void PulseArmor::Init() {
 	}
 
 	// bufferPtrの初期化
-	setting_->color = Color::white;
-	setting_->edgeColor = Color::white;
+	setting_->color = AOENGINE::Color::white;
+	setting_->edgeColor = AOENGINE::Color::white;
 	setting_->threshold = 0.02f;
 
 	noiseTexture_[0] = "noise0.png";
@@ -78,11 +78,11 @@ void PulseArmor::Init() {
 void PulseArmor::Update() {
 	for (size_t index = 0; index < 3; ++index) {
 		uvSrt_[index].translate = uvMovingTween_[index].GetValue();
-		uvMovingTween_[index].Update(GameTimer::DeltaTime());
+		uvMovingTween_[index].Update(AOENGINE::GameTimer::DeltaTime());
 		setting_->uvTransform[index] = uvSrt_[index].MakeAffine();
 	}
 
-	thresholdTween_.Update(GameTimer::DeltaTime());
+	thresholdTween_.Update(AOENGINE::GameTimer::DeltaTime());
 	setting_->threshold = thresholdTween_.GetValue();
 
 	worldTransform_->Update();
@@ -212,7 +212,7 @@ void PulseArmor::SetParameter() {
 	material_->SetAlbedoTexture(armorParam_.baseTexture);
 }
 
-void PulseArmor::SetArmor(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt) {
+void PulseArmor::SetArmor(float _durability, const Math::Vector3& _scale, const AOENGINE::Color& _color, const AOENGINE::Color& _edgeColor, const Math::SRT& _uvSrt) {
 	durability_ = _durability;
 	initDurability_ = _durability;
 	worldTransform_->SetScale(_scale);

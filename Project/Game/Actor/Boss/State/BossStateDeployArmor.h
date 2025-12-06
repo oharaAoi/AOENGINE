@@ -16,8 +16,8 @@ public:
 	struct ArmorParameter : public AOENGINE::IJsonConverter {
 		float durability = 100.0f;
 		Math::Vector3 scale = CVector3::UNIT;
-		Color color = Color::white;
-		Color edgeColor = Color::white;
+		AOENGINE::Color color = AOENGINE::Color::white;
+		AOENGINE::Color edgeColor = AOENGINE::Color::white;
 
 		Math::SRT uvTransform;
 

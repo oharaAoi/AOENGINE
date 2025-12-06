@@ -69,6 +69,5 @@ private:
 	// ノード内部の状態
 	AOENGINE::DxResource* inputResource_ = nullptr;
 	NodeUVTransform uv_ ;         // UV入力のデフォルト値
-	Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
-
+	
 };

@@ -47,7 +47,7 @@ private:
 
 private:
 
-	const float kCameraDeltaTime_ = 1.0f / GameTimer::fps_;
+	const float kCameraDeltaTime_ = 1.0f / AOENGINE::GameTimer::fps_;
 
 	Math::Quaternion moveRotate_;
 	// 回転する前のMath::Quaternion

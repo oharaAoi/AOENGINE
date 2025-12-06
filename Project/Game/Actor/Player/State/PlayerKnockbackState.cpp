@@ -58,13 +58,13 @@ void PlayerKnockbackState::OnExit() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerKnockbackState::Knockback() {
-	timer_ += GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::DeltaTime();
 	param_.knockStrength *= param_.knockDecay;
 
 	// ノックバック方向のベクトルを取得
 	Math::Vector3 direction = pOwner_->GetKnockBackDire();
-	acceleration_ = (direction * param_.knockStrength) * GameTimer::DeltaTime();
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
+	acceleration_ = (direction * param_.knockStrength) * AOENGINE::GameTimer::DeltaTime();
+	velocity_ += acceleration_ * AOENGINE::GameTimer::DeltaTime();
 	pOwner_->GetTransform()->srt_.translate += velocity_;
 
 	if (timer_ > param_.knockbackTime) {

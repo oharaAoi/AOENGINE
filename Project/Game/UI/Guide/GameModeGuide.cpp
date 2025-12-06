@@ -48,7 +48,7 @@ void GameModeGuide::Update() {
 	if (!isSelectCoolTime_) {
 		isSelectCoolTime_ = Select();
 	} else {
-		timer_ += GameTimer::DeltaTime();
+		timer_ += AOENGINE::GameTimer::DeltaTime();
 
 		if (timer_ >= 0.2f) {
 			isSelectCoolTime_ = false;

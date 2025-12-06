@@ -85,7 +85,7 @@ void PlayerActionJump::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	mainAction_();
 
@@ -182,7 +182,7 @@ void PlayerActionJump::Rising() {
 		pOwner_->GetJetEngine()->JetIsStart();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
-		pOwner_->ConsumeEN(param_.jumpEnergy * GameTimer::DeltaTime());
+		pOwner_->ConsumeEN(param_.jumpEnergy * AOENGINE::GameTimer::DeltaTime());
 		pRigidbody_->SetVelocityY(acceleration_.y);
 
 	} else {

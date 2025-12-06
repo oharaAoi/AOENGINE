@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -24,11 +25,13 @@ enum class CpuEmitterShape {
 	Cone
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// Particle単体のパラメータ
 /// </summary>
 struct ParticleSingle {
-	Color color;			// 色
+	AOENGINE::Color color;			// 色
 	Math::Vector3 scale;			// 拡縮
 	Math::Quaternion rotate;		// 回転
 	Math::Vector3 translate;		// 座標
@@ -65,8 +68,8 @@ struct ParticleSingle {
 	Math::Matrix4x4 uvMat;
 
 	bool isColorAnimation = false;
-	Color preColor;
-	Color postColor;
+	AOENGINE::Color preColor;
+	AOENGINE::Color postColor;
 
 	float rotateZ = 0;
 };
@@ -87,9 +90,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 
 	// particle自体のparameter
 	bool isRandomColor = false;
-	Color color = Color{ 1,1,1,1 };			// 色
-	Color randColor1 = Color{ 1,0,0,1 };	// 色
-	Color randColor2 = Color{ 0,0,1,1 };	// 色
+	AOENGINE::Color color = AOENGINE::Color{ 1,1,1,1 };			// 色
+	AOENGINE::Color randColor1 = AOENGINE::Color{ 1,0,0,1 };	// 色
+	AOENGINE::Color randColor2 = AOENGINE::Color{ 0,0,1,1 };	// 色
 	bool isLerpDiscardValue;					// discardの値をlerpさせるか
 	float discardValue = 0.01f;					// discardをするしきい値
 	float startDiscard = 0.01f;					// discardの初期値
@@ -132,8 +135,8 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector2 tiles = CMath::Vector2::UNIT;
 
 	bool isColorAnimation = false;
-	Color preColor;
-	Color postColor;
+	AOENGINE::Color preColor;
+	AOENGINE::Color postColor;
 
 	bool isRandomRotate = true;
 	float minAngle = 0;
@@ -263,3 +266,5 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 
 	void Debug_Gui() override {};
 };
+
+}

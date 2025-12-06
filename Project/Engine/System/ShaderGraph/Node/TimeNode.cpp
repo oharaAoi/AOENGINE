@@ -25,7 +25,7 @@ void TimeNode::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TimeNode::customUpdate() {
-    time_ += GameTimer::DeltaTime();
+    time_ += AOENGINE::GameTimer::DeltaTime();
     sineTime_ = std::sinf(time_);
 }
 

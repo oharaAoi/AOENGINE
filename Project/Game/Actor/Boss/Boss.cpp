@@ -177,7 +177,7 @@ void Boss::Update() {
 
 	// アーマーのクールタイムを更新
 	if (!pulseArmor_->GetIsAlive()) {
-		param_.armorCoolTime -= GameTimer::DeltaTime();
+		param_.armorCoolTime -= AOENGINE::GameTimer::DeltaTime();
 		if (param_.armorCoolTime <= 0.0f) {
 			isArmorDeploy_ = true;
 			param_.armorCoolTime = initParam_.armorCoolTime;
@@ -257,7 +257,7 @@ bool Boss::TargetLook() {
 
 	if (angle > param_.angularThreshold) {
 		// 経過時間で変化させる角度
-		float deltaAngle = param_.angularVelocity * GameTimer::DeltaTime();
+		float deltaAngle = param_.angularVelocity * AOENGINE::GameTimer::DeltaTime();
 		// 実際に方向を決定
 		transform_->SetRotate(Math::Quaternion::Slerp(transform_->GetRotate(), targetRotate, deltaAngle));
 	} else {

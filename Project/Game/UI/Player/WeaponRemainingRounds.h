@@ -45,7 +45,7 @@ private:
 	Sprite* gauge_;
 	float timer_;
 
-	VectorTween<Color> colorAnimation_;
+	VectorTween<AOENGINE::Color> colorAnimation_;
 	const float kAnimationDuration_ = 0.5f;
 };
 

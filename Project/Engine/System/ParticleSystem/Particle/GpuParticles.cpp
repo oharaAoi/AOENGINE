@@ -100,8 +100,8 @@ void GpuParticles::Init(uint32_t instanceNum) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticles::Update() {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
+	perFrame_->deltaTime = AOENGINE::GameTimer::DeltaTime();
+	perFrame_->time = AOENGINE::GameTimer::TotalTime();
 
 	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	//Engine::SetCsPipeline(CsPipelineType::GpuParticleUpdate);

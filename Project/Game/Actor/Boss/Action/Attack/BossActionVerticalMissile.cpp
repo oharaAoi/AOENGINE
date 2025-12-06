@@ -73,7 +73,7 @@ void BossActionVerticalMissile::Update() {
 		return;
 	}
 
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (taskTimer_ > 0.2f) {
 		Shot();
 		taskTimer_ = 0.0f;

@@ -65,7 +65,7 @@ public:
 
 	std::shared_ptr<Mesh> GetMesh() const { return shape_; }
 
-	void SetParticlesList(const std::shared_ptr<std::list<ParticleSingle>>& list) { particleArray_ = list; }
+	void SetParticlesList(const std::shared_ptr<std::list<AOENGINE::ParticleSingle>>& list) { particleArray_ = list; }
 
 	const std::string& GetUseTexture() const { return emitter_.useTexture; }
 
@@ -94,10 +94,10 @@ protected:
 	std::shared_ptr<Material> shareMaterial_;
 
 	// Particleの情報
-	std::shared_ptr<std::list<ParticleSingle>> particleArray_;
+	std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particleArray_;
 
 	// emitter
-	ParticleEmit emitter_;
+	AOENGINE::ParticleEmit emitter_;
 	float emitAccumulator_;
 	float currentTimer_;
 	bool isStop_;

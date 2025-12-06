@@ -41,8 +41,8 @@ void TutorialMissionGauge::Init() {
 
 void TutorialMissionGauge::Update() {
 	if (success_->GetEnable()) {
-		alphaAnimation_.Update(GameTimer::DeltaTime());
-		success_->SetColor(Color(1,1,1, alphaAnimation_.GetValue()));
+		alphaAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
+		success_->SetColor(AOENGINE::Color(1,1,1, alphaAnimation_.GetValue()));
 
 		if (alphaAnimation_.GetIsFinish()) {
 			success_->SetEnable(false);

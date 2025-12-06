@@ -15,7 +15,7 @@ public: // メンバ構造体
 	/// </summary>
 	struct PointLightData {
 		Math::Matrix4x4 viewProjection;
-		Color color; // ライトの色
+		AOENGINE::Color color; // ライトの色
 		Math::Vector3 position; // ライトの位置
 		float pad;
 		Math::Vector3 eyePos;
@@ -29,7 +29,7 @@ public: // メンバ構造体
 	/// 保存パラメータ
 	/// </summary>
 	struct Paramter : public AOENGINE::IJsonConverter {
-		Color color = Color(1,1,1,1);		// ライトの色
+		AOENGINE::Color color = AOENGINE::Color(1,1,1,1);		// ライトの色
 		Math::Vector3 position = Math::Vector3(0,1,0);	// ライトの位置
 		float intensity = 1.0f;	// 輝度
 		float radius = 5.0f;		// 範囲

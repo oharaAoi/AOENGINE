@@ -180,7 +180,7 @@ inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 
 template<typename OwnerType>
 inline bool BaseTaskNode<OwnerType>::Wait() {
-	if (!waitTimer_.Run(GameTimer::DeltaTime())) {
+	if (!waitTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		return true;
 	}
 	return false;

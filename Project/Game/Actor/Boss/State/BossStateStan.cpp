@@ -29,7 +29,7 @@ void BossStateStan::OnStart() {
 	effect_ = ParticleManager::GetInstance()->CrateParticle("BossStanEffect");
 	effect_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
 
-	GameTimer::SetTimeScale(0.1f);
+	AOENGINE::GameTimer::SetTimeScale(0.1f);
 
 	AudioPlayer::SinglShotPlay("stan_se.mp3", 0.5f);
 }
@@ -39,8 +39,8 @@ void BossStateStan::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateStan::OnUpdate() {
-	stateTime_ += GameTimer::DeltaTime();
-	slowTime_ += GameTimer::FixedDeltaTime();
+	stateTime_ += AOENGINE::GameTimer::DeltaTime();
+	slowTime_ += AOENGINE::GameTimer::FixedDeltaTime();
 	pOwner_->SetStanRemainingTime(stateTime_ / param_.stanTime);
 
 	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
@@ -52,7 +52,7 @@ void BossStateStan::OnUpdate() {
 
 	// ヒットスロウ
 	if (slowTime_ >= param_.stanSlowTime) {
-		GameTimer::SetTimeScale(1.0f);
+		AOENGINE::GameTimer::SetTimeScale(1.0f);
 	}
 
 	// スタンの終了

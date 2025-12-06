@@ -18,10 +18,10 @@ class PostureStability :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		Color normalColor;
-		Color pinchColor;
-		Color armorColor;
-		Color stanColor;
+		AOENGINE::Color normalColor;
+		AOENGINE::Color pinchColor;
+		AOENGINE::Color armorColor;
+		AOENGINE::Color stanColor;
 
 		Parameter() { SetName("postureStability"); }
 
@@ -81,6 +81,6 @@ private:
 
 	GaugeType gaugeType_;
 
-	VectorTween<Color> stanAnimation_;
+	VectorTween<AOENGINE::Color> stanAnimation_;
 };
 

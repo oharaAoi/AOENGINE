@@ -18,7 +18,7 @@ void FadePanel::Init() {
 
 	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 100);
 	panel_->SetTranslate(Math::Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f));
-	panel_->SetColor(Color(0.0f, 0.0f, 0.0f, 0.0f));
+	panel_->SetColor(AOENGINE::Color(0.0f, 0.0f, 0.0f, 0.0f));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,22 +40,22 @@ void FadePanel::Update() {
 	// ↓ 実際にカラーを調整する
 	// -------------------------------------------------
 	if (isBlackOut_) {	// ブラックアウトさせる
-		time_ += GameTimer::DeltaTime();
+		time_ += AOENGINE::GameTimer::DeltaTime();
 		time_ = std::clamp(time_, 0.0f, timeLimit_);
 
 		float t = time_ / timeLimit_;
 		panelAlpha_ = std::lerp(0.0f, 1.0f, t);
 
-		panel_->SetColor(Color(0.0f, 0.0f, 0.0f, panelAlpha_));
+		panel_->SetColor(AOENGINE::Color(0.0f, 0.0f, 0.0f, panelAlpha_));
 
 	} else {			// ブラックアウトから抜ける
-		time_ += GameTimer::DeltaTime();
+		time_ += AOENGINE::GameTimer::DeltaTime();
 		time_ = std::clamp(time_, 0.0f, timeLimit_);
 
 		float t = time_ / timeLimit_;
 		panelAlpha_ = std::lerp(1.0f, 0.0f, t);
 
-		panel_->SetColor(Color(0.0f, 0.0f, 0.0f, panelAlpha_));
+		panel_->SetColor(AOENGINE::Color(0.0f, 0.0f, 0.0f, panelAlpha_));
 	}
 }
 
@@ -116,6 +116,6 @@ void FadePanel::SetBlackOutOpen(float timeLimit) {
 	timeLimit_ = timeLimit;
 }
 
-void FadePanel::SetColor(const Color& _color) {
+void FadePanel::SetColor(const AOENGINE::Color& _color) {
 	panel_->SetColor(_color);
 }

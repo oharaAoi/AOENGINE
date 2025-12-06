@@ -82,7 +82,7 @@ void Armors::SetArmor() {
 	inArmor_->SetParameter();
 }
 
-void Armors::SetArmorParam(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt) {
+void Armors::SetArmorParam(float _durability, const Math::Vector3& _scale, const AOENGINE::Color& _color, const AOENGINE::Color& _edgeColor, const Math::SRT& _uvSrt) {
 	outArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
 	inArmor_->SetArmor(_durability, _scale, _color, _edgeColor, _uvSrt);
 }

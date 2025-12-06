@@ -209,7 +209,7 @@ float Lerp(float v1, float v2, float t);
 Math::Vector2 Lerp(const Math::Vector2& v1, const Math::Vector2& v2, float t);
 Math::Vector3 Lerp(const Math::Vector3& v1, const Math::Vector3& v2, float t);
 Math::Vector4 Lerp(const Math::Vector4& v1, const Math::Vector4& v2, float t);
-Color Lerp(const Color& v1, const Color& v2, float t);
+AOENGINE::Color Lerp(const AOENGINE::Color& v1, const AOENGINE::Color& v2, float t);
 
 /// <summary>
 /// 線形補完

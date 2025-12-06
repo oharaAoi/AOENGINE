@@ -20,7 +20,7 @@ public:
 	void Finalize() {};
 
 	// 初期化
-	void Init(const Color& _color);
+	void Init(const AOENGINE::Color& _color);
 
 	// 更新
 	void Update();

@@ -71,14 +71,14 @@ protected :
 	D3D12_GPU_DESCRIPTOR_HANDLE freeListHandle_;
 
 	ComPtr<ID3D12Resource> emitterResource_;
-	GpuParticleEmitterData* emitterData_;
+	AOENGINE::GpuParticleEmitterData* emitterData_;
 
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
 
 	ID3D12Resource* maxParticleResource_;
 
-	GpuParticleEmitterItem emitterItem_;
+	AOENGINE::GpuParticleEmitterItem emitterItem_;
 	
 	// parameter
 	bool isStop_ = false;

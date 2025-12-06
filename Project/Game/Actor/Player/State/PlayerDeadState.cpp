@@ -34,7 +34,7 @@ void PlayerDeadState::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerDeadState::OnUpdate() {
-	if (timer_.Run(GameTimer::DeltaTime())) {
+	if (timer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		Knockback();
 	} else {
 		pOwner_->SetIsExpload(true);
@@ -57,7 +57,7 @@ void PlayerDeadState::Knockback() {
 
 	// ノックバック方向のベクトルを取得
 	Math::Vector3 direction = -pOwner_->GetTransform()->GetRotate().MakeForward();
-	acceleration_ = (direction * param_.knockStrength) * GameTimer::DeltaTime();
-	velocity_ += acceleration_ * GameTimer::DeltaTime();
+	acceleration_ = (direction * param_.knockStrength) * AOENGINE::GameTimer::DeltaTime();
+	velocity_ += acceleration_ * AOENGINE::GameTimer::DeltaTime();
 	pOwner_->GetTransform()->srt_.translate += velocity_;
 }

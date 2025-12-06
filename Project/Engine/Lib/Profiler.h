@@ -4,6 +4,8 @@
 #include <queue>
 #include <utility>
 
+namespace AOENGINE {
+
 /// <summary>
 /// 処理時間計測器
 /// </summary>
@@ -39,3 +41,4 @@ public:
 
 };
 
+}

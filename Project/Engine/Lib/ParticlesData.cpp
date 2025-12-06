@@ -1,6 +1,8 @@
 #include "ParticlesData.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {
 		ImGui::Checkbox("IsLoop", &isLoop);

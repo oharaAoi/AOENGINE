@@ -31,7 +31,7 @@ void GlitchNoise::Init() {
 
 void GlitchNoise::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	if (setting_->strength != 0.0f) {
-		setting_->time += GameTimer::DeltaTime();
+		setting_->time += AOENGINE::GameTimer::DeltaTime();
 		setting_->frameIndex++;
 
 		if (setting_->time > noiseTime_) {

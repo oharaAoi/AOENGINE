@@ -80,7 +80,7 @@ void BossActionShotBullet::Update() {
 		return;
 	}
 
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (taskTimer_ > param_.shotInterval) {
 		Shot();
 		taskTimer_ = 0.0f;

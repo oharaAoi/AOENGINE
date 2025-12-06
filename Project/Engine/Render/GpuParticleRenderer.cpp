@@ -58,8 +58,8 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleRenderer::Update() {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
+	perFrame_->deltaTime = AOENGINE::GameTimer::DeltaTime();
+	perFrame_->time = AOENGINE::GameTimer::TotalTime();
 
 	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
 	Engine::SetPipelineCS("GpuParticleUpdate.json");

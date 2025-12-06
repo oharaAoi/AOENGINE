@@ -137,7 +137,7 @@ void MeshCollider::Update(const WorldTransform* worldTransform, const Math::Vect
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void MeshCollider::Draw() const {
-	DrawOBB(obb_, AOENGINE::Render::GetViewport3D() * AOENGINE::Render::GetProjection3D(), Color::white);
+	DrawOBB(obb_, AOENGINE::Render::GetViewport3D() * AOENGINE::Render::GetProjection3D(), AOENGINE::Color::white);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

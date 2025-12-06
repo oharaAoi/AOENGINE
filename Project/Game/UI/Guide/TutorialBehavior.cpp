@@ -20,7 +20,7 @@ void TutorialMoveBehavior::Update() {
 	// 移動のアクションが実行されている間は時間を計測’する
 	Input* input = Input::GetInstance();
 	if (input->GetLeftJoyStick().x != 0 || input->GetLeftJoyStick().y != 0) {
-		totalMoveTime_ += GameTimer::DeltaTime();
+		totalMoveTime_ += AOENGINE::GameTimer::DeltaTime();
 	}
 
 	// Target量を超えたら
@@ -62,7 +62,7 @@ void TutorialJumpBehavior::Update() {
 	}
 
 	if (input->IsPressButton(XInputButtons::ButtonA)) {
-		totalJumpTime_ += GameTimer::DeltaTime();
+		totalJumpTime_ += AOENGINE::GameTimer::DeltaTime();
 	}
 
 	// Target量を超えたら
@@ -145,7 +145,7 @@ void TutorialLockOnBehavior::Init() {
 void TutorialLockOnBehavior::Update() {
 	Player* pPlayer = host_->playerManager_->GetPlayer();
 	if (pPlayer->GetIsLockOn()) {
-		totalLockOnTime_ += GameTimer::DeltaTime();
+		totalLockOnTime_ += AOENGINE::GameTimer::DeltaTime();
 	}
 
 	if (!isNext_) {

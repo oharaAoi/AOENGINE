@@ -34,7 +34,7 @@ void PlayerActionIdle::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionIdle::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	pOwner_->RecoveryEN(actionTimer_);
 }

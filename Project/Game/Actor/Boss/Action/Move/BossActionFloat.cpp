@@ -42,8 +42,8 @@ void BossActionFloat::Init() {
 }
 
 void BossActionFloat::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
-	pTarget_->GetTransform()->srt_.translate.y += param_.moveTime * GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
+	pTarget_->GetTransform()->srt_.translate.y += param_.moveTime * AOENGINE::GameTimer::DeltaTime();
 }
 
 void BossActionFloat::End() {

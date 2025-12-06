@@ -1,5 +1,7 @@
 #include "Color.h"
 
+using namespace AOENGINE;
+
 Color Color::Lerp(const Color& _a, const Color& _b, float _t) {
 	return Color(
 		std::lerp(_a.r, _b.r, _t),

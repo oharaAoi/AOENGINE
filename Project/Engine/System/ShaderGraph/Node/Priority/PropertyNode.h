@@ -82,7 +82,7 @@ inline nlohmann::json PropertyNode<T>::toJson() {
 		result["props"]["value"] = { value_.x, value_.y, value_.z };
 	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
 	}
 	return result;
@@ -108,7 +108,7 @@ inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
 		value_.y = value.at(1).get<float>();
 		value_.z = value.at(2).get<float>();
 		value_.w = value.at(3).get<float>();
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		auto& value = _json.at("props").at("color");
 		value_.r = value.at(0).get<float>();
 		value_.g = value.at(1).get<float>();

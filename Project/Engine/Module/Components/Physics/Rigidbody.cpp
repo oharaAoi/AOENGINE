@@ -19,7 +19,7 @@ void Rigidbody::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Rigidbody::Update() {
-	float dt = GameTimer::DeltaTime();
+	float dt = AOENGINE::GameTimer::DeltaTime();
 
 	float dragFactor = 1.0f / (1.0f + drag_ * dt);
 	velocity_ *= dragFactor;

@@ -1,11 +1,11 @@
 #pragma once
-#include <memory>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/Lib/Color.h"
-#include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 
 /// <summary>
 /// 線を描画するためのクラス
@@ -18,7 +18,7 @@ public : // データ構造体
 	/// </summary>
 	struct PrimitiveData {
 		Math::Vector4 pos;
-		Color color;
+		AOENGINE::Color color;
 	};
 
 	// 線分の最大数
@@ -55,7 +55,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="wvpMat">: 透視投影行列</param>
-	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& wvpMat);
+	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color, const Math::Matrix4x4& wvpMat);
 
 	/// <summary>
 	/// 描画コマンドを積む

@@ -103,7 +103,7 @@ void LaserBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LaserBullet::Update() {
-	if (!lifeTimer_.Run(GameTimer::DeltaTime())) {
+	if (!lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		isAlive_ = false;
 	}
 
@@ -147,7 +147,7 @@ void LaserBullet::Stretch() {
 	// scaleを大きくする
 	if (isShot_) {
 		Math::Vector3 scale = parentTransform_->GetScale();
-		scale.z += speed_ * GameTimer::DeltaTime();
+		scale.z += speed_ * AOENGINE::GameTimer::DeltaTime();
 		parentTransform_->SetScale(scale);
 
 		if (scale.z >= param_.maxLength) {
@@ -167,7 +167,7 @@ void LaserBullet::Stretch() {
 
 void LaserBullet::Fade() {
 	if (isFade_) {
-		if (fadeTimer_.Run(GameTimer::DeltaTime())) {
+		if (fadeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 			float z = std::lerp(1.f, 0.f, fadeTimer_.t_);
 			parentTransform_->SetScaleX(z);
 			parentTransform_->SetScaleY(z);
@@ -175,8 +175,8 @@ void LaserBullet::Fade() {
 			transform_->SetScaleZ(z);
 			laserCylinder_->SetScaleZ(z);
 
-			object_->SetColor(Color(1, 1, 1, z));
-			laserCylinder_->GetGameObject()->SetColor(Color(1, 1, 1, z));
+			object_->SetColor(AOENGINE::Color(1, 1, 1, z));
+			laserCylinder_->GetGameObject()->SetColor(AOENGINE::Color(1, 1, 1, z));
 
 		} else {
 			isAlive_ = false;

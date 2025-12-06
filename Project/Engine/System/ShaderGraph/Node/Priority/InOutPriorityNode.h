@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
-#include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Lib/Color.h"
 
 template<typename T>
 class InOutPriorityNode :
@@ -72,8 +72,8 @@ inline void InOutPriorityNode<T>::Init() {
 		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("w", inputValue_.w, ImFlow::ConnectionFilter::SameType());
 
-	} else if constexpr (std::is_same_v<T, Color>) {
-		addIN<Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
+		addIN<AOENGINE::Color>("color", inputValue_, ImFlow::ConnectionFilter::SameType());
 	}
 
 	// outputの設定
@@ -102,8 +102,8 @@ inline void InOutPriorityNode<T>::customUpdate() {
 		inputValue_.z = getInVal<float>("z");
 		inputValue_.w = getInVal<float>("w");
 
-	} else if constexpr (std::is_same_v<T, Color>) {
-		inputValue_ = getInVal<Color>("color");
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
+		inputValue_ = getInVal<AOENGINE::Color>("color");
 	}
 
 	// 値の更新
@@ -126,7 +126,7 @@ inline nlohmann::json InOutPriorityNode<T>::toJson() {
 		result["props"]["value"] = { value_.x, value_.y, value_.z };
 	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		result["props"]["value"] = { value_.x, value_.y, value_.z, value_.w };
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		result["props"]["color"] = { value_.r, value_.g, value_.b, value_.a };
 	}
 	return result;
@@ -152,7 +152,7 @@ inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 		value_.y = value.at(1).get<float>();
 		value_.z = value.at(2).get<float>();
 		value_.w = value.at(3).get<float>();
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		auto& value = _json.at("props").at("color");
 		value_.r = value.at(0).get<float>();
 		value_.g = value.at(1).get<float>();

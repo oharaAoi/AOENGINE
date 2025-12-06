@@ -182,11 +182,11 @@ void FollowCamera::Update() {
 void FollowCamera::InputStick() {
 	stick_ = Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
 	if (std::abs(stick_.x) > kDeadZone_) {
-		angle_.x += stick_.x * followCamera_.rotateDelta * GameTimer::DeltaTime();
+		angle_.x += stick_.x * followCamera_.rotateDelta * AOENGINE::GameTimer::DeltaTime();
 	}
 
 	if (std::abs(stick_.y) > kDeadZone_) {
-		angle_.y -= stick_.y * followCamera_.rotateDelta * GameTimer::DeltaTime();
+		angle_.y -= stick_.y * followCamera_.rotateDelta * AOENGINE::GameTimer::DeltaTime();
 	}
 
 	float limitMinY = -kPI / followCamera_.limitMinY;
@@ -222,7 +222,7 @@ void FollowCamera::RotateCamera() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::MoveCamera(const Math::Vector3& target) {
-	pivotSRT_.translate = SmoothDamp(prePosition_, target, velocity_, followCamera_.smoothTime, followCamera_.maxSpeed, GameTimer::DeltaTime());
+	pivotSRT_.translate = SmoothDamp(prePosition_, target, velocity_, followCamera_.smoothTime, followCamera_.maxSpeed, AOENGINE::GameTimer::DeltaTime());
 	transform_.translate = followCamera_.offset;
 	prePosition_ = pivotSRT_.translate;
 }
@@ -233,7 +233,7 @@ void FollowCamera::MoveCamera(const Math::Vector3& target) {
 
 void FollowCamera::Shake() {
 	if (shakeTimer_ <= shakeTime_) {
-		shakeTimer_ += GameTimer::DeltaTime();
+		shakeTimer_ += AOENGINE::GameTimer::DeltaTime();
 		Math::Vector3 shakeDire = RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
 
 		float t = shakeTimer_ / shakeTime_;
@@ -248,7 +248,7 @@ void FollowCamera::Shake() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::FirstCameraMove() {
-	animationTimer_ += GameTimer::DeltaTime();
+	animationTimer_ += AOENGINE::GameTimer::DeltaTime();
 	float t = animationTimer_ / animationParam_.moveTime;
 	followCamera_.offset = Math::Vector3::Lerp(animationParam_.firstOffset, animationParam_.targetOffset, Math::CallEasing(animationParam_.easingIndex, t));
 

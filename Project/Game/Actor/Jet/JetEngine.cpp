@@ -111,7 +111,7 @@ void JetEngine::Init() {
 
 void JetEngine::Update(float diftX) {
 	// 炎が大きくなる時間がまだ過ぎていないならその処理を行なう
-	if (burnScaleUpTimer_.Run(GameTimer::DeltaTime())) {
+	if (burnScaleUpTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		float value = param_.burnMoveScaleCurve.BezierValue(burnScaleUpTimer_.t_);
 
 		Math::Vector3 scale;

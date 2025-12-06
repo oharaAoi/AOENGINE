@@ -87,7 +87,7 @@ void Input::Update() {
 
 	if (vibrations_.active) {
 		if (vibrations_.duration > 0.0f) {
-			vibrations_.timer += GameTimer::DeltaTime();
+			vibrations_.timer += AOENGINE::GameTimer::DeltaTime();
 			if (vibrations_.timer >= vibrations_.duration) {
 				Vibrate(0.0f, 0.0f);
 				vibrations_.active = false;

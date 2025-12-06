@@ -50,7 +50,7 @@ void BaseBehaviorNode::Update() {
 	}
 
 	// クールタイムの更新を行なう
-	if (coolTimer_.Run(GameTimer::DeltaTime())) {
+	if (coolTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		isCoolTime_ = true;
 	} else {
 		isCoolTime_ = false;

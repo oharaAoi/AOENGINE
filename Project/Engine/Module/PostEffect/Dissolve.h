@@ -11,8 +11,8 @@ public:
 
 	struct DissolveSetting {
 		Math::Matrix4x4 uvTransform;
-		Color color;
-		Color edgeColor;
+		AOENGINE::Color color;
+		AOENGINE::Color edgeColor;
 		float threshold = 0.5f;
 	};
 

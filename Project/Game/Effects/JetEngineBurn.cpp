@@ -54,7 +54,7 @@ void JetEngineBurn::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Update() {
-	noiseAnimation_.Update(GameTimer::DeltaTime());
+	noiseAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
 	noiseSRT_.translate.y = noiseAnimation_.GetValue();
 	noiseUV_->uv = noiseSRT_.MakeAffine();
 

@@ -79,7 +79,7 @@ void BossActionShotLauncher::Update() {
 		return;
 	}
 
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (taskTimer_ > param_.stiffenTime) {
 		isFinish_ = true;
 	}

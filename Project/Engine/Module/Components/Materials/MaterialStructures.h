@@ -10,6 +10,6 @@ enum class MaterialType {
 };
 
 struct ModelMaterialData {
-	Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
+	AOENGINE::Color color = { 1.0f, 1.0f, 1.0f, 1.0f };
 	std::string textureFilePath = "white.png";
 };

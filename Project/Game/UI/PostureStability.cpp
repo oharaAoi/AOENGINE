@@ -21,7 +21,7 @@ void PostureStability::Init(const std::string& _groupName, const std::string& _i
 	fence_->SetTranslate(front_->GetTranslate());
 	fence_->SetScale(front_->GetScale());
 
-	Color color = param_.stanColor;
+	AOENGINE::Color color = param_.stanColor;
 	color.a = 0.0f;
 	stanAnimation_.Init(param_.stanColor, color, 0.2f, (int)EasingType::None::Liner, LoopType::Return);
 }
@@ -37,7 +37,7 @@ void PostureStability::Update(float _fillAmount) {
 	switch (gaugeType_) {
 	case GaugeType::Posturebility:
 	{
-		Color color = Color::Lerp(param_.normalColor, param_.pinchColor, fillAmount_);
+		AOENGINE::Color color = AOENGINE::Color::Lerp(param_.normalColor, param_.pinchColor, fillAmount_);
 		front_->SetColor(color);
 	}
 		break;
@@ -45,7 +45,7 @@ void PostureStability::Update(float _fillAmount) {
 		front_->SetColor(param_.armorColor);
 		break;
 	case GaugeType::Stan:
-		stanAnimation_.Update(GameTimer::DeltaTime());
+		stanAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
 		front_->SetColor(stanAnimation_.GetValue());
 		break;
 	default:

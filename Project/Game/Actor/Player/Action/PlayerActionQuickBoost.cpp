@@ -75,7 +75,7 @@ void PlayerActionQuickBoost::OnStart() {
 	}
 
 	acceleration_ = direction_ * param_.boostForce;
-	pRigidBody_->SetVelocity(acceleration_ * GameTimer::DeltaTime());
+	pRigidBody_->SetVelocity(acceleration_ * AOENGINE::GameTimer::DeltaTime());
 
 	// エネルギーを消費する
  	Player::Parameter& ownerParam_ = pOwner_->GetParam();
@@ -100,7 +100,7 @@ void PlayerActionQuickBoost::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionQuickBoost::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	Boost();
 	pOwner_->UpdateJoint();
@@ -152,5 +152,5 @@ void PlayerActionQuickBoost::Boost() {
 	param_.boostForce *= bezierValue;
 	acceleration_ = direction_ * (initParam_.boostForce * bezierValue);
 
-	pRigidBody_->AddVelocity(acceleration_ * GameTimer::DeltaTime());
+	pRigidBody_->AddVelocity(acceleration_ * AOENGINE::GameTimer::DeltaTime());
 }

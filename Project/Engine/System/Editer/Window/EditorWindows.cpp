@@ -53,10 +53,10 @@ void EditorWindows::Update() {
 		| ImGuiWindowFlags_NoCollapse
 		| ImGuiWindowFlags_NoDocking
 		| ImGuiWindowFlags_NoBackground;
-	if (ImGui::Begin("GameTimer", nullptr, flags)) {
-		float fps = 1.0f / GameTimer::DeltaTime();
+	if (ImGui::Begin("AOENGINE::GameTimer", nullptr, flags)) {
+		float fps = 1.0f / AOENGINE::GameTimer::DeltaTime();
 		ImGui::Text("%f fps", fps);
-		ImGui::Text("%f m/s", GameTimer::DeltaTime() * 1000.0f);
+		ImGui::Text("%f m/s", AOENGINE::GameTimer::DeltaTime() * 1000.0f);
 	}
 	ImGui::End();
 
@@ -190,7 +190,7 @@ void EditorWindows::DebugItemWindow() {
 	if (ImGui::ImageButton("##toggle", icon, iconSize)) {
 		isPlaying = !isPlaying;
 		isSkip_ = false;
-		GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
+		AOENGINE::GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
 	}
 	ImGui::SameLine();
 
@@ -205,11 +205,11 @@ void EditorWindows::DebugItemWindow() {
 		pushButton = PushStyleColor(false, Math::Vector4(25, 25, 112, 255.0f));
 	}
 	if (isSkip_) {
-		GameTimer::SetTimeScale(0.0f);  // 再生・停止
+		AOENGINE::GameTimer::SetTimeScale(0.0f);  // 再生・停止
 		isSkip_ = false;
 	}
 	if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
-		GameTimer::SetTimeScale(1.0f);  // 再生・停止
+		AOENGINE::GameTimer::SetTimeScale(1.0f);  // 再生・停止
 		isSkip_ = true;
 	}
 	PopStyleColor(pushButton);

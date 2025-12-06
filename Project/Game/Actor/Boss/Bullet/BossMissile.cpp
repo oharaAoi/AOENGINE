@@ -95,7 +95,7 @@ void BossMissile::Tracking() {
 
 	if ((targetPosition_ - transform_->srt_.translate).Length() > trackingLength_) {
 		// 最初の数秒は追尾しない
-		trackingTimer_ += GameTimer::DeltaTime();
+		trackingTimer_ += AOENGINE::GameTimer::DeltaTime();
 		if (trackingTimer_ < trackingTime_) { return; }
 
 		// targetの方向に弾を撃つ
@@ -111,7 +111,7 @@ void BossMissile::Tracking() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossMissile::Accelerate() {
-	if (accelTimer_.Run(GameTimer::DeltaTime())) {
+	if (accelTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		speed_ = std::lerp(targetSpeed_ * firstSpeedRaito_, targetSpeed_, Ease::In::Quart(accelTimer_.t_));
 		velocity_ = velocity_.Normalize() * speed_;
 	}

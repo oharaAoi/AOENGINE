@@ -89,7 +89,7 @@ void BossActionDualStageMissile::Init() {
 void BossActionDualStageMissile::Update() {
 	LookPlayer();
 
-	if (!secondPhaseTimer_.Run(GameTimer::DeltaTime())) {
+	if (!secondPhaseTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		Shot();
 		secondPhaseTimer_.timer_ = 0.0f;
 

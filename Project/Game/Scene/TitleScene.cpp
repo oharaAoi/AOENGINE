@@ -98,7 +98,7 @@ void TitleGameModeGuideBehavior::Init() {
 	gameModeGuide_ = std::make_unique<GameModeGuide>();
 	gameModeGuide_->Init();
 	gameModeGuide_->Open();
-	host_->GetFadePanel()->SetColor(Color::black);
+	host_->GetFadePanel()->SetColor(AOENGINE::Color::black);
 }
 
 void TitleGameModeGuideBehavior::Update() {

@@ -48,7 +48,7 @@ void BaseWeapon::Init() {
 void BaseWeapon::Update() {
 	transform_->Update();
 	if (coolTime_ >= 0.0f) {
-		coolTime_ -= GameTimer::DeltaTime();
+		coolTime_ -= AOENGINE::GameTimer::DeltaTime();
 	} else {
 		isReload_ = false;
 		isCanAttack_ = true;

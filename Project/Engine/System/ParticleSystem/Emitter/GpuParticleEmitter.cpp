@@ -49,8 +49,8 @@ void GpuParticleEmitter::Init(const std::string& name) {
 
 void GpuParticleEmitter::Update() {
 	if (isStop_) { return; }
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
+	perFrame_->deltaTime = AOENGINE::GameTimer::DeltaTime();
+	perFrame_->time = AOENGINE::GameTimer::TotalTime();
 
 	// -------------------------------------------------
 	// ↓ 発射処理
@@ -62,7 +62,7 @@ void GpuParticleEmitter::Update() {
 		isStop_ = true;
 	}
 
-	emitAccumulator_ += emitterItem_.rateOverTimeCout * GameTimer::DeltaTime();
+	emitAccumulator_ += emitterItem_.rateOverTimeCout * AOENGINE::GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	emitCount_ = emitCout;
@@ -74,7 +74,7 @@ void GpuParticleEmitter::Update() {
 	// -------------------------------------------------
 	// ↓ 継続時間を進める
 	// -------------------------------------------------
-	currentTimer_ += GameTimer::DeltaTime();
+	currentTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (currentTimer_ > emitterItem_.duration) {
 		if (!emitterItem_.isLoop) {
 			isStop_ = true;

@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Lib/Math/Vector4.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 色を変更するクラス
 /// </summary>
@@ -86,8 +88,10 @@ public: // operator
 	}
 };
 
-inline constexpr Color Color::black{ 0,0,0,1 };
-inline constexpr Color Color::white{ 1,1,1,1 };
-inline constexpr Color Color::red{ 1,0,0,1 };
-inline constexpr Color Color::green{ 0,1,0,1 };
-inline constexpr Color Color::blue{ 0,0,1,1 };
+}
+
+inline constexpr AOENGINE::Color AOENGINE::Color::black{ 0,0,0,1 };
+inline constexpr AOENGINE::Color AOENGINE::Color::white{ 1,1,1,1 };
+inline constexpr AOENGINE::Color AOENGINE::Color::red{ 1,0,0,1 };
+inline constexpr AOENGINE::Color AOENGINE::Color::green{ 0,1,0,1 };
+inline constexpr AOENGINE::Color AOENGINE::Color::blue{ 0,0,1,1 };

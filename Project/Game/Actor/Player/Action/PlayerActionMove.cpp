@@ -97,7 +97,7 @@ void PlayerActionMove::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionMove::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	if (preBoost_ != pOwner_->GetIsBoostMode()) {
 		if (preBoost_) {
@@ -222,7 +222,7 @@ void PlayerActionMove::Move() {
 		Math::Vector3 side = velocity_ - forward * forwardMag;
 
 		// 横成分を減衰（重量感に合わせて 5〜10 程度）
-		side = Lerp(side, CVector3::ZERO, 5.0f * GameTimer::DeltaTime());
+		side = Lerp(side, CVector3::ZERO, 5.0f * AOENGINE::GameTimer::DeltaTime());
 		velocity_ = forward * forwardMag + side;
 	}
 
@@ -238,9 +238,9 @@ void PlayerActionMove::Move() {
 	// 加減速制御
 	// ----------------------
 	if (inputStick_.Length() > 0.1f) {
-		velocity_ = Lerp(velocity_, targetVelocity, param_.accel * GameTimer::DeltaTime());
+		velocity_ = Lerp(velocity_, targetVelocity, param_.accel * AOENGINE::GameTimer::DeltaTime());
 	} else {
-		velocity_ = Lerp(velocity_, CVector3::ZERO, param_.decel * GameTimer::DeltaTime());
+		velocity_ = Lerp(velocity_, CVector3::ZERO, param_.decel * AOENGINE::GameTimer::DeltaTime());
 	}
 
 	// ----------------------

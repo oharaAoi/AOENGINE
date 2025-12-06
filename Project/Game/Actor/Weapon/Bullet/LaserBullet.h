@@ -22,7 +22,7 @@ public: // データ構造体
 		float shotSeValue = 0.4f;
 		std::string shaderGraphPath = "";
 
-		Color cylinderColor;
+		AOENGINE::Color cylinderColor;
 
 		LaserParameter() { 
 			SetGroupName("Bullet");
@@ -103,7 +103,7 @@ private:
 
 	Timer lifeTimer_;
 	Timer fadeTimer_;
-	Color fadeColor_;
+	AOENGINE::Color fadeColor_;
 
 	BaseParticles* shotEffect_;
 	BaseParticles* shotParticle_;

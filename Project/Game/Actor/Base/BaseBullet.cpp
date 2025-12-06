@@ -22,7 +22,7 @@ void BaseBullet::Init(const std::string& bulletName) {
 
 void BaseBullet::Update() {
 	if (!isAlive_) { return; };
-	transform_->srt_.translate += velocity_ * GameTimer::DeltaTime();
+	transform_->srt_.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
 	if (velocity_.x != 0.0f || velocity_.y != 0.0f) {
 		transform_->srt_.rotate = Math::Quaternion::LookRotation(velocity_.Normalize());
 	}

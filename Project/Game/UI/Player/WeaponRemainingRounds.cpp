@@ -9,7 +9,7 @@ void WeaponRemainingRounds::Init(const std::string& _name) {
 	gauge_->ReSetTexture("white.png");
 	gauge_->Load("PlayerUIs", _name);
 	
-	colorAnimation_.Init(Color::red, Color::white, kAnimationDuration_, (int)EasingType::None::Liner, LoopType::Return);
+	colorAnimation_.Init(AOENGINE::Color::red, AOENGINE::Color::white, kAnimationDuration_, (int)EasingType::None::Liner, LoopType::Return);
 	timer_ = 0;
 }
 
@@ -24,6 +24,6 @@ void WeaponRemainingRounds::Debug_Gui() {
 }
 
 void WeaponRemainingRounds::Blinking() {
-	colorAnimation_.Update(GameTimer::DeltaTime());
+	colorAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
 	gauge_->SetColor(colorAnimation_.GetValue());
 }

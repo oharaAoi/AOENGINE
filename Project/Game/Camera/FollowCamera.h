@@ -73,7 +73,7 @@ public:
 		Math::Vector3 targetOffset;
 		float moveTime;
 		int easingIndex;
-		Color scaleColor;
+		AOENGINE::Color scaleColor;
 		float vignettePower;
 
 		AnimationParameter() {

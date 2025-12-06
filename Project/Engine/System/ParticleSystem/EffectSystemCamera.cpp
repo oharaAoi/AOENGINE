@@ -76,7 +76,7 @@ void EffectSystemCamera::TransitionMove() {
 		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
 	}
 
-	transform_.translate += moveDirection_ * GameTimer::DeltaTime();
+	transform_.translate += moveDirection_ * AOENGINE::GameTimer::DeltaTime();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,11 +89,11 @@ void EffectSystemCamera::RotateMove() {
 		Math::Vector2 dire = Input::GetMousePosition() - preMousePos_;
 
 		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
-		yaw_ += dire.x * sensitivity_ * GameTimer::DeltaTime();
+		yaw_ += dire.x * sensitivity_ * AOENGINE::GameTimer::DeltaTime();
 		qYaw = Math::Quaternion::AngleAxis(yaw_, Math::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
 
 		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
-		pitch_ += dire.y * sensitivity_ * GameTimer::DeltaTime();
+		pitch_ += dire.y * sensitivity_ * AOENGINE::GameTimer::DeltaTime();
 		qPitch = Math::Quaternion::AngleAxis(pitch_, Math::Vector3(1.0f, 0.0f, 0.0f)).Normalize();
 
 		// 回転合成

@@ -29,7 +29,7 @@ void BossActionWait::Init() {
 }
 
 void BossActionWait::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 }
 
 void BossActionWait::End() {

@@ -2,6 +2,8 @@
 #include <cstdint>
 #include <chrono>
 
+namespace AOENGINE {
+
 /// <summary>
 /// フレームレートを固定するためのクラス
 /// </summary>
@@ -15,7 +17,7 @@ public:
 
 	static float DeltaTime() { return deltaTime_; }
 	static float FixedDeltaTime() { return fixedDeltaTime_; }
-	static float TotalTime(){ return totalTime_; }
+	static float TotalTime() { return totalTime_; }
 	static float TimeRate() { return timeRate_; }
 
 	static float fps_;
@@ -33,4 +35,6 @@ private:
 	static float timeScale_;
 };
 
-const float kDeltaTime_ = (1.0f / GameTimer::fps_);
+}
+
+const float kDeltaTime_ = (1.0f / AOENGINE::GameTimer::fps_);

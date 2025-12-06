@@ -69,7 +69,7 @@ void EnemyAttackAlert::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyAttackAlert::Alert() {
-	timer_ += GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::DeltaTime();
 	if (timer_ > blinkingTime_) {
 		timer_ = 0.0f;
 		isDraw_ = !isDraw_;

@@ -32,7 +32,7 @@ void RadialBlur::Init() {
 
 void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	if (run_) {
-		blurStrengthTween_.Update(GameTimer::DeltaTime());
+		blurStrengthTween_.Update(AOENGINE::GameTimer::DeltaTime());
 		setting_->blurStrength = blurStrengthTween_.GetValue();
 
 		if (!continuation_) {

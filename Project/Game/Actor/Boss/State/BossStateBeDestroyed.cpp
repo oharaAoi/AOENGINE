@@ -14,7 +14,7 @@ void BossStateBeDestroyed::OnStart() {
 	param_.Load();
 
 	timer_ = 0.0f;
-	GameTimer::SetTimeScale(param_.slowScale);
+	AOENGINE::GameTimer::SetTimeScale(param_.slowScale);
 
 	preRotate_ = pOwner_->GetTransform()->srt_.rotate;
 	
@@ -27,7 +27,7 @@ void BossStateBeDestroyed::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateBeDestroyed::OnUpdate() {
-	timer_ += GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::DeltaTime();
 
 	// 時間の計測
 	float t = timer_ / param_.slowTime;
@@ -36,7 +36,7 @@ void BossStateBeDestroyed::OnUpdate() {
 
 	// スロウを基に戻す
 	if (timer_ > param_.slowTime) {
-		GameTimer::SetTimeScale(1.0f);
+		AOENGINE::GameTimer::SetTimeScale(1.0f);
 	}
 
 	// 破壊particleを出す

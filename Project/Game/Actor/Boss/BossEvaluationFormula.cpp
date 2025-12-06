@@ -9,7 +9,7 @@ void BossEvaluationFormula::Init(Boss* _pBoss) {
 void BossEvaluationFormula::Update() {
 	// プレイヤーとボスの距離が一定期間近かったら
 	if ((pBoss_->GetPosition() - pBoss_->GetTargetPos()).Length() < 8.0f) {
-		nearTimer_ += GameTimer::DeltaTime();
+		nearTimer_ += AOENGINE::GameTimer::DeltaTime();
 	} else {
 		nearTimer_ = 0.0f;
 	}

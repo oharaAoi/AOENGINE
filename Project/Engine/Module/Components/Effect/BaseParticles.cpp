@@ -61,9 +61,9 @@ void BaseParticles::DrawShape() {
 			.size = emitter_.size
 		};
 		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
-		DrawOBB(obb, mat, Color::green);
+		DrawOBB(obb, mat, AOENGINE::Color::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
-		DrawSphere(emitter_.translate, emitter_.radius, mat, Color::green);
+		DrawSphere(emitter_.translate, emitter_.radius, mat, AOENGINE::Color::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
 		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
@@ -257,7 +257,7 @@ void BaseParticles::EmitUpdate() {
 	}
 
 	// 射出のflagがtrueだったら
-	emitAccumulator_ += emitter_.rateOverTimeCout * GameTimer::DeltaTime();
+	emitAccumulator_ += emitter_.rateOverTimeCout * AOENGINE::GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	for (int count = 0; count < emitCout; ++count) {
@@ -275,7 +275,7 @@ void BaseParticles::EmitUpdate() {
 	emitAccumulator_ -= emitCout;
 
 	// 継続時間を進める
-	currentTimer_ += GameTimer::DeltaTime();
+	currentTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (currentTimer_ > emitter_.duration) {
 		if (!emitter_.isLoop) {
 			isStop_ = true;

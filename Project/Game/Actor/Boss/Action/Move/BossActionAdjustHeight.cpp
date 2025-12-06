@@ -81,9 +81,9 @@ void BossActionAdjustHeight::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Update() {
-    taskTimer_ += GameTimer::DeltaTime();
+    taskTimer_ += AOENGINE::GameTimer::DeltaTime();
     // playerとの高さを合わせる
-    distance_ = SmoothDamp(pTarget_->GetPosition().y, pTarget_->GetTargetPos().y, speed_, param_.smoothTime, param_.maxSpeed, GameTimer::DeltaTime());
+    distance_ = SmoothDamp(pTarget_->GetPosition().y, pTarget_->GetTargetPos().y, speed_, param_.smoothTime, param_.maxSpeed, AOENGINE::GameTimer::DeltaTime());
     pTarget_->GetTransform()->SetTranslationY(distance_);
 }
 

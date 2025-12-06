@@ -10,7 +10,7 @@ class Vignette :
 public:	// 構造体
 
 	struct VignetteSetting {
-		Color color;
+		AOENGINE::Color color;
 		float scale = 16.0f;
 		float power = 0.8f;
 	};

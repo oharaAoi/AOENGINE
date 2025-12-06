@@ -50,11 +50,11 @@ void PlayerActionTurnAround::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionTurnAround::OnUpdate() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	float t = actionTimer_ / param_.rotateTime;
 	pOwner_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(prevRotate_, targetRotate_, t);
-	pOwner_->GetTransform()->srt_.translate += direction_ * speed_ * GameTimer::DeltaTime();
+	pOwner_->GetTransform()->srt_.translate += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
 	speed_ *= 0.9f;
 }
 

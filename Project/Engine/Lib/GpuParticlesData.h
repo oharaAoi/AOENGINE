@@ -6,11 +6,13 @@
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GPUParticleの単体のパラメータ
 /// </summary>
 struct GpuParticleEmitterData {
-	Color color;
+	AOENGINE::Color color;
 
 	Math::Vector3 minScale;
 	float pad1;
@@ -82,7 +84,7 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	int emitType = 0;
 	int emitOrigin = 0;
 
-	Color color = Color(1,1,1,1);
+	AOENGINE::Color color = AOENGINE::Color(1, 1, 1, 1);
 
 	bool separateByAxisScale = false;
 	float scaleMinScaler = 1.0f;
@@ -137,7 +139,7 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
-			
+
 			.Build();
 	}
 
@@ -174,3 +176,5 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 
 	void Debug_Gui() override {};
 };
+
+}

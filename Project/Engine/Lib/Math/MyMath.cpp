@@ -106,8 +106,8 @@ Math::Vector4 Lerp(const Math::Vector4& v1, const Math::Vector4& v2, float t) {
 	return result;
 }
 
-Color Lerp(const Color& v1, const Color& v2, float t) {
-	Color result{};
+AOENGINE::Color Lerp(const AOENGINE::Color& v1, const AOENGINE::Color& v2, float t) {
+	AOENGINE::Color result{};
 	result.r = std::lerp(v1.r, v2.r, t);
 	result.g = std::lerp(v1.g, v2.g, t);
 	result.b = std::lerp(v1.b, v2.b, t);

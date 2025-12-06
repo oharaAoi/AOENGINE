@@ -11,7 +11,7 @@ class DissolveNode :
 public:	// データ構造体
 
 	struct DissolveParams {
-		Color dissolveColor; // エッジの色
+		AOENGINE::Color dissolveColor; // エッジの色
 		float threshold;	// しきい値
 		float edgeWidth;	// エッジ幅
 	};

@@ -15,7 +15,7 @@ void PlayerActionDamaged::Build() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionDamaged::OnStart() {
-	actionTimer_ += GameTimer::DeltaTime();
+	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	pOwner_->GetJetEngine()->JetIsStop();
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);

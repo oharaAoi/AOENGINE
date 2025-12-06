@@ -74,7 +74,7 @@ void BossActionAllRangeMissile::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Update() {
-	taskTimer_ += GameTimer::DeltaTime();
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	mainAction_();
 }
 

@@ -102,6 +102,6 @@ void PlayerActionShotRight::Shot() {
 
 	} else {
 		// ボタンを押していない時間を計測
-		notShotTimer_ += GameTimer::DeltaTime();
+		notShotTimer_ += AOENGINE::GameTimer::DeltaTime();
 	}
 }

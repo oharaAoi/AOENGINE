@@ -66,7 +66,7 @@ void ShoulderMissile::Update() {
 	if (isFinish_) { return; }
 
 	if (isReload_) {
-		coolTime_ -= GameTimer::DeltaTime();
+		coolTime_ -= AOENGINE::GameTimer::DeltaTime();
 		if (coolTime_ < 0.0f) {
 			isReload_ = false;
 			isFinish_ = true;
@@ -77,7 +77,7 @@ void ShoulderMissile::Update() {
 	}
 
 	if (coolTime_ > 0) {
-		coolTime_ -= GameTimer::DeltaTime();
+		coolTime_ -= AOENGINE::GameTimer::DeltaTime();
 	} else {
 		Shot();
 

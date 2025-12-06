@@ -42,7 +42,7 @@ void CameraAnimationBoost::BoostAnimation() {
 	if (!param_.isExecute) { return; }
 
 	// 時間の更新
-	param_.timer += GameTimer::DeltaTime();
+	param_.timer += AOENGINE::GameTimer::DeltaTime();
 	float t = param_.timer / param_.time;
 
 	// offsetの更新

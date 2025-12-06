@@ -106,7 +106,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="vpMat">: viewProjection</param>
-	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat);
+	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color, const Math::Matrix4x4& vpMat);
 
 	/// <summary>
 	/// 線の描画
@@ -114,7 +114,7 @@ public:
 	/// <param name="p1">: 始点</param>
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
-	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color);
+	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color);
 
 	static void DrawLightGroup(Pipeline* pipeline);
 

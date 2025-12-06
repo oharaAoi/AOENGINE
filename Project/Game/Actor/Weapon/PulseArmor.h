@@ -21,8 +21,8 @@ public:
 	// Dissolveに必要な構造体
 	struct DissolveSetting {
 		Math::Matrix4x4 uvTransform[3];
-		Color color;
-		Color edgeColor;
+		AOENGINE::Color color;
+		AOENGINE::Color edgeColor;
 		float threshold = 0.5f;
 	};
 
@@ -30,8 +30,8 @@ public:
 		float durability = 100.0f;
 		Math::Vector3 scale = CVector3::UNIT;
 		Math::Vector3 localTranslate = CVector3::ZERO;
-		Color color = Color::white;
-		Color edgeColor = Color::white;
+		AOENGINE::Color color = AOENGINE::Color::white;
+		AOENGINE::Color edgeColor = AOENGINE::Color::white;
 
 		Math::SRT uvTransform;
 
@@ -117,7 +117,7 @@ public:
 	/// <param name="_color">: baseColor</param>
 	/// <param name="_edgeColor"> : edgeColor</param>
 	/// <param name="_uvSrt"> : uv座標系</param>
-	void SetArmor(float _durability, const Math::Vector3& _scale, const Color& _color, const Color& _edgeColor, const Math::SRT& _uvSrt);
+	void SetArmor(float _durability, const Math::Vector3& _scale, const AOENGINE::Color& _color, const AOENGINE::Color& _edgeColor, const Math::SRT& _uvSrt);
 
 	/// <summary>
 	/// 耐久度を減らす関数

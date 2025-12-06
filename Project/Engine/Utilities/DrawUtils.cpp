@@ -20,10 +20,10 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 
 		// 中央軸ラインの色を変更
 		if (xIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, Color::blue, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color::blue, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			AOENGINE::Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 
@@ -37,10 +37,10 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 
 		// 中央軸ラインの色を変更
 		if (zIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, Color::red, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color::red, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
-			AOENGINE::Render::DrawLine(stPos, endPos, Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
 		}
 	}
 }
@@ -49,7 +49,7 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 // ↓　球の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawSphere(const Math::Vector3& center, float radius, const Math::Matrix4x4& viewProjectionMatrix, const Color& color) {
+void DrawSphere(const Math::Vector3& center, float radius, const Math::Matrix4x4& viewProjectionMatrix, const AOENGINE::Color& color) {
 	const uint32_t kSubdivision = 8;
 	const float kLonEvery = 2.0f * float(M_PI) / kSubdivision;
 	const float kLatEvery = float(M_PI) / kSubdivision;
@@ -135,12 +135,12 @@ void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float
 		Math::Vector3 topP1 = topPoints[i] + rotateHeight;
 		Math::Vector3 topP2 = topPoints[(i + 1) % segment] + rotateHeight;
 
-		AOENGINE::Render::DrawLine(p1, p2, Color::green, viewProjectionMatrix);
-		AOENGINE::Render::DrawLine(topP1, topP2, Color::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(p1, p2, AOENGINE::Color::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(topP1, topP2, AOENGINE::Color::green, viewProjectionMatrix);
 
 		if (i % 9 == 0) {
 			// 頂点と底面の点を結ぶ（側面の線）
-			AOENGINE::Render::DrawLine(topP1, p1, Color::green, viewProjectionMatrix);
+			AOENGINE::Render::DrawLine(topP1, p1, AOENGINE::Color::green, viewProjectionMatrix);
 		}
 	}
 }
@@ -150,7 +150,7 @@ void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float
 // ↓　AABBの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const Color& color) {
+void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color) {
 	std::array<Math::Vector3, 8> point = {
 		Math::Vector3{aabb.min.x,aabb.max.y, aabb.min.z }, // front_LT
 		Math::Vector3{aabb.max.x,aabb.max.y, aabb.min.z }, // front_RT
@@ -176,7 +176,7 @@ void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const Col
 // ↓　OBBの描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawOBB(const Math::OBB& obb, const Math::Matrix4x4& vpMatrix, const Color& color) {
+void DrawOBB(const Math::OBB& obb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color) {
 	Math::Matrix4x4 rotateMatrix = obb.matRotate;
 	// 平行移動分を作成
 	Math::Matrix4x4 matTranslate = obb.center.MakeTranslateMat();

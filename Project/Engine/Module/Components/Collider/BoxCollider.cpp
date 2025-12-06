@@ -90,9 +90,9 @@ void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void BoxCollider::Draw() const {
-	Color color = Color::white;
+	AOENGINE::Color color = AOENGINE::Color::white;
 	if (collisionState_ == (int)CollisionFlags::Enter || collisionState_ == (int)CollisionFlags::Stay) {
-		color = Color::red;
+		color = AOENGINE::Color::red;
 	}
 
 	if (std::holds_alternative<Math::AABB>(shape_)) {

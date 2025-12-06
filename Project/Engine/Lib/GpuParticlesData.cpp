@@ -1,6 +1,8 @@
 #include "GpuParticlesData.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 void GpuParticleEmitterItem::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("Emitter Settings")) {
 		ImGui::BulletText("Emitter Setting");

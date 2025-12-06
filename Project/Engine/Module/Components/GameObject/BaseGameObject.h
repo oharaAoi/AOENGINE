@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include "Engine/Engine.h"
 #include "Engine/Lib/Math/MyMatrix.h"
-#include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Color.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/ShaderGraph/ShaderGraph.h"
 #include "Engine/Module/Components/GameObject/Model.h"
@@ -72,8 +72,8 @@ public:
 	// ↓ Material関連
 	// -------------------------------------------------
 
-	const Color& GetColor()const { return color_; }
-	void SetColor(const Color& color);
+	const AOENGINE::Color& GetColor()const { return color_; }
+	void SetColor(const AOENGINE::Color& color);
 
 	void SetIsLighting(bool isLighting);
 
@@ -124,7 +124,7 @@ protected:
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 
-	Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
+	AOENGINE::Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
 	Math::Vector3 offset_ = CVector3::ZERO;
 

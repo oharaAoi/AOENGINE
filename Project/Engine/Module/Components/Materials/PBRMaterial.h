@@ -22,12 +22,12 @@ public:
 	/// Gpuに送る構造体
 	/// </summary>
 	struct PBRMaterialData {
-		Color color;				// albedo
+		AOENGINE::Color color;				// albedo
 		int32_t enableLighting;
 		float pad[3];
 		Math::Matrix4x4 uvTransform;
-		Color diffuseColor;		// 拡散反射率
-		Color specularColor;		// 鏡面反射の色
+		AOENGINE::Color diffuseColor;		// 拡散反射率
+		AOENGINE::Color specularColor;		// 鏡面反射の色
 		float roughness;			// 粗さ
 		float metallic;				// 金属度
 		float shininess;			// 鋭さ
@@ -51,7 +51,7 @@ public:
 
 public:
 
-	void SetColor(const Color& color) { pbrMaterial_->color = color; }
+	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; }
 
 
 private:

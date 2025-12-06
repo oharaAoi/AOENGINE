@@ -65,7 +65,7 @@ void CameraAnimationShot::ShotAnimation() {
 	if (!shotAnimation_.isExecute) { return ; }
 
 	// 時間計測
-	shotAnimation_.timer += GameTimer::DeltaTime();
+	shotAnimation_.timer += AOENGINE::GameTimer::DeltaTime();
 	float t = shotAnimation_.timer / shotAnimation_.time;
 
 	// カメラを近づける

@@ -55,7 +55,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	Math::SRT transform = Math::SRT();
 	Math::SRT uvTransform = Math::SRT();
 	std::string textureName = "white.png";
-	Color color = Color::white;
+	AOENGINE::Color color = AOENGINE::Color::white;
 	Math::Vector2 drawRange = Math::Vector2(64.0f, 64.0f);
 	Math::Vector2 leftTop = CMath::Vector2::ZERO;
 	Math::Vector2 anchorPoint = Math::Vector2(0.5f, 0.5f);
@@ -145,7 +145,7 @@ public:
 	/// Material構造体
 	/// </summary>
 	struct TextureMaterial {
-		Color color;
+		AOENGINE::Color color;
 		Math::Matrix4x4 uvTransform;
 		Math::Vector2 uvMinSize;		// 0~1の範囲で指定
 		Math::Vector2 uvMaxSize;		// 0~1の範囲で指定
@@ -226,7 +226,7 @@ public:
 	void SetRotate(float rotate) { transform_->SetRotateZ(rotate); }
 	void SetTranslate(const Math::Vector2& _pos) { transform_->SetTranslate(_pos); }
 
-	void SetColor(const Color& color) { materialData_->color = color; };
+	void SetColor(const AOENGINE::Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
 	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
 
@@ -247,7 +247,7 @@ public:
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
 
-	const Color& GetColor() const { return materialData_->color; }
+	const AOENGINE::Color& GetColor() const { return materialData_->color; }
 
 	const bool GetEnable() const { return isEnable_; }
 	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }

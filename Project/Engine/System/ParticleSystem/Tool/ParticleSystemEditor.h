@@ -18,13 +18,13 @@ class ParticleSystemEditor final {
 public:
 
 	struct ParticlesData {
-		std::shared_ptr<std::list<ParticleSingle>> particles;
+		std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
 		std::vector<ParticleInstancingRenderer::ParticleData> forGpuData_;
 
 		bool isAddBlend;
 
 		ParticlesData() {
-			particles = std::make_shared<std::list<ParticleSingle>>();
+			particles = std::make_shared<std::list<AOENGINE::ParticleSingle>>();
 		}
 	};
 

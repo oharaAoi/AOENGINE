@@ -293,7 +293,7 @@ void Player::Knockback(const Math::Vector3& direction) {
 void Player::RecoveryEN(float timer) {
 	if (isLanding_) {
 		if (timer > param_.energyRecoveyCoolTime) {
-			param_.energy += param_.energyRecoveyAmount * GameTimer::DeltaTime();
+			param_.energy += param_.energyRecoveyAmount * AOENGINE::GameTimer::DeltaTime();
 			param_.energy = std::clamp(param_.energy, 0.0f, initParam_.energy);
 		}
 	}
@@ -396,7 +396,7 @@ void Player::CameraIncline() {
 
 	// kは今回どれだけターゲットに寄せるかの係数
 	// smoothSpeed_が大きいほど反応が速い
-	float k = 1.0f - std::exp(-param_.inclineReactionRate * GameTimer::DeltaTime());
+	float k = 1.0f - std::exp(-param_.inclineReactionRate * AOENGINE::GameTimer::DeltaTime());
 	k = std::clamp(k, 0.0f, 1.0f);
 
 	smoothedDiffX_ += (diffX - smoothedDiffX_) * k;

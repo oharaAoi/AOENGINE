@@ -42,7 +42,7 @@ void AnimationClip::Update() {
 	}
 
 	// animationを進める
-	animationTime_ += GameTimer::DeltaTime() * animationSpeed_;
+	animationTime_ += AOENGINE::GameTimer::DeltaTime() * animationSpeed_;
 	if (animationTime_ >= animation_.duration) {
 		isAnimationFinish_ = true;
 	}
@@ -106,16 +106,16 @@ void AnimationClip::ApplyAnimation(Skeleton* skelton) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
-	blendFactor_ += GameTimer::DeltaTime() * animationSpeed_;
+	blendFactor_ += AOENGINE::GameTimer::DeltaTime() * animationSpeed_;
 
 	if (lerpAnimationTime_[0] < lerpAnimetion_[0].duration) {
 		if (!poseToAnimation_) {
-			lerpAnimationTime_[0] += GameTimer::DeltaTime() * animationSpeed_;
+			lerpAnimationTime_[0] += AOENGINE::GameTimer::DeltaTime() * animationSpeed_;
 		}
 	}
 
 	if (lerpAnimationTime_[1] < lerpAnimetion_[1].duration) {
-		lerpAnimationTime_[1] += GameTimer::DeltaTime() * animationSpeed_;
+		lerpAnimationTime_[1] += AOENGINE::GameTimer::DeltaTime() * animationSpeed_;
 
 	}
 

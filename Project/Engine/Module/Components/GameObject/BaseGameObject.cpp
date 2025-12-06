@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/System/Collision/ColliderCollector.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/SceneRenderer.h"
 
 using namespace AOENGINE;
@@ -86,7 +87,7 @@ void BaseGameObject::UpdateMatrix() {
 	if (rigidbody_ != nullptr) {
 		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
-		transform_->Translate(rigidbody_->GetVelocity(), GameTimer::DeltaTime());
+		transform_->Translate(rigidbody_->GetVelocity(), AOENGINE::GameTimer::DeltaTime());
 	}
 
 	// transformの更新

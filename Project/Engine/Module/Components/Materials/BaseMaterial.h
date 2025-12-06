@@ -62,8 +62,8 @@ public:
 	void SetShaderGraph(ShaderGraph* _graph);
 	ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
 
-	void SetColor(const Color& _color) { color_ = _color; }
-	const Color GetColor() const { return color_; }
+	void SetColor(const AOENGINE::Color& _color) { color_ = _color; }
+	const AOENGINE::Color GetColor() const { return color_; }
 
 	void SetAlpha(float _alpha) { color_.a = _alpha; };
 	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
@@ -80,7 +80,7 @@ protected:
 
 	ShaderGraph* shaderGraph_ = nullptr;
 
-	Color color_;
+	AOENGINE::Color color_;
 	bool isLighting_ = true;
 
 };

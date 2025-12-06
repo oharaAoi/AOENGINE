@@ -27,7 +27,7 @@ void TemplateValueGui(const std::string& _name, T& value) {
 		ImGui::DragFloat3(_name.c_str(), &value.x, 0.01f);
 	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		ImGui::DragFloat4(_name.c_str(), &value.x, 0.01f);
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		ImGui::ColorEdit4(_name.c_str(), &value.r);
 	} else if constexpr (std::is_same_v<T, std::string>) {
 		ImGui::Text(value);
@@ -54,7 +54,7 @@ void TemplateValueText(const T& value) {
 		ImGui::Text("x(%f) y(%f) z(%f)", value.x, value.y, value.z);
 	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		ImGui::Text("x(%f) y(%f) z(%f) w(%f)", value.x, value.y, value.z, value.w);
-	} else if constexpr (std::is_same_v<T, Color>) {
+	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		ImGui::Text("r(%f) g(%f) b(%f) a(%f)", value.r, value.g, value.b, value.a);
 	} else if constexpr (std::is_same_v<T, int32_t>) {
 		ImGui::Text("int(%d)", value);

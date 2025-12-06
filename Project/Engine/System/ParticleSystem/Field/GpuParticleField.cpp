@@ -45,11 +45,11 @@ void GpuParticleField::Init(uint32_t _instanceNum) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleField::Update() {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
+	perFrame_->deltaTime = AOENGINE::GameTimer::DeltaTime();
+	perFrame_->time = AOENGINE::GameTimer::TotalTime();
 	if (!isEnable_) { return; }
 	
-	timer_ += GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::DeltaTime();
 }
 
 void GpuParticleField::DrawShape() const {
@@ -61,8 +61,8 @@ void GpuParticleField::DrawShape() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleField::Execute(ID3D12GraphicsCommandList* commandList) {
-	perFrame_->deltaTime = GameTimer::DeltaTime();
-	perFrame_->time = GameTimer::TotalTime();
+	perFrame_->deltaTime = AOENGINE::GameTimer::DeltaTime();
+	perFrame_->time = AOENGINE::GameTimer::TotalTime();
 
 	const UINT threadsPerGroup = 256;
 	const UINT groupCount = (kInstanceNum_ + threadsPerGroup - 1) / threadsPerGroup;

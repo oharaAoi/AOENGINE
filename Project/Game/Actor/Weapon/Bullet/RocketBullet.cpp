@@ -109,7 +109,7 @@ void RocketBullet::Tracking() {
 		velocity_ = Math::Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 
 		if (trackingTimer_ < trackingTime_) {
-			trackingTimer_ += GameTimer::DeltaTime();
+			trackingTimer_ += AOENGINE::GameTimer::DeltaTime();
 			velocity_.y = speed_;
 		}
 	} else {

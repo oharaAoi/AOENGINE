@@ -136,7 +136,7 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			// 生存時間の更新
 			// ---------------------------
 
-			pr.currentTime += GameTimer::DeltaTime();
+			pr.currentTime += AOENGINE::GameTimer::DeltaTime();
 			if (pr.currentTime >= pr.lifeTime) {
 				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
 				continue;
@@ -153,13 +153,13 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			}
 
 			// 速度を更新
-			pr.velocity *= std::powf((1.0f - pr.damping), GameTimer::DeltaTime());
+			pr.velocity *= std::powf((1.0f - pr.damping), AOENGINE::GameTimer::DeltaTime());
 
 			// 重力を適応
-			pr.velocity.y += pr.gravity * GameTimer::DeltaTime();
+			pr.velocity.y += pr.gravity * AOENGINE::GameTimer::DeltaTime();
 
 			// 座標を適応
-			pr.translate += pr.velocity * GameTimer::DeltaTime();
+			pr.translate += pr.velocity * AOENGINE::GameTimer::DeltaTime();
 
 			// ---------------------------
 			// 状態の更新
@@ -167,7 +167,7 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			float t = pr.currentTime / pr.lifeTime;
 
 			if (pr.isColorAnimation) {
-				pr.color = Color::Lerp(pr.preColor, pr.postColor, t);
+				pr.color = AOENGINE::Color::Lerp(pr.preColor, pr.postColor, t);
 			}
 
 			if (pr.isLifeOfAlpha) {
