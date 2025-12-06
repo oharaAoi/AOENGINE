@@ -33,7 +33,7 @@ std::vector<std::shared_ptr<Mesh>>  LoadMesh(const std::string& directoryPath, c
 /// <param name="fileName"></param>
 /// <param name="device"></param>
 /// <returns></returns>
-std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterial(const std::string& directoryPath, const std::string& fileName);
+std::unordered_map<std::string, std::unique_ptr<AOENGINE::Material>> LoadMaterial(const std::string& directoryPath, const std::string& fileName);
 
 /// <summary>
 /// materialを構成する情報の読み込み

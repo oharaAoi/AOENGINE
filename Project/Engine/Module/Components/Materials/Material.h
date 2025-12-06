@@ -4,11 +4,13 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// material
 /// </summary>
 class Material :
-	public BaseMaterial {
+	public AOENGINE::BaseMaterial {
 public:
 
 	/// <summary>
@@ -48,3 +50,5 @@ private:
 	MaterialData* material_;
 
 };
+
+}

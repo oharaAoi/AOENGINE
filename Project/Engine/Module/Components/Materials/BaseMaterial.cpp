@@ -3,6 +3,8 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include <vector>
 
+using namespace AOENGINE;
+
 void BaseMaterial::EditUV() {
 	if (ImGui::TreeNode("uvTramsform")) {
 		if (ImGui::TreeNode("scale")) {

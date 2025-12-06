@@ -81,7 +81,7 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	materialData_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
 
 	for (const auto& material : materialData_) {
-		auto& newMaterial = materials_.emplace_back(std::make_unique<Material>());
+		auto& newMaterial = materials_.emplace_back(std::make_unique<AOENGINE::Material>());
 		newMaterial->Init();
 		newMaterial->SetMaterialData(material.second);
 	}

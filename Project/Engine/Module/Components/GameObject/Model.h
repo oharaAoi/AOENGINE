@@ -17,10 +17,10 @@
 #include "Engine/Lib/Math/MathStructures.h"
 #include <memory>
 
+namespace AOENGINE {
+
 class Material;
 class PBRMaterial;
-
-namespace AOENGINE {
 
 class Model {
 public:

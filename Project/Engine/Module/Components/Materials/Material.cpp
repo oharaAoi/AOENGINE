@@ -5,6 +5,8 @@
 #include "Engine/Utilities/Loader.h"
 #include "Engine/Core/GraphicsContext.h"	
 
+using namespace AOENGINE;
+
 Material::~Material() {
 	cBuffer_.Reset();
 }

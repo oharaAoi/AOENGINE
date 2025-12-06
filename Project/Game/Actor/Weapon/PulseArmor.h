@@ -150,7 +150,7 @@ private:
 	SphereGeometry geometry_;
 
 	std::shared_ptr<Mesh> mesh_;
-	std::unique_ptr<Material> material_ = nullptr;
+	std::unique_ptr<AOENGINE::Material> material_ = nullptr;
 	std::unique_ptr<WorldTransform> worldTransform_ = nullptr;
 
 	// dissolveに必要な変数 -----------------------

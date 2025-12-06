@@ -71,8 +71,8 @@ public:
 
 	const std::string& GetUseTexture() const { return emitter_.useTexture; }
 
-	std::shared_ptr<Material> GetShareMaterial() { return shareMaterial_; }
-	void SetShareMaterial(std::shared_ptr<Material> _material) { shareMaterial_ = _material; }
+	std::shared_ptr<AOENGINE::Material> GetShareMaterial() { return shareMaterial_; }
+	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) { shareMaterial_ = _material; }
 
 	bool GetIsAddBlend() const { return emitter_.isParticleAddBlend; }
 
@@ -93,7 +93,7 @@ protected:
 
 	// meshの形状
 	std::shared_ptr<Mesh> shape_;
-	std::shared_ptr<Material> shareMaterial_;
+	std::shared_ptr<AOENGINE::Material> shareMaterial_;
 
 	// Particleの情報
 	std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particleArray_;

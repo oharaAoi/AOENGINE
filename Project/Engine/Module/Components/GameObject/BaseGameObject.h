@@ -83,7 +83,7 @@ public:
 
 	void SetShaderGraph(ShaderGraph* _shaderGraph);
 
-	const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& GetMaterials() const { return materials; }
+	const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& GetMaterials() const { return materials; }
 
 	// -------------------------------------------------
 	// ↓ Animation関連
@@ -116,7 +116,7 @@ public:
 protected:
 
 	AOENGINE::Model* model_ = nullptr;
-	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;
+	std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>> materials;
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
 	std::unique_ptr<AOENGINE::Animator> animetor_ = nullptr;

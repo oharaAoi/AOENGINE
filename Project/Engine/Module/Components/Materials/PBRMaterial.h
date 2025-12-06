@@ -11,6 +11,8 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 物理ベースmaterial
 /// </summary>
@@ -59,3 +61,4 @@ private:
 	PBRMaterialData* pbrMaterial_;
 };
 
+}

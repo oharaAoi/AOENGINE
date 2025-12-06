@@ -13,7 +13,7 @@ enum class MaterialShaderType {
 	ShaderGraphRender,	// shaderGraphを利用したレンダリング
 };
 
-
+namespace AOENGINE {
 
 /// <summary>
 /// BaseとなるMaterial
@@ -86,3 +86,5 @@ protected:
 	bool isLighting_ = true;
 
 };
+
+}

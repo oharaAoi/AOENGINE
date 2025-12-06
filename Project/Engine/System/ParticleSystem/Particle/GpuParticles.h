@@ -103,7 +103,7 @@ private:
 	PerFrame* perFrame_;
 
 	std::vector<std::shared_ptr<Mesh>> meshArray_;
-	std::vector<std::unique_ptr<Material>> materials_;
+	std::vector<std::unique_ptr<AOENGINE::Material>> materials_;
 
 	std::unordered_map<std::string, ModelMaterialData> materialData_;
 };

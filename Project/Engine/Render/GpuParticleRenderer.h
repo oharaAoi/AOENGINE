@@ -107,7 +107,7 @@ private:
 
 	// meshの形状
 	std::unique_ptr<AOENGINE::GeometryObject> shape_;
-	std::unique_ptr<Material> material_;
+	std::unique_ptr<AOENGINE::Material> material_;
 
 	uint32_t groups_;
 	const uint32_t threads_ = 256;

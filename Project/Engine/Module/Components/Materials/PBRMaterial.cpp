@@ -2,6 +2,8 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Core/GraphicsContext.h"
 
+using namespace AOENGINE;
+
 PBRMaterial::PBRMaterial() {}
 PBRMaterial::~PBRMaterial() { cBuffer_.Reset(); }
 
