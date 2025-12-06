@@ -32,13 +32,13 @@ public:
 
 	void SetChain(const std::vector<int32_t>& _chain) { chain_ = _chain; }
 
-	void SetSkelton(Skeleton* _skelton) { pSkeleton_ = _skelton; }
+	void SetSkelton(AOENGINE::Skeleton* _skelton) { pSkeleton_ = _skelton; }
 
 	void SetTargetPosition(const Math::Vector3& _pos) { targetPos_ = _pos; }
 
 private:
 
-	Skeleton* pSkeleton_;
+	AOENGINE::Skeleton* pSkeleton_;
 	std::vector<int32_t> chain_;
 	std::vector<Math::Vector3> positions_;
 	std::vector<JointsData> jointsData_;

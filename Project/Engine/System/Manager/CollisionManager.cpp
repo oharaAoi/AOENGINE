@@ -3,6 +3,8 @@
 #include "Engine/System/Collision/PenetrationResolution.h"
 #include "Engine/Utilities/BitChecker.h"
 
+using namespace AOENGINE;
+
 CollisionManager::CollisionManager() {}
 CollisionManager::~CollisionManager() {
 	pColliderCollector_->Reset();

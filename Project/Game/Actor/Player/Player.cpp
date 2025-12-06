@@ -1,11 +1,10 @@
 #include "Player.h"
 #include <vector>
 #include "Engine/System/Editer/Window/EditorWindows.h"
-#include "Engine/Lib/Json/JsonItems.h"
-#include "Engine/System/Collision/ColliderCollector.h"
-#include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
-#include "Game/Information/ColliderCategory.h"
+#include "Engine/Render/SceneRenderer.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Game/Actor/Player/State/PlayerIdleState.h"
 #include "Game/Actor/Player/State/PlayerKnockbackState.h"
 #include "Game/Actor/Player/State/PlayerDeadState.h"
@@ -114,15 +113,15 @@ void Player::Init() {
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	BaseCollider* collider = object_->GetCollider("player");
+	AOENGINE::BaseCollider* collider = object_->GetCollider("player");
 	collider->SetIsStatic(false);
 
-	BaseCollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
-	colliderLeftLeg->SetOnCollision([this](BaseCollider* other) { LegOnCollision(other); });
+	AOENGINE::BaseCollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
+	colliderLeftLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
 	colliderLeftLeg->SetIsStatic(false);
 
-	BaseCollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
-	colliderRightLeg->SetOnCollision([this](BaseCollider* other) { LegOnCollision(other); });
+	AOENGINE::BaseCollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
+	colliderRightLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
 	colliderRightLeg->SetIsStatic(false);
 
 	object_->SetPhysics();
@@ -170,7 +169,7 @@ void Player::Init() {
 
 	param_.postureStability -= initParam_.postureStability;
 
-	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
+	AOENGINE::Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
 	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
 	leftShoulderMat_ = skeleton->GetSkeltonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
@@ -255,7 +254,7 @@ void Player::Attack(PlayerWeapon _weapon, AttackContext _contex) {
 }
 
 void Player::UpdateJoint() {
-	Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
+	AOENGINE::Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
 	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
 	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand"), transform_->GetWorldMatrix());
 	leftShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_shoulder"), transform_->GetWorldMatrix());
@@ -360,7 +359,7 @@ void Player::IsBoostMode() {
 // ↓ 足のCollider
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::LegOnCollision([[maybe_unused]] BaseCollider* other) {
+void Player::LegOnCollision([[maybe_unused]] AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == "building" || other->GetCategoryName() == "ground") {
 		Landing();
 	}

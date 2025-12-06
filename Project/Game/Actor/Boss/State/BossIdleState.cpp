@@ -1,6 +1,5 @@
 #include "BossIdleState.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Engine/Module/Components/Animation/VectorTween.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 開始処理

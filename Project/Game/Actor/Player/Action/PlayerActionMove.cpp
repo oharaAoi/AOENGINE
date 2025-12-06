@@ -8,10 +8,10 @@
 #include "Game/Actor/Player/Action/PlayerActionShotLeft.h"
 #include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 #include "Game/Actor/Player/Action/PlayerActionLeftShoulder.h"
-#include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 // Engine
+#include "Engine/Lib/GameTimer.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/Lib/Json/JsonItems.h"
 
 void PlayerActionMove::Debug_Gui() {
 	const Math::Vector3 velocity = pOwner_->GetGameObject()->GetRigidbody()->GetMoveForce();
@@ -71,11 +71,11 @@ void PlayerActionMove::OnStart() {
 	// ↓ Animationの設定
 	// ----------------------
 	if (pOwner_->GetIsBoostMode()) {
-		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("move", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
-		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("walk", param_.animationTime);
 		clip->SetIsLoop(true);
 	}
@@ -101,11 +101,11 @@ void PlayerActionMove::OnUpdate() {
 
 	if (preBoost_ != pOwner_->GetIsBoostMode()) {
 		if (preBoost_) {
-			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 			clip->PoseToAnimation("walk", param_.animationTime);
 			clip->SetIsLoop(true);
 		} else {
-			AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 			clip->PoseToAnimation("move", param_.animationTime);
 			clip->SetIsLoop(false);
 		}
@@ -129,11 +129,11 @@ void PlayerActionMove::OnEnd() {
 	pOwner_->SetIsMoving(false);
 	pOwner_->GetJetEngine()->JetIsStop();
 	if (pOwner_->GetIsBoostMode()) {
-		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("move_cancel", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
-		AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 		clip->PoseToAnimation("idle", param_.animationTime);
 		clip->SetIsLoop(false);
 	}

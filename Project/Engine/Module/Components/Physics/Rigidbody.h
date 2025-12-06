@@ -7,7 +7,7 @@
 /// 物理計算ようの
 /// </summary>
 class Rigidbody :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	Rigidbody() { Init(); }

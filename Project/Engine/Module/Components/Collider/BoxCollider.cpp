@@ -5,6 +5,8 @@
 #include <assert.h>
 #include <array>
 
+using namespace AOENGINE;
+
 BoxCollider::BoxCollider() {}
 BoxCollider::~BoxCollider() {}
 

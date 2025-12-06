@@ -9,7 +9,7 @@
 /// /Clear後の通知を行ってくれるUI
 /// </summary>
 class ClearNotificationUI :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -76,9 +76,9 @@ private:
 	Parameter param_;
 
 	Math::Vector2 pos_;
-	VectorTween<Math::Vector2> posTween_;
+	AOENGINE::VectorTween<Math::Vector2> posTween_;
 
-	VectorTween<float> alphaTween_;
+	AOENGINE::VectorTween<float> alphaTween_;
 
 };
 

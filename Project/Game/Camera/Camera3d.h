@@ -7,7 +7,7 @@
 /// </summary>
 class Camera3d :
 	public BaseCamera,
-	public AttributeGui{
+	public AOENGINE::AttributeGui{
 public:
 
 	Camera3d();

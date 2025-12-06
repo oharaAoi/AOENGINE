@@ -17,7 +17,7 @@
 /// BossのUIをまとめたクラス
 /// </summary>
 class BossUIs :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	BossUIs() = default;

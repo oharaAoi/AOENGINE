@@ -7,7 +7,7 @@
 /// GpuParticleが影響を受けるFieldクラス
 /// </summary>
 class GpuParticleField :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct AccelerationField {

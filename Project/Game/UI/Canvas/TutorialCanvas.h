@@ -14,7 +14,7 @@
 /// TutorialのUI
 /// </summary>
 class TutorialCanvas :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	TutorialCanvas() = default;

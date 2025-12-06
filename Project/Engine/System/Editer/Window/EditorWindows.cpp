@@ -273,7 +273,7 @@ void EditorWindows::Reset() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void EditorWindows::AddObjectWindow([[maybe_unused]] AttributeGui* attribute, [[maybe_unused]] const std::string& label) {
+void EditorWindows::AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label) {
 #ifdef _DEBUG
 	attribute->SetName(label);
 	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);

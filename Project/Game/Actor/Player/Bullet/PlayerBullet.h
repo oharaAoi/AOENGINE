@@ -31,7 +31,7 @@ public:
 
 public:
 
-	void OnCollision(BaseCollider* other);
+	void OnCollision(AOENGINE::BaseCollider* other);
 
 	/// <summary>
 	/// 座標や速度の設定

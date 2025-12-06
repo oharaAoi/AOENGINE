@@ -1,7 +1,5 @@
 #include "Animator.h"
-#include "Engine/Module/Components/Animation/AnimationClip.h"
-#include "Engine/Module/Components/Rigging/Skeleton.h"
-#include "Engine/Module/Components/Rigging/Skinning.h"
+#include "Engine/Engine.h"
 
 using namespace AOENGINE;
 

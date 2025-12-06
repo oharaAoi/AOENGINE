@@ -11,7 +11,7 @@
 /// <typeparam name="OwnerType">:対象の型</typeparam>
 template<typename OwnerType>
 class StateMachine :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	StateMachine() : functionChangeState_([]() {}) {}

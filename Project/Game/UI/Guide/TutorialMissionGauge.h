@@ -9,7 +9,7 @@
 /// TutorialのMissionの進行度を表すゲージ
 /// </summary>
 class TutorialMissionGauge :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	TutorialMissionGauge() = default;
@@ -43,7 +43,7 @@ private:
 	AOENGINE::Sprite* control_;
 	AOENGINE::Sprite* controlBg_;
 
-	VectorTween<float> alphaAnimation_;
+	AOENGINE::VectorTween<float> alphaAnimation_;
 	bool isSuccessFinish_ = false;
 };
 

@@ -14,6 +14,8 @@ enum class LoopType {
 	RoundTrip
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// Vector(float, Math::Vector2, Math::Vector3, Math::Vector4)関係をTween(Animation)させるクラス
 /// </summary>
@@ -101,7 +103,7 @@ public:
 	/// <summary>
 	/// Tweenをやり直す
 	/// </summary>
-	void Reset() { 
+	void Reset() {
 		currentTime_ = 0.0f;
 		isFinish_ = false;
 	}
@@ -129,3 +131,4 @@ private:
 	bool isReturn_;		// リターンを行ったかどうか
 };
 
+}

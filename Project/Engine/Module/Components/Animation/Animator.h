@@ -1,13 +1,12 @@
 #pragma once
 #include <vector>
 #include <memory>
-#include "Engine/Engine.h"
-#include "Engine/Lib/GameTimer.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
+#include "Engine/Module/Components/Rigging/Skinning.h"
+#include "Engine/Module/Components/Rigging/Skeleton.h"
 #include "Engine/System/Manager/AnimationManager.h"
 
-class AnimationClip;
-class Skeleton;
-class Skinning;
+namespace AOENGINE {
 
 /// <summary>
 /// SkeletonやSkinningの情報を持っているクラス
@@ -61,7 +60,7 @@ public:
 
 	Skinning* GetSkinning(uint32_t index) { return skinning_[index].get(); }
 	Skeleton* GetSkeleton() { return skeleton_.get(); }
-	AnimationClip* GetAnimationClip() { return animationClip_.get(); }
+	AOENGINE::AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 
 	const Math::Matrix4x4 GetAnimationMat() const { return animationClip_->GetMatrix(); }
 
@@ -95,7 +94,7 @@ private:
 
 	AnimationManager* manager_ = nullptr;
 
-	std::unique_ptr<AnimationClip> animationClip_ = nullptr;
+	std::unique_ptr<AOENGINE::AnimationClip> animationClip_ = nullptr;
 	std::unique_ptr<Skeleton> skeleton_ = nullptr;
 	std::vector<std::unique_ptr<Skinning>> skinning_;
 
@@ -109,3 +108,4 @@ private:
 	float transitionTime_ = 0.0f;
 };
 
+}

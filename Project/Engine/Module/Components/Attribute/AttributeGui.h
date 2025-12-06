@@ -3,6 +3,8 @@
 #include <vector>
 #include "Engine/System/Manager/ImGuiManager.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// ImGui描画をサポートするためのクラス
 /// </summary>
@@ -14,27 +16,27 @@ public:	// member method
 
 	virtual void Debug_Gui() = 0;
 
-public: 
+public:
 
 	// name
 	void SetName(const std::string& name) { name_ = name; }
 	const std::string& GetName() const { return name_; }
 
 	// 名前の編集
-	void EditName(); 
+	void EditName();
 
 	// children 
-	void AddChild(AttributeGui* child) { children_.emplace_back(child); }
-	void DeleteChild(AttributeGui* child) {
+	void AddChild(AOENGINE::AttributeGui* child) { children_.emplace_back(child); }
+	void DeleteChild(AOENGINE::AttributeGui* child) {
 		children_.erase(
 			std::remove_if(children_.begin(), children_.end(),
-						   [child](AttributeGui* c) { return c == child; }),
+						   [child](AOENGINE::AttributeGui* c) { return c == child; }),
 			children_.end()
 		);
 	}
 	void ClearChild() { children_.clear(); }
 
-	const std::vector<AttributeGui*>& GetChildren() const { return children_; }
+	const std::vector<AOENGINE::AttributeGui*>& GetChildren() const { return children_; }
 
 	bool HasChild() const { return !children_.empty() ? true : false; }
 
@@ -49,9 +51,10 @@ protected:
 
 private:
 
-	std::vector<AttributeGui*> children_;
+	std::vector<AOENGINE::AttributeGui*> children_;
 
 	int id_;
 	static int nextId_;
 };
 
+}

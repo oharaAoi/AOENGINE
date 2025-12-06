@@ -3,6 +3,7 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Game/Information/ColliderCategory.h"
 
 LaserBullet::~LaserBullet() {
@@ -59,13 +60,13 @@ void LaserBullet::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
+	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsTrigger(true);
-	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
-	lineCollider_ = dynamic_cast<LineCollider*>(collider);
+	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
+	lineCollider_ = dynamic_cast<AOENGINE::LineCollider*>(collider);
 
 	// ----------------------
 	// ↓ Parameter系の設定
@@ -188,7 +189,7 @@ void LaserBullet::Fade() {
 // ↓ 衝突処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void LaserBullet::OnCollision(BaseCollider* _other) {
+void LaserBullet::OnCollision(AOENGINE::BaseCollider* _other) {
 	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
 		isFade_ = true;
 

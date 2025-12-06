@@ -15,7 +15,7 @@ class Player;
 /// </summary>
 class FollowCamera :
 	public BaseCamera,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct CameraParameter : public AOENGINE::IJsonConverter {

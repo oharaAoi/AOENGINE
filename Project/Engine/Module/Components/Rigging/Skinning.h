@@ -8,12 +8,14 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
+#include "Engine/Module/Components/Rigging/Skeleton.h"
 
 const uint32_t kNumMaxInfluence = 4;
 
-class Skeleton;
 class Model;
 class Mesh;
+
+namespace AOENGINE {
 
 /// <summary>
 /// skinningの情報を管理しているクラス
@@ -54,9 +56,9 @@ public:
 	// 終了
 	void Finalize();
 	// 更新
-	void Update(Skeleton* skeleton);
+	void Update(AOENGINE::Skeleton* skeleton);
 	// 行列計算用のクラスを生成
-	void CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh* mesh, AOENGINE::DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
+	void CreateSkinCluster(ID3D12Device* device, AOENGINE::Skeleton* skeleton, Mesh* mesh, AOENGINE::DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
 	// CSを走らせる
 	void RunCs(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const;
 	// CS後の処理
@@ -102,3 +104,4 @@ private:
 
 };
 
+}

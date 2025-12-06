@@ -11,7 +11,7 @@
 /// Particleを射出する
 /// </summary>
 class BaseParticles :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	BaseParticles() = default;

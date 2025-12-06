@@ -7,7 +7,7 @@ class FollowCamera;
 /// カメラアニメーションの基底クラス
 /// </summary>
 class ICameraAnimation :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	ICameraAnimation() = default;

@@ -7,7 +7,7 @@
 /// </summary>
 class SpotLight :
 	public BaseLight,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	/// <summary>

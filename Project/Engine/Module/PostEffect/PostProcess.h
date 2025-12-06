@@ -39,7 +39,7 @@ enum class PostEffectType {
 /// postEffectなどを行うクラス
 /// </summary>
 class PostProcess :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	PostProcess() = default;

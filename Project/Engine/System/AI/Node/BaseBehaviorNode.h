@@ -34,7 +34,7 @@ enum class NodeType {
 /// 各Nodeで共通となる基礎クラス
 /// </summary>
 class BaseBehaviorNode :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	BaseBehaviorNode();

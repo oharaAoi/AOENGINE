@@ -15,10 +15,10 @@ void BossBullet::Init() {
 	object_->SetObject("playerBullet.obj");
 	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::Sphere);
 
-	BaseCollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
+	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::None::own);
-	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
 	
 	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
 	trail_->SetParent(transform_->GetWorldMatrix());
@@ -55,7 +55,7 @@ void BossBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) 
 	velocity_ = velocity;
 }
 
-void BossBullet::OnCollision(BaseCollider* other) {
+void BossBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");

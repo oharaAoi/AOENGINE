@@ -57,7 +57,7 @@ public:
 
 private:
 
-	VectorTween<float> floatingTween_;
+	AOENGINE::VectorTween<float> floatingTween_;
 
 	Parameter param_;
 

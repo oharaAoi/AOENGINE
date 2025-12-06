@@ -1,6 +1,8 @@
 #include "EndEffector.h"
 #include "Engine/Module/Components/Rigging/InverseKinematics.h"
 
+using namespace AOENGINE;
+
 void EndEffector::Update(const Math::Matrix4x4& _worldMat) {
 	// 現在のworld座標を配列に格納
 	positions_.clear();

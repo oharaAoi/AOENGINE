@@ -9,7 +9,7 @@ namespace Math {
 /// ImGuiでMath::Curveをするクラス
 /// </summary>
 class Curve :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	Curve() = default;

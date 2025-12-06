@@ -2,7 +2,10 @@
 #include "Engine/Module/Components/Animation/AnimationFunctions.h"
 #include "Engine/System/Manager/AnimationManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/GameTimer.h"
+
+using namespace AOENGINE;
 
 AnimationClip::AnimationClip() {}
 AnimationClip ::~AnimationClip() {}

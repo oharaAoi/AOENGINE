@@ -3,6 +3,7 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 // Engine
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 
 void PlayerActionShotLeft::Debug_Gui() {
@@ -33,7 +34,7 @@ void PlayerActionShotLeft::OnStart() {
 	notShotTimer_ = 0.0f;
 
 	// playerのAnimationを変更する
-	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shot", param_.animationTime);
 
 	// 武器とアクションを設定する
@@ -80,7 +81,7 @@ void PlayerActionShotLeft::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnEnd() {
-	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("left_shotAfter", param_.animationTime);
 
 	Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();

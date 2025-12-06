@@ -131,7 +131,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 /// 2d描画
 /// </summary>
 class Sprite :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	/// <summary>

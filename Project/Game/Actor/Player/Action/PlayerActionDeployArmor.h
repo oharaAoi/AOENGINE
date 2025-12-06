@@ -76,7 +76,7 @@ private:
 	Parameter parameter_;
 	
 	float cameraInitOffsetZ_;
-	VectorTween<float> cameraOffsetZ_;
+	AOENGINE::VectorTween<float> cameraOffsetZ_;
 
 	bool isDeploy_;
 

@@ -10,7 +10,7 @@ class StateMachine;
 /// </summary>
 template<typename OwnerType> // テンプレートで管理対象の型を指定
 class ICharacterState :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 protected:
 	// ステートマシン以外から呼び出し関数などにアクセスできないように
 	friend class StateMachine<OwnerType>;

@@ -507,9 +507,6 @@
     <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h">
-      <Filter>Engine\Module\Components\Collider</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
@@ -1466,9 +1463,6 @@
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp">
-      <Filter>Engine\Module\Components\Collider</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp">

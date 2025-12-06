@@ -31,7 +31,7 @@ public:
 	// 終了
 	void Finalize();
 
-	static void AddObjectWindow([[maybe_unused]] AttributeGui* attribute, [[maybe_unused]] const std::string& label);
+	static void AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label);
 
 	template<typename Ptr, typename Func>
 	void SetFocusedInspector(Ptr ptr, Func&& func) {

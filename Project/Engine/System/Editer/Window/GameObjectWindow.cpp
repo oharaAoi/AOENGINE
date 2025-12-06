@@ -15,7 +15,7 @@ void GameObjectWindow::Init() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameObjectWindow::AddAttributeGui(AttributeGui* attribute, const std::string& label) {
+void GameObjectWindow::AddAttributeGui(AOENGINE::AttributeGui* attribute, const std::string& label) {
 	std::string uniqueLabel = label;
 
 	std::string newName = MakeUniqueName(uniqueLabel);
@@ -62,7 +62,7 @@ void GameObjectWindow::InspectorWindow() {
 	static std::string openNode = "";  // 現在開いているTreeNodeの名前
 	static bool firstOpenRoot = true;
 	for (auto it : attributeArray_) {
-		AttributeGui* ptr = it;
+		AOENGINE::AttributeGui* ptr = it;
 		std::string label = ptr->GetName();
 		std::string id = "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
 		label += id;

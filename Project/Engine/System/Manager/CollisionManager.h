@@ -40,7 +40,7 @@ namespace std {
 class CollisionManager {
 public:	// using
 
-	using CollisionFunctions = std::function<void(BaseCollider* const, BaseCollider* const)>;
+	using CollisionFunctions = std::function<void(AOENGINE::BaseCollider* const, AOENGINE::BaseCollider* const)>;
 
 	struct CallBackKinds {
 		CollisionFunctions enter;
@@ -66,7 +66,7 @@ public:
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void CheckCollisionPair(BaseCollider* colliderA, BaseCollider* colliderB);
+	void CheckCollisionPair(AOENGINE::BaseCollider* colliderA, AOENGINE::BaseCollider* colliderB);
 
 	/// <summary>
 	/// CollisionのPairを作成する
@@ -91,20 +91,20 @@ public:
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void OnCollision(BaseCollider* colliderA, BaseCollider* colliderB);
+	void OnCollision(AOENGINE::BaseCollider* colliderA, AOENGINE::BaseCollider* colliderB);
 
 	/// <summary>
 	/// 衝突しなくなった瞬間に行う関数
 	/// </summary>
 	/// <param name="colliderA">コライダーA</param>
 	/// <param name="colliderB">コライダーB</param>
-	void ExitCollision(BaseCollider* colliderA, BaseCollider* colliderB);
+	void ExitCollision(AOENGINE::BaseCollider* colliderA, AOENGINE::BaseCollider* colliderB);
 
-	void CallBackCollision(BaseCollider* colliderA, BaseCollider* colliderB, CallBackKinds callBack);
+	void CallBackCollision(AOENGINE::BaseCollider* colliderA, AOENGINE::BaseCollider* colliderB, CallBackKinds callBack);
 
 private:
 
-	ColliderCollector* pColliderCollector_;
+	AOENGINE::ColliderCollector* pColliderCollector_;
 
 	std::unordered_map<CollisionPair, CallBackKinds> callBackFunctions_;
 

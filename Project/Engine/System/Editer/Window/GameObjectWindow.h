@@ -15,11 +15,11 @@ public:
 
 	void Init();
 
-	void AddAttributeGui(AttributeGui* attribute, const std::string& label);
+	void AddAttributeGui(AOENGINE::AttributeGui* attribute, const std::string& label);
 
 	void InspectorWindow();
 
-	AttributeGui* GetSelectObject() const { return selectAttribute_; }
+	AOENGINE::AttributeGui* GetSelectObject() const { return selectAttribute_; }
 
 private:
 
@@ -27,8 +27,8 @@ private:
 
 private:
 
-	std::vector<AttributeGui*> attributeArray_;
-	AttributeGui* selectAttribute_ = nullptr;
+	std::vector<AOENGINE::AttributeGui*> attributeArray_;
+	AOENGINE::AttributeGui* selectAttribute_ = nullptr;
 
 };
 

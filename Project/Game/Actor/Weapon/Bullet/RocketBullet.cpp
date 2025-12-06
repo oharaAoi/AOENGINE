@@ -1,6 +1,7 @@
 #include "RocketBullet.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/Lib/GameTimer.h"
 
 RocketBullet::~RocketBullet() {
 	BaseBullet::Finalize();
@@ -27,11 +28,11 @@ void RocketBullet::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
+	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
-	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
 	trackingTimer_ = 0.f;
@@ -76,7 +77,7 @@ void RocketBullet::Update() {
 // ↓ コリジョン時の処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void RocketBullet::OnCollision(BaseCollider* other) {
+void RocketBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");

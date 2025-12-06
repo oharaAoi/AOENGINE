@@ -7,7 +7,7 @@
 /// 達成目標となる基底クラス
 /// </summary>
 class IOrientedGoal :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	IOrientedGoal() = default;

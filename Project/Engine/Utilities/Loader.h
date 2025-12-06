@@ -3,11 +3,13 @@
 #include <string>
 #include <fstream>
 #include <unordered_map>
+#include <assimp/scene.h>
 #include "Engine/Module/Components/Meshes/Mesh.h"
+#include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Module/Components/Rigging/SkinCluster.h"
-#include "Engine/Module/Components/Animation/AnimationClip.h"
+#include "Engine/Module/Components/Animation/AnimationStructures.h"
 #include "Engine/System/Manager/TextureManager.h"
 
 //================================================================================================//

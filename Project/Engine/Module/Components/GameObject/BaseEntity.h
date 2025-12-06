@@ -8,7 +8,7 @@
 /// GameObjectやTransformの仲介
 /// </summary>
 class BaseEntity :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	BaseEntity() = default;
@@ -31,8 +31,8 @@ public:	// accessor method
 
 	WorldTransform* GetTransform() const { return transform_; }
 
-	BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
-	BaseCollider* GetCollider() const { return object_->GetCollider(); }
+	AOENGINE::BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
+	AOENGINE::BaseCollider* GetCollider() const { return object_->GetCollider(); }
 
 	void SetParent(BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }
 

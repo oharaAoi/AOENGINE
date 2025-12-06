@@ -70,7 +70,7 @@ public:
 	// ワールドトランスフォームを作成
 	static std::unique_ptr<WorldTransform> CreateWorldTransform();
 	// Skinningの作成
-	static std::unique_ptr<Skinning> CreateSkinning(Skeleton* skeleton, AOENGINE::Model* model, uint32_t index);
+	static std::unique_ptr<AOENGINE::Skinning> CreateSkinning(AOENGINE::Skeleton* skeleton, AOENGINE::Model* model, uint32_t index);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Pipelineの設定
@@ -81,7 +81,7 @@ public:
 	static AOENGINE::Pipeline* GetLastUsedPipeline();
 	static AOENGINE::Pipeline* GetLastUsedPipelineCS();
 
-	static void SetSkinning(Skinning* skinning);
+	static void SetSkinning(AOENGINE::Skinning* skinning);
 
 	static AOENGINE::Pipeline* SetPipelineCS(const std::string& jsonFile);
 

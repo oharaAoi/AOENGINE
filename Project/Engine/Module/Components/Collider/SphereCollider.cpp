@@ -4,6 +4,8 @@
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
 
+using namespace AOENGINE;
+
 SphereCollider::SphereCollider() {}
 SphereCollider::~SphereCollider() {}
 

@@ -2,11 +2,13 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include <string>
 
+namespace AOENGINE {
+
 /// <summary>
 /// Box型のCollider
 /// </summary>
-class LineCollider : 
-	public BaseCollider {
+class LineCollider :
+	public AOENGINE::BaseCollider {
 public: // コンストラクタ
 
 	LineCollider() = default;
@@ -36,7 +38,7 @@ public:
 	/// 編集処理
 	/// </summary>
 	void Debug_Gui() override;
-	
+
 public:
 
 	void SetDiff(const Math::Vector3& _diff);
@@ -46,3 +48,4 @@ public:
 
 };
 
+}

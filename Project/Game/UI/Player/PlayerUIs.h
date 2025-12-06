@@ -15,7 +15,7 @@
 /// PlayerのUIをまとめたクラス
 /// </summary>
 class PlayerUIs :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	PlayerUIs() = default;

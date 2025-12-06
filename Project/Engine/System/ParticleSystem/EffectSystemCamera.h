@@ -8,7 +8,7 @@
 /// </summary>
 class EffectSystemCamera :
 	public BaseCamera,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	EffectSystemCamera();

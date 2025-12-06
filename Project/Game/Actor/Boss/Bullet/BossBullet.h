@@ -2,6 +2,7 @@
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Game/Actor/Boss/Bullet/BossBullets.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 
 /// <summary>
 /// Bossの通常の弾を撃つ処理
@@ -33,7 +34,7 @@ public:
 	/// 衝突時の処理
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(BaseCollider* other);
+	void OnCollision(AOENGINE::BaseCollider* other);
 
 private:
 

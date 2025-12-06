@@ -8,7 +8,7 @@
 /// 影のレンダリングを行うクラス
 /// </summary>
 class ShadowMap :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	ShadowMap() = default;

@@ -2,6 +2,8 @@
 // C++
 #include <list>
 #include <memory>
+// Engine
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 // Game
 #include "Game/Actor/Base/BaseBullet.h"
 #include "Game/Actor/Boss/Bullet/BossMissile.h"
@@ -41,7 +43,7 @@ public: // member method
 
 	void SetPlayerPosition(const Math::Vector3& pos) { playerPosition_ = pos; }
 
-	BaseBullet* SearchCollider(BaseCollider* collider);
+	BaseBullet* SearchCollider(AOENGINE::BaseCollider* collider);
 
 private:
 

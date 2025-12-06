@@ -20,11 +20,13 @@ enum class ColliderShape {
 	Line
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// Colliderの基底クラス
 /// </summary>
 class BaseCollider :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	BaseCollider();
@@ -107,7 +109,7 @@ protected:
 	bool isActive_ = false;
 	bool isStatic_ = true;	// 移動するかどうか(押し戻すか)
 	bool isTrigger_ = false;	// 判定だけを行うか
-	
+
 	// カテゴリ
 	uint32_t categoryBits_ = 0; // 自分が属しているカテゴリ
 	uint32_t maskBits_ = 0;     // 誰と衝突してもいいかのマスク
@@ -133,3 +135,4 @@ protected:
 
 };
 
+}

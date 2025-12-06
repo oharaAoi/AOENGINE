@@ -27,7 +27,7 @@ public:
 
 public:
 
-	VectorTween<float> floatingTween_;
+	AOENGINE::VectorTween<float> floatingTween_;
 
 };
 

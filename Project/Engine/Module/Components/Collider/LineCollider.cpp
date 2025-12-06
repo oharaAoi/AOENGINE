@@ -3,6 +3,8 @@
 #include "Engine/Render.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 
+using namespace AOENGINE;
+
 void LineCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(categoryName);

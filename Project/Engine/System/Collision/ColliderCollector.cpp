@@ -1,5 +1,6 @@
 #include "ColliderCollector.h"
-#include "Engine/Engine.h"
+
+using namespace AOENGINE;
 
 ColliderCollector* ColliderCollector::GetInstance() {
     static ColliderCollector instance;

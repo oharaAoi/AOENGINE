@@ -1,7 +1,7 @@
 #include "JetEngine.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
+#include "Engine/Lib/GameTimer.h"
 
 JetEngine::~JetEngine() {
 	Finalize();

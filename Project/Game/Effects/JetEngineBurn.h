@@ -110,7 +110,7 @@ private:
 
 	Parameter param_;
 
-	VectorTween<float> noiseAnimation_;
+	AOENGINE::VectorTween<float> noiseAnimation_;
 
 	Math::Vector3 initScale_;
 };

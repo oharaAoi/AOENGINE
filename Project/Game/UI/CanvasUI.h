@@ -16,7 +16,7 @@
 /// UIをまとめたクラス
 /// </summary>
 class CanvasUI :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:	// base
 
 	CanvasUI() = default;

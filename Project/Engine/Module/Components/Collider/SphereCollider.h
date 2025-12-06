@@ -1,11 +1,13 @@
 #pragma once
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 球型のコライダー
 /// </summary>
 class SphereCollider
-	: public BaseCollider {
+	: public AOENGINE::BaseCollider {
 public: // コンストラクタ
 
 	SphereCollider();
@@ -45,3 +47,4 @@ public:
 
 };
 
+}

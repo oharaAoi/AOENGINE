@@ -17,7 +17,7 @@ void DirectionalLight::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
-	AttributeGui::SetName("Directional Light");
+	AOENGINE::AttributeGui::SetName("Directional Light");
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 

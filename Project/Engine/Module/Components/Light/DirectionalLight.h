@@ -9,7 +9,7 @@
 /// </summary>
 class DirectionalLight :
 	public BaseLight,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // メンバ構造体
 
 	/// <summary>

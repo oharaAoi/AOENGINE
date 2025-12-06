@@ -17,7 +17,7 @@ class ActionManager;
 /// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class BaseAction 
-	: public AttributeGui {
+	: public AOENGINE::AttributeGui {
 protected:
 	// Observer以外から呼び出し関数などにアクセスできないように
 	friend class ActionManager<OwnerType>;

@@ -1,7 +1,9 @@
 #include "BossMissile.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Math/Easing.h"
+#include "Engine/Lib/GameTimer.h"
 
 BossMissile::~BossMissile() {
 	BaseBullet::Finalize();
@@ -20,12 +22,12 @@ void BossMissile::Init() {
 	object_->SetObject("missile.obj");
 	object_->SetCollider(ColliderTags::Boss::missile, ColliderShape::Sphere);
 
-	BaseCollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
+	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Boss::missile);
 	collider->SetTarget(ColliderTags::Player::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::Field::building);
 	collider->SetTarget(ColliderTags::None::own);
-	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
 
 	trackingTimer_ = 0.f;
 
@@ -117,7 +119,7 @@ void BossMissile::Accelerate() {
 	}
 }
 
-void BossMissile::OnCollision(BaseCollider* other) {
+void BossMissile::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Field::building) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");

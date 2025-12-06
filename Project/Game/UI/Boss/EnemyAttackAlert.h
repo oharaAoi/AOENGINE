@@ -15,7 +15,7 @@ enum class AttackAlertDirection {
 /// 敵が攻撃してくる際のアラート表示
 /// </summary>
 class EnemyAttackAlert :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	EnemyAttackAlert() = default;

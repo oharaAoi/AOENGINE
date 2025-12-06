@@ -167,9 +167,9 @@ private:
 
 	bool isAlive_;
 
-	VectorTween<Math::Vector3> uvMovingTween_[3];
+	AOENGINE::VectorTween<Math::Vector3> uvMovingTween_[3];
 
-	VectorTween<float> thresholdTween_;
+	AOENGINE::VectorTween<float> thresholdTween_;
 
 	ArmorParameter armorParam_;
 };

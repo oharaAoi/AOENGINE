@@ -7,7 +7,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class ParticleManager :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct ParticlesData {

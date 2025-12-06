@@ -3,6 +3,7 @@
 #include "Game/Actor/Player/Action/PlayerActionIdle.h"
 // Engine
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -55,7 +56,7 @@ void PlayerActionShotRight::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotRight::OnEnd() {
-	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("right_shotAfter", param_.animationTime);
 }
 

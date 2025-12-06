@@ -2,6 +2,8 @@
 #include <assert.h>
 #include "Engine/System/Manager/CollisionLayerManager.h"
 
+using namespace AOENGINE;
+
 BaseCollider::BaseCollider() {
 	penetrationPrevention_ = false;	// 貫通対策を行うかどうか
 	pushbackDire_ = CVector3::ZERO;

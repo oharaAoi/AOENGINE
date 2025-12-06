@@ -17,7 +17,7 @@
 /// <typeparam name="OwnerType"></typeparam>
 template<typename OwnerType>
 class ActionManager :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	ActionManager() {}

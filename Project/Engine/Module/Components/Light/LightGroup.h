@@ -11,7 +11,7 @@
 /// lightをまとめたクラス
 /// </summary>
 class LightGroup : 
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	enum LightKind {

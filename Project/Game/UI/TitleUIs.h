@@ -7,7 +7,7 @@
 /// タイトルのUIをまとめたクラス
 /// </summary>
 class TitleUIs :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	TitleUIs() = default;

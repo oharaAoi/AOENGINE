@@ -9,7 +9,7 @@
 /// pulseArmorを管理しているクラス
 /// </summary>
 class Armors :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	Armors() = default;

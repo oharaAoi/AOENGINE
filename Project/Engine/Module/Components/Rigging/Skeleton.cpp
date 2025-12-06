@@ -3,6 +3,8 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Lib/Color.h"
 
+using namespace AOENGINE;
+
 Skeleton::Skeleton() {}
 Skeleton::~Skeleton() {}
 

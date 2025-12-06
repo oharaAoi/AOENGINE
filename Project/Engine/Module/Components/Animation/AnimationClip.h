@@ -1,16 +1,16 @@
 #pragma once
 #include <vector>
-#include <map>
 #include <string>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Rigging/Skeleton.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
 
 class AnimationManager;
+
+namespace AOENGINE {
 
 /// <summary>
 /// Animationに関するクラス
@@ -30,7 +30,7 @@ public:
 	/// <param name="directoryPath"></param>
 	/// <param name="animationFile"></param>
 	void LoadAnimation(const std::string directoryPath, const std::string& animationFile);
-	
+
 	/// <summary>
 	/// Animationの適応
 	/// </summary>
@@ -166,5 +166,4 @@ private:
 	bool isReservation_;				// Animationの予約をする
 	float startTransitionRaito_;		// 遷移を開始する割合
 };
-
-
+}

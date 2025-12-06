@@ -1,5 +1,6 @@
 #include "BaseBullet.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Lib/GameTimer.h"
 
 void BaseBullet::Finalize() {
 	object_->SetIsDestroy(true);

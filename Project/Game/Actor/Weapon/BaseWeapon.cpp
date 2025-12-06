@@ -1,6 +1,6 @@
 #include "BaseWeapon.h"
 #include "Engine/Render/SceneRenderer.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Lib/GameTimer.h"
 
 void BaseWeapon::Finalize() {
 }

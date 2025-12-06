@@ -6,6 +6,7 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/Easing.h"
 #include "Engine/WinApp/WinApp.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Camera/Animation/CameraAnimationShot.h"
 #include "Game/Camera/Animation/CameraAnimationBoost.h"

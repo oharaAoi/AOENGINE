@@ -4,7 +4,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 class FadePanel :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	FadePanel() = default;

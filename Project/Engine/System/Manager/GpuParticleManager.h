@@ -11,7 +11,7 @@
 /// gpuParticleを管理しているクラス
 /// </summary>
 class GpuParticleManager :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	GpuParticleManager() = default;

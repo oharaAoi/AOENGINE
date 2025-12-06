@@ -168,7 +168,7 @@ public:	// member method
 	/// 足のコリジョン
 	/// </summary>
 	/// <param name="other"></param>
-	void LegOnCollision([[maybe_unused]] BaseCollider* other);
+	void LegOnCollision([[maybe_unused]] AOENGINE::BaseCollider* other);
 
 	bool IsAttack();
 
@@ -279,7 +279,7 @@ private:
 	
 	std::unique_ptr<JetEngine> jet_;
 
-	std::unique_ptr<SphereCollider> legCollider_;
+	std::unique_ptr<AOENGINE::SphereCollider> legCollider_;
 	
 	Math::Matrix4x4 leftHandMat_;
 	Math::Matrix4x4 rightHandMat_;

@@ -24,7 +24,7 @@ void BossBulletManager::Update() {
 	}
 }
 
-BaseBullet* BossBulletManager::SearchCollider(BaseCollider* collider) {
+BaseBullet* BossBulletManager::SearchCollider(AOENGINE::BaseCollider* collider) {
 	for (const auto& bullet : bulletList_) {
 		if (bullet->GetCollider() == collider) {
 			return bullet.get();

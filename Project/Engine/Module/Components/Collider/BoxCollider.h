@@ -5,11 +5,13 @@
 #include <string>
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 箱型Collider
 /// </summary>
-class BoxCollider 
-	: public BaseCollider {
+class BoxCollider
+	: public AOENGINE::BaseCollider {
 public: // コンストラクタ
 
 	BoxCollider();
@@ -50,3 +52,5 @@ private:
 	Math::Vector3 size_;
 
 };
+
+}

@@ -12,7 +12,7 @@
 /// gpuParticleを射出するemitter
 /// </summary>
 class GpuParticleEmitter :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct PerFrame {

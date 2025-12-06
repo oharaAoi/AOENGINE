@@ -9,7 +9,7 @@
 /// 武器の残弾数を可視化したクラス
 /// </summary>
 class WeaponRemainingRounds :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	WeaponRemainingRounds() = default;
@@ -45,7 +45,7 @@ private:
 	AOENGINE::Sprite* gauge_;
 	float timer_;
 
-	VectorTween<AOENGINE::Color> colorAnimation_;
+	AOENGINE::VectorTween<AOENGINE::Color> colorAnimation_;
 	const float kAnimationDuration_ = 0.5f;
 };
 

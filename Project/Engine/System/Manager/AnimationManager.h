@@ -9,7 +9,6 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Rigging/Skeleton.h"
-#include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
 
 /// <summary>

@@ -89,7 +89,7 @@ public:
 
 	void SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
-	Animator* GetAnimetor() { return animetor_.get(); }
+	AOENGINE::Animator* GetAnimetor() { return animetor_.get(); }
 
 	void SetEndEffector(const std::string& _name, EndEffector* _effector);
 
@@ -97,10 +97,10 @@ public:
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	BaseCollider* GetCollider(const std::string& name);
-	BaseCollider* GetCollider();
-	BaseCollider* SetCollider(const std::string& categoryName, ColliderShape shape);
-	void AddCollider(BaseCollider* _collider, const std::string& categoryName, ColliderShape shape);
+	AOENGINE::BaseCollider* GetCollider(const std::string& name);
+	AOENGINE::BaseCollider* GetCollider();
+	AOENGINE::BaseCollider* SetCollider(const std::string& categoryName, ColliderShape shape);
+	void AddCollider(AOENGINE::BaseCollider* _collider, const std::string& categoryName, ColliderShape shape);
 
 	void SetCollider(const std::string& categoryName, const std::string& shapeName);
 
@@ -117,10 +117,10 @@ protected:
 	std::unordered_map<std::string, std::unique_ptr<BaseMaterial>> materials;
 
 	std::unique_ptr<WorldTransform> transform_ = nullptr;
-	std::unique_ptr<Animator> animetor_ = nullptr;
+	std::unique_ptr<AOENGINE::Animator> animetor_ = nullptr;
 	std::unordered_map<std::string, EndEffector*> endEffectors_;
 
-	std::vector<std::unique_ptr<BaseCollider>> colliders_;
+	std::vector<std::unique_ptr<AOENGINE::BaseCollider>> colliders_;
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 

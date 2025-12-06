@@ -61,6 +61,6 @@ private:
 
 	bool run_ = false;
 	bool continuation_ = false; // 継続するか
-	VectorTween<float> blurStrengthTween_;
+	AOENGINE::VectorTween<float> blurStrengthTween_;
 };
 

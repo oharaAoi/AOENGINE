@@ -11,7 +11,7 @@
 /// ShaderGraphクラス
 /// </summary>
 class ShaderGraph :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	struct FilePathParam : public AOENGINE::IJsonConverter {

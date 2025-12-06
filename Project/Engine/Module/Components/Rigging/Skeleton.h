@@ -9,6 +9,8 @@
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// アニメーションのNodeを階層構造を管理する機構
 /// </summary>
@@ -69,3 +71,4 @@ private:
 	AOENGINE::Model::Node node_;
 };
 
+}

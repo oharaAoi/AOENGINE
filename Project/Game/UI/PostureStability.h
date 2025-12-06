@@ -81,6 +81,6 @@ private:
 
 	GaugeType gaugeType_;
 
-	VectorTween<AOENGINE::Color> stanAnimation_;
+	AOENGINE::VectorTween<AOENGINE::Color> stanAnimation_;
 };
 

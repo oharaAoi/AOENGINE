@@ -8,7 +8,7 @@
 /// ゲージを管理する描画する際の元となるクラス
 /// </summary>
 class BaseGaugeUI :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // base
 
 	BaseGaugeUI() = default;

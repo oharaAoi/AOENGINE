@@ -27,7 +27,7 @@ public:
 	/// </summary>
 	/// <param name="collider">; コライダーのポインタ</param>
 	/// <returns></returns>
-	BaseBullet* SearchCollider(BaseCollider* collider);
+	BaseBullet* SearchCollider(AOENGINE::BaseCollider* collider);
 
 public: // member method
 

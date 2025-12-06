@@ -11,7 +11,7 @@ const float kDebugCameraMoveSpeed_ = 0.05f;
 /// </summary>
 class DebugCamera :
 	public BaseCamera,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	DebugCamera();

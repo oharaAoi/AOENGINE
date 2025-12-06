@@ -1,13 +1,15 @@
 #include "AttributeGui.h"
 
-int AttributeGui::nextId_ = 0;
+using namespace AOENGINE;
 
-AttributeGui::AttributeGui() {
+int AOENGINE::AttributeGui::nextId_ = 0;
+
+AOENGINE::AttributeGui::AttributeGui() {
 	id_ = nextId_;
 	nextId_++;
 }
 
-void AttributeGui::EditName() {
+void AOENGINE::AttributeGui::EditName() {
 	char buffer[256];
 	std::snprintf(buffer, sizeof(buffer), "%s", name_.c_str());
 

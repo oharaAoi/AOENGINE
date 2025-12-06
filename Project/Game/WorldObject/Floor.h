@@ -7,7 +7,7 @@
 /// 床
 /// </summary>
 class Floor :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	Floor();

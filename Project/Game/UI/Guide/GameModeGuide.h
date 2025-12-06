@@ -14,7 +14,7 @@ enum SelectModeType {
 /// GameModeを選択するUI
 /// </summary>
 class GameModeGuide :
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public:
 
 	GameModeGuide();

@@ -5,7 +5,7 @@
 /// sceneに配置するobjctが継承するクラス
 /// </summary>
 class ISceneObject : 
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
 	ISceneObject() = default;

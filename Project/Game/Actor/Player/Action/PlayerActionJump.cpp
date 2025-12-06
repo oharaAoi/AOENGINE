@@ -4,8 +4,9 @@
 #include "Game/Actor/Player/Action/PlayerActionMove.h"
 #include "Game/Actor/Player/Action/PlayerActionRightShoulder.h"
 // Engine
+#include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Module/Components/Animation/AnimationClip.h"
 #include "Engine/System/Manager/ParticleManager.h"
 
 void PlayerActionJump::Debug_Gui() {
@@ -45,7 +46,7 @@ void PlayerActionJump::Build() {
 	jetBurnLeft_ = manager->CrateParticle("Jet");
 	jetBurnRight_ = manager->CrateParticle("Jet");
 
-	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
+	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
 	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
 
@@ -75,7 +76,7 @@ void PlayerActionJump::OnStart() {
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
-	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("jump", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 }
@@ -89,7 +90,7 @@ void PlayerActionJump::OnUpdate() {
 
 	mainAction_();
 
-	Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
+	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
 	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
 
@@ -100,7 +101,7 @@ void PlayerActionJump::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnEnd() {
-	AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("landing", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 }

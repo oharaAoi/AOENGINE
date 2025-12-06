@@ -38,7 +38,7 @@ public:
 	/// 衝突時の処理
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(BaseCollider* other);
+	void OnCollision(AOENGINE::BaseCollider* other);
 
 private :
 

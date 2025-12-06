@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Collider/LineCollider.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
@@ -70,7 +71,7 @@ public:
 	/// 衝突時の処理
 	/// </summary>
 	/// <param name="other"></param>
-	void OnCollision(BaseCollider* _other);
+	void OnCollision(AOENGINE::BaseCollider* _other);
 
 	/// <summary>
 	/// 発射した際に行なう初期化処理
@@ -97,7 +98,7 @@ private:
 	bool isFade_ = false;
 	Math::Vector3 targetPos_;
 
-	LineCollider* lineCollider_ = nullptr;
+	AOENGINE::LineCollider* lineCollider_ = nullptr;
 
 	Math::Vector3 dire_;
 

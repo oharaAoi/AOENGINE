@@ -16,9 +16,9 @@ void PlayerBullet::Init() {
 	object_->SetObject("playerBullet.obj");
 	object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Sphere);
 
-	BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
+	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Boss::own);
-	collider->SetOnCollision([this](BaseCollider* other) { OnCollision(other); });
+	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 
 	type_ = BulletType::Normal;
@@ -50,7 +50,7 @@ void PlayerBullet::Update() {
 // ↓ 衝突処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBullet::OnCollision(BaseCollider* other) {
+void PlayerBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own) {
 		isAlive_ = false;
 		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");

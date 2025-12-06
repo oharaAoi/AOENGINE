@@ -194,7 +194,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\MeshCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
@@ -539,7 +538,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\MeshCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />

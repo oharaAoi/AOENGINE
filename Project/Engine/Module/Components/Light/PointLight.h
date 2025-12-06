@@ -7,7 +7,7 @@
 /// </summary>
 class PointLight :
 	public BaseLight,
-	public AttributeGui {
+	public AOENGINE::AttributeGui {
 public: // メンバ構造体
 
 	/// <summary>

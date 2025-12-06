@@ -24,7 +24,7 @@ void BBulletToGroundCallBacks::Update() {
 // ↓ コリジョン処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BBulletToGroundCallBacks::CollisionEnter([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const ground) {
+void BBulletToGroundCallBacks::CollisionEnter([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const ground) {
 	BaseBullet* hitBullet = pBossBulletManager_->SearchCollider(bullet);
 	if (hitBullet != nullptr) {
 		hitBullet->SetIsAlive(false);
@@ -33,8 +33,8 @@ void BBulletToGroundCallBacks::CollisionEnter([[maybe_unused]] BaseCollider* con
 	}
 }
 
-void BBulletToGroundCallBacks::CollisionStay([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const ground) {
+void BBulletToGroundCallBacks::CollisionStay([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const ground) {
 }
 
-void BBulletToGroundCallBacks::CollisionExit([[maybe_unused]] BaseCollider* const bullet, [[maybe_unused]] BaseCollider* const ground) {
+void BBulletToGroundCallBacks::CollisionExit([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const ground) {
 }
