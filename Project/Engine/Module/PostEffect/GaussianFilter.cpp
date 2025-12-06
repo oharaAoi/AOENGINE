@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 GaussianFilter::~GaussianFilter() {
 	settingBuffer_->Destroy();

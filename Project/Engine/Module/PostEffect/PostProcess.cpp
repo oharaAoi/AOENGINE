@@ -4,6 +4,9 @@
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+using namespace PostEffect;
+
 PostProcess::~PostProcess() {
 	Finalize();
 }

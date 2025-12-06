@@ -5,6 +5,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 GlitchNoise::~GlitchNoise() {
 	glitchBuffer_->Destroy();

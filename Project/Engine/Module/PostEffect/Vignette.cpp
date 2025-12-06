@@ -3,6 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 Vignette::~Vignette() {
 	settingBuffer_->Destroy();

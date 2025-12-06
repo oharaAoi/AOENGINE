@@ -35,6 +35,8 @@ enum class PostEffectType {
 	MotionBlur,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// postEffectなどを行うクラス
 /// </summary>
@@ -76,37 +78,39 @@ public:
 	/// </summary>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	std::shared_ptr<IPostEffect> GetEffect(PostEffectType type);
+	std::shared_ptr<PostEffect::IPostEffect> GetEffect(PostEffectType type);
 
 	void Debug_Gui() override;
 
-	std::shared_ptr<Grayscale> GetGrayscale() { return grayscale_; }
-	std::shared_ptr<RadialBlur> GetRadialBlur() { return radialBlur_; }
-	std::shared_ptr<GlitchNoise> GetGlitchNoise() { return glitchNoise_; }
-	std::shared_ptr<Vignette> GetVignette() { return vignette_; }
-	std::shared_ptr<Dissolve> GetDissolve() { return dissolve_; }
+	std::shared_ptr<PostEffect::Grayscale> GetGrayscale() { return grayscale_; }
+	std::shared_ptr<PostEffect::RadialBlur> GetRadialBlur() { return radialBlur_; }
+	std::shared_ptr<PostEffect::GlitchNoise> GetGlitchNoise() { return glitchNoise_; }
+	std::shared_ptr<PostEffect::Vignette> GetVignette() { return vignette_; }
+	std::shared_ptr<PostEffect::Dissolve> GetDissolve() { return dissolve_; }
 
 private:
 
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 
-	std::unique_ptr<PingPongBuffer> pingPongBuff_;
+	std::unique_ptr<AOENGINE::PingPongBuffer> pingPongBuff_;
 
-	std::shared_ptr<Grayscale> grayscale_;
-	std::shared_ptr<RadialBlur> radialBlur_;
-	std::shared_ptr<GlitchNoise> glitchNoise_;
-	std::shared_ptr<Vignette> vignette_;
-	std::shared_ptr<Dissolve> dissolve_;
-	std::shared_ptr<ToonMap> toonMap_;
-	std::shared_ptr<Bloom> bloom_;
-	std::shared_ptr<Smoothing> smoothing_;
-	std::shared_ptr<GaussianFilter> gaussianFilter_;
-	std::shared_ptr<LuminanceBasedOutline> luminanceOutline_;
-	std::shared_ptr<DepthBasedOutline> depthOutline_;
-	std::shared_ptr<MotionBlur> motionBlur_;
+	std::shared_ptr<PostEffect::Grayscale> grayscale_;
+	std::shared_ptr<PostEffect::RadialBlur> radialBlur_;
+	std::shared_ptr<PostEffect::GlitchNoise> glitchNoise_;
+	std::shared_ptr<PostEffect::Vignette> vignette_;
+	std::shared_ptr<PostEffect::Dissolve> dissolve_;
+	std::shared_ptr<PostEffect::ToonMap> toonMap_;
+	std::shared_ptr<PostEffect::Bloom> bloom_;
+	std::shared_ptr<PostEffect::Smoothing> smoothing_;
+	std::shared_ptr<PostEffect::GaussianFilter> gaussianFilter_;
+	std::shared_ptr<PostEffect::LuminanceBasedOutline> luminanceOutline_;
+	std::shared_ptr<PostEffect::DepthBasedOutline> depthOutline_;
+	std::shared_ptr<PostEffect::MotionBlur> motionBlur_;
 
-	std::list<std::shared_ptr<IPostEffect>> effectList_;
+	std::list<std::shared_ptr<PostEffect::IPostEffect>> effectList_;
 	std::list<PostEffectType> addEffectList_;
 
 };
+
+}

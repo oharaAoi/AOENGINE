@@ -38,7 +38,7 @@ void SceneManager::Update() {
 
 		EditorWindows::GetInstance()->Reset();
 
-		PostProcess* postProcess = Engine::GetPostProcess();
+		AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
 		EditorWindows::AddObjectWindow(postProcess, "PostProcess");
 
 		AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
@@ -107,7 +107,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	EditorWindows::GetInstance()->Reset();
 #endif // _DEBUG
 
-	PostProcess* postProcess = Engine::GetPostProcess();
+	AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
 	EditorWindows::AddObjectWindow(postProcess, "Post Process");
 
 	AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();

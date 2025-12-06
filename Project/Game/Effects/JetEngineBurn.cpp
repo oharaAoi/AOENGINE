@@ -81,7 +81,7 @@ void JetEngineBurn::Draw() const {
 	index = pso->GetRootSignatureIndex("gNoiseUV");
 	commandList->SetGraphicsRootConstantBufferView(index, noiseBuffer_->GetGPUVirtualAddress());
 
-	index = pso->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
 	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);

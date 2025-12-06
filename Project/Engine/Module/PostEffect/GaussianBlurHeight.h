@@ -2,6 +2,8 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 縦幅のブラー
 /// </summary>
@@ -35,3 +37,4 @@ private:
 	BlurSettings* blurSetting_;
 };
 
+}

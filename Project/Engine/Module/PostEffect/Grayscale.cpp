@@ -3,6 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 Grayscale::~Grayscale() {
 	settingBuffer_->Destroy();

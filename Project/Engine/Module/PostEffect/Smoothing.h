@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// Smoothing処理
 /// </summary>
@@ -35,3 +37,4 @@ private:
 
 };
 
+}

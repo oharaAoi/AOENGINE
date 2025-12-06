@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// PostEffectの基底クラス
 /// </summary>
@@ -29,3 +31,4 @@ protected:
 
 };
 
+}

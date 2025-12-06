@@ -2,6 +2,8 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 横幅のブラー
 /// </summary>
@@ -36,3 +38,4 @@ private:
 
 };
 
+}

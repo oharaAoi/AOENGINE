@@ -10,6 +10,8 @@ enum class BufferType {
 	Pong
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// bufferを入れ替えてポストエフェクトを行う用のresource
 /// </summary>
@@ -48,4 +50,4 @@ private:
 	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;
 
 };
-
+}

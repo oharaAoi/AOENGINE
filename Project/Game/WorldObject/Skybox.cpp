@@ -49,7 +49,7 @@ void Skybox::Draw() const {
 	commandList->IASetIndexBuffer(&mesh_->GetIBV());
 	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
 
-	index = pso->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
 	transform_->BindCommandList(commandList, index);
 	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
 	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);

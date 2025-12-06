@@ -4,6 +4,7 @@
 #include "Engine/WinApp/WinApp.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 GaussianBlurWidth::~GaussianBlurWidth() {
 	blurBuffer_->Destroy();

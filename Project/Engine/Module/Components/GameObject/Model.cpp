@@ -62,7 +62,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
 		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-		index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewProjection->BindCommandList(commandList, index);
@@ -105,7 +105,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		commandList->IASetIndexBuffer(&meshArray_[oi]->GetIBV());
 		index = pipeline->GetRootSignatureIndex("gMaterial");
 		commandList->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-		index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+		index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 		worldTransform->BindCommandList(commandList, index);
 		index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 		viewprojection->BindCommandList(commandList, index);

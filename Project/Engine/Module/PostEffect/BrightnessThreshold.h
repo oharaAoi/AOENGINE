@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 閾値以上の輝度を抽出
 /// </summary>
@@ -35,3 +37,4 @@ private:
 
 };
 
+}

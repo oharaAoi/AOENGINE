@@ -145,7 +145,7 @@ private:
 	const float kDeadZone_ = 0.1f;
 	Math::Vector2 stick_;
 
-	std::shared_ptr<RadialBlur> blur_;
+	std::shared_ptr<PostEffect::RadialBlur> blur_;
 
 };
 

@@ -152,7 +152,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const AOE
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
 	index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
@@ -192,7 +192,7 @@ void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mes
 	UINT index = pipeline->GetRootSignatureIndex("gMaterial");
 	commandList_->SetGraphicsRootConstantBufferView(index, _material->GetBufferAddress());
 
-	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	_transform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	viewProjection_->BindCommandList(commandList_, index);
@@ -212,7 +212,7 @@ void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const
 	UINT index = 0;
 	commandList_->IASetVertexBuffers(0, 1, &vbv);
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
-	index = pipeline->GetRootSignatureIndex("gAOENGINE::WorldTransformMatrix");
+	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
 	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
 	lightGroup_->GetDirectionalLight()->ViewBindCommand(commandList_, index);

@@ -2,6 +2,8 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// ヴィネット
 /// </summary>
@@ -41,4 +43,4 @@ private:
 	VignetteSetting* setting_;
 
 };
-
+}

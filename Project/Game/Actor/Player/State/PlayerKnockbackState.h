@@ -72,7 +72,7 @@ private:
 
 	Parameter param_;
 
-	std::shared_ptr<GlitchNoise> glitchNoise_;
+	std::shared_ptr<PostEffect::GlitchNoise> glitchNoise_;
 
 };
 

@@ -3,6 +3,7 @@
 #include "Engine/Lib/GameTimer.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 RadialBlur::~RadialBlur() {
 	blurSettingBuffer_->Destroy();

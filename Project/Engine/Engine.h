@@ -93,5 +93,5 @@ public:
 
 	static AOENGINE::Canvas2d* GetCanvas2d();
 
-	static PostProcess* GetPostProcess();
+	static AOENGINE::PostProcess* GetPostProcess();
 };

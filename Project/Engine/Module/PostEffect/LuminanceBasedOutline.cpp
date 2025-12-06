@@ -2,6 +2,7 @@
 #include "Engine.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 void LuminanceBasedOutline::Init() {
 }

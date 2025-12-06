@@ -2,6 +2,8 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 画面全体を灰色にする
 /// </summary>
@@ -15,7 +17,7 @@ public:
 
 public:
 
-	Grayscale() =default;
+	Grayscale() = default;
 	~Grayscale() override;
 
 public:
@@ -39,4 +41,4 @@ private:
 	Setting* setting_;
 
 };
-
+}

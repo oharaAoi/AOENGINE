@@ -2,6 +2,8 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 #include "Engine/Lib/Color.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// ディゾルブ
 /// </summary>
@@ -39,3 +41,4 @@ private:
 
 };
 
+}

@@ -26,7 +26,7 @@ namespace {
 	Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 
-	AOENGINE::GraphicsContext* graphicsCxt_ = nullptr;
+	GraphicsContext* graphicsCxt_ = nullptr;
 
 	ID3D12Device* dxDevice_ = nullptr;
 	ID3D12GraphicsCommandList* dxCmdList_ = nullptr;
@@ -36,7 +36,7 @@ namespace {
 
 	GraphicsPipelines* graphicsPipeline_ = nullptr;
 	
-	AOENGINE::RenderTarget* renderTarget_ = nullptr;
+	RenderTarget* renderTarget_ = nullptr;
 
 	// CS
 	std::unique_ptr<ComputeShaderPipelines> computeShaderPipelines_ = nullptr;
@@ -46,7 +46,7 @@ namespace {
 	
 	std::unique_ptr<PostProcess> postProcess_;
 
-	std::unique_ptr<AOENGINE::Canvas2d> canvas2d_;
+	std::unique_ptr<Canvas2d> canvas2d_;
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;

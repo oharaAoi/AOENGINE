@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 class ToonMap :
 	public IPostEffect {
 public:
@@ -20,3 +22,4 @@ public:
 	void Debug_Gui() override {};
 };
 
+}

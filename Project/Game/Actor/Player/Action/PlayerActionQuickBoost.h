@@ -107,7 +107,7 @@ private:
 	// 他クラス ------------------------------------------------
 	Input* pInput_;
 	AOENGINE::WorldTransform* pOwnerTransform_ = nullptr;
-	std::shared_ptr<RadialBlur> pRadialBlur_;
+	std::shared_ptr<PostEffect::RadialBlur> pRadialBlur_;
 
 	// State/Parameter ------------------------------------------------
 	Math::Vector3 acceleration_ = { 0.0f, 0.0f, 0.0f };

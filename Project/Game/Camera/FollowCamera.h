@@ -202,8 +202,8 @@ private:
 	AnimationParameter animationParam_;
 	float animationTimer_;
 	bool isAnimationFinish_;
-	std::shared_ptr<Grayscale> grayscale_;
-	std::shared_ptr<Vignette> vignette_;
+	std::shared_ptr<PostEffect::Grayscale> grayscale_;
+	std::shared_ptr<PostEffect::Vignette> vignette_;
 
 	std::unordered_map<std::string, std::unique_ptr<ICameraAnimation>> animationMap_;
 

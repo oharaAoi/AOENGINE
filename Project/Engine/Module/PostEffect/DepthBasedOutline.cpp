@@ -3,6 +3,7 @@
 #include "Render.h"
 
 using namespace AOENGINE;
+using namespace PostEffect;
 
 DepthBasedOutline::~DepthBasedOutline() {
 	settingBuffer_->Destroy();

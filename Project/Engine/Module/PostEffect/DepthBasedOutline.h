@@ -2,6 +2,8 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 深度ベースアウトライン
 /// </summary>
@@ -38,4 +40,4 @@ private:
 	ID3D12Resource* depthResource_;
 	DescriptorHandles depthHandle_;
 };
-
+}

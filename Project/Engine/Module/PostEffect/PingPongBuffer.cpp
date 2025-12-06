@@ -1,6 +1,8 @@
 #include "PingPongBuffer.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 PingPongBuffer::~PingPongBuffer() {
 	pingResource_->Destroy();
 	pongResource_->Destroy();

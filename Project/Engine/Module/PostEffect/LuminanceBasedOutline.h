@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// 輝度ベースアウトライン
 /// </summary>
@@ -24,3 +26,4 @@ public:
 
 };
 
+}

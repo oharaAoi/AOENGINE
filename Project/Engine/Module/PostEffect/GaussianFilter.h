@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// BoxFilter
 /// </summary>
@@ -36,3 +38,4 @@ private:
 
 };
 
+}

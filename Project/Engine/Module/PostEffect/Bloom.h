@@ -5,6 +5,8 @@
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// Bloomクラス
 /// </summary>
@@ -33,22 +35,22 @@ public:
 
 public:
 
-	void SetPongResource(PingPongBuffer* _resource) { postProcessResource_ = _resource; }
+	void SetPongResource(AOENGINE::PingPongBuffer* _resource) { postProcessResource_ = _resource; }
 
 	void SetDepthHandle(D3D12_CPU_DESCRIPTOR_HANDLE handle) { depthHandle_ = handle; }
 
 private:
 
-	std::unique_ptr<PingPongBuffer> pingPongBuff_;
+	std::unique_ptr<AOENGINE::PingPongBuffer> pingPongBuff_;
 
-	std::unique_ptr<BrightnessThreshold> brightnessBuffer_;
-	std::unique_ptr<GaussianBlurWidth> blurWidthBuffer_;
-	std::unique_ptr<GaussianBlurHeight> blurHeightBuffer_;
-	
+	std::unique_ptr<PostEffect::BrightnessThreshold> brightnessBuffer_;
+	std::unique_ptr<PostEffect::GaussianBlurWidth> blurWidthBuffer_;
+	std::unique_ptr<PostEffect::GaussianBlurHeight> blurHeightBuffer_;
+
 	AOENGINE::DxResource* settingBuffer_;
 	BloomSettings* setting_;
 
-	PingPongBuffer* postProcessResource_;
+	AOENGINE::PingPongBuffer* postProcessResource_;
 	AOENGINE::DxResource* sceneBuffer_;
 
 
@@ -58,3 +60,4 @@ private:
 	D3D12_CPU_DESCRIPTOR_HANDLE depthHandle_;
 };
 
+}

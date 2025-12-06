@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
+namespace PostEffect {
+
 /// <summary>
 /// グリッチエフェクト
 /// </summary>
@@ -19,7 +21,7 @@ public:
 public:
 
 	GlitchNoise() = default;
-	~GlitchNoise() override ;
+	~GlitchNoise() override;
 
 public:
 
@@ -47,3 +49,4 @@ private:
 	float noiseTime_;
 };
 
+}
