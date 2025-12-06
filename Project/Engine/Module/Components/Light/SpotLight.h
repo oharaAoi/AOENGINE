@@ -2,6 +2,8 @@
 #include "BaseLight.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 集中光源
 /// </summary>
@@ -34,7 +36,7 @@ public:
 	struct Parameter : public AOENGINE::IJsonConverter {
 		AOENGINE::Color color = AOENGINE::Color::white;		// ライトの色
 		Math::Vector3 position = Math::Vector3(0, 1, 0);
-		float intensity = 1.0f; 
+		float intensity = 1.0f;
 		Math::Vector3 direction = Math::Vector3(0, -1, 0);
 		float distance = 5.0f;
 		float decay = 2.0f;
@@ -67,7 +69,7 @@ public:
 		void Debug_Gui() override;
 	};
 
-public :
+public:
 
 	SpotLight();
 	~SpotLight();
@@ -102,6 +104,7 @@ private:
 
 	float cosDegree_;
 	float falloffDegree_;
-	
+
 };
 
+}

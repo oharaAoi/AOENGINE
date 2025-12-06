@@ -7,10 +7,12 @@
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// lightをまとめたクラス
 /// </summary>
-class LightGroup : 
+class LightGroup :
 	public AOENGINE::AttributeGui {
 public:
 
@@ -54,6 +56,8 @@ private:
 	std::unique_ptr<DirectionalLight> directionalLight_ = nullptr;
 	std::unique_ptr<PointLight> pointLight_ = nullptr;
 	std::unique_ptr<SpotLight> spotLight_ = nullptr;
-	
+
 	Math::Vector3 eyePos_;
 };
+
+}

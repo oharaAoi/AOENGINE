@@ -37,7 +37,7 @@ void TitleScene::Init() {
 
 	ChangeBehavior(new TitlePushSpaceBehavior(this));
 
-	DirectionalLight* light = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
+	AOENGINE::DirectionalLight* light = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
 	light->SetIntensity(0.3f);
 
 	putButton_ = false;

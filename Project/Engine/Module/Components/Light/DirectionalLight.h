@@ -4,6 +4,8 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 平行光源
 /// </summary>
@@ -29,8 +31,8 @@ public: // メンバ構造体
 	/// 保存のパラメータ
 	/// </summary>
 	struct Paramter : public AOENGINE::IJsonConverter {
-		AOENGINE::Color color = AOENGINE::Color(1,1,1,1);		// ライトの色
-		Math::Vector3 direction = Math::Vector3(0,-1,0);	// 方向
+		AOENGINE::Color color = AOENGINE::Color(1, 1, 1, 1);		// ライトの色
+		Math::Vector3 direction = Math::Vector3(0, -1, 0);	// 方向
 		float intensity = 1.0f;	// 輝度
 		float limPower = 0.5f;		// リムライトの強さ
 
@@ -96,3 +98,5 @@ private:
 
 	bool isActive_;
 };
+
+}

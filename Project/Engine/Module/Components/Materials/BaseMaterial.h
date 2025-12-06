@@ -13,6 +13,8 @@ enum class MaterialShaderType {
 	ShaderGraphRender,	// shaderGraphを利用したレンダリング
 };
 
+
+
 /// <summary>
 /// BaseとなるMaterial
 /// </summary>

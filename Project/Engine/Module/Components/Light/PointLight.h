@@ -2,6 +2,8 @@
 #include "BaseLight.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 点光源
 /// </summary>
@@ -29,8 +31,8 @@ public: // メンバ構造体
 	/// 保存パラメータ
 	/// </summary>
 	struct Paramter : public AOENGINE::IJsonConverter {
-		AOENGINE::Color color = AOENGINE::Color(1,1,1,1);		// ライトの色
-		Math::Vector3 position = Math::Vector3(0,1,0);	// ライトの位置
+		AOENGINE::Color color = AOENGINE::Color(1, 1, 1, 1);		// ライトの色
+		Math::Vector3 position = Math::Vector3(0, 1, 0);	// ライトの位置
 		float intensity = 1.0f;	// 輝度
 		float radius = 5.0f;		// 範囲
 		float decay = 0.5f;		// 減衰率
@@ -89,3 +91,4 @@ private:
 	Paramter parameter_;
 };
 
+}

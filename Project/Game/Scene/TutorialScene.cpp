@@ -100,7 +100,7 @@ void TutorialScene::Init() {
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
 
-	DirectionalLight* light = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
+	AOENGINE::DirectionalLight* light = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
 	light->SetIntensity(0.5f);
 }
 

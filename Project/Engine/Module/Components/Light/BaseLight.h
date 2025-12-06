@@ -7,9 +7,10 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 // math
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+
+namespace AOENGINE {
 
 /// <summary>
 /// lightの基底クラス
@@ -106,3 +107,4 @@ protected:
 
 };
 
+}

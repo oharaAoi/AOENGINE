@@ -1,5 +1,7 @@
 #include "BaseLight.h"
 
+using namespace AOENGINE;
+
 void BaseLight::Finalize() {
 	lightBuffer_.Reset();
 	cBuffer_.Reset();

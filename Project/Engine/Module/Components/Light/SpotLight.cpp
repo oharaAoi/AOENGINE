@@ -1,6 +1,8 @@
 #include "SpotLight.h"
 #include "Engine/Lib/Json//JsonItems.h"
 
+using namespace AOENGINE;
+
 SpotLight::SpotLight() {
 }
 

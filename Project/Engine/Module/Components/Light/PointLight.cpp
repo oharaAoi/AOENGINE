@@ -1,6 +1,7 @@
 #include "PointLight.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
+using namespace AOENGINE;
 
 PointLight::PointLight() {
 }
