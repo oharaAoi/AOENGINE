@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyAttackAlert::Init(AttackAlertDirection _dir) {
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	alert_ = canvas->AddSprite("attackAlert.png", "alert");;
 	timer_ = 0.0f;
 	blinkingCount_ = 0;

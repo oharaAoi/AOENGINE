@@ -1,5 +1,6 @@
 #include "Render.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/Module/Components/2d/PrimitiveDrawer.h"
 
 using namespace AOENGINE;
 

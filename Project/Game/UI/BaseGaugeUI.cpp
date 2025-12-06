@@ -6,7 +6,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGaugeUI::Init(const std::string& bgTexture, const std::string& frontTexture) {
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	bg_ = canvas->AddSprite(bgTexture, "bg");
 	front_ = canvas->AddSprite(frontTexture, "front");
 	

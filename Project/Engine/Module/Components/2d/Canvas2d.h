@@ -4,6 +4,8 @@
 #include <string>
 #include "Engine/Module/Components/2d/Sprite.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Spriteをまとめたクラス
 /// </summary>
@@ -66,6 +68,4 @@ private:
 	std::list<std::unique_ptr<ObjectPair>> spriteList_;
 
 };
-
-
-
+}

@@ -3,7 +3,6 @@
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Module/Components/2d/Sprite.h"
-#include "Engine/Module/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"

@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialCanvas::Init() {
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 
 	reticle_ = std::make_unique<Reticle>();
 	reticle_->Init();

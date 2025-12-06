@@ -199,7 +199,7 @@ public:
 
 public:
 
-	ScreenTransform* GetTransform() const { return transform_.get(); }
+	AOENGINE::ScreenTransform* GetTransform() const { return transform_.get(); }
 
 	const Math::Matrix4x4& GetMatrix() const { return transform_->GetMatrix(); }
 
@@ -291,7 +291,7 @@ private:
 	ArcGaugeParam* arcData_;
 
 	// Transform情報
-	std::unique_ptr<ScreenTransform> transform_;
+	std::unique_ptr<AOENGINE::ScreenTransform> transform_;
 	Math::SRT* parentTransform_ = nullptr;
 	Math::SRT uvTransform_;
 	

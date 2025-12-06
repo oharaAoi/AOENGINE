@@ -8,7 +8,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialMissionGauge::Init() {
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	gauge_ = canvas->AddSprite("white.png", "gauge");
 	gaugeBg_ = canvas->AddSprite("gauge_frame.png", "gaugeBg");
 	success_ = canvas->AddSprite("success.png", "succes");

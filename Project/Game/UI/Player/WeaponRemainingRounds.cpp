@@ -4,7 +4,7 @@
 
 void WeaponRemainingRounds::Init(const std::string& _name) {
 	SetName(_name);
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	gauge_ = canvas->AddSprite("white.png", "WeaponRemainingRounds");
 	gauge_->ReSetTexture("white.png");
 	gauge_->Load("PlayerUIs", _name);

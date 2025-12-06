@@ -101,7 +101,7 @@ void Sprite::Init(const std::string& fileName) {
 	// ↓ Transformの初期化
 	// -------------------------------------------------
 
-	transform_ = std::make_unique<ScreenTransform>();
+	transform_ = std::make_unique<AOENGINE::ScreenTransform>();
 	transform_->Init(pDevice);
 	uvTransform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
 

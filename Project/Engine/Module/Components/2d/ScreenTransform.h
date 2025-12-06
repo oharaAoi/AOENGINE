@@ -3,6 +3,8 @@
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 2d用のTransformをGPUに送るクラス
 /// </summary>
@@ -94,3 +96,4 @@ private:
 
 };
 
+}

@@ -5,7 +5,7 @@ void PlayerUIs::Init(Player* _player) {
 	SetName("PlayerUIs");
 	pPlayer_ = _player;
 
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	ap_ = canvas->AddSprite("AP.png", "ap");
 	ap_->SetName("AP");
 	ap_->Load("PlayerUIs", "AP");

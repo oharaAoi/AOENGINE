@@ -46,7 +46,7 @@ namespace {
 	
 	std::unique_ptr<PostProcess> postProcess_;
 
-	std::unique_ptr<Canvas2d> canvas2d_;
+	std::unique_ptr<AOENGINE::Canvas2d> canvas2d_;
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
@@ -128,7 +128,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	
 	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
 
-	canvas2d_ = std::make_unique<Canvas2d>();
+	canvas2d_ = std::make_unique<AOENGINE::Canvas2d>();
 	canvas2d_->Init();
 #ifdef _DEBUG
 	editorWindows_->SetCanvas2d(canvas2d_.get());
@@ -396,7 +396,7 @@ Pipeline* Engine::SetPipelineCS(const std::string& jsonFile) {
 	return computeShaderPipelines_->GetLastUsedPipeline();
 }
 
-Canvas2d* Engine::GetCanvas2d() {
+AOENGINE::Canvas2d* Engine::GetCanvas2d() {
 	return canvas2d_.get();
 }
 

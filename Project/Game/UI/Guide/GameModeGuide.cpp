@@ -13,7 +13,7 @@ GameModeGuide::~GameModeGuide() = default;
 
 void GameModeGuide::Init() {
 	SetName("GameModeGuide");
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	goGame_ = canvas->AddSprite("goGame.png", "goGame", "Sprite_Normal.json", 200);
 	goTutorial_ = canvas->AddSprite("goTutorial.png", "goTutorial", "Sprite_Normal.json", 200);
 	select_ = canvas->AddSprite("gradation.png", "select", "Sprite_Normal.json", 1000);

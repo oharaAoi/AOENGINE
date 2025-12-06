@@ -91,7 +91,7 @@ public:
 
 	static Audio* GetAudio();
 
-	static Canvas2d* GetCanvas2d();
+	static AOENGINE::Canvas2d* GetCanvas2d();
 
 	static PostProcess* GetPostProcess();
 };

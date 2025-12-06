@@ -7,11 +7,13 @@
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 線を描画するためのクラス
 /// </summary>
 class PrimitiveDrawer {
-public : // データ構造体
+public: // データ構造体
 
 	/// <summary>
 	/// Gpuに送る構造体
@@ -93,3 +95,5 @@ private:
 	uint32_t preUseIndex_;
 
 };
+
+}

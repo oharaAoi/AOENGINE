@@ -1,16 +1,16 @@
 #include "Canvas2d.h"
-#include "Engine.h"
+#include "Engine/Engine.h"
 
 using namespace AOENGINE;
 
-Canvas2d::~Canvas2d() {
+AOENGINE::Canvas2d::~Canvas2d() {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Canvas2d::Init() {
+void AOENGINE::Canvas2d::Init() {
 	spriteList_.clear();
 }
 
@@ -18,7 +18,7 @@ void Canvas2d::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Canvas2d::Update() {
+void AOENGINE::Canvas2d::Update() {
 	// 生存確認
 	for (auto it = spriteList_.begin(); it != spriteList_.end(); ) {
 		if ((*it)->sprite->GetIsDestroy()) {
@@ -45,7 +45,7 @@ void Canvas2d::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Canvas2d::PreDraw(const std::string& psoName) const {
+void AOENGINE::Canvas2d::PreDraw(const std::string& psoName) const {
 	for (const auto& it : spriteList_) {
 		if (it->isPreDraw) {
 			if (it->sprite->GetEnable()) {
@@ -56,7 +56,7 @@ void Canvas2d::PreDraw(const std::string& psoName) const {
 	}
 }
 
-void Canvas2d::Draw() const {
+void AOENGINE::Canvas2d::Draw() const {
 	for (const auto& it : spriteList_) {
 		if (!it->isPreDraw) {
 			if (it->sprite->GetEnable()) {
@@ -71,7 +71,7 @@ void Canvas2d::Draw() const {
 // ↓　編集処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
+void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (const auto& it : spriteList_) {
 		if (it->sprite->GetEnable()) {
 			it->sprite->GetTransform()->Manipulate(windowSize, imagePos);
@@ -83,7 +83,7 @@ void Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 // ↓　追加処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sprite* Canvas2d::AddSprite(const std::string& _textureName, const std::string& _attributeName, const std::string& _psoName, int _renderQueue, bool _isPreDraw) {
+Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& _textureName, const std::string& _attributeName, const std::string& _psoName, int _renderQueue, bool _isPreDraw) {
 	auto& newObj = spriteList_.emplace_back(std::make_unique<ObjectPair>());
 	newObj->sprite = std::make_unique<Sprite>();
 	newObj->sprite->Init(_textureName);
@@ -95,7 +95,7 @@ Sprite* Canvas2d::AddSprite(const std::string& _textureName, const std::string& 
 	return newObj->sprite.get();
 }
 
-Canvas2d::ObjectPair* Canvas2d::GetObjectPair(Sprite* _sprite) {
+AOENGINE::Canvas2d::ObjectPair* AOENGINE::Canvas2d::GetObjectPair(Sprite* _sprite) {
 	for (const auto& it : spriteList_) {
 		if (it->sprite.get() == _sprite) {
 			return it.get();

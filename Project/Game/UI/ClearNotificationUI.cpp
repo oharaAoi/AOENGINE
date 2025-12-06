@@ -8,7 +8,7 @@
 
 void ClearNotificationUI::Init() {
 	SetName("ClearNotificationUI");
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	sprite_ = canvas->AddSprite("missionComplete.png", "missionComplete");
 	param_.Load();
 

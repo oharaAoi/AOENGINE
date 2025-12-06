@@ -3,6 +3,8 @@
 #include "Engine/Render.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
 
+using namespace AOENGINE;
+
 int ScreenTransform::nextId_ = 0;
 
 ScreenTransform::ScreenTransform() {

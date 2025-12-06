@@ -41,7 +41,7 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	// ↓ stan関連
 	// ----------------------
 
-	Canvas2d* canvas = Engine::GetCanvas2d();
+	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	stanPromote_ = canvas->AddSprite("stan.png", "stanPromote");
 	stanPromote_->Load("BossUIs", "stanPromote");
 	stanPromote_->GetTransform()->SetParent(postureStabilityArc_->GetFront()->GetMatrix());
