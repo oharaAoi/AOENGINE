@@ -7,6 +7,8 @@
 #include <iostream>
 #include <fstream>
 
+using namespace AOENGINE;
+
 void ParticleSystemEditor::Finalize() {
 	descriptorHeaps_->FreeSRV(depthHandle_.assignIndex_);
 	depthStencilResource_.Reset();

@@ -18,12 +18,12 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 	pSceneLoader_->Init();
 	pSceneLoader_->Load(directory, fileName, extension);
 
-	pSceneRenderer_ = SceneRenderer::GetInstance();
+	pSceneRenderer_ = AOENGINE::SceneRenderer::GetInstance();
 	pSceneRenderer_->Init();
 	pSceneRenderer_->CreateObject(pSceneLoader_->GetLevelData());
 	EditorWindows::GetInstance()->SetSceneRenderer(pSceneRenderer_);
 
-	skybox_ = SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
+	skybox_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
 	AOENGINE::Render::SetSkyboxTexture(skybox_->GetTexture());
 }
 

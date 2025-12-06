@@ -8,8 +8,8 @@
 
 void Armors::Init(const std::string& ownerName) {
 	SetName("Armors");
-	outArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
-	inArmor_ = SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	outArmor_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
+	inArmor_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<PulseArmor>("BossPulseArmor", "Object_Dissolve.json", 100);
 	
 	outArmor_->SetName(ownerName + "_OutArmor");
 	inArmor_->SetName(ownerName + "_InArmor");

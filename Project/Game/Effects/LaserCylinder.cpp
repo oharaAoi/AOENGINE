@@ -1,11 +1,11 @@
 #include "LaserCylinder.h"
 
 LaserCylinder::~LaserCylinder() {
-	SceneRenderer::GetInstance()->ReleaseObject(object_);
+	AOENGINE::SceneRenderer::GetInstance()->ReleaseObject(object_);
 }
 
 void LaserCylinder::Init(const AOENGINE::Color& _color) {
-	object_ = SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("LaserCylinder", "Object_laser.json");
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("LaserCylinder", "Object_laser.json");
 	object_->SetObject("laserCylinder.obj");
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);

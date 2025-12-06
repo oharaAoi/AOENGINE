@@ -11,8 +11,8 @@ Floor::~Floor() {}
 void Floor::Init() {
 	SetName("Ground");
 
-	floor_ = SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("ground");
-	SceneRenderer::GetInstance()->SetRenderingQueue("ground", -100);
+	floor_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("ground");
+	AOENGINE::SceneRenderer::GetInstance()->SetRenderingQueue("ground", -100);
 	transform_ = floor_->GetTransform();
 	
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");

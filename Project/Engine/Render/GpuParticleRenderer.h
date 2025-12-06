@@ -6,6 +6,8 @@
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// gpuParticleを描画する
 /// </summary>
@@ -114,3 +116,4 @@ private:
 
 };
 
+}

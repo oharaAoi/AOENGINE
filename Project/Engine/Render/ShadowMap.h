@@ -4,6 +4,8 @@
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 影のレンダリングを行うクラス
 /// </summary>
@@ -39,3 +41,4 @@ private:
 	DescriptorHandles depthSrvHandle_;
 
 };
+}

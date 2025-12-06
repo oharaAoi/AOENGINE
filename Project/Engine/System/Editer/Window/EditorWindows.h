@@ -101,7 +101,7 @@ public:
 
 	bool GetGridDraw() const { return gridDraw_; }
 
-	void SetSceneRenderer(SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
+	void SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
 	void SetCanvas2d(AOENGINE::Canvas2d* _canvas) { canvas2d_ = _canvas; }
 
 	std::function<void()>& GetWindowUpdate() { return windowUpdate_; }
@@ -128,7 +128,7 @@ private:
 	// ----------------------
 	AOENGINE::ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 	AOENGINE::RenderTarget* renderTarget_;
-	SceneRenderer* sceneRenderer_;
+	AOENGINE::SceneRenderer* sceneRenderer_;
 	AOENGINE::Canvas2d* canvas2d_;
 
 	std::function<void()> windowUpdate_;

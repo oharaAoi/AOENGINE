@@ -3,6 +3,8 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 ShadowMap::~ShadowMap() {
 	depthStencilResource_->Destroy();
 }

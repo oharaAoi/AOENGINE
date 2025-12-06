@@ -66,7 +66,7 @@ void JetEngine::Init() {
 	// 基本の初期化
 	// -------------------------------------
 
-	object_ = SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_Normal.json");
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_Normal.json");
 	object_->SetObject("jet.obj");
 
 	transform_ = object_->GetTransform();
@@ -84,11 +84,11 @@ void JetEngine::Init() {
 	// effectの設定
 	// -------------------------------------
 
-	jetEngineBurn_ = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
+	jetEngineBurn_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
 	jetEngineBurn_->Init();
 	jetEngineBurn_->GetWorldTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
 
-	jetEngineBurn2_ = SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
+	jetEngineBurn2_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
 	jetEngineBurn2_->Init();
 	jetEngineBurn2_->GetWorldTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
 

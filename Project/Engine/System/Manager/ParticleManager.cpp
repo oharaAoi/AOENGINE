@@ -1,9 +1,10 @@
 #include "ParticleManager.h"
-#include "Engine/Engine.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render.h"
+
+using namespace AOENGINE;
 
 ParticleManager::~ParticleManager() {
 	Finalize();

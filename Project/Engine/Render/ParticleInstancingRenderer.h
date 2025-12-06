@@ -8,6 +8,8 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Particleをインスタンシング描画するためのクラス
 /// </summary>
@@ -87,3 +89,4 @@ private:
 	PerView* perView_;
 
 };
+}

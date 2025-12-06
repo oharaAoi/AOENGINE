@@ -1,6 +1,8 @@
 #include "TrailRenderer.h"
 #include <DirectXTex/d3dx12.h>
 
+using namespace AOENGINE;
+
 void TrailRenderer::Init(ID3D12Device* _device, UINT _maxVerticesPerFrame, UINT _maxIndicesPerFrame, UINT _frameCount) {
 	maxVerticesPerFrame_ = _maxVerticesPerFrame;
 	maxIndicesPerFrame_ = _maxIndicesPerFrame;

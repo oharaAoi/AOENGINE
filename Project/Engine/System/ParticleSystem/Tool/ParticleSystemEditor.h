@@ -19,7 +19,7 @@ public:
 
 	struct ParticlesData {
 		std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
-		std::vector<ParticleInstancingRenderer::ParticleData> forGpuData_;
+		std::vector<AOENGINE::ParticleInstancingRenderer::ParticleData> forGpuData_;
 
 		bool isAddBlend;
 
@@ -147,8 +147,8 @@ private:
 
 	std::unique_ptr<EffectSystemCamera> camera_ = nullptr;
 
-	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
-	std::unique_ptr<GpuParticleRenderer> gpuParticleRenderer_;
+	std::unique_ptr<AOENGINE::ParticleInstancingRenderer> particleRenderer_;
+	std::unique_ptr<AOENGINE::GpuParticleRenderer> gpuParticleRenderer_;
 
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> cpuEmitterList_;
 	std::list<std::unique_ptr<GpuParticleEmitter>> gpuEmitterList_;

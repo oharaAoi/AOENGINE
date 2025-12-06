@@ -5,7 +5,7 @@
 
 using namespace AOENGINE;
 
-SceneRenderer* SceneRenderer::GetInstance() {
+SceneRenderer* AOENGINE::SceneRenderer::GetInstance() {
 	static SceneRenderer instance;
 	return &instance;
 }

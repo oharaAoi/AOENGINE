@@ -45,7 +45,7 @@ void SceneManager::Update() {
 		lightGroup->GetDirectionalLight()->Reset();
 		EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
-		ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
+		AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
 		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
 		auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
@@ -114,7 +114,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	lightGroup->GetDirectionalLight()->Reset();
 	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
-	ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
+	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
 	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
 	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();

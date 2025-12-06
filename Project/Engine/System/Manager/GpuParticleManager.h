@@ -60,7 +60,7 @@ private:
 
 private:
 
-	std::unique_ptr<GpuParticleRenderer> renderer_;
+	std::unique_ptr<AOENGINE::GpuParticleRenderer> renderer_;
 
 	std::list<std::unique_ptr<GpuParticleEmitter>> emitterList_;
 

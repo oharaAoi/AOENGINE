@@ -2,7 +2,8 @@
 #include "Render.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
-#include "Engine/Lib/Json/JsonItems.h"
+
+using namespace AOENGINE;
 
 GpuParticleManager::~GpuParticleManager() {
 	emitterList_.clear();

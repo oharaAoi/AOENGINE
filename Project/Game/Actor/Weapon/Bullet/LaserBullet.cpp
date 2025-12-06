@@ -95,7 +95,7 @@ void LaserBullet::Init() {
 	fadeTimer_ = Timer(param_.fadeTime);
 	lifeTimer_ = Timer(param_.lifeTime);
 
-	SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
+	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
 	//EditorWindows::AddObjectWindow(this, "Laser");
 }
 

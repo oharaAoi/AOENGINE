@@ -8,6 +8,8 @@
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/Utilities/Logger.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Sceneのレンダリングを行うクラス
 /// </summary>
@@ -30,14 +32,14 @@ public:	// 構造体データ
 	/// Objectとレンダリング情報を結びつけたクラス
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	template <typename T> 
+	template <typename T>
 	struct ObjectPair : IObjectPair {
 		std::unique_ptr<T> object;
 		std::string renderingType;
 		int renderQueue = 0;
 		bool isPostDraw = false;
 
-		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw,  std::unique_ptr<T> _obj)
+		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw, std::unique_ptr<T> _obj)
 			: renderingType(_type), renderQueue(_renderQueue), isPostDraw(_isPostDraw), object(std::move(_obj)) {
 		}
 
@@ -98,7 +100,7 @@ public:
 	/// <param name="...args"></param>
 	/// <returns></returns>
 	template<typename T, typename... Args>
-	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, bool isPostDraw = false,  Args&&... args) {
+	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, bool isPostDraw = false, Args&&... args) {
 		static_assert(std::is_base_of<AOENGINE::ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		auto pair = std::make_unique<ObjectPair<T>>(
@@ -150,7 +152,7 @@ public:
 		return nullptr;
 	}
 
-	template<typename T> 
+	template<typename T>
 	T* GetGameObject(T* _ptr) {
 		for (auto& pair : objectList_) {
 			if (pair->GetSceneObject() == _ptr) {
@@ -172,4 +174,4 @@ private:
 	GpuParticleManager* gpuParticleManager_;
 
 };
-
+}

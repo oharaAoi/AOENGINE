@@ -66,7 +66,7 @@ protected:
 
 	std::unique_ptr<CollisionManager> collisionManager_;
 
-	SceneRenderer* pSceneRenderer_ = nullptr;
+	AOENGINE::SceneRenderer* pSceneRenderer_ = nullptr;
 	SceneLoader* pSceneLoader_;
 	Skybox* skybox_;
 };

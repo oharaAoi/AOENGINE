@@ -12,7 +12,7 @@ public:
 
 	struct ParticlesData {
 		std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
-		std::vector<ParticleInstancingRenderer::ParticleData> forGpuData_;
+		std::vector<AOENGINE::ParticleInstancingRenderer::ParticleData> forGpuData_;
 		bool isAddBlend;
 
 		ParticlesData() {
@@ -71,7 +71,7 @@ public:
 private:
 
 	// particleの描画を呼び出すレンダラー
-	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
+	std::unique_ptr<AOENGINE::ParticleInstancingRenderer> particleRenderer_;
 	// particleを射出するリスト
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> emitterList_;
 

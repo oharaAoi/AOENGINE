@@ -15,6 +15,8 @@ struct TrailVertex {
     float alpha;
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// Trail描画のクラス
 /// </summary>
@@ -49,3 +51,4 @@ private:
 
 };
 
+}

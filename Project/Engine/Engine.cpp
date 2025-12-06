@@ -260,7 +260,7 @@ void Engine::RenderFrame() {
 	postRenderTypes.push_back(RenderTargetType::Object3D_RenderTarget);
 	AOENGINE::Render::SetRenderTarget(postRenderTypes, dxCommon_->GetDepthHandle());
 	processedSceneFrame_->Draw(dxCmdList_);
-	SceneRenderer::GetInstance()->PostDraw();
+	AOENGINE::SceneRenderer::GetInstance()->PostDraw();
 	BlendFinalTexture(Object3D_RenderTarget);
 
 	// -------------------------------------------------
