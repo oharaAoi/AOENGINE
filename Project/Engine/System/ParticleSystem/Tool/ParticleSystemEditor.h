@@ -150,7 +150,7 @@ private:
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
 	std::unique_ptr<GpuParticleRenderer> gpuParticleRenderer_;
 
-	std::list<std::unique_ptr<BaseParticles>> cpuEmitterList_;
+	std::list<std::unique_ptr<AOENGINE::BaseParticles>> cpuEmitterList_;
 	std::list<std::unique_ptr<GpuParticleEmitter>> gpuEmitterList_;
 
 	std::unordered_map<std::string, ParticlesData> particlesMap_;

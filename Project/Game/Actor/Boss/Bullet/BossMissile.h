@@ -75,9 +75,9 @@ private :
 	float targetSpeed_;			// 目標の速度
 	Timer accelTimer_ = Timer();
 
-	BaseParticles* burn_;
-	BaseParticles* smoke_;
-	BaseParticles* shotFrea_;
+	AOENGINE::BaseParticles* burn_;
+	AOENGINE::BaseParticles* smoke_;
+	AOENGINE::BaseParticles* shotFrea_;
 
 };
 

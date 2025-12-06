@@ -10,7 +10,7 @@
 /// PlayerのBulletとボスとのCallBack
 /// </summary>
 class PBulletToBossCallBacks :
-	public BaseCollisionCallBacks {
+	public AOENGINE::BaseCollisionCallBacks {
 public:
 
 	PBulletToBossCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
@@ -42,10 +42,10 @@ private:
 	PlayerBulletManager* pBulletManager_;
 	Boss* pBoss_;
 
-	BaseParticles* hitBossExploadParticles_;
-	BaseParticles* hitBossSmoke_;
-	BaseParticles* hitBossSmokeBorn_;
+	AOENGINE::BaseParticles* hitBossExploadParticles_;
+	AOENGINE::BaseParticles* hitBossSmoke_;
+	AOENGINE::BaseParticles* hitBossSmokeBorn_;
 
-	BaseParticles* hitSmoke_;
+	AOENGINE::BaseParticles* hitSmoke_;
 };
 

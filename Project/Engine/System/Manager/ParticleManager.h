@@ -57,23 +57,23 @@ public:
 		particleRenderer_->SetView(view, viewProj2d, bill);
 	}
 
-	//void AddParticleList(BaseParticles* particles);
+	//void AddParticleList(AOENGINE::BaseParticles* particles);
 
 	/// <summary>
 	/// Particleを作成する
 	/// </summary>
 	/// <param name="particlesFile"></param>
 	/// <returns></returns>
-	BaseParticles* CrateParticle(const std::string& particlesFile);
+	AOENGINE::BaseParticles* CrateParticle(const std::string& particlesFile);
 
-	void DeleteParticles(BaseParticles* ptr);
+	void DeleteParticles(AOENGINE::BaseParticles* ptr);
 
 private:
 
 	// particleの描画を呼び出すレンダラー
 	std::unique_ptr<ParticleInstancingRenderer> particleRenderer_;
 	// particleを射出するリスト
-	std::list<std::unique_ptr<BaseParticles>> emitterList_;
+	std::list<std::unique_ptr<AOENGINE::BaseParticles>> emitterList_;
 
 	std::unordered_map<std::string, ParticlesData> particlesMap_;
 

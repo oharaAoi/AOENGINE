@@ -10,7 +10,7 @@
 /// jetのエンジンとなるクラス
 /// </summary>
 class JetEngine :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public: // データ構造体
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -91,7 +91,7 @@ private:
 	Parameter param_;
 
 	// effects -------------------------------------------------
-	BaseParticles* burnParticle_;
+	AOENGINE::BaseParticles* burnParticle_;
 	
 	JetEngineBurn* jetEngineBurn_;
 	JetEngineBurn* jetEngineBurn2_;

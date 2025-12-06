@@ -119,7 +119,7 @@ private:
 	Parameter param_;
 	Parameter initParam_;
 
-	BaseParticles* boostParticle_;
+	AOENGINE::BaseParticles* boostParticle_;
 
 	Rigidbody* pRigidBody_;
 

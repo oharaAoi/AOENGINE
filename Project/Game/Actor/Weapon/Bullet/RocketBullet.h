@@ -72,7 +72,7 @@ private:
 
 	BulletParam param_;
 
-	BaseParticles* burn_;
-	BaseParticles* smoke_;
+	AOENGINE::BaseParticles* burn_;
+	AOENGINE::BaseParticles* smoke_;
 };
 

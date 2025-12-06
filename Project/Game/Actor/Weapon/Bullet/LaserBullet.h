@@ -106,8 +106,8 @@ private:
 	Timer fadeTimer_;
 	AOENGINE::Color fadeColor_;
 
-	BaseParticles* shotEffect_;
-	BaseParticles* shotParticle_;
+	AOENGINE::BaseParticles* shotEffect_;
+	AOENGINE::BaseParticles* shotParticle_;
 
 };
 

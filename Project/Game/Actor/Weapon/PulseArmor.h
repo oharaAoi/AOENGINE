@@ -15,7 +15,7 @@
 /// アーマー単体のクラス
 /// </summary>
 class PulseArmor :
-	public ISceneObject {
+	public AOENGINE::ISceneObject {
 public:
 
 	// Dissolveに必要な構造体

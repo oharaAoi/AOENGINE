@@ -12,7 +12,7 @@ using namespace AOENGINE;
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::Init(const std::string& name) {
+void AOENGINE::BaseParticles::Init(const std::string& name) {
 	particleName_ = name;
 	SetName(name);
 
@@ -38,7 +38,7 @@ void BaseParticles::Init(const std::string& name) {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::Update() {
+void AOENGINE::BaseParticles::Update() {
 	EmitUpdate();
 }
 
@@ -46,7 +46,7 @@ void BaseParticles::Update() {
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::DrawShape() {
+void AOENGINE::BaseParticles::DrawShape() {
 	Math::Matrix4x4 mat{};
 	if (!emitter_.isDraw2d) {
 		mat = AOENGINE::Render::GetViewProjectionMat();
@@ -70,7 +70,7 @@ void BaseParticles::DrawShape() {
 	}
 }
 
-void BaseParticles::Emit(const Math::Vector3& pos) {
+void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	if (particleArray_->size() >= kMaxParticles) { return; }
 
 	auto& newParticle = particleArray_->emplace_back();
@@ -240,7 +240,7 @@ void BaseParticles::Emit(const Math::Vector3& pos) {
 // ↓ 射出更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::EmitUpdate() {
+void AOENGINE::BaseParticles::EmitUpdate() {
 
 	if (isStop_) { return; }
 
@@ -289,7 +289,7 @@ void BaseParticles::EmitUpdate() {
 // ↓ リセット処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::Reset() {
+void AOENGINE::BaseParticles::Reset() {
 	emitAccumulator_ = 0.0f;
 	currentTimer_ = 0.0f;
 	isStop_ = false;
@@ -299,7 +299,7 @@ void BaseParticles::Reset() {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::Debug_Gui() {
+void AOENGINE::BaseParticles::Debug_Gui() {
 	if (ImGui::Button("Reset")) {
 		Reset();
 	}
@@ -332,7 +332,7 @@ void BaseParticles::Debug_Gui() {
 // ↓ meshの変更
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::ChangeMesh() {
+void AOENGINE::BaseParticles::ChangeMesh() {
 	emitter_.useMesh = meshName_;
 	shape_ = MeshManager::GetInstance()->GetMesh(meshName_);
 	changeMesh_ = false;
@@ -342,6 +342,6 @@ void BaseParticles::ChangeMesh() {
 // ↓ 親の設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseParticles::SetParent(const Math::Matrix4x4& parentMat) {
+void AOENGINE::BaseParticles::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
 }

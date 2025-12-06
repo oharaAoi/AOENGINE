@@ -30,7 +30,7 @@ public:		// member method
 
 private:
 
-	BaseParticles* gunFireParticles_;
+	AOENGINE::BaseParticles* gunFireParticles_;
 	Math::Vector3 offset_;
 };
 

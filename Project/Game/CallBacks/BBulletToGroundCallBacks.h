@@ -10,7 +10,7 @@
 /// Bossの弾と地面のあたり判定
 /// </summary>
 class BBulletToGroundCallBacks :
-	public BaseCollisionCallBacks {
+	public AOENGINE::BaseCollisionCallBacks {
 public:
 
 	BBulletToGroundCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
@@ -43,7 +43,7 @@ private:
 	BossBulletManager* pBossBulletManager_ = nullptr;
 	Floor* pFloor_ = nullptr;
 
-	BaseParticles* hitEffect_;
+	AOENGINE::BaseParticles* hitEffect_;
 
 };
 

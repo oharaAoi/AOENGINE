@@ -42,7 +42,7 @@ void BossStateBeDestroyed::OnUpdate() {
 	// 破壊particleを出す
 	if (timer_ > param_.breakTime) {
 		pOwner_->SetIsBreak(true);
-		BaseParticles* particle = ParticleManager::GetInstance()->CrateParticle("BossExplaode");
+		AOENGINE::BaseParticles* particle = ParticleManager::GetInstance()->CrateParticle("BossExplaode");
 		particle->SetPos(pOwner_->GetPosition());
 		particle->Reset();
 		particle->SetLoop(false);

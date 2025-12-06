@@ -13,10 +13,12 @@
 #include "Engine/Module/Geometry/Polygon/CylinderGeometry.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Geometryの各形状をScene上に描画する際に使用するクラス
 /// </summary>
-class GeometryObject final 
+class GeometryObject final
 	: public ISceneObject {
 public:
 
@@ -74,3 +76,4 @@ private:
 
 };
 
+}

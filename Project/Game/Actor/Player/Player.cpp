@@ -88,7 +88,7 @@ void Player::Init() {
 
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
 
-	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Player");
+	object_ = SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
 	transform_ = object_->GetTransform();
 	transform_->SetOffset(param_.translateOffset);
 	object_->SetOffset(param_.cameraOffset);

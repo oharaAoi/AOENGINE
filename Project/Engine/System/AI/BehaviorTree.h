@@ -54,7 +54,7 @@ public:
 	/// treeの所有者の設定
 	/// </summary>
 	/// <param name="_target"></param>
-	void SetTarget(BaseEntity* _target) { pTarget_ = _target; }
+	void SetTarget(AOENGINE::BaseEntity* _target) { pTarget_ = _target; }
 
 	/// <summary>
 	/// 実行設定の処理
@@ -101,7 +101,7 @@ private:
 	Blackboard* blackboard_ = nullptr;
 
 	// treeの所有者のポインタ
-	BaseEntity* pTarget_;
+	AOENGINE::BaseEntity* pTarget_;
 	// 接続のidをまとめたコンテナ
 	std::vector<Link> links_;
 	// nodeのリスト

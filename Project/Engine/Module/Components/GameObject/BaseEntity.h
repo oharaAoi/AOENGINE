@@ -4,6 +4,8 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/WorldTransform.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GameObjectやTransformの仲介
 /// </summary>
@@ -34,7 +36,7 @@ public:	// accessor method
 	AOENGINE::BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
 	AOENGINE::BaseCollider* GetCollider() const { return object_->GetCollider(); }
 
-	void SetParent(BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }
+	void SetParent(AOENGINE::BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }
 
 protected:
 
@@ -43,3 +45,4 @@ protected:
 
 };
 
+}

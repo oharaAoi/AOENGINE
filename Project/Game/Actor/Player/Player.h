@@ -27,7 +27,7 @@ enum PlayerWeapon {
 /// Playerクラス
 /// </summary>
 class Player :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public:		// data
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -199,7 +199,7 @@ public: // accessor method
 	void SetPostureStability(float _postureStability) { param_.postureStability = _postureStability; }
 
 	// jet
-	BaseGameObject* GetJet() { return jet_->GetGameObject(); }
+	AOENGINE::BaseGameObject* GetJet() { return jet_->GetGameObject(); }
 
 	// stateMachine
 	StateMachine<Player>* GetState() { return stateMachine_.get(); }

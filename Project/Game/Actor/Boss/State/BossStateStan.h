@@ -62,6 +62,6 @@ private:
 	float stateTime_;
 	float slowTime_;
 
-	BaseParticles* effect_;
+	AOENGINE::BaseParticles* effect_;
 };
 

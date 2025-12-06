@@ -7,6 +7,8 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Particleを射出する
 /// </summary>
@@ -15,7 +17,7 @@ class BaseParticles :
 public: // コンストラクタ
 
 	BaseParticles() = default;
-	virtual ~BaseParticles() override {};
+	virtual ~BaseParticles() override = default;
 
 public:
 
@@ -110,3 +112,4 @@ protected:
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 };
 
+}

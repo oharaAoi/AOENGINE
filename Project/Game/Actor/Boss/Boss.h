@@ -22,7 +22,7 @@ class BossUIs;
 /// Bossクラス
 /// </summary>
 class Boss :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {

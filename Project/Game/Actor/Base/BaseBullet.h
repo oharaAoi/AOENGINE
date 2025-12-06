@@ -14,7 +14,7 @@ enum BulletType {
 /// Baseとなる弾クラス
 /// </summary>
 class BaseBullet :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public:
 
 	BaseBullet() = default;

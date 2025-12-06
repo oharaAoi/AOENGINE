@@ -125,8 +125,8 @@ private:	// variable
 	float smallJumpTime_ = 0.2f;
 
 	// particleに関する変数
-	BaseParticles* jetBurnLeft_;
-	BaseParticles* jetBurnRight_;
+	AOENGINE::BaseParticles* jetBurnLeft_;
+	AOENGINE::BaseParticles* jetBurnRight_;
 
 	Math::Matrix4x4 feetMatrixLeft_;
 	Math::Matrix4x4 feetMatrixRight_;

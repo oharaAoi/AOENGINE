@@ -7,6 +7,8 @@
 
 #define __CALLBACK_PLACEHOLDERS_12 std::placeholders::_1, std::placeholders::_2
 
+namespace AOENGINE {
+
 /// <summary>
 /// CallBack関数を設定するクラス
 /// </summary>
@@ -43,3 +45,4 @@ protected:
 
 };
 
+}

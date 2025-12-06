@@ -69,7 +69,7 @@ void LauncherBullet::Update() {
 void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
-		BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");
+		AOENGINE::BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
 

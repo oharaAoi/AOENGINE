@@ -5,7 +5,7 @@
 #include "Game/WorldObject/Floor.h"
 
 class PlayerToGroundCallBacks :
-	public BaseCollisionCallBacks {
+	public AOENGINE::BaseCollisionCallBacks {
 public:
 
 	PlayerToGroundCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};

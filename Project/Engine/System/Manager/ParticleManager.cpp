@@ -221,8 +221,8 @@ void ParticleManager::Draw() const {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) {
-	auto& newParticles = emitterList_.emplace_back(std::make_unique<BaseParticles>());
+AOENGINE::BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) {
+	auto& newParticles = emitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
 	newParticles->Init(particlesFile);
 	std::string textureName = newParticles->GetUseTexture();
 	newParticles->SetShareMaterial(
@@ -247,7 +247,7 @@ BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) 
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleManager::DeleteParticles(BaseParticles* ptr) {
+void ParticleManager::DeleteParticles(AOENGINE::BaseParticles* ptr) {
 	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
 		if (it->get() == ptr) {
 			DeleteChild(it->get()); // 削除時の追加処理

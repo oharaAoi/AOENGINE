@@ -106,7 +106,7 @@ private:
 	MaxParticles* maxBuffer_;
 
 	// meshの形状
-	std::unique_ptr<GeometryObject> shape_;
+	std::unique_ptr<AOENGINE::GeometryObject> shape_;
 	std::unique_ptr<Material> material_;
 
 	uint32_t groups_;

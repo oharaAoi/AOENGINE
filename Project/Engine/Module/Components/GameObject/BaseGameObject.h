@@ -18,6 +18,8 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// MeshやMaterialを持ったGameObject
 /// </summary>
@@ -26,7 +28,7 @@ class BaseGameObject :
 public: // コンストラクタ
 
 	BaseGameObject() = default;
-	virtual ~BaseGameObject() ;
+	virtual ~BaseGameObject();
 
 public:
 
@@ -124,8 +126,8 @@ protected:
 
 	std::unique_ptr<Rigidbody> rigidbody_ = nullptr;
 
-	AOENGINE::Color color_ = {1.0f, 1.0f, 1.0f, 1.0f};
-	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f};
+	AOENGINE::Color color_ = { 1.0f, 1.0f, 1.0f, 1.0f };
+	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f };
 	Math::Vector3 offset_ = CVector3::ZERO;
 
 	bool isAnimation_ = false;
@@ -134,7 +136,9 @@ protected:
 	bool isRendering_;
 
 	// 他クラス情報
-	BaseGameObject* pParentObj_;
+	AOENGINE::BaseGameObject* pParentObj_;
 
 	bool enableShadow_ = true;
 };
+
+}

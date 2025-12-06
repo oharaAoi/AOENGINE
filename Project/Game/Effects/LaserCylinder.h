@@ -8,7 +8,7 @@
 /// Laserを覆う円柱エフェト
 /// </summary>
 class LaserCylinder :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public: // コンストラクタ
 
 	LaserCylinder() = default;

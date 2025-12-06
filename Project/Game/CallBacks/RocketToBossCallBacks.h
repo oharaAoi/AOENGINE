@@ -7,7 +7,7 @@
 #include "Game/Actor/Boss/Boss.h"
 
 class RocketToBossCallBacks :
-	public BaseCollisionCallBacks {
+	public AOENGINE::BaseCollisionCallBacks {
 public:
 
 	RocketToBossCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};

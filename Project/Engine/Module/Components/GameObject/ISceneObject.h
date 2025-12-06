@@ -1,10 +1,12 @@
 #pragma once
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// sceneに配置するobjctが継承するクラス
 /// </summary>
-class ISceneObject : 
+class ISceneObject :
 	public AOENGINE::AttributeGui {
 public: // コンストラクタ
 
@@ -38,3 +40,5 @@ protected:
 	bool isDestroy_;
 
 };
+
+}

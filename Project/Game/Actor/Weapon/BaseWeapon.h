@@ -13,7 +13,7 @@ struct AttackContext {
 /// 武器のベースとなるクラス
 /// </summary>
 class BaseWeapon :
-	public BaseEntity {
+	public AOENGINE::BaseEntity {
 public:
 
 	struct AttackParam : public AOENGINE::IJsonConverter {

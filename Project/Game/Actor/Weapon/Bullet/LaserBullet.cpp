@@ -194,8 +194,8 @@ void LaserBullet::OnCollision(AOENGINE::BaseCollider* _other) {
 		isFade_ = true;
 
 		ParticleManager* manager = ParticleManager::GetInstance();
-		BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
-		BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
+		AOENGINE::BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
+		AOENGINE::BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
 
 		Math::Vector3 scale = parentTransform_->GetScale();
 		Math::Vector3 hitPos = lineCollider_->GetOrigine() + lineCollider_->GetDiff();

@@ -16,7 +16,7 @@ public:	// 構造体データ
 
 	struct IObjectPair {
 		virtual ~IObjectPair() = default;
-		virtual ISceneObject* GetSceneObject() = 0;
+		virtual AOENGINE::ISceneObject* GetSceneObject() = 0;
 		virtual const std::string& GetRenderingType() const = 0;
 		virtual void SetRenderingType(const std::string& name) = 0;
 		virtual int GetRenderQueue() const = 0;
@@ -99,7 +99,7 @@ public:
 	/// <returns></returns>
 	template<typename T, typename... Args>
 	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, bool isPostDraw = false,  Args&&... args) {
-		static_assert(std::is_base_of<ISceneObject, T>::value, "T must derive from ISceneObject");
+		static_assert(std::is_base_of<AOENGINE::ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		auto pair = std::make_unique<ObjectPair<T>>(
 			renderingName,
@@ -123,20 +123,20 @@ public:
 	/// Objectを解放する
 	/// </summary>
 	/// <param name="objPtr">: 解放するobjectの種類</param>
-	void ReleaseObject(ISceneObject* objPtr);
+	void ReleaseObject(AOENGINE::ISceneObject* objPtr);
 
 	/// <summary>
 	/// Renderingのタイプを変更する
 	/// </summary>
 	/// <param name="renderingName">: 変更後のレンダリングのタイプ</param>
 	/// <param name="gameObject">: 変更するobjectのポインタ</param>
-	void ChangeRenderingType(const std::string& renderingName, ISceneObject* gameObject);
+	void ChangeRenderingType(const std::string& renderingName, AOENGINE::ISceneObject* gameObject);
 
 public:
 
 	template<typename T>
 	T* GetGameObject(const std::string& _objName) {
-		static_assert(std::is_base_of<ISceneObject, T>::value, "T must derive from ISceneObject");
+		static_assert(std::is_base_of<AOENGINE::ISceneObject, T>::value, "T must derive from ISceneObject");
 
 		for (auto& pair : objectList_) {
 			if (pair->GetSceneObject()->GetName() == _objName) {

@@ -306,7 +306,7 @@ GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::AddList(const std::string& _name) {
-	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<BaseParticles>());
+	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
 	newParticle->Init(_name);
 	std::string textureName = newParticle->GetUseTexture();
 	newParticle->SetShareMaterial(
@@ -395,12 +395,12 @@ void ParticleSystemEditor::InspectorWindow() {
 
 	// 編集したいParticleの指定を行う
 	ImGui::Begin("List");
-	static BaseParticles* cpuParticles = nullptr;
+	static AOENGINE::BaseParticles* cpuParticles = nullptr;
 	static GpuParticleEmitter* gpuParticles = nullptr;
 	static std::string openNode = "";
 	static bool selectCpu = false;
 	for (auto& it : cpuEmitterList_) {
-		BaseParticles* ptr = it.get();
+		AOENGINE::BaseParticles* ptr = it.get();
 		if (ImGui::Selectable(ptr->GetName().c_str(), cpuParticles == ptr)) {
 			cpuParticles = it.get();
 			openNode = "";  // 他のノードを閉じる
@@ -418,9 +418,9 @@ void ParticleSystemEditor::InspectorWindow() {
 	if (ImGui::BeginPopupContextWindow()) {
 		if (ImGui::MenuItem("Delete")) {
 			if (selectCpu) {
-				BaseParticles* target = cpuParticles;
+				AOENGINE::BaseParticles* target = cpuParticles;
 				bool deleted = false;
-				cpuEmitterList_.remove_if([&](const std::unique_ptr<BaseParticles>& ptr) {
+				cpuEmitterList_.remove_if([&](const std::unique_ptr<AOENGINE::BaseParticles>& ptr) {
 					if (ptr.get() == target) {
 						deleted = true;
 						return true;

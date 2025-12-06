@@ -57,8 +57,8 @@ public:
 	void Reset(const Math::Vector3& _pos, const Math::Vector3& _velocity);
 
 private:
-	BaseParticles* burn_;
-	BaseParticles* smoke_;
+	AOENGINE::BaseParticles* burn_;
+	AOENGINE::BaseParticles* smoke_;
 
 	BulletParam param_;
 };

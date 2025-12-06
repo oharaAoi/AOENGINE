@@ -12,7 +12,7 @@
 /// skybox
 /// </summary>
 class Skybox :
-	public ISceneObject {
+	public AOENGINE::ISceneObject {
 public:
 
 	Skybox() = default;

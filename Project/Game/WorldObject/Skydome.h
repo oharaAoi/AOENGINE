@@ -5,7 +5,7 @@
 /// skydome
 /// </summary>
 class Skydome 
-	: public BaseEntity {
+	: public AOENGINE::BaseEntity {
 public:
 
 	Skydome();

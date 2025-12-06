@@ -71,7 +71,7 @@ void Boss::Init() {
 	SetName("Boss");
 	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
 
-	object_ = SceneRenderer::GetInstance()->GetGameObject<BaseGameObject>("Boss");
+	object_ = SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();
 	
 	AOENGINE::BaseCollider* collider = object_->GetCollider("boss");

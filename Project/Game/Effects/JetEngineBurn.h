@@ -15,7 +15,7 @@
 /// ジェットエンジンのエフェクト
 /// </summary>
 class JetEngineBurn :
-	public ISceneObject {
+	public AOENGINE::ISceneObject {
 public:
 
 	struct NoiseUV {

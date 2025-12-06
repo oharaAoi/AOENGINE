@@ -10,7 +10,7 @@
 /// BossのBulletとPlayerのCallBack
 /// </summary>
 class BBulletToPlayerCallBacks :
-	public BaseCollisionCallBacks {
+	public AOENGINE::BaseCollisionCallBacks {
 public:
 
 	BBulletToPlayerCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
@@ -43,7 +43,7 @@ private:
 	BossBulletManager* pBossBulletManager_;
 	Player* pPlayer_;
 
-	BaseParticles* hitEffect_;
+	AOENGINE::BaseParticles* hitEffect_;
 
 };
 

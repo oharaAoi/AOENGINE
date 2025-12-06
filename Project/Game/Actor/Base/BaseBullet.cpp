@@ -13,7 +13,7 @@ void BaseBullet::Finalize() {
 void BaseBullet::Init(const std::string& bulletName) {
 	isAlive_ = true;
 
-	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>(bulletName, "Object_Normal.json");
+	object_ = SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(bulletName, "Object_Normal.json");
 	transform_ = object_->GetTransform();
 }
 

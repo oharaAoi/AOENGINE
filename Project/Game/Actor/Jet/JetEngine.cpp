@@ -66,7 +66,7 @@ void JetEngine::Init() {
 	// 基本の初期化
 	// -------------------------------------
 
-	object_ = SceneRenderer::GetInstance()->AddObject<BaseGameObject>(GetName(), "Object_Normal.json");
+	object_ = SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_Normal.json");
 	object_->SetObject("jet.obj");
 
 	transform_ = object_->GetTransform();
