@@ -3,6 +3,8 @@
 #include <string>
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 
+namespace AOENGINE {
+
 class IGeometry {
 public:
 
@@ -24,3 +26,4 @@ protected:
 
 };
 
+}

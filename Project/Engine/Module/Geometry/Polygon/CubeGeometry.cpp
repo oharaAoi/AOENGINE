@@ -1,6 +1,8 @@
 #include "CubeGeometry.h"
 #include "Engine/Lib/Math/Vector3.h"
 
+using namespace AOENGINE;
+
 void CubeGeometry::Init(const Math::Vector3& size) {
 	geometryName_ = "cubeGeometry";
 

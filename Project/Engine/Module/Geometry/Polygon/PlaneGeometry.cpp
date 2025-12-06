@@ -1,5 +1,7 @@
 #include "PlaneGeometry.h"
 
+using namespace AOENGINE;
+
 void PlaneGeometry::Init(const Math::Vector2& sizeRaito) {
 	geometryName_ = "planeGeometry";
 

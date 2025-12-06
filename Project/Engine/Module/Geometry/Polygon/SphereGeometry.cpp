@@ -2,6 +2,8 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+using namespace AOENGINE;
+
 void SphereGeometry::Init(const Math::Vector2& size, uint32_t division, const std::string& name) {
 	geometryName_ = name;
 	size_ = size;

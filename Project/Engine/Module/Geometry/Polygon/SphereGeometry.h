@@ -3,6 +3,8 @@
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 球形状
 /// </summary>
@@ -22,3 +24,4 @@ private:
 	uint32_t division_;
 };
 
+}

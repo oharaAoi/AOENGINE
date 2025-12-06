@@ -3,11 +3,13 @@
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 #include "Engine/Lib/Math/Vector3.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 箱形状
 /// </summary>
 class CubeGeometry final
-	: public IGeometry {
+	: public AOENGINE::IGeometry {
 public:
 
 	CubeGeometry() = default;
@@ -18,3 +20,4 @@ public:
 	void Inverse();
 };
 
+}

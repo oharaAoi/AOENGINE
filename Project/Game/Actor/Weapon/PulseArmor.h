@@ -147,7 +147,7 @@ public:
 private:
 
 	// 描画に必要な変数 -----------------------
-	SphereGeometry geometry_;
+	AOENGINE::SphereGeometry geometry_;
 
 	std::shared_ptr<AOENGINE::Mesh> mesh_;
 	std::unique_ptr<AOENGINE::Material> material_ = nullptr;

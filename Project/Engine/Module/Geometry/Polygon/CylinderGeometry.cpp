@@ -1,6 +1,8 @@
 #include "CylinderGeometry.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+using namespace AOENGINE;
+
 void CylinderGeometry::Init(uint32_t division, float bottomRadius, float topRadius, float height) {
 	geometryName_ = "cylinderGeometry";
 

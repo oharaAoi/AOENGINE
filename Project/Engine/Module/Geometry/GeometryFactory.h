@@ -4,6 +4,8 @@
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 #include "Engine/System/Manager/MeshManager.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 各Geometryを管理しているクラス
 /// </summary>
@@ -56,3 +58,4 @@ private:
 
 };
 
+}

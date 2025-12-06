@@ -1,10 +1,12 @@
 #pragma once
 #include "Engine/Module/Geometry/Polygon/IGeometry.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Ring形状
 /// </summary>
-class RingGeometry final 
+class RingGeometry final
 	: public IGeometry {
 public:
 
@@ -21,3 +23,4 @@ public:
 
 };
 
+}

@@ -1,6 +1,8 @@
 #include "RingGeometry.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+using namespace AOENGINE;
+
 void RingGeometry::Init(uint32_t division, float outerRadius, float innerRadius) {
 	geometryName_ = "ringGeometry";
 

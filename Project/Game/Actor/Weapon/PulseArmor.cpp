@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/GameTimer.h"
+
 PulseArmor::~PulseArmor() {
 	settingBuffer_->Destroy();
 }
