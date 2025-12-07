@@ -47,11 +47,11 @@ nlohmann::json TextureNode::toJson() {
 void TextureNode::fromJson(const nlohmann::json& _json) {
     BaseInfoFromJson(_json);
     textureName_ = _json.at("props").at("textureName").get<std::string>();
-    resource_ = TextureManager::GetInstance()->GetResource(textureName_);
+    resource_ = AOENGINE::TextureManager::GetInstance()->GetResource(textureName_);
 }
 
 void TextureNode::SelectTexture() {
-    if (TextureManager::GetInstance()->PreviewTexture(textureName_)) {
-        resource_ = TextureManager::GetInstance()->GetResource(textureName_);
+    if (AOENGINE::TextureManager::GetInstance()->PreviewTexture(textureName_)) {
+        resource_ = AOENGINE::TextureManager::GetInstance()->GetResource(textureName_);
     }
 }

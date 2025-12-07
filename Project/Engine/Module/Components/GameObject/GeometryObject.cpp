@@ -43,7 +43,7 @@ void GeometryObject::Draw() const {
 
 	index = pso->GetRootSignatureIndex("gTexture");
 	std::string textureName = material_->GetAlbedoTexture();
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 
 	index = pso->GetRootSignatureIndex("gShadowMap");
 	commandList->SetGraphicsRootDescriptorTable(index, AOENGINE::Render::GetShadowMap()->GetDeptSrvHandle().handleGPU);

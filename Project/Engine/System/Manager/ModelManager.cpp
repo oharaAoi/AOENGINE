@@ -1,6 +1,8 @@
 #include "ModelManager.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> ModelManager::modelMap_;
 std::unordered_map<std::string, std::string> ModelManager::modelPathMap_;
 std::vector<std::string> ModelManager::modelNameList_;
@@ -38,7 +40,7 @@ AOENGINE::Model* ModelManager::GetModel(const std::string& modelName) {
 	return modelMap_[modelName].get();
 }
 
-std::string ModelManager::GetModelPath(const std::string& modelName) {
+std::string AOENGINE::ModelManager::GetModelPath(const std::string& modelName) {
 	if (auto it = modelPathMap_.find(modelName); it == modelPathMap_.end()) {
 		Logger::Log(std::string("Not Found Path: " + modelName + "\n"));
 		assert(false && "Model not found Path!");

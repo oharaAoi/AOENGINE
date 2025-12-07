@@ -24,7 +24,7 @@ void Sprite::Init(const std::string& fileName) {
 	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12Device* pDevice = ctx->GetDevice();
 
-	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
+	textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(fileName);
 	spriteSize_ = textureSize_;
 	textureName_ = fileName;
 	drawRange_ = spriteSize_;
@@ -193,7 +193,7 @@ void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pi
 	index = pipeline->GetRootSignatureIndex("gTransformationMatrix");
 	transform_->BindCommand(commandList, index);
 	index = pipeline->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName_, index);
 	commandList->DrawIndexedInstanced(6, 1, 0, 0, 0);
 }
 
@@ -203,7 +203,7 @@ void Sprite::PostDraw(ID3D12GraphicsCommandList* commandList, const Pipeline* pi
 
 void Sprite::ReSetTexture(const std::string& fileName) {
 	textureName_ = fileName;
-	textureSize_ = TextureManager::GetInstance()->GetTextureSize(fileName);
+	textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(fileName);
 	spriteSize_ = textureSize_;
 	drawRange_ = spriteSize_;
 	leftTop_ = { 0.0f, 0.0f };
@@ -269,7 +269,7 @@ void Sprite::FillAmount(float amount) {
 void Sprite::Debug_Gui() {
 	ImGui::Checkbox("isEnable", &isEnable_);
 	if (ImGui::Button("ResetSize")) {
-		textureSize_ = TextureManager::GetInstance()->GetTextureSize(textureName_);
+		textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName_);
 		spriteSize_ = textureSize_;
 		drawRange_ = spriteSize_;
 	}
@@ -291,7 +291,7 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
 	ImGui::ColorEdit4("color", &materialData_->color.r);
-	TextureManager* textureManager = TextureManager::GetInstance();
+	TextureManager* textureManager = AOENGINE::TextureManager::GetInstance();
 	textureName_ = textureManager->SelectTexture(textureName_);
 
 	static const char* items[] = { "Vertical", "Horizontal", "Radial", "BothEnds"};

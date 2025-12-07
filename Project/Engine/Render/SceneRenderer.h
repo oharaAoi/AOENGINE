@@ -170,8 +170,8 @@ private:
 	std::list<IObjectPair*> postDrawObjectList_;
 	std::list<std::unique_ptr<IObjectPair>> spriteObjectList_;
 
-	ParticleManager* particleManager_;
-	GpuParticleManager* gpuParticleManager_;
+	AOENGINE::ParticleManager* particleManager_;
+	AOENGINE::GpuParticleManager* gpuParticleManager_;
 
 };
 }

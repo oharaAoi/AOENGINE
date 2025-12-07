@@ -1,6 +1,8 @@
 #include "ImGuiManager.h"
 #include "Engine/WinApp/WinApp.h"
 
+using namespace AOENGINE;
+
 ImGuiManager* ImGuiManager::GetInstacne() {
 	static ImGuiManager instance;
 	return &instance;

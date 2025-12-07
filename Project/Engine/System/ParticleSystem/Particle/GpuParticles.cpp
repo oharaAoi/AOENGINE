@@ -77,8 +77,8 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
 
 	// mesh・Material情報o
-	meshArray_ = MeshManager::GetInstance()->GetMeshes("sphere.obj");
-	materialData_ = LoadMaterialData(ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
+	meshArray_ = AOENGINE::MeshManager::GetInstance()->GetMeshes("sphere.obj");
+	materialData_ = LoadMaterialData(AOENGINE::ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
 
 	for (const auto& material : materialData_) {
 		auto& newMaterial = materials_.emplace_back(std::make_unique<AOENGINE::Material>());
@@ -132,7 +132,7 @@ void GpuParticles::Draw(ID3D12GraphicsCommandList* commandList){
 		commandList->SetGraphicsRootConstantBufferView(3, perViewBuffer_->GetGPUVirtualAddress());
 
 		std::string textureName = materials_[oi]->GetAlbedoTexture();
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, 2);
 
 		commandList->DrawIndexedInstanced(meshArray_[oi]->GetIndexNum(), kInstanceNum_, 0, 0, 0);
 	}

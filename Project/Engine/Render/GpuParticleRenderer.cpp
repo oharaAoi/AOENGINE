@@ -104,7 +104,7 @@ void GpuParticleRenderer::Draw() const {
 	commandList->SetGraphicsRootDescriptorTable(index, particleResource_->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gTexture");
 	std::string textureName = material_->GetAlbedoTexture();
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 	index = pso->GetRootSignatureIndex("gPerView");
 	commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
 

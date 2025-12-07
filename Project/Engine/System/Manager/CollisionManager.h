@@ -34,6 +34,8 @@ namespace std {
 	};
 }
 
+namespace AOENGINE {
+
 /// <summary>
 /// Collisionの判定を取る
 /// </summary>
@@ -55,7 +57,7 @@ public:
 	~CollisionManager();
 
 	void Init();
-	
+
 	/// <summary>
 	/// すべての当たり判定チェック
 	/// </summary>
@@ -109,3 +111,5 @@ private:
 	std::unordered_map<CollisionPair, CallBackKinds> callBackFunctions_;
 
 };
+
+}

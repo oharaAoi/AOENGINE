@@ -6,6 +6,8 @@
 #include "Engine.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Modelを管理するクラス
 /// </summary>
@@ -20,7 +22,7 @@ public:
 	static ModelManager* GetInstance();
 
 public:
-	
+
 	// 初期化
 	void Init();
 	// 終了
@@ -39,7 +41,7 @@ public:
 	/// <param name="modelName"></param>
 	/// <returns></returns>
 	static AOENGINE::Model* GetModel(const std::string& modelName);
-	
+
 	/// <summary>
 	/// modelのパスを取得
 	/// </summary>
@@ -58,3 +60,4 @@ private:
 	static std::unordered_map<std::string, std::string> modelPathMap_;
 };
 
+}

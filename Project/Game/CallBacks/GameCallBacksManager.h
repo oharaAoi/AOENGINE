@@ -22,7 +22,7 @@ public:
 public:
 
 	// 初期化
-	void Init(CollisionManager* _manager);
+	void Init(AOENGINE::CollisionManager* _manager);
 
 	/// <summary>
 	/// 後で確実に消す
@@ -38,7 +38,7 @@ public:		// accessor method
 private:
 
 	// collisionManager
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	// objectポインタ
 	PlayerManager* pPlayerManager_ = nullptr;

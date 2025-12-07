@@ -20,7 +20,7 @@ void JetEngineBurn::Init() {
 		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
-		mesh_ = MeshManager::GetInstance()->GetMesh(name);
+		mesh_ = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
 	}
 
 	noiseBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(NoiseUV));
@@ -89,9 +89,9 @@ void JetEngineBurn::Draw() const {
 	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
 	index = pso->GetRootSignatureIndex("gNoiseTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, param_.blendTexture, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, param_.blendTexture, index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
@@ -120,7 +120,7 @@ void JetEngineBurn::Debug_Gui() {
 				ImGui::DragFloat3("translate", &noiseSRT_.translate.x, 0.1f);
 				ImGui::TreePop();
 			}
-			param_.blendTexture = TextureManager::GetInstance()->SelectTexture(param_.blendTexture);
+			param_.blendTexture = AOENGINE::TextureManager::GetInstance()->SelectTexture(param_.blendTexture);
 
 			param_.noiseScale = noiseSRT_.scale;
 		}
@@ -145,9 +145,9 @@ void JetEngineBurn::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::AddMeshManager(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	AOENGINE::MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool JetEngineBurn::ExistMesh(const std::string& name) {
-	return MeshManager::GetInstance()->ExistMesh(name);
+	return AOENGINE::MeshManager::GetInstance()->ExistMesh(name);
 }

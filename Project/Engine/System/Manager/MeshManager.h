@@ -5,6 +5,8 @@
 #include <unordered_map>
 #include "Engine/Module/Components/Meshes/Mesh.h"
 
+namespace AOENGINE {
+
 class MeshManager {
 public:
 
@@ -84,3 +86,4 @@ private:
 
 };
 
+}

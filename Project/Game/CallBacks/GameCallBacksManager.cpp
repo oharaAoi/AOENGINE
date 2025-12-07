@@ -1,6 +1,6 @@
 #include "GameCallBacksManager.h"
 
-void GameCallBacksManager::Init(CollisionManager* _manager) {
+void GameCallBacksManager::Init(AOENGINE::CollisionManager* _manager) {
 	pCollisionManager_ = _manager;
 
 	// -------------------------------------------------

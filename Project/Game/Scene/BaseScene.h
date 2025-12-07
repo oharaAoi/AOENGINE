@@ -64,7 +64,7 @@ protected:
 
 	std::optional<SceneType> nextSceneType_ = std::nullopt;
 
-	std::unique_ptr<CollisionManager> collisionManager_;
+	std::unique_ptr<AOENGINE::CollisionManager> collisionManager_;
 
 	AOENGINE::SceneRenderer* pSceneRenderer_ = nullptr;
 	SceneLoader* pSceneLoader_;

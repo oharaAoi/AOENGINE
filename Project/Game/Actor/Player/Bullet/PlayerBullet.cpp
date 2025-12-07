@@ -4,7 +4,7 @@
 
 PlayerBullet::~PlayerBullet() {
 	BaseBullet::Finalize();
-	GpuParticleManager::GetInstance()->DeleteEmitter(trail_);
+	AOENGINE::GpuParticleManager::GetInstance()->DeleteEmitter(trail_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ void PlayerBullet::Update() {
 void PlayerBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 	}
@@ -64,6 +64,6 @@ void PlayerBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity
 	transform_->Update();
 	velocity_ = velocity;
 
-	trail_ = GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
+	trail_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("bulletTrail");
 	trail_->SetParent(transform_->GetWorldMatrix());
 }

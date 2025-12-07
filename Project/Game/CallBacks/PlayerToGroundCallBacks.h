@@ -8,7 +8,7 @@ class PlayerToGroundCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public:
 
-	PlayerToGroundCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
+	PlayerToGroundCallBacks(AOENGINE::CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~PlayerToGroundCallBacks() = default;
 
 public:
@@ -32,7 +32,7 @@ public:		// accessor method
 
 private:
 
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	Player* pPlayer_;
 	Floor* pFloor_;

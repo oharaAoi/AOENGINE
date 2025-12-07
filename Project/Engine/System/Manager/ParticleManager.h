@@ -6,6 +6,8 @@
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 class ParticleManager :
 	public AOENGINE::AttributeGui {
 public:
@@ -27,7 +29,7 @@ public:
 	ParticleManager(const ParticleManager&) = delete;
 	const ParticleManager& operator=(const ParticleManager&) = delete;
 
-	static ParticleManager* GetInstance();
+	static AOENGINE::ParticleManager* GetInstance();
 
 public:
 
@@ -78,3 +80,5 @@ private:
 	std::unordered_map<std::string, ParticlesData> particlesMap_;
 
 };
+
+}

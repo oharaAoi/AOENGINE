@@ -39,13 +39,13 @@ void BaseCollider::DeletePartner(BaseCollider* partner) {
 }
 
 void BaseCollider::SetTarget(const std::string& id) {
-	auto& layers = CollisionLayerManager::GetInstance();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	uint32_t bit = layers.GetCategoryBit(id);
 	SetMaskBits(bit);
 }
 
 void BaseCollider::SetCategory(const std::string& category) {
-	auto& layers = CollisionLayerManager::GetInstance();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(category);
 	categoryName_ = category;
 }

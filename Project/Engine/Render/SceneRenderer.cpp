@@ -23,10 +23,10 @@ void SceneRenderer::Finalize() {
 void SceneRenderer::Init() {
 	objectList_.clear();
 
-	particleManager_ = ParticleManager::GetInstance();
+	particleManager_ = AOENGINE::ParticleManager::GetInstance();
 	particleManager_->Init();
 
-	gpuParticleManager_ = GpuParticleManager::GetInstance();
+	gpuParticleManager_ = AOENGINE::GpuParticleManager::GetInstance();
 	gpuParticleManager_->Init();
 }
 

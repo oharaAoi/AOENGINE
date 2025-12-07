@@ -37,7 +37,7 @@ public:
 	/// </summary>
 	void SetCallBacks();
 
-	void SetPair(CollisionManager* collisionManager, const std::string& attacker, const std::string& diffence);
+	void SetPair(AOENGINE::CollisionManager* collisionManager, const std::string& attacker, const std::string& diffence);
 
 protected:
 

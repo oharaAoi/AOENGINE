@@ -13,7 +13,9 @@
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-class ImGuiManager{
+namespace AOENGINE {
+
+class ImGuiManager {
 
 public: // 静的メンバ関数
 
@@ -61,3 +63,4 @@ public:
 	/// </summary>
 	void Draw(ID3D12GraphicsCommandList* commandList);
 };
+}

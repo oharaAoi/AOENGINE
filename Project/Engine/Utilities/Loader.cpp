@@ -121,12 +121,12 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	}
 
 	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
-		MeshManager::GetInstance()->AddMesh(device, fileName, meshNames[oi], meshVertices[oi], meshIndices[oi]);
+		AOENGINE::MeshManager::GetInstance()->AddMesh(device, fileName, meshNames[oi], meshVertices[oi], meshIndices[oi]);
 	}
 
 	std::vector<std::shared_ptr<Mesh>> result;
 	
-	result = MeshManager::GetInstance()->GetMeshes(fileName);
+	result = AOENGINE::MeshManager::GetInstance()->GetMeshes(fileName);
 	uint32_t index = 0;
 	if (!useMaterial.empty()) {
 		for (auto& it : result) {
@@ -172,7 +172,7 @@ std::unordered_map<std::string, std::unique_ptr<Material>> LoadMaterial(const st
 			materialData[materialName.C_Str()] = ModelMaterialData();
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
-			TextureManager::GetInstance()->StackTexture(directoryPath, textureFilePath.C_Str());
+			AOENGINE::TextureManager::GetInstance()->StackTexture(directoryPath, textureFilePath.C_Str());
 		}
 	}
 
@@ -216,7 +216,7 @@ std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::s
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &textureFilePath);			
 			std::string objTexture = textureFilePath.C_Str();
 			materialData[materialName.C_Str()].textureFilePath = objTexture;
-			TextureManager::GetInstance()->StackTexture(directoryPath, objTexture);
+			AOENGINE::TextureManager::GetInstance()->StackTexture(directoryPath, objTexture);
 		}
 
 		aiColor3D color;

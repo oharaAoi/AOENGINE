@@ -14,6 +14,6 @@ void InstancingRender(const D3D12_VERTEX_BUFFER_VIEW& vertexView,
 	commandList->IASetIndexBuffer(&indexView);
 	commandList->SetGraphicsRootConstantBufferView(0, materialBuffer);
 	commandList->SetGraphicsRootDescriptorTable(1, instancingHandleGpu);
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture, 2);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture, 2);
 	commandList->DrawIndexedInstanced(indexNum, instanceNum, 0, 0, 0);
 }

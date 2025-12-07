@@ -14,7 +14,7 @@ void ManipulateTool::SelectUseManipulate() {
 		| ImGuiWindowFlags_NoDocking;
 
 	if (ImGui::Begin("##ManipulateItem", nullptr, flags)) {
-		TextureManager* tex = TextureManager::GetInstance();
+		TextureManager* tex = AOENGINE::TextureManager::GetInstance();
 		ImVec2 iconSize(16, 16);
 		D3D12_GPU_DESCRIPTOR_HANDLE scaleHandle = tex->GetDxHeapHandles("scale.png").handleGPU;
 		D3D12_GPU_DESCRIPTOR_HANDLE rotateHandle = tex->GetDxHeapHandles("rotate.png").handleGPU;

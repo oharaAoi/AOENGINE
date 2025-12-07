@@ -13,13 +13,13 @@ void GeometryFactory::Init() {
 }
 
 void GeometryFactory::SetMesh(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	_pMesh = MeshManager::GetInstance()->GetMesh(name);
+	_pMesh = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
 }
 
 void GeometryFactory::AddMeshManager(std::shared_ptr<Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(pDevice_, name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	AOENGINE::MeshManager::GetInstance()->AddMesh(pDevice_, name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool GeometryFactory::ExistMesh(const std::string& name) {
-	return MeshManager::GetInstance()->ExistMesh(name);
+	return AOENGINE::MeshManager::GetInstance()->ExistMesh(name);
 }

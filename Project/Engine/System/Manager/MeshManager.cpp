@@ -11,7 +11,7 @@ std::vector<std::string> MeshManager::meshNameList_;
 MeshManager::~MeshManager() {
 }
 
-MeshManager* MeshManager::GetInstance() {
+MeshManager* AOENGINE::MeshManager::GetInstance() {
 	static MeshManager instance;
 	return &instance;
 }

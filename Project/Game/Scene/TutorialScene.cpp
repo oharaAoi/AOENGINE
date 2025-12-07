@@ -24,13 +24,13 @@ void TutorialScene::Init() {
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init("TutorialScene");
 
-	auto& layers = CollisionLayerManager::GetInstance();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
 	// -------------------------------------------------
 	// ↓ Sceneの初期化
 	// -------------------------------------------------
-	collisionManager_ = std::make_unique<CollisionManager>();
+	collisionManager_ = std::make_unique<AOENGINE::CollisionManager>();
 	collisionManager_->Init();
 
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "tutorial", ".json");

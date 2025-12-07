@@ -9,7 +9,7 @@ void BaseCollisionCallBacks::SetCallBacks() {
 	callBacks_.exit = std::bind(&BaseCollisionCallBacks::CollisionExit, this, __CALLBACK_PLACEHOLDERS_12);
 }
 
-void BaseCollisionCallBacks::SetPair(CollisionManager* collisionManager, const std::string& attacker, const std::string& defense) {
-	CollisionLayerManager& layerManager = CollisionLayerManager::GetInstance();
+void BaseCollisionCallBacks::SetPair(AOENGINE::CollisionManager* collisionManager, const std::string& attacker, const std::string& defense) {
+	CollisionLayerManager& layerManager = AOENGINE::CollisionLayerManager::GetInstance();
 	collisionManager->MakeCollisionPair(layerManager.GetCategoryBit(attacker), layerManager.GetCategoryBit(defense), callBacks_);
 }

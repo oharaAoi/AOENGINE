@@ -13,6 +13,8 @@
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace AOENGINE {
+
 class TextureManager {
 public: // メンバ関数
 
@@ -112,7 +114,7 @@ public:
 	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_.at(fileName).resource_->GetSRV(); }
 
 	void StackTexture(const std::string& directoryPath, const std::string& filePath);
- 
+
 private:
 
 	struct TextureData {
@@ -140,3 +142,5 @@ private:
 	ID3D12GraphicsCommandList* commandList_;
 	AOENGINE::DxResourceManager* resourceManager_;
 };
+
+}

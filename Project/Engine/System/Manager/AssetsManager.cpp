@@ -3,6 +3,8 @@
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Audio/SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
+#include <iostream>
+#include <filesystem>
 
 using namespace AOENGINE;
 namespace fs = std::filesystem;
@@ -28,7 +30,7 @@ void AssetsManager::Init() {
 	LoadSounds(kEngineAssets.sounds);
 	LoadSounds(kGameAssets.sounds);
 
-	TextureManager::GetInstance()->LoadStack();
+	AOENGINE::TextureManager::GetInstance()->LoadStack();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +43,7 @@ void AssetsManager::LoadTextures(const std::string& rootPath) {
 		return;
 	}
 
-	TextureManager* manager = TextureManager::GetInstance();
+	TextureManager* manager = AOENGINE::TextureManager::GetInstance();
 	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
 		std::string ext = entry.path().extension().string();
 		if (ext == ".png" || ext == ".dds") {

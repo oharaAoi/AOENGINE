@@ -9,7 +9,7 @@ void BBulletToPlayerCallBacks::Init() {
 	SetCallBacks();
 	SetPair(pCollisionManager_, ColliderTags::Boss::missile, ColliderTags::Player::own);
 
-	ParticleManager* manager = ParticleManager::GetInstance();
+	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
 	hitEffect_ = manager->CrateParticle("MissileHit");
 }
 

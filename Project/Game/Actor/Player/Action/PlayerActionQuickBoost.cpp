@@ -39,7 +39,7 @@ void PlayerActionQuickBoost::Build() {
 	pInput_ = AOENGINE::Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 
-	boostParticle_ = ParticleManager::GetInstance()->CrateParticle("QuickBoost");
+	boostParticle_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("QuickBoost");
 	boostParticle_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
 	boostParticle_->SetIsStop(true);
 	boostParticle_->SetLoop(false);

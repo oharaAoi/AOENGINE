@@ -11,7 +11,7 @@ GpuParticleManager::~GpuParticleManager() {
 	renderer_.reset();
 }
 
-GpuParticleManager* GpuParticleManager::GetInstance() {
+AOENGINE::GpuParticleManager* AOENGINE::GpuParticleManager::GetInstance() {
 	static GpuParticleManager instance;
 	return &instance;
 }

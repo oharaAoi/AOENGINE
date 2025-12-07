@@ -19,12 +19,12 @@ void PulseArmor::Init() {
 
 	// meshの設定
 	std::string name = geometry_.GetGeometryName();
-	if (!MeshManager::GetInstance()->ExistMesh(name)) {
+	if (!AOENGINE::MeshManager::GetInstance()->ExistMesh(name)) {
 		mesh_ = std::make_shared<AOENGINE::Mesh>();
 		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
-		MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, mesh_->GetVerticesData(), mesh_->GetIndices());
+		AOENGINE::MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, mesh_->GetVerticesData(), mesh_->GetIndices());
 	} else {
-		mesh_ = MeshManager::GetInstance()->GetMesh(name);
+		mesh_ = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
 	}
 
 	// material/worldTransformに関する設定
@@ -112,13 +112,13 @@ void PulseArmor::Draw() const {
 	index = pso->GetRootSignatureIndex("gSetting");
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
 	index = pso->GetRootSignatureIndex("gMaskTexture1");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[0], index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[0], index);
 	index = pso->GetRootSignatureIndex("gMaskTexture2");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[1], index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[1], index);
 	index = pso->GetRootSignatureIndex("gMaskTexture3");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[2], index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, noiseTexture_[2], index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
@@ -140,7 +140,7 @@ void PulseArmor::Debug_Gui() {
 		for (size_t index = 0; index < 3; ++index) {
 			std::string name = "Noise" + std::to_string(index);
 			if (ImGui::TreeNode(name.c_str())) {
-				noiseTexture_[index] = TextureManager::GetInstance()->SelectTexture(noiseTexture_[index]);
+				noiseTexture_[index] = AOENGINE::TextureManager::GetInstance()->SelectTexture(noiseTexture_[index]);
 				ImGui::TreePop();
 			}
 		}

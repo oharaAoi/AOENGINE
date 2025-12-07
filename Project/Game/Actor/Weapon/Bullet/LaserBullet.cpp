@@ -88,7 +88,7 @@ void LaserBullet::Init() {
 	laserCylinder_->GetTransform()->SetParent(parentTransform_->GetWorldMatrix());
 	AddChild(laserCylinder_.get());
 
-	ParticleManager* manager = ParticleManager::GetInstance();
+	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
 	shotEffect_ = manager->CrateParticle("laserShot");
 	shotParticle_ = manager->CrateParticle("laserParticle");
 
@@ -193,7 +193,7 @@ void LaserBullet::OnCollision(AOENGINE::BaseCollider* _other) {
 	if (_other->GetCategoryName() == ColliderTags::None::own || _other->GetCategoryName() == ColliderTags::Boss::own) {
 		isFade_ = true;
 
-		ParticleManager* manager = ParticleManager::GetInstance();
+		AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
 		AOENGINE::BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
 		AOENGINE::BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
 

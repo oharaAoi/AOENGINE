@@ -4,7 +4,9 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/Loader.h"
 
-TextureManager* TextureManager::GetInstance() {
+using namespace AOENGINE;
+
+TextureManager* AOENGINE::TextureManager::GetInstance() {
 	static TextureManager instance;
 	return &instance;
 }

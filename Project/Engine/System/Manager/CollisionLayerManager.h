@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <list>
 
+namespace AOENGINE {
+
 /// <summary>
 /// Colliderのカテゴリの分類を管理しているクラス
 /// </summary>
@@ -32,3 +34,4 @@ private:
 	uint32_t nextBit_;										// 次のbitの変更値
 };
 
+}

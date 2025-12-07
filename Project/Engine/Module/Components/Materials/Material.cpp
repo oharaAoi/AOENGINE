@@ -54,7 +54,7 @@ void Material::Debug_Gui() {
 	EditShaderType();
 	EditUV();
 	// Textureを変更する
-	TextureManager* textureManager = TextureManager::GetInstance();
+	TextureManager* textureManager = AOENGINE::TextureManager::GetInstance();
 	textureName_ = textureManager->SelectTexture(textureName_);
 	// 色を変更する
 	ImGui::Separator();

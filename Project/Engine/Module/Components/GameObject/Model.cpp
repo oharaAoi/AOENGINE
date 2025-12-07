@@ -30,10 +30,10 @@ void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath
 	Logger::Log("[Load][Model] :" + fileName);
 	//LoadObj(directorPath, fileName, device);
 
-	if (!MeshManager::GetInstance()->ExistMesh(fileName)) {
+	if (!AOENGINE::MeshManager::GetInstance()->ExistMesh(fileName)) {
 		meshArray_ = LoadMesh(directorPath, fileName, device);
 	} else {
-		meshArray_ = MeshManager::GetInstance()->GetMeshes(fileName);
+		meshArray_ = AOENGINE::MeshManager::GetInstance()->GetMeshes(fileName);
 	}
 
 	materialData_ = LoadMaterialData(directorPath, fileName);
@@ -73,7 +73,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		index = pipeline->GetRootSignatureIndex("gTexture");
 		if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
 			std::string textureName = material->GetAlbedoTexture();
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
 			AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
 			if (dxResource) {
@@ -81,10 +81,10 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				if (resource) {
 					commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
 				} else {
-					TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+					AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
 				}
 			} else {
-				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+				AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
 			}
 		}
 
@@ -114,7 +114,7 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 		index = pipeline->GetRootSignatureIndex("gTexture");
 		if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
 			std::string textureName = material->GetAlbedoTexture();
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
 			AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
 			if (dxResource) {
@@ -122,10 +122,10 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 				if (resource) {
 					commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
 				} else {
-					TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+					AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
 				}
 			} else {
-				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+				AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
 			}
 		}
 

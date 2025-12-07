@@ -42,7 +42,7 @@ void PlayerActionJump::Build() {
 	param_.SetGroupName(pManager_->GetName());
 	param_.Load();
 
-	ParticleManager* manager = ParticleManager::GetInstance();
+	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
 	jetBurnLeft_ = manager->CrateParticle("Jet");
 	jetBurnRight_ = manager->CrateParticle("Jet");
 

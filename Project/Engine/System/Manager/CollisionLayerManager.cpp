@@ -1,16 +1,18 @@
 #include "CollisionLayerManager.h"
 
-CollisionLayerManager::CollisionLayerManager() : nextBit_(1) {
+using namespace AOENGINE;
+
+AOENGINE::CollisionLayerManager::CollisionLayerManager() : nextBit_(1) {
 	// 必要ならここで初期カテゴリを登録しておく
 	RegisterCategory("Default");
 }
 
-CollisionLayerManager& CollisionLayerManager::GetInstance() {
+CollisionLayerManager& AOENGINE::CollisionLayerManager::GetInstance() {
 	static CollisionLayerManager instance;
 	return instance;
 }
 
-uint32_t CollisionLayerManager::RegisterCategory(const std::string& name) {
+uint32_t AOENGINE::CollisionLayerManager::RegisterCategory(const std::string& name) {
 	// すでに登録済みなら無視
 	if (nameToBit_.count(name)) return nameToBit_[name];
 
@@ -25,7 +27,7 @@ uint32_t CollisionLayerManager::RegisterCategory(const std::string& name) {
 	return nameToBit_[name];
 }
 
-uint32_t CollisionLayerManager::GetCategoryBit(const std::string& name) {
+uint32_t AOENGINE::CollisionLayerManager::GetCategoryBit(const std::string& name) {
 	auto it = nameToBit_.find(name);
 	if (it == nameToBit_.end()) {
 		return RegisterCategory(name);
@@ -33,7 +35,7 @@ uint32_t CollisionLayerManager::GetCategoryBit(const std::string& name) {
 	return it->second;
 }
 
-void CollisionLayerManager::RegisterCategoryList(const std::list<std::string>& list) {
+void AOENGINE::CollisionLayerManager::RegisterCategoryList(const std::list<std::string>& list) {
 	for (auto& id : list) {
 		RegisterCategory(id);
 	}

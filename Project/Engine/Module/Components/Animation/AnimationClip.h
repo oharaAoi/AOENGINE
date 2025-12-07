@@ -8,9 +8,9 @@
 #include "Engine/Module/Components/Rigging/Skeleton.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
 
-class AnimationManager;
-
 namespace AOENGINE {
+
+class AnimationManager;
 
 /// <summary>
 /// Animationに関するクラス

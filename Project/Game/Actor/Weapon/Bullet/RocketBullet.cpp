@@ -5,8 +5,8 @@
 
 RocketBullet::~RocketBullet() {
 	BaseBullet::Finalize();
-	ParticleManager::GetInstance()->DeleteParticles(burn_);
-	ParticleManager::GetInstance()->DeleteParticles(smoke_);
+	AOENGINE::ParticleManager::GetInstance()->DeleteParticles(burn_);
+	AOENGINE::ParticleManager::GetInstance()->DeleteParticles(smoke_);
 	burn_ = nullptr;
 	smoke_ = nullptr;
 }
@@ -41,8 +41,8 @@ void RocketBullet::Init() {
 	// ----------------------
 	// ↓ effectの設定
 	// ----------------------
-	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = ParticleManager::GetInstance()->CrateParticle("cloud");
+	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	smoke_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("cloud");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);
@@ -80,7 +80,7 @@ void RocketBullet::Update() {
 void RocketBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 

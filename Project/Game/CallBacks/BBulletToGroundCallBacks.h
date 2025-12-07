@@ -13,7 +13,7 @@ class BBulletToGroundCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public:
 
-	BBulletToGroundCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
+	BBulletToGroundCallBacks(AOENGINE::CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~BBulletToGroundCallBacks() = default;
 
 public:
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	BossBulletManager* pBossBulletManager_ = nullptr;
 	Floor* pFloor_ = nullptr;

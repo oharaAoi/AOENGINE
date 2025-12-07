@@ -19,7 +19,7 @@ void Armors::Init(const std::string& ownerName) {
 
 	isDeploy_ = false;
 
-	chargeEmitter_ = GpuParticleManager::GetInstance()->CreateEmitter("concentration");
+	chargeEmitter_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("concentration");
 	chargeEmitter_->SetIsStop(true);
 }
 

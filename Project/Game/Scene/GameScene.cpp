@@ -20,7 +20,7 @@ void GameScene::Init() {
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init("GameScene");
 
-	auto& layers = CollisionLayerManager::GetInstance();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());
 
 	AOENGINE::Render::GetLightGroup()->Load();
@@ -92,8 +92,8 @@ void GameScene::Init() {
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
 
-	/*emitter_ = GpuParticleManager::GetInstance()->CreateEmitter("rain");
-	field_ = GpuParticleManager::GetInstance()->CreateField("Window");*/
+	/*emitter_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("rain");
+	field_ = AOENGINE::GpuParticleManager::GetInstance()->CreateField("Window");*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

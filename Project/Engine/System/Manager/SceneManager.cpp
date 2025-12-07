@@ -4,6 +4,8 @@
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 
+using namespace AOENGINE;
+
 SceneManager::SceneManager() {}
 SceneManager::~SceneManager() {}
 
@@ -126,8 +128,8 @@ void SceneManager::SetChange(const SceneType& type) {
 
 void SceneManager::Free() {
 	AOENGINE::EditorWindows::GetInstance()->Reset();
-	ParticleManager* cpuManager = ParticleManager::GetInstance();
-	GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
+	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();
+	AOENGINE::GpuParticleManager* gpuManager = AOENGINE::GpuParticleManager::GetInstance();
 
 	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
 	window = {};

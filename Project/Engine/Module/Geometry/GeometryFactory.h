@@ -38,7 +38,7 @@ public:
 			_pMesh->Init(pDevice_, geometry.GetVertex(), geometry.GetIndex());
 			AddMeshManager(_pMesh, name);
 		} else {
-			_pMesh = MeshManager::GetInstance()->GetMesh(name);
+			_pMesh = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
 		}
 	}
 

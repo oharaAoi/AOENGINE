@@ -26,7 +26,7 @@ void BossStateStan::OnStart() {
 	// ↓ 演出関連
 	// ----------------------
 
-	effect_ = ParticleManager::GetInstance()->CrateParticle("BossStanEffect");
+	effect_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("BossStanEffect");
 	effect_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
 
 	AOENGINE::GameTimer::SetTimeScale(0.1f);

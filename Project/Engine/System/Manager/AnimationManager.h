@@ -1,15 +1,10 @@
 #pragma once
 #include <vector>
-#include <map>
 #include <unordered_map>
 #include <string>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
-#include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Module/Components/Rigging/Skeleton.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
+
+namespace AOENGINE {
 
 /// <summary>
 /// animationの情報をまとめたクラス
@@ -58,7 +53,7 @@ public:
 	/// <param name="animationName">: 行いたいanimation名</param>
 	/// <returns></returns>
 	Animation GetAnimation(const std::string& fileName, const std::string& animationName);
-	
+
 	/// <summary>
 	/// 指定したファイルが持っている最初のanimationを返す
 	/// </summary>
@@ -88,3 +83,4 @@ private:
 
 };
 
+}

@@ -9,6 +9,8 @@
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Input/Input.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// シーンを管理するクラス
 /// </summary>
@@ -56,3 +58,4 @@ private:
 
 };
 
+}

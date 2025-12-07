@@ -19,9 +19,9 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	// meshの設定
 	emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
 	if (emitter_.useMesh == "") {
-		shape_ = MeshManager::GetInstance()->GetMesh("plane");
+		shape_ = AOENGINE::MeshManager::GetInstance()->GetMesh("plane");
 	} else {
-		shape_ = MeshManager::GetInstance()->GetMesh(emitter_.useMesh);
+		shape_ = AOENGINE::MeshManager::GetInstance()->GetMesh(emitter_.useMesh);
 	}
 
 	// materialの設定
@@ -315,7 +315,7 @@ void AOENGINE::BaseParticles::Debug_Gui() {
 	emitter_.useTexture = shareMaterial_->GetAlbedoTexture();
 	shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
 
-	meshName_ = MeshManager::GetInstance()->SelectMeshName();
+	meshName_ = AOENGINE::MeshManager::GetInstance()->SelectMeshName();
 	if (ImGui::Button("ChangeMesh")) {
 		changeMesh_ = true;
 	}
@@ -334,7 +334,7 @@ void AOENGINE::BaseParticles::Debug_Gui() {
 
 void AOENGINE::BaseParticles::ChangeMesh() {
 	emitter_.useMesh = meshName_;
-	shape_ = MeshManager::GetInstance()->GetMesh(meshName_);
+	shape_ = AOENGINE::MeshManager::GetInstance()->GetMesh(meshName_);
 	changeMesh_ = false;
 }
 

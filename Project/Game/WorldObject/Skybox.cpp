@@ -19,7 +19,7 @@ void Skybox::Init() {
 		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
 		AddMeshManager(mesh_, name);
 	} else {
-		mesh_ = MeshManager::GetInstance()->GetMesh(name);
+		mesh_ = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
 	}
 
 	// その他の作成
@@ -57,15 +57,15 @@ void Skybox::Draw() const {
 	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
 
 	index = pso->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture_, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, useTexture_, index);
 
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
 void Skybox::AddMeshManager(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name) {
-	MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
+	AOENGINE::MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
 }
 
 bool Skybox::ExistMesh(const std::string& name) {
-	return MeshManager::GetInstance()->ExistMesh(name);
+	return AOENGINE::MeshManager::GetInstance()->ExistMesh(name);
 }

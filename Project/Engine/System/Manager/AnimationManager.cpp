@@ -1,6 +1,8 @@
 #include "AnimationManager.h"
 #include "Engine/Utilities/Loader.h"
 
+using namespace AOENGINE;
+
 AnimationManager::~AnimationManager() {
 }
 

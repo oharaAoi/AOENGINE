@@ -53,7 +53,7 @@ private:
 	std::unique_ptr<Camera2d> camera2d_;
 
 	// ------------------- collision ------------------- //
-	std::unique_ptr<CollisionManager> collisionManager_;
+	std::unique_ptr<AOENGINE::CollisionManager> collisionManager_;
 	std::unique_ptr<GameCallBacksManager> gameCallBacksManager_;
 
 	// ------------------- sprite ------------------- //

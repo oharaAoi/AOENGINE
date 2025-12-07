@@ -4,8 +4,8 @@
 
 LauncherBullet::~LauncherBullet() {
 	BaseBullet::Finalize();
-	ParticleManager::GetInstance()->DeleteParticles(burn_);
-	ParticleManager::GetInstance()->DeleteParticles(smoke_);
+	AOENGINE::ParticleManager::GetInstance()->DeleteParticles(burn_);
+	AOENGINE::ParticleManager::GetInstance()->DeleteParticles(smoke_);
 	burn_ = nullptr;
 	smoke_ = nullptr;
 }
@@ -32,8 +32,8 @@ void LauncherBullet::Init() {
 	// ----------------------
 	// ↓ effectの初期化
 	// ----------------------
-	burn_ = ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = ParticleManager::GetInstance()->CrateParticle("Launcher");
+	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");
+	smoke_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("Launcher");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);
@@ -69,7 +69,7 @@ void LauncherBullet::Update() {
 void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = ParticleManager::GetInstance()->CrateParticle("Expload");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("Expload");
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
 

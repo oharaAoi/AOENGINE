@@ -13,7 +13,7 @@ class PBulletToBossCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public:
 
-	PBulletToBossCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
+	PBulletToBossCallBacks(AOENGINE::CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~PBulletToBossCallBacks() = default;
 
 public:
@@ -37,7 +37,7 @@ public:		// accessor method
 
 private:
 
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	PlayerBulletManager* pBulletManager_;
 	Boss* pBoss_;

@@ -163,7 +163,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const AOE
 	index = pipeline->GetRootSignatureIndex("gTexture");
 	if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
 		std::string textureName = material->GetAlbedoTexture();
-		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 	} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
 		AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
 		if (dxResource) {
@@ -171,10 +171,10 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const AOE
 			if (resource) {
 				commandList_->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
 			} else {
-				TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
+				AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
 			}
 		} else {
-			TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
+			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
 		}
 	}
 
@@ -201,9 +201,9 @@ void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mes
 
 	std::string textureName = _material->GetAlbedoTexture();
 	index = pipeline->GetRootSignatureIndex("gTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
 	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
 }

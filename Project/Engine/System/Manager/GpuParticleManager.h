@@ -7,6 +7,8 @@
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// gpuParticleを管理しているクラス
 /// </summary>
@@ -19,7 +21,7 @@ public:
 	GpuParticleManager(const GpuParticleManager&) = delete;
 	const GpuParticleManager& operator=(const GpuParticleManager&) = delete;
 
-	static GpuParticleManager* GetInstance();
+	static AOENGINE::GpuParticleManager* GetInstance();
 
 public:
 
@@ -70,3 +72,4 @@ private:
 
 };
 
+}

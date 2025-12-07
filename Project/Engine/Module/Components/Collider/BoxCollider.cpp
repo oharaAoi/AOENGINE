@@ -15,7 +15,7 @@ BoxCollider::~BoxCollider() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
-	auto& layers = CollisionLayerManager::GetInstance();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	categoryBits_ = layers.RegisterCategory(categoryName);
 	categoryName_ = categoryName;
 

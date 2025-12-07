@@ -164,7 +164,7 @@ void EditorWindows::GameWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::DebugItemWindow() {
-	TextureManager* tex = TextureManager::GetInstance();
+	TextureManager* tex = AOENGINE::TextureManager::GetInstance();
 	ImVec2 iconSize(16, 16);
 	D3D12_GPU_DESCRIPTOR_HANDLE playHandle = tex->GetDxHeapHandles("play.png").handleGPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE pauseHandle = tex->GetDxHeapHandles("pause.png").handleGPU;

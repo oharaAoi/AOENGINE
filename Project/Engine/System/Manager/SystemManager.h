@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 
+namespace AOENGINE {
+
 class SystemManager {
 public: // コンストラクタ
 
@@ -10,7 +12,7 @@ public: // コンストラクタ
 public:
 
 	void Init();
-	
+
 	void Update();
 
 private:
@@ -19,3 +21,4 @@ private:
 
 };
 
+}

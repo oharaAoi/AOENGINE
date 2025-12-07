@@ -11,7 +11,7 @@ using namespace AOENGINE;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AoiFramework::Finalize() {
-	MeshManager::GetInstance()->Finalize();
+	AOENGINE::MeshManager::GetInstance()->Finalize();
 	ModelManager::GetInstance()->Finalize();
 	Engine::Finalize();
 }

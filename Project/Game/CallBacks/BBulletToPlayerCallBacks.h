@@ -13,7 +13,7 @@ class BBulletToPlayerCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public:
 
-	BBulletToPlayerCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
+	BBulletToPlayerCallBacks(AOENGINE::CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~BBulletToPlayerCallBacks() = default;
 
 public:
@@ -38,7 +38,7 @@ public:
 
 private:
 
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	BossBulletManager* pBossBulletManager_;
 	Player* pPlayer_;

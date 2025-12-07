@@ -1,6 +1,8 @@
 #include "WinApp.h"
 #include "Engine/Utilities/Convert.h"
 
+using namespace AOENGINE;
+
 uint32_t WinApp::sWindowWidth = 0;
 uint32_t WinApp::sWindowHeight = 0;
 

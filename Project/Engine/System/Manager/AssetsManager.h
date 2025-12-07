@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
-#include <iostream>
-#include <filesystem>
+
+namespace AOENGINE {
 
 /// <summary>
 /// Asset関連を管理してくるクラス
@@ -52,3 +52,5 @@ private:
 		"./Project/Packages/Game/Assets/Load/Sounds/"
 	};
 };
+
+}

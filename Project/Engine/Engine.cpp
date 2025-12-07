@@ -72,7 +72,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	// ↓ インスタンスの作成
 	// -------------------------------------------------
 	winApp_ = WinApp::GetInstance();
-	textureManager_ = TextureManager::GetInstance();
+	textureManager_ = AOENGINE::TextureManager::GetInstance();
 	input_ = AOENGINE::Input::GetInstance();
 	render_ = AOENGINE::Render::GetInstance();
 	editorWindows_ = AOENGINE::EditorWindows::GetInstance();

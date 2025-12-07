@@ -33,7 +33,7 @@ void LauncherGun::Init() {
 	// ↓ Effect関連
 	// -------------------------------------------------
 
-	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
+	gunFireParticles_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
 	gunFireParticles_->SetParent(transform_->GetWorldMatrix());
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());

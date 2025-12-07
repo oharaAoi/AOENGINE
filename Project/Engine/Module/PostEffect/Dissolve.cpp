@@ -37,7 +37,7 @@ void Dissolve::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxRe
 	index = pso->GetRootSignatureIndex("gTexture");
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gMaskTexture");
-	TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "noise0.png", index);
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "noise0.png", index);
 	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
 }
 

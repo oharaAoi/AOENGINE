@@ -10,7 +10,7 @@ ParticleManager::~ParticleManager() {
 	Finalize();
 }
 
-ParticleManager* ParticleManager::GetInstance() {
+AOENGINE::ParticleManager* AOENGINE::ParticleManager::GetInstance() {
 	static ParticleManager instance;
 	return &instance;
 }

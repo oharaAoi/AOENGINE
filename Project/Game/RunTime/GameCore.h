@@ -34,7 +34,7 @@ private:
 	AOENGINE::GameTimer gameTimer_ = AOENGINE::GameTimer(60);
 	AOENGINE::Profiler profiler_;
 
-	std::unique_ptr<SceneManager> sceneManger_;
+	std::unique_ptr<AOENGINE::SceneManager> sceneManger_;
 
 	bool isReset_;
 

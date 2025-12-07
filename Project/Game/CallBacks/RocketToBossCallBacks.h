@@ -10,7 +10,7 @@ class RocketToBossCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public:
 
-	RocketToBossCallBacks(CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
+	RocketToBossCallBacks(AOENGINE::CollisionManager* _collisionManager) : pCollisionManager_(_collisionManager) {};
 	~RocketToBossCallBacks() = default;
 
 public:
@@ -34,7 +34,7 @@ public:		// accessor method
 
 private:
 
-	CollisionManager* pCollisionManager_;
+	AOENGINE::CollisionManager* pCollisionManager_;
 
 	PlayerBulletManager* pBulletManager_;
 	Boss* pBoss_;
