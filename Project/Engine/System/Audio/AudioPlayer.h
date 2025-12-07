@@ -2,6 +2,8 @@
 #include <string>
 #include "Engine/System/Audio/Audio.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 音を鳴らしたりするクラス
 /// </summary>
@@ -58,3 +60,4 @@ private:
 
 };
 
+}

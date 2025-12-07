@@ -5,6 +5,8 @@
 #include "Engine/System/Audio/Audio.h"
 #include "Engine/Engine.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// soundDataを管理しているクラス
 /// </summary>
@@ -47,3 +49,4 @@ private:
 
 };
 
+}

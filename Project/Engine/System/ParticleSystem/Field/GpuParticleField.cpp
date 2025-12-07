@@ -37,7 +37,7 @@ void GpuParticleField::Init(uint32_t _instanceNum) {
 
 	isEnable_ = true;
 
-	EditorWindows::AddObjectWindow(this, "GpuParticleField");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "GpuParticleField");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

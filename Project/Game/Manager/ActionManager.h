@@ -44,7 +44,7 @@ public:
 		context_ = std::make_shared<ActionContext>();
 	
 		name_ = name;
-		EditorWindows::AddObjectWindow(this, name.c_str());
+		AOENGINE::EditorWindows::AddObjectWindow(this, name.c_str());
 
 		isActionStop_ = false;
 	}

@@ -4,6 +4,7 @@
 #include "Engine/System/Audio/SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
 namespace fs = std::filesystem;
 
 AssetsManager* AssetsManager::GetInstance() {

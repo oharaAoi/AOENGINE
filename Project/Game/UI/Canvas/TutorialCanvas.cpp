@@ -20,7 +20,7 @@ void TutorialCanvas::Init() {
 
 	AddChild(playerUIs_.get());
 
-	EditorWindows::AddObjectWindow(this, "Canvas");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "Canvas");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

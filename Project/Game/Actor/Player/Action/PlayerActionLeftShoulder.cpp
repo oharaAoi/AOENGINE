@@ -7,7 +7,7 @@
 
 void PlayerActionLeftShoulder::Build() {
 	SetName("ActionLeftShoulder");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 	pWeapon_ = dynamic_cast<LaserRifle*>(pOwner_->GetWeapon(PlayerWeapon::Left_Shoulder));
 }
 

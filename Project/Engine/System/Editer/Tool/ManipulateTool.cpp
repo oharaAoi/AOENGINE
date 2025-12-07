@@ -3,6 +3,8 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Lib/Math/Vector4.h"
 
+using namespace AOENGINE;
+
 UseManipulate ManipulateTool::type_ = UseManipulate::Translate;
 bool ManipulateTool::isActive_ = false;
 

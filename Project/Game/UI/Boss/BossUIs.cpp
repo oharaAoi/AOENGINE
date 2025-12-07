@@ -52,7 +52,7 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	AddChild(postureStabilityArc_.get());
 	AddChild(stanPromote_);
 	
-	EditorWindows::AddObjectWindow(this, "BossUIs");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "BossUIs");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

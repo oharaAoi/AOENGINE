@@ -41,7 +41,7 @@ void PlayerUIs::Init(Player* _player) {
 	AddChild(leftShoulderWeapon_.get());
 	AddChild(rightShoulderWeapon_.get());
 
-	EditorWindows::AddObjectWindow(this, "PlayerUIs");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "PlayerUIs");
 }
 
 void PlayerUIs::Update(const Math::Vector2& reticlePos) {

@@ -37,7 +37,7 @@ void PlayerActionTurnAround::OnStart() {
 	actionTimer_ = 0;
 	speed_ = context_->Get<float>("speed");
 
-	Math::Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+	Math::Vector2 current = AOENGINE::Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ current.x, 0.0f, current.y });
 	float angle = std::atan2f(direction_.x, direction_.z);
 

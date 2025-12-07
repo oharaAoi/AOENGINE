@@ -38,7 +38,7 @@ private:
 
 private:
 
-	Input* pInput_ = nullptr;
+	AOENGINE::Input* pInput_ = nullptr;
 	ShoulderMissile* pWeapon_ = nullptr;
 
 	bool isFinish_;

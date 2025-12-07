@@ -18,7 +18,7 @@ void TutorialMoveBehavior::Init() {
 
 void TutorialMoveBehavior::Update() {
 	// 移動のアクションが実行されている間は時間を計測’する
-	Input* input = Input::GetInstance();
+	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	if (input->GetLeftJoyStick().x != 0 || input->GetLeftJoyStick().y != 0) {
 		totalMoveTime_ += AOENGINE::GameTimer::DeltaTime();
 	}
@@ -55,7 +55,7 @@ void TutorialJumpBehavior::Init() {
 }
 
 void TutorialJumpBehavior::Update() {
-	Input* input = Input::GetInstance();
+	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	// 移動のアクションが実行されている間は時間を計測’する
 	if (input->IsTriggerButton(XInputButtons::ButtonA)) {
 		totalJumpTime_ += (targetValue_ * 0.2f);
@@ -213,7 +213,7 @@ void TutorialFreeModeBehavior::Init() {
 }
 
 void TutorialFreeModeBehavior::Update() {
-	Input* input = Input::GetInstance();
+	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	if (!isNext_) {
 		if (input->IsTriggerButton(XInputButtons::Start)) {
 			isNext_ = true;

@@ -579,13 +579,13 @@ void ParticleSystemEditor::PreDraw() {
 				 ImGuiWindowFlags_NoBackground);
 
 	if (ImGui::IsWindowFocused()) {
-		EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
+		AOENGINE::EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
 	}
 
 	// Grid線描画
 	AOENGINE::Render::Update();
 
-	if (EditorWindows::GetInstance()->GetGridDraw()) {
+	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		DrawGrid(AOENGINE::Render::GetViewport3D(), AOENGINE::Render::GetProjection3D());
 	}
 }

@@ -89,7 +89,7 @@ public:
 	// Getter/Setter
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	static Audio* GetAudio();
+	static AOENGINE::Audio* GetAudio();
 
 	static AOENGINE::Canvas2d* GetCanvas2d();
 

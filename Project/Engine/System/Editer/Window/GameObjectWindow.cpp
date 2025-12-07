@@ -3,6 +3,8 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
+using namespace AOENGINE;
+
 GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 

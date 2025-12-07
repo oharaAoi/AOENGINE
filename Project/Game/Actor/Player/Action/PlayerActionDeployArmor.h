@@ -69,7 +69,7 @@ public:
 
 private:
 
-	Input* pInput_;
+	AOENGINE::Input* pInput_;
 
 	GpuParticleEmitter* chargeEmitter_;
 

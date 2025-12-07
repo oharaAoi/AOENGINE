@@ -33,7 +33,7 @@ void MachineGun::Init() {
 	gunFireParticles_ = ParticleManager::GetInstance()->CrateParticle("gunFireParticles");
 	gunFireParticles_->SetParent(transform_->GetWorldMatrix());
 
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,7 @@ bool MachineGun::Attack(const AttackContext& cxt) {
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
 
-	AudioPlayer::SinglShotPlay("shotBullet.mp3", 0.06f);
+	AOENGINE::AudioPlayer::SinglShotPlay("shotBullet.mp3", 0.06f);
 
 	AttackAfter();
 	return true;

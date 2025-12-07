@@ -58,7 +58,7 @@ void GeometryObject::Debug_Gui() {
 }
 
 void GeometryObject::SetEditorWindow() {
-	EditorWindows::AddObjectWindow(this, id_);
+	AOENGINE::EditorWindows::AddObjectWindow(this, id_);
 }
 
 void GeometryObject::Init() {

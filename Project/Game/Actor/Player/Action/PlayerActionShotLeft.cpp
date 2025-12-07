@@ -23,7 +23,7 @@ void PlayerActionShotLeft::Parameter::Debug_Gui() {
 
 void PlayerActionShotLeft::Build() {
 	SetName("actionShotLeft");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

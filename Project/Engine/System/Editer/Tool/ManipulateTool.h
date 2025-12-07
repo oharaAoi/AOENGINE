@@ -8,6 +8,8 @@ enum class UseManipulate {
 	Translate,
 };
 
+namespace AOENGINE {
+
 /// <summary>
 /// gizumoTool
 /// </summary>
@@ -40,4 +42,4 @@ public:
 	static bool isActive_;
 
 };
-
+}

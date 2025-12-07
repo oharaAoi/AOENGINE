@@ -22,7 +22,7 @@ public:
 		functionChangeState_ = []() {};
 
 		std::string machineName = pOwner->GetName() + "StateMachine";
-		EditorWindows::AddObjectWindow(this, machineName);
+		AOENGINE::EditorWindows::AddObjectWindow(this, machineName);
 	}
 
 	/// <summary>

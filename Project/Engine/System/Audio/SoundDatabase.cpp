@@ -1,6 +1,8 @@
 #include "SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 SoundDatabase::~SoundDatabase() {
 	for (auto& pair : audioLoadData_) {
 		delete[] pair.second.pBuffer; 

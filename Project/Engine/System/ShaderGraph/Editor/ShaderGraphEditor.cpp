@@ -39,7 +39,7 @@ void ShaderGraphEditor::Update() {
 void ShaderGraphEditor::Edit() {
 	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
-			EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
+			AOENGINE::EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
 		}
 
 		if (graphPath_ != "") {

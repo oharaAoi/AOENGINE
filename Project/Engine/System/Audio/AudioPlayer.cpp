@@ -2,6 +2,8 @@
 #include "Engine/Engine.h"
 #include "Engine/System/Audio/SoundDatabase.h"
 
+using namespace AOENGINE;
+
 AudioPlayer::AudioPlayer() {
 }
 

@@ -38,6 +38,8 @@ enum InputDevice {
 	Gamepad
 };
 
+namespace AOENGINE {
+
 struct ControllerVibration {
 	float leftStrength = 0.0f;
 	float rightStrength = 0.0f;
@@ -78,7 +80,7 @@ public:
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static  Input* GetInstance();
+	static  AOENGINE::Input* GetInstance();
 
 	static BYTE GetKey(uint8_t keyNum) { return key_[keyNum]; }
 
@@ -204,3 +206,4 @@ private:
 
 	static ControllerVibration vibrations_;
 };
+}

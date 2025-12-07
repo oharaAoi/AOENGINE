@@ -154,7 +154,7 @@ void Boss::Init() {
 
 	phase_ = BossPhase::First;
 
-	EditorWindows::AddObjectWindow(this, "Boss");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "Boss");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ void Boss::Update() {
 
 #ifdef _DEBUG
 	// treeの実行開始
-	if (Input::IsTriggerKey(DIK_M)) {
+	if (AOENGINE::Input::IsTriggerKey(DIK_M)) {
 		behaviorTree_->SetExecute(true);
 	}
 

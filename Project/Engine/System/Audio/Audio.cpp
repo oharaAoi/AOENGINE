@@ -1,5 +1,7 @@
 #include "Audio.h"
 
+using namespace AOENGINE;
+
 float Audio::masterVolume_ = 0.5f;
 
 Audio::~Audio() {

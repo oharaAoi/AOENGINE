@@ -32,7 +32,7 @@ void TutorialMissionGauge::Init() {
 
 	alphaAnimation_.Init(1.0f, 0.0f, 1.0f, (int)EasingType::None::Liner, LoopType::Stop);
 
-	EditorWindows::AddObjectWindow(this, "TutorialMissionGauge");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "TutorialMissionGauge");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

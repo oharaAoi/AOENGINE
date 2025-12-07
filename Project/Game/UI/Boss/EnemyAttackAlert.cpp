@@ -31,7 +31,7 @@ void EnemyAttackAlert::Init(AttackAlertDirection _dir) {
 		break;
 	}
 
-	AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
+	AOENGINE::AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ void EnemyAttackAlert::Alert() {
 		blinkingCount_++;
 
 		if (isDraw_) {
-			AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
+			AOENGINE::AudioPlayer::SinglShotPlay("attackAlertSE.mp3", 0.6f);
 		}
 	}
 }

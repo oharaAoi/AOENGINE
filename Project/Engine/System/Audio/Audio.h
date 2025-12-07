@@ -16,6 +16,8 @@
 #pragma comment(lib, "Mfreadwrite.lib")
 #pragma comment(lib, "mfuuid.lib")
 
+namespace AOENGINE {
+
 // チャンクヘッダ
 struct ChunkHeader {
 	char id[4];		// チャンク毎のID
@@ -164,3 +166,4 @@ private:
 	static float masterVolume_;
 };
 
+}

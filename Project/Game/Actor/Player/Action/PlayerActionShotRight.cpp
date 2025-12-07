@@ -24,7 +24,7 @@ void PlayerActionShotRight::Parameter::Debug_Gui() {
 
 void PlayerActionShotRight::Build() {
 	SetName("actionShotRight");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

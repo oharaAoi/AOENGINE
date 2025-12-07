@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
-#include <utility>
+#include <string>
 #include "Engine/System/Editer/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
@@ -11,6 +11,8 @@
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/System/Editer/Tool/ManipulateTool.h"
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
+
+namespace AOENGINE {
 
 /// <summary>
 /// 編集画面の表示を管理する
@@ -115,11 +117,11 @@ private:
 	// ----------------------
 	// ↓ 編集項目
 	// ----------------------
-	std::unique_ptr<GameObjectWindow> gameObjectWindow_;
+	std::unique_ptr<AOENGINE::GameObjectWindow> gameObjectWindow_;
 
 	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
 
-	std::unique_ptr<ManipulateTool> manipulateTool_;
+	std::unique_ptr<AOENGINE::ManipulateTool> manipulateTool_;
 
 	std::unique_ptr<ShaderGraphEditor> shaderGraphEditor_;
 
@@ -139,3 +141,4 @@ private:
 	bool gridDraw_;
 	bool isSkip_;
 };
+}

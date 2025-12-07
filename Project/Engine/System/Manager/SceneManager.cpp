@@ -36,19 +36,19 @@ void SceneManager::Update() {
 	if (reset_) {
 		reset_ = false;
 
-		EditorWindows::GetInstance()->Reset();
+		AOENGINE::EditorWindows::GetInstance()->Reset();
 
 		AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
-		EditorWindows::AddObjectWindow(postProcess, "PostProcess");
+		AOENGINE::EditorWindows::AddObjectWindow(postProcess, "PostProcess");
 
 		AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
 		lightGroup->GetDirectionalLight()->Reset();
-		EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
+		AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
 		AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
-		EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+		AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
-		auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+		auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
 		window = {};
 
 		systemManager_->Init();
@@ -104,20 +104,20 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_ = std::move(nextScene_);
 
 #ifdef _DEBUG
-	EditorWindows::GetInstance()->Reset();
+	AOENGINE::EditorWindows::GetInstance()->Reset();
 #endif // _DEBUG
 
 	AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
-	EditorWindows::AddObjectWindow(postProcess, "Post Process");
+	AOENGINE::EditorWindows::AddObjectWindow(postProcess, "Post Process");
 
 	AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
 	lightGroup->GetDirectionalLight()->Reset();
-	EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
+	AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
 
 	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
-	EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+	AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
-	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
 	window = {};
 
 	systemManager_->Init();
@@ -125,11 +125,11 @@ void SceneManager::SetChange(const SceneType& type) {
 }
 
 void SceneManager::Free() {
-	EditorWindows::GetInstance()->Reset();
+	AOENGINE::EditorWindows::GetInstance()->Reset();
 	ParticleManager* cpuManager = ParticleManager::GetInstance();
 	GpuParticleManager* gpuManager = GpuParticleManager::GetInstance();
 
-	auto& window = EditorWindows::GetInstance()->GetWindowUpdate();
+	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
 	window = {};
 
 	gpuManager->Finalize();
@@ -140,7 +140,7 @@ void SceneManager::Free() {
 }
 
 bool SceneManager::CheckReset() {
-	if (EditorWindows::GetInstance()->GetSceneReset()) {
+	if (AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
 		return true;
 	}
 	return false;

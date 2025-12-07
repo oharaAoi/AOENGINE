@@ -8,7 +8,7 @@
 
 void PlayerActionRightShoulder::Build() {
 	SetName("ActionRightShoulder");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 	pWeapon_ = dynamic_cast<ShoulderMissile*>(pOwner_->GetWeapon(PlayerWeapon::Right_Shoulder));
 }
 

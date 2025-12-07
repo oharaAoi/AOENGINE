@@ -35,7 +35,7 @@ void GameModeGuide::Init() {
 	isSelectCoolTime_ = false;
 	timer_ = 0.0f;
 
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ void GameModeGuide::Open() {
 bool GameModeGuide::Decide() {
 	if (!isOpen_) { return false; }
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
 		return true;
 	}
 	return false;
@@ -95,12 +95,12 @@ bool GameModeGuide::Decide() {
 bool GameModeGuide::Select() {
 	// 選択する
 	bool isSelect = false;
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DpadUp) || Input::GetInstance()->GetLeftJoyStick(.5f).y > 0.0f) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::DpadUp) || AOENGINE::Input::GetInstance()->GetLeftJoyStick(.5f).y > 0.0f) {
 		selectModeIndex_++;
 		isSelect = true;
 	}
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::DpadDown) || Input::GetInstance()->GetLeftJoyStick(.5f).y < 0.0f) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::DpadDown) || AOENGINE::Input::GetInstance()->GetLeftJoyStick(.5f).y < 0.0f) {
 		selectModeIndex_--;
 		isSelect = true;
 	}

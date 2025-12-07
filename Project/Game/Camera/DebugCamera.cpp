@@ -25,7 +25,7 @@ void DebugCamera::Init() {
 
 	isActive_ = false;
 
-	EditorWindows::AddObjectWindow(this, "debugCamera");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "debugCamera");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,31 +81,31 @@ void DebugCamera::TransitionMove() {
 
 	moveDirection_ = Math::Vector3();
 
-	if (Input::IsPressKey(DIK_A)) {
+	if (AOENGINE::Input::IsPressKey(DIK_A)) {
 		moveDirection_ -= moveRotate_.MakeRight() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_D)) {
+	if (AOENGINE::Input::IsPressKey(DIK_D)) {
 		moveDirection_ += moveRotate_.MakeRight() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_W)) {
+	if (AOENGINE::Input::IsPressKey(DIK_W)) {
 		moveDirection_ += moveRotate_.MakeForward() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_S)) {
+	if (AOENGINE::Input::IsPressKey(DIK_S)) {
 		moveDirection_ -= moveRotate_.MakeForward() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_Q)) {
+	if (AOENGINE::Input::IsPressKey(DIK_Q)) {
 		moveDirection_ += moveRotate_.MakeUp() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_E)) {
+	if (AOENGINE::Input::IsPressKey(DIK_E)) {
 		moveDirection_ -= moveRotate_.MakeUp() * moveSpeed_;
 	}
 
-	if (Input::IsPressKey(DIK_LSHIFT)) {
+	if (AOENGINE::Input::IsPressKey(DIK_LSHIFT)) {
 		moveSpeed_ = moveBaseSpeed_ * 2.0f;
 	} else {
 		moveSpeed_ = moveBaseSpeed_;
@@ -119,9 +119,9 @@ void DebugCamera::TransitionMove() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::RotateMove() {
-	if (Input::IsPressMouse(1)) {
+	if (AOENGINE::Input::IsPressMouse(1)) {
 
-		Math::Vector2 dire = Input::GetMousePosition() - preMousePos_;
+		Math::Vector2 dire = AOENGINE::Input::GetMousePosition() - preMousePos_;
 
 		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
 		yaw_ += dire.x * sensitivity_ * kCameraDeltaTime_;
@@ -140,5 +140,5 @@ void DebugCamera::RotateMove() {
 		pitch_ = 0;
 	}
 
-	preMousePos_ = Input::GetMousePosition();
+	preMousePos_ = AOENGINE::Input::GetMousePosition();
 }

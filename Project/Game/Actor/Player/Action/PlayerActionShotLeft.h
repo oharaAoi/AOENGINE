@@ -84,7 +84,7 @@ private:
 	float notShotTimer_ = 0.0f;
 	bool isFinish_ = true;
 
-	Input* pInput_;
+	AOENGINE::Input* pInput_;
 	ICameraAnimation* pCameraAnimation_ = nullptr;
 	BaseWeapon* pWeapon_ = nullptr;
 

@@ -35,7 +35,7 @@ void BaseBehaviorNode::Init() {
 void BaseBehaviorNode::Update() {
 	// 選択されているなら削除を可能にする
 	if (isSelect_) {
-		if (Input::GetInstance()->GetKey(DIK_DELETE)) {
+		if (AOENGINE::Input::GetInstance()->GetKey(DIK_DELETE)) {
 			if (type_ != NodeType::Root) {
 				isDelete_ = true;
 			}

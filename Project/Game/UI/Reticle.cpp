@@ -22,11 +22,11 @@ void Reticle::Init() {
 void Reticle::Update(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat) {
 	reticle_->Update();
 
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {
 		LockOn();
 	}
 
-	if (Input::GetInstance()->GetKey(DIK_L)) {
+	if (AOENGINE::Input::GetInstance()->GetKey(DIK_L)) {
 		LockOn();
 	}
 

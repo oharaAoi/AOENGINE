@@ -4,6 +4,8 @@
 #include <string>
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GameObjectをまとめたwindow
 /// </summary>
@@ -32,3 +34,4 @@ private:
 
 };
 
+}

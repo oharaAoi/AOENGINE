@@ -289,7 +289,7 @@ void BehaviorTreeEditor::UnConnect(std::list<std::shared_ptr<BaseBehaviorNode>>&
 		while (ax::NodeEditor::QueryDeletedLink(&deletedLinkId)) {
 
 			// Deleteキーが押されたときのみ削除
-			if (Input::GetInstance()->GetKey(DIK_DELETE)) {
+			if (AOENGINE::Input::GetInstance()->GetKey(DIK_DELETE)) {
 
 				auto it = std::find_if(_link.begin(), _link.end(), [&](const Link& link) {
 					return link.id == deletedLinkId;

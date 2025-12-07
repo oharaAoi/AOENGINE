@@ -12,7 +12,7 @@ void TitleUIs::Init() {
 	gameTitle_->SetTranslate(Math::Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f));
 	
 	AddChild(gameTitle_);
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

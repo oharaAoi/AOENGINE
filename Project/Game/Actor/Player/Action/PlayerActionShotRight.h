@@ -66,7 +66,7 @@ private:
 	float notShotTime_ = 1.0f;	// 弾を放っていない時間を計測するよう
 	float notShotTimer_ = 0.0f;
 
-	Input* pInput_;
+	AOENGINE::Input* pInput_;
 
 	Parameter param_;
 

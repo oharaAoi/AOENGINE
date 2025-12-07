@@ -110,7 +110,7 @@ void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descripto
 	AddEffect(PostEffectType::Grayscale);
 	AddEffect(PostEffectType::ToonMap);
 
-	EditorWindows::AddObjectWindow(this, "Post Process");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "Post Process");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

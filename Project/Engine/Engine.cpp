@@ -23,7 +23,7 @@ namespace {
 #ifdef _DEBUG
 	ImGuiManager* imguiManager_ = nullptr;
 #endif
-	Input* input_ = nullptr;
+	AOENGINE::Input* input_ = nullptr;
 	TextureManager* textureManager_ = nullptr;
 
 	GraphicsContext* graphicsCxt_ = nullptr;
@@ -73,9 +73,9 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	// -------------------------------------------------
 	winApp_ = WinApp::GetInstance();
 	textureManager_ = TextureManager::GetInstance();
-	input_ = Input::GetInstance();
+	input_ = AOENGINE::Input::GetInstance();
 	render_ = AOENGINE::Render::GetInstance();
-	editorWindows_ = EditorWindows::GetInstance();
+	editorWindows_ = AOENGINE::EditorWindows::GetInstance();
 
 	winApp_->CreateGameWindow(_backBufferWidth, _backBufferHeight, _windowTitle);
 	

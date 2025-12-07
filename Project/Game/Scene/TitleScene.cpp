@@ -79,7 +79,7 @@ void TitlePushSpaceBehavior::Init() {
 
 void TitlePushSpaceBehavior::Update() {
 	if (!putButton_) {
-		if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
+		if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
 			putButton_ = true;
 			host_->GetFadePanel()->SetBlackOut();
 		}

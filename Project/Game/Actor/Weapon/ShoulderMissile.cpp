@@ -55,7 +55,7 @@ void ShoulderMissile::Init() {
 	isReload_ = false;
 	coolTime_ = 5;
 
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -117,5 +117,5 @@ void ShoulderMissile::Shot() {
 	fireCount_++;
 
 	// 音を鳴らす
-	AudioPlayer::SinglShotPlay("missileShot.mp3", weaponParam_.shotSeVolum);
+	AOENGINE::AudioPlayer::SinglShotPlay("missileShot.mp3", weaponParam_.shotSeVolum);
 }

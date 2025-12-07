@@ -26,7 +26,7 @@ void PlayerActionDeployArmor::Parameter::Debug_Gui() {
 
 void PlayerActionDeployArmor::Build() {
 	SetName("ActionDeployArmor");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 
 	parameter_.SetGroupName(pManager_->GetName());
 	parameter_.Load();

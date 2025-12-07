@@ -39,7 +39,7 @@ private:
 
 private:
 
-	Input* pInput_ = nullptr;
+	AOENGINE::Input* pInput_ = nullptr;
 	LaserRifle* pWeapon_ = nullptr;
 
 	bool isFinish_ = false;

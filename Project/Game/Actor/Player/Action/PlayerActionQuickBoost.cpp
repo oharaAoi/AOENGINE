@@ -36,7 +36,7 @@ void PlayerActionQuickBoost::Parameter::Debug_Gui() {
 
 void PlayerActionQuickBoost::Build() {
 	SetName("actionQuickBoost");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 
 	boostParticle_ = ParticleManager::GetInstance()->CrateParticle("QuickBoost");

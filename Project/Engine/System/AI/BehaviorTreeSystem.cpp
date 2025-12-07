@@ -23,7 +23,7 @@ void BehaviorTreeSystem::Update() {
 			tree->Edit();
 			// inspectorの表示
 			auto t = tree.get();
-			auto& fuc = EditorWindows::GetInstance()->GetWindowUpdate();
+			auto& fuc = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
 
 			fuc = [t]() {
 				t->EditSelect();

@@ -176,7 +176,7 @@ void Player::Init() {
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
 #ifdef _DEBUG
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
 
 }
@@ -350,7 +350,7 @@ void Player::Landing() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::IsBoostMode() {
-	if (Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonB)) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonB)) {
 		jet_->SetIsBoostMode();
 	}
 }

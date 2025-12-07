@@ -114,7 +114,7 @@ void FollowCamera::Init() {
 	grayscale_->SetIsEnable(true);
 	vignette_->SetIsEnable(true);
 
-	Input::SetNotAccepted(true);
+	AOENGINE::Input::SetNotAccepted(true);
 
 	animationMap_["shotAnimation"] = std::make_unique<CameraAnimationShot>();
 	animationMap_["boostAnimation"] = std::make_unique<CameraAnimationBoost>();
@@ -128,7 +128,7 @@ void FollowCamera::Init() {
 	velocity_ = CVector3::ZERO;
 
 #ifdef _DEBUG
-	EditorWindows::AddObjectWindow(this, "FollowCamera");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "FollowCamera");
 #endif // _DEBUG
 }
 
@@ -181,7 +181,7 @@ void FollowCamera::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::InputStick() {
-	stick_ = Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
+	stick_ = AOENGINE::Input::GetInstance()->GetRightJoyStick(kDeadZone_).Normalize();
 	if (std::abs(stick_.x) > kDeadZone_) {
 		angle_.x += stick_.x * followCamera_.rotateDelta * AOENGINE::GameTimer::DeltaTime();
 	}
@@ -267,7 +267,7 @@ void FollowCamera::FirstCameraMove() {
 		vignette_->SetIsEnable(false);
 		isAnimationFinish_ = true;
 
-		Input::SetNotAccepted(false);
+		AOENGINE::Input::SetNotAccepted(false);
 	}
 }
 

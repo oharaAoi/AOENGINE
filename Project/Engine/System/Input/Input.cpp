@@ -1,6 +1,8 @@
 #include "Input.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AOENGINE;
+
 BYTE Input::key_[256];
 BYTE Input::preKey_[256];
 
@@ -18,7 +20,7 @@ bool Input::notAccepted_ = false;
 
 ControllerVibration Input::vibrations_;
 
-Input* Input::GetInstance() {
+AOENGINE::Input* AOENGINE::Input::GetInstance() {
 	static Input instance;
 	return &instance;
 }

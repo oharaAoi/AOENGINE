@@ -58,7 +58,7 @@ void PlayerActionMove::OnStart() {
 	pOwner_->SetIsMoving(true);
 	isTurnAround_ = false;
 
-	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+	inputStick_ = AOENGINE::Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 	Math::Vector3 dire = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ inputStick_.x, 0.0f, inputStick_.y });
 	if (pOwner_->GetIsBoostMode()) {
 		accel_ = dire * param_.boostSpeed;
@@ -189,7 +189,7 @@ bool PlayerActionMove::IsInput() {
 		return false;
 	}
 
-	Math::Vector2 current = Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
+	Math::Vector2 current = AOENGINE::Input::GetInstance()->GetLeftJoyStick(kDeadZone_);
 	if (current.x != 0.0f || current.y != 0.0f) {
 		return true;
 	}
@@ -202,7 +202,7 @@ bool PlayerActionMove::IsInput() {
 
 
 void PlayerActionMove::Move() {
-	inputStick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+	inputStick_ = AOENGINE::Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 
 	// ----------------------
 	// 移動スピード設定

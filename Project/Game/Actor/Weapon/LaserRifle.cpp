@@ -33,7 +33,7 @@ void LaserRifle::Init() {
 	object_->SetObject("gun.obj");
 	transform_->SetTranslate(weaponParam_.pos);
 
-	EditorWindows::AddObjectWindow(this, GetName());
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

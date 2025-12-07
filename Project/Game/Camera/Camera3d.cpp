@@ -21,7 +21,7 @@ void Camera3d::Init() {
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
 
-	EditorWindows::AddObjectWindow(this, "camera3d");
+	AOENGINE::EditorWindows::AddObjectWindow(this, "camera3d");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

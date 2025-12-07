@@ -35,7 +35,7 @@ void PlayerActionBoost::Parameter::Debug_Gui() {
 
 void PlayerActionBoost::Build() {
 	SetName("ActionBoost");
-	pInput_ = Input::GetInstance();
+	pInput_ = AOENGINE::Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 	pRigidbody_ = pOwner_->GetGameObject()->GetRigidbody();
 
@@ -187,7 +187,7 @@ void PlayerActionBoost::BoostStop() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionBoost::CheckStop() {
-	stick_ = Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
+	stick_ = AOENGINE::Input::GetInstance()->GetLeftJoyStick(kDeadZone_).Normalize();
 	if (stick_.y < -param_.stopThreshold) {
 		return true;
 	}
