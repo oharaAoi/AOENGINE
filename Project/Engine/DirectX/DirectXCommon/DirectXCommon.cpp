@@ -138,7 +138,7 @@ void DirectXCommon::SetUseGPU() {
 		// ソフトウェアのアダプタでなければ採用
 		if (!(adapterDesc.Flags & DXGI_ADAPTER_FLAG3_SOFTWARE)) {
 			// 採用したアダプタの情報の情報をログに出力.wstrinfgの方
-			Logger::Log(ConvertString(std::format(L"Use Adapater:{}\n", adapterDesc.Description)));
+			AOENGINE::Logger::Log(ConvertString(std::format(L"Use Adapater:{}\n", adapterDesc.Description)));
 			break;
 		}
 

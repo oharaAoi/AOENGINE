@@ -7,9 +7,11 @@
 #include <cassert>
 #include <iostream>
 
-std::string Logger::filePath_;
+using namespace AOENGINE;
 
-Logger::~Logger() {
+std::string AOENGINE::Logger::filePath_;
+
+AOENGINE::Logger::~Logger() {
 	std::ofstream logStream(filePath_, std::ios::app);
 	logStream << "FINISHED LOG" << std::endl;
 }
@@ -18,7 +20,7 @@ Logger::~Logger() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Logger::Init() {
+void AOENGINE::Logger::Init() {
 	try {
 		std::filesystem::create_directories("./Project/Logs");
 	}
@@ -52,20 +54,20 @@ void Logger::Init() {
 // ↓ Log出力
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Logger::Log(const std::string& message) {
+void AOENGINE::Logger::Log(const std::string& message) {
 	std::ofstream logStream(filePath_, std::ios::app);
 	logStream << message << std::endl;
 	OutputDebugStringA(message.c_str());
 }
 
-void Logger::AssertLog(const std::string& message) {
+void AOENGINE::Logger::AssertLog(const std::string& message) {
 	std::ofstream logStream(filePath_, std::ios::app);
 	logStream << message << std::endl;
 	OutputDebugStringA(message.c_str());
 	assert(message.c_str());
 }
 
-void Logger::CommentLog(const std::string& message) {
+void AOENGINE::Logger::CommentLog(const std::string& message) {
 	Log("++++++++++++++++++++++++++++\n");
 	Log(message + "\n");
 	Log("++++++++++++++++++++++++++++\n");
@@ -75,7 +77,7 @@ void Logger::CommentLog(const std::string& message) {
 // ↓ Logがたくさん残らないように数を制限する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Logger::DeleteOldLogFile(size_t max) {
+void AOENGINE::Logger::DeleteOldLogFile(size_t max) {
     std::vector<std::filesystem::directory_entry> files;
 
     // フォルダ内の通常ファイルを収集

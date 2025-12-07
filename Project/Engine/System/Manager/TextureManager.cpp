@@ -32,7 +32,7 @@ void TextureManager::Finalize() {
 }
 
 void TextureManager::LoadStack() {
-	Logger::CommentLog("Loading Textures");
+	AOENGINE::Logger::CommentLog("Loading Textures");
 	while (!loadStack_.empty()) {
 		auto texturePath = loadStack_.top();
 		LoadTextureFile(texturePath.directory, texturePath.fileName);
@@ -57,7 +57,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// 配列に格納しておく
 	fileNames_.push_back(filePath);
 
-	Logger::Log("[Load][Texture] :" + filePath);
+	AOENGINE::Logger::Log("[Load][Texture] :" + filePath);
 	TextureData data{};
 
 	DirectX::ScratchImage mipImage = LoadMipImage(directoryPath, filePath);
@@ -101,7 +101,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// 生成
 	device_->CreateShaderResourceView(data.resource_->GetCompResource().Get(), &srvDesc, data.resource_->GetSRV().handleCPU);
 	textureData_[filePath] = std::move(data);
-	Logger::Log(" --- success!\n");
+	AOENGINE::Logger::Log(" --- success!\n");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

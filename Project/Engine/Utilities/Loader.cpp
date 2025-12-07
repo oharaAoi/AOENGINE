@@ -356,7 +356,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 		throw std::runtime_error("Failed to load animations or no animations present");
 	}
 
-	Logger::Log("[Load Animation] :" + animationFile + "]\n");
+	AOENGINE::Logger::Log("[Load Animation] :" + animationFile + "]\n");
 
 	std::unordered_map<std::string, Animation> animationMap{};
 
@@ -431,7 +431,7 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 		animationMap.try_emplace(animationName, animationData);
 	}
 
-	Logger::Log("success\n");
+	AOENGINE::Logger::Log("success\n");
 
 	return animationMap;
 }

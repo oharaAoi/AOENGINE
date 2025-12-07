@@ -27,7 +27,7 @@ AOENGINE::Model::~Model() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
-	Logger::Log("[Load][Model] :" + fileName);
+	AOENGINE::Logger::Log("[Load][Model] :" + fileName);
 	//LoadObj(directorPath, fileName, device);
 
 	if (!AOENGINE::MeshManager::GetInstance()->ExistMesh(fileName)) {
@@ -42,7 +42,7 @@ void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath
 
 	rootNode_ = LoadNode(directorPath, fileName);
 
-	Logger::Log(" --- success!\n");
+	AOENGINE::Logger::Log(" --- success!\n");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

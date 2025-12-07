@@ -134,7 +134,7 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const
 				return result;
 			} else {
 				// 型が違っていた場合
-				Logger::AssertLog("Don`t Find ResultNode");
+				AOENGINE::Logger::AssertLog("Don`t Find ResultNode");
 			}
 		}
 	}

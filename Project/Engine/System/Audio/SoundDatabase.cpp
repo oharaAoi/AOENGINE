@@ -21,11 +21,11 @@ void SoundDatabase::Init() {
 
 void SoundDatabase::AddMap(const std::string& directoryPath, const std::string& fileName) {
 	std::string name = directoryPath + fileName;
-	Logger::Log("[Load][Audio] :" + fileName);
+	AOENGINE::Logger::Log("[Load][Audio] :" + fileName);
 	if (auto it = audioLoadData_.find(fileName); it != audioLoadData_.end()) {
 		return;
 	}
-	Logger::Log(" --- success!\n");
+	AOENGINE::Logger::Log(" --- success!\n");
 
 	audioLoadData_.try_emplace(fileName, Engine::GetAudio()->SoundLoad(name.c_str()));
 }

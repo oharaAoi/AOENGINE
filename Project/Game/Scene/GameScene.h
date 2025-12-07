@@ -48,6 +48,6 @@ private:
 	std::unique_ptr<CanvasUI> canvas_;
 	std::unique_ptr<FadePanel> fadePanel_;
 
-	GpuParticleEmitter* emitter_;
-	GpuParticleField* field_;
+	AOENGINE::GpuParticleEmitter* emitter_;
+	AOENGINE::GpuParticleField* field_;
 };

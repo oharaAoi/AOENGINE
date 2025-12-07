@@ -15,7 +15,7 @@ void Floor::Init() {
 	AOENGINE::SceneRenderer::GetInstance()->SetRenderingQueue("ground", -100);
 	transform_ = floor_->GetTransform();
 	
-	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("ground");
+	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("ground");
 	floor_->SetEnableShadow(false);
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());

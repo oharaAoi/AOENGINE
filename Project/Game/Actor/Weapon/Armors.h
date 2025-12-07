@@ -79,7 +79,7 @@ private:
 
 	bool isDeploy_;
 
-	GpuParticleEmitter* chargeEmitter_;
+	AOENGINE::GpuParticleEmitter* chargeEmitter_;
 
 };
 

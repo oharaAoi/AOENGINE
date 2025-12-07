@@ -33,7 +33,7 @@ void ModelManager::LoadModel(const std::string& directoryPath, const std::string
 
 AOENGINE::Model* ModelManager::GetModel(const std::string& modelName) {
 	if (auto it = modelMap_.find(modelName); it == modelMap_.end()) {
-		Logger::Log(std::string("Not Found : " + modelName + "\n"));
+		AOENGINE::Logger::Log(std::string("Not Found : " + modelName + "\n"));
 		assert(false && "Model not found!");
 	}
 
@@ -42,7 +42,7 @@ AOENGINE::Model* ModelManager::GetModel(const std::string& modelName) {
 
 std::string AOENGINE::ModelManager::GetModelPath(const std::string& modelName) {
 	if (auto it = modelPathMap_.find(modelName); it == modelPathMap_.end()) {
-		Logger::Log(std::string("Not Found Path: " + modelName + "\n"));
+		AOENGINE::Logger::Log(std::string("Not Found Path: " + modelName + "\n"));
 		assert(false && "Model not found Path!");
 	}
 

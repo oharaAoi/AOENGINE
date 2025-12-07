@@ -92,8 +92,8 @@ void LaserBullet::Init() {
 	shotEffect_ = manager->CrateParticle("laserShot");
 	shotParticle_ = manager->CrateParticle("laserParticle");
 
-	fadeTimer_ = Timer(param_.fadeTime);
-	lifeTimer_ = Timer(param_.lifeTime);
+	fadeTimer_ = AOENGINE::Timer(param_.fadeTime);
+	lifeTimer_ = AOENGINE::Timer(param_.lifeTime);
 
 	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
 	//AOENGINE::EditorWindows::AddObjectWindow(this, "Laser");
@@ -134,7 +134,7 @@ void LaserBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _targetP
 	isShot_ = true;
 	isFade_ = false;
 
-	fadeTimer_ = Timer(param_.fadeTime);
+	fadeTimer_ = AOENGINE::Timer(param_.fadeTime);
 
 	// 音を鳴らす
 	AOENGINE::AudioPlayer::SinglShotPlay("laser.mp3", param_.shotSeValue);

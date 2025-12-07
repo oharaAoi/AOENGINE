@@ -107,6 +107,6 @@ private:
 	// 2発目かどうか
 	bool isSecondPhase_ = false;
 
-	Timer secondPhaseTimer_;
+	AOENGINE::Timer secondPhaseTimer_;
 };
 

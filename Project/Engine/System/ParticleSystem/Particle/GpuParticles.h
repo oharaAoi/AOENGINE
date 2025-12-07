@@ -10,6 +10,8 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GpuParticleを行うクラス
 /// </summary>
@@ -87,7 +89,7 @@ public:
 public:
 
 	void SetViewProjection(const Math::Matrix4x4& viewProjection);
-	
+
 private:
 
 	uint32_t kInstanceNum_;
@@ -108,3 +110,4 @@ private:
 	std::unordered_map<std::string, ModelMaterialData> materialData_;
 };
 
+}

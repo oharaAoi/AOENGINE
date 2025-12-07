@@ -1,5 +1,7 @@
 #pragma once
 
+namespace AOENGINE {
+
 /// <summary>
 /// 時間をカウントしたりする際に使用する構造体
 /// </summary>
@@ -19,3 +21,4 @@ struct Timer {
 	float t_ = 0;
 };
 
+}

@@ -10,8 +10,8 @@ Camera2d::~Camera2d() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Init() {
-	const float windowWidth = static_cast<float>(WinApp::sWindowWidth);
-	const float windowHeight = static_cast<float>(WinApp::sWindowHeight);
+	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sWindowWidth);
+	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sWindowHeight);
 
 	translate_ = CVector3::ZERO;
 	projectionMatrix_ = Math::Matrix4x4::MakeOrthograhic(0.0f, 0.0f, windowWidth, windowHeight, near_, far_);
@@ -38,8 +38,8 @@ void Camera2d::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Debug_Gui() {
-	const uint32_t windowWidth = WinApp::sWindowWidth;
-	const uint32_t windowHeight = WinApp::sWindowHeight;
+	const uint32_t windowWidth = AOENGINE::WinApp::sWindowWidth;
+	const uint32_t windowHeight = AOENGINE::WinApp::sWindowHeight;
 
 	ImGui::DragFloat("near", &near_, 0.1f);
 	ImGui::DragFloat("far", &far_, 0.1f);

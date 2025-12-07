@@ -3,6 +3,8 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// GpuParticleが影響を受けるFieldクラス
 /// </summary>
@@ -67,3 +69,4 @@ private:
 	uint32_t kInstanceNum_;
 };
 
+}

@@ -61,7 +61,7 @@ private:
 
 	Parameter param_;
 
-	Timer timer_;
+	AOENGINE::Timer timer_;
 
 	Math::Vector3 velocity_ = CVector3::ZERO;
 	Math::Vector3 acceleration_ = CVector3::ZERO;

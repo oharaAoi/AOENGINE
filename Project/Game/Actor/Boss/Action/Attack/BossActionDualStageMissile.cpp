@@ -79,7 +79,7 @@ void BossActionDualStageMissile::Init() {
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
 
-	secondPhaseTimer_ = Timer(param_.secondPhaseTime);
+	secondPhaseTimer_ = AOENGINE::Timer(param_.secondPhaseTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

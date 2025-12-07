@@ -86,7 +86,7 @@ void Player::Init() {
 	initParam_.Load();
 	param_ = initParam_;
 
-	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Player");
+	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("Player");
 
 	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
 	transform_ = object_->GetTransform();

@@ -95,7 +95,7 @@ void BehaviorTreeNodeFactory::CreateTree(const std::string& nodeName, std::list<
 										 std::vector<Link>& _link, BaseBehaviorNode* _root, Blackboard* _worldState, 
 										 std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
-	Logger::Log("[Create][BehaviorTree] : " + nodeName);
+	AOENGINE::Logger::Log("[Create][BehaviorTree] : " + nodeName);
 	_nodeList.clear();
 	if (_root != nullptr) {
 		_root->ClearChild();
@@ -105,5 +105,5 @@ void BehaviorTreeNodeFactory::CreateTree(const std::string& nodeName, std::list<
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	_root = _nodeList.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, _nodeList, _link, _worldState, _canTaskMap, _goalArray)).get();
 
-	Logger::Log("--- success!");
+	AOENGINE::Logger::Log("--- success!");
 }

@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+namespace AOENGINE {
+
 /// <summary>
 /// BehaviorTreeのLogを作るクラス
 /// </summary>
@@ -42,3 +44,4 @@ private:
 
 };
 
+}

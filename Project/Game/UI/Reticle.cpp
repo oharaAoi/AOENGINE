@@ -7,7 +7,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Reticle::Init() {
-	defaultPosition_ = Math::Vector2((float)WinApp::sWindowWidth * 0.5f, (float)WinApp::sWindowHeight * 0.5f);
+	defaultPosition_ = Math::Vector2((float)AOENGINE::WinApp::sWindowWidth * 0.5f, (float)AOENGINE::WinApp::sWindowHeight * 0.5f);
 
 	reticle_ = Engine::GetCanvas2d()->AddSprite("lockOffReticle.png", "reticle");
 	reticle_->SetTranslate(defaultPosition_);

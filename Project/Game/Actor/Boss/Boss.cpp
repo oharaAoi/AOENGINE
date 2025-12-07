@@ -69,7 +69,7 @@ void Boss::Parameter::Debug_Gui() {
 
 void Boss::Init() {
 	SetName("Boss");
-	SceneLoader::Objects object = SceneLoader::GetInstance()->GetObjects("Boss");
+	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("Boss");
 
 	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Boss");
 	transform_ = object_->GetTransform();

@@ -422,8 +422,8 @@ D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER _filter, D3D1
 const UINT Pipeline::GetRootSignatureIndex(const std::string& _name) const {
 	auto it = rootSignatureIndexMap_.find(_name);
 	if (it == rootSignatureIndexMap_.end()) {
-		Logger::Log("class : Pipeline");
-		Logger::AssertLog(_name + "が見つかりません");
+		AOENGINE::Logger::Log("class : Pipeline");
+		AOENGINE::Logger::AssertLog(_name + "が見つかりません");
 		return UINT_MAX; // 見つからないことを示す値
 	}
 	return it->second;

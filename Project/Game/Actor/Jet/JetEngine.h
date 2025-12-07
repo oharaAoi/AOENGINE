@@ -97,6 +97,6 @@ private:
 	JetEngineBurn* jetEngineBurn2_;
 
 	// moveによる炎のScale関連 ------------------------------------
-	Timer burnScaleUpTimer_;
+	AOENGINE::Timer burnScaleUpTimer_;
 	bool isStop_ = true;
 };

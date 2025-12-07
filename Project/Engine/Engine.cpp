@@ -147,7 +147,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	isFullScreen_ = false;
 	runGame_ = true;
 	
-	Logger::Log("Engine Initialize compulete!\n");
+	AOENGINE::Logger::Log("Engine Initialize compulete!\n");
 }
 
 

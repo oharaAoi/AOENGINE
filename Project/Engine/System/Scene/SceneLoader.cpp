@@ -6,6 +6,8 @@
 #include <thread>
 #include <filesystem>
 
+using namespace AOENGINE;
+
 SceneLoader* SceneLoader::GetInstance() {
 	static SceneLoader instance;
 	return &instance;
@@ -184,6 +186,6 @@ SceneLoader::Objects SceneLoader::GetObjects(const std::string& objName) const {
 		}
 	}
 	// 見つかりませんでしたのログを出す
-	Logger::Log("[" + objName + "]が見つかりませんでした");
+	AOENGINE::Logger::Log("[" + objName + "]が見つかりませんでした");
 	return Objects();
 }

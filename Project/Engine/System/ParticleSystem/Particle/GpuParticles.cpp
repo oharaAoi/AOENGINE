@@ -6,6 +6,8 @@
 #include <System/Manager/MeshManager.h>
 #include <System/Manager/ModelManager.h>
 
+using namespace AOENGINE;
+
 GpuParticles::GpuParticles() {}
 GpuParticles::~GpuParticles() {}
 

@@ -153,7 +153,7 @@ protected:
 
 	Blackboard* blackboard_;
 
-	Timer coolTimer_;
+	AOENGINE::Timer coolTimer_;
 	bool isCoolTime_ = false;
 
 	// -------------------------------------------------

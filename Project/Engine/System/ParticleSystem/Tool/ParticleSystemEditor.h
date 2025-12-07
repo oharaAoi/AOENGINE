@@ -11,6 +11,8 @@
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Particleを編集するEditor
 /// </summary>
@@ -62,7 +64,7 @@ public:
 private:		// member method
 
 #ifdef _DEBUG
-	
+
 	/// <summary>
 	/// Particleを更新する
 	/// </summary>
@@ -75,7 +77,7 @@ private:		// member method
 	/// </summary>
 	void Create();
 
-	GpuParticleEmitter* CreateOfGpu();
+	AOENGINE::GpuParticleEmitter* CreateOfGpu();
 
 	/// <summary>
 	/// リストに追加する
@@ -151,7 +153,7 @@ private:
 	std::unique_ptr<AOENGINE::GpuParticleRenderer> gpuParticleRenderer_;
 
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> cpuEmitterList_;
-	std::list<std::unique_ptr<GpuParticleEmitter>> gpuEmitterList_;
+	std::list<std::unique_ptr<AOENGINE::GpuParticleEmitter>> gpuEmitterList_;
 
 	std::unordered_map<std::string, ParticlesData> particlesMap_;
 
@@ -163,3 +165,4 @@ private:
 	std::string newParticleName_ = "new Particle";
 };
 
+}

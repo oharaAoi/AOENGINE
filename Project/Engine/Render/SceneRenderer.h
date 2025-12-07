@@ -87,7 +87,7 @@ public:
 	/// Objectを生成する
 	/// </summary>
 	/// <param name="loadData">: 生成データ</param>
-	void CreateObject(SceneLoader::LevelData* loadData);
+	void CreateObject(AOENGINE::SceneLoader::LevelData* loadData);
 
 	/// <summary>
 	/// 
@@ -146,9 +146,9 @@ public:
 			}
 		}
 
-		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-		Logger::Log("[" + _objName + "] not find");
-		Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		AOENGINE::Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+		AOENGINE::Logger::Log("[" + _objName + "] not find");
+		AOENGINE::Logger::Log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		return nullptr;
 	}
 

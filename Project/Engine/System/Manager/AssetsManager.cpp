@@ -22,11 +22,11 @@ void AssetsManager::Init() {
 	LoadTextures(kEngineAssets.textures);
 	LoadTextures(kGameAssets.textures);
 
-	Logger::CommentLog("Loading Models");
+	AOENGINE::Logger::CommentLog("Loading Models");
 	LoadModels(kEngineAssets.models);
 	LoadModels(kGameAssets.models);
 
-	Logger::CommentLog("Loading Sounds");
+	AOENGINE::Logger::CommentLog("Loading Sounds");
 	LoadSounds(kEngineAssets.sounds);
 	LoadSounds(kGameAssets.sounds);
 

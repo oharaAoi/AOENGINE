@@ -83,7 +83,7 @@ protected:
 
 	float weight_ = 0;
 
-	Timer waitTimer_;
+	AOENGINE::Timer waitTimer_;
 	
 	UtilityEvaluator evaluator_;
 

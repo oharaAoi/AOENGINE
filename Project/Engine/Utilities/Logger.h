@@ -2,6 +2,8 @@
 #include <string>
 #include "Engine/Utilities/Convert.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Logを出すクラス
 /// </summary>
@@ -47,3 +49,5 @@ private:
 	static std::string filePath_;
 
 };
+
+}

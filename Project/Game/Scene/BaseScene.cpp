@@ -14,7 +14,7 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 	collisionManager_ = std::make_unique<AOENGINE::CollisionManager>();
 	collisionManager_->Init();
 	
-	pSceneLoader_ = SceneLoader::GetInstance();
+	pSceneLoader_ = AOENGINE::SceneLoader::GetInstance();
 	pSceneLoader_->Init();
 	pSceneLoader_->Load(directory, fileName, extension);
 

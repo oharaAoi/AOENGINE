@@ -1,12 +1,11 @@
 #pragma once
 #include <string>
-#include <memory>
 #include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Lib/Math/Vector4.h"
-#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/GpuParticlesData.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+
+namespace AOENGINE {
 
 /// <summary>
 /// gpuParticleを射出するemitter
@@ -19,7 +18,7 @@ public:
 		float time;
 		float deltaTime;
 	};
-	
+
 public:
 
 	GpuParticleEmitter() = default;
@@ -61,7 +60,7 @@ protected:
 
 	void SetItem();
 
-protected :
+protected:
 
 	ID3D12Device* dxDevice_;
 	ID3D12GraphicsCommandList* commandList_;
@@ -79,7 +78,7 @@ protected :
 	ID3D12Resource* maxParticleResource_;
 
 	AOENGINE::GpuParticleEmitterItem emitterItem_;
-	
+
 	// parameter
 	bool isStop_ = false;
 	float emitAccumulator_;
@@ -94,3 +93,4 @@ protected :
 
 };
 
+}

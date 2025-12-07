@@ -102,8 +102,8 @@ private:
 
 	Math::Vector3 dire_;
 
-	Timer lifeTimer_;
-	Timer fadeTimer_;
+	AOENGINE::Timer lifeTimer_;
+	AOENGINE::Timer fadeTimer_;
 	AOENGINE::Color fadeColor_;
 
 	AOENGINE::BaseParticles* shotEffect_;

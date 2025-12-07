@@ -24,7 +24,7 @@ void PlayerDeadState::Parameter::Debug_Gui() {
 void PlayerDeadState::OnStart() {
 	param_.Load();
 
-	timer_ = Timer(param_.knockbackTime);
+	timer_ = AOENGINE::Timer(param_.knockbackTime);
 
 	pOwner_->GetActionManager()->SetIsActionStop(true);
 }

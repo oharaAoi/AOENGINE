@@ -77,13 +77,12 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	static AOENGINE::Pipeline* SetPipeline(PSOType type, const std::string& typeName);
+	static AOENGINE::Pipeline* SetPipelineCS(const std::string& jsonFile);
 
 	static AOENGINE::Pipeline* GetLastUsedPipeline();
 	static AOENGINE::Pipeline* GetLastUsedPipelineCS();
 
 	static void SetSkinning(AOENGINE::Skinning* skinning);
-
-	static AOENGINE::Pipeline* SetPipelineCS(const std::string& jsonFile);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
 	// Getter/Setter

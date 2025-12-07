@@ -41,30 +41,30 @@ public:
 	/// </summary>
 	/// <param name="particlesFile">: emitterのファイル名</param>
 	/// <returns></returns>
-	GpuParticleEmitter* CreateEmitter(const std::string& particlesFile);
+	AOENGINE::GpuParticleEmitter* CreateEmitter(const std::string& particlesFile);
 
 	/// <summary>
 	/// Fieldの作成
 	/// </summary>
 	/// <param name="particlesFile">: 影響を受けるファイル名</param>
 	/// <returns></returns>
-	GpuParticleField* CreateField(const std::string& particlesFile);
+	AOENGINE::GpuParticleField* CreateField(const std::string& particlesFile);
 
 	/// <summary>
 	/// Emitterの削除
 	/// </summary>
 	/// <param name="_emitter"></param>
-	void DeleteEmitter(GpuParticleEmitter* _emitter);
+	void DeleteEmitter(AOENGINE::GpuParticleEmitter* _emitter);
 
 private:
 
-	void AddEmitter(GpuParticleEmitter* _emitter);
+	void AddEmitter(AOENGINE::GpuParticleEmitter* _emitter);
 
 private:
 
 	std::unique_ptr<AOENGINE::GpuParticleRenderer> renderer_;
 
-	std::list<std::unique_ptr<GpuParticleEmitter>> emitterList_;
+	std::list<std::unique_ptr<AOENGINE::GpuParticleEmitter>> emitterList_;
 
 	std::list<std::unique_ptr<GpuParticleField>> fileds_;
 

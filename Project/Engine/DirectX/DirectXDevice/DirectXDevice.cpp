@@ -31,12 +31,12 @@ void DirectXDevice::Init(IDXGIAdapter4* _useAdapter) {
 		// 指定した機能レベルでデバイスが生成出来たか確認
 		if (SUCCEEDED(hr)) {
 			// 生成できたためログ出力を行ってループを抜ける
-			Logger::Log((std::format("FeatureLevel : {}\n", featureLevelString[levels])));
+			AOENGINE::Logger::Log((std::format("FeatureLevel : {}\n", featureLevelString[levels])));
 			break;
 		}
 	}
 
 	// デバイスの生成がうまく行かなかった時
 	assert(device_ != nullptr);
-	Logger::Log("complete create D3D12Device\n");
+	AOENGINE::Logger::Log("complete create D3D12Device\n");
 }

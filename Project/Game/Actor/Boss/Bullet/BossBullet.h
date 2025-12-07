@@ -40,7 +40,7 @@ private:
 
 	BossBulletType type_ = BossBulletType::Shot;
 
-	GpuParticleEmitter* trail_;
+	AOENGINE::GpuParticleEmitter* trail_;
 	float speed_;
 
 	float deadLength_ = 200.f;

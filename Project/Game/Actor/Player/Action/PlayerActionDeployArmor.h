@@ -71,7 +71,7 @@ private:
 
 	AOENGINE::Input* pInput_;
 
-	GpuParticleEmitter* chargeEmitter_;
+	AOENGINE::GpuParticleEmitter* chargeEmitter_;
 
 	Parameter parameter_;
 	

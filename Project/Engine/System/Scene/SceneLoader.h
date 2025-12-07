@@ -7,6 +7,7 @@
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
+namespace AOENGINE {
 
 /// <summary>
 /// Sceneを読み込みクラス
@@ -34,7 +35,7 @@ public:		// data
 		std::vector<ColliderData> collidersData;
 
 		bool isRendering_;
-		
+
 		std::list<Objects> children;
 
 	};
@@ -96,3 +97,4 @@ private:
 
 };
 
+}

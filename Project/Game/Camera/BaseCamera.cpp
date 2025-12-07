@@ -11,8 +11,8 @@ void BaseCamera::Finalize() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseCamera::Init() {
-	const float windowWidth = static_cast<float>(WinApp::sWindowWidth);
-	const float windowHeight = static_cast<float>(WinApp::sWindowHeight);
+	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sWindowWidth);
+	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sWindowHeight);
 
 	transform_.scale = Math::Vector3(1, 1, 1);
 	transform_.rotate = parameter_.rotate;
@@ -31,8 +31,8 @@ void BaseCamera::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseCamera::Update() {
-	const float windowWidth = static_cast<float>(WinApp::sWindowWidth);
-	const float windowHeight = static_cast<float>(WinApp::sWindowHeight);
+	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sWindowWidth);
+	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sWindowHeight);
 
 	cameraMatrix_ = transform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);

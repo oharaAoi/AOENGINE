@@ -6,6 +6,8 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif // _DEBUG
 
+using namespace AOENGINE;
+
 EffectSystemCamera::EffectSystemCamera() { Init(); }
 EffectSystemCamera::~EffectSystemCamera() {}
 

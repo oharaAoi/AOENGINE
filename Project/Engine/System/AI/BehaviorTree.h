@@ -123,7 +123,7 @@ private:
 	// ↓ loggerポインタ
 	// ----------------------
 
-	std::unique_ptr<BehaviorTreeLogger> logger_;
+	std::unique_ptr<AOENGINE::BehaviorTreeLogger> logger_;
 
 };
 

@@ -73,7 +73,7 @@ private :
 
 	float firstSpeedRaito_;		// 初期速度の割合
 	float targetSpeed_;			// 目標の速度
-	Timer accelTimer_ = Timer();
+	AOENGINE::Timer accelTimer_ = AOENGINE::Timer();
 
 	AOENGINE::BaseParticles* burn_;
 	AOENGINE::BaseParticles* smoke_;

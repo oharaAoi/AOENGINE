@@ -36,7 +36,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
+	void Init(AOENGINE::WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
 
 	/// <summary>
 	/// 色々な設定をする
@@ -123,7 +123,7 @@ private:
 
 	int32_t swapChainBufferCount_;
 
-	WinApp* winApp_ = nullptr;
+	AOENGINE::WinApp* winApp_ = nullptr;
 	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
 	DirectXCommands* dxCommands_ = nullptr;
 	ID3D12Device* device_ = nullptr;

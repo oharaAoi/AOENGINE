@@ -5,15 +5,17 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif
 
+namespace AOENGINE {
+
 /// <summary>
 /// ウィンドウズアプリケーション
 /// </summary>
-class WinApp{
+class WinApp {
 public: // 静的メンバ変数
 	// ウィンドウサイズ
 	static uint32_t sWindowWidth;	// 横幅
 	static uint32_t sWindowHeight;	// 縦幅
-	
+
 public: // 静的メンバ関数
 
 	/// <summary>
@@ -72,3 +74,4 @@ private: // メンバ変数
 	bool isFullscreen_;
 };
 
+}

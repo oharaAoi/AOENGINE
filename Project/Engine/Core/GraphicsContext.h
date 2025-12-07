@@ -33,7 +33,7 @@ public:
 	/// <param name="win">: winApp</param>
 	/// <param name="backBufferWidth">: 画面横幅</param>
 	/// <param name="backBufferHeight">: 画面縦幅</param>
-	void Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
+	void Init(AOENGINE::WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
 
 	/// <summary>
 	/// 終了処理

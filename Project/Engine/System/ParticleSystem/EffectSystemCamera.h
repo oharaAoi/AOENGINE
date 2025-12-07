@@ -3,6 +3,8 @@
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Effectを作成する際に使用するカメラ
 /// </summary>
@@ -73,7 +75,7 @@ private:
 	float moveMaxSpeed_ = 30.0f;
 	Math::Vector3 moveDirection_;
 	Math::Vector2 preMousePos_;
-	
+
 	float yaw_ = 0.0f;
 	float pitch_ = 0.0f;
 	float sensitivity_ = 0.05f; // 回転感度
@@ -82,3 +84,4 @@ private:
 	Math::Quaternion qPitch;
 };
 
+}

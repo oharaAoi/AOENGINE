@@ -9,6 +9,8 @@
 #include "Engine/Utilities/Loader.h"
 #include "Engine/Utilities/Logger.h"
 
+using namespace AOENGINE;
+
 BehaviorTreeLogger::~BehaviorTreeLogger() {
 	std::ofstream logStream(filePath_, std::ios::app);
 	logStream << "FINISHED LOG" << std::endl;
@@ -21,7 +23,7 @@ BehaviorTreeLogger::~BehaviorTreeLogger() {
 void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	try {
 		std::filesystem::create_directories("./Project/Logs/BehaviorTree");
-		Logger::Log("Create --- ./Project/Logs/BehaviorTree");
+		AOENGINE::Logger::Log("Create --- ./Project/Logs/BehaviorTree");
 	}
 	catch (const std::filesystem::filesystem_error& e) {
 		std::cerr << "Error: " << e.what() << std::endl;

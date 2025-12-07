@@ -33,7 +33,7 @@ void BossMissile::Init() {
 
 	finishTracking_ = false;
 
-	accelTimer_ = Timer(1.0f);
+	accelTimer_ = AOENGINE::Timer(1.0f);
 
 	shotFrea_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("shotFrea");
 	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");

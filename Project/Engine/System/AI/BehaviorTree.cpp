@@ -4,6 +4,8 @@
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
 #include "Engine/System/AI/BehaviorTreeNodeFactory.h"
 
+using namespace AOENGINE;
+
 BehaviorTree::~BehaviorTree() {
 	nodeList_.clear();
 	canTaskMap_.clear();
@@ -40,7 +42,7 @@ bool BehaviorTree::Run() {
 	if (root_ != nullptr) {
 		BehaviorStatus state = root_->Execute();
 		if (state == BehaviorStatus::Failure) {
-			Logger::Log("RootNodeが失敗を返しました");
+			AOENGINE::Logger::Log("RootNodeが失敗を返しました");
 			return false;
 		}
 	}
@@ -99,7 +101,7 @@ void BehaviorTree::EditSelect() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::CreateTree(const std::string& nodeName) {
-	Logger::Log("[Create][BehaviorTree] : " + nodeName);
+	AOENGINE::Logger::Log("[Create][BehaviorTree] : " + nodeName);
 	nodeList_.clear();
 	if (root_ != nullptr) {
 		root_->ClearChild();
@@ -113,5 +115,5 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, canTaskMap_, goalArray_)).get();
 
-	Logger::Log("--- success!");
+	AOENGINE::Logger::Log("--- success!");
 }

@@ -22,7 +22,7 @@ DxResource* DxResourceManager::CreateResource(ResourceType _type) {
 	auto& resource = resourceList_.emplace_back(std::make_unique<AOENGINE::DxResource>());
 	resource->Init(device_, dxHeap_, _type);
 	if (!resource) {
-		Logger::AssertLog("Don`t Create AOENGINE::DxResource");
+		AOENGINE::Logger::AssertLog("Don`t Create AOENGINE::DxResource");
 	}
 	return resource.get();
 }
