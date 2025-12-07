@@ -1,5 +1,7 @@
 #include "MathMultiplyNode.h"
 
+using namespace AOENGINE;
+
 void MathMultiplyNode::Init() {
 	addIN<float>("A", a_, ImFlow::ConnectionFilter::SameType());
 	addIN<float>("B", b_, ImFlow::ConnectionFilter::SameType());

@@ -1,5 +1,7 @@
 #include "ShaderGraphResultNode.h"
 
+using namespace AOENGINE;
+
 ShaderGraphResultNode::~ShaderGraphResultNode() {
 	resource_ = nullptr;
 }

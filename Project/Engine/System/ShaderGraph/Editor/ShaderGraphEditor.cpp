@@ -6,6 +6,8 @@
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 
+using namespace AOENGINE;
+
 ShaderGraphEditor::ShaderGraphEditor() {
 }
 

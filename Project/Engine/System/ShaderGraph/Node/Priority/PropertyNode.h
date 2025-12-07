@@ -2,6 +2,8 @@
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// floatやMath::Vector2などのtemplateに基本の型のNode
 /// </summary>
@@ -115,4 +117,6 @@ inline void PropertyNode<T>::fromJson(const nlohmann::json& _json) {
 		value_.b = value.at(2).get<float>();
 		value_.a = value.at(3).get<float>();
 	}
+}
+
 }

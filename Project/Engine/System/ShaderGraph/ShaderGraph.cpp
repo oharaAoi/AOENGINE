@@ -2,6 +2,8 @@
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphSerializer.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 
+using namespace AOENGINE;
+
 ShaderGraph::~ShaderGraph() {
 	editor_.reset();
 }

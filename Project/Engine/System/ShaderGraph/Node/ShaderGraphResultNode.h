@@ -3,6 +3,8 @@
 #include "Engine/DirectX/Resource/DxResource.h"
 #include <json.hpp>
 
+namespace AOENGINE {
+
 /// <summary>
 /// 最終結果を出力するNode
 /// </summary>
@@ -56,3 +58,5 @@ private:
 	AOENGINE::DxResource* resource_ = nullptr;
 
 };
+
+}

@@ -1,6 +1,8 @@
 #include "ShaderGraphSerializer.h"
 #include <iostream>
 
+using namespace AOENGINE;
+
 bool ShaderGraphSerializer::Save(const std::string& _filePath, ImFlow::ImNodeFlow* _editor) {
 	// -------------------------------------------------
 	// ↓ ファイルを開けるかのチェックを行う

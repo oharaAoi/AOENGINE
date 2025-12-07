@@ -62,7 +62,7 @@ public:
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
 	void SetShaderGraph(ShaderGraph* _graph);
-	ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
+	AOENGINE::ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
 
 	void SetColor(const AOENGINE::Color& _color) { color_ = _color; }
 	const AOENGINE::Color GetColor() const { return color_; }
@@ -80,7 +80,7 @@ protected:
 	Math::SRT uvTransform_ = Math::SRT();
 	std::string textureName_ = "white.png";
 
-	ShaderGraph* shaderGraph_ = nullptr;
+	AOENGINE::ShaderGraph* shaderGraph_ = nullptr;
 
 	AOENGINE::Color color_;
 	bool isLighting_ = true;

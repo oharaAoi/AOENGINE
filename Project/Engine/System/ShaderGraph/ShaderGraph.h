@@ -7,6 +7,8 @@
 #include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// ShaderGraphクラス
 /// </summary>
@@ -90,3 +92,4 @@ private:
 
 };
 
+}

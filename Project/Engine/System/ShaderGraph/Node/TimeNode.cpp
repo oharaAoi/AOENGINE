@@ -2,6 +2,8 @@
 #include "Engine/Lib/GameTimer.h"
 #include <cmath>
 
+using namespace AOENGINE;
+
 TimeNode::TimeNode() {
 }
 

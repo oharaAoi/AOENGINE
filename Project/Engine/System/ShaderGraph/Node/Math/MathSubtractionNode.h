@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 
+namespace AOENGINE {
+
 class MathSubtractionNode :
 	public BaseShaderGraphNode {
 public:	// コンストラクタ
@@ -49,3 +51,4 @@ private:
 	float value_;
 };
 
+}

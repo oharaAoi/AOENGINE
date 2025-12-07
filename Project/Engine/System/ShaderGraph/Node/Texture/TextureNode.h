@@ -2,6 +2,8 @@
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Textureを出力するNode
 /// </summary>
@@ -58,3 +60,4 @@ private:
 
 };
 
+}

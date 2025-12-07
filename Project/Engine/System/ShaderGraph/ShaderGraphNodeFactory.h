@@ -10,6 +10,8 @@
 
 using json = nlohmann::json;
 
+namespace AOENGINE {
+
 /// <summary>
 /// ShaderGraphのNodeを作成する
 /// </summary>
@@ -54,3 +56,4 @@ private:
 
 };
 
+}

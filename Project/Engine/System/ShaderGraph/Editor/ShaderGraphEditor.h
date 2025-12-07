@@ -1,13 +1,12 @@
 #pragma once
 #include <memory>
 #include <unordered_set>
-#include <vector>
 #include <string>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
-#include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/System/ShaderGraph/Node/ShaderGraphResultNode.h"
-#include <functional>
+
+namespace AOENGINE {
 
 /// <summary>
 /// ShaderGraphを編集するクラス
@@ -84,3 +83,4 @@ private:
 	std::string graphPath_ = "";
 };
 
+}

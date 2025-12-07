@@ -1,5 +1,7 @@
 #include "UVTransformNode.h"
 
+using namespace AOENGINE;
+
 void UVTransformNode::Init() {
 	// inputの設定
 	addIN<Math::Vector2>("inputUV", inputUV_, ImFlow::ConnectionFilter::SameType());

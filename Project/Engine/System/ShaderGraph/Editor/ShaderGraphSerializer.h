@@ -4,6 +4,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 
 using json = nlohmann::json;
+namespace AOENGINE {
 
 /// <summary>
 /// ShaderGraphを外部保存する用のクラス
@@ -21,4 +22,4 @@ public:
 	static json Load(const std::string& _filePath);
 
 };
-
+}

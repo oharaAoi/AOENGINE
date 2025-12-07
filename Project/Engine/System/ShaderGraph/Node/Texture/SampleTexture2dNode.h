@@ -1,10 +1,10 @@
 #pragma once
-#include "memory"
-#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Node/NodeItems.h"
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Core/GraphicsContext.h"
+
+namespace AOENGINE {
 
 /// <summary>
 /// Textureを入力してTextureを出力するNode
@@ -68,6 +68,8 @@ private:
 
 	// ノード内部の状態
 	AOENGINE::DxResource* inputResource_ = nullptr;
-	NodeUVTransform uv_ ;         // UV入力のデフォルト値
-	
+	NodeUVTransform uv_;         // UV入力のデフォルト値
+
 };
+
+}

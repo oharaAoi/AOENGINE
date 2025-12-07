@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Time更新用のNode
 /// </summary>
@@ -52,3 +54,5 @@ private:
 	float sineTime_ = 0;
 
 };
+
+}

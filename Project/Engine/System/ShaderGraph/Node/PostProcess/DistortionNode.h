@@ -3,6 +3,8 @@
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Core/GraphicsContext.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 歪みを行なうNode
 /// </summary>
@@ -85,3 +87,5 @@ private:
 	DistortionParam* param_;
 
 };
+
+}

@@ -3,6 +3,8 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// 加算合成Node
 /// </summary>
@@ -65,3 +67,4 @@ private:
 	ID3D12GraphicsCommandList* cmdList_;
 };
 
+}

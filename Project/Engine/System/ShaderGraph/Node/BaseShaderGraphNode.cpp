@@ -1,5 +1,7 @@
 #include "BaseShaderGraphNode.h"
 
+using namespace AOENGINE;
+
 BaseShaderGraphNode::~BaseShaderGraphNode() {
 }
 

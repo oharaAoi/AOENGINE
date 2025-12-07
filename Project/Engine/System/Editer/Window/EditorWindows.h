@@ -119,11 +119,11 @@ private:
 	// ----------------------
 	std::unique_ptr<AOENGINE::GameObjectWindow> gameObjectWindow_;
 
-	std::unique_ptr<ParticleSystemEditor> particleSystemEditor_;
+	std::unique_ptr<AOENGINE::ParticleSystemEditor> particleSystemEditor_;
 
 	std::unique_ptr<AOENGINE::ManipulateTool> manipulateTool_;
 
-	std::unique_ptr<ShaderGraphEditor> shaderGraphEditor_;
+	std::unique_ptr<AOENGINE::ShaderGraphEditor> shaderGraphEditor_;
 
 	// ----------------------
 	// ↓ 他ポインタ

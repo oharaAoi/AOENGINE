@@ -14,7 +14,7 @@ void LaserCylinder::Init(const AOENGINE::Color& _color) {
 	transform_ = object_->GetTransform();
 	transform_->SetTranslationZ(1.0f);
 
-	shaderGraph_ = std::make_unique<ShaderGraph>();
+	shaderGraph_ = std::make_unique<AOENGINE::ShaderGraph>();
 	shaderGraph_->Init("laser.json");
 
 }

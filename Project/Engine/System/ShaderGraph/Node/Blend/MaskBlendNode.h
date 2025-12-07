@@ -4,6 +4,8 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Textureを合成するNode
 /// </summary>
@@ -58,3 +60,4 @@ private:
 	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;
 };
+}

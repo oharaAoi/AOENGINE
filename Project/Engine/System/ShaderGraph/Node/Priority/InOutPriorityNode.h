@@ -2,6 +2,8 @@
 #include "Engine/System/ShaderGraph/Node/BaseShaderGraphNode.h"
 #include "Engine/Lib/Color.h"
 
+namespace AOENGINE {
+
 template<typename T>
 class InOutPriorityNode :
 	public BaseShaderGraphNode {
@@ -65,7 +67,7 @@ inline void InOutPriorityNode<T>::Init() {
 		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("z", inputValue_.z, ImFlow::ConnectionFilter::SameType());
-		
+
 	} else if constexpr (std::is_same_v<T, Math::Vector4>) {
 		addIN<float>("x", inputValue_.x, ImFlow::ConnectionFilter::SameType());
 		addIN<float>("y", inputValue_.y, ImFlow::ConnectionFilter::SameType());
@@ -159,4 +161,6 @@ inline void InOutPriorityNode<T>::fromJson(const nlohmann::json& _json) {
 		value_.b = value.at(2).get<float>();
 		value_.a = value.at(3).get<float>();
 	}
+}
+
 }

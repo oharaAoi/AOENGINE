@@ -3,6 +3,8 @@
 #include "Engine/Lib/Node/NodeItems.h"
 #include "Engine/Lib/Math/Vector2.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// uvTransformを変化させるNode
 /// </summary>
@@ -59,3 +61,5 @@ private:
 
 
 };
+
+}

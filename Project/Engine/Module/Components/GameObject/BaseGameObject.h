@@ -81,7 +81,7 @@ public:
 
 	void SetTexture(const std::string& path);
 
-	void SetShaderGraph(ShaderGraph* _shaderGraph);
+	void SetShaderGraph(AOENGINE::ShaderGraph* _shaderGraph);
 
 	const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& GetMaterials() const { return materials; }
 

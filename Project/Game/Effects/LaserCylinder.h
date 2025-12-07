@@ -33,13 +33,13 @@ public:
 
 public:
 
-	ShaderGraph* GetShaderGraph() { return shaderGraph_.get(); }
+	AOENGINE::ShaderGraph* GetShaderGraph() { return shaderGraph_.get(); }
 
 	const std::string& GetShaderGraphPath() const { return shaderGraph_->GetPath(); }
 
 private:
 
-	std::unique_ptr<ShaderGraph> shaderGraph_;
+	std::unique_ptr<AOENGINE::ShaderGraph> shaderGraph_;
 
 };
 

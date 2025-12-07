@@ -3,6 +3,8 @@
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/Core/GraphicsContext.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// Dissolve処理を行なうNode
 /// </summary>
@@ -84,3 +86,4 @@ private:
 	DissolveParams* param_;
 };
 
+}

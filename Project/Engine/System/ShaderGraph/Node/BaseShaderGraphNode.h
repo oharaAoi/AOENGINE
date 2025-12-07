@@ -5,13 +5,15 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/Node/NodeItems.h"
 
+namespace AOENGINE {
+
 /// <summary>
 /// ShaderGraphの基底クラス
 /// </summary>
 class BaseShaderGraphNode :
 	public ImFlow::BaseNode {
 public:	// コンストラクタ
-	
+
 	BaseShaderGraphNode() = default;
 	virtual ~BaseShaderGraphNode() override;
 
@@ -65,3 +67,4 @@ protected:
 
 };
 
+}

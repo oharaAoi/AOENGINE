@@ -1,5 +1,7 @@
 #include "MathSubtractionNode.h"
 
+using namespace AOENGINE;
+
 void MathSubtractionNode::Init() {
 	addIN<float>("A", a_, ImFlow::ConnectionFilter::SameType());
 	addIN<float>("B", b_, ImFlow::ConnectionFilter::SameType());
