@@ -9,7 +9,7 @@ class Boss;
 /// 連射攻撃
 /// </summary>
 class BossActionRapidfire :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -47,7 +47,7 @@ public:
 	BossActionRapidfire() = default;
 	~BossActionRapidfire() override = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionRapidfire>(*this);
 	}
 

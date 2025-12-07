@@ -5,7 +5,7 @@
 /// 敵を倒す目標
 /// </summary>
 class TargetDeadOriented :
-	public IOrientedGoal {
+	public AI::IOrientedGoal {
 public:
 
 	TargetDeadOriented();

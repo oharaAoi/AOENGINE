@@ -4,6 +4,8 @@
 #include "Engine/System/AI/State/BlackboardValue.h"
 #include "Engine/System/AI/State/Blackboard.h"
 
+namespace AI {
+
 /// <summary>
 /// if文となるクラス
 /// </summary>
@@ -45,3 +47,4 @@ private:
 
 };
 
+}

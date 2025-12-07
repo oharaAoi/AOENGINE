@@ -8,6 +8,8 @@
 // engine
 #include "Engine/System/AI/State/BlackboardValue.h"
 
+namespace AI {
+
 /// <summary>
 /// Nodeごとに情報を共有するためのクラス
 /// </summary>
@@ -27,7 +29,7 @@ public:
 	/// <param name="ref"></param>
 	template<typename T>
 	void SetRef(const std::string& key, T& ref) {
-        stateMap_[key] = BlackboardValue(&ref);
+		stateMap_[key] = BlackboardValue(&ref);
 	}
 
 	/// <summary>
@@ -89,4 +91,5 @@ protected:
 
 	std::string path_;
 };
-    
+
+}

@@ -4,6 +4,8 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
+namespace AI{
+
 /// <summary>
 /// Nodeを作成するクラス
 /// </summary>
@@ -69,3 +71,4 @@ public:
 
 };
 
+}

@@ -8,7 +8,7 @@ class Boss;
 /// 敵の背後に回る処理
 /// </summary>
 class BossActionTurnBehind :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public: // データ構造体
 
 
@@ -17,7 +17,7 @@ public: // コンストラクタ
 	BossActionTurnBehind() = default;
 	~BossActionTurnBehind() = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionTurnBehind>(*this);
 	}
 

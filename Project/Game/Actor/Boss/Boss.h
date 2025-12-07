@@ -100,7 +100,7 @@ public:
 	// state
 	StateMachine<Boss>* GetState() { return stateMachine_.get(); }
 
-	BehaviorTree* GetBehaviorTree() { return behaviorTree_; }
+	AI::BehaviorTree* GetBehaviorTree() { return behaviorTree_; }
 
 	// 評価値計算クラス
 	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
@@ -186,8 +186,8 @@ private:
 	float stanRemainingTime_; // スタンの残り時間
 
 	// AI --------------------------------------------------
-	BehaviorTree* behaviorTree_;
-	std::unique_ptr<Blackboard> blackboard_;
+	AI::BehaviorTree* behaviorTree_;
+	std::unique_ptr<AI::Blackboard> blackboard_;
 
 	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;
 

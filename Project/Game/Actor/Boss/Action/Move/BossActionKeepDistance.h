@@ -8,7 +8,7 @@ class Boss;
 /// Bossの距離を取る行動
 /// </summary>
 class BossActionKeepDistance :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -46,7 +46,7 @@ public:
 	BossActionKeepDistance() = default;
 	~BossActionKeepDistance() = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionKeepDistance>(*this);
 	}
 

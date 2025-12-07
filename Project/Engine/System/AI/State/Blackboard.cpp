@@ -4,6 +4,8 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 
+using namespace AI;
+
 void Blackboard::Debug_Gui() {
 	// 値の追加
 	CreateValue();

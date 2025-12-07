@@ -5,13 +5,13 @@
 class Boss;
 
 class BossActionWait :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	BossActionWait() = default;
 	~BossActionWait() override = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionWait>(*this);
 	}
 

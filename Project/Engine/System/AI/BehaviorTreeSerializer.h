@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AI {
+
 /// <summary>
 /// BehaviorTreeの保存/読み込み
 /// </summary>
@@ -15,3 +17,4 @@ public:
 
 };
 
+}

@@ -5,6 +5,7 @@
 #include "Engine/System/AI/BehaviorTreeNodeFactory.h"
 
 using namespace AOENGINE;
+using namespace AI;
 
 BehaviorTree::~BehaviorTree() {
 	nodeList_.clear();

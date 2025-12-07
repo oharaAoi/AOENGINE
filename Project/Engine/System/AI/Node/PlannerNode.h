@@ -8,15 +8,17 @@
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 #include "Engine/System/AI/Other/Condition.h"
 
+namespace AI {
+
 /// <summary>
 /// GoalまでのNodeたちを格納したNode
 /// </summary>
-class PlannerNode : 
+class PlannerNode :
 	public BaseBehaviorNode {
 public: // コンストラクタ
 
 	PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
-				Blackboard* _worldState, 
+				Blackboard* _worldState,
 				const std::vector<std::shared_ptr<IOrientedGoal>>& _goals);
 	~PlannerNode() override = default;
 
@@ -81,3 +83,4 @@ private:
 	Condition condition_;
 };
 
+}

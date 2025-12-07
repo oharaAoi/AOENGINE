@@ -9,7 +9,7 @@ class Boss;
 /// 通常弾を撃つ
 /// </summary>
 class BossActionShotBullet :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -46,7 +46,7 @@ public:
 	BossActionShotBullet() = default;
 	~BossActionShotBullet() override = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionShotBullet>(*this);
 	}
 

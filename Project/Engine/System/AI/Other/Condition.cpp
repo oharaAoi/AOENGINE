@@ -2,6 +2,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 
 using json = nlohmann::json;
+using namespace AI;
 
 void Condition::Debug_Gui(Blackboard* _state) {
 	_state->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");

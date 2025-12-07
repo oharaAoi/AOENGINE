@@ -1,6 +1,8 @@
 #include "UtilityEvaluator.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+using namespace AI;
+
 float UtilityEvaluator::Evaluate(float _inputValue) const {
 	float t = std::clamp(_inputValue / maxValue, 0.0f, 1.0f);
 	float curveValue = curve.BezierValue(t);

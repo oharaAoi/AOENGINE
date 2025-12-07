@@ -2,6 +2,8 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/State/BlackboardValue.h"
 
+namespace AI {
+
 /// <summary>
 /// if文の代わりとなるNode
 /// </summary>
@@ -71,3 +73,5 @@ private:
 	BlackboardValue value_;
 
 };
+
+}

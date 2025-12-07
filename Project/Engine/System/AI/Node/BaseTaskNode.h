@@ -6,6 +6,8 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Utilities/Timer.h"
 
+namespace AI {
+
 /// <summary>
 /// nodeのtask
 /// </summary>
@@ -84,7 +86,7 @@ protected:
 	float weight_ = 0;
 
 	AOENGINE::Timer waitTimer_;
-	
+
 	UtilityEvaluator evaluator_;
 
 };
@@ -109,7 +111,7 @@ inline json BaseTaskNode<OwnerType>::ToJson() {
 	item["coolTime"] = coolTimer_.targetTime_;
 	item["weight"] = weight_;
 	item["children"] = json::array();
-	
+
 	for (const auto& child : children_) {
 		item["children"].push_back(child->ToJson());
 	}
@@ -193,4 +195,5 @@ inline std::string BaseTaskNode<OwnerType>::RunNodeName() {
 	} else {
 		return children_[currentIndex_]->RunNodeName();
 	}
+}
 }

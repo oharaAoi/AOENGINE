@@ -3,6 +3,8 @@
 #include <fstream>
 #include "Engine/Utilities/Logger.h"
 
+using namespace AI;
+
 void BehaviorTreeSerializer::Save(const std::string& filePath, const json& _json) {
 	// -------------------------------------------------
 	// ↓ ファイルを開けるかのチェックを行う

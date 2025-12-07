@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 
+using namespace AI;
+
 bool BlackboardSerializer::Save(const std::string& _filePath, const std::unordered_map<std::string, BlackboardValue>& _map) {
 	// -------------------------------------------------
 	// ↓ ファイルを開けるかのチェックを行う

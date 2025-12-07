@@ -1,6 +1,8 @@
 #include "BehaviorTreeSystem.h"
 #include "Engine/System/Editer/Window/EditorWindows.h"
 
+using namespace AI;
+
 BehaviorTreeSystem* BehaviorTreeSystem::GetInstance() {
 	static BehaviorTreeSystem instance;
 	return &instance;

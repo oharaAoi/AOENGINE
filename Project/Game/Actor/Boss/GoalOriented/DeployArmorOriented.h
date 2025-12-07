@@ -5,7 +5,7 @@
 /// Armorを貼る目標
 /// </summary>
 class DeployArmorOriented :
-	public IOrientedGoal {
+	public AI::IOrientedGoal {
 public:
 
 	DeployArmorOriented();

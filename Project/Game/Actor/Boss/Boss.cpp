@@ -88,13 +88,13 @@ void Boss::Init() {
 	// ↓ Tree関連
 	// -------------------------------------------------
 
-	blackboard_ = std::make_unique<Blackboard>();
+	blackboard_ = std::make_unique<AI::Blackboard>();
 	blackboard_->Load(param_.worldStatePath);
 	blackboard_->SetRef<float>("hp", param_.health);
 	blackboard_->SetRef<float>("maxHp", param_.health);
 	blackboard_->SetRef<float>("maxPostureStability", param_.postureStability);
 
-	behaviorTree_ = BehaviorTreeSystem::GetInstance()->Create();
+	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
 	behaviorTree_->SetName("BossBehaviorTree");
 	behaviorTree_->SetBlackboard(blackboard_.get());

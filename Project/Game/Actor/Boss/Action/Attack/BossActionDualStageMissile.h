@@ -11,7 +11,7 @@ class Boss;
 /// 2弾式のミサイル
 /// </summary>
 class BossActionDualStageMissile :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public: // データ構造体
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -62,7 +62,7 @@ public: // コンストラクタ
 	BossActionDualStageMissile() = default;
 	~BossActionDualStageMissile() = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionDualStageMissile>(*this);
 	}
 

@@ -3,6 +3,8 @@
 #include <memory>
 #include "Engine/System/AI/BehaviorTree.h"
 
+namespace AI {
+
 /// <summary>
 /// Treeを管理するクラス
 /// </summary>
@@ -38,3 +40,4 @@ private:
 
 };
 
+}

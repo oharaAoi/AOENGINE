@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 
+namespace AI {
+
 /// <summary>
 /// 一番左の子が成功したら次の子へと遷移するNode
 /// </summary>
@@ -33,3 +35,4 @@ public:
 	std::string RunNodeName() override;
 };
 
+}

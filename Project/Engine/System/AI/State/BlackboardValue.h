@@ -4,10 +4,12 @@
 #include <stdexcept>
 #include <nlohmann/json.hpp>
 
+namespace AI {
+
 /// <summary>
 /// Blackboard内で使用する値
 /// </summary>
-struct BlackboardValue{
+struct BlackboardValue {
 public:
 
 	using Value = std::variant<
@@ -51,3 +53,4 @@ public:
 
 };
 
+}

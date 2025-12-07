@@ -8,7 +8,7 @@ class Boss;
 /// 垂直方向からミサイルを連続して放つ
 /// </summary>
 class BossActionVerticalMissile :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {

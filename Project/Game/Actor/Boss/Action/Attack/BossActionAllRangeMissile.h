@@ -11,7 +11,7 @@ class Boss;
 /// 全方位にミサイルを飛ばすアクション
 /// </summary>
 class BossActionAllRangeMissile :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {

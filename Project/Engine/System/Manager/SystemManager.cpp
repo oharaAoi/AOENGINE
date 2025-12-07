@@ -3,7 +3,7 @@
 using namespace AOENGINE;
 
 void SystemManager::Init() {
-	behaviorTree_ = BehaviorTreeSystem::GetInstance();
+	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance();
 	behaviorTree_->Init();
 }
 

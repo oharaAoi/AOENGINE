@@ -2,6 +2,8 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include <memory>
 
+namespace AI {
+
 /// <summary>
 /// Treeの根本となるクラス
 /// </summary>
@@ -44,9 +46,6 @@ public:
 	// 実行中のNodeの名前を取得する
 	std::string RunNodeName() override;
 
-private:
-
-
-
 };
 
+}

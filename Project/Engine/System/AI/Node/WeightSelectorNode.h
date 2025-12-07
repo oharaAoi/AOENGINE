@@ -2,6 +2,8 @@
 #include <unordered_map>
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 
+namespace AI {
+
 /// <summary>
 /// 重みの計算を行ってから選択をするセレクタ
 /// </summary>
@@ -52,3 +54,4 @@ private:
 
 };
 
+}

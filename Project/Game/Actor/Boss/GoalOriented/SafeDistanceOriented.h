@@ -6,7 +6,7 @@
 /// 敵と距離を取る目標
 /// </summary>
 class SafeDistanceOriented :
-	public IOrientedGoal {
+	public AI::IOrientedGoal {
 public:
 
 	SafeDistanceOriented();

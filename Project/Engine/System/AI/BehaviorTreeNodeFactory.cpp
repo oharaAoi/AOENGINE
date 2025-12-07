@@ -8,6 +8,8 @@
 #include "Engine/System/AI/Node/ConditionNode.h"
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
 
+using namespace AI;
+
 void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateTaskName, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 										 Blackboard* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {

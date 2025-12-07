@@ -3,6 +3,8 @@
 #include "Engine/Lib/Math/Curve.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AI {
+
 /// <summary>
 /// 評価関数となるクラス
 /// </summary>
@@ -61,3 +63,4 @@ struct UtilityEvaluator : AOENGINE::IJsonConverter {
 
 };
 
+}

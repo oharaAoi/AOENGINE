@@ -4,6 +4,8 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
+namespace AI {
+
 /// <summary>
 /// Treeを編集するためのクラス
 /// </summary>
@@ -28,12 +30,12 @@ public:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void Edit(const std::string& _name, 
+	void Edit(const std::string& _name,
 			  std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 			  std::vector<Link>& _link,
 			  BaseBehaviorNode* _root,
 			  Blackboard* _worldState,
-			  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
+			  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 			  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	void EditSelect();
@@ -54,7 +56,7 @@ private:
 					 BaseBehaviorNode* _root,
 					 Blackboard* _worldState,
 					 std::unordered_map<std::string,
-					 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+					 std::shared_ptr<BaseBehaviorNode>>&_canTaskMap,
 					 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
@@ -127,3 +129,4 @@ private:
 
 };
 
+}

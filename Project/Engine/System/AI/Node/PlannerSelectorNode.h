@@ -2,6 +2,8 @@
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
+namespace AI {
+
 class PlannerSelectorNode :
 	public BaseBehaviorNode {
 public: // コンストラクタ
@@ -49,3 +51,4 @@ private:
 
 };
 
+}

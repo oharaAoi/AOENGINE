@@ -6,6 +6,8 @@
 
 using json = nlohmann::json;
 
+namespace AI {
+
 /// <summary>
 /// WroldStateを保存するためのクラス
 /// </summary>
@@ -23,3 +25,4 @@ public:
 
 };
 
+}

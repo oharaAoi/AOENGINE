@@ -2,6 +2,8 @@
 #include <type_traits>
 #include <variant>
 
+using namespace AI;
+
 ConditionNode::ConditionNode() {
 	color_ = ImColor(238, 130, 238);
 	baseColor_ = color_;

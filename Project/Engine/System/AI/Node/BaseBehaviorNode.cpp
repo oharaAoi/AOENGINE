@@ -3,6 +3,8 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Lib/GameTimer.h"
 
+using namespace AI;
+
 uint32_t BaseBehaviorNode::nextSerialNumber_ = 1;
 
 BaseBehaviorNode::BaseBehaviorNode() {

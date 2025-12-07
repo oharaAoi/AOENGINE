@@ -6,6 +6,8 @@
 #include "Engine/Utilities/FileDialogFunc.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+using namespace AI;
+
 BehaviorTreeEditor::~BehaviorTreeEditor() {
 	ax::NodeEditor::DestroyEditor(context_);
 	context_ = nullptr;

@@ -3,6 +3,8 @@
 #include "Engine/System/AI/State/Blackboard.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace AI {
+
 /// <summary>
 /// 達成目標となる基底クラス
 /// </summary>
@@ -47,3 +49,5 @@ protected:
 	Blackboard* blackboard_ = nullptr;
 
 };
+
+}

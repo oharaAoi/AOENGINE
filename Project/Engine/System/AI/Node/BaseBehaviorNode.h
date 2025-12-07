@@ -30,6 +30,8 @@ enum class NodeType {
 	Condition,
 };
 
+namespace AI {
+
 /// <summary>
 /// 各Nodeで共通となる基礎クラス
 /// </summary>
@@ -171,3 +173,4 @@ protected:
 	std::string currentRunNodeName_;		// 現在実行中のNodeの名前
 };
 
+}

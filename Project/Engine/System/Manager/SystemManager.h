@@ -17,7 +17,7 @@ public:
 
 private:
 
-	BehaviorTreeSystem* behaviorTree_;
+	AI::BehaviorTreeSystem* behaviorTree_;
 
 };
 

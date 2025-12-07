@@ -15,6 +15,8 @@
 #include "Engine/Utilities/BehaviorTreeLogger.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+namespace AI {
+
 /// <summary>
 /// Objectを制御するためのクラス
 /// </summary>
@@ -127,8 +129,10 @@ private:
 
 };
 
+}
+
 template<typename ActionT, typename Target>
-std::shared_ptr<BaseBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
+std::shared_ptr<AI::BaseBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
 	auto result = std::make_shared<ActionT>();
 	result->SetTarget(target);
 	result->SetNodeName(nodeName);

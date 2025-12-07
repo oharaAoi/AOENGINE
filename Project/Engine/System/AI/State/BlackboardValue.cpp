@@ -2,6 +2,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 
 using json = nlohmann::json;
+using namespace AI;
 
 json BlackboardValue::to_json(const BlackboardValue& v) const {
     json result;

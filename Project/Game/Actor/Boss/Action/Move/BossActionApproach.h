@@ -8,7 +8,7 @@ class Boss;
 /// Bossの近づくアクション
 /// </summary>
 class BossActionApproach :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -55,7 +55,7 @@ public:
 	BossActionApproach() = default;
 	~BossActionApproach() = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionApproach>(*this);
 	}
 

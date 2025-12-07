@@ -8,7 +8,7 @@ class Boss;
 /// Bossの離れるアクション
 /// </summary>
 class BossActionLeave :
-	public BaseTaskNode<Boss> {
+	public AI::BaseTaskNode<Boss> {
 public:	// 構造体
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -46,7 +46,7 @@ public:
 	BossActionLeave() = default;
 	~BossActionLeave() = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
 		return std::make_shared<BossActionLeave>(*this);
 	}
 
