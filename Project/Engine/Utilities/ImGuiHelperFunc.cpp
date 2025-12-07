@@ -60,3 +60,44 @@ int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, c
 
 	return selectedIndex; // 選択は変更されなかった
 }
+
+bool DrawImageButtonWithLabel(ImTextureID tex, const std::string& label, ImVec2 size) {
+	ImVec2 textSize = ImGui::CalcTextSize(label.c_str());
+
+	// 実際に必要な横幅 = 画像幅と文字幅の大きい方
+	float itemWidth = std::max(size.x, textSize.x);
+
+	// スペース
+	float spacing = ImGui::GetStyle().ItemSpacing.x;
+
+	// 残り幅
+	float availX = ImGui::GetContentRegionAvail().x;
+
+	// 折り返し判定
+	if (itemWidth > availX) {
+		ImGui::NewLine();
+	}
+
+	ImGui::BeginGroup();
+
+	// 一意なID
+	std::string id = "##" + label;
+
+	// 画像ボタン
+	if (ImGui::ImageButton(id.c_str(), tex, size)) {
+		ImGui::EndGroup();
+		return true;
+	}
+
+	// ラベル中央寄せ
+	float textPosX = ImGui::GetCursorPosX() + (itemWidth - textSize.x) * 0.5f;
+	ImGui::SetCursorPosX(textPosX);
+	ImGui::TextUnformatted(label.c_str());
+
+	ImGui::EndGroup();
+
+	// 横に並べる（被らない）
+	ImGui::SameLine(0.0f, spacing);
+
+	return false;
+}

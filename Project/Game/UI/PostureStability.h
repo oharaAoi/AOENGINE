@@ -23,7 +23,7 @@ public:
 		AOENGINE::Color armorColor;
 		AOENGINE::Color stanColor;
 
-		Parameter() { SetName("postureStability"); }
+		Parameter() { SetName("postureStabilityColor"); }
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

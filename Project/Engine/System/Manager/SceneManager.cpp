@@ -3,6 +3,7 @@
 #include "Engine.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 using namespace AOENGINE;
 
@@ -77,18 +78,22 @@ void SceneManager::Draw() {
 void SceneManager::Debug_Gui() {
 	// sceneのDebug
 	ImGui::Begin("Scene");
-	// 切り替える
-	if (ImGui::Button("change")) {
+	static bool isChange = false;
+	TextureManager* tex = AOENGINE::TextureManager::GetInstance();
+	D3D12_GPU_DESCRIPTOR_HANDLE handle = tex->GetDxHeapHandles("scene.png").handleGPU;
+	ImTextureID texID = reinterpret_cast<ImTextureID>(handle.ptr);
+	for (uint32_t index = 0; index < (uint32_t)SceneType::kMax; ++index) {
+		if (DrawImageButtonWithLabel(texID, kSceneTypeNames[index], ImVec2(32.f, 32.f))) {
+			isChange = true;
+			changeScene_ = static_cast<SceneType>(index);
+		}
+	}
+
+	if (isChange) {
 		scene_->SetNextSceneType(changeScene_);
+		isChange = false;
 	}
-	ImGui::SameLine();
-	// 選択する
-	int currentIndex = static_cast<int>(changeScene_);
-	// ImGui::Comboを使用して選択可能にする
-	if (ImGui::Combo("Scene Type", &currentIndex, kSceneTypeNames, IM_ARRAYSIZE(kSceneTypeNames))) {
-		// ユーザーが選択を変更した場合にSceneTypeを更新
-		changeScene_ = static_cast<SceneType>(currentIndex);
-	}
+
 	ImGui::End();
 }
 

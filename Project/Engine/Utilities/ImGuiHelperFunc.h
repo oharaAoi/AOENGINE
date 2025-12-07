@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#define NOMINMAX
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
@@ -69,3 +72,5 @@ void TemplateValueText(const T& value) {
 
 	}
 }
+
+bool DrawImageButtonWithLabel(ImTextureID tex, const std::string& label, ImVec2 size);

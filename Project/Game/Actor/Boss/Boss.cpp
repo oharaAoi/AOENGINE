@@ -17,6 +17,7 @@
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
 #include "Game/Actor/Boss/Action/Move/BossActionAdjustHeight.h"
+#include "Game/Actor/Boss/Action/Move/BossActionTurnBehind.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotBullet.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotLauncher.h"
@@ -108,6 +109,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionKeepDistance>(this, "KeepDistance"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionLeave>(this, "Leave"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionStrafe>(this, "Strafe"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionTurnBehind>(this, "TurnBehind"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionShotMissile>(this, "ShotMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionShotBullet>(this, "ShotBullet"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionShotLauncher>(this, "ShotLauncher"));
@@ -119,7 +121,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(true);
+	behaviorTree_->SetExecute(false);
 
 	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
 	evaluationFormula_->Init(this);

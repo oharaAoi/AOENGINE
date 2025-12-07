@@ -34,7 +34,5 @@ public:
 	// 終了処理
 	void End() override;
 
-private:
-	
 };
 
