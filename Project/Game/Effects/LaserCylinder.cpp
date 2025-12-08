@@ -17,6 +17,8 @@ void LaserCylinder::Init(const AOENGINE::Color& _color) {
 	shaderGraph_ = std::make_unique<AOENGINE::ShaderGraph>();
 	shaderGraph_->Init("laser.json");
 
+	param_.Load();
+	transform_->SetScale(param_.scale);
 }
 
 void LaserCylinder::Update() {
@@ -26,6 +28,8 @@ void LaserCylinder::Update() {
 void LaserCylinder::Debug_Gui() {
 	object_->Debug_Gui();
 	shaderGraph_->Debug_Gui();
+	ImGui::DragFloat3("scale", &param_.scale.x);
+	param_.SaveAndLoad();
 }
 
 void LaserCylinder::SetUvScale(float _scaleZ) {

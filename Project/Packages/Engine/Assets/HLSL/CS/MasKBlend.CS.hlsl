@@ -10,7 +10,8 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	float4 a = texA[uv];
 	float4 b = texB[uv];
 
-	float mask = b.a; 
+	float mask = b.r; // 0～1をマスク値にする
+
 	float4 result = a * mask;
 
 	outputTex[uv] = result;

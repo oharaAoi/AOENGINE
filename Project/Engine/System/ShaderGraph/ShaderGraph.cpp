@@ -84,6 +84,7 @@ void ShaderGraph::ExecuteFrom(ImFlow::BaseNode* node, std::unordered_set<ImFlow:
 void ShaderGraph::Load(const std::string& _filePath) {
 	if (_filePath != "") {
 		editor_->getNodes().clear();
+		param_.path = _filePath;
 		resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(_filePath));
 	}
 }

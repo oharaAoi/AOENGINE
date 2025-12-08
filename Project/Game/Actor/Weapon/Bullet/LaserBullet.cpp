@@ -158,7 +158,7 @@ void LaserBullet::Stretch() {
 
 		Math::Vector3 diff = dire_ * scale.z;
 		lineCollider_->SetDiff(diff);
-		laserCylinder_->SetUvScale(param_.uvScaleY);
+		laserCylinder_->SetUvScale(param_.uvScaleY * scale.z);
 	}
 }
 
