@@ -91,7 +91,7 @@ void ParticleSystemEditor::Update() {
 
 	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), AOENGINE::Render::GetProjection2D(), camera_->GetBillBordMatrix());
 	for (auto& particle : particlesMap_) {
-		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.isAddBlend);
+		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.anyParticleAlive, particle.second.isAddBlend);
 	}
 
 	particleRenderer_->PostUpdate();
@@ -132,6 +132,7 @@ void ParticleSystemEditor::ParticlesUpdate() {
 		}
 
 		size_t index = 0;
+		bool anyParticleAlive = false;
 		for (auto it = particles.second.particles->begin(); it != particles.second.particles->end();) {
 			auto& pr = *it;
 			// ---------------------------
@@ -143,6 +144,12 @@ void ParticleSystemEditor::ParticlesUpdate() {
 				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
 				continue;
 			}
+
+			if (pr.lifeTime <= 0.f) {
+				continue;
+			}
+
+			anyParticleAlive = true;
 
 			// ---------------------------
 			// Parameterの更新
@@ -252,6 +259,8 @@ void ParticleSystemEditor::ParticlesUpdate() {
 			++index;
 			++it;
 		}
+
+		particles.second.anyParticleAlive = anyParticleAlive;
 	}
 }
 

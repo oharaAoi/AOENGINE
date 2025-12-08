@@ -92,8 +92,8 @@ void GameScene::Init() {
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
 
-	/*emitter_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("rain");
-	field_ = AOENGINE::GpuParticleManager::GetInstance()->CreateField("Window");*/
+	emitter_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("rain");
+	field_ = AOENGINE::GpuParticleManager::GetInstance()->CreateField("Window");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

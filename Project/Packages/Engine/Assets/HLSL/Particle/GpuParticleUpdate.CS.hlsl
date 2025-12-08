@@ -19,16 +19,29 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	}
 	
 	if (particleIndex < gMaxParticles.maxParticles) {
-		
-		gParticles[particleIndex].currentTime += gPerFrame.deletaTime;
-		
-		//gParticles[particleIndex].acceleration *= gParticles[particleIndex].damping;
+		// デルタタイムの宣言
+		float dt = gPerFrame.deletaTime;
+		gParticles[particleIndex].currentTime += dt;
+	
+		// 加速度の更新
 		gParticles[particleIndex].acceleration.y = gParticles[particleIndex].gravity;
-		gParticles[particleIndex].velocity += gParticles[particleIndex].acceleration * gPerFrame.deletaTime;
-		gParticles[particleIndex].velocity *= exp(-gParticles[particleIndex].damping * gPerFrame.deletaTime);
-		gParticles[particleIndex].pos += gParticles[particleIndex].velocity * gPerFrame.deletaTime;
+
+		// 速度の更新
+		float3 velocity = gParticles[particleIndex].velocity;
+		velocity += gParticles[particleIndex].acceleration * dt;
 		
-		float t = gParticles[particleIndex].currentTime / gParticles[particleIndex].lifeTime;
+		// 減速の更新
+		float damp = 1 / (1 + gParticles[particleIndex].damping * dt);
+		velocity *= damp;
+		gParticles[particleIndex].velocity = velocity;
+		
+		// 座標の更新
+		gParticles[particleIndex].pos += gParticles[particleIndex].velocity * dt;
+		
+		// parameterの更新
+		float invLife = rcp(gParticles[particleIndex].lifeTime);
+		float t = gParticles[particleIndex].currentTime * invLife;
+	
 		if (gParticles[particleIndex].lifeOfAlpha == 1) {
 			float alpha = 1.0 - t;
 			gParticles[particleIndex].color.a = alpha;

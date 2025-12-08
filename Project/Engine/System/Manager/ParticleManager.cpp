@@ -60,7 +60,7 @@ void ParticleManager::Update() {
 
 	// renderの更新
 	for (auto& particles : particlesMap_) {
-		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.isAddBlend);
+		particleRenderer_->Update(particles.first, particles.second.forGpuData_, particles.second.anyParticleAlive, particles.second.isAddBlend);
 	}
 
 	PostUpdate();
@@ -76,6 +76,7 @@ void ParticleManager::ParticlesUpdate() {
 		}
 
 		size_t index = 0;
+		bool anyParticleAlive = false;
 		for (auto it = particles.second.particles->begin(); it != particles.second.particles->end();) {
 			auto& pr = *it;
 			// ---------------------------
@@ -87,6 +88,12 @@ void ParticleManager::ParticlesUpdate() {
 				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
 				continue;
 			}
+
+			if (pr.lifeTime <= 0.f) {
+				continue;
+			}
+
+			anyParticleAlive = true;
 
 			// ---------------------------
 			// Parameterの更新
@@ -199,6 +206,8 @@ void ParticleManager::ParticlesUpdate() {
 			++index;
 			++it;
 		}
+
+		particles.second.anyParticleAlive = anyParticleAlive;
 	}
 }
 

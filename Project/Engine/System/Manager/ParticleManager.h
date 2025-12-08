@@ -15,7 +15,8 @@ public:
 	struct ParticlesData {
 		std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
 		std::vector<AOENGINE::ParticleInstancingRenderer::ParticleData> forGpuData_;
-		bool isAddBlend;
+		bool isAddBlend = false;
+		bool anyParticleAlive = false;
 
 		ParticlesData() {
 			particles = std::make_shared<std::list<AOENGINE::ParticleSingle>>();

@@ -27,12 +27,19 @@ void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend) {
+void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, bool addBlend) {
 	uint32_t currentUseIndex = particleMap_[id].useIndex;
 
 	// 現在使用しているindexから引数のサイズ分colorを0にする
 	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
 		particleMap_[id].particleData[currentUseIndex + oi].color = { 0,0,0,0 };
+	}
+
+	particleMap_[id].isAddBlend = addBlend;
+	particleMap_[id].anyParticleAlive = anyParticleAlive;
+
+	if (!anyParticleAlive){
+		return;
 	}
 
 	// 現在使用しているindexからデータを更新する
@@ -51,21 +58,9 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 			particleMap_[id].useIndex = oi + 1;
 		}
 	}
-
-	particleMap_[id].isAddBlend = addBlend;
 }
 
 void ParticleInstancingRenderer::PostUpdate() {
-	// 使用しなかったindexの領域のcolorを0にする
-	for (auto& information : particleMap_) {
-		// 使用している分を取得
-		uint32_t startIndex = information.second.useIndex;
-		// 使用分からmaxまでを0にする
-		for (uint32_t index = startIndex; index < maxInstanceNum_; index++) {
-			information.second.particleData[index].color = { 0,0,0,0 };
-		}
-	}
-
 	// 次のフレームで最初から更新するためにすべてのindexを0にする
 	for (auto& information : particleMap_) {
 		information.second.useIndex = 0;
@@ -78,6 +73,8 @@ void ParticleInstancingRenderer::PostUpdate() {
 
 void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
 	for (auto& information : particleMap_) {
+		if (!information.second.anyParticleAlive) { continue; }
+
 		if (information.second.isAddBlend) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_Particle.json");
 		} else {

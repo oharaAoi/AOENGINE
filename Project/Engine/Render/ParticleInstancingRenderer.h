@@ -36,7 +36,8 @@ public:		// 構造体
 		ParticleData* particleData;
 		uint32_t useIndex = 0;
 
-		bool isAddBlend;
+		bool isAddBlend = false;
+		bool anyParticleAlive = false;
 	};
 
 	struct PerView {
@@ -59,7 +60,7 @@ public:
 	void Init(uint32_t instanceNum);
 
 	// 更新
-	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool addBlend);
+	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, bool addBlend);
 
 	// 後から更新
 	void PostUpdate();

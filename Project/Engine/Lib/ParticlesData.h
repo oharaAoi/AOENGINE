@@ -31,25 +31,25 @@ namespace AOENGINE {
 /// Particle単体のパラメータ
 /// </summary>
 struct ParticleSingle {
-	AOENGINE::Color color;			// 色
-	Math::Vector3 scale;			// 拡縮
-	Math::Quaternion rotate;		// 回転
-	Math::Vector3 translate;		// 座標
-	Math::Vector3 velocity;		// 速度
-	Math::Vector3 acceleration;	// 加速度
-	Math::Vector3 firstScale;		// 初期拡縮
-	Math::Vector3 emitterCenter;	// Emitterの中心
-	float lifeTime;			// 生存時間
-	float currentTime;		// 現在の時間
-	float damping;			// 減衰
-	float gravity;			// 重力
-	bool isLerpDiscardValue;		// discardの値をlerpさせるか
+	AOENGINE::Color color = AOENGINE::Color();			// 色
+	Math::Vector3 scale = CVector3::ZERO;			// 拡縮
+	Math::Quaternion rotate = Math::Quaternion();		// 回転
+	Math::Vector3 translate = CVector3::ZERO;		// 座標
+	Math::Vector3 velocity = CVector3::ZERO;		// 速度
+	Math::Vector3 acceleration = CVector3::ZERO;	// 加速度
+	Math::Vector3 firstScale = CVector3::ZERO;		// 初期拡縮
+	Math::Vector3 emitterCenter = CVector3::ZERO;	// Emitterの中心
+	float lifeTime = 0;			// 生存時間
+	float currentTime = 0;		// 現在の時間
+	float damping = 0;			// 減衰
+	float gravity = 0;			// 重力
+	bool isLerpDiscardValue = false;		// discardの値をlerpさせるか
 	float discardValue = 0.01f;		// discardをするしきい値
 	float startDiscard = 0.01f;		// discardの初期値
 	float endDiscard = 1.0f;		// discardの終了値
 	bool isLifeOfScale = false;	// 生存時間によるサイズ
-	Math::Vector3 lifeOfMinScale;
-	Math::Vector3 lifeOfMaxScale;
+	Math::Vector3 lifeOfMinScale = CVector3::ZERO;
+	Math::Vector3 lifeOfMaxScale = CVector3::ZERO;
 	bool isLifeOfAlpha = false;	// 生存時間による透明度
 	bool isFadeInOut = false;
 	float fadeInTime = 0.0f;
@@ -58,7 +58,7 @@ struct ParticleSingle {
 	bool isScaleUpScale = false;	// 生存時間による透明度
 	bool isStretch = false;
 	bool isAddBlend = true;
-	Math::Vector3 upScale;
+	Math::Vector3 upScale = CVector3::ZERO;
 	bool isBillBord = true;
 	bool isDraw2d = true;
 	bool isCenterFor = false;
@@ -68,8 +68,8 @@ struct ParticleSingle {
 	Math::Matrix4x4 uvMat;
 
 	bool isColorAnimation = false;
-	AOENGINE::Color preColor;
-	AOENGINE::Color postColor;
+	AOENGINE::Color preColor = AOENGINE::Color();
+	AOENGINE::Color postColor = AOENGINE::Color();
 
 	float rotateZ = 0;
 };
