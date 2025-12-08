@@ -43,15 +43,15 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "recoveryTime", recoveryTime);
-			fromJson(jsonData, "bulletSpeed", bulletSpeed);
-			fromJson(jsonData, "takeDamage", takeDamage);
-			fromJson(jsonData, "fireNum", fireNum);
-			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
-			fromJson(jsonData, "trakingRaito", trakingRaito);
-			fromJson(jsonData, "spreadAngleDeg", spreadAngleDeg);
-			fromJson(jsonData, "secondPhaseTime", secondPhaseTime);
-			fromJson(jsonData, "lineOffset", lineOffset);
+			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
+			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			Convert::fromJson(jsonData, "takeDamage", takeDamage);
+			Convert::fromJson(jsonData, "fireNum", fireNum);
+			Convert::fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			Convert::fromJson(jsonData, "trakingRaito", trakingRaito);
+			Convert::fromJson(jsonData, "spreadAngleDeg", spreadAngleDeg);
+			Convert::fromJson(jsonData, "secondPhaseTime", secondPhaseTime);
+			Convert::fromJson(jsonData, "lineOffset", lineOffset);
 		}
 
 		void Debug_Gui() override;

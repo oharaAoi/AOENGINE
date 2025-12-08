@@ -54,15 +54,15 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "distance", distance);
-			fromJson(jsonData, "rotateDelta", rotateDelta);
-			fromJson(jsonData, "offset", offset);
-			fromJson(jsonData, "complement", complement);
-			fromJson(jsonData, "limitMinY", limitMinY);
-			fromJson(jsonData, "limitMaxY", limitMaxY);
-			fromJson(jsonData, "smoothTime", smoothTime);
-			fromJson(jsonData, "maxSpeed", maxSpeed);
-			fromJson(jsonData, "easingIndex", easingIndex);
+			Convert::fromJson(jsonData, "distance", distance);
+			Convert::fromJson(jsonData, "rotateDelta", rotateDelta);
+			Convert::fromJson(jsonData, "offset", offset);
+			Convert::fromJson(jsonData, "complement", complement);
+			Convert::fromJson(jsonData, "limitMinY", limitMinY);
+			Convert::fromJson(jsonData, "limitMaxY", limitMaxY);
+			Convert::fromJson(jsonData, "smoothTime", smoothTime);
+			Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
+			Convert::fromJson(jsonData, "easingIndex", easingIndex);
 		}
 
 		void Debug_Gui() override;
@@ -92,11 +92,11 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "firstOffset", firstOffset);
-			fromJson(jsonData, "moveTime", moveTime);
-			fromJson(jsonData, "easingIndex", easingIndex);
-			fromJson(jsonData, "scaleColor", scaleColor);
-			fromJson(jsonData, "vignettePower", vignettePower);
+			Convert::fromJson(jsonData, "firstOffset", firstOffset);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			Convert::fromJson(jsonData, "easingIndex", easingIndex);
+			Convert::fromJson(jsonData, "scaleColor", scaleColor);
+			Convert::fromJson(jsonData, "vignettePower", vignettePower);
 		}
 
 		void Debug_Gui() override;

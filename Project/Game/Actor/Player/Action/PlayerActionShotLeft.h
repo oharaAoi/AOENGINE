@@ -37,9 +37,9 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "animationTime", animationTime);
-			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
-			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			Convert::fromJson(jsonData, "animationTime", animationTime);
+			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
 		}
 
 		void Debug_Gui() override;

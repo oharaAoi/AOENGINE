@@ -21,6 +21,7 @@ public: // データ構造体
 		float lifeTime = 3.0f;
 		float fadeTime = 1.0f;
 		float shotSeValue = 0.4f;
+		float uvScaleY = 100.0f;
 		std::string shaderGraphPath = "";
 
 		AOENGINE::Color cylinderColor;
@@ -36,18 +37,20 @@ public: // データ構造体
 				.Add("fadeTime", fadeTime)
 				.Add("lifeTime", lifeTime)
 				.Add("shotSeValue", shotSeValue)
+				.Add("uvScaleY", uvScaleY)
 				.Add("shaderGraphPath", shaderGraphPath)
 				.Add("cylinderColor", cylinderColor)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "maxLength", maxLength);
-			fromJson(jsonData, "fadeTime", fadeTime);
-			fromJson(jsonData, "lifeTime", lifeTime);
-			fromJson(jsonData, "shotSeValue", shotSeValue);
-			fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
-			fromJson(jsonData, "cylinderColor", cylinderColor);
+			Convert::fromJson(jsonData, "maxLength", maxLength);
+			Convert::fromJson(jsonData, "fadeTime", fadeTime);
+			Convert::fromJson(jsonData, "lifeTime", lifeTime);
+			Convert::fromJson(jsonData, "shotSeValue", shotSeValue);
+			Convert::fromJson(jsonData, "uvScaleY", uvScaleY);
+			Convert::fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
+			Convert::fromJson(jsonData, "cylinderColor", cylinderColor);
 		}
 
 		void Debug_Gui() override;

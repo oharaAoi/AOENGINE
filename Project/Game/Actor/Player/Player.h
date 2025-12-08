@@ -76,20 +76,20 @@ public:		// data
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "health", health);
-			fromJson(jsonData, "postureStability", postureStability);
-			fromJson(jsonData, "bodyWeight", bodyWeight);
-			fromJson(jsonData, "energy", energy);
-			fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
-			fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);
-			fromJson(jsonData, "legColliderRadius", legColliderRadius);
-			fromJson(jsonData, "legColliderPosY", legColliderPosY);
-			fromJson(jsonData, "windDrag", windDrag);
-			fromJson(jsonData, "inclineStrength", inclineStrength);
-			fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
-			fromJson(jsonData, "inclineThreshold", inclineThreshold);
-			fromJson(jsonData, "cameraOffset", cameraOffset);
-			fromJson(jsonData, "translateOffset", translateOffset);
+			Convert::fromJson(jsonData, "health", health);
+			Convert::fromJson(jsonData, "postureStability", postureStability);
+			Convert::fromJson(jsonData, "bodyWeight", bodyWeight);
+			Convert::fromJson(jsonData, "energy", energy);
+			Convert::fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
+			Convert::fromJson(jsonData, "energyRecoveyCoolTime", energyRecoveyCoolTime);
+			Convert::fromJson(jsonData, "legColliderRadius", legColliderRadius);
+			Convert::fromJson(jsonData, "legColliderPosY", legColliderPosY);
+			Convert::fromJson(jsonData, "windDrag", windDrag);
+			Convert::fromJson(jsonData, "inclineStrength", inclineStrength);
+			Convert::fromJson(jsonData, "inclineReactionRate", inclineReactionRate);
+			Convert::fromJson(jsonData, "inclineThreshold", inclineThreshold);
+			Convert::fromJson(jsonData, "cameraOffset", cameraOffset);
+			Convert::fromJson(jsonData, "translateOffset", translateOffset);
 		}
 
 		void Debug_Gui() override;

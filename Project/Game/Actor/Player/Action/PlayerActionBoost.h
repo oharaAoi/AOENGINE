@@ -58,16 +58,16 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "chargeTime", chargeTime);
-			fromJson(jsonData, "boostForce", boostForce);
-			fromJson(jsonData, "stopForce", stopForce);
-			fromJson(jsonData, "bluerStrength", bluerStrength);
-			fromJson(jsonData, "bluerStartTime", bluerStartTime);
-			fromJson(jsonData, "bluerStopTime", bluerStopTime);
-			fromJson(jsonData, "consumeEnergy", consumeEnergy);
-			fromJson(jsonData, "overTakingThreshold", overTakingThreshold);
-			fromJson(jsonData, "stopThreshold", stopThreshold);
-			fromJson(jsonData, "toQuickBoostThreshold", toQuickBoostThreshold);
+			Convert::fromJson(jsonData, "chargeTime", chargeTime);
+			Convert::fromJson(jsonData, "boostForce", boostForce);
+			Convert::fromJson(jsonData, "stopForce", stopForce);
+			Convert::fromJson(jsonData, "bluerStrength", bluerStrength);
+			Convert::fromJson(jsonData, "bluerStartTime", bluerStartTime);
+			Convert::fromJson(jsonData, "bluerStopTime", bluerStopTime);
+			Convert::fromJson(jsonData, "consumeEnergy", consumeEnergy);
+			Convert::fromJson(jsonData, "overTakingThreshold", overTakingThreshold);
+			Convert::fromJson(jsonData, "stopThreshold", stopThreshold);
+			Convert::fromJson(jsonData, "toQuickBoostThreshold", toQuickBoostThreshold);
 		}
 
 		void Debug_Gui() override;

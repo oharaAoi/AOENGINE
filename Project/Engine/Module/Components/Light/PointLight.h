@@ -48,11 +48,11 @@ public: // メンバ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "color", color);
-			fromJson(jsonData, "position", position);
-			fromJson(jsonData, "intensity", intensity);
-			fromJson(jsonData, "radius", radius);
-			fromJson(jsonData, "decay", decay);
+			Convert::fromJson(jsonData, "color", color);
+			Convert::fromJson(jsonData, "position", position);
+			Convert::fromJson(jsonData, "intensity", intensity);
+			Convert::fromJson(jsonData, "radius", radius);
+			Convert::fromJson(jsonData, "decay", decay);
 		}
 
 		void Debug_Gui() override;

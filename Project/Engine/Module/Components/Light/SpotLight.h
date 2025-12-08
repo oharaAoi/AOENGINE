@@ -57,13 +57,13 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "color", color);
-			fromJson(jsonData, "position", position);
-			fromJson(jsonData, "intensity", intensity);
-			fromJson(jsonData, "direction", direction);
-			fromJson(jsonData, "decay", decay);
-			fromJson(jsonData, "cosAngle", cosAngle);
-			fromJson(jsonData, "cosFalloffStart", cosFalloffStart);
+			Convert::fromJson(jsonData, "color", color);
+			Convert::fromJson(jsonData, "position", position);
+			Convert::fromJson(jsonData, "intensity", intensity);
+			Convert::fromJson(jsonData, "direction", direction);
+			Convert::fromJson(jsonData, "decay", decay);
+			Convert::fromJson(jsonData, "cosAngle", cosAngle);
+			Convert::fromJson(jsonData, "cosFalloffStart", cosFalloffStart);
 		}
 
 		void Debug_Gui() override;

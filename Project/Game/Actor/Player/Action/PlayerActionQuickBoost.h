@@ -57,16 +57,16 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "boostForce", boostForce);
-			fromJson(jsonData, "decelerationRaito", decelerationRaito);
-			fromJson(jsonData, "boostEnergy", boostEnergy);
-			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
-			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
-			fromJson(jsonData, "blurTime", blurTime);
-			fromJson(jsonData, "blurStrength", blurStrength);
-			fromJson(jsonData, "decelerationTime", decelerationTime);
-			fromJson(jsonData, "vibrateTime", vibrateTime);
-			fromJson(jsonData, "vibrateStrength", vibrateStrength);
+			Convert::fromJson(jsonData, "boostForce", boostForce);
+			Convert::fromJson(jsonData, "decelerationRaito", decelerationRaito);
+			Convert::fromJson(jsonData, "boostEnergy", boostEnergy);
+			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			Convert::fromJson(jsonData, "blurTime", blurTime);
+			Convert::fromJson(jsonData, "blurStrength", blurStrength);
+			Convert::fromJson(jsonData, "decelerationTime", decelerationTime);
+			Convert::fromJson(jsonData, "vibrateTime", vibrateTime);
+			Convert::fromJson(jsonData, "vibrateStrength", vibrateStrength);
 			decelerationCurve.FromJson(jsonData, "decelerationCurve");
 		}
 

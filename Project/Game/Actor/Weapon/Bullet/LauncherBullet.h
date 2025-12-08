@@ -25,7 +25,7 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "hitSeVolume", hitSeVolume);
+			Convert::fromJson(jsonData, "hitSeVolume", hitSeVolume);
 		}
 
 		void Debug_Gui() override;

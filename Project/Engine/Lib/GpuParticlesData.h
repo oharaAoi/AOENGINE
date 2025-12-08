@@ -144,32 +144,32 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	}
 
 	void FromJson(const json& jsonData) override {
-		fromJson(jsonData, "isLoop", isLoop);
-		fromJson(jsonData, "duration", duration);
-		fromJson(jsonData, "minScale", minScale);
-		fromJson(jsonData, "maxScale", maxScale);
-		fromJson(jsonData, "rotate", rotate);
-		fromJson(jsonData, "pos", pos);
-		fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
-		fromJson(jsonData, "shape", shape);
-		fromJson(jsonData, "emitType", emitType);
-		fromJson(jsonData, "emitOrigin", emitOrigin);
-		fromJson(jsonData, "color", color);
-		fromJson(jsonData, "SeparateByAxisScale", separateByAxisScale);
-		fromJson(jsonData, "scaleMinScaler", scaleMinScaler);
-		fromJson(jsonData, "scaleMaxScaler", scaleMaxScaler);
-		fromJson(jsonData, "speed", speed);
-		fromJson(jsonData, "lifeTime", lifeTime);
-		fromJson(jsonData, "gravity", gravity);
-		fromJson(jsonData, "damping", damping);
-		fromJson(jsonData, "lifeOfScaleDown", lifeOfScaleDown);
-		fromJson(jsonData, "lifeOfScaleUp", lifeOfScaleUp);
-		fromJson(jsonData, "targetScale", targetScale);
-		fromJson(jsonData, "lifeOfAlpha", lifeOfAlpha);
-		fromJson(jsonData, "radius", radius);
-		fromJson(jsonData, "size", size);
-		fromJson(jsonData, "angle", angle);
-		fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "isLoop", isLoop);
+		Convert::fromJson(jsonData, "duration", duration);
+		Convert::fromJson(jsonData, "minScale", minScale);
+		Convert::fromJson(jsonData, "maxScale", maxScale);
+		Convert::fromJson(jsonData, "rotate", rotate);
+		Convert::fromJson(jsonData, "pos", pos);
+		Convert::fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		Convert::fromJson(jsonData, "shape", shape);
+		Convert::fromJson(jsonData, "emitType", emitType);
+		Convert::fromJson(jsonData, "emitOrigin", emitOrigin);
+		Convert::fromJson(jsonData, "color", color);
+		Convert::fromJson(jsonData, "SeparateByAxisScale", separateByAxisScale);
+		Convert::fromJson(jsonData, "scaleMinScaler", scaleMinScaler);
+		Convert::fromJson(jsonData, "scaleMaxScaler", scaleMaxScaler);
+		Convert::fromJson(jsonData, "speed", speed);
+		Convert::fromJson(jsonData, "lifeTime", lifeTime);
+		Convert::fromJson(jsonData, "gravity", gravity);
+		Convert::fromJson(jsonData, "damping", damping);
+		Convert::fromJson(jsonData, "lifeOfScaleDown", lifeOfScaleDown);
+		Convert::fromJson(jsonData, "lifeOfScaleUp", lifeOfScaleUp);
+		Convert::fromJson(jsonData, "targetScale", targetScale);
+		Convert::fromJson(jsonData, "lifeOfAlpha", lifeOfAlpha);
+		Convert::fromJson(jsonData, "radius", radius);
+		Convert::fromJson(jsonData, "size", size);
+		Convert::fromJson(jsonData, "angle", angle);
+		Convert::fromJson(jsonData, "height", height);
 	}
 
 	void Attribute_Gui();

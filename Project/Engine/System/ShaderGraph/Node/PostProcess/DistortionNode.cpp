@@ -75,6 +75,9 @@ void DistortionNode::draw() {
 nlohmann::json DistortionNode::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
+	result["props"]["tiling"] = Convert::toJson<Math::Vector2>(param_->tiling);
+	result["props"]["scroll"] = Convert::toJson<Math::Vector2>(param_->scroll);
+	result["props"]["strength"] = Convert::toJson<float>(param_->strength);
 	return result;
 }
 
@@ -84,6 +87,11 @@ nlohmann::json DistortionNode::toJson() {
 
 void DistortionNode::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
+	param_->scroll.x = _json["props"]["scroll"]["x"].get<float>();
+	param_->scroll.y = _json["props"]["scroll"]["y"].get<float>();
+	param_->strength = _json["props"]["strength"].get<float>();
+	param_->tiling.x = _json["props"]["tiling"]["x"].get<float>();
+	param_->tiling.y = _json["props"]["tiling"]["y"].get<float>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

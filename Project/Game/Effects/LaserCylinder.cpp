@@ -5,7 +5,7 @@ LaserCylinder::~LaserCylinder() {
 }
 
 void LaserCylinder::Init(const AOENGINE::Color& _color) {
-	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("LaserCylinder", "Object_laser.json");
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("LaserCylinder", "Object_laserCylinder.json");
 	object_->SetObject("laserCylinder.obj");
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);

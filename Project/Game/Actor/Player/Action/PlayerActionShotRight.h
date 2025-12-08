@@ -28,7 +28,7 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "animationTime", animationTime);
+			Convert::fromJson(jsonData, "animationTime", animationTime);
 		}
 
 		void Debug_Gui() override;

@@ -34,12 +34,12 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "recoveryTime", recoveryTime);
-			fromJson(jsonData, "shotInterval", shotInterval);
-			fromJson(jsonData, "bulletSpeed", bulletSpeed);
-			fromJson(jsonData, "takeDamage", takeDamage);
-			fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
-			fromJson(jsonData, "trakingRaito", trakingRaito);
+			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
+			Convert::fromJson(jsonData, "shotInterval", shotInterval);
+			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			Convert::fromJson(jsonData, "takeDamage", takeDamage);
+			Convert::fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
+			Convert::fromJson(jsonData, "trakingRaito", trakingRaito);
 		}
 
 		void Debug_Gui() override;

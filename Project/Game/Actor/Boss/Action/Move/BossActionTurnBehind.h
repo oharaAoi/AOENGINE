@@ -33,9 +33,9 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "moveSpeed", moveSpeed);
-			fromJson(jsonData, "moveTime", moveTime);
-			fromJson(jsonData, "moveCurve", moveCurve);
+			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			Convert::fromJson(jsonData, "moveCurve", moveCurve);
 		}
 
 		void Debug_Gui() override;

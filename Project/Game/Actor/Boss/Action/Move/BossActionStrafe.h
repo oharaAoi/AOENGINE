@@ -37,12 +37,12 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "moveSpeed", moveSpeed);
-			fromJson(jsonData, "moveTime", moveTime);
-			fromJson(jsonData, "getDistance", getDistance);
-			fromJson(jsonData, "decayRate", decayRate);
-			fromJson(jsonData, "rotateT", rotateT);
-			fromJson(jsonData, "finishDistance", finishDistance);
+			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			Convert::fromJson(jsonData, "getDistance", getDistance);
+			Convert::fromJson(jsonData, "decayRate", decayRate);
+			Convert::fromJson(jsonData, "rotateT", rotateT);
+			Convert::fromJson(jsonData, "finishDistance", finishDistance);
 			curve.FromJson(jsonData, "curveData");
 		}
 

@@ -31,9 +31,9 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "start", start);
-			fromJson(jsonData, "end", end);
-			fromJson(jsonData, "time", time);
+			Convert::fromJson(jsonData, "start", start);
+			Convert::fromJson(jsonData, "end", end);
+			Convert::fromJson(jsonData, "time", time);
 		}
 
 		void Debug_Gui() override;

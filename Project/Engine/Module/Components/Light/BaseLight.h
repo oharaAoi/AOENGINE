@@ -53,11 +53,11 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "lightPos", lightPos);
-			fromJson(jsonData, "direction", direction);
-			fromJson(jsonData, "fovY", fovY);
-			fromJson(jsonData, "nearClip", nearClip);
-			fromJson(jsonData, "farClip", farClip);
+			Convert::fromJson(jsonData, "lightPos", lightPos);
+			Convert::fromJson(jsonData, "direction", direction);
+			Convert::fromJson(jsonData, "fovY", fovY);
+			Convert::fromJson(jsonData, "nearClip", nearClip);
+			Convert::fromJson(jsonData, "farClip", farClip);
 		}
 
 		void Debug_Gui() override;

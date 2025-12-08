@@ -76,6 +76,9 @@ void DissolveNode::draw() {
 nlohmann::json DissolveNode::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
+	result["props"]["dissolveColor"] = Convert::toJson<Color>(param_->dissolveColor);
+	result["props"]["threshold"] = Convert::toJson<float>(param_->threshold);
+	result["props"]["edgeWidth"] = Convert::toJson<float>(param_->edgeWidth);
 	return result;
 }
 
@@ -85,6 +88,9 @@ nlohmann::json DissolveNode::toJson() {
 
 void DissolveNode::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
+	Convert::fromJson(_json, "dissolveColor", param_->dissolveColor);
+	Convert::fromJson(_json, "threshold", param_->threshold);
+	Convert::fromJson(_json, "edgeWidth", param_->edgeWidth);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

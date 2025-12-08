@@ -30,6 +30,7 @@ void TestScene::Init() {
 
 	laser_ = std::make_unique<LaserBullet>();
 	laser_->Init();
+	AOENGINE::EditorWindows::AddObjectWindow(laser_.get(), "Laser");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -37,14 +37,14 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "moveSpeed", moveSpeed);
-			fromJson(jsonData, "moveTime", moveTime);
-			fromJson(jsonData, "deceleration", deceleration);
-			fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
-			fromJson(jsonData, "quitApproachLength", quitApproachLength);
-			fromJson(jsonData, "decayRate", decayRate);
-			fromJson(jsonData, "recoveryTime", recoveryTime);
-			fromJson(jsonData, "rotateT", rotateT);
+			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			Convert::fromJson(jsonData, "deceleration", deceleration);
+			Convert::fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
+			Convert::fromJson(jsonData, "quitApproachLength", quitApproachLength);
+			Convert::fromJson(jsonData, "decayRate", decayRate);
+			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
+			Convert::fromJson(jsonData, "rotateT", rotateT);
 		}
 
 		void Debug_Gui() override;

@@ -65,19 +65,19 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "durability", durability);
-			fromJson(jsonData, "scale", scale);
-			fromJson(jsonData, "localTranslate", localTranslate);
-			fromJson(jsonData, "color", color);			fromJson(jsonData, "edgeColor", edgeColor);
-			fromJson(jsonData, "uvScale", uvTransform.scale);
-			fromJson(jsonData, "uvRotate", uvTransform.rotate);
-			fromJson(jsonData, "uvTranslate", uvTransform.translate);
-			fromJson(jsonData, "baseTexture", baseTexture);
-			fromJson(jsonData, "noiseTexture1", noiseTexture1);
-			fromJson(jsonData, "noiseTexture2", noiseTexture2);
-			fromJson(jsonData, "noiseTexture3", noiseTexture3);
-			fromJson(jsonData, "minThreshold", minThreshold);
-			fromJson(jsonData, "maxThreshold", maxThreshold);
+			Convert::fromJson(jsonData, "durability", durability);
+			Convert::fromJson(jsonData, "scale", scale);
+			Convert::fromJson(jsonData, "localTranslate", localTranslate);
+			Convert::fromJson(jsonData, "color", color);			Convert::fromJson(jsonData, "edgeColor", edgeColor);
+			Convert::fromJson(jsonData, "uvScale", uvTransform.scale);
+			Convert::fromJson(jsonData, "uvRotate", uvTransform.rotate);
+			Convert::fromJson(jsonData, "uvTranslate", uvTransform.translate);
+			Convert::fromJson(jsonData, "baseTexture", baseTexture);
+			Convert::fromJson(jsonData, "noiseTexture1", noiseTexture1);
+			Convert::fromJson(jsonData, "noiseTexture2", noiseTexture2);
+			Convert::fromJson(jsonData, "noiseTexture3", noiseTexture3);
+			Convert::fromJson(jsonData, "minThreshold", minThreshold);
+			Convert::fromJson(jsonData, "maxThreshold", maxThreshold);
 		}
 
 		void Debug_Gui() override;

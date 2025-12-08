@@ -35,10 +35,10 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "normalColor", normalColor);
-			fromJson(jsonData, "pinchColor", pinchColor);
-			fromJson(jsonData, "armorColor", armorColor);
-			fromJson(jsonData, "stanColor", stanColor);
+			Convert::fromJson(jsonData, "normalColor", normalColor);
+			Convert::fromJson(jsonData, "pinchColor", pinchColor);
+			Convert::fromJson(jsonData, "armorColor", armorColor);
+			Convert::fromJson(jsonData, "stanColor", stanColor);
 		}
 
 		void Debug_Gui() override {};

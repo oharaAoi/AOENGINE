@@ -35,9 +35,9 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "engineIncline", engineIncline);
-			fromJson(jsonData, "burnMoveScale", burnMoveScale);
-			fromJson(jsonData, "burnScaleUpTime", burnScaleUpTime);
+			Convert::fromJson(jsonData, "engineIncline", engineIncline);
+			Convert::fromJson(jsonData, "burnMoveScale", burnMoveScale);
+			Convert::fromJson(jsonData, "burnScaleUpTime", burnScaleUpTime);
 			burnMoveScaleCurve.FromJson(jsonData, "burnMoveScaleCurve");
 		}
 

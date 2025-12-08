@@ -50,13 +50,13 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "health", health);
-			fromJson(jsonData, "postureStability", postureStability);
-			fromJson(jsonData, "postureStabilityScrapeRaito", postureStabilityScrapeRaito);
-			fromJson(jsonData, "armorCoolTime", armorCoolTime);
-			fromJson(jsonData, "angularVelocity", angularVelocity);
-			fromJson(jsonData, "angularThreshold", angularThreshold);
-			fromJson(jsonData, "worldStatePath", worldStatePath);
+			Convert::fromJson(jsonData, "health", health);
+			Convert::fromJson(jsonData, "postureStability", postureStability);
+			Convert::fromJson(jsonData, "postureStabilityScrapeRaito", postureStabilityScrapeRaito);
+			Convert::fromJson(jsonData, "armorCoolTime", armorCoolTime);
+			Convert::fromJson(jsonData, "angularVelocity", angularVelocity);
+			Convert::fromJson(jsonData, "angularThreshold", angularThreshold);
+			Convert::fromJson(jsonData, "worldStatePath", worldStatePath);
 		}
 
 		void Debug_Gui() override;

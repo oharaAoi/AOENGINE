@@ -31,7 +31,7 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "path", path);
+			Convert::fromJson(jsonData, "path", path);
 		}
 
 		void Debug_Gui() override {};

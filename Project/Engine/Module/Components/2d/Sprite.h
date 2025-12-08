@@ -105,22 +105,22 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	void FromJson(const json& jsonData) override {
 		transform.FromJson(jsonData, "transform");
 		uvTransform.FromJson(jsonData, "uvTransform");
-		fromJson(jsonData, "textureName", textureName);
-		fromJson(jsonData, "color", color);
-		fromJson(jsonData, "drawRange", drawRange);
-		fromJson(jsonData, "anchorPoint", anchorPoint);
-		fromJson(jsonData, "isFlipX", isFlipX);
-		fromJson(jsonData, "isFlipY", isFlipY);
-		fromJson(jsonData, "spriteSize", spriteSize);
-		fromJson(jsonData, "fillMethod", fillMethod);
-		fromJson(jsonData, "fillStartingPoint", fillStartingPoint);
-		fromJson(jsonData, "center", center);
-		fromJson(jsonData, "fillAmount", fillAmount);
-		fromJson(jsonData, "innerRadius", innerRadius);
-		fromJson(jsonData, "outerRadius", outerRadius);
-		fromJson(jsonData, "startAngle", startAngle);
-		fromJson(jsonData, "arcRange", arcRange);
-		fromJson(jsonData, "clockwise", clockwise);
+		Convert::fromJson(jsonData, "textureName", textureName);
+		Convert::fromJson(jsonData, "color", color);
+		Convert::fromJson(jsonData, "drawRange", drawRange);
+		Convert::fromJson(jsonData, "anchorPoint", anchorPoint);
+		Convert::fromJson(jsonData, "isFlipX", isFlipX);
+		Convert::fromJson(jsonData, "isFlipY", isFlipY);
+		Convert::fromJson(jsonData, "spriteSize", spriteSize);
+		Convert::fromJson(jsonData, "fillMethod", fillMethod);
+		Convert::fromJson(jsonData, "fillStartingPoint", fillStartingPoint);
+		Convert::fromJson(jsonData, "center", center);
+		Convert::fromJson(jsonData, "fillAmount", fillAmount);
+		Convert::fromJson(jsonData, "innerRadius", innerRadius);
+		Convert::fromJson(jsonData, "outerRadius", outerRadius);
+		Convert::fromJson(jsonData, "startAngle", startAngle);
+		Convert::fromJson(jsonData, "arcRange", arcRange);
+		Convert::fromJson(jsonData, "clockwise", clockwise);
 	}
 
 	void Debug_Gui() override {};

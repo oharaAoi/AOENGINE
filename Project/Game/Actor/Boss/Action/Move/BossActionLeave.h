@@ -31,11 +31,11 @@ public:	// 構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "moveSpeed", moveSpeed);
-			fromJson(jsonData, "moveTime", moveTime);
-			fromJson(jsonData, "decayRate", decayRate);
-			fromJson(jsonData, "finishDistance", finishDistance);
-			fromJson(jsonData, "rotateT", rotateT);
+			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			Convert::fromJson(jsonData, "decayRate", decayRate);
+			Convert::fromJson(jsonData, "finishDistance", finishDistance);
+			Convert::fromJson(jsonData, "rotateT", rotateT);
 		}
 
 		void Debug_Gui() override;

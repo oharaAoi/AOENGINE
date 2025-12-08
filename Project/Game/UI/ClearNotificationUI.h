@@ -31,9 +31,9 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "startPos", startPos);
-			fromJson(jsonData, "endPos", endPos);
-			fromJson(jsonData, "duration", duration);
+			Convert::fromJson(jsonData, "startPos", startPos);
+			Convert::fromJson(jsonData, "endPos", endPos);
+			Convert::fromJson(jsonData, "duration", duration);
 		}
 
 		void Debug_Gui() override;

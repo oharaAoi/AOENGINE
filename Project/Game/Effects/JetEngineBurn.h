@@ -52,13 +52,13 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "color", color);
-			fromJson(jsonData, "scale", scale);
-			fromJson(jsonData, "rotate", rotate);
-			fromJson(jsonData, "translate", translate);
-			fromJson(jsonData, "noiseScale", noiseScale);
-			fromJson(jsonData, "materialTexture", materialTexture);
-			fromJson(jsonData, "blendTexture", blendTexture);
+			Convert::fromJson(jsonData, "color", color);
+			Convert::fromJson(jsonData, "scale", scale);
+			Convert::fromJson(jsonData, "rotate", rotate);
+			Convert::fromJson(jsonData, "translate", translate);
+			Convert::fromJson(jsonData, "noiseScale", noiseScale);
+			Convert::fromJson(jsonData, "materialTexture", materialTexture);
+			Convert::fromJson(jsonData, "blendTexture", blendTexture);
 		}
 
 		void Debug_Gui() override;

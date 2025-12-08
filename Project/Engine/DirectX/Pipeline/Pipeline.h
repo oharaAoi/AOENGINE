@@ -51,14 +51,14 @@ public:
 
 		void FromJson(const json& jsonData) override {
 			const auto& pipeline = jsonData.at("Pipeline");
-			fromJson(jsonData, "vs", vs);
-			fromJson(jsonData, "ps", ps);
-			fromJson(jsonData, "cs", cs);
-			fromJson(jsonData, "blendMode", blendMode);
-			fromJson(jsonData, "culling", culling);
-			fromJson(jsonData, "depth", depth);
-			fromJson(jsonData, "primitiveTopologyType", primitiveTopologyType);
-			fromJson(pipeline, "rtvFormat", rtvFormats);
+			Convert::fromJson(jsonData, "vs", vs);
+			Convert::fromJson(jsonData, "ps", ps);
+			Convert::fromJson(jsonData, "cs", cs);
+			Convert::fromJson(jsonData, "blendMode", blendMode);
+			Convert::fromJson(jsonData, "culling", culling);
+			Convert::fromJson(jsonData, "depth", depth);
+			Convert::fromJson(jsonData, "primitiveTopologyType", primitiveTopologyType);
+			Convert::fromJson(pipeline, "rtvFormat", rtvFormats);
 		}
 
 		void Debug_Gui() override {};

@@ -35,11 +35,11 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "chargeTime", chargeTime);
-			fromJson(jsonData, "effectOffset", effectOffset);
-			fromJson(jsonData, "cameraApproachTime", cameraApproachTime);
-			fromJson(jsonData, "cameraLeaveTime", cameraLeaveTime);
-			fromJson(jsonData, "cameraOffsetZ", cameraOffsetZ);
+			Convert::fromJson(jsonData, "chargeTime", chargeTime);
+			Convert::fromJson(jsonData, "effectOffset", effectOffset);
+			Convert::fromJson(jsonData, "cameraApproachTime", cameraApproachTime);
+			Convert::fromJson(jsonData, "cameraLeaveTime", cameraLeaveTime);
+			Convert::fromJson(jsonData, "cameraOffsetZ", cameraOffsetZ);
 		}
 
 		void Debug_Gui() override;

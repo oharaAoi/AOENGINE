@@ -17,6 +17,8 @@ struct is_vector : std::false_type {};
 template <typename T, typename A>
 struct is_vector<std::vector<T, A>> : std::true_type {};
 
+namespace Convert {
+
 template <typename T>
 inline json toJson(const T& v) {
 	if constexpr (std::is_same_v<T, Math::Vector4>) {
@@ -134,6 +136,8 @@ inline void fromJson(const json& j, const std::string& key, std::vector<T>& out)
 	}
 }
 
+}
+
 namespace AOENGINE{
 
 /// <summary>
@@ -198,7 +202,7 @@ public:
 	/// <returns>: json型にkeyとvalueのペアが登録される</returns>
 	template <typename T>
 	JsonBuilder& Add(const std::string& key, const T& value) {
-		auto jsonValue = toJson(value);
+		auto jsonValue = Convert::toJson(value);
 		jsonData_[hierarchyName_][key] = std::move(jsonValue);
 		return *this;// 自分自身を返す
 	}

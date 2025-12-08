@@ -24,7 +24,7 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "pos", pos);
+			Convert::fromJson(jsonData, "pos", pos);
 		}
 
 		void Debug_Gui() override;

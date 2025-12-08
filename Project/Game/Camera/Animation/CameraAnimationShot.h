@@ -33,8 +33,8 @@ public:	// 構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "offsetZ", offsetZ);
-			fromJson(jsonData, "time", time);
+			Convert::fromJson(jsonData, "offsetZ", offsetZ);
+			Convert::fromJson(jsonData, "time", time);
 		}
 
 		void Debug_Gui() override;

@@ -26,8 +26,8 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "rotate", rotate);
-			fromJson(jsonData, "translate", translate);
+			Convert::fromJson(jsonData, "rotate", rotate);
+			Convert::fromJson(jsonData, "translate", translate);
 		}
 
 		void Debug_Gui() override {};

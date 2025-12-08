@@ -17,10 +17,10 @@ void Math::Curve::Debug_Gui() {
 
 json Math::Curve::ToJson() const {
     return {
-        {"controlPoints_1", toJson(controlPoints_[0])},
-        {"controlPoints_2", toJson(controlPoints_[1])},
-        {"controlPoints_3", toJson(controlPoints_[2])},
-        {"controlPoints_4", toJson(controlPoints_[3])},
+        {"controlPoints_1", Convert::toJson(controlPoints_[0])},
+        {"controlPoints_2", Convert::toJson(controlPoints_[1])},
+        {"controlPoints_3", Convert::toJson(controlPoints_[2])},
+        {"controlPoints_4", Convert::toJson(controlPoints_[3])},
     };
 }
 
@@ -40,8 +40,8 @@ void Math::Curve::FromJson(const json& _json, const std::string& _name) {
         }
     }
 
-    fromJson(curve, "controlPoints_1", controlPoints_[0]);
-    fromJson(curve, "controlPoints_2", controlPoints_[1]);
-    fromJson(curve, "controlPoints_3", controlPoints_[2]);
-    fromJson(curve, "controlPoints_4", controlPoints_[3]);
+    Convert::fromJson(curve, "controlPoints_1", controlPoints_[0]);
+    Convert::fromJson(curve, "controlPoints_2", controlPoints_[1]);
+    Convert::fromJson(curve, "controlPoints_3", controlPoints_[2]);
+    Convert::fromJson(curve, "controlPoints_4", controlPoints_[3]);
 }

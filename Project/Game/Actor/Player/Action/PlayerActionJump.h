@@ -51,17 +51,17 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "chargeTime", chargeTime);
-			fromJson(jsonData, "finishChargeTime", finishChargeTime);
-			fromJson(jsonData, "jumpForce", jumpForce);
-			fromJson(jsonData, "risingForce", risingForce);
-			fromJson(jsonData, "maxAcceleration", maxAcceleration);
-			fromJson(jsonData, "accelDecayRate", accelDecayRate);
-			fromJson(jsonData, "velocityDecayRate", velocityDecayRate);
-			fromJson(jsonData, "jumpEnergy", jumpEnergy);
-			fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
-			fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
-			fromJson(jsonData, "animationBlendTime", animationBlendTime);
+			Convert::fromJson(jsonData, "chargeTime", chargeTime);
+			Convert::fromJson(jsonData, "finishChargeTime", finishChargeTime);
+			Convert::fromJson(jsonData, "jumpForce", jumpForce);
+			Convert::fromJson(jsonData, "risingForce", risingForce);
+			Convert::fromJson(jsonData, "maxAcceleration", maxAcceleration);
+			Convert::fromJson(jsonData, "accelDecayRate", accelDecayRate);
+			Convert::fromJson(jsonData, "velocityDecayRate", velocityDecayRate);
+			Convert::fromJson(jsonData, "jumpEnergy", jumpEnergy);
+			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
+			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			Convert::fromJson(jsonData, "animationBlendTime", animationBlendTime);
 		}
 
 		void Debug_Gui() override;

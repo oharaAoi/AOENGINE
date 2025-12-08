@@ -59,9 +59,9 @@ Math::Matrix4x4 Math::SRT::MakeAffine() {
 
 json Math::SRT::ToJson() const {
 	return {
-		{"scale", toJson(scale)},
-		{"rotate", toJson(rotate)},
-		{"translate", toJson(translate)}
+		{"scale",		Convert::toJson(scale)},
+		{"rotate",		Convert::toJson(rotate)},
+		{"translate",	Convert::toJson(translate)}
 	};
 }
 
@@ -79,9 +79,9 @@ void Math::SRT::FromJson(const json& _json, const std::string& _name) {
 			return;
 		}
 	}
-	fromJson(transform, "scale", scale);
-	fromJson(transform, "rotate", rotate);
-	fromJson(transform, "translate", translate);
+	Convert::fromJson(transform, "scale", scale);
+	Convert::fromJson(transform, "rotate", rotate);
+	Convert::fromJson(transform, "translate", translate);
 }
 
 Math::Matrix4x4 Math::QuaternionSRT::MakeAffine() {
@@ -104,9 +104,9 @@ Math::Matrix4x4 Math::QuaternionSRT::MakeAffine() {
 
 json Math::QuaternionSRT::ToJson() const {
 	return {
-		{"scale", toJson(scale)},
-		{"rotate", toJson(rotate)},
-		{"translate", toJson(translate)}
+		{"scale",		Convert::toJson(scale)},
+		{"rotate",		Convert::toJson(rotate)},
+		{"translate",	Convert::toJson(translate)}
 	};
 }
 
@@ -124,9 +124,9 @@ void Math::QuaternionSRT::FromJson(const json& _json, const std::string& _name) 
 			return;
 		}
 	}
-	fromJson(transform, "scale", scale);
-	fromJson(transform, "rotate", rotate);
-	fromJson(transform, "translate", translate);
+	Convert::fromJson(transform, "scale", scale);
+	Convert::fromJson(transform, "rotate", rotate);
+	Convert::fromJson(transform, "translate", translate);
 }
 
 void Math::QuaternionSRT::SetParent(const Math::Matrix4x4& parentMat) {

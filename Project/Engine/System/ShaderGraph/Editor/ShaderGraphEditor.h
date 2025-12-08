@@ -65,6 +65,11 @@ private:
 	/// </summary>
 	void OverwriteGraph();
 
+	/// <summary>
+	/// 再読み込みする
+	/// </summary>
+	void Reload();
+
 public:
 
 	AOENGINE::DxResource* GetResource() const { return resultNode_->GetResultSource(); }

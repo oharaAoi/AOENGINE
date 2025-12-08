@@ -32,9 +32,9 @@ public:	// メンバ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "stanTime", stanTime);
-			fromJson(jsonData, "stanSlowTime", stanSlowTime);
-			fromJson(jsonData, "effectRandDistance", effectRandDistance);
+			Convert::fromJson(jsonData, "stanTime", stanTime);
+			Convert::fromJson(jsonData, "stanSlowTime", stanSlowTime);
+			Convert::fromJson(jsonData, "effectRandDistance", effectRandDistance);
 		}
 
 		void Debug_Gui() override;

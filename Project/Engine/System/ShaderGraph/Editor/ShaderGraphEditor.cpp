@@ -47,6 +47,8 @@ void ShaderGraphEditor::Edit() {
 		if (graphPath_ != "") {
 			ImGui::Text(graphPath_.c_str());
 		}
+		Reload();
+		ImGui::SameLine();
 		OverwriteGraph();
 		ImGui::SameLine();
 		SaveGraph();
@@ -173,6 +175,15 @@ void ShaderGraphEditor::OverwriteGraph() {
 	if (ImGui::Button("Overwrite")) {
 		if (graphPath_ != "") {
 			ShaderGraphSerializer::Save(graphPath_, editor_.get());
+			editor_->getNodes().clear();
+			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(graphPath_));
+		}
+	}
+}
+
+void AOENGINE::ShaderGraphEditor::Reload() {
+	if (ImGui::Button("Reload")) {
+		if (graphPath_ != "") {
 			editor_->getNodes().clear();
 			resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(graphPath_));
 		}

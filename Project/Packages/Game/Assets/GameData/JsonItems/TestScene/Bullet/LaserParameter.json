@@ -3,11 +3,14 @@
         "cylinderColor": {
             "a": 1.0,
             "b": 1.0,
-            "g": 0.8023796081542969,
-            "r": 0.05581396818161011
+            "g": 1.0,
+            "r": 1.0
         },
         "fadeTime": 1.0,
+        "lifeTime": 3.0,
         "maxLength": 1000.0,
-        "shaderGraphPath": ".\\Project\\Packages\\Game\\Assets\\GameData\\ShaderGraph\\laser.json"
+        "shaderGraphPath": "",
+        "shotSeValue": 0.4000000059604645,
+        "uvScaleY": 200.0
     }
 }

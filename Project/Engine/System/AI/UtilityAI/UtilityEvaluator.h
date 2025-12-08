@@ -43,9 +43,9 @@ struct UtilityEvaluator : AOENGINE::IJsonConverter {
 	/// </summary>
 	/// <param name="jsonData"></param>
 	void FromJson(const json& jsonData) override {
-		fromJson(jsonData, "name", name_);
-		fromJson(jsonData, "weight", weight);
-		fromJson(jsonData, "maxValue", maxValue);
+		Convert::fromJson(jsonData, "name", name_);
+		Convert::fromJson(jsonData, "weight", weight);
+		Convert::fromJson(jsonData, "maxValue", maxValue);
 		curve.FromJson(jsonData, "decelerationCurve");
 	}
 

@@ -28,9 +28,9 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "knockbackTime", knockbackTime);
-			fromJson(jsonData, "knockStrength", knockStrength);
-			fromJson(jsonData, "knockDecay", knockDecay);
+			Convert::fromJson(jsonData, "knockbackTime", knockbackTime);
+			Convert::fromJson(jsonData, "knockStrength", knockStrength);
+			Convert::fromJson(jsonData, "knockDecay", knockDecay);
 		}
 
 		void Debug_Gui() override;

@@ -32,11 +32,11 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "knockbackTime", knockbackTime);
-			fromJson(jsonData, "knockStrength", knockStrength);
-			fromJson(jsonData, "knockDecay", knockDecay);
-			fromJson(jsonData, "glitchNoiseTime", glitchNoiseTime);
-			fromJson(jsonData, "glitchNoiseStrength", glitchNoiseStrength);
+			Convert::fromJson(jsonData, "knockbackTime", knockbackTime);
+			Convert::fromJson(jsonData, "knockStrength", knockStrength);
+			Convert::fromJson(jsonData, "knockDecay", knockDecay);
+			Convert::fromJson(jsonData, "glitchNoiseTime", glitchNoiseTime);
+			Convert::fromJson(jsonData, "glitchNoiseStrength", glitchNoiseStrength);
 		}
 
 		void Debug_Gui() override;

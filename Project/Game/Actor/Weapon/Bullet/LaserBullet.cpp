@@ -35,6 +35,7 @@ void LaserBullet::LaserParameter::Debug_Gui() {
 	ImGui::DragFloat("fadeTime", &fadeTime);
 	ImGui::DragFloat("lifeTime", &lifeTime);
 	ImGui::DragFloat("shotSeValue", &shotSeValue);
+	ImGui::DragFloat("uvScaleY", &uvScaleY);
 	ImGui::ColorEdit4("color", &cylinderColor.r);
 	ImGui::Text("shaderGraphPath : %s", shaderGraphPath.c_str());
 	SaveAndLoad();
@@ -96,7 +97,6 @@ void LaserBullet::Init() {
 	lifeTimer_ = AOENGINE::Timer(param_.lifeTime);
 
 	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_laser.json", object_);
-	//AOENGINE::EditorWindows::AddObjectWindow(this, "Laser");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ void LaserBullet::Stretch() {
 
 		Math::Vector3 diff = dire_ * scale.z;
 		lineCollider_->SetDiff(diff);
-		laserCylinder_->SetUvScale(scale.z);
+		laserCylinder_->SetUvScale(param_.uvScaleY);
 	}
 }
 

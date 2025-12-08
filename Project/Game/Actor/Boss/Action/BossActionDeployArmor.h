@@ -25,8 +25,8 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			fromJson(jsonData, "deployTime", deployTime);
-			fromJson(jsonData, "randShakeValue", randShakeValue);
+			Convert::fromJson(jsonData, "deployTime", deployTime);
+			Convert::fromJson(jsonData, "randShakeValue", randShakeValue);
 		}
 
 		void Debug_Gui() override;
