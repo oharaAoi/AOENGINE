@@ -75,11 +75,15 @@ void AOENGINE::Model::Draw(ID3D12GraphicsCommandList* commandList,
 			std::string textureName = material->GetAlbedoTexture();
 			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
-			AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
-			if (dxResource) {
-				ID3D12Resource* resource = dxResource->GetResource();
-				if (resource) {
-					commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+			if (material->GetShaderGraph()) {
+				AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
+				if (dxResource) {
+					ID3D12Resource* resource = dxResource->GetResource();
+					if (resource) {
+						commandList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+					} else {
+						AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
+					}
 				} else {
 					AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, "error.png", index);
 				}

@@ -70,6 +70,10 @@ private:
 	/// </summary>
 	void Reload();
 
+	void SaveLastPath();
+
+	void LoadLastPath();
+
 public:
 
 	AOENGINE::DxResource* GetResource() const { return resultNode_->GetResultSource(); }
@@ -86,6 +90,8 @@ private:
 	bool popupRequested_ = false;
 
 	std::string graphPath_ = "";
+
+	const std::string kPropertyPath_ = "./Project/Packages/Property/ShaderGraphEditor.json";
 };
 
 }

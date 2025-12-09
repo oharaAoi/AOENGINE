@@ -63,6 +63,13 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 	return root;
 }
 
+std::shared_ptr<ShaderGraphResultNode> AOENGINE::ShaderGraphNodeFactory::CreateResultNode(ImFlow::ImNodeFlow* _editor) {
+	std::shared_ptr<ShaderGraphResultNode> root = _editor->addNode<ShaderGraphResultNode>(ImVec2(200, 300));
+	root->Init();
+	root->setTitle("ResultNode");
+	return root;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Graphを作成する
 ///////////////////////////////////////////////////////////////////////////////////////////////

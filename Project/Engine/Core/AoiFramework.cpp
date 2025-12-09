@@ -1,6 +1,5 @@
 #include "AoiFramework.h"
 #include "Engine/Engine.h"
-#include "Engine/System/Manager/AssetsManager.h"
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/System/Manager/ModelManager.h"
 
@@ -31,7 +30,6 @@ void AoiFramework::Init() {
 	logger_.Init();
 
 	Engine::Initialize(windowWidth_, windowHeight_, windowTitle_);
-	AssetsManager::GetInstance()->Init();
 
 	logger_.CommentLog("Game Start!");
 }

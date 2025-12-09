@@ -12,6 +12,7 @@ ShaderGraphEditor::ShaderGraphEditor() {
 }
 
 ShaderGraphEditor::~ShaderGraphEditor() {
+	SaveLastPath();
 	editor_.reset();
 }
 
@@ -20,10 +21,13 @@ ShaderGraphEditor::~ShaderGraphEditor() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Init() {
+	LoadLastPath();
 	editor_ = std::make_unique<ImFlow::ImNodeFlow>();
 	resultNode_ = nodeFactory_.Init(editor_.get());
-
-	graphPath_ = "";
+	if (graphPath_ != "") {
+		editor_->getNodes().clear();
+		resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(graphPath_));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +51,12 @@ void ShaderGraphEditor::Edit() {
 		if (graphPath_ != "") {
 			ImGui::Text(graphPath_.c_str());
 		}
+
+		if (ImGui::Button("Clear")) {
+			editor_->getNodes().clear();
+			resultNode_ = nodeFactory_.CreateResultNode(editor_.get());
+		}
+		ImGui::SameLine();
 		Reload();
 		ImGui::SameLine();
 		OverwriteGraph();
@@ -205,3 +215,40 @@ void ShaderGraphEditor::SaveGraph() {
 	}
 }
 
+void AOENGINE::ShaderGraphEditor::SaveLastPath() {
+	json data;
+	data["lastPath"] = graphPath_;
+	std::ofstream outFile(kPropertyPath_);
+	if (outFile.fail()) {
+		std::string message = "Faild open data file for write\n";
+		//Log(message);
+		return;
+	}
+
+	// -------------------------------------------------
+		// ↓ ファイルに実際に書き込む
+		// -------------------------------------------------
+	outFile << std::setw(4) << data << std::endl;
+	outFile.close();
+}
+
+void AOENGINE::ShaderGraphEditor::LoadLastPath() {
+	// 読み込み用ファイルストリーム
+	std::ifstream ifs;
+	// ファイルを読み込みように開く
+	ifs.open(kPropertyPath_);
+
+	if (ifs.fail()) {
+		std::string message = "not Exist " + kPropertyPath_ + ".json";
+		graphPath_ = "";
+		return;
+	}
+
+	json root;
+	// json文字列からjsonのデータ構造に展開
+	ifs >> root;
+	// ファイルを閉じる
+	ifs.close();
+
+	graphPath_ = root.value("lastPath", "");
+}

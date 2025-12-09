@@ -24,12 +24,6 @@ void JetEngine::Debug_Gui() {
 		jetEngineBurn_->Debug_Gui();
 		ImGui::TreePop();
 	}
-
-	if (ImGui::TreeNode("Burn2")) {
-		jetEngineBurn2_->Debug_Gui();
-		ImGui::TreePop();
-	}
-
 	if (ImGui::CollapsingHeader("burnParent")) {
 		burnParentTransform_->Debug_Gui();
 	}
@@ -84,18 +78,14 @@ void JetEngine::Init() {
 	// effectの設定
 	// -------------------------------------
 
-	jetEngineBurn_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
+	jetEngineBurn_ = std::make_unique<JetEngineBurn>();
 	jetEngineBurn_->Init();
-	jetEngineBurn_->GetWorldTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
-
-	jetEngineBurn2_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<JetEngineBurn>("JetBurn", "Object_Dissolve.json", 100);
-	jetEngineBurn2_->Init();
-	jetEngineBurn2_->GetWorldTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
+	jetEngineBurn_->GetTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
 
 	burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("BurnParticle");
 	burnParticle_->SetParent(transform_->GetWorldMatrix());
 
-	object_->AddChild(jetEngineBurn_);
+	object_->AddChild(jetEngineBurn_.get());
 	
 	// -------------------------------------
 	// その他初期化
@@ -128,6 +118,8 @@ void JetEngine::Update(float diftX) {
 	transform_->SetRotate(rotate);
 	transform_->Update();
 	burnParentTransform_->Update();
+
+	jetEngineBurn_->Update();
 }
 
 void JetEngine::JetIsStop() {

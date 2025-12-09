@@ -2,6 +2,7 @@
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Manager/AssetsManager.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/DrawUtils.h"
@@ -113,14 +114,17 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
 
+#ifdef _DEBUG
+	imguiManager_ = ImGuiManager::GetInstacne();
+	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
+#endif
+
+	AssetsManager::GetInstance()->Init();
 
 #ifdef _DEBUG
 	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
 	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
 	editorWindows_->SetRenderTarget(renderTarget_);
-	
-	imguiManager_ = ImGuiManager::GetInstacne();
-	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
 #endif
 
 	render_->Init(dxCmdList_, dxDevice_, graphicsCxt_->GetRenderTarget());

@@ -2,6 +2,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
+#include "Engine/System/ShaderGraph/ShaderGraph.h"
 #include "Engine/Lib/Math/Curve.h"
 #include "Engine/Utilities/Timer.h"
 #include "Game/Effects/JetEngineBurn.h"
@@ -90,11 +91,12 @@ private:
 
 	Parameter param_;
 
+	std::unique_ptr<AOENGINE::ShaderGraph> shaderGraph_;
+
 	// effects -------------------------------------------------
 	AOENGINE::BaseParticles* burnParticle_;
 	
-	JetEngineBurn* jetEngineBurn_;
-	JetEngineBurn* jetEngineBurn2_;
+	std::unique_ptr<JetEngineBurn> jetEngineBurn_;
 
 	// moveによる炎のScale関連 ------------------------------------
 	AOENGINE::Timer burnScaleUpTimer_;

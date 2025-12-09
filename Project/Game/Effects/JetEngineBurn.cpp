@@ -1,8 +1,10 @@
 #include "JetEngineBurn.h"
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
+#include <Render/SceneRenderer.h>
 
-void JetEngineBurn::Finalize() {
+JetEngineBurn::~JetEngineBurn() {
+	AOENGINE::SceneRenderer::GetInstance()->ReleaseObject(object_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -10,41 +12,27 @@ void JetEngineBurn::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Init() {
-	geometry_.Init(Math::Vector2(1,1));
 	param_.Load();
 	
-	// meshの作成dw 
-	std::string name = geometry_.GetGeometryName();
-	if (!ExistMesh(name)) {
-		mesh_ = std::make_shared<AOENGINE::Mesh>();
-		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), geometry_.GetVertex(), geometry_.GetIndex());
-		AddMeshManager(mesh_, name);
-	} else {
-		mesh_ = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("JetBurn", "Object_Add.json", 100);
+	object_->SetObject("sphere.obj");
+	object_->SetTexture("laser.png");
+	object_->SetIsLighting(false);
+	object_->SetEnableShadow(false);
+	object_->SetColor(param_.color);
+
+	transform_ = object_->GetTransform();
+	transform_->SetScale(param_.scale);
+	transform_->SetRotate(param_.rotate);
+	transform_->SetTranslate(param_.translate);
+
+	shaderGraph_ = std::make_unique<AOENGINE::ShaderGraph>();
+	shaderGraph_->Init("jetBurn");
+	shaderGraph_->Load(param_.shaderGraphPath);
+
+	for (auto& material : object_->GetMaterials()) {
+		material.second->SetShaderGraph(shaderGraph_.get());
 	}
-
-	noiseBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(NoiseUV));
-	noiseBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&noiseUV_));
-
-	initScale_ = param_.scale;
-	noiseSRT_.scale = param_.noiseScale;
-	noiseSRT_.rotate = CVector3::ZERO;
-	noiseSRT_.translate = CVector3::ZERO;
-	
-	// その他の作成
-	material_ = std::make_unique<AOENGINE::Material>();
-	material_->Init();
-	material_->SetColor(param_.color);
-	material_->SetAlbedoTexture(param_.materialTexture);
-
-	worldTransform_ = Engine::CreateWorldTransform();
-	worldTransform_->SetScale(param_.scale);
-	worldTransform_->SetRotate(param_.rotate);
-	worldTransform_->SetTranslate(param_.translate);
-
-	noiseAnimation_.Init(-20.0f, 20.0f, 50.0f, (int)EasingType::None::Liner, LoopType::Loop);
-
-	worldTransform_->SetScale(param_.scale);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,48 +40,7 @@ void JetEngineBurn::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Update() {
-	noiseAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
-	noiseSRT_.translate.y = noiseAnimation_.GetValue();
-	noiseUV_->uv = noiseSRT_.MakeAffine();
-
-	worldTransform_->Update();
-	material_->Update();
-}
-
-void JetEngineBurn::PostUpdate() {
-	worldTransform_->Update();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void JetEngineBurn::Draw() const {
-	Engine::SetPipeline(PSOType::Object3d, "Object_TextureBlendAdd.json");
-	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
-
-	commandList->IASetVertexBuffers(0, 1, &mesh_->GetVBV());
-	commandList->IASetIndexBuffer(&mesh_->GetIBV());
-
-	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
-	UINT index = pso->GetRootSignatureIndex("gMaterial");
-	commandList->SetGraphicsRootConstantBufferView(index, material_->GetBufferAddress());
-	index = pso->GetRootSignatureIndex("gNoiseUV");
-	commandList->SetGraphicsRootConstantBufferView(index, noiseBuffer_->GetGPUVirtualAddress());
-
-	index = pso->GetRootSignatureIndex("gWorldTransformMatrix");
-	worldTransform_->BindCommandList(commandList, index);
-	index = pso->GetRootSignatureIndex("gViewProjectionMatrix");
-	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandList(commandList, index);
-	index = pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	AOENGINE::Render::GetInstance()->GetViewProjection()->BindCommandListPrev(commandList, index);
-
-	index = pso->GetRootSignatureIndex("gTexture");
-	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, material_->GetAlbedoTexture(), index);
-	index = pso->GetRootSignatureIndex("gNoiseTexture");
-	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, param_.blendTexture, index);
-
-	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
+	shaderGraph_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,53 +48,16 @@ void JetEngineBurn::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Debug_Gui() {
-	if (ImGui::TreeNode("Burn")) {
-		static bool isDebug = false;
-		ImGui::Checkbox("isDebug", &isDebug);
-		worldTransform_->Debug_Gui();
-		material_->Debug_Gui();
-
-		param_.color = material_->GetColor();
-		param_.scale = worldTransform_->GetScale();
-		param_.rotate = worldTransform_->GetRotate();
-		param_.translate = worldTransform_->GetTranslate();
-		param_.materialTexture = material_->GetAlbedoTexture();
-
-		if (ImGui::CollapsingHeader("BlendTexture")) {
-			if (ImGui::TreeNode("UV")) {
-				ImGui::DragFloat3("scale", &noiseSRT_.scale.x, 0.1f);
-				ImGui::DragFloat3("rotate", &noiseSRT_.rotate.x, 0.1f);
-				ImGui::DragFloat3("translate", &noiseSRT_.translate.x, 0.1f);
-				ImGui::TreePop();
-			}
-			param_.blendTexture = AOENGINE::TextureManager::GetInstance()->SelectTexture(param_.blendTexture);
-
-			param_.noiseScale = noiseSRT_.scale;
-		}
-
-		param_.SaveAndLoad();
-		ImGui::TreePop();
-	}
-
-	if (ImGui::TreeNode("Mesh")) {
-		geometry_.Debug_Gui();
-		mesh_->SetVertexData(geometry_.GetVertex());
-		ImGui::TreePop();
-	}
+	object_->Debug_Gui();
+	shaderGraph_->Debug_Gui();
+	param_.shaderGraphPath = shaderGraph_->GetPath();
+	param_.Debug_Gui();
 }
 
 
 void JetEngineBurn::Parameter::Debug_Gui() {
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ meshの処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void JetEngineBurn::AddMeshManager(std::shared_ptr<AOENGINE::Mesh>& _pMesh, const std::string& name) {
-	AOENGINE::MeshManager::GetInstance()->AddMesh(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), name, name, _pMesh->GetVerticesData(), _pMesh->GetIndices());
-}
-
-bool JetEngineBurn::ExistMesh(const std::string& name) {
-	return AOENGINE::MeshManager::GetInstance()->ExistMesh(name);
+	ImGui::ColorEdit4("color", &color.r);
+	ImGui::DragFloat3("scale", &scale.x, 0.1f);
+	ImGui::DragFloat3("translate", &translate.x, 0.1f);
+	SaveAndLoad();
 }

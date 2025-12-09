@@ -32,6 +32,8 @@ public:
 
 	std::shared_ptr<ShaderGraphResultNode> Init(ImFlow::ImNodeFlow* _editor);
 
+	std::shared_ptr<ShaderGraphResultNode> CreateResultNode(ImFlow::ImNodeFlow* _editor);
+
 	std::shared_ptr<ShaderGraphResultNode> CreateGraph(const json& _json);
 
 	void CreateGui(const ImVec2& _pos);

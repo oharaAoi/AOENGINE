@@ -305,6 +305,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
@@ -647,6 +648,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />

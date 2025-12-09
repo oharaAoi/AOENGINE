@@ -1256,6 +1256,7 @@
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2166,6 +2167,7 @@
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

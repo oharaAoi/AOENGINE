@@ -8,6 +8,7 @@
 #include "Game/WorldObject/Skybox.h"
 
 #include "Game/Actor/Weapon/Bullet/LaserBullet.h"
+#include "Game/Effects/JetEngineBurn.h"
 
 class TestScene 
 : public BaseScene {
@@ -31,6 +32,7 @@ private:
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 	
 	std::unique_ptr<LaserBullet> laser_;
+	std::unique_ptr<JetEngineBurn> jet_;
 
 };
 

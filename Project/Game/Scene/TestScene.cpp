@@ -30,7 +30,12 @@ void TestScene::Init() {
 
 	laser_ = std::make_unique<LaserBullet>();
 	laser_->Init();
+
+	jet_ = std::make_unique<JetEngineBurn>();
+	jet_->Init();
+
 	AOENGINE::EditorWindows::AddObjectWindow(laser_.get(), "Laser");
+	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,6 +44,7 @@ void TestScene::Init() {
 void TestScene::Update() {
 
 	laser_->Update();
+	jet_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

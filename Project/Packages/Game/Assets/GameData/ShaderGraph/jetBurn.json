@@ -1,0 +1,296 @@
+{
+    "links": [
+        {
+            "fromNode": 2864978942784,
+            "fromPin": "DxResource",
+            "toNode": 2865364790160,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2864978947008,
+            "fromPin": "uv",
+            "toNode": 2865364790160,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2864978946240,
+            "fromPin": "output",
+            "toNode": 2864978947008,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 1207154224848,
+            "fromPin": "DxResource",
+            "toNode": 1208051171296,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1208055362048,
+            "fromPin": "output",
+            "toNode": 1207154221392,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 1207154221392,
+            "fromPin": "uv",
+            "toNode": 1208051171296,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2864993210384,
+            "fromPin": "time",
+            "toNode": 1208055362048,
+            "toPin": "y"
+        },
+        {
+            "fromNode": 1206908959056,
+            "fromPin": "output",
+            "toNode": 1207154221392,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 2865364790160,
+            "fromPin": "DxResource",
+            "toNode": 2046816814896,
+            "toPin": "BaseTexture"
+        },
+        {
+            "fromNode": 2046887150912,
+            "fromPin": "DxResource",
+            "toNode": 2046816814896,
+            "toPin": "SampleNoise"
+        },
+        {
+            "fromNode": 3019862352640,
+            "fromPin": "Texture",
+            "toNode": 3019862355952,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 3020294281344,
+            "fromPin": "DxResource",
+            "toNode": 3019862355952,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 3019862355952,
+            "fromPin": "Texture",
+            "toNode": 2864993207024,
+            "toPin": "DxResource"
+        },
+        {
+            "fromNode": 2864978945856,
+            "fromPin": "DxResource",
+            "toNode": 3019862352640,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 1208051171296,
+            "fromPin": "DxResource",
+            "toNode": 2096192455744,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 2046816814896,
+            "fromPin": "DxResource",
+            "toNode": 2096192455744,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2096192455744,
+            "fromPin": "DxResource",
+            "toNode": 3019862352640,
+            "toPin": "TextureB"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 2864978946240,
+            "name": "Property_Vector2",
+            "pos": [
+                -330.0,
+                460.0
+            ],
+            "props": {
+                "value": [
+                    0.8799999952316284,
+                    0.8199999928474426
+                ]
+            }
+        },
+        {
+            "id": 2046816814896,
+            "name": "Distortion",
+            "pos": [
+                460.0,
+                380.0
+            ],
+            "props": {
+                "scroll": {
+                    "x": 1.0,
+                    "y": 2.0
+                },
+                "strength": 0.10000000149011612,
+                "tiling": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
+        },
+        {
+            "id": 1208055362048,
+            "name": "InOut_Vector2",
+            "pos": [
+                -0.0,
+                260.0
+            ],
+            "props": {
+                "value": [
+                    0.0,
+                    0.1835504025220871
+                ]
+            }
+        },
+        {
+            "id": 2864978945856,
+            "name": "Texture",
+            "pos": [
+                620.0,
+                40.0
+            ],
+            "props": {
+                "textureName": "shoulderMissile.png"
+            }
+        },
+        {
+            "id": 2864993210384,
+            "name": "TimeNode",
+            "pos": [
+                -140.0,
+                250.0
+            ]
+        },
+        {
+            "id": 1207154224848,
+            "name": "Texture",
+            "pos": [
+                90.0,
+                110.0
+            ],
+            "props": {
+                "textureName": "craters 13 - 512x512.png"
+            }
+        },
+        {
+            "id": 3019862352640,
+            "name": "MaskBlend",
+            "pos": [
+                840.0,
+                120.0
+            ]
+        },
+        {
+            "id": 2865364790160,
+            "name": "SampleTexture2D",
+            "pos": [
+                200.0,
+                380.0
+            ]
+        },
+        {
+            "id": 1208051171296,
+            "name": "SampleTexture2D",
+            "pos": [
+                280.0,
+                170.0
+            ]
+        },
+        {
+            "id": 1206908959056,
+            "name": "Property_Vector2",
+            "pos": [
+                -240.0,
+                160.0
+            ],
+            "props": {
+                "value": [
+                    0.5899999737739563,
+                    0.20999999344348907
+                ]
+            }
+        },
+        {
+            "id": 3019862355952,
+            "name": "MaskBlend",
+            "pos": [
+                1070.0,
+                200.0
+            ]
+        },
+        {
+            "id": 2864978942784,
+            "name": "Texture",
+            "pos": [
+                -40.0,
+                350.0
+            ],
+            "props": {
+                "textureName": "gradeation.png"
+            }
+        },
+        {
+            "id": 1207154221392,
+            "name": "UVTransform",
+            "pos": [
+                150.0,
+                220.0
+            ]
+        },
+        {
+            "id": 2096192455744,
+            "name": "AddBlend",
+            "pos": [
+                600.0,
+                260.0
+            ]
+        },
+        {
+            "id": 3020294281344,
+            "name": "Texture",
+            "pos": [
+                870.0,
+                300.0
+            ],
+            "props": {
+                "textureName": "whiteAndBlack.png"
+            }
+        },
+        {
+            "id": 2046887150912,
+            "name": "Texture",
+            "pos": [
+                260.0,
+                500.0
+            ],
+            "props": {
+                "textureName": "voronoi 1 - 512x512.png"
+            }
+        },
+        {
+            "id": 2864993207024,
+            "name": "ResultNode",
+            "pos": [
+                1310.0,
+                230.0
+            ]
+        },
+        {
+            "id": 2864978947008,
+            "name": "UVTransform",
+            "pos": [
+                -30.0,
+                480.0
+            ]
+        }
+    ]
+}
