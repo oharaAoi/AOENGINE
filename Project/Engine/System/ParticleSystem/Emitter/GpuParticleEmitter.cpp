@@ -165,6 +165,7 @@ void GpuParticleEmitter::SetItem() {
 	emitterData_->radius = emitterItem_.radius;
 	emitterData_->angle = emitterItem_.angle;
 	emitterData_->height = emitterItem_.height;
+	emitterData_->beAffectedByField = (uint32_t)emitterItem_.beAffectedByField;
 }
 
 

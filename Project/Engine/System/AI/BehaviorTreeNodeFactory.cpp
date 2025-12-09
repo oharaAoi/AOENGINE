@@ -35,6 +35,10 @@ void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateT
 	} else if (nodeType == (int)NodeType::Parallel) {
 		_nodeList.emplace_back(std::make_shared<ParallelNode>());
 
+	} else if (nodeType == (int)NodeType::Condition) {
+		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
+		node->SetBlackboard(_worldState);
+
 	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
 		node->Init();

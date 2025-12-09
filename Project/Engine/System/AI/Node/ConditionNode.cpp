@@ -57,14 +57,27 @@ void ConditionNode::FromJson(const json& _jsonData) {
 
 BehaviorStatus ConditionNode::Execute() {
 	if (children_.empty()) {return BehaviorStatus::Inactive;}
+
+	// 並び変えを行なう
+	std::sort(children_.begin(), children_.end(),
+			  [](BaseBehaviorNode* a, BaseBehaviorNode* b) {
+				  return a->GetPos().x < b->GetPos().x; // X座標が小さい順
+			  });
 	
 	BehaviorStatus status;
 	if (Compare(blackboard_->Get(leftKey_), blackboard_->Get(rightKey_), conditionOps[opIndex_])) {
 		currentIndex_ = 0;
 		status = children_[0]->Execute();
 	} else {
-		currentIndex_ = 1;
-		status = children_[1]->Execute();
+		// 右のNodeが設定されていたら
+		if (children_.size() >= 2) {
+			currentIndex_ = 1;
+			status = children_[1]->Execute();
+		} else {
+			// 設定されていなかったら成功を返す
+			currentIndex_ = 0;
+			return BehaviorStatus::Success;
+		}
 	}
 
 	if (status == BehaviorStatus::Running) {

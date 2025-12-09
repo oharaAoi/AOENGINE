@@ -1,0 +1,71 @@
+#pragma once
+#include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/System/AI/Node/BaseTaskNode.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
+
+class Boss;
+
+/// <summary>
+/// 第2形態に遷移するアクション
+/// </summary>
+class BossActionTransitionPhase :
+	public AI::BaseTaskNode<Boss> {
+public: // データ構造体
+
+	struct Parameter : public AOENGINE::IJsonConverter {
+		float chargeTime = 3.0f; // 溜める時間
+
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("BossActionTransitionPhase");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("chargeTime", chargeTime)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "chargeTime", chargeTime);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
+
+	BossActionTransitionPhase();
+	~BossActionTransitionPhase() override = default;
+
+	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
+		return std::make_shared<BossActionTransitionPhase>(*this);
+	}
+
+public:
+
+	// 実行処理
+	BehaviorStatus Execute() override;
+	// weight値の計算
+	float EvaluateWeight() override;
+	// 編集処理
+	void Debug_Gui() override;
+	// 終了判定
+	bool IsFinish() override;
+	// Actionを実行できるかの確認
+	bool CanExecute() override;
+	// 初期化
+	void Init() override;
+	// 更新
+	void Update() override;
+	// 終了処理
+	void End() override;
+
+private:
+
+	Parameter param_;
+	AOENGINE::GpuParticleEmitter* chargeParticle_;
+	AOENGINE::BaseParticles* chargeLine_;
+};
+

@@ -3,10 +3,10 @@
         "moveCurve": {
             "controlPoints_1": 0.0,
             "controlPoints_2": 0.0,
-            "controlPoints_3": 0.9921875,
-            "controlPoints_4": -0.1015625
+            "controlPoints_3": 1.0,
+            "controlPoints_4": 1.0
         },
         "moveSpeed": 80.0,
-        "moveTime": 2.0
+        "moveTime": 1.0
     }
 }

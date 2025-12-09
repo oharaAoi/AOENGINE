@@ -37,6 +37,7 @@ struct GpuParticle {
 	int lifeOfAlpha;
 	
 	int isDraw2d;
+	int beAffectedByField;
 };
 
 struct MaxParticle {

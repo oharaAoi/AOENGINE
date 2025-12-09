@@ -39,8 +39,10 @@ bool IsCollision(float3 min, float3 max, float3 pos) {
 void CSmain(uint3 DTid : SV_DispatchThreadID) {
 	int particleIndex = DTid.x;
 	if (particleIndex < gMaxParticles.maxParticles) {
-		if (IsCollision(gAccelerationField.min, gAccelerationField.max, gParticles[particleIndex].pos)) {
-			gParticles[particleIndex].acceleration = gAccelerationField.acceleration;
+		if (gParticles[particleIndex].beAffectedByField) {
+			if (IsCollision(gAccelerationField.min, gAccelerationField.max, gParticles[particleIndex].pos)) {
+				gParticles[particleIndex].acceleration = gAccelerationField.acceleration;
+			}
 		}
 	}
 }

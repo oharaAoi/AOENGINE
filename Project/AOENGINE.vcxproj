@@ -355,6 +355,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
@@ -375,6 +376,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h" />
+    <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h" />
@@ -690,6 +692,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotgun.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionVerticalMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionAdjustHeight.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
@@ -709,6 +712,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp" />
+    <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp" />

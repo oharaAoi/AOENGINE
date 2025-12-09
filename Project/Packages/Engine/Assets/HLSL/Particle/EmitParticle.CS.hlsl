@@ -29,6 +29,10 @@ struct Emitter {
 	float damping;
 	
 	float radius;
+	float angle;
+	float height;
+	
+	int beAffectedByField;
 };
 
 struct PerFrame {
@@ -116,7 +120,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				dir.y = sin(phi) * sin(theta);
 				dir.z = cos(phi);
 
-				emitPos = pos + (dir * gEmitter.radius);
+				emitPos = gEmitter.pos + (dir * gEmitter.radius);
 				
 				if (gEmitter.emitType == 2) {
 					gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, dir) * gEmitter.speed;
@@ -138,6 +142,7 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			gParticles[particleIndex].lifeOfScaleDown = gEmitter.lifeOfScaleDown;
 			gParticles[particleIndex].lifeOfScaleUp = gEmitter.lifeOfScaleDown;
 			gParticles[particleIndex].lifeOfAlpha = gEmitter.lifeOfAlpha;
+			gParticles[particleIndex].beAffectedByField = gEmitter.beAffectedByField;
 			
 			if (gEmitter.emitType == 0) {
 				gParticles[particleIndex].velocity = ApplyEuler(gEmitter.rotate, float3(0, 1, 0)) * gEmitter.speed;

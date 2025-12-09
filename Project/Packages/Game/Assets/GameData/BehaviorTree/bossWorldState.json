@@ -1,15 +1,23 @@
 {
     "BossToPlayer": {
         "type": "float",
-        "value": 15.745917320251465
+        "value": 158.55694580078125
     },
     "SafeDistance": {
         "type": "float",
         "value": 100.0
     },
+    "bossPhase": {
+        "type": "int",
+        "value": 0
+    },
     "deployArmor": {
         "type": "bool",
         "value": false
+    },
+    "halfHp": {
+        "type": "float",
+        "value": 2500.0
     },
     "hp": {
         "type": "float",
@@ -18,6 +26,10 @@
     "isAttack": {
         "type": "bool",
         "value": false
+    },
+    "isTrue": {
+        "type": "bool",
+        "value": true
     },
     "maxHp": {
         "type": "float",

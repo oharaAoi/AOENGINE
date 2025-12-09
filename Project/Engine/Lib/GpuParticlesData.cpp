@@ -48,5 +48,6 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 			ImGui::DragFloat3("targetScale", &targetScale.x, 0.1f);
 		}
 		ImGui::Checkbox("lifeOfAlpha", &lifeOfAlpha);
+		ImGui::Checkbox("beAffectedByField", &beAffectedByField);
 	}
 }

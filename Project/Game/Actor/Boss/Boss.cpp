@@ -25,6 +25,7 @@
 #include "Game/Actor/Boss/Action/Attack/BossActionRapidfire.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionDualStageMissile.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
+#include "Game/Actor/Boss/Action/BossActionTransitionPhase.h"
 
 #include "Game/Actor/Boss/GoalOriented/TargetDeadOriented.h"
 #include "Game/Actor/Boss/GoalOriented/SafeDistanceOriented.h"
@@ -92,7 +93,7 @@ void Boss::Init() {
 	blackboard_->SetRef<float>("hp", param_.health);
 	blackboard_->SetRef<float>("maxHp", param_.health);
 	blackboard_->SetRef<float>("maxPostureStability", param_.postureStability);
-
+	
 	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
 	behaviorTree_->SetName("BossBehaviorTree");
@@ -118,6 +119,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionRapidfire>(this, "Rapidfire"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"));
+	behaviorTree_->AddCanTask(CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
 	behaviorTree_->SetExecute(false);
 
@@ -162,20 +164,32 @@ void Boss::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update() {
+	// ----------------------
+	// ↓ 目標敵の座標を探索
+	// ----------------------
 	targetPos_ = targetTransform_->GetOffsetPos();
 
+	// ----------------------
+	// ↓ blackboardの更新
+	// ----------------------
 	initParam_.worldStatePath = blackboard_->GetPath();
 	blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());
 	blackboard_->Set<bool>("deployArmor", isArmorDeploy_);
 	blackboard_->Set<bool>("isAttack", isAttack_);
+	blackboard_->Set<int32_t>("bossPhase", (int32_t)phase_);
+	blackboard_->Set<float>("halfHp", initParam_.health * 0.5f);
 
-	// stateの更新
+	// ----------------------
+	// ↓ stateの更新
+	// ----------------------
 	if (!isAlive_) {
 		stateMachine_->Update();
 		return;
 	}
 
-	// アーマーのクールタイムを更新
+	// ----------------------
+	// ↓ アーマーの状態を更新
+	// ----------------------
 	if (!pulseArmor_->GetIsAlive()) {
 		param_.armorCoolTime -= AOENGINE::GameTimer::DeltaTime();
 		if (param_.armorCoolTime <= 0.0f) {
@@ -184,8 +198,9 @@ void Boss::Update() {
 		}
 	}
 
-	// 各項目の更新
-	stateMachine_->Update();
+	// ----------------------
+	// ↓ treeの更新
+	// ----------------------
 	behaviorTree_->Run();
 	evaluationFormula_->Update(); 
 	pulseArmor_->Update();

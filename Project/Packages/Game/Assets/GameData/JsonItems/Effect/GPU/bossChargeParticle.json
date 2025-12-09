@@ -1,42 +1,41 @@
 {
-    "rain": {
-        "SeparateByAxisScale": true,
+    "bossChargeParticle": {
+        "SeparateByAxisScale": false,
         "angle": 1.2000000476837158,
-        "beAffectedByField": true,
         "color": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
+            "b": 0.051162779331207275,
+            "g": 0.051162779331207275,
             "r": 1.0
         },
         "damping": 0.0,
         "duration": 5.0,
-        "emitOrigin": 1,
-        "emitType": 0,
-        "gravity": -115.9000015258789,
+        "emitOrigin": 3,
+        "emitType": 3,
+        "gravity": 0.0,
         "height": 2.0,
         "isLoop": true,
         "lifeOfAlpha": false,
         "lifeOfScaleDown": false,
         "lifeOfScaleUp": false,
-        "lifeTime": 2.0,
+        "lifeTime": 1.0,
         "maxScale": {
-            "x": 0.699999988079071,
-            "y": 50.0,
-            "z": 6.199999809265137
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
         },
         "minScale": {
-            "x": 0.30000001192092896,
-            "y": 40.0,
+            "x": 1.0,
+            "y": 1.0,
             "z": 1.0
         },
         "pos": {
             "x": 0.0,
-            "y": 286.8999938964844,
+            "y": 0.0,
             "z": 0.0
         },
-        "radius": 1.0,
-        "rateOverTimeCout": 200,
+        "radius": 20.0,
+        "rateOverTimeCout": 16,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
@@ -44,13 +43,13 @@
         },
         "scaleMaxScaler": 5.0,
         "scaleMinScaler": 1.0,
-        "shape": 1,
+        "shape": 0,
         "size": {
-            "x": 700.0,
-            "y": 5.800000190734863,
-            "z": 700.0
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
         },
-        "speed": -49.900001525878906,
+        "speed": 16.0,
         "targetScale": {
             "x": 1.0,
             "y": 1.0,

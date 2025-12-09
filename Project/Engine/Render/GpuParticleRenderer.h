@@ -34,6 +34,7 @@ public:	// メンバ構造体
 		int lifeOfAlpha;
 
 		int isDraw2d;
+		int beAffectedByField = 0;
 	};
 
 	struct PerView {

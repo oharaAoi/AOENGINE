@@ -48,7 +48,8 @@ struct GpuParticleEmitterData {
 	float radius;
 	float angle;
 	float height;
-	float pad7;
+	
+	int32_t beAffectedByField;
 };
 
 enum class EmitType {
@@ -105,6 +106,8 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	float angle = 1.2f;
 	float height = 2.0f;
 
+	bool beAffectedByField = false;
+
 	GpuParticleEmitterItem() {
 		toJsonFunction_ = [this](const std::string& id) {
 			return this->ToJson(id);
@@ -139,6 +142,7 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("beAffectedByField", beAffectedByField)
 
 			.Build();
 	}
@@ -170,6 +174,7 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "size", size);
 		Convert::fromJson(jsonData, "angle", angle);
 		Convert::fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "beAffectedByField", beAffectedByField);
 	}
 
 	void Attribute_Gui();
