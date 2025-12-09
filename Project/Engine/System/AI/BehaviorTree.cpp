@@ -84,6 +84,14 @@ void BehaviorTree::Edit() {
 	ImGui::SameLine();
 	ImGui::Checkbox("##isExecute", &isExecute_);
 	ImGui::SameLine();
+	if (ImGui::Button("OverWirte")) {
+		BehaviorTreeSerializer::Save(path_, root_->ToJson());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("ReSet")) {
+		CreateTree(path_);
+	}
+	ImGui::SameLine();
 	editor_.Edit(name_, nodeList_, links_, root_, blackboard_, canTaskMap_, goalArray_);
 
 	ImGui::Begin("Blackboard");
@@ -108,9 +116,14 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 		root_->ClearChild();
 	}
 
+	if (nodeName == "") {
+		return;
+	}
+
 	// treeの生成前にloggerを作成しておく
 	logger_ = std::make_unique<BehaviorTreeLogger>();
 	logger_->Init(nodeName);
+	path_ = nodeName;
 
 	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);

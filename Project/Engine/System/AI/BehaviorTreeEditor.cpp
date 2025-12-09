@@ -40,6 +40,25 @@ void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::shared_pt
 		// node作成windowの表示
 		CreateNodeWindow(_nodeList, _worldState, _canTaskMap, _goalArray);
 
+		// --- Middle Mouse (wheel) drag to pan ---
+		ImGuiIO& io = ImGui::GetIO();
+
+		if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
+			io.MouseDown[ImGuiMouseButton_Right] = false;
+		}
+
+		// ▼▼ 2. 中ボタン（ホイール）ドラッグをパンとして扱う ▼▼
+		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
+			// 中ボタン中は右クリックが押されていることにする（パン発動）
+			io.MouseDown[ImGuiMouseButton_Right] = true;
+		}
+
+		// ▼▼ 3. 中ボタンを離したら偽装右クリックを戻す ▼▼
+		if (!ImGui::IsMouseDown(ImGuiMouseButton_Middle)) {
+			io.MouseDown[ImGuiMouseButton_Right] = false;
+		}
+
+
 		// NodeEditorの処理
 		ax::NodeEditor::SetCurrentEditor(context_);
 		ax::NodeEditor::Begin(_name.c_str());
@@ -107,14 +126,14 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 
 	static std::string createTaskName = "";
 
-	if (ImGui::Begin("Nodeを作成", &popupRequested_)) {
+	if (ImGui::BeginPopupContextWindow("NodeContextMenu", ImGuiPopupFlags_MouseButtonRight)) {
 		static std::string name = "node ";
 		if (!InputTextWithString("nodeの名前", "##createNode", name)) {
 			assert("名前が入力できません");
 		}
 
 		static int nodeType = 1;
-		ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition");
+		ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition\0Parallel");
 
 		// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 		if (nodeType == (int)NodeType::Task) {
@@ -144,8 +163,8 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 				popupRequested_ = false;
 			}
 		}
+		ImGui::EndPopup();
 	}
-	ImGui::End();
 }
 
 
@@ -190,6 +209,7 @@ void BehaviorTreeEditor::CheckDeleteNode(std::list<std::shared_ptr<BaseBehaviorN
 			it = _nodeList.erase(it);
 
 		} else {
+			(*it)->Update();
 			it++;
 		}
 	}

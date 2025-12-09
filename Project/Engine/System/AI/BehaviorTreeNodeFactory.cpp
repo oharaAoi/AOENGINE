@@ -6,6 +6,7 @@
 #include "Engine/System/AI/Node/PlannerNode.h"
 #include "Engine/System/AI/Node/PlannerSelectorNode.h"
 #include "Engine/System/AI/Node/ConditionNode.h"
+#include "Engine/System/AI/Node/ParallelNode.h"
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
 
 using namespace AI;
@@ -28,9 +29,11 @@ void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateT
 	} else if (nodeType == (int)NodeType::PlannerSelector) {
 		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
 
-	} else if (nodeType == (int)NodeType::Condition) {
-		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
-		node->SetBlackboard(_worldState);
+	} else if (nodeType == (int)NodeType::PlannerSelector) {
+		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+
+	} else if (nodeType == (int)NodeType::Parallel) {
+		_nodeList.emplace_back(std::make_shared<ParallelNode>());
 
 	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
@@ -56,6 +59,7 @@ std::shared_ptr<BaseBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(co
 	case NodeType::Selector: node = std::make_shared<SelectorNode>(); break;
 	case NodeType::WeightSelector: node = std::make_shared<WeightSelectorNode>(); break;
 	case NodeType::Condition: node = std::make_shared<ConditionNode>(); break;
+	case NodeType::Parallel: node = std::make_shared<ParallelNode>(); break;
 	case NodeType::Planner:
 		node = std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray);
 		{

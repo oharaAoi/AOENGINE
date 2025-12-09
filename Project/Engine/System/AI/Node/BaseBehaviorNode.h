@@ -28,6 +28,7 @@ enum class NodeType {
 	Planner,
 	PlannerSelector,
 	Condition,
+	Parallel
 };
 
 namespace AI {

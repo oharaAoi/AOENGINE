@@ -127,6 +127,8 @@ private:
 
 	std::unique_ptr<AOENGINE::BehaviorTreeLogger> logger_;
 
+	std::string path_;
+
 };
 
 }

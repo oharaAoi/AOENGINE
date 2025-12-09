@@ -195,16 +195,16 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0,
+                            "waitTime": 0.5,
                             "weight": 0.8999999761581421
                         }
                     ],
-                    "name": "Sequence",
+                    "name": "Parallel",
                     "nodePos": {
-                        "x": 754.0,
-                        "y": 342.0
+                        "x": 751.0,
+                        "y": 354.0
                     },
-                    "nodeType": 1
+                    "nodeType": 8
                 }
             ],
             "name": "WeightSelector",
