@@ -1,0 +1,12 @@
+{
+    "BossActionTurnBehind": {
+        "moveCurve": {
+            "controlPoints_1": 0.0,
+            "controlPoints_2": 0.0,
+            "controlPoints_3": 0.9921875,
+            "controlPoints_4": -0.1015625
+        },
+        "moveSpeed": 80.0,
+        "moveTime": 2.0
+    }
+}

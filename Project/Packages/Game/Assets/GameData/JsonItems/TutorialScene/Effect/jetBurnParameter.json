@@ -1,17 +1,10 @@
 {
     "jetBurnParameter": {
-        "blendTexture": "noise9.png",
         "color": {
             "a": 1.0,
-            "b": 0.07058823108673096,
-            "g": 0.25214773416519165,
+            "b": 0.051162779331207275,
+            "g": 0.34243375062942505,
             "r": 1.0
-        },
-        "materialTexture": "gradeation.png",
-        "noiseScale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
         },
         "rotate": {
             "w": 0.034049518406391144,
@@ -24,6 +17,7 @@
             "y": 1.0063673257827759,
             "z": 0.25
         },
+        "shaderGraphPath": ".\\Project\\Packages\\Game\\Assets\\GameData\\ShaderGraph\\jetBurn.json",
         "translate": {
             "x": 0.0,
             "y": -0.8999999761581421,
