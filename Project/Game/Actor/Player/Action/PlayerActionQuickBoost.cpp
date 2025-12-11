@@ -4,6 +4,8 @@
 #include "Game/Actor/Player/Action/PlayerActionBoost.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Engine.h"
+#include <Module/PostEffect/PostProcess.h>
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -49,7 +51,7 @@ void PlayerActionQuickBoost::Build() {
 
 	pRigidBody_ = pOwner_->GetGameObject()->GetRigidbody();
 
-	pRadialBlur_ = Engine::GetPostProcess()->GetRadialBlur();
+	pRadialBlur_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::RadialBlur>(PostEffectType::RadialBlur);
 
 	boostClassId_ = typeid(PlayerActionBoost).hash_code();
 }

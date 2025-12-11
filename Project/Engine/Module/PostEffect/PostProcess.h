@@ -1,18 +1,8 @@
 #pragma once
 #include <memory>
-#include <list>
-#include "Engine/Module/PostEffect/Grayscale.h"
-#include "Engine/Module/PostEffect/RadialBlur.h"
-#include "Engine/Module/PostEffect/GlitchNoise.h"
-#include "Engine/Module/PostEffect/Vignette.h"
-#include "Engine/Module/PostEffect/Dissolve.h"
-#include "Engine/Module/PostEffect/ToonMap.h"
-#include "Engine/Module/PostEffect/Bloom.h"
-#include "Engine/Module/PostEffect/Smoothing.h"
-#include "Engine/Module/PostEffect/GaussianFilter.h"
-#include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
-#include "Engine/Module/PostEffect/DepthBasedOutline.h"
-#include "Engine/Module/PostEffect/MotionBlur.h"
+#include <vector>
+#include <unordered_map>
+#include "Engine/Module/PostEffect/IPostEffect.h"
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
@@ -61,12 +51,6 @@ public:
 	void PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource);
 
 	/// <summary>
-	/// effectの追加
-	/// </summary>
-	/// <param name="type"></param>
-	void AddEffect(PostEffectType type);
-
-	/// <summary>
 	/// effetの有無
 	/// </summary>
 	/// <param name="type"></param>
@@ -80,13 +64,37 @@ public:
 	/// <returns></returns>
 	std::shared_ptr<PostEffect::IPostEffect> GetEffect(PostEffectType type);
 
+	template<class T>
+	std::shared_ptr<T> GetEffectAs(PostEffectType type) {
+		return std::dynamic_pointer_cast<T>(GetEffect(type));
+	}
+
 	void Debug_Gui() override;
 
-	std::shared_ptr<PostEffect::Grayscale> GetGrayscale() { return grayscale_; }
-	std::shared_ptr<PostEffect::RadialBlur> GetRadialBlur() { return radialBlur_; }
-	std::shared_ptr<PostEffect::GlitchNoise> GetGlitchNoise() { return glitchNoise_; }
-	std::shared_ptr<PostEffect::Vignette> GetVignette() { return vignette_; }
-	std::shared_ptr<PostEffect::Dissolve> GetDissolve() { return dissolve_; }
+	AOENGINE::DxResource* GetMotionBluerRnderTarget() const { return pMotionBluerRenderTarget_; }
+	AOENGINE::PingPongBuffer* GetPingPongBuffer() const { return pingPongBuff_.get(); }
+	const DescriptorHandles& GetDepthHandle() const { return depthHandle_; }
+
+private:
+
+	/// <summary>
+	/// effectの登録
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="type"></param>
+	template<class T>
+	void RegisterEffect(PostEffectType type) {
+		auto ptr = std::make_shared<T>();
+		ptr->Init();
+		effectMap_[type] = ptr;
+	}
+
+	/// <summary>
+	/// effectの追加
+	/// </summary>
+	/// <param name="type"></param>
+	void AddEffect(PostEffectType type);
+
 
 private:
 
@@ -95,21 +103,12 @@ private:
 
 	std::unique_ptr<AOENGINE::PingPongBuffer> pingPongBuff_;
 
-	std::shared_ptr<PostEffect::Grayscale> grayscale_;
-	std::shared_ptr<PostEffect::RadialBlur> radialBlur_;
-	std::shared_ptr<PostEffect::GlitchNoise> glitchNoise_;
-	std::shared_ptr<PostEffect::Vignette> vignette_;
-	std::shared_ptr<PostEffect::Dissolve> dissolve_;
-	std::shared_ptr<PostEffect::ToonMap> toonMap_;
-	std::shared_ptr<PostEffect::Bloom> bloom_;
-	std::shared_ptr<PostEffect::Smoothing> smoothing_;
-	std::shared_ptr<PostEffect::GaussianFilter> gaussianFilter_;
-	std::shared_ptr<PostEffect::LuminanceBasedOutline> luminanceOutline_;
-	std::shared_ptr<PostEffect::DepthBasedOutline> depthOutline_;
-	std::shared_ptr<PostEffect::MotionBlur> motionBlur_;
+	AOENGINE::DxResource* pMotionBluerRenderTarget_ = nullptr;
 
-	std::list<std::shared_ptr<PostEffect::IPostEffect>> effectList_;
-	std::list<PostEffectType> addEffectList_;
+	std::unordered_map<PostEffectType, std::shared_ptr<PostEffect::IPostEffect>> effectMap_;
+
+	std::vector<PostEffectType> effectList_;     // 実行順
+	std::vector<PostEffectType> addEffectList_;  // 重複登録防止
 
 };
 

@@ -30,7 +30,7 @@ void PlayerKnockbackState::OnStart() {
 	param_.Load();
 	timer_ = 0.0f;
 
-	glitchNoise_ = Engine::GetPostProcess()->GetGlitchNoise();
+	glitchNoise_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::GlitchNoise>(PostEffectType::GlitchNoise);
 	glitchNoise_->StartNoise(param_.glitchNoiseStrength, param_.glitchNoiseTime);
 }
 

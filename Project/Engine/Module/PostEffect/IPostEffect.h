@@ -1,6 +1,10 @@
 #pragma once
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE {
+	class PostProcess;
+}
+
 namespace PostEffect {
 
 /// <summary>
@@ -13,6 +17,8 @@ public:
 	virtual ~IPostEffect() = default;
 
 	virtual void Init() = 0;
+
+	virtual void PostInit(AOENGINE::PostProcess* ) {}
 
 	virtual void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) = 0;
 

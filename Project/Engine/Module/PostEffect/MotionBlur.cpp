@@ -1,5 +1,6 @@
 #include "MotionBlur.h"
 #include "Engine.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
 
 using namespace AOENGINE;
 using namespace PostEffect;
@@ -9,6 +10,10 @@ MotionBlur::~MotionBlur() {
 }
 
 void MotionBlur::Init() {
+}
+
+void PostEffect::MotionBlur::PostInit(AOENGINE::PostProcess* _owner) {
+	SetMotionResource(_owner->GetMotionBluerRnderTarget());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

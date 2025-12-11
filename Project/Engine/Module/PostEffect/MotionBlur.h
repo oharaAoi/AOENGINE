@@ -17,6 +17,8 @@ public:
 
 	// 初期化
 	void Init() override;
+	// 特殊初期化
+	void PostInit(AOENGINE::PostProcess* _owner) override;
 	// コマンドを積む
 	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
 	// チェックボックスの表示

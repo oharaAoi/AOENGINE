@@ -3,28 +3,30 @@
 #include "Engine/Render.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Module/PostEffect/Grayscale.h"
+#include "Engine/Module/PostEffect/RadialBlur.h"
+#include "Engine/Module/PostEffect/GlitchNoise.h"
+#include "Engine/Module/PostEffect/Vignette.h"
+#include "Engine/Module/PostEffect/Dissolve.h"
+#include "Engine/Module/PostEffect/ToonMap.h"
+#include "Engine/Module/PostEffect/Bloom.h"
+#include "Engine/Module/PostEffect/Smoothing.h"
+#include "Engine/Module/PostEffect/GaussianFilter.h"
+#include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
+#include "Engine/Module/PostEffect/DepthBasedOutline.h"
+#include "Engine/Module/PostEffect/MotionBlur.h"
+#include <utility>
 
 using namespace AOENGINE;
 using namespace PostEffect;
 
-PostProcess::~PostProcess() {
+AOENGINE::PostProcess::~PostProcess() {
 	Finalize();
 }
 
-void PostProcess::Finalize() {
+void AOENGINE::PostProcess::Finalize() {
 	pingPongBuff_.reset();
-	grayscale_.reset();
-	radialBlur_.reset();
-	glitchNoise_.reset();
-	vignette_.reset();
-	dissolve_.reset();
-	toonMap_.reset();
-	bloom_.reset();
-	smoothing_.reset();
-	gaussianFilter_.reset();
-	luminanceOutline_.reset();
-	depthOutline_.reset();
-	motionBlur_.reset();
+	effectMap_.clear();
 	effectList_.clear();
 	depthStencilResource_.Reset();
 }
@@ -33,7 +35,7 @@ void PostProcess::Finalize() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
+void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	AOENGINE::AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
@@ -53,49 +55,29 @@ void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descripto
 	// -------------------------------------------------
 	// ↓ PostEffectの作成
 	// -------------------------------------------------
-	grayscale_ = std::make_shared<Grayscale>();
-	grayscale_->Init();
 
-	radialBlur_ = std::make_shared<RadialBlur>();
-	radialBlur_->Init();
-	radialBlur_->SetIsEnable(true);
+	pMotionBluerRenderTarget_ = renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget);
 
-	glitchNoise_ = std::make_shared<GlitchNoise>();
-	glitchNoise_->Init();
-	glitchNoise_->SetIsEnable(true);
+	RegisterEffect<Grayscale>(PostEffectType::Grayscale);
+	RegisterEffect<RadialBlur>(PostEffectType::RadialBlur);
+	RegisterEffect<GlitchNoise>(PostEffectType::GlitchNoise);
+	RegisterEffect<Vignette>(PostEffectType::Vignette);
+	RegisterEffect<Dissolve>(PostEffectType::Dissolve);
+	RegisterEffect<ToonMap>(PostEffectType::ToonMap);
+	RegisterEffect<Bloom>(PostEffectType::Bloom);
+	RegisterEffect<Smoothing>(PostEffectType::Smoothing);
+	RegisterEffect<GaussianFilter>(PostEffectType::GaussianFilter);
+	RegisterEffect<LuminanceBasedOutline>(PostEffectType::LuminanceOutline);
+	RegisterEffect<DepthBasedOutline>(PostEffectType::DepthOutline);
+	RegisterEffect<MotionBlur>(PostEffectType::MotionBlur);
 
-	vignette_ = std::make_shared<Vignette>();
-	vignette_->Init();
+	effectMap_[PostEffectType::Bloom]->PostInit(this);
+	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
 
-	dissolve_ = std::make_shared<Dissolve>();
-	dissolve_->Init();
-
-	toonMap_ = std::make_shared<ToonMap>();
-	toonMap_->Init();
-	toonMap_->SetIsEnable(true);
-
-	bloom_ = std::make_shared<Bloom>();
-	bloom_->Init();
-	bloom_->SetPongResource(pingPongBuff_.get());
-	bloom_->SetIsEnable(false);
-	bloom_->SetDepthHandle(depthHandle_.handleCPU);
-
-	smoothing_ = std::make_unique<Smoothing>();
-	smoothing_->Init();
-	
-	gaussianFilter_ = std::make_shared<GaussianFilter>();
-	gaussianFilter_->Init();
-	
-	luminanceOutline_ = std::make_shared<LuminanceBasedOutline>();
-	luminanceOutline_->Init();
-	
-	depthOutline_ = std::make_shared<DepthBasedOutline>();
-	depthOutline_->Init();
-	
-	motionBlur_ = std::make_shared<MotionBlur>();
-	motionBlur_->Init();
-	motionBlur_->SetMotionResource(renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget));
-	motionBlur_->SetIsEnable(true);
+	effectMap_[PostEffectType::RadialBlur]->SetIsEnable(true);
+	effectMap_[PostEffectType::GlitchNoise]->SetIsEnable(true);
+	effectMap_[PostEffectType::ToonMap]->SetIsEnable(true);
+	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
 
 	AddEffect(PostEffectType::RadialBlur);
 	AddEffect(PostEffectType::GlitchNoise);
@@ -117,7 +99,7 @@ void PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descripto
 // ↓ 実行
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
+void AOENGINE::PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	std::vector<RenderTargetType> types(1, RenderTargetType::OffScreen_RenderTarget);
 	AOENGINE::Render::SetRenderTarget(types, depthHandle_);
 	
@@ -132,8 +114,8 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxR
 	uint32_t cout = 0;
 	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
-		if (effect->GetIsEnable()) {
-			effect->SetCommand(_commandList, pingPongBuff_->GetPingResource());
+		if (effectMap_[effect]->GetIsEnable()) {
+			effectMap_[effect]->SetCommand(_commandList, pingPongBuff_->GetPingResource());
 
 			pingPongBuff_->Swap(_commandList);
 			pingPongBuff_->SetRenderTarget(_commandList, BufferType::Pong, depthHandle_.handleCPU);
@@ -154,7 +136,7 @@ void PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxR
 // ↓ コピーする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
+void AOENGINE::PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_DEST, BufferType::Ping);
 	_commandList->CopyResource(pingPongBuff_->GetPingResource()->GetResource(), _dxResource->GetResource());
@@ -162,7 +144,7 @@ void PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxReso
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Ping);
 }
 
-void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
+void AOENGINE::PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	const bool isEven = (effectList_.size() % 2 == 0);
 	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
 
@@ -180,53 +162,17 @@ void PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::Dx
 // ↓ effectの追加
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PostProcess::AddEffect(PostEffectType type) {
-	if (CheckAddEffect(type)) {
-		addEffectList_.push_back(type);
-		switch (type) {
-		case PostEffectType::Grayscale:
-			effectList_.push_back(grayscale_);
-			break;
-		case PostEffectType::RadialBlur:
-			effectList_.push_back(radialBlur_);
-			break;
-		case PostEffectType::GlitchNoise:
-			effectList_.push_back(glitchNoise_);
-			break;
-		case PostEffectType::Vignette:
-			effectList_.push_back(vignette_);
-			break;
-		case PostEffectType::Dissolve:
-			effectList_.push_back(dissolve_);
-			break;
-		case PostEffectType::ToonMap:
-			effectList_.push_back(toonMap_);
-			break;
-		case PostEffectType::Bloom:
-			effectList_.push_back(bloom_);
-			break;
-		case PostEffectType::Smoothing:
-			effectList_.push_back(smoothing_);
-			break;
-		case PostEffectType::GaussianFilter:
-			effectList_.push_back(gaussianFilter_);
-			break;
-		case PostEffectType::LuminanceOutline:
-			effectList_.push_back(luminanceOutline_);
-			break;
-		case PostEffectType::DepthOutline:
-			effectList_.push_back(depthOutline_);
-			break;
-		case PostEffectType::MotionBlur:
-			effectList_.push_back(motionBlur_);
-			break;
-		default:
-			break;
-		}
+void AOENGINE::PostProcess::AddEffect(PostEffectType type) {
+	if (!CheckAddEffect(type)) return;
+
+	addEffectList_.push_back(type);
+
+	if (effectMap_.count(type)) {
+		effectList_.push_back(type); // type だけを追加
 	}
 }
 
-bool PostProcess::CheckAddEffect(PostEffectType type) {
+bool AOENGINE::PostProcess::CheckAddEffect(PostEffectType type) {
 	for (const auto& effect : addEffectList_) {
 		if (effect == type) {
 			return false;
@@ -235,45 +181,21 @@ bool PostProcess::CheckAddEffect(PostEffectType type) {
 	return true;
 }
 
-std::shared_ptr<IPostEffect> PostProcess::GetEffect(PostEffectType type) {
-	switch (type) {
-	case PostEffectType::Grayscale:
-		return grayscale_;
-	case PostEffectType::RadialBlur:
-		return radialBlur_;
-	case PostEffectType::GlitchNoise:
-		return glitchNoise_;
-	case PostEffectType::Vignette:
-		return vignette_;
-	case PostEffectType::Dissolve:
-		return dissolve_;
-	case PostEffectType::ToonMap:
-		return toonMap_;
-	case PostEffectType::Bloom:
-		return bloom_;
-	case PostEffectType::Smoothing:
-		return smoothing_;
-	case PostEffectType::GaussianFilter:
-		return gaussianFilter_;
-	case PostEffectType::LuminanceOutline:
-		return luminanceOutline_;
-	case PostEffectType::DepthOutline:
-		return depthOutline_;
-	case PostEffectType::MotionBlur:
-		return motionBlur_;
-	default:
-		return nullptr;
-	}
+std::shared_ptr<IPostEffect> AOENGINE::PostProcess::GetEffect(PostEffectType type) {
+	auto it = effectMap_.find(type);
+	return (it != effectMap_.end()) ? it->second : nullptr;
 }
 
-void PostProcess::Debug_Gui() {
+void AOENGINE::PostProcess::Debug_Gui() {
 	if (ImGui::CollapsingHeader("CheckList")) {
-		for (auto& effect : effectList_) {
+		for (const auto& [type, effect] : effectMap_) {
 			effect->CheckBox();
 		}
 	}
+
 	ImGui::Separator();
-	for (auto& effect : effectList_) {
-		effect->Debug_Gui();
+
+	for (auto t : effectList_) {
+		effectMap_[t]->Debug_Gui();
 	}
 }

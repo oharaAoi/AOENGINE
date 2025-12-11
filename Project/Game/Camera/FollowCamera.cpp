@@ -109,8 +109,9 @@ void FollowCamera::Init() {
 	pivotSRT_.rotate = Math::Quaternion(0, 0, 0, 1.0f);
 	transform_.SetParent(pivotSRT_.worldMat_);
 
-	grayscale_ = Engine::GetPostProcess()->GetGrayscale();
-	vignette_ = Engine::GetPostProcess()->GetVignette();
+	grayscale_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Grayscale>(PostEffectType::Grayscale);
+	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
+
 	grayscale_->SetIsEnable(true);
 	vignette_->SetIsEnable(true);
 

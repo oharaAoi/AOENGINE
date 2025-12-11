@@ -204,7 +204,7 @@ void Boss::Update() {
 	behaviorTree_->Run();
 	evaluationFormula_->Update(); 
 	pulseArmor_->Update();
-
+	stateMachine_->Update();
 #ifdef _DEBUG
 	// treeの実行開始
 	if (AOENGINE::Input::IsTriggerKey(DIK_M)) {

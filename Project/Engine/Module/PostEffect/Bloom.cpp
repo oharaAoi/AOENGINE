@@ -1,6 +1,7 @@
 #include "Bloom.h"
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
 
 using namespace AOENGINE;
 using namespace PostEffect;
@@ -62,6 +63,11 @@ void Bloom::Init() {
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device_, dxHeap_, graphicsCtx->GetDxResourceManager());
 
+}
+
+void PostEffect::Bloom::PostInit(AOENGINE::PostProcess* _owner) {
+	SetPongResource(_owner->GetPingPongBuffer());
+	SetDepthHandle(_owner->GetDepthHandle().handleCPU);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

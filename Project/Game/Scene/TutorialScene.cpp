@@ -131,6 +131,11 @@ void TutorialScene::Update() {
 		nextSceneType_ = SceneType::Game;
 	}
 
+	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
+	if (input->IsTriggerButton(XInputButtons::Start)) {
+		this->ToGameScene();
+	}
+
 	// -------------------------------------------------
 	// ↓ cameraの更新 
 	// -------------------------------------------------

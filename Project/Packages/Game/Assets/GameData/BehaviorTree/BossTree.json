@@ -3,127 +3,75 @@
         {
             "children": [
                 {
-                    "children": [
-                        {
-                            "children": [
-                                {
-                                    "children": [],
-                                    "coolTime": 1.0,
-                                    "name": "TransitionPhase",
-                                    "nodePos": {
-                                        "x": -654.0,
-                                        "y": 38.0
-                                    },
-                                    "nodeType": 4,
-                                    "waitTime": 1.0,
-                                    "weight": 0.0
-                                }
-                            ],
-                            "leftKey": "deployArmor",
-                            "leftKeyIndex": 5,
-                            "name": "Condition",
-                            "nodePos": {
-                                "x": -558.0,
-                                "y": -90.0
-                            },
-                            "nodeType": 7,
-                            "operatorIndex": 0,
-                            "rightKey": "isTrue",
-                            "rightKeyIndex": 9
-                        }
-                    ],
-                    "leftKey": "hp",
-                    "leftKeyIndex": 4,
-                    "name": "Condition",
+                    "children": [],
+                    "coolTime": 1.0,
+                    "name": "DeployArmor",
                     "nodePos": {
-                        "x": -433.0,
-                        "y": -218.0
+                        "x": -440.0,
+                        "y": -190.0
                     },
-                    "nodeType": 7,
-                    "operatorIndex": 5,
-                    "rightKey": "halfHp",
-                    "rightKeyIndex": 8
+                    "nodeType": 4,
+                    "waitTime": 1.0,
+                    "weight": 0.0
                 },
                 {
                     "children": [
                         {
                             "children": [],
-                            "coolTime": 1.0,
-                            "name": "DeployArmor",
-                            "nodePos": {
-                                "x": -238.0,
-                                "y": -74.0
+                            "goalCondition": {
+                                "leftKey": "isAttack",
+                                "leftKeyIndex": 9,
+                                "operatorIndex": 0,
+                                "rightKey": "isTrue",
+                                "rightKeyIndex": 3
                             },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.0
+                            "name": "TargetEnemy",
+                            "nodePos": {
+                                "x": -264.0,
+                                "y": -66.0
+                            },
+                            "nodeType": 5,
+                            "orientedName": "TargetDead",
+                            "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/BossAttackTree.json"
                         },
                         {
-                            "children": [
-                                {
-                                    "children": [],
-                                    "goalCondition": {
-                                        "leftKey": "isAttack",
-                                        "leftKeyIndex": 9,
-                                        "operatorIndex": 0,
-                                        "rightKey": "isTrue",
-                                        "rightKeyIndex": 3
-                                    },
-                                    "name": "TargetEnemy",
-                                    "nodePos": {
-                                        "x": -62.0,
-                                        "y": 50.0
-                                    },
-                                    "nodeType": 5,
-                                    "orientedName": "TargetDead",
-                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/BossAttackTree.json"
-                                },
-                                {
-                                    "children": [],
-                                    "goalCondition": {
-                                        "leftKey": "BossToPlayer",
-                                        "leftKeyIndex": 0,
-                                        "operatorIndex": 4,
-                                        "rightKey": "SafeDistance",
-                                        "rightKeyIndex": 8
-                                    },
-                                    "name": "SafeDistance",
-                                    "nodePos": {
-                                        "x": 114.0,
-                                        "y": 50.0
-                                    },
-                                    "nodeType": 5,
-                                    "orientedName": "SafeDistance",
-                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/SafeDistanceTree.json"
-                                }
-                            ],
-                            "name": "PlannerSelector",
-                            "nodePos": {
-                                "x": -14.0,
-                                "y": -94.0
+                            "children": [],
+                            "goalCondition": {
+                                "leftKey": "BossToPlayer",
+                                "leftKeyIndex": 0,
+                                "operatorIndex": 4,
+                                "rightKey": "SafeDistance",
+                                "rightKeyIndex": 8
                             },
-                            "nodeType": 6
+                            "name": "SafeDistance",
+                            "nodePos": {
+                                "x": -88.0,
+                                "y": -66.0
+                            },
+                            "nodeType": 5,
+                            "orientedName": "SafeDistance",
+                            "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/SafeDistanceTree.json"
                         }
                     ],
-                    "leftKey": "deployArmor",
-                    "leftKeyIndex": 6,
-                    "name": "Condition",
+                    "name": "PlannerSelector",
                     "nodePos": {
-                        "x": -97.0,
-                        "y": -218.0
+                        "x": -216.0,
+                        "y": -210.0
                     },
-                    "nodeType": 7,
-                    "operatorIndex": 0,
-                    "rightKey": "isTrue",
-                    "rightKeyIndex": 3
+                    "nodeType": 6
                 }
             ],
-            "name": "Sequence",
+            "leftKey": "deployArmor",
+            "leftKeyIndex": 6,
+            "name": "Condition",
             "nodePos": {
-                "x": -286.0,
-                "y": -346.0
+                "x": -299.0,
+                "y": -334.0
             },
-            "nodeType": 1
+            "nodeType": 7,
+            "operatorIndex": 0,
+            "rightKey": "isTrue",
+            "rightKeyIndex": 3
         }
     ],
     "name": "Root",
