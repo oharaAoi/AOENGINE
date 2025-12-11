@@ -41,6 +41,10 @@ public:
 
 private:
 
+	void ResetManager();
+
+private:
+
 	std::unique_ptr<SceneFactory> sceneFactory_;
 	std::unique_ptr<SystemManager> systemManager_;
 

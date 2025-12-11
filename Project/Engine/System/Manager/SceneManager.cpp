@@ -41,18 +41,7 @@ void SceneManager::Update() {
 
 		AOENGINE::EditorWindows::GetInstance()->Reset();
 
-		AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
-		AOENGINE::EditorWindows::AddObjectWindow(postProcess, "PostProcess");
-
-		AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
-		lightGroup->GetDirectionalLight()->Reset();
-		AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
-
-		AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
-		AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
-
-		auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
-		window = {};
+		ResetManager();
 
 		systemManager_->Init();
 		scene_->Init();
@@ -114,18 +103,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	AOENGINE::EditorWindows::GetInstance()->Reset();
 #endif // _DEBUG
 
-	AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
-	AOENGINE::EditorWindows::AddObjectWindow(postProcess, "Post Process");
-
-	AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
-	lightGroup->GetDirectionalLight()->Reset();
-	AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
-
-	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
-	AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
-
-	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
-	window = {};
+	ResetManager();
 
 	systemManager_->Init();
 	scene_->Init();
@@ -151,4 +129,23 @@ bool SceneManager::CheckReset() {
 		return true;
 	}
 	return false;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Managerのリセット
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::SceneManager::ResetManager() {
+	AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
+	AOENGINE::EditorWindows::AddObjectWindow(postProcess, "PostProcess");
+
+	AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
+	lightGroup->GetDirectionalLight()->Reset();
+	AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
+
+	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
+	AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+
+	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
+	window = {};
 }
