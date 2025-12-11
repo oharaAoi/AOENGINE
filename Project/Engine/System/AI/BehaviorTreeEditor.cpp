@@ -159,7 +159,8 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 
 		if (nodeType != (int)NodeType::Root) {
 			if (ImGui::Button("Create Node")) {
-				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _canTaskMap, _goalArray);
+				ImVec2 mousePosInNodeEditor = ax::NodeEditor::ScreenToCanvas(ImGui::GetMousePos());
+				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _canTaskMap, _goalArray, mousePosInNodeEditor);
 				popupRequested_ = false;
 			}
 		}

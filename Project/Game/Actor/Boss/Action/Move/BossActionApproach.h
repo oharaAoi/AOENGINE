@@ -18,7 +18,6 @@ public:
 		float maxSpinDistance = 0.8f;	// 旋回量
 		float quitApproachLength = 5.f;	// どのくらいまで近づくか
 		float decayRate = 5.f;			// 減衰率
-		float recoveryTime = 0.0f;		// 硬直時間
 		float rotateT = 0.1f;
 
 		Parameter() { SetName("bossActionApproach"); }
@@ -31,7 +30,6 @@ public:
 				.Add("maxSpinDistance", maxSpinDistance)
 				.Add("quitApproachLength", quitApproachLength)
 				.Add("decayRate", decayRate)
-				.Add("recoveryTime", recoveryTime)
 				.Add("rotateT", rotateT)
 				.Build();
 		}
@@ -43,7 +41,6 @@ public:
 			Convert::fromJson(jsonData, "maxSpinDistance", maxSpinDistance);
 			Convert::fromJson(jsonData, "quitApproachLength", quitApproachLength);
 			Convert::fromJson(jsonData, "decayRate", decayRate);
-			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
 			Convert::fromJson(jsonData, "rotateT", rotateT);
 		}
 

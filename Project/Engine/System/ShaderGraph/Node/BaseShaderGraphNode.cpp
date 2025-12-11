@@ -16,3 +16,12 @@ void BaseShaderGraphNode::BaseInfoToJson(nlohmann::json& _json) {
     _json["name"] = this->getName();
     _json["pos"] = { this->getPos().x, this->getPos().y };
 }
+
+void AOENGINE::BaseShaderGraphNode::SetTitleBar(const ImColor& _color) {
+    auto style = std::make_shared<ImFlow::NodeStyle>(
+        _color, // header_bg (タイトルバー背景色)
+        ImColor(255, 255, 255),   // header_title_color (文字色)
+        6.0f                      // radius
+    );
+    this->setStyle(style);
+}

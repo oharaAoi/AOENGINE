@@ -84,8 +84,8 @@ void BaseGameObject::Update() {
 void BaseGameObject::UpdateMatrix() {
 	// 移動量や追加する
 	if (rigidbody_ != nullptr) {
-		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetMoveForce());
+		rigidbody_->Update();
 		transform_->Translate(rigidbody_->GetVelocity(), AOENGINE::GameTimer::DeltaTime());
 	}
 

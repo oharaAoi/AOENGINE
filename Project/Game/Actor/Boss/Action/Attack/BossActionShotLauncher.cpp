@@ -24,7 +24,6 @@ void BossActionShotLauncher::Debug_Gui() {
 void BossActionShotLauncher::Parameter::Debug_Gui() {
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragFloat("stiffenTime", &stiffenTime, .1f);
-	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
 	ImGui::DragFloat("takeDamage", &takeDamage, .1f);
 
 	SaveAndLoad();
@@ -65,8 +64,6 @@ void BossActionShotLauncher::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
-
-	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

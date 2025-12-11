@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Lib/Math/Curve.h"
 
 class Boss;
 
@@ -13,19 +14,23 @@ public:
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveTime = 0.5f;		// 移動時間
 		float moveSpeed = 10.0f;	// 移動速度
+		Math::Curve moveCurve;
 
 		Parameter() { SetName("BossActionFloat"); }
 
 		json ToJson(const std::string& id) const override {
+			json curveJson = moveCurve.ToJson();
 			return AOENGINE::JsonBuilder(id)
 				.Add("moveTime", moveTime)
 				.Add("moveSpeed", moveSpeed)
+				.Add("moveCurve", curveJson)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "moveTime", moveTime);
 			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "moveCurve", moveCurve);
 		}
 
 		void Debug_Gui() override;

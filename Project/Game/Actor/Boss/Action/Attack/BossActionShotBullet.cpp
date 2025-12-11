@@ -22,7 +22,6 @@ void BossActionShotBullet::Debug_Gui() {
 }
 
 void BossActionShotBullet::Parameter::Debug_Gui() {
-	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
 	ImGui::DragFloat("shotInterval", &shotInterval, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	ImGui::DragInt("kFireCount", &kFireCount, 1);
@@ -66,8 +65,6 @@ void BossActionShotBullet::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
-
-	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

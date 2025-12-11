@@ -15,7 +15,7 @@ float SafeDistanceOriented::CalculationScore() {
 	float dangerDistance = blackboard_->Get("dangerDistance").As<float>();
 
 	if (distance < dangerDistance) {
-		return 1.0f;
+		return 0.7f;
 	}
 	return 0.4f;
 } 

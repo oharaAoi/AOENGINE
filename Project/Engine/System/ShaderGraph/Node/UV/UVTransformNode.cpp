@@ -12,6 +12,9 @@ void UVTransformNode::Init() {
 	// outputの設定
 	auto texOut = addOUT<NodeUVTransform>("uv", ImFlow::PinStyle::cyan());
 	texOut->behaviour([this]() { return outputUV_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(153, 102, 204));
 }
 
 void UVTransformNode::customUpdate() {

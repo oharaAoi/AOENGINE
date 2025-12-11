@@ -65,6 +65,8 @@ protected:
 	/// <param name="_json"></param>
 	void BaseInfoToJson(nlohmann::json& _json);
 
+	void SetTitleBar(const ImColor& _color);
+
 };
 
 }

@@ -38,7 +38,7 @@ void Skeleton::Update() {
 void Skeleton::DrawBone(const Math::Matrix4x4& worldMat) const {
 	for (const Joint& joint : joints_) {
 		Math::Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
-		DrawSphere(pos, 0.2f, AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Color::red);
+		DrawSphere(pos, 0.2f, AOENGINE::Render::GetViewProjectionMat(), Colors::Linear::red);
 	}
 
 	DrawNodeHierarchy(worldMat);
@@ -52,7 +52,7 @@ void Skeleton::DrawNodeHierarchy(const Math::Matrix4x4& parentWorldMatrix) const
 			const Joint& child = joints_[childIndex];
 			Math::Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
 			// 線を引く
-			AOENGINE::Render::DrawLine(parentPos, childPos, AOENGINE::Color::red, AOENGINE::Render::GetViewProjectionMat());
+			AOENGINE::Render::DrawLine(parentPos, childPos, Colors::Linear::red, AOENGINE::Render::GetViewProjectionMat());
 		}
 	}
 }

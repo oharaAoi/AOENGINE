@@ -1,4 +1,5 @@
 #include "DrawUtils.h"
+#include "Engine/Lib/Color.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Grid線の描画
@@ -20,7 +21,7 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 
 		// 中央軸ラインの色を変更
 		if (xIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color::blue, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Colors::Linear::blue, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
 			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
@@ -37,7 +38,7 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 
 		// 中央軸ラインの色を変更
 		if (zIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color::red, Multiply(viewMatrix, projectionMatrix));
+			AOENGINE::Render::DrawLine(stPos, endPos, Colors::Linear::red, Multiply(viewMatrix, projectionMatrix));
 		} else {
 			// 他のグリッド線
 			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
@@ -135,12 +136,12 @@ void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float
 		Math::Vector3 topP1 = topPoints[i] + rotateHeight;
 		Math::Vector3 topP2 = topPoints[(i + 1) % segment] + rotateHeight;
 
-		AOENGINE::Render::DrawLine(p1, p2, AOENGINE::Color::green, viewProjectionMatrix);
-		AOENGINE::Render::DrawLine(topP1, topP2, AOENGINE::Color::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(p1, p2, Colors::Linear::green, viewProjectionMatrix);
+		AOENGINE::Render::DrawLine(topP1, topP2, Colors::Linear::green, viewProjectionMatrix);
 
 		if (i % 9 == 0) {
 			// 頂点と底面の点を結ぶ（側面の線）
-			AOENGINE::Render::DrawLine(topP1, p1, AOENGINE::Color::green, viewProjectionMatrix);
+			AOENGINE::Render::DrawLine(topP1, p1, Colors::Linear::green, viewProjectionMatrix);
 		}
 	}
 }

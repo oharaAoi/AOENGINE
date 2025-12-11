@@ -61,9 +61,9 @@ void AOENGINE::BaseParticles::DrawShape() {
 			.size = emitter_.size
 		};
 		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
-		DrawOBB(obb, mat, AOENGINE::Color::green);
+		DrawOBB(obb, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
-		DrawSphere(emitter_.translate, emitter_.radius, mat, AOENGINE::Color::green);
+		DrawSphere(emitter_.translate, emitter_.radius, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
 		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);

@@ -30,7 +30,6 @@ void BossActionAdjustHeight::Debug_Gui() {
 void BossActionAdjustHeight::Parameter::Debug_Gui() {
     ImGui::DragFloat("smoothTime", &smoothTime, 0.1f);
     ImGui::DragFloat("maxSpeed", &maxSpeed, 0.1f);
-    ImGui::DragFloat("recoveryTime", &recoveryTime, 0.1f);
     ImGui::DragFloat("finishDistance", &finishDistance, 0.1f);
     ImGui::DragFloat("finishTime", &finishTime, 0.1f);
     SaveAndLoad();
@@ -70,7 +69,6 @@ void BossActionAdjustHeight::Init() {
     speed_ = 0.0f;
 
     taskTimer_ = 0.0f;
-    waitTimer_.targetTime_ = param_.recoveryTime;
 
     pTarget_->SetIsMove(true);
     pTarget_->SetIsAttack(false);

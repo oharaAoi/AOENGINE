@@ -17,12 +17,6 @@ public:
 
 	float r, g, b, a;
 
-	static const Color black;
-	static const Color white;
-	static const Color red;
-	static const Color green;
-	static const Color blue;
-
 public: // method
 
 	static Color Lerp(const Color& _a, const Color& b, float _t);
@@ -90,8 +84,19 @@ public: // operator
 
 }
 
-inline constexpr AOENGINE::Color AOENGINE::Color::black{ 0,0,0,1 };
-inline constexpr AOENGINE::Color AOENGINE::Color::white{ 1,1,1,1 };
-inline constexpr AOENGINE::Color AOENGINE::Color::red{ 1,0,0,1 };
-inline constexpr AOENGINE::Color AOENGINE::Color::green{ 0,1,0,1 };
-inline constexpr AOENGINE::Color AOENGINE::Color::blue{ 0,0,1,1 };
+namespace Colors {
+	namespace Linear {   // 0〜1
+		inline constexpr AOENGINE::Color black{ 0,0,0,1 };
+		inline constexpr AOENGINE::Color white{ 1,1,1,1 };
+		inline constexpr AOENGINE::Color red{ 1,0,0,1 };
+		inline constexpr AOENGINE::Color green{ 0,1,0,1 };
+		inline constexpr AOENGINE::Color blue{ 0,0,1,1 };
+	}
+	namespace SRGB255 {  // 0〜255
+		constexpr const AOENGINE::Color black{ 0,0,0,255 };
+		constexpr const AOENGINE::Color white{ 255,255,255,255 };
+		constexpr const AOENGINE::Color red{ 255,0,0,255 };
+		constexpr const AOENGINE::Color green{ 0,255,0,255 };
+		constexpr const AOENGINE::Color blue{ 0,0,255,255 };
+	}
+}

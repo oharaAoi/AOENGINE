@@ -29,7 +29,7 @@ public:
 	/// </summary>
 	/// <param name="_rotate">: もともとの回</param>
 	/// <param name="_rotateT">: 回転率</param>
-	/// 	/// <param name="_axis">: 軸</param>
+	/// /// <param name="_axis">: 軸</param>
 	/// <returns></returns>
 	Math::Quaternion LookVelocity(const Math::Quaternion& _rotate, float _rotateT, const Math::Vector3& _axis = CVector3::UP);
 
@@ -46,6 +46,8 @@ public:
 	void SetVelocity(const Math::Vector3& _velocity) { velocity_ = _velocity; }
 	const Math::Vector3& GetVelocity() const { return velocity_; }
 
+	void AddMoveForce(const Math::Vector3& _force) { moveForce_ += _force; }
+	void SetMoveForce(const Math::Vector3& _force) { moveForce_ = _force; }
 	const Math::Vector3& GetMoveForce() const { return moveForce_; }
 
 	void SetGravity(bool _isGravity) { isGravity_ = _isGravity; }

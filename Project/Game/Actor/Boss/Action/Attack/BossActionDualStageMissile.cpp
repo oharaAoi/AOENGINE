@@ -13,7 +13,6 @@ void BossActionDualStageMissile::Debug_Gui() {
 }
 
 void BossActionDualStageMissile::Parameter::Debug_Gui() {
-	ImGui::DragFloat("recovery", &recoveryTime, 1.0f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 1.0f);
 	ImGui::DragFloat("takeDamage", &takeDamage, 1.0f);
 	ImGui::DragScalar("fireNum", ImGuiDataType_U32, &fireNum);
@@ -70,8 +69,7 @@ void BossActionDualStageMissile::Init() {
 	param_.Load();
 
 	taskTimer_ = 0.f;
-	waitTimer_.targetTime_ = param_.recoveryTime;
-
+	
 	isSecondPhase_ = false;
 	isFinishShot_ = false;
 

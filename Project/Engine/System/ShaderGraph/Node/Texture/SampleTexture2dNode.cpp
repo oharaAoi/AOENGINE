@@ -22,6 +22,9 @@ void SampleTexture2dNode::Init() {
     uvBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(NodeUVTransform));
     uvBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&uvParam_));
 
+    colorBuffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(AOENGINE::Color));
+    colorBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&colorParam_));
+
     // inputの設定
     addIN<std::shared_ptr<AOENGINE::DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
     addIN<NodeUVTransform>("UV", uv_, ImFlow::ConnectionFilter::None());
@@ -29,6 +32,12 @@ void SampleTexture2dNode::Init() {
     // outputの設定
     auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return resource_; });
+
+    // titleBarのカラーを設定
+    SetTitleBar(ImColor(46, 139, 87));
+
+    *colorParam_ = Colors::Linear::white;
+    colorParam_->a = 0.0f;
 }
 
 void SampleTexture2dNode::customUpdate() {
@@ -52,6 +61,8 @@ void SampleTexture2dNode::customUpdate() {
             cmdList_->SetComputeRootDescriptorTable(index, inputResource_->GetSRV().handleGPU);
             index = pso->GetRootSignatureIndex("gUV");
             cmdList_->SetComputeRootConstantBufferView(index, uvBuffer_->GetGPUVirtualAddress());
+            index = pso->GetRootSignatureIndex("gColor");
+            cmdList_->SetComputeRootConstantBufferView(index, colorBuffer_->GetGPUVirtualAddress());
             index = pso->GetRootSignatureIndex("gPreviewTex");
             cmdList_->SetComputeRootDescriptorTable(index, resource_->GetUAV().handleGPU);
             cmdList_->Dispatch(UINT(resource_->GetDesc()->Width / 16), UINT(resource_->GetDesc()->Height / 16), 1);
@@ -72,6 +83,8 @@ void SampleTexture2dNode::draw() {
             ImTextureID texID = (ImTextureID)(intptr_t)(resource_->GetSRV().handleGPU.ptr);
             ImGui::SetNextWindowBgAlpha(0.85f);
             ImGui::Image(texID, ImVec2(64, 64));
+            ImGui::SetNextItemWidth(150);
+            ImGui::ColorEdit4("color", &colorParam_->r);
         }
     }
 }
@@ -79,11 +92,19 @@ void SampleTexture2dNode::draw() {
 nlohmann::json SampleTexture2dNode::toJson() {
     nlohmann::json result;
     BaseInfoToJson(result);
+    result["props"]["color"] = Convert::toJson<Color>(AOENGINE::Color(colorParam_->r, colorParam_->g, colorParam_->b, colorParam_->a ));
     return result;
 }
 
 void SampleTexture2dNode::fromJson(const nlohmann::json& _json) {
     BaseInfoFromJson(_json);
+
+    if (_json.contains("props")) {
+        colorParam_->r = _json["props"]["color"].value("r", colorParam_->r);
+        colorParam_->g = _json["props"]["color"].value("g", colorParam_->g);
+        colorParam_->b = _json["props"]["color"].value("b", colorParam_->b);
+        colorParam_->a = _json["props"]["color"].value("a", colorParam_->a);
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

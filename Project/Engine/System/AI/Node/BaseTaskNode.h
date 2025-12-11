@@ -142,15 +142,15 @@ inline void BaseTaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
 	ImGui::DragFloat("weight", &weight_, 0.1f);
 	ImGui::SliderFloat("wait_timer", &waitTimer_.timer_, 0.0f, waitTimer_.targetTime_);
-	ImGui::DragFloat("waitTime", &waitTimer_.targetTime_, 0.1f);
+	ImGui::DragFloat("行動後の待機時間", &waitTimer_.targetTime_, 0.1f);
 	ImGui::SliderFloat("cool_timer", &coolTimer_.timer_, 0.0f, coolTimer_.targetTime_);
-	ImGui::DragFloat("coolTime", &coolTimer_.targetTime_, 0.1f);
+	ImGui::DragFloat("行動自体のクールタイム", &coolTimer_.targetTime_, 0.1f);
 	evaluator_.Debug_Gui();
 }
 
 template<typename OwnerType>
 inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
-	if (isCoolTime_) {
+ 	if (isCoolTime_) {
 		return BehaviorStatus::Failure;
 	}
 

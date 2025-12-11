@@ -16,7 +16,6 @@ public:
 		float shotInterval = 0.1f;
 		float bulletSpeed = 80.0f;
 		int kFireCount = 20;
-		float recoveryTime = 0.5f;
 		float takeDamage = 10.0f;
 
 		Parameter() { SetName("BossActionRapidfire"); }
@@ -26,7 +25,6 @@ public:
 				.Add("shotInterval", shotInterval)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("kFireCount", kFireCount)
-				.Add("recoveryTime", recoveryTime)
 				.Add("takeDamage", takeDamage)
 				.Build();
 		}
@@ -35,7 +33,6 @@ public:
 			Convert::fromJson(jsonData, "shotInterval", shotInterval);
 			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			Convert::fromJson(jsonData, "kFireCount", kFireCount);
-			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
 			Convert::fromJson(jsonData, "takeDamage", takeDamage);
 		}
 

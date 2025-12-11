@@ -8,6 +8,9 @@ void MathSubtractionNode::Init() {
 
 	auto texOut = addOUT<float>("output", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return value_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(100, 149, 237));
 }
 
 void MathSubtractionNode::customUpdate() {

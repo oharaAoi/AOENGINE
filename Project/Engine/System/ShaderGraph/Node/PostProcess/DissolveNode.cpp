@@ -27,6 +27,14 @@ void DissolveNode::Init() {
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
 	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(255, 99, 71));
+
+	// parameterの初期化
+	param_->dissolveColor = Colors::Linear::white;
+	param_->threshold = 0.1f;
+	param_->edgeWidth = 1.0f;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,9 +96,12 @@ nlohmann::json DissolveNode::toJson() {
 
 void DissolveNode::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
-	Convert::fromJson(_json, "dissolveColor", param_->dissolveColor);
-	Convert::fromJson(_json, "threshold", param_->threshold);
-	Convert::fromJson(_json, "edgeWidth", param_->edgeWidth);
+	param_->dissolveColor.r = _json["props"]["dissolveColor"]["r"].get<float>();
+	param_->dissolveColor.g = _json["props"]["dissolveColor"]["g"].get<float>();
+	param_->dissolveColor.b = _json["props"]["dissolveColor"]["b"].get<float>();
+	param_->dissolveColor.a = _json["props"]["dissolveColor"]["a"].get<float>();
+	param_->threshold = _json["props"]["threshold"].get<float>();
+	param_->edgeWidth = _json["props"]["edgeWidth"].get<float>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

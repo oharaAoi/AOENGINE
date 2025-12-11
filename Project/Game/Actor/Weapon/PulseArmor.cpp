@@ -49,8 +49,8 @@ void PulseArmor::Init() {
 	}
 
 	// bufferPtrの初期化
-	setting_->color = AOENGINE::Color::white;
-	setting_->edgeColor = AOENGINE::Color::white;
+	setting_->color = Colors::Linear::white;
+	setting_->edgeColor = Colors::Linear::white;
 	setting_->threshold = 0.02f;
 
 	noiseTexture_[0] = "noise0.png";

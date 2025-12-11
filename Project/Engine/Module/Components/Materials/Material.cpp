@@ -28,7 +28,7 @@ void Material::Init() {
 	uvTransform_.rotate = CVector3::ZERO;
 	uvTransform_.translate = CVector3::ZERO;
 
-	color_ = AOENGINE::Color::white;
+	color_ = Colors::Linear::white;
 	material_->enableLighting = 1;
 	material_->color = color_;
 	material_->shininess = 1.0f;

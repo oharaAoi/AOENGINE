@@ -20,8 +20,8 @@ void Dissolve::Init() {
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
 	setting_->uvTransform = Math::Matrix4x4::MakeUnit();
-	setting_->color = Color::white;
-	setting_->edgeColor = Color::white;
+	setting_->color = Colors::Linear::white;
+	setting_->edgeColor = Colors::Linear::white;
 	setting_->threshold = 0.5f;
 }
 

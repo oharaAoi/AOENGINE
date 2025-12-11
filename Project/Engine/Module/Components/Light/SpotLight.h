@@ -34,7 +34,7 @@ public:
 	/// 保存のパラメータ
 	/// </summary>
 	struct Parameter : public AOENGINE::IJsonConverter {
-		AOENGINE::Color color = AOENGINE::Color::white;		// ライトの色
+		AOENGINE::Color color = Colors::Linear::white;		// ライトの色
 		Math::Vector3 position = Math::Vector3(0, 1, 0);
 		float intensity = 1.0f;
 		Math::Vector3 direction = Math::Vector3(0, -1, 0);

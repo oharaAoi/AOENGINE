@@ -31,7 +31,7 @@ public:
 						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						   Blackboard* _worldState,
 						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
-						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
+						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray, const ImVec2& _mousePos);
 
 	/// <summary>
 	/// Jsonファイルから読み込んでNodeを作成する

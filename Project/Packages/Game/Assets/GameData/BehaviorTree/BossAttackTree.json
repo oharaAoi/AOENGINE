@@ -6,7 +6,7 @@
                     "children": [
                         {
                             "children": [],
-                            "coolTime": 14.300000190734863,
+                            "coolTime": 10.0,
                             "name": "VerticalMissile",
                             "nodePos": {
                                 "x": -574.0,
@@ -40,10 +40,10 @@
                     "children": [
                         {
                             "children": [],
-                            "coolTime": 1.0,
+                            "coolTime": 10.0,
                             "name": "DualStageMissile",
                             "nodePos": {
-                                "x": -619.0,
+                                "x": -606.0,
                                 "y": 246.0
                             },
                             "nodeType": 4,
@@ -69,7 +69,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 0.0,
+                            "waitTime": 1.0,
                             "weight": 0.0
                         },
                         {
@@ -81,7 +81,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 0.20000000298023224,
+                            "waitTime": 1.0,
                             "weight": 0.6000000238418579
                         }
                     ],
@@ -96,22 +96,10 @@
                     "children": [
                         {
                             "children": [],
-                            "coolTime": 1.0,
-                            "name": "Float",
-                            "nodePos": {
-                                "x": 114.0,
-                                "y": 482.0
-                            },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.0
-                        },
-                        {
-                            "children": [],
                             "coolTime": 0.0,
                             "name": "ShotMissile",
                             "nodePos": {
-                                "x": 226.0,
+                                "x": 146.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
@@ -183,7 +171,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 0.0,
+                            "waitTime": 1.0,
                             "weight": 0.0
                         },
                         {
@@ -195,7 +183,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 0.5,
+                            "waitTime": 1.0,
                             "weight": 0.8999999761581421
                         }
                     ],

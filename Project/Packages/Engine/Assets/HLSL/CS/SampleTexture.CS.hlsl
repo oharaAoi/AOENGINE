@@ -5,8 +5,13 @@ struct UVParam {
 	float rotate;
 };
 
+struct ColorParam {
+	float4 value;
+};
+
 Texture2D<float4> gInputTex : register(t0);
 ConstantBuffer<UVParam> gUV : register(b0);
+ConstantBuffer<ColorParam> gColor : register(b1);
 RWTexture2D<float4> gPreviewTex : register(u0);
 SamplerState gSampler : register(s0);
 
@@ -32,6 +37,11 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	uv += gUV.translate;
 
 	float4 col = gInputTex.SampleLevel(gSampler, uv, 0);
+	col *= gColor.value;
+	
+	if (col.a <= gColor.value.a) {
+		gPreviewTex[pix] = float4(0, 0, 0, 0);
+	}
 
 	gPreviewTex[pix] = col;
 }

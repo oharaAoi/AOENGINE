@@ -157,9 +157,22 @@ void ShaderGraphEditor::CreateNode() {
 		}
 	
 		ImGui::TextUnformatted(" NodeContextMenu ");
-		nodeFactory_.CreateGui(popupPos_);
+		popupPos_ = ImGui::GetMousePos();
+		nodeFactory_.CreateGui(editor_->screen2grid(popupPos_));
 
 								  });
+
+	editor_->droppedLinkPopUpContent(
+		[this]([[maybe_unused]] ImFlow::Pin* draggedPin) {
+			ImVec2 mouse = ImGui::GetMousePos();
+			ImGui::SetNextWindowPos(mouse);
+
+			ImGui::TextUnformatted("Create Node From Link");
+			ImGui::Separator();
+
+			nodeFactory_.CreateGui(editor_->screen2grid(mouse));
+		}
+	);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

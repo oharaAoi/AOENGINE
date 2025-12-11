@@ -21,7 +21,6 @@ void BossActionAllRangeMissile::Debug_Gui() {
 }
 
 void BossActionAllRangeMissile::Parameter::Debug_Gui() {
-	ImGui::DragFloat("recovery", &recoveryTime, 1.0f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 1.0f);
 	ImGui::DragFloat("takeDamage", &takeDamage, 1.0f);
 	ImGui::DragScalar("fireNum", ImGuiDataType_U32, &fireNum);
@@ -65,8 +64,6 @@ void BossActionAllRangeMissile::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
-
-	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

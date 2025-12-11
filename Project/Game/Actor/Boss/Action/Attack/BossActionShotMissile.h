@@ -13,7 +13,6 @@ class BossActionShotMissile :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		float recoveryTime = 0.1f;
 		float shotInterval = 0.1f;
 		float bulletSpeed = 100.0f;
 		float takeDamage = 40.0f;
@@ -24,7 +23,6 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
-				.Add("recoveryTime", recoveryTime)
 				.Add("shotInterval", shotInterval)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("takeDamage", takeDamage)
@@ -34,7 +32,6 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
 			Convert::fromJson(jsonData, "shotInterval", shotInterval);
 			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			Convert::fromJson(jsonData, "takeDamage", takeDamage);

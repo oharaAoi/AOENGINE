@@ -94,6 +94,7 @@ BehaviorStatus WeightSelectorNode::Execute() {
 			return BehaviorStatus::Running;
 		}
 		if (status == BehaviorStatus::Failure) {
+			isReset_ = true;
 			currentIndex_ = 0;
 			return BehaviorStatus::Failure;
 		}

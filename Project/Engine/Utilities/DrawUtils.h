@@ -19,7 +19,7 @@ void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projecti
 /// <param name="center">: 球の中心点</param>
 /// <param name="radius">: 球の半径</param>
 /// <param name="viewProjectionMatrix">: viewProjectionMatrix</param>
-void DrawSphere(const Math::Vector3& center, float radius, const Math::Matrix4x4& viewProjectionMatrix, const AOENGINE::Color& color = AOENGINE::Color::white);
+void DrawSphere(const Math::Vector3& center, float radius, const Math::Matrix4x4& viewProjectionMatrix, const AOENGINE::Color& color = Colors::Linear::white);
 
 /// <summary>
 /// Cone形状を描画
@@ -37,7 +37,7 @@ void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float
 /// <param name="aabb"></param>
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
-void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color = AOENGINE::Color::white);
+void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color = Colors::Linear::white);
 
 /// <summary>
 /// OBBを描画する
@@ -45,4 +45,4 @@ void DrawAABB(const Math::AABB& aabb, const Math::Matrix4x4& vpMatrix, const AOE
 /// <param name="aabb"></param>
 /// <param name="viewMatrix"></param>
 /// <param name="projectionMatrix"></param>
-void DrawOBB(const Math::OBB& obb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color = AOENGINE::Color::white);
+void DrawOBB(const Math::OBB& obb, const Math::Matrix4x4& vpMatrix, const AOENGINE::Color& color = Colors::Linear::white);

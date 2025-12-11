@@ -13,36 +13,44 @@ using namespace AI;
 
 void BehaviorTreeNodeFactory::CreateNode(int nodeType, const std::string& crateTaskName, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 										 Blackboard* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap, 
-										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray, const ImVec2& _mousePos) {
 	if (nodeType == (int)NodeType::Sequencer) {
-		_nodeList.emplace_back(std::make_shared<SequenceNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<SequenceNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::Selector) {
-		_nodeList.emplace_back(std::make_shared<SelectorNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<SelectorNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::WeightSelector) {
-		_nodeList.emplace_back(std::make_shared<WeightSelectorNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<WeightSelectorNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::Planner) {
-		_nodeList.emplace_back(std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray));
+		auto& node = _nodeList.emplace_back(std::make_shared<PlannerNode>(_canTaskMap, _worldState, _goalArray));
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::PlannerSelector) {
-		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::PlannerSelector) {
-		_nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<PlannerSelectorNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::Parallel) {
-		_nodeList.emplace_back(std::make_shared<ParallelNode>());
+		auto& node = _nodeList.emplace_back(std::make_shared<ParallelNode>());
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::Condition) {
 		auto& node = _nodeList.emplace_back(std::make_shared<ConditionNode>());
 		node->SetBlackboard(_worldState);
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 
 	} else if (nodeType == (int)NodeType::Task) {
 		auto& node = _nodeList.emplace_back(_canTaskMap[crateTaskName]->Clone());
 		node->Init();
-		node->SetPos(CMath::Vector2::ZERO);
+		node->SetPos(Math::Vector2(_mousePos.x, _mousePos.y));
 		node->SetBlackboard(_worldState);
 	}
 }

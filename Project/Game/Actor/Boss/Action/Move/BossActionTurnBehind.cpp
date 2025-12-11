@@ -40,6 +40,7 @@ float BossActionTurnBehind::EvaluateWeight() {
 
 bool BossActionTurnBehind::IsFinish() {
 	if (taskTimer_ >= param_.moveTime) {
+		pRigidBody_->SetVelocity(CVector3::ZERO);
 		return true;
 	}
 	return false;
@@ -90,6 +91,7 @@ void BossActionTurnBehind::Update() {
 
 void BossActionTurnBehind::End() {
 	pTarget_->SetIsMove(false);
+	pRigidBody_->SetVelocity(CVector3::ZERO);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,10 +103,13 @@ void BossActionTurnBehind::Move() {
 	float bezierValue = param_.moveCurve.BezierValue(t);
 
 	// XZ平面で90度回転
-	Math::Vector3 tangent = { -toCenter_.z, 0.0f, toCenter_.x };
+	Math::Vector3 tangent = { toCenter_.z, 0.0f, toCenter_.x };
 	// 円運動速度
 	acceleration_ = tangent * (param_.moveSpeed * bezierValue);
 	velocity_ += acceleration_ + AOENGINE::GameTimer::DeltaTime();
 	// 速度の更新
 	pRigidBody_->AddVelocity(acceleration_ * AOENGINE::GameTimer::DeltaTime());
+
+	Math::Quaternion rot = pRigidBody_->LookVelocity(pTarget_->GetTransform()->GetRotate(), 1.0f);
+	pTarget_->GetTransform()->SetRotate(rot);
 }

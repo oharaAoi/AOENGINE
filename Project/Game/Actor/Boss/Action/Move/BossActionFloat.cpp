@@ -1,6 +1,6 @@
 #include "BossActionFloat.h"
 #include "Game/Actor/Boss/Boss.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Module/Components/Physics/Rigidbody.h"
 
 
 BehaviorStatus BossActionFloat::Execute() {
@@ -19,6 +19,7 @@ void BossActionFloat::Debug_Gui() {
 void BossActionFloat::Parameter::Debug_Gui() {
 	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
 	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	moveCurve.Debug_Gui();
 	SaveAndLoad();
 }
 
@@ -43,7 +44,11 @@ void BossActionFloat::Init() {
 
 void BossActionFloat::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-	pTarget_->GetTransform()->srt_.translate.y += param_.moveTime * AOENGINE::GameTimer::DeltaTime();
+	float t = taskTimer_ / param_.moveTime;
+	float bezierValue = param_.moveCurve.BezierValue(t);
+
+	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
+	rigid->SetMoveForce(Math::Vector3(0, (param_.moveSpeed * bezierValue) * AOENGINE::GameTimer::DeltaTime(), 0));
 }
 
 void BossActionFloat::End() {

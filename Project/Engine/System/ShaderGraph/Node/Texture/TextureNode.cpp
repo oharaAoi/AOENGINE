@@ -14,6 +14,9 @@ TextureNode::~TextureNode() {
 void TextureNode::Init() {
     auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return resource_; });
+
+    // titleBarのカラーを設定
+    SetTitleBar(ImColor(46, 139, 87));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

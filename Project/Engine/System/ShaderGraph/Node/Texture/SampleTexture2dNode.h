@@ -63,6 +63,9 @@ private:
 	ComPtr<ID3D12Resource> uvBuffer_;
 	NodeUVTransform* uvParam_ = nullptr;
 
+	ComPtr<ID3D12Resource> colorBuffer_;
+	AOENGINE::Color* colorParam_ = nullptr;
+
 	AOENGINE::GraphicsContext* ctx_;
 	ID3D12GraphicsCommandList* cmdList_;
 

@@ -47,6 +47,7 @@ public:
 			node->Init();
 			auto name = menuPath.substr(menuPath.find_last_of('/') + 1);
 			node->setTitle(name.c_str());
+			node->setPos(pos);
 			return node;
 		}
 							   });

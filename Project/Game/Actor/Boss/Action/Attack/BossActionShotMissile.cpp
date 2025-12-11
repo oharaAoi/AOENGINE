@@ -22,7 +22,6 @@ void BossActionShotMissile::Debug_Gui() {
 }
 
 void BossActionShotMissile::Parameter::Debug_Gui() {
-	ImGui::DragFloat("recoveryTime", &recoveryTime, .1f);
 	ImGui::DragFloat("shotInterval", &shotInterval, .1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, .1f);
 	SaveAndLoad();
@@ -63,8 +62,6 @@ void BossActionShotMissile::Init() {
 	// 警告を出す
 	pTarget_->GetUIs()->PopAlert(pTarget_->GetTargetPos(), pTarget_->GetPosition());
 	pTarget_->SetIsAttack(false);
-
-	waitTimer_.targetTime_ = param_.recoveryTime;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

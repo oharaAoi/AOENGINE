@@ -28,6 +28,15 @@ void DistortionNode::Init() {
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
 	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(255, 99, 71));
+
+	// parameterの初期化
+	param_->scroll = CMath::Vector2::UNIT;
+	param_->tiling = CMath::Vector2::UNIT;
+	param_->strength = 0.1f;
+	param_->time = 0.f;
 }
 
 void DistortionNode::customUpdate() {

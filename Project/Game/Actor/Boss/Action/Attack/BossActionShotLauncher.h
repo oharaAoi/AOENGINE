@@ -15,7 +15,6 @@ public:
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float bulletSpeed = 80.0f;
 		float stiffenTime = 1.0f;
-		float recoveryTime = 1.0f;
 		float takeDamage = 40.0f;
 		float firstSpeedRaito = 0.2f;
 		float trakingRaito = 0.5f;
@@ -26,7 +25,6 @@ public:
 			return AOENGINE::JsonBuilder(id)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("stiffenTime", stiffenTime)
-				.Add("recoveryTime", recoveryTime)
 				.Add("takeDamage", takeDamage)
 				.Add("firstSpeedRaito", firstSpeedRaito)
 				.Add("trakingRaito", trakingRaito)
@@ -36,7 +34,6 @@ public:
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			Convert::fromJson(jsonData, "stiffenTime", stiffenTime);
-			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
 			Convert::fromJson(jsonData, "takeDamage", takeDamage);
 			Convert::fromJson(jsonData, "firstSpeedRaito", firstSpeedRaito);
 			Convert::fromJson(jsonData, "trakingRaito", trakingRaito);

@@ -24,6 +24,9 @@ void AlphaBlendNode::Init() {
 	// outputの設定
 	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return blendResource_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(220, 20, 60));
 }
 
 void AlphaBlendNode::customUpdate() {

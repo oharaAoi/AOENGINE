@@ -19,7 +19,7 @@ void Grayscale::Init() {
 	settingBuffer_->CreateResource(sizeof(Setting));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
-	setting_->color = Color::black;
+	setting_->color = Colors::Linear::black;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

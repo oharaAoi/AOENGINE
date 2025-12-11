@@ -13,7 +13,6 @@ public:
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float smoothTime = 0.1f;	// 追従の速度
 		float maxSpeed = 10 ^ 8;	// 追従の最大速度
-		float recoveryTime = 0.0f;	// 硬直時間
 		float finishDistance = 2.0f; // 離れる距離
 		float finishTime = 2.0f; // 離れる距離
 
@@ -23,7 +22,6 @@ public:
 			return AOENGINE::JsonBuilder(id)
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
-				.Add("recoveryTime", recoveryTime)
 				.Add("finishDistance", finishDistance)
 				.Add("finishTime", finishTime)
 				.Build();
@@ -32,7 +30,6 @@ public:
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "smoothTime", smoothTime);
 			Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
-			Convert::fromJson(jsonData, "recoveryTime", recoveryTime);
 			Convert::fromJson(jsonData, "finishDistance", finishDistance);
 			Convert::fromJson(jsonData, "finishTime", finishTime);
 		}
