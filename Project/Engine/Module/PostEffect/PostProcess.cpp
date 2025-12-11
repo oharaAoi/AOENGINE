@@ -58,6 +58,7 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 
 	pMotionBluerRenderTarget_ = renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget);
 
+	// マップにポインタを追加
 	RegisterEffect<Grayscale>(PostEffectType::Grayscale);
 	RegisterEffect<RadialBlur>(PostEffectType::RadialBlur);
 	RegisterEffect<GlitchNoise>(PostEffectType::GlitchNoise);
@@ -79,6 +80,7 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 	effectMap_[PostEffectType::ToonMap]->SetIsEnable(true);
 	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
 
+	// 行なう順番に追加
 	AddEffect(PostEffectType::RadialBlur);
 	AddEffect(PostEffectType::GlitchNoise);
 	AddEffect(PostEffectType::Vignette);
