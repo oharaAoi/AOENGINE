@@ -1,6 +1,7 @@
 #include "PlannerNode.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/Logger.h"
 
 namespace fs = std::filesystem;
 using namespace AI;
@@ -27,6 +28,8 @@ PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<B
 	baseColor_ = color_;
 	type_ = NodeType::Planner;
 	SetNodeName("Planner");
+
+	isCreateTree_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +82,10 @@ void PlannerNode::FromJson(const json& _jsonData) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 BehaviorStatus PlannerNode::Execute() {
+	if (!isCreateTree_) {
+		return BehaviorStatus::Failure;
+	}
+
 	bool isExecute = tree_->Run();
 	if (condition_.Execute(pBlackboard_)) {
 		return BehaviorStatus::Success;
@@ -104,6 +111,9 @@ float PlannerNode::EvaluateWeight() {
 }
 
 std::string PlannerNode::RunNodeName() {
+	if (!isCreateTree_) {
+		return "";
+	}
 	return tree_->GetRootNode()->GetCurrentRunNodeName();
 }
 
@@ -176,5 +186,9 @@ void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _tr
 		std::string fileName = p.filename().string();
 		tree_->SetName(fileName);
 		tree_->CreateTree(treeFileName_);
+		isCreateTree_ = true;
+	} else {
+		std::string log = _treeFileName + "の生成に失敗しました";
+		AOENGINE::Logger::AssertLog(log.c_str());
 	}
 }

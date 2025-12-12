@@ -21,10 +21,11 @@ void DistortionNode::Init() {
 	addIN<AOENGINE::DxResource*>("BaseTexture", nullptr, ImFlow::ConnectionFilter::None());
 	addIN<AOENGINE::DxResource*>("SampleNoise", nullptr, ImFlow::ConnectionFilter::None());
 
-	// paremterのバッファを確保
+	// バッファを確保
 	buffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(DistortionParam));
 	buffer_->Map(0, nullptr, reinterpret_cast<void**>(&param_));
 
+	// outputの設定
 	outputResource_ = ctx_->CreateDxResource(ResourceType::Common);
 	auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
 	texOut->behaviour([this]() { return outputResource_; });
@@ -135,7 +136,14 @@ void DistortionNode::ExecuteCommand() {
 			cmdList_->SetComputeRootDescriptorTable(index, outputResource_->GetUAV().handleGPU);
 			index = pso->GetRootSignatureIndex("gDistortion");
 			cmdList_->SetComputeRootConstantBufferView(index, buffer_->GetGPUVirtualAddress());
-			cmdList_->Dispatch(UINT(outputResource_->GetDesc()->Width / 16), UINT(outputResource_->GetDesc()->Height / 16), 1);
+
+			auto desc = outputResource_->GetDesc();
+			UINT64 outW = desc->Width;
+			UINT64 outH = desc->Height;
+
+			UINT64 groupX = (outW + 15) / 16;  // + (16-1)
+			UINT64 groupY = (outH + 15) / 16;
+			cmdList_->Dispatch(groupX, groupY, 1);
 
 			outputResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 		}

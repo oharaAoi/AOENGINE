@@ -9,6 +9,7 @@ TestScene::~TestScene() { Finalize(); }
 void TestScene::Finalize() {}
 
 void TestScene::Init() {
+	Engine::GetCanvas2d()->Init();
 	AOENGINE::EditorWindows::GetInstance()->Reset();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();

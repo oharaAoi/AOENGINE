@@ -16,33 +16,34 @@ RWTexture2D<float4> outputTex : register(u0);
 void CSmain(uint3 id : SV_DispatchThreadID) {
 	uint2 pix = id.xy;
 
-	uint w, h;
-	outputTex.GetDimensions(w, h);
+	uint outW, outH;
+	outputTex.GetDimensions(outW, outH);
 
-    // 画像サイズ外は処理しないようにガード
-	if (pix.x >= w || pix.y >= h)
+	if (pix.x >= outW || pix.y >= outH)
 		return;
 
-    // 0〜1 のUV
-	float2 uv = (pix + 0.5f) / float2(w, h);
+    // 出力サイズ基準の UV（0〜1）
+	float2 uv = (pix + 0.5f) / float2(outW, outH);
 
-    // 歪みマップ用のUV（タイリング＋スクロール）
-	float2 distUV = uv * gDistortion.tiling + gDistortion.scroll * gDistortion.time;
+    // Noise 用 UV（tiling & scroll）
+	float2 noiseUV = uv * gDistortion.tiling
+                   + gDistortion.scroll * gDistortion.time;
 
-    // 歪みマップのサンプル
-    // R,G を [-1,1] に変換してオフセットとして使う
-	float2 distSample = gNoiseTex.SampleLevel(gSampler, distUV, 0).rg;
-	float2 offset = (distSample * 2.0f - 1.0f) * gDistortion.strength;
+    // ノイズから [-1,1] のオフセットベクトルを作る
+	float2 dist = gNoiseTex.SampleLevel(gSampler, noiseUV, 0).rg;
+	
+	// ★ バイアス除去（最重要）
+	dist = (dist - 0.5f) * 2.0f; // 平均を0にする
+	float2 offset = dist * gDistortion.strength;
 
-    // 元画像のUVにオフセットを加算
+    // 歪んだ UV
 	float2 warpedUV = uv + offset;
 
-    // 画面外にはみ出さないように Clamp
+    // はみ出しを Clamp
 	warpedUV = saturate(warpedUV);
 
-    // 歪んだUVで元画像をサンプリング
+    // Base を歪んだ UV でサンプル（解像度差は Sample 側が吸収してくれる）
 	float4 color = gBaseTex.SampleLevel(gSampler, warpedUV, 0);
 
-    // 出力
 	outputTex[pix] = color;
 }

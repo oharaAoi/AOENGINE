@@ -6,6 +6,7 @@
 #include <cassert>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Lib/Math/Vector2.h"
 
 enum class ResourceType {
 	Common,
@@ -86,6 +87,9 @@ public:
 	const DescriptorHandles& GetRTV() const;
 
 	const D3D12_RESOURCE_DESC* GetDesc() const { return &desc_; }
+
+	UINT64 GetWidth() const { return desc_.Width; }
+	UINT64 GetHeight() const { return desc_.Height; }
 
 	bool GetIsDestroy() const { return isDestroy_; }
 

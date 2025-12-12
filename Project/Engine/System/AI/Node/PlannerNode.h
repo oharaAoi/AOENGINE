@@ -81,6 +81,8 @@ private:
 	std::string treeFileName_;
 
 	Condition condition_;
+
+	bool isCreateTree_ = false;
 };
 
 }

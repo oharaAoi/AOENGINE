@@ -43,7 +43,7 @@ void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	// 日本時間に変換
 	std::chrono::zoned_time localTime{ std::chrono::current_zone(), nowSeconds };
 	// 年月日の文字列に変更
-	std::string dateString = std::format("{:%Y%m%d%H%M%S}", localTime);
+	std::string dateString = std::format("{%Y%m%d%H%M%S}", localTime);
 	// 時刻を使ってファイル名を決定
 	filePath_ = std::string("./Project/Logs/BehaviorTree/") + path.stem().string() + "_" + dateString + ".log";
 	// ファイルを作って書き込み準備
