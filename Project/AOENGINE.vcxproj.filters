@@ -1223,7 +1223,7 @@
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h" />
@@ -1260,6 +1260,7 @@
     <ClInclude Include="Engine\System\AI\Node\ParallelNode.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2135,7 +2136,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
@@ -2174,11 +2175,12 @@
     <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\SampleTexture.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MasKBlend.CS.hlsl" />
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MaskBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\AddBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\DifferenceBlend.CS.hlsl" />
     <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Distortion.CS.hlsl" />

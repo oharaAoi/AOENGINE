@@ -48,8 +48,15 @@ void MaskBlendNode::customUpdate() {
             cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
             index = pso->GetRootSignatureIndex("outputTex");
             cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
-            cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
 
+            auto desc = blendResource_->GetDesc();
+            UINT outW = (UINT)desc->Width;
+            UINT outH = (UINT)desc->Height;
+
+            UINT groupX = (outW + 15) / 16;  // + (16-1)
+            UINT groupY = (outH + 15) / 16;
+            cmdList_->Dispatch(groupX, groupY, 1);
+            
             blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
         }
     }

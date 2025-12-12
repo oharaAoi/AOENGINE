@@ -44,7 +44,7 @@
             "y": 1.0,
             "z": 1.0
         },
-        "lifeTime": 0.6000000238418579,
+        "lifeTime": 0.5,
         "maxAngle": 360.0,
         "maxScale": {
             "x": 3.0,
@@ -82,7 +82,7 @@
             "g": 0.0,
             "r": 0.0
         },
-        "rateOverTimeCout": 16,
+        "rateOverTimeCout": 36,
         "rotate": {
             "x": 0.0,
             "y": 0.0,

@@ -28,7 +28,7 @@ void SampleTexture2dNode::Init() {
     // inputの設定
     addIN<std::shared_ptr<AOENGINE::DxResource*>>("Texture", nullptr, ImFlow::ConnectionFilter::None());
     addIN<NodeUVTransform>("UV", uv_, ImFlow::ConnectionFilter::None());
-
+    
     // outputの設定
     auto texOut = addOUT<AOENGINE::DxResource*>("DxResource", ImFlow::PinStyle::green());
     texOut->behaviour([this]() { return resource_; });
@@ -47,7 +47,7 @@ void SampleTexture2dNode::customUpdate() {
     uvParam_->scale = uv_.scale;
     uvParam_->rotate = uv_.rotate;
     uvParam_->translate = uv_.translate;
-
+    
     CreateView();
 
     // textureの合成

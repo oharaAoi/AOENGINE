@@ -173,6 +173,18 @@ void BaseBehaviorNode::EditNodeName() {
 	ImGui::Separator();
 }
 
+std::string AI::BaseBehaviorNode::BaseRunNodeName() {
+	if (children_.empty()) {
+		return this->GetName();
+	} else {
+		if (children_.size() > currentIndex_) {
+			return children_[currentIndex_]->RunNodeName();
+		} else {
+			return this->GetName();
+		}
+	}
+}
+
 void BaseBehaviorNode::DrawImGuiLine(const ImVec2& _texPos) {
 	// 各テキストを描画
 	std::string idText = "id : ";

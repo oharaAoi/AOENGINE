@@ -5,14 +5,23 @@ RWTexture2D<float4> outputTex : register(u0);
 
 [numthreads(16, 16, 1)]
 void CSmain(uint3 id : SV_DispatchThreadID) {
-	uint2 uv = id.xy;
+	uint2 pix = id.xy;
 
-	float4 a = texA[uv];
-	float4 b = texB[uv];
+    // --- output の解像度 ---
+	uint outW, outH;
+	outputTex.GetDimensions(outW, outH);
 
-	float mask = dot(b.rgb, float3(0.299, 0.587, 0.114));; // 0～1をマスク値にする
+    // --- 0〜1 のUVを作る ---
+	float2 uv = (pix + 0.5) / float2(outW, outH);
+
+    // --- A と B は UV でサンプリングする ---
+	float4 a = texA.SampleLevel(gSampler, uv, 0);
+	float4 b = texB.SampleLevel(gSampler, uv, 0);
+
+    // --- グレースケールマスクを作る ---
+	float mask = dot(b.rgb, float3(0.299, 0.587, 0.114));
 
 	float4 result = a * mask;
 
-	outputTex[uv] = result;
+	outputTex[pix] = result;
 }

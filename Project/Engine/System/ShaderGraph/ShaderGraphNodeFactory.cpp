@@ -9,7 +9,7 @@
 #include "Engine/System/ShaderGraph/Node/Blend/AddBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/DifferenceBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/UV/UVTransformNode.h"
-#include "Engine/System/ShaderGraph/Node/TimeNode.h"
+#include "Engine/System/ShaderGraph/Node/Other/TimeNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"

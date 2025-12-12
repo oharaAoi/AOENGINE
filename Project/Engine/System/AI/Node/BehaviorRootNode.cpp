@@ -78,9 +78,5 @@ void BehaviorRootNode::Debug_Gui() {
 }
 
 std::string BehaviorRootNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }

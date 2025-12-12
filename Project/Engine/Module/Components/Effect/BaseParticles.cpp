@@ -265,10 +265,11 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 		if (count > 1) {
 			t = (count) / float(emitCout - 1);
 		}
-		Math::Vector3 pos = Math::Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
 		if (parentWorldMat_ != nullptr) {
-			Emit(pos + parentWorldMat_->GetPosition());
+			Math::Vector3 pos = Math::Vector3::Lerp(preWorldPos_, emitter_.translate + parentWorldMat_->GetPosition(), t);
+			Emit(pos);
 		} else {
+			Math::Vector3 pos = Math::Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
 			Emit(pos);
 		}
 	}
@@ -283,6 +284,9 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 	}
 
 	emitter_.preTranslate = emitter_.translate;
+	if (parentWorldMat_ != nullptr) {
+		preWorldPos_ = emitter_.translate + parentWorldMat_->GetPosition();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

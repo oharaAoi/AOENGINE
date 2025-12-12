@@ -293,6 +293,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
@@ -303,7 +304,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\TimeNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\TimeNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
@@ -640,6 +641,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp" />
@@ -649,7 +651,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\TimeNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
@@ -835,7 +837,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MasKBlend.CS.hlsl">
+    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MaskBlend.CS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>

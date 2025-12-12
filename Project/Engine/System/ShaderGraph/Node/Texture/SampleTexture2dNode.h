@@ -72,7 +72,7 @@ private:
 	// ノード内部の状態
 	AOENGINE::DxResource* inputResource_ = nullptr;
 	NodeUVTransform uv_;         // UV入力のデフォルト値
-
+	
 };
 
 }

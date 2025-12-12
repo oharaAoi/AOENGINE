@@ -110,6 +110,7 @@ protected:
 
 	// 親のMatrix
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
+	Math::Vector3 preWorldPos_;
 };
 
 }

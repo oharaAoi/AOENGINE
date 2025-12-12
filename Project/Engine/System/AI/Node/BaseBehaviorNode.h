@@ -130,7 +130,9 @@ public:
 
 	const std::string GetCurrentRunNodeName() const { return currentRunNodeName_; }
 
-private:
+protected:
+
+	std::string BaseRunNodeName();
 
 	/// <summary>
 	/// NodeにLineを描画

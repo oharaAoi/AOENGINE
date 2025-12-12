@@ -15,21 +15,42 @@ RWTexture2D<float4> gOutputTex : register(u0);
 void CSmain(uint3 id : SV_DispatchThreadID) {
 	uint2 pix = id.xy;
 
-	uint w, h;
-	gOutputTex.GetDimensions(w, h);
+	// ------------------------
+	// outputのuvを取得
+	// ------------------------
+	uint outW, outH;
+	gOutputTex.GetDimensions(outW, outH);
 
-	if (pix.x >= w || pix.y >= h)
+	if (pix.x >= outW || pix.y >= outH)
 		return;
+	
+	float2 uv = (pix + 0.5f) / float2(outW, outH);
 
-	float2 uv = (pix + 0.5) / float2(w, h);
-
+	// ------------------------
+	// baseのuvを取得
+	// ------------------------
+	uint baseW, baseH;
+	gBaseTex.GetDimensions(baseW, baseH);
+	float2 uvBase = uv * float2(outW, outH) / float2(baseW, baseH);
+	
+	// ------------------------
+	// noiseのuvを取得
+	// ------------------------
+	uint noiseW, noiseH;
+	gNoiseTex.GetDimensions(noiseW, noiseH);
+	float2 uvNoise = uv * float2(outW, outH) / float2(noiseW, noiseH);
+	
+	// ------------------------
+	// サンプリング
+	// ------------------------
     // 元画像
-	float4 src = gBaseTex.SampleLevel(gSampler, uv, 0);
-
+	float4 src = gBaseTex.SampleLevel(gSampler, uvBase, 0);
     // ノイズ（0〜1）
-	float noise = gNoiseTex.SampleLevel(gSampler, uv, 0).r;
+	float noise = gNoiseTex.SampleLevel(gSampler, uvNoise, 0).r;
 
-    // ディゾルブ判定
+	// ------------------------
+	// ディゾルブ
+	// ------------------------
     // noise が threshold より小さければ消える
 	float dissolveValue = noise - gDissolve.threshold;
 

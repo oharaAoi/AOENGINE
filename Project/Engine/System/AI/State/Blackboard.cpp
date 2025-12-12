@@ -98,7 +98,7 @@ void Blackboard::KeyCombo(std::string& _key, int32_t& index, const std::string& 
 	std::vector<std::string> keys;
 	for (auto& [k, _] : stateMap_) keys.push_back(k);
 
-	ImGui::SetNextItemWidth(80);
+	ImGui::SetNextItemWidth(120);
 	if (ImGui::BeginCombo(_label.c_str(), _key.c_str())) {
 		for (int i = 0; i < keys.size(); i++) {
 			bool isSelected = (_key == keys[i]);

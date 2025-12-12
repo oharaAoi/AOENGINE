@@ -4,7 +4,8 @@
         "deceleration": 2.0,
         "maxSpinDistance": 0.800000011920929,
         "moveSpeed": 30.0,
-        "moveTime": 1.399999976158142,
-        "quitApproachLength": 5.0
+        "moveTime": 3.0,
+        "quitApproachLength": 5.0,
+        "rotateT": 0.10000000149011612
     }
 }

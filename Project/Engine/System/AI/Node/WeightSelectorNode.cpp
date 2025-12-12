@@ -117,11 +117,7 @@ void WeightSelectorNode::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string WeightSelectorNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,17 +156,4 @@ void WeightSelectorNode::PriorityOutput() {
 	std::sort(priorityArray.begin(), priorityArray.end(), [](const auto& a, const auto& b) {
 		return a.second > b.second;
 			  });
-
-	//// weightの表示
-	//for (uint32_t index = 0; index < priorityArray.size(); ++index) {
-	//	std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
-	//	std::string nodeName = "[" + children_[priorityArray[index].first]->NodeNameCombination() + "] - ";
-
-	//	// logに出力
-	//	pLogger_->Log(nodeName.c_str());
-	//	pLogger_->Log(priorityText);
-	//	pLogger_->Log("\n");
-	//}
-
-	//pLogger_->Log("----------------------------------------------\n");
 }

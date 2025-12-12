@@ -128,11 +128,7 @@ void PlannerSelectorNode::Debug_Gui() {}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string PlannerSelectorNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +137,6 @@ std::string PlannerSelectorNode::RunNodeName() {
 
 void PlannerSelectorNode::PriorityDisplay() {
 	std::vector<std::pair<uint32_t, float>> priorityArray(priorityMap_.begin(), priorityMap_.end());
-
 	// 値を降順でソート
 	std::sort(priorityArray.begin(), priorityArray.end(), [](const auto& a, const auto& b) {
 		return a.second > b.second;
@@ -149,12 +144,14 @@ void PlannerSelectorNode::PriorityDisplay() {
 
 	if (ImGui::Begin("PlannerSelector Priority Window", nullptr)) {
 		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
-			std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
-			std::string nodeName = "[" + children_[priorityArray[index].first]->GetName() + "]";
+			if (children_.size() < priorityArray[index].first) {
+				std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
+				std::string nodeName = "[" + children_[priorityArray[index].first]->GetName() + "]";
 
-			ImGui::Text(nodeName.c_str());
-			ImGui::Text(priorityText.c_str());
-			ImGui::Separator();
+				ImGui::Text(nodeName.c_str());
+				ImGui::Text(priorityText.c_str());
+				ImGui::Separator();
+			}
 		}
 	}
 	ImGui::End();

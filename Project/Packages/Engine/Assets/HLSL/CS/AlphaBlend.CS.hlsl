@@ -6,13 +6,21 @@ RWTexture2D<float4> outputTex : register(u0);
 
 [numthreads(16, 16, 1)]
 void CSmain(uint3 id : SV_DispatchThreadID) {
-	uint2 uv = id.xy;
+	uint2 pix = id.xy;
     
-	float4 a = texA[uv];
-	float4 b = texB[uv];
+	// --- output の解像度 ---
+	uint outW, outH;
+	outputTex.GetDimensions(outW, outH);
+
+    // --- 0〜1 のUVを作る ---
+	float2 uv = (pix + 0.5) / float2(outW, outH);
+
+    // --- A と B は UV でサンプリングする ---
+	float4 a = texA.SampleLevel(gSampler, uv, 0);
+	float4 b = texB.SampleLevel(gSampler, uv, 0);
 	
 	float alpha = b.a;
     float4 result = lerp(a, b, alpha);
 
-	outputTex[uv] = result;
+	outputTex[pix] = result;
 }

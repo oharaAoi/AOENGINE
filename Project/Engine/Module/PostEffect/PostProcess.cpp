@@ -77,6 +77,7 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 
 	effectMap_[PostEffectType::RadialBlur]->SetIsEnable(true);
 	effectMap_[PostEffectType::GlitchNoise]->SetIsEnable(true);
+	effectMap_[PostEffectType::Bloom]->SetIsEnable(true);
 	effectMap_[PostEffectType::ToonMap]->SetIsEnable(true);
 	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
 

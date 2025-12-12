@@ -87,9 +87,5 @@ void SelectorNode::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string SelectorNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }

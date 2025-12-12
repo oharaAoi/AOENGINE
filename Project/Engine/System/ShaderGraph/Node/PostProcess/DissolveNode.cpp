@@ -19,6 +19,7 @@ void DissolveNode::Init() {
 	// inputの設定
 	addIN<AOENGINE::DxResource*>("BaseTex", nullptr, ImFlow::ConnectionFilter::None());
 	addIN<AOENGINE::DxResource*>("NoiseTex", nullptr, ImFlow::ConnectionFilter::None());
+	addIN<float>("threshold", threshold_, ImFlow::ConnectionFilter::None());
 
 	// paremterのバッファを確保
 	buffer_ = CreateBufferResource(ctx_->GetDevice(), sizeof(DissolveParams));
@@ -44,6 +45,15 @@ void DissolveNode::Init() {
 void DissolveNode::customUpdate() {
 	inputBaseResource_ = getInVal<AOENGINE::DxResource*>("BaseTex");
 	inputNoiseResource_ = getInVal<AOENGINE::DxResource*>("NoiseTex");
+	for (auto& connection : this->getIns()) {
+		if (connection->getName() == "threshold") {
+			if (connection->isConnected()) {
+				threshold_ = getInVal<float>("threshold");
+			}
+		}
+	}
+	
+	param_->threshold = threshold_;
 
 	// resourceの作成
 	CreateView();
@@ -58,7 +68,7 @@ void DissolveNode::customUpdate() {
 
 void DissolveNode::updateGui() {
 	ImGui::ColorEdit4("color", &param_->dissolveColor.r);
-	ImGui::DragFloat("threshold", &param_->threshold, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("threshold", &threshold_, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("edgeWidth", &param_->edgeWidth, 0.1f);
 }
 
@@ -85,7 +95,7 @@ nlohmann::json DissolveNode::toJson() {
 	nlohmann::json result;
 	BaseInfoToJson(result);
 	result["props"]["dissolveColor"] = Convert::toJson<Color>(param_->dissolveColor);
-	result["props"]["threshold"] = Convert::toJson<float>(param_->threshold);
+	result["props"]["threshold"] = Convert::toJson<float>(threshold_);
 	result["props"]["edgeWidth"] = Convert::toJson<float>(param_->edgeWidth);
 	return result;
 }
@@ -100,7 +110,7 @@ void DissolveNode::fromJson(const nlohmann::json& _json) {
 	param_->dissolveColor.g = _json["props"]["dissolveColor"]["g"].get<float>();
 	param_->dissolveColor.b = _json["props"]["dissolveColor"]["b"].get<float>();
 	param_->dissolveColor.a = _json["props"]["dissolveColor"]["a"].get<float>();
-	param_->threshold = _json["props"]["threshold"].get<float>();
+	threshold_ = _json["props"]["threshold"].get<float>();
 	param_->edgeWidth = _json["props"]["edgeWidth"].get<float>();
 }
 

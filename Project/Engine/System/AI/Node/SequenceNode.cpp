@@ -88,9 +88,5 @@ void SequenceNode::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string SequenceNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }

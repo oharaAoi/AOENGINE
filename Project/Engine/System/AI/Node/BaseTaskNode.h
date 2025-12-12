@@ -190,10 +190,6 @@ inline bool BaseTaskNode<OwnerType>::Wait() {
 
 template<typename OwnerType>
 inline std::string BaseTaskNode<OwnerType>::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }
 }

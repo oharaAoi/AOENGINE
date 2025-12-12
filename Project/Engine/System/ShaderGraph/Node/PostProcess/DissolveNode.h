@@ -84,6 +84,7 @@ private:
 	// distortion情報
 	ComPtr<ID3D12Resource> buffer_;
 	DissolveParams* param_;
+	float threshold_;
 };
 
 }

@@ -104,7 +104,14 @@ void LaserBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LaserBullet::Update() {
-	if (!lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+	if (lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		float z = std::lerp(1.f, 0.f, lifeTimer_.t_);
+		parentTransform_->SetScaleX(z);
+		parentTransform_->SetScaleY(z);
+
+		transform_->SetScaleZ(z);
+		laserCylinder_->SetScaleZ(z);
+	} else {
 		isAlive_ = false;
 	}
 

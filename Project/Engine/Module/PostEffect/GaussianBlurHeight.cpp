@@ -49,7 +49,7 @@ void GaussianBlurHeight::CheckBox() {
 }
 
 void GaussianBlurHeight::Debug_Gui() {
-	static float sample = 1;
+	static float sample = 0.3f;
 	ImGui::DragFloat("sampleHeight", &sample, 0.1f, 0.0f, 10.0f);
 	blurSetting_->texelSize = { sample / (float)WinApp::sWindowHeight, sample / (float)WinApp::sWindowHeight };
 }

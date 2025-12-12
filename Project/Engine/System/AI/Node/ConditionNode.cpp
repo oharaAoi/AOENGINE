@@ -102,20 +102,28 @@ float ConditionNode::EvaluateWeight() {
 }
 
 void ConditionNode::Debug_Gui() {
+	if (!blackboard_) return;
+
 	blackboard_->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
-	ImGui::SameLine();
 	ImGui::SetNextItemWidth(80);
 	ImGui::Combo("Operator", &opIndex_, conditionOps, kOperatorCount_);
-	ImGui::SameLine();
 	blackboard_->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
+
+	const BlackboardValue& lhs = blackboard_->Get(leftKey_);
+	const BlackboardValue& rhs = blackboard_->Get(rightKey_);
+
+	std::visit([&](auto&& a, auto&& b) {
+		using A = std::decay_t<decltype(a)>;
+		using B = std::decay_t<decltype(b)>;
+
+		if constexpr (!std::is_same_v<A, B>) {
+			ImGui::Text("２つの型が異なるため比較できません");
+		}
+			   }, lhs.Get(), rhs.Get());
 }
 
 std::string ConditionNode::RunNodeName() {
-	if (children_.empty()) {
-		return this->GetName();
-	} else {
-		return children_[currentIndex_]->RunNodeName();
-	}
+	return BaseRunNodeName();
 }
 
 bool ConditionNode::Compare(const BlackboardValue& lhs, const BlackboardValue& rhs, const std::string& op) {

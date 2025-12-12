@@ -1,11 +1,11 @@
 {
     "BossToPlayer": {
         "type": "float",
-        "value": 158.55694580078125
+        "value": 53.14258575439453
     },
     "SafeDistance": {
         "type": "float",
-        "value": 100.0
+        "value": 80.0
     },
     "bossPhase": {
         "type": "int",
