@@ -124,7 +124,7 @@ inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	type_ = _jsonData["nodeType"];
 	pos_ = Math::Vector2(_jsonData["nodePos"]["x"], _jsonData["nodePos"]["y"]);
 
-	if (_jsonData.contains("waitTIme")) {
+	if (_jsonData.contains("waitTime")) {
 		waitTimer_.targetTime_ = _jsonData["waitTime"].get<float>();
 	}
 	if (_jsonData.contains("coolTime")) {

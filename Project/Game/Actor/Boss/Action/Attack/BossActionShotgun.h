@@ -18,7 +18,10 @@ public:
 		float takeDamage = 10.0f;
 		int kFireCount = 16;
 
-		Parameter() { SetName("BossActionShotgun"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("BossActionShotgun");
+		}
 		
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

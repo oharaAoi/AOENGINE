@@ -36,7 +36,6 @@ bool BossActionFloat::CanExecute() {
 }
 
 void BossActionFloat::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);

@@ -53,7 +53,6 @@ bool BossActionRapidfire::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionRapidfire::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	fireCount_ = param_.kFireCount;
 

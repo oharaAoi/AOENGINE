@@ -16,7 +16,10 @@ public:
 		float moveSpeed = 10.0f;	// 移動速度
 		Math::Curve moveCurve;
 
-		Parameter() { SetName("BossActionFloat"); }
+		Parameter() { 
+			SetGroupName("BossAction");
+			SetName("BossActionFloat"); 
+		}
 
 		json ToJson(const std::string& id) const override {
 			json curveJson = moveCurve.ToJson();
@@ -30,7 +33,7 @@ public:
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "moveTime", moveTime);
 			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
-			Convert::fromJson(jsonData, "moveCurve", moveCurve);
+			moveCurve.FromJson(jsonData, "moveCurve");
 		}
 
 		void Debug_Gui() override;

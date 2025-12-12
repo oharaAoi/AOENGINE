@@ -145,11 +145,11 @@
                             "coolTime": 1.0,
                             "name": "Float",
                             "nodePos": {
-                                "x": 386.0,
+                                "x": 370.0,
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0,
+                            "waitTime": 0.0,
                             "weight": 0.0
                         },
                         {
@@ -183,7 +183,7 @@
                                 "y": 486.0
                             },
                             "nodeType": 4,
-                            "waitTime": 1.0,
+                            "waitTime": 0.0,
                             "weight": 0.0
                         },
                         {

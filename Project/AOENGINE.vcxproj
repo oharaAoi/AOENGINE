@@ -372,7 +372,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullets.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h" />
-    <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h" />
     <ClInclude Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossIdleState.h" />
@@ -709,7 +708,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp" />
-    <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\GoalOriented\TargetDeadOriented.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossIdleState.cpp" />

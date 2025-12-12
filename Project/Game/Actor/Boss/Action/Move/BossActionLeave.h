@@ -18,7 +18,10 @@ public:	// 構造体
 		float finishDistance = 1.0f;
 		float rotateT = 0.1f;
 
-		Parameter() { SetName("bossActionLeave"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("bossActionLeave");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

@@ -966,9 +966,6 @@
     <ClInclude Include="Game\Actor\Boss\Bullet\BossMissile.h">
       <Filter>Game\Actor\Boss\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.h">
-      <Filter>Game\Actor\Boss\GoalOriented</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.h">
       <Filter>Game\Actor\Boss\GoalOriented</Filter>
     </ClInclude>
@@ -1889,9 +1886,6 @@
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Bullet\BossMissile.cpp">
       <Filter>Game\Actor\Boss\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\GoalOriented\DeployArmorOriented.cpp">
-      <Filter>Game\Actor\Boss\GoalOriented</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\GoalOriented\SafeDistanceOriented.cpp">
       <Filter>Game\Actor\Boss\GoalOriented</Filter>

@@ -19,7 +19,10 @@ public:
 		float firstSpeedRaito = 0.2f;
 		float trakingRaito = 0.5f;
 
-		Parameter() { SetName("bossActionShotMissile"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("bossActionShotMissile");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

@@ -65,7 +65,6 @@ bool BossActionDualStageMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDualStageMissile::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 
 	taskTimer_ = 0.f;

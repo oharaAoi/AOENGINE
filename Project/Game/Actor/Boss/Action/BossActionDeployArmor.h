@@ -15,7 +15,10 @@ public:
 		float deployTime = 3.0f;
 		float randShakeValue = 2.0f;
 
-		Parameter() { SetName("bossActionDeployArmor"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("bossActionDeployArmor"); 
+		}
 		
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

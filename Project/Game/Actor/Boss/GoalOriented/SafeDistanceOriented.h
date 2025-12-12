@@ -1,13 +1,42 @@
 #pragma once
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
-
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 /// <summary>
 /// 敵と距離を取る目標
 /// </summary>
 class SafeDistanceOriented :
 	public AI::IOrientedGoal {
-public:
+public: // データ構造体
+
+	struct Consideration : public AOENGINE::IJsonConverter {
+		float priority = 1.0f;		// 優先度
+		float optimal = 80.0f;		// 適正距離
+		float optimalRange = 20.0f;	// 適正距離許容範囲
+		
+		Consideration() {
+			SetGroupName("AIConsideration");
+			SetName("SafeDistance");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("priority", priority)
+				.Add("optimal", optimal)
+				.Add("optimalRange", optimalRange)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "priority", priority);
+			Convert::fromJson(jsonData, "optimal", optimal);
+			Convert::fromJson(jsonData, "optimalRange", optimalRange);
+		}
+
+		void Debug_Gui() override;
+	};
+
+public: // コンストラクタ
 
 	SafeDistanceOriented();
 	~SafeDistanceOriented() override = default;
@@ -22,5 +51,10 @@ public:
 
 	// 編集
 	void Debug_Gui() override;
+
+private:
+
+	Consideration consideration_;
+
 };
 

@@ -35,8 +35,8 @@ public:
 
 public:
 
-	void SetPriority(int _priority) { priority_ = _priority; }
-	int GetPriority() const { return priority_; }
+	void SetPriority(float _priority) { priority_ = _priority; }
+	float GetPriority() const { return priority_; }
 
 	void SetBlackboard(Blackboard* _worldState) { blackboard_ = _worldState; }
 	Blackboard* GetBlackboard() const { return blackboard_; }
@@ -44,7 +44,7 @@ public:
 protected:
 
 	// 優先度
-	int priority_ = 0;
+	float priority_ = 0;
 
 	Blackboard* blackboard_ = nullptr;
 

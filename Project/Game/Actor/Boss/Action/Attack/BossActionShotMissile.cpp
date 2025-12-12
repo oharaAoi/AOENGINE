@@ -51,7 +51,6 @@ bool BossActionShotMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotMissile::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	taskTimer_ = 0.0f;
 	isFinishShot_ = false;

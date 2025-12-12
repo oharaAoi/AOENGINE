@@ -12,9 +12,9 @@ TargetDeadOriented::TargetDeadOriented() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float TargetDeadOriented::CalculationScore() {
-    return RandomFloat(0.2f, 1.0f);
+    return RandomFloat(0.4f, 1.0f);
 }
 
 void TargetDeadOriented::Debug_Gui() {
-    ImGui::DragInt("priority", &priority_, 1);
+    ImGui::DragFloat("priority", &priority_, 1);
 }

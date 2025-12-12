@@ -29,7 +29,6 @@
 
 #include "Game/Actor/Boss/GoalOriented/TargetDeadOriented.h"
 #include "Game/Actor/Boss/GoalOriented/SafeDistanceOriented.h"
-#include "Game/Actor/Boss/GoalOriented/DeployArmorOriented.h"
 
 void Boss::Finalize() {
 }
@@ -101,7 +100,6 @@ void Boss::Init() {
 	behaviorTree_->SetTarget(this);
 	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());
 	behaviorTree_->AddGoal(std::make_shared<SafeDistanceOriented>());
-	behaviorTree_->AddGoal(std::make_shared<DeployArmorOriented>());
 	behaviorTree_->AddCanTask(CreateTask<BossActionWait>(this, "Wait"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionFloat>(this, "Float"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionApproach>(this, "Approach"));
@@ -121,10 +119,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(true);
-
-	evaluationFormula_ = std::make_unique<BossEvaluationFormula>();
-	evaluationFormula_->Init(this);
+	behaviorTree_->SetExecute(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -167,17 +162,21 @@ void Boss::Update() {
 	// ----------------------
 	// ↓ 目標敵の座標を探索
 	// ----------------------
-	targetPos_ = targetTransform_->GetOffsetPos();
+	if (pTargetTransform_) {
+		targetPos_ = pTargetTransform_->GetOffsetPos();
+	}
 
 	// ----------------------
 	// ↓ blackboardの更新
 	// ----------------------
 	initParam_.worldStatePath = blackboard_->GetPath();
-	blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - targetTransform_->GetPos()).Length());
 	blackboard_->Set<bool>("deployArmor", isArmorDeploy_);
 	blackboard_->Set<bool>("isAttack", isAttack_);
 	blackboard_->Set<int32_t>("bossPhase", (int32_t)phase_);
 	blackboard_->Set<float>("halfHp", initParam_.health * 0.5f);
+	if (pTargetTransform_) {
+		blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - pTargetTransform_->GetPos()).Length());
+	}
 
 	// ----------------------
 	// ↓ stateの更新
@@ -202,7 +201,6 @@ void Boss::Update() {
 	// ↓ treeの更新
 	// ----------------------
 	behaviorTree_->Run();
-	evaluationFormula_->Update(); 
 	pulseArmor_->Update();
 	stateMachine_->Update();
 #ifdef _DEBUG
@@ -266,7 +264,7 @@ void Boss::ResetStan() {
 
 bool Boss::TargetLook() {
 	// 目標の方向を計算する
-	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(targetTransform_->GetPos() - transform_->GetPos());
+	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(pTargetTransform_->GetPos() - transform_->GetPos());
 	// なす角を求める
 	float angle = Math::Quaternion::Angle(transform_->GetRotate(), targetRotate);
 

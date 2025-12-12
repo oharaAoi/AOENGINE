@@ -8,7 +8,7 @@ BehaviorStatus BossActionStrafe::Execute() {
 }
 
 float BossActionStrafe::EvaluateWeight() {
-	return pTarget_->GetEvaluationFormula()->StrafeEvaluation(10.0f, 50.0f);
+	return 0.4f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +57,6 @@ bool BossActionStrafe::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionStrafe::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	taskTimer_ = 0;
 	stopping_ = false;

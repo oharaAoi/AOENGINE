@@ -16,7 +16,10 @@ public:
 		float finishDistance = 2.0f; // 離れる距離
 		float finishTime = 2.0f; // 離れる距離
 
-		Parameter() { SetName("BossActionAdjustHeight"); }
+		Parameter() { 
+			SetGroupName("BossAction");
+			SetName("BossActionAdjustHeight");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

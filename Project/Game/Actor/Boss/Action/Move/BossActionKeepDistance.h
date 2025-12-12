@@ -18,7 +18,10 @@ public:
 		float decayRate = 4.0f;
 		float rotateT = 0.1f;
 
-		Parameter() { SetName("bossKeepDistance"); }
+		Parameter() { 
+			SetGroupName("BossAction");
+			SetName("bossKeepDistance");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

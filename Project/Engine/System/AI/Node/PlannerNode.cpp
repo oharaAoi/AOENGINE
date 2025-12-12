@@ -150,6 +150,7 @@ void PlannerNode::Debug_Gui() {
 		}
 		ImGui::EndCombo();
 	}
+	ImGui::BulletText("成功条件");
 	condition_.Debug_Gui(pBlackboard_);
 	// 目標を設定する
 	if (goal_) {

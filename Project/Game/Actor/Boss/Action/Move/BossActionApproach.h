@@ -20,7 +20,10 @@ public:
 		float decayRate = 5.f;			// 減衰率
 		float rotateT = 0.1f;
 
-		Parameter() { SetName("bossActionApproach"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("bossActionApproach"); 
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

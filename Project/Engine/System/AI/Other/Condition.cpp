@@ -6,10 +6,8 @@ using namespace AI;
 
 void Condition::Debug_Gui(Blackboard* _state) {
 	_state->KeyCombo(leftKey_, leftKeyIndex_, "leftKey");
-	ImGui::SameLine();
 	ImGui::SetNextItemWidth(80);
 	ImGui::Combo("Operator", &opIndex_, conditionOps, kOperatorCount_);
-	ImGui::SameLine();
 	_state->KeyCombo(rightKey_, rightKeyIndex_, "rightKey");
 }
 

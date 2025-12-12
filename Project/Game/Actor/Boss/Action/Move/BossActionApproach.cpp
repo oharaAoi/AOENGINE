@@ -8,7 +8,7 @@ BehaviorStatus BossActionApproach::Execute() {
 }
 
 float BossActionApproach::EvaluateWeight() {
-	return pTarget_->GetEvaluationFormula()->ApproachEvaluation(50.0f, 100.0f);
+	return 0.4f;
 }
 
 void BossActionApproach::Debug_Gui() {
@@ -28,7 +28,6 @@ void BossActionApproach::Parameter::Debug_Gui() {
 }
 
 void BossActionApproach::Init() {
-	initParam_.SetGroupName("BossAction");
 	initParam_.Load();
 	param_ = initParam_;
 

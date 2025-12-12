@@ -21,7 +21,10 @@ public:
 		float firstSpeedRaito = 0.1f;	// 初期速度の割合
 		float trakingRaito = 0.05f;		// 追従の割合
 		
-		Parameter() { SetName("BossActionAllRangeMissile"); }
+		Parameter() {
+			SetGroupName("BossAction");
+			SetName("BossActionAllRangeMissile");
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

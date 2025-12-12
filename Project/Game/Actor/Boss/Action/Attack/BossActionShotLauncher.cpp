@@ -53,7 +53,6 @@ bool BossActionShotLauncher::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotLauncher::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	
 	Shot();

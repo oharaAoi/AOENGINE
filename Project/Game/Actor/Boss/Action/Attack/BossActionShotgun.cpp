@@ -54,7 +54,6 @@ bool BossActionShotgun::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotgun::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	
 	taskTimer_ = 0.0f;

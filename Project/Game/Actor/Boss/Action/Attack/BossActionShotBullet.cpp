@@ -54,7 +54,6 @@ bool BossActionShotBullet::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionShotBullet::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 
 	fireCount_ = param_.kFireCount;

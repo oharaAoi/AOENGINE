@@ -59,7 +59,6 @@ bool BossActionKeepDistance::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionKeepDistance::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 
 	taskTimer_ = 0;

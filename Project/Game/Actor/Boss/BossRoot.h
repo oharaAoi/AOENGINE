@@ -35,7 +35,7 @@ public:
 
 	void SetPlayer(Player* _player) { pPlayer_ = _player; }
 
-	void SetTargetTransform(AOENGINE::WorldTransform* _transform) { boss_->SetTargerTransform(_transform); }
+	void SetTargetTransform(AOENGINE::WorldTransform* _transform) { boss_->SetTargetTransform(_transform); }
 
 private:
 

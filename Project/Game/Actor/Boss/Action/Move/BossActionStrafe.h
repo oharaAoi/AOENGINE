@@ -21,7 +21,10 @@ public:
 		float finishDistance = 1.0f;
 		Math::Curve curve;
 
-		Parameter() { SetName("bossStrafe"); }
+		Parameter() { 
+			SetGroupName("BossAction");
+			SetName("bossStrafe");
+		}
 
 		json ToJson(const std::string& id) const override {
 			json curveData = curve.ToJson();

@@ -6,7 +6,7 @@ BehaviorStatus BossActionLeave::Execute() {
 }
 
 float BossActionLeave::EvaluateWeight() {
-	return pTarget_->GetEvaluationFormula()->LeaveEvaluation(6.0f, 12.0f);
+	return 0.4f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +53,6 @@ bool BossActionLeave::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionLeave::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	taskTimer_ = 0;
 

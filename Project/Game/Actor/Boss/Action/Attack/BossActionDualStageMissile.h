@@ -25,7 +25,10 @@ public: // データ構造体
 		float secondPhaseTime = 0.5f;	// 2発目までの時間
 		float lineOffset = 1.0f;		// 2列間の距離
 
-		Parameter() { SetName("BossActionDualStageMissile"); }
+		Parameter() { 
+			SetGroupName("BossAction"); 
+			SetName("BossActionDualStageMissile"); 
+		}
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)

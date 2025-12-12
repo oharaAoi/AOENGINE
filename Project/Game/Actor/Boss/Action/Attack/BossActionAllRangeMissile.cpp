@@ -51,7 +51,6 @@ bool BossActionAllRangeMissile::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAllRangeMissile::Init() {
-	param_.SetGroupName("BossAction");
 	param_.Load();
 	// 
 	taskTimer_ = 0.f;

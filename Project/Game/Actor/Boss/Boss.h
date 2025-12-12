@@ -101,12 +101,9 @@ public:
 
 	AI::BehaviorTree* GetBehaviorTree() { return behaviorTree_; }
 
-	// 評価値計算クラス
-	BossEvaluationFormula* GetEvaluationFormula() { return evaluationFormula_.get(); }
-
 	// targetTransform
-	void SetTargerTransform(AOENGINE::WorldTransform* _transform) { targetTransform_ = _transform; }
-	AOENGINE::WorldTransform* GetTargetTransform() const { return targetTransform_; }
+	void SetTargetTransform(AOENGINE::WorldTransform* _transform) { pTargetTransform_ = _transform; }
+	AOENGINE::WorldTransform* GetTargetTransform() const { return pTargetTransform_; }
 
 	const Math::Vector3& GetTargetPos() const { return targetPos_; }
 
@@ -188,11 +185,9 @@ private:
 	AI::BehaviorTree* behaviorTree_;
 	std::unique_ptr<AI::Blackboard> blackboard_;
 
-	std::unique_ptr<BossEvaluationFormula> evaluationFormula_;
-
 	// Playerの状態 --------------------------------------------------
 
-	AOENGINE::WorldTransform* targetTransform_;
+	AOENGINE::WorldTransform* pTargetTransform_;
 	Math::Vector3 targetPos_;
 
 	// UI -----------------------------------------------------------
