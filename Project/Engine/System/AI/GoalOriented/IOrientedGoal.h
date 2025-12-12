@@ -48,6 +48,9 @@ protected:
 
 	Blackboard* blackboard_ = nullptr;
 
+	// 最低補正値
+	static constexpr float sMinimumCorrectionCalue_ = 0.01f;
+
 };
 
 }

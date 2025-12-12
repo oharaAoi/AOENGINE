@@ -144,7 +144,7 @@ void PlannerSelectorNode::PriorityDisplay() {
 
 	if (ImGui::Begin("PlannerSelector Priority Window", nullptr)) {
 		for (uint32_t index = 0; index < priorityArray.size(); ++index) {
-			if (children_.size() < priorityArray[index].first) {
+			if (children_.size() > priorityArray[index].first) {
 				std::string priorityText = "priority : " + std::to_string(priorityArray[index].second);
 				std::string nodeName = "[" + children_[priorityArray[index].first]->GetName() + "]";
 

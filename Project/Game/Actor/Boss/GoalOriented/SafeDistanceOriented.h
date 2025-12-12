@@ -11,8 +11,8 @@ public: // データ構造体
 
 	struct Consideration : public AOENGINE::IJsonConverter {
 		float priority = 1.0f;		// 優先度
-		float optimal = 80.0f;		// 適正距離
-		float optimalRange = 20.0f;	// 適正距離許容範囲
+		float optimal = 30.0f;		// 適正距離
+		float optimalRange = 10.0f;	// 適正距離許容範囲
 		
 		Consideration() {
 			SetGroupName("AIConsideration");

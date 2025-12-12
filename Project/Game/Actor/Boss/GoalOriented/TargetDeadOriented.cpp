@@ -1,10 +1,11 @@
 #include "TargetDeadOriented.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/Lib/Math/MyRandom.h"
-#include <algorithm>
+#include "Game/Actor/Boss/BossEvaluationFormula.h"
 
 TargetDeadOriented::TargetDeadOriented() {
     SetName("TargetDead");
+    consideration_.Load();
+    priority_ = consideration_.priority;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,9 +13,20 @@ TargetDeadOriented::TargetDeadOriented() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float TargetDeadOriented::CalculationScore() {
-    return RandomFloat(0.4f, 1.0f);
+    float distance = blackboard_->Get("BossToPlayer").As<float>();
+    float score = BossEvaluationFormula::AppropriateDistance(distance, consideration_.optimal, consideration_.optimalRange);
+    return score * priority_ + sMinimumCorrectionCalue_;
 }
 
 void TargetDeadOriented::Debug_Gui() {
-    ImGui::DragFloat("priority", &priority_, 1);
+	if (ImGui::CollapsingHeader("Consideration")) {
+		consideration_.Debug_Gui();
+	}
+}
+
+void TargetDeadOriented::Consideration::Debug_Gui() {
+	ImGui::DragFloat("priority", &priority, 1);
+	ImGui::DragFloat("optimal", &optimal, 1);
+	ImGui::DragFloat("optimalRange", &optimalRange, 1);
+	SaveAndLoad();
 }
