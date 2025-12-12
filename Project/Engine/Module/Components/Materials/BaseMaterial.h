@@ -70,6 +70,8 @@ public:
 	void SetAlpha(float _alpha) { color_.a = _alpha; };
 	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
 
+	void SetDiscardValue(float _value) { discardValue_ = _value; }
+
 protected:
 
 	MaterialShaderType shaderType_ = MaterialShaderType::UniversalRender;
@@ -84,6 +86,8 @@ protected:
 
 	AOENGINE::Color color_;
 	bool isLighting_ = true;
+
+	float discardValue_ = 0.01f;
 
 };
 

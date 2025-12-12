@@ -11,10 +11,11 @@ JetEngineBurn::~JetEngineBurn() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void JetEngineBurn::Init() {
+void JetEngineBurn::Init(const std::string& _name) {
+	param_.SetName(_name);
 	param_.Load();
 	
-	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("JetBurn", "Object_Add.json", 100);
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("JetBurn", "Object_JetBurn.json", 100);
 	object_->SetObject("sphere.obj");
 	object_->SetTexture("laser.png");
 	object_->SetIsLighting(false);
@@ -32,6 +33,7 @@ void JetEngineBurn::Init() {
 
 	for (auto& material : object_->GetMaterials()) {
 		material.second->SetShaderGraph(shaderGraph_.get());
+		material.second->SetDiscardValue(param_.discardValue);
 	}
 }
 

@@ -96,7 +96,7 @@ private:
 	// effects -------------------------------------------------
 	AOENGINE::BaseParticles* burnParticle_;
 	
-	std::unique_ptr<JetEngineBurn> jetEngineBurn_;
+	std::unique_ptr<JetEngineBurn> jetEngineBurn_[2];
 
 	// moveによる炎のScale関連 ------------------------------------
 	AOENGINE::Timer burnScaleUpTimer_;

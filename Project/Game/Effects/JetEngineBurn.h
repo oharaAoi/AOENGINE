@@ -17,6 +17,7 @@ public:
 		Math::Vector3 scale;
 		Math::Quaternion rotate;
 		Math::Vector3 translate;
+		float discardValue = 0.3f;
 		std::string shaderGraphPath = "";
 		
 		Parameter() {
@@ -30,6 +31,7 @@ public:
 				.Add("scale", scale)
 				.Add("rotate", rotate)
 				.Add("translate", translate)
+				.Add("discardValue", discardValue)
 				.Add("shaderGraphPath", shaderGraphPath)
 				.Build();
 		}
@@ -39,6 +41,7 @@ public:
 			Convert::fromJson(jsonData, "scale", scale);
 			Convert::fromJson(jsonData, "rotate", rotate);
 			Convert::fromJson(jsonData, "translate", translate);
+			Convert::fromJson(jsonData, "discardValue", discardValue);
 			Convert::fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
 		}
 
@@ -55,7 +58,7 @@ public:
 	void Finalize() {};
 
 	// 初期化
-	void Init();
+	void Init(const std::string& _name);
 
 	// 更新
 	void Update();

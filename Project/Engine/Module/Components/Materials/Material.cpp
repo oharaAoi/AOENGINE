@@ -42,6 +42,7 @@ void Material::Init() {
 
 void Material::Update() {
 	material_->enableLighting = isLighting_;
+	material_->discardValue = discardValue_;
 	material_->color = color_;
 	material_->uvTransform = uvTransform_.MakeAffine();
 }

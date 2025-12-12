@@ -20,10 +20,14 @@ void JetEngine::Debug_Gui() {
 		ImGui::TreePop();
 	}
 
-	if (ImGui::TreeNode("Burn1")) {
-		jetEngineBurn_->Debug_Gui();
-		ImGui::TreePop();
+	for (size_t i = 0; i < 2; ++i) {
+		std::string name = "Burn" + std::to_string(i);
+		if (ImGui::TreeNode(name.c_str())) {
+			jetEngineBurn_[i]->Debug_Gui();
+			ImGui::TreePop();
+		}
 	}
+
 	if (ImGui::CollapsingHeader("burnParent")) {
 		burnParentTransform_->Debug_Gui();
 	}
@@ -78,15 +82,22 @@ void JetEngine::Init() {
 	// effectの設定
 	// -------------------------------------
 
-	jetEngineBurn_ = std::make_unique<JetEngineBurn>();
-	jetEngineBurn_->Init();
-	jetEngineBurn_->GetTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
+	for (size_t i = 0; i < 2; ++i) {
+		jetEngineBurn_[i] = std::make_unique<JetEngineBurn>();
+		if (i == 0) {
+			jetEngineBurn_[i]->Init("jetBurnParameter");
+		} else {
+			jetEngineBurn_[i]->Init("jetBurnCenterParameter");
+		}
+
+		jetEngineBurn_[i]->GetTransform()->SetParent(burnParentTransform_->GetWorldMatrix());
+
+		object_->AddChild(jetEngineBurn_[i].get());
+	}
 
 	burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("BurnParticle");
 	burnParticle_->SetParent(transform_->GetWorldMatrix());
 
-	object_->AddChild(jetEngineBurn_.get());
-	
 	// -------------------------------------
 	// その他初期化
 	// -------------------------------------
@@ -114,12 +125,14 @@ void JetEngine::Update(float diftX) {
 	}
 
 	Math::Quaternion engineRotate = Math::Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
-	Math::Quaternion rotate = Math::Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.1f);
+	Math::Quaternion rotate = Math::Quaternion::Slerp(transform_->GetRotate(), engineRotate, 0.5f);
 	transform_->SetRotate(rotate);
 	transform_->Update();
 	burnParentTransform_->Update();
 
-	jetEngineBurn_->Update();
+	for (size_t i = 0; i < 2; ++i) {
+		jetEngineBurn_[i]->Update();
+	}
 }
 
 void JetEngine::JetIsStop() {
