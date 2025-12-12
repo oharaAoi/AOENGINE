@@ -90,6 +90,7 @@ protected:
 	std::unordered_map<std::string, BlackboardValue> stateMap_;
 
 	std::string path_;
+
 };
 
 }

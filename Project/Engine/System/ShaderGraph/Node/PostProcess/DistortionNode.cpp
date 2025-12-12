@@ -138,11 +138,11 @@ void DistortionNode::ExecuteCommand() {
 			cmdList_->SetComputeRootConstantBufferView(index, buffer_->GetGPUVirtualAddress());
 
 			auto desc = outputResource_->GetDesc();
-			UINT64 outW = desc->Width;
-			UINT64 outH = desc->Height;
+			UINT outW = (UINT)desc->Width;
+			UINT outH = (UINT)desc->Height;
 
-			UINT64 groupX = (outW + 15) / 16;  // + (16-1)
-			UINT64 groupY = (outH + 15) / 16;
+			UINT groupX = (outW + 15) / 16;  // + (16-1)
+			UINT groupY = (outH + 15) / 16;
 			cmdList_->Dispatch(groupX, groupY, 1);
 
 			outputResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);

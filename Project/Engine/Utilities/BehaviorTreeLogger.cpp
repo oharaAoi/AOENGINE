@@ -23,7 +23,6 @@ BehaviorTreeLogger::~BehaviorTreeLogger() {
 void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	try {
 		std::filesystem::create_directories("./Project/Logs/BehaviorTree");
-		AOENGINE::Logger::Log("Create --- ./Project/Logs/BehaviorTree");
 	}
 	catch (const std::filesystem::filesystem_error& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
@@ -43,7 +42,7 @@ void BehaviorTreeLogger::Init(const std::string& _fileName) {
 	// 日本時間に変換
 	std::chrono::zoned_time localTime{ std::chrono::current_zone(), nowSeconds };
 	// 年月日の文字列に変更
-	std::string dateString = std::format("{%Y%m%d%H%M%S}", localTime);
+	std::string dateString = std::format("{:%Y%m%d%H%M%S}", localTime);
 	// 時刻を使ってファイル名を決定
 	filePath_ = std::string("./Project/Logs/BehaviorTree/") + path.stem().string() + "_" + dateString + ".log";
 	// ファイルを作って書き込み準備
@@ -77,25 +76,32 @@ void BehaviorTreeLogger::AssertLog(const std::string& _message) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTreeLogger::DeleteOldLogFile(size_t max) {
+	const std::filesystem::path logDir = "./Project/Logs/BehaviorTree/";
+
+	// ディレクトリが存在しなければ例外を投げる
+	if (!std::filesystem::exists(logDir)) {
+		std::string message = logDir.string() + "が存在しません";
+		AOENGINE::Logger::AssertLog(message);
+		return;
+	}
+
 	std::vector<std::filesystem::directory_entry> files;
 
-	// フォルダ内の通常ファイルを収集
-	for (const auto& entry : std::filesystem::directory_iterator("./Project/Logs/BehaviorTree/")) {
+	for (const auto& entry : std::filesystem::directory_iterator(logDir)) {
 		if (std::filesystem::is_regular_file(entry)) {
 			files.push_back(entry);
 		}
 	}
 
-	// ファイル数が上限を超えていなければ何もしない
 	if (files.size() <= max)
 		return;
 
-	// 更新日時でソート（古い順）
-	std::sort(files.begin(), files.end(), [](const std::filesystem::directory_entry& a, const std::filesystem::directory_entry& b) {
-		return std::filesystem::last_write_time(a) < std::filesystem::last_write_time(b);
-			  });
+	std::sort(files.begin(), files.end(),
+			  [](const auto& a, const auto& b) {
+				  return std::filesystem::last_write_time(a) < std::filesystem::last_write_time(b);
+			  }
+	);
 
-	// 古いファイルから削除
 	for (size_t i = 0; i < files.size() - max; ++i) {
 		std::error_code ec;
 		std::filesystem::remove(files[i], ec);

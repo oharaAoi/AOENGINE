@@ -58,8 +58,6 @@ private:
 	Math::Vector2 offset_ = CMath::Vector2::ZERO;
 	float rotate_ = 0.f;
 
-
-
 };
 
 }

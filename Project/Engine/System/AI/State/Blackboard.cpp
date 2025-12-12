@@ -7,46 +7,67 @@
 using namespace AI;
 
 void Blackboard::Debug_Gui() {
-	// 値の追加
-	CreateValue();
+    // 値の追加
+    CreateValue();
 
-	if (ImGui::BeginTable("BlackboardTable", 2, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+	std::string keyToDelete = "";
+	static std::string selectedKey = "";
+
+	//==============================
+	// Table 描画
+	//==============================
+	if (ImGui::BeginTable("BlackboardTable", 3,
+						  ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+
 		ImGui::TableSetupColumn("Key");
 		ImGui::TableSetupColumn("Value");
+		ImGui::TableSetupColumn("##Delete", ImGuiTableColumnFlags_WidthFixed);
 		ImGui::TableHeadersRow();
 
 		for (auto& [key, value] : stateMap_) {
 			ImGui::TableNextRow();
 
-			// Key
+			// Key（クリックで選択）
 			ImGui::TableSetColumnIndex(0);
-			ImGui::TextUnformatted(key.c_str());
+			float colWidth = ImGui::GetColumnWidth(ImGui::TableGetColumnIndex());
+			bool isSelected = (selectedKey == key);
+			if (ImGui::Selectable(key.c_str(), isSelected, 0, ImVec2(colWidth, 0))) {
+				selectedKey = key;
+			}
+
+			// Value 表示
 			ImGui::TableSetColumnIndex(1);
-			// Value
-			std::visit([&](auto&& v) {
-				using T = std::decay_t<decltype(v)>;
+			std::visit([&](auto&& v) { TemplateValueText(v); }, value.Get());
 
-				TemplateValueText(v);
-
-			}, value.Get());
+			// Delete ボタン
+			ImGui::TableSetColumnIndex(2);
+			std::string btn = "Delete##" + key;
+			if (ImGui::Button(btn.c_str())) {
+				keyToDelete = key;
+			}
 		}
 
 		ImGui::EndTable();
 	}
 
-	for (auto& [key, value] : stateMap_) {
-		value.DebugValue(key, value);
+    if (keyToDelete != "") {
+        stateMap_.erase(keyToDelete);
+    }
+
+	if (!selectedKey.empty()) {
+		auto it = stateMap_.find(selectedKey);
+		if (it != stateMap_.end()) {
+			it->second.DebugValue(selectedKey, it->second);
+		}
 	}
 
-	if (ImGui::Button("Save##worldStateSave")) {
-		Save();
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Load##worldStateLoad")) {
-		path_ = FileOpenDialogFunc();
-		Load(path_);
-	}
 
+    if (ImGui::Button("Save##worldStateSave")) { Save(); }
+    ImGui::SameLine();
+    if (ImGui::Button("Load##worldStateLoad")) {
+        path_ = FileOpenDialogFunc();
+        Load(path_);
+    }
 }
 
 void Blackboard::CreateValue() {

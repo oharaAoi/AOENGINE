@@ -42,7 +42,7 @@ void PlayerActionBoost::Build() {
 	initialPram_.SetGroupName(pManager_->GetName());
 	initialPram_.Load();
 
-	blur_ = Engine::GetPostProcess()->GetRadialBlur();
+	blur_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::RadialBlur>(PostEffectType::RadialBlur);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

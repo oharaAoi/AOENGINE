@@ -110,7 +110,6 @@ void BehaviorTree::EditSelect() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::CreateTree(const std::string& nodeName) {
-	AOENGINE::Logger::Log("[Create][BehaviorTree] : " + nodeName);
 	nodeList_.clear();
 	if (root_ != nullptr) {
 		root_->ClearChild();
@@ -129,5 +128,6 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, canTaskMap_, goalArray_)).get();
 
-	AOENGINE::Logger::Log("--- success!");
+	std::string message = nodeName + "を作成しました。";
+	AOENGINE::Logger::Log(message);
 }
