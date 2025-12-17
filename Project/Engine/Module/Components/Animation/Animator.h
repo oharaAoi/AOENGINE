@@ -89,6 +89,7 @@ public:
 	// skinningを行うかを取得
 	const bool GetIsSkinning() const { return isSkinning_; }
 
+	const std::vector<std::unique_ptr<Skinning>>& GetSkinningArray() const { return skinning_; }
 
 private:
 

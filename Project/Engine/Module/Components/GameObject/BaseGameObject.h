@@ -83,6 +83,8 @@ public:
 
 	void SetShaderGraph(AOENGINE::ShaderGraph* _shaderGraph);
 
+	void SetMaterial(MaterialType _type);
+
 	const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& GetMaterials() const { return materials; }
 
 	// -------------------------------------------------

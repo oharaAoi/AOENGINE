@@ -40,6 +40,8 @@ public:
 	void Debug_Gui() override;
 	// materialを設定
 	void SetMaterialData(ModelMaterialData materialData) override;
+	// コマンドを積む
+	void BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) override;
 
 public:
 

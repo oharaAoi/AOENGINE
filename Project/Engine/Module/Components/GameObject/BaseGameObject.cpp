@@ -170,9 +170,7 @@ void BaseGameObject::Draw() const {
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
 		AOENGINE::Render::DrawModel(pso, model_, transform_.get(), materials);
 	} else {
-		for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
-			AOENGINE::Render::DrawModel(pso, model_->GetMesh(index), transform_.get(), animetor_->GetSkinning(index)->GetVBV(), materials);
-		}
+		AOENGINE::Render::DrawModel(pso, model_, transform_.get(), animetor_->GetSkinningArray(), materials);
 	}
 }
 
@@ -252,6 +250,18 @@ void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) 
 	materials.clear();
 
 	model_ = ModelManager::GetModel(_objName);
+	for (const auto& material : model_->GetMaterialData()) {
+		if (_type == MaterialType::Normal) {
+			materials[material.first] = std::make_unique<Material>();
+		} else if (_type == MaterialType::PBR) {
+			materials[material.first] = std::make_unique<PBRMaterial>();
+		}
+		materials[material.first]->Init();
+		materials[material.first]->SetMaterialData(material.second);
+	}
+}
+
+void AOENGINE::BaseGameObject::SetMaterial(MaterialType _type) {
 	for (const auto& material : model_->GetMaterialData()) {
 		if (_type == MaterialType::Normal) {
 			materials[material.first] = std::make_unique<Material>();

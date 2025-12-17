@@ -3,6 +3,7 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/System/ShaderGraph/ShaderGraph.h"
+#include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector3.h"
@@ -34,6 +35,9 @@ public:
 	virtual void Debug_Gui() = 0;
 	// materialの設定
 	virtual void SetMaterialData(ModelMaterialData materialData) = 0;
+	// コマンドに積む
+	virtual void BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) = 0;
+
 
 protected:
 

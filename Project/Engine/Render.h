@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
+#include "Engine/Module/Components/Rigging/Skinning.h"
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/Lib/Color.h"
 
@@ -90,11 +91,12 @@ public:
 	/// </summary>
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
-	static void DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
+	static void DrawModel(const AOENGINE::Pipeline* pipeline, AOENGINE::Model* model, const AOENGINE::WorldTransform* worldTransform,
 						  const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
 
-	static void DrawModel(const Pipeline* pipeline, AOENGINE::Mesh* mesh, const AOENGINE::WorldTransform* worldTransform,
-						  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
+	static void DrawModel(const AOENGINE::Pipeline* pipeline, AOENGINE::Model* model, const AOENGINE::WorldTransform* worldTransform,
+						  const std::vector<std::unique_ptr<AOENGINE::Skinning>>& _skinningArray, 
+						  const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
 
 	static void DrawEnvironmentModel(const Pipeline* pipeline, AOENGINE::Mesh* _mesh, AOENGINE::BaseMaterial* _material, const AOENGINE::WorldTransform* _transform);
 

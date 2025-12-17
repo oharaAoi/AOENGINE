@@ -65,8 +65,8 @@ void JetEngine::Init() {
 	// -------------------------------------
 
 	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_Normal.json");
-	object_->SetObject("jet.obj");
-
+	object_->SetObject("jet.obj", MaterialType::PBR);
+	
 	transform_ = object_->GetTransform();
 	transform_->srt_.translate = { 0.0f, 2.7f, -0.5f };
 	transform_->srt_.rotate = Math::Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);

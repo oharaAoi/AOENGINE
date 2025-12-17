@@ -1,6 +1,7 @@
 #include "Render.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
+#include "Engine/Render/RenderingCommands.h"
 
 using namespace AOENGINE;
 
@@ -137,51 +138,18 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
 
-	model->Draw(commandList_, pipeline, worldTransform, viewProjection_.get(), materials);
+	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
-void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Mesh* mesh, const AOENGINE::WorldTransform* worldTransform,
-					   const D3D12_VERTEX_BUFFER_VIEW& vbv,
-					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
-	lightGroup_->BindCommand(pipeline, commandList_);
-
+void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
+								 const std::vector<std::unique_ptr<AOENGINE::Skinning>>& _skinningArray,
+								 const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
 	UINT index = 0;
-	std::string useMaterial = mesh->GetUseMaterial();
-	BaseMaterial* material = materials.at(useMaterial).get();
-	commandList_->IASetVertexBuffers(0, 1, &vbv);
-	commandList_->IASetIndexBuffer(&mesh->GetIBV());
-	index = pipeline->GetRootSignatureIndex("gMaterial");
-	commandList_->SetGraphicsRootConstantBufferView(index, material->GetBufferAddress());
-	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
-	worldTransform->BindCommandList(commandList_, index);
-	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
-	viewProjection_->BindCommandList(commandList_, index);
-	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev");
-	viewProjection_->BindCommandListPrev(commandList_, index);
-
-	// MaterialのShaderTypeによってバインドするものを変える
-	index = pipeline->GetRootSignatureIndex("gTexture");
-	if (material->GetShaderType() == MaterialShaderType::UniversalRender) {
-		std::string textureName = material->GetAlbedoTexture();
-		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, textureName, index);
-	} else if (material->GetShaderType() == MaterialShaderType::ShaderGraphRender) {
-		AOENGINE::DxResource* dxResource = material->GetShaderGraph()->GetResource();
-		if (dxResource) {
-			ID3D12Resource* resource = dxResource->GetResource();
-			if (resource) {
-				commandList_->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
-			} else {
-				AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
-			}
-		} else {
-			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, "error.png", index);
-		}
-	}
-
+	lightGroup_->BindCommand(pipeline, commandList_);
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
 
-	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);
+	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials, _skinningArray);
 }
 
 void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {

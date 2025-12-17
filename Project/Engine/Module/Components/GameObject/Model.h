@@ -56,18 +56,6 @@ public:
 	// 初期化処理
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
 
-	// 静的meshObjectの描画処理
-	void Draw(ID3D12GraphicsCommandList* commandList,
-			  const AOENGINE::Pipeline* pipeline,
-			  const AOENGINE::WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
-
-	// 動的meshObjectの描画処理
-	void Draw(ID3D12GraphicsCommandList* commandList,
-			  const AOENGINE::Pipeline* pipeline,
-			  const AOENGINE::WorldTransform* worldTransform, const ViewProjection* viewprojection,
-			  const D3D12_VERTEX_BUFFER_VIEW& vbv, const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials);
-
 	void Debug_Gui(const std::string& name);
 
 	/// <summary>
@@ -91,6 +79,8 @@ public:
 	size_t GetMeshsNum() const { return meshArray_.size(); }
 
 	const size_t GetMaterialsSize() const { return materialData_.size(); }
+
+	const std::vector<std::shared_ptr<AOENGINE::Mesh>>& GetMeshArray() const { return meshArray_; }
 
 private:
 

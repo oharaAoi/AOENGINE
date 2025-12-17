@@ -1,8 +1,6 @@
 #include "Material.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
-#include "Engine/Utilities/Loader.h"
 #include "Engine/Core/GraphicsContext.h"	
 
 using namespace AOENGINE;
@@ -72,4 +70,31 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	material_->shininess = 100;
 	material_->discardValue = 0.01f;
 	textureName_ = materialData.textureFilePath;
+}
+
+void AOENGINE::Material::BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) {
+	UINT index = _pso->GetRootSignatureIndex("gMaterial");
+	_cmdList->SetGraphicsRootConstantBufferView(index, this->GetBufferAddress());
+
+	index = _pso->GetRootSignatureIndex("gTexture");
+	if (shaderType_ == MaterialShaderType::UniversalRender) {
+		std::string textureName = this->GetAlbedoTexture();
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, textureName, index);
+	} else if (shaderType_ == MaterialShaderType::ShaderGraphRender) {
+		if (this->GetShaderGraph()) {
+			AOENGINE::DxResource* dxResource = this->GetShaderGraph()->GetResource();
+			if (dxResource) {
+				ID3D12Resource* resource = dxResource->GetResource();
+				if (resource) {
+					_cmdList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);
+				} else {
+					AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "error.png", index);
+				}
+			} else {
+				AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "error.png", index);
+			}
+		} else {
+			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "error.png", index);
+		}
+	}
 }
