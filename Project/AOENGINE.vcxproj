@@ -168,6 +168,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
+    <ClInclude Include="Engine\System\AI\CommentBox.h" />
     <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTree.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h" />
@@ -517,6 +518,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
+    <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
     <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTree.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp" />

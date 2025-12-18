@@ -1,8 +1,14 @@
 #pragma once
 #include <list>
 #include <memory>
+#include <cmath>
+#define NOMINMAX
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <algorithm>
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
+#include "Engine/System/AI/CommentBox.h"
 
 namespace AI {
 
@@ -10,6 +16,14 @@ namespace AI {
 /// Treeを編集するためのクラス
 /// </summary>
 class BehaviorTreeEditor {
+public:
+
+	struct DragRect {
+		bool   dragging = false;
+		ImVec2 startScreen;
+		ImVec2 currentScreen;
+	};
+
 public: // コンストラクタ
 
 	BehaviorTreeEditor() = default;
@@ -40,7 +54,15 @@ public:
 
 	void EditSelect();
 
+	void CreateCommets(const json& _json);
+
+	void CommentsToJson(json& _json);
+
 private:
+
+	ImVec2 GetDragRectSize_Screen(const AI::BehaviorTreeEditor::DragRect& drag);
+
+	void CreateCommentNode();
 
 	/// <summary>
 	/// 保存と読み込み
@@ -127,6 +149,10 @@ private:
 
 	bool isOpen_ = false;
 
+	// コメントボックス
+	std::list<std::unique_ptr<CommentBox>> commentBox_;
+
+	DragRect drag_;
 };
 
 }

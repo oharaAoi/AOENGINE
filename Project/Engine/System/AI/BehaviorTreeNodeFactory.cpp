@@ -109,19 +109,17 @@ std::shared_ptr<BaseBehaviorNode> BehaviorTreeNodeFactory::CreateNodeFromJson(co
 	return node;
 }
 
-void BehaviorTreeNodeFactory::CreateTree(const std::string& nodeName, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
+void BehaviorTreeNodeFactory::CreateTree(const json& _json, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 										 std::vector<Link>& _link, BaseBehaviorNode* _root, Blackboard* _worldState, 
 										 std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
 										 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
-	AOENGINE::Logger::Log("[Create][BehaviorTree] : " + nodeName);
 	_nodeList.clear();
 	if (_root != nullptr) {
 		_root->ClearChild();
 	}
 
 	// jsonからtreeの情報を読み取る
-	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
-	_root = _nodeList.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, _nodeList, _link, _worldState, _canTaskMap, _goalArray)).get();
+	_root = _nodeList.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(_json, _nodeList, _link, _worldState, _canTaskMap, _goalArray)).get();
 
 	AOENGINE::Logger::Log("--- success!");
 }

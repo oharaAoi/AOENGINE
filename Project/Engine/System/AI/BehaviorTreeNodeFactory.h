@@ -61,7 +61,7 @@ public:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	static void CreateTree(const std::string& nodeName,
+	static void CreateTree(const json& _json,
 						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
 						   std::vector<Link>& _link,
 						   BaseBehaviorNode* _root,

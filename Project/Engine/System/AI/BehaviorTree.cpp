@@ -85,7 +85,9 @@ void BehaviorTree::Edit() {
 	ImGui::Checkbox("##isExecute", &isExecute_);
 	ImGui::SameLine();
 	if (ImGui::Button("OverWirte")) {
-		BehaviorTreeSerializer::Save(path_, root_->ToJson());
+		json data = root_->ToJson();
+		editor_.CommentsToJson(data);
+		BehaviorTreeSerializer::Save(path_, data);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("ReSet")) {
@@ -127,6 +129,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, canTaskMap_, goalArray_)).get();
+	editor_.CreateCommets(nodeTree);
 
 	std::string message = nodeName + "を作成しました。";
 	AOENGINE::Logger::Log(message);

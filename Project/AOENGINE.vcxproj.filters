@@ -1258,6 +1258,7 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h" />
     <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
+    <ClInclude Include="Engine\System\AI\CommentBox.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2170,6 +2171,7 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
+    <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

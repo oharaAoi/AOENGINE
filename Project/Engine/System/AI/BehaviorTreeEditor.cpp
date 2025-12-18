@@ -40,6 +40,8 @@ void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::shared_pt
 		// node作成windowの表示
 		CreateNodeWindow(_nodeList, _worldState, _canTaskMap, _goalArray);
 
+		CreateCommentNode();
+
 		// --- Middle Mouse (wheel) drag to pan ---
 		ImGuiIO& io = ImGui::GetIO();
 
@@ -58,10 +60,23 @@ void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::shared_pt
 			io.MouseDown[ImGuiMouseButton_Right] = false;
 		}
 
-
 		// NodeEditorの処理
 		ax::NodeEditor::SetCurrentEditor(context_);
 		ax::NodeEditor::Begin(_name.c_str());
+
+		for (auto it = commentBox_.begin(); it != commentBox_.end();) {
+			if ((*it)->GetIsDelete()) {
+				// 削除を行う
+				it = commentBox_.erase(it);
+			} else {
+				(*it)->Update();
+				it++;
+			}
+		}
+
+		for (auto& comment : commentBox_) {
+			comment->Draw();
+		}
 
 		DrawNode(_nodeList);
 
@@ -87,6 +102,59 @@ void BehaviorTreeEditor::EditSelect() {
 	ImGui::End();
 }
 
+void AI::BehaviorTreeEditor::CreateCommets(const json& _json) {
+	commentBox_.clear();
+	if (_json.contains("comments")) {
+		for (auto& comment : _json["comments"]) {
+			auto& newComment = commentBox_.emplace_back(std::make_unique<CommentBox>());
+			newComment->FromJson(comment);
+		}
+	}
+}
+
+void AI::BehaviorTreeEditor::CommentsToJson(json& _json) {
+	for (auto& comment : commentBox_) {
+		_json["comments"].push_back(comment->ToJson());
+	}
+}
+
+void AI::BehaviorTreeEditor::CreateCommentNode() {
+	if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+		drag_.dragging = true;
+		drag_.startScreen = ImGui::GetMousePos();
+		drag_.currentScreen = drag_.startScreen;
+	}
+
+	if (drag_.dragging) {
+		drag_.currentScreen = ImGui::GetMousePos();
+	}
+
+	ImVec2 screenMin(
+		std::min(drag_.startScreen.x, drag_.currentScreen.x),
+		std::min(drag_.startScreen.y, drag_.currentScreen.y)
+	);
+
+	ImVec2 screenMax(
+		std::max(drag_.startScreen.x, drag_.currentScreen.x),
+		std::max(drag_.startScreen.y, drag_.currentScreen.y)
+	);
+
+	ImVec2 canvasMin = ax::NodeEditor::ScreenToCanvas(screenMin);
+	ImVec2 canvasMax = ax::NodeEditor::ScreenToCanvas(screenMax);
+
+	if (AOENGINE::Input::GetInstance()->IsTriggerKey(DIK_C)) {
+		auto& comment = commentBox_.emplace_back(std::make_unique<CommentBox>());
+		comment->Init(canvasMin, canvasMax);
+	}
+}
+
+ImVec2 AI::BehaviorTreeEditor::GetDragRectSize_Screen(const AI::BehaviorTreeEditor::DragRect& drag) {
+	return ImVec2(
+		fabsf(drag.currentScreen.x - drag.startScreen.x),
+		fabsf(drag.currentScreen.y - drag.startScreen.y)
+	);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　保存と読み込みをする
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,6 +165,12 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>
 	if (ImGui::Button("save")) {
 		std::string path = FileSaveDialogFunc();
 		if (path != "") {
+			json data = _root->ToJson();
+
+			for (auto& comment : commentBox_) {
+				data["comments"].push_back(comment->ToJson());
+			}
+
 			BehaviorTreeSerializer::Save(path, _root->ToJson());
 		}
 	}
@@ -104,7 +178,11 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>
 	if (ImGui::Button("load")) {
 		std::string path = FileOpenDialogFunc();
 		if (path != "") {
-			BehaviorTreeNodeFactory::CreateTree(path, _nodeList, _link, _root, _worldState, _canTaskMap, _goalArray);
+			AOENGINE::Logger::Log("[Create][BehaviorTree] : " + path);
+			json nodeTree = BehaviorTreeSerializer::LoadToJson(path);
+			BehaviorTreeNodeFactory::CreateTree(nodeTree, _nodeList, _link, _root, _worldState, _canTaskMap, _goalArray);
+
+			CreateCommets(nodeTree);
 		}
 	}
 }

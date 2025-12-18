@@ -110,7 +110,6 @@ private:
 	std::list<std::shared_ptr<BaseBehaviorNode>> nodeList_;
 	// 最上位Node
 	BaseBehaviorNode* root_;
-
 	// 行えるTaskをまとめた物
 	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTaskMap_;
 
