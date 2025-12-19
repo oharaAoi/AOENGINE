@@ -340,6 +340,7 @@ void BehaviorTreeEditor::Connect(std::list<std::shared_ptr<BaseBehaviorNode>>& _
 		for (auto& exeLink : executelinks) {
 			if (exeLink.from == link.from && exeLink.to == link.to) {
 				ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_Flow, ImColor(255, 0, 0));
+				// 実行中のNodeの発光処理
 				ax::NodeEditor::Flow(link.id);
 				ax::NodeEditor::PopStyleColor();
 			}

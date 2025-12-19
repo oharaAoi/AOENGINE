@@ -119,7 +119,7 @@ void Boss::Init() {
 	behaviorTree_->AddCanTask(CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"));
 	behaviorTree_->AddCanTask(CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"));
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	// -------------------------------------------------
 	// ↓ State関連
