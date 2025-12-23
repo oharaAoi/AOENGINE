@@ -10,10 +10,11 @@ void TestScene::Finalize() {}
 
 void TestScene::Init() {
 	Engine::GetCanvas2d()->Init();
-	AOENGINE::EditorWindows::GetInstance()->Reset();
-
+	
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init("TestScene");
+
+	AOENGINE::Render::GetLightGroup()->Load();
 
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
 
@@ -35,8 +36,12 @@ void TestScene::Init() {
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
 
+	AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
+	object_->SetObject("floor.obj", MaterialType::PBR);
+
 	AOENGINE::EditorWindows::AddObjectWindow(laser_.get(), "Laser");
 	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
+	AOENGINE::EditorWindows::AddObjectWindow(object_, "ground");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

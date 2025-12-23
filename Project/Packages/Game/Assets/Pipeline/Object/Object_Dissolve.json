@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/Object3d.VS.hlsl",
         "ps": "./Project/Packages/Game/Assets/HLSL/Armor.PS.hlsl",
         "blendMode": "Normal",
-        "culling" : false,
+        "cullingType" : "NONE",
         "depth" : true,
         "rtvFormat" : [
             "16_RGB"

@@ -89,9 +89,11 @@ void Player::Init() {
 	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("Player");
 
 	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
+	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_PBR.json", object_);
 	transform_ = object_->GetTransform();
 	transform_->SetOffset(param_.translateOffset);
 	object_->SetOffset(param_.cameraOffset);
+	object_->SetMaterial(MaterialType::PBR);
 
 	// -------------------------------------------------
 	// ↓ Animationの設定
@@ -199,7 +201,7 @@ void Player::Update() {
 	while (!attackHistory_.empty()) {
 		bool isCurrentFrameAttack = false;
 		auto [weapon, context] = attackHistory_.front();
-		isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
+	isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
 		attackHistory_.pop_front();    // 先頭を削除
 
 		if (isCurrentFrameAttack) {

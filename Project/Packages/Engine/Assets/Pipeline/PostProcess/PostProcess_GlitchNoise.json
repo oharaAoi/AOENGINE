@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/PostEffect/ProcessedScene.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/PostEffect/GlitchNoise.PS.hlsl",
         "blendMode": "None",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : false,
         "rtvFormat" : [
             "16_RGB"

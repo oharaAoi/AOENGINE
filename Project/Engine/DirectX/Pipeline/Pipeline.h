@@ -31,7 +31,7 @@ public:
 		std::string ps = "";					// psのシェーダー名
 		std::string cs = "";					// csのシェーダー名
 		std::string blendMode = "";				// blendModeの名前
-		bool culling = false;					// カリングを行うか
+		std::string cullingType = "";			// カリングを行うか
 		bool depth = false;						// 深度を書くか
 		std::vector<std::string> rtvFormats;	// 色の補正を行うか
 		std::string primitiveTopologyType = "";	// 形状のタイプ
@@ -42,7 +42,7 @@ public:
 				.Add("ps", ps)
 				.Add("cs", cs)
 				.Add("blendMode", blendMode)
-				.Add("culling", culling)
+				.Add("cullingType", cullingType)
 				.Add("depth", depth)
 				.Add("rtvFormat", rtvFormats)
 				.Add("primitiveTopologyType", primitiveTopologyType)
@@ -55,7 +55,7 @@ public:
 			Convert::fromJson(jsonData, "ps", ps);
 			Convert::fromJson(jsonData, "cs", cs);
 			Convert::fromJson(jsonData, "blendMode", blendMode);
-			Convert::fromJson(jsonData, "culling", culling);
+			Convert::fromJson(jsonData, "cullingType", cullingType);
 			Convert::fromJson(jsonData, "depth", depth);
 			Convert::fromJson(jsonData, "primitiveTopologyType", primitiveTopologyType);
 			Convert::fromJson(pipeline, "rtvFormat", rtvFormats);
@@ -124,7 +124,7 @@ public:
 	/// <summary>
 	/// RasterizerStateの設定
 	/// </summary>
-	D3D12_RASTERIZER_DESC SetRasterizerState(bool _isCulling);
+	D3D12_RASTERIZER_DESC SetRasterizerState(const std::string _isCullingType);
 
 	/// <summary>
 	/// DepthStencilStateの設定
@@ -149,6 +149,8 @@ private:
 	void SamplerOverrides();
 
 	D3D12_STATIC_SAMPLER_DESC MakeStaticSampler(D3D12_FILTER _filter, D3D12_TEXTURE_ADDRESS_MODE _addr = D3D12_TEXTURE_ADDRESS_MODE_WRAP, UINT _maxAniso = 16);
+
+	D3D12_STATIC_SAMPLER_DESC MakeShadowComparisonSampler();
 
 public:
 

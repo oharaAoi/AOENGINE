@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/ShadowMap.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/ShadowMap.PS.hlsl",
         "blendMode": "Normal",
-        "culling" : true,
+        "cullingType" : "FRONT",
         "depth" : true,
         "rtvFormat" : [
             "16_RGB"

@@ -35,6 +35,9 @@ public:
 		float fovY = 0.45f;
 		float nearClip = 0.1f;
 		float farClip = 100.0f;
+		float shadowDepth = 100.0f;
+		float shadowWidth = 100.0f;
+		float shadowHeight = 100.0f;
 
 		BaseParameter() {
 			toJsonFunction_ = [this](const std::string& id) {
@@ -49,6 +52,9 @@ public:
 				.Add("fovY", fovY)
 				.Add("nearClip", nearClip)
 				.Add("farClip", farClip)
+				.Add("shadowDepth", shadowDepth)
+				.Add("shadowWidth", shadowWidth)
+				.Add("shadowHeight", shadowHeight)
 				.Build();
 		}
 
@@ -58,6 +64,9 @@ public:
 			Convert::fromJson(jsonData, "fovY", fovY);
 			Convert::fromJson(jsonData, "nearClip", nearClip);
 			Convert::fromJson(jsonData, "farClip", farClip);
+			Convert::fromJson(jsonData, "shadowDepth", shadowDepth);
+			Convert::fromJson(jsonData, "shadowWidth", shadowWidth);
+			Convert::fromJson(jsonData, "shadowHeight", shadowHeight);
 		}
 
 		void Debug_Gui() override;

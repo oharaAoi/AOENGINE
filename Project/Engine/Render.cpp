@@ -138,6 +138,9 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
 
+	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
+
 	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials);
 }
 
@@ -148,6 +151,9 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	lightGroup_->BindCommand(pipeline, commandList_);
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
 	commandList_->SetGraphicsRootDescriptorTable(index, shadowMap_->GetDeptSrvHandle().handleGPU);
+
+	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
+	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
 	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials, _skinningArray);
 }
@@ -182,7 +188,7 @@ void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const
 	commandList_->IASetIndexBuffer(&mesh->GetIBV());
 	index = pipeline->GetRootSignatureIndex("gWorldTransformMatrix");
 	worldTransform->BindCommandList(commandList_, index);
-	index = pipeline->GetRootSignatureIndex("gViewProjectionMatrix");
+	index = pipeline->GetRootSignatureIndex("gLightViewProjectionMatrix");
 	lightGroup_->GetDirectionalLight()->ViewBindCommand(commandList_, index);
 	
 	commandList_->DrawIndexedInstanced(mesh->GetIndexNum(), 1, 0, 0, 0);

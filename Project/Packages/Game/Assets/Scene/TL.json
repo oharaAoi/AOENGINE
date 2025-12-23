@@ -1,0 +1,677 @@
+{
+    "name": "scene",
+    "objects": [
+        {
+            "type": "MESH",
+            "name": "wall",
+            "transform": {
+                "translation": [
+                    0.0,
+                    214.0343780517578,
+                    31.044763565063477
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "file_name": "wall.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "LIGHT",
+            "name": "Light",
+            "transform": {
+                "translation": [
+                    4.076245307922363,
+                    1.0054539442062378,
+                    5.903861999511719
+                ],
+                "rotation": [
+                    37.26104736328125,
+                    3.1637091636657715,
+                    106.93632507324219
+                ],
+                "scaling": [
+                    1.0,
+                    0.9999999403953552,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "CAMERA",
+            "name": "Camera",
+            "transform": {
+                "translation": [
+                    7.358891487121582,
+                    -6.925790786743164,
+                    4.958309173583984
+                ],
+                "rotation": [
+                    63.559295654296875,
+                    2.2983238068263745e-07,
+                    46.69194412231445
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Boss",
+            "transform": {
+                "translation": [
+                    0.0,
+                    74.08243560791016,
+                    7.636070728302002
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -179.99998474121094
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "file_name": "boss.gltf",
+            "colliders": [
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "radius": 4.179999828338623,
+                    "tag": "boss",
+                    "collisionFilter_tags": [
+                        "player",
+                        "machinegun",
+                        "launcher",
+                        "ground",
+                        "building",
+                        "invisibleWall",
+                        "laser"
+                    ]
+                }
+            ],
+            "collider_tag": "boss",
+            "collisionFilter_tags": [
+                "player",
+                "building",
+                "ground",
+                "machinegun",
+                "launcher",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "ground",
+            "transform": {
+                "translation": [
+                    0.0,
+                    0.0,
+                    -9.617547988891602
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    2.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 0.30000001192092896
+            },
+            "disabled": false,
+            "file_name": "ground.obj",
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        364.94000244140625,
+                        348.55999755859375,
+                        20.029998779296875
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "boss",
+                        "ground",
+                        "bossMissile",
+                        "launcher",
+                        "machinegun",
+                        "bossAttack",
+                        "player",
+                        "playerLeg",
+                        "playerRightLeg",
+                        "playerLeftLeg"
+                    ]
+                }
+            ],
+            "collider_tag": "launcher",
+            "collisionFilter_tags": [
+                "playerLeg"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "Player",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -84.30654907226562,
+                    0.18797656893730164
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    0.9900000095367432,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.5,
+                "roughness": 0.5,
+                "ibl_strength": 0.30000001192092896
+            },
+            "file_name": "player.gltf",
+            "colliders": [
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.0,
+                        0.0,
+                        1.6800000667572021
+                    ],
+                    "radius": 0.9399999976158142,
+                    "tag": "player",
+                    "collisionFilter_tags": [
+                        "boss",
+                        "building",
+                        "ground",
+                        "invisibleWall",
+                        "bossAttack",
+                        "bossMissile"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        0.32999998331069946,
+                        0.0,
+                        0.20999999344348907
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerRightLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                },
+                {
+                    "type": "SPHERE",
+                    "center": [
+                        -0.30000001192092896,
+                        0.0,
+                        0.20999999344348907
+                    ],
+                    "radius": 0.15000000596046448,
+                    "tag": "playerLeftLeg",
+                    "collisionFilter_tags": [
+                        "ground",
+                        "building"
+                    ]
+                }
+            ],
+            "collider_tag": "playerRightLeg",
+            "collisionFilter_tags": [
+                "building",
+                "ground",
+                "boss",
+                "bossAttack",
+                "bossMissile",
+                "invisibleWall"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.001",
+            "transform": {
+                "translation": [
+                    18.608257293701172,
+                    -152.87408447265625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.002",
+            "transform": {
+                "translation": [
+                    -1.05303955078125,
+                    172.77835083007812,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        3.0799999237060547,
+                        0.10000000149011612,
+                        246.0800018310547
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.003",
+            "transform": {
+                "translation": [
+                    -177.00970458984375,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "InvisibleWall.004",
+            "transform": {
+                "translation": [
+                    174.50454711914062,
+                    -1.42047119140625,
+                    96.65318298339844
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    117.37999725341797,
+                    174.72000122070312,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "rendering_flag": false,
+            "colliders": [
+                {
+                    "type": "BOX",
+                    "center": [
+                        0.0,
+                        0.0,
+                        0.0
+                    ],
+                    "size": [
+                        0.10000000149011612,
+                        2.0,
+                        246.0800018310547
+                    ],
+                    "tag": "ground",
+                    "collisionFilter_tags": [
+                        "player",
+                        "boss"
+                    ]
+                }
+            ],
+            "collider_tag": "ground",
+            "collisionFilter_tags": [
+                "player",
+                "boss"
+            ]
+        },
+        {
+            "type": "MESH",
+            "name": "BillsOriginal",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -284.5255126953125,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "file_name": "BillsOriginal.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Pipe",
+            "transform": {
+                "translation": [
+                    182.4359130859375,
+                    0.0,
+                    -6.353143215179443
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "file_name": "Pipe.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "Pipe.001",
+            "transform": {
+                "translation": [
+                    -184.07968139648438,
+                    0.0,
+                    -6.353143215179443
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    1.0,
+                    1.0,
+                    1.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0
+            },
+            "file_name": "Pipe.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        }
+    ]
+}

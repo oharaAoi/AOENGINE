@@ -55,6 +55,7 @@ void PointLight::BindCommand(ID3D12GraphicsCommandList* commandList, const uint3
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PointLight::Debug_Gui() {
+	parameter_.Debug_Gui();
 	pointLightData_->color = parameter_.color;
 	pointLightData_->position = parameter_.position;
 	pointLightData_->intensity = parameter_.intensity;

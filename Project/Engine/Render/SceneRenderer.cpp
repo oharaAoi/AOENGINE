@@ -2,6 +2,8 @@
 #include "Engine/Engine.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
+#include <Module/Components/Materials/BaseMaterial.h>
+#include <Module/Components/Materials/PBRMaterial.h>
 
 using namespace AOENGINE;
 
@@ -185,10 +187,30 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 			}
 		}
 
+		if (data.modelName != "") {
+			if (data.material.shader == "NORMAL") {
+
+			} else if (data.material.shader == "PBR") {
+				object->SetMaterial(MaterialType::PBR);
+				for (auto& material : object->GetMaterials()) {
+					AOENGINE::BaseMaterial* mat = material.second.get();
+					AOENGINE::PBRMaterial* pbr = dynamic_cast<AOENGINE::PBRMaterial*>(mat);
+					pbr->SetParameter(data.material.roughness, data.material.metallic, data.material.iblStrength);
+				}
+			} else {
+
+			}
+		}
+
 		object->SetIsRendering(data.isRendering_);
 
-		auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false,  std::move(object));
-		objectList_.push_back(std::move(pair));
+		if (data.material.shader == "NORMAL") {
+			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false, std::move(object));
+			objectList_.push_back(std::move(pair));
+		} else if (data.material.shader == "PBR") {
+			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_PBR.json", 0, false, std::move(object));
+			objectList_.push_back(std::move(pair));
+		}
 	}
 }
 

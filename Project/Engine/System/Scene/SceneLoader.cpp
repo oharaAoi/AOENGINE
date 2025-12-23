@@ -154,6 +154,28 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 			objectData.children.push_back(LoadObject(childJson));
 		}
 	}
+
+	// material
+	if (objectJson.contains("material")) {
+		const json& materialJson = objectJson["material"];
+		objectData.material.shader = materialJson["shader"];
+		
+		if (materialJson.contains("metallic")) {
+			objectData.material.metallic = materialJson["metallic"].get<float>();
+		}
+
+		if (materialJson.contains("roughness")) {
+			objectData.material.roughness = materialJson["roughness"].get<float>();
+		}
+
+		if (materialJson.contains("ibl_strength")) {
+			objectData.material.iblStrength = materialJson["ibl_strength"].get<float>();
+		}
+
+		if (materialJson.contains("Shininess")) {
+			objectData.material.shininess = materialJson["ibl_sShininesstrength"].get<float>();
+		}
+	}
 	return objectData;
 }
 

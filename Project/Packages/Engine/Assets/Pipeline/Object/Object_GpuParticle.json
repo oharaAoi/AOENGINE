@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/Particle/GpuParticle.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/Particle/GpuParticle.PS.hlsl",
         "blendMode": "Add",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : false, 
         "rtvFormat" : [
             "16_RGB",

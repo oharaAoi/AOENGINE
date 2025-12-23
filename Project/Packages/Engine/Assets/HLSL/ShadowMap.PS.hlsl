@@ -1,11 +1,12 @@
 #include "Object3d.hlsli"
 
-struct PixelShaderOutput {
-	float4 color : SV_TARGET0;
+struct PSOut {
+	float depth : SV_Depth;
 };
 
-PixelShaderOutput main(VertexShaderOutput input) {
-	PixelShaderOutput output = (PixelShaderOutput) 0;
-	output.color = float4(input.position.z, input.position.z, input.position.z, 1.0f);
-	return output;
+PSOut main(VertexShaderOutput input) {
+	PSOut o;
+    // 正規化された深度を書く
+	o.depth = input.position.z / input.position.w;
+	return o;
 }

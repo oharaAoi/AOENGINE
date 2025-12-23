@@ -25,12 +25,11 @@ void GameScene::Init() {
 
 	AOENGINE::Render::GetLightGroup()->Load();
 
-
 	// -------------------------------------------------
 	// ↓ Sceneの初期化
 	// -------------------------------------------------
 
-	LoadScene("./Project/Packages/Game/Assets/Scene/", "scene", ".json");
+	LoadScene("./Project/Packages/Game/Assets/Scene/", "TL", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

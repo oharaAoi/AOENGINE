@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/Particle/CpuParticle.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/Particle/CpuParticle.PS.hlsl",
         "blendMode": "Normal",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : false,
         "rtvFormat" : [
             "16_RGB",

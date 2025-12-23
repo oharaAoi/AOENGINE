@@ -1,14 +1,23 @@
 
-float DrawShadow(Texture2D<float> _texture, SamplerState _sampler, float4 _lightPos) {
-	float2 shadowUV = _lightPos.xy * 0.5f + 0.5f;
-	shadowUV.y = 1.0f - shadowUV.y;
-	if (shadowUV.x < 0 || shadowUV.x > 1 || shadowUV.y < 0 || shadowUV.y > 1) {
-		return 0.0f; // 影外扱い
-	}
+float DrawShadow(Texture2D<float> _texture, SamplerComparisonState _sampler, float4 _lightClipPos, float3 _lightDir, float3 _normal) {
+	 // clip → ndc
+	float3 ndc = _lightClipPos.xyz / _lightClipPos.w;
+	
+    // ndc → uv
+	float2 uv = ndc.xy * 0.5f + 0.5f;
+	uv.y = 1.0f - uv.y;
 
-	float shadowDepth = _texture.Sample(_sampler, shadowUV).r;
-	float currentDepth = _lightPos.z * 0.5f + 0.5f;
+    // 範囲外は「影なし」
+	if (any(uv < 0.0f) || any(uv > 1.0f))
+		return 1.0f;
 
-	float bias = 0.001f;
-	return (currentDepth - bias > shadowDepth) ? 1.0f : 0.0f; // 影中なら1.0
+    // ndc.z → [0,1] 深度
+	float depth = _lightClipPos.z / _lightClipPos.w;
+
+    // slope-scaled bias（符号統一が重要）
+	float ndotl = saturate(dot(normalize(_normal), normalize(_lightDir))); // lightDir は「表面→光」方向で統一
+	float bias = max(0.0025f,  0.02f * (1.0f - ndotl));
+
+    // Cmp: shadowMapDepth < depth ? 0 : 1 をハードウェアでやる
+	return _texture.SampleCmpLevelZero(_sampler, uv, depth + bias);
 }

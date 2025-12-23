@@ -3,9 +3,10 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/PBR.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/PBR.PS.hlsl",
         "blendMode": "Normal",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : true,
         "rtvFormat" : [
+            "16_RGB",
             "16_RGB"
         ]
     }

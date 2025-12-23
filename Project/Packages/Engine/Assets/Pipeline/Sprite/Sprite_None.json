@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/Sprite.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/Sprite.PS.hlsl",
         "blendMode": "None",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : true,
         "rtvFormat" : [
             "8_sRGB"

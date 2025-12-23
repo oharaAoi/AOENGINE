@@ -190,6 +190,8 @@ public:
 	/// <returns></returns>
 	static Math::Matrix4x4 MakeViewport(float left, float top, float width, float height, float minDepth = 0, float maxDepth = 1);
 
+	static Math::Matrix4x4 LookAtLH(const Math::Vector3& _eye, const Math::Vector3& _target, const Math::Vector3& _up);
+
 };
 
 }

@@ -114,6 +114,24 @@ Math::Matrix4x4 Math::Matrix4x4::MakeViewport(float left, float top, float width
 	return result;
 }
 
+Math::Matrix4x4 Math::Matrix4x4::LookAtLH(const Math::Vector3& _eye, const Math::Vector3& _target, const Math::Vector3& _up) {
+	Math::Vector3 z = Normalize(_target - _eye);      // forward
+	Math::Vector3 x = Normalize(Cross(_up, z));      // right
+	Math::Vector3 y = Cross(z, x);                  // up
+
+	Math::Matrix4x4 m{};
+	m.m[0][0] = x.x; m.m[0][1] = y.x; m.m[0][2] = z.x; m.m[0][3] = 0.0f;
+	m.m[1][0] = x.y; m.m[1][1] = y.y; m.m[1][2] = z.y; m.m[1][3] = 0.0f;
+	m.m[2][0] = x.z; m.m[2][1] = y.z; m.m[2][2] = z.z; m.m[2][3] = 0.0f;
+
+	m.m[3][0] = -Dot(x, _eye);
+	m.m[3][1] = -Dot(y, _eye);
+	m.m[3][2] = -Dot(z, _eye);
+	m.m[3][3] = 1.0f;
+
+	return m;
+}
+
 void Math::Matrix4x4::MakeArray(float* mat) {
 	// ImGuizmo用に転置してコピー
 	for (int row = 0; row < 4; ++row) {

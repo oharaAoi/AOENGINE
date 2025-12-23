@@ -27,6 +27,14 @@ public:		// data
 		std::vector<std::string> filter;
 	};
 
+	struct MaterialData {
+		std::string shader = "";
+		float roughness;
+		float metallic;
+		float iblStrength;
+		float shininess;
+	};
+
 	struct Objects {
 		std::string name;
 		std::string modelName;
@@ -38,6 +46,7 @@ public:		// data
 
 		std::list<Objects> children;
 
+		MaterialData material;
 	};
 
 	/// <summary>

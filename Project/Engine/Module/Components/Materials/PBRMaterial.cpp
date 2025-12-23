@@ -28,6 +28,7 @@ void PBRMaterial::Init() {
 	pbrMaterial_->roughness = 0.5f;
 	pbrMaterial_->metallic = 0.5f;
 	pbrMaterial_->shininess = 10;
+	pbrMaterial_->ambientIntensity = 0.5f;
 
 	uvTransform_.scale = CVector3::UNIT;
 	uvTransform_.rotate = CVector3::ZERO;
@@ -51,6 +52,7 @@ void PBRMaterial::Debug_Gui() {
 	EditUV();
 	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
+	ImGui::DragFloat("ambientIntensity", &pbrMaterial_->ambientIntensity, 0.01f, 0.0f, 1.0f);
 }
 
 void PBRMaterial::SetMaterialData(ModelMaterialData materialData) {
@@ -66,6 +68,7 @@ void PBRMaterial::SetMaterialData(ModelMaterialData materialData) {
 	pbrMaterial_->roughness = 1.0f;
 	pbrMaterial_->metallic = 1.0f;
 	pbrMaterial_->shininess = 50;
+	pbrMaterial_->ambientIntensity = 0.5f;
 }
 
 void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) {
@@ -93,4 +96,10 @@ void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, con
 			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "error.png", index);
 		}
 	}
+}
+
+void AOENGINE::PBRMaterial::SetParameter(float _roughness, float _metallic, float _ibl) {
+	pbrMaterial_->roughness = _roughness;
+	pbrMaterial_->metallic = _metallic;
+	pbrMaterial_->ambientIntensity = _ibl;
 }

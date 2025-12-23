@@ -100,16 +100,19 @@ void Pipeline::ShaderCompile() {
 // ↓ ラスタライザの作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState(bool _isCulling) {
+D3D12_RASTERIZER_DESC Pipeline::SetRasterizerState(const std::string _isCullingType) {
 	D3D12_RASTERIZER_DESC rasterizerDesc{};
 	// 裏面を表示しない
-	if (_isCulling) {
+	if (_isCullingType == "BACK") {
 		rasterizerDesc.CullMode = D3D12_CULL_MODE_BACK;
+	} else if(_isCullingType == "FRONT") {
+		rasterizerDesc.CullMode = D3D12_CULL_MODE_FRONT;
 	} else {
 		rasterizerDesc.CullMode = D3D12_CULL_MODE_NONE;
 	}
 	// 三角形の中を塗りつぶす
 	rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
+
 
 	return rasterizerDesc;
 }
@@ -155,7 +158,7 @@ void Pipeline::CreatePSO() {
 	desc.VS = { vertexShaderBlob_->GetBufferPointer(), vertexShaderBlob_->GetBufferSize() };
 	desc.PS = { pixelShaderBlob_->GetBufferPointer(), pixelShaderBlob_->GetBufferSize() };
 	desc.BlendState = blend_.SetBlend(parameter_.blendMode);
-	desc.RasterizerState = SetRasterizerState(parameter_.culling);
+	desc.RasterizerState = SetRasterizerState(parameter_.cullingType);
 	desc.DepthStencilState = SetDepthStencilState(parameter_.depth);
 	desc.DSVFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 書き込むRTVの情報
@@ -396,6 +399,7 @@ void Pipeline::SamplerOverrides() {
 	samplerOverrides_["gSampler"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_LINEAR);
 	samplerOverrides_["gSamplerPoint"] = MakeStaticSampler(D3D12_FILTER_MIN_MAG_MIP_POINT);
 	samplerOverrides_["gSamplerAnisoWrap"] = MakeStaticSampler(D3D12_FILTER_ANISOTROPIC);
+	samplerOverrides_["gShadowSampler"] = MakeShadowComparisonSampler();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -412,6 +416,21 @@ D3D12_STATIC_SAMPLER_DESC Pipeline::MakeStaticSampler(D3D12_FILTER _filter, D3D1
 	sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_BLACK;
 	sampler.MinLOD = 0.f;
 	sampler.MaxLOD = D3D12_FLOAT32_MAX;
+	return sampler;
+}
+
+D3D12_STATIC_SAMPLER_DESC Pipeline::MakeShadowComparisonSampler() {
+	D3D12_STATIC_SAMPLER_DESC sampler = {};
+	sampler.Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_POINT;
+	sampler.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	sampler.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	sampler.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+	sampler.ComparisonFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+	sampler.BorderColor = D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE;
+	sampler.MinLOD = 0.f;
+	sampler.MaxLOD = D3D12_FLOAT32_MAX;
+	sampler.MipLODBias = 0.f;
+	sampler.MaxAnisotropy = 1;
 	return sampler;
 }
 

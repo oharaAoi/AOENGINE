@@ -16,7 +16,7 @@ void JetEngine::Finalize() {
 
 void JetEngine::Debug_Gui() {
 	if (ImGui::TreeNode("Engine")) {
-		transform_->Debug_Gui();
+		object_->Debug_Gui();
 		ImGui::TreePop();
 	}
 
@@ -64,7 +64,7 @@ void JetEngine::Init() {
 	// 基本の初期化
 	// -------------------------------------
 
-	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_Normal.json");
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>(GetName(), "Object_PBR.json");
 	object_->SetObject("jet.obj", MaterialType::PBR);
 	
 	transform_ = object_->GetTransform();

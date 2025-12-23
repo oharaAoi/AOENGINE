@@ -33,12 +33,13 @@ public:
 		float roughness;			// 粗さ
 		float metallic;				// 金属度
 		float shininess;			// 鋭さ
+		float ambientIntensity;		// 環境光の強さ
 	};
 
 public:
 
 	PBRMaterial();
-	~PBRMaterial();
+	~PBRMaterial() override;
 
 public:
 
@@ -56,6 +57,8 @@ public:
 public:
 
 	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; }
+
+	void SetParameter(float _roughness, float _metallic, float _ibl);
 
 
 private:

@@ -9,8 +9,9 @@ ConstantBuffer<PointLight> gPointLight : register(b2);
 ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
 Texture2D<float> gShadowMap : register(t1);
+TextureCube<float4> gEnviromentTexture : register(t2);
 SamplerState gSampler : register(s0);
-SamplerState gSamplerPoint : register(s1);
+SamplerComparisonState gShadowSampler : register(s1);
 
 struct PixelShaderOutput {
 	float4 color : SV_TARGET0;
@@ -54,6 +55,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 		}
 		return output; 
 	}
+
 	
 	float3 normal = normalize(input.normal);
 	float3 pointLightDirection = normalize(input.worldPos.xyz - gPointLight.position);
@@ -61,20 +63,31 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float3 reflectLight = reflect(normalize(gDirectionalLight.direction), normal);
 	float3 halfVector = normalize(-normalize(gDirectionalLight.direction) + toEye);
 	
-	float3 lightDire = normalize(gDirectionalLight.direction);
-	
+	// 光が「表面に入ってくる方向」
+	float3 L = normalize(-gDirectionalLight.direction);
+	float3 V = normalize(toEye);
+	float3 N = normalize(normal);
+
+	// Blinn-Phong
+	float3 H = normalize(L + V);
+
+	// Phong
+	float3 R = reflect(-L, N);
+
+	float NdotL = saturate(dot(N, L));
+	float NdotH = saturate(dot(N, H));
+	float RdotV = saturate(dot(R, V));
 	float RdotE = dot(reflectLight, toEye);
-	float NdotH = dot(normal, halfVector);
-	float NdotL = dot(normal, normalize(-gDirectionalLight.direction));
+	
+	float3 lightDire = normalize(-gDirectionalLight.direction);
 	
 	float distance = length(gPointLight.position - input.worldPos.xyz);
 	float factor = pow(saturate(-distance / gPointLight.radius + 1.0f), gPointLight.decay);
 	
 	// ライト空間での座標を計算
-	float4 direLightPos = mul(float4(input.worldPos.xyz, 1.0f), gDirectionalLight.lightViewProj);
-	direLightPos.xyz /= direLightPos.w;
-	float direLightShadow = DrawShadow(gShadowMap, gSamplerPoint, direLightPos);
-	float visibility = 1.0f - direLightShadow; 
+	float4 lightClip = mul(float4(input.worldPos.xyz, 1.0f), gDirectionalLight.lightViewProj);
+	float direLightShadow = DrawShadow(gShadowMap, gShadowSampler, lightClip, gDirectionalLight.direction, normal);
+	float visibility = direLightShadow; 
 	
 	// -------------------------------------------------
 	// ↓ directional
@@ -101,6 +114,13 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	lim *= saturate(1.0f - saturate(dot(normal, lightDire)) + dot(toEye, lightDire));
 	float3 limCol = pow(lim, gDirectionalLight.limPower) * gDirectionalLight.color.rgb * textureColor.rgb * gDirectionalLight.intensity;
 	
+	//=======================================================
+	// IBL
+	//=======================================================
+	float3 cameraToPos = normalize(input.worldPos.xyz - gDirectionalLight.eyePos);
+	float3 reflectVector = reflect(cameraToPos, normalize(input.normal));
+	float4 environmentColor = gEnviromentTexture.Sample(gSampler, reflectVector);
+	
 	// -------------------------------------------------
 	// ↓ final
 	// -------------------------------------------------
@@ -108,6 +128,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.color.rgb += pointLight;
 	output.color.rgb += spotLight;
 	output.color.rgb += limCol;
+	output.color.rgb += environmentColor.rgb;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);

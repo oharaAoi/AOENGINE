@@ -59,17 +59,30 @@ void BaseLight::ViewBindCommand(ID3D12GraphicsCommandList* commandList, UINT ind
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseLight::CalucViewProjection(const Math::Vector3& pos) {
-	Math::Matrix4x4 translateMat = pos.MakeTranslateMat();
-	Math::Quaternion rot = Math::Quaternion::LookRotation(direction_);
-	Math::Matrix4x4 rotateMat = rot.MakeMatrix();
-	Math::Matrix4x4 lightMat = Multiply(Multiply(Math::Matrix4x4::MakeUnit(), rotateMat), translateMat);
+	Math::Vector3 lightDir = Normalize(direction_);
 
-	Math::Matrix4x4 viewMatrix_ = Inverse(lightMat);
-	Math::Matrix4x4 projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(1000.0f) / float(1000.0f), near_, far_);
-	viewProjectionMatrix_ = viewMatrix_ * projectionMatrix_;
+	float shadowWidth = baseParameter_.shadowWidth;
+	float shadowHeight = baseParameter_.shadowHeight;
 
-	data_->view = viewMatrix_;
-	data_->projection = projectionMatrix_;
+	Math::Vector3 lightPos =
+		pos - lightDir * (baseParameter_.shadowDepth * 0.5f);
+
+	Math::Matrix4x4 view =
+		Math::Matrix4x4::LookAtLH(lightPos, pos, CVector3::UP);
+
+	Math::Matrix4x4 proj =
+		Math::Matrix4x4::MakeOrthograhic(
+			-shadowWidth * 0.5f,   // left
+			shadowHeight * 0.5f,  // top
+			shadowWidth * 0.5f,   // right
+			-shadowHeight * 0.5f,  // bottom
+			baseParameter_.nearClip,                 // near (必ず 0 以上)
+			baseParameter_.farClip           // far
+		);
+
+	viewProjectionMatrix_ = view * proj;
+	data_->view = view;
+	data_->projection = proj;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,6 +101,9 @@ void BaseLight::BaseParameter::Debug_Gui() {
 	ImGui::DragFloat("fovY", &fovY, 0.1f);
 	ImGui::DragFloat("nearClip", &nearClip, 0.1f);
 	ImGui::DragFloat("farClip", &farClip, 0.1f);
+	ImGui::DragFloat("shadowDepth", &shadowDepth, 0.1f);
+	ImGui::DragFloat("shadowWidth", &shadowWidth, 0.1f);
+	ImGui::DragFloat("shadowHeight", &shadowHeight, 0.1f);
 
 	SaveAndLoad();
 }

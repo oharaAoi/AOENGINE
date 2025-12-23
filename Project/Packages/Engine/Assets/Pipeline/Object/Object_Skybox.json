@@ -3,7 +3,7 @@
         "vs": "./Project/Packages/Engine/Assets/HLSL/Skybox.VS.hlsl",
         "ps": "./Project/Packages/Engine/Assets/HLSL/Skybox.PS.hlsl",
         "blendMode": "Normal",
-        "culling" : true,
+        "cullingType" : "BACK",
         "depth" : false,
         "rtvFormat" : [
             "16_RGB",
