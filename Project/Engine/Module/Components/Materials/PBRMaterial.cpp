@@ -29,6 +29,7 @@ void PBRMaterial::Init() {
 	pbrMaterial_->metallic = 0.5f;
 	pbrMaterial_->shininess = 10;
 	pbrMaterial_->ambientIntensity = 0.5f;
+	pbrMaterial_->useNormalMap = 0;
 
 	uvTransform_.scale = CVector3::UNIT;
 	uvTransform_.rotate = CVector3::ZERO;
@@ -109,8 +110,6 @@ void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, con
 	index = _pso->GetRootSignatureIndex("gNormapMap");
 	if (normalMap_ != "") {
 		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, normalMap_, index);
-	} else {
-		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "white.png", index);
 	}
 
 }

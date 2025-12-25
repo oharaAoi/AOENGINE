@@ -24,7 +24,7 @@ void MachineGun::Init() {
 	attackParam_.SetName("MachineGunAttackParam");
 	attackParam_.Load();
 	
-	object_->SetObject("gun.obj");
+	object_->SetObject("gun.obj", MaterialType::PBR);
 	transform_->srt_.rotate = Math::Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Math::Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
 
 	// -------------------------------------------------

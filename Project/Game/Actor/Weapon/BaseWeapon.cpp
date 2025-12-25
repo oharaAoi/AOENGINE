@@ -33,7 +33,7 @@ void BaseWeapon::AttackParam::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseWeapon::Init() {
-	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("Weapon", "Object_Normal.json");
+	object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("Weapon", "Object_PBR.json");
 	transform_ = object_->GetTransform();
 	isCanAttack_ = true;
 	isReload_ = false;

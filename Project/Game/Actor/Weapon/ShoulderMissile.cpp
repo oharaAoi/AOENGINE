@@ -47,7 +47,7 @@ void ShoulderMissile::Init() {
 	attackParam_.Load();
 	weaponParam_.Load();
 
-	object_->SetObject("shoulderMissile.obj");
+	object_->SetObject("shoulderMissile.obj", MaterialType::PBR);
 
 	transform_->SetTranslate(weaponParam_.pos);
 
