@@ -9,4 +9,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.500000
 d 1.000000
 illum 2
-map_Kd -s 200 300 1 ground_grey_diff_1k.jpg
+map_Kd -s 20 60 1 ground_grey_diff_1k.jpg

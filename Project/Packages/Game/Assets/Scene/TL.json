@@ -39,6 +39,43 @@
             "collisionFilter_tags": []
         },
         {
+            "type": "MESH",
+            "name": "立方体",
+            "transform": {
+                "translation": [
+                    0.0,
+                    -343.984130859375,
+                    -5.782029151916504
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    -90.00000762939453
+                ],
+                "scaling": [
+                    1.634385347366333,
+                    2.990574598312378,
+                    3.137348175048828
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": "concrete_panels_nor_gl_1k.png"
+            },
+            "file_name": "buillding.obj",
+            "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
             "type": "LIGHT",
             "name": "Light",
             "transform": {
@@ -340,8 +377,8 @@
             "name": "InvisibleWall.001",
             "transform": {
                 "translation": [
-                    18.608257293701172,
-                    -152.87408447265625,
+                    2.889720916748047,
+                    -182.28530883789062,
                     96.65318298339844
                 ],
                 "rotation": [
@@ -577,43 +614,6 @@
         },
         {
             "type": "MESH",
-            "name": "BillsOriginal",
-            "transform": {
-                "translation": [
-                    0.0,
-                    -284.5255126953125,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    1.0,
-                    1.0,
-                    1.0
-                ]
-            },
-            "material": {
-                "shader": "PBR",
-                "base_color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "metallic": 0.0,
-                "roughness": 0.5,
-                "ibl_strength": 1.0,
-                "normalMap": ""
-            },
-            "file_name": "BillsOriginal.obj",
-            "collider_tag": "none",
-            "collisionFilter_tags": []
-        },
-        {
-            "type": "MESH",
             "name": "Pipe",
             "transform": {
                 "translation": [
@@ -628,7 +628,7 @@
                 ],
                 "scaling": [
                     1.0,
-                    1.0,
+                    1.6487032175064087,
                     1.0
                 ]
             },
@@ -665,7 +665,7 @@
                 ],
                 "scaling": [
                     1.0,
-                    1.0,
+                    1.6457163095474243,
                     1.0
                 ]
             },
