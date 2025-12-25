@@ -79,6 +79,7 @@ void ProcessedSceneFrame::DrawScene() {
 			availSize_.y = availSize_.x / aspect;
 		}
 		ImGui::Image((void*)textureID, availSize_, ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
+		imagePos_ = ImGui::GetItemRectMin();
 		ImGui::PopStyleVar();
 	}
 }

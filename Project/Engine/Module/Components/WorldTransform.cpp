@@ -189,7 +189,7 @@ void AOENGINE::WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2
 		memcpy(&worldMat_, world, sizeof(world));
 		srt_.scale = worldMat_.GetScale();
 		srt_.rotate = worldMat_.GetRotate();
-		//srt_.translate = worldMat_.GetPosition();
+		srt_.translate = worldMat_.GetPosition();
 	}
 
 	ImGuizmo::PopID();

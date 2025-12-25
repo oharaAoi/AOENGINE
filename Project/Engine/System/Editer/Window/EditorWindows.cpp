@@ -61,15 +61,16 @@ void EditorWindows::Update() {
 	}
 	ImGui::End();
 
-	// 現在選択されているwindowを描画する
-	if (windowUpdate_) {
-		windowUpdate_();
-	}
-	
 	// sceneを描画する
 	processedSceneFrame_->DrawScene();
 	particleSystemEditor_->Draw();
 	shaderGraphEditor_->Update();
+
+	// 現在選択されているwindowを描画する
+	if (windowUpdate_) {
+		windowUpdate_();
+	}
+
 
 	ImGui::End();
 
@@ -147,12 +148,15 @@ void EditorWindows::End() {
 void EditorWindows::GameWindow() {
 	gameObjectWindow_->InspectorWindow();
 	if (ManipulateTool::isActive_) {
-		if (sceneRenderer_ != nullptr) {
-			sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
-		}
 
-		if (canvas2d_ != nullptr) {
-			canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+		if (ManipulateTool::is3dManipulate_) {
+			if (sceneRenderer_ != nullptr) {
+				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+			}
+		} else {
+			if (canvas2d_ != nullptr) {
+				canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+			}
 		}
 	}
 

@@ -40,6 +40,7 @@ public:
 
 	static UseManipulate type_;
 	static bool isActive_;
+	static bool is3dManipulate_;
 
 };
 }

@@ -32,47 +32,10 @@
                 "metallic": 0.0,
                 "roughness": 0.5,
                 "ibl_strength": 1.0,
-                "normalMap": "concrete_wall_008_nor_gl_1k.png"
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
             },
             "file_name": "wall.obj",
             "collider_tag": "none",
-            "collisionFilter_tags": []
-        },
-        {
-            "type": "MESH",
-            "name": "sbill",
-            "transform": {
-                "translation": [
-                    55.44489288330078,
-                    50.05159378051758,
-                    0.0
-                ],
-                "rotation": [
-                    0.0,
-                    -0.0,
-                    0.0
-                ],
-                "scaling": [
-                    3.3840999603271484,
-                    1.0,
-                    3.0
-                ]
-            },
-            "material": {
-                "shader": "PBR",
-                "base_color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "metallic": 0.0,
-                "roughness": 0.5,
-                "ibl_strength": 1.0,
-                "normalMap": ""
-            },
-            "file_name": "sbill.obj",
-            "collider_tag": "building",
             "collisionFilter_tags": []
         },
         {

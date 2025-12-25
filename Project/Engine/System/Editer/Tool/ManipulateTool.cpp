@@ -7,6 +7,7 @@ using namespace AOENGINE;
 
 UseManipulate ManipulateTool::type_ = UseManipulate::Translate;
 bool ManipulateTool::isActive_ = false;
+bool ManipulateTool::is3dManipulate_ = true;
 
 void ManipulateTool::SelectUseManipulate() {
 	ImGuiWindowFlags flags = ImGuiWindowFlags_AlwaysAutoResize
@@ -25,6 +26,7 @@ void ManipulateTool::SelectUseManipulate() {
 		ImTextureID translateTex = reinterpret_cast<ImTextureID>(translateHandle.ptr);
 		
 		ImGui::Checkbox("##activeManipulate", &isActive_);
+		ImGui::Checkbox("##is3dManipulate", &is3dManipulate_);
 		
 		Button(scaleTex, "scale", UseManipulate::Scale);
 		Button(rotateTex, "rotate", UseManipulate::Rotate);
