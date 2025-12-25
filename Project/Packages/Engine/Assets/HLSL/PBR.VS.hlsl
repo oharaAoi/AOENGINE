@@ -19,8 +19,7 @@ struct VertexShaderInput{
 	float4 position : POSITION0;
 	float2 texcoord : TEXCOORD0;
 	float3 normal : NORMAL0;
-	float4 worldPos : WORLDPOS0;
-	float3 tangent : TANGENT;
+	float4 tangent : TANGENT;
 };
 
 VertexShaderOutput main(VertexShaderInput input)
@@ -36,18 +35,18 @@ VertexShaderOutput main(VertexShaderInput input)
 	output.texcoord = input.texcoord;
 	output.normal = normalize(mul(input.normal, (float3x3) gWorldTransformMatrix.worldInverseTranspose));
 	output.worldPos = mul(input.position, gWorldTransformMatrix.world);
-	float3 N = normalize(
-        mul(input.normal,
-            (float3x3) gWorldTransformMatrix.worldInverseTranspose)
-    );
-	float3 T = normalize(
-        mul(input.tangent,
-            (float3x3) gWorldTransformMatrix.world)
-    );
+	float3 N = normalize(mul(input.normal, (float3x3) gWorldTransformMatrix.worldInverseTranspose));
+	float3 T = normalize(mul(input.tangent.xyz, (float3x3) gWorldTransformMatrix.worldInverseTranspose));
 
-	float3 B = normalize(cross(N, T));
+	// Orthonormalize
+	T = normalize(T - N * dot(N, T));
 
-	output.tangentMat = float3x3(T, B, N);
+	// Bitangent
+	float3 B = cross(N, T) * input.tangent.w;
+
+	// TBN
+	float3x3 TBN = float3x3(T, B, N);
+	output.tangentMat = TBN;
 	
 	return output;
 }

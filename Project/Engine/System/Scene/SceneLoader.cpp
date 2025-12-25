@@ -175,6 +175,10 @@ SceneLoader::Objects SceneLoader::LoadObject(const json& objectJson) {
 		if (materialJson.contains("Shininess")) {
 			objectData.material.shininess = materialJson["ibl_sShininesstrength"].get<float>();
 		}
+
+		if (materialJson.contains("normalMap")) {
+			objectData.material.normalMap = materialJson["normalMap"];
+		}
 	}
 	return objectData;
 }

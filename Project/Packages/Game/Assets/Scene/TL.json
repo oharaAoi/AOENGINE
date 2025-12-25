@@ -31,10 +31,48 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": "concrete_wall_008_nor_gl_1k.png"
             },
             "file_name": "wall.obj",
             "collider_tag": "none",
+            "collisionFilter_tags": []
+        },
+        {
+            "type": "MESH",
+            "name": "sbill",
+            "transform": {
+                "translation": [
+                    55.44489288330078,
+                    50.05159378051758,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    -0.0,
+                    0.0
+                ],
+                "scaling": [
+                    3.3840999603271484,
+                    1.0,
+                    3.0
+                ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": ""
+            },
+            "file_name": "sbill.obj",
+            "collider_tag": "building",
             "collisionFilter_tags": []
         },
         {
@@ -67,7 +105,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "collider_tag": "none",
             "collisionFilter_tags": []
@@ -102,7 +141,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "collider_tag": "none",
             "collisionFilter_tags": []
@@ -137,7 +177,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "boss.gltf",
             "colliders": [
@@ -201,7 +242,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 0.30000001192092896
+                "ibl_strength": 0.30000001192092896,
+                "normalMap": "ground_grey_nor_gl_1k.png"
             },
             "disabled": false,
             "file_name": "ground.obj",
@@ -268,7 +310,8 @@
                 ],
                 "metallic": 0.5,
                 "roughness": 0.5,
-                "ibl_strength": 0.30000001192092896
+                "ibl_strength": 0.30000001192092896,
+                "normalMap": ""
             },
             "file_name": "player.gltf",
             "colliders": [
@@ -359,7 +402,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "rendering_flag": false,
             "colliders": [
@@ -418,7 +462,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "rendering_flag": false,
             "colliders": [
@@ -477,7 +522,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "rendering_flag": false,
             "colliders": [
@@ -536,7 +582,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "rendering_flag": false,
             "colliders": [
@@ -595,7 +642,8 @@
                 ],
                 "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "BillsOriginal.obj",
             "collider_tag": "none",
@@ -629,9 +677,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.0,
+                "metallic": 1.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": "rust_coarse_01_nor_gl_1k.png"
             },
             "file_name": "Pipe.obj",
             "collider_tag": "none",
@@ -665,9 +714,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.0,
+                "metallic": 1.0,
                 "roughness": 0.5,
-                "ibl_strength": 1.0
+                "ibl_strength": 1.0,
+                "normalMap": "rust_coarse_01_nor_gl_1k.png"
             },
             "file_name": "Pipe.obj",
             "collider_tag": "none",

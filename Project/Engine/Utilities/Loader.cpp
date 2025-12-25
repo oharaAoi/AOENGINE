@@ -69,11 +69,21 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 			}
 
 			// tangent
-			if (mesh->mTangents) {
-				aiVector3D& tangent = mesh->mTangents[vertexIndex];
-				vertices[vertexIndex].tangent = { tangent.x, tangent.y, tangent.z };
+			if (mesh->HasTangentsAndBitangents()) {
+				aiVector3D N = mesh->mNormals[vertexIndex];
+				aiVector3D T = mesh->mTangents[vertexIndex];
+				aiVector3D B = mesh->mBitangents[vertexIndex];
+
+				Math::Vector3 vN = { N.x, N.y, N.z };
+				Math::Vector3 vT = { T.x, T.y, T.z };
+				Math::Vector3 vB = { B.x, B.y, B.z };
+
+				// glTF tangent.w を復元
+				float tangentW =
+					(Dot(Cross(vN, vT), vB) < 0.0f) ? -1.0f : 1.0f;
+				vertices[vertexIndex].tangent = { vT.x, vT.y, vT.z, tangentW };
 			} else {
-				vertices[vertexIndex].tangent = { 0.0f, 0.0f, 0.0f };
+				vertices[vertexIndex].tangent = { 0.0f, 0.0f, 0.0f, 0.0f };
 			}
 
 			// 読み込み後の処理

@@ -9,7 +9,7 @@ Skybox::~Skybox() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Skybox::Init() {
-	cube_.Init(Math::Vector3(200,200,200));
+	cube_.Init(Math::Vector3(300,300,300));
 	cube_.Inverse();
 
 	// meshの作成
@@ -26,6 +26,7 @@ void Skybox::Init() {
 	material_ = std::make_unique<AOENGINE::Material>();
 	material_->Init();
 	transform_ = Engine::CreateWorldTransform();
+	transform_->SetRotate(Math::Quaternion::AngleAxis(180.0f * kPI, CVector3::UP));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

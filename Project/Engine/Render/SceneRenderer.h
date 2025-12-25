@@ -7,13 +7,15 @@
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 namespace AOENGINE {
 
 /// <summary>
 /// Sceneのレンダリングを行うクラス
 /// </summary>
-class SceneRenderer {
+class SceneRenderer :
+	public AttributeGui {
 public:	// 構造体データ
 
 	struct IObjectPair {
@@ -80,6 +82,8 @@ public:
 	void PostDraw() const;
 	// objectの編集
 	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
+
+	void Debug_Gui() override;
 
 public:
 

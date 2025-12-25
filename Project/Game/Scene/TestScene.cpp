@@ -37,7 +37,7 @@ void TestScene::Init() {
 	jet_->Init();
 
 	AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
-	object_->SetObject("floor.obj", MaterialType::PBR);
+	object_->SetObject("player.gltf", MaterialType::PBR);
 
 	AOENGINE::EditorWindows::AddObjectWindow(laser_.get(), "Laser");
 	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");

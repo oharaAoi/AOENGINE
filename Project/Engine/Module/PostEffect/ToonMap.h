@@ -7,6 +7,12 @@ class ToonMap :
 	public IPostEffect {
 public:
 
+	struct Parameter {
+		float exposure;
+	};
+
+public:
+
 	ToonMap() = default;
 	~ToonMap() override = default;
 
@@ -19,7 +25,13 @@ public:
 	// チェックボックスの表示
 	void CheckBox() override;
 	// 編集処理
-	void Debug_Gui() override {};
+	void Debug_Gui() override;
+
+private:
+
+	AOENGINE::DxResource* settingBuffer_;
+	Parameter* setting_;
+
 };
 
 }

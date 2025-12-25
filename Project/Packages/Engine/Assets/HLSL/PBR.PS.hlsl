@@ -16,6 +16,7 @@ struct Material {
 	float metallic; // 金属度
 	float shininess; // 鋭さ
 	float ambientIntensity; // 環境光の強さ
+	int useNormalMap;
 };
 
 ConstantBuffer<Material> gMaterial : register(b0);
@@ -25,7 +26,7 @@ ConstantBuffer<SpotLight> gSpotLight : register(b3);
 Texture2D<float4> gTexture : register(t0);
 Texture2D<float> gShadowMap : register(t1);
 TextureCube<float4> gEnviromentTexture : register(t2);
-//Texture2D<float3> gNormapMap : register(t2);
+Texture2D<float3> gNormapMap : register(t3);
 //Texture2D<float> gMetallicMap : register(t2);
 //Texture2D<float> gRoughnessMap : register(t3);
 SamplerState gSampler : register(s0);
@@ -56,8 +57,8 @@ float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
 //==========================================
 // Fresnel(Schlick)		F
 //==========================================
-float4 SchlickFresnel(float VDotH, float4 ks) {
-	float4 fresnel = (ks + (1.0f - ks) * pow((1.0f - VDotH), 5.0f));
+float3 SchlickFresnel(float VDotH, float3 ks) {
+	float3 fresnel = (ks + (1.0f - ks) * pow((1.0f - VDotH), 5.0f));
 	return fresnel;
 }
 
@@ -86,13 +87,13 @@ float HCSmith(float NdotV, float NdotL, float roughness) {
 //==========================================
 // BRDF(双方向反射率分布関数)
 //==========================================
-float4 BRDF(float NdotH, float NDotV, float NDotL, float VDotH, float4 ks, float roughness) {
+float3 BRDF(float NdotH, float NDotV, float NDotL, float VDotH, float3 ks, float roughness) {
 	float D = GGX(NdotH, roughness);
 	float G = HCSmith(NDotV, NDotL, roughness);
-	float4 F = SchlickFresnel(VDotH, ks);
+	float3 F = SchlickFresnel(VDotH, ks);
 	
 	float denom = max(4.0 * NDotV * NDotL, EPSILON);
-	float4 brdf = (D * G * F) / denom;
+	float3 brdf = (D * G * F) / denom;
 	
 	brdf = saturate(brdf);
 	
@@ -110,18 +111,23 @@ float3 EvalLight(float3 N, float3 V, float3 L, float3 lightColor, float intensit
 	if (NdotL <= 0.0)
 		return 0.0;
 
-	float3 F0 = lerp(float3(0.04, 0.04, 0.04), baseColor, metallic);
-	float3 ks = F0;
+	float3 F0 = lerp(0.04.xxx, baseColor, metallic);
+
+    // Fresnel
+	float3 F = SchlickFresnel(VdotH, F0);
+
+	float3 ks = F;
 	float3 kd = (1.0 - ks) * (1.0 - metallic);
 
 	float3 diffuse = kd * baseColor / PI;
+
 	float3 specular =
-        BRDF(NdotH, NdotV, NdotL, VdotH, float4(F0, 1), roughness).rgb;
+        BRDF(NdotH, NdotV, NdotL, VdotH, F0, roughness);
 
 	return (diffuse + specular)
         * NdotL
-        * intensity
         * lightColor
+        * intensity
         * visibility;
 }
 
@@ -142,11 +148,26 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float3 baseColor = textureColor.rgb * gMaterial.color.rgb;
 	
 	//=======================================================
-	// Test
+	// 法線マップのタイリングを計算する
 	//=======================================================
-	float3 N = normalize(input.normal);
+	float3 normalWS;
+	if (gMaterial.useNormalMap == 1) {
+		float3 normalTS = gNormapMap.Sample(gSampler, transformedUV.xy).xyz;
+		normalTS = normalTS * 2.0 - 1.0;
+		normalTS.y *= -1.0;
+		normalTS = normalize(normalTS);
+		normalWS = normalize(mul(normalTS, input.tangentMat));
+	}
+	else {
+		normalWS = normalize(input.normal);
+	}
+	
+	//=======================================================
+	// 値の計算
+	//=======================================================
+	float3 N = normalize(normalWS);
 	float3 V = normalize(gDirectionalLight.eyePos - input.worldPos.xyz);
-	float NdotV = saturate(dot(N, V));
+	float NdotV = saturate(dot(N, V) + EPSILON);
 
 	float perceptualRoughness = saturate(gMaterial.roughness);
 	float roughness = max(perceptualRoughness * perceptualRoughness, EPSILON);
@@ -170,7 +191,9 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	float direLightShadow = DrawShadow(gShadowMap, gShadowSampler, lightClip, lightDir, N);
 	float visibility = direLightShadow;
 	
-
+	//=======================================================
+	// IBL
+	//=======================================================
 	float3 specularIBL =
     gEnviromentTexture.SampleLevel(
         gSampler,
@@ -179,7 +202,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
     ).rgb;
 
 	// Fresnel で金属感を反映
-	float3 F = SchlickFresnel(NdotV, float4(F0, 1)).rgb;
+	float3 F = SchlickFresnel(NdotV, F0).rgb;
 	specularIBL *= F;
 	
 	float3 diffuseIBL =
@@ -191,13 +214,8 @@ PixelShaderOutput main(VertexShaderOutput input) {
     * baseColor
     * kd;
 	
-	//=======================================================
-	// 法線マップのタイリングを計算する
-	//=======================================================
-	float tilingFactor = 20.0; // タイリングを小さくするためのスケール（2.0でテクスチャが2倍のサイズに見える）
-	float2 scaledUV = transformedUV.xy * tilingFactor; // UV座標をスケーリング
-	//float3 normalMap = gNormapMap.Sample(gSampler, scaledUV).xyz * 2.0 - 1.0;
-	//float3 normal = normalize(mul(normalMap, input.tangentMat));
+	float iblScale = max(gMaterial.ambientIntensity, 0.04);
+	float3 ambientIBL = (diffuseIBL + specularIBL) * iblScale;
 	
 	//=======================================================
 	// ラフネスとメタリックのmapを計算する
@@ -219,7 +237,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
         N, V, lightDir,
         gDirectionalLight.color.rgb,
         gDirectionalLight.intensity,
-        textureColor.rgb,
+        baseColor,
         metallic,
         roughness,
         visibility
@@ -241,7 +259,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
         N, V, pointL,
         gPointLight.color.rgb,
         gPointLight.intensity * attenuation,
-        textureColor.rgb,
+        baseColor,
         metallic,
         roughness,
         1.0 // Point Light は今は影なし
@@ -268,20 +286,15 @@ PixelShaderOutput main(VertexShaderOutput input) {
         N, V, spotL,
         gSpotLight.color.rgb,
         gSpotLight.intensity * attenS * spotFactor,
-        textureColor.rgb,
+        baseColor,
         metallic,
         roughness,
         1.0
     );
 	
 	//=======================================================
-	// IBL
+	// 最終的なカラーを計算
 	//=======================================================
-
-	float3 ambientIBL = (diffuseIBL + specularIBL) * gMaterial.ambientIntensity;
-	
-	//=======================================================
-	 // 反射と拡散のバランスを取る
 	float3 direct = colorDir + colorPoint + colorSpot;
 	float3 finalRGB = direct + ambientIBL;
 
@@ -289,7 +302,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);
 	
-	if (output.color.a <= 0.0f) {
+	if (output.color.a <= 0.01f) {
 		discard;
 	}
 

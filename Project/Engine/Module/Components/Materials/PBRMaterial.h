@@ -34,6 +34,7 @@ public:
 		float metallic;				// 金属度
 		float shininess;			// 鋭さ
 		float ambientIntensity;		// 環境光の強さ
+		uint32_t useNormalMap;		// normalMapを使用するか
 	};
 
 public:
@@ -58,12 +59,14 @@ public:
 
 	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; }
 
-	void SetParameter(float _roughness, float _metallic, float _ibl);
+	void SetParameter(float _roughness, float _metallic, float _ibl, const std::string& _normalMap);
 
 
 private:
 
 	PBRMaterialData* pbrMaterial_;
+
+	std::string normalMap_ = "";
 };
 
 }

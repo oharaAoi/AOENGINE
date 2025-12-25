@@ -143,6 +143,18 @@ void SceneRenderer::EditObject(const ImVec2& windowSize, const ImVec2& imagePos)
 	}
 }
 
+void AOENGINE::SceneRenderer::Debug_Gui() {
+	for (auto& pair : objectList_) {
+		ISceneObject* obj = pair->GetSceneObject();
+		std::string addrStr = std::format("{}", static_cast<const void*>(obj));
+		std::string name = obj->GetName() + "##" + addrStr;
+		if (ImGui::TreeNode(name.c_str())) {
+			obj->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +207,7 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 				for (auto& material : object->GetMaterials()) {
 					AOENGINE::BaseMaterial* mat = material.second.get();
 					AOENGINE::PBRMaterial* pbr = dynamic_cast<AOENGINE::PBRMaterial*>(mat);
-					pbr->SetParameter(data.material.roughness, data.material.metallic, data.material.iblStrength);
+					pbr->SetParameter(data.material.roughness, data.material.metallic, data.material.iblStrength, data.material.normalMap);
 				}
 			} else {
 

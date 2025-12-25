@@ -33,6 +33,8 @@ public:		// data
 		float metallic;
 		float iblStrength;
 		float shininess;
+
+		std::string normalMap = "";
 	};
 
 	struct Objects {

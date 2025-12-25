@@ -42,6 +42,12 @@ void PBRMaterial::Init() {
 
 void PBRMaterial::Update() {
 	pbrMaterial_->uvTransform = uvTransform_.MakeAffine();
+
+	if (normalMap_ == "") {
+		pbrMaterial_->useNormalMap = 0;
+	} else {
+		pbrMaterial_->useNormalMap = 1;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +56,7 @@ void PBRMaterial::Update() {
 
 void PBRMaterial::Debug_Gui() {
 	EditUV();
+	ImGui::ColorEdit4("color", &pbrMaterial_->color.r);
 	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("metallic", &pbrMaterial_->metallic, 0.01f, 0.0f, 1.0f);
 	ImGui::DragFloat("ambientIntensity", &pbrMaterial_->ambientIntensity, 0.01f, 0.0f, 1.0f);
@@ -75,6 +82,7 @@ void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, con
 	UINT index = _pso->GetRootSignatureIndex("gMaterial");
 	_cmdList->SetGraphicsRootConstantBufferView(index, this->GetBufferAddress());
 
+	// アルベドTexture
 	index = _pso->GetRootSignatureIndex("gTexture");
 	if (shaderType_ == MaterialShaderType::UniversalRender) {
 		std::string textureName = this->GetAlbedoTexture();
@@ -96,10 +104,20 @@ void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, con
 			AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "error.png", index);
 		}
 	}
+
+	// 法線テクスチャ
+	index = _pso->GetRootSignatureIndex("gNormapMap");
+	if (normalMap_ != "") {
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, normalMap_, index);
+	} else {
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(_cmdList, "white.png", index);
+	}
+
 }
 
-void AOENGINE::PBRMaterial::SetParameter(float _roughness, float _metallic, float _ibl) {
+void AOENGINE::PBRMaterial::SetParameter(float _roughness, float _metallic, float _ibl, const std::string& _normalMap) {
 	pbrMaterial_->roughness = _roughness;
 	pbrMaterial_->metallic = _metallic;
 	pbrMaterial_->ambientIntensity = _ibl;
+	normalMap_ = _normalMap;
 }

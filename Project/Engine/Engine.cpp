@@ -263,6 +263,7 @@ void Engine::RenderFrame() {
 	std::vector<RenderTargetType> postRenderTypes;
 	postRenderTypes.push_back(RenderTargetType::Object3D_RenderTarget);
 	AOENGINE::Render::SetRenderTarget(postRenderTypes, dxCommon_->GetDepthHandle());
+	Engine::SetPipeline(PSOType::Object3d, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
 	AOENGINE::SceneRenderer::GetInstance()->PostDraw();
 	BlendFinalTexture(Object3D_RenderTarget);

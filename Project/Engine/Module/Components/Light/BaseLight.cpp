@@ -67,8 +67,11 @@ void BaseLight::CalucViewProjection(const Math::Vector3& pos) {
 	Math::Vector3 lightPos =
 		pos - lightDir * (baseParameter_.shadowDepth * 0.5f);
 
+	Math::Vector3 up = std::fabs(lightDir.y) > 0.99f
+		? Math::Vector3(0, 0, 1)
+		: Math::Vector3(0, 1, 0);
 	Math::Matrix4x4 view =
-		Math::Matrix4x4::LookAtLH(lightPos, pos, CVector3::UP);
+		Math::Matrix4x4::LookAtLH(lightPos, pos, up);
 
 	Math::Matrix4x4 proj =
 		Math::Matrix4x4::MakeOrthograhic(

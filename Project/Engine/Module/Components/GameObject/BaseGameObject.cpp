@@ -333,6 +333,7 @@ void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
 }
 
 void BaseGameObject::Debug_Gui() {
+	ImGui::Checkbox("enableShadow", &enableShadow_);
 	transform_->Debug_Gui();
 	int index = 0;
 	if (ImGui::CollapsingHeader("Material")) {

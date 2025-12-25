@@ -8,8 +8,7 @@ struct Vertex {
 	float4 position;
 	float2 texcoord;
 	float3 normal;
-	float4 worldPos;
-	float3 tangent;
+	float4 tangent;
 };
 
 struct VertexInfluence {
@@ -20,7 +19,6 @@ struct VertexInfluence {
 struct SkinningInformation {
 	uint numVertices;
 };
-
 
 StructuredBuffer<Well> gMatrixPalette : register(t0);
 StructuredBuffer<Vertex> gInputVertices : register(t1);
@@ -52,7 +50,6 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	Vertex skinned;
 	skinned.texcoord = input.texcoord;
 	skinned.tangent = input.tangent;
-	skinned.worldPos = input.worldPos;
 	
 	skinned.position = mul(input.position, m0) * influence.weight.x +
 	                   mul(input.position, m1) * influence.weight.y +

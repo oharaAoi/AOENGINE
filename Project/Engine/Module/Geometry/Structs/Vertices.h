@@ -10,8 +10,7 @@ struct VertexData {
 	Math::Vector4 pos;
 	Math::Vector2 texcoord;
 	Math::Vector3 normal;
-	Math::Vector4 worldPos;
-	Math::Vector3 tangent;
+	Math::Vector4 tangent;
 };
 
 struct ParticleVertexData {

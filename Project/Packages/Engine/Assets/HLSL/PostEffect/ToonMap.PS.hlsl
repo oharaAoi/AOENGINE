@@ -1,5 +1,10 @@
 #include "ProcessedScene.hlsli"
 
+struct Parameter {
+	float exposure;
+};
+
+ConstantBuffer<Parameter> gParameter : register(b0);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
@@ -48,6 +53,8 @@ float3 ACESFilmToneMap(float3 color) {
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output;
 	float3 hdrColor = gTexture.Sample(gSampler, input.texcoord).rgb;
+	// ① Exposure
+	hdrColor *= gParameter.exposure;
 	float3 toneMappedColor = ACESFilmToneMap(hdrColor);
 	output.color = float4(toneMappedColor, 1.0);
 	return output;
