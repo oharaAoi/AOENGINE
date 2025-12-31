@@ -19,12 +19,6 @@
             "toPin": "x"
         },
         {
-            "fromNode": 1933066289936,
-            "fromPin": "time",
-            "toNode": 1933022284464,
-            "toPin": "y"
-        },
-        {
             "fromNode": 1933058391424,
             "fromPin": "uv",
             "toNode": 1932971763216,
@@ -103,18 +97,6 @@
             "toPin": "scale"
         },
         {
-            "fromNode": 1933498732832,
-            "fromPin": "DxResource",
-            "toNode": 1933497008176,
-            "toPin": "BaseTexture"
-        },
-        {
-            "fromNode": 1933058389504,
-            "fromPin": "DxResource",
-            "toNode": 1933497008176,
-            "toPin": "SampleNoise"
-        },
-        {
             "fromNode": 1933497008176,
             "fromPin": "DxResource",
             "toNode": 1933066290608,
@@ -131,189 +113,33 @@
             "fromPin": "DxResource",
             "toNode": 1933498732832,
             "toPin": "TextureA"
+        },
+        {
+            "fromNode": 1933058389504,
+            "fromPin": "DxResource",
+            "toNode": 1933497008176,
+            "toPin": "BaseTexture"
+        },
+        {
+            "fromNode": 1933498732832,
+            "fromPin": "DxResource",
+            "toNode": 1933497008176,
+            "toPin": "SampleNoise"
+        },
+        {
+            "fromNode": 1933066289936,
+            "fromPin": "sineTime",
+            "toNode": 1933022284464,
+            "toPin": "y"
         }
     ],
     "nodes": [
-        {
-            "id": 1933066290272,
-            "name": "TimeNode",
-            "pos": [
-                -240.0,
-                20.0
-            ]
-        },
-        {
-            "id": 1933497007792,
-            "name": "Property_Vector2",
-            "pos": [
-                -310.0,
-                -80.0
-            ],
-            "props": {
-                "value": [
-                    0.47999998927116394,
-                    0.550000011920929
-                ]
-            }
-        },
-        {
-            "id": 1933058388736,
-            "name": "Texture",
-            "pos": [
-                -160.0,
-                120.0
-            ],
-            "props": {
-                "textureName": "cracks 8 - 256x256.png"
-            }
-        },
-        {
-            "id": 1933022260912,
-            "name": "InOut_Vector2",
-            "pos": [
-                -90.0,
-                20.0
-            ],
-            "props": {
-                "value": [
-                    88.08163452148438,
-                    0.11677319556474686
-                ]
-            }
-        },
-        {
-            "id": 1933497010864,
-            "name": "Property_Vector2",
-            "pos": [
-                -440.0,
-                230.0
-            ],
-            "props": {
-                "value": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
         {
             "id": 1933058392576,
             "name": "Texture",
             "pos": [
                 280.0,
                 -180.0
-            ],
-            "props": {
-                "textureName": "shoulderMissile.png"
-            }
-        },
-        {
-            "id": 1933058395264,
-            "name": "UVTransform",
-            "pos": [
-                50.0,
-                -40.0
-            ]
-        },
-        {
-            "id": 1933058389504,
-            "name": "Dissolve",
-            "pos": [
-                400.0,
-                190.0
-            ],
-            "props": {
-                "dissolveColor": {
-                    "a": 0.0,
-                    "b": 0.0,
-                    "g": 0.0,
-                    "r": 1.0
-                },
-                "edgeWidth": 0.800000011920929,
-                "threshold": 0.10000000149011612
-            }
-        },
-        {
-            "id": 1933058389888,
-            "name": "Texture",
-            "pos": [
-                -30.0,
-                -150.0
-            ],
-            "props": {
-                "textureName": "voronoi 1 - 512x512.png"
-            }
-        },
-        {
-            "id": 1933066290608,
-            "name": "ResultNode",
-            "pos": [
-                1210.0,
-                100.0
-            ]
-        },
-        {
-            "id": 1933058391424,
-            "name": "UVTransform",
-            "pos": [
-                -100.0,
-                240.0
-            ]
-        },
-        {
-            "id": 1722614148176,
-            "name": "SampleTexture2D",
-            "pos": [
-                620.0,
-                -250.0
-            ],
-            "props": {
-                "color": {
-                    "a": 0.0,
-                    "b": 0.0,
-                    "g": 0.0,
-                    "r": 0.0
-                }
-            }
-        },
-        {
-            "id": 1933497008176,
-            "name": "Distortion",
-            "pos": [
-                890.0,
-                100.0
-            ],
-            "props": {
-                "scroll": {
-                    "x": 1.0,
-                    "y": 1.0
-                },
-                "strength": 0.10000000149011612,
-                "tiling": {
-                    "x": 1.0,
-                    "y": 1.0
-                }
-            }
-        },
-        {
-            "id": 1933022284464,
-            "name": "InOut_Vector2",
-            "pos": [
-                -230.0,
-                310.0
-            ],
-            "props": {
-                "value": [
-                    88.08163452148438,
-                    88.08163452148438
-                ]
-            }
-        },
-        {
-            "id": 1933058396032,
-            "name": "Texture",
-            "pos": [
-                130.0,
-                120.0
             ],
             "props": {
                 "textureName": "shoulderMissile.png"
@@ -336,12 +162,78 @@
             }
         },
         {
-            "id": 1933498732832,
-            "name": "AlphaBlend",
+            "id": 1933497007792,
+            "name": "Property_Vector2",
             "pos": [
-                880.0,
-                -110.0
+                -310.0,
+                -80.0
+            ],
+            "props": {
+                "value": [
+                    0.47999998927116394,
+                    0.550000011920929
+                ]
+            }
+        },
+        {
+            "id": 1722567496064,
+            "name": "Texture",
+            "pos": [
+                430.0,
+                -280.0
+            ],
+            "props": {
+                "textureName": "shoulderMissile.png"
+            }
+        },
+        {
+            "id": 1933022284464,
+            "name": "InOut_Vector2",
+            "pos": [
+                -230.0,
+                310.0
+            ],
+            "props": {
+                "value": [
+                    11.76678466796875,
+                    -0.717067539691925
+                ]
+            }
+        },
+        {
+            "id": 1933066290272,
+            "name": "TimeNode",
+            "pos": [
+                -240.0,
+                20.0
             ]
+        },
+        {
+            "id": 1933058388736,
+            "name": "Texture",
+            "pos": [
+                -160.0,
+                120.0
+            ],
+            "props": {
+                "textureName": "cracks 8 - 256x256.png"
+            }
+        },
+        {
+            "id": 1722614148176,
+            "name": "SampleTexture2D",
+            "pos": [
+                620.0,
+                -250.0
+            ],
+            "props": {
+                "color": {
+                    "a": 0.0,
+                    "b": 0.0,
+                    "g": 0.0,
+                    "r": 0.0
+                }
+            }
         },
         {
             "id": 1933066289936,
@@ -350,6 +242,17 @@
                 -350.0,
                 310.0
             ]
+        },
+        {
+            "id": 1933058396032,
+            "name": "Texture",
+            "pos": [
+                130.0,
+                120.0
+            ],
+            "props": {
+                "textureName": "shoulderMissile.png"
+            }
         },
         {
             "id": 1932971778816,
@@ -386,14 +289,111 @@
             }
         },
         {
-            "id": 1722567496064,
-            "name": "Texture",
+            "id": 1933066290608,
+            "name": "ResultNode",
             "pos": [
-                430.0,
-                -280.0
+                1210.0,
+                100.0
+            ]
+        },
+        {
+            "id": 1933058395264,
+            "name": "UVTransform",
+            "pos": [
+                50.0,
+                -40.0
+            ]
+        },
+        {
+            "id": 1933498732832,
+            "name": "AlphaBlend",
+            "pos": [
+                880.0,
+                -110.0
+            ]
+        },
+        {
+            "id": 1933497010864,
+            "name": "Property_Vector2",
+            "pos": [
+                -440.0,
+                230.0
             ],
             "props": {
-                "textureName": "shoulderMissile.png"
+                "value": [
+                    0.5,
+                    0.5400000214576721
+                ]
+            }
+        },
+        {
+            "id": 1933058391424,
+            "name": "UVTransform",
+            "pos": [
+                -100.0,
+                240.0
+            ]
+        },
+        {
+            "id": 1933058389504,
+            "name": "Dissolve",
+            "pos": [
+                400.0,
+                190.0
+            ],
+            "props": {
+                "dissolveColor": {
+                    "a": 0.0,
+                    "b": 0.0,
+                    "g": 0.0,
+                    "r": 1.0
+                },
+                "edgeWidth": 0.4000000059604645,
+                "threshold": 0.547421395778656
+            }
+        },
+        {
+            "id": 1933058389888,
+            "name": "Texture",
+            "pos": [
+                -30.0,
+                -150.0
+            ],
+            "props": {
+                "textureName": "noise8.png"
+            }
+        },
+        {
+            "id": 1933022260912,
+            "name": "InOut_Vector2",
+            "pos": [
+                -90.0,
+                20.0
+            ],
+            "props": {
+                "value": [
+                    11.76678466796875,
+                    -0.717067539691925
+                ]
+            }
+        },
+        {
+            "id": 1933497008176,
+            "name": "Distortion",
+            "pos": [
+                890.0,
+                100.0
+            ],
+            "props": {
+                "scroll": {
+                    "x": 1.0,
+                    "y": 1.0
+                },
+                "strength": 0.10000000149011612,
+                "tiling": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
             }
         }
     ]

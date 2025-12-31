@@ -30,27 +30,28 @@ void TestScene::Init() {
 	debugCamera_->Init();
 	debugCamera_->SetIsActive(true);
 
-	laser_ = std::make_unique<LaserBullet>();
-	laser_->Init();
-
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
 
-	AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
-	object_->SetObject("player.gltf", MaterialType::PBR);
+	attackArmor_ = std::make_unique<AttackArmor>();
+	attackArmor_->Init();
 
-	AOENGINE::EditorWindows::AddObjectWindow(laser_.get(), "Laser");
+	/*AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
+	object_->SetObject("floor.obj", MaterialType::PBR);*/
+
+	/*AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
+	object_->SetObject("floor.obj", MaterialType::PBR);*/
+
 	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
-	AOENGINE::EditorWindows::AddObjectWindow(object_, "ground");
+	//AOENGINE::EditorWindows::AddObjectWindow(object_, "ground");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
-
-	laser_->Update();
 	jet_->Update(0.0f);
+	attackArmor_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

@@ -27,16 +27,26 @@ bool Condition::Compare(const BlackboardValue& lhs,
 		using A = std::decay_t<decltype(a)>;
 		using B = std::decay_t<decltype(b)>;
 
-		// 異なる型は比較できない
-		if constexpr (!std::is_same_v<A, B>) {
+		using BaseA = ValueTypeT<A>;
+		using BaseB = ValueTypeT<B>;
+
+		// 基底型が違う場合は比較不可
+		if constexpr (!std::is_same_v<BaseA, BaseB>) {
+			return false;
+		}
+		// 比較演算が定義されていない型も弾く
+		else if constexpr (!std::is_arithmetic_v<BaseA> && !std::is_same_v<BaseA, std::string>) {
 			return false;
 		} else {
-			if (op == "==") return a == b;
-			if (op == "!=") return a != b;
-			if (op == ">")  return a > b;
-			if (op == "<")  return a < b;
-			if (op == ">=") return a >= b;
-			if (op == "<=") return a <= b;
+			const BaseA& va = GetValue(a);
+			const BaseA& vb = GetValue(b);
+
+			if (op == "==") return va == vb;
+			if (op == "!=") return va != vb;
+			if (op == ">")  return va > vb;
+			if (op == "<")  return va < vb;
+			if (op == ">=") return va >= vb;
+			if (op == "<=") return va <= vb;
 			return false;
 		}
 					  }, lhs.Get(), rhs.Get());

@@ -10,6 +10,7 @@
 #include "Engine/System/ShaderGraph/Node/Blend/DifferenceBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/UV/UVTransformNode.h"
 #include "Engine/System/ShaderGraph/Node/Other/TimeNode.h"
+#include "Engine/System/ShaderGraph/Node/Other/LoopValueNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathAddNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathMultiplyNode.h"
 #include "Engine/System/ShaderGraph/Node/Math/MathSubtractionNode.h"
@@ -49,6 +50,7 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 	RegisterNode<MathMultiplyNode>("Math/Multiply", _editor);
 
 	RegisterNode<TimeNode>("Other/TimeNode", _editor);
+	RegisterNode<LoopValueNode>("Other/LoopValueNode", _editor);
 
 	RegisterNode<UVTransformNode>("UV/UVTransform", _editor);
 

@@ -36,6 +36,7 @@ public:
 		easeIndex_ = _easeIndex;
 		loopType_ = _loop;
 		isFinish_ = false;
+		isStop_ = false;
 		isReturn_ = true;
 		currentTime_ = 0.0f;
 	}

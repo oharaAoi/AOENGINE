@@ -3,16 +3,43 @@
         {
             "children": [
                 {
-                    "children": [],
-                    "coolTime": 1.0,
-                    "name": "DeployArmor",
+                    "children": [
+                        {
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "TransitionPhase",
+                            "nodePos": {
+                                "x": 850.0,
+                                "y": 838.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "DeployArmor",
+                            "nodePos": {
+                                "x": 1186.0,
+                                "y": 886.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "leftKey": "hp",
+                    "leftKeyIndex": 5,
+                    "name": "Condition",
                     "nodePos": {
-                        "x": 930.0,
-                        "y": 774.0
+                        "x": 1074.0,
+                        "y": 678.0
                     },
-                    "nodeType": 4,
-                    "waitTime": 1.0,
-                    "weight": 0.0
+                    "nodeType": 7,
+                    "operatorIndex": 5,
+                    "rightKey": "halfHp",
+                    "rightKeyIndex": 7
                 },
                 {
                     "children": [
@@ -27,8 +54,8 @@
                             },
                             "name": "TargetEnemy",
                             "nodePos": {
-                                "x": 1314.0,
-                                "y": 882.0
+                                "x": 1554.0,
+                                "y": 962.0
                             },
                             "nodeType": 5,
                             "orientedName": "TargetDead",
@@ -45,8 +72,8 @@
                             },
                             "name": "SafeDistance",
                             "nodePos": {
-                                "x": 1538.0,
-                                "y": 870.0
+                                "x": 1759.0,
+                                "y": 946.0
                             },
                             "nodeType": 5,
                             "orientedName": "SafeDistance",
@@ -55,8 +82,8 @@
                     ],
                     "name": "PlannerSelector",
                     "nodePos": {
-                        "x": 1378.0,
-                        "y": 690.0
+                        "x": 1618.0,
+                        "y": 770.0
                     },
                     "nodeType": 6
                 }
@@ -78,24 +105,24 @@
         {
             "id": 1,
             "max": {
-                "x": 1152.0,
-                "y": 992.0
+                "x": 1410.0,
+                "y": 896.0
             },
             "min": {
-                "x": 878.0,
-                "y": 646.0
+                "x": 1104.0,
+                "y": 752.0
             },
             "text": "バリアを張る"
         },
         {
             "id": 3,
             "max": {
-                "x": 1712.0,
+                "x": 1808.0,
                 "y": 1136.0
             },
             "min": {
-                "x": 1264.0,
-                "y": 640.0
+                "x": 1360.0,
+                "y": 688.0
             },
             "text": "攻撃 or 回避"
         }

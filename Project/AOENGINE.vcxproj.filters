@@ -1259,6 +1259,8 @@
     <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
     <ClInclude Include="Engine\System\AI\CommentBox.h" />
+    <ClInclude Include="Game\Effects\AttackArmor.h" />
+    <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2172,6 +2174,8 @@
     <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
     <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
+    <ClCompile Include="Game\Effects\AttackArmor.cpp" />
+    <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

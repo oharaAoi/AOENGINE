@@ -1,6 +1,7 @@
 #include "SampleTexture2dNode.h"
 #include "Engine/Engine.h"
 #include "Engine/System/ShaderGraph/ShaderGraphHelperFunc.h"
+#include "Engine/Lib/CalcDispatchSize2D.h"
 
 using namespace AOENGINE;
 
@@ -65,8 +66,9 @@ void SampleTexture2dNode::customUpdate() {
             cmdList_->SetComputeRootConstantBufferView(index, colorBuffer_->GetGPUVirtualAddress());
             index = pso->GetRootSignatureIndex("gPreviewTex");
             cmdList_->SetComputeRootDescriptorTable(index, resource_->GetUAV().handleGPU);
-            cmdList_->Dispatch(UINT(resource_->GetDesc()->Width / 16), UINT(resource_->GetDesc()->Height / 16), 1);
-
+            auto desc = resource_->GetDesc();
+            ComputeDispatchSize2D group = CalcDispatchSize(*desc);
+            cmdList_->Dispatch(group.x, group.y, 1);
             resource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
         }
     }

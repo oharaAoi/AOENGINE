@@ -1,6 +1,7 @@
 #include "AddBlendNode.h"
 #include "Engine/Engine.h"
 #include "Engine/System/ShaderGraph/ShaderGraphHelperFunc.h"
+#include "Engine/Lib/CalcDispatchSize2D.h"
 
 using namespace AOENGINE;
 
@@ -48,8 +49,9 @@ void AddBlendNode::customUpdate() {
 			cmdList_->SetComputeRootDescriptorTable(index, resourceB_->GetSRV().handleGPU);
 			index = pso->GetRootSignatureIndex("outputTex");
 			cmdList_->SetComputeRootDescriptorTable(index, blendResource_->GetUAV().handleGPU);
-			cmdList_->Dispatch(UINT(blendResource_->GetDesc()->Width / 16), UINT(blendResource_->GetDesc()->Height / 16), 1);
-
+			auto desc = blendResource_->GetDesc();
+			ComputeDispatchSize2D group = CalcDispatchSize(*desc);
+			cmdList_->Dispatch(group.x, group.y, 1);
 			blendResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 		}
 	}

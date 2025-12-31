@@ -110,6 +110,11 @@ void EffectSystemCamera::RotateMove() {
 	preMousePos_ = AOENGINE::Input::GetMousePosition();
 }
 
+void AOENGINE::EffectSystemCamera::SetViewProjection() {
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+}
+
 void EffectSystemCamera::Debug_Gui() {
 	ImGui::Begin("effectCamera");
 	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);

@@ -40,11 +40,11 @@ void Boss::Finalize() {
 void Boss::Debug_Gui() {
 	object_->Debug_Gui();
 
-	if (ImGui::CollapsingHeader("Parameter")) {
+	if (ImGui::CollapsingHeader("現在のパラメータ")) {
 		param_.Debug_Gui();
 	}
 
-	if (ImGui::CollapsingHeader("InitParameter(保存の際はこちらを編集)")) {
+	if (ImGui::CollapsingHeader("初期値のパラメータ(保存の際はこちらを編集)")) {
 		initParam_.Debug_Gui();
 	}
 

@@ -60,7 +60,7 @@ void Material::Debug_Gui() {
 	ImGui::BulletText("Color");
 	ImGui::ColorEdit4("color", &color_.r);
 	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
-	ImGui::DragFloat("discard", &material_->discardValue, 0.01f);
+	ImGui::DragFloat("discard", &discardValue_, 0.01f);
 }
 
 void Material::SetMaterialData(ModelMaterialData materialData) {

@@ -6,6 +6,28 @@
 
 namespace AI {
 
+template<typename T>
+struct ValueType {
+	using type = T;
+};
+
+template<typename T>
+struct ValueType<T*> {
+	using type = T;
+};
+
+template<typename T>
+using ValueTypeT = typename ValueType<T>::type;
+
+template<typename T>
+decltype(auto) GetValue(T&& v) {
+	if constexpr (std::is_pointer_v<std::decay_t<T>>) {
+		return *v;
+	} else {
+		return v;
+	}
+}
+
 /// <summary>
 /// Blackboard内で使用する値
 /// </summary>

@@ -105,6 +105,8 @@ void ParticleSystemEditor::Update() {
 
 void ParticleSystemEditor::Draw() {
 #ifdef _DEBUG
+	camera_->SetViewProjection();
+
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
 	gpuParticleRenderer_->Draw();

@@ -45,7 +45,7 @@ public:
 
 public:
 
-	void SetDiscardValue(float _value) { material_->discardValue = _value; }
+	void SetDiscardValue(float _value) { discardValue_ = _value; }
 
 private:
 

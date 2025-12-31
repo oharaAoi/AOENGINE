@@ -1,6 +1,7 @@
 #include "DissolveNode.h"
 #include "Engine/Engine.h"
 #include "Engine/System/ShaderGraph/ShaderGraphHelperFunc.h"
+#include "Engine/Lib/CalcDispatchSize2D.h"
 
 using namespace AOENGINE;
 
@@ -145,8 +146,9 @@ void DissolveNode::ExecuteCommand() {
 			cmdList_->SetComputeRootDescriptorTable(index, outputResource_->GetUAV().handleGPU);
 			index = pso->GetRootSignatureIndex("gDissolve");
 			cmdList_->SetComputeRootConstantBufferView(index, buffer_->GetGPUVirtualAddress());
-			cmdList_->Dispatch(UINT(outputResource_->GetDesc()->Width / 16), UINT(outputResource_->GetDesc()->Height / 16), 1);
-
+			auto desc = outputResource_->GetDesc();
+			ComputeDispatchSize2D group = CalcDispatchSize(*desc);
+			cmdList_->Dispatch(group.x, group.y, 1);
 			outputResource_->Transition(cmdList_, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
 		}
 	}

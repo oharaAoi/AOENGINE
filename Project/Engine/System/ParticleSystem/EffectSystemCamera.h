@@ -57,6 +57,8 @@ public:
 	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
 	const bool GetIsFocused() const { return isFocused_; }
 
+	void SetViewProjection();
+
 private:
 
 	Math::Quaternion quaternion_;

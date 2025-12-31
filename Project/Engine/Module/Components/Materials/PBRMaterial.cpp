@@ -56,6 +56,7 @@ void PBRMaterial::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Debug_Gui() {
+	EditShaderType();
 	EditUV();
 	ImGui::ColorEdit4("color", &pbrMaterial_->color.r);
 	ImGui::DragFloat("roughness", &pbrMaterial_->roughness, 0.01f, 0.0f, 1.0f);

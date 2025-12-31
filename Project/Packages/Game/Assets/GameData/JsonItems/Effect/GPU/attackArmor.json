@@ -1,0 +1,60 @@
+{
+    "attackArmor": {
+        "SeparateByAxisScale": false,
+        "angle": 1.2000000476837158,
+        "beAffectedByField": false,
+        "color": {
+            "a": 1.0,
+            "b": 0.03720933198928833,
+            "g": 0.03720933198928833,
+            "r": 1.0
+        },
+        "damping": 0.0,
+        "duration": 5.0,
+        "emitOrigin": 2,
+        "emitType": 1,
+        "gravity": 0.0,
+        "height": 2.0,
+        "isLoop": true,
+        "lifeOfAlpha": true,
+        "lifeOfScaleDown": false,
+        "lifeOfScaleUp": false,
+        "lifeTime": 1.0,
+        "maxScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "pos": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "radius": 6.099999904632568,
+        "rateOverTimeCout": 36,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleMaxScaler": 2.0,
+        "scaleMinScaler": 1.0,
+        "shape": 0,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": 2.0,
+        "targetScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

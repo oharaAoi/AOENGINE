@@ -33,6 +33,8 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	gBaseTex.GetDimensions(baseW, baseH);
 	float2 uvBase = uv * float2(outW, outH) / float2(baseW, baseH);
 	
+	uint2 basePix = pix * uint2(baseW, baseH) / uint2(outW, outH);
+	
 	// ------------------------
 	// noiseのuvを取得
 	// ------------------------
@@ -44,7 +46,8 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	// サンプリング
 	// ------------------------
     // 元画像
-	float4 src = gBaseTex.SampleLevel(gSampler, uvBase, 0);
+	//float4 src = gBaseTex.SampleLevel(gSampler, uvBase, 0);
+	float4 src = gBaseTex.Load(int3(basePix, 0));
     // ノイズ（0〜1）
 	float noise = gNoiseTex.SampleLevel(gSampler, uvNoise, 0).r;
 
