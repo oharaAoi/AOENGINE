@@ -8,6 +8,10 @@ BehaviorTreeSystem* BehaviorTreeSystem::GetInstance() {
 	return &instance;
 }
 
+void BehaviorTreeSystem::Finalize() {
+	trees_.clear();
+}
+
 void BehaviorTreeSystem::Init() {
 	trees_.clear();
 }

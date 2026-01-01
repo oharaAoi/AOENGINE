@@ -128,6 +128,7 @@ void PulseArmor::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Debug_Gui() {
+	ImGui::DragFloat("耐久度", &durability_, 0.1f);
 	worldTransform_->Debug_Gui();
 	material_->Debug_Gui();
 

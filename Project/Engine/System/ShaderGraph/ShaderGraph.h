@@ -74,7 +74,7 @@ public:
 
 public:
 
-	AOENGINE::DxResource* GetResource() const { return resultNode_->GetResultSource(); }
+	AOENGINE::DxResource* GetResource() const;
 
 	const std::string& GetPath() const { return param_.path; }
 

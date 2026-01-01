@@ -88,3 +88,10 @@ void ShaderGraph::Load(const std::string& _filePath) {
 		resultNode_ = nodeFactory_.CreateGraph(ShaderGraphSerializer::Load(_filePath));
 	}
 }
+
+AOENGINE::DxResource* ShaderGraph::GetResource() const {
+	if (resultNode_) {
+		return resultNode_->GetResultSource();
+	}
+	return nullptr;
+}

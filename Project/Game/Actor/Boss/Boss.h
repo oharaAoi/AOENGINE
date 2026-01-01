@@ -10,6 +10,8 @@
 #include "Game/Actor/Boss/BossEvaluationFormula.h"
 #include "Game/Actor/Weapon/Armors.h"
 
+#include "Game/Effects/AttackArmor.h"
+
 enum class BossPhase {
 	First,
 	Second,
@@ -158,6 +160,8 @@ private:
 	// ポインタ  --------------------------------------------------
 	
 	BossBulletManager* pBossBulletManager_ = nullptr;
+
+	std::unique_ptr<AttackArmor> attackArmor_ = nullptr;
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;

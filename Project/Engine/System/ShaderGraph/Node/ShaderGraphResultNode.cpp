@@ -3,7 +3,9 @@
 using namespace AOENGINE;
 
 ShaderGraphResultNode::~ShaderGraphResultNode() {
-	resource_ = nullptr;
+	if (resource_) {
+		resource_->Destroy();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

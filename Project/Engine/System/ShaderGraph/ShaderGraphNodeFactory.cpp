@@ -77,6 +77,8 @@ std::shared_ptr<ShaderGraphResultNode> AOENGINE::ShaderGraphNodeFactory::CreateR
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const json& _json) {
+	std::shared_ptr<ShaderGraphResultNode> result = nullptr;
+
 	std::map<std::string, std::vector<NodeEntry>> tree;
 	for (auto& e : nodeEntries_) {
 		auto slash = e.path.find('/');
@@ -101,6 +103,11 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const
 						createdNode->fromJson(jsonNode);
 						nodeMap[id] = createdNode;
 						isBreak = true;
+
+						if (createdNode->getName() == "ResultNode") {
+							result = std::dynamic_pointer_cast<ShaderGraphResultNode>(createdNode);
+						}
+
 						break;
 					}
 				}
@@ -134,21 +141,11 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const
 		}
 	}
 
-	std::shared_ptr<ShaderGraphResultNode> result = nullptr;
-	for (auto& [id, node] : nodeMap) {
-		if (node->getName() == "ResultNode") {
-			result = std::dynamic_pointer_cast<ShaderGraphResultNode>(node);
-		
-			if (result) {
-				return result;
-			} else {
-				// 型が違っていた場合
-				AOENGINE::Logger::AssertLog("Don`t Find ResultNode");
-			}
-		}
+	if (result == nullptr) {
+		AOENGINE::Logger::AssertLog("Don`t Find ResultNode");
 	}
 
-	return nullptr;
+	return result;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

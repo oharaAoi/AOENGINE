@@ -83,7 +83,7 @@ void AOENGINE::Material::BindCommand(ID3D12GraphicsCommandList* _cmdList, const 
 	} else if (shaderType_ == MaterialShaderType::ShaderGraphRender) {
 		if (this->GetShaderGraph()) {
 			AOENGINE::DxResource* dxResource = this->GetShaderGraph()->GetResource();
-			if (dxResource) {
+			if (dxResource != nullptr) {
 				ID3D12Resource* resource = dxResource->GetResource();
 				if (resource) {
 					_cmdList->SetGraphicsRootDescriptorTable(index, dxResource->GetSRV().handleGPU);

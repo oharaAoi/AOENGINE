@@ -33,6 +33,9 @@ void TestScene::Init() {
 	jet_ = std::make_unique<JetEngine>();
 	jet_->Init();
 
+	attackArmor_ = std::make_unique<AttackArmor>();
+	attackArmor_->Init();
+
 	/*AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
 	object_->SetObject("floor.obj", MaterialType::PBR);*/
 
@@ -40,6 +43,7 @@ void TestScene::Init() {
 	object_->SetObject("floor.obj", MaterialType::PBR);*/
 
 	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
+	AOENGINE::EditorWindows::AddObjectWindow(attackArmor_.get(), "attackArmor");
 	//AOENGINE::EditorWindows::AddObjectWindow(object_, "ground");
 }
 
@@ -48,6 +52,7 @@ void TestScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
 	jet_->Update(0.0f);
+	attackArmor_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

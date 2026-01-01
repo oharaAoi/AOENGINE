@@ -4,6 +4,7 @@
 #include "Engine/Lib/Math/Easing.h"
 
 AttackArmor::~AttackArmor() {
+	shaderGraph_.reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +40,7 @@ void AttackArmor::Parameter::Debug_Gui() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AttackArmor::Init(const Math::Vector3& _pos) {
+void AttackArmor::Init() {
 	parameter_.Load();
 
 	// objectの設定
@@ -47,8 +48,7 @@ void AttackArmor::Init(const Math::Vector3& _pos) {
 	object_->SetObject("sphere.obj");
 
 	transform_ = object_->GetTransform();
-	transform_->SetTranslate(_pos);
-
+	
 	// shaderGraphの設定
 	shaderGraph_ = std::make_unique<AOENGINE::ShaderGraph>();
 	shaderGraph_->Init("armor.json");
@@ -61,12 +61,11 @@ void AttackArmor::Init(const Math::Vector3& _pos) {
 	}
 
 	// parameterの設定
-	isStart_ = true;
+	isFinish_ = false;
+	isStart_ = false;
 	isDisapper_ = false;
 	upScaleTimer_ = AOENGINE::Timer(parameter_.upScaleTargetTime);
 	disapperTimer_ = AOENGINE::Timer(parameter_.disapperTargetTime);
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "AttackArmor");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +85,12 @@ void AttackArmor::Update() {
 		Disapper();
 	}
 }
+
+void AttackArmor::Start(const Math::Vector3& _pos) {
+	isStart_ = true;
+	transform_->SetTranslate(_pos);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 拡大する
@@ -107,5 +112,7 @@ void AttackArmor::Disapper() {
 		for (auto& material : object_->GetMaterials()) {
 			material.second->SetDiscardValue(disapperTimer_.t_);
 		}
+	} else {
+		isFinish_ = true;
 	}
 }

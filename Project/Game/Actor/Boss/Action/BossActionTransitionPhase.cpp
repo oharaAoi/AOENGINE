@@ -3,6 +3,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
+#include "Game/Actor/Boss/State/BossStateDeployArmor.h"
 
 BossActionTransitionPhase::BossActionTransitionPhase() {
 }
@@ -29,10 +30,12 @@ float BossActionTransitionPhase::EvaluateWeight() {
 
 void BossActionTransitionPhase::Debug_Gui() {
 	BaseTaskNode::Debug_Gui();
+	param_.Debug_Gui();
 }
 
 void BossActionTransitionPhase::Parameter::Debug_Gui() {
 	ImGui::DragFloat("chargeTime", &chargeTime, 0.1f);
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +43,7 @@ void BossActionTransitionPhase::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionTransitionPhase::IsFinish() {
-	if (taskTimer_ >= param_.chargeTime) {
+	if (attackArmor_->GetIsFinish()) {
 		return true;
 	}
 	return false;
@@ -73,6 +76,11 @@ void BossActionTransitionPhase::Init() {
 	chargeLine_->SetParent(pTarget_->GetTransform()->GetWorldMatrix());
 	chargeLine_->SetIsStop(false);
 
+	attackArmor_ = std::make_unique<AttackArmor>();
+	attackArmor_->Init();
+	attackArmor_->Update();
+
+	pTarget_->SetIsArmorDeploy(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +89,16 @@ void BossActionTransitionPhase::Init() {
 
 void BossActionTransitionPhase::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
+
+	if (taskTimer_ >= param_.chargeTime) {
+		chargeParticle_->SetIsStop(true);
+		chargeLine_->SetIsStop(true);
+		attackArmor_->Start(pTarget_->GetPosition());
+
+		pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
+	}
+
+	attackArmor_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,4 +106,5 @@ void BossActionTransitionPhase::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionTransitionPhase::End() {
+	pTarget_->SetIsArmorDeploy(false);
 }

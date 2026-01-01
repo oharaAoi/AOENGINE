@@ -24,6 +24,8 @@ public: // コンストラクタ
 
 public:
 
+	void Finalize();
+
 	void Init();
 
 	void Update();

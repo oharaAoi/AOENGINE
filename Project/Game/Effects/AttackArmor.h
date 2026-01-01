@@ -54,13 +54,15 @@ public: // コンストラクタ
 public:
 
 	// 初期化
-	void Init(const Math::Vector3& _pos);
+	void Init();
 
 	// 更新
 	void Update();
 
 	// 編集
 	virtual void Debug_Gui() override;
+
+	void Start(const Math::Vector3& _pos);
 
 private:
 
@@ -75,6 +77,9 @@ public:
 	void SetIsStart(bool _isStart) { isStart_ = _isStart; }
 	bool GetIsStart() const { return isStart_; }
 
+	bool GetIsFinish() const { return isFinish_; }
+	bool GetIsDisapper() const { return isDisapper_; }
+
 private:
 
 	std::unique_ptr<AOENGINE::ShaderGraph> shaderGraph_;
@@ -85,5 +90,7 @@ private:
 
 	bool isStart_ = false;
 	bool isDisapper_ = false;
+
+	bool isFinish_ = false;
 
 };
