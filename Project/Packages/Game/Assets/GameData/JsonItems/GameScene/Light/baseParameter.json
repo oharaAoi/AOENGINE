@@ -14,7 +14,7 @@
         },
         "nearClip": 0.10000000149011612,
         "shadowDepth": 100.0,
-        "shadowHeight": 500.0,
-        "shadowWidth": 500.0
+        "shadowHeight": 550.0,
+        "shadowWidth": 550.0
     }
 }

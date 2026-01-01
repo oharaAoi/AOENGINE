@@ -111,10 +111,6 @@ void SceneRenderer::Draw() const {
 	// particleの描画
 	particleManager_->Draw();
 	gpuParticleManager_->Draw();
-
-#ifdef _DEBUG
-	AOENGINE::Render::GetShadowMap()->Debug_Gui();
-#endif
 }
 
 void SceneRenderer::PostDraw() const {

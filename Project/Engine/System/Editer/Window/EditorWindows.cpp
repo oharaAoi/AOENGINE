@@ -1,6 +1,7 @@
 #include "EditorWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/WinApp/WinApp.h"
+#include "Engine/Render.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/TextureManager.h"
@@ -41,6 +42,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	colliderDraw_ = false;
 	gridDraw_ = false;
 	isSkip_ = false;
+	isFullScreen_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,15 +64,20 @@ void EditorWindows::Update() {
 	ImGui::End();
 
 	// sceneを描画する
-	processedSceneFrame_->DrawScene();
-	shaderGraphEditor_->Update();
-	particleSystemEditor_->Draw();
+	if (isFullScreen_) {
+		processedSceneFrame_->DrawScene();
+	} else {
+		shaderGraphEditor_->Update();
+		particleSystemEditor_->Draw();
+		AOENGINE::Render::GetShadowMap()->Debug_Gui();
+		processedSceneFrame_->DrawScene();
 
-	// 現在選択されているwindowを描画する
-	if (windowUpdate_) {
-		windowUpdate_();
+		// 現在選択されているwindowを描画する
+		if (windowUpdate_) {
+			windowUpdate_();
+		}
+
 	}
-
 
 	ImGui::End();
 
@@ -107,7 +114,10 @@ void EditorWindows::Begin() {
 						MessageBoxA(nullptr, "HotReload", "JsonItems", 0);
 					}
 					ImGui::EndMenu();
-				}
+				} 
+			}
+			if (ImGui::BeginMenu("View")) {
+				ImGui::Checkbox("FullScreen", &isFullScreen_);
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();

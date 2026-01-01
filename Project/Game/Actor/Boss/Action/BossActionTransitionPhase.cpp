@@ -54,7 +54,11 @@ bool BossActionTransitionPhase::IsFinish() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionTransitionPhase::CanExecute() {
-	return true;
+	if (pTarget_->GetPhase() == BossPhase::First) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,4 +111,5 @@ void BossActionTransitionPhase::Update() {
 
 void BossActionTransitionPhase::End() {
 	pTarget_->SetIsArmorDeploy(false);
+	pTarget_->SetPhase(BossPhase::Second);
 }

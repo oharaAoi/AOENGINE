@@ -140,5 +140,6 @@ private:
 	bool colliderDraw_;
 	bool gridDraw_;
 	bool isSkip_;
+	bool isFullScreen_;
 };
 }
