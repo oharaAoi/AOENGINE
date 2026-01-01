@@ -9,7 +9,7 @@ using namespace AI;
 
 BehaviorTree::~BehaviorTree() {
 	nodeList_.clear();
-	canTaskMap_.clear();
+	creators_.clear();
 	editor_.Finalize();
 }
 
@@ -22,7 +22,7 @@ void BehaviorTree::Init() {
 
 	isExecute_ = true;
 
-	root_ = nodeList_.emplace_back(std::make_shared<BehaviorRootNode>()).get();
+	root_ = nodeList_.emplace_back(std::make_unique<BehaviorRootNode>()).get();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +50,8 @@ bool BehaviorTree::Run() {
 	return true;
 }
 
-void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap) {
-	canTaskMap_ = _canTaskMap;
+void BehaviorTree::SetCanTaskMap(const std::unordered_map<std::string, ActionNode>& _creators) {
+	creators_ = _creators;
 }
 
 void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
@@ -94,7 +94,7 @@ void BehaviorTree::Edit() {
 		CreateTree(path_);
 	}
 	ImGui::SameLine();
-	editor_.Edit(name_, nodeList_, links_, root_, blackboard_, canTaskMap_, goalArray_);
+	editor_.Edit(name_, nodeList_, links_, root_, blackboard_, creators_, goalArray_);
 
 	ImGui::Begin("Blackboard");
 	if (blackboard_) {
@@ -128,7 +128,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 
 	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
-	root_ = nodeList_.emplace_back(BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, canTaskMap_, goalArray_)).get();
+	root_ = BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, creators_, goalArray_);
 	editor_.CreateCommets(nodeTree);
 
 	std::string message = nodeName + "を作成しました。";

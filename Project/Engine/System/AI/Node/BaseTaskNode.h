@@ -20,8 +20,6 @@ public: // コンストラクタ
 	BaseTaskNode();
 	virtual ~BaseTaskNode() override = default;
 
-	virtual std::shared_ptr<BaseBehaviorNode> Clone() const override = 0;
-
 public:
 
 	/// <summary>

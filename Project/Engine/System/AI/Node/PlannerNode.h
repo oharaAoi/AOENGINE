@@ -15,16 +15,16 @@ namespace AI {
 /// </summary>
 class PlannerNode :
 	public BaseBehaviorNode {
+public:
+
+	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
+
 public: // コンストラクタ
 
-	PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
+	PlannerNode(const std::unordered_map<std::string, ActionNode>& _creators,
 				Blackboard* _worldState,
 				const std::vector<std::shared_ptr<IOrientedGoal>>& _goals);
 	~PlannerNode() override = default;
-
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
-		return std::make_shared<PlannerNode>(canTask_, pBlackboard_, goalArray_);
-	}
 
 public:
 
@@ -70,7 +70,7 @@ public:
 private:
 
 	BehaviorTree* tree_;
-	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTask_;
+	std::unordered_map<std::string, ActionNode> creators_;
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 	Blackboard* pBlackboard_ = nullptr;
 

@@ -10,17 +10,17 @@ using namespace AI;
 // ↓ コンストラクタ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlannerNode::PlannerNode(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _rootNodeCanTask,
+PlannerNode::PlannerNode(const std::unordered_map<std::string, ActionNode>& _creators,
 						 Blackboard* _worldState,
 						 const std::vector<std::shared_ptr<IOrientedGoal>>& _goals) {
-	canTask_ = _rootNodeCanTask;
+	creators_ = _creators;
 	pBlackboard_ = _worldState;
 	goalArray_ = _goals;
 
 	// 所有する
 	tree_ = BehaviorTreeSystem::GetInstance()->Create();
 	tree_->Init();
-	tree_->SetCanTaskMap(_rootNodeCanTask);
+	tree_->SetCanTaskMap(_creators);
 	tree_->SetBlackboard(pBlackboard_);
 	tree_->SetName("plannerTree");
 

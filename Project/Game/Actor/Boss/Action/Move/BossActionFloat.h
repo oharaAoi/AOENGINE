@@ -44,10 +44,6 @@ public:
 	BossActionFloat() = default;
 	~BossActionFloat() override = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionFloat>(*this);
-	}
-
 public:
 
 	// 実行処理

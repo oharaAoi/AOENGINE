@@ -46,10 +46,6 @@ public:
 	BossActionShotBullet() = default;
 	~BossActionShotBullet() override = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionShotBullet>(*this);
-	}
-
 public:
 
 	// 実行処理

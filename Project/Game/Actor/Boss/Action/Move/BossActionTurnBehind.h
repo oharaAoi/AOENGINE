@@ -46,10 +46,6 @@ public: // コンストラクタ
 	BossActionTurnBehind() = default;
 	~BossActionTurnBehind() = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionTurnBehind>(*this);
-	}
-
 public:
 
 	// 実行処理

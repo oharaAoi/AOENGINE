@@ -49,12 +49,12 @@ public:
 public: // コンストラクタ
 
 	AttackArmor() = default;
-	~AttackArmor();
+	virtual ~AttackArmor();
 
 public:
 
 	// 初期化
-	void Init();
+	void Init(const Math::Vector3& _pos);
 
 	// 更新
 	void Update();
@@ -85,5 +85,5 @@ private:
 
 	bool isStart_ = false;
 	bool isDisapper_ = false;
-};
 
+};

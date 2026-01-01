@@ -5,6 +5,7 @@
 
 AttackArmor::~AttackArmor() {
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,7 +39,7 @@ void AttackArmor::Parameter::Debug_Gui() {
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AttackArmor::Init() {
+void AttackArmor::Init(const Math::Vector3& _pos) {
 	parameter_.Load();
 
 	// objectの設定
@@ -46,6 +47,7 @@ void AttackArmor::Init() {
 	object_->SetObject("sphere.obj");
 
 	transform_ = object_->GetTransform();
+	transform_->SetTranslate(_pos);
 
 	// shaderGraphの設定
 	shaderGraph_ = std::make_unique<AOENGINE::ShaderGraph>();
@@ -59,7 +61,7 @@ void AttackArmor::Init() {
 	}
 
 	// parameterの設定
-	isStart_ = false;
+	isStart_ = true;
 	isDisapper_ = false;
 	upScaleTimer_ = AOENGINE::Timer(parameter_.upScaleTargetTime);
 	disapperTimer_ = AOENGINE::Timer(parameter_.disapperTargetTime);

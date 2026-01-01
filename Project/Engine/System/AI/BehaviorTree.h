@@ -21,6 +21,10 @@ namespace AI {
 /// Objectを制御するためのクラス
 /// </summary>
 class BehaviorTree {
+public:
+
+	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
+
 public: // コンストラクタ
 
 	BehaviorTree() = default;
@@ -41,9 +45,8 @@ public:
 	void EditSelect();
 
 	// タスクの追加
-	void AddCanTask(std::shared_ptr<BaseBehaviorNode> _task) {
-		std::string nodeName = _task->GetNodeName();
-		canTaskMap_[nodeName] = std::move(_task);
+	void Register(const std::string& name, ActionNode creator) {
+		creators_[name] = std::move(creator);
 	}
 
 	/// <summary>
@@ -68,7 +71,7 @@ public:
 	/// 実行できるタスクの設定
 	/// </summary>
 	/// <param name="_canTaskMap"></param>
-	void SetCanTaskMap(const std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap);
+	void SetCanTaskMap(const std::unordered_map<std::string, ActionNode>& _creators);
 
 	/// <summary>
 	/// 目標の設定
@@ -83,11 +86,6 @@ public:
 	void DisplayState(const Math::Matrix4x4& ownerWorldPos);
 
 	BaseBehaviorNode* GetRootNode() const { return root_; }
-
-private:
-
-	// jsonからtreeの作成
-	std::shared_ptr<BaseBehaviorNode> CreateNodeFromJson(const json& _json);
 
 public:
 
@@ -107,11 +105,11 @@ private:
 	// 接続のidをまとめたコンテナ
 	std::vector<Link> links_;
 	// nodeのリスト
-	std::list<std::shared_ptr<BaseBehaviorNode>> nodeList_;
+	std::list<std:: unique_ptr<BaseBehaviorNode>> nodeList_;
 	// 最上位Node
 	BaseBehaviorNode* root_;
 	// 行えるTaskをまとめた物
-	std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>> canTaskMap_;
+	std::unordered_map<std::string, ActionNode> creators_;
 
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 
@@ -129,12 +127,11 @@ private:
 	std::string path_;
 
 };
-
 }
 
 template<typename ActionT, typename Target>
-std::shared_ptr<AI::BaseBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
-	auto result = std::make_shared<ActionT>();
+std::unique_ptr<AI::BaseBehaviorNode> CreateTask(Target* target, const std::string& nodeName) {
+	auto result = std::make_unique<ActionT>();
 	result->SetTarget(target);
 	result->SetNodeName(nodeName);
 	return (result);

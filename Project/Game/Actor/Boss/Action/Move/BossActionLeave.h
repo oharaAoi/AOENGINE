@@ -49,9 +49,7 @@ public:
 	BossActionLeave() = default;
 	~BossActionLeave() = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionLeave>(*this);
-	}
+public:
 
 	// 実行処理
 	BehaviorStatus Execute() override;

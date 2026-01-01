@@ -11,10 +11,6 @@ public: // コンストラクタ
 	PlannerSelectorNode();
 	~PlannerSelectorNode() override = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
-		return std::make_shared<PlannerSelectorNode>(*this);
-	}
-
 public:
 
 	// jsonへ

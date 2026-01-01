@@ -42,9 +42,7 @@ public: // コンストラクタ
 
 	BaseBehaviorNode();
 	virtual ~BaseBehaviorNode() = default;
-	// コピーコンストラクタ
-	virtual std::shared_ptr<BaseBehaviorNode> Clone() const = 0;
-
+	
 public:
 
 	// 初期化処理

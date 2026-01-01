@@ -27,18 +27,18 @@ void BehaviorTreeEditor::Init() {
 	isOpen_ = true;
 }
 
-void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link,
+void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link,
 							  BaseBehaviorNode* _root,  Blackboard* _worldState, 
-							  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+							  const std::unordered_map<std::string, ActionNode>& _creators,
 							  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	if (!context_) return;
 
 	if (isOpen_) {
 		// 保存読み込み
-		SaveAndLoad(_nodeList, _link, _root, _worldState, _canTaskMap, _goalArray);
+		SaveAndLoad(_nodeList, _link, _root, _worldState, _creators, _goalArray);
 
 		// node作成windowの表示
-		CreateNodeWindow(_nodeList, _worldState, _canTaskMap, _goalArray);
+		CreateNodeWindow(_nodeList, _worldState, _creators, _goalArray);
 
 		CreateCommentNode();
 
@@ -159,8 +159,8 @@ ImVec2 AI::BehaviorTreeEditor::GetDragRectSize_Screen(const AI::BehaviorTreeEdit
 // ↓　保存と読み込みをする
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root,
-									 Blackboard* _worldState, std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+void BehaviorTreeEditor::SaveAndLoad(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root,
+									 Blackboard* _worldState, const std::unordered_map<std::string, ActionNode>& _creators,
 									 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	if (ImGui::Button("save")) {
 		std::string path = FileSaveDialogFunc();
@@ -180,7 +180,7 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>
 		if (path != "") {
 			AOENGINE::Logger::Log("[Create][BehaviorTree] : " + path);
 			json nodeTree = BehaviorTreeSerializer::LoadToJson(path);
-			BehaviorTreeNodeFactory::CreateTree(nodeTree, _nodeList, _link, _root, _worldState, _canTaskMap, _goalArray);
+			BehaviorTreeNodeFactory::CreateTree(nodeTree, _nodeList, _link, _root, _worldState, _creators, _goalArray);
 
 			CreateCommets(nodeTree);
 		}
@@ -191,8 +191,8 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::shared_ptr<BaseBehaviorNode>
 // ↓　Node生成のwindowを表示
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, Blackboard* _worldState,
-										  std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+void BehaviorTreeEditor::CreateNodeWindow(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, Blackboard* _worldState,
+										  const std::unordered_map<std::string, ActionNode>& _creators,
 										  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
 	// 毎フレーム呼ばれる更新処理の中で
 	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
@@ -216,7 +216,7 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 		// taskを生成しようとしていたら生成するtaskの名前を選ぶ
 		if (nodeType == (int)NodeType::Task) {
 			std::vector<std::string> typeNames;
-			for (const auto& pair : _canTaskMap) {
+			for (const auto& pair : _creators) {
 				typeNames.push_back(pair.first);
 			}
 
@@ -238,7 +238,7 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 		if (nodeType != (int)NodeType::Root) {
 			if (ImGui::Button("Create Node")) {
 				ImVec2 mousePosInNodeEditor = ax::NodeEditor::ScreenToCanvas(ImGui::GetMousePos());
-				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _canTaskMap, _goalArray, mousePosInNodeEditor);
+				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _creators, _goalArray, mousePosInNodeEditor);
 				popupRequested_ = false;
 			}
 		}
@@ -251,7 +251,7 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::shared_ptr<BaseBehavior
 // ↓ 選択されているNodeのポインタを取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::CheckSelectNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList) {
+void BehaviorTreeEditor::CheckSelectNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList) {
 	// 選択中の編集を表示
 	if (selectNode_ != nullptr) {
 		selectNode_->Debug_Gui();
@@ -272,7 +272,7 @@ void BehaviorTreeEditor::CheckSelectNode(std::list<std::shared_ptr<BaseBehaviorN
 // ↓ Nodeを削除する処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::CheckDeleteNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, BaseBehaviorNode* _root) {
+void BehaviorTreeEditor::CheckDeleteNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, BaseBehaviorNode* _root) {
 	// すべてのnodeの更新を走らせる
 	for (auto it = _nodeList.begin(); it != _nodeList.end();) {
 		if ((*it)->GetIsDelete()) {
@@ -298,7 +298,7 @@ void BehaviorTreeEditor::CheckDeleteNode(std::list<std::shared_ptr<BaseBehaviorN
 // ↓ 接続処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::Connect(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root) {
+void BehaviorTreeEditor::Connect(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root) {
 	// 現在実行中のNodeを探索する
 	BaseBehaviorNode* runningNode = nullptr;
 	for (auto& node : _nodeList) {
@@ -385,7 +385,7 @@ void BehaviorTreeEditor::Connect(std::list<std::shared_ptr<BaseBehaviorNode>>& _
 // ↓ 接続解除処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::UnConnect(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root) {
+void BehaviorTreeEditor::UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root) {
 	if (ax::NodeEditor::BeginDelete()) {
 		ax::NodeEditor::LinkId deletedLinkId;
 		while (ax::NodeEditor::QueryDeletedLink(&deletedLinkId)) {
@@ -443,7 +443,7 @@ void BehaviorTreeEditor::UnConnect(std::list<std::shared_ptr<BaseBehaviorNode>>&
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::DrawNode(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList) {
+void BehaviorTreeEditor::DrawNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList) {
 	for (auto& node : _nodeList) {
 		node->DrawNode();
 	}
@@ -453,7 +453,7 @@ void BehaviorTreeEditor::DrawNode(std::list<std::shared_ptr<BaseBehaviorNode>>& 
 // ↓ ピンを探す
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-BaseBehaviorNode* BehaviorTreeEditor::FindNodeFromPin(std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList, ax::NodeEditor::PinId _pin) {
+BaseBehaviorNode* BehaviorTreeEditor::FindNodeFromPin(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, ax::NodeEditor::PinId _pin) {
 	for (auto& node : _nodeList) {
 		if (node->GetInput().id == _pin || node->GetOutput().id == _pin) {
 			return node.get();

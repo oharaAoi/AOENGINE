@@ -45,10 +45,6 @@ public:
 	BossActionAdjustHeight() = default;
 	~BossActionAdjustHeight() override = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionAdjustHeight>(*this);
-	}
-
 public:
 
 	// 実行処理

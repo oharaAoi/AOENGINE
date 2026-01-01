@@ -1,6 +1,9 @@
 #pragma once
 #include <list>
 #include <memory>
+#include <functional>
+#include <unordered_map>
+#include <string>
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/GoalOriented/IOrientedGoal.h"
 
@@ -10,6 +13,10 @@ namespace AI{
 /// Nodeを作成するクラス
 /// </summary>
 class BehaviorTreeNodeFactory {
+public:
+
+	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
+
 public: // コンストラクタ
 
 	BehaviorTreeNodeFactory() = default;
@@ -28,9 +35,9 @@ public:
 	/// <param name="_goalArray"></param>
 	static void CreateNode(int nodeType,
 						   const std::string& crateTaskName,
-						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
+						   std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 						   Blackboard* _worldState,
-						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+						   const std::unordered_map<std::string, ActionNode>& _creators,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray, const ImVec2& _mousePos);
 
 	/// <summary>
@@ -43,12 +50,11 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	/// <returns></returns>
-	static std::shared_ptr<BaseBehaviorNode> CreateNodeFromJson(const json& _json,
-															 std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
+	static BaseBehaviorNode* CreateNodeFromJson(const json& _json,
+															 std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 															 std::vector<Link>& _link,
 															 Blackboard* _worldState,
-															 std::unordered_map<std::string,
-															 std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+															 const std::unordered_map<std::string, ActionNode>& _creators,
 															 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
 	/// <summary>
@@ -62,12 +68,14 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	static void CreateTree(const json& _json,
-						   std::list<std::shared_ptr<BaseBehaviorNode>>& _nodeList,
+						   std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 						   std::vector<Link>& _link,
 						   BaseBehaviorNode* _root,
 						   Blackboard* _worldState,
-						   std::unordered_map<std::string, std::shared_ptr<BaseBehaviorNode>>& _canTaskMap,
+						   const std::unordered_map<std::string, ActionNode>& _creators,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
+
+	static std::unique_ptr<BaseBehaviorNode> CreateActionNode(const std::unordered_map<std::string, ActionNode>& _creators, const std::string& _name);
 
 };
 

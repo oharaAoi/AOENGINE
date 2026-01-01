@@ -63,8 +63,8 @@ void EditorWindows::Update() {
 
 	// sceneを描画する
 	processedSceneFrame_->DrawScene();
-	particleSystemEditor_->Draw();
 	shaderGraphEditor_->Update();
+	particleSystemEditor_->Draw();
 
 	// 現在選択されているwindowを描画する
 	if (windowUpdate_) {

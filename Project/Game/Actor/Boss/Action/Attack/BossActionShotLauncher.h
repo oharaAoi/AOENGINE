@@ -50,10 +50,6 @@ public:
 	BossActionShotLauncher() = default;
 	~BossActionShotLauncher() override = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionShotLauncher>(*this);
-	}
-
 public:
 
 	// 実行処理

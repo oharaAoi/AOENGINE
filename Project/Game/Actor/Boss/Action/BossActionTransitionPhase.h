@@ -1,8 +1,11 @@
 #pragma once
+#include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+// game
+#include "Game/Effects/AttackArmor.h"
 
 class Boss;
 
@@ -39,10 +42,6 @@ public: // コンストラクタ
 	BossActionTransitionPhase();
 	~BossActionTransitionPhase() override = default;
 
-	std::shared_ptr<AI::BaseBehaviorNode> Clone() const override {
-		return std::make_shared<BossActionTransitionPhase>(*this);
-	}
-
 public:
 
 	// 実行処理
@@ -67,5 +66,7 @@ private:
 	Parameter param_;
 	AOENGINE::GpuParticleEmitter* chargeParticle_;
 	AOENGINE::BaseParticles* chargeLine_;
+
+	std::unique_ptr<AttackArmor> attackArmor_ = nullptr;
 };
 

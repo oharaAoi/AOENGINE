@@ -13,10 +13,6 @@ public: // コンストラクタ
 	SequenceNode();
 	~SequenceNode() override = default;
 
-	std::shared_ptr<BaseBehaviorNode> Clone() const override {
-		return std::make_shared<SequenceNode>(*this);
-	}
-
 public:
 
 	// jsonへ
