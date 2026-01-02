@@ -70,7 +70,11 @@ void PlayerActionQuickBoost::OnStart() {
 		Math::Vector3 right = pOwnerTransform_->GetRotate().MakeRight()* stick_.x;
 		direction_ = right;
 	} else {
-		direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ stick_.x, 0.0f, stick_.y });
+		if (stick_.Length() <= 0.1f) {
+			direction_ = pOwner_->GetTransform()->GetRotate().MakeForward();
+		} else {
+			direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ stick_.x, 0.0f, stick_.y });
+		}
 
 		// ブラーを画面にかける
 		pRadialBlur_->Start(param_.blurStrength, param_.blurTime, false);
