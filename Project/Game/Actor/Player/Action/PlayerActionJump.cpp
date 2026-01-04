@@ -88,7 +88,6 @@ void PlayerActionJump::OnUpdate() {
 	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
 	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +98,9 @@ void PlayerActionJump::OnEnd() {
 	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
 	clip->PoseToAnimation("landing", param_.animationBlendTime);
 	clip->SetIsLoop(false);
+
+	jetBurnLeft_->SetIsStop(false);
+	jetBurnRight_->SetIsStop(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
