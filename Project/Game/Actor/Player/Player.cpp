@@ -57,6 +57,8 @@ void Player::Debug_Gui() {
 void Player::Parameter::Debug_Gui() {
 	ImGui::DragFloat("health", &health, 0.1f);
 	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
+	ImGui::DragFloat("姿勢安定回復時間", &psRecoveryTime, 0.1f);
+	ImGui::DragFloat("姿勢安定回復量", &psRecoveryValue, 0.1f);
 	ImGui::DragFloat("bodyWeight", &bodyWeight, 0.1f);
 	ImGui::DragFloat("energy", &energy, 0.1f);
 	ImGui::DragFloat("energyRecoveyAmount", &energyRecoveyAmount, 0.1f);
@@ -189,6 +191,8 @@ void Player::Init() {
 
 void Player::Update() {
 	transform_->SetOffset(param_.translateOffset);
+	// 姿勢安定回復
+	PostureStabilityRecovery();
 	// boostの判定
 	IsBoostMode();
 	// actionの更新
@@ -406,4 +410,18 @@ void Player::CameraIncline() {
 	smoothedDiffX_ = std::clamp(smoothedDiffX_, -param_.inclineStrength, param_.inclineStrength);
 
 	pFollowCamera_->SetAngleZ(smoothedDiffX_);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 姿勢安定回復
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::PostureStabilityRecovery() {
+	if (param_.postureStability >= 0.0f) {
+		if (psRecoveryTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+			param_.postureStability -= param_.psRecoveryValue * AOENGINE::GameTimer::DeltaTime();
+		} else {
+			psRecoveryTimer_.timer_ = 0.0f;
+		}
+	}
 }

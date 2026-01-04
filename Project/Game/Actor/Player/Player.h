@@ -5,6 +5,7 @@
 #include <Module/Components/Collider/SphereCollider.h>
 #include "Engine/Module/Components/Rigging/EndEffector.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -33,6 +34,8 @@ public:		// data
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float health;				// hp
 		float postureStability;		// 姿勢安定
+		float psRecoveryTime = 3.0f;// 姿勢安定回復時間
+		float psRecoveryValue = 3.0f;// 姿勢安定回復量
 		float bodyWeight = 1.0f;	// 機体の重さ
 
 		float energy = 1.f;	// EN出力
@@ -60,6 +63,8 @@ public:		// data
 			return AOENGINE::JsonBuilder(id)
 				.Add("health", health)
 				.Add("postureStability", postureStability)
+				.Add("psRecoveryTime", psRecoveryTime)
+				.Add("psRecoveryValue", psRecoveryValue)
 				.Add("bodyWeight", bodyWeight)
 				.Add("energy", energy)
 				.Add("energyRecoveyAmount", energyRecoveyAmount)
@@ -78,6 +83,8 @@ public:		// data
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "health", health);
 			Convert::fromJson(jsonData, "postureStability", postureStability);
+			Convert::fromJson(jsonData, "psRecoveryTime", psRecoveryTime);
+			Convert::fromJson(jsonData, "psRecoveryValue", psRecoveryValue);
 			Convert::fromJson(jsonData, "bodyWeight", bodyWeight);
 			Convert::fromJson(jsonData, "energy", energy);
 			Convert::fromJson(jsonData, "energyRecoveyAmount", energyRecoveyAmount);
@@ -177,6 +184,9 @@ private:
 	// カメラの傾きを行う
 	void CameraIncline();
 
+	// 姿勢安定回復
+	void PostureStabilityRecovery();
+
 public: // accessor method
 
 	void SetKnockback(bool knockback) { isKnockback_ = knockback; }
@@ -272,6 +282,8 @@ private:
 	// 姿勢安定ゲージ
 	Parameter param_;
 	Parameter initParam_;
+
+	AOENGINE::Timer psRecoveryTimer_;
 
 	// weapon --------------------------------------------------
 

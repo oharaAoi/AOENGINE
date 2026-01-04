@@ -16,6 +16,8 @@
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
         "postureStability": 300.0,
+        "psRecoveryTime": 5.0,
+        "psRecoveryValue": 15.0,
         "translateOffset": {
             "x": 0.0,
             "y": 2.0,
