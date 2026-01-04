@@ -10,20 +10,16 @@
 #include "Engine/System/Manager/ParticleManager.h"
 
 void PlayerActionJump::Debug_Gui() {
-	ImGui::Text("acceleration: (%.2f, %.2f, %.2f)", acceleration_.x, acceleration_.y, acceleration_.z);
-	ImGui::DragFloat("smallJumpTime", &smallJumpTime_, 0.1f);
-
+	Math::Vector3 vel = pRigidbody_->GetVelocity();
+	ImGui::Text("vel: (%.2f, %.2f, %.2f)", vel.x, vel.y, vel.z);
 	param_.Debug_Gui();
 }
 
 void PlayerActionJump::Parameter::Debug_Gui() {
 	ImGui::DragFloat("jumpForce", &jumpForce, 0.1f);
-	ImGui::DragFloat("chargeTime", &chargeTime, 0.1f);
 	ImGui::DragFloat("finishChargeTime", &finishChargeTime, 0.1f);
 	ImGui::DragFloat("risingForce", &risingForce, 0.1f);
 	ImGui::DragFloat("maxAcceleration", &maxAcceleration, 0.1f);
-	ImGui::DragFloat("accelDecayRate", &accelDecayRate, 0.1f);
-	ImGui::DragFloat("velocityDecayRate", &velocityDecayRate, 0.1f);
 	ImGui::DragFloat("jumpEnergy", &jumpEnergy, 0.1f);
 	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
 	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
@@ -66,12 +62,11 @@ void PlayerActionJump::OnStart() {
 	// ジャンプした分のエネルギーを消費しておく
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
-	acceleration_.y = param_.jumpForce;
-	mainAction_ = std::bind(&PlayerActionJump::Charge, this);
+	pRigidbody_->SetVelocityY(param_.jumpForce);
+	mainAction_ = std::bind(&PlayerActionJump::Jump, this);
 	
 	pOwner_->SetIsLanding(false);
-	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
-
+	
 	pOwner_->GetFollowCamera()->SetShake(param_.cameraShakeTime, param_.cameraShakeStrength);
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
@@ -112,7 +107,6 @@ void PlayerActionJump::OnEnd() {
 
 void PlayerActionJump::CheckNextAction() {
 	if (pOwner_->GetParam().energy <= 0.0f) {
-		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
 		NextAction<PlayerActionIdle>();
 	}
 
@@ -142,15 +136,6 @@ bool PlayerActionJump::IsInput() {
 	return false;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ main action
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerActionJump::SmallJump() {
-	if (actionTimer_ > smallJumpTime_) {
-		mainAction_ = std::bind(&PlayerActionJump::Jump, this);
-	}
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ main action
@@ -160,10 +145,7 @@ void PlayerActionJump::Jump() {
 	jetBurnLeft_->SetIsStop(false);
 	jetBurnRight_->SetIsStop(false);
 
-	pRigidbody_->SetVelocityY(acceleration_.y);
-	acceleration_ *= std::exp(-param_.accelDecayRate);
-
-	if (acceleration_.Length() <= 0.1f) {
+	if (pRigidbody_->GetVelocity().y <= 0.1f) {
 		mainAction_ = std::bind(&PlayerActionJump::Rising, this);
 		pOwner_->SetIsLanding(false);
 	}
@@ -179,12 +161,11 @@ void PlayerActionJump::Rising() {
 		jetBurnLeft_->SetIsStop(false);
 		jetBurnRight_->SetIsStop(false);
 
-		acceleration_.y = param_.risingForce;
 		pOwner_->GetJetEngine()->JetIsStart();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
 		pOwner_->ConsumeEN(param_.jumpEnergy * AOENGINE::GameTimer::DeltaTime());
-		pRigidbody_->SetVelocityY(acceleration_.y);
+		pRigidbody_->SetVelocityY(param_.risingForce);
 
 	} else {
 		jetBurnLeft_->SetIsStop(true);
@@ -192,13 +173,5 @@ void PlayerActionJump::Rising() {
 
 		pOwner_->GetJetEngine()->JetIsStop();
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
-	}
-}
-
-void PlayerActionJump::Charge() {
-	if (actionTimer_ > param_.chargeTime) {
-		mainAction_ = std::bind(&PlayerActionJump::Jump, this);
-		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
-		pOwner_->SetIsLanding(false);
 	}
 }

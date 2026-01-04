@@ -113,10 +113,10 @@ private:
 
 	std::vector<std::shared_ptr<IOrientedGoal>> goalArray_;
 
+	BehaviorTreeEditor editor_;
+
 	// フラグ
 	bool isExecute_ = false;
-
-	BehaviorTreeEditor editor_;
 
 	// ----------------------
 	// ↓ loggerポインタ

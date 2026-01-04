@@ -54,10 +54,21 @@ public:
 			  const std::unordered_map<std::string, ActionNode>& _creators,
 			  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
+	/// <summary>
+	/// Editorで選択されているものを表示
+	/// </summary>
 	void EditSelect();
 
+	/// <summary>
+	/// Editor上でのコメントアウトを作成する
+	/// </summary>
+	/// <param name="_json"></param>
 	void CreateCommets(const json& _json);
 
+	/// <summary>
+	/// コメントアウトをJson化する
+	/// </summary>
+	/// <param name="_json"></param>
 	void CommentsToJson(json& _json);
 
 private:
@@ -65,6 +76,16 @@ private:
 	ImVec2 GetDragRectSize_Screen(const AI::BehaviorTreeEditor::DragRect& drag);
 
 	void CreateCommentNode();
+	
+	/// <summary>
+	/// コメントの更新
+	/// </summary>
+	void CommentFrame();
+
+	/// <summary>
+	/// ドラッグの判定を確認
+	/// </summary>
+	void CheckMouseDrag();
 
 	/// <summary>
 	/// 保存と読み込み

@@ -10,7 +10,6 @@ using namespace AOENGINE;
 
 void Rigidbody::Init() {
 	gravityAccel_ = { 0.0f, kGravity, 0.0f };
-	gravityVelocity_ = CVector3::ZERO;
 	moveForce_ = CVector3::ZERO;
 	velocity_ = CVector3::ZERO;
 	drag_ = 0;
@@ -24,16 +23,14 @@ void Rigidbody::Update() {
 	float dt = AOENGINE::GameTimer::DeltaTime();
 
 	float dragFactor = 1.0f / (1.0f + drag_ * dt);
-	velocity_ *= dragFactor;
-	
+	velocity_.x *= dragFactor;
+	velocity_.z *= dragFactor;
+
 	moveForce_ = CVector3::ZERO;
 	pushbackForce_ = CVector3::ZERO;
 	// 重力の適応
 	if (isGravity_) {
-		gravityVelocity_ += gravityAccel_ * dt;
-		moveForce_ += gravityVelocity_ * dt;
-	} else {
-		gravityVelocity_ = CVector3::ZERO;
+		velocity_ += gravityAccel_ * dt;
 	}
 }
 
@@ -43,7 +40,6 @@ void Rigidbody::Update() {
 
 void Rigidbody::Debug_Gui() {
 	ImGui::DragFloat3("gravityAccele", &gravityAccel_.x);
-	ImGui::DragFloat3("gravityVelocity", &gravityVelocity_.x);
 	ImGui::DragFloat3("moveForce_", &moveForce_.x);
 	ImGui::DragFloat3("velocity", &velocity_.x);
 	ImGui::DragFloat("drag_", &drag_);
@@ -64,7 +60,7 @@ void Rigidbody::SetPushbackForce(const Math::Vector3& _force) {
 
 	if (isGravity_) {
 		if (pushbackForce_.y > 0.0f) {
-			gravityVelocity_.y = 0.0f;
+			velocity_.y = 0.0f;
 		}
 	}
 }

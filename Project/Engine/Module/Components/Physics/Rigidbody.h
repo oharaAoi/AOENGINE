@@ -68,7 +68,6 @@ private:
 	// 重力に関する変数
 	bool isGravity_;
 	Math::Vector3 gravityAccel_;
-	Math::Vector3 gravityVelocity_;
 
 	// 空気抵抗
 	float drag_;

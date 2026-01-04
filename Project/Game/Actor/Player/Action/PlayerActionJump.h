@@ -17,13 +17,10 @@ class PlayerActionJump :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		float chargeTime = 0.5f;
 		float finishChargeTime = 1.0f;
 		float jumpForce = 6.0f;
 		float risingForce = 10.0f;
 		float maxAcceleration = 20.0f;
-		float accelDecayRate = 2.0f;
-		float velocityDecayRate = 2.0f;
 
 		float jumpEnergy = 5.0f;		// 消費エネルギー
 
@@ -36,13 +33,10 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
-				.Add("chargeTime", chargeTime)
 				.Add("finishChargeTime", finishChargeTime)
 				.Add("jumpForce", jumpForce)
 				.Add("risingForce", risingForce)
 				.Add("maxAcceleration", maxAcceleration)
-				.Add("accelDecayRate", accelDecayRate)
-				.Add("velocityDecayRate", velocityDecayRate)
 				.Add("jumpEnergy", jumpEnergy)
 				.Add("cameraShakeTime", cameraShakeTime)
 				.Add("cameraShakeStrength", cameraShakeStrength)
@@ -51,13 +45,10 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			Convert::fromJson(jsonData, "chargeTime", chargeTime);
 			Convert::fromJson(jsonData, "finishChargeTime", finishChargeTime);
 			Convert::fromJson(jsonData, "jumpForce", jumpForce);
 			Convert::fromJson(jsonData, "risingForce", risingForce);
 			Convert::fromJson(jsonData, "maxAcceleration", maxAcceleration);
-			Convert::fromJson(jsonData, "accelDecayRate", accelDecayRate);
-			Convert::fromJson(jsonData, "velocityDecayRate", velocityDecayRate);
 			Convert::fromJson(jsonData, "jumpEnergy", jumpEnergy);
 			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
@@ -92,11 +83,6 @@ public:
 private:	// action
 
 	/// <summary>
-	/// ちゃんとジャンプする前のジャンプ
-	/// </summary>
-	void SmallJump();
-
-	/// <summary>
 	/// main action
 	/// </summary>
 	void Jump();
@@ -106,14 +92,7 @@ private:	// action
 	/// </summary>
 	void Rising();
 
-	/// <summary>
-	/// チャージする
-	/// </summary>
-	void Charge();
-
 private:	// variable
-
-	Math::Vector3 acceleration_ = { 0.0f,kGravity, 0.0f };
 
 	Parameter param_;
 
@@ -121,9 +100,6 @@ private:	// variable
 
 	std::function<void()> mainAction_;
 	
-	// 小ジャンプに関する変数
-	float smallJumpTime_ = 0.2f;
-
 	// particleに関する変数
 	AOENGINE::BaseParticles* jetBurnLeft_;
 	AOENGINE::BaseParticles* jetBurnRight_;

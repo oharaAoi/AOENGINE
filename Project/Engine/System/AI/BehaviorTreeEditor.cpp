@@ -39,49 +39,24 @@ void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::unique_pt
 
 		// node作成windowの表示
 		CreateNodeWindow(_nodeList, _worldState, _creators, _goalArray);
-
+		// コメントNodeを追加
 		CreateCommentNode();
 
-		// --- Middle Mouse (wheel) drag to pan ---
-		ImGuiIO& io = ImGui::GetIO();
-
-		if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
-			io.MouseDown[ImGuiMouseButton_Right] = false;
-		}
-
-		// ▼▼ 2. 中ボタン（ホイール）ドラッグをパンとして扱う ▼▼
-		if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
-			// 中ボタン中は右クリックが押されていることにする（パン発動）
-			io.MouseDown[ImGuiMouseButton_Right] = true;
-		}
-
-		// ▼▼ 3. 中ボタンを離したら偽装右クリックを戻す ▼▼
-		if (!ImGui::IsMouseDown(ImGuiMouseButton_Middle)) {
-			io.MouseDown[ImGuiMouseButton_Right] = false;
-		}
+		// ドラッグの判定を取る
+		CheckMouseDrag();
 
 		// NodeEditorの処理
 		ax::NodeEditor::SetCurrentEditor(context_);
 		ax::NodeEditor::Begin(_name.c_str());
 
-		for (auto it = commentBox_.begin(); it != commentBox_.end();) {
-			if ((*it)->GetIsDelete()) {
-				// 削除を行う
-				it = commentBox_.erase(it);
-			} else {
-				(*it)->Update();
-				it++;
-			}
-		}
+		// コメントの更新・描画
+		CommentFrame();
 
-		for (auto& comment : commentBox_) {
-			comment->Draw();
-		}
-
+		// Nodeの表示
 		DrawNode(_nodeList);
-
+		// 接続処理
 		Connect(_nodeList, _link, _root);
-
+		// 接続解除処理
 		UnConnect(_nodeList, _link, _root);
 
 		ax::NodeEditor::End();
@@ -145,6 +120,44 @@ void AI::BehaviorTreeEditor::CreateCommentNode() {
 	if (AOENGINE::Input::GetInstance()->IsTriggerKey(DIK_C)) {
 		auto& comment = commentBox_.emplace_back(std::make_unique<CommentBox>());
 		comment->Init(canvasMin, canvasMax);
+	}
+}
+
+void AI::BehaviorTreeEditor::CommentFrame() {
+	// コメントNodeの更新
+	for (auto it = commentBox_.begin(); it != commentBox_.end();) {
+		if ((*it)->GetIsDelete()) {
+			// 削除を行う
+			it = commentBox_.erase(it);
+		} else {
+			(*it)->Update();
+			it++;
+		}
+	}
+
+	// コメントNodeの描画
+	for (auto& comment : commentBox_) {
+		comment->Draw();
+	}
+}
+
+void AI::BehaviorTreeEditor::CheckMouseDrag() {
+	// ドラッグの仕方を変更
+	ImGuiIO& io = ImGui::GetIO();
+
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
+		io.MouseDown[ImGuiMouseButton_Right] = false;
+	}
+
+	// 中ボタン（ホイール）ドラッグをパンとして扱う
+	if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
+		// 中ボタン中は右クリックが押されていることにする（パン発動）
+		io.MouseDown[ImGuiMouseButton_Right] = true;
+	}
+
+	// 中ボタンを離したら偽装右クリックを戻す
+	if (!ImGui::IsMouseDown(ImGuiMouseButton_Middle)) {
+		io.MouseDown[ImGuiMouseButton_Right] = false;
 	}
 }
 

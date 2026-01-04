@@ -12,17 +12,11 @@ namespace AI{
 /// <summary>
 /// Nodeを作成するクラス
 /// </summary>
-class BehaviorTreeNodeFactory {
-public:
+
+namespace BehaviorTreeNodeFactory {
 
 	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
 
-public: // コンストラクタ
-
-	BehaviorTreeNodeFactory() = default;
-	~BehaviorTreeNodeFactory() = default;
-
-public:
 
 	/// <summary>
 	/// Nodeを作成する
@@ -33,7 +27,7 @@ public:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	static void CreateNode(int nodeType,
+	void CreateNode(int nodeType,
 						   const std::string& crateTaskName,
 						   std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 						   Blackboard* _worldState,
@@ -50,7 +44,7 @@ public:
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
 	/// <returns></returns>
-	static BaseBehaviorNode* CreateNodeFromJson(const json& _json,
+	BaseBehaviorNode* CreateNodeFromJson(const json& _json,
 															 std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 															 std::vector<Link>& _link,
 															 Blackboard* _worldState,
@@ -67,7 +61,7 @@ public:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	static void CreateTree(const json& _json,
+	void CreateTree(const json& _json,
 						   std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
 						   std::vector<Link>& _link,
 						   BaseBehaviorNode* _root,
@@ -75,7 +69,13 @@ public:
 						   const std::unordered_map<std::string, ActionNode>& _creators,
 						   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
 
-	static std::unique_ptr<BaseBehaviorNode> CreateActionNode(const std::unordered_map<std::string, ActionNode>& _creators, const std::string& _name);
+	/// <summary>
+	/// ActionNodeの作成
+	/// </summary>
+	/// <param name="_creators"></param>
+	/// <param name="_name"></param>
+	/// <returns></returns>
+	std::unique_ptr<BaseBehaviorNode> CreateActionNode(const std::unordered_map<std::string, ActionNode>& _creators, const std::string& _name);
 
 };
 
