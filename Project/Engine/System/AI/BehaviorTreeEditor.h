@@ -73,19 +73,12 @@ public:
 
 private:
 
-	ImVec2 GetDragRectSize_Screen(const AI::BehaviorTreeEditor::DragRect& drag);
-
 	void CreateCommentNode();
 	
 	/// <summary>
 	/// コメントの更新
 	/// </summary>
 	void CommentFrame();
-
-	/// <summary>
-	/// ドラッグの判定を確認
-	/// </summary>
-	void CheckMouseDrag();
 
 	/// <summary>
 	/// 保存と読み込み

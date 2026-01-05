@@ -9,8 +9,8 @@
                             "coolTime": 1.0,
                             "name": "TransitionPhase",
                             "nodePos": {
-                                "x": 850.0,
-                                "y": 982.0
+                                "x": 831.0,
+                                "y": 966.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -21,8 +21,8 @@
                             "coolTime": 1.0,
                             "name": "DeployArmor",
                             "nodePos": {
-                                "x": 1106.0,
-                                "y": 950.0
+                                "x": 1087.0,
+                                "y": 934.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -33,8 +33,8 @@
                     "leftKeyIndex": 5,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 991.0,
-                        "y": 818.0
+                        "x": 972.0,
+                        "y": 802.0
                     },
                     "nodeType": 7,
                     "operatorIndex": 5,
@@ -54,7 +54,7 @@
                             },
                             "name": "TargetEnemy",
                             "nodePos": {
-                                "x": 1487.0,
+                                "x": 1519.0,
                                 "y": 962.0
                             },
                             "nodeType": 5,
@@ -103,28 +103,28 @@
     ],
     "comments": [
         {
-            "id": 1,
+            "id": 100,
             "max": {
-                "x": 772.0,
-                "y": 1122.0
+                "x": 1381.0,
+                "y": 1261.0
             },
             "min": {
-                "x": 304.0,
-                "y": 736.0
+                "x": 819.0,
+                "y": 720.0
             },
             "text": "バリアを張る"
         },
         {
-            "id": 3,
+            "id": 10000,
             "max": {
-                "x": 1936.0,
-                "y": 1168.0
+                "x": 1977.0,
+                "y": 1240.0
             },
             "min": {
-                "x": 1424.0,
-                "y": 720.0
+                "x": 1429.0,
+                "y": 717.0
             },
-            "text": "攻撃 or 回避"
+            "text": "攻撃 か 回避"
         }
     ],
     "name": "Root",

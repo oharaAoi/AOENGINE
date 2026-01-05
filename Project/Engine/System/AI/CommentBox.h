@@ -1,9 +1,10 @@
 #pragma once
+#include "Engine/Lib/Math/MyMath.h"
+
 #include <string>
 #include <vector>
 #include <json.hpp>
 #include <Engine/System/Manager/ImGuiManager.h>
-
 
 class CommentBox {
 public:
@@ -28,6 +29,10 @@ public:
 
 private:
 
+	ImRect ExpandRect(const ImRect& r, float x, float y);
+
+private:
+
 	uint32_t id_;
 	static uint32_t nextId_;
 
@@ -35,6 +40,7 @@ private:
 	ImVec2 max_;
 	ImVec2 size_;
 
+	std::vector<char> commentBuffer_;
 	std::string text_ = "Comment Box Text";
 	ImU32 bgColor_ = IM_COL32(255, 255, 128, 128);
 
@@ -45,5 +51,6 @@ private:
 	bool isDelete_ = false;
 
 	ImVec2 prevPos_;
+	ImVec2 screenPos;
 };
 

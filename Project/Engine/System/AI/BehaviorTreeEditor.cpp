@@ -19,7 +19,10 @@ void BehaviorTreeEditor::Finalize() {
 
 void BehaviorTreeEditor::Init() {
 	// nodeEditorの初期化
-	context_ = ax::NodeEditor::CreateEditor();
+	ax::NodeEditor::Config config;
+	config.NavigateButtonIndex = 2;
+	context_ = ax::NodeEditor::CreateEditor(&config);
+
 	ax::NodeEditor::SetCurrentEditor(context_);
 	auto& style = ax::NodeEditor::GetStyle();
 	style.LinkStrength = 0.0f;
@@ -42,8 +45,17 @@ void BehaviorTreeEditor::Edit(const std::string& _name, std::list<std::unique_pt
 		// コメントNodeを追加
 		CreateCommentNode();
 
-		// ドラッグの判定を取る
-		CheckMouseDrag();
+		// コメントNodeの更新
+		for (auto it = commentBox_.begin(); it != commentBox_.end();) {
+			if ((*it)->GetIsDelete()) {
+				// 削除を行う
+				it = commentBox_.erase(it);
+			} else {
+				(*it)->Update();
+				it++;
+			}
+		}
+
 
 		// NodeEditorの処理
 		ax::NodeEditor::SetCurrentEditor(context_);
@@ -124,48 +136,10 @@ void AI::BehaviorTreeEditor::CreateCommentNode() {
 }
 
 void AI::BehaviorTreeEditor::CommentFrame() {
-	// コメントNodeの更新
-	for (auto it = commentBox_.begin(); it != commentBox_.end();) {
-		if ((*it)->GetIsDelete()) {
-			// 削除を行う
-			it = commentBox_.erase(it);
-		} else {
-			(*it)->Update();
-			it++;
-		}
-	}
-
 	// コメントNodeの描画
 	for (auto& comment : commentBox_) {
 		comment->Draw();
 	}
-}
-
-void AI::BehaviorTreeEditor::CheckMouseDrag() {
-	// ドラッグの仕方を変更
-	ImGuiIO& io = ImGui::GetIO();
-
-	if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
-		io.MouseDown[ImGuiMouseButton_Right] = false;
-	}
-
-	// 中ボタン（ホイール）ドラッグをパンとして扱う
-	if (ImGui::IsMouseDragging(ImGuiMouseButton_Middle)) {
-		// 中ボタン中は右クリックが押されていることにする（パン発動）
-		io.MouseDown[ImGuiMouseButton_Right] = true;
-	}
-
-	// 中ボタンを離したら偽装右クリックを戻す
-	if (!ImGui::IsMouseDown(ImGuiMouseButton_Middle)) {
-		io.MouseDown[ImGuiMouseButton_Right] = false;
-	}
-}
-
-ImVec2 AI::BehaviorTreeEditor::GetDragRectSize_Screen(const AI::BehaviorTreeEditor::DragRect& drag) {
-	return ImVec2(
-		fabsf(drag.currentScreen.x - drag.startScreen.x),
-		fabsf(drag.currentScreen.y - drag.startScreen.y)
-	);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -207,52 +181,53 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::unique_ptr<BaseBehaviorNode>
 void BehaviorTreeEditor::CreateNodeWindow(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, Blackboard* _worldState,
 										  const std::unordered_map<std::string, ActionNode>& _creators,
 										  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+
 	// 毎フレーム呼ばれる更新処理の中で
-	if (ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+	if (ImGui::IsMouseDown(ImGuiMouseButton_Right)) {
 		popupPos_ = ImGui::GetMousePos();
 		popupRequested_ = !popupRequested_;
 	}
 
-	if (!popupRequested_) return;
-
 	static std::string createTaskName = "";
 
 	if (ImGui::BeginPopupContextWindow("NodeContextMenu", ImGuiPopupFlags_MouseButtonRight)) {
-		static std::string name = "node ";
-		if (!InputTextWithString("nodeの名前", "##createNode", name)) {
-			assert("名前が入力できません");
-		}
-
-		static int nodeType = 1;
-		ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition\0Parallel");
-
-		// taskを生成しようとしていたら生成するtaskの名前を選ぶ
-		if (nodeType == (int)NodeType::Task) {
-			std::vector<std::string> typeNames;
-			for (const auto& pair : _creators) {
-				typeNames.push_back(pair.first);
+		if (popupRequested_) {
+			static std::string name = "node ";
+			if (!InputTextWithString("nodeの名前", "##createNode", name)) {
+				assert("名前が入力できません");
 			}
 
-			static int selectedIndex = 0;
-			int changedIndex = ContainerOfComb(typeNames, selectedIndex, "Task Type");
+			static int nodeType = 1;
+			ImGui::Combo("##type", &nodeType, "Root\0Sequence\0Selector\0WeightSelector\0Task\0Planner\0PlannerSelector\0Condition\0Parallel");
 
-			if (changedIndex != -1) {
-				createTaskName = typeNames[changedIndex];
-			}
+			// taskを生成しようとしていたら生成するtaskの名前を選ぶ
+			if (nodeType == (int)NodeType::Task) {
+				std::vector<std::string> typeNames;
+				for (const auto& pair : _creators) {
+					typeNames.push_back(pair.first);
+				}
 
-			// nameが空だったら
-			if (createTaskName == "") {
-				if (!typeNames.empty()) {
-					createTaskName = typeNames[0];
+				static int selectedIndex = 0;
+				int changedIndex = ContainerOfComb(typeNames, selectedIndex, "Task Type");
+
+				if (changedIndex != -1) {
+					createTaskName = typeNames[changedIndex];
+				}
+
+				// nameが空だったら
+				if (createTaskName == "") {
+					if (!typeNames.empty()) {
+						createTaskName = typeNames[0];
+					}
 				}
 			}
-		}
 
-		if (nodeType != (int)NodeType::Root) {
-			if (ImGui::Button("Create Node")) {
-				ImVec2 mousePosInNodeEditor = ax::NodeEditor::ScreenToCanvas(ImGui::GetMousePos());
-				BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _creators, _goalArray, mousePosInNodeEditor);
-				popupRequested_ = false;
+			if (nodeType != (int)NodeType::Root) {
+				if (ImGui::Button("Create Node")) {
+					ImVec2 mousePosInNodeEditor = ax::NodeEditor::ScreenToCanvas(ImGui::GetMousePos());
+					BehaviorTreeNodeFactory::CreateNode(nodeType, createTaskName, _nodeList, _worldState, _creators, _goalArray, mousePosInNodeEditor);
+					popupRequested_ = false;
+				}
 			}
 		}
 		ImGui::EndPopup();
@@ -265,11 +240,6 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::unique_ptr<BaseBehavior
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTreeEditor::CheckSelectNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList) {
-	// 選択中の編集を表示
-	if (selectNode_ != nullptr) {
-		selectNode_->Debug_Gui();
-	}
-
 	// 選択中のnodeのIdを取得
 	for (auto& node : _nodeList) {
 		if (node->IsSelectNode()) {

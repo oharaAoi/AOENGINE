@@ -1,8 +1,10 @@
 #include "CommentBox.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Input/Input.h"
+#include <cstring>
 
-uint32_t CommentBox::nextId_ = 1;
+uint32_t CommentBox::nextId_ = 10000;
+constexpr size_t kCommentCapacity = 512;
 
 void CommentBox::Init(const ImVec2& _min, const ImVec2& _max, const std::string& _text) {
 	id_ = nextId_;
@@ -13,21 +15,26 @@ void CommentBox::Init(const ImVec2& _min, const ImVec2& _max, const std::string&
 	size_ = max_ - min_;
 
 	text_ = _text;
+	
+	constexpr size_t kCommentCapacity = 512;
+
+	commentBuffer_.assign(kCommentCapacity, '\0');
+	std::strncpy(commentBuffer_.data(),
+				 text_.c_str(),
+				 commentBuffer_.size() - 1);
 
 	ax::NodeEditor::SetNodePosition(id_, min_);
 }
 
 void CommentBox::Update() {
 	if (isSelect_) {
-		if (AOENGINE::Input::GetInstance()->GetKey(DIK_DELETE)) {
+		if (AOENGINE::Input::GetInstance()->IsTriggerKey(DIK_DELETE)) {
 			isDelete_ = true;
 		}
 	}
 }
 
 void CommentBox::Draw() {
-	using namespace ax::NodeEditor;
-
 	constexpr float alpha = 0.75f;
 
 	isSelect_ = ax::NodeEditor::IsNodeSelected(id_);
@@ -36,38 +43,62 @@ void CommentBox::Draw() {
 	// ノード本体（当たり判定）
 	// -----------------------------
 	ImGui::PushStyleVar(ImGuiStyleVar_Alpha, alpha);
-	PushStyleColor(StyleColor_NodeBg, ImColor(60, 60, 60, 100));
-	PushStyleColor(StyleColor_NodeBorder, ImColor(120, 120, 120, 120));
+	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_NodeBg, ImColor(60, 60, 60, 100));
+	ax::NodeEditor::PushStyleColor(ax::NodeEditor::StyleColor_NodeBorder, ImColor(120, 120, 120, 120));
 
-	BeginNode(id_);
+	ax::NodeEditor::BeginNode(id_);
 
+	std::string guiId = "##comment" + std::to_string(id_);
+	InputTextWithString("input", guiId.c_str(), text_);
+	ax::NodeEditor::Group(size_);
 
-	{
+	ax::NodeEditor::EndNode();
+
+	if (ax::NodeEditor::BeginGroupHint(id_)) {
+		auto bgAlpha = static_cast<int>(ImGui::GetStyle().Alpha * 255);
+
+		auto min = ax::NodeEditor::GetGroupMin();
+		
+		ImGui::SetCursorScreenPos(min - ImVec2(-8, ImGui::GetTextLineHeightWithSpacing() + 4));
 		ImGui::BeginGroup();
-
-		float textWidth = ImGui::CalcTextSize(text_.c_str()).x;
-		float avail = ImGui::GetContentRegionAvail().x;
-
-		if (avail > textWidth)
-			ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (avail - textWidth) * 0.5f);
-
-		std::string guiId = "##comment" + std::to_string(id_);
-		InputTextWithString(" ", guiId.c_str(), text_);
+		ImGui::TextUnformatted(text_.c_str());
 		ImGui::EndGroup();
+
+		auto drawList = ax::NodeEditor::GetHintBackgroundDrawList();
+
+		ImRect hintBounds(
+			ImGui::GetItemRectMin(),
+			ImGui::GetItemRectMax()
+		);
+
+		ImRect hintFrameBounds(
+			hintBounds.Min - ImVec2(8, 4),
+			hintBounds.Max + ImVec2(8, 4)
+		);
+
+		drawList->AddRectFilled(
+			hintFrameBounds.Min,
+			hintFrameBounds.Max,
+			IM_COL32(255, 255, 255, 64 * bgAlpha / 255),
+			4.0f
+		);
+
+		drawList->AddRect(
+			hintFrameBounds.Min,
+			hintFrameBounds.Max,
+			IM_COL32(255, 255, 255, 128 * bgAlpha / 255),
+			4.0f
+		);
 	}
-
-
-	Group(size_);
-
-	EndNode();
-
-	PopStyleColor(2);
+	ax::NodeEditor::EndGroupHint();
+	
+	ax::NodeEditor::PopStyleColor(2);
 	ImGui::PopStyleVar();
 
-	ImVec2 newSize = GetNodeSize(id_);
+	ImVec2 newSize = ax::NodeEditor::GetNodeSize(id_);
 	if (newSize.x != size_.x || newSize.y != size_.y) {
 		size_ = newSize;
-		min_ = GetNodePosition(id_);
+		min_ = ax::NodeEditor::GetNodePosition(id_);
 		max_ = min_ + size_;
 	}
 }
@@ -88,4 +119,17 @@ void CommentBox::FromJson(const nlohmann::json& _json) {
 	text_ = _json["text"];
 	size_ = max_ - min_;
 	ax::NodeEditor::SetNodePosition(id_, min_);
+
+	commentBuffer_.assign(kCommentCapacity, '\0');
+	std::strncpy(commentBuffer_.data(),
+				 text_.c_str(),
+				 commentBuffer_.size() - 1);
+
+}
+
+ImRect CommentBox::ExpandRect(const ImRect& r, float x, float y) {
+	return ImRect(
+		ImVec2(r.Min.x - x, r.Min.y - y),
+		ImVec2(r.Max.x + x, r.Max.y + y)
+	);
 }

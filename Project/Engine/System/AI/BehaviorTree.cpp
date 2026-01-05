@@ -60,16 +60,19 @@ void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
 }
 
 void BehaviorTree::DisplayState(const Math::Matrix4x4& ownerWorldPos) {
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
-		| ImGuiWindowFlags_AlwaysAutoResize
-		| ImGuiWindowFlags_NoScrollbar
-		| ImGuiWindowFlags_NoCollapse
-		| ImGuiWindowFlags_NoDocking
-		| ImGuiWindowFlags_NoBackground;
-	Math::Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
-	ImGui::SetNextWindowPos(ImVec2(screenPos.x, screenPos.y), ImGuiCond_Always);
-	if (ImGui::Begin("TreeRunName", nullptr, flags)) {
-		ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());
+	if (ImGui::Begin("Game Window", nullptr)) {
+		ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
+			| ImGuiWindowFlags_AlwaysAutoResize
+			| ImGuiWindowFlags_NoScrollbar
+			| ImGuiWindowFlags_NoCollapse
+			| ImGuiWindowFlags_NoDocking
+			| ImGuiWindowFlags_NoBackground;
+		Math::Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
+		ImGui::SetNextWindowPos(ImVec2(screenPos.x, screenPos.y), ImGuiCond_Always);
+		if (ImGui::Begin("TreeRunName", nullptr, flags)) {
+			ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());
+		}
+		ImGui::End();
 	}
 	ImGui::End();
 }

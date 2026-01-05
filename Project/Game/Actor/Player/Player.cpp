@@ -319,6 +319,7 @@ void Player::ConsumeEN(float cousumeAmount) {
 
 void Player::Damage(float _damage) {
 	// hpを減らす
+	psRecoveryTimer_.timer_ = 0.0f;
 	param_.health -= _damage;
 	if (param_.health <= 0.f) {
 		isDead_ = true;
