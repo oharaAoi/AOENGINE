@@ -192,7 +192,6 @@
                     "radius": 4.179999828338623,
                     "tag": "boss",
                     "collisionFilter_tags": [
-                        "player",
                         "machinegun",
                         "launcher",
                         "ground",

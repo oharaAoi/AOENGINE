@@ -1182,7 +1182,7 @@
     <ClInclude Include="Game\UI\Guide\GameModeGuide.h">
       <Filter>Game\UI\Guide</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\Guide\TutorialBehavior.h">
+    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h">
       <Filter>Game\UI\Guide</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h">
@@ -1261,6 +1261,8 @@
     <ClInclude Include="Engine\System\AI\CommentBox.h" />
     <ClInclude Include="Game\Effects\AttackArmor.h" />
     <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h" />
+    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
+    <ClInclude Include="Game\UI\Guide\GameMenuUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2094,7 +2096,7 @@
     <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp">
       <Filter>Game\UI\Guide</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp">
+    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp">
       <Filter>Game\UI\Guide</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp">
@@ -2176,6 +2178,8 @@
     <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
     <ClCompile Include="Game\Effects\AttackArmor.cpp" />
     <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp" />
+    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
+    <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

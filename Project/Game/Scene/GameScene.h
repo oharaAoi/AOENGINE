@@ -16,8 +16,12 @@
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
 
+class IGameSceneBehavior;
+
 class GameScene 
 	: public BaseScene {
+	friend class GamePlayBehavior;
+	friend class GameMenuBehavior;
 public:
 
 	GameScene();
@@ -27,6 +31,12 @@ public:
 	void Init() override;
 	void Update() override;
 	void PostUpdate() override;
+
+private:
+
+	void ChangeBehavior(IGameSceneBehavior* _newBehavior);
+
+	void CharactorUpdate();
 	
 private:
 
@@ -48,6 +58,10 @@ private:
 	std::unique_ptr<CanvasUI> canvas_;
 	std::unique_ptr<FadePanel> fadePanel_;
 
+	// ------------------- particle ------------------- //
 	AOENGINE::GpuParticleEmitter* emitter_;
 	AOENGINE::GpuParticleField* field_;
+
+	// ------------------- behavior ------------------- //
+	std::unique_ptr<IGameSceneBehavior> gameSceneBehavior_;
 };

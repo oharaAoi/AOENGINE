@@ -3,6 +3,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Game/Scene/SceneBehavior/GameSceneBehavior.h"
 
 GameScene::GameScene() {}
 GameScene::~GameScene() { Finalize(); }
@@ -77,6 +78,8 @@ void GameScene::Init() {
 	fadePanel_ = std::make_unique<FadePanel>();
 	fadePanel_->Init();
 
+	ChangeBehavior(new GamePlayBehavior(this));
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -101,13 +104,7 @@ void GameScene::Init() {
 
 void GameScene::Update() {
 
-	// -------------------------------------------------
-	// ↓ actorの更新
-	// -------------------------------------------------
-	
-	playerManager_->Update();
-
-	bossRoot_->Update();
+	gameSceneBehavior_->Update();
 
 	// -------------------------------------------------
 	// ↓ spriteの更新
@@ -149,4 +146,17 @@ void GameScene::Update() {
 void GameScene::PostUpdate() {
 	gameCallBacksManager_->Update();
 	playerManager_->PostUpdate();
+}
+
+void GameScene::ChangeBehavior(IGameSceneBehavior* _newBehavior) {
+	gameSceneBehavior_.reset(_newBehavior);
+	if (gameSceneBehavior_) {
+		gameSceneBehavior_->Init();
+	}
+}
+
+void GameScene::CharactorUpdate() {
+	playerManager_->Update();
+
+	bossRoot_->Update();
 }

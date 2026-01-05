@@ -347,6 +347,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
     <ClInclude Include="Game\Actor\Base\BaseAction.h" />
     <ClInclude Include="Game\Actor\Base\BaseBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h" />
@@ -452,8 +453,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\CanvasUI.h" />
     <ClInclude Include="Game\UI\ClearNotificationUI.h" />
     <ClInclude Include="Game\UI\FadePanel.h" />
+    <ClInclude Include="Game\UI\Guide\GameMenuUI.h" />
     <ClInclude Include="Game\UI\Guide\GameModeGuide.h" />
-    <ClInclude Include="Game\UI\Guide\TutorialBehavior.h" />
+    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h" />
     <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
     <ClInclude Include="Game\UI\Health.h" />
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
@@ -687,6 +689,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
+    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseAction.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp" />
@@ -787,8 +790,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\CanvasUI.cpp" />
     <ClCompile Include="Game\UI\ClearNotificationUI.cpp" />
     <ClCompile Include="Game\UI\FadePanel.cpp" />
+    <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp" />
     <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp" />
-    <ClCompile Include="Game\UI\Guide\TutorialBehavior.cpp" />
+    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp" />
     <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
     <ClCompile Include="Game\UI\Health.cpp" />
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />

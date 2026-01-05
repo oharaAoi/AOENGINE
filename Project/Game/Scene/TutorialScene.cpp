@@ -3,7 +3,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include "Game/Information/ColliderCategory.h"
-#include "Game/UI/Guide/TutorialBehavior.h"
+#include "Game/Scene/SceneBehavior/TutorialBehavior.h"
 
 TutorialScene::TutorialScene() {}
 TutorialScene::~TutorialScene() { Finalize(); }
