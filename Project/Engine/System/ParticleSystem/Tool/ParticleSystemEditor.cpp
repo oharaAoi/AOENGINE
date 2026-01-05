@@ -474,6 +474,14 @@ void ParticleSystemEditor::InspectorWindow() {
 	ImGui::End();
 }
 
+void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
+
+}
+
+void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
+	Draw();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Saveを行う
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -589,7 +597,7 @@ void ParticleSystemEditor::PreDraw() {
 				 ImGuiWindowFlags_NoBackground);
 
 	if (ImGui::IsWindowFocused()) {
-		AOENGINE::EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
+		EditorWindows::GetInstance()->SetSelectWindow(this);
 	}
 
 	// Grid線描画

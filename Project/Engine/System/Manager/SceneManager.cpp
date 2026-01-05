@@ -36,16 +36,15 @@ void SceneManager::Update() {
 		SetChange(scene_->GetNextSceneType().value());
 		scene_->SetNextSceneType(std::nullopt);
 	}
-
-	if (reset_) {
-		reset_ = false;
-
-		AOENGINE::EditorWindows::GetInstance()->Reset();
-
+	
+	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
 		ResetManager();
+		AOENGINE::EditorWindows::GetInstance()->Reset();
 
 		systemManager_->Init();
 		scene_->Init();
+
+		reset_ = false;
 	}
 
 	scene_->UpdateProcess();
@@ -108,28 +107,8 @@ void SceneManager::SetChange(const SceneType& type) {
 
 	systemManager_->Init();
 	scene_->Init();
-}
 
-void SceneManager::Free() {
-	AOENGINE::EditorWindows::GetInstance()->Reset();
-	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();
-	AOENGINE::GpuParticleManager* gpuManager = AOENGINE::GpuParticleManager::GetInstance();
-
-	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
-	window = {};
-
-	gpuManager->Finalize();
-	cpuManager->Finalize();
-	scene_->Finalize();
-	systemManager_->Init();
-	reset_ = true;
-}
-
-bool SceneManager::CheckReset() {
-	if (AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
-		return true;
-	}
-	return false;
+	reset_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,6 +126,9 @@ void AOENGINE::SceneManager::ResetManager() {
 	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
 	AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
 
-	auto& window = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
-	window = {};
+	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();
+	AOENGINE::GpuParticleManager* gpuManager = AOENGINE::GpuParticleManager::GetInstance();
+
+	gpuManager->Finalize();
+	cpuManager->Finalize();
 }

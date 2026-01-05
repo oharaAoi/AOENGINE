@@ -161,6 +161,7 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 		auto object = std::make_unique<BaseGameObject>();
 		object->Init();
 		object->SetName(data.name);
+
 		if (data.modelName != "") {
 			object->SetObject(data.modelName);
 		}
@@ -213,10 +214,10 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 		object->SetIsRendering(data.isRendering_);
 
 		if (data.material.shader == "NORMAL") {
-			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false, std::move(object));
+			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false, data.name, std::move(object));
 			objectList_.push_back(std::move(pair));
 		} else if (data.material.shader == "PBR") {
-			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_PBR.json", 0, false, std::move(object));
+			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_PBR.json", 0, false, data.name, std::move(object));
 			objectList_.push_back(std::move(pair));
 		}
 	}

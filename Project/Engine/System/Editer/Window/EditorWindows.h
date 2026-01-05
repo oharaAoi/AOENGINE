@@ -6,6 +6,7 @@
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/Attribute/IEditorWindow.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
@@ -34,16 +35,6 @@ public:
 	void Finalize();
 
 	static void AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label);
-
-	template<typename Ptr, typename Func>
-	void SetFocusedInspector(Ptr ptr, Func&& func) {
-		auto ptrHandle = ptr;
-
-		auto& update = GetWindowUpdate();
-		update = [ptrHandle, f = std::forward<Func>(func)]() mutable {
-			f();   // ★ ptrHandle を渡さない
-			};
-	}
 
 #ifdef _DEBUG
 
@@ -105,8 +96,7 @@ public:
 
 	void SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
 	void SetCanvas2d(AOENGINE::Canvas2d* _canvas) { canvas2d_ = _canvas; }
-
-	std::function<void()>& GetWindowUpdate() { return windowUpdate_; }
+	void SetSelectWindow(IEditorWindow* _ptr) { pSelectWindow_ = _ptr; };
 
 private:
 
@@ -133,7 +123,7 @@ private:
 	AOENGINE::SceneRenderer* sceneRenderer_;
 	AOENGINE::Canvas2d* canvas2d_;
 
-	std::function<void()> windowUpdate_;
+	AOENGINE::IEditorWindow* pSelectWindow_;
 
 	// editorで使用するフラグ
 	bool sceneReset_;

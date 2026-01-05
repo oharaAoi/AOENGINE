@@ -32,12 +32,6 @@ void GameCore::Init() {
 
 void GameCore::Update() {
 	profiler_.Start();
-	// リセットフラグが立っているのであればこのframe中は何もしない
-	if (sceneManger_->CheckReset()) {
-		isReset_ = true;
-		return;
-	}
-
 	// sceneの更新
 	sceneManger_->Update();
 #ifdef _DEBUG
@@ -81,13 +75,6 @@ void GameCore::EndFrame() {
 #endif
 
 	Engine::EndFrame();
-
-	// sceneのリセットする場合は解放処理を行う
-	if (isReset_) {
-		sceneManger_->Free();
-		isReset_ = false;
-		return;
-	}
 	// fpsの計算
 	gameTimer_.CalculationFrame();
 }

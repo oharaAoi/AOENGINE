@@ -3,6 +3,7 @@
 #include <memory>
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/Module/Components/Attribute/IEditorWindow.h"
 // particle
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Render/GpuParticleRenderer.h"
@@ -16,7 +17,8 @@ namespace AOENGINE {
 /// <summary>
 /// Particleを編集するEditor
 /// </summary>
-class ParticleSystemEditor final {
+class ParticleSystemEditor :
+	public IEditorWindow {
 public:
 
 	struct ParticlesData {
@@ -34,7 +36,7 @@ public:
 public:
 
 	ParticleSystemEditor() = default;
-	~ParticleSystemEditor() = default;
+	~ParticleSystemEditor() override = default;
 
 public:
 
@@ -61,6 +63,12 @@ public:
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
+	void InspectorWindow() override;
+
+	void HierarchyWindow() override;
+
+	void ExecutionWindow() override;
 
 private:		// member method
 
@@ -94,11 +102,6 @@ private:		// member method
 	/// ファイルを新たに読み込む
 	/// </summary>
 	json Load(const std::string& filePath);
-
-	/// <summary>
-	/// 編集する
-	/// </summary>
-	void InspectorWindow();
 
 	/// <summary>
 	/// SaveDialogを開く

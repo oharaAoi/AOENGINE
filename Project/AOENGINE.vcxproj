@@ -23,6 +23,7 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
+    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -165,6 +166,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
+    <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
@@ -519,6 +521,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
     <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />

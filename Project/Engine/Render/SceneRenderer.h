@@ -38,11 +38,12 @@ public:	// 構造体データ
 	struct ObjectPair : IObjectPair {
 		std::unique_ptr<T> object;
 		std::string renderingType;
+		std::string objectName;
 		int renderQueue = 0;
 		bool isPostDraw = false;
 
-		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw, std::unique_ptr<T> _obj)
-			: renderingType(_type), renderQueue(_renderQueue), isPostDraw(_isPostDraw), object(std::move(_obj)) {
+		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw, const std::string& _objName, std::unique_ptr<T> _obj)
+			: renderingType(_type), renderQueue(_renderQueue), isPostDraw(_isPostDraw), objectName(_objName), object(std::move(_obj)){
 		}
 
 		T* GetSceneObject() override { return object.get(); }
@@ -111,6 +112,7 @@ public:
 			renderingName,
 			renderQueue,
 			isPostDraw,
+			objectName,
 			std::make_unique<T>(std::forward<Args>(args)...)
 		);
 		T* gameObject = static_cast<T*>(pair->object.get());

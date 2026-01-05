@@ -27,13 +27,7 @@ void BehaviorTreeSystem::Update() {
 		if (ImGui::Begin(tree->GetName().c_str(), nullptr, ImGuiWindowFlags_None)) {
 			// treeの表示
 			tree->Edit();
-			// inspectorの表示
-			auto t = tree.get();
-			auto& fuc = AOENGINE::EditorWindows::GetInstance()->GetWindowUpdate();
-
-			fuc = [t]() {
-				t->EditSelect();
-				};
+			tree->EditSelect();
 		}
 		ImGui::End();
 	}

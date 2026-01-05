@@ -31,21 +31,13 @@ void ShaderGraphEditor::Init() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ShaderGraphEditor::Update() {
-	Edit();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ShaderGraphEditor::Edit() {
 	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
-			AOENGINE::EditorWindows::GetInstance()->SetFocusedInspector(this, [this]() { InspectorWindow(); });
+			EditorWindows::GetInstance()->SetSelectWindow(this);;
 		}
 
 		if (graphPath_ != "") {
@@ -109,6 +101,14 @@ void ShaderGraphEditor::InspectorWindow() {
 			node.second.get()->updateGui();
 		}
 	}
+}
+
+void AOENGINE::ShaderGraphEditor::HierarchyWindow() {
+
+}
+
+void AOENGINE::ShaderGraphEditor::ExecutionWindow() {
+	Edit();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

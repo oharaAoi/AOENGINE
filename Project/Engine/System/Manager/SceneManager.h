@@ -35,10 +35,6 @@ public:
 
 	void Reset();
 
-	void Free();
-
-	bool CheckReset();
-
 private:
 
 	void ResetManager();

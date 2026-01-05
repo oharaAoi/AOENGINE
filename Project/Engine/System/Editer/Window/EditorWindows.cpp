@@ -36,7 +36,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	shaderGraphEditor_ = std::make_unique<ShaderGraphEditor>();
 	shaderGraphEditor_->Init();
 
-	windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
+	pSelectWindow_ = gameObjectWindow_.get();
 
 	sceneReset_ = false;
 	colliderDraw_ = false;
@@ -50,6 +50,10 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::Update() {
+	gameObjectWindow_->SetCanvas2d(canvas2d_);
+	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
+	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
+
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
 		| ImGuiWindowFlags_AlwaysAutoResize
 		| ImGuiWindowFlags_NoScrollbar
@@ -67,21 +71,13 @@ void EditorWindows::Update() {
 	if (isFullScreen_) {
 		processedSceneFrame_->DrawScene();
 	} else {
-		shaderGraphEditor_->Update();
-		particleSystemEditor_->Draw();
-		AOENGINE::Render::GetShadowMap()->Debug_Gui();
-		processedSceneFrame_->DrawScene();
+		shaderGraphEditor_->ExecutionWindow();
+		particleSystemEditor_->ExecutionWindow();
+		gameObjectWindow_->ExecutionWindow();
 
-		// 現在選択されているwindowを描画する
-		if (windowUpdate_) {
-			windowUpdate_();
-		}
-
+		pSelectWindow_->HierarchyWindow();
+		pSelectWindow_->InspectorWindow();
 	}
-
-	ImGui::End();
-
-	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,13 +130,6 @@ void EditorWindows::Begin() {
 
 	// 一番上のbegineの分
 	ImGui::End();
-
-	if (ImGui::Begin("Game Window", nullptr)) {
-		if (ImGui::IsWindowFocused()) {
-			windowUpdate_ = std::bind(&EditorWindows::GameWindow, this);
-		}
-
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +148,6 @@ void EditorWindows::GameWindow() {
 	gameObjectWindow_->HierarchyWindow();
 	gameObjectWindow_->InspectorWindow();
 	if (ManipulateTool::isActive_) {
-
 		if (ManipulateTool::is3dManipulate_) {
 			if (sceneRenderer_ != nullptr) {
 				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
@@ -273,6 +261,7 @@ bool EditorWindows::PushStyleColor(bool _flag, const Math::Vector4& color) {
 
 	return isChangeColor;
 }
+
 void EditorWindows::PopStyleColor(bool _flag) {
 	if (_flag) {
 		ImGui::PopStyleColor(1);

@@ -5,17 +5,19 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/ShaderGraph/ShaderGraphNodeFactory.h"
 #include "Engine/System/ShaderGraph/Node/ShaderGraphResultNode.h"
+#include "Engine/Module/Components/Attribute/IEditorWindow.h"
 
 namespace AOENGINE {
 
 /// <summary>
 /// ShaderGraphを編集するクラス
 /// </summary>
-class ShaderGraphEditor {
+class ShaderGraphEditor :
+	public IEditorWindow {
 public:	// コンストラクタ
 
 	ShaderGraphEditor();
-	~ShaderGraphEditor();
+	~ShaderGraphEditor() override;
 
 public:
 
@@ -24,12 +26,11 @@ public:
 	/// </summary>
 	void Init();
 
-	/// <summary>
-	/// 更新
-	/// </summary>
-	void Update();
+	void InspectorWindow() override;
 
-	void InspectorWindow();
+	void HierarchyWindow() override;
+
+	void ExecutionWindow() override;
 
 private:
 

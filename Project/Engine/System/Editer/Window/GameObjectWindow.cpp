@@ -134,3 +134,26 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 
 	ImGui::End();
 }
+
+void AOENGINE::GameObjectWindow::ExecutionWindow() {
+	if (ImGui::Begin("Game Window", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			EditorWindows::GetInstance()->SetSelectWindow(this);
+		}
+
+		processedSceneFrame_->DrawScene();
+
+		if (ManipulateTool::isActive_) {
+			if (ManipulateTool::is3dManipulate_) {
+				if (sceneRenderer_ != nullptr) {
+					sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+				}
+			} else {
+				if (canvas2d_ != nullptr) {
+					canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+				}
+			}
+		}
+	}
+	ImGui::End();
+}
