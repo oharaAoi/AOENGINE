@@ -1,0 +1,8 @@
+{
+    "BossActionAdjustHeight": {
+        "finishDistance": 2.0,
+        "finishTime": 2.0,
+        "maxSpeed": 2.0,
+        "smoothTime": 0.10000000149011612
+    }
+}

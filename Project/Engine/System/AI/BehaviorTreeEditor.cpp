@@ -191,7 +191,6 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::unique_ptr<BaseBehavior
 	static std::string createTaskName = "";
 
 	if (ImGui::BeginPopupContextWindow("NodeContextMenu", ImGuiPopupFlags_MouseButtonRight)) {
-		if (popupRequested_) {
 			static std::string name = "node ";
 			if (!InputTextWithString("nodeの名前", "##createNode", name)) {
 				assert("名前が入力できません");
@@ -229,7 +228,6 @@ void BehaviorTreeEditor::CreateNodeWindow(std::list<std::unique_ptr<BaseBehavior
 					popupRequested_ = false;
 				}
 			}
-		}
 		ImGui::EndPopup();
 	}
 }

@@ -21,6 +21,8 @@ public:
 
 	void InspectorWindow();
 
+	void HierarchyWindow();
+
 	AOENGINE::AttributeGui* GetSelectObject() const { return selectAttribute_; }
 
 private:

@@ -16,13 +16,6 @@ void CommentBox::Init(const ImVec2& _min, const ImVec2& _max, const std::string&
 
 	text_ = _text;
 	
-	constexpr size_t kCommentCapacity = 512;
-
-	commentBuffer_.assign(kCommentCapacity, '\0');
-	std::strncpy(commentBuffer_.data(),
-				 text_.c_str(),
-				 commentBuffer_.size() - 1);
-
 	ax::NodeEditor::SetNodePosition(id_, min_);
 }
 
@@ -119,12 +112,6 @@ void CommentBox::FromJson(const nlohmann::json& _json) {
 	text_ = _json["text"];
 	size_ = max_ - min_;
 	ax::NodeEditor::SetNodePosition(id_, min_);
-
-	commentBuffer_.assign(kCommentCapacity, '\0');
-	std::strncpy(commentBuffer_.data(),
-				 text_.c_str(),
-				 commentBuffer_.size() - 1);
-
 }
 
 ImRect CommentBox::ExpandRect(const ImRect& r, float x, float y) {

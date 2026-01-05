@@ -156,6 +156,7 @@ void EditorWindows::End() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void EditorWindows::GameWindow() {
+	gameObjectWindow_->HierarchyWindow();
 	gameObjectWindow_->InspectorWindow();
 	if (ManipulateTool::isActive_) {
 

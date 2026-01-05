@@ -58,9 +58,30 @@ void GameObjectWindow::InspectorWindow() {
 	if (attributeArray_.empty()) { return; }
 
 	// -------------------------------------------------
+	// ↓ ItemごとのImGuiを編集する
+	// -------------------------------------------------
+	ImGui::Begin("Object Setting");
+	if (selectAttribute_ != nullptr) {
+		bool isActive = selectAttribute_->GetIsActive();
+		ImGui::Checkbox(" ", &isActive);
+		ImGui::SameLine();
+		std::string selectName = selectAttribute_->GetName();
+		if (InputTextWithString("Name :", "##selectName", selectName)) {
+			selectAttribute_->SetName(MakeUniqueName(selectName));
+		}
+
+		ImGui::Separator();
+		selectAttribute_->Debug_Gui();
+		selectAttribute_->SetIsActive(isActive);
+	}
+	ImGui::End();
+}
+
+void AOENGINE::GameObjectWindow::HierarchyWindow() {
+	// -------------------------------------------------
 	// ↓ Itemの選択
 	// -------------------------------------------------
-	ImGui::Begin("Scene Object");
+	ImGui::Begin("Hierarchy");
 	static std::string openNode = "";  // 現在開いているTreeNodeの名前
 	static bool firstOpenRoot = true;
 	for (auto it : attributeArray_) {
@@ -111,24 +132,5 @@ void GameObjectWindow::InspectorWindow() {
 		}
 	}
 
-	ImGui::End();
-
-	// -------------------------------------------------
-	// ↓ ItemごとのImGuiを編集する
-	// -------------------------------------------------
-	ImGui::Begin("Object Setting");
-	if (selectAttribute_ != nullptr) {
-		bool isActive = selectAttribute_->GetIsActive();
-		ImGui::Checkbox(" ", &isActive);
-		ImGui::SameLine();
-		std::string selectName = selectAttribute_->GetName();
-		if (InputTextWithString("Name :", "##selectName", selectName)) {
-			selectAttribute_->SetName(MakeUniqueName(selectName));
-		}
-
-		ImGui::Separator();
-		selectAttribute_->Debug_Gui();
-		selectAttribute_->SetIsActive(isActive);
-	}
 	ImGui::End();
 }

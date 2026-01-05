@@ -40,7 +40,6 @@ private:
 	ImVec2 max_;
 	ImVec2 size_;
 
-	std::vector<char> commentBuffer_;
 	std::string text_ = "Comment Box Text";
 	ImU32 bgColor_ = IM_COL32(255, 255, 128, 128);
 
@@ -51,6 +50,5 @@ private:
 	bool isDelete_ = false;
 
 	ImVec2 prevPos_;
-	ImVec2 screenPos;
 };
 
