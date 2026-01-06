@@ -3,12 +3,18 @@
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 
 
+BossActionFloat::BossActionFloat() {
+	param_.Load();
+	evaluator_.maxValue = param_.maxDistance;
+}
+
 BehaviorStatus BossActionFloat::Execute() {
 	return Action();
 }
 
 float BossActionFloat::EvaluateWeight() {
-	return 0.7f;
+	float distance = std::abs(pTarget_->GetTargetPos().y - pTarget_->GetPosition().y);
+	return evaluator_.Evaluate(distance);
 }
 
 void BossActionFloat::Debug_Gui() {
@@ -19,6 +25,8 @@ void BossActionFloat::Debug_Gui() {
 void BossActionFloat::Parameter::Debug_Gui() {
 	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
 	ImGui::DragFloat("moveSpeed", &moveSpeed, 0.1f);
+	ImGui::DragFloat("appropriateDistance", &appropriateDistance, 0.1f);
+	ImGui::DragFloat("maxDistance", &maxDistance, 0.1f);
 	moveCurve.Debug_Gui();
 	SaveAndLoad();
 }
@@ -36,7 +44,6 @@ bool BossActionFloat::CanExecute() {
 }
 
 void BossActionFloat::Init() {
-	param_.Load();
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
 }

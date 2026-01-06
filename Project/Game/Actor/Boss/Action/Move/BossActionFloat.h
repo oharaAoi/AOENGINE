@@ -14,6 +14,8 @@ public:
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float moveTime = 0.5f;		// 移動時間
 		float moveSpeed = 10.0f;	// 移動速度
+		float appropriateDistance;	// 適正距離
+		float maxDistance;			// 最大距離
 		Math::Curve moveCurve;
 
 		Parameter() { 
@@ -26,6 +28,8 @@ public:
 			return AOENGINE::JsonBuilder(id)
 				.Add("moveTime", moveTime)
 				.Add("moveSpeed", moveSpeed)
+				.Add("appropriateDistance", appropriateDistance)
+				.Add("maxDistance", maxDistance)
 				.Add("moveCurve", curveJson)
 				.Build();
 		}
@@ -33,6 +37,8 @@ public:
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "moveTime", moveTime);
 			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+			Convert::fromJson(jsonData, "appropriateDistance", appropriateDistance);
+			Convert::fromJson(jsonData, "maxDistance", maxDistance);
 			moveCurve.FromJson(jsonData, "moveCurve");
 		}
 
@@ -41,7 +47,7 @@ public:
 
 public:
 
-	BossActionFloat() = default;
+	BossActionFloat();
 	~BossActionFloat() override = default;
 
 public:

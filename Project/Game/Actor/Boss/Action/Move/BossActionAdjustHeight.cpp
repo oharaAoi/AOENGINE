@@ -6,8 +6,12 @@
 // ↓ 実行をする
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+BossActionAdjustHeight::BossActionAdjustHeight() {
+	param_.Load();
+}
+
 BehaviorStatus BossActionAdjustHeight::Execute() {
-    return Action();
+	return Action();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -15,7 +19,10 @@ BehaviorStatus BossActionAdjustHeight::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float BossActionAdjustHeight::EvaluateWeight() {
-    return 0.4f;
+	// targetとの距離を測る
+	float distance = std::abs(pTarget_->GetTargetPos().y - pTarget_->GetPosition().y);
+	float t = std::clamp((distance - param_.appropriateDistance) / param_.maxDistance, 0.0f, 1.0f);
+	return t * t;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,16 +30,17 @@ float BossActionAdjustHeight::EvaluateWeight() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Debug_Gui() {
-    BaseTaskNode::Debug_Gui();
-    param_.Debug_Gui();
+	BaseTaskNode::Debug_Gui();
+	param_.Debug_Gui();
 }
 
 void BossActionAdjustHeight::Parameter::Debug_Gui() {
-    ImGui::DragFloat("smoothTime", &smoothTime, 0.1f);
-    ImGui::DragFloat("maxSpeed", &maxSpeed, 0.1f);
-    ImGui::DragFloat("finishDistance", &finishDistance, 0.1f);
-    ImGui::DragFloat("finishTime", &finishTime, 0.1f);
-    SaveAndLoad();
+	ImGui::DragFloat("移動速度", &speed);
+	ImGui::DragFloat("適正距離", &appropriateDistance);
+	ImGui::DragFloat("最大距離", &maxDistance);
+	ImGui::DragFloat("移動時間", &moveTime);
+	moveCurve.Debug_Gui();
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,15 +48,10 @@ void BossActionAdjustHeight::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionAdjustHeight::IsFinish() {
-    if (distance_ < param_.finishDistance) {
-        return true;
-    }
-
-    if (taskTimer_ >= param_.finishTime) {
-        return true;
-    }
-
-    return false;
+	if (taskTimer_ >= param_.moveTime) {
+		return true;
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +59,7 @@ bool BossActionAdjustHeight::IsFinish() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionAdjustHeight::CanExecute() {
-    return true;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,13 +67,12 @@ bool BossActionAdjustHeight::CanExecute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Init() {
-    param_.Load();
-    speed_ = 0.0f;
+	taskTimer_ = 0.0f;
 
-    taskTimer_ = 0.0f;
+	pTarget_->SetIsMove(true);
+	pTarget_->SetIsAttack(false);
 
-    pTarget_->SetIsMove(true);
-    pTarget_->SetIsAttack(false);
+	pRigidbody_ = pTarget_->GetGameObject()->GetRigidbody();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,10 +80,19 @@ void BossActionAdjustHeight::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::Update() {
-    taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-    // playerとの高さを合わせる
-    distance_ = SmoothDamp(pTarget_->GetPosition().y, pTarget_->GetTargetPos().y, speed_, param_.smoothTime, param_.maxSpeed, AOENGINE::GameTimer::DeltaTime());
-    pTarget_->GetTransform()->SetTranslationY(distance_);
+	float distance = pTarget_->GetTargetPos().y - pTarget_->GetPosition().y;
+
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
+	float t = taskTimer_ / param_.moveTime;
+	float bezier = param_.moveCurve.BezierValue(t);
+
+	float sign = 1;
+	if (distance < 0.0f) {
+		sign *= -1.0f;
+	}
+
+	speedY_ = (param_.speed * bezier * sign) * AOENGINE::GameTimer::DeltaTime();
+	pRigidbody_->AddVelocityY(speedY_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,5 +100,6 @@ void BossActionAdjustHeight::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionAdjustHeight::End() {
-    pTarget_->SetIsMove(false);
+	pTarget_->SetIsMove(false);
+	pRigidbody_->SetVelocityY(0);
 }

@@ -1,8 +1,14 @@
 {
     "BossActionAdjustHeight": {
-        "finishDistance": 2.0,
-        "finishTime": 2.0,
-        "maxSpeed": 2.0,
-        "smoothTime": 0.10000000149011612
+        "appropriateDistance": 5.0,
+        "maxDistance": 30.0,
+        "moveCurve": {
+            "controlPoints_1": 0.0,
+            "controlPoints_2": 1.03125,
+            "controlPoints_3": 1.0,
+            "controlPoints_4": 1.0
+        },
+        "moveTime": 1.0,
+        "speed": 30.0
     }
 }

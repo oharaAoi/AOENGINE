@@ -1,0 +1,6 @@
+{
+    "bossActionDeployArmor": {
+        "deployTime": 1.0,
+        "randShakeValue": 3.0
+    }
+}
