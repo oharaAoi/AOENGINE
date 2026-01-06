@@ -9,7 +9,8 @@ BehaviorStatus BossActionShotBullet::Execute() {
 }
 
 float BossActionShotBullet::EvaluateWeight() {
-	return weight_;
+	float result = weight_ * CalcAggressionScore(pTarget_->GetAggressionScore());
+	return std::clamp(result, 0.0f, 1.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

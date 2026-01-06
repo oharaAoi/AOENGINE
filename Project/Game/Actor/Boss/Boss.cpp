@@ -48,6 +48,10 @@ void Boss::Debug_Gui() {
 		initParam_.Debug_Gui();
 	}
 
+	if (ImGui::CollapsingHeader("積極性を計算するためのパラメータ")) {
+		aggressionWeights_.Debug_Gui();
+	}
+
 	ImGui::Separator();
 }
 
@@ -58,9 +62,20 @@ void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
 	ImGui::DragFloat("angularVelocity", &angularVelocity, 0.1f);
 	ImGui::DragFloat("angularThreshold", &angularThreshold, 0.1f);
+	ImGui::DragFloat("理想距離", &idealDistance, 0.1f);
+	ImGui::DragFloat("最大距離", &maxDistance, 0.1f);
+	ImGui::DragFloat("積極性のベース値", &aggressionBaseScore, 0.1f);
 	ImGui::Text("text : %s", worldStatePath.c_str());
 	SaveAndLoad();
 }
+
+void Boss::AggressionWeights::Debug_Gui() {
+	ImGui::DragFloat("基本", &base);
+	ImGui::DragFloat("ヘルス", &health);
+	ImGui::DragFloat("距離", &distance);
+	SaveAndLoad();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
@@ -83,6 +98,8 @@ void Boss::Init() {
 	initParam_.Load();
 	param_ = initParam_;
 
+	aggressionWeights_.Load();
+
 	// -------------------------------------------------
 	// ↓ Tree関連
 	// -------------------------------------------------
@@ -92,6 +109,7 @@ void Boss::Init() {
 	blackboard_->SetRef<float>("hp", param_.health);
 	blackboard_->SetRef<float>("maxHp", param_.health);
 	blackboard_->SetRef<float>("maxPostureStability", param_.postureStability);
+	blackboard_->SetRef<float>("aggressionScore", aggressionScore_);
 	
 	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
@@ -138,7 +156,6 @@ void Boss::Init() {
 	pulseArmor_->SetArmor();
 	this->AddChild(pulseArmor_.get());
 
-
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------
@@ -151,6 +168,9 @@ void Boss::Init() {
 	isMove_ = false;
 
 	phase_ = BossPhase::First;
+
+	actionStrategy_ = ActionStrategy::Defensive;
+	aggressionScore_ = 0.5f;
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "Boss");
 }
@@ -202,6 +222,9 @@ void Boss::Update() {
 	// ----------------------
 	// ↓ treeの更新
 	// ----------------------
+
+	CalcAggression();
+
 	behaviorTree_->Run();
 	pulseArmor_->Update();
 	stateMachine_->Update();
@@ -211,7 +234,7 @@ void Boss::Update() {
 		behaviorTree_->SetExecute(true);
 	}
 
-	behaviorTree_->DisplayState(transform_->GetWorldMatrix());
+	behaviorTree_->DisplayState(transform_->GetWorldMatrix(), aggressionScore_);
 #endif // _DEBUG
 }
 
@@ -280,4 +303,24 @@ bool Boss::TargetLook() {
 	}
 
 	return false;
+}
+
+void Boss::CalcAggression() {
+	// ----------------------
+	// ↓ hpの計算
+	// ----------------------
+	float hpRaito = param_.health / initParam_.health;
+	float heAggression = (1.0f - hpRaito) * aggressionWeights_.health;
+
+	// ----------------------
+	// ↓ 距離の計算
+	// ----------------------
+	float distance = (targetPos_ - GetPosition()).Length();
+	float distanceAggression = (std::clamp(distance, 0.0f, 1.0f) - param_.idealDistance) / param_.maxDistance;
+
+	aggressionScore_ = param_.aggressionBaseScore * aggressionWeights_.base;
+	aggressionScore_ += heAggression * aggressionWeights_.health;
+	aggressionScore_ += distanceAggression * aggressionWeights_.distance;
+
+	aggressionScore_ = std::clamp(aggressionScore_, 0.0f, 1.0f);
 }

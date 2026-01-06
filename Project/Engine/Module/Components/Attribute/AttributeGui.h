@@ -43,6 +43,8 @@ public:
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
 	bool GetIsActive() const { return isActive_; }
 
+	int GetID() const { return id_; }
+
 protected:
 
 	bool isActive_ = true;

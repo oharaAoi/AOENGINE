@@ -59,7 +59,7 @@ void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
 	goal->SetBlackboard(blackboard_);
 }
 
-void BehaviorTree::DisplayState(const Math::Matrix4x4& ownerWorldPos) {
+void BehaviorTree::DisplayState(const Math::Matrix4x4& ownerWorldPos, float _aggressionScore) {
 	if (ImGui::Begin("Game Window", nullptr)) {
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
 			| ImGuiWindowFlags_AlwaysAutoResize
@@ -70,6 +70,7 @@ void BehaviorTree::DisplayState(const Math::Matrix4x4& ownerWorldPos) {
 		Math::Vector2 screenPos = WorldToScreenCoordinate(ownerWorldPos, AOENGINE::Render::GetVpvpMatrix());
 		ImGui::SetNextWindowPos(ImVec2(screenPos.x, screenPos.y), ImGuiCond_Always);
 		if (ImGui::Begin("TreeRunName", nullptr, flags)) {
+			ImGui::Text("積極性 : %f", _aggressionScore);
 			ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());
 		}
 		ImGui::End();
@@ -102,6 +103,28 @@ void BehaviorTree::Edit() {
 	ImGui::Begin("Blackboard");
 	if (blackboard_) {
 		blackboard_->Debug_Gui();
+	}
+	ImGui::End();
+
+	ImGui::Begin("WeightTable");
+	if (ImGui::BeginTable("WeightTable", 3, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+		ImGui::TableSetupColumn("name");
+		ImGui::TableSetupColumn("重み");
+		ImGui::TableSetupColumn("積極性");
+		ImGui::TableHeadersRow();
+
+		for (auto it = nodeList_.begin(); it != nodeList_.end();) {
+			BaseBehaviorNode* node = (*it).get();
+			if (node->GetNodeType() == NodeType::Task) {
+				ImGui::TableNextRow();
+				ImGui::TableSetColumnIndex(0);
+				ImGui::Text(node->GetName().c_str());
+				ImGui::TableSetColumnIndex(1);
+				node->WeightTableItem();
+			}
+			it++;
+		}
+		ImGui::EndTable();
 	}
 	ImGui::End();
 }

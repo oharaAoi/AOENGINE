@@ -58,6 +58,11 @@ public:
 	// 編集処理
 	void Debug_Gui() override;
 
+	/// <summary>
+	/// 重みのテーブルに表示する項目
+	/// </summary>
+	void WeightTableItem() override {};
+
 public:
 
 	/// <summary>

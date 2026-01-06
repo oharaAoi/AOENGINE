@@ -31,6 +31,11 @@ public:
 	// 実行中のNodeの名前を取得する
 	std::string RunNodeName() override;
 
+	/// <summary>
+	/// 重みのテーブルに表示する項目
+	/// </summary>
+	void WeightTableItem() override {};
+
 private:
 
 	/// <summary>

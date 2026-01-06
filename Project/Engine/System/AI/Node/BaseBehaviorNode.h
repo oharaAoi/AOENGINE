@@ -92,6 +92,11 @@ public:
 	// Nodeの名前をつなぐ
 	std::string NodeNameCombination();
 
+	/// <summary>
+	/// 重みのテーブルに表示する項目
+	/// </summary>
+	virtual void WeightTableItem() = 0;
+
 public:
 
 	ax::NodeEditor::NodeId GetId() { return node_.id; }
@@ -110,6 +115,7 @@ public:
 	void EditNodeName();
 
 	void SetNodeType(NodeType _type) { type_ = _type; }
+	NodeType GetNodeType() const { return type_; }
 
 	void SetState(BehaviorStatus state) { state_ = state; }
 	BehaviorStatus GetState() const { return state_; }

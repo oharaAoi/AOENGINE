@@ -35,8 +35,6 @@ void GameMenuUI::Init() {
 
 	item_ = GameMenuSelectItem::Go_Title;
 	timer_.targetTime_ = param_.inputCoolTime;
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "GameMenuUI");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

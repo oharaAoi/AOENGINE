@@ -61,10 +61,6 @@ void SceneRenderer::Update() {
 			obj->Update();
 		}
 	}
-
-	// particleの更新
-	particleManager_->Update();
-	gpuParticleManager_->Update();
 }
 
 void SceneRenderer::PostUpdate() {
@@ -74,6 +70,10 @@ void SceneRenderer::PostUpdate() {
 			obj->PostUpdate();
 		}
 	}
+
+	// particleの更新
+	particleManager_->Update();
+	gpuParticleManager_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

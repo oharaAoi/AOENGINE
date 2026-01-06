@@ -9,7 +9,8 @@ BehaviorStatus BossActionVerticalMissile::Execute() {
 }
 
 float BossActionVerticalMissile::EvaluateWeight() {
-	return weight_;
+	float result = weight_ * CalcAggressionScore(pTarget_->GetAggressionScore());
+	return std::clamp(result, 0.0f, 1.0f);
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理

@@ -13,5 +13,7 @@ namespace BossEvaluationFormula{
 	/// <param name="_range">: 有効範囲</param>
 	/// <returns></returns>
 	float AppropriateDistance(float _distance, float _optimal, float _range);
+
+
 	
 }

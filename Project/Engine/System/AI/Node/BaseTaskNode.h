@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <functional>
+#include <string>
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
@@ -46,8 +47,16 @@ public:
 	/// <returns></returns>
 	float EvaluateWeight() override = 0;
 
-	// 実行中のNodeの名前を取得する
+	/// <summary>
+	/// 実行中のNodeの名前を取得する
+	/// </summary>
+	/// <returns></returns>
 	std::string RunNodeName() override;
+
+	/// <summary>
+	/// 重みのテーブルに表示する項目
+	/// </summary>
+	void WeightTableItem() override;
 
 	// 初期化処理
 	virtual void Init() = 0;
@@ -63,6 +72,8 @@ public:
 	virtual void Debug_Gui() override;
 	// 行動を行う
 	virtual BehaviorStatus Action();
+	// 積極性のスコアを計算
+	float CalcAggressionScore(float _aggression);
 
 public:
 
@@ -81,12 +92,12 @@ protected:
 
 	float taskTimer_ = 0.0f;
 
-	float weight_ = 0;
+	float weight_ = 0.1f;				// 重み
+ 	float aggressionAffinity_ = 0.1f;	// 攻撃親和性 
 
 	AOENGINE::Timer waitTimer_;
 
 	UtilityEvaluator evaluator_;
-
 };
 
 template<typename OwnerType>
@@ -108,6 +119,7 @@ inline json BaseTaskNode<OwnerType>::ToJson() {
 	item["waitTime"] = waitTimer_.targetTime_;
 	item["coolTime"] = coolTimer_.targetTime_;
 	item["weight"] = weight_;
+	item["aggressionAffinity"] = aggressionAffinity_;
 	item["children"] = json::array();
 
 	for (const auto& child : children_) {
@@ -130,6 +142,9 @@ inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	}
 	if (_jsonData.contains("weight")) {
 		weight_ = _jsonData["weight"].get<float>();
+	}
+	if (_jsonData.contains("aggressionAffinity")) {
+		aggressionAffinity_ = _jsonData["aggressionAffinity"].get<float>();
 	}
 
 	coolTimer_.timer_ = coolTimer_.targetTime_;
@@ -187,7 +202,21 @@ inline bool BaseTaskNode<OwnerType>::Wait() {
 }
 
 template<typename OwnerType>
+inline float BaseTaskNode<OwnerType>::CalcAggressionScore(float _aggression) {
+	return std::lerp(1.0f - aggressionAffinity_, aggressionAffinity_, _aggression);
+}
+
+template<typename OwnerType>
 inline std::string BaseTaskNode<OwnerType>::RunNodeName() {
 	return BaseRunNodeName();
+}
+
+template<typename OwnerType>
+inline void BaseTaskNode<OwnerType>::WeightTableItem() {
+	std::string name = "##weight" + GetName() + std::to_string(GetID());
+	ImGui::DragFloat(name.c_str(), &weight_, 0.1f, 0.01f, 1.0f);
+	ImGui::TableSetColumnIndex(2);
+	name = "##aggression" + GetName() + std::to_string(GetID());
+	ImGui::DragFloat(name.c_str(), &aggressionAffinity_, 0.1f, 0.01f, 1.0f);
 }
 }

@@ -12,9 +12,20 @@
 
 #include "Game/Effects/AttackArmor.h"
 
+/// <summary>
+/// ボスのフェーズ
+/// </summary>
 enum class BossPhase {
 	First,
 	Second,
+};
+
+/// <summary>
+/// ボスの戦術
+/// </summary>
+enum class ActionStrategy {
+	Aggressive,
+	Defensive
 };
 
 class BossUIs;
@@ -33,6 +44,9 @@ public:
 		float armorCoolTime = 20.0f;
 		float angularVelocity = 90.f; // 角速度
 		float angularThreshold = 10.f; // 角速度
+		float idealDistance = 10.f; // 理想距離
+		float maxDistance = 10.f; // 最大距離
+		float aggressionBaseScore = 0.5f; // 積極性のベース値
 
 		std::string worldStatePath = "";		// worldStateのパス
 
@@ -47,6 +61,9 @@ public:
 				.Add("angularVelocity", angularVelocity)
 				.Add("angularThreshold", angularThreshold)
 				.Add("worldStatePath", worldStatePath)
+				.Add("idealDistance", idealDistance)
+				.Add("maxDistance", maxDistance)
+				.Add("aggressionBaseScore", aggressionBaseScore)
 				.Build();
 		}
 
@@ -58,10 +75,44 @@ public:
 			Convert::fromJson(jsonData, "angularVelocity", angularVelocity);
 			Convert::fromJson(jsonData, "angularThreshold", angularThreshold);
 			Convert::fromJson(jsonData, "worldStatePath", worldStatePath);
+			Convert::fromJson(jsonData, "idealDistance", idealDistance);
+			Convert::fromJson(jsonData, "maxDistance", maxDistance);
+			Convert::fromJson(jsonData, "aggressionBaseScore", aggressionBaseScore);
 		}
 
 		void Debug_Gui() override;
 	};
+
+	/// <summary>
+	/// 積極性を計算するためのパラメータ
+	/// </summary>
+	struct AggressionWeights : public AOENGINE::IJsonConverter {
+		float base;			// 基本
+		float health;		// ヘルス
+		float distance;		// 距離
+
+		AggressionWeights() {
+			SetGroupName("Boss");
+			SetName("AggressionWeights");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("base", base)
+				.Add("health", health)
+				.Add("distance", distance)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "base", base);
+			Convert::fromJson(jsonData, "health", health);
+			Convert::fromJson(jsonData, "distance", distance);
+		}
+
+		void Debug_Gui() override;
+	};
+
 public:
 
 	Boss() = default;
@@ -95,6 +146,13 @@ public:		// menber method
 	/// Targetの方向を向く処理
 	/// </summary>
 	bool TargetLook();
+
+private:
+
+	/// <summary>
+	/// 積極度の計算
+	/// </summary>
+	void CalcAggression();
 
 public:
 
@@ -155,6 +213,8 @@ public:
 	void SetStanRemainingTime(float _time) { stanRemainingTime_ = _time; }
 	float GetStanRemainingTime() const { return stanRemainingTime_; }
 
+	float GetAggressionScore() const { return aggressionScore_; }
+
 private:
 
 	// ポインタ  --------------------------------------------------
@@ -167,6 +227,9 @@ private:
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;
 
 	BossPhase phase_;
+
+	ActionStrategy actionStrategy_;
+	float aggressionScore_;  // 攻勢値
 
 	// weapon ------------------------------------------------
 	std::unique_ptr<Armors> pulseArmor_;
@@ -184,6 +247,8 @@ private:
 	bool isMove_;
 
 	float stanRemainingTime_; // スタンの残り時間
+
+	AggressionWeights aggressionWeights_;
 
 	// AI --------------------------------------------------
 	AI::BehaviorTree* behaviorTree_;

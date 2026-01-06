@@ -158,7 +158,7 @@ void PlayerActionJump::Jump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Rising() {
-	if (pOwner_->GetParam().energy <= 0.0f) {
+	if (pOwner_->GetParam().energy < param_.jumpEnergy * AOENGINE::GameTimer::DeltaTime()) {
 		jetBurnLeft_->SetIsStop(true);
 		jetBurnRight_->SetIsStop(true);
 		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);

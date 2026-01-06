@@ -15,8 +15,10 @@ SafeDistanceOriented::SafeDistanceOriented() {
 
 float SafeDistanceOriented::CalculationScore() {
 	float distance = blackboard_->Get("BossToPlayer").As<float>();
+	float aggressionScore = blackboard_->Get("aggressionScore").As<float>();
+	aggressionScore = 1.0f - aggressionScore;
 	float score = BossEvaluationFormula::AppropriateDistance(distance, consideration_.optimal, consideration_.optimalRange);
-	return score * priority_ + sMinimumCorrectionCalue_;
+	return (score * priority_ * aggressionScore) + sMinimumCorrectionCalue_;
 } 
 
 void SafeDistanceOriented::Debug_Gui() {
@@ -26,8 +28,8 @@ void SafeDistanceOriented::Debug_Gui() {
 }
 
 void SafeDistanceOriented::Consideration::Debug_Gui() {
-	ImGui::DragFloat("priority", &priority, 1);
-	ImGui::DragFloat("optimal", &optimal, 1);
-	ImGui::DragFloat("optimalRange", &optimalRange, 1);
+	ImGui::DragFloat("優先度", &priority, 1);
+	ImGui::DragFloat("適正距離", &optimal, 1);
+	ImGui::DragFloat("適正距離許容範囲", &optimalRange, 1);
 	SaveAndLoad();
 }

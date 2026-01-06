@@ -38,9 +38,17 @@ public:
 	/// 編集処理
 	/// </summary>
 	void Debug_Gui() override;
-
-	// 実行中のNodeの名前を取得する
+	
+	/// <summary>
+	/// 実行中のNodeの名前を取得する
+	/// </summary>
+	/// <returns></returns>
 	std::string RunNodeName() override;
+
+	/// <summary>
+	/// 重みのテーブルに表示する項目
+	/// </summary>
+	void WeightTableItem() override {};
 
 };
 
