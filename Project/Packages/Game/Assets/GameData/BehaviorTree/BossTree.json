@@ -9,8 +9,8 @@
                             "coolTime": 1.0,
                             "name": "TransitionPhase",
                             "nodePos": {
-                                "x": 831.0,
-                                "y": 966.0
+                                "x": 898.0,
+                                "y": 854.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -21,8 +21,8 @@
                             "coolTime": 1.0,
                             "name": "DeployArmor",
                             "nodePos": {
-                                "x": 1087.0,
-                                "y": 934.0
+                                "x": 1170.0,
+                                "y": 870.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -33,8 +33,8 @@
                     "leftKeyIndex": 5,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 972.0,
-                        "y": 802.0
+                        "x": 1023.0,
+                        "y": 706.0
                     },
                     "nodeType": 7,
                     "operatorIndex": 5,
@@ -54,8 +54,8 @@
                             },
                             "name": "TargetEnemy",
                             "nodePos": {
-                                "x": 1519.0,
-                                "y": 962.0
+                                "x": 1442.0,
+                                "y": 818.0
                             },
                             "nodeType": 5,
                             "orientedName": "TargetDead",
@@ -72,8 +72,8 @@
                             },
                             "name": "SafeDistance",
                             "nodePos": {
-                                "x": 1727.0,
-                                "y": 962.0
+                                "x": 1618.0,
+                                "y": 806.0
                             },
                             "nodeType": 5,
                             "orientedName": "SafeDistance",
@@ -82,8 +82,8 @@
                     ],
                     "name": "PlannerSelector",
                     "nodePos": {
-                        "x": 1599.0,
-                        "y": 786.0
+                        "x": 1522.0,
+                        "y": 678.0
                     },
                     "nodeType": 6
                 }
@@ -105,24 +105,24 @@
         {
             "id": 100,
             "max": {
-                "x": 1381.0,
-                "y": 1261.0
+                "x": 1346.0,
+                "y": 1008.0
             },
             "min": {
-                "x": 819.0,
-                "y": 720.0
+                "x": 864.0,
+                "y": 656.0
             },
             "text": "バリアを張る"
         },
         {
             "id": 10000,
             "max": {
-                "x": 1977.0,
-                "y": 1240.0
+                "x": 1840.0,
+                "y": 984.0
             },
             "min": {
-                "x": 1429.0,
-                "y": 717.0
+                "x": 1408.0,
+                "y": 624.0
             },
             "text": "攻撃 か 回避"
         }

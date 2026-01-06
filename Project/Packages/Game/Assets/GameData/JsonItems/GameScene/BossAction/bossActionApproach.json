@@ -3,8 +3,8 @@
         "decayRate": 5.0,
         "deceleration": 2.0,
         "maxSpinDistance": 0.800000011920929,
-        "moveSpeed": 30.0,
-        "moveTime": 3.0,
+        "moveSpeed": 20.0,
+        "moveTime": 1.0,
         "quitApproachLength": 5.0,
         "rotateT": 0.10000000149011612
     }
