@@ -40,6 +40,8 @@ void RenderingCommands::DrawSkinningModel(ID3D12GraphicsCommandList* _cmdList, A
 		_worldTransform->BindCommandList(_cmdList, index);
 		index = _pso->GetRootSignatureIndex("gViewProjectionMatrix");
 		_viewProjection->BindCommandList(_cmdList, index);
+		index = _pso->GetRootSignatureIndex("gViewProjectionMatrixPrev");
+		_viewProjection->BindCommandListPrev(_cmdList, index);
 
 		// マテリアルの設定
 		material->BindCommand(_cmdList, _pso);

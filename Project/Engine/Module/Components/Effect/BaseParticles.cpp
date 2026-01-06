@@ -257,7 +257,7 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 	}
 
 	// 射出のflagがtrueだったら
-	emitAccumulator_ += emitter_.rateOverTimeCout * AOENGINE::GameTimer::DeltaTime();
+	emitAccumulator_ = emitter_.rateOverTimeCout * AOENGINE::GameTimer::DeltaTime();
 	// 発射すべき個数を計算する
 	int emitCout = static_cast<int>(emitAccumulator_);
 	for (int count = 0; count < emitCout; ++count) {
@@ -273,8 +273,7 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 			Emit(pos);
 		}
 	}
-	emitAccumulator_ -= emitCout;
-
+	
 	// 継続時間を進める
 	currentTimer_ += AOENGINE::GameTimer::DeltaTime();
 	if (currentTimer_ > emitter_.duration) {

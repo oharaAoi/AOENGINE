@@ -20,6 +20,7 @@
         "gravity": -2.890000104904175,
         "height": 1.0,
         "isBillBord": true,
+        "isColorAnimation": false,
         "isDirectionRotate": false,
         "isDraw2d": false,
         "isFadeInOut": false,
@@ -29,27 +30,44 @@
         "isLoop": true,
         "isParticleAddBlend": true,
         "isRandomColor": false,
+        "isRandomRotate": true,
         "isScaleUp": false,
+        "isStretch": false,
+        "isTextureSheetAnimation": false,
         "lifeOfMaxScale": {
-            "x": 0.4000000059604645,
-            "y": 0.699999988079071,
-            "z": 0.0
-        },
-        "lifeOfMinScale": {
-            "x": 1.0,
-            "y": 0.699999988079071,
-            "z": 1.0
-        },
-        "lifeTime": 0.20000000298023224,
-        "maxScale": {
             "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
+        "lifeOfMinScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
+        "lifeTime": 0.10000000149011612,
+        "maxAngle": 360.0,
+        "maxScale": {
+            "x": 100.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minAngle": 0.0,
         "minScale": {
             "x": 1.0,
             "y": 1.0,
             "z": 1.0
+        },
+        "postColor": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "preColor": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 0.0
         },
         "radius": 0.5,
         "randColor1": {
@@ -64,7 +82,7 @@
             "g": 0.0,
             "r": 0.0
         },
-        "rateOverTimeCout": 100,
+        "rateOverTimeCout": 643,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
@@ -84,6 +102,10 @@
         },
         "speed": 0.0,
         "startDiscard": 0.009999999776482582,
+        "tiles": {
+            "x": 1.0,
+            "y": 1.0
+        },
         "translate": {
             "x": 0.0,
             "y": 0.0,

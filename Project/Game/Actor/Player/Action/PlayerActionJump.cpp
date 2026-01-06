@@ -158,6 +158,13 @@ void PlayerActionJump::Jump() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::Rising() {
+	if (pOwner_->GetParam().energy <= 0.0f) {
+		jetBurnLeft_->SetIsStop(true);
+		jetBurnRight_->SetIsStop(true);
+		pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
+		return;
+	}
+
 	// ボタンを押していたら上昇する
 	if (AOENGINE::Input::GetInstance()->IsPressButton(XInputButtons::ButtonA)) {
 		jetBurnLeft_->SetIsStop(false);
