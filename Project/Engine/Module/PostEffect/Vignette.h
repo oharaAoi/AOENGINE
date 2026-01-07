@@ -37,6 +37,10 @@ public:
 
 	void SetPower(float _power) { setting_->power = _power; }
 
+	void SetScale(float _scale) { setting_->scale = _scale; }
+
+	void SetColor(const AOENGINE::Color& _color) { setting_->color = _color; }
+
 private:
 
 	AOENGINE::DxResource* settingBuffer_;

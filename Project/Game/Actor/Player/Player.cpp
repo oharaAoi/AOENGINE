@@ -20,6 +20,7 @@
 #include "Game/Actor/Player/Action/PlayerActionDamaged.h"
 #include "Game/Actor/Player/Action/PlayerActionTurnAround.h"
 #include "Game/Actor/Player/Action/PlayerActionDeployArmor.h"
+#include <Module/PostEffect/PostProcess.h>
 
 Player::Player() {}
 Player::~Player() {
@@ -39,11 +40,11 @@ void Player::Debug_Gui() {
 
 	actionManager_->Debug_Gui();
 
-	if (ImGui::CollapsingHeader("CurrentParameter")) {
+	if (ImGui::CollapsingHeader("現在のパラメータ")) {
 		param_.Debug_Gui();
 	}
 
-	if (ImGui::CollapsingHeader("Parameter")) {
+	if (ImGui::CollapsingHeader("初期値のパラメータ(保存はこちら)")) {
 		initParam_.Debug_Gui();
 	}
 
@@ -75,6 +76,9 @@ void Player::Parameter::Debug_Gui() {
 	ImGui::DragFloat3("cameraOffset", &cameraOffset.x, 0.01f, 0.0f);
 
 	ImGui::DragFloat3("translateOffset", &translateOffset.x, 0.01f, 0.0f);
+
+	ImGui::DragFloat("ビネットの強さ", &pinchVignettePower, 0.01f, 0.0f);
+	ImGui::ColorEdit4("ビネットの色", &pinchVignetteColor.r);
 
 	SaveAndLoad();
 }
@@ -179,6 +183,9 @@ void Player::Init() {
 	leftShoulderMat_ = skeleton->GetSkeltonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
 	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
+	vignetteTween_.Init(0.0f, param_.pinchVignettePower, 1.0f, 1, LoopType::Return);
+	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
+
 #ifdef _DEBUG
 	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -211,6 +218,11 @@ void Player::Update() {
 		if (isCurrentFrameAttack) {
 			isAttack_ = true;
 		}
+	}
+
+	if (param_.health <= initParam_.health * 0.3f) {
+		vignetteTween_.Update(AOENGINE::GameTimer::DeltaTime());
+		vignette_->SetPower(vignetteTween_.GetValue());
 	}
 }
 
@@ -339,6 +351,12 @@ void Player::Damage(float _damage) {
 
 	// カメラを揺らす
 	pFollowCamera_->SetShake(.5f, 3.0f);
+
+	if (param_.health <= initParam_.health * 0.3f) {
+		vignette_->SetIsEnable(true);
+		vignette_->SetPower(param_.pinchVignettePower);
+		vignette_->SetColor(param_.pinchVignetteColor);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

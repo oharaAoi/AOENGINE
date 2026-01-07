@@ -6,6 +6,8 @@
 #include "Engine/Module/Components/Rigging/EndEffector.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Utilities/Timer.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
+#include "Engine/Module/PostEffect/Vignette.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -51,6 +53,9 @@ public:		// data
 		float inclineReactionRate = 5.0f;	// 傾きの反応速度
 		float inclineThreshold = 10.0f;
 
+		float pinchVignettePower;
+		AOENGINE::Color pinchVignetteColor;
+
 		Math::Vector3 cameraOffset = CVector3::ZERO;
 		Math::Vector3 translateOffset = CVector3::ZERO;
 
@@ -77,6 +82,8 @@ public:		// data
 				.Add("inclineThreshold", inclineThreshold)
 				.Add("cameraOffset", cameraOffset)
 				.Add("translateOffset", translateOffset)
+				.Add("pinchVignettePower", pinchVignettePower)
+				.Add("pinchVignetteColor", pinchVignetteColor)
 				.Build();
 		}
 
@@ -97,6 +104,8 @@ public:		// data
 			Convert::fromJson(jsonData, "inclineThreshold", inclineThreshold);
 			Convert::fromJson(jsonData, "cameraOffset", cameraOffset);
 			Convert::fromJson(jsonData, "translateOffset", translateOffset);
+			Convert::fromJson(jsonData, "pinchVignettePower", pinchVignettePower);
+			Convert::fromJson(jsonData, "pinchVignetteColor", pinchVignetteColor);
 		}
 
 		void Debug_Gui() override;
@@ -284,6 +293,9 @@ private:
 	Parameter initParam_;
 
 	AOENGINE::Timer psRecoveryTimer_;
+
+	AOENGINE::VectorTween<float> vignetteTween_;
+	std::shared_ptr<PostEffect::Vignette> vignette_;
 
 	// weapon --------------------------------------------------
 
