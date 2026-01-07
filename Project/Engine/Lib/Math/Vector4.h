@@ -100,13 +100,13 @@ public:
 	}
 
 	// Matrix
-	Math::Vector4 operator*(const Math::Matrix4x4& mat) {
-		Math::Vector4 result{};
-		result.x = mat.m[0][0] * x + mat.m[0][1] * y + mat.m[0][2] * z + mat.m[0][4];
-		result.y = mat.m[1][0] * x + mat.m[1][1] * y + mat.m[1][2] * z + mat.m[1][4];
-		result.z = mat.m[2][0] * x + mat.m[2][1] * y + mat.m[2][2] * z + mat.m[2][4];
-		//result.w = mat.m[3][0] * x + mat.m[3][1] * y + mat.m[3][2] * z + mat.m[3][4];
-		return result;
+	Math::Vector4 operator*(const Math::Matrix4x4& m) {
+		return {
+		x * m.m[0][0] + y * m.m[1][0] + z * m.m[2][0] + w * m.m[3][0],
+		x * m.m[0][1] + y * m.m[1][1] + z * m.m[2][1] + w * m.m[3][1],
+		x * m.m[0][2] + y * m.m[1][2] + z * m.m[2][2] + w * m.m[3][2],
+		x * m.m[0][3] + y * m.m[1][3] + z * m.m[2][3] + w * m.m[3][3],
+		};
 	}
 
 	static Math::Vector4 Lerp(const Math::Vector4& start, const Math::Vector4& end, float t);

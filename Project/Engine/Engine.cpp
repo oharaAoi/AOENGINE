@@ -338,6 +338,35 @@ void Engine::BlendFinalTexture(RenderTargetType renderTargetType) {
 
 }
 
+bool Engine::WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScreenPos) {
+	Math::Vector4 clip = Math::Vector4(_worldPos, 1.0f);
+	Math::Matrix4x4 view = render_->GetViewport3D();
+	Math::Matrix4x4 proj = render_->GetProjection3D();
+	clip = clip * view;
+	clip = clip * proj;
+
+	if (clip.w == 0.0f) {
+		return false;
+	}
+	// NDC
+	float ndcX = clip.x / clip.w;
+	float ndcY = clip.y / clip.w;
+	float ndcZ = clip.z / clip.w;
+
+	if (ndcZ < 0.0f || ndcZ > 1.0f) {
+		return false;
+	}
+
+	// NDC → Image Local
+	float imageX = (ndcX * 0.5f + 0.5f) * processedSceneFrame_->GetAvailSize().x;
+	float imageY = (-ndcY * 0.5f + 0.5f) * processedSceneFrame_->GetAvailSize().y; // ★Y反転重要
+
+	_outScreenPos.x = processedSceneFrame_->GetImagePos().x + imageX;
+	_outScreenPos.y = processedSceneFrame_->GetImagePos().y + imageY;
+	
+	return true;
+}
+
 std::unique_ptr<AOENGINE::Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {
 	std::unique_ptr<AOENGINE::Model> model = std::make_unique<AOENGINE::Model>();
 	model->Init(dxDevice_, directoryPath, filePath);

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
+#include <cstdint>
 
 namespace AI {
 
@@ -34,6 +35,11 @@ public:
 	/// 重みのテーブルに表示する項目
 	/// </summary>
 	void WeightTableItem() override {};
+
+private:
+
+	uint32_t successCount_ = 0;
+
 };
 
 }

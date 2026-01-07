@@ -11,6 +11,7 @@ AI::ParallelNode::ParallelNode() {
     color_ = ImColor(144, 238, 144);
     baseColor_ = color_;
     type_ = NodeType::Parallel;
+	successCount_ = 0;
     SetNodeName("Parallel");
 }
 
@@ -41,16 +42,21 @@ BehaviorStatus AI::ParallelNode::Execute() {
 	for (auto& child : children_) {
 		BehaviorStatus status = child->Execute();
 
-		if (status == BehaviorStatus::Running)
-			statu =  BehaviorStatus::Running;
+		if (status == BehaviorStatus::Running) {
+			statu = BehaviorStatus::Running;
+		}
 
 		if (status == BehaviorStatus::Failure) {
 			statu =  BehaviorStatus::Failure;
 		}
 
 		if (status == BehaviorStatus::Success) {
-			statu = BehaviorStatus::Failure;
+			successCount_++;
 		}
+	}
+
+	if (successCount_ == children_.size()) {
+		return BehaviorStatus::Success;
 	}
 	
 	return statu;

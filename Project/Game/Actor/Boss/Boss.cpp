@@ -52,6 +52,14 @@ void Boss::Debug_Gui() {
 		aggressionWeights_.Debug_Gui();
 	}
 
+	Math::Quaternion q = Math::Quaternion::EulerToQuaternion(0, 90.0f * kToRadian, 0);
+	Math::Matrix4x4 rot = q.MakeMatrix();
+
+	Math::Vector3 forward = Math::Vector3(0, 0, 1);
+	Math::Vector4 result = Math::Vector4(forward, 0.0f) * rot;
+
+	ImGui::Text("rotated forward = (%.2f, %.2f, %.2f)", result.x, result.y, result.z);
+
 	ImGui::Separator();
 }
 
@@ -234,7 +242,11 @@ void Boss::Update() {
 		behaviorTree_->SetExecute(true);
 	}
 
-	behaviorTree_->DisplayState(transform_->GetWorldMatrix(), aggressionScore_);
+	ImVec2 bossUIPos;
+	if (Engine::WorldToGameImagePos(GetPosition(), bossUIPos)) {
+		behaviorTree_->DisplayState(bossUIPos, aggressionScore_);
+	}
+	
 #endif // _DEBUG
 }
 
@@ -316,7 +328,8 @@ void Boss::CalcAggression() {
 	// ↓ 距離の計算
 	// ----------------------
 	float distance = (targetPos_ - GetPosition()).Length();
-	float distanceAggression = (std::clamp(distance, 0.0f, 1.0f) - param_.idealDistance) / param_.maxDistance;
+	float distanceScore = (distance - param_.idealDistance) / param_.maxDistance;
+	float distanceAggression = std::clamp(distanceScore, 0.0f, 1.0f);
 
 	aggressionScore_ = param_.aggressionBaseScore * aggressionWeights_.base;
 	aggressionScore_ += heAggression * aggressionWeights_.health;

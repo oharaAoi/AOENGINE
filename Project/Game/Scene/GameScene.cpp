@@ -105,6 +105,8 @@ void GameScene::Init() {
 
 void GameScene::Update() {
 
+	followCamera_->Update();
+
 	gameSceneBehavior_->Update();
 
 	// -------------------------------------------------

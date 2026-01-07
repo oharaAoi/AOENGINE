@@ -60,6 +60,8 @@ public:
 
 	static void BlendFinalTexture(RenderTargetType renderTargetType);
 
+	static bool WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScreenPos);
+
 public:
 
 	/////////////////////////////////////////////////////////////////////////////////////////////
