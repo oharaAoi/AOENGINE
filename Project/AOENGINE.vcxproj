@@ -349,6 +349,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h" />
     <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
     <ClInclude Include="Game\Actor\Base\BaseAction.h" />
     <ClInclude Include="Game\Actor\Base\BaseBullet.h" />
@@ -692,6 +693,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp" />
     <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseAction.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseBullet.cpp" />

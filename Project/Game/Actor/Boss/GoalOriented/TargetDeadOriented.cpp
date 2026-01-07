@@ -16,7 +16,9 @@ float TargetDeadOriented::CalculationScore() {
     float distance = blackboard_->Get("BossToPlayer").As<float>();
 	float aggressionScore = blackboard_->Get("aggressionScore").As<float>();
     float score = BossEvaluationFormula::AppropriateDistance(distance, consideration_.optimal, consideration_.optimalRange);
-    return (score * priority_ * aggressionScore) + sMinimumCorrectionCalue_;
+	// 積極性が低いほどスコアが高くなるようにする
+	aggressionScore = std::lerp(0.0f, 1.0f, aggressionScore);
+    return (score * (aggressionScore * priority_)) + sMinimumCorrectionCalue_;
 }
 
 void TargetDeadOriented::Debug_Gui() {

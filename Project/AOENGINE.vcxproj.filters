@@ -1264,6 +1264,7 @@
     <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
     <ClInclude Include="Game\UI\Guide\GameMenuUI.h" />
     <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2182,6 +2183,7 @@
     <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
     <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp" />
     <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />

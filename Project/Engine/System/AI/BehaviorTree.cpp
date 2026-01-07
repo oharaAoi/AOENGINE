@@ -59,7 +59,7 @@ void BehaviorTree::AddGoal(std::shared_ptr<IOrientedGoal> _goal) {
 	goal->SetBlackboard(blackboard_);
 }
 
-void BehaviorTree::DisplayState(const ImVec2& _pos, float _aggressionScore) {
+void BehaviorTree::DisplayState(const ImVec2& _pos, float _aggressionScore, const ImVec2& _offset) {
 	if (ImGui::Begin("Game Window", nullptr)) {
 		ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
 			| ImGuiWindowFlags_AlwaysAutoResize
@@ -67,7 +67,7 @@ void BehaviorTree::DisplayState(const ImVec2& _pos, float _aggressionScore) {
 			| ImGuiWindowFlags_NoCollapse
 			| ImGuiWindowFlags_NoDocking
 			| ImGuiWindowFlags_NoBackground;
-		ImGui::SetNextWindowPos(_pos, ImGuiCond_Always);
+		ImGui::SetNextWindowPos(_pos + _offset, ImGuiCond_Always);
 		if (ImGui::Begin("TreeRunName", nullptr, flags)) {
 			ImGui::Text("積極性 : %f", _aggressionScore);
 			ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());

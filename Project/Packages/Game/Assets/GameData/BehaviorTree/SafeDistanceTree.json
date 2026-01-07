@@ -3,6 +3,7 @@
         {
             "children": [
                 {
+                    "aggressionAffinity": 0.10000000149011612,
                     "children": [],
                     "coolTime": 0.0,
                     "name": "KeepDistance",
@@ -11,10 +12,11 @@
                         "y": 246.0
                     },
                     "nodeType": 4,
-                    "waitTime": 1.0,
+                    "waitTime": 0.0,
                     "weight": 0.0
                 },
                 {
+                    "aggressionAffinity": 0.10000000149011612,
                     "children": [],
                     "coolTime": 0.0,
                     "name": "Strafe",
@@ -23,10 +25,11 @@
                         "y": 294.0
                     },
                     "nodeType": 4,
-                    "waitTime": 1.0,
+                    "waitTime": 0.0,
                     "weight": 0.0
                 },
                 {
+                    "aggressionAffinity": 0.10000000149011612,
                     "children": [],
                     "coolTime": 0.0,
                     "name": "Approach",
@@ -35,10 +38,11 @@
                         "y": 310.0
                     },
                     "nodeType": 4,
-                    "waitTime": 1.0,
+                    "waitTime": 0.0,
                     "weight": 0.0
                 },
                 {
+                    "aggressionAffinity": 0.10000000149011612,
                     "children": [],
                     "coolTime": 0.0,
                     "name": "AdjustHeight",
@@ -49,6 +53,19 @@
                     "nodeType": 4,
                     "waitTime": 0.0,
                     "weight": 0.0
+                },
+                {
+                    "aggressionAffinity": 0.10000000149011612,
+                    "children": [],
+                    "coolTime": 0.0,
+                    "name": "StepBack",
+                    "nodePos": {
+                        "x": 242.0,
+                        "y": 166.0
+                    },
+                    "nodeType": 4,
+                    "waitTime": 0.0,
+                    "weight": 0.6000000238418579
                 }
             ],
             "name": "WeightSelector",

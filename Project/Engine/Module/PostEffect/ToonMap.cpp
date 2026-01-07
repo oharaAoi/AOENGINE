@@ -33,6 +33,6 @@ void ToonMap::CheckBox() {
 
 void PostEffect::ToonMap::Debug_Gui() {
 	if (ImGui::CollapsingHeader("ToonMap##ToonMap_Header")) {
-		ImGui::DragFloat("exposure", &setting_->exposure, 0.1f, 0.0f);
+		ImGui::DragFloat("exposure", &setting_->exposure, 0.01f, 0.0f);
 	}
 }

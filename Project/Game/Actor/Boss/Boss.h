@@ -49,6 +49,7 @@ public:
 		float aggressionBaseScore = 0.5f; // 積極性のベース値
 
 		std::string worldStatePath = "";		// worldStateのパス
+		Math::Vector2 treeStateOffset;
 
 		Parameter() { SetName("bossParameter"); }
 
@@ -64,6 +65,7 @@ public:
 				.Add("idealDistance", idealDistance)
 				.Add("maxDistance", maxDistance)
 				.Add("aggressionBaseScore", aggressionBaseScore)
+				.Add("treeStateOffset", treeStateOffset)
 				.Build();
 		}
 
@@ -78,6 +80,7 @@ public:
 			Convert::fromJson(jsonData, "idealDistance", idealDistance);
 			Convert::fromJson(jsonData, "maxDistance", maxDistance);
 			Convert::fromJson(jsonData, "aggressionBaseScore", aggressionBaseScore);
+			Convert::fromJson(jsonData, "treeStateOffset", treeStateOffset);
 		}
 
 		void Debug_Gui() override;

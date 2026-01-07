@@ -46,6 +46,7 @@ bool BossActionFloat::CanExecute() {
 void BossActionFloat::Init() {
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
+	taskTimer_ = 0;
 }
 
 void BossActionFloat::Update() {

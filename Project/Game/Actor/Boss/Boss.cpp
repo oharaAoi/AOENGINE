@@ -1,4 +1,5 @@
 #include "Boss.h"
+#include <algorithm>
 #include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
@@ -16,6 +17,7 @@
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
 #include "Game/Actor/Boss/Action/Move/BossActionAdjustHeight.h"
 #include "Game/Actor/Boss/Action/Move/BossActionTurnBehind.h"
+#include "Game/Actor/Boss/Action/Move/BossActionStepBack.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotBullet.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotLauncher.h"
@@ -51,15 +53,6 @@ void Boss::Debug_Gui() {
 	if (ImGui::CollapsingHeader("積極性を計算するためのパラメータ")) {
 		aggressionWeights_.Debug_Gui();
 	}
-
-	Math::Quaternion q = Math::Quaternion::EulerToQuaternion(0, 90.0f * kToRadian, 0);
-	Math::Matrix4x4 rot = q.MakeMatrix();
-
-	Math::Vector3 forward = Math::Vector3(0, 0, 1);
-	Math::Vector4 result = Math::Vector4(forward, 0.0f) * rot;
-
-	ImGui::Text("rotated forward = (%.2f, %.2f, %.2f)", result.x, result.y, result.z);
-
 	ImGui::Separator();
 }
 
@@ -73,6 +66,7 @@ void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("理想距離", &idealDistance, 0.1f);
 	ImGui::DragFloat("最大距離", &maxDistance, 0.1f);
 	ImGui::DragFloat("積極性のベース値", &aggressionBaseScore, 0.1f);
+	ImGui::DragFloat2("ボスの状態を表示するwindowのoffset", &treeStateOffset.x, 0.1f);
 	ImGui::Text("text : %s", worldStatePath.c_str());
 	SaveAndLoad();
 }
@@ -131,6 +125,7 @@ void Boss::Init() {
 	behaviorTree_->Register("KeepDistance", [this]() { return CreateTask<BossActionKeepDistance>(this, "KeepDistance"); });
 	behaviorTree_->Register("Leave", [this]() { return CreateTask<BossActionLeave>(this, "Leave"); });
 	behaviorTree_->Register("Strafe", [this]() { return CreateTask<BossActionStrafe>(this, "Strafe"); });
+	behaviorTree_->Register("StepBack", [this]() { return CreateTask<BossActionStepBack>(this, "StepBack"); });
 	behaviorTree_->Register("TurnBehind", [this]() { return CreateTask<BossActionTurnBehind>(this, "TurnBehind"); });
 	behaviorTree_->Register("ShotMissile", [this]() { return CreateTask<BossActionShotMissile>(this, "ShotMissile"); });
 	behaviorTree_->Register("ShotBullet", [this]() { return CreateTask<BossActionShotBullet>(this, "ShotBullet"); });
@@ -204,6 +199,8 @@ void Boss::Update() {
 	blackboard_->Set<bool>("isAttack", isAttack_);
 	blackboard_->Set<int32_t>("bossPhase", (int32_t)phase_);
 	blackboard_->Set<float>("halfHp", initParam_.health * 0.5f);
+	float bossToTargetDistanceY = std::abs(targetPos_.y - GetPosition().y);
+	blackboard_->Set<float>("bossToTargetDistanceY", bossToTargetDistanceY);
 	if (pTargetTransform_) {
 		blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - pTargetTransform_->GetPos()).Length());
 	}
@@ -244,7 +241,7 @@ void Boss::Update() {
 
 	ImVec2 bossUIPos;
 	if (Engine::WorldToGameImagePos(GetPosition(), bossUIPos)) {
-		behaviorTree_->DisplayState(bossUIPos, aggressionScore_);
+		behaviorTree_->DisplayState(bossUIPos, aggressionScore_, ImVec2(param_.treeStateOffset.x, param_.treeStateOffset.y));
 	}
 	
 #endif // _DEBUG

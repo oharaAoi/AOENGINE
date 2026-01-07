@@ -84,7 +84,7 @@ public:
 	/// </summary>
 	/// <param name="ownerWorldPos">: Treeの所有者のワールド座標</param>
 	/// <param name="_aggressionScore">: 積極性の値</param>
-	void DisplayState(const ImVec2& _pos, float _aggressionScore);
+	void DisplayState(const ImVec2& _pos, float _aggressionScore, const ImVec2& _offset = {-30.0f, -30.0f});
 
 	BaseBehaviorNode* GetRootNode() const { return root_; }
 
