@@ -88,19 +88,38 @@ void CommentBox::Draw() {
 	ax::NodeEditor::PopStyleColor(2);
 	ImGui::PopStyleVar();
 
-	ImVec2 newSize = ax::NodeEditor::GetNodeSize(id_);
-	if (newSize.x != size_.x || newSize.y != size_.y) {
-		size_ = newSize;
-		min_ = ax::NodeEditor::GetNodePosition(id_);
-		max_ = min_ + size_;
+	ImVec2 newNodeSize = ax::NodeEditor::GetNodeSize(id_);
+
+	// 現在のスタイルのパディングを取得
+	// (NodePaddingは通常 ImVec4(左, 上, 右, 下) です)
+	auto& style = ax::NodeEditor::GetStyle();
+	float paddingX = style.NodePadding.x + style.NodePadding.z; // 左 + 右
+	float paddingY = style.NodePadding.y + style.NodePadding.w; // 上 + 下
+
+	// パディング分を引いて「中身のサイズ」に変換する
+	ImVec2 newContentSize = ImVec2(
+		newNodeSize.x - paddingX,
+		newNodeSize.y - paddingY
+	);
+
+	// サイズが変わっていたら更新 (中身のサイズで比較・更新する)
+	if (newContentSize.x != size_.x || newContentSize.y != size_.y) {
+		// 念のため、極端に小さくならないようガードを入れても良い
+		if (newContentSize.x > 0 && newContentSize.y > 0) {
+			size_ = newContentSize;
+			min_ = ax::NodeEditor::GetNodePosition(id_);
+			max_ = min_ + size_;
+		}
 	}
 }
 
 nlohmann::json CommentBox::ToJson() {
 	nlohmann::json result;
 	result["id"] = id_;
+	// min はノードの位置
 	result["min"] = nlohmann::json{ {"x", min_.x}, {"y", min_.y} };
-	result["max"] = nlohmann::json{ {"x", max_.x}, {"y", max_.y} };
+	// size を直接保存 (中身のサイズ)
+	result["size"] = nlohmann::json{ {"x", size_.x}, {"y", size_.y} };
 	result["text"] = text_;
 	return result;
 }
@@ -108,10 +127,31 @@ nlohmann::json CommentBox::ToJson() {
 void CommentBox::FromJson(const nlohmann::json& _json) {
 	id_ = _json["id"];
 	min_ = ImVec2(_json["min"]["x"], _json["min"]["y"]);
-	max_ = ImVec2(_json["max"]["x"], _json["max"]["y"]);
+
+	// size を直接復元
+	if (_json.contains("size")) {
+		size_ = ImVec2(_json["size"]["x"], _json["size"]["y"]);
+	} else {
+		// 互換性維持: 古いデータ(maxがある場合)への対応
+		if (_json.contains("max")) {
+			ImVec2 oldMax = ImVec2(_json["max"]["x"], _json["max"]["y"]);
+			size_ = oldMax - min_;
+		}
+	}
+
+	// max は計算で求める
+	max_ = min_ + size_;
+
 	text_ = _json["text"];
-	size_ = max_ - min_;
+
+	// ノードエディタ上の位置を設定
 	ax::NodeEditor::SetNodePosition(id_, min_);
+
+	// 【重要】ID競合の回避
+	// ロードしたIDが現在のカウンター以上なら、カウンターを進める
+	if (id_ >= nextId_) {
+		nextId_ = id_ + 1;
+	}
 }
 
 ImRect CommentBox::ExpandRect(const ImRect& r, float x, float y) {

@@ -368,9 +368,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionLeave.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
@@ -712,9 +710,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />

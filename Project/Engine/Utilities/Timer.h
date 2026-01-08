@@ -19,6 +19,8 @@ struct Timer {
 	float targetTime_ = 0;
 
 	float t_ = 0;
+
+	bool isStop_ = false;
 };
 
 }

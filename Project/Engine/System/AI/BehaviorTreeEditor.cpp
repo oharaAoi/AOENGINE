@@ -129,7 +129,7 @@ void AI::BehaviorTreeEditor::CreateCommentNode() {
 	ImVec2 canvasMin = ax::NodeEditor::ScreenToCanvas(screenMin);
 	ImVec2 canvasMax = ax::NodeEditor::ScreenToCanvas(screenMax);
 
-	if (AOENGINE::Input::GetInstance()->IsTriggerKey(DIK_C)) {
+	if (AOENGINE::Input::GetInstance()->IsPressKey(DIK_C) && AOENGINE::Input::GetInstance()->IsPressKey(DIK_LMENU)) {
 		auto& comment = commentBox_.emplace_back(std::make_unique<CommentBox>());
 		comment->Init(canvasMin, canvasMax);
 	}
@@ -153,7 +153,6 @@ void BehaviorTreeEditor::SaveAndLoad(std::list<std::unique_ptr<BaseBehaviorNode>
 		std::string path = FileSaveDialogFunc();
 		if (path != "") {
 			json data = _root->ToJson();
-
 			for (auto& comment : commentBox_) {
 				data["comments"].push_back(comment->ToJson());
 			}

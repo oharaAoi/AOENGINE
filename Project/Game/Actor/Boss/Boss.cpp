@@ -12,11 +12,9 @@
 #include "Game/Actor/Boss/Action/BossActionWait.h"
 #include "Game/Actor/Boss/Action/Move/BossActionFloat.h"
 #include "Game/Actor/Boss/Action/Move/BossActionApproach.h"
-#include "Game/Actor/Boss/Action/Move/BossActionLeave.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStrafe.h"
 #include "Game/Actor/Boss/Action/Move/BossActionKeepDistance.h"
 #include "Game/Actor/Boss/Action/Move/BossActionAdjustHeight.h"
-#include "Game/Actor/Boss/Action/Move/BossActionTurnBehind.h"
 #include "Game/Actor/Boss/Action/Move/BossActionStepBack.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionShotBullet.h"
@@ -123,10 +121,8 @@ void Boss::Init() {
 	behaviorTree_->Register("Wait", [this]() { return CreateTask<BossActionWait>(this, "Wait"); });
 	behaviorTree_->Register("Float", [this]() { return CreateTask<BossActionFloat>(this, "Float"); });
 	behaviorTree_->Register("KeepDistance", [this]() { return CreateTask<BossActionKeepDistance>(this, "KeepDistance"); });
-	behaviorTree_->Register("Leave", [this]() { return CreateTask<BossActionLeave>(this, "Leave"); });
 	behaviorTree_->Register("Strafe", [this]() { return CreateTask<BossActionStrafe>(this, "Strafe"); });
 	behaviorTree_->Register("StepBack", [this]() { return CreateTask<BossActionStepBack>(this, "StepBack"); });
-	behaviorTree_->Register("TurnBehind", [this]() { return CreateTask<BossActionTurnBehind>(this, "TurnBehind"); });
 	behaviorTree_->Register("ShotMissile", [this]() { return CreateTask<BossActionShotMissile>(this, "ShotMissile"); });
 	behaviorTree_->Register("ShotBullet", [this]() { return CreateTask<BossActionShotBullet>(this, "ShotBullet"); });
 	behaviorTree_->Register("Approach", [this]() { return CreateTask<BossActionApproach>(this, "Approach"); });
@@ -140,7 +136,7 @@ void Boss::Init() {
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(true);
+	behaviorTree_->SetExecute(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -328,6 +324,9 @@ void Boss::CalcAggression() {
 	float distanceScore = (distance - param_.idealDistance) / param_.maxDistance;
 	float distanceAggression = std::clamp(distanceScore, 0.0f, 1.0f);
 
+	// ----------------------
+	// ↓ 最終スコアの計算
+	// ----------------------
 	aggressionScore_ = param_.aggressionBaseScore * aggressionWeights_.base;
 	aggressionScore_ += heAggression * aggressionWeights_.health;
 	aggressionScore_ += distanceAggression * aggressionWeights_.distance;

@@ -16,9 +16,11 @@ BaseGameObject::~BaseGameObject() {
 void BaseGameObject::Finalize() {
 	if (transform_ != nullptr) {
 		transform_->Finalize();
+		transform_ = nullptr;
 	}
 	if (animetor_ != nullptr) {
 		animetor_->Finalize();
+		animetor_ = nullptr;
 	}
 	if (!colliders_.empty()) {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {

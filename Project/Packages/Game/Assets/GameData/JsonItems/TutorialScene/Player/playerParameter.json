@@ -13,8 +13,10 @@
         "inclineReactionRate": 3.5,
         "inclineStrength": 0.07000000029802322,
         "inclineThreshold": 10.0,
+        "invincibleTime": 0.20000000298023224,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
+        "pinchOfPercentage": 0.30000001192092896,
         "pinchVignetteColor": {
             "a": 1.0,
             "b": 0.0,

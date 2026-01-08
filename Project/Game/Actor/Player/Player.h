@@ -53,6 +53,9 @@ public:		// data
 		float inclineReactionRate = 5.0f;	// 傾きの反応速度
 		float inclineThreshold = 10.0f;
 
+		float invincibleTime = 1.0f;				// 無敵時間
+
+		float pinchOfPercentage = 0.3f;			// ピンチの割合
 		float pinchVignettePower;
 		AOENGINE::Color pinchVignetteColor;
 
@@ -82,8 +85,10 @@ public:		// data
 				.Add("inclineThreshold", inclineThreshold)
 				.Add("cameraOffset", cameraOffset)
 				.Add("translateOffset", translateOffset)
+				.Add("pinchOfPercentage", pinchOfPercentage)
 				.Add("pinchVignettePower", pinchVignettePower)
 				.Add("pinchVignetteColor", pinchVignetteColor)
+				.Add("invincibleTime", invincibleTime)
 				.Build();
 		}
 
@@ -104,8 +109,10 @@ public:		// data
 			Convert::fromJson(jsonData, "inclineThreshold", inclineThreshold);
 			Convert::fromJson(jsonData, "cameraOffset", cameraOffset);
 			Convert::fromJson(jsonData, "translateOffset", translateOffset);
+			Convert::fromJson(jsonData, "pinchOfPercentage", pinchOfPercentage);
 			Convert::fromJson(jsonData, "pinchVignettePower", pinchVignettePower);
 			Convert::fromJson(jsonData, "pinchVignetteColor", pinchVignetteColor);
+			Convert::fromJson(jsonData, "invincibleTime", invincibleTime);
 		}
 
 		void Debug_Gui() override;
@@ -286,6 +293,10 @@ private:
 	bool isDead_ = false;
 	bool isAttack_ = false;
 	bool isExpload_ = false;
+
+	// 無敵時間
+	bool isInvincible_ = false;
+	AOENGINE::Timer invincibleTimer_;
 
 	// Parameter --------------------------------------------------
 	// 姿勢安定ゲージ

@@ -56,6 +56,8 @@ void BossActionFloat::Update() {
 
 	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
 	rigid->SetMoveForce(Math::Vector3(0, (param_.moveSpeed * bezierValue) * AOENGINE::GameTimer::DeltaTime(), 0));
+
+	pTarget_->TargetLook();
 }
 
 void BossActionFloat::End() {

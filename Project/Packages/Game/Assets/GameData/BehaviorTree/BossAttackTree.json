@@ -5,36 +5,13 @@
                 {
                     "children": [
                         {
-                            "aggressionAffinity": 0.800000011920929,
-                            "children": [],
-                            "coolTime": 10.0,
-                            "name": "DualStageMissile",
-                            "nodePos": {
-                                "x": 242.0,
-                                "y": 838.0
-                            },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.20000000298023224
-                        }
-                    ],
-                    "name": "Sequence",
-                    "nodePos": {
-                        "x": 386.0,
-                        "y": 658.0
-                    },
-                    "nodeType": 1
-                },
-                {
-                    "children": [
-                        {
                             "aggressionAffinity": 0.8999999761581421,
                             "children": [],
                             "coolTime": 10.0,
                             "name": "VerticalMissile",
                             "nodePos": {
-                                "x": 370.0,
-                                "y": 1446.0
+                                "x": 290.0,
+                                "y": 1318.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -46,8 +23,8 @@
                             "coolTime": 0.0,
                             "name": "AllRangeMissile",
                             "nodePos": {
-                                "x": 578.0,
-                                "y": 1414.0
+                                "x": 498.0,
+                                "y": 1302.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -56,8 +33,31 @@
                     ],
                     "name": "Sequence",
                     "nodePos": {
-                        "x": 463.0,
-                        "y": 1190.0
+                        "x": 418.0,
+                        "y": 1106.0
+                    },
+                    "nodeType": 1
+                },
+                {
+                    "children": [
+                        {
+                            "aggressionAffinity": 0.800000011920929,
+                            "children": [],
+                            "coolTime": 10.0,
+                            "name": "DualStageMissile",
+                            "nodePos": {
+                                "x": 434.0,
+                                "y": 614.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.20000000298023224
+                        }
+                    ],
+                    "name": "Sequence",
+                    "nodePos": {
+                        "x": 479.0,
+                        "y": 486.0
                     },
                     "nodeType": 1
                 },
@@ -69,8 +69,8 @@
                             "coolTime": 1.0,
                             "name": "Approach",
                             "nodePos": {
-                                "x": 882.0,
-                                "y": 998.0
+                                "x": 818.0,
+                                "y": 774.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -82,8 +82,8 @@
                             "coolTime": 0.0,
                             "name": "Shotgun",
                             "nodePos": {
-                                "x": 994.0,
-                                "y": 1094.0
+                                "x": 962.0,
+                                "y": 822.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -96,7 +96,7 @@
                             "name": "Shotgun",
                             "nodePos": {
                                 "x": 1122.0,
-                                "y": 1014.0
+                                "y": 774.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -105,8 +105,8 @@
                     ],
                     "name": "Sequence",
                     "nodePos": {
-                        "x": 1055.0,
-                        "y": 806.0
+                        "x": 959.0,
+                        "y": 614.0
                     },
                     "nodeType": 1
                 },
@@ -118,8 +118,8 @@
                             "coolTime": 0.0,
                             "name": "ShotMissile",
                             "nodePos": {
-                                "x": 1331.0,
-                                "y": 970.0
+                                "x": 1250.0,
+                                "y": 1062.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -128,8 +128,8 @@
                     ],
                     "name": "Sequence",
                     "nodePos": {
-                        "x": 1331.0,
-                        "y": 842.0
+                        "x": 1295.0,
+                        "y": 914.0
                     },
                     "nodeType": 1
                 },
@@ -141,8 +141,8 @@
                             "coolTime": 1.0,
                             "name": "ShotLauncher",
                             "nodePos": {
-                                "x": 1538.0,
-                                "y": 1014.0
+                                "x": 1554.0,
+                                "y": 982.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -157,7 +157,7 @@
                                     "name": "Float",
                                     "nodePos": {
                                         "x": 1570.0,
-                                        "y": 1158.0
+                                        "y": 1094.0
                                     },
                                     "nodeType": 4,
                                     "waitTime": 0.0,
@@ -169,8 +169,8 @@
                                     "coolTime": 0.0,
                                     "name": "ShotLauncher",
                                     "nodePos": {
-                                        "x": 1730.0,
-                                        "y": 1158.0
+                                        "x": 1714.0,
+                                        "y": 1094.0
                                     },
                                     "nodeType": 4,
                                     "waitTime": 1.0,
@@ -179,8 +179,8 @@
                             ],
                             "name": "Sequence",
                             "nodePos": {
-                                "x": 1711.0,
-                                "y": 1026.0
+                                "x": 1775.0,
+                                "y": 946.0
                             },
                             "nodeType": 1
                         }
@@ -189,8 +189,8 @@
                     "leftKeyIndex": 7,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 1599.0,
-                        "y": 898.0
+                        "x": 1570.0,
+                        "y": 818.0
                     },
                     "nodeType": 7,
                     "operatorIndex": 2,
@@ -218,8 +218,8 @@
                             "coolTime": 1.0,
                             "name": "Approach",
                             "nodePos": {
-                                "x": 1958.0,
-                                "y": 1003.0
+                                "x": 1970.0,
+                                "y": 1318.0
                             },
                             "nodeType": 4,
                             "waitTime": 0.0,
@@ -231,8 +231,8 @@
                             "coolTime": 0.0,
                             "name": "Rapidfire",
                             "nodePos": {
-                                "x": 2134.0,
-                                "y": 1003.0
+                                "x": 2226.0,
+                                "y": 1302.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -241,8 +241,8 @@
                     ],
                     "name": "Parallel",
                     "nodePos": {
-                        "x": 2051.0,
-                        "y": 871.0
+                        "x": 2146.0,
+                        "y": 1046.0
                     },
                     "nodeType": 8
                 }
@@ -258,111 +258,75 @@
     "comments": [
         {
             "id": 1,
-            "max": {
-                "x": 640.0,
-                "y": 1328.0
-            },
             "min": {
-                "x": 272.0,
-                "y": 880.0
+                "x": 400.0,
+                "y": 432.0
+            },
+            "size": {
+                "x": 288.0,
+                "y": 320.0
             },
             "text": "垂直左右攻撃"
         },
         {
             "id": 2,
-            "max": {
-                "x": 1072.0,
-                "y": 1272.0
-            },
             "min": {
-                "x": 592.0,
-                "y": 704.0
+                "x": 208.0,
+                "y": 1008.0
+            },
+            "size": {
+                "x": 528.0,
+                "y": 536.0
             },
             "text": "全方位攻撃"
         },
         {
             "id": 3,
-            "max": {
-                "x": 1296.0,
-                "y": 1280.0
-            },
             "min": {
-                "x": 848.0,
-                "y": 704.0
+                "x": 736.0,
+                "y": 576.0
+            },
+            "size": {
+                "x": 496.0,
+                "y": 624.0
             },
             "text": "ショットガン攻撃"
         },
         {
             "id": 4,
-            "max": {
-                "x": 1536.0,
-                "y": 1392.0
-            },
             "min": {
-                "x": 1248.0,
-                "y": 768.0
+                "x": 1216.0,
+                "y": 816.0
+            },
+            "size": {
+                "x": 336.0,
+                "y": 416.0
             },
             "text": "ミサイル攻撃"
         },
         {
             "id": 5,
-            "max": {
-                "x": 2016.0,
-                "y": 1392.0
-            },
             "min": {
-                "x": 1552.0,
-                "y": 752.0
+                "x": 1520.0,
+                "y": 736.0
+            },
+            "size": {
+                "x": 384.0,
+                "y": 624.0
             },
             "text": "ランチャー攻撃"
         },
         {
             "id": 6,
-            "max": {
-                "x": 2436.0,
-                "y": 1376.0
-            },
             "min": {
                 "x": 1936.0,
                 "y": 704.0
             },
+            "size": {
+                "x": 548.0,
+                "y": 544.0
+            },
             "text": "近づきながら攻撃"
-        },
-        {
-            "id": 10000,
-            "max": {
-                "x": 1740.0,
-                "y": 1187.0
-            },
-            "min": {
-                "x": 1557.0,
-                "y": 1131.0
-            },
-            "text": "Comment Box Text"
-        },
-        {
-            "id": 10001,
-            "max": {
-                "x": 1600.0,
-                "y": 1311.0
-            },
-            "min": {
-                "x": 1417.0,
-                "y": 1255.0
-            },
-            "text": "Comment Box Text"
-        },
-        {
-            "id": 10002,
-            "max": {
-                "x": 1614.0,
-                "y": 1325.0
-            },
-            "min": {
-                "x": 1431.0,
-                "y": 1252.0
-            },
-            "text": "Comment Box Text"
         }
     ],
     "name": "Root",

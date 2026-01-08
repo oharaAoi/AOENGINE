@@ -34,6 +34,7 @@ void BossMissile::Init() {
 	finishTracking_ = false;
 
 	accelTimer_ = AOENGINE::Timer(1.0f);
+	lifeTimer_ = AOENGINE::Timer(lifeTime_);
 
 	shotFrea_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("shotFrea");
 	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");
@@ -51,6 +52,10 @@ void BossMissile::Init() {
 void BossMissile::Update() {
 	Accelerate();
 	Tracking();
+
+	if (lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		isAlive_ = false;
+	}
 	
 	if (std::abs(transform_->srt_.translate.x) >= deadLength_) {
 		isAlive_ = false;
@@ -79,6 +84,8 @@ void BossMissile::Reset(const Math::Vector3& pos, const Math::Vector3& velocity,
 	targetSpeed_ = bulletSpeed;
 	firstSpeedRaito_ = firstSpeedRaito;
 	trackingRaito_ = trackingRaito;
+	trackingFinishTimer_.timer_ = 0;
+	trackingFinishTimer_.targetTime_ = trackingFinishTime_;
 
 	if (!isTracking) {
 		finishTracking_ = true;
@@ -104,6 +111,10 @@ void BossMissile::Tracking() {
 		Math::Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
 		velocity_ = Math::Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
+		finishTracking_ = true;
+	}
+
+	if (!trackingFinishTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		finishTracking_ = true;
 	}
 }

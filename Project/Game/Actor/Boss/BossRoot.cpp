@@ -27,6 +27,6 @@ void BossRoot::Update() {
 	boss_->SetIsTargetDead(pPlayer_->GetIsDead());
 	boss_->Update();
 
-	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetPos());
+	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetOffsetPos());
 	bulletManager_->Update();
 }

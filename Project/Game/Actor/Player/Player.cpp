@@ -28,6 +28,7 @@ Player::~Player() {
 }
 
 void Player::Finalize() {
+	vignette_->SetIsEnable(false);
 	jet_ = nullptr;
 }
 
@@ -53,6 +54,8 @@ void Player::Debug_Gui() {
 	ImGui::Text("smoothedDiffX :%f", smoothedDiffX_);
 
 	param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
+	invincibleTimer_.targetTime_ = param_.invincibleTime;
+	psRecoveryTimer_.targetTime_ = param_.psRecoveryTime;
 }
 
 void Player::Parameter::Debug_Gui() {
@@ -77,8 +80,11 @@ void Player::Parameter::Debug_Gui() {
 
 	ImGui::DragFloat3("translateOffset", &translateOffset.x, 0.01f, 0.0f);
 
+	ImGui::DragFloat("ピンチの割合", &pinchOfPercentage, 0.01f, 0.0f);
 	ImGui::DragFloat("ビネットの強さ", &pinchVignettePower, 0.01f, 0.0f);
 	ImGui::ColorEdit4("ビネットの色", &pinchVignetteColor.r);
+
+	ImGui::DragFloat("無敵時間", &invincibleTime, 0.1f);
 
 	SaveAndLoad();
 }
@@ -186,6 +192,9 @@ void Player::Init() {
 	vignetteTween_.Init(0.0f, param_.pinchVignettePower, 1.0f, 1, LoopType::Return);
 	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
 
+	invincibleTimer_.targetTime_ = param_.invincibleTime;
+	psRecoveryTimer_.targetTime_ = param_.psRecoveryTime;
+
 #ifdef _DEBUG
 	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 #endif // _DEBUG
@@ -220,9 +229,17 @@ void Player::Update() {
 		}
 	}
 
-	if (param_.health <= initParam_.health * 0.3f) {
+	// ビネットの更新
+	if (param_.health <= initParam_.health * param_.pinchOfPercentage) {
 		vignetteTween_.Update(AOENGINE::GameTimer::DeltaTime());
 		vignette_->SetPower(vignetteTween_.GetValue());
+	}
+
+	// 無敵時間の更新
+	if (invincibleTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		isInvincible_ = true;
+	} else {
+		isInvincible_ = false;
 	}
 }
 
@@ -330,6 +347,13 @@ void Player::ConsumeEN(float cousumeAmount) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Damage(float _damage) {
+	if (isInvincible_) {
+		return;
+	} else {
+		invincibleTimer_.timer_ = 0;
+		isInvincible_ = true;
+	}
+
 	// hpを減らす
 	psRecoveryTimer_.timer_ = 0.0f;
 	param_.health -= _damage;
@@ -352,6 +376,7 @@ void Player::Damage(float _damage) {
 	// カメラを揺らす
 	pFollowCamera_->SetShake(.5f, 3.0f);
 
+	// ビネットを出す
 	if (param_.health <= initParam_.health * 0.3f) {
 		vignette_->SetIsEnable(true);
 		vignette_->SetPower(param_.pinchVignettePower);
@@ -437,10 +462,9 @@ void Player::CameraIncline() {
 
 void Player::PostureStabilityRecovery() {
 	if (param_.postureStability >= 0.0f) {
-		if (psRecoveryTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		if (!psRecoveryTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 			param_.postureStability -= param_.psRecoveryValue * AOENGINE::GameTimer::DeltaTime();
-		} else {
-			psRecoveryTimer_.timer_ = 0.0f;
-		}
+			param_.postureStability = std::clamp(param_.postureStability, 0.0f, initParam_.postureStability);
+		} 
 	}
 }

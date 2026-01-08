@@ -41,8 +41,8 @@ bool BehaviorTree::Run() {
 	if (!isExecute_) { return false; }
 	// nodeの内容を実行させる
 	if (root_ != nullptr) {
-		BehaviorStatus state = root_->Execute();
-		if (state == BehaviorStatus::Failure) {
+		rootState_ = root_->Execute();
+		if (rootState_ == BehaviorStatus::Failure) {
 			AOENGINE::Logger::Log("RootNodeが失敗を返しました");
 			return false;
 		}
@@ -71,6 +71,22 @@ void BehaviorTree::DisplayState(const ImVec2& _pos, float _aggressionScore, cons
 		if (ImGui::Begin("TreeRunName", nullptr, flags)) {
 			ImGui::Text("積極性 : %f", _aggressionScore);
 			ImGui::Text("行動 : %s", root_->GetCurrentRunNodeName().c_str());
+			switch (rootState_) {
+			case Inactive:
+				ImGui::Text("状態 : 待機");
+				break;
+			case Success:
+				ImGui::Text("状態 : 成功");
+				break;
+			case Failure:
+				ImGui::Text("状態 : 失敗");
+				break;
+			case Running:
+				ImGui::Text("状態 : 実行中");
+				break;
+			default:
+				break;
+			}
 		}
 		ImGui::End();
 	}

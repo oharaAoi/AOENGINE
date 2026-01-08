@@ -1,5 +1,10 @@
 {
     "jetEngine": {
+        "burnBoostScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
         "burnMoveScale": {
             "x": 0.800000011920929,
             "y": 1.0,
@@ -8,10 +13,13 @@
         "burnMoveScaleCurve": {
             "controlPoints_1": 0.0078125,
             "controlPoints_2": 1.1953125,
-            "controlPoints_3": 1.0,
-            "controlPoints_4": 1.0
+            "controlPoints_3": 0.4765625,
+            "controlPoints_4": 0.9776250123977661
         },
+        "burnQuickBoostTime": 0.20000000298023224,
         "burnScaleUpTime": 0.20000000298023224,
-        "engineIncline": 10.0
+        "engineIncline": 10.0,
+        "quickBoostDownEaseIndex": 26,
+        "quickBoostEaseIndex": 10
     }
 }

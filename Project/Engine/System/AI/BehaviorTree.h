@@ -109,6 +109,7 @@ private:
 	std::list<std:: unique_ptr<BaseBehaviorNode>> nodeList_;
 	// 最上位Node
 	BaseBehaviorNode* root_;
+	BehaviorStatus rootState_;
 	// 行えるTaskをまとめた物
 	std::unordered_map<std::string, ActionNode> creators_;
 

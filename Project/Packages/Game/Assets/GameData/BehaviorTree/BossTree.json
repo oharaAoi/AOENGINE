@@ -3,43 +3,17 @@
         {
             "children": [
                 {
-                    "children": [
-                        {
-                            "children": [],
-                            "coolTime": 1.0,
-                            "name": "TransitionPhase",
-                            "nodePos": {
-                                "x": 898.0,
-                                "y": 854.0
-                            },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.0
-                        },
-                        {
-                            "children": [],
-                            "coolTime": 1.0,
-                            "name": "DeployArmor",
-                            "nodePos": {
-                                "x": 1170.0,
-                                "y": 870.0
-                            },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.0
-                        }
-                    ],
-                    "leftKey": "hp",
-                    "leftKeyIndex": 5,
-                    "name": "Condition",
+                    "aggressionAffinity": 0.10000000149011612,
+                    "children": [],
+                    "coolTime": 1.0,
+                    "name": "DeployArmor",
                     "nodePos": {
-                        "x": 1023.0,
-                        "y": 706.0
+                        "x": 994.0,
+                        "y": 758.0
                     },
-                    "nodeType": 7,
-                    "operatorIndex": 5,
-                    "rightKey": "halfHp",
-                    "rightKeyIndex": 7
+                    "nodeType": 4,
+                    "waitTime": 1.0,
+                    "weight": 0.0
                 },
                 {
                     "children": [
@@ -54,8 +28,8 @@
                             },
                             "name": "TargetEnemy",
                             "nodePos": {
-                                "x": 1442.0,
-                                "y": 818.0
+                                "x": 1410.0,
+                                "y": 850.0
                             },
                             "nodeType": 5,
                             "orientedName": "TargetDead",
@@ -72,8 +46,8 @@
                             },
                             "name": "SafeDistance",
                             "nodePos": {
-                                "x": 1618.0,
-                                "y": 806.0
+                                "x": 1586.0,
+                                "y": 838.0
                             },
                             "nodeType": 5,
                             "orientedName": "SafeDistance",
@@ -82,8 +56,8 @@
                     ],
                     "name": "PlannerSelector",
                     "nodePos": {
-                        "x": 1522.0,
-                        "y": 678.0
+                        "x": 1490.0,
+                        "y": 710.0
                     },
                     "nodeType": 6
                 }
@@ -104,25 +78,25 @@
     "comments": [
         {
             "id": 100,
-            "max": {
-                "x": 1346.0,
-                "y": 1008.0
-            },
             "min": {
                 "x": 864.0,
                 "y": 656.0
+            },
+            "size": {
+                "x": 482.0,
+                "y": 400.0
             },
             "text": "バリアを張る"
         },
         {
             "id": 10000,
-            "max": {
-                "x": 1840.0,
-                "y": 984.0
-            },
             "min": {
                 "x": 1408.0,
                 "y": 624.0
+            },
+            "size": {
+                "x": 432.0,
+                "y": 408.0
             },
             "text": "攻撃 か 回避"
         }

@@ -939,9 +939,6 @@
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionLeave.h">
-      <Filter>Game\Actor\Boss\Action\Move</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClInclude>
@@ -1252,7 +1249,6 @@
     <ClInclude Include="Engine\System\AI\Other\Condition.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
     <ClInclude Include="Engine\System\AI\Node\ParallelNode.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h" />
@@ -1870,9 +1866,6 @@
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionLeave.cpp">
-      <Filter>Game\Actor\Boss\Action\Move</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClCompile>
@@ -2171,7 +2164,6 @@
     <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionTurnBehind.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
     <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp" />

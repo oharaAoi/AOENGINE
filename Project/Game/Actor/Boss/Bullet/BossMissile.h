@@ -31,7 +31,8 @@ public:
 	/// <param name="firstSpeedRaito">: 初めの速度の割合</param>
 	/// <param name="trackingRaito">: 追尾性能の値</param>
 	/// <param name="isTracking">: 追尾を行うか</param>
-	void Reset(const Math::Vector3& pos, const Math::Vector3& velocity, const Math::Vector3& targetPosition, float bulletSpeed, float firstSpeedRaito,
+	void Reset(const Math::Vector3& pos, const Math::Vector3& velocity,
+			   const Math::Vector3& targetPosition, float bulletSpeed, float firstSpeedRaito,
 			   float trackingRaito, bool isTracking);
 
 	/// <summary>
@@ -60,10 +61,16 @@ private :
 
 	BossBulletType type_ = BossBulletType::Missile;
 
+	const float lifeTime_ = 10.0f;
+	AOENGINE::Timer lifeTimer_;
+
 	// 追尾に関する変数
-	float trackingLength_ = 5.0f;		// 長さ
+	float trackingLength_ = 15.0f;		// 長さ
 	float trackingTimer_ = 0;		// 計測時間
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
+
+	const float trackingFinishTime_ = 4.f;	// 追尾を切るまでの時間
+	AOENGINE::Timer trackingFinishTimer_;	// 追尾を切るまでの計測変数
 
 	bool finishTracking_;		// 追尾を終了するか
 
