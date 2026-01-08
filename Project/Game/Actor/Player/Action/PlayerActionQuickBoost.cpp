@@ -41,11 +41,6 @@ void PlayerActionQuickBoost::Build() {
 	pInput_ = AOENGINE::Input::GetInstance();
 	pOwnerTransform_ = pOwner_->GetTransform();
 
-	boostParticle_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("QuickBoost");
-	boostParticle_->SetParent(pOwner_->GetJet()->GetTransform()->GetWorldMatrix());
-	boostParticle_->SetIsStop(true);
-	boostParticle_->SetLoop(false);
-
 	initParam_.SetGroupName(pManager_->GetName());
 	initParam_.Load();
 
@@ -87,8 +82,6 @@ void PlayerActionQuickBoost::OnStart() {
  	Player::Parameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
-	boostParticle_->Reset();
-
 	actionTimer_ = 0;
 
 	pManager_->DeleteAction(typeid(PlayerActionMove).hash_code());
@@ -99,6 +92,9 @@ void PlayerActionQuickBoost::OnStart() {
 	// boostをonにする
 	pOwner_->GetJetEngine()->BoostOn();
 	pOwner_->GetJetEngine()->JetIsStart();
+
+
+	pOwner_->GetJetEngine()->StartQuickBoost();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

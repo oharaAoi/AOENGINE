@@ -17,7 +17,11 @@ public: // データ構造体
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float engineIncline = 10.0f;
 		Math::Vector3 burnMoveScale = Math::Vector3(0.4f, 1.0 , 0.4f);
+		Math::Vector3 burnBoostScale = Math::Vector3(0.4f, 1.0 , 0.4f);
 		float burnScaleUpTime = 0.5f;
+		float burnQuickBoostTime = 0.5f;
+		int quickBoostEaseIndex = 0;
+		int quickBoostDownEaseIndex = 0;
 		Math::Curve burnMoveScaleCurve;
 
 		Parameter() {
@@ -30,7 +34,11 @@ public: // データ構造体
 			return AOENGINE::JsonBuilder(id)
 				.Add("engineIncline", engineIncline)
 				.Add("burnMoveScale", burnMoveScale)
+				.Add("burnBoostScale", burnBoostScale)
 				.Add("burnScaleUpTime", burnScaleUpTime)
+				.Add("burnQuickBoostTime", burnQuickBoostTime)
+				.Add("quickBoostEaseIndex", quickBoostEaseIndex)
+				.Add("quickBoostDownEaseIndex", quickBoostDownEaseIndex)
 				.Add("burnMoveScaleCurve", curveJson)
 				.Build();
 		}
@@ -38,7 +46,11 @@ public: // データ構造体
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "engineIncline", engineIncline);
 			Convert::fromJson(jsonData, "burnMoveScale", burnMoveScale);
+			Convert::fromJson(jsonData, "burnBoostScale", burnBoostScale);
 			Convert::fromJson(jsonData, "burnScaleUpTime", burnScaleUpTime);
+			Convert::fromJson(jsonData, "burnQuickBoostTime", burnQuickBoostTime);
+			Convert::fromJson(jsonData, "quickBoostEaseIndex", quickBoostEaseIndex);
+			Convert::fromJson(jsonData, "quickBoostDownEaseIndex", quickBoostDownEaseIndex);
 			burnMoveScaleCurve.FromJson(jsonData, "burnMoveScaleCurve");
 		}
 
@@ -76,6 +88,15 @@ public:
 	/// </summary>
 	void BoostOn() { isBoostMode_ = true; }
 
+	/// <summary>
+	/// クイックブーストを実行する
+	/// </summary>
+	void StartQuickBoost();
+
+private:
+
+	void QuickBoost();
+
 public:	// accessor Method
 
 	void SetIsBoostMode() { isBoostMode_ = !isBoostMode_; }
@@ -100,5 +121,9 @@ private:
 
 	// moveによる炎のScale関連 ------------------------------------
 	AOENGINE::Timer burnScaleUpTimer_;
+	AOENGINE::Timer burnQuickBoostTimer_;
 	bool isStop_ = true;
+
+	bool isQuickBoost_ = false;
+	bool turnBack_ = false;
 };

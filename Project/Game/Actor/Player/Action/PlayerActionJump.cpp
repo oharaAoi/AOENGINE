@@ -99,8 +99,8 @@ void PlayerActionJump::OnEnd() {
 	clip->PoseToAnimation("landing", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 
-	jetBurnLeft_->SetIsStop(false);
-	jetBurnRight_->SetIsStop(false);
+	jetBurnLeft_->SetIsStop(true);
+	jetBurnRight_->SetIsStop(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

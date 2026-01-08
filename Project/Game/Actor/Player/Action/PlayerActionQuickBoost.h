@@ -119,8 +119,6 @@ private:
 	Parameter param_;
 	Parameter initParam_;
 
-	AOENGINE::BaseParticles* boostParticle_;
-
 	AOENGINE::Rigidbody* pRigidBody_;
 
 	size_t boostClassId_;

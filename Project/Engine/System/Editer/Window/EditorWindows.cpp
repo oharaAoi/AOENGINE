@@ -75,6 +75,8 @@ void EditorWindows::Update() {
 		particleSystemEditor_->ExecutionWindow();
 		gameObjectWindow_->ExecutionWindow();
 
+		manipulateTool_->SelectUseManipulate();
+
 		pSelectWindow_->HierarchyWindow();
 		pSelectWindow_->InspectorWindow();
 	}

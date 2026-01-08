@@ -4,6 +4,7 @@
 #include <iostream>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <string>
 
 #ifdef _DEBUG
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -134,6 +135,6 @@ namespace Math {
 /// <returns> Easingした結果の線形代数 </returns> 
 float CallEasing(int index, float t);
 
-void SelectEasing(int& easeKind);
+void SelectEasing(int& easeKind, const std::string& label);
 
 }

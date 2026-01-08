@@ -272,18 +272,21 @@ float Math::CallEasing(int index, float t) {
 	}
 }
 
-void Math::SelectEasing(int& easeKind) {
+void Math::SelectEasing(int& easeKind, const std::string& _name) {
 	// 引数から種類を取り出す
 	int easeType = (int)(easeKind % 10);    // 0 ~ 9
 	int inOrOut = (int)(easeKind / 10);     // 0 ~ 2
 
+	std::string label = "::##Ease_" + _name;
+
 	ImGui::Text("Ease::");
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(60);
-	ImGui::Combo("::", &inOrOut, "In\0Out\0InOut\0");
+	ImGui::Combo(label.c_str(), &inOrOut, "In\0Out\0InOut\0");
 	ImGui::SameLine();
 	ImGui::SetNextItemWidth(60);
-	ImGui::Combo("##type", &easeType, "Sine\0Cubic\0Quad\0Quart\0Quint\0Expo\0Cric\0Back\0Elastic\0Bounce\0");
+	label = "##Easetype_" + _name; 
+	ImGui::Combo(label.c_str(), &easeType, "Sine\0Cubic\0Quad\0Quart\0Quint\0Expo\0Cric\0Back\0Elastic\0Bounce\0");
 
 	int result = 0;
 	if (inOrOut == 0) {

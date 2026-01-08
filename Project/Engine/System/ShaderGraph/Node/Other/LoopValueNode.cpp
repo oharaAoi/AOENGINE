@@ -40,7 +40,7 @@ void AOENGINE::LoopValueNode::updateGui() {
 	ImGui::DragFloat("start", &start_, 0.01f);
 	ImGui::DragFloat("end", &end_, 0.01f);
 	ImGui::DragFloat("duration", &duration_, 0.01f);
-	Math::SelectEasing(easeIndex_);
+	Math::SelectEasing(easeIndex_, "LoopNode");
 	ImGui::Combo("emitOrigin##emitOrigin", &loopType_, "Loop\0Stop\0Return\0RoundTrip");
 	if (ImGui::Button("Reset")) {
 		timer_.Init(start_, end_, duration_, easeIndex_, static_cast<LoopType>(loopType_));

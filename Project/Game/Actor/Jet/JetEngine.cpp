@@ -2,6 +2,7 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Math/Easing.h"
 
 JetEngine::~JetEngine() {
 	Finalize();
@@ -41,13 +42,26 @@ void JetEngine::Debug_Gui() {
 	if (ImGui::Button("Start")) {
 		this->JetIsStart();
 	}
+
+	if (ImGui::Button("QuickBoost")) {
+		turnBack_ = false;
+		isQuickBoost_ = true;
+		burnQuickBoostTimer_.timer_ = 0.0f;
+		burnQuickBoostTimer_.targetTime_ = param_.burnQuickBoostTime;
+	}
 }
 
 
 void JetEngine::Parameter::Debug_Gui() {
-	ImGui::DragFloat("engineIncline", &engineIncline);
-	ImGui::DragFloat("burnScaleUpTime", &burnScaleUpTime);
-	ImGui::DragFloat3("burnMoveScale", &burnMoveScale.x);
+	ImGui::DragFloat("エンジンの傾き", &engineIncline);
+	ImGui::DragFloat("スケールを大きくする時間", &burnScaleUpTime);
+	ImGui::DragFloat("クイックブーストで大きくなる時間", &burnQuickBoostTime);
+	ImGui::DragFloat3("ブースト時のスケール", &burnBoostScale.x);
+	ImGui::DragFloat3("移動時のスケール", &burnMoveScale.x);
+	ImGui::BulletText("BoostUp");
+	Math::SelectEasing(quickBoostEaseIndex, "BoostUp");
+	ImGui::BulletText("BoostDown");
+	Math::SelectEasing(quickBoostDownEaseIndex, "BoostDown");
 	burnMoveScaleCurve.Debug_Gui();
 	SaveAndLoad();
 }
@@ -104,6 +118,9 @@ void JetEngine::Init() {
 	burnScaleUpTimer_.targetTime_ = param_.burnScaleUpTime;
 	isBoostMode_ = false;
 	isStop_ = true;
+
+	turnBack_ = false;
+	isQuickBoost_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,6 +139,10 @@ void JetEngine::Update(float diftX) {
 			scale = Math::Vector3::Lerp(CVector3::ZERO, param_.burnMoveScale, value);
 		}
 		burnParentTransform_->SetScale(scale);
+	}
+
+	if (isQuickBoost_) {
+		QuickBoost();
 	}
 
 	Math::Quaternion engineRotate = Math::Quaternion::AngleAxis(diftX * param_.engineIncline, CVector3::FORWARD);
@@ -145,4 +166,35 @@ void JetEngine::JetIsStart() {
 	isStop_ = false;
 	burnScaleUpTimer_.timer_ = 0;
 	burnParticle_->SetIsStop(false);
+}
+
+void JetEngine::StartQuickBoost() {
+	turnBack_ = false;
+	isQuickBoost_ = true;
+	burnQuickBoostTimer_.timer_ = 0.0f;
+	burnQuickBoostTimer_.targetTime_ = param_.burnQuickBoostTime;
+}
+
+void JetEngine::QuickBoost() {
+	if (burnQuickBoostTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		if (!turnBack_) {
+			Math::Vector3 scale = Math::Vector3::Lerp(param_.burnMoveScale, 
+													  param_.burnBoostScale,
+													  Math::CallEasing(param_.quickBoostEaseIndex, burnQuickBoostTimer_.t_));
+			burnParentTransform_->SetScale(scale);
+		} else {
+			Math::Vector3 scale = Math::Vector3::Lerp(param_.burnBoostScale,
+													  param_.burnMoveScale,
+													  Math::CallEasing(param_.quickBoostDownEaseIndex, burnQuickBoostTimer_.t_));
+			burnParentTransform_->SetScale(scale);
+		}
+	} else if(isQuickBoost_) {
+
+		if (turnBack_) {
+			isQuickBoost_ = false;
+		}
+
+		turnBack_ = true;
+		burnQuickBoostTimer_.timer_ = 0.0f;
+	}
 }

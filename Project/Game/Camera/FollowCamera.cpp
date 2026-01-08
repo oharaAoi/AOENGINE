@@ -73,14 +73,14 @@ void FollowCamera::CameraParameter::Debug_Gui() {
 
 	ImGui::DragFloat("smoothTime", &smoothTime, 0.01f);
 	ImGui::DragFloat("maxSpeed", &maxSpeed, 0.01f);
-	Math::SelectEasing(easingIndex);
+	Math::SelectEasing(easingIndex, "Camera");
 	SaveAndLoad();
 }
 
 void FollowCamera::AnimationParameter::Debug_Gui() {
 	ImGui::DragFloat3("firstOffset", &firstOffset.x, 0.1f);
 	ImGui::DragFloat("animationTime", &moveTime, 0.1f);
-	Math::SelectEasing(easingIndex);
+	Math::SelectEasing(easingIndex, "AnimationCamera");
 	ImGui::ColorEdit4("color", &scaleColor.r);
 	ImGui::DragFloat("vginetteColor", &vignettePower, 0.01f);
 	SaveAndLoad();

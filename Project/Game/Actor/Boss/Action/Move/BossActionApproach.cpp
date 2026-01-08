@@ -56,6 +56,9 @@ void BossActionApproach::Update() {
 void BossActionApproach::End() {
 	pTarget_->SetIsMove(false);
 	pTarget_->TargetLook();
+
+	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
+	rigid->SetVelocity(CVector3::ZERO);
 }
 
 bool BossActionApproach::IsFinish() {
