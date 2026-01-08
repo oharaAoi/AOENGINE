@@ -21,6 +21,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": ""
+            },
             "collider_tag": "none",
             "collisionFilter_tags": []
         },
@@ -43,6 +56,19 @@
                     1.0,
                     1.0
                 ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "collider_tag": "none",
             "collisionFilter_tags": []
@@ -67,6 +93,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.20000000298023224,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+            },
             "file_name": "roomFloor.obj",
             "colliders": [
                 {
@@ -81,7 +120,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",
@@ -115,6 +154,19 @@
                     1.0,
                     1.0
                 ]
+            },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "player.gltf",
             "colliders": [
@@ -195,6 +247,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.0,
+                "roughness": 0.5,
+                "ibl_strength": 1.0,
+                "normalMap": ""
+            },
             "file_name": "boss.obj",
             "colliders": [
                 {
@@ -250,6 +315,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.30000001192092896,
+                "roughness": 0.5,
+                "ibl_strength": 0.5,
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+            },
             "file_name": "roomFloor.obj",
             "colliders": [
                 {
@@ -264,7 +342,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",
@@ -298,6 +376,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.30000001192092896,
+                "roughness": 0.5,
+                "ibl_strength": 0.5,
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+            },
             "file_name": "roomFloor.obj",
             "colliders": [
                 {
@@ -312,7 +403,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",
@@ -346,6 +437,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.30000001192092896,
+                "roughness": 0.5,
+                "ibl_strength": 0.5,
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+            },
             "file_name": "roomFloor.obj",
             "colliders": [
                 {
@@ -360,7 +464,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",
@@ -394,6 +498,19 @@
                     1.0
                 ]
             },
+            "material": {
+                "shader": "PBR",
+                "base_color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "metallic": 0.30000001192092896,
+                "roughness": 0.5,
+                "ibl_strength": 0.5,
+                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+            },
             "file_name": "roomFloor.obj",
             "colliders": [
                 {
@@ -408,7 +525,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "ground",
+                    "tag": "laser",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",

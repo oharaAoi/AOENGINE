@@ -1,0 +1,15 @@
+{
+    "BossActionStepBack": {
+        "decelCurve": {
+            "controlPoints_1": 1.0625,
+            "controlPoints_2": -0.0078125,
+            "controlPoints_3": 0.9765625,
+            "controlPoints_4": 1.0234375
+        },
+        "maxDecel": 2.0,
+        "minDecel": 1.0,
+        "moveTime": 0.4000000059604645,
+        "speed": 70.0,
+        "stopThreshold": 5.0
+    }
+}

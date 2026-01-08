@@ -15,7 +15,16 @@
         "inclineThreshold": 10.0,
         "legColliderPosY": 0.30000001192092896,
         "legColliderRadius": 0.5,
+        "pinchVignetteColor": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "pinchVignettePower": 0.05999999865889549,
         "postureStability": 300.0,
+        "psRecoveryTime": 5.0,
+        "psRecoveryValue": 15.0,
         "translateOffset": {
             "x": 0.0,
             "y": 2.0,
