@@ -53,7 +53,7 @@ void BossMissile::Update() {
 	Accelerate();
 	Tracking();
 
-	if (lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+	if (!lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		isAlive_ = false;
 	}
 	

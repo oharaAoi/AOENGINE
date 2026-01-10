@@ -101,10 +101,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.20000000298023224,
+                "metallic": 0.0,
                 "roughness": 0.5,
                 "ibl_strength": 1.0,
-                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+                "normalMap": ""
             },
             "file_name": "roomFloor.obj",
             "colliders": [
@@ -120,7 +120,7 @@
                         400.0,
                         21.0
                     ],
-                    "tag": "laser",
+                    "tag": "ground",
                     "collisionFilter_tags": [
                         "player",
                         "playerLeftLeg",
@@ -323,10 +323,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.30000001192092896,
+                "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 0.5,
-                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "roomFloor.obj",
             "colliders": [
@@ -384,10 +384,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.30000001192092896,
+                "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 0.5,
-                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "roomFloor.obj",
             "colliders": [
@@ -445,10 +445,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.30000001192092896,
+                "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 0.5,
-                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "roomFloor.obj",
             "colliders": [
@@ -506,10 +506,10 @@
                     1.0,
                     1.0
                 ],
-                "metallic": 0.30000001192092896,
+                "metallic": 0.0,
                 "roughness": 0.5,
-                "ibl_strength": 0.5,
-                "normalMap": "concrete_floor_worn_001_nor_gl_1k.png"
+                "ibl_strength": 1.0,
+                "normalMap": ""
             },
             "file_name": "roomFloor.obj",
             "colliders": [
