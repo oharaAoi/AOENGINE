@@ -8,6 +8,7 @@
             "r": 1.0
         },
         "durability": 300.0,
+        "duration": 6.0,
         "edgeColor": {
             "a": 1.0,
             "b": 0.24186044931411743,
@@ -19,7 +20,7 @@
             "y": 0.0,
             "z": 0.0
         },
-        "maxThreshold": 0.3799999952316284,
+        "maxThreshold": 0.800000011920929,
         "minThreshold": 0.30000001192092896,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "FireNoize.png",

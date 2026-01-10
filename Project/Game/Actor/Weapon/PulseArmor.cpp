@@ -63,7 +63,7 @@ void PulseArmor::Init() {
 		uvMovingTween_[index].Init(min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
 	}
 
-	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, 4.0f, (int)EasingType::None::Liner, LoopType::Return);
+	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, armorParam_.duration, (int)EasingType::None::Liner, LoopType::Return);
 
 	isAlive_ = false;
 	worldTransform_->SetScale(CVector3::ZERO);
@@ -156,6 +156,7 @@ void PulseArmor::Debug_Gui() {
 
 		ImGui::DragFloat("minThreshold", &armorParam_.minThreshold, 0.01f);
 		ImGui::DragFloat("maxThreshold", &armorParam_.maxThreshold, 0.01f);
+		ImGui::DragFloat("duration", &armorParam_.duration, 0.01f);
 		
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
 		if (ImGui::TreeNodeEx("uvTransform", flags)) {

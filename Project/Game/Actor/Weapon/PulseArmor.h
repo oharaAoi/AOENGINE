@@ -42,6 +42,7 @@ public:
 
 		float minThreshold;
 		float maxThreshold;
+		float duration;
 
 		ArmorParameter() { SetName("BossArmorParameter"); }
 
@@ -61,6 +62,7 @@ public:
 				.Add("noiseTexture3", noiseTexture3)
 				.Add("minThreshold", minThreshold)
 				.Add("maxThreshold", maxThreshold)
+				.Add("duration", duration)
 				.Build();
 		}
 
@@ -78,6 +80,7 @@ public:
 			Convert::fromJson(jsonData, "noiseTexture3", noiseTexture3);
 			Convert::fromJson(jsonData, "minThreshold", minThreshold);
 			Convert::fromJson(jsonData, "maxThreshold", maxThreshold);
+			Convert::fromJson(jsonData, "duration", duration);
 		}
 
 		void Debug_Gui() override;
