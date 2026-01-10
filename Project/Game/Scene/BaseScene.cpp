@@ -38,9 +38,8 @@ void BaseScene::UpdateProcess() {
 	pSceneRenderer_->Update();
 	collisionManager_->CheckAllCollision();
 
-	this->PostUpdate();
-
 	pSceneRenderer_->PostUpdate();
+	this->PostUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

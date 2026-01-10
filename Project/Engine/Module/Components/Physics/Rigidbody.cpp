@@ -42,6 +42,8 @@ void Rigidbody::Debug_Gui() {
 	ImGui::DragFloat3("gravityAccele", &gravityAccel_.x);
 	ImGui::DragFloat3("moveForce_", &moveForce_.x);
 	ImGui::DragFloat3("velocity", &velocity_.x);
+	ImGui::BulletText("pushBackForce");
+	ImGui::Text("x(%f), y(%f), z(%f),", pushbackForce_.x, pushbackForce_.y, pushbackForce_.z);
 	ImGui::DragFloat("drag_", &drag_);
 }
 

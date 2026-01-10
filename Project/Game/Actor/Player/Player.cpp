@@ -246,7 +246,7 @@ void Player::Update() {
 void Player::PosUpdate() {
 	// カメラを傾ける
 	CameraIncline();
-	jet_->Update(smoothedDiffX_);
+	jet_->PostUpdate();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

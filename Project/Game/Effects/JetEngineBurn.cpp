@@ -42,6 +42,7 @@ void JetEngineBurn::Init(const std::string& _name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void JetEngineBurn::Update() {
+	transform_->Update();
 	shaderGraph_->Update();
 }
 

@@ -70,6 +70,7 @@ public:
 	void Init();
 	// 更新
 	void Update(float diftX);
+	void PostUpdate();
 	// 編集
 	void Debug_Gui() override;
 

@@ -156,6 +156,14 @@ void JetEngine::Update(float diftX) {
 	}
 }
 
+void JetEngine::PostUpdate() {
+	transform_->Update();
+	burnParentTransform_->Update();
+	for (size_t i = 0; i < 2; ++i) {
+		jetEngineBurn_[i]->Update();
+	}
+}
+
 void JetEngine::JetIsStop() {
 	isStop_ = true;
 	burnScaleUpTimer_.timer_ = 0;

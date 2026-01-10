@@ -125,7 +125,6 @@ void BaseGameObject::PostUpdate() {
 
 	// 押し戻し後の更新を行なう
 	transform_->Update();
-	transform_->PostUpdate();
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 

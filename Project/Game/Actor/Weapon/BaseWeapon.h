@@ -71,6 +71,7 @@ public:
 	virtual void Init();
 	// 更新
 	virtual void Update();
+	virtual void PostUpdate();
 	// 編集
 	void Debug_Gui() override;
 

@@ -132,6 +132,10 @@ void PlayerActionJump::CheckNextAction() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerActionJump::IsInput() {
+	if (pOwner_->GetParam().energy < param_.jumpEnergy) {
+		return false;
+	}
+
 	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::ButtonA)) {
 		return true;
 	}
