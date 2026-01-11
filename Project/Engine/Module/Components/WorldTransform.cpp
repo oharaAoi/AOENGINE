@@ -54,8 +54,6 @@ void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
 	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
 
-	data_->matWorldPrev = worldMat_;
-
 	// -------------------------------------------------
 	// ↓ 平行成分の親子関係があるかを確認
 	// -------------------------------------------------

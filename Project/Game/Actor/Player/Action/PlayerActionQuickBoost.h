@@ -20,8 +20,7 @@ public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float boostForce = 10.0f;		// boostの強さ
-		float decelerationRaito = 0.8f;	// 減速の割合
-
+		
 		float boostEnergy = 20.0f;		// 消費エネルギー
 
 		float cameraShakeTime = 0.2f;
@@ -43,7 +42,6 @@ public:
 			json curveJson = decelerationCurve.ToJson();
 			return AOENGINE::JsonBuilder(id)
 				.Add("boostForce", boostForce)
-				.Add("decelerationRaito", decelerationRaito)
 				.Add("boostEnergy", boostEnergy)
 				.Add("cameraShakeTime", cameraShakeTime)
 				.Add("cameraShakeStrength", cameraShakeStrength)
@@ -58,7 +56,6 @@ public:
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "boostForce", boostForce);
-			Convert::fromJson(jsonData, "decelerationRaito", decelerationRaito);
 			Convert::fromJson(jsonData, "boostEnergy", boostEnergy);
 			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);

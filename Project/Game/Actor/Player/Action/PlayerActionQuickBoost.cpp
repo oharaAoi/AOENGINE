@@ -13,7 +13,6 @@
 
 void PlayerActionQuickBoost::Debug_Gui() {
 	ImGui::Text("boostForce: (%.2f)", param_.boostForce);
-	ImGui::Text("decelerationRaito: (%.2f)", param_.decelerationRaito);
 	ImGui::Text("boostEnergy: (%.2f)", param_.boostEnergy);
 	float t = actionTimer_ / param_.decelerationTime;
 	float bezierValue = param_.decelerationCurve.BezierValue(1 - t);
@@ -23,7 +22,6 @@ void PlayerActionQuickBoost::Debug_Gui() {
 
 void PlayerActionQuickBoost::Parameter::Debug_Gui() {
 	ImGui::DragFloat("boostForce", &boostForce, 0.1f);
-	ImGui::DragFloat("decelerationRaito", &decelerationRaito, 0.01f);
 	ImGui::DragFloat("boostEnergy", &boostEnergy, 0.01f);
 	ImGui::DragFloat("cameraShakeTime", &cameraShakeTime, 0.1f);
 	ImGui::DragFloat("cameraShakeStrength", &cameraShakeStrength, 0.1f);
@@ -76,7 +74,7 @@ void PlayerActionQuickBoost::OnStart() {
 	}
 
 	acceleration_ = direction_ * param_.boostForce;
-	pRigidBody_->SetVelocity(acceleration_ * AOENGINE::GameTimer::DeltaTime());
+	pRigidBody_->SetVelocity(acceleration_);
 
 	// エネルギーを消費する
  	Player::Parameter& ownerParam_ = pOwner_->GetParam();
@@ -149,10 +147,9 @@ bool PlayerActionQuickBoost::IsInput() {
 
 void PlayerActionQuickBoost::Boost() {
 	float t = actionTimer_ / param_.decelerationTime;
-	float bezierValue = param_.decelerationCurve.BezierValue(1 - t);
+	float bezierValue = param_.decelerationCurve.BezierValue(t);
 
-	param_.boostForce *= bezierValue;
-	acceleration_ = direction_ * (initParam_.boostForce * bezierValue);
+	acceleration_ = direction_ * (param_.boostForce * bezierValue);
 
 	pRigidBody_->AddVelocity(acceleration_ * AOENGINE::GameTimer::DeltaTime());
 }

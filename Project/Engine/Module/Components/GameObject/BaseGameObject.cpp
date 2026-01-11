@@ -51,6 +51,7 @@ void BaseGameObject::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Update() {
+	transform_->PostUpdate();
 	// アニメーションが設定されていない場合はTransformのみ更新
 	if (animetor_ == nullptr) {
 		UpdateMatrix();

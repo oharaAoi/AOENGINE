@@ -1,10 +1,14 @@
 {
     "ActionMove": {
-        "boostSpeed": 2.200000047683716,
-        "decayRate": 16.299999237060547,
+        "accel": 7.599999904632568,
+        "animationTime": 0.10000000149011612,
+        "boostSpeed": 1.600000023841858,
+        "decayRate": 13.199999809265137,
+        "decel": 4.599999904632568,
         "maxSpeed": 2.0999999046325684,
         "rotateT": 0.10000000149011612,
         "speed": 0.20000000298023224,
-        "turnAroundThreshold": -0.5
+        "turnAroundThreshold": -0.5,
+        "turnSpeed": 0.30000001192092896
     }
 }
