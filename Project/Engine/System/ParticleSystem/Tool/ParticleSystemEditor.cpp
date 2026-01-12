@@ -604,7 +604,7 @@ void ParticleSystemEditor::PreDraw() {
 	AOENGINE::Render::Update();
 
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
-		DrawGrid(AOENGINE::Render::GetViewport3D(), AOENGINE::Render::GetProjection3D());
+		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
 	}
 }
 
