@@ -156,5 +156,4 @@ void BossActionKeepDistance::Stop() {
 
 	Math::Quaternion playerToRotate_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
 	pTarget_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
-
 }
