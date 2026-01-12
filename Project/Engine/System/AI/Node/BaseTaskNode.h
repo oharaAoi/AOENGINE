@@ -168,7 +168,7 @@ inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 	}
 
 	// 非アクティブ状態なら初期化を行う
-	if (state_ == BehaviorStatus::Inactive) {
+	if (state_ == BehaviorStatus::Success || state_ == BehaviorStatus::Inactive) {
 		if (!CanExecute()) {
 			return BehaviorStatus::Failure;
 		}
@@ -185,7 +185,7 @@ inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 		if (Wait()) {
 			End();
 			coolTimer_.timer_ = 0;
-			state_ = BehaviorStatus::Inactive;
+			state_ = BehaviorStatus::Success;
 			return BehaviorStatus::Success;
 		}
 	}

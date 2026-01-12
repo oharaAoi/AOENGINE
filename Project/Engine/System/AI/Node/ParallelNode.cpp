@@ -37,17 +37,19 @@ json AI::ParallelNode::ToJson() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 BehaviorStatus AI::ParallelNode::Execute() {
-	BehaviorStatus statu = BehaviorStatus::Failure;
+	BehaviorStatus status = BehaviorStatus::Failure;
 	// 子のNodeをすべて同時に実行する
 	for (auto& child : children_) {
-		BehaviorStatus status = child->Execute();
+		if (child->GetState() != BehaviorStatus::Success) {
+			status = child->Execute();
+		}
 
 		if (status == BehaviorStatus::Running) {
-			statu = BehaviorStatus::Running;
+			status = BehaviorStatus::Running;
 		}
 
 		if (status == BehaviorStatus::Failure) {
-			statu =  BehaviorStatus::Failure;
+			status =  BehaviorStatus::Failure;
 		}
 
 		if (status == BehaviorStatus::Success) {
@@ -59,7 +61,7 @@ BehaviorStatus AI::ParallelNode::Execute() {
 		return BehaviorStatus::Success;
 	}
 	
-	return statu;
+	return status;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
