@@ -36,15 +36,8 @@ void TestScene::Init() {
 	attackArmor_ = std::make_unique<AttackArmor>();
 	attackArmor_->Init();
 
-	/*AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
-	object_->SetObject("floor.obj", MaterialType::PBR);*/
-
-	/*AOENGINE::BaseGameObject *object_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<AOENGINE::BaseGameObject>("ground", "Object_PBR.json");
-	object_->SetObject("floor.obj", MaterialType::PBR);*/
-
 	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
 	AOENGINE::EditorWindows::AddObjectWindow(attackArmor_.get(), "attackArmor");
-	//AOENGINE::EditorWindows::AddObjectWindow(object_, "ground");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +56,5 @@ void TestScene::Update() {
 		camera3d_->Update();
 	}
 	camera2d_->Update();
-
 
 }

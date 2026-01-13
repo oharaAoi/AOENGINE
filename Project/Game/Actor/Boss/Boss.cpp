@@ -210,17 +210,6 @@ void Boss::Update() {
 	}
 
 	// ----------------------
-	// ↓ アーマーの状態を更新
-	// ----------------------
-	if (!pulseArmor_->GetIsAlive()) {
-		param_.armorCoolTime -= AOENGINE::GameTimer::DeltaTime();
-		if (param_.armorCoolTime <= 0.0f) {
-			isArmorDeploy_ = true;
-			param_.armorCoolTime = initParam_.armorCoolTime;
-		}
-	}
-
-	// ----------------------
 	// ↓ treeの更新
 	// ----------------------
 
@@ -229,6 +218,21 @@ void Boss::Update() {
 	behaviorTree_->Run();
 	pulseArmor_->Update();
 	stateMachine_->Update();
+
+	// ----------------------
+	// ↓ アーマーの状態を更新
+	// ----------------------
+	if (!pulseArmor_->GetIsAlive()) {
+		param_.armorCoolTime -= AOENGINE::GameTimer::DeltaTime();
+		if (behaviorTree_->GetRootNode()->GetState() == BehaviorStatus::Success
+			|| behaviorTree_->GetRootNode()->GetState() == BehaviorStatus::Inactive) {
+			if (param_.armorCoolTime <= 0.0f) {
+				isArmorDeploy_ = true;
+				param_.armorCoolTime = initParam_.armorCoolTime;
+			}
+		}
+	}
+
 #ifdef _DEBUG
 	// treeの実行開始
 	if (AOENGINE::Input::IsTriggerKey(DIK_M)) {

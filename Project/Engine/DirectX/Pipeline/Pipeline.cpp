@@ -127,7 +127,6 @@ D3D12_DEPTH_STENCIL_DESC Pipeline::SetDepthStencilState(bool _isDepth) {
 	// Depthの機能を有効化する
 	desc.DepthEnable = true;
 	// 書き込み
-	//desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
 	if (_isDepth) {
 		desc.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
 	} else {

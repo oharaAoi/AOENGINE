@@ -329,7 +329,8 @@
                         "ground",
                         "invisibleWall",
                         "bossAttack",
-                        "bossMissile"
+                        "bossMissile",
+                        "attackArmor"
                     ]
                 },
                 {

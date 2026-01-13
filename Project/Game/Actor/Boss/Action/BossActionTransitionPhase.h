@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
 #include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
@@ -18,6 +19,8 @@ public: // データ構造体
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float chargeTime = 3.0f; // 溜める時間
+		float slowTime = 1.0f;
+		float slowValue = 0.8f;
 
 		Parameter() {
 			SetGroupName("BossAction");
@@ -27,11 +30,15 @@ public: // データ構造体
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
 				.Add("chargeTime", chargeTime)
+				.Add("slowTime", slowTime)
+				.Add("slowValue", slowValue)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "chargeTime", chargeTime);
+			Convert::fromJson(jsonData, "slowTime", slowTime);
+			Convert::fromJson(jsonData, "slowValue", slowValue);
 		}
 
 		void Debug_Gui() override;
@@ -66,6 +73,8 @@ private:
 	Parameter param_;
 	AOENGINE::GpuParticleEmitter* chargeParticle_;
 	AOENGINE::BaseParticles* chargeLine_;
+
+	AOENGINE::Timer slowTimer_;
 
 	std::unique_ptr<AttackArmor> attackArmor_ = nullptr;
 };

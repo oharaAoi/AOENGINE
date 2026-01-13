@@ -1,12 +1,12 @@
 {
     "MachineGunAttackParam": {
-        "bulletSpeed": 100.0,
-        "fireBulletsNum": 20,
-        "fireInterval": 0.30000001192092896,
-        "maxBulletsNum": 400,
+        "bulletSpeed": 500.0,
+        "fireBulletsNum": 30,
+        "fireInterval": 0.15000000596046448,
+        "maxBulletsNum": -864,
         "recoilTime": 0.0,
         "reloadTime": 2.0,
         "startUpTime": 0.0,
-        "takeDamage": 10.0
+        "takeDamage": 5.0
     }
 }

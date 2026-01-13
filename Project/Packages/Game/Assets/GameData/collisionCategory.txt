@@ -12,3 +12,4 @@ laser
 ground
 building
 invisibleWall
+attackArmor

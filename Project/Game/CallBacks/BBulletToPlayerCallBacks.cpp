@@ -30,9 +30,8 @@ void BBulletToPlayerCallBacks::CollisionEnter([[maybe_unused]] AOENGINE::BaseCol
 		hitBullet->SetIsAlive(false);
 		hitEffect_->SetPos(hitBullet->GetPosition());
 		hitEffect_->Reset();
+		pPlayer_->Damage(hitBullet->GetTakeDamage());
 	}
-
-	pPlayer_->Damage(hitBullet->GetTakeDamage());
 }
 
 void BBulletToPlayerCallBacks::CollisionStay([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const player) {

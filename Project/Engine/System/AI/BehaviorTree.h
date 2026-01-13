@@ -86,7 +86,6 @@ public:
 	/// <param name="_aggressionScore">: 積極性の値</param>
 	void DisplayState(const ImVec2& _pos, float _aggressionScore, const ImVec2& _offset = {-30.0f, -30.0f});
 
-	BaseBehaviorNode* GetRootNode() const { return root_; }
 
 public:
 
@@ -94,6 +93,8 @@ public:
 	const std::string& GetName() const { return name_; }
 
 	void SetBlackboard(Blackboard* _blackboard) { blackboard_ = _blackboard; }
+
+	BaseBehaviorNode* GetRootNode() const { return root_; }
 
 private:
 

@@ -1,5 +1,6 @@
 #include "CollisionManager.h"
 #include "Engine/Module/Components/Collider/CollisionFunctions.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
 #include "Engine/System/Collision/PenetrationResolution.h"
 #include "Engine/Utilities/BitChecker.h"
 
@@ -7,7 +8,13 @@ using namespace AOENGINE;
 
 CollisionManager::CollisionManager() {}
 CollisionManager::~CollisionManager() {
+	Finalize();
+}
+
+void CollisionManager::Finalize() {
 	pColliderCollector_->Reset();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
+	layers.Clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////

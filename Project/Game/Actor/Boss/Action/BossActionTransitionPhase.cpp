@@ -31,10 +31,15 @@ float BossActionTransitionPhase::EvaluateWeight() {
 void BossActionTransitionPhase::Debug_Gui() {
 	BaseTaskNode::Debug_Gui();
 	param_.Debug_Gui();
+	attackArmor_->Debug_Gui();
+
+	slowTimer_.targetTime_ = param_.slowTime;
 }
 
 void BossActionTransitionPhase::Parameter::Debug_Gui() {
 	ImGui::DragFloat("chargeTime", &chargeTime, 0.1f);
+	ImGui::DragFloat("slowTime", &slowTime, 0.1f);
+	ImGui::DragFloat("slowValue", &slowValue, 0.1f);
 	SaveAndLoad();
 }
 
@@ -80,11 +85,20 @@ void BossActionTransitionPhase::Init() {
 	chargeLine_->SetParent(pTarget_->GetTransform()->GetWorldMatrix());
 	chargeLine_->SetIsStop(false);
 
+	// ----------------------
+	// ↓ armor
+	// ----------------------
 	attackArmor_ = std::make_unique<AttackArmor>();
 	attackArmor_->Init();
 	attackArmor_->Update();
 
 	pTarget_->SetIsArmorDeploy(true);
+
+	slowTimer_.targetTime_ = param_.slowTime;
+
+	// 動いている場合は速度を止めておく
+	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
+	rigid->SetVelocity(CVector3::ZERO);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,12 +108,23 @@ void BossActionTransitionPhase::Init() {
 void BossActionTransitionPhase::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 
-	if (taskTimer_ >= param_.chargeTime) {
-		chargeParticle_->SetIsStop(true);
-		chargeLine_->SetIsStop(true);
-		attackArmor_->Start(pTarget_->GetPosition());
+	if (slowTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
+		AOENGINE::GameTimer::SetTimeScale(param_.slowValue);
+	} else {
+		AOENGINE::GameTimer::SetTimeScale(1.0f);
+	}
 
-		pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
+	if (!attackArmor_->GetIsStart()) {
+		if (taskTimer_ >= param_.chargeTime) {
+			chargeParticle_->SetIsStop(true);
+			chargeLine_->SetIsStop(true);
+			attackArmor_->Start(pTarget_->GetPosition());
+
+			pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
+
+			FollowCamera* camera = pTarget_->GetFollowCamera();
+			camera->SetShake(attackArmor_->GetCameraShakeTime(), attackArmor_->GetCameraShakeStrength());
+		}
 	}
 
 	attackArmor_->Update();

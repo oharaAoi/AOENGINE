@@ -216,19 +216,6 @@ void Player::Update() {
 	// stateの更新
 	stateMachine_->Update();
 
-	// 攻撃を行う
-	isAttack_ = false;
-	while (!attackHistory_.empty()) {
-		bool isCurrentFrameAttack = false;
-		auto [weapon, context] = attackHistory_.front();
-	isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
-		attackHistory_.pop_front();    // 先頭を削除
-
-		if (isCurrentFrameAttack) {
-			isAttack_ = true;
-		}
-	}
-
 	// ビネットの更新
 	if (param_.health <= initParam_.health * param_.pinchOfPercentage) {
 		vignetteTween_.Update(AOENGINE::GameTimer::DeltaTime());
@@ -246,7 +233,20 @@ void Player::Update() {
 void Player::PosUpdate() {
 	// カメラを傾ける
 	CameraIncline();
-	jet_->PostUpdate();
+	jet_->Update(smoothedDiffX_);
+
+	// 攻撃を行う
+	isAttack_ = false;
+	while (!attackHistory_.empty()) {
+		bool isCurrentFrameAttack = false;
+		auto [weapon, context] = attackHistory_.front();
+		isCurrentFrameAttack = GetWeapon(weapon)->Attack(context);  // 使う
+		attackHistory_.pop_front();    // 先頭を削除
+
+		if (isCurrentFrameAttack) {
+			isAttack_ = true;
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

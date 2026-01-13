@@ -45,8 +45,6 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	// ------------------------
 	// サンプリング
 	// ------------------------
-    // 元画像
-	//float4 src = gBaseTex.SampleLevel(gSampler, uvBase, 0);
 	float4 src = gBaseTex.Load(int3(basePix, 0));
     // ノイズ（0〜1）
 	float noise = gNoiseTex.SampleLevel(gSampler, uvNoise, 0).r;

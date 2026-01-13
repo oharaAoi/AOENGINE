@@ -9,7 +9,7 @@
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Boss/BossEvaluationFormula.h"
 #include "Game/Actor/Weapon/Armors.h"
-
+#include "Game/Camera/FollowCamera.h"
 #include "Game/Effects/AttackArmor.h"
 
 /// <summary>
@@ -42,6 +42,7 @@ public:
 		float postureStability = 100.0f;
 		float postureStabilityScrapeRaito = 0.3f;	// 耐久度を削る割合
 		float armorCoolTime = 20.0f;
+		float attackArmorDamage = 100.0f;
 		float angularVelocity = 90.f; // 角速度
 		float angularThreshold = 10.f; // 角速度
 		float idealDistance = 10.f; // 理想距離
@@ -218,6 +219,11 @@ public:
 
 	float GetAggressionScore() const { return aggressionScore_; }
 
+	void SetFollowCamera(FollowCamera* pFollowCamera) { pFollowCamera_ = pFollowCamera; }
+	FollowCamera* GetFollowCamera() const { return pFollowCamera_; }
+
+	float GetAttackArmorDamage() const { return param_.attackArmorDamage; }
+
 private:
 
 	// ポインタ  --------------------------------------------------
@@ -225,6 +231,8 @@ private:
 	BossBulletManager* pBossBulletManager_ = nullptr;
 
 	std::unique_ptr<AttackArmor> attackArmor_ = nullptr;
+
+	FollowCamera* pFollowCamera_ = nullptr;
 
 	// state --------------------------------------------------
 	std::unique_ptr<StateMachine<Boss>> stateMachine_;

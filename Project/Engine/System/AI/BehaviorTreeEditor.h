@@ -63,7 +63,7 @@ public:
 	/// Editor上でのコメントアウトを作成する
 	/// </summary>
 	/// <param name="_json"></param>
-	void CreateCommets(const json& _json);
+	void CreateCommentsFromJson(const json& _json);
 
 	/// <summary>
 	/// コメントアウトをJson化する
@@ -73,6 +73,9 @@ public:
 
 private:
 
+	/// <summary>
+	/// コメントNodeの作成
+	/// </summary>
 	void CreateCommentNode();
 	
 	/// <summary>

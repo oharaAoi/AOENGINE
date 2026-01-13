@@ -2,6 +2,11 @@
 
 using namespace AOENGINE;
 
+void AOENGINE::CollisionLayerManager::Clear() {
+	nameToBit_.clear();
+	nextBit_ = 1;
+}
+
 AOENGINE::CollisionLayerManager::CollisionLayerManager() : nextBit_(1) {
 	// 必要ならここで初期カテゴリを登録しておく
 	RegisterCategory("Default");

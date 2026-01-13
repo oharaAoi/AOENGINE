@@ -19,6 +19,8 @@ public:
 
 	static CollisionLayerManager& GetInstance();
 
+	void Clear();
+
 	// カテゴリ名を登録（未登録時のみ）
 	uint32_t RegisterCategory(const std::string& name);
 

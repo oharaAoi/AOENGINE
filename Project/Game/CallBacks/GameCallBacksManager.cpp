@@ -40,6 +40,11 @@ void GameCallBacksManager::Init(AOENGINE::CollisionManager* _manager) {
 	pBBulletToGround_->SetBossBulletManager(pBossRoot_->GetBulletManager());
 	pBBulletToGround_->SetGround(pFloor_);
 
+	pAttackArmorToPlayer_ = std::make_unique<AttackArmorToPlayerCallBacks>(pCollisionManager_);
+	pAttackArmorToPlayer_->Init();
+	pAttackArmorToPlayer_->SetBoss(pBossRoot_->GetBoss());
+	pAttackArmorToPlayer_->SetPlayer(pPlayerManager_->GetPlayer());
+
 }
 
 void GameCallBacksManager::Update() {

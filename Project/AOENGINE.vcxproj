@@ -23,7 +23,6 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
-    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -136,9 +135,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h" />
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h" />
-    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
+    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
     <ClInclude Include="Engine\Engine.h" />
     <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h" />
@@ -166,39 +165,17 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
-    <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
-    <ClInclude Include="Engine\System\AI\CommentBox.h" />
-    <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTree.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h" />
-    <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
-    <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h" />
-    <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\ParallelNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\PlannerNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\SelectorNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\SequenceNode.h" />
-    <ClInclude Include="Engine\System\AI\Other\Condition.h" />
-    <ClInclude Include="Engine\System\AI\State\Blackboard.h" />
-    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
-    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
-    <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h" />
-    <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Module\Components\Animation\Animator.h" />
     <ClInclude Include="Engine\Module\Components\Animation\VectorTween.h" />
     <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h" />
+    <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h" />
+    <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
@@ -263,8 +240,31 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\Render\ShadowMap.h" />
     <ClInclude Include="Engine\Render\TrailRenderer.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTree.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h" />
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
+    <ClInclude Include="Engine\System\AI\CommentBox.h" />
+    <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h" />
+    <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\ParallelNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\PlannerNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\SelectorNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\SequenceNode.h" />
+    <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h" />
+    <ClInclude Include="Engine\System\AI\Other\Condition.h" />
+    <ClInclude Include="Engine\System\AI\State\Blackboard.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
+    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
+    <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
+    <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
@@ -273,7 +273,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
-    <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h" />
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
@@ -297,18 +296,18 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Other\TimeNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
@@ -324,6 +323,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Engine\Utilities\Timer.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h" />
     <ClInclude Include="Externals\ImGui\Flow\context_wrapper.h" />
     <ClInclude Include="Externals\ImGui\Flow\imgui_bezier_math.h" />
@@ -349,8 +349,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h" />
-    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
     <ClInclude Include="Game\Actor\Base\BaseAction.h" />
     <ClInclude Include="Game\Actor\Base\BaseBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h" />
@@ -368,6 +366,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionApproach.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionFloat.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
@@ -414,6 +413,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
     <ClInclude Include="Game\Actor\Weapon\PulseArmor.h" />
     <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h" />
+    <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
@@ -438,6 +438,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
     <ClInclude Include="Game\Scene\GameScene.h" />
+    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
+    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h" />
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
@@ -456,7 +458,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\FadePanel.h" />
     <ClInclude Include="Game\UI\Guide\GameMenuUI.h" />
     <ClInclude Include="Game\UI\Guide\GameModeGuide.h" />
-    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h" />
     <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h" />
     <ClInclude Include="Game\UI\Health.h" />
     <ClInclude Include="Game\UI\Player\EnergyOutput.h" />
@@ -491,9 +492,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp" />
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp" />
-    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
+    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
     <ClCompile Include="Engine\Engine.cpp" />
     <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp" />
@@ -520,38 +521,16 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
-    <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTree.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
-    <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
-    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp" />
-    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
-    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
-    <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\Animator.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\VectorTween.cpp" />
     <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp" />
+    <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp" />
+    <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
@@ -615,8 +594,31 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />
     <ClCompile Include="Engine\Render\TrailRenderer.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTree.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp" />
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
+    <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
+    <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp" />
+    <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
+    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
+    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
+    <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
@@ -625,7 +627,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
-    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp" />
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
@@ -649,17 +650,18 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
@@ -691,8 +693,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp" />
-    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseAction.cpp" />
     <ClCompile Include="Game\Actor\Base\BaseBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp" />
@@ -710,6 +710,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionApproach.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionFloat.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
@@ -755,6 +756,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\PulseArmor.cpp" />
     <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp" />
+    <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
@@ -776,6 +778,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />
+    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
+    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\TitleScene.cpp" />
@@ -793,7 +797,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\FadePanel.cpp" />
     <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp" />
     <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp" />
-    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp" />
     <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp" />
     <ClCompile Include="Game\UI\Health.cpp" />
     <ClCompile Include="Game\UI\Player\EnergyOutput.cpp" />
@@ -806,70 +809,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Skydome.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj">
       <Project>{A90EE592-95C6-26E0-FECD-FF3BEAA4C1D0}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\AddBlend.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Dissolve.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Distortion.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\DifferenceBlend.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MaskBlend.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\SampleTexture.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
-    <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

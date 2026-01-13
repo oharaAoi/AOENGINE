@@ -40,8 +40,7 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	float2 warpedUV = uv + offset;
 
     // はみ出しを Clamp
-	warpedUV = saturate(warpedUV);
-
+	
     // Base を歪んだ UV でサンプル（解像度差は Sample 側が吸収してくれる）
 	float4 color = gBaseTex.SampleLevel(gSampler, warpedUV, 0);
 

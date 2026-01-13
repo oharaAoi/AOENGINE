@@ -3,17 +3,45 @@
         {
             "children": [
                 {
-                    "aggressionAffinity": 0.10000000149011612,
-                    "children": [],
-                    "coolTime": 1.0,
-                    "name": "DeployArmor",
+                    "children": [
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "TransitionPhase",
+                            "nodePos": {
+                                "x": 914.0,
+                                "y": 854.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.10000000149011612
+                        },
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "DeployArmor",
+                            "nodePos": {
+                                "x": 1170.0,
+                                "y": 854.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.0
+                        }
+                    ],
+                    "leftKey": "hp",
+                    "leftKeyIndex": 8,
+                    "name": "Condition",
                     "nodePos": {
-                        "x": 994.0,
-                        "y": 758.0
+                        "x": 1058.0,
+                        "y": 710.0
                     },
-                    "nodeType": 4,
-                    "waitTime": 1.0,
-                    "weight": 0.0
+                    "nodeType": 7,
+                    "operatorIndex": 5,
+                    "rightKey": "halfHp",
+                    "rightKeyIndex": 5
                 },
                 {
                     "children": [
@@ -63,7 +91,7 @@
                 }
             ],
             "leftKey": "deployArmor",
-            "leftKeyIndex": 6,
+            "leftKeyIndex": 3,
             "name": "Condition",
             "nodePos": {
                 "x": 1231.0,
@@ -72,31 +100,31 @@
             "nodeType": 7,
             "operatorIndex": 0,
             "rightKey": "isTrue",
-            "rightKeyIndex": 3
+            "rightKeyIndex": 10
         }
     ],
     "comments": [
         {
             "id": 100,
             "min": {
-                "x": 864.0,
-                "y": 656.0
+                "x": 0.0,
+                "y": 0.0
             },
             "size": {
                 "x": 482.0,
-                "y": 400.0
+                "y": 448.0
             },
             "text": "バリアを張る"
         },
         {
             "id": 10000,
             "min": {
-                "x": 1408.0,
-                "y": 624.0
+                "x": 0.0,
+                "y": 0.0
             },
             "size": {
                 "x": 432.0,
-                "y": 408.0
+                "y": 456.0
             },
             "text": "攻撃 か 回避"
         }

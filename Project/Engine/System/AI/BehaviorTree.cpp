@@ -170,7 +170,7 @@ void BehaviorTree::CreateTree(const std::string& nodeName) {
 	// jsonからtreeの情報を読み取る
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
 	root_ = BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, creators_, goalArray_);
-	editor_.CreateCommets(nodeTree);
+	editor_.CreateCommentsFromJson(nodeTree);
 
 	std::string message = nodeName + "を作成しました。";
 	AOENGINE::Logger::Log(message);

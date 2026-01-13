@@ -3,6 +3,7 @@
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/System/ShaderGraph/ShaderGraph.h"
+#include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Utilities/Timer.h"
 
@@ -18,7 +19,10 @@ public:
 		Math::Vector3 uvScale = CVector3::UNIT;		// uvのスケール
 		Math::Vector3 upScale = CVector3::UNIT;		// 目標のスケール
 		float upScaleTargetTime;					// スケールを大きくする時間
-		float disapperTargetTime;					// 消える時間
+		float disappearTargetTime;					// 消える時間
+
+		float cameraShakeStrength = 4;				// カメラシェイクの強さ
+		float cameraShakeTime = 1;						// カメラシェイクの時間
 
 		Parameter() {
 			SetGroupName("Effect");
@@ -30,8 +34,10 @@ public:
 				.Add("uvScale", uvScale)
 				.Add("upScale", upScale)
 				.Add("upScaleTargetTime", upScaleTargetTime)
-				.Add("disapperTargetTime", disapperTargetTime)
+				.Add("disappearTargetTime", disappearTargetTime)
 				.Add("shaderGraphPath", shaderGraphPath)
+				.Add("cameraShakeStrength", cameraShakeStrength)
+				.Add("cameraShakeTime", cameraShakeTime)
 				.Build();
 		}
 
@@ -39,8 +45,10 @@ public:
 			Convert::fromJson(jsonData, "uvScale", uvScale);
 			Convert::fromJson(jsonData, "upScale", upScale);
 			Convert::fromJson(jsonData, "upScaleTargetTime", upScaleTargetTime);
-			Convert::fromJson(jsonData, "disapperTargetTime", disapperTargetTime);
+			Convert::fromJson(jsonData, "disappearTargetTime", disappearTargetTime);
 			Convert::fromJson(jsonData, "shaderGraphPath", shaderGraphPath);
+			Convert::fromJson(jsonData, "cameraShakeStrength", cameraShakeStrength);
+			Convert::fromJson(jsonData, "cameraShakeTime", cameraShakeTime);
 		}
 
 		void Debug_Gui() override;
@@ -70,7 +78,7 @@ private:
 	void ScaleUp();
 
 	// 消える
-	void Disapper();
+	void Disappear();
 
 public:
 
@@ -78,18 +86,25 @@ public:
 	bool GetIsStart() const { return isStart_; }
 
 	bool GetIsFinish() const { return isFinish_; }
-	bool GetIsDisapper() const { return isDisapper_; }
+	bool GetIsDisappear() const { return isDisappear_; }
+
+	float GetCameraShakeStrength() const { return parameter_.cameraShakeStrength; }
+	float GetCameraShakeTime() const { return parameter_.cameraShakeTime; }
 
 private:
 
 	std::unique_ptr<AOENGINE::ShaderGraph> shaderGraph_;
 
+	AOENGINE::GpuParticleEmitter* particle_;
+
+	AOENGINE::BaseCollider* collider_;
+
 	Parameter parameter_;
 	AOENGINE::Timer upScaleTimer_;
-	AOENGINE::Timer disapperTimer_;
+	AOENGINE::Timer disappearTimer_;
 
 	bool isStart_ = false;
-	bool isDisapper_ = false;
+	bool isDisappear_ = false;
 
 	bool isFinish_ = false;
 

@@ -91,6 +91,7 @@ void GameScene::Init() {
 	bossRoot_->SetUIs(canvas_->GetBossUIs());
 	bossRoot_->SetPlayer(playerManager_->GetPlayer());
 	bossRoot_->SetTargetTransform(playerManager_->GetPlayer()->GetTransform());
+	bossRoot_->SetFollowCamera(followCamera_.get());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());

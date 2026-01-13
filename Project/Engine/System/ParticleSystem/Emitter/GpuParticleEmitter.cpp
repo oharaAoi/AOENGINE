@@ -14,6 +14,7 @@ GpuParticleEmitter::~GpuParticleEmitter() {
 
 void GpuParticleEmitter::Debug_Gui() {
 	ImGui::Text("emitAccumulator : %f", emitAccumulator_);
+	ImGui::Checkbox("isStop", &isStop_);
 	emitterItem_.Attribute_Gui();
 	if (ImGui::Button("Save")) {
 		JsonItems::Save("GPU", emitterItem_.ToJson(GetName()), "Effect");

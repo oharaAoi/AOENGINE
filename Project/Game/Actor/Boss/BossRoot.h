@@ -6,6 +6,7 @@
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/UI/Boss/BossUIs.h"
+#include "Game/Camera/FollowCamera.h"
 
 /// <summary>
 /// Boss関連の親
@@ -37,6 +38,11 @@ public:
 
 	void SetTargetTransform(AOENGINE::WorldTransform* _transform) { boss_->SetTargetTransform(_transform); }
 
+	void SetFollowCamera(FollowCamera* pFollowCamera) { 
+		pFollowCamera_ = pFollowCamera;
+		boss_->SetFollowCamera(pFollowCamera);
+	}
+
 private:
 
 	std::unique_ptr<Boss> boss_;
@@ -45,6 +51,7 @@ private:
 	// 他クラス情報
 	Math::Vector3 playerPosition_;
 	Player* pPlayer_ = nullptr;
+	FollowCamera* pFollowCamera_ = nullptr;
 
 };
 

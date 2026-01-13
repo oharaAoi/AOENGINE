@@ -6,10 +6,9 @@
 using namespace AOENGINE;
 
 AOENGINE::DxResource::~DxResource() {
-	if (cBuffer_ = nullptr) {
-		return;
+	if (cBuffer_ != nullptr) {
+		cBuffer_.Reset();
 	}
-	cBuffer_.Reset();
 	if (srvAddress_ != std::nullopt) {
 		AOENGINE::DescriptorHeap::AddFreeSrvList(srvAddress_.value().assignIndex_);
 	}
@@ -97,7 +96,7 @@ void AOENGINE::DxResource::CreateCopyResource(ID3D12GraphicsCommandList* _comman
 	CreateSRV(srvDesc);
 
 	// ----------------------
-	// ↓ 基のresourceをコピーする
+	// ↓ 基のResourceをコピーする
 	// ----------------------
 	D3D12_RESOURCE_STATES sourceState = _source->GetState();
 	_source->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);

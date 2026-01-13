@@ -56,6 +56,8 @@ public:
 	CollisionManager();
 	~CollisionManager();
 
+	void Finalize();
+
 	void Init();
 
 	/// <summary>

@@ -37,9 +37,6 @@
     <Filter Include="Engine\DirectX\Resource">
       <UniqueIdentifier>{54D8F2D4-C00F-3B6C-C919-9F8F35D06165}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\DirectX\RootSignature">
-      <UniqueIdentifier>{829BDBCB-6E56-CB77-170E-44C203A81508}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\DirectX\Utilities">
       <UniqueIdentifier>{48E2009F-3407-501F-5D52-35AF49D64E3D}</UniqueIdentifier>
     </Filter>
@@ -63,18 +60,6 @@
     </Filter>
     <Filter Include="Engine\Module\Components\2d">
       <UniqueIdentifier>{EA4416BD-5652-44A3-DF38-408E4B45105A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Module\Components\AI">
-      <UniqueIdentifier>{BE4616BD-2A54-44A3-B33A-408E1F47105A}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Module\Components\AI\GoalOriented">
-      <UniqueIdentifier>{0A12F72B-F68E-EA6E-1F0C-EB820BE88602}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Module\Components\AI\State">
-      <UniqueIdentifier>{8E8CADB7-FAFA-0237-43E4-BD36AF91F8D2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\Module\Components\AI\UtilityAI">
-      <UniqueIdentifier>{EBAF48F4-5774-47E4-20DA-77AE8C5DE319}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Module\Components\Animation">
       <UniqueIdentifier>{7433ED7E-606F-F0E8-C981-08E0B5DC9803}</UniqueIdentifier>
@@ -130,6 +115,24 @@
     <Filter Include="Engine\System">
       <UniqueIdentifier>{8FF69A5A-FBB6-1691-C4F1-5F0E30715B6D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\AI">
+      <UniqueIdentifier>{C8708E13-B469-AD65-DD9B-92EAC9F38C71}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\AI\GoalOriented">
+      <UniqueIdentifier>{54BC651F-C0D4-4C49-8981-DCE2F558E1E2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\AI\Node">
+      <UniqueIdentifier>{7D581B94-E9C4-D68E-B2B8-6EEC1EE4F8F6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\AI\Other">
+      <UniqueIdentifier>{F94F9B17-E549-C469-CEB6-5A7ABA4F2AD6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\AI\State">
+      <UniqueIdentifier>{1896E317-0490-0C6A-EDFC-A27AD99572D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\AI\UtilityAI">
+      <UniqueIdentifier>{756E1C2C-617E-C8FC-CA37-2D1BB666B795}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\System\Audio">
       <UniqueIdentifier>{D0F3BF4E-3C55-9D5C-C5C2-E30E3123D41B}</UniqueIdentifier>
     </Filter>
@@ -177,6 +180,27 @@
     </Filter>
     <Filter Include="Engine\System\ShaderGraph\Node">
       <UniqueIdentifier>{FCB9E1F3-E8DF-AB5A-D125-3126BDEAD026}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\Blend">
+      <UniqueIdentifier>{F00266A7-DCE9-279F-853A-8EBC7100A105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\Math">
+      <UniqueIdentifier>{55BC2F62-C175-9A0C-4AD5-B4E6B68D507C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\Other">
+      <UniqueIdentifier>{2DB055A8-1997-17A0-C2E7-7DBDAEAD9006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\PostProcess">
+      <UniqueIdentifier>{303EF388-1CA6-B956-8511-CE6C7198D042}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\Priority">
+      <UniqueIdentifier>{2DA429FA-9933-EBE4-A22F-CCFC0E3E26F1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\Texture">
+      <UniqueIdentifier>{5C1B9273-486D-6963-318C-A6731D7D824C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\ShaderGraph\Node\UV">
+      <UniqueIdentifier>{B61B3EDA-228A-9359-6B73-4E59D72089F5}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\Utilities">
       <UniqueIdentifier>{06BA1B4B-F2B2-3A9D-1BE5-1F22073D1AA9}</UniqueIdentifier>
@@ -271,6 +295,9 @@
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{DCF93CE2-C8B1-7E2F-31B9-578B1D901920}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\SceneBehavior">
+      <UniqueIdentifier>{896BB601-7590-0582-9EDB-EA118A5F04A0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\State">
       <UniqueIdentifier>{0F3C46E2-FBF3-872F-64FB-608B50D22220}</UniqueIdentifier>
     </Filter>
@@ -363,11 +390,17 @@
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h">
+      <Filter>Engine\DirectX\Resource</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Engine.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h">
+      <Filter>Engine\Lib</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\Color.h">
       <Filter>Engine\Lib</Filter>
@@ -441,45 +474,6 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\BehaviorTree.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h">
-      <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\PlannerNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\SelectorNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\SequenceNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\State\Blackboard.h">
-      <Filter>Engine\Module\Components\AI\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h">
-      <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h">
       <Filter>Engine\Module\Components\Animation</Filter>
     </ClInclude>
@@ -498,13 +492,19 @@
     <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h">
       <Filter>Engine\Module\Components\Attribute</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h">
+      <Filter>Engine\Module\Components\Attribute</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h">
+      <Filter>Engine\Module\Components\Collider</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\BoxCollider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\CollisionFunctions.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Collider\BaseCollider.h">
+    <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h">
@@ -699,10 +699,79 @@
     <ClInclude Include="Engine\Render\TrailRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\AI\BehaviorTree.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSerializer.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\CommentBox.h">
+      <Filter>Engine\System\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\GoalOriented\IOrientedGoal.h">
+      <Filter>Engine\System\AI\GoalOriented</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\BaseBehaviorNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\BaseTaskNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\BehaviorRootNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\ConditionNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\ParallelNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\PlannerNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\PlannerSelectorNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\SelectorNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\SequenceNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Node\WeightSelectorNode.h">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\Other\Condition.h">
+      <Filter>Engine\System\AI\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\State\Blackboard.h">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h">
+      <Filter>Engine\System\AI\UtilityAI</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Audio\Audio.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h">
+      <Filter>Engine\System\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Audio\SoundDatabase.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h">
@@ -729,9 +798,6 @@
     <ClInclude Include="Engine\System\Manager\AssetsManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Audio\SoundDatabase.h">
-      <Filter>Engine\System\Manager</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Manager\CollisionLayerManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
@@ -756,11 +822,17 @@
     <ClInclude Include="Engine\System\Manager\SceneManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Manager\SystemManager.h">
+      <Filter>Engine\System\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Manager\TextureManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h">
       <Filter>Engine\System\ParticleSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h">
+      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
@@ -777,16 +849,70 @@
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h">
       <Filter>Engine\System\ShaderGraph\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h">
+      <Filter>Engine\System\ShaderGraph\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\TimeNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Priority</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Priority</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h">
-      <Filter>Engine\System\ShaderGraph\Node</Filter>
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\UV</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h">
       <Filter>Engine\System\ShaderGraph</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h">
@@ -804,6 +930,9 @@
     <ClInclude Include="Engine\Utilities\DrawUtils.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utilities\FileDialogFunc.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
@@ -819,6 +948,7 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
       <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
@@ -903,6 +1033,9 @@
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h">
       <Filter>Game\Actor\Boss\Action\Attack</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h">
+      <Filter>Game\Actor\Boss\Action\Attack</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h">
       <Filter>Game\Actor\Boss\Action\Attack</Filter>
     </ClInclude>
@@ -924,6 +1057,9 @@
     <ClInclude Include="Game\Actor\Boss\Action\BossActionDeployArmor.h">
       <Filter>Game\Actor\Boss\Action</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h">
+      <Filter>Game\Actor\Boss\Action</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Action\BossActionWait.h">
       <Filter>Game\Actor\Boss\Action</Filter>
     </ClInclude>
@@ -937,6 +1073,9 @@
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.h">
+      <Filter>Game\Actor\Boss\Action\Move</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h">
@@ -975,6 +1114,9 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateBeDestroyed.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h">
+      <Filter>Game\Actor\Boss\State</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
@@ -1000,6 +1142,9 @@
       <Filter>Game\Actor\Player\Action</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionJump.h">
+      <Filter>Game\Actor\Player\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h">
       <Filter>Game\Actor\Player\Action</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionMove.h">
@@ -1032,6 +1177,9 @@
     <ClInclude Include="Game\Actor\Player\PlayerManager.h">
       <Filter>Game\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h">
+      <Filter>Game\Actor\Player\State</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\State\PlayerIdleState.h">
       <Filter>Game\Actor\Player\State</Filter>
     </ClInclude>
@@ -1044,11 +1192,17 @@
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h">
       <Filter>Game\Actor\Weapon</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h">
+      <Filter>Game\Actor\Weapon\Bullet</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h">
       <Filter>Game\Actor\Weapon\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h">
       <Filter>Game\Actor\Weapon\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Weapon\LaserRifle.h">
+      <Filter>Game\Actor\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h">
       <Filter>Game\Actor\Weapon</Filter>
@@ -1104,7 +1258,13 @@
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Effects\AttackArmor.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Effects\JetEngineBurn.h">
+      <Filter>Game\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effects\LaserCylinder.h">
       <Filter>Game\Effects</Filter>
     </ClInclude>
     <ClInclude Include="Game\Information\ActionContext.h">
@@ -1127,6 +1287,12 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\GameScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h">
+      <Filter>Game\Scene\SceneBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h">
+      <Filter>Game\Scene\SceneBehavior</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\SceneFactory.h">
       <Filter>Game\Scene</Filter>
@@ -1176,10 +1342,10 @@
     <ClInclude Include="Game\UI\FadePanel.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\Guide\GameModeGuide.h">
+    <ClInclude Include="Game\UI\Guide\GameMenuUI.h">
       <Filter>Game\UI\Guide</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\SceneBehavior\TutorialBehavior.h">
+    <ClInclude Include="Game\UI\Guide\GameModeGuide.h">
       <Filter>Game\UI\Guide</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\Guide\TutorialMissionGauge.h">
@@ -1215,52 +1381,7 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\TimeNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.h" />
-    <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
-    <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
-    <ClInclude Include="Engine\Utilities\FileDialogFunc.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
-    <ClInclude Include="Engine\System\AI\Node\ConditionNode.h" />
-    <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeNodeFactory.h" />
-    <ClInclude Include="Engine\System\AI\BehaviorTreeSystem.h" />
-    <ClInclude Include="Engine\System\Manager\SystemManager.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.h" />
-    <ClInclude Include="Game\Actor\Weapon\LaserRifle.h" />
-    <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h" />
-    <ClInclude Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.h" />
-    <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
-    <ClInclude Include="Game\Effects\LaserCylinder.h" />
-    <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
-    <ClInclude Include="Engine\System\AI\Other\Condition.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
-    <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.h" />
-    <ClInclude Include="Engine\System\AI\Node\ParallelNode.h" />
-    <ClInclude Include="Game\Actor\Boss\State\BossStateChangePhase.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\BossActionTransitionPhase.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.h" />
-    <ClInclude Include="Engine\System\AI\CommentBox.h" />
-    <ClInclude Include="Game\Effects\AttackArmor.h" />
-    <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h" />
-    <ClInclude Include="Game\Scene\SceneBehavior\GameSceneBehavior.h" />
-    <ClInclude Include="Game\UI\Guide\GameMenuUI.h" />
-    <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
-    <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStepBack.h" />
+    <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1332,11 +1453,17 @@
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp">
       <Filter>Engine\DirectX\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp">
+      <Filter>Engine\DirectX\Resource</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Engine.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp">
+      <Filter>Engine\Lib</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\Color.cpp">
       <Filter>Engine\Lib</Filter>
@@ -1407,45 +1534,6 @@
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\BehaviorTree.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp">
-      <Filter>Engine\Module\Components\AI\GoalOriented</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp">
-      <Filter>Engine\Module\Components\AI\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp">
-      <Filter>Engine\Module\Components\AI\UtilityAI</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp">
-      <Filter>Engine\Module\Components\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp">
       <Filter>Engine\Module\Components\Animation</Filter>
     </ClCompile>
@@ -1461,13 +1549,19 @@
     <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp">
       <Filter>Engine\Module\Components\Attribute</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp">
+      <Filter>Engine\Module\Components\Attribute</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp">
+      <Filter>Engine\Module\Components\Collider</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\BoxCollider.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\CollisionFunctions.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Collider\BaseCollider.cpp">
+    <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp">
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp">
@@ -1659,10 +1753,79 @@
     <ClCompile Include="Engine\Render\TrailRenderer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\AI\BehaviorTree.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSerializer.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\CommentBox.cpp">
+      <Filter>Engine\System\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\GoalOriented\IOrientedGoal.cpp">
+      <Filter>Engine\System\AI\GoalOriented</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\BaseBehaviorNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\BaseTaskNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\BehaviorRootNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\PlannerNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\PlannerSelectorNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\SelectorNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\SequenceNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Node\WeightSelectorNode.cpp">
+      <Filter>Engine\System\AI\Node</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\Other\Condition.cpp">
+      <Filter>Engine\System\AI\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\State\Blackboard.cpp">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp">
+      <Filter>Engine\System\AI\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp">
+      <Filter>Engine\System\AI\UtilityAI</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Audio\Audio.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp">
+      <Filter>Engine\System\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp">
@@ -1689,9 +1852,6 @@
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp">
-      <Filter>Engine\System\Manager</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Manager\CollisionLayerManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
@@ -1716,11 +1876,17 @@
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Manager\SystemManager.cpp">
+      <Filter>Engine\System\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp">
       <Filter>Engine\System\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp">
+      <Filter>Engine\System\ParticleSystem\Emitter</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp">
       <Filter>Engine\System\ParticleSystem\Field</Filter>
@@ -1737,16 +1903,70 @@
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp">
       <Filter>Engine\System\ShaderGraph\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp">
+      <Filter>Engine\System\ShaderGraph\Editor</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Blend</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Priority</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Priority</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp">
-      <Filter>Engine\System\ShaderGraph\Node</Filter>
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\UV</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp">
+      <Filter>Engine\System\ShaderGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp">
       <Filter>Engine\System\ShaderGraph</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp">
@@ -1762,6 +1982,9 @@
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Utilities\FileDialogFunc.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp">
@@ -1806,7 +2029,13 @@
     <ClCompile Include="Externals\ImGui\imgui_draw.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui_impl_win32.cpp">
+      <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imgui_node_editor_api.cpp">
@@ -1830,6 +2059,9 @@
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp">
       <Filter>Game\Actor\Boss\Action\Attack</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp">
+      <Filter>Game\Actor\Boss\Action\Attack</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp">
       <Filter>Game\Actor\Boss\Action\Attack</Filter>
     </ClCompile>
@@ -1851,6 +2083,9 @@
     <ClCompile Include="Game\Actor\Boss\Action\BossActionDeployArmor.cpp">
       <Filter>Game\Actor\Boss\Action</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp">
+      <Filter>Game\Actor\Boss\Action</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Action\BossActionWait.cpp">
       <Filter>Game\Actor\Boss\Action</Filter>
     </ClCompile>
@@ -1864,6 +2099,9 @@
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionKeepDistance.cpp">
+      <Filter>Game\Actor\Boss\Action\Move</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp">
       <Filter>Game\Actor\Boss\Action\Move</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp">
@@ -1899,6 +2137,9 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateBeDestroyed.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp">
+      <Filter>Game\Actor\Boss\State</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
@@ -1924,6 +2165,9 @@
       <Filter>Game\Actor\Player\Action</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionJump.cpp">
+      <Filter>Game\Actor\Player\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp">
       <Filter>Game\Actor\Player\Action</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionMove.cpp">
@@ -1956,6 +2200,9 @@
     <ClCompile Include="Game\Actor\Player\PlayerManager.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp">
+      <Filter>Game\Actor\Player\State</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Player\State\PlayerIdleState.cpp">
       <Filter>Game\Actor\Player\State</Filter>
     </ClCompile>
@@ -1968,11 +2215,17 @@
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp">
       <Filter>Game\Actor\Weapon</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp">
+      <Filter>Game\Actor\Weapon\Bullet</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp">
       <Filter>Game\Actor\Weapon\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp">
       <Filter>Game\Actor\Weapon\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Weapon\LaserRifle.cpp">
+      <Filter>Game\Actor\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp">
       <Filter>Game\Actor\Weapon</Filter>
@@ -2028,7 +2281,13 @@
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Effects\AttackArmor.cpp">
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp">
+      <Filter>Game\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effects\LaserCylinder.cpp">
       <Filter>Game\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Game\Manager\ActionManager.cpp">
@@ -2042,6 +2301,12 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\GameScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp">
+      <Filter>Game\Scene\SceneBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp">
+      <Filter>Game\Scene\SceneBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\SceneFactory.cpp">
       <Filter>Game\Scene</Filter>
@@ -2088,10 +2353,10 @@
     <ClCompile Include="Game\UI\FadePanel.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
-    <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp">
+    <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp">
       <Filter>Game\UI\Guide</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\SceneBehavior\TutorialBehavior.cpp">
+    <ClCompile Include="Game\UI\Guide\GameModeGuide.cpp">
       <Filter>Game\UI\Guide</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\Guide\TutorialMissionGauge.cpp">
@@ -2128,62 +2393,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AlphaBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\TimeNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathAddNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathSubtractionNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Math\MathMultiplyNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\MaskBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphNodeFactory.cpp" />
-    <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_impl_dx12.cpp" />
-    <ClCompile Include="Externals\ImGui\imgui_node_editor.cpp" />
-    <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
-    <ClCompile Include="Engine\Utilities\FileDialogFunc.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\AddBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Blend\DifferenceBlendNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\ConditionNode.cpp" />
-    <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeEditor.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeNodeFactory.cpp" />
-    <ClCompile Include="Engine\System\AI\BehaviorTreeSystem.cpp" />
-    <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DistortionNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\PostProcess\DissolveNode.cpp" />
-    <ClCompile Include="Game\Actor\Weapon\LaserRifle.cpp" />
-    <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp" />
-    <ClCompile Include="Game\Actor\Player\Action\PlayerActionLeftShoulder.cpp" />
-    <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
-    <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
-    <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
-    <ClCompile Include="Engine\System\AI\Other\Condition.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
-    <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\ShaderGraphHelperFunc.cpp" />
-    <ClCompile Include="Engine\System\AI\Node\ParallelNode.cpp" />
-    <ClCompile Include="Game\Actor\Boss\State\BossStateChangePhase.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\BossActionTransitionPhase.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Other\LoopValueNode.cpp" />
-    <ClCompile Include="Engine\System\AI\CommentBox.cpp" />
-    <ClCompile Include="Game\Effects\AttackArmor.cpp" />
-    <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp" />
-    <ClCompile Include="Game\Scene\SceneBehavior\GameSceneBehavior.cpp" />
-    <ClCompile Include="Game\UI\Guide\GameMenuUI.cpp" />
-    <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
-    <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStepBack.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Packages\Engine\Assets\Pipeline\CS\AlphaBlend.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\SampleTexture.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\MaskBlend.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\AddBlend.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\DifferenceBlend.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Distortion.CS.hlsl" />
-    <FxCompile Include="Packages\Engine\Assets\HLSL\CS\Dissolve.CS.hlsl" />
+    <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
   </ItemGroup>
 </Project>
