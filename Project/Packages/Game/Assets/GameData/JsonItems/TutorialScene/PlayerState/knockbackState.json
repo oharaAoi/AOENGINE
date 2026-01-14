@@ -1,0 +1,9 @@
+{
+    "knockbackState": {
+        "glitchNoiseStrength": 0.4000000059604645,
+        "glitchNoiseTime": 0.4000000059604645,
+        "knockDecay": 0.800000011920929,
+        "knockStrength": 2.1666022063327083e-39,
+        "knockbackTime": 0.6000000238418579
+    }
+}

@@ -22,6 +22,9 @@ void BossStateStan::OnStart() {
 	pOwner_->SetIsStan(true);
 	pOwner_->SetExecute(false);
 
+	AOENGINE::Rigidbody* rigid = pOwner_->GetGameObject()->GetRigidbody();
+	rigid->SetVelocity(CVector3::ZERO);
+
 	// ----------------------
 	// ↓ 演出関連
 	// ----------------------

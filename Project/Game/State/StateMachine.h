@@ -20,9 +20,6 @@ public:
 	void Init(OwnerType* pOwner) {
 		pOwner_ = pOwner;
 		functionChangeState_ = []() {};
-
-		std::string machineName = pOwner->GetName() + "StateMachine";
-		AOENGINE::EditorWindows::AddObjectWindow(this, machineName);
 	}
 
 	/// <summary>
@@ -75,7 +72,7 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override {};
+	void Debug_Gui() override { state_->Debug_Gui(); }
 
 private:
 	// 持ち主のポインタ

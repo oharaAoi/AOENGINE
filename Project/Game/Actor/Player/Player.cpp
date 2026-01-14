@@ -53,6 +53,13 @@ void Player::Debug_Gui() {
 
 	ImGui::Text("smoothedDiffX :%f", smoothedDiffX_);
 
+	if (ImGui::Button("KnockBackState")) {
+		stateMachine_->ChangeState<PlayerKnockbackState>();
+	}
+	if (ImGui::CollapsingHeader("ステート")) {
+		stateMachine_->Debug_Gui();
+	}
+
 	param_.bodyWeight = std::clamp(param_.bodyWeight, 1.0f, 100.0f);
 	invincibleTimer_.targetTime_ = param_.invincibleTime;
 	psRecoveryTimer_.targetTime_ = param_.psRecoveryTime;

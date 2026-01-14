@@ -1,11 +1,11 @@
 {
     "AttackArmorParameter": {
-        "disapperTargetTime": 2.0,
+        "disappearTargetTime": 2.0,
         "shaderGraphPath": ".\\Project\\Packages\\Game\\Assets\\GameData\\ShaderGraph\\armor.json",
         "upScale": {
-            "x": 10.0,
-            "y": 10.0,
-            "z": 10.0
+            "x": 100.0,
+            "y": 100.0,
+            "z": 100.0
         },
         "upScaleTargetTime": 0.20000000298023224,
         "uvScale": {

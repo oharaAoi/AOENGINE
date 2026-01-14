@@ -7,6 +7,7 @@
 
 AttackArmor::~AttackArmor() {
 	shaderGraph_.reset();
+	object_->SetIsDestroy(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -86,19 +87,21 @@ void AttackArmor::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AttackArmor::Update() {
-	shaderGraph_->Update();
+	if (object_) {
+		shaderGraph_->Update();
 
-	// scaleを大きくする
-	if (isStart_) {
-		ScaleUp();
-	} 
+		// scaleを大きくする
+		if (isStart_) {
+			ScaleUp();
+		}
 
-	// 消える
-	if (isDisappear_) {
-		Disappear();
+		// 消える
+		if (isDisappear_) {
+			Disappear();
+		}
+
+		collider_->SetRadius(transform_->GetScale().x);
 	}
-
-	collider_->SetRadius(transform_->GetScale().x);
 }
 
 void AttackArmor::Start(const Math::Vector3& _pos) {
@@ -138,5 +141,6 @@ void AttackArmor::Disappear() {
 		for (auto& material : object_->GetMaterials()) {
 			material.second->SetDiscardValue(1.0f);
 		}
+		object_->SetIsDestroy(true);
 	}
 }
