@@ -5,6 +5,9 @@ using namespace AOENGINE;
 
 uint32_t WinApp::sWindowWidth = 0;
 uint32_t WinApp::sWindowHeight = 0;
+uint32_t WinApp::sClientWidth = 0;
+uint32_t WinApp::sClientHeight = 0;
+bool WinApp::sPendingResize = false;
 
 WinApp* WinApp::GetInstance() {
 	static WinApp instance;
@@ -29,6 +32,18 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 		// OSに対してアプリの終了を伝える
 		PostQuitMessage(0);
 		return 0;
+	case WM_SIZE:
+	{
+		UINT clientW = LOWORD(lparam);
+		UINT clientH = HIWORD(lparam);
+
+		if (clientW == 0 || clientH == 0) break; // 最小化
+		sClientWidth = clientW;
+		sClientHeight = clientH;
+
+		sPendingResize = true;
+	}
+	break;
 	}
 
 	// 標準のメッセージ処理を行う
@@ -71,7 +86,7 @@ void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHei
 	hwnd_ = CreateWindow(
 		wc.lpszClassName,		// 利用するクラス名
 		ConvertWString(_windowTitle).c_str(),// タイトルバーの文字
-		WS_OVERLAPPEDWINDOW,	// よく見るウィンドウスタイル
+		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZE ^ WS_THICKFRAME | WS_VISIBLE,	// よく見るウィンドウスタイル
 		CW_USEDEFAULT,			// 表示x座標
 		CW_USEDEFAULT,			// 表示y座標
 		wrc.right - wrc.left,	// ウィンドウ横幅
@@ -121,7 +136,6 @@ void WinApp::SetFullScreen(bool fullscreen) {
 				SWP_FRAMECHANGED | SWP_NOACTIVATE);
 
 			ShowWindow(hwnd_, SW_NORMAL);
-
 		}
 	}
 

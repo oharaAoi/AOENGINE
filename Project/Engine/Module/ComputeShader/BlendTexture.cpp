@@ -11,8 +11,8 @@ BlendTexture::~BlendTexture() {
 }
 
 void BlendTexture::Init(AOENGINE::DxResourceManager* _dxManager) {
-	const uint32_t width = WinApp::sWindowWidth;
-	const uint32_t height = WinApp::sWindowHeight;
+	const uint32_t width = WinApp::sClientWidth;
+	const uint32_t height = WinApp::sClientHeight;
 
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = width;			// 画面の横幅

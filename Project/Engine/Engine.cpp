@@ -95,7 +95,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	// -------------------------------------------------
 	
 	graphicsCxt_ = AOENGINE::GraphicsContext::GetInstance();
-	graphicsCxt_->Init(winApp_, _backBufferWidth, _backBufferHeight);
+	graphicsCxt_->Init(winApp_, winApp_->sClientWidth, winApp_->sClientHeight);
 
 	dxDevice_ = graphicsCxt_->GetDevice();
 	dxCmdList_ = graphicsCxt_->GetCommandList();

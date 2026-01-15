@@ -1,7 +1,7 @@
 {
     "BossToPlayer": {
         "type": "float",
-        "value": 158.55703735351563
+        "value": 158.55686950683594
     },
     "SafeDistance": {
         "type": "float",
@@ -9,7 +9,7 @@
     },
     "aggressionScore": {
         "type": "float",
-        "value": 0.9739103317260742
+        "value": 0.9739097952842712
     },
     "bossPhase": {
         "type": "int",
@@ -21,21 +21,29 @@
     },
     "bossToTargetDistanceY": {
         "type": "float",
-        "value": 5.298521041870117
+        "value": 5.294888973236084
     },
-    "deployArmor": {
-        "type": "bool",
-        "value": false
+    "firstPhase": {
+        "type": "int",
+        "value": 0
     },
     "halfHp": {
         "type": "float",
-        "value": 1500.0
+        "value": 1750.0
     },
     "hp": {
         "type": "float",
-        "value": 3000.0
+        "value": 3500.0
+    },
+    "isArmorDeployed": {
+        "type": "bool",
+        "value": false
     },
     "isAttack": {
+        "type": "bool",
+        "value": false
+    },
+    "isDeployingArmor": {
         "type": "bool",
         "value": false
     },
@@ -45,10 +53,14 @@
     },
     "maxHp": {
         "type": "float",
-        "value": 3000.0
+        "value": 3500.0
     },
     "maxPostureStability": {
         "type": "float",
         "value": 0.0
+    },
+    "secondPhase": {
+        "type": "int",
+        "value": 1
     }
 }

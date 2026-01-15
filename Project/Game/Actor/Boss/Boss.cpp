@@ -136,7 +136,7 @@ void Boss::Init() {
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/BossTree.json");
-	behaviorTree_->SetExecute(true);
+	behaviorTree_->SetExecute(false);
 
 	// -------------------------------------------------
 	// ↓ State関連
@@ -162,7 +162,7 @@ void Boss::Init() {
 	param_.postureStability -= initParam_.postureStability;
 	isAlive_ = true;
 	isStan_ = false;
-	isArmorDeploy_ = false;
+	isDeployingArmor_ = false;
 	isAttack_ = false;
 	isMove_ = false;
 
@@ -191,7 +191,8 @@ void Boss::Update() {
 	// ↓ blackboardの更新
 	// ----------------------
 	initParam_.worldStatePath = blackboard_->GetPath();
-	blackboard_->Set<bool>("deployArmor", isArmorDeploy_);
+	blackboard_->Set<bool>("isDeployingArmor", isDeployingArmor_);
+	blackboard_->Set<bool>("isArmorDeployed", pulseArmor_->BreakArmor());
 	blackboard_->Set<bool>("isAttack", isAttack_);
 	blackboard_->Set<int32_t>("bossPhase", (int32_t)phase_);
 	blackboard_->Set<float>("halfHp", initParam_.health * 0.5f);
@@ -227,7 +228,7 @@ void Boss::Update() {
 		if (behaviorTree_->GetRootNode()->GetState() == BehaviorStatus::Success
 			|| behaviorTree_->GetRootNode()->GetState() == BehaviorStatus::Inactive) {
 			if (param_.armorCoolTime <= 0.0f) {
-				isArmorDeploy_ = true;
+				isDeployingArmor_ = true;
 				param_.armorCoolTime = initParam_.armorCoolTime;
 			}
 		}

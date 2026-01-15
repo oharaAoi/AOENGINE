@@ -21,7 +21,7 @@ void GlitchNoise::Init() {
 	glitchBuffer_->CreateResource(sizeof(GlitchSetting));
 	glitchBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 
-	setting_->texelSize = { 2.0f / (float)WinApp::sWindowWidth, 2.0f / (float)WinApp::sWindowHeight};
+	setting_->texelSize = { 2.0f / (float)WinApp::sClientWidth, 2.0f / (float)WinApp::sClientHeight};
 	setting_->time = 0.0f;
 	setting_->strength = 0.0f;
 }

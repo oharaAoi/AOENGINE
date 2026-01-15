@@ -32,7 +32,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// -------------------------------------------------
 	// ↓ 深度バッファの作成
 	// -------------------------------------------------
-	depthStencilResource_ = CreateDepthStencilTextureResource(device, WinApp::sWindowWidth, WinApp::sWindowHeight);
+	depthStencilResource_ = CreateDepthStencilTextureResource(device, WinApp::sClientWidth, WinApp::sClientHeight);
 	// DSVの生成
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
 	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;

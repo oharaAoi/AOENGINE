@@ -19,7 +19,7 @@ void ShadowMap::Init() {
 	AOENGINE::DescriptorHeap* descriptorHeap = ctx->GetDxHeap();
 
 	depthStencilResource_ = ctx->CreateDxResource(ResourceType::Depth);
-	depthStencilResource_->CreateDepthResource(WinApp::sWindowWidth, WinApp::sWindowHeight);
+	depthStencilResource_->CreateDepthResource(WinApp::sClientWidth, WinApp::sClientHeight);
 
 	// heap上にDSCを構築
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};

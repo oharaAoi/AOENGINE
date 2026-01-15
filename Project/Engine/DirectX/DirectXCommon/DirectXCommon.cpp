@@ -256,8 +256,8 @@ void DirectXCommon::CrateFence() {
 void DirectXCommon::SetViewport() {
 	// ビューポート
 	// クライアント領域のサイズと一緒にして画面全体を表示
-	viewport_.Width = static_cast<float>(kClientWidth_);
-	viewport_.Height = static_cast<float>(kClientHeight_);
+	viewport_.Width = static_cast<float>(WinApp::sClientWidth);
+	viewport_.Height = static_cast<float>(WinApp::sClientHeight);
 	viewport_.TopLeftX = 0;
 	viewport_.TopLeftY = 0;
 	viewport_.MinDepth = 0.0f;
@@ -266,9 +266,9 @@ void DirectXCommon::SetViewport() {
 	// シザー矩形
 	// 基本的にビューポートと同じ矩形が構成されるようにする
 	scissorRect_.left = 0;
-	scissorRect_.right = static_cast<LONG>(kClientWidth_);
+	scissorRect_.right = static_cast<LONG>(WinApp::sClientWidth);
 	scissorRect_.top = 0;
-	scissorRect_.bottom = static_cast<LONG>(kClientHeight_);
+	scissorRect_.bottom = static_cast<LONG>(WinApp::sClientHeight);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ void DirectXCommon::SetViewport() {
 
 void DirectXCommon::CreateDSV() {
 	depthStencilResource_ = dxResourceManager_->CreateResource(ResourceType::Depth);
-	depthStencilResource_->CreateDepthResource(kClientWidth_, kClientHeight_);
+	depthStencilResource_->CreateDepthResource(WinApp::sClientWidth, WinApp::sClientHeight);
 
 	// heap上にDSCを構築
 	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};

@@ -15,6 +15,9 @@ public: // 静的メンバ変数
 	// ウィンドウサイズ
 	static uint32_t sWindowWidth;	// 横幅
 	static uint32_t sWindowHeight;	// 縦幅
+	static uint32_t sClientWidth;	// 横幅
+	static uint32_t sClientHeight;	// 縦幅
+	static bool sPendingResize;		// 画面サイズを変更するか
 
 public: // 静的メンバ関数
 

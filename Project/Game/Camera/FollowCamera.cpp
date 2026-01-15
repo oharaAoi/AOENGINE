@@ -57,7 +57,7 @@ void FollowCamera::Debug_Gui() {
 		animation.second->Debug_Gui();
 	}
 	
-	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(AOENGINE::WinApp::sWindowWidth) / float(AOENGINE::WinApp::sWindowHeight), near_, far_);
+	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, float(AOENGINE::WinApp::sClientWidth) / float(AOENGINE::WinApp::sClientHeight), near_, far_);
 }
 
 void FollowCamera::CameraParameter::Debug_Gui() {

@@ -92,7 +92,7 @@ void EditorWindows::Begin() {
 	// ↓ BaseとなるWidowの描画開始
 	// -------------------------------------------------
 	ImGui::SetNextWindowPos(ImVec2(0, 0));
-	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(WinApp::sWindowWidth), static_cast<float>(WinApp::sWindowHeight)));
+	ImGui::SetNextWindowSize(ImVec2(static_cast<float>(WinApp::sClientWidth), static_cast<float>(WinApp::sClientHeight)));
 	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar |
 		ImGuiWindowFlags_NoBringToFrontOnFocus |
 		ImGuiWindowFlags_NoTitleBar |

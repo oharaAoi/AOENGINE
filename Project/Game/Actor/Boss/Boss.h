@@ -196,8 +196,8 @@ public:
 	void SetIsTargetDead(bool _isTargetDead) { isTargetDead_ = _isTargetDead; }
 	bool GetIsTargetDead() const { return isTargetDead_; }
 
-	void SetIsArmorDeploy(bool _isDeployArmor) { isArmorDeploy_ = _isDeployArmor; }
-	bool GetIsArmorDeploy() const { return isArmorDeploy_; }
+	void SetIsArmorDeploy(bool _isDeployArmor) { isDeployingArmor_ = _isDeployArmor; }
+	bool GetIsArmorDeploy() const { return isDeployingArmor_; }
 
 	void SetIsAttack(bool _isAttack) { isAttack_ = _isAttack; }
 	bool GetIsAttack() const { return isAttack_; }
@@ -253,7 +253,7 @@ private:
 	bool isBreak_;
 	bool isStan_;
 	bool isTargetDead_;
-	bool isArmorDeploy_;
+	bool isDeployingArmor_;
 	bool isAttack_;
 	bool isMove_;
 
