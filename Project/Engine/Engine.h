@@ -1,26 +1,13 @@
 #pragma once
 #include <memory>
-#include "Engine/WinApp/WinApp.h"
 #include "Engine/Core/GraphicsContext.h"
-
-#include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipelines.h"
-#include "Engine/Module/ComputeShader/BlendTexture.h"
-
-#include "Engine/System/Editer/Window/EditorWindows.h"
 #include "Engine/System/Manager/ImGuiManager.h"
-#include "Engine/System/Manager/TextureManager.h"
-#include "Engine/System/Input/Input.h"
 #include "Engine/System/Audio/Audio.h"
-
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/WorldTransform.h"
-#include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Module/Components/Rigging/Skinning.h"
-
 #include "Engine/Module/PostEffect/PostProcess.h"
-
-#include "Render.h"
 
 class EffectSystem;
 class EffectSystemEditer;
@@ -56,11 +43,31 @@ public:
 	/// </summary>
 	static void EndFrame();
 
+	/// <summary>
+	/// Frameを描画する
+	/// </summary>
 	static void RenderFrame();
 
-	static void BlendFinalTexture(RenderTargetType renderTargetType);
+	/// <summary>
+	/// Textureの合成
+	/// </summary>
+	/// <param name="renderTargetType"></param>
+	static void BlendFinalRender(RenderTargetType renderTargetType);
 
+	/// <summary>
+	/// world上の座標をGame画面に合わせた座標で返す
+	/// </summary>
+	/// <param name="_worldPos"></param>
+	/// <param name="_outScreenPos"></param>
+	/// <returns></returns>
 	static bool WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScreenPos);
+
+private:
+
+	/// <summary>
+	/// bufferのサイズを作り変える
+	/// </summary>
+	static void PendingResize();
 
 public:
 

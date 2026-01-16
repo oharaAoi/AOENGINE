@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Render.h"
 
 using namespace AOENGINE;
 

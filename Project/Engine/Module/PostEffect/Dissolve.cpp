@@ -1,6 +1,7 @@
 #include "Dissolve.h"
 #include "Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 using namespace AOENGINE;
 using namespace PostEffect;

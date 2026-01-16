@@ -1,9 +1,12 @@
 #include "PulseArmor.h"
 #include "Engine/Engine.h"
+#include "Engine/Render.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/System/Manager/MeshManager.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 PulseArmor::~PulseArmor() {
 	settingBuffer_->Destroy();

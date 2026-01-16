@@ -1,6 +1,7 @@
 #include "Reticle.h"
 #include "Engine.h"
 #include "Lib/Math/Vector2.h"
+#include "Engine/System/Input/Input.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理

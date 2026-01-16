@@ -1,5 +1,5 @@
 #include "BehaviorTreeSystem.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 using namespace AI;
 

@@ -1,5 +1,5 @@
 #include "TutorialCanvas.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

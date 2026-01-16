@@ -86,7 +86,6 @@ public:
 	/// <param name="_aggressionScore">: 積極性の値</param>
 	void DisplayState(const ImVec2& _pos, float _aggressionScore, const ImVec2& _offset = {-30.0f, -30.0f});
 
-
 public:
 
 	void SetName(const std::string& _name) { name_ = _name; }

@@ -267,9 +267,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
-    <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h" />
-    <ClInclude Include="Engine\System\Editer\Window\EditorWindows.h" />
-    <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h" />
+    <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
+    <ClInclude Include="Engine\System\Editor\Window\EditorWindows.h" />
+    <ClInclude Include="Engine\System\Editor\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
@@ -621,9 +621,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
-    <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp" />
-    <ClCompile Include="Engine\System\Editer\Window\EditorWindows.cpp" />
-    <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp" />
+    <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\EditorWindows.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />

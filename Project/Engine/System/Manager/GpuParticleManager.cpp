@@ -1,7 +1,7 @@
 #include "GpuParticleManager.h"
 #include "Render.h"
 #include "Engine/Core/GraphicsContext.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 using namespace AOENGINE;
 

@@ -1,7 +1,9 @@
 #include "TutorialScene.h"
 #include "Engine.h"
+#include "Engine/Render.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
+#include "Engine/System/Input/Input.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Game/Scene/SceneBehavior/TutorialBehavior.h"
 

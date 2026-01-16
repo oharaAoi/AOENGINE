@@ -1,8 +1,9 @@
 #include "ParticleSystemEditor.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Engine.h"
+#include "Engine/Render.h"
 #include "Engine/Utilities/DrawUtils.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
 #include <iostream>
 #include <fstream>

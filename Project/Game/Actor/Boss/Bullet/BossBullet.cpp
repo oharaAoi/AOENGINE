@@ -1,5 +1,7 @@
 #include "BossBullet.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 BossBullet::~BossBullet() {
 	BaseBullet::Finalize();

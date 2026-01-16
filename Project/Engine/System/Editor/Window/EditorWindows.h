@@ -1,17 +1,17 @@
 #pragma once
 #include <memory>
-#include <functional>
 #include <string>
-#include "Engine/System/Editer/Window/GameObjectWindow.h"
+#include "Engine/System/Editor/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
+#include "Engine/System/Editor/Tool/ManipulateTool.h"
+#include "Engine/System/Manager/SceneManager.h"
+#include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/Attribute/IEditorWindow.h"
+#include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/Render/SceneRenderer.h"
-#include "Engine/Module/Components/2d/Canvas2d.h"
-#include "Engine/System/Editer/Tool/ManipulateTool.h"
-#include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
 
 namespace AOENGINE {
 
@@ -62,9 +62,20 @@ public:
 	/// </summary>
 	void End();
 
+	/// <summary>
+	/// バッファをクリアする
+	/// </summary>
 	void ClearBuffer();
 
+	/// <summary>
+	/// バッファをリサイズする
+	/// </summary>
 	void ResizeBuffer();
+
+	/// <summary>
+	/// Sceneをリセットする
+	/// </summary>
+	void SceneReset();
 
 private:
 
@@ -78,9 +89,19 @@ private:
 	/// </summary>
 	void DebugItemWindow();
 
-	bool PushStyleColor(bool _flag, const Math::Vector4& color);
+	/// <summary>
+	/// ImGuiのカラーをセットする
+	/// </summary>
+	/// <param name="flag"></param>
+	/// <param name="color"></param>
+	/// <returns></returns>
+	bool PushStyleColor(bool flag, const Math::Vector4& color);
 
-	void PopStyleColor(bool _flag);
+	/// <summary>
+	/// ImGuiのカラーを解放する
+	/// </summary>
+	/// <param name="flag"></param>
+	void PopStyleColor(bool flag);
 
 #endif 
 
@@ -88,9 +109,8 @@ public:
 
 	void SetProcessedSceneFrame(AOENGINE::ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 
-	void SetRenderTarget(AOENGINE::RenderTarget* _renderTarget) { renderTarget_ = _renderTarget; }
+	void SetRenderTarget(AOENGINE::RenderTarget* renderTarget) { renderTarget_ = renderTarget; }
 
-	void Reset();
 
 	bool GetSceneReset() const { return sceneReset_; }
 
@@ -98,9 +118,10 @@ public:
 
 	bool GetGridDraw() const { return gridDraw_; }
 
-	void SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
-	void SetCanvas2d(AOENGINE::Canvas2d* _canvas) { canvas2d_ = _canvas; }
-	void SetSelectWindow(IEditorWindow* _ptr) { pSelectWindow_ = _ptr; };
+	void SetSceneRenderer(AOENGINE::SceneRenderer* renderer) { sceneRenderer_ = renderer; }
+	void SetCanvas2d(AOENGINE::Canvas2d* canvas) { canvas2d_ = canvas; }
+	void SetSelectWindow(IEditorWindow* ptr) { pSelectWindow_ = ptr; };
+	void SetSceneManager(AOENGINE::SceneManager* sceneManager) { pSceneManager_ = sceneManager; }
 
 private:
 
@@ -126,6 +147,7 @@ private:
 	AOENGINE::RenderTarget* renderTarget_;
 	AOENGINE::SceneRenderer* sceneRenderer_;
 	AOENGINE::Canvas2d* canvas2d_;
+	AOENGINE::SceneManager* pSceneManager_;
 
 	AOENGINE::IEditorWindow* pSelectWindow_;
 

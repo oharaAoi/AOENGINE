@@ -2,6 +2,7 @@
 #include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 RocketBullet::~RocketBullet() {
 	BaseBullet::Finalize();

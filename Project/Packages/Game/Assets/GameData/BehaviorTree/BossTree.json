@@ -5,30 +5,45 @@
                 {
                     "children": [
                         {
-                            "aggressionAffinity": 0.10000000149011612,
-                            "children": [],
-                            "coolTime": 1.0,
-                            "name": "TransitionPhase",
+                            "children": [
+                                {
+                                    "aggressionAffinity": 0.10000000149011612,
+                                    "children": [],
+                                    "coolTime": 1.0,
+                                    "name": "TransitionPhase",
+                                    "nodePos": {
+                                        "x": 866.0,
+                                        "y": 790.0
+                                    },
+                                    "nodeType": 4,
+                                    "waitTime": 1.0,
+                                    "weight": 0.10000000149011612
+                                }
+                            ],
+                            "leftKey": "bossPhase",
+                            "leftKeyIndex": 1,
+                            "name": "Condition",
                             "nodePos": {
-                                "x": 850.0,
-                                "y": 854.0
+                                "x": 895.0,
+                                "y": 646.0
                             },
-                            "nodeType": 4,
-                            "waitTime": 1.0,
-                            "weight": 0.10000000149011612
+                            "nodeType": 7,
+                            "operatorIndex": 0,
+                            "rightKey": "firstPhase",
+                            "rightKeyIndex": 14
                         }
                     ],
-                    "leftKey": "bossPhase",
-                    "leftKeyIndex": 1,
+                    "leftKey": "hp",
+                    "leftKeyIndex": 8,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 962.0,
-                        "y": 706.0
+                        "x": 895.0,
+                        "y": 518.0
                     },
                     "nodeType": 7,
-                    "operatorIndex": 0,
-                    "rightKey": "firstPhase",
-                    "rightKeyIndex": 14
+                    "operatorIndex": 5,
+                    "rightKey": "halfHp",
+                    "rightKeyIndex": 5
                 },
                 {
                     "children": [
@@ -39,7 +54,7 @@
                             "name": "DeployArmor",
                             "nodePos": {
                                 "x": 1090.0,
-                                "y": 982.0
+                                "y": 742.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -58,8 +73,8 @@
                                     },
                                     "name": "TargetEnemy",
                                     "nodePos": {
-                                        "x": 1407.0,
-                                        "y": 1154.0
+                                        "x": 1343.0,
+                                        "y": 1058.0
                                     },
                                     "nodeType": 5,
                                     "orientedName": "TargetDead",
@@ -76,8 +91,8 @@
                                     },
                                     "name": "SafeDistance",
                                     "nodePos": {
-                                        "x": 1615.0,
-                                        "y": 1142.0
+                                        "x": 1551.0,
+                                        "y": 1046.0
                                     },
                                     "nodeType": 5,
                                     "orientedName": "SafeDistance",
@@ -86,8 +101,8 @@
                             ],
                             "name": "PlannerSelector",
                             "nodePos": {
-                                "x": 1474.0,
-                                "y": 918.0
+                                "x": 1410.0,
+                                "y": 822.0
                             },
                             "nodeType": 6
                         }
@@ -96,8 +111,8 @@
                     "leftKeyIndex": 11,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 1186.0,
-                        "y": 694.0
+                        "x": 1202.0,
+                        "y": 566.0
                     },
                     "nodeType": 7,
                     "operatorIndex": 0,
@@ -105,29 +120,24 @@
                     "rightKeyIndex": 10
                 }
             ],
-            "leftKey": "hp",
-            "leftKeyIndex": 8,
-            "name": "Condition",
+            "name": "Selector",
             "nodePos": {
-                "x": 1058.0,
-                "y": 582.0
+                "x": 1071.0,
+                "y": 422.0
             },
-            "nodeType": 7,
-            "operatorIndex": 5,
-            "rightKey": "halfHp",
-            "rightKeyIndex": 5
+            "nodeType": 2
         }
     ],
     "comments": [
         {
             "id": 100,
             "min": {
-                "x": 896.0,
-                "y": 864.0
+                "x": 1072.0,
+                "y": 928.0
             },
             "size": {
                 "x": 208.0,
-                "y": 288.0
+                "y": 264.0
             },
             "text": "バリアを張る"
         },
@@ -139,7 +149,7 @@
             },
             "size": {
                 "x": 432.0,
-                "y": 504.0
+                "y": 528.0
             },
             "text": "攻撃 か 回避"
         }
@@ -147,7 +157,7 @@
     "name": "Root",
     "nodePos": {
         "x": 1074.0,
-        "y": 438.0
+        "y": 278.0
     },
     "nodeType": 0
 }

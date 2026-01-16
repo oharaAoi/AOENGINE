@@ -1,11 +1,19 @@
 #include "Engine.h"
 #include "Engine/Lib/Json//JsonItems.h"
+#include "Engine/WinApp/WinApp.h"
+#include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipelines.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/AssetsManager.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Input/Input.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Module/ComputeShader/BlendTexture.h"
+#include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Render.h"
 
 using namespace AOENGINE;
 
@@ -224,40 +232,8 @@ void Engine::EndFrame() {
 	render_->ResetShadowMap();
 
 	dxCommon_->End();
-	if (winApp_->sPendingResize) {
-		renderTarget_->Finalize();
-		blendTexture_->Finalize();
-		processedSceneFrame_->Finalize();
-		postProcess_->ClearBuffer();
-		render_->GetShadowMap()->Finalize();
-#ifdef _DEBUG
-		editorWindows_->ClearBuffer();
-#endif
-		dxCommon_->ResetResource();
-
-		// resourceの本解放
-		graphicsCxt_->GetDxResourceManager()->Update();
-		dxHeap_->FreeList();
-
-		// 作り直し
-		graphicsCxt_->ResizeBuffer();
-
-		processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
-		render_->GetShadowMap()->Init();
-#ifdef _DEBUG
-		editorWindows_->ResizeBuffer();
-#endif
-		postProcess_->ResizeBuffer(dxDevice_, graphicsCxt_->GetDxResourceManager());
-		blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
-
-		canvas2d_->ResizeSprite();
-
-		winApp_->sPendingResize = false;
-
-	} else {
-		graphicsCxt_->GetDxResourceManager()->Update();
-		dxHeap_->FreeList();
-	}
+	// buffferのサイズを作り変える
+	PendingResize();
 	audio_->Update();
 }
 
@@ -283,7 +259,7 @@ void Engine::RenderFrame() {
 	// -------------------------------------------------
 	// ↓ PostEffectの実行
 	// -------------------------------------------------
-	BlendFinalTexture(Object3D_RenderTarget);
+	BlendFinalRender(Object3D_RenderTarget);
 
 	postProcess_->Execute(dxCmdList_, processedSceneFrame_->GetResource());
 
@@ -298,7 +274,7 @@ void Engine::RenderFrame() {
 	Engine::SetPipeline(PSOType::Object3d, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
 	AOENGINE::SceneRenderer::GetInstance()->PostDraw();
-	BlendFinalTexture(Object3D_RenderTarget);
+	BlendFinalRender(Object3D_RenderTarget);
 
 	// -------------------------------------------------
 	// ↓ Sprite描画
@@ -312,7 +288,7 @@ void Engine::RenderFrame() {
 	processedSceneFrame_->Draw(dxCmdList_);
 	canvas2d_->Draw();
 
-	BlendFinalTexture(Sprite2d_RenderTarget);
+	BlendFinalRender(Sprite2d_RenderTarget);
 
 	// guiの描画
 #ifdef _DEBUG
@@ -340,7 +316,7 @@ void Engine::RenderFrame() {
 // ↓　最終的に描画するTextureを合成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Engine::BlendFinalTexture(RenderTargetType renderTargetType) {
+void Engine::BlendFinalRender(RenderTargetType renderTargetType) {
 	// -------------------------------------------------
 	// ↓ Resourceの状態を切り替える(obj3D, sprite2D, renderTexture)
 	// -------------------------------------------------
@@ -397,6 +373,47 @@ bool Engine::WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScr
 	_outScreenPos.y = processedSceneFrame_->GetImagePos().y + imageY;
 	
 	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　w
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::PendingResize() {
+	if (winApp_->sPendingResize) {
+		renderTarget_->Finalize();
+		blendTexture_->Finalize();
+		processedSceneFrame_->Finalize();
+		postProcess_->ClearBuffer();
+		render_->GetShadowMap()->Finalize();
+#ifdef _DEBUG
+		editorWindows_->ClearBuffer();
+#endif
+		dxCommon_->ResetResource();
+
+		// resourceの本解放
+		graphicsCxt_->GetDxResourceManager()->Update();
+		dxHeap_->FreeList();
+
+		// 作り直し
+		graphicsCxt_->ResizeBuffer();
+
+		processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
+		render_->GetShadowMap()->Init();
+#ifdef _DEBUG
+		editorWindows_->ResizeBuffer();
+#endif
+		postProcess_->ResizeBuffer(dxDevice_, graphicsCxt_->GetDxResourceManager());
+		blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
+
+		canvas2d_->ResizeSprite();
+
+		winApp_->sPendingResize = false;
+
+	} else {
+		graphicsCxt_->GetDxResourceManager()->Update();
+		dxHeap_->FreeList();
+	}
 }
 
 std::unique_ptr<AOENGINE::Model> Engine::CreateModel(const std::string& directoryPath, const std::string& filePath) {

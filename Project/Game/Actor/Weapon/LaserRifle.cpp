@@ -1,5 +1,6 @@
 #include "LaserRifle.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Game/Actor/Weapon/Bullet/LaserBullet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

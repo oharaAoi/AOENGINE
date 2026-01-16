@@ -1,6 +1,7 @@
 #include "LauncherBullet.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 LauncherBullet::~LauncherBullet() {
 	BaseBullet::Finalize();

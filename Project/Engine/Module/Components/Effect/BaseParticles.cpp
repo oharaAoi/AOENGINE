@@ -1,10 +1,11 @@
 #include "BaseParticles.h"
-#include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Render.h"
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Render.h"
 
 using namespace AOENGINE;
 

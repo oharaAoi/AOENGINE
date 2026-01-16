@@ -1,5 +1,8 @@
 #include "Skybox.h"
 #include "Engine.h"
+#include "Engine/Render.h"
+#include "Engine/System/Manager/MeshManager.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 Skybox::~Skybox() {
 }

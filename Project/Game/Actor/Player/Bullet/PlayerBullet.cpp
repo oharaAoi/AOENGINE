@@ -1,6 +1,7 @@
 #include "PlayerBullet.h"
 #include "Game/Information/ColliderCategory.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Manager/GPUParticleManager.h"
 
 PlayerBullet::~PlayerBullet() {
 	BaseBullet::Finalize();

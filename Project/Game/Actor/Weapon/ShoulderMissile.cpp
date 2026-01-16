@@ -1,5 +1,6 @@
 #include "ShoulderMissile.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Game/Actor/Weapon/Bullet/RocketBullet.h"
 

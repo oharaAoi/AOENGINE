@@ -1,5 +1,5 @@
 #include "BaseScene.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Render.h"
 
 BaseScene::~BaseScene() {

@@ -1,13 +1,8 @@
 #pragma once
 #include "Engine.h"
-#include "Engine/Utilities/Loader.h"
 #include "Game/Scene/SceneFactory.h"
 #include "Game/Scene/BaseScene.h"
-#include "Game/Scene/TestScene.h"
-#include "Game/Scene/GameScene.h"
 #include "Engine/System/Manager/SystemManager.h"
-#include "Engine/System/Manager/ModelManager.h"
-#include "Engine/System/Input/Input.h"
 
 namespace AOENGINE {
 

@@ -34,9 +34,6 @@ void GameCore::Update() {
 	profiler_.Start();
 	// sceneの更新
 	sceneManger_->Update();
-#ifdef _DEBUG
-	sceneManger_->Debug_Gui();
-#endif
 	profiler_.End("Update");
 }
 

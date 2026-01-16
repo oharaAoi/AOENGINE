@@ -1,8 +1,13 @@
 #include "SceneManager.h"
 #include <optional>
 #include "Engine.h"
+#include "Engine/Render.h"
+#include "Engine/Render/ShadowMap.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
 using namespace AOENGINE;
@@ -25,6 +30,8 @@ void SceneManager::Init() {
 
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	reset_ = false;
+
+	AOENGINE::EditorWindows::GetInstance()->SetSceneManager(this);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +46,7 @@ void SceneManager::Update() {
 	
 	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
 		ResetManager();
-		AOENGINE::EditorWindows::GetInstance()->Reset();
+		AOENGINE::EditorWindows::GetInstance()->SceneReset();
 
 		systemManager_->Init();
 		scene_->Init();
@@ -100,7 +107,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_ = std::move(nextScene_);
 
 #ifdef _DEBUG
-	AOENGINE::EditorWindows::GetInstance()->Reset();
+	AOENGINE::EditorWindows::GetInstance()->SceneReset();
 #endif // _DEBUG
 
 	ResetManager();

@@ -2,12 +2,13 @@
 #include "Engine/Render.h"
 #include "Engine/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
 #include "Engine/Module/Geometry/Polygon/SphereGeometry.h"
 #include "Engine/Module/Geometry/Polygon/CubeGeometry.h"
 #include "Engine/Module/Geometry/Polygon/RingGeometry.h"
 #include "Engine/Module/Geometry/Polygon/CylinderGeometry.h"
+#include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 
 using namespace AOENGINE;

@@ -5,6 +5,7 @@
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/Utilities/FileDialogFunc.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/Logger.h"
 
 using namespace AI;
 

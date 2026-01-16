@@ -2,7 +2,7 @@
 #include "Engine.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Input/Input.h"
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 GameMenuUI::~GameMenuUI() {
 	bg_->SetIsDestroy(true);

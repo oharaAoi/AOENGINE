@@ -1,4 +1,5 @@
 #include "LaserCylinder.h"
+#include "Engine/Render/SceneRenderer.h"
 
 LaserCylinder::~LaserCylinder() {
 	AOENGINE::SceneRenderer::GetInstance()->ReleaseObject(object_);

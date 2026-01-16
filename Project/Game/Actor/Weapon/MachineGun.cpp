@@ -1,6 +1,7 @@
 #include "MachineGun.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Audio/AudioPlayer.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 void MachineGun::Finalize() {
 }

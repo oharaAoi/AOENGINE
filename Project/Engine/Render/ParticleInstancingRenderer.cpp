@@ -1,5 +1,8 @@
 #include "ParticleInstancingRenderer.h"
 #include "Engine.h"
+#include "Engine/Render.h"
+#include "Engine/System/Manager/TextureManager.h"
+
 
 using namespace AOENGINE;
 

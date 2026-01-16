@@ -1,6 +1,6 @@
 #include "Player.h"
 #include <vector>
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/Components/Animation/AnimationClip.h"

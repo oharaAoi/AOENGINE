@@ -1,5 +1,6 @@
 #include "SceneRenderer.h"
 #include "Engine/Engine.h"
+#include "Engine/Render.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include <Module/Components/Materials/BaseMaterial.h>

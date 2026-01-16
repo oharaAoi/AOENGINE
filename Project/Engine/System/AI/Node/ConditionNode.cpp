@@ -74,9 +74,9 @@ BehaviorStatus ConditionNode::Execute() {
 			currentIndex_ = 1;
 			status = children_[1]->Execute();
 		} else {
-			// 設定されていなかったら成功を返す
+			// 設定されていなかったら失敗を返す
 			currentIndex_ = 0;
-			return BehaviorStatus::Success;
+			return BehaviorStatus::Failure;
 		}
 	}
 

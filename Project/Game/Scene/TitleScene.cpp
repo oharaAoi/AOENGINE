@@ -1,6 +1,8 @@
 #include "TitleScene.h"
 #include "Engine.h"
+#include "Engine/Render.h"
 #include "Engine/System/Input/Input.h"
+#include "Engine/Module/Components/Light/DirectionalLight.h"
 #include "Engine/Lib/Json/JsonItems.h"
 
 TitleScene::TitleScene() {}

@@ -69,7 +69,9 @@ void EditorWindows::Update() {
 
 	// sceneを描画する
 	if (isFullScreen_) {
+		ImGui::Begin("Game");
 		processedSceneFrame_->DrawScene();
+		ImGui::End();
 	} else {
 		shaderGraphEditor_->ExecutionWindow();
 		particleSystemEditor_->ExecutionWindow();
@@ -79,6 +81,10 @@ void EditorWindows::Update() {
 
 		pSelectWindow_->HierarchyWindow();
 		pSelectWindow_->InspectorWindow();
+
+		if (pSceneManager_ != nullptr) {
+			pSceneManager_->Debug_Gui();
+		}
 	}
 }
 
@@ -279,7 +285,7 @@ void EditorWindows::PopStyleColor(bool _flag) {
 }
 #endif 
 
-void EditorWindows::Reset() {
+void EditorWindows::SceneReset() {
 	gameObjectWindow_->Init();
 	sceneReset_ = false;
 }

@@ -1,9 +1,10 @@
 #include "Boss.h"
 #include <algorithm>
-#include "Engine/System/Editer/Window/EditorWindows.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
+#include "Engine/System/Input/Input.h"
 #include "Game/UI/Boss/BossUIs.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
 #include "Game/Actor/Boss/State/BossStateStan.h"

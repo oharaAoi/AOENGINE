@@ -780,13 +780,13 @@
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h">
       <Filter>Engine\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editer\Tool\ManipulateTool.h">
+    <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editer\Tool</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editer\Window\EditorWindows.h">
+    <ClInclude Include="Engine\System\Editor\Window\EditorWindows.h">
       <Filter>Engine\System\Editer\Window</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editer\Window\GameObjectWindow.h">
+    <ClInclude Include="Engine\System\Editor\Window\GameObjectWindow.h">
       <Filter>Engine\System\Editer\Window</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
@@ -1834,13 +1834,13 @@
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp">
       <Filter>Engine\System\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editer\Tool\ManipulateTool.cpp">
+    <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editer\Tool</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editer\Window\EditorWindows.cpp">
+    <ClCompile Include="Engine\System\Editor\Window\EditorWindows.cpp">
       <Filter>Engine\System\Editer\Window</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editer\Window\GameObjectWindow.cpp">
+    <ClCompile Include="Engine\System\Editor\Window\GameObjectWindow.cpp">
       <Filter>Engine\System\Editer\Window</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
