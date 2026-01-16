@@ -28,6 +28,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	commandList_ = commandList;
 	renderTarget_ = renderTarget;
 	descriptorHeaps_ = descriptorHeaps;
+	pDevice_ = device;
 
 	// -------------------------------------------------
 	// ↓ 深度バッファの作成
@@ -481,6 +482,23 @@ void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
 void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
 	Draw();
 }
+
+void AOENGINE::ParticleSystemEditor::ClearBuffer() {
+	descriptorHeaps_->FreeDSV(depthHandle_.assignIndex_);
+	depthStencilResource_.Reset();
+}
+
+void AOENGINE::ParticleSystemEditor::ResizeBuffer() {
+	depthStencilResource_ = CreateDepthStencilTextureResource(pDevice_, WinApp::sClientWidth, WinApp::sClientHeight);
+	// DSVの生成
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+	depthHandle_ = descriptorHeaps_->AllocateDSV();
+	pDevice_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Saveを行う

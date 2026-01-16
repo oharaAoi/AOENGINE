@@ -1,5 +1,5 @@
 #pragma once
-#include <stack>
+#include <queue>
 #include <string>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 
@@ -50,7 +50,7 @@ private:
 	uint32_t totalDescriptors_;			// ディスクリプタの総数
 	uint32_t descriptorSize_;			// 各ディスクリプタのサイズ
 	int currentIndex_;					// 新規割り当て用のインデックス
-	std::stack<uint32_t> freeStack_;	// 再利用可能なインデックスを保持するスタック
+	std::queue<uint32_t> freeStack_;	// 再利用可能なインデックスを保持するスタック
 
 };
 

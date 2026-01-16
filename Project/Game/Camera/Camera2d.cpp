@@ -25,11 +25,18 @@ void Camera2d::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera2d::Update() {
+	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sClientWidth);
+	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sClientHeight);
+
 	// 4x4で表現するためz成分を削除
 	translate_.z = 0;
 	viewMatrix_ = Inverse(translate_.MakeTranslateMat());
 	worldMat_ = Multiply(Multiply(Math::Matrix4x4::MakeUnit(), Math::Matrix4x4::MakeUnit()), translate_.MakeTranslateMat());
 	// Renderに設定
+	
+	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
+	projectionMatrix_ = Math::Matrix4x4::MakeOrthograhic(0.0f, 0.0f, float(windowWidth), float(windowHeight), near_, far_);
+
 	AOENGINE::Render::SetViewProjection2D(viewMatrix_, projectionMatrix_);
 }
 

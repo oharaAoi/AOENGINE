@@ -224,8 +224,40 @@ void Engine::EndFrame() {
 	render_->ResetShadowMap();
 
 	dxCommon_->End();
-	graphicsCxt_->GetDxResourceManager()->Update();
-	dxHeap_->FreeList();
+	if (winApp_->sPendingResize) {
+		renderTarget_->Finalize();
+		blendTexture_->Finalize();
+		processedSceneFrame_->Finalize();
+		postProcess_->ClearBuffer();
+		render_->GetShadowMap()->Finalize();
+#ifdef _DEBUG
+		editorWindows_->ClearBuffer();
+#endif
+		dxCommon_->ResetResource();
+
+		// resourceの本解放
+		graphicsCxt_->GetDxResourceManager()->Update();
+		dxHeap_->FreeList();
+
+		// 作り直し
+		graphicsCxt_->ResizeBuffer();
+
+		processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
+		render_->GetShadowMap()->Init();
+#ifdef _DEBUG
+		editorWindows_->ResizeBuffer();
+#endif
+		postProcess_->ResizeBuffer(dxDevice_, graphicsCxt_->GetDxResourceManager());
+		blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
+
+		canvas2d_->ResizeSprite();
+
+		winApp_->sPendingResize = false;
+
+	} else {
+		graphicsCxt_->GetDxResourceManager()->Update();
+		dxHeap_->FreeList();
+	}
 	audio_->Update();
 }
 

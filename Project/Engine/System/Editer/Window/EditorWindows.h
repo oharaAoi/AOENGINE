@@ -62,6 +62,10 @@ public:
 	/// </summary>
 	void End();
 
+	void ClearBuffer();
+
+	void ResizeBuffer();
+
 private:
 
 	/// <summary>

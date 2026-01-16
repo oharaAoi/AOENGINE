@@ -36,6 +36,8 @@ void AOENGINE::PostProcess::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
+	descriptorHeap_ = descriptorHeap;
+	
 	AOENGINE::AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
@@ -74,7 +76,6 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 
 	effectMap_[PostEffectType::Bloom]->PostInit(this);
 	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
-
 	effectMap_[PostEffectType::RadialBlur]->SetIsEnable(true);
 	effectMap_[PostEffectType::GlitchNoise]->SetIsEnable(true);
 	effectMap_[PostEffectType::Bloom]->SetIsEnable(true);
@@ -159,6 +160,47 @@ void AOENGINE::PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AO
 	// 元の状態に戻す
 	_dxResource->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_RENDER_TARGET, BufferType::Pong);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ バッファをクリアする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::PostProcess::ClearBuffer() {
+	pingPongBuff_.reset();
+
+	depthStencilResource_.Reset();
+	descriptorHeap_->FreeDSV(depthHandle_.assignIndex_);
+
+	effectMap_[PostEffectType::Bloom].reset();
+	effectMap_[PostEffectType::MotionBlur].reset();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ effectの追加
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::DxResourceManager* _resourceManager) {
+	pingPongBuff_ = std::make_unique<PingPongBuffer>();
+	pingPongBuff_->Init(device, descriptorHeap_, _resourceManager);
+
+	depthStencilResource_ = CreateDepthStencilTextureResource(device, WinApp::sClientWidth, WinApp::sClientHeight);
+	// DSVの生成
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+	depthHandle_ = descriptorHeap_->AllocateDSV();
+	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
+
+	effectMap_[PostEffectType::Bloom] = std::make_shared<Bloom>();
+	effectMap_[PostEffectType::Bloom]->Init();
+
+	effectMap_[PostEffectType::MotionBlur] = std::make_shared<MotionBlur>();
+	effectMap_[PostEffectType::MotionBlur]->Init();
+
+	effectMap_[PostEffectType::Bloom]->PostInit(this);
+	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

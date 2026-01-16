@@ -3,13 +3,15 @@
 #include <memory>
 #include <string>
 #include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 namespace AOENGINE {
 
 /// <summary>
 /// Spriteをまとめたクラス
 /// </summary>
-class Canvas2d {
+class Canvas2d :
+	public AttributeGui {
 public:
 
 	/// <summary>
@@ -56,6 +58,16 @@ public:
 	/// <param name="windowSize"></param>
 	/// <param name="imagePos"></param>
 	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
+
+	/// <summary>
+	/// Spriteをリサイズする
+	/// </summary>
+	void ResizeSprite();
+
+	/// <summary>
+	/// 編集項目
+	/// </summary>
+	void Debug_Gui() override;
 
 public:
 

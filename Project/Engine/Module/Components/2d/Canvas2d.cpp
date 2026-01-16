@@ -1,5 +1,6 @@
 #include "Canvas2d.h"
 #include "Engine/Engine.h"
+#include "Engine/System/Editer/Window/EditorWindows.h"
 
 using namespace AOENGINE;
 
@@ -12,6 +13,8 @@ AOENGINE::Canvas2d::~Canvas2d() {
 
 void AOENGINE::Canvas2d::Init() {
 	spriteList_.clear();
+
+	AOENGINE::EditorWindows::GetInstance()->AddObjectWindow(this, "Canvas2d");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +83,22 @@ void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imag
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Debug_Gui() {
+	for (const auto& it : spriteList_) {
+		Sprite* sprite = it->sprite.get();
+		std::string addrStr = std::format("{}", static_cast<const void*>(sprite));
+		std::string name = sprite->GetName() + "##" + addrStr;
+		if (ImGui::TreeNode(name.c_str())) {
+			sprite->Debug_Gui();
+			ImGui::TreePop();
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　追加処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -102,4 +121,14 @@ AOENGINE::Canvas2d::ObjectPair* AOENGINE::Canvas2d::GetObjectPair(Sprite* _sprit
 		}
 	}
 	return nullptr;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　リサイズ処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::ResizeSprite() {
+	for (const auto& it : spriteList_) {
+		it->sprite->Resize();
+	}
 }

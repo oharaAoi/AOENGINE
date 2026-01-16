@@ -54,10 +54,9 @@ void ImGuiManager::Finalize(){
 void ImGuiManager::Begin(){
 	ImGui_ImplDX12_NewFrame();
 	ImGui_ImplWin32_NewFrame();
-	UpdateMousePosition(WinApp::GetInstance()->GetHwnd(), Math::Vector2(float(WinApp::sClientWidth), float(WinApp::sClientHeight)));
+	//UpdateMousePosition(WinApp::GetInstance()->GetHwnd(), Math::Vector2(float(WinApp::sClientWidth), float(WinApp::sClientHeight)));
 	ImGui::NewFrame();
 	ImGuizmo::BeginFrame();
-	//ImGui::SetWindowFontScale(0.1f);
 }
 
 void ImGuiManager::End() {

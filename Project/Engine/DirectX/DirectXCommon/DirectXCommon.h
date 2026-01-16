@@ -60,6 +60,16 @@ public:
 
 	void SetSwapChain();
 
+	/// <summary>
+	/// バッファの大きさをリサイズする
+	/// </summary>
+	void ResizeBuffer(int32_t width, int32_t height);
+
+	/// <summary>
+	/// リソースのリセット
+	/// </summary>
+	void ResetResource();
+
 public:
 
 	/// <summary>

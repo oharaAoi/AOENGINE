@@ -367,6 +367,26 @@ void Sprite::Debug_Gui() {
 	}
 }
 
+void AOENGINE::Sprite::Resize() {
+	float scaleX = static_cast<float>(WinApp::sClientWidth ) /  static_cast<float>(WinApp::sWindowWidth);
+	float scaleY = static_cast<float>(WinApp::sClientHeight) / static_cast<float>(WinApp::sWindowHeight);
+	
+	// 位置補正
+	transform_->SetTranslate({
+		saveParam_.transform.translate.x * scaleX,
+		saveParam_.transform.translate.y * scaleY });
+
+	// サイズ補正
+	transform_->SetScale({
+		saveParam_.transform.scale.x * scaleX,
+		saveParam_.transform.scale.y * scaleY
+						 });
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　セーブパラメータの適応
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Sprite::ApplyParam() {
 	transform_->SetSRT(saveParam_.transform);
 	uvTransform_ = saveParam_.uvTransform;
@@ -390,6 +410,10 @@ void Sprite::ApplyParam() {
 	arcData_->clockwise = saveParam_.clockwise;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　読み込み
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Sprite::Load(const std::string& _group, const std::string& _key) {
 	SetName(_key);
 	saveGroupName_ = _group;
@@ -399,9 +423,29 @@ void Sprite::Load(const std::string& _group, const std::string& _key) {
 	saveParam_.SetName(_key);
 	saveParam_.Load();
 	ApplyParam();
+
+	Resize();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　保存
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void Sprite::Save(const std::string& _group, const std::string& _key) {
+	float scaleX = static_cast<float>(WinApp::sWindowWidth) / static_cast<float>(WinApp::sClientWidth);
+	float scaleY = static_cast<float>(WinApp::sWindowHeight) / static_cast<float>(WinApp::sClientHeight);
+
+	// 位置補正
+	transform_->SetTranslate({
+		saveParam_.transform.translate.x * scaleX,
+		saveParam_.transform.translate.y * scaleY });
+
+	// サイズ補正
+	transform_->SetScale({
+		saveParam_.transform.scale.x * scaleX,
+		saveParam_.transform.scale.y * scaleY
+						 });
+
 	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;
@@ -422,6 +466,9 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 	saveParam_.startAngle = arcData_->startAngle;
 	saveParam_.arcRange = arcData_->arcRange;
 	saveParam_.clockwise = arcData_->clockwise;
+
+	saveParam_.windowWidth = WinApp::sClientWidth;
+	saveParam_.windowHeight = WinApp::sClientHeight;
 
 	saveGroupName_ = _group;
 	saveKeyName_ = _key;

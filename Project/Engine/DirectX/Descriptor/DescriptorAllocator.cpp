@@ -14,7 +14,7 @@ DescriptorAllocator::~DescriptorAllocator() {
 DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* _descriptorHeap) {
 	if (!freeStack_.empty()) {
 		// 再利用可能なインデックスをスタックから取得
-		uint32_t reusedIndex = freeStack_.top();
+		uint32_t reusedIndex = freeStack_.front();
 		freeStack_.pop();
 		return GetDescriptorHandle(_descriptorHeap, reusedIndex);
 	} else if (currentIndex_ < (int)totalDescriptors_) {

@@ -45,6 +45,11 @@ void GraphicsContext::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _back
 
 }
 
+void GraphicsContext::ResizeBuffer() {
+	dxCommon_->ResizeBuffer(WinApp::sClientWidth, WinApp::sClientHeight);
+	renderTarget_->Init(dxDevice_->GetDevice(), descriptorHeap_.get(), dxCommon_->GetSwapChain().Get(), dxCommands_->GetCommandList(), dxResourceManager_.get());
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -76,6 +76,9 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	float arcRange = kPI;					// 弧の最大角度
 	int clockwise = 0;						// 回転方向
 
+	uint32_t windowWidth = 1280;			// 画面の横幅
+	uint32_t windowHeight = 720;			// 画面の縦幅
+
 	json ToJson(const std::string& id) const override {
 		json srt = transform.ToJson();
 		json uvSrt = transform.ToJson();
@@ -99,6 +102,8 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 			.Add("startAngle", startAngle)
 			.Add("arcRange", arcRange)
 			.Add("clockwise", clockwise)
+			.Add("windowWidth", windowWidth)
+			.Add("windowHeight", windowHeight)
 			.Build();
 	}
 
@@ -121,6 +126,8 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "startAngle", startAngle);
 		Convert::fromJson(jsonData, "arcRange", arcRange);
 		Convert::fromJson(jsonData, "clockwise", clockwise);
+		Convert::fromJson(jsonData, "windowWidth", windowWidth);
+		Convert::fromJson(jsonData, "windowHeight", windowHeight);
 	}
 
 	void Debug_Gui() override {};
@@ -199,6 +206,11 @@ public:
 	/// </summary>
 	void Debug_Gui() override;
 
+	/// <summary>
+	/// 大きさや位置を調整する
+	/// </summary>
+	void Resize();
+
 public:
 
 	AOENGINE::ScreenTransform* GetTransform() const { return transform_.get(); }
@@ -226,7 +238,9 @@ public:
 
 	void SetScale(const Math::Vector2 scale) { transform_->SetScale(scale); }
 	void SetRotate(float rotate) { transform_->SetRotateZ(rotate); }
-	void SetTranslate(const Math::Vector2& _pos) { transform_->SetTranslate(_pos); }
+	void SetTranslate(const Math::Vector2& _pos) {
+		transform_->SetTranslate(_pos);
+	}
 
 	void SetColor(const AOENGINE::Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }

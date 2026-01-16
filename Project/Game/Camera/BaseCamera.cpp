@@ -40,7 +40,7 @@ void BaseCamera::Update() {
 	billBordMat_ = transform_.rotate.MakeMatrix();
 
 	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
-
+	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
 	AOENGINE::Render::SetVpvpMatrix(this->GetVpvpMatrix());
 }
 

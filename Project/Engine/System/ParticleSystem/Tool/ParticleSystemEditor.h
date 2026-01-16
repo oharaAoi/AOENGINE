@@ -70,6 +70,10 @@ public:
 
 	void ExecutionWindow() override;
 
+	void ClearBuffer();
+
+	void ResizeBuffer();
+
 private:		// member method
 
 #ifdef _DEBUG
@@ -146,6 +150,7 @@ private:
 	ID3D12GraphicsCommandList* commandList_;
 	AOENGINE::RenderTarget* renderTarget_ = nullptr;
 	AOENGINE::DescriptorHeap* descriptorHeaps_ = nullptr;
+	ID3D12Device* pDevice_ = nullptr;
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 

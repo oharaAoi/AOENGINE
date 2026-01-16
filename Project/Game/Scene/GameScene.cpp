@@ -78,6 +78,7 @@ void GameScene::Init() {
 
 	fadePanel_ = std::make_unique<FadePanel>();
 	fadePanel_->Init();
+	fadePanel_->SetColor(AOENGINE::Color(0, 0, 0, 0));
 
 	ChangeBehavior(new GamePlayBehavior(this));
 

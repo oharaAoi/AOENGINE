@@ -18,6 +18,8 @@ public:
 
 public:
 
+	void Finalize();
+
 	// 初期化
 	void Init(AOENGINE::DxResourceManager* _dxManager);
 	// 実行

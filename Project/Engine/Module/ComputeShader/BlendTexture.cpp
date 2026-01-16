@@ -7,6 +7,10 @@ BlendTexture::BlendTexture() {
 }
 
 BlendTexture::~BlendTexture() {
+	Finalize();
+}
+
+void BlendTexture::Finalize() {
 	resultResource_->Destroy();
 }
 

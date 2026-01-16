@@ -42,6 +42,8 @@ public:
 
 	AOENGINE::DxResource* CreateDxResource(ResourceType _type);
 
+	void ResizeBuffer();
+
 public:
 
 	DirectXCommon* GetDxCommon() { return dxCommon_.get(); }

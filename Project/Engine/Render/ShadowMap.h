@@ -18,6 +18,7 @@ public:
 
 public:
 
+	void Finalize();
 	// 初期化
 	void Init();
 	// コマンドを積む

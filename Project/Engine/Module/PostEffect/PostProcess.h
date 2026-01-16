@@ -58,6 +58,24 @@ public:
 	bool CheckAddEffect(PostEffectType type);
 
 	/// <summary>
+	/// 編集項目
+	/// </summary>
+	void Debug_Gui() override;
+
+	/// <summary>
+	/// バッファをクリアする
+	/// </summary>
+	void ClearBuffer();
+
+	/// <summary>
+	/// バッファをリサイズする
+	/// </summary>
+	void ResizeBuffer(ID3D12Device* device, AOENGINE::DxResourceManager* _resourceManager);
+
+public:
+
+
+	/// <summary>
 	/// effectのポインタを返す
 	/// </summary>
 	/// <param name="type"></param>
@@ -68,8 +86,6 @@ public:
 	std::shared_ptr<T> GetEffectAs(PostEffectType type) {
 		return std::dynamic_pointer_cast<T>(GetEffect(type));
 	}
-
-	void Debug_Gui() override;
 
 	AOENGINE::DxResource* GetMotionBluerRnderTarget() const { return pMotionBluerRenderTarget_; }
 	AOENGINE::PingPongBuffer* GetPingPongBuffer() const { return pingPongBuff_.get(); }
@@ -97,7 +113,7 @@ private:
 
 
 private:
-
+	AOENGINE::DescriptorHeap* descriptorHeap_;
 	ComPtr<ID3D12Resource> depthStencilResource_ = nullptr;
 	DescriptorHandles depthHandle_;
 

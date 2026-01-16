@@ -6,7 +6,14 @@
 using namespace AOENGINE;
 
 ShadowMap::~ShadowMap() {
+	Finalize();
+}
+
+void ShadowMap::Finalize() {
 	depthStencilResource_->Destroy();
+	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
+	AOENGINE::DescriptorHeap* descriptorHeap = ctx->GetDxHeap();
+	descriptorHeap->FreeDSV(depthDsvHandle_.assignIndex_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
