@@ -403,7 +403,7 @@ void Engine::PendingResize() {
 #ifdef _DEBUG
 		editorWindows_->ResizeBuffer();
 #endif
-		postProcess_->ResizeBuffer(dxDevice_, graphicsCxt_->GetDxResourceManager());
+		postProcess_->ResizeBuffer(dxDevice_, renderTarget_, graphicsCxt_->GetDxResourceManager());
 		blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
 
 		canvas2d_->ResizeSprite();

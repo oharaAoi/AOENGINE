@@ -70,7 +70,7 @@ public:
 	/// <summary>
 	/// バッファをリサイズする
 	/// </summary>
-	void ResizeBuffer(ID3D12Device* device, AOENGINE::DxResourceManager* _resourceManager);
+	void ResizeBuffer(ID3D12Device* device, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 
 public:
 

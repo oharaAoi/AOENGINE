@@ -148,6 +148,10 @@ void AOENGINE::PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGI
 	pingPongBuff_->Transition(_commandList, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, BufferType::Ping);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ frame終了時のコピー
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void AOENGINE::PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
 	const bool isEven = (effectList_.size() % 2 == 0);
 	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
@@ -180,7 +184,7 @@ void AOENGINE::PostProcess::ClearBuffer() {
 // ↓ effectの追加
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::DxResourceManager* _resourceManager) {
+void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap_, _resourceManager);
 
@@ -193,6 +197,8 @@ void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::DxResou
 	depthHandle_ = descriptorHeap_->AllocateDSV();
 	device->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
 
+	pMotionBluerRenderTarget_ = renderTarget->GetRenderTargetResource(RenderTargetType::MotionVector_RenderTarget);
+
 	effectMap_[PostEffectType::Bloom] = std::make_shared<Bloom>();
 	effectMap_[PostEffectType::Bloom]->Init();
 
@@ -201,6 +207,8 @@ void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::DxResou
 
 	effectMap_[PostEffectType::Bloom]->PostInit(this);
 	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
+	effectMap_[PostEffectType::Bloom]->SetIsEnable(true);
+	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,6 +225,10 @@ void AOENGINE::PostProcess::AddEffect(PostEffectType type) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ effect追加のチェックリスト
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 bool AOENGINE::PostProcess::CheckAddEffect(PostEffectType type) {
 	for (const auto& effect : addEffectList_) {
 		if (effect == type) {
@@ -226,10 +238,18 @@ bool AOENGINE::PostProcess::CheckAddEffect(PostEffectType type) {
 	return true;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ effectの取得
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 std::shared_ptr<IPostEffect> AOENGINE::PostProcess::GetEffect(PostEffectType type) {
 	auto it = effectMap_.find(type);
 	return (it != effectMap_.end()) ? it->second : nullptr;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::PostProcess::Debug_Gui() {
 	if (ImGui::CollapsingHeader("CheckList")) {
