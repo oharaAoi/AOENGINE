@@ -32,6 +32,7 @@ void RadialBlur::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
 	if (run_) {
 		blurStrengthTween_.Update(AOENGINE::GameTimer::DeltaTime());
 		setting_->blurStrength = blurStrengthTween_.GetValue();
@@ -60,12 +61,44 @@ void RadialBlur::CheckBox() {
 	ImGui::Checkbox("RadialBlur##RadialBlur_checkbox", &isEnable_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::RadialBlur::ApplySaveSettings() {
+	setting_->sampleCount = saveSettings_.sampleCount;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::RadialBlur::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::RadialBlur::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void RadialBlur::Debug_Gui() {
 	if (ImGui::CollapsingHeader("RadialBlur")) {
 		ImGui::DragFloat2("center", &setting_->blurCenter.x, 0.1f);
 		ImGui::DragFloat("strength", &setting_->blurStrength, 0.01f, 0.0f, 1.0f);
 		ImGui::DragFloat("blurStart", &setting_->blurStart, 0.1f, 0.0f, 1.0f);
-		ImGui::DragInt("sampleCount", &setting_->sampleCount, 1, 1, 20);
+		ImGui::DragScalar("sampleHeight", ImGuiDataType_U32, &saveSettings_.sampleCount, 1, 0);
 
 		setting_->blurCenter.Clamp(CMath::Vector2::ZERO, CMath::Vector2::UNIT);
 	}

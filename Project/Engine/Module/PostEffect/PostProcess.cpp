@@ -76,11 +76,6 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 
 	effectMap_[PostEffectType::Bloom]->PostInit(this);
 	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
-	effectMap_[PostEffectType::RadialBlur]->SetIsEnable(true);
-	effectMap_[PostEffectType::GlitchNoise]->SetIsEnable(true);
-	effectMap_[PostEffectType::Bloom]->SetIsEnable(true);
-	effectMap_[PostEffectType::ToonMap]->SetIsEnable(true);
-	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
 
 	// 行なう順番に追加
 	AddEffect(PostEffectType::RadialBlur);
@@ -262,5 +257,25 @@ void AOENGINE::PostProcess::Debug_Gui() {
 
 	for (auto t : effectList_) {
 		effectMap_[t]->Debug_Gui();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::PostProcess::Save(const std::string& rootField) {
+	for (auto t : effectList_) {
+		effectMap_[t]->Save(rootField);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::PostProcess::Load(const std::string& rootField) {
+	for (auto t : effectList_) {
+		effectMap_[t]->Load(rootField);
 	}
 }

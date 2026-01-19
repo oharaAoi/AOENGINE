@@ -435,6 +435,7 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 	float scaleX = static_cast<float>(WinApp::sWindowWidth) / static_cast<float>(WinApp::sClientWidth);
 	float scaleY = static_cast<float>(WinApp::sWindowHeight) / static_cast<float>(WinApp::sClientHeight);
 
+	saveParam_.transform = transform_->GetTransform();
 	// 位置補正
 	transform_->SetTranslate({
 		saveParam_.transform.translate.x * scaleX,
@@ -445,8 +446,8 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 		saveParam_.transform.scale.x * scaleX,
 		saveParam_.transform.scale.y * scaleY
 						 });
-
 	saveParam_.transform = transform_->GetTransform();
+
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;
 	saveParam_.color = materialData_->color;

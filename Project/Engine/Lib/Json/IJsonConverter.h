@@ -8,6 +8,7 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/MathStructures.h"
 
 using json = nlohmann::json;
 
@@ -18,6 +19,71 @@ template <typename T, typename A>
 struct is_vector<std::vector<T, A>> : std::true_type {};
 
 namespace Convert {
+
+template <typename T>
+inline void fromJsonSigle(const json& j, const std::string& name, T& value) {
+	if (j.is_object()) {
+		// jsonにnameが含まれていたら
+		if (j.contains(name)) {
+			if constexpr (std::is_same_v<T, Math::Vector4>) {
+				// Math::Vector4型に対する処理
+				value.x = j.at(name).at("x").get<float>();
+				value.y = j.at(name).at("y").get<float>();
+				value.z = j.at(name).at("z").get<float>();
+				value.w = j.at(name).at("w").get<float>();
+
+			} else if constexpr (std::is_same_v<T, Math::Vector3>) {
+				// Math::Vector3型に対する処理
+				value.x = j.at(name).at("x").get<float>();
+				value.y = j.at(name).at("y").get<float>();
+				value.z = j.at(name).at("z").get<float>();
+
+			} else if constexpr (std::is_same_v<T, Math::Vector2>) {
+				// Math::Vector2型に対する処理
+				value.x = j.at(name).at("x").get<float>();
+				value.y = j.at(name).at("y").get<float>();
+			} else if constexpr (std::is_same_v<T, float>) {
+				// float型に対する処理
+				value = j.at(name).get<float>();
+			} else if constexpr (std::is_same_v<T, bool>) {
+				// float型に対する処理
+				value = j.at(name).get<bool>();
+			} else if constexpr (std::is_same_v<T, int>) {
+				// int型に対する処理
+				value = j.at(name).get<int>();
+			} else if constexpr (std::is_same_v<T, uint32_t>) {
+				// uint32_t型に対する処理
+				value = j.at(name).get<uint32_t>();
+			} else if constexpr (std::is_same_v<T, std::string>) {
+				// std::string型に対する処理
+				value = j.at(name).get<std::string>();
+
+			} else if constexpr (std::is_same_v<T, Math::Quaternion>) {
+				// Math::Quaternion型に対する処理
+				value.x = j.at(name).at("x").get<float>();
+				value.y = j.at(name).at("y").get<float>();
+				value.z = j.at(name).at("z").get<float>();
+				value.w = j.at(name).at("w").get<float>();
+
+			} else if constexpr (std::is_same_v<T, bool>) {
+				// int型に対する処理
+				value = j.at(name).get<bool>();
+
+			} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
+				// Color型に対する処理
+				value.r = j.at(name).at("r").get<float>();
+				value.g = j.at(name).at("g").get<float>();
+				value.b = j.at(name).at("b").get<float>();
+				value.a = j.at(name).at("a").get<float>();
+			} 
+		} else {
+			// json内にnameが存在していなかったら
+			std::string erroeLog = "not contains jsonData  : " + name;
+			//Log(erroeLog);
+			//assert(false && "Name is missing in the JSON");
+		}
+	}
+}
 
 template <typename T>
 inline json toJson(const T& v) {
@@ -57,6 +123,18 @@ inline json toJson(const T& v) {
 		return arr;
 	} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 		return json{ {"r", v.r}, {"g", v.g}, {"b", v.b}, {"a", v.a} };
+	} else if constexpr (std::is_same_v<T, Math::SRT>) {
+		return {
+		{"scale",		Convert::toJson(v.scale)},
+		{"rotate",		Convert::toJson(v.rotate)},
+		{"translate",	Convert::toJson(v.translate)}
+		};
+	} else if constexpr (std::is_same_v<T, Math::QuaternionSRT>) {
+		return {
+		{"scale",		Convert::toJson(v.scale)},
+		{"rotate",		Convert::toJson(v.rotate)},
+		{"translate",	Convert::toJson(v.translate)}
+		};
 	} else {
 		assert(false && "Unsupported type in toJson");
 	}
@@ -113,12 +191,27 @@ inline void fromJson(const json& j, const std::string& name, T& value) {
 			} else if constexpr (std::is_same_v<T, bool>) {
 				// int型に対する処理
 				value = j.at(rootKey).at(name).get<bool>();
+
 			} else if constexpr (std::is_same_v<T, AOENGINE::Color>) {
 				// Color型に対する処理
 				value.r = j.at(rootKey).at(name).at("r").get<float>();
 				value.g = j.at(rootKey).at(name).at("g").get<float>();
 				value.b = j.at(rootKey).at(name).at("b").get<float>();
 				value.a = j.at(rootKey).at(name).at("a").get<float>();
+
+			} else if constexpr (std::is_same_v<T, Math::SRT>) {
+				// SRT型に対する処理
+				const json& srtJson = j.at(rootKey).at(name);
+				Convert::fromJsonSigle(srtJson, "scale", value.scale);
+				Convert::fromJsonSigle(srtJson, "rotate", value.rotate);
+				Convert::fromJsonSigle(srtJson, "translate", value.translate);
+
+			} else if constexpr (std::is_same_v<T, Math::QuaternionSRT>) {
+				// SRT型に対する処理
+				const json& srtJson = j.at(rootKey).at(name);
+				Convert::fromJsonSigle(srtJson, "scale", value.scale);
+				Convert::fromJsonSigle(srtJson, "rotate", value.rotate);
+				Convert::fromJsonSigle(srtJson, "translate", value.translate);
 			}
 		} else {
 			// json内にnameが存在していなかったら

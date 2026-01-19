@@ -1,9 +1,0 @@
-{
-    "BossActionShotLuncher": {
-        "bulletSpeed": 120.0,
-        "firstSpeedRaito": 0.20000000298023224,
-        "stiffenTime": 1.0,
-        "takeDamage": 40.0,
-        "trakingRaito": 0.5
-    }
-}

@@ -37,3 +37,24 @@ void MotionBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::Dx
 void MotionBlur::CheckBox() {
 	ImGui::Checkbox("MotionBlur##MotionBlur_checkbox", &isEnable_);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::MotionBlur::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::MotionBlur::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}

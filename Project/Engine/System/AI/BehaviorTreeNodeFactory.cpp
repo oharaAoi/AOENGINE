@@ -8,6 +8,7 @@
 #include "Engine/System/AI/Node/ConditionNode.h"
 #include "Engine/System/AI/Node/ParallelNode.h"
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
+#include "Engine/Utilities/Logger.h"
 
 using namespace AI;
 

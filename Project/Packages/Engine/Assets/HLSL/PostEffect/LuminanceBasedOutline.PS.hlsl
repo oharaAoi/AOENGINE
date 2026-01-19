@@ -1,5 +1,10 @@
 #include "ProcessedScene.hlsli"
 
+struct Setting {
+	float scale;
+};
+
+ConstantBuffer<Setting> gSetting : register(b0);
 Texture2D<float4> gTexture : register(t0);
 SamplerState gSampler : register(s0);
 
@@ -49,7 +54,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	}
 	
 	float weight = length(difference);
-	weight = saturate(weight * 3.0f);
+	weight = saturate(weight * gSetting.scale);
 	
 	output.color.rgb = (1.0f - weight) * gTexture.Sample(gSampler, input.texcoord).rgb;
 	output.color.a = 1.0f;

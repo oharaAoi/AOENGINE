@@ -21,6 +21,7 @@ void TutorialScene::Finalize() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::Init() {
+	SetSceneName("TutorialScene");
 	Engine::GetCanvas2d()->Init();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();

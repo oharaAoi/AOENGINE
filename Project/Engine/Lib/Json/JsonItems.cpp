@@ -81,6 +81,30 @@ void JsonItems::LoadAllFile() {
 	}
 }
 
+void AOENGINE::JsonItems::LoadDesignationPath(const std::string& directory, const std::string& _rootFold) {
+	std::filesystem::directory_iterator rootEffectDir(directory + _rootFold);
+	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootEffectDir)) {
+		if (entryDir.is_directory()) {
+			// サブディレクトリの名前を取得
+			const fs::path& subDirPath = entryDir.path();
+
+			for (const fs::directory_entry& subEntry : fs::directory_iterator(subDirPath)) {
+				// サブディレクトリ内のファイルパスを取得
+				const fs::path& filePath = subEntry.path();
+				// ファイル拡張子を取得
+				std::string extension = filePath.extension().string();
+
+				// .jsonファイル以外はスキップ
+				if (extension.compare(".json") != 0) {
+					continue;
+				}
+
+				Load(subDirPath.stem().string(), filePath.stem().string(), directory);
+			}
+		}
+	}
+}
+
 void JsonItems::SaveAllFile() {
 	for (const auto& [groupId, converterGroup] : jsonConverterMap_) {
 		json groupResult;

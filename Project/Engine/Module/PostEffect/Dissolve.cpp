@@ -31,6 +31,7 @@ void Dissolve::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Dissolve::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Dissolve.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gSetting");
@@ -43,16 +44,60 @@ void Dissolve::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxRe
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Dissolve::CheckBox() {
 	ImGui::Checkbox("Dissolve##Dissolve_checkbox", &isEnable_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Dissolve::ApplySaveSettings() {
+	setting_->uvTransform = saveSettings_.uvTransform.MakeAffine();
+	setting_->color = saveSettings_.color;
+	setting_->edgeColor = saveSettings_.edgeColor;
+	setting_->threshold = saveSettings_.threshold;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Dissolve::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Dissolve::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Dissolve::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Dissolve##Dissolve_Header")) {
-		ImGui::DragFloat("threshold", &setting_->threshold, 0.01f);
-		setting_->threshold = std::clamp(setting_->threshold, 0.0f, 1.0f);
+		saveSettings_.Debug_Gui();
+		saveSettings_.threshold = std::clamp(saveSettings_.threshold, 0.0f, 1.0f);
 	}
+}
+
+void PostEffect::Dissolve::SaveDissolveSetting::Debug_Gui() {
+	ImGui::DragFloat3("uvScale", &uvTransform.scale.x, 0.1f);
+	ImGui::DragFloat3("uvRotate", &uvTransform.rotate.x, 0.1f);
+	ImGui::DragFloat3("uvTranslate", &uvTransform.translate.x, 0.1f);
+	ImGui::ColorEdit4("color", &color.r);
+	ImGui::ColorEdit4("edgeColor", &edgeColor.r);
+	ImGui::DragFloat("threshold", &threshold, 0.1f);
 }

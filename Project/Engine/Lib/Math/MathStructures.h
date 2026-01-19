@@ -5,7 +5,6 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
-#include "Engine/Lib/Json/IJsonConverter.h"
 
 namespace Math {
 
@@ -18,9 +17,6 @@ struct SRT {
 	Math::Vector3 translate = CVector3::ZERO;
 
 	Math::Matrix4x4 MakeAffine();
-
-	json ToJson() const;
-	void FromJson(const json& _json, const std::string& _name);
 };
 
 /// <summary>
@@ -40,9 +36,6 @@ struct QuaternionSRT {
 	void SetParent(const Math::Matrix4x4& parentMat);
 
 	void LookAt(const Math::Vector3& target, const Math::Vector3& up = CVector3::UP);
-
-	json ToJson() const;
-	void FromJson(const json& _json, const std::string& _name);
 };
 
 /// <summary>

@@ -1,0 +1,6 @@
+{
+    "RadialBlur": {
+        "isEnable": true,
+        "sampleCount": 18
+    }
+}

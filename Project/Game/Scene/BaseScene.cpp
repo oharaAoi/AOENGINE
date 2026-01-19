@@ -1,5 +1,7 @@
 #include "BaseScene.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/Lib/Json/JsonItems.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
 #include "Engine/Render.h"
 
 BaseScene::~BaseScene() {
@@ -55,6 +57,12 @@ void BaseScene::Draw() const {
 // ↓ シーンを保存する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseScene::SaveScene() {
+void BaseScene::SaveSceneEffect() {
+	Engine::GetPostProcess()->Save(this->sceneName_ + "/");
+}
 
+void BaseScene::LoadSceneEffect() {
+	std::string path = AOENGINE::JsonItems::GetDirectoryPath() + this->sceneName_ + "/";
+	AOENGINE::JsonItems::GetInstance()->LoadDesignationPath(path);
+	Engine::GetPostProcess()->Load(this->sceneName_ + "/");
 }

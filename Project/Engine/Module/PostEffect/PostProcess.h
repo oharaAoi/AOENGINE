@@ -72,6 +72,16 @@ public:
 	/// </summary>
 	void ResizeBuffer(ID3D12Device* device, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager);
 
+	/// <summary>
+	/// 保存
+	/// </summary>
+	void Save(const std::string& rootField);
+
+	/// <summary>
+	/// 読み込み
+	/// </summary>
+	void Load(const std::string& rootField);
+
 public:
 
 

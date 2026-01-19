@@ -26,13 +26,15 @@ void Bloom::Init() {
 	blurHeightBuffer_ = std::make_unique<GaussianBlurHeight>();
 	blurHeightBuffer_->Init();
 
+	brightnessBuffer_->SetIsEnable(true);
+	blurWidthBuffer_->SetIsEnable(true);
+	blurHeightBuffer_->SetIsEnable(true);
+
 	// ブルームの情報
 	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
 	settingBuffer_->CreateResource(sizeof(BloomSettings));
 	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
 	
-	setting_->bloomIntensity = 0.5f;
-
 	// ブルームを実行するのに必要なResourceを作詞絵する
 	// resourceの設定
 	D3D12_RESOURCE_DESC desc{};
@@ -62,7 +64,6 @@ void Bloom::Init() {
 	dxHeap_ = graphicsCtx->GetDxHeap();
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device_, dxHeap_, graphicsCtx->GetDxResourceManager());
-
 }
 
 void PostEffect::Bloom::PostInit(AOENGINE::PostProcess* _owner) {
@@ -75,6 +76,8 @@ void PostEffect::Bloom::PostInit(AOENGINE::PostProcess* _owner) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
+
 	// Sceneの状態を保存しておく
 	pingResource->Transition(commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	sceneBuffer_->Transition(commandList, D3D12_RESOURCE_STATE_COPY_DEST);
@@ -116,12 +119,53 @@ void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResou
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ チェックボックス
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Bloom::CheckBox() {
 	ImGui::Checkbox("Bloom###Bloom_Checkbox", &isEnable_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Bloom::ApplySaveSettings() {
+	setting_->bloomIntensity = saveSettings_.bloomIntensity;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Bloom::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+
+	brightnessBuffer_->Save(rootField);
+	blurWidthBuffer_->Save(rootField);
+	blurHeightBuffer_->Save(rootField);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Bloom::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+
+	brightnessBuffer_->Load(rootField);
+	blurWidthBuffer_->Load(rootField);
+	blurHeightBuffer_->Load(rootField);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void Bloom::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Bloom###Bloom_Header")) {
@@ -129,5 +173,11 @@ void Bloom::Debug_Gui() {
 		blurWidthBuffer_->Debug_Gui();
 		blurHeightBuffer_->Debug_Gui();
 		ImGui::DragFloat("bloomIntensity", &setting_->bloomIntensity, 0.1f);
+
+		saveSettings_.Debug_Gui();
 	}
+}
+
+void PostEffect::Bloom::SaveBloomSettings::Debug_Gui() {
+	ImGui::DragFloat("bloomIntensity", &bloomIntensity, 0.1f);
 }

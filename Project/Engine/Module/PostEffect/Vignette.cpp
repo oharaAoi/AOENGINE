@@ -29,6 +29,7 @@ void Vignette::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Vignette.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");
@@ -39,20 +40,58 @@ void Vignette::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxRe
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Vignette::CheckBox() {
 	ImGui::Checkbox("Vignette##Vignette_checkbox", &isEnable_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Vignette::ApplySaveSettings() {
+	setting_->color = saveSettings_.color;
+	setting_->power = saveSettings_.power;
+	setting_->scale = saveSettings_.scale;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Vignette::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Vignette::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Vignette::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Vignette")) {
-		ImGui::ColorEdit4("color", &setting_->color.r);
-		ImGui::DragFloat("scale", &setting_->scale, 0.1f);
-		ImGui::DragFloat("power", &setting_->power, 0.01f);
-
-		setting_->scale = std::clamp(setting_->scale, 0.0f, 20.0f);
-		setting_->power = std::clamp(setting_->power, 0.0f, 1.0f);
+		saveSettings_.Debug_Gui();
 	}
+}
+
+void Vignette::SaveSettings::Debug_Gui() {
+	ImGui::ColorEdit4("color", &color.r);
+	ImGui::DragFloat("scale", &scale, 0.1f);
+	ImGui::DragFloat("power", &power, 0.01f);
+
+	scale = std::clamp(scale, 0.0f, 20.0f);
+	power = std::clamp(power, 0.0f, 1.0f);
 }

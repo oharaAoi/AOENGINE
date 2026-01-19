@@ -29,6 +29,7 @@ void GaussianBlurWidth::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
 	// blur
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_GaussianBlurWidth.json");
 	Pipeline* pso = Engine::GetLastUsedPipeline();
@@ -41,15 +42,54 @@ void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, AOENG
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GaussianBlurWidth::CheckBox() {
 	ImGui::Checkbox("GaussianBlurWidth", &isEnable_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GaussianBlurWidth::ApplySaveSettings() {
+	blurSetting_->texelSize = {
+		saveSettings_.sampleCount / (float)WinApp::sClientWidth,
+		saveSettings_.sampleCount / (float)WinApp::sClientHeight
+	};
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GaussianBlurWidth::Save(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GaussianBlurWidth::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GaussianBlurWidth::Debug_Gui() {
-	static float sample = 0.8f;
-	ImGui::DragFloat("sampleWide", &sample, 0.1f, 0.0f, 10.0f);
-	blurSetting_->texelSize = { sample / (float)WinApp::sClientWidth, sample / (float)WinApp::sClientHeight };
+	saveSettings_.Debug_Gui();
+	blurSetting_->texelSize = {
+		saveSettings_.sampleCount / (float)WinApp::sClientWidth,
+		saveSettings_.sampleCount / (float)WinApp::sClientHeight
+	};
+}
+
+void PostEffect::GaussianBlurWidth::SaveSettings::Debug_Gui() {
+	ImGui::DragScalar("sampleHeight", ImGuiDataType_U32, &sampleCount, 1, 0);
 }

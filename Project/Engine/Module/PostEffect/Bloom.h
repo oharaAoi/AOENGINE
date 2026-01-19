@@ -3,7 +3,7 @@
 #include "Engine/Module/PostEffect/GaussianBlurWidth.h"
 #include "Engine/Module/PostEffect/GaussianBlurHeight.h"
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
-#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 namespace PostEffect {
 
@@ -15,8 +15,33 @@ class Bloom :
 public:	// 構造体
 
 	struct BloomSettings {
-		float bloomIntensity;
+		float bloomIntensity = 0.5f;
 	};
+
+	struct SaveBloomSettings : public AOENGINE::IJsonConverter {
+		bool isEnable = false;
+		float bloomIntensity = 0.5f;
+
+		SaveBloomSettings() {
+			SetGroupName("PostEffect");
+			SetName("Bloom");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("isEnable", isEnable)
+				.Add("bloomIntensity", bloomIntensity)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "isEnable", isEnable);
+			Convert::fromJson(jsonData, "bloomIntensity", bloomIntensity);
+		}
+
+		void Debug_Gui() override;
+	};
+
 public:
 
 	Bloom() = default;
@@ -24,22 +49,71 @@ public:
 
 public:
 
-	// 初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init() override;
-	// 特殊初期化
+
+	/// <summary>
+	/// 特殊初期化
+	/// </summary>
+	/// <param name="_owner"></param>
 	void PostInit(AOENGINE::PostProcess* _owner) override;
-	// コマンドを積む
+
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="pingResource"></param>
 	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
-	// チェックボックスを表示
+
+	/// <summary>
+	/// チェックボックスの表示
+	/// </summary>
 	void CheckBox() override;
-	// 編集処理
+
+	/// <summary>
+	/// 保存項目の適応
+	/// </summary>
+	void ApplySaveSettings() override;
+
+	/// <summary>
+	/// 保存
+	/// </summary>
+	/// <param name="rootField">: PostEffectの項目の一つ上のフォルダ名</param>
+	void Save(const std::string& rootField) override;
+
+	/// <summary>
+	/// 読み込み
+	/// </summary>
+	/// <param name="rootField">: PostEffectの項目の一つ上のフォルダ名</param>
+	void Load(const std::string& rootField) override;
+
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override;
+
 
 public:
 
+	/// <summary>
+	/// 最終的に書き込むresourceを取得
+	/// </summary>
+	/// <param name="_resource"></param>
 	void SetPongResource(AOENGINE::PingPongBuffer* _resource) { postProcessResource_ = _resource; }
 
+	/// <summary>
+	/// 深度のハンドルを取得
+	/// </summary>
+	/// <param name="handle"></param>
 	void SetDepthHandle(D3D12_CPU_DESCRIPTOR_HANDLE handle) { depthHandle_ = handle; }
+
+	/// <summary>
+	/// 輝度の設定
+	/// </summary>
+	/// <param name="intensity"></param>
+	void SetBloomIntensity(float intensity) { saveSettings_.bloomIntensity = intensity; }
 
 private:
 
@@ -51,6 +125,7 @@ private:
 
 	AOENGINE::DxResource* settingBuffer_;
 	BloomSettings* setting_;
+	SaveBloomSettings saveSettings_;
 
 	AOENGINE::PingPongBuffer* postProcessResource_;
 	AOENGINE::DxResource* sceneBuffer_;

@@ -1,5 +1,6 @@
 #include "LoopValueNode.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 AOENGINE::LoopValueNode::LoopValueNode() {
 	output_ = 0;

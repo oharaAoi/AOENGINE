@@ -59,7 +59,12 @@ public:
 	/// <summary>
 	/// シーンの情報を保存する
 	/// </summary>
-	void SaveScene();
+	void SaveSceneEffect();
+
+	/// <summary>
+	/// シーンの情報を読み込む
+	/// </summary>
+	void LoadSceneEffect();
 
 public:
 

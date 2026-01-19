@@ -18,6 +18,7 @@ void GameScene::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::Init() {
+	SetSceneName("GameScene");
 	Engine::GetCanvas2d()->Init();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
@@ -32,6 +33,7 @@ void GameScene::Init() {
 	// ↓ Sceneの初期化
 	// -------------------------------------------------
 
+	LoadSceneEffect();
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "TL", ".json");
 
 	// -------------------------------------------------

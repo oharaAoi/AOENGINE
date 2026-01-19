@@ -76,6 +76,11 @@ public:
 	void LoadAllFile();
 
 	/// <summary>
+	/// 指定したパスのフォルダ内の項目を読み込むj
+	/// </summary>
+	void LoadDesignationPath(const std::string& directory = sDirectoryPath_, const std::string& _rootFold = "");
+
+	/// <summary>
 	/// すべてのデータを保存
 	/// </summary>
 	void SaveAllFile();

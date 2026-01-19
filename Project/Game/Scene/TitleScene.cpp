@@ -11,12 +11,13 @@ TitleScene::~TitleScene() {Finalize();}
 void TitleScene::Finalize() {}
 
 void TitleScene::Init() {
-
+	SetSceneName("TitleScene");
 	Engine::GetCanvas2d()->Init();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init();
 
+	LoadSceneEffect();
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
 
 	// -------------------------------------------------

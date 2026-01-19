@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/PostEffect/IPostEffect.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 
 namespace PostEffect {
 
@@ -10,20 +11,77 @@ class MotionBlur :
 	public IPostEffect {
 public:
 
+	struct SaveSettings : public AOENGINE::IJsonConverter {
+		bool isEnable = false;
+		
+		SaveSettings() {
+			SetGroupName("PostEffect");
+			SetName("MotionBlur");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("isEnable", isEnable)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "isEnable", isEnable);
+		}
+
+		void Debug_Gui() override {};
+	};
+
+public:
+
 	MotionBlur() = default;
 	~MotionBlur() override;
 
 public:
 
-	// 初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Init() override;
-	// 特殊初期化
+
+	/// <summary>
+	/// 特殊初期化
+	/// </summary>
+	/// <param name="_owner"></param>
 	void PostInit(AOENGINE::PostProcess* _owner) override;
-	// コマンドを積む
+
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList"></param>
+	/// <param name="pingResource"></param>
 	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
-	// チェックボックスの表示
+
+	/// <summary>
+	/// チェックボックスの表示
+	/// </summary>
 	void CheckBox() override;
-	// 編集処理
+
+	/// <summary>
+	/// 保存項目の適応
+	/// </summary>
+	void ApplySaveSettings() override {};
+
+	/// <summary>
+	/// 保存
+	/// </summary>
+	/// <param name="rootField">: PostEffectの項目の一つ上のフォルダ名</param>
+	void Save(const std::string& rootField) override;
+
+	/// <summary>
+	/// 読み込み
+	/// </summary>
+	/// <param name="rootField">: PostEffectの項目の一つ上のフォルダ名</param>
+	void Load(const std::string& rootField) override;
+
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui() override {};
 
 public:
@@ -33,6 +91,7 @@ public:
 private:
 
 	AOENGINE::DxResource* motionResource_;
+	SaveSettings saveSettings_;
 
 };
 

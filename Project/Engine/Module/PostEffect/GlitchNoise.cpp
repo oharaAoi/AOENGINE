@@ -60,9 +60,42 @@ void GlitchNoise::StartNoise(float startStrength, float time) {
 	setting_->frameIndex = 0;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ チェックボックスの表示
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void GlitchNoise::CheckBox() {
 	ImGui::Checkbox("GlitchNoise##GlitchNoise_checkbox", &isEnable_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GlitchNoise::ApplySaveSettings() {
+	setting_->texelSize = { saveSettings_.texelSize.x / (float)WinApp::sClientWidth, saveSettings_.texelSize.y / (float)WinApp::sClientHeight };
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GlitchNoise::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::GlitchNoise::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ Debug表示
@@ -70,12 +103,18 @@ void GlitchNoise::CheckBox() {
 
 void GlitchNoise::Debug_Gui() {
 	if (ImGui::CollapsingHeader("GlitchNoise")) {
-		ImGui::DragFloat("time", &noiseTime_, 0.01f);
+		ImGui::DragFloat("noiseTime", &noiseTime_, 0.01f);
+		ImGui::DragFloat("strength ", &setting_->strength);
+		ImGui::SliderFloat("currentTimer", &setting_->time, 0.0f, noiseTime_);
+		saveSettings_.Debug_Gui();
 		
 		if (ImGui::Button("AddTime")) {
-			setting_->strength = 1.0f;
 			setting_->time = 0.0f;
 			setting_->frameIndex = 0;
 		}
 	}
+}
+
+void GlitchNoise::SaveSettings::Debug_Gui() {
+	ImGui::DragFloat2("texelSize", &texelSize.x, 1);
 }

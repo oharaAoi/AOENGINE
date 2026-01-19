@@ -38,7 +38,8 @@ void DepthBasedOutline::Init() {
 
 void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
 	setting_->projectionInverse = AOENGINE::Render::GetProjection3D().Inverse();
-	
+	ApplySaveSettings();
+
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_DEPTH_WRITE, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_DepthBasedOutline.json");
@@ -55,15 +56,50 @@ void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, AOENG
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DepthBasedOutline::CheckBox() {
 	ImGui::Checkbox("DepthBasedOutline##DepthBasedOutline_CheckBox", &isEnable_);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::DepthBasedOutline::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::DepthBasedOutline::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::DepthBasedOutline::ApplySaveSettings() {
+	setting_->edgeGain = saveSettings_.edgeGain;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void DepthBasedOutline::Debug_Gui() {
 	if (ImGui::CollapsingHeader("DepthBasedOutline##DepthBasedOutline_Header")) {
 		ImGui::DragFloat("edgeGain", &setting_->edgeGain, 0.1f, 0.0f, 10.0f);
 	}
+}
+
+void PostEffect::DepthBasedOutline::SaveSetting::Debug_Gui() {
 }

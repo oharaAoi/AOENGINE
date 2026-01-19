@@ -80,11 +80,9 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	uint32_t windowHeight = 720;			// 画面の縦幅
 
 	json ToJson(const std::string& id) const override {
-		json srt = transform.ToJson();
-		json uvSrt = transform.ToJson();
 		return AOENGINE::JsonBuilder(id)
-			.Add("transform", srt)
-			.Add("uvTransform", uvSrt)
+			.Add("transform", transform)
+			.Add("uvTransform", uvTransform)
 			.Add("textureName", textureName)
 			.Add("color", color)
 			.Add("drawRange", drawRange)
@@ -108,8 +106,8 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	}
 
 	void FromJson(const json& jsonData) override {
-		transform.FromJson(jsonData, "transform");
-		uvTransform.FromJson(jsonData, "uvTransform");
+		Convert::fromJson(jsonData, "transform", transform);
+		Convert::fromJson(jsonData, "uvTransform", uvTransform);
 		Convert::fromJson(jsonData, "textureName", textureName);
 		Convert::fromJson(jsonData, "color", color);
 		Convert::fromJson(jsonData, "drawRange", drawRange);
