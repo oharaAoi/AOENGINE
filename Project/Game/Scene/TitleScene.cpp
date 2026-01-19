@@ -15,7 +15,7 @@ void TitleScene::Init() {
 	Engine::GetCanvas2d()->Init();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
-	adjust->Init("GameScene");
+	adjust->Init();
 
 	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
 

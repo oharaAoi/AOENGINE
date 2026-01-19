@@ -1,0 +1,8 @@
+{
+    "BossActionShotgun": {
+        "bulletSpeed": 120.0,
+        "bulletSpread": 20.0,
+        "kFireCount": 16,
+        "takeDamage": 10.0
+    }
+}

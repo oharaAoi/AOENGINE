@@ -10,28 +10,56 @@ namespace AOENGINE {
 /// シーンを管理するクラス
 /// </summary>
 class SceneManager {
-public:
+public: // コンストラクタ
 
 	SceneManager();
 	~SceneManager();
 
 public:
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
 	void Init();
+
+	/// <summary>
+	/// 更新処理
+	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
 	void Debug_Gui();
 
 public:
 
+	/// <summary>
+	/// シーンの変更
+	/// </summary>
+	/// <param name="type"></param>
 	void SetChange(const SceneType& type);
 
-	void Reset();
+	/// <summary>
+	/// シーンを保存する
+	/// </summary>
+	void SaveScene();
 
 private:
 
+	/// <summary>
+	/// Manager関連のリセット
+	/// </summary>
 	void ResetManager();
 
 private:

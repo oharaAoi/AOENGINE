@@ -16,12 +16,7 @@ void GpuParticleEmitter::Debug_Gui() {
 	ImGui::Text("emitAccumulator : %f", emitAccumulator_);
 	ImGui::Checkbox("isStop", &isStop_);
 	emitterItem_.Attribute_Gui();
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("GPU", emitterItem_.ToJson(GetName()), "Effect");
-	}
-	if (ImGui::Button("Apply")) {
-		emitterItem_.FromJson(JsonItems::GetData("GPU", GetName()));
-	}
+	emitterItem_.SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +29,10 @@ void GpuParticleEmitter::Init(const std::string& name) {
 	commandList_ = ctx->GetCommandList();
 	
 	SetName(name.c_str());
-	emitterItem_.FromJson(JsonItems::GetData("GPU", name));
+	emitterItem_.SetGroupName("GPU");
+	emitterItem_.SetName(name);
+	emitterItem_.SetRootField(JsonItems::GetDirectoryPath() + "Effect/");
+	emitterItem_.Load();
 
 	emitterResource_ = CreateBufferResource(dxDevice_, sizeof(GpuParticleEmitterData));
 	emitterResource_->Map(0, nullptr, reinterpret_cast<void**>(&emitterData_));

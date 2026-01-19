@@ -21,7 +21,7 @@ void GameScene::Init() {
 	Engine::GetCanvas2d()->Init();
 
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
-	adjust->Init("GameScene");
+	adjust->Init();
 
 	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 	layers.RegisterCategoryList(GetColliderTagsList());

@@ -1,5 +1,6 @@
 #pragma once
 #include <optional>
+#include <string>
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/System/Manager/CollisionManager.h"
@@ -55,10 +56,17 @@ public:
 	/// </summary>
 	void UpdateProcess();
 
+	/// <summary>
+	/// シーンの情報を保存する
+	/// </summary>
+	void SaveScene();
+
 public:
 
 	const std::optional<SceneType>& GetNextSceneType() const { return nextSceneType_; }
 	void SetNextSceneType(const std::optional<SceneType>& type) { nextSceneType_ = type; }
+
+	void SetSceneName(const std::string& sceneName) { sceneName_ = sceneName; }
 
 protected:
 
@@ -69,5 +77,7 @@ protected:
 	AOENGINE::SceneRenderer* pSceneRenderer_ = nullptr;
 	AOENGINE::SceneLoader* pSceneLoader_;
 	Skybox* skybox_;
+
+	std::string sceneName_;
 };
 

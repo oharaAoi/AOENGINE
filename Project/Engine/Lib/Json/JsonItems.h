@@ -38,22 +38,21 @@ public:
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	/// <param name="nowScene">: 現在のシーン</param>
-	void Init(const std::string& _nowScene);
+	void Init();
 
 	/// <summary>
 	/// jsonファイルに保存する
 	/// </summary>
 	/// <param name="groupName">: ファイルを保存するフォルダ名</param>
 	/// <param name="saveData">: 保存するデータ</param>
-	static void Save(const std::string& _groupName, const json& _saveData, const std::string& _rootFold = "");
+	static void Save(const std::string& _groupName, const json& _saveData, const std::string& directory = sDirectoryPath_, const std::string& _rootFold = "");
 
 	/// <summary>
 	/// jsonファイルを読み込む
 	/// </summary>
 	/// <param name="groupName">: ファイルの保存されたフォルダ名</param>
 	/// <param name="rootKey">: 読み込むファイル名</param>
-	static void Load(const std::string& _groupName, const std::string& _rootKey, const std::string& _rootFold = "");
+	static void Load(const std::string& _groupName, const std::string& _rootKey, const std::string& directory = sDirectoryPath_, const std::string& _rootFold = "");
 
 	/// <summary>
 	/// 値の取得(他クラスで呼び出し用)
@@ -81,6 +80,8 @@ public:
 	/// </summary>
 	void SaveAllFile();
 
+	static std::string GetDirectoryPath() { return sDirectoryPath_; }
+
 private:
 
 	/// <summary>
@@ -98,13 +99,11 @@ private:
 	/// <returns>json型を返す</returns>
 	json GetValue(const std::string& _groupName, const std::string& _rootKey);
 
-
 	void AddConverterGroup(const std::string& _groupName, const std::string& _rootKey, std::function<json(const std::string&)> _function);
 
 private:
 
 	static const std::string sDirectoryPath_;
-	static std::string sNowSceneName_;
 
 	std::unordered_map<std::string, Group> jsonMap_;
 

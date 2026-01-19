@@ -6,7 +6,6 @@ namespace fs = std::filesystem;
 using namespace AOENGINE;
 
 const std::string JsonItems::sDirectoryPath_ = "./Project/Packages/Game/Assets/GameData/JsonItems/";
-std::string JsonItems::sNowSceneName_ = "";
 
 JsonItems* JsonItems::GetInstance() {
 	static JsonItems instance;
@@ -17,15 +16,13 @@ JsonItems* JsonItems::GetInstance() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void JsonItems::Init(const std::string& _nowScene) {
-	sNowSceneName_ = _nowScene;
-
+void JsonItems::Init() {
 	// ------------------------------------------
 	// ↓ ディレクトリがなければ作成する
 	// ------------------------------------------
-	std::filesystem::path dire(sDirectoryPath_ + sNowSceneName_ + "/");
-	if (!std::filesystem::exists(sDirectoryPath_ + sNowSceneName_ + "/")) {
-		std::filesystem::create_directories(sDirectoryPath_ + sNowSceneName_ + "/");
+	std::filesystem::path dire(sDirectoryPath_);
+	if (!std::filesystem::exists(sDirectoryPath_)) {
+		std::filesystem::create_directories(sDirectoryPath_);
 	}
 
 	LoadAllFile();
@@ -37,7 +34,8 @@ void JsonItems::Init(const std::string& _nowScene) {
 
 void JsonItems::LoadAllFile() {
 	jsonMap_.clear();
-	std::filesystem::directory_iterator rootDir(sDirectoryPath_ + sNowSceneName_ );
+	// objectの保存項目の読み込み
+	std::filesystem::directory_iterator rootDir(sDirectoryPath_ + "Object");
 	for (const fs::directory_entry& entryDir : fs::directory_iterator(rootDir)) {
 		if (entryDir.is_directory()) {
 			// サブディレクトリの名前を取得
@@ -54,7 +52,7 @@ void JsonItems::LoadAllFile() {
 					continue;
 				}
 
-				Load(subDirPath.stem().string(), filePath.stem().string());
+				Load(subDirPath.stem().string(), filePath.stem().string(), sDirectoryPath_ + "Object/");
 			}
 		}
 	}
@@ -77,7 +75,7 @@ void JsonItems::LoadAllFile() {
 					continue;
 				}
 
-				Load(subDirPath.stem().string(), filePath.stem().string(), "Effect");
+				Load(subDirPath.stem().string(), filePath.stem().string(), sDirectoryPath_ + "Effect/");
 			}
 		}
 	}
@@ -109,7 +107,7 @@ void JsonItems::AddGroup(const std::string& _groupName, const json& _jsonData) {
 // ↓　保存を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void JsonItems::Save(const std::string& _groupName, const json& _saveData, const std::string& _rootFold) {
+void JsonItems::Save(const std::string& _groupName, const json& _saveData, const std::string& directory, const std::string& _rootFold) {
 	// 最上位キーの取得
 	if (_saveData.is_object() && !_saveData.empty()) {
 		// 最上位のキーの名前をファイル名とする
@@ -118,11 +116,11 @@ void JsonItems::Save(const std::string& _groupName, const json& _saveData, const
 		std::filesystem::path dirPath;
 		// ファイルパスの作成
 		if (_rootFold == "") {
-			filePath = sDirectoryPath_ + sNowSceneName_ + "/" + _groupName + "/" + rootKey + ".json";
-			dirPath = std::filesystem::path(sDirectoryPath_ + sNowSceneName_ + "/" + _groupName);
+			filePath = directory + _groupName + "/" + rootKey + ".json";
+			dirPath = std::filesystem::path(directory + _groupName);
 		} else {
-			filePath = sDirectoryPath_ + _rootFold + "/" + _groupName + "/" + rootKey + ".json";
-			dirPath = std::filesystem::path(sDirectoryPath_ + _rootFold + "/" + _groupName);
+			filePath = directory + _rootFold + "/" + _groupName + "/" + rootKey + ".json";
+			dirPath = std::filesystem::path(directory + _rootFold + "/" + _groupName);
 		}
 		
 
@@ -160,13 +158,13 @@ void JsonItems::Save(const std::string& _groupName, const json& _saveData, const
 // ↓　読み込みを行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void JsonItems::Load(const std::string& _groupName, const std::string& _rootKey, const std::string& _rootFold) {
+void JsonItems::Load(const std::string& _groupName, const std::string& _rootKey, const std::string& directory, const std::string& _rootFold) {
 	std::string filePath;
 	// ファイルパスの作成
 	if (_rootFold == "") {
-		filePath = sDirectoryPath_ + sNowSceneName_ + "/" + _groupName + "/" + _rootKey + ".json";
+		filePath = directory + _groupName + "/" + _rootKey + ".json";
 	} else {
-		filePath = sDirectoryPath_ + _rootFold + "/" + _groupName + "/" + _rootKey + ".json";
+		filePath = directory + _rootFold + "/" + _groupName + "/" + _rootKey + ".json";
 	}
 
 	// 読み込み用ファイルストリーム

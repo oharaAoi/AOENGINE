@@ -169,6 +169,9 @@ public:
 	void SetGroupName(const std::string& _groupName) { groupName_ = _groupName; }
 	const std::string& GetGroupName() const { return groupName_; }
 
+	void SetRootField(const std::string& rootFeild) { rootField_ = rootFeild; }
+	const std::string& GetRootField() const { return rootField_; }
+
 	void SaveAndLoad();
 	void Save();
 	void Load();
@@ -180,6 +183,9 @@ protected:
 	std::string name_ = "new Parameter";
 
 	std::string groupName_;
+
+	// groupを格納する上位存在
+	std::string rootField_ = "Object/";
 
 };
 

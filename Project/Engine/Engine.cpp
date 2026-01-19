@@ -96,7 +96,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	postProcess_ = std::make_unique<PostProcess>();
 
 	JsonItems* adjust = JsonItems::GetInstance();
-	adjust->Init("Engine");
+	adjust->Init();
 
 	// -------------------------------------------------
 	// ↓ 各初期化

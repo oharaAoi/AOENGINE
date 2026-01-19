@@ -18,7 +18,10 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	SetName(name);
 
 	// meshの設定
-	emitter_.FromJson(JsonItems::GetData(kGroupName, particleName_));
+	emitter_.SetGroupName("CPU");
+	emitter_.SetName(particleName_);
+	emitter_.SetRootField(JsonItems::GetDirectoryPath() + "Effect/");
+	emitter_.Load();
 	if (emitter_.useMesh == "") {
 		shape_ = AOENGINE::MeshManager::GetInstance()->GetMesh("plane");
 	} else {
@@ -324,12 +327,7 @@ void AOENGINE::BaseParticles::Debug_Gui() {
 		changeMesh_ = true;
 	}
 
-	if (ImGui::Button("Save")) {
-		JsonItems::Save("CPU", emitter_.ToJson(particleName_), "Effect");
-	}
-	if (ImGui::Button("Apply")) {
-		emitter_.FromJson(JsonItems::GetData("CPU", particleName_));
-	}
+	emitter_.SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

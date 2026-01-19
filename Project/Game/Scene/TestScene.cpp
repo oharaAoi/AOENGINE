@@ -13,7 +13,7 @@ void TestScene::Init() {
 	Engine::GetCanvas2d()->Init();
 	
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
-	adjust->Init("TestScene");
+	adjust->Init();
 
 	AOENGINE::Render::GetLightGroup()->Load();
 

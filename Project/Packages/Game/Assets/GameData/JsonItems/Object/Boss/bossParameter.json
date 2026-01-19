@@ -1,0 +1,18 @@
+{
+    "bossParameter": {
+        "aggressionBaseScore": 0.5,
+        "angularThreshold": 10.0,
+        "angularVelocity": 4.0,
+        "armorCoolTime": 20.0,
+        "health": 3500.0,
+        "idealDistance": 40.0,
+        "maxDistance": 150.0,
+        "postureStability": 500.0,
+        "postureStabilityScrapeRaito": 0.20000000298023224,
+        "treeStateOffset": {
+            "x": 80.0,
+            "y": -10.0
+        },
+        "worldStatePath": ".\\Project\\Packages\\Game\\Assets\\GameData\\BehaviorTree\\bossWorldState.json"
+    }
+}

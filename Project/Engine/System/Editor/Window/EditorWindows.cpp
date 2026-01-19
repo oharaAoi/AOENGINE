@@ -191,13 +191,24 @@ void EditorWindows::DebugItemWindow() {
 	D3D12_GPU_DESCRIPTOR_HANDLE colliderHandle = tex->GetDxHeapHandles("collider.png").handleGPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE gridHandle = tex->GetDxHeapHandles("grid.png").handleGPU;
 	D3D12_GPU_DESCRIPTOR_HANDLE replayHandle = tex->GetDxHeapHandles("replay.png").handleGPU;
+	D3D12_GPU_DESCRIPTOR_HANDLE saveHandle = tex->GetDxHeapHandles("save.png").handleGPU;
 
+	ImTextureID saveTex = reinterpret_cast<ImTextureID>(saveHandle.ptr);
 	ImTextureID playTex = reinterpret_cast<ImTextureID>(playHandle.ptr);
 	ImTextureID pauseTex = reinterpret_cast<ImTextureID>(pauseHandle.ptr);
 	ImTextureID skipTex = reinterpret_cast<ImTextureID>(skipHandle.ptr);
 	ImTextureID colliderTex = reinterpret_cast<ImTextureID>(colliderHandle.ptr);
 	ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
 	ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
+
+	static bool isSave = false;
+	if (ImGui::ImageButton("##save", saveTex, iconSize)) {
+		isSave = false;
+		if (pSceneManager_ != nullptr) {
+			pSceneManager_->SaveScene();
+		}
+	}
+	ImGui::SameLine();
 
 	ImVec2 winPos = ImGui::GetWindowPos();
 	ImVec2 winSize = ImGui::GetWindowSize();
