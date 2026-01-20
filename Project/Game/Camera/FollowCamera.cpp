@@ -103,7 +103,7 @@ void FollowCamera::Init() {
 	animationParam_.targetOffset = followCamera_.offset;
 	isAnimationFinish_ = false;
 
-	transform_.rotate = Math::Quaternion(0, 0, 0, 1.0f);
+	transform_.rotate = Math::Quaternion(0, 0, 0, 1.0f); 
 
 	pivotSRT_.scale = { 1.0f, 1.0f, 1.0f };
 	pivotSRT_.rotate = Math::Quaternion(0, 0, 0, 1.0f);
