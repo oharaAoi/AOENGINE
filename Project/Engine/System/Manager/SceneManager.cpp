@@ -46,8 +46,9 @@ void SceneManager::Update() {
 	
 	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
 		ResetManager();
+#ifdef _DEBUG
 		AOENGINE::EditorWindows::GetInstance()->SceneReset();
-
+#endif
 		systemManager_->Init();
 		scene_->Init();
 

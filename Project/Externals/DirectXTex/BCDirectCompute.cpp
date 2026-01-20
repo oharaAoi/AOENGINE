@@ -7,7 +7,7 @@
 // Licensed under the MIT License.
 //-------------------------------------------------------------------------------------
 
-#include "DirectXTexP.h"
+#include                 "DirectXTexP.h"
 
 #include "BCDirectCompute.h"
 

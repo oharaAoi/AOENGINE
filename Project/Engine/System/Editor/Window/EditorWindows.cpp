@@ -294,12 +294,12 @@ void EditorWindows::PopStyleColor(bool _flag) {
 		ImGui::PopStyleColor(1);
 	}
 }
-#endif 
 
 void EditorWindows::SceneReset() {
 	gameObjectWindow_->Init();
 	sceneReset_ = false;
 }
+#endif 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Objectの追加

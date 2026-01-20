@@ -256,7 +256,9 @@ void AOENGINE::PostProcess::Debug_Gui() {
 	ImGui::Separator();
 
 	for (auto t : effectList_) {
-		effectMap_[t]->Debug_Gui();
+		if (effectMap_[t]->GetIsEnable()) {
+			effectMap_[t]->Debug_Gui();
+		}
 	}
 }
 
