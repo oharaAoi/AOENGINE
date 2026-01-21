@@ -24,7 +24,7 @@ void BehaviorTreeEditor::Finalize() {
 
 void BehaviorTreeEditor::Init() {
 	// nodeEditorの初期化
-	ax::NodeEditor::Config config;
+	ax::NodeEditor::Config config;  
 	config.NavigateButtonIndex = 2;
 	context_ = ax::NodeEditor::CreateEditor(&config);
 

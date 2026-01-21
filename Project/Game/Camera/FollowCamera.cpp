@@ -255,9 +255,8 @@ void FollowCamera::FirstCameraMove() {
 	followCamera_.offset = Math::Vector3::Lerp(animationParam_.firstOffset, animationParam_.targetOffset, Math::CallEasing(animationParam_.easingIndex, t));
 
 	// grayscale分
-	float alpha = std::lerp(1.0f, 0.0f, t);
-	animationParam_.scaleColor.a = alpha;
-	grayscale_->SetColor(animationParam_.scaleColor);
+	AOENGINE::Color color = AOENGINE::Color::Lerp(animationParam_.scaleColor, Colors::Linear::white, t);
+	grayscale_->SetColor(color);
 
 	// vignette分
 	float power = std::lerp(animationParam_.vignettePower, 0.0f, t);

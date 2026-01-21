@@ -87,6 +87,7 @@ void TutorialScene::Init() {
 
 	fadePanel_ = std::make_unique<FadePanel>();
 	fadePanel_->Init();
+	fadePanel_->SetColor(AOENGINE::Color(0, 0, 0, 0));
 
 	// -------------------------------------------------
 	// ↓ その他設定
@@ -128,7 +129,6 @@ void TutorialScene::Update() {
 	// ↓ spriteの更新
 	// -------------------------------------------------
 	canvas_->Update();
-
 	fadePanel_->Update();
 
 	if (fadePanel_->GetIsFinished()) {

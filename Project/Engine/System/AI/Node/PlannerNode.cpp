@@ -2,6 +2,7 @@
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/Logger.h"
+#include <filesystem>
 
 namespace fs = std::filesystem;
 using namespace AI;
@@ -172,6 +173,7 @@ void PlannerNode::Debug_Gui() {
 void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _treeFileName) {
 	orientedName_ = _orientedName;
 	treeFileName_ = _treeFileName;
+
 	// goalを設定する
 	if (orientedName_ != "") {
 		for (auto goal : goalArray_) {
@@ -183,10 +185,13 @@ void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _tr
 	}
 	// treeを設定する
 	if (treeFileName_ != "") {
-		std::filesystem::path p(treeFileName_);
-		std::string fileName = p.filename().string();
+		std::filesystem::path path(_treeFileName);
+		// ディレクトリパス
+		std::string directoryPath = path.parent_path().string() + "/";
+		// ファイル名
+		std::string fileName = path.filename().string();
 		tree_->SetName(fileName);
-		tree_->CreateTree(treeFileName_);
+		tree_->CreateTree(directoryPath, fileName);
 		isCreateTree_ = true;
 	} else {
 		std::string log = _treeFileName + "の生成に失敗しました";

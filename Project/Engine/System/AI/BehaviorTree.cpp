@@ -106,11 +106,11 @@ void BehaviorTree::Edit() {
 	if (ImGui::Button("OverWirte")) {
 		json data = root_->ToJson();
 		editor_.CommentsToJson(data);
-		BehaviorTreeSerializer::Save(path_, data);
+		BehaviorTreeSerializer::Save(fileDirectory_ + fileName_, data);
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("ReSet")) {
-		CreateTree(path_);
+		CreateTree(fileDirectory_, fileName_);
 	}
 	ImGui::SameLine();
 	editor_.Edit(name_, nodeList_, links_, root_, blackboard_, creators_, goalArray_);
@@ -152,26 +152,29 @@ void BehaviorTree::EditSelect() {
 // ↓　Treeを作成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTree::CreateTree(const std::string& nodeName) {
+void BehaviorTree::CreateTree(const std::string& fileDirectory, const std::string& fileName) {
 	nodeList_.clear();
 	if (root_ != nullptr) {
 		root_->ClearChild();
 	}
 
-	if (nodeName == "") {
+	std::string fullPath = fileDirectory + fileName;
+
+	if (fullPath == "") {
 		return;
 	}
 
 	// treeの生成前にloggerを作成しておく
 	logger_ = std::make_unique<BehaviorTreeLogger>();
-	logger_->Init(nodeName);
-	path_ = nodeName;
+	logger_->Init(fullPath);
+	fileDirectory_ = fileDirectory;
+	fileName_ = fileName;
 
 	// jsonからtreeの情報を読み取る
-	json nodeTree = BehaviorTreeSerializer::LoadToJson(nodeName);
+	json nodeTree = BehaviorTreeSerializer::LoadToJson(fullPath);
 	root_ = BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, creators_, goalArray_);
 	editor_.CreateCommentsFromJson(nodeTree);
 
-	std::string message = nodeName + "を作成しました。";
+	std::string message = fullPath + "を作成しました。";
 	AOENGINE::Logger::Log(message);
 }

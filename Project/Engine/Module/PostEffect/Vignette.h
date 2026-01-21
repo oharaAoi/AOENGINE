@@ -96,11 +96,11 @@ public:
 
 public:
 
-	void SetPower(float _power) { setting_->power = _power; }
+	void SetPower(float _power) { saveSettings_.power = _power; }
 
-	void SetScale(float _scale) { setting_->scale = _scale; }
+	void SetScale(float _scale) { saveSettings_.scale = _scale; }
 
-	void SetColor(const AOENGINE::Color& _color) { setting_->color = _color; }
+	void SetColor(const AOENGINE::Color& _color) { saveSettings_.color = _color; }
 
 private:
 

@@ -53,7 +53,7 @@ public:
 	/// Treeの作成
 	/// </summary>
 	/// <param name="nodeName"></param>
-	void CreateTree(const std::string& nodeName);
+	void CreateTree(const std::string& fileDirectory, const std::string& fileName);
 
 	/// <summary>
 	/// treeの所有者の設定
@@ -126,7 +126,8 @@ private:
 
 	std::unique_ptr<AOENGINE::BehaviorTreeLogger> logger_;
 
-	std::string path_;
+	std::string fileDirectory_;
+	std::string fileName_;
 
 };
 }
