@@ -137,7 +137,7 @@ void Boss::Init() {
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "BossTree.json");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	// -------------------------------------------------
 	// ↓ State関連
