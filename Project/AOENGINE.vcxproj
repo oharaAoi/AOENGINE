@@ -323,7 +323,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\Logger.h" />
     <ClInclude Include="Engine\Utilities\Timer.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
-    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h" />
     <ClInclude Include="Externals\ImGui\Flow\context_wrapper.h" />
     <ClInclude Include="Externals\ImGui\Flow\imgui_bezier_math.h" />
