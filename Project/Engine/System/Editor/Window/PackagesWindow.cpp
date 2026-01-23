@@ -4,6 +4,9 @@
 #include "Engine/System/Editor/Window/PackagesWindowSerializer.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化関数
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 AOENGINE::PackagesWindow::~PackagesWindow() {
 	AOENGINE::PackagesWindowSerializer::Save(treeOpenState, currentPath_.string());
@@ -29,7 +32,7 @@ void AOENGINE::PackagesWindow::Init() {
 		currentPath_ = currentPath;
 		currentFolderItemList_.clear();
 		BuildCurrentFolderItems();
-	}
+}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +101,7 @@ AOENGINE::AssetNode AOENGINE::PackagesWindow::BuildAssetTree(const std::filesyst
 	AssetNode node;
 	node.name = dirPath.filename().string();
 	node.path = dirPath;
+	node.isDirectory = true;
 
 	// フォルダ内のアイテムをchildに入れる
 	for (const auto& entry : std::filesystem::directory_iterator(dirPath)) {
@@ -107,6 +111,8 @@ AOENGINE::AssetNode AOENGINE::PackagesWindow::BuildAssetTree(const std::filesyst
 				BuildAssetTree(entry.path())
 			);
 		}
+
+		node.children.push_back(std::move(child));
 	}
 
 	// rootNodeを返す
@@ -146,6 +152,12 @@ void AOENGINE::PackagesWindow::BuildCurrentFolderItems() {
 void AOENGINE::PackagesWindow::DrawAssetTree(const AssetNode& node) {
 	ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_OpenOnArrow
 		| ImGuiTreeNodeFlags_SpanFullWidth;
+
+	if (!node.isDirectory) {
+		flags |= ImGuiTreeNodeFlags_Leaf
+			| ImGuiTreeNodeFlags_NoTreePushOnOpen;
+	}
+
 	auto key = node.path.string();
 
 	// mapから状態を参照する

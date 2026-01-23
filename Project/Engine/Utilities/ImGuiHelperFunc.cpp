@@ -62,9 +62,6 @@ int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, c
 }
 
 std::string EllipsisText(const std::string& text, float maxWidth) {
-	ImFont* font = ImGui::GetFont();
-	float fontSize = ImGui::GetFontSize();
-
 	// すでに収まるならそのまま
 	if (ImGui::CalcTextSize(text.c_str()).x <= maxWidth) {
 		return text;

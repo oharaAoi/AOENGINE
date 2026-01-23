@@ -32,6 +32,8 @@ public:
 
 	BehaviorTree* Create();
 
+	void SetIsOpenEditor(const std::string& name);
+
 	void SetSelectNode(BaseBehaviorNode* _node) { selectNode_ = _node; }
 
 private:

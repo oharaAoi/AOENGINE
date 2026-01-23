@@ -43,9 +43,9 @@ void AOENGINE::PackagesWindowSerializer::Load(std::unordered_map<std::string, bo
 	nlohmann::json openFolderJson = root["openDir"];
 	for (auto it = openFolderJson.begin(); it != openFolderJson.end(); ++it) {
 		if (openFolderJson.contains(it.key())) {
-			map[it.key()] = it.value().get<bool>();
-		}
+		map[it.key()] = it.value().get<bool>();
 	}
+}
 
 	nlohmann::json currentPathJson = root["currentPath"];
 	if (currentPathJson.contains("path")) {
