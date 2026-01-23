@@ -46,13 +46,13 @@ public:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void Edit(const std::string& _name,
-			  std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
-			  std::vector<Link>& _link,
-			  BaseBehaviorNode* _root,
-			  Blackboard* _worldState,
-			  const std::unordered_map<std::string, ActionNode>& _creators,
-			  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
+	void Edit(const std::string& name,
+			  std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList,
+			  std::vector<Link>& link,
+			  BaseBehaviorNode* root,
+			  Blackboard* worldState,
+			  const std::unordered_map<std::string, ActionNode>& creators,
+			  const std::vector<std::shared_ptr<IOrientedGoal>>& goalArray);
 
 	/// <summary>
 	/// Editorで選択されているものを表示
@@ -63,13 +63,13 @@ public:
 	/// Editor上でのコメントアウトを作成する
 	/// </summary>
 	/// <param name="_json"></param>
-	void CreateCommentsFromJson(const json& _json);
+	void CreateCommentsFromJson(const json& json);
 
 	/// <summary>
 	/// コメントアウトをJson化する
 	/// </summary>
 	/// <param name="_json"></param>
-	void CommentsToJson(json& _json);
+	void CommentsToJson(json& json);
 
 private:
 
@@ -92,12 +92,12 @@ private:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void SaveAndLoad(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
-					 std::vector<Link>& _link,
-					 BaseBehaviorNode* _root,
-					 Blackboard* _worldState,
-					 const std::unordered_map<std::string, ActionNode>& _creators,
-					 const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
+	void SaveAndLoad(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList,
+					 std::vector<Link>& link,
+					 BaseBehaviorNode* root,
+					 Blackboard* worldState,
+					 const std::unordered_map<std::string, ActionNode>& creators,
+					 const std::vector<std::shared_ptr<IOrientedGoal>>& goalArray);
 
 	/// <summary>
 	/// Node生成のwindowを表示
@@ -106,23 +106,23 @@ private:
 	/// <param name="_worldState"></param>
 	/// <param name="_canTaskMap"></param>
 	/// <param name="_goalArray"></param>
-	void CreateNodeWindow(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList,
-						  Blackboard* _worldState,
-						  const std::unordered_map<std::string, ActionNode>& _creators,
-						  const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray);
+	void CreateNodeWindow(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList,
+						  Blackboard* worldState,
+						  const std::unordered_map<std::string, ActionNode>& creators,
+						  const std::vector<std::shared_ptr<IOrientedGoal>>& goalArray);
 
 	/// <summary>
 	/// セレクトされているNodeを確認する
 	/// </summary>
 	/// <param name="_nodeList"></param>
-	void CheckSelectNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList);
+	void CheckSelectNode(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList);
 
 	/// <summary>
 	/// 削除するNodeを確認する
 	/// </summary>
 	/// <param name="_nodeList"></param>
 	/// <param name="_root"></param>
-	void CheckDeleteNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, BaseBehaviorNode* _root);
+	void CheckDeleteNode(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, BaseBehaviorNode* root);
 
 	/// <summary>
 	/// 接続処理
@@ -130,7 +130,7 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void Connect(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root);
+	void Connect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& link, BaseBehaviorNode* root);
 
 	/// <summary>
 	/// 接続解除処理
@@ -138,13 +138,13 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, std::vector<Link>& _link, BaseBehaviorNode* _root);
+	void UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& link, BaseBehaviorNode* root);
 
 	/// <summary>
 	/// Node描画
 	/// </summary>
 	/// <param name="_nodeList"></param>
-	void DrawNode(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList);
+	void DrawNode(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList);
 
 	/// <summary>
 	/// Nodeの検索
@@ -152,7 +152,7 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_pin"></param>
 	/// <returns></returns>
-	BaseBehaviorNode* FindNodeFromPin(std::list<std::unique_ptr<BaseBehaviorNode>>& _nodeList, ax::NodeEditor::PinId _pin);
+	BaseBehaviorNode* FindNodeFromPin(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, ax::NodeEditor::PinId pin);
 
 private:
 

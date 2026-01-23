@@ -13,7 +13,7 @@
 namespace AOENGINE {
 
 /// <summary>
-/// DirectXの内容をまとめたクラス
+/// DirectX関連のクラスのポインタをまとめたクラス
 /// </summary>
 class GraphicsContext {
 public:

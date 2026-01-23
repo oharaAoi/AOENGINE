@@ -5,7 +5,7 @@
 namespace AOENGINE {
 
 /// <summary>
-/// ゲーム全体
+/// ゲーム全体の更新、描画などを行うframework
 /// </summary>
 class AoiFramework {
 public:	// コンストラクタ
