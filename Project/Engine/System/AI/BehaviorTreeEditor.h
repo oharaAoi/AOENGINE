@@ -35,7 +35,7 @@ public:
 
 	void Finalize();
 
-	void Init();
+	void Init(const std::string& directoryPath, const std::string& fileName);
 
 	/// <summary>
 	/// 編集を行なう
@@ -171,6 +171,8 @@ private:
 	std::list<std::unique_ptr<CommentBox>> commentBox_;
 
 	DragRect drag_;
+
+	std::string settingsFilePath_;
 };
 
 }

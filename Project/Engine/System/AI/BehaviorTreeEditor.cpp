@@ -6,26 +6,39 @@
 #include "Engine/Utilities/FileDialogFunc.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/Logger.h"
+#include <fstream>
+#include <filesystem>
 
 using namespace AI;
 
 BehaviorTreeEditor::~BehaviorTreeEditor() {
-	ax::NodeEditor::DestroyEditor(context_);
-	context_ = nullptr;
 }
 
 void BehaviorTreeEditor::Finalize() {
 	selectNode_ = nullptr;
+	ax::NodeEditor::DestroyEditor(context_);
+	context_ = nullptr;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BehaviorTreeEditor::Init() {
+void BehaviorTreeEditor::Init(const std::string& directoryPath, const std::string& fileName) {
 	// nodeEditorの初期化
 	ax::NodeEditor::Config config;  
 	config.NavigateButtonIndex = 2;
+
+	// directoryPathの設定
+	std::string configPath = directoryPath + "Config/";
+	std::filesystem::path dire(configPath);
+	if (!std::filesystem::exists(configPath)) {
+		std::filesystem::create_directories(configPath);
+	}
+	settingsFilePath_ = configPath + "config_" + fileName;
+
+	// 保存先を指定する
+	config.SettingsFile = settingsFilePath_.c_str();
 	context_ = ax::NodeEditor::CreateEditor(&config);
 
 	ax::NodeEditor::SetCurrentEditor(context_);

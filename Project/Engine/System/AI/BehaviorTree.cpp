@@ -18,8 +18,6 @@ BehaviorTree::~BehaviorTree() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Init() {
-	editor_.Init();
-
 	isExecute_ = true;
 
 	root_ = nodeList_.emplace_back(std::make_unique<BehaviorRootNode>()).get();
@@ -171,6 +169,7 @@ void BehaviorTree::CreateTree(const std::string& fileDirectory, const std::strin
 	fileName_ = fileName;
 
 	// jsonからtreeの情報を読み取る
+	editor_.Init(fileDirectory_, fileName_);
 	json nodeTree = BehaviorTreeSerializer::LoadToJson(fullPath);
 	root_ = BehaviorTreeNodeFactory::CreateNodeFromJson(nodeTree, nodeList_, links_, blackboard_, creators_, goalArray_);
 	editor_.CreateCommentsFromJson(nodeTree);
