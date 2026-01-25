@@ -36,6 +36,9 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	shaderGraphEditor_ = std::make_unique<ShaderGraphEditor>();
 	shaderGraphEditor_->Init();
 
+	packagesWindow_ = std::make_unique<PackagesWindow>();
+	packagesWindow_->Init();
+
 	pSelectWindow_ = gameObjectWindow_.get();
 
 	sceneReset_ = false;
@@ -81,6 +84,8 @@ void EditorWindows::Update() {
 
 		pSelectWindow_->HierarchyWindow();
 		pSelectWindow_->InspectorWindow();
+
+		packagesWindow_->HierarchyWindow();
 
 		if (pSceneManager_ != nullptr) {
 			pSceneManager_->Debug_Gui();

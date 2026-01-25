@@ -130,7 +130,7 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void Connect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& link, BaseBehaviorNode* root);
+	void Connect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& links, BaseBehaviorNode* root);
 
 	/// <summary>
 	/// 接続解除処理
@@ -138,7 +138,7 @@ private:
 	/// <param name="_nodeList"></param>
 	/// <param name="_link"></param>
 	/// <param name="_root"></param>
-	void UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& link, BaseBehaviorNode* root);
+	void UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, std::vector<Link>& links, BaseBehaviorNode* root);
 
 	/// <summary>
 	/// Node描画
@@ -164,8 +164,6 @@ private:
 
 	ImVec2 popupPos_;
 	bool popupRequested_ = false;
-
-	bool isOpen_ = false;
 
 	// コメントボックス
 	std::list<std::unique_ptr<CommentBox>> commentBox_;

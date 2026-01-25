@@ -16,6 +16,14 @@ bool ButtonOpenDialog(const char* buttonLabel, const char* dialogKey, const char
 
 int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, const char* label = "##combo", float inputFiledSize = 124.f);
 
+/// <summary>
+/// 引数の文字列をサイズの大きさに揃える関数
+/// </summary>
+/// <param name="text">: 文字列</param>
+/// <param name="maxWidth">: サイズ</param>
+/// <returns>: 省略した文字列</returns>
+std::string EllipsisText(const std::string& text,float maxWidth);
+
 template<typename T>
 void TemplateValueGui(const std::string& _name, T& value) {
 	 if constexpr (std::is_same_v<T, float>) {

@@ -32,6 +32,8 @@ public:
 
 	void ExecutionWindow() override;
 
+public:
+
 	AOENGINE::AttributeGui* GetSelectObject() const { return selectAttribute_; }
 
 	void SetProcessedSceneFrame(AOENGINE::ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }

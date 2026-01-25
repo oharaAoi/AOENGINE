@@ -61,6 +61,30 @@ int ContainerOfComb(const std::vector<std::string>& items, int& selectedIndex, c
 	return selectedIndex; // 選択は変更されなかった
 }
 
+std::string EllipsisText(const std::string& text, float maxWidth) {
+	ImFont* font = ImGui::GetFont();
+	float fontSize = ImGui::GetFontSize();
+
+	// すでに収まるならそのまま
+	if (ImGui::CalcTextSize(text.c_str()).x <= maxWidth) {
+		return text;
+	}
+
+	const char* ellipsis = "...";
+	float ellipsisWidth = ImGui::CalcTextSize(ellipsis).x;
+
+	std::string result;
+	for (size_t i = 0; i < text.size(); ++i) {
+		result += text[i];
+		float w = ImGui::CalcTextSize(result.c_str()).x;
+		if (w + ellipsisWidth > maxWidth) {
+			result += ellipsis;
+			break;
+		}
+	}
+	return result;
+}
+
 bool DrawImageButtonWithLabel(ImTextureID tex, const std::string& label, ImVec2 size) {
 	ImVec2 textSize = ImGui::CalcTextSize(label.c_str());
 

@@ -114,7 +114,7 @@ void Boss::Init() {
 	
 	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance()->Create();
 	behaviorTree_->Init();
-	behaviorTree_->SetName("BossBehaviorTree");
+	behaviorTree_->SetName("BossTree.aitree");
 	behaviorTree_->SetBlackboard(blackboard_.get());
 	behaviorTree_->SetTarget(this);
 	behaviorTree_->AddGoal(std::make_shared<TargetDeadOriented>());
@@ -136,7 +136,7 @@ void Boss::Init() {
 	behaviorTree_->Register("AdjustHeight", [this]() { return CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"); });
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
-	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "BossTree.json");
+	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "BossTree.aitree");
 	behaviorTree_->SetExecute(true);
 
 	// -------------------------------------------------

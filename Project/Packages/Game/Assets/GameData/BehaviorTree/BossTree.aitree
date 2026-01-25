@@ -37,8 +37,8 @@
                     "leftKeyIndex": 8,
                     "name": "Condition",
                     "nodePos": {
-                        "x": 255.0,
-                        "y": 402.0
+                        "x": 274.0,
+                        "y": 358.0
                     },
                     "nodeType": 7,
                     "operatorIndex": 5,
@@ -53,8 +53,8 @@
                             "coolTime": 1.0,
                             "name": "DeployArmor",
                             "nodePos": {
-                                "x": 498.0,
-                                "y": 598.0
+                                "x": 482.0,
+                                "y": 726.0
                             },
                             "nodeType": 4,
                             "waitTime": 1.0,
@@ -78,7 +78,7 @@
                                     },
                                     "nodeType": 5,
                                     "orientedName": "TargetDead",
-                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/BossAttackTree.json"
+                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/BossAttackTree.aitree"
                                 },
                                 {
                                     "children": [],
@@ -96,7 +96,7 @@
                                     },
                                     "nodeType": 5,
                                     "orientedName": "SafeDistance",
-                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/SafeDistanceTree.json"
+                                    "treeFileName": "./Project/Packages/Game/Assets/GameData/BehaviorTree/SafeDistanceTree.aitree"
                                 }
                             ],
                             "name": "PlannerSelector",
@@ -132,12 +132,12 @@
         {
             "id": 100,
             "min": {
-                "x": 0.0,
-                "y": 0.0
+                "x": 448.0,
+                "y": 512.0
             },
             "size": {
                 "x": 224.0,
-                "y": 360.0
+                "y": 208.0
             },
             "text": "バリアを張る"
         },
@@ -149,7 +149,7 @@
             },
             "size": {
                 "x": 432.0,
-                "y": 488.0
+                "y": 320.0
             },
             "text": "攻撃 か 回避"
         }

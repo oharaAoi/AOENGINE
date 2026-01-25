@@ -1381,6 +1381,8 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
+    <ClInclude Include="Engine\System\Editor\Window\PackagesWindow.h" />
+    <ClInclude Include="Engine\System\Editor\Window\PackagesWindowSerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2393,5 +2395,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\PackagesWindow.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\PackagesWindowSerializer.cpp" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "Engine/System/Editor/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/System/Editor/Tool/ManipulateTool.h"
+#include "Engine/System/Editor/Window/PackagesWindow.h"
 #include "Engine/System/Manager/SceneManager.h"
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
@@ -139,6 +140,8 @@ private:
 	std::unique_ptr<AOENGINE::ManipulateTool> manipulateTool_;
 
 	std::unique_ptr<AOENGINE::ShaderGraphEditor> shaderGraphEditor_;
+
+	std::unique_ptr<AOENGINE::PackagesWindow> packagesWindow_;
 
 	// ----------------------
 	// ↓ 他ポインタ

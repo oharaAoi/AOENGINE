@@ -95,6 +95,9 @@ public:
 
 	BaseBehaviorNode* GetRootNode() const { return root_; }
 
+	void SetIsOpenEditor(bool isOpen) { isOpenEditor_ = isOpen; }
+	bool GetIsOpenEditor() const { return isOpenEditor_; }
+
 private:
 
 	std::string name_ = "Behavior Tree";
@@ -119,6 +122,7 @@ private:
 
 	// フラグ
 	bool isExecute_ = false;
+	bool isOpenEditor_ = false;
 
 	// ----------------------
 	// ↓ loggerポインタ

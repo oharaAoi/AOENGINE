@@ -24,12 +24,9 @@ void BehaviorTreeSystem::Update() {
 
 	// 各Treeの表示
 	for (auto& tree : trees_) {
-		if (ImGui::Begin(tree->GetName().c_str(), nullptr, ImGuiWindowFlags_None)) {
-			// treeの表示
-			tree->Edit();
-			tree->EditSelect();
-		}
-		ImGui::End();
+		// treeの表示
+		tree->Edit();
+		tree->EditSelect();
 	}
 #endif
 }
@@ -37,4 +34,12 @@ void BehaviorTreeSystem::Update() {
 BehaviorTree* BehaviorTreeSystem::Create() {
 	auto& tree = trees_.emplace_back(std::make_unique<BehaviorTree>());
 	return tree.get();
+}
+
+void AI::BehaviorTreeSystem::SetIsOpenEditor(const std::string& name) {
+	for (auto& tree : trees_) {
+		if (tree->GetName() == name) {
+			tree->SetIsOpenEditor(true);
+		}
+	}
 }

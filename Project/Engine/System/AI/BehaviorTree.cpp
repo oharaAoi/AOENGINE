@@ -19,6 +19,7 @@ BehaviorTree::~BehaviorTree() {
 
 void BehaviorTree::Init() {
 	isExecute_ = true;
+	isOpenEditor_ = false;
 
 	root_ = nodeList_.emplace_back(std::make_unique<BehaviorRootNode>()).get();
 }
@@ -96,7 +97,9 @@ void BehaviorTree::DisplayState(const ImVec2& _pos, float _aggressionScore, cons
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTree::Edit() {
-	// Treeに関する処理
+	if (!isOpenEditor_) return;
+	ImGui::Begin(GetName().c_str(), &isOpenEditor_);
+		// Treeに関する処理
 	ImGui::Text("isExecute");
 	ImGui::SameLine();
 	ImGui::Checkbox("##isExecute", &isExecute_);
@@ -139,6 +142,8 @@ void BehaviorTree::Edit() {
 		}
 		ImGui::EndTable();
 	}
+	ImGui::End();
+
 	ImGui::End();
 }
 
