@@ -12,7 +12,6 @@ namespace AOENGINE {
 struct AssetNode {
 	std::string name;
 	std::filesystem::path path;
-	bool isDirectory;
 	std::vector<AssetNode> children;
 };
 
