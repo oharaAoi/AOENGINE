@@ -7,6 +7,7 @@
 #include "Engine/System/Manager/GpuParticleManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/System/Scene/SceneManagerPropertySerializer.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
@@ -18,6 +19,7 @@ SceneManager::~SceneManager() {}
 void SceneManager::Finalize() {
 	scene_.reset();
 	systemManager_->Finalize();
+	AOENGINE::SceneManagerPropertySerializer::Save(static_cast<int>(nowScene_));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +33,15 @@ void SceneManager::Init() {
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	reset_ = false;
 
+	changeScene_ = SceneType::Title;
+#ifdef _DEBUG
+	int sceneType = 0;
+	AOENGINE::SceneManagerPropertySerializer::Load(sceneType);
+	changeScene_ = static_cast<SceneType>(sceneType);
+#endif // _DEBUG
+
+	SetChange(changeScene_);
+
 	AOENGINE::EditorWindows::GetInstance()->SetSceneManager(this);
 }
 
@@ -40,7 +51,8 @@ void SceneManager::Init() {
 
 void SceneManager::Update() {
 	if (scene_->GetNextSceneType()) {
-		SetChange(scene_->GetNextSceneType().value());
+		SceneType type = scene_->GetNextSceneType().value();
+		SetChange(type);
 		scene_->SetNextSceneType(std::nullopt);
 	}
 	
@@ -117,6 +129,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_->Init();
 
 	reset_ = false;
+	nowScene_ = type;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

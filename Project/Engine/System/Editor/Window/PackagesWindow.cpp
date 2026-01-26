@@ -17,6 +17,10 @@ void AOENGINE::PackagesWindow::Init() {
 	pTextureManager_ = AOENGINE::TextureManager::GetInstance();
 
 	std::filesystem::path dirPath = "./Project/Packages";
+	std::filesystem::path dire(dirPath);
+	if (!std::filesystem::exists(dirPath)) {
+		std::filesystem::create_directories(dirPath);
+	}
 	rootNode_ = BuildAssetTree(dirPath);
 
 	// 保存状況の読み込み

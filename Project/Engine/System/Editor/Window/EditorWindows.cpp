@@ -25,6 +25,9 @@ void EditorWindows::Finalize() {
 
 #ifdef _DEBUG
 void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
+	packagesWindow_ = std::make_unique<PackagesWindow>();
+	packagesWindow_->Init();
+
 	gameObjectWindow_ = std::make_unique<GameObjectWindow>();
 	gameObjectWindow_->Init();
 
@@ -35,9 +38,6 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 	shaderGraphEditor_ = std::make_unique<ShaderGraphEditor>();
 	shaderGraphEditor_->Init();
-
-	packagesWindow_ = std::make_unique<PackagesWindow>();
-	packagesWindow_->Init();
 
 	pSelectWindow_ = gameObjectWindow_.get();
 

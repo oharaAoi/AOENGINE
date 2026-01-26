@@ -1383,6 +1383,7 @@
     <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
     <ClInclude Include="Engine\System\Editor\Window\PackagesWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\PackagesWindowSerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2397,5 +2398,6 @@
     <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\PackagesWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\PackagesWindowSerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
   </ItemGroup>
 </Project>

@@ -21,8 +21,7 @@ void GameCore::Init() {
 	// シーンの初期化
 	sceneManger_ = std::make_unique<AOENGINE::SceneManager>();
 	sceneManger_->Init();
-	sceneManger_->SetChange(SceneType::Title);
-
+	
 	isReset_ = false;
 }
 

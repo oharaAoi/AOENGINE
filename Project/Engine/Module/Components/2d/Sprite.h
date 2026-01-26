@@ -236,9 +236,8 @@ public:
 
 	void SetScale(const Math::Vector2 scale) { transform_->SetScale(scale); }
 	void SetRotate(float rotate) { transform_->SetRotateZ(rotate); }
-	void SetTranslate(const Math::Vector2& _pos) {
-		transform_->SetTranslate(_pos);
-	}
+	void SetTranslate(const Math::Vector2& _pos) { transform_->SetTranslate(_pos); }
+	void SetSaveTranslate(const Math::Vector2& _pos) { saveParam_.transform.translate = Math::Vector3(_pos.x, _pos.y, 0.0f); }
 
 	void SetColor(const AOENGINE::Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }

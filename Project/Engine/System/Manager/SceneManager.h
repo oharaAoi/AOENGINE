@@ -71,6 +71,7 @@ private:
 	std::unique_ptr<BaseScene> nextScene_ = nullptr;
 
 	SceneType changeScene_;
+	SceneType nowScene_;
 
 	bool reset_;
 

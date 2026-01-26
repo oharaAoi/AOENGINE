@@ -12,6 +12,7 @@ void Reticle::Init() {
 
 	reticle_ = Engine::GetCanvas2d()->AddSprite("lockOffReticle.png", "reticle");
 	reticle_->Resize();
+	reticle_->SetSaveTranslate(defaultPosition_);
 	reticle_->SetTranslate(defaultPosition_);
 
 	isLockOn_ = false;

@@ -291,6 +291,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
+    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
@@ -646,6 +647,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />
