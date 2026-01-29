@@ -1384,6 +1384,12 @@
     <ClInclude Include="Engine\System\Editor\Window\PackagesWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\PackagesWindowSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
+    <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\Long\LongRangeEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyManager.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h" />
+    <ClInclude Include="Game\Actor\Enemy\Short\ShortRangeEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\Mid\MidRangeEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2399,5 +2405,11 @@
     <ClCompile Include="Engine\System\Editor\Window\PackagesWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\PackagesWindowSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Long\LongRangeEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Short\ShortRangeEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Mid\MidRangeEnemy.cpp" />
   </ItemGroup>
 </Project>

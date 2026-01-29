@@ -385,6 +385,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h" />
+    <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyManager.h" />
+    <ClInclude Include="Game\Actor\Enemy\Long\LongRangeEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\Mid\MidRangeEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\Short\ShortRangeEnemy.h" />
     <ClInclude Include="Game\Actor\Jet\JetEngine.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionBoost.h" />
     <ClInclude Include="Game\Actor\Player\Action\PlayerActionDamaged.h" />
@@ -731,6 +737,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyManager.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Long\LongRangeEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Mid\MidRangeEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Short\ShortRangeEnemy.cpp" />
     <ClCompile Include="Game\Actor\Jet\JetEngine.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionBoost.cpp" />
     <ClCompile Include="Game\Actor\Player\Action\PlayerActionDamaged.cpp" />

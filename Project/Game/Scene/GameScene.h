@@ -16,6 +16,8 @@
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Game/CallBacks/GameCallBacksManager.h"
 
+#include "Game/Actor/Enemy/Long/LongRangeEnemy.h"
+
 class IGameSceneBehavior;
 
 class GameScene 
@@ -64,4 +66,6 @@ private:
 
 	// ------------------- behavior ------------------- //
 	std::unique_ptr<IGameSceneBehavior> gameSceneBehavior_;
+
+	std::unique_ptr<LongRangeEnemy> enemy_;
 };

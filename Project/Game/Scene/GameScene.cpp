@@ -85,6 +85,9 @@ void GameScene::Init() {
 
 	ChangeBehavior(new GamePlayBehavior(this));
 
+	enemy_ = std::make_unique<LongRangeEnemy>();
+	enemy_->Init();
+
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------

@@ -21,6 +21,10 @@ namespace ColliderTags {
 		const std::string attackArmor = "attackArmor";
 	}
 
+	namespace Enemy {
+		const std::string own = "baseEnemy";
+	}
+
 	namespace Bullet {
 		const std::string machinegun = "machinegun";
 		const std::string launcher = "launcher";
