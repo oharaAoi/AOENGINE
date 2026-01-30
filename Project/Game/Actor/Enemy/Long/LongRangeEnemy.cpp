@@ -8,6 +8,7 @@
 
 void LongRangeEnemy::Init() {
 	SetName("LongRangeEnemy");
+	param_.Load();
 
 	// ----------------------
 	// ↓ objectをシーンに追加する
@@ -20,13 +21,14 @@ void LongRangeEnemy::Init() {
 	// ↓ アニメションの追加
 	// ----------------------
 	object_->SetAnimator("./Project/Packages/Game/Assets/Load/Models/Enemy/", "enemy.gltf", true, true, false);
-	object_->GetAnimetor()->GetAnimationClip()->PoseToAnimation("pause", 0.2f);
+	object_->GetAnimator()->GetAnimationClip()->PoseToAnimation("pause", 0.2f);
 
 	// ----------------------
 	// ↓ Colliderの追加
 	// ----------------------
 	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Enemy::own, ColliderShape::Sphere);
 	collider->SetIsStatic(false);
+	collider->SetLocalPos(param_.colliderLocalPos);
 	
 	// ----------------------
 	// ↓ 物理の挙動を追加
@@ -40,6 +42,7 @@ void LongRangeEnemy::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LongRangeEnemy::Update() {
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,4 +50,15 @@ void LongRangeEnemy::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LongRangeEnemy::Debug_Gui() {
+	param_.Debug_Gui();
+
+	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Enemy::own);
+	collider->SetRadius(param_.colliderRadius);
+	collider->SetLocalPos(param_.colliderLocalPos);
+}
+
+void LongRangeEnemy::Parameter::Debug_Gui() {
+	ImGui::DragFloat("コライダーの大きさ", &colliderRadius, 0.1f);
+	ImGui::DragFloat3("コライダーのローカル座標", &colliderLocalPos.x, 0.1f);
+	SaveAndLoad();
 }

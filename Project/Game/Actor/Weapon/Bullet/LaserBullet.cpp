@@ -90,8 +90,8 @@ void LaserBullet::Init() {
 	AddChild(laserCylinder_.get());
 
 	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
-	shotEffect_ = manager->CrateParticle("laserShot");
-	shotParticle_ = manager->CrateParticle("laserParticle");
+	shotEffect_ = manager->CreateParticle("laserShot");
+	shotParticle_ = manager->CreateParticle("laserParticle");
 
 	fadeTimer_ = AOENGINE::Timer(param_.fadeTime);
 	lifeTimer_ = AOENGINE::Timer(param_.lifeTime);
@@ -201,8 +201,8 @@ void LaserBullet::OnCollision(AOENGINE::BaseCollider* _other) {
 		isFade_ = true;
 
 		AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
-		AOENGINE::BaseParticles* hitLaserEffect_ = manager->CrateParticle("LaserHitSpark");
-		AOENGINE::BaseParticles* hitLaserParticle_ = manager->CrateParticle("LaserHitParticle");
+		AOENGINE::BaseParticles* hitLaserEffect_ = manager->CreateParticle("LaserHitSpark");
+		AOENGINE::BaseParticles* hitLaserParticle_ = manager->CreateParticle("LaserHitParticle");
 
 		Math::Vector3 scale = parentTransform_->GetScale();
 		Math::Vector3 hitPos = lineCollider_->GetOrigine() + lineCollider_->GetDiff();

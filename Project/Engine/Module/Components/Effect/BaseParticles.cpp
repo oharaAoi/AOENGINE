@@ -66,7 +66,7 @@ void AOENGINE::BaseParticles::DrawShape() {
 		};
 		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
 		DrawOBB(obb, mat, Colors::Linear::green);
-	} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
+	} else if (emitter_.shape == (int)CpuEmitterShape::Shpere) {
 		DrawSphere(emitter_.translate, emitter_.radius, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
@@ -104,7 +104,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 			float rangeY = RandomFloat(-emitter_.size.y, emitter_.size.y);
 			float rangeZ = RandomFloat(-emitter_.size.z, emitter_.size.z);
 			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
-		} else if (emitter_.shape == (int)CpuEmitterShape::Shere) {
+		} else if (emitter_.shape == (int)CpuEmitterShape::Shpere) {
 			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);

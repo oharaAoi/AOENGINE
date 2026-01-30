@@ -51,7 +51,7 @@ public:
 	/// <param name="partner"></param>
 	void DeletePartner(BaseCollider* partner);
 
-	void SetLoacalPos(const Math::Vector3& pos) { localSRT_.translate = pos; }
+	void SetLocalPos(const Math::Vector3& pos) { localSRT_.translate = pos; }
 
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }

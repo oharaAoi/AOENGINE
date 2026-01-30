@@ -61,15 +61,15 @@ void DirectXCommands::CreateCommand() {
 
 void DirectXCommands::CreateFence() {
 	for (auto oi = 0; oi < kFrameCount_; ++oi) {
-		fanceCounter_[oi] = 0;
+		fenceCounter_[oi] = 0;
 	}
 
 	// graphics用のフェンスの初期化 --------------------------
 	HRESULT hr = S_FALSE;
-	hr = device_->CreateFence(fanceCounter_[fenceIndex_], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
+	hr = device_->CreateFence(fenceCounter_[fenceIndex_], D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));
 	assert(SUCCEEDED(hr));
 
-	fanceCounter_[fenceIndex_]++;
+	fenceCounter_[fenceIndex_]++;
 
 	// Fenceのsignalを待つためのイベントを作成する
 	fenceEvent_ = CreateEvent(NULL, false, false, NULL);
@@ -90,7 +90,7 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t _currentIndex){
 	fenceIndex_ = _currentIndex;
 
 	// 今フレームのフェンス値を取得
-	const auto currentValue = fanceCounter_[prevFenceIndex];
+	const auto currentValue = fenceCounter_[prevFenceIndex];
 
 	// コマンドキューにフェンスシグナルを送信
 	commandQueue_->Signal(fence_.Get(), currentValue);
@@ -102,5 +102,5 @@ void DirectXCommands::SyncGPUAndCPU(uint32_t _currentIndex){
 	}
 
 	// **フェンスのカウンターを更新**
-	fanceCounter_[fenceIndex_] = currentValue + 1;
+	fenceCounter_[fenceIndex_] = currentValue + 1;
 }

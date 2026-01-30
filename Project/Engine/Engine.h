@@ -9,9 +9,6 @@
 #include "Engine/Module/Components/Rigging/Skinning.h"
 #include "Engine/Module/PostEffect/PostProcess.h"
 
-class EffectSystem;
-class EffectSystemEditer;
-
 /// <summary>
 /// GameEngine
 /// </summary>

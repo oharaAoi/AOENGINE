@@ -23,7 +23,7 @@ public:
 	struct Joint {
 		Math::QuaternionSRT transform;	// transform
 		Math::Matrix4x4 localMat;				// localMatrix
-		Math::Matrix4x4 skeltonSpaceMat;		// skeltonSpaceでの変換行列
+		Math::Matrix4x4 skeletonSpaceMat;		// skeletonSpaceでの変換行列
 		std::string name;				// 名前
 		std::vector<int32_t> children;	// 子のJointのIndexのリスト
 		int32_t index;					// 自身のIndex
@@ -45,7 +45,7 @@ public:
 	void DrawBone(const Math::Matrix4x4& worldMat) const;
 	// 小骨の描画
 	void DrawNodeHierarchy(const Math::Matrix4x4& parentWorldMatrix) const;
-	// skeltonの生成
+	// skeletonの生成
 	void CreateSkeleton(const AOENGINE::Model::Node& node);
 	// jointの生成
 	int32_t CreateJoint(const AOENGINE::Model::Node& node, const std::optional<int32_t>& parent, std::vector<Joint>& joints);
@@ -60,7 +60,7 @@ public:
 
 	const Joint& GetJoint(uint32_t index) { return joints_[index]; }
 
-	const Math::Matrix4x4& GetSkeltonSpaceMat(const std::string& boenName) { return joints_[jointMap_[boenName]].skeltonSpaceMat; }
+	const Math::Matrix4x4& GetSkeletonSpaceMat(const std::string& boenName) { return joints_[jointMap_[boenName]].skeletonSpaceMat; }
 
 private:
 

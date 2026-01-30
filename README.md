@@ -7,4 +7,10 @@ Projectフォルダ内にソースコードと.slnファイルがあります。
 
 **Projectの再構築の仕方**
 
-README.mdと同じ階層でPowerShellで起動し **./premake5 vs2022** のコマンドを打つことでProjectを再構築することができます。
+README.mdと同じ階層でPowerShellで起動し 以下のコマンドを打つことでProjectを再構築することができます。
+
+```powershell
+./premake5 vs2022
+```
+
+This repository includes premake5, licensed under the BSD 3-Clause License.

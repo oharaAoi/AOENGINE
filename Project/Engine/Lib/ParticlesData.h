@@ -20,7 +20,7 @@ enum class CpuEmitOrigin {
 };
 
 enum class CpuEmitterShape {
-	Shere,
+	Shpere,
 	Box,
 	Cone
 };

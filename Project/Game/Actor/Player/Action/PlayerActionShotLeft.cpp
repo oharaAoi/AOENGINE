@@ -34,7 +34,7 @@ void PlayerActionShotLeft::OnStart() {
 	notShotTimer_ = 0.0f;
 
 	// playerのAnimationを変更する
-	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 	clip->PoseToAnimation("left_shot", param_.animationTime);
 
 	// 武器とアクションを設定する
@@ -81,7 +81,7 @@ void PlayerActionShotLeft::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotLeft::OnEnd() {
-	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 	clip->PoseToAnimation("left_shotAfter", param_.animationTime);
 
 	AOENGINE::Rigidbody* rigidbody = pOwner_->GetGameObject()->GetRigidbody();

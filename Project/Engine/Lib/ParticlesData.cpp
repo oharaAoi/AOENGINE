@@ -15,7 +15,7 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragScalar("RateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout, 1.0f);
 
 		ImGui::Combo("Shape##", &shape, "SPHERE\0BOX\0CONE");
-		if (shape == (int)CpuEmitterShape::Shere) {
+		if (shape == (int)CpuEmitterShape::Shpere) {
 			ImGui::DragFloat("radius", &radius, 0.1f, 0.0f);
 		} else if (shape == (int)CpuEmitterShape::Box) {
 			ImGui::DragFloat3("size", &size.x, 0.1f);

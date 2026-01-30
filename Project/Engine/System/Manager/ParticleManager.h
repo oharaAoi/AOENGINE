@@ -67,7 +67,7 @@ public:
 	/// </summary>
 	/// <param name="particlesFile"></param>
 	/// <returns></returns>
-	AOENGINE::BaseParticles* CrateParticle(const std::string& particlesFile);
+	AOENGINE::BaseParticles* CreateParticle(const std::string& particlesFile);
 
 	void DeleteParticles(AOENGINE::BaseParticles* ptr);
 

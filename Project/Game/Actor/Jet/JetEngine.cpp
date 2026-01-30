@@ -109,7 +109,7 @@ void JetEngine::Init() {
 		object_->AddChild(jetEngineBurn_[i].get());
 	}
 
-	burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("BurnParticle");
+	burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BurnParticle");
 	burnParticle_->SetParent(transform_->GetWorldMatrix());
 
 	// -------------------------------------

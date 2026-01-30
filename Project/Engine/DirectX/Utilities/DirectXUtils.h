@@ -136,9 +136,9 @@ std::string ResourceStateToString(D3D12_RESOURCE_STATES _state);
 /// </summary>
 /// <param name="commandList">コマンドリスト</param>
 /// <param name="resource">リソース</param>
-/// <param name="beforState">遷移前状態</param>
+/// <param name="beforeState">遷移前状態</param>
 /// <param name="afterState">遷移後状態</param>
-void TransitionResourceState(ID3D12GraphicsCommandList* _commandList, ID3D12Resource* _resource, D3D12_RESOURCE_STATES _beforState, D3D12_RESOURCE_STATES _afterState);
+void TransitionResourceState(ID3D12GraphicsCommandList* _commandList, ID3D12Resource* _resource, D3D12_RESOURCE_STATES _beforeState, D3D12_RESOURCE_STATES _afterState);
 
 /// <summary>
 /// CPUHandleの作成

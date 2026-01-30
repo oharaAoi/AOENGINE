@@ -27,8 +27,6 @@ Texture2D<float4> gTexture : register(t0);
 Texture2D<float> gShadowMap : register(t1);
 TextureCube<float4> gEnviromentTexture : register(t2);
 Texture2D<float3> gNormapMap : register(t3);
-//Texture2D<float> gMetallicMap : register(t2);
-//Texture2D<float> gRoughnessMap : register(t3);
 SamplerState gSampler : register(s0);
 SamplerComparisonState gShadowSampler : register(s1);
 
@@ -216,18 +214,6 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	
 	float iblScale = max(gMaterial.ambientIntensity, 0.04);
 	float3 ambientIBL = (diffuseIBL + specularIBL) * iblScale;
-	
-	//=======================================================
-	// ラフネスとメタリックのmapを計算する
-	//=======================================================
-	//float metallicMap = gMetallicMap.Sample(gSampler, transformedUV.xy).r;
-	//float roughnessMap = gRoughnessMap.Sample(gSampler, transformedUV.xy).r;
-
-	//float roughness = roughnessMap * roughnessMap + EPSILON;
-	//float metallic = metallicMap;
-	
-	//float roughness = gMaterial.roughness * gMaterial.roughness + EPSILON;
-	//float metallic = gMaterial.metallic;
 	
 	//=======================================================
 	// DirectionalLight

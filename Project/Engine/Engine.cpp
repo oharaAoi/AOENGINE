@@ -123,7 +123,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	geometryFactory.Init();
 
 #ifdef _DEBUG
-	imguiManager_ = ImGuiManager::GetInstacne();
+	imguiManager_ = ImGuiManager::GetInstance();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
 #endif
 
@@ -159,7 +159,7 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	isFullScreen_ = false;
 	runGame_ = true;
 	
-	AOENGINE::Logger::Log("Engine Initialize compulete!\n");
+	AOENGINE::Logger::Log("Engine Initialize complete!\n");
 }
 
 

@@ -39,7 +39,7 @@ void AOENGINE::RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHea
 	device_ = _device;
 	resourceManager_ = _resourceManager;
 
-	CrateSwapChainResource();
+	CreateSwapChainResource();
 	CreateRenderTarget();
 
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
@@ -80,7 +80,7 @@ void AOENGINE::RenderTarget::ClearDepth(ID3D12GraphicsCommandList* _commandList)
 // ↓　swawChainで使用するAOENGINE::RenderTargetを作成する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::RenderTarget::CrateSwapChainResource() {
+void AOENGINE::RenderTarget::CreateSwapChainResource() {
 	D3D12_RESOURCE_DESC desc{};
 	desc.Width = WinApp::sClientWidth;			// 画面の横幅
 	desc.Height = WinApp::sClientHeight;		// 画面の縦幅
@@ -171,7 +171,7 @@ void AOENGINE::RenderTarget::CreateRenderTarget() {
 // ↓　AOENGINE::RenderTargetの状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforState, const D3D12_RESOURCE_STATES& _afterState) {
-	renderTargetResource_[_renderType]->Transition(_commandList, _beforState, _afterState);
+void AOENGINE::RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforeState, const D3D12_RESOURCE_STATES& _afterState) {
+	renderTargetResource_[_renderType]->Transition(_commandList, _beforeState, _afterState);
 }
 

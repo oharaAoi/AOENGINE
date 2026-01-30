@@ -340,14 +340,14 @@ std::string ResourceStateToString(D3D12_RESOURCE_STATES _state) {
 	return result;
 }
 
-void TransitionResourceState(ID3D12GraphicsCommandList* _commandList, ID3D12Resource* _resource, D3D12_RESOURCE_STATES _beforState, D3D12_RESOURCE_STATES _afterState) {
+void TransitionResourceState(ID3D12GraphicsCommandList* _commandList, ID3D12Resource* _resource, D3D12_RESOURCE_STATES _beforeState, D3D12_RESOURCE_STATES _afterState) {
 	D3D12_RESOURCE_BARRIER barrier;
 	barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 	barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
 
 	barrier.Transition.pResource = _resource;
 	// 遷移前のリソース
-	barrier.Transition.StateBefore = _beforState;
+	barrier.Transition.StateBefore = _beforeState;
 	// 遷移後のResourceState
 	barrier.Transition.StateAfter = _afterState;
 	// サブリソースのインデックス

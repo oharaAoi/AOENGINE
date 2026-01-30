@@ -32,15 +32,15 @@ public:
 	};
 
 	/// <summary>
-	/// skelton空間で行列
+	/// skeleton空間で行列
 	/// </summary>
 	struct WellForGPU {
-		Math::Matrix4x4 skeltonSpaceMatrix;
-		Math::Matrix4x4 skeltonSpaceInverseTransposeMat;
+		Math::Matrix4x4 skeletonSpaceMatrix;
+		Math::Matrix4x4 skeletonSpaceInverseTransposeMat;
 	};
 
 	/// <summary>
-	/// skeltonの情報
+	/// skeletonの情報
 	/// </summary>
 	struct SkinningInformation {
 		uint32_t numVertices;

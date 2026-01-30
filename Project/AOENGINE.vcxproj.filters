@@ -139,14 +139,14 @@
     <Filter Include="Engine\System\Collision">
       <UniqueIdentifier>{6AEA48A0-D621-9137-DF2B-F55A4BE2B730}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\System\Editer">
-      <UniqueIdentifier>{9B5BE22E-87EA-6BF8-3009-80F31C777C9E}</UniqueIdentifier>
+    <Filter Include="Engine\System\Editor">
+      <UniqueIdentifier>{E55CE22E-D1EB-6BF8-7A0A-80F366787C9E}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\System\Editer\Tool">
-      <UniqueIdentifier>{E84AA57E-540D-D908-9DBD-679509BFB1E6}</UniqueIdentifier>
+    <Filter Include="Engine\System\Editor\Tool">
+      <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\System\Editer\Window">
-      <UniqueIdentifier>{22ECB5C3-8EF9-E3A9-17E0-DF9483ECAF60}</UniqueIdentifier>
+    <Filter Include="Engine\System\Editor\Window">
+      <UniqueIdentifier>{2C569250-9863-C036-214A-BC218D568CED}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\System\Input">
       <UniqueIdentifier>{CE154D4F-3A77-2A5D-C3E4-700F2F45611C}</UniqueIdentifier>
@@ -249,6 +249,18 @@
     </Filter>
     <Filter Include="Game\Actor\Boss\State">
       <UniqueIdentifier>{5D62E6E6-C9CE-A1E1-92C2-393FFEEDC349}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Enemy">
+      <UniqueIdentifier>{34D8DDE5-20D1-FC37-4903-E2BC355BDC43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Enemy\Long">
+      <UniqueIdentifier>{F32B0F6F-5F98-CA69-288C-62C794B7ECD1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Enemy\Mid">
+      <UniqueIdentifier>{7DEDD1D4-697C-5B9E-129B-6F99FE086C44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Enemy\Short">
+      <UniqueIdentifier>{53856F51-3F7F-98A3-28EC-2EB41485FE0F}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Jet">
       <UniqueIdentifier>{599AE39E-4568-D7A4-2EFC-47CB1A69B309}</UniqueIdentifier>
@@ -781,13 +793,19 @@
       <Filter>Engine\System\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
-      <Filter>Engine\System\Editer\Tool</Filter>
+      <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Window\EditorWindows.h">
-      <Filter>Engine\System\Editer\Window</Filter>
+      <Filter>Engine\System\Editor\Window</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Window\GameObjectWindow.h">
-      <Filter>Engine\System\Editer\Window</Filter>
+      <Filter>Engine\System\Editor\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Window\PackagesWindow.h">
+      <Filter>Engine\System\Editor\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Window\PackagesWindowSerializer.h">
+      <Filter>Engine\System\Editor\Window</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
       <Filter>Engine\System\Input</Filter>
@@ -844,6 +862,9 @@
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneLoader.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h">
@@ -948,6 +969,7 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
       <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
@@ -1125,6 +1147,24 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\EnemyManager.h">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Long\LongRangeEnemy.h">
+      <Filter>Game\Actor\Enemy\Long</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Mid\MidRangeEnemy.h">
+      <Filter>Game\Actor\Enemy\Mid</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Short\ShortRangeEnemy.h">
+      <Filter>Game\Actor\Enemy\Short</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Jet\JetEngine.h">
       <Filter>Game\Actor\Jet</Filter>
     </ClInclude>
@@ -1214,6 +1254,9 @@
     </ClInclude>
     <ClInclude Include="Game\Actor\Weapon\ShoulderMissile.h">
       <Filter>Game\Actor\Weapon</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h">
+      <Filter>Game\CallBacks</Filter>
     </ClInclude>
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h">
       <Filter>Game\CallBacks</Filter>
@@ -1380,16 +1423,6 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
-    <ClInclude Include="Engine\System\Editor\Window\PackagesWindow.h" />
-    <ClInclude Include="Engine\System\Editor\Window\PackagesWindowSerializer.h" />
-    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
-    <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h" />
-    <ClInclude Include="Game\Actor\Enemy\Long\LongRangeEnemy.h" />
-    <ClInclude Include="Game\Actor\Enemy\EnemyManager.h" />
-    <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h" />
-    <ClInclude Include="Game\Actor\Enemy\Short\ShortRangeEnemy.h" />
-    <ClInclude Include="Game\Actor\Enemy\Mid\MidRangeEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1843,13 +1876,19 @@
       <Filter>Engine\System\Collision</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
-      <Filter>Engine\System\Editer\Tool</Filter>
+      <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\EditorWindows.cpp">
-      <Filter>Engine\System\Editer\Window</Filter>
+      <Filter>Engine\System\Editor\Window</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\GameObjectWindow.cpp">
-      <Filter>Engine\System\Editer\Window</Filter>
+      <Filter>Engine\System\Editor\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Window\PackagesWindow.cpp">
+      <Filter>Engine\System\Editor\Window</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Window\PackagesWindowSerializer.cpp">
+      <Filter>Engine\System\Editor\Window</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
       <Filter>Engine\System\Input</Filter>
@@ -1906,6 +1945,9 @@
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp">
@@ -2157,6 +2199,24 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\EnemyManager.cpp">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Long\LongRangeEnemy.cpp">
+      <Filter>Game\Actor\Enemy\Long</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Mid\MidRangeEnemy.cpp">
+      <Filter>Game\Actor\Enemy\Mid</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Short\ShortRangeEnemy.cpp">
+      <Filter>Game\Actor\Enemy\Short</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Jet\JetEngine.cpp">
       <Filter>Game\Actor\Jet</Filter>
     </ClCompile>
@@ -2246,6 +2306,9 @@
     </ClCompile>
     <ClCompile Include="Game\Actor\Weapon\ShoulderMissile.cpp">
       <Filter>Game\Actor\Weapon</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp">
+      <Filter>Game\CallBacks</Filter>
     </ClCompile>
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp">
       <Filter>Game\CallBacks</Filter>
@@ -2401,15 +2464,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
-    <ClCompile Include="Engine\System\Editor\Window\PackagesWindow.cpp" />
-    <ClCompile Include="Engine\System\Editor\Window\PackagesWindowSerializer.cpp" />
-    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Long\LongRangeEnemy.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\EnemyManager.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Short\ShortRangeEnemy.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Mid\MidRangeEnemy.cpp" />
   </ItemGroup>
 </Project>

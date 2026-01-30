@@ -96,7 +96,7 @@ public:
 	/// <summary>
 	/// Fenceの生成
 	/// </summary>
-	void CrateFence();
+	void CreateFence();
 
 	/// <summary>
 	/// Viewport変換

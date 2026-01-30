@@ -145,15 +145,15 @@ void AOENGINE::DxResource::SetSwapChainBuffer(IDXGISwapChain4* _swapChain, uint3
 // ↓　遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after) {
-	if (_befor != bufferState_) {
+void AOENGINE::DxResource::Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _before, const D3D12_RESOURCE_STATES& _after) {
+	if (_before != bufferState_) {
 		AOENGINE::Logger::Log("now : " + ResourceStateToString(bufferState_) + "\n");
-		AOENGINE::Logger::Log("target : " + ResourceStateToString(_befor) + "\n");
+		AOENGINE::Logger::Log("target : " + ResourceStateToString(_before) + "\n");
 		AOENGINE::Logger::Log("ResourceState MissMatch\n");
 		assert("ResourceState MissMatch");
 	}
 	if (bufferState_ != _after) {
-		TransitionResourceState(_commandList, cBuffer_.Get(), _befor, _after);
+		TransitionResourceState(_commandList, cBuffer_.Get(), _before, _after);
 		bufferState_ = _after;
 	}
 }

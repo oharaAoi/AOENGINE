@@ -34,14 +34,14 @@ public:
 	/// <summary>
 	/// Animationの適応
 	/// </summary>
-	/// <param name="skelton"></param>
-	void ApplyAnimation(Skeleton* skelton);
+	/// <param name="skeleton"></param>
+	void ApplyAnimation(Skeleton* skeleton);
 
 	/// <summary>
 	/// animetionを遷移させる
 	/// </summary>
-	/// <param name="skelton">: skelton</param>
-	void LerpApplyAnimation(Skeleton* skelton);
+	/// <param name="skeleton">: skeleton</param>
+	void LerpApplyAnimation(Skeleton* skeleton);
 
 	/// <summary>
 	/// animationを遷移させる設定をする

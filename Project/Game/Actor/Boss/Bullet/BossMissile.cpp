@@ -36,9 +36,9 @@ void BossMissile::Init() {
 	accelTimer_ = AOENGINE::Timer(1.0f);
 	lifeTimer_ = AOENGINE::Timer(lifeTime_);
 
-	shotFrea_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("shotFrea");
-	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("cloud");
+	shotFrea_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("shotFrea");
+	burn_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("MissileBurn");
+	smoke_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("cloud");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);
@@ -133,7 +133,7 @@ void BossMissile::Accelerate() {
 void BossMissile::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Field::building) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CreateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 	}

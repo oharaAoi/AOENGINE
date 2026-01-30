@@ -232,7 +232,7 @@ void DirectXCommon::Setting(ID3D12Device* _device, DirectXCommands* _dxCommands,
 	// swapchain
 	CreateSwapChain();
 	// fence
-	CrateFence();
+	CreateFence();
 	// DSV
 	CreateDSV();
 	// viewportとscissor
@@ -266,7 +266,7 @@ void DirectXCommon::CreateSwapChain() {
 // ↓ fenceの作成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void DirectXCommon::CrateFence() {
+void DirectXCommon::CreateFence() {
 	HRESULT hr = S_FALSE;
 	fenceValue_ = 0;
 	hr = device_->CreateFence(fenceValue_, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_));

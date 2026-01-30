@@ -73,7 +73,7 @@ private:
 	// Fence & Event
 	ComPtr<ID3D12Fence> fence_ = nullptr;
 	HANDLE fenceEvent_;
-	uint64_t fanceCounter_[kFrameCount_];
+	uint64_t fenceCounter_[kFrameCount_];
 	uint32_t fenceIndex_;
 
 };

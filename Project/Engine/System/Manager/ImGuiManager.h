@@ -23,7 +23,7 @@ public: // 静的メンバ関数
 	/// シングルトンインスタンスの取得
 	/// </summary>
 	/// <returns></returns>
-	static ImGuiManager* GetInstacne();
+	static ImGuiManager* GetInstance();
 
 	static bool ImGuiHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
 

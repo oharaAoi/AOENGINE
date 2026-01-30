@@ -6,7 +6,7 @@ enum class SpritePSO {
 	Normal,		// 通常αブレンド
 	Add,		// 加算
 	Subtract,	// 減算
-	Multily,	// 乗算
+	Multiply,	// 乗算
 	Screen,		// 反転
 };
 

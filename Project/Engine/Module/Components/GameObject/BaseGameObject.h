@@ -93,7 +93,7 @@ public:
 
 	void SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
-	AOENGINE::Animator* GetAnimetor() { return animetor_.get(); }
+	AOENGINE::Animator* GetAnimator() { return animetor_.get(); }
 
 	void SetEndEffector(const std::string& _name, EndEffector* _effector);
 

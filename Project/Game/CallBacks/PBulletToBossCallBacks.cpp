@@ -13,9 +13,9 @@ void PBulletToBossCallBacks::Init() {
 	SetPair(pCollisionManager_, ColliderTags::Bullet::machinegun, ColliderTags::Boss::own);
 
 	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
-	hitBossSmoke_ = manager->CrateParticle("MachineGunHit");
-	hitBossSmokeBorn_ = manager->CrateParticle("MachineGunHit2");
-	hitSmoke_ = manager->CrateParticle("Expload");
+	hitBossSmoke_ = manager->CreateParticle("MachineGunHit");
+	hitBossSmokeBorn_ = manager->CreateParticle("MachineGunHit2");
+	hitSmoke_ = manager->CreateParticle("Expload");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

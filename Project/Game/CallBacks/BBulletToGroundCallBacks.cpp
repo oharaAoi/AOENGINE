@@ -11,7 +11,7 @@ void BBulletToGroundCallBacks::Init() {
 	SetPair(pCollisionManager_, ColliderTags::Boss::missile, ColliderTags::Field::ground);
 
 	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
-	hitEffect_ = manager->CrateParticle("MissileHit");
+	hitEffect_ = manager->CreateParticle("MissileHit");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

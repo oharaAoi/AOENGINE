@@ -17,7 +17,7 @@
 
 void PlayerActionIdle::Build() {
 	SetName("actionIdle");
-	pOwner_->GetGameObject()->GetAnimetor()->TransitionAnimation("idle", param_.animationBlendTime);
+	pOwner_->GetGameObject()->GetAnimator()->TransitionAnimation("idle", param_.animationBlendTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

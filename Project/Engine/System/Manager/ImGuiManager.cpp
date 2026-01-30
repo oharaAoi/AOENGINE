@@ -3,7 +3,7 @@
 
 using namespace AOENGINE;
 
-ImGuiManager* ImGuiManager::GetInstacne() {
+ImGuiManager* ImGuiManager::GetInstance() {
 	static ImGuiManager instance;
 	return &instance;
 }

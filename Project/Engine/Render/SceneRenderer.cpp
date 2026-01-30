@@ -173,7 +173,7 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 			for (auto colliderData : data.collidersData) {
 				object->SetCollider(colliderData.colliderTag, colliderData.colliderType);
 				BaseCollider* collider = object->GetCollider(colliderData.colliderTag);
-				collider->SetLoacalPos(colliderData.center);
+				collider->SetLocalPos(colliderData.center);
 				if (colliderData.colliderType == "BOX") {
 					BoxCollider* box = dynamic_cast<BoxCollider*>(collider);
 					box->SetSize(colliderData.size);

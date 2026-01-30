@@ -32,7 +32,7 @@ public:
 
 	void SetChain(const std::vector<int32_t>& _chain) { chain_ = _chain; }
 
-	void SetSkelton(AOENGINE::Skeleton* _skelton) { pSkeleton_ = _skelton; }
+	void SetSkeleton(AOENGINE::Skeleton* _skeleton) { pSkeleton_ = _skeleton; }
 
 	void SetTargetPosition(const Math::Vector3& _pos) { targetPos_ = _pos; }
 

@@ -37,8 +37,8 @@ void Mesh::Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::v
 	std::memcpy(vertexData_, vertexData.data(), sizeof(VertexData) * vertexData.size());
 	vertexDataSize_ = static_cast<uint32_t>(vertexData.size());
 
-	initVertexData_ = new VertexData[vertexDataSize_];
-	outputVertexData_ = new VertexData[vertexDataSize_];
+	initVertexData_ = vertexData; 
+	outputVertexData_ = vertexData;
 	for (size_t i = 0; i < vertexDataSize_; ++i) {
 		initVertexData_[i] = vertexData_[i];
 		outputVertexData_[i] = vertexData_[i];

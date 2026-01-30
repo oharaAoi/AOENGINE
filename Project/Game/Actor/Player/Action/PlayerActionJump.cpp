@@ -39,12 +39,12 @@ void PlayerActionJump::Build() {
 	param_.Load();
 
 	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
-	jetBurnLeft_ = manager->CrateParticle("Jet");
-	jetBurnRight_ = manager->CrateParticle("Jet");
+	jetBurnLeft_ = manager->CreateParticle("Jet");
+	jetBurnRight_ = manager->CreateParticle("Jet");
 
-	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
-	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
-	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimator()->GetSkeleton();
+	feetMatrixLeft_ = skeleton->GetSkeletonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	feetMatrixRight_ = skeleton->GetSkeletonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
 
 	jetBurnLeft_->SetParent(feetMatrixLeft_);
 	jetBurnRight_->SetParent(feetMatrixRight_);
@@ -71,7 +71,7 @@ void PlayerActionJump::OnStart() {
 	pOwner_->GetJetEngine()->JetIsStart();
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
-	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 	clip->PoseToAnimation("jump", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 }
@@ -85,9 +85,9 @@ void PlayerActionJump::OnUpdate() {
 
 	mainAction_();
 
-	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimetor()->GetSkeleton();
-	feetMatrixLeft_ = skeleton->GetSkeltonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
-	feetMatrixRight_ = skeleton->GetSkeltonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimator()->GetSkeleton();
+	feetMatrixLeft_ = skeleton->GetSkeletonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
+	feetMatrixRight_ = skeleton->GetSkeletonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ void PlayerActionJump::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionJump::OnEnd() {
-	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 	clip->PoseToAnimation("landing", param_.animationBlendTime);
 	clip->SetIsLoop(false);
 

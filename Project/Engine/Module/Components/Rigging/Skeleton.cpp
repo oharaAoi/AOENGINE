@@ -24,9 +24,9 @@ void Skeleton::Update() {
 		joint.localMat = Math::Matrix4x4::MakeAffine(joint.transform.scale, joint.transform.rotate.Normalize(), joint.transform.translate);
 
 		if (joint.parent) {
-			joint.skeltonSpaceMat = joint.localMat * joints_[*joint.parent].skeltonSpaceMat;
+			joint.skeletonSpaceMat = joint.localMat * joints_[*joint.parent].skeletonSpaceMat;
 		} else {
-			joint.skeltonSpaceMat = joint.localMat;
+			joint.skeletonSpaceMat = joint.localMat;
 		}
 	}
 }
@@ -37,7 +37,7 @@ void Skeleton::Update() {
 
 void Skeleton::DrawBone(const Math::Matrix4x4& worldMat) const {
 	for (const Joint& joint : joints_) {
-		Math::Vector3 pos = (joint.skeltonSpaceMat * worldMat).GetPosition();
+		Math::Vector3 pos = (joint.skeletonSpaceMat * worldMat).GetPosition();
 		DrawSphere(pos, 0.2f, AOENGINE::Render::GetViewProjectionMat(), Colors::Linear::red);
 	}
 
@@ -46,11 +46,11 @@ void Skeleton::DrawBone(const Math::Matrix4x4& worldMat) const {
 
 void Skeleton::DrawNodeHierarchy(const Math::Matrix4x4& parentWorldMatrix) const {
 	for (const Joint& joint : joints_) {
-		Math::Vector3 parentPos = (joint.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+		Math::Vector3 parentPos = (joint.skeletonSpaceMat * parentWorldMatrix).GetPosition();
 
 		for (int32_t childIndex : joint.children) {
 			const Joint& child = joints_[childIndex];
-			Math::Vector3 childPos = (child.skeltonSpaceMat * parentWorldMatrix).GetPosition();
+			Math::Vector3 childPos = (child.skeletonSpaceMat * parentWorldMatrix).GetPosition();
 			// 線を引く
 			AOENGINE::Render::DrawLine(parentPos, childPos, Colors::Linear::red, AOENGINE::Render::GetViewProjectionMat());
 		}
@@ -79,11 +79,11 @@ int32_t Skeleton::CreateJoint(const AOENGINE::Model::Node& node, const std::opti
 	Joint joint;
 	joint.name = node.name;
 	joint.localMat = node.localMatrix;
-	joint.skeltonSpaceMat = Math::Matrix4x4::MakeUnit();
+	joint.skeletonSpaceMat = Math::Matrix4x4::MakeUnit();
 	joint.transform = node.transform;
 	joint.index = int32_t(joints_.size());	// 登録されている数
 	joint.parent = parent;
-	joints.push_back(std::move(joint));	// skeltonのjoint列に追加
+	joints.push_back(std::move(joint));	// skeletonのjoint列に追加
 	for (const AOENGINE::Model::Node& child : node.children) {
 		// 子のjointを作成し、そのIndexを登録
 		int32_t chileIndex = CreateJoint(child, joint.index, joints);

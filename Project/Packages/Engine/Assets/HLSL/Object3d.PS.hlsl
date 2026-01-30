@@ -43,7 +43,6 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	// モーションベクトル計算
 	float2 mv = ComputeMotionVector(input.positionNDC, input.positionPrev);
 	output.motionVector = float4(abs(mv), 0, 1); // 正の値に変換して可視化
-	//output.motionVector = float4(1, 0, 0, 1);
 	if (textureColor.a <= gMaterial.discardValue) {
 		discard;
 	}

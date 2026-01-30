@@ -34,7 +34,7 @@ void PlayerActionShotRight::Build() {
 void PlayerActionShotRight::OnStart() {
 	notShotTimer_ = 0.0f;
 
-	pOwner_->GetGameObject()->GetAnimetor()
+	pOwner_->GetGameObject()->GetAnimator()
 		->GetAnimationClip()->PoseToAnimation("right_shot", param_.animationTime);
 }
 
@@ -56,7 +56,7 @@ void PlayerActionShotRight::OnUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionShotRight::OnEnd() {
-	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+	AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 	clip->PoseToAnimation("right_shotAfter", param_.animationTime);
 }
 

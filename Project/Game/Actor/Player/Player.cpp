@@ -118,8 +118,8 @@ void Player::Init() {
 	// ↓ Animationの設定
 	// -------------------------------------------------
 	object_->SetAnimator("./Project/Packages/Game/Assets/Load/Models/Player/", "player.gltf", true, true, false);
-	object_->GetAnimetor()->GetAnimationClip()->PoseToAnimation("idle", 0.2f);
-	object_->GetAnimetor()->GetAnimationClip()->SetIsLoop(false);
+	object_->GetAnimator()->GetAnimationClip()->PoseToAnimation("idle", 0.2f);
+	object_->GetAnimator()->GetAnimationClip()->SetIsLoop(false);
 
 	// -------------------------------------------------
 	// ↓ Jet関連
@@ -190,11 +190,11 @@ void Player::Init() {
 
 	param_.postureStability -= initParam_.postureStability;
 
-	AOENGINE::Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
-	leftHandMat_ = skeleton->GetSkeltonSpaceMat("left_hand") * transform_->GetWorldMatrix();
-	rightHandMat_ = skeleton->GetSkeltonSpaceMat("right_hand") * transform_->GetWorldMatrix();
-	leftShoulderMat_ = skeleton->GetSkeltonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
-	rightShoulderMat_ = skeleton->GetSkeltonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
+	AOENGINE::Skeleton* skeleton = object_->GetAnimator()->GetSkeleton();
+	leftHandMat_ = skeleton->GetSkeletonSpaceMat("left_hand") * transform_->GetWorldMatrix();
+	rightHandMat_ = skeleton->GetSkeletonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	leftShoulderMat_ = skeleton->GetSkeletonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
+	rightShoulderMat_ = skeleton->GetSkeletonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
 	vignetteTween_.Init(0.0f, param_.pinchVignettePower, 1.0f, 1, LoopType::Return);
 	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
@@ -296,11 +296,11 @@ void Player::Attack(PlayerWeapon _weapon, AttackContext _contex) {
 }
 
 void Player::UpdateJoint() {
-	AOENGINE::Skeleton* skeleton = object_->GetAnimetor()->GetSkeleton();
-	leftHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_hand"), transform_->GetWorldMatrix());
-	rightHandMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_hand"), transform_->GetWorldMatrix());
-	leftShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("left_shoulder"), transform_->GetWorldMatrix());
-	rightShoulderMat_ = Multiply(skeleton->GetSkeltonSpaceMat("right_shoulder"), transform_->GetWorldMatrix());
+	AOENGINE::Skeleton* skeleton = object_->GetAnimator()->GetSkeleton();
+	leftHandMat_ = Multiply(skeleton->GetSkeletonSpaceMat("left_hand"), transform_->GetWorldMatrix());
+	rightHandMat_ = Multiply(skeleton->GetSkeletonSpaceMat("right_hand"), transform_->GetWorldMatrix());
+	leftShoulderMat_ = Multiply(skeleton->GetSkeletonSpaceMat("left_shoulder"), transform_->GetWorldMatrix());
+	rightShoulderMat_ = Multiply(skeleton->GetSkeletonSpaceMat("right_shoulder"), transform_->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

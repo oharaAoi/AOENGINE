@@ -62,7 +62,7 @@ public:
 	/// <summary>
 	/// swawChainで使用するAOENGINE::RenderTargetを作成する
 	/// </summary>
-	void CrateSwapChainResource();
+	void CreateSwapChainResource();
 
 	/// <summary>
 	/// swawChain以外のAOENGINE::RenderTargetを作成する
@@ -74,9 +74,9 @@ public:
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
 	/// <param name="renderType">: AOENGINE::RenderTargetのタイプ</param>
-	/// <param name="beforState">: 遷移前の状態</param>
+	/// <param name="beforeState">: 遷移前の状態</param>
 	/// <param name="afterState">: 遷移後の状態</param>
-	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforeState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
 

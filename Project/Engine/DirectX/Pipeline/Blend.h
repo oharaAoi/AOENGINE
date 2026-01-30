@@ -20,7 +20,7 @@ public:
 		// 減算
 		ModeSubtract,
 		// 乗算
-		ModeMultily,
+		ModeMultiply,
 		// 反転
 		ModeScreen
 	};

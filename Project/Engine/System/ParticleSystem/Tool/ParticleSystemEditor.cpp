@@ -56,7 +56,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	camera_->Init();
 
 	// -------------------------------------------------
-	// ↓ Editer関連
+	// ↓ Editor関連
 	// -------------------------------------------------
 	isSave_ = false;
 	isLoad_ = false;
@@ -622,9 +622,9 @@ void ParticleSystemEditor::PreDraw() {
 	// Grid線描画
 	AOENGINE::Render::Update();
 
-	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
+	/*if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	}
+	}*/
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,0 +1,10 @@
+{
+    "LongRangeEnemy": {
+        "colliderLocalPos": {
+            "x": 0.0,
+            "y": 1.899999976158142,
+            "z": 0.0
+        },
+        "colliderRadius": 1.899999976158142
+    }
+}

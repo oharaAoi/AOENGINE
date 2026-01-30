@@ -36,7 +36,7 @@ D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetSubtractBlend(blendDesc);
 		break;
-	case BlendMode::ModeMultily:
+	case BlendMode::ModeMultiply:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetMultiplyBlend(blendDesc);
 		break;
@@ -72,7 +72,7 @@ D3D12_BLEND_DESC Blend::SetBlend(const std::string& modeName) {
 	} else if (modeName == "Subtract") {
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetSubtractBlend(blendDesc);
-	} else if (modeName == "Multily") {
+	} else if (modeName == "Multiply") {
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetMultiplyBlend(blendDesc);
 	} else if (modeName == "Screen") {

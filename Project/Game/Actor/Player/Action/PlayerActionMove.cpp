@@ -71,11 +71,11 @@ void PlayerActionMove::OnStart() {
 	// ↓ Animationの設定
 	// ----------------------
 	if (pOwner_->GetIsBoostMode()) {
-		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 		clip->PoseToAnimation("move", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
-		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 		clip->PoseToAnimation("walk", param_.animationTime);
 		clip->SetIsLoop(true);
 	}
@@ -101,11 +101,11 @@ void PlayerActionMove::OnUpdate() {
 
 	if (preBoost_ != pOwner_->GetIsBoostMode()) {
 		if (preBoost_) {
-			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 			clip->PoseToAnimation("walk", param_.animationTime);
 			clip->SetIsLoop(true);
 		} else {
-			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+			AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 			clip->PoseToAnimation("move", param_.animationTime);
 			clip->SetIsLoop(false);
 		}
@@ -129,11 +129,11 @@ void PlayerActionMove::OnEnd() {
 	pOwner_->SetIsMoving(false);
 	pOwner_->GetJetEngine()->JetIsStop();
 	if (pOwner_->GetIsBoostMode()) {
-		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 		clip->PoseToAnimation("move_cancel", param_.animationTime);
 		clip->SetIsLoop(false);
 	} else {
-		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimetor()->GetAnimationClip();
+		AOENGINE::AnimationClip* clip = pOwner_->GetGameObject()->GetAnimator()->GetAnimationClip();
 		clip->PoseToAnimation("idle", param_.animationTime);
 		clip->SetIsLoop(false);
 	}

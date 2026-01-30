@@ -54,7 +54,7 @@ void PlayerBullet::Update() {
 void PlayerBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileHit");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CreateParticle("MissileHit");
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 	}

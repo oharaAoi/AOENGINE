@@ -70,9 +70,9 @@ public:
 	/// 遷移
 	/// </summary>
 	/// <param name="commandList"></param>
-	/// <param name="befor"></param>
+	/// <param name="before"></param>
 	/// <param name="after"></param>
-	void Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _befor, const D3D12_RESOURCE_STATES& _after);
+	void Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _before, const D3D12_RESOURCE_STATES& _after);
 	void Transition(ID3D12GraphicsCommandList* _commandList, const D3D12_RESOURCE_STATES& _after);
 
 public:

@@ -8,7 +8,7 @@ void EndEffector::Update(const Math::Matrix4x4& _worldMat) {
 	positions_.clear();
 	jointsData_.clear();
 	for (int32_t idx : chain_) {
-		Math::Matrix4x4 jointWorldMat = Multiply(pSkeleton_->GetJoint(idx).skeltonSpaceMat, _worldMat);
+		Math::Matrix4x4 jointWorldMat = Multiply(pSkeleton_->GetJoint(idx).skeletonSpaceMat, _worldMat);
 		auto& pos = positions_.emplace_back(jointWorldMat.GetPosition());
 		jointsData_.push_back(JointsData(pos, Math::Quaternion(), idx));
 	}

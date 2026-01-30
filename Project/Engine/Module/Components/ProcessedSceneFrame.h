@@ -38,9 +38,9 @@ public:
 	/// Resourceの状態を遷移させる
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
-	/// <param name="beforState">: 今の状態</param>
+	/// <param name="beforeState">: 今の状態</param>
 	/// <param name="afterState">: 次の状態</param>
-	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState);
+	void TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforeState, const D3D12_RESOURCE_STATES& afterState);
 
 public:
 

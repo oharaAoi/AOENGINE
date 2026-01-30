@@ -27,12 +27,12 @@ void Skinning::Update(Skeleton* skeleton) {
 		assert(jointIndex < inverseBindPoseMatrices_.size());
 
 		// jointのlocalからskeletonの空間への変換行列
-		mappedPalette_[jointIndex].skeltonSpaceMatrix =
-			inverseBindPoseMatrices_[jointIndex] * skeleton->GetJoints()[jointIndex].skeltonSpaceMat;
+		mappedPalette_[jointIndex].skeletonSpaceMatrix =
+			inverseBindPoseMatrices_[jointIndex] * skeleton->GetJoints()[jointIndex].skeletonSpaceMat;
 
 		// 変換行列のInverse
-		mappedPalette_[jointIndex].skeltonSpaceInverseTransposeMat =
-			mappedPalette_[jointIndex].skeltonSpaceMatrix.Inverse().Transpose();
+		mappedPalette_[jointIndex].skeletonSpaceInverseTransposeMat =
+			mappedPalette_[jointIndex].skeletonSpaceMatrix.Inverse().Transpose();
 	}
 }
 

@@ -81,7 +81,7 @@ void BossActionTransitionPhase::Init() {
 	chargeParticle_ = AOENGINE::GpuParticleManager::GetInstance()->CreateEmitter("bossChargeParticle");
 	chargeParticle_->SetParent(pTarget_->GetTransform()->GetWorldMatrix());
 
-	chargeLine_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("BossChargeLine");
+	chargeLine_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossChargeLine");
 	chargeLine_->SetParent(pTarget_->GetTransform()->GetWorldMatrix());
 	chargeLine_->SetIsStop(false);
 

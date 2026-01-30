@@ -33,8 +33,8 @@ void LauncherBullet::Init() {
 	// ----------------------
 	// ↓ effectの初期化
 	// ----------------------
-	burn_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("MissileBurn");
-	smoke_ = AOENGINE::ParticleManager::GetInstance()->CrateParticle("Launcher");
+	burn_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("MissileBurn");
+	smoke_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("Launcher");
 	burn_->SetParent(transform_->GetWorldMatrix());
 	smoke_->SetParent(transform_->GetWorldMatrix());
 	burn_->SetIsStop(false);
@@ -70,7 +70,7 @@ void LauncherBullet::Update() {
 void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
 		isAlive_ = false;
-		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CrateParticle("Expload");
+		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CreateParticle("Expload");
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
 

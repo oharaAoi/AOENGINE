@@ -54,7 +54,6 @@ struct PixelShaderOutput{
 //==========================================
 float4 Lambert(float NdotL, float4 textureColor, float4 lightColor)
 {
-	//float4 diffuse = gMaterial.diffuseColor + (1.0f / PI);
 	float4 resultColor = lightColor * NdotL;
 	return resultColor;
 }

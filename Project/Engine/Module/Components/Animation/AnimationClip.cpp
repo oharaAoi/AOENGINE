@@ -93,8 +93,8 @@ void AnimationClip::LoadAnimation(const std::string directoryPath, const std::st
 // ↓　animationの適応
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::ApplyAnimation(Skeleton* skelton) {
-	for (Skeleton::Joint& joint : skelton->GetJoints()) {
+void AnimationClip::ApplyAnimation(Skeleton* skeleton) {
+	for (Skeleton::Joint& joint : skeleton->GetJoints()) {
 		if (auto it = animation_.nodeAnimations.find(joint.name); it != animation_.nodeAnimations.end()) {
 			const NodeAnimation& rootNodeAnimation = (*it).second;
 			joint.transform.translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
@@ -108,7 +108,7 @@ void AnimationClip::ApplyAnimation(Skeleton* skelton) {
 // ↓　animationを遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
+void AnimationClip::LerpApplyAnimation(Skeleton* skeleton) {
 	blendFactor_ += AOENGINE::GameTimer::DeltaTime() * animationSpeed_;
 
 	if (lerpAnimationTime_[0] < lerpAnimetion_[0].duration) {
@@ -122,7 +122,7 @@ void AnimationClip::LerpApplyAnimation(Skeleton* skelton) {
 
 	}
 
-	for (Skeleton::Joint& joint : skelton->GetJoints()) {
+	for (Skeleton::Joint& joint : skeleton->GetJoints()) {
 		auto itA = lerpAnimetion_[0].nodeAnimations.find(joint.name);
 		// アニメーションBのノードアニメーションを取得
 		auto itB = lerpAnimetion_[1].nodeAnimations.find(joint.name);

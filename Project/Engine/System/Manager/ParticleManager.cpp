@@ -231,7 +231,7 @@ void ParticleManager::Draw() const {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-AOENGINE::BaseParticles* ParticleManager::CrateParticle(const std::string& particlesFile) {
+AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& particlesFile) {
 	auto& newParticles = emitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
 	newParticles->Init(particlesFile);
 	std::string textureName = newParticles->GetUseTexture();

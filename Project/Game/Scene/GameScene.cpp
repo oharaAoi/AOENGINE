@@ -85,8 +85,8 @@ void GameScene::Init() {
 
 	ChangeBehavior(new GamePlayBehavior(this));
 
-	enemy_ = std::make_unique<LongRangeEnemy>();
-	enemy_->Init();
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ その他設定
@@ -139,6 +139,8 @@ void GameScene::Update() {
 			nextSceneType_ = SceneType::Title;
 		}
 	}
+
+	enemyManager_->Update();
 	
 	// -------------------------------------------------
 	// ↓ cameraの更新 

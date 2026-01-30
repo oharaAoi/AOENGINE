@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -44,7 +45,7 @@ public:
 	/// vertexDataを取得する
 	/// </summary>
 	/// <returns></returns>
-	VertexData* GetOutputVertexData() { return outputVertexData_; }
+	VertexData* GetOutputVertexData() { return outputVertexData_.data(); }
 
 	/// <summary>
 	/// indexの数を
@@ -100,8 +101,10 @@ private:
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	VertexData* vertexData_ = nullptr;
-	VertexData* initVertexData_ = nullptr;
-	VertexData* outputVertexData_ = nullptr;
+	
+	std::vector<VertexData> initVertexData_;
+	std::vector<VertexData> outputVertexData_;
+
 	// IndexBuffer
 	ComPtr<ID3D12Resource> indexBuffer_;
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};

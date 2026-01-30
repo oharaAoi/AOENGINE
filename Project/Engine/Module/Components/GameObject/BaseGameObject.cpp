@@ -295,7 +295,7 @@ void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::st
 }
 
 void BaseGameObject::SetEndEffector(const std::string& _name, EndEffector* _effector) {
-	_effector->SetSkelton(animetor_->GetSkeleton());
+	_effector->SetSkeleton(animetor_->GetSkeleton());
 	endEffectors_[_name] = _effector;
 }
 

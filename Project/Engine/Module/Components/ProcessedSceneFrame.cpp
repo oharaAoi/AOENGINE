@@ -82,6 +82,6 @@ void ProcessedSceneFrame::DrawScene() {
 	ImGui::PopStyleVar();
 }
 
-void ProcessedSceneFrame::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforState, const D3D12_RESOURCE_STATES& afterState) {
-	renderResource_->Transition(commandList, beforState, afterState);
+void ProcessedSceneFrame::TransitionResource(ID3D12GraphicsCommandList* commandList, const D3D12_RESOURCE_STATES& beforeState, const D3D12_RESOURCE_STATES& afterState) {
+	renderResource_->Transition(commandList, beforeState, afterState);
 }
