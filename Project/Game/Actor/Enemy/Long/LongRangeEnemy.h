@@ -9,6 +9,9 @@ class LongRangeEnemy :
 	public BaseEnemy {
 public: // データ構造体
 
+	/// <summary>
+	/// 基礎的なパラメータ
+	/// </summary>
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float colliderRadius = 1.f;						 // コライダーの大きさ
 		Math::Vector3 colliderLocalPos = CVector3::ZERO; // colliderのローカル座標

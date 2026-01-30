@@ -37,7 +37,7 @@ void PlayerDeadState::OnUpdate() {
 	if (timer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		Knockback();
 	} else {
-		pOwner_->SetIsExpload(true);
+		pOwner_->SetIsExplode(true);
 	}
 }
 

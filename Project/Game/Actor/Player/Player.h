@@ -1,13 +1,15 @@
 #pragma once
+// c++
+#include <unordered_map>
 // Engine
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
-#include "Engine/Lib/Math/Vector2.h"
-#include <Module/Components/Collider/SphereCollider.h>
+#include "Engine/Module/Components/Collider/SphereCollider.h"
 #include "Engine/Module/Components/Rigging/EndEffector.h"
-#include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/Utilities/Timer.h"
 #include "Engine/Module/Components/Animation/VectorTween.h"
 #include "Engine/Module/PostEffect/Vignette.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
 // Game
 #include "Game/Camera/FollowCamera.h"
 #include "Game/State/StateMachine.h"
@@ -261,13 +263,10 @@ public: // accessor method
 	void SetIsDead(bool _isDead) { isDead_ = _isDead; }
 	bool GetIsDead() const { return isDead_; }
 
-	void SetIsExpload(bool _isExpload) { isExpload_ = _isExpload; }
-	bool GetIsExpload() const { return isExpload_; }
+	void SetIsExplode(bool _isExplode) { isExpload_ = _isExplode; }
+	bool GetIsExplode() const { return isExpload_; }
 
-	const Math::Matrix4x4& GetLeftHandMat() { return leftHandMat_; }
-	const Math::Matrix4x4& GetLeftShoulderMat() { return leftShoulderMat_; }
-	const Math::Matrix4x4& GetRightHandMat() { return rightHandMat_; }
-	const Math::Matrix4x4& GetRightShoulderMat() { return rightShoulderMat_; }
+	const Math::Matrix4x4& GetWeaponBornMatrix(PlayerWeapon type) { return weaponBornMatrix_[type]; }
 
 private:
 
@@ -316,10 +315,7 @@ private:
 
 	std::unique_ptr<AOENGINE::SphereCollider> legCollider_;
 	
-	Math::Matrix4x4 leftHandMat_;
-	Math::Matrix4x4 rightHandMat_;
-	Math::Matrix4x4 leftShoulderMat_;
-	Math::Matrix4x4 rightShoulderMat_;
+	std::unordered_map<PlayerWeapon, Math::Matrix4x4> weaponBornMatrix_;
 
 	Math::Vector2 screenPos_;
 	Math::Vector2 screenPosPrev_;

@@ -6,4 +6,5 @@
 
 void BaseEnemy::Debug_Gui() {
 	object_->Debug_Gui();
+	ImGui::Separator();
 }

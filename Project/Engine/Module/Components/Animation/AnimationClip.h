@@ -55,7 +55,7 @@ public:
 	/// Pose状態からのアニメーションを再生する
 	/// </summary>
 	/// <param name="afterAnimationName"></param>
-	void PoseToAnimation(const std::string& afterAnimationName, float lerpTime);
+	void PoseToAnimation(const std::string& afterAnimationName, float lerpTime = 0.5f);
 
 	/// <summary>
 	/// animationを遷移させる設定をする

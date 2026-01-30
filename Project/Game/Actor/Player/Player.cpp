@@ -191,10 +191,10 @@ void Player::Init() {
 	param_.postureStability -= initParam_.postureStability;
 
 	AOENGINE::Skeleton* skeleton = object_->GetAnimator()->GetSkeleton();
-	leftHandMat_ = skeleton->GetSkeletonSpaceMat("left_hand") * transform_->GetWorldMatrix();
-	rightHandMat_ = skeleton->GetSkeletonSpaceMat("right_hand") * transform_->GetWorldMatrix();
-	leftShoulderMat_ = skeleton->GetSkeletonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
-	rightShoulderMat_ = skeleton->GetSkeletonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Left_Weapon] = skeleton->GetSkeletonSpaceMat("left_hand") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Right_Weapon] = skeleton->GetSkeletonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Left_Shoulder] = skeleton->GetSkeletonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Right_Shoulder] = skeleton->GetSkeletonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 
 	vignetteTween_.Init(0.0f, param_.pinchVignettePower, 1.0f, 1, LoopType::Return);
 	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
@@ -297,10 +297,10 @@ void Player::Attack(PlayerWeapon _weapon, AttackContext _contex) {
 
 void Player::UpdateJoint() {
 	AOENGINE::Skeleton* skeleton = object_->GetAnimator()->GetSkeleton();
-	leftHandMat_ = Multiply(skeleton->GetSkeletonSpaceMat("left_hand"), transform_->GetWorldMatrix());
-	rightHandMat_ = Multiply(skeleton->GetSkeletonSpaceMat("right_hand"), transform_->GetWorldMatrix());
-	leftShoulderMat_ = Multiply(skeleton->GetSkeletonSpaceMat("left_shoulder"), transform_->GetWorldMatrix());
-	rightShoulderMat_ = Multiply(skeleton->GetSkeletonSpaceMat("right_shoulder"), transform_->GetWorldMatrix());
+	weaponBornMatrix_[PlayerWeapon::Left_Weapon] = skeleton->GetSkeletonSpaceMat("left_hand") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Right_Weapon] = skeleton->GetSkeletonSpaceMat("right_hand") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Left_Shoulder] = skeleton->GetSkeletonSpaceMat("left_shoulder") * transform_->GetWorldMatrix();
+	weaponBornMatrix_[PlayerWeapon::Right_Shoulder] = skeleton->GetSkeletonSpaceMat("right_shoulder") * transform_->GetWorldMatrix();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

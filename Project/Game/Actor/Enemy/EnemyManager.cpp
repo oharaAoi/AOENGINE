@@ -30,10 +30,15 @@ void EnemyManager::Update() {
 void EnemyManager::Debug_Gui() {
 	if (ImGui::CollapsingHeader("Enemy List")) {
 		for (auto& enemy : enemyList_) {
-			enemy->Debug_Gui();
+			std::string id = enemy->GetName() + "##" + std::to_string(enemy->GetID());
+			if (ImGui::TreeNode(id.c_str())) {
+				enemy->Debug_Gui();
+				ImGui::TreePop();
+			}
 		}
 	}
 
+	ImGui::Separator();
 	ImGui::BulletText("Create Enemy");
 	static int enemyType = 0;
 	ImGui::RadioButton("近距離", &enemyType, (int)EnemyType::Short);

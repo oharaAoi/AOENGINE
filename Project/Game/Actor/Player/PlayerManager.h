@@ -1,6 +1,7 @@
 #pragma once
 // c++
 #include <memory>
+#include <unordered_map>
 // game
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
@@ -48,10 +49,7 @@ private:
 	std::unique_ptr<PlayerBulletManager> bulletManager_;
 
 	// weapon
-	std::unique_ptr<MachineGun> machineGun_;
-	std::unique_ptr<LauncherGun> launcherGun_;
-	std::unique_ptr<ShoulderMissile> shoulderMissile_;
-	std::unique_ptr<LaserRifle> laserRifle_;
+	std::unordered_map<PlayerWeapon, std::unique_ptr<BaseWeapon>> weapons_;
 
 	std::unique_ptr<Armors> armors_;
 
