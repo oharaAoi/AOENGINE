@@ -1,27 +1,7 @@
 #include "EnemyManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include "ENgine/Render.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 初期化処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void EnemyManager::Init() {
-	SetName("EnemyManager");
-
-#ifdef _DEBUG
-	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
-#endif // _DEBUG
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void EnemyManager::Update() {
-	for (auto& enemy : enemyList_) {
-		enemy->Update();
-	}
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -53,4 +33,68 @@ void EnemyManager::Debug_Gui() {
 		newEnemy->Init();
 	}
 
+}
+
+void EnemyManager::AddListToBoss(Boss* boss) {
+	enemyList_.emplace_back(boss);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void EnemyManager::Init() {
+	SetName("EnemyManager");
+
+	bossRoot_ = std::make_unique<BossRoot>();
+	bossRoot_->Init();
+
+	// bossを生成
+	auto& boss = enemyList_.emplace_back(enemyFactory_.Create(EnemyType::Boss));
+	pBoss_ = dynamic_cast<Boss*>(boss.get());
+	pBoss_->Init();
+
+	bossRoot_->SetBoss(pBoss_);
+
+#ifdef _DEBUG
+	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
+#endif // _DEBUG
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void EnemyManager::Update() {
+	for (auto& enemy : enemyList_) {
+		enemy->Update();
+
+		// カメラに写っているかを判定する
+		if (CheckWithinCamera(enemy.get())) {
+			enemy->SetIsWithinSight(true);
+		} else {
+			enemy->SetIsWithinSight(false);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 敵がカメラに写っているかを判定する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool EnemyManager::CheckWithinCamera(BaseEnemy* enemy) {
+	Math::Vector4 clip = Math::Vector4(enemy->GetPosition(), 1.0f) * AOENGINE::Render::GetViewProjectionMat();
+	if (clip.w <= 0.0f) return false;
+
+	Math::Vector3 ndc;
+	ndc.x = clip.x / clip.w;
+	ndc.y = clip.y / clip.w;
+	ndc.z = clip.z / clip.w;
+
+	bool visible =
+		ndc.x >= -1 && ndc.x <= 1 &&
+		ndc.y >= -1 && ndc.y <= 1 &&
+		ndc.z >= 0 && ndc.z <= 1;
+
+	return visible;
 }

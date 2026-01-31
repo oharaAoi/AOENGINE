@@ -26,7 +26,8 @@ public:
 
 public:
 
-	Boss* GetBoss() { return boss_.get(); }
+	void SetBoss(Boss* boss);
+	Boss* GetBoss() { return boss_; }
 
 	BossBulletManager* GetBulletManager() { return bulletManager_.get(); }
 
@@ -45,7 +46,7 @@ public:
 
 private:
 
-	std::unique_ptr<Boss> boss_;
+	Boss* boss_;
 	std::unique_ptr<BossBulletManager> bulletManager_;
 
 	// 他クラス情報

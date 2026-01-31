@@ -17,11 +17,13 @@ public:
 	// 初期化
 	void Init();
 	// 更新
-	void Update(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat);
+	void Update();
 	// 描画
 	void Draw() const;
 	// ロックオン
 	void LockOn();
+
+	void SetReticlePos(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat);
 
 public:		// accessor method
 
@@ -43,5 +45,7 @@ private:
 	Math::Matrix4x4 targetMat_;
 
 	Math::Vector2 reticlePos_;
+
+
 };
 

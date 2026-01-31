@@ -1423,6 +1423,10 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\System\LockOnSystem.h" />
+    <ClInclude Include="Game\Commands\LockOn\LockOnCommands.h" />
+    <ClInclude Include="Game\Commands\LockOn\LockOnInvoker.h" />
+    <ClInclude Include="Game\UI\TargetUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2464,5 +2468,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\System\LockOnSystem.cpp" />
+    <ClCompile Include="Game\Commands\LockOn\LockOnCommands.cpp" />
+    <ClCompile Include="Game\Commands\LockOn\LockOnInvoker.cpp" />
+    <ClCompile Include="Game\UI\TargetUI.cpp" />
   </ItemGroup>
 </Project>

@@ -22,23 +22,10 @@ void Reticle::Init() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Reticle::Update(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat) {
+void Reticle::Update() {
 	defaultPosition_ = Math::Vector2((float)AOENGINE::WinApp::sClientWidth * 0.5f, (float)AOENGINE::WinApp::sClientHeight * 0.5f);
 
 	reticle_->Update();
-
-	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {
-		LockOn();
-	}
-
-	if (AOENGINE::Input::GetInstance()->GetKey(DIK_L)) {
-		LockOn();
-	}
-
-	if (isLockOn_) {
-		targetMat_ = bossMat;
-		reticle_->SetTranslate(WorldToScreenCoordinate(bossMat, vpvpMat));
-	}
 
 	reticlePos_ = reticle_->GetTranslate();
 }
@@ -60,6 +47,13 @@ void Reticle::LockOn() {
 	} else {
 		reticle_->ReSetTexture("lockOnReticle.png");
 		isLockOn_ = true;
+	}
+}
+
+void Reticle::SetReticlePos(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat) {
+	if (isLockOn_) {
+		targetMat_ = bossMat;
+		reticle_->SetTranslate(WorldToScreenCoordinate(bossMat, vpvpMat));
 	}
 }
 

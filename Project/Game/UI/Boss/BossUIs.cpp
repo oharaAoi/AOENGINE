@@ -46,6 +46,8 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	stanPromote_->Load("BossUIs", "stanPromote");
 	stanPromote_->GetTransform()->SetParent(postureStabilityArc_->GetFront()->GetMatrix());
 
+	SetIsEnable(false);
+
 	AddChild(health_.get());
 	AddChild(healthArc_.get());
 	AddChild(postureStability_.get());
@@ -59,17 +61,11 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossUIs::Update(const Math::Vector2& _reticlePos, bool isLockOn) {
-	const Boss::Parameter& bossParam = pBoss_->GetParameter();
-	const Boss::Parameter& bossInitParam = pBoss_->GetInitParameter();
+void BossUIs::Update(const Math::Vector2& _reticlePos) {
+	const BaseEnemy::BaseParameter& bossParam = pBoss_->GetBaseParameter();
+	const BaseEnemy::BaseParameter& bossInitParam = pBoss_->GetInitBaseParameter();
 
 	stanPromote_->SetEnable(false);
-
-	// ロックオン時のみ描画するようにする
-	health_->SetIsEnable(isLockOn);
-	healthArc_->SetIsEnable(isLockOn);
-	postureStability_->SetIsEnable(isLockOn);
-	postureStabilityArc_->SetIsEnable(isLockOn);
 
 	// ----------------------
 	// ↓ hpゲージの更新
@@ -131,6 +127,13 @@ void BossUIs::Update(const Math::Vector2& _reticlePos, bool isLockOn) {
 	for (auto& alert : attackAlertList_) {
 		alert->Update();
 	}
+}
+
+void BossUIs::SetIsEnable(bool flag) {
+	health_->SetIsEnable(flag);
+	healthArc_->SetIsEnable(flag);
+	postureStability_->SetIsEnable(flag);
+	postureStabilityArc_->SetIsEnable(flag);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

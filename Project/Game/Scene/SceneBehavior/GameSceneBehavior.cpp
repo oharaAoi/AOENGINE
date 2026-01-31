@@ -10,7 +10,7 @@ void GamePlayBehavior::Init() {
 }
 
 void GamePlayBehavior::Update() {
-	host_->CharactorUpdate();
+	host_->CharacterUpdate();
 
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	if (input->IsTriggerButton(XInputButtons::Start)) {

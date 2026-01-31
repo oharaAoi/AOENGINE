@@ -8,9 +8,12 @@
 
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Enemy/EnemyManager.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/UI/Boss/BossUIs.h"
 #include "Game/UI/Player/PlayerUIs.h"
+#include "Game/UI/TargetUI.h"
+#include "Game/Commands/LockOn/LockOnInvoker.h"
 
 /// <summary>
 /// UIをまとめたクラス
@@ -53,6 +56,8 @@ public:		// accessor method
 
 	void SetFollowCamera(FollowCamera* _followCamera) { pFollowCamera_ = _followCamera; }
 
+	void SetEnemyManager(EnemyManager* enemyManager) { pEnemyManager_ = enemyManager; }
+
 	Reticle* GetReticle() { return reticle_.get(); }
 
 	BossUIs* GetBossUIs() const { return bossUIs_.get(); }
@@ -66,6 +71,7 @@ private:
 	Player* pPlayer_;
 	Boss* pBoss_ = nullptr;
 	FollowCamera* pFollowCamera_;
+	EnemyManager* pEnemyManager_;
 
 	// ---------------------------------------------------
 	// player
@@ -78,12 +84,16 @@ private:
 	// boss
 	std::unique_ptr<BossUIs> bossUIs_;
 
+	std::unique_ptr<TargetUI> targetUI_;
+
 	// out game
 	std::unique_ptr<ClearNotificationUI> clearNotificationUI_;
 
 	std::unique_ptr<AOENGINE::Sprite> control_;
 
 	bool isTutorial_;
+
+	LockOnInvoker lockOnInvoker_;
 
 };
 

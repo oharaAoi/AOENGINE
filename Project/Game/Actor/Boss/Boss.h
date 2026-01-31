@@ -7,7 +7,7 @@
 // Game
 #include "Game/State/StateMachine.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
-#include "Game/Actor/Boss/BossEvaluationFormula.h"
+#include "Game/Actor/Enemy/BaseEnemy.h"
 #include "Game/Actor/Weapon/Armors.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/Effects/AttackArmor.h"
@@ -34,13 +34,10 @@ class BossUIs;
 /// Bossクラス
 /// </summary>
 class Boss :
-	public AOENGINE::BaseEntity {
+	public BaseEnemy {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		float health = 100;
-		float postureStability = 100.0f;
-		float postureStabilityScrapeRaito = 0.3f;	// 耐久度を削る割合
 		float armorCoolTime = 20.0f;
 		float attackArmorDamage = 100.0f;
 		float angularVelocity = 90.f; // 角速度
@@ -56,9 +53,6 @@ public:
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
-				.Add("health", health)
-				.Add("postureStability", postureStability)
-				.Add("postureStabilityScrapeRaito", postureStabilityScrapeRaito)
 				.Add("armorCoolTime", armorCoolTime)
 				.Add("angularVelocity", angularVelocity)
 				.Add("angularThreshold", angularThreshold)
@@ -71,9 +65,6 @@ public:
 		}
 
 		void FromJson(const json& jsonData) override {
-			Convert::fromJson(jsonData, "health", health);
-			Convert::fromJson(jsonData, "postureStability", postureStability);
-			Convert::fromJson(jsonData, "postureStabilityScrapeRaito", postureStabilityScrapeRaito);
 			Convert::fromJson(jsonData, "armorCoolTime", armorCoolTime);
 			Convert::fromJson(jsonData, "angularVelocity", angularVelocity);
 			Convert::fromJson(jsonData, "angularThreshold", angularThreshold);
@@ -127,9 +118,9 @@ public:
 	// 終了処理
 	void Finalize();
 	// 初期化
-	void Init();
+	void Init() override;
 	// 更新
-	void Update();
+	void Update() override;
 	// 編集
 	void Debug_Gui() override;
 

@@ -42,10 +42,12 @@ void Boss::Debug_Gui() {
 	object_->Debug_Gui();
 
 	if (ImGui::CollapsingHeader("現在のパラメータ")) {
+		baseParam_.Debug_Gui();
 		param_.Debug_Gui();
 	}
 
 	if (ImGui::CollapsingHeader("初期値のパラメータ(保存の際はこちらを編集)")) {
+		initBaseParam_.Debug_Gui();
 		initParam_.Debug_Gui();
 	}
 
@@ -56,9 +58,6 @@ void Boss::Debug_Gui() {
 }
 
 void Boss::Parameter::Debug_Gui() {
-	ImGui::DragFloat("Health", &health, 0.1f);
-	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
-	ImGui::DragFloat("postureStabilityScrapeRaito", &postureStabilityScrapeRaito, 0.1f);
 	ImGui::DragFloat("armorCoolTime", &armorCoolTime, 0.1f);
 	ImGui::DragFloat("angularVelocity", &angularVelocity, 0.1f);
 	ImGui::DragFloat("angularThreshold", &angularThreshold, 0.1f);
@@ -84,6 +83,7 @@ void Boss::AggressionWeights::Debug_Gui() {
 
 void Boss::Init() {
 	SetName("Boss");
+	type_ = EnemyType::Boss;
 	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("Boss");
 
 	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Boss");
@@ -96,8 +96,11 @@ void Boss::Init() {
 	object_->GetRigidbody()->SetGravity(false);
 
 	initParam_.SetGroupName("Boss");
+	initBaseParam_.SetGroupName("Boss");
 	initParam_.Load();
+	initBaseParam_.Load();
 	param_ = initParam_;
+	baseParam_ = initBaseParam_;
 
 	aggressionWeights_.Load();
 
@@ -107,9 +110,9 @@ void Boss::Init() {
 
 	blackboard_ = std::make_unique<AI::Blackboard>();
 	blackboard_->Load(param_.worldStatePath);
-	blackboard_->SetRef<float>("hp", param_.health);
-	blackboard_->SetRef<float>("maxHp", param_.health);
-	blackboard_->SetRef<float>("maxPostureStability", param_.postureStability);
+	blackboard_->SetRef<float>("hp", baseParam_.health);
+	blackboard_->SetRef<float>("maxHp", initBaseParam_.health);
+	blackboard_->SetRef<float>("maxPostureStability", baseParam_.postureStability);
 	blackboard_->SetRef<float>("aggressionScore", aggressionScore_);
 	
 	behaviorTree_ = AI::BehaviorTreeSystem::GetInstance()->Create();
@@ -160,7 +163,7 @@ void Boss::Init() {
 	// ↓ State関連
 	// -------------------------------------------------
 
-	param_.postureStability -= initParam_.postureStability;
+	baseParam_.postureStability -= initBaseParam_.postureStability;
 	isAlive_ = true;
 	isStan_ = false;
 	isDeployingArmor_ = false;
@@ -196,7 +199,7 @@ void Boss::Update() {
 	blackboard_->Set<bool>("isArmorDeployed", pulseArmor_->BreakArmor());
 	blackboard_->Set<bool>("isAttack", isAttack_);
 	blackboard_->Set<int32_t>("bossPhase", (int32_t)phase_);
-	blackboard_->Set<float>("halfHp", initParam_.health * 0.5f);
+	blackboard_->Set<float>("halfHp", initBaseParam_.health * 0.5f);
 	float bossToTargetDistanceY = std::abs(targetPos_.y - GetPosition().y);
 	blackboard_->Set<float>("bossToTargetDistanceY", bossToTargetDistanceY);
 	if (pTargetTransform_) {
@@ -256,20 +259,20 @@ void Boss::Update() {
 void Boss::Damage(float _takeDamage) {
 	// スタン状態にする
 	if (!pulseArmor_->GetIsAlive()) {
-		param_.health -= _takeDamage;
+		baseParam_.health -= _takeDamage;
 
 		if (!isStan_) {
-			param_.postureStability += _takeDamage * param_.postureStabilityScrapeRaito;
-			param_.postureStability = std::clamp(param_.postureStability, 0.0f, initParam_.postureStability);
+			baseParam_.postureStability += _takeDamage * baseParam_.postureStabilityScrapeRaito;
+			baseParam_.postureStability = std::clamp(baseParam_.postureStability, 0.0f, initBaseParam_.postureStability);
 
-			if (param_.postureStability >= initParam_.postureStability) {
+			if (baseParam_.postureStability >= initBaseParam_.postureStability) {
 				isStan_ = true;
 				stateMachine_->ChangeState<BossStateStan>();
 			}
 		}
 
 	} else {
-		pulseArmor_->DamageDurability(_takeDamage * param_.postureStabilityScrapeRaito);
+		pulseArmor_->DamageDurability(_takeDamage * baseParam_.postureStabilityScrapeRaito);
 		if (pulseArmor_->BreakArmor()) {
 			stateMachine_->ChangeState<BossStateStan>();
 		}
@@ -277,7 +280,7 @@ void Boss::Damage(float _takeDamage) {
 
 	// 倒した
 	if (isAlive_) {
-		if (param_.health <= 0.0f) {
+		if (baseParam_.health <= 0.0f) {
 			isAlive_ = false;
 			stateMachine_->ChangeState<BossStateBeDestroyed>();
 		}
@@ -290,7 +293,7 @@ void Boss::Damage(float _takeDamage) {
 
 void Boss::ResetStan() {
 	isStan_ = false;
-	param_.postureStability -= initParam_.postureStability;
+	baseParam_.postureStability -= initBaseParam_.postureStability;
 	behaviorTree_->SetExecute(true);
 }
 
@@ -320,7 +323,7 @@ void Boss::CalcAggression() {
 	// ----------------------
 	// ↓ hpの計算
 	// ----------------------
-	float hpRaito = param_.health / initParam_.health;
+	float hpRaito = baseParam_.health / initBaseParam_.health;
 	float heAggression = (1.0f - hpRaito) * aggressionWeights_.health;
 
 	// ----------------------

@@ -31,7 +31,7 @@ void TutorialCanvas::Update() {
 	if (pBoss_->GetIsBreak()) {
 		reticle_->ReleaseLockOn();
 	}
-	reticle_->Update(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+	reticle_->Update();
 
 	// -------------------------------------------------
 	// ↓ 各更新処理

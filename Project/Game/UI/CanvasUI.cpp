@@ -1,6 +1,8 @@
 #include "CanvasUI.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
-#include "Engine/Module/Components/2d/Canvas2d.h"
+#include "Engine/System/Input/Input.h"
+#include <Game/Commands/LockOn/LockOnCommands.h>
+#include "Game/Actor/Enemy/BaseEnemy.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -20,12 +22,17 @@ void CanvasUI::Init(bool _isTutorial) {
 	bossUIs_ = std::make_unique<BossUIs>();
 	bossUIs_->Init(pBoss_, pPlayer_);
 
+	targetUI_ = std::make_unique<TargetUI>();
+	targetUI_->Init();
+
 	// out game
 	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();
 	clearNotificationUI_->Init();
 	if (isTutorial_) {
 		clearNotificationUI_->GetSprite()->SetEnable(false);
 	}
+
+	lockOnInvoker_.Register("lockOn", lockOnInvoker_.MakeFactory<LockOnCommand>(pEnemyManager_, reticle_.get()));
 
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
@@ -39,17 +46,47 @@ void CanvasUI::Init(bool _isTutorial) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void CanvasUI::Update() {
+	if (AOENGINE::Input::GetInstance()->IsTriggerButton(XInputButtons::RStickThumb)) {
+		if (!reticle_->GetLockOn()) {
+			lockOnInvoker_.Invoke("lockOn");
+		} else {
+			reticle_->ReleaseLockOn();
+			pEnemyManager_->SetNearReticleEnemy(nullptr);
+
+			bossUIs_->SetIsEnable(false);
+			targetUI_->SetIsEnable(false);
+		}
+	}
+
 	if (pBoss_->GetIsBreak()) {
 		reticle_->ReleaseLockOn();
 	}
-	reticle_->Update(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+
+	BaseEnemy* targetEnemy = pEnemyManager_->GetNearReticleEnemy();
+	if (targetEnemy) {
+		if (targetEnemy->GetEnemyType() == EnemyType::Boss) {
+			reticle_->SetReticlePos(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+
+			bossUIs_->SetIsEnable(true);
+			targetUI_->SetIsEnable(false);
+			bossUIs_->Update(reticle_->GetPos());
+			targetUI_->Update(reticle_->GetPos(), targetEnemy);
+		} else {
+			AOENGINE::WorldTransform* transform = pEnemyManager_->GetNearReticleEnemy()->GetTransform();
+			reticle_->SetReticlePos(transform->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+
+			bossUIs_->SetIsEnable(false);
+			targetUI_->SetIsEnable(true);
+			targetUI_->Update(reticle_->GetPos(), targetEnemy);
+			bossUIs_->Update(reticle_->GetPos());
+		}
+	}
+
+	reticle_->Update();
 	
 	// -------------------------------------------------
 	// ↓ 各更新処理
 	// -------------------------------------------------
-	
-	// boss
-	bossUIs_->Update(reticle_->GetPos(), reticle_->GetLockOn());
 
 	// player
 	playerUIs_->Update(reticle_->GetPos());

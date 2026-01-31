@@ -57,15 +57,15 @@ void GameScene::Init() {
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
 
-	bossRoot_ = std::make_unique<BossRoot>();
-	bossRoot_->Init();
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ managerの初期化
 	// -------------------------------------------------
 
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
-	gameCallBacksManager_->SetBossRoot(bossRoot_.get());
+	gameCallBacksManager_->SetBossRoot(enemyManager_->GetBossRoot());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
 	gameCallBacksManager_->SetGround(floor_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());
@@ -75,8 +75,9 @@ void GameScene::Init() {
 	// -------------------------------------------------
 	canvas_ = std::make_unique<CanvasUI>();
 	canvas_->SetPlayer(playerManager_->GetPlayer());
-	canvas_->SetBoss(bossRoot_->GetBoss());
+	canvas_->SetBoss(enemyManager_->GetBoss());
 	canvas_->SetFollowCamera(followCamera_.get());
+	canvas_->SetEnemyManager(enemyManager_.get());
 	canvas_->Init(false);
 
 	fadePanel_ = std::make_unique<FadePanel>();
@@ -85,9 +86,6 @@ void GameScene::Init() {
 
 	ChangeBehavior(new GamePlayBehavior(this));
 
-	enemyManager_ = std::make_unique<EnemyManager>();
-	enemyManager_->Init();
-
 	// -------------------------------------------------
 	// ↓ その他設定
 	// -------------------------------------------------
@@ -95,10 +93,11 @@ void GameScene::Init() {
 	pPlayer->SetFollowCamera(followCamera_.get());
 	pPlayer->SetReticle(canvas_->GetReticle());
 
-	bossRoot_->SetUIs(canvas_->GetBossUIs());
-	bossRoot_->SetPlayer(playerManager_->GetPlayer());
-	bossRoot_->SetTargetTransform(playerManager_->GetPlayer()->GetTransform());
-	bossRoot_->SetFollowCamera(followCamera_.get());
+	BossRoot* bossRoot = enemyManager_->GetBossRoot();
+	bossRoot->SetUIs(canvas_->GetBossUIs());
+	bossRoot->SetPlayer(playerManager_->GetPlayer());
+	bossRoot->SetTargetTransform(playerManager_->GetPlayer()->GetTransform());
+	bossRoot->SetFollowCamera(followCamera_.get());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
@@ -165,8 +164,6 @@ void GameScene::ChangeBehavior(IGameSceneBehavior* _newBehavior) {
 	}
 }
 
-void GameScene::CharactorUpdate() {
+void GameScene::CharacterUpdate() {
 	playerManager_->Update();
-
-	bossRoot_->Update();
 }

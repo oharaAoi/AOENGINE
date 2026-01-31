@@ -8,6 +8,7 @@
 
 void LongRangeEnemy::Init() {
 	SetName("LongRangeEnemy");
+	type_ = EnemyType::Long;
 	param_.Load();
 
 	// ----------------------

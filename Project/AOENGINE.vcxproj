@@ -437,6 +437,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Camera\Camera3d.h" />
     <ClInclude Include="Game\Camera\DebugCamera.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Commands\LockOn\LockOnCommands.h" />
+    <ClInclude Include="Game\Commands\LockOn\LockOnInvoker.h" />
     <ClInclude Include="Game\Effects\AttackArmor.h" />
     <ClInclude Include="Game\Effects\JetEngineBurn.h" />
     <ClInclude Include="Game\Effects\LaserCylinder.h" />
@@ -456,6 +458,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\TutorialScene.h" />
     <ClInclude Include="Game\State\ICharacterState.h" />
     <ClInclude Include="Game\State\StateMachine.h" />
+    <ClInclude Include="Game\System\LockOnSystem.h" />
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h" />
     <ClInclude Include="Game\UI\BaseGaugeUI.h" />
     <ClInclude Include="Game\UI\Boss\BossHealthUI.h" />
@@ -474,6 +477,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\Player\WeaponRemainingRounds.h" />
     <ClInclude Include="Game\UI\PostureStability.h" />
     <ClInclude Include="Game\UI\Reticle.h" />
+    <ClInclude Include="Game\UI\TargetUI.h" />
     <ClInclude Include="Game\UI\TitleUIs.h" />
     <ClInclude Include="Game\WorldObject\Floor.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
@@ -789,6 +793,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Camera\Camera3d.cpp" />
     <ClCompile Include="Game\Camera\DebugCamera.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Commands\LockOn\LockOnCommands.cpp" />
+    <ClCompile Include="Game\Commands\LockOn\LockOnInvoker.cpp" />
     <ClCompile Include="Game\Effects\AttackArmor.cpp" />
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
@@ -804,6 +810,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\TutorialScene.cpp" />
     <ClCompile Include="Game\State\ICharacterState.cpp" />
     <ClCompile Include="Game\State\StateMachine.cpp" />
+    <ClCompile Include="Game\System\LockOnSystem.cpp" />
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp" />
     <ClCompile Include="Game\UI\BaseGaugeUI.cpp" />
     <ClCompile Include="Game\UI\Boss\BossHealthUI.cpp" />
@@ -822,6 +829,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\Player\WeaponRemainingRounds.cpp" />
     <ClCompile Include="Game\UI\PostureStability.cpp" />
     <ClCompile Include="Game\UI\Reticle.cpp" />
+    <ClCompile Include="Game\UI\TargetUI.cpp" />
     <ClCompile Include="Game\UI\TitleUIs.cpp" />
     <ClCompile Include="Game\WorldObject\Floor.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />

@@ -33,7 +33,9 @@ public:
 	void Init(Boss* _boss, Player* _player);
 
 	// 更新
-	void Update(const Math::Vector2& _reticlePos, bool isLockOn);
+	void Update(const Math::Vector2& _reticlePos);
+
+	void SetIsEnable(bool flag);
 
 	// 編集
 	void Debug_Gui() override;
