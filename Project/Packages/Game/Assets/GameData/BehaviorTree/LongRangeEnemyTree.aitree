@@ -1,0 +1,74 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "Attack",
+                            "nodePos": {
+                                "x": -286.0,
+                                "y": 374.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.10000000149011612
+                        },
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "QuickDash",
+                            "nodePos": {
+                                "x": -142.0,
+                                "y": 374.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.10000000149011612
+                        }
+                    ],
+                    "name": "Selector",
+                    "nodePos": {
+                        "x": -206.0,
+                        "y": 230.0
+                    },
+                    "nodeType": 2
+                },
+                {
+                    "aggressionAffinity": 0.10000000149011612,
+                    "children": [],
+                    "coolTime": 1.0,
+                    "name": "Wait",
+                    "nodePos": {
+                        "x": 34.0,
+                        "y": 278.0
+                    },
+                    "nodeType": 4,
+                    "waitTime": 1.0,
+                    "weight": 0.10000000149011612
+                }
+            ],
+            "leftKey": "isTargetDiscovery",
+            "leftKeyIndex": 0,
+            "name": "Condition",
+            "nodePos": {
+                "x": -49.0,
+                "y": 130.0
+            },
+            "nodeType": 7,
+            "operatorIndex": 0,
+            "rightKey": "isTrue",
+            "rightKeyIndex": 1
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": -46.0,
+        "y": -10.0
+    },
+    "nodeType": 0
+}

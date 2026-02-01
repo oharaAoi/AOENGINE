@@ -16,30 +16,17 @@ void PlayerBulletManager::Init() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBulletManager::Update(const Math::Vector3& playerTargetPos) {
-	// フラグがfalseになったら削除
-	std::erase_if(bulletList_, [](const std::unique_ptr<BaseBullet>& bullet) {
-		return !bullet->GetIsAlive();
-				  });
+void PlayerBulletManager::Update() {
+	CheckBulletLife();
 
 	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
 		if (bullet->GetBulletType() == Missile) {
-			bullet->SetTargetPosition(playerTargetPos);
+			bullet->SetTargetPosition(playerTargetPos_);
 		}
 		bullet->Update();
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ ポインタに対するColliderの探索
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-BaseBullet* PlayerBulletManager::SearchCollider(AOENGINE::BaseCollider* collider) {
-	for (std::unique_ptr<BaseBullet>& bullet : bulletList_) {
-		if (bullet->GetCollider() == collider) {
-			return bullet.get();
-		}
-	}
-
-	return nullptr;
+void PlayerBulletManager::SetPlayerTargetPos(const Math::Vector3& playerTargetPos) {
+	playerTargetPos_ = playerTargetPos;
 }

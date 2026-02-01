@@ -31,6 +31,7 @@ void RocketBullet::Init() {
 	// ----------------------
 	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::rocket);
 	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetTarget(ColliderTags::Enemy::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });

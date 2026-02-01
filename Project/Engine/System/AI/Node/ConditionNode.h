@@ -45,6 +45,11 @@ public:
 	/// </summary>
 	void WeightTableItem() override {};
 
+	/// <summary>
+	/// taskの初期化用意
+	/// </summary>
+	void ResetNode() override;
+
 private:
 
 	/// <summary>
@@ -72,6 +77,8 @@ private:
 	int32_t radioButtonIndex_ = 0;
 
 	BlackboardValue value_;
+
+	uint32_t preIndex_ = 0;
 
 };
 

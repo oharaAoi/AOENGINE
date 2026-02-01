@@ -157,3 +157,19 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 	}
 	ImGui::End();
 }
+
+void AOENGINE::GameObjectWindow::DeleteObject(AOENGINE::AttributeGui* attribute) {
+	if (selectAttribute_) {
+		if (selectAttribute_ == attribute) {
+			selectAttribute_ = nullptr;
+		}
+	}
+
+	for (auto it = attributeArray_.begin(); it != attributeArray_.end(); ) {
+		if ((*it) == attribute) {
+			it = attributeArray_.erase(it);
+		} else {
+			++it;
+		}
+	}
+}

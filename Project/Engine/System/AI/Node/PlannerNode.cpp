@@ -170,6 +170,10 @@ void PlannerNode::Debug_Gui() {
 // ↓ 目標の設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void AI::PlannerNode::ResetNode() {
+
+}
+
 void PlannerNode::SetGOBT(const std::string _orientedName, const std::string _treeFileName) {
 	orientedName_ = _orientedName;
 	treeFileName_ = _treeFileName;

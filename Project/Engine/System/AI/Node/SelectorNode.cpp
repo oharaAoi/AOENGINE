@@ -89,3 +89,8 @@ void SelectorNode::Debug_Gui() {
 std::string SelectorNode::RunNodeName() {
 	return BaseRunNodeName();
 }
+
+void AI::SelectorNode::ResetNode() {
+	if (children_.empty()) { return; }
+	children_[currentIndex_]->ResetNode();
+}

@@ -1,0 +1,10 @@
+{
+    "isTargetDiscovery": {
+        "type": "bool",
+        "value": true
+    },
+    "isTrue": {
+        "type": "bool",
+        "value": true
+    }
+}

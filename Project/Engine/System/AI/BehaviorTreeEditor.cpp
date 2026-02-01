@@ -164,7 +164,7 @@ void AI::BehaviorTreeEditor::CreateCommentNode() {
 	ImVec2 canvasMin = ax::NodeEditor::ScreenToCanvas(screenMin);
 	ImVec2 canvasMax = ax::NodeEditor::ScreenToCanvas(screenMax);
 
-	if (AOENGINE::Input::GetInstance()->IsPressKey(DIK_C) && AOENGINE::Input::GetInstance()->IsPressKey(DIK_LMENU)) {
+	if (AOENGINE::Input::GetInstance()->IsTriggerKey(DIK_C) && AOENGINE::Input::GetInstance()->IsPressKey(DIK_LMENU)) {
 		auto& comment = commentBox_.emplace_back(std::make_unique<CommentBox>());
 		comment->Init(canvasMin, canvasMax);
 	}

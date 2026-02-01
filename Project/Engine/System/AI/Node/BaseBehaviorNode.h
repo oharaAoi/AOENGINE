@@ -97,6 +97,11 @@ public:
 	/// </summary>
 	virtual void WeightTableItem() = 0;
 
+	/// <summary>
+	/// Nodeのリセット
+	/// </summary>
+	virtual void ResetNode() = 0;
+
 public:
 
 	ax::NodeEditor::NodeId GetId() { return node_.id; }

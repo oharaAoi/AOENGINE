@@ -63,6 +63,7 @@ void LaserBullet::Init() {
 	// ----------------------
 	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::machinegun, ColliderShape::Line);
 	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetTarget(ColliderTags::Enemy::own);
 	collider->SetTarget(ColliderTags::Field::ground);
 	collider->SetTarget(ColliderTags::None::own);
 	collider->SetIsTrigger(true);

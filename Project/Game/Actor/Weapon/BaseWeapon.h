@@ -2,7 +2,7 @@
 // Engine
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
-#include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
+#include "Game/Manager/BaseBulletManager.h"
 
 struct AttackContext {
 	Math::Vector3 direction;
@@ -91,7 +91,7 @@ public:		// member method
 
 public:		// accessor method
 
-	void SetBulletManager(PlayerBulletManager* _bulletManager) { pBulletManager_ = _bulletManager; }
+	void SetBulletManager(BaseBulletManager* _bulletManager) { pBulletManager_ = _bulletManager; }
 
 	bool GetIsReload() const { return isReload_; }
 
@@ -100,7 +100,7 @@ public:		// accessor method
 
 protected:	// 
 
-	PlayerBulletManager* pBulletManager_ = nullptr;
+	BaseBulletManager* pBulletManager_ = nullptr;
 
 	AttackParam attackParam_;
 

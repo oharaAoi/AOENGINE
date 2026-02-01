@@ -124,6 +124,11 @@ std::string WeightSelectorNode::RunNodeName() {
 // ↓ 評価値の計算
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+void AI::WeightSelectorNode::ResetNode() {
+	if (children_.empty()) { return; }
+	children_[currentIndex_]->ResetNode();
+}
+
 void WeightSelectorNode::PriorityDisplay() {
 	std::vector<std::pair<uint32_t, float>> priorityArray(weightMap_.begin(), weightMap_.end());
 

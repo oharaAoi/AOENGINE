@@ -330,7 +330,9 @@
                         "invisibleWall",
                         "bossAttack",
                         "bossMissile",
-                        "attackArmor"
+                        "attackArmor",
+                        "enemyBullet",
+                        "enemySearchCollider"
                     ]
                 },
                 {

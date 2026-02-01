@@ -90,3 +90,8 @@ void SequenceNode::Debug_Gui() {
 std::string SequenceNode::RunNodeName() {
 	return BaseRunNodeName();
 }
+
+void AI::SequenceNode::ResetNode() {
+	if (children_.empty()) { return; }
+	children_[currentIndex_]->ResetNode();
+}

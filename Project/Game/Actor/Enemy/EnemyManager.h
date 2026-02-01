@@ -6,6 +6,7 @@
 #include "Game/Actor/Boss/BossRoot.h"
 #include "Game/Actor/Enemy/BaseEnemy.h"
 #include "Game/Actor/Enemy/EnemyFactory.h"
+#include "Game/Actor/Enemy/EnemyBulletManager.h"
 
 /// <summary>
 /// Enemyを管理するクラス
@@ -40,6 +41,13 @@ public: // method
 	/// <param name="boss"></param>
 	void AddListToBoss(Boss* boss);
 
+	/// <summary>
+	/// Colliderのポインタからbulletのポインタを探索する
+	/// </summary>
+	/// <param name="collider">; コライダーのポインタ</param>
+	/// <returns></returns>
+	BaseEnemy* SearchCollider(AOENGINE::BaseCollider* collider);
+
 private:
 
 	/// <summary>
@@ -71,6 +79,8 @@ private:
 	Boss* pBoss_;
 
 	std::unique_ptr<BossRoot> bossRoot_;
+
+	std::unique_ptr<EnemyBulletManager> enemyBulletManager_;
 
 };
 

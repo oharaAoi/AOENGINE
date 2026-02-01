@@ -16,6 +16,11 @@ void GameCallBacksManager::Init(AOENGINE::CollisionManager* _manager) {
 	pRocketToBoss_->SetBulletManager(pPlayerManager_->GetBulletManager());
 	pRocketToBoss_->SetBoss(pBossRoot_->GetBoss());
 
+	pBulletToEnemy_ = std::make_unique<PBulletToEnemyCallBacks>(pCollisionManager_);
+	pBulletToEnemy_->Init();
+	pBulletToEnemy_->SetEnemyManager(pEnemyManager_);
+	pBulletToEnemy_->SetBulletManager(pPlayerManager_->GetBulletManager());
+
 	// -------------------------------------------------
 	// ↓ Player To
 	// -------------------------------------------------
@@ -44,6 +49,15 @@ void GameCallBacksManager::Init(AOENGINE::CollisionManager* _manager) {
 	pAttackArmorToPlayer_->Init();
 	pAttackArmorToPlayer_->SetBoss(pBossRoot_->GetBoss());
 	pAttackArmorToPlayer_->SetPlayer(pPlayerManager_->GetPlayer());
+
+	// -------------------------------------------------
+	// ↓ enemyTo
+	// -------------------------------------------------
+
+	enemySearchToPlayer_ = std::make_unique<EnemySearchToPlayerCallBacks>(pCollisionManager_);
+	enemySearchToPlayer_->Init();
+	enemySearchToPlayer_->SetPlayer(pPlayerManager_->GetPlayer());
+	enemySearchToPlayer_->SetEnemyManager(pEnemyManager_);
 
 }
 

@@ -386,7 +386,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\State\BossStateDeployArmor.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h" />
     <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionApproach.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionAttack.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionWait.h" />
     <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyBulletManager.h" />
     <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h" />
     <ClInclude Include="Game\Actor\Enemy\EnemyManager.h" />
     <ClInclude Include="Game\Actor\Enemy\Long\LongRangeEnemy.h" />
@@ -425,8 +430,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\CallBacks\AttackArmorToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h" />
     <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\RocketToBossCallBacks.h" />
     <ClInclude Include="Game\Camera\Animation\CameraAnimationBoost.h" />
@@ -445,6 +452,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Information\ActionContext.h" />
     <ClInclude Include="Game\Information\ColliderCategory.h" />
     <ClInclude Include="Game\Manager\ActionManager.h" />
+    <ClInclude Include="Game\Manager\BaseBulletManager.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -742,7 +750,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\State\BossStateDeployArmor.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp" />
     <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionApproach.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionAttack.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionWait.cpp" />
     <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp" />
     <ClCompile Include="Game\Actor\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Game\Actor\Enemy\Long\LongRangeEnemy.cpp" />
@@ -781,8 +794,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\CallBacks\AttackArmorToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\RocketToBossCallBacks.cpp" />
     <ClCompile Include="Game\Camera\Animation\CameraAnimationBoost.cpp" />
@@ -799,6 +814,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Effects\JetEngineBurn.cpp" />
     <ClCompile Include="Game\Effects\LaserCylinder.cpp" />
     <ClCompile Include="Game\Manager\ActionManager.cpp" />
+    <ClCompile Include="Game\Manager\BaseBulletManager.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\GameScene.cpp" />

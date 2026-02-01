@@ -1,5 +1,9 @@
 #include "BossBulletManager.h"
 
+BossBulletManager::~BossBulletManager() {
+	bulletList_.clear();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化する
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -13,22 +17,10 @@ void BossBulletManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBulletManager::Update() {
-	// フラグがfalseになったら削除
-	std::erase_if(bulletList_, [](auto& bullet) {
-		return !bullet->GetIsAlive();
-				  });
+	CheckBulletLife();
 
 	for (auto& bullet : bulletList_) {
 		bullet->SetTargetPosition(playerPosition_);
 		bullet->Update();
 	}
-}
-
-BaseBullet* BossBulletManager::SearchCollider(AOENGINE::BaseCollider* collider) {
-	for (const auto& bullet : bulletList_) {
-		if (bullet->GetCollider() == collider) {
-			return bullet.get();
-		}
-	}
-	return nullptr;
 }

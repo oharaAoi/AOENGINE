@@ -5,11 +5,8 @@
 // game
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Player/Bullet/PlayerBulletManager.h"
-#include "Game/Actor/Weapon/MachineGun.h"
-#include "Game/Actor/Weapon/LauncherGun.h"
-#include "Game/Actor/Weapon/ShoulderMissile.h"
-#include "Game/Actor/Weapon/LaserRifle.h"
 #include "Game/Actor/Weapon/Armors.h"
+#include "Game/Actor/Weapon/BaseWeapon.h"
 
 /// <summary>
 /// Player関連を管理しているクラス

@@ -93,6 +93,11 @@ public:
 	}
 
 	Math::Vector3 GetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
+
+	/// <summary>
+	/// offsetを含めた座標を返す
+	/// </summary>
+	/// <returns></returns>
 	Math::Vector3 GetOffsetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
 
 	Math::QuaternionSRT& GetSRT() { return srt_; }

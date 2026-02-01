@@ -1,56 +1,38 @@
 #pragma once
-// C++
-#include <list>
-#include <memory>
+// engine
+#include "Engine/Lib/Math/Vector3.h"
 // Game
-#include "Game/Actor/Player/Bullet/PlayerBullet.h"
-#include <Module/Components/Collider/BaseCollider.h>
+#include "Game/Manager/BaseBulletManager.h"
 
 /// <summary>
 /// PlayerのBulletを管理するクラス
 /// </summary>
-class PlayerBulletManager {
+class PlayerBulletManager final :	
+	public BaseBulletManager {
 public:
 
 	PlayerBulletManager() = default;
-	~PlayerBulletManager();
+	~PlayerBulletManager() override;
 
 public:
 
-	// 初期化
-	void Init();
-	// 更新
-	void Update(const Math::Vector3& playerTargetPos);
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	void Init() override;
 
 	/// <summary>
-	/// Colliderのポインタからbulletのポインタを探索する
+	/// 更新
 	/// </summary>
-	/// <param name="collider">; コライダーのポインタ</param>
-	/// <returns></returns>
-	BaseBullet* SearchCollider(AOENGINE::BaseCollider* collider);
+	void Update()override;
 
-public: // member method
+public:
 
-	/// <summary>
-	/// Bossが弾を撃った後にリストに格納する
-	/// </summary>
-	/// <typeparam name="BulletType">: 弾種類</typeparam>
-	/// <typeparam name="...Args">: 可変長引数</typeparam>
-	/// <param name="...args">: 各バレットの構造体</param>
-	template<typename BulletType, typename... Args>
-	BulletType* AddBullet(Args&&... args) {
-		auto& bullet = bulletList_.emplace_back(std::make_unique<BulletType>());
-		auto type = static_cast<BulletType*>(bullet.get());
-		type->Init();
-		// BulletTypeに応じたReset呼び出し
-		type->Reset(std::forward<Args>(args)...);
-
-		return type;
-	}
+	void SetPlayerTargetPos(const Math::Vector3& playerTargetPos);
 
 private:
 
-	std::list<std::unique_ptr<BaseBullet>> bulletList_;
+	Math::Vector3 playerTargetPos_;
 
 };
 

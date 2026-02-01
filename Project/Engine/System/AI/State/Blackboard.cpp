@@ -61,8 +61,15 @@ void Blackboard::Debug_Gui() {
 		}
 	}
 
-
-    if (ImGui::Button("Save##worldStateSave")) { Save(); }
+	if (ImGui::Button("overWrite##worldStateSave")) {
+		if (path_ != "") {
+			BlackboardSerializer::Save(path_, stateMap_);
+		}
+	}
+	ImGui::SameLine();
+    if (ImGui::Button("Save##worldStateSave")) {
+		Save(); 
+	}
     ImGui::SameLine();
     if (ImGui::Button("Load##worldStateLoad")) {
         path_ = FileOpenDialogFunc();

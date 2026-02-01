@@ -124,8 +124,6 @@ public:
 	void SetSelectWindow(IEditorWindow* ptr) { pSelectWindow_ = ptr; };
 	void SetSceneManager(AOENGINE::SceneManager* sceneManager) { pSceneManager_ = sceneManager; }
 
-private:
-
 	GameObjectWindow* GetObjectWindow() { return gameObjectWindow_.get(); }
 
 private:

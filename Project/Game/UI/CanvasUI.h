@@ -38,6 +38,8 @@ public:
 	/// </summary>
 	void Update();
 
+	void PostUpdate();
+
 	/// <summary>
 	/// 描画
 	/// </summary>

@@ -107,7 +107,7 @@ public:
 protected:
 
 	bool isActive_ = false;
-	bool isStatic_ = true;	// 移動するかどうか(押し戻すか)
+	bool isStatic_ = true;		// 移動するかどうか(押し戻すか)
 	bool isTrigger_ = false;	// 判定だけを行うか
 
 	// カテゴリ

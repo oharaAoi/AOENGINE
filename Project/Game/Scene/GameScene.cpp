@@ -68,6 +68,7 @@ void GameScene::Init() {
 	gameCallBacksManager_->SetBossRoot(enemyManager_->GetBossRoot());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
 	gameCallBacksManager_->SetGround(floor_.get());
+	gameCallBacksManager_->SetEnemyManager(enemyManager_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());
 
 	// -------------------------------------------------
@@ -155,6 +156,7 @@ void GameScene::Update() {
 void GameScene::PostUpdate() {
 	gameCallBacksManager_->Update();
 	playerManager_->PostUpdate();
+	canvas_->PostUpdate();
 }
 
 void GameScene::ChangeBehavior(IGameSceneBehavior* _newBehavior) {

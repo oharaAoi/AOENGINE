@@ -23,6 +23,7 @@ public:
 		Math::Matrix4x4 uvTransform;
 		float shininess;
 		float discardValue;
+		float iblScale;
 	};
 
 public:

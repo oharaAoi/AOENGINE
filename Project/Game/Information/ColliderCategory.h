@@ -23,6 +23,7 @@ namespace ColliderTags {
 
 	namespace Enemy {
 		const std::string own = "baseEnemy";
+		const std::string searchCollider = "enemySearchCollider";
 	}
 
 	namespace Bullet {
@@ -35,6 +36,7 @@ namespace ColliderTags {
 	namespace Field {
 		const std::string ground = "ground";
 		const std::string building = "building";
+		const std::string invisibleWall = "invisibleWall";
 	}
 }
 
@@ -52,12 +54,16 @@ inline std::list<std::string> GetColliderTagsList() {
 		ColliderTags::Boss::armor,
 		ColliderTags::Boss::attackArmor,
 
+		ColliderTags::Enemy::own,
+		ColliderTags::Enemy::searchCollider,
+
 		ColliderTags::Bullet::machinegun,
 		ColliderTags::Bullet::launcher,
 		ColliderTags::Bullet::rocket,
 
 		ColliderTags::Field::ground,
-		ColliderTags::Field::building
+		ColliderTags::Field::building,
+		ColliderTags::Field::invisibleWall
 	};
 
 	return colliderTags;

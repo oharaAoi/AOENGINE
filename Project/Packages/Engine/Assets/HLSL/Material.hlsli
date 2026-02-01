@@ -5,4 +5,5 @@ struct Material {
 	float4x4 uvTransform;
 	float shininess; // 光沢度
 	float discardValue;
+	float iblScale;
 };

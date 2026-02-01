@@ -19,6 +19,7 @@ void PlayerBullet::Init() {
 
 	AOENGINE::BaseCollider* collider = object_->GetCollider(ColliderTags::Bullet::machinegun);
 	collider->SetTarget(ColliderTags::Boss::own);
+	collider->SetTarget(ColliderTags::Enemy::own);
 	collider->SetOnCollision([this](AOENGINE::BaseCollider* other) { OnCollision(other); });
 	collider->SetIsTrigger(true);
 

@@ -1,0 +1,9 @@
+{
+    "EnemyBaseParameter": {
+        "angularThreshold": 0.699999988079071,
+        "angularVelocity": 90.5999984741211,
+        "health": 100.0,
+        "postureStability": 100.0,
+        "postureStabilityScrapeRaito": 0.30000001192092896
+    }
+}

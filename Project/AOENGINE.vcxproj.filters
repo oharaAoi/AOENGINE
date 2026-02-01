@@ -1427,6 +1427,14 @@
     <ClInclude Include="Game\Commands\LockOn\LockOnCommands.h" />
     <ClInclude Include="Game\Commands\LockOn\LockOnInvoker.h" />
     <ClInclude Include="Game\UI\TargetUI.h" />
+    <ClInclude Include="Game\Actor\Enemy\EnemyBulletManager.h" />
+    <ClInclude Include="Game\Manager\BaseBulletManager.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionWait.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionApproach.h" />
+    <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionAttack.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.h" />
+    <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2472,5 +2480,13 @@
     <ClCompile Include="Game\Commands\LockOn\LockOnCommands.cpp" />
     <ClCompile Include="Game\Commands\LockOn\LockOnInvoker.cpp" />
     <ClCompile Include="Game\UI\TargetUI.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\EnemyBulletManager.cpp" />
+    <ClCompile Include="Game\Manager\BaseBulletManager.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionWait.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionApproach.cpp" />
+    <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionAttack.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.cpp" />
+    <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp" />
   </ItemGroup>
 </Project>

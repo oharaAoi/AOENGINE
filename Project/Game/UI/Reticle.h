@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/WorldTransform.h"
 #include <Lib/Math/Vector3.h>
 
 /// <summary>
@@ -23,11 +24,11 @@ public:
 	// ロックオン
 	void LockOn();
 
-	void SetReticlePos(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat);
+	void SetReticlePos(AOENGINE::WorldTransform* targetTransform, const Math::Matrix4x4& vpvpMat);
 
 public:		// accessor method
 
-	Math::Vector3 GetTargetPos() const { return Math::Vector3(targetMat_.m[3][0], targetMat_.m[3][1], targetMat_.m[3][2]); }
+	Math::Vector3 GetTargetPos() const;
 
 	bool GetLockOn() const { return isLockOn_; }
 
@@ -42,7 +43,7 @@ private:
 	bool isLockOn_ = false;
 	Math::Vector2 defaultPosition_;
 
-	Math::Matrix4x4 targetMat_;
+	AOENGINE::WorldTransform* targetTransform_;
 
 	Math::Vector2 reticlePos_;
 

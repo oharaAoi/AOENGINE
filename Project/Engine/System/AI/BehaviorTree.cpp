@@ -1,4 +1,5 @@
 #include "BehaviorTree.h"
+#include <filesystem>
 #include "Engine/Utilities/Logger.h"
 #include "Engine/System/AI/Node/BehaviorRootNode.h"
 #include "Engine/System/AI/BehaviorTreeSerializer.h"
@@ -162,6 +163,10 @@ void BehaviorTree::CreateTree(const std::string& fileDirectory, const std::strin
 	}
 
 	std::string fullPath = fileDirectory + fileName;
+
+	if (!std::filesystem::exists(fullPath)) {
+		BehaviorTreeSerializer::Save(fullPath, json());
+	}
 
 	if (fullPath == "") {
 		return;

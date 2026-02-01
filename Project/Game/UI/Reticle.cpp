@@ -50,10 +50,10 @@ void Reticle::LockOn() {
 	}
 }
 
-void Reticle::SetReticlePos(const Math::Matrix4x4& bossMat, const Math::Matrix4x4& vpvpMat) {
+void Reticle::SetReticlePos(AOENGINE::WorldTransform* targetTransform, const Math::Matrix4x4& vpvpMat) {
 	if (isLockOn_) {
-		targetMat_ = bossMat;
-		reticle_->SetTranslate(WorldToScreenCoordinate(bossMat, vpvpMat));
+		targetTransform_ = targetTransform;
+		reticle_->SetTranslate(WorldToScreenCoordinate(targetTransform->GetWorldMatrix(), vpvpMat));
 	}
 }
 
@@ -61,4 +61,12 @@ void Reticle::ReleaseLockOn() {
 	reticle_->SetTranslate(defaultPosition_);
 	reticle_->ReSetTexture("lockOffReticle.png");
 	isLockOn_ = false;
+}
+
+Math::Vector3 Reticle::GetTargetPos() const {
+	if (targetTransform_) {
+		return targetTransform_->GetOffsetPos();
+	} else {
+		return CVector3::ZERO;
+	}
 }

@@ -1,6 +1,7 @@
 #include "EnemyManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "ENgine/Render.h"
+#include "Game/Information/ColliderCategory.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +32,7 @@ void EnemyManager::Debug_Gui() {
 		EnemyType type = static_cast<EnemyType>(enemyType);
 		auto& newEnemy = enemyList_.emplace_back(enemyFactory_.Create(type));
 		newEnemy->Init();
+		newEnemy->SetEnemyBulletManager(enemyBulletManager_.get());
 	}
 
 }
@@ -49,6 +51,9 @@ void EnemyManager::Init() {
 	bossRoot_ = std::make_unique<BossRoot>();
 	bossRoot_->Init();
 
+	enemyBulletManager_ = std::make_unique<EnemyBulletManager>();
+	enemyBulletManager_->Init();
+
 	// bossを生成
 	auto& boss = enemyList_.emplace_back(enemyFactory_.Create(EnemyType::Boss));
 	pBoss_ = dynamic_cast<Boss*>(boss.get());
@@ -66,6 +71,10 @@ void EnemyManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyManager::Update() {
+	std::erase_if(enemyList_, [](const std::unique_ptr<BaseEnemy>& enemy) {
+		return enemy->GetIsDead();
+	});
+
 	for (auto& enemy : enemyList_) {
 		enemy->Update();
 
@@ -76,6 +85,8 @@ void EnemyManager::Update() {
 			enemy->SetIsWithinSight(false);
 		}
 	}
+
+	enemyBulletManager_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,4 +108,18 @@ bool EnemyManager::CheckWithinCamera(BaseEnemy* enemy) {
 		ndc.z >= 0 && ndc.z <= 1;
 
 	return visible;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ポインタに対するColliderの探索
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+BaseEnemy* EnemyManager::SearchCollider(AOENGINE::BaseCollider* collider) {
+	for (std::unique_ptr<BaseEnemy>& enemy : enemyList_) {
+		if (enemy->GetCollider(collider->GetCategoryName()) == collider) {
+			return enemy.get();
+		}
+	}
+
+	return nullptr;
 }

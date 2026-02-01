@@ -60,6 +60,15 @@ BaseBehaviorNode* BehaviorTreeNodeFactory::CreateNodeFromJson(const json& _json,
 																		   std::vector<Link>& _link, Blackboard* _worldState, 
 																		   const std::unordered_map<std::string, ActionNode>& _creators,
 																		   const std::vector<std::shared_ptr<IOrientedGoal>>& _goalArray) {
+	// 空なら
+	if (_json.empty()) {
+		std::unique_ptr<BaseBehaviorNode> node = std::make_unique<BehaviorRootNode>();
+		node->SetBlackboard(_worldState);
+		BaseBehaviorNode* rawNode = node.get();
+		_nodeList.push_back(std::move(node));
+		return rawNode;
+	}
+
 	// nodeを作成
 	std::unique_ptr<BaseBehaviorNode> node;
 	NodeType type = static_cast<NodeType>(_json["nodeType"]);

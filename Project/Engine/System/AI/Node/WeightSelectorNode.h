@@ -36,6 +36,11 @@ public:
 	/// </summary>
 	void WeightTableItem() override {};
 
+	/// <summary>
+	/// taskの初期化用意
+	/// </summary>
+	void ResetNode() override;
+
 private:
 
 	/// <summary>

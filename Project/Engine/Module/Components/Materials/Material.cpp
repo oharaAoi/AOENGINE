@@ -32,6 +32,7 @@ void Material::Init() {
 	material_->shininess = 1.0f;
 	material_->uvTransform = uvTransform_.MakeAffine();
 	material_->discardValue = 0.01f;
+	material_->iblScale = 0.5f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +62,7 @@ void Material::Debug_Gui() {
 	ImGui::ColorEdit4("color", &color_.r);
 	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 	ImGui::DragFloat("discard", &discardValue_, 0.01f);
+	ImGui::DragFloat("iblScale", &material_->iblScale, 0.01f);
 }
 
 void Material::SetMaterialData(ModelMaterialData materialData) {
@@ -69,6 +71,7 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	material_->uvTransform = Math::Matrix4x4::MakeUnit();
 	material_->shininess = 100;
 	material_->discardValue = 0.01f;
+	material_->iblScale = 0.5f;
 	textureName_ = materialData.textureFilePath;
 }
 

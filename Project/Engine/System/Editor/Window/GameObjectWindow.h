@@ -32,6 +32,8 @@ public:
 
 	void ExecutionWindow() override;
 
+	void DeleteObject(AOENGINE::AttributeGui* attribute);
+
 public:
 
 	AOENGINE::AttributeGui* GetSelectObject() const { return selectAttribute_; }

@@ -13,3 +13,5 @@ ground
 building
 invisibleWall
 attackArmor
+enemyBullet
+enemySearchCollider

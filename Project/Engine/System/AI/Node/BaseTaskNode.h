@@ -84,6 +84,11 @@ private:
 	// 待機処理
 	bool Wait();
 
+	/// <summary>
+	/// taskの初期化用意
+	/// </summary>
+	void ResetNode() override;
+
 protected:
 
 	OwnerType* pTarget_ = nullptr;
@@ -183,8 +188,7 @@ inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 		Update();
 	} else {
 		if (Wait()) {
-			End();
-			coolTimer_.timer_ = 0;
+			ResetNode();
 			state_ = BehaviorStatus::Success;
 			return BehaviorStatus::Success;
 		}
@@ -199,6 +203,13 @@ inline bool BaseTaskNode<OwnerType>::Wait() {
 		return true;
 	}
 	return false;
+}
+
+template<typename OwnerType>
+inline void BaseTaskNode<OwnerType>::ResetNode() {
+	End();
+	coolTimer_.timer_ = 0;
+	state_ = BehaviorStatus::Inactive;
 }
 
 template<typename OwnerType>

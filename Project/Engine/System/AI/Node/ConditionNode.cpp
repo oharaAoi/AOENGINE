@@ -8,6 +8,7 @@ ConditionNode::ConditionNode() {
 	color_ = ImColor(238, 130, 238);
 	baseColor_ = color_;
 	type_ = NodeType::Condition;
+	preIndex_ = 0;
 	SetNodeName("Condition");
 }
 
@@ -56,14 +57,14 @@ void ConditionNode::FromJson(const json& _jsonData) {
 }
 
 BehaviorStatus ConditionNode::Execute() {
-	if (children_.empty()) {return BehaviorStatus::Inactive;}
+	if (children_.empty()) { return BehaviorStatus::Inactive; }
 
 	// 並び変えを行なう
 	std::sort(children_.begin(), children_.end(),
 			  [](BaseBehaviorNode* a, BaseBehaviorNode* b) {
 				  return a->GetPos().x < b->GetPos().x; // X座標が小さい順
 			  });
-	
+
 	BehaviorStatus status;
 	if (Compare(blackboard_->Get(leftKey_), blackboard_->Get(rightKey_), conditionOps[opIndex_])) {
 		currentIndex_ = 0;
@@ -79,6 +80,18 @@ BehaviorStatus ConditionNode::Execute() {
 			return BehaviorStatus::Failure;
 		}
 	}
+
+	/*if (currentIndex_ != preIndex_) {
+		if (!children_.empty()) {
+			if (preIndex_ == 0) {
+				children_[preIndex_]->ResetNode();
+			} else if (children_.size() >= 2) {
+				children_[preIndex_]->ResetNode();
+			}
+		}
+	}*/
+
+	preIndex_ = currentIndex_;
 
 	if (status == BehaviorStatus::Running) {
 		return BehaviorStatus::Running;
@@ -129,6 +142,11 @@ void ConditionNode::Debug_Gui() {
 
 std::string ConditionNode::RunNodeName() {
 	return BaseRunNodeName();
+}
+
+void AI::ConditionNode::ResetNode() {
+	if (children_.empty()) { return; }
+	children_[currentIndex_]->ResetNode();
 }
 
 bool ConditionNode::Compare(const BlackboardValue& lhs, const BlackboardValue& rhs, const std::string& op) {

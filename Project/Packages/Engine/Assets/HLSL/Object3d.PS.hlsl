@@ -127,7 +127,7 @@ PixelShaderOutput main(VertexShaderOutput input) {
 	output.color.rgb += pointLight;
 	output.color.rgb += spotLight;
 	output.color.rgb += limCol;
-	output.color.rgb += environmentColor.rgb;
+	output.color.rgb += environmentColor.rgb * gMaterial.iblScale;
 	
 	output.color.a = gMaterial.color.a * textureColor.a;
 	output.color = clamp(output.color, 0.0f, 1.0f);

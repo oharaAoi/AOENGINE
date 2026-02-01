@@ -65,7 +65,7 @@ void CanvasUI::Update() {
 	BaseEnemy* targetEnemy = pEnemyManager_->GetNearReticleEnemy();
 	if (targetEnemy) {
 		if (targetEnemy->GetEnemyType() == EnemyType::Boss) {
-			reticle_->SetReticlePos(pBoss_->GetTransform()->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+			reticle_->SetReticlePos(pBoss_->GetTransform(), pFollowCamera_->GetVpvpMatrix());
 
 			bossUIs_->SetIsEnable(true);
 			targetUI_->SetIsEnable(false);
@@ -73,7 +73,7 @@ void CanvasUI::Update() {
 			targetUI_->Update(reticle_->GetPos(), targetEnemy);
 		} else {
 			AOENGINE::WorldTransform* transform = pEnemyManager_->GetNearReticleEnemy()->GetTransform();
-			reticle_->SetReticlePos(transform->GetWorldMatrix(), pFollowCamera_->GetVpvpMatrix());
+			reticle_->SetReticlePos(transform, pFollowCamera_->GetVpvpMatrix());
 
 			bossUIs_->SetIsEnable(false);
 			targetUI_->SetIsEnable(true);
@@ -94,6 +94,20 @@ void CanvasUI::Update() {
 	// out game
 	if (!isTutorial_) {
 		clearNotificationUI_->Update(pBoss_->GetIsBreak());
+	}
+}
+
+void CanvasUI::PostUpdate() {
+	BaseEnemy* targetEnemy = pEnemyManager_->GetNearReticleEnemy();
+	if (!targetEnemy) { return; }
+	if (targetEnemy->GetIsDead()) {
+		pEnemyManager_->SetNearReticleEnemy(nullptr);
+		if (targetEnemy->GetEnemyType() == EnemyType::Boss) {
+			bossUIs_->SetIsEnable(false);
+		} else {
+			targetUI_->SetIsEnable(false);
+		}
+		reticle_->ReleaseLockOn();
 	}
 }
 

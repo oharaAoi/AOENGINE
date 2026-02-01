@@ -1,4 +1,8 @@
 #include "PlayerManager.h"
+#include "Game/Actor/Weapon/MachineGun.h"
+#include "Game/Actor/Weapon/LauncherGun.h"
+#include "Game/Actor/Weapon/ShoulderMissile.h"
+#include "Game/Actor/Weapon/LaserRifle.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
@@ -44,7 +48,8 @@ void PlayerManager::Update() {
 	CheckAction();
 
 	player_->Update();
-	bulletManager_->Update(player_->GetTargetPos());
+	bulletManager_->SetPlayerTargetPos(player_->GetTargetPos());
+	bulletManager_->Update();
 	armors_->Update();
 }
 

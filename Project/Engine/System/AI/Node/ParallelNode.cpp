@@ -96,3 +96,10 @@ std::string AI::ParallelNode::RunNodeName() {
 		return children_[0]->RunNodeName();
 	}
 }
+
+void AI::ParallelNode::ResetNode() {
+	if (children_.empty()) { return; }
+	for (const auto& child : children_) {
+		child->ResetNode();
+	}
+}
