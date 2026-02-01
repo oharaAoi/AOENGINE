@@ -1,0 +1,12 @@
+{
+    "stepBack": {
+        "curveData": {
+            "controlPoints_1": 0.0,
+            "controlPoints_2": 0.0,
+            "controlPoints_3": -0.1015625,
+            "controlPoints_4": 1.0234375
+        },
+        "moveTime": 1.0,
+        "speed": 80.0
+    }
+}

@@ -1,0 +1,100 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "Approach",
+                            "nodePos": {
+                                "x": -331.0,
+                                "y": 463.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.10000000149011612
+                        },
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "Attack",
+                            "nodePos": {
+                                "x": -171.0,
+                                "y": 463.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.10000000149011612
+                        }
+                    ],
+                    "name": "Parallel",
+                    "nodePos": {
+                        "x": -251.0,
+                        "y": 315.0
+                    },
+                    "nodeType": 8
+                },
+                {
+                    "aggressionAffinity": 0.10000000149011612,
+                    "children": [],
+                    "coolTime": 1.0,
+                    "name": "QuickDash",
+                    "nodePos": {
+                        "x": 126.0,
+                        "y": 330.0
+                    },
+                    "nodeType": 4,
+                    "waitTime": 1.0,
+                    "weight": 0.10000000149011612
+                }
+            ],
+            "leftKey": "isTargetDiscovery",
+            "leftKeyIndex": 0,
+            "name": "Condition",
+            "nodePos": {
+                "x": -65.0,
+                "y": 70.0
+            },
+            "nodeType": 7,
+            "operatorIndex": 0,
+            "rightKey": "isTrue",
+            "rightKeyIndex": 1
+        }
+    ],
+    "comments": [
+        {
+            "id": 10001,
+            "min": {
+                "x": -400.0,
+                "y": 256.0
+            },
+            "size": {
+                "x": 400.0,
+                "y": 352.0
+            },
+            "text": "近づきながら攻撃"
+        },
+        {
+            "id": 10002,
+            "min": {
+                "x": 144.0,
+                "y": 240.0
+            },
+            "size": {
+                "x": 240.0,
+                "y": 368.0
+            },
+            "text": "敵を探索"
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": -46.0,
+        "y": -58.0
+    },
+    "nodeType": 0
+}

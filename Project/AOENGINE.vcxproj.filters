@@ -1435,6 +1435,7 @@
     <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionAttack.h" />
     <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.h" />
     <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionStepBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2488,5 +2489,6 @@
     <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionAttack.cpp" />
     <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionStepBack.cpp" />
   </ItemGroup>
 </Project>

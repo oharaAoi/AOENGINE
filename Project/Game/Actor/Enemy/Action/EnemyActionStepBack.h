@@ -1,35 +1,37 @@
 #pragma once
 #include "Engine/System/AI/Node/BaseTaskNode.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Lib/Math/Curve.h"
 
 class BaseEnemy;
 
-/// <summary>
-/// 敵が近づくアクション
-/// </summary>
-class EnemyActionApproach :
+class EnemyActionStepBack :
 	public AI::BaseTaskNode<BaseEnemy> {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
 		float speed;
-		float limitDistance;
+		float moveTime;
+		Math::Curve curve;
 
 		Parameter() {
 			SetGroupName("EnemyAction");
-			SetName("approach");
+			SetName("stepBack");
 		}
 
 		json ToJson(const std::string& id) const override {
+			json curveData = curve.ToJson();
 			return AOENGINE::JsonBuilder(id)
 				.Add("speed", speed)
-				.Add("limitDistance", limitDistance)
+				.Add("moveTime", moveTime)
+				.Add("curveData", curveData)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "speed", speed);
-			Convert::fromJson(jsonData, "limitDistance", limitDistance);
+			Convert::fromJson(jsonData, "moveTime", moveTime);
+			curve.FromJson(jsonData, "curveData");
 		}
 
 		void Debug_Gui() override;
@@ -37,8 +39,8 @@ public:
 
 public:
 
-	EnemyActionApproach() = default;
-	~EnemyActionApproach() override = default;
+	EnemyActionStepBack();
+	~EnemyActionStepBack() override = default;
 
 public:
 
@@ -68,6 +70,7 @@ public:
 
 private:
 
+	Math::Vector3 moveDirection_;
 	Parameter param_;
 
 };

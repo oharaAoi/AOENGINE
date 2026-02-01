@@ -28,6 +28,8 @@ void BehaviorTreeSystem::Update() {
 		tree->Edit();
 		tree->EditSelect();
 	}
+
+
 #endif
 }
 

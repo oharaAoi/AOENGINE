@@ -5,7 +5,6 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 // game
 #include "Game/Actor/Enemy/BaseEnemy.h"
-#include "Game/Actor/Weapon/LaserRifle.h"
 
 /// <summary>
 /// 遠距離型の敵

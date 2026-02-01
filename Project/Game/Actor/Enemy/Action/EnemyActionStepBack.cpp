@@ -1,80 +1,92 @@
-#include "EnemyActionApproach.h"
+#include "EnemyActionStepBack.h"
 #include "Game/Actor/Enemy/BaseEnemy.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 実行処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-BehaviorStatus EnemyActionApproach::Execute() {
-    return Action();
+EnemyActionStepBack::EnemyActionStepBack() {
+	param_.Load();
+}
+
+BehaviorStatus EnemyActionStepBack::Execute() {
+	return Action();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 重みを計算
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-float EnemyActionApproach::EvaluateWeight() {
-    return 0.0f;
+float EnemyActionStepBack::EvaluateWeight() {
+	return 0.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void EnemyActionApproach::Debug_Gui() {
-    BaseTaskNode::Debug_Gui();
-    param_.Debug_Gui();
+void EnemyActionStepBack::Debug_Gui() {
+	BaseTaskNode::Debug_Gui();
+	param_.Debug_Gui();
 }
 
-void EnemyActionApproach::Parameter::Debug_Gui() {
-    ImGui::DragFloat("speed", &speed, 0.1f);
-    ImGui::DragFloat("limitDistance", &limitDistance, 0.1f);
-    SaveAndLoad();
+void EnemyActionStepBack::Parameter::Debug_Gui() {
+	ImGui::DragFloat("speed", &speed, 0.1f);
+	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
+	curve.Debug_Gui();
+	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool EnemyActionApproach::IsFinish() {
-    Math::Vector3 distance = pTarget_->GetTargetTransform()->GetPos() - pTarget_->GetTransform()->GetPos();
-    if (distance.Length() <= param_.limitDistance) {
-        return true;
-    }
-    return false;
+bool EnemyActionStepBack::IsFinish() {
+	if (taskTimer_ >= param_.moveTime) {
+		return true;
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 実行確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool EnemyActionApproach::CanExecute() {
-    return true;
+bool EnemyActionStepBack::CanExecute() {
+	if (pTarget_->GetTargetTransform()) {
+		return true;
+	}
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void EnemyActionApproach::Init() {
+void EnemyActionStepBack::Init() {
+	// 移動方向をランダムに決める
+	if (pTarget_->GetTargetTransform()) {
+		moveDirection_ = pTarget_->GetTransform()->GetPos() - pTarget_->GetTargetTransform()->GetPos();
+		moveDirection_.y = 0;
+		moveDirection_ = moveDirection_.Normalize();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void EnemyActionApproach::Update() {
-    pTarget_->TargetLook();
+void EnemyActionStepBack::Update() {
+	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
+	float t = taskTimer_ / param_.moveTime;
+	float curveValue = param_.curve.BezierValue(t);
 
-    Math::Vector3 direction = pTarget_->GetTargetTransform()->GetPos() - pTarget_->GetTransform()->GetPos();
-    direction = direction.Normalize();
-
-    pTarget_->GetTransform()->MoveVelocity(direction * param_.speed * AOENGINE::GameTimer::DeltaTime(), 1.0f);
+	float speed = param_.speed * curveValue;
+	pTarget_->GetTransform()->MoveVelocity(moveDirection_ * speed * AOENGINE::GameTimer::DeltaTime(), 1.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void EnemyActionApproach::End() {
+void EnemyActionStepBack::End() {
 }

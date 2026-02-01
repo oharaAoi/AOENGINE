@@ -98,6 +98,9 @@ public:
 	void SetIsOpenEditor(bool isOpen) { isOpenEditor_ = isOpen; }
 	bool GetIsOpenEditor() const { return isOpenEditor_; }
 
+	void SetIsDelete(bool isDelete) { isDelete_ = isDelete; }
+	bool GetIsDelete() const { return isDelete_; }
+
 private:
 
 	std::string name_ = "Behavior Tree";
@@ -123,6 +126,7 @@ private:
 	// フラグ
 	bool isExecute_ = false;
 	bool isOpenEditor_ = false;
+	bool isDelete_ = false;
 
 	// ----------------------
 	// ↓ loggerポインタ

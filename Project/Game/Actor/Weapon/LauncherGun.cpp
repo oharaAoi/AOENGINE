@@ -36,7 +36,6 @@ void LauncherGun::Init() {
 	gunFireParticles_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("gunFireParticles");
 	gunFireParticles_->SetParent(transform_->GetWorldMatrix());
 
-	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
