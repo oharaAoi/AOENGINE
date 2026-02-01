@@ -86,7 +86,12 @@ void EnemyManager::Update() {
 		}
 	}
 
+	if (pPlayer_) {
+		enemyBulletManager_->SetPlayerPosition(pPlayer_->GetPosition());
+	}
 	enemyBulletManager_->Update();
+
+	bossRoot_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

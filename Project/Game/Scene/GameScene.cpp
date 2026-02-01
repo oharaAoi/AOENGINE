@@ -94,6 +94,8 @@ void GameScene::Init() {
 	pPlayer->SetFollowCamera(followCamera_.get());
 	pPlayer->SetReticle(canvas_->GetReticle());
 
+	enemyManager_->SetPlayer(pPlayer);
+
 	BossRoot* bossRoot = enemyManager_->GetBossRoot();
 	bossRoot->SetUIs(canvas_->GetBossUIs());
 	bossRoot->SetPlayer(playerManager_->GetPlayer());

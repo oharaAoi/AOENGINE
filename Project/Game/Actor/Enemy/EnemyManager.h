@@ -7,6 +7,7 @@
 #include "Game/Actor/Enemy/BaseEnemy.h"
 #include "Game/Actor/Enemy/EnemyFactory.h"
 #include "Game/Actor/Enemy/EnemyBulletManager.h"
+#include "Game/Actor/Player/Player.h"
 
 /// <summary>
 /// Enemyを管理するクラス
@@ -64,6 +65,8 @@ public: // accessor
 	Boss* GetBoss() const { return pBoss_; }
 	BossRoot* GetBossRoot() const { return bossRoot_.get(); }
 
+	void SetPlayer(Player* player) { pPlayer_ = player; }
+
 	// レティクルに一番近いエネミー
 	void SetNearReticleEnemy(BaseEnemy* nearEnemy) { nearReticleEnemy = nearEnemy; }
 	BaseEnemy* GetNearReticleEnemy() const { return nearReticleEnemy; }
@@ -77,6 +80,8 @@ private:
 	BaseEnemy* nearReticleEnemy;
 
 	Boss* pBoss_;
+
+	Player* pPlayer_;
 
 	std::unique_ptr<BossRoot> bossRoot_;
 
