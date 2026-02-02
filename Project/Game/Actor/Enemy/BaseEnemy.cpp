@@ -9,6 +9,7 @@ BaseEnemy::BaseEnemy() {
 
 BaseEnemy::~BaseEnemy() {
 	AOENGINE::SceneRenderer::GetInstance()->ReleaseObject(object_);
+	object_ = nullptr;
 #ifdef _DEBUG
 	AOENGINE::EditorWindows::GetInstance()->GetObjectWindow()->DeleteObject(object_);
 #endif // _DEBUG

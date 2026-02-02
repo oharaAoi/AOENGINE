@@ -39,7 +39,9 @@ void Boss::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Debug_Gui() {
-	object_->Debug_Gui();
+	if (object_) {
+		object_->Debug_Gui();
+	}
 
 	if (ImGui::CollapsingHeader("現在のパラメータ")) {
 		baseParam_.Debug_Gui();
@@ -140,7 +142,7 @@ void Boss::Init() {
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "BossTree.aitree");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	// -------------------------------------------------
 	// ↓ State関連
