@@ -17,7 +17,7 @@
 // actor
 #include "Game/WorldObject/Skybox.h"
 #include "Game/Actor/Player/PlayerManager.h"
-#include "Game/Actor/Boss/BossRoot.h"
+#include "Game/Actor/Enemy/EnemyManager.h"
 
 class ITutorialBehavior;
 
@@ -67,7 +67,7 @@ private:
 	std::unique_ptr<Floor> floor_;
 
 	std::unique_ptr<PlayerManager> playerManager_;
-	std::unique_ptr<BossRoot> bossRoot_;
+	std::unique_ptr<EnemyManager> enemyManager_;
 
 	std::unique_ptr<ITutorialBehavior> tutorialBehavior_;
 };

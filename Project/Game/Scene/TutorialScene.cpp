@@ -60,15 +60,15 @@ void TutorialScene::Init() {
 	playerManager_ = std::make_unique<PlayerManager>();
 	playerManager_->Init();
 
-	bossRoot_ = std::make_unique<BossRoot>();
-	bossRoot_->Init();
+	enemyManager_ = std::make_unique<EnemyManager>();
+	enemyManager_->Init();
 
 	// -------------------------------------------------
 	// ↓ managerの初期化
 	// -------------------------------------------------
 
 	gameCallBacksManager_ = std::make_unique<GameCallBacksManager>();
-	gameCallBacksManager_->SetBossRoot(bossRoot_.get());
+	gameCallBacksManager_->SetBossRoot(enemyManager_->GetBossRoot());
 	gameCallBacksManager_->SetPlayerManager(playerManager_.get());
 	gameCallBacksManager_->SetGround(floor_.get());
 	gameCallBacksManager_->Init(collisionManager_.get());
@@ -78,8 +78,9 @@ void TutorialScene::Init() {
 	// -------------------------------------------------
 	canvas_ = std::make_unique<CanvasUI>();
 	canvas_->SetPlayer(playerManager_->GetPlayer());
-	canvas_->SetBoss(bossRoot_->GetBoss());
+	canvas_->SetBoss(enemyManager_->GetBoss());
 	canvas_->SetFollowCamera(followCamera_.get());
+	canvas_->SetEnemyManager(enemyManager_.get());
 	canvas_->Init(true);
 
 	tutorialMissionGauge_ = std::make_unique<TutorialMissionGauge>();
@@ -98,9 +99,13 @@ void TutorialScene::Init() {
 	pPlayer->SetFollowCamera(followCamera_.get());
 	pPlayer->SetReticle(canvas_->GetReticle());
 
-	bossRoot_->SetUIs(canvas_->GetBossUIs());
-	bossRoot_->SetPlayer(playerManager_->GetPlayer());
-	bossRoot_->SetTargetTransform(playerManager_->GetPlayer()->GetTransform());
+	enemyManager_->SetPlayer(pPlayer);
+
+	BossRoot* bossRoot = enemyManager_->GetBossRoot();
+	bossRoot->SetUIs(canvas_->GetBossUIs());
+	bossRoot->SetPlayer(playerManager_->GetPlayer());
+	bossRoot->SetTargetTransform(playerManager_->GetPlayer()->GetTransform());
+	bossRoot->SetFollowCamera(followCamera_.get());
 
 	followCamera_->SetTarget(playerManager_->GetPlayer());
 	followCamera_->SetReticle(canvas_->GetReticle());
@@ -119,8 +124,8 @@ void TutorialScene::Update() {
 	// -------------------------------------------------
 
 	playerManager_->Update();
-	bossRoot_->GetBoss()->GetBehaviorTree()->SetExecute(false);
-	bossRoot_->Update();
+	enemyManager_->GetBoss()->GetBehaviorTree()->SetExecute(false);
+	enemyManager_->Update();
 
 	tutorialMissionGauge_->Update();
 	tutorialBehavior_->Update();
