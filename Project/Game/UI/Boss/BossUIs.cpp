@@ -115,18 +115,6 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 	postureStabilityArc_->SetPos(_reticlePos);
 	postureStabilityArc_->Update();
 
-	// 警告
-	for (auto it = attackAlertList_.begin(); it != attackAlertList_.end();) {
-		if ((*it)->IsDestroy()) {
-			it = attackAlertList_.erase(it);
-		} else {
-			++it;
-		}
-	}
-
-	for (auto& alert : attackAlertList_) {
-		alert->Update();
-	}
 }
 
 void BossUIs::SetIsEnable(bool flag) {
@@ -141,6 +129,21 @@ void BossUIs::SetIsEnable(bool flag) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossUIs::Debug_Gui() {
+}
+
+void BossUIs::AlertUpdate() {
+	// 警告
+	for (auto it = attackAlertList_.begin(); it != attackAlertList_.end();) {
+		if ((*it)->IsDestroy()) {
+			it = attackAlertList_.erase(it);
+		} else {
+			++it;
+		}
+	}
+
+	for (auto& alert : attackAlertList_) {
+		alert->Update();
+	}
 }
 
 void BossUIs::PopAlert(const Math::Vector3& _targetPos, const Math::Vector3& _attackerPos) {

@@ -95,6 +95,8 @@ void CanvasUI::Update() {
 	if (!isTutorial_) {
 		clearNotificationUI_->Update(pBoss_->GetIsBreak());
 	}
+
+	bossUIs_->AlertUpdate();
 }
 
 void CanvasUI::PostUpdate() {

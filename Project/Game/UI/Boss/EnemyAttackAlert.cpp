@@ -1,5 +1,6 @@
 #include "EnemyAttackAlert.h"
 #include "Engine.h"
+#include "Engine/WinApp/WinApp.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 #include "Engine/Lib/GameTimer.h"
 
@@ -10,6 +11,7 @@
 void EnemyAttackAlert::Init(AttackAlertDirection _dir) {
 	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
 	alert_ = canvas->AddSprite("attackAlert.png", "alert");;
+	alert_->Resize();
 	timer_ = 0.0f;
 	blinkingCount_ = 0;
 	isDraw_ = true;
@@ -39,6 +41,10 @@ void EnemyAttackAlert::Init(AttackAlertDirection _dir) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void EnemyAttackAlert::Update() {
+	centerPos_ = Math::Vector2(
+		static_cast<float>(AOENGINE::WinApp::sClientWidth) * 0.5f,
+		static_cast<float>(AOENGINE::WinApp::sClientHeight) * 0.5f
+	);
 	alert_->SetTranslate(centerPos_);
 	alert_->SetScale(scale_);
 

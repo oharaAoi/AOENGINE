@@ -40,6 +40,8 @@ public:
 	// 編集
 	void Debug_Gui() override;
 
+	void AlertUpdate();
+
 public:
 
 	/// <summary>
