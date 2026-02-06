@@ -48,6 +48,6 @@ bool AudioPlayer::GetIsPlaying() {
 	return pAudio_->IsPlaying(audioData_.pSourceVoice);
 }
 
-void AudioPlayer::SinglShotPlay(const std::string& filePath, float volume) {
-	Engine::GetAudio()->SinglShotPlay(SoundDatabase::GetInstance()->GetAudioData(filePath), volume);
+void AudioPlayer::SingleShotPlay(const std::string& filePath, float volume) {
+	Engine::GetAudio()->SingleShotPlay(SoundDatabase::GetInstance()->GetAudioData(filePath), volume);
 }

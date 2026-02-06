@@ -11,7 +11,7 @@ TextureManager* AOENGINE::TextureManager::GetInstance() {
 	return &instance;
 }
 
-void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, AOENGINE::DxResourceManager* _resourceManger) {
+void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_dxDevice);
 	assert(_dxHeap);
 
@@ -21,7 +21,7 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 	textureData_.clear();
 	 
 	commandList_ = _commandList;
-	resourceManager_ = _resourceManger;
+	resourceManager_ = _resourceManager;
 }
 
 void TextureManager::Finalize() {

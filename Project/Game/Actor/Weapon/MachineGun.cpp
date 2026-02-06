@@ -54,7 +54,7 @@ bool MachineGun::Attack(const AttackContext& cxt) {
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
 
-	AOENGINE::AudioPlayer::SinglShotPlay("shotBullet.mp3", 0.06f);
+	AOENGINE::AudioPlayer::SingleShotPlay("shotBullet.mp3", 0.06f);
 
 	AttackAfter();
 	return true;

@@ -75,7 +75,7 @@ void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 		hitEffect->SetPos(transform_->srt_.translate);
 		hitEffect->Reset();
 
-		AOENGINE::AudioPlayer::SinglShotPlay("luncherHit.mp3", param_.hitSeVolume);
+		AOENGINE::AudioPlayer::SingleShotPlay("luncherHit.mp3", param_.hitSeVolume);
 	}
 }
 

@@ -34,7 +34,7 @@ void BossStateStun::OnStart() {
 
 	AOENGINE::GameTimer::SetTimeScale(0.1f);
 
-	AOENGINE::AudioPlayer::SinglShotPlay("stan_se.mp3", 0.5f);
+	AOENGINE::AudioPlayer::SingleShotPlay("stan_se.mp3", 0.5f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

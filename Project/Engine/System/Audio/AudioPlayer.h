@@ -50,7 +50,7 @@ public:
 	/// <returns></returns>
 	bool GetIsPlaying();
 
-	static void SinglShotPlay(const std::string& filePath, float volume);
+	static void SingleShotPlay(const std::string& filePath, float volume);
 
 private:
 

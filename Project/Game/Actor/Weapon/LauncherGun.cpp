@@ -56,7 +56,7 @@ bool LauncherGun::Attack(const AttackContext& cxt) {
 	gunFireParticles_->SetPos(pos);
 	gunFireParticles_->SetIsStop(false);
 
-	AOENGINE::AudioPlayer::SinglShotPlay("shotLauncher.mp3", 0.08f);
+	AOENGINE::AudioPlayer::SingleShotPlay("shotLauncher.mp3", 0.08f);
 
 	AttackAfter();
 	return true;

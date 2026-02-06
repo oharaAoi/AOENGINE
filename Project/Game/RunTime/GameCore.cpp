@@ -8,7 +8,7 @@ GameCore::~GameCore() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameCore::Finalize() {
-	sceneManger_->Finalize();
+	sceneManager_->Finalize();
 	AOENGINE::AoiFramework::Finalize();
 }
 
@@ -19,8 +19,8 @@ void GameCore::Init() {
 	AOENGINE::AoiFramework::Init();
 
 	// シーンの初期化
-	sceneManger_ = std::make_unique<AOENGINE::SceneManager>();
-	sceneManger_->Init();
+	sceneManager_ = std::make_unique<AOENGINE::SceneManager>();
+	sceneManager_->Init();
 	
 	isReset_ = false;
 }
@@ -32,7 +32,7 @@ void GameCore::Init() {
 void GameCore::Update() {
 	profiler_.Start();
 	// sceneの更新
-	sceneManger_->Update();
+	sceneManager_->Update();
 	profiler_.End("Update");
 }
 
@@ -42,7 +42,7 @@ void GameCore::Update() {
 
 void GameCore::Draw() {
 	profiler_.Start();
-	sceneManger_->Draw();
+	sceneManager_->Draw();
 	profiler_.End("Draw");
 }
 

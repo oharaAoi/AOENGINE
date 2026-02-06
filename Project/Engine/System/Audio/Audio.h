@@ -110,7 +110,7 @@ public:
 
 	void PlayAudio(const AudioData& audioData, bool isLoop, float volume, bool checkPlaying = false);
 
-	void SinglShotPlay(const SoundData& loadAudioData, float volume);
+	void SingleShotPlay(const SoundData& loadAudioData, float volume);
 
 	/// <summary>
 	/// サウンドの停止

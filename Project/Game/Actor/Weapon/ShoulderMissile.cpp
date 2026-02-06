@@ -118,5 +118,5 @@ void ShoulderMissile::Shot() {
 	fireCount_++;
 
 	// 音を鳴らす
-	AOENGINE::AudioPlayer::SinglShotPlay("missileShot.mp3", weaponParam_.shotSeVolum);
+	AOENGINE::AudioPlayer::SingleShotPlay("missileShot.mp3", weaponParam_.shotSeVolum);
 }

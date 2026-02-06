@@ -145,7 +145,7 @@ void LaserBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _targetP
 	fadeTimer_ = AOENGINE::Timer(param_.fadeTime);
 
 	// 音を鳴らす
-	AOENGINE::AudioPlayer::SinglShotPlay("laser.mp3", param_.shotSeValue);
+	AOENGINE::AudioPlayer::SingleShotPlay("laser.mp3", param_.shotSeValue);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

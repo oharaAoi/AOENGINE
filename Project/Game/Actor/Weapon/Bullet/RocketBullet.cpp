@@ -86,7 +86,7 @@ void RocketBullet::OnCollision(AOENGINE::BaseCollider* other) {
 		hitEffect->SetPos(object_->GetPosition());
 		hitEffect->Reset();
 
-		AOENGINE::AudioPlayer::SinglShotPlay("missileHit.mp3", param_.hitSeVolume);
+		AOENGINE::AudioPlayer::SingleShotPlay("missileHit.mp3", param_.hitSeVolume);
 	}
 }
 

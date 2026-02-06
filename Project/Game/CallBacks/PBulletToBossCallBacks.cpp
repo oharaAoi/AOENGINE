@@ -52,7 +52,7 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] AOENGINE::BaseColli
 	hitBossSmoke_->SetIsStop(false);
 	hitBossSmokeBorn_->SetIsStop(false);
 
-	AOENGINE::AudioPlayer::SinglShotPlay("bulletHit.mp3", 0.04f);
+	AOENGINE::AudioPlayer::SingleShotPlay("bulletHit.mp3", 0.04f);
 }
 
 void PBulletToBossCallBacks::CollisionStay([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const boss) {

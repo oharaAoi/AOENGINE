@@ -335,7 +335,7 @@ void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, boo
 	assert(SUCCEEDED(result));
 }
 
-void Audio::SinglShotPlay(const SoundData& loadAudioData, float volume) {
+void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	// 読み込んだ音声データをreturn
 	AudioData audio = {};
 	audio.data.wfex = loadAudioData.wfex;
