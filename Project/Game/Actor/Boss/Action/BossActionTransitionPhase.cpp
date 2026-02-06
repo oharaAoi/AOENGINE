@@ -31,8 +31,9 @@ float BossActionTransitionPhase::EvaluateWeight() {
 void BossActionTransitionPhase::Debug_Gui() {
 	BaseTaskNode::Debug_Gui();
 	param_.Debug_Gui();
-	attackArmor_->Debug_Gui();
-
+	if (attackArmor_) {
+		attackArmor_->Debug_Gui();
+	}
 	slowTimer_.targetTime_ = param_.slowTime;
 }
 
