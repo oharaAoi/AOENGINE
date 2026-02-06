@@ -135,7 +135,7 @@ public:		// menber method
 	/// <summary>
 	/// スタンから解除される処理
 	/// </summary>
-	void ResetStan();
+	void ResetStun();
 
 	/// <summary>
 	/// Targetの方向を向く処理
@@ -180,8 +180,8 @@ public:
 	bool GetIsBreak() const { return isBreak_; }
 
 	// stan
-	void SetIsStan(bool isStan) { isStan_ = isStan; }
-	bool GetIsStan() const { return isStan_; }
+	void SetIsStun(bool isStun) { isStun_ = isStun; }
+	bool GetIsStun() const { return isStun_; }
 
 	// targetDead
 	void SetIsTargetDead(bool _isTargetDead) { isTargetDead_ = _isTargetDead; }
@@ -205,8 +205,8 @@ public:
 	const Parameter& GetParameter() const { return param_; }
 	const Parameter& GetInitParameter() const { return initParam_; }
 
-	void SetStanRemainingTime(float _time) { stanRemainingTime_ = _time; }
-	float GetStanRemainingTime() const { return stanRemainingTime_; }
+	void SetStunRemainingTime(float _time) { stanRemainingTime_ = _time; }
+	float GetStunRemainingTime() const { return stanRemainingTime_; }
 
 	float GetAggressionScore() const { return aggressionScore_; }
 
@@ -242,7 +242,7 @@ private:
 
 	bool isAlive_;
 	bool isBreak_;
-	bool isStan_;
+	bool isStun_;
 	bool isTargetDead_;
 	bool isDeployingArmor_;
 	bool isAttack_;

@@ -1,4 +1,4 @@
-#include "BossStateStan.h"
+#include "BossStateStun.h"
 #include "Engine/System/Audio/AudioPlayer.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Game/Actor/Boss/Boss.h"
@@ -9,8 +9,8 @@
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossStateStan::OnStart() {
-	SetName("StanState");
+void BossStateStun::OnStart() {
+	SetName("StunState");
 
 	stateTime_ = 0.0f;
 	slowTime_ = 0.0f;
@@ -19,7 +19,7 @@ void BossStateStan::OnStart() {
 
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(true);
 
-	pOwner_->SetIsStan(true);
+	pOwner_->SetIsStun(true);
 	pOwner_->SetExecute(false);
 
 	AOENGINE::Rigidbody* rigid = pOwner_->GetGameObject()->GetRigidbody();
@@ -29,7 +29,7 @@ void BossStateStan::OnStart() {
 	// ↓ 演出関連
 	// ----------------------
 
-	effect_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossStanEffect");
+	effect_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossStunEffect");
 	effect_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
 
 	AOENGINE::GameTimer::SetTimeScale(0.1f);
@@ -41,10 +41,10 @@ void BossStateStan::OnStart() {
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossStateStan::OnUpdate() {
+void BossStateStun::OnUpdate() {
 	stateTime_ += AOENGINE::GameTimer::DeltaTime();
 	slowTime_ += AOENGINE::GameTimer::FixedDeltaTime();
-	pOwner_->SetStanRemainingTime(stateTime_ / param_.stanTime);
+	pOwner_->SetStunRemainingTime(stateTime_ / param_.stanTime);
 
 	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
 	if (effect_->GetIsStop()) {
@@ -68,21 +68,21 @@ void BossStateStan::OnUpdate() {
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossStateStan::OnExit() {
+void BossStateStun::OnExit() {
 	pOwner_->GetGameObject()->GetRigidbody()->SetGravity(false);
 
-	pOwner_->ResetStan();
+	pOwner_->ResetStun();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossStateStan::Debug_Gui() {
+void BossStateStun::Debug_Gui() {
 	param_.Debug_Gui();
 }
 
-void BossStateStan::Parameter::Debug_Gui() {
+void BossStateStun::Parameter::Debug_Gui() {
 	ImGui::DragFloat("stanTime", &stanTime, 0.1f);
 	ImGui::DragFloat("stanSlowTime", &stanSlowTime, 0.1f);
 	ImGui::DragFloat("effectRandDistance", &effectRandDistance, 0.1f);

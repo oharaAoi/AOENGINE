@@ -969,7 +969,6 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
       <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
@@ -1144,7 +1143,7 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateNormal.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\State\BossStateStan.h">
+    <ClInclude Include="Game\Actor\Boss\State\BossStateStun.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h">
@@ -2209,7 +2208,7 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateNormal.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\State\BossStateStan.cpp">
+    <ClCompile Include="Game\Actor\Boss\State\BossStateStun.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp">

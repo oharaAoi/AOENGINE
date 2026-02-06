@@ -17,7 +17,7 @@ enum class EnemyType {
 
 enum class EnemyState {
 	Normal,	// 通常状態
-	Stan,	// スタン状態
+	Stun,	// スタン状態
 	Armor	// アーマー状態
 };
 

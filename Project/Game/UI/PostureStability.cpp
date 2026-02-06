@@ -21,9 +21,9 @@ void PostureStability::Init(const std::string& _groupName, const std::string& _i
 	fence_->SetTranslate(front_->GetTranslate());
 	fence_->SetScale(front_->GetScale());
 
-	AOENGINE::Color color = param_.stanColor;
+	AOENGINE::Color color = param_.stunColor;
 	color.a = 0.0f;
-	stanAnimation_.Init(param_.stanColor, color, 0.2f, (int)EasingType::None::Liner, LoopType::Return);
+	stunAnimation_.Init(param_.stunColor, color, 0.2f, (int)EasingType::None::Liner, LoopType::Return);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,9 +44,9 @@ void PostureStability::Update(float _fillAmount) {
 	case GaugeType::Armor:
 		front_->SetColor(param_.armorColor);
 		break;
-	case GaugeType::Stan:
-		stanAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
-		front_->SetColor(stanAnimation_.GetValue());
+	case GaugeType::Stun:
+		stunAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
+		front_->SetColor(stunAnimation_.GetValue());
 		break;
 	default:
 		break;
@@ -71,7 +71,7 @@ void PostureStability::Debug_Gui() {
 		ImGui::ColorEdit4("normalColor", &param_.normalColor.r);
 		ImGui::ColorEdit4("pinchColor", &param_.pinchColor.r);
 		ImGui::ColorEdit4("armorColor", &param_.armorColor.r);
-		ImGui::ColorEdit4("stanColor", &param_.stanColor.r);
+		ImGui::ColorEdit4("stunColor", &param_.stunColor.r);
 
 		param_.SaveAndLoad();
 	}

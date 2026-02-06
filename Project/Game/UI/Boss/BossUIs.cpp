@@ -38,13 +38,13 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	postureStabilityArc_->GetBg()->Load("BossUIs", "postureStabilityArcBgUI");
 
 	// ----------------------
-	// ↓ stan関連
+	// ↓ stun関連
 	// ----------------------
 
 	AOENGINE::Canvas2d* canvas = Engine::GetCanvas2d();
-	stanPromote_ = canvas->AddSprite("stan.png", "stanPromote");
-	stanPromote_->Load("BossUIs", "stanPromote");
-	stanPromote_->GetTransform()->SetParent(postureStabilityArc_->GetFront()->GetMatrix());
+	stunPromote_ = canvas->AddSprite("stun.png", "stunPromote");
+	stunPromote_->Load("BossUIs", "stunPromote");
+	stunPromote_->GetTransform()->SetParent(postureStabilityArc_->GetFront()->GetMatrix());
 
 	SetIsEnable(false);
 
@@ -52,7 +52,7 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	AddChild(healthArc_.get());
 	AddChild(postureStability_.get());
 	AddChild(postureStabilityArc_.get());
-	AddChild(stanPromote_);
+	AddChild(stunPromote_);
 	
 	AOENGINE::EditorWindows::AddObjectWindow(this, "BossUIs");
 }
@@ -65,7 +65,7 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 	const BaseEnemy::BaseParameter& bossParam = pBoss_->GetBaseParameter();
 	const BaseEnemy::BaseParameter& bossInitParam = pBoss_->GetInitBaseParameter();
 
-	stanPromote_->SetEnable(false);
+	stunPromote_->SetEnable(false);
 
 	// ----------------------
 	// ↓ hpゲージの更新
@@ -87,20 +87,20 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 
 		postureStabilityArc_->SetFillAmount(pBoss_->GetPulseArmor()->ArmorDurability());
 
-	} else if(pBoss_->GetIsStan()) {
-		fillAmount = 1.0f - pBoss_->GetStanRemainingTime();
+	} else if(pBoss_->GetIsStun()) {
+		fillAmount = 1.0f - pBoss_->GetStunRemainingTime();
 
-		// Stan時の表示
-		postureStability_->SetGaugeType(GaugeType::Stan);
+		// Stun時の表示
+		postureStability_->SetGaugeType(GaugeType::Stun);
 		postureStability_->Update(fillAmount);
 
 		// 円ゲージの更新
 		postureStabilityArc_->SetFillAmount(fillAmount);
 
-		// stanの文字を表示
-		stanPromote_->SetEnable(true);
-		stanPromote_->SetColor(postureStability_->GetFront()->GetColor());
-		stanPromote_->Update();
+		// stunの文字を表示
+		stunPromote_->SetEnable(true);
+		stunPromote_->SetColor(postureStability_->GetFront()->GetColor());
+		stunPromote_->Update();
 
 	} else {
 		// 通常時の表示

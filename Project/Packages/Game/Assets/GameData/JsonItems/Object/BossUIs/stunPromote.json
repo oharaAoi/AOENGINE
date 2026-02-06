@@ -1,5 +1,5 @@
 {
-    "StanGaugeUI": {
+    "stunPromote": {
         "anchorPoint": {
             "x": 0.5,
             "y": 0.5
@@ -11,18 +11,18 @@
         },
         "clockwise": 0,
         "color": {
-            "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
-            "r": 1.0
+            "a": 0.9165470004081726,
+            "b": 0.01272040605545044,
+            "g": 0.3388356566429138,
+            "r": 0.9116278886795044
         },
         "drawRange": {
-            "x": 480.0,
-            "y": 16.0
+            "x": 256.0,
+            "y": 64.0
         },
         "fillAmount": 1.0,
-        "fillMethod": 3,
-        "fillStartingPoint": 4,
+        "fillMethod": 0,
+        "fillStartingPoint": 2,
         "innerRadius": 0.0,
         "isFlipX": false,
         "isFlipY": false,
@@ -32,11 +32,11 @@
         },
         "outerRadius": 1.0,
         "spriteSize": {
-            "x": 480.0,
-            "y": 16.0
+            "x": 256.0,
+            "y": 64.0
         },
         "startAngle": 0.0,
-        "textureName": "gauge_front.png",
+        "textureName": "stun.png",
         "transform": {
             "rotate": {
                 "x": 0.0,
@@ -44,14 +44,14 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
+                "x": 0.5,
+                "y": 0.5,
                 "z": 1.0
             },
             "translate": {
-                "x": 640.0,
-                "y": 70.0,
-                "z": 0.0
+                "x": 0.0,
+                "y": -187.3000030517578,
+                "z": 1.0
             }
         },
         "uvTransform": {
@@ -61,15 +61,17 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 1.0,
-                "y": 1.0,
+                "x": 0.5,
+                "y": 0.5,
                 "z": 1.0
             },
             "translate": {
-                "x": 640.0,
-                "y": 70.0,
+                "x": 0.0,
+                "y": -187.3000030517578,
                 "z": 0.0
             }
-        }
+        },
+        "windowHeight": 793,
+        "windowWidth": 1536
     }
 }

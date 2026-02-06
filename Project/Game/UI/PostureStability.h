@@ -7,7 +7,7 @@
 enum class GaugeType {
 	Posturebility,
 	Armor,
-	Stan
+	Stun
 };
 
 /// <summary>
@@ -21,7 +21,7 @@ public:
 		AOENGINE::Color normalColor;
 		AOENGINE::Color pinchColor;
 		AOENGINE::Color armorColor;
-		AOENGINE::Color stanColor;
+		AOENGINE::Color stunColor;
 
 		Parameter() { SetName("postureStabilityColor"); }
 
@@ -30,7 +30,7 @@ public:
 				.Add("normalColor", normalColor)
 				.Add("pinchColor", pinchColor)
 				.Add("armorColor", armorColor)
-				.Add("stanColor", stanColor)
+				.Add("stunColor", stunColor)
 				.Build();
 		}
 
@@ -38,7 +38,7 @@ public:
 			Convert::fromJson(jsonData, "normalColor", normalColor);
 			Convert::fromJson(jsonData, "pinchColor", pinchColor);
 			Convert::fromJson(jsonData, "armorColor", armorColor);
-			Convert::fromJson(jsonData, "stanColor", stanColor);
+			Convert::fromJson(jsonData, "stunColor", stunColor);
 		}
 
 		void Debug_Gui() override {};
@@ -81,6 +81,6 @@ private:
 
 	GaugeType gaugeType_;
 
-	AOENGINE::VectorTween<AOENGINE::Color> stanAnimation_;
+	AOENGINE::VectorTween<AOENGINE::Color> stunAnimation_;
 };
 

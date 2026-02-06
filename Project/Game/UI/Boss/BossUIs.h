@@ -65,7 +65,7 @@ private:
 	std::unique_ptr<BaseGaugeUI> postureStabilityArc_;
 
 	// スタン系
-	AOENGINE::Sprite* stanPromote_;
+	AOENGINE::Sprite* stunPromote_;
 
 	std::list<std::unique_ptr<EnemyAttackAlert>> attackAlertList_;
 };

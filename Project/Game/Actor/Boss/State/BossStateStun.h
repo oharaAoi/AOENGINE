@@ -9,7 +9,7 @@ class Boss;
 /// <summary>
 /// Bossのスタン状態
 /// </summary>
-class BossStateStan :
+class BossStateStun :
 	public ICharacterState<Boss> {
 public:	// メンバ構造体
 
@@ -20,7 +20,7 @@ public:	// メンバ構造体
 		
 		Parameter() { 
 			SetGroupName("BossState");
-			SetName("BossStanParameter");
+			SetName("BossStunParameter");
 		}
 
 		json ToJson(const std::string& id) const override {
@@ -42,8 +42,8 @@ public:	// メンバ構造体
 
 public:
 
-	BossStateStan() = default;
-	~BossStateStan() = default;
+	BossStateStun() = default;
+	~BossStateStun() = default;
 
 public:
 

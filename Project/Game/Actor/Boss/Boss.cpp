@@ -7,7 +7,7 @@
 #include "Engine/System/Input/Input.h"
 #include "Game/UI/Boss/BossUIs.h"
 #include "Game/Actor/Boss/State/BossStateNormal.h"
-#include "Game/Actor/Boss/State/BossStateStan.h"
+#include "Game/Actor/Boss/State/BossStateStun.h"
 #include "Game/Actor/Boss/State/BossStateBeDestroyed.h"
 
 #include "Game/Actor/Boss/Action/BossActionWait.h"
@@ -167,7 +167,7 @@ void Boss::Init() {
 
 	baseParam_.postureStability -= initBaseParam_.postureStability;
 	isAlive_ = true;
-	isStan_ = false;
+	isStun_ = false;
 	isDeployingArmor_ = false;
 	isAttack_ = false;
 	isMove_ = false;
@@ -263,20 +263,20 @@ void Boss::Damage(float _takeDamage) {
 	if (!pulseArmor_->GetIsAlive()) {
 		baseParam_.health -= _takeDamage;
 
-		if (!isStan_) {
+		if (!isStun_) {
 			baseParam_.postureStability += _takeDamage * baseParam_.postureStabilityScrapeRaito;
 			baseParam_.postureStability = std::clamp(baseParam_.postureStability, 0.0f, initBaseParam_.postureStability);
 
 			if (baseParam_.postureStability >= initBaseParam_.postureStability) {
-				isStan_ = true;
-				stateMachine_->ChangeState<BossStateStan>();
+				isStun_ = true;
+				stateMachine_->ChangeState<BossStateStun>();
 			}
 		}
 
 	} else {
 		pulseArmor_->DamageDurability(_takeDamage * baseParam_.postureStabilityScrapeRaito);
 		if (pulseArmor_->BreakArmor()) {
-			stateMachine_->ChangeState<BossStateStan>();
+			stateMachine_->ChangeState<BossStateStun>();
 		}
 	}
 
@@ -293,8 +293,8 @@ void Boss::Damage(float _takeDamage) {
 // ↓ stan解除
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::ResetStan() {
-	isStan_ = false;
+void Boss::ResetStun() {
+	isStun_ = false;
 	baseParam_.postureStability -= initBaseParam_.postureStability;
 	behaviorTree_->SetExecute(true);
 }
