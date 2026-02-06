@@ -24,64 +24,64 @@ bool CheckCollision(const Sphere& s1, const Sphere& s2) {
 
 bool CheckCollison(const OBB& colliderA, const OBB& colliderB) {
 	// 分離軸の組み合わせを取得
-	std::vector<Math::Vector3> crossSeparatingAxises;
+	std::vector<Math::Vector3> crossSeparatingAxisArray;
 	for (uint8_t obb1Index = 0; obb1Index < 3; obb1Index++) {
 		for (uint8_t obb2Index = 0; obb2Index < 3; obb2Index++) {
 			Math::Vector3 crossAxis = Cross(colliderA.orientations[obb1Index], colliderB.orientations[obb2Index]);
 			if (Length(crossAxis) > kEpsilon) { // 長さが非常に小さい場合を除外
 				Normalize(crossAxis);
-				crossSeparatingAxises.push_back(crossAxis);
+				crossSeparatingAxisArray.push_back(crossAxis);
 			}
 		}
 	}
 
 	// 面法線をまとめる
-	std::vector<Math::Vector3> obb1SurfaceNormals;
+	std::vector<Math::Vector3> obb1SurfaceNormalArray;
 	for (uint8_t obbIndex = 0; obbIndex < 3; obbIndex++) {
-		obb1SurfaceNormals.push_back(Normalize(TransformNormal(colliderA.orientations[obbIndex], colliderA.matRotate)));
+		obb1SurfaceNormalArray.push_back(Normalize(TransformNormal(colliderA.orientations[obbIndex], colliderA.matRotate)));
 	}
 
-	std::vector<Math::Vector3> obb2SurfaceNormals;
+	std::vector<Math::Vector3> obb2SurfaceNormalArray;
 	for (uint8_t obbIndex = 0; obbIndex < 3; obbIndex++) {
-		obb2SurfaceNormals.push_back(Normalize(TransformNormal(colliderB.orientations[obbIndex], colliderB.matRotate)));
+		obb2SurfaceNormalArray.push_back(Normalize(TransformNormal(colliderB.orientations[obbIndex], colliderB.matRotate)));
 	}
 
 	// ------------------------------------------------------------
 	// 分離軸を割り出す
-	std::vector<Math::Vector3> separatingAxises;
-	separatingAxises.insert(separatingAxises.end(), obb1SurfaceNormals.begin(), obb1SurfaceNormals.end());
-	separatingAxises.insert(separatingAxises.end(), obb2SurfaceNormals.begin(), obb2SurfaceNormals.end());
-	separatingAxises.insert(separatingAxises.end(), crossSeparatingAxises.begin(), crossSeparatingAxises.end());
+	std::vector<Math::Vector3> separatingAxisArray;
+	separatingAxisArray.insert(separatingAxisArray.end(), obb1SurfaceNormalArray.begin(), obb1SurfaceNormalArray.end());
+	separatingAxisArray.insert(separatingAxisArray.end(), obb2SurfaceNormalArray.begin(), obb2SurfaceNormalArray.end());
+	separatingAxisArray.insert(separatingAxisArray.end(), crossSeparatingAxisArray.begin(), crossSeparatingAxisArray.end());
 
 	// obbから頂点を取り出す
-	std::vector<Math::Vector3> obb1Indecies = colliderA.MakeIndex();
-	std::vector<Math::Vector3> obb2Indecies = colliderB.MakeIndex();
+	std::vector<Math::Vector3> obb1Indices = colliderA.MakeIndex();
+	std::vector<Math::Vector3> obb2Indices = colliderB.MakeIndex();
 
 	// 頂点を分離軸候補に射影したベクトルを格納する
 
 	// 取り出した頂点を分離軸へ射影する
-	for (uint8_t axis = 0; axis < separatingAxises.size(); axis++) {
-		std::vector<float> obb1ProjectIndecies;
-		std::vector<float> obb2ProjectIndecies;
+	for (uint8_t axis = 0; axis < separatingAxisArray.size(); axis++) {
+		std::vector<float> obb1ProjectIndices;
+		std::vector<float> obb2ProjectIndices;
 
-		for (uint8_t oi = 0; oi < obb1Indecies.size(); oi++) {
+		for (uint8_t oi = 0; oi < obb1Indices.size(); oi++) {
 			// 各obbの頂点を射影する
 			// 正射影ベクトルの長さを求める
-			obb1ProjectIndecies.push_back(Dot(obb1Indecies[oi], separatingAxises[axis]));
-			obb2ProjectIndecies.push_back(Dot(obb2Indecies[oi], separatingAxises[axis]));
+			obb1ProjectIndices.push_back(Dot(obb1Indices[oi], separatingAxisArray[axis]));
+			obb2ProjectIndices.push_back(Dot(obb2Indices[oi], separatingAxisArray[axis]));
 		}
 
 		// 最大値/最小値を取り出す
-		float maxObb1 = *std::max_element(obb1ProjectIndecies.begin(), obb1ProjectIndecies.end());
-		float maxObb2 = *std::max_element(obb2ProjectIndecies.begin(), obb2ProjectIndecies.end());
-		float minObb1 = *std::min_element(obb1ProjectIndecies.begin(), obb1ProjectIndecies.end());
-		float minObb2 = *std::min_element(obb2ProjectIndecies.begin(), obb2ProjectIndecies.end());
+		float maxObb1 = *std::max_element(obb1ProjectIndices.begin(), obb1ProjectIndices.end());
+		float maxObb2 = *std::max_element(obb2ProjectIndices.begin(), obb2ProjectIndices.end());
+		float minObb1 = *std::min_element(obb1ProjectIndices.begin(), obb1ProjectIndices.end());
+		float minObb2 = *std::min_element(obb2ProjectIndices.begin(), obb2ProjectIndices.end());
 
 		// 影の長さを得る
-		float projectLenght1 = float(maxObb1 - minObb1);
-		float projectLenght2 = float(maxObb2 - minObb2);
+		float projectLength1 = float(maxObb1 - minObb1);
+		float projectLength2 = float(maxObb2 - minObb2);
 
-		float sumSpan = projectLenght1 + projectLenght2;
+		float sumSpan = projectLength1 + projectLength2;
 		float longSpan = ((std::max)(maxObb1, maxObb2) - ((std::min)(minObb1, minObb2)));
 
 		// 影の長さの合計 < 2つの影の両端の差分だったら分離軸が存在しているためfalse

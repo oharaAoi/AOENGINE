@@ -137,13 +137,13 @@ protected:
 	// enemyのステート
 	EnemyState enemyState_;
 
-	// enmeyの種類
+	// enemyの種類
 	EnemyType type_;
 
 	// 右手の行列
 	Math::Matrix4x4 rightHandMatrix_;
 
-	// wapon
+	// weapon
 	std::unique_ptr<BaseWeapon> weapon_;
 
 	// 他クラスポインタ
