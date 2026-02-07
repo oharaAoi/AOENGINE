@@ -5,7 +5,7 @@ using namespace AOENGINE;
 
 SoundDatabase::~SoundDatabase() {
 	for (auto& pair : audioLoadData_) {
-		delete[] pair.second.pBuffer; 
+		pair.second.pBuffer.~vector();
 	}
 	audioLoadData_.clear();
 }

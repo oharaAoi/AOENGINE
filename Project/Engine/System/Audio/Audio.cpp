@@ -123,17 +123,10 @@ SoundData Audio::LoadWave(const char* filename) {
 		assert(0);
 	}
 
-	// Dataチャンクのデータ部(波形データ)の読み込み
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
-
-	// waveファイルを閉じる
-	file.close();
-
 	SoundData loadData;
 	loadData.wfex = format.fmt;
-	loadData.pBuffer = (BYTE*)pBuffer;
-	loadData.bufferSize = data.size;
+	loadData.pBuffer.resize(data.size);
+	file.read(reinterpret_cast<char*>(loadData.pBuffer.data()), data.size);
 
 	return loadData;
 }
@@ -207,9 +200,8 @@ SoundData Audio::LoadMP3(const wchar_t* filename) {
 
 	// SoundDataにデータを格納
 	SoundData soundData;
-	soundData.pBuffer = new BYTE[audioData.size()];
-	std::copy(audioData.begin(), audioData.end(), soundData.pBuffer);
-	soundData.bufferSize = static_cast<uint32_t>(audioData.size());
+	soundData.pBuffer = audioData; // そのままコピー
+	soundData.bufferSize = static_cast<uint32_t>(soundData.pBuffer.size());
 
 	// フォーマット情報を取得
 	hr = pOutputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, reinterpret_cast<UINT32*>(&soundData.wfex.nChannels));
@@ -229,12 +221,13 @@ SoundData Audio::LoadMP3(const wchar_t* filename) {
 }
 
 AudioData Audio::LoadAudio(const SoundData& loadAudioData) {
-	// 読み込んだ音声データをreturn
 	HRESULT hr;
-	AudioData result = {};
+	AudioData result{};
+
 	result.data.wfex = loadAudioData.wfex;
-	result.data.pBuffer = reinterpret_cast<BYTE*>(loadAudioData.pBuffer);
-	result.data.bufferSize = loadAudioData.bufferSize;
+	result.data.pBuffer = loadAudioData.pBuffer; // コピー（もしくはムーブ）
+	result.data.bufferSize = static_cast<uint32_t>(result.data.pBuffer.size());
+
 	hr = xAudio2_->CreateSourceVoice(&result.pSourceVoice, &result.data.wfex);
 	assert(SUCCEEDED(hr));
 
@@ -257,7 +250,7 @@ SoundData Audio::SoundLoad(const char* filename) {
 	// 読み込んだ音声データをreturn
 	SoundData soundData = {};
 	soundData.wfex = loadData.wfex;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(loadData.pBuffer);
+	soundData.pBuffer = std::move(loadData.pBuffer);
 	soundData.bufferSize = loadData.bufferSize;
 	
 	return soundData;
@@ -268,8 +261,7 @@ SoundData Audio::SoundLoad(const char* filename) {
 /// </summary>
 /// <param name="soundData"></param>
 void Audio::SoundUnload(SoundData* soundData) {
-	delete[] soundData->pBuffer;
-	soundData->pBuffer = 0;
+	soundData->pBuffer.clear();
 	soundData->bufferSize = 0;
 	soundData->wfex = {};
 }
@@ -291,13 +283,11 @@ void Audio::SoundPlayWave(const SoundData& soundData) {
 		return;
 	}
 
-	// 再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer;
-	buf.AudioBytes = soundData.bufferSize;
+	buf.pAudioData = soundData.pBuffer.data();                 // ★ここ
+	buf.AudioBytes = static_cast<UINT32>(soundData.pBuffer.size());
 	buf.Flags = XAUDIO2_END_OF_STREAM;
-	// ループするかしないか
-	buf.LoopCount = true;
+	buf.LoopCount = XAUDIO2_LOOP_INFINITE; // ずっとループするなら
 
 	// 波形データの再生
 	result = pSourceVoice->SubmitSourceBuffer(&buf);
@@ -316,7 +306,7 @@ void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, boo
 
 	// 再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = audioData.data.pBuffer;
+	buf.pAudioData = audioData.data.pBuffer.data();
 	buf.AudioBytes = audioData.data.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	// ループするかしないか
@@ -339,14 +329,14 @@ void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	// 読み込んだ音声データをreturn
 	AudioData audio = {};
 	audio.data.wfex = loadAudioData.wfex;
-	audio.data.pBuffer = reinterpret_cast<BYTE*>(loadAudioData.pBuffer);
+	audio.data.pBuffer = loadAudioData.pBuffer;
 	audio.data.bufferSize = loadAudioData.bufferSize;
 	HRESULT hr = xAudio2_->CreateSourceVoice(&audio.pSourceVoice, &audio.data.wfex);
 	assert(SUCCEEDED(hr));
 
 	// 再生する波形データの設定
 	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = audio.data.pBuffer;
+	buf.pAudioData = audio.data.pBuffer.data();
 	buf.AudioBytes = audio.data.bufferSize;
 	buf.Flags = XAUDIO2_END_OF_STREAM;
 	buf.LoopCount = 0; // ループしない
