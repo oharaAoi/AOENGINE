@@ -58,6 +58,7 @@ void PlayerKnockbackState::OnExit() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerKnockbackState::Knockback() {
+	Math::QuaternionSRT srt = pOwner_->GetTransform()->GetSRT();
 	timer_ += AOENGINE::GameTimer::DeltaTime();
 	param_.knockStrength *= param_.knockDecay;
 
@@ -65,7 +66,8 @@ void PlayerKnockbackState::Knockback() {
 	Math::Vector3 direction = pOwner_->GetKnockBackDire();
 	acceleration_ = (direction * param_.knockStrength) * AOENGINE::GameTimer::DeltaTime();
 	velocity_ += acceleration_ * AOENGINE::GameTimer::DeltaTime();
-	pOwner_->GetTransform()->srt_.translate += velocity_;
+	srt.translate += velocity_;
+	pOwner_->GetTransform()->SetSRT(srt);
 
 	if (timer_ > param_.knockbackTime) {
 		stateMachine_->ChangeState<PlayerIdleState>();

@@ -53,11 +53,13 @@ void PlayerDeadState::OnExit() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerDeadState::Knockback() {
+	Math::QuaternionSRT srt = pOwner_->GetTransform()->GetSRT();
 	param_.knockStrength *= param_.knockDecay;
 
 	// ノックバック方向のベクトルを取得
 	Math::Vector3 direction = -pOwner_->GetTransform()->GetRotate().MakeForward();
 	acceleration_ = (direction * param_.knockStrength) * AOENGINE::GameTimer::DeltaTime();
 	velocity_ += acceleration_ * AOENGINE::GameTimer::DeltaTime();
-	pOwner_->GetTransform()->srt_.translate += velocity_;
+	srt.translate += velocity_;
+	pOwner_->GetTransform()->SetSRT(srt);
 }

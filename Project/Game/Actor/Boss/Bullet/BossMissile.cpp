@@ -52,20 +52,21 @@ void BossMissile::Init() {
 void BossMissile::Update() {
 	Accelerate();
 	Tracking();
+	Math::QuaternionSRT srt = transform_->GetSRT();
 
 	if (!lifeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		isAlive_ = false;
 	}
 	
-	if (std::abs(transform_->srt_.translate.x) >= deadLength_) {
+	if (std::abs(srt.translate.x) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= deadLength_) {
+	if (std::abs(srt.translate.y) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= deadLength_) {
+	if (std::abs(srt.translate.z) >= deadLength_) {
 		isAlive_ = false;
 	}
 
@@ -78,7 +79,7 @@ void BossMissile::Update() {
 
 void BossMissile::Reset(const Math::Vector3& pos, const Math::Vector3& velocity, const Math::Vector3& targetPosition,
 						float bulletSpeed, float firstSpeedRaito, float trackingRaito, bool isTracking) {
-	transform_->srt_.translate = pos;
+	transform_->SetTranslate(pos);
 	velocity_ = velocity;
 	targetPosition_ = targetPosition;
 	targetSpeed_ = bulletSpeed;
@@ -89,7 +90,7 @@ void BossMissile::Reset(const Math::Vector3& pos, const Math::Vector3& velocity,
 
 	if (!isTracking) {
 		finishTracking_ = true;
-		velocity_ = (targetPosition_ - transform_->srt_.translate).Normalize() * targetSpeed_;
+		velocity_ = (targetPosition_ - pos).Normalize() * targetSpeed_;
 	}
 
 	shotFrea_->SetPos(pos);
@@ -102,13 +103,15 @@ void BossMissile::Reset(const Math::Vector3& pos, const Math::Vector3& velocity,
 void BossMissile::Tracking() {
 	if (finishTracking_) { return; }
 
-	if ((targetPosition_ - transform_->srt_.translate).Length() > trackingLength_) {
+	Math::Vector3 pos = transform_->GetTranslate();
+
+	if ((targetPosition_ - pos).Length() > trackingLength_) {
 		// 最初の数秒は追尾しない
 		trackingTimer_ += AOENGINE::GameTimer::DeltaTime();
 		if (trackingTimer_ < trackingTime_) { return; }
 
 		// targetの方向に弾を撃つ
-		Math::Vector3 targetToDire = (targetPosition_ - transform_->srt_.translate).Normalize() * speed_;
+		Math::Vector3 targetToDire = (targetPosition_ - pos).Normalize() * speed_;
 		velocity_ = Math::Vector3::Lerp(velocity_, targetToDire, trackingRaito_);
 	} else {
 		finishTracking_ = true;

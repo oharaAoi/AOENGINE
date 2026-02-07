@@ -281,11 +281,11 @@ void Player::SetWeapon(BaseWeapon* _weapon, PlayerWeapon type) {
 
 void Player::LookTarget(float _rotateT_, bool isLockOn) {
 	if (isLockOn) {
-		Math::Vector3 toTarget = reticle_->GetTargetPos() - transform_->srt_.translate;
+		Math::Vector3 toTarget = reticle_->GetTargetPos() - transform_->GetTranslate();
 		toTarget.y = 0.0f; // Y軸の高さ成分を無視して水平方向ベクトルに
 		toTarget = toTarget.Normalize();
 		Math::Quaternion targetToRotate = Math::Quaternion::LookRotation(toTarget);
-		transform_->srt_.rotate = Math::Quaternion::Slerp(transform_->srt_.rotate, targetToRotate, 0.9f);
+		transform_->SetRotate(Math::Quaternion::Slerp(transform_->GetRotate(), targetToRotate, 0.9f));
 	} else {
 		transform_->SetRotate(object_->GetRigidbody()->LookVelocity(transform_->GetRotate(), _rotateT_));
 	}

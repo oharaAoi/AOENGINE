@@ -49,15 +49,16 @@ void LauncherBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LauncherBullet::Update() {
-	if (std::abs(transform_->srt_.translate.x) >= 200.0f) {
+	Math::Vector3 pos = transform_->GetTranslate();
+	if (std::abs(pos.x) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= 200.0f) {
+	if (std::abs(pos.y) >= 200.0f) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= 200.0f) {
+	if (std::abs(pos.z) >= 200.0f) {
 		isAlive_ = false;
 	}
 
@@ -70,9 +71,10 @@ void LauncherBullet::Update() {
 
 void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	if (other->GetCategoryName() == ColliderTags::None::own || other->GetCategoryName() == ColliderTags::Boss::own) {
+		Math::Vector3 pos = transform_->GetTranslate();
 		isAlive_ = false;
 		AOENGINE::BaseParticles* hitEffect = AOENGINE::ParticleManager::GetInstance()->CreateParticle("Expload");
-		hitEffect->SetPos(transform_->srt_.translate);
+		hitEffect->SetPos(pos);
 		hitEffect->Reset();
 
 		AOENGINE::AudioPlayer::SingleShotPlay("luncherHit.mp3", param_.hitSeVolume);
@@ -80,7 +82,7 @@ void LauncherBullet::OnCollision(AOENGINE::BaseCollider* other) {
 }
 
 void LauncherBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _velocity) {
-	transform_->srt_.translate = _pos;
+	transform_->SetTranslate(_pos);
 	velocity_ = _velocity;
 }
 

@@ -42,7 +42,7 @@ void PlayerActionTurnAround::OnStart() {
 	direction_ = pOwner_->GetFollowCamera()->GetAngleX().Rotate(Math::Vector3{ current.x, 0.0f, current.y });
 	float angle = std::atan2f(direction_.x, direction_.z);
 
-	prevRotate_ = pOwner_->GetTransform()->srt_.rotate;
+	prevRotate_ = pOwner_->GetTransform()->GetRotate();
 	targetRotate_ = Math::Quaternion::AngleAxis(angle, CVector3::UP);
 }
 
@@ -51,12 +51,15 @@ void PlayerActionTurnAround::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerActionTurnAround::OnUpdate() {
+	Math::QuaternionSRT srt = pOwner_->GetTransform()->GetSRT();
 	actionTimer_ += AOENGINE::GameTimer::DeltaTime();
 
 	float t = actionTimer_ / param_.rotateTime;
-	pOwner_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(prevRotate_, targetRotate_, t);
-	pOwner_->GetTransform()->srt_.translate += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
+	srt.rotate = Math::Quaternion::Slerp(prevRotate_, targetRotate_, t);
+	srt.translate += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
 	speed_ *= 0.9f;
+
+	pOwner_->GetTransform()->SetSRT(srt);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

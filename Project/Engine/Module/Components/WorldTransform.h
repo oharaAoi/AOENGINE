@@ -107,11 +107,17 @@ public:
 	const Math::Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 	const Math::Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
+	const Math::Vector3 GetPreTranslate() const { return preTranslate_; }
+	void SetPreTranslate(const Math::Vector3& preTranslate) { preTranslate_ = preTranslate; }
+
+	const Math::Vector3& GetTemporaryTranslate() const { return temporaryTranslate_; }
+	void SetTemporaryTranslate(const Math::Vector3& pos) { temporaryTranslate_ = pos; }
+
 	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
 
 	void SetOffset(const Math::Vector3& _offset) { offset_ = _offset; }
 
-public:
+private:
 
 	Math::QuaternionSRT srt_;
 	Math::Vector3 preTranslate_;
@@ -119,8 +125,6 @@ public:
 	// 一時的に座標を動かしたい時にこの変数に加算する
 	// 例) 浮遊させるときに浮遊の移動量をthisに足す
 	Math::Vector3 temporaryTranslate_{};
-
-private:
 
 	Math::Matrix4x4 worldMat_;
 	Math::Vector3 guiEulerDeg_;

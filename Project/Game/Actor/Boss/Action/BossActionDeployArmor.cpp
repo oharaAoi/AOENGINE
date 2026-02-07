@@ -69,8 +69,11 @@ void BossActionDeployArmor::Init() {
 
 void BossActionDeployArmor::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-	pTarget_->GetTransform()->temporaryTranslate_ = RandomVector3(Math::Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
-																  Math::Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue));
+	pTarget_->GetTransform()->SetTemporaryTranslate(
+		RandomVector3(
+			Math::Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
+			 Math::Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue)
+		));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

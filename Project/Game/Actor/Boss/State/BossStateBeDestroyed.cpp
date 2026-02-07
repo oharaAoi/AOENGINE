@@ -16,7 +16,7 @@ void BossStateBeDestroyed::OnStart() {
 	timer_ = 0.0f;
 	AOENGINE::GameTimer::SetTimeScale(param_.slowScale);
 
-	preRotate_ = pOwner_->GetTransform()->srt_.rotate;
+	preRotate_ = pOwner_->GetTransform()->GetRotate();
 	
 	Math::Quaternion pitchRotate = Math::Quaternion::AngleAxis(-45.0f * kToRadian, CVector3::RIGHT);
 	targetRotate_ = preRotate_ * pitchRotate;
@@ -32,7 +32,8 @@ void BossStateBeDestroyed::OnUpdate() {
 	// 時間の計測
 	float t = timer_ / param_.slowTime;
 	t = std::clamp(t, 0.0f, param_.slowTime);
-	pOwner_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(preRotate_, targetRotate_, t);
+	Math::Quaternion rotate = Math::Quaternion::Slerp(preRotate_, targetRotate_, t);
+	pOwner_->GetTransform()->SetRotate(rotate);
 
 	// スロウを基に戻す
 	if (timer_ > param_.slowTime) {

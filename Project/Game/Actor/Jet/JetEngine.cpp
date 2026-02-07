@@ -82,8 +82,10 @@ void JetEngine::Init() {
 	object_->SetObject("jet.obj", MaterialType::PBR);
 	
 	transform_ = object_->GetTransform();
-	transform_->srt_.translate = { 0.0f, 2.7f, -0.5f };
-	transform_->srt_.rotate = Math::Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
+	Math::QuaternionSRT srt = transform_->GetSRT();
+	srt.translate = { 0.0f, 2.7f, -0.5f };
+	srt.rotate = Math::Quaternion::AngleAxis(30.0f * kToRadian, CVector3::RIGHT);
+	transform_->SetSRT(srt);
 
 	// -------------------------------------
 	// effectの親にする空のTransform作成

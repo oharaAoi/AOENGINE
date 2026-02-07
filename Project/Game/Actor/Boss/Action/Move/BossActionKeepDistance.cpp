@@ -151,9 +151,12 @@ void BossActionKeepDistance::Spin() {
 }
 
 void BossActionKeepDistance::Stop() {
+	Math::QuaternionSRT srt = pTarget_->GetTransform()->GetSRT();
 	velocity_ *= std::exp(-param_.decayRate * AOENGINE::GameTimer::DeltaTime());
-	pTarget_->GetTransform()->srt_.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
+	srt.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
 
 	Math::Quaternion playerToRotate_ = Math::Quaternion::LookAt(pTarget_->GetPosition(), pTarget_->GetTargetPos());
-	pTarget_->GetTransform()->srt_.rotate = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
+	srt.rotate = Math::Quaternion::Slerp(pTarget_->GetTransform()->GetRotate(), playerToRotate_, param_.rotateT);
+
+	pTarget_->GetTransform()->SetSRT(srt);
 }

@@ -33,15 +33,16 @@ void PlayerBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBullet::Update() {
-	if (std::abs(transform_->srt_.translate.x) >= deadDistance_) {
+	Math::Vector3 pos = transform_->GetTranslate();
+	if (std::abs(pos.x) >= deadDistance_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= deadDistance_) {
+	if (std::abs(pos.y) >= deadDistance_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= deadDistance_) {
+	if (std::abs(pos.z) >= deadDistance_) {
 		isAlive_ = false;
 	}
 
@@ -62,7 +63,7 @@ void PlayerBullet::OnCollision(AOENGINE::BaseCollider* other) {
 }
 
 void PlayerBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
-	transform_->srt_.translate = pos;
+	transform_->SetTranslate(pos);
 	transform_->Update();
 	velocity_ = velocity;
 

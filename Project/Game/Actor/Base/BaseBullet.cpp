@@ -23,10 +23,12 @@ void BaseBullet::Init(const std::string& bulletName) {
 
 void BaseBullet::Update() {
 	if (!isAlive_) { return; };
-	transform_->srt_.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
+	Math::QuaternionSRT srt = transform_->GetSRT();
+	srt.translate += velocity_ * AOENGINE::GameTimer::DeltaTime();
 	if (velocity_.x != 0.0f || velocity_.y != 0.0f) {
-		transform_->srt_.rotate = Math::Quaternion::LookRotation(velocity_.Normalize());
+		srt.rotate = Math::Quaternion::LookRotation(velocity_.Normalize());
 	}
+	transform_->SetSRT(srt);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,8 +36,10 @@ void BaseBullet::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
-	transform_->srt_.translate = pos;
+	Math::QuaternionSRT srt = transform_->GetSRT();
+	srt.translate = pos;
 	velocity_ = velocity;
+	transform_->SetSRT(srt);
 }
 
 void BaseBullet::Debug_Gui() {

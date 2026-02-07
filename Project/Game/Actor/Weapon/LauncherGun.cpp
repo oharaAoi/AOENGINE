@@ -27,7 +27,7 @@ void LauncherGun::Init() {
 	attackParam_.Load();
 
 	object_->SetObject("launcher.obj", MaterialType::PBR);
-	transform_->srt_.rotate = Math::Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Math::Quaternion::AngleAxis(kHPI, CVector3::RIGHT);
+	transform_->SetRotate(Math::Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Math::Quaternion::AngleAxis(kHPI, CVector3::RIGHT));
 
 	// -------------------------------------------------
 	// ↓ Effect関連

@@ -94,7 +94,7 @@ void PlayerActionShotRight::Shot() {
 			Math::Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
 			pOwner_->Attack(PlayerWeapon::Right_Weapon, AttackContext(dire, CVector3::ZERO));
 		} else {
-			Math::Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
+			Math::Vector3 dire = pOwner_->GetTransform()->GetRotate().MakeForward();
 			pOwner_->Attack(PlayerWeapon::Right_Weapon, AttackContext(dire, CVector3::ZERO));
 		}
 

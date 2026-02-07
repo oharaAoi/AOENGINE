@@ -33,15 +33,16 @@ void BossBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBullet::Update() {
-	if (std::abs(transform_->srt_.translate.x) >= deadLength_) {
+	Math::QuaternionSRT srt = transform_->GetSRT();
+	if (std::abs(srt.translate.x) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.y) >= deadLength_) {
+	if (std::abs(srt.translate.y) >= deadLength_) {
 		isAlive_ = false;
 	}
 
-	if (std::abs(transform_->srt_.translate.z) >= deadLength_) {
+	if (std::abs(srt.translate.z) >= deadLength_) {
 		isAlive_ = false;
 	}
 
@@ -53,7 +54,7 @@ void BossBullet::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBullet::Reset(const Math::Vector3& pos, const Math::Vector3& velocity) {
-	transform_->srt_.translate = pos;
+	transform_->SetTranslate(pos);
 	velocity_ = velocity;
 }
 
