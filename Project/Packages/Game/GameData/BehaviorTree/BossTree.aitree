@@ -1,0 +1,175 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "aggressionAffinity": 0.10000000149011612,
+                                    "children": [],
+                                    "coolTime": 1.0,
+                                    "name": "TransitionPhase",
+                                    "nodePos": {
+                                        "x": 210.0,
+                                        "y": 678.0
+                                    },
+                                    "nodeType": 4,
+                                    "waitTime": 1.0,
+                                    "weight": 0.10000000149011612
+                                }
+                            ],
+                            "leftKey": "bossPhase",
+                            "leftKeyIndex": 1,
+                            "name": "Condition",
+                            "nodePos": {
+                                "x": 242.0,
+                                "y": 530.0
+                            },
+                            "nodeType": 7,
+                            "operatorIndex": 0,
+                            "rightKey": "firstPhase",
+                            "rightKeyIndex": 14
+                        }
+                    ],
+                    "leftKey": "hp",
+                    "leftKeyIndex": 8,
+                    "name": "Condition",
+                    "nodePos": {
+                        "x": 274.0,
+                        "y": 358.0
+                    },
+                    "nodeType": 7,
+                    "operatorIndex": 5,
+                    "rightKey": "halfHp",
+                    "rightKeyIndex": 5
+                },
+                {
+                    "children": [
+                        {
+                            "aggressionAffinity": 0.10000000149011612,
+                            "children": [],
+                            "coolTime": 1.0,
+                            "name": "DeployArmor",
+                            "nodePos": {
+                                "x": 482.0,
+                                "y": 726.0
+                            },
+                            "nodeType": 4,
+                            "waitTime": 1.0,
+                            "weight": 0.0
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "goalCondition": {
+                                        "leftKey": "isAttack",
+                                        "leftKeyIndex": 9,
+                                        "operatorIndex": 0,
+                                        "rightKey": "isTrue",
+                                        "rightKeyIndex": 3
+                                    },
+                                    "name": "TargetEnemy",
+                                    "nodePos": {
+                                        "x": 754.0,
+                                        "y": 774.0
+                                    },
+                                    "nodeType": 5,
+                                    "orientedName": "TargetDead",
+                                    "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/BossAttackTree.aitree"
+                                },
+                                {
+                                    "children": [],
+                                    "goalCondition": {
+                                        "leftKey": "BossToPlayer",
+                                        "leftKeyIndex": 0,
+                                        "operatorIndex": 4,
+                                        "rightKey": "SafeDistance",
+                                        "rightKeyIndex": 8
+                                    },
+                                    "name": "SafeDistance",
+                                    "nodePos": {
+                                        "x": 930.0,
+                                        "y": 774.0
+                                    },
+                                    "nodeType": 5,
+                                    "orientedName": "SafeDistance",
+                                    "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/SafeDistanceTree.aitree"
+                                }
+                            ],
+                            "name": "PlannerSelector",
+                            "nodePos": {
+                                "x": 834.0,
+                                "y": 626.0
+                            },
+                            "nodeType": 6
+                        }
+                    ],
+                    "leftKey": "isDeployingArmor",
+                    "leftKeyIndex": 11,
+                    "name": "Condition",
+                    "nodePos": {
+                        "x": 469.0,
+                        "y": 338.0
+                    },
+                    "nodeType": 7,
+                    "operatorIndex": 0,
+                    "rightKey": "isTrue",
+                    "rightKeyIndex": 10
+                }
+            ],
+            "name": "Selector",
+            "nodePos": {
+                "x": 463.0,
+                "y": 182.0
+            },
+            "nodeType": 2
+        }
+    ],
+    "comments": [
+        {
+            "id": 100,
+            "min": {
+                "x": 432.0,
+                "y": 576.0
+            },
+            "size": {
+                "x": 234.0,
+                "y": 304.0
+            },
+            "text": "バリアを張る"
+        },
+        {
+            "id": 10000,
+            "min": {
+                "x": 720.0,
+                "y": 544.0
+            },
+            "size": {
+                "x": 400.0,
+                "y": 360.0
+            },
+            "text": "攻撃 か 回避"
+        },
+        {
+            "id": 10001,
+            "min": {
+                "x": -247.0,
+                "y": 326.0
+            },
+            "size": {
+                "x": 347.0,
+                "y": 427.0
+            },
+            "text": "第二形態に遷移"
+        }
+    ],
+    "name": "Root",
+    "nodePos": {
+        "x": 466.0,
+        "y": 38.0
+    },
+    "nodeType": 0
+}

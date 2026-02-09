@@ -69,7 +69,7 @@ void ShortRangeEnemy::Init() {
 	behaviorTree_->Register("Attack", [this]() { return CreateTask<EnemyActionAttack>(this, "Attack"); });
 	behaviorTree_->Register("QuickDash", [this]() { return CreateTask<EnemyActionQuickDash>(this, "QuickDash"); });
 	behaviorTree_->Register("StepBack", [this]() { return CreateTask<EnemyActionStepBack>(this, "StepBack"); });
-	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "ShortRangeEnemyTree.aitree");
+	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "ShortRangeEnemyTree.aitree");
 	behaviorTree_->SetExecute(false);
 
 	transform_->SetOffset(param_.translateOffset);

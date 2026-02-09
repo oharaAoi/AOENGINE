@@ -1,0 +1,13 @@
+{
+    "Pipeline": {
+        "vs": "./Project/Packages/Engine/HLSL/Particle/GpuParticle.VS.hlsl",
+        "ps": "./Project/Packages/Engine/HLSL/Particle/GpuParticle.PS.hlsl",
+        "blendMode": "Add",
+        "cullingType" : "BACK",
+        "depth" : false, 
+        "rtvFormat" : [
+            "16_RGB",
+            "16_RGB"
+        ]
+    }
+}

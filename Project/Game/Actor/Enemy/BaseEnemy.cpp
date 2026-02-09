@@ -43,7 +43,7 @@ void BaseEnemy::InitCommon() {
 	// ↓ アニメションの追加
 	// ----------------------
 	object_->SetObject("enemy.gltf", MaterialType::PBR);
-	object_->SetAnimator("./Project/Packages/Game/Assets/Load/Models/Enemy/", "enemy.gltf", true, true, false);
+	object_->SetAnimator("./Project/Packages/Game/Load/Models/Enemy/", "enemy.gltf", true, true, false);
 	object_->GetAnimator()->GetAnimationClip()->PoseToAnimation("pause");
 
 	// ----------------------

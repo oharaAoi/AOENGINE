@@ -5,7 +5,7 @@
 namespace fs = std::filesystem;
 using namespace AOENGINE;
 
-const std::string JsonItems::sDirectoryPath_ = "./Project/Packages/Game/Assets/GameData/JsonItems/";
+const std::string JsonItems::sDirectoryPath_ = "./Project/Packages/Game/GameData/JsonItems/";
 
 JsonItems* JsonItems::GetInstance() {
 	static JsonItems instance;

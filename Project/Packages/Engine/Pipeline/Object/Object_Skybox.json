@@ -1,0 +1,13 @@
+{
+    "Pipeline": {
+        "vs": "./Project/Packages/Engine/HLSL/Skybox.VS.hlsl",
+        "ps": "./Project/Packages/Engine/HLSL/Skybox.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType" : "BACK",
+        "depth" : false,
+        "rtvFormat" : [
+            "16_RGB",
+            "16_RGB"
+        ]
+    }
+}

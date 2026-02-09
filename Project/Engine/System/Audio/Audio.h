@@ -51,6 +51,11 @@ struct AudioData {
 	IXAudio2SourceVoice* pSourceVoice;
 };
 
+struct PlayingSound {
+	IXAudio2SourceVoice* pSourceVoice;
+	std::vector<BYTE> buffer;
+};
+
 /// <summary>
 /// 音を管理するクラス
 /// </summary>
@@ -161,7 +166,7 @@ private:
 	ComPtr<IXAudio2> xAudio2_;
 	IXAudio2MasteringVoice* masterVoice_;
 
-	std::list<IXAudio2SourceVoice*> playingSourceList_;
+	std::list<PlayingSound> playingSourceList_;
 
 	static float masterVolume_;
 };

@@ -17,7 +17,7 @@ void TestScene::Init() {
 
 	AOENGINE::Render::GetLightGroup()->Load();
 
-	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
+	LoadScene("./Project/Packages/Game/Scene/", "template", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

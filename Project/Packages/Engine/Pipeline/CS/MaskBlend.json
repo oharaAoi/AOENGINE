@@ -1,0 +1,5 @@
+{
+    "Pipeline": {
+        "cs" : "./Project/Packages/Engine/HLSL/CS/MaskBlend.CS.hlsl"
+    }
+}

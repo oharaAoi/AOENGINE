@@ -67,7 +67,7 @@ void LongRangeEnemy::Init() {
 	behaviorTree_->Register("Approach", [this]() { return CreateTask<EnemyActionApproach>(this, "Approach"); });
 	behaviorTree_->Register("Attack", [this]() { return CreateTask<EnemyActionAttack>(this, "Attack"); });
 	behaviorTree_->Register("QuickDash", [this]() { return CreateTask<EnemyActionQuickDash>(this, "QuickDash"); });
-	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "LongRangeEnemyTree.aitree");
+	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "LongRangeEnemyTree.aitree");
 	behaviorTree_->SetExecute(false);
 
 	transform_->SetOffset(param_.translateOffset);

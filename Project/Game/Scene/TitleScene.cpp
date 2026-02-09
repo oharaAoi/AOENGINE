@@ -18,7 +18,7 @@ void TitleScene::Init() {
 	adjust->Init();
 
 	LoadSceneEffect();
-	LoadScene("./Project/Packages/Game/Assets/Scene/", "template", ".json");
+	LoadScene("./Project/Packages/Game/Scene/", "template", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

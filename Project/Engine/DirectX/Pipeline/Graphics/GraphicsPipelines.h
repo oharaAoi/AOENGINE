@@ -83,16 +83,16 @@ public :
 private:
 
 	const AssetPaths kEngineAssets = {
-		"./Project/Packages/Engine/Assets/Pipeline/Object/",
-		"./Project/Packages/Engine/Assets/Pipeline/Sprite/",
-		"./Project/Packages/Engine/Assets/Pipeline/PostProcess/",
-		"./Project/Packages/Engine/Assets/Pipeline/Primitive/",
+		"./Project/Packages/Engine/Pipeline/Object/",
+		"./Project/Packages/Engine/Pipeline/Sprite/",
+		"./Project/Packages/Engine/Pipeline/PostProcess/",
+		"./Project/Packages/Engine/Pipeline/Primitive/",
 	};
 
 	const AssetPaths kGameAssets = {
-		"./Project/Packages/Game/Assets/Pipeline/Object/",
-		"./Project/Packages/Game/Assets/Pipeline/Sprite/",
-		"./Project/Packages/Game/Assets/Pipeline/PostProcess/",
+		"./Project/Packages/Game/Pipeline/Object/",
+		"./Project/Packages/Game/Pipeline/Sprite/",
+		"./Project/Packages/Game/Pipeline/PostProcess/",
 		""
 	};
 

@@ -345,7 +345,7 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 void ParticleSystemEditor::OpenLoadDialog() {
 	// configデータを作成する
 	IGFD::FileDialogConfig config;
-	config.path = "./Game/Assets/Load/Particles/"; // 初期ディレクトリ
+	config.path = "./Game/Load/Particles/"; // 初期ディレクトリ
 
 	// Dialogを開く
 	ImGuiFileDialog::Instance()->OpenDialog(
@@ -508,7 +508,7 @@ void AOENGINE::ParticleSystemEditor::ResizeBuffer() {
 void ParticleSystemEditor::OpenSaveDialog(const std::string& _name, const json& _jsonData) {
 	// configデータを作成する
 	IGFD::FileDialogConfig config;
-	config.path = "Project/Packages/Game/Assets/GameData/"; // 初期ディレクトリ
+	config.path = "Project/Packages/Game/GameData/"; // 初期ディレクトリ
 	config.fileName = _name; // 初期ファイル名
 	config.flags = ImGuiFileDialogFlags_ConfirmOverwrite; // ←ここ！
 	

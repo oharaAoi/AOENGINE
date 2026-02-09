@@ -34,7 +34,7 @@ void GameScene::Init() {
 	// -------------------------------------------------
 
 	LoadSceneEffect();
-	LoadScene("./Project/Packages/Game/Assets/Scene/", "TL", ".json");
+	LoadScene("./Project/Packages/Game/Scene/", "TL", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

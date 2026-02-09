@@ -1,0 +1,27 @@
+{
+    "jetBurnCenterParameter": {
+        "color": {
+            "a": 1.0,
+            "b": 0.800000011920929,
+            "g": 0.800000011920929,
+            "r": 1.0
+        },
+        "rotate": {
+            "w": 1.0,
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scale": {
+            "x": 0.25999999046325684,
+            "y": -0.6600000262260437,
+            "z": 0.25
+        },
+        "shaderGraphPath": ".\\Project\\Packages\\Game\\GameData\\ShaderGraph\\jetBurn.json",
+        "translate": {
+            "x": 0.0,
+            "y": -0.699999988079071,
+            "z": 0.0
+        }
+    }
+}

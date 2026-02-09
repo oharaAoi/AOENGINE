@@ -141,7 +141,7 @@ void Boss::Init() {
 	behaviorTree_->Register("AdjustHeight", [this]() { return CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"); });
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
-	behaviorTree_->CreateTree("./Project/Packages/Game/Assets/GameData/BehaviorTree/", "BossTree.aitree");
+	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "BossTree.aitree");
 	behaviorTree_->SetExecute(false);
 
 	// -------------------------------------------------

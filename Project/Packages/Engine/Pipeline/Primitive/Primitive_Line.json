@@ -1,0 +1,14 @@
+{
+    "Pipeline": {
+        "vs": "./Project/Packages/Engine/HLSL/Primitive.VS.hlsl",
+        "ps": "./Project/Packages/Engine/HLSL/Primitive.PS.hlsl",
+        "blendMode": "None",
+        "cullingType" : "BACK",
+        "depth" : false,
+        "rtvFormat" : [
+            "16_RGB",
+            "16_RGB"
+        ],
+        "primitiveTopologyType" : "Line"
+    }
+}

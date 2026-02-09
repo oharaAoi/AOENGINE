@@ -37,7 +37,7 @@ void TutorialScene::Init() {
 	collisionManager_->Init();
 
 	LoadSceneEffect();
-	LoadScene("./Project/Packages/Game/Assets/Scene/", "tutorial", ".json");
+	LoadScene("./Project/Packages/Game/Scene/", "tutorial", ".json");
 
 	// -------------------------------------------------
 	// ↓ cameraの初期化

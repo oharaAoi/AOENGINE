@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "./Project/Packages/Engine/HLSL/Sprite.VS.hlsl",
+        "ps": "./Project/Packages/Engine/HLSL/Sprite.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType" : "BACK",
+        "depth" : false,
+        "rtvFormat" : [
+            "8_sRGB"
+        ]
+    }
+}

@@ -23,7 +23,7 @@ bool ButtonOpenDialog(const char* buttonLabel, const char* dialogKey, const char
 
 	if (ImGui::Button(buttonLabel)) {
 		IGFD::FileDialogConfig config;
-		config.path = "./Game/Assets/";
+		config.path = "./Game/";
 		ImGuiFileDialog::Instance()->OpenDialog(dialogKey, windowTitle, filter, config);
 		isDialogOpen = true;
 	}

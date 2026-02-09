@@ -9,9 +9,12 @@ Audio::~Audio() {
 }
 
 void Audio::Finalize() {
-	for (IXAudio2SourceVoice* sourceVoice : playingSourceList_) {
-		if (sourceVoice) {
-			sourceVoice->DestroyVoice();  // ボイスを解放
+	for (PlayingSound sourceVoice : playingSourceList_) {
+		if (sourceVoice.pSourceVoice) {
+			sourceVoice.pSourceVoice->DestroyVoice();  // ボイスを解放
+		}
+		if (!sourceVoice.buffer.empty()) {
+			sourceVoice.buffer.clear();
 		}
 	}
 	playingSourceList_.clear();
@@ -32,11 +35,12 @@ void Audio::Init() {
 void Audio::Update() {
 	for (auto it = playingSourceList_.begin(); it != playingSourceList_.end(); ) {
 		XAUDIO2_VOICE_STATE state;
-		(*it)->GetState(&state);
+		(*it).pSourceVoice->GetState(&state);
 
 		if (state.BuffersQueued == 0) {
 			// ボイスが再生終了した場合
-			(*it)->DestroyVoice();  // リソースの解放
+			(*it).pSourceVoice->DestroyVoice();  // リソースの解放
+			(*it).buffer.clear();
 			it = playingSourceList_.erase(it); // リストから削除
 		} else {
 			++it; // 次のボイスへ
@@ -185,12 +189,17 @@ SoundData Audio::LoadMP3(const wchar_t* filename) {
 		IMFMediaBuffer* pMFMediaBuffer{ nullptr };
 		pMFSample->ConvertToContiguousBuffer(&pMFMediaBuffer);
 
-		BYTE* pBuffer{ nullptr };
+		BYTE* pRawBuffer{ nullptr };
 		DWORD cbCurrentLength{ 0 };
-		pMFMediaBuffer->Lock(&pBuffer, nullptr, &cbCurrentLength);
+		pMFMediaBuffer->Lock(&pRawBuffer, nullptr, &cbCurrentLength);
 
-		audioData.resize(audioData.size() + cbCurrentLength);
-		memcpy(audioData.data() + audioData.size() - cbCurrentLength, pBuffer, cbCurrentLength);
+		std::vector<BYTE> temp(cbCurrentLength);
+		memcpy(temp.data(), pRawBuffer, cbCurrentLength);
+
+		// audioData に追記
+		size_t oldSize = audioData.size();
+		audioData.resize(oldSize + cbCurrentLength);
+		memcpy(audioData.data() + oldSize, temp.data(), cbCurrentLength);
 
 		pMFMediaBuffer->Unlock();
 
@@ -326,6 +335,8 @@ void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, boo
 }
 
 void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
+	PlayingSound playingSound{};
+
 	// 読み込んだ音声データをreturn
 	AudioData audio = {};
 	audio.data.wfex = loadAudioData.wfex;
@@ -349,7 +360,10 @@ void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	hr = audio.pSourceVoice->Start();
 	assert(SUCCEEDED(hr));
 
-	playingSourceList_.push_back(audio.pSourceVoice);
+	playingSound.pSourceVoice = audio.pSourceVoice;
+	playingSound.buffer = loadAudioData.pBuffer;
+
+	playingSourceList_.push_back(std::move(playingSound));
 }
 
 /// <summary>

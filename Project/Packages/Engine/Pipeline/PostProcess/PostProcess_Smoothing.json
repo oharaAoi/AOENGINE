@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "./Project/Packages/Engine/HLSL/PostEffect/ProcessedScene.VS.hlsl",
+        "ps": "./Project/Packages/Engine/HLSL/PostEffect/Smoothing.PS.hlsl",
+        "blendMode": "None",
+        "cullingType" : "BACK",
+        "depth" : false,
+        "rtvFormat" : [
+            "16_RGB"
+        ]
+    }
+}
