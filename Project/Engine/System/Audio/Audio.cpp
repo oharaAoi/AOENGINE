@@ -1,4 +1,8 @@
 #include "Audio.h"
+#include <mfapi.h>
+#include <mfobjects.h>
+#include <mfreadwrite.h>
+#include <mmreg.h>
 
 using namespace AOENGINE;
 
@@ -213,18 +217,22 @@ SoundData Audio::LoadMP3(const wchar_t* filename) {
 	soundData.bufferSize = static_cast<uint32_t>(soundData.pBuffer.size());
 
 	// フォーマット情報を取得
-	hr = pOutputType->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, reinterpret_cast<UINT32*>(&soundData.wfex.nChannels));
-	hr = pOutputType->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, reinterpret_cast<UINT32*>(&soundData.wfex.nSamplesPerSec));
-	hr = pOutputType->GetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, reinterpret_cast<UINT32*>(&soundData.wfex.wBitsPerSample));
+	WAVEFORMATEX* pWfx = nullptr;
+	UINT32 wfxSize = 0;
 
-	soundData.wfex.wFormatTag = WAVE_FORMAT_PCM;
-	soundData.wfex.nBlockAlign = soundData.wfex.nChannels * soundData.wfex.wBitsPerSample / 8;
-	soundData.wfex.nAvgBytesPerSec = soundData.wfex.nSamplesPerSec * soundData.wfex.nBlockAlign;
+	hr = MFCreateWaveFormatExFromMFMediaType(pOutputType, &pWfx, &wfxSize);
+	if (FAILED(hr)) {
+		pOutputType->Release();
+		pReader->Release();
+		MFShutdown();
+		throw std::runtime_error("Failed to create WaveFormat from MediaType.");
+	}
+
+	// SoundData にコピー
+	memcpy(&soundData.wfex, pWfx, sizeof(WAVEFORMATEX));
 
 	// 後始末
-	pOutputType->Release();
-	pReader->Release();
-	MFShutdown();
+	CoTaskMemFree(pWfx);
 
 	return soundData;
 }
@@ -337,31 +345,24 @@ void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, boo
 void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	PlayingSound playingSound{};
 
-	// 読み込んだ音声データをreturn
-	AudioData audio = {};
-	audio.data.wfex = loadAudioData.wfex;
-	audio.data.pBuffer = loadAudioData.pBuffer;
-	audio.data.bufferSize = loadAudioData.bufferSize;
-	HRESULT hr = xAudio2_->CreateSourceVoice(&audio.pSourceVoice, &audio.data.wfex);
-	assert(SUCCEEDED(hr));
-
-	// 再生する波形データの設定
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = audio.data.pBuffer.data();
-	buf.AudioBytes = audio.data.bufferSize;
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-	buf.LoopCount = 0; // ループしない
-
-	// 波形データの再生
-	hr = audio.pSourceVoice->SubmitSourceBuffer(&buf);
-	assert(SUCCEEDED(hr));
-	hr = audio.pSourceVoice->SetVolume(volume * masterVolume_);
-	assert(SUCCEEDED(hr));
-	hr = audio.pSourceVoice->Start();
-	assert(SUCCEEDED(hr));
-
-	playingSound.pSourceVoice = audio.pSourceVoice;
+	// ★ 再生中保持するバッファにコピー
 	playingSound.buffer = loadAudioData.pBuffer;
+
+	HRESULT hr = xAudio2_->CreateSourceVoice(&playingSound.pSourceVoice, &loadAudioData.wfex);
+	assert(SUCCEEDED(hr));
+
+	XAUDIO2_BUFFER buf{};
+	buf.pAudioData = playingSound.buffer.data();               // ★ ここが超重要
+	buf.AudioBytes = (UINT32)playingSound.buffer.size();
+	buf.Flags = XAUDIO2_END_OF_STREAM;
+	buf.LoopCount = 0;
+
+	hr = playingSound.pSourceVoice->SubmitSourceBuffer(&buf);
+	assert(SUCCEEDED(hr));
+	hr = playingSound.pSourceVoice->SetVolume(volume * masterVolume_);
+	assert(SUCCEEDED(hr));
+	hr = playingSound.pSourceVoice->Start();
+	assert(SUCCEEDED(hr));
 
 	playingSourceList_.push_back(std::move(playingSound));
 }
