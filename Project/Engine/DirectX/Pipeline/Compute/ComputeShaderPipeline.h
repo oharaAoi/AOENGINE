@@ -1,6 +1,6 @@
 #pragma once
 // PSO
-#include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
+#include "Engine/DirectX/Pipeline/IPipelineGroup.h"
 
 
 enum class CsPipelineType {

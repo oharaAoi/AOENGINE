@@ -360,10 +360,10 @@
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Blend.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Parts\Blend.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\InputLayout.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Parts\InputLayout.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
@@ -372,28 +372,28 @@
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\IPipelineGroup.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\PostProcess\ProcessedScenePipelines.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.h">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h">
@@ -1464,10 +1464,10 @@
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Blend.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Parts\Blend.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\InputLayout.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Parts\InputLayout.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
@@ -1476,28 +1476,28 @@
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipeline.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ComputeShaderPipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\GraphicsPipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\IPipelineGroup.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\IPipelineGroup.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\Object3dPipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\PrimitivePipeline.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\ProcessedScenePipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\PostProcess\ProcessedScenePipelines.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\PipelineGroup\SpritePipelines.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.cpp">
       <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp">

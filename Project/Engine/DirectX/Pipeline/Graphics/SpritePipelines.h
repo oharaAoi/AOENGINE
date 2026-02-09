@@ -1,5 +1,5 @@
 #pragma once
-#include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
+#include "Engine/DirectX/Pipeline/IPipelineGroup.h"
 
 enum class SpritePSO {
 	None,		// ブレンドなし

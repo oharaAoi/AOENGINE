@@ -1,40 +1,47 @@
 #pragma once
-#include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
+#include "Engine/DirectX/Pipeline/IPipelineGroup.h"
 
-enum class ProcessedScenePSO {
+enum class Object3dPSO {
 	Normal,
-	Grayscale,
-	RadialBlur,
-	GlitchNoise,
-	Vignette,
+	NormalCut,
+	NormalEnviroment,
+	Add,
+	TextureLess,
+	Particle,
+	SubParticle,
+	PBR,
+	Skybox,
+	TextureBlendNone,
+	TextureBlendNormal,
+	TextureBlendAdd,
 };
 
 namespace AOENGINE {
 
 /// <summary>
-/// Scene全体の描画が終わった後に行うような処理のPipelineをまとめたクラス
+/// 3dObjectを描画するためのPipelineをまとめたクラス
 /// </summary>
-class ProcessedScenePipelines :
+class Object3dPipelines :
 	public IPipelineGroup {
 public: // コンストラクタ
 
-	ProcessedScenePipelines() = default;
-	~ProcessedScenePipelines() override;
+	Object3dPipelines() = default;
+	~Object3dPipelines() override;
 
 public:
 
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	/// <param name="device">: デバイス</param>
-	/// <param name="dxCompiler">: コンパイラ</param>
-	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) override;
+	/// <param name="device"></param>
+	/// <param name="dxCompiler"></param>
+	void Init(ID3D12Device* _device, AOENGINE::DirectXCompiler* _dxCompiler) override;
 
 	/// <summary>
 	/// パイプラインの設定
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	/// <param name="typeName">: パイプラインのファイル名</param>
+	/// <param name="typeName">: パイプラインのタイプ</param>
 	void SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName);
 
 	/// <summary>

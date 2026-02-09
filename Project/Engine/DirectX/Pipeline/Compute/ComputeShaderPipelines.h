@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipeline.h"
+#include "Engine/DirectX/Pipeline/Compute/ComputeShaderPipeline.h"
 
 namespace AOENGINE {
 

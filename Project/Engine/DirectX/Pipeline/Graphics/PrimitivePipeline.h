@@ -1,32 +1,17 @@
 #pragma once
-#include "Engine/DirectX/Pipeline/PipelineGroup/IPipelineGroup.h"
-
-enum class Object3dPSO {
-	Normal,
-	NormalCut,
-	NormalEnviroment,
-	Add,
-	TextureLess,
-	Particle,
-	SubParticle,
-	PBR,
-	Skybox,
-	TextureBlendNone,
-	TextureBlendNormal,
-	TextureBlendAdd,
-};
+#include "Engine/DirectX/Pipeline/IPipelineGroup.h"
 
 namespace AOENGINE {
 
 /// <summary>
-/// 3dObjectを描画するためのPipelineをまとめたクラス
+/// 線描がのパイプライン
 /// </summary>
-class Object3dPipelines :
+class PrimitivePipeline :
 	public IPipelineGroup {
 public: // コンストラクタ
 
-	Object3dPipelines() = default;
-	~Object3dPipelines() override;
+	PrimitivePipeline() = default;
+	~PrimitivePipeline() override;
 
 public:
 

@@ -7,8 +7,8 @@
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/GraphicsPipelines.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
+#include "Engine/DirectX/Pipeline/Graphics/GraphicsPipelines.h"
+#include "Engine/DirectX/Pipeline/Graphics/PrimitivePipeline.h"
 
 namespace AOENGINE {
 

@@ -1,9 +1,10 @@
 #pragma once
 #include <string>
-#include "Engine/DirectX/Pipeline/PipelineGroup/Object3dPipelines.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/SpritePipelines.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/ProcessedScenePipelines.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/PrimitivePipeline.h"
+#include "Engine/DirectX/Pipeline/Graphics/Object3dPipelines.h"
+#include "Engine/DirectX/Pipeline/Graphics/SpritePipelines.h"
+#include "Engine/DirectX/Pipeline/Graphics/PrimitivePipeline.h"
+#include "Engine/DirectX/Pipeline/PostProcess/ProcessedScenePipelines.h"
+#include "Engine/DirectX/Pipeline/Parts/InputLayout.h"
 
 enum class PSOType{
 	Object3d,

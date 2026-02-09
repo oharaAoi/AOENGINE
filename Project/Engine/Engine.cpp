@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/WinApp/WinApp.h"
-#include "Engine/DirectX/Pipeline/PipelineGroup/ComputeShaderPipelines.h"
+#include "Engine/DirectX/Pipeline/Compute/ComputeShaderPipelines.h"
 #include "Engine/System/Collision/ColliderCollector.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/AssetsManager.h"
