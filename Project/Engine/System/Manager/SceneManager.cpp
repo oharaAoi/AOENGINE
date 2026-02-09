@@ -145,15 +145,7 @@ void AOENGINE::SceneManager::SaveScene() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::SceneManager::ResetManager() {
-	AOENGINE::PostProcess* postProcess = Engine::GetPostProcess();
-	AOENGINE::EditorWindows::AddObjectWindow(postProcess, "PostProcess");
-
-	AOENGINE::LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
-	lightGroup->GetDirectionalLight()->Reset();
-	AOENGINE::EditorWindows::AddObjectWindow(lightGroup, "LightGroup");
-
-	AOENGINE::ShadowMap* shadowMap = AOENGINE::Render::GetShadowMap();
-	AOENGINE::EditorWindows::AddObjectWindow(shadowMap, "ShadowMap");
+	Engine::RegisterEditorWindowSystem();
 
 	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();
 	AOENGINE::GpuParticleManager* gpuManager = AOENGINE::GpuParticleManager::GetInstance();

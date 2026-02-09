@@ -117,7 +117,6 @@ DirectX::ScratchImage TextureManager::LoadMipImage(const std::string& directoryP
 	} else {
 		hr = DirectX::LoadFromWICFile(filePathW.c_str(), DirectX::WIC_FLAGS_FORCE_SRGB, nullptr, image);
 	}
-
 	assert(SUCCEEDED(hr));
 
 	// ミニマップの作成
@@ -244,8 +243,9 @@ std::string TextureManager::SelectTexture(const std::string& filePath) {
 				std::string extension(ext);
 
 				// 拡張子でフィルタ
-				if ((extension != "png") && (extension != "jpeg"))
+				if ((extension != "png") && (extension != "jpeg") && (extension != "dds")) {
 					continue;
+				}
 
 				// 検索文字列でフィルタ
 				if (searchBuffer[0] != '\0') {

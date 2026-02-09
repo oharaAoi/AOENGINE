@@ -420,6 +420,7 @@ bool Engine::WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScr
 
 void Engine::RegisterEditorWindowSystem() {
 	editorWindows_->AddObjectWindow(render_->GetLightGroup(), "LightGroup");
+	editorWindows_->AddObjectWindow(render_->GetShadowMap(), "ShadowMap");
 	editorWindows_->AddObjectWindow(postProcess_.get(), "PostProcess");
 	editorWindows_->AddObjectWindow(canvas2d_.get(), "Canvas2d");
 }
