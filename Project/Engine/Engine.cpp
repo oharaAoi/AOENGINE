@@ -77,76 +77,23 @@ namespace {
 void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle) {
 	CoInitializeEx(0, COINIT_MULTITHREADED);
 
-	// -------------------------------------------------
-	// ↓ インスタンスの作成
-	// -------------------------------------------------
-	winApp_ = WinApp::GetInstance();
-	textureManager_ = AOENGINE::TextureManager::GetInstance();
-	input_ = AOENGINE::Input::GetInstance();
-	render_ = AOENGINE::Render::GetInstance();
-	editorWindows_ = AOENGINE::EditorWindows::GetInstance();
+	InitCoreInstances();
 
 	winApp_->CreateGameWindow(_backBufferWidth, _backBufferHeight, _windowTitle);
 	
-	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
+	InitGraphics();
 
-	processedSceneFrame_ = std::make_unique<ProcessedSceneFrame>();
-	audio_ = std::make_unique<Audio>();
-
-	postProcess_ = std::make_unique<PostProcess>();
-
-	JsonItems* adjust = JsonItems::GetInstance();
-	adjust->Init();
-
-	// -------------------------------------------------
-	// ↓ 各初期化
-	// -------------------------------------------------
-	
-	graphicsCxt_ = AOENGINE::GraphicsContext::GetInstance();
-	graphicsCxt_->Init(winApp_, winApp_->sClientWidth, winApp_->sClientHeight);
-
-	dxDevice_ = graphicsCxt_->GetDevice();
-	dxCmdList_ = graphicsCxt_->GetCommandList();
-	dxHeap_ = graphicsCxt_->GetDxHeap();
-	dxCommon_ = graphicsCxt_->GetDxCommon();
-
-	graphicsPipeline_ = graphicsCxt_->GetGraphicsPipeline();
-	
-	renderTarget_ = graphicsCxt_->GetRenderTarget();
-
-	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_, graphicsCxt_->GetDxResourceManager());
-	computeShaderPipelines_->Init(dxDevice_, graphicsCxt_->GetDxCompiler());
-	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
-	processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
-
-	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
-	geometryFactory.Init();
+	InitSystem();
 
 #ifdef _DEBUG
-	imguiManager_ = ImGuiManager::GetInstance();
-	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
+	InitImgui();
 #endif
 
-	AssetsManager::GetInstance()->Init();
-
-#ifdef _DEBUG
-	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
-	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
-	editorWindows_->SetRenderTarget(renderTarget_);
-#endif
-
-	render_->Init(dxCmdList_, dxDevice_, graphicsCxt_->GetRenderTarget());
-	audio_->Init();
+	InitResources();
 	
-	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
-
-	canvas2d_ = std::make_unique<AOENGINE::Canvas2d>();
-	canvas2d_->Init();
 #ifdef _DEBUG
-	editorWindows_->SetCanvas2d(canvas2d_.get());
+	InitEditor();
 #endif
-	blendTexture_ = std::make_unique<BlendTexture>();
-	blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
@@ -161,6 +108,98 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 	
 	AOENGINE::Logger::Log("Engine Initialize complete!\n");
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Engineのコアとなる機能のインスタンスを生成する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::InitCoreInstances() {
+	winApp_ = WinApp::GetInstance();
+	input_ = AOENGINE::Input::GetInstance();
+	render_ = AOENGINE::Render::GetInstance();
+	editorWindows_ = AOENGINE::EditorWindows::GetInstance();
+	textureManager_ = AOENGINE::TextureManager::GetInstance();
+
+	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
+	processedSceneFrame_	= std::make_unique<ProcessedSceneFrame>();
+	postProcess_			= std::make_unique<PostProcess>();
+	audio_					= std::make_unique<Audio>();
+	blendTexture_			= std::make_unique<BlendTexture>();
+	canvas2d_				= std::make_unique<AOENGINE::Canvas2d>();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　グラフィック関連のクラスの初期化を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::InitGraphics() {
+	graphicsCxt_ = AOENGINE::GraphicsContext::GetInstance();
+	graphicsCxt_->Init(winApp_, winApp_->sClientWidth, winApp_->sClientHeight);
+
+	dxDevice_	= graphicsCxt_->GetDevice();
+	dxCmdList_	= graphicsCxt_->GetCommandList();
+	dxHeap_		= graphicsCxt_->GetDxHeap();
+	dxCommon_	= graphicsCxt_->GetDxCommon();
+
+	graphicsPipeline_ = graphicsCxt_->GetGraphicsPipeline();
+	renderTarget_ = graphicsCxt_->GetRenderTarget();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　System関連のクラスの初期化を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::InitSystem() {
+	JsonItems* adjust = JsonItems::GetInstance();
+	adjust->Init();
+
+	computeShaderPipelines_->Init(dxDevice_, graphicsCxt_->GetDxCompiler());
+	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
+	render_->Init(dxCmdList_, dxDevice_, graphicsCxt_->GetRenderTarget());
+	audio_->Init();
+	canvas2d_->Init();
+	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Resource関連のクラスの初期化を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::InitResources() {
+	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_, graphicsCxt_->GetDxResourceManager());
+	processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
+
+	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
+	geometryFactory.Init();
+
+	AssetsManager::GetInstance()->Init();
+
+	blendTexture_->Init(graphicsCxt_->GetDxResourceManager());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ImGuiの初期化を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _DEBUG
+void Engine::InitImgui() {
+	imguiManager_ = ImGuiManager::GetInstance();
+	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Editorの初期化を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::InitEditor() {
+	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
+	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
+	editorWindows_->SetRenderTarget(renderTarget_);
+	editorWindows_->SetCanvas2d(canvas2d_.get());
+
+	RegisterEditorWindowSystem();
+}
+#endif
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,7 +415,17 @@ bool Engine::WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScr
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　w
+// ↓　EditorWindowに登録を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Engine::RegisterEditorWindowSystem() {
+	editorWindows_->AddObjectWindow(render_->GetLightGroup(), "LightGroup");
+	editorWindows_->AddObjectWindow(postProcess_.get(), "PostProcess");
+	editorWindows_->AddObjectWindow(canvas2d_.get(), "Canvas2d");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　windowのリサイズが保留中であったら
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::PendingResize() {

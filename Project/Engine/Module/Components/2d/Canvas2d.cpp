@@ -13,8 +13,6 @@ AOENGINE::Canvas2d::~Canvas2d() {
 
 void AOENGINE::Canvas2d::Init() {
 	spriteList_.clear();
-
-	AOENGINE::EditorWindows::GetInstance()->AddObjectWindow(this, "Canvas2d");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

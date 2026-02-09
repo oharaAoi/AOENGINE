@@ -90,8 +90,6 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 	AddEffect(PostEffectType::GaussianFilter);
 	AddEffect(PostEffectType::Grayscale);
 	AddEffect(PostEffectType::ToonMap);
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "Post Process");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

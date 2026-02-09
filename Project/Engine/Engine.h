@@ -59,12 +59,49 @@ public:
 	/// <returns></returns>
 	static bool WorldToGameImagePos(const Math::Vector3& _worldPos, ImVec2& _outScreenPos);
 
+	/// <summary>
+	/// systemとなる要素をEditorWindowに登録する
+	/// </summary>
+	static void RegisterEditorWindowSystem();
+
 private:
 
 	/// <summary>
 	/// bufferのサイズを作り変える
 	/// </summary>
 	static void PendingResize();
+
+	/// <summary>
+	/// Engineのコアとなる機能のインスタンスを生成する
+	/// </summary>
+	static void InitCoreInstances();
+
+	/// <summary>
+	/// グラフィック関連のクラスの初期化を行う
+	/// </summary>
+	static void InitGraphics();
+
+	/// <summary>
+	/// System関連のクラスの初期化を行う
+	/// </summary>
+	static void InitSystem();
+
+	/// <summary>
+	/// Resource関連のクラスの初期化を行う
+	/// </summary>
+	static void InitResources();
+
+#ifdef _DEBUG
+	/// <summary>
+	/// ImGuiの初期化を行う
+	/// </summary>
+	static void InitImgui();
+
+	/// <summary>
+	/// Editorの初期化を行う
+	/// </summary>
+	static void InitEditor();
+#endif
 
 public:
 

@@ -28,8 +28,6 @@ void LightGroup::Init(ID3D12Device* device) {
 	this->AddChild(directionalLight_.get());
 	this->AddChild(pointLight_.get());
 	this->AddChild(spotLight_.get());
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "LightGroup");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
