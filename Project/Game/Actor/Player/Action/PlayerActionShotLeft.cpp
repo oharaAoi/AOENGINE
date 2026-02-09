@@ -128,7 +128,7 @@ void PlayerActionShotLeft::Shot() {
 		Math::Vector3 dire = (pOwner_->GetTargetPos() - pOwner_->GetPosition()).Normalize();
 		pOwner_->Attack(PlayerWeapon::Left_Weapon, AttackContext(dire, pOwner_->GetTargetPos()));
 	} else {
-		Math::Vector3 dire = pOwner_->GetTransform()->srt_.rotate.MakeForward();
+		Math::Vector3 dire = pOwner_->GetTransform()->GetRotate().MakeForward();
 		pOwner_->Attack(PlayerWeapon::Left_Weapon, AttackContext(dire, CVector3::ZERO));
 	}
 	action_ = [&] { this->Recoil(); };
