@@ -28,8 +28,17 @@
     <Filter Include="Engine\DirectX\Pipeline">
       <UniqueIdentifier>{629E9E28-CED5-E6BF-D7DF-4AE343960DB9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\DirectX\Pipeline\PipelineGroup">
-      <UniqueIdentifier>{D4DF203F-40A4-1F2F-090A-50F9758DBB64}</UniqueIdentifier>
+    <Filter Include="Engine\DirectX\Pipeline\Compute">
+      <UniqueIdentifier>{6E5474DC-DA37-831C-E33A-B1584F9D496D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\Pipeline\Graphics">
+      <UniqueIdentifier>{E2B4EFE6-CE05-DB28-F769-C9EAE3196E92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\Pipeline\Parts">
+      <UniqueIdentifier>{DBA2E903-47BB-D02D-1068-60C77C3F65C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\DirectX\Pipeline\PostProcess">
+      <UniqueIdentifier>{96EB03FC-02A5-6EA6-8B04-8980F7BC2416}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\DirectX\RTV">
       <UniqueIdentifier>{E809BA4C-D4ED-7AA2-3D4E-75F529516524}</UniqueIdentifier>
@@ -253,6 +262,9 @@
     <Filter Include="Game\Actor\Enemy">
       <UniqueIdentifier>{34D8DDE5-20D1-FC37-4903-E2BC355BDC43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Enemy\Action">
+      <UniqueIdentifier>{41710B55-ADA8-53EC-B6B2-B70F22697AE5}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Enemy\Long">
       <UniqueIdentifier>{F32B0F6F-5F98-CA69-288C-62C794B7ECD1}</UniqueIdentifier>
     </Filter>
@@ -292,6 +304,12 @@
     <Filter Include="Game\Camera\Animation">
       <UniqueIdentifier>{C6FACDC3-3267-89BE-FB5A-211C6786AB26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Commands">
+      <UniqueIdentifier>{A063F3FB-0C24-6F32-D55E-B8AF41DEB30E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Commands\LockOn">
+      <UniqueIdentifier>{150255A6-0191-DE6F-AAAF-F26A961DEF15}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Effects">
       <UniqueIdentifier>{2E38C036-1A9B-4FDB-C320-8891AF621B5E}</UniqueIdentifier>
     </Filter>
@@ -312,6 +330,9 @@
     </Filter>
     <Filter Include="Game\State">
       <UniqueIdentifier>{0F3C46E2-FBF3-872F-64FB-608B50D22220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\System">
+      <UniqueIdentifier>{B317722B-1FCD-EA20-A8C1-E4F71476E124}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\UI">
       <UniqueIdentifier>{4C805747-B85F-D6E2-C177-61B92DD63C44}</UniqueIdentifier>
@@ -360,11 +381,32 @@
     <ClInclude Include="Engine\DirectX\DirectXDevice\DirectXDevice.h">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Parts\Blend.h">
+    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.h">
+      <Filter>Engine\DirectX\Pipeline\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.h">
+      <Filter>Engine\DirectX\Pipeline\Compute</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.h">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.h">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.h">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.h">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\IPipelineGroup.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\DirectX\Pipeline\Parts\Blend.h">
+      <Filter>Engine\DirectX\Pipeline\Parts</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\Parts\InputLayout.h">
-      <Filter>Engine\DirectX\Pipeline</Filter>
+      <Filter>Engine\DirectX\Pipeline\Parts</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\Pipeline.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
@@ -372,29 +414,8 @@
     <ClInclude Include="Engine\DirectX\Pipeline\PipelineFactory.h">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\IPipelineGroup.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\DirectX\Pipeline\PostProcess\ProcessedScenePipelines.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.h">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
+      <Filter>Engine\DirectX\Pipeline\PostProcess</Filter>
     </ClInclude>
     <ClInclude Include="Engine\DirectX\RTV\RenderTarget.h">
       <Filter>Engine\DirectX\RTV</Filter>
@@ -969,6 +990,7 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
+    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
       <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
@@ -1146,7 +1168,25 @@
     <ClInclude Include="Game\Actor\Boss\State\BossStateStun.h">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionApproach.h">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionAttack.h">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.h">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionStepBack.h">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionWait.h">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Enemy\BaseEnemy.h">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Enemy\EnemyBulletManager.h">
       <Filter>Game\Actor\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Enemy\EnemyFactory.h">
@@ -1263,10 +1303,16 @@
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h">
       <Filter>Game\CallBacks</Filter>
     </ClInclude>
+    <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h">
+      <Filter>Game\CallBacks</Filter>
+    </ClInclude>
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h">
       <Filter>Game\CallBacks</Filter>
     </ClInclude>
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h">
+      <Filter>Game\CallBacks</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h">
       <Filter>Game\CallBacks</Filter>
     </ClInclude>
     <ClInclude Include="Game\CallBacks\PlayerToGroundCallBacks.h">
@@ -1299,6 +1345,12 @@
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Commands\LockOn\LockOnCommands.h">
+      <Filter>Game\Commands\LockOn</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Commands\LockOn\LockOnInvoker.h">
+      <Filter>Game\Commands\LockOn</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Effects\AttackArmor.h">
       <Filter>Game\Effects</Filter>
     </ClInclude>
@@ -1315,6 +1367,9 @@
       <Filter>Game\Information</Filter>
     </ClInclude>
     <ClInclude Include="Game\Manager\ActionManager.h">
+      <Filter>Game\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Manager\BaseBulletManager.h">
       <Filter>Game\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
@@ -1355,6 +1410,9 @@
     </ClInclude>
     <ClInclude Include="Game\State\StateMachine.h">
       <Filter>Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\System\LockOnSystem.h">
+      <Filter>Game\System</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\ArmorDurabilityUI.h">
       <Filter>Game\UI</Filter>
@@ -1410,6 +1468,9 @@
     <ClInclude Include="Game\UI\Reticle.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\TargetUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\TitleUIs.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
@@ -1422,19 +1483,6 @@
     <ClInclude Include="Game\WorldObject\Skydome.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\System\LockOnSystem.h" />
-    <ClInclude Include="Game\Commands\LockOn\LockOnCommands.h" />
-    <ClInclude Include="Game\Commands\LockOn\LockOnInvoker.h" />
-    <ClInclude Include="Game\UI\TargetUI.h" />
-    <ClInclude Include="Game\Actor\Enemy\EnemyBulletManager.h" />
-    <ClInclude Include="Game\Manager\BaseBulletManager.h" />
-    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionWait.h" />
-    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionApproach.h" />
-    <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h" />
-    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionAttack.h" />
-    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.h" />
-    <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h" />
-    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionStepBack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1464,11 +1512,32 @@
     <ClCompile Include="Engine\DirectX\DirectXDevice\DirectXDevice.cpp">
       <Filter>Engine\DirectX\DirectXDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Parts\Blend.cpp">
+    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.cpp">
+      <Filter>Engine\DirectX\Pipeline\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline\Compute</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.cpp">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.cpp">
+      <Filter>Engine\DirectX\Pipeline\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\IPipelineGroup.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\DirectX\Pipeline\Parts\Blend.cpp">
+      <Filter>Engine\DirectX\Pipeline\Parts</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\Parts\InputLayout.cpp">
-      <Filter>Engine\DirectX\Pipeline</Filter>
+      <Filter>Engine\DirectX\Pipeline\Parts</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\Pipeline.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
@@ -1476,29 +1545,8 @@
     <ClCompile Include="Engine\DirectX\Pipeline\PipelineFactory.cpp">
       <Filter>Engine\DirectX\Pipeline</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipeline.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Compute\ComputeShaderPipelines.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\GraphicsPipelines.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\IPipelineGroup.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\Object3dPipelines.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\PrimitivePipeline.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\DirectX\Pipeline\PostProcess\ProcessedScenePipelines.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\DirectX\Pipeline\Graphics\SpritePipelines.cpp">
-      <Filter>Engine\DirectX\Pipeline\PipelineGroup</Filter>
+      <Filter>Engine\DirectX\Pipeline\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="Engine\DirectX\RTV\RenderTarget.cpp">
       <Filter>Engine\DirectX\RTV</Filter>
@@ -2211,7 +2259,25 @@
     <ClCompile Include="Game\Actor\Boss\State\BossStateStun.cpp">
       <Filter>Game\Actor\Boss\State</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionApproach.cpp">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionAttack.cpp">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.cpp">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionStepBack.cpp">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionWait.cpp">
+      <Filter>Game\Actor\Enemy\Action</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Enemy\BaseEnemy.cpp">
+      <Filter>Game\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Enemy\EnemyBulletManager.cpp">
       <Filter>Game\Actor\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Enemy\EnemyFactory.cpp">
@@ -2328,10 +2394,16 @@
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp">
       <Filter>Game\CallBacks</Filter>
     </ClCompile>
+    <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp">
+      <Filter>Game\CallBacks</Filter>
+    </ClCompile>
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp">
       <Filter>Game\CallBacks</Filter>
     </ClCompile>
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp">
+      <Filter>Game\CallBacks</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp">
       <Filter>Game\CallBacks</Filter>
     </ClCompile>
     <ClCompile Include="Game\CallBacks\PlayerToGroundCallBacks.cpp">
@@ -2364,6 +2436,12 @@
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Commands\LockOn\LockOnCommands.cpp">
+      <Filter>Game\Commands\LockOn</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Commands\LockOn\LockOnInvoker.cpp">
+      <Filter>Game\Commands\LockOn</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Effects\AttackArmor.cpp">
       <Filter>Game\Effects</Filter>
     </ClCompile>
@@ -2374,6 +2452,9 @@
       <Filter>Game\Effects</Filter>
     </ClCompile>
     <ClCompile Include="Game\Manager\ActionManager.cpp">
+      <Filter>Game\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Manager\BaseBulletManager.cpp">
       <Filter>Game\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
@@ -2408,6 +2489,9 @@
     </ClCompile>
     <ClCompile Include="Game\State\StateMachine.cpp">
       <Filter>Game\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\System\LockOnSystem.cpp">
+      <Filter>Game\System</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\ArmorDurabilityUI.cpp">
       <Filter>Game\UI</Filter>
@@ -2463,6 +2547,9 @@
     <ClCompile Include="Game\UI\Reticle.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\TargetUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\TitleUIs.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
@@ -2476,18 +2563,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\System\LockOnSystem.cpp" />
-    <ClCompile Include="Game\Commands\LockOn\LockOnCommands.cpp" />
-    <ClCompile Include="Game\Commands\LockOn\LockOnInvoker.cpp" />
-    <ClCompile Include="Game\UI\TargetUI.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\EnemyBulletManager.cpp" />
-    <ClCompile Include="Game\Manager\BaseBulletManager.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionWait.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionApproach.cpp" />
-    <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionAttack.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionQuickDash.cpp" />
-    <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp" />
-    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionStepBack.cpp" />
   </ItemGroup>
 </Project>
