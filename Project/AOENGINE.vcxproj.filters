@@ -990,7 +990,6 @@
     <ClInclude Include="Engine\WinApp\WinApp.h">
       <Filter>Engine\WinApp</Filter>
     </ClInclude>
-    <ClInclude Include="Enviroment.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h">
       <Filter>Externals\ImGui\Flow</Filter>
     </ClInclude>
