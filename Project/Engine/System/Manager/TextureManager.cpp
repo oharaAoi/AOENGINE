@@ -35,7 +35,7 @@ void TextureManager::Finalize() {
 
 void TextureManager::LoadStack() {
 	// 画像ファイルをddsに変換する
-	AOENGINE::Logger::CommentLog("Conversino Image To DDS");
+	AOENGINE::Logger::CommentLog("Conversion Image To DDS");
 	ConvertAllTexturesFromStack(loadStack_, L"./Project/Packages/Converter/convert.ps1");
 
 	// ddsファイルを読み込む
@@ -178,6 +178,7 @@ ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // ResourceDescを作成する
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadata& metadata) {
 	// metaDataを元にResourceを設定
 	D3D12_RESOURCE_DESC desc{};
@@ -191,6 +192,10 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 
 	return desc;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Textureのサイズを返す
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 const Math::Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
 	std::filesystem::path path = filePath;
@@ -206,10 +211,21 @@ const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::s
 	std::filesystem::path path = fileName;
 	std::string name = path.stem().string();
 	auto it = textureData_.find(name);
-	if (it != textureData_.end()) {
-		return textureData_.at(name).resource_->GetSRV();
+	if (it == textureData_.end()) {
+		std::string comment = name + "が見つかりません(TextureManager::GetDxHeapHandles)";
+		AOENGINE::Logger::AssertLog(comment);
 	}
-	return DescriptorHandles();
+	return textureData_.at(name).resource_->GetSRV();
+}
+
+AOENGINE::DxResource* AOENGINE::TextureManager::GetResource(const std::string& _textureName) {
+	std::filesystem::path path = _textureName;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
+	if (it != textureData_.end()) {
+		return textureData_[name].resource_;
+	}
+	return nullptr;
 }
 
 void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
@@ -225,16 +241,6 @@ void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* c
 	} else {
 		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_.at("error").resource_->GetSRV().handleGPU);
 	}
-}
-
-AOENGINE::DxResource* AOENGINE::TextureManager::GetResource(const std::string& _textureName) {
-	std::filesystem::path path = _textureName;
-	std::string name = path.stem().string();
-	auto it = textureData_.find(name);
-	if (it != textureData_.end()) {
-		return textureData_[name].resource_;
-	}
-	return nullptr;
 }
 
 std::string TextureManager::SelectTexture(const std::string& filePath) {

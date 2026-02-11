@@ -345,12 +345,12 @@ MigrationBackup/
 .ionide/
 AOENGINE/Generated
 AOENGINE/Project/Packages/Property/
+AOENGINE/Project/Packages/Converter/ConvertedDDS/
 AOENGINE/imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/
 
 # ---- Custom rule: include my resource Packages folder ----
-!Project/Packages/**
-
-AOENGINE/Project/Packages/Converter/ConvertedDDS/
+!Project/Packages/Engine/**
+!Project/Packages/Game/**

@@ -55,5 +55,3 @@ foreach ($f in $files) {
         Move-Item $generated $destPath -Force
     }
 }
-
-pause
