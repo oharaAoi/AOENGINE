@@ -5,6 +5,7 @@
 #include <memory>
 #include <map>
 #include <stack>
+#include <filesystem>
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
 #include "Engine/Utilities/Convert.h"
@@ -17,6 +18,13 @@
 namespace AOENGINE {
 
 class TextureManager {
+private:
+
+	struct TexturePath {
+		std::string directory;
+		std::string fileName;
+	};
+
 public: // メンバ関数
 
 	/// <summary>
@@ -94,6 +102,12 @@ public:
 	/// <returns></returns>
 	bool PreviewTexture(std::string& _textureName);
 
+private:
+
+	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath);
+
+	void LoadFileDDS(const std::filesystem::path& folderPath);
+
 public:
 
 
@@ -104,7 +118,7 @@ public:
 	/// <param name="textureNum"></param>
 	void SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex);
 
-	AOENGINE::DxResource* GetResource(const std::string& _textureName) { return textureData_.at(_textureName).resource_; }
+	AOENGINE::DxResource* GetResource(const std::string& _textureName);
 
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
@@ -112,7 +126,7 @@ public:
 
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
-	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const { return textureData_.at(fileName).resource_->GetSRV(); }
+	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const;
 
 	void StackTexture(const std::string& directoryPath, const std::string& filePath);
 
@@ -122,11 +136,6 @@ private:
 		AOENGINE::DxResource* resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Math::Vector2 textureSize_;
-	};
-
-	struct TexturePath {
-		std::string directory;
-		std::string fileName;
 	};
 
 	std::vector<std::string> fileNames_;

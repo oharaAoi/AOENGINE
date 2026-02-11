@@ -344,7 +344,7 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 AOENGINE/Generated
-AOENGINE/Packages/Property/
+AOENGINE/Project/Packages/Property/
 AOENGINE/imgui.ini
 
 # DirectXTex Compiled Shaders
@@ -352,3 +352,5 @@ AOENGINE/imgui.ini
 
 # ---- Custom rule: include my resource Packages folder ----
 !Project/Packages/**
+
+AOENGINE/Project/Packages/Converter/ConvertedDDS/

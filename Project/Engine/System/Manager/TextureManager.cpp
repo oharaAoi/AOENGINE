@@ -3,6 +3,8 @@
 #include "Engine/Utilities/Logger.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/Loader.h"
+#include "Engine/Utilities/Convert.h"
+#include "Engine/Utilities/ConvertDDS.h"
 
 using namespace AOENGINE;
 
@@ -32,12 +34,12 @@ void TextureManager::Finalize() {
 }
 
 void TextureManager::LoadStack() {
-	AOENGINE::Logger::CommentLog("Loading Textures");
-	while (!loadStack_.empty()) {
-		auto texturePath = loadStack_.top();
-		LoadTextureFile(texturePath.directory, texturePath.fileName);
-		loadStack_.pop();
-	}
+	// 画像ファイルをddsに変換する
+	AOENGINE::Logger::CommentLog("Conversino Image To DDS");
+	ConvertAllTexturesFromStack(loadStack_, L"./Project/Packages/Converter/convert.ps1");
+
+	// ddsファイルを読み込む
+	LoadFileDDS("./Project/Packages/Converter/ConvertedDDS/");
 }
 
 void TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
@@ -100,7 +102,8 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// 配列に入れる
 	// 生成
 	device_->CreateShaderResourceView(data.resource_->GetCompResource().Get(), &srvDesc, data.resource_->GetSRV().handleCPU);
-	textureData_[filePath] = std::move(data);
+	std::filesystem::path path = filePath;
+	textureData_[path.stem().string()] = std::move(data);
 	AOENGINE::Logger::Log(" --- success!\n");
 }
 
@@ -190,11 +193,23 @@ D3D12_RESOURCE_DESC TextureManager::CreateResourceDesc(const DirectX::TexMetadat
 }
 
 const Math::Vector2 TextureManager::GetTextureSize(const std::string& filePath) {
-	auto it = textureData_.find(filePath);
+	std::filesystem::path path = filePath;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
 	if (it != textureData_.end()) {
-		return textureData_[filePath].textureSize_;
+		return textureData_[name].textureSize_;
 	}
 	return Math::Vector2();
+}
+
+const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::string& fileName) const {
+	std::filesystem::path path = fileName;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
+	if (it != textureData_.end()) {
+		return textureData_.at(name).resource_->GetSRV();
+	}
+	return DescriptorHandles();
 }
 
 void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
@@ -202,12 +217,24 @@ void TextureManager::StackTexture(const std::string& directoryPath, const std::s
 }
 
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex) {
-	auto it = textureData_.find(filePath);
+	std::filesystem::path path = filePath;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
 	if (it != textureData_.end()) {
-		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_[filePath].resource_->GetSRV().handleGPU);
+		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_.at(name).resource_->GetSRV().handleGPU);
 	} else {
-		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_["error.png"].resource_->GetSRV().handleGPU);
+		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_.at("error").resource_->GetSRV().handleGPU);
 	}
+}
+
+AOENGINE::DxResource* AOENGINE::TextureManager::GetResource(const std::string& _textureName) {
+	std::filesystem::path path = _textureName;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
+	if (it != textureData_.end()) {
+		return textureData_[name].resource_;
+	}
+	return nullptr;
 }
 
 std::string TextureManager::SelectTexture(const std::string& filePath) {
@@ -326,4 +353,41 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 	}
 	ImGui::Text("end");
 	return false;
+}
+
+void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath) {
+	std::vector<std::wstring> paths;
+
+	while (!stack.empty()) {
+		TexturePath tp = stack.top();
+		stack.pop();
+
+		std::string fullPath = tp.directory;
+		if (!fullPath.empty() && fullPath.back() != '\\' && fullPath.back() != '/') {
+			fullPath += "\\";
+		}
+		fullPath += tp.fileName;
+
+		paths.push_back(ConvertWString(fullPath));
+	}
+
+	if (paths.empty())
+		return;
+
+	RunPowerShellScript(scriptPath, paths);
+}
+
+void AOENGINE::TextureManager::LoadFileDDS(const std::filesystem::path& folderPath) {
+	if (!std::filesystem::exists(folderPath) || !std::filesystem::is_directory(folderPath)) {
+		std::cerr << "フォルダが存在しません: " << folderPath << std::endl;
+		return;
+	}
+
+	for (const auto& entry : std::filesystem::directory_iterator(folderPath)) {
+		if (entry.is_regular_file()) {
+			const std::filesystem::path& filePath = entry.path();
+			std::cout << "ファイル: " << filePath << std::endl;
+			LoadTextureFile(filePath.parent_path().string() + "/", filePath.filename().string());
+		}
+	}
 }

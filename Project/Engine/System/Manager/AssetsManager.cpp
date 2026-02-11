@@ -46,11 +46,16 @@ void AssetsManager::LoadTextures(const std::string& rootPath) {
 	TextureManager* manager = AOENGINE::TextureManager::GetInstance();
 	for (const auto& entry : fs::recursive_directory_iterator(rootPath)) {
 		std::string ext = entry.path().extension().string();
-		if (ext == ".png" || ext == ".dds") {
+		if (ext == ".png") {
 			std::string directory = entry.path().parent_path().string();
 			std::string fileName = entry.path().filename().string();
 			directory += "/";
 			manager->StackTexture(directory, fileName);
+		} else if (ext == ".dds") {
+			std::string directory = entry.path().parent_path().string();
+			std::string fileName = entry.path().filename().string();
+			directory += "/";
+			manager->LoadTextureFile(directory, fileName);
 		}
 	}
 

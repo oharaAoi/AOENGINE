@@ -37,7 +37,7 @@ void ShaderGraphEditor::Init() {
 void ShaderGraphEditor::Edit() {
 	if (ImGui::Begin("Shader Graph Editor", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
-			EditorWindows::GetInstance()->SetSelectWindow(this);;
+			EditorWindows::GetInstance()->SetSelectWindow(this);
 		}
 
 		if (graphPath_ != "") {

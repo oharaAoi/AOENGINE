@@ -174,7 +174,7 @@
                 110.0
             ],
             "props": {
-                "textureName": "craters 13 - 512x512.png"
+                "textureName": "craters_512x512.png"
             }
         },
         {
@@ -185,7 +185,7 @@
                 520.0
             ],
             "props": {
-                "textureName": "voronoi 1 - 512x512.png"
+                "textureName": "voronoi1_512x512.png"
             }
         },
         {

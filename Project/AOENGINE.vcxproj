@@ -318,6 +318,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\BehaviorTreeLogger.h" />
     <ClInclude Include="Engine\Utilities\BitChecker.h" />
     <ClInclude Include="Engine\Utilities\Convert.h" />
+    <ClInclude Include="Engine\Utilities\ConvertDDS.h" />
     <ClInclude Include="Engine\Utilities\Debug.h" />
     <ClInclude Include="Engine\Utilities\DrawUtils.h" />
     <ClInclude Include="Engine\Utilities\FileDialogFunc.h" />
@@ -694,6 +695,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Utilities\BehaviorTreeLogger.cpp" />
     <ClCompile Include="Engine\Utilities\BitChecker.cpp" />
     <ClCompile Include="Engine\Utilities\Convert.cpp" />
+    <ClCompile Include="Engine\Utilities\ConvertDDS.cpp" />
     <ClCompile Include="Engine\Utilities\Debug.cpp" />
     <ClCompile Include="Engine\Utilities\DrawUtils.cpp" />
     <ClCompile Include="Engine\Utilities\FileDialogFunc.cpp" />
