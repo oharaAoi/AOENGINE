@@ -64,7 +64,6 @@ project "AOENGINE" -- .vcxprojを定義する
     -- ソース登録
     files {
         "Project/main.cpp",
-        "Project/Enviroment.h",
         "Project/Game/**.h", "Project/Game/**.cpp",
         "Project/Engine/**.h", "Project/Engine/**.cpp",
         "Project/Externals/ImGui/**.h", "Project/Externals/ImGui/**.cpp"
