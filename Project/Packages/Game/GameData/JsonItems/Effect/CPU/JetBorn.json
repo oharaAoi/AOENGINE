@@ -58,6 +58,6 @@
             "z": 0.0
         },
         "useMesh": "plane",
-        "useTexture": "circle2 (2).png"
+        "useTexture": "circle(2).png"
     }
 }

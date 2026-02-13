@@ -56,8 +56,11 @@ public:
 	/// </summary>
 	void LoadStack();
 
-	static void LoadTexture(const std::string& directoryPath, const std::string& filePath);
-
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="filePath"></param>
 	void LoadTextureFile(const std::string& directoryPath, const std::string& filePath);
 
 	/// <summary>
@@ -104,8 +107,17 @@ public:
 
 private:
 
+	/// <summary>
+	/// Stackに溜まっているTextureをDDSに変換する処理
+	/// </summary>
+	/// <param name="stack"></param>
+	/// <param name="scriptPath"></param>
 	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath);
 
+	/// <summary>
+	/// DDSファイルを読み込む
+	/// </summary>
+	/// <param name="folderPath"></param>
 	void LoadFileDDS(const std::filesystem::path& folderPath);
 
 public:

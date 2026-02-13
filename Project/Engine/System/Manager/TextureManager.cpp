@@ -13,6 +13,21 @@ TextureManager* AOENGINE::TextureManager::GetInstance() {
 	return &instance;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// 終了処理
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void TextureManager::Finalize() {
+	for (auto& data : textureData_) {
+		data.second.resource_->Destroy();
+		data.second.intermediateResource_.Reset();
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// 初期化処理
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _commandList, AOENGINE::DescriptorHeap* _dxHeap, AOENGINE::DxResourceManager* _resourceManager) {
 	assert(_dxDevice);
 	assert(_dxHeap);
@@ -26,29 +41,32 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 	resourceManager_ = _resourceManager;
 }
 
-void TextureManager::Finalize() {
-	for (auto& data : textureData_) {
-		data.second.resource_->Destroy();
-		data.second.intermediateResource_.Reset();
-	}
-}
+/////////////////////////////////////////////////////////////////////////////////////////////
+// 読み込み処理
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextureManager::LoadStack() {
 	// 画像ファイルをddsに変換する
+#ifdef _DEBUG
 	AOENGINE::Logger::CommentLog("Conversion Image To DDS");
 	ConvertAllTexturesFromStack(loadStack_, L"./Project/Packages/Converter/convert.ps1");
-
+#endif
 	// ddsファイルを読み込む
 	LoadFileDDS("./Project/Packages/Converter/ConvertedDDS/");
 }
 
-void TextureManager::LoadTexture(const std::string& directoryPath, const std::string& filePath) {
-	GetInstance()->LoadTextureFile(directoryPath, filePath);
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Textureの読み込み予約
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
+	loadStack_.push(TexturePath{ directoryPath, filePath });
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textureを読み込む
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 void TextureManager::LoadTextureFile(const std::string& directoryPath, const std::string& filePath) {
 	// 一度読み込んだファイルか確認する
 	auto it = textureData_.find(filePath);
@@ -110,6 +128,7 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textrueデータを読む
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 DirectX::ScratchImage TextureManager::LoadMipImage(const std::string& directoryPath, const std::string& filePath) {
 	DirectX::ScratchImage image{};
 	std::wstring filePathW = ConvertWString(directoryPath + filePath);
@@ -138,6 +157,7 @@ DirectX::ScratchImage TextureManager::LoadMipImage(const std::string& directoryP
 /////////////////////////////////////////////////////////////////////////////////////////////
 // TextureResourceにデータを転送する
 /////////////////////////////////////////////////////////////////////////////////////////////
+
 [[nodiscard]]
 ComPtr<ID3D12Resource> TextureManager::UploadTextureData(ComPtr<ID3D12Resource> texture,
 														const DirectX::ScratchImage& mipImage,
@@ -201,11 +221,16 @@ const Math::Vector2 TextureManager::GetTextureSize(const std::string& filePath) 
 	std::filesystem::path path = filePath;
 	std::string name = path.stem().string();
 	auto it = textureData_.find(name);
-	if (it != textureData_.end()) {
-		return textureData_[name].textureSize_;
+	if (it == textureData_.end()) {
+		std::string comment = name + "が見つかりません(TextureManager::GetTextureSize)";
+		AOENGINE::Logger::AssertLog(comment);
 	}
-	return Math::Vector2();
+	return textureData_[name].textureSize_;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// TextureのDirectXHandleを返す
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::string& fileName) const {
 	std::filesystem::path path = fileName;
@@ -218,19 +243,24 @@ const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::s
 	return textureData_.at(name).resource_->GetSRV();
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Textureのリソースを返す
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 AOENGINE::DxResource* AOENGINE::TextureManager::GetResource(const std::string& _textureName) {
 	std::filesystem::path path = _textureName;
 	std::string name = path.stem().string();
 	auto it = textureData_.find(name);
-	if (it != textureData_.end()) {
-		return textureData_[name].resource_;
+	if (it == textureData_.end()) {
+		std::string comment = name + "が見つかりません(TextureManager::GetResource)";
+		AOENGINE::Logger::AssertLog(comment);
 	}
-	return nullptr;
+	return textureData_[name].resource_;
 }
 
-void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
-	loadStack_.push(TexturePath{directoryPath, filePath });
-}
+/////////////////////////////////////////////////////////////////////////////////////////////
+// TextureをCommandListに登録する
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* commandList, const std::string& filePath, const uint32_t& rootParameterIndex) {
 	std::filesystem::path path = filePath;
@@ -240,8 +270,13 @@ void TextureManager::SetGraphicsRootDescriptorTable(ID3D12GraphicsCommandList* c
 		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_.at(name).resource_->GetSRV().handleGPU);
 	} else {
 		commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, textureData_.at("error").resource_->GetSRV().handleGPU);
+		AOENGINE::Logger::Log(filePath + "が読み込まれていません");
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Textureを選択する
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 std::string TextureManager::SelectTexture(const std::string& filePath) {
 	static std::string selectedFilename;
@@ -331,6 +366,10 @@ std::string TextureManager::SelectTexture(const std::string& filePath) {
 	return filePath;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Textureのpreviewを返す
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 bool TextureManager::PreviewTexture(std::string& _textureName) {
 	uint32_t count = 0;
 	for (int i = 0; i < fileNames_.size(); ++i) {
@@ -361,12 +400,21 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 	return false;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////////
+// Stackに溜まっているパスをDDSに変換する
+/////////////////////////////////////////////////////////////////////////////////////////////
+
 void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath) {
 	std::vector<std::wstring> paths;
 
 	while (!stack.empty()) {
 		TexturePath tp = stack.top();
 		stack.pop();
+
+		if (tp.fileName.find(' ') != std::string::npos) {
+			std::string message = "Textureの名前に空白が含まれているため読み込めません(" + tp.fileName + ")";
+			AOENGINE::Logger::AssertLog(message);
+		}
 
 		std::string fullPath = tp.directory;
 		if (!fullPath.empty() && fullPath.back() != '\\' && fullPath.back() != '/') {
@@ -382,6 +430,10 @@ void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePat
 
 	RunPowerShellScript(scriptPath, paths);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// DDSファイルを読み込む
+/////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::TextureManager::LoadFileDDS(const std::filesystem::path& folderPath) {
 	if (!std::filesystem::exists(folderPath) || !std::filesystem::is_directory(folderPath)) {

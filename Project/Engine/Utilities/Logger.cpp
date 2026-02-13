@@ -1,11 +1,13 @@
 #include "Logger.h"
 #include <filesystem>
 #include <fstream>
+#include <crtdbg.h>
 #include <chrono>
 #include <vector>
 #include <algorithm>
 #include <cassert>
 #include <iostream>
+#include "Engine/Utilities/Convert.h"
 
 using namespace AOENGINE;
 
@@ -61,10 +63,9 @@ void AOENGINE::Logger::Log(const std::string& message) {
 }
 
 void AOENGINE::Logger::AssertLog(const std::string& message) {
-	std::ofstream logStream(filePath_, std::ios::app);
-	logStream << message << std::endl;
-	OutputDebugStringA(message.c_str());
-	assert(message.c_str());
+	Log(message);
+	std::wstring wmsg = ConvertWString(message);
+	_ASSERT_EXPR(false, wmsg.c_str());
 }
 
 void AOENGINE::Logger::CommentLog(const std::string& message) {
