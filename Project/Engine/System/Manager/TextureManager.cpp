@@ -49,7 +49,7 @@ void TextureManager::LoadStack() {
 	// 画像ファイルをddsに変換する
 #ifdef _DEBUG
 	AOENGINE::Logger::CommentLog("Conversion Image To DDS");
-	ConvertAllTexturesFromStack(loadStack_, L"./Project/Packages/Converter/convert.ps1");
+	ConvertAllTexturesFromStack(loadStack_, L"./Project/Packages/Converter/convert.ps1", "./Project/Packages/Converter/ConvertedDDS/");
 #endif
 	// ddsファイルを読み込む
 	LoadFileDDS("./Project/Packages/Converter/ConvertedDDS/");
@@ -404,7 +404,7 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 // Stackに溜まっているパスをDDSに変換する
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath) {
+void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder) {
 	std::vector<std::wstring> paths;
 
 	while (!stack.empty()) {
@@ -422,7 +422,14 @@ void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePat
 		}
 		fullPath += tp.fileName;
 
-		paths.push_back(ConvertWString(fullPath));
+		std::filesystem::path fileNamePath(fullPath);
+		std::string filename = fileNamePath.stem().string();
+		auto srcTime = std::filesystem::last_write_time(fullPath);
+		auto dstTime = std::filesystem::last_write_time(outputDDSFolder + filename + ".dds");
+
+		if (!std::filesystem::exists(outputDDSFolder + filename + ".dds") || srcTime > dstTime) {
+			paths.push_back(ConvertWString(fullPath));
+		}
 	}
 
 	if (paths.empty())

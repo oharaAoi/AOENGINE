@@ -112,7 +112,8 @@ private:
 	/// </summary>
 	/// <param name="stack"></param>
 	/// <param name="scriptPath"></param>
-	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath);
+	/// <param name="outputDDSFolder"></param>
+	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder);
 
 	/// <summary>
 	/// DDSファイルを読み込む
