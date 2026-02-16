@@ -191,8 +191,8 @@ public: // accessor method
 	void SetIsDead(bool _isDead) { isDead_ = _isDead; }
 	bool GetIsDead() const { return isDead_; }
 
-	void SetIsExplode(bool _isExplode) { isExpload_ = _isExplode; }
-	bool GetIsExplode() const { return isExpload_; }
+	void SetIsExplode(bool _isExplode) { isExplode_ = _isExplode; }
+	bool GetIsExplode() const { return isExplode_; }
 
 	const Math::Matrix4x4& GetWeaponBornMatrix(PlayerWeapon type) { return weaponBornMatrix_[type]; }
 
@@ -219,7 +219,7 @@ private:
 	bool deployArmor_;
 	bool isDead_ = false;
 	bool isAttack_ = false;
-	bool isExpload_ = false;
+	bool isExplode_ = false;
 
 	// 無敵時間
 	bool isInvincible_ = false;

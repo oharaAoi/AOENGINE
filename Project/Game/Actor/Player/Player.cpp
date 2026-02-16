@@ -127,7 +127,7 @@ void Player::Init() {
 	deployArmor_ = false;
 	isDead_ = false;
 	isAttack_ = false;
-	isExpload_ = false;
+	isExplode_ = false;
 
 	param_.postureStability -= initParam_.postureStability;
 
