@@ -422,13 +422,22 @@ void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePat
 		}
 		fullPath += tp.fileName;
 
+		// 各ファイルのあるパスを作成する
 		std::filesystem::path fileNamePath(fullPath);
 		std::string filename = fileNamePath.stem().string();
-		auto srcTime = std::filesystem::last_write_time(fullPath);
-		auto dstTime = std::filesystem::last_write_time(outputDDSFolder + filename + ".dds");
+		std::string ddsPath = outputDDSFolder + filename + ".dds";
 
-		if (!std::filesystem::exists(outputDDSFolder + filename + ".dds") || srcTime > dstTime) {
+		// ddsファイルが存在しなかったらコンバートを行う
+		if (!std::filesystem::exists(ddsPath)) {
 			paths.push_back(ConvertWString(fullPath));
+		} else {
+			auto srcTime = std::filesystem::last_write_time(fullPath);
+			auto dstTime = std::filesystem::last_write_time(ddsPath);
+
+			// 元ファイルの日付がddsファイル作成日より新しかったら新たに生成する
+			if (srcTime > dstTime) {
+				paths.push_back(ConvertWString(fullPath));
+			}
 		}
 	}
 
