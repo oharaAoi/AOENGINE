@@ -622,9 +622,9 @@ void ParticleSystemEditor::PreDraw() {
 	// Grid線描画
 	AOENGINE::Render::Update();
 
-	/*if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
+	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
-	}*/
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
