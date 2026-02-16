@@ -24,6 +24,7 @@
         "./Project/Packages/Game\\Pipeline": false,
         "./Project/Packages/Game\\Scene": false,
         "./Project/Packages/Property": false,
+        "./Project/Packages\\Converter": false,
         "./Project/Packages\\Engine": false,
         "./Project/Packages\\Game": true,
         "./Project/Packages\\Game\\GameData": true,

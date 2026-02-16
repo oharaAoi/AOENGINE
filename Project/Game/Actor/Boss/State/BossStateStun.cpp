@@ -48,7 +48,7 @@ void BossStateStun::OnUpdate() {
 
 	// エフェクトが出し終わっていたら別の位置に移動させてもう一度射出する
 	if (effect_->GetIsStop()) {
-		Math::Vector3 newPos = RandomVector3(CVector3::UNIT * -param_.effectRandDistance, CVector3::UNIT * param_.effectRandDistance);
+		Math::Vector3 newPos = Random::RandomVector3(CVector3::UNIT * -param_.effectRandDistance, CVector3::UNIT * param_.effectRandDistance);
 		effect_->Reset();
 		effect_->SetPos(newPos);
 	}

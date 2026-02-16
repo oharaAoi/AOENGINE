@@ -66,7 +66,7 @@ void EnemyActionQuickDash::Init() {
     param_.Load();
 
     // 移動方向をランダムに決める
-    moveDirection_ = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
+    moveDirection_ = Random::RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
     moveDirection_.y = 0;
     moveDirection_ = moveDirection_.Normalize();
 

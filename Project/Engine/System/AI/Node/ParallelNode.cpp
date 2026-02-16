@@ -37,9 +37,11 @@ json AI::ParallelNode::ToJson() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 BehaviorStatus AI::ParallelNode::Execute() {
+	successCount_ = 0;
 	BehaviorStatus status = BehaviorStatus::Failure;
 	// 子のNodeをすべて同時に実行する
 	for (auto& child : children_) {
+		status = child->GetState();
 		if (child->GetState() != BehaviorStatus::Success) {
 			status = child->Execute();
 		}
@@ -57,7 +59,11 @@ BehaviorStatus AI::ParallelNode::Execute() {
 		}
 	}
 
+	// 成功カウントが子供の数と一致したらリセット
 	if (successCount_ == children_.size()) {
+		for (auto& child : children_) {
+			child->ResetNode();
+		}
 		return BehaviorStatus::Success;
 	}
 	

@@ -125,6 +125,5 @@ BaseEnemy* EnemyManager::SearchCollider(AOENGINE::BaseCollider* collider) {
 			return enemy.get();
 		}
 	}
-
 	return nullptr;
 }

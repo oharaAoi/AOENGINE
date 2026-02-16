@@ -1,44 +1,43 @@
-#include "BossActionDeployArmor.h"
-#include "Engine/Lib/Json/JsonItems.h"
+#include "EnemyActionWalk.h"
 #include "Engine/Lib/Math/MyRandom.h"
-#include "Game/Actor/Boss/Boss.h"
-#include "Game/Actor/Boss/State/BossStateDeployArmor.h"
+#include "Game/Actor/Enemy/BaseEnemy.h"
 
-BossActionDeployArmor::BossActionDeployArmor() {
-	isDeploy_ = false;
-}
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行処理
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-BehaviorStatus BossActionDeployArmor::Execute() {
+BehaviorStatus EnemyActionWalk::Execute() {
 	return Action();
 }
 
-float BossActionDeployArmor::EvaluateWeight() {
-	return 1.0f;
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 重みを計算
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+float EnemyActionWalk::EvaluateWeight() {
+	return 0.0f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::Debug_Gui() {
+void EnemyActionWalk::Debug_Gui() {
 	BaseTaskNode::Debug_Gui();
 	param_.Debug_Gui();
 }
 
-void BossActionDeployArmor::Parameter::Debug_Gui() {
-	ImGui::DragFloat("deployTime", &deployTime, 0.1f);
-	ImGui::DragFloat("randShakeValue", &randShakeValue, 0.1f);
+void EnemyActionWalk::Parameter::Debug_Gui() {
+	ImGui::DragFloat("速度", &speed, 0.1f);
+	ImGui::DragFloat("方向転換時間", &changeDirectionTime, 0.1f);
 	SaveAndLoad();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了確認
-//////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool BossActionDeployArmor::IsFinish() {
-	if (taskTimer_ >= param_.deployTime) {
-		return true;
-	}
+bool EnemyActionWalk::IsFinish() {
 	return false;
 }
 
@@ -46,41 +45,36 @@ bool BossActionDeployArmor::IsFinish() {
 // ↓ 実行確認
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool BossActionDeployArmor::CanExecute() {
-	if (pTarget_->GetIsArmorDeploy()) {
-		return true;
-	}
-	return false;
+bool EnemyActionWalk::CanExecute() {
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::Init() {
+void EnemyActionWalk::Init() {
 	param_.Load();
-	taskTimer_ = 0.0f;
-	isDeploy_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::Update() {
+void EnemyActionWalk::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-	pTarget_->GetTransform()->SetTemporaryTranslate(
-		Random::RandomVector3(
-			Math::Vector3(-param_.randShakeValue, -param_.randShakeValue, -param_.randShakeValue),
-			 Math::Vector3(param_.randShakeValue, param_.randShakeValue, param_.randShakeValue)
-		));
+
+	if (taskTimer_ >= param_.changeDirectionTime) {
+		taskTimer_ = 0;
+		direction_ = Random::RandomVector3(Math::Vector3(-1, 0, -1), Math::Vector3::Vector3(1, 0, 1)).Normalize();
+	}
+
+	pTarget_->GetTransform()->MoveVelocity(direction_ * param_.speed * AOENGINE::GameTimer::DeltaTime(), 1.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 終了処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossActionDeployArmor::End() {
-	pTarget_->GetState()->ChangeState<BossStateDeployArmor>();
-	pTarget_->SetIsArmorDeploy(false);
+void EnemyActionWalk::End() {
 }

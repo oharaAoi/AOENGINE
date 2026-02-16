@@ -236,7 +236,7 @@ void FollowCamera::MoveCamera(const Math::Vector3& target) {
 void FollowCamera::Shake() {
 	if (shakeTimer_ <= shakeTime_) {
 		shakeTimer_ += AOENGINE::GameTimer::DeltaTime();
-		Math::Vector3 shakeDire = RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
+		Math::Vector3 shakeDire = Random::RandomVector3(CVector3::UNIT * -1, CVector3::UNIT).Normalize();
 
 		float t = shakeTimer_ / shakeTime_;
 		float currentShakeStrength_ = std::lerp(shakeStrength_, 0.0f, t);

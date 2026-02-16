@@ -99,8 +99,8 @@ void BossActionShotgun::Shot() {
 
 	// 弾数分処理をする
 	for (int oi = 0; oi < param_.kFireCount; ++oi) {
-		float yawOffset = RandomFloat(-bulletSpread, bulletSpread);
-		float pitchOffset = RandomFloat(-bulletSpread, bulletSpread);
+		float yawOffset = Random::RandomFloat(-bulletSpread, bulletSpread);
+		float pitchOffset = Random::RandomFloat(-bulletSpread, bulletSpread);
 
 		Math::Quaternion yawRot = Math::Quaternion::AngleAxis(yawOffset, CVector3::UP);
 		Math::Quaternion pitchRot = Math::Quaternion::AngleAxis(pitchOffset, CVector3::RIGHT);

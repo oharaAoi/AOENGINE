@@ -7,6 +7,7 @@
 #include "Game/Actor/Enemy/Action/EnemyActionAttack.h"
 #include "Game/Actor/Enemy/Action/EnemyActionQuickDash.h"
 #include "Game/Actor/Enemy/Action/EnemyActionStepBack.h"
+#include "Game/Actor/Enemy/Action/EnemyActionWalk.h"
 #include "Game/Actor/Weapon/MachineGun.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,8 +70,9 @@ void ShortRangeEnemy::Init() {
 	behaviorTree_->Register("Attack", [this]() { return CreateTask<EnemyActionAttack>(this, "Attack"); });
 	behaviorTree_->Register("QuickDash", [this]() { return CreateTask<EnemyActionQuickDash>(this, "QuickDash"); });
 	behaviorTree_->Register("StepBack", [this]() { return CreateTask<EnemyActionStepBack>(this, "StepBack"); });
+	behaviorTree_->Register("Walk", [this]() { return CreateTask<EnemyActionWalk>(this, "Walk"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "ShortRangeEnemyTree.aitree");
-	behaviorTree_->SetExecute(false);
+	behaviorTree_->SetExecute(true);
 
 	transform_->SetOffset(param_.translateOffset);
 }

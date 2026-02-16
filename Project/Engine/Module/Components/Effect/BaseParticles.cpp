@@ -81,14 +81,14 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 
 	// scaleの決定
 	if (emitter_.separateByAxisScale) {
-		newParticle.scale = RandomVector3(emitter_.minScale, emitter_.maxScale);
+		newParticle.scale = Random::RandomVector3(emitter_.minScale, emitter_.maxScale);
 	} else {
-		float scaler = RandomFloat(emitter_.minScale.x, emitter_.maxScale.x);
+		float scaler = Random::RandomFloat(emitter_.minScale.x, emitter_.maxScale.x);
 		newParticle.scale = Math::Vector3(scaler, scaler, scaler);
 	}
 
 	if (emitter_.isRandomRotate) {
-		newParticle.rotateZ = RandomFloat(emitter_.minAngle, emitter_.maxAngle);
+		newParticle.rotateZ = Random::RandomFloat(emitter_.minAngle, emitter_.maxAngle);
 	}
 
 	newParticle.firstScale = newParticle.scale;
@@ -100,29 +100,29 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 
 	} else if (emitter_.emitOrigin == (int)CpuEmitOrigin::Range) {
 		if (emitter_.shape == (int)CpuEmitterShape::Box) {
-			float rangeX = RandomFloat(-emitter_.size.x, emitter_.size.x);
-			float rangeY = RandomFloat(-emitter_.size.y, emitter_.size.y);
-			float rangeZ = RandomFloat(-emitter_.size.z, emitter_.size.z);
+			float rangeX = Random::RandomFloat(-emitter_.size.x, emitter_.size.x);
+			float rangeY = Random::RandomFloat(-emitter_.size.y, emitter_.size.y);
+			float rangeZ = Random::RandomFloat(-emitter_.size.z, emitter_.size.z);
 			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
 		} else if (emitter_.shape == (int)CpuEmitterShape::Shpere) {
-			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
-			float rangeY = RandomFloat(-emitter_.radius, emitter_.radius);
-			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeX = Random::RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeY = Random::RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeZ = Random::RandomFloat(-emitter_.radius, emitter_.radius);
 			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
 		} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
-			float rangeX = RandomFloat(-emitter_.radius, emitter_.radius);
-			float rangeZ = RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeX = Random::RandomFloat(-emitter_.radius, emitter_.radius);
+			float rangeZ = Random::RandomFloat(-emitter_.radius, emitter_.radius);
 			newParticle.translate = Math::Vector3(rangeX, 0.f, rangeZ) + pos;
 		}
 	}
 
 	// 色の決定
 	if (emitter_.isRandomColor) {
-		float t = RandomFloat(0.f, 1.f);
+		float t = Random::RandomFloat(0.f, 1.f);
 		newParticle.color.r = Lerp(emitter_.randColor1.r, emitter_.randColor2.r, t);
-		t = RandomFloat(0.f, 1.f);
+		t = Random::RandomFloat(0.f, 1.f);
 		newParticle.color.g = Lerp(emitter_.randColor1.g, emitter_.randColor2.g, t);
-		t = RandomFloat(0.f, 1.f);
+		t = Random::RandomFloat(0.f, 1.f);
 		newParticle.color.b = Lerp(emitter_.randColor1.b, emitter_.randColor2.b, t);
 	} else {
 		newParticle.color = emitter_.color;
@@ -132,7 +132,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	if (emitter_.emitDirection == (int)CpuEmitDirection::Up) {
 		newParticle.velocity = CVector3::UP * emitter_.speed;
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Random) {
-		Math::Vector3 dire = RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
+		Math::Vector3 dire = Random::RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
 		newParticle.velocity = dire * emitter_.speed;
 
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Outside) {
@@ -145,8 +145,8 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	// Coneの場合はConeの形状で射出させる
 	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		float angle = emitter_.angle * kToRadian;
-		float u = RandomFloat(0, 1);
-		float v = RandomFloat(0, 1);
+		float u = Random::RandomFloat(0, 1);
+		float v = Random::RandomFloat(0, 1);
 
 		float phi = 2.0f * kPI * u;
 		float cosTheta = Lerp(cos(angle), 1.0f, v);

@@ -61,9 +61,9 @@ void PulseArmor::Init() {
 	noiseTexture_[2] = "noise6.png";
 
 	for (size_t index = 0; index < 3; ++index) {
-		Math::Vector3 min = RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
-		Math::Vector3 max = RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
-		uvMovingTween_[index].Init(min, max, RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
+		Math::Vector3 min = Random::RandomVector3(CVector3::UNIT * -5.0f, CVector3::UNIT * 5.0f);
+		Math::Vector3 max = Random::RandomVector3(CVector3::UNIT * 5.0f, CVector3::UNIT * 5.0f);
+		uvMovingTween_[index].Init(min, max, Random::RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
 	}
 
 	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, armorParam_.duration, (int)EasingType::None::Liner, LoopType::Return);
@@ -191,7 +191,7 @@ void PulseArmor::Debug_Gui() {
 			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.uvTransform.scale = uvSrt_[0].scale;
 			armorParam_.uvTransform.rotate = uvSrt_[0].rotate;
-			thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::Return);
+			thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, Random::RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::Return);
 			SetParameter();
 		}
 	}

@@ -1484,6 +1484,7 @@
     </ClInclude>
     <ClInclude Include="Engine\Utilities\ConvertDDS.h" />
     <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
+    <ClInclude Include="Game\Actor\Enemy\Action\EnemyActionWalk.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2566,5 +2567,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Utilities\ConvertDDS.cpp" />
     <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
+    <ClCompile Include="Game\Actor\Enemy\Action\EnemyActionWalk.cpp" />
   </ItemGroup>
 </Project>

@@ -80,7 +80,7 @@ void BossActionStrafe::Init() {
 
 	Math::Vector3 toBoss = bossPosition - playerPosition;
 
-	int rand = RandomInt(0, 1);
+	int rand = Random::RandomInt(0, 1);
 	Math::Vector3 tangent = CVector3::ZERO;
 	if (rand == 0) {
 		tangent = Math::Vector3::Cross(CVector3::UP, toBoss);

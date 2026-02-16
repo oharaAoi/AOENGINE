@@ -78,7 +78,7 @@ void BossActionKeepDistance::Init() {
 	Math::Vector3 targetPos = playerPosition + (distance * param_.getDistance);
 	targetPos.y = bossPosition.y;
 
-	moveType_ = RandomInt(0, 1);
+	moveType_ = Random::RandomInt(0, 1);
 	if (moveType_ == 0) {	// 直進移動
 		accel_ = (targetPos - bossPosition).Normalize() * param_.moveSpeed;
 	} else if (moveType_ == 1) {	// 旋回移動
