@@ -77,7 +77,7 @@ void PlayerActionQuickBoost::OnStart() {
 	pRigidBody_->SetVelocity(acceleration_);
 
 	// エネルギーを消費する
- 	Player::Parameter& ownerParam_ = pOwner_->GetParam();
+ 	PlayerParameter& ownerParam_ = pOwner_->GetParam();
 	ownerParam_.energy -= param_.boostEnergy;
 
 	actionTimer_ = 0;

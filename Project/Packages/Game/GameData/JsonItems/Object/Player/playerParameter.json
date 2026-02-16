@@ -7,8 +7,8 @@
             "z": 1.0
         },
         "energy": 100.0,
-        "energyRecoveyAmount": 100.0,
-        "energyRecoveyCoolTime": 1.0,
+        "energyRecoveryAmount": 100.0,
+        "energyRecoveryCoolTime": 1.0,
         "health": 1000.0,
         "inclineReactionRate": 3.5,
         "inclineStrength": 0.07000000029802322,

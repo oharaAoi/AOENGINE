@@ -1483,6 +1483,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Utilities\ConvertDDS.h" />
+    <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2564,5 +2565,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Utilities\ConvertDDS.cpp" />
+    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
   </ItemGroup>
 </Project>

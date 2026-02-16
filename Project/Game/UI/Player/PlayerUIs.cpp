@@ -45,8 +45,8 @@ void PlayerUIs::Init(Player* _player) {
 }
 
 void PlayerUIs::Update(const Math::Vector2& reticlePos) {
-	const Player::Parameter& playerParam = pPlayer_->GetParam();
-	const Player::Parameter& playerInitParam = pPlayer_->GetInitParam();
+	const PlayerParameter& playerParam = pPlayer_->GetParam();
+	const PlayerParameter& playerInitParam = pPlayer_->GetInitParam();
 
 	ap_->Update();
 

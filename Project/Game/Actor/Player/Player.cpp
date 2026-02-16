@@ -65,37 +65,6 @@ void Player::Debug_Gui() {
 	psRecoveryTimer_.targetTime_ = param_.psRecoveryTime;
 }
 
-void Player::Parameter::Debug_Gui() {
-	ImGui::DragFloat("health", &health, 0.1f);
-	ImGui::DragFloat("postureStability", &postureStability, 0.1f);
-	ImGui::DragFloat("姿勢安定回復時間", &psRecoveryTime, 0.1f);
-	ImGui::DragFloat("姿勢安定回復量", &psRecoveryValue, 0.1f);
-	ImGui::DragFloat("bodyWeight", &bodyWeight, 0.1f);
-	ImGui::DragFloat("energy", &energy, 0.1f);
-	ImGui::DragFloat("energyRecoveyAmount", &energyRecoveyAmount, 0.1f);
-	ImGui::DragFloat("energyRecoveyCoolTime", &energyRecoveyCoolTime, 0.1f);
-
-	ImGui::DragFloat("legColliderRadius", &legColliderRadius, 0.1f);
-	ImGui::DragFloat("legColliderPosY", &legColliderPosY, 0.1f);
-
-	ImGui::DragFloat("windDrag", &windDrag, 0.1f);
-
-	ImGui::DragFloat("inclineStrength", &inclineStrength, 0.01f, 0.0f);
-	ImGui::DragFloat("inclineReactionRate", &inclineReactionRate, 0.01f, 0.0f);
-	ImGui::DragFloat("inclineThreshold", &inclineThreshold, 0.01f, 0.0f);
-	ImGui::DragFloat3("cameraOffset", &cameraOffset.x, 0.01f, 0.0f);
-
-	ImGui::DragFloat3("translateOffset", &translateOffset.x, 0.01f, 0.0f);
-
-	ImGui::DragFloat("ピンチの割合", &pinchOfPercentage, 0.01f, 0.0f);
-	ImGui::DragFloat("ビネットの強さ", &pinchVignettePower, 0.01f, 0.0f);
-	ImGui::ColorEdit4("ビネットの色", &pinchVignetteColor.r);
-
-	ImGui::DragFloat("無敵時間", &invincibleTime, 0.1f);
-
-	SaveAndLoad();
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,18 +76,17 @@ void Player::Init() {
 
 	AOENGINE::SceneLoader::Objects object = AOENGINE::SceneLoader::GetInstance()->GetObjects("Player");
 
-	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
-	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_PBR.json", object_);
-	transform_ = object_->GetTransform();
-	transform_->SetOffset(param_.translateOffset);
-	object_->SetOffset(param_.cameraOffset);
-	object_->SetMaterial(MaterialType::PBR);
+	// -------------------------------------------------
+	// ↓ Object初期化
+	// -------------------------------------------------
+
+	InitObject();
 
 	// -------------------------------------------------
 	// ↓ Animationの設定
 	// -------------------------------------------------
 	object_->SetAnimator("./Project/Packages/Game/Load/Models/Player/", "player.gltf", true, true, false);
-	object_->GetAnimator()->GetAnimationClip()->PoseToAnimation("idle", 0.2f);
+	object_->GetAnimator()->GetAnimationClip()->PoseToAnimation("idle", 0.0f);
 	object_->GetAnimator()->GetAnimationClip()->SetIsLoop(false);
 
 	// -------------------------------------------------
@@ -134,23 +102,12 @@ void Player::Init() {
 	// ↓ Collider関連
 	// -------------------------------------------------
 
-	AOENGINE::BaseCollider* collider = object_->GetCollider("player");
-	collider->SetIsStatic(false);
-
-	AOENGINE::BaseCollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
-	colliderLeftLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
-	colliderLeftLeg->SetIsStatic(false);
-
-	AOENGINE::BaseCollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
-	colliderRightLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
-	colliderRightLeg->SetIsStatic(false);
-
-	object_->SetPhysics();
-	object_->GetRigidbody()->SetDrag(param_.windDrag);
+	InitCollider();
 
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------
+
 	stateMachine_ = std::make_unique<StateMachine<Player>>();
 	stateMachine_->Init(this);
 	stateMachine_->ChangeState<PlayerIdleState>();
@@ -159,23 +116,7 @@ void Player::Init() {
 	// ↓ Action関連
 	// -------------------------------------------------
 
-	actionManager_ = std::make_unique<ActionManager<Player>>();
-	actionManager_->Init(this, "PlayerAction");
-	actionManager_->BuildAction<PlayerActionIdle>();
-	actionManager_->BuildAction<PlayerActionMove>();
-	actionManager_->BuildAction<PlayerActionJump>();
-	actionManager_->BuildAction<PlayerActionQuickBoost>();
-	actionManager_->BuildAction<PlayerActionBoost>();
-	actionManager_->BuildAction<PlayerActionShotRight>();
-	actionManager_->BuildAction<PlayerActionShotLeft>();
-	actionManager_->BuildAction<PlayerActionRightShoulder>();
-	actionManager_->BuildAction<PlayerActionLeftShoulder>();
-	actionManager_->BuildAction<PlayerActionDamaged>();
-	actionManager_->BuildAction<PlayerActionTurnAround>();
-	actionManager_->BuildAction<PlayerActionDeployArmor>();
-
-	size_t hash = typeid(PlayerActionIdle).hash_code();
-	actionManager_->AddRunAction(hash);
+	InitAction();
 
 	// -------------------------------------------------
 	// ↓ Parameter関連
@@ -333,8 +274,8 @@ void Player::Knockback(const Math::Vector3& direction) {
 
 void Player::RecoveryEN(float timer) {
 	if (isLanding_) {
-		if (timer > param_.energyRecoveyCoolTime) {
-			param_.energy += param_.energyRecoveyAmount * AOENGINE::GameTimer::DeltaTime();
+		if (timer > param_.energyRecoveryCoolTime) {
+			param_.energy += param_.energyRecoveryAmount * AOENGINE::GameTimer::DeltaTime();
 			param_.energy = std::clamp(param_.energy, 0.0f, initParam_.energy);
 		}
 	}
@@ -422,6 +363,10 @@ void Player::LegOnCollision([[maybe_unused]] AOENGINE::BaseCollider* other) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ アタック中なら
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 bool Player::IsAttack() {
 	if (isAttack_) {
 		return true;
@@ -474,4 +419,61 @@ void Player::PostureStabilityRecovery() {
 			param_.postureStability = std::clamp(param_.postureStability, 0.0f, initParam_.postureStability);
 		} 
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Objectの初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::InitObject() {
+	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
+	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_PBR.json", object_);
+	transform_ = object_->GetTransform();
+	transform_->SetOffset(param_.translateOffset);
+	object_->SetOffset(param_.cameraOffset);
+	object_->SetMaterial(MaterialType::PBR);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ アクション関連の初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::InitAction() {
+	actionManager_ = std::make_unique<ActionManager<Player>>();
+	actionManager_->Init(this, "PlayerAction");
+	actionManager_->BuildAction<PlayerActionIdle>();
+	actionManager_->BuildAction<PlayerActionMove>();
+	actionManager_->BuildAction<PlayerActionJump>();
+	actionManager_->BuildAction<PlayerActionQuickBoost>();
+	actionManager_->BuildAction<PlayerActionBoost>();
+	actionManager_->BuildAction<PlayerActionShotRight>();
+	actionManager_->BuildAction<PlayerActionShotLeft>();
+	actionManager_->BuildAction<PlayerActionRightShoulder>();
+	actionManager_->BuildAction<PlayerActionLeftShoulder>();
+	actionManager_->BuildAction<PlayerActionDamaged>();
+	actionManager_->BuildAction<PlayerActionTurnAround>();
+	actionManager_->BuildAction<PlayerActionDeployArmor>();
+
+	size_t hash = typeid(PlayerActionIdle).hash_code();
+	actionManager_->AddRunAction(hash);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Colliderの初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::InitCollider() {
+	AOENGINE::BaseCollider* collider = object_->GetCollider("player");
+	collider->SetIsStatic(false);
+
+	AOENGINE::BaseCollider* colliderLeftLeg = object_->GetCollider("playerLeftLeg");
+	colliderLeftLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
+	colliderLeftLeg->SetIsStatic(false);
+
+	AOENGINE::BaseCollider* colliderRightLeg = object_->GetCollider("playerRightLeg");
+	colliderRightLeg->SetOnCollision([this](AOENGINE::BaseCollider* other) { LegOnCollision(other); });
+	colliderRightLeg->SetIsStatic(false);
+
+	object_->SetPhysics();
+	object_->GetRigidbody()->SetDrag(param_.windDrag);
 }

@@ -415,6 +415,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Player\Bullet\PlayerBulletManager.h" />
     <ClInclude Include="Game\Actor\Player\Player.h" />
     <ClInclude Include="Game\Actor\Player\PlayerManager.h" />
+    <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerDeadState.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerIdleState.h" />
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
@@ -781,6 +782,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Player\Bullet\PlayerBulletManager.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
     <ClCompile Include="Game\Actor\Player\PlayerManager.cpp" />
+    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerDeadState.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerIdleState.cpp" />
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
