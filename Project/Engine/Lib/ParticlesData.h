@@ -83,7 +83,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector3 translate = CVector3::ZERO;		// 位置
 	Math::Vector3 preTranslate = CVector3::ZERO;		// 位置
 	Math::Vector3 rotate = CVector3::ZERO;		// 射出方向
-	uint32_t rateOverTimeCout = 10;			// 射出数
+	uint32_t rateOverTimeCout = 100;			// 射出数
 	int shape = 0;						// emitterの種類
 	int emitDirection = 1;
 	int emitOrigin = 0;
@@ -101,7 +101,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector3 minScale = CVector3::UNIT;			// 最小の大きさ
 	Math::Vector3 maxScale = CVector3::UNIT;			// 最大の大きさ
 	float speed = 1.0f;							// 速度
-	float lifeTime = 5.0f;						// particleの生存時間
+	float lifeTime = 3.0f;						// particleの生存時間
 	float gravity = 0;							// 重力を付与するか
 	float dampig = 0;							// 減衰率
 	float angleMin = 0.0f;						// 最小の回転

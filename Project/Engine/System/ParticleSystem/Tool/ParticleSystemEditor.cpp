@@ -14,9 +14,7 @@ void ParticleSystemEditor::Finalize() {
 	descriptorHeaps_->FreeSRV(depthHandle_.assignIndex_);
 	depthStencilResource_.Reset();
 	particleRenderer_.reset();
-	particlesMap_.clear();
 	cpuEmitterList_.clear();
-
 	gpuEmitterList_.clear();
 	gpuParticleRenderer_.reset();
 }
@@ -47,7 +45,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// ↓ Rendererの作成
 	// -------------------------------------------------
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(10000);
+	particleRenderer_->Init(51600);
 
 	gpuParticleRenderer_ = std::make_unique<GpuParticleRenderer>();
 	gpuParticleRenderer_->Init(10240);
@@ -85,16 +83,14 @@ void ParticleSystemEditor::Update() {
 	}
 
 	// particleの更新
-	ParticlesUpdate();
+	particleUpdater_.Update();
 
 	// particleをRendererに送る
 	gpuParticleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), camera_->GetBillBordMatrix());
 	gpuParticleRenderer_->Update();
 
 	particleRenderer_->SetView(camera_->GetViewMatrix() * camera_->GetProjectionMatrix(), AOENGINE::Render::GetProjection2D(), camera_->GetBillBordMatrix());
-	for (auto& particle : particlesMap_) {
-		particleRenderer_->Update(particle.first, particle.second.forGpuData_, particle.second.anyParticleAlive, particle.second.isAddBlend);
-	}
+	particleUpdater_.RendererUpdate(particleRenderer_.get());
 
 	particleRenderer_->PostUpdate();
 
@@ -121,151 +117,6 @@ void ParticleSystemEditor::Draw() {
 }
 
 #ifdef _DEBUG
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ Particleの更新
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ParticleSystemEditor::ParticlesUpdate() {
-	for (auto& particles : particlesMap_) {
-
-		size_t particleNum = particles.second.particles->size();
-		particles.second.forGpuData_.resize(particleNum);
-		for (uint32_t oi = 0; oi < particleNum; ++oi) {
-			particles.second.forGpuData_[oi].color.w = 0.0f;
-		}
-
-		size_t index = 0;
-		bool anyParticleAlive = false;
-		for (auto it = particles.second.particles->begin(); it != particles.second.particles->end();) {
-			auto& pr = *it;
-			// ---------------------------
-			// 生存時間の更新
-			// ---------------------------
-
-			pr.currentTime += AOENGINE::GameTimer::DeltaTime();
-			if (pr.currentTime >= pr.lifeTime) {
-				it = particles.second.particles->erase(it); // 削除して次の要素にスキップ
-				continue;
-			}
-
-			if (pr.lifeTime <= 0.f) {
-				continue;
-			}
-
-			anyParticleAlive = true;
-
-			// ---------------------------
-			// Parameterの更新
-			// ---------------------------
-
-			if (pr.isCenterFor) {
-				if (Length(pr.emitterCenter - pr.translate) < 0.1f) {
-					pr.velocity = CVector3::ZERO;
-				}
-			}
-
-			// 速度を更新
-			pr.velocity *= std::powf((1.0f - pr.damping), AOENGINE::GameTimer::DeltaTime());
-
-			// 重力を適応
-			pr.velocity.y += pr.gravity * AOENGINE::GameTimer::DeltaTime();
-
-			// 座標を適応
-			pr.translate += pr.velocity * AOENGINE::GameTimer::DeltaTime();
-
-			// ---------------------------
-			// 状態の更新
-			// ---------------------------
-			float t = pr.currentTime / pr.lifeTime;
-
-			if (pr.isColorAnimation) {
-				pr.color = AOENGINE::Color::Lerp(pr.preColor, pr.postColor, t);
-			}
-
-			if (pr.isLifeOfAlpha) {
-				pr.color.a = Lerp(1.0f, 0.0f, t);
-			}
-
-			if (pr.isLifeOfScale) {
-				pr.scale = Math::Vector3::Lerp(pr.lifeOfMinScale, pr.lifeOfMaxScale, t);
-			}
-
-			if (pr.isScaleUpScale) {
-				pr.scale = Math::Vector3::Lerp(CVector3::ZERO, pr.upScale, t);
-			}
-
-			if (pr.isFadeInOut) {
-				if (pr.currentTime <= pr.fadeInTime) {
-					float alphaT = pr.currentTime / pr.fadeInTime;
-					pr.color.a = Lerp(0.0f, pr.initAlpha_, alphaT);
-				}
-
-				if ((pr.lifeTime - pr.currentTime) <= pr.fadeOutTime) {
-					float alphaT = (pr.fadeOutTime - (pr.lifeTime - pr.currentTime)) / pr.fadeOutTime;
-					pr.color.a = Lerp(pr.initAlpha_, 0.0f, alphaT);
-				}
-			}
-
-			// 閾値を更新
-			if (pr.isLerpDiscardValue) {
-				pr.discardValue = std::lerp(pr.startDiscard, pr.endDiscard, t);
-			}
-
-			Math::Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
-			Math::Matrix4x4 rotateMatrix;
-			if (pr.isBillBord) {
-				Math::Matrix4x4 billMatrix = camera_->GetBillBordMatrix();
-				Math::Matrix4x4 zRot = pr.rotate.MakeMatrix();
-				rotateMatrix = Multiply(zRot, Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
-			} else {
-				Math::Matrix4x4 billMatrix = Math::Matrix4x4::MakeUnit();
-				rotateMatrix = pr.rotate.MakeMatrix();
-			}
-			if (pr.isDraw2d) {
-				pr.translate.z = 0.0f;
-			}
-			Math::Matrix4x4 translateMatrix = pr.translate.MakeTranslateMat();
-			Math::Matrix4x4 localWorld = Multiply(Multiply(scaleMatrix, rotateMatrix), translateMatrix);
-
-			if (pr.isTextureAnimation) {
-				int totalFrames = (int)(pr.tileSize.x * pr.tileSize.y);
-				int frame = (int)(t * (totalFrames - 1));
-
-				Math::Vector2 tileSize = { 1.0f / pr.tileSize.x, 1.0f / pr.tileSize.y };
-
-				int frameX = frame % (int)pr.tileSize.x;      // 列
-				int frameY = frame / (int)pr.tileSize.x;      // 行
-
-				Math::Vector3 uvTranslate = { frameX * tileSize.x, frameY * tileSize.y, 0.0f };
-
-				Math::Matrix4x4 scaleMat = Math::Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
-				Math::Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
-				pr.uvMat = Multiply(scaleMat, transMat);
-			} else {
-				pr.uvMat = Math::Matrix4x4::MakeUnit();
-			}
-
-			particles.second.forGpuData_[index].uvTransform = pr.uvMat;
-			particles.second.forGpuData_[index].worldMat = localWorld;
-			particles.second.forGpuData_[index].color = pr.color;
-			particles.second.forGpuData_[index].draw2d = pr.isDraw2d;
-			particles.second.forGpuData_[index].discardValue = pr.discardValue;
-			particles.second.forGpuData_[index].cameraPos = camera_->GetWorldPosition();
-			particles.second.forGpuData_[index].velocity = pr.velocity;
-			particles.second.forGpuData_[index].isStretch = pr.isStretch;
-
-			particles.second.isAddBlend = pr.isAddBlend;
-
-			// ---------------------------
-			// NextFrameのための更新
-			// ---------------------------
-			++index;
-			++it;
-		}
-
-		particles.second.anyParticleAlive = anyParticleAlive;
-	}
-}
 
 void ParticleSystemEditor::InputText() {
 	ImGui::Begin("Create Window");
@@ -331,10 +182,8 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 	);
 
 	newParticle->GetShareMaterial()->SetAlbedoTexture(newParticle->GetUseTexture());
-	if (!particlesMap_.contains(_name)) {
-		particlesMap_.emplace(_name, ParticleSystemEditor::ParticlesData());
-	}
-	newParticle->SetParticlesList(particlesMap_[_name].particles);
+	particleUpdater_.Add(_name);
+	newParticle->SetParticlesList(particleUpdater_.GetParticles(_name));
 	newParticle->SetIsStop(false);
 }
 
@@ -371,30 +220,6 @@ void ParticleSystemEditor::OpenLoadDialog() {
 		}
 		ImGuiFileDialog::Instance()->Close();
 	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 読み込みを行う
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-json ParticleSystemEditor::Load(const std::string& filePath) {
-	// 読み込み用ファイルストリーム
-	std::ifstream ifs;
-	// ファイルを読み込みように開く
-	ifs.open(filePath);
-
-	if (ifs.fail()) {
-		std::string message = "not Exist " + filePath + ".json";
-		assert(0);
-	}
-
-	json root;
-	// json文字列からjsonのデータ構造に展開
-	ifs >> root;
-	// ファイルを閉じる
-	ifs.close();
-
-	return root;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -498,88 +323,6 @@ void AOENGINE::ParticleSystemEditor::ResizeBuffer() {
 
 	depthHandle_ = descriptorHeaps_->AllocateDSV();
 	pDevice_->CreateDepthStencilView(depthStencilResource_.Get(), &desc, depthHandle_.handleCPU);
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ Saveを行う
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ParticleSystemEditor::OpenSaveDialog(const std::string& _name, const json& _jsonData) {
-	// configデータを作成する
-	IGFD::FileDialogConfig config;
-	config.path = "Project/Packages/Game/GameData/"; // 初期ディレクトリ
-	config.fileName = _name; // 初期ファイル名
-	config.flags = ImGuiFileDialogFlags_ConfirmOverwrite; // ←ここ！
-	
-	// Dialogを開く
-	ImGuiFileDialog::Instance()->OpenDialog(
-		"SaveParticlesDialogKey",              // ダイアログ識別キー
-		"Save Particles Json File",                 // ウィンドウタイトル
-		".json",                           // 設定
-		config                           // userDatas（不要ならnullptr）
-	);
-
-	// Dialog内の入力処理
-	if (ImGuiFileDialog::Instance()->Display("SaveParticlesDialogKey")) {
-		if (ImGuiFileDialog::Instance()->IsOk()) {
-			std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
-			std::string fileName = ImGuiFileDialog::Instance()->GetCurrentFileName();
-			std::string nameWithoutExtension = std::filesystem::path(fileName).stem().string();
-
-			std::filesystem::path path(filePath);
-			std::string directory = path.parent_path().string();
-
-			isSave_ = false;
-			Save(directory, nameWithoutExtension, _jsonData);
-		} else {
-			// Cancel時の処理
-			isSave_ = false;
-		}
-		ImGuiFileDialog::Instance()->Close();
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 保存を行う
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ParticleSystemEditor::Save(const std::string& directoryPath, const std::string& fileName, const json& jsonData) {
-	if (jsonData.is_object() && !jsonData.empty()) {
-		// 最上位のキーの名前をファイル名とする
-		std::string rootKey = jsonData.begin().key();
-		// ファイルパスの作成
-		std::string filePath = directoryPath + "/" + fileName + ".json";
-
-		// -------------------------------------------------
-		// ↓ ディレクトリがなければ作成を行う
-		// -------------------------------------------------
-		std::filesystem::path dirPath = std::filesystem::path(directoryPath + "\\");
-		if (!std::filesystem::exists(dirPath)) {
-			std::filesystem::create_directories(dirPath);
-			std::cout << "Created directory: " << dirPath << std::endl;
-		}
-
-		// -------------------------------------------------
-		// ↓ ファイルを開けるかのチェックを行う
-		// -------------------------------------------------
-		std::ofstream outFile(filePath);
-		if (outFile.fail()) {
-			std::string message = "Faild open data file for write\n";
-			//Log(message);
-			assert(0);
-			return;
-		}
-
-		// -------------------------------------------------
-		// ↓ ファイルに実際に書き込む
-		// -------------------------------------------------
-		outFile << std::setw(4) << jsonData << std::endl;
-		outFile.close();
-
-	} else {
-		//Log("Invalid or empty JSON data\n");
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

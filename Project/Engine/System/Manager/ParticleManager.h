@@ -5,6 +5,7 @@
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/System/ParticleSystem/Particle/CpuParticleUpdater.h"
 
 namespace AOENGINE {
 
@@ -78,7 +79,7 @@ private:
 	// particleを射出するリスト
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> emitterList_;
 
-	std::unordered_map<std::string, ParticlesData> particlesMap_;
+	CpuParticleUpdater particleUpdater_;
 
 };
 

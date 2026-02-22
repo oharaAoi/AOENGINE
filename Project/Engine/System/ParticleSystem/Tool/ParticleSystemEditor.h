@@ -9,6 +9,7 @@
 #include "Engine/Render/GpuParticleRenderer.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/System/ParticleSystem/EffectSystemCamera.h"
+#include "Engine/System/ParticleSystem/Particle/CpuParticleUpdater.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 
@@ -21,14 +22,14 @@ class ParticleSystemEditor :
 	public IEditorWindow {
 public:
 
-	struct ParticlesData {
+	struct ParticleRuntimeState {
 		std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
 		std::vector<AOENGINE::ParticleInstancingRenderer::ParticleData> forGpuData_;
 
 		bool isAddBlend = false;
 		bool anyParticleAlive = false;
 
-		ParticlesData() {
+		ParticleRuntimeState() {
 			particles = std::make_shared<std::list<AOENGINE::ParticleSingle>>();
 		}
 	};
@@ -103,23 +104,6 @@ private:		// member method
 	void OpenLoadDialog();
 
 	/// <summary>
-	/// ファイルを新たに読み込む
-	/// </summary>
-	json Load(const std::string& filePath);
-
-	/// <summary>
-	/// SaveDialogを開く
-	/// </summary>
-	void OpenSaveDialog(const std::string& _name, const json& _jsonData);
-
-	/// <summary>
-	/// Saveを行う
-	/// </summary>
-	/// <param name="directoryPath"></param>
-	/// <param name="fileName"></param>
-	void Save(const std::string& directoryPath, const std::string& fileName, const json& jsonData);
-
-	/// <summary>
 	/// AOENGINE::RenderTarget設定
 	/// </summary>
 	void SetRenderTarget();
@@ -164,7 +148,7 @@ private:
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> cpuEmitterList_;
 	std::list<std::unique_ptr<AOENGINE::GpuParticleEmitter>> gpuEmitterList_;
 
-	std::unordered_map<std::string, ParticlesData> particlesMap_;
+	CpuParticleUpdater particleUpdater_;
 
 	// editer関連 ------------------------------------------
 	bool isSave_;

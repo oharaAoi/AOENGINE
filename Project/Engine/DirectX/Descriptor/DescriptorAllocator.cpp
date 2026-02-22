@@ -31,8 +31,6 @@ DescriptorHandles DescriptorAllocator::Allocate(ID3D12DescriptorHeap* _descripto
 
 void DescriptorAllocator::Free(uint32_t _index) {
 	freeStack_.push(_index);  // フリースタックに戻す
-	std::string name = std::to_string(_index);
-	AOENGINE::Logger::Log("pushFreeHeap" + name + "\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
