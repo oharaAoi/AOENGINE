@@ -60,7 +60,7 @@ void GameObjectWindow::InspectorWindow() {
 	// -------------------------------------------------
 	// ↓ ItemごとのImGuiを編集する
 	// -------------------------------------------------
-	ImGui::Begin("Object Setting");
+	ImGui::Begin("Inspector");
 	if (selectAttribute_ != nullptr) {
 		bool isActive = selectAttribute_->GetIsActive();
 		ImGui::Checkbox(" ", &isActive);

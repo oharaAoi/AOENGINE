@@ -45,6 +45,7 @@ void EffectSystemCamera::Update() {
 	// renderの更新
 	AOENGINE::Render::SetEyePos(GetWorldPosition());
 	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	AOENGINE::Render::SetCameraRotate(transform_.rotate);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

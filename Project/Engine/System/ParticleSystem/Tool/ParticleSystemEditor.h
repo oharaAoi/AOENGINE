@@ -60,11 +60,6 @@ public:
 	/// </summary>
 	void Update();
 
-	/// <summary>
-	/// 描画処理
-	/// </summary>
-	void Draw();
-
 	void InspectorWindow() override;
 
 	void HierarchyWindow() override;
@@ -83,8 +78,6 @@ private:		// member method
 	/// Particleを更新する
 	/// </summary>
 	void ParticlesUpdate();
-
-	void InputText();
 
 	/// <summary>
 	/// 新たに作成する
@@ -156,6 +149,10 @@ private:
 	bool isGpu_ = false;
 
 	std::string newParticleName_ = "new Particle";
+
+	AOENGINE::BaseParticles* cpuParticles_ = nullptr;
+	AOENGINE::GpuParticleEmitter* gpuParticles_ = nullptr;
+
 };
 
 }

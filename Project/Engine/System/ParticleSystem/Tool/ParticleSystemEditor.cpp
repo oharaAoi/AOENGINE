@@ -3,6 +3,7 @@
 #include "Engine/Engine.h"
 #include "Engine/Render.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
 #include <iostream>
@@ -97,43 +98,15 @@ void ParticleSystemEditor::Update() {
 #endif // _DEBUG
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void ParticleSystemEditor::Draw() {
 #ifdef _DEBUG
-	
-	PreDraw();
-	particleRenderer_->Draw(commandList_);
-	gpuParticleRenderer_->Draw();
-
-	for (auto& emitter : gpuEmitterList_) {
-		emitter->DrawShape();
-	}
-
-	PostDraw();
-#endif // _DEBUG
-}
-
-#ifdef _DEBUG
-
-void ParticleSystemEditor::InputText() {
-	ImGui::Begin("Create Window");
-	char buffer[128];
-	strncpy_s(buffer, sizeof(buffer), newParticleName_.c_str(), _TRUNCATE);
-	buffer[sizeof(buffer) - 1] = '\0'; // 安全のため null 終端
-
-	if (ImGui::InputText("Effect Name", buffer, sizeof(buffer))) {
-		newParticleName_ = buffer;
-	}
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 生成する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Create() {
+	InputTextWithString("name", "##createParticle", newParticleName_);
+
 	// createする
 	ImGui::Checkbox("isGpu", &isGpu_);
 	if (ImGui::Button("Create")) {
@@ -152,8 +125,6 @@ void ParticleSystemEditor::Create() {
 	if (isLoad_) {
 		OpenLoadDialog();
 	}
-
-	ImGui::End();
 }
 
 GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
@@ -227,86 +198,108 @@ void ParticleSystemEditor::OpenLoadDialog() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::InspectorWindow() {
-	Update();
-
-	InputText();
-	Create();
-
-	// 編集したいParticleの指定を行う
-	ImGui::Begin("List");
-	static AOENGINE::BaseParticles* cpuParticles = nullptr;
-	static GpuParticleEmitter* gpuParticles = nullptr;
-	static std::string openNode = "";
-	static bool selectCpu = false;
-	for (auto& it : cpuEmitterList_) {
-		AOENGINE::BaseParticles* ptr = it.get();
-		if (ImGui::Selectable(ptr->GetName().c_str(), cpuParticles == ptr)) {
-			cpuParticles = it.get();
-			openNode = "";  // 他のノードを閉じる
-			selectCpu = true;
-		}
-	}
-	for (auto& emitter : gpuEmitterList_) {
-		GpuParticleEmitter* ptr = emitter.get();
-		if (ImGui::Selectable(ptr->GetName().c_str(), gpuParticles == ptr)) {
-			gpuParticles = emitter.get();
-			openNode = "";  // 他のノードを閉じる
-			selectCpu = false;
-		}
-	}
-	if (ImGui::BeginPopupContextWindow()) {
-		if (ImGui::MenuItem("Delete")) {
-			if (selectCpu) {
-				AOENGINE::BaseParticles* target = cpuParticles;
-				bool deleted = false;
-				cpuEmitterList_.remove_if([&](const std::unique_ptr<AOENGINE::BaseParticles>& ptr) {
-					if (ptr.get() == target) {
-						deleted = true;
-						return true;
-					}
-					return false;
-										  });
-				if (deleted) {
-					cpuParticles = nullptr;
-				}
-			} else {
-				GpuParticleEmitter* target = gpuParticles;
-				bool deleted = false;
-				gpuEmitterList_.remove_if([&](const std::unique_ptr<GpuParticleEmitter>& ptr) {
-					if (ptr.get() == target) {
-						deleted = true;
-						return true;
-					}
-					return false;
-										  });
-				if (deleted) {
-					gpuParticles = nullptr;
-				}
-			}
-		}
-		ImGui::EndPopup();
-	}
-	ImGui::End();
-
+	ImGui::Begin("Inspector");
 	// 指定されたParticleの編集を行う
-	ImGui::Begin("Setting");
-	if (cpuParticles != nullptr) {
+	if (cpuParticles_ != nullptr) {
 		// particle自体を編集する
-		cpuParticles->Debug_Gui();
+		cpuParticles_->Debug_Gui();
 
-	} else if (gpuParticles != nullptr) {
-		gpuParticles->Debug_Gui();
+	} else if (gpuParticles_ != nullptr) {
+		gpuParticles_->Debug_Gui();
 	}
-
 	ImGui::End();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ ヒエラルキーを表示
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
+	Update();
 
+	// 編集したいParticleの指定を行う
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
+	if (ImGui::Begin("Hierarchy", nullptr, window_flags)) {
+		if (ImGui::BeginMenuBar()) {
+			// -------------------------------------------------
+			// ↓ Particleの追加
+			// -------------------------------------------------
+			if (ImGui::BeginMenu(" + ")) {
+				Create();
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		// cpuの追加
+		static bool selectCpu = false;
+		for (auto& it : cpuEmitterList_) {
+			AOENGINE::BaseParticles* ptr = it.get();
+			if (ImGui::Selectable(ptr->GetName().c_str(), cpuParticles_ == ptr)) {
+				cpuParticles_ = it.get();
+				selectCpu = true;
+			}
+		}
+
+		// gpuの追加
+		for (auto& emitter : gpuEmitterList_) {
+			GpuParticleEmitter* ptr = emitter.get();
+			if (ImGui::Selectable(ptr->GetName().c_str(), gpuParticles_ == ptr)) {
+				gpuParticles_ = emitter.get();
+				selectCpu = false;
+			}
+		}
+
+		// 削除の判定
+		if (ImGui::BeginPopupContextWindow()) {
+			if (ImGui::MenuItem("Delete")) {
+				if (selectCpu) {
+					AOENGINE::BaseParticles* target = cpuParticles_;
+					bool deleted = false;
+					cpuEmitterList_.remove_if([&](const std::unique_ptr<AOENGINE::BaseParticles>& ptr) {
+						if (ptr.get() == target) {
+							deleted = true;
+							return true;
+						}
+						return false;
+											  });
+					if (deleted) {
+						cpuParticles_ = nullptr;
+					}
+				} else {
+					GpuParticleEmitter* target = gpuParticles_;
+					bool deleted = false;
+					gpuEmitterList_.remove_if([&](const std::unique_ptr<GpuParticleEmitter>& ptr) {
+						if (ptr.get() == target) {
+							deleted = true;
+							return true;
+						}
+						return false;
+											  });
+					if (deleted) {
+						gpuParticles_ = nullptr;
+					}
+				}
+			}
+			ImGui::EndPopup();
+		}
+		ImGui::End();
+	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 実行画面を表示する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
-	Draw();
+	PreDraw();
+	particleRenderer_->Draw(commandList_);
+	gpuParticleRenderer_->Draw();
+
+	for (auto& emitter : gpuEmitterList_) {
+		emitter->DrawShape();
+	}
+	PostDraw();
 }
 
 void AOENGINE::ParticleSystemEditor::ClearBuffer() {
@@ -379,9 +372,18 @@ void ParticleSystemEditor::PostDraw() {
 
 	// 最後にImGui上でEffectを描画する
 	renderTarget_->TransitionResource(commandList_, EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-	ImTextureID textureID2 = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
-	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
-	ImGui::Image((void*)textureID2, ImVec2(640.0f, 360.0f)); // サイズは適宜調整
+	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(renderTarget_->GetRenderTargetSRVHandle(RenderTargetType::EffectSystem_RenderTarget).handleGPU.ptr));
+	ImVec2 availSize = ImGui::GetContentRegionAvail();
+	// アスペクト比維持したい場合はここで調整
+	const float aspect = 16.0f / 9.0f;
+	if (availSize.x / availSize.y > aspect) {
+		// 横が余る → 高さ基準に合わせる
+		availSize.x = availSize.y * aspect;
+	} else {
+		// 縦が余る → 横基準に合わせる
+		availSize.y = availSize.x / aspect;
+	}
+	ImGui::Image((void*)textureID, availSize, ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
 
 	ImGui::End();
 	ImGui::PopStyleColor();

@@ -105,7 +105,7 @@ void BehaviorTreeEditor::Edit(const std::string& name, std::list<std::unique_ptr
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BehaviorTreeEditor::EditSelect() {
-	ImGui::Begin("Inspector##BehaviorTreeNode");
+	ImGui::Begin("Inspector");
 	if (selectNode_) {
 		selectNode_->Debug_Gui();
 	}
