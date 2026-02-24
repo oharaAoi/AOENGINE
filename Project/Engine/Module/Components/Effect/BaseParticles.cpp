@@ -5,6 +5,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Render.h"
 
 using namespace AOENGINE;
@@ -308,6 +309,9 @@ void AOENGINE::BaseParticles::Reset() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::BaseParticles::Debug_Gui() {
+	InputTextWithString("Name.", "##cpuParticle", name_);
+	ImGui::Separator();
+
 	if (ImGui::Button("Reset")) {
 		Reset();
 	}

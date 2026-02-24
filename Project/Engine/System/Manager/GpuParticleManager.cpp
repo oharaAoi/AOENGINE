@@ -66,7 +66,7 @@ void GpuParticleManager::Draw() const {
 #ifdef _DEBUG
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		for (auto& emitter : emitterList_) {
-			emitter->DrawShape();
+			emitter->DrawShape(AOENGINE::Render::GetViewProjectionMat());
 		}
 	}
 #endif

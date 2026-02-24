@@ -235,18 +235,24 @@ void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
 		static bool selectCpu = false;
 		for (auto& it : cpuEmitterList_) {
 			AOENGINE::BaseParticles* ptr = it.get();
-			if (ImGui::Selectable(ptr->GetName().c_str(), cpuParticles_ == ptr)) {
-				cpuParticles_ = it.get();
-				selectCpu = true;
+			std::string name = ptr->GetName();
+			if (!name.empty()) {
+				if (ImGui::Selectable(name.c_str(), cpuParticles_ == ptr)) {
+					cpuParticles_ = it.get();
+					selectCpu = true;
+				}
 			}
 		}
 
 		// gpuの追加
 		for (auto& emitter : gpuEmitterList_) {
 			GpuParticleEmitter* ptr = emitter.get();
-			if (ImGui::Selectable(ptr->GetName().c_str(), gpuParticles_ == ptr)) {
-				gpuParticles_ = emitter.get();
-				selectCpu = false;
+			std::string name = ptr->GetName();
+			if (!name.empty()) {
+				if (ImGui::Selectable(name.c_str(), gpuParticles_ == ptr)) {
+					gpuParticles_ = emitter.get();
+					selectCpu = false;
+				}
 			}
 		}
 
@@ -295,10 +301,6 @@ void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
 	gpuParticleRenderer_->Draw();
-
-	for (auto& emitter : gpuEmitterList_) {
-		emitter->DrawShape();
-	}
 	PostDraw();
 }
 
@@ -360,6 +362,10 @@ void ParticleSystemEditor::PreDraw() {
 
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+
+		for (auto& emitter : gpuEmitterList_) {
+			emitter->DrawShape(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());
+		}
 	}
 }
 

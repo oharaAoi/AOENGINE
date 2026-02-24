@@ -39,7 +39,7 @@ public:
 	void EmitCommand(ID3D12GraphicsCommandList* commandList);
 
 	// 形状の描画
-	void DrawShape() const;
+	void DrawShape(const Math::Matrix4x4& viewProjectionMatrix) const;
 
 public:
 

@@ -4,6 +4,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Utilities/DrawUtils.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
 
 using namespace AOENGINE;
 
@@ -13,6 +14,9 @@ GpuParticleEmitter::~GpuParticleEmitter() {
 }
 
 void GpuParticleEmitter::Debug_Gui() {
+	InputTextWithString("Name.", "##cpuParticle", name_);
+	ImGui::Separator();
+
 	ImGui::Text("emitAccumulator : %f", emitAccumulator_);
 	ImGui::Checkbox("isStop", &isStop_);
 	emitterItem_.Attribute_Gui();
@@ -116,16 +120,16 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 // ↓ 形状の描画
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuParticleEmitter::DrawShape() const {
+void GpuParticleEmitter::DrawShape(const Math::Matrix4x4& viewProjectionMatrix) const {
 	if (emitterItem_.shape == (int)GpuEmitterShape::Sphere) {
-		DrawSphere(emitterItem_.pos, emitterItem_.radius, AOENGINE::Render::GetViewProjectionMat());
+		DrawSphere(emitterItem_.pos, emitterItem_.radius, viewProjectionMatrix);
 	} else if(emitterItem_.shape == (int)GpuEmitterShape::Box) {
 		Math::OBB obb{ .center = emitterItem_.pos, .size = emitterItem_.size };
 		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitterItem_.rotate));
-		DrawOBB(obb, AOENGINE::Render::GetViewProjectionMat());
+		DrawOBB(obb, viewProjectionMatrix);
 	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
 		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitterItem_.rotate);
-		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, AOENGINE::Render::GetViewProjectionMat());
+		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, viewProjectionMatrix);
 	}
 }
 
