@@ -1,5 +1,5 @@
 #include "GpuParticleRenderer.h"
-#include "Engine/Engine.h"
+#include "Engine/Core/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Lib/GameTimer.h"

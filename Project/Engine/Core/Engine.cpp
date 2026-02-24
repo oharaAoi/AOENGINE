@@ -1,4 +1,4 @@
-#include "Engine.h"
+#include "Engine/Core/Engine.h"
 #include "Engine/Lib/Json//JsonItems.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/DirectX/Pipeline/Compute/ComputeShaderPipelines.h"
@@ -13,7 +13,7 @@
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Utilities/DrawUtils.h"
-#include "Engine/Render.h"
+#include "Engine/Render/Render.h"
 
 using namespace AOENGINE;
 

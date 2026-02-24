@@ -1,5 +1,5 @@
 #include "Smoothing.h"
-#include "Engine.h"
+#include "Engine/Core/Engine.h"
 
 using namespace AOENGINE;
 using namespace PostEffect;

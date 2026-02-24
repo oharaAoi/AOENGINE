@@ -1,6 +1,6 @@
 #include "CpuParticleUpdater.h"
 #include "Engine/Lib/GameTimer.h"
-#include "Engine/Render.h"
+#include "Engine/Render/Render.h"
 
 AOENGINE::CpuParticleUpdater::~CpuParticleUpdater() {
 	particlesMap_.clear();

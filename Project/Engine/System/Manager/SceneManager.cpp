@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include <optional>
-#include "Engine.h"
-#include "Engine/Render.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"

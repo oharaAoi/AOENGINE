@@ -1,6 +1,6 @@
 #include "TestScene.h"
-#include "Engine.h"
-#include "Engine/Render.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 

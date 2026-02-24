@@ -1,6 +1,6 @@
 #include "DepthBasedOutline.h"
-#include "Engine.h"
-#include "Render.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
 
 using namespace AOENGINE;
 using namespace PostEffect;

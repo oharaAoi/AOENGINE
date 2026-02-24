@@ -429,7 +429,7 @@
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Engine.h">
+    <ClInclude Include="Engine\Core\Engine.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h">
@@ -708,7 +708,7 @@
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h">
       <Filter>Engine\Module\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Render.h">
+    <ClInclude Include="Engine\Render\Render.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h">
@@ -1565,7 +1565,7 @@
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp">
       <Filter>Engine\DirectX\Utilities</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Engine.cpp">
+    <ClCompile Include="Engine\Core\Engine.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp">
@@ -1835,7 +1835,7 @@
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp">
       <Filter>Engine\Module\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Render.cpp">
+    <ClCompile Include="Engine\Render\Render.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp">

@@ -139,7 +139,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\DirectX\Resource\DxResource.h" />
     <ClInclude Include="Engine\DirectX\Resource\DxResourceManager.h" />
     <ClInclude Include="Engine\DirectX\Utilities\DirectXUtils.h" />
-    <ClInclude Include="Engine\Engine.h" />
+    <ClInclude Include="Engine\Core\Engine.h" />
     <ClInclude Include="Engine\Lib\CalcDispatchSize2D.h" />
     <ClInclude Include="Engine\Lib\Color.h" />
     <ClInclude Include="Engine\Lib\GameTimer.h" />
@@ -232,7 +232,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
     <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
-    <ClInclude Include="Engine\Render.h" />
+    <ClInclude Include="Engine\Render\Render.h" />
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Engine\Render\InstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
@@ -523,7 +523,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\DirectX\Resource\DxResource.cpp" />
     <ClCompile Include="Engine\DirectX\Resource\DxResourceManager.cpp" />
     <ClCompile Include="Engine\DirectX\Utilities\DirectXUtils.cpp" />
-    <ClCompile Include="Engine\Engine.cpp" />
+    <ClCompile Include="Engine\Core\Engine.cpp" />
     <ClCompile Include="Engine\Lib\CalcDispatchSize2D.cpp" />
     <ClCompile Include="Engine\Lib\Color.cpp" />
     <ClCompile Include="Engine\Lib\GameTimer.cpp" />
@@ -613,7 +613,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
-    <ClCompile Include="Engine\Render.cpp" />
+    <ClCompile Include="Engine\Render\Render.cpp" />
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />

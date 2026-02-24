@@ -1,6 +1,6 @@
 #include "PulseArmor.h"
-#include "Engine/Engine.h"
-#include "Engine/Render.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/Json/JsonItems.h"

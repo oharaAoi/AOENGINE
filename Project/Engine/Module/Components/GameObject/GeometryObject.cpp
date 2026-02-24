@@ -1,6 +1,6 @@
 #include "GeometryObject.h"
-#include "Engine/Render.h"
-#include "Engine/Engine.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Core/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Module/Geometry/Polygon/PlaneGeometry.h"
