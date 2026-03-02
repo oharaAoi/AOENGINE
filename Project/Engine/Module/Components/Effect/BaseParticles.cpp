@@ -21,7 +21,7 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	// meshの設定
 	emitter_.SetGroupName("CPU");
 	emitter_.SetName(particleName_);
-	emitter_.SetRootField(JsonItems::GetDirectoryPath() + "Effect/");
+	emitter_.SetRootField("Effect/");
 	emitter_.Load();
 	if (emitter_.useMesh == "") {
 		shape_ = AOENGINE::MeshManager::GetInstance()->GetMesh("plane");
@@ -34,7 +34,7 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
-	isStop_ = true;
+	isStop_ = false;
 
 	changeMesh_ = false;
 }
@@ -166,7 +166,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 
 	// Objectの回転に進行方向をあわせる
 	Math::Vector3 dire = newParticle.velocity.Normalize();
-	Math::Vector3 worldDire = Math::Quaternion::EulerToQuaternion(emitter_.rotate) * dire;
+	Math::Vector3 worldDire = Math::Quaternion::EulerToQuaternion(emitterRotate_) * dire;
 	newParticle.velocity = worldDire * emitter_.speed;
 
 	// billbordに合わせてz軸を進行方向に向ける
@@ -291,6 +291,10 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 	emitter_.preTranslate = emitter_.translate;
 	if (parentWorldMat_ != nullptr) {
 		preWorldPos_ = emitter_.translate + parentWorldMat_->GetPosition();
+		// 回転も更新しておく
+		Math::Quaternion parentRotate = parentWorldMat_->GetRotate();
+		Math::Quaternion worldRotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate) * parentRotate;
+		emitterRotate_ = worldRotate.QuaternionToEuler();
 	}
 }
 
@@ -310,6 +314,7 @@ void AOENGINE::BaseParticles::Reset() {
 
 void AOENGINE::BaseParticles::Debug_Gui() {
 	InputTextWithString("Name.", "##cpuParticle", name_);
+	emitter_.SetName(name_);
 	ImGui::Separator();
 
 	if (ImGui::Button("Reset")) {

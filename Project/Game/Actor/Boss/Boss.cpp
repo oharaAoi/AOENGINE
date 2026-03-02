@@ -178,6 +178,10 @@ void Boss::Init() {
 	aggressionScore_ = 0.5f;
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "Boss");
+
+	AOENGINE::ParticleManager* particleManager = AOENGINE::ParticleManager::GetInstance();
+	fireParticle_ = particleManager->CreateParticle("fire");
+	fireParticle_->SetParent(transform_->GetWorldMatrix());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

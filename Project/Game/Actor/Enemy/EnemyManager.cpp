@@ -18,7 +18,7 @@ void EnemyManager::Debug_Gui() {
 			}
 		}
 	}
-
+	 
 	ImGui::Separator();
 	ImGui::BulletText("Create Enemy");
 	static int enemyType = 0;

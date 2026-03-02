@@ -95,6 +95,8 @@ protected:
 	std::shared_ptr<AOENGINE::Mesh> shape_;
 	std::shared_ptr<AOENGINE::Material> shareMaterial_;
 
+	std::string meshName_;
+
 	// Particleの情報
 	std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particleArray_;
 
@@ -106,11 +108,12 @@ protected:
 
 	bool changeMesh_ = false;
 
-	std::string meshName_;
-
 	// 親のMatrix
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 	Math::Vector3 preWorldPos_;
+
+	// 新回転
+	Math::Vector3 emitterRotate_;
 };
 
 }

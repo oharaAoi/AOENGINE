@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/BehaviorTree.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 // Game
 #include "Game/State/StateMachine.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
@@ -263,4 +264,6 @@ private:
 
 	// UI -----------------------------------------------------------
 	BossUIs* pBossUIs_;
+
+	AOENGINE::BaseParticles* fireParticle_;
 };

@@ -1488,6 +1488,7 @@
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Particle\CpuParticleUpdater.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2574,5 +2575,6 @@
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Particle\CpuParticleUpdater.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.cpp" />
   </ItemGroup>
 </Project>

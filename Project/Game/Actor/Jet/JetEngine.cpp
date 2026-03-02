@@ -113,6 +113,7 @@ void JetEngine::Init() {
 
 	burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BurnParticle");
 	burnParticle_->SetParent(transform_->GetWorldMatrix());
+	burnParticle_->SetIsStop(true); 
 
 	// -------------------------------------
 	// その他初期化

@@ -33,7 +33,7 @@ void ParticleManager::Init() {
 	SetName("ParticleManager");
 
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(51600 * 2);
+	particleRenderer_->Init(51600 * 3);
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "ParticleManager");
 }

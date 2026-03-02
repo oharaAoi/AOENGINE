@@ -41,6 +41,8 @@ void PlayerActionJump::Build() {
 	AOENGINE::ParticleManager* manager = AOENGINE::ParticleManager::GetInstance();
 	jetBurnLeft_ = manager->CreateParticle("Jet");
 	jetBurnRight_ = manager->CreateParticle("Jet");
+	jetBurnLeft_->SetIsStop(true);
+	jetBurnRight_->SetIsStop(true);
 
 	AOENGINE::Skeleton* skeleton = pOwner_->GetGameObject()->GetAnimator()->GetSkeleton();
 	feetMatrixLeft_ = skeleton->GetSkeletonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
