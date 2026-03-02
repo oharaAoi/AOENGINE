@@ -4,8 +4,8 @@
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Lib/ParticlesData.h"
-#include "Engine/Lib/Color.h"
-#include "Engine/Render/ParticleInstancingRenderer.h"
+#include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Lib/Math/Matrix4x4.h"
 
 namespace AOENGINE {
 
@@ -63,7 +63,9 @@ public:
 
 	void SetPos(const Math::Vector3& pos) { emitter_.translate = pos; }
 
-	void SetParent(const Math::Matrix4x4& parentMat);
+	void SetParent(WorldTransform* parentTransform);
+
+	void SetParentMatrix(const Math::Matrix4x4& parentMat);
 
 	std::shared_ptr<AOENGINE::Mesh> GetMesh() const { return shape_; }
 
@@ -108,12 +110,13 @@ protected:
 
 	bool changeMesh_ = false;
 
-	// 親のMatrix
-	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 	Math::Vector3 preWorldPos_;
 
-	// 新回転
-	Math::Vector3 emitterRotate_;
+	// Transform
+	std::unique_ptr<WorldTransform> worldTransform_;
+	WorldTransform* parentTransform_ = nullptr;
+
+	const Math::Matrix4x4* parentMatrix_ = nullptr;
 };
 
 }

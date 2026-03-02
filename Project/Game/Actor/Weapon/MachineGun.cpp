@@ -33,7 +33,7 @@ void MachineGun::Init() {
 	// ↓ Effect関連
 	// -------------------------------------------------
 	gunFireParticles_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("gunFireParticles");
-	gunFireParticles_->SetParent(transform_->GetWorldMatrix());
+	gunFireParticles_->SetParent(transform_);
 
 }
 

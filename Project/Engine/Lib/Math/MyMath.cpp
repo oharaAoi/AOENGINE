@@ -340,8 +340,8 @@ Math::Vector3 ScreenToWorldCoordinate(const Math::Vector2& screenPos, const Math
 	Math::Vector3 posFar = Math::Vector3(screenPos.x, screenPos.y, 1);
 
 	//　スクリーン座標系からワールド座標形に
-	posNear = Transform(posNear, inverseWvpMat);
-	posFar = Transform(posFar, inverseWvpMat);
+	posNear = TransformCoord(posNear, inverseWvpMat);
+	posFar = TransformCoord(posFar, inverseWvpMat);
 
 	// ニアの点からファーの点に向かう光線を求める
 	Math::Vector3 mouseDirection = posFar - posNear;
@@ -361,7 +361,7 @@ Math::Vector3 ScreenToWorldCoordinate(const Math::Vector2& screenPos, const Math
 /// <param name="setDirection">ワールド上のどこに設定するか</param>
 /// <returns>ワールド座標</returns>
 Math::Vector2 WorldToScreenCoordinate(const Math::Matrix4x4& targetWorldMat, const Math::Matrix4x4& vpvpMat) {
-	Math::Vector3 pos = Transform(CVector3::ZERO, targetWorldMat * vpvpMat);
+	Math::Vector3 pos = TransformCoord(CVector3::ZERO, targetWorldMat * vpvpMat);
 	return Math::Vector2(pos.x, pos.y);
 }
 

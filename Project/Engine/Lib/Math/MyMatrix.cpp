@@ -162,7 +162,7 @@ void addScaledRow(Math::Matrix4x4& matrix, int targetRow, int sourceRow, float s
 /// <param name="vector"></param>
 /// <param name="matrix"></param>
 /// <returns></returns>
-Math::Vector3 Transform(const Math::Vector3& vector, const Math::Matrix4x4& matrix) {
+Math::Vector3 TransformCoord(const Math::Vector3& vector, const Math::Matrix4x4& matrix) {
     Math::Vector3 result;
     result.x = vector.x * matrix.m[0][0] + vector.y * matrix.m[1][0] + vector.z * matrix.m[2][0] + 1.0f * matrix.m[3][0];
     result.y = vector.x * matrix.m[0][1] + vector.y * matrix.m[1][1] + vector.z * matrix.m[2][1] + 1.0f * matrix.m[3][1];

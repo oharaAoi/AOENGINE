@@ -46,6 +46,6 @@ void addScaledRow(Math::Matrix4x4& matrix, int targetRow, int sourceRow, float s
 /// <param name="vector"></param>
 /// <param name="matrix"></param>
 /// <returns></returns>
-Math::Vector3 Transform(const Math::Vector3& vector, const Math::Matrix4x4& matrix);
+Math::Vector3 TransformCoord(const Math::Vector3& vector, const Math::Matrix4x4& matrix);
 
 Math::Vector3 GetEulerAnglesFromRotationMat(const Math::Matrix4x4& R);

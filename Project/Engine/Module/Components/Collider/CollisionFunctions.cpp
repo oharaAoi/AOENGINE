@@ -156,7 +156,7 @@ bool CheckCollisionOBBandSphere(const OBB& obb, const Sphere& sphere) {
 	Math::Matrix4x4 obbMatWorldInverse = obbMatWorld.Inverse();
 
 	// 中心点を作成
-	Math::Vector3 centerInOBBLocal = Transform(sphere.center, obbMatWorldInverse);
+	Math::Vector3 centerInOBBLocal = TransformCoord(sphere.center, obbMatWorldInverse);
 
 	// OBBからABBを作成
 	AABB aabbOBBLocal{ .min = obb.size * -1, .max = obb.size };
@@ -283,8 +283,8 @@ bool CheckCollisionOBBandLine(const OBB& obb, const Line& line) {
 	Math::Matrix4x4 obbMatWorldInverse = Inverse(obbMatWorld);
 
 	// 線分の始点と終点をAABBのローカル空間に変換する
-	Math::Vector3 localOrigin = Transform(line.origin, obbMatWorldInverse);
-	Math::Vector3 localEnd = Transform(line.origin + line.diff, obbMatWorldInverse);
+	Math::Vector3 localOrigin = TransformCoord(line.origin, obbMatWorldInverse);
+	Math::Vector3 localEnd = TransformCoord(line.origin + line.diff, obbMatWorldInverse);
 
 	// OBBからABBを作成
 	AABB aabbOBBLocal{ .min = obb.size * -1, .max = obb.size };

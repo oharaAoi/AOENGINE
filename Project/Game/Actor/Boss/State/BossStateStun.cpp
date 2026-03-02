@@ -30,7 +30,7 @@ void BossStateStun::OnStart() {
 	// ----------------------
 
 	effect_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossStunEffect");
-	effect_->SetParent(pOwner_->GetTransform()->GetWorldMatrix());
+	effect_->SetParent(pOwner_->GetTransform());
 
 	AOENGINE::GameTimer::SetTimeScale(0.1f);
 

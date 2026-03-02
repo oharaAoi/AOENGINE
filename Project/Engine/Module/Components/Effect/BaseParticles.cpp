@@ -35,8 +35,11 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	isAddBlend_ = emitter_.isParticleAddBlend;
 	emitAccumulator_ = 0.0f;
 	isStop_ = false;
-
 	changeMesh_ = false;
+
+	worldTransform_ = Engine::CreateWorldTransform();
+	worldTransform_->SetRotate(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
+	worldTransform_->SetTranslate(emitter_.translate);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,6 +47,30 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::BaseParticles::Update() {
+	// 回転の更新
+	Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
+	if (parentTransform_ != nullptr) {
+		rotate = parentTransform_->GetRotate() * rotate;
+	}
+	worldTransform_->SetRotate(rotate);
+
+	// 座標の更新
+	emitter_.preTranslate = worldTransform_->GetPos();
+	preWorldPos_ = emitter_.preTranslate;
+
+	Math::Vector3 localPos = emitter_.translate;
+	Math::Vector3 worldPos = localPos;
+
+	if (parentTransform_ != nullptr) {
+		worldPos = TransformCoord(localPos, parentTransform_->GetWorldMatrix());
+	}
+	if (parentMatrix_ != nullptr) {
+		worldPos = TransformCoord(localPos, *parentMatrix_);
+	}
+	worldTransform_->SetTranslate(worldPos);
+
+	worldTransform_->Update();
+	// 射出の更新を行う
 	EmitUpdate();
 }
 
@@ -53,6 +80,7 @@ void AOENGINE::BaseParticles::Update() {
 
 void AOENGINE::BaseParticles::DrawShape() {
 	Math::Matrix4x4 mat{};
+	Math::Quaternion worldRotate = worldTransform_->GetRotate();
 	if (!emitter_.isDraw2d) {
 		mat = AOENGINE::Render::GetViewProjectionMat();
 	} else {
@@ -65,12 +93,12 @@ void AOENGINE::BaseParticles::DrawShape() {
 			.center = emitter_.translate,
 			.size = emitter_.size
 		};
-		obb.MakeOBBAxis(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
+		obb.MakeOBBAxis(worldRotate);
 		DrawOBB(obb, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Shpere) {
 		DrawSphere(emitter_.translate, emitter_.radius, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
-		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
+		Math::Quaternion rotate = worldRotate;
 		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
 	}
 }
@@ -144,6 +172,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	}
 
 	// Coneの場合はConeの形状で射出させる
+	Math::Quaternion worldRotate = worldTransform_->GetRotate();
 	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		float angle = emitter_.angle * kToRadian;
 		float u = Random::RandomFloat(0, 1);
@@ -166,7 +195,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 
 	// Objectの回転に進行方向をあわせる
 	Math::Vector3 dire = newParticle.velocity.Normalize();
-	Math::Vector3 worldDire = Math::Quaternion::EulerToQuaternion(emitterRotate_) * dire;
+	Math::Vector3 worldDire = worldRotate * dire;
 	newParticle.velocity = worldDire * emitter_.speed;
 
 	// billbordに合わせてz軸を進行方向に向ける
@@ -249,14 +278,11 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 
 	if (isStop_) { return; }
 
+	Math::Vector3 worldPos = worldTransform_->GetPos();
 	// 一度だけ打つフラグがtrueだったら
 	if (!emitter_.isLoop) {
 		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {
-			if (parentWorldMat_ != nullptr) {
-				Emit(emitter_.translate + parentWorldMat_->GetPosition());
-			} else {
-				Emit(emitter_.translate);
-			}
+			Emit(worldPos);
 		}
 		isStop_ = true;
 	}
@@ -271,13 +297,8 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 		if (count > 1) {
 			t = (count) / float(emitCout - 1);
 		}
-		if (parentWorldMat_ != nullptr) {
-			Math::Vector3 pos = Math::Vector3::Lerp(preWorldPos_, emitter_.translate + parentWorldMat_->GetPosition(), t);
-			Emit(pos);
-		} else {
-			Math::Vector3 pos = Math::Vector3::Lerp(emitter_.preTranslate, emitter_.translate, t);
-			Emit(pos);
-		}
+		Math::Vector3 pos = Math::Vector3::Lerp(preWorldPos_, worldPos, t);
+		Emit(pos);
 	}
 	
 	// 継続時間を進める
@@ -286,15 +307,6 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 		if (!emitter_.isLoop) {
 			isStop_ = true;
 		}
-	}
-
-	emitter_.preTranslate = emitter_.translate;
-	if (parentWorldMat_ != nullptr) {
-		preWorldPos_ = emitter_.translate + parentWorldMat_->GetPosition();
-		// 回転も更新しておく
-		Math::Quaternion parentRotate = parentWorldMat_->GetRotate();
-		Math::Quaternion worldRotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate) * parentRotate;
-		emitterRotate_ = worldRotate.QuaternionToEuler();
 	}
 }
 
@@ -354,6 +366,10 @@ void AOENGINE::BaseParticles::ChangeMesh() {
 // ↓ 親の設定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::BaseParticles::SetParent(const Math::Matrix4x4& parentMat) {
-	parentWorldMat_ = &parentMat;
+void AOENGINE::BaseParticles::SetParent(WorldTransform* parentTransform) {
+	parentTransform_ = parentTransform;
+}
+
+void AOENGINE::BaseParticles::SetParentMatrix(const Math::Matrix4x4& parentMat) {
+	parentMatrix_ = &parentMat;
 }

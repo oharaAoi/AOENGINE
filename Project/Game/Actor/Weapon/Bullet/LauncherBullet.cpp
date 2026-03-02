@@ -36,8 +36,8 @@ void LauncherBullet::Init() {
 	// ----------------------
 	burn_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("MissileBurn");
 	smoke_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("Launcher");
-	burn_->SetParent(transform_->GetWorldMatrix());
-	smoke_->SetParent(transform_->GetWorldMatrix());
+	burn_->SetParent(transform_);
+	smoke_->SetParent(transform_);
 	burn_->SetIsStop(false);
 	smoke_->SetIsStop(false);
 

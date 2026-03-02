@@ -48,8 +48,8 @@ void PlayerActionJump::Build() {
 	feetMatrixLeft_ = skeleton->GetSkeletonSpaceMat("left_feetFront") * pOwnerTransform_->GetWorldMatrix();
 	feetMatrixRight_ = skeleton->GetSkeletonSpaceMat("right_feetFront") * pOwnerTransform_->GetWorldMatrix();
 
-	jetBurnLeft_->SetParent(feetMatrixLeft_);
-	jetBurnRight_->SetParent(feetMatrixRight_);
+	jetBurnLeft_->SetParentMatrix(feetMatrixLeft_);
+	jetBurnRight_->SetParentMatrix(feetMatrixRight_);
 
 	pRigidbody_ = pOwner_->GetGameObject()->GetRigidbody();
 }

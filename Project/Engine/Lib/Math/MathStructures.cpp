@@ -33,7 +33,7 @@ std::vector<Math::Vector3> OBB::MakeIndex() const {
 					(z ? size.z : -size.z),
 				};
 
-				Math::Vector3 worldVertex = Transform(localVertex, matRotate);
+				Math::Vector3 worldVertex = TransformCoord(localVertex, matRotate);
 				vertices.push_back(worldVertex + center);
 			}
 		}

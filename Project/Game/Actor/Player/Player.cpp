@@ -380,8 +380,8 @@ bool Player::IsAttack() {
 
 void Player::CameraIncline() {
 	// スクリーン座標系でのX成分の差を求める
-	Math::Vector3 screenPos = Transform(CVector3::ZERO, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
-	Math::Vector3 screenPosPrev = Transform(CVector3::ZERO, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
+	Math::Vector3 screenPos = TransformCoord(CVector3::ZERO, transform_->GetWorldMatrix() * pFollowCamera_->GetVpvpMatrix());
+	Math::Vector3 screenPosPrev = TransformCoord(CVector3::ZERO, transform_->GetWorldMatrixPrev() * pFollowCamera_->GetVpvpMatrix());
 	screenPos_ = Math::Vector2(screenPos.x, screenPos.y);
 	screenPosPrev_ = Math::Vector2(screenPosPrev.x, screenPosPrev.y);
 

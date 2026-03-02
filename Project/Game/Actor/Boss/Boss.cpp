@@ -181,7 +181,7 @@ void Boss::Init() {
 
 	AOENGINE::ParticleManager* particleManager = AOENGINE::ParticleManager::GetInstance();
 	fireParticle_ = particleManager->CreateParticle("fire");
-	fireParticle_->SetParent(transform_->GetWorldMatrix());
+	fireParticle_->SetParent(transform_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
