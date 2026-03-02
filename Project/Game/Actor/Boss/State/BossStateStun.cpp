@@ -33,7 +33,6 @@ void BossStateStun::OnStart() {
 	effect_->SetParent(pOwner_->GetTransform());
 
 	AOENGINE::GameTimer::SetTimeScale(0.1f);
-
 	AOENGINE::AudioPlayer::SingleShotPlay("stan_se.mp3", 0.5f);
 }
 
