@@ -1,6 +1,7 @@
 #pragma once
 // engine
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 // Game
 #include "Game/Actor/Weapon/BaseWeapon.h"
 
@@ -56,6 +57,8 @@ private:
 	FlamethrowerParam flamethrowerParam_;
 
 	AOENGINE::BaseParticles* flameParticle_ = nullptr;
+
+	AOENGINE::BaseCollider* collider_ = nullptr;
 
 };
 

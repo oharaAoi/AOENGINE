@@ -1,5 +1,6 @@
 #include "Flamethrower.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Game/Information/ColliderCategory.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
@@ -46,7 +47,15 @@ void Flamethrower::Init() {
 	object_->SetObject("flamethrower.obj", MaterialType::PBR);
 	transform_->SetTranslate(flamethrowerParam_.pos);
 
-	// 火炎の表現のための初期化
+	// ----------------------
+	// ↓ colliderの設定
+	// ----------------------
+	collider_ = object_->SetCollider(ColliderTags::Bullet::flamethrower, ColliderShape::Sphere);
+	collider_->SetTarget(ColliderTags::Player::own);
+
+	// ----------------------
+	// ↓火炎の表現のための初期化
+	// ----------------------
 	flameParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("fire");
 	flameParticle_->SetIsStop(true);
 	flameParticle_->SetParent(transform_);
