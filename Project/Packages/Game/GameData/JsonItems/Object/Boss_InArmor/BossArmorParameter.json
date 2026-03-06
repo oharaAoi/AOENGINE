@@ -1,5 +1,7 @@
 {
     "BossArmorParameter": {
+        "HighDurabilityMaxThreshold": 0.46000000834465027,
+        "HighDurabilityMinThreshold": 0.30000001192092896,
         "baseTexture": "FireNoize.png",
         "color": {
             "a": 1.0,
@@ -8,7 +10,7 @@
             "r": 1.0
         },
         "durability": 250.0,
-        "duration": 3.0,
+        "duration": 2.0,
         "edgeColor": {
             "a": 1.0,
             "b": 0.09302324056625366,
@@ -20,8 +22,8 @@
             "y": 0.0,
             "z": 0.0
         },
-        "maxThreshold": 0.4000000059604645,
-        "minThreshold": 0.6000000238418579,
+        "lowDurabilityMaxThreshold": 0.6200000047683716,
+        "lowDurabilityMinThreshold": 0.3499999940395355,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "noise5.png",
         "noiseTexture3": "noise6.png",

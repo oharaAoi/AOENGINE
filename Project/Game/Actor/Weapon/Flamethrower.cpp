@@ -65,7 +65,7 @@ void Flamethrower::Init() {
 // ↓ 攻撃処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Flamethrower::Attack(const AttackContext& cxt) {
+bool Flamethrower::Attack([[maybe_unused]] const AttackContext& cxt) {
 	if (!isCanAttack_) { return false; }
 
 	return true;

@@ -17,7 +17,9 @@ PulseArmor::~PulseArmor() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Init() {
-	armorParam_.FromJson(AOENGINE::JsonItems::GetData(GetName(), armorParam_.GetName()));
+	armorParam_.SetGroupName(GetName());
+	armorParam_.Load();
+
 	geometry_.Init(CMath::Vector2::UNIT, 16, "armor");
 
 	// meshの設定
@@ -66,7 +68,7 @@ void PulseArmor::Init() {
 		uvMovingTween_[index].Init(min, max, Random::RandomFloat(100.0f, 200.0f), (int)EasingType::None::Liner, LoopType::Return);
 	}
 
-	thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, armorParam_.duration, (int)EasingType::None::Liner, LoopType::Return);
+	thresholdTween_.Init(armorParam_.HighDurabilityMinThreshold, armorParam_.HighDurabilityMaxThreshold, armorParam_.duration, (int)EasingType::None::Liner, LoopType::Return);
 
 	isAlive_ = false;
 	worldTransform_->SetScale(CVector3::ZERO);
@@ -77,15 +79,18 @@ void PulseArmor::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PulseArmor::Update() {
+	// uvの更新を行う
 	for (size_t index = 0; index < 3; ++index) {
 		uvSrt_[index].translate = uvMovingTween_[index].GetValue();
 		uvMovingTween_[index].Update(AOENGINE::GameTimer::DeltaTime());
 		setting_->uvTransform[index] = uvSrt_[index].MakeAffine();
 	}
 
+	// 閾値のアニメーション
 	thresholdTween_.Update(AOENGINE::GameTimer::DeltaTime());
 	setting_->threshold = thresholdTween_.GetValue();
 
+	// 座標の更新
 	worldTransform_->Update();
 }
 
@@ -154,12 +159,14 @@ void PulseArmor::Debug_Gui() {
 
 	// アーマーのパラメータを編集する
 	if (ImGui::CollapsingHeader("Parameter")) {
-		ImGui::DragFloat("durability", &armorParam_.durability, 0.1f);
-		ImGui::DragFloat3("scale", &armorParam_.scale.x, 0.1f);
+		ImGui::DragFloat("耐久度", &armorParam_.durability, 0.1f);
+		ImGui::DragFloat3("大きさ", &armorParam_.scale.x, 0.1f);
 
-		ImGui::DragFloat("minThreshold", &armorParam_.minThreshold, 0.01f);
-		ImGui::DragFloat("maxThreshold", &armorParam_.maxThreshold, 0.01f);
-		ImGui::DragFloat("duration", &armorParam_.duration, 0.01f);
+		ImGui::DragFloat("最小値 : 耐久が低い時", &armorParam_.lowDurabilityMinThreshold, 0.01f, 0.f, 1.f);
+		ImGui::DragFloat("最小値 : 耐久が高い時", &armorParam_.HighDurabilityMinThreshold, 0.01f, 0.f, 1.f);
+		ImGui::DragFloat("最大値 : 耐久が低い時", &armorParam_.lowDurabilityMaxThreshold, 0.01f, 0.f, 1.f);
+		ImGui::DragFloat("最大値 : 耐久が高い時", &armorParam_.HighDurabilityMaxThreshold, 0.01f, 0.f, 1.f);
+		ImGui::DragFloat("グラデーションの時間", &armorParam_.duration, 0.01f);
 		
 		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_DefaultOpen;
 		if (ImGui::TreeNodeEx("uvTransform", flags)) {
@@ -181,7 +188,7 @@ void PulseArmor::Debug_Gui() {
 			armorParam_.noiseTexture1 = noiseTexture_[0];
 			armorParam_.noiseTexture2 = noiseTexture_[1];
 			armorParam_.noiseTexture3 = noiseTexture_[2];
-			AOENGINE::JsonItems::Save(GetName(), armorParam_.ToJson(armorParam_.GetName()));
+			armorParam_.Save();
 		}
 
 		if (ImGui::Button("Applay")) {
@@ -191,7 +198,7 @@ void PulseArmor::Debug_Gui() {
 			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.uvTransform.scale = uvSrt_[0].scale;
 			armorParam_.uvTransform.rotate = uvSrt_[0].rotate;
-			thresholdTween_.Init(armorParam_.minThreshold, armorParam_.maxThreshold, Random::RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::Return);
+			thresholdTween_.Init(armorParam_.HighDurabilityMinThreshold, armorParam_.HighDurabilityMaxThreshold, Random::RandomFloat(4.0f, 8.0f), (int)EasingType::None::Liner, LoopType::Return);
 			SetParameter();
 		}
 	}
@@ -238,6 +245,14 @@ void PulseArmor::SetArmor(float _durability, const Math::Vector3& _scale, const 
 
 void PulseArmor::DamageDurability(float _damage) {
 	durability_ -= _damage;
+
+	// 現在の耐久度と元の耐久度から減り具合を求める
+	float durabilityRaito = durability_ / armorParam_.durability;
+	float minThreshold = std::lerp(armorParam_.lowDurabilityMinThreshold, armorParam_.HighDurabilityMinThreshold, durabilityRaito);
+	float maxThreshold = std::lerp(armorParam_.lowDurabilityMaxThreshold, armorParam_.HighDurabilityMaxThreshold, durabilityRaito);
+	thresholdTween_.SetStart(minThreshold);
+	thresholdTween_.SetEnd(maxThreshold);
+
 }
 
 bool PulseArmor::BreakArmor() {

@@ -40,8 +40,11 @@ public:
 		std::string noiseTexture2;
 		std::string noiseTexture3;
 
-		float minThreshold;
-		float maxThreshold;
+		float lowDurabilityMinThreshold;	// 耐久度が低い時の最小の閾値
+		float HighDurabilityMinThreshold;	// 耐久度が高い時の最大の閾値
+		float lowDurabilityMaxThreshold;	// 耐久度が低い時の最小の閾値
+		float HighDurabilityMaxThreshold;	// 耐久度が高い時の最大の閾値
+
 		float duration;
 
 		ArmorParameter() { SetName("BossArmorParameter"); }
@@ -60,8 +63,10 @@ public:
 				.Add("noiseTexture1", noiseTexture1)
 				.Add("noiseTexture2", noiseTexture2)
 				.Add("noiseTexture3", noiseTexture3)
-				.Add("minThreshold", minThreshold)
-				.Add("maxThreshold", maxThreshold)
+				.Add("lowDurabilityMinThreshold", lowDurabilityMinThreshold)
+				.Add("HighDurabilityMinThreshold", HighDurabilityMinThreshold)
+				.Add("lowDurabilityMaxThreshold", lowDurabilityMaxThreshold)
+				.Add("HighDurabilityMaxThreshold", HighDurabilityMaxThreshold)
 				.Add("duration", duration)
 				.Build();
 		}
@@ -78,8 +83,10 @@ public:
 			Convert::fromJson(jsonData, "noiseTexture1", noiseTexture1);
 			Convert::fromJson(jsonData, "noiseTexture2", noiseTexture2);
 			Convert::fromJson(jsonData, "noiseTexture3", noiseTexture3);
-			Convert::fromJson(jsonData, "minThreshold", minThreshold);
-			Convert::fromJson(jsonData, "maxThreshold", maxThreshold);
+			Convert::fromJson(jsonData, "lowDurabilityMinThreshold", lowDurabilityMinThreshold);
+			Convert::fromJson(jsonData, "HighDurabilityMinThreshold", HighDurabilityMinThreshold);
+			Convert::fromJson(jsonData, "lowDurabilityMaxThreshold", lowDurabilityMaxThreshold);
+			Convert::fromJson(jsonData, "HighDurabilityMaxThreshold", HighDurabilityMaxThreshold);
 			Convert::fromJson(jsonData, "duration", duration);
 		}
 
