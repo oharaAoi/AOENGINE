@@ -31,22 +31,17 @@ void TestScene::Init() {
 	debugCamera_->Init();
 	debugCamera_->SetIsActive(true);
 
-	jet_ = std::make_unique<JetEngine>();
-	jet_->Init();
+	flame_ = std::make_unique<Flamethrower>();
+	flame_->Init();
 
-	attackArmor_ = std::make_unique<AttackArmor>();
-	attackArmor_->Init();
-
-	AOENGINE::EditorWindows::AddObjectWindow(jet_.get(), "jet");
-	AOENGINE::EditorWindows::AddObjectWindow(attackArmor_.get(), "attackArmor");
+	AOENGINE::EditorWindows::AddObjectWindow(flame_.get(), "Flame");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
-	jet_->Update(0.0f);
-	attackArmor_->Update();
+	flame_->Update();
 
 	// -------------------------------------------------
 	// ↓ cameraの更新 

@@ -78,7 +78,6 @@ void Boss::AggressionWeights::Debug_Gui() {
 	SaveAndLoad();
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +141,10 @@ void Boss::Init() {
 	behaviorTree_->Register("DualStageMissile", [this]() { return CreateTask<BossActionDualStageMissile>(this, "DualStageMissile"); });
 	behaviorTree_->Register("TransitionPhase", [this]() { return CreateTask<BossActionTransitionPhase>(this, "TransitionPhase"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "BossTree.aitree");
+	behaviorTree_->SetExecute(true);
+#ifdef _DEBUG
 	behaviorTree_->SetExecute(false);
-
+#endif
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------
@@ -178,10 +179,6 @@ void Boss::Init() {
 	aggressionScore_ = 0.5f;
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "Boss");
-
-	AOENGINE::ParticleManager* particleManager = AOENGINE::ParticleManager::GetInstance();
-	fireParticle_ = particleManager->CreateParticle("fire");
-	fireParticle_->SetParent(transform_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -254,7 +251,6 @@ void Boss::Update() {
 	if (Engine::WorldToGameImagePos(GetPosition(), bossUIPos)) {
 		behaviorTree_->DisplayState(bossUIPos, aggressionScore_, ImVec2(param_.treeStateOffset.x, param_.treeStateOffset.y));
 	}
-	
 #endif // _DEBUG
 }
 

@@ -17,6 +17,7 @@ AOENGINE::ParticleManager* AOENGINE::ParticleManager::GetInstance() {
 
 void ParticleManager::Finalize() {
 	emitterList_.clear();
+	particleUpdater_.Finalize();
 	particleRenderer_ = nullptr;
 	ClearChild();
 }

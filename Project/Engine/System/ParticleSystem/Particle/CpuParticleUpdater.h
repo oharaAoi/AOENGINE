@@ -20,6 +20,11 @@ public: // コンストラクタ
 public:
 
 	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
+
+	/// <summary>
 	/// 更新処理
 	/// </summary>
 	void Update();

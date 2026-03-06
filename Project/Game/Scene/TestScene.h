@@ -5,10 +5,7 @@
 #include "Game/Camera/DebugCamera.h"
 #include "Game/Camera/Camera2d.h"
 #include "Game/Camera/Camera3d.h"
-#include "Game/WorldObject/Skybox.h"
-#include "Game/Actor/Jet/JetEngine.h"
-
-#include "Game/Effects/AttackArmor.h"
+#include "Game/Actor/Weapon/Flamethrower.h"
 
 class TestScene 
 : public BaseScene {
@@ -31,7 +28,6 @@ private:
 	std::unique_ptr<Camera3d> camera3d_ = nullptr;
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
-	std::unique_ptr<JetEngine> jet_;
-	std::unique_ptr<AttackArmor> attackArmor_;
+	std::unique_ptr<Flamethrower> flame_;
 };
 

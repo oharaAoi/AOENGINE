@@ -25,10 +25,10 @@ void BehaviorTreeSerializer::Save(const std::string& filePath, const json& _json
 }
 
 json BehaviorTreeSerializer::LoadToJson(const std::string& filePath) {
-	AOENGINE::Logger::Log("[Load][BehaviorTreeJson] : " + filePath);
+	AOENGINE::Logger::Log("[Load][BehaviorTreeJson] : " + filePath + "\n");
 	std::ifstream inFile(filePath);
 	json j;
 	inFile >> j;
-	AOENGINE::Logger::Log("--- success!");
+	AOENGINE::Logger::Log("--- success!\n");
 	return j;
 }

@@ -6,6 +6,10 @@ AOENGINE::CpuParticleUpdater::~CpuParticleUpdater() {
 	particlesMap_.clear();
 }
 
+void AOENGINE::CpuParticleUpdater::Finalize() {
+	particlesMap_.clear();
+}
+
 void AOENGINE::CpuParticleUpdater::Update() {
 	for (auto& particles : particlesMap_) {
 

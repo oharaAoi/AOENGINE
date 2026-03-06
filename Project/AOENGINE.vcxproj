@@ -429,6 +429,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
+    <ClInclude Include="Game\Actor\Weapon\Flamethrower.h" />
     <ClInclude Include="Game\Actor\Weapon\LaserRifle.h" />
     <ClInclude Include="Game\Actor\Weapon\LauncherGun.h" />
     <ClInclude Include="Game\Actor\Weapon\MachineGun.h" />
@@ -801,6 +802,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Flamethrower.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LaserRifle.cpp" />
     <ClCompile Include="Game\Actor\Weapon\LauncherGun.cpp" />
     <ClCompile Include="Game\Actor\Weapon\MachineGun.cpp" />
