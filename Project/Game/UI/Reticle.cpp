@@ -1,7 +1,6 @@
 #include "Reticle.h"
 #include "Engine/Core/Engine.h"
 #include "Lib/Math/Vector2.h"
-#include "Engine/System/Input/Input.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -15,7 +14,13 @@ void Reticle::Init() {
 	reticle_->SetSaveTranslate(defaultPosition_);
 	reticle_->SetTranslate(defaultPosition_);
 
+	lockOnButton_ = Engine::GetCanvas2d()->AddSprite("lockOnButton.png", "lockOnButton");
+	lockOnButton_->Resize();
+	lockOnButton_->Load("UI", "lockOnButton");
+
 	isLockOn_ = false;
+
+	reticleParam_.Load();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,17 +31,10 @@ void Reticle::Update() {
 	defaultPosition_ = Math::Vector2((float)AOENGINE::WinApp::sClientWidth * 0.5f, (float)AOENGINE::WinApp::sClientHeight * 0.5f);
 
 	reticle_->Update();
+	lockOnButton_->Update();
 
 	reticlePos_ = reticle_->GetTranslate();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 描画処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void Reticle::Draw() const {
-	AOENGINE::Pipeline* pso = Engine::GetLastUsedPipeline();
-	reticle_->Draw(pso);
+	lockOnButton_->SetTranslate(Math::Vector2(reticlePos_.x, reticlePos_.y + reticleParam_.offsetY));
 }
 
 void Reticle::LockOn() {
@@ -48,6 +46,15 @@ void Reticle::LockOn() {
 		reticle_->ReSetTexture("lockOnReticle.png");
 		isLockOn_ = true;
 	}
+}
+
+void Reticle::Debug_Gui() {
+	reticleParam_.Debug_Gui();
+}
+
+void Reticle::ReticleParameter::Debug_Gui() {
+	ImGui::DragFloat("offsetY", &offsetY, 1);
+	SaveAndLoad();
 }
 
 void Reticle::SetReticlePos(AOENGINE::WorldTransform* targetTransform, const Math::Matrix4x4& vpvpMat) {

@@ -37,6 +37,7 @@ void CanvasUI::Init(bool _isTutorial) {
 	AddChild(bossUIs_.get());
 	AddChild(playerUIs_.get());
 	AddChild(clearNotificationUI_.get());
+	AddChild(reticle_.get());
 	
 	AOENGINE::EditorWindows::AddObjectWindow(this, "Canvas");
 }

@@ -107,7 +107,7 @@ public:	// accessor Method
 private:
 
 	// Parameter -------------------------------------------------
-	bool isBoostMode_;
+	bool isBoostMode_ = true;
 
 	std::unique_ptr<AOENGINE::WorldTransform> burnParentTransform_ = nullptr;
 

@@ -119,7 +119,7 @@ void JetEngine::Init() {
 	// その他初期化
 	// -------------------------------------
 	burnScaleUpTimer_.targetTime_ = param_.burnScaleUpTime;
-	isBoostMode_ = false;
+	isBoostMode_ = true;
 	isStop_ = true;
 
 	turnBack_ = false;

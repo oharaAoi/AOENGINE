@@ -1,13 +1,41 @@
 #pragma once
 #include <memory>
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include <Lib/Math/Vector3.h>
 
 /// <summary>
 /// レティクル
 /// </summary>
-class Reticle {
+class Reticle :
+	public AOENGINE::AttributeGui {
+public: 
+
+	/// <summary>
+	/// 積極性を計算するためのパラメータ
+	/// </summary>
+	struct ReticleParameter : public AOENGINE::IJsonConverter {
+		float offsetY;			// 基本
+		
+		ReticleParameter() {
+			SetGroupName("UI");
+			SetName("Reticle");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("offsetY", offsetY)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "offsetY", offsetY);
+		}
+
+		void Debug_Gui() override;
+	};
 public:
 
 	Reticle() = default;
@@ -19,10 +47,10 @@ public:
 	void Init();
 	// 更新
 	void Update();
-	// 描画
-	void Draw() const;
 	// ロックオン
 	void LockOn();
+	// 編集処理
+	void Debug_Gui() override;
 
 	void SetReticlePos(AOENGINE::WorldTransform* targetTransform, const Math::Matrix4x4& vpvpMat);
 
@@ -38,6 +66,7 @@ public:		// accessor method
 
 private:
 
+	AOENGINE::Sprite* lockOnButton_;
 	AOENGINE::Sprite* reticle_;
 
 	bool isLockOn_ = false;
@@ -47,6 +76,6 @@ private:
 
 	Math::Vector2 reticlePos_;
 
-
+	ReticleParameter reticleParam_;
 };
 
