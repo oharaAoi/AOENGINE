@@ -85,7 +85,7 @@ bool Flamethrower::Attack([[maybe_unused]] const AttackContext& cxt) {
 
 	Math::QuaternionSRT worldSrt = transform_->GetWorldSRT();
 	Math::Vector3 pos = worldSrt.translate;
-	Math::Vector3 direction = -transform_->GetRotate().MakeForward();
+	Math::Vector3 direction = worldSrt.rotate.MakeForward();
 
 	FlamethrowerBullet* bullet = pBulletManager_->AddBullet<FlamethrowerBullet>(pos, direction,
 																				flamethrowerParam_.bulletSpeed, flamethrowerParam_.bulletRadius);

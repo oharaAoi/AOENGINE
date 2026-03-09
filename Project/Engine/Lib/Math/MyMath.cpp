@@ -421,17 +421,22 @@ Math::Vector3 DecomposeTranslate(const Math::Matrix4x4& mat) {
 Math::Quaternion DecomposeRotate(const Math::Matrix4x4& mat, const Math::Vector3& scale) {
 	Matrix4x4 rot;
 
-	rot.m[0][0] = mat.m[0][0] / scale.x;
-	rot.m[0][1] = mat.m[0][1] / scale.x;
-	rot.m[0][2] = mat.m[0][2] / scale.x;
+	float eps = 1e-6f;
+	float invScaleX = (std::abs(scale.x) > eps) ? 1.0f / scale.x : 0.0f;
 
-	rot.m[1][0] = mat.m[1][0] / scale.y;
-	rot.m[1][1] = mat.m[1][1] / scale.y;
-	rot.m[1][2] = mat.m[1][2] / scale.y;
+	rot.m[0][0] = mat.m[0][0] / invScaleX;
+	rot.m[0][1] = mat.m[0][1] / invScaleX;
+	rot.m[0][2] = mat.m[0][2] / invScaleX;
 
-	rot.m[2][0] = mat.m[2][0] / scale.z;
-	rot.m[2][1] = mat.m[2][1] / scale.z;
-	rot.m[2][2] = mat.m[2][2] / scale.z;
+	float invScaleY = (std::abs(scale.y) > eps) ? 1.0f / scale.y : 0.0f;
+	rot.m[1][0] = mat.m[1][0] / invScaleY;
+	rot.m[1][1] = mat.m[1][1] / invScaleY;
+	rot.m[1][2] = mat.m[1][2] / invScaleY;
+
+	float invScaleZ = (std::abs(scale.z) > eps) ? 1.0f / scale.z : 0.0f;
+	rot.m[2][0] = mat.m[2][0] / invScaleZ;
+	rot.m[2][1] = mat.m[2][1] / invScaleZ;
+	rot.m[2][2] = mat.m[2][2] / invScaleZ;
 
 	Math::Quaternion q;
 	float trace = rot.m[0][0] + rot.m[1][1] + rot.m[2][2];
@@ -439,24 +444,24 @@ Math::Quaternion DecomposeRotate(const Math::Matrix4x4& mat, const Math::Vector3
 	if (trace > 0.0f) {
 		float s = std::sqrt(trace + 1.0f) * 2.0f;
 		q.w = 0.25f * s;
-		q.x = (rot.m[2][1] - rot.m[1][2]) / s;
-		q.y = (rot.m[0][2] - rot.m[2][0]) / s;
-		q.z = (rot.m[1][0] - rot.m[0][1]) / s;
+		q.x = (rot.m[1][2] - rot.m[2][1]) / s;
+		q.y = (rot.m[2][0] - rot.m[0][2]) / s;
+		q.z = (rot.m[0][1] - rot.m[1][0]) / s;
 	} else if (rot.m[0][0] > rot.m[1][1] && rot.m[0][0] > rot.m[2][2]) {
 		float s = std::sqrt(1.0f + rot.m[0][0] - rot.m[1][1] - rot.m[2][2]) * 2.0f;
-		q.w = (rot.m[2][1] - rot.m[1][2]) / s;
+		q.w = (rot.m[1][2] - rot.m[2][1]) / s; 
 		q.x = 0.25f * s;
 		q.y = (rot.m[0][1] + rot.m[1][0]) / s;
 		q.z = (rot.m[0][2] + rot.m[2][0]) / s;
 	} else if (rot.m[1][1] > rot.m[2][2]) {
 		float s = std::sqrt(1.0f + rot.m[1][1] - rot.m[0][0] - rot.m[2][2]) * 2.0f;
-		q.w = (rot.m[0][2] - rot.m[2][0]) / s;
+		q.w = (rot.m[2][0] - rot.m[0][2]) / s;
 		q.x = (rot.m[0][1] + rot.m[1][0]) / s;
 		q.y = 0.25f * s;
 		q.z = (rot.m[1][2] + rot.m[2][1]) / s;
 	} else {
 		float s = std::sqrt(1.0f + rot.m[2][2] - rot.m[0][0] - rot.m[1][1]) * 2.0f;
-		q.w = (rot.m[1][0] - rot.m[0][1]) / s;
+		q.w = (rot.m[0][1] - rot.m[1][0]) / s;
 		q.x = (rot.m[0][2] + rot.m[2][0]) / s;
 		q.y = (rot.m[1][2] + rot.m[2][1]) / s;
 		q.z = 0.25f * s;

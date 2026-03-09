@@ -16,7 +16,7 @@ void DebugCamera::Finalize() {
 void DebugCamera::Init() {
 	BaseCamera::Init();
 	
-	moveBaseSpeed_ = 5.0f;
+	moveBaseSpeed_ = 15.0f;
 	moveSpeed_ = moveBaseSpeed_;
 	moveRotate_ = transform_.rotate;
 	preMoveRotate_ = transform_.rotate;
