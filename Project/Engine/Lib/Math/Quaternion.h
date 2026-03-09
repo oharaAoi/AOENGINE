@@ -150,6 +150,8 @@ public:
 	/// <returns></returns>
 	static Math::Quaternion LookRotation(const Math::Vector3& forward, const Math::Vector3& upVector = CVector3::UP);
 
+	Math::Vector3 RotateVector(const Math::Vector3& v) const;
+
 public:
 
 	Math::Quaternion operator*(const Math::Quaternion& q2) const;

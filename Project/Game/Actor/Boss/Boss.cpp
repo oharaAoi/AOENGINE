@@ -162,6 +162,10 @@ void Boss::Init() {
 	pulseArmor_->SetArmor();
 	this->AddChild(pulseArmor_.get());
 
+	flamethrowers_ = std::make_unique<BossFlamethrowers>();
+	flamethrowers_->Init(transform_);
+	this->AddChild(flamethrowers_.get());
+
 	// -------------------------------------------------
 	// ↓ State関連
 	// -------------------------------------------------
@@ -225,6 +229,7 @@ void Boss::Update() {
 
 	behaviorTree_->Run();
 	pulseArmor_->Update();
+	flamethrowers_->Update();
 	stateMachine_->Update();
 
 	// ----------------------

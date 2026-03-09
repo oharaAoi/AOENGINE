@@ -169,6 +169,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationStructures.h" />
     <ClInclude Include="Engine\Module\Components\Animation\Animator.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\TransformAnimator.h" />
     <ClInclude Include="Engine\Module\Components\Animation\VectorTween.h" />
     <ClInclude Include="Engine\Module\Components\Attribute\AttributeGui.h" />
     <ClInclude Include="Engine\Module\Components\Attribute\IEditorWindow.h" />
@@ -377,6 +378,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Action\Move\BossActionStrafe.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossEvaluationFormula.h" />
+    <ClInclude Include="Game\Actor\Boss\BossFlamethrowers.h" />
     <ClInclude Include="Game\Actor\Boss\BossRoot.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Bullet\BossBulletManager.h" />
@@ -553,6 +555,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\Animator.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\TransformAnimator.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\VectorTween.cpp" />
     <ClCompile Include="Engine\Module\Components\Attribute\AttributeGui.cpp" />
     <ClCompile Include="Engine\Module\Components\Attribute\IEditorWindow.cpp" />
@@ -751,6 +754,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Action\Move\BossActionStrafe.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossEvaluationFormula.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossFlamethrowers.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossRoot.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Bullet\BossBulletManager.cpp" />

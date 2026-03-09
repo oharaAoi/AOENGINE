@@ -1,17 +1,21 @@
 #pragma once
-// C++
+// c++
 #include <memory>
-// Game
+// engine
+#include "Engine/Module/Components/Attribute/AttributeGui.h"
+// game
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Player/Player.h"
+#include "Game/Actor/Weapon/Flamethrower.h"
 #include "Game/UI/Boss/BossUIs.h"
 #include "Game/Camera/FollowCamera.h"
 
 /// <summary>
 /// Boss関連の親
 /// </summary>
-class BossRoot {
+class BossRoot :
+	public AOENGINE::AttributeGui {
 public:
 
 	BossRoot() = default;
@@ -23,6 +27,9 @@ public:
 	void Init();
 	// 更新
 	void Update();
+
+	// 編集
+	void Debug_Gui() override;
 
 public:
 
@@ -52,7 +59,7 @@ private:
 	// 他クラス情報
 	Math::Vector3 playerPosition_;
 	Player* pPlayer_ = nullptr;
-	FollowCamera* pFollowCamera_ = nullptr;
+	FollowCamera* pFollowCamera_ = nullptr;// 武器
 
 };
 

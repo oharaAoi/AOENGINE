@@ -100,7 +100,9 @@ public:
 	/// <returns></returns>
 	Math::Vector3 GetOffsetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
 
-	Math::QuaternionSRT& GetSRT() { return srt_; }
+	const Math::QuaternionSRT& GetSRT() { return srt_; }
+	Math::QuaternionSRT GetWorldSRT() { return DecomposeTransform(worldMat_); }
+
 	const Math::Vector3 GetScale() const { return srt_.scale; }
 	const Math::Vector3& GetTranslate() const { return srt_.translate; }
 	const Math::Quaternion& GetRotate() const { return srt_.rotate; }
@@ -119,30 +121,29 @@ public:
 
 private:
 
+	// id情報
+	int id_;
+	static int nextId_;
+
+	// GPUに送る情報
+	ComPtr<ID3D12Resource> cBuffer_;
+	AOENGINE::WorldTransformData* data_;
+
 	Math::QuaternionSRT srt_;
 	Math::Vector3 preTranslate_;
 
-	// 一時的に座標を動かしたい時にこの変数に加算する
-	// 例) 浮遊させるときに浮遊の移動量をthisに足す
-	Math::Vector3 temporaryTranslate_{};
-
 	Math::Matrix4x4 worldMat_;
-	Math::Vector3 guiEulerDeg_;
 	Math::Quaternion moveQuaternion_;
 
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 	const Math::Vector3* parentTranslate_ = nullptr;
 	const Math::Quaternion* parentRotate_ = nullptr;
 
-	ComPtr<ID3D12Resource> cBuffer_;
-	AOENGINE::WorldTransformData* data_;
-
-	float test_angle_ = 0;
-
-	int id_;
-	static int nextId_;
-
 	bool isBillboard_;
+
+	// 一時的に座標を動かしたい時にこの変数に加算する
+	// 例) 浮遊させるときに浮遊の移動量をthisに足す
+	Math::Vector3 temporaryTranslate_{};
 
 	Math::Vector3 offset_ = CVector3::ZERO;
 };

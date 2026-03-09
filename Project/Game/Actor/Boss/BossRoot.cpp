@@ -1,4 +1,5 @@
 #include "BossRoot.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
@@ -7,6 +8,8 @@
 void BossRoot::Init() {
 	bulletManager_ = std::make_unique<BossBulletManager>();
 	bulletManager_->Init();
+
+	AOENGINE::EditorWindows::AddObjectWindow(this, "BossRoot");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +27,10 @@ void BossRoot::Update() {
 
 	bulletManager_->SetPlayerPosition(pPlayer_->GetTransform()->GetOffsetPos());
 	bulletManager_->Update();
+}
+
+void BossRoot::Debug_Gui() {
+	
 }
 
 void BossRoot::SetBoss(Boss* boss) {

@@ -381,6 +381,120 @@ Math::Vector3 TransformNormal(const Math::Vector3& v, const Math::Matrix4x4& m) 
 	return result;
 }
 
+Math::QuaternionSRT DecomposeTransform(const Math::Matrix4x4& mat) {
+	Math::QuaternionSRT result;
+	result.translate = DecomposeTranslate(mat);
+	result.scale = DecomposeScale(mat);
+	result.rotate = DecomposeRotate(mat, result.scale);
+	return result;
+}
+
+Math::Vector3 DecomposeScale(const Math::Matrix4x4& mat) {
+	Vector3 scale;
+
+	scale.x = std::sqrt(
+		mat.m[0][0] * mat.m[0][0] +
+		mat.m[0][1] * mat.m[0][1] +
+		mat.m[0][2] * mat.m[0][2]);
+
+	scale.y = std::sqrt(
+		mat.m[1][0] * mat.m[1][0] +
+		mat.m[1][1] * mat.m[1][1] +
+		mat.m[1][2] * mat.m[1][2]);
+
+	scale.z = std::sqrt(
+		mat.m[2][0] * mat.m[2][0] +
+		mat.m[2][1] * mat.m[2][1] +
+		mat.m[2][2] * mat.m[2][2]);
+
+	return scale;
+}
+
+Math::Vector3 DecomposeTranslate(const Math::Matrix4x4& mat) {
+	Vector3 pos;
+	pos.x = mat.m[3][0];
+	pos.y = mat.m[3][1];
+	pos.z = mat.m[3][2];
+	return pos;
+}
+
+Math::Quaternion DecomposeRotate(const Math::Matrix4x4& mat, const Math::Vector3& scale) {
+	Matrix4x4 rot;
+
+	rot.m[0][0] = mat.m[0][0] / scale.x;
+	rot.m[0][1] = mat.m[0][1] / scale.x;
+	rot.m[0][2] = mat.m[0][2] / scale.x;
+
+	rot.m[1][0] = mat.m[1][0] / scale.y;
+	rot.m[1][1] = mat.m[1][1] / scale.y;
+	rot.m[1][2] = mat.m[1][2] / scale.y;
+
+	rot.m[2][0] = mat.m[2][0] / scale.z;
+	rot.m[2][1] = mat.m[2][1] / scale.z;
+	rot.m[2][2] = mat.m[2][2] / scale.z;
+
+	Math::Quaternion q;
+	float trace = rot.m[0][0] + rot.m[1][1] + rot.m[2][2];
+
+	if (trace > 0.0f) {
+		float s = std::sqrt(trace + 1.0f) * 2.0f;
+		q.w = 0.25f * s;
+		q.x = (rot.m[2][1] - rot.m[1][2]) / s;
+		q.y = (rot.m[0][2] - rot.m[2][0]) / s;
+		q.z = (rot.m[1][0] - rot.m[0][1]) / s;
+	} else if (rot.m[0][0] > rot.m[1][1] && rot.m[0][0] > rot.m[2][2]) {
+		float s = std::sqrt(1.0f + rot.m[0][0] - rot.m[1][1] - rot.m[2][2]) * 2.0f;
+		q.w = (rot.m[2][1] - rot.m[1][2]) / s;
+		q.x = 0.25f * s;
+		q.y = (rot.m[0][1] + rot.m[1][0]) / s;
+		q.z = (rot.m[0][2] + rot.m[2][0]) / s;
+	} else if (rot.m[1][1] > rot.m[2][2]) {
+		float s = std::sqrt(1.0f + rot.m[1][1] - rot.m[0][0] - rot.m[2][2]) * 2.0f;
+		q.w = (rot.m[0][2] - rot.m[2][0]) / s;
+		q.x = (rot.m[0][1] + rot.m[1][0]) / s;
+		q.y = 0.25f * s;
+		q.z = (rot.m[1][2] + rot.m[2][1]) / s;
+	} else {
+		float s = std::sqrt(1.0f + rot.m[2][2] - rot.m[0][0] - rot.m[1][1]) * 2.0f;
+		q.w = (rot.m[1][0] - rot.m[0][1]) / s;
+		q.x = (rot.m[0][2] + rot.m[2][0]) / s;
+		q.y = (rot.m[1][2] + rot.m[2][1]) / s;
+		q.z = 0.25f * s;
+	}
+
+	return q;
+}
+
+Math::Vector3 CalcOrbitPosition(const Math::Vector3& center, const Math::Vector3& axis, float radius, float angle, bool clockwise) {
+	// 軸を正規化
+	Math::Vector3 nAxis = axis.Normalize();
+
+	// 軸に平行ではない適当なベクトルを作る
+	Math::Vector3 tangent;
+	if (fabs(nAxis.y) < 0.99f) {
+		tangent = Cross(Math::Vector3(0, 1, 0), (nAxis));
+	} else {
+		tangent = Cross(Math::Vector3(1, 0, 0), (nAxis));
+	}
+
+	tangent = tangent.Normalize();
+
+	// 半径ベクトル
+	Math::Vector3 radiusVec = tangent * radius;
+
+	// 回転方向
+	float dir = clockwise ? -1.0f : 1.0f;
+
+	// 軸回転Quaternion
+	Math::Quaternion q = Math::Quaternion::AngleAxis(angle * dir, nAxis);
+
+	// 半径ベクトルを回す
+	Math::Vector3 rotated = q.RotateVector(radiusVec);
+
+	// 中心に足す
+	return center + rotated;
+}
+
 /// <summary>
 /// ベジエ曲線を書く
 /// </summary>

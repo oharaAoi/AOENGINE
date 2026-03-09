@@ -1490,6 +1490,8 @@
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.h" />
     <ClInclude Include="Game\Actor\Weapon\Flamethrower.h" />
+    <ClInclude Include="Engine\Module\Components\Animation\TransformAnimator.h" />
+    <ClInclude Include="Game\Actor\Boss\BossFlamethrowers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2578,5 +2580,7 @@
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Flamethrower.cpp" />
+    <ClCompile Include="Engine\Module\Components\Animation\TransformAnimator.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossFlamethrowers.cpp" />
   </ItemGroup>
 </Project>

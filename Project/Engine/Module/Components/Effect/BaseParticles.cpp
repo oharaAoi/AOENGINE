@@ -50,7 +50,8 @@ void AOENGINE::BaseParticles::Update() {
 	// 回転の更新
 	Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
 	if (parentTransform_ != nullptr) {
-		rotate = parentTransform_->GetRotate() * rotate;
+		Math::QuaternionSRT srt = parentTransform_->GetWorldSRT();
+		rotate = srt.rotate * rotate;
 	}
 	worldTransform_->SetRotate(rotate);
 
@@ -172,7 +173,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	}
 
 	// Coneの場合はConeの形状で射出させる
-	Math::Quaternion worldRotate = worldTransform_->GetRotate();
+	Math::Quaternion worldRotate = worldTransform_->GetWorldSRT().rotate;
 	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		float angle = emitter_.angle * kToRadian;
 		float u = Random::RandomFloat(0, 1);
@@ -185,12 +186,10 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 		Math::Vector3 localDir(
 			sinTheta * cos(phi),
 			sinTheta * sin(phi),
-			cosTheta
+			-cosTheta
 		);
-		Math::Vector3 up = CVector3::UP;
-		Math::Vector3 right = CVector3::RIGHT;
-		Math::Vector3 forward = CVector3::FORWARD;
-		newParticle.velocity = right * localDir.x + forward * localDir.y + CVector3::UP * localDir.z;
+		
+		newParticle.velocity = -localDir;
 	}
 
 	// Objectの回転に進行方向をあわせる

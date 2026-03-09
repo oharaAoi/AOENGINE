@@ -119,6 +119,13 @@ Math::Quaternion Math::Quaternion::LookRotation(const Math::Vector3& forward, co
 	return modifyRotation * lookRotation;
 }
 
+Math::Vector3 Math::Quaternion::RotateVector(const Math::Vector3& v) const {
+	Quaternion qv(v.x, v.y, v.z, 0.0f);
+	Quaternion inv = Inverse(*this);
+	Quaternion result = (*this) * qv * inv;
+	return { result.x, result.y, result.z };
+}
+
 Math::Quaternion Math::Quaternion::LookAt(const Math::Vector3& from, const Math::Vector3& to, const Math::Vector3& up) {
 	Math::Vector3 forward = (to - from).Normalize();
 	return LookRotation(forward, up).Normalize();

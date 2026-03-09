@@ -6,6 +6,7 @@
 #include "Engine/System/AI/BehaviorTree.h"
 // Game
 #include "Game/State/StateMachine.h"
+#include "Game/Actor/Boss/BossFlamethrowers.h"
 #include "Game/Actor/Boss/Bullet/BossBulletManager.h"
 #include "Game/Actor/Enemy/BaseEnemy.h"
 #include "Game/Actor/Weapon/Armors.h"
@@ -235,6 +236,7 @@ private:
 
 	// weapon ------------------------------------------------
 	std::unique_ptr<Armors> pulseArmor_;
+	std::unique_ptr<BossFlamethrowers> flamethrowers_;
 
 	// Parameter --------------------------------------------------
 	Parameter param_;

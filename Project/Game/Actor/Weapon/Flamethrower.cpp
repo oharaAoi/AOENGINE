@@ -57,7 +57,7 @@ void Flamethrower::Init() {
 	// ↓火炎の表現のための初期化
 	// ----------------------
 	flameParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("fire");
-	flameParticle_->SetIsStop(true);
+	flameParticle_->SetIsStop(false);
 	flameParticle_->SetParent(transform_);
 }
 

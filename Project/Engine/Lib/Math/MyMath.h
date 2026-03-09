@@ -135,6 +135,45 @@ Math::Vector2 WorldToScreenCoordinate(const Math::Matrix4x4& targetWorldMat, con
 /// <returns></returns>
 Math::Vector3 TransformNormal(const Math::Vector3& v, const Math::Matrix4x4& m);
 
+/// <summary>
+/// 行列をQuaternionSRTに変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::QuaternionSRT DecomposeTransform(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列をスケールに返還する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Vector3 DecomposeScale(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列を回転に変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Vector3 DecomposeTranslate(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列を座標に変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Quaternion DecomposeRotate(const Math::Matrix4x4& mat, const Math::Vector3& scale);
+
+/// <summary>
+/// 円軌道の座標を求める
+/// </summary>
+/// <param name="center"></param>
+/// <param name="axis"></param>
+/// <param name="radius"></param>
+/// <param name="angle"></param>
+/// <param name="clockwise">: true 時計回り | false 反時計回り</param>
+/// <returns></returns>
+Math::Vector3 CalcOrbitPosition(const Math::Vector3& center, const Math::Vector3& axis, float radius, float angle, bool clockwise);
+
 ////////////////////////////////////////////////////////////////////////////////////
 // 数字を求めたり
 ////////////////////////////////////////////////////////////////////////////////////
