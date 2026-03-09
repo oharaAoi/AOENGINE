@@ -216,6 +216,8 @@ public:
 
 	float GetAttackArmorDamage() const { return param_.attackArmorDamage; }
 
+	BossFlamethrowers* GetFlamethrowers() const { return flamethrowers_.get(); }
+
 private:
 
 	// ポインタ  --------------------------------------------------

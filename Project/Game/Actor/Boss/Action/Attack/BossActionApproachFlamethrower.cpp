@@ -1,5 +1,6 @@
 #include "BossActionApproachFlamethrower.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Engine/Lib/Math/Easing.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 実行処理
@@ -27,17 +28,23 @@ float BossActionApproachFlamethrower::EvaluateWeight() {
 
 void BossActionApproachFlamethrower::Debug_Gui() {
 	BaseTaskNode::Debug_Gui();
+	param_.Debug_Gui();
+	flamethrowerParam_.Debug_Gui();
 }
 
 void BossActionApproachFlamethrower::Parameter::Debug_Gui() {
-	ImGui::DragFloat("speed", &moveSpeed, 0.1f);
-	ImGui::DragFloat("moveTime", &moveTime, 0.1f);
-	ImGui::DragFloat("lookTime", &lookTime, 0.1f);
-	ImGui::DragFloat("minDecel", &minDecel, 0.1f);
-	ImGui::DragFloat("maxDecel", &maxDecel, 0.1f);
-	ImGui::DragFloat("stopThreshold", &stopThreshold, 0.1f);
-	ImGui::DragFloat("backLength", &backLength, 0.1f);
-	decelCurve.Debug_Gui();
+	ImGui::DragFloat("closeLength", &closeLength, 0.1f);
+	ImGui::DragFloat("stopLength", &stopLength, 0.1f);
+	ImGui::DragFloat("dampingValue", &dampingValue, 0.1f);
+	ImGui::DragFloat("speed", &speed, 0.1f);
+	SaveAndLoad();
+}
+
+void BossActionApproachFlamethrower::AttackFlamethrower::Debug_Gui() {
+	ImGui::DragFloat("closeTime", &closeTime);
+	ImGui::DragFloat("startAngle", &startAngle);
+	ImGui::DragFloat("endAngle", &endAngle);
+	Math::SelectEasing(easeType, "##BossActionApproachFlamethrower");
 	SaveAndLoad();
 }
 
@@ -46,8 +53,10 @@ void BossActionApproachFlamethrower::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionApproachFlamethrower::IsFinish() {
-	if (velocity_.Length() < param_.stopThreshold) {
-		return true;
+	if (!closeTimer_.Run(0.0f)) {
+		if (0.1f > velocity_.Length()) {
+			return true;
+		}
 	}
 	return false;
 }
@@ -68,12 +77,21 @@ void BossActionApproachFlamethrower::Init() {
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
 
+	speed_ = param_.speed;
+
 	Math::Quaternion rot = pTarget_->GetTargetTransform()->GetRotate();
 	Math::Vector3 front = rot.MakeForward() * -1.0f;
-	Math::Vector3 tagetPos = (rot.MakeForward() * param_.backLength) + pTarget_->GetTargetPos();
+	Math::Vector3 tagetPos = (rot.MakeForward()) + pTarget_->GetTargetPos();
 
 	direction_ = (tagetPos - pTarget_->GetPosition()).Normalize();
-	velocity_ = direction_ * param_.moveSpeed;
+	velocity_ += direction_ * speed_;
+
+	pFlamethrowers_ = pTarget_->GetFlamethrowers();
+
+	isClose_ = false;
+	isDamping_ = false;
+
+	closeTimer_ = AOENGINE::Timer(flamethrowerParam_.closeTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,11 +100,14 @@ void BossActionApproachFlamethrower::Init() {
 
 void BossActionApproachFlamethrower::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-	if (taskTimer_ < param_.lookTime) {
-		direction_ = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
-		pTarget_->TargetLook();
-	}
+	direction_ = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
+	pTarget_->TargetLook();
+	
 	Approach();
+
+	if (isClose_) {
+		CloseFlamethrowers();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,21 +122,49 @@ void BossActionApproachFlamethrower::End() {
 	rigid->SetVelocity(CVector3::ZERO);
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 近づく処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BossActionApproachFlamethrower::Approach() {
-	float dt = AOENGINE::GameTimer::DeltaTime();
-	float t = taskTimer_ / param_.moveTime;
-	t = std::clamp(t, 0.0f, 1.0f);
+	
+	if (isDamping_) {
+		velocity_ *= std::exp(-param_.dampingValue * AOENGINE::GameTimer::DeltaTime());
+	} else {
+		velocity_ += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
+	}
 
-	float bezierValue = param_.decelCurve.BezierValue(t);
-	float decelRate = std::lerp(param_.minDecel, param_.maxDecel, bezierValue);
+	float length = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Length();
+	if (length < param_.closeLength) {
+		isClose_ = true;
+	}
 
-	// 後半ほど入力を弱める
-	float accelFactor = 1.0f - t;
-	velocity_ += direction_ * param_.moveSpeed * accelFactor * dt;
-
-	// 指数減衰
-	velocity_ *= std::exp(-decelRate * dt);
+	if (length < param_.stopLength) {
+		isDamping_ = true;
+	}
 
 	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
 	rigid->SetVelocity(velocity_);
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 火炎放射を閉じる処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossActionApproachFlamethrower::CloseFlamethrowers() {
+	// 火炎放射のアニメーション処理
+	if (closeTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		float currentAngle = std::lerp(flamethrowerParam_.startAngle, flamethrowerParam_.endAngle, 
+									   Math::CallEasing(flamethrowerParam_.easeType, closeTimer_.t_));
+
+		for (uint32_t i = 0; i < 2; ++i) {
+			BossFlamethrowersType type = BossFlamethrowersType(i);
+			BossFlamethrowers::Parameter param = pFlamethrowers_->GetParameter(type);
+			param.angle = currentAngle;
+			pFlamethrowers_->SetParameter(param, type);
+		}
+	} else {
+		isDamping_ = true;
+	}
+}
+

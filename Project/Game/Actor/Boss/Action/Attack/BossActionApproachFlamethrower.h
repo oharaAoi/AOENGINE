@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/Node/BaseTaskNode.h"
+// game
+#include "Game/Actor/Boss/BossFlamethrowers.h"
 
 class Boss;
 
@@ -12,43 +14,60 @@ class BossActionApproachFlamethrower :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
-		float moveSpeed = 20.f;			// 移動速度
-		float moveTime = 2.0f;			// 移動時間
-		float minDecel = 1.0f;			// 最小の減速率
-		float maxDecel = 12.0f;			// 最大の減速率
-		float stopThreshold = 12.0f;	// 止まる速度
-		float lookTime = 2.0f;
-		float backLength = 2.0f;
-		Math::Curve decelCurve;
+		float closeLength;		// 閉じ始める距離の長さ
+		float stopLength;		// 減速を開始する距離
+		float dampingValue;		// 減速量
+		float speed;			// 速度
 
 		Parameter() {
 			SetGroupName("BossAction");
-			SetName("bossActionApproach");
+			SetName("bossActionApproachFlamethrower");
 		}
 
 		json ToJson(const std::string& id) const override {
-			json curveJson = decelCurve.ToJson();
 			return AOENGINE::JsonBuilder(id)
-				.Add("moveSpeed", moveSpeed)
-				.Add("moveTime", moveTime)
-				.Add("minDecel", minDecel)
-				.Add("maxDecel", maxDecel)
-				.Add("stopThreshold", stopThreshold)
-				.Add("lookTime", lookTime)
-				.Add("backLength", backLength)
-				.Add("decelCurve", curveJson)
+				.Add("closeLength", closeLength)
+				.Add("stopLength", stopLength)
+				.Add("dampingValue", dampingValue)
+				.Add("speed", speed)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
-			Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
-			Convert::fromJson(jsonData, "moveTime", moveTime);
-			Convert::fromJson(jsonData, "minDecel", minDecel);
-			Convert::fromJson(jsonData, "maxDecel", maxDecel);
-			Convert::fromJson(jsonData, "stopThreshold", stopThreshold);
-			Convert::fromJson(jsonData, "lookTime", lookTime);
-			Convert::fromJson(jsonData, "backLength", backLength);
-			decelCurve.FromJson(jsonData, "decelCurve");
+			Convert::fromJson(jsonData, "closeLength", closeLength);
+			Convert::fromJson(jsonData, "stopLength", stopLength);
+			Convert::fromJson(jsonData, "dampingValue", dampingValue);
+			Convert::fromJson(jsonData, "speed", speed);
+		}
+
+		void Debug_Gui() override;
+	};
+
+	struct AttackFlamethrower : public AOENGINE::IJsonConverter {
+		float closeTime = 1.0f;
+		float startAngle = 90;
+		float endAngle = 0;
+		int easeType = 1;
+
+		AttackFlamethrower() {
+			SetGroupName("BossAction");
+			SetName("approachAttackFlamethrower");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("closeTime", closeTime)
+				.Add("startAngle", startAngle)
+				.Add("endAngle", endAngle)
+				.Add("easeType", easeType)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "closeTime", closeTime);
+			Convert::fromJson(jsonData, "startAngle", startAngle);
+			Convert::fromJson(jsonData, "endAngle", endAngle);
+			Convert::fromJson(jsonData, "easeType", easeType);
 		}
 
 		void Debug_Gui() override;
@@ -83,12 +102,24 @@ private:
 	// 敵に近づいて来る
 	void Approach();
 
+	/// <summary>
+	/// 火炎放射を閉じる関数
+	/// </summary>
+	void CloseFlamethrowers();
+
 private:
 
 	Parameter param_;
+	AttackFlamethrower flamethrowerParam_;
 
 	Math::Vector3 direction_;
 	Math::Vector3 velocity_;
+	float speed_;
+	bool isDamping_ = false;
 
+	BossFlamethrowers* pFlamethrowers_;
+
+	AOENGINE::Timer closeTimer_;
+	bool isClose_ = false;
 };
 

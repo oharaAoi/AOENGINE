@@ -64,6 +64,9 @@ public:
 
 public: // accessor
 
+	const Parameter& GetParameter(BossFlamethrowersType type) const { return param_[(int)type]; }
+	void SetParameter(const Parameter& pram, BossFlamethrowersType type) { param_[(int)type] = pram; }
+
 	void SetBulletManager(BaseBulletManager* manager);
 
 private:
