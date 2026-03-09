@@ -59,6 +59,15 @@ void GameCallBacksManager::Init(AOENGINE::CollisionManager* _manager) {
 	enemySearchToPlayer_->SetPlayer(pPlayerManager_->GetPlayer());
 	enemySearchToPlayer_->SetEnemyManager(pEnemyManager_);
 
+	// -------------------------------------------------
+	// ↓ flamethrower
+	// -------------------------------------------------
+
+	flamethrowerToPlayer_ = std::make_unique<FlamethrowerToPlayerCallBacks>(pCollisionManager_);
+	flamethrowerToPlayer_->Init();
+	flamethrowerToPlayer_->SetPlayer(pPlayerManager_->GetPlayer());
+	flamethrowerToPlayer_->SetBossBulletManager(pBossRoot_->GetBulletManager());
+
 }
 
 void GameCallBacksManager::Update() {

@@ -164,7 +164,7 @@ public:
 	const Math::Vector3& GetTargetPos() const { return targetPos_; }
 
 	// bulletManager
-	void SetBulletManager(BossBulletManager* _manager) { pBossBulletManager_ = _manager; }
+	void SetBulletManager(BossBulletManager* _manager);
 	BossBulletManager* GetBulletManager() { return pBossBulletManager_; }
 
 	// armor

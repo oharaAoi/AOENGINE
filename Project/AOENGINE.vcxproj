@@ -428,6 +428,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Player\State\PlayerKnockbackState.h" />
     <ClInclude Include="Game\Actor\Weapon\Armors.h" />
     <ClInclude Include="Game\Actor\Weapon\BaseWeapon.h" />
+    <ClInclude Include="Game\Actor\Weapon\Bullet\FlamethrowerBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\LaserBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\LauncherBullet.h" />
     <ClInclude Include="Game\Actor\Weapon\Bullet\RocketBullet.h" />
@@ -441,6 +442,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
     <ClInclude Include="Game\CallBacks\PBulletToEnemyCallBacks.h" />
@@ -803,6 +805,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Player\State\PlayerKnockbackState.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Armors.cpp" />
     <ClCompile Include="Game\Actor\Weapon\BaseWeapon.cpp" />
+    <ClCompile Include="Game\Actor\Weapon\Bullet\FlamethrowerBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\LaserBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\LauncherBullet.cpp" />
     <ClCompile Include="Game\Actor\Weapon\Bullet\RocketBullet.cpp" />
@@ -816,6 +819,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToEnemyCallBacks.cpp" />

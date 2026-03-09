@@ -349,3 +349,8 @@ void Boss::CalcAggression() {
 
 	aggressionScore_ = std::clamp(aggressionScore_, 0.0f, 1.0f);
 }
+
+void Boss::SetBulletManager(BossBulletManager* _manager) {
+	pBossBulletManager_ = _manager;
+	flamethrowers_->SetBulletManager(_manager);
+}

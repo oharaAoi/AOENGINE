@@ -15,4 +15,4 @@ invisibleWall
 attackArmor
 enemyBullet
 enemySearchCollider
-Flamethrower
+flamethrower

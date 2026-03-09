@@ -1,13 +1,14 @@
 #include "Flamethrower.h"
 #include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Lib/GameTimer.h"
 #include "Game/Information/ColliderCategory.h"
+#include "Game/Actor/Weapon/Bullet/FlamethrowerBullet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Flamethrower::Debug_Gui() {
-	BaseWeapon::Debug_Gui();
 	flamethrowerParam_.Debug_Gui();
 
 	ImGui::Separator();
@@ -22,6 +23,10 @@ void Flamethrower::Debug_Gui() {
 
 void Flamethrower::FlamethrowerParam::Debug_Gui() {
 	ImGui::DragFloat3("pos", &pos.x, 0.1f);
+	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
+	ImGui::DragFloat("bulletRadius", &bulletRadius, 0.1f);
+	ImGui::DragFloat("bulletDamage", &bulletDamage, 0.1f);
+	ImGui::DragFloat("shotInterval", &shotInterval, 0.1f);
 	SaveAndLoad();
 }
 
@@ -66,7 +71,25 @@ void Flamethrower::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool Flamethrower::Attack([[maybe_unused]] const AttackContext& cxt) {
+	// 攻撃の時間を管理しておく
+	attackTimer_ += AOENGINE::GameTimer::DeltaTime();
+	if (flamethrowerParam_.shotInterval < attackTimer_) {
+		isCanAttack_ = true;
+		attackTimer_ = 0.f;
+	} else {
+		isCanAttack_ = false;
+	}
+
+	// 攻撃可能かどうか
 	if (!isCanAttack_) { return false; }
+
+	Math::QuaternionSRT worldSrt = transform_->GetWorldSRT();
+	Math::Vector3 pos = worldSrt.translate;
+	Math::Vector3 direction = -worldSrt.rotate.MakeForward();
+
+	FlamethrowerBullet* bullet = pBulletManager_->AddBullet<FlamethrowerBullet>(pos, direction,
+																				flamethrowerParam_.bulletSpeed, flamethrowerParam_.bulletRadius);
+	bullet->SetTakeDamage(flamethrowerParam_.bulletDamage);
 
 	return true;
 }

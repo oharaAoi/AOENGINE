@@ -7,6 +7,7 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 // game
 #include "Game/Actor/Weapon/Flamethrower.h"
+#include "Game/Manager/BaseBulletManager.h"
 
 enum class BossFlamethrowersType {
 	Left,
@@ -60,6 +61,10 @@ public:
 	void Update();
 	// 編集
 	void Debug_Gui() override;
+
+public: // accessor
+
+	void SetBulletManager(BaseBulletManager* manager);
 
 private:
 

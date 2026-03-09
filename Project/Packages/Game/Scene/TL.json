@@ -332,7 +332,8 @@
                         "bossMissile",
                         "attackArmor",
                         "enemyBullet",
-                        "enemySearchCollider"
+                        "enemySearchCollider",
+                        "flamethrower"
                     ]
                 },
                 {

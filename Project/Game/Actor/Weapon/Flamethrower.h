@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 // Game
 #include "Game/Actor/Weapon/BaseWeapon.h"
+#include "Game/Manager/BaseBulletManager.h"
 
 /// <summary>
 /// 火焔放射の武器
@@ -14,6 +15,10 @@ public: // データ構造体
 
 	struct FlamethrowerParam : AOENGINE::IJsonConverter {
 		Math::Vector3 pos;
+		float bulletSpeed = 80.f;
+		float bulletRadius = 4.f;
+		float bulletDamage = 5.f;
+		float shotInterval = 0.1f;
 
 		FlamethrowerParam() {
 			SetGroupName("Weapon");
@@ -23,11 +28,19 @@ public: // データ構造体
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
 				.Add("pos", pos)
+				.Add("bulletSpeed", bulletSpeed)
+				.Add("bulletRadius", bulletRadius)
+				.Add("bulletDamage", bulletDamage)
+				.Add("shotInterval", shotInterval)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "pos", pos);
+			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
+			Convert::fromJson(jsonData, "bulletRadius", bulletRadius);
+			Convert::fromJson(jsonData, "bulletDamage", bulletDamage);
+			Convert::fromJson(jsonData, "shotInterval", shotInterval);
 		}
 
 		void Debug_Gui() override;
@@ -47,18 +60,26 @@ public:
 	// 編集
 	void Debug_Gui() override;
 
-public:		// member method
+public:	// member method
 
 	// 攻撃
 	bool Attack(const AttackContext& cxt) override;
 
+public:
+
+	void SetBulletManager(BaseBulletManager* manager) { pBulletManager_ = manager; }
+
 private:
+
+	BaseBulletManager* pBulletManager_ = nullptr;
 
 	FlamethrowerParam flamethrowerParam_;
 
 	AOENGINE::BaseParticles* flameParticle_ = nullptr;
 
 	AOENGINE::BaseCollider* collider_ = nullptr;
+
+	float attackTimer_ = 0;
 
 };
 

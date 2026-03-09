@@ -1,6 +1,41 @@
 #include "BossFlamethrowers.h"
 #include "Engine/Lib/Math/MyMath.h"
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossFlamethrowers::Debug_Gui() {
+	if (ImGui::CollapsingHeader("left")) {
+		flamethrowers_[(int)BossFlamethrowersType::Left]->Debug_Gui();
+		param_[(int)BossFlamethrowersType::Left].Debug_Gui();
+	}
+
+	if (ImGui::CollapsingHeader("right")) {
+		flamethrowers_[(int)BossFlamethrowersType::Right]->Debug_Gui();
+		param_[(int)BossFlamethrowersType::Right].Debug_Gui();
+	}
+}
+
+void BossFlamethrowers::Parameter::Debug_Gui() {
+	Math::Quaternion rotate = Math::Quaternion();
+
+	ImGui::DragFloat3("scale", &flamethrowerSRT.scale.x, 0.1f);
+	ImGui::DragFloat4("rotate", &flamethrowerSRT.rotate.x, 0.1f);
+	ImGui::DragFloat3("translate", &flamethrowerSRT.translate.x, 0.1f);
+	ImGui::DragFloat("radius", &radius);
+	ImGui::DragFloat("angle", &angle);
+	ImGui::Checkbox("時計回り", &clockwise);
+
+	rotate = flamethrowerSRT.rotate * rotate;
+
+	SaveAndLoad();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BossFlamethrowers::Init(AOENGINE::WorldTransform* transform) {
 	SetName("Flamethrowers");
 
@@ -18,6 +53,10 @@ void BossFlamethrowers::Init(AOENGINE::WorldTransform* transform) {
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void BossFlamethrowers::Update() {
 	for (int i = 0; i < kFlamethrowerCount_; ++i) {
 		Math::Vector3 pos = CalcOrbitPosition(CVector3::ZERO, CVector3::UP, param_[i].radius, param_[i].angle * kToRadian, param_[i].clockwise);
@@ -27,30 +66,16 @@ void BossFlamethrowers::Update() {
 		flamethrowers_[i]->GetTransform()->SetRotate(Math::Quaternion::LookRotation(dir));
 
 		flamethrowers_[i]->Update();
+		flamethrowers_[i]->Attack(AttackContext());
 	}
 }
 
-void BossFlamethrowers::Debug_Gui() {
-	if (ImGui::CollapsingHeader("left")) {
-		param_[(int)BossFlamethrowersType::Left].Debug_Gui();
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ bulletManagerを設定する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossFlamethrowers::SetBulletManager(BaseBulletManager* manager) {
+	for (int i = 0; i < kFlamethrowerCount_; ++i) {
+		flamethrowers_[i]->SetBulletManager(manager);
 	}
-
-	if (ImGui::CollapsingHeader("right")) {
-		param_[(int)BossFlamethrowersType::Right].Debug_Gui();
-	}
-}
-
-void BossFlamethrowers::Parameter::Debug_Gui() {
-	Math::Quaternion rotate = Math::Quaternion();
-	
-	ImGui::DragFloat3("scale", &flamethrowerSRT.scale.x, 0.1f);
-	ImGui::DragFloat4("rotate", &flamethrowerSRT.rotate.x, 0.1f);
-	ImGui::DragFloat3("translate", &flamethrowerSRT.translate.x, 0.1f);
-	ImGui::DragFloat("radius", &radius);
-	ImGui::DragFloat("angle", &angle);
-	ImGui::Checkbox("時計回り", &clockwise);
-
-	rotate = flamethrowerSRT.rotate * rotate;
-	
-	SaveAndLoad();
 }

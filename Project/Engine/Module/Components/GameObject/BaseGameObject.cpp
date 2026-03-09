@@ -153,6 +153,11 @@ void BaseGameObject::PreDraw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::Draw() const {
+	// objectが設定されていなかったら描画処理は呼ばない
+	if (model_ == nullptr) {
+		return;
+	}
+
 	if (!isRendering_) {
 		return;
 	}
