@@ -55,7 +55,7 @@ public:
 	/// <param name="pos">: 弾の座標</param>
 	/// <param name="target">: 目標の座標</param>
 	/// <param name="bulletSpeed">: 弾の速度</param>
-	void Reset(const Math::Vector3& _pos, const Math::Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito);
+	void Reset(const Math::Vector3& _pos, const Math::Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito, bool isLockOn);
 
 private:
 
@@ -69,10 +69,13 @@ private:
 	float trackingTime_ = 1.f;	// 追尾するまでの時間
 	float trackingRaito_ = 0.8f;
 	bool finishTracking_;		// 追尾を終了するか
+	bool isLockOn_ = true;
+	bool isCalcDirection_ = false;
 
 	BulletParam param_;
 
 	AOENGINE::BaseParticles* burn_;
 	AOENGINE::BaseParticles* smoke_;
+	Math::Vector3 direction_;
 };
 

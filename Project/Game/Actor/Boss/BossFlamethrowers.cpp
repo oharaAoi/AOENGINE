@@ -104,6 +104,12 @@ void BossFlamethrowers::SetBulletManager(BaseBulletManager* manager) {
 	}
 }
 
+void BossFlamethrowers::SetAttackType(FlamethrowerAttackType type) {
+	for (int i = 0; i < kFlamethrowerCount_; ++i) {
+		flamethrowers_[i]->SetAttackType(type);
+	}
+}
+
 bool BossFlamethrowers::Deploy() {
 	if (deployTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
 		for (int i = 0; i < kFlamethrowerCount_; ++i) {

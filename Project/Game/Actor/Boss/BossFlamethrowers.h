@@ -95,6 +95,8 @@ public: // accessor
 
 	void SetBulletManager(BaseBulletManager* manager);
 
+	void SetAttackType(FlamethrowerAttackType type);
+
 private:
 
 	static const uint32_t kFlamethrowerCount_ = 2;

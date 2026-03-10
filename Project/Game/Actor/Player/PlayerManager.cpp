@@ -48,7 +48,12 @@ void PlayerManager::Update() {
 	CheckAction();
 
 	player_->Update();
-	bulletManager_->SetPlayerTargetPos(player_->GetTargetPos());
+	if (player_->GetIsLockOn()) {
+		bulletManager_->SetPlayerTargetPos(player_->GetTargetPos());
+	} else {
+		bulletManager_->SetPlayerTargetPos(player_->GetTransform()->GetRotate().MakeForward() * 100.0f);
+	}
+	
 	bulletManager_->Update();
 	armors_->Update();
 }

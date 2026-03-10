@@ -68,9 +68,6 @@ public:		// member method
 	// 弾を打つ処理
 	void Shot();
 
-	// 実行
-	void Execute(const Math::Vector3& pos);
-
 private:
 
 
@@ -79,5 +76,6 @@ private:
 	AttackContext attackCxt_;
 	bool isFinish_;
 
+	bool isLockOn_ = true;;
 };
 

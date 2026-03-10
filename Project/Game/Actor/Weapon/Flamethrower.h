@@ -7,6 +7,11 @@
 #include "Game/Actor/Weapon/BaseWeapon.h"
 #include "Game/Manager/BaseBulletManager.h"
 
+enum class FlamethrowerAttackType {
+	Bullet,
+	Sword
+};
+
 /// <summary>
 /// 火焔放射の武器
 /// </summary>
@@ -81,6 +86,8 @@ public:
 	void SetIsAttack(bool isAttack);
 	bool GetIsAttack() const;
 
+	void SetAttackType(FlamethrowerAttackType type) { attackType_ = type; }
+
 private:
 
 	BaseBulletManager* pBulletManager_ = nullptr;
@@ -92,6 +99,8 @@ private:
 	AOENGINE::BoxCollider* collider_ = nullptr;
 
 	float attackTimer_ = 0;
+
+	FlamethrowerAttackType attackType_;
 
 };
 

@@ -71,7 +71,7 @@ void Flamethrower::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::flamethrower, ColliderShape::OBB);
+	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::flamethrowerSword, ColliderShape::OBB);
 	collider_ = dynamic_cast<AOENGINE::BoxCollider*>(collider);
 	collider_->SetTarget(ColliderTags::Player::own);
 	collider_->SetSize(flamethrowerParam_.colliderSize);
@@ -102,19 +102,24 @@ bool Flamethrower::Attack([[maybe_unused]] const AttackContext& cxt) {
 	// 攻撃可能かどうか
 	if (!isCanAttack_) { return false; }
 
-	Math::QuaternionSRT worldSrt = transform_->GetWorldSRT();
-	Math::Vector3 pos = worldSrt.translate;
-	Math::Vector3 direction = worldSrt.rotate.MakeForward();
-
-	FlamethrowerBullet* bullet = pBulletManager_->AddBullet<FlamethrowerBullet>(pos, direction,
-																				flamethrowerParam_.bulletSpeed, flamethrowerParam_.bulletRadius);
-	bullet->SetTakeDamage(flamethrowerParam_.bulletDamage);
+	if (attackType_ == FlamethrowerAttackType::Bullet) {
+		Math::QuaternionSRT worldSrt = transform_->GetWorldSRT();
+		Math::Vector3 pos = worldSrt.translate;
+		Math::Vector3 direction = worldSrt.rotate.MakeForward();
+		FlamethrowerBullet* bullet = pBulletManager_->AddBullet<FlamethrowerBullet>(pos, direction,
+																					flamethrowerParam_.bulletSpeed, flamethrowerParam_.bulletRadius);
+		bullet->SetTakeDamage(flamethrowerParam_.bulletDamage);
+		collider_->SetIsActive(false);
+	} else {
+		collider_->SetIsActive(true);
+	}
 
 	return true;
 }
 
 void Flamethrower::SetIsAttack(bool isAttack) {
 	flameParticle_->SetIsStop(!isAttack);
+	collider_->SetIsActive(isAttack);
 }
 
 bool Flamethrower::GetIsAttack() const {

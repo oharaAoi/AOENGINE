@@ -1495,6 +1495,7 @@
     <ClInclude Include="Game\Actor\Weapon\Bullet\FlamethrowerBullet.h" />
     <ClInclude Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.h" />
+    <ClInclude Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2588,5 +2589,6 @@
     <ClCompile Include="Game\Actor\Weapon\Bullet\FlamethrowerBullet.cpp" />
     <ClCompile Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.cpp" />
+    <ClCompile Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.cpp" />
   </ItemGroup>
 </Project>

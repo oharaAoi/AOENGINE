@@ -39,6 +39,7 @@ void RocketBullet::Init() {
 
 	trackingTimer_ = 0.f;
 	finishTracking_ = false;
+	isCalcDirection_ = false;
 
 	// ----------------------
 	// ↓ effectの設定
@@ -59,7 +60,15 @@ void RocketBullet::Init() {
 
 void RocketBullet::Update() {
 	Math::Vector3 pos = transform_->GetPos();
-	Tracking();
+	if (!isLockOn_) {
+		if (!isCalcDirection_) {
+			direction_ = (targetPosition_ - transform_->GetPos()).Normalize();
+			isCalcDirection_ = true;
+		}
+		velocity_ += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
+	} else {
+		Tracking();
+	}
 
 	if (std::abs(pos.x) >= 200.0f) {
 		isAlive_ = false;
@@ -91,13 +100,18 @@ void RocketBullet::OnCollision(AOENGINE::BaseCollider* other) {
 	}
 }
 
-void RocketBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _target, float _bulletSpeed, float _trackingLength, float _trackingTime, float _trackingRaito) {
+void RocketBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _target, 
+						 float _bulletSpeed, float _trackingLength, 
+						 float _trackingTime, float _trackingRaito, 
+						 bool isLockOn) {
 	transform_->SetTranslate(_pos);
 	targetPosition_ = _target;
 	speed_ = _bulletSpeed;
 	trackingLength_ = _trackingLength;
 	trackingTime_ = _trackingTime;
 	trackingRaito_ = _trackingRaito;
+	isLockOn_ = isLockOn;
+	isCalcDirection_ = isLockOn;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -54,6 +54,7 @@ void ShoulderMissile::Init() {
 
 	isFinish_ = true;
 	isReload_ = false;
+	isLockOn_ = false;
 	coolTime_ = 5;
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, GetName());
@@ -100,6 +101,13 @@ bool ShoulderMissile::Attack(const AttackContext& cxt) {
 	isCanAttack_ = false;
 	attackCxt_ = cxt;
 	isFinish_ = false;
+	if (cxt.target.x == 0.f &&
+		cxt.target.y == 0.f &&
+		cxt.target.z == 0.f) {
+		isLockOn_ = false;
+	} else {
+		isLockOn_ = true;
+	}
 	Shot();
 	return true;
 }
@@ -111,7 +119,8 @@ bool ShoulderMissile::Attack(const AttackContext& cxt) {
 void ShoulderMissile::Shot() {
 	Math::Vector3 worldPos = object_->GetPosition();
 	RocketBullet* bullet = pBulletManager_->AddBullet<RocketBullet>(worldPos, attackCxt_.target, attackParam_.bulletSpeed,
-																	weaponParam_.trackingLength, weaponParam_.trackingTime, weaponParam_.trackingRaito);
+																	weaponParam_.trackingLength, weaponParam_.trackingTime,
+																	weaponParam_.trackingRaito, isLockOn_);
 	bullet->SetTakeDamage(attackParam_.takeDamage);
 
 	coolTime_ = attackParam_.fireInterval;

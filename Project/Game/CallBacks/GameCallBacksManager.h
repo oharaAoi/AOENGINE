@@ -14,6 +14,7 @@
 #include "Game/CallBacks/AttackArmorToPlayerCallBacks.h"
 #include "Game/CallBacks/EnemySearchToPlayerCallBacks.h"
 #include "Game/CallBacks/FlamethrowerToPlayerCallBacks.h"
+#include "Game/CallBacks/FlamethrowerSwordToPlayerCallBacks.h"
 
 /// <summary>
 /// CallBackをまとめたクラス
@@ -62,6 +63,7 @@ private:
 	std::unique_ptr<AttackArmorToPlayerCallBacks> pAttackArmorToPlayer_;
 	std::unique_ptr<EnemySearchToPlayerCallBacks> enemySearchToPlayer_;
 	std::unique_ptr<FlamethrowerToPlayerCallBacks> flamethrowerToPlayer_;
+	std::unique_ptr<FlamethrowerSwordToPlayerCallBacks> flamethrowerSwordToPlayer_;
 
 };
 

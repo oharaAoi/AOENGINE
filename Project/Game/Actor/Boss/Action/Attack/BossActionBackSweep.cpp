@@ -74,6 +74,7 @@ bool BossActionBackSweep::CanExecute() {
 
 void BossActionBackSweep::Init() {
 	pTarget_->SetIsAttack(true);
+	pTarget_->GetFlamethrowers()->SetAttackType(FlamethrowerAttackType::Sword);
 
 	// 回転を求める
 	AOENGINE::WorldTransform* transform = pTarget_->GetTransform();

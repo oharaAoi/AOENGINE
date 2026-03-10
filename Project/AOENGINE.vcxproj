@@ -443,6 +443,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\CallBacks\BBulletToGroundCallBacks.h" />
     <ClInclude Include="Game\CallBacks\BBulletToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\EnemySearchToPlayerCallBacks.h" />
+    <ClInclude Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.h" />
     <ClInclude Include="Game\CallBacks\GameCallBacksManager.h" />
     <ClInclude Include="Game\CallBacks\PBulletToBossCallBacks.h" />
@@ -821,6 +822,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\CallBacks\BBulletToGroundCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\BBulletToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\EnemySearchToPlayerCallBacks.cpp" />
+    <ClCompile Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\FlamethrowerToPlayerCallBacks.cpp" />
     <ClCompile Include="Game\CallBacks\GameCallBacksManager.cpp" />
     <ClCompile Include="Game\CallBacks\PBulletToBossCallBacks.cpp" />

@@ -77,6 +77,8 @@ void BossActionApproachFlamethrower::Init() {
 	pTarget_->SetIsMove(true);
 	pTarget_->SetIsAttack(false);
 
+	pTarget_->GetFlamethrowers()->SetAttackType(FlamethrowerAttackType::Bullet);
+
 	speed_ = param_.speed;
 
 	Math::Quaternion rot = pTarget_->GetTargetTransform()->GetRotate();
