@@ -22,7 +22,7 @@
             "y": 0.0,
             "z": 0.0
         },
-        "lowDurabilityMaxThreshold": 0.7200000286102295,
+        "lowDurabilityMaxThreshold": 0.5,
         "lowDurabilityMinThreshold": 0.4000000059604645,
         "noiseTexture1": "noise0.png",
         "noiseTexture2": "FireNoize.png",

@@ -253,6 +253,8 @@ void PulseArmor::DamageDurability(float _damage) {
 	thresholdTween_.SetStart(minThreshold);
 	thresholdTween_.SetEnd(maxThreshold);
 
+	thresholdTween_.SetCurrentTime(0);
+
 }
 
 bool PulseArmor::BreakArmor() {

@@ -48,41 +48,36 @@ public:
 	void Update(float deltaTime) {
 		if (isStop_) { return; }
 		if (currentTime_ >= duration_) {
-			isFinish_ = true;
+			ChangeState();
 			return;
 		}
 
 		currentTime_ += deltaTime;
 		float t = currentTime_ / duration_;
 		value_ = Lerp(start_, end_, Math::CallEasing(easeIndex_, t));
-
-
-		// 現在の進行状態を変更するかを判別
-		ChangeState();
 	};
 
 	/// <summary>
 	/// 現在の進行状態を変更するかを判別する関数
 	/// </summary>
 	void ChangeState() {
-		if (currentTime_ >= duration_) {
-			switch (loopType_) {
-			case LoopType::Loop:
-				currentTime_ = 0.0f;
-				break;
-			case LoopType::Stop:
-				break;
-			case LoopType::Return:
-				std::swap(start_, end_);
-				currentTime_ = 0.0f;
-				break;
-			case LoopType::RoundTrip:
-				if (!isReturn_) { break; }
-				std::swap(start_, end_);
-				currentTime_ = 0.0f;
-				isReturn_ = false;
-				break;
-			}
+		switch (loopType_) {
+		case LoopType::Loop:
+			currentTime_ = 0.0f;
+			break;
+		case LoopType::Stop:
+			isFinish_ = true;
+			break;
+		case LoopType::Return:
+			std::swap(start_, end_);
+			currentTime_ = 0.0f;
+			break;
+		case LoopType::RoundTrip:
+			if (!isReturn_) { break; }
+			std::swap(start_, end_);
+			currentTime_ = 0.0f;
+			isReturn_ = false;
+			break;
 		}
 	}
 
@@ -108,6 +103,8 @@ public:
 		currentTime_ = 0.0f;
 		isFinish_ = false;
 	}
+
+	void SetCurrentTime(float time) { currentTime_ = time; }
 
 	T GetValue() { return value_; }
 
