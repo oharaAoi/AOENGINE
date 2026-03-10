@@ -2,6 +2,7 @@
 // engine
 #include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/Module/Components/Collider/BaseCollider.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
 // Game
 #include "Game/Actor/Weapon/BaseWeapon.h"
 #include "Game/Manager/BaseBulletManager.h"
@@ -14,6 +15,8 @@ class Flamethrower :
 public: // データ構造体
 
 	struct FlamethrowerParam : AOENGINE::IJsonConverter {
+		Math::Vector3 colliderPos;
+		Math::Vector3 colliderSize;
 		Math::Vector3 pos;
 		float bulletSpeed = 80.f;
 		float bulletRadius = 4.f;
@@ -27,6 +30,8 @@ public: // データ構造体
 
 		json ToJson(const std::string& id) const override {
 			return AOENGINE::JsonBuilder(id)
+				.Add("colliderPos", colliderPos)
+				.Add("colliderSize", colliderSize)
 				.Add("pos", pos)
 				.Add("bulletSpeed", bulletSpeed)
 				.Add("bulletRadius", bulletRadius)
@@ -36,6 +41,8 @@ public: // データ構造体
 		}
 
 		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "colliderPos", colliderPos);
+			Convert::fromJson(jsonData, "colliderSize", colliderSize);
 			Convert::fromJson(jsonData, "pos", pos);
 			Convert::fromJson(jsonData, "bulletSpeed", bulletSpeed);
 			Convert::fromJson(jsonData, "bulletRadius", bulletRadius);
@@ -49,7 +56,7 @@ public: // データ構造体
 public: // コンストラクタ
 
 	Flamethrower() = default;
-	~Flamethrower() = default;
+	~Flamethrower() override;
 
 public:
 
@@ -60,6 +67,8 @@ public:
 	// 編集
 	void Debug_Gui() override;
 
+	void ColliderLocalPosInverse();
+
 public:	// member method
 
 	// 攻撃
@@ -69,6 +78,9 @@ public:
 
 	void SetBulletManager(BaseBulletManager* manager) { pBulletManager_ = manager; }
 
+	void SetIsAttack(bool isAttack);
+	bool GetIsAttack() const;
+
 private:
 
 	BaseBulletManager* pBulletManager_ = nullptr;
@@ -77,7 +89,7 @@ private:
 
 	AOENGINE::BaseParticles* flameParticle_ = nullptr;
 
-	AOENGINE::BaseCollider* collider_ = nullptr;
+	AOENGINE::BoxCollider* collider_ = nullptr;
 
 	float attackTimer_ = 0;
 

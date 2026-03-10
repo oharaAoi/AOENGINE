@@ -5,10 +5,24 @@
 #include "Game/Actor/Weapon/Bullet/FlamethrowerBullet.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 終了処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+Flamethrower::~Flamethrower() {
+	collider_ = nullptr;
+}
+
+void Flamethrower::Finalize() {
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Flamethrower::Debug_Gui() {
+	object_->Debug_Gui();
+	ImGui::Separator();
+
 	flamethrowerParam_.Debug_Gui();
 
 	ImGui::Separator();
@@ -19,22 +33,24 @@ void Flamethrower::Debug_Gui() {
 	}
 
 	transform_->SetTranslate(flamethrowerParam_.pos);
+	collider_->SetSize(flamethrowerParam_.colliderSize);
+	collider_->SetLocalPos(flamethrowerParam_.colliderPos);
+}
+
+void Flamethrower::ColliderLocalPosInverse() {
+	flamethrowerParam_.colliderPos.x *= -1;
+	collider_->SetLocalPos(flamethrowerParam_.colliderPos);
 }
 
 void Flamethrower::FlamethrowerParam::Debug_Gui() {
+	ImGui::DragFloat3("colliderPos", &colliderPos.x, 0.1f);
+	ImGui::DragFloat3("colliderSize", &colliderSize.x, 0.1f, 0.0f);
 	ImGui::DragFloat3("pos", &pos.x, 0.1f);
 	ImGui::DragFloat("bulletSpeed", &bulletSpeed, 0.1f);
 	ImGui::DragFloat("bulletRadius", &bulletRadius, 0.1f);
 	ImGui::DragFloat("bulletDamage", &bulletDamage, 0.1f);
 	ImGui::DragFloat("shotInterval", &shotInterval, 0.1f);
 	SaveAndLoad();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 終了処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void Flamethrower::Finalize() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,14 +71,17 @@ void Flamethrower::Init() {
 	// ----------------------
 	// ↓ colliderの設定
 	// ----------------------
-	collider_ = object_->SetCollider(ColliderTags::Bullet::flamethrower, ColliderShape::Sphere);
+	AOENGINE::BaseCollider* collider = object_->SetCollider(ColliderTags::Bullet::flamethrower, ColliderShape::OBB);
+	collider_ = dynamic_cast<AOENGINE::BoxCollider*>(collider);
 	collider_->SetTarget(ColliderTags::Player::own);
+	collider_->SetSize(flamethrowerParam_.colliderSize);
+	collider_->SetLocalPos(flamethrowerParam_.colliderPos);
 
 	// ----------------------
 	// ↓火炎の表現のための初期化
 	// ----------------------
 	flameParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("fire");
-	flameParticle_->SetIsStop(false);
+	flameParticle_->SetIsStop(true);
 	flameParticle_->SetParent(transform_);
 }
 
@@ -92,4 +111,12 @@ bool Flamethrower::Attack([[maybe_unused]] const AttackContext& cxt) {
 	bullet->SetTakeDamage(flamethrowerParam_.bulletDamage);
 
 	return true;
+}
+
+void Flamethrower::SetIsAttack(bool isAttack) {
+	flameParticle_->SetIsStop(!isAttack);
+}
+
+bool Flamethrower::GetIsAttack() const {
+	return !flameParticle_->GetIsStop();
 }

@@ -109,6 +109,9 @@ public:
 	const Math::Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 	const Math::Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
+	Math::Vector3 GetWorldPos() const { return DecomposeTranslate(worldMat_); }
+	Math::Quaternion GetWorldRotate() const { return DecomposeRotate(worldMat_, srt_.scale); }
+
 	const Math::Vector3 GetPreTranslate() const { return preTranslate_; }
 	void SetPreTranslate(const Math::Vector3& preTranslate) { preTranslate_ = preTranslate; }
 

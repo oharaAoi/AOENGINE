@@ -360,6 +360,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Base\BaseBullet.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.h" />
+    <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.h" />
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.h" />
@@ -738,6 +739,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Base\BaseBullet.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionAllRangeMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionApproachFlamethrower.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionDualStageMissile.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionRapidfire.cpp" />
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionShotBullet.cpp" />

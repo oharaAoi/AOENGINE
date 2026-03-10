@@ -26,6 +26,7 @@
 #include "Game/Actor/Boss/Action/Attack/BossActionRapidfire.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionDualStageMissile.h"
 #include "Game/Actor/Boss/Action/Attack/BossActionApproachFlamethrower.h"
+#include "Game/Actor/Boss/Action/Attack/BossActionBackSweep.h"
 #include "Game/Actor/Boss/Action/BossActionDeployArmor.h"
 #include "Game/Actor/Boss/Action/BossActionTransitionPhase.h"
 
@@ -137,6 +138,7 @@ void Boss::Init() {
 	behaviorTree_->Register("AllRangeMissile", [this]() { return CreateTask<BossActionAllRangeMissile>(this, "AllRangeMissile"); });
 	behaviorTree_->Register("VerticalMissile", [this]() { return CreateTask<BossActionVerticalMissile>(this, "VerticalMissile"); });
 	behaviorTree_->Register("ApproachFlamethrower", [this]() { return CreateTask<BossActionApproachFlamethrower>(this, "ApproachFlamethrower"); });
+	behaviorTree_->Register("BackSweep", [this]() { return CreateTask<BossActionBackSweep>(this, "BackSweep"); });
 	behaviorTree_->Register("DeployArmor", [this]() { return CreateTask<BossActionDeployArmor>(this, "DeployArmor"); });
 	behaviorTree_->Register("Rapidfire", [this]() { return CreateTask<BossActionRapidfire>(this, "Rapidfire"); });
 	behaviorTree_->Register("AdjustHeight", [this]() { return CreateTask<BossActionAdjustHeight>(this, "AdjustHeight"); });

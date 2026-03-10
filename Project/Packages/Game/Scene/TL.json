@@ -333,7 +333,8 @@
                         "attackArmor",
                         "enemyBullet",
                         "enemySearchCollider",
-                        "flamethrower"
+                        "flamethrower",
+                        "flamethrowerSword"
                     ]
                 },
                 {

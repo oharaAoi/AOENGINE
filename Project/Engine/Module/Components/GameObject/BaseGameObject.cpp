@@ -101,8 +101,8 @@ void BaseGameObject::UpdateMatrix() {
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
 			colliders_[index]->Update(Math::QuaternionSRT{
 				.scale = transform_->GetScale(),
-				.rotate = transform_->GetRotate(),
-				.translate = transform_->GetPos() }
+				.rotate = transform_->GetWorldRotate(),
+				.translate = transform_->GetWorldPos() }
 			);
 		}
 	}

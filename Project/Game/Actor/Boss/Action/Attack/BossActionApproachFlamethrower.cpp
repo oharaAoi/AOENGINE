@@ -99,6 +99,10 @@ void BossActionApproachFlamethrower::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionApproachFlamethrower::Update() {
+	if (!pTarget_->GetFlamethrowers()->Deploy()) {
+		return;
+	}
+
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
 	direction_ = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
 	pTarget_->TargetLook();
@@ -120,6 +124,8 @@ void BossActionApproachFlamethrower::End() {
 
 	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
 	rigid->SetVelocity(CVector3::ZERO);
+
+	pTarget_->GetFlamethrowers()->Remove();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

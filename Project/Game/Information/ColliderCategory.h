@@ -32,6 +32,7 @@ namespace ColliderTags {
 		const std::string rocket = "launcher";
 		const std::string laser = "laser";
 		const std::string flamethrower = "flamethrower";
+		const std::string flamethrowerSword = "flamethrowerSword";
 	}
 
 	namespace Field {
@@ -63,6 +64,7 @@ inline std::list<std::string> GetColliderTagsList() {
 		ColliderTags::Bullet::rocket,
 		ColliderTags::Bullet::laser,
 		ColliderTags::Bullet::flamethrower,
+		ColliderTags::Bullet::flamethrowerSword,
 
 		ColliderTags::Field::ground,
 		ColliderTags::Field::building,

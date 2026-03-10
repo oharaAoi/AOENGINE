@@ -16,3 +16,4 @@ attackArmor
 enemyBullet
 enemySearchCollider
 flamethrower
+flamethrowerSword

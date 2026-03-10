@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/Utilities/Timer.h"
 // game
 #include "Game/Actor/Weapon/Flamethrower.h"
 #include "Game/Manager/BaseBulletManager.h"
@@ -48,6 +49,27 @@ public:
 		void Debug_Gui() override;
 	};
 
+	struct DeployFlamethrowerParameter : public AOENGINE::IJsonConverter {
+		float deployTime = 1.f;	// 展開時間
+
+		DeployFlamethrowerParameter() {
+			SetGroupName("Boss");
+			SetName("BossFlamethrowerDeployParameter");
+		}
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("deployTime", deployTime)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			Convert::fromJson(jsonData, "deployTime", deployTime);
+		}
+
+		void Debug_Gui() override;
+	};
+
 public:
 
 	BossFlamethrowers() = default;
@@ -62,6 +84,10 @@ public:
 	// 編集
 	void Debug_Gui() override;
 
+	bool Deploy();
+
+	void Remove();
+
 public: // accessor
 
 	const Parameter& GetParameter(BossFlamethrowersType type) const { return param_[(int)type]; }
@@ -74,8 +100,11 @@ private:
 	static const uint32_t kFlamethrowerCount_ = 2;
 
 	Parameter param_[kFlamethrowerCount_];
+	DeployFlamethrowerParameter deployParam_;
 
 	// 武器
 	std::unique_ptr<Flamethrower> flamethrowers_[kFlamethrowerCount_];
+
+	AOENGINE::Timer deployTimer_;
 };
 

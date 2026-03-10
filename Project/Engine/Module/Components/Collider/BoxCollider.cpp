@@ -83,8 +83,11 @@ void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 		aabb.max = max;
 		aabb.center = (min + max) * 0.5f;
 	} else if (std::holds_alternative<Math::OBB>(shape_)) {
-		std::get<Math::OBB>(shape_).center = srt.translate + localSRT_.translate;
+		std::get<Math::OBB>(shape_).size = size_;
 		std::get<Math::OBB>(shape_).MakeOBBAxis(srt.rotate);
+		localSRT_.rotate = srt.rotate;
+		Math::Matrix4x4 worldMat = localSRT_.MakeAffine();
+		std::get<Math::OBB>(shape_).center = srt.translate + DecomposeTranslate(worldMat);
 	}
 }
 
