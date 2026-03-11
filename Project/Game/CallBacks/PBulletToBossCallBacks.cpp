@@ -16,6 +16,8 @@ void PBulletToBossCallBacks::Init() {
 	hitBossSmoke_ = manager->CreateParticle("MachineGunHit");
 	hitBossSmokeBorn_ = manager->CreateParticle("MachineGunHit2");
 	hitSmoke_ = manager->CreateParticle("Expload");
+	hitBossSmoke_->SetIsStop(true);
+	hitBossSmokeBorn_->SetIsStop(true);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

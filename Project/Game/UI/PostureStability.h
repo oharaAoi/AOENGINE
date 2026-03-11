@@ -75,8 +75,6 @@ public:
 
 private:
 
-	AOENGINE::Sprite* fence_;
-
 	Parameter param_;
 
 	GaugeType gaugeType_;

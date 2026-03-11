@@ -65,6 +65,7 @@ void PlayerActionJump::OnStart() {
 	pOwner_->ConsumeEN(param_.jumpEnergy);
 
 	pRigidbody_->SetVelocityY(param_.jumpForce);
+	pRigidbody_->SetGravity(true);
 	mainAction_ = std::bind(&PlayerActionJump::Jump, this);
 	
 	pOwner_->SetIsLanding(false);

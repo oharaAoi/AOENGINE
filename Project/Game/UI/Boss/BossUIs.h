@@ -57,7 +57,6 @@ private:
 	Player* pPlayer_ = nullptr;
 
 	// hp関連
-	std::unique_ptr<BossHealthUI> health_;
 	std::unique_ptr<BaseGaugeUI> healthArc_;
 	
 	// 姿勢制御関連

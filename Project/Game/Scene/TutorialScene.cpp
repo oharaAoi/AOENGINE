@@ -36,6 +36,7 @@ void TutorialScene::Init() {
 	collisionManager_ = std::make_unique<AOENGINE::CollisionManager>();
 	collisionManager_->Init();
 
+	AOENGINE::Render::GetLightGroup()->Load();
 	LoadSceneEffect();
 	LoadScene("./Project/Packages/Game/Scene/", "tutorial", ".json");
 

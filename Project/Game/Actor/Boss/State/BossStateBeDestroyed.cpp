@@ -20,6 +20,8 @@ void BossStateBeDestroyed::OnStart() {
 	
 	Math::Quaternion pitchRotate = Math::Quaternion::AngleAxis(-45.0f * kToRadian, CVector3::RIGHT);
 	targetRotate_ = preRotate_ * pitchRotate;
+
+	pOwner_->GetFlamethrowers()->Remove();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

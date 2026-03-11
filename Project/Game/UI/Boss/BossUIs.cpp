@@ -15,9 +15,6 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 	// ↓ HPのUI
 	// ----------------------
 
-	health_ = std::make_unique<BossHealthUI>();
-	health_->Init("BossUIs", "BossHealthUI");
-
 	healthArc_ = std::make_unique<BaseGaugeUI>();
 	healthArc_->SetName("healthArc");
 	healthArc_->Init("gauge_bg.png", "gauge_front.png");
@@ -48,7 +45,6 @@ void BossUIs::Init(Boss* _boss, Player* _player) {
 
 	SetIsEnable(false);
 
-	AddChild(health_.get());
 	AddChild(healthArc_.get());
 	AddChild(postureStability_.get());
 	AddChild(postureStabilityArc_.get());
@@ -71,8 +67,7 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 	// ↓ hpゲージの更新
 	// ----------------------
 	float fillAmount = bossParam.health / bossInitParam.health;
-	health_->Update(fillAmount);
-
+	
 	healthArc_->SetFillAmount(fillAmount);
 	healthArc_->SetPos(_reticlePos);
 	healthArc_->Update();
@@ -115,10 +110,10 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 	postureStabilityArc_->SetPos(_reticlePos);
 	postureStabilityArc_->Update();
 
+	postureStability_->SetIsEnable(false);
 }
 
 void BossUIs::SetIsEnable(bool flag) {
-	health_->SetIsEnable(flag);
 	healthArc_->SetIsEnable(flag);
 	postureStability_->SetIsEnable(flag);
 	postureStabilityArc_->SetIsEnable(flag);
