@@ -19,7 +19,9 @@ BehaviorStatus BossActionApproachFlamethrower::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float BossActionApproachFlamethrower::EvaluateWeight() {
-	return 0.5f;
+	float result = weight_ * CalcAggressionScore(pTarget_->GetAggressionScore());
+	result += pTarget_->GetApproachScore();
+	return std::clamp(result, 0.0f, 1.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +96,8 @@ void BossActionApproachFlamethrower::Init() {
 	isDamping_ = false;
 
 	closeTimer_ = AOENGINE::Timer(flamethrowerParam_.closeTime);
+
+	pTarget_->GetFlamethrowers()->Remove();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,6 +125,7 @@ void BossActionApproachFlamethrower::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionApproachFlamethrower::End() {
+	velocity_ = CVector3::ZERO;
 	pTarget_->SetIsMove(false);
 	pTarget_->TargetLook();
 

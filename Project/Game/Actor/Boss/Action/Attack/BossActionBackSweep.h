@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/Node/BaseTaskNode.h"
 // game
@@ -68,12 +69,15 @@ private:
 
 	void Sweep();
 
+	bool CheckBehind();
+
+	float CalcDot();
+
 private:
 
 	Parameter param_;
 
 	Math::Quaternion startRotate_;
 	Math::Quaternion endRotate_;
-
 };
 

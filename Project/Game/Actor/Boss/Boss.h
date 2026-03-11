@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/AI/BehaviorTree.h"
+#include "Engine/Utilities/Timer.h"
 // Game
 #include "Game/State/StateMachine.h"
 #include "Game/Actor/Boss/BossFlamethrowers.h"
@@ -46,6 +47,7 @@ public:
 		float idealDistance = 10.f; // 理想距離
 		float maxDistance = 10.f; // 最大距離
 		float aggressionBaseScore = 0.5f; // 積極性のベース値
+		float farAwayTime = 8.0f;		// 遠く離れている時間
 
 		std::string worldStatePath = "";		// worldStateのパス
 		Math::Vector2 treeStateOffset;
@@ -62,6 +64,7 @@ public:
 				.Add("maxDistance", maxDistance)
 				.Add("aggressionBaseScore", aggressionBaseScore)
 				.Add("treeStateOffset", treeStateOffset)
+				.Add("farAwayTime", farAwayTime)
 				.Build();
 		}
 
@@ -74,6 +77,7 @@ public:
 			Convert::fromJson(jsonData, "maxDistance", maxDistance);
 			Convert::fromJson(jsonData, "aggressionBaseScore", aggressionBaseScore);
 			Convert::fromJson(jsonData, "treeStateOffset", treeStateOffset);
+			Convert::fromJson(jsonData, "farAwayTime", farAwayTime);
 		}
 
 		void Debug_Gui() override;
@@ -218,6 +222,9 @@ public:
 
 	BossFlamethrowers* GetFlamethrowers() const { return flamethrowers_.get(); }
 
+	float GetApproachScore() const { return approachScore_; }
+	void SetApproachScore(float score) { approachScore_ = score; }
+
 private:
 
 	// ポインタ  --------------------------------------------------
@@ -235,6 +242,7 @@ private:
 
 	ActionStrategy actionStrategy_;
 	float aggressionScore_;  // 攻勢値
+	float approachScore_;
 
 	// weapon ------------------------------------------------
 	std::unique_ptr<Armors> pulseArmor_;
@@ -255,6 +263,8 @@ private:
 	float stanRemainingTime_; // スタンの残り時間
 
 	AggressionWeights aggressionWeights_;
+
+	AOENGINE::Timer farAwayTimer_;
 
 	// AI --------------------------------------------------
 	AI::BehaviorTree* behaviorTree_;

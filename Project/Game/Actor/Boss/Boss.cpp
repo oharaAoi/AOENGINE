@@ -68,6 +68,7 @@ void Boss::Parameter::Debug_Gui() {
 	ImGui::DragFloat("理想距離", &idealDistance, 0.1f);
 	ImGui::DragFloat("最大距離", &maxDistance, 0.1f);
 	ImGui::DragFloat("積極性のベース値", &aggressionBaseScore, 0.1f);
+	ImGui::DragFloat("遠く離れている時間", &farAwayTime, 0.1f);
 	ImGui::DragFloat2("ボスの状態を表示するwindowのoffset", &treeStateOffset.x, 0.1f);
 	ImGui::Text("text : %s", worldStatePath.c_str());
 	SaveAndLoad();
@@ -185,6 +186,8 @@ void Boss::Init() {
 
 	actionStrategy_ = ActionStrategy::Defensive;
 	aggressionScore_ = 0.5f;
+
+	farAwayTimer_ = AOENGINE::Timer(param_.farAwayTime);
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "Boss");
 }
@@ -343,6 +346,16 @@ void Boss::CalcAggression() {
 	float distance = (targetPos_ - GetPosition()).Length();
 	float distanceScore = (distance - param_.idealDistance) / param_.maxDistance;
 	float distanceAggression = std::clamp(distanceScore, 0.0f, 1.0f);
+
+	// ----------------------------------------------------
+	// ↓ 一定時間遠い時に近づく行動に補正をかけるための計算
+	// ----------------------------------------------------
+	if (distance >= param_.maxDistance) {
+		if (!farAwayTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+			approachScore_ = 1.0f;
+			farAwayTimer_.timer_ = 0;
+		} 
+	}
 
 	// ----------------------
 	// ↓ 最終スコアの計算

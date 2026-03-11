@@ -31,10 +31,11 @@ void PBulletToBossCallBacks::Update() {
 
 void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] AOENGINE::BaseCollider* const bullet, [[maybe_unused]] AOENGINE::BaseCollider* const boss) {
 	BaseBullet* playerBullet = pBulletManager_->SearchCollider(bullet);
+	Math::Vector3 pos = playerBullet->GetTransform()->GetPreTranslate();
 	// bulletの処理
 	if (playerBullet != nullptr) {
 		if (playerBullet->GetBulletType() == BulletType::Launcher) {
-			hitSmoke_->SetPos(bullet->GetCenterPos());
+			hitSmoke_->SetPos(pos);
 			hitSmoke_->Reset();
 		}
 
@@ -46,8 +47,8 @@ void PBulletToBossCallBacks::CollisionEnter([[maybe_unused]] AOENGINE::BaseColli
 		pBoss_->Damage(playerBullet->GetTakeDamage());
 	}
 
-	hitBossSmoke_->SetPos(bullet->GetCenterPos());
-	hitBossSmokeBorn_->SetPos(bullet->GetCenterPos());
+	hitBossSmoke_->SetPos(pos);
+	hitBossSmokeBorn_->SetPos(pos);
 
 	hitBossSmoke_->SetIsStop(false);
 	hitBossSmokeBorn_->SetIsStop(false);

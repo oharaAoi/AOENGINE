@@ -143,5 +143,13 @@ void BossFlamethrowers::Remove() {
 		Math::Vector3 dir = (pos - CVector3::ZERO).Normalize();
 		Math::Quaternion rotate = Math::Quaternion::AngleAxis(kPI, CVector3::FORWARD) * Math::Quaternion::LookRotation(dir);
 		flamethrowers_[i]->GetTransform()->SetRotate(rotate);
+
+		flamethrowers_[i]->Update();
+	}
+}
+
+void BossFlamethrowers::Destroy() {
+	for (int i = 0; i < kFlamethrowerCount_; ++i) {
+		flamethrowers_[i]->Destroy();
 	}
 }

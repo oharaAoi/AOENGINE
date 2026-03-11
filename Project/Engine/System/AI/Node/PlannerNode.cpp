@@ -128,7 +128,7 @@ void PlannerNode::Debug_Gui() {
 	// Treeの編集
 	if (ImGui::TreeNode("Select Tree")) {
 		std::string loadFilePath;
-		if (ButtonOpenDialog("Select Tree", "Select_Tree", "SelectTree", ".json", loadFilePath)) {
+		if (ButtonOpenDialog("Select Tree", "Select_Tree", "SelectTree", ".aitree", loadFilePath)) {
 			treeFileName_ = loadFilePath;
 		}
 		ImGui::TreePop();

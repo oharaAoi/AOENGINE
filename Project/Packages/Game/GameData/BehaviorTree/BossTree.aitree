@@ -63,48 +63,109 @@
                         {
                             "children": [
                                 {
-                                    "children": [],
-                                    "goalCondition": {
-                                        "leftKey": "isAttack",
-                                        "leftKeyIndex": 9,
-                                        "operatorIndex": 0,
-                                        "rightKey": "isTrue",
-                                        "rightKeyIndex": 3
-                                    },
-                                    "name": "TargetEnemy",
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "goalCondition": {
+                                                "leftKey": "isAttack",
+                                                "leftKeyIndex": 9,
+                                                "operatorIndex": 0,
+                                                "rightKey": "isTrue",
+                                                "rightKeyIndex": 3
+                                            },
+                                            "name": "TargetEnemy",
+                                            "nodePos": {
+                                                "x": 754.0,
+                                                "y": 774.0
+                                            },
+                                            "nodeType": 5,
+                                            "orientedName": "TargetDead",
+                                            "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/BossAttackTree.aitree"
+                                        },
+                                        {
+                                            "children": [],
+                                            "goalCondition": {
+                                                "leftKey": "BossToPlayer",
+                                                "leftKeyIndex": 0,
+                                                "operatorIndex": 4,
+                                                "rightKey": "SafeDistance",
+                                                "rightKeyIndex": 8
+                                            },
+                                            "name": "SafeDistance",
+                                            "nodePos": {
+                                                "x": 930.0,
+                                                "y": 774.0
+                                            },
+                                            "nodeType": 5,
+                                            "orientedName": "SafeDistance",
+                                            "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/SafeDistanceTree.aitree"
+                                        }
+                                    ],
+                                    "name": "PlannerSelector",
                                     "nodePos": {
-                                        "x": 754.0,
-                                        "y": 774.0
+                                        "x": 834.0,
+                                        "y": 626.0
                                     },
-                                    "nodeType": 5,
-                                    "orientedName": "TargetDead",
-                                    "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/BossAttackTree.aitree"
+                                    "nodeType": 6
                                 },
                                 {
-                                    "children": [],
-                                    "goalCondition": {
-                                        "leftKey": "BossToPlayer",
-                                        "leftKeyIndex": 0,
-                                        "operatorIndex": 4,
-                                        "rightKey": "SafeDistance",
-                                        "rightKeyIndex": 8
-                                    },
-                                    "name": "SafeDistance",
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "goalCondition": {
+                                                "leftKey": "isAttack",
+                                                "leftKeyIndex": 10,
+                                                "operatorIndex": 0,
+                                                "rightKey": "isTrue",
+                                                "rightKeyIndex": 13
+                                            },
+                                            "name": "AttackEnemy",
+                                            "nodePos": {
+                                                "x": 1106.0,
+                                                "y": 774.0
+                                            },
+                                            "nodeType": 5,
+                                            "orientedName": "TargetDead",
+                                            "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Packages\\Game\\GameData\\BehaviorTree\\SecondBossAttackTree.aitree"
+                                        },
+                                        {
+                                            "children": [],
+                                            "goalCondition": {
+                                                "leftKey": "BossToPlayer",
+                                                "leftKeyIndex": 0,
+                                                "operatorIndex": 4,
+                                                "rightKey": "SafeDistance",
+                                                "rightKeyIndex": 2
+                                            },
+                                            "name": "SafeDistance",
+                                            "nodePos": {
+                                                "x": 1266.0,
+                                                "y": 770.0
+                                            },
+                                            "nodeType": 5,
+                                            "orientedName": "TargetDead",
+                                            "treeFileName": "C:\\Users\\81801\\source\\repos\\LC2\\CG2\\AOENGINE\\Project\\Packages\\Game\\GameData\\BehaviorTree\\SafeDistanceTree.aitree"
+                                        }
+                                    ],
+                                    "name": "PlannerSelector",
                                     "nodePos": {
-                                        "x": 930.0,
-                                        "y": 774.0
+                                        "x": 1154.0,
+                                        "y": 646.0
                                     },
-                                    "nodeType": 5,
-                                    "orientedName": "SafeDistance",
-                                    "treeFileName": "./Project/Packages/Game/GameData/BehaviorTree/SafeDistanceTree.aitree"
+                                    "nodeType": 6
                                 }
                             ],
-                            "name": "PlannerSelector",
+                            "leftKey": "bossPhase",
+                            "leftKeyIndex": 1,
+                            "name": "Condition",
                             "nodePos": {
-                                "x": 834.0,
-                                "y": 626.0
+                                "x": 994.0,
+                                "y": 438.0
                             },
-                            "nodeType": 6
+                            "nodeType": 7,
+                            "operatorIndex": 0,
+                            "rightKey": "firstPhase",
+                            "rightKeyIndex": 5
                         }
                     ],
                     "leftKey": "isDeployingArmor",
@@ -136,8 +197,8 @@
                 "y": 576.0
             },
             "size": {
-                "x": 234.0,
-                "y": 304.0
+                "x": 167.0,
+                "y": 44.0
             },
             "text": "バリアを張る"
         },
@@ -148,20 +209,20 @@
                 "y": 544.0
             },
             "size": {
-                "x": 400.0,
-                "y": 360.0
+                "x": 263.0,
+                "y": 32.0
             },
             "text": "攻撃 か 回避"
         },
         {
             "id": 10001,
             "min": {
-                "x": -247.0,
-                "y": 326.0
+                "x": 0.0,
+                "y": 544.0
             },
             "size": {
-                "x": 347.0,
-                "y": 427.0
+                "x": 167.0,
+                "y": 64.0
             },
             "text": "第二形態に遷移"
         }

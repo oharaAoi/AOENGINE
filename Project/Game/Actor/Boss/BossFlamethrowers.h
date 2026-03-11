@@ -88,6 +88,8 @@ public:
 
 	void Remove();
 
+	void Destroy();
+
 public: // accessor
 
 	const Parameter& GetParameter(BossFlamethrowersType type) const { return param_[(int)type]; }

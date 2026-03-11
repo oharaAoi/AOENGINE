@@ -23,7 +23,9 @@ BehaviorStatus BossActionBackSweep::Execute() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float BossActionBackSweep::EvaluateWeight() {
-	return 0.5f;
+	float dot = CalcDot();
+	float backValue = std::max(0.0f, -dot);
+	return backValue;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,14 +60,7 @@ bool BossActionBackSweep::IsFinish() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool BossActionBackSweep::CanExecute() {
-	Math::Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
-	Math::Vector3 toPlayer = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
-	float dot = Dot(forward, toPlayer);
-	if (dot < param_.threshold) {
-		return true;
-	}
-
-	return false;
+	return CheckBehind();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,4 +109,20 @@ void BossActionBackSweep::Sweep() {
 	float t = taskTimer_ / param_.rotateTime;
 	Math::Quaternion rotate = Math::Quaternion::Slerp(startRotate_, endRotate_, Math::CallEasing(param_.easeType, t));
 	pTarget_->GetTransform()->SetRotate(rotate);
+}
+
+bool BossActionBackSweep::CheckBehind() {
+	float dot = CalcDot();
+	if (dot < param_.threshold) {
+		return true;
+	}
+
+	return false;
+}
+
+float BossActionBackSweep::CalcDot() {
+	Math::Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
+	Math::Vector3 toPlayer = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
+	float dot = Dot(forward, toPlayer);
+	return dot;
 }

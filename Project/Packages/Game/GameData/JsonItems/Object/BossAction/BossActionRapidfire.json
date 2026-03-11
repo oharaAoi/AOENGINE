@@ -1,8 +1,8 @@
 {
     "BossActionRapidfire": {
-        "bulletSpeed": 140.0,
+        "bulletSpeed": 200.0,
         "kFireCount": 20,
         "shotInterval": 0.10000000149011612,
-        "takeDamage": 10.0
+        "takeDamage": 20.0
     }
 }

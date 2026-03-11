@@ -27,7 +27,7 @@ void BossStateBeDestroyed::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateBeDestroyed::OnUpdate() {
-	timer_ += AOENGINE::GameTimer::DeltaTime();
+	timer_ += AOENGINE::GameTimer::FixedDeltaTime();
 
 	// 時間の計測
 	float t = timer_ / param_.slowTime;
@@ -49,6 +49,7 @@ void BossStateBeDestroyed::OnUpdate() {
 		particle->SetLoop(false);
 
 		pOwner_->Destroy();
+		pOwner_->GetFlamethrowers()->Destroy();
 	}
 }
 

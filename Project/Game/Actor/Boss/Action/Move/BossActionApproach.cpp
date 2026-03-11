@@ -12,7 +12,8 @@ BehaviorStatus BossActionApproach::Execute() {
 }
 
 float BossActionApproach::EvaluateWeight() {
-	return weight_;
+	float result = weight_ + pTarget_->GetApproachScore();
+	return result;
 }
 
 void BossActionApproach::Debug_Gui() {
@@ -46,10 +47,8 @@ void BossActionApproach::Init() {
 
 void BossActionApproach::Update() {
 	taskTimer_ += AOENGINE::GameTimer::DeltaTime();
-	if (taskTimer_ < param_.lookTime) {
-		direction_ = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
-		pTarget_->TargetLook();
-	}
+	direction_ = (pTarget_->GetTargetPos() - pTarget_->GetPosition()).Normalize();
+	pTarget_->TargetLook();
 	Approach();
 }
 
@@ -59,6 +58,8 @@ void BossActionApproach::End() {
 
 	AOENGINE::Rigidbody* rigid = pTarget_->GetGameObject()->GetRigidbody();
 	rigid->SetVelocity(CVector3::ZERO);
+
+	pTarget_->SetApproachScore(0.0f);
 }
 
 bool BossActionApproach::IsFinish() {
