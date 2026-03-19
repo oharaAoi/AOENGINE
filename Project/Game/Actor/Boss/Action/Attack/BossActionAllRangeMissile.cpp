@@ -89,7 +89,7 @@ void BossActionAllRangeMissile::End() {
 
 void BossActionAllRangeMissile::Shot() {
 	if (isFinishShot_) { return; }
-	Math::Vector3 pos = pTarget_->GetTransform()->GetPos();
+	Math::Vector3 pos = pTarget_->GetTransform()->GetWorldPos();
 	Math::Vector3 forward = pTarget_->GetTransform()->GetRotate().MakeForward();
 	Math::Vector3 right = pTarget_->GetTransform()->GetRotate().MakeRight();
 	Math::Vector3 up = pTarget_->GetTransform()->GetRotate().MakeUp(); // Y軸に限らず回転軸として使う

@@ -56,7 +56,7 @@ void AOENGINE::BaseParticles::Update() {
 	worldTransform_->SetRotate(rotate);
 
 	// 座標の更新
-	emitter_.preTranslate = worldTransform_->GetPos();
+	emitter_.preTranslate = worldTransform_->GetWorldPos();
 	preWorldPos_ = emitter_.preTranslate;
 
 	Math::Vector3 localPos = emitter_.translate;
@@ -277,7 +277,7 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 
 	if (isStop_) { return; }
 
-	Math::Vector3 worldPos = worldTransform_->GetPos();
+	Math::Vector3 worldPos = worldTransform_->GetWorldPos();
 	// 一度だけ打つフラグがtrueだったら
 	if (!emitter_.isLoop) {
 		for (uint32_t count = 0; count < emitter_.rateOverTimeCout; ++count) {

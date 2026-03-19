@@ -62,7 +62,7 @@ void EnemyActionAttack::Update() {
     pTarget_->TargetLook();
 
     Math::Vector3 dire = pTarget_->GetTransform()->GetRotate().MakeForward();
-    pTarget_->GetWeapon()->Attack(AttackContext(dire, pTarget_->GetTargetTransform()->GetPos()));
+    pTarget_->GetWeapon()->Attack(AttackContext(dire, pTarget_->GetTargetTransform()->GetWorldPos()));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -70,7 +70,7 @@ void BaseEnemy::InitCommon() {
 }
 
 bool BaseEnemy::TargetLook() {
-	Math::Vector3 distance = targetTransform_->GetPos() - transform_->GetPos();
+	Math::Vector3 distance = targetTransform_->GetWorldPos() - transform_->GetWorldPos();
 	distance.y = 0.0f;
 	// 目標の方向を計算する
 	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(distance);

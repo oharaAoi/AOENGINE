@@ -72,8 +72,6 @@ void LongRangeEnemy::Init() {
 	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "LongRangeEnemyTree.aitree");
 	behaviorTree_->SetExecute(true);
 
-	transform_->SetOffset(param_.translateOffset);
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +106,6 @@ void LongRangeEnemy::Debug_Gui() {
 	searchCollider_->SetRadius(param_.searchRange);
 	weapon_->GetTransform()->SetTranslate(param_.weaponOffset);
 	weapon_->GetTransform()->SetRotate(Math::Quaternion::EulerToQuaternion(param_.weaponRotate));
-	transform_->SetOffset(param_.translateOffset);
 }
 
 void LongRangeEnemy::Parameter::Debug_Gui() {

@@ -48,40 +48,19 @@ void AOENGINE::WorldTransform::Init(ID3D12Device* device) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
-	Math::Vector3 worldTranslate = CVector3::ZERO;
-	Math::Quaternion worldRotate = Math::Quaternion();
-
 	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
-
-	// -------------------------------------------------
-	// ↓ 平行成分の親子関係があるかを確認
-	// -------------------------------------------------
-	if (parentTranslate_ != nullptr) {
-		worldTranslate = srt_.translate + *parentTranslate_;
-	} else {
-		worldTranslate = srt_.translate;
-	}
-
-	// -------------------------------------------------
-	// ↓ 回転成分の親子関係があるかを確認
-	// -------------------------------------------------
-	if (parentRotate_ != nullptr) {
-		worldRotate = *parentRotate_ * srt_.rotate;
-	} else {
-		worldRotate = srt_.rotate;
-	}
 
 	// -------------------------------------------------
 	// ↓ world行列を生成
 	// -------------------------------------------------
 
 	Math::Matrix4x4 scaleMat = srt_.scale.MakeScaleMat();
-	Math::Matrix4x4 rotateMat = worldRotate.MakeMatrix();
+	Math::Matrix4x4 rotateMat = srt_.rotate.MakeMatrix();
 	if (isBillboard_) {
 		rotateMat = Multiply(rotateMat, AOENGINE::Render::GetBillBordMat());
 	}
-	Math::Matrix4x4 translateMat = Math::Vector3(worldTranslate + temporaryTranslate_).MakeTranslateMat();
+	Math::Matrix4x4 translateMat = Math::Vector3(srt_.translate).MakeTranslateMat();
 
 	worldMat_ = mat * Multiply(Multiply(scaleMat, rotateMat), translateMat);
 	if (parentWorldMat_ != nullptr) {
@@ -92,8 +71,7 @@ void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
 	data_->matWorld = worldMat_;
 	data_->worldInverseTranspose = (worldMat_).Inverse().Transpose();
 
-	preTranslate_ = srt_.translate + temporaryTranslate_;
-	temporaryTranslate_ = CVector3::ZERO;
+	preTranslate_ = srt_.translate;
 	moveQuaternion_ = Math::Quaternion();
 }
 
@@ -135,19 +113,22 @@ void AOENGINE::WorldTransform::Debug_Gui() {
 	const std::string id = "Transform##id" + std::to_string(id_);
 	if (ImGui::CollapsingHeader(id.c_str())) {
 		if (ImGui::TreeNodeEx("scale", ImGuiTreeNodeFlags_DefaultOpen)) {
-			ImGui::DragFloat3("scale", &srt_.scale.x, 0.01f);
+			std::string scaleName = "scale##" + id;
+			ImGui::DragFloat3(scaleName.c_str(), &srt_.scale.x, 0.01f);
 			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNodeEx("rotate", ImGuiTreeNodeFlags_DefaultOpen)) {
+			std::string rotateName = "rotate##" + id;
 			ImGui::DragFloat3("rotate", &srt_.rotate.x, 0.1f);
-			ImGui::DragFloat3("moveRotate", &moveQuaternion_.x, 0.001f);
+			ImGui::DragFloat3(rotateName.c_str(), &moveQuaternion_.x, 0.001f);
 
 			ImGui::TreePop();
 		}
 
 		if (ImGui::TreeNodeEx("translation", ImGuiTreeNodeFlags_DefaultOpen)) {
-			ImGui::DragFloat3("translation", &srt_.translate.x, 0.1f);
+			std::string translateName = "translate##" + id;
+			ImGui::DragFloat3(translateName.c_str(), &srt_.translate.x, 0.1f);
 			ImGui::TreePop();
 		}
 	}
@@ -197,14 +178,6 @@ void AOENGINE::WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2
 
 void AOENGINE::WorldTransform::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
-}
-
-void AOENGINE::WorldTransform::SetParentTranslate(const Math::Vector3& parentTranslate) {
-	parentTranslate_ = &parentTranslate;
-}
-
-void AOENGINE::WorldTransform::SetParentRotate(const Math::Quaternion& parentQuaternion) {
-	parentRotate_ = &parentQuaternion;
 }
 
 void AOENGINE::WorldTransform::SetMatrix(const Math::Matrix4x4& mat) {

@@ -193,7 +193,7 @@ void PulseArmor::Debug_Gui() {
 
 		if (ImGui::Button("Applay")) {
 			armorParam_.scale = worldTransform_->GetScale();
-			armorParam_.localTranslate = worldTransform_->GetPos();
+			armorParam_.localTranslate = worldTransform_->GetWorldPos();
 			armorParam_.color = setting_->color;
 			armorParam_.edgeColor = setting_->edgeColor;
 			armorParam_.uvTransform.scale = uvSrt_[0].scale;

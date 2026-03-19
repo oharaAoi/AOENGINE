@@ -72,9 +72,7 @@ public:
 public:
 
 	void SetParent(const Math::Matrix4x4& parentMat);
-	void SetParentTranslate(const Math::Vector3& parentTranslate);
-	void SetParentRotate(const Math::Quaternion& parentQuaternion);
-
+	
 	void SetMatrix(const Math::Matrix4x4& mat);
 	void SetScale(const Math::Vector3& scale) { srt_.scale = scale; }
 	void SetTranslate(const Math::Vector3& translate) { srt_.translate = translate; }
@@ -92,14 +90,6 @@ public:
 		srt_ = srt;
 	}
 
-	Math::Vector3 GetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]); }
-
-	/// <summary>
-	/// offsetを含めた座標を返す
-	/// </summary>
-	/// <returns></returns>
-	Math::Vector3 GetOffsetPos() const { return Math::Vector3(worldMat_.m[3][0], worldMat_.m[3][1], worldMat_.m[3][2]) + offset_; }
-
 	const Math::QuaternionSRT& GetSRT() { return srt_; }
 	Math::QuaternionSRT GetWorldSRT() { return DecomposeTransform(worldMat_); }
 
@@ -115,12 +105,7 @@ public:
 	const Math::Vector3 GetPreTranslate() const { return preTranslate_; }
 	void SetPreTranslate(const Math::Vector3& preTranslate) { preTranslate_ = preTranslate; }
 
-	const Math::Vector3& GetTemporaryTranslate() const { return temporaryTranslate_; }
-	void SetTemporaryTranslate(const Math::Vector3& pos) { temporaryTranslate_ = pos; }
-
 	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
-
-	void SetOffset(const Math::Vector3& _offset) { offset_ = _offset; }
 
 private:
 
@@ -132,6 +117,7 @@ private:
 	ComPtr<ID3D12Resource> cBuffer_;
 	AOENGINE::WorldTransformData* data_;
 
+	Math::QuaternionSRT localSRT_;
 	Math::QuaternionSRT srt_;
 	Math::Vector3 preTranslate_;
 
@@ -139,16 +125,8 @@ private:
 	Math::Quaternion moveQuaternion_;
 
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
-	const Math::Vector3* parentTranslate_ = nullptr;
-	const Math::Quaternion* parentRotate_ = nullptr;
 
 	bool isBillboard_;
-
-	// 一時的に座標を動かしたい時にこの変数に加算する
-	// 例) 浮遊させるときに浮遊の移動量をthisに足す
-	Math::Vector3 temporaryTranslate_{};
-
-	Math::Vector3 offset_ = CVector3::ZERO;
 };
 
 }

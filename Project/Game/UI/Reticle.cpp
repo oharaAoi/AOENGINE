@@ -72,7 +72,7 @@ void Reticle::ReleaseLockOn() {
 
 Math::Vector3 Reticle::GetTargetPos() const {
 	if (targetTransform_) {
-		return targetTransform_->GetOffsetPos();
+		return targetTransform_->GetWorldPos();
 	} else {
 		return CVector3::ZERO;
 	}

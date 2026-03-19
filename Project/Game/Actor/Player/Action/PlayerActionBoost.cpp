@@ -95,7 +95,7 @@ void PlayerActionBoost::OnUpdate() {
 	// ----------------------
 
 	const Math::Vector3 targetPos = pOwner_->GetReticle()->GetTargetPos();
-	Math::Vector3 sub = targetPos - pOwnerTransform_->GetPos();
+	Math::Vector3 sub = targetPos - pOwnerTransform_->GetWorldPos();
 	sub.y = 0;
 	float distance = sub.Length();
 

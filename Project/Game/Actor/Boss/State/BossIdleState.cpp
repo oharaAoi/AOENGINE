@@ -16,10 +16,10 @@ void BossIdleState::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossIdleState::OnUpdate() {
-	Math::Vector3 pos = pOwner_->GetTransform()->GetTemporaryTranslate();
+	Math::Vector3 pos = pOwner_->GetTransform()->GetWorldPos();
 	floatingTween_.Update(AOENGINE::GameTimer::DeltaTime());
 	pos.y += floatingTween_.GetValue();
-	pOwner_->GetTransform()->SetTemporaryTranslate(pos);
+	pOwner_->GetTransform()->SetTranslate(pos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

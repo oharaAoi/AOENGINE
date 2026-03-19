@@ -15,10 +15,6 @@ void BossStateNormal::OnStart() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossStateNormal::OnUpdate() {
-	Math::Vector3 pos = pOwner_->GetTransform()->GetTemporaryTranslate();
-	floatingTween_.Update(AOENGINE::GameTimer::DeltaTime());
-	pos.y += floatingTween_.GetValue();
-	pOwner_->GetTransform()->SetTemporaryTranslate(pos);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

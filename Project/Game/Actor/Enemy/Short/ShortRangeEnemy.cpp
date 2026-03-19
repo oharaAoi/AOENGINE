@@ -73,8 +73,6 @@ void ShortRangeEnemy::Init() {
 	behaviorTree_->Register("Walk", [this]() { return CreateTask<EnemyActionWalk>(this, "Walk"); });
 	behaviorTree_->CreateTree("./Project/Packages/Game/GameData/BehaviorTree/", "ShortRangeEnemyTree.aitree");
 	behaviorTree_->SetExecute(true);
-
-	transform_->SetOffset(param_.translateOffset);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +107,6 @@ void ShortRangeEnemy::Debug_Gui() {
 	searchCollider_->SetRadius(param_.searchRange);
 	weapon_->GetTransform()->SetTranslate(param_.weaponOffset);
 	weapon_->GetTransform()->SetRotate(Math::Quaternion::EulerToQuaternion(param_.weaponRotate));
-	transform_->SetOffset(param_.translateOffset);
 }
 
 void ShortRangeEnemy::Parameter::Debug_Gui() {

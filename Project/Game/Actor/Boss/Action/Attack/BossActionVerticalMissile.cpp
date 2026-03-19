@@ -104,7 +104,7 @@ void BossActionVerticalMissile::Shot() {
 	Math::Vector3 dir = rot.Rotate(forward);
 	
 	for (uint32_t i = 0; i < 2; i++) {
-		Math::Vector3 pos = pTarget_->GetTransform()->GetPos() + (param_.fireRadius * dir);
+		Math::Vector3 pos = pTarget_->GetTransform()->GetWorldPos() + (param_.fireRadius * dir);
 		pos += right * dx[i];
 		Math::Vector3 velocity = dir.Normalize() * param_.bulletSpeed;
 		BossMissile* missile = pTarget_->GetBulletManager()->AddBullet<BossMissile>(pos, velocity, pTarget_->GetTargetPos(),

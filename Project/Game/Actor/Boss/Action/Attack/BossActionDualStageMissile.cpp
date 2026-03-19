@@ -108,7 +108,7 @@ void BossActionDualStageMissile::End() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossActionDualStageMissile::Shot() {
-	Math::Vector3 pos = pTarget_->GetTransform()->GetPos();
+	Math::Vector3 pos = pTarget_->GetTransform()->GetWorldPos();
 	Math::Quaternion rot = pTarget_->GetTransform()->GetRotate();
 
 	Math::Vector3 forward = rot.MakeForward();

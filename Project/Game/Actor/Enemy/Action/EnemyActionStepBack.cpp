@@ -65,7 +65,7 @@ bool EnemyActionStepBack::CanExecute() {
 void EnemyActionStepBack::Init() {
 	// 移動方向をランダムに決める
 	if (pTarget_->GetTargetTransform()) {
-		moveDirection_ = pTarget_->GetTransform()->GetPos() - pTarget_->GetTargetTransform()->GetPos();
+		moveDirection_ = pTarget_->GetTransform()->GetWorldPos() - pTarget_->GetTargetTransform()->GetWorldPos();
 		moveDirection_.y = 0;
 		moveDirection_ = moveDirection_.Normalize();
 	}

@@ -59,10 +59,10 @@ void RocketBullet::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void RocketBullet::Update() {
-	Math::Vector3 pos = transform_->GetPos();
+	Math::Vector3 pos = transform_->GetWorldPos();
 	if (!isLockOn_) {
 		if (!isCalcDirection_) {
-			direction_ = (targetPosition_ - transform_->GetPos()).Normalize();
+			direction_ = (targetPosition_ - pos).Normalize();
 			isCalcDirection_ = true;
 		}
 		velocity_ += direction_ * speed_ * AOENGINE::GameTimer::DeltaTime();
@@ -121,7 +121,7 @@ void RocketBullet::Reset(const Math::Vector3& _pos, const Math::Vector3& _target
 void RocketBullet::Tracking() {
 	if (finishTracking_) { return; }
 
-	Math::Vector3 pos = transform_->GetPos();
+	Math::Vector3 pos = transform_->GetWorldPos();
 	if ((targetPosition_ - pos).Length() > trackingLength_) {
 		// targetの方向に弾を撃つ
 		Math::Vector3 targetToDire = (targetPosition_ - pos).Normalize() * speed_;

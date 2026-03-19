@@ -154,7 +154,6 @@ void Player::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::Update() {
-	transform_->SetOffset(param_.translateOffset);
 	// 姿勢安定回復
 	PostureStabilityRecovery();
 	// boostの判定
@@ -429,7 +428,6 @@ void Player::InitObject() {
 	object_ = AOENGINE::SceneRenderer::GetInstance()->GetGameObject<AOENGINE::BaseGameObject>("Player");
 	AOENGINE::SceneRenderer::GetInstance()->ChangeRenderingType("Object_PBR.json", object_);
 	transform_ = object_->GetTransform();
-	transform_->SetOffset(param_.translateOffset);
 	object_->SetOffset(param_.cameraOffset);
 	object_->SetMaterial(MaterialType::PBR);
 }

@@ -202,7 +202,7 @@ void Boss::Update() {
 	// ↓ 目標敵の座標を探索
 	// ----------------------
 	if (pTargetTransform_) {
-		targetPos_ = pTargetTransform_->GetOffsetPos();
+		targetPos_ = pTargetTransform_->GetWorldPos();
 	}
 
 	// ----------------------
@@ -217,7 +217,7 @@ void Boss::Update() {
 	float bossToTargetDistanceY = std::abs(targetPos_.y - GetPosition().y);
 	blackboard_->Set<float>("bossToTargetDistanceY", bossToTargetDistanceY);
 	if (pTargetTransform_) {
-		blackboard_->Set<float>("BossToPlayer", (transform_->GetPos() - pTargetTransform_->GetPos()).Length());
+		blackboard_->Set<float>("BossToPlayer", (transform_->GetWorldPos() - pTargetTransform_->GetWorldPos()).Length());
 	}
 
 	// ----------------------
@@ -317,7 +317,7 @@ void Boss::ResetStun() {
 
 bool Boss::TargetLook() {
 	// 目標の方向を計算する
-	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(pTargetTransform_->GetPos() - transform_->GetPos());
+	Math::Quaternion targetRotate = Math::Quaternion::LookRotation(pTargetTransform_->GetWorldPos() - transform_->GetWorldPos());
 	// なす角を求める
 	float angle = Math::Quaternion::Angle(transform_->GetRotate(), targetRotate);
 

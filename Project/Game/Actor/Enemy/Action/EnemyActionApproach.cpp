@@ -37,7 +37,7 @@ void EnemyActionApproach::Parameter::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 bool EnemyActionApproach::IsFinish() {
-    Math::Vector3 distance = pTarget_->GetTargetTransform()->GetPos() - pTarget_->GetTransform()->GetPos();
+    Math::Vector3 distance = pTarget_->GetTargetTransform()->GetWorldPos() - pTarget_->GetTransform()->GetWorldPos();
     if (distance.Length() <= param_.limitDistance) {
         return true;
     }
@@ -67,7 +67,7 @@ void EnemyActionApproach::Init() {
 void EnemyActionApproach::Update() {
     pTarget_->TargetLook();
 
-    Math::Vector3 direction = pTarget_->GetTargetTransform()->GetPos() - pTarget_->GetTransform()->GetPos();
+    Math::Vector3 direction = pTarget_->GetTargetTransform()->GetWorldPos() - pTarget_->GetTransform()->GetWorldPos();
     direction = direction.Normalize();
 
     pTarget_->GetTransform()->MoveVelocity(direction * param_.speed * AOENGINE::GameTimer::DeltaTime(), 1.0f);
