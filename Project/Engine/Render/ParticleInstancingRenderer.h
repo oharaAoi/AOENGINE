@@ -31,12 +31,12 @@ public:		// 構造体
 		std::shared_ptr<AOENGINE::Mesh> pMesh;
 		std::shared_ptr<AOENGINE::Material> materials;
 		std::string textureName;
-		ComPtr<ID3D12Resource> particleResource_;
-		DescriptorHandles srvHandle_;
+		ComPtr<ID3D12Resource> particleResource;
+		DescriptorHandles srvHandle;
 		ParticleData* particleData;
 		uint32_t useIndex = 0;
 
-		bool isAddBlend = false;
+		uint32_t blendModeType = 0;
 		bool anyParticleAlive = false;
 	};
 
@@ -60,7 +60,7 @@ public:
 	void Init(uint32_t instanceNum);
 
 	// 更新
-	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, bool addBlend);
+	void Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, uint32_t blendType);
 
 	// 後から更新
 	void PostUpdate();
@@ -70,7 +70,7 @@ public:
 
 public:
 
-	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<AOENGINE::Mesh> _pMesh, bool isAddBlend = true);
+	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<AOENGINE::Mesh> _pMesh, uint32_t blendType);
 
 	void ChangeMesh(const std::string& id, std::shared_ptr<AOENGINE::Mesh> _mesh);
 

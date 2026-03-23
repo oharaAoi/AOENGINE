@@ -57,7 +57,7 @@ struct ParticleSingle {
 	float initAlpha_ = 0.0f;
 	bool isScaleUpScale = false;	// 生存時間による透明度
 	bool isStretch = false;
-	bool isAddBlend = true;
+	uint32_t blendModeType = 1;
 	Math::Vector3 upScale = CVector3::ZERO;
 	bool isBillBord = true;
 	bool isDraw2d = true;
@@ -116,8 +116,8 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	float fadeOutTime = 0;
 
 	bool isStretch = false;
-	bool isParticleAddBlend = false;			// blendModeをAddBlendにするかのフラグ
-	bool isDraw2d = false;						// blendModeをAddBlendにするかのフラグ
+	uint32_t blendModeType = 1;
+	bool isDraw2d = false;						
 	bool isBillBord = true;
 
 	bool isScaleUp;								// サイズを大きくするか
@@ -184,7 +184,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("fadeInTime", fadeInTime)
 			.Add("fadeOutTime", fadeOutTime)
 			.Add("isStretch", isStretch)
-			.Add("isParticleAddBlend", isParticleAddBlend)
+			.Add("blendModeType", blendModeType)
 			.Add("isDraw2d", isDraw2d)
 			.Add("isScaleUp", isScaleUp)
 			.Add("scaleUpScale", scaleUpScale)
@@ -241,7 +241,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "fadeInTime", fadeInTime);
 		Convert::fromJson(jsonData, "fadeOutTime", fadeOutTime);
 		Convert::fromJson(jsonData, "isStretch", isStretch);
-		Convert::fromJson(jsonData, "isParticleAddBlend", isParticleAddBlend);
+		Convert::fromJson(jsonData, "blendModeType", blendModeType);
 		Convert::fromJson(jsonData, "isDraw2d", isDraw2d);
 		Convert::fromJson(jsonData, "isScaleUp", isScaleUp);
 		Convert::fromJson(jsonData, "scaleUpScale", scaleUpScale);

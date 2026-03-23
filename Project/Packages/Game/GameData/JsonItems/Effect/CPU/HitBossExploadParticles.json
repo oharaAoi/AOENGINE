@@ -23,6 +23,7 @@
         "isLifeOfAlpha": false,
         "isLifeOfScale": true,
         "isOneShot": false,
+        "blendModeType": 2,
         "lifeTime": 0.5,
         "maxScale": {
             "x": 2.6700000762939453,

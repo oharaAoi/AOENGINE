@@ -144,8 +144,7 @@ void AOENGINE::CpuParticleUpdater::Update() {
 			particles.second.forGpuData_[index].cameraPos = AOENGINE::Render::GetEyePos();
 			particles.second.forGpuData_[index].isStretch = pr.isStretch;
 
-			particles.second.isAddBlend = pr.isAddBlend;
-			particles.second.isAddBlend = pr.isAddBlend;
+			particles.second.blendType = pr.blendModeType;
 
 			// ---------------------------
 			// NextFrameのための更新
@@ -160,7 +159,7 @@ void AOENGINE::CpuParticleUpdater::Update() {
 
 void AOENGINE::CpuParticleUpdater::RendererUpdate(ParticleInstancingRenderer* renderer) {
 	for (auto& particle : particlesMap_) {
-		renderer->Update(particle.first, particle.second.forGpuData_, particle.second.anyParticleAlive, particle.second.isAddBlend);
+		renderer->Update(particle.first, particle.second.forGpuData_, particle.second.anyParticleAlive, particle.second.blendType);
 	}
 }
 
@@ -174,6 +173,6 @@ const std::shared_ptr<std::list<AOENGINE::ParticleSingle>>& AOENGINE::CpuParticl
 	return particlesMap_.at(name).particles;
 }
 
-void AOENGINE::CpuParticleUpdater::SetRuntimeAddBlend(const std::string& name, bool isAdd) {
-	particlesMap_.at(name).isAddBlend = isAdd;
+void AOENGINE::CpuParticleUpdater::SetRuntimeBlendMode(const std::string& name, uint32_t blendType) {
+	particlesMap_.at(name).blendType = blendType;
 }

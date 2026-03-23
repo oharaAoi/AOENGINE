@@ -76,11 +76,12 @@ public:
 	std::shared_ptr<AOENGINE::Material> GetShareMaterial() { return shareMaterial_; }
 	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) { shareMaterial_ = _material; }
 
-	bool GetIsAddBlend() const { return emitter_.isParticleAddBlend; }
-
 	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
 
 	bool GetChangeMesh() const { return changeMesh_; }
+
+	void SetBlendMode(uint32_t blendMode) { blendModeType_ = blendMode; }
+	uint32_t GetBlendMode() const { return blendModeType_; }
 
 protected:
 
@@ -91,7 +92,7 @@ protected:
 	// particleName
 	std::string particleName_ = "new particles";
 
-	bool isAddBlend_;
+	uint32_t blendModeType_;
 
 	// meshの形状
 	std::shared_ptr<AOENGINE::Mesh> shape_;

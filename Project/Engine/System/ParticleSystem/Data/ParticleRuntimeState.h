@@ -12,7 +12,7 @@ struct ParticleRuntimeState {
 	std::shared_ptr<std::list<AOENGINE::ParticleSingle>> particles;
 	std::vector<AOENGINE::ParticleInstancingRenderer::ParticleData> forGpuData_;
 
-	bool isAddBlend = false;
+	uint32_t blendType = 0;
 	bool anyParticleAlive = false;
 
 	ParticleRuntimeState() {

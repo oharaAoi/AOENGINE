@@ -29,6 +29,9 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Separator();
 
 		ImGui::BulletText("Particle Parameters");
+		int type = (int)blendModeType;
+		ImGui::Combo("blendModeType##blendModeType", &type, "None\0Normal\0Add\0Subtract\0Multiply\0Screen");
+		blendModeType = (uint32_t)type;
 		ImGui::Checkbox("RandomColor", &isRandomColor);
 		if (isRandomColor) {
 			ImGui::ColorEdit4("randColor1", (float*)&randColor1);
@@ -75,7 +78,6 @@ void ParticleEmit::Attribute_Gui() {
 		}
 
 		ImGui::Checkbox("isStretch", &isStretch);
-		ImGui::Checkbox("isParticleAddBlend", &isParticleAddBlend);
 		ImGui::Checkbox("isDraw2d", &isDraw2d);
 		ImGui::Checkbox("isScaleUp", &isScaleUp);
 		ImGui::DragFloat3("scaleUpScale", (float*)&scaleUpScale, 0.01f);

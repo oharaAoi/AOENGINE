@@ -45,7 +45,7 @@ public:
 
 	const std::shared_ptr<std::list<AOENGINE::ParticleSingle>>& GetParticles(const std::string& name) const;
 
-	void SetRuntimeAddBlend(const std::string& name, bool isAdd);
+	void SetRuntimeBlendMode(const std::string& name, uint32_t blendType);
 
 private:
 

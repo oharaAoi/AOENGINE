@@ -28,7 +28,7 @@
         "isLifeOfAlpha": false,
         "isLifeOfScale": false,
         "isLoop": true,
-        "isParticleAddBlend": true,
+        "blendModeType": 2,
         "isRandomColor": false,
         "isRandomRotate": true,
         "isScaleUp": false,

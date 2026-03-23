@@ -149,7 +149,7 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 		particleRenderer_->AddParticle(newParticle->GetName(),
 									   textureName,
 									   newParticle->GetMesh(),
-									   newParticle->GetIsAddBlend())
+									   newParticle->GetBlendMode())
 	);
 
 	newParticle->GetShareMaterial()->SetAlbedoTexture(newParticle->GetUseTexture());

@@ -91,12 +91,12 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 		particleRenderer_->AddParticle(newParticles->GetName(),
 									   textureName,
 									   newParticles->GetMesh(),
-									   newParticles->GetIsAddBlend())
+									   newParticles->GetBlendMode())
 	);
 
 	newParticles->GetShareMaterial()->SetAlbedoTexture(newParticles->GetUseTexture());
 	particleUpdater_.Add(particlesFile);
-	particleUpdater_.SetRuntimeAddBlend(particlesFile, newParticles->GetIsAddBlend());
+	particleUpdater_.SetRuntimeBlendMode(particlesFile, newParticles->GetBlendMode());
 	newParticles->SetParticlesList(particleUpdater_.GetParticles(particlesFile));
 	AddChild(newParticles.get());
 	return newParticles.get();

@@ -32,7 +32,7 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	// materialの設定
 	shape_->SetUseMaterial(emitter_.useTexture);
 
-	isAddBlend_ = emitter_.isParticleAddBlend;
+	blendModeType_ = emitter_.blendModeType;
 	emitAccumulator_ = 0.0f;
 	isStop_ = false;
 	changeMesh_ = false;
@@ -239,7 +239,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
 	newParticle.lifeOfMinScale = emitter_.lifeOfMinScale;
 	newParticle.lifeOfMaxScale = emitter_.lifeOfMaxScale;
-	newParticle.isAddBlend = emitter_.isParticleAddBlend;
+	newParticle.blendModeType = emitter_.blendModeType;
 
 	newParticle.isFadeInOut = emitter_.isFadeInOut;
 	newParticle.fadeInTime = emitter_.fadeInTime;
