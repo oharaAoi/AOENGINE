@@ -123,12 +123,11 @@ void Sprite::Init(const std::string& fileName) {
 	// ↓ メンバ変数の初期化
 	// -------------------------------------------------
 
-	isEnable_ = true;
 
 	fillMethod_ = FillMethod::Vertical;
 	fillStartingPoint_ = FillStartingPoint::Top;
 
-	isEnable_ = true;
+	isActive_ = true;
 	isDestroy_ = false;
 	isBackGround_ = false;
 }
@@ -267,7 +266,6 @@ void Sprite::FillAmount(float amount) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Debug_Gui() {
-	ImGui::Checkbox("isEnable", &isEnable_);
 	if (ImGui::Button("ResetSize")) {
 		textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName_);
 		spriteSize_ = textureSize_;

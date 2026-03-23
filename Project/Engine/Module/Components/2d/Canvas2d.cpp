@@ -1,6 +1,5 @@
 #include "Canvas2d.h"
 #include "Engine/Core/Engine.h"
-#include "Engine/System/Editor/Window/EditorWindows.h"
 
 using namespace AOENGINE;
 
@@ -36,7 +35,7 @@ void AOENGINE::Canvas2d::Update() {
 
 	// 更新処理
 	for (auto& it : spriteList_) {
-		if (it->sprite->GetEnable()) {
+		if (it->sprite->GetIsActive()) {
 			it->sprite->Update();
 		}
 	}
@@ -49,7 +48,7 @@ void AOENGINE::Canvas2d::Update() {
 void AOENGINE::Canvas2d::PreDraw(const std::string& psoName) const {
 	for (const auto& it : spriteList_) {
 		if (it->isPreDraw) {
-			if (it->sprite->GetEnable()) {
+			if (it->sprite->GetIsActive()) {
 				Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, psoName);
 				it->sprite->Draw(pso);
 			}
@@ -60,7 +59,7 @@ void AOENGINE::Canvas2d::PreDraw(const std::string& psoName) const {
 void AOENGINE::Canvas2d::Draw() const {
 	for (const auto& it : spriteList_) {
 		if (!it->isPreDraw) {
-			if (it->sprite->GetEnable()) {
+			if (it->sprite->GetIsActive()) {
 				Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, it->psoName);
 				it->sprite->Draw(pso);
 			}
@@ -74,7 +73,7 @@ void AOENGINE::Canvas2d::Draw() const {
 
 void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (const auto& it : spriteList_) {
-		if (it->sprite->GetEnable()) {
+		if (it->sprite->GetIsActive()) {
 			it->sprite->GetTransform()->Manipulate(windowSize, imagePos);
 		}
 	}
@@ -85,15 +84,6 @@ void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imag
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Debug_Gui() {
-	for (const auto& it : spriteList_) {
-		Sprite* sprite = it->sprite.get();
-		std::string addrStr = std::format("{}", static_cast<const void*>(sprite));
-		std::string name = sprite->GetName() + "##" + addrStr;
-		if (ImGui::TreeNode(name.c_str())) {
-			sprite->Debug_Gui();
-			ImGui::TreePop();
-		}
-	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +98,7 @@ Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& _textureName, const std
 	newObj->psoName = _psoName;
 	newObj->renderQueue = _renderQueue;
 	newObj->isPreDraw = _isPreDraw;
-
+	AddChild(newObj->sprite.get());
 	return newObj->sprite.get();
 }
 

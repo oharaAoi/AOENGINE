@@ -61,7 +61,7 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 	const BaseEnemy::BaseParameter& bossParam = pBoss_->GetBaseParameter();
 	const BaseEnemy::BaseParameter& bossInitParam = pBoss_->GetInitBaseParameter();
 
-	stunPromote_->SetEnable(false);
+	stunPromote_->SetIsActive(false);
 
 	// ----------------------
 	// ↓ hpゲージの更新
@@ -93,7 +93,7 @@ void BossUIs::Update(const Math::Vector2& _reticlePos) {
 		postureStabilityArc_->SetFillAmount(fillAmount);
 
 		// stunの文字を表示
-		stunPromote_->SetEnable(true);
+		stunPromote_->SetIsActive(true);
 		stunPromote_->SetColor(postureStability_->GetFront()->GetColor());
 		stunPromote_->Update();
 

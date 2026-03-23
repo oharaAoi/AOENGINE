@@ -20,7 +20,7 @@ void TutorialMissionGauge::Init() {
 	success_->Load("Mission", "success");
 	control_->Load("Mission", "control");
 	controlBg_->Load("Mission", "controlBg");
-	success_->SetEnable(false);
+	success_->SetIsActive(false);
 
 	isSuccessFinish_ = false;
 
@@ -40,12 +40,12 @@ void TutorialMissionGauge::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialMissionGauge::Update() {
-	if (success_->GetEnable()) {
+	if (success_->GetIsActive()) {
 		alphaAnimation_.Update(AOENGINE::GameTimer::DeltaTime());
 		success_->SetColor(AOENGINE::Color(1,1,1, alphaAnimation_.GetValue()));
 
 		if (alphaAnimation_.GetIsFinish()) {
-			success_->SetEnable(false);
+			success_->SetIsActive(false);
 			alphaAnimation_.Reset();
 			isSuccessFinish_ = true;
 		}
@@ -69,7 +69,7 @@ void TutorialMissionGauge::FillAmountGauge(float _fillAmount) {
 
 void TutorialMissionGauge::Success(bool _isSuccess) {
 	isSuccessFinish_ = false;
-	success_->SetEnable(_isSuccess);
+	success_->SetIsActive(_isSuccess);
 }
 
 void TutorialMissionGauge::ChangeControlUI(const std::string& _fileName) {

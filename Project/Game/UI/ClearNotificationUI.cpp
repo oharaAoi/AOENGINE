@@ -25,10 +25,10 @@ void ClearNotificationUI::Init() {
 void ClearNotificationUI::Update(bool isBossBreak) {
 	isBreak_ = isBossBreak;
 	if (!isBossBreak) { 
-		sprite_->SetEnable(false);
+		sprite_->SetIsActive(false);
 		return;
 	}
-	sprite_->SetEnable(true);
+	sprite_->SetIsActive(true);
 
 	posTween_.Update(AOENGINE::GameTimer::DeltaTime());
 	alphaTween_.Update(AOENGINE::GameTimer::DeltaTime());

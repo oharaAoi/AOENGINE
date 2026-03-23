@@ -51,9 +51,9 @@ void PlayerUIs::Update(const Math::Vector2& reticlePos) {
 	ap_->Update();
 
 	if (pPlayer_->GetIsBoostMode()) {
-		boostOn_->SetEnable(true);
+		boostOn_->SetIsActive(true);
 	} else {
-		boostOn_->SetEnable(false);
+		boostOn_->SetIsActive(false);
 	}
 
 	energyOutput_->Update(playerParam.energy / playerInitParam.energy);

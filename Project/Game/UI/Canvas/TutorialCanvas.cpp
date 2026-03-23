@@ -40,9 +40,9 @@ void TutorialCanvas::Update() {
 	boostOn_->SetTranslate(boostOnPos_);
 	boostOn_->SetScale(boostOnScale_);
 	if (pPlayer_->GetIsBoostMode()) {
-		boostOn_->SetEnable(true);
+		boostOn_->SetIsActive(true);
 	} else {
-		boostOn_->SetEnable(false);
+		boostOn_->SetIsActive(false);
 	}
 
 	// boss

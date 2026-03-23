@@ -29,7 +29,7 @@ void CanvasUI::Init(bool _isTutorial) {
 	clearNotificationUI_ = std::make_unique<ClearNotificationUI>();
 	clearNotificationUI_->Init();
 	if (isTutorial_) {
-		clearNotificationUI_->GetSprite()->SetEnable(false);
+		clearNotificationUI_->GetSprite()->SetIsActive(false);
 	}
 
 	lockOnInvoker_.Register("lockOn", lockOnInvoker_.MakeFactory<LockOnCommand>(pEnemyManager_, reticle_.get()));

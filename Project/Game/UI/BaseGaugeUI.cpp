@@ -46,12 +46,12 @@ void BaseGaugeUI::Debug_Gui() {
 }
 
 void BaseGaugeUI::SetIsEnable(bool _isActive) {
-	bg_->SetEnable(_isActive);
-	front_->SetEnable(_isActive);
+	bg_->SetIsActive(_isActive);
+	front_->SetIsActive(_isActive);
 }
 
 bool BaseGaugeUI::GetIsEnable() const {
-	return bg_->GetEnable();
+	return bg_->GetIsActive();
 }
 
 void BaseGaugeUI::SetPos(const Math::Vector2& _pos) {

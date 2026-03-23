@@ -21,9 +21,9 @@ void GameModeGuide::Init() {
 	goGame_->Load("Guide","goGame");
 	goTutorial_->Load("Guide","goTutorial");
 	
-	goGame_->SetEnable(false);
-	goTutorial_->SetEnable(false);
-	select_->SetEnable(false);
+	goGame_->SetIsActive(false);
+	goTutorial_->SetIsActive(false);
+	select_->SetIsActive(false);
 
 	AddChild(goGame_);
 	AddChild(goTutorial_);
@@ -69,9 +69,9 @@ void GameModeGuide::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameModeGuide::Open() {
-	goGame_->SetEnable(true);
-	goTutorial_->SetEnable(true);
-	select_->SetEnable(true);
+	goGame_->SetIsActive(true);
+	goTutorial_->SetIsActive(true);
+	select_->SetIsActive(true);
 	isOpen_ = true;
 }
 

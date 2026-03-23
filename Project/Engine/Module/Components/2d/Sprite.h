@@ -262,9 +262,6 @@ public:
 
 	const AOENGINE::Color& GetColor() const { return materialData_->color; }
 
-	const bool GetEnable() const { return isEnable_; }
-	void SetEnable(bool _isEnable) { isEnable_ = _isEnable; }
-
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
 	bool GetIsDestroy() const { return isDestroy_; }
 
@@ -278,7 +275,6 @@ public:
 
 private:
 
-	bool isEnable_;
 	bool isDestroy_;
 	bool isBackGround_;
 	bool isFront_;
