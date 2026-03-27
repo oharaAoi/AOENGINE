@@ -121,7 +121,10 @@ public:
 
 	void SetSceneRenderer(AOENGINE::SceneRenderer* renderer) { sceneRenderer_ = renderer; }
 	void SetCanvas2d(AOENGINE::Canvas2d* canvas) { canvas2d_ = canvas; }
+
 	void SetSelectWindow(IEditorWindow* ptr) { pSelectWindow_ = ptr; };
+	IEditorWindow* GetSelectWindow() const { return pSelectWindow_; }
+
 	void SetSceneManager(AOENGINE::SceneManager* sceneManager) { pSceneManager_ = sceneManager; }
 
 	GameObjectWindow* GetObjectWindow() { return gameObjectWindow_.get(); }

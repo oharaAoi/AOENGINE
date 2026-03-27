@@ -86,6 +86,7 @@ private:
 
 	std::unordered_map<std::string, Information> particleMap_;
 
+	
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;
 

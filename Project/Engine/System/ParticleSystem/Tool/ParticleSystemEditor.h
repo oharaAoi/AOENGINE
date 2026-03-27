@@ -147,6 +147,7 @@ private:
 	bool isSave_;
 	bool isLoad_;
 	bool isGpu_ = false;
+	bool isFocus_ = false;
 
 	std::string newParticleName_ = "new Particle";
 

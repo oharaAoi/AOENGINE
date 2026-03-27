@@ -59,6 +59,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// -------------------------------------------------
 	isSave_ = false;
 	isLoad_ = false;
+	isFocus_ = true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -298,16 +299,50 @@ void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
+	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
+	ImGui::Begin("ParticleSystemEditor", nullptr);
+
+	// windowがクリックされた際にフォーカス対象にする
+	if (ImGui::IsWindowFocused()) {
+		EditorWindows::GetInstance()->SetSelectWindow(this);
+	}
+
+	// windowが表示されている際のフラグを立てる
+	if (EditorWindows::GetInstance()->GetSelectWindow() == this) {
+		isFocus_ = true;
+	} else {
+		isFocus_ = false;
+	}
+
+	// フォーカス対象でないなら描画を行わない
+	if (!isFocus_) {
+		ImGui::End();
+		ImGui::PopStyleColor();
+		return;
+	}
+
+	// 描画の一連処理
 	PreDraw();
 	particleRenderer_->Draw(commandList_);
 	gpuParticleRenderer_->Draw();
 	PostDraw();
+
+	ImGui::End();
+	ImGui::PopStyleColor();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Bufferをクリアする
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ParticleSystemEditor::ClearBuffer() {
 	descriptorHeaps_->FreeDSV(depthHandle_.assignIndex_);
 	depthStencilResource_.Reset();
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Bufferをリサイズする
+///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ParticleSystemEditor::ResizeBuffer() {
 	depthStencilResource_ = CreateDepthStencilTextureResource(pDevice_, WinApp::sClientWidth, WinApp::sClientHeight);
@@ -347,15 +382,6 @@ void ParticleSystemEditor::SetRenderTarget() {
 
 void ParticleSystemEditor::PreDraw() {
 	SetRenderTarget();
-	ImGui::PushStyleColor(ImGuiCol_WindowBg, ImVec4(0, 0, 0, 0));
-	ImGui::Begin("ParticleSystemEditor", nullptr,
-				 ImGuiWindowFlags_NoTitleBar |
-				 ImGuiWindowFlags_NoResize |
-				 ImGuiWindowFlags_NoBackground);
-
-	if (ImGui::IsWindowFocused()) {
-		EditorWindows::GetInstance()->SetSelectWindow(this);
-	}
 
 	// Grid線描画
 	AOENGINE::Render::Update();
@@ -390,9 +416,6 @@ void ParticleSystemEditor::PostDraw() {
 		availSize.y = availSize.x / aspect;
 	}
 	ImGui::Image((void*)textureID, availSize, ImVec2(0, 0), ImVec2(1, 1)); // サイズは適宜調整
-
-	ImGui::End();
-	ImGui::PopStyleColor();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -400,7 +423,9 @@ void ParticleSystemEditor::PostDraw() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::End() {
-	renderTarget_->TransitionResource(commandList_, EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	if (isFocus_) {
+		renderTarget_->TransitionResource(commandList_, EffectSystem_RenderTarget, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+	}
 }
 
 #endif // _DEBUG
