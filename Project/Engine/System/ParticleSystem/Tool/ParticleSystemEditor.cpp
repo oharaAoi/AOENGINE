@@ -49,7 +49,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	particleRenderer_->Init(51600);
 
 	gpuParticleRenderer_ = std::make_unique<GpuParticleRenderer>();
-	gpuParticleRenderer_->Init(10240);
+	gpuParticleRenderer_->Init(640000);
 
 	camera_ = std::make_unique<EffectSystemCamera>();
 	camera_->Init();
