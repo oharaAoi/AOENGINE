@@ -1,27 +1,29 @@
-#include "SceneManagerPropertySerializer.h"
+#include "JsonSerializer.h"
 #include <fstream>
-#include <nlohmann/json.hpp>
 
-void AOENGINE::SceneManagerPropertySerializer::Save(int sceneType) {
-	const std::string filePath = "./Project/Packages/Property/SceneManager.json";
-	nlohmann::json data;
-	data["sceneType"]["type"] = sceneType;
+using namespace AOENGINE;
+using json = nlohmann::json;
+
+bool JsonSerializer::Save(const std::string& folderPath, const std::string& fileName, const json& json) {
+	const std::string filePath = folderPath + "/" + fileName + ".json";
 	std::ofstream outFile(filePath);
 	if (outFile.fail()) {
 		std::string message = "Faild open data file for write\n";
 		//Log(message);
-		return;
+		return false;
 	}
 
 	// -------------------------------------------------
 	// ↓ ファイルに実際に書き込む
 	// -------------------------------------------------
-	outFile << std::setw(4) << data << std::endl;
+	outFile << std::setw(4) << json << std::endl;
 	outFile.close();
+
+	return true;
 }
 
-void AOENGINE::SceneManagerPropertySerializer::Load(int& sceneType) {
-	const std::string filePath = "./Project/Packages/Property/SceneManager.json";
+json JsonSerializer::Load(const std::string& folderPath, const std::string& fileName) {
+	const std::string filePath = folderPath + "/" + fileName + ".json";
 	// 読み込み用ファイルストリーム
 	std::ifstream ifs;
 	// ファイルを読み込みように開く
@@ -29,7 +31,7 @@ void AOENGINE::SceneManagerPropertySerializer::Load(int& sceneType) {
 
 	if (ifs.fail()) {
 		std::string message = "not Exist " + filePath;
-		return;
+		return json();
 	}
 
 	nlohmann::json root;
@@ -38,9 +40,5 @@ void AOENGINE::SceneManagerPropertySerializer::Load(int& sceneType) {
 	// ファイルを閉じる
 	ifs.close();
 
-	if (root.contains("sceneType")) {
-		if (root["sceneType"].contains("type")) {
-			sceneType = root["sceneType"]["type"];
-		}
-	}
+	return root;
 }

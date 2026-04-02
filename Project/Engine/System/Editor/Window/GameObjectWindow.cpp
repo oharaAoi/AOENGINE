@@ -77,63 +77,82 @@ void GameObjectWindow::InspectorWindow() {
 	ImGui::End();
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ヒエラルキーを表示
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void AOENGINE::GameObjectWindow::HierarchyWindow() {
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
 	// -------------------------------------------------
 	// ↓ Itemの選択
 	// -------------------------------------------------
-	ImGui::Begin("Hierarchy");
-	static std::string openNode = "";  // 現在開いているTreeNodeの名前
-	static bool firstOpenRoot = true;
-	for (auto it : attributeArray_) {
-		AOENGINE::AttributeGui* ptr = it;
-		std::string label = ptr->GetName();
-		std::string id = "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
-		label += id;
-		// 子供を所有している場合
-		if (ptr->HasChild()) {
-			bool isOpen = (label == openNode);  // 現在開いているノードか確認
-			if (isOpen) {
-				ImGui::SetNextItemOpen(true);  // 強制的に開いた状態にする
+	if (ImGui::Begin("Hierarchy", nullptr, window_flags)) {
+		static std::string openNode = "";  // 現在開いているTreeNodeの名前
+		static bool firstOpenRoot = true;
+		for (auto it : attributeArray_) {
+			if (ImGui::BeginMenuBar()) {
+				// -------------------------------------------------
+				// ↓ Particleの追加
+				// -------------------------------------------------
+				if (ImGui::BeginMenu(" + ")) {
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
 			}
-			if (ImGui::TreeNode(label.c_str())) {
-				if (ImGui::IsItemClicked()) {
-					firstOpenRoot = true;
-				}
-				if (firstOpenRoot) {
-					firstOpenRoot = false;
-					selectAttribute_ = ptr;
-					openNode = "";  // 他のノードを閉じる
-				}
 
-				for (auto child : ptr->GetChildren()) {
-					if (selectAttribute_ != nullptr) {
-						if (ImGui::Selectable(child->GetName().c_str(), selectAttribute_ == child)) {
-							// 新しく選択されたら開いているノードを変更
-							if (selectAttribute_ != child) {
-								openNode = label;  // 現在の親ノードを記録
+			AOENGINE::AttributeGui* ptr = it;
+			std::string label = ptr->GetName();
+			std::string id = "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
+			label += id;
+			// 子供を所有している場合
+			if (ptr->HasChild()) {
+				bool isOpen = (label == openNode);  // 現在開いているノードか確認
+				if (isOpen) {
+					ImGui::SetNextItemOpen(true);  // 強制的に開いた状態にする
+				}
+				if (ImGui::TreeNode(label.c_str())) {
+					if (ImGui::IsItemClicked()) {
+						firstOpenRoot = true;
+					}
+					if (firstOpenRoot) {
+						firstOpenRoot = false;
+						selectAttribute_ = ptr;
+						openNode = "";  // 他のノードを閉じる
+					}
+
+					for (auto child : ptr->GetChildren()) {
+						if (selectAttribute_ != nullptr) {
+							if (ImGui::Selectable(child->GetName().c_str(), selectAttribute_ == child)) {
+								// 新しく選択されたら開いているノードを変更
+								if (selectAttribute_ != child) {
+									openNode = label;  // 現在の親ノードを記録
+								}
+								selectAttribute_ = child;
 							}
-							selectAttribute_ = child;
 						}
 					}
+					ImGui::TreePop();
+				} else {
+					// 閉じたら記録をリセット
+					if (openNode == label) {
+						openNode = "";
+					}
 				}
-				ImGui::TreePop();
 			} else {
-				// 閉じたら記録をリセット
-				if (openNode == label) {
-					openNode = "";
+				// 子供を持たないノードの場合
+				if (ImGui::Selectable(label.c_str(), selectAttribute_ == ptr)) {
+					selectAttribute_ = it;
+					openNode = "";  // 他のノードを閉じる
 				}
-			}
-		} else {
-			// 子供を持たないノードの場合
-			if (ImGui::Selectable(label.c_str(), selectAttribute_ == ptr)) {
-				selectAttribute_ = it;
-				openNode = "";  // 他のノードを閉じる
 			}
 		}
+		ImGui::End();
 	}
-
-	ImGui::End();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　実行画面を表示
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::GameObjectWindow::ExecutionWindow() {
 	if (ImGui::Begin("Game Window", nullptr)) {
@@ -157,6 +176,10 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 	}
 	ImGui::End();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Objectの削除
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::GameObjectWindow::DeleteObject(AOENGINE::AttributeGui* attribute) {
 	if (selectAttribute_) {

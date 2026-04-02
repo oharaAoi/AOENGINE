@@ -67,6 +67,8 @@ public: // メンバ関数
 
 	void Finalize();
 
+	void ExpansionWindow();
+
 private: // メンバ変数
 	// window関連
 	HWND hwnd_ = nullptr; // ウィンドウハンドル
@@ -75,6 +77,7 @@ private: // メンバ変数
 	UINT windowStyle_ = WS_OVERLAPPEDWINDOW;
 
 	bool isFullscreen_;
+	bool isExpansion_;
 };
 
 }

@@ -124,6 +124,7 @@ void EditorWindows::Begin() {
 					}
 					ImGui::EndMenu();
 				} 
+				ImGui::EndMenu();
 			}
 			if (ImGui::BeginMenu("View")) {
 				ImGui::Checkbox("FullScreen", &isFullScreen_);

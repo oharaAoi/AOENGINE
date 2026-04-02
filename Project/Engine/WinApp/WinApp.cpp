@@ -1,5 +1,6 @@
 #include "WinApp.h"
 #include "Engine/Utilities/Convert.h"
+#include "Engine/Lib/Json/JsonSerializer.h"
 
 using namespace AOENGINE;
 
@@ -24,7 +25,6 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 	}
 #endif // _DEBUG
 
-
 	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {
 		// ウィンドウが破壊された
@@ -42,6 +42,7 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 		sClientHeight = clientH;
 
 		sPendingResize = true;
+		GetInstance()->ExpansionWindow();
 	}
 	break;
 	}
@@ -58,6 +59,14 @@ WinApp::~WinApp() {
 	windowを生成する
 ==========================================================================*/
 void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHeight, const char* _windowTitle) {
+	// windowの大きさを取得 ---------------------------------------------
+	nlohmann::json data = AOENGINE::JsonSerializer::Load("./Project/Packages/Property", "WindowProperty");
+	if (data.contains("isExpansion")) {
+		if (data["isExpansion"].contains("flag")) {
+			isExpansion_ = data["isExpansion"]["flag"];
+		}
+	}
+
 	hwnd_ = nullptr;
 	//windowClass -------------------------------------------
 	wc.lpfnWndProc = WindowProc;
@@ -86,7 +95,7 @@ void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHei
 	hwnd_ = CreateWindow(
 		wc.lpszClassName,		// 利用するクラス名
 		ConvertWString(_windowTitle).c_str(),// タイトルバーの文字
-		WS_OVERLAPPEDWINDOW ^ WS_MAXIMIZE ^ WS_THICKFRAME | WS_VISIBLE,	// よく見るウィンドウスタイル
+		WS_OVERLAPPEDWINDOW,	// よく見るウィンドウスタイル
 		CW_USEDEFAULT,			// 表示x座標
 		CW_USEDEFAULT,			// 表示y座標
 		wrc.right - wrc.left,	// ウィンドウ横幅
@@ -98,7 +107,12 @@ void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHei
 	);
 
 	// ウィンドウを表示する
-	ShowWindow(hwnd_, SW_SHOW);
+	if (isExpansion_) {
+		ShowWindow(hwnd_, SW_MAXIMIZE);
+	} else {
+		ShowWindow(hwnd_, SW_SHOW);
+	}
+	ExpansionWindow();
 }
 
 void WinApp::SetFullScreen(bool fullscreen) {
@@ -162,4 +176,11 @@ bool WinApp::ProcessMessage() {
 
 void WinApp::Finalize() {
 	CloseWindow(hwnd_);
+	nlohmann::json data;
+	data["isExpansion"]["flag"] = isExpansion_;
+	AOENGINE::JsonSerializer::Save("./Project/Packages/Property", "WindowProperty", data);
+}
+
+void AOENGINE::WinApp::ExpansionWindow() {
+	isExpansion_ = !isExpansion_;
 }

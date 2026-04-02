@@ -146,6 +146,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Lib\GpuParticlesData.h" />
     <ClInclude Include="Engine\Lib\Json\IJsonConverter.h" />
     <ClInclude Include="Engine\Lib\Json\JsonItems.h" />
+    <ClInclude Include="Engine\Lib\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
     <ClInclude Include="Engine\Lib\Math\Easing.h" />
     <ClInclude Include="Engine\Lib\Math\MathStructures.h" />
@@ -538,6 +539,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Lib\GpuParticlesData.cpp" />
     <ClCompile Include="Engine\Lib\Json\IJsonConverter.cpp" />
     <ClCompile Include="Engine\Lib\Json\JsonItems.cpp" />
+    <ClCompile Include="Engine\Lib\Json\JsonSerializer.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
     <ClCompile Include="Engine\Lib\Math\Easing.cpp" />
     <ClCompile Include="Engine\Lib\Math\MathStructures.cpp" />
