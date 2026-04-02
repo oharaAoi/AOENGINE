@@ -1,9 +1,9 @@
 {
     "currentPath": {
-        "path": "./Project/Packages\\Game\\GameData\\BehaviorTree"
+        "path": "./Project/Packages\\Converter"
     },
     "openDir": {
-        "./Project/Packages": false,
+        "./Project/Packages": true,
         "./Project/Packages/": false,
         "./Project/Packages/Engine": false,
         "./Project/Packages/Game": true,
@@ -25,9 +25,14 @@
         "./Project/Packages/Game\\Scene": false,
         "./Project/Packages/Property": false,
         "./Project/Packages\\Converter": false,
+        "./Project/Packages\\Converter\\ConvertedDDS": false,
         "./Project/Packages\\Engine": false,
-        "./Project/Packages\\Game": true,
-        "./Project/Packages\\Game\\GameData": true,
+        "./Project/Packages\\Engine\\Font": false,
+        "./Project/Packages\\Engine\\HLSL": false,
+        "./Project/Packages\\Engine\\Load": false,
+        "./Project/Packages\\Engine\\Pipeline": false,
+        "./Project/Packages\\Game": false,
+        "./Project/Packages\\Game\\GameData": false,
         "./Project/Packages\\Game\\GameData\\BehaviorTree": false,
         "./Project/Packages\\Game\\GameData\\JsonItems": false,
         "./Project/Packages\\Game\\GameData\\ShaderGraph": false,
@@ -37,6 +42,10 @@
         "./Project/Packages\\Game\\Load\\Sounds": false,
         "./Project/Packages\\Game\\Load\\Textures": false,
         "./Project/Packages\\Game\\Pipeline": false,
+        "./Project/Packages\\Game\\Pipeline\\CS": false,
+        "./Project/Packages\\Game\\Pipeline\\Object": false,
+        "./Project/Packages\\Game\\Pipeline\\PostProcess": false,
+        "./Project/Packages\\Game\\Pipeline\\Sprite": false,
         "./Project/Packages\\Game\\Scene": false,
         "./Project/Packages\\Property": false
     }
