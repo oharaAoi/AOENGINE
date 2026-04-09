@@ -5,11 +5,6 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/DirectX/Pipeline/Parts/Blend.h"
 
-enum class MaterialType {
-	Normal,
-	PBR
-};
-
 namespace AOENGINE {
 
 /// <summary>

@@ -57,19 +57,6 @@ void EditorWindows::Update() {
 	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
 
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar
-		| ImGuiWindowFlags_AlwaysAutoResize
-		| ImGuiWindowFlags_NoScrollbar
-		| ImGuiWindowFlags_NoCollapse
-		| ImGuiWindowFlags_NoDocking
-		| ImGuiWindowFlags_NoBackground;
-	if (ImGui::Begin("AOENGINE::GameTimer", nullptr, flags)) {
-		float fps = 1.0f / AOENGINE::GameTimer::DeltaTime();
-		ImGui::Text("%f fps", fps);
-		ImGui::Text("%f m/s", AOENGINE::GameTimer::DeltaTime() * 1000.0f);
-	}
-	ImGui::End();
-
 	// sceneを描画する
 	if (isFullScreen_) {
 		ImGui::Begin("Game");

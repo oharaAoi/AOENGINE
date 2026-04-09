@@ -95,6 +95,7 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 				// ↓ Particleの追加
 				// -------------------------------------------------
 				if (ImGui::BeginMenu(" + ")) {
+
 					ImGui::EndMenu();
 				}
 				ImGui::EndMenuBar();

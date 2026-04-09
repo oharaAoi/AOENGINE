@@ -1,5 +1,6 @@
 #include "Profiler.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Lib/GameTimer.h"
 
 using namespace AOENGINE;
 
@@ -15,6 +16,11 @@ void Profiler::End(const std::string& _name) {
 }
 
 void Profiler::DisPlay() {
+    float fps = 1.0f / AOENGINE::GameTimer::DeltaTime();
+    timeQueue_.push(std::make_pair("fps", fps));
+    float ms = AOENGINE::GameTimer::DeltaTime() * 1000.0f;
+    timeQueue_.push(std::make_pair("m/s", ms));
+
     if (ImGui::Begin("Profile")) {
         if (ImGui::BeginTable("TimeQueueTable", 2)) {
             ImGui::TableSetupColumn("Process Name");
