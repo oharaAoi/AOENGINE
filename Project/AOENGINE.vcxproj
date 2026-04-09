@@ -281,6 +281,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\CollisionManager.h" />
     <ClInclude Include="Engine\System\Manager\GpuParticleManager.h" />
     <ClInclude Include="Engine\System\Manager\ImGuiManager.h" />
+    <ClInclude Include="Engine\System\Manager\MaterialManager.h" />
     <ClInclude Include="Engine\System\Manager\MeshManager.h" />
     <ClInclude Include="Engine\System\Manager\ModelManager.h" />
     <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
@@ -671,6 +672,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\CollisionManager.cpp" />
     <ClCompile Include="Engine\System\Manager\GpuParticleManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ImGuiManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\MaterialManager.cpp" />
     <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />

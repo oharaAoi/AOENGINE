@@ -21,26 +21,26 @@ D3D12_BLEND_DESC Blend::SetBlend(const BlendMode& mode) {
 	blendDesc.RenderTarget[0].BlendOpAlpha = D3D12_BLEND_OP_ADD;
 
 	switch (mode) {
-	case BlendMode::ModeNone:
+	case BlendMode::None:
 		blendDesc.RenderTarget[0].BlendEnable = FALSE;
 		break;
-	case BlendMode::ModeNormal:
+	case BlendMode::Normal:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetNormalBlend(blendDesc);
 		break;
-	case BlendMode::ModeAdd:
+	case BlendMode::Add:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetAddBlend(blendDesc);
 		break;
-	case BlendMode::ModeSubtract:
+	case BlendMode::Subtract:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetSubtractBlend(blendDesc);
 		break;
-	case BlendMode::ModeMultiply:
+	case BlendMode::Multiply:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetMultiplyBlend(blendDesc);
 		break;
-	case BlendMode::ModeScreen:
+	case BlendMode::Screen:
 		blendDesc.RenderTarget[0].BlendEnable = TRUE;
 		SetScreenBlend(blendDesc);
 		break;

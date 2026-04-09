@@ -78,17 +78,17 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) co
 	for (auto& information : particleMap_) {
 		if (!information.second.anyParticleAlive) { continue; }
 
-		if (information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeNone) {
+		if (information.second.blendModeType == AOENGINE::Blend::BlendMode::None) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNone.json");
-		} else if(information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeNormal) {
+		} else if(information.second.blendModeType == AOENGINE::Blend::BlendMode::Normal) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNormal.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeAdd) {
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Add) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleAdd.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeSubtract) {
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Subtract) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleSubtract.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeMultiply) {
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Multiply) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleMultiply.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::ModeScreen) {
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Screen) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleScreen.json");
 		}
 

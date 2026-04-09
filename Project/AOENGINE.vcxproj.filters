@@ -1497,6 +1497,7 @@
     <ClInclude Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.h" />
     <ClInclude Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.h" />
     <ClInclude Include="Engine\Lib\Json\JsonSerializer.h" />
+    <ClInclude Include="Engine\System\Manager\MaterialManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2592,5 +2593,6 @@
     <ClCompile Include="Game\Actor\Boss\Action\Attack\BossActionBackSweep.cpp" />
     <ClCompile Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.cpp" />
     <ClCompile Include="Engine\Lib\Json\JsonSerializer.cpp" />
+    <ClCompile Include="Engine\System\Manager\MaterialManager.cpp" />
   </ItemGroup>
 </Project>

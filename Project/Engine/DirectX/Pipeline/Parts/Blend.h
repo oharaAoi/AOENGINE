@@ -12,17 +12,17 @@ public:
 
 	enum BlendMode {
 		// ブレンドなし
-		ModeNone,
+		None,
 		// 通常αブレンド
-		ModeNormal,
+		Normal,
 		// 加算
-		ModeAdd,
+		Add,
 		// 減算
-		ModeSubtract,
+		Subtract,
 		// 乗算
-		ModeMultiply,
+		Multiply,
 		// 反転
-		ModeScreen
+		Screen
 	};
 
 public:
