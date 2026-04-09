@@ -12,7 +12,7 @@ namespace AOENGINE {
 /// Modelを管理するクラス
 /// </summary>
 class ModelManager {
-public:
+public: // constructor
 
 	ModelManager() = default;
 	~ModelManager();
@@ -21,10 +21,11 @@ public:
 
 	static ModelManager* GetInstance();
 
-public:
+public: // public method
 
 	// 初期化
 	void Init();
+
 	// 終了
 	void Finalize();
 
@@ -33,31 +34,33 @@ public:
 	/// </summary>
 	/// <param name="directoryPath"></param>
 	/// <param name="modelName"></param>
-	static void LoadModel(const std::string& directoryPath, const std::string& modelName);
+	void LoadModel(const std::string& directoryPath, const std::string& modelName);
+
+public: // public method
 
 	/// <summary>
 	/// modelを取得する
 	/// </summary>
 	/// <param name="modelName"></param>
 	/// <returns></returns>
-	static AOENGINE::Model* GetModel(const std::string& modelName);
+	AOENGINE::Model* GetModel(const std::string& modelName);
 
 	/// <summary>
 	/// modelのパスを取得
 	/// </summary>
 	/// <param name="modelName"></param>
 	/// <returns></returns>
-	static std::string GetModelPath(const std::string& modelName);
+	std::string GetModelPath(const std::string& modelName);
 
 	std::vector<std::string>& GetModelNameList() { return modelNameList_; }
-	static std::vector<std::string>& GetModelNames() { return GetInstance()->GetModelNameList(); }
+	std::vector<std::string>& GetModelNames() { return GetInstance()->GetModelNameList(); }
 
-private:
+private: // private variable
 
-	static std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> modelMap_;
-	static std::vector<std::string> modelNameList_;
+	std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> modelMap_;
+	std::vector<std::string> modelNameList_;
 
-	static std::unordered_map<std::string, std::string> modelPathMap_;
+	std::unordered_map<std::string, std::string> modelPathMap_;
 };
 
 }

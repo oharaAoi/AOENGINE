@@ -50,6 +50,28 @@ std::string GameObjectWindow::MakeUniqueName(const std::string& baseName) {
 	return newName;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Objectの追加Menuを表示する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::GameObjectWindow::CreateNewObjectWindow() {
+	if (ImGui::BeginMenuBar()) {
+		if (ImGui::BeginMenu(" + ")) {
+			if (ImGui::MenuItem("3dObject")) {
+				AOENGINE::BaseGameObject* newObject = sceneRenderer_->AddObject<AOENGINE::BaseGameObject>("new object", "Object_Normal.json");
+				AddAttributeGui(newObject, "new object");
+			}
+
+			if (ImGui::MenuItem("Sprite")) {
+
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndMenuBar();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　編集画面を表示する
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,18 +111,11 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 	if (ImGui::Begin("Hierarchy", nullptr, window_flags)) {
 		static std::string openNode = "";  // 現在開いているTreeNodeの名前
 		static bool firstOpenRoot = true;
+
+		// objectの追加表示
+		CreateNewObjectWindow();
+
 		for (auto it : attributeArray_) {
-			if (ImGui::BeginMenuBar()) {
-				// -------------------------------------------------
-				// ↓ Particleの追加
-				// -------------------------------------------------
-				if (ImGui::BeginMenu(" + ")) {
-
-					ImGui::EndMenu();
-				}
-				ImGui::EndMenuBar();
-			}
-
 			AOENGINE::AttributeGui* ptr = it;
 			std::string label = ptr->GetName();
 			std::string id = "##" + std::to_string(reinterpret_cast<uintptr_t>(ptr));
@@ -161,8 +176,10 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 			EditorWindows::GetInstance()->SetSelectWindow(this);
 		}
 
+		// sceneの表示
 		processedSceneFrame_->DrawScene();
 
+		// manipulateの表示
 		if (ManipulateTool::isActive_) {
 			if (ManipulateTool::is3dManipulate_) {
 				if (sceneRenderer_ != nullptr) {

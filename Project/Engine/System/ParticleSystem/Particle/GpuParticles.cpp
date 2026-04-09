@@ -80,7 +80,7 @@ void GpuParticles::Init(uint32_t instanceNum) {
 
 	// mesh・Material情報o
 	meshArray_ = AOENGINE::MeshManager::GetInstance()->GetMeshes("sphere.obj");
-	materialData_ = LoadMaterialData(AOENGINE::ModelManager::GetModelPath("sphere.obj"), "sphere.obj");
+	materialData_ = LoadMaterialData(ModelManager::GetInstance()->GetModelPath("sphere.obj"), "sphere.obj");
 
 	for (const auto& material : materialData_) {
 		auto& newMaterial = materials_.emplace_back(std::make_unique<AOENGINE::Material>());
@@ -92,7 +92,6 @@ void GpuParticles::Init(uint32_t instanceNum) {
 	// ↓ Particleの初期化をGPUで行う
 	// -------------------------------------------------
 
-	//Engine::SetCsPipeline(CsPipelineType::GpuParticleInit);
 	InitBindCmdList(commandList, 0);
 	commandList->Dispatch((UINT)kInstanceNum_ / 1024, 1, 1);
 }

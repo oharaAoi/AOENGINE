@@ -257,7 +257,7 @@ void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) 
 	model_ = nullptr;
 	materials.clear();
 
-	model_ = ModelManager::GetModel(_objName);
+	model_ = ModelManager::GetInstance()->GetModel(_objName);
 	for (const auto& material : model_->GetMaterialData()) {
 		if (_type == MaterialType::Normal) {
 			materials[material.first] = std::make_unique<Material>();
@@ -343,6 +343,15 @@ void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
 void BaseGameObject::Debug_Gui() {
 	ImGui::Checkbox("enableShadow", &enableShadow_);
 	transform_->Debug_Gui();
+
+	if (ImGui::CollapsingHeader("Model")) {
+		if (model_) {
+			ImGui::Text(model_->GetName().c_str());
+		} else {
+			ImGui::Text("null");
+		}
+	}
+
 	int index = 0;
 	if (ImGui::CollapsingHeader("Material")) {
 		for (auto& material : materials) {

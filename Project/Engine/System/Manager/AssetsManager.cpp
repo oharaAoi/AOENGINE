@@ -79,7 +79,7 @@ void AssetsManager::LoadModels(const std::string& rootPath) {
 				std::string directory = entry.path().parent_path().string();
 				std::string fileName = entry.path().filename().string();
 				directory += "/";
-				ModelManager::LoadModel(directory, fileName);
+				ModelManager::GetInstance()->LoadModel(directory, fileName);
 			}
 		}
 

@@ -27,8 +27,8 @@ AOENGINE::Model::~Model() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName) {
+	name_ = fileName;
 	AOENGINE::Logger::Log("[Load][Model] :" + fileName);
-	//LoadObj(directorPath, fileName, device);
 
 	if (!AOENGINE::MeshManager::GetInstance()->ExistMesh(fileName)) {
 		meshArray_ = LoadMesh(directorPath, fileName, device);

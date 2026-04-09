@@ -3,10 +3,6 @@
 
 using namespace AOENGINE;
 
-std::unordered_map<std::string, std::unique_ptr<AOENGINE::Model>> ModelManager::modelMap_;
-std::unordered_map<std::string, std::string> ModelManager::modelPathMap_;
-std::vector<std::string> ModelManager::modelNameList_;
-
 ModelManager::~ModelManager() {}
 
 ModelManager* ModelManager::GetInstance() {

@@ -23,7 +23,7 @@ class Material;
 class PBRMaterial;
 
 class Model {
-public:
+public: // data
 
 	/// <summary>
 	/// AnimationのNode
@@ -46,12 +46,12 @@ public:
 		NodeAnimationData animationsData;	 // ノードに関するアニメーション
 	};
 
-public: // コンストラクタ
+public: // constructor
 
 	Model();
 	~Model();
 
-public:
+public: // public method
 
 	// 初期化処理
 	void Init(ID3D12Device* device, const std::string& directorPath, const std::string& fileName);
@@ -65,7 +65,7 @@ public:
 	/// <returns></returns>
 	Node ReadNode(aiNode* node, const aiScene* scene);
 
-public:
+public: // accessor
 
 	const std::string& GetRootNodeName() const { return rootNode_.name; }
 
@@ -82,7 +82,9 @@ public:
 
 	const std::vector<std::shared_ptr<AOENGINE::Mesh>>& GetMeshArray() const { return meshArray_; }
 
-private:
+	std::string GetName() const { return name_; }
+
+private: // private variable
 
 	// 頂点バッファやインデックスバッファを持つ
 	std::vector<std::shared_ptr<AOENGINE::Mesh>> meshArray_;
@@ -92,5 +94,7 @@ private:
 	std::vector<std::unique_ptr<SkinCluster>> skinClusterArray_;
 	// ノード
 	Node rootNode_;
+
+	std::string name_;
 };
 }
