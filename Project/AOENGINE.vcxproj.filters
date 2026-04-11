@@ -1498,6 +1498,7 @@
     <ClInclude Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.h" />
     <ClInclude Include="Engine\Lib\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\System\Manager\MaterialManager.h" />
+    <ClInclude Include="Engine\System\Asset\AssetHandle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2594,5 +2595,6 @@
     <ClCompile Include="Game\CallBacks\FlamethrowerSwordToPlayerCallBacks.cpp" />
     <ClCompile Include="Engine\Lib\Json\JsonSerializer.cpp" />
     <ClCompile Include="Engine\System\Manager\MaterialManager.cpp" />
+    <ClCompile Include="Engine\System\Asset\AssetHandle.cpp" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,14 @@
 #pragma once
 #include <d3d12.h>
+// c++
 #include <cassert>
 #include <vector>
 #include <memory>
 #include <map>
 #include <stack>
 #include <filesystem>
+#include <optional>
+// engine
 #include <Externals/DirectXTex/DirectXTex.h>
 #include <Externals/DirectXTex/d3dx12.h>
 #include "Engine/Utilities/Convert.h"
@@ -13,6 +16,7 @@
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Resource/DxResourceManager.h"
+#include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Lib/Math/Vector2.h"
 
 namespace AOENGINE {
@@ -105,6 +109,20 @@ public:
 	/// <returns></returns>
 	bool PreviewTexture(std::string& _textureName);
 
+	/// <summary>
+	/// IDからSpriteを探す
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
+	std::string SearchSprite(uint32_t id);
+
+	/// <summary>
+	/// nameからAssetHandleを探す
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	std::optional<AssetHandle> SearchAssetHandle(const std::string& name);
+
 private:
 
 	/// <summary>
@@ -149,6 +167,11 @@ private:
 		AOENGINE::DxResource* resource_;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Math::Vector2 textureSize_;
+		AssetHandle assetHandle_;
+
+		TextureData()
+			: assetHandle_(AssetType::Texture) {
+		}
 	};
 
 	std::vector<std::string> fileNames_;

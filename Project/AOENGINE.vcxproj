@@ -264,6 +264,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\AI\State\BlackboardSerializer.h" />
     <ClInclude Include="Engine\System\AI\State\BlackboardValue.h" />
     <ClInclude Include="Engine\System\AI\UtilityAI\UtilityEvaluator.h" />
+    <ClInclude Include="Engine\System\Asset\AssetHandle.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
@@ -655,6 +656,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\AI\State\BlackboardSerializer.cpp" />
     <ClCompile Include="Engine\System\AI\State\BlackboardValue.cpp" />
     <ClCompile Include="Engine\System\AI\UtilityAI\UtilityEvaluator.cpp" />
+    <ClCompile Include="Engine\System\Asset\AssetHandle.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />

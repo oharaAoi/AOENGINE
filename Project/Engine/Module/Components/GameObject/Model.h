@@ -1,12 +1,15 @@
 #pragma once
+// c++
 #include <vector>
 #include <string>
 #include <unordered_map>
-//#include <Lib/tiny_gltf.h> // Assimpの場合使わない
+#include <memory>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+// engine
 #include "Engine/DirectX/Pipeline/Pipeline.h"
+#include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/MaterialStructures.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
@@ -15,7 +18,6 @@
 #include "Engine/Module/Components/ViewProjection.h"
 #include "Engine/Module/Components/Animation/AnimationStructures.h"
 #include "Engine/Lib/Math/MathStructures.h"
-#include <memory>
 
 namespace AOENGINE {
 
@@ -84,6 +86,8 @@ public: // accessor
 
 	std::string GetName() const { return name_; }
 
+	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
+
 private: // private variable
 
 	// 頂点バッファやインデックスバッファを持つ
@@ -94,7 +98,9 @@ private: // private variable
 	std::vector<std::unique_ptr<SkinCluster>> skinClusterArray_;
 	// ノード
 	Node rootNode_;
-
+	// モデルの名前
 	std::string name_;
+	// アセットハンドル
+	AssetHandle assetHandle_ = AssetHandle(AssetType::Model);
 };
 }

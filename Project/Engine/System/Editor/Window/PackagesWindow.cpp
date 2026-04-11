@@ -1,5 +1,7 @@
 #include "PackagesWindow.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ModelManager.h"
+#include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/System/Editor/Window/PackagesWindowSerializer.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
@@ -33,7 +35,7 @@ void AOENGINE::PackagesWindow::Init() {
 		currentPath_ = currentPath;
 		currentFolderItemList_.clear();
 		BuildCurrentFolderItems();
-}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,33 +204,33 @@ void AOENGINE::PackagesWindow::DrawFolderItems() {
 		// 画像ファイルのicon表示
 		if (item.filename().extension() == ".png" || item.filename().extension() == ".jpeg") {
 			std::string name = item.filename().string();
-			DrawItemTexture(name, name, thumbnailSize);
+			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize);
 
 			// 音声ファイルのicon表示
 		} else if (item.filename().extension() == ".wav" || item.filename().extension() == ".mp3") {
 			std::string name = item.filename().string();
-			DrawItemTexture("music.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Sound, "music.png", name, thumbnailSize);
 
 			// ddsファイルのicon表示
 		} else if (item.filename().extension() == ".dds") {
 			std::string name = item.filename().string();
-			DrawItemTexture("dds.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Other, "dds.png", name, thumbnailSize);
 
 			// modelファイルのicon表示
 		} else if (item.filename().extension() == ".obj" || item.filename().extension() == ".gltf") {
 			std::string name = item.filename().string();
-			DrawItemTexture("3dModel.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Model, "3dModel.png", name, thumbnailSize);
 
 			// treeファイルかどうか
 		} else if (item.filename().extension() == ".aitree") {
 			std::string name = item.filename().string();
-			if (DrawItemTexture("AI.png", name, thumbnailSize)) {
+			if (DrawItemTexture(AssetType::AI, "AI.png", name, thumbnailSize)) {
 				AI::BehaviorTreeSystem::GetInstance()->SetIsOpenEditor(name);
 			}
 
 			// folderのファイルのicon表示
 		} else if (std::filesystem::is_directory(item)) {
-			if (DrawItemTexture("folder.png", item.filename().string(), thumbnailSize)) {
+			if (DrawItemTexture(AssetType::Other, "folder.png", item.filename().string(), thumbnailSize)) {
 				currentPath_ = item.string();
 				currentFolderItemList_.clear();
 				BuildCurrentFolderItems();
@@ -251,7 +253,7 @@ void AOENGINE::PackagesWindow::DrawFolderItems() {
 	}
 }
 
-bool AOENGINE::PackagesWindow::DrawItemTexture(const std::string& textureName, const std::string& fileName, float size) {
+bool AOENGINE::PackagesWindow::DrawItemTexture(AssetType assetType, const std::string& textureName, const std::string& fileName, float size) {
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = pTextureManager_->GetDxHeapHandles(textureName).handleGPU;
 	ImTextureID texId = reinterpret_cast<ImTextureID>(texHandle.ptr);
@@ -261,6 +263,10 @@ bool AOENGINE::PackagesWindow::DrawItemTexture(const std::string& textureName, c
 	if (ImGui::ImageButton(guiId.c_str(), texId, ImVec2(size, size))) {
 		result = true;
 	}
+
+	if (assetType != AssetType::Other) {
+		DropSource(assetType, fileName);
+	}
 	ImGui::PopStyleColor(1);
 
 	// nameの表示
@@ -268,4 +274,29 @@ bool AOENGINE::PackagesWindow::DrawItemTexture(const std::string& textureName, c
 	ImGui::TextWrapped("%s", name.c_str());
 
 	return result;
+}
+
+void AOENGINE::PackagesWindow::DropSource(AssetType assetType, const std::string& name) {
+	if (ImGui::BeginDragDropSource()) {
+		if (assetType == AssetType::Texture) {
+			auto  handle = TextureManager::GetInstance()->SearchAssetHandle(name);
+			if (handle) {
+				ImGui::SetDragDropPayload("ASSET_HANDLE", &handle, sizeof(handle));
+				ImGui::Text("Texture");
+			}
+
+		} else if (assetType == AssetType::Model) {
+			auto  handle = ModelManager::GetInstance()->SearchAssetHandle(name);
+			if (handle) {
+				ImGui::SetDragDropPayload("ASSET_HANDLE", &handle, sizeof(handle));
+				ImGui::Text("Model");
+			}
+
+		} else if (assetType == AssetType::Sound) {
+
+		} else if (assetType == AssetType::Material) {
+
+		}
+		ImGui::EndDragDropSource();
+	}
 }

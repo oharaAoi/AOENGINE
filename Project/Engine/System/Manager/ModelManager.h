@@ -23,9 +23,6 @@ public: // constructor
 
 public: // public method
 
-	// 初期化
-	void Init();
-
 	// 終了
 	void Finalize();
 
@@ -35,6 +32,20 @@ public: // public method
 	/// <param name="directoryPath"></param>
 	/// <param name="modelName"></param>
 	void LoadModel(const std::string& directoryPath, const std::string& modelName);
+
+	/// <summary>
+	/// idからモデルを探す
+	/// </summary>
+	/// <param name="id"></param>
+	/// <returns></returns>
+	AOENGINE::Model* SearchModel(uint32_t id);
+
+	/// <summary>
+	/// nameからAssetHandleを探す
+	/// </summary>
+	/// <param name="name"></param>
+	/// <returns></returns>
+	std::optional<AssetHandle> SearchAssetHandle(const std::string& name);
 
 public: // public method
 

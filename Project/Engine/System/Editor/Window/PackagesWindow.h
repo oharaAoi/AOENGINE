@@ -77,7 +77,9 @@ private:
 	/// <param name="textureName"></param>
 	/// <param name="fileName"></param>
 	/// <param name="size"></param>
-	bool DrawItemTexture(const std::string& textureName, const std::string& fileName, float size);
+	bool DrawItemTexture(AssetType assetType, const std::string& textureName, const std::string& fileName, float size);
+
+	void DropSource(AssetType assetType, const std::string& name);
 
 private:
 

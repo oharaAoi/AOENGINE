@@ -1,5 +1,6 @@
 #include "Canvas2d.h"
 #include "Engine/Core/Engine.h"
+#include "Engine/Utilities/Logger.h"
 
 using namespace AOENGINE;
 

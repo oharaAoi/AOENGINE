@@ -113,10 +113,11 @@ void TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	
 	// ------------------------------------------------------------
 	// SRVを作成するDescriptorHeapの場所を求める
+	// ------------------------------------------------------------
 	data.resource_->CreateSRV(srvDesc);
 	data.textureSize_.x = static_cast<float>(metadata.width);
 	data.textureSize_.y = static_cast<float>(metadata.height);
-	
+
 	// 配列に入れる
 	// 生成
 	device_->CreateShaderResourceView(data.resource_->GetCompResource().Get(), &srvDesc, data.resource_->GetSRV().handleCPU);
@@ -398,6 +399,35 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 	}
 	ImGui::Text("end");
 	return false;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　IDからSpriteを探す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::string AOENGINE::TextureManager::SearchSprite(uint32_t id) {
+	for (auto& [name, textureData] : textureData_) {
+		if (textureData.assetHandle_.id == id) {
+			return name;
+		}
+	}
+	AOENGINE::Logger::AssertLog(std::string("Not Found Texture ID\n"));
+	return "";
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　NameからAssetHandleを探す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+std::optional<AssetHandle> AOENGINE::TextureManager::SearchAssetHandle(const std::string& name) {
+	for (auto& [textureName, textureData] : textureData_) {
+		if (textureName == name) {
+			return textureData.assetHandle_;
+		}
+	}
+	AOENGINE::Logger::AssertLog(std::string("Not Found Texture ID\n"));
+	return std::nullopt;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////

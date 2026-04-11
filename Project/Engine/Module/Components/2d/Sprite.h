@@ -3,6 +3,7 @@
 #include <memory>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
@@ -273,6 +274,8 @@ public:
 	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
 	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
 
+	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
+
 private:
 
 	bool isDestroy_;
@@ -323,6 +326,9 @@ private:
 	// Textureのサイズ
 	Math::Vector2 textureSize_;
 	Math::Vector2 spriteSize_;
+
+	// アセットハンドル
+	AssetHandle assetHandle_ = AssetHandle(AssetType::Texture);
 
 	// -------------------
 	// 塗りつぶしに関する変数

@@ -350,6 +350,18 @@ void BaseGameObject::Debug_Gui() {
 		} else {
 			ImGui::Text("null");
 		}
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_HANDLE")) {
+				const AssetHandle& handle = *static_cast<const AssetHandle*>(payload->Data);
+				if (handle.type == AssetType::Model) {
+					Model* model = ModelManager::GetInstance()->SearchModel(handle.id);
+					if (model) {
+						SetObject(model->GetName());
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
 	}
 
 	int index = 0;
