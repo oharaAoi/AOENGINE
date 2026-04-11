@@ -66,17 +66,6 @@ void EditorWindows::Update() {
 		shaderGraphEditor_->ExecutionWindow();
 		particleSystemEditor_->ExecutionWindow();
 		gameObjectWindow_->ExecutionWindow();
-
-		manipulateTool_->SelectUseManipulate();
-
-		pSelectWindow_->HierarchyWindow();
-		pSelectWindow_->InspectorWindow();
-
-		packagesWindow_->HierarchyWindow();
-
-		if (pSceneManager_ != nullptr) {
-			pSceneManager_->Debug_Gui();
-		}
 	}
 }
 
@@ -99,9 +88,6 @@ void EditorWindows::Begin() {
 
 	if (ImGui::Begin("BaseWindow", nullptr, window_flags)) {
 		if (ImGui::BeginMenuBar()) {
-			// -------------------------------------------------
-			// ↓ fileに関するMenu
-			// -------------------------------------------------
 			if (ImGui::BeginMenu("File")) {
 				// json
 				if (ImGui::BeginMenu("JsonItems")) {
@@ -131,6 +117,22 @@ void EditorWindows::Begin() {
 
 	// 一番上のbegineの分
 	ImGui::End();
+
+	// -------------------------------------------------
+	// ↓ 編集項目の表示
+	// -------------------------------------------------
+	if (!isFullScreen_) {
+		manipulateTool_->SelectUseManipulate();
+
+		pSelectWindow_->HierarchyWindow();
+		pSelectWindow_->InspectorWindow();
+
+		packagesWindow_->HierarchyWindow();
+
+		if (pSceneManager_ != nullptr) {
+			pSceneManager_->Debug_Gui();
+		}
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
