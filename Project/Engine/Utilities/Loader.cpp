@@ -6,6 +6,7 @@
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/Utilities/Loader.h"
 
 using namespace AOENGINE;
 
@@ -423,18 +424,6 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 				keyframe.time = float(keyAssimp.mTime / animationAssimp->mTicksPerSecond);	// 秒に変換
 				keyframe.value = { keyAssimp.mValue.x,keyAssimp.mValue.y, keyAssimp.mValue.z };
 				nodeAnimation.scale.keyframes.push_back(keyframe);
-
-				/*Log("---------------------------------\n");
-				std::string timeLog = "keyFrame.time : " + std::to_string(keyframe.time) + "\n";
-				Log(timeLog);
-
-				std::string valueXLog = "keyFrame.value X : " + std::to_string(keyframe.value.x) + "\n";
-				std::string valueYLog = "keyFrame.value Y : " + std::to_string(keyframe.value.y) + "\n";
-				std::string valueZLog = "keyFrame.value Z : " + std::to_string(keyframe.value.z) + "\n";
-
-				Log(valueXLog);
-				Log(valueYLog);
-				Log(valueZLog);*/
 			}
 		}
 

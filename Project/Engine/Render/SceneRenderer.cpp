@@ -91,7 +91,7 @@ void SceneRenderer::Draw() const {
 		}
 	}
 
-	// objectの描
+	// objectの描画
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);

@@ -31,7 +31,7 @@ void AOENGINE::Canvas2d::Update() {
 
 	// ソートを行う
 	spriteList_.sort([](const std::unique_ptr<ObjectPair>& a, const std::unique_ptr<ObjectPair>& b) {
-		return a->renderQueue < b->renderQueue;
+		return a->sprite->GetRenderQueue() < b->sprite->GetRenderQueue();
 					 });
 
 	// 更新処理
@@ -46,24 +46,11 @@ void AOENGINE::Canvas2d::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::Canvas2d::PreDraw(const std::string& psoName) const {
-	for (const auto& it : spriteList_) {
-		if (it->isPreDraw) {
-			if (it->sprite->GetIsActive()) {
-				Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, psoName);
-				it->sprite->Draw(pso);
-			}
-		}
-	}
-}
-
 void AOENGINE::Canvas2d::Draw() const {
 	for (const auto& it : spriteList_) {
-		if (!it->isPreDraw) {
-			if (it->sprite->GetIsActive()) {
-				Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, it->psoName);
-				it->sprite->Draw(pso);
-			}
+		if (it->sprite->GetIsActive()) {
+			Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, it->psoName);
+			it->sprite->Draw(pso);
 		}
 	}
 }
@@ -81,7 +68,7 @@ void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imag
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// ↓　編集処理
+// ↓　編集処理 w
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Debug_Gui() {
@@ -89,16 +76,15 @@ void AOENGINE::Canvas2d::Debug_Gui() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　追加処理
-//////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////da///////////////////////////////////////
 
-Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& _textureName, const std::string& _attributeName, const std::string& _psoName, int _renderQueue, bool _isPreDraw) {
+Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& textureName, const std::string& attributeName, const std::string& psoName, int renderQueue) {
 	auto& newObj = spriteList_.emplace_back(std::make_unique<ObjectPair>());
 	newObj->sprite = std::make_unique<Sprite>();
-	newObj->sprite->Init(_textureName);
-	newObj->sprite->SetName(_attributeName);
-	newObj->psoName = _psoName;
-	newObj->renderQueue = _renderQueue;
-	newObj->isPreDraw = _isPreDraw;
+	newObj->sprite->Init(textureName);
+	newObj->sprite->SetName(attributeName);
+	newObj->sprite->SetRenderQueue(renderQueue);
+	newObj->psoName = psoName;
 	AddChild(newObj->sprite.get());
 	return newObj->sprite.get();
 }

@@ -20,13 +20,13 @@ Sprite::~Sprite() {
 	transform_.reset();
 }
 
-void Sprite::Init(const std::string& fileName) {
+void Sprite::Init(const std::string& textureName) {
 	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12Device* pDevice = ctx->GetDevice();
 
-	textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(fileName);
+	textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName);
 	spriteSize_ = textureSize_;
-	textureName_ = fileName;
+	textureName_ = textureName;
 	drawRange_ = spriteSize_;
 	leftTop_ = { 0.0f, 0.0f };
 	anchorPoint_ = { 0.5f, 0.5f };
@@ -122,7 +122,6 @@ void Sprite::Init(const std::string& fileName) {
 	// -------------------------------------------------
 	// ↓ メンバ変数の初期化
 	// -------------------------------------------------
-
 
 	fillMethod_ = FillMethod::Vertical;
 	fillStartingPoint_ = FillStartingPoint::Top;
@@ -266,6 +265,8 @@ void Sprite::FillAmount(float amount) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Debug_Gui() {
+	ImGui::DragInt("renderQueue", &renderQueue_);
+
 	if (ImGui::Button("ResetSize")) {
 		textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName_);
 		spriteSize_ = textureSize_;
@@ -289,8 +290,22 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
 
 	ImGui::ColorEdit4("color", &materialData_->color.r);
-	TextureManager* textureManager = AOENGINE::TextureManager::GetInstance();
-	textureName_ = textureManager->SelectTexture(textureName_);
+	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = AOENGINE::TextureManager::GetInstance()->GetDxHeapHandles(textureName_).handleGPU;
+	ImTextureID texId = reinterpret_cast<ImTextureID>(texHandle.ptr);
+	ImGui::Image(texId, ImVec2(64, 64));
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_HANDLE")) {
+			const AssetHandle& handle = *static_cast<const AssetHandle*>(payload->Data);
+			if (handle.type == AssetType::Texture) {
+				std::string dropTexture = TextureManager::GetInstance()->SearchSprite(handle.id);
+				if (!dropTexture.empty()) {
+					textureName_ = dropTexture;
+				}
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+	
 
 	static const char* items[] = { "Vertical", "Horizontal", "Radial", "BothEnds"};
 	int current = static_cast<int>(fillMethod_);

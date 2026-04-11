@@ -20,8 +20,6 @@ public:
 	struct ObjectPair {
 		std::unique_ptr<AOENGINE::Sprite> sprite;
 		std::string psoName;
-		int renderQueue = 0;
-		bool isPreDraw = false;
 	};
 
 public: // コンストラクタ
@@ -40,12 +38,6 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update();
-
-	/// <summary>
-	/// 背景描画
-	/// </summary>
-	/// <param name="psoName"></param>
-	void PreDraw(const std::string& psoName = "Sprite_Normal_16.json") const;
 
 	/// <summary>
 	/// 描画
@@ -71,9 +63,9 @@ public:
 
 public:
 
-	AOENGINE::Sprite* AddSprite(const std::string& _textureName, const std::string& _attributeName, const std::string& _psoName = "Sprite_Normal.json", int _renderQueue = 0, bool _isPreDraw = false);
+	AOENGINE::Sprite* AddSprite(const std::string& textureName, const std::string& attributeName, const std::string& psoName = "Sprite_Normal.json", int renderQueue = 0);
 
-	ObjectPair* GetObjectPair(Sprite* _sprite);
+	ObjectPair* GetObjectPair(Sprite* sprite);
 
 private:
 

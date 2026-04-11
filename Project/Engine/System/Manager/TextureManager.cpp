@@ -421,8 +421,9 @@ std::string AOENGINE::TextureManager::SearchSprite(uint32_t id) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 std::optional<AssetHandle> AOENGINE::TextureManager::SearchAssetHandle(const std::string& name) {
+	std::string targetName = RemoveExtension(name);
 	for (auto& [textureName, textureData] : textureData_) {
-		if (textureName == name) {
+		if (textureName == targetName) {
 			return textureData.assetHandle_;
 		}
 	}

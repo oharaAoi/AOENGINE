@@ -77,6 +77,8 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	float arcRange = kPI;					// 弧の最大角度
 	int clockwise = 0;						// 回転方向
 
+	int renderQueue = 0;
+
 	uint32_t windowWidth = 1280;			// 画面の横幅
 	uint32_t windowHeight = 720;			// 画面の縦幅
 
@@ -101,6 +103,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 			.Add("startAngle", startAngle)
 			.Add("arcRange", arcRange)
 			.Add("clockwise", clockwise)
+			.Add("renderQueue", renderQueue)
 			.Add("windowWidth", windowWidth)
 			.Add("windowHeight", windowHeight)
 			.Build();
@@ -125,6 +128,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "startAngle", startAngle);
 		Convert::fromJson(jsonData, "arcRange", arcRange);
 		Convert::fromJson(jsonData, "clockwise", clockwise);
+		Convert::fromJson(jsonData, "renderQueue", renderQueue);
 		Convert::fromJson(jsonData, "windowWidth", windowWidth);
 		Convert::fromJson(jsonData, "windowHeight", windowHeight);
 	}
@@ -138,7 +142,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 /// </summary>
 class Sprite :
 	public AOENGINE::AttributeGui {
-public:
+public: // data
 
 	/// <summary>
 	/// Mesh構造体
@@ -168,18 +172,18 @@ public:
 		Math::Matrix4x4 wvp;
 	};
 
-public:
+public: // constructor
 
 	Sprite();
 	~Sprite();
 
-public:
+public: // public method
 
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
 	/// <param name="fileName"></param>
-	void Init(const std::string& fileName);
+	void Init(const std::string& textureName);
 
 	/// <summary>
 	/// 更新処理
@@ -210,7 +214,7 @@ public:
 	/// </summary>
 	void Resize();
 
-public:
+public: // accessor
 
 	AOENGINE::ScreenTransform* GetTransform() const { return transform_.get(); }
 
@@ -274,13 +278,18 @@ public:
 	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
 	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
 
+	void SetRenderQueue(int renderQueue) { renderQueue_ = renderQueue; }
+	int GetRenderQueue() const { return renderQueue_; }
+
 	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
 
-private:
+private: // private variable
 
 	bool isDestroy_;
 	bool isBackGround_;
 	bool isFront_;
+	
+	int renderQueue_ = 0;
 
 	// -------------------
 	// DirectX関連
