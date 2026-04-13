@@ -16,8 +16,7 @@ void FadePanel::Init() {
 	isBlackOut_ = false;
 	isFinished_ = false;
 
-	panel_ = Engine::GetCanvas2d()->AddSprite("panel.png", "panel", "Sprite_Normal.json", 100);
-	panel_->Load("UI", "panel");
+	panel_ = Engine::GetCanvas2d()->GetSprite("panel");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

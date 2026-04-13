@@ -145,6 +145,7 @@ void AOENGINE::SceneManager::SaveScene() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::SceneManager::ResetManager() {
+	Engine::GetCanvas2d()->Init();
 	Engine::RegisterEditorWindowSystem();
 
 	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();

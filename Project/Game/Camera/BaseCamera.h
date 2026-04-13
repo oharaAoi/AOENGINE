@@ -47,7 +47,7 @@ public:
 	// 更新
 	virtual void Update();
 
-public:	// accesseor method
+public:	// accessor method
 
 	const Math::Quaternion& GetRotate() const { return transform_.rotate; }
 

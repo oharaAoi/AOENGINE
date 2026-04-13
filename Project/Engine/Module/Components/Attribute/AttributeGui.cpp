@@ -17,3 +17,31 @@ void AOENGINE::AttributeGui::EditName() {
 		name_ = buffer;
 	}
 }
+
+void AOENGINE::AttributeGui::AddChild(AOENGINE::AttributeGui* child) {
+	int count = 0;
+	std::string newName = child->GetName();
+
+	auto isDuplicate = [&](const std::string& name) {
+		for (auto* attr : children_) {
+			if (attr->GetName() == name) return true;
+		}
+		return false;
+		};
+
+	while (isDuplicate(newName)) {
+		++count;
+		newName = newName + "(" + std::to_string(count) + ")";
+	}
+
+	child->SetName(newName);
+	children_.push_back(child);
+}
+
+void AOENGINE::AttributeGui::DeleteChild(AOENGINE::AttributeGui* child) {
+	children_.erase(
+		std::remove_if(children_.begin(), children_.end(),
+					   [child](AOENGINE::AttributeGui* c) { return c == child; }),
+		children_.end()
+	);
+}

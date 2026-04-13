@@ -1,4 +1,5 @@
 #include "Sprite.h"
+#include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Module/Geometry/Structs/Vertices.h"
@@ -167,14 +168,15 @@ void Sprite::Update() {
 // ↓　描画前処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Sprite::Draw(const Pipeline* pipeline, bool isBackGround) {
+void Sprite::Draw(bool isBackGround) {
+	Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, saveParam_.psoName);
 	Math::Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
 	if (isBackGround) {
 		transform_->SetTranslateZ(AOENGINE::Render::GetFarClip());
 	}
 	transform_->Update(projection);
 
-	AOENGINE::Render::DrawSprite(this, pipeline);
+	AOENGINE::Render::DrawSprite(this, pso);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +268,12 @@ void Sprite::FillAmount(float amount) {
 
 void Sprite::Debug_Gui() {
 	ImGui::DragInt("renderQueue", &renderQueue_);
+	const char* blendItems[] = { "None", "Normal", "Add", "Subtract", "Multiply", "Screen"};
+	int currentBlendMode = (int)blendMode_;
+	if (ImGui::Combo("BlendMode", &currentBlendMode, blendItems, IM_ARRAYSIZE(blendItems))) {
+		blendMode_ = (Blend::BlendMode)currentBlendMode;
+	}
+	saveParam_.psoName = std::string("Sprite_") + blendItems[currentBlendMode] + ".json";
 
 	if (ImGui::Button("ResetSize")) {
 		textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName_);
@@ -288,8 +296,9 @@ void Sprite::Debug_Gui() {
 	ImGui::DragFloat2("leftTop", &leftTop_.x, 1.0f);
 	ImGui::DragFloat2("uvMin", &materialData_->uvMinSize.x, 0.01f);
 	ImGui::DragFloat2("uvMax", &materialData_->uvMaxSize.x, 0.01f);
-
 	ImGui::ColorEdit4("color", &materialData_->color.r);
+
+	// textureを変更する
 	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = AOENGINE::TextureManager::GetInstance()->GetDxHeapHandles(textureName_).handleGPU;
 	ImTextureID texId = reinterpret_cast<ImTextureID>(texHandle.ptr);
 	ImGui::Image(texId, ImVec2(64, 64));
@@ -307,10 +316,10 @@ void Sprite::Debug_Gui() {
 	}
 	
 
-	static const char* items[] = { "Vertical", "Horizontal", "Radial", "BothEnds"};
-	int current = static_cast<int>(fillMethod_);
-	if (ImGui::Combo("Fill Method", &current, items, IM_ARRAYSIZE(items))) {
-		fillMethod_ = static_cast<FillMethod>(current);
+	static const char* fillMethodItems[] = { "Vertical", "Horizontal", "Radial", "BothEnds"};
+	int currentFillMethod = static_cast<int>(fillMethod_);
+	if (ImGui::Combo("Fill Method", &currentFillMethod, fillMethodItems, IM_ARRAYSIZE(fillMethodItems))) {
+		fillMethod_ = static_cast<FillMethod>(currentFillMethod);
 	}
 
 	switch (fillMethod_) {

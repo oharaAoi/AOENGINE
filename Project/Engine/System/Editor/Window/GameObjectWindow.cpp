@@ -64,7 +64,7 @@ void AOENGINE::GameObjectWindow::CreateNewObjectWindow() {
 			}
 
 			if (ImGui::MenuItem("Sprite")) {
-
+				canvas2d_->AddSprite("white.png", "new sprite");
 			}
 			ImGui::EndMenu();
 		}

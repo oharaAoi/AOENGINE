@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "Engine/DirectX/Pipeline/Pipeline.h"
+#include "Engine/DirectX/Pipeline/Parts/Blend.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Lib/Color.h"
@@ -78,6 +79,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 	int clockwise = 0;						// 回転方向
 
 	int renderQueue = 0;
+	std::string psoName = "Sprite_Normal.json";
 
 	uint32_t windowWidth = 1280;			// 画面の横幅
 	uint32_t windowHeight = 720;			// 画面の縦幅
@@ -104,6 +106,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 			.Add("arcRange", arcRange)
 			.Add("clockwise", clockwise)
 			.Add("renderQueue", renderQueue)
+			.Add("psoName", psoName)
 			.Add("windowWidth", windowWidth)
 			.Add("windowHeight", windowHeight)
 			.Build();
@@ -129,6 +132,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "arcRange", arcRange);
 		Convert::fromJson(jsonData, "clockwise", clockwise);
 		Convert::fromJson(jsonData, "renderQueue", renderQueue);
+		Convert::fromJson(jsonData, "psoName", psoName);
 		Convert::fromJson(jsonData, "windowWidth", windowWidth);
 		Convert::fromJson(jsonData, "windowHeight", windowHeight);
 	}
@@ -196,7 +200,7 @@ public: // public method
 	/// 描画
 	/// </summary>
 	/// <param name="isBackGround">: バックグラウンド描画を行うか</param>
-	void Draw(const AOENGINE::Pipeline* pipeline, bool isBackGround = false);
+	void Draw(bool isBackGround = false);
 
 	/// <summary>
 	/// 描画
@@ -315,6 +319,8 @@ private: // private variable
 	std::unique_ptr<AOENGINE::ScreenTransform> transform_;
 	Math::SRT* parentTransform_ = nullptr;
 	Math::SRT uvTransform_;
+
+	Blend::BlendMode blendMode_ = Blend::BlendMode::Normal;
 
 	// -------------------
 	// Sprite情報

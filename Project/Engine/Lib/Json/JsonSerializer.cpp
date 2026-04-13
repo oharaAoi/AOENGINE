@@ -1,10 +1,14 @@
 #include "JsonSerializer.h"
 #include <fstream>
+#include <filesystem>
 
 using namespace AOENGINE;
 using json = nlohmann::json;
 
 bool JsonSerializer::Save(const std::string& folderPath, const std::string& fileName, const json& json) {
+	// フォルダ生成（存在しなければ）
+	std::filesystem::create_directories(folderPath);
+
 	const std::string filePath = folderPath + "/" + fileName + ".json";
 	std::ofstream outFile(filePath);
 	if (outFile.fail()) {

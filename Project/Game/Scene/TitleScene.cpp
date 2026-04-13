@@ -30,9 +30,6 @@ void TitleScene::Init() {
 	camera2d_->Init();
 	camera3d_->Init();
 	debugCamera_->Init();
-	
-	titleUIs_ = std::make_unique<TitleUIs>();
-	titleUIs_->Init();
 
 	fadePanel_ = std::make_unique<FadePanel>();
 	fadePanel_->Init();
@@ -47,9 +44,6 @@ void TitleScene::Init() {
 }
 
 void TitleScene::Update() {
-	
-	titleUIs_->Update();
-
 	fadePanel_->Update();
 
 	titleBehavior_->Update();

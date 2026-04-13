@@ -53,7 +53,6 @@ void DebugCamera::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void DebugCamera::Debug_Gui() {
-	ImGui::Checkbox("isActive", &isActive_);
 	Math::Vector3 right = moveRotate_.MakeRight();
 	Math::Vector3 up = moveRotate_.MakeUp();
 	Math::Vector3 forward = moveRotate_.MakeForward();

@@ -7,7 +7,6 @@
 #include "Game/Camera/Camera3d.h"
 #include "Game/WorldObject/Skybox.h"
 //ui
-#include "Game/UI/TitleUIs.h"
 #include "Game/UI/FadePanel.h"
 #include "Game/UI/Guide/GameModeGuide.h"
 
@@ -41,7 +40,6 @@ private:
 	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 
 	// ------------------- actor ------------------- //
-	std::unique_ptr<TitleUIs> titleUIs_;
 	std::unique_ptr<FadePanel> fadePanel_;
 
 	std::unique_ptr<ITitleBahavior> titleBehavior_;

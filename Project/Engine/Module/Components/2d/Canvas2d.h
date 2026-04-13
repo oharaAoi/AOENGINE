@@ -12,22 +12,12 @@ namespace AOENGINE {
 /// </summary>
 class Canvas2d :
 	public AttributeGui {
-public:
-
-	/// <summary>
-	/// Spriteを含めた情報
-	/// </summary>
-	struct ObjectPair {
-		std::unique_ptr<AOENGINE::Sprite> sprite;
-		std::string psoName;
-	};
-
-public: // コンストラクタ
+public: // constructor
 
 	Canvas2d() = default;
 	~Canvas2d();
 
-public:
+public: // public method
 
 	/// <summary>
 	/// 初期化処理
@@ -61,15 +51,34 @@ public:
 	/// </summary>
 	void Debug_Gui() override;
 
-public:
+	/// <summary>
+	/// 保存処理
+	/// </summary>
+	/// <param name="sceneName"></param>
+	void Save(const std::string& sceneName);
 
-	AOENGINE::Sprite* AddSprite(const std::string& textureName, const std::string& attributeName, const std::string& psoName = "Sprite_Normal.json", int renderQueue = 0);
+	/// <summary>
+	/// 読み込み処理
+	/// </summary>
+	/// <param name="sceneName"></param>
+	void Load(const std::string& sceneName);
 
-	ObjectPair* GetObjectPair(Sprite* sprite);
+	/// <summary>
+	/// Spriteの追加
+	/// </summary>
+	/// <param name="textureName">: Textureの名前</param>
+	/// <param name="attributeName">: Spriteの固有名</param>
+	/// <param name="renderQueue">: レンダリングする順番</param>
+	/// <returns></returns>
+	AOENGINE::Sprite* AddSprite(const std::string& textureName, const std::string& attributeName, int renderQueue = 0);
 
-private:
+public: // accessor
 
-	std::list<std::unique_ptr<ObjectPair>> spriteList_;
+	AOENGINE::Sprite* GetSprite(const std::string& spriteName);
+
+private: // private variable
+
+	std::list<std::unique_ptr<AOENGINE::Sprite>> spriteList_;
 
 };
 }

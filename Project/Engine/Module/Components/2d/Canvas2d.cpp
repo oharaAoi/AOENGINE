@@ -1,6 +1,7 @@
 #include "Canvas2d.h"
 #include "Engine/Core/Engine.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/Lib/Json/JsonSerializer.h"
 
 using namespace AOENGINE;
 
@@ -12,6 +13,7 @@ AOENGINE::Canvas2d::~Canvas2d() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Init() {
+	ClearChild();
 	spriteList_.clear();
 }
 
@@ -22,7 +24,7 @@ void AOENGINE::Canvas2d::Init() {
 void AOENGINE::Canvas2d::Update() {
 	// 生存確認
 	for (auto it = spriteList_.begin(); it != spriteList_.end(); ) {
-		if ((*it)->sprite->GetIsDestroy()) {
+		if ((*it)->GetIsDestroy()) {
 			it = spriteList_.erase(it);
 		} else {
 			++it;
@@ -30,14 +32,14 @@ void AOENGINE::Canvas2d::Update() {
 	}
 
 	// ソートを行う
-	spriteList_.sort([](const std::unique_ptr<ObjectPair>& a, const std::unique_ptr<ObjectPair>& b) {
-		return a->sprite->GetRenderQueue() < b->sprite->GetRenderQueue();
+	spriteList_.sort([](const std::unique_ptr<Sprite>& a, const std::unique_ptr<Sprite>& b) {
+		return a->GetRenderQueue() < b->GetRenderQueue();
 					 });
 
 	// 更新処理
 	for (auto& it : spriteList_) {
-		if (it->sprite->GetIsActive()) {
-			it->sprite->Update();
+		if (it->GetIsActive()) {
+			it->Update();
 		}
 	}
 }
@@ -48,9 +50,8 @@ void AOENGINE::Canvas2d::Update() {
 
 void AOENGINE::Canvas2d::Draw() const {
 	for (const auto& it : spriteList_) {
-		if (it->sprite->GetIsActive()) {
-			Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, it->psoName);
-			it->sprite->Draw(pso);
+		if (it->GetIsActive()) {
+			it->Draw();
 		}
 	}
 }
@@ -61,8 +62,8 @@ void AOENGINE::Canvas2d::Draw() const {
 
 void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (const auto& it : spriteList_) {
-		if (it->sprite->GetIsActive()) {
-			it->sprite->GetTransform()->Manipulate(windowSize, imagePos);
+		if (it->GetIsActive()) {
+			it->GetTransform()->Manipulate(windowSize, imagePos);
 		}
 	}
 }
@@ -76,23 +77,25 @@ void AOENGINE::Canvas2d::Debug_Gui() {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　追加処理
-///////////////////////////////////////////////////////////da///////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
-Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& textureName, const std::string& attributeName, const std::string& psoName, int renderQueue) {
-	auto& newObj = spriteList_.emplace_back(std::make_unique<ObjectPair>());
-	newObj->sprite = std::make_unique<Sprite>();
-	newObj->sprite->Init(textureName);
-	newObj->sprite->SetName(attributeName);
-	newObj->sprite->SetRenderQueue(renderQueue);
-	newObj->psoName = psoName;
-	AddChild(newObj->sprite.get());
-	return newObj->sprite.get();
+Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& textureName, const std::string& attributeName, int renderQueue) {
+	auto& newObj = spriteList_.emplace_back(std::make_unique<Sprite>());
+	newObj->Init(textureName);
+	newObj->SetName(attributeName);
+	newObj->SetRenderQueue(renderQueue);
+	AddChild(newObj.get());
+	return newObj.get();
 }
 
-AOENGINE::Canvas2d::ObjectPair* AOENGINE::Canvas2d::GetObjectPair(Sprite* _sprite) {
-	for (const auto& it : spriteList_) {
-		if (it->sprite.get() == _sprite) {
-			return it.get();
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Spriteの取得
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+AOENGINE::Sprite* AOENGINE::Canvas2d::GetSprite(const std::string& spriteName) {
+	for (auto& sprite : spriteList_) {
+		if (sprite->GetName() == spriteName) {
+			return sprite.get();
 		}
 	}
 	return nullptr;
@@ -104,6 +107,48 @@ AOENGINE::Canvas2d::ObjectPair* AOENGINE::Canvas2d::GetObjectPair(Sprite* _sprit
 
 void AOENGINE::Canvas2d::ResizeSprite() {
 	for (const auto& it : spriteList_) {
-		it->sprite->Resize();
+		it->Resize();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
+	json sceneData;
+	for (const auto& it : spriteList_) {
+		Sprite* sprite = it.get();
+		std::string spriteName = sprite->GetName();
+
+		// dataの保存
+		sprite->Save(sceneName + "_Canvas2d", spriteName);
+
+		sceneData[sceneName].push_back(spriteName);
+	}
+
+	bool result = AOENGINE::JsonSerializer::Save("Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas",  sceneData);
+	if (result) {
+		AOENGINE::Logger::Log("Save_Canvas");
+	} else {
+		AOENGINE::Logger::AssertLog("Do Not Save Canvas");
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込みm処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Load(const std::string& sceneName) {
+	json sceneData = AOENGINE::JsonSerializer::Load("Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas");
+
+	if (sceneData.empty()) {
+		return;
+	}
+
+	for (const auto& spriteName : sceneData[sceneName]) {
+		std::string name = spriteName.get<std::string>();
+		Sprite* sprite = AddSprite("white.png", name);
+		sprite->Load(sceneName + "_Canvas2d", name);
 	}
 }

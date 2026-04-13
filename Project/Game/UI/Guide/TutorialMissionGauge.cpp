@@ -13,7 +13,7 @@ void TutorialMissionGauge::Init() {
 	gaugeBg_ = canvas->AddSprite("gauge_frame.png", "gaugeBg");
 	success_ = canvas->AddSprite("success.png", "success");
 	control_ = canvas->AddSprite("tutorial_move.png", "control");
-	controlBg_ = canvas->AddSprite("white.png", "controlBg", "Sprite_Normal.json", -1);
+	controlBg_ = canvas->AddSprite("white.png", "controlBg", -1);
 
 	gauge_->Load("Mission", "gauge");
 	gaugeBg_->Load("Mission", "gauge_frame");
