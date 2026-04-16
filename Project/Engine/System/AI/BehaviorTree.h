@@ -21,16 +21,16 @@ namespace AI {
 /// Objectを制御するためのクラス
 /// </summary>
 class BehaviorTree {
-public:
+public: // data
 
 	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
 
-public: // コンストラクタ
+public: // constructor
 
 	BehaviorTree() = default;
 	~BehaviorTree();
 
-public:
+public: // public method
 
 	// 初期化処理
 	void Init();
@@ -86,7 +86,7 @@ public:
 	/// <param name="_aggressionScore">: 積極性の値</param>
 	void DisplayState(const ImVec2& _pos, float _aggressionScore, const ImVec2& _offset = {-30.0f, -30.0f});
 
-public:
+public: // accessor
 
 	void SetName(const std::string& _name) { name_ = _name; }
 	const std::string& GetName() const { return name_; }
@@ -101,20 +101,20 @@ public:
 	void SetIsDelete(bool isDelete) { isDelete_ = isDelete; }
 	bool GetIsDelete() const { return isDelete_; }
 
-private:
+private: // private variable
 
 	std::string name_ = "Behavior Tree";
 
 	Blackboard* blackboard_ = nullptr;
 
 	// treeの所有者のポインタ
-	AOENGINE::BaseEntity* pTarget_;
+	AOENGINE::BaseEntity* pTarget_ = nullptr;
 	// 接続のidをまとめたコンテナ
 	std::vector<Link> links_;
 	// nodeのリスト
 	std::list<std:: unique_ptr<BaseBehaviorNode>> nodeList_;
 	// 最上位Node
-	BaseBehaviorNode* root_;
+	BaseBehaviorNode* root_ = nullptr;
 	BehaviorStatus rootState_;
 	// 行えるTaskをまとめた物
 	std::unordered_map<std::string, ActionNode> creators_;
@@ -132,7 +132,7 @@ private:
 	// ↓ loggerポインタ
 	// ----------------------
 
-	std::unique_ptr<AOENGINE::BehaviorTreeLogger> logger_;
+	std::unique_ptr<AOENGINE::BehaviorTreeLogger> logger_ = nullptr;;
 
 	std::string fileDirectory_;
 	std::string fileName_;

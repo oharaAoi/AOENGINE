@@ -127,7 +127,7 @@ void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
 		sceneData[sceneName].push_back(spriteName);
 	}
 
-	bool result = AOENGINE::JsonSerializer::Save("Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas",  sceneData);
+	bool result = AOENGINE::JsonSerializer::Save("./Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas",  sceneData);
 	if (result) {
 		AOENGINE::Logger::Log("Save_Canvas");
 	} else {
@@ -140,7 +140,7 @@ void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Load(const std::string& sceneName) {
-	json sceneData = AOENGINE::JsonSerializer::Load("Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas");
+	json sceneData = AOENGINE::JsonSerializer::Load("./Project/Packages/Game/GameData/JsonItems/" + sceneName + "/", "canvas");
 
 	if (sceneData.empty()) {
 		return;

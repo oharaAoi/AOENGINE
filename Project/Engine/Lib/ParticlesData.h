@@ -93,7 +93,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	AOENGINE::Color color = AOENGINE::Color{ 1,1,1,1 };			// 色
 	AOENGINE::Color randColor1 = AOENGINE::Color{ 1,0,0,1 };	// 色
 	AOENGINE::Color randColor2 = AOENGINE::Color{ 0,0,1,1 };	// 色
-	bool isLerpDiscardValue;					// discardの値をlerpさせるか
+	bool isLerpDiscardValue = false;					// discardの値をlerpさせるか
 	float discardValue = 0.01f;					// discardをするしきい値
 	float startDiscard = 0.01f;					// discardの初期値
 	float endDiscard = 1.0f;					// discardの終了値
@@ -121,7 +121,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isBillBord = true;
 
 	bool isScaleUp;								// サイズを大きくするか
-	Math::Vector3 scaleUpScale;
+	Math::Vector3 scaleUpScale = CVector3::UNIT;
 
 	float radius = 0.5f;
 	float angle = 27.f;
@@ -135,8 +135,8 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector2 tiles = CMath::Vector2::UNIT;
 
 	bool isColorAnimation = false;
-	AOENGINE::Color preColor;
-	AOENGINE::Color postColor;
+	AOENGINE::Color preColor = Colors::Linear::white;
+	AOENGINE::Color postColor = Colors::Linear::white;
 
 	bool isRandomRotate = true;
 	float minAngle = 0;

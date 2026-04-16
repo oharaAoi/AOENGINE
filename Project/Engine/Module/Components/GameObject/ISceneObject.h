@@ -8,12 +8,12 @@ namespace AOENGINE {
 /// </summary>
 class ISceneObject :
 	public AOENGINE::AttributeGui {
-public: // コンストラクタ
+public: // constructor
 
 	ISceneObject() = default;
 	virtual ~ISceneObject() = default;
 
-public:
+public: // public method
 
 	// 初期化処理
 	virtual void Init() = 0;
@@ -30,12 +30,12 @@ public:
 	// gizumo表示
 	virtual void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) = 0;
 
-public:
+public: // accessor
 
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
 	bool GetIsDestroy() const { return isDestroy_; }
 
-protected:
+protected: // protected variable
 
 	bool isDestroy_;
 

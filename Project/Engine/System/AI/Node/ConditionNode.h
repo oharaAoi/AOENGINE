@@ -9,12 +9,12 @@ namespace AI {
 /// </summary>
 class ConditionNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	ConditionNode();
 	~ConditionNode() override = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// jsonへ
@@ -50,7 +50,7 @@ public:
 	/// </summary>
 	void ResetNode() override;
 
-private:
+private: // private method
 
 	/// <summary>
 	/// 判断する
@@ -59,26 +59,28 @@ private:
 				 const BlackboardValue& rhs,
 				 const std::string& op);
 
-private:
+private: // private variable
 
 	static const int32_t kOperatorCount_ = 6;
 	const char* conditionOps[kOperatorCount_] = {
 	"==", "!=", ">", "<", ">=", "<="
 	};
+
+	// 各キーのインデックス
 	int32_t opIndex_ = 0;
 	int32_t leftKeyIndex_ = 0;
 	int32_t rightKeyIndex_ = 0;
 
+	int32_t radioButtonIndex_ = 0;
+	uint32_t preIndex_ = 0;
+
+	// キー
 	std::string leftKey_ = "";
 	std::string rightKey_ = "";
 
+	// 評価に使用する値
 	float freeValue_ = 0;
-
-	int32_t radioButtonIndex_ = 0;
-
 	BlackboardValue value_;
-
-	uint32_t preIndex_ = 0;
 
 };
 

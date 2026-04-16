@@ -16,7 +16,7 @@ namespace AI {
 /// Treeを編集するためのクラス
 /// </summary>
 class BehaviorTreeEditor {
-public:
+public: // data
 
 	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
 
@@ -26,15 +26,23 @@ public:
 		ImVec2 currentScreen;
 	};
 
-public: // コンストラクタ
+public: // constructor
 
 	BehaviorTreeEditor() = default;
 	~BehaviorTreeEditor();
 
-public:
+public: // public method
 
+	/// <summary>
+	/// 終了処理
+	/// </summary>
 	void Finalize();
 
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="directoryPath"></param>
+	/// <param name="fileName"></param>
 	void Init(const std::string& directoryPath, const std::string& fileName);
 
 	/// <summary>
@@ -71,7 +79,7 @@ public:
 	/// <param name="_json"></param>
 	void CommentsToJson(json& json);
 
-private:
+private: // private variable
 
 	/// <summary>
 	/// コメントNodeの作成
@@ -154,7 +162,7 @@ private:
 	/// <returns></returns>
 	BaseBehaviorNode* FindNodeFromPin(std::list<std::unique_ptr<BaseBehaviorNode>>& nodeList, ax::NodeEditor::PinId pin);
 
-private:
+private: // private variable
 
 	// nodeEditorのポインタ
 	ax::NodeEditor::EditorContext* context_ = nullptr;

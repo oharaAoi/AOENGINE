@@ -1,7 +1,8 @@
 #pragma once
-#include <memory>
+// c++
 #include <functional>
 #include <string>
+// engine
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
 #include "Engine/System/AI/UtilityAI/UtilityEvaluator.h"
 #include "Engine/Lib/GameTimer.h"
@@ -16,12 +17,12 @@ namespace AI {
 template<typename OwnerType>
 class BaseTaskNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	BaseTaskNode();
 	virtual ~BaseTaskNode() override = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// jsonへ変換
@@ -75,21 +76,19 @@ public:
 	// 積極性のスコアを計算
 	float CalcAggressionScore(float _aggression);
 
-public:
-
-	void SetTarget(OwnerType* owner) { pTarget_ = owner; }
-
-private:
+private: // private variable
 
 	// 待機処理
 	bool Wait();
 
-	/// <summary>
-	/// taskの初期化用意
-	/// </summary>
+	// taskの初期化用意
 	void ResetNode() override;
 
-protected:
+public: // accessor
+
+	void SetTarget(OwnerType* owner) { pTarget_ = owner; }
+
+protected: // protected variable
 
 	OwnerType* pTarget_ = nullptr;
 
@@ -105,6 +104,12 @@ protected:
 	UtilityEvaluator evaluator_;
 };
 
+// =================================================================================================================== //
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　コンストラクタ
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline BaseTaskNode<OwnerType>::BaseTaskNode() {
 	type_ = NodeType::Task;
@@ -114,6 +119,10 @@ inline BaseTaskNode<OwnerType>::BaseTaskNode() {
 	waitTimer_.targetTime_ = 1;
 	evaluator_ = UtilityEvaluator();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　jsonに変換する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename OwnerType>
 inline json BaseTaskNode<OwnerType>::ToJson() {
@@ -132,6 +141,10 @@ inline json BaseTaskNode<OwnerType>::ToJson() {
 	}
 	return item;
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　jsonからNodeの情報を取得する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename OwnerType>
 inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
@@ -155,6 +168,10 @@ inline void BaseTaskNode<OwnerType>::FromJson(const json& _jsonData) {
 	coolTimer_.timer_ = coolTimer_.targetTime_;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　デバックの表示
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline void BaseTaskNode<OwnerType>::Debug_Gui() {
 	ImGui::BulletText("Task Name : %s", node_.name.c_str());
@@ -165,6 +182,10 @@ inline void BaseTaskNode<OwnerType>::Debug_Gui() {
 	ImGui::DragFloat("行動自体のクールタイム", &coolTimer_.targetTime_, 0.1f);
 	evaluator_.Debug_Gui();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　行動を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename OwnerType>
 inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
@@ -197,6 +218,10 @@ inline BehaviorStatus BaseTaskNode<OwnerType>::Action() {
 	return BehaviorStatus::Running;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　待機処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline bool BaseTaskNode<OwnerType>::Wait() {
 	if (!waitTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
@@ -205,6 +230,10 @@ inline bool BaseTaskNode<OwnerType>::Wait() {
 	return false;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Nodeのリセット
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline void BaseTaskNode<OwnerType>::ResetNode() {
 	End();
@@ -212,15 +241,27 @@ inline void BaseTaskNode<OwnerType>::ResetNode() {
 	state_ = BehaviorStatus::Inactive;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　積極性を計算する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline float BaseTaskNode<OwnerType>::CalcAggressionScore(float _aggression) {
 	return std::lerp(1.0f - aggressionAffinity_, aggressionAffinity_, _aggression);
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　実行中のNodeの名前を返す
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 template<typename OwnerType>
 inline std::string BaseTaskNode<OwnerType>::RunNodeName() {
 	return BaseRunNodeName();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　WeightTableに表示する重みの表示
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename OwnerType>
 inline void BaseTaskNode<OwnerType>::WeightTableItem() {

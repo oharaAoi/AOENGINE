@@ -1,6 +1,6 @@
 #pragma once
+// engine
 #include "Engine/System/AI/Node/BaseBehaviorNode.h"
-#include <memory>
 
 namespace AI {
 
@@ -9,12 +9,12 @@ namespace AI {
 /// </summary>
 class BehaviorRootNode :
 	public BaseBehaviorNode {
-public: //コンストラクタ
+public: // constructor
 
 	BehaviorRootNode();
 	~BehaviorRootNode() = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// jsonに変換

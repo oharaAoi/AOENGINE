@@ -4,16 +4,16 @@
 namespace AI {
 
 /// <summary>
-/// 左から実行をし、 失敗したら次へ成功したら親へ戻るNode
+/// 左から実行をし、失敗したら次へ成功したら親へ戻るNode
 /// </summary>
 class SelectorNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	SelectorNode();
 	~SelectorNode() override = default;
 
-public:
+public: // public method
 
 	// jsonへ
 	json ToJson() override;

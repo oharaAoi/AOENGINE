@@ -10,12 +10,12 @@ namespace AI {
 /// </summary>
 class IOrientedGoal :
 	public AOENGINE::AttributeGui {
-public: // コンストラクタ
+public: // constructor
 
 	IOrientedGoal() = default;
 	virtual ~IOrientedGoal() = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// 更新処理
@@ -33,7 +33,7 @@ public:
 	/// </summary>
 	virtual void Debug_Gui() override = 0;
 
-public:
+public: // accessor
 
 	void SetPriority(float _priority) { priority_ = _priority; }
 	float GetPriority() const { return priority_; }
@@ -41,7 +41,7 @@ public:
 	void SetBlackboard(Blackboard* _worldState) { blackboard_ = _worldState; }
 	Blackboard* GetBlackboard() const { return blackboard_; }
 
-protected:
+protected: // protected variable
 
 	// 優先度
 	float priority_ = 0;

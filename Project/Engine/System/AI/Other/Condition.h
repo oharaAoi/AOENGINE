@@ -10,29 +10,44 @@ namespace AI {
 /// if文となるクラス
 /// </summary>
 class Condition {
-public:
+public: // constructor
 
 	Condition() = default;
 	~Condition() = default;
 
-public:
+public: // public method
 
+	/// <summary>
+	/// 実行処理
+	/// </summary>
+	/// <param name="_state"></param>
+	/// <returns></returns>
 	bool Execute(Blackboard* _state);
 
 	/// <summary>
 	/// 判断する
 	/// </summary>
-	bool Compare(const BlackboardValue& lhs,
-				 const BlackboardValue& rhs,
-				 const std::string& op);
+	bool Compare(const BlackboardValue& lhs, const BlackboardValue& rhs, const std::string& op);
 
+	/// <summary>
+	/// 編集処理
+	/// </summary>
+	/// <param name="_state"></param>
 	void Debug_Gui(Blackboard* _state);
 
+	/// <summary>
+	/// jsonに変換する
+	/// </summary>
+	/// <returns></returns>
 	nlohmann::json ToJson();
 
+	/// <summary>
+	/// jsonをNodeに適応させる
+	/// </summary>
+	/// <param name="_jsonData"></param>
 	void FromJson(const nlohmann::json& _jsonData);
 
-private:
+private: // private variable
 
 	static const int32_t kOperatorCount_ = 6;
 	const char* conditionOps[kOperatorCount_] = {

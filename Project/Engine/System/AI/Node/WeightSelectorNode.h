@@ -9,12 +9,12 @@ namespace AI {
 /// </summary>
 class WeightSelectorNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	WeightSelectorNode();
 	~WeightSelectorNode() override = default;
 
-public:
+public: // public method
 
 	// jsonへ
 	json ToJson() override;
@@ -41,7 +41,7 @@ public:
 	/// </summary>
 	void ResetNode() override;
 
-private:
+private: // private method
 
 	/// <summary>
 	/// 評価値を表示する
@@ -53,7 +53,7 @@ private:
 	/// </summary>
 	void PriorityOutput();
 
-private:
+private: // private variable
 
 	std::unordered_map<uint32_t, float> weightMap_;
 	bool isReset_ = false;

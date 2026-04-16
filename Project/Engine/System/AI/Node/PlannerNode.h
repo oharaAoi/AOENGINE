@@ -19,14 +19,14 @@ public:
 
 	using ActionNode = std::function<std::unique_ptr<BaseBehaviorNode>()>;
 
-public: // コンストラクタ
+public: // constructor
 
 	PlannerNode(const std::unordered_map<std::string, ActionNode>& _creators,
 				Blackboard* _worldState,
 				const std::vector<std::shared_ptr<IOrientedGoal>>& _goals);
 	~PlannerNode() override = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// jsonへ変換
@@ -68,8 +68,6 @@ public:
 	/// </summary>
 	void ResetNode() override;
 
-public:
-
 	/// <summary>
 	/// 目標の設定
 	/// </summary>
@@ -77,7 +75,7 @@ public:
 	/// <param name="_treeFileName">: 所有するtreeの名前</param>
 	void SetGOBT(const std::string _orientedName, const std::string _treeFileName);
 
-private:
+private: // private variable
 
 	BehaviorTree* tree_;
 	std::unordered_map<std::string, ActionNode> creators_;

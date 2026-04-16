@@ -8,12 +8,12 @@ namespace AI {
 /// </summary>
 class SequenceNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	SequenceNode();
 	~SequenceNode() override = default;
 
-public:
+public: // public method
 
 	// jsonへ
 	json ToJson() override;

@@ -9,12 +9,12 @@ namespace AI {
 /// </summary>
 class ParallelNode :
 	public BaseBehaviorNode {
-public: // コンストラクタ
+public: // constructor
 
 	ParallelNode();
 	~ParallelNode() override = default;
 
-public:
+public: // public method
 
 	// jsonへ
 	json ToJson() override;
@@ -41,7 +41,7 @@ public:
 	/// </summary>
 	void ResetNode() override;
 
-private:
+private: // private variable
 
 	uint32_t successCount_ = 0;
 

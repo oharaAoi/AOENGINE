@@ -81,7 +81,7 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	Math::Vector3 rotate = Math::Vector3(0, 0, 0);
 	Math::Vector3 pos = Math::Vector3(0, 0, 0);
 	uint32_t rateOverTimeCout = 10;
-	int shape;
+	int shape = 0;
 	int emitType = 0;
 	int emitOrigin = 0;
 

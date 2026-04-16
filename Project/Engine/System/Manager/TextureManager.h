@@ -164,7 +164,7 @@ public:
 private:
 
 	struct TextureData {
-		AOENGINE::DxResource* resource_;
+		AOENGINE::DxResource* resource_ = nullptr;;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Math::Vector2 textureSize_;
 		AssetHandle assetHandle_;

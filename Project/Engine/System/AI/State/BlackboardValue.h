@@ -32,7 +32,7 @@ decltype(auto) GetValue(T&& v) {
 /// Blackboard内で使用する値
 /// </summary>
 struct BlackboardValue {
-public:
+public: // data
 
 	using Value = std::variant<
 		int32_t, int32_t*,
@@ -42,11 +42,13 @@ public:
 	>;
 	Value value_;
 
-public:
+public: // constructor
 
 	BlackboardValue() = default;
 	BlackboardValue(Value v) : value_(v) {}
 	~BlackboardValue() = default;
+
+public: // public method
 
 	void DebugValue(const std::string& name, BlackboardValue& wv);
 

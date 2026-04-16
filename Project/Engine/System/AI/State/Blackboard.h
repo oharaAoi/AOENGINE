@@ -14,12 +14,12 @@ namespace AI {
 /// Nodeごとに情報を共有するためのクラス
 /// </summary>
 class Blackboard {
-public: // コンストラクタ
+public: // constructor
 
 	Blackboard() = default;
 	virtual ~Blackboard() = default;
 
-public:
+public: // public method
 
 	/// <summary>
 	/// 参照の設定
@@ -30,30 +30,6 @@ public:
 	template<typename T>
 	void SetRef(const std::string& key, T& ref) {
 		stateMap_[key] = BlackboardValue(&ref);
-	}
-
-	/// <summary>
-	/// 値の設定
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="key"></param>
-	/// <param name="value"></param>
-	template<typename T>
-	void Set(const std::string& key, const T& value) {
-		stateMap_[key] = BlackboardValue(value);
-	}
-
-	/// <summary>
-	/// 値の取得
-	/// </summary>
-	/// <param name="key"></param>
-	/// <returns></returns>
-	BlackboardValue Get(const std::string& key) const {
-		auto it = stateMap_.find(key);
-		if (it != stateMap_.end()) {
-			return stateMap_.at(key).Get();
-		}
-		return BlackboardValue();
 	}
 
 	/// <summary>
@@ -80,13 +56,40 @@ public:
 	/// </summary>
 	void Save();
 
-	const std::string& GetPath() const { return path_; }
-
-private:
+private: // private method
 
 	void CreateValue();
 
-protected:
+public: // accessor
+
+	const std::string& GetPath() const { return path_; }
+
+	/// <summary>
+	/// 値の設定
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="key"></param>
+	/// <param name="value"></param>
+	template<typename T>
+	void Set(const std::string& key, const T& value) {
+		stateMap_[key] = BlackboardValue(value);
+	}
+
+	/// <summary>
+	/// 値の取得
+	/// </summary>
+	/// <param name="key"></param>
+	/// <returns></returns>
+	BlackboardValue Get(const std::string& key) const {
+		auto it = stateMap_.find(key);
+		if (it != stateMap_.end()) {
+			return stateMap_.at(key).Get();
+		}
+		return BlackboardValue();
+	}
+
+protected: // protected variable
+
 	std::unordered_map<std::string, BlackboardValue> stateMap_;
 
 	std::string path_;

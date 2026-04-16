@@ -12,12 +12,12 @@ namespace AI {
 /// WroldStateを保存するためのクラス
 /// </summary>
 class BlackboardSerializer {
-public: // コンストラクタ
+public: // constructor
 
 	BlackboardSerializer() = default;
 	~BlackboardSerializer() = default;
 
-public:
+public: // public method
 
 	static bool Save(const std::string& _filePath, const std::unordered_map<std::string, BlackboardValue>& _map);
 

@@ -38,12 +38,12 @@ namespace AI {
 /// </summary>
 class BaseBehaviorNode :
 	public AOENGINE::AttributeGui {
-public: // コンストラクタ
+public: // constructor
 
 	BaseBehaviorNode();
 	virtual ~BaseBehaviorNode() = default;
 	
-public:
+public: // public method
 
 	// 初期化処理
 	void Init();
@@ -66,6 +66,18 @@ public:
 	// 子を削除する
 	void ClearChild();
 
+	// 保存項目を適応する
+	virtual void FromJson(const json& _jsonData);
+
+	// 編集関数
+	virtual void Debug_Gui() override {};
+
+	// 現在選択されているNodeかどうか
+	bool IsSelectNode();
+
+	// Nodeの名前をつなぐ
+	std::string NodeNameCombination();
+
 public:
 
 	// 実行関数
@@ -80,29 +92,24 @@ public:
 	// json形式への変換
 	virtual json ToJson() = 0;
 
-	// 保存項目を適応する
-	virtual void FromJson(const json& _jsonData);
-
-	// 編集関数
-	virtual void Debug_Gui() override {};
-
-	// 現在選択されているNodeかどうか
-	bool IsSelectNode();
-
-	// Nodeの名前をつなぐ
-	std::string NodeNameCombination();
-
-	/// <summary>
-	/// 重みのテーブルに表示する項目
-	/// </summary>
+	// 重みのテーブルに表示する項目
 	virtual void WeightTableItem() = 0;
 
-	/// <summary>
-	/// Nodeのリセット
-	/// </summary>
+	// Nodeのリセット
 	virtual void ResetNode() = 0;
 
-public:
+	// 現在実行中のNodeの名前を返す
+	std::string BaseRunNodeName();
+
+private: // private method
+
+	/// <summary>
+	/// NodeにLineを描画
+	/// </summary>
+	/// <param name="_texPos"></param>
+	void DrawImGuiLine(const ImVec2& _texPos);
+
+public: // accessor
 
 	ax::NodeEditor::NodeId GetId() { return node_.id; }
 
@@ -139,17 +146,7 @@ public:
 
 	const std::string GetCurrentRunNodeName() const { return currentRunNodeName_; }
 
-protected:
-
-	std::string BaseRunNodeName();
-
-	/// <summary>
-	/// NodeにLineを描画
-	/// </summary>
-	/// <param name="_texPos"></param>
-	void DrawImGuiLine(const ImVec2& _texPos);
-
-protected:
+protected: // protected variable
 
 	static uint32_t nextSerialNumber_;	// 次のユニークid
 
