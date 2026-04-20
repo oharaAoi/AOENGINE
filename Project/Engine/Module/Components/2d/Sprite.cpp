@@ -410,6 +410,7 @@ void AOENGINE::Sprite::Resize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::ApplyParam() {
+	isActive_ = saveParam_.isActive;
 	transform_->SetSRT(saveParam_.transform);
 	uvTransform_ = saveParam_.uvTransform;
 	textureName_ = saveParam_.textureName;
@@ -464,8 +465,9 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 		saveParam_.transform.scale.x * scaleX,
 		saveParam_.transform.scale.y * scaleY
 						 });
-	saveParam_.transform = transform_->GetTransform();
 
+	saveParam_.isActive = isActive_;
+	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;
 	saveParam_.color = materialData_->color;

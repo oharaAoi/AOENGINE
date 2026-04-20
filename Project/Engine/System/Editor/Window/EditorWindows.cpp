@@ -5,6 +5,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Editor/Window/Item/ColliderCategorySettingWindow.h"
 
 using namespace AOENGINE;
 
@@ -46,6 +47,11 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	gridDraw_ = false;
 	isSkip_ = false;
 	isFullScreen_ = false;
+
+	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
+	for (auto& item : windowItems_) {
+		item->Init();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,8 +105,16 @@ void EditorWindows::Begin() {
 				} 
 				ImGui::EndMenu();
 			}
+
 			if (ImGui::BeginMenu("View")) {
 				ImGui::Checkbox("FullScreen", &isFullScreen_);
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Setting")) {
+				for (int i = 0; i < windowItems_.size(); i++) {
+					if (ImGui::MenuItem(windowItems_[i]->GetName().c_str(), nullptr, &windowItems_[i]->GetIsActive())) {}
+				}
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
@@ -131,6 +145,12 @@ void EditorWindows::Begin() {
 
 		if (pSceneManager_ != nullptr) {
 			pSceneManager_->Debug_Gui();
+		}
+	}
+
+	for (auto& item : windowItems_) {
+		if (item->GetIsActive()) {
+			item->Edit();
 		}
 	}
 }

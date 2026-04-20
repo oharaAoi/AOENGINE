@@ -1499,6 +1499,8 @@
     <ClInclude Include="Engine\Lib\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\System\Manager\MaterialManager.h" />
     <ClInclude Include="Engine\System\Asset\AssetHandle.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2596,5 +2598,7 @@
     <ClCompile Include="Engine\Lib\Json\JsonSerializer.cpp" />
     <ClCompile Include="Engine\System\Manager\MaterialManager.cpp" />
     <ClCompile Include="Engine\System\Asset\AssetHandle.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp" />
   </ItemGroup>
 </Project>

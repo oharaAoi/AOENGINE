@@ -1,9 +1,9 @@
 {
     "currentPath": {
-        "path": "./Project/Packages\\Engine\\Load\\Models\\Develop"
+        "path": "./Project/Packages\\Game\\GameData\\BehaviorTree"
     },
     "openDir": {
-        "./Project/Packages": false,
+        "./Project/Packages": true,
         "./Project/Packages/": false,
         "./Project/Packages/Engine": false,
         "./Project/Packages/Game": true,
@@ -29,14 +29,14 @@
         "./Project/Packages\\Engine": true,
         "./Project/Packages\\Engine\\Font": false,
         "./Project/Packages\\Engine\\HLSL": false,
-        "./Project/Packages\\Engine\\Load": true,
+        "./Project/Packages\\Engine\\Load": false,
         "./Project/Packages\\Engine\\Load\\Models": true,
         "./Project/Packages\\Engine\\Load\\Models\\Develop": true,
         "./Project/Packages\\Engine\\Load\\Models\\Template": false,
         "./Project/Packages\\Engine\\Load\\Sounds": false,
         "./Project/Packages\\Engine\\Load\\Textures": false,
         "./Project/Packages\\Engine\\Pipeline": false,
-        "./Project/Packages\\Game": false,
+        "./Project/Packages\\Game": true,
         "./Project/Packages\\Game\\GameData": false,
         "./Project/Packages\\Game\\GameData\\BehaviorTree": false,
         "./Project/Packages\\Game\\GameData\\JsonItems": false,

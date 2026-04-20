@@ -5,6 +5,7 @@
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/System/Editor/Tool/ManipulateTool.h"
 #include "Engine/System/Editor/Window/PackagesWindow.h"
+#include "Engine/System/Editor/Window/Item/IWindowItem.h"
 #include "Engine/System/Manager/SceneManager.h"
 #include "Engine/System/ShaderGraph/Editor/ShaderGraphEditor.h"
 #include "Engine/Module/Components/ProcessedSceneFrame.h"
@@ -144,6 +145,8 @@ private:
 
 	std::unique_ptr<AOENGINE::PackagesWindow> packagesWindow_;
 
+	std::vector<std::unique_ptr<IWindowItem>> windowItems_;
+
 	// ----------------------
 	// ↓ 他ポインタ
 	// ----------------------
@@ -161,5 +164,7 @@ private:
 	bool gridDraw_;
 	bool isSkip_;
 	bool isFullScreen_;
+
+	
 };
 }

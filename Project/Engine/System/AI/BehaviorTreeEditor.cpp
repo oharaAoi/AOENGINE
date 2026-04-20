@@ -438,23 +438,28 @@ void BehaviorTreeEditor::UnConnect(std::list<std::unique_ptr<BaseBehaviorNode>>&
 
 	// rootNodeに複数の子がついたときの処理
 	if (root->GetChildren().size() > 1) {
-		auto it = std::find_if(links.begin(), links.end(), [&](const Link& link) {
-			BaseBehaviorNode* firstChild = root->GetChildren().front();
-			return link.from == firstChild->GetInput().id;
-							   });
+		BaseBehaviorNode* firstChild = root->GetChildren().front();
 
-		// 親子関係の削除を行う
-		ax::NodeEditor::PinId from = it->from;
-		ax::NodeEditor::PinId to = it->to;
+		ax::NodeEditor::PinId from = root->GetOutput().id;
+		ax::NodeEditor::PinId to = firstChild->GetInput().id;
 
-		BaseBehaviorNode* parent = FindNodeFromPin(nodeList, to);
-		BaseBehaviorNode* child = FindNodeFromPin(nodeList, from);
+		BaseBehaviorNode* parent = FindNodeFromPin(nodeList, from);
+		BaseBehaviorNode* child = FindNodeFromPin(nodeList, to);
 
 		if (parent && child) {
 			parent->DeleteChild(child);
 		}
 
-		links.erase(it);
+		// links から該当リンク削除S
+		auto it = std::find_if(links.begin(), links.end(),
+							   [&](const auto& link) {
+								   return link.from == from &&
+									   link.to == to;
+							   });
+
+		if (it != links.end()) {
+			links.erase(it);
+		}
 	}
 }
 

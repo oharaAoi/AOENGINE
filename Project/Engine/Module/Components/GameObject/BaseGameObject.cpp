@@ -399,6 +399,8 @@ void BaseGameObject::Debug_Gui() {
 			animetor_->Debug_Gui();
 		}
 	}
+
+
 }
 
 void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
