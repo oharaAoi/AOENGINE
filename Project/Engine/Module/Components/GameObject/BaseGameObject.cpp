@@ -400,9 +400,28 @@ void BaseGameObject::Debug_Gui() {
 		}
 	}
 
-
+	AddComponent();
 }
 
 void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	transform_->Manipulate(windowSize, imagePos);
+}
+
+void AOENGINE::BaseGameObject::AddComponent() {
+	if (ImGui::Button("Add Component")) {
+		ImGui::OpenPopup("AddComponentPopup");
+	}
+
+	if (ImGui::BeginPopup("AddComponentPopup")) {
+		if (ImGui::BeginMenu("Physics")) {
+			if (ImGui::MenuItem("Box Collider")) {
+				SetCollider("Default", "BOX");
+			}
+			if (ImGui::MenuItem("Sphere Collider")) {
+				SetCollider("Default", "SPHERE");
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndPopup();
+	}
 }

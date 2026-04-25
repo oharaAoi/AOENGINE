@@ -15,7 +15,7 @@ SphereCollider::~SphereCollider() {}
 
 void SphereCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
-	categoryBits_ = layers.RegisterCategory(categoryName);
+	layerBit_ = layers.RegisterCategory(categoryName);
 	categoryName_ = categoryName;
 
 	collisionPartnersMap_.clear();
@@ -55,4 +55,6 @@ void SphereCollider::Draw() const {
 void SphereCollider::Debug_Gui() {
 	ImGui::DragFloat3("translate", &localSRT_.translate.x, 0.1f);
 	ImGui::DragFloat("radius", &std::get<Math::Sphere>(shape_).radius, 0.1f);
+
+	BaseCollider::Debug_Gui();
 }

@@ -36,7 +36,7 @@ public:
 	virtual void Update(const Math::QuaternionSRT& srt) = 0;
 	virtual void Draw() const = 0;
 
-	virtual void Debug_Gui() override = 0;
+	virtual void Debug_Gui() override;
 
 public:
 
@@ -65,13 +65,13 @@ public:
 	bool GetIsTrigger() const { return isTrigger_; }
 
 	// --------------- categoryの設定・取得 -------------- //
-	void SetCategoryBit(uint32_t bit) { categoryBits_ = bit; }
-	uint32_t GetCategoryBit() const { return categoryBits_; }
+	void SetLayerBit(uint32_t bit) { layerBit_ = bit; }
+	uint32_t GetLayerBit() const { return layerBit_; }
 
 	// --------------- maskの設定・取得 -------------- //
 	void SetTarget(const std::string& id);
-	void SetMaskBits(uint32_t bit) { maskBits_ |= bit; }
-	uint32_t GetMaskBits() const { return maskBits_; }
+	void SetCollisionMaskBit(uint32_t bit) { collisionMaskBit_ |= bit; }
+	uint32_t GetCollisionMaskBit() const { return collisionMaskBit_; }
 
 	void SetCategory(const std::string& category);
 	const std::string& GetCategoryName() const { return categoryName_; }
@@ -111,8 +111,8 @@ protected:
 	bool isTrigger_ = false;	// 判定だけを行うか
 
 	// カテゴリ
-	uint32_t categoryBits_ = 0; // 自分が属しているカテゴリ
-	uint32_t maskBits_ = 0;     // 誰と衝突してもいいかのマスク
+	uint32_t layerBit_ = 0; // 自分が属しているカテゴリ
+	uint32_t collisionMaskBit_ = 0;     // 誰と衝突してもいいかのマスク
 	std::string categoryName_ = "None";
 
 	// 形状

@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <cstdint>
 #include <stdexcept>
+#include <vector>
 #include <list>
 
 namespace AOENGINE {
@@ -11,13 +12,15 @@ namespace AOENGINE {
 /// Colliderのカテゴリの分類を管理しているクラス
 /// </summary>
 class CollisionLayerManager {
-public:
+public: // constructor
 
 	CollisionLayerManager();
 	CollisionLayerManager(const CollisionLayerManager&) = delete;
 	CollisionLayerManager& operator=(const CollisionLayerManager&) = delete;
 
 	static CollisionLayerManager& GetInstance();
+
+public: // public method
 
 	void Clear();
 
@@ -30,10 +33,17 @@ public:
 	// リストごとカテゴリを登録する
 	void RegisterCategoryList(const std::list<std::string>& list);
 
-private:
+public: // accessor method
+
+	void SetCategoies(const std::vector<std::string>& categoties) { categoties_ = categoties; }
+	const std::vector<std::string>& GetCategories() const { return categoties_; }
+
+private: // private variable
 
 	std::unordered_map<std::string, uint32_t> nameToBit_;	// 名前でbitを取得するmap
 	uint32_t nextBit_;										// 次のbitの変更値
+
+	std::vector<std::string> categoties_;
 };
 
 }

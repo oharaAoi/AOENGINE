@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/Logger.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
@@ -30,6 +31,8 @@ void AOENGINE::ColliderCategorySettingWindow::Init() {
 	}
 
 	file.close();
+
+	CollisionLayerManager::GetInstance().SetCategoies(categoties_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

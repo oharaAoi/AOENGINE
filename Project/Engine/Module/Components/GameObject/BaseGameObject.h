@@ -25,12 +25,12 @@ namespace AOENGINE {
 /// </summary>
 class BaseGameObject :
 	public ISceneObject {
-public: // コンストラクタ
+public: // constructor
 
 	BaseGameObject() = default;
 	virtual ~BaseGameObject();
 
-public:
+public: // public method
 
 	// 終了処理
 	void Finalize();
@@ -47,14 +47,16 @@ public:
 	// 後から更新する処理
 	void PostUpdate() override;
 
-public:
-
 	// 編集処理
 	void Debug_Gui() override;
 	// Gizumo表示
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
-public:
+private: // private method
+
+	void AddComponent();
+
+public: // accessor method
 
 	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::Normal);
 

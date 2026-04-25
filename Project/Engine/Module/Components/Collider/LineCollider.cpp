@@ -7,7 +7,7 @@ using namespace AOENGINE;
 
 void LineCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
-	categoryBits_ = layers.RegisterCategory(categoryName);
+	layerBit_ = layers.RegisterCategory(categoryName);
 	categoryName_ = categoryName;
 
 	collisionPartnersMap_.clear();

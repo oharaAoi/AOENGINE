@@ -16,7 +16,7 @@ BoxCollider::~BoxCollider() {}
 
 void BoxCollider::Init(const std::string& categoryName, ColliderShape shape) {
 	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
-	categoryBits_ = layers.RegisterCategory(categoryName);
+	layerBit_ = layers.RegisterCategory(categoryName);
 	categoryName_ = categoryName;
 
 	collisionPartnersMap_.clear();
@@ -112,4 +112,40 @@ void BoxCollider::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BoxCollider::Debug_Gui() {
+	ImGui::DragFloat3("size", &size_.x);
+
+	// ----------------------
+	// ↓ shapeの表示
+	// ----------------------
+	if (std::holds_alternative<Math::AABB>(shape_)) {
+		ImGui::Text("shape : AABB");
+	} else if (std::holds_alternative<Math::OBB>(shape_)) {
+		ImGui::Text("shape : OBB");
+	}
+
+	// ----------------------
+	// ↓ shapeの変更
+	// ----------------------
+	int shapeTypeIndex = 0;
+	std::string shapes[2] = { "AABB", "OBB" };
+	if (ImGui::BeginCombo("shape", shapes[shapeTypeIndex].c_str())) {
+		for (int i = 0; i < 2; ++i) {
+			bool isSelected = (shapeTypeIndex == i);
+			if (ImGui::Selectable(shapes[i].c_str(), isSelected)) {
+				shapeTypeIndex = i;
+				
+				if (i == 0) {
+					shape_ = Math::AABB{ .min = CVector3::UNIT * -1.0f, .max = CVector3::UNIT };
+				} else {
+					shape_ = Math::OBB{ .center = CVector3::ZERO, .size = CVector3::UNIT };
+				}
+			}
+			if (isSelected) {
+				ImGui::SetItemDefaultFocus();
+			}
+		}
+		ImGui::EndCombo();
+	}
+
+	BaseCollider::Debug_Gui();
 }

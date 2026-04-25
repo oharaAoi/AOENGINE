@@ -1,4 +1,4 @@
-none
+Default
 player
 playerLeftLeg
 playerRightLeg

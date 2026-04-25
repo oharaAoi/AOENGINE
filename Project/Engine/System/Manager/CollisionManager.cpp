@@ -57,8 +57,8 @@ void CollisionManager::CheckAllCollision() {
 			}
 
 			// マスク処理を行う
-			if (colliderA->GetCategoryName() != "none" && colliderB->GetCategoryName() != "none") {
-				if (!HasBit(colliderA->GetMaskBits(), colliderB->GetCategoryBit())) {
+			if (colliderA->GetCategoryName() != "Default" && colliderB->GetCategoryName() != "Default") {
+				if (!HasBit(colliderA->GetCollisionMaskBit(), colliderB->GetLayerBit())) {
 					continue;
 				}
 			}
@@ -116,8 +116,8 @@ void CollisionManager::MakeCollisionPair(uint32_t bitA, uint32_t bitB, const Cal
 
 void CollisionManager::OnCollision(BaseCollider* colliderA, BaseCollider* colliderB) {
 	// ペアを作成する
-	auto pair = CollisionPair(colliderA->GetCategoryBit(), colliderB->GetCategoryBit());
-	auto reversePair = CollisionPair(colliderB->GetCategoryBit(), colliderA->GetCategoryBit());
+	auto pair = CollisionPair(colliderA->GetLayerBit(), colliderB->GetLayerBit());
+	auto reversePair = CollisionPair(colliderB->GetLayerBit(), colliderA->GetLayerBit());
 
 	// ペアがマップに存在するかを確認
 	bool isReverse = false;
