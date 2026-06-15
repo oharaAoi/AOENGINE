@@ -1,5 +1,5 @@
 [![DebugBuild](https://github.com/oharaAoi/AOENGINE/actions/workflows/DebugBuild.yml/badge.svg)](https://github.com/oharaAoi/AOENGINE/actions/workflows/DebugBuild.yml)
-[![ReleaseBuild](https://github.com/oharaAoi/DirectX12/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/oharaAoi/DirectX12/actions/workflows/ReleaseBuild.yml)
+[![ReleaseBuild](https://github.com/oharaAoi/AOENGINE/actions/workflows/ReleaseBuild.yml/badge.svg)](https://github.com/oharaAoi/AOENGINE/actions/workflows/ReleaseBuild.yml)
 
 **全体の構成**
 
