@@ -21,3 +21,16 @@ bool SceneObject::IsActive() const {
 void SceneObject::SetActive(bool active) {
 	isActive_ = active;
 }
+
+void AOENGINE::SceneObject::AddChild(SceneObject* child) {
+	if (child) {
+		children_.push_back(child);
+	}
+}
+
+void AOENGINE::SceneObject::DeleteChild(SceneObject* child) {
+	children_.erase(
+		std::remove(children_.begin(), children_.end(), child),
+		children_.end()
+	);
+}

@@ -52,10 +52,6 @@ public: // public method
 	// Gizumo表示
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
-private: // private method
-
-	void AddComponent();
-
 public: // accessor method
 
 	template<class T>

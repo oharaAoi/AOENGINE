@@ -323,25 +323,3 @@ void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
 void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	transform_->Manipulate(windowSize, imagePos);
 }
-
-void AOENGINE::BaseGameObject::AddComponent() {
-	if (ImGui::Button("Add Component")) {
-		ImGui::OpenPopup("AddComponentPopup");
-	}
-
-	if (ImGui::BeginPopup("AddComponentPopup")) {
-		if (ImGui::BeginMenu("Physics")) {
-			if (ImGui::MenuItem("Box Collider")) {
-				SetCollider("Default", ColliderShape::AABB);
-			}
-			if (ImGui::MenuItem("Sphere Collider")) {
-				SetCollider("Default", ColliderShape::Sphere);
-			}
-			if (ImGui::MenuItem("Rigid Body")) {
-				SetPhysics();
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::EndPopup();
-	}
-}

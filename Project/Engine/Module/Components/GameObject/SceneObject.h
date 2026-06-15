@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <string>
 #include <cstdint>
 
@@ -18,9 +19,15 @@ public:
 	bool IsActive() const;
 	void SetActive(bool active);
 
+	void AddChild(SceneObject* child);
+	void DeleteChild(SceneObject* child);
+	bool HasChild() const { return !children_.empty(); }
+	const std::vector<SceneObject*>& GetChildren() const { return children_; }
+
 private:
 	ObjectHandle handle_;
 	std::string name_;
 	bool isActive_ = true;
+	std::vector<SceneObject*> children_;
 };
 }
