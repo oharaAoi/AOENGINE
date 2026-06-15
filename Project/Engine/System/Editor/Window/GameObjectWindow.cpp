@@ -1,17 +1,84 @@
 #include "GameObjectWindow.h"
+#include <algorithm>
 #include <sstream>
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistry.h"
+#include "Engine/System/Editor/Inspector/SpriteInspector.h"
+#include "Engine/System/Editor/Inspector/TextInspector.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
 using namespace AOENGINE;
+
+AttributeGuiSceneObject::AttributeGuiSceneObject(AOENGINE::AttributeGui* attribute)
+	: attribute_(attribute) {}
+
+void AttributeGuiSceneObject::Init() {
+	isDestroy_ = false;
+	SyncFromAttribute();
+}
+
+void AttributeGuiSceneObject::Update() {
+	SyncFromAttribute();
+}
+
+void AttributeGuiSceneObject::PostUpdate() {}
+
+void AttributeGuiSceneObject::PreDraw() const {}
+
+void AttributeGuiSceneObject::Draw() const {}
+
+void AttributeGuiSceneObject::Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) {}
+
+void AttributeGuiSceneObject::DrawInspector() {
+	if (!attribute_) {
+		ImGui::TextUnformatted("No attribute registered");
+		return;
+	}
+
+	if (AOENGINE::Text* text = dynamic_cast<AOENGINE::Text*>(attribute_)) {
+		AOENGINE::TextInspector::Draw(*text);
+		return;
+	}
+
+	if (AOENGINE::Sprite* sprite = dynamic_cast<AOENGINE::Sprite*>(attribute_)) {
+		AOENGINE::SpriteInspector::Draw(*sprite);
+		return;
+	}
+
+	attribute_->Debug_Gui();
+}
+
+void AttributeGuiSceneObject::SyncFromAttribute() {
+	if (!attribute_) {
+		return;
+	}
+
+	SetName(attribute_->GetName());
+	SetActive(attribute_->GetIsActive());
+}
+
+void AttributeGuiSceneObject::SetAttributeName(const std::string& name) {
+	SetName(name);
+	if (attribute_) {
+		attribute_->SetName(name);
+	}
+}
+
+void AttributeGuiSceneObject::SetAttributeActive(bool isActive) {
+	SetActive(isActive);
+	if (attribute_) {
+		attribute_->SetIsActive(isActive);
+	}
+}
 
 GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
 	selectedObjectHandle_ = ObjectHandle{};
+	registeredAttributes_.clear();
+	attributeObjectHandles_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,9 +86,80 @@ void GameObjectWindow::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameObjectWindow::AddAttributeGui(AOENGINE::AttributeGui* attribute, const std::string& label) {
-	if (attribute) {
-		attribute->SetName(label);
+	if (!attribute) {
+		return;
 	}
+
+	attribute->SetName(label);
+	if (!HasRegisteredAttribute(attribute)) {
+		registeredAttributes_.push_back(attribute);
+	}
+
+	EnsureAttributeGuiObjects();
+}
+
+void GameObjectWindow::SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) {
+	if (sceneRenderer_ != _renderer) {
+		attributeObjectHandles_.clear();
+	}
+
+	sceneRenderer_ = _renderer;
+	EnsureAttributeGuiObjects();
+}
+
+void GameObjectWindow::EnsureAttributeGuiObjects() {
+	if (!sceneRenderer_) {
+		return;
+	}
+
+	for (AOENGINE::AttributeGui* attribute : registeredAttributes_) {
+		EnsureAttributeGuiObjectRecursive(attribute, AOENGINE::ObjectHandle{});
+	}
+}
+
+AOENGINE::ObjectHandle GameObjectWindow::EnsureAttributeGuiObjectRecursive(AOENGINE::AttributeGui* attribute, const AOENGINE::ObjectHandle& parentHandle) {
+	if (!attribute || !sceneRenderer_) {
+		return AOENGINE::ObjectHandle{};
+	}
+
+	AttributeGuiSceneObject* attributeObject = nullptr;
+	AOENGINE::ObjectHandle handle{};
+
+	auto handleIt = attributeObjectHandles_.find(attribute);
+	if (handleIt != attributeObjectHandles_.end()) {
+		attributeObject = dynamic_cast<AttributeGuiSceneObject*>(sceneRenderer_->FindObject(handleIt->second));
+		if (attributeObject && attributeObject->GetAttribute() == attribute) {
+			handle = handleIt->second;
+			attributeObject->SyncFromAttribute();
+		}
+	}
+
+	if (!attributeObject) {
+		attributeObject = sceneRenderer_->GetSceneWorld().CreateObject<AttributeGuiSceneObject>(attribute->GetName(), attribute);
+		if (!attributeObject) {
+			attributeObjectHandles_.erase(attribute);
+			return AOENGINE::ObjectHandle{};
+		}
+
+		handle = attributeObject->GetHandle();
+		attributeObjectHandles_[attribute] = handle;
+	}
+
+	if (parentHandle.IsValid()) {
+		sceneRenderer_->SetParent(handle, parentHandle);
+	} else {
+		sceneRenderer_->MoveToRoot(handle);
+	}
+
+	for (AOENGINE::AttributeGui* child : attribute->GetChildren()) {
+		EnsureAttributeGuiObjectRecursive(child, handle);
+	}
+
+	return handle;
+}
+
+bool GameObjectWindow::HasRegisteredAttribute(AOENGINE::AttributeGui* attribute) const {
+	return std::find(registeredAttributes_.begin(), registeredAttributes_.end(), attribute) != registeredAttributes_.end();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,18 +235,35 @@ void GameObjectWindow::InspectorWindow() {
 	ImGui::Begin("Inspector");
 	SceneObject* selectedObject = GetSelectObject();
 	if (selectedObject != nullptr) {
-		bool isActive = selectedObject->IsActive();
+		AttributeGuiSceneObject* attributeObject = dynamic_cast<AttributeGuiSceneObject*>(selectedObject);
+
+		bool isActive = attributeObject && attributeObject->GetAttribute()
+			? attributeObject->GetAttribute()->GetIsActive()
+			: selectedObject->IsActive();
 		if (ImGui::Checkbox(" ", &isActive)) {
-			selectedObject->SetActive(isActive);
+			if (attributeObject) {
+				attributeObject->SetAttributeActive(isActive);
+			} else {
+				selectedObject->SetActive(isActive);
+			}
 		}
 		ImGui::SameLine();
-		std::string selectName = selectedObject->GetName();
+		std::string selectName = attributeObject && attributeObject->GetAttribute()
+			? attributeObject->GetAttribute()->GetName()
+			: selectedObject->GetName();
 		if (InputTextWithString("Name :", "##selectName", selectName)) {
-			selectedObject->SetName(MakeUniqueName(selectName, selectedObject));
+			const std::string uniqueName = MakeUniqueName(selectName, selectedObject);
+			if (attributeObject) {
+				attributeObject->SetAttributeName(uniqueName);
+			} else {
+				selectedObject->SetName(uniqueName);
+			}
 		}
 
 		ImGui::Separator();
-		if (!InspectorRegistry::GetInstance().DrawObject(*selectedObject)) {
+		if (attributeObject) {
+			attributeObject->DrawInspector();
+		} else if (!InspectorRegistry::GetInstance().DrawObject(*selectedObject)) {
 			ImGui::TextUnformatted("No inspector registered");
 		}
 	} else {
@@ -129,11 +284,12 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 	if (ImGui::Begin("Hierarchy", nullptr, window_flags)) {
 		// objectの追加表示
 		CreateNewObjectWindow();
+		EnsureAttributeGuiObjects();
 
 		if (sceneRenderer_) {
-			for (const ObjectHandle& handle : sceneRenderer_->GetObjectHandles()) {
+			for (const ObjectHandle& handle : sceneRenderer_->GetRootObjectHandles()) {
 				SceneObject* object = sceneRenderer_->FindObject(handle);
-				if (object && !IsChildObject(object)) {
+				if (object) {
 					DrawHierarchyObject(*object);
 				}
 			}
@@ -225,27 +381,6 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 	}
 
 	ImGui::TreePop();
-}
-
-bool AOENGINE::GameObjectWindow::IsChildObject(const SceneObject* object) const {
-	if (!sceneRenderer_ || !object) {
-		return false;
-	}
-
-	for (const ObjectHandle& handle : sceneRenderer_->GetObjectHandles()) {
-		SceneObject* parent = sceneRenderer_->FindObject(handle);
-		if (!parent) {
-			continue;
-		}
-
-		for (const SceneObject* child : parent->GetChildren()) {
-			if (child == object) {
-				return true;
-			}
-		}
-	}
-
-	return false;
 }
 
 bool AOENGINE::GameObjectWindow::IsSelected(const ObjectHandle& handle) const {

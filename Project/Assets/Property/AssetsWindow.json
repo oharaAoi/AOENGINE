@@ -1,8 +1,13 @@
 {
     "currentPath": {
-        "path": "./Project/Assets\\Engine\\Load\\Models\\Develop"
+        "path": "./Project/Assets"
     },
     "openDir": {
-        "./Project/Assets": false
+        "./Project/Assets": false,
+        "./Project/Assets\\Converter": true,
+        "./Project/Assets\\Converter\\ConvertedDDS": false,
+        "./Project/Assets\\Engine": false,
+        "./Project/Assets\\Game": false,
+        "./Project/Assets\\Property": false
     }
 }

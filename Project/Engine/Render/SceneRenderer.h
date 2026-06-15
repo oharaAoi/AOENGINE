@@ -1,73 +1,27 @@
 #pragma once
+
+#include <string>
+#include <type_traits>
 #include <utility>
-#include <memory>
-#include <list>
-#include <unordered_map>
 #include <vector>
-#include "Engine/System/Manager/ParticleManager.h"
-#include "Engine/System/Manager/GpuParticleManager.h"
-#include "Engine/Module/Components/GameObject/ISceneObject.h"
-#include "Engine/System/Scene/SceneLoader.h"
-#include "Engine/Utilities/Logger.h"
+
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
+#include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Scene/SceneLoader.h"
+#include "Engine/System/Scene/SceneWorld.h"
+#include "Engine/Utilities/Logger.h"
 
 namespace AOENGINE {
 
 /// <summary>
-/// Sceneのレンダリングを行うクラス
+/// SceneWorldが所有するオブジェクトを描画するクラス。
+/// SceneRenderer自身はオブジェクトを所有せず、描画に必要な設定だけをObjectHandleに紐づけて保持します。
 /// </summary>
 class SceneRenderer :
 	public AttributeGui {
-public:	// 構造体データ
-
-	/// <summary>
-	/// 描画対象ペアのインターフェース
-	/// </summary>
-	struct IObjectPair {
-		virtual ~IObjectPair() = default;
-		virtual AOENGINE::ISceneObject* GetSceneObject() = 0;
-		virtual const std::string& GetRenderingType() const = 0;
-		virtual void SetRenderingType(const std::string& name) = 0;
-		virtual int GetRenderQueue() const = 0;
-		virtual void SetRenderQueue(int num) = 0;
-
-		virtual bool GetPostDraw() const = 0;
-		virtual void SetPostDraw(bool _postDraw) = 0;
-	};
-
-	/// <summary>
-	/// Objectとレンダリング情報を結びつけたクラス
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	template <typename T>
-	/// <summary>
-	/// 描画対象のオブジェクトペア
-	/// </summary>
-	struct ObjectPair : IObjectPair {
-		std::unique_ptr<T> object;
-		std::string renderingType;
-		std::string objectName;
-		int renderQueue = 0;
-		bool isPostDraw = false;
-
-		ObjectPair(const std::string& _type, int _renderQueue, bool _isPostDraw, const std::string& _objName, std::unique_ptr<T> _obj)
-			: renderingType(_type), renderQueue(_renderQueue), isPostDraw(_isPostDraw), objectName(_objName), object(std::move(_obj)){
-		}
-
-		T* GetSceneObject() override { return object.get(); }
-
-		const std::string& GetRenderingType() const override { return renderingType; }
-		void SetRenderingType(const std::string& name) override { renderingType = name; }
-
-		int GetRenderQueue() const override { return renderQueue; }
-		void SetRenderQueue(int num) override { renderQueue = num; }
-
-		bool GetPostDraw() const override { return isPostDraw; }
-		void SetPostDraw(bool _postDraw) override { isPostDraw = _postDraw; }
-	};
-
 public:
-
 	SceneRenderer() = default;
 	~SceneRenderer() = default;
 	SceneRenderer(const SceneRenderer&) = delete;
@@ -76,7 +30,6 @@ public:
 	static SceneRenderer* GetInstance();
 
 public:
-
 	// 終了処理
 	void Finalize();
 	// 初期化処理
@@ -95,69 +48,46 @@ public:
 	void Debug_Gui() override;
 
 public:
-
 	/// <summary>
-	/// Objectを生成する
+	/// SceneLoaderのLevelDataからSceneWorldへオブジェクトを生成し、描画設定を登録します。
 	/// </summary>
-	/// <param name="loadData">: 生成データ</param>
 	void CreateObject(AOENGINE::SceneLoader::LevelData* loadData);
 
 	/// <summary>
-	/// 
+	/// ISceneObject派生オブジェクトをSceneWorldへ生成し、SceneRendererへ描画対象として登録します。
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <typeparam name="...Args"></typeparam>
-	/// <param name="objectName">: Objectの名前</param>
-	/// <param name="renderingName">: Pipelineの種類</param>
-	/// <param name="renderQueue">: レイヤーの値</param>
-	/// <param name="...args"></param>
-	/// <returns></returns>
 	template<typename T, typename... Args>
 	T* AddObject(const std::string& objectName, const std::string& renderingName, int renderQueue = 0, bool isPostDraw = false, Args&&... args) {
 		static_assert(std::is_base_of<AOENGINE::ISceneObject, T>::value, "T must derive from ISceneObject");
 
-		auto pair = std::make_unique<ObjectPair<T>>(
-			renderingName,
-			renderQueue,
-			isPostDraw,
-			objectName,
-			std::make_unique<T>(std::forward<Args>(args)...)
-		);
-		T* gameObject = static_cast<T*>(pair->object.get());
-		pair->object->Init();
-		pair->object->SetName(objectName);
-		pair->object->SetHandle(AllocateObjectHandle());
-
-		auto& newObject = objectList_.emplace_back(std::move(pair));
-		if (isPostDraw) {
-			postDrawObjectList_.emplace_back(newObject.get());
+		T* gameObject = sceneWorld_.CreateObject<T>(objectName, std::forward<Args>(args)...);
+		if (!gameObject) {
+			return nullptr;
 		}
 
+		AddRenderEntry(gameObject->GetHandle(), renderingName, renderQueue, isPostDraw);
 		return gameObject;
 	}
 
 	/// <summary>
-	/// Objectを解放する
+	/// Objectを解放します。子階層もSceneWorld側でまとめて破棄されます。
 	/// </summary>
-	/// <param name="objPtr">: 解放するobjectの種類</param>
 	void ReleaseObject(AOENGINE::ISceneObject* objPtr);
 
 	/// <summary>
-	/// Renderingのタイプを変更する
+	/// 指定オブジェクトの描画Pipelineを変更します。
 	/// </summary>
-	/// <param name="renderingName">: 変更後のレンダリングのタイプ</param>
-	/// <param name="gameObject">: 変更するobjectのポインタ</param>
 	void ChangeRenderingType(const std::string& renderingName, AOENGINE::ISceneObject* gameObject);
 
 public:
-
 	template<typename T>
 	T* GetGameObject(const std::string& _objName) {
 		static_assert(std::is_base_of<AOENGINE::ISceneObject, T>::value, "T must derive from ISceneObject");
 
-		for (auto& pair : objectList_) {
-			if (pair->GetSceneObject()->GetName() == _objName) {
-				return dynamic_cast<T*>(pair->GetSceneObject());  // 安全にキャスト
+		for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+			AOENGINE::ISceneObject* object = sceneWorld_.FindObjectAs<AOENGINE::ISceneObject>(handle);
+			if (object && object->GetName() == _objName) {
+				return dynamic_cast<T*>(object);
 			}
 		}
 
@@ -169,9 +99,10 @@ public:
 
 	template<typename T>
 	T* GetGameObject(T* _ptr) {
-		for (auto& pair : objectList_) {
-			if (pair->GetSceneObject() == _ptr) {
-				return dynamic_cast<T*>(pair->GetSceneObject());  // 安全にキャスト
+		for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+			AOENGINE::ISceneObject* object = sceneWorld_.FindObjectAs<AOENGINE::ISceneObject>(handle);
+			if (object == _ptr) {
+				return dynamic_cast<T*>(object);
 			}
 		}
 		return nullptr;
@@ -180,24 +111,42 @@ public:
 	void SetRenderingQueue(const std::string& objName, int num);
 
 	std::vector<ObjectHandle> GetObjectHandles() const;
+	std::vector<ObjectHandle> GetRootObjectHandles() const;
+
 	AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle);
 	const AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle) const;
 
+	bool SetParent(const ObjectHandle& child, const ObjectHandle& parent);
+	bool AddChild(const ObjectHandle& parent, const ObjectHandle& child);
+	bool RemoveChild(const ObjectHandle& parent, const ObjectHandle& child);
+	bool MoveToRoot(const ObjectHandle& handle);
+	void DestroyObject(const ObjectHandle& handle);
+
+	SceneWorld& GetSceneWorld() { return sceneWorld_; }
+	const SceneWorld& GetSceneWorld() const { return sceneWorld_; }
+
 private:
+	struct RenderEntry {
+		ObjectHandle handle;
+		std::string renderingType;
+		int renderQueue = 0;
+		bool isPostDraw = false;
+	};
 
-	ObjectHandle AllocateObjectHandle();
-	void ReleaseObjectHandle(const ObjectHandle& handle);
+	void AddRenderEntry(const ObjectHandle& handle, const std::string& renderingName, int renderQueue, bool isPostDraw);
+	void RemoveRenderEntry(const ObjectHandle& handle);
+	void RemoveInvalidRenderEntries();
 
-	std::list<std::unique_ptr<IObjectPair>> objectList_;
-	std::list<IObjectPair*> postDrawObjectList_;
-	std::list<std::unique_ptr<IObjectPair>> spriteObjectList_;
+	AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry);
+	const AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry) const;
 
-	uint32_t nextObjectIndex_ = 0;
-	std::vector<uint32_t> reusableObjectIndices_;
-	std::unordered_map<uint32_t, uint32_t> objectGenerations_;
+	ObjectHandle CreateObjectRecursive(const AOENGINE::SceneLoader::Objects& data, const ObjectHandle& parent);
 
-	AOENGINE::ParticleManager* particleManager_;
-	AOENGINE::GpuParticleManager* gpuParticleManager_;
+private:
+	SceneWorld sceneWorld_;
+	std::vector<RenderEntry> renderEntries_;
 
+	AOENGINE::ParticleManager* particleManager_ = nullptr;
+	AOENGINE::GpuParticleManager* gpuParticleManager_ = nullptr;
 };
 }

@@ -58,7 +58,17 @@ void LightGroup::BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* com
 }
 
 void LightGroup::Debug_Gui() {
+	if (directionalLight_ && ImGui::CollapsingHeader("Directional Light")) {
+		directionalLight_->Debug_Gui();
+	}
 
+	if (pointLight_ && ImGui::CollapsingHeader("Point Light")) {
+		pointLight_->Debug_Gui();
+	}
+
+	if (spotLight_ && ImGui::CollapsingHeader("Spot Light")) {
+		spotLight_->Debug_Gui();
+	}
 }
 
 void LightGroup::Load() {

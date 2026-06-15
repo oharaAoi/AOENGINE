@@ -1,10 +1,13 @@
 #include "ModelInspector.h"
-#include "ModelInspector.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Asset/AssetHandle.h"
 
 using namespace AOENGINE;
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Model参照を表示・差し替えするInspectorを描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ModelInspector::Draw(BaseGameObject& object) {
     if (!ImGui::CollapsingHeader("Model")) {
@@ -39,7 +42,7 @@ void AOENGINE::ModelInspector::Draw(BaseGameObject& object) {
 
     const char* previewName = currentModel ? currentModel->GetName().c_str() : "None";
 
-    if (ImGui::BeginCombo("Model", previewName)) {
+    if (ImGui::BeginCombo("Model Combo", previewName)) {
         for (const std::string& modelName : modelNames) {
             bool selected = currentModel && currentModel->GetName() == modelName;
 

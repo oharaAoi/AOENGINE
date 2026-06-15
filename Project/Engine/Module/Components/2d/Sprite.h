@@ -239,6 +239,8 @@ public: // accessor
 	/// <param name="size"></param>
 	void ReSetTextureSize(const Math::Vector2& size);
 
+	void ResetTextureSize();
+
 	// 描画する範囲の設定
 	void SetDrawRange(const Math::Vector2& rectRange) { drawRange_ = rectRange; };
 	// 描画する範囲の設定
@@ -254,6 +256,9 @@ public: // accessor
 	void SetColor(const AOENGINE::Color& color) { materialData_->color = color; };
 	void SetIsFlipX(bool isFlipX) { isFlipX_ = isFlipX; }
 	void SetIsFlipY(bool isFlipY) { isFlipY_ = isFlipY; }
+	void SetBlendMode(Blend::BlendMode blendMode);
+	void SetSpritePsoName(const std::string& psoName) { saveParam_.psoName = psoName; }
+	void SetUvTransform(const Math::SRT& uvTransform) { uvTransform_ = uvTransform; }
 
 	/// <summary>
 	/// UVを直接する
@@ -269,10 +274,22 @@ public: // accessor
 	const Math::Vector2 GetScale() const { return transform_->GetScale(); }
 	const float GetRotate() const { return transform_->GetRotateZ(); }
 	const Math::Vector2 GetSpriteSize() const { return spriteSize_; }
+	const Math::Vector2& GetTextureSize() const { return textureSize_; }
+	const Math::Vector2& GetDrawRange() const { return drawRange_; }
+	const Math::Vector2& GetLeftTop() const { return leftTop_; }
+	const Math::Vector2& GetAnchorPoint() const { return anchorPoint_; }
 	const bool GetIsFlipX() const { return isFlipX_; }
 	const bool GetIsFlipY() const { return isFlipY_; }
 
 	const AOENGINE::Color& GetColor() const { return materialData_->color; }
+	const std::string& GetTextureName() const { return textureName_; }
+	Blend::BlendMode GetBlendMode() const { return blendMode_; }
+	const std::string& GetSpritePsoName() const { return saveParam_.psoName; }
+	const Math::SRT& GetUvTransform() const { return uvTransform_; }
+	Math::Vector2 GetUvMinSize() const;
+	Math::Vector2 GetUvMaxSize() const;
+	AOENGINE::ArcGaugeParam GetArcGaugeParam() const;
+	void SetArcGaugeParam(const AOENGINE::ArcGaugeParam& parameter);
 
 	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
 	bool GetIsDestroy() const { return isDestroy_; }
@@ -284,9 +301,16 @@ public: // accessor
 
 	void SetFillMethod(FillMethod _method) { fillMethod_ = _method; }
 	void SetFillStartingPoint(FillStartingPoint _point) { fillStartingPoint_ = _point; }
+	FillMethod GetFillMethod() const { return fillMethod_; }
+	FillStartingPoint GetFillStartingPoint() const { return fillStartingPoint_; }
 
 	void SetRenderQueue(int renderQueue) { renderQueue_ = renderQueue; }
 	int GetRenderQueue() const { return renderQueue_; }
+
+	void SetSaveGroupName(const std::string& groupName) { saveGroupName_ = groupName; }
+	const std::string& GetSaveGroupName() const { return saveGroupName_; }
+	void SetSaveKeyName(const std::string& keyName) { saveKeyName_ = keyName; }
+	const std::string& GetSaveKeyName() const { return saveKeyName_; }
 
 	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
 

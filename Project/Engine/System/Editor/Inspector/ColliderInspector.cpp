@@ -5,6 +5,9 @@
 
 namespace {
 
+/// <summary>
+/// Colliderのvariant形状から表示名を取得する。
+/// </summary>
 const char* GetColliderShapeName(const AOENGINE::BaseCollider& collider) {
 	const auto& shape = collider.GetShape();
 	if (std::holds_alternative<Math::Sphere>(shape)) {
@@ -23,6 +26,10 @@ const char* GetColliderShapeName(const AOENGINE::BaseCollider& collider) {
 }
 
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Collider一覧のInspectorを描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ColliderInspector::Draw(BaseGameObject& object) {
 	if (!ImGui::CollapsingHeader("Colliders")) {

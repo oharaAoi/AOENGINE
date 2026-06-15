@@ -4,10 +4,14 @@
 namespace AOENGINE {
 
 /// <summary>
-/// Inspector for editing materials owned by BaseGameObject.
+/// BaseGameObjectが所有するMaterial一覧を編集するInspector。
 /// </summary>
 class MaterialInspector {
 public:
+	/// <summary>
+	/// Material一覧を折りたたみ項目として描画する。
+	/// </summary>
+	/// <param name="object">Materialを所有するBaseGameObject。</param>
 	static void Draw(BaseGameObject& object);
 };
 

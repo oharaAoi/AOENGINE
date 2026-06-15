@@ -5,6 +5,10 @@
 #include "RigidBodyInspector.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// BaseGameObject全体のInspectorを描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void AOENGINE::BaseGameObjectInspector::Draw(BaseGameObject& object) {
 	bool enableShadow = object.GetEnableShadow();
 	if (ImGui::Checkbox("enableShadow", &enableShadow)) {
@@ -29,6 +33,10 @@ void AOENGINE::BaseGameObjectInspector::Draw(BaseGameObject& object) {
 	ImGui::Separator();
 	DrawAddComponent(object);
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// Component追加メニューを描画する
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object) {
 	if (ImGui::Button("Add Component")) {

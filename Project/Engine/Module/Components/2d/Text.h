@@ -68,11 +68,18 @@ public:
 	void SetFontSize(float fontSize);
 	void SetTextColor(const AOENGINE::Color& color);
 	void SetTextAnchorPoint(const Math::Vector2& anchorPoint);
+	void RequestRebuild() { isTextDirty_ = true; }
 
 	const std::string& GetText() const { return text_; }
 	const std::string& GetFontPath() const { return fontPath_; }
 	float GetFontSize() const { return fontSize_; }
 	const AOENGINE::Color& GetTextColor() const { return color_; }
+	const Math::Vector2& GetTextAnchorPoint() const { return anchorPoint_; }
+
+	void SetSaveGroupName(const std::string& groupName) { saveGroupName_ = groupName; }
+	const std::string& GetSaveGroupName() const { return saveGroupName_; }
+	void SetSaveKeyName(const std::string& keyName) { saveKeyName_ = keyName; }
+	const std::string& GetSaveKeyName() const { return saveKeyName_; }
 
 private:
 	void RebuildTexture();

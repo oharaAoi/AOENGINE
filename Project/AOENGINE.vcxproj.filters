@@ -762,6 +762,12 @@
     <ClInclude Include="Engine\System\Editor\Inspector\RigidBodyInspector.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\SpriteInspector.h">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\TextInspector.h">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
@@ -856,6 +862,9 @@
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Scene\SceneWorld.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h">
@@ -1071,6 +1080,7 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1565,6 +1575,12 @@
     <ClCompile Include="Engine\System\Editor\Inspector\RigidBodyInspector.cpp">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\SpriteInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\TextInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>
@@ -1659,6 +1675,9 @@
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Scene\SceneWorld.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp">
@@ -1842,5 +1861,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
   </ItemGroup>
 </Project>

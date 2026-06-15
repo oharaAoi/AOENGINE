@@ -172,6 +172,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
     <ClInclude Include="Engine\Module\Components\2d\Text.h" />
+    <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationStructures.h" />
@@ -286,6 +287,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\RigidBodyInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\SpriteInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\TextInspector.h" />
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindowSerializer.h" />
@@ -318,6 +321,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneWorld.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.h" />
@@ -443,6 +447,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\Animator.cpp" />
@@ -555,6 +560,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\RigidBodyInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\SpriteInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\TextInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindowSerializer.cpp" />
@@ -587,6 +594,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneWorld.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\BaseShaderGraphNode.cpp" />

@@ -10,6 +10,29 @@
 
 using namespace AOENGINE;
 
+namespace {
+
+const char* GetSpriteBlendName(Blend::BlendMode blendMode) {
+	switch (blendMode) {
+	case Blend::BlendMode::None:
+		return "None";
+	case Blend::BlendMode::Normal:
+		return "Normal";
+	case Blend::BlendMode::Add:
+		return "Add";
+	case Blend::BlendMode::Subtract:
+		return "Subtract";
+	case Blend::BlendMode::Multiply:
+		return "Multiply";
+	case Blend::BlendMode::Screen:
+		return "Screen";
+	default:
+		return "Normal";
+	}
+}
+
+}
+
 Sprite::Sprite() {}
 Sprite::~Sprite() {
 	vertexData_ = nullptr;
@@ -225,6 +248,36 @@ void Sprite::ReSetTexture(const std::string& fileName) {
 
 void Sprite::ReSetTextureSize(const Math::Vector2& size) {
 	spriteSize_ = size;
+}
+
+void Sprite::ResetTextureSize() {
+	textureSize_ = AOENGINE::TextureManager::GetInstance()->GetTextureSize(textureName_);
+	spriteSize_ = textureSize_;
+	drawRange_ = spriteSize_;
+	leftTop_ = { 0.0f, 0.0f };
+}
+
+void Sprite::SetBlendMode(Blend::BlendMode blendMode) {
+	blendMode_ = blendMode;
+	saveParam_.psoName = std::string("Sprite_") + GetSpriteBlendName(blendMode_) + ".json";
+}
+
+Math::Vector2 Sprite::GetUvMinSize() const {
+	return materialData_ ? materialData_->uvMinSize : Math::Vector2{};
+}
+
+Math::Vector2 Sprite::GetUvMaxSize() const {
+	return materialData_ ? materialData_->uvMaxSize : Math::Vector2{};
+}
+
+AOENGINE::ArcGaugeParam Sprite::GetArcGaugeParam() const {
+	return arcData_ ? *arcData_ : AOENGINE::ArcGaugeParam{};
+}
+
+void Sprite::SetArcGaugeParam(const AOENGINE::ArcGaugeParam& parameter) {
+	if (arcData_) {
+		*arcData_ = parameter;
+	}
 }
 
 void Sprite::FillAmount(float amount) {
