@@ -277,6 +277,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h" />
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindowSerializer.h" />
@@ -537,6 +540,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindowSerializer.cpp" />

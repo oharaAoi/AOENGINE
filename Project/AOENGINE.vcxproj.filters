@@ -154,6 +154,9 @@
     <Filter Include="Engine\System\Editor">
       <UniqueIdentifier>{E55CE22E-D1EB-6BF8-7A0A-80F366787C9E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\Editor\Inspector">
+      <UniqueIdentifier>{A32EC145-2219-4CB2-9B78-A19D521D62C7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
@@ -732,6 +735,9 @@
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h">
       <Filter>Engine\System\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
@@ -1041,6 +1047,8 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1508,6 +1516,9 @@
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp">
       <Filter>Engine\System\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>
@@ -1785,5 +1796,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp" />
   </ItemGroup>
 </Project>
