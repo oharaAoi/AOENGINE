@@ -1,0 +1,49 @@
+#include "TimeNode.h"
+#include "Engine/Lib/GameTimer.h"
+#include <cmath>
+
+using namespace AOENGINE;
+
+TimeNode::TimeNode() {
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化関数
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TimeNode::Init() {
+    time_ = 0;
+    sineTime_ = 0;
+
+    auto timeOut = addOUT<float>("time", ImFlow::PinStyle::green());
+    timeOut->behaviour([this]() { return time_; });
+
+    auto sineTimeOut = addOUT<float>("sineTime", ImFlow::PinStyle::green());
+    sineTimeOut->behaviour([this]() { return sineTime_; });
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新関数
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TimeNode::customUpdate() {
+    time_ += AOENGINE::GameTimer::DeltaTime();
+    sineTime_ = std::sinf(time_);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ node描画
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void TimeNode::draw() {
+}
+
+nlohmann::json TimeNode::toJson() {
+    nlohmann::json result;
+    BaseInfoToJson(result);
+    return result;
+}
+
+void TimeNode::fromJson(const nlohmann::json& _json) {
+    BaseInfoFromJson(_json);
+}

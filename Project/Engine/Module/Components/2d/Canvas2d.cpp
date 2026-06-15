@@ -1,0 +1,197 @@
+#include "Canvas2d.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Utilities/Logger.h"
+#include "Engine/Lib/Json/JsonSerializer.h"
+#include "Engine/Lib/Path.h"
+
+using namespace AOENGINE;
+
+AOENGINE::Canvas2d::~Canvas2d() {
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Init() {
+	ClearChild();
+	spriteList_.clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Update() {
+	// 生存確認
+	for (auto it = spriteList_.begin(); it != spriteList_.end(); ) {
+		if ((*it)->GetIsDestroy()) {
+			it = spriteList_.erase(it);
+		} else {
+			++it;
+		}
+	}
+
+	// ソートを行う
+	spriteList_.sort([](const std::unique_ptr<Sprite>& a, const std::unique_ptr<Sprite>& b) {
+		return a->GetRenderQueue() < b->GetRenderQueue();
+					 });
+
+	// 更新処理
+	for (auto& it : spriteList_) {
+		if (it->GetIsActive()) {
+			it->Update();
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　描画処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Draw() const {
+	for (const auto& it : spriteList_) {
+		if (it->GetIsActive()) {
+			it->Draw();
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
+	for (const auto& it : spriteList_) {
+		if (it->GetIsActive()) {
+			it->GetTransform()->Manipulate(windowSize, imagePos);
+		}
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　編集処理 w
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Debug_Gui() {
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　追加処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& textureName, const std::string& attributeName, int renderQueue) {
+	auto& newObj = spriteList_.emplace_back(std::make_unique<Sprite>());
+	newObj->Init(textureName);
+	newObj->SetName(attributeName);
+	newObj->SetRenderQueue(renderQueue);
+	AddChild(newObj.get());
+	return newObj.get();
+}
+
+Text* AOENGINE::Canvas2d::AddText(const std::string& attributeName, const std::string& text, int renderQueue) {
+	auto& newObj = spriteList_.emplace_back(std::make_unique<Text>());
+	Text* newText = static_cast<Text*>(newObj.get());
+	newText->Init(text);
+	newText->SetName(attributeName);
+	newText->SetRenderQueue(renderQueue);
+	AddChild(newText);
+	return newText;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　Spriteの取得
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+AOENGINE::Sprite* AOENGINE::Canvas2d::GetSprite(const std::string& spriteName) {
+	for (auto& sprite : spriteList_) {
+		if (sprite->GetName() == spriteName) {
+			return sprite.get();
+		}
+	}
+	return nullptr;
+}
+
+AOENGINE::Text* AOENGINE::Canvas2d::GetText(const std::string& textName) {
+	for (auto& sprite : spriteList_) {
+		if (sprite->GetName() == textName && std::string(sprite->GetCanvasItemType()) == "Text") {
+			return dynamic_cast<Text*>(sprite.get());
+		}
+	}
+	return nullptr;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　リサイズ処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::ResizeSprite() {
+	for (const auto& it : spriteList_) {
+		it->Resize();
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
+	json sceneData;
+	for (const auto& it : spriteList_) {
+		Sprite* sprite = it.get();
+		std::string spriteName = sprite->GetName();
+
+		// dataの保存
+		sprite->Save(sceneName + "_Canvas2d", spriteName);
+
+		sceneData[sceneName].push_back({
+			{"name", spriteName},
+			{"type", sprite->GetCanvasItemType()}
+									   });
+	}
+
+	bool result = AOENGINE::JsonSerializer::Save(kAssetPath + "/Game/GameData/JsonItems/" + sceneName + "/", "canvas",  sceneData);
+	if (result) {
+		AOENGINE::Logger::Log("Save_Canvas");
+	} else {
+		AOENGINE::Logger::AssertLog("Do Not Save Canvas");
+	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込みm処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void AOENGINE::Canvas2d::Load(const std::string& sceneName) {
+	json sceneData = AOENGINE::JsonSerializer::Load(kAssetPath + "/Game/GameData/JsonItems/" + sceneName + "/", "canvas");
+
+	if (sceneData.empty()) {
+		return;
+	}
+
+	for (const auto& item : sceneData[sceneName]) {
+		std::string name;
+		std::string type = "Sprite";
+		if (item.is_string()) {
+			name = item.get<std::string>();
+		} else {
+			if (item.contains("name")) {
+				name = item.at("name").get<std::string>();
+			}
+			if (item.contains("type")) {
+				type = item.at("type").get<std::string>();
+			}
+		}
+		if (name.empty()) {
+			continue;
+		}
+
+		Sprite* sprite = nullptr;
+		if (type == "Text") {
+			sprite = AddText(name);
+		} else {
+			sprite = AddSprite("white.png", name);
+		}
+		sprite->Load(sceneName + "_Canvas2d", name);
+	}
+}

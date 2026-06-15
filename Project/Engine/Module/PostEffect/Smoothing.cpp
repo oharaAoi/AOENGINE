@@ -1,0 +1,87 @@
+#include "Smoothing.h"
+#include "Engine/Core/Engine.h"
+
+using namespace AOENGINE;
+using namespace PostEffect;
+
+Smoothing::~Smoothing() {
+	settingBuffer_->Destroy();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Smoothing::Init() {
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
+	settingBuffer_ = graphicsCtx->CreateDxResource(ResourceType::Common);
+	settingBuffer_->CreateResource(sizeof(Setting));
+	settingBuffer_->GetResource()->Map(0, nullptr, reinterpret_cast<void**>(&setting_));
+
+	setting_->size = 5;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Smoothing::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) {
+	ApplySaveSettings();
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Smoothing.json");
+	Pipeline* pso = Engine::GetLastUsedPipeline();
+	UINT index = pso->GetRootSignatureIndex("gTexture");
+	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
+	index = pso->GetRootSignatureIndex("gSmoothSetting");
+	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
+	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ チェックボックスの表示
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Smoothing::CheckBox() {
+	ImGui::Checkbox("Smoothing##Smoothing_checkbox", &isEnable_);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存項目の適応
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Smoothing::ApplySaveSettings() {
+	setting_->size = saveSettings_.size;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Smoothing::Save(const std::string& rootField) {
+	saveSettings_.isEnable = isEnable_;
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Save();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Smoothing::Load(const std::string& rootField) {
+	saveSettings_.SetRootField(rootField);
+	saveSettings_.Load();
+	isEnable_ = saveSettings_.isEnable;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PostEffect::Smoothing::Debug_Gui() {
+	if (ImGui::CollapsingHeader("Smoothing##Smoothing_Header")) {
+		saveSettings_.Debug_Gui();
+	}
+}
+
+void PostEffect::Smoothing::SaveSettings::Debug_Gui() {
+	ImGui::DragScalar("size", ImGuiDataType_U32, &size, 1, 0);
+}

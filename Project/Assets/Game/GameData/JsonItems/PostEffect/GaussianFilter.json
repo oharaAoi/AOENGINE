@@ -1,0 +1,7 @@
+{
+    "GaussianFilter": {
+        "deviation": 1.0,
+        "isEnable": false,
+        "size": 1
+    }
+}

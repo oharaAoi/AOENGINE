@@ -1,0 +1,89 @@
+#pragma once
+#include "Engine/WinApp/WinApp.h"
+#include "Engine/DirectX/DirectXCommon/DirectXCommon.h"
+#include "Engine/DirectX/DirectXDevice/DirectXDevice.h"
+#include "Engine/DirectX/DirectXCommands/DirectXCommands.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
+#include "Engine/DirectX/RTV/RenderTarget.h"
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
+#include "Engine/DirectX/Pipeline/Graphics/GraphicsPipelines.h"
+#include "Engine/DirectX/Pipeline/Graphics/PrimitivePipeline.h"
+
+namespace AOENGINE {
+
+/// <summary>
+/// DirectX関連のクラスのポインタをまとめたクラス
+/// </summary>
+class GraphicsContext {
+public:
+
+	GraphicsContext() = default;
+	~GraphicsContext() = default;
+	GraphicsContext(const GraphicsContext&) = delete;
+	const GraphicsContext& operator=(const GraphicsContext&) = delete;
+
+	static GraphicsContext* GetInstance();
+
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="win">: winApp</param>
+	/// <param name="backBufferWidth">: 画面横幅</param>
+	/// <param name="backBufferHeight">: 画面縦幅</param>
+	void Init(AOENGINE::WinApp* _win, int32_t _backBufferWidth, int32_t _backBufferHeight);
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
+
+	AOENGINE::DxResource* CreateDxResource(ResourceType _type);
+
+	void ResizeBuffer();
+
+public:
+
+	DirectXCommon* GetDxCommon() { return dxCommon_.get(); }
+
+	ID3D12Device* GetDevice() { return dxDevice_->GetDevice(); }
+
+	ID3D12GraphicsCommandList* GetCommandList() { return dxCommands_->GetCommandList(); }
+
+	AOENGINE::DxResourceManager* GetDxResourceManager() { return dxResourceManager_.get(); }
+
+	DirectXCompiler* GetDxCompiler() { return dxCompiler_.get(); }
+
+	DescriptorHeap* GetDxHeap() { return descriptorHeap_.get(); }
+
+	GraphicsPipelines* GetGraphicsPipeline() { return graphicsPipelines_.get(); }
+
+	PrimitivePipeline* GetPrimitivePipeline() { return primitivePipeline_.get(); }
+
+	AOENGINE::RenderTarget* GetRenderTarget() { return renderTarget_.get(); }
+
+private:
+
+	// dxCommon
+	std::unique_ptr<DirectXCommon> dxCommon_ = nullptr;
+	// dxDevice
+	std::shared_ptr<DirectXDevice> dxDevice_ = nullptr;
+	// descriptorHeap
+	std::unique_ptr<DescriptorHeap> descriptorHeap_ = nullptr;
+	// dxResourceManager
+	std::unique_ptr<AOENGINE::DxResourceManager> dxResourceManager_ = nullptr;
+	// dxCommand
+	std::unique_ptr<DirectXCommands> dxCommands_ = nullptr;
+	// renderTarget
+	std::shared_ptr<AOENGINE::RenderTarget> renderTarget_ = nullptr;
+	// dxCompiler
+	std::unique_ptr<DirectXCompiler> dxCompiler_ = nullptr;
+	// pipeline
+	std::unique_ptr<GraphicsPipelines> graphicsPipelines_ = nullptr;
+	std::unique_ptr<PrimitivePipeline> primitivePipeline_ = nullptr;
+
+};
+
+}

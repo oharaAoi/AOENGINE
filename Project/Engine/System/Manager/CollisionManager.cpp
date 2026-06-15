@@ -1,0 +1,208 @@
+#include "CollisionManager.h"
+#include "Engine/Module/Components/Collider/CollisionFunctions.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
+#include "Engine/System/Collision/PenetrationResolution.h"
+#include "Engine/Utilities/BitChecker.h"
+
+using namespace AOENGINE;
+
+CollisionManager::CollisionManager() {}
+CollisionManager::~CollisionManager() {
+	Finalize();
+}
+
+void CollisionManager::Finalize() {
+	pColliderCollector_->Reset();
+	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
+	layers.Clear();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::Init() {
+	pColliderCollector_ = ColliderCollector::GetInstance();
+	pColliderCollector_->Init();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　すべての当たり判定チェック
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::CheckAllCollision() {
+	
+	std::list<BaseCollider*>& colliderList = pColliderCollector_->GetColliderList();
+
+	// リスト内のペアの総当たり判定
+	std::list<BaseCollider*>::iterator iterA = colliderList.begin();
+	for (; iterA != colliderList.end(); ++iterA) {
+		BaseCollider* colliderA = *iterA;
+
+		// 非アクティブなら次の要素に
+		if (!colliderA->GetIsActive()) {
+			continue;
+		}
+
+		// イテレータBはイテレータAの次の要素から回す
+		std::list<BaseCollider*>::iterator iterB = iterA;
+		iterB++;
+
+		for (; iterB != colliderList.end(); ++iterB) {
+			BaseCollider* colliderB = *iterB;
+
+			// 非アクティブなら次の要素に
+			if (!colliderB->GetIsActive()) {
+				continue;
+			}
+
+			// マスク処理を行う
+			if (colliderA->GetCategoryName() != "Default" && colliderB->GetCategoryName() != "Default") {
+				if (!HasBit(colliderA->GetCollisionMaskBit(), colliderB->GetLayerBit())) {
+					continue;
+				}
+			}
+			
+			// ペアの当たり判定
+			CheckCollisionPair(colliderA, colliderB);
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　コライダー2つの衝突判定と応答
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::CheckCollisionPair(BaseCollider* colliderA, BaseCollider* colliderB) {
+	if (CheckCollision(colliderA->GetShape(), colliderB->GetShape())) {
+		// Colliderの状態を変化させる
+		colliderA->SwitchCollision(colliderB);
+		colliderB->SwitchCollision(colliderA);
+
+		OnCollision(colliderA, colliderB);
+
+		// 汎用の当たり判定後処理
+		colliderA->OnCollision(colliderB);
+		colliderB->OnCollision(colliderA);
+
+		if (colliderA->GetIsTrigger() || colliderB->GetIsTrigger()) {
+			return;
+		}
+
+		if (!colliderA->GetIsStatic()) {
+			colliderA->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+		}
+
+		if (!colliderB->GetIsStatic()) {
+			colliderB->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+		}
+		
+	} else {
+		ExitCollision(colliderA, colliderB);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ペアを作成する
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::MakeCollisionPair(uint32_t bitA, uint32_t bitB, const CallBackKinds& callBacks) {
+	callBackFunctions_[CollisionPair(bitA, bitB)] = callBacks;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突している時に行う関数
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::OnCollision(BaseCollider* colliderA, BaseCollider* colliderB) {
+	// ペアを作成する
+	auto pair = CollisionPair(colliderA->GetLayerBit(), colliderB->GetLayerBit());
+	auto reversePair = CollisionPair(colliderB->GetLayerBit(), colliderA->GetLayerBit());
+
+	// ペアがマップに存在するかを確認
+	bool isReverse = false;
+	auto it = callBackFunctions_.find(pair);
+	auto reverseIt = callBackFunctions_.find(reversePair);
+
+	if (it == callBackFunctions_.end()) {
+		isReverse = true;
+		if (reverseIt == callBackFunctions_.end()) {
+			return;
+		}
+	}
+	
+	std::pair<BaseCollider*, BaseCollider*> collisionPair;
+	CallBackKinds callbacks;
+	if (isReverse) {
+		callbacks = reverseIt->second;
+		collisionPair.first = colliderB;
+		collisionPair.second = colliderA;
+	} else {
+		callbacks = it->second;
+		collisionPair.first = colliderA;
+		collisionPair.second = colliderB;
+	}
+
+	switch (collisionPair.first->GetCollisionState()) {
+	case (int)CollisionFlags::Enter:
+		if (callbacks.enter) {
+			callbacks.enter(collisionPair.first, collisionPair.second);
+		}
+		break;
+	case (int)CollisionFlags::Stay:
+		if (callbacks.stay) {
+			callbacks.stay(collisionPair.first, collisionPair.second);
+		}
+		break;
+	default:
+		break;
+	}
+
+	switch (collisionPair.second->GetCollisionState()) {
+	case (int)CollisionFlags::Enter:
+		if (callbacks.enter) {
+			callbacks.enter(collisionPair.first, collisionPair.second);
+		}
+		break;
+	case (int)CollisionFlags::Stay:
+		if (callbacks.stay) {
+			callbacks.stay(collisionPair.first, collisionPair.second);
+		}
+		break;
+	default:
+		break;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　衝突しなくなった瞬間に行う関数
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+void CollisionManager::ExitCollision(BaseCollider* colliderA, BaseCollider* colliderB) {
+	// 衝突している状態だったら脱出した状態にする
+	for (auto collider : { colliderA, colliderB }) {
+		if (collider->GetCollisionState() == (int)CollisionFlags::Stay) {
+			collider->SetCollisionState((int)CollisionFlags::Exit);
+		} else {
+			collider->SetCollisionState((int)CollisionFlags::None);
+			collider->DeletePartner(colliderA == collider ? colliderB : colliderA);
+		}
+	}
+}
+
+void CollisionManager::CallBackCollision(BaseCollider* colliderA, BaseCollider* colliderB, CallBackKinds callBack) {
+	switch (colliderA->GetCollisionState()) {
+	case (int)CollisionFlags::Enter:
+		if (callBack.enter) {
+			callBack.enter(colliderA, colliderB);
+		}
+		break;
+	case (int)CollisionFlags::Stay:
+		if (callBack.stay) {
+			callBack.stay(colliderA, colliderB);
+		}
+		break;
+	default:
+		break;
+	}
+}

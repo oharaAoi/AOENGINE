@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/PostEffect/ProcessedScene.VS.hlsl",
+        "ps": "/Engine/HLSL/PostEffect/GlitchNoise.PS.hlsl",
+        "blendMode": "None",
+        "cullingType" : "BACK",
+        "depth" : false,
+        "rtvFormat" : [
+            "16_RGB"
+        ]
+    }
+}

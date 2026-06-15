@@ -1,0 +1,42 @@
+#include "SpritePipelines.h"
+
+namespace AOENGINE {
+
+SpritePipelines::~SpritePipelines() {
+	pipelineMap_.clear();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void SpritePipelines::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler) {
+	assert(_device);
+	assert(_dxCompiler);
+
+	device_ = _device;
+	dxCompiler_ = _dxCompiler;
+
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプラインの設定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void SpritePipelines::SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName) {
+	pipelineMap_[_typeName]->BindCommand(_commandList);
+	_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	lastUsePipeline_ = pipelineMap_[_typeName].get();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ パイプラインの追加
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void SpritePipelines::AddPipeline(const std::string& _fileName, json _jsonData) {
+	pipelineMap_[_fileName] = std::make_unique<Pipeline>();
+	pipelineMap_[_fileName]->Init(device_, dxCompiler_, _jsonData);
+}
+
+}

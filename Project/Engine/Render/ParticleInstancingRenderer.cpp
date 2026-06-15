@@ -1,0 +1,176 @@
+#include "ParticleInstancingRenderer.h"
+#include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
+#include "Engine/System/Manager/TextureManager.h"
+
+
+using namespace AOENGINE;
+
+ParticleInstancingRenderer::~ParticleInstancingRenderer() {
+	for (auto& particle : particleMap_) {
+		particle.second.particleResource.Reset();
+		AOENGINE::DescriptorHeap::AddFreeSrvList(particle.second.srvHandle.assignIndex_);
+	}
+	particleMap_.clear();
+	perViewBuffer_.Reset();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 初期化処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
+	maxInstanceNum_ = instanceNum;
+
+	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 更新処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, uint32_t blendType) {
+	uint32_t currentUseIndex = particleMap_[id].useIndex;
+
+	// 現在使用しているindexから引数のサイズ分colorを0にする
+	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
+		particleMap_[id].particleData[currentUseIndex + oi].color = { 0,0,0,0 };
+	}
+
+	particleMap_[id].blendModeType = blendType;
+	particleMap_[id].anyParticleAlive = anyParticleAlive;
+
+	if (!anyParticleAlive){
+		return;
+	}
+
+	// 現在使用しているindexからデータを更新する
+	//uint32_t maxParticlesCount = currentUseIndex + static_cast<uint32_t>(particleData.size());
+	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
+		if (currentUseIndex + oi < maxInstanceNum_) {
+			particleMap_[id].particleData[currentUseIndex + oi].uvTransform = particleData[oi].uvTransform;
+			particleMap_[id].particleData[currentUseIndex + oi].worldMat = particleData[oi].worldMat;
+			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
+			particleMap_[id].particleData[currentUseIndex + oi].draw2d = particleData[oi].draw2d;
+			particleMap_[id].particleData[currentUseIndex + oi].discardValue = particleData[oi].discardValue;
+			particleMap_[id].particleData[currentUseIndex + oi].cameraPos = AOENGINE::Render::GetEyePos();
+			particleMap_[id].particleData[currentUseIndex + oi].velocity = particleData[oi].velocity;
+			particleMap_[id].particleData[currentUseIndex + oi].isStretch = particleData[oi].isStretch;
+			// 使用しているindexを更新する
+			particleMap_[id].useIndex = oi + 1;
+		}
+	}
+}
+
+void ParticleInstancingRenderer::PostUpdate() {
+	// 次のフレームで最初から更新するためにすべてのindexを0にする
+	for (auto& information : particleMap_) {
+		information.second.useIndex = 0;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
+	for (auto& information : particleMap_) {
+		if (!information.second.anyParticleAlive) { continue; }
+
+		if (information.second.blendModeType == AOENGINE::Blend::BlendMode::None) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNone.json");
+		} else if(information.second.blendModeType == AOENGINE::Blend::BlendMode::Normal) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNormal.json");
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Add) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleAdd.json");
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Subtract) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleSubtract.json");
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Multiply) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleMultiply.json");
+		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Screen) {
+			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleScreen.json");
+		}
+
+		Pipeline* pso = Engine::GetLastUsedPipeline();
+
+		commandList->IASetVertexBuffers(0, 1, &information.second.pMesh->GetVBV());
+		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
+
+		UINT index = pso->GetRootSignatureIndex("gMaterial");
+		commandList->SetGraphicsRootConstantBufferView(index, information.second.materials->GetBufferAddress());
+		index = pso->GetRootSignatureIndex("gParticles");
+		commandList->SetGraphicsRootDescriptorTable(index, information.second.srvHandle.handleGPU);
+
+		index = pso->GetRootSignatureIndex("gTexture");
+		std::string textureName = information.second.materials->GetAlbedoTexture();
+		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
+		index = pso->GetRootSignatureIndex("gPerView");
+		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
+
+		commandList->DrawIndexedInstanced(information.second.pMesh->GetIndexNum(), maxInstanceNum_, 0, 0, 0);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ particleを追加
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<Mesh> _pMesh, uint32_t blendType) {
+	auto it = particleMap_.find(id);
+	if (it != particleMap_.end()) {
+		return particleMap_[id].materials;		// 見つかったら早期リターン
+	}
+	AOENGINE::GraphicsContext* graphicsCtx = AOENGINE::GraphicsContext::GetInstance();
+
+	ID3D12Device* device = graphicsCtx->GetDevice();
+	AOENGINE::DescriptorHeap* dxHeap = graphicsCtx->GetDxHeap();
+
+	D3D12_HEAP_PROPERTIES uploadHeapProperties{};
+	uploadHeapProperties.Type = D3D12_HEAP_TYPE_UPLOAD;
+
+	D3D12_HEAP_PROPERTIES defaultHeapProperties{};
+	defaultHeapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
+
+	// -----------------------------------------------------------------
+	Information particles;
+	particles.pMesh = _pMesh;
+	particles.materials = std::make_shared<Material>();
+	particles.materials->Init();
+	particles.textureName = textureName;
+
+	particles.particleResource = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
+	particles.particleData = nullptr;
+	particles.particleResource->Map(0, nullptr, reinterpret_cast<void**>(&particles.particleData));
+	particles.srvHandle = dxHeap->AllocateSRV();
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_UNKNOWN;
+	desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+	desc.Buffer.FirstElement = 0;
+	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
+	desc.Buffer.NumElements = maxInstanceNum_;
+	desc.Buffer.StructureByteStride = sizeof(ParticleData);
+	device->CreateShaderResourceView(particles.particleResource.Get(), &desc, particles.srvHandle.handleCPU);
+
+	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
+		particles.particleData->worldMat = Math::Matrix4x4::MakeUnit();
+		particles.particleData->color = { 0,0,0,0 };
+	}
+
+	particles.blendModeType = blendType;
+
+	particleMap_.emplace(id, std::move(particles));
+
+	return particleMap_[id].materials;
+}
+
+void ParticleInstancingRenderer::ChangeMesh(const std::string& id, std::shared_ptr<Mesh> _mesh) {
+	auto it = particleMap_.find(id);
+	if (it == particleMap_.end()) {
+		assert(false && "対応する名前が見つかりませんでした");
+	}
+
+	particleMap_[id].pMesh = _mesh;
+}

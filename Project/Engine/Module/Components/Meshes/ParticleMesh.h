@@ -1,0 +1,40 @@
+#pragma once
+#include <vector>
+#include "Engine/Module/Geometry/Structs/Vertices.h"
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+
+namespace AOENGINE {
+
+/// <summary>
+/// particle用のmesh
+/// </summary>
+class ParticleMesh final {
+public:
+
+	ParticleMesh() = default;
+	~ParticleMesh();
+
+public:
+
+	// 初期化
+	void Init(ID3D12Device* device, const std::vector<VertexData>& vertexData, std::vector<uint32_t> indices);
+	// コマンドを積む
+	void SetCommand(ID3D12GraphicsCommandList* commandList);
+
+private:
+
+	// vertexData
+	ComPtr<ID3D12Resource> vertexBuffer_;
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
+	ParticleVertexData* vertexData_ = nullptr;
+	uint32_t vertexDataSize_;
+
+	// indexData
+	ComPtr<ID3D12Resource> indexBuffer_;
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+	uint32_t* indexData_ = nullptr;
+	uint32_t indexDataSize_;
+
+};
+
+}

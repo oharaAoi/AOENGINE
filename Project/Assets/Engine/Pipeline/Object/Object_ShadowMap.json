@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/ShadowMap.VS.hlsl",
+        "ps": "/Engine/HLSL/ShadowMap.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType" : "FRONT",
+        "depth" : true,
+        "rtvFormat" : [
+            "16_RGB"
+        ]
+    }
+}

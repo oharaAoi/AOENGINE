@@ -1,0 +1,13 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/Object3d.VS.hlsl",
+        "ps": "/Engine/HLSL/Object3dEnviroment.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType" : "BACK",
+        "depth" : true,
+        "rtvFormat" : [
+            "16_RGB",
+            "16_RGB"
+        ]
+    }
+}

@@ -1,0 +1,42 @@
+#include "UVTransformNode.h"
+
+using namespace AOENGINE;
+
+void UVTransformNode::Init() {
+	// inputの設定
+	addIN<Math::Vector2>("inputUV", inputUV_, ImFlow::ConnectionFilter::SameType());
+	addIN<Math::Vector2>("scale", scale_, ImFlow::ConnectionFilter::SameType());
+	addIN<Math::Vector2>("offset", offset_, ImFlow::ConnectionFilter::SameType());
+	addIN<float>("rotate", rotate_, ImFlow::ConnectionFilter::SameType());
+
+	// outputの設定
+	auto texOut = addOUT<NodeUVTransform>("uv", ImFlow::PinStyle::cyan());
+	texOut->behaviour([this]() { return outputUV_; });
+
+	// titleBarのカラーを設定
+	SetTitleBar(ImColor(153, 102, 204));
+}
+
+void UVTransformNode::customUpdate() {
+	inputUV_ = getInVal<Math::Vector2>("inputUV");
+	scale_ = getInVal<Math::Vector2>("scale");
+	offset_ = getInVal<Math::Vector2>("offset");
+	rotate_ = getInVal<float>("rotate");
+
+	outputUV_.scale = scale_;
+	outputUV_.rotate = rotate_;
+	outputUV_.translate = offset_;
+}
+
+void UVTransformNode::draw() {
+}
+
+nlohmann::json UVTransformNode::toJson() {
+	nlohmann::json result;
+	BaseInfoToJson(result);
+	return result;
+}
+
+void UVTransformNode::fromJson(const nlohmann::json& _json) {
+	BaseInfoFromJson(_json);
+}

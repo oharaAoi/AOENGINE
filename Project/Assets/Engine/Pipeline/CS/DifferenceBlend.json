@@ -1,0 +1,5 @@
+{
+    "Pipeline": {
+        "cs" : "/Engine/HLSL/CS/DifferenceBlend.CS.hlsl"
+    }
+}

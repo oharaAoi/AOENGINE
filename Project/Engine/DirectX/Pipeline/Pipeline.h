@@ -1,0 +1,200 @@
+#pragma once
+// DirectX
+#include <d3d12.h>
+#include <dxgi1_6.h>
+#include <cassert>
+#include <set>
+#include <memory>
+#include <vector>
+#include <string>
+#include <unordered_map>
+// PSO
+#include "Engine/DirectX/Pipeline/Parts/InputLayout.h"
+#include "Engine/DirectX/Pipeline/Parts/Blend.h"
+#include "Engine/DirectX/DirectXCompiler/DirectXCompiler.h"
+// Json
+#include "Engine/Lib/Json/IJsonConverter.h"
+
+namespace AOENGINE {
+
+/// <summary>
+/// パイプラインクラス
+/// </summary>
+class Pipeline {
+public:
+
+	/// <summary>
+	/// パイプラインの情報
+	/// </summary>
+	struct PipelineParameter : public AOENGINE::IJsonConverter {
+		std::string vs = "";					// vsのシェーダー名
+		std::string ps = "";					// psのシェーダー名
+		std::string cs = "";					// csのシェーダー名
+		std::string blendMode = "";				// blendModeの名前
+		std::string cullingType = "";			// カリングを行うか
+		bool depth = false;						// 深度を書くか
+		std::vector<std::string> rtvFormats;	// 色の補正を行うか
+		std::string primitiveTopologyType = "";	// 形状のタイプ
+
+		json ToJson(const std::string& id) const override {
+			return AOENGINE::JsonBuilder(id)
+				.Add("vs", vs)
+				.Add("ps", ps)
+				.Add("cs", cs)
+				.Add("blendMode", blendMode)
+				.Add("cullingType", cullingType)
+				.Add("depth", depth)
+				.Add("rtvFormat", rtvFormats)
+				.Add("primitiveTopologyType", primitiveTopologyType)
+				.Build();
+		}
+
+		void FromJson(const json& jsonData) override {
+			const auto& pipeline = jsonData.at("Pipeline");
+			Convert::fromJson(jsonData, "vs", vs);
+			Convert::fromJson(jsonData, "ps", ps);
+			Convert::fromJson(jsonData, "cs", cs);
+			Convert::fromJson(jsonData, "blendMode", blendMode);
+			Convert::fromJson(jsonData, "cullingType", cullingType);
+			Convert::fromJson(jsonData, "depth", depth);
+			Convert::fromJson(jsonData, "primitiveTopologyType", primitiveTopologyType);
+			Convert::fromJson(pipeline, "rtvFormat", rtvFormats);
+		}
+
+		void Debug_Gui() override {};
+	};
+
+	/// <summary>
+	/// keyと結びつける
+	/// </summary>
+	struct BindingKey {
+		D3D_SHADER_INPUT_TYPE type;
+		UINT bindPoint;
+		UINT space;
+		D3D12_SHADER_VISIBILITY visibility;
+		bool operator<(const BindingKey& rhs) const {
+			return std::tie(type, bindPoint, space, visibility) <
+				std::tie(rhs.type, rhs.bindPoint, rhs.space, rhs.visibility);
+		}
+	};
+
+public: // コンストラクタ
+
+	Pipeline();
+	~Pipeline();
+
+public:
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="dxCompiler">: コンパイラ</param>
+	/// <param name="jsonData">: jsonデータ</param>
+	void Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const json& _jsonData);
+
+	/// <summary>
+	/// コマンドを積む
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
+	void BindCommand(ID3D12GraphicsCommandList* _commandList);
+
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="commandList"></param>
+	void SetComputeState(ID3D12GraphicsCommandList* _commandList);
+
+	void Finalize();
+
+public:
+
+	/// <summary>
+	/// inputLayoutの生成
+	/// </summary>
+	/// <param name="elementDesc">要素の配列</param>
+	/// <returns></returns>
+	D3D12_INPUT_LAYOUT_DESC CreateInputLayout(const std::vector<D3D12_INPUT_ELEMENT_DESC>& _elementDesc);
+
+	/// <summary>
+	/// Shaderをcompileする
+	/// </summary>
+	void ShaderCompile();
+
+	/// <summary>
+	/// RasterizerStateの設定
+	/// </summary>
+	D3D12_RASTERIZER_DESC SetRasterizerState(const std::string _isCullingType);
+
+	/// <summary>
+	/// DepthStencilStateの設定
+	/// </summary>
+	/// <returns></returns>
+	D3D12_DEPTH_STENCIL_DESC SetDepthStencilState(bool _isDepth);
+
+	/// <summary>
+	/// PSOの生成
+	/// </summary>
+	void CreatePSO();
+
+
+	std::vector<D3D12_INPUT_ELEMENT_DESC> CreateInputLayout();
+
+	DXGI_FORMAT ReturnFormat(LPCSTR _name);
+
+	ComPtr<ID3D12RootSignature> CreateRootSignature();
+
+private:
+
+	void SamplerOverrides();
+
+	D3D12_STATIC_SAMPLER_DESC MakeStaticSampler(D3D12_FILTER _filter, D3D12_TEXTURE_ADDRESS_MODE _addr = D3D12_TEXTURE_ADDRESS_MODE_WRAP, UINT _maxAniso = 16);
+
+	D3D12_STATIC_SAMPLER_DESC MakeShadowComparisonSampler();
+
+public:
+
+	const UINT GetRootSignatureIndex(const std::string& _name) const;
+
+private:
+
+	// inputLayout
+	InputLayout inputLayout_;
+	std::vector<D3D12_INPUT_ELEMENT_DESC> elementDescs = {};
+
+	// Shader
+	ComPtr<IDxcBlob> vertexShaderBlob_ = nullptr;
+	ComPtr<IDxcBlob> pixelShaderBlob_ = nullptr;
+
+	ComPtr<ID3D12ShaderReflection> vsReflection_;
+	ComPtr<ID3D12ShaderReflection> psReflection_;
+	ComPtr<ID3D12ShaderReflection> csReflection_;
+
+	ComPtr<ID3D12RootSignature> rootSig_;
+
+	// PSO
+	ComPtr<ID3D12PipelineState> graphicsPipelineState_ = nullptr;
+	D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipelineStateDesc_;
+
+	// DXCで使う
+	DirectXCompiler* dxCompiler_ = nullptr;
+
+	// device
+	ID3D12Device* device_ = nullptr;
+
+	// Blend
+	Blend blend_;
+
+	PipelineParameter parameter_;
+
+	std::map<std::string, UINT> rootSignatureIndexMap_;
+
+	std::vector<std::vector<D3D12_DESCRIPTOR_RANGE>> descriptorRangeTables;
+
+	// samplerMap
+	std::unordered_map<std::string, D3D12_STATIC_SAMPLER_DESC> samplerOverrides_;
+
+
+};
+
+}

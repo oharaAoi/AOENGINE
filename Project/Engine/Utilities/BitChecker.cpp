@@ -1,0 +1,23 @@
+#include "BitChecker.h"
+
+bool CheckBit(uint32_t bitA, uint32_t bitB, CheckType type) {
+    if (type == CheckType::Has) {
+        return HasBit(bitA, bitB);
+    }else if(type == CheckType::Equal){
+        return EqualBit(bitA, bitB);
+    }
+
+    return false;
+}
+
+bool HasBit(uint32_t bitA, uint32_t bitB) {
+    return (bitA & bitB) != 0;
+}
+
+bool MatchBit(uint32_t bitA, uint32_t bitB) {
+    return (bitA & bitB) != 0;
+}
+
+bool EqualBit(uint32_t bitA, uint32_t bitB) {
+    return (bitA == bitB);
+}

@@ -1,0 +1,347 @@
+#pragma once
+#include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Vector4.h"
+#include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/Math/MathStructures.h"
+#include <cmath>
+#define NOMINMAX
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include <algorithm>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <numbers>
+#include <limits>
+
+////////////////////////////////////////////////////////////////////////////////////
+// 数学用定数
+////////////////////////////////////////////////////////////////////////////////////
+
+constexpr const float kPI = std::numbers::pi_v<float>;
+constexpr const float kPI2 = kPI * 2.0f;
+constexpr const float kHPI = kPI * 0.5f;
+
+constexpr const float kToRadian = std::numbers::pi_v<float> / 180.0f;
+constexpr const float kToDegree = 180.0f / std::numbers::pi_v<float>;
+
+constexpr const float kGravity = -9.81f;
+
+constexpr float kInf = std::numeric_limits<float>::infinity();
+
+constexpr const float kEpsilon = std::numeric_limits<float>::epsilon();
+
+////////////////////////////////////////////////////////////////////////////////////
+// 基礎関数
+////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// 度数法 → 弧度法
+/// </summary>
+/// <param name="rotate"></param>
+/// <returns></returns>
+Math::Vector3 DegToRad(const Math::Vector3& rotate);
+
+/// <summary>
+/// 弧度法 → 度数法
+/// </summary>
+/// <param name="rotate"></param>
+/// <returns></returns>
+Math::Vector3 RadToDeg(const Math::Vector3& rotate);
+
+/// <summary>
+/// 長さを計算する
+/// </summary>
+/// <param name="vec3"></param>
+/// <returns></returns>
+float Length(const Math::Vector3& vec3);
+
+float Clamp01(float value);
+
+float Distance(const Math::Vector3& v1, const Math::Vector3& v2);
+
+/// <summary>
+/// 正規化
+/// </summary>
+/// <param name="value"></param>
+/// <param name="min"></param>
+/// <param name="max"></param>
+/// <returns></returns>
+float Normalize(float value, float min, float max);
+
+/// <summary>
+/// 正規化
+/// </summary>
+/// <param name="vec3"></param>
+/// <returns></returns>
+Math::Vector3 Normalize(const Math::Vector3& vec3);
+
+/// <summary>
+/// 内積
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
+/// <returns></returns>
+float Dot(const Math::Vector3& v1, const Math::Vector3& v2);
+
+/// <summary>
+/// クロス積
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
+/// <returns></returns>
+Math::Vector3 Cross(const Math::Vector3& v1, const Math::Vector3& v2);
+
+/// <summary>
+/// 正射影ベクトル
+/// </summary>
+/// <param name="v1">: ベクトル1</param>
+/// <param name="v2">: ベクトル2</param>
+/// <returns></returns>
+Math::Vector3 Projection(const Math::Vector3& v1, const Math::Vector3& v2);
+
+/// <summary>
+/// 最近接点を求める関数
+/// </summary>
+/// <param name="point">点P(ここから線分へのベクトルをベクトル射影する)</param>
+/// <param name="segment"></param>
+/// <returns></returns>
+Math::Vector3 ClosestPoint(const Math::Vector3& point, const Math::Line& segment);
+
+/// <summary>
+/// スクリーン座標からワールド座標に変換する関数
+/// </summary>
+/// <param name="screenPos">スクリーン上の座標</param>
+/// <param name="inverseWvpMat">逆ワールドプロジェクション行列</param>
+/// <param name="setDirection">ワールド上のどこに設定するか</param>
+/// <returns>ワールド座標</returns>
+Math::Vector3 ScreenToWorldCoordinate(const Math::Vector2& screenPos, const Math::Matrix4x4& inverseWvpMat, const float& setDirection);
+
+/// <summary>
+/// ワールド座標系からスクリーン座標系の座標を取得する関数
+/// </summary>
+/// <param name="targetWorldMat">: 対象のMatrix</param>
+/// <param name="vpvpMat">: viewProjection * viewPort </param>
+/// <returns>スクリーン座標</returns>
+Math::Vector2 WorldToScreenCoordinate(const Math::Matrix4x4& targetWorldMat, const Math::Matrix4x4& vpvpMat);
+
+/// <summary>
+/// ベクトル変換
+/// </summary>
+/// <param name="v"></param>
+/// <param name="m"></param>
+/// <returns></returns>
+Math::Vector3 TransformNormal(const Math::Vector3& v, const Math::Matrix4x4& m);
+
+/// <summary>
+/// 行列をQuaternionSRTに変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::QuaternionSRT DecomposeTransform(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列をスケールに返還する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Vector3 DecomposeScale(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列を回転に変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Vector3 DecomposeTranslate(const Math::Matrix4x4& mat);
+
+/// <summary>
+/// 行列を座標に変換する
+/// </summary>
+/// <param name="mat"></param>
+/// <returns></returns>
+Math::Quaternion DecomposeRotate(const Math::Matrix4x4& mat, const Math::Vector3& scale);
+
+/// <summary>
+/// 円軌道の座標を求める
+/// </summary>
+/// <param name="center"></param>
+/// <param name="axis"></param>
+/// <param name="radius"></param>
+/// <param name="angle"></param>
+/// <param name="clockwise">: true 時計回り | false 反時計回り</param>
+/// <returns></returns>
+Math::Vector3 CalcOrbitPosition(const Math::Vector3& center, const Math::Vector3& axis, float radius, float angle, bool clockwise);
+
+////////////////////////////////////////////////////////////////////////////////////
+// 数字を求めたり
+////////////////////////////////////////////////////////////////////////////////////
+
+/// <summary>
+/// 引数の桁数を求める
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value"></param>
+/// <returns></returns>
+template <typename T>
+T DegitCount(T value) {
+	if (value == 0.0f) { return 0; }
+	// 桁数 = log10(値) + 1(std::log10はvalueが10以下の時は0が返される)
+	return static_cast<T>(std::floor(std::log10(value)) + 1);
+}
+
+/// <summary>
+/// 引数の値から任意の桁目の数値を取り出す
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value">: 値</param>
+/// <param name="n">: 任意の桁目</param>
+/// <returns></returns>
+template <typename T>
+T IntegerCount(T value, int n) {
+	if (n == 0) {
+		assert("not 0 Interger");
+	}
+	T num = (static_cast<int>(value) / static_cast<int>(std::pow(10, n - 1)));
+	T result = num % 10;
+	return result;
+}
+
+/// <summary>
+/// 数値のTextureから値に対応する左上座標の位置を求める
+/// </summary>
+/// <typeparam name="T"></typeparam>
+/// <param name="value"></param>
+/// <param name="size"></param>
+/// <returns></returns>
+template <typename T>
+Math::Vector2 NumberSpriteLt(T value, const Math::Vector2& size) {
+	if (value == 0) {
+		return { 0.0f, 0.0f };
+	} else if (value == 1) {
+		return { size.x , 0.0f };
+	} else if (value == 2) {
+		return { size.x * 2.0f, 0.0f };
+	} else if (value == 3) {
+		return { size.x * 3.0f , 0.0f };
+	} else if (value == 4) {
+		return { size.x * 4.0f , 0.0f };
+	} else if (value == 5) {
+		return { size.x * 5.0f, 0.0f };
+	} else if (value == 6) {
+		return { size.x * 6.0f, 0.0f };
+	} else if (value == 7) {
+		return { size.x * 7.0f, 0.0f };
+	} else if (value == 8) {
+		return { size.x * 8.0f, 0.0f };
+	} else {
+		return { size.x * 9.0f , 0.0f };
+	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+// 線形補完
+////////////////////////////////////////////////////////////////////////////////////
+
+float Lerp(float v1, float v2, float t);
+Math::Vector2 Lerp(const Math::Vector2& v1, const Math::Vector2& v2, float t);
+Math::Vector3 Lerp(const Math::Vector3& v1, const Math::Vector3& v2, float t);
+Math::Vector4 Lerp(const Math::Vector4& v1, const Math::Vector4& v2, float t);
+AOENGINE::Color Lerp(const AOENGINE::Color& v1, const AOENGINE::Color& v2, float t);
+
+/// <summary>
+/// 線形補完
+/// </summary>
+/// <param name="v1"></param>
+/// <param name="v2"></param>
+/// <param name="t"></param>
+/// <returns></returns>
+Math::Vector3 Slerp(const Math::Vector3& v1, const Math::Vector3& v2, float t);
+
+/// <summary>
+/// 最短角度を求める
+/// </summary>
+/// <param name="a"></param>
+/// <param name="b"></param>
+/// <param name="t"></param>
+/// <returns></returns>
+float LerpShortAngle(const float& originalAngle, const float& targetAngle, const float& t);
+
+/// <summary>/// 
+/// 角度を求める
+/// </summary>///
+///  <param name="v1"></param>/// 
+/// <param name="v2"></param>///
+///  <returns></returns>
+float Angle(const Math::Vector3& v1, const Math::Vector3& v2);
+
+/// <summary>
+/// 臨界減衰スプリング
+/// </summary>
+/// <param name="current"></param>
+/// <param name="target"></param>
+/// <param name="currentVelocity"></param>
+/// <param name="smoothTime"></param>
+/// <param name="maxSpped"></param>
+/// <param name="deltaTime"></param>
+/// <returns></returns>
+float SmoothDamp(float current, float target, float& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
+
+Math::Vector3 SmoothDamp(const Math::Vector3& current, const Math::Vector3& target, Math::Vector3& currentVelocity, float smoothTime, float maxSpeed, float deltaTime);
+
+/// <summary>/// 
+/// CatmullRom補完
+/// </summary>/// 
+/// <param name="p0">点0の座標</param>/// 
+/// <param name="p1">点1の座標</param>/// 
+/// <param name="p2">点2の座標</param>/// 
+/// <param name="p3">点3の座標</param>/// 
+/// <param name="t">点1と点2の間で指定された座標</param>/// 
+/// <returns>点1と点2の間で指定された座標</returns>
+Math::Vector3 CatmullRomInterpolation(const Math::Vector3& p0, const Math::Vector3& p1, const Math::Vector3& p2, const Math::Vector3& p3, float t);
+
+/// <summary>/// 
+/// CatmullRomスプライン曲線上の座標を得る
+/// </summary>///
+/// <param name="points">制御点の集合</param>/// 
+/// <param name="t">スプライン全区間の中で割合指定</param>/// 
+/// <returns>座標</returns>
+Math::Vector3 CatmullRomPosition(const std::vector<Math::Vector3>& points, float t);
+
+/// <summary>
+/// ベジエ曲線を書く
+/// </summary>
+///  <param name="controlPoint">制御点がまとまった配列</param>
+///  <returns></returns>
+Math::Vector3 Bezier(const std::vector<Math::Vector3>& controlPoint, const float& t);
+
+////////////////////////////////////////////////////////////////////////////////////
+// 変換
+////////////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+	requires requires (T v) { v.x; v.y; }
+std::string ToString(const T& v) {
+	std::ostringstream oss;
+	oss << "(" << v.x << ", " << v.y;
+
+	if constexpr (requires { v.z; }) {
+		oss << ", " << v.z;
+	}
+	if constexpr (requires { v.w; }) {
+		oss << ", " << v.w;
+	}
+
+	oss << ")";
+	return oss.str();
+}
+
+
+uint32_t Red(uint32_t color);
+uint32_t Green(uint32_t color);
+uint32_t Blue(uint32_t color);
+uint32_t Alpha(uint32_t color);
+Math::Vector4 FloatColor(uint32_t color);
+uint32_t IntColor(const Math::Vector4& color);
+uint32_t HSV_to_RGB(float h, float s, float v, float alpha);

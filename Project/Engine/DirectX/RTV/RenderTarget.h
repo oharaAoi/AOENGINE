@@ -1,0 +1,106 @@
+#pragma once
+#include <vector>
+#include "Engine/DirectX/Utilities/DirectXUtils.h"
+#include "Engine/DirectX/Descriptor/DescriptorHeap.h"
+#include "Engine/DirectX/Resource/DxResource.h"
+#include "Engine/DirectX/Resource/DxResourceManager.h"
+
+enum RenderTargetType {
+	Object3D_RenderTarget,
+	MotionVector_RenderTarget,
+	OffScreen_RenderTarget,
+	Sprite2d_RenderTarget,
+	EffectSystem_RenderTarget,
+	PreEffectSystem_RenderTarget,
+	ShadowMap_RenderTarget,
+	kMAX
+};
+
+static const uint32_t renderTargetNum_ = (RenderTargetType::kMAX);
+
+namespace AOENGINE {
+
+/// <summary>
+/// AOENGINE::RenderTargetクラス
+/// </summary>
+class RenderTarget {
+public: // コンストラクタ
+
+	RenderTarget() = default;
+	~RenderTarget();
+
+public:
+
+	/// <summary>
+	/// 終了処理
+	/// </summary>
+	void Finalize();
+
+	/// <summary>
+	/// 初期化処理
+	/// </summary>
+	/// <param name="device">: デバイス</param>
+	/// <param name="descriptorHeap">: ヒープ</param>
+	/// <param name="swapChain">: スワップチェイン</param>
+	/// <param name="commandList">: コマンドリスト</param>
+	void Init(ID3D12Device* _device, AOENGINE::DescriptorHeap* _descriptorHeap, IDXGISwapChain4* _swapChain, ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResourceManager* _resourceManager);
+
+	/// <summary>
+	/// AOENGINE::RenderTargetを設定する
+	/// </summary>
+	/// <param name="commandList">: コマンドリスト</param>
+	/// <param name="renderTypes">: レンダーターゲットのタイプ</param>
+	/// <param name="dsvHandle">: デプスハンドル</param>
+	void SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle);
+
+	/// <summary>
+	/// 深度バッファ
+	/// </summary>
+	/// <param name="commandList"></param>
+	void ClearDepth(ID3D12GraphicsCommandList* _commandList);
+
+	/// <summary>
+	/// swawChainで使用するAOENGINE::RenderTargetを作成する
+	/// </summary>
+	void CreateSwapChainResource();
+
+	/// <summary>
+	/// swawChain以外のAOENGINE::RenderTargetを作成する
+	/// </summary>
+	void CreateRenderTarget();
+
+	/// <summary>
+	/// AOENGINE::RenderTargetを遷移させる
+	/// </summary>
+	/// <param name="commandList">: commandList</param>
+	/// <param name="renderType">: AOENGINE::RenderTargetのタイプ</param>
+	/// <param name="beforeState">: 遷移前の状態</param>
+	/// <param name="afterState">: 遷移後の状態</param>
+	void TransitionResource(ID3D12GraphicsCommandList* commandList, const RenderTargetType& renderType, const D3D12_RESOURCE_STATES& beforeState, const D3D12_RESOURCE_STATES& afterState);
+
+public:
+
+	ID3D12Resource* GetSwapChainRenderResource(const UINT& indexNum) { return swapChainResource_[indexNum]->GetResource(); }
+
+	const DescriptorHandles& GetSwapChainHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetRTV(); }
+	const DescriptorHandles& GetSwapChainSRVHandle(const UINT& indexNum) { return swapChainResource_[indexNum]->GetSRV(); }
+
+	const DescriptorHandles& GetRenderTargetRTVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetRTV(); }
+	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
+
+	AOENGINE::DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type]; }
+
+private:
+
+	AOENGINE::DxResource* swapChainResource_[2];
+	AOENGINE::DxResource* renderTargetResource_[renderTargetNum_];
+
+	ID3D12Device* device_ = nullptr;
+	// heap
+	AOENGINE::DescriptorHeap* dxHeap_ = nullptr;
+	// swapChain
+	IDXGISwapChain4* swapChain_ = nullptr;
+	// resourceManager
+	AOENGINE::DxResourceManager* resourceManager_ = nullptr;
+};
+}

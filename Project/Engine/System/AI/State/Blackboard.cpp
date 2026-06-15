@@ -1,0 +1,154 @@
+#include "Blackboard.h"
+#include "Engine/System/AI/State/BlackboardSerializer.h"
+#include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/FileDialogFunc.h"
+
+using namespace AI;
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 編集処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Blackboard::Debug_Gui() {
+    // 値の追加
+    CreateValue();
+
+	std::string keyToDelete = "";
+	static std::string selectedKey = "";
+
+	//==============================
+	// Table 描画
+	//==============================
+	if (ImGui::BeginTable("BlackboardTable", 3,
+						  ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg)) {
+
+		ImGui::TableSetupColumn("Key");
+		ImGui::TableSetupColumn("Value");
+		ImGui::TableSetupColumn("##Delete", ImGuiTableColumnFlags_WidthFixed);
+		ImGui::TableHeadersRow();
+
+		for (auto& [key, value] : stateMap_) {
+			ImGui::TableNextRow();
+
+			// Key（クリックで選択）
+			ImGui::TableSetColumnIndex(0);
+			float colWidth = ImGui::GetColumnWidth(ImGui::TableGetColumnIndex());
+			bool isSelected = (selectedKey == key);
+			if (ImGui::Selectable(key.c_str(), isSelected, 0, ImVec2(colWidth, 0))) {
+				selectedKey = key;
+			}
+
+			// Value 表示
+			ImGui::TableSetColumnIndex(1);
+			std::visit([&](auto&& v) { TemplateValueText(v); }, value.Get());
+
+			// Delete ボタン
+			ImGui::TableSetColumnIndex(2);
+			std::string btn = "Delete##" + key;
+			if (ImGui::Button(btn.c_str())) {
+				keyToDelete = key;
+			}
+		}
+
+		ImGui::EndTable();
+	}
+
+    if (keyToDelete != "") {
+        stateMap_.erase(keyToDelete);
+    }
+
+	if (!selectedKey.empty()) {
+		auto it = stateMap_.find(selectedKey);
+		if (it != stateMap_.end()) {
+			it->second.DebugValue(selectedKey, it->second);
+		}
+	}
+
+	if (ImGui::Button("overWrite##worldStateSave")) {
+		if (path_ != "") {
+			BlackboardSerializer::Save(path_, stateMap_);
+		}
+	}
+	ImGui::SameLine();
+    if (ImGui::Button("Save##worldStateSave")) {
+		Save(); 
+	}
+    ImGui::SameLine();
+    if (ImGui::Button("Load##worldStateLoad")) {
+        path_ = FileOpenDialogFunc();
+        Load(path_);
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 値の作成をする
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Blackboard::CreateValue() {
+	static std::string newKey = "";
+	static int combIndex = 0;
+	InputTextWithString("key", "##worldStateKey", newKey, 16, 100);
+	ImGui::SameLine();
+	std::vector<std::string> valueArray = { "int", "float", "bool", "string" };
+	combIndex =	ContainerOfComb(valueArray, combIndex, "##worldStateComb", 100);
+	ImGui::SameLine();
+	if (ImGui::Button(" + ")) {
+		switch (combIndex) {
+		case 0: // int型
+			return this->Set(newKey, int32_t(0));
+		case 1: // float型
+			return this->Set(newKey, float(0));
+		case 2: // bool型
+			return this->Set(newKey, bool(false));
+		case 3: // string型
+			return this->Set(newKey, std::string(""));
+		default:
+			break;
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ keyのコンボを表示する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Blackboard::KeyCombo(std::string& _key, int32_t& index, const std::string& _label) {
+	std::vector<std::string> keys;
+	for (auto& [k, _] : stateMap_) keys.push_back(k);
+
+	ImGui::SetNextItemWidth(120);
+	if (ImGui::BeginCombo(_label.c_str(), _key.c_str())) {
+		for (int i = 0; i < keys.size(); i++) {
+			bool isSelected = (_key == keys[i]);
+			if (ImGui::Selectable(keys[i].c_str(), isSelected)) {
+				_key = keys[i];
+				index = i;
+			}
+			if (isSelected) ImGui::SetItemDefaultFocus();
+		}
+		ImGui::EndCombo();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 読み込み処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Blackboard::Load(const std::string& _filePath) {
+	if (_filePath != "") {
+		BlackboardSerializer::Load(_filePath, stateMap_);
+		path_ = _filePath;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ 保存処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Blackboard::Save() {
+	path_ = FileSaveDialogFunc();
+	if (path_ != "") {
+		BlackboardSerializer::Save(path_, stateMap_);
+	}
+}

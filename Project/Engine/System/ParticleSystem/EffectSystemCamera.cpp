@@ -1,0 +1,124 @@
+#include "EffectSystemCamera.h"
+#include "Engine/System/Input/Input.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Lib/GameTimer.h"
+#ifdef _DEBUG
+#include "Engine/System/Manager/ImGuiManager.h"
+#endif // _DEBUG
+
+using namespace AOENGINE;
+
+EffectSystemCamera::EffectSystemCamera() { Init(); }
+EffectSystemCamera::~EffectSystemCamera() {}
+
+void EffectSystemCamera::Finalize() {
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 初期化処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+void EffectSystemCamera::Init() {
+	BaseCamera::Init();
+
+	debugCameraMode_ = true;
+
+	moveBaseSpeed_ = 5.0f;
+	moveSpeed_ = 5.0f;
+	quaternion_ = Math::Quaternion::AngleAxis(20.0f * kToRadian, CVector3::RIGHT);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 更新処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemCamera::Update() {
+
+	RotateMove();
+	TransitionMove();
+
+	transform_.rotate = quaternion_.Normalize();
+
+	BaseCamera::Update();
+
+	// renderの更新
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+	AOENGINE::Render::SetCameraRotate(transform_.rotate);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemCamera::TransitionMove() {
+	moveDirection_ = Math::Vector3();
+
+	if (AOENGINE::Input::IsPressKey(DIK_A)) {
+		moveDirection_ -= quaternion_.MakeRight() * moveSpeed_;
+	}
+
+	if (AOENGINE::Input::IsPressKey(DIK_D)) {
+		moveDirection_ += quaternion_.MakeRight() * moveSpeed_;
+	}
+
+	if (AOENGINE::Input::IsPressKey(DIK_W)) {
+		moveDirection_ += quaternion_.MakeForward() * moveSpeed_;
+	}
+
+	if (AOENGINE::Input::IsPressKey(DIK_S)) {
+		moveDirection_ -= quaternion_.MakeForward() * moveSpeed_;
+	}
+
+	if (AOENGINE::Input::IsPressKey(DIK_Q)) {
+		moveDirection_ += quaternion_.MakeUp() * moveSpeed_;
+	}
+
+	if (AOENGINE::Input::IsPressKey(DIK_E)) {
+		moveDirection_ -= quaternion_.MakeUp() * moveSpeed_;
+	}
+
+	transform_.translate += moveDirection_ * AOENGINE::GameTimer::DeltaTime();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void EffectSystemCamera::RotateMove() {
+	if (AOENGINE::Input::IsPressMouse(1)) {
+
+		Math::Vector2 dire = AOENGINE::Input::GetMousePosition() - preMousePos_;
+
+		// Y軸回転(Y軸回転は必ずworld空間での回転が行われる)
+		yaw_ += dire.x * sensitivity_ * AOENGINE::GameTimer::DeltaTime();
+		qYaw = Math::Quaternion::AngleAxis(yaw_, Math::Vector3(0.0f, 1.0f, 0.0f)).Normalize();
+
+		// X軸回転(X軸回転は必ずlocal空間で回転が行われる)
+		pitch_ += dire.y * sensitivity_ * AOENGINE::GameTimer::DeltaTime();
+		qPitch = Math::Quaternion::AngleAxis(pitch_, Math::Vector3(1.0f, 0.0f, 0.0f)).Normalize();
+
+		// 回転合成
+		quaternion_ = (qYaw * moveQuaternion_ * qPitch).Normalize();
+
+	} else {
+		moveQuaternion_ = quaternion_;
+		yaw_ = 0;
+		pitch_ = 0;
+	}
+
+	preMousePos_ = AOENGINE::Input::GetMousePosition();
+}
+
+void AOENGINE::EffectSystemCamera::SetViewProjection() {
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
+}
+
+void EffectSystemCamera::Debug_Gui() {
+	ImGui::Begin("effectCamera");
+	ImGui::DragFloat3("rotate", &transform_.rotate.x, 0.1f);
+	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
+	ImGui::End();
+}
