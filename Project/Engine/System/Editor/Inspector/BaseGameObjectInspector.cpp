@@ -1,45 +1,53 @@
 #include "BaseGameObjectInspector.h"
 #include "ModelInspector.h"
 #include "MaterialInspector.h"
+#include "ColliderInspector.h"
+#include "RigidBodyInspector.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 void AOENGINE::BaseGameObjectInspector::Draw(BaseGameObject& object) {
-    bool enableShadow = object.GetEnableShadow();
-    if (ImGui::Checkbox("enableShadow", &enableShadow)) {
-        object.SetEnableShadow(enableShadow);
-    }
+	bool enableShadow = object.GetEnableShadow();
+	if (ImGui::Checkbox("enableShadow", &enableShadow)) {
+		object.SetEnableShadow(enableShadow);
+	}
 
-    if (object.GetTransform()) {
-        object.GetTransform()->Debug_Gui(); // 最初は暫定でOK
-    }
+	if (object.GetTransform()) {
+		object.GetTransform()->Debug_Gui(); // 最初は暫定でOK
+	}
 
-    ModelInspector(object);
-    MaterialInspector(object);
-    DrawColliders(object);
-    DrawRigidbody(object);
-    DrawAnimator(object);
+	ModelInspector::Draw(object);
+	MaterialInspector::Draw(object);
+	ColliderInspector::Draw(object);
+	RigidBodyInspector::Draw(object);
 
-    ImGui::Separator();
-    DrawAddComponent(object);
+	if (object.GetAnimator()) {
+		if (ImGui::CollapsingHeader("Animator")) {
+			object.GetAnimator()->Debug_Gui();
+		}
+	}
+
+	ImGui::Separator();
+	DrawAddComponent(object);
 }
 
 void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object) {
-    if (ImGui::Button("Add Component")) {
-        ImGui::OpenPopup("AddComponentPopup");
-    }
+	if (ImGui::Button("Add Component")) {
+		ImGui::OpenPopup("AddComponentPopup");
+	}
 
-    if (ImGui::BeginPopup("AddComponentPopup")) {
-        if (ImGui::BeginMenu("Physics")) {
-            if (ImGui::MenuItem("Box Collider")) {
-                object.SetCollider("Default", ColliderShape::AABB);
-            }
-            if (ImGui::MenuItem("Sphere Collider")) {
-                object.SetCollider("Default", ColliderShape::Sphere);
-            }
-            if (ImGui::MenuItem("Rigid Body")) {
-                object.SetPhysics();
-            }
-            ImGui::EndMenu();
-        }
-        ImGui::EndPopup();
-    }
+	if (ImGui::BeginPopup("AddComponentPopup")) {
+		if (ImGui::BeginMenu("Physics")) {
+			if (ImGui::MenuItem("Box Collider")) {
+				object.SetCollider("Default", ColliderShape::AABB);
+			}
+			if (ImGui::MenuItem("Sphere Collider")) {
+				object.SetCollider("Default", ColliderShape::Sphere);
+			}
+			if (ImGui::MenuItem("Rigid Body")) {
+				object.SetPhysics();
+			}
+			ImGui::EndMenu();
+		}
+		ImGui::EndPopup();
+	}
 }

@@ -192,6 +192,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\GameObject\GeometryObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\ISceneObject.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\Model.h" />
+    <ClInclude Include="Engine\Module\Components\GameObject\SceneObject.h" />
     <ClInclude Include="Engine\Module\Components\IComponent.h" />
     <ClInclude Include="Engine\Module\Components\Light\BaseLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\DirectionalLight.h" />
@@ -278,8 +279,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\ColliderInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\GeometryObjectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\RigidBodyInspector.h" />
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindowSerializer.h" />
@@ -456,6 +460,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\GameObject\GeometryObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\ISceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\Model.cpp" />
+    <ClCompile Include="Engine\Module\Components\GameObject\SceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\IComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\BaseLight.cpp" />
     <ClCompile Include="Engine\Module\Components\Light\DirectionalLight.cpp" />
@@ -541,8 +546,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\ColliderInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\GeometryObjectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\RigidBodyInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindowSerializer.cpp" />

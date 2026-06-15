@@ -52,16 +52,6 @@ void GeometryObject::Draw() const {
 	commandList->DrawIndexedInstanced(mesh_->GetIndexNum(), 1, 0, 0, 0);
 }
 
-
-void GeometryObject::Debug_Gui() {
-	transform_->Debug_Gui();
-	material_->Debug_Gui();
-}
-
-void GeometryObject::SetEditorWindow() {
-	AOENGINE::EditorWindows::AddObjectWindow(this, id_);
-}
-
 void GeometryObject::Init() {
 	mesh_.reset();
 	material_.reset();

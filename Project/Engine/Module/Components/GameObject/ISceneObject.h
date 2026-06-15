@@ -1,5 +1,6 @@
 #pragma once
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
+#include <imgui.h>
 
 namespace AOENGINE {
 
@@ -7,7 +8,7 @@ namespace AOENGINE {
 /// sceneに配置するobjctが継承するクラス
 /// </summary>
 class ISceneObject :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::SceneObject {
 public: // constructor
 
 	ISceneObject() = default;
@@ -25,8 +26,6 @@ public: // public method
 	virtual void PreDraw() const = 0;
 	// 描画処理
 	virtual void Draw() const = 0;
-	// 編集処理
-	virtual void Debug_Gui() = 0;
 	// gizumo表示
 	virtual void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) = 0;
 

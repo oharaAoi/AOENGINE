@@ -58,7 +58,7 @@ void SceneRenderer::Update() {
 	// objectの更新
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			obj->Update();
 		}
 	}
@@ -67,7 +67,7 @@ void SceneRenderer::Update() {
 void SceneRenderer::PostUpdate() {
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			obj->PostUpdate();
 		}
 	}
@@ -86,7 +86,7 @@ void SceneRenderer::Draw() const {
 	AOENGINE::Render::SetShadowMap();
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			obj->PreDraw();
 		}
 	}
@@ -103,7 +103,7 @@ void SceneRenderer::Draw() const {
 			continue;
 		}
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			Engine::SetPipeline(PSOType::Object3d, pair->GetRenderingType());
 			obj->Draw();
 		}
@@ -120,7 +120,7 @@ void SceneRenderer::PostDraw() const {
 			continue;
 		}
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			Engine::SetPipeline(PSOType::Object3d, pair->GetRenderingType());
 			obj->Draw();
 		}
@@ -134,7 +134,7 @@ void SceneRenderer::PostDraw() const {
 void SceneRenderer::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
 	for (auto& pair : objectList_) {
 		ISceneObject* obj = pair->GetSceneObject();
-		if (obj->GetIsActive()) {
+		if (obj->IsActive()) {
 			obj->Manipulate(windowSize, imagePos);
 		}
 	}
@@ -146,7 +146,7 @@ void AOENGINE::SceneRenderer::Debug_Gui() {
 		std::string addrStr = std::format("{}", static_cast<const void*>(obj));
 		std::string name = obj->GetName() + "##" + addrStr;
 		if (ImGui::TreeNode(name.c_str())) {
-			obj->Debug_Gui();
+			//obj->Debug_Gui();
 			ImGui::TreePop();
 		}
 	}

@@ -60,7 +60,7 @@ void AOENGINE::GameObjectWindow::CreateNewObjectWindow() {
 		if (ImGui::BeginMenu(" + ")) {
 			if (ImGui::MenuItem("3dObject")) {
 				AOENGINE::BaseGameObject* newObject = sceneRenderer_->AddObject<AOENGINE::BaseGameObject>("new object", "Object_Normal.json");
-				AddAttributeGui(newObject, "new object");
+				//AddAttributeGui(newObject, "new object");
 			}
 
 			if (ImGui::MenuItem("Sprite")) {

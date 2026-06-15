@@ -47,13 +47,9 @@ public:
 	void PreDraw() const override {};
 	// 描画処理
 	void Draw() const override;
-	// 編集処理
-	void Debug_Gui() override;
 	// gizumo表示
 	void Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) override {};
-	// editorに登録
-	void SetEditorWindow();
-
+	
 public:
 
 	AOENGINE::Mesh* GetMesh() { return mesh_.get(); }

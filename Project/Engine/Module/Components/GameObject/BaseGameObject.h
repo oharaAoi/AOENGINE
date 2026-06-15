@@ -49,9 +49,6 @@ public: // public method
 	void UpdateMatrix();
 	// 後から更新する処理
 	void PostUpdate() override;
-
-	// 編集処理
-	void Debug_Gui() override;
 	// Gizumo表示
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
 
@@ -91,6 +88,7 @@ public: // accessor method
 	Math::Vector3 GetPosition() const { return worldPos_; }
 
 	void SetEnableShadow(bool _flag) { enableShadow_ = _flag; }
+	bool GetEnableShadow() const { return enableShadow_; }
 
 	void SetIsReflection(bool isReflection) { isReflection_ = isReflection; }
 
@@ -127,6 +125,8 @@ public: // accessor method
 	AOENGINE::BaseCollider* GetCollider(const std::string& name);
 	AOENGINE::BaseCollider* SetCollider(const std::string& categoryName, ColliderShape shape);
 	void AddCollider(AOENGINE::BaseCollider* _collider, const std::string& categoryName, ColliderShape shape);
+
+	const std::vector<AOENGINE::BaseCollider*>& GetColliders() const { return colliders_; }
 
 	void SetPhysics();
 	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_; }

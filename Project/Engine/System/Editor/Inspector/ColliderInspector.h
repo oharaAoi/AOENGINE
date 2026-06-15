@@ -4,9 +4,9 @@
 namespace AOENGINE {
 
 /// <summary>
-/// Inspector for editing materials owned by BaseGameObject.
+/// Inspector for editing colliders owned by BaseGameObject.
 /// </summary>
-class MaterialInspector {
+class ColliderInspector {
 public:
 	static void Draw(BaseGameObject& object);
 };
