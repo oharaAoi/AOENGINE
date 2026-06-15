@@ -59,7 +59,7 @@ public: // public method
 
 public: // accessor
 
-	AOENGINE::AttributeGui* GetSelectObject() const { return selectAttribute_; }
+	AOENGINE::SceneObject* GetSelectObject() const;
 
 	void SetProcessedSceneFrame(AOENGINE::ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
 	void SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) { sceneRenderer_ = _renderer; }
@@ -67,14 +67,16 @@ public: // accessor
 
 private: // private method
 
-	std::string MakeUniqueName(const std::string& baseName);
+	std::string MakeUniqueName(const std::string& baseName, const AOENGINE::SceneObject* ignoreObject = nullptr) const;
 
 	void CreateNewObjectWindow();
+	void DrawHierarchyObject(AOENGINE::SceneObject& object);
+	bool IsChildObject(const AOENGINE::SceneObject* object) const;
+	bool IsSelected(const AOENGINE::ObjectHandle& handle) const;
 
 private:
 
-	std::vector<AOENGINE::AttributeGui*> attributeArray_;
-	AOENGINE::AttributeGui* selectAttribute_ = nullptr;
+	AOENGINE::ObjectHandle selectedObjectHandle_;
 
 	AOENGINE::ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 	AOENGINE::SceneRenderer* sceneRenderer_;

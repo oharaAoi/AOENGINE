@@ -1,9 +1,14 @@
 #include "SceneObject.h"
+#include <algorithm>
 
 using namespace AOENGINE;
 
 ObjectHandle SceneObject::GetHandle() const {
 	return handle_;
+}
+
+void SceneObject::SetHandle(const ObjectHandle& handle) {
+	handle_ = handle;
 }
 
 const std::string& SceneObject::GetName() const {

@@ -113,7 +113,6 @@ public:
 
 	void SetRenderTarget(AOENGINE::RenderTarget* renderTarget) { renderTarget_ = renderTarget; }
 
-
 	bool GetSceneReset() const { return sceneReset_; }
 
 	bool GetColliderDraw() const { return colliderDraw_; };

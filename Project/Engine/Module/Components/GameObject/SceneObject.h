@@ -5,14 +5,23 @@
 
 namespace AOENGINE {
 
+static constexpr uint32_t kInvalidObjectHandleIndex = UINT32_MAX;
+
 struct ObjectHandle {
-	uint32_t index;
-	uint32_t generation;
+	uint32_t index = kInvalidObjectHandleIndex;
+	uint32_t generation = 0;
+
+	bool IsValid() const { return index != kInvalidObjectHandleIndex && generation != 0; }
+	bool operator==(const ObjectHandle& other) const = default;
 };
 
 class SceneObject {
 public:
+	virtual ~SceneObject() = default;
+
 	ObjectHandle GetHandle() const;
+	void SetHandle(const ObjectHandle& handle);
+
 	const std::string& GetName() const;
 	void SetName(const std::string& name);
 

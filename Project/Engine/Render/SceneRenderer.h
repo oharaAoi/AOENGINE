@@ -2,6 +2,8 @@
 #include <utility>
 #include <memory>
 #include <list>
+#include <unordered_map>
+#include <vector>
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
@@ -124,6 +126,7 @@ public:
 		T* gameObject = static_cast<T*>(pair->object.get());
 		pair->object->Init();
 		pair->object->SetName(objectName);
+		pair->object->SetHandle(AllocateObjectHandle());
 
 		auto& newObject = objectList_.emplace_back(std::move(pair));
 		if (isPostDraw) {
@@ -176,11 +179,22 @@ public:
 
 	void SetRenderingQueue(const std::string& objName, int num);
 
+	std::vector<ObjectHandle> GetObjectHandles() const;
+	AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle);
+	const AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle) const;
+
 private:
+
+	ObjectHandle AllocateObjectHandle();
+	void ReleaseObjectHandle(const ObjectHandle& handle);
 
 	std::list<std::unique_ptr<IObjectPair>> objectList_;
 	std::list<IObjectPair*> postDrawObjectList_;
 	std::list<std::unique_ptr<IObjectPair>> spriteObjectList_;
+
+	uint32_t nextObjectIndex_ = 0;
+	std::vector<uint32_t> reusableObjectIndices_;
+	std::unordered_map<uint32_t, uint32_t> objectGenerations_;
 
 	AOENGINE::ParticleManager* particleManager_;
 	AOENGINE::GpuParticleManager* gpuParticleManager_;

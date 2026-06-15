@@ -196,8 +196,7 @@ void Engine::InitEditor() {
 	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
 	editorWindows_->SetRenderTarget(renderTarget_);
 	editorWindows_->SetCanvas2d(canvas2d_.get());
-	editorWindows_->SetSceneRenderer(SceneRenderer::GetInstance());
-
+	
 	RegisterEditorWindowSystem();
 }
 #endif

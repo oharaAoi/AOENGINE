@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include <Module/Components/Materials/BaseMaterial.h>
 #include <Module/Components/Materials/PBRMaterial.h>
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 using namespace AOENGINE;
 
@@ -15,6 +16,10 @@ SceneRenderer* AOENGINE::SceneRenderer::GetInstance() {
 
 void SceneRenderer::Finalize() {
 	objectList_.clear();
+	postDrawObjectList_.clear();
+	reusableObjectIndices_.clear();
+	objectGenerations_.clear();
+	nextObjectIndex_ = 0;
 	particleManager_->Finalize();
 	gpuParticleManager_->Finalize();
 }
@@ -25,12 +30,18 @@ void SceneRenderer::Finalize() {
 
 void SceneRenderer::Init() {
 	objectList_.clear();
+	postDrawObjectList_.clear();
+	reusableObjectIndices_.clear();
+	objectGenerations_.clear();
+	nextObjectIndex_ = 0;
 
 	particleManager_ = AOENGINE::ParticleManager::GetInstance();
 	particleManager_->Init();
 
 	gpuParticleManager_ = AOENGINE::GpuParticleManager::GetInstance();
 	gpuParticleManager_->Init();
+
+	AOENGINE::EditorWindows::GetInstance()->SetSceneRenderer(this);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,6 +52,9 @@ void SceneRenderer::Update() {
 	// 削除処理
 	for (auto it = objectList_.begin(); it != objectList_.end(); ) {
 		if ((*it)->GetSceneObject()->GetIsDestroy()) {
+			IObjectPair* pair = it->get();
+			ReleaseObjectHandle((*it)->GetSceneObject()->GetHandle());
+			postDrawObjectList_.remove(pair);
 			it = objectList_.erase(it);
 		} else {
 			++it;
@@ -219,9 +233,11 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 		object->SetIsRendering(data.isRendering_);
 
 		if (data.material.shader == "NORMAL") {
+			object->SetHandle(AllocateObjectHandle());
 			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_Normal.json", 0, false, data.name, std::move(object));
 			objectList_.push_back(std::move(pair));
 		} else if (data.material.shader == "PBR") {
+			object->SetHandle(AllocateObjectHandle());
 			auto pair = std::make_unique<ObjectPair<BaseGameObject>>("Object_PBR.json", 0, false, data.name, std::move(object));
 			objectList_.push_back(std::move(pair));
 		}
@@ -231,11 +247,91 @@ void SceneRenderer::CreateObject(SceneLoader::LevelData* loadData) {
 void SceneRenderer::ReleaseObject(ISceneObject* objPtr) {
 	for (auto it = objectList_.begin(); it != objectList_.end(); ) {
 		if ((*it)->GetSceneObject() == objPtr) {
+			IObjectPair* pair = it->get();
+			ReleaseObjectHandle((*it)->GetSceneObject()->GetHandle());
+			postDrawObjectList_.remove(pair);
 			it = objectList_.erase(it);
 		} else {
 			++it;
 		}
 	}
+}
+
+std::vector<ObjectHandle> SceneRenderer::GetObjectHandles() const {
+	std::vector<ObjectHandle> handles;
+	handles.reserve(objectList_.size());
+
+	for (const auto& pair : objectList_) {
+		if (const ISceneObject* object = pair->GetSceneObject()) {
+			handles.push_back(object->GetHandle());
+		}
+	}
+
+	return handles;
+}
+
+ISceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) {
+	if (!handle.IsValid()) {
+		return nullptr;
+	}
+
+	for (auto& pair : objectList_) {
+		ISceneObject* object = pair->GetSceneObject();
+		if (object && object->GetHandle() == handle) {
+			return object;
+		}
+	}
+
+	return nullptr;
+}
+
+const ISceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) const {
+	if (!handle.IsValid()) {
+		return nullptr;
+	}
+
+	for (const auto& pair : objectList_) {
+		const ISceneObject* object = pair->GetSceneObject();
+		if (object && object->GetHandle() == handle) {
+			return object;
+		}
+	}
+
+	return nullptr;
+}
+
+ObjectHandle SceneRenderer::AllocateObjectHandle() {
+	uint32_t index = 0;
+	if (!reusableObjectIndices_.empty()) {
+		index = reusableObjectIndices_.back();
+		reusableObjectIndices_.pop_back();
+	} else {
+		index = nextObjectIndex_++;
+	}
+
+	uint32_t& generation = objectGenerations_[index];
+	if (generation == 0) {
+		generation = 1;
+	}
+
+	return ObjectHandle{ index, generation };
+}
+
+void SceneRenderer::ReleaseObjectHandle(const ObjectHandle& handle) {
+	if (!handle.IsValid()) {
+		return;
+	}
+
+	auto it = objectGenerations_.find(handle.index);
+	if (it == objectGenerations_.end() || it->second != handle.generation) {
+		return;
+	}
+
+	++it->second;
+	if (it->second == 0) {
+		++it->second;
+	}
+	reusableObjectIndices_.push_back(handle.index);
 }
 
 void SceneRenderer::ChangeRenderingType(const std::string& renderingName, ISceneObject* gameObject) {

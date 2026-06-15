@@ -281,6 +281,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\ColliderInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\GeometryObjectInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistration.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\RigidBodyInspector.h" />
@@ -548,6 +550,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\ColliderInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\GeometryObjectInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistration.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\RigidBodyInspector.cpp" />

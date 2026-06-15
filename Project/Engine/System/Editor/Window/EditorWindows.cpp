@@ -6,6 +6,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/Item/ColliderCategorySettingWindow.h"
+#include "Engine/System/Editor/Inspector/InspectorRegistration.h"
 
 using namespace AOENGINE;
 
@@ -26,6 +27,8 @@ void EditorWindows::Finalize() {
 
 #ifdef _DEBUG
 void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
+	RegisterDefaultInspectors();
+
 	packagesWindow_ = std::make_unique<AssetsWindow>();
 	packagesWindow_->Init();
 
@@ -62,7 +65,7 @@ void EditorWindows::Update() {
 	gameObjectWindow_->SetCanvas2d(canvas2d_);
 	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
-
+	
 	// sceneを描画する
 	if (isFullScreen_) {
 		ImGui::Begin("Game");
@@ -131,6 +134,10 @@ void EditorWindows::Begin() {
 
 	// 一番上のbegineの分
 	ImGui::End();
+
+	gameObjectWindow_->SetCanvas2d(canvas2d_);
+	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
+	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
 
 	// -------------------------------------------------
 	// ↓ 編集項目の表示
