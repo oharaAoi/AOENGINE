@@ -5,7 +5,7 @@
 #include "PointLight.h"
 #include "SpotLight.h"
 #include "Engine/DirectX/Pipeline/Pipeline.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 
 namespace AOENGINE {
 
@@ -13,7 +13,7 @@ namespace AOENGINE {
 /// lightをまとめたクラス
 /// </summary>
 class LightGroup :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::SceneObject {
 public:
 
 	enum LightKind {
@@ -36,8 +36,6 @@ public:
 	void Update();
 	// コマンドを積む
 	void BindCommand(const AOENGINE::Pipeline* pso, ID3D12GraphicsCommandList* commandList);
-	// 編集処理
-	void Debug_Gui() override;
 	// 保存項目を読み込む
 	void Load();
 

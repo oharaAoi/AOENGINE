@@ -15,7 +15,8 @@ void SceneWorld::Clear() {
 			slot.object->SetHandle(ObjectHandle{});
 		}
 
-		slot.object.reset();
+		slot.ownedObject.reset();
+		slot.object = nullptr;
 		slot.isAlive = false;
 
 		// generationを進めて、外部が保持している既存ハンドルを失効させる。
@@ -37,10 +38,35 @@ ObjectHandle SceneWorld::AddObject(std::unique_ptr<SceneObject> object, const st
 	}
 
 	ObjectSlot& slot = objectSlots_[handle.index];
-	slot.object = std::move(object);
+	slot.ownedObject = std::move(object);
+	slot.object = slot.ownedObject.get();
 	slot.isAlive = true;
 
 	// 親が設定されるまではHierarchy上のルートとして扱う。
+	AddRootObject(handle);
+	return handle;
+}
+
+ObjectHandle SceneWorld::AddExternalObject(SceneObject& object, const std::string& name) {
+	const ObjectHandle currentHandle = object.GetHandle();
+	if (IsValid(currentHandle) && FindObject(currentHandle) == &object) {
+		if (!name.empty()) {
+			object.SetName(name);
+		}
+		return currentHandle;
+	}
+
+	ObjectHandle handle = AllocateHandle();
+	object.SetHandle(handle);
+	if (!name.empty()) {
+		object.SetName(name);
+	}
+
+	ObjectSlot& slot = objectSlots_[handle.index];
+	slot.ownedObject.reset();
+	slot.object = &object;
+	slot.isAlive = true;
+
 	AddRootObject(handle);
 	return handle;
 }
@@ -83,7 +109,7 @@ SceneObject* SceneWorld::FindObject(ObjectHandle handle) {
 		return nullptr;
 	}
 
-	return objectSlots_[handle.index].object.get();
+	return objectSlots_[handle.index].object;
 }
 
 const SceneObject* SceneWorld::FindObject(ObjectHandle handle) const {
@@ -91,7 +117,7 @@ const SceneObject* SceneWorld::FindObject(ObjectHandle handle) const {
 		return nullptr;
 	}
 
-	return objectSlots_[handle.index].object.get();
+	return objectSlots_[handle.index].object;
 }
 
 std::vector<ObjectHandle> SceneWorld::GetObjectHandles() const {
@@ -297,7 +323,8 @@ void SceneWorld::ReleaseHandle(ObjectHandle handle) {
 		slot.object->SetHandle(ObjectHandle{});
 	}
 
-	slot.object.reset();
+	slot.ownedObject.reset();
+	slot.object = nullptr;
 	slot.isAlive = false;
 	slot.generation = NextGeneration(slot.generation);
 

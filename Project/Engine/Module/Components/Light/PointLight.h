@@ -1,6 +1,5 @@
 #pragma once
 #include "BaseLight.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 namespace AOENGINE {
 
@@ -8,8 +7,7 @@ namespace AOENGINE {
 /// 点光源
 /// </summary>
 class PointLight :
-	public BaseLight,
-	public AOENGINE::AttributeGui {
+	public BaseLight {
 public: // メンバ構造体
 
 	/// <summary>
@@ -73,8 +71,6 @@ public:
 	void Update() override;
 	// コマンドを積む
 	void BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) override;
-	// 編集処理
-	void Debug_Gui();
 	// 外部情報の読み込み
 	void LoadData() override;
 
@@ -83,6 +79,9 @@ public:
 	void SetEyePos(const Math::Vector3& pos) { pointLightData_->eyePos = pos; }
 
 	void SetIntensity(float _intensity) { pointLightData_->intensity = _intensity; }
+
+	Paramter& GetParameter() { return parameter_; }
+	const Paramter& GetParameter() const { return parameter_; }
 
 private:
 

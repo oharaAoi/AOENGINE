@@ -17,7 +17,7 @@ void DirectionalLight::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void DirectionalLight::Init(ID3D12Device* device, const size_t& size) {
-	AOENGINE::AttributeGui::SetName("Directional Light");
+	SetName("Directional Light");
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&directionalLightData_));
 
@@ -92,28 +92,5 @@ void DirectionalLight::LoadData() {
 	baseParameter_.Load();
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void DirectionalLight::Debug_Gui() {
-	EditParameter("BaseDirectional");
-
-	if (ImGui::CollapsingHeader("Unique")) {
-		parameter_.Debug_Gui();
-	}
-	parameter_.direction = Normalize(parameter_.direction);
-
-	directionalLightData_->color = parameter_.color;
-	directionalLightData_->direction = baseParameter_.direction;
-	directionalLightData_->intensity = parameter_.intensity;
-	directionalLightData_->limPower = parameter_.limPower;
-}
-
 void DirectionalLight::Paramter::Debug_Gui() {
-	ImGui::ColorEdit4("color", &color.r);
-	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
-	ImGui::DragFloat("limPower", &limPower, 0.1f, 0.0f, 10.0f);
-
-	SaveAndLoad();
 }

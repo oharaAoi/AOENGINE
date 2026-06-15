@@ -8,14 +8,15 @@
 // math
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
-#include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 
 namespace AOENGINE {
 
 /// <summary>
 /// lightの基底クラス
 /// </summary>
-class BaseLight {
+class BaseLight :
+	public SceneObject {
 public:
 
 	/// <summary>
@@ -91,10 +92,11 @@ public:
 	void ViewBindCommand(ID3D12GraphicsCommandList* commandList, UINT index) const;
 	// 透視投影行列の計算
 	void CalucViewProjection(const Math::Vector3& pos);
-	// パラメータの編集
-	void EditParameter(const std::string& name);
 	// 外部情報の読み込み
 	virtual void LoadData() = 0;
+
+	BaseParameter& GetBaseParameter() { return baseParameter_; }
+	const BaseParameter& GetBaseParameter() const { return baseParameter_; }
 
 protected:
 

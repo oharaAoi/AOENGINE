@@ -64,6 +64,7 @@ void SceneRenderer::Init() {
 	gpuParticleManager_ = AOENGINE::GpuParticleManager::GetInstance();
 	gpuParticleManager_->Init();
 
+	RegisterLightObjects();
 	AOENGINE::EditorWindows::GetInstance()->SetSceneRenderer(this);
 }
 
@@ -284,12 +285,12 @@ std::vector<ObjectHandle> SceneRenderer::GetRootObjectHandles() const {
 	return sceneWorld_.GetRootObjectHandles();
 }
 
-ISceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) {
-	return sceneWorld_.FindObjectAs<ISceneObject>(handle);
+SceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) {
+	return sceneWorld_.FindObject(handle);
 }
 
-const ISceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) const {
-	return sceneWorld_.FindObjectAs<ISceneObject>(handle);
+const SceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) const {
+	return sceneWorld_.FindObject(handle);
 }
 
 bool SceneRenderer::SetParent(const ObjectHandle& child, const ObjectHandle& parent) {
@@ -355,6 +356,30 @@ ISceneObject* SceneRenderer::GetRenderableObject(const RenderEntry& entry) {
 
 const ISceneObject* SceneRenderer::GetRenderableObject(const RenderEntry& entry) const {
 	return sceneWorld_.FindObjectAs<ISceneObject>(entry.handle);
+}
+
+void SceneRenderer::RegisterLightObjects() {
+	LightGroup* lightGroup = AOENGINE::Render::GetLightGroup();
+	if (!lightGroup) {
+		return;
+	}
+
+	const ObjectHandle groupHandle = sceneWorld_.AddExternalObject(*lightGroup, lightGroup->GetName());
+
+	if (DirectionalLight* light = lightGroup->GetDirectionalLight()) {
+		const ObjectHandle lightHandle = sceneWorld_.AddExternalObject(*light, light->GetName());
+		sceneWorld_.SetParent(lightHandle, groupHandle);
+	}
+
+	if (PointLight* light = lightGroup->GetPointLight()) {
+		const ObjectHandle lightHandle = sceneWorld_.AddExternalObject(*light, light->GetName());
+		sceneWorld_.SetParent(lightHandle, groupHandle);
+	}
+
+	if (SpotLight* light = lightGroup->GetSpotLight()) {
+		const ObjectHandle lightHandle = sceneWorld_.AddExternalObject(*light, light->GetName());
+		sceneWorld_.SetParent(lightHandle, groupHandle);
+	}
 }
 
 void SceneRenderer::ChangeRenderingType(const std::string& renderingName, ISceneObject* gameObject) {

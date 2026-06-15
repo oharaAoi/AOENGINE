@@ -88,25 +88,5 @@ void BaseLight::CalucViewProjection(const Math::Vector3& pos) {
 	data_->projection = proj;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseLight::EditParameter(const std::string& name) {
-	if (ImGui::CollapsingHeader(name.c_str())) {
-		baseParameter_.Debug_Gui();
-	}
-}
-
 void BaseLight::BaseParameter::Debug_Gui() {
-	ImGui::DragFloat3("pos", &lightPos.x, 0.1f);
-	ImGui::DragFloat3("direction", &direction.x, 0.1f);
-	ImGui::DragFloat("fovY", &fovY, 0.1f);
-	ImGui::DragFloat("nearClip", &nearClip, 0.1f);
-	ImGui::DragFloat("farClip", &farClip, 0.1f);
-	ImGui::DragFloat("shadowDepth", &shadowDepth, 0.1f);
-	ImGui::DragFloat("shadowWidth", &shadowWidth, 0.1f);
-	ImGui::DragFloat("shadowHeight", &shadowHeight, 0.1f);
-
-	SaveAndLoad();
 }

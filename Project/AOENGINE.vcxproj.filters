@@ -753,6 +753,9 @@
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\LightInspector.h">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClInclude>
@@ -1564,6 +1567,9 @@
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp">
+      <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\LightInspector.cpp">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp">

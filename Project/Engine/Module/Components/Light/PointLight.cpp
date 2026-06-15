@@ -18,7 +18,7 @@ void PointLight::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PointLight::Init(ID3D12Device* device, const size_t& size) {
-	AOENGINE::AttributeGui::SetName("Point Light");
+	SetName("Point Light");
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&pointLightData_));
 
@@ -38,6 +38,11 @@ void PointLight::Init(ID3D12Device* device, const size_t& size) {
 void PointLight::Update() {
 	CalucViewProjection(lightPos_);
 	pointLightData_->viewProjection = viewProjectionMatrix_;
+	pointLightData_->color = parameter_.color;
+	pointLightData_->position = parameter_.position;
+	pointLightData_->intensity = parameter_.intensity;
+	pointLightData_->radius = parameter_.radius;
+	pointLightData_->decay = parameter_.decay;
 	BaseLight::Update();
 }
 
@@ -50,29 +55,9 @@ void PointLight::BindCommand(ID3D12GraphicsCommandList* commandList, const uint3
 	BaseLight::BindCommand(commandList, rootParameterIndex);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PointLight::Debug_Gui() {
-	parameter_.Debug_Gui();
-	pointLightData_->color = parameter_.color;
-	pointLightData_->position = parameter_.position;
-	pointLightData_->intensity = parameter_.intensity;
-	pointLightData_->radius = parameter_.radius;
-	pointLightData_->decay = parameter_.decay;
-}
-
 void PointLight::LoadData() {
 	parameter_.Load();
 }
 
 void PointLight::Paramter::Debug_Gui() {
-	ImGui::ColorEdit4("color", &color.r);
-	ImGui::DragFloat3("position", &position.x, 0.1f);
-	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
-	ImGui::DragFloat("radius", &radius, 0.1f, 0.0f, 10.0f);
-	ImGui::DragFloat("decay", &decay, 0.1f, 0.0f, 1.0f);
-
-	SaveAndLoad();
 }

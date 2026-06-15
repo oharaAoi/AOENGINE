@@ -18,7 +18,7 @@ void SpotLight::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SpotLight::Init(ID3D12Device* device, const size_t& size) {
-	AOENGINE::AttributeGui::SetName("Spot Light");
+	SetName("Spot Light");
 	BaseLight::Init(device, size);
 	lightBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&spotLightData_));
 
@@ -44,25 +44,6 @@ void SpotLight::Init(ID3D12Device* device, const size_t& size) {
 void SpotLight::Update() {
 	CalucViewProjection(lightPos_);
 	spotLightData_->viewProjection = viewProjectionMatrix_;
-	BaseLight::Update();
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ コマンドを積む
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void SpotLight::BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
-	BaseLight::BindCommand(commandList, rootParameterIndex);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void SpotLight::Debug_Gui() {
-	parameter_.Debug_Gui();
-	ImGui::SliderFloat("cosAngle", &cosDegree_, 0.0f, (std::numbers::pi_v<float>));
-	ImGui::SliderFloat("falloffDegree ", &falloffDegree_, 0.0f, (std::numbers::pi_v<float>));
 
 	parameter_.direction = Normalize(parameter_.direction);
 	parameter_.cosAngle = std::cos(cosDegree_);
@@ -80,8 +61,15 @@ void SpotLight::Debug_Gui() {
 	if (spotLightData_->cosFalloffStart <= spotLightData_->cosAngle) {
 		spotLightData_->cosFalloffStart = spotLightData_->cosAngle + 0.01f;
 	}
+	BaseLight::Update();
+}
 
-	parameter_.SaveAndLoad();
+///////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ コマンドを積む
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void SpotLight::BindCommand(ID3D12GraphicsCommandList* commandList, const uint32_t& rootParameterIndex) {
+	BaseLight::BindCommand(commandList, rootParameterIndex);
 }
 
 void SpotLight::LoadData() {
@@ -89,10 +77,4 @@ void SpotLight::LoadData() {
 }
 
 void SpotLight::Parameter::Debug_Gui() {
-	ImGui::ColorEdit4("color", &color.r);
-	ImGui::DragFloat3("position", &position.x, 0.1f);
-	ImGui::DragFloat("intensity", &intensity, 0.1f, 0.0f, 1.0f);
-	ImGui::DragFloat3("direction", &direction.x, 0.1f, -1.0f, 1.0f);
-	ImGui::DragFloat("distance", &distance, 0.1f, 0.0f, 10.0f);
-	ImGui::DragFloat("decay", &decay, 0.1f, 0.0f, 1.0f);
 }

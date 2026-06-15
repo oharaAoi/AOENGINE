@@ -34,6 +34,12 @@ public:
 	ObjectHandle AddObject(std::unique_ptr<SceneObject> object, const std::string& name = {});
 
 	/// <summary>
+	/// 外部で所有されているSceneObjectをSceneWorldに登録します。
+	/// SceneWorldはこのオブジェクトをdeleteしません。
+	/// </summary>
+	ObjectHandle AddExternalObject(SceneObject& object, const std::string& name = {});
+
+	/// <summary>
 	/// SceneObject派生型を生成してSceneWorldに登録します。
 	/// </summary>
 	template<class T, class... Args>
@@ -145,7 +151,8 @@ private:
 	/// generationを進めることで、破棄済みオブジェクトを指す古いObjectHandleを無効化します。
 	/// </summary>
 	struct ObjectSlot {
-		std::unique_ptr<SceneObject> object;
+		std::unique_ptr<SceneObject> ownedObject;
+		SceneObject* object = nullptr;
 		uint32_t generation = 1;
 		bool isAlive = false;
 	};

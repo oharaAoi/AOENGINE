@@ -17,6 +17,8 @@ void LightGroup::Finalize() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void LightGroup::Init(ID3D12Device* device) {
+	SetName("LightGroup");
+
 	directionalLight_ = std::make_unique<DirectionalLight>();
 	pointLight_ = std::make_unique<PointLight>();
 	spotLight_ = std::make_unique<SpotLight>();
@@ -55,20 +57,6 @@ void LightGroup::BindCommand(const Pipeline* pso, ID3D12GraphicsCommandList* com
 	pointLight_->BindCommand(commandList, index);
 	index = pso->GetRootSignatureIndex("gSpotLight");
 	spotLight_->BindCommand(commandList, index);
-}
-
-void LightGroup::Debug_Gui() {
-	if (directionalLight_ && ImGui::CollapsingHeader("Directional Light")) {
-		directionalLight_->Debug_Gui();
-	}
-
-	if (pointLight_ && ImGui::CollapsingHeader("Point Light")) {
-		pointLight_->Debug_Gui();
-	}
-
-	if (spotLight_ && ImGui::CollapsingHeader("Spot Light")) {
-		spotLight_->Debug_Gui();
-	}
 }
 
 void LightGroup::Load() {

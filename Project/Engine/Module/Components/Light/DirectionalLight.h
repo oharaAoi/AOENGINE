@@ -2,7 +2,6 @@
 #include <functional>
 #include "BaseLight.h"
 #include "Engine/Lib/Color.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 namespace AOENGINE {
 
@@ -10,8 +9,7 @@ namespace AOENGINE {
 /// 平行光源
 /// </summary>
 class DirectionalLight :
-	public BaseLight,
-	public AOENGINE::AttributeGui {
+	public BaseLight {
 public: // メンバ構造体
 
 	/// <summary>
@@ -83,12 +81,12 @@ public:
 
 public:
 
-	// 編集処理
-	void Debug_Gui() override;
-
 	void SetEyePos(const Math::Vector3& pos) { directionalLightData_->eyePos = pos; }
 
 	void SetIntensity(float _intensity) { directionalLightData_->intensity = _intensity; }
+
+	Paramter& GetParameter() { return parameter_; }
+	const Paramter& GetParameter() const { return parameter_; }
 
 private:
 
@@ -96,7 +94,6 @@ private:
 
 	Paramter parameter_;
 
-	bool isActive_;
 };
 
 }

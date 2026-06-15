@@ -113,8 +113,8 @@ public:
 	std::vector<ObjectHandle> GetObjectHandles() const;
 	std::vector<ObjectHandle> GetRootObjectHandles() const;
 
-	AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle);
-	const AOENGINE::ISceneObject* FindObject(const ObjectHandle& handle) const;
+	AOENGINE::SceneObject* FindObject(const ObjectHandle& handle);
+	const AOENGINE::SceneObject* FindObject(const ObjectHandle& handle) const;
 
 	bool SetParent(const ObjectHandle& child, const ObjectHandle& parent);
 	bool AddChild(const ObjectHandle& parent, const ObjectHandle& child);
@@ -141,6 +141,7 @@ private:
 	const AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry) const;
 
 	ObjectHandle CreateObjectRecursive(const AOENGINE::SceneLoader::Objects& data, const ObjectHandle& parent);
+	void RegisterLightObjects();
 
 private:
 	SceneWorld sceneWorld_;
