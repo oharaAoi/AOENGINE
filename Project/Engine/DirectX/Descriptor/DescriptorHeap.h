@@ -86,6 +86,11 @@ public:
 	ID3D12DescriptorHeap* GetSRVHeap() { return srvHeap_.Get(); }
 
 	/// <summary>
+	/// SRV Heap先頭のGPU handleを取得する関数
+	/// </summary>
+	D3D12_GPU_DESCRIPTOR_HANDLE GetSRVHeapStartGpuHandle() const;
+
+	/// <summary>
 	/// DSVのHeapを取得する関数
 	/// </summary>
 	/// <returns></returns>

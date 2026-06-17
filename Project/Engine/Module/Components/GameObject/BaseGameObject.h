@@ -56,6 +56,11 @@ public: // public method
 	// ワールド空間の境界球を取得する
 	Math::Sphere GetWorldBoundingSphere() const override;
 
+	/// <summary>
+	/// Object_NormalのInstancing描画に回せる状態かを返します。
+	/// </summary>
+	bool CanUseNormalInstancing() const;
+
 public: // accessor method
 
 	template<class T>
@@ -82,8 +87,10 @@ public: // accessor method
 	void SetParent(BaseGameObject* parent);
 
 	AOENGINE::Model* GetModel() { return model_; }
+	const AOENGINE::Model* GetModel() const { return model_; }
 
 	AOENGINE::WorldTransform* GetTransform() { return transform_; }
+	const AOENGINE::WorldTransform* GetTransform() const { return transform_; }
 
 	Math::Vector3 GetPosition() const { return worldPos_; }
 

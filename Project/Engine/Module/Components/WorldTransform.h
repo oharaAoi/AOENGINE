@@ -101,6 +101,12 @@ public: // accessor method
 	const Math::Matrix4x4& GetWorldMatrix() const { return worldMat_; }
 	const Math::Matrix4x4& GetWorldMatrixPrev() const { return data_->matWorldPrev; }
 
+	/// <summary>
+	/// GPUへ送っているTransform情報を取得します。
+	/// Instancing描画ではこの内容をinstance bufferへコピーします。
+	/// </summary>
+	const AOENGINE::WorldTransformData& GetData() const { return *data_; }
+
 	Math::Vector3 GetWorldPos() const { return DecomposeTranslate(worldMat_); }
 	Math::Quaternion GetWorldRotate() const { return DecomposeRotate(worldMat_, srt_.scale); }
 

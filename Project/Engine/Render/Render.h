@@ -163,7 +163,16 @@ public:
 	static void SetVpvpMatrix(const Math::Matrix4x4& _mat);
 	static Math::Matrix4x4 GetVpvpMatrix();
 
+	/// <summary>
+	/// 環境マップとして使用するTexture名を設定します。
+	/// </summary>
 	static void SetSkyboxTexture(const std::string& _name);
+
+	/// <summary>
+	/// 環境マップとして使用するTexture名を取得します。
+	/// Instancing描画でも同じTextureをRootSignatureへbindします。
+	/// </summary>
+	static const std::string& GetSkyboxTexture();
 
 	static ID3D12Resource* GetShadowDepth();
 

@@ -81,6 +81,7 @@ public: // accessor
 	std::unordered_map<std::string, ModelMaterialData>& GetMaterialData() { return materialData_; }
 
 	AOENGINE::Mesh* GetMesh(const uint32_t& index);
+	AOENGINE::Mesh* GetMesh(const uint32_t& index) const;
 	size_t GetMeshsNum() const { return meshArray_.size(); }
 
 	const size_t GetMaterialsSize() const { return materialData_.size(); }
@@ -91,9 +92,16 @@ public: // accessor
 
 	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
 
+	/// <summary>
+	/// モデル全体を囲むローカル空間の境界球を取得します。
+	/// Frustum Culling時にWorldTransformでワールド空間へ変換して使用します。
+	/// </summary>
 	const Math::Sphere& GetLocalBoundingSphere() const { return localBoundingSphere_; }
 
 private:
+	/// <summary>
+	/// 読み込んだ全Meshの頂点から、モデル全体のローカル境界球を計算します。
+	/// </summary>
 	void CalculateLocalBoundingSphere();
 
 private: // private variable

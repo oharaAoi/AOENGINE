@@ -2,15 +2,18 @@
 
 #include <algorithm>
 #include <format>
+#include <iterator>
 
 #include "Engine/Core/Engine.h"
 #include "Engine/Lib/Math/Frustum.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
+#include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/Render.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/System/Manager/TextureManager.h"
 
 using namespace AOENGINE;
 
@@ -42,6 +45,7 @@ SceneRenderer* AOENGINE::SceneRenderer::GetInstance() {
 void SceneRenderer::Finalize() {
 	renderEntries_.clear();
 	sceneWorld_.Clear();
+	modelInstancingRenderer_.Finalize();
 
 	if (particleManager_) {
 		particleManager_->Finalize();
@@ -103,6 +107,10 @@ void SceneRenderer::PostUpdate() {
 void SceneRenderer::Draw() const {
 	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
 
+	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
+	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
+	modelInstancingRenderer_.BeginFrame();
+
 	// 影の描画
 	AOENGINE::Render::SetShadowMap();
 	for (const RenderEntry& entry : renderEntries_) {
@@ -126,10 +134,20 @@ void SceneRenderer::Draw() const {
 
 		const ISceneObject* obj = GetRenderableObject(entry);
 		if (obj && obj->IsActive() && IsVisible(*obj, cameraFrustum)) {
+			const BaseGameObject* baseObject = dynamic_cast<const BaseGameObject*>(obj);
+
+			// Instancing化できたObjectはここでは描画せず、batch描画へ回します。
+			if (baseObject && TryAddNormalInstancingBatch(entry, *baseObject, normalInstancingBatches)) {
+				continue;
+			}
+
+			// Instancing対象外のObjectは従来通り個別に描画します。
 			Engine::SetPipeline(PSOType::Object3d, entry.renderingType);
 			obj->Draw();
 		}
 	}
+
+	modelInstancingRenderer_.DrawNormalBatches(normalInstancingBatches);
 
 	// particleの描画
 	particleManager_->Draw();
@@ -369,6 +387,83 @@ bool SceneRenderer::IsVisible(const AOENGINE::ISceneObject& object, const Math::
 	}
 
 	return frustum.Intersects(object.GetWorldBoundingSphere());
+}
+
+bool SceneRenderer::TryAddNormalInstancingBatch(
+	const RenderEntry& entry,
+	const AOENGINE::BaseGameObject& object,
+	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches) const {
+	// 現時点ではObject_Normal.json相当の非SkinningモデルだけをInstancing対象にします。
+	if (entry.renderingType != "Object_Normal.json" || !object.CanUseNormalInstancing()) {
+		return false;
+	}
+
+	const AOENGINE::Model* model = object.GetModel();
+	const AOENGINE::WorldTransform* transform = object.GetTransform();
+	if (!model || !transform) {
+		return false;
+	}
+
+	struct PendingMesh {
+		AOENGINE::Mesh* mesh = nullptr;
+		const AOENGINE::Material::MaterialData* materialData = nullptr;
+		uint32_t albedoTextureIndex = 0;
+	};
+
+	std::vector<PendingMesh> pendingMeshes;
+	pendingMeshes.reserve(model->GetMeshsNum());
+
+	const auto& materials = object.GetMaterials();
+	for (uint32_t index = 0; index < model->GetMeshsNum(); ++index) {
+		AOENGINE::Mesh* mesh = model->GetMesh(index);
+		if (!mesh) {
+			return false;
+		}
+
+		// Meshが参照しているMaterialを取得できない場合は、通常描画へ戻します。
+		const auto materialIt = materials.find(mesh->GetUseMaterial());
+		if (materialIt == materials.end() || !materialIt->second) {
+			return false;
+		}
+
+		// 現在のInstancing PSはMaterial用の構造体だけに対応しているため、PBR/ShaderGraphは対象外です。
+		const AOENGINE::Material* material = dynamic_cast<const AOENGINE::Material*>(materialIt->second.get());
+		if (!material || material->GetShaderType() != MaterialShaderType::UniversalRender) {
+			return false;
+		}
+
+		// Texture差分はSRV heap indexとしてinstanceごとに持たせます。
+		pendingMeshes.push_back(PendingMesh{
+			.mesh = mesh,
+			.materialData = &material->GetMaterialData(),
+			.albedoTextureIndex = AOENGINE::TextureManager::GetInstance()->GetTextureDescriptorIndex(material->GetAlbedoTexture())
+		});
+	}
+
+	for (const PendingMesh& pending : pendingMeshes) {
+		auto batchIt = std::find_if(
+			batches.begin(),
+			batches.end(),
+			[&pending](const AOENGINE::ModelInstancingRenderer::NormalBatch& batch) {
+				// Material/Texture差分はinstance dataへ入るため、batchはMesh単位でまとめます。
+				return batch.mesh == pending.mesh;
+			});
+
+		if (batchIt == batches.end()) {
+			AOENGINE::ModelInstancingRenderer::NormalBatch batch;
+			batch.mesh = pending.mesh;
+			batches.push_back(std::move(batch));
+			batchIt = std::prev(batches.end());
+		}
+
+		batchIt->instances.push_back(AOENGINE::ModelInstancingRenderer::InstanceSource{
+			.transform = transform,
+			.material = pending.materialData,
+			.albedoTextureIndex = pending.albedoTextureIndex
+		});
+	}
+
+	return true;
 }
 
 void SceneRenderer::RegisterLightObjects() {

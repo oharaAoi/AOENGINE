@@ -171,6 +171,12 @@ public:
 
 	AOENGINE::DxResource* GetResource(const std::string& _textureName);
 
+	/// <summary>
+	/// 指定TextureのSRV heap上のdescriptor indexを取得します。
+	/// Instancing描画ではこのindexをMaterial dataに持たせ、Shader側でTexture配列を参照します。
+	/// </summary>
+	uint32_t GetTextureDescriptorIndex(const std::string& filePath) const;
+
 	uint32_t GetSRVDataIndex() { return static_cast<uint32_t>(textureData_.size()); }
 
 	const Math::Vector2 GetTextureSize(const std::string& filePath);

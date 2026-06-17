@@ -48,6 +48,12 @@ public:
 
 	void SetDiscardValue(float _value) { discardValue_ = _value; }
 
+	/// <summary>
+	/// GPUへ送っているMaterial情報を取得します。
+	/// Instancing描画ではこの内容にTexture descriptor indexを加えてinstance bufferへコピーします。
+	/// </summary>
+	const MaterialData& GetMaterialData() const { return *material_; }
+
 private:
 
 	MaterialData* material_;

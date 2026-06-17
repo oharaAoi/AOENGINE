@@ -101,12 +101,17 @@ Mesh* AOENGINE::Model::GetMesh(const uint32_t& index) {
 	return meshArray_[index].get();
 }
 
+Mesh* AOENGINE::Model::GetMesh(const uint32_t& index) const {
+	return meshArray_[index].get();
+}
+
 void AOENGINE::Model::CalculateLocalBoundingSphere() {
 	if (meshArray_.empty()) {
 		localBoundingSphere_ = Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
 		return;
 	}
 
+	// まず全頂点を含むAABBを求め、境界球の中心候補にします。
 	Math::Vector3 min{
 		(std::numeric_limits<float>::max)(),
 		(std::numeric_limits<float>::max)(),
@@ -140,6 +145,7 @@ void AOENGINE::Model::CalculateLocalBoundingSphere() {
 	const Math::Vector3 center = (min + max) * 0.5f;
 	float radius = 0.0f;
 
+	// 中心から最も遠い頂点までの距離を半径にして、全Meshを含む境界球にします。
 	for (const std::shared_ptr<AOENGINE::Mesh>& mesh : meshArray_) {
 		if (!mesh) {
 			continue;

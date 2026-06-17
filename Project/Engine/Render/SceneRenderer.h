@@ -11,6 +11,7 @@
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Scene/SceneLoader.h"
 #include "Engine/System/Scene/SceneWorld.h"
+#include "Engine/Render/ModelInstancingRenderer.h"
 #include "Engine/Utilities/Logger.h"
 
 namespace Math {
@@ -18,6 +19,8 @@ class Frustum;
 }
 
 namespace AOENGINE {
+
+class BaseGameObject;
 
 /// <summary>
 /// SceneWorldが所有するオブジェクトを描画するクラス。
@@ -143,7 +146,21 @@ private:
 
 	AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry);
 	const AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry) const;
+
+	/// <summary>
+	/// Frustum Cullingの対象なら視錐台との交差判定を行います。
+	/// 対象外のSceneObjectは常に表示扱いにします。
+	/// </summary>
 	bool IsVisible(const AOENGINE::ISceneObject& object, const ::Math::Frustum& frustum) const;
+
+	/// <summary>
+	/// 通常3DモデルをInstancing batchへ追加できる場合だけ追加します。
+	/// 追加できない場合はfalseを返し、呼び出し側で従来の個別描画へ戻します。
+	/// </summary>
+	bool TryAddNormalInstancingBatch(
+		const RenderEntry& entry,
+		const AOENGINE::BaseGameObject& object,
+		std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches) const;
 
 	ObjectHandle CreateObjectRecursive(const AOENGINE::SceneLoader::Objects& data, const ObjectHandle& parent);
 	void RegisterLightObjects();
@@ -154,5 +171,6 @@ private:
 
 	AOENGINE::ParticleManager* particleManager_ = nullptr;
 	AOENGINE::GpuParticleManager* gpuParticleManager_ = nullptr;
+	mutable AOENGINE::ModelInstancingRenderer modelInstancingRenderer_;
 };
 }

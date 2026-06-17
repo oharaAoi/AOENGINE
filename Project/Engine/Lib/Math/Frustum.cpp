@@ -21,7 +21,7 @@ void Plane::Normalize() {
 Math::Frustum Frustum::FromViewProjection(const Math::Matrix4x4& viewProjection) {
 	Math::Frustum frustum{};
 
-	// This matrix uses row-vector multiplication, so clip planes are extracted from columns.
+	// このエンジンは行ベクトルの行列計算を使うため、clip planeは列方向の成分から抽出します。
 	frustum.planes_[Left] = Math::Plane{
 		.normal = Math::Vector3(
 			viewProjection.m[0][0] + viewProjection.m[0][3],
@@ -65,6 +65,7 @@ Math::Frustum Frustum::FromViewProjection(const Math::Matrix4x4& viewProjection)
 		.distance = viewProjection.m[3][3] - viewProjection.m[3][2],
 	};
 
+	// 距離判定を半径と比較できるように、すべての平面を正規化します。
 	for (Math::Plane& plane : frustum.planes_) {
 		plane.Normalize();
 	}
@@ -74,6 +75,7 @@ Math::Frustum Frustum::FromViewProjection(const Math::Matrix4x4& viewProjection)
 
 bool Frustum::Intersects(const Math::Sphere& sphere) const {
 	for (const Math::Plane& plane : planes_) {
+		// 平面の外側へ半径以上離れている場合、その球は完全に視錐台外です。
 		if (plane.SignedDistance(sphere.center) < -sphere.radius) {
 			return false;
 		}

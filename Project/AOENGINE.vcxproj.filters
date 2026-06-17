@@ -639,6 +639,9 @@
     <ClInclude Include="Engine\Render\InstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\ModelInstancingRenderer.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
@@ -1456,6 +1459,9 @@
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\InstancingRenderer.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\ModelInstancingRenderer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp">

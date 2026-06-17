@@ -246,6 +246,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Engine\Render\InstancingRenderer.h" />
+    <ClInclude Include="Engine\Render\ModelInstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
     <ClInclude Include="Engine\Render\Render.h" />
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
@@ -521,6 +522,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
+    <ClCompile Include="Engine\Render\ModelInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\Render.cpp" />
     <ClCompile Include="Engine\Render\RenderingCommands.cpp" />

@@ -83,6 +83,10 @@ void AOENGINE::DescriptorHeap::SetSRVHeap(ID3D12GraphicsCommandList* _commandLis
 	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
 }
 
+D3D12_GPU_DESCRIPTOR_HANDLE AOENGINE::DescriptorHeap::GetSRVHeapStartGpuHandle() const {
+	return srvHeap_->GetGPUDescriptorHandleForHeapStart();
+}
+
 DescriptorHandles AOENGINE::DescriptorHeap::GetDescriptorHandle(const DescriptorHeapType& _type) {
 	DescriptorHandles handle{};
 

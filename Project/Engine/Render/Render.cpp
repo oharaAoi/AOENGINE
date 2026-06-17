@@ -297,6 +297,11 @@ void AOENGINE::Render::SetSkyboxTexture(const std::string& _name) {
 	skyboxTexture_ = _name;
 }
 
+const std::string& AOENGINE::Render::GetSkyboxTexture() {
+	// Instancing描画でも通常描画と同じ環境マップを参照するため、現在設定中のTexture名を返します。
+	return skyboxTexture_;
+}
+
 ID3D12Resource* AOENGINE::Render::GetShadowDepth() {
 	return shadowMap_->GetDepthResource();
 }

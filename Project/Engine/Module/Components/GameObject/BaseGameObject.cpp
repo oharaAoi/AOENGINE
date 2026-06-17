@@ -48,6 +48,7 @@ void BaseGameObject::Init() {
 
 	isDestroy_ = false;
 	isRendering_ = true;
+	isReflection_ = false;
 
 	transform_->Update();
 }
@@ -338,6 +339,8 @@ Math::Sphere BaseGameObject::GetWorldBoundingSphere() const {
 
 	const Math::Sphere& localSphere = model_->GetLocalBoundingSphere();
 	const Math::Matrix4x4& worldMatrix = transform_->GetWorldMatrix();
+
+	// 非等倍Scaleでも球がモデル全体を含むように、最大Scale成分で半径を拡大します。
 	const Math::Vector3 worldScale = worldMatrix.GetScale();
 	const float maxScale = std::fmax(std::fmax(std::fabs(worldScale.x), std::fabs(worldScale.y)), std::fabs(worldScale.z));
 
@@ -345,4 +348,17 @@ Math::Sphere BaseGameObject::GetWorldBoundingSphere() const {
 		.center = TransformCoord(localSphere.center, worldMatrix),
 		.radius = localSphere.radius * maxScale
 	};
+}
+
+bool BaseGameObject::CanUseNormalInstancing() const {
+	// Reflection描画や非表示Objectは個別の描画条件があるためInstancing対象外にします。
+	if (model_ == nullptr || transform_ == nullptr || !isRendering_ || isReflection_) {
+		return false;
+	}
+
+	// Skinning済み頂点はMeshごとにVBVが変わるため、現在の通常Instancingでは扱いません。
+	if (animetor_ != nullptr && animetor_->GetIsSkinning()) {
+		return false;
+	}
+	return true;
 }

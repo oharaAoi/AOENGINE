@@ -407,6 +407,26 @@ const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::s
 	return textureData_.at(name).resource_->GetSRV();
 }
 
+uint32_t AOENGINE::TextureManager::GetTextureDescriptorIndex(const std::string& filePath) const {
+	std::filesystem::path path = filePath;
+	std::string name = path.stem().string();
+	auto it = textureData_.find(name);
+	if (it != textureData_.end()) {
+		// DescriptorAllocatorが割り当てたSRV heap indexを、そのままShader側のTexture配列indexとして使います。
+		return static_cast<uint32_t>(it->second.resource_->GetSRV().assignIndex_);
+	}
+
+	auto errorIt = textureData_.find("error");
+	if (errorIt != textureData_.end()) {
+		// 通常のTexture bindと同じく、未読み込みTextureはerror textureへフォールバックします。
+		return static_cast<uint32_t>(errorIt->second.resource_->GetSRV().assignIndex_);
+	}
+
+	std::string comment = name + "が見つかりません(TextureManager::GetTextureDescriptorIndex)";
+	AOENGINE::Logger::AssertLog(comment);
+	return 0;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Textureのリソースを返す
 /////////////////////////////////////////////////////////////////////////////////////////////
