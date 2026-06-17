@@ -32,13 +32,8 @@ const char* GetColliderShapeName(const AOENGINE::BaseCollider& collider) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::ColliderInspector::Draw(BaseGameObject& object) {
-	if (!ImGui::CollapsingHeader("Colliders")) {
-		return;
-	}
-
 	const auto& colliders = object.GetColliders();
 	if (colliders.empty()) {
-		ImGui::TextUnformatted("No colliders");
 		return;
 	}
 
