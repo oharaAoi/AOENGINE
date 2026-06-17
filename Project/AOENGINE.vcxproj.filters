@@ -363,6 +363,9 @@
     <ClInclude Include="Engine\Lib\Math\Easing.h">
       <Filter>Engine\Lib\Math</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Lib\Math\Frustum.h">
+      <Filter>Engine\Lib\Math</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Lib\Math\MathStructures.h">
       <Filter>Engine\Lib\Math</Filter>
     </ClInclude>
@@ -1189,6 +1192,9 @@
       <Filter>Engine\Lib\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\Math\Easing.cpp">
+      <Filter>Engine\Lib\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Lib\Math\Frustum.cpp">
       <Filter>Engine\Lib\Math</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Lib\Math\MathStructures.cpp">

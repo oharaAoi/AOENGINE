@@ -4,6 +4,7 @@
 #include <format>
 
 #include "Engine/Core/Engine.h"
+#include "Engine/Lib/Math/Frustum.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
@@ -100,6 +101,8 @@ void SceneRenderer::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Draw() const {
+	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
+
 	// 影の描画
 	AOENGINE::Render::SetShadowMap();
 	for (const RenderEntry& entry : renderEntries_) {
@@ -122,7 +125,7 @@ void SceneRenderer::Draw() const {
 		}
 
 		const ISceneObject* obj = GetRenderableObject(entry);
-		if (obj && obj->IsActive()) {
+		if (obj && obj->IsActive() && IsVisible(*obj, cameraFrustum)) {
 			Engine::SetPipeline(PSOType::Object3d, entry.renderingType);
 			obj->Draw();
 		}
@@ -134,13 +137,15 @@ void SceneRenderer::Draw() const {
 }
 
 void SceneRenderer::PostDraw() const {
+	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
+
 	for (const RenderEntry& entry : renderEntries_) {
 		if (!entry.isPostDraw) {
 			continue;
 		}
 
 		const ISceneObject* obj = GetRenderableObject(entry);
-		if (obj && obj->IsActive()) {
+		if (obj && obj->IsActive() && IsVisible(*obj, cameraFrustum)) {
 			Engine::SetPipeline(PSOType::Object3d, entry.renderingType);
 			obj->Draw();
 		}
@@ -356,6 +361,14 @@ ISceneObject* SceneRenderer::GetRenderableObject(const RenderEntry& entry) {
 
 const ISceneObject* SceneRenderer::GetRenderableObject(const RenderEntry& entry) const {
 	return sceneWorld_.FindObjectAs<ISceneObject>(entry.handle);
+}
+
+bool SceneRenderer::IsVisible(const AOENGINE::ISceneObject& object, const Math::Frustum& frustum) const {
+	if (!object.IsFrustumCullingEnabled()) {
+		return true;
+	}
+
+	return frustum.Intersects(object.GetWorldBoundingSphere());
 }
 
 void SceneRenderer::RegisterLightObjects() {

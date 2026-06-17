@@ -9,6 +9,8 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
 
+#include <cmath>
+
 using namespace AOENGINE;
 
 BaseGameObject::~BaseGameObject() {
@@ -138,6 +140,7 @@ void BaseGameObject::PostUpdate() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::PreDraw() const {
+	if (!isRendering_) { return; }
 	if (!enableShadow_) { return; }
 	if (model_ == nullptr) { return; }
 	Engine::SetPipeline(PSOType::Object3d, "Object_ShadowMap.json");
@@ -322,4 +325,24 @@ void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
 
 void BaseGameObject::Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) {
 	transform_->Manipulate(windowSize, imagePos);
+}
+
+bool BaseGameObject::IsFrustumCullingEnabled() const {
+	return model_ != nullptr && transform_ != nullptr;
+}
+
+Math::Sphere BaseGameObject::GetWorldBoundingSphere() const {
+	if (model_ == nullptr || transform_ == nullptr) {
+		return Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
+	}
+
+	const Math::Sphere& localSphere = model_->GetLocalBoundingSphere();
+	const Math::Matrix4x4& worldMatrix = transform_->GetWorldMatrix();
+	const Math::Vector3 worldScale = worldMatrix.GetScale();
+	const float maxScale = std::fmax(std::fmax(std::fabs(worldScale.x), std::fabs(worldScale.y)), std::fabs(worldScale.z));
+
+	return Math::Sphere{
+		.center = TransformCoord(localSphere.center, worldMatrix),
+		.radius = localSphere.radius * maxScale
+	};
 }

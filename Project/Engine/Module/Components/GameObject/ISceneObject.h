@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/Components/GameObject/SceneObject.h"
+#include "Engine/Lib/Math/MathStructures.h"
 #include <imgui.h>
 
 namespace AOENGINE {
@@ -28,6 +29,10 @@ public: // public method
 	virtual void Draw() const = 0;
 	// gizumo表示
 	virtual void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) = 0;
+	// Frustum Cullingを有効にするか
+	virtual bool IsFrustumCullingEnabled() const { return false; }
+	// Frustum Cullingに使用するワールド空間の境界球
+	virtual Math::Sphere GetWorldBoundingSphere() const { return Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f }; }
 
 public: // accessor
 

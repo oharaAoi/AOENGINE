@@ -91,6 +91,11 @@ public: // accessor
 
 	const AssetHandle& GetAssetHandle() const { return assetHandle_; }
 
+	const Math::Sphere& GetLocalBoundingSphere() const { return localBoundingSphere_; }
+
+private:
+	void CalculateLocalBoundingSphere();
+
 private: // private variable
 
 	// 頂点バッファやインデックスバッファを持つ
@@ -105,5 +110,7 @@ private: // private variable
 	std::string name_;
 	// アセットハンドル
 	AssetHandle assetHandle_ = AssetHandle(AssetType::Model);
+	// モデル全体を囲むローカル空間の境界球
+	Math::Sphere localBoundingSphere_ = Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
 };
 }

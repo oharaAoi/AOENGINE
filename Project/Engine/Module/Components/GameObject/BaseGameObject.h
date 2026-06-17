@@ -51,6 +51,10 @@ public: // public method
 	void PostUpdate() override;
 	// Gizumo表示
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos);
+	// Frustum Cullingを有効にするか
+	bool IsFrustumCullingEnabled() const override;
+	// ワールド空間の境界球を取得する
+	Math::Sphere GetWorldBoundingSphere() const override;
 
 public: // accessor method
 

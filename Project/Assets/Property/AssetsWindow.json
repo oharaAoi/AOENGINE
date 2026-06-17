@@ -1,13 +1,30 @@
 {
     "currentPath": {
-        "path": "./Project/Assets"
+        "path": "./Project/Assets\\Engine\\Load\\Models\\Develop"
     },
     "openDir": {
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": true,
-        "./Project/Assets\\Converter\\ConvertedDDS": false,
-        "./Project/Assets\\Engine": false,
-        "./Project/Assets\\Game": false,
+        "./Project/Assets\\Converter\\ConvertedDDS": true,
+        "./Project/Assets\\Engine": true,
+        "./Project/Assets\\Engine\\Font": false,
+        "./Project/Assets\\Engine\\HLSL": false,
+        "./Project/Assets\\Engine\\Load": true,
+        "./Project/Assets\\Engine\\Load\\Models": true,
+        "./Project/Assets\\Engine\\Load\\Models\\Develop": true,
+        "./Project/Assets\\Engine\\Load\\Models\\Template": false,
+        "./Project/Assets\\Engine\\Load\\Sounds": false,
+        "./Project/Assets\\Engine\\Load\\Textures": false,
+        "./Project/Assets\\Engine\\Pipeline": false,
+        "./Project/Assets\\Game": true,
+        "./Project/Assets\\Game\\GameData": false,
+        "./Project/Assets\\Game\\HLSL": false,
+        "./Project/Assets\\Game\\Load": true,
+        "./Project/Assets\\Game\\Load\\Models": false,
+        "./Project/Assets\\Game\\Load\\Sounds": false,
+        "./Project/Assets\\Game\\Load\\Textures": false,
+        "./Project/Assets\\Game\\Pipeline": false,
+        "./Project/Assets\\Game\\Scene": false,
         "./Project/Assets\\Property": false
     }
 }

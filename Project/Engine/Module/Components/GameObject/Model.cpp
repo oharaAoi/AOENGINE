@@ -4,6 +4,7 @@
 #include <sstream>
 #include <cassert>
 #include <cmath>
+#include <limits>
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Module/Components/Rigging/Skinning.h"
@@ -41,6 +42,7 @@ void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath
 	skinClusterArray_ = LoadSkinCluster(directorPath, fileName);
 
 	rootNode_ = LoadNode(directorPath, fileName);
+	CalculateLocalBoundingSphere();
 
 	AOENGINE::Logger::Log(" --- success!\n");
 }
@@ -97,4 +99,60 @@ AOENGINE::Model::Node AOENGINE::Model::ReadNode(aiNode* node, const aiScene* sce
 
 Mesh* AOENGINE::Model::GetMesh(const uint32_t& index) {
 	return meshArray_[index].get();
+}
+
+void AOENGINE::Model::CalculateLocalBoundingSphere() {
+	if (meshArray_.empty()) {
+		localBoundingSphere_ = Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
+		return;
+	}
+
+	Math::Vector3 min{
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)()
+	};
+	Math::Vector3 max{
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest()
+	};
+	bool hasVertex = false;
+
+	for (const std::shared_ptr<AOENGINE::Mesh>& mesh : meshArray_) {
+		if (!mesh) {
+			continue;
+		}
+
+		for (const VertexData& vertex : mesh->GetVerticesData()) {
+			const Math::Vector3 position{ vertex.pos.x, vertex.pos.y, vertex.pos.z };
+			min = Math::Vector3::Min(min, position);
+			max = Math::Vector3::Max(max, position);
+			hasVertex = true;
+		}
+	}
+
+	if (!hasVertex) {
+		localBoundingSphere_ = Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
+		return;
+	}
+
+	const Math::Vector3 center = (min + max) * 0.5f;
+	float radius = 0.0f;
+
+	for (const std::shared_ptr<AOENGINE::Mesh>& mesh : meshArray_) {
+		if (!mesh) {
+			continue;
+		}
+
+		for (const VertexData& vertex : mesh->GetVerticesData()) {
+			const Math::Vector3 position{ vertex.pos.x, vertex.pos.y, vertex.pos.z };
+			const float distance = (position - center).Length();
+			if (distance > radius) {
+				radius = distance;
+			}
+		}
+	}
+
+	localBoundingSphere_ = Math::Sphere{ .center = center, .radius = radius };
 }

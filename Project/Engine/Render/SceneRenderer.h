@@ -13,6 +13,10 @@
 #include "Engine/System/Scene/SceneWorld.h"
 #include "Engine/Utilities/Logger.h"
 
+namespace Math {
+class Frustum;
+}
+
 namespace AOENGINE {
 
 /// <summary>
@@ -139,6 +143,7 @@ private:
 
 	AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry);
 	const AOENGINE::ISceneObject* GetRenderableObject(const RenderEntry& entry) const;
+	bool IsVisible(const AOENGINE::ISceneObject& object, const ::Math::Frustum& frustum) const;
 
 	ObjectHandle CreateObjectRecursive(const AOENGINE::SceneLoader::Objects& data, const ObjectHandle& parent);
 	void RegisterLightObjects();

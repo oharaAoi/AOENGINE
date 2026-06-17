@@ -153,6 +153,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Lib\Json\JsonSerializer.h" />
     <ClInclude Include="Engine\Lib\Math\Curve.h" />
     <ClInclude Include="Engine\Lib\Math\Easing.h" />
+    <ClInclude Include="Engine\Lib\Math\Frustum.h" />
     <ClInclude Include="Engine\Lib\Math\MathStructures.h" />
     <ClInclude Include="Engine\Lib\Math\Matrix3x3.h" />
     <ClInclude Include="Engine\Lib\Math\Matrix4x4.h" />
@@ -431,6 +432,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Lib\Json\JsonSerializer.cpp" />
     <ClCompile Include="Engine\Lib\Math\Curve.cpp" />
     <ClCompile Include="Engine\Lib\Math\Easing.cpp" />
+    <ClCompile Include="Engine\Lib\Math\Frustum.cpp" />
     <ClCompile Include="Engine\Lib\Math\MathStructures.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix3x3.cpp" />
     <ClCompile Include="Engine\Lib\Math\Matrix4x4.cpp" />
