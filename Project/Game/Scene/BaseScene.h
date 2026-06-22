@@ -6,6 +6,10 @@
 #include "Engine/System/Manager/CollisionManager.h"
 #include "Game/Scene/SceneType.h"
 #include "Game/WorldObject/Skybox.h"
+// camera
+#include "Engine/Module/Entity/Camera/DebugCamera.h"
+#include "Engine/Module/Entity/Camera/Camera2d.h"
+#include "Engine/Module/Entity/Camera/Camera3d.h"
 
 /// <summary>
 /// BaseとなるScene
@@ -26,7 +30,7 @@ public:
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	virtual void Init() = 0;
+	virtual void Init();
 
 	/// <summary>
 	/// 更新処理
@@ -66,6 +70,11 @@ public:
 	/// </summary>
 	void LoadSceneEffect();
 
+	/// <summary>
+	/// Cameraをシーンに登録する
+	/// </summary>
+	void RegisterCamera();
+
 public:
 
 	const std::optional<SceneType>& GetNextSceneType() const { return nextSceneType_; }
@@ -84,5 +93,10 @@ protected:
 	Skybox* skybox_;
 
 	std::string sceneName_;
+
+	// ------------------- camera ------------------- //
+	std::unique_ptr<Camera2d> camera2d_ = nullptr;
+	std::unique_ptr<Camera3d> camera3d_ = nullptr;
+	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
 };
 

@@ -34,7 +34,7 @@ void AOENGINE::DescriptorHeap::Init(ID3D12Device* _device) {
 	// ヒープの生成
 	rtvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_RTV, totalRTVNum, false);
 	srvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, (1 << 16), true);
-	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 4 + 1, false);
+	dsvHeap_ = CreateDescriptorHeap(device_, D3D12_DESCRIPTOR_HEAP_TYPE_DSV, 6 + 1, false);
 
 	// アロケータの初期化
 	srvAllocator_ = std::make_unique<DescriptorAllocator>(
@@ -46,7 +46,7 @@ void AOENGINE::DescriptorHeap::Init(ID3D12Device* _device) {
 
 	dsvAllocator_ = std::make_unique<DescriptorAllocator>(
 		DescriptorType::DSV,
-		5,
+		7,
 		descriptorSize_->GetDSV(),
 		1
 	);

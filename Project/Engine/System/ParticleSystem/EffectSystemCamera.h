@@ -1,5 +1,5 @@
 #pragma once
-#include "Game/Camera/BaseCamera.h"
+#include "Engine/Module/Entity/Camera/BaseCamera.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 

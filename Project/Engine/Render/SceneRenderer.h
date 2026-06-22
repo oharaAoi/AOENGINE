@@ -47,6 +47,14 @@ public:
 	void PostUpdate();
 	// 描画処理
 	void Draw() const;
+	/// <summary>
+	/// Cameraに依存しないShadow Mapを1フレームに1度描画する。
+	/// </summary>
+	void DrawShadowMap() const;
+	/// <summary>
+	/// 現在Renderへ適用されているCameraとRenderTargetへSceneを描画する。
+	/// </summary>
+	void DrawSceneObjects() const;
 	// Particleなどの描画
 	void PostDraw() const;
 	// objectの編集

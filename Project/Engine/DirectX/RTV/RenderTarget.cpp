@@ -8,6 +8,13 @@ AOENGINE::RenderTarget::~RenderTarget() {
 }
 
 void AOENGINE::RenderTarget::Finalize() {
+	if (editorDepthResource_ != nullptr) {
+		editorDepthResource_->Destroy();
+		dxHeap_->FreeDSV(static_cast<uint32_t>(editorDepthHandle_.assignIndex_));
+		editorDepthResource_ = nullptr;
+		editorDepthHandle_ = {};
+	}
+
 	for (uint32_t oi = 0; oi < renderTargetNum_; ++oi) {
 		if (renderTargetResource_[oi] != nullptr) {
 			renderTargetResource_[oi]->Destroy();
@@ -41,6 +48,7 @@ void AOENGINE::RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHea
 
 	CreateSwapChainResource();
 	CreateRenderTarget();
+	CreateEditorDepth();
 
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
 	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);
@@ -167,6 +175,18 @@ void AOENGINE::RenderTarget::CreateRenderTarget() {
 	}
 }
 
+void AOENGINE::RenderTarget::CreateEditorDepth() {
+	editorDepthResource_ = resourceManager_->CreateResource(ResourceType::Depth);
+	editorDepthResource_->CreateDepthResource(WinApp::sClientWidth, WinApp::sClientHeight);
+
+	D3D12_DEPTH_STENCIL_VIEW_DESC desc{};
+	desc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	desc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
+
+	editorDepthHandle_ = dxHeap_->AllocateDSV();
+	device_->CreateDepthStencilView(editorDepthResource_->GetResource(), &desc, editorDepthHandle_.handleCPU);
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　AOENGINE::RenderTargetの状態を遷移させる
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,4 +194,3 @@ void AOENGINE::RenderTarget::CreateRenderTarget() {
 void AOENGINE::RenderTarget::TransitionResource(ID3D12GraphicsCommandList* _commandList, const RenderTargetType& _renderType, const D3D12_RESOURCE_STATES& _beforeState, const D3D12_RESOURCE_STATES& _afterState) {
 	renderTargetResource_[_renderType]->Transition(_commandList, _beforeState, _afterState);
 }
-

@@ -63,7 +63,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 void EditorWindows::Update() {
 	gameObjectWindow_->SetCanvas2d(canvas2d_);
-	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
+	gameObjectWindow_->SetProcessedSceneFrames(processedSceneFrame_, editorSceneFrame_);
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
 	
 	// sceneを描画する
@@ -136,7 +136,7 @@ void EditorWindows::Begin() {
 	ImGui::End();
 
 	gameObjectWindow_->SetCanvas2d(canvas2d_);
-	gameObjectWindow_->SetProcessedSceneFrame(processedSceneFrame_);
+	gameObjectWindow_->SetProcessedSceneFrames(processedSceneFrame_, editorSceneFrame_);
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
 
 	// -------------------------------------------------

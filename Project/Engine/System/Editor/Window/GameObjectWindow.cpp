@@ -7,6 +7,7 @@
 #include "Engine/System/Editor/Inspector/Entity/SpriteInspector.h"
 #include "Engine/System/Editor/Inspector/Entity/TextInspector.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Core/Engine.h"
 
 using namespace AOENGINE;
 
@@ -303,25 +304,43 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::GameObjectWindow::ExecutionWindow() {
-	if (ImGui::Begin("Game Window", nullptr)) {
+	if (ImGui::Begin("Game View", nullptr)) {
 		if (ImGui::IsWindowFocused()) {
 			EditorWindows::GetInstance()->SetSelectWindow(this);
 		}
 
-		// sceneの表示
-		processedSceneFrame_->DrawScene();
+		if (processedSceneFrame_) {
+			processedSceneFrame_->DrawScene();
+		}
+	}
+	ImGui::End();
+
+	if (ImGui::Begin("Scene View", nullptr)) {
+		if (ImGui::IsWindowFocused()) {
+			EditorWindows::GetInstance()->SetSelectWindow(this);
+		}
+
+		if (editorSceneFrame_) {
+			editorSceneFrame_->DrawScene();
+		}
 
 		// manipulateの表示
-		if (ManipulateTool::isActive_) {
+		if (editorSceneFrame_ && ManipulateTool::isActive_) {
+			Engine::ActivateSceneView(SceneViewType::Editor);
+
 			if (ManipulateTool::is3dManipulate_) {
 				if (sceneRenderer_ != nullptr) {
-					sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+					sceneRenderer_->EditObject(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
 				}
 			} else {
-				if (canvas2d_ != nullptr) {
-					canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
+				AttributeGuiSceneObject* attributeObject = dynamic_cast<AttributeGuiSceneObject*>(GetSelectObject());
+				Sprite* sprite = attributeObject ? dynamic_cast<Sprite*>(attributeObject->GetAttribute()) : nullptr;
+				if (sprite && sprite->GetIsActive()) {
+					sprite->GetTransform()->Manipulate(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
 				}
 			}
+
+			Engine::ActivateSceneView(SceneViewType::Game);
 		}
 	}
 	ImGui::End();

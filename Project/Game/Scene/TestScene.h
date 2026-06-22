@@ -1,10 +1,6 @@
 #pragma once
 #include <memory>
 #include "Game/Scene/BaseScene.h"
-// camera
-#include "Game/Camera/DebugCamera.h"
-#include "Game/Camera/Camera2d.h"
-#include "Game/Camera/Camera3d.h"
 
 class TestScene 
 : public BaseScene {
@@ -22,9 +18,6 @@ public:
 	
 private:
 
-	// ------------------- camera ------------------- //
-	std::unique_ptr<Camera2d> camera2d_ = nullptr;
-	std::unique_ptr<Camera3d> camera3d_ = nullptr;
-	std::unique_ptr<DebugCamera> debugCamera_ = nullptr;
+
 };
 

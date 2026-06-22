@@ -3,12 +3,15 @@
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
 #include "Engine/Render/RenderingCommands.h"
 
+#include <array>
+
 using namespace AOENGINE;
 
 namespace {
 	ID3D12GraphicsCommandList* commandList_ = nullptr;
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
-	std::unique_ptr<ViewProjection> viewProjection_ = nullptr;
+	std::array<std::unique_ptr<ViewProjection>, static_cast<size_t>(CameraBufferSlot::Count)> viewProjectionBuffers_{};
+	ViewProjection* viewProjection_ = nullptr;
 	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
 	
 	Math::Matrix4x4 vpvpMatrix;
@@ -35,7 +38,13 @@ AOENGINE::Render::~Render() {}
 
 void AOENGINE::Render::Finalize() {
 	viewProjection2D_->Finalize();
-	viewProjection_->Finalize();
+	for (auto& viewProjection : viewProjectionBuffers_) {
+		if (viewProjection) {
+			viewProjection->Finalize();
+			viewProjection.reset();
+		}
+	}
+	viewProjection_ = nullptr;
 	lightGroup_->Finalize();
 	primitiveDrawer_->Finalize();
 	shadowMap_.reset();
@@ -51,13 +60,16 @@ void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device
 	commandList_ = commandList;
 	GetInstance()->renderTarget_ = renderTarget;
 
-	viewProjection_ = std::make_unique<ViewProjection>();
 	viewProjection2D_ = std::make_unique<ViewProjection>();
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
 	lightGroup_ = std::make_unique<LightGroup>();
 	shadowMap_ = std::make_unique<ShadowMap>();
 
-	viewProjection_->Init(device);
+	for (auto& viewProjection : viewProjectionBuffers_) {
+		viewProjection = std::make_unique<ViewProjection>();
+		viewProjection->Init(device);
+	}
+	viewProjection_ = viewProjectionBuffers_[static_cast<size_t>(CameraBufferSlot::Game)].get();
 	viewProjection2D_->Init(device);
 
 	// light
@@ -141,7 +153,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
-	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials);
+	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_, materials);
 }
 
 void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
@@ -155,7 +167,7 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
-	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_.get(), materials, _skinningArray);
+	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_, materials, _skinningArray);
 }
 
 void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {
@@ -216,6 +228,40 @@ void AOENGINE::Render::DrawLightGroup(Pipeline* pipeline) {
 
 void AOENGINE::Render::SetViewProjection(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 	viewProjection_->SetViewProjection(view, projection);
+}
+
+void AOENGINE::Render::SetViewProjection(
+	const Math::Matrix4x4& view,
+	const Math::Matrix4x4& projection,
+	const Math::Matrix4x4& previousView,
+	const Math::Matrix4x4& previousProjection) {
+	viewProjection_->SetViewProjection(view, projection, previousView, previousProjection);
+}
+
+CameraRenderState AOENGINE::Render::GetCameraState() {
+	return CameraRenderState{
+		.view = viewProjection_->GetViewMatrix(),
+		.projection = viewProjection_->GetProjectionMatrix(),
+		.previousView = viewProjection_->GetPreviousViewMatrix(),
+		.previousProjection = viewProjection_->GetPreviousProjectionMatrix(),
+		.vpvp = vpvpMatrix,
+		.rotate = cameraRotate_,
+		.eyePosition = eyePos_
+	};
+}
+
+void AOENGINE::Render::ApplyCameraState(const CameraRenderState& state) {
+	SetViewProjection(state.view, state.projection, state.previousView, state.previousProjection);
+	SetVpvpMatrix(state.vpvp);
+	SetCameraRotate(state.rotate);
+	SetEyePos(state.eyePosition);
+}
+
+void AOENGINE::Render::SetCameraBufferSlot(CameraBufferSlot slot) {
+	const size_t index = static_cast<size_t>(slot);
+	if (index < viewProjectionBuffers_.size() && viewProjectionBuffers_[index]) {
+		viewProjection_ = viewProjectionBuffers_[index].get();
+	}
 }
 
 void AOENGINE::Render::SetViewProjection2D(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
@@ -290,7 +336,7 @@ Math::Matrix4x4 AOENGINE::Render::GetBillBordMat() {
 }
 
 const ViewProjection* AOENGINE::Render::GetViewProjection() {
-	return viewProjection_.get();
+	return viewProjection_;
 }
 
 void AOENGINE::Render::SetSkyboxTexture(const std::string& _name) {

@@ -13,6 +13,7 @@ void Camera3d::Finalize() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Camera3d::Init() {
+	SetName("camera3d");
 	BaseCamera::Init();
 	parameter_.SetGroupName("Camera");
 	parameter_.SetGroupName("camera3d");
@@ -20,8 +21,6 @@ void Camera3d::Init() {
 
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "camera3d");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,11 +29,7 @@ void Camera3d::Init() {
 
 void Camera3d::Update() {
 	BaseCamera::Update();
-
-	// renderの更新
-	AOENGINE::Render::SetEyePos(GetWorldPosition());
-	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
-	AOENGINE::Render::SetCameraRotate(transform_.rotate);
+	ApplyToRender();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

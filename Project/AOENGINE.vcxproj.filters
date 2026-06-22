@@ -106,6 +106,12 @@
     <Filter Include="Engine\Module\ComputeShader">
       <UniqueIdentifier>{7382AEC1-DF8F-DCA7-6876-D892D482A85E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\Entity">
+      <UniqueIdentifier>{7CAFD56A-683E-5F34-115D-732FFDCA6FDA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Module\Entity\Camera">
+      <UniqueIdentifier>{7480F17E-E08D-1F65-6974-1B50D580EB1B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Module\Geometry">
       <UniqueIdentifier>{8B5C4D8F-7756-76E1-60C3-0CF24C5CDC4D}</UniqueIdentifier>
     </Filter>
@@ -162,6 +168,9 @@
     </Filter>
     <Filter Include="Engine\System\Editor\Inspector\Entity">
       <UniqueIdentifier>{D76D5428-4332-5318-0C98-83E2781BEF4D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Editor\Inspector\Light">
+      <UniqueIdentifier>{D2EF28D3-BED6-EACA-6727-51E853ED6331}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
@@ -249,9 +258,6 @@
     </Filter>
     <Filter Include="Game">
       <UniqueIdentifier>{7FA9857C-6BE0-860D-14CD-6C1000E3020F}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Camera">
-      <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
@@ -564,6 +570,18 @@
     <ClInclude Include="Engine\Module\ComputeShader\BlendTexture.h">
       <Filter>Engine\Module\ComputeShader</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\BaseCamera.h">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\Camera2d.h">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\Camera3d.h">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\DebugCamera.h">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Geometry\GeometryFactory.h">
       <Filter>Engine\Module\Geometry</Filter>
     </ClInclude>
@@ -768,10 +786,10 @@
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.h">
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\CameraInspector.h">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h">
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.h">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\SpriteInspector.h">
@@ -785,6 +803,9 @@
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Light</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
@@ -1064,18 +1085,6 @@
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\BaseCamera.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera2d.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\Camera3d.h">
-      <Filter>Game\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\Camera\DebugCamera.h">
-      <Filter>Game\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
@@ -1388,6 +1397,18 @@
     <ClCompile Include="Engine\Module\ComputeShader\BlendTexture.cpp">
       <Filter>Engine\Module\ComputeShader</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\BaseCamera.cpp">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\Camera2d.cpp">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\Camera3d.cpp">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\DebugCamera.cpp">
+      <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\Geometry\GeometryFactory.cpp">
       <Filter>Engine\Module\Geometry</Filter>
     </ClCompile>
@@ -1592,10 +1613,10 @@
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.cpp">
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\CameraInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp">
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\SpriteInspector.cpp">
@@ -1609,6 +1630,9 @@
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp">
       <Filter>Engine\System\Editor\Inspector</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Light</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
@@ -1861,18 +1885,6 @@
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\BaseCamera.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Camera2d.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\Camera3d.cpp">
-      <Filter>Game\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Camera\DebugCamera.cpp">
-      <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>

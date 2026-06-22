@@ -1,8 +1,7 @@
 #pragma once
-#include "Game/Camera/BaseCamera.h"
+#include "Engine/Module/Entity/Camera/BaseCamera.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Math/Quaternion.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 const float kDebugCameraMoveSpeed_ = 0.05f;
 
@@ -10,8 +9,7 @@ const float kDebugCameraMoveSpeed_ = 0.05f;
 /// Debugカメラ
 /// </summary>
 class DebugCamera :
-	public BaseCamera,
-	public AOENGINE::AttributeGui {
+	public BaseCamera {
 public:
 
 	DebugCamera();
@@ -26,7 +24,7 @@ public:
 	// 更新
 	void Update() override;
 	// 編集
-	void Debug_Gui() override;
+	void Debug_Gui();
 
 public:
 

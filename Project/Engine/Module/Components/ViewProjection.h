@@ -57,10 +57,26 @@ public:
 		data_->projection = projection;
 	}
 
+	/// <summary>
+	/// 複数Cameraを同一フレームで描画する際に、Camera自身が保持する前フレーム行列を設定する。
+	/// </summary>
+	void SetViewProjection(
+		const Math::Matrix4x4& view,
+		const Math::Matrix4x4& projection,
+		const Math::Matrix4x4& previousView,
+		const Math::Matrix4x4& previousProjection) {
+		data_->view = view;
+		data_->projection = projection;
+		dataPrev_->view = previousView;
+		dataPrev_->projection = previousProjection;
+	}
+
 	const Math::Matrix4x4 GetViewProjection() { return data_->view * data_->projection; }
 
 	const Math::Matrix4x4 GetViewMatrix() { return data_->view; }
 	const Math::Matrix4x4 GetProjectionMatrix() { return data_->projection; }
+	const Math::Matrix4x4 GetPreviousViewMatrix() { return dataPrev_->view; }
+	const Math::Matrix4x4 GetPreviousProjectionMatrix() { return dataPrev_->projection; }
 
 private:
 

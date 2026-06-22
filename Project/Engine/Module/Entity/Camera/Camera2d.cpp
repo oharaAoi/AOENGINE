@@ -9,7 +9,11 @@ Camera2d::~Camera2d() {}
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+void Camera2d::Finalize() {
+}
+
 void Camera2d::Init() {
+	SetName("camera2d");
 	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sClientWidth);
 	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sClientHeight);
 

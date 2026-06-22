@@ -3,6 +3,7 @@
 #include "InspectorRegistry.h"
 #include "Engine/System/Editor/Inspector/Entity/BaseGameObjectInspector.h"
 #include "Engine/System/Editor/Inspector/Entity/GeometryObjectInspector.h"
+#include "Engine/System/Editor/Inspector/Entity/CameraInspector.h"
 #include "Engine/System/Editor/Inspector/Light/LightInspector.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,6 +46,24 @@ void AOENGINE::RegisterDefaultInspectors() {
 	registry.RegisterObjectDrawer<SpotLight>(
 		[](SpotLight& light) {
 			SpotLightInspector::Draw(light);
+		}
+	);
+
+	registry.RegisterObjectDrawer<Camera3d>(
+		[](Camera3d& camera) {
+			Camera3dInspector::Draw(camera);
+		}
+	);
+
+	registry.RegisterObjectDrawer<Camera2d>(
+		[](Camera2d& camera) {
+			Camera2dInspector::Draw(camera);
+		}
+	);
+
+	registry.RegisterObjectDrawer<DebugCamera>(
+		[](DebugCamera& camera) {
+			DebugCameraInspector::Draw(camera);
 		}
 	);
 }

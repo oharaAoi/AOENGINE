@@ -15,6 +15,8 @@
 #include "Engine/Utilities/DrawUtils.h"
 #include "Engine/Render/Render.h"
 
+#include <array>
+
 using namespace AOENGINE;
 
 Engine::Engine() {}
@@ -59,6 +61,10 @@ namespace {
 
 	// オフスクリーンレンダリングで生成したTextureを描画するクラス
 	std::unique_ptr<ProcessedSceneFrame> processedSceneFrame_ = nullptr;
+	std::unique_ptr<ProcessedSceneFrame> editorSceneFrame_ = nullptr;
+
+	std::array<CameraRenderState, 2> sceneViewCameras_{};
+	std::array<bool, 2> hasSceneViewCamera_{};
 
 	EditorWindows* editorWindows_ = nullptr;
 
@@ -67,6 +73,10 @@ namespace {
 	bool runGame_;
 
 	Pipeline* lastUsedPipeline_;
+
+	size_t GetSceneViewIndex(SceneViewType viewType) {
+		return viewType == SceneViewType::Game ? 0u : 1u;
+	}
 }
 
 
@@ -122,6 +132,7 @@ void Engine::InitCoreInstances() {
 
 	computeShaderPipelines_ = std::make_unique<ComputeShaderPipelines>();
 	processedSceneFrame_	= std::make_unique<ProcessedSceneFrame>();
+	editorSceneFrame_		= std::make_unique<ProcessedSceneFrame>();
 	postProcess_			= std::make_unique<PostProcess>();
 	audio_					= std::make_unique<Audio>();
 	blendTexture_			= std::make_unique<BlendTexture>();
@@ -168,6 +179,7 @@ void Engine::InitSystem() {
 void Engine::InitResources() {
 	textureManager_->Init(dxDevice_, dxCmdList_, dxHeap_, graphicsCxt_->GetDxResourceManager());
 	processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
+	editorSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
 
 	GeometryFactory& geometryFactory = GeometryFactory::GetInstance();
 	geometryFactory.Init();
@@ -193,7 +205,7 @@ void Engine::InitImgui() {
 
 void Engine::InitEditor() {
 	editorWindows_->Init(dxDevice_, dxCmdList_, renderTarget_, dxHeap_);
-	editorWindows_->SetProcessedSceneFrame(processedSceneFrame_.get());
+	editorWindows_->SetProcessedSceneFrames(processedSceneFrame_.get(), editorSceneFrame_.get());
 	editorWindows_->SetRenderTarget(renderTarget_);
 	editorWindows_->SetCanvas2d(canvas2d_.get());
 	
@@ -212,6 +224,7 @@ void Engine::Finalize() {
 	blendTexture_.reset();
 	postProcess_->Finalize();
 	audio_->Finalize();
+	editorSceneFrame_->Finalize();
 	processedSceneFrame_->Finalize();
 	computeShaderPipelines_->Finalize();
 	render_->Finalize();
@@ -229,6 +242,44 @@ void Engine::Finalize() {
 
 bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
+}
+
+void Engine::BeginSceneView(SceneViewType viewType) {
+	const size_t viewIndex = GetSceneViewIndex(viewType);
+	sceneViewCameras_[viewIndex] = AOENGINE::Render::GetCameraState();
+	hasSceneViewCamera_[viewIndex] = true;
+
+	const CameraBufferSlot cameraBufferSlot = viewType == SceneViewType::Game
+		? CameraBufferSlot::Game
+		: CameraBufferSlot::Editor;
+	AOENGINE::Render::SetCameraBufferSlot(cameraBufferSlot);
+	AOENGINE::Render::ApplyCameraState(sceneViewCameras_[viewIndex]);
+
+	if (viewType == SceneViewType::Game) {
+		std::vector<RenderTargetType> types{
+			RenderTargetType::Object3D_RenderTarget,
+			RenderTargetType::MotionVector_RenderTarget
+		};
+		AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+		return;
+	}
+
+	std::vector<RenderTargetType> types{
+		RenderTargetType::EditorScene_RenderTarget,
+		RenderTargetType::EditorMotionVector_RenderTarget
+	};
+	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle());
+}
+
+void Engine::ActivateSceneView(SceneViewType viewType) {
+	const size_t viewIndex = GetSceneViewIndex(viewType);
+	if (hasSceneViewCamera_[viewIndex]) {
+		const CameraBufferSlot cameraBufferSlot = viewType == SceneViewType::Game
+			? CameraBufferSlot::Game
+			: CameraBufferSlot::Editor;
+		AOENGINE::Render::SetCameraBufferSlot(cameraBufferSlot);
+		AOENGINE::Render::ApplyCameraState(sceneViewCameras_[viewIndex]);
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -283,6 +334,11 @@ void Engine::EndFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::RenderFrame() {
+	// Editor Scene ViewはDebugCameraで描画済みのRenderTargetを使用する。
+	// Collider/Gridなどの編集支援描画もGame Viewへ混ぜず、Editor側だけへ描画する。
+#ifdef _DEBUG
+	ActivateSceneView(SceneViewType::Editor);
+
 	// -------------------------------------------------
 	// ↓ 線の描画
 	// -------------------------------------------------
@@ -296,6 +352,13 @@ void Engine::RenderFrame() {
 	}
 	
 	AOENGINE::Render::PrimitiveDrawCall();
+	BlendFinalRender(EditorScene_RenderTarget, editorSceneFrame_.get());
+#else
+	AOENGINE::Render::PrimitiveDrawCall();
+#endif
+
+	// 以降はCamera3dで描画したGame Viewを従来通りPostProcessする。
+	ActivateSceneView(SceneViewType::Game);
 
 	// -------------------------------------------------
 	// ↓ PostEffectの実行
@@ -331,9 +394,26 @@ void Engine::RenderFrame() {
 
 	BlendFinalRender(Sprite2d_RenderTarget);
 
+#ifdef _DEBUG
+	// 同じCanvas2d実体をEditor Scene Viewへも合成する。
+	// Inspector/Gizmoが変更したSpriteはコピーを介さず、次の描画で両Viewへ反映される。
+	renderTarget_->TransitionResource(
+		dxCmdList_,
+		Sprite2d_RenderTarget,
+		D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
+		D3D12_RESOURCE_STATE_RENDER_TARGET);
+	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle());
+	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
+	editorSceneFrame_->Draw(dxCmdList_);
+	canvas2d_->Draw();
+	BlendFinalRender(Sprite2d_RenderTarget, editorSceneFrame_.get());
+#endif
+
 	// guiの描画
 #ifdef _DEBUG
 	editorWindows_->Update();
+	// Editor内の補助CameraがRender状態を変更しても、Game用GPUバッファを描画時の状態へ戻す。
+	ActivateSceneView(SceneViewType::Game);
 #endif
 
 	
@@ -351,6 +431,9 @@ void Engine::RenderFrame() {
 	// -------------------------------------------------
 	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	renderTarget_->TransitionResource(dxCmdList_, Sprite2d_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+#ifdef _DEBUG
+	renderTarget_->TransitionResource(dxCmdList_, EditorScene_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -358,6 +441,14 @@ void Engine::RenderFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BlendFinalRender(RenderTargetType renderTargetType) {
+	BlendFinalRender(renderTargetType, processedSceneFrame_.get());
+}
+
+void Engine::BlendFinalRender(RenderTargetType renderTargetType, AOENGINE::ProcessedSceneFrame* destination) {
+	if (!destination) {
+		return;
+	}
+
 	// -------------------------------------------------
 	// ↓ Resourceの状態を切り替える(obj3D, sprite2D, renderTexture)
 	// -------------------------------------------------
@@ -369,7 +460,7 @@ void Engine::BlendFinalRender(RenderTargetType renderTargetType) {
 	);
 
 	// 最終描画のTextureを書き込み可能状態にする
-	processedSceneFrame_->TransitionResource(dxCmdList_,
+	destination->TransitionResource(dxCmdList_,
 									   D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
 									   D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
 
@@ -378,12 +469,12 @@ void Engine::BlendFinalRender(RenderTargetType renderTargetType) {
 	// -------------------------------------------------
 	Engine::SetPipelineCS("BlendTexture.json");
 	Pipeline* pso = computeShaderPipelines_->GetLastUsedPipeline();
-	blendTexture_->Execute(pso, dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(renderTargetType).handleGPU, processedSceneFrame_->GetUAV());
+	blendTexture_->Execute(pso, dxCmdList_, renderTarget_->GetRenderTargetSRVHandle(renderTargetType).handleGPU, destination->GetUAV());
 
 	// -------------------------------------------------
 	// ↓ 映すTextureをpixeslShaderで使えるようにする
 	// -------------------------------------------------
-	processedSceneFrame_->TransitionResource(dxCmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+	destination->TransitionResource(dxCmdList_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
 
 }
 
@@ -434,6 +525,7 @@ void Engine::PendingResize() {
 	if (winApp_->sPendingResize) {
 		renderTarget_->Finalize();
 		blendTexture_->Finalize();
+		editorSceneFrame_->Finalize();
 		processedSceneFrame_->Finalize();
 		postProcess_->ClearBuffer();
 		render_->GetShadowMap()->Finalize();
@@ -450,6 +542,7 @@ void Engine::PendingResize() {
 		graphicsCxt_->ResizeBuffer();
 
 		processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
+		editorSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
 		render_->GetShadowMap()->Init();
 #ifdef _DEBUG
 		editorWindows_->ResizeBuffer();

@@ -13,6 +13,29 @@
 namespace AOENGINE {
 
 /// <summary>
+/// 1つの描画Viewに必要なCamera状態。
+/// Game ViewとScene Viewを同一フレームで切り替えるために使用する。
+/// </summary>
+struct CameraRenderState {
+	Math::Matrix4x4 view;
+	Math::Matrix4x4 projection;
+	Math::Matrix4x4 previousView;
+	Math::Matrix4x4 previousProjection;
+	Math::Matrix4x4 vpvp;
+	Math::Quaternion rotate;
+	Math::Vector3 eyePosition;
+};
+
+/// <summary>
+/// 同一フレーム内で独立したCamera定数バッファを使用する描画View。
+/// </summary>
+enum class CameraBufferSlot : uint32_t {
+	Game,
+	Editor,
+	Count
+};
+
+/// <summary>
 /// GameObjectの描画を行う
 /// </summary>
 class Render {
@@ -131,6 +154,15 @@ public:
 	/// <param name="view"></param>
 	/// <param name="projection"></param>
 	static void SetViewProjection(const Math::Matrix4x4& view, const Math::Matrix4x4& projection);
+	static void SetViewProjection(
+		const Math::Matrix4x4& view,
+		const Math::Matrix4x4& projection,
+		const Math::Matrix4x4& previousView,
+		const Math::Matrix4x4& previousProjection);
+
+	static CameraRenderState GetCameraState();
+	static void ApplyCameraState(const CameraRenderState& state);
+	static void SetCameraBufferSlot(CameraBufferSlot slot);
 
 	/// <summary>
 	/// 

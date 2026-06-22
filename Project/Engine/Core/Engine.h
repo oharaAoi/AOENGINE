@@ -9,6 +9,15 @@
 #include "Engine/Module/Components/Rigging/Skinning.h"
 #include "Engine/Module/PostEffect/PostProcess.h"
 
+namespace AOENGINE {
+class ProcessedSceneFrame;
+}
+
+enum class SceneViewType {
+	Game,
+	Editor
+};
+
 /// <summary>
 /// GameEngine
 /// </summary>
@@ -46,10 +55,21 @@ public:
 	static void RenderFrame();
 
 	/// <summary>
+	/// 現在のCamera状態をViewへ保存し、そのView専用RenderTargetを描画先にする。
+	/// </summary>
+	static void BeginSceneView(SceneViewType viewType);
+
+	/// <summary>
+	/// 保存済みのView用Camera状態をRenderへ適用する。
+	/// </summary>
+	static void ActivateSceneView(SceneViewType viewType);
+
+	/// <summary>
 	/// Textureの合成
 	/// </summary>
 	/// <param name="renderTargetType"></param>
 	static void BlendFinalRender(RenderTargetType renderTargetType);
+	static void BlendFinalRender(RenderTargetType renderTargetType, AOENGINE::ProcessedSceneFrame* destination);
 
 	/// <summary>
 	/// world上の座標をGame画面に合わせた座標で返す

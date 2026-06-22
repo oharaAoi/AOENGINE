@@ -89,7 +89,10 @@ public: // accessor
 
 	AOENGINE::SceneObject* GetSelectObject() const;
 
-	void SetProcessedSceneFrame(AOENGINE::ProcessedSceneFrame* sceneFrame) { processedSceneFrame_ = sceneFrame; }
+	void SetProcessedSceneFrames(AOENGINE::ProcessedSceneFrame* gameFrame, AOENGINE::ProcessedSceneFrame* editorFrame) {
+		processedSceneFrame_ = gameFrame;
+		editorSceneFrame_ = editorFrame;
+	}
 	void SetSceneRenderer(AOENGINE::SceneRenderer* _renderer);
 	void SetCanvas2d(AOENGINE::Canvas2d* _canvas) { canvas2d_ = _canvas; }
 
@@ -110,6 +113,7 @@ private:
 	AOENGINE::ObjectHandle selectedObjectHandle_;
 
 	AOENGINE::ProcessedSceneFrame* processedSceneFrame_ = nullptr;
+	AOENGINE::ProcessedSceneFrame* editorSceneFrame_ = nullptr;
 	AOENGINE::SceneRenderer* sceneRenderer_ = nullptr;
 	AOENGINE::Canvas2d* canvas2d_ = nullptr;
 

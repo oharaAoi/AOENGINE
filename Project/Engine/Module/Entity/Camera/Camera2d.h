@@ -1,11 +1,13 @@
 #pragma once
 #include "Engine/Lib/Math/MyMatrix.h"
 #include "Engine/Lib/Math/Vector2.h"
+#include "Engine/Module/Entity/Camera/BaseCamera.h"
 
 /// <summary>
 /// 2dのカメラ
 /// </summary>
-class Camera2d {
+class Camera2d :
+	public BaseCamera {
 public:
 
 	Camera2d();
@@ -13,10 +15,12 @@ public:
 
 public:
 
+	// 終了
+	void Finalize() override;
 	// 初期化
-	void Init();
+	void Init() override;
 	// 更新
-	void Update();
+	void Update() override;
 	// 編集
 	void Debug_Gui();
 

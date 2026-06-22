@@ -1,13 +1,11 @@
 #pragma once
-#include "Game/Camera/BaseCamera.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Entity/Camera/BaseCamera.h"
 
 /// <summary>
 /// 3d空間上に配置するカメラ
 /// </summary>
 class Camera3d :
-	public BaseCamera,
-	public AOENGINE::AttributeGui{
+	public BaseCamera{
 public:
 
 	Camera3d();
@@ -22,7 +20,7 @@ public:
 	// 更新
 	void Update() override;
 	// 編集
-	void Debug_Gui() override;
+	void Debug_Gui();
 
 private:
 

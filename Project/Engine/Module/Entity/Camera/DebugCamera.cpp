@@ -15,6 +15,7 @@ void DebugCamera::Finalize() {
 
 void DebugCamera::Init() {
 	BaseCamera::Init();
+	SetName("debugCamera");
 	
 	moveBaseSpeed_ = 15.0f;
 	moveSpeed_ = moveBaseSpeed_;
@@ -22,10 +23,6 @@ void DebugCamera::Init() {
 	preMoveRotate_ = transform_.rotate;
 
 	isFocused_ = true;
-
-	isActive_ = false;
-
-	AOENGINE::EditorWindows::AddObjectWindow(this, "debugCamera");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,10 +39,7 @@ void DebugCamera::Update() {
 	transform_.rotate = moveRotate_;
 
 	BaseCamera::Update();
-
-	AOENGINE::Render::SetEyePos(GetWorldPosition());
-	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_);
-	AOENGINE::Render::SetCameraRotate(transform_.rotate);
+	ApplyToRender();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

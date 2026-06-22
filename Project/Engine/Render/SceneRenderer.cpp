@@ -105,13 +105,11 @@ void SceneRenderer::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Draw() const {
-	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
+	DrawShadowMap();
+	DrawSceneObjects();
+}
 
-	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
-	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
-	modelInstancingRenderer_.BeginFrame();
-
-	// 影の描画
+void SceneRenderer::DrawShadowMap() const {
 	AOENGINE::Render::SetShadowMap();
 	for (const RenderEntry& entry : renderEntries_) {
 		const ISceneObject* obj = GetRenderableObject(entry);
@@ -119,14 +117,16 @@ void SceneRenderer::Draw() const {
 			obj->PreDraw();
 		}
 	}
-
-	// objectの描画
-	std::vector<RenderTargetType> types;
-	types.push_back(RenderTargetType::Object3D_RenderTarget);
-	types.push_back(RenderTargetType::MotionVector_RenderTarget);
-	AOENGINE::Render::SetRenderTarget(types, AOENGINE::GraphicsContext::GetInstance()->GetDxCommon()->GetDepthHandle());
-
 	AOENGINE::Render::ChangeShadowMap();
+}
+
+void SceneRenderer::DrawSceneObjects() const {
+	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
+
+	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
+	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
+	modelInstancingRenderer_.BeginFrame();
+
 	for (const RenderEntry& entry : renderEntries_) {
 		if (entry.isPostDraw) {
 			continue;

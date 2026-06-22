@@ -2,11 +2,13 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/MathStructures.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 
 /// <summary>
 /// BaseとなるCamera
 /// </summary>
-class BaseCamera {
+class BaseCamera :
+	public AOENGINE::SceneObject {
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
@@ -36,7 +38,7 @@ public:
 public: // member method
 
 	BaseCamera() = default;
-	virtual ~BaseCamera();
+	virtual ~BaseCamera() override;
 
 public:
 
@@ -46,6 +48,12 @@ public:
 	virtual void Init();
 	// 更新
 	virtual void Update();
+
+	/// <summary>
+	/// このCameraの行列を現在の描画Viewへ適用する。
+	/// Updateと描画Viewの選択を分離し、同一フレームで複数Cameraを利用できるようにする。
+	/// </summary>
+	void ApplyToRender() const;
 
 public:	// accessor method
 
@@ -72,6 +80,8 @@ protected:
 	Math::Matrix4x4 cameraMatrix_;
 	Math::Matrix4x4 projectionMatrix_;
 	Math::Matrix4x4 viewMatrix_;
+	Math::Matrix4x4 previousProjectionMatrix_;
+	Math::Matrix4x4 previousViewMatrix_;
 	Math::Matrix4x4 viewportMatrix_;
 
 	Math::Matrix4x4 billBordMat_;
@@ -80,4 +90,3 @@ protected:
 	float near_ = 0.1f;
 	float far_ = 10000.0f;
 };
-

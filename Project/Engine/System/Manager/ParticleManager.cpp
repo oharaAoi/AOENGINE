@@ -76,6 +76,11 @@ void ParticleManager::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Draw() const {
+	// 複数View描画ではUpdate時のCameraではなく、現在の描画Viewを使用する。
+	particleRenderer_->SetView(
+		AOENGINE::Render::GetViewProjectionMat(),
+		AOENGINE::Render::GetProjection2D(),
+		AOENGINE::Render::GetBillBordMat());
 	particleRenderer_->Draw(AOENGINE::GraphicsContext::GetInstance()->GetCommandList());
 }
 

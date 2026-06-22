@@ -13,6 +13,8 @@ enum RenderTargetType {
 	EffectSystem_RenderTarget,
 	PreEffectSystem_RenderTarget,
 	ShadowMap_RenderTarget,
+	EditorScene_RenderTarget,
+	EditorMotionVector_RenderTarget,
 	kMAX
 };
 
@@ -70,6 +72,12 @@ public:
 	void CreateRenderTarget();
 
 	/// <summary>
+	/// Editor Scene View専用の深度バッファを作成する。
+	/// Game Viewの深度を上書きしないため、描画パスごとに分離して保持する。
+	/// </summary>
+	void CreateEditorDepth();
+
+	/// <summary>
 	/// AOENGINE::RenderTargetを遷移させる
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
@@ -89,6 +97,7 @@ public:
 	const DescriptorHandles& GetRenderTargetSRVHandle(const RenderTargetType& type) const { return renderTargetResource_[type]->GetSRV(); }
 
 	AOENGINE::DxResource* GetRenderTargetResource(const RenderTargetType& type) { return renderTargetResource_[type]; }
+	const DescriptorHandles& GetEditorDepthHandle() const { return editorDepthHandle_; }
 
 private:
 
@@ -102,5 +111,8 @@ private:
 	IDXGISwapChain4* swapChain_ = nullptr;
 	// resourceManager
 	AOENGINE::DxResourceManager* resourceManager_ = nullptr;
+
+	AOENGINE::DxResource* editorDepthResource_ = nullptr;
+	DescriptorHandles editorDepthHandle_{};
 };
 }

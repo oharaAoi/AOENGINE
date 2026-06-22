@@ -61,6 +61,8 @@ void GpuParticleManager::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void GpuParticleManager::Draw() const {
+	// Game/Editorそれぞれで、描画直前に現在のCamera行列へ切り替える。
+	renderer_->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetCameraRotate().MakeMatrix());
 	renderer_->Draw();
 
 #ifdef _DEBUG

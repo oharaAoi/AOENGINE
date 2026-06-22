@@ -23,6 +23,8 @@ void BaseCamera::Init() {
 
 	viewMatrix_ = Inverse(cameraMatrix_);
 	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
+	previousViewMatrix_ = viewMatrix_;
+	previousProjectionMatrix_ = projectionMatrix_;
 	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
 }
 
@@ -34,6 +36,9 @@ void BaseCamera::Update() {
 	const float windowWidth = static_cast<float>(AOENGINE::WinApp::sClientWidth);
 	const float windowHeight = static_cast<float>(AOENGINE::WinApp::sClientHeight);
 
+	previousViewMatrix_ = viewMatrix_;
+	previousProjectionMatrix_ = projectionMatrix_;
+
 	cameraMatrix_ = transform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);
 
@@ -41,7 +46,13 @@ void BaseCamera::Update() {
 
 	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
 	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
-	AOENGINE::Render::SetVpvpMatrix(this->GetVpvpMatrix());
+}
+
+void BaseCamera::ApplyToRender() const {
+	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_, previousViewMatrix_, previousProjectionMatrix_);
+	AOENGINE::Render::SetEyePos(GetWorldPosition());
+	AOENGINE::Render::SetCameraRotate(transform_.rotate);
+	AOENGINE::Render::SetVpvpMatrix(GetVpvpMatrix());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
