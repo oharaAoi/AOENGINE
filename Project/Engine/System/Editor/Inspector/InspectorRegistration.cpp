@@ -1,9 +1,9 @@
 
 #include "InspectorRegistration.h"
 #include "InspectorRegistry.h"
-#include "BaseGameObjectInspector.h"
-#include "GeometryObjectInspector.h"
-#include "LightInspector.h"
+#include "Engine/System/Editor/Inspector/Entity/BaseGameObjectInspector.h"
+#include "Engine/System/Editor/Inspector/Entity/GeometryObjectInspector.h"
+#include "Engine/System/Editor/Inspector/Light/LightInspector.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 標準Inspectorを登録する

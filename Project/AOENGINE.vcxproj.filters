@@ -157,6 +157,12 @@
     <Filter Include="Engine\System\Editor\Inspector">
       <UniqueIdentifier>{EBD73069-D7FD-FACF-C043-809BAC08209C}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\Editor\Inspector\Component">
+      <UniqueIdentifier>{0DD2756C-F94E-69AF-22CC-69C30EA80543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\System\Editor\Inspector\Entity">
+      <UniqueIdentifier>{D76D5428-4332-5318-0C98-83E2781BEF4D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
@@ -421,6 +427,9 @@
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\2d\UIObject.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h">
@@ -744,37 +753,37 @@
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h">
       <Filter>Engine\System\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\ColliderInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\ColliderInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\MaterialInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\GeometryObjectInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\ModelInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\SpriteInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Entity\TextInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistration.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\LightInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\MaterialInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\ModelInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\RigidBodyInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\SpriteInspector.h">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\TextInspector.h">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
@@ -1089,7 +1098,6 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1249,6 +1257,9 @@
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp">
@@ -1566,37 +1577,37 @@
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp">
       <Filter>Engine\System\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\BaseGameObjectInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\ColliderInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\ColliderInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\MaterialInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\GeometryObjectInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\ModelInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\SpriteInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Entity\TextInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Entity</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistration.cpp">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\LightInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\MaterialInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\ModelInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\RigidBodyInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\SpriteInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\TextInspector.cpp">
       <Filter>Engine\System\Editor\Inspector</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
@@ -1879,6 +1890,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
   </ItemGroup>
 </Project>

@@ -1,8 +1,8 @@
 #include "BaseGameObjectInspector.h"
-#include "ModelInspector.h"
-#include "MaterialInspector.h"
-#include "ColliderInspector.h"
-#include "RigidBodyInspector.h"
+#include "Engine/System/Editor/Inspector/Component/ModelInspector.h"
+#include "Engine/System/Editor/Inspector/Component/MaterialInspector.h"
+#include "Engine/System/Editor/Inspector/Component/ColliderInspector.h"
+#include "Engine/System/Editor/Inspector/Component/RigidBodyInspector.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

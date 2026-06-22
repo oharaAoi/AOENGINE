@@ -4,8 +4,8 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistry.h"
-#include "Engine/System/Editor/Inspector/SpriteInspector.h"
-#include "Engine/System/Editor/Inspector/TextInspector.h"
+#include "Engine/System/Editor/Inspector/Entity/SpriteInspector.h"
+#include "Engine/System/Editor/Inspector/Entity/TextInspector.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
 using namespace AOENGINE;
