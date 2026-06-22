@@ -60,10 +60,10 @@ void GpuParticleManager::Update() {
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GpuParticleManager::Draw() const {
+void GpuParticleManager::Draw(const Math::Frustum& frustum) const {
 	// Game/Editorそれぞれで、描画直前に現在のCamera行列へ切り替える。
 	renderer_->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetCameraRotate().MakeMatrix());
-	renderer_->Draw();
+	renderer_->Draw(&frustum);
 
 #ifdef _DEBUG
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {

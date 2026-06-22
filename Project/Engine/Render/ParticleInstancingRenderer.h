@@ -8,6 +8,10 @@
 #include "Engine/Module/Components/Meshes/Mesh.h"
 #include "Engine/Module/Components/Materials/Material.h"
 
+namespace Math {
+class Frustum;
+}
+
 namespace AOENGINE {
 
 /// <summary>
@@ -39,11 +43,15 @@ public:		// 構造体
 		std::string textureName;
 		ComPtr<ID3D12Resource> particleResource;
 		DescriptorHandles srvHandle;
-		ParticleData* particleData;
-		uint32_t useIndex = 0;
+		ParticleData* particleData = nullptr;
+		uint32_t instanceCount = 0;
+		Math::Sphere localBoundingSphere{ .center = CVector3::ZERO, .radius = 0.0f };
+		Math::Sphere worldBoundingSphere{ .center = CVector3::ZERO, .radius = 0.0f };
 
 		uint32_t blendModeType = 0;
 		bool anyParticleAlive = false;
+		bool hasWorldBounds = false;
+		bool contains2dParticle = false;
 	};
 
 	/// <summary>
@@ -75,7 +83,7 @@ public:
 	void PostUpdate();
 
 	// 描画処理
-	void Draw(ID3D12GraphicsCommandList* commandList) const;
+	void Draw(ID3D12GraphicsCommandList* commandList, const Math::Frustum* frustum = nullptr) const;
 
 public:
 

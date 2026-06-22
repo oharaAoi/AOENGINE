@@ -20,6 +20,8 @@ public: // コンストラクタ
 	virtual ~BaseParticles() override = default;
 
 public:
+	// 1つのCPU Particleグループが保持できる最大数
+	static constexpr uint32_t kMaxParticles = 200;
 
 	/// <summary>
 	/// 初期化処理
@@ -84,9 +86,6 @@ public:
 	uint32_t GetBlendMode() const { return blendModeType_; }
 
 protected:
-
-	// 最大数
-	const uint32_t kMaxParticles = 200;
 	// groupの名前
 	const std::string kGroupName = "CPU";
 	// particleName

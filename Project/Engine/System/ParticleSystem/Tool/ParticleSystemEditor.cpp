@@ -6,6 +6,7 @@
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Math/Frustum.h"
 #include <iostream>
 #include <fstream>
 
@@ -46,7 +47,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// ↓ Rendererの作成
 	// -------------------------------------------------
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(51600);
+	particleRenderer_->Init(BaseParticles::kMaxParticles);
 
 	gpuParticleRenderer_ = std::make_unique<GpuParticleRenderer>();
 	gpuParticleRenderer_->Init(640000);
@@ -323,8 +324,10 @@ void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
 
 	// 描画の一連処理
 	PreDraw();
-	particleRenderer_->Draw(commandList_);
-	gpuParticleRenderer_->Draw();
+	const Math::Matrix4x4 viewProjection = camera_->GetViewMatrix() * camera_->GetProjectionMatrix();
+	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(viewProjection);
+	particleRenderer_->Draw(commandList_, &cameraFrustum);
+	gpuParticleRenderer_->Draw(&cameraFrustum);
 	PostDraw();
 
 	ImGui::End();

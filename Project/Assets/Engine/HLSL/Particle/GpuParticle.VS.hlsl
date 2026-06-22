@@ -12,11 +12,13 @@ struct VertexShaderInput {
 };
 
 StructuredBuffer<GpuParticle> gParticles : register(t0);
+StructuredBuffer<uint> gVisibleParticleIndices : register(t1);
 ConstantBuffer<PerView> gPerView : register(b0);
 
 VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID) {
 	VertexShaderOutput output;
-	GpuParticle particle = gParticles[instanceId];
+	uint particleIndex = gVisibleParticleIndices[instanceId];
+	GpuParticle particle = gParticles[particleIndex];
 	
 	float4x4 worldMat = gPerView.billboardMat;
 	worldMat[0] *= particle.scale.x;

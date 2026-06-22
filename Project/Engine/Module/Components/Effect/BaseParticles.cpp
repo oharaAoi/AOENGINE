@@ -34,6 +34,7 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 
 	blendModeType_ = emitter_.blendModeType;
 	emitAccumulator_ = 0.0f;
+	currentTimer_ = 0.0f;
 	isStop_ = false;
 	changeMesh_ = false;
 

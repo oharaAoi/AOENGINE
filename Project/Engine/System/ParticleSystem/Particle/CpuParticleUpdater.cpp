@@ -154,6 +154,8 @@ void AOENGINE::CpuParticleUpdater::Update() {
 		}
 
 		particles.second.anyParticleAlive = anyParticleAlive;
+		// 描画側へは生存Particleだけを連続したインスタンスとして渡します。
+		particles.second.forGpuData_.resize(index);
 	}
 }
 

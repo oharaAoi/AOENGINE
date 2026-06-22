@@ -24,6 +24,10 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 		
 		// 値のコピー
 		GpuParticle particle = gParticles[particleIndex];
+		// lifeTime == 0 は未使用またはFreeListへ返却済みです。
+		if (particle.lifeTime <= 0.0f) {
+			return;
+		}
 		particle.currentTime += dt;
 	
 		// 加速度の更新
@@ -58,6 +62,8 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 			// スケールに0を入れて出力されないようにする
 			particle.scale = float3(0.0f, 0.0f, 0.0f);
 			particle.color.a = 0.0f;
+			particle.lifeTime = 0.0f;
+			particle.currentTime = 0.0f;
 			int freeListIndex;
 			InterlockedAdd(gFreeListIndex[0], 1, freeListIndex);
 			// 最新のfreeListIndexの場所に死んだparticleのIndexを設定する

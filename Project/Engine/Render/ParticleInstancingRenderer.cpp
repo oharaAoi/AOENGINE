@@ -2,9 +2,100 @@
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/Lib/Math/Frustum.h"
+
+#include <algorithm>
+#include <cmath>
+#include <limits>
 
 
 using namespace AOENGINE;
+
+namespace {
+
+Math::Sphere CalculateLocalBoundingSphere(const AOENGINE::Mesh& mesh) {
+	const std::vector<VertexData>& vertices = mesh.GetVerticesData();
+	if (vertices.empty()) {
+		return Math::Sphere{ .center = CVector3::ZERO, .radius = 0.0f };
+	}
+
+	Math::Vector3 min{
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)()
+	};
+	Math::Vector3 max{
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest()
+	};
+
+	for (const VertexData& vertex : vertices) {
+		const Math::Vector3 position{ vertex.pos.x, vertex.pos.y, vertex.pos.z };
+		min = Math::Vector3::Min(min, position);
+		max = Math::Vector3::Max(max, position);
+	}
+
+	const Math::Vector3 center = (min + max) * 0.5f;
+	float radius = 0.0f;
+	for (const VertexData& vertex : vertices) {
+		const Math::Vector3 position{ vertex.pos.x, vertex.pos.y, vertex.pos.z };
+		radius = (std::max)(radius, (position - center).Length());
+	}
+
+	return Math::Sphere{ .center = center, .radius = radius };
+}
+
+void UpdateWorldBoundingSphere(AOENGINE::ParticleInstancingRenderer::Information& information) {
+	information.hasWorldBounds = false;
+	information.contains2dParticle = false;
+
+	Math::Vector3 min{
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)(),
+		(std::numeric_limits<float>::max)()
+	};
+	Math::Vector3 max{
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest(),
+		std::numeric_limits<float>::lowest()
+	};
+
+	for (uint32_t index = 0; index < information.instanceCount; ++index) {
+		const auto& particle = information.particleData[index];
+		if (particle.draw2d != 0) {
+			information.contains2dParticle = true;
+			continue;
+		}
+
+		const Math::Vector3 scale = particle.worldMat.GetScale();
+		const float maxScale = (std::max)({ std::fabs(scale.x), std::fabs(scale.y), std::fabs(scale.z) });
+		const Math::Vector3 center = TransformCoord(information.localBoundingSphere.center, particle.worldMat);
+		float radius = information.localBoundingSphere.radius * maxScale;
+
+		// Stretch描画ではVSが速度方向へ頂点を延ばすため、その長さも境界へ含めます。
+		if (particle.isStretch != 0) {
+			radius += 0.5f * (1.0f + particle.velocity.Length());
+		}
+
+		const Math::Vector3 extent{ radius, radius, radius };
+		min = Math::Vector3::Min(min, center - extent);
+		max = Math::Vector3::Max(max, center + extent);
+		information.hasWorldBounds = true;
+	}
+
+	if (!information.hasWorldBounds) {
+		return;
+	}
+
+	const Math::Vector3 center = (min + max) * 0.5f;
+	information.worldBoundingSphere = Math::Sphere{
+		.center = center,
+		.radius = (max - center).Length()
+	};
+}
+
+}
 
 ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 	for (auto& particle : particleMap_) {
@@ -31,84 +122,72 @@ void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleInstancingRenderer::Update(const std::string& id, const std::vector<ParticleData>& particleData, bool anyParticleAlive, uint32_t blendType) {
-	uint32_t currentUseIndex = particleMap_[id].useIndex;
-
-	// 現在使用しているindexから引数のサイズ分colorを0にする
-	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
-		particleMap_[id].particleData[currentUseIndex + oi].color = { 0,0,0,0 };
-	}
-
-	particleMap_[id].blendModeType = blendType;
-	particleMap_[id].anyParticleAlive = anyParticleAlive;
-
-	if (!anyParticleAlive){
+	auto informationIt = particleMap_.find(id);
+	if (informationIt == particleMap_.end()) {
+		assert(false && "Particleの描画情報が登録されていません");
 		return;
 	}
 
-	// 現在使用しているindexからデータを更新する
-	//uint32_t maxParticlesCount = currentUseIndex + static_cast<uint32_t>(particleData.size());
-	for (uint32_t oi = 0; oi < particleData.size(); ++oi) {
-		if (currentUseIndex + oi < maxInstanceNum_) {
-			particleMap_[id].particleData[currentUseIndex + oi].uvTransform = particleData[oi].uvTransform;
-			particleMap_[id].particleData[currentUseIndex + oi].worldMat = particleData[oi].worldMat;
-			particleMap_[id].particleData[currentUseIndex + oi].color = particleData[oi].color;
-			particleMap_[id].particleData[currentUseIndex + oi].draw2d = particleData[oi].draw2d;
-			particleMap_[id].particleData[currentUseIndex + oi].discardValue = particleData[oi].discardValue;
-			particleMap_[id].particleData[currentUseIndex + oi].cameraPos = AOENGINE::Render::GetEyePos();
-			particleMap_[id].particleData[currentUseIndex + oi].velocity = particleData[oi].velocity;
-			particleMap_[id].particleData[currentUseIndex + oi].isStretch = particleData[oi].isStretch;
-			// 使用しているindexを更新する
-			particleMap_[id].useIndex = oi + 1;
-		}
+	Information& information = informationIt->second;
+	information.blendModeType = blendType;
+	information.instanceCount = (std::min)(static_cast<uint32_t>(particleData.size()), maxInstanceNum_);
+	information.anyParticleAlive = anyParticleAlive && information.instanceCount > 0;
+
+	for (uint32_t index = 0; index < information.instanceCount; ++index) {
+		information.particleData[index] = particleData[index];
+		information.particleData[index].cameraPos = AOENGINE::Render::GetEyePos();
 	}
+
+	UpdateWorldBoundingSphere(information);
 }
 
 void ParticleInstancingRenderer::PostUpdate() {
-	// 次のフレームで最初から更新するためにすべてのindexを0にする
-	for (auto& information : particleMap_) {
-		information.second.useIndex = 0;
-	}
+	// instanceCountはDrawまで保持する必要があるため、ここではリセットしません。
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList) const {
-	for (auto& information : particleMap_) {
-		if (!information.second.anyParticleAlive) { continue; }
+void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList, const Math::Frustum* frustum) const {
+	for (const auto& [id, information] : particleMap_) {
+		if (!information.anyParticleAlive || information.instanceCount == 0) { continue; }
+		if (frustum != nullptr && information.hasWorldBounds && !information.contains2dParticle &&
+			!frustum->Intersects(information.worldBoundingSphere)) {
+			continue;
+		}
 
-		if (information.second.blendModeType == AOENGINE::Blend::BlendMode::None) {
+		if (information.blendModeType == AOENGINE::Blend::BlendMode::None) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNone.json");
-		} else if(information.second.blendModeType == AOENGINE::Blend::BlendMode::Normal) {
+		} else if(information.blendModeType == AOENGINE::Blend::BlendMode::Normal) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleNormal.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Add) {
+		} else if (information.blendModeType == AOENGINE::Blend::BlendMode::Add) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleAdd.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Subtract) {
+		} else if (information.blendModeType == AOENGINE::Blend::BlendMode::Subtract) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleSubtract.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Multiply) {
+		} else if (information.blendModeType == AOENGINE::Blend::BlendMode::Multiply) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleMultiply.json");
-		} else if (information.second.blendModeType == AOENGINE::Blend::BlendMode::Screen) {
+		} else if (information.blendModeType == AOENGINE::Blend::BlendMode::Screen) {
 			Engine::SetPipeline(PSOType::Object3d, "Object_ParticleScreen.json");
 		}
 
 		Pipeline* pso = Engine::GetLastUsedPipeline();
 
-		commandList->IASetVertexBuffers(0, 1, &information.second.pMesh->GetVBV());
-		commandList->IASetIndexBuffer(&information.second.pMesh->GetIBV());
+		commandList->IASetVertexBuffers(0, 1, &information.pMesh->GetVBV());
+		commandList->IASetIndexBuffer(&information.pMesh->GetIBV());
 
 		UINT index = pso->GetRootSignatureIndex("gMaterial");
-		commandList->SetGraphicsRootConstantBufferView(index, information.second.materials->GetBufferAddress());
+		commandList->SetGraphicsRootConstantBufferView(index, information.materials->GetBufferAddress());
 		index = pso->GetRootSignatureIndex("gParticles");
-		commandList->SetGraphicsRootDescriptorTable(index, information.second.srvHandle.handleGPU);
+		commandList->SetGraphicsRootDescriptorTable(index, information.srvHandle.handleGPU);
 
 		index = pso->GetRootSignatureIndex("gTexture");
-		std::string textureName = information.second.materials->GetAlbedoTexture();
+		std::string textureName = information.materials->GetAlbedoTexture();
 		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		index = pso->GetRootSignatureIndex("gPerView");
 		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
 
-		commandList->DrawIndexedInstanced(information.second.pMesh->GetIndexNum(), maxInstanceNum_, 0, 0, 0);
+		commandList->DrawIndexedInstanced(information.pMesh->GetIndexNum(), information.instanceCount, 0, 0, 0);
 	}
 }
 
@@ -135,6 +214,7 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	// -----------------------------------------------------------------
 	Information particles;
 	particles.pMesh = _pMesh;
+	particles.localBoundingSphere = CalculateLocalBoundingSphere(*_pMesh);
 	particles.materials = std::make_shared<Material>();
 	particles.materials->Init();
 	particles.textureName = textureName;
@@ -155,8 +235,8 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	device->CreateShaderResourceView(particles.particleResource.Get(), &desc, particles.srvHandle.handleCPU);
 
 	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
-		particles.particleData->worldMat = Math::Matrix4x4::MakeUnit();
-		particles.particleData->color = { 0,0,0,0 };
+		particles.particleData[index].worldMat = Math::Matrix4x4::MakeUnit();
+		particles.particleData[index].color = { 0,0,0,0 };
 	}
 
 	particles.blendModeType = blendType;
@@ -173,4 +253,5 @@ void ParticleInstancingRenderer::ChangeMesh(const std::string& id, std::shared_p
 	}
 
 	particleMap_[id].pMesh = _mesh;
+	particleMap_[id].localBoundingSphere = CalculateLocalBoundingSphere(*_mesh);
 }

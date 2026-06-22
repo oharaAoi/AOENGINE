@@ -40,10 +40,18 @@ void GpuParticleEmitter::Init(const std::string& name) {
 
 	emitterResource_ = CreateBufferResource(dxDevice_, sizeof(GpuParticleEmitterData));
 	emitterResource_->Map(0, nullptr, reinterpret_cast<void**>(&emitterData_));
+	*emitterData_ = GpuParticleEmitterData{};
 
 	// preFrameの作成
 	perFrameBuffer_ = CreateBufferResource(dxDevice_, sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
+	perFrame_->time = 0.0f;
+	perFrame_->deltaTime = 0.0f;
+
+	emitAccumulator_ = 0.0f;
+	currentTimer_ = 0.0f;
+	emitCount_ = 0;
+	SetItem();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

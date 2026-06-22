@@ -34,7 +34,7 @@ void ParticleManager::Init() {
 	SetName("ParticleManager");
 
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(51600 * 3);
+	particleRenderer_->Init(BaseParticles::kMaxParticles);
 
 	AOENGINE::EditorWindows::AddObjectWindow(this, "ParticleManager");
 }
@@ -75,13 +75,13 @@ void ParticleManager::PostUpdate() {
 // ↓ 設定時のみ行う処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleManager::Draw() const {
+void ParticleManager::Draw(const Math::Frustum& frustum) const {
 	// 複数View描画ではUpdate時のCameraではなく、現在の描画Viewを使用する。
 	particleRenderer_->SetView(
 		AOENGINE::Render::GetViewProjectionMat(),
 		AOENGINE::Render::GetProjection2D(),
 		AOENGINE::Render::GetBillBordMat());
-	particleRenderer_->Draw(AOENGINE::GraphicsContext::GetInstance()->GetCommandList());
+	particleRenderer_->Draw(AOENGINE::GraphicsContext::GetInstance()->GetCommandList(), &frustum);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

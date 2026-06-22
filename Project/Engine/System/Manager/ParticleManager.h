@@ -7,6 +7,10 @@
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/System/ParticleSystem/Particle/CpuParticleUpdater.h"
 
+namespace Math {
+class Frustum;
+}
+
 namespace AOENGINE {
 
 /// <summary>
@@ -52,7 +56,7 @@ public:
 	// 全体更新後の更新
 	void PostUpdate();
 	// 描画処理
-	void Draw() const;
+	void Draw(const Math::Frustum& frustum) const;
 	// 編集処理
 	void Debug_Gui() override;
 

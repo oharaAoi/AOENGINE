@@ -150,8 +150,8 @@ void SceneRenderer::DrawSceneObjects() const {
 	modelInstancingRenderer_.DrawNormalBatches(normalInstancingBatches);
 
 	// particleの描画
-	particleManager_->Draw();
-	gpuParticleManager_->Draw();
+	particleManager_->Draw(cameraFrustum);
+	gpuParticleManager_->Draw(cameraFrustum);
 }
 
 void SceneRenderer::PostDraw() const {

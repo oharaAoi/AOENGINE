@@ -1,10 +1,15 @@
 #pragma once
+#include <array>
 #include <string>
 #include <memory>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/Module/Components/GameObject/GeometryObject.h"
+
+namespace Math {
+class Frustum;
+}
 
 namespace AOENGINE {
 
@@ -63,6 +68,15 @@ public:	// メンバ構造体
 		int count;
 	};
 
+	/// GPU可視Particle抽出用の定数です。
+	struct CullingData {
+		std::array<Math::Vector4, 6> frustumPlanes;
+		uint32_t maxParticles = 0;
+		float particleLocalRadius = 0.0f;
+		uint32_t useFrustumCulling = 0;
+		float padding = 0.0f;
+	};
+
 public:
 
 	GpuParticleRenderer() = default;
@@ -80,7 +94,7 @@ public:
 	void Update();
 
 	// 描画
-	void Draw() const;
+	void Draw(const Math::Frustum* frustum = nullptr) const;
 
 private:
 
@@ -90,6 +104,7 @@ private:
 	/// <param name="_dxHeap"></param>
 	/// <param name="_dxDevice"></param>
 	void CreateResource(AOENGINE::DxResourceManager* _resourceManager);
+	void CreateCullingResource(AOENGINE::DxResourceManager* _resourceManager);
 
 public:
 
@@ -110,6 +125,8 @@ private:
 	AOENGINE::DxResource* particleResource_;
 	AOENGINE::DxResource* freeListIndexResource_;
 	AOENGINE::DxResource* freeListResource_;
+	AOENGINE::DxResource* visibleParticleIndexResource_ = nullptr;
+	AOENGINE::DxResource* indirectArgsResource_ = nullptr;
 
 	ComPtr<ID3D12Resource> perViewBuffer_;
 	PerView* perView_;
@@ -119,6 +136,11 @@ private:
 
 	ComPtr<ID3D12Resource> maxParticleBuffer_;
 	MaxParticles* maxBuffer_;
+
+	ComPtr<ID3D12Resource> cullingDataBuffer_;
+	CullingData* cullingData_ = nullptr;
+	ComPtr<ID3D12Resource> indirectArgsResetBuffer_;
+	ComPtr<ID3D12CommandSignature> drawCommandSignature_;
 
 	// meshの形状
 	std::unique_ptr<AOENGINE::GeometryObject> shape_;

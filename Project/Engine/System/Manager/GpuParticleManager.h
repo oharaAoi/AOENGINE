@@ -7,6 +7,10 @@
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
 
+namespace Math {
+class Frustum;
+}
+
 namespace AOENGINE {
 
 /// <summary>
@@ -32,7 +36,7 @@ public:
 	// 更新処理
 	void Update();
 	// 描画処理
-	void Draw() const;
+	void Draw(const Math::Frustum& frustum) const;
 	// 編集処理
 	void Debug_Gui() override;
 
