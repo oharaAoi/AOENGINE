@@ -151,7 +151,7 @@ private:
 	/// <param name="stack"></param>
 	/// <param name="scriptPath"></param>
 	/// <param name="outputDDSFolder"></param>
-	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder);
+	void ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder, bool removeUnreferencedDDS, bool allowConversion = true);
 
 	/// <summary>
 	/// DDSファイルを読み込む
@@ -186,6 +186,8 @@ public:
 	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const;
 
 	void StackTexture(const std::string& directoryPath, const std::string& filePath);
+
+	void DeleteConvertedDDSForSource(const std::filesystem::path& sourcePath);
 
 private:
 

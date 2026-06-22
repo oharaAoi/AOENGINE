@@ -1,5 +1,6 @@
 #pragma once
 #include <Engine/Lib/Math/MyMath.h>
+#include <array>
 #include <list>
 #include <string>
 #include <filesystem>
@@ -62,6 +63,9 @@ private:
 	/// 選択したフォルダの中の項目を構築する
 	/// </summary>
 	void BuildCurrentFolderItems();
+	bool SetCurrentPath(const std::filesystem::path& path);
+	void SyncCurrentPathInput();
+	void DrawFolderToolBar();
 
 	/// <summary>
 	/// Treeの描画を行う
@@ -89,6 +93,8 @@ private:
 	TextureManager* pTextureManager_ = nullptr;
 
 	std::filesystem::path currentPath_ = "";
+	std::array<char, 512> currentPathBuffer_ = {};
+	std::array<char, 256> searchBuffer_ = {};
 
 	AssetNode rootNode_;
 	std::unordered_map<std::string, bool> treeOpenState;

@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "./Project/Assets\\Engine\\Load\\Models\\Develop"
+        "path": "Project\\Assets\\Converter\\ConvertedDDS"
     },
     "openDir": {
         "./Project/Assets": true,
@@ -9,14 +9,14 @@
         "./Project/Assets\\Engine": true,
         "./Project/Assets\\Engine\\Font": false,
         "./Project/Assets\\Engine\\HLSL": false,
-        "./Project/Assets\\Engine\\Load": true,
+        "./Project/Assets\\Engine\\Load": false,
         "./Project/Assets\\Engine\\Load\\Models": true,
         "./Project/Assets\\Engine\\Load\\Models\\Develop": true,
         "./Project/Assets\\Engine\\Load\\Models\\Template": false,
         "./Project/Assets\\Engine\\Load\\Sounds": false,
         "./Project/Assets\\Engine\\Load\\Textures": false,
         "./Project/Assets\\Engine\\Pipeline": false,
-        "./Project/Assets\\Game": true,
+        "./Project/Assets\\Game": false,
         "./Project/Assets\\Game\\GameData": false,
         "./Project/Assets\\Game\\HLSL": false,
         "./Project/Assets\\Game\\Load": true,

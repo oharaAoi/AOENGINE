@@ -261,7 +261,10 @@ void AssetsManager::SnapshotWatchedFiles() {
 
 			FileState state{};
 			if (TryGetFileState(filePath, state)) {
-				knownFiles_[MakeWatchKey(filePath)] = state;
+				knownFiles_[MakeWatchKey(filePath)] = KnownWatchFile{
+					state,
+					WatchEvent{ filePath, root.target, root.pipelineType }
+				};
 			}
 		}
 	}
@@ -292,6 +295,7 @@ void AssetsManager::WatchLoop() {
 
 void AssetsManager::ScanWatchedFiles() {
 	const auto now = std::chrono::steady_clock::now();
+	std::unordered_set<std::string> scannedPaths;
 
 	for (const WatchRoot& root : watchRoots_) {
 		std::error_code ec;
@@ -318,11 +322,13 @@ void AssetsManager::ScanWatchedFiles() {
 			}
 
 			std::string key = MakeWatchKey(filePath);
+			scannedPaths.insert(key);
 			auto knownIt = knownFiles_.find(key);
-			if (knownIt == knownFiles_.end() || !IsSameFileState(knownIt->second, state)) {
-				knownFiles_[key] = state;
+			if (knownIt == knownFiles_.end() || !IsSameFileState(knownIt->second.state, state)) {
+				WatchEvent event{ filePath, root.target, root.pipelineType };
+				knownFiles_[key] = KnownWatchFile{ state, event };
 				pendingWatchEvents_[key] = PendingWatchEvent{
-					WatchEvent{ filePath, root.target, root.pipelineType },
+					event,
 					state,
 					now
 				};
@@ -330,9 +336,28 @@ void AssetsManager::ScanWatchedFiles() {
 		}
 	}
 
+	for (auto it = knownFiles_.begin(); it != knownFiles_.end();) {
+		if (scannedPaths.contains(it->first)) {
+			++it;
+			continue;
+		}
+
+		std::error_code ec;
+		if (fs::exists(it->second.event.filePath, ec) && !ec) {
+			++it;
+			continue;
+		}
+
+		WatchEvent deleteEvent = it->second.event;
+		deleteEvent.isDeleted = true;
+		EnqueueAssetEvent(deleteEvent);
+		pendingWatchEvents_.erase(it->first);
+		it = knownFiles_.erase(it);
+	}
+
 	for (auto it = pendingWatchEvents_.begin(); it != pendingWatchEvents_.end();) {
 		auto knownIt = knownFiles_.find(it->first);
-		if (knownIt == knownFiles_.end() || !IsSameFileState(knownIt->second, it->second.state)) {
+		if (knownIt == knownFiles_.end() || !IsSameFileState(knownIt->second.state, it->second.state)) {
 			it = pendingWatchEvents_.erase(it);
 			continue;
 		}
@@ -358,6 +383,13 @@ void AssetsManager::EnqueueAssetEvent(const WatchEvent& event) {
 }
 
 void AssetsManager::ProcessAssetEvent(const WatchEvent& event) {
+	if (event.isDeleted) {
+		if (event.target == WatchTarget::Texture) {
+			AOENGINE::TextureManager::GetInstance()->DeleteConvertedDDSForSource(event.filePath);
+		}
+		return;
+	}
+
 	switch (event.target) {
 	case WatchTarget::Texture:
 		if (!LoadTextureAsset(event.filePath, true) && event.retryCount < kAssetWatchMaxRetryCount) {

@@ -8,6 +8,7 @@
 #include "Engine/Lib/Path.h"
 #include <cctype>
 #include <sstream>
+#include <unordered_set>
 
 using namespace AOENGINE;
 
@@ -25,6 +26,81 @@ std::string ToLowerExtension(const std::filesystem::path& path) {
 		return static_cast<char>(std::tolower(c));
 				   });
 	return extension;
+}
+
+std::string ToLowerString(std::string value) {
+	std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
+		return static_cast<char>(std::tolower(c));
+				   });
+	return value;
+}
+
+bool IsConvertibleTexture(const std::filesystem::path& path) {
+	const std::string extension = ToLowerExtension(path);
+	return extension == ".png" || extension == ".jpg" || extension == ".jpeg";
+}
+
+bool RemoveDDSFileIfExists(const std::filesystem::path& ddsPath) {
+	std::error_code ec;
+	if (!std::filesystem::exists(ddsPath, ec) || ec) {
+		return false;
+	}
+
+	if (!std::filesystem::remove(ddsPath, ec)) {
+		if (ec) {
+			AOENGINE::Logger::Log("[Load][Texture] Failed to remove DDS cache: " + ddsPath.string() + " error=" + ec.message());
+		}
+		return false;
+	}
+
+	AOENGINE::Logger::Log("[Load][Texture] Removed DDS cache: " + ddsPath.string());
+	return true;
+}
+
+bool NeedsDDSConversion(const std::filesystem::path& sourcePath, const std::filesystem::path& ddsPath) {
+	std::error_code ec;
+	if (!std::filesystem::exists(ddsPath, ec) || ec) {
+		return true;
+	}
+
+	const auto sourceTime = std::filesystem::last_write_time(sourcePath, ec);
+	if (ec) {
+		AOENGINE::Logger::Log("[Load][Texture] Failed to read source timestamp: " + sourcePath.string() + " error=" + ec.message());
+		return false;
+	}
+
+	const auto ddsTime = std::filesystem::last_write_time(ddsPath, ec);
+	if (ec) {
+		AOENGINE::Logger::Log("[Load][Texture] Failed to read DDS timestamp: " + ddsPath.string() + " error=" + ec.message());
+		return true;
+	}
+
+	return sourceTime > ddsTime;
+}
+
+void RemoveUnreferencedDDSFiles(const std::filesystem::path& outputDDSFolder, const std::unordered_set<std::string>& referencedDDSFiles) {
+	std::error_code ec;
+	if (!std::filesystem::exists(outputDDSFolder, ec) || ec || !std::filesystem::is_directory(outputDDSFolder, ec)) {
+		return;
+	}
+
+	for (const auto& entry : std::filesystem::directory_iterator(outputDDSFolder, ec)) {
+		if (ec) {
+			AOENGINE::Logger::Log("[Load][Texture] Failed to iterate DDS cache folder: " + outputDDSFolder.string() + " error=" + ec.message());
+			return;
+		}
+
+		const std::filesystem::path& filePath = entry.path();
+		if (!entry.is_regular_file(ec) || ec || ToLowerExtension(filePath) != ".dds") {
+			ec.clear();
+			continue;
+		}
+
+		const std::string ddsName = ToLowerString(filePath.filename().string());
+		if (!referencedDDSFiles.contains(ddsName)) {
+			RemoveDDSFileIfExists(filePath);
+		}
+	}
 }
 
 }
@@ -67,14 +143,18 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextureManager::LoadStack(bool _forceReload) {
+	const std::string outputDDSFolder = kAssetPath + "/Converter/ConvertedDDS/";
+
 	// 画像ファイルをddsに変換する
 #ifdef _DEBUG
 	AOENGINE::Logger::CommentLog("Conversion Image To DDS");
 	std::string scriptPath = kAssetPath + "/Converter/convert.ps1";
-	ConvertAllTexturesFromStack(loadStack_, ConvertWString(scriptPath), kAssetPath + "/Converter/ConvertedDDS/");
+	ConvertAllTexturesFromStack(loadStack_, ConvertWString(scriptPath), outputDDSFolder, true);
+#else
+	ConvertAllTexturesFromStack(loadStack_, L"", outputDDSFolder, true, false);
 #endif
 	// ddsファイルを読み込む
-	LoadFileDDS(kAssetPath + "/Converter/ConvertedDDS/", _forceReload);
+	LoadFileDDS(outputDDSFolder, _forceReload);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +163,15 @@ void TextureManager::LoadStack(bool _forceReload) {
 
 void TextureManager::StackTexture(const std::string& directoryPath, const std::string& filePath) {
 	loadStack_.push(TexturePath{ directoryPath, filePath });
+}
+
+void TextureManager::DeleteConvertedDDSForSource(const std::filesystem::path& sourcePath) {
+	if (!IsConvertibleTexture(sourcePath)) {
+		return;
+	}
+
+	const std::filesystem::path ddsPath = std::filesystem::path(kAssetPath + "/Converter/ConvertedDDS/") / (sourcePath.stem().string() + ".dds");
+	RemoveDDSFileIfExists(ddsPath);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +275,7 @@ bool TextureManager::LoadTextureAsset(const std::string& directoryPath, const st
 	std::stack<TexturePath> stack;
 	stack.push(TexturePath{ directoryPath, filePath });
 	std::string scriptPath = kAssetPath + "/Converter/convert.ps1";
-	ConvertAllTexturesFromStack(stack, ConvertWString(scriptPath), kAssetPath + "/Converter/ConvertedDDS/");
+	ConvertAllTexturesFromStack(stack, ConvertWString(scriptPath), kAssetPath + "/Converter/ConvertedDDS/", false);
 
 	std::filesystem::path convertedPath = std::filesystem::path(kAssetPath + "/Converter/ConvertedDDS/") / (texturePath.stem().string() + ".dds");
 	if (std::filesystem::exists(convertedPath)) {
@@ -618,8 +707,10 @@ std::optional<AssetHandle> AOENGINE::TextureManager::SearchAssetHandle(const std
 // Stackに溜まっているパスをDDSに変換する
 /////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder) {
+void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePath>& stack, const std::wstring& scriptPath, const std::string& outputDDSFolder, bool removeUnreferencedDDS, bool allowConversion) {
 	std::vector<std::wstring> paths;
+	std::unordered_set<std::string> referencedDDSFiles;
+	const std::filesystem::path outputDDSFolderPath(outputDDSFolder);
 
 	while (!stack.empty()) {
 		TexturePath tp = stack.top();
@@ -629,32 +720,34 @@ void AOENGINE::TextureManager::ConvertAllTexturesFromStack(std::stack<TexturePat
 			AOENGINE::Logger::Log("[Load][Texture] Warning: Texture file name contains spaces. " + tp.fileName);
 		}
 
-		std::string fullPath = tp.directory;
-		if (!fullPath.empty() && fullPath.back() != '\\' && fullPath.back() != '/') {
-			fullPath += "\\";
-		}
-		fullPath += tp.fileName;
-
 		// 各ファイルのあるパスを作成する
-		std::filesystem::path fileNamePath(fullPath);
-		std::string filename = fileNamePath.stem().string();
-		std::string ddsPath = outputDDSFolder + filename + ".dds";
+		std::filesystem::path fullPath = std::filesystem::path(tp.directory) / tp.fileName;
+		if (!IsConvertibleTexture(fullPath)) {
+			continue;
+		}
+
+		std::string filename = fullPath.stem().string();
+		std::filesystem::path ddsPath = outputDDSFolderPath / (filename + ".dds");
+
+		std::error_code ec;
+		if (!std::filesystem::is_regular_file(fullPath, ec) || ec) {
+			RemoveDDSFileIfExists(ddsPath);
+			continue;
+		}
+
+		referencedDDSFiles.insert(ToLowerString(ddsPath.filename().string()));
 
 		// ddsファイルが存在しなかったらコンバートを行う
-		if (!std::filesystem::exists(ddsPath)) {
-			paths.push_back(ConvertWString(fullPath));
-		} else {
-			auto srcTime = std::filesystem::last_write_time(fullPath);
-			auto dstTime = std::filesystem::last_write_time(ddsPath);
-
-			// 元ファイルの日付がddsファイル作成日より新しかったら新たに生成する
-			if (srcTime > dstTime) {
-				paths.push_back(ConvertWString(fullPath));
-			}
+		if (allowConversion && NeedsDDSConversion(fullPath, ddsPath)) {
+			paths.push_back(fullPath.wstring());
 		}
 	}
 
-	if (paths.empty())
+	if (removeUnreferencedDDS) {
+		RemoveUnreferencedDDSFiles(outputDDSFolderPath, referencedDDSFiles);
+	}
+
+	if (!allowConversion || paths.empty())
 		return;
 
 	RunPowerShellScript(scriptPath, paths);

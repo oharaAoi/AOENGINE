@@ -6,7 +6,33 @@
 #include "Engine/System/Editor/Window/AssetsWindowSerializer.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Lib/Path.h"
+#include <algorithm>
+#include <cctype>
 
+namespace {
+
+template<size_t Size>
+void CopyToInputBuffer(std::array<char, Size>& buffer, const std::string& text) {
+	buffer.fill('\0');
+	const size_t copySize = std::min(text.size(), buffer.size() - 1);
+	std::copy_n(text.data(), copySize, buffer.data());
+}
+
+std::string ToLower(std::string value) {
+	std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
+		return static_cast<char>(std::tolower(c));
+				   });
+	return value;
+}
+
+bool ContainsIgnoreCase(const std::string& text, const std::string& keyword) {
+	if (keyword.empty()) {
+		return true;
+	}
+	return ToLower(text).find(ToLower(keyword)) != std::string::npos;
+}
+
+}
 
 AOENGINE::AssetsWindow::~AssetsWindow() {
 	AOENGINE::AssetsWindowSerializer::Save(treeOpenState, currentPath_.string());
@@ -31,11 +57,8 @@ void AOENGINE::AssetsWindow::Init() {
 	AOENGINE::AssetsWindowSerializer::Load(treeOpenState, path);
 
 	// フォルダ内のアイテムを構築
-	if (path != "") {
-		std::filesystem::path currentPath = path;
-		currentPath_ = currentPath;
-		currentFolderItemList_.clear();
-		BuildCurrentFolderItems();
+	if (path.empty() || !SetCurrentPath(path)) {
+		SetCurrentPath(dirPath);
 	}
 }
 
@@ -125,8 +148,21 @@ AOENGINE::AssetNode AOENGINE::AssetsWindow::BuildAssetTree(const std::filesystem
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::AssetsWindow::BuildCurrentFolderItems() {
-	for (const auto& entry : std::filesystem::directory_iterator(currentPath_)) {
-		currentFolderItemList_.push_back(entry.path());
+	currentFolderItemList_.clear();
+
+	std::error_code ec;
+	if (!std::filesystem::exists(currentPath_, ec) || ec || !std::filesystem::is_directory(currentPath_, ec)) {
+		return;
+	}
+
+	std::filesystem::directory_iterator it(currentPath_, std::filesystem::directory_options::skip_permission_denied, ec);
+	std::filesystem::directory_iterator end;
+	for (; it != end; it.increment(ec)) {
+		if (ec) {
+			ec.clear();
+			continue;
+		}
+		currentFolderItemList_.push_back(it->path());
 	}
 
 	// folderを先頭に並び替える
@@ -144,6 +180,53 @@ void AOENGINE::AssetsWindow::BuildCurrentFolderItems() {
 			return a.filename().string() < b.filename().string();
 		}
 	);
+}
+
+bool AOENGINE::AssetsWindow::SetCurrentPath(const std::filesystem::path& path) {
+	std::error_code ec;
+	if (!std::filesystem::exists(path, ec) || ec || !std::filesystem::is_directory(path, ec)) {
+		return false;
+	}
+
+	currentPath_ = path.lexically_normal();
+	BuildCurrentFolderItems();
+	SyncCurrentPathInput();
+	return true;
+}
+
+void AOENGINE::AssetsWindow::SyncCurrentPathInput() {
+	CopyToInputBuffer(currentPathBuffer_, currentPath_.string());
+}
+
+void AOENGINE::AssetsWindow::DrawFolderToolBar() {
+	if (currentPathBuffer_[0] == '\0' && !currentPath_.empty()) {
+		SyncCurrentPathInput();
+	}
+
+	ImGui::Text("Path");
+	ImGui::SameLine();
+	const float goButtonWidth = 38.0f;
+	const float pathInputWidth = std::max(120.0f, ImGui::GetContentRegionAvail().x - goButtonWidth - ImGui::GetStyle().ItemSpacing.x);
+	ImGui::SetNextItemWidth(pathInputWidth);
+	bool applyPath = ImGui::InputText("##AssetCurrentPath", currentPathBuffer_.data(), currentPathBuffer_.size(), ImGuiInputTextFlags_EnterReturnsTrue);
+	ImGui::SameLine();
+	applyPath |= ImGui::Button("Go", ImVec2(goButtonWidth, 0.0f));
+	if (applyPath) {
+		SetCurrentPath(std::filesystem::path(currentPathBuffer_.data()));
+	}
+
+	ImGui::Text("Search");
+	ImGui::SameLine();
+	const float clearButtonWidth = 24.0f;
+	const float searchInputWidth = std::max(120.0f, ImGui::GetContentRegionAvail().x - clearButtonWidth - ImGui::GetStyle().ItemSpacing.x);
+	ImGui::SetNextItemWidth(searchInputWidth);
+	ImGui::InputTextWithHint("##AssetSearch", "Search file...", searchBuffer_.data(), searchBuffer_.size());
+	ImGui::SameLine();
+	if (ImGui::Button("X", ImVec2(clearButtonWidth, 0.0f))) {
+		searchBuffer_[0] = '\0';
+	}
+
+	ImGui::Separator();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,9 +251,7 @@ void AOENGINE::AssetsWindow::DrawAssetTree(const AssetNode& node) {
 	// ファイルクリック
 	if (ImGui::IsItemClicked()) {
 		// 選択処理
-		currentPath_ = node.path;
-		currentFolderItemList_.clear();
-		BuildCurrentFolderItems();
+		SetCurrentPath(node.path);
 	}
 
 	// 次のfolderを表示
@@ -187,6 +268,8 @@ void AOENGINE::AssetsWindow::DrawAssetTree(const AssetNode& node) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::AssetsWindow::DrawFolderItems() {
+	DrawFolderToolBar();
+
 	// パラメータの設定
 	const float thumbnailSize = 64.0f;
 	const float padding = 16.0f;
@@ -199,7 +282,12 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 	int column = 0;
 
 	// 表示する
+	const std::string searchText = searchBuffer_.data();
 	for (const auto& item : currentFolderItemList_) {
+		if (!ContainsIgnoreCase(item.filename().string(), searchText)) {
+			continue;
+		}
+
 		ImGui::BeginGroup();
 
 		// 画像ファイルのicon表示
@@ -232,12 +320,13 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			// folderのファイルのicon表示
 		} else if (std::filesystem::is_directory(item)) {
 			if (DrawItemTexture(AssetType::Other, "folder.png", item.filename().string(), thumbnailSize)) {
-				currentPath_ = item.string();
-				currentFolderItemList_.clear();
-				BuildCurrentFolderItems();
+				SetCurrentPath(item);
 				ImGui::EndGroup();
 				return;
 			}
+		} else {
+			std::string name = item.filename().string();
+			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize);
 		}
 
 		// フォルダの表示
@@ -263,6 +352,13 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 
 	if (ImGui::ImageButton(guiId.c_str(), texId, ImVec2(size, size))) {
 		result = true;
+	}
+
+	if (ImGui::IsItemHovered()) {
+		ImGui::SetNextWindowPos(ImGui::GetMousePos(), ImGuiCond_Always);
+		ImGui::BeginTooltip();
+		ImGui::Text("%s", fileName.c_str());
+		ImGui::EndTooltip();
 	}
 
 	if (assetType != AssetType::Other) {

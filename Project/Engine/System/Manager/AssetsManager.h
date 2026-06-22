@@ -61,6 +61,12 @@ public:
 		WatchTarget target;
 		int pipelineType = -1;
 		int retryCount = 0;
+		bool isDeleted = false;
+	};
+
+	struct KnownWatchFile {
+		FileState state;
+		WatchEvent event;
 	};
 
 	struct PendingWatchEvent {
@@ -143,7 +149,7 @@ private:
 	const std::string kJsonItemsEffectPath = kAssetPath + "/Game/GameData/JsonItems/Effect/";
 
 	std::vector<WatchRoot> watchRoots_;
-	std::unordered_map<std::string, FileState> knownFiles_;
+	std::unordered_map<std::string, KnownWatchFile> knownFiles_;
 	std::unordered_map<std::string, PendingWatchEvent> pendingWatchEvents_;
 	std::queue<WatchEvent> assetEventQueue_;
 	std::unordered_set<std::string> queuedPaths_;

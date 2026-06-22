@@ -26,12 +26,14 @@ bool RunPowerShellScript(
 
 	STARTUPINFOW si{};
 	si.cb = sizeof(si);
+	si.dwFlags = STARTF_USESHOWWINDOW;
+	si.wShowWindow = SW_HIDE;
 	PROCESS_INFORMATION pi{};
 
 	BOOL ok = CreateProcessW(
 		nullptr,
 		cmdLine.data(),
-		nullptr, nullptr, FALSE, 0,
+		nullptr, nullptr, FALSE, CREATE_NO_WINDOW,
 		nullptr, nullptr,
 		&si, &pi
 	);
