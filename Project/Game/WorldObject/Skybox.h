@@ -6,7 +6,6 @@
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 /// <summary>
 /// skybox

@@ -69,8 +69,6 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 	debugCamera_->Init();
 
 	RegisterCamera();
-
-	AOENGINE::EditorWindows::GetInstance()->AddObjectWindow(pSceneRenderer_, "sceneRenderer");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,6 @@
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/DirectX/Resource/DxResource.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 
 namespace AOENGINE {
 

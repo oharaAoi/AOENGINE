@@ -4,8 +4,8 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include "Engine/System/Manager/ImGuiManager.h"
 
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 #include "Engine/System/Manager/ParticleManager.h"
@@ -26,8 +26,7 @@ class BaseGameObject;
 /// SceneWorldが所有するオブジェクトを描画するクラス。
 /// SceneRenderer自身はオブジェクトを所有せず、描画に必要な設定だけをObjectHandleに紐づけて保持します。
 /// </summary>
-class SceneRenderer :
-	public AttributeGui {
+class SceneRenderer {
 public:
 	SceneRenderer() = default;
 	~SceneRenderer() = default;
@@ -59,8 +58,6 @@ public:
 	void PostDraw() const;
 	// objectの編集
 	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
-
-	void Debug_Gui() override;
 
 public:
 	/// <summary>

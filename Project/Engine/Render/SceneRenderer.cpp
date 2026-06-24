@@ -183,22 +183,6 @@ void SceneRenderer::EditObject(const ImVec2& windowSize, const ImVec2& imagePos)
 	}
 }
 
-void AOENGINE::SceneRenderer::Debug_Gui() {
-	for (const RenderEntry& entry : renderEntries_) {
-		ISceneObject* obj = GetRenderableObject(entry);
-		if (!obj) {
-			continue;
-		}
-
-		std::string addrStr = std::format("{}", static_cast<const void*>(obj));
-		std::string name = obj->GetName() + "##" + addrStr;
-		if (ImGui::TreeNode(name.c_str())) {
-			//obj->Debug_Gui();
-			ImGui::TreePop();
-		}
-	}
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
