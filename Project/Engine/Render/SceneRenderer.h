@@ -13,7 +13,6 @@
 #include "Engine/System/Scene/SceneWorld.h"
 #include "Engine/Render/ModelInstancingRenderer.h"
 #include "Engine/Utilities/Logger.h"
-#include "Game/WorldObject/Skybox.h"
 
 namespace Math {
 class Frustum;

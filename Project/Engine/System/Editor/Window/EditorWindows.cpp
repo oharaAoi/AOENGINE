@@ -50,6 +50,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	gridDraw_ = false;
 	isSkip_ = false;
 	isFullScreen_ = false;
+	viewShadowMap_ = false;
 
 	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
 	for (auto& item : windowItems_) {
@@ -111,6 +112,7 @@ void EditorWindows::Begin() {
 
 			if (ImGui::BeginMenu("View")) {
 				ImGui::Checkbox("FullScreen", &isFullScreen_);
+				ImGui::Checkbox("viewShadowMap", &viewShadowMap_);
 				ImGui::EndMenu();
 			}
 
@@ -138,6 +140,10 @@ void EditorWindows::Begin() {
 	gameObjectWindow_->SetCanvas2d(canvas2d_);
 	gameObjectWindow_->SetProcessedSceneFrames(processedSceneFrame_, editorSceneFrame_);
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
+
+	if (viewShadowMap_) {
+		AOENGINE::Render::GetShadowMap()->Debug_Gui();
+	}
 
 	// -------------------------------------------------
 	// ↓ 編集項目の表示

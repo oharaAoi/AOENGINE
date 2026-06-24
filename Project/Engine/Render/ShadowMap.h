@@ -9,8 +9,7 @@ namespace AOENGINE {
 /// <summary>
 /// 影のレンダリングを行うクラス
 /// </summary>
-class ShadowMap :
-	public AOENGINE::AttributeGui {
+class ShadowMap {
 public:
 
 	ShadowMap() = default;
@@ -27,7 +26,7 @@ public:
 	void ChangeResource(ID3D12GraphicsCommandList* commandList);
 	void ResetResource(ID3D12GraphicsCommandList* commandList);
 	// 編集処理
-	void Debug_Gui() override;
+	void Debug_Gui();
 public:
 
 	ID3D12Resource* GetDepthResource() { return depthStencilResource_->GetResource(); }

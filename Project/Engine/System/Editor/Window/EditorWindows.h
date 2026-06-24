@@ -162,11 +162,12 @@ private:
 	AOENGINE::IEditorWindow* pSelectWindow_;
 
 	// editorで使用するフラグ
-	bool sceneReset_;
-	bool colliderDraw_;
-	bool gridDraw_;
-	bool isSkip_;
-	bool isFullScreen_;
+	bool sceneReset_;		// sceneのリセット
+	bool colliderDraw_;		// colliderの描画
+	bool gridDraw_;			// grid線の描画
+	bool isSkip_;			// 次のframeにスキップするかどうか
+	bool isFullScreen_;		// fullScreenで表示するか
+	bool viewShadowMap_;	// shadowMapの表示をする
 
 	
 };
