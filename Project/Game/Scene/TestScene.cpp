@@ -11,16 +11,9 @@ void TestScene::Finalize() {}
 
 void TestScene::Init() {
 	BaseScene::Init();
-	Engine::GetCanvas2d()->Init();
 
-	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
-	adjust->Init();
-
-	skybox_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-	AOENGINE::Render::SetSkyboxTexture(skybox_->GetTexture());
 
 	AOENGINE::Render::GetLightGroup()->Load();
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

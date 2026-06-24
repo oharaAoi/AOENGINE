@@ -31,6 +31,8 @@ void Skybox::Init() {
 	transform_ = std::make_unique<AOENGINE::WorldTransform>();
 	transform_->Init();
 	transform_->SetRotate(Math::Quaternion::AngleAxis(180.0f * kPI, CVector3::UP));
+
+	AOENGINE::Render::SetSkyboxTexture(useTexture_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

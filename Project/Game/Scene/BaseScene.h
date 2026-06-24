@@ -90,7 +90,8 @@ protected:
 
 	AOENGINE::SceneRenderer* pSceneRenderer_ = nullptr;
 	AOENGINE::SceneLoader* pSceneLoader_;
-	Skybox* skybox_;
+
+	std::unique_ptr<Skybox> skybox_;
 
 	std::string sceneName_;
 

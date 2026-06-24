@@ -6,14 +6,26 @@
 #include "Engine/Render/Render.h"
 
 BaseScene::~BaseScene() {
+	skybox_ = nullptr;
 	pSceneRenderer_->Finalize();
 	collisionManager_->Finalize();
 }
 
 void BaseScene::Init() {
+	skybox_ = std::make_unique<Skybox>();
+	skybox_->Init();
+
+	// -------------------------------------------------
+	// ↓ Rendererの初期化
+	// -------------------------------------------------
 	pSceneRenderer_ = AOENGINE::SceneRenderer::GetInstance();
 	pSceneRenderer_->Init();
 
+	Engine::GetCanvas2d()->Init();
+
+	// -------------------------------------------------
+	// ↓ Collision関連の初期化
+	// -------------------------------------------------
 	collisionManager_ = std::make_unique<AOENGINE::CollisionManager>();
 	collisionManager_->Init();
 
@@ -27,8 +39,13 @@ void BaseScene::Init() {
 	camera2d_->Init();
 	camera3d_->Init();
 	debugCamera_->Init();
-
 	RegisterCamera();
+
+	// -------------------------------------------------
+	// ↓ 外部保存パラメータの初期化
+	// -------------------------------------------------
+	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
+	adjust->Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,9 +64,6 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 	pSceneRenderer_->CreateObject(pSceneLoader_->GetLevelData());
 	AOENGINE::EditorWindows::GetInstance()->SetSceneRenderer(pSceneRenderer_);
 
-	skybox_ = AOENGINE::SceneRenderer::GetInstance()->AddObject<Skybox>("Skybox", "Object_Skybox.json", -999);
-	AOENGINE::Render::SetSkyboxTexture(skybox_->GetTexture());
-
 	camera2d_->Init();
 	camera3d_->Init();
 	debugCamera_->Init();
@@ -65,6 +79,7 @@ void BaseScene::LoadScene(const std::string& directory, const std::string& fileN
 
 void BaseScene::UpdateProcess() {
 	this->Update();
+	skybox_->Update();
 	pSceneRenderer_->Update();
 	collisionManager_->CheckAllCollision();
 
@@ -87,12 +102,14 @@ void BaseScene::Draw() const {
 	// Game View: 配置されたCamera3dから描画する。
 	camera3d_->ApplyToRender();
 	Engine::BeginSceneView(SceneViewType::Game);
+	skybox_->Draw();
 	pSceneRenderer_->DrawSceneObjects();
 
 #ifdef _DEBUG
 	// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
 	debugCamera_->ApplyToRender();
 	Engine::BeginSceneView(SceneViewType::Editor);
+	skybox_->Draw();
 	pSceneRenderer_->DrawSceneObjects();
 #endif
 
