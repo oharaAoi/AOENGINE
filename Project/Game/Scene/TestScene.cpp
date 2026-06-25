@@ -12,7 +12,6 @@ void TestScene::Finalize() {}
 void TestScene::Init() {
 	BaseScene::Init();
 
-
 	AOENGINE::Render::GetLightGroup()->Load();
 }
 
