@@ -254,7 +254,9 @@ public:
 	/// <param name="jsonData">: 任意のデータが格納されたjsonデータ</param>
 	virtual void FromJson(const json& _jsonData) = 0;
 
-	virtual void Debug_Gui() = 0;
+	// Editor表示はConverterの責務ではない。既存クラスとの互換性のため
+	// 仮想関数は残すが、実装を必須にはしない。
+	virtual void Debug_Gui() {}
 
 	void SetName(const std::string& _name) { name_ = _name; }
 	const std::string& GetName() const { return name_; }

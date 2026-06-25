@@ -17,6 +17,8 @@
 
 namespace AOENGINE {
 
+class PostProcess;
+
 /// <summary>
 /// 編集画面の表示を管理する
 /// </summary>
@@ -37,6 +39,7 @@ public:
 	void Finalize();
 
 	static void AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label);
+	static void AddPostProcessWindow([[maybe_unused]] AOENGINE::PostProcess* postProcess, [[maybe_unused]] const std::string& label);
 
 #ifdef _DEBUG
 

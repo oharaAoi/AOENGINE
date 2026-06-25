@@ -34,11 +34,6 @@ void MotionBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::Dx
 	motionResource_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }
 
-void MotionBlur::CheckBox() {
-	ImGui::Checkbox("MotionBlur##MotionBlur_checkbox", &isEnable_);
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存
 ///////////////////////////////////////////////////////////////////////////////////////////////

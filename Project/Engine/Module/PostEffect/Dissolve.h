@@ -56,7 +56,6 @@ public:
 			Convert::fromJson(jsonData, "threshold", threshold);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -81,8 +80,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -103,9 +100,9 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
-
 public: // accessor
+	SaveDissolveSetting& GetSettings() { return saveSettings_; }
+	const SaveDissolveSetting& GetSettings() const { return saveSettings_; }
 
 	void SetUvTransform(const Math::SRT& srt) { saveSettings_.uvTransform = srt; }
 

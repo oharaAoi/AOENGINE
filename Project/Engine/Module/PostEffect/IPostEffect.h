@@ -23,15 +23,11 @@ public:
 
 	virtual void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) = 0;
 
-	virtual void CheckBox() = 0;
-
 	virtual void ApplySaveSettings() = 0;
 
 	virtual void Save(const std::string& rootField) = 0;
 
 	virtual void Load(const std::string& rootField) = 0;
-
-	virtual void Debug_Gui() = 0;
 
 public:
 

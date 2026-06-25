@@ -46,7 +46,6 @@ public:
 			Convert::fromJson(jsonData, "texelSize", texelSize);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -71,8 +70,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -93,8 +90,6 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
-
 public:
 
 	/// <summary>
@@ -105,6 +100,13 @@ public:
 	void StartNoise(float startStrength, float time);
 
 public: // accessor
+	SaveSettings& GetSettings() { return saveSettings_; }
+	const SaveSettings& GetSettings() const { return saveSettings_; }
+	float GetNoiseTime() const { return noiseTime_; }
+	float GetStrength() const { return setting_ ? setting_->strength : 0.0f; }
+	float GetCurrentTime() const { return setting_ ? setting_->time : 0.0f; }
+	void SetNoiseParameters(float strength, float duration);
+	void RestartNoise();
 
 	void SetTexelSize(const Math::Vector2& texelSize) { saveSettings_.texelSize = texelSize; }
 

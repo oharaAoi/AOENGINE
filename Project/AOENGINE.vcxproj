@@ -297,6 +297,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistration.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h" />
+	<ClInclude Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindowSerializer.h" />
@@ -574,6 +575,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistration.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp" />
+	<ClCompile Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindowSerializer.cpp" />

@@ -5,7 +5,6 @@
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
 #include "Engine/DirectX/Resource/DxResource.h"
 #include "Engine/DirectX/Resource/DxResourceManager.h"
 #include "Engine/DirectX/RTV/RenderTarget.h"
@@ -30,8 +29,7 @@ namespace AOENGINE {
 /// <summary>
 /// postEffectなどを行うクラス
 /// </summary>
-class PostProcess :
-	public AOENGINE::AttributeGui {
+class PostProcess {
 public:
 
 	PostProcess() = default;
@@ -56,11 +54,6 @@ public:
 	/// <param name="type"></param>
 	/// <returns></returns>
 	bool CheckAddEffect(PostEffectType type);
-
-	/// <summary>
-	/// 編集項目
-	/// </summary>
-	void Debug_Gui() override;
 
 	/// <summary>
 	/// バッファをクリアする
@@ -90,7 +83,9 @@ public:
 	/// </summary>
 	/// <param name="type"></param>
 	/// <returns></returns>
-	std::shared_ptr<PostEffect::IPostEffect> GetEffect(PostEffectType type);
+	std::shared_ptr<PostEffect::IPostEffect> GetEffect(PostEffectType type) const;
+	const std::vector<PostEffectType>& GetEffectOrder() const { return effectList_; }
+	static const char* GetEffectName(PostEffectType type);
 
 	template<class T>
 	std::shared_ptr<T> GetEffectAs(PostEffectType type) {

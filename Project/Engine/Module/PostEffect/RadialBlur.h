@@ -47,7 +47,6 @@ public:
 			Convert::fromJson(jsonData, "sampleCount", sampleCount);
 		}
 
-		void Debug_Gui() override {};
 	};
 
 public:
@@ -72,8 +71,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -94,8 +91,6 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
-
 public:
 
 	/// <summary>
@@ -118,6 +113,10 @@ public:
 	void Stop();
 
 public:
+	SaveSetting& GetSettings() { return saveSettings_; }
+	const SaveSetting& GetSettings() const { return saveSettings_; }
+	BlurSetting GetBlurSetting() const { return setting_ ? *setting_ : BlurSetting{}; }
+	void SetBlurSetting(const BlurSetting& setting) { if (setting_) { *setting_ = setting; } }
 
 	void SetStrength(float strength) { setting_->blurStrength = strength; }
 

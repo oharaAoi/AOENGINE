@@ -45,7 +45,6 @@ public:	// 構造体
 			Convert::fromJson(jsonData, "bloomIntensity", bloomIntensity);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -74,11 +73,6 @@ public:
 	void SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResource* pingResource) override;
 
 	/// <summary>
-	/// チェックボックスの表示
-	/// </summary>
-	void CheckBox() override;
-
-	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
 	void ApplySaveSettings() override;
@@ -95,13 +89,12 @@ public:
 	/// <param name="rootField">: PostEffectの項目の一つ上のフォルダ名</param>
 	void Load(const std::string& rootField) override;
 
-	/// <summary>
-	/// 編集処理
-	/// </summary>
-	void Debug_Gui() override;
-
-
 public:
+	SaveBloomSettings& GetSettings() { return saveSettings_; }
+	const SaveBloomSettings& GetSettings() const { return saveSettings_; }
+	BrightnessThreshold& GetBrightnessThreshold() { return *brightnessBuffer_; }
+	GaussianBlurWidth& GetBlurWidth() { return *blurWidthBuffer_; }
+	GaussianBlurHeight& GetBlurHeight() { return *blurHeightBuffer_; }
 
 	/// <summary>
 	/// 最終的に書き込むresourceを取得

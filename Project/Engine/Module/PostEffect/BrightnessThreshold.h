@@ -39,7 +39,6 @@ public:	// 構造体
 			Convert::fromJson(jsonData, "threshold", threshold);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -64,8 +63,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -85,7 +82,8 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
+	SaveBloomSettings& GetSettings() { return saveBloomSettings_; }
+	const SaveBloomSettings& GetSettings() const { return saveBloomSettings_; }
 
 private:
 

@@ -339,3 +339,9 @@ void AOENGINE::EditorWindows::AddObjectWindow([[maybe_unused]] AOENGINE::Attribu
 	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);
 #endif
 }
+
+void AOENGINE::EditorWindows::AddPostProcessWindow([[maybe_unused]] AOENGINE::PostProcess* postProcess, [[maybe_unused]] const std::string& label) {
+#ifdef _DEBUG
+	GetInstance()->GetObjectWindow()->AddPostProcess(postProcess, label);
+#endif
+}

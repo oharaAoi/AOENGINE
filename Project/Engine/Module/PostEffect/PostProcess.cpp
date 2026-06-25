@@ -1,5 +1,4 @@
 #include "PostProcess.h"
-#include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Render/Render.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -38,7 +37,6 @@ void AOENGINE::PostProcess::Finalize() {
 void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap* descriptorHeap, AOENGINE::RenderTarget* renderTarget, AOENGINE::DxResourceManager* _resourceManager) {
 	descriptorHeap_ = descriptorHeap;
 	
-	AOENGINE::AttributeGui::SetName("Post Process");
 	pingPongBuff_ = std::make_unique<PingPongBuffer>();
 	pingPongBuff_->Init(device, descriptorHeap, _resourceManager);
 
@@ -235,28 +233,30 @@ bool AOENGINE::PostProcess::CheckAddEffect(PostEffectType type) {
 // ↓ effectの取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-std::shared_ptr<IPostEffect> AOENGINE::PostProcess::GetEffect(PostEffectType type) {
+std::shared_ptr<IPostEffect> AOENGINE::PostProcess::GetEffect(PostEffectType type) const {
 	auto it = effectMap_.find(type);
 	return (it != effectMap_.end()) ? it->second : nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
+// ↓ Effect名
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::PostProcess::Debug_Gui() {
-	if (ImGui::CollapsingHeader("CheckList")) {
-		for (const auto& [type, effect] : effectMap_) {
-			effect->CheckBox();
-		}
-	}
-
-	ImGui::Separator();
-
-	for (auto t : effectList_) {
-		if (effectMap_[t]->GetIsEnable()) {
-			effectMap_[t]->Debug_Gui();
-		}
+const char* AOENGINE::PostProcess::GetEffectName(PostEffectType type) {
+	switch (type) {
+	case PostEffectType::Grayscale: return "Grayscale";
+	case PostEffectType::RadialBlur: return "RadialBlur";
+	case PostEffectType::GlitchNoise: return "GlitchNoise";
+	case PostEffectType::Vignette: return "Vignette";
+	case PostEffectType::Dissolve: return "Dissolve";
+	case PostEffectType::ToonMap: return "ToonMap";
+	case PostEffectType::Bloom: return "Bloom";
+	case PostEffectType::Smoothing: return "Smoothing";
+	case PostEffectType::GaussianFilter: return "GaussianFilter";
+	case PostEffectType::LuminanceOutline: return "LuminanceOutline";
+	case PostEffectType::DepthOutline: return "DepthOutline";
+	case PostEffectType::MotionBlur: return "MotionBlur";
+	default: return "Unknown";
 	}
 }
 

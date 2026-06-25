@@ -73,6 +73,30 @@ void AttributeGuiSceneObject::SetAttributeActive(bool isActive) {
 	}
 }
 
+PostProcessSceneObject::PostProcessSceneObject(AOENGINE::PostProcess* postProcess)
+	: postProcess_(postProcess) {}
+
+void PostProcessSceneObject::Init() { isDestroy_ = false; }
+void PostProcessSceneObject::Update() {}
+void PostProcessSceneObject::PostUpdate() {}
+void PostProcessSceneObject::PreDraw() const {}
+void PostProcessSceneObject::Draw() const {}
+void PostProcessSceneObject::Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) {}
+
+PostEffectSceneObject::PostEffectSceneObject(AOENGINE::PostProcess* owner, PostEffectType type)
+	: owner_(owner), type_(type) {}
+
+void PostEffectSceneObject::Init() { isDestroy_ = false; }
+void PostEffectSceneObject::Update() {}
+void PostEffectSceneObject::PostUpdate() {}
+void PostEffectSceneObject::PreDraw() const {}
+void PostEffectSceneObject::Draw() const {}
+void PostEffectSceneObject::Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) {}
+
+std::shared_ptr<PostEffect::IPostEffect> PostEffectSceneObject::ResolveEffect() const {
+	return owner_ ? owner_->GetEffect(type_) : nullptr;
+}
+
 GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 
@@ -80,6 +104,8 @@ void GameObjectWindow::Init() {
 	selectedObjectHandle_ = ObjectHandle{};
 	registeredAttributes_.clear();
 	attributeObjectHandles_.clear();
+	postProcessObjectHandle_ = ObjectHandle{};
+	postEffectObjectHandles_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,6 +125,20 @@ void GameObjectWindow::AddAttributeGui(AOENGINE::AttributeGui* attribute, const 
 	EnsureAttributeGuiObjects();
 }
 
+void GameObjectWindow::AddPostProcess(AOENGINE::PostProcess* postProcess, const std::string& label) {
+	if (!postProcess) {
+		return;
+	}
+
+	if (registeredPostProcess_ != postProcess) {
+		postProcessObjectHandle_ = ObjectHandle{};
+		postEffectObjectHandles_.clear();
+	}
+	registeredPostProcess_ = postProcess;
+	postProcessLabel_ = label.empty() ? "PostProcess" : label;
+	EnsurePostProcessObjects();
+}
+
 void GameObjectWindow::SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) {
 	if (sceneRenderer_ != _renderer) {
 		attributeObjectHandles_.clear();
@@ -106,6 +146,52 @@ void GameObjectWindow::SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) {
 
 	sceneRenderer_ = _renderer;
 	EnsureAttributeGuiObjects();
+	EnsurePostProcessObjects();
+}
+
+void GameObjectWindow::EnsurePostProcessObjects() {
+	if (!sceneRenderer_ || !registeredPostProcess_) {
+		return;
+	}
+
+	PostProcessSceneObject* root = dynamic_cast<PostProcessSceneObject*>(sceneRenderer_->FindObject(postProcessObjectHandle_));
+	if (!root || root->GetPostProcess() != registeredPostProcess_) {
+		root = sceneRenderer_->GetSceneWorld().CreateObject<PostProcessSceneObject>(postProcessLabel_, registeredPostProcess_);
+		if (!root) {
+			postProcessObjectHandle_ = ObjectHandle{};
+			return;
+		}
+		postProcessObjectHandle_ = root->GetHandle();
+	}
+	root->SetName(postProcessLabel_);
+	sceneRenderer_->MoveToRoot(postProcessObjectHandle_);
+
+	for (PostEffectType type : registeredPostProcess_->GetEffectOrder()) {
+		if (!registeredPostProcess_->GetEffect(type)) {
+			continue;
+		}
+
+		PostEffectSceneObject* effectObject = nullptr;
+		auto handleIt = postEffectObjectHandles_.find(type);
+		if (handleIt != postEffectObjectHandles_.end()) {
+			effectObject = dynamic_cast<PostEffectSceneObject*>(sceneRenderer_->FindObject(handleIt->second));
+			if (effectObject && (effectObject->GetOwner() != registeredPostProcess_ || effectObject->GetEffectType() != type)) {
+				effectObject = nullptr;
+			}
+		}
+
+		if (!effectObject) {
+			effectObject = sceneRenderer_->GetSceneWorld().CreateObject<PostEffectSceneObject>(
+				PostProcess::GetEffectName(type), registeredPostProcess_, type);
+			if (!effectObject) {
+				continue;
+			}
+			postEffectObjectHandles_[type] = effectObject->GetHandle();
+		}
+
+		effectObject->SetName(PostProcess::GetEffectName(type));
+		sceneRenderer_->SetParent(effectObject->GetHandle(), postProcessObjectHandle_);
+	}
 }
 
 void GameObjectWindow::EnsureAttributeGuiObjects() {
@@ -237,22 +323,33 @@ void GameObjectWindow::InspectorWindow() {
 	SceneObject* selectedObject = GetSelectObject();
 	if (selectedObject != nullptr) {
 		AttributeGuiSceneObject* attributeObject = dynamic_cast<AttributeGuiSceneObject*>(selectedObject);
+		PostProcessSceneObject* postProcessObject = dynamic_cast<PostProcessSceneObject*>(selectedObject);
+		PostEffectSceneObject* postEffectObject = dynamic_cast<PostEffectSceneObject*>(selectedObject);
+		std::shared_ptr<PostEffect::IPostEffect> selectedEffect = postEffectObject ? postEffectObject->ResolveEffect() : nullptr;
 
-		bool isActive = attributeObject && attributeObject->GetAttribute()
+		bool isActive = selectedEffect
+			? selectedEffect->GetIsEnable()
+			: attributeObject && attributeObject->GetAttribute()
 			? attributeObject->GetAttribute()->GetIsActive()
 			: selectedObject->IsActive();
-		if (ImGui::Checkbox(" ", &isActive)) {
-			if (attributeObject) {
+		if (!postProcessObject && ImGui::Checkbox(" ", &isActive)) {
+			if (selectedEffect) {
+				selectedEffect->SetIsEnable(isActive);
+			} else if (attributeObject) {
 				attributeObject->SetAttributeActive(isActive);
 			} else {
 				selectedObject->SetActive(isActive);
 			}
 		}
-		ImGui::SameLine();
+		if (!postProcessObject) {
+			ImGui::SameLine();
+		}
 		std::string selectName = attributeObject && attributeObject->GetAttribute()
 			? attributeObject->GetAttribute()->GetName()
 			: selectedObject->GetName();
-		if (InputTextWithString("Name :", "##selectName", selectName)) {
+		if (postProcessObject || postEffectObject) {
+			ImGui::TextUnformatted(selectName.c_str());
+		} else if (InputTextWithString("Name :", "##selectName", selectName)) {
 			const std::string uniqueName = MakeUniqueName(selectName, selectedObject);
 			if (attributeObject) {
 				attributeObject->SetAttributeName(uniqueName);
@@ -286,6 +383,7 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 		// objectの追加表示
 		CreateNewObjectWindow();
 		EnsureAttributeGuiObjects();
+		EnsurePostProcessObjects();
 
 		if (sceneRenderer_) {
 			for (const ObjectHandle& handle : sceneRenderer_->GetRootObjectHandles()) {

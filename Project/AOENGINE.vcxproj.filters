@@ -172,6 +172,9 @@
     <Filter Include="Engine\System\Editor\Inspector\Light">
       <UniqueIdentifier>{D2EF28D3-BED6-EACA-6727-51E853ED6331}</UniqueIdentifier>
     </Filter>
+	<Filter Include="Engine\System\Editor\Inspector\PostEffect">
+	  <UniqueIdentifier>{6676F75B-45D6-4B0A-A324-17D8CC9F3AE4}</UniqueIdentifier>
+	</Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
@@ -807,6 +810,9 @@
     <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h">
       <Filter>Engine\System\Editor\Inspector\Light</Filter>
     </ClInclude>
+	<ClInclude Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.h">
+	  <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
+	</ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
@@ -1634,6 +1640,9 @@
     <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Light</Filter>
     </ClCompile>
+	<ClCompile Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.cpp">
+	  <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
+	</ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>

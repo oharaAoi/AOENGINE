@@ -51,7 +51,6 @@ public:	// 構造体
 			Convert::fromJson(jsonData, "power", power);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -76,8 +75,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -98,9 +95,9 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
-
 public:
+	SaveSettings& GetSettings() { return saveSettings_; }
+	const SaveSettings& GetSettings() const { return saveSettings_; }
 
 	void SetPower(float _power) { saveSettings_.power = _power; }
 

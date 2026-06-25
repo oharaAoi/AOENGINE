@@ -44,7 +44,6 @@ public:
 			Convert::fromJson(jsonData, "edgeGain", edgeGain);
 		}
 
-		void Debug_Gui() override;
 	};
 
 public:
@@ -69,8 +68,6 @@ public:
 	/// <summary>
 	/// チェックボックスの表示
 	/// </summary>
-	void CheckBox() override;
-
 	/// <summary>
 	/// 保存項目の適応
 	/// </summary>
@@ -91,9 +88,9 @@ public:
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
-
 public: // accessor
+	SaveSetting& GetSettings() { return saveSettings_; }
+	const SaveSetting& GetSettings() const { return saveSettings_; }
 
 	void SetEdgeGain(float edge) { saveSettings_.edgeGain = edge; }
 

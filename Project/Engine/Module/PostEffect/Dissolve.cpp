@@ -47,10 +47,6 @@ void Dissolve::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxRe
 // ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Dissolve::CheckBox() {
-	ImGui::Checkbox("Dissolve##Dissolve_checkbox", &isEnable_);
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存項目の適応
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,19 +81,3 @@ void PostEffect::Dissolve::Load(const std::string& rootField) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void Dissolve::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Dissolve##Dissolve_Header")) {
-		saveSettings_.Debug_Gui();
-		saveSettings_.threshold = std::clamp(saveSettings_.threshold, 0.0f, 1.0f);
-	}
-}
-
-void PostEffect::Dissolve::SaveDissolveSetting::Debug_Gui() {
-	ImGui::DragFloat3("uvScale", &uvTransform.scale.x, 0.1f);
-	ImGui::DragFloat3("uvRotate", &uvTransform.rotate.x, 0.1f);
-	ImGui::DragFloat3("uvTranslate", &uvTransform.translate.x, 0.1f);
-	ImGui::ColorEdit4("color", &color.r);
-	ImGui::ColorEdit4("edgeColor", &edgeColor.r);
-	ImGui::DragFloat("threshold", &threshold, 0.1f);
-}

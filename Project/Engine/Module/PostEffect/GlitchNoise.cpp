@@ -1,4 +1,5 @@
 #include "GlitchNoise.h"
+#include <algorithm>
 #include "Engine/Core/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/WinApp/WinApp.h"
@@ -64,10 +65,6 @@ void GlitchNoise::StartNoise(float startStrength, float time) {
 // ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GlitchNoise::CheckBox() {
-	ImGui::Checkbox("GlitchNoise##GlitchNoise_checkbox", &isEnable_);
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存項目の適応
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -101,20 +98,17 @@ void PostEffect::GlitchNoise::Load(const std::string& rootField) {
 // ↓ Debug表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GlitchNoise::Debug_Gui() {
-	if (ImGui::CollapsingHeader("GlitchNoise")) {
-		ImGui::DragFloat("noiseTime", &noiseTime_, 0.01f);
-		ImGui::DragFloat("strength ", &setting_->strength);
-		ImGui::SliderFloat("currentTimer", &setting_->time, 0.0f, noiseTime_);
-		saveSettings_.Debug_Gui();
-		
-		if (ImGui::Button("AddTime")) {
-			setting_->time = 0.0f;
-			setting_->frameIndex = 0;
-		}
+void GlitchNoise::SetNoiseParameters(float strength, float duration) {
+	noiseTime_ = (std::max)(0.0f, duration);
+	if (setting_) {
+		setting_->strength = strength;
 	}
 }
 
-void GlitchNoise::SaveSettings::Debug_Gui() {
-	ImGui::DragFloat2("texelSize", &texelSize.x, 1);
+void GlitchNoise::RestartNoise() {
+	if (!setting_) {
+		return;
+	}
+	setting_->time = 0.0f;
+	setting_->frameIndex = 0;
 }

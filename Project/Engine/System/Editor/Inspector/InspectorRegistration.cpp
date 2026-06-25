@@ -5,6 +5,8 @@
 #include "Engine/System/Editor/Inspector/Entity/GeometryObjectInspector.h"
 #include "Engine/System/Editor/Inspector/Entity/CameraInspector.h"
 #include "Engine/System/Editor/Inspector/Light/LightInspector.h"
+#include "Engine/System/Editor/Inspector/PostEffect/PostEffectInspector.h"
+#include "Engine/System/Editor/Window/GameObjectWindow.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 標準Inspectorを登録する
@@ -64,6 +66,23 @@ void AOENGINE::RegisterDefaultInspectors() {
 	registry.RegisterObjectDrawer<DebugCamera>(
 		[](DebugCamera& camera) {
 			DebugCameraInspector::Draw(camera);
+		}
+	);
+
+	registry.RegisterObjectDrawer<PostProcessSceneObject>(
+		[](PostProcessSceneObject& object) {
+			if (PostProcess* postProcess = object.GetPostProcess()) {
+				PostProcessInspector::Draw(*postProcess);
+			}
+		}
+	);
+
+	registry.RegisterObjectDrawer<PostEffectSceneObject>(
+		[](PostEffectSceneObject& object) {
+			auto effect = object.ResolveEffect();
+			if (effect) {
+				PostEffectInspector::Draw(object.GetEffectType(), *effect);
+			}
 		}
 	);
 }

@@ -45,10 +45,6 @@ void GaussianBlurWidth::SetCommand(ID3D12GraphicsCommandList* commandList, AOENG
 // ↓ チェックボックスの表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void GaussianBlurWidth::CheckBox() {
-	ImGui::Checkbox("GaussianBlurWidth", &isEnable_);
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存項目の適応
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,15 +77,3 @@ void PostEffect::GaussianBlurWidth::Load(const std::string& rootField) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void GaussianBlurWidth::Debug_Gui() {
-	saveSettings_.Debug_Gui();
-	blurSetting_->texelSize = {
-		saveSettings_.sampleCount / (float)WinApp::sClientWidth,
-		saveSettings_.sampleCount / (float)WinApp::sClientHeight
-	};
-}
-
-void PostEffect::GaussianBlurWidth::SaveSettings::Debug_Gui() {
-	ImGui::DragScalar("sampleHeight", ImGuiDataType_U32, &sampleCount, 1, 0);
-}

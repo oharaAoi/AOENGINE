@@ -122,10 +122,6 @@ void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResou
 // ↓ チェックボックス
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Bloom::CheckBox() {
-	ImGui::Checkbox("Bloom###Bloom_Checkbox", &isEnable_);
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 保存項目の適応
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -160,24 +156,4 @@ void PostEffect::Bloom::Load(const std::string& rootField) {
 	brightnessBuffer_->Load(rootField);
 	blurWidthBuffer_->Load(rootField);
 	blurHeightBuffer_->Load(rootField);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 編集処理
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-
-void Bloom::Debug_Gui() {
-	if (ImGui::CollapsingHeader("Bloom###Bloom_Header")) {
-		brightnessBuffer_->Debug_Gui();
-		blurWidthBuffer_->Debug_Gui();
-		blurHeightBuffer_->Debug_Gui();
-		ImGui::DragFloat("bloomIntensity", &setting_->bloomIntensity, 0.1f);
-
-		saveSettings_.Debug_Gui();
-	}
-}
-
-void PostEffect::Bloom::SaveBloomSettings::Debug_Gui() {
-	ImGui::DragFloat("bloomIntensity", &bloomIntensity, 0.1f);
 }
