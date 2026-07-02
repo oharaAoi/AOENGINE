@@ -535,6 +535,7 @@ void Engine::PendingResize() {
 
 		// resourceの本解放
 		graphicsCxt_->GetDxResourceManager()->Update();
+		textureManager_->ReleaseDeferredResources();
 		dxHeap_->FreeList();
 
 		// 作り直し
@@ -555,6 +556,7 @@ void Engine::PendingResize() {
 
 	} else {
 		graphicsCxt_->GetDxResourceManager()->Update();
+		textureManager_->ReleaseDeferredResources();
 		dxHeap_->FreeList();
 	}
 }

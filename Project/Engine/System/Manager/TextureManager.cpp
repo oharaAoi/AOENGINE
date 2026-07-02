@@ -119,6 +119,11 @@ void TextureManager::Finalize() {
 		data.second.resource_->Destroy();
 		data.second.intermediateResource_.Reset();
 	}
+	deferredIntermediateResources_.clear();
+}
+
+void TextureManager::ReleaseDeferredResources() {
+	deferredIntermediateResources_.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +138,7 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 	dxHeap_ = _dxHeap;
 
 	textureData_.clear();
+	deferredIntermediateResources_.clear();
 	 
 	commandList_ = _commandList;
 	resourceManager_ = _resourceManager;
@@ -240,7 +246,9 @@ bool TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 
 	if (it != textureData_.end()) {
 		it->second.resource_->Destroy();
-		it->second.intermediateResource_.Reset();
+		if (it->second.intermediateResource_ != nullptr) {
+			deferredIntermediateResources_.push_back(std::move(it->second.intermediateResource_));
+		}
 		textureData_.erase(it);
 	}
 
@@ -390,7 +398,9 @@ bool TextureManager::CreateTextureFromRGBA8(const std::string& textureName, cons
 
 	if (it != textureData_.end()) {
 		it->second.resource_->Destroy();
-		it->second.intermediateResource_.Reset();
+		if (it->second.intermediateResource_ != nullptr) {
+			deferredIntermediateResources_.push_back(std::move(it->second.intermediateResource_));
+		}
 		textureData_.erase(it);
 	}
 

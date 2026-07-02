@@ -63,6 +63,11 @@ public:
 	void Finalize();
 
 	/// <summary>
+	/// CommandList実行完了後に、差し替え済みTextureのUpload用Resourceを解放する
+	/// </summary>
+	void ReleaseDeferredResources();
+
+	/// <summary>
 	/// Stackに入っているTextureをすべて読み込む
 	/// </summary>
 	void LoadStack(bool _forceReload = false);
@@ -209,6 +214,8 @@ private:
 
 	// TextureDataのコンテナ
 	std::unordered_map<std::string, TextureData> textureData_;
+
+	std::vector<ComPtr<ID3D12Resource>> deferredIntermediateResources_;
 
 	// 読み込み予定のTexture
 	std::stack<TexturePath> loadStack_;
