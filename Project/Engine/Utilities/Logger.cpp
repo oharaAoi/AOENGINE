@@ -11,6 +11,10 @@
 
 using namespace AOENGINE;
 
+namespace {
+constexpr size_t kMaxLogFiles = 10;
+}
+
 std::string AOENGINE::Logger::filePath_;
 
 AOENGINE::Logger::~Logger() {
@@ -32,7 +36,7 @@ void AOENGINE::Logger::Init() {
 		std::cerr << "Path2: " << e.path2() << std::endl;
 	}
 	// Logの数を制限する
-	DeleteOldLogFile(10);
+	DeleteOldLogFile(kMaxLogFiles);
 
 	// 現在時刻を取得
 	std::chrono::system_clock::time_point now = std::chrono::system_clock::now();

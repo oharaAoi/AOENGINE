@@ -31,6 +31,11 @@ namespace {
 	Math::Vector3 eyePos_;
 	
 	std::string skyboxTexture_;
+
+	constexpr float kDefaultNearClip = 1.0f;
+	constexpr float kDefaultFarClip = 10000.0f;
+	constexpr float kDefaultNearClip2D = 0.0f;
+	constexpr float kDefaultFarClip2D = 100.0f;
 }
 
 AOENGINE::Render::Render() {}
@@ -79,11 +84,11 @@ void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device
 
 	shadowMap_->Init();
 
-	nearClip_ = 1.0f;
-	farClip_ = 10000.0f;
+	nearClip_ = kDefaultNearClip;
+	farClip_ = kDefaultFarClip;
 
-	nearClip2D_ = 0.0f;
-	farClip2D_ = 100.0f;
+	nearClip2D_ = kDefaultNearClip2D;
+	farClip2D_ = kDefaultFarClip2D;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

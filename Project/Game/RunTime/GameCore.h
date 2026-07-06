@@ -31,7 +31,9 @@ public:
 
 private:
 
-	AOENGINE::GameTimer gameTimer_ = AOENGINE::GameTimer(60);
+	static constexpr uint32_t kTargetFps_ = 60;
+
+	AOENGINE::GameTimer gameTimer_ = AOENGINE::GameTimer(kTargetFps_);
 	AOENGINE::Profiler profiler_;
 
 	std::unique_ptr<AOENGINE::SceneManager> sceneManager_;
