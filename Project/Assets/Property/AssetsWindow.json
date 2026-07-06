@@ -3,6 +3,7 @@
         "path": "Project\\Assets"
     },
     "openDir": {
+        "./Assets": false,
         "./Project/Assets": false,
         "./Project/Assets\\Converter": true,
         "./Project/Assets\\Converter\\ConvertedDDS": true,

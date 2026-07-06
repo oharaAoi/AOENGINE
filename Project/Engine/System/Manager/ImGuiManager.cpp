@@ -27,9 +27,12 @@ void ImGuiManager::Init(HWND hwnd, ID3D12Device* device, uint32_t bufferCount, I
 	fontConfig.OversampleH = 3;
 	fontConfig.OversampleV = 3;
 	std::string path = kAssetPath + "/Engine/Font/Cica-Regular.ttf";
-	io.Fonts->AddFontFromFileTTF(path.c_str(), 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
-	io.Fonts->Build();
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	std::string currentPath = std::filesystem::current_path().string();
+	if (std::filesystem::exists(path)) {
+		io.Fonts->AddFontFromFileTTF(path.c_str(), 18.0f, nullptr, io.Fonts->GetGlyphRangesJapanese());
+		io.Fonts->Build();
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	}
 	ImGui::StyleColorsDark();
 	ImGui_ImplWin32_Init(hwnd);
 	ImGui_ImplDX12_Init(
