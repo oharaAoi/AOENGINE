@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "AOENGINE Debug",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\Generated\\Outputs\\Debug\\AOENGINE.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}\\Project",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "Build Debug x64"
+        }
+    ]
+}
