@@ -8,6 +8,9 @@
 #include "Engine/Lib/Path.h"
 #include <algorithm>
 #include <cctype>
+#include <cfloat>
+#include <utility>
+#include <vector>
 
 namespace {
 
@@ -30,6 +33,50 @@ bool ContainsIgnoreCase(const std::string& text, const std::string& keyword) {
 		return true;
 	}
 	return ToLower(text).find(ToLower(keyword)) != std::string::npos;
+}
+
+void DrawAssetFileName(const std::string& fileName, float width) {
+	ImFont* font = ImGui::GetFont();
+	const float fontSize = ImGui::GetFontSize() * 0.8f;
+	const float fontScale = fontSize / font->FontSize;
+	const char* text = fileName.c_str();
+	const char* textEnd = text + fileName.size();
+
+	std::vector<std::pair<const char*, const char*>> lines;
+	while (text < textEnd) {
+		const char* lineEnd = font->CalcWordWrapPositionA(fontScale, text, textEnd, width);
+		if (lineEnd == text) {
+			lineEnd++;
+			while (lineEnd < textEnd && (*lineEnd & 0xC0) == 0x80) {
+				lineEnd++;
+			}
+		}
+
+		const char* visibleEnd = lineEnd;
+		while (visibleEnd > text && (visibleEnd[-1] == ' ' || visibleEnd[-1] == '\t')) {
+			visibleEnd--;
+		}
+		lines.emplace_back(text, visibleEnd);
+
+		text = lineEnd;
+		while (text < textEnd && (*text == ' ' || *text == '\t')) {
+			text++;
+		}
+	}
+
+	const ImVec2 start = ImGui::GetCursorScreenPos();
+	ImDrawList* drawList = ImGui::GetWindowDrawList();
+	const ImU32 textColor = ImGui::GetColorU32(ImGuiCol_Text);
+	for (size_t lineIndex = 0; lineIndex < lines.size(); ++lineIndex) {
+		const auto& [lineBegin, lineEnd] = lines[lineIndex];
+		const float lineWidth = font->CalcTextSizeA(fontSize, FLT_MAX, 0.0f, lineBegin, lineEnd).x;
+		const ImVec2 position(
+			start.x + std::max(0.0f, (width - lineWidth) * 0.5f),
+			start.y + static_cast<float>(lineIndex) * fontSize);
+		drawList->AddText(font, fontSize, position, textColor, lineBegin, lineEnd);
+	}
+
+	ImGui::Dummy(ImVec2(width, std::max(fontSize, static_cast<float>(lines.size()) * fontSize)));
 }
 
 }
@@ -162,6 +209,16 @@ void AOENGINE::AssetsWindow::BuildCurrentFolderItems() {
 			ec.clear();
 			continue;
 		}
+
+		// モデルに付随するマテリアルファイルはAssetsウィンドウに表示しない
+		if (ToLower(it->path().extension().string()) == ".mtl") {
+			continue;
+		}
+
+		if (ToLower(it->path().extension().string()) == ".bin") {
+			continue;
+		}
+
 		currentFolderItemList_.push_back(it->path());
 	}
 
@@ -366,9 +423,8 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 	}
 	ImGui::PopStyleColor(1);
 
-	// nameの表示
-	std::string name = EllipsisText(fileName, size);
-	ImGui::TextWrapped("%s", name.c_str());
+	// UnityのProjectビューのように、アイコン下へ小さめの文字で中央揃えして折り返す
+	DrawAssetFileName(fileName, size);
 
 	return result;
 }

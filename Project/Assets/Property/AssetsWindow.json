@@ -1,11 +1,11 @@
 {
     "currentPath": {
-        "path": "Project\\Assets"
+        "path": "Project\\Assets\\Engine\\Load\\Textures"
     },
     "openDir": {
         "./Assets": false,
         "./Project/Assets": true,
-        "./Project/Assets\\Converter": true,
+        "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": true,
         "./Project/Assets\\Engine\\Font": false,
@@ -19,13 +19,14 @@
         "./Project/Assets\\Engine\\Pipeline": false,
         "./Project/Assets\\Game": false,
         "./Project/Assets\\Game\\GameData": false,
+        "./Project/Assets\\Game\\GameData\\JsonItems": false,
         "./Project/Assets\\Game\\HLSL": false,
         "./Project/Assets\\Game\\Load": true,
         "./Project/Assets\\Game\\Load\\Models": false,
         "./Project/Assets\\Game\\Load\\Sounds": false,
         "./Project/Assets\\Game\\Load\\Textures": false,
         "./Project/Assets\\Game\\Pipeline": false,
-        "./Project/Assets\\Game\\Scene": false,
+        "./Project/Assets\\Game\\Scene": true,
         "./Project/Assets\\Property": false
     }
 }
