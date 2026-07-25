@@ -6,45 +6,12 @@
 // ↓　Grid線の描画
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projectionMatrix) {
-	//const float kGridHalfwidth_ = 20.0f; // 中心からの半幅
-	const uint32_t kSubdivision_ = 60;   // 分割数
-	const float gridLength = 30.0f;      // グリッドの全体幅
-	const float kGridEvery_ = 1.0f;      // グリッドの1マスのサイズ
-
-	// X軸に平行なグリッド線の描画
-	for (uint32_t xIndex = 0; xIndex <= kSubdivision_; ++xIndex) {
-		float half = float(kSubdivision_) / 2.0f;
-
-		// 始点と終点
-		Math::Vector3 stPos = { -gridLength, 0, (xIndex - half) * kGridEvery_ };
-		Math::Vector3 endPos = { gridLength, 0, (xIndex - half) * kGridEvery_ };
-
-		// 中央軸ラインの色を変更
-		if (xIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, Colors::Linear::blue, Multiply(viewMatrix, projectionMatrix));
-		} else {
-			// 他のグリッド線
-			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
-		}
-	}
-
-	// Z軸に平行なグリッド線の描画
-	for (uint32_t zIndex = 0; zIndex <= kSubdivision_; ++zIndex) {
-		float half = float(kSubdivision_) / 2.0f;
-
-		// 始点と終点
-		Math::Vector3 stPos = { (zIndex - half) * kGridEvery_, 0, gridLength };
-		Math::Vector3 endPos = { (zIndex - half) * kGridEvery_, 0, -gridLength };
-
-		// 中央軸ラインの色を変更
-		if (zIndex == kSubdivision_ / 2) {
-			AOENGINE::Render::DrawLine(stPos, endPos, Colors::Linear::red, Multiply(viewMatrix, projectionMatrix));
-		} else {
-			// 他のグリッド線
-			AOENGINE::Render::DrawLine(stPos, endPos, AOENGINE::Color(0.8f, 0.8f, 0.8f, 1.0f), Multiply(viewMatrix, projectionMatrix));
-		}
-	}
+void DrawGrid(
+	const Math::Matrix4x4& viewMatrix,
+	const Math::Matrix4x4& projectionMatrix,
+	bool hasMotionVectorTarget) {
+	AOENGINE::Render::DrawGrid(
+		viewMatrix, projectionMatrix, hasMotionVectorTarget);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

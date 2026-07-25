@@ -8,10 +8,14 @@
 #include "Engine/Lib/Math/MathStructures.h"
 
 /// <summary>
-/// グリット線を描画する
+/// 専用シェーダーでY=0平面に無限グリッドを描画する
 /// </summary>
 /// <param name="viewProjectionMatrix"></param>
-void DrawGrid(const Math::Matrix4x4& viewMatrix, const Math::Matrix4x4& projectionMatrix);
+/// <param name="hasMotionVectorTarget">描画先にMotionVector用の2枚目のRTVがあるか</param>
+void DrawGrid(
+	const Math::Matrix4x4& viewMatrix,
+	const Math::Matrix4x4& projectionMatrix,
+	bool hasMotionVectorTarget = true);
 
 /// <summary>
 /// 球を描画する

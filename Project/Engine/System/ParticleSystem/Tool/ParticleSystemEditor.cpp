@@ -390,7 +390,7 @@ void ParticleSystemEditor::PreDraw() {
 	AOENGINE::Render::Update();
 
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
-		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix());
+		DrawGrid(camera_->GetViewMatrix(), camera_->GetProjectionMatrix(), false);
 
 		for (auto& emitter : gpuEmitterList_) {
 			emitter->DrawShape(camera_->GetViewMatrix() * camera_->GetProjectionMatrix());

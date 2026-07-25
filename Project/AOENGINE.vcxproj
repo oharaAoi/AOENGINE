@@ -256,6 +256,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\Render\ShadowMap.h" />
+    <ClInclude Include="Engine\Render\EditorGridRenderer.h" />
     <ClInclude Include="Engine\Render\TrailRenderer.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTree.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
@@ -531,6 +532,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Render\ModelInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\Render.cpp" />
+    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp" />
     <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />

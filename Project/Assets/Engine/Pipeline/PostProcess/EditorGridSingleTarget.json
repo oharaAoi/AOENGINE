@@ -1,0 +1,12 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/EditorGrid.VS.hlsl",
+        "ps": "/Engine/HLSL/EditorGrid.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType": "NONE",
+        "depth": false,
+        "rtvFormat": [
+            "16_RGB"
+        ]
+    }
+}

@@ -1,6 +1,7 @@
 #include "Render.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Module/Components/2d/PrimitiveDrawer.h"
+#include "Engine/Render/EditorGridRenderer.h"
 #include "Engine/Render/RenderingCommands.h"
 
 #include <array>
@@ -17,6 +18,7 @@ namespace {
 	Math::Matrix4x4 vpvpMatrix;
 	
 	std::unique_ptr<PrimitiveDrawer> primitiveDrawer_ = nullptr;
+	std::unique_ptr<EditorGridRenderer> editorGridRenderer_ = nullptr;
 	
 	std::unique_ptr<ShadowMap> shadowMap_ = nullptr;
 	
@@ -42,6 +44,10 @@ AOENGINE::Render::Render() {}
 AOENGINE::Render::~Render() {}
 
 void AOENGINE::Render::Finalize() {
+	if (editorGridRenderer_) {
+		editorGridRenderer_->Finalize();
+		editorGridRenderer_.reset();
+	}
 	viewProjection2D_->Finalize();
 	for (auto& viewProjection : viewProjectionBuffers_) {
 		if (viewProjection) {
@@ -67,6 +73,7 @@ void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device
 
 	viewProjection2D_ = std::make_unique<ViewProjection>();
 	primitiveDrawer_ = std::make_unique<PrimitiveDrawer>();
+	editorGridRenderer_ = std::make_unique<EditorGridRenderer>();
 	lightGroup_ = std::make_unique<LightGroup>();
 	shadowMap_ = std::make_unique<ShadowMap>();
 
@@ -81,6 +88,7 @@ void AOENGINE::Render::Init(ID3D12GraphicsCommandList* commandList, ID3D12Device
 	lightGroup_->Init(device);
 
 	primitiveDrawer_->Init(device);
+	editorGridRenderer_->Init(device);
 
 	shadowMap_->Init();
 
@@ -221,6 +229,14 @@ void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2
 
 void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color) {
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
+}
+
+void AOENGINE::Render::DrawGrid(
+	const Math::Matrix4x4& viewMatrix,
+	const Math::Matrix4x4& projectionMatrix,
+	bool hasMotionVectorTarget) {
+	editorGridRenderer_->Draw(
+		commandList_, viewMatrix, projectionMatrix, hasMotionVectorTarget);
 }
 
 void AOENGINE::Render::DrawLightGroup(Pipeline* pipeline) {

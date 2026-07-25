@@ -140,6 +140,14 @@ public:
 	/// <param name="color">: 色</param>
 	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color);
 
+	/// <summary>
+	/// 専用シェーダーでY=0平面に無限グリッドを描画する。
+	/// </summary>
+	static void DrawGrid(
+		const Math::Matrix4x4& viewMatrix,
+		const Math::Matrix4x4& projectionMatrix,
+		bool hasMotionVectorTarget = true);
+
 	static void DrawLightGroup(Pipeline* pipeline);
 
 	static void SetShadowMesh(const Pipeline* pipeline, AOENGINE::Mesh* mesh, const AOENGINE::WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv);

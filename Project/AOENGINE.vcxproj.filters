@@ -675,6 +675,9 @@
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\EditorGridRenderer.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Render\Render.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
@@ -1503,6 +1506,9 @@
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\Render.cpp">
