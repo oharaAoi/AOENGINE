@@ -25,7 +25,7 @@ void EditorWindows::Finalize() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, AOENGINE::RenderTarget* renderTarget, AOENGINE::DescriptorHeap* descriptorHeaps) {
 	RegisterDefaultInspectors();
 
@@ -142,7 +142,7 @@ void EditorWindows::Begin() {
 	gameObjectWindow_->SetSceneRenderer(sceneRenderer_);
 
 	if (viewShadowMap_) {
-		AOENGINE::Render::GetShadowMap()->Debug_Gui();
+		AOENGINE::Render::GetShadowMap()->Debug_Gui(&viewShadowMap_);
 	}
 
 	// -------------------------------------------------
@@ -334,14 +334,14 @@ void EditorWindows::SceneReset() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::EditorWindows::AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label) {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	attribute->SetName(label);
 	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);
 #endif
 }
 
 void AOENGINE::EditorWindows::AddPostProcessWindow([[maybe_unused]] AOENGINE::PostProcess* postProcess, [[maybe_unused]] const std::string& label) {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	GetInstance()->GetObjectWindow()->AddPostProcess(postProcess, label);
 #endif
 }

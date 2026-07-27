@@ -18,7 +18,7 @@ void DirectXCommon::Init(WinApp* _win, int32_t _backBufferWidth, int32_t _backBu
 
 	// --------------------- DirectXの初期化 --------------------- //
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController_)))) {
 		// デバックレイヤーを有効化する
 		debugController_->EnableDebugLayer();
@@ -178,7 +178,7 @@ void DirectXCommon::SetUseGPU() {
 }
 
 void DirectXCommon::SetError() {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 
 	ComPtr<ID3D12InfoQueue> infoQueue = nullptr;
 	if (SUCCEEDED(device_->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {

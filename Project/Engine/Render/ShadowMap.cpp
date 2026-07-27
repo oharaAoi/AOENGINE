@@ -71,8 +71,8 @@ void ShadowMap::ResetResource(ID3D12GraphicsCommandList* commandList) {
 // ↓ 編集処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ShadowMap::Debug_Gui() {
-	ImGui::Begin("ShadowMap View");
+void ShadowMap::Debug_Gui(bool* isView) {
+	ImGui::Begin("ShadowMap View", isView);
 	ImTextureID textureID = reinterpret_cast<ImTextureID>(static_cast<uint64_t>(depthSrvHandle_.handleGPU.ptr));
 	ImGui::SetCursorPos(ImVec2(20, 60)); // 描画位置を設定
 	ImVec2 availSize = ImGui::GetContentRegionAvail();

@@ -38,7 +38,7 @@ newaction {
 
         WriteTextFile(".vscode/build-msbuild.ps1", [[
 param(
-    [ValidateSet("Debug", "Release")]
+    [ValidateSet("Debug", "Develop", "Release")]
     [string]$Configuration = "Debug"
 )
 
@@ -121,6 +121,28 @@ exit $LASTEXITCODE
                 "premake: vs2026"
             ],
             "dependsOrder": "sequence"
+        },
+        {
+            "label": "build: Develop",
+            "type": "process",
+            "command": "powershell.exe",
+            "args": [
+                "-NoProfile",
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}\\.vscode\\build-msbuild.ps1",
+                "Develop"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "build",
+            "problemMatcher": "$msCompile",
+            "dependsOn": [
+                "premake: vs2026"
+            ],
+            "dependsOrder": "sequence"
         }
     ]
 }
@@ -153,6 +175,18 @@ exit $LASTEXITCODE
             "environment": [],
             "console": "externalTerminal",
             "preLaunchTask": "build: Release"
+        },
+        {
+            "name": "AOENGINE Develop",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\Generated\\Outputs\\Develop\\AOENGINE.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "console": "externalTerminal",
+            "preLaunchTask": "build: Develop"
         }
     ]
 }
@@ -168,7 +202,7 @@ exit $LASTEXITCODE
 -- ===============================================================
 workspace "AOENGINE" -- ソリューションの名前
     architecture "x64" -- 構成プラットフォーム
-    configurations { "Debug", "Release" } -- ビルド構成
+    configurations { "Debug", "Develop", "Release" } -- ビルド構成
     location "../Project" -- 配置するフォルダ
     startproject "AOENGINE" -- 最初に起動するプロジェクト
     multiprocessorcompile "On" -- 複数プロサッサによるコンパイル
@@ -182,10 +216,16 @@ workspace "AOENGINE" -- ソリューションの名前
         toolset "v145" -- Visual Studio 2026 Platform Toolset
 
     filter "configurations:Debug" -- DEBUG時の設定
-        defines { "DEBUG" } -- #define DEBUGを有効化
+        defines { "DEBUG", "_DEVELOPMENT" } -- Debug/Develop共通の開発機能を有効化
         symbols "On" -- .pdbファイルを生成する
         staticruntime "on" -- 静的リンクにする
         runtime "Debug" -- ランタイムをMDd or MTdにする
+
+    filter "configurations:Develop" -- DEBUG時の設定
+        defines { "DEVELOP", "_DEVELOPMENT" } -- Debug/Develop共通の開発機能を有効化
+        symbols "Full" -- .pdbファイルを生成する
+        staticruntime "on" -- 静的リンクにする
+        runtime "Release" -- ランタイムをMDd or MTdにする
 
     filter "configurations:Release"
         defines { "NDEBUG" } -- #define NDEBUGを有効化
@@ -243,6 +283,19 @@ project "AOENGINE" -- .vcxprojを定義する
             'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
         }
 
+     filter "configurations:Develop"
+        -- 追加の依存ファイル
+        links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
+        -- 追加のライブラリ
+        libdirs { "%{wks.location}/Externals/assimp/lib/Release" }
+
+        postbuildcommands {
+            'if not exist "$(TargetDir)" mkdir "$(TargetDir)"',
+            'copy /Y "%{wks.location}\\Externals\\assimp\\lib\\Release\\assimp-vc143-mt.dll" "$(TargetDir)"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"',
+            'copy /Y "$(WindowsSdkDir)bin\\$(TargetPlatformVersion)\\x64\\dxil.dll" "$(TargetDir)dxil.dll"'
+        }
+
     filter "configurations:Release"
         -- 追加の依存ファイル
         links { "d3d12", "dxgi", "dxguid", "DirectXTex", "assimp-vc143-mt" }
@@ -269,9 +322,19 @@ externalproject "DirectXTex"
     kind "StaticLib"
     language "C++"
     filename "DirectXTex_Desktop_2022_Win10"
+    configmap {
+        ["Debug"]   = "Debug",
+        ["Develop"] = "Release",
+        ["Release"] = "Release"
+    }
 
 externalproject "ImGui"
     location "../Project/Externals/ImGui"
     kind "StaticLib"
     language "C++"
     filename "ImGui"
+    configmap {
+        ["Debug"]   = "Debug",
+        ["Develop"] = "Release",
+        ["Release"] = "Release"
+    }

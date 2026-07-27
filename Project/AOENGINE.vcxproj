@@ -5,6 +5,10 @@
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Develop|x64">
+      <Configuration>Develop</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
@@ -24,6 +28,12 @@
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -36,6 +46,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -44,6 +57,13 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir)..\Generated\Outputs\Debug\</OutDir>
     <IntDir>$(ProjectDir)..\Generated\Outputs\Intermediate\Debug\AOENGINE\</IntDir>
+    <TargetName>AOENGINE</TargetName>
+    <TargetExt>.exe</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(ProjectDir)..\Generated\Outputs\Develop\</OutDir>
+    <IntDir>$(ProjectDir)..\Generated\Outputs\Intermediate\Develop\AOENGINE\</IntDir>
     <TargetName>AOENGINE</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
@@ -58,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
-      <PreprocessorDefinitions>DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;_DEVELOPMENT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.;Engine;Externals;Externals\assimp\include;Externals\DirectXTex;Externals\ImGui;Externals\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -80,6 +100,36 @@
     <PostBuildEvent>
       <Command>if not exist "$(TargetDir)" mkdir "$(TargetDir)"
 copy /Y "$(SolutionDir)\Externals\assimp\lib\Debug\assimp-vc143-mtd.dll" "$(TargetDir)"
+copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
+copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'">
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>DEVELOP;_DEVELOPMENT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>.;Engine;Externals;Externals\assimp\include;Externals\DirectXTex;Externals\ImGui;Externals\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
+      <AdditionalDependencies>d3d12.lib;dxgi.lib;dxguid.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>Externals\assimp\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ProjectReference>
+    </ProjectReference>
+    <PostBuildEvent>
+      <Command>if not exist "$(TargetDir)" mkdir "$(TargetDir)"
+copy /Y "$(SolutionDir)\Externals\assimp\lib\Release\assimp-vc143-mt.dll" "$(TargetDir)"
 copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxcompiler.dll" "$(TargetDir)dxcompiler.dll"
 copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir)dxil.dll"</Command>
     </PostBuildEvent>
@@ -248,6 +298,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\PostEffect\Smoothing.h" />
     <ClInclude Include="Engine\Module\PostEffect\ToonMap.h" />
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h" />
+    <ClInclude Include="Engine\Render\EditorGridRenderer.h" />
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h" />
     <ClInclude Include="Engine\Render\InstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ModelInstancingRenderer.h" />
@@ -256,7 +307,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />
     <ClInclude Include="Engine\Render\ShadowMap.h" />
-    <ClInclude Include="Engine\Render\EditorGridRenderer.h" />
     <ClInclude Include="Engine\Render\TrailRenderer.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTree.h" />
     <ClInclude Include="Engine\System\AI\BehaviorTreeEditor.h" />
@@ -527,12 +577,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\PostEffect\Smoothing.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\ToonMap.cpp" />
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp" />
+    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp" />
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp" />
     <ClCompile Include="Engine\Render\InstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ModelInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp" />
     <ClCompile Include="Engine\Render\Render.cpp" />
-    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp" />
     <ClCompile Include="Engine\Render\RenderingCommands.cpp" />
     <ClCompile Include="Engine\Render\SceneRenderer.cpp" />
     <ClCompile Include="Engine\Render\ShadowMap.cpp" />

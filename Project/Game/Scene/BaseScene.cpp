@@ -103,7 +103,7 @@ void BaseScene::Draw() const {
 	skybox_->Draw();
 	pSceneRenderer_->DrawSceneObjects();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
 	debugCamera_->ApplyToRender();
 	Engine::BeginSceneView(SceneViewType::Editor);

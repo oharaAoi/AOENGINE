@@ -71,7 +71,7 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		children_[currentIndex_]->Execute();
 		isReset_ = false;
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		PriorityDisplay();
 #endif
 
@@ -82,7 +82,7 @@ BehaviorStatus WeightSelectorNode::Execute() {
 		// 選択されたindexを実行する
 		BehaviorStatus status = children_[currentIndex_]->Execute();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		PriorityDisplay();
 #endif
 

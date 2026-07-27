@@ -75,10 +75,10 @@ private:
 
 	bool reset_;
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	int selectSceneNum_ = 0;
 	bool isSceneChange_ = 0;
-#endif // _DEBUG
+#endif // _DEVELOPMENT
 
 };
 

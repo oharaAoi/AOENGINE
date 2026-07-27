@@ -75,7 +75,7 @@ public:
 
 private:		// member method
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 
 	/// <summary>
 	/// Particleを更新する

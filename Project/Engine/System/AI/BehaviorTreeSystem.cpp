@@ -17,7 +17,7 @@ void BehaviorTreeSystem::Init() {
 }
 
 void BehaviorTreeSystem::Update() {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	if (trees_.empty()) {
 		return;
 	}

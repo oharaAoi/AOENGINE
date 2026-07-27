@@ -68,7 +68,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleSystemEditor::Update() {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	// カメラの更新
 	camera_->Update();
 
@@ -97,10 +97,10 @@ void ParticleSystemEditor::Update() {
 
 	particleRenderer_->PostUpdate();
 
-#endif // _DEBUG
+#endif // _DEVELOPMENT
 }
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 生成する
@@ -431,4 +431,4 @@ void ParticleSystemEditor::End() {
 	}
 }
 
-#endif // _DEBUG
+#endif // _DEVELOPMENT

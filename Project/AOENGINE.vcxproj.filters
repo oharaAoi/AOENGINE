@@ -663,6 +663,9 @@
     <ClInclude Include="Engine\Module\PostEffect\Vignette.h">
       <Filter>Engine\Module\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\EditorGridRenderer.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Render\GpuParticleRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
@@ -673,9 +676,6 @@
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
-      <Filter>Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Render\EditorGridRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\Render.h">
@@ -1496,6 +1496,9 @@
     <ClCompile Include="Engine\Module\PostEffect\Vignette.cpp">
       <Filter>Engine\Module\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp">
+      <Filter>Engine\Render</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Render\GpuParticleRenderer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
@@ -1506,9 +1509,6 @@
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\ParticleInstancingRenderer.cpp">
-      <Filter>Engine\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Render\EditorGridRenderer.cpp">
       <Filter>Engine\Render</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Render\Render.cpp">

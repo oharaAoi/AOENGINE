@@ -73,7 +73,7 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		children_[currentIndex_]->SetState(BehaviorStatus::Running);
 		reset_ = false;
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		// 評価値の表示
 		PriorityDisplay();
 #endif
@@ -85,7 +85,7 @@ BehaviorStatus PlannerSelectorNode::Execute() {
 		// 選択されたindexを実行する
 		BehaviorStatus status = children_[currentIndex_]->Execute();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		// 評価値の表示
 		PriorityDisplay();
 #endif

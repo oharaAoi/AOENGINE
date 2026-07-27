@@ -6,7 +6,7 @@
 #include <math.h>
 #include <string>
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif
 

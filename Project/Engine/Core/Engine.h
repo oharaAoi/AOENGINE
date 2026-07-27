@@ -111,7 +111,7 @@ private:
 	/// </summary>
 	static void InitResources();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	/// <summary>
 	/// ImGuiの初期化を行う
 	/// </summary>

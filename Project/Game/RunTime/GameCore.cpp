@@ -66,7 +66,7 @@ void GameCore::EndFrame() {
 	// frameの最終処理を行う
 	Engine::RenderFrame();
 	profiler_.End("EndFrame");
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	profiler_.DisPlay();
 #endif
 

@@ -139,14 +139,14 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-// 読み込み処理
+// 読み込み処理89i89i89i89i89i89i89i8
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextureManager::LoadStack(bool _forceReload) {
 	const std::string outputDDSFolder = kAssetPath + "/Converter/ConvertedDDS/";
 
 	// 画像ファイルをddsに変換する
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	AOENGINE::Logger::CommentLog("Conversion Image To DDS");
 	std::string scriptPath = kAssetPath + "/Converter/convert.ps1";
 	ConvertAllTexturesFromStack(loadStack_, ConvertWString(scriptPath), outputDDSFolder, true);
@@ -271,7 +271,7 @@ bool TextureManager::LoadTextureAsset(const std::string& directoryPath, const st
 		return LoadTextureFile(directoryPath, filePath, _forceReload);
 	}
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	std::stack<TexturePath> stack;
 	stack.push(TexturePath{ directoryPath, filePath });
 	std::string scriptPath = kAssetPath + "/Converter/convert.ps1";

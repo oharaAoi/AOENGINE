@@ -1,7 +1,7 @@
 #pragma once
 #include <Windows.h>
 #include <cstdint>
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 #include "Engine/System/Manager/ImGuiManager.h"
 #endif
 

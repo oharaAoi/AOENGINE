@@ -34,11 +34,11 @@ void SceneManager::Init() {
 	reset_ = false;
 
 	changeScene_ = SceneType::Test;
-//#ifdef _DEBUG
+//#ifdef _DEVELOPMENT
 //	int sceneType = 0;
 //	AOENGINE::SceneManagerPropertySerializer::Load(sceneType);
 //	changeScene_ = static_cast<SceneType>(sceneType);
-//#endif // _DEBUG
+//#endif // _DEVELOPMENT
 
 	SetChange(changeScene_);
 
@@ -57,7 +57,7 @@ void SceneManager::Update() {
 	}
 	
 	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		AOENGINE::EditorWindows::GetInstance()->SceneReset();
 #endif
 		ResetManager();
@@ -119,9 +119,9 @@ void SceneManager::SetChange(const SceneType& type) {
 	nextScene_ = sceneFactory_->CreateScene(type);
 	scene_ = std::move(nextScene_);
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	AOENGINE::EditorWindows::GetInstance()->SceneReset();
-#endif // _DEBUG
+#endif // _DEVELOPMENT
 
 	ResetManager();
 

@@ -25,7 +25,7 @@ public:
 	void ChangeResource(ID3D12GraphicsCommandList* commandList);
 	void ResetResource(ID3D12GraphicsCommandList* commandList);
 	// 編集処理
-	void Debug_Gui();
+	void Debug_Gui(bool* isView);
 public:
 
 	ID3D12Resource* GetDepthResource() { return depthStencilResource_->GetResource(); }

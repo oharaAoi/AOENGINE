@@ -2,9 +2,9 @@
 #include "Engine/System/Input/Input.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/GameTimer.h"
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 #include "Engine/System/Manager/ImGuiManager.h"
-#endif // _DEBUG
+#endif // _DEVELOPMENT
 
 using namespace AOENGINE;
 

@@ -31,7 +31,7 @@ namespace {
 
 	WinApp* winApp_ = nullptr;
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	ImGuiManager* imguiManager_ = nullptr;
 #endif
 	AOENGINE::Input* input_ = nullptr;
@@ -95,13 +95,13 @@ void Engine::Initialize(uint32_t _backBufferWidth, uint32_t _backBufferHeight, c
 
 	InitSystem();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT 
 	InitImgui();
 #endif
 
 	InitResources();
 	
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	InitEditor();
 #endif
 
@@ -193,7 +193,7 @@ void Engine::InitResources() {
 // ↓ ImGuiの初期化を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 void Engine::InitImgui() {
 	imguiManager_ = ImGuiManager::GetInstance();
 	imguiManager_->Init(winApp_->GetHwnd(), dxDevice_, dxCommon_->GetSwapChainBfCount(), dxHeap_->GetSRVHeap());
@@ -230,7 +230,7 @@ void Engine::Finalize() {
 	render_->Finalize();
 	input_->Finalize();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	editorWindows_->Finalize();
 	imguiManager_->Finalize();
 #endif
@@ -303,7 +303,7 @@ void Engine::BeginFrame() {
 
 	render_->Update();
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	imguiManager_->Begin();
 	editorWindows_->Begin();
 #endif
@@ -314,7 +314,7 @@ void Engine::BeginFrame() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::EndFrame() {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	imguiManager_->End();
 	imguiManager_->Draw(dxCmdList_);
 
@@ -336,7 +336,7 @@ void Engine::EndFrame() {
 void Engine::RenderFrame() {
 	// Editor Scene ViewはDebugCameraで描画済みのRenderTargetを使用する。
 	// Collider/Gridなどの編集支援描画もGame Viewへ混ぜず、Editor側だけへ描画する。
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	ActivateSceneView(SceneViewType::Editor);
 
 	// -------------------------------------------------
@@ -394,7 +394,7 @@ void Engine::RenderFrame() {
 
 	BlendFinalRender(Sprite2d_RenderTarget);
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	// 同じCanvas2d実体をEditor Scene Viewへも合成する。
 	// Inspector/Gizmoが変更したSpriteはコピーを介さず、次の描画で両Viewへ反映される。
 	renderTarget_->TransitionResource(
@@ -410,7 +410,7 @@ void Engine::RenderFrame() {
 #endif
 
 	// guiの描画
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	editorWindows_->Update();
 	// Editor内の補助CameraがRender状態を変更しても、Game用GPUバッファを描画時の状態へ戻す。
 	ActivateSceneView(SceneViewType::Game);
@@ -431,7 +431,7 @@ void Engine::RenderFrame() {
 	// -------------------------------------------------
 	renderTarget_->TransitionResource(dxCmdList_, Object3D_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 	renderTarget_->TransitionResource(dxCmdList_, Sprite2d_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	renderTarget_->TransitionResource(dxCmdList_, EditorScene_RenderTarget, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 #endif
 }
@@ -528,7 +528,7 @@ void Engine::PendingResize() {
 		processedSceneFrame_->Finalize();
 		postProcess_->ClearBuffer();
 		render_->GetShadowMap()->Finalize();
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		editorWindows_->ClearBuffer();
 #endif
 		dxCommon_->ResetResource();
@@ -543,7 +543,7 @@ void Engine::PendingResize() {
 		processedSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
 		editorSceneFrame_->Init(graphicsCxt_->GetDxResourceManager());
 		render_->GetShadowMap()->Init();
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 		editorWindows_->ResizeBuffer();
 #endif
 		postProcess_->ResizeBuffer(dxDevice_, renderTarget_, graphicsCxt_->GetDxResourceManager());

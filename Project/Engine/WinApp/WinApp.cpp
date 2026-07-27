@@ -20,11 +20,11 @@ WinApp* WinApp::GetInstance() {
 	ウィンドウプロシージャ
 ==========================================================================*/
 LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	if (ImGuiManager::ImGuiHandler(hwnd, msg, wparam, lparam)) {
 		return true;
 	}
-#endif // _DEBUG
+#endif // _DEVELOPMENT
 
 	// メッセージに応じてゲーム固有の処理を行う
 	switch (msg) {

@@ -65,7 +65,7 @@ void GpuParticleManager::Draw(const Math::Frustum& frustum) const {
 	renderer_->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetCameraRotate().MakeMatrix());
 	renderer_->Draw(&frustum);
 
-#ifdef _DEBUG
+#ifdef _DEVELOPMENT
 	if (AOENGINE::EditorWindows::GetInstance()->GetGridDraw()) {
 		for (auto& emitter : emitterList_) {
 			emitter->DrawShape(AOENGINE::Render::GetViewProjectionMat());
