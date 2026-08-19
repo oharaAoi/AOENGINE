@@ -59,6 +59,7 @@ public:
 	/// <param name="indices"></param>
 	static void AddMesh(ID3D12Device* device, const std::string& modelName,
 						const std::string& meshName, const std::vector<VertexData>& vertexData, const std::vector<uint32_t>& indices);
+	static void AddMesh(ID3D12Device* device, const std::string& modelName, const AOENGINE::Mesh::CreateInfo& createInfo);
 	/// <summary>
 	/// MultiMeshの取得
 	/// </summary>

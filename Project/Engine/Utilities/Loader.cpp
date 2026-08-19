@@ -20,10 +20,8 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs | aiProcess_Triangulate | aiProcess_CalcTangentSpace);
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
-	std::vector<std::vector<VertexData>> meshVertices;
-	std::vector<std::vector<uint32_t>> meshIndices;
-	std::vector<std::string> useMaterial;
-	std::vector<std::string> meshNames;
+	Mesh::CreateInfo createInfo;
+	createInfo.name = fileName;
 
 	// mtlファイルを読み込んでおく
 	Math::Vector3 uvScale = Math::Vector3(1, 1, 1);
@@ -35,19 +33,14 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 	// ↓ meshの解析
 	// -------------------------------------------------
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
-		std::vector<VertexData> triangle;
 		aiMesh* mesh = scene->mMeshes[meshIndex];
-		//assert(mesh->HasNormals()); // 法線がないなら非対応
-		//assert(mesh->HasTextureCoords(0)); // texcoordがないmeshは非対応
-
-		meshIndices.resize(scene->mNumMeshes);
-		meshNames.push_back((mesh->mName.C_Str()));
+		const int32_t baseVertex = static_cast<int32_t>(createInfo.vertices.size());
+		const uint32_t firstIndex = static_cast<uint32_t>(createInfo.indices.size());
 
 		// -------------------------------------------------
 		// ↓ faceの解析をする
 		// -------------------------------------------------
-		std::vector<VertexData> vertices;
-		vertices.resize(mesh->mNumVertices);
+		std::vector<VertexData> vertices(mesh->mNumVertices);
 		// vertexの解析を行う
 		for (uint32_t vertexIndex = 0; vertexIndex < mesh->mNumVertices; ++vertexIndex) {
 			aiVector3D& position = mesh->mVertices[vertexIndex];
@@ -90,6 +83,7 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 			// 読み込み後の処理
 			vertices[vertexIndex].pos.x *= -1.0f;
 			vertices[vertexIndex].normal.x *= -1.0f;
+			vertices[vertexIndex].materialSlot = mesh->mMaterialIndex;
 		}
 
 		for (uint32_t faceIndex = 0; faceIndex < mesh->mNumFaces; ++faceIndex) {
@@ -98,55 +92,23 @@ std::vector<std::shared_ptr<Mesh>> LoadMesh(const std::string& directoryPath, co
 
 			for (uint32_t element = 0; element < face.mNumIndices; ++element) {
 				uint32_t vertexIndex = face.mIndices[element];
-				meshIndices[meshIndex].push_back(vertexIndex);
+				createInfo.indices.push_back(static_cast<uint32_t>(baseVertex) + vertexIndex);
 			}
 		}
 
-		// -------------------------------------------------
-		// ↓ メッシュのマテリアルインデックスを取得
-		// -------------------------------------------------
-		uint32_t materialIndex = mesh->mMaterialIndex;
-		if (materialIndex < scene->mNumMaterials) {
-			aiMaterial* material = scene->mMaterials[materialIndex];
-			aiString materialName;
-			if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-				std::string nameStr = materialName.C_Str();
-				// DefaultMaterialを除く処理
-				if (nameStr == "DefaultMaterial") {
-					meshVertices.push_back(vertices);
-					continue;
-				}
-				useMaterial.push_back(nameStr);
-			} else {
-				std::string nameStr = "not set MaterialName" + std::to_string(meshIndex);
-				// DefaultMaterialを除く処理
-				if (nameStr == "DefaultMaterial") {
-					meshVertices.push_back(vertices);
-					continue;
-				}
-				useMaterial.push_back(nameStr);
-			}
-		}
-		// nodeの解析
-		meshVertices.push_back(vertices);
+		createInfo.vertices.insert(createInfo.vertices.end(), vertices.begin(), vertices.end());
+		createInfo.subMeshes.push_back(SubMesh{
+			.firstIndex = firstIndex,
+			.indexCount = static_cast<uint32_t>(createInfo.indices.size()) - firstIndex,
+			.baseVertex = 0,
+			.materialSlot = mesh->mMaterialIndex,
+			.topology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+			.name = mesh->mName.C_Str()
+		});
 	}
 
-	for (uint32_t oi = 0; oi < meshVertices.size(); oi++) {
-		AOENGINE::MeshManager::GetInstance()->AddMesh(device, fileName, meshNames[oi], meshVertices[oi], meshIndices[oi]);
-	}
-
-	std::vector<std::shared_ptr<Mesh>> result;
-	
-	result = AOENGINE::MeshManager::GetInstance()->GetMeshes(fileName);
-	uint32_t index = 0;
-	if (!useMaterial.empty()) {
-		for (auto& it : result) {
-			it->SetUseMaterial(useMaterial[index]);
-			index++;
-		}
-	}
-
-	return result;
+	AOENGINE::MeshManager::GetInstance()->AddMesh(device, fileName, createInfo);
+	return AOENGINE::MeshManager::GetInstance()->GetMeshes(fileName);
 }
 
 
@@ -213,10 +175,6 @@ std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::s
 
 		aiString materialName;
 		if (AI_SUCCESS == material->Get(AI_MATKEY_NAME, materialName)) {
-			std::string nameStr = materialName.C_Str();
-			if (nameStr == "DefaultMaterial") {
-				continue;
-			}
 		} else {
 			materialName = "not set MaterialName" + std::to_string(materialIndex);
 		}
@@ -237,6 +195,24 @@ std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::s
 	}
 
 	return materialData;
+}
+
+std::vector<std::string> LoadMaterialSlotNames(const std::string& directoryPath, const std::string& fileName) {
+	Assimp::Importer importer;
+	const std::string filePath = directoryPath + fileName;
+	const aiScene* scene = importer.ReadFile(filePath.c_str(), aiProcess_Triangulate);
+	assert(scene != nullptr && scene->HasMaterials());
+
+	std::vector<std::string> result(scene->mNumMaterials);
+	for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; ++materialIndex) {
+		aiString materialName;
+		if (AI_SUCCESS == scene->mMaterials[materialIndex]->Get(AI_MATKEY_NAME, materialName)) {
+			result[materialIndex] = materialName.C_Str();
+		} else {
+			result[materialIndex] = "not set MaterialName" + std::to_string(materialIndex);
+		}
+	}
+	return result;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -442,6 +418,8 @@ std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& dir
 	assert(scene->HasMeshes()); // meshがないのは対応しない
 
 	std::vector<std::unique_ptr<SkinCluster>> result;
+	std::map<std::string, JointWeightData> combinedSkinCluster;
+	uint32_t baseVertex = 0;
 	
 	for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
 		aiMesh* mesh = scene->mMeshes[meshIndex];
@@ -449,13 +427,11 @@ std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& dir
 		// -------------------------------------------------
 		// ↓ skinningを取得する用の処理
 		// -------------------------------------------------
-		std::map<std::string, JointWeightData> newMap;
-
 		for (uint32_t boneIndex = 0; boneIndex < mesh->mNumBones; ++boneIndex) {
 			// jointごとの格納領域を作る
 			aiBone* bone = mesh->mBones[boneIndex];
 			std::string jointName = bone->mName.C_Str();
-			JointWeightData& jointWeightData = newMap[jointName];
+			JointWeightData& jointWeightData = combinedSkinCluster[jointName];
 
 			// InverseBindPoseMatrixの抽出
 			aiMatrix4x4 bindPoseMatrixAssimp = bone->mOffsetMatrix.Inverse();
@@ -470,13 +446,17 @@ std::vector<std::unique_ptr<SkinCluster>> LoadSkinCluster(const std::string& dir
 
 			// Weight情報を取り出す
 			for (uint32_t weightIndex = 0; weightIndex < bone->mNumWeights; ++weightIndex) {
-				jointWeightData.vertexWeight.push_back({ bone->mWeights[weightIndex].mWeight, bone->mWeights[weightIndex].mVertexId });
+				jointWeightData.vertexWeight.push_back({
+					bone->mWeights[weightIndex].mWeight,
+					baseVertex + bone->mWeights[weightIndex].mVertexId
+				});
 			}
 		}
-		
-		auto& newData = result.emplace_back(std::make_unique<SkinCluster>());
-		newData->AddData(newMap);
+		baseVertex += mesh->mNumVertices;
 	}
+
+	auto& combinedData = result.emplace_back(std::make_unique<SkinCluster>());
+	combinedData->AddData(combinedSkinCluster);
 
 	return result;
 }

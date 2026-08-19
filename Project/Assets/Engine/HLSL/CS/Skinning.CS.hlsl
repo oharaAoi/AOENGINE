@@ -9,6 +9,7 @@ struct Vertex {
 	float2 texcoord;
 	float3 normal;
 	float4 tangent;
+	uint materialSlot;
 };
 
 struct VertexInfluence {
@@ -50,6 +51,7 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	Vertex skinned;
 	skinned.texcoord = input.texcoord;
 	skinned.tangent = input.tangent;
+	skinned.materialSlot = input.materialSlot;
 	
 	skinned.position = mul(input.position, m0) * influence.weight.x +
 	                   mul(input.position, m1) * influence.weight.y +

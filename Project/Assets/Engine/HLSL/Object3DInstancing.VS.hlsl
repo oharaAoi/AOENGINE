@@ -5,6 +5,8 @@ struct WorldTransformMatrix {
 	float4x4 world;
 	float4x4 worldPerv;
 	float4x4 worldInverseTranspose;
+	uint materialOffset;
+	uint3 padding;
 };
 
 struct ViewProjectionMatrix {
@@ -21,6 +23,7 @@ struct VertexShaderInput {
 	float2 texcoord : TEXCOORD0;
 	float3 normal : NORMAL0;
 	float4 tangent : TANGENT0;
+	uint materialSlot : MATERIALSLOT0;
 };
 
 // SceneRendererで同一MeshにまとめたinstanceをSV_InstanceIDで参照します。
@@ -37,6 +40,6 @@ VertexShaderOutput main(VertexShaderInput input, uint instanceId : SV_InstanceID
 	output.texcoord = input.texcoord;
 	output.normal = normalize(mul(input.normal, (float3x3) transform.worldInverseTranspose));
 	output.worldPos = mul(input.position, transform.world);
-	output.instanceId = instanceId;
+	output.materialIndex = transform.materialOffset + input.materialSlot;
 	return output;
 }

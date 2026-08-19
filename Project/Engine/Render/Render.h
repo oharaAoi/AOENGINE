@@ -115,13 +115,14 @@ public:
 	/// <param name="model">: モデルのポインタ</param>
 	/// <param name="worldTransform">: worldTransform</param>
 	static void DrawModel(const AOENGINE::Pipeline* pipeline, AOENGINE::Model* model, const AOENGINE::WorldTransform* worldTransform,
-						  const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
+						  const std::vector<AOENGINE::BaseMaterial*>& materialSlots);
 
 	static void DrawModel(const AOENGINE::Pipeline* pipeline, AOENGINE::Model* model, const AOENGINE::WorldTransform* worldTransform,
 						  const std::vector<std::unique_ptr<AOENGINE::Skinning>>& _skinningArray, 
-						  const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& materials);
+						  const std::vector<AOENGINE::BaseMaterial*>& materialSlots);
 
-	static void DrawEnvironmentModel(const Pipeline* pipeline, AOENGINE::Mesh* _mesh, AOENGINE::BaseMaterial* _material, const AOENGINE::WorldTransform* _transform);
+	static void DrawEnvironmentModel(const Pipeline* pipeline, AOENGINE::Mesh* _mesh, const AOENGINE::SubMesh& _subMesh,
+		AOENGINE::BaseMaterial* _material, const AOENGINE::WorldTransform* _transform);
 
 	/// <summary>
 	/// 線の描画

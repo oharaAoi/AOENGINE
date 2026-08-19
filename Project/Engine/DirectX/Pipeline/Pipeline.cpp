@@ -11,6 +11,7 @@ Pipeline::~Pipeline() {}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Pipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const json& _jsonData) {
+	AOENGINE::Logger::Log("Create PSO");
 	parameter_.FromJson(_jsonData);
 
 	device_ = _device;
@@ -42,6 +43,8 @@ void Pipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const j
 		hr = device_->CreateComputePipelineState(&desc, IID_PPV_ARGS(&graphicsPipelineState_));
 		assert(SUCCEEDED(hr));
 	}
+
+	AOENGINE::Logger::Log("--- Success!");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,8 +220,12 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> Pipeline::CreateInputLayout() {
 DXGI_FORMAT Pipeline::ReturnFormat(LPCSTR _name) {
 	if (strcmp(_name, "TEXCOORD") == 0) {
 		return DXGI_FORMAT_R32G32_FLOAT;
-	} else if (strcmp(_name, "NORMAL") == 0 || strcmp(_name, "TANGENT") == 0) {
+	} else if (strcmp(_name, "NORMAL") == 0) {
 		return DXGI_FORMAT_R32G32B32_FLOAT;
+	} else if (strcmp(_name, "TANGENT") == 0) {
+		return DXGI_FORMAT_R32G32B32A32_FLOAT;
+	} else if (strcmp(_name, "MATERIALSLOT") == 0) {
+		return DXGI_FORMAT_R32_UINT;
 	} else if (strcmp(_name, "INDEX") == 0) {
 		return DXGI_FORMAT_R32G32B32A32_SINT;
 	} else {

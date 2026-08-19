@@ -7,5 +7,5 @@ struct VertexShaderOutput {
 	float4 worldPos : WORLDPOS0;
 	float4 positionNDC : POSITIONNDC0;
 	float4 positionPrev : POSITIONPREV0;
-	nointerpolation uint instanceId : INSTANCEID0;
+	nointerpolation uint materialIndex : MATERIALINDEX0;
 };

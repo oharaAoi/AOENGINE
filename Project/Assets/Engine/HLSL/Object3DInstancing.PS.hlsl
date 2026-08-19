@@ -41,7 +41,7 @@ float2 ComputeMotionVector(float4 currentCS, float4 prevCS) {
 
 PixelShaderOutput main(VertexShaderOutput input) {
 	PixelShaderOutput output = (PixelShaderOutput) 0;
-	InstanceMaterial material = gInstanceMaterials[input.instanceId];
+	InstanceMaterial material = gInstanceMaterials[input.materialIndex];
 	float4 transformedUV = mul(float4(input.texcoord, 0.0f, 1.0f), material.uvTransform);
 
 	// albedoTextureIndexはTextureManagerが割り当てたSRV descriptor indexです。

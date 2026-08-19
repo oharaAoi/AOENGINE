@@ -60,6 +60,7 @@ public: // public method
 	/// Object_NormalのInstancing描画に回せる状態かを返します。
 	/// </summary>
 	bool CanUseNormalInstancing() const;
+	bool CanUseSkinnedMaterialBatch() const;
 
 public: // accessor method
 
@@ -114,8 +115,14 @@ public: // accessor method
 	void SetShaderGraph(AOENGINE::ShaderGraph* _shaderGraph);
 
 	void SetMaterial(MaterialType _type);
+	/// <summary>SubMeshが参照するMaterial Slotをオブジェクト単位で差し替えます。</summary>
+	bool SetMaterialSlot(uint32_t slot, std::unique_ptr<AOENGINE::BaseMaterial> material);
 
-	const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& GetMaterials() const { return materials; }
+	const std::unordered_map<std::string, AOENGINE::BaseMaterial*>& GetMaterials() const { return materials; }
+	const std::vector<AOENGINE::BaseMaterial*>& GetMaterialSlots() const { return renderMaterialSlots_; }
+	AOENGINE::BaseMaterial* GetMaterial(uint32_t slot) const {
+		return slot < materialSlots_.size() ? materialSlots_[slot].get() : nullptr;
+	}
 
 	// -------------------------------------------------
 	// ↓ Animation関連
@@ -124,6 +131,7 @@ public: // accessor method
 	void SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
 
 	AOENGINE::Animator* GetAnimator() { return animetor_.get(); }
+	const AOENGINE::Animator* GetAnimator() const { return animetor_.get(); }
 
 	// -------------------------------------------------
 	// ↓ Collider関連
@@ -139,12 +147,18 @@ public: // accessor method
 	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_; }
 
 protected:
+	void RebuildMaterialSlots();
 
 	// componts
 	std::list<std::unique_ptr<IComponent>> components_;
 
 	AOENGINE::Model* model_ = nullptr;
-	std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>> materials;
+	// Material Slotごとのオブジェクト固有Material Instance。
+	std::vector<std::unique_ptr<AOENGINE::BaseMaterial>> materialSlots_;
+	// 描画APIへ渡す非所有の連続配列。
+	std::vector<AOENGINE::BaseMaterial*> renderMaterialSlots_;
+	// Inspector・旧API向けの名前検索。所有権はmaterialSlots_が持ちます。
+	std::unordered_map<std::string, AOENGINE::BaseMaterial*> materials;
 
 	std::unique_ptr<AOENGINE::Animator> animetor_ = nullptr;
 

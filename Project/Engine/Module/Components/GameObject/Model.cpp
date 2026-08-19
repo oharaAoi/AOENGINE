@@ -38,6 +38,7 @@ void AOENGINE::Model::Init(ID3D12Device* device, const std::string& directorPath
 	}
 
 	materialData_ = LoadMaterialData(directorPath, fileName);
+	materialSlotNames_ = LoadMaterialSlotNames(directorPath, fileName);
 
 	skinClusterArray_ = LoadSkinCluster(directorPath, fileName);
 

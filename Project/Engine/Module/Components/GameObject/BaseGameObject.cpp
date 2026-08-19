@@ -13,6 +13,15 @@
 
 using namespace AOENGINE;
 
+namespace {
+std::unique_ptr<BaseMaterial> CreateMaterialInstance(MaterialType type) {
+	if (type == MaterialType::PBR) {
+		return std::make_unique<PBRMaterial>();
+	}
+	return std::make_unique<Material>();
+}
+}
+
 BaseGameObject::~BaseGameObject() {
 	Finalize();
 }
@@ -33,6 +42,8 @@ void BaseGameObject::Finalize() {
 		}
 	}
 	materials.clear();
+	materialSlots_.clear();
+	renderMaterialSlots_.clear();
 
 	components_.clear();
 }
@@ -115,8 +126,8 @@ void BaseGameObject::UpdateMatrix() {
 
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 
-	for (auto& material : materials) {
-		material.second->Update();
+	for (auto& material : materialSlots_) {
+		if (material) { material->Update(); }
 	}
 }
 
@@ -172,10 +183,14 @@ void BaseGameObject::Draw() const {
 	// 鏡面反射をする場合の描画
 	if (isReflection_) {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {
-			if (materials.size() > index) {
-				Pipeline* pso = Engine::GetLastUsedPipeline();
-				Mesh* pMesh = model_->GetMesh(index);
-				AOENGINE::Render::DrawEnvironmentModel(pso, pMesh, materials.at(pMesh->GetUseMaterial()).get(), transform_);
+			Pipeline* pso = Engine::GetLastUsedPipeline();
+			Mesh* pMesh = model_->GetMesh(index);
+			for (uint32_t subMeshIndex = 0; subMeshIndex < pMesh->GetSubMeshCount(); ++subMeshIndex) {
+				const SubMesh& subMesh = pMesh->GetSubMesh(subMeshIndex);
+				BaseMaterial* material = GetMaterial(subMesh.materialSlot);
+				if (material) {
+					AOENGINE::Render::DrawEnvironmentModel(pso, pMesh, subMesh, material, transform_);
+				}
 			}
 		}
 		return;
@@ -183,9 +198,9 @@ void BaseGameObject::Draw() const {
 
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	if (animetor_ == nullptr || !animetor_->GetIsSkinning()) {
-		AOENGINE::Render::DrawModel(pso, model_, transform_, materials);
+		AOENGINE::Render::DrawModel(pso, model_, transform_, renderMaterialSlots_);
 	} else {
-		AOENGINE::Render::DrawModel(pso, model_, transform_, animetor_->GetSkinningArray(), materials);
+		AOENGINE::Render::DrawModel(pso, model_, transform_, animetor_->GetSkinningArray(), renderMaterialSlots_);
 	}
 }
 
@@ -245,29 +260,54 @@ void BaseGameObject::SetPhysics() {
 void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) {
 	model_ = nullptr;
 	materials.clear();
+	materialSlots_.clear();
+	renderMaterialSlots_.clear();
 
 	model_ = ModelManager::GetInstance()->GetModel(_objName);
-	for (const auto& material : model_->GetMaterialData()) {
-		if (_type == MaterialType::Normal) {
-			materials[material.first] = std::make_unique<Material>();
-		} else if (_type == MaterialType::PBR) {
-			materials[material.first] = std::make_unique<PBRMaterial>();
-		}
-		materials[material.first]->Init();
-		materials[material.first]->SetMaterialData(material.second);
+	materialSlots_.resize(model_->GetMaterialSlotCount());
+	for (uint32_t slot = 0; slot < model_->GetMaterialSlotCount(); ++slot) {
+		auto material = CreateMaterialInstance(_type);
+		material->Init();
+		material->SetMaterialData(model_->GetMaterialData().at(model_->GetMaterialSlotName(slot)));
+		materialSlots_[slot] = std::move(material);
 	}
+	RebuildMaterialSlots();
 }
 
 void AOENGINE::BaseGameObject::SetMaterial(MaterialType _type) {
-	for (const auto& material : model_->GetMaterialData()) {
-		if (_type == MaterialType::Normal) {
-			materials[material.first] = std::make_unique<Material>();
-		} else if (_type == MaterialType::PBR) {
-			materials[material.first] = std::make_unique<PBRMaterial>();
-		}
-		materials[material.first]->Init();
-		materials[material.first]->SetMaterialData(material.second);
+	materialSlots_.resize(model_->GetMaterialSlotCount());
+	for (uint32_t slot = 0; slot < model_->GetMaterialSlotCount(); ++slot) {
+		auto material = CreateMaterialInstance(_type);
+		material->Init();
+		material->SetMaterialData(model_->GetMaterialData().at(model_->GetMaterialSlotName(slot)));
+		materialSlots_[slot] = std::move(material);
 	}
+	RebuildMaterialSlots();
+}
+
+void BaseGameObject::RebuildMaterialSlots() {
+	materials.clear();
+	renderMaterialSlots_.assign(materialSlots_.size(), nullptr);
+	if (!model_) {
+		return;
+	}
+
+	for (uint32_t slot = 0; slot < materialSlots_.size(); ++slot) {
+		renderMaterialSlots_[slot] = materialSlots_[slot].get();
+		if (materialSlots_[slot]) {
+			materials[model_->GetMaterialSlotName(slot)] = materialSlots_[slot].get();
+		}
+	}
+}
+
+bool BaseGameObject::SetMaterialSlot(uint32_t slot, std::unique_ptr<BaseMaterial> material) {
+	if (!model_ || slot >= model_->GetMaterialSlotCount() || !material) {
+		return false;
+	}
+
+	materialSlots_[slot] = std::move(material);
+	RebuildMaterialSlots();
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,8 +333,8 @@ void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::st
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetColor(const Color& color) {
-	for (auto& material : materials) {
-		material.second->SetColor(color);
+	for (auto& material : materialSlots_) {
+		if (material) { material->SetColor(color); }
 	}
 }
 
@@ -303,8 +343,8 @@ void BaseGameObject::SetColor(const Color& color) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetIsLighting(bool isLighting) {
-	for (auto& material : materials) {
-		material.second->SetIsLighting(isLighting);
+	for (auto& material : materialSlots_) {
+		if (material) { material->SetIsLighting(isLighting); }
 	}
 }
 
@@ -313,14 +353,14 @@ void BaseGameObject::SetIsLighting(bool isLighting) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseGameObject::SetTexture(const std::string& path) {
-	for (auto& material : materials) {
-		material.second->SetAlbedoTexture(path);
+	for (auto& material : materialSlots_) {
+		if (material) { material->SetAlbedoTexture(path); }
 	}
 }
 
 void BaseGameObject::SetShaderGraph(ShaderGraph* _shaderGraph) {
-	for (auto& material : materials) {
-		material.second->SetShaderGraph(_shaderGraph);
+	for (auto& material : materialSlots_) {
+		if (material) { material->SetShaderGraph(_shaderGraph); }
 	}
 }
 
@@ -361,4 +401,11 @@ bool BaseGameObject::CanUseNormalInstancing() const {
 		return false;
 	}
 	return true;
+}
+
+bool BaseGameObject::CanUseSkinnedMaterialBatch() const {
+	if (model_ == nullptr || transform_ == nullptr || !isRendering_ || isReflection_ || animetor_ == nullptr) {
+		return false;
+	}
+	return animetor_->GetIsSkinning();
 }

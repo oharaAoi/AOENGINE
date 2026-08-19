@@ -55,6 +55,19 @@ void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, co
 	}
 }
 
+void MeshManager::AddMesh(ID3D12Device* device, const std::string& modelName, const AOENGINE::Mesh::CreateInfo& createInfo) {
+	if (meshArrayMap_.contains(modelName)) {
+		return;
+	}
+
+	MeshPair meshPair(createInfo.name, std::make_shared<Mesh>());
+	meshPair.mesh->Init(device, createInfo);
+	auto& registeredMesh = meshArrayMap_[modelName].meshArray.emplace_back(std::move(meshPair));
+	modelNameList_.push_back(modelName);
+	meshMap_[createInfo.name] = registeredMesh.mesh;
+	meshNameList_.push_back(createInfo.name);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ meshの取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +81,8 @@ std::vector<std::shared_ptr<Mesh>> MeshManager::GetMeshes(const std::string& mod
 	}
 
 	for (auto& origine : it->second.meshArray) {
-		result.emplace_back(std::make_shared<Mesh>(*origine.mesh));
+		// MeshはGPU ResourceとMapped Addressを所有するため複製せず共有します。
+		result.emplace_back(origine.mesh);
 	}
 
 	return result;

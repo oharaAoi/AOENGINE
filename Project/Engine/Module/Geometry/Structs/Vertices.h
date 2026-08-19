@@ -11,6 +11,7 @@ struct VertexData {
 	Math::Vector2 texcoord;
 	Math::Vector3 normal;
 	Math::Vector4 tangent;
+	uint32_t materialSlot = 0;
 };
 
 /// <summary>

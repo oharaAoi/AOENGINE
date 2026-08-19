@@ -72,14 +72,20 @@ void ModelInstancingRenderer::DrawNormalBatches(const std::vector<NormalBatch>& 
 		if (!batch.mesh || instanceCount == 0) {
 			continue;
 		}
+		uint32_t materialCount = 0;
+		for (const InstanceSource& source : batch.instances) {
+			materialCount += static_cast<uint32_t>(source.materials.size());
+		}
+		if (materialCount == 0) { continue; }
 
 		// batchごとに必要なinstance数だけGPUへ送る一時bufferを取得します。
 		TransformBuffer& transformBuffer = AcquireTransformBuffer(instanceCount);
-		MaterialBuffer& materialBuffer = AcquireMaterialBuffer(instanceCount);
+		MaterialBuffer& materialBuffer = AcquireMaterialBuffer(materialCount);
 
+		uint32_t materialOffset = 0;
 		for (uint32_t index = 0; index < instanceCount; ++index) {
 			const InstanceSource& source = batch.instances[index];
-			if (!source.transform || !source.material) {
+			if (!source.transform || source.materials.empty()) {
 				continue;
 			}
 
@@ -88,22 +94,25 @@ void ModelInstancingRenderer::DrawNormalBatches(const std::vector<NormalBatch>& 
 			transformBuffer.mapped[index] = TransformInstanceData{
 				.matWorld = transformData.matWorld,
 				.matWorldPrev = transformData.matWorldPrev,
-				.worldInverseTranspose = transformData.worldInverseTranspose
+				.worldInverseTranspose = transformData.worldInverseTranspose,
+				.materialOffset = materialOffset
 			};
 
-			// Material差分はinstance bufferへコピーし、TextureだけはSRV heap indexで参照します。
-			const AOENGINE::Material::MaterialData& materialData = *source.material;
-			NormalInstanceMaterialData& instanceMaterial = materialBuffer.mapped[index];
-			instanceMaterial.color = materialData.color;
-			instanceMaterial.enableLighting = materialData.enableLighting;
-			instanceMaterial.albedoTextureIndex = source.albedoTextureIndex;
-			instanceMaterial.uvTransform = materialData.uvTransform;
-			instanceMaterial.shininess = materialData.shininess;
-			instanceMaterial.discardValue = materialData.discardValue;
-			instanceMaterial.iblScale = materialData.iblScale;
-			instanceMaterial.padding0[0] = 0.0f;
-			instanceMaterial.padding0[1] = 0.0f;
-			instanceMaterial.padding1 = 0.0f;
+			for (const InstanceSource::MaterialSource& materialSource : source.materials) {
+				if (!materialSource.material) { continue; }
+				const AOENGINE::Material::MaterialData& materialData = *materialSource.material;
+				NormalInstanceMaterialData& gpuMaterial = materialBuffer.mapped[materialOffset++];
+				gpuMaterial.color = materialData.color;
+				gpuMaterial.enableLighting = materialData.enableLighting;
+				gpuMaterial.albedoTextureIndex = materialSource.albedoTextureIndex;
+				gpuMaterial.uvTransform = materialData.uvTransform;
+				gpuMaterial.shininess = materialData.shininess;
+				gpuMaterial.discardValue = materialData.discardValue;
+				gpuMaterial.iblScale = materialData.iblScale;
+				gpuMaterial.padding0[0] = 0.0f;
+				gpuMaterial.padding0[1] = 0.0f;
+				gpuMaterial.padding1 = 0.0f;
+			}
 		}
 
 		ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
@@ -111,7 +120,9 @@ void ModelInstancingRenderer::DrawNormalBatches(const std::vector<NormalBatch>& 
 
 		AOENGINE::Render::DrawLightGroup(pipeline);
 
-		commandList->IASetVertexBuffers(0, 1, &batch.mesh->GetVBV());
+		const D3D12_VERTEX_BUFFER_VIEW& vertexBufferView =
+			batch.useVertexBufferOverride ? batch.vertexBufferView : batch.mesh->GetVBV();
+		commandList->IASetVertexBuffers(0, 1, &vertexBufferView);
 		commandList->IASetIndexBuffer(&batch.mesh->GetIBV());
 
 		UINT rootIndex = pipeline->GetRootSignatureIndex("gInstanceTransforms");
@@ -136,6 +147,7 @@ void ModelInstancingRenderer::DrawNormalBatches(const std::vector<NormalBatch>& 
 		rootIndex = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, AOENGINE::Render::GetSkyboxTexture(), rootIndex);
 
+		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		commandList->DrawIndexedInstanced(batch.mesh->GetIndexNum(), instanceCount, 0, 0, 0);
 	}
 }

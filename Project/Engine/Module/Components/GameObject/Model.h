@@ -79,6 +79,8 @@ public: // accessor
 	const std::map<std::string, JointWeightData>& GetSkinClustersData(uint32_t index) { return skinClusterArray_[index]->GetSkinClustersData(); }
 
 	std::unordered_map<std::string, ModelMaterialData>& GetMaterialData() { return materialData_; }
+	const std::string& GetMaterialSlotName(uint32_t slot) const { return materialSlotNames_.at(slot); }
+	uint32_t GetMaterialSlotCount() const { return static_cast<uint32_t>(materialSlotNames_.size()); }
 
 	AOENGINE::Mesh* GetMesh(const uint32_t& index);
 	AOENGINE::Mesh* GetMesh(const uint32_t& index) const;
@@ -110,6 +112,7 @@ private: // private variable
 	std::vector<std::shared_ptr<AOENGINE::Mesh>> meshArray_;
 	// materialの情報
 	std::unordered_map<std::string, ModelMaterialData> materialData_;
+	std::vector<std::string> materialSlotNames_;
 	// skinningのデータ
 	std::vector<std::unique_ptr<SkinCluster>> skinClusterArray_;
 	// ノード

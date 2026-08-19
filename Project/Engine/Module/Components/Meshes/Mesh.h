@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "Engine/Module/Components/Meshes/SubMesh.h"
 #include "Engine/Module/Geometry/Structs/Vertices.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -17,110 +18,74 @@ public:
 
 public:
 
-	// 初期化
-	void Init(ID3D12Device* device, std::vector<VertexData> vertexData, std::vector<uint32_t> indices);
-	// コマンドを積む
-	void BindCommand(ID3D12GraphicsCommandList* commandList);
-	// 終了
+	struct CreateInfo {
+		std::vector<VertexData> vertices;
+		std::vector<uint32_t> indices;
+		std::vector<SubMesh> subMeshes;
+		std::string name;
+	};
+
+public: // public methods
+
+	void Init(ID3D12Device* device, const CreateInfo& createInfo);
+	// 既存呼び出し向け。IndexBuffer全体を参照するSubMeshを1つ生成します。
+	void Init(ID3D12Device* device, std::vector<VertexData> vertices, std::vector<uint32_t> indices);
 	void Finalize();
-	// indexのみをコマンドに積む
-	void IndexBindCommand(ID3D12GraphicsCommandList* commandList);
-	// 頂点を初期化
+
+	// Mesh共通のVB/IBを一度だけ設定
+	void Bind(ID3D12GraphicsCommandList* commandList) const;
+	void BindCommand(ID3D12GraphicsCommandList* commandList) const { Bind(commandList); }
+	void IndexBindCommand(ID3D12GraphicsCommandList* commandList) const;
+
+public: // accessor
+
+	const SubMesh& GetSubMesh(uint32_t index) const;
+	uint32_t GetSubMeshCount() const;
+
+	const std::vector<VertexData>& GetVertices() const;
+	const std::vector<uint32_t>& GetIndices() const;
+	const std::vector<VertexData>& GetVerticesData() const { return GetVertices(); }
+
+	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() const;
+	const D3D12_INDEX_BUFFER_VIEW& GetIBV() const;
+
+	const Math::Sphere& GetLocalBounds() const;
+
+	// 旧描画パスとの互換API。SubMesh描画への移行後に削除します。
+	uint32_t GetIndexNum() const { return static_cast<uint32_t>(indices_.size()); }
+	uint32_t GetVertexSize() const { return static_cast<uint32_t>(vertices_.size()); }
+	ID3D12Resource* GetVertexBuffer() const { return vertexBuffer_.Get(); }
+	ID3D12Resource* GetIndexBuffer() const { return indexBuffer_.Get(); }
+	uint32_t* GetIndexData() { return mappedIndices_; }
+	VertexData* GetOutputVertexData() { return outputVertices_.data(); }
 	void SetInitVertex();
-
-public:
-
-	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }
-	void SetVBV(const D3D12_VERTEX_BUFFER_VIEW& view) { vertexBufferView_ = view; }
-
-	const D3D12_INDEX_BUFFER_VIEW& GetIBV() { return indexBufferView_; }
-
-	/// <summary>
-	/// vertexBuffer
-	/// </summary>
-	/// <returns></returns>
-	ID3D12Resource* GetVertexBuffer() { return vertexBuffer_.Get(); }
-
-	/// <summary>
-	/// vertexDataを取得する
-	/// </summary>
-	/// <returns></returns>
-	VertexData* GetOutputVertexData() { return outputVertexData_.data(); }
-
-	/// <summary>
-	/// indexの数を
-	/// </summary>
-	/// <returns></returns>
-	uint32_t GetIndexNum() { return indexNum_; }
-
-	/// <summary>
-	/// indexBufferを取得
-	/// </summary>
-	/// <returns></returns>
-	ID3D12Resource* GetIndexBuffer() { return indexBuffer_.Get(); }
-
-	/// <summary>
-	/// indexDataを取得
-	/// </summary>
-	/// <returns></returns>
-	uint32_t* GetIndexData() { return indexData_; }
-
-	/// <summary>
-	/// 配列に入っている頂点データ(生成時のデータ)
-	/// </summary>
-	/// <returns></returns>
-	const std::vector<VertexData>& GetVerticesData() const { return verticesData_; }
-
-	const std::vector<uint32_t>& GetIndices() const { return indices_; }
-
 	void SetOutputVertexData(VertexData* vertexData);
-
-	/// <summary>
-	/// 頂点数を取得する
-	/// </summary>
-	/// <returns></returns>
-	const uint32_t GetVertexSize() const { return (uint32_t)verticesData_.size(); }
-
-	/// <summary>
-	/// Vertexの再設定
-	/// </summary>
-	/// <param name="vertexData"></param>
 	void SetVertexData(const std::vector<VertexData>& vertexData);
-
-	/// <summary>
-	/// indexの再設定
-	/// </summary>
-	/// <param name="indices"></param>
 	void SetIndices(const std::vector<uint32_t>& indices);
+	void SetVBV(const D3D12_VERTEX_BUFFER_VIEW& view) { vertexBufferView_ = view; }
+	void SetUseMaterial(const std::string& materialName) { legacyMaterialName_ = materialName; }
+	const std::string& GetUseMaterial() const { return legacyMaterialName_; }
 
-	void SetUseMaterial(const std::string& usemtl) { useMaterial_ = usemtl; }
-	const std::string GetUseMaterial() const { return useMaterial_; }
+private: // private variables
 
-private:
-	// VertexBuffer
 	ComPtr<ID3D12Resource> vertexBuffer_;
-	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
-	VertexData* vertexData_ = nullptr;
-	
-	std::vector<VertexData> initVertexData_;
-	std::vector<VertexData> outputVertexData_;
-
-	// IndexBuffer
 	ComPtr<ID3D12Resource> indexBuffer_;
-	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
-	uint32_t* indexData_ = nullptr;
 
+	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_{};
+	D3D12_INDEX_BUFFER_VIEW indexBufferView_{};
+
+	// 再生成、Collider生成、Editor表示などに必要な場合のみ保持
+	std::vector<VertexData> vertices_;
+	std::vector<VertexData> initialVertices_;
+	std::vector<VertexData> outputVertices_;
 	std::vector<uint32_t> indices_;
-	std::vector<VertexData> verticesData_;
+	std::vector<SubMesh> subMeshes_;
+	VertexData* mappedVertices_ = nullptr;
+	uint32_t* mappedIndices_ = nullptr;
 
-	// 使用するマテリアル
-	std::string useMaterial_;
-	// meshの名前
-	std::string meshName_;
-
-	uint32_t indexNum_;
-	UINT vbvSize_;
-	uint32_t vertexDataSize_;
+	Math::Sphere localBounds_{};
+	std::string name_;
+	std::string legacyMaterialName_;
 };
 
 }

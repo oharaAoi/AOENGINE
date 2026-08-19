@@ -157,7 +157,7 @@ void AOENGINE::Render::DrawSprite(Sprite* sprite, const Pipeline* pipeline) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
-					   const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
+					   const std::vector<BaseMaterial*>& materialSlots) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	UINT index = 0;
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
@@ -166,12 +166,12 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
-	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_, materials);
+	RenderingCommands::DrawModel(commandList_, model, pipeline, worldTransform, viewProjection_, materialSlots);
 }
 
 void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const AOENGINE::WorldTransform* worldTransform,
 								 const std::vector<std::unique_ptr<AOENGINE::Skinning>>& _skinningArray,
-								 const std::unordered_map<std::string, std::unique_ptr<BaseMaterial>>& materials) {
+								 const std::vector<BaseMaterial*>& materialSlots) {
 	UINT index = 0;
 	lightGroup_->BindCommand(pipeline, commandList_);
 	index = pipeline->GetRootSignatureIndex("gShadowMap");
@@ -180,10 +180,11 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
-	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_, materials, _skinningArray);
+	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_, materialSlots, _skinningArray);
 }
 
-void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {
+void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, const SubMesh& _subMesh,
+	BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {
 	lightGroup_->BindCommand(pipeline, commandList_);
 	commandList_->IASetVertexBuffers(0, 1, &_mesh->GetVBV());
 	commandList_->IASetIndexBuffer(&_mesh->GetIBV());
@@ -204,7 +205,8 @@ void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mes
 	index = pipeline->GetRootSignatureIndex("gEnviromentTexture");
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, index);
 
-	commandList_->DrawIndexedInstanced(_mesh->GetIndexNum(), 1, 0, 0, 0);
+	commandList_->IASetPrimitiveTopology(_subMesh.topology);
+	commandList_->DrawIndexedInstanced(_subMesh.indexCount, 1, _subMesh.firstIndex, _subMesh.baseVertex, 0);
 }
 
 void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const AOENGINE::WorldTransform* worldTransform, const D3D12_VERTEX_BUFFER_VIEW& vbv) {

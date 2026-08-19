@@ -23,7 +23,7 @@ namespace RenderingCommands {
 void DrawModel(ID3D12GraphicsCommandList* _cmdList, AOENGINE::Model* _model, const AOENGINE::Pipeline* _pso, 
 			   const AOENGINE::WorldTransform* _worldTransform,
 			   const AOENGINE::ViewProjection* _viewProjection,
-			   const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& _materials);
+			   const std::vector<AOENGINE::BaseMaterial*>& _materialSlots);
 
 /// <summary>
 /// Skinningを行っているモデルの描画
@@ -38,7 +38,7 @@ void DrawModel(ID3D12GraphicsCommandList* _cmdList, AOENGINE::Model* _model, con
 void DrawSkinningModel(ID3D12GraphicsCommandList* _cmdList, AOENGINE::Model* _model, const AOENGINE::Pipeline* _pso,
 					   const AOENGINE::WorldTransform* _worldTransform,
 					   const AOENGINE::ViewProjection* _viewProjection,
-					   const std::unordered_map<std::string, std::unique_ptr<AOENGINE::BaseMaterial>>& _materials,
+					   const std::vector<AOENGINE::BaseMaterial*>& _materialSlots,
 					   const std::vector<std::unique_ptr<AOENGINE::Skinning>>& _skinningArray);
 
 }

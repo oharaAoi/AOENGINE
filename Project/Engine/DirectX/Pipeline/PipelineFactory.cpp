@@ -52,11 +52,15 @@ std::vector<D3D12_INPUT_ELEMENT_DESC> PipelineFactory::CreateInputLayout() {
 }
 
 DXGI_FORMAT PipelineFactory::ReturnFormat(LPCSTR _name) {
-	if (_name == static_cast<LPCSTR>("TEXCOORD")) {
+	if (strcmp(_name, "TEXCOORD") == 0) {
 		return DXGI_FORMAT_R32G32_FLOAT;
-	} else if (_name == static_cast<LPCSTR>("NORMAL") || _name == static_cast<LPCSTR>("TANGENT")) {
+	} else if (strcmp(_name, "NORMAL") == 0) {
 		return DXGI_FORMAT_R32G32B32_FLOAT;
-	} else if (_name == static_cast<LPCSTR>("INDEX")) {
+	} else if (strcmp(_name, "TANGENT") == 0) {
+		return DXGI_FORMAT_R32G32B32A32_FLOAT;
+	} else if (strcmp(_name, "MATERIALSLOT") == 0) {
+		return DXGI_FORMAT_R32_UINT;
+	} else if (strcmp(_name, "INDEX") == 0) {
 		return DXGI_FORMAT_R32G32B32A32_SINT;
 	} else {
 		return DXGI_FORMAT_R32G32B32A32_FLOAT;

@@ -43,6 +43,9 @@ std::unordered_map<std::string, std::unique_ptr<AOENGINE::Material>> LoadMateria
 /// <returns></returns>
 std::unordered_map<std::string, ModelMaterialData> LoadMaterialData(const std::string& directoryPath, const std::string& fileName);
 
+/// <summary>AssimpのMaterial Indexと一致する順序でMaterial名を読み込みます。</summary>
+std::vector<std::string> LoadMaterialSlotNames(const std::string& directoryPath, const std::string& fileName);
+
 /// <summary>
 /// mtlファイルを読み込む
 /// </summary>

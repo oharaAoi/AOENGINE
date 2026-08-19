@@ -66,7 +66,7 @@ public:
 
 public:
 
-	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() { return vertexBufferView_; }
+	const D3D12_VERTEX_BUFFER_VIEW& GetVBV() const { return vertexBufferView_; }
 
 private:
 	UINT vertices_;

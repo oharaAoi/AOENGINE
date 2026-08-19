@@ -28,8 +28,11 @@ public:
 	/// </summary>
 	struct InstanceSource {
 		const AOENGINE::WorldTransform* transform = nullptr;
-		const AOENGINE::Material::MaterialData* material = nullptr;
-		uint32_t albedoTextureIndex = 0;
+		struct MaterialSource {
+			const AOENGINE::Material::MaterialData* material = nullptr;
+			uint32_t albedoTextureIndex = 0;
+		};
+		std::vector<MaterialSource> materials;
 	};
 
 	/// <summary>
@@ -38,6 +41,8 @@ public:
 	/// </summary>
 	struct NormalBatch {
 		AOENGINE::Mesh* mesh = nullptr;
+		D3D12_VERTEX_BUFFER_VIEW vertexBufferView{};
+		bool useVertexBufferOverride = false;
 		std::vector<InstanceSource> instances;
 	};
 
@@ -69,6 +74,8 @@ private:
 		Math::Matrix4x4 matWorld;
 		Math::Matrix4x4 matWorldPrev;
 		Math::Matrix4x4 worldInverseTranspose;
+		uint32_t materialOffset = 0;
+		uint32_t padding[3] = {};
 	};
 
 	/// <summary>

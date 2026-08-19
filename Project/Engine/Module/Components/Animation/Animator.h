@@ -59,6 +59,7 @@ public:
 	std::string SelectAnimationName() { return animationClip_->SelectAnimationName(); }
 
 	Skinning* GetSkinning(uint32_t index) { return skinning_[index].get(); }
+	const Skinning* GetSkinning(uint32_t index) const { return skinning_[index].get(); }
 	Skeleton* GetSkeleton() { return skeleton_.get(); }
 	AOENGINE::AnimationClip* GetAnimationClip() { return animationClip_.get(); }
 

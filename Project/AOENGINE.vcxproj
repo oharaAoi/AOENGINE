@@ -257,6 +257,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Materials\PBRMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Meshes\Mesh.h" />
     <ClInclude Include="Engine\Module\Components\Meshes\ParticleMesh.h" />
+    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h" />
     <ClInclude Include="Engine\Module\Components\ProcessedSceneFrame.h" />
     <ClInclude Include="Engine\Module\Components\Rigging\EndEffector.h" />
@@ -536,6 +537,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Materials\PBRMaterial.cpp" />
     <ClCompile Include="Engine\Module\Components\Meshes\Mesh.cpp" />
     <ClCompile Include="Engine\Module\Components\Meshes\ParticleMesh.cpp" />
+    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp" />
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp" />
     <ClCompile Include="Engine\Module\Components\ProcessedSceneFrame.cpp" />
     <ClCompile Include="Engine\Module\Components\Rigging\EndEffector.cpp" />

@@ -1116,6 +1116,7 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1917,5 +1918,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp" />
   </ItemGroup>
 </Project>

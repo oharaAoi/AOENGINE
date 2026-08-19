@@ -264,7 +264,7 @@ ObjectHandle SceneRenderer::CreateObjectRecursive(const SceneLoader::Objects& da
 
 	if (!data.modelName.empty() && data.material.shader == "PBR") {
 		for (const auto& material : object->GetMaterials()) {
-			AOENGINE::BaseMaterial* mat = material.second.get();
+			AOENGINE::BaseMaterial* mat = material.second;
 			AOENGINE::PBRMaterial* pbr = dynamic_cast<AOENGINE::PBRMaterial*>(mat);
 			if (pbr) {
 				pbr->SetParameter(data.material.roughness, data.material.metallic, data.material.iblStrength, data.material.normalMap);
@@ -382,10 +382,11 @@ bool SceneRenderer::TryAddNormalInstancingBatch(
 	const RenderEntry& entry,
 	const AOENGINE::BaseGameObject& object,
 	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches) const {
-	// 現時点ではObject_Normal.json相当の非SkinningモデルだけをInstancing対象にします。
-	if (entry.renderingType != "Object_Normal.json" || !object.CanUseNormalInstancing()) {
+	if (entry.renderingType != "Object_Normal.json") {
 		return false;
 	}
+	const bool isSkinned = object.CanUseSkinnedMaterialBatch();
+	if (!isSkinned && !object.CanUseNormalInstancing()) { return false; }
 
 	const AOENGINE::Model* model = object.GetModel();
 	const AOENGINE::WorldTransform* transform = object.GetTransform();
@@ -393,63 +394,63 @@ bool SceneRenderer::TryAddNormalInstancingBatch(
 		return false;
 	}
 
-	struct PendingMesh {
-		AOENGINE::Mesh* mesh = nullptr;
-		const AOENGINE::Material::MaterialData* materialData = nullptr;
-		uint32_t albedoTextureIndex = 0;
-	};
-
-	std::vector<PendingMesh> pendingMeshes;
-	pendingMeshes.reserve(model->GetMeshsNum());
-
-	const auto& materials = object.GetMaterials();
 	for (uint32_t index = 0; index < model->GetMeshsNum(); ++index) {
 		AOENGINE::Mesh* mesh = model->GetMesh(index);
 		if (!mesh) {
 			return false;
 		}
 
-		// Meshが参照しているMaterialを取得できない場合は、通常描画へ戻します。
-		const auto materialIt = materials.find(mesh->GetUseMaterial());
-		if (materialIt == materials.end() || !materialIt->second) {
-			return false;
+		AOENGINE::ModelInstancingRenderer::InstanceSource instance;
+		instance.transform = transform;
+		instance.materials.resize(model->GetMaterialSlotCount());
+		for (uint32_t materialSlot = 0; materialSlot < model->GetMaterialSlotCount(); ++materialSlot) {
+			const AOENGINE::BaseMaterial* slotMaterial = object.GetMaterial(materialSlot);
+			const AOENGINE::Material* material = dynamic_cast<const AOENGINE::Material*>(slotMaterial);
+			if (!material || material->GetShaderType() != MaterialShaderType::UniversalRender) {
+				return false;
+			}
+			instance.materials[materialSlot] = AOENGINE::ModelInstancingRenderer::InstanceSource::MaterialSource{
+				.material = &material->GetMaterialData(),
+				.albedoTextureIndex = AOENGINE::TextureManager::GetInstance()->GetTextureDescriptorIndex(material->GetAlbedoTexture())
+			};
 		}
 
-		// 現在のInstancing PSはMaterial用の構造体だけに対応しているため、PBR/ShaderGraphは対象外です。
-		const AOENGINE::Material* material = dynamic_cast<const AOENGINE::Material*>(materialIt->second.get());
-		if (!material || material->GetShaderType() != MaterialShaderType::UniversalRender) {
-			return false;
+		for (uint32_t subMeshIndex = 0; subMeshIndex < mesh->GetSubMeshCount(); ++subMeshIndex) {
+			const AOENGINE::SubMesh& subMesh = mesh->GetSubMesh(subMeshIndex);
+			if (subMesh.topology != D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST || subMesh.materialSlot >= instance.materials.size()) {
+				return false;
+			}
 		}
 
-		// Texture差分はSRV heap indexとしてinstanceごとに持たせます。
-		pendingMeshes.push_back(PendingMesh{
-			.mesh = mesh,
-			.materialData = &material->GetMaterialData(),
-			.albedoTextureIndex = AOENGINE::TextureManager::GetInstance()->GetTextureDescriptorIndex(material->GetAlbedoTexture())
-		});
-	}
+		if (isSkinned) {
+			const AOENGINE::Animator* animator = object.GetAnimator();
+			const AOENGINE::Skinning* skinning = animator ? animator->GetSkinning(index) : nullptr;
+			if (!skinning) { return false; }
 
-	for (const PendingMesh& pending : pendingMeshes) {
+			AOENGINE::ModelInstancingRenderer::NormalBatch batch;
+			batch.mesh = mesh;
+			batch.vertexBufferView = skinning->GetVBV();
+			batch.useVertexBufferOverride = true;
+			batch.instances.push_back(std::move(instance));
+			batches.push_back(std::move(batch));
+			continue;
+		}
+
 		auto batchIt = std::find_if(
 			batches.begin(),
 			batches.end(),
-			[&pending](const AOENGINE::ModelInstancingRenderer::NormalBatch& batch) {
-				// Material/Texture差分はinstance dataへ入るため、batchはMesh単位でまとめます。
-				return batch.mesh == pending.mesh;
+			[mesh](const AOENGINE::ModelInstancingRenderer::NormalBatch& batch) {
+				return batch.mesh == mesh && !batch.useVertexBufferOverride;
 			});
 
 		if (batchIt == batches.end()) {
 			AOENGINE::ModelInstancingRenderer::NormalBatch batch;
-			batch.mesh = pending.mesh;
+			batch.mesh = mesh;
 			batches.push_back(std::move(batch));
 			batchIt = std::prev(batches.end());
 		}
 
-		batchIt->instances.push_back(AOENGINE::ModelInstancingRenderer::InstanceSource{
-			.transform = transform,
-			.material = pending.materialData,
-			.albedoTextureIndex = pending.albedoTextureIndex
-		});
+		batchIt->instances.push_back(std::move(instance));
 	}
 
 	return true;
