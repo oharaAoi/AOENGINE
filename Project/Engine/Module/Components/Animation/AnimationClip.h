@@ -156,14 +156,14 @@ private:
 	// -------------------------------------------------
 	// ↓ アニメーションの遷移に関する変数
 	// -------------------------------------------------
-	bool isAnimationChange_;			// アニメーションの遷移を行うか
-	float blendFactor_;					// 補完の線形代数
-	float blendSpeed_;
+	bool isAnimationChange_ = false;	// アニメーションの遷移を行うか
+	float blendFactor_ = 0.0f;			// 補完の線形代数
+	float blendSpeed_ = 1.0f;
 	Animation lerpAnimetion_[2];		// 補完させるアニメーション
-	float lerpAnimationTime_[2];		// アニメーションさせるkeyTime
-	int lerpAnimationNamesIndex_[2];	// 
+	float lerpAnimationTime_[2] = { 0.0f, 0.0f };	// アニメーションさせるkeyTime
+	int lerpAnimationNamesIndex_[2] = { 0, 0 };		// 
 
-	bool isReservation_;				// Animationの予約をする
-	float startTransitionRaito_;		// 遷移を開始する割合
+	bool isReservation_ = false;		// Animationの予約をする
+	float startTransitionRaito_ = 0.0f;	// 遷移を開始する割合
 };
 }

@@ -37,7 +37,7 @@ public:
 	/// <param name="isSkinning">: スキニングを行うか</param>
 	/// <param name="isLoop">: animationのloopを行うか</param>
 	/// <param name="isControlScript">: animationをスクリプトで制御するか</param>
-	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model, bool isSkinning, bool isLoop, bool isControlScript);
+	void LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model);
 
 	/// <summary>
 	/// Animationを遷移させる
@@ -83,10 +83,6 @@ public:
 	// アニメーションの速度を設定する
 	void SetAnimationSpeed(float speed) { animationClip_->SetAnimationSpeed(speed); }
 
-	// animationの制御をスクリプトで行うかの取得・設定
-	const bool GetIsControlScript() const { return isControlScript_; }			// 取得
-	void SetIsControlScript(bool isControl) { isControlScript_ = isControl; }	// 設定
-
 	// skinningを行うかを取得
 	const bool GetIsSkinning() const { return isSkinning_; }
 
@@ -101,12 +97,12 @@ private:
 	std::vector<std::unique_ptr<Skinning>> skinning_;
 
 	bool isSkinning_ = true;
+	bool isLoop_ = false;
 
 	// -------------------------------------------------
 	// ↓ Animationの遷移に関する変数
 	// -------------------------------------------------
-	bool isControlScript_ = false;
-
+	
 	float transitionTime_ = 0.0f;
 };
 

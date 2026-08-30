@@ -44,6 +44,7 @@ void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object)
 	}
 
 	if (ImGui::BeginPopup("AddComponentPopup")) {
+		// 物理挙動
 		if (ImGui::BeginMenu("Physics")) {
 			if (ImGui::MenuItem("Box Collider")) {
 				object.SetCollider("Default", ColliderShape::AABB);
@@ -56,6 +57,13 @@ void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object)
 			}
 			ImGui::EndMenu();
 		}
+
+		// アニメーション
+		const bool canAddAnimator = object.GetModel() != nullptr && object.GetAnimator() == nullptr;
+		if (ImGui::MenuItem("Animator", nullptr, false, canAddAnimator)) {
+			object.SetAnimator();
+		}
+
 		ImGui::EndPopup();
 	}
 }

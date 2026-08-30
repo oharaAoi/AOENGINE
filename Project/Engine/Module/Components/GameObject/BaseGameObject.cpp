@@ -76,27 +76,17 @@ void BaseGameObject::Update() {
 		return;
 	}
 
-	// アニメーションの制御をスクリプトで行っていない場合
-	if (!animetor_->GetIsControlScript()) {
-		animetor_->Update();
+	animetor_->Update();
 
-		if (animetor_->GetIsSkinning()) {
-			Engine::SetPipelineCS("Skinning.json");
-			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
-				Engine::SetSkinning(animetor_->GetSkinning(index));
-			}
-		} else {
-			UpdateMatrix();
-			transform_->Update(animetor_->GetAnimationMat());
-			return;
+	if (animetor_->GetIsSkinning()) {
+		Engine::SetPipelineCS("Skinning.json");
+		for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+			Engine::SetSkinning(animetor_->GetSkinning(index));
 		}
-	} else { 
-		if (animetor_->GetIsSkinning()) {
-			Engine::SetPipelineCS("Skinning.json");
-			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
-				Engine::SetSkinning(animetor_->GetSkinning(index));
-			}
-		}
+	} else {
+		UpdateMatrix();
+		transform_->Update(animetor_->GetAnimationMat());
+		return;
 	}
 
 	UpdateMatrix();
@@ -323,9 +313,22 @@ void BaseGameObject::SetParent(BaseGameObject* parent) {
 // ↓　アニメーションを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript) {
+void BaseGameObject::SetAnimator() {
+	if (model_ == nullptr || animetor_ != nullptr) {
+		return;
+	}
+
+	const std::string modelName = model_->GetName();
+	SetAnimator(ModelManager::GetInstance()->GetModelPath(modelName), modelName);
+}
+
+void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::string& objName) {
+	if (model_ == nullptr) {
+		return;
+	}
+
 	animetor_ = std::make_unique<Animator>();
-	animetor_->LoadAnimation(directoryPath, objName, model_, isSkinning, isLoop, isControlScript);
+	animetor_->LoadAnimation(directoryPath, objName, model_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

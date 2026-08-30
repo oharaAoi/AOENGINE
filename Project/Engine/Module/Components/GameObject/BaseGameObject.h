@@ -128,7 +128,12 @@ public: // accessor method
 	// ↓ Animation関連
 	// -------------------------------------------------
 
-	void SetAnimator(const std::string& directoryPath, const std::string& objName, bool isSkinning, bool isLoop, bool isControlScript);
+	/// <summary>
+	/// 現在設定されているModelとその読み込み元からAnimatorを設定する。
+	/// </summary>
+	void SetAnimator();
+
+	void SetAnimator(const std::string& directoryPath, const std::string& objName);
 
 	AOENGINE::Animator* GetAnimator() { return animetor_.get(); }
 	const AOENGINE::Animator* GetAnimator() const { return animetor_.get(); }

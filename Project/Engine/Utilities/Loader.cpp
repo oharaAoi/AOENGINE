@@ -346,12 +346,18 @@ std::unordered_map<std::string, Animation> LoadAnimation(const std::string direc
 	AOENGINE::Logger::Log("[Load Animation] :" + animationFile + "]\n");
 
 	std::unordered_map<std::string, Animation> animationMap{};
+	uint32_t unnamedAnimationIndex = 0;
 
 	for (uint32_t animationIndex = 0; animationIndex < scene->mNumAnimations; ++animationIndex) {
 		// sceneからanimationの情報を取得する
 		aiAnimation* animationAssimp = scene->mAnimations[animationIndex];
 
 		std::string animationName = animationAssimp->mName.C_Str();										// animationの名前
+		if (animationName.empty()) {
+			do {
+				animationName = "Animation(" + std::to_string(unnamedAnimationIndex++) + ")";
+			} while (animationMap.contains(animationName));
+		}
 		Animation animationData{};																		// animationのデータ
 		animationData.duration = float(animationAssimp->mDuration / animationAssimp->mTicksPerSecond);	// 時間の単位を秒に変換
 		animationData.animationName = animationName;													// animatonの名前を取得

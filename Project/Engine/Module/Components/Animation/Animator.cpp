@@ -17,10 +17,7 @@ Animator::~Animator() {}
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Animator::Update() {
-	// scriptでanimationの時間を制御して入なかったら自動的に更新
-	if (!isControlScript_) {
-		animationClip_->Update();
-	}
+	animationClip_->Update();
 
 	// animationの遷移がなかったらそのままanimationさせる
 	if (isSkinning_) {
@@ -68,15 +65,12 @@ void Animator::UpdateSkinning() {
 // ↓　ファイル読み込み
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Animator::LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model, bool isSkinning, bool isLoop, bool isControlScript) {
-	isSkinning_ = isSkinning;
-	isControlScript_ = isControlScript;
-
+void Animator::LoadAnimation(const std::string& directoryPath, const std::string& fileName, AOENGINE::Model* model) {
 	// -------------------------------------------------
 	// ↓ animationのkeyframeを取得
 	// -------------------------------------------------
 	animationClip_ = std::make_unique<AnimationClip>();
-	animationClip_->Init(model->GetRootNodeName(), isSkinning_, isLoop);
+	animationClip_->Init(model->GetRootNodeName(), isSkinning_, isLoop_);
 	animationClip_->LoadAnimation(directoryPath, fileName);
 	
 	// -------------------------------------------------

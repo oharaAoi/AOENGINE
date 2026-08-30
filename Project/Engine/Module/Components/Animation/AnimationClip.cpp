@@ -21,9 +21,17 @@ void AnimationClip::Init(const std::string& rootName, bool isSkinning, bool isLo
 	isSkinnig_ = isSkinning;
 	isLoop_ = isLoop;
 
+	selectedAnimationIndex = 0;
+	animationTime_ = 0.0f;
+	isAnimationFinish_ = false;
+	isStop_ = false;
+	isReservation_ = false;
+	poseToAnimation_ = false;
 	isAnimationChange_ = false;
 	blendFactor_ = 0.0f;
 	blendSpeed_ = 1.0f;
+	lerpAnimationTime_[0] = 0.0f;
+	lerpAnimationTime_[1] = 0.0f;
 
 	lerpAnimationNamesIndex_[0] = 0;
 	lerpAnimationNamesIndex_[1] = 0;
@@ -80,16 +88,25 @@ void AnimationClip::Update() {
 
 void AnimationClip::LoadAnimation(const std::string directoryPath, const std::string& animationFile) {
 	animationFileName_ = animationFile;
-	// animationが登録されているかを確認
-	if (manager_->CheckAnimationMap(animationFile)) {
-		nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
-		animation_ = manager_->GetAnimation(animationFile, nowAnimationName_);
-	} else {
-		animation_ = manager_->LoadAnimationFile(directoryPath, animationFile);
-		nowAnimationName_ = manager_->GetAnimationFirstName(animationFile);
+	// animationが未登録ならファイルから読み込む
+	if (!manager_->CheckAnimationMap(animationFileName_)) {
+		manager_->LoadAnimationFile(directoryPath, animationFileName_);
 	}
 
-	animationNames_ = manager_->GetModelHaveAnimationNames(animationFile);
+	animationNames_ = manager_->GetModelHaveAnimationNames(animationFileName_);
+	if (animationNames_.empty()) {
+		throw std::runtime_error("No animations found: " + animationFileName_);
+	}
+
+	const std::string& animationName = animationNames_.front();
+	animation_ = manager_->GetAnimation(animationFileName_, animationName);
+	nowAnimationName_ = animationName;
+	selectedAnimationIndex = 0;
+	animationTime_ = 0.0f;
+	isAnimationFinish_ = false;
+	isAnimationChange_ = false;
+	isReservation_ = false;
+	poseToAnimation_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
