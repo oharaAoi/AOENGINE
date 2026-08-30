@@ -10,6 +10,8 @@
 
 using namespace AOENGINE;
 
+int Sprite::nextId_ = 0;
+
 namespace {
 
 const char* GetSpriteBlendName(Blend::BlendMode blendMode) {
@@ -33,7 +35,7 @@ const char* GetSpriteBlendName(Blend::BlendMode blendMode) {
 
 }
 
-Sprite::Sprite() {}
+Sprite::Sprite() : id_(nextId_++) {}
 Sprite::~Sprite() {
 	vertexData_ = nullptr;
 	indexData_ = nullptr;
@@ -150,7 +152,7 @@ void Sprite::Init(const std::string& textureName) {
 	fillMethod_ = FillMethod::Vertical;
 	fillStartingPoint_ = FillStartingPoint::Top;
 
-	isActive_ = true;
+	SetActive(true);
 	isDestroy_ = false;
 	isBackGround_ = false;
 }
@@ -191,7 +193,7 @@ void Sprite::Update() {
 // ↓　描画前処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Sprite::Draw(bool isBackGround) {
+void Sprite::DrawSprite(bool isBackGround) {
 	Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, saveParam_.psoName);
 	Math::Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
 	if (isBackGround) {
@@ -463,7 +465,7 @@ void AOENGINE::Sprite::Resize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::ApplyParam() {
-	isActive_ = saveParam_.isActive;
+	SetActive(saveParam_.isActive);
 	transform_->SetSRT(saveParam_.transform);
 	uvTransform_ = saveParam_.uvTransform;
 	textureName_ = saveParam_.textureName;
@@ -519,7 +521,7 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 		saveParam_.transform.scale.y * scaleY
 						 });
 
-	saveParam_.isActive = isActive_;
+	saveParam_.isActive = IsActive();
 	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;

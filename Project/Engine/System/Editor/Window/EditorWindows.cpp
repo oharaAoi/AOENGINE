@@ -333,13 +333,6 @@ void EditorWindows::SceneReset() {
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::EditorWindows::AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label) {
-#ifdef _DEVELOPMENT
-	attribute->SetName(label);
-	GetInstance()->GetObjectWindow()->AddAttributeGui(attribute, label);
-#endif
-}
-
 void AOENGINE::EditorWindows::AddPostProcessWindow([[maybe_unused]] AOENGINE::PostProcess* postProcess, [[maybe_unused]] const std::string& label) {
 #ifdef _DEVELOPMENT
 	GetInstance()->GetObjectWindow()->AddPostProcess(postProcess, label);

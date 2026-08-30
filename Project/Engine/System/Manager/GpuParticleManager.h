@@ -5,7 +5,8 @@
 #include "Engine/Render/GpuParticleRenderer.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
+#include "Engine/System/Scene/SceneWorld.h"
 
 namespace Math {
 class Frustum;
@@ -17,7 +18,7 @@ namespace AOENGINE {
 /// gpuParticleを管理しているクラス
 /// </summary>
 class GpuParticleManager :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::SceneObject {
 public:
 
 	GpuParticleManager() = default;
@@ -38,7 +39,8 @@ public:
 	// 描画処理
 	void Draw(const Math::Frustum& frustum) const;
 	// 編集処理
-	void Debug_Gui() override;
+	void Debug_Gui();
+	void RegisterSceneObjects(SceneWorld& sceneWorld);
 
 	/// <summary>
 	/// Emitterの作成
@@ -73,6 +75,7 @@ private:
 	std::list<std::unique_ptr<GpuParticleField>> fileds_;
 
 	const uint32_t instance_ = 640000;
+	SceneWorld* sceneWorld_ = nullptr;
 
 };
 

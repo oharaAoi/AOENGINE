@@ -1,7 +1,7 @@
 #pragma once
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 
 namespace AOENGINE {
 
@@ -9,7 +9,7 @@ namespace AOENGINE {
 /// GpuParticleが影響を受けるFieldクラス
 /// </summary>
 class GpuParticleField :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::SceneObject {
 public:
 
 	/// <summary>
@@ -40,7 +40,7 @@ public:
 public:
 
 	// 編集処理
-	void Debug_Gui() override;
+	void Debug_Gui();
 	// 初期化処理
 	void Init(uint32_t _instanceNum);
 	// 更新処理

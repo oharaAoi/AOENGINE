@@ -19,7 +19,6 @@ void ParticleManager::Finalize() {
 	emitterList_.clear();
 	particleUpdater_.Finalize();
 	particleRenderer_ = nullptr;
-	ClearChild();
 }
 
 void ParticleManager::Debug_Gui() {
@@ -36,7 +35,6 @@ void ParticleManager::Init() {
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(BaseParticles::kMaxParticles);
 
-	AOENGINE::EditorWindows::AddObjectWindow(this, "ParticleManager");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,7 +101,6 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 	particleUpdater_.Add(particlesFile);
 	particleUpdater_.SetRuntimeBlendMode(particlesFile, newParticles->GetBlendMode());
 	newParticles->SetParticlesList(particleUpdater_.GetParticles(particlesFile));
-	AddChild(newParticles.get());
 	return newParticles.get();
 }
 
@@ -114,7 +111,6 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 void ParticleManager::DeleteParticles(AOENGINE::BaseParticles* ptr) {
 	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
 		if (it->get() == ptr) {
-			DeleteChild(it->get()); // 削除時の追加処理
 			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
 		} else {
 			++it;

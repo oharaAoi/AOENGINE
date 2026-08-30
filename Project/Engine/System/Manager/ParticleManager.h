@@ -4,7 +4,7 @@
 #include "Engine/Lib/ParticlesData.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 #include "Engine/System/ParticleSystem/Particle/CpuParticleUpdater.h"
 
 namespace Math {
@@ -17,7 +17,7 @@ namespace AOENGINE {
 /// パーティクル管理クラス
 /// </summary>
 class ParticleManager :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::SceneObject {
 public:
 
 	/// <summary>
@@ -58,7 +58,7 @@ public:
 	// 描画処理
 	void Draw(const Math::Frustum& frustum) const;
 	// 編集処理
-	void Debug_Gui() override;
+	void Debug_Gui();
 
 public:
 

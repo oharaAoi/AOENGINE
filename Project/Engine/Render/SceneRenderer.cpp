@@ -96,8 +96,8 @@ void SceneRenderer::PostUpdate() {
 	RemoveInvalidRenderEntries();
 
 	// particleの更新
-	particleManager_->Update();
-	gpuParticleManager_->Update();
+	if (particleManager_->IsActive()) { particleManager_->Update(); }
+	if (gpuParticleManager_->IsActive()) { gpuParticleManager_->Update(); }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -155,8 +155,8 @@ void SceneRenderer::DrawSceneObjects() const {
 	modelInstancingRenderer_.DrawNormalBatches(normalInstancingBatches);
 
 	// particleの描画
-	particleManager_->Draw(cameraFrustum);
-	gpuParticleManager_->Draw(cameraFrustum);
+	if (particleManager_->IsActive()) { particleManager_->Draw(cameraFrustum); }
+	if (gpuParticleManager_->IsActive()) { gpuParticleManager_->Draw(cameraFrustum); }
 }
 
 void SceneRenderer::PostDraw() const {
@@ -324,6 +324,46 @@ bool SceneRenderer::MoveToRoot(const ObjectHandle& handle) {
 void SceneRenderer::DestroyObject(const ObjectHandle& handle) {
 	sceneWorld_.DestroyObject(handle);
 	RemoveInvalidRenderEntries();
+}
+
+BaseGameObject* SceneRenderer::DuplicateObject(BaseGameObject& source, const std::string& objectName) {
+	const RenderEntry* sourceEntry = nullptr;
+	for (const RenderEntry& entry : renderEntries_) {
+		if (entry.handle == source.GetHandle()) {
+			sourceEntry = &entry;
+			break;
+		}
+	}
+
+	if (!sourceEntry) {
+		return nullptr;
+	}
+
+	BaseGameObject* duplicate = AddObject<BaseGameObject>(
+		objectName, sourceEntry->renderingType, sourceEntry->renderQueue, sourceEntry->isPostDraw);
+	if (!duplicate) {
+		return nullptr;
+	}
+
+	if (source.GetModel()) {
+		duplicate->SetObject(source.GetModel()->GetName());
+	}
+	if (source.GetTransform()) {
+		duplicate->GetTransform()->SetSRT(source.GetTransform()->GetSRT());
+	}
+	duplicate->SetActive(source.IsActive());
+	duplicate->SetEnableShadow(source.GetEnableShadow());
+
+	if (source.GetAnimator() && duplicate->GetModel()) {
+		duplicate->SetAnimator();
+	}
+
+	const ObjectHandle parentHandle = sceneWorld_.GetParentHandle(source.GetHandle());
+	if (parentHandle.IsValid()) {
+		sceneWorld_.SetParent(duplicate->GetHandle(), parentHandle);
+	}
+
+	return duplicate;
 }
 
 void SceneRenderer::AddRenderEntry(const ObjectHandle& handle, const std::string& renderingName, int renderQueue, bool isPostDraw) {

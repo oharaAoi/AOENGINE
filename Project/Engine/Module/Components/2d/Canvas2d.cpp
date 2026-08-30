@@ -14,8 +14,8 @@ AOENGINE::Canvas2d::~Canvas2d() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Init() {
-	ClearChild();
-	spriteList_.clear();
+	isDestroy_ = false;
+	itemHandles_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -23,26 +23,12 @@ void AOENGINE::Canvas2d::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Update() {
-	// 生存確認
-	for (auto it = spriteList_.begin(); it != spriteList_.end(); ) {
-		if ((*it)->GetIsDestroy()) {
-			it = spriteList_.erase(it);
-		} else {
-			++it;
-		}
-	}
-
-	// ソートを行う
-	spriteList_.sort([](const std::unique_ptr<Sprite>& a, const std::unique_ptr<Sprite>& b) {
-		return a->GetRenderQueue() < b->GetRenderQueue();
-					 });
-
-	// 更新処理
-	for (auto& it : spriteList_) {
-		if (it->GetIsActive()) {
-			it->Update();
-		}
-	}
+	RemoveInvalidItems();
+	std::stable_sort(itemHandles_.begin(), itemHandles_.end(), [this](const ObjectHandle& a, const ObjectHandle& b) {
+		const Sprite* spriteA = sceneWorld_ ? sceneWorld_->FindObjectAs<Sprite>(a) : nullptr;
+		const Sprite* spriteB = sceneWorld_ ? sceneWorld_->FindObjectAs<Sprite>(b) : nullptr;
+		return spriteA && spriteB && spriteA->GetRenderQueue() < spriteB->GetRenderQueue();
+	});
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,9 +36,11 @@ void AOENGINE::Canvas2d::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Draw() const {
-	for (const auto& it : spriteList_) {
-		if (it->GetIsActive()) {
-			it->Draw();
+	if (!sceneWorld_) { return; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		const Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
+		if (sprite && sprite->IsActive()) {
+			sprite->Draw();
 		}
 	}
 }
@@ -62,9 +50,11 @@ void AOENGINE::Canvas2d::Draw() const {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::EditObject(const ImVec2& windowSize, const ImVec2& imagePos) {
-	for (const auto& it : spriteList_) {
-		if (it->GetIsActive()) {
-			it->GetTransform()->Manipulate(windowSize, imagePos);
+	if (!sceneWorld_) { return; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
+		if (sprite && sprite->IsActive()) {
+			sprite->GetTransform()->Manipulate(windowSize, imagePos);
 		}
 	}
 }
@@ -81,21 +71,26 @@ void AOENGINE::Canvas2d::Debug_Gui() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 Sprite* AOENGINE::Canvas2d::AddSprite(const std::string& textureName, const std::string& attributeName, int renderQueue) {
-	auto& newObj = spriteList_.emplace_back(std::make_unique<Sprite>());
-	newObj->Init(textureName);
-	newObj->SetName(attributeName);
-	newObj->SetRenderQueue(renderQueue);
-	AddChild(newObj.get());
-	return newObj.get();
+	if (!sceneWorld_) { return nullptr; }
+	auto ownedSprite = std::make_unique<Sprite>();
+	Sprite* sprite = ownedSprite.get();
+	if (!sceneWorld_->AddObject(std::move(ownedSprite), attributeName).IsValid()) { return nullptr; }
+	sprite->Init(textureName);
+	sprite->SetRenderQueue(renderQueue);
+	itemHandles_.push_back(sprite->GetHandle());
+	if (GetHandle().IsValid()) { sceneWorld_->SetParent(sprite->GetHandle(), GetHandle()); }
+	return sprite;
 }
 
 Text* AOENGINE::Canvas2d::AddText(const std::string& attributeName, const std::string& text, int renderQueue) {
-	auto& newObj = spriteList_.emplace_back(std::make_unique<Text>());
-	Text* newText = static_cast<Text*>(newObj.get());
+	if (!sceneWorld_) { return nullptr; }
+	auto ownedText = std::make_unique<Text>();
+	Text* newText = ownedText.get();
+	if (!sceneWorld_->AddObject(std::move(ownedText), attributeName).IsValid()) { return nullptr; }
 	newText->Init(text);
-	newText->SetName(attributeName);
 	newText->SetRenderQueue(renderQueue);
-	AddChild(newText);
+	itemHandles_.push_back(newText->GetHandle());
+	if (GetHandle().IsValid()) { sceneWorld_->SetParent(newText->GetHandle(), GetHandle()); }
 	return newText;
 }
 
@@ -104,18 +99,22 @@ Text* AOENGINE::Canvas2d::AddText(const std::string& attributeName, const std::s
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 AOENGINE::Sprite* AOENGINE::Canvas2d::GetSprite(const std::string& spriteName) {
-	for (auto& sprite : spriteList_) {
-		if (sprite->GetName() == spriteName) {
-			return sprite.get();
+	if (!sceneWorld_) { return nullptr; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
+		if (sprite && sprite->GetName() == spriteName) {
+			return sprite;
 		}
 	}
 	return nullptr;
 }
 
 AOENGINE::Text* AOENGINE::Canvas2d::GetText(const std::string& textName) {
-	for (auto& sprite : spriteList_) {
-		if (sprite->GetName() == textName && std::string(sprite->GetCanvasItemType()) == "Text") {
-			return dynamic_cast<Text*>(sprite.get());
+	if (!sceneWorld_) { return nullptr; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		Text* text = sceneWorld_->FindObjectAs<Text>(handle);
+		if (text && text->GetName() == textName) {
+			return text;
 		}
 	}
 	return nullptr;
@@ -126,8 +125,9 @@ AOENGINE::Text* AOENGINE::Canvas2d::GetText(const std::string& textName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::ResizeSprite() {
-	for (const auto& it : spriteList_) {
-		it->Resize();
+	if (!sceneWorld_) { return; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		if (Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle)) { sprite->Resize(); }
 	}
 }
 
@@ -137,8 +137,10 @@ void AOENGINE::Canvas2d::ResizeSprite() {
 
 void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
 	json sceneData;
-	for (const auto& it : spriteList_) {
-		Sprite* sprite = it.get();
+	if (!sceneWorld_) { return; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
+		if (!sprite) { continue; }
 		std::string spriteName = sprite->GetName();
 
 		// dataの保存
@@ -155,6 +157,24 @@ void AOENGINE::Canvas2d::Save(const std::string& sceneName) {
 		AOENGINE::Logger::Log("Save_Canvas");
 	} else {
 		AOENGINE::Logger::AssertLog("Do Not Save Canvas");
+	}
+}
+
+void AOENGINE::Canvas2d::RemoveInvalidItems() {
+	if (!sceneWorld_) {
+		itemHandles_.clear();
+		return;
+	}
+	std::erase_if(itemHandles_, [this](const ObjectHandle& handle) {
+		return !sceneWorld_->IsValid(handle);
+	});
+}
+
+void AOENGINE::Canvas2d::AttachItemsToCanvas() {
+	if (!sceneWorld_ || !GetHandle().IsValid()) { return; }
+	RemoveInvalidItems();
+	for (const ObjectHandle& handle : itemHandles_) {
+		sceneWorld_->SetParent(handle, GetHandle());
 	}
 }
 

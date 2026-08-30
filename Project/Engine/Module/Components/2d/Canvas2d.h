@@ -1,10 +1,10 @@
 #pragma once
-#include <list>
-#include <memory>
+#include <vector>
 #include <string>
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/2d/Text.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
+#include "Engine/System/Scene/SceneWorld.h"
 
 namespace AOENGINE {
 
@@ -12,7 +12,7 @@ namespace AOENGINE {
 /// Spriteをまとめたクラス
 /// </summary>
 class Canvas2d :
-	public AttributeGui {
+	public ISceneObject {
 public: // constructor
 
 	Canvas2d() = default;
@@ -23,17 +23,20 @@ public: // public method
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Init();
+	void Init() override;
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update() override;
+	void PostUpdate() override {}
+	void PreDraw() const override {}
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw() const;
+	void Draw() const override;
+	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) override { EditObject(windowSize, imagePos); }
 
 	/// <summary>
 	/// spriteの編集する
@@ -50,7 +53,7 @@ public: // public method
 	/// <summary>
 	/// 編集項目
 	/// </summary>
-	void Debug_Gui() override;
+	void Debug_Gui();
 
 	/// <summary>
 	/// 保存処理
@@ -78,10 +81,14 @@ public: // accessor
 
 	AOENGINE::Sprite* GetSprite(const std::string& spriteName);
 	AOENGINE::Text* GetText(const std::string& textName);
+	void SetSceneWorld(SceneWorld* sceneWorld) { sceneWorld_ = sceneWorld; }
+	void AttachItemsToCanvas();
 
 private: // private variable
 
-	std::list<std::unique_ptr<AOENGINE::Sprite>> spriteList_;
+	void RemoveInvalidItems();
+	std::vector<ObjectHandle> itemHandles_;
+	SceneWorld* sceneWorld_ = nullptr;
 
 };
 }

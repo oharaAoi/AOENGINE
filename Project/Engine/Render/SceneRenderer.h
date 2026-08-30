@@ -134,6 +134,11 @@ public:
 	bool MoveToRoot(const ObjectHandle& handle);
 	void DestroyObject(const ObjectHandle& handle);
 
+	/// <summary>
+	/// BaseGameObjectを同じ描画設定と親の下へ複製します。
+	/// </summary>
+	BaseGameObject* DuplicateObject(BaseGameObject& source, const std::string& objectName);
+
 	SceneWorld& GetSceneWorld() { return sceneWorld_; }
 	const SceneWorld& GetSceneWorld() const { return sceneWorld_; }
 

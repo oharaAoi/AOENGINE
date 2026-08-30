@@ -9,7 +9,8 @@
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/Module/Components/Attribute/AttributeGui.h"
+#include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/Module/Components/GameObject/ISceneObject.h"
 #include "Engine/Module/Components/2d/ScreenTransform.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 
@@ -148,7 +149,7 @@ struct SpriteParameter : public AOENGINE::IJsonConverter {
 /// 2d描画
 /// </summary>
 class Sprite :
-	public AOENGINE::AttributeGui {
+	public AOENGINE::ISceneObject {
 public: // data
 
 	/// <summary>
@@ -183,6 +184,7 @@ public: // constructor
 
 	Sprite();
 	virtual ~Sprite();
+	void Init() override { Init("white.png"); }
 
 public: // public method
 
@@ -198,12 +200,16 @@ public: // public method
 	/// <param name="rectRange">: 描画する範囲</param>
 	/// <param name="leftTop">: 左上座標</param>
 	virtual void Update();
+	void PostUpdate() override {}
+	void PreDraw() const override {}
 
 	/// <summary>
 	/// 描画
 	/// </summary>
 	/// <param name="isBackGround">: バックグラウンド描画を行うか</param>
-	virtual void Draw(bool isBackGround = false);
+	virtual void DrawSprite(bool isBackGround = false);
+	void Draw() const override { const_cast<Sprite*>(this)->DrawSprite(); }
+	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) override { transform_->Manipulate(windowSize, imagePos); }
 
 	/// <summary>
 	/// 描画
@@ -214,7 +220,7 @@ public: // public method
 	/// <summary>
 	/// 編集処理
 	/// </summary>
-	void Debug_Gui() override;
+	virtual void Debug_Gui();
 
 	/// <summary>
 	/// 大きさや位置を調整する
@@ -222,6 +228,9 @@ public: // public method
 	virtual void Resize();
 
 public: // accessor
+	void SetIsActive(bool isActive) { SetActive(isActive); }
+	bool GetIsActive() const { return IsActive(); }
+	int GetID() const { return id_; }
 
 	AOENGINE::ScreenTransform* GetTransform() const { return transform_.get(); }
 
@@ -291,9 +300,6 @@ public: // accessor
 	AOENGINE::ArcGaugeParam GetArcGaugeParam() const;
 	void SetArcGaugeParam(const AOENGINE::ArcGaugeParam& parameter);
 
-	void SetIsDestroy(bool isDestroy) { isDestroy_ = isDestroy; }
-	bool GetIsDestroy() const { return isDestroy_; }
-
 	void SetIsBackGround(bool _isBackGround) { isBackGround_ = _isBackGround; }
 	bool GetIsBackGround() const { return isBackGround_; }
 
@@ -318,11 +324,12 @@ public: // accessor
 
 private: // private variable
 
-	bool isDestroy_;
 	bool isBackGround_;
 	bool isFront_;
 	
 	int renderQueue_ = 0;
+	int id_ = 0;
+	static int nextId_;
 
 	// -------------------
 	// DirectX関連

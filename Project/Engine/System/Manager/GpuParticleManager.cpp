@@ -44,6 +44,7 @@ void GpuParticleManager::Update() {
 	AOENGINE::GraphicsContext* ctx = AOENGINE::GraphicsContext::GetInstance();
 	ID3D12GraphicsCommandList*  commandList = ctx->GetCommandList();
 	for (auto& field : fileds_) {
+		if (!field->IsActive()) { continue; }
 		field->Update();
 		field->Execute(commandList);
 	}
@@ -85,7 +86,6 @@ GpuParticleEmitter* GpuParticleManager::CreateEmitter(const std::string& particl
 	newParticles->SetFreeListIndexHandle(renderer_->GetFreeListIndexHandle());
 	newParticles->SetFreeListHandle(renderer_->GetFreeListHandle());
 	newParticles->SetMaxParticleResource(renderer_->GetMaxBufferResource());
-	AddChild(newParticles.get());
 	return newParticles.get();
 }
 
@@ -95,14 +95,16 @@ GpuParticleField* GpuParticleManager::CreateField(const std::string& particlesFi
 	field->SetName(particlesFile);
 	field->SetParticleResourceHandle(renderer_->GetResourceHandle());
 	field->SetMaxParticleResource(renderer_->GetMaxBufferResource());
-	AddChild(field.get());
+	if (sceneWorld_) {
+		sceneWorld_->AddExternalObject(*field, particlesFile);
+		sceneWorld_->SetParent(field->GetHandle(), GetHandle());
+	}
 	return field.get();
 }
 
 void GpuParticleManager::DeleteEmitter(GpuParticleEmitter* _emitter) {
 	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
 		if (it->get() == _emitter) {
-			DeleteChild(it->get()); // 削除時の追加処理
 			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
 		} else {
 			++it;
@@ -115,5 +117,18 @@ void GpuParticleManager::AddEmitter(GpuParticleEmitter* _emitter) {
 	_emitter->SetFreeListIndexHandle(renderer_->GetFreeListIndexHandle());
 	_emitter->SetFreeListHandle(renderer_->GetFreeListHandle());
 	_emitter->SetMaxParticleResource(renderer_->GetMaxBufferResource());
-	AddChild(_emitter);
+}
+
+void GpuParticleManager::RegisterSceneObjects(SceneWorld& sceneWorld) {
+	sceneWorld_ = &sceneWorld;
+	if (!sceneWorld.IsValid(GetHandle()) || sceneWorld.FindObject(GetHandle()) != this) {
+		sceneWorld.AddExternalObject(*this, "GpuParticleManager");
+	}
+
+	for (const auto& field : fileds_) {
+		if (!sceneWorld.IsValid(field->GetHandle()) || sceneWorld.FindObject(field->GetHandle()) != field.get()) {
+			sceneWorld.AddExternalObject(*field, field->GetName());
+		}
+		sceneWorld.SetParent(field->GetHandle(), GetHandle());
+	}
 }

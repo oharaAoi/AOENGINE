@@ -7,71 +7,12 @@
 #include "Engine/System/Editor/Inspector/Entity/SpriteInspector.h"
 #include "Engine/System/Editor/Inspector/Entity/TextInspector.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
 #include "Engine/Core/Engine.h"
 
 using namespace AOENGINE;
-
-AttributeGuiSceneObject::AttributeGuiSceneObject(AOENGINE::AttributeGui* attribute)
-	: attribute_(attribute) {}
-
-void AttributeGuiSceneObject::Init() {
-	isDestroy_ = false;
-	SyncFromAttribute();
-}
-
-void AttributeGuiSceneObject::Update() {
-	SyncFromAttribute();
-}
-
-void AttributeGuiSceneObject::PostUpdate() {}
-
-void AttributeGuiSceneObject::PreDraw() const {}
-
-void AttributeGuiSceneObject::Draw() const {}
-
-void AttributeGuiSceneObject::Manipulate([[maybe_unused]] const ImVec2& windowSize, [[maybe_unused]] const ImVec2& imagePos) {}
-
-void AttributeGuiSceneObject::DrawInspector() {
-	if (!attribute_) {
-		ImGui::TextUnformatted("No attribute registered");
-		return;
-	}
-
-	if (AOENGINE::Text* text = dynamic_cast<AOENGINE::Text*>(attribute_)) {
-		AOENGINE::TextInspector::Draw(*text);
-		return;
-	}
-
-	if (AOENGINE::Sprite* sprite = dynamic_cast<AOENGINE::Sprite*>(attribute_)) {
-		AOENGINE::SpriteInspector::Draw(*sprite);
-		return;
-	}
-
-	attribute_->Debug_Gui();
-}
-
-void AttributeGuiSceneObject::SyncFromAttribute() {
-	if (!attribute_) {
-		return;
-	}
-
-	SetName(attribute_->GetName());
-	SetActive(attribute_->GetIsActive());
-}
-
-void AttributeGuiSceneObject::SetAttributeName(const std::string& name) {
-	SetName(name);
-	if (attribute_) {
-		attribute_->SetName(name);
-	}
-}
-
-void AttributeGuiSceneObject::SetAttributeActive(bool isActive) {
-	SetActive(isActive);
-	if (attribute_) {
-		attribute_->SetIsActive(isActive);
-	}
-}
 
 PostProcessSceneObject::PostProcessSceneObject(AOENGINE::PostProcess* postProcess)
 	: postProcess_(postProcess) {}
@@ -102,8 +43,8 @@ GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
 	selectedObjectHandle_ = ObjectHandle{};
-	registeredAttributes_.clear();
-	attributeObjectHandles_.clear();
+	pendingDeleteHandle_ = ObjectHandle{};
+	pendingDuplicateHandle_ = ObjectHandle{};
 	postProcessObjectHandle_ = ObjectHandle{};
 	postEffectObjectHandles_.clear();
 }
@@ -111,19 +52,6 @@ void GameObjectWindow::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Objectの追加
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-void GameObjectWindow::AddAttributeGui(AOENGINE::AttributeGui* attribute, const std::string& label) {
-	if (!attribute) {
-		return;
-	}
-
-	attribute->SetName(label);
-	if (!HasRegisteredAttribute(attribute)) {
-		registeredAttributes_.push_back(attribute);
-	}
-
-	EnsureAttributeGuiObjects();
-}
 
 void GameObjectWindow::AddPostProcess(AOENGINE::PostProcess* postProcess, const std::string& label) {
 	if (!postProcess) {
@@ -140,13 +68,35 @@ void GameObjectWindow::AddPostProcess(AOENGINE::PostProcess* postProcess, const 
 }
 
 void GameObjectWindow::SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) {
-	if (sceneRenderer_ != _renderer) {
-		attributeObjectHandles_.clear();
-	}
-
 	sceneRenderer_ = _renderer;
-	EnsureAttributeGuiObjects();
+	EnsureCanvasObject();
+	EnsureParticleObjects();
 	EnsurePostProcessObjects();
+}
+
+void GameObjectWindow::EnsureParticleObjects() {
+	if (!sceneRenderer_) { return; }
+	SceneWorld& world = sceneRenderer_->GetSceneWorld();
+	ParticleManager* particleManager = ParticleManager::GetInstance();
+	if (!world.IsValid(particleManager->GetHandle()) || world.FindObject(particleManager->GetHandle()) != particleManager) {
+		world.AddExternalObject(*particleManager, "ParticleManager");
+	}
+	GpuParticleManager::GetInstance()->RegisterSceneObjects(world);
+}
+
+void GameObjectWindow::SetCanvas2d(AOENGINE::Canvas2d* canvas) {
+	canvas2d_ = canvas;
+	EnsureCanvasObject();
+}
+
+void GameObjectWindow::EnsureCanvasObject() {
+	if (!sceneRenderer_ || !canvas2d_) { return; }
+	SceneWorld& world = sceneRenderer_->GetSceneWorld();
+	canvas2d_->SetSceneWorld(&world);
+	if (!world.IsValid(canvas2d_->GetHandle()) || world.FindObject(canvas2d_->GetHandle()) != canvas2d_) {
+		world.AddExternalObject(*canvas2d_, "Canvas2d");
+	}
+	canvas2d_->AttachItemsToCanvas();
 }
 
 void GameObjectWindow::EnsurePostProcessObjects() {
@@ -192,61 +142,6 @@ void GameObjectWindow::EnsurePostProcessObjects() {
 		effectObject->SetName(PostProcess::GetEffectName(type));
 		sceneRenderer_->SetParent(effectObject->GetHandle(), postProcessObjectHandle_);
 	}
-}
-
-void GameObjectWindow::EnsureAttributeGuiObjects() {
-	if (!sceneRenderer_) {
-		return;
-	}
-
-	for (AOENGINE::AttributeGui* attribute : registeredAttributes_) {
-		EnsureAttributeGuiObjectRecursive(attribute, AOENGINE::ObjectHandle{});
-	}
-}
-
-AOENGINE::ObjectHandle GameObjectWindow::EnsureAttributeGuiObjectRecursive(AOENGINE::AttributeGui* attribute, const AOENGINE::ObjectHandle& parentHandle) {
-	if (!attribute || !sceneRenderer_) {
-		return AOENGINE::ObjectHandle{};
-	}
-
-	AttributeGuiSceneObject* attributeObject = nullptr;
-	AOENGINE::ObjectHandle handle{};
-
-	auto handleIt = attributeObjectHandles_.find(attribute);
-	if (handleIt != attributeObjectHandles_.end()) {
-		attributeObject = dynamic_cast<AttributeGuiSceneObject*>(sceneRenderer_->FindObject(handleIt->second));
-		if (attributeObject && attributeObject->GetAttribute() == attribute) {
-			handle = handleIt->second;
-			attributeObject->SyncFromAttribute();
-		}
-	}
-
-	if (!attributeObject) {
-		attributeObject = sceneRenderer_->GetSceneWorld().CreateObject<AttributeGuiSceneObject>(attribute->GetName(), attribute);
-		if (!attributeObject) {
-			attributeObjectHandles_.erase(attribute);
-			return AOENGINE::ObjectHandle{};
-		}
-
-		handle = attributeObject->GetHandle();
-		attributeObjectHandles_[attribute] = handle;
-	}
-
-	if (parentHandle.IsValid()) {
-		sceneRenderer_->SetParent(handle, parentHandle);
-	} else {
-		sceneRenderer_->MoveToRoot(handle);
-	}
-
-	for (AOENGINE::AttributeGui* child : attribute->GetChildren()) {
-		EnsureAttributeGuiObjectRecursive(child, handle);
-	}
-
-	return handle;
-}
-
-bool GameObjectWindow::HasRegisteredAttribute(AOENGINE::AttributeGui* attribute) const {
-	return std::find(registeredAttributes_.begin(), registeredAttributes_.end(), attribute) != registeredAttributes_.end();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -322,21 +217,20 @@ void GameObjectWindow::InspectorWindow() {
 	ImGui::Begin("Inspector");
 	SceneObject* selectedObject = GetSelectObject();
 	if (selectedObject != nullptr) {
-		AttributeGuiSceneObject* attributeObject = dynamic_cast<AttributeGuiSceneObject*>(selectedObject);
+		Sprite* canvasItem = dynamic_cast<Sprite*>(selectedObject);
+		ParticleManager* particleManager = dynamic_cast<ParticleManager*>(selectedObject);
+		GpuParticleManager* gpuParticleManager = dynamic_cast<GpuParticleManager*>(selectedObject);
+		GpuParticleField* gpuParticleField = dynamic_cast<GpuParticleField*>(selectedObject);
 		PostProcessSceneObject* postProcessObject = dynamic_cast<PostProcessSceneObject*>(selectedObject);
 		PostEffectSceneObject* postEffectObject = dynamic_cast<PostEffectSceneObject*>(selectedObject);
 		std::shared_ptr<PostEffect::IPostEffect> selectedEffect = postEffectObject ? postEffectObject->ResolveEffect() : nullptr;
 
 		bool isActive = selectedEffect
 			? selectedEffect->GetIsEnable()
-			: attributeObject && attributeObject->GetAttribute()
-			? attributeObject->GetAttribute()->GetIsActive()
 			: selectedObject->IsActive();
 		if (!postProcessObject && ImGui::Checkbox(" ", &isActive)) {
 			if (selectedEffect) {
 				selectedEffect->SetIsEnable(isActive);
-			} else if (attributeObject) {
-				attributeObject->SetAttributeActive(isActive);
 			} else {
 				selectedObject->SetActive(isActive);
 			}
@@ -344,23 +238,23 @@ void GameObjectWindow::InspectorWindow() {
 		if (!postProcessObject) {
 			ImGui::SameLine();
 		}
-		std::string selectName = attributeObject && attributeObject->GetAttribute()
-			? attributeObject->GetAttribute()->GetName()
-			: selectedObject->GetName();
+		std::string selectName = selectedObject->GetName();
 		if (postProcessObject || postEffectObject) {
 			ImGui::TextUnformatted(selectName.c_str());
 		} else if (InputTextWithString("Name :", "##selectName", selectName)) {
 			const std::string uniqueName = MakeUniqueName(selectName, selectedObject);
-			if (attributeObject) {
-				attributeObject->SetAttributeName(uniqueName);
-			} else {
-				selectedObject->SetName(uniqueName);
-			}
+			selectedObject->SetName(uniqueName);
 		}
 
 		ImGui::Separator();
-		if (attributeObject) {
-			attributeObject->DrawInspector();
+		if (canvasItem) {
+			canvasItem->Debug_Gui();
+		} else if (particleManager) {
+			particleManager->Debug_Gui();
+		} else if (gpuParticleManager) {
+			gpuParticleManager->Debug_Gui();
+		} else if (gpuParticleField) {
+			gpuParticleField->Debug_Gui();
 		} else if (!InspectorRegistry::GetInstance().DrawObject(*selectedObject)) {
 			ImGui::TextUnformatted("No inspector registered");
 		}
@@ -382,7 +276,8 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 	if (ImGui::Begin("Hierarchy", nullptr, window_flags)) {
 		// objectの追加表示
 		CreateNewObjectWindow();
-		EnsureAttributeGuiObjects();
+		EnsureCanvasObject();
+		EnsureParticleObjects();
 		EnsurePostProcessObjects();
 
 		if (sceneRenderer_) {
@@ -392,6 +287,7 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 					DrawHierarchyObject(*object);
 				}
 			}
+			ApplyPendingHierarchyAction();
 		}
 		ImGui::End();
 	}
@@ -431,9 +327,8 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 					sceneRenderer_->EditObject(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
 				}
 			} else {
-				AttributeGuiSceneObject* attributeObject = dynamic_cast<AttributeGuiSceneObject*>(GetSelectObject());
-				Sprite* sprite = attributeObject ? dynamic_cast<Sprite*>(attributeObject->GetAttribute()) : nullptr;
-				if (sprite && sprite->GetIsActive()) {
+				Sprite* sprite = dynamic_cast<Sprite*>(GetSelectObject());
+				if (sprite && sprite->IsActive()) {
 					sprite->GetTransform()->Manipulate(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
 				}
 			}
@@ -447,10 +342,6 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　Objectの削除
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-void AOENGINE::GameObjectWindow::DeleteObject(AOENGINE::AttributeGui* attribute) {
-	(void)attribute;
-}
 
 SceneObject* AOENGINE::GameObjectWindow::GetSelectObject() const {
 	if (!sceneRenderer_) {
@@ -479,6 +370,7 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 		if (ImGui::IsItemClicked()) {
 			selectedObjectHandle_ = handle;
 		}
+		DrawHierarchyContextMenu(object);
 		return;
 	}
 
@@ -486,6 +378,7 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 	if (ImGui::IsItemClicked()) {
 		selectedObjectHandle_ = handle;
 	}
+	DrawHierarchyContextMenu(object);
 
 	if (!opened) {
 		return;
@@ -498,6 +391,75 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 	}
 
 	ImGui::TreePop();
+}
+
+void AOENGINE::GameObjectWindow::DrawHierarchyContextMenu(SceneObject& object) {
+	if (!ImGui::BeginPopupContextItem()) {
+		return;
+	}
+
+	const bool canEdit = dynamic_cast<BaseGameObject*>(&object) != nullptr || dynamic_cast<Sprite*>(&object) != nullptr;
+	if (ImGui::MenuItem("Duplicate", nullptr, false, canEdit)) {
+		pendingDuplicateHandle_ = object.GetHandle();
+	}
+	if (ImGui::MenuItem("Delete", nullptr, false, canEdit)) {
+		pendingDeleteHandle_ = object.GetHandle();
+	}
+
+	ImGui::EndPopup();
+}
+
+void AOENGINE::GameObjectWindow::ApplyPendingHierarchyAction() {
+	if (!sceneRenderer_) {
+		return;
+	}
+
+	if (pendingDuplicateHandle_.IsValid()) {
+		BaseGameObject* source = dynamic_cast<BaseGameObject*>(sceneRenderer_->FindObject(pendingDuplicateHandle_));
+		if (source) {
+			const std::string duplicateName = MakeUniqueName(source->GetName());
+			if (BaseGameObject* duplicate = sceneRenderer_->DuplicateObject(*source, duplicateName)) {
+				selectedObjectHandle_ = duplicate->GetHandle();
+			}
+		} else if (Sprite* sourceSprite = dynamic_cast<Sprite*>(sceneRenderer_->FindObject(pendingDuplicateHandle_))) {
+			const std::string duplicateName = MakeUniqueName(sourceSprite->GetName());
+			Sprite* duplicate = nullptr;
+			if (Text* sourceText = dynamic_cast<Text*>(sourceSprite)) {
+				Text* text = canvas2d_->AddText(duplicateName, sourceText->GetText(), sourceText->GetRenderQueue());
+				if (text) {
+					text->SetFontPath(sourceText->GetFontPath());
+					text->SetFontSize(sourceText->GetFontSize());
+					text->SetTextColor(sourceText->GetTextColor());
+					text->SetTextAnchorPoint(sourceText->GetTextAnchorPoint());
+					duplicate = text;
+				}
+			} else {
+				duplicate = canvas2d_->AddSprite(sourceSprite->GetTextureName(), duplicateName, sourceSprite->GetRenderQueue());
+				if (duplicate) {
+					duplicate->SetColor(sourceSprite->GetColor());
+					duplicate->SetDrawRange(sourceSprite->GetDrawRange());
+					duplicate->SetLeftTop(sourceSprite->GetLeftTop());
+					duplicate->SetAnchorPoint(sourceSprite->GetAnchorPoint());
+					duplicate->SetIsFlipX(sourceSprite->GetIsFlipX());
+					duplicate->SetIsFlipY(sourceSprite->GetIsFlipY());
+				}
+			}
+			if (duplicate) {
+				duplicate->GetTransform()->SetSRT(sourceSprite->GetTransform()->GetTransform());
+				duplicate->SetActive(sourceSprite->IsActive());
+				selectedObjectHandle_ = duplicate->GetHandle();
+			}
+		}
+		pendingDuplicateHandle_ = ObjectHandle{};
+	}
+
+	if (pendingDeleteHandle_.IsValid()) {
+		if (selectedObjectHandle_ == pendingDeleteHandle_) {
+			selectedObjectHandle_ = ObjectHandle{};
+		}
+		sceneRenderer_->DestroyObject(pendingDeleteHandle_);
+		pendingDeleteHandle_ = ObjectHandle{};
+	}
 }
 
 bool AOENGINE::GameObjectWindow::IsSelected(const ObjectHandle& handle) const {

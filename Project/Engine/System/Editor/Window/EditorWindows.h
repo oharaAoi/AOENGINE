@@ -38,7 +38,6 @@ public:
 	// 終了
 	void Finalize();
 
-	static void AddObjectWindow([[maybe_unused]] AOENGINE::AttributeGui* attribute, [[maybe_unused]] const std::string& label);
 	static void AddPostProcessWindow([[maybe_unused]] AOENGINE::PostProcess* postProcess, [[maybe_unused]] const std::string& label);
 
 #ifdef _DEVELOPMENT
