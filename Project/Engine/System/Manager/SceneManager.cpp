@@ -12,6 +12,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include <magic_enum/magic_enum.hpp>
 
 using namespace AOENGINE;
 
@@ -95,7 +96,9 @@ void SceneManager::Debug_Gui() {
 	D3D12_GPU_DESCRIPTOR_HANDLE handle = tex->GetDxHeapHandles("scene.png").handleGPU;
 	ImTextureID texID = reinterpret_cast<ImTextureID>(handle.ptr);
 	for (uint32_t index = 0; index < (uint32_t)SceneType::kMax; ++index) {
-		if (DrawImageButtonWithLabel(texID, kSceneTypeNames[index], ImVec2(32.f, 32.f))) {
+		SceneType type = static_cast<SceneType>(index);
+		auto name = magic_enum::enum_name(type);
+		if (DrawImageButtonWithLabel(texID, name.data(), ImVec2(32.f, 32.f))) {
 			isChange = true;
 			changeScene_ = static_cast<SceneType>(index);
 		}
@@ -129,7 +132,8 @@ void SceneManager::SetChange(const SceneType& type) {
 	}
 	nextScene_ = sceneFactory_->CreateScene(type);
 	scene_ = std::move(nextScene_);
-	scene_->SetSceneName(kSceneTypeNames[static_cast<size_t>(type)]);
+	auto name = magic_enum::enum_name(type);
+	scene_->SetSceneName(name.data());
 
 #ifdef _DEVELOPMENT
 	AOENGINE::EditorWindows::GetInstance()->SceneReset();
