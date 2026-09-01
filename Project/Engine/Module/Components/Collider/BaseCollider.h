@@ -54,6 +54,7 @@ public:
 	void DeletePartner(BaseCollider* partner);
 
 	void SetLocalPos(const Math::Vector3& pos) { localSRT_.translate = pos; }
+	const Math::Vector3& GetLocalPos() const { return localSRT_.translate; }
 
 	// --------------- 機能しているかの設定・取得 -------------- //
 	void SetIsActive(bool isActive) { isActive_ = isActive; }
@@ -73,6 +74,7 @@ public:
 	// --------------- maskの設定・取得 -------------- //
 	void SetTarget(const std::string& id);
 	void SetCollisionMaskBit(uint32_t bit) { collisionMaskBit_ |= bit; }
+	void SetCollisionMaskBits(uint32_t bits) { collisionMaskBit_ = bits; }
 	uint32_t GetCollisionMaskBit() const { return collisionMaskBit_; }
 
 	void SetCategory(const std::string& category);

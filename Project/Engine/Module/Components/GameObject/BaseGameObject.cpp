@@ -240,6 +240,9 @@ void BaseGameObject::AddCollider(BaseCollider* _collider, const std::string& cat
 }
 
 void BaseGameObject::SetPhysics() {
+	if (rigidbody_ != nullptr) {
+		return;
+	}
 	rigidbody_ = AddComponent<Rigidbody>();
 }
 

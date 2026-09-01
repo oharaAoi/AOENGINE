@@ -54,6 +54,8 @@ public:
 
 	void SetGravity(bool _isGravity) { isGravity_ = _isGravity; }
 	bool GetGravity() const { return isGravity_; }
+	void SetGravityAccel(const Math::Vector3& gravityAccel) { gravityAccel_ = gravityAccel; }
+	const Math::Vector3& GetGravityAccel() const { return gravityAccel_; }
 
 	void SetDrag(float _drag) { drag_ = _drag; }
 	float GetDrag() const { return drag_; }

@@ -5,6 +5,7 @@
             "active": true,
             "data": {
                 "animator": false,
+                "components": [],
                 "enableShadow": true,
                 "materials": [
                     {
@@ -83,7 +84,7 @@
                     1.0
                 ],
                 "translate": [
-                    0.0,
+                    -2.2948739528656006,
                     0.0,
                     0.0
                 ]
@@ -96,7 +97,17 @@
         {
             "active": true,
             "data": {
-                "animator": false,
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "Animation(0)",
+                        "animationTime": 12.249279022216797,
+                        "loop": true,
+                        "speed": 2.799999952316284,
+                        "stopped": false,
+                        "type": "Animator"
+                    }
+                ],
                 "enableShadow": true,
                 "materials": [
                     {

@@ -110,6 +110,7 @@ public:
 	void SetIsLoop(bool isLoop) { isLoop_ = isLoop; }	// 設定
 
 	const bool GetIsStop() const { return isStop_; }
+	void SetIsStop(bool isStop) { isStop_ = isStop; }
 
 	// 予約があるかの取得
 	const bool GetIsReservation() const { return isReservation_; }
@@ -118,6 +119,7 @@ public:
 	const std::vector<std::string>& GetAnimationNames() { return animationNames_; }
 
 	// Animationの速度
+	float GetAnimationSpeed() const { return animationSpeed_; }
 	void SetAnimationSpeed(float speed) { animationSpeed_ = speed; }
 
 private:

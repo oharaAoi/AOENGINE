@@ -9,6 +9,8 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/2d/Text.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
+#include "Engine/Module/Components/Collider/LineCollider.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/SceneRenderer.h"
@@ -99,6 +101,126 @@ void DeserializeMaterial(BaseMaterial& material, const json& data) {
 	material.Update();
 }
 
+const char* GetColliderTypeName(const BaseCollider& collider) {
+	const auto& shape = collider.GetShape();
+	if (std::holds_alternative<Math::Sphere>(shape)) { return "SphereCollider"; }
+	if (std::holds_alternative<Math::AABB>(shape)) { return "AABBCollider"; }
+	if (std::holds_alternative<Math::OBB>(shape)) { return "OBBCollider"; }
+	if (std::holds_alternative<Math::Line>(shape)) { return "LineCollider"; }
+	return "UnknownCollider";
+}
+
+json SerializeComponents(const BaseGameObject& object) {
+	json components = json::array();
+
+	if (const Animator* animator = object.GetAnimator()) {
+		const AnimationClip* clip = animator->GetAnimationClip();
+		json data = { { "type", "Animator" } };
+		if (clip) {
+			data["animationName"] = clip->GetAnimationName();
+			data["animationTime"] = clip->GetAnimationTime();
+			data["speed"] = clip->GetAnimationSpeed();
+			data["loop"] = clip->GetIsLoop();
+			data["stopped"] = clip->GetIsStop();
+		}
+		components.push_back(std::move(data));
+	}
+
+	if (const Rigidbody* rigidbody = object.GetRigidbody()) {
+		components.push_back({
+			{ "type", "Rigidbody" },
+			{ "velocity", Vector3ToJson(rigidbody->GetVelocity()) },
+			{ "moveForce", Vector3ToJson(rigidbody->GetMoveForce()) },
+			{ "gravity", rigidbody->GetGravity() },
+			{ "gravityAccel", Vector3ToJson(rigidbody->GetGravityAccel()) },
+			{ "drag", rigidbody->GetDrag() }
+		});
+	}
+
+	for (const BaseCollider* collider : object.GetColliders()) {
+		if (!collider) { continue; }
+		json data = {
+			{ "type", GetColliderTypeName(*collider) },
+			{ "category", collider->GetCategoryName() },
+			{ "localPosition", Vector3ToJson(collider->GetLocalPos()) },
+			{ "active", collider->GetIsActive() },
+			{ "static", collider->GetIsStatic() },
+			{ "trigger", collider->GetIsTrigger() },
+			{ "collisionMask", collider->GetCollisionMaskBit() },
+			{ "penetrationPrevention", collider->GetPenetrationPrevention() }
+		};
+
+		if (const auto* box = dynamic_cast<const BoxCollider*>(collider)) {
+			data["size"] = Vector3ToJson(box->GetSize());
+		} else if (std::holds_alternative<Math::Sphere>(collider->GetShape())) {
+			data["radius"] = collider->GetRadius();
+		} else if (const auto* line = dynamic_cast<const LineCollider*>(collider)) {
+			data["diff"] = Vector3ToJson(line->GetDiff());
+		}
+		components.push_back(std::move(data));
+	}
+
+	return components;
+}
+
+void DeserializeComponents(BaseGameObject& object, const json& components) {
+	if (!components.is_array()) { return; }
+
+	for (const json& data : components) {
+		const std::string type = data.value("type", "");
+		if (type == "Animator") {
+			if (!object.GetModel()) { continue; }
+			object.SetAnimator();
+			Animator* animator = object.GetAnimator();
+			AnimationClip* clip = animator ? animator->GetAnimationClip() : nullptr;
+			if (!clip) { continue; }
+			const std::string animationName = data.value("animationName", "");
+			if (!animationName.empty()) { clip->ResetAnimation(animationName); }
+			clip->SetAnimationTime(data.value("animationTime", clip->GetAnimationTime()));
+			clip->SetAnimationSpeed(data.value("speed", clip->GetAnimationSpeed()));
+			clip->SetIsLoop(data.value("loop", clip->GetIsLoop()));
+			clip->SetIsStop(data.value("stopped", clip->GetIsStop()));
+			continue;
+		}
+
+		if (type == "Rigidbody") {
+			object.SetPhysics();
+			Rigidbody* rigidbody = object.GetRigidbody();
+			if (!rigidbody) { continue; }
+			if (data.contains("velocity")) { rigidbody->SetVelocity(JsonToVector3(data.at("velocity"))); }
+			if (data.contains("moveForce")) { rigidbody->SetMoveForce(JsonToVector3(data.at("moveForce"))); }
+			rigidbody->SetGravity(data.value("gravity", rigidbody->GetGravity()));
+			if (data.contains("gravityAccel")) { rigidbody->SetGravityAccel(JsonToVector3(data.at("gravityAccel"))); }
+			rigidbody->SetDrag(data.value("drag", rigidbody->GetDrag()));
+			continue;
+		}
+
+		ColliderShape shape;
+		if (type == "SphereCollider") { shape = ColliderShape::Sphere; }
+		else if (type == "AABBCollider") { shape = ColliderShape::AABB; }
+		else if (type == "OBBCollider") { shape = ColliderShape::OBB; }
+		else if (type == "LineCollider") { shape = ColliderShape::Line; }
+		else { continue; }
+
+		BaseCollider* collider = object.SetCollider(data.value("category", "Default"), shape);
+		if (!collider) { continue; }
+		if (data.contains("localPosition")) { collider->SetLocalPos(JsonToVector3(data.at("localPosition"))); }
+		collider->SetIsActive(data.value("active", collider->GetIsActive()));
+		collider->SetIsStatic(data.value("static", collider->GetIsStatic()));
+		collider->SetIsTrigger(data.value("trigger", collider->GetIsTrigger()));
+		collider->SetCollisionMaskBits(data.value("collisionMask", collider->GetCollisionMaskBit()));
+		collider->SetPenetrationPrevention(data.value("penetrationPrevention", collider->GetPenetrationPrevention()));
+
+		if (auto* box = dynamic_cast<BoxCollider*>(collider); box && data.contains("size")) {
+			box->SetSize(JsonToVector3(data.at("size")));
+		} else if (shape == ColliderShape::Sphere && data.contains("radius")) {
+			collider->SetRadius(data.at("radius").get<float>());
+		} else if (auto* line = dynamic_cast<LineCollider*>(collider); line && data.contains("diff")) {
+			line->SetDiff(JsonToVector3(data.at("diff")));
+		}
+	}
+}
+
 json SerializeSprite(const Sprite& sprite) {
 	const Math::SRT& transform = sprite.GetTransform()->GetTransform();
 	return {
@@ -128,6 +250,7 @@ json SerializeObject(const SceneObject& object) {
 		}
 		data["enableShadow"] = gameObject->GetEnableShadow();
 		data["animator"] = gameObject->GetAnimator() != nullptr;
+		data["components"] = SerializeComponents(*gameObject);
 		data["materials"] = json::array();
 		const auto& materialSlots = gameObject->GetMaterialSlots();
 		for (uint32_t slot = 0; slot < materialSlots.size(); ++slot) {
@@ -204,7 +327,12 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 			object->GetTransform()->SetSRT(srt);
 		}
 		object->SetEnableShadow(data.value("enableShadow", true));
-		if (data.value("animator", false) && object->GetModel()) { object->SetAnimator(); }
+		if (data.contains("components")) {
+			DeserializeComponents(*object, data.at("components"));
+		} else if (data.value("animator", false) && object->GetModel()) {
+			// version 1の旧シーンとの互換性を維持する。
+			object->SetAnimator();
+		}
 		return object;
 	}
 	if (type == "Text") {

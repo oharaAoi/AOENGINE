@@ -154,6 +154,7 @@ public: // accessor method
 
 	void SetPhysics();
 	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_; }
+	const AOENGINE::Rigidbody* GetRigidbody() const { return rigidbody_; }
 
 protected:
 	void RebuildMaterialSlots();

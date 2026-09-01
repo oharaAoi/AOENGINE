@@ -62,6 +62,7 @@ public:
 	const Skinning* GetSkinning(uint32_t index) const { return skinning_[index].get(); }
 	Skeleton* GetSkeleton() { return skeleton_.get(); }
 	AOENGINE::AnimationClip* GetAnimationClip() { return animationClip_.get(); }
+	const AOENGINE::AnimationClip* GetAnimationClip() const { return animationClip_.get(); }
 
 	const Math::Matrix4x4 GetAnimationMat() const { return animationClip_->GetMatrix(); }
 

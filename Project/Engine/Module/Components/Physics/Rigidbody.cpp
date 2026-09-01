@@ -10,6 +10,7 @@ using namespace AOENGINE;
 
 void Rigidbody::Init() {
 	gravityAccel_ = { 0.0f, kGravity, 0.0f };
+	isGravity_ = false;
 	moveForce_ = CVector3::ZERO;
 	velocity_ = CVector3::ZERO;
 	drag_ = 0;
