@@ -61,6 +61,8 @@ public: // public method
 	/// </summary>
 	bool CanUseNormalInstancing() const;
 	bool CanUseSkinnedMaterialBatch() const;
+	ScenePersistence GetScenePersistence() const override { return ScenePersistence::SceneData; }
+	const char* GetSceneTypeName() const override { return "BaseGameObject"; }
 
 public: // accessor method
 
@@ -117,6 +119,8 @@ public: // accessor method
 	void SetMaterial(MaterialType _type);
 	/// <summary>SubMeshが参照するMaterial Slotをオブジェクト単位で差し替えます。</summary>
 	bool SetMaterialSlot(uint32_t slot, std::unique_ptr<AOENGINE::BaseMaterial> material);
+	/// <summary>Material Slotの種別を変更し、Modelの初期Material情報を設定します。</summary>
+	bool SetMaterialSlotType(uint32_t slot, MaterialType type);
 
 	const std::unordered_map<std::string, AOENGINE::BaseMaterial*>& GetMaterials() const { return materials; }
 	const std::vector<AOENGINE::BaseMaterial*>& GetMaterialSlots() const { return renderMaterialSlots_; }

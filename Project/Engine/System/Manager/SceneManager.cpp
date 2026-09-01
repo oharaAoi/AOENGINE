@@ -8,6 +8,8 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Scene/SceneManagerPropertySerializer.h"
+#include "Engine/System/Scene/SceneSerializer.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 
@@ -103,6 +105,14 @@ void SceneManager::Debug_Gui() {
 		isChange = false;
 	}
 
+	if (ImGui::Button("Save Current Scene")) {
+		SaveScene();
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Load Current Scene")) {
+		LoadScene();
+	}
+
 	ImGui::End();
 }
 
@@ -118,6 +128,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	}
 	nextScene_ = sceneFactory_->CreateScene(type);
 	scene_ = std::move(nextScene_);
+	scene_->SetSceneName(kSceneTypeNames[static_cast<size_t>(type)]);
 
 #ifdef _DEVELOPMENT
 	AOENGINE::EditorWindows::GetInstance()->SceneReset();
@@ -137,7 +148,19 @@ void SceneManager::SetChange(const SceneType& type) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::SceneManager::SaveScene() {
+	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
+	AOENGINE::SceneSerializer::Save(folderPath, "scene", *AOENGINE::SceneRenderer::GetInstance());
 	scene_->SaveSceneEffect();
+}
+
+bool AOENGINE::SceneManager::LoadScene() {
+	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
+	const bool loaded = AOENGINE::SceneSerializer::Load(
+		folderPath, "scene", *AOENGINE::SceneRenderer::GetInstance(), *Engine::GetCanvas2d());
+	if (loaded) {
+		scene_->LoadSceneEffect();
+	}
+	return loaded;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

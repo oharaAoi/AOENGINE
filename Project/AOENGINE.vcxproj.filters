@@ -909,6 +909,9 @@
     <ClInclude Include="Engine\System\Scene\SceneLoader.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
@@ -1741,6 +1744,9 @@
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">

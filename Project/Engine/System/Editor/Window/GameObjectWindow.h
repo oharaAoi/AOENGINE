@@ -127,8 +127,11 @@ private: // private method
 
 	void CreateNewObjectWindow();
 	void DrawHierarchyObject(AOENGINE::SceneObject& object);
+	void DrawHierarchyDragDrop(AOENGINE::SceneObject& object);
 	void DrawHierarchyContextMenu(AOENGINE::SceneObject& object);
 	void ApplyPendingHierarchyAction();
+	void ApplyPendingParentChange();
+	void SyncTransformParent(const AOENGINE::ObjectHandle& child, const AOENGINE::ObjectHandle& parent);
 	bool IsSelected(const AOENGINE::ObjectHandle& handle) const;
 
 private:
@@ -136,6 +139,9 @@ private:
 	AOENGINE::ObjectHandle selectedObjectHandle_;
 	AOENGINE::ObjectHandle pendingDeleteHandle_;
 	AOENGINE::ObjectHandle pendingDuplicateHandle_;
+	AOENGINE::ObjectHandle pendingParentChildHandle_;
+	AOENGINE::ObjectHandle pendingParentHandle_;
+	bool pendingMoveToRoot_ = false;
 
 	AOENGINE::ProcessedSceneFrame* processedSceneFrame_ = nullptr;
 	AOENGINE::ProcessedSceneFrame* editorSceneFrame_ = nullptr;

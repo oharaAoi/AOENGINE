@@ -3,12 +3,30 @@
 
 using namespace AOENGINE;
 
+namespace {
+uint64_t gNextSceneObjectId = 1;
+}
+
+uint64_t SceneObject::GetSceneId() const {
+	return sceneId_;
+}
+
+void SceneObject::SetSceneId(uint64_t sceneId) {
+	sceneId_ = sceneId;
+	if (sceneId >= gNextSceneObjectId) {
+		gNextSceneObjectId = sceneId + 1;
+	}
+}
+
 ObjectHandle SceneObject::GetHandle() const {
 	return handle_;
 }
 
 void SceneObject::SetHandle(const ObjectHandle& handle) {
 	handle_ = handle;
+	if (handle.IsValid() && sceneId_ == 0) {
+		sceneId_ = gNextSceneObjectId++;
+	}
 }
 
 const std::string& SceneObject::GetName() const {

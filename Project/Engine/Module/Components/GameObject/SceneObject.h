@@ -5,6 +5,12 @@
 
 namespace AOENGINE {
 
+enum class ScenePersistence {
+	SceneData,
+	SystemObject,
+	RuntimeOnly
+};
+
 static constexpr uint32_t kInvalidObjectHandleIndex = UINT32_MAX;
 
 struct ObjectHandle {
@@ -18,6 +24,11 @@ struct ObjectHandle {
 class SceneObject {
 public:
 	virtual ~SceneObject() = default;
+	virtual ScenePersistence GetScenePersistence() const { return ScenePersistence::RuntimeOnly; }
+	virtual const char* GetSceneTypeName() const { return "SceneObject"; }
+
+	uint64_t GetSceneId() const;
+	void SetSceneId(uint64_t sceneId);
 
 	ObjectHandle GetHandle() const;
 	void SetHandle(const ObjectHandle& handle);
@@ -35,6 +46,7 @@ public:
 
 private:
 	ObjectHandle handle_;
+	uint64_t sceneId_ = 0;
 	std::string name_;
 	bool isActive_ = true;
 	std::vector<SceneObject*> children_;

@@ -17,6 +17,7 @@ public: // constructor
 
 	Canvas2d() = default;
 	~Canvas2d();
+	ScenePersistence GetScenePersistence() const override { return ScenePersistence::SystemObject; }
 
 public: // public method
 

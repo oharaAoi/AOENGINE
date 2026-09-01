@@ -300,6 +300,17 @@ bool BaseGameObject::SetMaterialSlot(uint32_t slot, std::unique_ptr<BaseMaterial
 	return true;
 }
 
+bool BaseGameObject::SetMaterialSlotType(uint32_t slot, MaterialType type) {
+	if (!model_ || slot >= model_->GetMaterialSlotCount()) {
+		return false;
+	}
+
+	auto material = CreateMaterialInstance(type);
+	material->Init();
+	material->SetMaterialData(model_->GetMaterialData().at(model_->GetMaterialSlotName(slot)));
+	return SetMaterialSlot(slot, std::move(material));
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　親を設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////

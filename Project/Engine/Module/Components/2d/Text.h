@@ -62,6 +62,7 @@ public:
 	void Save(const std::string& _group, const std::string& _key) override;
 
 	const char* GetCanvasItemType() const override { return "Text"; }
+	const char* GetSceneTypeName() const override { return "Text"; }
 
 	void SetText(const std::string& text);
 	void SetFontPath(const std::string& fontPath);

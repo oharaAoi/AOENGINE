@@ -81,6 +81,7 @@ public:
 	void SetNextSceneType(const std::optional<SceneType>& type) { nextSceneType_ = type; }
 
 	void SetSceneName(const std::string& sceneName) { sceneName_ = sceneName; }
+	const std::string& GetSceneName() const { return sceneName_; }
 
 protected:
 

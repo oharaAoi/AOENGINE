@@ -45,6 +45,9 @@ void GameObjectWindow::Init() {
 	selectedObjectHandle_ = ObjectHandle{};
 	pendingDeleteHandle_ = ObjectHandle{};
 	pendingDuplicateHandle_ = ObjectHandle{};
+	pendingParentChildHandle_ = ObjectHandle{};
+	pendingParentHandle_ = ObjectHandle{};
+	pendingMoveToRoot_ = false;
 	postProcessObjectHandle_ = ObjectHandle{};
 	postEffectObjectHandles_.clear();
 }
@@ -287,7 +290,20 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 					DrawHierarchyObject(*object);
 				}
 			}
+
+			const ImVec2 dropSize(ImGui::GetContentRegionAvail().x, (std::max)(24.0f, ImGui::GetContentRegionAvail().y));
+			ImGui::InvisibleButton("##HierarchyRootDropTarget", dropSize);
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_OBJECT_HANDLE")) {
+					pendingParentChildHandle_ = *static_cast<const ObjectHandle*>(payload->Data);
+					pendingParentHandle_ = ObjectHandle{};
+					pendingMoveToRoot_ = true;
+				}
+				ImGui::EndDragDropTarget();
+			}
+
 			ApplyPendingHierarchyAction();
+			ApplyPendingParentChange();
 		}
 		ImGui::End();
 	}
@@ -370,6 +386,7 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 		if (ImGui::IsItemClicked()) {
 			selectedObjectHandle_ = handle;
 		}
+		DrawHierarchyDragDrop(object);
 		DrawHierarchyContextMenu(object);
 		return;
 	}
@@ -378,6 +395,7 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 	if (ImGui::IsItemClicked()) {
 		selectedObjectHandle_ = handle;
 	}
+	DrawHierarchyDragDrop(object);
 	DrawHierarchyContextMenu(object);
 
 	if (!opened) {
@@ -391,6 +409,24 @@ void AOENGINE::GameObjectWindow::DrawHierarchyObject(SceneObject& object) {
 	}
 
 	ImGui::TreePop();
+}
+
+void AOENGINE::GameObjectWindow::DrawHierarchyDragDrop(SceneObject& object) {
+	const ObjectHandle handle = object.GetHandle();
+	if (object.GetScenePersistence() == ScenePersistence::SceneData && ImGui::BeginDragDropSource()) {
+		ImGui::SetDragDropPayload("SCENE_OBJECT_HANDLE", &handle, sizeof(handle));
+		ImGui::TextUnformatted(object.GetName().c_str());
+		ImGui::EndDragDropSource();
+	}
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_OBJECT_HANDLE")) {
+			pendingParentChildHandle_ = *static_cast<const ObjectHandle*>(payload->Data);
+			pendingParentHandle_ = handle;
+			pendingMoveToRoot_ = false;
+		}
+		ImGui::EndDragDropTarget();
+	}
 }
 
 void AOENGINE::GameObjectWindow::DrawHierarchyContextMenu(SceneObject& object) {
@@ -459,6 +495,50 @@ void AOENGINE::GameObjectWindow::ApplyPendingHierarchyAction() {
 		}
 		sceneRenderer_->DestroyObject(pendingDeleteHandle_);
 		pendingDeleteHandle_ = ObjectHandle{};
+	}
+}
+
+void AOENGINE::GameObjectWindow::ApplyPendingParentChange() {
+	if (!sceneRenderer_ || !pendingParentChildHandle_.IsValid()) { return; }
+
+	bool changed = false;
+	if (pendingMoveToRoot_) {
+		changed = sceneRenderer_->MoveToRoot(pendingParentChildHandle_);
+	} else if (pendingParentHandle_.IsValid()) {
+		changed = sceneRenderer_->SetParent(pendingParentChildHandle_, pendingParentHandle_);
+	}
+
+	if (changed) {
+		SyncTransformParent(pendingParentChildHandle_, pendingMoveToRoot_ ? ObjectHandle{} : pendingParentHandle_);
+	}
+
+	pendingParentChildHandle_ = ObjectHandle{};
+	pendingParentHandle_ = ObjectHandle{};
+	pendingMoveToRoot_ = false;
+}
+
+void AOENGINE::GameObjectWindow::SyncTransformParent(const ObjectHandle& childHandle, const ObjectHandle& parentHandle) {
+	if (!sceneRenderer_) { return; }
+	SceneObject* child = sceneRenderer_->FindObject(childHandle);
+	SceneObject* parent = sceneRenderer_->FindObject(parentHandle);
+
+	if (BaseGameObject* childObject = dynamic_cast<BaseGameObject*>(child)) {
+		BaseGameObject* parentObject = dynamic_cast<BaseGameObject*>(parent);
+		if (parentObject && parentObject->GetTransform()) {
+			childObject->GetTransform()->SetParent(parentObject->GetTransform()->GetWorldMatrix());
+		} else {
+			childObject->GetTransform()->ClearParent();
+		}
+		return;
+	}
+
+	if (Sprite* childSprite = dynamic_cast<Sprite*>(child)) {
+		Sprite* parentSprite = dynamic_cast<Sprite*>(parent);
+		if (parentSprite && parentSprite->GetTransform()) {
+			childSprite->GetTransform()->SetParent(parentSprite->GetTransform()->GetMatrix());
+		} else {
+			childSprite->GetTransform()->ClearParent();
+		}
 	}
 }
 

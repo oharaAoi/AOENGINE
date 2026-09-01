@@ -74,6 +74,7 @@ public: // public method
 public: // accessor method
 
 	void SetParent(const Math::Matrix4x4& parentMat);
+	void ClearParent() { parentWorldMat_ = nullptr; }
 	
 	void SetMatrix(const Math::Matrix4x4& mat);
 	void SetScale(const Math::Vector3& scale) { srt_.scale = scale; }
@@ -93,6 +94,7 @@ public: // accessor method
 	}
 
 	const Math::QuaternionSRT& GetSRT() { return srt_; }
+	const Math::QuaternionSRT& GetSRT() const { return srt_; }
 	Math::QuaternionSRT GetWorldSRT() { return DecomposeTransform(worldMat_); }
 
 	const Math::Vector3 GetScale() const { return srt_.scale; }

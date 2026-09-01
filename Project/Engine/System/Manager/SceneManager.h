@@ -54,6 +54,7 @@ public:
 	/// シーンを保存する
 	/// </summary>
 	void SaveScene();
+	bool LoadScene();
 
 private:
 

@@ -25,6 +25,16 @@ void SceneWorld::Clear() {
 	}
 }
 
+void SceneWorld::ClearSceneObjects() {
+	const std::vector<ObjectHandle> handles = GetObjectHandles();
+	for (const ObjectHandle& handle : handles) {
+		SceneObject* object = FindObject(handle);
+		if (object && object->GetScenePersistence() == ScenePersistence::SceneData) {
+			DestroyObject(handle);
+		}
+	}
+}
+
 ObjectHandle SceneWorld::AddObject(std::unique_ptr<SceneObject> object, const std::string& name) {
 	if (!object) {
 		return {};

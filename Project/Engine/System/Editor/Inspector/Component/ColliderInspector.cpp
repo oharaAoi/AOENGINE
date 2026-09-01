@@ -50,17 +50,9 @@ void AOENGINE::ColliderInspector::Draw(BaseGameObject& object) {
 			continue;
 		}
 
-		std::string label = collider->GetCategoryName();
-		if (label.empty()) {
-			label = "Collider";
-		}
-		label += " (";
-		label += GetColliderShapeName(*collider);
-		label += ")";
-
-		if (ImGui::TreeNode(label.c_str())) {
+		std::string label = GetColliderShapeName(*collider);
+		if (ImGui::CollapsingHeader(label.c_str())) {
 			collider->Debug_Gui();
-			ImGui::TreePop();
 		}
 
 		ImGui::PopID();

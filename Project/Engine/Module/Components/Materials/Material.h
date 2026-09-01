@@ -53,6 +53,10 @@ public:
 	/// Instancing描画ではこの内容にTexture descriptor indexを加えてinstance bufferへコピーします。
 	/// </summary>
 	const MaterialData& GetMaterialData() const { return *material_; }
+	void SetSceneParameters(float shininess, float iblScale) {
+		material_->shininess = shininess;
+		material_->iblScale = iblScale;
+	}
 
 private:
 

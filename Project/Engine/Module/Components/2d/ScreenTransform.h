@@ -59,6 +59,7 @@ public:
 public:
 
 	void SetParent(const Math::Matrix4x4& _parentMat);
+	void ClearParent() { parentMat_ = nullptr; }
 
 	const Math::Matrix4x4& GetMatrix() const { return screenMat_; }
 

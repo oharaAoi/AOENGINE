@@ -185,6 +185,8 @@ public: // constructor
 	Sprite();
 	virtual ~Sprite();
 	void Init() override { Init("white.png"); }
+	ScenePersistence GetScenePersistence() const override { return ScenePersistence::SceneData; }
+	const char* GetSceneTypeName() const override { return "Sprite"; }
 
 public: // public method
 

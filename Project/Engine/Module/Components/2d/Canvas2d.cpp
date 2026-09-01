@@ -174,7 +174,9 @@ void AOENGINE::Canvas2d::AttachItemsToCanvas() {
 	if (!sceneWorld_ || !GetHandle().IsValid()) { return; }
 	RemoveInvalidItems();
 	for (const ObjectHandle& handle : itemHandles_) {
-		sceneWorld_->SetParent(handle, GetHandle());
+		if (!sceneWorld_->GetParentHandle(handle).IsValid()) {
+			sceneWorld_->SetParent(handle, GetHandle());
+		}
 	}
 }
 

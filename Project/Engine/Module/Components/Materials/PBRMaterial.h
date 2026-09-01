@@ -60,6 +60,22 @@ public:
 	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; }
 
 	void SetParameter(float _roughness, float _metallic, float _ibl, const std::string& _normalMap);
+	const PBRMaterialData& GetMaterialData() const { return *pbrMaterial_; }
+	const std::string& GetNormalMap() const { return normalMap_; }
+	void SetSceneParameters(const AOENGINE::Color& color, int32_t enableLighting,
+		const AOENGINE::Color& diffuseColor, const AOENGINE::Color& specularColor,
+		float roughness, float metallic, float shininess, float ambientIntensity,
+		const std::string& normalMap) {
+		pbrMaterial_->color = color;
+		pbrMaterial_->enableLighting = enableLighting;
+		pbrMaterial_->diffuseColor = diffuseColor;
+		pbrMaterial_->specularColor = specularColor;
+		pbrMaterial_->roughness = roughness;
+		pbrMaterial_->metallic = metallic;
+		pbrMaterial_->shininess = shininess;
+		pbrMaterial_->ambientIntensity = ambientIntensity;
+		normalMap_ = normalMap;
+	}
 
 
 private:

@@ -27,6 +27,7 @@ public:
 	/// 登録されている全オブジェクトを破棄し、既存のObjectHandleを無効化します。
 	/// </summary>
 	void Clear();
+	void ClearSceneObjects();
 
 	/// <summary>
 	/// SceneObjectをSceneWorldに登録し、生成済みObjectHandleを返します。

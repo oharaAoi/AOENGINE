@@ -8,6 +8,7 @@
 #include "Engine/Lib/Math/Frustum.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
@@ -306,7 +307,23 @@ const SceneObject* SceneRenderer::FindObject(const ObjectHandle& handle) const {
 }
 
 bool SceneRenderer::SetParent(const ObjectHandle& child, const ObjectHandle& parent) {
-	return sceneWorld_.SetParent(child, parent);
+	if (!sceneWorld_.SetParent(child, parent)) { return false; }
+	SceneObject* childObject = sceneWorld_.FindObject(child);
+	SceneObject* parentObject = sceneWorld_.FindObject(parent);
+	if (BaseGameObject* childGameObject = dynamic_cast<BaseGameObject*>(childObject)) {
+		if (BaseGameObject* parentGameObject = dynamic_cast<BaseGameObject*>(parentObject)) {
+			childGameObject->GetTransform()->SetParent(parentGameObject->GetTransform()->GetWorldMatrix());
+		} else {
+			childGameObject->GetTransform()->ClearParent();
+		}
+	} else if (Sprite* childSprite = dynamic_cast<Sprite*>(childObject)) {
+		if (Sprite* parentSprite = dynamic_cast<Sprite*>(parentObject)) {
+			childSprite->GetTransform()->SetParent(parentSprite->GetTransform()->GetMatrix());
+		} else {
+			childSprite->GetTransform()->ClearParent();
+		}
+	}
+	return true;
 }
 
 bool SceneRenderer::AddChild(const ObjectHandle& parent, const ObjectHandle& child) {
@@ -318,7 +335,13 @@ bool SceneRenderer::RemoveChild(const ObjectHandle& parent, const ObjectHandle& 
 }
 
 bool SceneRenderer::MoveToRoot(const ObjectHandle& handle) {
-	return sceneWorld_.MoveToRoot(handle);
+	if (!sceneWorld_.MoveToRoot(handle)) { return false; }
+	if (BaseGameObject* object = dynamic_cast<BaseGameObject*>(sceneWorld_.FindObject(handle))) {
+		object->GetTransform()->ClearParent();
+	} else if (Sprite* sprite = dynamic_cast<Sprite*>(sceneWorld_.FindObject(handle))) {
+		sprite->GetTransform()->ClearParent();
+	}
+	return true;
 }
 
 void SceneRenderer::DestroyObject(const ObjectHandle& handle) {

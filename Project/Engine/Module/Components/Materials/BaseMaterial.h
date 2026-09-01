@@ -63,6 +63,7 @@ public:
 	void SetUvScale(const Math::Vector3& _scale) { uvTransform_.scale = _scale; }
 	void SetUvRotate(const Math::Vector3& _rotate) { uvTransform_.rotate = _rotate; }
 	void SetUvTranslate(const Math::Vector3& _translate) { uvTransform_.translate = _translate; }
+	const Math::SRT& GetUvTransform() const { return uvTransform_; }
 
 	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
 	const std::string GetAlbedoTexture() const { return textureName_; }
@@ -75,8 +76,10 @@ public:
 
 	void SetAlpha(float _alpha) { color_.a = _alpha; };
 	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
+	bool GetIsLighting() const { return isLighting_; }
 
 	void SetDiscardValue(float _value) { discardValue_ = _value; }
+	float GetDiscardValue() const { return discardValue_; }
 
 protected:
 
