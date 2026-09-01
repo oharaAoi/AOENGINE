@@ -191,16 +191,9 @@ void EditorWindows::ResizeBuffer() {
 void EditorWindows::GameWindow() {
 	gameObjectWindow_->HierarchyWindow();
 	gameObjectWindow_->InspectorWindow();
-	if (ManipulateTool::isActive_) {
-		if (ManipulateTool::is3dManipulate_) {
-			if (sceneRenderer_ != nullptr) {
-				sceneRenderer_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
-			}
-		} else {
-			if (canvas2d_ != nullptr) {
-				canvas2d_->EditObject(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
-			}
-		}
+	ISceneObject* selectedObject = dynamic_cast<ISceneObject*>(gameObjectWindow_->GetSelectObject());
+	if (selectedObject && selectedObject->IsActive()) {
+		selectedObject->Manipulate(processedSceneFrame_->GetAvailSize(), processedSceneFrame_->GetImagePos());
 	}
 
 	manipulateTool_->SelectUseManipulate();

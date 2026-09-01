@@ -167,9 +167,23 @@ void AOENGINE::WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2
 
 	if (ImGuizmo::IsUsing()) {
 		memcpy(&worldMat_, world, sizeof(world));
-		srt_.scale = worldMat_.GetScale();
-		srt_.rotate = worldMat_.GetRotate();
-		srt_.translate = worldMat_.GetPosition();
+
+		// ImGuizmoが返すのはワールド行列。Update()では local * parent で
+		// worldを作るため、親付きオブジェクトはローカル空間へ戻してから
+		// SRTを保存する。ワールド値をそのまま保存すると、次のUpdateで
+		// 親行列が二重に掛かり、ギズモ操作が戻ったように見える。
+		Math::Matrix4x4 localMat = worldMat_;
+		if (parentWorldMat_ != nullptr) {
+			localMat = worldMat_ * parentWorldMat_->Inverse();
+		}
+
+		srt_.scale = localMat.GetScale();
+		srt_.rotate = localMat.GetRotate();
+		srt_.translate = localMat.GetPosition();
+
+		// ギズモ操作中の行列を同フレームのGPUデータにも反映する。
+		data_->matWorld = worldMat_;
+		data_->worldInverseTranspose = worldMat_.Inverse().Transpose();
 	}
 
 	ImGuizmo::PopID();

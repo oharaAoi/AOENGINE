@@ -1,8 +1,5 @@
 #include "TestScene.h"
-#include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
-#include "Engine/Lib/Json/JsonItems.h"
-#include "Engine/System/Editor/Window/EditorWindows.h"
 
 TestScene::TestScene() {}
 TestScene::~TestScene() { Finalize(); }

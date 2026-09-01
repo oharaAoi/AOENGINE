@@ -331,6 +331,7 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 		}
 
 		bool sceneViewClicked = false;
+		bool gizmoCapturedMouse = false;
 		ImVec2 clickedPixel{};
 		if (editorSceneFrame_) {
 			editorSceneFrame_->DrawScene();
@@ -342,25 +343,23 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 			}
 		}
 
-		// manipulateの表示
-		if (editorSceneFrame_ && ManipulateTool::isActive_) {
+		// Scene Viewで選択中のオブジェクトだけにギズモを表示する。
+		if (editorSceneFrame_) {
 			Engine::ActivateSceneView(SceneViewType::Editor);
 
-			if (ManipulateTool::is3dManipulate_) {
-				if (sceneRenderer_ != nullptr) {
-					sceneRenderer_->EditObject(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
-				}
-			} else {
-				Sprite* sprite = dynamic_cast<Sprite*>(GetSelectObject());
-				if (sprite && sprite->IsActive()) {
-					sprite->GetTransform()->Manipulate(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
-				}
+			ISceneObject* selectedObject = dynamic_cast<ISceneObject*>(GetSelectObject());
+			if (selectedObject && selectedObject->IsActive()) {
+				selectedObject->Manipulate(editorSceneFrame_->GetAvailSize(), editorSceneFrame_->GetImagePos());
+
+				// Manipulate()内でImGuizmo::PopID()された後はIsUsing()が
+				// falseになり得る。IDに依存しないIsUsingAny()で操作を保護する。
+				gizmoCapturedMouse = ImGuizmo::IsOver() || ImGuizmo::IsUsingAny();
 			}
 
 			Engine::ActivateSceneView(SceneViewType::Game);
 		}
 
-		if (sceneViewClicked && sceneRenderer_ && !ImGuizmo::IsOver() && !ImGuizmo::IsUsing()) {
+		if (sceneViewClicked && sceneRenderer_ && !gizmoCapturedMouse) {
 			Engine::ActivateSceneView(SceneViewType::Editor);
 			selectedObjectHandle_ = sceneRenderer_->PixelPick(clickedPixel, editorSceneFrame_->GetAvailSize());
 			Engine::ActivateSceneView(SceneViewType::Game);
