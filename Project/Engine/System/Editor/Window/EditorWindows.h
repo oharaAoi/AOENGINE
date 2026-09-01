@@ -1,6 +1,8 @@
 #pragma once
 #include <memory>
 #include <string>
+#include <vector>
+#include <nlohmann/json.hpp>
 #include "Engine/System/Editor/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
 #include "Engine/System/Editor/Tool/ManipulateTool.h"
@@ -18,6 +20,12 @@
 namespace AOENGINE {
 
 class PostProcess;
+
+enum class EditorPlayState {
+	Edit,
+	Playing,
+	Paused,
+};
 
 /// <summary>
 /// 編集画面の表示を管理する
@@ -133,6 +141,10 @@ public:
 	void SetSceneManager(AOENGINE::SceneManager* sceneManager) { pSceneManager_ = sceneManager; }
 
 	GameObjectWindow* GetObjectWindow() { return gameObjectWindow_.get(); }
+	EditorPlayState GetPlayState() const { return playState_; }
+	bool IsPlaying() const { return playState_ != EditorPlayState::Edit; }
+	bool ShouldUpdateGame() const;
+	void CompleteGameUpdate();
 
 private:
 
@@ -170,6 +182,16 @@ private:
 	bool isSkip_;			// 次のframeにスキップするかどうか
 	bool isFullScreen_;		// fullScreenで表示するか
 	bool viewShadowMap_;	// shadowMapの表示をする
+
+	EditorPlayState playState_ = EditorPlayState::Edit;
+	bool stepRequested_ = false;
+	nlohmann::json editSceneSnapshot_;
+	std::vector<ObjectHandle> editRuntimeHandles_;
+
+	void EnterPlayMode();
+	void ExitPlayMode();
+	void TogglePause();
+	void RequestStep();
 
 	
 };

@@ -1993,6 +1993,111 @@
             "name": "new object",
             "parentId": null,
             "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    512.0,
+                    512.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.4013888835906982,
+                    1.0
+                ],
+                "texture": "uvChecker",
+                "translate": [
+                    430.1695556640625,
+                    177.857666015625,
+                    1.0
+                ]
+            },
+            "id": 45,
+            "name": "new sprite",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    135.0,
+                    42.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 32.0,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.5,
+                    1.4013888835906982,
+                    1.0
+                ],
+                "text": "New Text",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_1",
+                "translate": [
+                    1081.8316650390625,
+                    391.62884521484375,
+                    1.0
+                ]
+            },
+            "id": 62,
+            "name": "new text",
+            "parentId": null,
+            "type": "Text"
         }
     ],
     "sceneName": "scene",

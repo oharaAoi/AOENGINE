@@ -108,17 +108,7 @@ void Text::Debug_Gui() {
 }
 
 void Text::Resize() {
-	float scaleX = static_cast<float>(WinApp::sClientWidth) / static_cast<float>(WinApp::sWindowWidth);
-	float scaleY = static_cast<float>(WinApp::sClientHeight) / static_cast<float>(WinApp::sWindowHeight);
-
-	GetTransform()->SetTranslate({
-		saveParam_.transform.translate.x * scaleX,
-		saveParam_.transform.translate.y * scaleY });
-
-	GetTransform()->SetScale({
-		saveParam_.transform.scale.x * scaleX,
-		saveParam_.transform.scale.y * scaleY
-								 });
+	Sprite::Resize();
 }
 
 void Text::ApplyParam() {

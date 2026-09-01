@@ -129,6 +129,9 @@ void Sprite::Init(const std::string& textureName) {
 
 	transform_ = std::make_unique<AOENGINE::ScreenTransform>();
 	transform_->Init(pDevice);
+	resizeReferenceSize_ = {
+		static_cast<float>(AOENGINE::WinApp::sClientWidth),
+		static_cast<float>(AOENGINE::WinApp::sClientHeight) };
 	uvTransform_ = { {1.0f,1.0f,1.0f} , {0.0f, 0.0f, 0.0f}, {0, 0, 0} };
 
 	// -------------------------------------------------
@@ -445,19 +448,23 @@ void Sprite::Debug_Gui() {
 }
 
 void AOENGINE::Sprite::Resize() {
-	float scaleX = static_cast<float>(WinApp::sClientWidth ) /  static_cast<float>(WinApp::sWindowWidth);
-	float scaleY = static_cast<float>(WinApp::sClientHeight) / static_cast<float>(WinApp::sWindowHeight);
+	const float currentWidth = static_cast<float>(WinApp::sClientWidth);
+	const float currentHeight = static_cast<float>(WinApp::sClientHeight);
+	const float scaleX = resizeReferenceSize_.x > 0.0f ? currentWidth / resizeReferenceSize_.x : 1.0f;
+	const float scaleY = resizeReferenceSize_.y > 0.0f ? currentHeight / resizeReferenceSize_.y : 1.0f;
+	const Math::SRT current = transform_->GetTransform();
 	
 	// 位置補正
 	transform_->SetTranslate({
-		saveParam_.transform.translate.x * scaleX,
-		saveParam_.transform.translate.y * scaleY });
+		current.translate.x * scaleX,
+		current.translate.y * scaleY });
 
 	// サイズ補正
 	transform_->SetScale({
-		saveParam_.transform.scale.x * scaleX,
-		saveParam_.transform.scale.y * scaleY
+		current.scale.x * scaleX,
+		current.scale.y * scaleY
 						 });
+	resizeReferenceSize_ = { currentWidth, currentHeight };
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

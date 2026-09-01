@@ -246,6 +246,37 @@ void BaseGameObject::SetPhysics() {
 	rigidbody_ = AddComponent<Rigidbody>();
 }
 
+void BaseGameObject::EditorUpdate() {
+	if (animetor_) {
+		animetor_->EvaluateCurrentPose();
+		if (animetor_->GetIsSkinning() && model_) {
+			Engine::SetPipelineCS("Skinning.json");
+			for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+				Engine::SetSkinning(animetor_->GetSkinning(index));
+			}
+		}
+	}
+
+	if (animetor_ && !animetor_->GetIsSkinning()) {
+		transform_->Update(animetor_->GetAnimationMat());
+	} else {
+		transform_->Update();
+	}
+
+	for (BaseCollider* collider : colliders_) {
+		if (collider) {
+			collider->Update(Math::QuaternionSRT{
+				.scale = transform_->GetScale(),
+				.rotate = transform_->GetWorldRotate(),
+				.translate = transform_->GetWorldPos() });
+		}
+	}
+	for (auto& material : materialSlots_) {
+		if (material) { material->Update(); }
+	}
+	worldPos_ = transform_->GetWorldMatrix().GetPosition();
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　modelを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////

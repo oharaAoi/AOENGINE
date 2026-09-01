@@ -42,6 +42,8 @@ public:
 	void Init();
 	// 更新処理
 	void Update();
+	/// <summary>Edit/Pause中に時間を進めず描画データを更新します。</summary>
+	void EditorUpdate();
 	// 後から行う更新
 	void PostUpdate();
 	// 描画処理

@@ -23,6 +23,8 @@ public:
 	void Finalize();
 	// 更新処理
 	void Update();
+	/// <summary>Editor表示用に、時間を進めず現在ポーズだけ更新する。</summary>
+	void EvaluateCurrentPose();
 	// animationTimeを指定する更新処理
 	void UpdateScript(float& animationTime);
 	// スキニングの更新

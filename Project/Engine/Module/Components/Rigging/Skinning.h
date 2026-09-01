@@ -60,7 +60,7 @@ public:
 	// 行列計算用のクラスを生成
 	void CreateSkinCluster(ID3D12Device* device, AOENGINE::Skeleton* skeleton, Mesh* mesh, AOENGINE::DescriptorHeap* heap, const std::map<std::string, JointWeightData>& skinClusterData);
 	// CSを走らせる
-	void RunCs(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const;
+	void RunCs(AOENGINE::Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList);
 	// CS後の処理
 	void EndCS(ID3D12GraphicsCommandList* commandList);
 
@@ -92,6 +92,7 @@ private:
 	ComPtr<ID3D12Resource> skinningInformationResource_;
 	// output
 	ComPtr<ID3D12Resource> outputResource_;
+	D3D12_RESOURCE_STATES outputState_ = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	DescriptorHandles outputHandle_;
 	// MeshInput
 	DescriptorHandles inputHandle_;

@@ -121,6 +121,19 @@ void SceneRenderer::Update() {
 	RemoveInvalidRenderEntries();
 }
 
+void SceneRenderer::EditorUpdate() {
+	RemoveInvalidRenderEntries();
+	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+		SceneObject* object = sceneWorld_.FindObject(handle);
+		if (!object || !object->IsActive()) { continue; }
+		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
+			gameObject->EditorUpdate();
+		} else if (Sprite* sprite = dynamic_cast<Sprite*>(object)) {
+			sprite->Update();
+		}
+	}
+}
+
 void SceneRenderer::PostUpdate() {
 	sceneWorld_.PostUpdate();
 	RemoveInvalidRenderEntries();

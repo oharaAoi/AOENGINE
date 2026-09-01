@@ -104,6 +104,7 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 	// ↓ outputResourceを作成
 	// -------------------------------------------------
 	outputResource_ = CreateUAVResource(device, sizeof(VertexData) * vertices);
+	outputState_ = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
 	D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc{};
 	uavDesc.Format = DXGI_FORMAT_UNKNOWN;
 	uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
@@ -175,7 +176,11 @@ void Skinning::CreateSkinCluster(ID3D12Device* device, Skeleton* skeleton, Mesh*
 // ↓　描画コマンドを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Skinning::RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) const {
+void Skinning::RunCs(Pipeline* _pipeline, ID3D12GraphicsCommandList* commandList) {
+	if (outputState_ != D3D12_RESOURCE_STATE_UNORDERED_ACCESS) {
+		TransitionResourceState(commandList, outputResource_.Get(), outputState_, D3D12_RESOURCE_STATE_UNORDERED_ACCESS);
+		outputState_ = D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+	}
 	UINT index = 0;
 	index = _pipeline->GetRootSignatureIndex("gMatrixPalette");
 	commandList->SetComputeRootDescriptorTable(index, paletteSrvHandle_.handleGPU);
@@ -195,6 +200,7 @@ void Skinning::EndCS(ID3D12GraphicsCommandList* commandList) {
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_UNORDERED_ACCESS, D3D12_RESOURCE_STATE_COPY_SOURCE);
 	commandList->CopyResource(copyResource_.Get(), outputResource_.Get());
 	TransitionResourceState(commandList, outputResource_.Get(), D3D12_RESOURCE_STATE_COPY_SOURCE, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+	outputState_ = D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER;
 
 	// マップしてデータを取得
 	VertexData* pVertexDataBegin = nullptr;

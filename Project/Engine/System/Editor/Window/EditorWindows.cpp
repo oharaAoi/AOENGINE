@@ -1,4 +1,5 @@
 #include "EditorWindows.h"
+#include <algorithm>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Render/Render.h"
@@ -7,6 +8,7 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/Item/ColliderCategorySettingWindow.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistration.h"
+#include "Engine/System/Scene/SceneSerializer.h"
 
 using namespace AOENGINE;
 
@@ -51,6 +53,11 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	isSkip_ = false;
 	isFullScreen_ = false;
 	viewShadowMap_ = false;
+	playState_ = EditorPlayState::Edit;
+	stepRequested_ = false;
+	editSceneSnapshot_ = nlohmann::json();
+	editRuntimeHandles_.clear();
+	GameTimer::SetTimeScale(0.0f);
 
 	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
 	for (auto& item : windowItems_) {
@@ -222,10 +229,8 @@ void EditorWindows::DebugItemWindow() {
 	ImTextureID gridTex = reinterpret_cast<ImTextureID>(gridHandle.ptr);
 	ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
 
-	static bool isSave = false;
 	if (ImGui::ImageButton("##save", saveTex, iconSize)) {
-		isSave = false;
-		if (pSceneManager_ != nullptr) {
+		if (pSceneManager_ != nullptr && playState_ == EditorPlayState::Edit) {
 			pSceneManager_->SaveScene();
 		}
 	}
@@ -237,44 +242,28 @@ void EditorWindows::DebugItemWindow() {
 	float centerX = winPos.x + winSize.x * 0.5f;
 	float startX = centerX - iconSize.x * 0.5f * iconSize.x;
 	ImGui::SetCursorPosX(startX);
-	static bool isPlaying = true;  // トグル状態を保持
-	ImTextureID icon = isPlaying ? pauseTex : playTex;
-	if (ImGui::ImageButton("##toggle", icon, iconSize)) {
-		isPlaying = !isPlaying;
-		isSkip_ = false;
-		AOENGINE::GameTimer::SetTimeScale(isPlaying ? 1.0f : 0.0f);  // 再生・停止
+	const bool isInPlayMode = playState_ != EditorPlayState::Edit;
+	const ImTextureID playModeIcon = isInPlayMode ? replayTex : playTex;
+	if (ImGui::ImageButton("##playMode", playModeIcon, iconSize)) {
+		if (isInPlayMode) { ExitPlayMode(); }
+		else { EnterPlayMode(); }
 	}
 	ImGui::SameLine();
 
-	bool pushButton = false;
-	// -------------------------------------------------
-	// ↓ skipの描画チェック
-	// -------------------------------------------------
-
-	if (isPlaying) {
-		pushButton = PushStyleColor(true, Math::Vector4(34.0f, 34.0f, 32.0f, 255.0f));
-	} else {
-		pushButton = PushStyleColor(false, Math::Vector4(25, 25, 112, 255.0f));
+	bool pushButton = PushStyleColor(playState_ == EditorPlayState::Paused, Math::Vector4(25, 25, 112, 255.0f));
+	ImGui::BeginDisabled(!isInPlayMode);
+	if (ImGui::ImageButton("##pausePlayMode", pauseTex, iconSize)) {
+		TogglePause();
 	}
-	if (isSkip_) {
-		AOENGINE::GameTimer::SetTimeScale(0.0f);  // 再生・停止
-		isSkip_ = false;
-	}
-	if (ImGui::ImageButton("##skip", skipTex, iconSize)) {
-		AOENGINE::GameTimer::SetTimeScale(1.0f);  // 再生・停止
-		isSkip_ = true;
-	}
+	ImGui::EndDisabled();
 	PopStyleColor(pushButton);
 	ImGui::SameLine();
 
-	// -------------------------------------------------
-	// ↓ Replayの描画チェック
-	// -------------------------------------------------
-	pushButton = PushStyleColor(sceneReset_, Math::Vector4(25, 25, 112, 255.0f));
-	if (ImGui::ImageButton("##replay", replayTex, iconSize)) {
-		sceneReset_ = !sceneReset_;  // 状態トグル
+	ImGui::BeginDisabled(playState_ != EditorPlayState::Paused);
+	if (ImGui::ImageButton("##stepPlayMode", skipTex, iconSize)) {
+		RequestStep();
 	}
-	PopStyleColor(pushButton);
+	ImGui::EndDisabled();
 	ImGui::SameLine();
 
 	// -------------------------------------------------
@@ -319,6 +308,64 @@ void EditorWindows::PopStyleColor(bool _flag) {
 void EditorWindows::SceneReset() {
 	gameObjectWindow_->Init();
 	sceneReset_ = false;
+}
+
+void EditorWindows::EnterPlayMode() {
+	if (playState_ != EditorPlayState::Edit || !sceneRenderer_ || !canvas2d_) { return; }
+	editSceneSnapshot_ = SceneSerializer::Serialize("PlayModeSnapshot", *sceneRenderer_);
+	editRuntimeHandles_ = sceneRenderer_->GetObjectHandles();
+	playState_ = EditorPlayState::Playing;
+	stepRequested_ = false;
+	GameTimer::SetTimeScale(1.0f);
+}
+
+void EditorWindows::ExitPlayMode() {
+	if (playState_ == EditorPlayState::Edit) { return; }
+	GameTimer::SetTimeScale(0.0f);
+	stepRequested_ = false;
+	if (sceneRenderer_ && canvas2d_ && !editSceneSnapshot_.is_null()) {
+		// Play中に新たに生成されたRuntimeOnlyオブジェクトも破棄する。
+		for (const ObjectHandle& handle : sceneRenderer_->GetObjectHandles()) {
+			const bool existedBeforePlay = std::find(editRuntimeHandles_.begin(), editRuntimeHandles_.end(), handle) != editRuntimeHandles_.end();
+			SceneObject* object = sceneRenderer_->FindObject(handle);
+			if (!existedBeforePlay && object && object->GetScenePersistence() == ScenePersistence::RuntimeOnly) {
+				sceneRenderer_->DestroyObject(handle);
+			}
+		}
+		SceneSerializer::Deserialize(editSceneSnapshot_, *sceneRenderer_, *canvas2d_);
+	}
+	gameObjectWindow_->Init();
+	playState_ = EditorPlayState::Edit;
+	editSceneSnapshot_ = nlohmann::json();
+	editRuntimeHandles_.clear();
+}
+
+void EditorWindows::TogglePause() {
+	if (playState_ == EditorPlayState::Playing) {
+		playState_ = EditorPlayState::Paused;
+		GameTimer::SetTimeScale(0.0f);
+	} else if (playState_ == EditorPlayState::Paused) {
+		playState_ = EditorPlayState::Playing;
+		GameTimer::SetTimeScale(1.0f);
+	}
+	stepRequested_ = false;
+}
+
+void EditorWindows::RequestStep() {
+	if (playState_ != EditorPlayState::Paused) { return; }
+	stepRequested_ = true;
+	GameTimer::SetTimeScale(1.0f);
+}
+
+bool EditorWindows::ShouldUpdateGame() const {
+	return playState_ == EditorPlayState::Playing || stepRequested_;
+}
+
+void EditorWindows::CompleteGameUpdate() {
+	if (playState_ == EditorPlayState::Paused && stepRequested_) {
+		stepRequested_ = false;
+		GameTimer::SetTimeScale(0.0f);
+	}
 }
 #endif 
 

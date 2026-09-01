@@ -14,6 +14,7 @@
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/WinApp/WinApp.h"
 
 using json = nlohmann::json;
 using namespace AOENGINE;
@@ -234,7 +235,10 @@ json SerializeSprite(const Sprite& sprite) {
 		{ "anchor", Vector2ToJson(sprite.GetAnchorPoint()) },
 		{ "flipX", sprite.GetIsFlipX() },
 		{ "flipY", sprite.GetIsFlipY() },
-		{ "renderQueue", sprite.GetRenderQueue() }
+		{ "renderQueue", sprite.GetRenderQueue() },
+		{ "canvasSize", Vector2ToJson(Math::Vector2{
+			static_cast<float>(WinApp::sClientWidth),
+			static_cast<float>(WinApp::sClientHeight) }) }
 	};
 }
 
@@ -284,6 +288,14 @@ void DeserializeSprite(Sprite& sprite, const json& data) {
 	sprite.SetIsFlipX(data.value("flipX", false));
 	sprite.SetIsFlipY(data.value("flipY", false));
 	sprite.SetRenderQueue(data.value("renderQueue", 0));
+	if (data.contains("canvasSize")) {
+		sprite.SetResizeReferenceSize(JsonToVector2(data.at("canvasSize")));
+	} else {
+		// 旧シーンの座標は起動時のCanvas座標として扱う。
+		sprite.SetResizeReferenceSize({
+			static_cast<float>(WinApp::sClientWidth),
+			static_cast<float>(WinApp::sClientHeight) });
+	}
 }
 
 SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canvas2d& canvas) {
@@ -356,12 +368,11 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 
 }
 
-bool SceneSerializer::Save(const std::string& folderPath, const std::string& fileName,
-	const SceneRenderer& renderer) {
+json SceneSerializer::Serialize(const std::string& sceneName, const SceneRenderer& renderer) {
 	json root = {
 		{ "format", "AOENGINE_SCENE" },
 		{ "version", 1 },
-		{ "sceneName", fileName },
+		{ "sceneName", sceneName },
 		{ "objects", json::array() }
 	};
 
@@ -384,17 +395,26 @@ bool SceneSerializer::Save(const std::string& folderPath, const std::string& fil
 		root["objects"].push_back(std::move(objectJson));
 	}
 
-	return JsonSerializer::Save(folderPath, fileName, root);
+	return root;
 }
 
-bool SceneSerializer::Load(const std::string& folderPath, const std::string& fileName,
-	SceneRenderer& renderer, Canvas2d& canvas) {
-	const json root = JsonSerializer::Load(folderPath, fileName);
+bool SceneSerializer::Deserialize(const json& root, SceneRenderer& renderer, Canvas2d& canvas) {
 	if (!root.is_object() || root.value("format", "") != "AOENGINE_SCENE" || root.value("version", 0) != 1) {
 		return false;
 	}
 
-	renderer.GetSceneWorld().ClearSceneObjects();
+	// Sprite/Textの生成はCanvas2dからSceneWorldへ登録するため、
+	// Editor Windowの初回描画より先に行われる起動時ロードでも
+	// 必ず対象のSceneWorldを設定しておく。
+	canvas.SetSceneWorld(&renderer.GetSceneWorld());
+
+	// SceneRenderer経由で破棄し、古いRenderEntryも同時に除去する。
+	for (const ObjectHandle& handle : renderer.GetObjectHandles()) {
+		const SceneObject* object = renderer.FindObject(handle);
+		if (object && object->GetScenePersistence() == ScenePersistence::SceneData) {
+			renderer.DestroyObject(handle);
+		}
+	}
 	canvas.Update();
 
 	std::unordered_map<uint64_t, ObjectHandle> loadedObjects;
@@ -417,4 +437,14 @@ bool SceneSerializer::Load(const std::string& folderPath, const std::string& fil
 	}
 	canvas.AttachItemsToCanvas();
 	return true;
+}
+
+bool SceneSerializer::Save(const std::string& folderPath, const std::string& fileName,
+	const SceneRenderer& renderer) {
+	return JsonSerializer::Save(folderPath, fileName, Serialize(fileName, renderer));
+}
+
+bool SceneSerializer::Load(const std::string& folderPath, const std::string& fileName,
+	SceneRenderer& renderer, Canvas2d& canvas) {
+	return Deserialize(JsonSerializer::Load(folderPath, fileName), renderer, canvas);
 }

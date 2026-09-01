@@ -71,9 +71,20 @@ void SceneManager::Update() {
 		reset_ = false;
 	}
 
+#ifdef _DEVELOPMENT
+	if (!AOENGINE::EditorWindows::GetInstance()->ShouldUpdateGame()) {
+		scene_->EditorUpdateProcess();
+		return;
+	}
+#endif
+
 	scene_->UpdateProcess();
 
 	systemManager_->Update();
+
+#ifdef _DEVELOPMENT
+	AOENGINE::EditorWindows::GetInstance()->CompleteGameUpdate();
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -154,6 +165,12 @@ void SceneManager::SetChange(const SceneType& type) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::SceneManager::SaveScene() {
+#ifdef _DEVELOPMENT
+	// Play中のRuntime変更を編集用シーンへ書き込まない。
+	if (AOENGINE::EditorWindows::GetInstance()->IsPlaying()) {
+		return;
+	}
+#endif
 	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
 	AOENGINE::SceneSerializer::Save(folderPath, "scene", *AOENGINE::SceneRenderer::GetInstance());
 	scene_->SaveSceneEffect();

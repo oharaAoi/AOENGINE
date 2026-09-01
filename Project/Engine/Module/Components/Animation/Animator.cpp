@@ -33,6 +33,16 @@ void Animator::Update() {
 	UpdateSkinning();
 }
 
+void Animator::EvaluateCurrentPose() {
+	if (!animationClip_) { return; }
+	if (isSkinning_) {
+		animationClip_->ApplyAnimation(skeleton_.get());
+	} else {
+		animationClip_->EvaluateCurrentTime();
+	}
+	UpdateSkinning();
+}
+
 
 void Animator::UpdateScript(float& animationTime) {
 	if (!animationClip_->GetIsChange()) {

@@ -23,6 +23,8 @@ public:
 
 	void Init(const std::string& rootName, bool isSkinning, bool isLoop);
 	void Update();
+	/// <summary>現在時刻のポーズを評価する。時間は進めない。</summary>
+	void EvaluateCurrentTime();
 
 	/// <summary>
 	/// Animationの読み込み

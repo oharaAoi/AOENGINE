@@ -59,6 +59,8 @@ public:
 	/// 更新処理の流れ
 	/// </summary>
 	void UpdateProcess();
+	/// <summary>Edit/Pause中にゲーム時間を進めず描画とEditor Cameraだけ更新する。</summary>
+	void EditorUpdateProcess();
 
 	/// <summary>
 	/// シーンの情報を保存する

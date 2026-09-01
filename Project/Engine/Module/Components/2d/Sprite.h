@@ -314,6 +314,8 @@ public: // accessor
 
 	void SetRenderQueue(int renderQueue) { renderQueue_ = renderQueue; }
 	int GetRenderQueue() const { return renderQueue_; }
+	void SetResizeReferenceSize(const Math::Vector2& size) { resizeReferenceSize_ = size; }
+	const Math::Vector2& GetResizeReferenceSize() const { return resizeReferenceSize_; }
 
 	void SetSaveGroupName(const std::string& groupName) { saveGroupName_ = groupName; }
 	const std::string& GetSaveGroupName() const { return saveGroupName_; }
@@ -378,6 +380,8 @@ private: // private variable
 
 	// Textureのサイズ
 	Math::Vector2 textureSize_;
+	// Transformの座標系が基準としているCanvasサイズ。
+	Math::Vector2 resizeReferenceSize_ = { 1.0f, 1.0f };
 	Math::Vector2 spriteSize_;
 
 	// アセットハンドル

@@ -89,6 +89,16 @@ void BaseScene::UpdateProcess() {
 	this->PostUpdate();
 }
 
+void BaseScene::EditorUpdateProcess() {
+	// ゲームロジック、Physics、Animation時間は進めない。
+	pSceneRenderer_->EditorUpdate();
+
+	// Scene Viewの操作と2D描画行列はEdit/Pause中も必要。
+	debugCamera_->Update();
+	camera3d_->Update();
+	camera2d_->Update();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////

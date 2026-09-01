@@ -41,6 +41,8 @@ public: // public method
 	void Init() override;
 	// 更新処理
 	void Update() override;
+	/// <summary>Editor用に時間を進めず描画データだけ更新する。</summary>
+	void EditorUpdate();
 	// 影の描画
 	void PreDraw() const override;
 	// 描画処理

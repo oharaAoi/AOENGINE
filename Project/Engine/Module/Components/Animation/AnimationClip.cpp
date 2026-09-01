@@ -72,14 +72,16 @@ void AnimationClip::Update() {
 		}
 	}
 
-	// skinningを行わない場合アニメーションの行列を更新する
-	if (!isSkinnig_) {
-		NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName_];
-		Math::Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
-		Math::Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
-		Math::Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
-		animationMat_ = Math::Matrix4x4::MakeAffine(scale, rotate, translate);
-	}
+	EvaluateCurrentTime();
+}
+
+void AnimationClip::EvaluateCurrentTime() {
+	if (isSkinnig_) { return; }
+	NodeAnimation& rootNodeAnimation = animation_.nodeAnimations[rootName_];
+	Math::Vector3 translate = CalculateValue(rootNodeAnimation.translate.keyframes, animationTime_);
+	Math::Quaternion rotate = CalculateQuaternion(rootNodeAnimation.rotate.keyframes, animationTime_);
+	Math::Vector3 scale = CalculateValue(rootNodeAnimation.scale.keyframes, animationTime_);
+	animationMat_ = Math::Matrix4x4::MakeAffine(scale, rotate, translate);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
