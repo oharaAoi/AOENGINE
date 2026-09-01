@@ -23,10 +23,21 @@ public: // データ構造体
 		AOENGINE::Color color;
 	};
 
+	struct ThickLineData {
+		Math::Vector4 start;
+		Math::Vector4 end;
+		AOENGINE::Color color;
+		// x: 始点(0) / 終点(1), y: 線の左右(-0.5 / 0.5), z: 太さ(pixel)
+		Math::Vector3 line;
+		Math::Vector2 viewportSize;
+	};
+
 	// 線分の最大数
 	static const UINT kMaxLineCount = 40960;
 	// 線分の頂点数
 	static const UINT kVertexCountLine = 2;
+	static const UINT kVertexCountThickLine = 6;
+	static const UINT kMaxThickLineVertexCount = 40962;
 
 public: // コンストラクタ
 
@@ -60,6 +71,12 @@ public:
 	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color, const Math::Matrix4x4& wvpMat);
 
 	/// <summary>
+	/// 画面上で指定したピクセル幅を持つ線分を描画キューへ追加します。
+	/// </summary>
+	void DrawThick(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color,
+		float thickness, const Math::Matrix4x4& vpMat);
+
+	/// <summary>
 	/// 描画コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
@@ -77,10 +94,12 @@ private:
 	ComPtr<ID3D12Resource> vertexBuffer_;
 	ComPtr<ID3D12Resource> indexBuffer_;
 	ComPtr<ID3D12Resource> wvpBuffer_;
+	ComPtr<ID3D12Resource> thickLineVertexBuffer_;
 
 	// バッファビュー
 	D3D12_VERTEX_BUFFER_VIEW vertexBufferView_ = {};
 	D3D12_INDEX_BUFFER_VIEW indexBufferView_ = {};
+	D3D12_VERTEX_BUFFER_VIEW thickLineVertexBufferView_ = {};
 
 	DescriptorHandles wvpSRV_;
 
@@ -88,11 +107,13 @@ private:
 	PrimitiveData* primitiveData_;
 	uint32_t* indexData_ = nullptr;
 	Math::Matrix4x4* wvpData_;
+	ThickLineData* thickLineData_ = nullptr;
 
 	// 使用している線の頂点の数
 	uint32_t useIndex_ = 0;
 
 	uint32_t preUseIndex_;
+	uint32_t thickLineVertexCount_ = 0;
 
 };
 

@@ -65,6 +65,7 @@ void SceneManager::Update() {
 		ResetManager();
 		systemManager_->Init();
 		scene_->Init();
+		LoadScene();
 
 		reset_ = false;
 	}
@@ -138,6 +139,7 @@ void SceneManager::SetChange(const SceneType& type) {
 
 	systemManager_->Init();
 	scene_->Init();
+	LoadScene();
 
 	reset_ = false;
 	nowScene_ = type;

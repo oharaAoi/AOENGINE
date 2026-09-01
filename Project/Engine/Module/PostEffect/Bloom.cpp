@@ -114,7 +114,7 @@ void Bloom::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::DxResou
 	commandList->SetGraphicsRootDescriptorTable(index, pingPongBuff_->GetPingResource()->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gBloomSettings");
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 
 }
 

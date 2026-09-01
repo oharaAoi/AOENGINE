@@ -155,6 +155,7 @@ private:
 public:
 
 	const UINT GetRootSignatureIndex(const std::string& _name) const;
+	const std::string& GetPrimitiveTopologyType() const { return parameter_.primitiveTopologyType; }
 
 private:
 

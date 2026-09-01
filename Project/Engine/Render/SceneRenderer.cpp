@@ -1,6 +1,8 @@
 #include "SceneRenderer.h"
 
 #include <algorithm>
+#include <cfloat>
+#include <cmath>
 #include <format>
 #include <iterator>
 
@@ -34,6 +36,33 @@ MaterialType SelectMaterialType(const std::string& shader) {
 	}
 
 	return MaterialType::Normal;
+}
+
+bool IntersectTriangle(
+	const Math::Vector3& rayOrigin,
+	const Math::Vector3& rayDirection,
+	const Math::Vector3& vertex0,
+	const Math::Vector3& vertex1,
+	const Math::Vector3& vertex2,
+	float& distance) {
+	constexpr float kRayEpsilon = 1.0e-6f;
+	const Math::Vector3 edge1 = vertex1 - vertex0;
+	const Math::Vector3 edge2 = vertex2 - vertex0;
+	const Math::Vector3 p = Math::Vector3::Cross(rayDirection, edge2);
+	const float determinant = Math::Vector3::Dot(edge1, p);
+	if (std::abs(determinant) < kRayEpsilon) { return false; }
+
+	const float inverseDeterminant = 1.0f / determinant;
+	const Math::Vector3 t = rayOrigin - vertex0;
+	const float u = Math::Vector3::Dot(t, p) * inverseDeterminant;
+	if (u < 0.0f || u > 1.0f) { return false; }
+
+	const Math::Vector3 q = Math::Vector3::Cross(t, edge1);
+	const float v = Math::Vector3::Dot(rayDirection, q) * inverseDeterminant;
+	if (v < 0.0f || u + v > 1.0f) { return false; }
+
+	distance = Math::Vector3::Dot(edge2, q) * inverseDeterminant;
+	return distance >= 0.0f;
 }
 
 }
@@ -342,6 +371,71 @@ bool SceneRenderer::MoveToRoot(const ObjectHandle& handle) {
 		sprite->GetTransform()->ClearParent();
 	}
 	return true;
+}
+
+ObjectHandle SceneRenderer::PixelPick(const ImVec2& pixelPos, const ImVec2& imageSize) const {
+	if (imageSize.x <= 0.0f || imageSize.y <= 0.0f ||
+		pixelPos.x < 0.0f || pixelPos.y < 0.0f ||
+		pixelPos.x >= imageSize.x || pixelPos.y >= imageSize.y) {
+		return {};
+	}
+
+	// ImGui画像上のピクセルをDirectXのNDCへ変換し、Editor Cameraからレイを復元する。
+	const float ndcX = pixelPos.x / imageSize.x * 2.0f - 1.0f;
+	const float ndcY = 1.0f - pixelPos.y / imageSize.y * 2.0f;
+	const Math::Matrix4x4 inverseViewProjection = AOENGINE::Render::GetViewProjectionMat().Inverse();
+	const Math::Vector3 nearPoint = TransformCoord({ ndcX, ndcY, 0.0f }, inverseViewProjection);
+	const Math::Vector3 farPoint = TransformCoord({ ndcX, ndcY, 1.0f }, inverseViewProjection);
+	const Math::Vector3 rayDirection = (farPoint - nearPoint).Normalize();
+
+	ObjectHandle closestHandle{};
+	float closestDistance = FLT_MAX;
+	for (const RenderEntry& entry : renderEntries_) {
+		if (entry.isPostDraw) { continue; }
+
+		const BaseGameObject* object = dynamic_cast<const BaseGameObject*>(GetRenderableObject(entry));
+		if (!object || !object->IsActive() || !object->GetModel() || !object->GetTransform()) { continue; }
+
+		const Math::Matrix4x4& world = object->GetTransform()->GetWorldMatrix();
+		const Model* model = object->GetModel();
+		for (uint32_t meshIndex = 0; meshIndex < model->GetMeshsNum(); ++meshIndex) {
+			const Mesh* mesh = model->GetMesh(meshIndex);
+			if (!mesh) { continue; }
+
+			const auto& vertices = mesh->GetVertices();
+			const auto& indices = mesh->GetIndices();
+			for (uint32_t subMeshIndex = 0; subMeshIndex < mesh->GetSubMeshCount(); ++subMeshIndex) {
+				const SubMesh& subMesh = mesh->GetSubMesh(subMeshIndex);
+				if (subMesh.topology != D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST) { continue; }
+
+				const uint32_t endIndex = (std::min)(subMesh.firstIndex + subMesh.indexCount, static_cast<uint32_t>(indices.size()));
+				for (uint32_t index = subMesh.firstIndex; index + 2 < endIndex; index += 3) {
+					const int64_t i0 = static_cast<int64_t>(indices[index]) + subMesh.baseVertex;
+					const int64_t i1 = static_cast<int64_t>(indices[index + 1]) + subMesh.baseVertex;
+					const int64_t i2 = static_cast<int64_t>(indices[index + 2]) + subMesh.baseVertex;
+					if (i0 < 0 || i1 < 0 || i2 < 0 ||
+						i0 >= static_cast<int64_t>(vertices.size()) ||
+						i1 >= static_cast<int64_t>(vertices.size()) ||
+						i2 >= static_cast<int64_t>(vertices.size())) { continue; }
+
+					const Math::Vector4& p0 = vertices[static_cast<size_t>(i0)].pos;
+					const Math::Vector4& p1 = vertices[static_cast<size_t>(i1)].pos;
+					const Math::Vector4& p2 = vertices[static_cast<size_t>(i2)].pos;
+					const Math::Vector3 v0 = TransformCoord({ p0.x, p0.y, p0.z }, world);
+					const Math::Vector3 v1 = TransformCoord({ p1.x, p1.y, p1.z }, world);
+					const Math::Vector3 v2 = TransformCoord({ p2.x, p2.y, p2.z }, world);
+
+					float distance = 0.0f;
+					if (IntersectTriangle(nearPoint, rayDirection, v0, v1, v2, distance) && distance < closestDistance) {
+						closestDistance = distance;
+						closestHandle = entry.handle;
+					}
+				}
+			}
+		}
+	}
+
+	return closestHandle;
 }
 
 void SceneRenderer::DestroyObject(const ObjectHandle& handle) {

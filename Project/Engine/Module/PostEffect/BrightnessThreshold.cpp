@@ -37,7 +37,7 @@ void BrightnessThreshold::SetCommand(ID3D12GraphicsCommandList* commandList, AOE
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gBloomSettings");
 	commandList->SetGraphicsRootConstantBufferView(index, bloomBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

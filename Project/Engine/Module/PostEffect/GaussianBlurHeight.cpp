@@ -37,7 +37,7 @@ void GaussianBlurHeight::SetCommand(ID3D12GraphicsCommandList* commandList, AOEN
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gBlurSettings");
 	commandList->SetGraphicsRootConstantBufferView(index, blurBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

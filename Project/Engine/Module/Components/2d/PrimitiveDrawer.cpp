@@ -2,6 +2,7 @@
 #include "Engine/Core/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/WinApp/WinApp.h"
 
 using namespace AOENGINE;
 
@@ -13,6 +14,7 @@ void PrimitiveDrawer::Finalize() {
 	vertexBuffer_.Reset();
 	indexBuffer_.Reset();
 	wvpBuffer_.Reset();
+	thickLineVertexBuffer_.Reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +72,14 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// 生成
 	device->CreateShaderResourceView(wvpBuffer_.Get(), &srvDesc, wvpSRV_.handleCPU);
 
+	thickLineVertexBuffer_ = CreateBufferResource(device, sizeof(ThickLineData) * kMaxThickLineVertexCount);
+	thickLineVertexBufferView_.BufferLocation = thickLineVertexBuffer_->GetGPUVirtualAddress();
+	thickLineVertexBufferView_.SizeInBytes = UINT(sizeof(ThickLineData) * kMaxThickLineVertexCount);
+	thickLineVertexBufferView_.StrideInBytes = sizeof(ThickLineData);
+	thickLineVertexBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&thickLineData_));
+
 	useIndex_ = 0;
+	thickLineVertexCount_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +90,7 @@ void PrimitiveDrawer::Update() {
 	// 使用量を更新する
 	useIndex_ = 0;
 	preUseIndex_ = 0;
+	thickLineVertexCount_ = 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,26 +125,57 @@ void PrimitiveDrawer::Draw(const Math::Vector3& p1, const Math::Vector3& p2, con
 	useIndex_ += 2;
 }
 
+void PrimitiveDrawer::DrawThick(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color,
+	float thickness, const Math::Matrix4x4& vpMat) {
+	if (thickness <= 0.0f || thickLineVertexCount_ + kVertexCountThickLine > kMaxThickLineVertexCount) {
+		return;
+	}
+
+	const Math::Vector4 start = Math::Vector4(p1.x, p1.y, p1.z, 1.0f) * vpMat;
+	const Math::Vector4 end = Math::Vector4(p2.x, p2.y, p2.z, 1.0f) * vpMat;
+	const Math::Vector2 viewportSize(
+		static_cast<float>(WinApp::sClientWidth),
+		static_cast<float>(WinApp::sClientHeight));
+	const Math::Vector2 corners[kVertexCountThickLine] = {
+		{ 0.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, -0.5f },
+		{ 1.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, 0.5f }
+	};
+
+	for (uint32_t vertex = 0; vertex < kVertexCountThickLine; ++vertex) {
+		ThickLineData& data = thickLineData_[thickLineVertexCount_ + vertex];
+		data.start = start;
+		data.end = end;
+		data.color = color;
+		data.line = { corners[vertex].x, corners[vertex].y, thickness };
+		data.viewportSize = viewportSize;
+	}
+	thickLineVertexCount_ += kVertexCountThickLine;
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ instance描画を行う
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
-	Pipeline* pso = Engine::SetPipeline(PSOType::Primitive, "Primitive_Line.json");
-
 	uint32_t indeices = useIndex_ - preUseIndex_;
-	if (indeices == 0) {
-		return; // 描画するものがないので早期リターン
+	if (indeices > 0) {
+		Pipeline* pso = Engine::SetPipeline(PSOType::Primitive, "Primitive_Line.json");
+		// コマンドリストの設定
+		commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
+		commandList->IASetIndexBuffer(&indexBufferView_);
+		uint32_t roorIndex = pso->GetRootSignatureIndex("gTransformationMatrix");
+		commandList->SetGraphicsRootDescriptorTable(roorIndex, wvpSRV_.handleGPU);
+
+		// インデックスを使用して線を描画
+		commandList->DrawIndexedInstanced(indeices, indeices / 2, preUseIndex_, 0, 0);
+		preUseIndex_ = useIndex_;
 	}
-	// コマンドリストの設定
-	commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
-	commandList->IASetIndexBuffer(&indexBufferView_);
-	uint32_t roorIndex = 0;
-	roorIndex = pso->GetRootSignatureIndex("gTransformationMatrix");
-	commandList->SetGraphicsRootDescriptorTable(roorIndex, wvpSRV_.handleGPU);
 
-	// インデックスを使用して線を描画
-	commandList->DrawIndexedInstanced(indeices, indeices / 2, preUseIndex_, 0, 0);
+	if (thickLineVertexCount_ == 0) {
+		return;
+	}
 
-	preUseIndex_ = useIndex_;
+	Engine::SetPipeline(PSOType::Primitive, "Primitive_ThickLine.json");
+	commandList->IASetVertexBuffers(0, 1, &thickLineVertexBufferView_);
+	commandList->DrawInstanced(thickLineVertexCount_, 1, 0, 0);
 }

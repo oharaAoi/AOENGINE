@@ -233,6 +233,16 @@ void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2
 	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
 }
 
+void AOENGINE::Render::DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
+	const Color& color, float thickness, const Math::Matrix4x4& vpMat) {
+	primitiveDrawer_->DrawThick(p1, p2, color, thickness, vpMat);
+}
+
+void AOENGINE::Render::DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
+	const Color& color, float thickness) {
+	primitiveDrawer_->DrawThick(p1, p2, color, thickness, viewProjection_->GetViewProjection());
+}
+
 void AOENGINE::Render::DrawGrid(
 	const Math::Matrix4x4& viewMatrix,
 	const Math::Matrix4x4& projectionMatrix,

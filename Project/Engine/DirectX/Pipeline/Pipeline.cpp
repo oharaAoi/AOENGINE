@@ -176,10 +176,11 @@ void Pipeline::CreatePSO() {
 
 	}
 	// 利用するトポロジ(形状)のタイプ
-	if (parameter_.primitiveTopologyType == "") {
-		desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
-	} else if (parameter_.primitiveTopologyType == "Line") {
+	if (parameter_.primitiveTopologyType == "Line") {
 		desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
+	} else {
+		// 未指定・Triangle・未知の値は、既存パイプラインとの互換性を保ってTriangleとして扱う。
+		desc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	}
 	// どのように画面に色を打ち込むかの設定
 	desc.SampleDesc.Count = 1;

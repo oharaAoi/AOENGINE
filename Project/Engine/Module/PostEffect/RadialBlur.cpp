@@ -50,7 +50,7 @@ void RadialBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::Dx
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gBlurSetting");
 	commandList->SetGraphicsRootConstantBufferView(index, blurSettingBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

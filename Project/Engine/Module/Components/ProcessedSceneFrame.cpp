@@ -57,7 +57,7 @@ void ProcessedSceneFrame::Init(AOENGINE::DxResourceManager* _dxResourceManager) 
 
 void ProcessedSceneFrame::Draw(ID3D12GraphicsCommandList* commandList) {
 	commandList->SetGraphicsRootDescriptorTable(0, renderResource_->GetSRV().handleGPU);
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

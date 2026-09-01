@@ -330,8 +330,16 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 			EditorWindows::GetInstance()->SetSelectWindow(this);
 		}
 
+		bool sceneViewClicked = false;
+		ImVec2 clickedPixel{};
 		if (editorSceneFrame_) {
 			editorSceneFrame_->DrawScene();
+			sceneViewClicked = ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left);
+			if (sceneViewClicked) {
+				const ImVec2 mousePos = ImGui::GetMousePos();
+				const ImVec2 imagePos = editorSceneFrame_->GetImagePos();
+				clickedPixel = ImVec2(mousePos.x - imagePos.x, mousePos.y - imagePos.y);
+			}
 		}
 
 		// manipulateの表示
@@ -349,6 +357,12 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 				}
 			}
 
+			Engine::ActivateSceneView(SceneViewType::Game);
+		}
+
+		if (sceneViewClicked && sceneRenderer_ && !ImGuizmo::IsOver() && !ImGuizmo::IsUsing()) {
+			Engine::ActivateSceneView(SceneViewType::Editor);
+			selectedObjectHandle_ = sceneRenderer_->PixelPick(clickedPixel, editorSceneFrame_->GetAvailSize());
 			Engine::ActivateSceneView(SceneViewType::Game);
 		}
 	}

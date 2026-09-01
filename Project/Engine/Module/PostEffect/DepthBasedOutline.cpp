@@ -50,7 +50,7 @@ void DepthBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, AOENG
 	commandList->SetGraphicsRootDescriptorTable(index, depthHandle_.handleGPU);
 	index = pso->GetRootSignatureIndex("gSetting");
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 
 	TransitionResourceState(commandList, depthResource_, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,  D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }

@@ -34,7 +34,7 @@ void GaussianFilter::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gGaussianSetting");
 	commandList->SetGraphicsRootConstantBufferView(index, settingBuffer_->GetResource()->GetGPUVirtualAddress());
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

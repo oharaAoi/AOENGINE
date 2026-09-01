@@ -59,6 +59,11 @@ public:
 	// objectの編集
 	void EditObject(const ImVec2& windowSize, const ImVec2& imagePos);
 
+	/// <summary>
+	/// Scene View上の1ピクセルからレイを作り、最前面の3Dオブジェクトを取得します。
+	/// </summary>
+	ObjectHandle PixelPick(const ImVec2& pixelPos, const ImVec2& imageSize) const;
+
 public:
 	/// <summary>
 	/// SceneLoaderのLevelDataからSceneWorldへオブジェクトを生成し、描画設定を登録します。

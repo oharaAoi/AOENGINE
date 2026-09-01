@@ -22,7 +22,7 @@ void LuminanceBasedOutline::SetCommand(ID3D12GraphicsCommandList* commandList, A
 	Pipeline* pso = Engine::GetLastUsedPipeline();
 	UINT index = pso->GetRootSignatureIndex("gTexture");
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

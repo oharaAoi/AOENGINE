@@ -29,7 +29,7 @@ void MotionBlur::SetCommand(ID3D12GraphicsCommandList* commandList, AOENGINE::Dx
 	commandList->SetGraphicsRootDescriptorTable(index, pingResource->GetSRV().handleGPU);
 	index = pso->GetRootSignatureIndex("gMotion");
 	commandList->SetGraphicsRootDescriptorTable(index, motionResource_->GetSRV().handleGPU);
-	commandList->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	commandList->DrawInstanced(3, 1, 0, 0);
 
 	motionResource_->Transition(commandList, D3D12_RESOURCE_STATE_RENDER_TARGET);
 }

@@ -24,7 +24,10 @@ void PrimitivePipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler
 
 void PrimitivePipeline::SetPipeline(ID3D12GraphicsCommandList* _commandList, const std::string& _typeName) {
 	pipelineMap_[_typeName]->BindCommand(_commandList);
-	_commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+	const bool isLine = pipelineMap_[_typeName]->GetPrimitiveTopologyType() == "Line";
+	_commandList->IASetPrimitiveTopology(isLine
+		? D3D_PRIMITIVE_TOPOLOGY_LINELIST
+		: D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	lastUsePipeline_ = pipelineMap_[_typeName].get();
 }
