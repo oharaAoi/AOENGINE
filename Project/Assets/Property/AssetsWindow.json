@@ -4,10 +4,10 @@
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
-        "./Project/Assets\\Engine": false,
+        "./Project/Assets\\Engine": true,
         "./Project/Assets\\Engine\\Font": false,
         "./Project/Assets\\Engine\\HLSL": false,
         "./Project/Assets\\Engine\\Load": true,
