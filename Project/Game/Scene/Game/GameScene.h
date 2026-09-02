@@ -3,8 +3,7 @@
 #include "Game/Scene/BaseScene.h"
 /// game
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
-#include "Game/Stage/StageBlockField.h"
-#include "Game/Stage/StageSegment.h" #include "Game/Stage/StageBackgrounds.h"
+#include "Game/Stage/StageBackgrounds.h"
 #include "Game/Stage/StageBlockField.h"
 #include "Game/Stage/StageSegment.h"
 
@@ -60,10 +59,6 @@ private:
 	std::unique_ptr<Player> player_;
 	/// PlayerとBlockの衝突コールバック
 	PlayerBlockCollisionCallBacks playerBlockCallBacks_;
-	/// セグメントを跨いでブロックの連結グループを管理する表
-	StageBlockField stageBlockField_;
-	/// CSVから読み込んだステージセグメント
-	StageSegment stageSegment_;
 
 	std::unique_ptr<FollowCamera> followCamera_;
 
