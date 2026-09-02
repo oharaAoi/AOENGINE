@@ -9,6 +9,10 @@
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include <Engine/Module/Components/GameObject/SceneObject.h>
 
+// game
+#include "Game/Stage/StageBlockField.h"
+#include "Game/Stage/StageSegment.h"
+
 /// <summary>
 /// 背景スクロールで使用するパラメータ
 /// </summary>
@@ -34,7 +38,7 @@ struct BackgroundParameter :
 		Convert::fromJson(data, "scrollHeight", scrollHeight);
 	}
 
-	float scrollHeight; // 背景スクロールをする高さ
+	int scrollHeight; // 背景スクロールをする高さ
 };
 
 /// <summary>
@@ -51,19 +55,19 @@ public: // public method
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Init();
+	void Init(StageBlockField* field, StageSegment* segment);
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(const Math::Vector3& playerPos);
+	void Update(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
 
 private: // private method
 
 	/// <summary>
 	/// 背景ループ
 	/// </summary>
-	void BackgroundLoop(const Math::Vector3& playerPos);
+	void BackgroundLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
 
 	/// <summary>
 	/// 背景生成

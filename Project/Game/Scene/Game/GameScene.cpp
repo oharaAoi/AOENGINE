@@ -19,6 +19,11 @@ void GameScene::Finalize() {
 	boss_.reset();
 	followCamera_.reset();
 	player_.reset();
+
+	// ステージのブロックを SceneWorld から破棄し、連結グループ表を空にする。
+	// TestScene のデストラクタからも呼ばれるため、複数回呼ばれても安全であること。
+	stageSegment_.UnregisterFromWorld(&stageBlockField_);
+	stageBlockField_.Clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -42,13 +47,14 @@ void GameScene::Init() {
 
 void GameScene::OnPlayStart() {
 
-	backgrounds_->Init();
+	/*backgrounds_->Init();*/
 	// プレイヤー初期化
 	player_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Player"));
 	// ボス初期化
 	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
 	// カメラ初期化
 	followCamera_->Init();
+	backgrounds_->Init(&stageBlockField_, &stageSegment_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +74,7 @@ void GameScene::Update() {
 	}
 
 	// 背景
-	backgrounds_->Update(player_->GetPosition());
+	backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
 
 	// ボスの更新
 	if (boss_ && followCamera_) {

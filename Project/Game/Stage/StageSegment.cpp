@@ -32,7 +32,7 @@ void StageSegment::LoadBlockData(const std::string& filePath){
 	}
 }
 
-void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx){
+void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx, int addHeight){
 	constexpr int isBlock = 1; // ブロックが存在することを示す値（仮定）
 
 	if(field == nullptr){
@@ -48,8 +48,8 @@ void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentOriginG
 			// セグメント i行 j列 -> グローバルグリッド座標へ変換
 			// CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
 			GridPos pos{};
-			pos.x = segmentOriginGx + j;
-			pos.y = (kBlockRow - 1) - i;
+			pos.x = j;
+			pos.y = ((kBlockRow - 1) - i) + addHeight;
 
 			// プレハブから Block の実体となる GameObject を生成する
 			AOENGINE::SceneObject* root =

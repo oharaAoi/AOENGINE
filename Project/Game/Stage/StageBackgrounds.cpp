@@ -7,18 +7,22 @@
 
 // game
 #include "Game/Stage/StageSegment.h"
+#include "Game/Stage/StageFactory.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::Init() {
+void StageBackgrounds::Init(StageBlockField* field, StageSegment* segment) {
 	parameter_.Load();
 
 	currentIndex_ = -1;
 
 	for (size_t i = 0; i < 2; ++i) {
 		CreateBackground();
+
+		StageFactory factory;
+		factory.Create(field, segment, currentIndex_, currentIndex_ * parameter_.scrollHeight);
 	}
 }
 
@@ -26,25 +30,29 @@ void StageBackgrounds::Init() {
 // 更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::Update(const Math::Vector3& playerPos) {
-	BackgroundLoop(playerPos);
+void StageBackgrounds::Update(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos) {
+	BackgroundLoop(field, segment, playerPos);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 背景をループさせる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::BackgroundLoop(const Math::Vector3& playerPos) {
+void StageBackgrounds::BackgroundLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos) {
 	float playerY = playerPos.y;
 
 	// playerのY座標がindexの値 x スクロールの高さ超えたら次を生成
 	if (playerY >= currentIndex_ * parameter_.scrollHeight) {
 		CreateBackground();
 
+		StageFactory factory;
+		factory.Create(field, segment, currentIndex_, currentIndex_ * parameter_.scrollHeight);
+
 		// 前の背景の削除
 		AOENGINE::ObjectHandle frontHandle = objHandles_.front();
 		AOENGINE::SceneRenderer::GetInstance()->DestroyObject(frontHandle);
 		objHandles_.pop();
+
 	}
 }
 
@@ -62,10 +70,6 @@ void StageBackgrounds::CreateBackground() {
 	if (!background) { return; }
 
 	objHandles_.push(root->GetHandle());
-	background->GetTransform()->SetTranslationY((currentIndex_ + 1) * parameter_.scrollHeight);
+	background->GetTransform()->SetTranslationY(static_cast<float>((currentIndex_ + 1) * parameter_.scrollHeight));
 	currentIndex_++;
-
-	StageSegment seg;
-	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
-	/*seg.SetupSegmentOnWorld(parameter_.scrollHeight * currentIndex_);*/
 }
