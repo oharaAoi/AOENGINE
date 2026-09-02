@@ -28,6 +28,7 @@
         "./Project/Assets\\Game\\Pipeline": false,
         "./Project/Assets\\Game\\Prefabs": false,
         "./Project/Assets\\Game\\Scene": true,
+        "./Project/Assets\\Game\\StageData": false,
         "./Project/Assets\\Property": false
     }
 }
