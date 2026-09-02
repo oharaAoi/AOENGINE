@@ -26,10 +26,13 @@ void StageSegment::SetupSegmentOnWorld(){
 	constexpr int isBlock = 1; // ブロックが存在することを示す値（仮定）
 	constexpr float kBlockSize = 3.0f; // ブロックのサイズ（仮定）
 
-	// とりあえず、原点のまま考える。
+	// セグメント全体の中心が原点(0,0,0)になるように、中央からのオフセットを求める
+	constexpr float kOffsetX = (kBlockCol - 1) * 0.5f; // 列方向の中心インデックス
+	constexpr float kOffsetY = (kBlockRow - 1) * 0.5f; // 行方向の中心インデックス
+
 	for(int i = 0; i < kBlockRow; ++i){
 		// CSVは上の行ほど画面上側を表すため、行インデックスを反転させて +Y に対応させる
-		float y = (kBlockRow - 1 - i) * kBlockSize; // ブロックのY座標を計算
+		float y = (kOffsetY - i) * kBlockSize; // ブロックのY座標を計算
 
 		for(int j = 0; j < kBlockCol; ++j){
 			if(blockData_[i][j] == isBlock){
@@ -42,7 +45,7 @@ void StageSegment::SetupSegmentOnWorld(){
 				}
 
 				// ブロックの位置を設定する
-				float x = j * kBlockSize;
+				float x = (j - kOffsetX) * kBlockSize;
 
 				block->GetTransform()->SetTranslate(Math::Vector3(x,y,0.0f));
 			}
