@@ -28,7 +28,8 @@ void StageSegment::SetupSegmentOnWorld(){
 
 	// とりあえず、原点のまま考える。
 	for(int i = 0; i < kBlockRow; ++i){
-		float y = i * kBlockSize; // ブロックのY座標を計算
+		// CSVは上の行ほど画面上側を表すため、行インデックスを反転させて +Y に対応させる
+		float y = (kBlockRow - 1 - i) * kBlockSize; // ブロックのY座標を計算
 
 		for(int j = 0; j < kBlockCol; ++j){
 			if(blockData_[i][j] == isBlock){

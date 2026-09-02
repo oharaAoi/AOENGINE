@@ -13,10 +13,6 @@ void TestScene::Init() {
 	BaseScene::Init();
 
 	AOENGINE::Render::GetLightGroup()->Load();
-
-	StageSegment seg;
-	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
-	seg.SetupSegmentOnWorld();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -24,4 +20,10 @@ void TestScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
 
+}
+
+void TestScene::OnPlayStart(){
+	StageSegment seg;
+	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
+	seg.SetupSegmentOnWorld();
 }

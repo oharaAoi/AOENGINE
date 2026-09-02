@@ -15,6 +15,7 @@ public:
 	void Finalize() override;
 	void Init() override;
 	void Update() override;
+	void OnPlayStart() override;
 	
 private:
 
