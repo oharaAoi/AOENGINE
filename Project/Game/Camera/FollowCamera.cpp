@@ -10,12 +10,15 @@
 #include "Engine/Utilities/SceneObjectFinder.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 初期化
+//  初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::Init() {
 	BaseCamera::Init();
 	SetName("followCamera");
+
+	// 保存済みの調整値を読み込む
+	parameter_.Load();
 
 	target_ = nullptr;
 
@@ -32,7 +35,7 @@ void FollowCamera::Init() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 更新
+//  更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::Update() {
@@ -58,35 +61,35 @@ void FollowCamera::Update() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ 追従対象の取得 (Docs/ObjectAccessGuide.html の方法)
+//  追従対象の取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::ResolveTarget() {
 	AOENGINE::BaseGameObject* found = FindSceneObject<AOENGINE::BaseGameObject>(targetName_);
 	if (found && found != target_) {
 		target_ = found;
-		initialized_ = false; // 新しいターゲットへスナップさせる
+		initialized_ = false;
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ ターゲット追従
+//  ターゲット追従
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::FollowTarget(float deltaTime) {
 	Math::Vector3 targetPos = target_->GetTransform()->GetTranslate();
 
-	if (!parameter_.followY) {
-		targetPos.y = parameter_.fixedY;
-	}
-
 	if (!initialized_) {
-		// 1フレーム目は補間せずにスナップする
+		//初期化
 		smoothedTarget_ = targetPos;
 		followVelocity_ = CVector3::ZERO;
 		initialized_ = true;
 		return;
 	}
+
+	// 縦(Y)だけ追従する
+	targetPos.x = smoothedTarget_.x;
+	targetPos.z = smoothedTarget_.z;
 
 	smoothedTarget_ = SmoothDamp(
 		smoothedTarget_, targetPos, followVelocity_,
@@ -94,7 +97,7 @@ void FollowCamera::FollowTarget(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ シェイク
+//  シェイク
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::SetShake(float time, float strength) {
@@ -110,6 +113,7 @@ void FollowCamera::UpdateShake(float deltaTime) {
 		return;
 	}
 
+	// タイマー更新
 	shakeTimer_ += deltaTime;
 
 	// 時間で減衰させる
@@ -123,8 +127,19 @@ void FollowCamera::UpdateShake(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ デバッグ表示
+// デバッグ表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
+
+void FollowCamera::Parameter::Debug_Gui() {
+	ImGui::DragFloat3("Offset", &offset.x, 0.1f);
+	ImGui::DragFloat("Pitch(deg)", &pitch, 0.1f);
+	ImGui::DragFloat("Smooth Time", &smoothTime, 0.01f);
+	ImGui::DragFloat("Max Speed", &maxSpeed, 1.0f);
+	ImGui::DragFloat2("Shake Frequency", &shakeFrequency.x, 0.1f);
+
+	// Save / Load ボタン
+	SaveAndLoad();
+}
 
 void FollowCamera::Debug_Gui() {
 	const Math::Vector3 pos = transform_.translate;
@@ -139,5 +154,9 @@ void FollowCamera::Debug_Gui() {
 
 	if (ImGui::Button("Test Shake")) {
 		SetShake(0.3f, 0.5f);
+	}
+
+	if (ImGui::CollapsingHeader("Parameter")) {
+		parameter_.Debug_Gui();
 	}
 }

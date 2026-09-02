@@ -57,6 +57,20 @@ void GameScene::Update() {
 	if (followCamera_) {
 		followCamera_->Update();
 	}
+
+#ifdef _DEVELOPMENT
+	// 調整パラメータの編集 + Save/Load
+	if (player_) {
+		ImGui::Begin("Player");
+		player_->Debug_Gui();
+		ImGui::End();
+	}
+	if (followCamera_) {
+		ImGui::Begin("FollowCamera");
+		followCamera_->Debug_Gui();
+		ImGui::End();
+	}
+#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

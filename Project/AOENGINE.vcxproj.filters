@@ -271,6 +271,9 @@
     <Filter Include="Game\Actor\Player">
       <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Player\Component">
+      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004505}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
     </Filter>
@@ -1146,6 +1149,12 @@
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Player.h">
       <Filter>Game\Actor\Player</Filter>
     </ClInclude>
@@ -2003,7 +2012,16 @@
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Player\Player.cpp">
+      <Filter>Game\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
