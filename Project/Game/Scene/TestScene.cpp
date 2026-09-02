@@ -20,8 +20,6 @@ void TestScene::Finalize() {
 // 初期化
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Init() {
-	BaseScene::Init();
-
 	AOENGINE::Render::GetLightGroup()->Load();
 
 	player_ = std::make_unique<Player>();

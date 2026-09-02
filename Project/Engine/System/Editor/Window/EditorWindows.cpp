@@ -106,8 +106,15 @@ void EditorWindows::Begin() {
 		ImGuiWindowFlags_NoCollapse;
 
 	if (ImGui::Begin("BaseWindow", nullptr, window_flags)) {
+		HandleShortcuts();
+
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
+				const bool canSaveScene = pSceneManager_ != nullptr && playState_ == EditorPlayState::Edit;
+				if (ImGui::MenuItem("Save Scene", "Ctrl+S", false, canSaveScene)) {
+					SaveCurrentScene();
+				}
+				ImGui::Separator();
 				// json
 				if (ImGui::BeginMenu("JsonItems")) {
 					if (ImGui::Button("HotReload")) {
@@ -232,9 +239,7 @@ void EditorWindows::DebugItemWindow() {
 	ImTextureID replayTex = reinterpret_cast<ImTextureID>(replayHandle.ptr);
 
 	if (ImGui::ImageButton("##save", saveTex, iconSize)) {
-		if (pSceneManager_ != nullptr && playState_ == EditorPlayState::Edit) {
-			pSceneManager_->SaveScene();
-		}
+		SaveCurrentScene();
 	}
 	ImGui::SameLine();
 
@@ -304,6 +309,23 @@ bool EditorWindows::PushStyleColor(bool _flag, const Math::Vector4& color) {
 void EditorWindows::PopStyleColor(bool _flag) {
 	if (_flag) {
 		ImGui::PopStyleColor(1);
+	}
+}
+
+void EditorWindows::SaveCurrentScene() {
+	if (pSceneManager_ && playState_ == EditorPlayState::Edit) {
+		pSceneManager_->SaveScene();
+	}
+}
+
+void EditorWindows::HandleShortcuts() {
+	// Text入力などにフォーカスがあっても、Editor標準の保存操作を優先する。
+	constexpr ImGuiInputFlags shortcutFlags =
+		ImGuiInputFlags_RouteGlobal |
+		ImGuiInputFlags_RouteOverFocused |
+		ImGuiInputFlags_RouteOverActive;
+	if (ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_S, shortcutFlags)) {
+		SaveCurrentScene();
 	}
 }
 

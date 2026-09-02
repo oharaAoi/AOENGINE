@@ -239,11 +239,42 @@ void BaseGameObject::AddCollider(BaseCollider* _collider, const std::string& cat
 	);
 }
 
+bool BaseGameObject::RemoveCollider(BaseCollider* collider) {
+	if (!collider) {
+		return false;
+	}
+
+	const auto colliderIt = std::find(colliders_.begin(), colliders_.end(), collider);
+	if (colliderIt == colliders_.end()) {
+		return false;
+	}
+
+	ColliderCollector::GetInstance()->RemoveCollider(collider);
+	colliders_.erase(colliderIt);
+	components_.remove_if([collider](const std::unique_ptr<IComponent>& component) {
+		return component.get() == collider;
+	});
+	return true;
+}
+
 void BaseGameObject::SetPhysics() {
 	if (rigidbody_ != nullptr) {
 		return;
 	}
 	rigidbody_ = AddComponent<Rigidbody>();
+}
+
+bool BaseGameObject::RemoveRigidbody() {
+	if (!rigidbody_) {
+		return false;
+	}
+
+	Rigidbody* removing = rigidbody_;
+	rigidbody_ = nullptr;
+	components_.remove_if([removing](const std::unique_ptr<IComponent>& component) {
+		return component.get() == removing;
+	});
+	return true;
 }
 
 void BaseGameObject::EditorUpdate() {
@@ -374,6 +405,16 @@ void BaseGameObject::SetAnimator(const std::string& directoryPath, const std::st
 
 	animetor_ = std::make_unique<Animator>();
 	animetor_->LoadAnimation(directoryPath, objName, model_);
+}
+
+bool BaseGameObject::RemoveAnimator() {
+	if (!animetor_) {
+		return false;
+	}
+
+	animetor_->Finalize();
+	animetor_.reset();
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

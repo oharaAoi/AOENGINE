@@ -140,6 +140,7 @@ public: // accessor method
 	void SetAnimator();
 
 	void SetAnimator(const std::string& directoryPath, const std::string& objName);
+	bool RemoveAnimator();
 
 	AOENGINE::Animator* GetAnimator() { return animetor_.get(); }
 	const AOENGINE::Animator* GetAnimator() const { return animetor_.get(); }
@@ -151,10 +152,12 @@ public: // accessor method
 	AOENGINE::BaseCollider* GetCollider(const std::string& name);
 	AOENGINE::BaseCollider* SetCollider(const std::string& categoryName, ColliderShape shape);
 	void AddCollider(AOENGINE::BaseCollider* _collider, const std::string& categoryName, ColliderShape shape);
+	bool RemoveCollider(AOENGINE::BaseCollider* collider);
 
 	const std::vector<AOENGINE::BaseCollider*>& GetColliders() const { return colliders_; }
 
 	void SetPhysics();
+	bool RemoveRigidbody();
 	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_; }
 	const AOENGINE::Rigidbody* GetRigidbody() const { return rigidbody_; }
 

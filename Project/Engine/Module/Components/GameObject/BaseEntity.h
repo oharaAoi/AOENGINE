@@ -1,47 +1,57 @@
 #pragma once
-#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+
+#include <string>
+
+#include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
-#include "Engine/Module/Components/Collider/BaseCollider.h"
-#include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Module/Components/GameObject/SceneObject.h"
 
 namespace AOENGINE {
 
-/// <summary>
-/// GameObjectやTransformの仲介
-/// </summary>
-class BaseEntity :
-	public AOENGINE::AttributeGui {
-public:
+class BaseCollider;
+class BaseGameObject;
+class WorldTransform;
 
+/// <summary>
+/// ゲームロジックとSceneWorld上のBaseGameObjectを関連付ける非所有ラッパー。
+/// BaseGameObjectの寿命はSceneWorldが管理し、BaseEntityはObjectHandleだけを保持する。
+/// </summary>
+class BaseEntity {
+public:
 	BaseEntity() = default;
+	explicit BaseEntity(BaseGameObject* object);
 	virtual ~BaseEntity() = default;
 
-	virtual void Debug_Gui() override = 0;
+	/// <summary>SceneWorldに登録済みのGameObjectと関連付ける。</summary>
+	void Bind(BaseGameObject* object);
+	void Bind(const ObjectHandle& handle);
+	void Unbind();
 
-public:	// accessor method
+	BaseGameObject* InstantiatePrefab(const std::string& prefabName);
 
-	void SetIsActive(bool _isActive) { isActive_ = _isActive; }
-	bool GetIsActive() const { return isActive_; }
+	/// <summary>関連付けたGameObjectが現在もSceneWorldに存在するか。</summary>
+	bool IsValid() const;
+	const ObjectHandle& GetObjectHandle() const { return objectHandle_; }
 
-	void SetRendering(bool _isRendering) { object_->SetIsRendering(_isRendering); }
+	BaseGameObject* GetGameObject() const;
+	WorldTransform* GetTransform() const;
+	BaseCollider* GetCollider(const std::string& tag) const;
 
-	void Destroy() { object_->SetIsDestroy(true); };
+	void SetIsActive(bool isActive);
+	bool GetIsActive() const;
+	void SetRendering(bool isRendering);
+	Math::Vector3 GetPosition() const;
 
-	Math::Vector3 GetPosition() { return object_->GetPosition(); }
+	/// <summary>関連付けたGameObjectと子階層をSceneWorldから削除し、関連付けを解除する。</summary>
+	void Destroy();
 
-	BaseGameObject* GetGameObject() const { return object_; }
-
-	AOENGINE::WorldTransform* GetTransform() const { return transform_; }
-
-	AOENGINE::BaseCollider* GetCollider(const std::string& tag) const { return object_->GetCollider(tag); }
-
-	void SetParent(AOENGINE::BaseEntity* _parent) { object_->SetParent(_parent->GetGameObject()); }
+	/// <summary>このEntityのGameObjectをparentのGameObjectの子にする。</summary>
+	bool SetParent(const BaseEntity* parent);
+	/// <summary>親子関係を解除してシーン直下へ移動する。</summary>
+	bool MoveToRoot();
 
 protected:
-
-	BaseGameObject* object_;
-	AOENGINE::WorldTransform* transform_;
-
+	ObjectHandle objectHandle_{};
 };
 
 }

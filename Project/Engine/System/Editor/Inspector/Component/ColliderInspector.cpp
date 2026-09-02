@@ -5,6 +5,36 @@
 
 namespace {
 
+bool DrawRemoveConfirmation(const char* componentName) {
+	bool openConfirmation = false;
+	if (ImGui::BeginPopupContextItem("ComponentContext")) {
+		if (ImGui::MenuItem("Remove Component")) {
+			openConfirmation = true;
+		}
+		ImGui::EndPopup();
+	}
+	if (openConfirmation) {
+		ImGui::OpenPopup("Remove Component?");
+	}
+
+	bool remove = false;
+	if (ImGui::BeginPopupModal("Remove Component?", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::Text("Remove %s?", componentName);
+		ImGui::TextUnformatted("This operation cannot be undone.");
+		ImGui::Separator();
+		if (ImGui::Button("Remove", ImVec2(120.0f, 0.0f))) {
+			remove = true;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel", ImVec2(120.0f, 0.0f))) {
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+	return remove;
+}
+
 /// <summary>
 /// Colliderのvariant形状から表示名を取得する。
 /// </summary>
@@ -51,8 +81,15 @@ void AOENGINE::ColliderInspector::Draw(BaseGameObject& object) {
 		}
 
 		std::string label = GetColliderShapeName(*collider);
-		if (ImGui::CollapsingHeader(label.c_str())) {
+		const bool isOpen = ImGui::CollapsingHeader(label.c_str());
+		const bool remove = DrawRemoveConfirmation(label.c_str());
+		if (isOpen) {
 			collider->Debug_Gui();
+		}
+		if (remove) {
+			ImGui::PopID();
+			object.RemoveCollider(collider);
+			return;
 		}
 
 		ImGui::PopID();

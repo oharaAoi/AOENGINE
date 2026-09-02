@@ -4,7 +4,7 @@
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": true,
+        "./Project/Assets": false,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": false,

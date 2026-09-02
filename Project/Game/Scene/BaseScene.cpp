@@ -7,11 +7,15 @@
 
 BaseScene::~BaseScene() {
 	skybox_ = nullptr;
-	pSceneRenderer_->Finalize();
-	collisionManager_->Finalize();
+	// SceneRendererは全シーンで共有するSingletonのため、Sceneの破棄では終了しない。
+	// シーン切り替え時の内容クリアは、次のSceneRenderer::Init()が担当する。
+	pSceneRenderer_ = nullptr;
+	if (collisionManager_) {
+		collisionManager_->Finalize();
+	}
 }
 
-void BaseScene::Init() {
+void BaseScene::Initialize() {
 	skybox_ = std::make_unique<Skybox>();
 	skybox_->Init();
 
@@ -46,6 +50,9 @@ void BaseScene::Init() {
 	// -------------------------------------------------
 	AOENGINE::JsonItems* adjust = AOENGINE::JsonItems::GetInstance();
 	adjust->Init();
+
+	// Renderer、Camera、Collisionなどの共通状態が揃ってからシーン固有初期化を行う。
+	Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,22 +111,24 @@ void BaseScene::EditorUpdateProcess() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseScene::Draw() const {
-	// Shadow MapはCameraに依存しないため、両Viewで共有して1度だけ生成する。
-	pSceneRenderer_->DrawShadowMap();
+	if (pSceneRenderer_) {
+		// Shadow MapはCameraに依存しないため、両Viewで共有して1度だけ生成する。
+		pSceneRenderer_->DrawShadowMap();
 
-	// Game View: 配置されたCamera3dから描画する。
-	camera3d_->ApplyToRender();
-	Engine::BeginSceneView(SceneViewType::Game);
-	skybox_->Draw();
-	pSceneRenderer_->DrawSceneObjects();
+		// Game View: 配置されたCamera3dから描画する。
+		camera3d_->ApplyToRender();
+		Engine::BeginSceneView(SceneViewType::Game);
+		skybox_->Draw();
+		pSceneRenderer_->DrawSceneObjects();
 
 #ifdef _DEVELOPMENT
-	// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
-	debugCamera_->ApplyToRender();
-	Engine::BeginSceneView(SceneViewType::Editor);
-	skybox_->Draw();
-	pSceneRenderer_->DrawSceneObjects();
+		// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
+		debugCamera_->ApplyToRender();
+		Engine::BeginSceneView(SceneViewType::Editor);
+		skybox_->Draw();
+		pSceneRenderer_->DrawSceneObjects();
 #endif
+	}
 
 	// PostProcess/PostDrawはGame Viewに対して実行されるため、Game Cameraへ戻しておく。
 	Engine::ActivateSceneView(SceneViewType::Game);

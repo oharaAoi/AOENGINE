@@ -24,6 +24,8 @@ SceneManager::~SceneManager() {}
 
 void SceneManager::Finalize() {
 	scene_.reset();
+	// 全シーンで共有するRendererは、SceneManager自体の終了時に一度だけ終了する。
+	AOENGINE::SceneRenderer::GetInstance()->Finalize();
 	systemManager_->Finalize();
 	AOENGINE::SceneManagerPropertySerializer::Save(static_cast<int>(nowScene_));
 }
@@ -44,14 +46,11 @@ void SceneManager::Init() {
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	reset_ = false;
 
-	changeScene_ = SceneType::Test;
 //#ifdef _DEVELOPMENT
 //	int sceneType = 0;
 //	AOENGINE::SceneManagerPropertySerializer::Load(sceneType);
 //	changeScene_ = static_cast<SceneType>(sceneType);
 //#endif // _DEVELOPMENT
-
-	SetChange(changeScene_);
 
 	AOENGINE::EditorWindows::GetInstance()->SetSceneManager(this);
 }
@@ -63,8 +62,12 @@ void SceneManager::Init() {
 void SceneManager::Update() {
 	if (scene_->GetNextSceneType()) {
 		SceneType type = scene_->GetNextSceneType().value();
-		SetChange(type);
+		// SetChange()でscene_自体が置き換わる前に、旧シーン側の要求を消費する。
 		scene_->SetNextSceneType(std::nullopt);
+		SetChange(type);
+		// RendererとEditorの参照が切り替わったフレームでは更新を続けない。
+		// 新しいシーンのEditorUpdate/Updateは次フレームから開始する。
+		return;
 	}
 	
 	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
@@ -73,7 +76,7 @@ void SceneManager::Update() {
 #endif
 		ResetManager();
 		systemManager_->Init();
-		scene_->Init();
+		scene_->Initialize();
 		LoadScene();
 
 		reset_ = false;
@@ -100,6 +103,9 @@ void SceneManager::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneManager::Draw() {
+	if (!scene_) {
+		return;
+	}
 	scene_->Draw();
 }
 
@@ -152,6 +158,12 @@ void SceneManager::Debug_Gui() {
 void SceneManager::SetChange(const SceneType& type) {
 	assert(sceneFactory_);
 	assert(nextScene_ == nullptr);
+#ifdef _DEVELOPMENT
+	// 旧SceneWorldのHandleを使う選択・削除・複製・Drag&Drop要求を先に破棄する。
+	if (AOENGINE::EditorWindows::GetInstance()->GetObjectWindow()) {
+		AOENGINE::EditorWindows::GetInstance()->GetObjectWindow()->ResetInteractionState();
+	}
+#endif
 	if (scene_ != nullptr) {
 		scene_->Finalize();
 	}
@@ -167,7 +179,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	ResetManager();
 
 	systemManager_->Init();
-	scene_->Init();
+	scene_->Initialize();
 	LoadScene();
 
 	// Releaseはシーン生成直後からPlay状態として開始する。

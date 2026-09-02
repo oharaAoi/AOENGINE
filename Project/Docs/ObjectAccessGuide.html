@@ -3,40 +3,90 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AOENGINE オブジェクト取得ガイド</title>
+  <title>AOENGINE オブジェクト操作ガイド</title>
   <style>
-    :root { color-scheme: dark; --bg:#10141c; --panel:#18202c; --line:#2b394b; --text:#e8edf4; --muted:#aab6c5; --accent:#61dafb; --warn:#ffd166; }
-    * { box-sizing: border-box; }
+    :root { color-scheme:dark; --bg:#0e131b; --panel:#17202c; --panel2:#101721; --line:#2b3a4d; --text:#e8edf4; --muted:#afbbc9; --accent:#67d8ff; --warn:#ffd166; --ok:#79dda3; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
     body { margin:0; background:var(--bg); color:var(--text); font-family:"Yu Gothic UI","Meiryo",sans-serif; line-height:1.75; }
-    main { width:min(1050px, calc(100% - 32px)); margin:32px auto 72px; }
-    h1 { margin-bottom:4px; font-size:2rem; }
-    h2 { margin-top:38px; padding-bottom:8px; border-bottom:1px solid var(--line); }
-    h3 { margin-top:26px; }
-    p, li { color:var(--muted); }
+    main { width:min(1080px,calc(100% - 32px)); margin:32px auto 80px; }
+    h1 { margin:0; font-size:2.1rem; }
+    h2 { margin-top:48px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+    h3 { margin-top:28px; }
+    p,li,td { color:var(--muted); }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { text-decoration:underline; }
     code { font-family:Consolas,"Courier New",monospace; }
-    p code, li code { color:var(--accent); }
-    pre { overflow:auto; padding:18px; border:1px solid var(--line); border-radius:8px; background:#0b0f16; color:#e6edf3; line-height:1.5; }
-    .card { margin:18px 0; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
-    .warning { border-left:4px solid var(--warn); }
-    table { width:100%; border-collapse:collapse; margin:18px 0; }
-    th, td { padding:10px 12px; border:1px solid var(--line); text-align:left; }
+    p code,li code,td code { color:var(--accent); }
+    pre { overflow:auto; margin:14px 0 22px; padding:18px; border:1px solid var(--line); border-radius:9px; background:#090e15; color:#e6edf3; line-height:1.5; }
+    table { width:100%; margin:16px 0 24px; border-collapse:collapse; }
+    th,td { padding:10px 12px; border:1px solid var(--line); text-align:left; vertical-align:top; }
     th { background:var(--panel); }
-    a { color:var(--accent); }
+    .lead { margin-top:4px; font-size:1.05rem; }
+    .card { margin:18px 0; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
+    .note { border-left:4px solid var(--accent); }
+    .warning { border-left:4px solid var(--warn); }
+    .ok { border-left:4px solid var(--ok); }
+    .toc { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:10px; padding:0; list-style:none; }
+    .toc a { display:block; padding:12px 14px; border:1px solid var(--line); border-radius:8px; background:var(--panel2); }
+    .tag { display:inline-block; margin-right:6px; padding:1px 8px; border:1px solid var(--line); border-radius:999px; color:var(--muted); font-size:.85rem; }
   </style>
 </head>
 <body>
 <main>
-  <h1>AOENGINE オブジェクト取得ガイド</h1>
-  <p>シーンに保存されたGameObject、Sprite、Text、およびPrefabをC++コードから取得する方法です。</p>
+  <header>
+    <h1>AOENGINE オブジェクト操作ガイド</h1>
+    <p class="lead">オブジェクトの選び方から、取得・生成、ゲームロジックの分離、Prefab、調整値、寿命管理までを順番に確認できる実用ガイドです。</p>
+  </header>
 
-  <div class="card">
-    <strong>基本</strong>
-    <p>シーン内のオブジェクトは<code>SceneRenderer</code>が持つ<code>SceneWorld</code>に登録されています。現在は名前専用の検索関数がないため、<code>GetObjectHandles()</code>で列挙して型と名前を確認します。</p>
-  </div>
+  <nav class="card" aria-label="目次">
+    <strong>目的から探す</strong>
+    <ul class="toc">
+      <li><a href="#quick">クイックリファレンス</a></li>
+      <li><a href="#find">保存済みオブジェクトを取得</a></li>
+      <li><a href="#create">GameObjectを新規生成</a></li>
+      <li><a href="#entity">BaseEntityでロジックを分離</a></li>
+      <li><a href="#prefab">Prefabを生成・取得</a></li>
+      <li><a href="#custom">Custom Parametersを表示</a></li>
+      <li><a href="#lifetime">寿命とPlayモードの注意</a></li>
+    </ul>
+  </nav>
 
-  <h2>1. 共通の名前検索関数</h2>
-  <p>次のテンプレート関数を、シーンのcppまたは共通Utilityへ追加すると便利です。</p>
-  <pre><code>#include &lt;string&gt;
+  <section id="quick">
+    <h2>1. クイックリファレンス</h2>
+    <h3>最初に選ぶもの</h3>
+    <table>
+      <thead><tr><th>目的</th><th>選択</th></tr></thead>
+      <tbody>
+        <tr><td>シーン上の実体として保存・描画したい</td><td><code>BaseGameObject</code></td></tr>
+        <tr><td>GameObjectとゲームロジックを分けたい</td><td><code>BaseEntity</code>を継承し、GameObjectを<code>Bind()</code></td></tr>
+        <tr><td>同じ構成を繰り返し生成したい</td><td>Prefabを作成し<code>Instantiate()</code></td></tr>
+        <tr><td>ゲーム固有の値をImGuiで調整したい</td><td><code>CustomParameterSet</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>API早見表</h3>
+    <table>
+      <thead><tr><th>やりたいこと</th><th>使用するAPI</th></tr></thead>
+      <tbody>
+        <tr><td>保存済みGameObjectを取得</td><td><code>FindSceneObject&lt;BaseGameObject&gt;("Player")</code></td></tr>
+        <tr><td>保存済みSpriteを取得</td><td><code>FindSceneObject&lt;Sprite&gt;("PlayerIcon")</code></td></tr>
+        <tr><td>保存済みTextを取得</td><td><code>FindSceneObject&lt;Text&gt;("HpText")</code></td></tr>
+        <tr><td>通常のGameObjectを生成</td><td><code>SceneRenderer::AddObject&lt;BaseGameObject&gt;()</code></td></tr>
+        <tr><td>ゲームロジックとGameObjectを関連付け</td><td><code>BaseEntity::Bind()</code></td></tr>
+        <tr><td>関連付けたGameObjectを削除</td><td><code>BaseEntity::Destroy()</code></td></tr>
+        <tr><td>Prefabを名前から生成</td><td><code>PrefabManager::Instantiate("Enemy")</code></td></tr>
+        <tr><td>ユーザー変数をImGui表示</td><td><code>CustomParameterSet</code>を継承して<code>AddParameter()</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="find">
+    <h2>2. シーンに保存されたオブジェクトを取得する</h2>
+    <p>シーン内のオブジェクトは<code>SceneRenderer</code>の<code>SceneWorld</code>に登録されています。次の共通関数をUtilityまたはシーンのcppに用意すると、名前と型で検索できます。</p>
+
+    <h3>共通検索関数</h3>
+    <pre><code>#include &lt;string&gt;
 #include "Engine/Render/SceneRenderer.h"
 
 template&lt;class T&gt;
@@ -59,12 +109,11 @@ T* FindSceneObject(const std::string&amp; objectName)
             return result;
         }
     }
-
     return nullptr;
 }</code></pre>
 
-  <h2>2. 保存済みGameObjectを取得する</h2>
-  <pre><code>#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+    <h3>GameObject</h3>
+    <pre><code>#include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
 AOENGINE::BaseGameObject* player =
     FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
@@ -73,33 +122,19 @@ if (player) {
     player-&gt;GetTransform()-&gt;SetTranslate({ 0.0f, 0.0f, 10.0f });
 }</code></pre>
 
-  <p>シーンのメンバとして保持する場合は、<code>Init()</code>直後ではなく、シーンJSONの読み込みが完了した後に取得する必要があります。現在の構成では<code>OnPlayStart()</code>で取得する方法が安全です。</p>
-  <pre><code>class TestScene : public BaseScene {
-public:
-    void OnPlayStart() override;
+    <h3>Sprite</h3>
+    <pre><code>#include "Engine/Module/Components/2d/Sprite.h"
 
-private:
-    AOENGINE::BaseGameObject* player_ = nullptr; // 非所有ポインタ
-};
-
-void TestScene::OnPlayStart()
-{
-    player_ = FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
-}</code></pre>
-
-  <h2>3. Spriteを取得する</h2>
-  <pre><code>#include "Engine/Module/Components/2d/Sprite.h"
-
-AOENGINE::Sprite* playerIcon =
+AOENGINE::Sprite* icon =
     FindSceneObject&lt;AOENGINE::Sprite&gt;("PlayerIcon");
 
-if (playerIcon) {
-    playerIcon-&gt;SetTranslate({ 100.0f, 100.0f });
+if (icon) {
+    icon-&gt;SetTranslate({ 100.0f, 100.0f });
 }</code></pre>
 
-  <h2>4. Textを取得する</h2>
-  <p><code>Text</code>は<code>Sprite</code>の派生型なので、Textとして取得したい場合は必ず<code>Text</code>型を指定します。</p>
-  <pre><code>#include "Engine/Module/Components/2d/Text.h"
+    <h3>Text</h3>
+    <p><code>Text</code>は<code>Sprite</code>の派生型です。Text固有APIを使う場合は必ず<code>Text</code>型で検索します。</p>
+    <pre><code>#include "Engine/Module/Components/2d/Text.h"
 
 AOENGINE::Text* hpText =
     FindSceneObject&lt;AOENGINE::Text&gt;("HpText");
@@ -108,55 +143,247 @@ if (hpText) {
     hpText-&gt;SetText("HP: 100");
 }</code></pre>
 
-  <h2>5. Prefabをコードから生成して取得する</h2>
-  <p><code>Instantiate()</code>には拡張子を付けず、Prefab名だけを渡します。</p>
-  <pre><code>#include "Engine/System/Manager/PrefabManager.h"
+    <div class="card note">
+      <strong>推奨タイミング</strong>
+      <p>シーンJSONはシーンの<code>Init()</code>後に読み込まれます。保存済みオブジェクトへの参照取得は、読み込み後に呼ばれる<code>OnPlayStart()</code>で行うのが安全です。</p>
+    </div>
+    <pre><code>void TestScene::OnPlayStart()
+{
+    player_ = FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
+    hpText_ = FindSceneObject&lt;AOENGINE::Text&gt;("HpText");
+}</code></pre>
+  </section>
+
+  <section id="create">
+    <h2>3. 通常のGameObjectをコードから生成する</h2>
+    <p>Prefabを使わない場合は<code>SceneRenderer::AddObject()</code>で生成します。返されるポインタは非所有です。</p>
+
+    <h3>通常Material</h3>
+    <pre><code>#include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
-AOENGINE::SceneObject* prefabRoot =
+AOENGINE::SceneRenderer* renderer =
+    AOENGINE::SceneRenderer::GetInstance();
+
+AOENGINE::BaseGameObject* enemy =
+    renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "Enemy",
+        "Object_Normal.json"
+    );
+
+if (enemy) {
+    enemy-&gt;SetObject("Enemy.gltf");
+    enemy-&gt;GetTransform()-&gt;SetTranslate({ 0.0f, 0.0f, 10.0f });
+}</code></pre>
+
+    <h3>PBR Material</h3>
+    <pre><code>AOENGINE::BaseGameObject* enemy =
+    renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "Enemy",
+        "Object_PBR.json"
+    );
+
+if (enemy) {
+    enemy-&gt;SetObject("Enemy.gltf", AOENGINE::MaterialType::PBR);
+}</code></pre>
+
+    <h3>コンポーネント</h3>
+    <pre><code>if (enemy) {
+    enemy-&gt;SetAnimator();
+    enemy-&gt;SetPhysics();
+    enemy-&gt;SetCollider("Default", AOENGINE::ColliderShape::AABB);
+}</code></pre>
+
+    <div class="card note">
+      <strong>Inspectorから削除</strong>
+      <p>Collider、RigidBody、Animatorは、Inspectorのコンポーネントヘッダーを右クリックし、<code>Remove Component</code>を選択すると確認後に削除できます。</p>
+    </div>
+
+    <h3>親子関係</h3>
+    <pre><code>AOENGINE::BaseGameObject* weapon =
+    renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "Weapon", "Object_Normal.json");
+
+if (enemy &amp;&amp; weapon) {
+    weapon-&gt;SetObject("Weapon.gltf");
+    renderer-&gt;SetParent(weapon-&gt;GetHandle(), enemy-&gt;GetHandle());
+}</code></pre>
+
+    <h3>Play開始時に生成</h3>
+    <pre><code>void TestScene::OnPlayStart()
+{
+    AOENGINE::SceneRenderer* renderer =
+        AOENGINE::SceneRenderer::GetInstance();
+
+    enemy_ = renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "RuntimeEnemy", "Object_Normal.json");
+
+    if (enemy_) {
+        enemy_-&gt;SetObject("Enemy.gltf");
+        enemy_-&gt;GetTransform()-&gt;SetTranslate({ 0.0f, 0.0f, 10.0f });
+    }
+}</code></pre>
+  </section>
+
+  <section id="entity">
+    <h2>4. BaseEntityでゲームロジックを分離する</h2>
+    <p><code>BaseEntity</code>はシーン上のオブジェクトではなく、ゲームロジック用の非所有ラッパーです。<code>Player</code>や<code>Enemy</code>を継承させ、SceneWorldが所有する<code>BaseGameObject</code>と<code>Bind()</code>で関連付けます。</p>
+
+    <div class="card note">
+      <strong>役割の分担</strong>
+      <p><code>BaseGameObject</code>はTransform・描画・Colliderなどの実体、<code>BaseEntity</code>派生クラスは移動・HP・攻撃などのゲームロジックを担当します。</p>
+    </div>
+
+    <h3>Playerクラスを作る</h3>
+    <pre><code>#pragma once
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
+
+class Player : public AOENGINE::BaseEntity {
+public:
+    void Update();
+    void Damage(float amount);
+
+private:
+    float hp_ = 100.0f;
+};</code></pre>
+
+    <pre><code>#include "Player.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/WorldTransform.h"
+
+void Player::Update()
+{
+    // ObjectHandleの解決は配列インデックスによるO(1)アクセス。
+    // 同じフレーム内では一度取得したポインタを使い回す。
+    AOENGINE::BaseGameObject* object = GetGameObject();
+    if (!object) {
+        return;
+    }
+
+    AOENGINE::WorldTransform* transform = object-&gt;GetTransform();
+    // transformを使って移動処理
+}
+
+void Player::Damage(float amount)
+{
+    hp_ -= amount;
+    if (hp_ &lt;= 0.0f) {
+        Destroy();
+    }
+}</code></pre>
+
+    <h3>配置済みPlayerへ関連付ける</h3>
+    <p>Editorで配置してシーンへ保存したGameObjectは、Play開始時に名前で取得して関連付けます。</p>
+    <pre><code>void GameScene::OnPlayStart()
+{
+    AOENGINE::BaseGameObject* playerObject =
+        FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
+
+    player_.Bind(playerObject);
+}</code></pre>
+
+    <h3>コード生成したPlayerへ関連付ける</h3>
+    <pre><code>AOENGINE::SceneRenderer* renderer =
+    AOENGINE::SceneRenderer::GetInstance();
+
+AOENGINE::BaseGameObject* playerObject =
+    renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "Player", "Object_Normal.json");
+
+if (playerObject) {
+    playerObject-&gt;SetObject("Player.gltf");
+    player_.Bind(playerObject);
+}</code></pre>
+
+    <h3>よく使う操作</h3>
+    <table>
+      <thead><tr><th>API</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>Bind(object)</code></td><td>登録済みGameObjectと関連付ける</td></tr>
+        <tr><td><code>IsValid()</code></td><td>関連付けたGameObjectが存在するか確認する</td></tr>
+        <tr><td><code>GetGameObject()</code></td><td>BaseGameObjectを安全に取得する</td></tr>
+        <tr><td><code>GetTransform()</code></td><td>Transformを取得する。無効時は<code>nullptr</code></td></tr>
+        <tr><td><code>GetCollider(name)</code></td><td>指定名のColliderを取得する</td></tr>
+        <tr><td><code>SetIsActive(bool)</code></td><td>関連付けたGameObjectのActiveを変更する</td></tr>
+        <tr><td><code>SetRendering(bool)</code></td><td>3D描画の有効・無効を変更する</td></tr>
+        <tr><td><code>SetParent(parent)</code></td><td>別のBaseEntityが参照するGameObjectの子にする</td></tr>
+        <tr><td><code>MoveToRoot()</code></td><td>親子関係を解除してシーン直下へ戻す</td></tr>
+        <tr><td><code>Destroy()</code></td><td>GameObjectと子階層を削除し、自身の関連付けも解除する</td></tr>
+        <tr><td><code>Unbind()</code></td><td>GameObjectを削除せず関連付けだけ解除する</td></tr>
+      </tbody>
+    </table>
+
+    <div class="card warning">
+      <strong>BaseEntityはGameObjectを所有しません</strong>
+      <p><code>GetGameObject()</code>で得たポインタを<code>delete</code>しないでください。削除には<code>Destroy()</code>を使います。また、BaseEntity自体はHierarchyやシーンJSONには保存されません。</p>
+    </div>
+    <div class="card warning">
+      <strong>Play停止・シーン再読み込み後は再Bind</strong>
+      <p>Play停止時のスナップショット復元やシーン切り替えではObjectHandleが無効になります。次回の<code>OnPlayStart()</code>で対象を取得し直して<code>Bind()</code>してください。</p>
+    </div>
+  </section>
+
+  <section id="prefab">
+    <h2>5. Prefabを扱う</h2>
+    <p><span class="tag">保存先</span><code>Assets/Game/Prefabs/</code></p>
+
+    <h3>Prefabをコードから生成</h3>
+    <p>拡張子を付けず、Prefab名だけを指定します。</p>
+    <pre><code>#include "Engine/System/Manager/PrefabManager.h"
+
+AOENGINE::SceneObject* root =
     AOENGINE::PrefabManager::GetInstance()-&gt;Instantiate("Enemy");
 
 AOENGINE::BaseGameObject* enemy =
-    dynamic_cast&lt;AOENGINE::BaseGameObject*&gt;(prefabRoot);
+    dynamic_cast&lt;AOENGINE::BaseGameObject*&gt;(root);
 
 if (enemy) {
     enemy-&gt;GetTransform()-&gt;SetTranslate({ 5.0f, 0.0f, 10.0f });
 }</code></pre>
+    <p>上のコードは<code>Assets/Game/Prefabs/Enemy.prefab.json</code>を読み込みます。</p>
 
-  <p>上のコードは次のファイルを読み込みます。</p>
-  <pre><code>Assets/Game/Prefabs/Enemy.prefab.json</code></pre>
-
-  <h3>Sprite Prefab</h3>
-  <pre><code>AOENGINE::Sprite* icon = dynamic_cast&lt;AOENGINE::Sprite*&gt;(
+    <h3>Sprite Prefab</h3>
+    <pre><code>AOENGINE::Sprite* icon = dynamic_cast&lt;AOENGINE::Sprite*&gt;(
     AOENGINE::PrefabManager::GetInstance()-&gt;Instantiate("PlayerIcon"));
 
 if (icon) {
     icon-&gt;SetTranslate({ 640.0f, 360.0f });
 }</code></pre>
 
-  <h2>6. すでにシーンへ配置されたPrefabを取得する</h2>
-  <p>Hierarchyやシーンファイルから復元されたPrefabもSceneWorld内に存在するので、ルート名で取得できます。</p>
-  <pre><code>AOENGINE::BaseGameObject* enemy =
+    <h3>配置済みPrefabを取得</h3>
+    <pre><code>AOENGINE::BaseGameObject* enemy =
     FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Enemy01");
 
 if (enemy &amp;&amp; enemy-&gt;IsPrefabInstanceRoot()) {
-    const std::string&amp; prefabName = enemy-&gt;GetPrefabSource();
-    // prefabName == "Enemy"
+    const std::string&amp; source = enemy-&gt;GetPrefabSource();
+    // source == "Enemy"
 }</code></pre>
 
-  <h2>7. Custom Parametersの使い方</h2>
-  <p><code>CustomParameterSet</code>を継承した構造体へユーザー定義パラメータをまとめると、InspectorRegistryへ個別登録せずに専用ウィンドウへ表示できます。</p>
+    <h3>エディター操作</h3>
+    <ol>
+      <li>HierarchyのGameObjectをAssets上部のPrefabドロップ領域へ落とすとPrefabを作成できます。</li>
+      <li><code>*.prefab.json</code>をAssetsからScene Viewへ落とすと、シーンへ配置できます。</li>
+      <li>3DはY=0平面、Sprite／TextはCanvas上のドロップ位置へ配置されます。</li>
+    </ol>
 
-  <h3>パラメータ構造体を定義する</h3>
-  <pre><code>#include &lt;string&gt;
+    <div class="card warning">
+      <strong>現在のPrefab Override</strong>
+      <p>シーン固有情報として保存されるのは、Prefabルートの名前、Active、Transformです。子オブジェクトや内部コンポーネントの個別変更は、現段階では差分保存されません。</p>
+    </div>
+  </section>
+
+  <section id="custom">
+    <h2>6. Custom ParametersをImGuiへ表示する</h2>
+    <p><code>CustomParameterSet</code>を継承した構造体を作ると、InspectorRegistryへの個別登録なしで専用ウィンドウへ表示できます。</p>
+
+    <h3>パラメータ構造体</h3>
+    <pre><code>#include &lt;string&gt;
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 
-struct PlayerParameters :
-    public AOENGINE::CustomParameterSet {
-public:
+struct PlayerParameters : public AOENGINE::CustomParameterSet {
     PlayerParameters()
-        : CustomParameterSet("Player") {
-
+        : CustomParameterSet("Player")
+    {
         AddParameter("HP", hp, 1.0f, 0.0f, 100.0f);
         AddParameter("Max HP", maxHp, 1.0f, 1.0f, 1000.0f);
         AddParameter("Move Speed", moveSpeed, 0.1f, 0.0f, 100.0f);
@@ -175,14 +402,11 @@ public:
     std::string displayName = "Player";
 };</code></pre>
 
-  <p><code>AddParameter()</code>の数値引数は、順に操作速度、最小値、最大値です。最小値と最大値を両方<code>0</code>にするとImGui側では範囲制限なしとして扱われます。</p>
-
-  <h3>Playerクラスへ組み込む</h3>
-  <pre><code>class Player {
+    <h3>Playerクラスへ組み込む</h3>
+    <pre><code>class Player {
 public:
     void Update()
     {
-        // ウィンドウで変更した値をそのままゲーム処理に使用できる
         if (parameters_.hp &lt;= 0.0f) {
             // 死亡処理
         }
@@ -192,47 +416,51 @@ private:
     PlayerParameters parameters_;
 };</code></pre>
 
-  <p><code>PlayerParameters</code>の生成時にCustomParameterManagerへ自動登録され、破棄時に自動解除されます。ユーザーが<code>InspectorRegistry</code>や管理者へ毎回登録する必要はありません。</p>
+    <p>構造体の生成時に管理者へ自動登録され、破棄時に自動解除されます。閉じたウィンドウは<code>Setting → Custom Parameters</code>から再表示できます。</p>
 
-  <h3>対応している型</h3>
-  <table>
-    <thead><tr><th>C++型</th><th>表示されるImGui</th></tr></thead>
-    <tbody>
-      <tr><td><code>bool</code></td><td>Checkbox</td></tr>
-      <tr><td><code>int32_t</code></td><td>DragInt</td></tr>
-      <tr><td><code>float</code></td><td>DragFloat</td></tr>
-      <tr><td><code>Math::Vector2</code></td><td>DragFloat2</td></tr>
-      <tr><td><code>Math::Vector3</code></td><td>DragFloat3</td></tr>
-      <tr><td><code>Math::Vector4</code></td><td>DragFloat4</td></tr>
-      <tr><td><code>AOENGINE::Color</code></td><td>ColorEdit4</td></tr>
-      <tr><td><code>std::string</code></td><td>InputText</td></tr>
-    </tbody>
-  </table>
+    <h3>対応型</h3>
+    <table>
+      <thead><tr><th>C++型</th><th>ImGui</th></tr></thead>
+      <tbody>
+        <tr><td><code>bool</code></td><td>Checkbox</td></tr>
+        <tr><td><code>int32_t</code></td><td>DragInt</td></tr>
+        <tr><td><code>float</code></td><td>DragFloat</td></tr>
+        <tr><td><code>Math::Vector2 / Vector3 / Vector4</code></td><td>DragFloat2 / 3 / 4</td></tr>
+        <tr><td><code>AOENGINE::Color</code></td><td>ColorEdit4</td></tr>
+        <tr><td><code>std::string</code></td><td>InputText</td></tr>
+      </tbody>
+    </table>
 
-  <h3>ウィンドウを表示する</h3>
-  <p>エディター起動時には<code>Custom Parameters</code>ウィンドウが表示されます。閉じた場合は上部メニューの<code>Setting → Custom Parameters</code>から再表示できます。</p>
+    <div class="card note">
+      <strong>AddParameterの数値指定</strong>
+      <p><code>AddParameter("HP", hp, 1.0f, 0.0f, 100.0f)</code>は、順に「変数」「操作速度」「最小値」「最大値」です。最小値と最大値が両方0なら範囲制限なしです。</p>
+    </div>
+  </section>
 
-  <div class="card warning">
-    <strong>Custom Parametersの注意点</strong>
-    <p><code>AddParameter()</code>はメンバ変数へのポインタを管理者へ渡します。そのため、登録した変数は<code>CustomParameterSet</code>派生構造体のメンバとして保持してください。コンストラクタ内のローカル変数や、構造体より先に破棄される外部変数は登録しないでください。</p>
-  </div>
+  <section id="lifetime">
+    <h2>7. 寿命とPlayモードの注意点</h2>
+    <div class="card warning">
+      <strong>SceneWorldが所有します</strong>
+      <p><code>AddObject()</code>、<code>Instantiate()</code>、名前検索で得たポインタを呼び出し側で<code>delete</code>しないでください。すべて非所有ポインタです。</p>
+    </div>
+    <div class="card warning">
+      <strong>再読み込み後は再取得します</strong>
+      <p>シーン切り替え、シーン再読み込み、Play停止時のスナップショット復元、オブジェクト削除後には、以前のポインタが無効になります。名前または新しいObjectHandleから再取得してください。</p>
+    </div>
+    <div class="card warning">
+      <strong>名前の重複</strong>
+      <p>このガイドの<code>FindSceneObject()</code>は、同じ名前が複数ある場合に最初の1件を返します。一意な名前を使うか、必要に応じて複数件を返す検索関数を用意してください。</p>
+    </div>
+    <div class="card warning">
+      <strong>Custom Parameterの参照先</strong>
+      <p><code>AddParameter()</code>には構造体のメンバ変数を渡してください。コンストラクタ内のローカル変数や、構造体より先に破棄される外部変数は登録できません。</p>
+    </div>
+  </section>
 
-  <h2>8. 使い分け</h2>
-  <table>
-    <thead><tr><th>目的</th><th>方法</th></tr></thead>
-    <tbody>
-      <tr><td>保存済み3Dオブジェクト</td><td><code>FindSceneObject&lt;BaseGameObject&gt;("名前")</code></td></tr>
-      <tr><td>保存済みSprite</td><td><code>FindSceneObject&lt;Sprite&gt;("名前")</code></td></tr>
-      <tr><td>保存済みText</td><td><code>FindSceneObject&lt;Text&gt;("名前")</code></td></tr>
-      <tr><td>Prefabを新規生成</td><td><code>PrefabManager::Instantiate("Prefab名")</code></td></tr>
-      <tr><td>配置済みPrefab</td><td>ルート名で検索後、<code>IsPrefabInstanceRoot()</code>を確認</td></tr>
-    </tbody>
-  </table>
-
-  <div class="card warning">
-    <strong>ポインタの寿命に注意</strong>
-    <p>取得したポインタはSceneWorldが所有する非所有ポインタです。シーン切り替え、シーン再読み込み、Play停止時のスナップショット復元、オブジェクト削除後には無効になります。復元後は名前またはObjectHandleから再取得してください。また、同名オブジェクトが複数ある場合、この検索例は最初の1件を返します。</p>
-  </div>
+  <footer class="card ok">
+    <strong>基本の選択</strong>
+    <p>実体はシーン・Prefab・<code>AddObject()</code>で管理し、ゲームロジックは<code>BaseEntity</code>へ分離します。繰り返し生成は<code>Instantiate()</code>、ゲーム固有の調整値はCustom Parametersを使うと責務を整理できます。</p>
+  </footer>
 </main>
 </body>
 </html>
