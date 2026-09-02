@@ -85,18 +85,28 @@ void GameScene::Draw() const {
 	}
 
 	// BaseScene::Draw()のGameCameraをFollowCameraに差し替えたもの
-	pSceneRenderer_->DrawShadowMap();
-	followCamera_->ApplyToRender();
-	Engine::BeginSceneView(SceneViewType::Game);
-	skybox_->Draw();
-	pSceneRenderer_->DrawSceneObjects();
+	if (pSceneRenderer_) {
+		pSceneRenderer_->DrawShadowMap();
+
+		// FollowCamera から描画する
+		Engine::BeginSceneView(SceneViewType::Game);
+		followCamera_->ApplyToRender();
+		Engine::CommitSceneViewCamera(SceneViewType::Game);
+		skybox_->Draw();
+		pSceneRenderer_->DrawSceneObjects(
+			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix());
 
 #ifdef _DEVELOPMENT
-	debugCamera_->ApplyToRender();
-	Engine::BeginSceneView(SceneViewType::Editor);
-	skybox_->Draw();
-	pSceneRenderer_->DrawSceneObjects();
-#endif
 
+		Engine::BeginSceneView(SceneViewType::Editor);
+		debugCamera_->ApplyToRender();
+		Engine::CommitSceneViewCamera(SceneViewType::Editor);
+		skybox_->Draw();
+		pSceneRenderer_->DrawSceneObjects(
+			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+#endif
+	}
+
+	// PostProcess/PostDrawはGame View に対して実行される
 	Engine::ActivateSceneView(SceneViewType::Game);
 }

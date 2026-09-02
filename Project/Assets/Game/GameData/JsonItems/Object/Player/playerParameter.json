@@ -3,10 +3,10 @@
         "fallGravity": 30.0,
         "groundHeight": 0.0,
         "hangTime": 0.3499999940395355,
-        "jumpPower": 18.0,
+        "jumpPower": 36.900001525878906,
         "maxFallSpeed": 45.0,
         "moveInputThreshold": 0.009999999776482582,
-        "moveSpeed": 6.0,
+        "moveSpeed": 9.800000190734863,
         "riseGravity": 55.0,
         "stickDeadZone": 0.20000000298023224
     }
