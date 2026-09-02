@@ -244,7 +244,7 @@ bool Engine::ProcessMessage() {
 	return  winApp_->ProcessMessage();
 }
 
-void Engine::BeginSceneView(SceneViewType viewType) {
+void Engine::BeginSceneView(SceneViewType viewType, bool clear) {
 	const CameraBufferSlot cameraBufferSlot = viewType == SceneViewType::Game
 		? CameraBufferSlot::Game
 		: CameraBufferSlot::Editor;
@@ -255,7 +255,7 @@ void Engine::BeginSceneView(SceneViewType viewType) {
 			RenderTargetType::Object3D_RenderTarget,
 			RenderTargetType::MotionVector_RenderTarget
 		};
-		AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
+		AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle(), clear);
 		return;
 	}
 
@@ -263,13 +263,28 @@ void Engine::BeginSceneView(SceneViewType viewType) {
 		RenderTargetType::EditorScene_RenderTarget,
 		RenderTargetType::EditorMotionVector_RenderTarget
 	};
-	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle());
+	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle(), clear);
 }
 
 void Engine::CommitSceneViewCamera(SceneViewType viewType) {
 	const size_t viewIndex = GetSceneViewIndex(viewType);
 	sceneViewCameras_[viewIndex] = AOENGINE::Render::GetCameraState();
 	hasSceneViewCamera_[viewIndex] = true;
+}
+
+void Engine::DrawBackgroundSprites(SceneViewType viewType) {
+	if (!canvas2d_) { return; }
+
+	std::vector<RenderTargetType> types{
+		viewType == SceneViewType::Game
+			? RenderTargetType::Object3D_RenderTarget
+			: RenderTargetType::EditorScene_RenderTarget
+	};
+	const DescriptorHandles depthHandle = viewType == SceneViewType::Game
+		? dxCommon_->GetDepthHandle()
+		: renderTarget_->GetEditorDepthHandle();
+	AOENGINE::Render::SetRenderTarget(types, depthHandle, false);
+	canvas2d_->DrawBackground();
 }
 
 void Engine::ActivateSceneView(SceneViewType viewType) {
@@ -391,7 +406,7 @@ void Engine::RenderFrame() {
 	AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
 	processedSceneFrame_->Draw(dxCmdList_);
-	canvas2d_->Draw();
+	canvas2d_->DrawForeground();
 
 	BlendFinalRender(Sprite2d_RenderTarget);
 
@@ -406,7 +421,7 @@ void Engine::RenderFrame() {
 	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle());
 	Engine::SetPipeline(PSOType::ProcessedScene, "PostProcess_Normal.json");
 	editorSceneFrame_->Draw(dxCmdList_);
-	canvas2d_->Draw();
+	canvas2d_->DrawForeground();
 	BlendFinalRender(Sprite2d_RenderTarget, editorSceneFrame_.get());
 #endif
 

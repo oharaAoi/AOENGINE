@@ -197,11 +197,12 @@ void Sprite::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::DrawSprite(bool isBackGround) {
-	Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, saveParam_.psoName);
-	Math::Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
-	if (isBackGround) {
-		transform_->SetTranslateZ(AOENGINE::Render::GetFarClip());
+	std::string pipelineName = saveParam_.psoName;
+	if (isBackGround && pipelineName.starts_with("Sprite_")) {
+		pipelineName.insert(std::string("Sprite_").size(), "Background_");
 	}
+	Pipeline* pso = Engine::SetPipeline(PSOType::Sprite, pipelineName);
+	Math::Matrix4x4 projection = AOENGINE::Render::GetViewport2D() * AOENGINE::Render::GetProjection2D();
 	transform_->Update(projection);
 
 	AOENGINE::Render::DrawSprite(this, pso);
@@ -325,6 +326,7 @@ void Sprite::FillAmount(float amount) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Debug_Gui() {
+	ImGui::Checkbox("background", &isBackGround_);
 	ImGui::DragInt("renderQueue", &renderQueue_);
 	const char* blendItems[] = { "None", "Normal", "Add", "Subtract", "Multiply", "Screen"};
 	int currentBlendMode = (int)blendMode_;

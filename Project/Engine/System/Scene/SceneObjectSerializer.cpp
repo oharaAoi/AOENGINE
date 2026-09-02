@@ -232,6 +232,7 @@ json SerializeSprite(const Sprite& sprite) {
 		{ "anchor", Vector2ToJson(sprite.GetAnchorPoint()) },
 		{ "flipX", sprite.GetIsFlipX() },
 		{ "flipY", sprite.GetIsFlipY() },
+		{ "isBackGround", sprite.GetIsBackGround() },
 		{ "renderQueue", sprite.GetRenderQueue() },
 		{ "canvasSize", Vector2ToJson(Math::Vector2{
 			static_cast<float>(WinApp::sClientWidth),
@@ -249,6 +250,8 @@ json SerializeObject(const SceneObject& object) {
 			data["rotate"] = QuaternionToJson(srt.rotate);
 			data["scale"] = Vector3ToJson(srt.scale);
 		}
+		data["isReflection"] = gameObject->GetIsReflection();
+		data["isRendering"] = gameObject->GetIsRendering();
 		data["enableShadow"] = gameObject->GetEnableShadow();
 		data["animator"] = gameObject->GetAnimator() != nullptr;
 		data["components"] = SerializeComponents(*gameObject);
@@ -284,6 +287,7 @@ void DeserializeSprite(Sprite& sprite, const json& data) {
 	sprite.SetAnchorPoint(JsonToVector2(data.at("anchor")));
 	sprite.SetIsFlipX(data.value("flipX", false));
 	sprite.SetIsFlipY(data.value("flipY", false));
+	sprite.SetIsBackGround(data.value("isBackGround", false));
 	sprite.SetRenderQueue(data.value("renderQueue", 0));
 	if (data.contains("canvasSize")) {
 		sprite.SetResizeReferenceSize(JsonToVector2(data.at("canvasSize")));
@@ -335,6 +339,9 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 			srt.scale = JsonToVector3(data.at("scale"));
 			object->GetTransform()->SetSRT(srt);
 		}
+		// 旧Scene/Prefabには項目がないため、BaseGameObjectの従来値を既定値にする。
+		object->SetIsReflection(data.value("isReflection", false));
+		object->SetIsRendering(data.value("isRendering", true));
 		object->SetEnableShadow(data.value("enableShadow", true));
 		if (data.contains("components")) {
 			DeserializeComponents(*object, data.at("components"));

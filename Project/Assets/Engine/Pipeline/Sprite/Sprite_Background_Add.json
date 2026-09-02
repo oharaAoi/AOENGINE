@@ -1,0 +1,10 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/Sprite.VS.hlsl",
+        "ps": "/Engine/HLSL/Sprite.PS.hlsl",
+        "blendMode": "Add",
+        "cullingType": "BACK",
+        "depth": false,
+        "rtvFormat": ["16_RGB"]
+    }
+}

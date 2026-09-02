@@ -57,12 +57,14 @@ public:
 	/// <summary>
 	/// View専用のCamera BufferとRenderTargetを描画先にする。
 	/// </summary>
-	static void BeginSceneView(SceneViewType viewType);
+	static void BeginSceneView(SceneViewType viewType, bool clear = true);
 	/// <summary>
 	/// 現在のCamera状態を指定View用として保存する。
 	/// BeginSceneViewの後にCamera::ApplyToRenderしてから呼ぶ。
 	/// </summary>
 	static void CommitSceneViewCamera(SceneViewType viewType);
+	/// <summary>指定Viewの3D RenderTargetへ背景Spriteを描画する。</summary>
+	static void DrawBackgroundSprites(SceneViewType viewType);
 
 	/// <summary>
 	/// 保存済みのView用Camera状態をRenderへ適用する。

@@ -37,6 +37,10 @@ public: // public method
 	/// 描画
 	/// </summary>
 	void Draw() const override;
+	/// <summary>isBackGroundがtrueのSpriteだけを描画する。</summary>
+	void DrawBackground() const;
+	/// <summary>isBackGroundがfalseのSpriteだけを描画する。</summary>
+	void DrawForeground() const;
 	void Manipulate(const ImVec2& windowSize, const ImVec2& imagePos) override { EditObject(windowSize, imagePos); }
 
 	/// <summary>

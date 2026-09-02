@@ -268,17 +268,17 @@
     <Filter Include="Game\Actor">
       <UniqueIdentifier>{C780F7E0-B338-392E-1C40-128A0817D41E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Boss">
+      <UniqueIdentifier>{4DAD527B-B938-C03F-C249-43342E541C40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Boss\Component">
+      <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Player">
       <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Player\Component">
       <UniqueIdentifier>{25645AC4-9171-88AA-1A58-849586645461}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Actor\Boss">
-      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004510}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Actor\Boss\Component">
-      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004511}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
@@ -1209,6 +1209,15 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\GridPos.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageBackgrounds.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageBlockField.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\StageSegment.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
@@ -2077,6 +2086,12 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageBackgrounds.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageBlockField.cpp">
+      <Filter>Game\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stage\StageSegment.cpp">
       <Filter>Game\Stage</Filter>

@@ -30,6 +30,9 @@ void GameScene::Init() {
 
 	player_ = std::make_unique<Player>();
 	followCamera_ = std::make_unique<FollowCamera>();
+	
+
+	backgrounds_ = std::make_unique<StageBackgrounds>();
 	boss_ = std::make_unique<Boss>();
 }
 
@@ -38,9 +41,13 @@ void GameScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::OnPlayStart() {
-	// シーンに配置済みの本体を名前で取得して各エンティティに束ねる
+
+	backgrounds_->Init();
+	// プレイヤー初期化
 	player_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Player"));
+	// ボス初期化
 	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
+	// カメラ初期化
 	followCamera_->Init();
 }
 
@@ -59,6 +66,9 @@ void GameScene::Update() {
 	if (followCamera_) {
 		followCamera_->Update();
 	}
+
+	// 背景
+	backgrounds_->Update(player_->GetPosition());
 
 	// ボスの更新
 	if (boss_ && followCamera_) {
@@ -111,6 +121,10 @@ void GameScene::Draw() const {
 		followCamera_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Game);
 		skybox_->Draw();
+		Engine::GetCanvas2d()->Update();
+		Engine::DrawBackgroundSprites(SceneViewType::Game);
+		// 背景Sprite用の単一RTから3D用MRTへ、内容を保持したまま戻す。
+		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix());
 
@@ -120,6 +134,8 @@ void GameScene::Draw() const {
 		debugCamera_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Editor);
 		skybox_->Draw();
+		Engine::DrawBackgroundSprites(SceneViewType::Editor);
+		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
 #endif

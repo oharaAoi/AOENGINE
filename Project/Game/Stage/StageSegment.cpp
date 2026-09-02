@@ -5,10 +5,20 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 
+/// game
+#include "Game/Stage/GridPos.h"
+#include "Game/Stage/StageBlockField.h"
+#include "Game/WorldObject/Block.h"
+
 /// externals
 #include "rapidcsv/rapidcsv.h"
 
 using namespace AOENGINE;
+
+StageSegment::StageSegment() = default;
+StageSegment::~StageSegment() = default;
+StageSegment::StageSegment(StageSegment&&) noexcept = default;
+StageSegment& StageSegment::operator=(StageSegment&&) noexcept = default;
 
 void StageSegment::LoadBlockData(const std::string& filePath){
 	// CSVからブロックの配置データを読み込む
@@ -22,34 +32,63 @@ void StageSegment::LoadBlockData(const std::string& filePath){
 	}
 }
 
-void StageSegment::SetupSegmentOnWorld(){
+void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx){
 	constexpr int isBlock = 1; // ブロックが存在することを示す値（仮定）
-	constexpr float kBlockSize = 1; // ブロックのサイズ（仮定）
 
-	// セグメント全体の中心が原点(0,0,0)になるように、中央からのオフセットを求める
-	constexpr float kOffsetX = (kBlockCol - 1) * 0.5f; // 列方向の中心インデックス
-	constexpr float kOffsetY = (kBlockRow - 1) * 0.5f; // 行方向の中心インデックス
-
-	for(int i = 0; i < kBlockRow; ++i){
-		// CSVは上の行ほど画面上側を表すため、行インデックスを反転させて +Y に対応させる
-		float y = (kOffsetY - i) * kBlockSize; // ブロックのY座標を計算
-
-		for(int j = 0; j < kBlockCol; ++j){
-			if(blockData_[i][j] == isBlock){
-				AOENGINE::SceneObject* root =
-					AOENGINE::PrefabManager::GetInstance()->Instantiate("Block");
-
-				BaseGameObject* block = dynamic_cast<BaseGameObject*>(root);
-				if(block == nullptr){
-					continue;
-				}
-
-				// ブロックの位置を設定する
-				float x = (j - kOffsetX) * kBlockSize;
-
-				block->GetTransform()->SetTranslate(Math::Vector3(x,y,0.0f));
-			}
-		}
+	if(field == nullptr){
+		return;
 	}
 
+	for(int i = 0; i < kBlockRow; ++i){
+		for(int j = 0; j < kBlockCol; ++j){
+			if(blockData_[i][j] != isBlock){
+				continue;
+			}
+
+			// セグメント i行 j列 -> グローバルグリッド座標へ変換
+			// CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
+			GridPos pos{};
+			pos.x = segmentOriginGx + j;
+			pos.y = (kBlockRow - 1) - i;
+
+			// プレハブから Block の実体となる GameObject を生成する
+			AOENGINE::SceneObject* root =
+				AOENGINE::PrefabManager::GetInstance()->Instantiate("Block");
+
+			AOENGINE::BaseGameObject* gameObject = dynamic_cast<AOENGINE::BaseGameObject*>(root);
+			if(gameObject == nullptr){
+				continue;
+			}
+
+			// Block を生成し、生成した GameObject と関連付ける（所有権はこのセグメントが持つ）
+			std::unique_ptr<Block> block = std::make_unique<Block>();
+			block->Bind(gameObject);
+
+			// グリッド座標から求めたワールド座標を設定する
+			block->GetTransform()->SetTranslate(StageBlockField::GridToWorld(pos));
+
+			// 連結グループ表に登録する（4近傍との連結もここで解決される）
+			field->AddBlock(block.get(),pos);
+
+			blocks_.push_back(std::move(block));
+		}
+	}
+}
+
+void StageSegment::UnregisterFromWorld(StageBlockField* field){
+	// このセグメントが所有する Block を field の表から外し、GameObject を破棄する。
+	// セグメント破棄は連結グループの一部だけを消すことになるが、
+	// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
+	// 残りの連結性についての分割(split)検査はここでは行わない。
+	for(std::unique_ptr<Block>& block : blocks_){
+		if(block == nullptr){
+			continue;
+		}
+		if(field != nullptr){
+			field->RemoveBlockFromField(block.get());
+		}
+		block->Destroy();
+	}
+
+	blocks_.clear();
 }

@@ -2,6 +2,7 @@
 #include <memory>
 // game
 #include "Game/Scene/BaseScene.h"
+#include "Game/Stage/StageBackgrounds.h"
 
 class Player;
 class FollowCamera;
@@ -43,5 +44,7 @@ private:
 
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<FollowCamera> followCamera_;
+
+	std::unique_ptr<StageBackgrounds> backgrounds_;
 	std::unique_ptr<Boss> boss_;
 };
