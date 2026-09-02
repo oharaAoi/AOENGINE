@@ -30,6 +30,12 @@ public: // public method
 	// カテゴリ名からビットを取得（未登録なら例外）
 	uint32_t GetCategoryBit(const std::string& name);
 
+	// カテゴリ名の一覧からbit集合を取得する（未登録なら登録する）
+	uint32_t GetCategoryBits(const std::vector<std::string>& names);
+
+	// bit集合に対応するカテゴリ名の一覧を取得する（未登録のbitは無視）
+	std::vector<std::string> GetCategoryNames(uint32_t bits) const;
+
 	// リストごとカテゴリを登録する
 	void RegisterCategoryList(const std::list<std::string>& list);
 

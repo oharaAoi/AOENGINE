@@ -4,10 +4,12 @@ PlayerJump::PlayerJump() {
 	// --- 接地 ---
 	stateUpdaters_[ToIndex(State::Grounded)] = [this](float deltaTime, bool jumpTriggered) {
 		(void)deltaTime;
-		velocityY_ = 0.0f;
+		// 足場へ軽く押し付けて接地を維持する
+		velocityY_ = -params_.groundKeepSpeed;
 		if (jumpTriggered) {
 			velocityY_ = params_.jumpPower;
 			ChangeState(State::Rising);
+			jumpStarted_ = true;
 		}
 	};
 
@@ -41,6 +43,7 @@ PlayerJump::PlayerJump() {
 }
 
 void PlayerJump::Update(float deltaTime, bool jumpTriggered, const Params& params) {
+	jumpStarted_ = false;
 	params_ = params;
 	stateUpdaters_[ToIndex(state_)](deltaTime, jumpTriggered);
 }
@@ -53,6 +56,24 @@ void PlayerJump::Land() {
 	if (state_ == State::Falling || state_ == State::Hanging) {
 		ChangeState(State::Grounded);
 	}
+}
+
+void PlayerJump::LeaveGround() {
+	// 足場から外れたら落下を始める
+	if (state_ != State::Grounded) {
+		return;
+	}
+	velocityY_ = 0.0f;
+	ChangeState(State::Falling);
+}
+
+void PlayerJump::HitCeiling() {
+	// 頭をぶつけたら上昇を打ち切る
+	if (state_ != State::Rising && state_ != State::Hanging) {
+		return;
+	}
+	velocityY_ = 0.0f;
+	ChangeState(State::Falling);
 }
 
 void PlayerJump::ChangeState(State next) {

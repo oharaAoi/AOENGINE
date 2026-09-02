@@ -24,6 +24,7 @@ public:
 		float riseGravity;
 		float fallGravity;
 		float maxFallSpeed;
+		float groundKeepSpeed;	// 接地中に足場へ押し付ける速度
 	};
 
 	PlayerJump();
@@ -32,6 +33,10 @@ public:
 	// 更新、着地
 	void Update(float deltaTime, bool jumpTriggered, const Params& params);
 	void Land();
+	// 足場から外れた
+	void LeaveGround();
+	// 上昇中に頭をぶつけた
+	void HitCeiling();
 
 private:
 	std::size_t ToIndex(State state) const { return static_cast<std::size_t>(state); }
@@ -44,6 +49,7 @@ private:
 	State state_ = State::Grounded;
 	float velocityY_ = 0.0f;
 	float hangTimer_ = 0.0f;
+	bool jumpStarted_ = false;
 
 	// パラメータ
 	Params params_{};
@@ -57,5 +63,7 @@ public: // accessor
 	State GetState() const { return state_; }
 	bool  IsGrounded() const { return state_ == State::Grounded; }
 	const std::string& GetStateName() const;
+	// そのフレームにジャンプが成立したか
+	bool IsJumpStarted() const { return jumpStarted_; }
 
 };

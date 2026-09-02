@@ -28,10 +28,9 @@
                     },
                     {
                         "active": true,
-                        "category": "Block",
+                        "category": "Player",
                         "collisionMask": [
-                            "Block",
-                            "Player"
+                            "Block"
                         ],
                         "localPosition": [
                             0.0,
@@ -44,7 +43,7 @@
                             1.0,
                             1.0
                         ],
-                        "static": true,
+                        "static": false,
                         "trigger": false,
                         "type": "AABBCollider"
                     }
@@ -81,40 +80,9 @@
                             0.0,
                             0.0
                         ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
                     }
                 ],
-                "model": "Block.obj",
+                "model": "Player.gltf",
                 "rotate": [
                     0.0,
                     0.0,
@@ -127,18 +95,18 @@
                     1.0
                 ],
                 "translate": [
-                    0.038531821221113205,
-                    -2.384185791015625e-07,
-                    0.2301497459411621
+                    -2.590139627456665,
+                    0.0,
+                    0.04164886474609375
                 ]
             },
             "id": 1,
-            "name": "Block",
+            "name": "Player",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Player",
     "rootId": 1,
     "version": 1
 }

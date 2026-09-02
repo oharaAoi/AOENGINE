@@ -2,6 +2,7 @@
     "playerParameter": {
         "fallGravity": 30.0,
         "groundHeight": 0.0,
+        "groundKeepSpeed": 1.0,
         "hangTime": 0.3499999940395355,
         "jumpPower": 36.900001525878906,
         "maxFallSpeed": 45.0,

@@ -16,6 +16,10 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 	float riseGravity;		// 上昇中の減速度
 	float fallGravity;		// 落下中の重力
 	float maxFallSpeed;		// 落下速度の上限
+	float groundKeepSpeed = 1.0f;	// 接地を維持するために足場へ押し付ける速度
+
+	// コネクトステート
+	float connectableTime;	// 接続可能な時間
 
 	// その他
 	float groundHeight;		// 仮の地面の高さ
@@ -35,6 +39,8 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 			.Add("riseGravity", riseGravity)
 			.Add("fallGravity", fallGravity)
 			.Add("maxFallSpeed", maxFallSpeed)
+			.Add("groundKeepSpeed", groundKeepSpeed)
+			.Add("connectableTime",connectableTime)
 			.Add("groundHeight", groundHeight)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
@@ -48,6 +54,8 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "riseGravity", riseGravity);
 		Convert::fromJson(jsonData, "fallGravity", fallGravity);
 		Convert::fromJson(jsonData, "maxFallSpeed", maxFallSpeed);
+		Convert::fromJson(jsonData, "groundKeepSpeed", groundKeepSpeed);
+		Convert::fromJson(jsonData,"connectableTime",connectableTime);
 		Convert::fromJson(jsonData, "groundHeight", groundHeight);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
