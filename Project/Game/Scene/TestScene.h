@@ -2,7 +2,11 @@
 #include <memory>
 #include "Game/Scene/BaseScene.h"
 
-class TestScene 
+/// game
+#include "Game/Stage/StageBlockField.h"
+#include "Game/Stage/StageSegment.h"
+
+class TestScene
 : public BaseScene {
 public:
 
@@ -16,8 +20,13 @@ public:
 	void Init() override;
 	void Update() override;
 	void OnPlayStart() override;
-	
+
 private:
+
+	/// セグメントを跨いでブロックの連結グループを管理する表
+	StageBlockField stageBlockField_;
+	/// CSVから読み込んだステージセグメント
+	StageSegment stageSegment_;
 
 };
 
