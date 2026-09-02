@@ -11,99 +11,6 @@
                     {
                         "albedoTexture": "white.png",
                         "color": [
-                            0.9382239580154419,
-                            0.04346984997391701,
-                            0.04346984997391701,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "floor.png",
-                        "color": [
-                            0.9189189076423645,
-                            0.0,
-                            0.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "floor.obj",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 2,
-            "name": "Floor",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
                             1.0,
                             1.0,
                             1.0,
@@ -184,6 +91,99 @@
             },
             "id": 1,
             "name": "Player",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            0.9382239580154419,
+                            0.04346984997391701,
+                            0.04346984997391701,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "floor.png",
+                        "color": [
+                            0.9189189076423645,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "floor.obj",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 2,
+            "name": "Floor",
             "parentId": null,
             "type": "BaseGameObject"
         }

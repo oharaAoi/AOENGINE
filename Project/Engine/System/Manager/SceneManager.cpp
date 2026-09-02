@@ -240,12 +240,17 @@ bool AOENGINE::SceneManager::LoadScene() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::SceneManager::ResetManager() {
-	Engine::GetCanvas2d()->Init();
-	Engine::RegisterEditorWindowSystem();
-
 	AOENGINE::ParticleManager* cpuManager = AOENGINE::ParticleManager::GetInstance();
 	AOENGINE::GpuParticleManager* gpuManager = AOENGINE::GpuParticleManager::GetInstance();
 
+	// Canvas/Particleが所有する外部Objectを破棄する前に、
+	// SceneWorld内の生ポインタと親子参照をすべて解除する。
+	AOENGINE::SceneRenderer::GetInstance()->ClearSceneObjects();
+
 	gpuManager->Finalize();
 	cpuManager->Finalize();
+	Engine::GetCanvas2d()->Init();
+
+	// PostProcessは新しいSceneRenderer::Init()後のSetSceneRenderer()から再登録する。
+	// ここで登録すると、破棄予定の旧SceneWorldへ一度生成されてしまう。
 }

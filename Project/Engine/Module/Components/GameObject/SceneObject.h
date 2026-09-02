@@ -47,6 +47,8 @@ public:
 
 	void AddChild(SceneObject* child);
 	void DeleteChild(SceneObject* child);
+	/// <summary>SceneWorldの破棄時に、外部所有Objectへ残る子参照をすべて外す。</summary>
+	void ClearChildren();
 	bool HasChild() const { return !children_.empty(); }
 	const std::vector<SceneObject*>& GetChildren() const { return children_; }
 

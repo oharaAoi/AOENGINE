@@ -65,3 +65,7 @@ void AOENGINE::SceneObject::DeleteChild(SceneObject* child) {
 		children_.end()
 	);
 }
+
+void AOENGINE::SceneObject::ClearChildren() {
+	children_.clear();
+}
