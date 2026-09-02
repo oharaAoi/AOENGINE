@@ -491,6 +491,8 @@ BaseGameObject* SceneRenderer::DuplicateObject(BaseGameObject& source, const std
 		duplicate->GetTransform()->SetSRT(source.GetTransform()->GetSRT());
 	}
 	duplicate->SetActive(source.IsActive());
+	duplicate->SetIsReflection(source.GetIsReflection());
+	duplicate->SetIsRendering(source.GetIsRendering());
 	duplicate->SetEnableShadow(source.GetEnableShadow());
 
 	if (source.GetAnimator() && duplicate->GetModel()) {

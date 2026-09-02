@@ -1,10 +1,10 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Engine\\Load\\Models\\Develop"
+        "path": "Project\\Assets\\Game\\Prefabs"
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": true,

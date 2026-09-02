@@ -103,8 +103,10 @@ public: // accessor method
 	bool GetEnableShadow() const { return enableShadow_; }
 
 	void SetIsReflection(bool isReflection) { isReflection_ = isReflection; }
+	bool GetIsReflection() const { return isReflection_; }
 
 	void SetIsRendering(bool _isRendering) { isRendering_ = _isRendering; }
+	bool GetIsRendering() const { return isRendering_; }
 
 	// -------------------------------------------------
 	// ↓ Material関連
@@ -185,12 +187,11 @@ protected:
 
 	bool isAnimation_ = false;
 
-	bool isReflection_;
-	bool isRendering_;
-
 	// 他クラス情報
 	AOENGINE::BaseGameObject* pParentObj_;
 
+	bool isReflection_ = false;
+	bool isRendering_ = true;
 	bool enableShadow_ = true;
 };
 

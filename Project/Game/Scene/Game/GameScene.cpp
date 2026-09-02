@@ -30,6 +30,8 @@ void GameScene::Init() {
 
 	followCamera_ = std::make_unique<FollowCamera>();
 	followCamera_->Init();
+
+	backgrounds_ = std::make_unique<StageBackgrounds>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +42,8 @@ void GameScene::OnPlayStart() {
 	// Player初期化
 	AOENGINE::BaseGameObject* body = FindSceneObject<AOENGINE::BaseGameObject>("Player");
 	player_->Init(body);
+
+	backgrounds_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,6 +61,9 @@ void GameScene::Update() {
 	if (followCamera_) {
 		followCamera_->Update();
 	}
+
+	// 背景
+	backgrounds_->Update(player_->GetPosition());
 
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集 + Save/Load

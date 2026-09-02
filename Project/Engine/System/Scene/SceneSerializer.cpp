@@ -45,6 +45,9 @@ bool IsChildOfPrefabInstance(const SceneObject& object, const SceneWorld& world)
 json SerializePrefabInstance(const SceneObject& object) {
 	json data = { { "prefab", object.GetPrefabSource() } };
 	if (const auto* gameObject = dynamic_cast<const BaseGameObject*>(&object)) {
+		data["isReflection"] = gameObject->GetIsReflection();
+		data["isRendering"] = gameObject->GetIsRendering();
+		data["enableShadow"] = gameObject->GetEnableShadow();
 		if (gameObject->GetTransform()) {
 			const Math::QuaternionSRT& srt = gameObject->GetTransform()->GetSRT();
 			data["transformType"] = "3D";
@@ -66,6 +69,10 @@ void ApplyPrefabInstanceTransform(SceneObject& object, const json& data) {
 	if (!data.contains("translate") || !data.contains("rotate") || !data.contains("scale")) { return; }
 	if (data.value("transformType", "") == "3D") {
 		if (auto* gameObject = dynamic_cast<BaseGameObject*>(&object); gameObject && gameObject->GetTransform()) {
+			// Prefab参照をシーンへ保存した場合のインスタンス設定を復元する。
+			gameObject->SetIsReflection(data.value("isReflection", gameObject->GetIsReflection()));
+			gameObject->SetIsRendering(data.value("isRendering", gameObject->GetIsRendering()));
+			gameObject->SetEnableShadow(data.value("enableShadow", gameObject->GetEnableShadow()));
 			Math::QuaternionSRT srt{};
 			srt.translate = JsonToVector3(data.at("translate"));
 			srt.rotate = JsonToQuaternion(data.at("rotate"));
