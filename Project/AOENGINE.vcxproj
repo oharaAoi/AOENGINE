@@ -748,13 +748,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossParameter.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
-    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />

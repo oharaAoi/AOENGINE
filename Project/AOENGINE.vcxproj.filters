@@ -2042,9 +2042,6 @@
     <ClCompile Include="Game\Actor\Boss\Boss.cpp">
       <Filter>Game\Actor\Boss</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Boss\BossParameter.cpp">
-      <Filter>Game\Actor\Boss</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
@@ -2058,9 +2055,6 @@
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Player.cpp">
-      <Filter>Game\Actor\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">

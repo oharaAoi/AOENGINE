@@ -2,15 +2,18 @@
 #include <array>
 #include <cstddef>
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
 
 /// <summary>
 /// ボスの調整パラメータ
 /// </summary>
-struct BossParameter : public AOENGINE::IJsonConverter {
+struct BossParameter :
+	public AOENGINE::CustomParameterSet,
+	public AOENGINE::IJsonConverter {
 
-	// フェーズ切り替え回数 
+	// フェーズ切り替え回数
 	static constexpr std::size_t kPhaseSwitchCount = 2;
 
 	Math::Vector2 screenPos;	// 画面上での固定位置
@@ -21,9 +24,16 @@ struct BossParameter : public AOENGINE::IJsonConverter {
 	// フェーズが切り替わる残HPの割合
 	std::array<float, kPhaseSwitchCount> phaseSwitchRatio;
 
-	BossParameter() {
+	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
 		SetName("bossParameter");
+
+		AddParameter("Screen Pos(px)", screenPos, 1.0f);
+		AddParameter("World Z", worldZ, 0.1f);
+		AddParameter("Max HP", hp, 1.0f, 0.0f, 100000.0f);
+		AddParameter("Hit Size (half)", hitSize, 0.1f);
+		AddParameter("Phase Switch Ratio 0", phaseSwitchRatio[0], 0.01f, 0.0f, 1.0f);
+		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -53,6 +63,4 @@ struct BossParameter : public AOENGINE::IJsonConverter {
 			}
 		}
 	}
-
-	void Debug_Gui() override;
 };

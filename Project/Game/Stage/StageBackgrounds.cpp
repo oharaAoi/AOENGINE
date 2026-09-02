@@ -67,5 +67,5 @@ void StageBackgrounds::CreateBackground() {
 
 	StageSegment seg;
 	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
-	seg.SetupSegmentOnWorld(parameter_.scrollHeight * currentIndex_);
+	/*seg.SetupSegmentOnWorld(parameter_.scrollHeight * currentIndex_);*/
 }

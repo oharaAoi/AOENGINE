@@ -122,7 +122,4 @@ void Player::Debug_Gui() {
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
 	ImGui::DragFloat3("position", &position_.x, 0.1f);
 	ImGui::DragFloat3("velocity", &velocity_.x, 0.1f);
-
-	ImGui::Separator();
-	parameter_.Debug_Gui();
 }

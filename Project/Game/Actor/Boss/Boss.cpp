@@ -69,7 +69,4 @@ void Boss::Debug_Gui() {
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("hp: %.1f / %.1f", currentHp_, parameter_.hp);
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
-
-	ImGui::Separator();
-	parameter_.Debug_Gui();
 }

@@ -1,17 +1,20 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
+#include "Engine/System/Editor/Parameter/CustomParameter.h"
 
 /// <summary>
 /// プレイヤーの調整パラメータ
 /// </summary>
-struct PlayerParameter : public AOENGINE::IJsonConverter {
+struct PlayerParameter :
+	public AOENGINE::CustomParameterSet,
+	public AOENGINE::IJsonConverter {
 
 	// 左右移動
-	float moveSpeed;				// 左右移動スピード
+	float moveSpeed;			// 左右移動スピード
 	float moveInputThreshold;	// 向き変更とみなす入力の下限
 
 	// ジャンプ
-	float jumpPower;		// ジャンプの強さ
+	float jumpPower;	    // ジャンプの強さ
 	float hangTime;		// 滞空時間
 	float riseGravity;	// 上昇中の減速度
 	float fallGravity;	// 落下中の重力
@@ -21,9 +24,19 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 	float groundHeight;	// 仮の地面の高さ
 	float stickDeadZone;	// 左スティックのデッドゾーン
 
-	PlayerParameter() {
+	PlayerParameter() : CustomParameterSet("Player") {
 		SetGroupName("Player");
 		SetName("playerParameter");
+
+		AddParameter("Move Speed", moveSpeed, 0.1f, 0.0f, 100.0f);
+		AddParameter("Move Input Threshold", moveInputThreshold, 0.001f, 0.0f, 1.0f);
+		AddParameter("Jump Power", jumpPower, 0.1f, 0.0f, 200.0f);
+		AddParameter("Hang Time", hangTime, 0.01f, 0.0f, 5.0f);
+		AddParameter("Rise Gravity", riseGravity, 0.1f, 0.0f, 500.0f);
+		AddParameter("Fall Gravity", fallGravity, 0.1f, 0.0f, 500.0f);
+		AddParameter("Max Fall Speed", maxFallSpeed, 0.1f, 0.0f, 500.0f);
+		AddParameter("Ground Height", groundHeight, 0.1f);
+		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -51,6 +64,4 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "groundHeight", groundHeight);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
-
-	void Debug_Gui() override;
 };

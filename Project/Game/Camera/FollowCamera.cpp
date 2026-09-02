@@ -127,19 +127,8 @@ void FollowCamera::UpdateShake(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// デバッグ表示
+// デバッグ表示 (調整値は「Custom Parameters」ウィンドウ側)
 ///////////////////////////////////////////////////////////////////////////////////////////////
-
-void FollowCamera::Parameter::Debug_Gui() {
-	ImGui::DragFloat3("Offset", &offset.x, 0.1f);
-	ImGui::DragFloat("Pitch(deg)", &pitch, 0.1f);
-	ImGui::DragFloat("Smooth Time", &smoothTime, 0.01f);
-	ImGui::DragFloat("Max Speed", &maxSpeed, 1.0f);
-	ImGui::DragFloat2("Shake Frequency", &shakeFrequency.x, 0.1f);
-
-	// Save / Load ボタン
-	SaveAndLoad();
-}
 
 void FollowCamera::Debug_Gui() {
 	const Math::Vector3 pos = transform_.translate;
@@ -155,7 +144,4 @@ void FollowCamera::Debug_Gui() {
 	if (ImGui::Button("Test Shake")) {
 		SetShake(0.3f, 0.5f);
 	}
-
-	ImGui::Separator();
-	parameter_.Debug_Gui();
 }
