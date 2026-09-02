@@ -1,12 +1,15 @@
 #pragma once
+#include <memory>
 // game
 #include "Game/Scene/BaseScene.h"
+
+class Player;
 
 class GameScene :
 	public BaseScene {
 public:
 
-	GameScene() = default;
+	GameScene();
 	~GameScene() override;
 
 	/// <summary>
@@ -28,5 +31,8 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update() override;
-};
 
+private:
+
+	std::unique_ptr<Player> player_;
+};

@@ -19,7 +19,7 @@ public:
 
 public:
 
-	Player();
+	Player() = default;
 	~Player() override = default;
 	Player(const Player&) = delete;
 	Player& operator=(const Player&) = delete;
@@ -29,8 +29,7 @@ public:
 	void Update();
 
 	// デバッグ描画
-	void Debug_Gui() override;
-
+	void Debug_Gui();
 
 private:
 
@@ -64,7 +63,6 @@ private:
 
 public: // accessor
 
-	bool IsValid() const { return object_ != nullptr; }
 	bool IsGrounded() const { return jumpState_ == JumpState::Grounded; }
 	bool IsLaunching() const { return isLaunching_; }
 
