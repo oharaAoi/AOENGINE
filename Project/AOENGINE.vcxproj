@@ -453,9 +453,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
+    <ClInclude Include="Game\Scene\Clear\ClearScene.h" />
+    <ClInclude Include="Game\Scene\Game\GameScene.h" />
     <ClInclude Include="Game\Scene\SceneFactory.h" />
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
+    <ClInclude Include="Game\Scene\Title\TitleScene.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
   </ItemGroup>
@@ -731,8 +734,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
+    <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
+    <ClCompile Include="Game\Scene\Game\GameScene.cpp" />
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
+    <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

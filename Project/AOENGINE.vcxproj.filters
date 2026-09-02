@@ -1139,6 +1139,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
     <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
+    <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Scene\Game\GameScene.h" />
+    <ClInclude Include="Game\Scene\Clear\ClearScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1962,5 +1965,8 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp" />
+    <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Scene\Game\GameScene.cpp" />
+    <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
   </ItemGroup>
 </Project>
