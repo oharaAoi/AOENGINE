@@ -1,6 +1,9 @@
 #include "TestScene.h"
 #include "Engine/Render/Render.h"
 
+/// Game
+#include "Game/Stage/StageSegment.h"
+
 TestScene::TestScene() {}
 TestScene::~TestScene() { Finalize(); }
 
@@ -15,4 +18,10 @@ void TestScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update() {
 
+}
+
+void TestScene::OnPlayStart(){
+	StageSegment seg;
+	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
+	seg.SetupSegmentOnWorld();
 }

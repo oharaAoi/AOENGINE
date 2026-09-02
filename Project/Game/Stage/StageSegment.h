@@ -23,6 +23,7 @@ public:
 	void SetupSegmentOnWorld();
 
 private:
-	std::array<std::array<int,kBlockRow>,kBlockCol> blockData_;
+	/// ブロックの配置データ [行][列]
+	std::array<std::array<int,kBlockCol>,kBlockRow> blockData_;
 };
 
