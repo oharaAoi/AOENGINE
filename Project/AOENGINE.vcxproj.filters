@@ -1201,6 +1201,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\StageBackgrounds.h" />
+    <ClInclude Include="Game\Stage\StageFactory.h" />
+    <ClInclude Include="Game\Stage\StageBlockField.h" />
+    <ClInclude Include="Game\Stage\GridPos.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2060,5 +2063,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />
+    <ClCompile Include="Game\Stage\StageFactory.cpp" />
+    <ClCompile Include="Game\Stage\StageBlockField.cpp" />
   </ItemGroup>
 </Project>

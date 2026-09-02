@@ -3,6 +3,8 @@
 // game
 #include "Game/Scene/BaseScene.h"
 #include "Game/Stage/StageBackgrounds.h"
+#include "Game/Stage/StageBlockField.h"
+#include "Game/Stage/StageSegment.h"
 
 class Player;
 class FollowCamera;
@@ -44,5 +46,12 @@ private:
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<FollowCamera> followCamera_;
 
+	// ステージ関連 ------------------------------------
+
+	// ステージの背景
 	std::unique_ptr<StageBackgrounds> backgrounds_;
+	/// セグメントを跨いでブロックの連結グループを管理する表
+	StageBlockField stageBlockField_;
+	/// CSVから読み込んだステージセグメント
+	StageSegment stageSegment_;
 };

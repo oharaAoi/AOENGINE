@@ -17,6 +17,11 @@ GameScene::~GameScene() {
 void GameScene::Finalize() {
 	followCamera_.reset();
 	player_.reset();
+
+	// ステージのブロックを SceneWorld から破棄し、連結グループ表を空にする。
+	// TestScene のデストラクタからも呼ばれるため、複数回呼ばれても安全であること。
+	stageSegment_.UnregisterFromWorld(&stageBlockField_);
+	stageBlockField_.Clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,7 +48,7 @@ void GameScene::OnPlayStart() {
 	AOENGINE::BaseGameObject* body = FindSceneObject<AOENGINE::BaseGameObject>("Player");
 	player_->Init(body);
 
-	backgrounds_->Init();
+	backgrounds_->Init(&stageBlockField_, &stageSegment_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +68,7 @@ void GameScene::Update() {
 	}
 
 	// 背景
-	backgrounds_->Update(player_->GetPosition());
+	backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
 
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集 + Save/Load

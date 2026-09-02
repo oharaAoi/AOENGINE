@@ -19,7 +19,7 @@ void AOENGINE::BaseCollider::Debug_Gui() {
 	int currentIndex = 0;
 	// 今のカテゴリを検索
 	std::vector<std::string> categoties = layers.GetCategories();
-	for (size_t i = 0; i < categoties.size(); ++i) {
+	for (int i = 0; i < categoties.size(); ++i) {
 		if (categoryName_ == categoties[i]) {
 			currentIndex = i;
 		}
