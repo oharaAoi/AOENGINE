@@ -268,6 +268,15 @@
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor">
+      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Player">
+      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004502}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera">
+      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004503}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{DCF93CE2-C8B1-7E2F-31B9-578B1D901920}</UniqueIdentifier>
     </Filter>
@@ -1128,6 +1137,15 @@
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Player.h">
+      <Filter>Game\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\PlayerParameter.h">
+      <Filter>Game\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\FollowCamera.h">
+      <Filter>Game\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
@@ -1960,6 +1978,12 @@
     </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Player.cpp">
+      <Filter>Game\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\FollowCamera.cpp">
+      <Filter>Game\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
