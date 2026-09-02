@@ -7,6 +7,7 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/Item/ColliderCategorySettingWindow.h"
+#include "Engine/System/Editor/Window/Item/CustomParameterWindow.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistration.h"
 #include "Engine/System/Scene/SceneSerializer.h"
 
@@ -60,6 +61,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	GameTimer::SetTimeScale(0.0f);
 
 	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
+	windowItems_.push_back(std::make_unique<CustomParameterWindow>());
 	for (auto& item : windowItems_) {
 		item->Init();
 	}

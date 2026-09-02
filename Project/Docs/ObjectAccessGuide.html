@@ -144,7 +144,80 @@ if (enemy &amp;&amp; enemy-&gt;IsPrefabInstanceRoot()) {
     // prefabName == "Enemy"
 }</code></pre>
 
-  <h2>7. 使い分け</h2>
+  <h2>7. Custom Parametersの使い方</h2>
+  <p><code>CustomParameterSet</code>を継承した構造体へユーザー定義パラメータをまとめると、InspectorRegistryへ個別登録せずに専用ウィンドウへ表示できます。</p>
+
+  <h3>パラメータ構造体を定義する</h3>
+  <pre><code>#include &lt;string&gt;
+#include "Engine/System/Editor/Parameter/CustomParameter.h"
+
+struct PlayerParameters :
+    public AOENGINE::CustomParameterSet {
+public:
+    PlayerParameters()
+        : CustomParameterSet("Player") {
+
+        AddParameter("HP", hp, 1.0f, 0.0f, 100.0f);
+        AddParameter("Max HP", maxHp, 1.0f, 1.0f, 1000.0f);
+        AddParameter("Move Speed", moveSpeed, 0.1f, 0.0f, 100.0f);
+        AddParameter("Invincible", invincible);
+        AddParameter("Spawn Position", spawnPosition, 0.1f);
+        AddParameter("Player Color", playerColor);
+        AddParameter("Display Name", displayName);
+    }
+
+    float hp = 100.0f;
+    float maxHp = 100.0f;
+    float moveSpeed = 5.0f;
+    bool invincible = false;
+    Math::Vector3 spawnPosition{};
+    AOENGINE::Color playerColor = Colors::Linear::white;
+    std::string displayName = "Player";
+};</code></pre>
+
+  <p><code>AddParameter()</code>の数値引数は、順に操作速度、最小値、最大値です。最小値と最大値を両方<code>0</code>にするとImGui側では範囲制限なしとして扱われます。</p>
+
+  <h3>Playerクラスへ組み込む</h3>
+  <pre><code>class Player {
+public:
+    void Update()
+    {
+        // ウィンドウで変更した値をそのままゲーム処理に使用できる
+        if (parameters_.hp &lt;= 0.0f) {
+            // 死亡処理
+        }
+    }
+
+private:
+    PlayerParameters parameters_;
+};</code></pre>
+
+  <p><code>PlayerParameters</code>の生成時にCustomParameterManagerへ自動登録され、破棄時に自動解除されます。ユーザーが<code>InspectorRegistry</code>や管理者へ毎回登録する必要はありません。</p>
+
+  <h3>対応している型</h3>
+  <table>
+    <thead><tr><th>C++型</th><th>表示されるImGui</th></tr></thead>
+    <tbody>
+      <tr><td><code>bool</code></td><td>Checkbox</td></tr>
+      <tr><td><code>int32_t</code></td><td>DragInt</td></tr>
+      <tr><td><code>float</code></td><td>DragFloat</td></tr>
+      <tr><td><code>Math::Vector2</code></td><td>DragFloat2</td></tr>
+      <tr><td><code>Math::Vector3</code></td><td>DragFloat3</td></tr>
+      <tr><td><code>Math::Vector4</code></td><td>DragFloat4</td></tr>
+      <tr><td><code>AOENGINE::Color</code></td><td>ColorEdit4</td></tr>
+      <tr><td><code>std::string</code></td><td>InputText</td></tr>
+    </tbody>
+  </table>
+
+  <h3>ウィンドウを表示する</h3>
+  <p>エディター起動時には<code>Custom Parameters</code>ウィンドウが表示されます。閉じた場合は上部メニューの<code>Setting → Custom Parameters</code>から再表示できます。</p>
+
+  <div class="card warning">
+    <strong>Custom Parametersの注意点</strong>
+    <p><code>AddParameter()</code>はメンバ変数へのポインタを管理者へ渡します。そのため、登録した変数は<code>CustomParameterSet</code>派生構造体のメンバとして保持してください。コンストラクタ内のローカル変数や、構造体より先に破棄される外部変数は登録しないでください。</p>
+  </div>
+
+  <h2>8. 使い分け</h2>
   <table>
     <thead><tr><th>目的</th><th>方法</th></tr></thead>
     <tbody>

@@ -837,6 +837,15 @@
     <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h">
+      <Filter>Engine\System\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h">
+      <Filter>Engine\System\Editor</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
       <Filter>Engine\System\Input</Filter>
     </ClInclude>
@@ -1682,6 +1691,15 @@
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp">
+      <Filter>Engine\System\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp">
+      <Filter>Engine\System\Editor</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
       <Filter>Engine\System\Input</Filter>
