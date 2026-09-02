@@ -11,6 +11,7 @@
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/System/Manager/CollisionLayerManager.h"
 #include "Engine/WinApp/WinApp.h"
 
 using json = nlohmann::json;
@@ -135,6 +136,7 @@ json SerializeComponents(const BaseGameObject& object) {
 		});
 	}
 
+	CollisionLayerManager& layers = CollisionLayerManager::GetInstance();
 	for (const BaseCollider* collider : object.GetColliders()) {
 		if (!collider) { continue; }
 		json data = {
@@ -144,7 +146,7 @@ json SerializeComponents(const BaseGameObject& object) {
 			{ "active", collider->GetIsActive() },
 			{ "static", collider->GetIsStatic() },
 			{ "trigger", collider->GetIsTrigger() },
-			{ "collisionMask", collider->GetCollisionMaskBit() },
+			{ "collisionMask", layers.GetCategoryNames(collider->GetCollisionMaskBit()) },
 			{ "penetrationPrevention", collider->GetPenetrationPrevention() }
 		};
 
@@ -206,7 +208,16 @@ void DeserializeComponents(BaseGameObject& object, const json& components) {
 		collider->SetIsActive(data.value("active", collider->GetIsActive()));
 		collider->SetIsStatic(data.value("static", collider->GetIsStatic()));
 		collider->SetIsTrigger(data.value("trigger", collider->GetIsTrigger()));
-		collider->SetCollisionMaskBits(data.value("collisionMask", collider->GetCollisionMaskBit()));
+		if (data.contains("collisionMask")) {
+			const json& maskData = data.at("collisionMask");
+			if (maskData.is_array()) {
+				CollisionLayerManager& layers = CollisionLayerManager::GetInstance();
+				collider->SetCollisionMaskBits(layers.GetCategoryBits(maskData.get<std::vector<std::string>>()));
+			} else if (maskData.is_number()) {
+				// 旧形式(生bit値)との互換。bitの割り当て順に依存するため保存し直すと名前形式になる
+				collider->SetCollisionMaskBits(maskData.get<uint32_t>());
+			}
+		}
 		collider->SetPenetrationPrevention(data.value("penetrationPrevention", collider->GetPenetrationPrevention()));
 
 		if (auto* box = dynamic_cast<BoxCollider*>(collider); box && data.contains("size")) {

@@ -94,7 +94,8 @@ void CollisionManager::CheckCollisionPair(BaseCollider* colliderA, BaseCollider*
 		}
 
 		if (!colliderB->GetIsStatic()) {
-			colliderB->SetPushBackDirection(PenetrationResolution(colliderA->GetShape(), colliderB->GetShape()));
+			// 押し戻しは「第1引数側を逃がす向き」で返るため、B用は形状の順番を入れ替える
+			colliderB->SetPushBackDirection(PenetrationResolution(colliderB->GetShape(), colliderA->GetShape()));
 		}
 		
 	} else {

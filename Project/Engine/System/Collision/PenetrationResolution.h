@@ -12,6 +12,8 @@ Math::Vector3 PenetrationResolutionAABBandAABB(const Math::AABB& aabb1, const Ma
 //								当たり判定の呼び出し関数群											　//
 //================================================================================================//
 
+// いずれの関数もshape1をshape2から逃がす押し戻しベクトル(shape1の座標に加算する量)を返す
+
 template<typename T1, typename T2>
 Math::Vector3 PenetrationResolution(const T1&, const T2&) {
     return CVector3::ZERO;
