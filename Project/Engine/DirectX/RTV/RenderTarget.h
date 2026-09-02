@@ -53,7 +53,8 @@ public:
 	/// <param name="commandList">: コマンドリスト</param>
 	/// <param name="renderTypes">: レンダーターゲットのタイプ</param>
 	/// <param name="dsvHandle">: デプスハンドル</param>
-	void SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle);
+	void SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes,
+		const DescriptorHandles _dsvHandle, bool clear = true);
 
 	/// <summary>
 	/// 深度バッファ

@@ -93,6 +93,10 @@ void GameScene::Draw() const {
 		followCamera_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Game);
 		skybox_->Draw();
+		Engine::GetCanvas2d()->Update();
+		Engine::DrawBackgroundSprites(SceneViewType::Game);
+		// 背景Sprite用の単一RTから3D用MRTへ、内容を保持したまま戻す。
+		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix());
 
@@ -102,6 +106,8 @@ void GameScene::Draw() const {
 		debugCamera_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Editor);
 		skybox_->Draw();
+		Engine::DrawBackgroundSprites(SceneViewType::Editor);
+		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
 #endif

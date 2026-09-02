@@ -120,8 +120,9 @@ void AOENGINE::Render::PrimitiveDrawCall() {
 // ↓　AOENGINE::RenderTargetを任意の物に設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle) {
-	GetInstance()->renderTarget_->SetRenderTarget(commandList_, renderTypes, depthHandle);
+void AOENGINE::Render::SetRenderTarget(const std::vector<RenderTargetType>& renderTypes,
+	const DescriptorHandles& depthHandle, bool clear) {
+	GetInstance()->renderTarget_->SetRenderTarget(commandList_, renderTypes, depthHandle, clear);
 }
 
 void AOENGINE::Render::SetShadowMap() {

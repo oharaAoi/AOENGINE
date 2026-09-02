@@ -36,10 +36,24 @@ void AOENGINE::Canvas2d::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Canvas2d::Draw() const {
+	DrawForeground();
+}
+
+void AOENGINE::Canvas2d::DrawBackground() const {
 	if (!sceneWorld_) { return; }
 	for (const ObjectHandle& handle : itemHandles_) {
 		const Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
-		if (sprite && sprite->IsActive()) {
+		if (sprite && sprite->IsActive() && sprite->GetIsBackGround()) {
+			const_cast<Sprite*>(sprite)->DrawSprite(true);
+		}
+	}
+}
+
+void AOENGINE::Canvas2d::DrawForeground() const {
+	if (!sceneWorld_) { return; }
+	for (const ObjectHandle& handle : itemHandles_) {
+		const Sprite* sprite = sceneWorld_->FindObjectAs<Sprite>(handle);
+		if (sprite && sprite->IsActive() && !sprite->GetIsBackGround()) {
 			sprite->Draw();
 		}
 	}

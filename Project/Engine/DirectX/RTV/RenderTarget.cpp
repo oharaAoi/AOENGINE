@@ -57,7 +57,8 @@ void AOENGINE::RenderTarget::Init(ID3D12Device* _device, AOENGINE::DescriptorHea
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　AOENGINE::RenderTargetを設定する
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void AOENGINE::RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList, const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle) {
+void AOENGINE::RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _commandList,
+	const std::vector<RenderTargetType>& _renderTypes, const DescriptorHandles _dsvHandle, bool clear) {
 	// MRT用に複数のRTVハンドルを用意
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> rtvHandles;
 	rtvHandles.reserve(_renderTypes.size());
@@ -66,14 +67,14 @@ void AOENGINE::RenderTarget::SetRenderTarget(ID3D12GraphicsCommandList* _command
 	}
 
 	_commandList->OMSetRenderTargets(static_cast<UINT>(rtvHandles.size()), rtvHandles.data(), FALSE, &_dsvHandle.handleCPU);
-	float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	// AOENGINE::RenderTargetはoffScreen用のAOENGINE::RenderTargetを指定しておく
-	// 各レンダーターゲットをクリア
-	for (auto& rtv : rtvHandles) {
-		_commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
+	if (clear) {
+		float clearColor[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		// 各レンダーターゲットとDepthは、パスの最初にバインドする場合だけクリアする。
+		for (auto& rtv : rtvHandles) {
+			_commandList->ClearRenderTargetView(rtv, clearColor, 0, nullptr);
+		}
+		_commandList->ClearDepthStencilView(_dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	}
-	// 指定した深度で画面をクリア
-	_commandList->ClearDepthStencilView(_dsvHandle.handleCPU, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 	// srv
 	ID3D12DescriptorHeap* descriptorHeaps[] = { dxHeap_->GetSRVHeap() };
 	_commandList->SetDescriptorHeaps(_countof(descriptorHeaps), descriptorHeaps);

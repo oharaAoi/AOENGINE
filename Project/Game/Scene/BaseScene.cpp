@@ -99,6 +99,7 @@ void BaseScene::UpdateProcess() {
 void BaseScene::EditorUpdateProcess() {
 	// ゲームロジック、Physics、Animation時間は進めない。
 	pSceneRenderer_->EditorUpdate();
+	skybox_->Update();
 
 	// Scene Viewの操作と2D描画行列はEdit/Pause中も必要。
 	debugCamera_->Update();
@@ -120,6 +121,10 @@ void BaseScene::Draw() const {
 		camera3d_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Game);
 		skybox_->Draw();
+		Engine::GetCanvas2d()->Update();
+		Engine::DrawBackgroundSprites(SceneViewType::Game);
+		// 背景Sprite用の単一RTから3D用MRTへ戻す。
+		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			camera3d_->GetViewMatrix() * camera3d_->GetProjectionMatrix());
 
@@ -129,6 +134,8 @@ void BaseScene::Draw() const {
 		debugCamera_->ApplyToRender();
 		Engine::CommitSceneViewCamera(SceneViewType::Editor);
 		skybox_->Draw();
+		Engine::DrawBackgroundSprites(SceneViewType::Editor);
+		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
 #endif
@@ -143,16 +150,13 @@ void BaseScene::Draw() const {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BaseScene::SaveSceneEffect() {
-	Engine::GetPostProcess()->Save(this->sceneName_ + "/");
-	//Engine::GetCanvas2d()->Save(this->sceneName_);
+	Engine::GetPostProcess()->Save(this->sceneName_ + "_");
 }
 
 void BaseScene::LoadSceneEffect() {
 	std::string path = AOENGINE::JsonItems::GetDirectoryPath() + this->sceneName_ + "/";
 	AOENGINE::JsonItems::GetInstance()->LoadDesignationPath(path);
-	Engine::GetPostProcess()->Load(this->sceneName_ + "/");
-
-	//Engine::GetCanvas2d()->Load(this->sceneName_);
+	Engine::GetPostProcess()->Load(this->sceneName_ + "_");
 }
 
 void BaseScene::RegisterCamera() {
