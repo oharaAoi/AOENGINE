@@ -1142,6 +1142,7 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
     <ClInclude Include="Game\Scene\Game\GameScene.h" />
     <ClInclude Include="Game\Scene\Clear\ClearScene.h" />
+    <ClInclude Include="Game\Stage\StageSegment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1968,5 +1969,6 @@
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Game\Scene\Game\GameScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
+    <ClCompile Include="Game\Stage\StageSegment.cpp" />
   </ItemGroup>
 </Project>

@@ -116,17 +116,21 @@ void BaseScene::Draw() const {
 		pSceneRenderer_->DrawShadowMap();
 
 		// Game View: 配置されたCamera3dから描画する。
-		camera3d_->ApplyToRender();
 		Engine::BeginSceneView(SceneViewType::Game);
+		camera3d_->ApplyToRender();
+		Engine::CommitSceneViewCamera(SceneViewType::Game);
 		skybox_->Draw();
-		pSceneRenderer_->DrawSceneObjects();
+		pSceneRenderer_->DrawSceneObjects(
+			camera3d_->GetViewMatrix() * camera3d_->GetProjectionMatrix());
 
 #ifdef _DEVELOPMENT
 		// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
-		debugCamera_->ApplyToRender();
 		Engine::BeginSceneView(SceneViewType::Editor);
+		debugCamera_->ApplyToRender();
+		Engine::CommitSceneViewCamera(SceneViewType::Editor);
 		skybox_->Draw();
-		pSceneRenderer_->DrawSceneObjects();
+		pSceneRenderer_->DrawSceneObjects(
+			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
 #endif
 	}
 

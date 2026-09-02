@@ -158,6 +158,9 @@ void SceneRenderer::Draw() const {
 // ↓ 影の描画
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void SceneRenderer::DrawShadowMap() const {
+	// 1フレーム中のGame/Editor両Viewで異なるUpload Bufferを使う。
+	// Viewごとにリセットすると、後から描画するEditor ViewがGame Viewのデータを上書きする。
+	modelInstancingRenderer_.BeginFrame();
 	AOENGINE::Render::SetShadowMap();
 	for (const RenderEntry& entry : renderEntries_) {
 		const ISceneObject* obj = GetRenderableObject(entry);
@@ -169,11 +172,14 @@ void SceneRenderer::DrawShadowMap() const {
 }
 
 void SceneRenderer::DrawSceneObjects() const {
-	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(AOENGINE::Render::GetViewProjectionMat());
+	DrawSceneObjects(AOENGINE::Render::GetViewProjectionMat());
+}
+
+void SceneRenderer::DrawSceneObjects(const Math::Matrix4x4& viewProjection) const {
+	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(viewProjection);
 
 	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
 	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
-	modelInstancingRenderer_.BeginFrame();
 
 	for (const RenderEntry& entry : renderEntries_) {
 		if (entry.isPostDraw) {
