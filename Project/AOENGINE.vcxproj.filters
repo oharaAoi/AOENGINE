@@ -268,6 +268,12 @@
     <Filter Include="Game\Actor">
       <UniqueIdentifier>{C780F7E0-B338-392E-1C40-128A0817D41E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Boss">
+      <UniqueIdentifier>{4DAD527B-B938-C03F-C249-43342E541C40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Boss\Component">
+      <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Player">
       <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
     </Filter>
@@ -1149,6 +1155,18 @@
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Boss.h">
+      <Filter>Game\Actor\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossParameter.h">
+      <Filter>Game\Actor\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClInclude>
@@ -1190,6 +1208,15 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\GridPos.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageBackgrounds.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageBlockField.h">
+      <Filter>Game\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\StageSegment.h">
       <Filter>Game\Stage</Filter>
@@ -2012,6 +2039,15 @@
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Boss.cpp">
+      <Filter>Game\Actor\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
@@ -2019,9 +2055,6 @@
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Player.cpp">
-      <Filter>Game\Actor\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
@@ -2047,6 +2080,12 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageBackgrounds.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageBlockField.cpp">
+      <Filter>Game\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stage\StageSegment.cpp">
       <Filter>Game\Stage</Filter>

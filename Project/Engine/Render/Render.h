@@ -81,7 +81,8 @@ public:
 	/// </summary>
 	/// <param name="renderTypes"></param>
 	/// <param name="depthHandle"></param>
-	static void SetRenderTarget(const std::vector<RenderTargetType>& renderTypes, const DescriptorHandles& depthHandle);
+	static void SetRenderTarget(const std::vector<RenderTargetType>& renderTypes,
+		const DescriptorHandles& depthHandle, bool clear = true);
 
 	/// <summary>
 	/// ShadowMapの設定

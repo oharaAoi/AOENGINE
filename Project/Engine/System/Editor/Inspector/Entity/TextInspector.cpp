@@ -17,6 +17,11 @@ using namespace AOENGINE;
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextInspector::Draw(Text& text) {
+	bool isBackground = text.GetIsBackGround();
+	if (ImGui::Checkbox("Background (Behind 3D)", &isBackground)) {
+		text.SetIsBackGround(isBackground);
+	}
+
 	int renderQueue = text.GetRenderQueue();
 	if (ImGui::DragInt("renderQueue", &renderQueue, 1)) {
 		text.SetRenderQueue(renderQueue);

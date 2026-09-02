@@ -8,6 +8,14 @@ void SceneWorld::Clear() {
 	reusableObjectIndices_.clear();
 	rootObjectHandles_.clear();
 
+	// External ObjectはSceneWorldより長生きするため、子Objectの破棄後に
+	// dangling pointerが残らないよう、全Objectが有効なうちに親子参照を切る。
+	for (ObjectSlot& slot : objectSlots_) {
+		if (slot.isAlive && slot.object) {
+			slot.object->ClearChildren();
+		}
+	}
+
 	for (uint32_t index = 0; index < objectSlots_.size(); ++index) {
 		ObjectSlot& slot = objectSlots_[index];
 		if (slot.object) {

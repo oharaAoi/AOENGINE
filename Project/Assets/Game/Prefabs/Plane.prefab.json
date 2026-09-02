@@ -9,7 +9,7 @@
                 "enableShadow": true,
                 "materials": [
                     {
-                        "albedoTexture": "white.png",
+                        "albedoTexture": "monsterBall.dds",
                         "color": [
                             1.0,
                             1.0,
@@ -38,64 +38,33 @@
                             0.0,
                             0.0
                         ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
                     }
                 ],
-                "model": "sphere.obj",
+                "model": "plane.obj",
                 "rotate": [
                     0.0,
+                    0.9995885491371155,
                     0.0,
-                    0.0,
-                    1.0
+                    -0.028683148324489594
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    15.0,
+                    10.000285148620605,
+                    10.0
                 ],
                 "translate": [
-                    -2.149596691131592,
-                    0.0,
-                    -1.364145278930664
+                    0.14904354512691498,
+                    9.692999839782715,
+                    11.303409576416016
                 ]
             },
             "id": 1,
-            "name": "new object(1)",
+            "name": "Plane",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "new object(1)",
+    "prefabName": "Plane",
     "rootId": 1,
     "version": 1
 }

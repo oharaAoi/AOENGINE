@@ -15,22 +15,21 @@ void Skybox::Init() {
 	cube_.Init(Math::Vector3(300,300,300));
 	cube_.Inverse();
 
-	// meshの作成
-	std::string name = cube_.GetGeometryName();
-	if (!ExistMesh(name)) {
-		mesh_ = std::make_shared<AOENGINE::Mesh>();
-		mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
-		AddMeshManager(mesh_, name);
-	} else {
-		mesh_ = AOENGINE::MeshManager::GetInstance()->GetMesh(name);
-	}
+	// CubeGeometryの共通名でMeshManagerを参照すると、通常Cubeのサイズや
+	// 表裏のインデックスを持つMeshを取得する場合がある。
+	// Skyboxは内向きの専用Meshを必ず所有する。
+	mesh_ = std::make_shared<AOENGINE::Mesh>();
+	mesh_->Init(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), cube_.GetVertex(), cube_.GetIndex());
 
 	// その他の作成
 	material_ = std::make_unique<AOENGINE::Material>();
 	material_->Init();
 	transform_ = std::make_unique<AOENGINE::WorldTransform>();
 	transform_->Init();
-	transform_->SetRotate(Math::Quaternion::AngleAxis(180.0f * kPI, CVector3::UP));
+	transform_->SetRotate(Math::Quaternion::AngleAxis(180.0f * kToRadian, CVector3::UP));
+	// Edit/Pause中でも初フレームから有効なGPU行列とMaterialを使えるようにする。
+	transform_->Update();
+	material_->Update();
 
 	AOENGINE::Render::SetSkyboxTexture(useTexture_);
 }

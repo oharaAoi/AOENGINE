@@ -20,6 +20,11 @@ const char* kFillMethodItems[] = { "Vertical", "Horizontal", "Radial", "BothEnds
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void SpriteInspector::Draw(Sprite& sprite) {
+	bool isBackground = sprite.GetIsBackGround();
+	if (ImGui::Checkbox("Background (Behind 3D)", &isBackground)) {
+		sprite.SetIsBackGround(isBackground);
+	}
+
 	int renderQueue = sprite.GetRenderQueue();
 	if (ImGui::DragInt("renderQueue", &renderQueue, 1)) {
 		sprite.SetRenderQueue(renderQueue);

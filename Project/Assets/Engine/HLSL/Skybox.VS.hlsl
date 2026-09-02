@@ -24,8 +24,15 @@ struct VertexShaderInput {
 
 VertexShaderOutput main(VertexShaderInput input) {
 	VertexShaderOutput output;
-	float4x4 WVP = mul(mul(gWorldTransformMatrix.world, gViewProjectionMatrix.view), gViewProjectionMatrix.projection);
-	float4x4 prevWVP = mul(mul(gWorldTransformMatrix.worldPrev, gViewProjectionMatrixPrev.view), gViewProjectionMatrixPrev.projection);
+	// Skyboxはカメラの回転だけに追従させ、平行移動は除外する。
+	// これによりカメラが固定サイズのCube外へ移動してもSkyboxが消えない。
+	float4x4 view = gViewProjectionMatrix.view;
+	view[3].xyz = float3(0.0f, 0.0f, 0.0f);
+	float4x4 previousView = gViewProjectionMatrixPrev.view;
+	previousView[3].xyz = float3(0.0f, 0.0f, 0.0f);
+
+	float4x4 WVP = mul(mul(gWorldTransformMatrix.world, view), gViewProjectionMatrix.projection);
+	float4x4 prevWVP = mul(mul(gWorldTransformMatrix.worldPrev, previousView), gViewProjectionMatrixPrev.projection);
 	output.position = mul(input.position, WVP).xyww;
 	output.texcoord = input.position.xyz;
 	output.positionPrev = mul(input.position, prevWVP).xyww;

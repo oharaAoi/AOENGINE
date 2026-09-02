@@ -47,7 +47,7 @@ public:
 	/// </summary>
 	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
 	/// <param name="segmentOriginGx">このセグメントの原点となるグローバルグリッドX座標</param>
-	void SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx);
+	void SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx, int addHeight = 0);
 
 	/// <summary>
 	/// このセグメントが生成した全ブロック・全ウォールを field の表から外し、GameObject を破棄する。

@@ -6,6 +6,7 @@
 
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include "Engine/System/Editor/Parameter/CustomParameterManager.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 using namespace AOENGINE;
@@ -70,6 +71,13 @@ void CustomParameterWindow::Edit() {
 					break;
 				}
 				}
+			}
+
+			// CustomParameterSetとIJsonConverterを多重継承したParameterSetには、
+			// JSONの保存・読込UIを自動で追加する。
+			if (auto* converter = dynamic_cast<IJsonConverter*>(parameters)) {
+				ImGui::Separator();
+				converter->SaveAndLoad();
 			}
 		}
 		ImGui::PopID();

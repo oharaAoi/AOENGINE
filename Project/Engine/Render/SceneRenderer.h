@@ -38,6 +38,8 @@ public:
 public:
 	// 終了処理
 	void Finalize();
+	/// <summary>外部所有Objectの破棄前に、描画参照とSceneWorld登録を解除する。</summary>
+	void ClearSceneObjects();
 	// 初期化処理
 	void Init();
 	// 更新処理

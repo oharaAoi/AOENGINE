@@ -12,16 +12,18 @@
 
 using namespace AOENGINE;
 
-namespace {
+namespace
+{
 	// 接続されたブロックグループに付ける色(どのグループを繋いだかを見て分かるようにする)
-	constexpr AOENGINE::Color kConnectedGroupColor{ 1.0f, 0.55f, 0.15f, 1.0f };
+	constexpr AOENGINE::Color kConnectedGroupColor{1.0f, 0.55f, 0.15f, 1.0f};
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Init(BaseGameObject* body) {
+void Player::Init(BaseGameObject *body)
+{
 
 	Bind(body);
 
@@ -30,13 +32,16 @@ void Player::Init(BaseGameObject* body) {
 
 	facing_ = 1.0f;
 
-	if (BaseGameObject* object = GetGameObject()) {
+	if (BaseGameObject *object = GetGameObject())
+	{
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
-		if (object->GetRigidbody() == nullptr) {
+		if (object->GetRigidbody() == nullptr)
+		{
 			object->SetPhysics();
 		}
 
-		if (Rigidbody* rigidbody = object->GetRigidbody()) {
+		if (Rigidbody *rigidbody = object->GetRigidbody())
+		{
 			// 上下の動きはPlayerJumpが管理するのでRigidbody側の重力は使わない
 			rigidbody->SetGravity(false);
 			rigidbody->SetVelocity(CVector3::ZERO);
@@ -48,13 +53,16 @@ void Player::Init(BaseGameObject* body) {
 //  更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Update() {
-	if (!IsValid()) {
+void Player::Update()
+{
+	if (!IsValid())
+	{
 		return;
 	}
 
-	Rigidbody* rigidbody = GetRigidbody();
-	if (!rigidbody) {
+	Rigidbody *rigidbody = GetRigidbody();
+	if (!rigidbody)
+	{
 		return;
 	}
 
@@ -92,14 +100,16 @@ void Player::Update() {
 //  ブロックグループの接続受付・集合・打ち上げ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateBlockGroupConnect(float deltaTime) {
+void Player::UpdateBlockGroupConnect(float deltaTime)
+{
 	const BlockGroupConnectState::Params connectParams{
 		parameter_.connectableTime,
 		parameter_.launchWaitTime,
 	};
 
 	BlockGroupConnectState::Context context{};
-	if (const WorldTransform* transform = GetTransform()) {
+	if (const WorldTransform *transform = GetTransform())
+	{
 		context.playerPosition = transform->GetTranslate();
 	}
 	context.isGrounded = jump_.IsGrounded();
@@ -107,7 +117,8 @@ void Player::UpdateBlockGroupConnect(float deltaTime) {
 
 	// 先に前フレームまでの接続受付時間を消化してから、今フレームのジャンプで新しい受付を開始する
 	blockGroupConnectState_.Update(deltaTime, context, connectParams);
-	if (jump_.IsJumpStarted()) {
+	if (jump_.IsJumpStarted())
+	{
 		blockGroupConnectState_.Begin();
 	}
 
@@ -119,22 +130,25 @@ void Player::UpdateBlockGroupConnect(float deltaTime) {
 	};
 
 	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める
-	if (blockGroupConnectState_.IsGatherStarted()) {
+	if (blockGroupConnectState_.IsGatherStarted())
+	{
 		BlockGroupLauncher::GatherRequest request{};
 		request.gatherPoint = blockGroupConnectState_.GetGatherPoint();
 
-		const std::vector<BlockGroupConnectState::ConnectedGroup>& connectedGroups =
+		const std::vector<BlockGroupConnectState::ConnectedGroup> &connectedGroups =
 			blockGroupConnectState_.GetConnectedGroups();
 		request.targets.reserve(connectedGroups.size());
-		for (const BlockGroupConnectState::ConnectedGroup& group : connectedGroups) {
-			request.targets.push_back(BlockGroupLauncher::Target{ group.groupId, group.connectPosition });
+		for (const BlockGroupConnectState::ConnectedGroup &group : connectedGroups)
+		{
+			request.targets.push_back(BlockGroupLauncher::Target{group.groupId, group.connectPosition});
 		}
 
 		blockGroupLauncher_.BeginGather(request, launcherParams);
 	}
 
 	// 専用タイマーが尽きるか打ち上げ入力が来たら上へ打ち上げる
-	if (blockGroupConnectState_.IsLaunchRequested()) {
+	if (blockGroupConnectState_.IsLaunchRequested())
+	{
 		blockGroupLauncher_.Launch();
 	}
 
@@ -145,20 +159,24 @@ void Player::UpdateBlockGroupConnect(float deltaTime) {
 //  ブロックグループの接続
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::TryConnectBlockGroup(int groupId) {
-	if (!blockGroupConnectState_.TryAdd(groupId)) {
+bool Player::TryConnectBlockGroup(int groupId)
+{
+	if (!blockGroupConnectState_.TryAdd(groupId))
+	{
 		return false;
 	}
 
 	// 接続できたグループは色を変えて、どれを繋いだかが見て分かるようにする
-	if (pBlockField_) {
+	if (pBlockField_)
+	{
 		pBlockField_->SetGroupColor(groupId, kConnectedGroupColor);
 	}
 
 	return true;
 }
 
-void Player::SetBlockField(StageBlockField* field) {
+void Player::SetBlockField(StageBlockField *field)
+{
 	pBlockField_ = field;
 	blockGroupLauncher_.SetField(field);
 }
@@ -167,9 +185,11 @@ void Player::SetBlockField(StageBlockField* field) {
 //  Rigidbodyの取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-Rigidbody* Player::GetRigidbody() const {
-	BaseGameObject* object = GetGameObject();
-	if (!object) {
+Rigidbody *Player::GetRigidbody() const
+{
+	BaseGameObject *object = GetGameObject();
+	if (!object)
+	{
 		return nullptr;
 	}
 	return object->GetRigidbody();
@@ -179,15 +199,19 @@ Rigidbody* Player::GetRigidbody() const {
 //  左右移動
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateMove(Rigidbody* rigidbody) {
+void Player::UpdateMove(Rigidbody *rigidbody)
+{
 	const float horizontal = input_.GetHorizontal();
 
 	rigidbody->SetVelocityX(horizontal * parameter_.moveSpeed);
 	rigidbody->SetVelocityZ(0.0f); // 横スクロールなのでZは固定
 
-	if (horizontal > parameter_.moveInputThreshold) {
+	if (horizontal > parameter_.moveInputThreshold)
+	{
 		facing_ = 1.0f;
-	} else if (horizontal < -parameter_.moveInputThreshold) {
+	}
+	else if (horizontal < -parameter_.moveInputThreshold)
+	{
 		facing_ = -1.0f;
 	}
 }
@@ -196,13 +220,16 @@ void Player::UpdateMove(Rigidbody* rigidbody) {
 //  接地判定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::ResolveGround() {
+void Player::ResolveGround()
+{
 	bool isSupported = false;
 
 	// 仮の地面へのめり込みを戻す
-	if (WorldTransform* transform = GetTransform()) {
+	if (WorldTransform *transform = GetTransform())
+	{
 		Math::Vector3 translate = transform->GetTranslate();
-		if (translate.y <= parameter_.groundHeight) {
+		if (translate.y <= parameter_.groundHeight)
+		{
 			translate.y = parameter_.groundHeight;
 			transform->SetTranslate(translate);
 			isSupported = true;
@@ -210,13 +237,17 @@ void Player::ResolveGround() {
 	}
 
 	// Blockからの押し戻しで足場に乗ったかを見る
-	if (ResolvePushback()) {
+	if (ResolvePushback())
+	{
 		isSupported = true;
 	}
 
-	if (isSupported) {
+	if (isSupported)
+	{
 		jump_.Land();
-	} else {
+	}
+	else
+	{
 		// 足場から外れたら落下させる
 		jump_.LeaveGround();
 	}
@@ -226,22 +257,26 @@ void Player::ResolveGround() {
 //  押し戻しの反映
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::ResolvePushback() {
+bool Player::ResolvePushback()
+{
 	// 押し戻し量はCollisionManagerが求め、座標へはBaseGameObject::PostUpdate()が反映している。
 	// ここでは前フレームに押し戻された向きを見てジャンプ状態だけを合わせる。
-	BaseCollider* collider = GetCollider(kColliderTag);
-	if (!collider) {
+	BaseCollider *collider = GetCollider(kColliderTag);
+	if (!collider)
+	{
 		return false;
 	}
 
-	const Math::Vector3& pushback = collider->GetPushBackDirection();
+	const Math::Vector3 &pushback = collider->GetPushBackDirection();
 
-	if (pushback.y > kPushbackThreshold) {
+	if (pushback.y > kPushbackThreshold)
+	{
 		// 下から押し戻された = 足場の上に乗っている
 		return true;
 	}
 
-	if (pushback.y < -kPushbackThreshold) {
+	if (pushback.y < -kPushbackThreshold)
+	{
 		// 上から押し戻された = 頭をぶつけた
 		jump_.HitCeiling();
 	}
@@ -253,9 +288,11 @@ bool Player::ResolvePushback() {
 //  速度の取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-Math::Vector3 Player::GetVelocity() const {
-	const Rigidbody* rigidbody = GetRigidbody();
-	if (!rigidbody) {
+Math::Vector3 Player::GetVelocity() const
+{
+	const Rigidbody *rigidbody = GetRigidbody();
+	if (!rigidbody)
+	{
 		return CVector3::ZERO;
 	}
 	return rigidbody->GetVelocity();
@@ -265,9 +302,11 @@ Math::Vector3 Player::GetVelocity() const {
 //  デバッグ表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Debug_Gui() {
-	const char* bodyState = "null";
-	if (IsValid()) {
+void Player::Debug_Gui()
+{
+	const char *bodyState = "null";
+	if (IsValid())
+	{
 		bodyState = "resolved";
 	}
 
@@ -280,21 +319,26 @@ void Player::Debug_Gui() {
 	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
 	ImGui::Text("launchGroups: %d", blockGroupLauncher_.GetGroupCount());
 
-	if (WorldTransform* transform = GetTransform()) {
+	if (WorldTransform *transform = GetTransform())
+	{
 		Math::Vector3 position = transform->GetTranslate();
-		if (ImGui::DragFloat3("position", &position.x, 0.1f)) {
+		if (ImGui::DragFloat3("position", &position.x, 0.1f))
+		{
 			transform->SetTranslate(position);
 		}
 	}
 
-	if (Rigidbody* rigidbody = GetRigidbody()) {
+	if (Rigidbody *rigidbody = GetRigidbody())
+	{
 		Math::Vector3 velocity = rigidbody->GetVelocity();
-		if (ImGui::DragFloat3("velocity", &velocity.x, 0.1f)) {
+		if (ImGui::DragFloat3("velocity", &velocity.x, 0.1f))
+		{
 			rigidbody->SetVelocity(velocity);
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Parameter")) {
+	if (ImGui::CollapsingHeader("Parameter"))
+	{
 		// 調整 + Save/Load
 		parameter_.Debug_Gui();
 	}

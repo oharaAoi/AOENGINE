@@ -16,13 +16,21 @@ void AOENGINE::BaseCollider::Debug_Gui() {
 	// ----------------------
 	// ↓ カテゴリの設定
 	// ----------------------
+	int currentIndex = 0;
+	// 今のカテゴリを検索
 	std::vector<std::string> categoties = layers.GetCategories();
-	// 選択中のカテゴリをプレビューに出す(未登録なら categoryName_ をそのまま表示)
-	if (ImGui::BeginCombo("Category", categoryName_.c_str())) {
-		for (size_t i = 0; i < categoties.size(); ++i) {
-			bool isSelected = (categoties[i] == categoryName_);
+	for (int i = 0; i < categoties.size(); ++i) {
+		if (categoryName_ == categoties[i]) {
+			currentIndex = i;
+		}
+	}
+	if (ImGui::BeginCombo("Category", categoties[currentIndex].c_str())) {
+		for (int i = 0; i < categoties.size(); ++i) {
+			bool isSelected = (currentIndex == i);
 			if (ImGui::Selectable(categoties[i].c_str(), isSelected)) {
-				SetCategory(categoties[i]);
+				currentIndex = i;
+				layerBit_ = layers.RegisterCategory(categoties[i]);
+				categoryName_ = categoties[i];
 			}
 			if (isSelected) {
 				ImGui::SetItemDefaultFocus();

@@ -73,8 +73,7 @@ SceneRenderer* AOENGINE::SceneRenderer::GetInstance() {
 }
 
 void SceneRenderer::Finalize() {
-	renderEntries_.clear();
-	sceneWorld_.Clear();
+	ClearSceneObjects();
 	modelInstancingRenderer_.Finalize();
 
 	if (particleManager_) {
@@ -85,13 +84,17 @@ void SceneRenderer::Finalize() {
 	}
 }
 
+void SceneRenderer::ClearSceneObjects() {
+	renderEntries_.clear();
+	sceneWorld_.Clear();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void SceneRenderer::Init() {
-	renderEntries_.clear();
-	sceneWorld_.Clear();
+	ClearSceneObjects();
 
 	particleManager_ = AOENGINE::ParticleManager::GetInstance();
 	particleManager_->Init();
@@ -488,6 +491,8 @@ BaseGameObject* SceneRenderer::DuplicateObject(BaseGameObject& source, const std
 		duplicate->GetTransform()->SetSRT(source.GetTransform()->GetSRT());
 	}
 	duplicate->SetActive(source.IsActive());
+	duplicate->SetIsReflection(source.GetIsReflection());
+	duplicate->SetIsRendering(source.GetIsRendering());
 	duplicate->SetEnableShadow(source.GetEnableShadow());
 
 	if (source.GetAnimator() && duplicate->GetModel()) {

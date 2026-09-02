@@ -451,6 +451,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Actor\Boss\Boss.h" />
+    <ClInclude Include="Game\Actor\Boss\BossParameter.h" />
+    <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h" />
+    <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h" />
     <ClInclude Include="Game\Actor\Player\Player.h" />
@@ -465,6 +469,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Stage\GridPos.h" />
+    <ClInclude Include="Game\Stage\StageBackgrounds.h" />
+    <ClInclude Include="Game\Stage\StageBlockField.h" />
+    <ClInclude Include="Game\Stage\StageFactory.h" />
     <ClInclude Include="Game\Stage\StageSegment.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
@@ -740,10 +748,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
-    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
@@ -752,6 +762,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />
+    <ClCompile Include="Game\Stage\StageBlockField.cpp" />
+    <ClCompile Include="Game\Stage\StageFactory.cpp" />
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
