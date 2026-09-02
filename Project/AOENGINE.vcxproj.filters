@@ -1138,6 +1138,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
+    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">

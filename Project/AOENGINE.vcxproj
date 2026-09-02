@@ -457,6 +457,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
+    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
