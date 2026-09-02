@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "Engine/System/Input/Input.h"
 
 TitleScene::~TitleScene() {
 }
@@ -25,4 +26,7 @@ void TitleScene::OnPlayStart() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
+	if (AOENGINE::Input::GetInstance()->GetKey(DIK_SPACE)) {
+		nextSceneType_ = SceneType::Test;
+	}
 }
