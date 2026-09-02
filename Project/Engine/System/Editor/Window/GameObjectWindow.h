@@ -80,6 +80,9 @@ public: // public method
 	/// </summary>
 	void Init();
 
+	/// <summary>選択やドラッグ中の状態だけをリセットする。</summary>
+	void ResetInteractionState();
+
 	/// <summary>
 	/// Itemの追加
 	/// </summary>
@@ -124,6 +127,8 @@ private: // private method
 	void EnsurePostProcessObjects();
 	void EnsureCanvasObject();
 	void EnsureParticleObjects();
+	void InstantiatePrefabAtScenePosition(
+		const std::string& prefabName, const ImVec2& pixelPos, const ImVec2& imageSize);
 
 	void CreateNewObjectWindow();
 	void DrawHierarchyObject(AOENGINE::SceneObject& object);

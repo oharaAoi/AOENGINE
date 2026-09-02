@@ -1,23 +1,23 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Engine\\Load\\Models\\Develop"
+        "path": "Project\\Assets\\Game\\Prefabs"
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
-        "./Project/Assets\\Engine": true,
+        "./Project/Assets\\Engine": false,
         "./Project/Assets\\Engine\\Font": false,
         "./Project/Assets\\Engine\\HLSL": false,
         "./Project/Assets\\Engine\\Load": true,
         "./Project/Assets\\Engine\\Load\\Models": true,
-        "./Project/Assets\\Engine\\Load\\Models\\Develop": false,
+        "./Project/Assets\\Engine\\Load\\Models\\Develop": true,
         "./Project/Assets\\Engine\\Load\\Models\\Template": false,
         "./Project/Assets\\Engine\\Load\\Sounds": false,
         "./Project/Assets\\Engine\\Load\\Textures": false,
         "./Project/Assets\\Engine\\Pipeline": false,
-        "./Project/Assets\\Game": false,
+        "./Project/Assets\\Game": true,
         "./Project/Assets\\Game\\GameData": false,
         "./Project/Assets\\Game\\GameData\\JsonItems": false,
         "./Project/Assets\\Game\\HLSL": false,
@@ -26,6 +26,7 @@
         "./Project/Assets\\Game\\Load\\Sounds": false,
         "./Project/Assets\\Game\\Load\\Textures": false,
         "./Project/Assets\\Game\\Pipeline": false,
+        "./Project/Assets\\Game\\Prefabs": false,
         "./Project/Assets\\Game\\Scene": true,
         "./Project/Assets\\Property": false
     }

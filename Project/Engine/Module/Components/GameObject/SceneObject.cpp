@@ -45,6 +45,14 @@ void SceneObject::SetActive(bool active) {
 	isActive_ = active;
 }
 
+void SceneObject::SetPrefabSource(const std::string& prefabName) {
+	prefabSource_ = prefabName;
+}
+
+void SceneObject::ClearPrefabSource() {
+	prefabSource_.clear();
+}
+
 void AOENGINE::SceneObject::AddChild(SceneObject* child) {
 	if (child) {
 		children_.push_back(child);

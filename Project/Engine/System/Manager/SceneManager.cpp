@@ -1,4 +1,5 @@
 #include "SceneManager.h"
+#include <filesystem>
 #include <optional>
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
@@ -12,6 +13,8 @@
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Utilities/Logger.h"
+#include "Engine/Lib/GameTimer.h"
 #include <magic_enum/magic_enum.hpp>
 
 using namespace AOENGINE;
@@ -29,6 +32,11 @@ void SceneManager::Finalize() {
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void SceneManager::Init() {
+	// ReleaseビルドにはEditorのPlay状態がないため、起動直後からゲーム時間を進める。
+#ifndef _DEVELOPMENT
+	GameTimer::SetTimeScale(1.0f);
+#endif
+
 	// gameに必要なResourceの読み込み
 	systemManager_ = std::make_unique<SystemManager>();
 	systemManager_->Init();
@@ -95,6 +103,12 @@ void SceneManager::Draw() {
 	scene_->Draw();
 }
 
+void SceneManager::OnPlayStart() {
+	if (scene_) {
+		scene_->OnPlayStart();
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　編集処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,6 +170,16 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_->Init();
 	LoadScene();
 
+	// Releaseはシーン生成直後からPlay状態として開始する。
+	// DebugでもPlay中にシーンを切り替えた場合は、新しいシーンへ開始を通知する。
+#ifdef _DEVELOPMENT
+	if (AOENGINE::EditorWindows::GetInstance()->IsPlaying()) {
+		scene_->OnPlayStart();
+	}
+#else
+	scene_->OnPlayStart();
+#endif
+
 	reset_ = false;
 	nowScene_ = type;
 }
@@ -172,16 +196,29 @@ void AOENGINE::SceneManager::SaveScene() {
 	}
 #endif
 	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
-	AOENGINE::SceneSerializer::Save(folderPath, "scene", *AOENGINE::SceneRenderer::GetInstance());
+	const std::string& sceneName = scene_->GetSceneName();
+	if (!AOENGINE::SceneSerializer::Save(folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance())) {
+		AOENGINE::Logger::Log("[Scene][Save] Failed: " + (std::filesystem::path(folderPath) / (sceneName + ".json")).string() + "\n");
+	}
 	scene_->SaveSceneEffect();
 }
 
 bool AOENGINE::SceneManager::LoadScene() {
-	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
+	const std::string& sceneName = scene_->GetSceneName();
+	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + sceneName + "/";
+	const std::filesystem::path scenePath = std::filesystem::path(folderPath) / (sceneName + ".json");
+	std::error_code error;
+	if (!std::filesystem::exists(scenePath, error) || error) {
+		AOENGINE::Logger::Log("[Scene][Load] File not found: " + scenePath.string() + "\n");
+		return false;
+	}
+
 	const bool loaded = AOENGINE::SceneSerializer::Load(
-		folderPath, "scene", *AOENGINE::SceneRenderer::GetInstance(), *Engine::GetCanvas2d());
+		folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance(), *Engine::GetCanvas2d());
 	if (loaded) {
 		scene_->LoadSceneEffect();
+	} else {
+		AOENGINE::Logger::Log("[Scene][Load] Failed to deserialize: " + scenePath.string() + "\n");
 	}
 	return loaded;
 }

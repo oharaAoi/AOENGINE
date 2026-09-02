@@ -39,6 +39,12 @@ public:
 	bool IsActive() const;
 	void SetActive(bool active);
 
+	/// <summary>このオブジェクトをPrefabインスタンスのルートとして設定する。</summary>
+	void SetPrefabSource(const std::string& prefabName);
+	void ClearPrefabSource();
+	bool IsPrefabInstanceRoot() const { return !prefabSource_.empty(); }
+	const std::string& GetPrefabSource() const { return prefabSource_; }
+
 	void AddChild(SceneObject* child);
 	void DeleteChild(SceneObject* child);
 	bool HasChild() const { return !children_.empty(); }
@@ -49,6 +55,7 @@ private:
 	uint64_t sceneId_ = 0;
 	std::string name_;
 	bool isActive_ = true;
+	std::string prefabSource_;
 	std::vector<SceneObject*> children_;
 };
 }

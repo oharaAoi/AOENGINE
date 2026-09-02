@@ -1,7 +1,9 @@
 #include "AssetsWindow.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/ModelManager.h"
+#include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/System/Editor/Window/AssetsWindowSerializer.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
@@ -326,6 +328,7 @@ void AOENGINE::AssetsWindow::DrawAssetTree(const AssetNode& node) {
 
 void AOENGINE::AssetsWindow::DrawFolderItems() {
 	DrawFolderToolBar();
+	DrawPrefabDropTarget();
 
 	// パラメータの設定
 	const float thumbnailSize = 64.0f;
@@ -346,9 +349,14 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 		}
 
 		ImGui::BeginGroup();
+		const std::string lowerFileName = ToLower(item.filename().string());
 
 		// 画像ファイルのicon表示
-		if (item.filename().extension() == ".png" || item.filename().extension() == ".jpeg") {
+		if (lowerFileName.ends_with(".prefab.json")) {
+			const std::string name = item.filename().string();
+			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, &item);
+
+		} else if (item.filename().extension() == ".png" || item.filename().extension() == ".jpeg") {
 			std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize);
 
@@ -400,7 +408,49 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 	}
 }
 
-bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::string& textureName, const std::string& fileName, float size) {
+void AOENGINE::AssetsWindow::DrawPrefabDropTarget() {
+	const float width = ImGui::GetContentRegionAvail().x;
+	ImGui::Button("Drop GameObject here to create Prefab", ImVec2(width, 36.0f));
+	if (!ImGui::BeginDragDropTarget()) { return; }
+
+	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("SCENE_OBJECT_HANDLE")) {
+		if (payload->DataSize == sizeof(ObjectHandle)) {
+			const ObjectHandle handle = *static_cast<const ObjectHandle*>(payload->Data);
+			SceneRenderer* renderer = SceneRenderer::GetInstance();
+			SceneObject* object = renderer ? renderer->FindObject(handle) : nullptr;
+			if (object && object->GetScenePersistence() == ScenePersistence::SceneData) {
+				const std::string prefabName = MakeUniquePrefabName(object->GetName());
+				if (PrefabManager::GetInstance()->SavePrefab(prefabName, handle, *renderer)) {
+					rootNode_ = BuildAssetTree(kAssetPath);
+					BuildCurrentFolderItems();
+				}
+			}
+		}
+	}
+	ImGui::EndDragDropTarget();
+	ImGui::Separator();
+}
+
+std::string AOENGINE::AssetsWindow::MakeUniquePrefabName(const std::string& objectName) const {
+	std::string baseName = objectName.empty() ? "New Prefab" : objectName;
+	for (char& character : baseName) {
+		if (character == '<' || character == '>' || character == ':' || character == '"' ||
+			character == '/' || character == '\\' || character == '|' || character == '?' || character == '*') {
+			character = '_';
+		}
+	}
+
+	const std::filesystem::path directory = PrefabManager::GetInstance()->GetPrefabDirectory();
+	std::string candidate = baseName;
+	uint32_t suffix = 1;
+	while (std::filesystem::exists(directory / (candidate + ".prefab.json"))) {
+		candidate = baseName + " " + std::to_string(suffix++);
+	}
+	return candidate;
+}
+
+bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::string& textureName,
+	const std::string& fileName, float size, const std::filesystem::path* prefabPath) {
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = pTextureManager_->GetDxHeapHandles(textureName).handleGPU;
 	ImTextureID texId = reinterpret_cast<ImTextureID>(texHandle.ptr);
@@ -409,6 +459,12 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 
 	if (ImGui::ImageButton(guiId.c_str(), texId, ImVec2(size, size))) {
 		result = true;
+	}
+
+	// BeginDragDropSourceはドラッグ元となるImageButtonがLastItemの間に呼ぶ必要がある。
+	// ファイル名描画後ではDummyがLastItemになり、ImGuiのID assertionが発生する。
+	if (prefabPath) {
+		PrefabDropSource(*prefabPath);
 	}
 
 	if (ImGui::IsItemHovered()) {
@@ -452,4 +508,17 @@ void AOENGINE::AssetsWindow::DropSource(AssetType assetType, const std::string& 
 		}
 		ImGui::EndDragDropSource();
 	}
+}
+
+void AOENGINE::AssetsWindow::PrefabDropSource(const std::filesystem::path& path) {
+	if (!ImGui::BeginDragDropSource()) { return; }
+
+	std::string prefabName = path.filename().string();
+	constexpr std::string_view suffix = ".prefab.json";
+	if (prefabName.size() >= suffix.size()) {
+		prefabName.resize(prefabName.size() - suffix.size());
+	}
+	ImGui::SetDragDropPayload("PREFAB_ASSET", prefabName.c_str(), prefabName.size() + 1);
+	ImGui::Text("Prefab: %s", prefabName.c_str());
+	ImGui::EndDragDropSource();
 }

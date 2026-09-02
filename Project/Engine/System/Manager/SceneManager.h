@@ -38,6 +38,11 @@ public:
 	void Draw();
 
 	/// <summary>
+	/// EditorのPlay開始を現在のシーンへ通知する
+	/// </summary>
+	void OnPlayStart();
+
+	/// <summary>
 	/// 編集処理
 	/// </summary>
 	void Debug_Gui();

@@ -38,6 +38,11 @@ public:
 	virtual void Update() = 0;
 
 	/// <summary>
+	/// EditorでPlayを開始したときに一度だけ呼ばれる処理
+	/// </summary>
+	virtual void OnPlayStart() {}
+
+	/// <summary>
 	/// Updateより後に呼び出される更新処理
 	/// </summary>
 	virtual void PostUpdate() {};

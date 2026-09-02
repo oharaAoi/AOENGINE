@@ -873,6 +873,9 @@
     <ClInclude Include="Engine\System\Manager\ParticleManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Manager\PrefabManager.h">
+      <Filter>Engine\System\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Manager\SceneManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
@@ -910,6 +913,12 @@
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
@@ -1710,6 +1719,9 @@
     <ClCompile Include="Engine\System\Manager\ParticleManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Manager\PrefabManager.cpp">
+      <Filter>Engine\System\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
@@ -1747,6 +1759,12 @@
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">

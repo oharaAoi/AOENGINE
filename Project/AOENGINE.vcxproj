@@ -369,6 +369,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\MeshManager.h" />
     <ClInclude Include="Engine\System\Manager\ModelManager.h" />
     <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
+    <ClInclude Include="Engine\System\Manager\PrefabManager.h" />
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
     <ClInclude Include="Engine\System\Manager\SystemManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
@@ -381,7 +382,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
+    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneSerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneWorld.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
@@ -650,6 +653,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\PrefabManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
@@ -662,7 +666,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
+    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneWorld.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />

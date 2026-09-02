@@ -312,11 +312,22 @@ void EditorWindows::SceneReset() {
 
 void EditorWindows::EnterPlayMode() {
 	if (playState_ != EditorPlayState::Edit || !sceneRenderer_ || !canvas2d_) { return; }
+
+	// Play開始時点の編集内容をシーンファイルへ保存する。
+	// SaveScene()はPlay中の保存を拒否するため、状態をPlayingへ変更する前に呼ぶ。
+	if (pSceneManager_) {
+		pSceneManager_->SaveScene();
+	}
+
+	// Stop時にPlay中の変更を破棄できるよう、保存した編集状態をメモリにも保持する。
 	editSceneSnapshot_ = SceneSerializer::Serialize("PlayModeSnapshot", *sceneRenderer_);
 	editRuntimeHandles_ = sceneRenderer_->GetObjectHandles();
 	playState_ = EditorPlayState::Playing;
 	stepRequested_ = false;
 	GameTimer::SetTimeScale(1.0f);
+	if (pSceneManager_) {
+		pSceneManager_->OnPlayStart();
+	}
 }
 
 void EditorWindows::ExitPlayMode() {
@@ -334,7 +345,9 @@ void EditorWindows::ExitPlayMode() {
 		}
 		SceneSerializer::Deserialize(editSceneSnapshot_, *sceneRenderer_, *canvas2d_);
 	}
-	gameObjectWindow_->Init();
+	// PostProcessなどのSystemObjectは復元時にもSceneWorld内に残る。
+	// 管理ハンドルは維持し、選択などPlay中の一時操作状態だけを破棄する。
+	gameObjectWindow_->ResetInteractionState();
 	playState_ = EditorPlayState::Edit;
 	editSceneSnapshot_ = nlohmann::json();
 	editRuntimeHandles_.clear();

@@ -9,8 +9,11 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
 #include "Engine/Core/Engine.h"
+#include "Engine/Render/Render.h"
+#include "Engine/WinApp/WinApp.h"
 
 using namespace AOENGINE;
 
@@ -42,14 +45,18 @@ GameObjectWindow::GameObjectWindow() {}
 GameObjectWindow::~GameObjectWindow() {}
 
 void GameObjectWindow::Init() {
+	ResetInteractionState();
+	postProcessObjectHandle_ = ObjectHandle{};
+	postEffectObjectHandles_.clear();
+}
+
+void GameObjectWindow::ResetInteractionState() {
 	selectedObjectHandle_ = ObjectHandle{};
 	pendingDeleteHandle_ = ObjectHandle{};
 	pendingDuplicateHandle_ = ObjectHandle{};
 	pendingParentChildHandle_ = ObjectHandle{};
 	pendingParentHandle_ = ObjectHandle{};
 	pendingMoveToRoot_ = false;
-	postProcessObjectHandle_ = ObjectHandle{};
-	postEffectObjectHandles_.clear();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -341,6 +348,20 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 				const ImVec2 imagePos = editorSceneFrame_->GetImagePos();
 				clickedPixel = ImVec2(mousePos.x - imagePos.x, mousePos.y - imagePos.y);
 			}
+
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PREFAB_ASSET")) {
+					if (payload->Data && payload->DataSize > 1) {
+						const ImVec2 mousePos = ImGui::GetMousePos();
+						const ImVec2 imagePos = editorSceneFrame_->GetImagePos();
+						InstantiatePrefabAtScenePosition(
+							static_cast<const char*>(payload->Data),
+							{ mousePos.x - imagePos.x, mousePos.y - imagePos.y },
+							editorSceneFrame_->GetAvailSize());
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
 		}
 
 		// Scene Viewで選択中のオブジェクトだけにギズモを表示する。
@@ -366,6 +387,45 @@ void AOENGINE::GameObjectWindow::ExecutionWindow() {
 		}
 	}
 	ImGui::End();
+}
+
+void AOENGINE::GameObjectWindow::InstantiatePrefabAtScenePosition(
+	const std::string& prefabName, const ImVec2& pixelPos, const ImVec2& imageSize) {
+	if (!sceneRenderer_ || !canvas2d_ || prefabName.empty() ||
+		imageSize.x <= 0.0f || imageSize.y <= 0.0f) {
+		return;
+	}
+
+	SceneObject* root = PrefabManager::GetInstance()->Instantiate(prefabName, *sceneRenderer_, *canvas2d_);
+	if (!root) { return; }
+
+	if (auto* gameObject = dynamic_cast<BaseGameObject*>(root); gameObject && gameObject->GetTransform()) {
+		Engine::ActivateSceneView(SceneViewType::Editor);
+		const float ndcX = pixelPos.x / imageSize.x * 2.0f - 1.0f;
+		const float ndcY = 1.0f - pixelPos.y / imageSize.y * 2.0f;
+		const Math::Matrix4x4 inverseViewProjection = Render::GetViewProjectionMat().Inverse();
+		const Math::Vector3 nearPoint = TransformCoord({ ndcX, ndcY, 0.0f }, inverseViewProjection);
+		const Math::Vector3 farPoint = TransformCoord({ ndcX, ndcY, 1.0f }, inverseViewProjection);
+		const Math::Vector3 direction = (farPoint - nearPoint).Normalize();
+
+		Math::Vector3 position = nearPoint + direction * 10.0f;
+		if (std::abs(direction.y) > 0.0001f) {
+			const float distance = -nearPoint.y / direction.y;
+			if (distance >= 0.0f) {
+				position = nearPoint + direction * distance;
+			}
+		}
+		gameObject->GetTransform()->SetTranslate(position);
+		Engine::ActivateSceneView(SceneViewType::Game);
+	} else if (auto* sprite = dynamic_cast<Sprite*>(root)) {
+		const Math::Vector2 canvasPosition = {
+			pixelPos.x / imageSize.x * static_cast<float>(WinApp::sClientWidth),
+			pixelPos.y / imageSize.y * static_cast<float>(WinApp::sClientHeight)
+		};
+		sprite->SetTranslate(canvasPosition);
+	}
+
+	selectedObjectHandle_ = root->GetHandle();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

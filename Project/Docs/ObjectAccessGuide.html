@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AOENGINE オブジェクト取得ガイド</title>
+  <style>
+    :root { color-scheme: dark; --bg:#10141c; --panel:#18202c; --line:#2b394b; --text:#e8edf4; --muted:#aab6c5; --accent:#61dafb; --warn:#ffd166; }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font-family:"Yu Gothic UI","Meiryo",sans-serif; line-height:1.75; }
+    main { width:min(1050px, calc(100% - 32px)); margin:32px auto 72px; }
+    h1 { margin-bottom:4px; font-size:2rem; }
+    h2 { margin-top:38px; padding-bottom:8px; border-bottom:1px solid var(--line); }
+    h3 { margin-top:26px; }
+    p, li { color:var(--muted); }
+    code { font-family:Consolas,"Courier New",monospace; }
+    p code, li code { color:var(--accent); }
+    pre { overflow:auto; padding:18px; border:1px solid var(--line); border-radius:8px; background:#0b0f16; color:#e6edf3; line-height:1.5; }
+    .card { margin:18px 0; padding:18px 20px; border:1px solid var(--line); border-radius:10px; background:var(--panel); }
+    .warning { border-left:4px solid var(--warn); }
+    table { width:100%; border-collapse:collapse; margin:18px 0; }
+    th, td { padding:10px 12px; border:1px solid var(--line); text-align:left; }
+    th { background:var(--panel); }
+    a { color:var(--accent); }
+  </style>
+</head>
+<body>
+<main>
+  <h1>AOENGINE オブジェクト取得ガイド</h1>
+  <p>シーンに保存されたGameObject、Sprite、Text、およびPrefabをC++コードから取得する方法です。</p>
+
+  <div class="card">
+    <strong>基本</strong>
+    <p>シーン内のオブジェクトは<code>SceneRenderer</code>が持つ<code>SceneWorld</code>に登録されています。現在は名前専用の検索関数がないため、<code>GetObjectHandles()</code>で列挙して型と名前を確認します。</p>
+  </div>
+
+  <h2>1. 共通の名前検索関数</h2>
+  <p>次のテンプレート関数を、シーンのcppまたは共通Utilityへ追加すると便利です。</p>
+  <pre><code>#include &lt;string&gt;
+#include "Engine/Render/SceneRenderer.h"
+
+template&lt;class T&gt;
+T* FindSceneObject(const std::string&amp; objectName)
+{
+    AOENGINE::SceneRenderer* renderer =
+        AOENGINE::SceneRenderer::GetInstance();
+
+    if (!renderer) {
+        return nullptr;
+    }
+
+    for (const AOENGINE::ObjectHandle&amp; handle : renderer-&gt;GetObjectHandles()) {
+        AOENGINE::SceneObject* object = renderer-&gt;FindObject(handle);
+        if (!object || object-&gt;GetName() != objectName) {
+            continue;
+        }
+
+        if (T* result = dynamic_cast&lt;T*&gt;(object)) {
+            return result;
+        }
+    }
+
+    return nullptr;
+}</code></pre>
+
+  <h2>2. 保存済みGameObjectを取得する</h2>
+  <pre><code>#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+
+AOENGINE::BaseGameObject* player =
+    FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
+
+if (player) {
+    player-&gt;GetTransform()-&gt;SetTranslate({ 0.0f, 0.0f, 10.0f });
+}</code></pre>
+
+  <p>シーンのメンバとして保持する場合は、<code>Init()</code>直後ではなく、シーンJSONの読み込みが完了した後に取得する必要があります。現在の構成では<code>OnPlayStart()</code>で取得する方法が安全です。</p>
+  <pre><code>class TestScene : public BaseScene {
+public:
+    void OnPlayStart() override;
+
+private:
+    AOENGINE::BaseGameObject* player_ = nullptr; // 非所有ポインタ
+};
+
+void TestScene::OnPlayStart()
+{
+    player_ = FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
+}</code></pre>
+
+  <h2>3. Spriteを取得する</h2>
+  <pre><code>#include "Engine/Module/Components/2d/Sprite.h"
+
+AOENGINE::Sprite* playerIcon =
+    FindSceneObject&lt;AOENGINE::Sprite&gt;("PlayerIcon");
+
+if (playerIcon) {
+    playerIcon-&gt;SetTranslate({ 100.0f, 100.0f });
+}</code></pre>
+
+  <h2>4. Textを取得する</h2>
+  <p><code>Text</code>は<code>Sprite</code>の派生型なので、Textとして取得したい場合は必ず<code>Text</code>型を指定します。</p>
+  <pre><code>#include "Engine/Module/Components/2d/Text.h"
+
+AOENGINE::Text* hpText =
+    FindSceneObject&lt;AOENGINE::Text&gt;("HpText");
+
+if (hpText) {
+    hpText-&gt;SetText("HP: 100");
+}</code></pre>
+
+  <h2>5. Prefabをコードから生成して取得する</h2>
+  <p><code>Instantiate()</code>には拡張子を付けず、Prefab名だけを渡します。</p>
+  <pre><code>#include "Engine/System/Manager/PrefabManager.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+
+AOENGINE::SceneObject* prefabRoot =
+    AOENGINE::PrefabManager::GetInstance()-&gt;Instantiate("Enemy");
+
+AOENGINE::BaseGameObject* enemy =
+    dynamic_cast&lt;AOENGINE::BaseGameObject*&gt;(prefabRoot);
+
+if (enemy) {
+    enemy-&gt;GetTransform()-&gt;SetTranslate({ 5.0f, 0.0f, 10.0f });
+}</code></pre>
+
+  <p>上のコードは次のファイルを読み込みます。</p>
+  <pre><code>Assets/Game/Prefabs/Enemy.prefab.json</code></pre>
+
+  <h3>Sprite Prefab</h3>
+  <pre><code>AOENGINE::Sprite* icon = dynamic_cast&lt;AOENGINE::Sprite*&gt;(
+    AOENGINE::PrefabManager::GetInstance()-&gt;Instantiate("PlayerIcon"));
+
+if (icon) {
+    icon-&gt;SetTranslate({ 640.0f, 360.0f });
+}</code></pre>
+
+  <h2>6. すでにシーンへ配置されたPrefabを取得する</h2>
+  <p>Hierarchyやシーンファイルから復元されたPrefabもSceneWorld内に存在するので、ルート名で取得できます。</p>
+  <pre><code>AOENGINE::BaseGameObject* enemy =
+    FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Enemy01");
+
+if (enemy &amp;&amp; enemy-&gt;IsPrefabInstanceRoot()) {
+    const std::string&amp; prefabName = enemy-&gt;GetPrefabSource();
+    // prefabName == "Enemy"
+}</code></pre>
+
+  <h2>7. 使い分け</h2>
+  <table>
+    <thead><tr><th>目的</th><th>方法</th></tr></thead>
+    <tbody>
+      <tr><td>保存済み3Dオブジェクト</td><td><code>FindSceneObject&lt;BaseGameObject&gt;("名前")</code></td></tr>
+      <tr><td>保存済みSprite</td><td><code>FindSceneObject&lt;Sprite&gt;("名前")</code></td></tr>
+      <tr><td>保存済みText</td><td><code>FindSceneObject&lt;Text&gt;("名前")</code></td></tr>
+      <tr><td>Prefabを新規生成</td><td><code>PrefabManager::Instantiate("Prefab名")</code></td></tr>
+      <tr><td>配置済みPrefab</td><td>ルート名で検索後、<code>IsPrefabInstanceRoot()</code>を確認</td></tr>
+    </tbody>
+  </table>
+
+  <div class="card warning">
+    <strong>ポインタの寿命に注意</strong>
+    <p>取得したポインタはSceneWorldが所有する非所有ポインタです。シーン切り替え、シーン再読み込み、Play停止時のスナップショット復元、オブジェクト削除後には無効になります。復元後は名前またはObjectHandleから再取得してください。また、同名オブジェクトが複数ある場合、この検索例は最初の1件を返します。</p>
+  </div>
+</main>
+</body>
+</html>

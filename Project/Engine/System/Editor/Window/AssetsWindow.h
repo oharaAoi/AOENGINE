@@ -66,6 +66,8 @@ private:
 	bool SetCurrentPath(const std::filesystem::path& path);
 	void SyncCurrentPathInput();
 	void DrawFolderToolBar();
+	void DrawPrefabDropTarget();
+	std::string MakeUniquePrefabName(const std::string& objectName) const;
 
 	/// <summary>
 	/// Treeの描画を行う
@@ -84,9 +86,12 @@ private:
 	/// <param name="textureName"></param>
 	/// <param name="fileName"></param>
 	/// <param name="size"></param>
-	bool DrawItemTexture(AssetType assetType, const std::string& textureName, const std::string& fileName, float size);
+	bool DrawItemTexture(AssetType assetType, const std::string& textureName,
+		const std::string& fileName, float size,
+		const std::filesystem::path* prefabPath = nullptr);
 
 	void DropSource(AssetType assetType, const std::string& name);
+	void PrefabDropSource(const std::filesystem::path& path);
 
 private:
 
