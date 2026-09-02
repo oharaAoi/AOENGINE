@@ -5,7 +5,27 @@
             "active": true,
             "data": {
                 "animator": false,
-                "components": [],
+                "components": [
+                    {
+                        "active": true,
+                        "category": "Default",
+                        "collisionMask": 1,
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": false,
+                        "type": "AABBCollider"
+                    }
+                ],
                 "enableShadow": true,
                 "materials": [
                     {
@@ -40,7 +60,7 @@
                         ]
                     },
                     {
-                        "albedoTexture": "axis.png",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
                             1.0,
@@ -71,7 +91,7 @@
                         ]
                     }
                 ],
-                "model": "axis.obj",
+                "model": "Block.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -95,7 +115,7 @@
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Block 2",
     "rootId": 1,
     "version": 1
 }

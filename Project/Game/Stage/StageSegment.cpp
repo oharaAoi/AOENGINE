@@ -24,7 +24,7 @@ void StageSegment::LoadBlockData(const std::string& filePath){
 
 void StageSegment::SetupSegmentOnWorld(){
 	constexpr int isBlock = 1; // ブロックが存在することを示す値（仮定）
-	constexpr float kBlockSize = 3.0f; // ブロックのサイズ（仮定）
+	constexpr float kBlockSize = 1; // ブロックのサイズ（仮定）
 
 	// セグメント全体の中心が原点(0,0,0)になるように、中央からのオフセットを求める
 	constexpr float kOffsetX = (kBlockCol - 1) * 0.5f; // 列方向の中心インデックス

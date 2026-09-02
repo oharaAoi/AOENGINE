@@ -4,8 +4,8 @@
 #include <array>
 #include <string>
 
-static const int kBlockCol = 10;
-static const int kBlockRow = 10;
+static const int kBlockCol = 11;
+static const int kBlockRow = 11;
 
 /// <summary>
 ///  CSVから読み込んだ、複数の Block が配置されている大枠のデータ
