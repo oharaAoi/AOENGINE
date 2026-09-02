@@ -36,7 +36,7 @@
 <main>
   <header>
     <h1>AOENGINE オブジェクト操作ガイド</h1>
-    <p class="lead">シーンオブジェクトの取得・生成、Prefab、Custom Parametersをコードから扱うための実用ガイドです。</p>
+    <p class="lead">オブジェクトの選び方から、取得・生成、ゲームロジックの分離、Prefab、調整値、寿命管理までを順番に確認できる実用ガイドです。</p>
   </header>
 
   <nav class="card" aria-label="目次">
@@ -45,6 +45,7 @@
       <li><a href="#quick">クイックリファレンス</a></li>
       <li><a href="#find">保存済みオブジェクトを取得</a></li>
       <li><a href="#create">GameObjectを新規生成</a></li>
+      <li><a href="#entity">BaseEntityでロジックを分離</a></li>
       <li><a href="#prefab">Prefabを生成・取得</a></li>
       <li><a href="#custom">Custom Parametersを表示</a></li>
       <li><a href="#lifetime">寿命とPlayモードの注意</a></li>
@@ -53,6 +54,18 @@
 
   <section id="quick">
     <h2>1. クイックリファレンス</h2>
+    <h3>最初に選ぶもの</h3>
+    <table>
+      <thead><tr><th>目的</th><th>選択</th></tr></thead>
+      <tbody>
+        <tr><td>シーン上の実体として保存・描画したい</td><td><code>BaseGameObject</code></td></tr>
+        <tr><td>GameObjectとゲームロジックを分けたい</td><td><code>BaseEntity</code>を継承し、GameObjectを<code>Bind()</code></td></tr>
+        <tr><td>同じ構成を繰り返し生成したい</td><td>Prefabを作成し<code>Instantiate()</code></td></tr>
+        <tr><td>ゲーム固有の値をImGuiで調整したい</td><td><code>CustomParameterSet</code></td></tr>
+      </tbody>
+    </table>
+
+    <h3>API早見表</h3>
     <table>
       <thead><tr><th>やりたいこと</th><th>使用するAPI</th></tr></thead>
       <tbody>
@@ -60,6 +73,8 @@
         <tr><td>保存済みSpriteを取得</td><td><code>FindSceneObject&lt;Sprite&gt;("PlayerIcon")</code></td></tr>
         <tr><td>保存済みTextを取得</td><td><code>FindSceneObject&lt;Text&gt;("HpText")</code></td></tr>
         <tr><td>通常のGameObjectを生成</td><td><code>SceneRenderer::AddObject&lt;BaseGameObject&gt;()</code></td></tr>
+        <tr><td>ゲームロジックとGameObjectを関連付け</td><td><code>BaseEntity::Bind()</code></td></tr>
+        <tr><td>関連付けたGameObjectを削除</td><td><code>BaseEntity::Destroy()</code></td></tr>
         <tr><td>Prefabを名前から生成</td><td><code>PrefabManager::Instantiate("Enemy")</code></td></tr>
         <tr><td>ユーザー変数をImGui表示</td><td><code>CustomParameterSet</code>を継承して<code>AddParameter()</code></td></tr>
       </tbody>
@@ -179,6 +194,11 @@ if (enemy) {
     enemy-&gt;SetCollider("Default", AOENGINE::ColliderShape::AABB);
 }</code></pre>
 
+    <div class="card note">
+      <strong>Inspectorから削除</strong>
+      <p>Collider、RigidBody、Animatorは、Inspectorのコンポーネントヘッダーを右クリックし、<code>Remove Component</code>を選択すると確認後に削除できます。</p>
+    </div>
+
     <h3>親子関係</h3>
     <pre><code>AOENGINE::BaseGameObject* weapon =
     renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
@@ -205,8 +225,106 @@ if (enemy &amp;&amp; weapon) {
 }</code></pre>
   </section>
 
+  <section id="entity">
+    <h2>4. BaseEntityでゲームロジックを分離する</h2>
+    <p><code>BaseEntity</code>はシーン上のオブジェクトではなく、ゲームロジック用の非所有ラッパーです。<code>Player</code>や<code>Enemy</code>を継承させ、SceneWorldが所有する<code>BaseGameObject</code>と<code>Bind()</code>で関連付けます。</p>
+
+    <div class="card note">
+      <strong>役割の分担</strong>
+      <p><code>BaseGameObject</code>はTransform・描画・Colliderなどの実体、<code>BaseEntity</code>派生クラスは移動・HP・攻撃などのゲームロジックを担当します。</p>
+    </div>
+
+    <h3>Playerクラスを作る</h3>
+    <pre><code>#pragma once
+#include "Engine/Module/Components/GameObject/BaseEntity.h"
+
+class Player : public AOENGINE::BaseEntity {
+public:
+    void Update();
+    void Damage(float amount);
+
+private:
+    float hp_ = 100.0f;
+};</code></pre>
+
+    <pre><code>#include "Player.h"
+#include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/WorldTransform.h"
+
+void Player::Update()
+{
+    // ObjectHandleの解決は配列インデックスによるO(1)アクセス。
+    // 同じフレーム内では一度取得したポインタを使い回す。
+    AOENGINE::BaseGameObject* object = GetGameObject();
+    if (!object) {
+        return;
+    }
+
+    AOENGINE::WorldTransform* transform = object-&gt;GetTransform();
+    // transformを使って移動処理
+}
+
+void Player::Damage(float amount)
+{
+    hp_ -= amount;
+    if (hp_ &lt;= 0.0f) {
+        Destroy();
+    }
+}</code></pre>
+
+    <h3>配置済みPlayerへ関連付ける</h3>
+    <p>Editorで配置してシーンへ保存したGameObjectは、Play開始時に名前で取得して関連付けます。</p>
+    <pre><code>void GameScene::OnPlayStart()
+{
+    AOENGINE::BaseGameObject* playerObject =
+        FindSceneObject&lt;AOENGINE::BaseGameObject&gt;("Player");
+
+    player_.Bind(playerObject);
+}</code></pre>
+
+    <h3>コード生成したPlayerへ関連付ける</h3>
+    <pre><code>AOENGINE::SceneRenderer* renderer =
+    AOENGINE::SceneRenderer::GetInstance();
+
+AOENGINE::BaseGameObject* playerObject =
+    renderer-&gt;AddObject&lt;AOENGINE::BaseGameObject&gt;(
+        "Player", "Object_Normal.json");
+
+if (playerObject) {
+    playerObject-&gt;SetObject("Player.gltf");
+    player_.Bind(playerObject);
+}</code></pre>
+
+    <h3>よく使う操作</h3>
+    <table>
+      <thead><tr><th>API</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>Bind(object)</code></td><td>登録済みGameObjectと関連付ける</td></tr>
+        <tr><td><code>IsValid()</code></td><td>関連付けたGameObjectが存在するか確認する</td></tr>
+        <tr><td><code>GetGameObject()</code></td><td>BaseGameObjectを安全に取得する</td></tr>
+        <tr><td><code>GetTransform()</code></td><td>Transformを取得する。無効時は<code>nullptr</code></td></tr>
+        <tr><td><code>GetCollider(name)</code></td><td>指定名のColliderを取得する</td></tr>
+        <tr><td><code>SetIsActive(bool)</code></td><td>関連付けたGameObjectのActiveを変更する</td></tr>
+        <tr><td><code>SetRendering(bool)</code></td><td>3D描画の有効・無効を変更する</td></tr>
+        <tr><td><code>SetParent(parent)</code></td><td>別のBaseEntityが参照するGameObjectの子にする</td></tr>
+        <tr><td><code>MoveToRoot()</code></td><td>親子関係を解除してシーン直下へ戻す</td></tr>
+        <tr><td><code>Destroy()</code></td><td>GameObjectと子階層を削除し、自身の関連付けも解除する</td></tr>
+        <tr><td><code>Unbind()</code></td><td>GameObjectを削除せず関連付けだけ解除する</td></tr>
+      </tbody>
+    </table>
+
+    <div class="card warning">
+      <strong>BaseEntityはGameObjectを所有しません</strong>
+      <p><code>GetGameObject()</code>で得たポインタを<code>delete</code>しないでください。削除には<code>Destroy()</code>を使います。また、BaseEntity自体はHierarchyやシーンJSONには保存されません。</p>
+    </div>
+    <div class="card warning">
+      <strong>Play停止・シーン再読み込み後は再Bind</strong>
+      <p>Play停止時のスナップショット復元やシーン切り替えではObjectHandleが無効になります。次回の<code>OnPlayStart()</code>で対象を取得し直して<code>Bind()</code>してください。</p>
+    </div>
+  </section>
+
   <section id="prefab">
-    <h2>4. Prefabを扱う</h2>
+    <h2>5. Prefabを扱う</h2>
     <p><span class="tag">保存先</span><code>Assets/Game/Prefabs/</code></p>
 
     <h3>Prefabをコードから生成</h3>
@@ -255,7 +373,7 @@ if (enemy &amp;&amp; enemy-&gt;IsPrefabInstanceRoot()) {
   </section>
 
   <section id="custom">
-    <h2>5. Custom ParametersをImGuiへ表示する</h2>
+    <h2>6. Custom ParametersをImGuiへ表示する</h2>
     <p><code>CustomParameterSet</code>を継承した構造体を作ると、InspectorRegistryへの個別登録なしで専用ウィンドウへ表示できます。</p>
 
     <h3>パラメータ構造体</h3>
@@ -320,7 +438,7 @@ private:
   </section>
 
   <section id="lifetime">
-    <h2>6. 寿命とPlayモードの注意点</h2>
+    <h2>7. 寿命とPlayモードの注意点</h2>
     <div class="card warning">
       <strong>SceneWorldが所有します</strong>
       <p><code>AddObject()</code>、<code>Instantiate()</code>、名前検索で得たポインタを呼び出し側で<code>delete</code>しないでください。すべて非所有ポインタです。</p>
@@ -341,7 +459,7 @@ private:
 
   <footer class="card ok">
     <strong>基本の選択</strong>
-    <p>あらかじめ配置して調整するものはシーンまたはPrefab、Play中に増えるものは<code>Instantiate()</code>または<code>AddObject()</code>、ゲーム固有の調整値はCustom Parametersを使用すると整理しやすくなります。</p>
+    <p>実体はシーン・Prefab・<code>AddObject()</code>で管理し、ゲームロジックは<code>BaseEntity</code>へ分離します。繰り返し生成は<code>Instantiate()</code>、ゲーム固有の調整値はCustom Parametersを使うと責務を整理できます。</p>
   </footer>
 </main>
 </body>

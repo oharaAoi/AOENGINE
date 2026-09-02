@@ -27,6 +27,8 @@ public:
 	void Bind(const ObjectHandle& handle);
 	void Unbind();
 
+	BaseGameObject* InstantiatePrefab(const std::string& prefabName);
+
 	/// <summary>関連付けたGameObjectが現在もSceneWorldに存在するか。</summary>
 	bool IsValid() const;
 	const ObjectHandle& GetObjectHandle() const { return objectHandle_; }

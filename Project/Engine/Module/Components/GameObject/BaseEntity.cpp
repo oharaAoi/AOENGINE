@@ -3,7 +3,9 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Render/SceneRenderer.h"
+#include "Engine/Utilities/Logger.h"
 
 using namespace AOENGINE;
 
@@ -24,6 +26,18 @@ void BaseEntity::Bind(const ObjectHandle& handle) {
 
 void BaseEntity::Unbind() {
 	objectHandle_ = {};
+}
+
+BaseGameObject* AOENGINE::BaseEntity::InstantiatePrefab(const std::string& prefabName) {
+	AOENGINE::SceneObject* root =
+		AOENGINE::PrefabManager::GetInstance()->Instantiate("Enemy");
+
+	AOENGINE::BaseGameObject* obj =
+		dynamic_cast<AOENGINE::BaseGameObject*>(root);
+	if (obj == nullptr) {
+		AOENGINE::Logger::AssertLog(prefabName + ": prefabがnullでした");
+	}
+	return obj;
 }
 
 bool BaseEntity::IsValid() const {

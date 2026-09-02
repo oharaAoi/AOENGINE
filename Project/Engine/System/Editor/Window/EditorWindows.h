@@ -101,6 +101,11 @@ private:
 	/// </summary>
 	void DebugItemWindow();
 
+	/// <summary>Editor操作による現在シーンの保存を共通化する。</summary>
+	void SaveCurrentScene();
+	/// <summary>Editor全体で有効なキーボードショートカットを処理する。</summary>
+	void HandleShortcuts();
+
 	/// <summary>
 	/// ImGuiのカラーをセットする
 	/// </summary>

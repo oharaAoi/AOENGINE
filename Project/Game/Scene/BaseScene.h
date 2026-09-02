@@ -28,9 +28,12 @@ public:
 	virtual void Finalize() = 0;
 
 	/// <summary>
-	/// 初期化処理
+	/// 共通初期化後に派生SceneのInitを呼ぶ。SceneManagerだけが呼び出す。
 	/// </summary>
-	virtual void Init();
+	void Initialize();
+
+	/// <summary>各シーン固有の初期化処理。</summary>
+	virtual void Init() = 0;
 
 	/// <summary>
 	/// 更新処理

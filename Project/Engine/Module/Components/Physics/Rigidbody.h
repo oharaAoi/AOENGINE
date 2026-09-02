@@ -25,6 +25,7 @@ public:
 	void Update();
 	// 編集処理
 	void Debug_Gui() override;
+	void DebugParameters();
 
 	/// <summary>
 	/// 速度方向の回転を返す
