@@ -77,10 +77,20 @@ public:
 
 	/// <summary>
 	/// グリッド座標をワールド座標へ変換する。
+	/// Xはセグメントの中央が原点に来るように寄せ、Yは一番下の段(y = 0)の下面が
+	/// 高さ0になるように積む（一番下の段のブロックの中心は 0.5）。
 	/// </summary>
 	/// <param name="pos">グローバルグリッド座標</param>
 	/// <returns>ワールド座標</returns>
 	static Math::Vector3 GridToWorld(const GridPos& pos);
+
+	/// <summary>
+	/// 指定したグループに属する全ブロックの色を変える。
+	/// 接続されたグループを見た目で分かるようにする用途に使う。
+	/// </summary>
+	/// <param name="groupId">色を変えるグループID</param>
+	/// <param name="color">設定する色</param>
+	void SetGroupColor(int groupId,const AOENGINE::Color& color);
 
 	/// <summary>
 	/// デバッグ用: 連結グループごとに異なる色をブロックへ設定する。

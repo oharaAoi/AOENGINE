@@ -6,8 +6,16 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/GameTimer.h"
+#include "Engine/Lib/Color.h"
+
+#include "Game/Stage/StageBlockField.h"
 
 using namespace AOENGINE;
+
+namespace {
+	// 接続されたブロックグループに付ける色(どのグループを繋いだかを見て分かるようにする)
+	constexpr AOENGINE::Color kConnectedGroupColor{ 1.0f, 0.55f, 0.15f, 1.0f };
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  初期化
@@ -76,11 +84,83 @@ void Player::Update() {
 	jump_.Update(deltaTime, input_.IsJumpTriggered(), jumpParams);
 	rigidbody->SetVelocityY(jump_.GetVelocityY());
 
-	// 先に前フレームまでの接続受付時間を消化してから、今フレームのジャンプで新しい受付を開始する
-	blockGroupConnectState_.Update(deltaTime);
-	if (jump_.IsJumpStarted()) {
-		blockGroupConnectState_.Begin(parameter_.connectableTime);
+	// ブロックグループの接続受付・集合・打ち上げ
+	UpdateBlockGroupConnect(deltaTime);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  ブロックグループの接続受付・集合・打ち上げ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateBlockGroupConnect(float deltaTime) {
+	const BlockGroupConnectState::Params connectParams{
+		parameter_.connectableTime,
+		parameter_.launchWaitTime,
+	};
+
+	BlockGroupConnectState::Context context{};
+	if (const WorldTransform* transform = GetTransform()) {
+		context.playerPosition = transform->GetTranslate();
 	}
+	context.isGrounded = jump_.IsGrounded();
+	context.launchTriggered = input_.IsLaunchTriggered();
+
+	// 先に前フレームまでの接続受付時間を消化してから、今フレームのジャンプで新しい受付を開始する
+	blockGroupConnectState_.Update(deltaTime, context, connectParams);
+	if (jump_.IsJumpStarted()) {
+		blockGroupConnectState_.Begin();
+	}
+
+	const BlockGroupLauncher::Params launcherParams{
+		parameter_.gatherSpeed,
+		parameter_.launchSpeed,
+		parameter_.launchAccel,
+		parameter_.launchLifeTime,
+	};
+
+	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める
+	if (blockGroupConnectState_.IsGatherStarted()) {
+		BlockGroupLauncher::GatherRequest request{};
+		request.gatherPoint = blockGroupConnectState_.GetGatherPoint();
+
+		const std::vector<BlockGroupConnectState::ConnectedGroup>& connectedGroups =
+			blockGroupConnectState_.GetConnectedGroups();
+		request.targets.reserve(connectedGroups.size());
+		for (const BlockGroupConnectState::ConnectedGroup& group : connectedGroups) {
+			request.targets.push_back(BlockGroupLauncher::Target{ group.groupId, group.connectPosition });
+		}
+
+		blockGroupLauncher_.BeginGather(request, launcherParams);
+	}
+
+	// 専用タイマーが尽きるか打ち上げ入力が来たら上へ打ち上げる
+	if (blockGroupConnectState_.IsLaunchRequested()) {
+		blockGroupLauncher_.Launch();
+	}
+
+	blockGroupLauncher_.Update(deltaTime);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  ブロックグループの接続
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Player::TryConnectBlockGroup(int groupId) {
+	if (!blockGroupConnectState_.TryAdd(groupId)) {
+		return false;
+	}
+
+	// 接続できたグループは色を変えて、どれを繋いだかが見て分かるようにする
+	if (pBlockField_) {
+		pBlockField_->SetGroupColor(groupId, kConnectedGroupColor);
+	}
+
+	return true;
+}
+
+void Player::SetBlockField(StageBlockField* field) {
+	pBlockField_ = field;
+	blockGroupLauncher_.SetField(field);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,8 +274,11 @@ void Player::Debug_Gui() {
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
+	ImGui::Text("connectPhase: %s", blockGroupConnectState_.GetPhaseName().c_str());
 	ImGui::Text("connectRemain: %.2f", blockGroupConnectState_.GetRemainingTime());
-	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetGroupIds().size()));
+	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
+	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
+	ImGui::Text("launchGroups: %d", blockGroupLauncher_.GetGroupCount());
 
 	if (WorldTransform* transform = GetTransform()) {
 		Math::Vector3 position = transform->GetTranslate();

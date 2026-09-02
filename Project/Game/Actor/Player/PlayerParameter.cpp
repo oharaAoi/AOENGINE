@@ -31,6 +31,11 @@ void PlayerParameter::Debug_Gui() {
 	ImGui::Spacing();
 
 	ImGui::DragFloat("Connectable Time",&connectableTime,0.1f);
+	ImGui::DragFloat("Launch Wait Time", &launchWaitTime, 0.1f);
+	ImGui::DragFloat("Gather Speed", &gatherSpeed, 0.1f);
+	ImGui::DragFloat("Launch Speed", &launchSpeed, 0.1f);
+	ImGui::DragFloat("Launch Accel", &launchAccel, 0.1f);
+	ImGui::DragFloat("Launch Life Time", &launchLifeTime, 0.1f);
 
 	ImGui::Spacing();
 	ImGui::SeparatorText("Player Miscellaneous Parameter");

@@ -19,7 +19,13 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 	float groundKeepSpeed = 1.0f;	// 接地を維持するために足場へ押し付ける速度
 
 	// コネクトステート
-	float connectableTime;	// 接続可能な時間
+	// json に無いキーは値が書き換わらないため、初期値を持たせておく
+	float connectableTime = 1.0f;		// 接続可能な時間
+	float launchWaitTime = 1.5f;		// 集合を始めてから自動で打ち上げるまでの時間
+	float gatherSpeed = 12.0f;			// ブロックグループが集合地点へ向かう速さ
+	float launchSpeed = 20.0f;			// 打ち上げの初速
+	float launchAccel = 20.0f;			// 打ち上げ中の加速度
+	float launchLifeTime = 3.0f;		// 打ち上げてから制御を手放すまでの時間
 
 	// その他
 	float groundHeight;		// 仮の地面の高さ
@@ -41,6 +47,11 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 			.Add("maxFallSpeed", maxFallSpeed)
 			.Add("groundKeepSpeed", groundKeepSpeed)
 			.Add("connectableTime",connectableTime)
+			.Add("launchWaitTime", launchWaitTime)
+			.Add("gatherSpeed", gatherSpeed)
+			.Add("launchSpeed", launchSpeed)
+			.Add("launchAccel", launchAccel)
+			.Add("launchLifeTime", launchLifeTime)
 			.Add("groundHeight", groundHeight)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
@@ -56,6 +67,11 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "maxFallSpeed", maxFallSpeed);
 		Convert::fromJson(jsonData, "groundKeepSpeed", groundKeepSpeed);
 		Convert::fromJson(jsonData,"connectableTime",connectableTime);
+		Convert::fromJson(jsonData, "launchWaitTime", launchWaitTime);
+		Convert::fromJson(jsonData, "gatherSpeed", gatherSpeed);
+		Convert::fromJson(jsonData, "launchSpeed", launchSpeed);
+		Convert::fromJson(jsonData, "launchAccel", launchAccel);
+		Convert::fromJson(jsonData, "launchLifeTime", launchLifeTime);
 		Convert::fromJson(jsonData, "groundHeight", groundHeight);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
