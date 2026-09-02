@@ -5,7 +5,7 @@
     <BuildType Name="Release" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="AOENGINE.vcxproj" Id="2BB142E0-177E-9DEB-4097-8B932CC3D279" DefaultStartup="true">
+  <Project Path="AOENGINE.vcxproj" Id="2bb142e0-177e-9deb-4097-8b932cc3d279">
     <BuildDependency Project="Externals\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj" />
     <BuildDependency Project="Externals\ImGui\ImGui.vcxproj" />
   </Project>

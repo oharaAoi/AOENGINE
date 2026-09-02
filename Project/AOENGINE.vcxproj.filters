@@ -175,6 +175,9 @@
     <Filter Include="Engine\System\Editor\Inspector\PostEffect">
       <UniqueIdentifier>{8D58A48A-F972-072C-4295-17C0AEEE2E33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\Editor\Parameter">
+      <UniqueIdentifier>{D55CDA29-C182-A490-AAC8-295C968DC95C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
@@ -540,6 +543,9 @@
     <ClInclude Include="Engine\Module\Components\Meshes\ParticleMesh.h">
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h">
+      <Filter>Engine\Module\Components\Meshes</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h">
       <Filter>Engine\Module\Components\Physics</Filter>
     </ClInclude>
@@ -816,6 +822,12 @@
     <ClInclude Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.h">
       <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
@@ -834,17 +846,11 @@
     <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
-      <Filter>Engine\System\Editor\Window\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h">
-      <Filter>Engine\System\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h">
-      <Filter>Engine\System\Editor</Filter>
+    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
       <Filter>Engine\System\Input</Filter>
@@ -918,19 +924,19 @@
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneLoader.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
-      <Filter>Engine\System\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
+    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
+    <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneWorld.h">
@@ -1035,6 +1041,9 @@
     <ClInclude Include="Engine\Utilities\Logger.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Utilities\Timer.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
@@ -1137,8 +1146,6 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
-    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1394,6 +1401,9 @@
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Meshes\ParticleMesh.cpp">
+      <Filter>Engine\Module\Components\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp">
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp">
@@ -1672,6 +1682,12 @@
     <ClCompile Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>
@@ -1690,17 +1706,11 @@
     <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
-      <Filter>Engine\System\Editor\Window\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp">
-      <Filter>Engine\System\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp">
-      <Filter>Engine\System\Editor</Filter>
+    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
       <Filter>Engine\System\Input</Filter>
@@ -1774,19 +1784,19 @@
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
-      <Filter>Engine\System\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
+    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
+    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneWorld.cpp">
@@ -1891,6 +1901,9 @@
     <ClCompile Include="Engine\Utilities\Logger.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utilities\SceneObjectFinder.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Utilities\Timer.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
@@ -1961,6 +1974,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp" />
   </ItemGroup>
 </Project>
