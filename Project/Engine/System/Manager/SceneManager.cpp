@@ -44,14 +44,11 @@ void SceneManager::Init() {
 	sceneFactory_ = std::make_unique<SceneFactory>();
 	reset_ = false;
 
-	changeScene_ = SceneType::Test;
 //#ifdef _DEVELOPMENT
 //	int sceneType = 0;
 //	AOENGINE::SceneManagerPropertySerializer::Load(sceneType);
 //	changeScene_ = static_cast<SceneType>(sceneType);
 //#endif // _DEVELOPMENT
-
-	SetChange(changeScene_);
 
 	AOENGINE::EditorWindows::GetInstance()->SetSceneManager(this);
 }
