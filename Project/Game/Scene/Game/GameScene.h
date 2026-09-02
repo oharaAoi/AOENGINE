@@ -1,12 +1,16 @@
 #pragma once
+#include <memory>
 // game
 #include "Game/Scene/BaseScene.h"
+
+class Player;
+class FollowCamera;
 
 class GameScene :
 	public BaseScene {
 public:
 
-	GameScene() = default;
+	GameScene();
 	~GameScene() override;
 
 	/// <summary>
@@ -28,5 +32,14 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update() override;
-};
 
+	/// <summary>
+	/// 描画処理
+	/// </summary>
+	void Draw() const override;
+
+private:
+
+	std::unique_ptr<Player> player_;
+	std::unique_ptr<FollowCamera> followCamera_;
+};

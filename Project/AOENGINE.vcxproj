@@ -350,16 +350,16 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Inspector\InspectorRegistry.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Light\LightInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h" />
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h" />
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\AssetsWindowSerializer.h" />
     <ClInclude Include="Engine\System\Editor\Window\EditorWindows.h" />
     <ClInclude Include="Engine\System\Editor\Window\GameObjectWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h" />
-    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h" />
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h" />
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
@@ -384,11 +384,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
-    <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\Scene\PrefabSerializer.h" />
-    <ClInclude Include="Engine\System\Scene\SceneSerializer.h" />
-    <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h" />
+    <ClInclude Include="Engine\System\Scene\SceneSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneWorld.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.h" />
@@ -423,6 +423,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Utilities\ImGuiHelperFunc.h" />
     <ClInclude Include="Engine\Utilities\Loader.h" />
     <ClInclude Include="Engine\Utilities\Logger.h" />
+    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
     <ClInclude Include="Engine\Utilities\Timer.h" />
     <ClInclude Include="Engine\WinApp\WinApp.h" />
     <ClInclude Include="Externals\ImGui\Flow\ImNodeFlow.h" />
@@ -450,6 +451,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_rectpack.h" />
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
+    <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h" />
+    <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h" />
+    <ClInclude Include="Game\Actor\Player\Player.h" />
+    <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
+    <ClInclude Include="Game\Camera\FollowCamera.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -460,8 +466,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
     <ClInclude Include="Game\Stage\StageSegment.h" />
+    <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
-    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
@@ -642,16 +648,16 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Inspector\InspectorRegistry.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Light\LightInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp" />
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp" />
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\AssetsWindowSerializer.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\EditorWindows.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\GameObjectWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp" />
-    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp" />
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp" />
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
@@ -676,11 +682,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
-    <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp" />
-    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp" />
-    <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp" />
+    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneWorld.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphEditor.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Editor\ShaderGraphSerializer.cpp" />
@@ -715,6 +721,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Utilities\ImGuiHelperFunc.cpp" />
     <ClCompile Include="Engine\Utilities\Loader.cpp" />
     <ClCompile Include="Engine\Utilities\Logger.cpp" />
+    <ClCompile Include="Engine\Utilities\SceneObjectFinder.cpp" />
     <ClCompile Include="Engine\Utilities\Timer.cpp" />
     <ClCompile Include="Engine\WinApp\WinApp.cpp" />
     <ClCompile Include="Externals\ImGui\Flow\ImNodeFlow.cpp" />
@@ -733,6 +740,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_tables.cpp" />
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
+    <ClCompile Include="Game\Actor\Player\Player.cpp" />
+    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp" />
+    <ClCompile Include="Game\Camera\FollowCamera.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
@@ -741,6 +753,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
+    <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

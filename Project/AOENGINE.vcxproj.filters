@@ -175,6 +175,9 @@
     <Filter Include="Engine\System\Editor\Inspector\PostEffect">
       <UniqueIdentifier>{8D58A48A-F972-072C-4295-17C0AEEE2E33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\System\Editor\Parameter">
+      <UniqueIdentifier>{D55CDA29-C182-A490-AAC8-295C968DC95C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\System\Editor\Tool">
       <UniqueIdentifier>{72AA6B80-DE6C-9F0A-271D-2E97931E78E8}</UniqueIdentifier>
     </Filter>
@@ -262,11 +265,35 @@
     <Filter Include="Game">
       <UniqueIdentifier>{7FA9857C-6BE0-860D-14CD-6C1000E3020F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor">
+      <UniqueIdentifier>{C780F7E0-B338-392E-1C40-128A0817D41E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Player">
+      <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Player\Component">
+      <UniqueIdentifier>{25645AC4-9171-88AA-1A58-849586645461}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera">
+      <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{DCF93CE2-C8B1-7E2F-31B9-578B1D901920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Clear">
+      <UniqueIdentifier>{B2C1FB9D-9EBA-1AF0-C7EC-FF74B344FAFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Game">
+      <UniqueIdentifier>{059DEA80-7128-5845-7A39-DB39E643B445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Title">
+      <UniqueIdentifier>{4DFE2D9F-39F7-4CF1-6229-32764E812CFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage">
+      <UniqueIdentifier>{623A46E2-4EF2-872F-B7F9-608BA3D02220}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\WorldObject">
       <UniqueIdentifier>{0D2E96F5-F926-B547-2259-9ACC0EB19453}</UniqueIdentifier>
@@ -538,6 +565,9 @@
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Meshes\ParticleMesh.h">
+      <Filter>Engine\Module\Components\Meshes</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h">
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Physics\Rigidbody.h">
@@ -816,6 +846,12 @@
     <ClInclude Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.h">
       <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Tool\ManipulateTool.h">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClInclude>
@@ -834,17 +870,11 @@
     <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
-      <Filter>Engine\System\Editor\Window\Item</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameter.h">
-      <Filter>Engine\System\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Parameter\CustomParameterManager.h">
-      <Filter>Engine\System\Editor</Filter>
+    <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
       <Filter>Engine\System\Input</Filter>
@@ -918,19 +948,19 @@
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
+      <Filter>Engine\System\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneLoader.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
-      <Filter>Engine\System\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
+    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneObjectSerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h">
+    <ClInclude Include="Engine\System\Scene\SceneSerializer.h">
       <Filter>Engine\System\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\SceneWorld.h">
@@ -1035,6 +1065,9 @@
     <ClInclude Include="Engine\Utilities\Logger.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h">
+      <Filter>Engine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Utilities\Timer.h">
       <Filter>Engine\Utilities</Filter>
     </ClInclude>
@@ -1116,6 +1149,21 @@
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Player.h">
+      <Filter>Game\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\PlayerParameter.h">
+      <Filter>Game\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Camera\FollowCamera.h">
+      <Filter>Game\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
     </ClInclude>
@@ -1124,6 +1172,12 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Clear\ClearScene.h">
+      <Filter>Game\Scene\Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Game\GameScene.h">
+      <Filter>Game\Scene\Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\SceneFactory.h">
       <Filter>Game\Scene</Filter>
@@ -1134,15 +1188,18 @@
     <ClInclude Include="Game\Scene\TestScene.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scene\Title\TitleScene.h">
+      <Filter>Game\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageSegment.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Block.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Meshes\SubMesh.h" />
-    <ClInclude Include="Engine\Utilities\SceneObjectFinder.h" />
-    <ClInclude Include="Game\Scene\Title\TitleScene.h" />
-    <ClInclude Include="Game\Scene\Game\GameScene.h" />
-    <ClInclude Include="Game\Scene\Clear\ClearScene.h" />
-    <ClInclude Include="Game\Stage\StageSegment.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1398,6 +1455,9 @@
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Meshes\ParticleMesh.cpp">
+      <Filter>Engine\Module\Components\Meshes</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp">
       <Filter>Engine\Module\Components\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Physics\Rigidbody.cpp">
@@ -1676,6 +1736,12 @@
     <ClCompile Include="Engine\System\Editor\Inspector\PostEffect\PostEffectInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp">
+      <Filter>Engine\System\Editor\Parameter</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Tool\ManipulateTool.cpp">
       <Filter>Engine\System\Editor\Tool</Filter>
     </ClCompile>
@@ -1694,17 +1760,11 @@
     <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
-      <Filter>Engine\System\Editor\Window\Item</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameter.cpp">
-      <Filter>Engine\System\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Parameter\CustomParameterManager.cpp">
-      <Filter>Engine\System\Editor</Filter>
+    <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
       <Filter>Engine\System\Input</Filter>
@@ -1778,19 +1838,19 @@
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
+      <Filter>Engine\System\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
-      <Filter>Engine\System\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
+    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneObjectSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp">
+    <ClCompile Include="Engine\System\Scene\SceneSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\SceneWorld.cpp">
@@ -1895,6 +1955,9 @@
     <ClCompile Include="Engine\Utilities\Logger.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Utilities\SceneObjectFinder.cpp">
+      <Filter>Engine\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Utilities\Timer.cpp">
       <Filter>Engine\Utilities</Filter>
     </ClCompile>
@@ -1949,11 +2012,32 @@
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Player.cpp">
+      <Filter>Game\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\PlayerParameter.cpp">
+      <Filter>Game\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Camera\FollowCamera.cpp">
+      <Filter>Game\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Clear\ClearScene.cpp">
+      <Filter>Game\Scene\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Game\GameScene.cpp">
+      <Filter>Game\Scene\Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\SceneFactory.cpp">
       <Filter>Game\Scene</Filter>
@@ -1961,14 +2045,18 @@
     <ClCompile Include="Game\Scene\TestScene.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
+      <Filter>Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageSegment.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Block.cpp">
+      <Filter>Game\WorldObject</Filter>
+    </ClCompile>
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\Components\Meshes\SubMesh.cpp" />
-    <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
-    <ClCompile Include="Game\Scene\Game\GameScene.cpp" />
-    <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
-    <ClCompile Include="Game\Stage\StageSegment.cpp" />
   </ItemGroup>
 </Project>
