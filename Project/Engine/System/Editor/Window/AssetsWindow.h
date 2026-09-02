@@ -92,6 +92,9 @@ private:
 
 	void DropSource(AssetType assetType, const std::string& name);
 	void PrefabDropSource(const std::filesystem::path& path);
+	void DrawPrefabContextMenu(const std::filesystem::path& path);
+	void DrawPrefabOperationDialogs();
+	void RefreshAssets();
 
 private:
 
@@ -100,6 +103,11 @@ private:
 	std::filesystem::path currentPath_ = "";
 	std::array<char, 512> currentPathBuffer_ = {};
 	std::array<char, 256> searchBuffer_ = {};
+	std::array<char, 256> prefabRenameBuffer_ = {};
+	std::filesystem::path selectedPrefabPath_;
+	std::string prefabOperationError_;
+	bool openPrefabRenamePopup_ = false;
+	bool openPrefabDeletePopup_ = false;
 
 	AssetNode rootNode_;
 	std::unordered_map<std::string, bool> treeOpenState;

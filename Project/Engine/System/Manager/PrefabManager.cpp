@@ -7,7 +7,63 @@
 #include "Engine/System/Scene/PrefabSerializer.h"
 #include "Engine/Utilities/Logger.h"
 
+#include <fstream>
+#include <iomanip>
+
 using namespace AOENGINE;
+
+namespace {
+
+bool IsValidPrefabName(const std::string& name) {
+	if (name.empty() || name == "." || name == ".." ||
+		name.ends_with(".prefab") || name.ends_with(".prefab.json")) {
+		return false;
+	}
+	return name.find_first_of("<>:\"/\\|?*") == std::string::npos;
+}
+
+std::filesystem::path GetSceneDataRoot() {
+	return std::filesystem::path(kAssetPath) / "Game/GameData/JsonItems";
+}
+
+bool LoadJsonFile(const std::filesystem::path& path, nlohmann::json& result) {
+	std::ifstream stream(path);
+	if (!stream) { return false; }
+	try {
+		stream >> result;
+		return true;
+	} catch (...) {
+		return false;
+	}
+}
+
+bool SaveJsonFile(const std::filesystem::path& path, const nlohmann::json& value) {
+	std::ofstream stream(path, std::ios::trunc);
+	if (!stream) { return false; }
+	stream << std::setw(4) << value << std::endl;
+	return stream.good();
+}
+
+size_t ReplaceScenePrefabReferences(nlohmann::json& scene, const std::string& oldName,
+	const std::string& newName) {
+	if (!scene.is_object() || scene.value("format", "") != "AOENGINE_SCENE" ||
+		!scene.contains("objects") || !scene.at("objects").is_array()) {
+		return 0;
+	}
+
+	size_t count = 0;
+	for (nlohmann::json& object : scene["objects"]) {
+		if (object.value("type", "") != "PrefabInstance" || !object.contains("data")) { continue; }
+		nlohmann::json& data = object["data"];
+		if (data.value("prefab", "") == oldName) {
+			data["prefab"] = newName;
+			++count;
+		}
+	}
+	return count;
+}
+
+}
 
 PrefabManager::PrefabManager()
 	: prefabDirectory_(kAssetPath + "/Game/Prefabs/") {}
@@ -72,6 +128,94 @@ bool PrefabManager::SavePrefab(const std::string& prefabName, ObjectHandle rootH
 		root->SetPrefabSource(prefabName);
 	}
 	return true;
+}
+
+PrefabOperationResult PrefabManager::RenamePrefab(const std::string& oldName, const std::string& newName) {
+	if (!IsValidPrefabName(oldName) || !IsValidPrefabName(newName)) { return PrefabOperationResult::InvalidName; }
+	if (oldName == newName) { return PrefabOperationResult::Success; }
+
+	const std::filesystem::path oldPath = std::filesystem::path(prefabDirectory_) / (oldName + ".prefab.json");
+	const std::filesystem::path newPath = std::filesystem::path(prefabDirectory_) / (newName + ".prefab.json");
+	std::error_code error;
+	if (!std::filesystem::exists(oldPath, error) || error) { return PrefabOperationResult::NotFound; }
+	if (std::filesystem::exists(newPath, error) && !error) { return PrefabOperationResult::AlreadyExists; }
+
+	nlohmann::json prefab;
+	if (!LoadJsonFile(oldPath, prefab) || prefab.value("format", "") != "AOENGINE_PREFAB") {
+		return PrefabOperationResult::InvalidPrefab;
+	}
+	prefab["prefabName"] = newName;
+	if (!SaveJsonFile(newPath, prefab)) { return PrefabOperationResult::FileSystemError; }
+
+	const std::filesystem::path sceneRoot = GetSceneDataRoot();
+	if (std::filesystem::exists(sceneRoot, error) && !error) {
+		for (const auto& entry : std::filesystem::recursive_directory_iterator(sceneRoot)) {
+			if (!entry.is_regular_file() || entry.path().extension() != ".json") { continue; }
+			nlohmann::json scene;
+			if (!LoadJsonFile(entry.path(), scene)) { continue; }
+			if (ReplaceScenePrefabReferences(scene, oldName, newName) != 0 && !SaveJsonFile(entry.path(), scene)) {
+				std::filesystem::remove(newPath, error);
+				return PrefabOperationResult::FileSystemError;
+			}
+		}
+	}
+
+	SceneRenderer* renderer = SceneRenderer::GetInstance();
+	if (renderer) {
+		for (const ObjectHandle& handle : renderer->GetObjectHandles()) {
+			SceneObject* object = renderer->FindObject(handle);
+			if (object && object->GetPrefabSource() == oldName) { object->SetPrefabSource(newName); }
+		}
+	}
+	prefabCache_.erase(oldName);
+	prefabCache_[newName] = std::move(prefab);
+	if (!std::filesystem::remove(oldPath, error) || error) { return PrefabOperationResult::FileSystemError; }
+	Logger::Log("[Prefab][Rename] " + oldName + " -> " + newName + "\n");
+	return PrefabOperationResult::Success;
+}
+
+PrefabReferenceInfo PrefabManager::FindReferences(const std::string& prefabName) const {
+	PrefabReferenceInfo info;
+	if (const SceneRenderer* renderer = SceneRenderer::GetInstance()) {
+		for (const ObjectHandle& handle : renderer->GetObjectHandles()) {
+			const SceneObject* object = renderer->FindObject(handle);
+			if (object && object->GetPrefabSource() == prefabName) { ++info.activeInstanceCount; }
+		}
+	}
+
+	std::error_code error;
+	const std::filesystem::path sceneRoot = GetSceneDataRoot();
+	if (!std::filesystem::exists(sceneRoot, error) || error) { return info; }
+	for (const auto& entry : std::filesystem::recursive_directory_iterator(sceneRoot)) {
+		if (!entry.is_regular_file() || entry.path().extension() != ".json") { continue; }
+		nlohmann::json scene;
+		if (!LoadJsonFile(entry.path(), scene)) { continue; }
+		if (ReplaceScenePrefabReferences(scene, prefabName, prefabName) != 0) {
+			info.sceneFiles.push_back(entry.path().string());
+		}
+	}
+	return info;
+}
+
+PrefabOperationResult PrefabManager::DeletePrefab(const std::string& prefabName, bool forceDelete) {
+	if (!IsValidPrefabName(prefabName)) { return PrefabOperationResult::InvalidName; }
+	const std::filesystem::path path = std::filesystem::path(prefabDirectory_) / (prefabName + ".prefab.json");
+	std::error_code error;
+	if (!std::filesystem::exists(path, error) || error) { return PrefabOperationResult::NotFound; }
+	if (!forceDelete && FindReferences(prefabName).HasReferences()) {
+		return PrefabOperationResult::ReferencedByScene;
+	}
+	if (!std::filesystem::remove(path, error) || error) { return PrefabOperationResult::FileSystemError; }
+
+	prefabCache_.erase(prefabName);
+	if (SceneRenderer* renderer = SceneRenderer::GetInstance()) {
+		for (const ObjectHandle& handle : renderer->GetObjectHandles()) {
+			SceneObject* object = renderer->FindObject(handle);
+			if (object && object->GetPrefabSource() == prefabName) { object->ClearPrefabSource(); }
+		}
+	}
+	Logger::Log("[Prefab][Delete] " + prefabName + "\n");
+	return PrefabOperationResult::Success;
 }
 
 void PrefabManager::UnloadPrefab(const std::string& prefabName) {

@@ -2,6 +2,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include <nlohmann/json.hpp>
 
 #include "Engine/Module/Components/GameObject/SceneObject.h"
@@ -10,6 +11,22 @@ namespace AOENGINE {
 
 class Canvas2d;
 class SceneRenderer;
+
+enum class PrefabOperationResult {
+	Success,
+	NotFound,
+	AlreadyExists,
+	InvalidName,
+	ReferencedByScene,
+	FileSystemError,
+	InvalidPrefab,
+};
+
+struct PrefabReferenceInfo {
+	std::vector<std::string> sceneFiles;
+	size_t activeInstanceCount = 0;
+	bool HasReferences() const { return activeInstanceCount != 0 || !sceneFiles.empty(); }
+};
 
 /// <summary>Prefabアセットの読み込み、キャッシュ、名前による生成を管理する。</summary>
 class PrefabManager {
@@ -33,6 +50,10 @@ public:
 	bool SavePrefab(const std::string& prefabName, ObjectHandle rootHandle);
 	bool SavePrefab(const std::string& prefabName, ObjectHandle rootHandle,
 		SceneRenderer& renderer);
+
+	PrefabOperationResult RenamePrefab(const std::string& oldName, const std::string& newName);
+	PrefabOperationResult DeletePrefab(const std::string& prefabName, bool forceDelete = false);
+	PrefabReferenceInfo FindReferences(const std::string& prefabName) const;
 
 	void UnloadPrefab(const std::string& prefabName);
 	void Clear();

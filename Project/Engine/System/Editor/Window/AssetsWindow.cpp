@@ -37,6 +37,28 @@ bool ContainsIgnoreCase(const std::string& text, const std::string& keyword) {
 	return ToLower(text).find(ToLower(keyword)) != std::string::npos;
 }
 
+std::string GetPrefabName(const std::filesystem::path& path) {
+	std::string name = path.filename().string();
+	constexpr std::string_view suffix = ".prefab.json";
+	if (name.size() >= suffix.size() && ToLower(name).ends_with(suffix)) {
+		name.resize(name.size() - suffix.size());
+	}
+	return name;
+}
+
+const char* GetPrefabOperationMessage(AOENGINE::PrefabOperationResult result) {
+	using AOENGINE::PrefabOperationResult;
+	switch (result) {
+	case PrefabOperationResult::NotFound: return "Prefab file was not found.";
+	case PrefabOperationResult::AlreadyExists: return "A Prefab with that name already exists.";
+	case PrefabOperationResult::InvalidName: return "The Prefab name is invalid.";
+	case PrefabOperationResult::ReferencedByScene: return "The Prefab is referenced by a scene.";
+	case PrefabOperationResult::FileSystemError: return "The file operation failed.";
+	case PrefabOperationResult::InvalidPrefab: return "The Prefab file is invalid.";
+	default: return "";
+	}
+}
+
 void DrawAssetFileName(const std::string& fileName, float width) {
 	ImFont* font = ImGui::GetFont();
 	const float fontSize = ImGui::GetFontSize() * 0.8f;
@@ -406,6 +428,8 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			column = 0;
 		}
 	}
+
+	DrawPrefabOperationDialogs();
 }
 
 void AOENGINE::AssetsWindow::DrawPrefabDropTarget() {
@@ -464,6 +488,7 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 	// BeginDragDropSourceはドラッグ元となるImageButtonがLastItemの間に呼ぶ必要がある。
 	// ファイル名描画後ではDummyがLastItemになり、ImGuiのID assertionが発生する。
 	if (prefabPath) {
+		DrawPrefabContextMenu(*prefabPath);
 		PrefabDropSource(*prefabPath);
 	}
 
@@ -521,4 +546,102 @@ void AOENGINE::AssetsWindow::PrefabDropSource(const std::filesystem::path& path)
 	ImGui::SetDragDropPayload("PREFAB_ASSET", prefabName.c_str(), prefabName.size() + 1);
 	ImGui::Text("Prefab: %s", prefabName.c_str());
 	ImGui::EndDragDropSource();
+}
+
+void AOENGINE::AssetsWindow::DrawPrefabContextMenu(const std::filesystem::path& path) {
+	const std::string pathId = path.string();
+	ImGui::PushID(pathId.c_str());
+	if (!ImGui::BeginPopupContextItem("##PrefabContextMenu")) {
+		ImGui::PopID();
+		return;
+	}
+
+	if (ImGui::MenuItem("Rename")) {
+		selectedPrefabPath_ = path;
+		CopyToInputBuffer(prefabRenameBuffer_, GetPrefabName(path));
+		prefabOperationError_.clear();
+		openPrefabRenamePopup_ = true;
+	}
+	if (ImGui::MenuItem("Delete")) {
+		selectedPrefabPath_ = path;
+		prefabOperationError_.clear();
+		openPrefabDeletePopup_ = true;
+	}
+	ImGui::EndPopup();
+	ImGui::PopID();
+}
+
+void AOENGINE::AssetsWindow::DrawPrefabOperationDialogs() {
+	if (openPrefabRenamePopup_) {
+		ImGui::OpenPopup("Rename Prefab");
+		openPrefabRenamePopup_ = false;
+	}
+	if (openPrefabDeletePopup_) {
+		ImGui::OpenPopup("Delete Prefab");
+		openPrefabDeletePopup_ = false;
+	}
+
+	if (ImGui::BeginPopupModal("Rename Prefab", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		const std::string oldName = GetPrefabName(selectedPrefabPath_);
+		ImGui::Text("Rename '%s'", oldName.c_str());
+		ImGui::SetNextItemWidth(320.0f);
+		const bool submit = ImGui::InputText("##PrefabName", prefabRenameBuffer_.data(),
+			prefabRenameBuffer_.size(), ImGuiInputTextFlags_EnterReturnsTrue);
+		if (!prefabOperationError_.empty()) {
+			ImGui::TextColored(ImVec4(1.0f, 0.35f, 0.35f, 1.0f), "%s", prefabOperationError_.c_str());
+		}
+
+		if (submit || ImGui::Button("Rename")) {
+			const PrefabOperationResult result = PrefabManager::GetInstance()->RenamePrefab(
+				oldName, prefabRenameBuffer_.data());
+			if (result == PrefabOperationResult::Success) {
+				RefreshAssets();
+				ImGui::CloseCurrentPopup();
+			} else {
+				prefabOperationError_ = GetPrefabOperationMessage(result);
+			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+
+	if (ImGui::BeginPopupModal("Delete Prefab", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		const std::string prefabName = GetPrefabName(selectedPrefabPath_);
+		const PrefabReferenceInfo references = PrefabManager::GetInstance()->FindReferences(prefabName);
+		ImGui::Text("Delete '%s.prefab.json'?", prefabName.c_str());
+		if (references.HasReferences()) {
+			ImGui::TextColored(ImVec4(1.0f, 0.75f, 0.2f, 1.0f), "This Prefab is currently referenced.");
+			if (references.activeInstanceCount != 0) {
+				ImGui::BulletText("Active scene instances: %zu", references.activeInstanceCount);
+			}
+			for (const std::string& scene : references.sceneFiles) {
+				ImGui::BulletText("%s", scene.c_str());
+			}
+			ImGui::TextWrapped("Deleting anyway keeps active objects but removes their Prefab link. Saved scenes may contain missing references.");
+		}
+		if (!prefabOperationError_.empty()) {
+			ImGui::TextColored(ImVec4(1.0f, 0.35f, 0.35f, 1.0f), "%s", prefabOperationError_.c_str());
+		}
+
+		const char* deleteLabel = references.HasReferences() ? "Delete Anyway" : "Delete";
+		if (ImGui::Button(deleteLabel)) {
+			const PrefabOperationResult result = PrefabManager::GetInstance()->DeletePrefab(
+				prefabName, references.HasReferences());
+			if (result == PrefabOperationResult::Success) {
+				RefreshAssets();
+				ImGui::CloseCurrentPopup();
+			} else {
+				prefabOperationError_ = GetPrefabOperationMessage(result);
+			}
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Cancel")) { ImGui::CloseCurrentPopup(); }
+		ImGui::EndPopup();
+	}
+}
+
+void AOENGINE::AssetsWindow::RefreshAssets() {
+	rootNode_ = BuildAssetTree(kAssetPath);
+	BuildCurrentFolderItems();
 }

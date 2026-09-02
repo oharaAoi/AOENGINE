@@ -51,7 +51,7 @@ void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentOriginG
 			pos.x = j;
 			pos.y = ((kBlockRow - 1) - i) + addHeight;
 
-			// プレハブから Block の実体となる GameObject を生成する
+			// プレハブから Block の実体となる GameObject を生成する 
 			AOENGINE::SceneObject* root =
 				AOENGINE::PrefabManager::GetInstance()->Instantiate("Block");
 
