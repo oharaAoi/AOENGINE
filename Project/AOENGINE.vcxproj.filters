@@ -265,20 +265,32 @@
     <Filter Include="Game">
       <UniqueIdentifier>{7FA9857C-6BE0-860D-14CD-6C1000E3020F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor">
+      <UniqueIdentifier>{C780F7E0-B338-392E-1C40-128A0817D41E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Player">
+      <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Camera">
+      <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Actor">
-      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004501}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Actor\Player">
-      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004502}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game\Camera">
-      <UniqueIdentifier>{1A6D0F2C-4B7E-4A11-9C33-2E7A1B004503}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene">
       <UniqueIdentifier>{DCF93CE2-C8B1-7E2F-31B9-578B1D901920}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Clear">
+      <UniqueIdentifier>{B2C1FB9D-9EBA-1AF0-C7EC-FF74B344FAFB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Game">
+      <UniqueIdentifier>{059DEA80-7128-5845-7A39-DB39E643B445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Title">
+      <UniqueIdentifier>{4DFE2D9F-39F7-4CF1-6229-32764E812CFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Stage">
+      <UniqueIdentifier>{623A46E2-4EF2-872F-B7F9-608BA3D02220}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\WorldObject">
       <UniqueIdentifier>{0D2E96F5-F926-B547-2259-9ACC0EB19453}</UniqueIdentifier>
@@ -1134,9 +1146,6 @@
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="Game\RunTime\GameCore.h">
-      <Filter>Game\RunTime</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Player.h">
       <Filter>Game\Actor\Player</Filter>
     </ClInclude>
@@ -1146,11 +1155,20 @@
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="Game\RunTime\GameCore.h">
+      <Filter>Game\RunTime</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h">
       <Filter>Game\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\BaseScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Clear\ClearScene.h">
+      <Filter>Game\Scene\Clear</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Game\GameScene.h">
+      <Filter>Game\Scene\Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\SceneFactory.h">
       <Filter>Game\Scene</Filter>
@@ -1160,6 +1178,15 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\TestScene.h">
       <Filter>Game\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Title\TitleScene.h">
+      <Filter>Game\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageSegment.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\Block.h">
+      <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
@@ -1976,23 +2003,38 @@
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Game\RunTime\GameCore.cpp">
-      <Filter>Game\RunTime</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Actor\Player\Player.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="Game\RunTime\GameCore.cpp">
+      <Filter>Game\RunTime</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Scene\BaseScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Clear\ClearScene.cpp">
+      <Filter>Game\Scene\Clear</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Game\GameScene.cpp">
+      <Filter>Game\Scene\Game</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\SceneFactory.cpp">
       <Filter>Game\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\TestScene.cpp">
       <Filter>Game\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
+      <Filter>Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\StageSegment.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\Block.cpp">
+      <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
       <Filter>Game\WorldObject</Filter>

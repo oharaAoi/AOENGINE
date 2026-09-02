@@ -1,5 +1,4 @@
 #include "TestScene.h"
-
 #include "Engine/Render/Render.h"
 
 /// Game
@@ -10,9 +9,6 @@ TestScene::~TestScene() { Finalize(); }
 
 void TestScene::Finalize() {}
 
-//////////////////////////////////////////////////////////////////////////////////////////////////
-// 初期化
-//////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Init() {
 	AOENGINE::Render::GetLightGroup()->Load();
 }
@@ -24,7 +20,7 @@ void TestScene::Update() {
 
 }
 
-void TestScene::OnPlayStart(){
+void TestScene::OnPlayStart() {
 	StageSegment seg;
 	seg.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
 	seg.SetupSegmentOnWorld();
