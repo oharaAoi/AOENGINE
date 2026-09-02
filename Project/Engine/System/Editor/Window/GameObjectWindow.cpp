@@ -256,6 +256,7 @@ void GameObjectWindow::InspectorWindow() {
 			selectedObject->SetName(uniqueName);
 		}
 
+		DrawPrefabOverride(*selectedObject);
 		ImGui::Separator();
 		if (canvasItem) {
 			canvasItem->Debug_Gui();
@@ -272,6 +273,43 @@ void GameObjectWindow::InspectorWindow() {
 		selectedObjectHandle_ = ObjectHandle{};
 	}
 	ImGui::End();
+}
+
+SceneObject* GameObjectWindow::FindPrefabInstanceRoot(SceneObject& object) const {
+	if (!sceneRenderer_) { return nullptr; }
+
+	SceneWorld& world = sceneRenderer_->GetSceneWorld();
+	SceneObject* current = &object;
+	while (current) {
+		if (current->IsPrefabInstanceRoot()) {
+			return current;
+		}
+
+		const ObjectHandle parentHandle = world.GetParentHandle(current->GetHandle());
+		if (!parentHandle.IsValid()) {
+			break;
+		}
+		current = world.FindObject(parentHandle);
+	}
+	return nullptr;
+}
+
+void GameObjectWindow::DrawPrefabOverride(SceneObject& object) {
+	SceneObject* prefabRoot = FindPrefabInstanceRoot(object);
+	if (!prefabRoot) { return; }
+
+	const std::string prefabName = prefabRoot->GetPrefabSource();
+	if (prefabName.empty()) { return; }
+
+	ImGui::Spacing();
+	ImGui::Text("Prefab: %s", prefabName.c_str());
+	if (ImGui::Button("Apply Prefab Override")) {
+		PrefabManager::GetInstance()->SavePrefab(
+			prefabName, prefabRoot->GetHandle(), *sceneRenderer_);
+	}
+	if (ImGui::IsItemHovered()) {
+		ImGui::SetTooltip("Overwrite %s.prefab.json with this instance hierarchy", prefabName.c_str());
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

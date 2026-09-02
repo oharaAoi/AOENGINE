@@ -40,7 +40,7 @@
                         ]
                     },
                     {
-                        "albedoTexture": "skin.png",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
                             1.0,
@@ -71,7 +71,7 @@
                         ]
                     }
                 ],
-                "model": "skin.obj",
+                "model": "sphere.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -84,9 +84,9 @@
                     1.0
                 ],
                 "translate": [
+                    -2.149596691131592,
                     0.0,
-                    0.0,
-                    0.0
+                    -1.364145278930664
                 ]
             },
             "id": 1,

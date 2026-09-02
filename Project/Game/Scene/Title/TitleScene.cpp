@@ -1,11 +1,11 @@
 #include "TitleScene.h"
+#include "Engine/System/Input/Input.h"
 
 TitleScene::~TitleScene() {
 }
 
 void TitleScene::Finalize() {
 }
-
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理(インスタンスの宣言など)
@@ -26,4 +26,7 @@ void TitleScene::OnPlayStart() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
+	if (AOENGINE::Input::GetInstance()->GetKey(DIK_SPACE)) {
+		nextSceneType_ = SceneType::Test;
+	}
 }

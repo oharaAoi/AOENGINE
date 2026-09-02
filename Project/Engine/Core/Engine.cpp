@@ -245,15 +245,10 @@ bool Engine::ProcessMessage() {
 }
 
 void Engine::BeginSceneView(SceneViewType viewType) {
-	const size_t viewIndex = GetSceneViewIndex(viewType);
-	sceneViewCameras_[viewIndex] = AOENGINE::Render::GetCameraState();
-	hasSceneViewCamera_[viewIndex] = true;
-
 	const CameraBufferSlot cameraBufferSlot = viewType == SceneViewType::Game
 		? CameraBufferSlot::Game
 		: CameraBufferSlot::Editor;
 	AOENGINE::Render::SetCameraBufferSlot(cameraBufferSlot);
-	AOENGINE::Render::ApplyCameraState(sceneViewCameras_[viewIndex]);
 
 	if (viewType == SceneViewType::Game) {
 		std::vector<RenderTargetType> types{
@@ -269,6 +264,12 @@ void Engine::BeginSceneView(SceneViewType viewType) {
 		RenderTargetType::EditorMotionVector_RenderTarget
 	};
 	AOENGINE::Render::SetRenderTarget(types, renderTarget_->GetEditorDepthHandle());
+}
+
+void Engine::CommitSceneViewCamera(SceneViewType viewType) {
+	const size_t viewIndex = GetSceneViewIndex(viewType);
+	sceneViewCameras_[viewIndex] = AOENGINE::Render::GetCameraState();
+	hasSceneViewCamera_[viewIndex] = true;
 }
 
 void Engine::ActivateSceneView(SceneViewType viewType) {

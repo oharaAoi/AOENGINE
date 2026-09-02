@@ -56,6 +56,8 @@ public:
 	/// 現在Renderへ適用されているCameraとRenderTargetへSceneを描画する。
 	/// </summary>
 	void DrawSceneObjects() const;
+	/// <summary>CPUカリングに使うViewProjectionを明示してSceneを描画する。</summary>
+	void DrawSceneObjects(const ::Math::Matrix4x4& viewProjection) const;
 	// Particleなどの描画
 	void PostDraw() const;
 	// objectの編集

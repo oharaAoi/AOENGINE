@@ -127,6 +127,8 @@ private: // private method
 	void EnsurePostProcessObjects();
 	void EnsureCanvasObject();
 	void EnsureParticleObjects();
+	AOENGINE::SceneObject* FindPrefabInstanceRoot(AOENGINE::SceneObject& object) const;
+	void DrawPrefabOverride(AOENGINE::SceneObject& object);
 	void InstantiatePrefabAtScenePosition(
 		const std::string& prefabName, const ImVec2& pixelPos, const ImVec2& imageSize);
 
