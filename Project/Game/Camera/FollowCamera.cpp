@@ -156,7 +156,6 @@ void FollowCamera::Debug_Gui() {
 		SetShake(0.3f, 0.5f);
 	}
 
-	if (ImGui::CollapsingHeader("Parameter")) {
-		parameter_.Debug_Gui();
-	}
+	ImGui::Separator();
+	parameter_.Debug_Gui();
 }

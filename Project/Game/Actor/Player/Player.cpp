@@ -57,7 +57,7 @@ void Player::Update() {
 	jump_.Update(deltaTime, input_.IsJumpTriggered(), jumpParams);
 	velocity_.y = jump_.GetVelocityY();
 
-	// 速度 → 位置
+	// 位置適用
 	position_ += velocity_ * deltaTime;
 
 	// 仮の地面との着地判定
@@ -75,7 +75,7 @@ void Player::UpdateMove() {
 	const float horizontal = input_.GetHorizontal();
 
 	velocity_.x = horizontal * parameter_.moveSpeed;
-	velocity_.z = 0.0f; // 横スクロールなのでZは固定
+	velocity_.z = 0.0f; 
 
 	if (horizontal > parameter_.moveInputThreshold) {
 		facing_ = 1.0f;
@@ -123,8 +123,6 @@ void Player::Debug_Gui() {
 	ImGui::DragFloat3("position", &position_.x, 0.1f);
 	ImGui::DragFloat3("velocity", &velocity_.x, 0.1f);
 
-	if (ImGui::CollapsingHeader("Parameter")) {
-		// 調整 + Save/Load
-		parameter_.Debug_Gui();
-	}
+	ImGui::Separator();
+	parameter_.Debug_Gui();
 }

@@ -5,6 +5,7 @@
 
 class Player;
 class FollowCamera;
+class Boss;
 
 class GameScene :
 	public BaseScene {
@@ -42,4 +43,5 @@ private:
 
 	std::unique_ptr<Player> player_;
 	std::unique_ptr<FollowCamera> followCamera_;
+	std::unique_ptr<Boss> boss_;
 };

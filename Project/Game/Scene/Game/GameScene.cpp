@@ -6,6 +6,7 @@
 #include "Engine/Utilities/SceneObjectFinder.h"
 
 #include "Game/Actor/Player/Player.h"
+#include "Game/Actor/Boss/Boss.h"
 #include "Game/Camera/FollowCamera.h"
 
 GameScene::GameScene() {}
@@ -15,6 +16,7 @@ GameScene::~GameScene() {
 }
 
 void GameScene::Finalize() {
+	boss_.reset();
 	followCamera_.reset();
 	player_.reset();
 }
@@ -27,9 +29,8 @@ void GameScene::Init() {
 	AOENGINE::Render::GetLightGroup()->Load();
 
 	player_ = std::make_unique<Player>();
-
 	followCamera_ = std::make_unique<FollowCamera>();
-	followCamera_->Init();
+	boss_ = std::make_unique<Boss>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,9 +38,10 @@ void GameScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void GameScene::OnPlayStart() {
-	// Player初期化
-	AOENGINE::BaseGameObject* body = FindSceneObject<AOENGINE::BaseGameObject>("Player");
-	player_->Init(body);
+	// シーンに配置済みの本体を名前で取得して各エンティティに束ねる
+	player_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Player"));
+	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
+	followCamera_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,18 +60,34 @@ void GameScene::Update() {
 		followCamera_->Update();
 	}
 
+	// ボスの更新
+	if (boss_ && followCamera_) {
+		const Math::Matrix4x4 viewProjection =
+			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
+		boss_->Update(viewProjection);
+	}
+
 #ifdef _DEVELOPMENT
-	// 調整パラメータの編集 + Save/Load
-	if (player_) {
-		ImGui::Begin("Player");
+	// 調整パラメータの編集
+	ImGui::Begin("GameScene Parameters");
+
+	if (player_ && ImGui::CollapsingHeader("Player")) {
+		ImGui::PushID("Player");
 		player_->Debug_Gui();
-		ImGui::End();
+		ImGui::PopID();
 	}
-	if (followCamera_) {
-		ImGui::Begin("FollowCamera");
+	if (followCamera_ && ImGui::CollapsingHeader("FollowCamera")) {
+		ImGui::PushID("FollowCamera");
 		followCamera_->Debug_Gui();
-		ImGui::End();
+		ImGui::PopID();
 	}
+	if (boss_ && ImGui::CollapsingHeader("Boss")) {
+		ImGui::PushID("Boss");
+		boss_->Debug_Gui();
+		ImGui::PopID();
+	}
+
+	ImGui::End();
 #endif
 }
 

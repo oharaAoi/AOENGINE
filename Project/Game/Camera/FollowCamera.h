@@ -18,11 +18,11 @@ public:
 	/// 追従カメラの調整項目
 	/// </summary>
 	struct Parameter : public AOENGINE::IJsonConverter {
-		Math::Vector3 offset;			 // 追従対象からの相対位置
-		float pitch;					 // 見下ろし角
-		float smoothTime;			     // SmoothDamp の時定数
-		float maxSpeed;					 // 追従の最大速度
-		Math::Vector2 shakeFrequency;	 // シェイクの揺れ周波数
+		Math::Vector3 offset;	// 追従対象からの相対位置
+		float pitch;								// 見下ろし角
+		float smoothTime;						// SmoothDamp の時定数
+		float maxSpeed;						// 追従の最大速度
+		Math::Vector2 shakeFrequency;	// シェイクの揺れ周波数
 
 		Parameter() {
 			SetGroupName("Camera");

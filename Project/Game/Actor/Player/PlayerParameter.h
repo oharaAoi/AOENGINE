@@ -11,15 +11,15 @@ struct PlayerParameter : public AOENGINE::IJsonConverter {
 	float moveInputThreshold;	// 向き変更とみなす入力の下限
 
 	// ジャンプ
-	float jumpPower;	    // ジャンプの強さ
-	float hangTime;			// 滞空時間
-	float riseGravity;		// 上昇中の減速度
-	float fallGravity;		// 落下中の重力
-	float maxFallSpeed;		// 落下速度の上限
+	float jumpPower;		// ジャンプの強さ
+	float hangTime;		// 滞空時間
+	float riseGravity;	// 上昇中の減速度
+	float fallGravity;	// 落下中の重力
+	float maxFallSpeed;	// 落下速度の上限
 
 	// その他
-	float groundHeight;		// 仮の地面の高さ
-	float stickDeadZone;    // 左スティックのデッドゾーン
+	float groundHeight;	// 仮の地面の高さ
+	float stickDeadZone;	// 左スティックのデッドゾーン
 
 	PlayerParameter() {
 		SetGroupName("Player");
