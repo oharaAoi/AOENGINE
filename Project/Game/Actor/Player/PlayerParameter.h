@@ -46,6 +46,15 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Rise Gravity", riseGravity, 0.1f, 0.0f, 500.0f);
 		AddParameter("Fall Gravity", fallGravity, 0.1f, 0.0f, 500.0f);
 		AddParameter("Max Fall Speed", maxFallSpeed, 0.1f, 0.0f, 500.0f);
+		AddParameter("Ground Keep Speed",groundKeepSpeed,0.1f,0.0f,100.0f);
+
+		AddParameter("Connectable Time",connectableTime,0.01f,0.0f,10.0f);
+		AddParameter("Launch Wait Time",launchWaitTime,0.01f,0.0f,10.0f);
+		AddParameter("Gather Speed",gatherSpeed,0.1f,0.0f,100.0f);
+		AddParameter("Launch Speed",launchSpeed,0.1f,0.0f,100.0f);
+		AddParameter("Launch Accel",launchAccel,0.1f,0.0f,100.0f);
+		AddParameter("Launch Life Time",launchLifeTime,0.01f,0.0f,10.0f);
+
 		AddParameter("Ground Height", groundHeight, 0.1f);
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}

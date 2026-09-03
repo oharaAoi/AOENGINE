@@ -194,76 +194,10 @@
         {
             "active": true,
             "data": {
-                "animator": false,
-                "components": [],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "sphere.obj",
+                "prefab": "Player",
                 "rotate": [
                     0.0,
                     0.0,
@@ -275,16 +209,17 @@
                     1.0,
                     1.0
                 ],
+                "transformType": "3D",
                 "translate": [
                     0.0,
-                    2.0,
+                    0.0,
                     0.0
                 ]
             },
-            "id": 1,
+            "id": 314,
             "name": "Player",
             "parentId": null,
-            "type": "BaseGameObject"
+            "type": "PrefabInstance"
         },
         {
             "active": true,

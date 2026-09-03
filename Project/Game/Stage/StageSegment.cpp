@@ -24,78 +24,62 @@ namespace
 	constexpr int kWallCell = 2;
 
 	/// <summary>Prefabから BaseGameObject を生成する。生成できなければ nullptr</summary>
-	AOENGINE::BaseGameObject *InstantiateStageObject(const std::string &prefabName)
-	{
-		AOENGINE::SceneObject *root =
+	AOENGINE::BaseGameObject* InstantiateStageObject(const std::string& prefabName){
+		AOENGINE::SceneObject* root =
 			AOENGINE::PrefabManager::GetInstance()->Instantiate(prefabName);
 
-		return dynamic_cast<AOENGINE::BaseGameObject *>(root);
+		return dynamic_cast<AOENGINE::BaseGameObject*>(root);
 	}
 }
 
 StageSegment::StageSegment() = default;
 StageSegment::~StageSegment() = default;
-StageSegment::StageSegment(StageSegment &&) noexcept = default;
-StageSegment &StageSegment::operator=(StageSegment &&) noexcept = default;
+StageSegment::StageSegment(StageSegment&&) noexcept = default;
+StageSegment& StageSegment::operator=(StageSegment&&) noexcept = default;
 
-void StageSegment::LoadBlockData(const std::string &filePath)
-{
+void StageSegment::LoadBlockData(const std::string& filePath){
 	// CSVからブロックの配置データを読み込む
 	// ラベル行・列は無しで読み込む (－1,ー1 でラベルを無効化)
-	rapidcsv::Document doc(filePath, rapidcsv::LabelParams(-1, -1));
+	rapidcsv::Document doc(filePath,rapidcsv::LabelParams(-1,-1));
 
-	for (int i = 0; i < kBlockRow; ++i)
-	{
-		for (int j = 0; j < kBlockCol; ++j)
-		{
-			blockData_[i][j] = doc.GetCell<int>(j, i);
+	for(int i = 0; i < kBlockRow; ++i){
+		for(int j = 0; j < kBlockCol; ++j){
+			blockData_[i][j] = doc.GetCell<int>(j,i);
 		}
 	}
 }
 
-void StageSegment::SetupSegmentOnWorld(StageBlockField *field, int segmentOriginGx, int addHeight)
-{
-	constexpr int isBlock = 1; // ブロックが存在することを示す値（仮定）
-
-	if (field == nullptr)
-	{
+void StageSegment::SetupSegmentOnWorld(StageBlockField* field,int segmentIndex){
+	if(field == nullptr){
 		return;
 	}
 
-	for (int i = 0; i < kBlockRow; ++i)
-	{
-		for (int j = 0; j < kBlockCol; ++j)
-		{
+	for(int i = 0; i < kBlockRow; ++i){
+		int y = ((kBlockRow - 1) - i) + segmentIndex * kBlockRow; // CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
+		for(int j = 0; j < kBlockCol; ++j){
 			const int cell = blockData_[i][j];
-			if (cell != kBlockCell && cell != kWallCell)
-			{
+			if(cell != kBlockCell && cell != kWallCell){
 				continue;
 			}
 
 			// セグメント i行 j列 -> グローバルグリッド座標へ変換
-			// CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
 			GridPos pos{};
 			pos.x = j;
-			pos.y = ((kBlockRow - 1) - i) + addHeight;
+			pos.y = y;
 
-			if (cell == kWallCell)
-			{
+			if(cell == kWallCell){
 				CreateWall(pos);
-			}
-			else
-			{
-				CreateBlock(field, pos);
+			} else{
+				CreateBlock(field,pos);
 			}
 		}
 	}
 }
 
-void StageSegment::CreateBlock(StageBlockField *field, const GridPos &pos)
-{
+void StageSegment::CreateBlock(StageBlockField* field,const GridPos& pos){
 	// プレハブから Block の実体となる GameObject を生成する
-	AOENGINE::BaseGameObject *gameObject = InstantiateStageObject("Block");
-	if (gameObject == nullptr)
-	{
+	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("Block");
+	if(gameObject == nullptr){
 		return;
 	}
 
@@ -107,17 +91,15 @@ void StageSegment::CreateBlock(StageBlockField *field, const GridPos &pos)
 	block->GetTransform()->SetTranslate(StageBlockField::GridToWorld(pos));
 
 	// 連結グループ表に登録する（4近傍との連結もここで解決される）
-	field->AddBlock(block.get(), pos);
+	field->AddBlock(block.get(),pos);
 
 	blocks_.push_back(std::move(block));
 }
 
-void StageSegment::CreateWall(const GridPos &pos)
-{
+void StageSegment::CreateWall(const GridPos& pos){
 	// プレハブから Wall の実体となる GameObject を生成する
-	AOENGINE::BaseGameObject *gameObject = InstantiateStageObject("Wall");
-	if (gameObject == nullptr)
-	{
+	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("Wall");
+	if(gameObject == nullptr){
 		return;
 	}
 
@@ -132,20 +114,16 @@ void StageSegment::CreateWall(const GridPos &pos)
 	walls_.push_back(std::move(wall));
 }
 
-void StageSegment::UnregisterFromWorld(StageBlockField *field)
-{
+void StageSegment::UnregisterFromWorld(StageBlockField* field){
 	// このセグメントが所有する Block を field の表から外し、GameObject を破棄する。
 	// セグメント破棄は連結グループの一部だけを消すことになるが、
 	// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
 	// 残りの連結性についての分割(split)検査はここでは行わない。
-	for (std::unique_ptr<Block> &block : blocks_)
-	{
-		if (block == nullptr)
-		{
+	for(std::unique_ptr<Block>& block : blocks_){
+		if(block == nullptr){
 			continue;
 		}
-		if (field != nullptr)
-		{
+		if(field != nullptr){
 			field->RemoveBlockFromField(block.get());
 		}
 		block->Destroy();
@@ -154,10 +132,8 @@ void StageSegment::UnregisterFromWorld(StageBlockField *field)
 	blocks_.clear();
 
 	// Wall は field に登録していないため、GameObject を破棄するだけでよい
-	for (std::unique_ptr<Wall> &wall : walls_)
-	{
-		if (wall == nullptr)
-		{
+	for(std::unique_ptr<Wall>& wall : walls_){
+		if(wall == nullptr){
 			continue;
 		}
 		wall->Destroy();

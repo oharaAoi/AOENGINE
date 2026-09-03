@@ -46,8 +46,8 @@ public:
 	/// Wall は連結・打ち上げの対象にしないため field には登録しない。
 	/// </summary>
 	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
-	/// <param name="segmentOriginGx">このセグメントの原点となるグローバルグリッドX座標</param>
-	void SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx, int addHeight = 0);
+	/// <param name="segmentIndex">下からどれだけSegmentが積み上がっているかを表す番号</param>
+	void SetupSegmentOnWorld(StageBlockField* field,int segmentIndex);
 
 	/// <summary>
 	/// このセグメントが生成した全ブロック・全ウォールを field の表から外し、GameObject を破棄する。
