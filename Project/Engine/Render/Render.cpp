@@ -13,6 +13,7 @@ namespace {
 	std::unique_ptr<LightGroup> lightGroup_ = nullptr;
 	std::array<std::unique_ptr<ViewProjection>, static_cast<size_t>(CameraBufferSlot::Count)> viewProjectionBuffers_{};
 	ViewProjection* viewProjection_ = nullptr;
+	CameraBufferSlot currentCameraBufferSlot_ = CameraBufferSlot::Game;
 	std::unique_ptr<ViewProjection> viewProjection2D_ = nullptr;
 	
 	Math::Matrix4x4 vpvpMatrix;
@@ -113,7 +114,8 @@ void AOENGINE::Render::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Render::PrimitiveDrawCall() {
-	primitiveDrawer_->DrawCall(commandList_);
+	const LineView view = currentCameraBufferSlot_ == CameraBufferSlot::Game ? LineView::Game : LineView::Editor;
+	primitiveDrawer_->DrawCall(commandList_, view, viewProjection_->GetViewProjection());
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -227,21 +229,32 @@ void AOENGINE::Render::SetShadowMesh(const Pipeline* pipeline, Mesh* mesh, const
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat) {
-	primitiveDrawer_->Draw(p1, p2, color, vpMat);
+	const LineView view = currentCameraBufferSlot_ == CameraBufferSlot::Game ? LineView::Game : LineView::Editor;
+	primitiveDrawer_->Draw(p1, p2, color, view, &vpMat);
 }
 
 void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color) {
-	primitiveDrawer_->Draw(p1, p2, color, viewProjection_->GetViewProjection());
+	primitiveDrawer_->Draw(p1, p2, color, LineView::Both);
+}
+
+void AOENGINE::Render::DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, LineView views) {
+	primitiveDrawer_->Draw(p1, p2, color, views);
 }
 
 void AOENGINE::Render::DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
 	const Color& color, float thickness, const Math::Matrix4x4& vpMat) {
-	primitiveDrawer_->DrawThick(p1, p2, color, thickness, vpMat);
+	const LineView view = currentCameraBufferSlot_ == CameraBufferSlot::Game ? LineView::Game : LineView::Editor;
+	primitiveDrawer_->DrawThick(p1, p2, color, thickness, view, &vpMat);
 }
 
 void AOENGINE::Render::DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
 	const Color& color, float thickness) {
-	primitiveDrawer_->DrawThick(p1, p2, color, thickness, viewProjection_->GetViewProjection());
+	primitiveDrawer_->DrawThick(p1, p2, color, thickness, LineView::Both);
+}
+
+void AOENGINE::Render::DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
+	const Color& color, float thickness, LineView views) {
+	primitiveDrawer_->DrawThick(p1, p2, color, thickness, views);
 }
 
 void AOENGINE::Render::DrawGrid(
@@ -294,6 +307,7 @@ void AOENGINE::Render::ApplyCameraState(const CameraRenderState& state) {
 void AOENGINE::Render::SetCameraBufferSlot(CameraBufferSlot slot) {
 	const size_t index = static_cast<size_t>(slot);
 	if (index < viewProjectionBuffers_.size() && viewProjectionBuffers_[index]) {
+		currentCameraBufferSlot_ = slot;
 		viewProjection_ = viewProjectionBuffers_[index].get();
 	}
 }

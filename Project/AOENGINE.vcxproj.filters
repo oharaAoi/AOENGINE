@@ -720,6 +720,9 @@
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\LineView.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Render\Render.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>

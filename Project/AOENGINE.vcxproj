@@ -304,6 +304,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Render\InstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ModelInstancingRenderer.h" />
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h" />
+    <ClInclude Include="Engine\Render\LineView.h" />
     <ClInclude Include="Engine\Render\Render.h" />
     <ClInclude Include="Engine\Render\RenderingCommands.h" />
     <ClInclude Include="Engine\Render\SceneRenderer.h" />

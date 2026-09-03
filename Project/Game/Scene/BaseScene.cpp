@@ -130,6 +130,8 @@ void BaseScene::Draw() const {
 		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			camera3d_->GetViewMatrix() * camera3d_->GetProjectionMatrix());
+		// Game Cameraで登録されたLineを、Game ViewのRenderTargetへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 
 #ifdef _DEVELOPMENT
 		// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
@@ -141,6 +143,8 @@ void BaseScene::Draw() const {
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+		// Editor Cameraで登録されたLineだけをEditor Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 #endif
 	}
 

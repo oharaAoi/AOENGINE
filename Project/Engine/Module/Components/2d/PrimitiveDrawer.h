@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine/DirectX/Utilities/DirectXUtils.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/Lib/Color.h"
@@ -6,6 +7,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Vector4.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
+#include "Engine/Render/LineView.h"
 
 namespace AOENGINE {
 
@@ -34,6 +36,7 @@ public: // データ構造体
 
 	// 線分の最大数
 	static const UINT kMaxLineCount = 40960;
+	static const UINT kViewCount = 2;
 	// 線分の頂点数
 	static const UINT kVertexCountLine = 2;
 	static const UINT kVertexCountThickLine = 6;
@@ -68,19 +71,20 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	/// <param name="wvpMat">: 透視投影行列</param>
-	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color, const Math::Matrix4x4& wvpMat);
+	void Draw(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color,
+		LineView views, const Math::Matrix4x4* fixedVp = nullptr);
 
 	/// <summary>
 	/// 画面上で指定したピクセル幅を持つ線分を描画キューへ追加します。
 	/// </summary>
 	void DrawThick(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color,
-		float thickness, const Math::Matrix4x4& vpMat);
+		float thickness, LineView views, const Math::Matrix4x4* fixedVp = nullptr);
 
 	/// <summary>
 	/// 描画コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: commandList</param>
-	void DrawCall(ID3D12GraphicsCommandList* commandList);
+	void DrawCall(ID3D12GraphicsCommandList* commandList, LineView view, const Math::Matrix4x4& vpMat);
 
 	/// <summary>
 	/// 使用中のindexを設定する
@@ -110,9 +114,21 @@ private:
 	ThickLineData* thickLineData_ = nullptr;
 
 	// 使用している線の頂点の数
-	uint32_t useIndex_ = 0;
+	struct LineRequest {
+		Math::Vector3 start;
+		Math::Vector3 end;
+		AOENGINE::Color color;
+		float thickness = 1.0f;
+		LineView views = LineView::Both;
+		uint8_t drawnViews = 0;
+		bool hasFixedVp = false;
+		Math::Matrix4x4 fixedVp = Math::Matrix4x4::MakeUnit();
+	};
 
-	uint32_t preUseIndex_;
+	std::vector<LineRequest> lineRequests_;
+	std::vector<LineRequest> thickLineRequests_;
+	uint32_t useIndex_ = 0;
+	uint32_t preUseIndex_ = 0;
 	uint32_t thickLineVertexCount_ = 0;
 
 };

@@ -184,6 +184,8 @@ void GameScene::Draw() const
 		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix());
+		// FollowCameraで登録されたLineをGame Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 
 #ifdef _DEVELOPMENT
 
@@ -195,6 +197,8 @@ void GameScene::Draw() const
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+		// DebugCameraで登録されたLineだけをEditor Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 #endif
 	}
 
