@@ -55,6 +55,9 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+
+	// コールバック関数の作成
+	callBacks_.Init(collisionManager_.get(), player_.get());
 }
 
 void GameScene::OnPlayStart()
