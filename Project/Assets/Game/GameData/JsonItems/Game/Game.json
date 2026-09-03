@@ -136,7 +136,7 @@
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
+                        "enableLighting": false,
                         "iblScale": 0.5,
                         "shaderType": 0,
                         "shininess": 100.0,

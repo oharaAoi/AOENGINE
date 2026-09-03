@@ -63,6 +63,7 @@ void Material::Debug_Gui() {
 	ImGui::Combo("Lighting", &material_->enableLighting, "None\0Lambert\0HalfLambert");
 	ImGui::DragFloat("discard", &discardValue_, 0.01f);
 	ImGui::DragFloat("iblScale", &material_->iblScale, 0.01f);
+	ImGui::Checkbox("isLighting", &isLighting_);
 }
 
 void Material::SetMaterialData(ModelMaterialData materialData) {
