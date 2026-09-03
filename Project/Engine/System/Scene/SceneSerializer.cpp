@@ -114,7 +114,7 @@ json SceneSerializer::Serialize(const std::string& sceneName, const SceneRendere
 			{ "id", object->GetSceneId() },
 			{ "type", object->IsPrefabInstanceRoot() ? "PrefabInstance" : object->GetSceneTypeName() },
 			{ "name", object->GetName() },
-			{ "active", object->IsActive() },
+			{ "active", object->IsSelfActive() },
 			{ "data", object->IsPrefabInstanceRoot()
 				? SerializePrefabInstance(*object) : SceneObjectSerializer::Serialize(*object) }
 		};

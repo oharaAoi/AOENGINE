@@ -530,7 +530,7 @@ void Sprite::Save(const std::string& _group, const std::string& _key) {
 		saveParam_.transform.scale.y * scaleY
 						 });
 
-	saveParam_.isActive = IsActive();
+	saveParam_.isActive = IsSelfActive();
 	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;
 	saveParam_.textureName = textureName_;

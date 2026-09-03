@@ -37,6 +37,8 @@ public:
 	void SetName(const std::string& name);
 
 	bool IsActive() const;
+	/// <summary>親の状態を含めない、このObject自身に設定された有効状態。</summary>
+	bool IsSelfActive() const;
 	void SetActive(bool active);
 
 	/// <summary>このオブジェクトをPrefabインスタンスのルートとして設定する。</summary>
@@ -56,7 +58,8 @@ private:
 	ObjectHandle handle_;
 	uint64_t sceneId_ = 0;
 	std::string name_;
-	bool isActive_ = true;
+	bool isActiveSelf_ = true;
+	SceneObject* parent_ = nullptr;
 	std::string prefabSource_;
 	std::vector<SceneObject*> children_;
 };

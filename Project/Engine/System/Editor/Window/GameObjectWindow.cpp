@@ -237,7 +237,7 @@ void GameObjectWindow::InspectorWindow() {
 
 		bool isActive = selectedEffect
 			? selectedEffect->GetIsEnable()
-			: selectedObject->IsActive();
+			: selectedObject->IsSelfActive();
 		if (!postProcessObject && ImGui::Checkbox(" ", &isActive)) {
 			if (selectedEffect) {
 				selectedEffect->SetIsEnable(isActive);
@@ -593,7 +593,7 @@ void AOENGINE::GameObjectWindow::ApplyPendingHierarchyAction() {
 			}
 			if (duplicate) {
 				duplicate->GetTransform()->SetSRT(sourceSprite->GetTransform()->GetTransform());
-				duplicate->SetActive(sourceSprite->IsActive());
+				duplicate->SetActive(sourceSprite->IsSelfActive());
 				selectedObjectHandle_ = duplicate->GetHandle();
 			}
 		}
