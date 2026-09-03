@@ -121,4 +121,6 @@ public: // accessor
 	// 集合・打ち上げの対象になっているグループ数
 	int GetGroupCount() const{ return static_cast<int>(groups_.size()); }
 
+	int GetBlockCount() const;
+
 };

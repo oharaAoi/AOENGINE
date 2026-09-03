@@ -20,11 +20,6 @@ void Boss::Init(BaseGameObject* body) {
 	if (WorldTransform* transform = GetTransform()) {
 		position_ = transform->GetTranslate();
 	}
-
-	// 当たり判定 
-	collision_.CreateCollider(GetGameObject(), parameter_.hitSize);
-	// コールバックとしてダメージ関数呼ぶのをセット
-	collision_.SetOnHit([this]() { Damage(1.0f); });
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

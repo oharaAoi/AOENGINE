@@ -8,7 +8,7 @@
 #include "Game/Stage/BlockGroupLauncher.h"
 
 namespace AOENGINE {
-class Rigidbody;
+	class Rigidbody;
 }
 
 class StageBlockField;
@@ -16,7 +16,7 @@ class StageBlockField;
 /// <summary>
 /// プレイヤークラス
 /// </summary>
-class Player : public AOENGINE::BaseEntity {
+class Player : public AOENGINE::BaseEntity{
 public:
 
 	Player() = default;
@@ -66,11 +66,13 @@ private:
 	static constexpr float kPushbackThreshold = 0.0001f;
 
 public: // accessor
+	const BlockGroupLauncher* GetBlockGroupLauncher() const{ return &blockGroupLauncher_; }
+	BlockGroupLauncher* GetBlockGroupLauncherRef(){ return &blockGroupLauncher_; }
 
-	bool IsGrounded() const { return jump_.IsGrounded(); }
+	bool IsGrounded() const{ return jump_.IsGrounded(); }
 
 	// 落下中（着地しうる状態）かどうか
-	bool IsFalling() const { return jump_.GetState() == PlayerJump::State::Falling || jump_.GetState() == PlayerJump::State::Hanging; }
+	bool IsFalling() const{ return jump_.GetState() == PlayerJump::State::Falling || jump_.GetState() == PlayerJump::State::Hanging; }
 
 	// 着地したブロックグループを接続対象へ追加する。追加できたグループは色が変わる
 	bool TryConnectBlockGroup(int groupId);
@@ -79,5 +81,5 @@ public: // accessor
 	void SetBlockField(StageBlockField* field);
 
 	Math::Vector3 GetVelocity() const;
-	float GetFacing() const { return facing_; }
+	float GetFacing() const{ return facing_; }
 };

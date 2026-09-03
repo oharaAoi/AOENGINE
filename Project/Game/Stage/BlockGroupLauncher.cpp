@@ -99,6 +99,18 @@ void BlockGroupLauncher::Launch(){
 	state_ = State::Launched;
 	launchVelocityY_ = params_.launchSpeed;
 	launchTimer_ = params_.launchLifeTime;
+
+	// CollisionCatgoryを 切り替えて、Bossと衝突するように
+	for(const GatheringGroup& group : groups_){
+		for(Block* block : group.blocks){
+			if(block == nullptr || !block->IsValid()){
+				continue;
+			}
+			BaseCollider* collider = block->GetCollider("Block");
+			collider->SetCategory("LaunchedBlock");
+			collider->SetTarget("Boss");    // マスクに Boss を足す
+		}
+	}
 }
 
 void BlockGroupLauncher::Update(float deltaTime){
@@ -130,7 +142,7 @@ void BlockGroupLauncher::UpdateGathering(float deltaTime){
 void BlockGroupLauncher::UpdateLaunched(float deltaTime){
 	launchVelocityY_ += params_.launchAccel * deltaTime;
 
-	const Math::Vector3 velocity{ 0.0f,launchVelocityY_,0.0f };
+	const Math::Vector3 velocity{0.0f,launchVelocityY_,0.0f};
 	for(const GatheringGroup& group : groups_){
 		SetGroupVelocity(group,velocity,deltaTime);
 	}
@@ -261,4 +273,12 @@ void BlockGroupLauncher::MoveBlock(Block* block,const Math::Vector3& diff,float 
 	if(transform != nullptr){
 		transform->SetTranslate(transform->GetTranslate() + diff);
 	}
+}
+
+int BlockGroupLauncher::GetBlockCount() const{
+	int count = 0;
+	for(const GatheringGroup& group : groups_){
+		count += static_cast<int>(group.blocks.size());
+	}
+	return count;
 }
