@@ -13,8 +13,8 @@ public:
 	/// 生成関数
 	/// </summary>
 	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
-	/// <param name="index">このセグメントの原点となるグローバルグリッドX座標</param>
+	/// <param name="index">SegmentのIndex</param>
 	/// <param name="addHeight">追加される座標の高さ</param>
-	void Create(StageBlockField* field, StageSegment*segment, int index, int addHeight);
+	void Create(StageBlockField* field, StageSegment*segment, int index);
 };
 

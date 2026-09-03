@@ -28,10 +28,10 @@
                     },
                     {
                         "active": true,
-                        "category": "Block",
+                        "category": "Player",
                         "collisionMask": [
                             "Block",
-                            "Player"
+                            "Wall"
                         ],
                         "localPosition": [
                             0.0,
@@ -40,18 +40,16 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            1.0,
-                            1.0,
+                            0.8999999761581421,
+                            0.8999999761581421,
                             1.0
                         ],
-                        "static": true,
+                        "static": false,
                         "trigger": false,
                         "type": "AABBCollider"
                     }
                 ],
                 "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "white.png",
@@ -83,40 +81,9 @@
                             0.0,
                             0.0
                         ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
                     }
                 ],
-                "model": "Block.obj",
+                "model": "Player.gltf",
                 "rotate": [
                     0.0,
                     0.0,
@@ -130,17 +97,17 @@
                 ],
                 "translate": [
                     0.0,
-                    0.0,
+                    3.0,
                     0.0
                 ]
             },
             "id": 1,
-            "name": "Block",
+            "name": "Player",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Player",
     "rootId": 1,
     "version": 1
 }

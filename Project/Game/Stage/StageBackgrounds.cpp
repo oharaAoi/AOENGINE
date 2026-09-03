@@ -22,7 +22,7 @@ void StageBackgrounds::Init(StageBlockField* field, StageSegment* segment) {
 		CreateBackground();
 
 		StageFactory factory;
-		factory.Create(field, segment, currentIndex_, currentIndex_ * parameter_.scrollHeight);
+		factory.Create(field, segment, currentIndex_);
 	}
 }
 
@@ -43,10 +43,10 @@ void StageBackgrounds::BackgroundLoop(StageBlockField* field, StageSegment* segm
 
 	// playerのY座標がindexの値 x スクロールの高さ超えたら次を生成
 	if (playerY >= currentIndex_ * parameter_.scrollHeight) {
-		CreateBackground();
-
 		StageFactory factory;
-		factory.Create(field, segment, currentIndex_, currentIndex_ * parameter_.scrollHeight);
+		factory.Create(field, segment, currentIndex_);
+
+		CreateBackground();
 
 		// 前の背景の削除
 		AOENGINE::ObjectHandle frontHandle = objHandles_.front();

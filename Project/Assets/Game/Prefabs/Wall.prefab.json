@@ -28,9 +28,8 @@
                     },
                     {
                         "active": true,
-                        "category": "Block",
+                        "category": "Wall",
                         "collisionMask": [
-                            "Block",
                             "Player"
                         ],
                         "localPosition": [
@@ -50,15 +49,13 @@
                     }
                 ],
                 "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "white.png",
                         "color": [
-                            1.0,
-                            1.0,
-                            1.0,
+                            0.35,
+                            0.37,
+                            0.45,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
@@ -87,9 +84,9 @@
                     {
                         "albedoTexture": "white.png",
                         "color": [
-                            1.0,
-                            1.0,
-                            1.0,
+                            0.35,
+                            0.37,
+                            0.45,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
@@ -135,12 +132,12 @@
                 ]
             },
             "id": 1,
-            "name": "Block",
+            "name": "Wall",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Wall",
     "rootId": 1,
     "version": 1
 }

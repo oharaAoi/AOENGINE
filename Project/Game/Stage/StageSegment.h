@@ -7,7 +7,9 @@
 #include <vector>
 
 class Block;
+class Wall;
 class StageBlockField;
+struct GridPos;
 
 static const int kBlockCol = 11;
 static const int kBlockRow = 11;
@@ -39,14 +41,16 @@ public:
 	void LoadBlockData(const std::string& filePath);
 	/// <summary>
 	/// 読み込んだブロックの配置データを元に、World上にブロックを配置する。
+	/// CSVの値が 1 のセルは Block、2 のセルは Wall として生成する。
 	/// 生成した Block は field に登録され、グリッド座標を通じて上下左右のブロックと連結される。
+	/// Wall は連結・打ち上げの対象にしないため field には登録しない。
 	/// </summary>
 	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
-	/// <param name="segmentOriginGx">このセグメントの原点となるグローバルグリッドX座標</param>
-	void SetupSegmentOnWorld(StageBlockField* field,int segmentOriginGx, int addHeight = 0);
+	/// <param name="segmentIndex">下からどれだけSegmentが積み上がっているかを表す番号</param>
+	void SetupSegmentOnWorld(StageBlockField* field,int segmentIndex);
 
 	/// <summary>
-	/// このセグメントが生成した全ブロックを field の表から外し、GameObject を破棄する。
+	/// このセグメントが生成した全ブロック・全ウォールを field の表から外し、GameObject を破棄する。
 	/// 注意: セグメント破棄は連結グループの一部だけを消すことになるが、
 	/// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
 	/// 残りの連結性についての分割(split)検査はここでは行わない。
@@ -54,11 +58,25 @@ public:
 	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
 	void UnregisterFromWorld(StageBlockField* field);
 
+	/// <summary>
+	/// このセグメントが生成した Block を取得する。
+	/// Collider から Block を引く表への登録など、外から中身を走査したい場合に使う。
+	/// </summary>
+	const std::vector<std::unique_ptr<Block>>& GetBlocks() const{ return blocks_; }
+
 private:
+	/// <summary>指定したグリッド座標に Block を生成し、連結グループ表へ登録する</summary>
+	void CreateBlock(StageBlockField* field,const GridPos& pos);
+	/// <summary>指定したグリッド座標に Wall を生成する（連結グループ表には登録しない）</summary>
+	void CreateWall(const GridPos& pos);
+
 	/// ブロックの配置データ [行][列]
 	std::array<std::array<int,kBlockCol>,kBlockRow> blockData_;
 
 	/// このセグメントが生成した Block（所有権はこのセグメントが持つ）
 	std::vector<std::unique_ptr<Block>> blocks_;
+
+	/// このセグメントが生成した Wall（所有権はこのセグメントが持つ）
+	std::vector<std::unique_ptr<Wall>> walls_;
 };
 

@@ -70,18 +70,27 @@ Math::Vector3 PenetrationResolutionAABBandAABB(const Math::AABB& aabb1, const Ma
 	float overlapY = std::min(aabb1.max.y, aabb2.max.y) - std::max(aabb1.min.y, aabb2.min.y);
 	float overlapZ = std::min(aabb1.max.z, aabb2.max.z) - std::max(aabb1.min.z, aabb2.min.z);
 
+	// 1軸でも離れているなら押し戻す必要はない
+	if (overlapX <= 0.0f || overlapY <= 0.0f || overlapZ <= 0.0f) {
+		return CVector3::ZERO;
+	}
+
+	// 中心の位置関係からaabb1を逃がす向きを決める
+	Math::Vector3 center1 = (aabb1.min + aabb1.max) * 0.5f;
+	Math::Vector3 center2 = (aabb2.min + aabb2.max) * 0.5f;
+
 	// オーバーラップが最小の軸を探す
 	float minOverlap = overlapX;
-	Math::Vector3 mtvDir(1.0f, 0.0f, 0.0f);
+	Math::Vector3 mtvDir(center1.x < center2.x ? -1.0f : 1.0f, 0.0f, 0.0f);
 
 	if (overlapY < minOverlap) {
 		minOverlap = overlapY;
-		mtvDir = Math::Vector3(0.0f, 1.0f, 0.0f);
+		mtvDir = Math::Vector3(0.0f, center1.y < center2.y ? -1.0f : 1.0f, 0.0f);
 	}
 
 	if (overlapZ < minOverlap) {
 		minOverlap = overlapZ;
-		mtvDir = Math::Vector3(0.0f, 0.0f, 1.0f);
+		mtvDir = Math::Vector3(0.0f, 0.0f, center1.z < center2.z ? -1.0f : 1.0f);
 	}
 
 	return mtvDir * minOverlap;
@@ -92,11 +101,13 @@ Math::Vector3 PenetrationResolutionAABBandAABB(const Math::AABB& aabb1, const Ma
 //================================================================================================//
 
 Math::Vector3 PenetrationResolution(const Math::Sphere& s, const Math::AABB& aabb) {
+	// sphereをaabbから逃がす向き
 	return PenetrationResolutionAABBandSphere(aabb, s);
 }
 
 Math::Vector3 PenetrationResolution(const Math::AABB& aabb, const Math::Sphere& s) {
-	return PenetrationResolutionAABBandSphere(aabb, s);
+	// aabbをsphereから逃がすので向きを反転する
+	return PenetrationResolutionAABBandSphere(aabb, s) * -1.0f;
 }
 
 Math::Vector3 PenetrationResolution(const Math::AABB& aabb1, const Math::AABB& aabb2) {

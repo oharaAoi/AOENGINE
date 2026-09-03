@@ -1,9 +1,16 @@
 {
     "playerParameter": {
+        "connectableTime": 1.0,
         "fallGravity": 30.0,
+        "gatherSpeed": 12.0,
         "groundHeight": 0.0,
-        "hangTime": 0.3499999940395355,
-        "jumpPower": 36.900001525878906,
+        "groundKeepSpeed": 1.0,
+        "hangTime": 0.11999999731779099,
+        "jumpPower": 24.0,
+        "launchAccel": 20.0,
+        "launchLifeTime": 3.0,
+        "launchSpeed": 20.0,
+        "launchWaitTime": 1.5,
         "maxFallSpeed": 45.0,
         "moveInputThreshold": 0.009999999776482582,
         "moveSpeed": 9.800000190734863,

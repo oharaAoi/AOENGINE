@@ -238,33 +238,42 @@ void StageBlockField::Clear(){
 Math::Vector3 StageBlockField::GridToWorld(const GridPos& pos){
 	constexpr float kBlockSize = 1.0f;
 	constexpr float kOffsetX = (kBlockCol - 1) * 0.5f;
-	constexpr float kOffsetY = (kBlockRow - 1) * 0.5f;
+	constexpr float kHalfBlockSize = kBlockSize * 0.5f;
 
+	// Xはセグメントの中央が原点に来るように寄せる
 	float worldX = (static_cast<float>(pos.x) - kOffsetX) * kBlockSize;
-	float worldY = (static_cast<float>(pos.y) - kOffsetY) * kBlockSize;
+	// Yは一番下の段(y = 0)の下面が高さ0になるように積む(その段の中心は 0.5)
+	float worldY = static_cast<float>(pos.y) * kBlockSize + kHalfBlockSize;
 	float worldZ = 0.0f;
 
 	return Math::Vector3(worldX,worldY,worldZ);
 }
 
+void StageBlockField::SetGroupColor(int groupId,const AOENGINE::Color& color){
+	auto it = groups_.find(groupId);
+	if(it == groups_.end()){
+		return;
+	}
+
+	for(Block* member : it->second){
+		if(member == nullptr){
+			continue;
+		}
+
+		AOENGINE::BaseGameObject* gameObject = member->GetGameObject();
+		if(gameObject == nullptr){
+			continue;
+		}
+
+		gameObject->SetColor(color);
+	}
+}
+
 void StageBlockField::ApplyDebugGroupColors(){
 	// デバッグ用: グループごとに異なる色を設定し、グルーピングが意図通りに
 	// 効いているかを目視で確認できるようにする。
-	for(auto& [groupId,members] : groups_){
-		AOENGINE::Color color = MakeDebugGroupColor(groupId);
-
-		for(Block* member : members){
-			if(member == nullptr){
-				continue;
-			}
-
-			AOENGINE::BaseGameObject* gameObject = member->GetGameObject();
-			if(gameObject == nullptr){
-				continue;
-			}
-
-			gameObject->SetColor(color);
-		}
+	for(const auto& group : groups_){
+		SetGroupColor(group.first,MakeDebugGroupColor(group.first));
 	}
 }
 
