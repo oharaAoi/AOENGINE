@@ -1,4 +1,4 @@
-#include "RetryUI.h"
+#include "TitleUI.h"
 
 // engine
 #include <Engine/Utilities/SceneObjectFinder.h>
@@ -11,56 +11,47 @@
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RetryUI::Init() {
+void TitleUI::Init() {
 	selectIndex_ = 0;
 	coolTimer_ = AOENGINE::Timer(0.2f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-// 更新
+// 更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-RetryItem RetryUI::Update(bool isPlayerAlive) {
-	if (isPlayerAlive) {
-		// retryUI達の有効化
-		AOENGINE::Sprite* retry = FindSceneObject<AOENGINE::Sprite>("Retry");
-		retry->SetActive(true);
-
-		// 次の行動の選択
-		if (!coolTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
-			SelectItem();
-		}
-
-		RetryItem current = CurrentSelect();
-		if (current == RetryItem::Retry) {
-			AOENGINE::Text* retryText = FindSceneObject<AOENGINE::Text>("Text_Retry");
-			AOENGINE::Text* titleText = FindSceneObject<AOENGINE::Text>("Text_Title");
-			retryText->SetTextColor(Colors::Linear::red);
-			titleText->SetTextColor(Colors::Linear::white);
-		} else if (current == RetryItem::Title) {
-			AOENGINE::Text* retryText = FindSceneObject<AOENGINE::Text>("Text_Retry");
-			AOENGINE::Text* titleText = FindSceneObject<AOENGINE::Text>("Text_Title");
-			retryText->SetTextColor(Colors::Linear::white);
-			titleText->SetTextColor(Colors::Linear::red);
-		}
-
-		// 決定を行う
-		if (DecisionItem()) {
-			return current;
-		}
-	} else {
-		selectIndex_ = 0;
-		coolTimer_ = AOENGINE::Timer(0.2f);
+TitleUI::TitleItem TitleUI::Update() {
+	// 次の行動の選択
+	if (!coolTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
+		SelectItem();
 	}
 
-	return RetryItem::Pause;
+	TitleUI::TitleItem current = CurrentSelect();
+	if (current == TitleUI::TitleItem::Start) {
+		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
+		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
+		startText->SetTextColor(Colors::Linear::red);
+		exitText->SetTextColor(Colors::Linear::white);
+	} else if (current == TitleUI::TitleItem::Exit) {
+		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
+		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
+		startText->SetTextColor(Colors::Linear::white);
+		exitText->SetTextColor(Colors::Linear::red);
+	}
+
+	// 決定を行う
+	if (DecisionItem()) {
+		return current;
+	}
+
+	return TitleItem::Pause;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 次の項目を選択する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RetryUI::SelectItem() {
+void TitleUI::SelectItem() {
 	constexpr int kMaxItem = 2;
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 
@@ -92,7 +83,7 @@ void RetryUI::SelectItem() {
 // 次の項目の決定
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool RetryUI::DecisionItem() {
+bool TitleUI::DecisionItem() {
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	return input->GetKey(DIK_SPACE) || input->IsTriggerButton(XInputButtons::ButtonA);
 }
@@ -101,12 +92,12 @@ bool RetryUI::DecisionItem() {
 // 現在選択中の項目を返す
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-RetryItem RetryUI::CurrentSelect() {
+TitleUI::TitleItem TitleUI::CurrentSelect() {
 	if (selectIndex_ == 0) {
-		return RetryItem::Retry;
+		return TitleUI::TitleItem::Start;
 	} else if (selectIndex_ == 1) {
-		return RetryItem::Title;
+		return TitleUI::TitleItem::Exit;
 	}
 
-	return RetryItem::Pause;
+	return TitleUI::TitleItem::Pause;
 }

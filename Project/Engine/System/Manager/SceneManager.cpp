@@ -59,7 +59,7 @@ void SceneManager::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void SceneManager::Update() {
+bool SceneManager::Update() {
 	if (scene_->GetNextSceneType()) {
 		SceneType type = scene_->GetNextSceneType().value();
 		// SetChange()でscene_自体が置き換わる前に、旧シーン側の要求を消費する。
@@ -67,7 +67,7 @@ void SceneManager::Update() {
 		SetChange(type);
 		// RendererとEditorの参照が切り替わったフレームでは更新を続けない。
 		// 新しいシーンのEditorUpdate/Updateは次フレームから開始する。
-		return;
+		return false;
 	}
 	
 	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
@@ -85,7 +85,7 @@ void SceneManager::Update() {
 #ifdef _DEVELOPMENT
 	if (!AOENGINE::EditorWindows::GetInstance()->ShouldUpdateGame()) {
 		scene_->EditorUpdateProcess();
-		return;
+		return false;
 	}
 #endif
 
@@ -96,6 +96,8 @@ void SceneManager::Update() {
 #ifdef _DEVELOPMENT
 	AOENGINE::EditorWindows::GetInstance()->CompleteGameUpdate();
 #endif
+
+	return scene_->GetEndRequest();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

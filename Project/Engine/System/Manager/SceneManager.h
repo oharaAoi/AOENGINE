@@ -30,7 +30,7 @@ public:
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	bool Update();
 
 	/// <summary>
 	/// 描画処理

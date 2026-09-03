@@ -1,6 +1,7 @@
 #pragma once
 // game
 #include "Game/Scene/BaseScene.h"
+#include "Game/UI/GameClearUI.h"
 
 class ClearScene : 
 	public BaseScene {
@@ -28,5 +29,10 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update() override;
+
+private: // private variables
+
+	GameClearUI clearUI_;
+
 };
 
