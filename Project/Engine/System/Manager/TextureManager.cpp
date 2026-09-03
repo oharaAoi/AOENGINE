@@ -119,6 +119,17 @@ void TextureManager::Finalize() {
 		data.second.resource_->Destroy();
 		data.second.intermediateResource_.Reset();
 	}
+	ReleaseRetiredResources();
+}
+
+void TextureManager::ReleaseRetiredResources() {
+	for (TextureData& data : retiredTextureData_) {
+		if (data.resource_) {
+			data.resource_->Destroy();
+		}
+		data.intermediateResource_.Reset();
+	}
+	retiredTextureData_.clear();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,6 +144,7 @@ void TextureManager::Init(ID3D12Device* _dxDevice, ID3D12GraphicsCommandList* _c
 	dxHeap_ = _dxHeap;
 
 	textureData_.clear();
+	retiredTextureData_.clear();
 	 
 	commandList_ = _commandList;
 	resourceManager_ = _resourceManager;
@@ -239,8 +251,9 @@ bool TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	device_->CreateShaderResourceView(data.resource_->GetCompResource().Get(), &srvDesc, data.resource_->GetSRV().handleCPU);
 
 	if (it != textureData_.end()) {
-		it->second.resource_->Destroy();
-		it->second.intermediateResource_.Reset();
+		// UpdateSubresources等を記録したCommandListがまだ開いている可能性がある。
+		// 旧ResourceはEndFrameのGPU同期完了後まで生存させる。
+		retiredTextureData_.push_back(std::move(it->second));
 		textureData_.erase(it);
 	}
 
@@ -389,8 +402,9 @@ bool TextureManager::CreateTextureFromRGBA8(const std::string& textureName, cons
 	data.textureSize_.y = static_cast<float>(height);
 
 	if (it != textureData_.end()) {
-		it->second.resource_->Destroy();
-		it->second.intermediateResource_.Reset();
+		// 同じCommandListに記録済みのcopy/barrierが旧Resourceを参照するため、
+		// Close・Execute・GPU同期が終わるまで解放しない。
+		retiredTextureData_.push_back(std::move(it->second));
 		textureData_.erase(it);
 	}
 
