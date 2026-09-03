@@ -6,7 +6,7 @@
         "groundHeight": 0.0,
         "groundKeepSpeed": 1.0,
         "hangTime": 0.11999999731779099,
-        "jumpPower": 24.0,
+        "jumpPower": 16.0,
         "launchAccel": 20.0,
         "launchLifeTime": 3.0,
         "launchSpeed": 20.0,
