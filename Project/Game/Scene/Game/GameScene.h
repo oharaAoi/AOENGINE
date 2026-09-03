@@ -8,6 +8,7 @@
 #include "Game/Stage/StageBackgrounds.h"
 #include "Game/Stage/StageBlockField.h"
 #include "Game/Stage/StageSegment.h"
+#include "Game/UI/RetryUI.h"
 
 
 class Player;
@@ -58,6 +59,11 @@ private:
 	/// <summary>生成済みのステージを片付ける(Playを押し直した時の作り直しにも使う)</summary>
 	void ClearStage();
 
+	/// <summary>
+	/// リトライの際の処理
+	/// </summary>
+	bool RetrySelect(bool isPlayerAlive);
+
 private:
 	std::unique_ptr<Player> player_;
 
@@ -81,4 +87,8 @@ private:
 
 	// コールバック関連
 	CollisionCallBacks callBacks_;
+
+	// UI  ------------------------------------
+	std::unique_ptr<RetryUI> retryUI_;
+
 };

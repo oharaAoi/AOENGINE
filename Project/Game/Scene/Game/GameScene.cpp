@@ -63,6 +63,9 @@ void GameScene::Init()
 
 	// コールバック関数の作成
 	callBacks_.Init(collisionManager_.get(), player_.get());
+
+	// RetryUI
+	retryUI_ = std::make_unique<RetryUI>();
 }
 
 void GameScene::OnPlayStart()
@@ -86,6 +89,10 @@ void GameScene::OnPlayStart()
 	// Player初期化
 	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
 	player_->SetBlockField(&stageBlockField_);
+
+	// UIの初期化
+	retryUI_->Init();
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +101,10 @@ void GameScene::OnPlayStart()
 
 void GameScene::Update()
 {
+	// ココにPlayerが生存しているかどうかを渡す
+	if (RetrySelect(false)) {
+		return;
+	}
 
 	// プレイヤー
 	if (player_)
@@ -128,6 +139,7 @@ void GameScene::Update()
 		damageFloor_->Update(viewProjection);
 	}
 
+	
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集
 	ImGui::Begin("GameScene Parameters");
@@ -227,6 +239,19 @@ void GameScene::ClearStage()
 	playerBlockCallBacks_.ClearBlocks();
 	stageSegment_.UnregisterFromWorld(&stageBlockField_);
 	stageBlockField_.Clear();
+}
+
+bool GameScene::RetrySelect(bool isPlayerAlive) {
+	if (!isPlayerAlive) { return false; }
+
+	// リトライの際の処理
+	RetryItem currentItem = retryUI_->Update(isPlayerAlive);
+	if (currentItem == RetryItem::Retry) {
+		nextSceneType_ = SceneType::Game;
+	} else if (currentItem == RetryItem::Title) {
+		nextSceneType_ = SceneType::Title;
+	}
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
