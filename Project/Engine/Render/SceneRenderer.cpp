@@ -124,6 +124,26 @@ void SceneRenderer::Update() {
 	RemoveInvalidRenderEntries();
 }
 
+void SceneRenderer::UpdateVerticalPhysics() {
+	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+		SceneObject* object = sceneWorld_.FindObject(handle);
+		if (!object || !object->IsActive()) { continue; }
+		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
+			gameObject->UpdateVerticalPhysics();
+		}
+	}
+}
+
+void SceneRenderer::ApplyCollisionPushback() {
+	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+		SceneObject* object = sceneWorld_.FindObject(handle);
+		if (!object || !object->IsActive()) { continue; }
+		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
+			gameObject->ApplyCollisionPushback();
+		}
+	}
+}
+
 void SceneRenderer::EditorUpdate() {
 	RemoveInvalidRenderEntries();
 	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {

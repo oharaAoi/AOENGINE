@@ -63,6 +63,7 @@ public:
 
 	const Math::Vector3& GetPushbackForce() const { return pushbackForce_; }
 	void SetPushbackForce(const Math::Vector3& _force);
+	void ClearPushbackForce() { pushbackForce_ = CVector3::ZERO; }
 
 private:
 

@@ -44,6 +44,8 @@ public:
 	void Init();
 	// 更新処理
 	void Update();
+	void UpdateVerticalPhysics();
+	void ApplyCollisionPushback();
 	/// <summary>Edit/Pause中に時間を進めず描画データを更新します。</summary>
 	void EditorUpdate();
 	// 後から行う更新

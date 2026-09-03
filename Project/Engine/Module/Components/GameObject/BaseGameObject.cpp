@@ -95,9 +95,13 @@ void BaseGameObject::Update() {
 void BaseGameObject::UpdateMatrix() {
 	// 移動量や追加する
 	if (rigidbody_ != nullptr) {
-		transform_->Translate(rigidbody_->GetMoveForce());
+		const Math::Vector3 moveForce = rigidbody_->GetMoveForce();
+		transform_->Translate(Math::Vector3(moveForce.x, 0.0f, moveForce.z));
 		rigidbody_->Update();
-		transform_->Translate(rigidbody_->GetVelocity(), AOENGINE::GameTimer::DeltaTime());
+		const Math::Vector3 velocity = rigidbody_->GetVelocity();
+		const float dt = AOENGINE::GameTimer::DeltaTime();
+		transform_->Translate(Math::Vector3(velocity.x, 0.0f, velocity.z), dt);
+		pendingVerticalMove_ = moveForce.y + velocity.y * dt;
 	}
 
 	// transformの更新
@@ -121,20 +125,35 @@ void BaseGameObject::UpdateMatrix() {
 	}
 }
 
-void BaseGameObject::PostUpdate() {
-	// colliderから押し戻し量を取得する
-	if (rigidbody_ != nullptr) {
-		for (uint32_t index = 0; index < colliders_.size(); ++index) {
-			if (!colliders_[index]->GetIsStatic()) {
-				rigidbody_->SetPushbackForce(colliders_[index]->GetPushBackDirection());
-			}
-		}
-		transform_->Translate(rigidbody_->GetPushbackForce());
+void BaseGameObject::UpdateVerticalPhysics() {
+	if (rigidbody_ == nullptr) { return; }
+	transform_->Translate(Math::Vector3(0.0f, pendingVerticalMove_, 0.0f));
+	pendingVerticalMove_ = 0.0f;
+	transform_->Update();
+	for (BaseCollider* collider : colliders_) {
+		collider->Update(Math::QuaternionSRT{
+			.scale = transform_->GetScale(),
+			.rotate = transform_->GetWorldRotate(),
+			.translate = transform_->GetWorldPos() });
 	}
+	worldPos_ = transform_->GetWorldMatrix().GetPosition();
+}
 
-	// 押し戻し後の更新を行なう
+void BaseGameObject::ApplyCollisionPushback() {
+	if (rigidbody_ == nullptr) { return; }
+	for (BaseCollider* collider : colliders_) {
+		if (!collider->GetIsStatic()) {
+			rigidbody_->SetPushbackForce(collider->GetPushBackDirection());
+		}
+	}
+	transform_->Translate(rigidbody_->GetPushbackForce());
+	rigidbody_->ClearPushbackForce();
 	transform_->Update();
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
+}
+
+void BaseGameObject::PostUpdate() {
+	ApplyCollisionPushback();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

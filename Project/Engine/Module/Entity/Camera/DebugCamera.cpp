@@ -51,6 +51,7 @@ void DebugCamera::Debug_Gui() {
 	Math::Vector3 up = moveRotate_.MakeUp();
 	Math::Vector3 forward = moveRotate_.MakeForward();
 
+	ImGui::Checkbox("isMove", &isMove);
 	ImGui::DragFloat3("translate", &transform_.translate.x, 0.1f);
 	ImGui::DragFloat4("rotate", &moveRotate_.x, 0.01f);
 	ImGui::DragFloat("sensitivity", &sensitivity_, 0.01f, 0.0f, 0.1f);
@@ -73,6 +74,10 @@ void DebugCamera::Debug_Gui() {
 void DebugCamera::TransitionMove() {
 
 	moveDirection_ = Math::Vector3();
+
+	if (!isMove) {
+		return;
+	}
 
 	if (AOENGINE::Input::IsPressKey(DIK_A)) {
 		moveDirection_ -= moveRotate_.MakeRight() * moveSpeed_;

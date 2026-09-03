@@ -86,6 +86,9 @@ void BaseScene::UpdateProcess() {
 	this->Update();
 	skybox_->Update();
 	pSceneRenderer_->Update();
+	collisionManager_->CheckHorizontalCollision();
+	pSceneRenderer_->ApplyCollisionPushback();
+	pSceneRenderer_->UpdateVerticalPhysics();
 	collisionManager_->CheckAllCollision();
 
 	camera3d_->Update();
