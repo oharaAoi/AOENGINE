@@ -275,10 +275,10 @@
       <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Common">
-      <UniqueIdentifier>{3475A84E-15EB-43D8-9916-5C6598586F90}</UniqueIdentifier>
+      <UniqueIdentifier>{1F08059D-8B1E-0333-D495-8E5440EBD3BA}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Floor">
-      <UniqueIdentifier>{DE2EA7C9-8220-45EA-A3C3-17C2A595D12B}</UniqueIdentifier>
+      <UniqueIdentifier>{B802EFE5-A4FB-0D38-CD2D-F3BCB985ED43}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Player">
       <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
@@ -286,8 +286,14 @@
     <Filter Include="Game\Actor\Player\Component">
       <UniqueIdentifier>{25645AC4-9171-88AA-1A58-849586645461}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Battle">
+      <UniqueIdentifier>{2AA61802-965B-91F7-1F50-8BCE8B0488FB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\EventHandlers">
+      <UniqueIdentifier>{C1FF7946-ADE3-3A9C-1644-35EF0247251E}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
@@ -306,6 +312,9 @@
     </Filter>
     <Filter Include="Game\Stage">
       <UniqueIdentifier>{623A46E2-4EF2-872F-B7F9-608BA3D02220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\UI">
+      <UniqueIdentifier>{4C805747-B85F-D6E2-C177-61B92DD63C44}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\WorldObject">
       <UniqueIdentifier>{0D2E96F5-F926-B547-2259-9ACC0EB19453}</UniqueIdentifier>
@@ -714,13 +723,13 @@
     <ClInclude Include="Engine\Render\InstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Render\LineView.h">
+      <Filter>Engine\Render</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Render\ModelInstancingRenderer.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\ParticleInstancingRenderer.h">
-      <Filter>Engine\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Render\LineView.h">
       <Filter>Engine\Render</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Render\Render.h">
@@ -1179,6 +1188,12 @@
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h">
       <Filter>Game\Actor\Common</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Floor\DamageFloor.h">
+      <Filter>Game\Actor\Floor</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClInclude>
@@ -1191,8 +1206,23 @@
     <ClInclude Include="Game\Actor\Player\PlayerParameter.h">
       <Filter>Game\Actor\Player</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Battle\BlockDamageCalculator.h">
+      <Filter>Game\Battle</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
     </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
@@ -1221,6 +1251,9 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\BlockGroupLauncher.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\GridPos.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
@@ -1230,8 +1263,20 @@
     <ClInclude Include="Game\Stage\StageBlockField.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\StageFactory.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\StageSegment.h">
       <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\GameClearUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\RetryUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\TitleUI.h">
+      <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Block.h">
       <Filter>Game\WorldObject</Filter>
@@ -1239,21 +1284,9 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Stage\StageFactory.h" />
-    <ClInclude Include="Game\Actor\Floor\DamageFloor.h">
-      <Filter>Game\Actor\Floor</Filter>
+    <ClInclude Include="Game\WorldObject\Wall.h">
+      <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h" />
-    <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
-    <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
-    <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
-    <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
-    <ClInclude Include="Game\WorldObject\Wall.h" />
-    <ClInclude Include="Game\UI\RetryUI.h" />
-    <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h" />
-    <ClInclude Include="Game\Battle\BlockDamageCalculator.h" />
-    <ClInclude Include="Game\UI\TitleUI.h" />
-    <ClInclude Include="Game\UI\GameClearUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2078,6 +2111,12 @@
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp">
       <Filter>Game\Actor\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp">
+      <Filter>Game\Actor\Floor</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
@@ -2087,8 +2126,23 @@
     <ClCompile Include="Game\Actor\Player\Player.cpp">
       <Filter>Game\Actor\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Battle\BlockDamageCalculator.cpp">
+      <Filter>Game\Battle</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
@@ -2111,14 +2165,29 @@
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stage\StageBlockField.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\StageFactory.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\StageSegment.cpp">
       <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\GameClearUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\RetryUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\TitleUI.cpp">
+      <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Block.cpp">
       <Filter>Game\WorldObject</Filter>
@@ -2126,21 +2195,9 @@
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\Stage\StageFactory.cpp" />
-    <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp">
-      <Filter>Game\Actor\Floor</Filter>
+    <ClCompile Include="Game\WorldObject\Wall.cpp">
+      <Filter>Game\WorldObject</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp" />
-    <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
-    <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
-    <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
-    <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
-    <ClCompile Include="Game\WorldObject\Wall.cpp" />
-    <ClCompile Include="Game\UI\RetryUI.cpp" />
-    <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp" />
-    <ClCompile Include="Game\Battle\BlockDamageCalculator.cpp" />
-    <ClCompile Include="Game\UI\TitleUI.cpp" />
-    <ClCompile Include="Game\UI\GameClearUI.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
 </Project>
