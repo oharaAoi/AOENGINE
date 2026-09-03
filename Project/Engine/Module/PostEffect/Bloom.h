@@ -92,6 +92,8 @@ public:
 public:
 	SaveBloomSettings& GetSettings() { return saveSettings_; }
 	const SaveBloomSettings& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 	BrightnessThreshold& GetBrightnessThreshold() { return *brightnessBuffer_; }
 	GaussianBlurWidth& GetBlurWidth() { return *blurWidthBuffer_; }
 	GaussianBlurHeight& GetBlurHeight() { return *blurHeightBuffer_; }

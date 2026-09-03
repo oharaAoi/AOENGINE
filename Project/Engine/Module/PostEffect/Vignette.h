@@ -98,6 +98,8 @@ public:
 public:
 	SaveSettings& GetSettings() { return saveSettings_; }
 	const SaveSettings& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 
 	void SetPower(float _power) { saveSettings_.power = _power; }
 

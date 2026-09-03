@@ -89,6 +89,8 @@ public:
 public: // accessor
 	SaveSetting& GetSettings() { return saveSettings_; }
 	const SaveSetting& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 
 	void SetScale(float scale) { saveSettings_.scale = scale; }
 

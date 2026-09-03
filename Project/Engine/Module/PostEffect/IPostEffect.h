@@ -2,6 +2,8 @@
 #include <string>
 #include "Engine/DirectX/Resource/DxResource.h"
 
+namespace AOENGINE { class IJsonConverter; }
+
 namespace AOENGINE {
 	class PostProcess;
 }
@@ -28,6 +30,10 @@ public:
 	virtual void Save(const std::string& rootField) = 0;
 
 	virtual void Load(const std::string& rootField) = 0;
+
+	// SceneSerializer向け。ファイルI/OはPostProcess側へ集約する。
+	virtual AOENGINE::IJsonConverter* GetSettingsConverter() = 0;
+	virtual const AOENGINE::IJsonConverter* GetSettingsConverter() const = 0;
 
 public:
 

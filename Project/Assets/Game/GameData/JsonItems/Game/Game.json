@@ -1,4 +1,147 @@
 {
+    "environment": {
+        "postProcess": {
+            "effects": [
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "sampleCount": 0
+                    },
+                    "type": "RadialBlur"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "texelSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "type": "GlitchNoise"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "power": 0.800000011920929,
+                        "scale": 16.0
+                    },
+                    "type": "Vignette"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "edgeColor": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "threshold": 0.5,
+                        "uvTransform": {
+                            "rotate": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "translate": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        }
+                    },
+                    "type": "Dissolve"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "scale": 0.0
+                    },
+                    "type": "LuminanceOutline"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "edgeGain": 0.0
+                    },
+                    "type": "DepthOutline"
+                },
+                {
+                    "enabled": true,
+                    "parameters": {
+                        "bloomIntensity": 0.5,
+                        "blurHeight": {
+                            "sampleCount": 1
+                        },
+                        "blurWidth": {
+                            "sampleCount": 1
+                        },
+                        "brightnessThreshold": {
+                            "threshold": 0.5
+                        }
+                    },
+                    "type": "Bloom"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {},
+                    "type": "MotionBlur"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "size": 1
+                    },
+                    "type": "Smoothing"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "deviation": 1.0,
+                        "size": 1
+                    },
+                    "type": "GaussianFilter"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        }
+                    },
+                    "type": "Grayscale"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "exposure": 1.0
+                    },
+                    "type": "ToonMap"
+                }
+            ],
+            "version": 1
+        }
+    },
     "format": "AOENGINE_SCENE",
     "objects": [
         {
@@ -309,5 +452,5 @@
         }
     ],
     "sceneName": "Game",
-    "version": 1
+    "version": 2
 }

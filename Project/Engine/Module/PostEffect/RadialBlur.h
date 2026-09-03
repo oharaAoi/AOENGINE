@@ -115,6 +115,8 @@ public:
 public:
 	SaveSetting& GetSettings() { return saveSettings_; }
 	const SaveSetting& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 	BlurSetting GetBlurSetting() const { return setting_ ? *setting_ : BlurSetting{}; }
 	void SetBlurSetting(const BlurSetting& setting) { if (setting_) { *setting_ = setting; } }
 
