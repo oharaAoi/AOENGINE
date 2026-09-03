@@ -1240,6 +1240,9 @@
     <ClInclude Include="Game\Actor\Floor\DamageFloor.h">
       <Filter>Game\Actor\Floor</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h" />
+    <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
+    <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2117,5 +2120,8 @@
     <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp">
       <Filter>Game\Actor\Floor</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp" />
+    <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
+    <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
   </ItemGroup>
 </Project>

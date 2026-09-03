@@ -457,11 +457,13 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h" />
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h" />
     <ClInclude Include="Game\Actor\Floor\DamageFloor.h" />
+    <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h" />
     <ClInclude Include="Game\Actor\Player\Player.h" />
     <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -471,6 +473,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
     <ClInclude Include="Game\Stage\GridPos.h" />
     <ClInclude Include="Game\Stage\StageBackgrounds.h" />
     <ClInclude Include="Game\Stage\StageBlockField.h" />
@@ -755,10 +758,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp" />
     <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
@@ -766,6 +771,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />
     <ClCompile Include="Game\Stage\StageBlockField.cpp" />
     <ClCompile Include="Game\Stage\StageFactory.cpp" />
