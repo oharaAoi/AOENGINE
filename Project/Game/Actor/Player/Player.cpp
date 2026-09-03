@@ -1,6 +1,7 @@
 #include "Player.h"
 
 #include <algorithm>
+#include <cmath>
 
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
@@ -368,11 +369,24 @@ void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 {
 	const float horizontal = input_.GetHorizontal();
 
-	// 入力方向へmoveAccelerationで加速し、moveSpeedで頭打ちにする
-	const float targetSpeedX = horizontal * parameter_.moveSpeed;
-	const float currentSpeedX = rigidbody->GetVelocity().x;
-	const float maxDeltaSpeed = parameter_.moveAcceleration * deltaTime;
-	const float speedX = currentSpeedX + std::clamp(targetSpeedX - currentSpeedX, -maxDeltaSpeed, maxDeltaSpeed);
+	float speedX = 0.0f;
+	if (std::abs(horizontal) > parameter_.moveInputThreshold)
+	{
+		const float targetSpeedX = horizontal * parameter_.moveSpeed;
+		float currentSpeedX = rigidbody->GetVelocity().x;
+
+		// 左右切り替えの時はスピードを0からリセット
+		const bool isReversing = (targetSpeedX > 0.0f && currentSpeedX < 0.0f) ||
+			(targetSpeedX < 0.0f && currentSpeedX > 0.0f);
+		if (isReversing)
+		{
+			currentSpeedX = 0.0f;
+		}
+
+		// 入力がある間だけmoveAccelerationで加速し、moveSpeedで頭打ちにする
+		const float maxDeltaSpeed = parameter_.moveAcceleration * deltaTime;
+		speedX = currentSpeedX + std::clamp(targetSpeedX - currentSpeedX, -maxDeltaSpeed, maxDeltaSpeed);
+	}
 
 	// 移動反映
 	rigidbody->SetVelocityX(speedX);

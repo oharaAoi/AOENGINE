@@ -11,7 +11,7 @@
         "launchSpeed": 20.0,
         "launchWaitTime": 1.5,
         "maxFallSpeed": 45.0,
-        "moveAcceleration": 43.099998474121094,
+        "moveAcceleration": 27.200000762939453,
         "moveInputThreshold": 0.009999999776482582,
         "moveSpeed": 8.399999618530273,
         "riseGravity": 55.0,
