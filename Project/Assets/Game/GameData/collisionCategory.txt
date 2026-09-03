@@ -2,3 +2,4 @@ Default
 Block
 Player
 Wall
+DamageFloor
