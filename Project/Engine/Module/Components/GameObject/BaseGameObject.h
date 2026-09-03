@@ -49,6 +49,8 @@ public: // public method
 	void Draw() const override;
 	// 行列の更新
 	void UpdateMatrix();
+	void UpdateVerticalPhysics();
+	void ApplyCollisionPushback();
 	// 後から更新する処理
 	void PostUpdate() override;
 	// Gizumo表示
@@ -184,6 +186,7 @@ protected:
 	AOENGINE::Rigidbody* rigidbody_ = nullptr;
 
 	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f };
+	float pendingVerticalMove_ = 0.0f;
 
 	bool isAnimation_ = false;
 

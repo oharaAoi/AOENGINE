@@ -16,9 +16,14 @@ AOENGINE::ParticleManager* AOENGINE::ParticleManager::GetInstance() {
 }
 
 void ParticleManager::Finalize() {
-	emitterList_.clear();
+	retiredEmitters_.splice(retiredEmitters_.end(), emitterList_);
 	particleUpdater_.Finalize();
-	particleRenderer_ = nullptr;
+	if (particleRenderer_) { retiredRenderers_.push_back(std::move(particleRenderer_)); }
+}
+
+void ParticleManager::ReleaseRetiredResources() {
+	retiredEmitters_.clear();
+	retiredRenderers_.clear();
 }
 
 void ParticleManager::Debug_Gui() {

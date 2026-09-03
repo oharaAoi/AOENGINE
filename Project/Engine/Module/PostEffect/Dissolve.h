@@ -103,6 +103,8 @@ public:
 public: // accessor
 	SaveDissolveSetting& GetSettings() { return saveSettings_; }
 	const SaveDissolveSetting& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 
 	void SetUvTransform(const Math::SRT& srt) { saveSettings_.uvTransform = srt; }
 

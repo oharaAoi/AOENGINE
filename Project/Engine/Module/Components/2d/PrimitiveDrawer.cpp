@@ -26,7 +26,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// ↓Vertexの設定
 	// ---------------------------------------------------------------
 	// VertexBufferViewを作成する 
-	vertexBuffer_ = CreateBufferResource(device, sizeof(PrimitiveData) * kMaxLineCount);
+	vertexBuffer_ = CreateBufferResource(device, sizeof(PrimitiveData) * kMaxLineCount * kViewCount);
 	// リソースの先頭のアドレスから使う
 	vertexBufferView_.BufferLocation = vertexBuffer_->GetGPUVirtualAddress();
 	// 使用するリソースのサイズは頂点3つ分のサイズ
@@ -59,6 +59,9 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	wvpBuffer_ = CreateBufferResource(device, sizeof(Math::Matrix4x4) * kMaxLineCount);
 	wvpData_ = nullptr;
 	wvpBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&wvpData_));
+	// Line頂点はViewごとにCPUでclip座標へ変換する。Shader側の行列は恒等行列で固定し、
+	// 後から描画するEditor ViewがGame View用の行列を上書きしないようにする。
+	wvpData_[0] = Math::Matrix4x4::MakeUnit();
 	// SRVの設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
@@ -72,7 +75,7 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 	// 生成
 	device->CreateShaderResourceView(wvpBuffer_.Get(), &srvDesc, wvpSRV_.handleCPU);
 
-	thickLineVertexBuffer_ = CreateBufferResource(device, sizeof(ThickLineData) * kMaxThickLineVertexCount);
+	thickLineVertexBuffer_ = CreateBufferResource(device, sizeof(ThickLineData) * kMaxThickLineVertexCount * kViewCount);
 	thickLineVertexBufferView_.BufferLocation = thickLineVertexBuffer_->GetGPUVirtualAddress();
 	thickLineVertexBufferView_.SizeInBytes = UINT(sizeof(ThickLineData) * kMaxThickLineVertexCount);
 	thickLineVertexBufferView_.StrideInBytes = sizeof(ThickLineData);
@@ -80,6 +83,8 @@ void PrimitiveDrawer::Init(ID3D12Device* device) {
 
 	useIndex_ = 0;
 	thickLineVertexCount_ = 0;
+	lineRequests_.clear();
+	thickLineRequests_.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -91,91 +96,81 @@ void PrimitiveDrawer::Update() {
 	useIndex_ = 0;
 	preUseIndex_ = 0;
 	thickLineVertexCount_ = 0;
+	lineRequests_.clear();
+	thickLineRequests_.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 描画処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitiveDrawer::Draw(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color, const Math::Matrix4x4& vpMat) {
-	// 使用する頂点のインデックスの更新
-	size_t materialIndex = (useIndex_) - 1;
-
-	if (useIndex_ == 0) {
-		materialIndex = 0;
-	}
-
-	// 頂点の設定
-	primitiveData_[useIndex_].pos = { p1.x, p1.y, p1.z, 1 };
-	primitiveData_[useIndex_ + 1].pos = { p2.x, p2.y, p2.z, 1.0f };
-
-	// 色の設定
-	primitiveData_[useIndex_].color = color;
-	primitiveData_[useIndex_ + 1].color = color;
-
-	Math::Matrix4x4 mat1 = Math::Matrix4x4::MakeUnit();
-	Math::Matrix4x4 mat2 = Math::Matrix4x4::MakeUnit();
-
-	mat1 = Multiply(Multiply(mat1, Math::Vector3(p1.x, p1.y, p1.z).MakeTranslateMat()), vpMat);
-	mat2 = Multiply(Multiply(mat2, Math::Vector3(p2.x, p2.y, p2.z).MakeTranslateMat()), vpMat);
-
-	wvpData_[useIndex_] = vpMat;
-	wvpData_[useIndex_ + 1] = vpMat;
-	
-	useIndex_ += 2;
+void PrimitiveDrawer::Draw(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color,
+	LineView views, const Math::Matrix4x4* fixedVp) {
+	LineRequest request{ .start = p1, .end = p2, .color = color, .views = views };
+	if (fixedVp) { request.hasFixedVp = true; request.fixedVp = *fixedVp; }
+	lineRequests_.push_back(request);
 }
 
 void PrimitiveDrawer::DrawThick(const Math::Vector3& p1, const Math::Vector3& p2, const Color& color,
-	float thickness, const Math::Matrix4x4& vpMat) {
-	if (thickness <= 0.0f || thickLineVertexCount_ + kVertexCountThickLine > kMaxThickLineVertexCount) {
-		return;
-	}
-
-	const Math::Vector4 start = Math::Vector4(p1.x, p1.y, p1.z, 1.0f) * vpMat;
-	const Math::Vector4 end = Math::Vector4(p2.x, p2.y, p2.z, 1.0f) * vpMat;
-	const Math::Vector2 viewportSize(
-		static_cast<float>(WinApp::sClientWidth),
-		static_cast<float>(WinApp::sClientHeight));
-	const Math::Vector2 corners[kVertexCountThickLine] = {
-		{ 0.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, -0.5f },
-		{ 1.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, 0.5f }
-	};
-
-	for (uint32_t vertex = 0; vertex < kVertexCountThickLine; ++vertex) {
-		ThickLineData& data = thickLineData_[thickLineVertexCount_ + vertex];
-		data.start = start;
-		data.end = end;
-		data.color = color;
-		data.line = { corners[vertex].x, corners[vertex].y, thickness };
-		data.viewportSize = viewportSize;
-	}
-	thickLineVertexCount_ += kVertexCountThickLine;
+	float thickness, LineView views, const Math::Matrix4x4* fixedVp) {
+	if (thickness <= 0.0f) { return; }
+	LineRequest request{ .start = p1, .end = p2, .color = color, .thickness = thickness, .views = views };
+	if (fixedVp) { request.hasFixedVp = true; request.fixedVp = *fixedVp; }
+	thickLineRequests_.push_back(request);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ instance描画を行う
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList) {
-	uint32_t indeices = useIndex_ - preUseIndex_;
-	if (indeices > 0) {
+void PrimitiveDrawer::DrawCall(ID3D12GraphicsCommandList* commandList, LineView viewTarget, const Math::Matrix4x4& vpMat) {
+	const uint8_t viewBit = static_cast<uint8_t>(viewTarget);
+	const uint32_t viewIndex = viewTarget == LineView::Editor ? 1u : 0u;
+	const uint32_t lineBufferOffset = viewIndex * kMaxLineCount;
+	const uint32_t thickLineBufferOffset = viewIndex * kMaxThickLineVertexCount;
+	useIndex_ = 0;
+	for (LineRequest& request : lineRequests_) {
+		if ((static_cast<uint8_t>(request.views) & viewBit) == 0 || (request.drawnViews & viewBit) != 0 || useIndex_ + 2 > kMaxLineCount) { continue; }
+		const Math::Matrix4x4& matrix = request.hasFixedVp ? request.fixedVp : vpMat;
+		primitiveData_[lineBufferOffset + useIndex_] = { Math::Vector4(request.start, 1.0f) * matrix, request.color };
+		primitiveData_[lineBufferOffset + useIndex_ + 1] = { Math::Vector4(request.end, 1.0f) * matrix, request.color };
+		useIndex_ += 2;
+		request.drawnViews |= viewBit;
+	}
+	if (useIndex_ > 0) {
 		Pipeline* pso = Engine::SetPipeline(PSOType::Primitive, "Primitive_Line.json");
-		// コマンドリストの設定
-		commandList->IASetVertexBuffers(0, 1, &vertexBufferView_);
+		D3D12_VERTEX_BUFFER_VIEW view = vertexBufferView_;
+		view.BufferLocation += static_cast<UINT64>(lineBufferOffset) * sizeof(PrimitiveData);
+		commandList->IASetVertexBuffers(0, 1, &view);
 		commandList->IASetIndexBuffer(&indexBufferView_);
 		uint32_t roorIndex = pso->GetRootSignatureIndex("gTransformationMatrix");
 		commandList->SetGraphicsRootDescriptorTable(roorIndex, wvpSRV_.handleGPU);
-
-		// インデックスを使用して線を描画
-		commandList->DrawIndexedInstanced(indeices, indeices / 2, preUseIndex_, 0, 0);
-		preUseIndex_ = useIndex_;
+		commandList->DrawIndexedInstanced(useIndex_, 1, 0, 0, 0);
 	}
 
-	if (thickLineVertexCount_ == 0) {
-		return;
+	thickLineVertexCount_ = 0;
+	const Math::Vector2 corners[kVertexCountThickLine] = {
+		{ 0.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, -0.5f },
+		{ 1.0f, -0.5f }, { 0.0f, 0.5f }, { 1.0f, 0.5f }
+	};
+	for (LineRequest& request : thickLineRequests_) {
+		if ((static_cast<uint8_t>(request.views) & viewBit) == 0 || (request.drawnViews & viewBit) != 0 || thickLineVertexCount_ + kVertexCountThickLine > kMaxThickLineVertexCount) { continue; }
+		const Math::Matrix4x4& matrix = request.hasFixedVp ? request.fixedVp : vpMat;
+		const Math::Vector4 start = Math::Vector4(request.start, 1.0f) * matrix;
+		const Math::Vector4 end = Math::Vector4(request.end, 1.0f) * matrix;
+		for (uint32_t vertex = 0; vertex < kVertexCountThickLine; ++vertex) {
+			ThickLineData& data = thickLineData_[thickLineBufferOffset + thickLineVertexCount_ + vertex];
+			data = { start, end, request.color, { corners[vertex].x, corners[vertex].y, request.thickness },
+				{ static_cast<float>(WinApp::sClientWidth), static_cast<float>(WinApp::sClientHeight) } };
+		}
+		thickLineVertexCount_ += kVertexCountThickLine;
+		request.drawnViews |= viewBit;
 	}
+	if (thickLineVertexCount_ == 0) { return; }
 
 	Engine::SetPipeline(PSOType::Primitive, "Primitive_ThickLine.json");
-	commandList->IASetVertexBuffers(0, 1, &thickLineVertexBufferView_);
+	D3D12_VERTEX_BUFFER_VIEW view = thickLineVertexBufferView_;
+	view.BufferLocation += static_cast<UINT64>(thickLineBufferOffset) * sizeof(ThickLineData);
+	commandList->IASetVertexBuffers(0, 1, &view);
 	commandList->DrawInstanced(thickLineVertexCount_, 1, 0, 0);
 }

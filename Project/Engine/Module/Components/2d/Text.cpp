@@ -153,7 +153,7 @@ void Text::Save(const std::string& _group, const std::string& _key) {
 		saveParam_.transform.scale.y * scaleY
 								 });
 
-	saveParam_.isActive = GetIsActive();
+	saveParam_.isActive = IsSelfActive();
 	saveParam_.transform = GetTransform()->GetTransform();
 	saveParam_.text = text_;
 	saveParam_.fontPath = fontPath_;

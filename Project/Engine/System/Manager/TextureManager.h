@@ -62,6 +62,9 @@ public:
 	/// </summary>
 	void Finalize();
 
+	/// GPU完了後に、再読み込みで置き換えたTexture Resourceを解放する。
+	void ReleaseRetiredResources();
+
 	/// <summary>
 	/// Stackに入っているTextureをすべて読み込む
 	/// </summary>
@@ -209,6 +212,10 @@ private:
 
 	// TextureDataのコンテナ
 	std::unordered_map<std::string, TextureData> textureData_;
+
+	// CommandListが参照中の可能性があるため、再読み込みした旧Textureは
+	// フレーム終了時のGPU同期が完了するまでここで保持する。
+	std::vector<TextureData> retiredTextureData_;
 
 	// 読み込み予定のTexture
 	std::stack<TexturePath> loadStack_;

@@ -11,6 +11,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Render/Render.h"
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
@@ -40,8 +41,7 @@ void Player::Init(BaseGameObject* body)
 	if (BaseGameObject* object = GetGameObject())
 	{
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
-		if (object->GetRigidbody() == nullptr)
-		{
+		if(object->GetRigidbody() == nullptr){
 			object->SetPhysics();
 		}
 
@@ -59,10 +59,8 @@ void Player::Init(BaseGameObject* body)
 //  更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Update()
-{
-	if (!IsValid())
-	{
+void Player::Update(){
+	if(!IsValid()){
 		return;
 	}
 
@@ -94,7 +92,7 @@ void Player::Update()
 	};
 
 	// ジャンプ処理
-	jump_.Update(deltaTime, input_.IsJumpTriggered(), jumpParams);
+	jump_.Update(deltaTime,input_.IsJumpTriggered(),jumpParams);
 	rigidbody->SetVelocityY(jump_.GetVelocityY());
 
 	// 大ジャンプ中から降下中、ブロックの判定を再開する
@@ -117,8 +115,7 @@ void Player::Update()
 //  ブロックグループの接続受付・集合・打ち上げ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateBlockGroupConnect(float deltaTime)
-{
+void Player::UpdateBlockGroupConnect(float deltaTime){
 	const BlockGroupConnectState::Params connectParams{
 		parameter_.connectableTime,
 		parameter_.launchWaitTime,
@@ -133,9 +130,8 @@ void Player::UpdateBlockGroupConnect(float deltaTime)
 	context.launchTriggered = input_.IsLaunchTriggered();
 
 	// 先に前フレームまでの接続受付時間を消化してから、今フレームのジャンプで新しい受付を開始する
-	blockGroupConnectState_.Update(deltaTime, context, connectParams);
-	if (jump_.IsJumpStarted())
-	{
+	blockGroupConnectState_.Update(deltaTime,context,connectParams);
+	if(jump_.IsJumpStarted()){
 		blockGroupConnectState_.Begin();
 	}
 
@@ -147,8 +143,7 @@ void Player::UpdateBlockGroupConnect(float deltaTime)
 	};
 
 	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める
-	if (blockGroupConnectState_.IsGatherStarted())
-	{
+	if(blockGroupConnectState_.IsGatherStarted()){
 		BlockGroupLauncher::GatherRequest request{};
 		request.gatherPoint = blockGroupConnectState_.GetGatherPoint();
 
@@ -160,33 +155,71 @@ void Player::UpdateBlockGroupConnect(float deltaTime)
 			request.targets.push_back(BlockGroupLauncher::Target{ group.groupId, group.connectPosition });
 		}
 
-		blockGroupLauncher_.BeginGather(request, launcherParams);
+		blockGroupLauncher_.BeginGather(request,launcherParams);
 	}
 
 	// 専用タイマーが尽きるか打ち上げ入力が来たら上へ打ち上げる
-	if (blockGroupConnectState_.IsLaunchRequested())
-	{
+	if(blockGroupConnectState_.IsLaunchRequested()){
 		blockGroupLauncher_.Launch();
 	}
 
 	blockGroupLauncher_.Update(deltaTime);
+
+	DrawBlockGroupConnectLine();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  接続したブロックグループ同士を線で結ぶ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::DrawBlockGroupConnectLine() const{
+	// 集合・打ち上げ中はグループが StageBlockField の表から外れているため、
+	// BlockGroupLauncher 側が持つ座標を使って結ぶ
+	if(blockGroupLauncher_.IsActive()){
+		blockGroupLauncher_.DrawConnectLine(kConnectLineColor,6.f);
+		return;
+	}
+
+	// 接続受付中は StageBlockField からグループの中心を引いて結ぶ
+	if(!pBlockField_){
+		return;
+	}
+
+	const std::vector<BlockGroupConnectState::ConnectedGroup>& connectedGroups =
+		blockGroupConnectState_.GetConnectedGroups();
+
+	std::vector<Math::Vector3> points;
+	points.reserve(connectedGroups.size());
+	for(const BlockGroupConnectState::ConnectedGroup& group : connectedGroups){
+		Math::Vector3 center{};
+		if(!pBlockField_->TryGetGroupCenter(group.groupId,center)){
+			continue;
+		}
+		center.z += 0.5f;
+		points.push_back(center);
+	}
+
+	if(points.size() < 2){
+		return;
+	}
+
+	for(size_t index = 1; index < points.size(); ++index){
+ 		AOENGINE::Render::DrawThickLine(points[index - 1],points[index],kConnectLineColor,6.f);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  ブロックグループの接続
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::TryConnectBlockGroup(int groupId)
-{
-	if (!blockGroupConnectState_.TryAdd(groupId))
-	{
+bool Player::TryConnectBlockGroup(int groupId){
+	if(!blockGroupConnectState_.TryAdd(groupId)){
 		return false;
 	}
 
 	// 接続できたグループは色を変えて、どれを繋いだかが見て分かるようにする
-	if (pBlockField_)
-	{
-		pBlockField_->SetGroupColor(groupId, kConnectedGroupColor);
+	if(pBlockField_){
+		pBlockField_->SetGroupColor(groupId,kConnectedGroupColor);
 	}
 
 	return true;
@@ -205,7 +238,7 @@ void Player::ApplyDamageFloorKnockback(float power)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  大ジャンプ中のBlock当たり判定の無効化・安全な再開
+//  大ジャンプ中のBlock当たり判定の無効化・再開
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::SetBlockCollisionEnabled(bool enabled)
@@ -342,9 +375,7 @@ void Player::UpdateMove(Rigidbody* rigidbody)
 	if (horizontal > parameter_.moveInputThreshold)
 	{
 		facing_ = 1.0f;
-	}
-	else if (horizontal < -parameter_.moveInputThreshold)
-	{
+	} else if(horizontal < -parameter_.moveInputThreshold){
 		facing_ = -1.0f;
 	}
 }
@@ -353,16 +384,14 @@ void Player::UpdateMove(Rigidbody* rigidbody)
 //  接地判定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::ResolveGround()
-{
+void Player::ResolveGround(){
 	bool isSupported = false;
 
-	// Blockからの押し戻しで足場に乗ったかを見る
-	if (ResolvePushback())
-	{
-		isSupported = true;
 	}
 
+	// Blockからの押し戻しで足場に乗ったかを見る
+	if(ResolvePushback()){
+		isSupported = true;
 	if (isSupported)
 	{
 		// 降下タイミングでブロックの当たり判定再開
@@ -372,10 +401,10 @@ void Player::ResolveGround()
 		}
 		// 着地したらダメージ床による飛行も終わり
 		damageFloorAirborne_ = false;
-		jump_.Land();
-	}
-	else
+	if (isSupported)
 	{
+		jump_.Land();
+	} else{
 		// 足場から外れたら落下させる
 		jump_.LeaveGround();
 	}
@@ -385,11 +414,10 @@ void Player::ResolveGround()
 //  押し戻しの反映
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::ResolvePushback()
-{
-	// 押し戻し量はCollisionManagerが求め、座標へはBaseGameObject::PostUpdate()が反映している。
-	// ここでは前フレームに押し戻された向きを見てジャンプ状態だけを合わせる。
+bool Player::ResolvePushback(){
 	BaseCollider* collider = GetCollider(kColliderTag);
+	if (!collider)
+	{
 	if (!collider)
 	{
 		return false;
@@ -397,14 +425,12 @@ bool Player::ResolvePushback()
 
 	const Math::Vector3& pushback = collider->GetPushBackDirection();
 
-	if (pushback.y > kPushbackThreshold)
-	{
+	if(pushback.y > kPushbackThreshold){
 		// 下から押し戻された = 足場の上に乗っている
 		return true;
 	}
 
-	if (pushback.y < -kPushbackThreshold)
-	{
+	if(pushback.y < -kPushbackThreshold){
 		// 上から押し戻された = 頭をぶつけた
 		jump_.HitCeiling();
 	}
@@ -414,11 +440,11 @@ bool Player::ResolvePushback()
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  速度の取得
-///////////////////////////////////////////////////////////////////////////////////////////////
-
 Math::Vector3 Player::GetVelocity() const
 {
 	const Rigidbody* rigidbody = GetRigidbody();
+	if (!rigidbody)
+	{
 	if (!rigidbody)
 	{
 		return CVector3::ZERO;
@@ -428,16 +454,14 @@ Math::Vector3 Player::GetVelocity() const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  デバッグ表示
-///////////////////////////////////////////////////////////////////////////////////////////////
-
 void Player::Debug_Gui()
 {
 	const char* bodyState = "null";
 	if (IsValid())
 	{
+	if (IsValid())
+	{
 		bodyState = "resolved";
-	}
-
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
@@ -447,27 +471,26 @@ void Player::Debug_Gui()
 	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
 	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
 	ImGui::Text("launchGroups: %d", blockGroupLauncher_.GetGroupCount());
-
+	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
 	if (WorldTransform* transform = GetTransform())
 	{
+	if (WorldTransform *transform = GetTransform())
+	{
 		Math::Vector3 position = transform->GetTranslate();
-		if (ImGui::DragFloat3("position", &position.x, 0.1f))
-		{
+		if(ImGui::DragFloat3("position",&position.x,0.1f)){
 			transform->SetTranslate(position);
 		}
-	}
-
 	if (Rigidbody* rigidbody = GetRigidbody())
 	{
+	if (Rigidbody *rigidbody = GetRigidbody())
+	{
 		Math::Vector3 velocity = rigidbody->GetVelocity();
-		if (ImGui::DragFloat3("velocity", &velocity.x, 0.1f))
-		{
+		if(ImGui::DragFloat3("velocity",&velocity.x,0.1f)){
 			rigidbody->SetVelocity(velocity);
 		}
 	}
 
-	if (ImGui::CollapsingHeader("Parameter"))
-	{
+	if(ImGui::CollapsingHeader("Parameter")){
 		// 調整 + Save/Load
 		parameter_.Debug_Gui();
 	}

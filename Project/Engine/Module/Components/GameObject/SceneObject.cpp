@@ -38,11 +38,15 @@ void SceneObject::SetName(const std::string& name) {
 }
 
 bool SceneObject::IsActive() const {
-	return isActive_;
+	return isActiveSelf_ && (parent_ == nullptr || parent_->IsActive());
+}
+
+bool SceneObject::IsSelfActive() const {
+	return isActiveSelf_;
 }
 
 void SceneObject::SetActive(bool active) {
-	isActive_ = active;
+	isActiveSelf_ = active;
 }
 
 void SceneObject::SetPrefabSource(const std::string& prefabName) {
@@ -54,12 +58,17 @@ void SceneObject::ClearPrefabSource() {
 }
 
 void AOENGINE::SceneObject::AddChild(SceneObject* child) {
-	if (child) {
+	if (!child || child == this) { return; }
+	if (std::find(children_.begin(), children_.end(), child) == children_.end()) {
 		children_.push_back(child);
 	}
+	child->parent_ = this;
 }
 
 void AOENGINE::SceneObject::DeleteChild(SceneObject* child) {
+	if (child && child->parent_ == this) {
+		child->parent_ = nullptr;
+	}
 	children_.erase(
 		std::remove(children_.begin(), children_.end(), child),
 		children_.end()
@@ -67,5 +76,10 @@ void AOENGINE::SceneObject::DeleteChild(SceneObject* child) {
 }
 
 void AOENGINE::SceneObject::ClearChildren() {
+	for (SceneObject* child : children_) {
+		if (child && child->parent_ == this) {
+			child->parent_ = nullptr;
+		}
+	}
 	children_.clear();
 }

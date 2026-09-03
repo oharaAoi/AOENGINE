@@ -55,8 +55,17 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+	// ボスがLauncherに衝突した時、ダメージを与えるコールバック
+	bossBlockLauncherCallBacks_.SetBoss(boss_.get());
+	bossBlockLauncherCallBacks_.SetLauncher(player_->GetBlockGroupLauncherRef());
+	bossBlockLauncherCallBacks_.Init();
+	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
 
 	// コールバック関数の作成
+	callBacks_.Init(collisionManager_.get(), player_.get());
+
+	// RetryUI
+	retryUI_ = std::make_unique<RetryUI>();
 	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get());
 }
 
@@ -81,6 +90,10 @@ void GameScene::OnPlayStart()
 	// Player初期化
 	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
 	player_->SetBlockField(&stageBlockField_);
+
+	// UIの初期化
+	retryUI_->Init();
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +102,10 @@ void GameScene::OnPlayStart()
 
 void GameScene::Update()
 {
+	// ココにPlayerが生存しているかどうかを渡す
+	if (RetrySelect(false)) {
+		return;
+	}
 
 	// プレイヤー
 	if (player_)
@@ -105,7 +122,8 @@ void GameScene::Update()
 	}
 
 	// 背景
-	if (backgrounds_) {
+	if (backgrounds_)
+	{
 		backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
 	}
 
@@ -117,12 +135,14 @@ void GameScene::Update()
 		boss_->Update(viewProjection);
 	}
 
-	if (damageFloor_ && followCamera_) {
+	if (damageFloor_ && followCamera_)
+	{
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		damageFloor_->Update(viewProjection);
 	}
 
+	
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集
 	ImGui::Begin("GameScene Parameters");
@@ -179,6 +199,8 @@ void GameScene::Draw() const
 		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix());
+		// FollowCameraで登録されたLineをGame Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 
 #ifdef _DEVELOPMENT
 
@@ -190,6 +212,8 @@ void GameScene::Draw() const
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+		// DebugCameraで登録されたLineだけをEditor Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 #endif
 	}
 
@@ -218,6 +242,23 @@ void GameScene::ClearStage()
 	playerBlockCallBacks_.ClearBlocks();
 	stageSegment_.UnregisterFromWorld(&stageBlockField_);
 	stageBlockField_.Clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// リトライの処理
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool GameScene::RetrySelect(bool isPlayerAlive) {
+	if (!isPlayerAlive) { return false; }
+
+	// リトライの際の処理
+	RetryItem currentItem = retryUI_->Update(isPlayerAlive);
+	if (currentItem == RetryItem::Retry) {
+		nextSceneType_ = SceneType::Game;
+	} else if (currentItem == RetryItem::Title) {
+		nextSceneType_ = SceneType::Title;
+	}
+	return true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

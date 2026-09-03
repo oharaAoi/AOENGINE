@@ -9,6 +9,7 @@
 #include "Engine/Module/Components/Rigging/Skinning.h"
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Render/LineView.h"
 
 namespace AOENGINE {
 
@@ -141,6 +142,7 @@ public:
 	/// <param name="p2">: 終点</param>
 	/// <param name="color">: 色</param>
 	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color);
+	static void DrawLine(const Math::Vector3& p1, const Math::Vector3& p2, const AOENGINE::Color& color, LineView views);
 
 	/// <summary>
 	/// 従来の1pixel線とは別に、画面上の太さをpixel単位で指定して線を描画する。
@@ -149,6 +151,8 @@ public:
 		const AOENGINE::Color& color, float thickness, const Math::Matrix4x4& vpMat);
 	static void DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
 		const AOENGINE::Color& color, float thickness);
+	static void DrawThickLine(const Math::Vector3& p1, const Math::Vector3& p2,
+		const AOENGINE::Color& color, float thickness, LineView views);
 
 	/// <summary>
 	/// 専用シェーダーでY=0平面に無限グリッドを描画する。

@@ -69,6 +69,38 @@ void CollisionManager::CheckAllCollision() {
 	}
 }
 
+void CollisionManager::CheckHorizontalCollision() {
+	std::list<BaseCollider*>& colliderList = pColliderCollector_->GetColliderList();
+	std::unordered_map<BaseCollider*, Math::Vector3> horizontalCorrections;
+	auto keepLargestAxisCorrection = [&horizontalCorrections](BaseCollider* collider, const Math::Vector3& correction) {
+		Math::Vector3& accumulated = horizontalCorrections[collider];
+		if (std::abs(correction.x) > std::abs(accumulated.x)) { accumulated.x = correction.x; }
+		if (std::abs(correction.z) > std::abs(accumulated.z)) { accumulated.z = correction.z; }
+	};
+	for (auto iterA = colliderList.begin(); iterA != colliderList.end(); ++iterA) {
+		BaseCollider* colliderA = *iterA;
+		if (!colliderA->GetIsActive()) { continue; }
+		for (auto iterB = std::next(iterA); iterB != colliderList.end(); ++iterB) {
+			BaseCollider* colliderB = *iterB;
+			if (!colliderB->GetIsActive()) { continue; }
+			if (colliderA->GetCategoryName() != "Default" && colliderB->GetCategoryName() != "Default" &&
+				!HasBit(colliderA->GetCollisionMaskBit(), colliderB->GetLayerBit())) { continue; }
+			if (!CheckCollision(colliderA->GetShape(), colliderB->GetShape()) ||
+				colliderA->GetIsTrigger() || colliderB->GetIsTrigger()) { continue; }
+			if (!colliderA->GetIsStatic()) {
+				keepLargestAxisCorrection(colliderA, PenetrationResolutionHorizontal(colliderA->GetShape(), colliderB->GetShape()));
+			}
+			if (!colliderB->GetIsStatic()) {
+				keepLargestAxisCorrection(colliderB, PenetrationResolutionHorizontal(colliderB->GetShape(), colliderA->GetShape()));
+			}
+		}
+	}
+	// 縦に連続した壁へ同時に当たっても、同じ横補正を壁の個数分加算しない。
+	for (const auto& [collider, correction] : horizontalCorrections) {
+		collider->SetPushBackDirection(correction);
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　コライダー2つの衝突判定と応答
 /////////////////////////////////////////////////////////////////////////////////////////////////

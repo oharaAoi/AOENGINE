@@ -125,3 +125,25 @@ Math::Vector3 PenetrationResolution(const std::variant<Math::Sphere, Math::AABB,
 
 	return pushbackVector; 
 }
+
+Math::Vector3 PenetrationResolutionHorizontal(
+	const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape1,
+	const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape2) {
+	if (const auto* aabb1 = std::get_if<Math::AABB>(&shape1)) {
+		if (const auto* aabb2 = std::get_if<Math::AABB>(&shape2)) {
+			const float overlapX = std::min(aabb1->max.x, aabb2->max.x) - std::max(aabb1->min.x, aabb2->min.x);
+			const float overlapY = std::min(aabb1->max.y, aabb2->max.y) - std::max(aabb1->min.y, aabb2->min.y);
+			const float overlapZ = std::min(aabb1->max.z, aabb2->max.z) - std::max(aabb1->min.z, aabb2->min.z);
+			if (overlapX <= 0.0f || overlapY <= 0.0f || overlapZ <= 0.0f) { return CVector3::ZERO; }
+			const Math::Vector3 center1 = (aabb1->min + aabb1->max) * 0.5f;
+			const Math::Vector3 center2 = (aabb2->min + aabb2->max) * 0.5f;
+			if (overlapX <= overlapZ) {
+				return Math::Vector3(center1.x < center2.x ? -overlapX : overlapX, 0.0f, 0.0f);
+			}
+			return Math::Vector3(0.0f, 0.0f, center1.z < center2.z ? -overlapZ : overlapZ);
+		}
+	}
+	Math::Vector3 correction = PenetrationResolution(shape1, shape2);
+	correction.y = 0.0f;
+	return correction;
+}

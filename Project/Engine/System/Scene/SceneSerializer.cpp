@@ -4,6 +4,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Engine/Lib/Json/JsonSerializer.h"
+#include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -11,6 +12,7 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Scene/SceneObjectSerializer.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
 
 using json = nlohmann::json;
 using namespace AOENGINE;
@@ -92,11 +94,13 @@ void ApplyPrefabInstanceTransform(SceneObject& object, const json& data) {
 
 }
 
-json SceneSerializer::Serialize(const std::string& sceneName, const SceneRenderer& renderer) {
+json SceneSerializer::Serialize(const std::string& sceneName, const SceneRenderer& renderer,
+	const PostProcess& postProcess) {
 	json root = {
 		{ "format", "AOENGINE_SCENE" },
-		{ "version", 1 },
+		{ "version", 2 },
 		{ "sceneName", sceneName },
+		{ "environment", { { "postProcess", postProcess.Serialize() } } },
 		{ "objects", json::array() }
 	};
 
@@ -110,7 +114,7 @@ json SceneSerializer::Serialize(const std::string& sceneName, const SceneRendere
 			{ "id", object->GetSceneId() },
 			{ "type", object->IsPrefabInstanceRoot() ? "PrefabInstance" : object->GetSceneTypeName() },
 			{ "name", object->GetName() },
-			{ "active", object->IsActive() },
+			{ "active", object->IsSelfActive() },
 			{ "data", object->IsPrefabInstanceRoot()
 				? SerializePrefabInstance(*object) : SceneObjectSerializer::Serialize(*object) }
 		};
@@ -124,9 +128,21 @@ json SceneSerializer::Serialize(const std::string& sceneName, const SceneRendere
 	return root;
 }
 
-bool SceneSerializer::Deserialize(const json& root, SceneRenderer& renderer, Canvas2d& canvas) {
-	if (!root.is_object() || root.value("format", "") != "AOENGINE_SCENE" || root.value("version", 0) != 1) {
+bool SceneSerializer::Deserialize(const json& root, SceneRenderer& renderer, Canvas2d& canvas,
+	PostProcess& postProcess) {
+	if (!root.is_object()) { return false; }
+	const int version = root.value("version", 0);
+	if (root.value("format", "") != "AOENGINE_SCENE" ||
+		(version != 1 && version != 2)) {
 		return false;
+	}
+
+	postProcess.ResetToDefaults();
+	if (root.contains("environment") && root.at("environment").is_object()) {
+		const json& environment = root.at("environment");
+		if (environment.contains("postProcess") && !postProcess.Deserialize(environment.at("postProcess"))) {
+			return false;
+		}
 	}
 
 	canvas.SetSceneWorld(&renderer.GetSceneWorld());
@@ -170,11 +186,20 @@ bool SceneSerializer::Deserialize(const json& root, SceneRenderer& renderer, Can
 }
 
 bool SceneSerializer::Save(const std::string& folderPath, const std::string& fileName,
-	const SceneRenderer& renderer) {
-	return JsonSerializer::Save(folderPath, fileName, Serialize(fileName, renderer));
+	const SceneRenderer& renderer, const PostProcess& postProcess) {
+	return JsonSerializer::Save(folderPath, fileName, Serialize(fileName, renderer, postProcess));
 }
 
 bool SceneSerializer::Load(const std::string& folderPath, const std::string& fileName,
-	SceneRenderer& renderer, Canvas2d& canvas) {
-	return Deserialize(JsonSerializer::Load(folderPath, fileName), renderer, canvas);
+	SceneRenderer& renderer, Canvas2d& canvas, PostProcess& postProcess) {
+	const json root = JsonSerializer::Load(folderPath, fileName);
+	const bool hasEmbeddedSettings = root.contains("environment") &&
+		root.at("environment").is_object() && root.at("environment").contains("postProcess");
+	if (!Deserialize(root, renderer, canvas, postProcess)) { return false; }
+	if (!hasEmbeddedSettings) {
+		// version 1のシーンは従来ファイルを一度読み、次回保存時に埋め込み形式へ移行する。
+		JsonItems::GetInstance()->LoadDesignationPath(folderPath);
+		postProcess.Load(fileName + "_");
+	}
+	return true;
 }

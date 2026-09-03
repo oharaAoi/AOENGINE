@@ -31,7 +31,6 @@ private:
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;
 	ScreenWorldPlaneAnchor screenAnchor_;
-	BossCollision collision_;
 
 	Math::Vector3 position_{};
 	float currentHp_ = 0.0f;
@@ -41,7 +40,5 @@ public: // accessor
 	float GetMaxHp() const { return parameter_.hp; }
 	float GetCurrentHp() const { return currentHp_; }
 	const Math::Vector3& GetPosition() const { return position_; }
-
-	BossCollision& GetCollision() { return collision_; }
 
 };

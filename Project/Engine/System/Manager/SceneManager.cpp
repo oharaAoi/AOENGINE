@@ -209,11 +209,15 @@ void AOENGINE::SceneManager::SaveScene() {
 #endif
 	const std::string folderPath = AOENGINE::JsonItems::GetDirectoryPath() + scene_->GetSceneName() + "/";
 	const std::string& sceneName = scene_->GetSceneName();
-	if (!AOENGINE::SceneSerializer::Save(folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance())) {
+	if (!AOENGINE::SceneSerializer::Save(folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance(),
+		*Engine::GetPostProcess())) {
 		AOENGINE::Logger::Log("[Scene][Save] Failed: " + (std::filesystem::path(folderPath) / (sceneName + ".json")).string() + "\n");
 	}
-	scene_->SaveSceneEffect();
 }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓ Sceneの情報を読み込む
+//////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool AOENGINE::SceneManager::LoadScene() {
 	const std::string& sceneName = scene_->GetSceneName();
@@ -226,10 +230,9 @@ bool AOENGINE::SceneManager::LoadScene() {
 	}
 
 	const bool loaded = AOENGINE::SceneSerializer::Load(
-		folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance(), *Engine::GetCanvas2d());
-	if (loaded) {
-		scene_->LoadSceneEffect();
-	} else {
+		folderPath, sceneName, *AOENGINE::SceneRenderer::GetInstance(), *Engine::GetCanvas2d(),
+		*Engine::GetPostProcess());
+	if (!loaded) {
 		AOENGINE::Logger::Log("[Scene][Load] Failed to deserialize: " + scenePath.string() + "\n");
 	}
 	return loaded;

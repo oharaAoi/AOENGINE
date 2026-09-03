@@ -66,7 +66,7 @@ json PrefabSerializer::Serialize(
 			{ "parentId", parentIt != localIds.end() ? json(parentIt->second) : json(nullptr) },
 			{ "type", object->GetSceneTypeName() },
 			{ "name", object->GetName() },
-			{ "active", object->IsActive() },
+			{ "active", object->IsSelfActive() },
 			{ "data", SceneObjectSerializer::Serialize(*object) }
 		});
 	}

@@ -15,6 +15,8 @@ struct Timer {
 	/// <returns>目標時間まで達していないならTrueを返す</returns>
 	bool Run(float _deltaTime);
 
+	void Reset();
+
 	float timer_ = 0;
 	float targetTime_ = 0;
 

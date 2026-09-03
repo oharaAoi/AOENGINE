@@ -27,6 +27,6 @@ void TitleScene::OnPlayStart() {
 
 void TitleScene::Update() {
 	if (AOENGINE::Input::GetInstance()->GetKey(DIK_SPACE)) {
-		nextSceneType_ = SceneType::Test;
+		nextSceneType_ = SceneType::Game;
 	}
 }

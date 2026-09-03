@@ -2,4 +2,6 @@ Default
 Block
 Player
 Wall
+LaunchedBlock
+Boss
 DamageFloor

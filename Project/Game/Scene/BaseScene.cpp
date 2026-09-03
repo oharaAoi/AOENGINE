@@ -86,6 +86,9 @@ void BaseScene::UpdateProcess() {
 	this->Update();
 	skybox_->Update();
 	pSceneRenderer_->Update();
+	collisionManager_->CheckHorizontalCollision();
+	pSceneRenderer_->ApplyCollisionPushback();
+	pSceneRenderer_->UpdateVerticalPhysics();
 	collisionManager_->CheckAllCollision();
 
 	camera3d_->Update();
@@ -127,6 +130,8 @@ void BaseScene::Draw() const {
 		Engine::BeginSceneView(SceneViewType::Game, false);
 		pSceneRenderer_->DrawSceneObjects(
 			camera3d_->GetViewMatrix() * camera3d_->GetProjectionMatrix());
+		// Game Cameraで登録されたLineを、Game ViewのRenderTargetへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 
 #ifdef _DEVELOPMENT
 		// Scene View: DebugCameraから同じSceneWorldを別RenderTargetへ描画する。
@@ -138,25 +143,13 @@ void BaseScene::Draw() const {
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
 			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+		// Editor Cameraで登録されたLineだけをEditor Viewへ描画する。
+		AOENGINE::Render::PrimitiveDrawCall();
 #endif
 	}
 
 	// PostProcess/PostDrawはGame Viewに対して実行されるため、Game Cameraへ戻しておく。
 	Engine::ActivateSceneView(SceneViewType::Game);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ シーンを保存する
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseScene::SaveSceneEffect() {
-	Engine::GetPostProcess()->Save(this->sceneName_ + "_");
-}
-
-void BaseScene::LoadSceneEffect() {
-	std::string path = AOENGINE::JsonItems::GetDirectoryPath() + this->sceneName_ + "/";
-	AOENGINE::JsonItems::GetInstance()->LoadDesignationPath(path);
-	Engine::GetPostProcess()->Load(this->sceneName_ + "_");
 }
 
 void BaseScene::RegisterCamera() {

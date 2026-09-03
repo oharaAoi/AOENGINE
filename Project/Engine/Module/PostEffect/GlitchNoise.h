@@ -102,6 +102,8 @@ public:
 public: // accessor
 	SaveSettings& GetSettings() { return saveSettings_; }
 	const SaveSettings& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 	float GetNoiseTime() const { return noiseTime_; }
 	float GetStrength() const { return setting_ ? setting_->strength : 0.0f; }
 	float GetCurrentTime() const { return setting_ ? setting_->time : 0.0f; }

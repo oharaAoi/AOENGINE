@@ -71,16 +71,6 @@ public:
 	void EditorUpdateProcess();
 
 	/// <summary>
-	/// シーンの情報を保存する
-	/// </summary>
-	void SaveSceneEffect();
-
-	/// <summary>
-	/// シーンの情報を読み込む
-	/// </summary>
-	void LoadSceneEffect();
-
-	/// <summary>
 	/// Cameraをシーンに登録する
 	/// </summary>
 	void RegisterCamera();

@@ -40,10 +40,14 @@ public:
 	void Finalize();
 	/// <summary>外部所有Objectの破棄前に、描画参照とSceneWorld登録を解除する。</summary>
 	void ClearSceneObjects();
+	/// <summary>GPU同期済みの遅延破棄Objectを解放する。</summary>
+	void ReleaseRetiredObjects();
 	// 初期化処理
 	void Init();
 	// 更新処理
 	void Update();
+	void UpdateVerticalPhysics();
+	void ApplyCollisionPushback();
 	/// <summary>Edit/Pause中に時間を進めず描画データを更新します。</summary>
 	void EditorUpdate();
 	// 後から行う更新

@@ -7,30 +7,10 @@
                 "animator": false,
                 "components": [
                     {
-                        "drag": 0.0,
-                        "gravity": false,
-                        "gravityAccel": [
-                            0.0,
-                            -9.8100004196167,
-                            0.0
-                        ],
-                        "moveForce": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "type": "Rigidbody",
-                        "velocity": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
                         "active": true,
-                        "category": "Block",
+                        "category": "Boss",
                         "collisionMask": [
-                            "Player"
+                            "LaunchedBlock"
                         ],
                         "localPosition": [
                             0.0,
@@ -38,14 +18,10 @@
                             0.0
                         ],
                         "penetrationPrevention": false,
-                        "size": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
+                        "radius": 2.0999999046325684,
                         "static": true,
                         "trigger": false,
-                        "type": "AABBCollider"
+                        "type": "SphereCollider"
                     }
                 ],
                 "enableShadow": true,
@@ -55,8 +31,8 @@
                     {
                         "albedoTexture": "white.png",
                         "color": [
-                            1.0,
-                            0.550000011920929,
+                            0.8500000238418579,
+                            0.15000000596046448,
                             0.15000000596046448,
                             1.0
                         ],
@@ -87,8 +63,8 @@
                         "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            0.550000011920929,
-                            0.15000000596046448,
+                            1.0,
+                            1.0,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
@@ -115,7 +91,7 @@
                         ]
                     }
                 ],
-                "model": "Block.obj",
+                "model": "sphere.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -123,23 +99,23 @@
                     1.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    2.0,
+                    2.0,
+                    2.0
                 ],
                 "translate": [
                     0.0,
-                    0.0,
+                    12.0,
                     0.0
                 ]
             },
             "id": 1,
-            "name": "Block",
+            "name": "Boss",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Boss",
     "rootId": 1,
     "version": 1
 }

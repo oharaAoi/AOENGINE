@@ -10,6 +10,7 @@
 #include "Engine/System/Editor/Window/Item/CustomParameterWindow.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistration.h"
 #include "Engine/System/Scene/SceneSerializer.h"
+#include "Engine/Core/Engine.h"
 
 using namespace AOENGINE;
 
@@ -58,6 +59,7 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 	stepRequested_ = false;
 	editSceneSnapshot_ = nlohmann::json();
 	editRuntimeHandles_.clear();
+	playStartSceneType_.reset();
 	GameTimer::SetTimeScale(0.0f);
 
 	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
@@ -344,8 +346,12 @@ void EditorWindows::EnterPlayMode() {
 	}
 
 	// Stop時にPlay中の変更を破棄できるよう、保存した編集状態をメモリにも保持する。
-	editSceneSnapshot_ = SceneSerializer::Serialize("PlayModeSnapshot", *sceneRenderer_);
+	editSceneSnapshot_ = SceneSerializer::Serialize(
+		"PlayModeSnapshot", *sceneRenderer_, *Engine::GetPostProcess());
 	editRuntimeHandles_ = sceneRenderer_->GetObjectHandles();
+	if (pSceneManager_) {
+		playStartSceneType_ = pSceneManager_->GetCurrentSceneType();
+	}
 	playState_ = EditorPlayState::Playing;
 	stepRequested_ = false;
 	GameTimer::SetTimeScale(1.0f);
@@ -358,6 +364,13 @@ void EditorWindows::ExitPlayMode() {
 	if (playState_ == EditorPlayState::Edit) { return; }
 	GameTimer::SetTimeScale(0.0f);
 	stepRequested_ = false;
+	if (pSceneManager_ && playStartSceneType_ &&
+		pSceneManager_->GetCurrentSceneType() != *playStartSceneType_) {
+		// SnapshotはPlay開始時のScene用なので、先にそのSceneへ戻す。
+		// Editへ切り替えておき、SetChange()がOnPlayStartを再実行しないようにする。
+		playState_ = EditorPlayState::Edit;
+		pSceneManager_->SetChange(*playStartSceneType_);
+	}
 	if (sceneRenderer_ && canvas2d_ && !editSceneSnapshot_.is_null()) {
 		// Play中に新たに生成されたRuntimeOnlyオブジェクトも破棄する。
 		for (const ObjectHandle& handle : sceneRenderer_->GetObjectHandles()) {
@@ -367,7 +380,8 @@ void EditorWindows::ExitPlayMode() {
 				sceneRenderer_->DestroyObject(handle);
 			}
 		}
-		SceneSerializer::Deserialize(editSceneSnapshot_, *sceneRenderer_, *canvas2d_);
+		SceneSerializer::Deserialize(
+			editSceneSnapshot_, *sceneRenderer_, *canvas2d_, *Engine::GetPostProcess());
 	}
 	// PostProcessなどのSystemObjectは復元時にもSceneWorld内に残る。
 	// 管理ハンドルは維持し、選択などPlay中の一時操作状態だけを破棄する。
@@ -375,6 +389,7 @@ void EditorWindows::ExitPlayMode() {
 	playState_ = EditorPlayState::Edit;
 	editSceneSnapshot_ = nlohmann::json();
 	editRuntimeHandles_.clear();
+	playStartSceneType_.reset();
 }
 
 void EditorWindows::TogglePause() {

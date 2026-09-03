@@ -73,6 +73,7 @@ public:
 	/// すべての当たり判定チェック
 	/// </summary>
 	void CheckAllCollision();
+	void CheckHorizontalCollision();
 
 	/// <summary>
 	/// コライダー2つの衝突判定と応答

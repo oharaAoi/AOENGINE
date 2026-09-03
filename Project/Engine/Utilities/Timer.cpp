@@ -16,3 +16,7 @@ bool Timer::Run(float _deltaTime) {
     }
     return true;
 }
+
+void AOENGINE::Timer::Reset() {
+    timer_ = 0.f;
+}

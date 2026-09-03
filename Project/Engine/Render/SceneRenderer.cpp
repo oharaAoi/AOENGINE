@@ -82,6 +82,11 @@ void SceneRenderer::Finalize() {
 	if (gpuParticleManager_) {
 		gpuParticleManager_->Finalize();
 	}
+
+	// 通常フレームではEngine::EndFrame()のGPU同期後に回収されるが、
+	// 終了処理ではこの後にEndFrameが存在しない。ここで明示的に回収し、
+	// D3D12 Deviceより先にScene/Particle配下のResourceを解放する。
+	ReleaseRetiredObjects();
 }
 
 void SceneRenderer::ClearSceneObjects() {
@@ -122,6 +127,32 @@ void SceneRenderer::Update() {
 
 	sceneWorld_.Update();
 	RemoveInvalidRenderEntries();
+}
+
+void SceneRenderer::ReleaseRetiredObjects() {
+	sceneWorld_.ReleaseRetiredObjects();
+	if (particleManager_) { particleManager_->ReleaseRetiredResources(); }
+	if (gpuParticleManager_) { gpuParticleManager_->ReleaseRetiredResources(); }
+}
+
+void SceneRenderer::UpdateVerticalPhysics() {
+	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+		SceneObject* object = sceneWorld_.FindObject(handle);
+		if (!object || !object->IsActive()) { continue; }
+		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
+			gameObject->UpdateVerticalPhysics();
+		}
+	}
+}
+
+void SceneRenderer::ApplyCollisionPushback() {
+	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
+		SceneObject* object = sceneWorld_.FindObject(handle);
+		if (!object || !object->IsActive()) { continue; }
+		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
+			gameObject->ApplyCollisionPushback();
+		}
+	}
 }
 
 void SceneRenderer::EditorUpdate() {
@@ -490,7 +521,7 @@ BaseGameObject* SceneRenderer::DuplicateObject(BaseGameObject& source, const std
 	if (source.GetTransform()) {
 		duplicate->GetTransform()->SetSRT(source.GetTransform()->GetSRT());
 	}
-	duplicate->SetActive(source.IsActive());
+	duplicate->SetActive(source.IsSelfActive());
 	duplicate->SetIsReflection(source.GetIsReflection());
 	duplicate->SetIsRendering(source.GetIsRendering());
 	duplicate->SetEnableShadow(source.GetEnableShadow());

@@ -340,6 +340,12 @@ void Engine::EndFrame() {
 	render_->ResetShadowMap();
 
 	dxCommon_->End();
+	// Close・Execute・GPU同期が完了したため、このフレーム中に破棄要求された
+	// SceneObjectと、その配下のD3D12 Resourceをここで安全に解放できる。
+	AOENGINE::SceneRenderer::GetInstance()->ReleaseRetiredObjects();
+	// Text再構築やTexture再読み込みで置き換えた旧Resourceも、同じく
+	// CommandListとGPUが参照し終えたこのタイミングで解放する。
+	textureManager_->ReleaseRetiredResources();
 	// buffferのサイズを作り変える
 	PendingResize();
 	audio_->Update();
@@ -425,7 +431,6 @@ void Engine::RenderFrame() {
 	BlendFinalRender(Sprite2d_RenderTarget, editorSceneFrame_.get());
 #endif
 
-	// guiの描画
 #ifdef _DEVELOPMENT
 	editorWindows_->Update();
 	// Editor内の補助CameraがRender状態を変更しても、Game用GPUバッファを描画時の状態へ戻す。

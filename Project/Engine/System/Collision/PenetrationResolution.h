@@ -26,3 +26,7 @@ Math::Vector3 PenetrationResolution(const Math::AABB& aabb1, const Math::AABB& a
 
 Math::Vector3 PenetrationResolution(const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape1,
                               const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape2);
+
+Math::Vector3 PenetrationResolutionHorizontal(
+	const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape1,
+	const std::variant<Math::Sphere, Math::AABB, Math::OBB, Math::Line>& shape2);
