@@ -31,7 +31,8 @@
                         "category": "Player",
                         "collisionMask": [
                             "Block",
-                            "Wall"
+                            "Wall",
+                            "DamageFloor"
                         ],
                         "localPosition": [
                             0.0,
@@ -50,6 +51,8 @@
                     }
                 ],
                 "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "white.png",
@@ -97,7 +100,7 @@
                 ],
                 "translate": [
                     0.0,
-                    3.0,
+                    2.009280204772949,
                     0.0
                 ]
             },

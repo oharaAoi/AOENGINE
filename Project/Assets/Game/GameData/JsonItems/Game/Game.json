@@ -5,7 +5,29 @@
             "active": true,
             "data": {
                 "animator": false,
-                "components": [],
+                "components": [
+                    {
+                        "active": true,
+                        "category": "DamageFloor",
+                        "collisionMask": [
+                            "Player"
+                        ],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": false,
+                        "type": "AABBCollider"
+                    }
+                ],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
