@@ -132,6 +132,7 @@ void GameScene::Update()
 		boss_->Update(viewProjection);
 	}
 
+	// ダメージ床の更新
 	if (damageFloor_ && followCamera_)
 	{
 		const Math::Matrix4x4 viewProjection =
