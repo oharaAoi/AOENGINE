@@ -3,7 +3,6 @@
         "connectableTime": 1.0,
         "fallGravity": 30.0,
         "gatherSpeed": 12.0,
-        "groundHeight": 0.0,
         "groundKeepSpeed": 1.0,
         "hangTime": 0.11999999731779099,
         "jumpPower": 16.0,
@@ -12,8 +11,9 @@
         "launchSpeed": 20.0,
         "launchWaitTime": 1.5,
         "maxFallSpeed": 45.0,
+        "moveAcceleration": 43.099998474121094,
         "moveInputThreshold": 0.009999999776482582,
-        "moveSpeed": 9.800000190734863,
+        "moveSpeed": 8.399999618530273,
         "riseGravity": 55.0,
         "stickDeadZone": 0.20000000298023224
     }

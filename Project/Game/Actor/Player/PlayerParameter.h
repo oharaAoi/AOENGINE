@@ -10,7 +10,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 {
 
 	// 左右移動
-	float moveSpeed;		  // 左右移動スピード
+	float moveSpeed;		  // 左右移動の最大速度
+	float moveAcceleration;  // 左右移動の加速度
 	float moveInputThreshold; // 向き変更とみなす入力の下限
 
 	// ジャンプ
@@ -39,6 +40,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		SetName("playerParameter");
 
 		AddParameter("Move Speed", moveSpeed, 0.1f, 0.0f, 100.0f);
+		AddParameter("Move Acceleration", moveAcceleration, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Move Input Threshold", moveInputThreshold, 0.001f, 0.0f, 1.0f);
 		AddParameter("Jump Power", jumpPower, 0.1f, 0.0f, 200.0f);
 		AddParameter("Hang Time", hangTime, 0.01f, 0.0f, 5.0f);
@@ -61,6 +63,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	{
 		return AOENGINE::JsonBuilder(id)
 			.Add("moveSpeed", moveSpeed)
+			.Add("moveAcceleration", moveAcceleration)
 			.Add("moveInputThreshold", moveInputThreshold)
 			.Add("jumpPower", jumpPower)
 			.Add("hangTime", hangTime)
@@ -81,6 +84,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	void FromJson(const json &jsonData) override
 	{
 		Convert::fromJson(jsonData, "moveSpeed", moveSpeed);
+		Convert::fromJson(jsonData, "moveAcceleration", moveAcceleration);
 		Convert::fromJson(jsonData, "moveInputThreshold", moveInputThreshold);
 		Convert::fromJson(jsonData, "jumpPower", jumpPower);
 		Convert::fromJson(jsonData, "hangTime", hangTime);

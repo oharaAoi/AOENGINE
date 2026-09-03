@@ -80,7 +80,7 @@ void Player::Update(){
 	input_.Update(parameter_.stickDeadZone);
 
 	// 移動更新
-	UpdateMove(rigidbody);
+	UpdateMove(rigidbody, deltaTime);
 
 	// ジャンプパラメータセット
 	const PlayerJump::Params jumpParams{
@@ -364,12 +364,18 @@ Rigidbody* Player::GetRigidbody() const
 //  左右移動
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateMove(Rigidbody* rigidbody)
+void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 {
 	const float horizontal = input_.GetHorizontal();
 
+	// 入力方向へmoveAccelerationで加速し、moveSpeedで頭打ちにする
+	const float targetSpeedX = horizontal * parameter_.moveSpeed;
+	const float currentSpeedX = rigidbody->GetVelocity().x;
+	const float maxDeltaSpeed = parameter_.moveAcceleration * deltaTime;
+	const float speedX = currentSpeedX + std::clamp(targetSpeedX - currentSpeedX, -maxDeltaSpeed, maxDeltaSpeed);
+
 	// 移動反映
-	rigidbody->SetVelocityX(horizontal * parameter_.moveSpeed);
+	rigidbody->SetVelocityX(speedX);
 	rigidbody->SetVelocityZ(0.0f);
 
 	// 向き切り替え

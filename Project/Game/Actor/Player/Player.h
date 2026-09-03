@@ -38,7 +38,7 @@ private:
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>
 	AOENGINE::Rigidbody* GetRigidbody() const;
 
-	void UpdateMove(AOENGINE::Rigidbody* rigidbody);
+	void UpdateMove(AOENGINE::Rigidbody* rigidbody, float deltaTime);
 	/// <summary>接続受付・集合・打ち上げの一連の流れを進める。</summary>
 	void UpdateBlockGroupConnect(float deltaTime);
 	/// <summary>接続したブロックグループ同士を線で結んで描画する。</summary>
