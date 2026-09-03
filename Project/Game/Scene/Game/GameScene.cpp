@@ -57,7 +57,7 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
 
 	// コールバック関数の作成
-	callBacks_.Init(collisionManager_.get(), player_.get());
+	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get());
 }
 
 void GameScene::OnPlayStart()
@@ -99,6 +99,8 @@ void GameScene::Update()
 	// フォローカメラ
 	if (followCamera_)
 	{
+		// ダメージ床で打ち上げられてから着地するまでは、そのままプレイヤーへ常に追従する
+		followCamera_->SetContinuousFollow(player_ && player_->IsDamageFloorAirborne());
 		followCamera_->Update();
 	}
 

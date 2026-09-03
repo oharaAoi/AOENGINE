@@ -26,6 +26,8 @@ public:
 		float smoothTime;				// スクロールのイージング
 		float maxSpeed;					// スクロールの最大速度
 		float scrollHeight;				// 1回のスクロールで上昇する高さ
+		float bigJumpSmoothTime;		// 大ジャンプ中に直接追従する時のイージング
+		float bigJumpMaxSpeed;			// 大ジャンプ中に直接追従する時の最大速度
 		Math::Vector2 shakeFrequency;	// シェイクの揺れ周波数
 
 		Parameter() : CustomParameterSet("FollowCamera") {
@@ -37,6 +39,8 @@ public:
 			AddParameter("Scroll Smooth Time", smoothTime, 0.01f, 0.001f, 5.0f);
 			AddParameter("Scroll Max Speed", maxSpeed, 1.0f, 0.0f, 100000.0f);
 			AddParameter("Scroll Height", scrollHeight, 0.1f, 0.0f, 100000.0f);
+			AddParameter("Big Jump Smooth Time", bigJumpSmoothTime, 0.01f, 0.001f, 5.0f);
+			AddParameter("Big Jump Max Speed", bigJumpMaxSpeed, 1.0f, 0.0f, 100000.0f);
 			AddParameter("Shake Frequency", shakeFrequency, 0.1f, 0.0f, 500.0f);
 		}
 
@@ -47,6 +51,8 @@ public:
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
 				.Add("scrollHeight", scrollHeight)
+				.Add("bigJumpSmoothTime", bigJumpSmoothTime)
+				.Add("bigJumpMaxSpeed", bigJumpMaxSpeed)
 				.Add("shakeFrequency", shakeFrequency)
 				.Build();
 		}
@@ -57,6 +63,8 @@ public:
 			Convert::fromJson(jsonData, "smoothTime", smoothTime);
 			Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
 			Convert::fromJson(jsonData, "scrollHeight", scrollHeight);
+			Convert::fromJson(jsonData, "bigJumpSmoothTime", bigJumpSmoothTime);
+			Convert::fromJson(jsonData, "bigJumpMaxSpeed", bigJumpMaxSpeed);
 			Convert::fromJson(jsonData, "shakeFrequency", shakeFrequency);
 		}
 	};
@@ -98,6 +106,12 @@ private:
 	bool isScrolling_ = false;
 	static constexpr float kScrollArriveThreshold = 0.01f;
 
+	// ダメージ床のノックバックで上に飛んでいる間、外部(GameScene)からtrueが渡され続ける
+	bool continuousFollowRequested_ = false;
+	// 実際に直接追従モードとして動いているか。着地(=リクエストがfalseに戻る)しても
+	// カメラが追いつくまではtrueのまま維持し、追いついてから段階スクロールへ戻す
+	bool continuousFollowActive_ = false;
+
 	// シェイク
 	float shakeTime_ = 0.0f;
 	float shakeTimer_ = 0.0f;
@@ -113,5 +127,9 @@ public: // accessor
 	void SetTargetName(const std::string& name) { targetName_ = name; }
 	void SetTarget(AOENGINE::BaseGameObject* target) { target_ = target; }
 	void SetShake(float time, float strength);
+
+	// true の間は段階スクロールをやめてプレイヤーへ直接イージング追従する。
+	// false に戻っても、カメラが実際に追いつききるまでは直接追従を継続する
+	void SetContinuousFollow(bool enable) { continuousFollowRequested_ = enable; }
 
 };

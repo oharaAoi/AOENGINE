@@ -76,6 +76,12 @@ void PlayerJump::HitCeiling() {
 	ChangeState(State::Falling);
 }
 
+void PlayerJump::Knockback(float power) {
+	// 普通のジャンプと同じ流れを、強い初速で割り込んで開始するだけ
+	velocityY_ = power;
+	ChangeState(State::Rising);
+}
+
 void PlayerJump::ChangeState(State next) {
 	// State切り替え
 	state_ = next;

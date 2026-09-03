@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Game/Actor/Player/PlayerParameter.h"
@@ -8,10 +9,11 @@
 #include "Game/Stage/BlockGroupLauncher.h"
 
 namespace AOENGINE {
-class Rigidbody;
+	class Rigidbody;
 }
 
 class StageBlockField;
+class Block;
 
 /// <summary>
 /// プレイヤークラス
@@ -36,12 +38,26 @@ private:
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>
 	AOENGINE::Rigidbody* GetRigidbody() const;
 
+	// プレイヤー移動
 	void UpdateMove(AOENGINE::Rigidbody* rigidbody);
+
 	/// <summary>接続受付・集合・打ち上げの一連の流れを進める。</summary>
 	void UpdateBlockGroupConnect(float deltaTime);
 	void ResolveGround();
+
 	/// <summary>Colliderの押し戻し方向から足場に乗っているかを判定する。</summary>
 	bool ResolvePushback();
+
+	/// <summary>大ジャンプ中はBlockとの当たり判定だけを外す</summary>
+	void SetBlockCollisionEnabled(bool enabled);
+
+	/// <summary>自分のColliderと現在重なっているBlockを列挙する</summary>
+	std::vector<Block*> GetOverlappingBlocks() const;
+
+	// ブロックの当たり判定を再開する
+	void ResumeBlockCollision();
+	// 埋まってしまうかもしれないブロックの当たり判定を切っとく
+	void UpdateIgnoredBlocks();
 
 private:
 
@@ -60,8 +76,19 @@ private:
 	// 最後に向いた左右方向
 	float facing_ = 1.0f;
 
+	// ダメージ床で打ち上げられてから着地するまでtrue
+	bool damageFloorAirborne_ = false;
+	// 今回の大ジャンプで、落下開始時のBlock判定再開をもう済ませたか
+	bool blockCollisionResumed_ = false;
+	// 直前フレームのジャンプ状態
+	PlayerJump::State previousJumpState_ = PlayerJump::State::Grounded;
+	// ブロックとの当たり判定を無効化するやつ
+	std::vector<Block*> ignoredBlocks_;
+
 	// 自分のCollider category名
 	static inline const std::string kColliderTag = "Player";
+	// 大ジャンプ中に無視するCollider category名
+	static inline const std::string kBlockCategoryName = "Block";
 	// 押し戻しを接地・天井とみなす閾値
 	static constexpr float kPushbackThreshold = 0.0001f;
 
@@ -74,6 +101,11 @@ public: // accessor
 
 	// 着地したブロックグループを接続対象へ追加する。追加できたグループは色が変わる
 	bool TryConnectBlockGroup(int groupId);
+
+	// ダメージ床に当たった時のノックバックを開始する
+	void ApplyDamageFloorKnockback(float power);
+	// ダメージ床で打ち上げられてから着地するまでの間か
+	bool IsDamageFloorAirborne() const { return damageFloorAirborne_; }
 
 	// 集合・打ち上げでグループを引き当てるための連結グループ表を設定する(非所有)
 	void SetBlockField(StageBlockField* field);

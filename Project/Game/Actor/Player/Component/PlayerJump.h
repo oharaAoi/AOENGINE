@@ -37,6 +37,8 @@ public:
 	void LeaveGround();
 	// 上昇中に頭をぶつけた
 	void HitCeiling();
+	// ダメージ床によるノックバックを開始する
+	void Knockback(float power);
 
 private:
 	std::size_t ToIndex(State state) const { return static_cast<std::size_t>(state); }

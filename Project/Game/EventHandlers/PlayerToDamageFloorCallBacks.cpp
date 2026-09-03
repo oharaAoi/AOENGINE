@@ -1,5 +1,6 @@
 #include "PlayerToDamageFloorCallBacks.h"
 
+#include "Game/Actor/Floor/DamageFloor.h"
 
 void PlayerToDamageFloorCallBacks::Init() {
 	SetCallBacks();
@@ -7,8 +8,12 @@ void PlayerToDamageFloorCallBacks::Init() {
 }
 
 void PlayerToDamageFloorCallBacks::CollisionEnter(AOENGINE::BaseCollider* const , AOENGINE::BaseCollider* const ) {
-	// ココでPlayerのノックバック処理を呼び出す
+	// ノックバック中はPlayer側のColliderを無効化
+	if (!pPlayer_ || !pDamageFloor_) {
+		return;
+	}
 
+	pPlayer_->ApplyDamageFloorKnockback(pDamageFloor_->GetKnockbackPower());
 }
 
 void PlayerToDamageFloorCallBacks::CollisionStay(AOENGINE::BaseCollider* const , AOENGINE::BaseCollider* const ) {

@@ -7,6 +7,8 @@
 // game
 #include "Game/Actor/Player/Player.h"
 
+class DamageFloor;
+
 class PlayerToDamageFloorCallBacks :
 	public AOENGINE::BaseCollisionCallBacks {
 public: // constructor
@@ -26,10 +28,12 @@ public: // public method
 public: // accessor
 
 	void SetPlayer(Player* player) { pPlayer_ = player; }
+	void SetDamageFloor(DamageFloor* damageFloor) { pDamageFloor_ = damageFloor; }
 
 private: // private variable
 
 	Player* pPlayer_ = nullptr;
+	DamageFloor* pDamageFloor_ = nullptr;
 	AOENGINE::CollisionManager* pCollisionManager_;
 
 };

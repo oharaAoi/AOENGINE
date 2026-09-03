@@ -10,6 +10,8 @@
 #include "Game/EventHandlers/PlayerToDamageFloorCallBacks.h"
 #include "Game/Actor/Player/Player.h"
 
+class DamageFloor;
+
 /// <summary>
 /// 衝突判定をまとめたクラス
 /// </summary>
@@ -21,7 +23,7 @@ public: // constructor
 
 public: // public method
 
-	void Init(AOENGINE::CollisionManager* collisionManager, Player* player);
+	void Init(AOENGINE::CollisionManager* collisionManager, Player* player, DamageFloor* damageFloor);
 
 private: // private variable
 

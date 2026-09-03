@@ -19,6 +19,7 @@ struct DamageFloorParameter :
 	float worldZ = 0.0f;
 	float damage = 1.0f;
 	Math::Vector3 hitSize{ 20.0f, 1.0f, 2.0f };
+	float knockbackPower = 40.0f; // ノックバックで与える上向き初速の強さ
 
 	DamageFloorParameter() : CustomParameterSet("Damage Floor") {
 		SetGroupName("DamageFloor");
@@ -27,6 +28,7 @@ struct DamageFloorParameter :
 		AddParameter("World Z", worldZ, 0.1f);
 		AddParameter("Damage", damage, 1.0f, 0.0f, 10000.0f);
 		AddParameter("Hit Size (half)", hitSize, 0.1f);
+		AddParameter("Knockback Power", knockbackPower, 0.1f, 0.0f, 1000.0f);
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -35,6 +37,7 @@ struct DamageFloorParameter :
 			.Add("worldZ", worldZ)
 			.Add("damage", damage)
 			.Add("hitSize", hitSize)
+			.Add("knockbackPower", knockbackPower)
 			.Build();
 	}
 
@@ -43,6 +46,7 @@ struct DamageFloorParameter :
 		Convert::fromJson(data, "worldZ", worldZ);
 		Convert::fromJson(data, "damage", damage);
 		Convert::fromJson(data, "hitSize", hitSize);
+		Convert::fromJson(data, "knockbackPower", knockbackPower);
 	}
 };
 
@@ -65,6 +69,7 @@ public: // public method
 public: // accessor
 
 	float GetDamage() const { return parameter_.damage; }
+	float GetKnockbackPower() const { return parameter_.knockbackPower; }
 	const Math::Vector3& GetPosition() const { return position_; }
 
 private:

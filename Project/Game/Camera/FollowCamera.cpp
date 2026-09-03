@@ -92,6 +92,33 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		return;
 	}
 
+	// リクエストが来ている間は直接追従モードに入る
+	if (continuousFollowRequested_) {
+		continuousFollowActive_ = true;
+	}
+
+	if (continuousFollowActive_) {
+		// ダメージ床のノックバックで飛んでいる間は、プレイヤーへ直接イージングで追従する
+		cameraTargetY_ = targetPos.y;
+
+		Math::Vector3 followTarget = smoothedTarget_;
+		followTarget.y = cameraTargetY_;
+
+		//smoothedTargetの計算
+		smoothedTarget_ = SmoothDamp(
+			smoothedTarget_, followTarget, followVelocity_,
+			parameter_.bigJumpSmoothTime, parameter_.bigJumpMaxSpeed, deltaTime);
+
+		// リクエストが終わっていて、かつ実際に追いつききったら通常モードへ戻す
+		const bool caughtUp = std::abs(targetPos.y - smoothedTarget_.y) < kScrollArriveThreshold;
+		if (!continuousFollowRequested_ && caughtUp) {
+			// スクロール終わり
+			continuousFollowActive_ = false;
+			isScrolling_ = false;
+		}
+		return;
+	}
+
 	// スクロール中はスクロール判定しない
 	if (!isScrolling_) {
 		const Math::Matrix4x4 viewProjection = GetViewMatrix() * GetProjectionMatrix();

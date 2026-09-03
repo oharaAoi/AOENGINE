@@ -31,7 +31,6 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float launchLifeTime = 3.0f;  // 打ち上げてから制御を手放すまでの時間
 
 	// その他
-	float groundHeight;	 // 仮の地面の高さ
 	float stickDeadZone; // 左スティックのデッドゾーン
 
 	PlayerParameter() : CustomParameterSet("Player")
@@ -55,7 +54,6 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Launch Accel",launchAccel,0.1f,0.0f,100.0f);
 		AddParameter("Launch Life Time",launchLifeTime,0.01f,0.0f,10.0f);
 
-		AddParameter("Ground Height", groundHeight, 0.1f);
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}
 
@@ -76,7 +74,6 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("launchSpeed", launchSpeed)
 			.Add("launchAccel", launchAccel)
 			.Add("launchLifeTime", launchLifeTime)
-			.Add("groundHeight", groundHeight)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
 	}
@@ -97,7 +94,6 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "launchSpeed", launchSpeed);
 		Convert::fromJson(jsonData, "launchAccel", launchAccel);
 		Convert::fromJson(jsonData, "launchLifeTime", launchLifeTime);
-		Convert::fromJson(jsonData, "groundHeight", groundHeight);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
 };

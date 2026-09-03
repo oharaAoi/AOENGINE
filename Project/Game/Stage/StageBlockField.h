@@ -85,6 +85,22 @@ public:
 	static Math::Vector3 GridToWorld(const GridPos& pos);
 
 	/// <summary>
+	/// ワールド座標をグリッド座標へ変換する(GridToWorldの逆変換)。
+	/// </summary>
+	/// <param name="worldPos">ワールド座標</param>
+	/// <returns>グローバルグリッド座標</returns>
+	static GridPos WorldToGrid(const Math::Vector3& worldPos);
+
+	/// <summary>
+	/// 指定したワールド空間のAABB範囲(min~max)と重なるグリッドマスに置かれた
+	/// ブロックを列挙する。範囲は高々数マスを想定した簡易実装(全ブロック走査はしない)。
+	/// </summary>
+	/// <param name="worldMin">範囲の最小座標</param>
+	/// <param name="worldMax">範囲の最大座標</param>
+	/// <returns>重なっているブロック(非所有ポインタ)の配列</returns>
+	std::vector<Block*> GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
+
+	/// <summary>
 	/// 指定したグループに属する全ブロックの色を変える。
 	/// 接続されたグループを見た目で分かるようにする用途に使う。
 	/// </summary>
