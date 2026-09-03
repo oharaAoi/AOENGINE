@@ -44,14 +44,17 @@ void GameScene::Init()
 	player_ = std::make_unique<Player>();
 	followCamera_ = std::make_unique<FollowCamera>();
 
-	backgrounds_ = std::make_unique<StageBackgrounds>();
 	boss_ = std::make_unique<Boss>();
+
+	// 背景
+	backgrounds_ = std::make_unique<StageBackgrounds>();
+	// ダメージ床
+	damageFloor_ = std::make_unique<DamageFloor>();
 
 	// 着地したブロックのグループをPlayerへ渡すコールバックを衝突ペアへ登録する
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
-	damageFloor_ = std::make_unique<DamageFloor>();
 }
 
 void GameScene::OnPlayStart()
@@ -62,9 +65,11 @@ void GameScene::OnPlayStart()
 	player_->Init(ResolvePlayerBody());
 	// ボス初期化
 	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
+	// ダメージ床の初期化
 	damageFloor_->Init(FindSceneObject<AOENGINE::BaseGameObject>("DamageFloor"));
 	// カメラ初期化
 	followCamera_->Init();
+	// 背景の初期化
 	backgrounds_->Init(&stageBlockField_, &stageSegment_);
 
 	ClearStage();
@@ -95,7 +100,9 @@ void GameScene::Update()
 	}
 
 	// 背景
-	backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
+	if (backgrounds_) {
+		backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
+	}
 
 	// ボスの更新
 	if (boss_ && followCamera_)
