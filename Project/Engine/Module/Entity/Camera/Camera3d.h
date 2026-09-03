@@ -24,5 +24,6 @@ public:
 
 private:
 
+	CameraShakeRequest shakeRequest_;
 };
 

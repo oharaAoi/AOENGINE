@@ -3,6 +3,7 @@
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/GameObject/SceneObject.h"
+#include "Engine/Module/Entity/Camera/Component/CameraShake.h"
 
 /// <summary>
 /// BaseとなるCamera
@@ -71,11 +72,18 @@ public:	// accessor method
 	const Math::Matrix4x4 GetVPVMatrix() const;
 	const Math::Vector3 GetWorldPosition() const;
 
+	void PlayShake(const CameraShakeRequest& request) { cameraShake_.Play(request); }
+	void StopShake(bool immediate = true) { cameraShake_.Stop(immediate); }
+	bool IsShaking() const { return cameraShake_.IsPlaying(); }
+	const CameraShakeResult& GetShakeResult() const { return cameraShake_.GetResult(); }
+
 protected:
 
 	Parameter parameter_;
 
 	Math::QuaternionSRT transform_;
+	Math::QuaternionSRT renderTransform_;
+	CameraShake cameraShake_;
 
 	Math::Matrix4x4 cameraMatrix_;
 	Math::Matrix4x4 projectionMatrix_;

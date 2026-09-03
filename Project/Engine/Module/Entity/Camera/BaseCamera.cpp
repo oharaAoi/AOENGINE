@@ -2,6 +2,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/Math/MyMatrix.h"
+#include "Engine/Lib/GameTimer.h"
 
 BaseCamera::~BaseCamera() {Finalize();}
 void BaseCamera::Finalize() {}
@@ -17,9 +18,10 @@ void BaseCamera::Init() {
 	transform_.scale = Math::Vector3(1, 1, 1);
 	transform_.rotate = parameter_.rotate;
 	transform_.translate = parameter_.translate;
+	renderTransform_ = transform_;
 
 	// worldの生成
-	cameraMatrix_ = transform_.MakeAffine();
+	cameraMatrix_ = renderTransform_.MakeAffine();
 
 	viewMatrix_ = Inverse(cameraMatrix_);
 	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
@@ -39,10 +41,16 @@ void BaseCamera::Update() {
 	previousViewMatrix_ = viewMatrix_;
 	previousProjectionMatrix_ = projectionMatrix_;
 
-	cameraMatrix_ = transform_.MakeAffine();
+	cameraShake_.Update(AOENGINE::GameTimer::DeltaTime());
+	renderTransform_ = transform_;
+	const CameraShakeResult& shake = cameraShake_.GetResult();
+	renderTransform_.translate += transform_.rotate.Rotate(shake.positionOffset);
+	renderTransform_.rotate = (transform_.rotate * shake.rotationOffset).Normalize();
+
+	cameraMatrix_ = renderTransform_.MakeAffine();
 	viewMatrix_ = Inverse(cameraMatrix_);
 
-	billBordMat_ = transform_.rotate.MakeMatrix();
+	billBordMat_ = renderTransform_.rotate.MakeMatrix();
 
 	projectionMatrix_ = Math::Matrix4x4::MakePerspectiveFov(fovY_, windowWidth / windowHeight, near_, far_);
 	viewportMatrix_ = Math::Matrix4x4::MakeViewport(0, 0, windowWidth, windowHeight, 0, 1);
@@ -51,7 +59,7 @@ void BaseCamera::Update() {
 void BaseCamera::ApplyToRender() const {
 	AOENGINE::Render::SetViewProjection(viewMatrix_, projectionMatrix_, previousViewMatrix_, previousProjectionMatrix_);
 	AOENGINE::Render::SetEyePos(GetWorldPosition());
-	AOENGINE::Render::SetCameraRotate(transform_.rotate);
+	AOENGINE::Render::SetCameraRotate(renderTransform_.rotate);
 	AOENGINE::Render::SetVpvpMatrix(GetVpvpMatrix());
 }
 

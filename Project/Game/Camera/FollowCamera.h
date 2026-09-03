@@ -28,7 +28,6 @@ public:
 		float scrollHeight;				// 1回のスクロールで上昇する高さ
 		float bigJumpSmoothTime;		// 大ジャンプ中に直接追従する時のイージング
 		float bigJumpMaxSpeed;			// 大ジャンプ中に直接追従する時の最大速度
-		Math::Vector2 shakeFrequency;	// シェイクの揺れ周波数
 
 		Parameter() : CustomParameterSet("FollowCamera") {
 			SetGroupName("Camera");
@@ -41,7 +40,6 @@ public:
 			AddParameter("Scroll Height", scrollHeight, 0.1f, 0.0f, 100000.0f);
 			AddParameter("Big Jump Smooth Time", bigJumpSmoothTime, 0.01f, 0.001f, 5.0f);
 			AddParameter("Big Jump Max Speed", bigJumpMaxSpeed, 1.0f, 0.0f, 100000.0f);
-			AddParameter("Shake Frequency", shakeFrequency, 0.1f, 0.0f, 500.0f);
 		}
 
 		json ToJson(const std::string& id) const override {
@@ -53,7 +51,6 @@ public:
 				.Add("scrollHeight", scrollHeight)
 				.Add("bigJumpSmoothTime", bigJumpSmoothTime)
 				.Add("bigJumpMaxSpeed", bigJumpMaxSpeed)
-				.Add("shakeFrequency", shakeFrequency)
 				.Build();
 		}
 
@@ -65,7 +62,6 @@ public:
 			Convert::fromJson(jsonData, "scrollHeight", scrollHeight);
 			Convert::fromJson(jsonData, "bigJumpSmoothTime", bigJumpSmoothTime);
 			Convert::fromJson(jsonData, "bigJumpMaxSpeed", bigJumpMaxSpeed);
-			Convert::fromJson(jsonData, "shakeFrequency", shakeFrequency);
 		}
 	};
 
@@ -86,7 +82,6 @@ private:
 	void ResolveTarget();
 
 	void FollowTarget(float deltaTime);
-	void UpdateShake(float deltaTime);
 
 private:
 
@@ -112,11 +107,8 @@ private:
 	// カメラが追いつくまではtrueのまま維持し、追いついてから段階スクロールへ戻す
 	bool continuousFollowActive_ = false;
 
-	// シェイク
-	float shakeTime_ = 0.0f;
-	float shakeTimer_ = 0.0f;
-	float shakeStrength_ = 0.0f;
-	Math::Vector3 shakeOffset_{};
+	// カメラシェイクのリクエスト
+	CameraShakeRequest shakeRequest_;
 
 public: // accessor
 

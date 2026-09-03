@@ -272,6 +272,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Entity\Camera\BaseCamera.h" />
     <ClInclude Include="Engine\Module\Entity\Camera\Camera2d.h" />
     <ClInclude Include="Engine\Module\Entity\Camera\Camera3d.h" />
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShake.h" />
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.h" />
     <ClInclude Include="Engine\Module\Entity\Camera\DebugCamera.h" />
     <ClInclude Include="Engine\Module\Geometry\GeometryFactory.h" />
     <ClInclude Include="Engine\Module\Geometry\Polygon\CubeGeometry.h" />
@@ -594,6 +596,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Entity\Camera\BaseCamera.cpp" />
     <ClCompile Include="Engine\Module\Entity\Camera\Camera2d.cpp" />
     <ClCompile Include="Engine\Module\Entity\Camera\Camera3d.cpp" />
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShake.cpp" />
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.cpp" />
     <ClCompile Include="Engine\Module\Entity\Camera\DebugCamera.cpp" />
     <ClCompile Include="Engine\Module\Geometry\GeometryFactory.cpp" />
     <ClCompile Include="Engine\Module\Geometry\Polygon\CubeGeometry.cpp" />
