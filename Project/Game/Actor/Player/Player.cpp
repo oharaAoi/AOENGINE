@@ -22,7 +22,8 @@ namespace
 {
 	// 接続されたブロックグループに付ける色
 	constexpr AOENGINE::Color kConnectedGroupColor{ 1.0f, 0.55f, 0.15f, 1.0f };
-
+	// 接続したブロックグループ同士を結ぶ線の色
+	constexpr AOENGINE::Color kConnectLineColor{ 1.0f, 0.9f, 0.2f, 1.0f };
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -387,11 +388,11 @@ void Player::UpdateMove(Rigidbody* rigidbody)
 void Player::ResolveGround(){
 	bool isSupported = false;
 
-	}
-
 	// Blockからの押し戻しで足場に乗ったかを見る
 	if(ResolvePushback()){
 		isSupported = true;
+	}
+
 	if (isSupported)
 	{
 		// 降下タイミングでブロックの当たり判定再開
@@ -401,8 +402,6 @@ void Player::ResolveGround(){
 		}
 		// 着地したらダメージ床による飛行も終わり
 		damageFloorAirborne_ = false;
-	if (isSupported)
-	{
 		jump_.Land();
 	} else{
 		// 足場から外れたら落下させる
@@ -416,8 +415,6 @@ void Player::ResolveGround(){
 
 bool Player::ResolvePushback(){
 	BaseCollider* collider = GetCollider(kColliderTag);
-	if (!collider)
-	{
 	if (!collider)
 	{
 		return false;
@@ -440,11 +437,11 @@ bool Player::ResolvePushback(){
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  速度の取得
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 Math::Vector3 Player::GetVelocity() const
 {
 	const Rigidbody* rigidbody = GetRigidbody();
-	if (!rigidbody)
-	{
 	if (!rigidbody)
 	{
 		return CVector3::ZERO;
@@ -454,14 +451,16 @@ Math::Vector3 Player::GetVelocity() const
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  デバッグ表示
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 void Player::Debug_Gui()
 {
 	const char* bodyState = "null";
 	if (IsValid())
 	{
-	if (IsValid())
-	{
 		bodyState = "resolved";
+	}
+
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
@@ -471,17 +470,15 @@ void Player::Debug_Gui()
 	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
 	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
 	ImGui::Text("launchGroups: %d", blockGroupLauncher_.GetGroupCount());
-	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
-	if (WorldTransform* transform = GetTransform())
-	{
+
 	if (WorldTransform *transform = GetTransform())
 	{
 		Math::Vector3 position = transform->GetTranslate();
 		if(ImGui::DragFloat3("position",&position.x,0.1f)){
 			transform->SetTranslate(position);
 		}
-	if (Rigidbody* rigidbody = GetRigidbody())
-	{
+	}
+
 	if (Rigidbody *rigidbody = GetRigidbody())
 	{
 		Math::Vector3 velocity = rigidbody->GetVelocity();

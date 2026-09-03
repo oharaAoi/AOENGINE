@@ -249,65 +249,6 @@ Math::Vector3 StageBlockField::GridToWorld(const GridPos& pos){
 	return Math::Vector3(worldX,worldY,worldZ);
 }
 
-GridPos StageBlockField::WorldToGrid(const Math::Vector3& worldPos){
-	constexpr float kBlockSize = 1.0f;
-	constexpr float kOffsetX = (kBlockCol - 1) * 0.5f;
-
-	// GridToWorldの逆変換。Xはブロック中心が世界座標そのもの、Yは下面基準なのでfloorで求める。
-	int gridX = static_cast<int>(std::floor(worldPos.x / kBlockSize + kOffsetX + 0.5f));
-	int gridY = static_cast<int>(std::floor(worldPos.y / kBlockSize));
-
-	return GridPos{ gridX, gridY };
-}
-
-std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
-	std::vector<Block*> result;
-
-	const GridPos minPos = WorldToGrid(worldMin);
-	const GridPos maxPos = WorldToGrid(worldMax);
-
-	for(int x = minPos.x; x <= maxPos.x; ++x){
-		for(int y = minPos.y; y <= maxPos.y; ++y){
-			if(Block* block = GetBlockAt(GridPos{ x, y })){
-				result.push_back(block);
-			}
-		}
-	}
-
-	return result;
-}
-
-bool StageBlockField::TryGetGroupCenter(int groupId,Math::Vector3& outCenter) const{
-	auto it = groups_.find(groupId);
-	if(it == groups_.end()){
-		return false;
-	}
-
-	Math::Vector3 sum = CVector3::ZERO;
-	int validCount = 0;
-
-	for(const Block* member : it->second){
-		if(member == nullptr || !member->IsValid()){
-			continue;
-		}
-
-		const AOENGINE::WorldTransform* transform = member->GetTransform();
-		if(transform == nullptr){
-			continue;
-		}
-
-		sum = sum + transform->GetTranslate();
-		++validCount;
-	}
-
-	if(validCount == 0){
-		return false;
-	}
-
-	outCenter = sum * (1.0f / static_cast<float>(validCount));
-	return true;
-}
-
 void StageBlockField::SetGroupColor(int groupId,const AOENGINE::Color& color){
 	auto it = groups_.find(groupId);
 	if(it == groups_.end()){
