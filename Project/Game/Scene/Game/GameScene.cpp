@@ -55,6 +55,12 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+	// ボスがLauncherに衝突した時、ダメージを与えるコールバック
+	bossBlockLauncherCallBacks_.SetBoss(boss_.get());
+	bossBlockLauncherCallBacks_.SetLauncher(player_->GetBlockGroupLauncherRef());
+	bossBlockLauncherCallBacks_.Init();
+	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
+
 }
 
 void GameScene::OnPlayStart()

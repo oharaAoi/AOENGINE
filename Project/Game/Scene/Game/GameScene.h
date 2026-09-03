@@ -3,6 +3,7 @@
 #include "Game/Scene/BaseScene.h"
 /// game
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
+#include "Game/EventHandlers/BossBlockLauncherCollisionCallBacks.h"
 #include "Game/Stage/StageBackgrounds.h"
 #include "Game/Stage/StageBlockField.h"
 #include "Game/Stage/StageSegment.h"
@@ -12,8 +13,7 @@ class FollowCamera;
 class Boss;
 class DamageFloor;
 
-class GameScene : public BaseScene
-{
+class GameScene : public BaseScene{
 public:
 	GameScene();
 	~GameScene() override;
@@ -48,7 +48,7 @@ private:
 	/// Playerの本体となるGameObjectを用意する。
 	/// Sceneに"Player"が置かれていればそれを使い、無ければPrefabから生成する。
 	/// </summary>
-	AOENGINE::BaseGameObject *ResolvePlayerBody();
+	AOENGINE::BaseGameObject* ResolvePlayerBody();
 
 	/// <summary>ステージのブロックを生成し、Colliderから引ける表へ登録する</summary>
 	void SetupStage();
@@ -58,9 +58,12 @@ private:
 
 private:
 	std::unique_ptr<Player> player_;
-	/// PlayerとBlockの衝突コールバック
-	PlayerBlockCollisionCallBacks playerBlockCallBacks_;
 
+	/// CallBack 系 ------------------------------------
+	PlayerBlockCollisionCallBacks playerBlockCallBacks_;
+	BossBlockLauncherCollisionCallBacks bossBlockLauncherCallBacks_;
+
+	/// Camera ------------------------------------
 	std::unique_ptr<FollowCamera> followCamera_;
 
 	// ステージ関連 ------------------------------------
