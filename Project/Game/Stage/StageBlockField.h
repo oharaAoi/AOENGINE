@@ -64,6 +64,15 @@ public:
 	const std::vector<Block*>* GetGroup(int groupId) const;
 
 	/// <summary>
+	/// 指定したグループに属する全ブロックの中心(平均位置)を求める。
+	/// グループ同士を線で結ぶときの端点として使う。
+	/// </summary>
+	/// <param name="groupId">グループID</param>
+	/// <param name="outCenter">求めた中心の格納先</param>
+	/// <returns>グループが見つからない、または有効なブロックが1つも無ければ false</returns>
+	bool TryGetGroupCenter(int groupId,Math::Vector3& outCenter) const;
+
+	/// <summary>
 	/// 指定したグリッド座標にあるブロックを取得する。
 	/// </summary>
 	/// <param name="pos">グローバルグリッド座標</param>

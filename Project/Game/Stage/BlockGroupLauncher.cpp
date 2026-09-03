@@ -8,6 +8,8 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Render/Render.h"
+#include "Engine/Lib/Color.h"
 
 /// stl
 #include <algorithm>
@@ -202,6 +204,30 @@ void BlockGroupLauncher::Clear(){
 	launchTimer_ = 0.0f;
 }
 
+void BlockGroupLauncher::DrawConnectLine(const AOENGINE::Color& color,float thickness) const{
+	if(state_ == State::Idle){
+		return;
+	}
+
+	std::vector<Math::Vector3> points;
+	points.reserve(groups_.size());
+	for(const GatheringGroup& group : groups_){
+		Math::Vector3 center{};
+		if(!TryGetGroupCenter(group,center)){
+			continue;
+		}
+		points.push_back(center);
+	}
+
+	if(points.size() < 2){
+		return;
+	}
+
+	for(size_t index = 1; index < points.size(); ++index){
+		AOENGINE::Render::DrawThickLine(points[index - 1],points[index],color,thickness);
+	}
+}
+
 Math::Vector3 BlockGroupLauncher::SamplePath(const std::vector<Math::Vector3>& path,float distance){
 	if(path.empty()){
 		return CVector3::ZERO;
@@ -249,6 +275,26 @@ Math::Vector3 BlockGroupLauncher::GetBlockPosition(const Block* block){
 	}
 
 	return transform->GetTranslate();
+}
+
+bool BlockGroupLauncher::TryGetGroupCenter(const GatheringGroup& group,Math::Vector3& outCenter){
+	Math::Vector3 sum = CVector3::ZERO;
+	int validCount = 0;
+
+	for(const Block* block : group.blocks){
+		if(block == nullptr || !block->IsValid()){
+			continue;
+		}
+		sum = sum + GetBlockPosition(block);
+		++validCount;
+	}
+
+	if(validCount == 0){
+		return false;
+	}
+
+	outCenter = sum * (1.0f / static_cast<float>(validCount));
+	return true;
 }
 
 void BlockGroupLauncher::MoveBlock(Block* block,const Math::Vector3& diff,float deltaTime){
