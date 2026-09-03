@@ -23,7 +23,9 @@ void SceneWorld::Clear() {
 			slot.object->SetHandle(ObjectHandle{});
 		}
 
-		slot.ownedObject.reset();
+		if (slot.ownedObject) {
+			retiredObjects_.push_back(std::move(slot.ownedObject));
+		}
 		slot.object = nullptr;
 		slot.isAlive = false;
 
@@ -110,6 +112,10 @@ void SceneWorld::DestroyObject(ObjectHandle handle) {
 
 	DetachFromParents(object);
 	ReleaseHandle(handle);
+}
+
+void SceneWorld::ReleaseRetiredObjects() {
+	retiredObjects_.clear();
 }
 
 bool SceneWorld::IsValid(ObjectHandle handle) const {
@@ -341,7 +347,9 @@ void SceneWorld::ReleaseHandle(ObjectHandle handle) {
 		slot.object->SetHandle(ObjectHandle{});
 	}
 
-	slot.ownedObject.reset();
+	if (slot.ownedObject) {
+		retiredObjects_.push_back(std::move(slot.ownedObject));
+	}
 	slot.object = nullptr;
 	slot.isAlive = false;
 	slot.generation = NextGeneration(slot.generation);

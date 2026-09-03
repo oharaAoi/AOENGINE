@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include <list>
+#include <vector>
 #include "Engine/Render/GpuParticleRenderer.h"
 #include "Engine/System/ParticleSystem/Emitter/GpuParticleEmitter.h"
 #include "Engine/System/ParticleSystem/Field/GpuParticleField.h"
@@ -32,6 +33,7 @@ public:
 
 	// 終了処理
 	void Finalize();
+	void ReleaseRetiredResources();
 	// 初期化処理
 	void Init();
 	// 更新処理
@@ -73,6 +75,9 @@ private:
 	std::list<std::unique_ptr<AOENGINE::GpuParticleEmitter>> emitterList_;
 
 	std::list<std::unique_ptr<GpuParticleField>> fileds_;
+	std::vector<std::unique_ptr<AOENGINE::GpuParticleRenderer>> retiredRenderers_;
+	std::list<std::unique_ptr<AOENGINE::GpuParticleEmitter>> retiredEmitters_;
+	std::list<std::unique_ptr<GpuParticleField>> retiredFields_;
 
 	const uint32_t instance_ = 640000;
 	SceneWorld* sceneWorld_ = nullptr;

@@ -41,6 +41,7 @@ public:
 	/// EditorのPlay開始を現在のシーンへ通知する
 	/// </summary>
 	void OnPlayStart();
+	SceneType GetCurrentSceneType() const { return nowScene_; }
 
 	/// <summary>
 	/// 編集処理

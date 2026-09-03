@@ -68,6 +68,8 @@ public:
 	/// 指定したObjectHandleのオブジェクトと子階層を破棄します。
 	/// </summary>
 	void DestroyObject(ObjectHandle handle);
+	/// <summary>GPU完了後に、遅延破棄していた所有Objectを実際に解放する。</summary>
+	void ReleaseRetiredObjects();
 
 	/// <summary>
 	/// ObjectHandleが現在のSceneWorldで有効か判定します。
@@ -202,6 +204,9 @@ private:
 
 	// Hierarchy表示や走査の起点となる、親を持たないオブジェクトのハンドル一覧。
 	std::vector<ObjectHandle> rootObjectHandles_;
+
+	// 記録中のCommandListが参照している可能性があるため、所有ObjectはGPU完了まで保持する。
+	std::vector<std::unique_ptr<SceneObject>> retiredObjects_;
 };
 
 }

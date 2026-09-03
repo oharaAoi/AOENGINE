@@ -82,6 +82,11 @@ void SceneRenderer::Finalize() {
 	if (gpuParticleManager_) {
 		gpuParticleManager_->Finalize();
 	}
+
+	// 通常フレームではEngine::EndFrame()のGPU同期後に回収されるが、
+	// 終了処理ではこの後にEndFrameが存在しない。ここで明示的に回収し、
+	// D3D12 Deviceより先にScene/Particle配下のResourceを解放する。
+	ReleaseRetiredObjects();
 }
 
 void SceneRenderer::ClearSceneObjects() {
@@ -122,6 +127,12 @@ void SceneRenderer::Update() {
 
 	sceneWorld_.Update();
 	RemoveInvalidRenderEntries();
+}
+
+void SceneRenderer::ReleaseRetiredObjects() {
+	sceneWorld_.ReleaseRetiredObjects();
+	if (particleManager_) { particleManager_->ReleaseRetiredResources(); }
+	if (gpuParticleManager_) { gpuParticleManager_->ReleaseRetiredResources(); }
 }
 
 void SceneRenderer::UpdateVerticalPhysics() {

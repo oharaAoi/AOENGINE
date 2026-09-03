@@ -11,7 +11,7 @@
                 "isRendering": true,
                 "materials": [
                     {
-                        "albedoTexture": "monsterBall.dds",
+                        "albedoTexture": "uvChecker.dds",
                         "color": [
                             1.0,
                             1.0,
@@ -55,9 +55,9 @@
                     10.0
                 ],
                 "translate": [
-                    -1.7508862018585205,
                     0.0,
-                    0.2680068016052246
+                    0.0,
+                    10.0
                 ]
             },
             "id": 1,

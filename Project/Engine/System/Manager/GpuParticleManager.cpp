@@ -17,9 +17,15 @@ AOENGINE::GpuParticleManager* AOENGINE::GpuParticleManager::GetInstance() {
 }
 
 void GpuParticleManager::Finalize() {
-	emitterList_.clear();
-	fileds_.clear();
-	renderer_.reset();
+	retiredEmitters_.splice(retiredEmitters_.end(), emitterList_);
+	retiredFields_.splice(retiredFields_.end(), fileds_);
+	if (renderer_) { retiredRenderers_.push_back(std::move(renderer_)); }
+}
+
+void GpuParticleManager::ReleaseRetiredResources() {
+	retiredEmitters_.clear();
+	retiredFields_.clear();
+	retiredRenderers_.clear();
 }
 
 void GpuParticleManager::Debug_Gui() {

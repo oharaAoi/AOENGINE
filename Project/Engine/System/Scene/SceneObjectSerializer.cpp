@@ -234,6 +234,7 @@ json SerializeSprite(const Sprite& sprite) {
 	const Math::SRT& transform = sprite.GetTransform()->GetTransform();
 	return {
 		{ "texture", sprite.GetTextureName() },
+		{ "textureSize", Vector2ToJson(sprite.GetSpriteSize()) },
 		{ "translate", Vector3ToJson(transform.translate) },
 		{ "rotate", Vector3ToJson(transform.rotate) },
 		{ "scale", Vector3ToJson(transform.scale) },
@@ -287,6 +288,11 @@ json SerializeObject(const SceneObject& object) {
 }
 
 void DeserializeSprite(Sprite& sprite, const json& data) {
+	// 旧シーンには textureSize がないため、その場合は Init() で取得した
+	// テクスチャ本来のサイズをそのまま使用する。
+	if (data.contains("textureSize")) {
+		sprite.ReSetTextureSize(JsonToVector2(data.at("textureSize")));
+	}
 	Math::SRT transform{};
 	transform.translate = JsonToVector3(data.at("translate"));
 	transform.rotate = JsonToVector3(data.at("rotate"));

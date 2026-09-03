@@ -65,7 +65,7 @@ private:
 	float pitch_ = 0.0f;
 	float sensitivity_ = 0.05f; // 回転感度
 
-	bool isMove = false;
+	bool isMove = true;
 
 	Math::Quaternion qYaw;
 	Math::Quaternion qPitch;

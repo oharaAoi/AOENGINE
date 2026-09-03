@@ -2,6 +2,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <optional>
 #include <nlohmann/json.hpp>
 #include "Engine/System/Editor/Window/GameObjectWindow.h"
 #include "Engine/System/ParticleSystem/Tool/ParticleSystemEditor.h"
@@ -192,6 +193,7 @@ private:
 	bool stepRequested_ = false;
 	nlohmann::json editSceneSnapshot_;
 	std::vector<ObjectHandle> editRuntimeHandles_;
+	std::optional<SceneType> playStartSceneType_;
 
 	void EnterPlayMode();
 	void ExitPlayMode();

@@ -1,4 +1,147 @@
 {
+    "environment": {
+        "postProcess": {
+            "effects": [
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "sampleCount": 0
+                    },
+                    "type": "RadialBlur"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "texelSize": {
+                            "x": 1.0,
+                            "y": 1.0
+                        }
+                    },
+                    "type": "GlitchNoise"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "power": 0.800000011920929,
+                        "scale": 16.0
+                    },
+                    "type": "Vignette"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "edgeColor": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "threshold": 0.5,
+                        "uvTransform": {
+                            "rotate": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            },
+                            "scale": {
+                                "x": 1.0,
+                                "y": 1.0,
+                                "z": 1.0
+                            },
+                            "translate": {
+                                "x": 0.0,
+                                "y": 0.0,
+                                "z": 0.0
+                            }
+                        }
+                    },
+                    "type": "Dissolve"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "scale": 0.0
+                    },
+                    "type": "LuminanceOutline"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "edgeGain": 0.0
+                    },
+                    "type": "DepthOutline"
+                },
+                {
+                    "enabled": true,
+                    "parameters": {
+                        "bloomIntensity": 0.5,
+                        "blurHeight": {
+                            "sampleCount": 1
+                        },
+                        "blurWidth": {
+                            "sampleCount": 1
+                        },
+                        "brightnessThreshold": {
+                            "threshold": 0.5
+                        }
+                    },
+                    "type": "Bloom"
+                },
+                {
+                    "enabled": true,
+                    "parameters": {},
+                    "type": "MotionBlur"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "size": 1
+                    },
+                    "type": "Smoothing"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "deviation": 1.0,
+                        "size": 1
+                    },
+                    "type": "GaussianFilter"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        }
+                    },
+                    "type": "Grayscale"
+                },
+                {
+                    "enabled": false,
+                    "parameters": {
+                        "exposure": 1.0
+                    },
+                    "type": "ToonMap"
+                }
+            ],
+            "version": 1
+        }
+    },
     "format": "AOENGINE_SCENE",
     "objects": [
         {
@@ -19,13 +162,14 @@
                     1.0
                 ],
                 "drawRange": [
-                    88.0,
-                    42.0
+                    1298.0,
+                    238.0
                 ],
                 "flipX": false,
                 "flipY": false,
                 "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 32.0,
+                "fontSize": 182.0,
+                "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
@@ -41,7 +185,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "Title",
+                "text": "メテオギュット",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -52,19 +196,91 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_1",
+                "texture": "__Text_3",
+                "textureSize": [
+                    1298.0,
+                    238.0
+                ],
                 "translate": [
                     966.5096435546875,
-                    266.7864074707031,
+                    293.5148620605469,
                     1.0
                 ]
             },
             "id": 87,
-            "name": "new text",
+            "name": "GameTitle",
+            "parentId": null,
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    288.0,
+                    137.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 105.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "space",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_2",
+                "textureSize": [
+                    288.0,
+                    137.0
+                ],
+                "translate": [
+                    935.1663208007813,
+                    604.731689453125,
+                    1.0
+                ]
+            },
+            "id": 722,
+            "name": "gameStart",
             "parentId": null,
             "type": "Text"
         }
     ],
     "sceneName": "Title",
-    "version": 1
+    "version": 2
 }

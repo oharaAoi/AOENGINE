@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <vector>
+#include <list>
 #include "Engine/Lib/ParticlesData.h"
 #include "Engine/Render/ParticleInstancingRenderer.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
@@ -47,6 +49,7 @@ public:
 
 	// 終了
 	void Finalize();
+	void ReleaseRetiredResources();
 	// 初期化
 	void Init();
 	// 更新
@@ -88,6 +91,8 @@ private:
 	std::unique_ptr<AOENGINE::ParticleInstancingRenderer> particleRenderer_;
 	// particleを射出するリスト
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> emitterList_;
+	std::vector<std::unique_ptr<AOENGINE::ParticleInstancingRenderer>> retiredRenderers_;
+	std::list<std::unique_ptr<AOENGINE::BaseParticles>> retiredEmitters_;
 
 	CpuParticleUpdater particleUpdater_;
 
