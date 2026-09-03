@@ -271,6 +271,9 @@
     <Filter Include="Game\Actor\Boss">
       <UniqueIdentifier>{4DAD527B-B938-C03F-C249-43342E541C40}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Boss\AttackBehavior">
+      <UniqueIdentifier>{C4070D08-B02D-D76E-9973-5C3A8538FC3A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Boss\Component">
       <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
     </Filter>
@@ -1172,6 +1175,12 @@
     </ClInclude>
     <ClInclude Include="Externals\ImGui\imstb_truetype.h">
       <Filter>Externals\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.h">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.h">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Boss.h">
       <Filter>Game\Actor\Boss</Filter>
@@ -2098,6 +2107,12 @@
     </ClCompile>
     <ClCompile Include="Externals\ImGui\imnodes.cpp">
       <Filter>Externals\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.cpp">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.cpp">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Boss.cpp">
       <Filter>Game\Actor\Boss</Filter>
