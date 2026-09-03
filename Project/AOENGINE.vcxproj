@@ -463,7 +463,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Player\Player.h" />
     <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
+    <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -481,6 +483,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Stage\StageSegment.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
+    <ClInclude Include="Game\WorldObject\Wall.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
@@ -763,7 +766,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
+    <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />
@@ -778,6 +783,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
+    <ClCompile Include="Game\WorldObject\Wall.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

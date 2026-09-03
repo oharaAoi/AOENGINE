@@ -14,6 +14,8 @@
 #include "Engine/Module/PostEffect/LuminanceBasedOutline.h"
 #include "Engine/Module/PostEffect/DepthBasedOutline.h"
 #include "Engine/Module/PostEffect/MotionBlur.h"
+#include "Engine/Lib/Json/IJsonConverter.h"
+#include <algorithm>
 #include <utility>
 
 using namespace AOENGINE;
@@ -88,6 +90,8 @@ void AOENGINE::PostProcess::Init(ID3D12Device* device, AOENGINE::DescriptorHeap*
 	AddEffect(PostEffectType::GaussianFilter);
 	AddEffect(PostEffectType::Grayscale);
 	AddEffect(PostEffectType::ToonMap);
+
+	defaultSettings_ = Serialize();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +110,6 @@ void AOENGINE::PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOE
 	Copy(_commandList, _dxResource);
 	// renderTargetをセットする
 	pingPongBuff_->SetRenderTarget(_commandList, BufferType::Pong, depthHandle_.handleCPU);
-	uint32_t cout = 0;
 	// ポストエフェクトを実行する
 	for (auto& effect : effectList_) {
 		if (effectMap_[effect]->GetIsEnable()) {
@@ -114,15 +117,10 @@ void AOENGINE::PostProcess::Execute(ID3D12GraphicsCommandList* _commandList, AOE
 
 			pingPongBuff_->Swap(_commandList);
 			pingPongBuff_->SetRenderTarget(_commandList, BufferType::Pong, depthHandle_.handleCPU);
-			cout++;
 		}
 	}
 
 	// resourceを入れ替える
-	if (effectList_.size() % 2 == 0 && !effectList_.empty()) {
-		pingPongBuff_->Swap(_commandList);
-	}
-
 	// 最終的な描画をシーンにコピーする
 	PostCopy(_commandList, _dxResource);
 }
@@ -144,8 +142,8 @@ void AOENGINE::PostProcess::Copy(ID3D12GraphicsCommandList* _commandList, AOENGI
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AOENGINE::DxResource* _dxResource) {
-	const bool isEven = (effectList_.size() % 2 == 0);
-	auto* finalResource = isEven ? pingPongBuff_->GetPongResource() : pingPongBuff_->GetPingResource();
+	// Swap後は常にPingが直前のエフェクト出力を指す。
+	auto* finalResource = pingPongBuff_->GetPingResource();
 
 	// 遷移
 	finalResource->Transition(_commandList, D3D12_RESOURCE_STATE_COPY_SOURCE);
@@ -162,6 +160,8 @@ void AOENGINE::PostProcess::PostCopy(ID3D12GraphicsCommandList* _commandList, AO
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::PostProcess::ClearBuffer() {
+	// Bloom/MotionBlurはResizeBufferで再生成されるため、破棄前の設定を退避する。
+	resizeSettings_ = Serialize();
 	pingPongBuff_.reset();
 
 	depthStencilResource_.Reset();
@@ -198,8 +198,11 @@ void AOENGINE::PostProcess::ResizeBuffer(ID3D12Device* device, AOENGINE::RenderT
 
 	effectMap_[PostEffectType::Bloom]->PostInit(this);
 	effectMap_[PostEffectType::MotionBlur]->PostInit(this);
-	effectMap_[PostEffectType::Bloom]->SetIsEnable(true);
-	effectMap_[PostEffectType::MotionBlur]->SetIsEnable(true);
+
+	if (!resizeSettings_.is_null()) {
+		Deserialize(resizeSettings_);
+		resizeSettings_ = json();
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -258,6 +261,111 @@ const char* AOENGINE::PostProcess::GetEffectName(PostEffectType type) {
 	case PostEffectType::MotionBlur: return "MotionBlur";
 	default: return "Unknown";
 	}
+}
+
+std::optional<PostEffectType> AOENGINE::PostProcess::FindEffectType(std::string_view name) {
+	for (PostEffectType type : {
+		PostEffectType::Grayscale, PostEffectType::RadialBlur, PostEffectType::GlitchNoise,
+		PostEffectType::Vignette, PostEffectType::Dissolve, PostEffectType::ToonMap,
+		PostEffectType::Bloom, PostEffectType::Smoothing, PostEffectType::GaussianFilter,
+		PostEffectType::LuminanceOutline, PostEffectType::DepthOutline, PostEffectType::MotionBlur }) {
+		if (name == GetEffectName(type)) { return type; }
+	}
+	return std::nullopt;
+}
+
+namespace {
+
+json SerializeConverter(const AOENGINE::IJsonConverter& converter) {
+	json wrapped = converter.ToJson("parameters");
+	json parameters = wrapped.value("parameters", json::object());
+	parameters.erase("isEnable");
+	return parameters;
+}
+
+void DeserializeConverter(AOENGINE::IJsonConverter& converter, const json& parameters) {
+	converter.FromJson(json{ { "parameters", parameters } });
+}
+
+}
+
+json AOENGINE::PostProcess::Serialize() const {
+	json effects = json::array();
+	for (PostEffectType type : effectList_) {
+		const auto effect = GetEffect(type);
+		if (!effect || !effect->GetSettingsConverter()) { continue; }
+
+		json parameters = SerializeConverter(*effect->GetSettingsConverter());
+		if (type == PostEffectType::Bloom) {
+			if (const auto bloom = std::dynamic_pointer_cast<Bloom>(effect)) {
+				parameters["brightnessThreshold"] = SerializeConverter(*bloom->GetBrightnessThreshold().GetSettingsConverter());
+				parameters["blurWidth"] = SerializeConverter(*bloom->GetBlurWidth().GetSettingsConverter());
+				parameters["blurHeight"] = SerializeConverter(*bloom->GetBlurHeight().GetSettingsConverter());
+			}
+		}
+		effects.push_back({
+			{ "type", GetEffectName(type) },
+			{ "enabled", effect->GetIsEnable() },
+			{ "parameters", std::move(parameters) }
+		});
+	}
+	return { { "version", 1 }, { "effects", std::move(effects) } };
+}
+
+bool AOENGINE::PostProcess::Deserialize(const json& data) {
+	if (!data.is_object() || data.value("version", 0) != 1 ||
+		!data.contains("effects") || !data.at("effects").is_array()) {
+		return false;
+	}
+
+	const std::vector<PostEffectType> registeredOrder = effectList_;
+	for (PostEffectType type : registeredOrder) {
+		if (const auto effect = GetEffect(type)) { effect->SetIsEnable(false); }
+	}
+
+	std::vector<PostEffectType> loadedOrder;
+	for (const json& entry : data.at("effects")) {
+		if (!entry.is_object()) { continue; }
+		const auto type = FindEffectType(entry.value("type", ""));
+		if (!type) { continue; }
+		const auto effect = GetEffect(*type);
+		if (!effect || !effect->GetSettingsConverter()) { continue; }
+		if (std::find(loadedOrder.begin(), loadedOrder.end(), *type) != loadedOrder.end()) { continue; }
+		loadedOrder.push_back(*type);
+
+		effect->SetIsEnable(entry.value("enabled", false));
+		const json parameters = entry.value("parameters", json::object());
+		DeserializeConverter(*effect->GetSettingsConverter(), parameters);
+		effect->ApplySaveSettings();
+
+		if (*type == PostEffectType::Bloom) {
+			if (const auto bloom = std::dynamic_pointer_cast<Bloom>(effect)) {
+				if (parameters.contains("brightnessThreshold")) {
+					DeserializeConverter(*bloom->GetBrightnessThreshold().GetSettingsConverter(), parameters.at("brightnessThreshold"));
+					bloom->GetBrightnessThreshold().ApplySaveSettings();
+				}
+				if (parameters.contains("blurWidth")) {
+					DeserializeConverter(*bloom->GetBlurWidth().GetSettingsConverter(), parameters.at("blurWidth"));
+					bloom->GetBlurWidth().ApplySaveSettings();
+				}
+				if (parameters.contains("blurHeight")) {
+					DeserializeConverter(*bloom->GetBlurHeight().GetSettingsConverter(), parameters.at("blurHeight"));
+					bloom->GetBlurHeight().ApplySaveSettings();
+				}
+			}
+		}
+	}
+	for (PostEffectType type : registeredOrder) {
+		if (std::find(loadedOrder.begin(), loadedOrder.end(), type) == loadedOrder.end()) {
+			loadedOrder.push_back(type);
+		}
+	}
+	if (!loadedOrder.empty()) { effectList_ = std::move(loadedOrder); }
+	return true;
+}
+
+void AOENGINE::PostProcess::ResetToDefaults() {
+	if (!defaultSettings_.is_null()) { Deserialize(defaultSettings_); }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

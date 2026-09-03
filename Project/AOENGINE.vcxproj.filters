@@ -1243,6 +1243,8 @@
     <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
+    <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
+    <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2123,5 +2125,7 @@
     <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
+    <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
+    <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
   </ItemGroup>
 </Project>

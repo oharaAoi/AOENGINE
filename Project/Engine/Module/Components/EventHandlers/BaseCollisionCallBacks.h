@@ -42,7 +42,7 @@ public:
 protected:
 
 	CollisionManager::CallBackKinds callBacks_;
-
+	
 };
 
 }

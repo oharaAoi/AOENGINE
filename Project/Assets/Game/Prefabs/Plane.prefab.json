@@ -7,6 +7,8 @@
                 "animator": false,
                 "components": [],
                 "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "monsterBall.dds",
@@ -17,7 +19,7 @@
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
+                        "enableLighting": false,
                         "iblScale": 0.5,
                         "shaderType": 0,
                         "shininess": 100.0,
@@ -53,9 +55,9 @@
                     10.0
                 ],
                 "translate": [
-                    0.14904354512691498,
-                    9.692999839782715,
-                    11.303409576416016
+                    -1.7508862018585205,
+                    0.0,
+                    0.2680068016052246
                 ]
             },
             "id": 1,

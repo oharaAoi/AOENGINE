@@ -2,11 +2,13 @@
 #include <memory>
 #include "Game/Scene/BaseScene.h"
 /// game
+#include "Game/EventHandlers/CollisionCallBacks.h"
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
 #include "Game/EventHandlers/BossBlockLauncherCollisionCallBacks.h"
 #include "Game/Stage/StageBackgrounds.h"
 #include "Game/Stage/StageBlockField.h"
 #include "Game/Stage/StageSegment.h"
+
 
 class Player;
 class FollowCamera;
@@ -76,4 +78,7 @@ private:
 	StageSegment stageSegment_;
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<DamageFloor> damageFloor_;
+
+	// コールバック関連
+	CollisionCallBacks callBacks_;
 };

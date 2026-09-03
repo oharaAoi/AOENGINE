@@ -26,6 +26,9 @@ void FollowCamera::Init() {
 	smoothedTarget_ = CVector3::ZERO;
 	initialized_ = false;
 
+	cameraTargetY_ = 0.0f;
+	isScrolling_ = false;
+
 	shakeTime_ = 0.0f;
 	shakeTimer_ = 0.0f;
 	shakeStrength_ = 0.0f;
@@ -77,23 +80,47 @@ void FollowCamera::ResolveTarget() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::FollowTarget(float deltaTime) {
-	Math::Vector3 targetPos = target_->GetTransform()->GetTranslate();
+	const Math::Vector3 targetPos = target_->GetTransform()->GetTranslate();
 
 	if (!initialized_) {
 		//初期化
 		smoothedTarget_ = targetPos;
 		followVelocity_ = CVector3::ZERO;
+		cameraTargetY_ = targetPos.y;
+		isScrolling_ = false;
 		initialized_ = true;
 		return;
 	}
 
-	// 縦(Y)だけ追従する
-	targetPos.x = smoothedTarget_.x;
-	targetPos.z = smoothedTarget_.z;
+	// スクロール中はスクロール判定しない
+	if (!isScrolling_) {
+		const Math::Matrix4x4 viewProjection = GetViewMatrix() * GetProjectionMatrix();
+		const Math::Vector3 screenPos = TransformCoord(targetPos, viewProjection);
+
+		if (screenPos.y >= 0.0f) {
+			cameraTargetY_ = smoothedTarget_.y + parameter_.scrollHeight;
+			isScrolling_ = true;
+		}
+	}
+
+	if (!isScrolling_) {
+		return;
+	}
+
+	// 縦だけスクロール先へイージングする
+	Math::Vector3 scrollTarget = smoothedTarget_;
+	scrollTarget.y = cameraTargetY_;
 
 	smoothedTarget_ = SmoothDamp(
-		smoothedTarget_, targetPos, followVelocity_,
+		smoothedTarget_, scrollTarget, followVelocity_,
 		parameter_.smoothTime, parameter_.maxSpeed, deltaTime);
+
+	// 目標の高さまで届いたらスクロール終了
+	if (std::abs(cameraTargetY_ - smoothedTarget_.y) < kScrollArriveThreshold) {
+		smoothedTarget_.y = cameraTargetY_;
+		followVelocity_.y = 0.0f;
+		isScrolling_ = false;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -127,7 +154,7 @@ void FollowCamera::UpdateShake(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-// デバッグ表示 (調整値は「Custom Parameters」ウィンドウ側)
+// デバッグ表示 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::Debug_Gui() {
@@ -138,8 +165,14 @@ void FollowCamera::Debug_Gui() {
 		targetState = targetName_.c_str();
 	}
 
+	const char* scrollState = "false";
+	if (isScrolling_) {
+		scrollState = "true";
+	}
+
 	ImGui::Text("target: %s", targetState);
 	ImGui::Text("pos: %.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
+	ImGui::Text("scrolling: %s (goal Y: %.2f)", scrollState, cameraTargetY_);
 
 	if (ImGui::Button("Test Shake")) {
 		SetShake(0.3f, 0.5f);

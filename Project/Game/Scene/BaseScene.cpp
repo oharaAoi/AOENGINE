@@ -145,20 +145,6 @@ void BaseScene::Draw() const {
 	Engine::ActivateSceneView(SceneViewType::Game);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-// ↓ シーンを保存する
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void BaseScene::SaveSceneEffect() {
-	Engine::GetPostProcess()->Save(this->sceneName_ + "_");
-}
-
-void BaseScene::LoadSceneEffect() {
-	std::string path = AOENGINE::JsonItems::GetDirectoryPath() + this->sceneName_ + "/";
-	AOENGINE::JsonItems::GetInstance()->LoadDesignationPath(path);
-	Engine::GetPostProcess()->Load(this->sceneName_ + "_");
-}
-
 void BaseScene::RegisterCamera() {
 	auto& world = pSceneRenderer_->GetSceneWorld();
 

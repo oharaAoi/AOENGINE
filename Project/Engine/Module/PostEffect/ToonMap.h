@@ -88,6 +88,8 @@ public:
 	/// </summary>
 	SaveSettings& GetSettings() { return saveSettings_; }
 	const SaveSettings& GetSettings() const { return saveSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveSettings_; }
 
 private:
 

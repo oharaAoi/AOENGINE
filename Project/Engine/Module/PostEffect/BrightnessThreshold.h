@@ -84,6 +84,8 @@ public:
 	/// </summary>
 	SaveBloomSettings& GetSettings() { return saveBloomSettings_; }
 	const SaveBloomSettings& GetSettings() const { return saveBloomSettings_; }
+	AOENGINE::IJsonConverter* GetSettingsConverter() override { return &saveBloomSettings_; }
+	const AOENGINE::IJsonConverter* GetSettingsConverter() const override { return &saveBloomSettings_; }
 
 private:
 

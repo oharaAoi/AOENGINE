@@ -2,6 +2,9 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <optional>
+#include <string_view>
+#include <nlohmann/json.hpp>
 #include "Engine/Module/PostEffect/IPostEffect.h"
 
 #include "Engine/Module/PostEffect/PingPongBuffer.h"
@@ -75,6 +78,13 @@ public:
 	/// </summary>
 	void Load(const std::string& rootField);
 
+	/// <summary>シーンへ埋め込むポストプロセス設定をJSON化する。</summary>
+	nlohmann::json Serialize() const;
+	/// <summary>シーン内のポストプロセス設定を復元する。</summary>
+	bool Deserialize(const nlohmann::json& data);
+	/// <summary>起動時の既定値へ戻す。</summary>
+	void ResetToDefaults();
+
 public:
 
 
@@ -86,6 +96,7 @@ public:
 	std::shared_ptr<PostEffect::IPostEffect> GetEffect(PostEffectType type) const;
 	const std::vector<PostEffectType>& GetEffectOrder() const { return effectList_; }
 	static const char* GetEffectName(PostEffectType type);
+	static std::optional<PostEffectType> FindEffectType(std::string_view name);
 
 	template<class T>
 	std::shared_ptr<T> GetEffectAs(PostEffectType type) {
@@ -130,6 +141,8 @@ private:
 
 	std::vector<PostEffectType> effectList_;     // 実行順
 	std::vector<PostEffectType> addEffectList_;  // 重複登録防止
+	nlohmann::json defaultSettings_;
+	nlohmann::json resizeSettings_;
 
 };
 

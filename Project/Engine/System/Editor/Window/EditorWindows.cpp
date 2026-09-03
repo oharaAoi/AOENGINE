@@ -10,6 +10,7 @@
 #include "Engine/System/Editor/Window/Item/CustomParameterWindow.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistration.h"
 #include "Engine/System/Scene/SceneSerializer.h"
+#include "Engine/Core/Engine.h"
 
 using namespace AOENGINE;
 
@@ -344,7 +345,8 @@ void EditorWindows::EnterPlayMode() {
 	}
 
 	// Stop時にPlay中の変更を破棄できるよう、保存した編集状態をメモリにも保持する。
-	editSceneSnapshot_ = SceneSerializer::Serialize("PlayModeSnapshot", *sceneRenderer_);
+	editSceneSnapshot_ = SceneSerializer::Serialize(
+		"PlayModeSnapshot", *sceneRenderer_, *Engine::GetPostProcess());
 	editRuntimeHandles_ = sceneRenderer_->GetObjectHandles();
 	playState_ = EditorPlayState::Playing;
 	stepRequested_ = false;
@@ -367,7 +369,8 @@ void EditorWindows::ExitPlayMode() {
 				sceneRenderer_->DestroyObject(handle);
 			}
 		}
-		SceneSerializer::Deserialize(editSceneSnapshot_, *sceneRenderer_, *canvas2d_);
+		SceneSerializer::Deserialize(
+			editSceneSnapshot_, *sceneRenderer_, *canvas2d_, *Engine::GetPostProcess());
 	}
 	// PostProcessなどのSystemObjectは復元時にもSceneWorld内に残る。
 	// 管理ハンドルは維持し、選択などPlay中の一時操作状態だけを破棄する。

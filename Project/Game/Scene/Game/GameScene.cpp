@@ -61,6 +61,8 @@ void GameScene::Init()
 	bossBlockLauncherCallBacks_.Init();
 	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
 
+	// コールバック関数の作成
+	callBacks_.Init(collisionManager_.get(), player_.get());
 }
 
 void GameScene::OnPlayStart()
@@ -106,7 +108,8 @@ void GameScene::Update()
 	}
 
 	// 背景
-	if (backgrounds_) {
+	if (backgrounds_)
+	{
 		backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
 	}
 
@@ -118,7 +121,8 @@ void GameScene::Update()
 		boss_->Update(viewProjection);
 	}
 
-	if (damageFloor_ && followCamera_) {
+	if (damageFloor_ && followCamera_)
+	{
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		damageFloor_->Update(viewProjection);
