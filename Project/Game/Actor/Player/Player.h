@@ -39,6 +39,8 @@ private:
 	void UpdateMove(AOENGINE::Rigidbody* rigidbody);
 	/// <summary>接続受付・集合・打ち上げの一連の流れを進める。</summary>
 	void UpdateBlockGroupConnect(float deltaTime);
+	/// <summary>接続したブロックグループ同士を線で結んで描画する。</summary>
+	void DrawBlockGroupConnectLine() const;
 	void ResolveGround();
 	/// <summary>Colliderの押し戻し方向から足場に乗っているかを判定する。</summary>
 	bool ResolvePushback();

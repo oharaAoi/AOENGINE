@@ -9,6 +9,10 @@
 class Block;
 class StageBlockField;
 
+namespace AOENGINE{
+class Color;
+}
+
 /// <summary>
 /// 接続されたブロックグループを、接続した順に次のブロックへ最短距離で渡らせて1箇所に集め、
 /// 上へ打ち上げるクラス。
@@ -70,6 +74,13 @@ public:
 	/// </summary>
 	void Clear();
 
+	/// <summary>
+	/// 集合・打ち上げ中のグループ同士を、接続順に線で結んで描画する
+	/// </summary>
+	/// <param name="color">線の色</param>
+	/// <param name="thickness">太さ</param>
+	void DrawConnectLine(const AOENGINE::Color& color,float thickness) const;
+
 private:
 
 	/// <summary>集合中のグループ1つ分の作業データ</summary>
@@ -98,6 +109,8 @@ private:
 	static float ComputePathLength(const std::vector<Math::Vector3>& path);
 	/// <summary>ブロックのワールド座標を取得する</summary>
 	static Math::Vector3 GetBlockPosition(const Block* block);
+	/// <summary>グループに属するブロックの中心(平均位置)を求める</summary>
+	static bool TryGetGroupCenter(const GatheringGroup& group,Math::Vector3& outCenter);
 	/// <summary>ブロックを diff だけ動かす。Rigidbodyがあれば速度で、無ければ座標を直接動かす</summary>
 	static void MoveBlock(Block* block,const Math::Vector3& diff,float deltaTime);
 

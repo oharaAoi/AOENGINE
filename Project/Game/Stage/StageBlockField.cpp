@@ -249,6 +249,37 @@ Math::Vector3 StageBlockField::GridToWorld(const GridPos& pos){
 	return Math::Vector3(worldX,worldY,worldZ);
 }
 
+bool StageBlockField::TryGetGroupCenter(int groupId,Math::Vector3& outCenter) const{
+	auto it = groups_.find(groupId);
+	if(it == groups_.end()){
+		return false;
+	}
+
+	Math::Vector3 sum = CVector3::ZERO;
+	int validCount = 0;
+
+	for(const Block* member : it->second){
+		if(member == nullptr || !member->IsValid()){
+			continue;
+		}
+
+		const AOENGINE::WorldTransform* transform = member->GetTransform();
+		if(transform == nullptr){
+			continue;
+		}
+
+		sum = sum + transform->GetTranslate();
+		++validCount;
+	}
+
+	if(validCount == 0){
+		return false;
+	}
+
+	outCenter = sum * (1.0f / static_cast<float>(validCount));
+	return true;
+}
+
 void StageBlockField::SetGroupColor(int groupId,const AOENGINE::Color& color){
 	auto it = groups_.find(groupId);
 	if(it == groups_.end()){
