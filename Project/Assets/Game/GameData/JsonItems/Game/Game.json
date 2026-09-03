@@ -148,6 +148,131 @@
             "active": true,
             "data": {
                 "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            0.8500000238418579,
+                            0.15000000596046448,
+                            0.15000000596046448,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "sphere.obj",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "translate": [
+                    0.0,
+                    12.0,
+                    0.0
+                ]
+            },
+            "id": 2,
+            "name": "Boss",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Player",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    2.200000047683716,
+                    0.0
+                ]
+            },
+            "id": 314,
+            "name": "Player",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
                 "components": [
                     {
                         "active": true,
@@ -258,195 +383,6 @@
             },
             "id": 43,
             "name": "DamageFloor",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "monsterBall.dds",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": false,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "plane.obj",
-                "rotate": [
-                    0.0,
-                    0.9995885491371155,
-                    0.0,
-                    -0.028683148324489594
-                ],
-                "scale": [
-                    15.0,
-                    10.000285148620605,
-                    10.0
-                ],
-                "translate": [
-                    0.14904354512691498,
-                    9.692999839782715,
-                    11.303409576416016
-                ]
-            },
-            "id": 26,
-            "name": "Plane",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Player",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    2.200000047683716,
-                    0.0
-                ]
-            },
-            "id": 314,
-            "name": "Player",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            0.8500000238418579,
-                            0.15000000596046448,
-                            0.15000000596046448,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "sphere.obj",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "translate": [
-                    0.0,
-                    12.0,
-                    0.0
-                ]
-            },
-            "id": 2,
-            "name": "Boss",
             "parentId": null,
             "type": "BaseGameObject"
         }
