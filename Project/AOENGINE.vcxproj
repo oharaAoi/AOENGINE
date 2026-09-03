@@ -481,6 +481,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Stage\StageBlockField.h" />
     <ClInclude Include="Game\Stage\StageFactory.h" />
     <ClInclude Include="Game\Stage\StageSegment.h" />
+    <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Wall.h" />
@@ -781,6 +782,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Stage\StageBlockField.cpp" />
     <ClCompile Include="Game\Stage\StageFactory.cpp" />
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
+    <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Wall.cpp" />

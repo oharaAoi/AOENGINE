@@ -1245,6 +1245,8 @@
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
+    <ClInclude Include="Game\WorldObject\Wall.h" />
+    <ClInclude Include="Game\UI\RetryUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2127,5 +2129,7 @@
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
+    <ClCompile Include="Game\WorldObject\Wall.cpp" />
+    <ClCompile Include="Game\UI\RetryUI.cpp" />
   </ItemGroup>
 </Project>
