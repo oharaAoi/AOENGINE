@@ -33,7 +33,7 @@ void GameCore::Init() {
 void GameCore::Update() {
 	profiler_.Start();
 	// sceneの更新
-	sceneManager_->Update();
+	endRequest_ = sceneManager_->Update();
 	profiler_.End("Update");
 }
 

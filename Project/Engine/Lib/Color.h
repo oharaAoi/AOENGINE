@@ -91,6 +91,7 @@ namespace Colors {
 		inline constexpr AOENGINE::Color red{ 1,0,0,1 };
 		inline constexpr AOENGINE::Color green{ 0,1,0,1 };
 		inline constexpr AOENGINE::Color blue{ 0,0,1,1 };
+		inline constexpr AOENGINE::Color yellow{ 1,1,0,1 };
 	}
 	namespace SRGB255 {  // 0〜255
 		constexpr const AOENGINE::Color black{ 0,0,0,255 };
@@ -98,5 +99,6 @@ namespace Colors {
 		constexpr const AOENGINE::Color red{ 255,0,0,255 };
 		constexpr const AOENGINE::Color green{ 0,255,0,255 };
 		constexpr const AOENGINE::Color blue{ 0,0,255,255 };
+		constexpr const AOENGINE::Color yellow{ 255,255,0,255 };
 	}
 }

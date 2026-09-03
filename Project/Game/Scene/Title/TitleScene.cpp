@@ -19,6 +19,7 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::OnPlayStart() {
+	titleUI_.Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,11 @@ void TitleScene::OnPlayStart() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::Update() {
-	if (AOENGINE::Input::GetInstance()->GetKey(DIK_SPACE)) {
+	// 次のシーンの選択
+	TitleUI::TitleItem current = titleUI_.Update();
+	if (current == TitleUI::TitleItem::Start) {
 		nextSceneType_ = SceneType::Game;
+	} else if (current == TitleUI::TitleItem::Exit) {
+		endRequest_ = true;
 	}
 }

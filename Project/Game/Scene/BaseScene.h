@@ -83,6 +83,8 @@ public:
 	void SetSceneName(const std::string& sceneName) { sceneName_ = sceneName; }
 	const std::string& GetSceneName() const { return sceneName_; }
 
+	bool GetEndRequest() const { return endRequest_; }
+
 protected:
 
 	std::optional<SceneType> nextSceneType_ = std::nullopt;
@@ -95,6 +97,8 @@ protected:
 	std::unique_ptr<Skybox> skybox_;
 
 	std::string sceneName_;
+
+	bool endRequest_ = false;
 
 	// ------------------- camera ------------------- //
 	std::unique_ptr<Camera2d> camera2d_ = nullptr;

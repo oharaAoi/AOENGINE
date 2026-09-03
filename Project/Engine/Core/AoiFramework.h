@@ -63,9 +63,11 @@ private:
 
 	const char* windowTitle_;
 
-	bool endRequest_;
-
 	Logger logger_;
+
+protected: 
+
+	bool endRequest_;
 
 };
 

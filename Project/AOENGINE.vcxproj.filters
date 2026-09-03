@@ -1252,6 +1252,8 @@
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h" />
     <ClInclude Include="Game\Battle\BlockDamageCalculator.h" />
+    <ClInclude Include="Game\UI\TitleUI.h" />
+    <ClInclude Include="Game\UI\GameClearUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2138,5 +2140,7 @@
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp" />
     <ClCompile Include="Game\Battle\BlockDamageCalculator.cpp" />
+    <ClCompile Include="Game\UI\TitleUI.cpp" />
+    <ClCompile Include="Game\UI\GameClearUI.cpp" />
   </ItemGroup>
 </Project>

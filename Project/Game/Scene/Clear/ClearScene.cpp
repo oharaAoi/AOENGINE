@@ -19,6 +19,7 @@ void ClearScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ClearScene::OnPlayStart() {
+	clearUI_.Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,4 +27,11 @@ void ClearScene::OnPlayStart() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void ClearScene::Update() {
+	// 次のシーンの選択
+	GameClearUI::GameClearItem current = clearUI_.Update();
+	if (current == GameClearUI::GameClearItem::Retry) {
+		nextSceneType_ = SceneType::Game;
+	} else if (current == GameClearUI::GameClearItem::Exit) {
+		endRequest_ = true;
+	}
 }

@@ -1,6 +1,8 @@
 #pragma once
+
 // game
 #include "Game/Scene/BaseScene.h"
+#include "Game/UI/TitleUI.h"
 
 class TitleScene :
 	public BaseScene {
@@ -28,5 +30,10 @@ public:
 	/// 更新処理
 	/// </summary>
 	void Update() override;
+
+private: // private variables
+
+	TitleUI titleUI_;
+
 };
 
