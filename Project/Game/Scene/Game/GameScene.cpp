@@ -9,6 +9,7 @@
 /// game
 #include "Game/Actor/Player/Player.h"
 #include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Floor/DamageFloor.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Block.h"
 
@@ -22,6 +23,10 @@ GameScene::~GameScene()
 void GameScene::Finalize()
 {
 	boss_.reset();
+	damageFloor_.reset();
+	followCamera_.reset();
+	player_.reset();
+
 	// ステージのブロックを SceneWorld から破棄し、連結グループ表を空にする。
 	// GameScene のデストラクタからも呼ばれるため、複数回呼ばれても安全であること。
 	ClearStage();
@@ -46,6 +51,7 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+	damageFloor_ = std::make_unique<DamageFloor>();
 }
 
 void GameScene::OnPlayStart()
@@ -56,6 +62,7 @@ void GameScene::OnPlayStart()
 	player_->Init(ResolvePlayerBody());
 	// ボス初期化
 	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
+	damageFloor_->Init(FindSceneObject<AOENGINE::BaseGameObject>("DamageFloor"));
 	// カメラ初期化
 	followCamera_->Init();
 	backgrounds_->Init(&stageBlockField_, &stageSegment_);
@@ -96,6 +103,12 @@ void GameScene::Update()
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		boss_->Update(viewProjection);
+	}
+
+	if (damageFloor_ && followCamera_) {
+		const Math::Matrix4x4 viewProjection =
+			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
+		damageFloor_->Update(viewProjection);
 	}
 
 #ifdef _DEVELOPMENT

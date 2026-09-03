@@ -10,6 +10,7 @@
 class Player;
 class FollowCamera;
 class Boss;
+class DamageFloor;
 
 class GameScene : public BaseScene
 {
@@ -71,4 +72,5 @@ private:
 	/// CSVから読み込んだステージセグメント
 	StageSegment stageSegment_;
 	std::unique_ptr<Boss> boss_;
+	std::unique_ptr<DamageFloor> damageFloor_;
 };

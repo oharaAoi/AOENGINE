@@ -37,7 +37,7 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 	}
 
 	// スクリーン座標上の固定位置に見えるワールド座標を求める
-	const BossScreenAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
+	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
 
 	if (WorldTransform* transform = GetTransform()) {

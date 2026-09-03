@@ -274,6 +274,12 @@
     <Filter Include="Game\Actor\Boss\Component">
       <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Common">
+      <UniqueIdentifier>{3475A84E-15EB-43D8-9916-5C6598586F90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Floor">
+      <UniqueIdentifier>{DE2EA7C9-8220-45EA-A3C3-17C2A595D12B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Player">
       <UniqueIdentifier>{036C1BBB-6F82-1951-B8F9-A472244FEAD8}</UniqueIdentifier>
     </Filter>
@@ -1167,6 +1173,9 @@
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h">
+      <Filter>Game\Actor\Common</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClInclude>
@@ -1226,6 +1235,10 @@
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\StageFactory.h" />
+    <ClInclude Include="Game\Actor\Floor\DamageFloor.h">
+      <Filter>Game\Actor\Floor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -2048,6 +2061,9 @@
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp">
+      <Filter>Game\Actor\Common</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
@@ -2097,5 +2113,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\Stage\StageFactory.cpp" />
+    <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp">
+      <Filter>Game\Actor\Floor</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

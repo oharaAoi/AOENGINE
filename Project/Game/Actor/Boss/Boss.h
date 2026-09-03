@@ -3,7 +3,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Game/Actor/Boss/BossParameter.h"
-#include "Game/Actor/Boss/Component/BossScreenAnchor.h"
+#include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 #include "Game/Actor/Boss/Component/BossCollision.h"
 
 /// <summary>
@@ -30,7 +30,7 @@ private:
 
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;
-	BossScreenAnchor screenAnchor_;
+	ScreenWorldPlaneAnchor screenAnchor_;
 	BossCollision collision_;
 
 	Math::Vector3 position_{};
