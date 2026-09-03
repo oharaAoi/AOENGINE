@@ -1287,6 +1287,8 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShake.h" />
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2199,5 +2201,7 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShake.cpp" />
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.cpp" />
   </ItemGroup>
 </Project>
