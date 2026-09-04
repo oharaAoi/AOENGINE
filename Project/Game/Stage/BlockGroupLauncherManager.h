@@ -47,6 +47,17 @@ public:
 	void Clear();
 
 	/// <summary>
+	/// 指定した Collider のブロックが属するランチャーへ、ボスに当たったことを通知する。
+	/// 通知されたランチャーは次の Update() でブロックを破棄する
+	/// </summary>
+	/// <param name="collider">ボスに当たったブロックの Collider</param>
+	/// <returns>
+	/// そのランチャーへ初めて通知した場合のみ true。
+	/// 既に当たっている塊や、どのランチャーにも属していない Collider の場合は false
+	/// </returns>
+	bool NotifyBossHit(const AOENGINE::BaseCollider* collider);
+
+	/// <summary>
 	/// 動いている全ランチャーの接続線を描画する
 	/// </summary>
 	/// <param name="color">線の色</param>

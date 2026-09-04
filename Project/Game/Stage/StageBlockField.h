@@ -166,6 +166,14 @@ public:
 	/// <param name="groupId">切り離すグループID</param>
 	void DetachGroup(int groupId);
 
+	/// <summary>
+	/// 段から切り離したブロック（集合・打ち上げの対象になったもの）を1個破棄する。
+	/// GameObject の破棄と、このクラスが持っている所有権の解放をまとめて行う。
+	/// 打ち上げたブロックがボスに当たった時など、飛んでいる途中で消したい場合に使う。
+	/// </summary>
+	/// <param name="block">破棄するブロック。切り離されていないブロックを渡した場合は何もしない</param>
+	void DestroyDetachedBlock(Block* block);
+
 	/// <summary>Collider から Block を引く表への登録先を設定する（非所有）</summary>
 	void SetBlockCollisionCallBacks(PlayerBlockCollisionCallBacks* callBacks){ pBlockCallBacks_ = callBacks; }
 

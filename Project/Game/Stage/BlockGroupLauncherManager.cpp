@@ -42,6 +42,16 @@ void BlockGroupLauncherManager::Clear(){
 	}
 }
 
+bool BlockGroupLauncherManager::NotifyBossHit(const AOENGINE::BaseCollider* collider){
+	for(BlockGroupLauncher& launcher : launchers_){
+		if(!launcher.HasCollider(collider)){
+			continue;
+		}
+		return launcher.NotifyBossHit();
+	}
+	return false;
+}
+
 void BlockGroupLauncherManager::DrawConnectLine(const AOENGINE::Color& color,float thickness) const{
 	for(const BlockGroupLauncher& launcher : launchers_){
 		if(!launcher.IsActive()){
