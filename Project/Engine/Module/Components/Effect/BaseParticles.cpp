@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Engine/System/Manager/MeshManager.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
@@ -17,7 +18,13 @@ using namespace AOENGINE;
 // ↓ 初期化処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void AOENGINE::BaseParticles::Init(const std::string& name) {
+BaseParticles::~BaseParticles() {
+	if (registeredForGameView_) {
+		ParticleManager::GetInstance()->UnregisterExternalParticle(this);
+	}
+}
+
+void AOENGINE::BaseParticles::Init(const std::string& name, bool registerForGameView) {
 	particleName_ = name;
 	SetName(name);
 
@@ -46,6 +53,10 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 	worldTransform_->Init();
 	worldTransform_->SetRotate(Math::Quaternion::EulerToQuaternion(emitter_.rotate));
 	worldTransform_->SetTranslate(emitter_.translate);
+
+	if (registerForGameView) {
+		registeredForGameView_ = ParticleManager::GetInstance()->RegisterExternalParticle(this);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

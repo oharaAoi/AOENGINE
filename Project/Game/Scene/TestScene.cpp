@@ -3,10 +3,12 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 /// game
 #include "Game/Actor/Player/Player.h"
 #include "Game/WorldObject/Block.h"
+#include <System/Manager/ParticleManager.h>
 
 TestScene::TestScene() {}
 TestScene::~TestScene() { Finalize(); }
@@ -30,6 +32,8 @@ void TestScene::Init()
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
 	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);
+	
+	AOENGINE::BaseParticles* particle = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

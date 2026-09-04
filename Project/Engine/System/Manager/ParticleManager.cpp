@@ -3,6 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
+#include <algorithm>
 
 using namespace AOENGINE;
 
@@ -16,6 +17,7 @@ AOENGINE::ParticleManager* AOENGINE::ParticleManager::GetInstance() {
 }
 
 void ParticleManager::Finalize() {
+	externalEmitters_.clear();
 	retiredEmitters_.splice(retiredEmitters_.end(), emitterList_);
 	particleUpdater_.Finalize();
 	if (particleRenderer_) { retiredRenderers_.push_back(std::move(particleRenderer_)); }
@@ -56,7 +58,15 @@ void ParticleManager::Update() {
 	for (auto& emitter : emitterList_) {
 		if (emitter->GetChangeMesh()) {
 			emitter->ChangeMesh();
-			particleRenderer_->ChangeMesh(emitter->GetName(), emitter->GetMesh());
+			particleRenderer_->ChangeMesh(emitter->GetRuntimeId(), emitter->GetMesh());
+		}
+		emitter->Update();
+	}
+	for (BaseParticles* emitter : externalEmitters_) {
+		if (!emitter) { continue; }
+		if (emitter->GetChangeMesh()) {
+			emitter->ChangeMesh();
+			particleRenderer_->ChangeMesh(emitter->GetRuntimeId(), emitter->GetMesh());
 		}
 		emitter->Update();
 	}
@@ -96,10 +106,11 @@ void ParticleManager::Draw(const Math::Frustum& frustum) const {
 
 AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& particlesFile) {
 	auto& newParticles = emitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
-	newParticles->Init(particlesFile);
+	newParticles->Init(particlesFile, false);
+	newParticles->SetRuntimeId(particlesFile + "#" + std::to_string(nextRuntimeId_++));
 	std::string textureName = newParticles->GetUseTexture();
 	newParticles->SetShareMaterial(
-		particleRenderer_->AddParticle(newParticles->GetName(),
+		particleRenderer_->AddParticle(newParticles->GetRuntimeId(),
 									   textureName,
 									   newParticles->GetMesh(),
 									   newParticles->GetBlendMode(),
@@ -107,10 +118,37 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 	);
 
 	newParticles->GetShareMaterial()->SetAlbedoTexture(newParticles->GetUseTexture());
-	particleUpdater_.Add(particlesFile);
-	particleUpdater_.SetRuntimeBlendMode(particlesFile, newParticles->GetBlendMode());
-	newParticles->SetParticlesList(particleUpdater_.GetParticles(particlesFile));
+	particleUpdater_.Add(newParticles->GetRuntimeId());
+	particleUpdater_.SetRuntimeBlendMode(newParticles->GetRuntimeId(), newParticles->GetBlendMode());
+	newParticles->SetParticlesList(particleUpdater_.GetParticles(newParticles->GetRuntimeId()));
 	return newParticles.get();
+}
+
+bool ParticleManager::RegisterExternalParticle(BaseParticles* particle) {
+	if (!particle || !particleRenderer_) { return false; }
+	if (std::find(externalEmitters_.begin(), externalEmitters_.end(), particle) != externalEmitters_.end()) {
+		return true;
+	}
+
+	particle->SetRuntimeId(particle->GetName() + "#" + std::to_string(nextRuntimeId_++));
+	particle->SetShareMaterial(particleRenderer_->AddParticle(
+		particle->GetRuntimeId(), particle->GetUseTexture(), particle->GetMesh(),
+		particle->GetBlendMode(), particle->GetMaxParticles()));
+	particleUpdater_.Add(particle->GetRuntimeId());
+	particleUpdater_.SetRuntimeBlendMode(particle->GetRuntimeId(), particle->GetBlendMode());
+	particle->SetParticlesList(particleUpdater_.GetParticles(particle->GetRuntimeId()));
+	externalEmitters_.push_back(particle);
+	return true;
+}
+
+void ParticleManager::UnregisterExternalParticle(BaseParticles* particle) {
+	if (!particle) { return; }
+	const auto it = std::find(externalEmitters_.begin(), externalEmitters_.end(), particle);
+	if (it == externalEmitters_.end()) { return; }
+	const std::string runtimeId = particle->GetRuntimeId();
+	externalEmitters_.erase(it);
+	particleUpdater_.Remove(runtimeId);
+	if (particleRenderer_) { particleRenderer_->RemoveParticle(runtimeId); }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -120,6 +158,8 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 void ParticleManager::DeleteParticles(AOENGINE::BaseParticles* ptr) {
 	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
 		if (it->get() == ptr) {
+			particleUpdater_.Remove(ptr->GetRuntimeId());
+			if (particleRenderer_) { particleRenderer_->RemoveParticle(ptr->GetRuntimeId()); }
 			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
 		} else {
 			++it;

@@ -280,3 +280,7 @@ void ParticleInstancingRenderer::ChangeMesh(const std::string& id, std::shared_p
 	particleMap_[id].pMesh = _mesh;
 	particleMap_[id].localBoundingSphere = CalculateLocalBoundingSphere(*_mesh);
 }
+
+void ParticleInstancingRenderer::RemoveParticle(const std::string& id) {
+	particleMap_.erase(id);
+}

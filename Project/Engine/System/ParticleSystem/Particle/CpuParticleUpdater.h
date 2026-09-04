@@ -43,6 +43,7 @@ public:
 	/// </summary>
 	/// <param name="name">: 名前</param>
 	void Add(const std::string& name);
+	void Remove(const std::string& name);
 
 public:
 

@@ -92,6 +92,7 @@ public:
 		std::shared_ptr<AOENGINE::Mesh> _pMesh, uint32_t blendType, uint32_t capacity);
 
 	void ChangeMesh(const std::string& id, std::shared_ptr<AOENGINE::Mesh> _mesh);
+	void RemoveParticle(const std::string& id);
 
 	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& view2d, const Math::Matrix4x4& bill) {
 		perView_->viewProjection = view;
