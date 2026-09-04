@@ -7,34 +7,10 @@
                 "animator": false,
                 "components": [
                     {
-                        "drag": 0.0,
-                        "gravity": false,
-                        "gravityAccel": [
-                            0.0,
-                            -9.8100004196167,
-                            0.0
-                        ],
-                        "moveForce": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "type": "Rigidbody",
-                        "velocity": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
                         "active": true,
-                        "category": "Player",
+                        "category": "Beam",
                         "collisionMask": [
-                            "Block",
-                            "Wall",
-                            "DamageFloor",
-                            "Fireball",
-                            "Beam"
+                            "Player"
                         ],
                         "localPosition": [
                             0.0,
@@ -43,16 +19,16 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            0.8999999761581421,
-                            0.8999999761581421,
+                            40.0,
+                            1.2000000476837158,
                             1.0
                         ],
                         "static": false,
-                        "trigger": false,
+                        "trigger": true,
                         "type": "AABBCollider"
                     }
                 ],
-                "enableShadow": true,
+                "enableShadow": false,
                 "isReflection": false,
                 "isRendering": true,
                 "materials": [
@@ -60,12 +36,12 @@
                         "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.25,
+                            0.10000000149011612,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
+                        "enableLighting": false,
                         "iblScale": 0.5,
                         "shaderType": 0,
                         "shininess": 100.0,
@@ -88,7 +64,7 @@
                         ]
                     }
                 ],
-                "model": "Player.gltf",
+                "model": "Block.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -96,23 +72,23 @@
                     1.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    40.0,
+                    1.2000000476837158,
                     1.0
                 ],
                 "translate": [
                     0.0,
-                    2.009280204772949,
+                    0.0,
                     0.0
                 ]
             },
             "id": 1,
-            "name": "Player",
+            "name": "Beam",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Player",
+    "prefabName": "Beam",
     "rootId": 1,
     "version": 1
 }

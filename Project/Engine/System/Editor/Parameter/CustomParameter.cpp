@@ -54,3 +54,8 @@ void CustomParameterSet::AddParameter(const std::string& label, Color& value) {
 void CustomParameterSet::AddParameter(const std::string& label, std::string& value) {
 	AddField(label, CustomParameterType::String, &value);
 }
+
+void CustomParameterSet::AddSeparatorText(const std::string& label) {
+	// 値を持たないので value は nullptr
+	AddField(label, CustomParameterType::SeparatorText, nullptr);
+}

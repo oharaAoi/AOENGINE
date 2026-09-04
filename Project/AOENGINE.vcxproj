@@ -455,6 +455,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Externals\ImGui\imstb_textedit.h" />
     <ClInclude Include="Externals\ImGui\imstb_truetype.h" />
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.h" />
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.h" />
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h" />
@@ -770,6 +771,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Externals\ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Externals\ImGui\imnodes.cpp" />
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.cpp" />
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.cpp" />
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />

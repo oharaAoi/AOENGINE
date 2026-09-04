@@ -4,6 +4,7 @@
 
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackFallFire.h"
+#include "Game/Actor/Boss/AttackBehavior/BossAttackBeam.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  初期化
@@ -76,6 +77,10 @@ void BossBehaviorController::Debug_Gui(Boss& boss) {
 	// 攻撃が増えたらボタンもここに増やす
 	if (ImGui::Button("FallFire")) {
 		ChangeBehavior(boss, std::make_unique<BossAttackFallFire>());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Beam")) {
+		ChangeBehavior(boss, std::make_unique<BossAttackBeam>());
 	}
 }
 

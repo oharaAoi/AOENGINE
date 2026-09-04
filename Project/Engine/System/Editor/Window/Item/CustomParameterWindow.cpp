@@ -32,6 +32,12 @@ void CustomParameterWindow::Edit() {
 		ImGui::PushID(parameters);
 		if (ImGui::CollapsingHeader(parameters->GetDisplayName().c_str(), ImGuiTreeNodeFlags_DefaultOpen)) {
 			for (const CustomParameterField& field : parameters->GetFields()) {
+				// 見出しは値を持たないので、value のチェックより先に処理する
+				if (field.type == CustomParameterType::SeparatorText) {
+					ImGui::SeparatorText(field.label.c_str());
+					continue;
+				}
+
 				if (!field.value) { continue; }
 				switch (field.type) {
 				case CustomParameterType::Bool:

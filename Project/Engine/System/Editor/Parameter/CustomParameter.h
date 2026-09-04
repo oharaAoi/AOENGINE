@@ -20,6 +20,7 @@ enum class CustomParameterType {
 	Vector4,
 	Color,
 	String,
+	SeparatorText,	// 値を持たない、区切り線つきの見出し
 };
 
 struct CustomParameterField {
@@ -62,6 +63,11 @@ protected:
 		float minValue = 0.0f, float maxValue = 0.0f);
 	void AddParameter(const std::string& label, Color& value);
 	void AddParameter(const std::string& label, std::string& value);
+
+	/// <summary>
+	/// パラメータの区切り見出しを追加する(値は持たない、表示だけ)
+	/// </summary>
+	void AddSeparatorText(const std::string& label);
 
 private:
 	void AddField(const std::string& label, CustomParameterType type, void* value,
