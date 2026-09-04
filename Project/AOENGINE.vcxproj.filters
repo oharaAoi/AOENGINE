@@ -954,6 +954,9 @@
     <ClInclude Include="Engine\System\Manager\SceneManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Manager\ShaderGraphManager.h">
+      <Filter>Engine\System\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Manager\SystemManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
@@ -1273,6 +1276,9 @@
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Stage\BlockGroupLauncherManager.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
     <ClInclude Include="Game\Stage\GridPos.h">
@@ -1922,6 +1928,9 @@
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Manager\ShaderGraphManager.cpp">
+      <Filter>Engine\System\Manager</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
@@ -2202,6 +2211,9 @@
       <Filter>Game\Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Stage\BlockGroupLauncherManager.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp">

@@ -50,6 +50,10 @@ struct GpuParticleEmitterData {
 	float height;
 	
 	int32_t beAffectedByField;
+	uint32_t coneEmitFrom;
+	float radiusThickness;
+	float arc;
+	float randomDirectionAmount;
 };
 
 enum class EmitType {
@@ -81,6 +85,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	Math::Vector3 rotate = Math::Vector3(0, 0, 0);
 	Math::Vector3 pos = Math::Vector3(0, 0, 0);
 	uint32_t rateOverTimeCout = 10;
+	float emitSpacing = 0.1f;
+	uint32_t maxEmitPerFrame = 256;
+	float teleportThreshold = 50.0f;
 	int shape = 0;
 	int emitType = 0;
 	int emitOrigin = 0;
@@ -103,8 +110,12 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 
 	float radius = 1.0f;
 	Math::Vector3 size = CVector3::UNIT;
-	float angle = 1.2f;
+	float angle = 27.0f;
 	float height = 2.0f;
+	int coneEmitFrom = 0;
+	float radiusThickness = 1.0f;
+	float arc = 360.0f;
+	float randomDirectionAmount = 0.0f;
 
 	bool beAffectedByField = false;
 
@@ -123,6 +134,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("rotate", rotate)
 			.Add("pos", pos)
 			.Add("rateOverTimeCout", rateOverTimeCout)
+			.Add("emitSpacing", emitSpacing)
+			.Add("maxEmitPerFrame", maxEmitPerFrame)
+			.Add("teleportThreshold", teleportThreshold)
 			.Add("shape", shape)
 			.Add("emitType", emitType)
 			.Add("emitOrigin", emitOrigin)
@@ -142,6 +156,10 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("coneEmitFrom", coneEmitFrom)
+			.Add("radiusThickness", radiusThickness)
+			.Add("arc", arc)
+			.Add("randomDirectionAmount", randomDirectionAmount)
 			.Add("beAffectedByField", beAffectedByField)
 
 			.Build();
@@ -155,6 +173,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "rotate", rotate);
 		Convert::fromJson(jsonData, "pos", pos);
 		Convert::fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		Convert::fromJson(jsonData, "emitSpacing", emitSpacing);
+		Convert::fromJson(jsonData, "maxEmitPerFrame", maxEmitPerFrame);
+		Convert::fromJson(jsonData, "teleportThreshold", teleportThreshold);
 		Convert::fromJson(jsonData, "shape", shape);
 		Convert::fromJson(jsonData, "emitType", emitType);
 		Convert::fromJson(jsonData, "emitOrigin", emitOrigin);
@@ -174,6 +195,10 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "size", size);
 		Convert::fromJson(jsonData, "angle", angle);
 		Convert::fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "coneEmitFrom", coneEmitFrom);
+		Convert::fromJson(jsonData, "radiusThickness", radiusThickness);
+		Convert::fromJson(jsonData, "arc", arc);
+		Convert::fromJson(jsonData, "randomDirectionAmount", randomDirectionAmount);
 		Convert::fromJson(jsonData, "beAffectedByField", beAffectedByField);
 	}
 

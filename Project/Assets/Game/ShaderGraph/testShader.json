@@ -1,0 +1,190 @@
+{
+    "assetType": "ShaderGraph",
+    "domain": "Texture",
+    "links": [
+        {
+            "fromNode": 1734875880736,
+            "fromPin": "DxResource",
+            "toNode": 1734855925616,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1734876532304,
+            "fromPin": "uv",
+            "toNode": 1734855925616,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 1734875870672,
+            "fromPin": "output",
+            "toNode": 1734876532304,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 1734875872304,
+            "fromPin": "output",
+            "toNode": 1734876532304,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 1734875870944,
+            "fromPin": "output",
+            "toNode": 1734876532304,
+            "toPin": "inputUV"
+        },
+        {
+            "fromNode": 1734855925616,
+            "fromPin": "DxResource",
+            "toNode": 1734875284800,
+            "toPin": "BaseTex"
+        },
+        {
+            "fromNode": 1734875876656,
+            "fromPin": "DxResource",
+            "toNode": 1734875284800,
+            "toPin": "NoiseTex"
+        },
+        {
+            "fromNode": 1734875874208,
+            "fromPin": "output",
+            "toNode": 1734875284800,
+            "toPin": "threshold"
+        },
+        {
+            "fromNode": 1734875284800,
+            "fromPin": "DxResource",
+            "toNode": 1734875865968,
+            "toPin": "DxResource"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1734875865968,
+            "name": "ResultNode",
+            "pos": [
+                1270.0,
+                440.0
+            ]
+        },
+        {
+            "id": 1734875876656,
+            "name": "Texture",
+            "pos": [
+                370.0,
+                510.0
+            ],
+            "props": {
+                "textureName": "FireNoize.dds"
+            }
+        },
+        {
+            "id": 1734875880736,
+            "name": "Texture",
+            "pos": [
+                60.0,
+                240.0
+            ],
+            "props": {
+                "textureName": "noise0.dds"
+            }
+        },
+        {
+            "id": 1734875872304,
+            "name": "Property_Vector2",
+            "pos": [
+                -220.0,
+                460.0
+            ],
+            "props": {
+                "value": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "id": 1734855925616,
+            "name": "SampleTexture2D",
+            "pos": [
+                350.0,
+                300.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "id": 1734876532304,
+            "name": "UVTransform",
+            "pos": [
+                130.0,
+                400.0
+            ]
+        },
+        {
+            "id": 1734875284800,
+            "name": "Dissolve",
+            "pos": [
+                790.0,
+                430.0
+            ],
+            "props": {
+                "dissolveColor": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                },
+                "edgeWidth": 1.0,
+                "threshold": 0.44999998807907104
+            }
+        },
+        {
+            "id": 1734875870672,
+            "name": "Property_Vector2",
+            "pos": [
+                -220.0,
+                390.0
+            ],
+            "props": {
+                "value": [
+                    1.0,
+                    1.0
+                ]
+            }
+        },
+        {
+            "id": 1734875870944,
+            "name": "Property_Vector2",
+            "pos": [
+                -230.0,
+                320.0
+            ],
+            "props": {
+                "value": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "id": 1734875874208,
+            "name": "Property_Float",
+            "pos": [
+                530.0,
+                620.0
+            ],
+            "props": {
+                "value": [
+                    0.44999998807907104
+                ]
+            }
+        }
+    ],
+    "schemaVersion": 1
+}

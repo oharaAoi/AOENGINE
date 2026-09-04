@@ -106,10 +106,9 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].scale = float3(x, y, z);
 			}
 			
-			float t = 0;
-			if (countIndex > 1) {
-				t = (countIndex) / float(gEmitter.count - 1);
-			}
+			float t = gEmitter.count > 1
+				? countIndex / float(gEmitter.count - 1)
+				: 0.0f;
 			float3 pos = lerp(gEmitter.prePos, gEmitter.pos, t);
 			
 			// 半径から射出位置を決定する

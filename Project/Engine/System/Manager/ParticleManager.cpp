@@ -38,7 +38,7 @@ void ParticleManager::Init() {
 	SetName("ParticleManager");
 
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(BaseParticles::kMaxParticles);
+	particleRenderer_->Init(BaseParticles::kDefaultMaxParticles);
 
 }
 
@@ -49,8 +49,8 @@ void ParticleManager::Init() {
 void ParticleManager::Update() {
 	this->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetProjection2D(), Math::Matrix4x4::MakeUnit());
 
-	// particleの更新
-	particleUpdater_.Update();
+	// 新規生成の前に寿命切れParticleを回収する
+	particleUpdater_.RemoveDeadParticles();
 
 	// emitterの更新
 	for (auto& emitter : emitterList_) {
@@ -60,6 +60,9 @@ void ParticleManager::Update() {
 		}
 		emitter->Update();
 	}
+
+	// 新しく生成したParticleも含めて更新・描画データを構築する
+	particleUpdater_.Update();
 
 	// renderの更新
 	particleUpdater_.RendererUpdate(particleRenderer_.get());
@@ -99,7 +102,8 @@ AOENGINE::BaseParticles* ParticleManager::CreateParticle(const std::string& part
 		particleRenderer_->AddParticle(newParticles->GetName(),
 									   textureName,
 									   newParticles->GetMesh(),
-									   newParticles->GetBlendMode())
+									   newParticles->GetBlendMode(),
+									   newParticles->GetMaxParticles())
 	);
 
 	newParticles->GetShareMaterial()->SetAlbedoTexture(newParticles->GetUseTexture());

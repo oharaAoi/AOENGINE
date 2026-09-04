@@ -91,10 +91,9 @@ void CSmain(uint3 DTid : SV_DispatchThreadID) {
 				gParticles[particleIndex].scale = float3(x, y, z);
 			}
 			
-			float t = 0;
-			if (countIndex > 1) {
-				t = (countIndex) / float(gEmitter.count - 1);
-			}
+			float t = gEmitter.count > 1
+				? countIndex / float(gEmitter.count - 1)
+				: 0.0f;
 			t = clamp(t, 0.0f, 1.0f);
 			float3 pos = lerp(gEmitter.prePos, gEmitter.pos, t);
 			

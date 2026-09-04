@@ -94,6 +94,10 @@ public:
 	std::string SelectMeshName();
 
 private:
+	/// <summary>
+	/// MeshManagerで使用するキーを生成する（末尾の拡張子を除去）
+	/// </summary>
+	static std::string CreateKey(const std::string& name);
 
 	static std::unordered_map<std::string, MeshArray> meshArrayMap_;
 	static std::unordered_map<std::string, std::shared_ptr<AOENGINE::Mesh>> meshMap_;

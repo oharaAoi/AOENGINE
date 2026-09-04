@@ -146,6 +146,11 @@ public:
 	/// <returns></returns>
 	std::optional<AssetHandle> SearchAssetHandle(const std::string& name);
 
+	/// <summary>
+	/// Textureが登録されているかを副作用なしで確認する
+	/// </summary>
+	bool ExistTexture(const std::string& name) const;
+
 private:
 
 	/// <summary>
@@ -187,6 +192,7 @@ public:
 	const std::vector<std::string>& GetFileNames() const { return fileNames_; }
 
 	const DescriptorHandles& GetDxHeapHandles(const std::string& fileName) const;
+	bool IsTexture2D(const std::string& fileName) const;
 
 	void StackTexture(const std::string& directoryPath, const std::string& filePath);
 
@@ -201,6 +207,7 @@ private:
 		AOENGINE::DxResource* resource_ = nullptr;;
 		ComPtr<ID3D12Resource> intermediateResource_ = nullptr;
 		Math::Vector2 textureSize_;
+		D3D12_SRV_DIMENSION srvDimension_ = D3D12_SRV_DIMENSION_UNKNOWN;
 		AssetHandle assetHandle_;
 
 		TextureData()

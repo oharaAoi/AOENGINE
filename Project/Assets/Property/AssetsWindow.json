@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Prefabs"
+        "path": "Project\\Assets\\Game\\Load\\Models\\Player"
     },
     "openDir": {
         "./Assets": false,
@@ -23,11 +23,13 @@
         "./Project/Assets\\Game\\HLSL": false,
         "./Project/Assets\\Game\\Load": true,
         "./Project/Assets\\Game\\Load\\Models": true,
+        "./Project/Assets\\Game\\Load\\Models\\Player": true,
         "./Project/Assets\\Game\\Load\\Sounds": false,
         "./Project/Assets\\Game\\Load\\Textures": false,
         "./Project/Assets\\Game\\Pipeline": false,
         "./Project/Assets\\Game\\Prefabs": true,
         "./Project/Assets\\Game\\Scene": true,
+        "./Project/Assets\\Game\\ShaderGraph": false,
         "./Project/Assets\\Game\\StageData": false,
         "./Project/Assets\\Property": false
     }

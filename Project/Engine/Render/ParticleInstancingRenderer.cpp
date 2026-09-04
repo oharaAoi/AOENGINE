@@ -129,8 +129,31 @@ void ParticleInstancingRenderer::Update(const std::string& id, const std::vector
 	}
 
 	Information& information = informationIt->second;
+	const uint32_t requiredCapacity = static_cast<uint32_t>(particleData.size());
+	if (requiredCapacity > information.capacity) {
+		uint32_t newCapacity = (std::max)(information.capacity, 1u);
+		while (newCapacity < requiredCapacity) {
+			newCapacity *= 2;
+		}
+
+		ID3D12Device* device = AOENGINE::GraphicsContext::GetInstance()->GetDevice();
+		information.particleResource.Reset();
+		information.particleResource = CreateBufferResource(device, sizeof(ParticleData) * newCapacity);
+		information.particleData = nullptr;
+		information.particleResource->Map(0, nullptr, reinterpret_cast<void**>(&information.particleData));
+
+		D3D12_SHADER_RESOURCE_VIEW_DESC desc{};
+		desc.Format = DXGI_FORMAT_UNKNOWN;
+		desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+		desc.Buffer.FirstElement = 0;
+		desc.Buffer.NumElements = newCapacity;
+		desc.Buffer.StructureByteStride = sizeof(ParticleData);
+		device->CreateShaderResourceView(information.particleResource.Get(), &desc, information.srvHandle.handleCPU);
+		information.capacity = newCapacity;
+	}
 	information.blendModeType = blendType;
-	information.instanceCount = (std::min)(static_cast<uint32_t>(particleData.size()), maxInstanceNum_);
+	information.instanceCount = (std::min)(static_cast<uint32_t>(particleData.size()), information.capacity);
 	information.anyParticleAlive = anyParticleAlive && information.instanceCount > 0;
 
 	for (uint32_t index = 0; index < information.instanceCount; ++index) {
@@ -195,7 +218,8 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList, co
 // ↓ particleを追加
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<Mesh> _pMesh, uint32_t blendType) {
+std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::string& id, const std::string& textureName,
+													 std::shared_ptr<Mesh> _pMesh, uint32_t blendType, uint32_t capacity) {
 	auto it = particleMap_.find(id);
 	if (it != particleMap_.end()) {
 		return particleMap_[id].materials;		// 見つかったら早期リターン
@@ -213,13 +237,14 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 
 	// -----------------------------------------------------------------
 	Information particles;
+	particles.capacity = (std::max)(capacity, 1u);
 	particles.pMesh = _pMesh;
 	particles.localBoundingSphere = CalculateLocalBoundingSphere(*_pMesh);
 	particles.materials = std::make_shared<Material>();
 	particles.materials->Init();
 	particles.textureName = textureName;
 
-	particles.particleResource = CreateBufferResource(device, sizeof(ParticleData) * maxInstanceNum_);
+	particles.particleResource = CreateBufferResource(device, sizeof(ParticleData) * particles.capacity);
 	particles.particleData = nullptr;
 	particles.particleResource->Map(0, nullptr, reinterpret_cast<void**>(&particles.particleData));
 	particles.srvHandle = dxHeap->AllocateSRV();
@@ -230,11 +255,11 @@ std::shared_ptr<Material> ParticleInstancingRenderer::AddParticle(const std::str
 	desc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
 	desc.Buffer.FirstElement = 0;
 	desc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-	desc.Buffer.NumElements = maxInstanceNum_;
+	desc.Buffer.NumElements = particles.capacity;
 	desc.Buffer.StructureByteStride = sizeof(ParticleData);
 	device->CreateShaderResourceView(particles.particleResource.Get(), &desc, particles.srvHandle.handleCPU);
 
-	for (uint32_t index = 0; index < maxInstanceNum_; ++index) {
+	for (uint32_t index = 0; index < particles.capacity; ++index) {
 		particles.particleData[index].worldMat = Math::Matrix4x4::MakeUnit();
 		particles.particleData[index].color = { 0,0,0,0 };
 	}
