@@ -37,8 +37,9 @@ public:
 	const std::string kCategory = "Boss";
 
 private:
-
+	// collider
 	AOENGINE::BaseCollider* collider_ = nullptr;
+	// ヒットコールバック
 	std::function<void()> onHit_;
 public:
 	AOENGINE::BaseCollider* GetCollider() const { return collider_; }

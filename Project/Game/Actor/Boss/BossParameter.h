@@ -21,6 +21,13 @@ struct BossParameter :
 	float hp;	             // 最大HP
 	Math::Vector3 hitSize;	// 当たり判定サイズ
 
+	// 火球落とし中の上下跳ね
+	float bounceHeight = 1.0f;	// 跳ねる高さ
+	float bounceSpeed = 8.0f;	// 跳ねる速さ
+
+	// 火球の生成位置
+	float fireballSpawnOffsetY = 0.0f;	// ボスの高さからさらに上下させるオフセット
+
 	// フェーズが切り替わる残HPの割合
 	std::array<float, kPhaseSwitchCount> phaseSwitchRatio;
 
@@ -32,6 +39,9 @@ struct BossParameter :
 		AddParameter("World Z", worldZ, 0.1f);
 		AddParameter("Max HP", hp, 1.0f, 0.0f, 100000.0f);
 		AddParameter("Hit Size (half)", hitSize, 0.1f);
+		AddParameter("Bounce Height", bounceHeight, 0.1f, 0.0f, 100.0f);
+		AddParameter("Bounce Speed", bounceSpeed, 0.1f, 0.0f, 100.0f);
+		AddParameter("Fireball Spawn OffsetY", fireballSpawnOffsetY, 0.1f, -100.0f, 100.0f);
 		AddParameter("Phase Switch Ratio 0", phaseSwitchRatio[0], 0.01f, 0.0f, 1.0f);
 		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
 	}
@@ -42,6 +52,9 @@ struct BossParameter :
 			.Add("worldZ", worldZ)
 			.Add("hp", hp)
 			.Add("hitSize", hitSize)
+			.Add("bounceHeight", bounceHeight)
+			.Add("bounceSpeed", bounceSpeed)
+			.Add("fireballSpawnOffsetY", fireballSpawnOffsetY)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
 			.Build();
 	}
@@ -51,6 +64,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "worldZ", worldZ);
 		Convert::fromJson(jsonData, "hp", hp);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
+		Convert::fromJson(jsonData, "bounceHeight", bounceHeight);
+		Convert::fromJson(jsonData, "bounceSpeed", bounceSpeed);
+		Convert::fromJson(jsonData, "fireballSpawnOffsetY", fireballSpawnOffsetY);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

@@ -5,6 +5,7 @@
 #include "Game/Actor/Boss/BossParameter.h"
 #include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 #include "Game/Actor/Boss/Component/BossCollision.h"
+#include "Game/Actor/Boss/BossBehaviorController.h"
 
 /// <summary>
 /// ボス
@@ -27,6 +28,8 @@ public:
 	void Damage(float amount);
 
 private:
+	// bossBehavior
+	BossBehaviorController behaviorController_;
 
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;
@@ -40,5 +43,8 @@ public: // accessor
 	float GetMaxHp() const { return parameter_.hp; }
 	float GetCurrentHp() const { return currentHp_; }
 	const Math::Vector3& GetPosition() const { return position_; }
+
+	/// <summary>攻撃行動側から調整値を参照するために公開する</summary>
+	const BossParameter& GetParameter() const { return parameter_; }
 
 };

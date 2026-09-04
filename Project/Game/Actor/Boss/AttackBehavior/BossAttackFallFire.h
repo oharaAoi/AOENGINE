@@ -26,7 +26,24 @@ private:
 	/// <summary>
 	/// プレイヤーの上に火玉を生成して落下
 	/// </summary>
-	void SpawnFireball();
+	void SpawnFireball(const Boss& boss);
+
+	/// <summary>
+	/// スポーンタイマーの更新
+	/// </summary>
+	void UpdateSpawnTimer(float deltaTime,const Boss& boss);
+
+	/// <summary>
+	/// 火玉の更新
+	/// </summary>
+	void UpdateFireBall(float deltaTime);
+
+	/// <summary>
+	/// ボスがわっはっは跳ねるやつ
+	/// </summary>
+	/// <param name="boss"></param>
+	/// <param name="deltaTime"></param>
+	void UpdateBossBounce(const Boss& boss, float deltaTime);
 
 private:
 
@@ -44,6 +61,11 @@ private:
 	int spawnedCount_ = 0;// 出した火玉の数
 	float spawnTimer_ = 0.0f;// 次のスポーンまでの時間
 	bool isFinished_ = false;// 終わったか
+
+	// bossMove
+	float bounceTimer_ = 0.0f;//跳ねタイマー
+
+	const std::string kFireBallColliderTag_ = "Fireball";
                       
 
 public:// acceccer

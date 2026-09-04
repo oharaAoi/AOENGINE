@@ -1,0 +1,91 @@
+#include "BossBehaviorController.h"
+
+#include "Engine/System/Manager/ImGuiManager.h"
+
+#include "Game/Actor/Boss/Boss.h"
+#include "Game/Actor/Boss/AttackBehavior/BossAttackFallFire.h"
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  初期化
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBehaviorController::Init(Boss& boss) {
+	ChangeBehavior(boss, SelectNextBehavior(boss));
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  更新
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBehaviorController::Update(Boss& boss, float deltaTime) {
+	// 行動がまだ無ければここで用意する
+	if (!currentBehavior_) {
+		ChangeBehavior(boss, SelectNextBehavior(boss));
+		if (!currentBehavior_) {
+			return;
+		}
+	}
+
+	currentBehavior_->Update(boss, deltaTime);
+
+	// 行動が終わったら次の行動へ切り替える
+	if (currentBehavior_->IsFinished()) {
+		ChangeBehavior(boss, SelectNextBehavior(boss));
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  行動の切り替え
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBehaviorController::ChangeBehavior(Boss& boss, std::unique_ptr<BaseBossAttackBehavior> next) {
+	// 今の行動を終わらせる
+	if (currentBehavior_) {
+		currentBehavior_->Exit(boss);
+	}
+
+	currentBehavior_ = std::move(next);
+
+	// 新しい行動を始める
+	if (currentBehavior_) {
+		currentBehavior_->Enter(boss);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  次の行動を決める
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+std::unique_ptr<BaseBossAttackBehavior> BossBehaviorController::SelectNextBehavior(const Boss& boss) {
+	(void)boss;
+
+	//  攻撃が増えたらここで選び分ける
+	return std::make_unique<BossAttackFallFire>();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  デバッグ表示
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossBehaviorController::Debug_Gui(Boss& boss) {
+	ImGui::TextUnformatted("behavior:");
+	ImGui::SameLine();
+	ImGui::TextUnformatted(GetCurrentName().c_str());
+
+	// 攻撃を単体で確認するために、ここから強制的に切り替えられるようにする
+	// 攻撃が増えたらボタンもここに増やす
+	if (ImGui::Button("FallFire")) {
+		ChangeBehavior(boss, std::make_unique<BossAttackFallFire>());
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  現在の行動名
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+const std::string& BossBehaviorController::GetCurrentName() const {
+	if (!currentBehavior_) {
+		return kNoneName_;
+	}
+	return currentBehavior_->GetName();
+}

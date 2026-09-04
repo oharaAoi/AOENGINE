@@ -7,31 +7,12 @@
                 "animator": false,
                 "components": [
                     {
-                        "drag": 0.0,
-                        "gravity": false,
-                        "gravityAccel": [
-                            0.0,
-                            -9.8100004196167,
-                            0.0
-                        ],
-                        "moveForce": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "type": "Rigidbody",
-                        "velocity": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
                         "active": true,
-                        "category": "Block",
+                        "category": "Fireball",
                         "collisionMask": [
                             "Player",
-                            "Fireball"
+                            "Block",
+                            "Wall"
                         ],
                         "localPosition": [
                             0.0,
@@ -40,12 +21,12 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            1.0,
-                            1.0,
-                            1.0
+                            0.800000011920929,
+                            0.800000011920929,
+                            0.800000011920929
                         ],
-                        "static": true,
-                        "trigger": false,
+                        "static": false,
+                        "trigger": true,
                         "type": "AABBCollider"
                     }
                 ],
@@ -57,8 +38,8 @@
                         "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            0.550000011920929,
-                            0.15000000596046448,
+                            0.20000000298023224,
+                            0.05000000074505806,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
@@ -83,40 +64,9 @@
                             0.0,
                             0.0
                         ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            0.550000011920929,
-                            0.15000000596046448,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
                     }
                 ],
-                "model": "Block.obj",
+                "model": "sphere.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -124,9 +74,9 @@
                     1.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
-                    1.0
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
                 ],
                 "translate": [
                     0.0,
@@ -135,12 +85,12 @@
                 ]
             },
             "id": 1,
-            "name": "Block",
+            "name": "Fireball",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Block",
+    "prefabName": "Fireball",
     "rootId": 1,
     "version": 1
 }

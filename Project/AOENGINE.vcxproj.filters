@@ -112,6 +112,9 @@
     <Filter Include="Engine\Module\Entity\Camera">
       <UniqueIdentifier>{7480F17E-E08D-1F65-6974-1B50D580EB1B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\Entity\Camera\Component">
+      <UniqueIdentifier>{D679C5E7-423E-C4D7-0BA4-F4A17727600D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Module\Geometry">
       <UniqueIdentifier>{8B5C4D8F-7756-76E1-60C3-0CF24C5CDC4D}</UniqueIdentifier>
     </Filter>
@@ -635,6 +638,12 @@
     </ClInclude>
     <ClInclude Include="Engine\Module\Entity\Camera\Camera3d.h">
       <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShake.h">
+      <Filter>Engine\Module\Entity\Camera\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.h">
+      <Filter>Engine\Module\Entity\Camera\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Entity\Camera\DebugCamera.h">
       <Filter>Engine\Module\Entity\Camera</Filter>
@@ -1185,6 +1194,9 @@
     <ClInclude Include="Game\Actor\Boss\Boss.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h">
+      <Filter>Game\Actor\Boss</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\BossParameter.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
@@ -1296,8 +1308,6 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShake.h" />
-    <ClInclude Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1599,6 +1609,12 @@
     </ClCompile>
     <ClCompile Include="Engine\Module\Entity\Camera\Camera3d.cpp">
       <Filter>Engine\Module\Entity\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShake.cpp">
+      <Filter>Engine\Module\Entity\Camera\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.cpp">
+      <Filter>Engine\Module\Entity\Camera\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Entity\Camera\DebugCamera.cpp">
       <Filter>Engine\Module\Entity\Camera</Filter>
@@ -2119,6 +2135,9 @@
     <ClCompile Include="Game\Actor\Boss\Boss.cpp">
       <Filter>Game\Actor\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp">
+      <Filter>Game\Actor\Boss</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
@@ -2216,7 +2235,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShake.cpp" />
-    <ClCompile Include="Engine\Module\Entity\Camera\Component\CameraShakeParameters.cpp" />
   </ItemGroup>
 </Project>

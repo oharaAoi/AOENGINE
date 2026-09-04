@@ -32,7 +32,8 @@
                         "collisionMask": [
                             "Block",
                             "Wall",
-                            "DamageFloor"
+                            "DamageFloor",
+                            "Fireball"
                         ],
                         "localPosition": [
                             0.0,
