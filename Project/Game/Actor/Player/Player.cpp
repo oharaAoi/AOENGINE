@@ -159,15 +159,15 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 			request.targets.push_back(BlockGroupLauncher::Target{ group.groupId, group.connectPosition });
 		}
 
-		blockGroupLauncher_.BeginGather(request,launcherParams);
+		blockGroupLauncherManager_.BeginGather(request,launcherParams);
 	}
 
 	// 専用タイマーが尽きるか打ち上げ入力が来たら上へ打ち上げる
 	if(blockGroupConnectState_.IsLaunchRequested()){
-		blockGroupLauncher_.Launch();
+		blockGroupLauncherManager_.Launch();
 	}
 
-	blockGroupLauncher_.Update(deltaTime);
+	blockGroupLauncherManager_.Update(deltaTime);
 
 	DrawBlockGroupConnectLine();
 }
@@ -177,11 +177,11 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Player::DrawBlockGroupConnectLine() const{
-	// 集合・打ち上げ中はグループが StageBlockField の表から外れているため、
-	// BlockGroupLauncher 側が持つ座標を使って結ぶ
-	if(blockGroupLauncher_.IsActive()){
-		blockGroupLauncher_.DrawConnectLine(kConnectLineColor,6.f);
-		return;
+	// 飛んでいるセットの線と、接続受付中の線を両方描く。
+	// 集合・打ち上げ中のグループは BeginGather() 時点で StageBlockField の表から外れており、
+	// 接続受付中のグループはまだ表に残っているため、両者が同じグループを二重に結ぶことはない
+	if(blockGroupLauncherManager_.IsActive()){
+		blockGroupLauncherManager_.DrawConnectLine(kConnectLineColor,6.f);
 	}
 
 	// 接続受付中は StageBlockField からグループの中心を引いて結ぶ
@@ -346,13 +346,13 @@ void Player::UpdateIgnoredBlocks()
 void Player::SetBlockField(StageBlockField* field)
 {
 	pBlockField_ = field;
-	blockGroupLauncher_.SetField(field);
+	blockGroupLauncherManager_.SetField(field);
 }
 
 void Player::ResetStageReferences()
 {
 	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
-	blockGroupLauncher_.Clear();
+	blockGroupLauncherManager_.Clear();
 	blockGroupConnectState_.Clear();
 	ignoredBlocks_.clear();
 }
@@ -499,7 +499,8 @@ void Player::Debug_Gui()
 	ImGui::Text("connectRemain: %.2f", blockGroupConnectState_.GetRemainingTime());
 	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
 	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
-	ImGui::Text("launchGroups: %d", blockGroupLauncher_.GetGroupCount());
+	ImGui::Text("launchGroups: %d", blockGroupLauncherManager_.GetGroupCount());
+	ImGui::Text("activeLaunchers: %d", blockGroupLauncherManager_.GetActiveCount());
 
 	if (WorldTransform *transform = GetTransform())
 	{
