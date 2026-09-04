@@ -2,81 +2,35 @@
 
 /// stl
 #include <array>
-#include <memory>
 #include <string>
-#include <vector>
 
-class Block;
-class Wall;
-class StageBlockField;
-struct GridPos;
-
-static const int kBlockCol = 11;
-static const int kBlockRow = 11;
+/// game
+#include "Game/Stage/GridPos.h"
 
 /// <summary>
-///  CSVから読み込んだ、複数の Block が配置されている大枠のデータ
+///  CSVから読み込んだ、1セグメント分のブロック配置データ。
+///  ファイルからデータへの橋渡しに専念し、World上の実体は持たない
+///  （実体の生成・所有は StageBlockField が行う）。
 /// </summary>
 class StageSegment{
 public:
-	// blocks_ が std::unique_ptr<Block>（Block は前方宣言のみ）を保持するため、
-	// 特殊メンバ関数をヘッダでインライン生成させず、Block の完全型が見える
-	// StageSegment.cpp 側で定義する（unique_ptr + 前方宣言の定石）。
-	// コンストラクタも例外時のメンバー巻き戻しでデストラクタを要求するため、
-	// デストラクタだけでなくコンストラクタも .cpp 側に出す必要がある。
-	StageSegment();
-	~StageSegment();
-
-	// unique_ptr を持つためコピー不可。ムーブは将来コンテナ（例: std::vector<StageSegment>）
-	// で扱えるように明示的に宣言し、定義は .cpp 側に置く。
-	StageSegment(const StageSegment&) = delete;
-	StageSegment& operator=(const StageSegment&) = delete;
-	StageSegment(StageSegment&&) noexcept;
-	StageSegment& operator=(StageSegment&&) noexcept;
+	StageSegment() = default;
+	~StageSegment() = default;
 
 	/// <summary>
 	/// csvからブロックの配置データを読み込む
 	/// </summary>
 	/// <param name="filePath"></param>
 	void LoadBlockData(const std::string& filePath);
-	/// <summary>
-	/// 読み込んだブロックの配置データを元に、World上にブロックを配置する。
-	/// CSVの値が 1 のセルは Block、2 のセルは Wall として生成する。
-	/// 生成した Block は field に登録され、グリッド座標を通じて上下左右のブロックと連結される。
-	/// Wall は連結・打ち上げの対象にしないため field には登録しない。
-	/// </summary>
-	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
-	/// <param name="segmentIndex">下からどれだけSegmentが積み上がっているかを表す番号</param>
-	void SetupSegmentOnWorld(StageBlockField* field,int segmentIndex);
 
 	/// <summary>
-	/// このセグメントが生成した全ブロック・全ウォールを field の表から外し、GameObject を破棄する。
-	/// 注意: セグメント破棄は連結グループの一部だけを消すことになるが、
-	/// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
-	/// 残りの連結性についての分割(split)検査はここでは行わない。
+	/// 配置データの1マスを取得する。範囲外なら 0（空マス）を返す。
 	/// </summary>
-	/// <param name="field">セグメントを跨いでブロックを管理する連結グループ表</param>
-	void UnregisterFromWorld(StageBlockField* field);
-
-	/// <summary>
-	/// このセグメントが生成した Block を取得する。
-	/// Collider から Block を引く表への登録など、外から中身を走査したい場合に使う。
-	/// </summary>
-	const std::vector<std::unique_ptr<Block>>& GetBlocks() const{ return blocks_; }
+	/// <param name="row">行インデックス（0が最上段。CSVの並びそのまま）</param>
+	/// <param name="col">列インデックス</param>
+	int GetCell(int row,int col) const;
 
 private:
-	/// <summary>指定したグリッド座標に Block を生成し、連結グループ表へ登録する</summary>
-	void CreateBlock(StageBlockField* field,const GridPos& pos);
-	/// <summary>指定したグリッド座標に Wall を生成する（連結グループ表には登録しない）</summary>
-	void CreateWall(const GridPos& pos);
-
 	/// ブロックの配置データ [行][列]
-	std::array<std::array<int,kBlockCol>,kBlockRow> blockData_;
-
-	/// このセグメントが生成した Block（所有権はこのセグメントが持つ）
-	std::vector<std::unique_ptr<Block>> blocks_;
-
-	/// このセグメントが生成した Wall（所有権はこのセグメントが持つ）
-	std::vector<std::unique_ptr<Wall>> walls_;
+	std::array<std::array<int,kBlockCol>,kBlockRow> blockData_{};
 };
-

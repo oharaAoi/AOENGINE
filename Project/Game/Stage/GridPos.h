@@ -4,6 +4,11 @@
 #include <cstddef>
 #include <functional>
 
+/// 1セグメントあたりの列数
+constexpr int kBlockCol = 11;
+/// 1セグメントあたりの行数
+constexpr int kBlockRow = 11;
+
 /// <summary>
 /// ステージ上のブロックが持つグローバルなグリッド座標。
 /// ワールド座標はこの整数座標から導出する（浮動小数での隣接判定は行わない）。

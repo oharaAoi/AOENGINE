@@ -29,6 +29,7 @@ void TestScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,18 +70,16 @@ void TestScene::OnPlayStart()
 void TestScene::SetupStage()
 {
 	stageSegment_.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
-	stageSegment_.SetupSegmentOnWorld(&stageBlockField_, 0);
-
-	// 衝突したColliderから着地したBlockを引けるようにする
-	for (const std::unique_ptr<Block>& block : stageSegment_.GetBlocks()) {
-		playerBlockCallBacks_.RegisterBlock(block.get());
-	}
+	stageBlockField_.BuildSegment(stageSegment_, 0);
 }
 
 void TestScene::ClearStage()
 {
+	// ブロックの実体を破棄するため、先に参照しているものを手放させる
+	if (player_) {
+		player_->ResetStageReferences();
+	}
 	playerBlockCallBacks_.ClearBlocks();
-	stageSegment_.UnregisterFromWorld(&stageBlockField_);
 	stageBlockField_.Clear();
 }
 

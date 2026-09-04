@@ -142,6 +142,8 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 		parameter_.launchSpeed,
 		parameter_.launchAccel,
 		parameter_.launchLifeTime,
+		parameter_.gatherBlockSize,
+		parameter_.gatherSeparationSpeed,
 	};
 
 	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める
@@ -345,6 +347,14 @@ void Player::SetBlockField(StageBlockField* field)
 {
 	pBlockField_ = field;
 	blockGroupLauncher_.SetField(field);
+}
+
+void Player::ResetStageReferences()
+{
+	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
+	blockGroupLauncher_.Clear();
+	blockGroupConnectState_.Clear();
+	ignoredBlocks_.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

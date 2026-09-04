@@ -108,6 +108,9 @@ public: // accessor
 	// 集合・打ち上げでグループを引き当てるための連結グループ表を設定する(非所有)
 	void SetBlockField(StageBlockField* field);
 
+	// ステージが作り直される時に、保持しているブロックへの参照を全て手放す
+	void ResetStageReferences();
+
 	Math::Vector3 GetVelocity() const;
 	float GetFacing() const{ return facing_; }
 };

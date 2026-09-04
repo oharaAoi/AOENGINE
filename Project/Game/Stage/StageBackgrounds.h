@@ -65,14 +65,24 @@ public: // public method
 private: // private method
 
 	/// <summary>
-	/// 背景ループ
+	/// 背景のループ。プレイヤーが次の背景の高さまで登ったら1枚足し、一番古い1枚を捨てる
 	/// </summary>
-	void BackgroundLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
+	void BackgroundLoop(const Math::Vector3& playerPos);
 
 	/// <summary>
-	/// 背景生成
+	/// 段のループ。プレイヤーが次の段の高さまで登ったら1段積み、画面外に出た段を捨てる
+	/// </summary>
+	void SegmentLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
+
+	/// <summary>
+	/// 背景を1枚生成する
 	/// </summary>
 	void CreateBackground();
+
+	/// <summary>
+	/// 段を1つ生成する
+	/// </summary>
+	void CreateSegment(StageBlockField* field, StageSegment* segment);
 
 private: // private variables
 
@@ -80,7 +90,10 @@ private: // private variables
 
 	BackgroundParameter parameter_;
 
-	int currentIndex_ = 1;
+	/// 最後に生成した背景の番号
+	int backgroundIndex_ = -1;
+	/// 最後に生成した段の番号
+	int segmentIndex_ = -1;
 
 };
 

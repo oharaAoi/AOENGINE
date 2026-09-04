@@ -2,9 +2,12 @@
 
 /// game
 #include "Game/WorldObject/Block.h"
-#include "Game/Stage/StageSegment.h" // kBlockCol / kBlockRow を利用する
+#include "Game/WorldObject/Wall.h"
+#include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
 
 /// engine
+#include "Engine/System/Manager/PrefabManager.h"
+#include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Lib/Color.h"
 
@@ -14,6 +17,22 @@
 
 using namespace AOENGINE;
 
+namespace
+{
+	/// CSV上でBlockを表す値
+	constexpr int kBlockCell = 1;
+	/// CSV上でWallを表す値
+	constexpr int kWallCell = 2;
+
+	/// <summary>Prefabから BaseGameObject を生成する。生成できなければ nullptr</summary>
+	AOENGINE::BaseGameObject* InstantiateStageObject(const std::string& prefabName){
+		AOENGINE::SceneObject* root =
+			AOENGINE::PrefabManager::GetInstance()->Instantiate(prefabName);
+
+		return dynamic_cast<AOENGINE::BaseGameObject*>(root);
+	}
+}
+
 /// <summary>4近傍（上下左右）のオフセット</summary>
 const GridPos StageBlockField::kNeighborOffsets[4] = {
 	{ 1,0 },
@@ -21,6 +40,9 @@ const GridPos StageBlockField::kNeighborOffsets[4] = {
 	{ 0,1 },
 	{ 0,-1 },
 };
+
+StageBlockField::StageBlockField() = default;
+StageBlockField::~StageBlockField() = default;
 
 void StageBlockField::AddBlock(Block* block,const GridPos& pos){
 	if(block == nullptr){
@@ -230,6 +252,25 @@ Block* StageBlockField::GetBlockAt(const GridPos& pos) const{
 }
 
 void StageBlockField::Clear(){
+	// 生成済みの全 Block / Wall を破棄してから、セル・グループ・段の表を消去する
+	for(auto& pair : segments_){
+		DestroySegmentContent(pair.second);
+	}
+	segments_.clear();
+
+	// 段から切り離されたブロック（集合・打ち上げの対象になったもの）も破棄する。
+	// 連結グループ表からは切り離した時点で既に外れているため、解決表からの登録解除と破棄だけでよい。
+	for(std::unique_ptr<Block>& block : detachedBlocks_){
+		if(block == nullptr){
+			continue;
+		}
+		if(pBlockCallBacks_ != nullptr){
+			pBlockCallBacks_->UnregisterBlock(block.get());
+		}
+		block->Destroy();
+	}
+	detachedBlocks_.clear();
+
 	cells_.clear();
 	groups_.clear();
 	nextGroupId_ = 0;
@@ -367,4 +408,152 @@ AOENGINE::Color StageBlockField::MakeDebugGroupColor(int groupId){
 	}
 
 	return AOENGINE::Color(r,g,b,1.0f);
+}
+
+void StageBlockField::BuildSegment(const StageSegment& data,int segmentIndex){
+	if(segments_.find(segmentIndex) != segments_.end()){
+		// 既に同じ segmentIndex が生成済みの場合は何もしない（二重生成の防止）
+		return;
+	}
+
+	SegmentContent& content = segments_[segmentIndex];
+
+	for(int i = 0; i < kBlockRow; ++i){
+		int y = ((kBlockRow - 1) - i) + segmentIndex * kBlockRow; // CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
+		for(int j = 0; j < kBlockCol; ++j){
+			const int cell = data.GetCell(i,j);
+			if(cell != kBlockCell && cell != kWallCell){
+				continue;
+			}
+
+			// セグメント i行 j列 -> グローバルグリッド座標へ変換
+			GridPos pos{};
+			pos.x = j;
+			pos.y = y;
+
+			if(cell == kWallCell){
+				CreateWall(content,pos);
+			} else{
+				CreateBlock(content,pos);
+			}
+		}
+	}
+}
+
+void StageBlockField::CreateBlock(SegmentContent& content,const GridPos& pos){
+	// プレハブから Block の実体となる GameObject を生成する
+	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("Block");
+	if(gameObject == nullptr){
+		return;
+	}
+
+	// Block を生成し、生成した GameObject と関連付ける（所有権はこのクラスが持つ）
+	std::unique_ptr<Block> block = std::make_unique<Block>();
+	block->Bind(gameObject);
+
+	// グリッド座標から求めたワールド座標を設定する
+	block->GetTransform()->SetTranslate(GridToWorld(pos));
+
+	// 連結グループ表に登録する（4近傍との連結もここで解決される）
+	AddBlock(block.get(),pos);
+
+	// 衝突したColliderから着地したBlockを引けるようにする
+	if(pBlockCallBacks_ != nullptr){
+		pBlockCallBacks_->RegisterBlock(block.get());
+	}
+
+	content.blocks.push_back(std::move(block));
+}
+
+void StageBlockField::CreateWall(SegmentContent& content,const GridPos& pos){
+	// プレハブから Wall の実体となる GameObject を生成する
+	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("Wall");
+	if(gameObject == nullptr){
+		return;
+	}
+
+	std::unique_ptr<Wall> wall = std::make_unique<Wall>();
+	wall->Bind(gameObject);
+	wall->SetGridPos(pos);
+
+	// 足場としての位置はBlockと同じ座標系で求める
+	wall->GetTransform()->SetTranslate(GridToWorld(pos));
+
+	// Wall は連結・打ち上げの対象にしないため連結グループ表には登録しない
+	content.walls.push_back(std::move(wall));
+}
+
+void StageBlockField::DestroySegmentContent(SegmentContent& content){
+	// このセグメントが所有する Block を連結グループ表から外し、GameObject を破棄する。
+	// セグメント破棄は連結グループの一部だけを消すことになるが、
+	// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
+	// 残りの連結性についての分割(split)検査はここでは行わない。
+	for(std::unique_ptr<Block>& block : content.blocks){
+		if(block == nullptr){
+			continue;
+		}
+		if(pBlockCallBacks_ != nullptr){
+			pBlockCallBacks_->UnregisterBlock(block.get());
+		}
+		RemoveBlockFromField(block.get());
+		block->Destroy();
+	}
+	content.blocks.clear();
+
+	// Wall は連結グループ表に登録していないため、GameObject を破棄するだけでよい
+	for(std::unique_ptr<Wall>& wall : content.walls){
+		if(wall == nullptr){
+			continue;
+		}
+		wall->Destroy();
+	}
+	content.walls.clear();
+}
+
+void StageBlockField::DestroySegment(int segmentIndex){
+	auto it = segments_.find(segmentIndex);
+	if(it == segments_.end()){
+		return;
+	}
+
+	DestroySegmentContent(it->second);
+	segments_.erase(it);
+}
+
+void StageBlockField::DetachGroup(int groupId){
+	auto it = groups_.find(groupId);
+	if(it == groups_.end()){
+		return;
+	}
+
+	// RemoveGroup() でメンバー配列が無効になるため、先に実体をコピーしておく
+	const std::vector<Block*> members = it->second;
+
+	for(Block* member : members){
+		DetachBlock(member);
+	}
+
+	// 連結グループ表（cells_ / groups_）からも外す
+	RemoveGroup(groupId);
+}
+
+void StageBlockField::DetachBlock(Block* block){
+	if(block == nullptr){
+		return;
+	}
+
+	// 段は数個、1段のブロック数も有界で、呼ばれるのも集合開始時だけなので線形探索で十分
+	for(auto& pair : segments_){
+		std::vector<std::unique_ptr<Block>>& blocks = pair.second.blocks;
+
+		auto found = std::find_if(blocks.begin(),blocks.end(),
+								  [block](const std::unique_ptr<Block>& owned){ return owned.get() == block; });
+		if(found == blocks.end()){
+			continue;
+		}
+
+		detachedBlocks_.push_back(std::move(*found));
+		blocks.erase(found);
+		return;
+	}
 }
