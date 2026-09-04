@@ -318,6 +318,27 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 	return result;
 }
 
+std::vector<Block*> StageBlockField::GetLandableBlocks() const{
+	std::vector<Block*> result;
+
+	for(const auto& cell : cells_){
+		Block* block = cell.second;
+		if(block == nullptr || !block->IsValid()){
+			continue;
+		}
+
+		// 真上に別のブロックが積まれていたら、そこには乗れないので候補から外す
+		const GridPos upper{ cell.first.x, cell.first.y + 1 };
+		if(cells_.find(upper) != cells_.end()){
+			continue;
+		}
+
+		result.push_back(block);
+	}
+
+	return result;
+}
+
 bool StageBlockField::TryGetGroupCenter(int groupId,Math::Vector3& outCenter) const{
 	auto it = groups_.find(groupId);
 	if(it == groups_.end()){

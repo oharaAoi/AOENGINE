@@ -28,7 +28,7 @@ struct BossParameter :
 
 	// --- 攻撃1: 火球落とし ---
 	float fireballDamage = 1.0f;		// 火球が当たった時のダメージ
-	float fireballSpawnOffsetY = 0.0f;	// ボスの高さからさらに上下させるオフセット
+	float fireballSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
 	float bounceHeight = 1.0f;			// 跳ねる高さ
 	float bounceSpeed = 8.0f;			// 跳ねる速さ
 
@@ -44,6 +44,16 @@ struct BossParameter :
 	Math::Vector3 beamWarningLineSize{ 40.0f, 1.2f, 1.0f };	// 予測線の大きさ
 	Math::Vector3 beamWarningMarkSize{ 1.5f, 1.5f, 1.0f };	// 危険マークの大きさ
 
+	// --- 攻撃3: 足止め落とし ---
+	int32_t stopperCount = 3;			// 足止めの個数
+	float stopperSpeed = 12.0f;			// 落下速度
+	float stopperLifeTime = 5.0f;		// 着地してから消えるまでの秒数
+	float stopperSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
+	Math::Vector3 stopperSize{ 1.0f, 1.0f, 1.0f };	// 足止めの大きさ
+	int32_t stopperEaseKind = 1;			// 落下のイージング種類
+	float stopperShakeTime = 0.2f;			// 着地時のカメラシェイクの時間
+	float stopperShakeStrength = 0.3f;		// 着地時のカメラシェイクの強さ
+
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
 		SetName("bossParameter");
@@ -58,7 +68,7 @@ struct BossParameter :
 
 		AddSeparatorText("Attack1: FallFire");
 		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
-		AddParameter("Fireball Spawn OffsetY", fireballSpawnOffsetY, 0.1f, -100.0f, 100.0f);
+		AddParameter("Fireball Spawn Height", fireballSpawnHeight, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Bounce Height", bounceHeight, 0.1f, 0.0f, 100.0f);
 		AddParameter("Bounce Speed", bounceSpeed, 0.1f, 0.0f, 100.0f);
 
@@ -73,6 +83,16 @@ struct BossParameter :
 		AddParameter("Beam Size", beamSize, 0.1f);
 		AddParameter("Warning Line Size", beamWarningLineSize, 0.1f);
 		AddParameter("Warning Mark Size", beamWarningMarkSize, 0.1f);
+
+		AddSeparatorText("Attack3: Stopper");
+		AddParameter("Stopper Count", stopperCount, 1.0f, 0.0f, 100.0f);
+		AddParameter("Stopper Speed", stopperSpeed, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Stopper Life Time", stopperLifeTime, 0.1f, 0.0f, 100.0f);
+		AddParameter("Stopper Spawn Height", stopperSpawnHeight, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Stopper Size", stopperSize, 0.1f);
+		AddParameter("Stopper Ease Kind", stopperEaseKind, 1.0f, 0.0f, 30.0f);
+		AddParameter("Stopper Shake Time", stopperShakeTime, 0.01f, 0.0f, 5.0f);
+		AddParameter("Stopper Shake Strength", stopperShakeStrength, 0.01f, 0.0f, 10.0f);
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -83,7 +103,7 @@ struct BossParameter :
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
 			.Add("fireballDamage", fireballDamage)
-			.Add("fireballSpawnOffsetY", fireballSpawnOffsetY)
+			.Add("fireballSpawnHeight", fireballSpawnHeight)
 			.Add("bounceHeight", bounceHeight)
 			.Add("bounceSpeed", bounceSpeed)
 			.Add("beamDamage", beamDamage)
@@ -96,6 +116,14 @@ struct BossParameter :
 			.Add("beamSize", beamSize)
 			.Add("beamWarningLineSize", beamWarningLineSize)
 			.Add("beamWarningMarkSize", beamWarningMarkSize)
+			.Add("stopperCount", stopperCount)
+			.Add("stopperSpeed", stopperSpeed)
+			.Add("stopperLifeTime", stopperLifeTime)
+			.Add("stopperSpawnHeight", stopperSpawnHeight)
+			.Add("stopperSize", stopperSize)
+			.Add("stopperEaseKind", stopperEaseKind)
+			.Add("stopperShakeTime", stopperShakeTime)
+			.Add("stopperShakeStrength", stopperShakeStrength)
 			.Build();
 	}
 
@@ -106,7 +134,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
 		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
-		Convert::fromJson(jsonData, "fireballSpawnOffsetY", fireballSpawnOffsetY);
+		Convert::fromJson(jsonData, "fireballSpawnHeight", fireballSpawnHeight);
 		Convert::fromJson(jsonData, "bounceHeight", bounceHeight);
 		Convert::fromJson(jsonData, "bounceSpeed", bounceSpeed);
 
@@ -120,6 +148,15 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "beamSize", beamSize);
 		Convert::fromJson(jsonData, "beamWarningLineSize", beamWarningLineSize);
 		Convert::fromJson(jsonData, "beamWarningMarkSize", beamWarningMarkSize);
+
+		Convert::fromJson(jsonData, "stopperCount", stopperCount);
+		Convert::fromJson(jsonData, "stopperSpeed", stopperSpeed);
+		Convert::fromJson(jsonData, "stopperLifeTime", stopperLifeTime);
+		Convert::fromJson(jsonData, "stopperSpawnHeight", stopperSpawnHeight);
+		Convert::fromJson(jsonData, "stopperSize", stopperSize);
+		Convert::fromJson(jsonData, "stopperEaseKind", stopperEaseKind);
+		Convert::fromJson(jsonData, "stopperShakeTime", stopperShakeTime);
+		Convert::fromJson(jsonData, "stopperShakeStrength", stopperShakeStrength);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

@@ -25,7 +25,7 @@
         "bounceHeight": 1.600000023841858,
         "bounceSpeed": 8.0,
         "fireballDamage": 1.0,
-        "fireballSpawnOffsetY": 0.0,
+        "fireballSpawnHeight": 12.0,
         "hitSize": {
             "x": 6.0,
             "y": 1.0,
@@ -40,6 +40,18 @@
             "x": 641.0,
             "y": 89.0
         },
+        "stopperCount": 1,
+        "stopperEaseKind": 1,
+        "stopperLifeTime": 5.0,
+        "stopperShakeStrength": 1.6399999856948853,
+        "stopperShakeTime": 0.44999998807907104,
+        "stopperSize": {
+            "x": 2.0,
+            "y": 3.0,
+            "z": 2.0
+        },
+        "stopperSpawnHeight": 12.0,
+        "stopperSpeed": 12.0,
         "worldZ": 3.799999952316284
     }
 }

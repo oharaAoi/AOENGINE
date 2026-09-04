@@ -43,7 +43,7 @@ void BossAttackFallFire::Update(Boss& boss, float deltaTime) {
 	UpdateSpawnTimer(deltaTime, boss);
 
 	// 火玉更新
-	UpdateFireBall(deltaTime);
+	UpdateFireBall(boss, deltaTime);
 
 	// この行動中はボスを上下に跳ねさせる
 	UpdateBossBounce(boss, deltaTime);
@@ -68,9 +68,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 		return;
 	}
 
-	// X,Zはプレイヤーに合わせ、Yはボスの高さ + オフセットから落とす
+	// X,Zはプレイヤーに合わせ、Yはプレイヤーの一定距離上から落とす
 	Math::Vector3 spawnPosition = playerTransform->GetTranslate();
-	spawnPosition.y = boss.GetPosition().y + boss.GetParameter().fireballSpawnOffsetY;
+	spawnPosition.y += boss.GetParameter().fireballSpawnHeight;
 
 	// 火玉のprefab用意
 	AOENGINE::SceneObject* root = AOENGINE::PrefabManager::GetInstance()->Instantiate("Fireball");
@@ -94,6 +94,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 	Fireball* spawned = &fireballs_.back();
 	if (AOENGINE::BaseCollider* collider = spawned->entity.GetCollider(kFireBallColliderTag_)) {
 		collider->SetOnCollision([spawned](AOENGINE::BaseCollider*) { spawned->isHit = true; });
+
+		// 画面外で当たらないように、カメラに映るまで判定を切っておく
+		collider->SetIsActive(false);
 	}
 }
 
@@ -116,7 +119,7 @@ void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
 
 }
 
-void  BossAttackFallFire::UpdateFireBall(float deltaTime) {
+void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 
 	// 落下中の火玉を進める
 	for (auto it = fireballs_.begin(); it != fireballs_.end();) {
@@ -132,6 +135,13 @@ void  BossAttackFallFire::UpdateFireBall(float deltaTime) {
 			Math::Vector3 pos = transform->GetTranslate();
 			pos.y -= fallSpeed_ * deltaTime;
 			transform->SetTranslate(pos);
+
+			// 画面に入ってきたら当たり判定を始める
+			if (AOENGINE::BaseCollider* collider = it->entity.GetCollider(kFireBallColliderTag_)) {
+				if (!collider->GetIsActive() && boss.IsBelowCameraTop(pos)) {
+					collider->SetIsActive(true);
+				}
+			}
 		}
 
 		// 何かしらに着弾したら消す

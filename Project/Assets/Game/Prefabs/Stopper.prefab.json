@@ -7,35 +7,10 @@
                 "animator": false,
                 "components": [
                     {
-                        "drag": 0.0,
-                        "gravity": false,
-                        "gravityAccel": [
-                            0.0,
-                            -9.8100004196167,
-                            0.0
-                        ],
-                        "moveForce": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "type": "Rigidbody",
-                        "velocity": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
                         "active": true,
-                        "category": "Player",
+                        "category": "Stopper",
                         "collisionMask": [
-                            "Block",
-                            "Wall",
-                            "DamageFloor",
-                            "Fireball",
-                            "Beam",
-                            "Stopper"
+                            "Player"
                         ],
                         "localPosition": [
                             0.0,
@@ -44,11 +19,11 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            0.8999999761581421,
-                            0.8999999761581421,
+                            1.0,
+                            1.0,
                             1.0
                         ],
-                        "static": false,
+                        "static": true,
                         "trigger": false,
                         "type": "AABBCollider"
                     }
@@ -60,9 +35,9 @@
                     {
                         "albedoTexture": "white.png",
                         "color": [
-                            1.0,
-                            1.0,
-                            1.0,
+                            0.800000011920929,
+                            0.05000000074505806,
+                            0.05000000074505806,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
@@ -89,7 +64,7 @@
                         ]
                     }
                 ],
-                "model": "Player.gltf",
+                "model": "Block.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -103,17 +78,17 @@
                 ],
                 "translate": [
                     0.0,
-                    2.009280204772949,
+                    0.0,
                     0.0
                 ]
             },
             "id": 1,
-            "name": "Player",
+            "name": "Stopper",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Player",
+    "prefabName": "Stopper",
     "rootId": 1,
     "version": 1
 }

@@ -36,7 +36,7 @@ private:
 	/// <summary>
 	/// 火玉の更新
 	/// </summary>
-	void UpdateFireBall(float deltaTime);
+	void UpdateFireBall(const Boss& boss, float deltaTime);
 
 	/// <summary>
 	/// ボスがわっはっは跳ねるやつ

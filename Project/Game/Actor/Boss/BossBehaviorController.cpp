@@ -5,6 +5,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackFallFire.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackBeam.h"
+#include "Game/Actor/Boss/AttackBehavior/BossAttackStopper.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  初期化
@@ -81,6 +82,12 @@ void BossBehaviorController::Debug_Gui(Boss& boss) {
 	ImGui::SameLine();
 	if (ImGui::Button("Beam")) {
 		ChangeBehavior(boss, std::make_unique<BossAttackBeam>());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stopper")) {
+		auto stopper = std::make_unique<BossAttackStopper>();
+		stopper->SetBlockField(boss.GetBlockField());
+		ChangeBehavior(boss, std::move(stopper));
 	}
 }
 

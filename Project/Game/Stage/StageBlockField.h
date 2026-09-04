@@ -124,6 +124,13 @@ public:
 	std::vector<Block*> GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
 
 	/// <summary>
+	/// 乗れる足場になっているブロックを列挙する。
+	/// 上から物を落とす対象を選ぶ用途に使う。
+	/// </summary>
+	/// <returns>足場になっているブロックの配列</returns>
+	std::vector<Block*> GetLandableBlocks() const;
+
+	/// <summary>
 	/// 指定したグループに属する全ブロックの色を変える。
 	/// 接続されたグループを見た目で分かるようにする用途に使う。
 	/// </summary>

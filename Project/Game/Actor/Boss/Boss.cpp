@@ -3,6 +3,8 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+
+#include "Game/Camera/FollowCamera.h"
 #include"Engine/Lib/GameTimer.h"
 
 using namespace AOENGINE;
@@ -31,6 +33,10 @@ void Boss::Init(BaseGameObject* body) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Update(const Math::Matrix4x4& viewProjection) {
+
+	// 攻撃側からカメラ範囲を判定できるように覚えておく
+	viewProjection_ = viewProjection;
+
 	if (!IsValid()) {
 		return;
 	}
@@ -74,4 +80,47 @@ void Boss::Debug_Gui() {
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  画面の上端より下に来ているか
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Boss::IsBelowCameraTop(const Math::Vector3& worldPosition) const {
+
+	// ワールド座標をNDCへ変換する
+	const Math::Vector3 ndc = TransformCoord(worldPosition, viewProjection_);
+
+	// カメラの手前/奥に外れている場合は判定しない
+	if (ndc.z < 0.0f || ndc.z > 1.0f) {
+		return false;
+	}
+
+	// 上端を通過したら画面に入ってきたとみなす
+	return ndc.y <= 1.0f;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  カメラに映っているか
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Boss::IsInCameraView(const Math::Vector3& worldPosition) const {
+
+	// ワールド座標をNDCへ変換して範囲内か見る
+	const Math::Vector3 ndc = TransformCoord(worldPosition, viewProjection_);
+
+	return ndc.x >= -1.0f && ndc.x <= 1.0f &&
+		ndc.y >= -1.0f && ndc.y <= 1.0f &&
+		ndc.z >= 0.0f && ndc.z <= 1.0f;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  カメラを揺らす
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::ShakeCamera(float time, float strength) {
+	if (pCamera_ == nullptr) {
+		return;
+	}
+	pCamera_->SetShake(time, strength);
 }

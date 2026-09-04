@@ -21,9 +21,9 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            0.800000011920929,
-                            0.800000011920929,
-                            0.800000011920929
+                            1.0,
+                            1.0,
+                            1.0
                         ],
                         "static": false,
                         "trigger": true,

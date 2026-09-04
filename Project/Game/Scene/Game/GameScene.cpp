@@ -74,6 +74,10 @@ void GameScene::OnPlayStart()
 	player_->Init(ResolvePlayerBody());
 	// ボス初期化
 	boss_->Init(FindSceneObject<AOENGINE::BaseGameObject>("Boss"));
+	// 足止めを落とす足場を選ぶために、ブロックの表を渡しておく
+	boss_->SetBlockField(&stageBlockField_);
+	// 着地などでカメラを揺らせるようにしておく
+	boss_->SetCamera(followCamera_.get());
 	// ダメージ床の初期化
 	damageFloor_->Init(FindSceneObject<AOENGINE::BaseGameObject>("DamageFloor"));
 	// カメラ初期化

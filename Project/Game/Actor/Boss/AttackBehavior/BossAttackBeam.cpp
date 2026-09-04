@@ -219,12 +219,7 @@ void BossAttackBeam::SpawnBeam(const Boss& boss) {
 		transform->SetScale(param.beamSize);
 	}
 
-	// 見た目に合わせて当たり判定の大きさも合わせる
-	if (AOENGINE::BaseCollider* collider = beam_.GetCollider(kBeamName_)) {
-		if (auto* box = dynamic_cast<AOENGINE::BoxCollider*>(collider)) {
-			box->SetSize(param.beamSize);
-		}
-	}
+
 }
 
 void BossAttackBeam::DestroyBeam() {
