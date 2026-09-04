@@ -68,5 +68,9 @@ private:
 public:// acceccer
 
 	bool IsFinished() const override { return isFinished_; }
-	const std::string& GetName() const override { return "BossAttackFallFire"; }
+	// staticにしないと、リテラルから作った一時的なstringの参照を返すことになり壊れる
+	const std::string& GetName() const override {
+		static const std::string kName = "BossAttackFallFire";
+		return kName;
+	}
 };
