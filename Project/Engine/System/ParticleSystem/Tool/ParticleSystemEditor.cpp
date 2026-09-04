@@ -47,7 +47,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 	// ↓ Rendererの作成
 	// -------------------------------------------------
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
-	particleRenderer_->Init(BaseParticles::kMaxParticles);
+	particleRenderer_->Init(BaseParticles::kDefaultMaxParticles);
 
 	gpuParticleRenderer_ = std::make_unique<GpuParticleRenderer>();
 	gpuParticleRenderer_->Init(640000);
@@ -73,6 +73,8 @@ void ParticleSystemEditor::Update() {
 	camera_->Update();
 
 	// Emitterの更新
+	// 生成前に寿命切れParticleを回収し、同じフレームで空き容量を再利用します。
+	particleUpdater_.RemoveDeadParticles();
 	for (auto& emitter : cpuEmitterList_) {
 		if (emitter->GetChangeMesh()) {
 			emitter->ChangeMesh();
@@ -151,7 +153,8 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 		particleRenderer_->AddParticle(newParticle->GetName(),
 									   textureName,
 									   newParticle->GetMesh(),
-									   newParticle->GetBlendMode())
+									   newParticle->GetBlendMode(),
+									   newParticle->GetMaxParticles())
 	);
 
 	newParticle->GetShareMaterial()->SetAlbedoTexture(newParticle->GetUseTexture());

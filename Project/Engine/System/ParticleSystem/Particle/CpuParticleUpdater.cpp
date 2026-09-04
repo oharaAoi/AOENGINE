@@ -1,6 +1,7 @@
 #include "CpuParticleUpdater.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
+#include <algorithm>
 
 AOENGINE::CpuParticleUpdater::~CpuParticleUpdater() {
 	particlesMap_.clear();
@@ -8,6 +9,15 @@ AOENGINE::CpuParticleUpdater::~CpuParticleUpdater() {
 
 void AOENGINE::CpuParticleUpdater::Finalize() {
 	particlesMap_.clear();
+}
+
+void AOENGINE::CpuParticleUpdater::RemoveDeadParticles() {
+	const float deltaTime = AOENGINE::GameTimer::DeltaTime();
+	for (auto& [name, runtimeState] : particlesMap_) {
+		std::erase_if(*runtimeState.particles, [deltaTime](const ParticleSingle& particle) {
+			return particle.lifeTime <= 0.0f || particle.currentTime + deltaTime >= particle.lifeTime;
+		});
+	}
 }
 
 void AOENGINE::CpuParticleUpdater::Update() {

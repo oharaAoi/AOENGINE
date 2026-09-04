@@ -34,6 +34,7 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 
 	blendModeType_ = emitter_.blendModeType;
 	emitAccumulator_ = 0.0f;
+	distanceAccumulator_ = 0.0f;
 	currentTimer_ = 0.0f;
 	isStop_ = false;
 	changeMesh_ = false;
@@ -49,6 +50,11 @@ void AOENGINE::BaseParticles::Init(const std::string& name) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::BaseParticles::Update() {
+	const uint32_t capacity = (std::max)(emitter_.maxParticles, 1u);
+	while (particleArray_->size() > capacity) {
+		particleArray_->pop_front();
+	}
+
 	// 回転の更新
 	Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitter_.rotate);
 	if (parentTransform_ != nullptr) {
@@ -58,9 +64,6 @@ void AOENGINE::BaseParticles::Update() {
 	worldTransform_->SetRotate(rotate);
 
 	// 座標の更新
-	emitter_.preTranslate = worldTransform_->GetWorldPos();
-	preWorldPos_ = emitter_.preTranslate;
-
 	Math::Vector3 localPos = emitter_.translate;
 	Math::Vector3 worldPos = localPos;
 
@@ -73,8 +76,13 @@ void AOENGINE::BaseParticles::Update() {
 	worldTransform_->SetTranslate(worldPos);
 
 	worldTransform_->Update();
+	if (!hasPreWorldPos_) {
+		preWorldPos_ = worldTransform_->GetWorldPos();
+		hasPreWorldPos_ = true;
+	}
 	// 射出の更新を行う
 	EmitUpdate();
+	preWorldPos_ = worldTransform_->GetWorldPos();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +115,14 @@ void AOENGINE::BaseParticles::DrawShape() {
 }
 
 void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
-	if (particleArray_->size() >= kMaxParticles) { return; }
+	const uint32_t capacity = (std::max)(emitter_.maxParticles, 1u);
+	if (particleArray_->size() >= capacity) {
+		if (emitter_.overflowMode == static_cast<int>(ParticleOverflowMode::RecycleOldest)) {
+			particleArray_->pop_front();
+		} else {
+			return;
+		}
+	}
 
 	auto& newParticle = particleArray_->emplace_back();
 
@@ -286,20 +301,47 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 			Emit(worldPos);
 		}
 		isStop_ = true;
+		return;
 	}
 
-	float deltaTime = AOENGINE::GameTimer::DeltaTime();
-	// 射出のflagがtrueだったら
-	emitAccumulator_ = emitter_.rateOverTimeCout * deltaTime;
-	// 発射すべき個数を計算する
-	int emitCout = static_cast<int>(emitAccumulator_);
-	for (int count = 0; count < emitCout; ++count) {
-		float t = 0;
-		if (count > 1) {
-			t = (count) / float(emitCout - 1);
+	const Math::Vector3 movement = worldPos - preWorldPos_;
+	const float distance = Length(movement);
+	const float spacing = emitter_.emitSpacing > 0.001f ? emitter_.emitSpacing : 0.001f;
+	const float deltaTime = AOENGINE::GameTimer::DeltaTime();
+	emitAccumulator_ += emitter_.rateOverTimeCout * deltaTime;
+	const uint32_t timeEmitCount = static_cast<uint32_t>(emitAccumulator_);
+	emitAccumulator_ -= static_cast<float>(timeEmitCount);
+
+	uint32_t distanceEmitCount = 0;
+	const bool isTeleport = emitter_.teleportThreshold > 0.0f && distance > emitter_.teleportThreshold;
+	const uint32_t frameLimit = (std::max)(emitter_.maxEmitPerFrame, 1u);
+	if (distance > 0.0001f && !isTeleport) {
+		const float firstDistance = spacing - distanceAccumulator_;
+		distanceEmitCount = firstDistance <= distance
+			? static_cast<uint32_t>(std::floor((distance - firstDistance) / spacing)) + 1
+			: 0;
+
+		const uint32_t emitCount = (std::min)((std::max)(timeEmitCount, distanceEmitCount), frameLimit);
+		if (distanceEmitCount >= timeEmitCount) {
+			for (uint32_t i = 0; i < emitCount; ++i) {
+				const float emitDistance = firstDistance + spacing * static_cast<float>(i);
+				Emit(Math::Vector3::Lerp(preWorldPos_, worldPos, emitDistance / distance));
+			}
+		} else {
+			for (uint32_t i = 0; i < emitCount; ++i) {
+				const float t = static_cast<float>(i + 1) / static_cast<float>(emitCount);
+				Emit(Math::Vector3::Lerp(preWorldPos_, worldPos, t));
+			}
 		}
-		Math::Vector3 pos = Math::Vector3::Lerp(preWorldPos_, worldPos, t);
-		Emit(pos);
+		distanceAccumulator_ = std::fmod(distanceAccumulator_ + distance, spacing);
+	} else {
+		const uint32_t emitCount = (std::min)(timeEmitCount, frameLimit);
+		for (uint32_t i = 0; i < emitCount; ++i) {
+			Emit(worldPos);
+		}
+		if (isTeleport) {
+			distanceAccumulator_ = 0.0f;
+		}
 	}
 	
 	// 継続時間を進める
@@ -317,8 +359,10 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 
 void AOENGINE::BaseParticles::Reset() {
 	emitAccumulator_ = 0.0f;
+	distanceAccumulator_ = 0.0f;
 	currentTimer_ = 0.0f;
 	isStop_ = false;
+	hasPreWorldPos_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

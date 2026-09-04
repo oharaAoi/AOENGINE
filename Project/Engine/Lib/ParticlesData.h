@@ -25,6 +25,11 @@ enum class CpuEmitterShape {
 	Cone
 };
 
+enum class ParticleOverflowMode {
+	DropNew,
+	RecycleOldest
+};
+
 namespace AOENGINE {
 
 /// <summary>
@@ -84,6 +89,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector3 preTranslate = CVector3::ZERO;		// 位置
 	Math::Vector3 rotate = CVector3::ZERO;		// 射出方向
 	uint32_t rateOverTimeCout = 100;			// 射出数
+	float emitSpacing = 0.1f;				// 移動距離に対するParticleの生成間隔
+	uint32_t maxParticles = 512;			// 同時に生存できる最大数
+	uint32_t maxEmitPerFrame = 256;		// 1フレームに生成できる最大数
+	float teleportThreshold = 50.0f;		// 軌跡補間を行わない移動距離
+	int overflowMode = static_cast<int>(ParticleOverflowMode::RecycleOldest);
 	int shape = 0;						// emitterの種類
 	int emitDirection = 1;
 	int emitOrigin = 0;
@@ -156,6 +166,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("translate", translate)
 			.Add("shape", shape)
 			.Add("rateOverTimeCout", rateOverTimeCout)
+			.Add("emitSpacing", emitSpacing)
+			.Add("maxParticles", maxParticles)
+			.Add("maxEmitPerFrame", maxEmitPerFrame)
+			.Add("teleportThreshold", teleportThreshold)
+			.Add("overflowMode", overflowMode)
 			.Add("emitDirection", emitDirection)
 			.Add("emitOrigin", emitOrigin)
 			.Add("color", color)
@@ -213,6 +228,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "translate", translate);
 		Convert::fromJson(jsonData, "shape", shape);
 		Convert::fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		Convert::fromJson(jsonData, "emitSpacing", emitSpacing);
+		Convert::fromJson(jsonData, "maxParticles", maxParticles);
+		Convert::fromJson(jsonData, "maxEmitPerFrame", maxEmitPerFrame);
+		Convert::fromJson(jsonData, "teleportThreshold", teleportThreshold);
+		Convert::fromJson(jsonData, "overflowMode", overflowMode);
 		Convert::fromJson(jsonData, "emitDirection", emitDirection);
 		Convert::fromJson(jsonData, "emitOrigin", emitOrigin);
 		Convert::fromJson(jsonData, "color", color);

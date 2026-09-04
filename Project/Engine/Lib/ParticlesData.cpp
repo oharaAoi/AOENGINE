@@ -13,6 +13,11 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat3("Translate", (float*)&translate, 0.1f);
 		ImGui::DragScalar("Shape", ImGuiDataType_U32, &shape, 1.0f);
 		ImGui::DragScalar("RateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout, 1.0f);
+		ImGui::DragFloat("EmitSpacing", &emitSpacing, 0.01f, 0.001f);
+		ImGui::DragScalar("MaxParticles", ImGuiDataType_U32, &maxParticles, 1.0f, nullptr, nullptr);
+		ImGui::DragScalar("MaxEmitPerFrame", ImGuiDataType_U32, &maxEmitPerFrame, 1.0f, nullptr, nullptr);
+		ImGui::DragFloat("TeleportThreshold", &teleportThreshold, 0.1f, 0.0f);
+		ImGui::Combo("OverflowMode", &overflowMode, "DropNew\0RecycleOldest\0");
 
 		ImGui::Combo("Shape##", &shape, "SPHERE\0BOX\0CONE");
 		if (shape == (int)CpuEmitterShape::Shpere) {

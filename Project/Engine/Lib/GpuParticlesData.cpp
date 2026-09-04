@@ -11,6 +11,9 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 		ImGui::DragFloat3("rotate", &rotate.x, 0.1f);
 		ImGui::DragFloat3("pos", &pos.x, 0.1f);
 		ImGui::DragScalar("rateOverTimeCout", ImGuiDataType_U32, &rateOverTimeCout);
+		ImGui::DragFloat("emitSpacing", &emitSpacing, 0.01f, 0.001f);
+		ImGui::DragScalar("maxEmitPerFrame", ImGuiDataType_U32, &maxEmitPerFrame, 1.0f, nullptr, nullptr);
+		ImGui::DragFloat("teleportThreshold", &teleportThreshold, 0.1f, 0.0f);
 		ImGui::DragScalar("emitType", ImGuiDataType_U32, &emitType);
 		ImGui::Combo("shape##", &shape, "SPHERE\0BOX\0CONE");
 		ImGui::Combo("emitType##type", &emitType, "UP\0ALLDIRE\0OUTSIDE\0CENTER");

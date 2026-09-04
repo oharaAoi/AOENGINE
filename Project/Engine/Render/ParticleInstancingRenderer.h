@@ -45,6 +45,7 @@ public:		// 構造体
 		DescriptorHandles srvHandle;
 		ParticleData* particleData = nullptr;
 		uint32_t instanceCount = 0;
+		uint32_t capacity = 0;
 		Math::Sphere localBoundingSphere{ .center = CVector3::ZERO, .radius = 0.0f };
 		Math::Sphere worldBoundingSphere{ .center = CVector3::ZERO, .radius = 0.0f };
 
@@ -87,7 +88,8 @@ public:
 
 public:
 
-	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName, std::shared_ptr<AOENGINE::Mesh> _pMesh, uint32_t blendType);
+	std::shared_ptr<AOENGINE::Material> AddParticle(const std::string& id, const std::string& textureName,
+		std::shared_ptr<AOENGINE::Mesh> _pMesh, uint32_t blendType, uint32_t capacity);
 
 	void ChangeMesh(const std::string& id, std::shared_ptr<AOENGINE::Mesh> _mesh);
 

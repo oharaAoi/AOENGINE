@@ -81,6 +81,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 	Math::Vector3 rotate = Math::Vector3(0, 0, 0);
 	Math::Vector3 pos = Math::Vector3(0, 0, 0);
 	uint32_t rateOverTimeCout = 10;
+	float emitSpacing = 0.1f;
+	uint32_t maxEmitPerFrame = 256;
+	float teleportThreshold = 50.0f;
 	int shape = 0;
 	int emitType = 0;
 	int emitOrigin = 0;
@@ -123,6 +126,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("rotate", rotate)
 			.Add("pos", pos)
 			.Add("rateOverTimeCout", rateOverTimeCout)
+			.Add("emitSpacing", emitSpacing)
+			.Add("maxEmitPerFrame", maxEmitPerFrame)
+			.Add("teleportThreshold", teleportThreshold)
 			.Add("shape", shape)
 			.Add("emitType", emitType)
 			.Add("emitOrigin", emitOrigin)
@@ -155,6 +161,9 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "rotate", rotate);
 		Convert::fromJson(jsonData, "pos", pos);
 		Convert::fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		Convert::fromJson(jsonData, "emitSpacing", emitSpacing);
+		Convert::fromJson(jsonData, "maxEmitPerFrame", maxEmitPerFrame);
+		Convert::fromJson(jsonData, "teleportThreshold", teleportThreshold);
 		Convert::fromJson(jsonData, "shape", shape);
 		Convert::fromJson(jsonData, "emitType", emitType);
 		Convert::fromJson(jsonData, "emitOrigin", emitOrigin);

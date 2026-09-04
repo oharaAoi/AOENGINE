@@ -20,8 +20,8 @@ public: // コンストラクタ
 	virtual ~BaseParticles() override = default;
 
 public:
-	// 1つのCPU Particleグループが保持できる最大数
-	static constexpr uint32_t kMaxParticles = 200;
+	// 未指定時に使用するCPU Particleグループの最大数
+	static constexpr uint32_t kDefaultMaxParticles = 512;
 
 	/// <summary>
 	/// 初期化処理
@@ -84,6 +84,7 @@ public:
 
 	void SetBlendMode(uint32_t blendMode) { blendModeType_ = blendMode; }
 	uint32_t GetBlendMode() const { return blendModeType_; }
+	uint32_t GetMaxParticles() const { return emitter_.maxParticles; }
 
 protected:
 	// groupの名前
@@ -104,13 +105,15 @@ protected:
 
 	// emitter
 	AOENGINE::ParticleEmit emitter_;
-	float emitAccumulator_;
+	float emitAccumulator_ = 0.0f;
+	float distanceAccumulator_ = 0.0f;
 	float currentTimer_;
 	bool isStop_;
 
 	bool changeMesh_ = false;
 
 	Math::Vector3 preWorldPos_;
+	bool hasPreWorldPos_ = false;
 
 	// Transform
 	std::unique_ptr<WorldTransform> worldTransform_;

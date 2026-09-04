@@ -84,7 +84,8 @@ protected:
 
 	// parameter
 	bool isStop_ = false;
-	float emitAccumulator_;
+	float emitAccumulator_ = 0.0f;
+	float distanceAccumulator_ = 0.0f;
 	float currentTimer_;
 
 	int emitCount_;
@@ -93,6 +94,8 @@ protected:
 
 	// 親のMatrix
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
+	Math::Vector3 preWorldPos_ = CVector3::ZERO;
+	bool hasPreWorldPos_ = false;
 
 };
 
