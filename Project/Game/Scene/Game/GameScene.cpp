@@ -82,7 +82,7 @@ void GameScene::OnPlayStart()
 	// 前回の生成物を片付けてから、背景と最初の段をまとめて用意する
 	ClearStage();
 	if (backgrounds_) {
-		backgrounds_->Init(&stageBlockField_, &stageSegment_);
+		backgrounds_->Init(&stageBlockField_);
 	}
 
 	// Player初期化
@@ -122,7 +122,7 @@ void GameScene::Update()
 	// 背景
 	if (backgrounds_)
 	{
-		backgrounds_->Update(&stageBlockField_, &stageSegment_, player_->GetPosition());
+		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
 	}
 
 	// ボスの更新

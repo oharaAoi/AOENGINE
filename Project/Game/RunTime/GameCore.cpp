@@ -1,13 +1,14 @@
 #include "GameCore.h"
 #include "Engine/Core/Engine.h"
+#include "Game/Stage/StageFactory.h"
 
-GameCore::~GameCore() {}
+GameCore::~GameCore(){}
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　終了処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameCore::Finalize() {
+void GameCore::Finalize(){
 	sceneManager_->Finalize();
 	AOENGINE::AoiFramework::Finalize();
 }
@@ -15,14 +16,20 @@ void GameCore::Finalize() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
-void GameCore::Init() {
+void GameCore::Init(){
 	AOENGINE::AoiFramework::Init();
 
 	// シーンの初期化
 	sceneManager_ = std::make_unique<AOENGINE::SceneManager>();
 	sceneManager_->Init();
 	sceneManager_->SetChange(SceneType::Game);
-	
+
+	// ステージファイルの読み込み
+	StageFactory& stageFactory = StageFactory::GetInstance();
+	stageFactory.LoadSegmentsFromFolder("./Project/Assets/Game/StageData/Random");
+	stageFactory.LoadStartSegment("./Project/Assets/Game/StageData/Start/start.csv");
+
+
 	isReset_ = false;
 }
 
@@ -30,7 +37,7 @@ void GameCore::Init() {
 // ↓　更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameCore::Update() {
+void GameCore::Update(){
 	profiler_.Start();
 	// sceneの更新
 	endRequest_ = sceneManager_->Update();
@@ -41,7 +48,7 @@ void GameCore::Update() {
 // ↓　描画処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameCore::Draw() {
+void GameCore::Draw(){
 	profiler_.Start();
 	sceneManager_->Draw();
 	profiler_.End("Draw");
@@ -51,7 +58,7 @@ void GameCore::Draw() {
 // ↓　frame開始処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameCore::BeginFrame() {
+void GameCore::BeginFrame(){
 	profiler_.Start();
 	Engine::BeginFrame();
 	profiler_.End("BeginFrame");
@@ -61,7 +68,7 @@ void GameCore::BeginFrame() {
 // ↓　frame終了処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameCore::EndFrame() {
+void GameCore::EndFrame(){
 	profiler_.Start();
 
 	// frameの最終処理を行う
