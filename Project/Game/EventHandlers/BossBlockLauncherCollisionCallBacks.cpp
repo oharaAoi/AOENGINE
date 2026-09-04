@@ -21,7 +21,14 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 	// 当たったブロックが属するランチャーのブロック数でダメージを決める。
 	// 複数のランチャーが同時に飛んでいても、当たった塊の分だけが乗るようにする
 	int blockCount = pLauncherManager_->GetBlockCountByCollider(blockCollider);
-	if(blockCount <= 0){
+	if(blockCount > 0){
+		// 当たった塊はブロックごと消す(実際の破棄はランチャーの次の更新で行われる)。
+		// 同じ塊の別のブロックが同じフレームに当たっても2回目以降は false が返るため、
+		// 塊のブロック数だけダメージが重なることはない
+		if(!pLauncherManager_->NotifyBossHit(blockCollider)){
+			return;
+		}
+	} else{
 		// 制御を手放した後のブロックなど、どのランチャーにも属していない場合は全体の数で代用する
 		blockCount = pLauncherManager_->GetBlockCount();
 	}

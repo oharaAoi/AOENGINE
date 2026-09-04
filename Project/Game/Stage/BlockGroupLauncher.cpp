@@ -11,18 +11,20 @@
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
+#include "Engine/System/Manager/ParticleManager.h"
 
 /// stl
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 using namespace AOENGINE;
 
 namespace{
-/// 1フレームで重なりを解き直す回数。3グループ以上が重なると押した先でまた重なるため数回繰り返す
-constexpr int kSeparationIteration = 4;
-/// 重なり判定の許容誤差。隣り合って接しているだけの状態を重なりとみなさないための下限
-constexpr float kOverlapEpsilon = 1.0e-4f;
+	/// 1フレームで重なりを解き直す回数。3グループ以上が重なると押した先でまた重なるため数回繰り返す
+	constexpr int kSeparationIteration = 4;
+	/// 重なり判定の許容誤差。隣り合って接しているだけの状態を重なりとみなさないための下限
+	constexpr float kOverlapEpsilon = 1.0e-4f;
 }
 
 void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& params){
@@ -123,9 +125,50 @@ void BlockGroupLauncher::Launch(){
 			collider->SetTarget("Boss");    // マスクに Boss を足す
 		}
 	}
+
+	// 集合が終わった時点の塊を1つの座標系にまとめる。ここから先はこの座標系だけを動かす
+	BuildLaunchRoot();
+
+	// 噴射パーティクルは座標系を親にしておく。座標系の原点が噴射位置なので、
+	// パーティクル側のローカル座標は原点のままでよく、座標系が上昇すれば一緒に上がってくれる
+	if(burnParticle_ == nullptr){
+		burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
+	}
+	if(burnParticle_ != nullptr){
+		burnParticle_->SetParent(launchRoot_.get());
+		burnParticle_->SetPos(CVector3::ZERO);
+		burnParticle_->Reset();
+	}
+}
+
+void BlockGroupLauncher::BuildLaunchRoot(){
+	// 噴射位置(塊の下端中央)を座標系の原点にする。
+	// こうしておくとパーティクルは親からの相対位置が原点のままで済む
+	Math::Vector3 rootPos{};
+	CalclateJetPos(rootPos);
+
+	// 座標系はランチャーを使い回しても作り直さない(WorldTransform は定数バッファを持つため)
+	if(launchRoot_ == nullptr){
+		launchRoot_ = std::make_unique<AOENGINE::WorldTransform>();
+		launchRoot_->Init();
+	}
+	launchRoot_->SetTranslate(rootPos);
+	launchRoot_->Update();
+
+	// 各グループの位置を、経路上の位置から座標系の原点を基準にした相対位置へ置き換える。
+	// 打ち上げ中はこの相対位置を保ったまま座標系ごと動かすので、集合した並びがそのまま上がっていく
+	for(GatheringGroup& group : groups_){
+		group.rootOffset = (group.basePoint + group.separation) - rootPos;
+	}
 }
 
 void BlockGroupLauncher::Update(float deltaTime){
+	// ボスに当たった塊は当たり判定の外側であるここで消す
+	if(isBossHit_){
+		DestroyBlocks();
+		return;
+	}
+
 	switch(state_){
 		case State::Gathering:
 			UpdateGathering(deltaTime);
@@ -182,8 +225,8 @@ void BlockGroupLauncher::ResolveGroupSeparation(float deltaTime){
 
 				Math::Vector3 push{};
 				if(!ComputeGroupPush(groups_[indexA],groups_[indexA].basePoint + offsets[indexA],
-									 groups_[indexB],groups_[indexB].basePoint + offsets[indexB],
-									 fallback,push)){
+				   groups_[indexB],groups_[indexB].basePoint + offsets[indexB],
+				   fallback,push)){
 					continue;
 				}
 
@@ -280,9 +323,17 @@ bool BlockGroupLauncher::ComputeGroupPush(const GatheringGroup& groupA,const Mat
 void BlockGroupLauncher::UpdateLaunched(float deltaTime){
 	launchVelocityY_ += params_.launchAccel * deltaTime;
 
-	const Math::Vector3 velocity{0.0f,launchVelocityY_,0.0f};
-	for(const GatheringGroup& group : groups_){
-		SetGroupVelocity(group,velocity,deltaTime);
+	if(launchRoot_ != nullptr){
+		// ブロックを1個ずつ上昇させるのではなく、まとめた座標系だけを上昇させる。
+		// 噴射パーティクルはこの座標系を親にしているため、何もしなくても一緒に上がっていく
+		launchRoot_->Translate(Math::Vector3(0.0f,launchVelocityY_,0.0f),deltaTime);
+		launchRoot_->Update();
+
+		// ブロックは座標系から見た相対位置へ追従させる
+		const Math::Vector3 rootPos = launchRoot_->GetTranslate();
+		for(const GatheringGroup& group : groups_){
+			MoveGroup(group,rootPos + group.rootOffset,deltaTime);
+		}
 	}
 
 	launchTimer_ -= deltaTime;
@@ -294,7 +345,31 @@ void BlockGroupLauncher::UpdateLaunched(float deltaTime){
 	Clear();
 }
 
-void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vector3& pathPoint,float deltaTime) const{
+bool BlockGroupLauncher::NotifyBossHit(){
+	// 既に当たっている塊は、同じフレームに別のブロックが当たっても二重に扱わない
+	if(!IsActive() || isBossHit_){
+		return false;
+	}
+
+	isBossHit_ = true;
+	return true;
+}
+
+void BlockGroupLauncher::DestroyBlocks(){
+	// ブロックの実体は StageBlockField が所有しているため、破棄も向こうに任せる
+	if(pField_ != nullptr){
+		for(const GatheringGroup& group : groups_){
+			for(Block* block : group.blocks){
+				pField_->DestroyDetachedBlock(block);
+			}
+		}
+	}
+
+	// 破棄したブロックを持ち続けないよう、噴射の停止も含めてここで制御を手放す
+	Clear();
+}
+
+void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,float deltaTime) const{
 	for(size_t index = 0; index < group.blocks.size(); ++index){
 		Block* block = group.blocks[index];
 		if(block == nullptr || !block->IsValid()){
@@ -307,37 +382,26 @@ void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vecto
 		}
 
 		// 目標位置との差から速度を求める。実際の位置を毎回見るのでズレが溜まらない
-		const Math::Vector3 desired = pathPoint + group.offsets[index];
+		const Math::Vector3 desired = basePoint + group.offsets[index];
 		const Math::Vector3 diff = desired - transform->GetTranslate();
 
 		MoveBlock(block,diff,deltaTime);
 	}
 }
 
-void BlockGroupLauncher::SetGroupVelocity(const GatheringGroup& group,const Math::Vector3& velocity,float deltaTime) const{
-	for(Block* block : group.blocks){
-		if(block == nullptr || !block->IsValid()){
-			continue;
-		}
-
-		AOENGINE::BaseGameObject* gameObject = block->GetGameObject();
-		if(gameObject == nullptr){
-			continue;
-		}
-
-		if(AOENGINE::Rigidbody* rigidbody = gameObject->GetRigidbody()){
-			rigidbody->SetVelocity(velocity);
-		} else if(AOENGINE::WorldTransform* transform = block->GetTransform()){
-			transform->Translate(velocity,deltaTime);
-		}
-	}
-}
-
 void BlockGroupLauncher::Clear(){
+	// 噴射パーティクルは launchRoot_ を親にしているため、座標系が止まる前に射出を止める。
+	// 既に出ているパーティクルは消えるまでその場に残る。
+	// パーティクル本体と座標系は次の打ち上げで使い回すので、ここでは破棄しない
+	if(burnParticle_ != nullptr){
+		burnParticle_->SetIsStop(true);
+	}
+
 	groups_.clear();
 	state_ = State::Idle;
 	launchVelocityY_ = 0.0f;
 	launchTimer_ = 0.0f;
+	isBossHit_ = false;
 }
 
 void BlockGroupLauncher::DrawConnectLine(const AOENGINE::Color& color,float thickness) const{
@@ -362,6 +426,47 @@ void BlockGroupLauncher::DrawConnectLine(const AOENGINE::Color& color,float thic
 	for(size_t index = 1; index < points.size(); ++index){
 		AOENGINE::Render::DrawThickLine(points[index - 1],points[index],color,thickness);
 	}
+}
+
+void BlockGroupLauncher::CalclateJetPos(Math::Vector3& outJetPos) const{
+	constexpr float kJetOffsetY = -1.5f;	// 噴射パーティクルの出る位置をブロックの下にずらす
+	if(state_ != State::Launched){
+		return;
+	}
+
+	float minX = (std::numeric_limits<float>::max)();
+	float maxX = (std::numeric_limits<float>::lowest)();
+
+	float minY = (std::numeric_limits<float>::max)();
+
+	float minZ = (std::numeric_limits<float>::max)();
+	float maxZ = (std::numeric_limits<float>::lowest)();
+
+	int validCount = 0;
+
+	for(const auto& group : groups_){
+		for(const auto& block : group.blocks){
+			if(block == nullptr || !block->IsValid()){
+				continue;
+			}
+			const auto position = GetBlockPosition(block);
+			minX = (std::min)(minX,position.x);
+			maxX = (std::max)(maxX,position.x);
+			minY = (std::min)(minY,position.y);
+			minZ = (std::min)(minZ,position.z);
+			maxZ = (std::max)(maxZ,position.z);
+			++validCount;
+		}
+	}
+
+	// 1つも残っていない場合は求めようがないので、呼び出し元の値をそのままにしておく
+	if(validCount == 0){
+		return;
+	}
+
+	outJetPos.x = (minX + maxX) * 0.5f;
+	outJetPos.y = minY + kJetOffsetY;
+	outJetPos.z = (minZ + maxZ) * 0.5f;
 }
 
 Math::Vector3 BlockGroupLauncher::SamplePath(const std::vector<Math::Vector3>& path,float distance){

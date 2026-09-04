@@ -19,16 +19,15 @@ void GameCore::Finalize(){
 void GameCore::Init(){
 	AOENGINE::AoiFramework::Init();
 
-	// シーンの初期化
-	sceneManager_ = std::make_unique<AOENGINE::SceneManager>();
-	sceneManager_->Init();
-	sceneManager_->SetChange(SceneType::Game);
-
 	// ステージファイルの読み込み
 	StageFactory& stageFactory = StageFactory::GetInstance();
 	stageFactory.LoadSegmentsFromFolder("./Project/Assets/Game/StageData/Random");
 	stageFactory.LoadStartSegment("./Project/Assets/Game/StageData/Start/start.csv");
 
+	// シーンの初期化
+	sceneManager_ = std::make_unique<AOENGINE::SceneManager>();
+	sceneManager_->Init();
+	sceneManager_->SetChange(SceneType::Game);
 
 	isReset_ = false;
 }
