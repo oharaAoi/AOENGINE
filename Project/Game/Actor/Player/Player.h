@@ -54,6 +54,8 @@ private:
 	void ResumeBlockCollision();
 	/// <summary>猶予中のBlockを毎フレーム見直し、離れたものから判定を戻す</summary>
 	void UpdateIgnoredBlocks();
+	/// <summary>無敵時間を進めつつ、その間ちかちか点滅させる</summary>
+	void UpdateInvincible(float deltaTime);
 
 private:
 
@@ -73,8 +75,10 @@ private:
 	float facing_ = 1.0f;
 
 	// 被弾
-	float currentHp_ = 0.0f;		// 現在のHP
-	float invincibleTimer_ = 0.0f;	// 残りの無敵時間
+	float currentHp_ = 0.0f;			// 現在のHP
+	float invincibleTimer_ = 0.0f;		// 残りの無敵時間
+	float invincibleBlinkTimer_ = 0.0f;	// 点滅の切り替え用タイマー
+	bool isBlinkVisible_ = true;		// 点滅の表示状態
 
 	// ダメージ床で打ち上げられてから着地するまでtrue
 	bool damageFloorAirborne_ = false;
