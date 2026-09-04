@@ -132,7 +132,7 @@ void BlockGroupLauncher::Launch(){
 	// 噴射パーティクルは座標系を親にしておく。座標系の原点が噴射位置なので、
 	// パーティクル側のローカル座標は原点のままでよく、座標系が上昇すれば一緒に上がってくれる
 	if(burnParticle_ == nullptr){
-		burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BurnParticle");
+		burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
 	}
 	if(burnParticle_ != nullptr){
 		burnParticle_->SetParent(launchRoot_.get());
