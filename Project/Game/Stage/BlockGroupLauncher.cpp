@@ -10,11 +10,20 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 /// stl
 #include <algorithm>
+#include <cmath>
 
 using namespace AOENGINE;
+
+namespace{
+/// 1フレームで重なりを解き直す回数。3グループ以上が重なると押した先でまた重なるため数回繰り返す
+constexpr int kSeparationIteration = 4;
+/// 重なり判定の許容誤差。隣り合って接しているだけの状態を重なりとみなさないための下限
+constexpr float kOverlapEpsilon = 1.0e-4f;
+}
 
 void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& params){
 	Clear();
@@ -135,10 +144,136 @@ void BlockGroupLauncher::UpdateGathering(float deltaTime){
 	// 結果として同じ道を数珠つなぎに進んで順番に集合する
 	for(GatheringGroup& group : groups_){
 		group.progress = (std::min)(group.progress + params_.gatherSpeed * deltaTime,group.pathLength);
-
-		const Math::Vector3 pathPoint = SamplePath(group.path,group.progress);
-		MoveGroup(group,pathPoint,deltaTime);
+		group.basePoint = SamplePath(group.path,group.progress);
 	}
+
+	// 経路上の位置のままだと集合地点で全グループが重なってしまうため、
+	// 重なった分だけ互いに押し戻す。後から来たグループが先に居るグループを押し出すので、
+	// 集まるほど塊が段々と大きくなる
+	ResolveGroupSeparation(deltaTime);
+
+	for(const GatheringGroup& group : groups_){
+		MoveGroup(group,group.basePoint + group.separation,deltaTime);
+	}
+}
+
+void BlockGroupLauncher::ResolveGroupSeparation(float deltaTime){
+	const size_t groupCount = groups_.size();
+	if(groupCount < 2 || params_.blockSize <= 0.0f){
+		return;
+	}
+
+	// 今の押し戻し量を初期値にして、重なりが無くなるまで少しずつ離していく
+	std::vector<Math::Vector3> offsets;
+	offsets.reserve(groupCount);
+	for(const GatheringGroup& group : groups_){
+		offsets.push_back(group.separation);
+	}
+
+	for(int iteration = 0; iteration < kSeparationIteration; ++iteration){
+		bool pushed = false;
+
+		for(size_t indexA = 0; indexA < groupCount; ++indexA){
+			for(size_t indexB = indexA + 1; indexB < groupCount; ++indexB){
+				// ぴったり重なっていると押し出す向きが決まらないため、
+				// グループごとに違う向きへ逃がして集合地点の周りへ放射状に広がるようにする
+				const Math::Vector3 fallback = MakeFallbackDirection(indexB,groupCount);
+
+				Math::Vector3 push{};
+				if(!ComputeGroupPush(groups_[indexA],groups_[indexA].basePoint + offsets[indexA],
+									 groups_[indexB],groups_[indexB].basePoint + offsets[indexB],
+									 fallback,push)){
+					continue;
+				}
+
+				// めり込んだ分を半分ずつ分け合い、両方が同じだけ離れるようにする
+				offsets[indexA] = offsets[indexA] - push * 0.5f;
+				offsets[indexB] = offsets[indexB] + push * 0.5f;
+				pushed = true;
+			}
+		}
+
+		if(!pushed){
+			break;
+		}
+	}
+
+	// 一気に弾き飛ばさず、押し戻しの速さの分だけ広がるようにする
+	const float maxMove = params_.separationSpeed * deltaTime;
+	for(size_t index = 0; index < groupCount; ++index){
+		Math::Vector3 diff = offsets[index] - groups_[index].separation;
+		const float length = diff.Length();
+		if(length > maxMove){
+			diff = diff * (maxMove / length);
+		}
+		groups_[index].separation = groups_[index].separation + diff;
+	}
+}
+
+bool BlockGroupLauncher::ComputeGroupPush(const GatheringGroup& groupA,const Math::Vector3& originA,
+										  const GatheringGroup& groupB,const Math::Vector3& originB,
+										  const Math::Vector3& fallbackDirection,Math::Vector3& outPush) const{
+	// ブロックはグリッド上に並ぶ同じ大きさの箱なので、箱同士のめり込み量から押し出す量を求める
+	const float blockSize = params_.blockSize;
+
+	Math::Vector3 sum = CVector3::ZERO;
+	int overlapCount = 0;
+
+	for(size_t indexA = 0; indexA < groupA.blocks.size(); ++indexA){
+		const Block* blockA = groupA.blocks[indexA];
+		if(blockA == nullptr || !blockA->IsValid()){
+			continue;
+		}
+		const Math::Vector3 posA = originA + groupA.offsets[indexA];
+
+		for(size_t indexB = 0; indexB < groupB.blocks.size(); ++indexB){
+			const Block* blockB = groupB.blocks[indexB];
+			if(blockB == nullptr || !blockB->IsValid()){
+				continue;
+			}
+			const Math::Vector3 posB = originB + groupB.offsets[indexB];
+
+			const Math::Vector3 diff = posB - posA;
+			const float overlapX = blockSize - std::fabs(diff.x);
+			const float overlapY = blockSize - std::fabs(diff.y);
+			const float overlapZ = blockSize - std::fabs(diff.z);
+
+			// 1軸でも離れていれば重なっていない(隣り合って接しているだけの場合もここで弾く)
+			if(overlapX <= kOverlapEpsilon || overlapY <= kOverlapEpsilon || overlapZ <= kOverlapEpsilon){
+				continue;
+			}
+
+			// 中心がぴったり重なっている場合はどちらへ押すかが決まらないので、決めた向きへ逃がす
+			if(std::fabs(diff.x) <= kOverlapEpsilon && std::fabs(diff.y) <= kOverlapEpsilon){
+				sum = sum + fallbackDirection * blockSize;
+				++overlapCount;
+				continue;
+			}
+
+			// ブロックは XY 平面に並ぶため、押し出しは X と Y の浅い方だけを使う。
+			// Z へ押すと盤面から浮いてしまう
+			if(overlapX <= overlapY){
+				sum.x += (diff.x >= 0.0f) ? overlapX : -overlapX;
+			} else{
+				sum.y += (diff.y >= 0.0f) ? overlapY : -overlapY;
+			}
+			++overlapCount;
+		}
+	}
+
+	if(overlapCount == 0){
+		return false;
+	}
+
+	// ブロック1個ずつの押し出しを平均して、グループ全体を1つの塊として動かす
+	outPush = sum * (1.0f / static_cast<float>(overlapCount));
+
+	// 押し出しが打ち消し合って向きが決まらなかった場合も、決めた向きへ逃がす
+	if(outPush.Length() <= kOverlapEpsilon){
+		outPush = fallbackDirection * blockSize;
+	}
+
+	return true;
 }
 
 void BlockGroupLauncher::UpdateLaunched(float deltaTime){
@@ -275,6 +410,16 @@ Math::Vector3 BlockGroupLauncher::GetBlockPosition(const Block* block){
 	}
 
 	return transform->GetTranslate();
+}
+
+Math::Vector3 BlockGroupLauncher::MakeFallbackDirection(size_t index,size_t groupCount){
+	if(groupCount == 0){
+		return Math::Vector3(1.0f,0.0f,0.0f);
+	}
+
+	// 集合地点の周りへ均等に配る向き(XY平面)
+	const float angle = kPI2 * static_cast<float>(index) / static_cast<float>(groupCount);
+	return Math::Vector3(std::cos(angle),std::sin(angle),0.0f);
 }
 
 bool BlockGroupLauncher::TryGetGroupCenter(const GatheringGroup& group,Math::Vector3& outCenter){

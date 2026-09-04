@@ -30,6 +30,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float launchSpeed = 20.0f;	  // 打ち上げの初速
 	float launchAccel = 20.0f;	  // 打ち上げ中の加速度
 	float launchLifeTime = 3.0f;  // 打ち上げてから制御を手放すまでの時間
+	float gatherBlockSize = 1.0f;		// 集合中の押し戻し判定に使うブロック1個の大きさ
+	float gatherSeparationSpeed = 8.0f;	// 集合中にグループ同士が押し戻しで離れていく速さ
 
 	// その他
 	float stickDeadZone; // 左スティックのデッドゾーン
@@ -55,6 +57,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Launch Speed",launchSpeed,0.1f,0.0f,100.0f);
 		AddParameter("Launch Accel",launchAccel,0.1f,0.0f,100.0f);
 		AddParameter("Launch Life Time",launchLifeTime,0.01f,0.0f,10.0f);
+		AddParameter("Gather Block Size",gatherBlockSize,0.01f,0.0f,10.0f);
+		AddParameter("Gather Separation Speed",gatherSeparationSpeed,0.1f,0.0f,100.0f);
 
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}
@@ -77,6 +81,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("launchSpeed", launchSpeed)
 			.Add("launchAccel", launchAccel)
 			.Add("launchLifeTime", launchLifeTime)
+			.Add("gatherBlockSize", gatherBlockSize)
+			.Add("gatherSeparationSpeed", gatherSeparationSpeed)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
 	}
@@ -98,6 +104,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "launchSpeed", launchSpeed);
 		Convert::fromJson(jsonData, "launchAccel", launchAccel);
 		Convert::fromJson(jsonData, "launchLifeTime", launchLifeTime);
+		Convert::fromJson(jsonData, "gatherBlockSize", gatherBlockSize);
+		Convert::fromJson(jsonData, "gatherSeparationSpeed", gatherSeparationSpeed);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
 };
