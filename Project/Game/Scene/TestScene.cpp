@@ -53,9 +53,6 @@ void TestScene::Update()
 
 void TestScene::OnPlayStart()
 {
-	// Playを押し直すと再度呼ばれるため、前回の生成物を片付けてから作り直す
-	ClearStage();
-	SetupStage();
 
 	// Player初期化
 	player_->Init(ResolvePlayerBody());
