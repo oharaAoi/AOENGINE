@@ -960,6 +960,9 @@
     <ClInclude Include="Engine\System\Manager\TextureManager.h">
       <Filter>Engine\System\Manager</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Manager\ShaderGraphManager.h">
+      <Filter>Engine\System\Manager</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h">
       <Filter>Engine\System\ParticleSystem\Data</Filter>
     </ClInclude>
@@ -1926,6 +1929,9 @@
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp">
+      <Filter>Engine\System\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Manager\ShaderGraphManager.cpp">
       <Filter>Engine\System\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp">

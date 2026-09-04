@@ -42,6 +42,7 @@ void PBRMaterial::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Update() {
+	UpdateShaderGraph();
 	pbrMaterial_->uvTransform = uvTransform_.MakeAffine();
 
 	if (normalMap_ == "") {

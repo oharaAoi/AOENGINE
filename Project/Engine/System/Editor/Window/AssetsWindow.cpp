@@ -3,6 +3,7 @@
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ShaderGraphManager.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/System/Editor/Window/AssetsWindowSerializer.h"
@@ -378,6 +379,10 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			const std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, &item);
 
+		} else if (ShaderGraphManager::GetInstance()->IsShaderGraphAsset(item)) {
+			const std::string name = item.filename().string();
+			DrawItemTexture(AssetType::ShaderGraph, "file.png", name, thumbnailSize);
+
 		} else if (item.filename().extension() == ".json" &&
 			(ToLower(item.parent_path().filename().string()) == "cpu" ||
 			 ToLower(item.parent_path().filename().string()) == "gpu")) {
@@ -537,6 +542,13 @@ void AOENGINE::AssetsWindow::DropSource(AssetType assetType, const std::string& 
 			const std::string path = (currentPath_ / name).lexically_normal().generic_string();
 			ImGui::SetDragDropPayload("PARTICLE_ASSET_PATH", path.c_str(), path.size() + 1);
 			ImGui::Text("Particle");
+		} else if (assetType == AssetType::ShaderGraph) {
+			const std::filesystem::path path = currentPath_ / name;
+			if (auto handle = ShaderGraphManager::GetInstance()->RegisterAsset(path)) {
+				const AssetHandle assetHandle = *handle;
+				ImGui::SetDragDropPayload("ASSET_HANDLE", &assetHandle, sizeof(assetHandle));
+				ImGui::Text("ShaderGraph");
+			}
 
 		} else if (assetType == AssetType::Sound) {
 

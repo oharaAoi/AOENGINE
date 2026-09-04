@@ -379,6 +379,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
     <ClInclude Include="Engine\System\Manager\SystemManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
+    <ClInclude Include="Engine\System\Manager\ShaderGraphManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h" />
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
@@ -703,6 +704,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ShaderGraphManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />

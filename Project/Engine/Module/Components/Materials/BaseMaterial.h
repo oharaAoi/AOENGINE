@@ -52,6 +52,7 @@ protected:
 	/// ShaderTypeを編集する
 	/// </summary>
 	void EditShaderType();
+	void UpdateShaderGraph();
 
 public:
 
@@ -69,7 +70,10 @@ public:
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
 	void SetShaderGraph(ShaderGraph* _graph);
+	void SetShaderGraph(std::shared_ptr<ShaderGraph> _graph, const std::string& _assetPath);
+	bool SetShaderGraphAsset(const std::string& _assetPath);
 	AOENGINE::ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
+	const std::string& GetShaderGraphAssetPath() const { return shaderGraphAssetPath_; }
 
 	void SetColor(const AOENGINE::Color& _color) { color_ = _color; }
 	const AOENGINE::Color GetColor() const { return color_; }
@@ -92,6 +96,8 @@ protected:
 	std::string textureName_ = "white.png";
 
 	AOENGINE::ShaderGraph* shaderGraph_ = nullptr;
+	std::shared_ptr<AOENGINE::ShaderGraph> shaderGraphAsset_;
+	std::string shaderGraphAssetPath_;
 
 	AOENGINE::Color color_;
 	bool isLighting_ = true;

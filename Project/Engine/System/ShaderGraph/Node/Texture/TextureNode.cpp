@@ -52,11 +52,16 @@ nlohmann::json TextureNode::toJson() {
 void TextureNode::fromJson(const nlohmann::json& _json) {
     BaseInfoFromJson(_json);
     textureName_ = _json.at("props").at("textureName").get<std::string>();
-    resource_ = AOENGINE::TextureManager::GetInstance()->GetResource(textureName_);
+	TextureManager* textureManager = TextureManager::GetInstance();
+	if (!textureManager->IsTexture2D(textureName_)) {
+		textureName_ = "error.png";
+	}
+	resource_ = textureManager->GetResource(textureName_);
 }
 
 void TextureNode::SelectTexture() {
-    if (AOENGINE::TextureManager::GetInstance()->PreviewTexture(textureName_)) {
-        resource_ = AOENGINE::TextureManager::GetInstance()->GetResource(textureName_);
+	TextureManager* textureManager = TextureManager::GetInstance();
+    if (textureManager->PreviewTexture(textureName_) && textureManager->IsTexture2D(textureName_)) {
+        resource_ = textureManager->GetResource(textureName_);
     }
 }

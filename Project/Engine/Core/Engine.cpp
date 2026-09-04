@@ -7,6 +7,7 @@
 #include "Engine/System/Manager/AssetsManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ShaderGraphManager.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/ComputeShader/BlendTexture.h"
@@ -232,7 +233,11 @@ void Engine::Finalize() {
 
 #ifdef _DEVELOPMENT
 	editorWindows_->Finalize();
+	// Editor側のGraphを先に解放してからImGui/D3D12を終了する。
+	AOENGINE::ShaderGraphManager::GetInstance()->Finalize();
 	imguiManager_->Finalize();
+#else
+	AOENGINE::ShaderGraphManager::GetInstance()->Finalize();
 #endif
 	textureManager_->Finalize();
 	graphicsCxt_->Finalize();

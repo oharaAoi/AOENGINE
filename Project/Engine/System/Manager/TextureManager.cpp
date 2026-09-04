@@ -243,6 +243,7 @@ bool TextureManager::LoadTextureFile(const std::string& directoryPath, const std
 	// SRVを作成するDescriptorHeapの場所を求める
 	// ------------------------------------------------------------
 	data.resource_->CreateSRV(srvDesc);
+	data.srvDimension_ = srvDesc.ViewDimension;
 	data.textureSize_.x = static_cast<float>(metadata.width);
 	data.textureSize_.y = static_cast<float>(metadata.height);
 
@@ -397,6 +398,7 @@ bool TextureManager::CreateTextureFromRGBA8(const std::string& textureName, cons
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 	data.resource_->CreateSRV(srvDesc);
+	data.srvDimension_ = srvDesc.ViewDimension;
 
 	data.textureSize_.x = static_cast<float>(width);
 	data.textureSize_.y = static_cast<float>(height);
@@ -510,6 +512,13 @@ const DescriptorHandles& AOENGINE::TextureManager::GetDxHeapHandles(const std::s
 	return textureData_.at(name).resource_->GetSRV();
 }
 
+bool AOENGINE::TextureManager::IsTexture2D(const std::string& fileName) const {
+	const std::string name = std::filesystem::path(fileName).stem().string();
+	const auto it = textureData_.find(name);
+	return it != textureData_.end() && it->second.resource_ != nullptr &&
+		it->second.srvDimension_ == D3D12_SRV_DIMENSION_TEXTURE2D;
+}
+
 uint32_t AOENGINE::TextureManager::GetTextureDescriptorIndex(const std::string& filePath) const {
 	std::filesystem::path path = filePath;
 	std::string name = path.stem().string();
@@ -574,7 +583,8 @@ std::string TextureManager::SelectTexture(const std::string& filePath) {
 	ImGui::BulletText("TextureView");
 
 	// 現在のテクスチャプレビュー
-	auto currentHandle = this->GetDxHeapHandles(filePath);
+	const std::string previewName = IsTexture2D(filePath) ? filePath : "error.png";
+	auto currentHandle = this->GetDxHeapHandles(previewName);
 	ImTextureID currentTexID = (ImTextureID)(intptr_t)(currentHandle.handleGPU.ptr);
 	ImGui::Image(currentTexID, ImVec2(64, 64));
 
@@ -594,6 +604,9 @@ std::string TextureManager::SelectTexture(const std::string& filePath) {
 		if (ImGui::BeginListBox("TextureList")) {
 			for (int i = 0; i < fileNames_.size(); ++i) {
 				const std::string& textureName = fileNames_[i];
+				if (!IsTexture2D(textureName)) {
+					continue;
+				}
 				const char* ext = GetFileExtension(textureName.c_str());
 				std::string extension(ext);
 
@@ -661,13 +674,16 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 	uint32_t count = 0;
 	for (int i = 0; i < fileNames_.size(); ++i) {
 		const std::string& textureName = fileNames_[i];
+		if (!IsTexture2D(textureName)) {
+			continue;
+		}
 		const char* ext = GetFileExtension(textureName.c_str());
 		std::string extension(ext);
 
 		// 拡張子でフィルタ
-		if ((extension != "png") && (extension != "jpeg")) {
+		/*if ((extension != "png") && (extension != "jpeg")) {
 			continue;
-		}
+		}*/
 
 		// textureを表示
 		auto handle = this->GetDxHeapHandles(textureName);

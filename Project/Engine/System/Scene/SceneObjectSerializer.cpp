@@ -44,6 +44,9 @@ json SerializeMaterial(const BaseMaterial& material, uint32_t slot) {
 		{ "uvTranslate", Vector3ToJson(uv.translate) },
 		{ "discardValue", material.GetDiscardValue() }
 	};
+	if (!material.GetShaderGraphAssetPath().empty()) {
+		data["shaderGraphAsset"] = material.GetShaderGraphAssetPath();
+	}
 
 	if (const auto* pbr = dynamic_cast<const PBRMaterial*>(&material)) {
 		const PBRMaterial::PBRMaterialData& source = pbr->GetMaterialData();
@@ -79,6 +82,9 @@ void DeserializeMaterial(BaseMaterial& material, const json& data) {
 	if (data.contains("uvRotate")) { material.SetUvRotate(JsonToVector3(data.at("uvRotate"))); }
 	if (data.contains("uvTranslate")) { material.SetUvTranslate(JsonToVector3(data.at("uvTranslate"))); }
 	material.SetDiscardValue(data.value("discardValue", material.GetDiscardValue()));
+	if (data.contains("shaderGraphAsset")) {
+		material.SetShaderGraphAsset(data.at("shaderGraphAsset").get<std::string>());
+	}
 
 	if (auto* pbr = dynamic_cast<PBRMaterial*>(&material)) {
 		const PBRMaterial::PBRMaterialData& current = pbr->GetMaterialData();

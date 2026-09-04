@@ -40,6 +40,7 @@ void Material::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Material::Update() {
+	UpdateShaderGraph();
 	material_->enableLighting = isLighting_;
 	material_->discardValue = discardValue_;
 	material_->color = color_;

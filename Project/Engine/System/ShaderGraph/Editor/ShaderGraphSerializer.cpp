@@ -19,6 +19,9 @@ bool ShaderGraphSerializer::Save(const std::string& _filePath, ImFlow::ImNodeFlo
 	// -------------------------------------------------
     // jsonを作成
     json result;
+	result["assetType"] = "ShaderGraph";
+	result["schemaVersion"] = 1;
+	result["domain"] = "Texture";
 
     // nodeを保存
     for (auto& node : _editor->getNodes()) {
