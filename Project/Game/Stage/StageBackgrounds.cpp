@@ -20,19 +20,21 @@ namespace {
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::Init(StageBlockField* field, StageSegment* segment) {
+void StageBackgrounds::Init(StageBlockField* field){
 	parameter_.Load();
 
 	backgroundIndex_ = -1;
-	segmentIndex_ = -1;
+	segmentIndex_ = 0;
 
 	// 足元と次の分をあらかじめ用意しておく
-	for (size_t i = 0; i < kKeepBackgroundCount; ++i) {
+	for(size_t i = 0; i < kKeepBackgroundCount; ++i){
 		CreateBackground();
 	}
 
-	for (int i = 0; i < kKeepSegmentCount; ++i) {
-		CreateSegment(field, segment);
+
+	StageFactory::GetInstance().CreateStartSegment(field,segmentIndex_);
+	for(int i = 1; i < kKeepSegmentCount; ++i){
+		CreateSegment(field);
 	}
 }
 
@@ -40,30 +42,30 @@ void StageBackgrounds::Init(StageBlockField* field, StageSegment* segment) {
 // 更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::Update(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos) {
+void StageBackgrounds::Update(StageBlockField* field,const Math::Vector3& playerPos){
 	BackgroundLoop(playerPos);
-	SegmentLoop(field, segment, playerPos);
+	SegmentLoop(field,playerPos);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 背景をループさせる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::BackgroundLoop(const Math::Vector3& playerPos) {
+void StageBackgrounds::BackgroundLoop(const Math::Vector3& playerPos){
 	// 間隔が未設定だと毎フレーム生成してしまうため、正の値のときだけループさせる
-	if (parameter_.scrollHeight <= 0) {
+	if(parameter_.scrollHeight <= 0){
 		return;
 	}
 
 	// playerのY座標が、最後に生成した背景の高さを超えたら次を生成する
-	if (playerPos.y < static_cast<float>(backgroundIndex_ * parameter_.scrollHeight)) {
+	if(playerPos.y < static_cast<float>(backgroundIndex_ * parameter_.scrollHeight)){
 		return;
 	}
 
 	CreateBackground();
 
 	// 画面外に出た一番古い背景を削除する
-	if (objHandles_.size() > kKeepBackgroundCount) {
+	if(objHandles_.size() > kKeepBackgroundCount){
 		AOENGINE::ObjectHandle frontHandle = objHandles_.front();
 		AOENGINE::SceneRenderer::GetInstance()->DestroyObject(frontHandle);
 		objHandles_.pop();
@@ -74,18 +76,18 @@ void StageBackgrounds::BackgroundLoop(const Math::Vector3& playerPos) {
 // 段をループさせる
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::SegmentLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos) {
-	if (field == nullptr || segment == nullptr) {
+void StageBackgrounds::SegmentLoop(StageBlockField* field,const Math::Vector3& playerPos){
+	if(field == nullptr){
 		return;
 	}
 
 	// playerのY座標が、最後に生成した段の高さを超えたら次の段を積む。
 	// 背景と違い、段の高さはステージ実体の高さ(kBlockRow)そのものを使う
-	if (playerPos.y < static_cast<float>(segmentIndex_ * kBlockRow)) {
+	if(playerPos.y < static_cast<float>(segmentIndex_ * kBlockRow)){
 		return;
 	}
 
-	CreateSegment(field, segment);
+	CreateSegment(field);
 
 	// 画面外に出た下の段のブロックを破棄する
 	field->DestroySegment(segmentIndex_ - kKeepSegmentCount);
@@ -95,14 +97,14 @@ void StageBackgrounds::SegmentLoop(StageBlockField* field, StageSegment* segment
 // 背景の生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::CreateBackground() {
+void StageBackgrounds::CreateBackground(){
 	// 背景の追加生成
 	AOENGINE::SceneObject* root =
 		AOENGINE::PrefabManager::GetInstance()->Instantiate("Plane");
 
 	AOENGINE::BaseGameObject* background = dynamic_cast<AOENGINE::BaseGameObject*>(root);
 
-	if (!background) { return; }
+	if(!background){ return; }
 
 	++backgroundIndex_;
 
@@ -114,13 +116,12 @@ void StageBackgrounds::CreateBackground() {
 // 段の生成
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::CreateSegment(StageBlockField* field, StageSegment* segment) {
-	if (field == nullptr || segment == nullptr) {
+void StageBackgrounds::CreateSegment(StageBlockField* field){
+	if(field == nullptr){
 		return;
 	}
 
 	++segmentIndex_;
 
-	StageFactory factory;
-	factory.Create(field, segment, segmentIndex_);
+	StageFactory::GetInstance().CreateFromRandom(field,segmentIndex_);
 }
