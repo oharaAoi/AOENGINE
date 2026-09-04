@@ -2,7 +2,7 @@
 
 #include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
-#include <vector>
+#include <list>
 
 class BossAttackFallFire :public BaseBossAttackBehavior {
 public:
@@ -18,7 +18,7 @@ private:
 	//FireBallの構造体
 	struct Fireball {
 		AOENGINE::BaseEntity entity;// 火玉本体
-		float currentLifeTime = 0.0f;// 生存時間
+		bool isHit = false;// 何かに当たったか
 	};
 
 private:
@@ -52,11 +52,8 @@ private:
 	float launchInterval_ = 0.5f;
 	float fallSpeed_ = 10.0f;
 
-	// 生存時間
-	float lifeTime_ = 3.0f;
-
 	// 落下中の火玉
-	std::vector <Fireball>fireballs_;
+	std::list<Fireball> fireballs_;
 
 	int spawnedCount_ = 0;// 出した火玉の数
 	float spawnTimer_ = 0.0f;// 次のスポーンまでの時間

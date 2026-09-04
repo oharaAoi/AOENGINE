@@ -1,7 +1,8 @@
 {
     "bossParameter": {
-        "bounceHeight": 12.399999618530273,
+        "bounceHeight": 1.600000023841858,
         "bounceSpeed": 8.0,
+        "fireballSpawnOffsetY": 0.0,
         "hitSize": {
             "x": 6.0,
             "y": 1.0,

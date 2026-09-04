@@ -1,5 +1,8 @@
 #include "BossAttackFallFire.h"
 
+#include <cmath>
+
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/System/Manager/PrefabManager.h"
@@ -24,6 +27,10 @@ void BossAttackFallFire::Exit(Boss& boss) {
 
 	// 途中で行動が切り替わった場合、残っている火玉を片付ける
 	for (Fireball& fireball : fireballs_) {
+		// 消す前にコールバックを外す
+		if (AOENGINE::BaseCollider* collider = fireball.entity.GetCollider(kFireBallColliderTag_)) {
+			collider->SetOnCollision(nullptr);
+		}
 		fireball.entity.Destroy();
 	}
 	fireballs_.clear();
@@ -37,6 +44,9 @@ void BossAttackFallFire::Update(Boss& boss, float deltaTime) {
 
 	// 火玉更新
 	UpdateFireBall(deltaTime);
+
+	// この行動中はボスを上下に跳ねさせる
+	UpdateBossBounce(boss, deltaTime);
 
 	// 全部落とし終わって、画面上の火球も無くなったら攻撃終了
 	if (spawnedCount_ >= dropCount_ && fireballs_.empty()) {
@@ -58,9 +68,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 		return;
 	}
 
-	// X,Zはプレイヤーに合わせ、Yはボスの高さから落とす
+	// X,Zはプレイヤーに合わせ、Yはボスの高さ + オフセットから落とす
 	Math::Vector3 spawnPosition = playerTransform->GetTranslate();
-	spawnPosition.y = boss.GetPosition().y;
+	spawnPosition.y = boss.GetPosition().y + boss.GetParameter().fireballSpawnOffsetY;
 
 	// 火玉のprefab用意
 	AOENGINE::SceneObject* root = AOENGINE::PrefabManager::GetInstance()->Instantiate("Fireball");
@@ -79,6 +89,12 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 	}
 
 	fireballs_.push_back(fireball);
+
+	// 何かに当たったらフラグだけ立てる
+	Fireball* spawned = &fireballs_.back();
+	if (AOENGINE::BaseCollider* collider = spawned->entity.GetCollider(kFireBallColliderTag_)) {
+		collider->SetOnCollision([spawned](AOENGINE::BaseCollider*) { spawned->isHit = true; });
+	}
 }
 
 void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
@@ -119,15 +135,14 @@ void  BossAttackFallFire::UpdateFireBall(float deltaTime) {
 		}
 
 		// 何かしらに着弾したら消す
-		if (AOENGINE::BaseCollider* collider = it->entity.GetCollider(kFireBallColliderTag_)) {
-			const int state = collider->GetCollisionState();
-			// 当たっていたら消す
-			if (state == static_cast<int>(CollisionFlags::Enter) ||
-				state == static_cast<int>(CollisionFlags::Stay)) {
-				it->entity.Destroy();
-				it = fireballs_.erase(it);
-				continue;
+		if (it->isHit) {
+			// 消す前にコールバックを外す
+			if (AOENGINE::BaseCollider* collider = it->entity.GetCollider(kFireBallColliderTag_)) {
+				collider->SetOnCollision(nullptr);
 			}
+			it->entity.Destroy();
+			it = fireballs_.erase(it);
+			continue;
 		}
 		++it;
 	}
