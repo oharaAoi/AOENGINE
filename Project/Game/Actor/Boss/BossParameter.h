@@ -27,11 +27,13 @@ struct BossParameter :
 	std::array<float, kPhaseSwitchCount> phaseSwitchRatio;
 
 	// --- 攻撃1: 火球落とし ---
+	float fireballDamage = 1.0f;		// 火球が当たった時のダメージ
 	float fireballSpawnOffsetY = 0.0f;	// ボスの高さからさらに上下させるオフセット
 	float bounceHeight = 1.0f;			// 跳ねる高さ
 	float bounceSpeed = 8.0f;			// 跳ねる速さ
 
 	// --- 攻撃2: ビーム ---
+	float beamDamage = 1.0f;				// ビームが当たった時のダメージ
 	int32_t beamCount = 3;					// ビーム回数
 	float beamWarningTime = 1.5f;			// 予測線秒数
 	float beamTime = 1.0f;					// ビーム秒数
@@ -55,11 +57,13 @@ struct BossParameter :
 		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
 
 		AddSeparatorText("Attack1: FallFire");
+		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Fireball Spawn OffsetY", fireballSpawnOffsetY, 0.1f, -100.0f, 100.0f);
 		AddParameter("Bounce Height", bounceHeight, 0.1f, 0.0f, 100.0f);
 		AddParameter("Bounce Speed", bounceSpeed, 0.1f, 0.0f, 100.0f);
 
 		AddSeparatorText("Attack2: Beam");
+		AddParameter("Beam Damage", beamDamage, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Beam Count", beamCount, 1.0f, 0.0f, 100.0f);
 		AddParameter("Beam Warning Time", beamWarningTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Beam Time", beamTime, 0.01f, 0.0f, 10.0f);
@@ -78,9 +82,11 @@ struct BossParameter :
 			.Add("hp", hp)
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
+			.Add("fireballDamage", fireballDamage)
 			.Add("fireballSpawnOffsetY", fireballSpawnOffsetY)
 			.Add("bounceHeight", bounceHeight)
 			.Add("bounceSpeed", bounceSpeed)
+			.Add("beamDamage", beamDamage)
 			.Add("beamCount", beamCount)
 			.Add("beamWarningTime", beamWarningTime)
 			.Add("beamTime", beamTime)
@@ -99,10 +105,12 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "hp", hp);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
+		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
 		Convert::fromJson(jsonData, "fireballSpawnOffsetY", fireballSpawnOffsetY);
 		Convert::fromJson(jsonData, "bounceHeight", bounceHeight);
 		Convert::fromJson(jsonData, "bounceSpeed", bounceSpeed);
 
+		Convert::fromJson(jsonData, "beamDamage", beamDamage);
 		Convert::fromJson(jsonData, "beamCount", beamCount);
 		Convert::fromJson(jsonData, "beamWarningTime", beamWarningTime);
 		Convert::fromJson(jsonData, "beamTime", beamTime);

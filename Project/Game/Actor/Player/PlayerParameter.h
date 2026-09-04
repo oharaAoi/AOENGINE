@@ -33,6 +33,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float gatherBlockSize = 1.0f;		// 集合中の押し戻し判定に使うブロック1個の大きさ
 	float gatherSeparationSpeed = 8.0f;	// 集合中にグループ同士が押し戻しで離れていく速さ
 
+	// 被弾
+	float maxHp = 3.0f;			// 最大HP
+	float invincibleTime = 1.0f;	// 被弾後の無敵時間(秒)
+
 	// その他
 	float stickDeadZone; // 左スティックのデッドゾーン
 
@@ -60,6 +64,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Gather Block Size",gatherBlockSize,0.01f,0.0f,10.0f);
 		AddParameter("Gather Separation Speed",gatherSeparationSpeed,0.1f,0.0f,100.0f);
 
+		AddParameter("Max HP", maxHp, 1.0f, 0.0f, 1000.0f);
+		AddParameter("Invincible Time", invincibleTime, 0.01f, 0.0f, 10.0f);
+
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}
 
@@ -83,6 +90,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("launchLifeTime", launchLifeTime)
 			.Add("gatherBlockSize", gatherBlockSize)
 			.Add("gatherSeparationSpeed", gatherSeparationSpeed)
+			.Add("maxHp", maxHp)
+			.Add("invincibleTime", invincibleTime)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
 	}
@@ -106,6 +115,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "launchLifeTime", launchLifeTime);
 		Convert::fromJson(jsonData, "gatherBlockSize", gatherBlockSize);
 		Convert::fromJson(jsonData, "gatherSeparationSpeed", gatherSeparationSpeed);
+		Convert::fromJson(jsonData, "maxHp", maxHp);
+		Convert::fromJson(jsonData, "invincibleTime", invincibleTime);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
 };

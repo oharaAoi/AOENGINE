@@ -62,7 +62,7 @@ void GameScene::Init()
 	bossBlockLauncherCallBacks_.Init();
 	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
 
-	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get());
+	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get());
 	// RetryUI
 	retryUI_ = std::make_unique<RetryUI>();
 }

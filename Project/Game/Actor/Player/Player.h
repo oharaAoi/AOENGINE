@@ -72,6 +72,10 @@ private:
 	// 最後に向いた左右方向
 	float facing_ = 1.0f;
 
+	// 被弾
+	float currentHp_ = 0.0f;		// 現在のHP
+	float invincibleTimer_ = 0.0f;	// 残りの無敵時間
+
 	// ダメージ床で打ち上げられてから着地するまでtrue
 	bool damageFloorAirborne_ = false;
 	// 今回の大ジャンプで、落下開始時のBlock判定再開をもう済ませたか
@@ -102,6 +106,17 @@ public: // accessor
 
 	// ダメージ床に当たった時のノックバックを開始する
 	void ApplyDamageFloorKnockback(float power);
+
+	/// <summary>
+	/// ダメージを受ける。無敵中は何も起きない
+	/// </summary>
+	/// <returns>実際にダメージが入ったら true</returns>
+	bool TakeDamage(float amount);
+
+	float GetMaxHp() const { return parameter_.maxHp; }
+	float GetCurrentHp() const { return currentHp_; }
+	bool IsInvincible() const { return invincibleTimer_ > 0.0f; }
+	bool IsDead() const { return currentHp_ <= 0.0f; }
 	// ダメージ床で打ち上げられてから着地するまでの間か
 	bool IsDamageFloorAirborne() const { return damageFloorAirborne_; }
 

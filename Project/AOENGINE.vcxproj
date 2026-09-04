@@ -474,6 +474,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
+    <ClInclude Include="Game\EventHandlers\PlayerToBossAttackCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
@@ -788,6 +789,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
+    <ClCompile Include="Game\EventHandlers\PlayerToBossAttackCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />

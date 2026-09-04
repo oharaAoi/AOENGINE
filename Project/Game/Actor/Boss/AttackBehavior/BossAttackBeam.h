@@ -31,7 +31,7 @@ private:
 	std::size_t ToIndex(Phase phase) const { return static_cast<std::size_t>(phase); }
 
 	/// <summary>
-	/// 状態を切り替える(経過時間もリセットする)
+	/// 状態を切り替える
 	/// </summary>
 	void ChangePhase(Phase next);
 
@@ -46,7 +46,7 @@ private:
 	void UpdateBeamPhase(Boss& boss, float deltaTime);
 
 	/// <summary>
-	/// 予測線と危険マークを出す(この時のプレイヤーの高さを覚える)
+	/// 予測線と危険マークを出す
 	/// </summary>
 	void SpawnWarning(const Boss& boss);
 
@@ -56,7 +56,7 @@ private:
 	void DestroyWarning();
 
 	/// <summary>
-	/// ビームを画面外(左)に出す
+	/// ビームを画面外に出す
 	/// </summary>
 	void SpawnBeam(const Boss& boss);
 
@@ -77,7 +77,7 @@ private:
 
 private:
 
-	// 調整項目は BossParameter 側(Custom Parameters の Attack2: Beam)にある
+	// 調整項目は BossParameter 側にある
 
 	// 内部状態
 	Phase phase_ = Phase::Warning;
@@ -87,7 +87,7 @@ private:
 	bool isBlinkVisible_ = true;// 点滅の表示状態
 	bool isFinished_ = false;	// 終わったか
 
-	// 予測線を出した時のプレイヤーの高さ(以降は追従しない)
+	// 予測線を出した時のプレイヤーの高さ
 	float beamPosY_ = 0.0f;
 
 	// 状態ごとの更新処理

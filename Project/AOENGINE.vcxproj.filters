@@ -1245,6 +1245,9 @@
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="Game\EventHandlers\PlayerToBossAttackCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
@@ -2181,6 +2184,9 @@
       <Filter>Game\EventHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EventHandlers\PlayerToBossAttackCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp">

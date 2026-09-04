@@ -40,6 +40,10 @@ void Player::Init(BaseGameObject* body)
 	parameter_.Load();
 	facing_ = 1.0f;
 
+	// HPを満タンにする
+	currentHp_ = parameter_.maxHp;
+	invincibleTimer_ = 0.0f;
+
 	if (BaseGameObject* object = GetGameObject())
 	{
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
@@ -73,6 +77,11 @@ void Player::Update(){
 	}
 
 	const float deltaTime = GameTimer::DeltaTime();
+
+	// 無敵時間を進める
+	if (invincibleTimer_ > 0.0f) {
+		invincibleTimer_ -= deltaTime;
+	}
 
 	// 前フレームの結果に対して接地判定を行う
 	ResolveGround();
@@ -239,6 +248,29 @@ void Player::ApplyDamageFloorKnockback(float power)
 	blockCollisionResumed_ = false;
 	SetBlockCollisionEnabled(false);
 	jump_.Knockback(power);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  被弾
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Player::TakeDamage(float amount)
+{
+	// 無敵中や、既に倒れている時は受け付けない
+	if (IsInvincible() || IsDead())
+	{
+		return false;
+	}
+
+	currentHp_ -= amount;
+	if (currentHp_ < 0.0f)
+	{
+		currentHp_ = 0.0f;
+	}
+
+	// 連続ヒットを防ぐために無敵時間を入れる
+	invincibleTimer_ = parameter_.invincibleTime;
+	return true;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,6 +526,7 @@ void Player::Debug_Gui()
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
+	ImGui::Text("hp: %.1f / %.1f%s", currentHp_, parameter_.maxHp, IsInvincible() ? " (invincible)" : "");
 
 	ImGui::Text("connectPhase: %s", blockGroupConnectState_.GetPhaseName().c_str());
 	ImGui::Text("connectRemain: %.2f", blockGroupConnectState_.GetRemainingTime());

@@ -2,6 +2,7 @@
     "bossParameter": {
         "beamBlinkInterval": 0.10000000149011612,
         "beamCount": 3,
+        "beamDamage": 25.0,
         "beamSize": {
             "x": 40.0,
             "y": 1.7000000476837158,
@@ -23,6 +24,7 @@
         "beamWarningTime": 1.5,
         "bounceHeight": 1.600000023841858,
         "bounceSpeed": 8.0,
+        "fireballDamage": 1.0,
         "fireballSpawnOffsetY": 0.0,
         "hitSize": {
             "x": 6.0,
