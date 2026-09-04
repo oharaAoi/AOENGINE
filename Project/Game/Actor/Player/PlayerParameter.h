@@ -35,7 +35,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 
 	// 被弾
 	float maxHp = 3.0f;			// 最大HP
-	float invincibleTime = 1.0f;	// 被弾後の無敵時間(秒)
+	float invincibleTime = 1.0f;			// 被弾後の無敵時間(秒)
+	float invincibleBlinkInterval = 0.08f;	// 無敵中の点滅の間隔(秒)
 
 	// その他
 	float stickDeadZone; // 左スティックのデッドゾーン
@@ -66,9 +67,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 
 		AddParameter("Max HP", maxHp, 1.0f, 0.0f, 1000.0f);
 		AddParameter("Invincible Time", invincibleTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Invincible Blink Interval", invincibleBlinkInterval, 0.01f, 0.0f, 5.0f);
 
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
-	}
+	
 
 	json ToJson(const std::string &id) const override
 	{
@@ -92,6 +94,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("gatherSeparationSpeed", gatherSeparationSpeed)
 			.Add("maxHp", maxHp)
 			.Add("invincibleTime", invincibleTime)
+			.Add("invincibleBlinkInterval", invincibleBlinkInterval)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
 	}
@@ -117,6 +120,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "gatherSeparationSpeed", gatherSeparationSpeed);
 		Convert::fromJson(jsonData, "maxHp", maxHp);
 		Convert::fromJson(jsonData, "invincibleTime", invincibleTime);
+		Convert::fromJson(jsonData, "invincibleBlinkInterval", invincibleBlinkInterval);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
 };

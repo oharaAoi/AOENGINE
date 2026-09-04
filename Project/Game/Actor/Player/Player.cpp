@@ -43,6 +43,9 @@ void Player::Init(BaseGameObject* body)
 	// HPを満タンにする
 	currentHp_ = parameter_.maxHp;
 	invincibleTimer_ = 0.0f;
+	invincibleBlinkTimer_ = 0.0f;
+	isBlinkVisible_ = true;
+	SetRendering(true);
 
 	if (BaseGameObject* object = GetGameObject())
 	{
@@ -79,9 +82,7 @@ void Player::Update(){
 	const float deltaTime = GameTimer::DeltaTime();
 
 	// 無敵時間を進める
-	if (invincibleTimer_ > 0.0f) {
-		invincibleTimer_ -= deltaTime;
-	}
+	UpdateInvincible(deltaTime);
 
 	// 前フレームの結果に対して接地判定を行う
 	ResolveGround();
@@ -270,7 +271,43 @@ bool Player::TakeDamage(float amount)
 
 	// 連続ヒットを防ぐために無敵時間を入れる
 	invincibleTimer_ = parameter_.invincibleTime;
+	invincibleBlinkTimer_ = 0.0f;
+	isBlinkVisible_ = true;
 	return true;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  無敵時間中の点滅
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateInvincible(float deltaTime)
+{
+	if (invincibleTimer_ <= 0.0f)
+	{
+		return;
+	}
+
+	invincibleTimer_ -= deltaTime;
+
+	// 無敵が切れたら必ず表示状態へ戻す
+	if (invincibleTimer_ <= 0.0f)
+	{
+		invincibleBlinkTimer_ = 0.0f;
+		isBlinkVisible_ = true;
+		SetRendering(true);
+		return;
+	}
+
+	// 一定間隔で表示と非表示を切り替えてちかちかさせる
+	invincibleBlinkTimer_ += deltaTime;
+	if (invincibleBlinkTimer_ < parameter_.invincibleBlinkInterval)
+	{
+		return;
+	}
+	invincibleBlinkTimer_ = 0.0f;
+
+	isBlinkVisible_ = !isBlinkVisible_;
+	SetRendering(isBlinkVisible_);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
