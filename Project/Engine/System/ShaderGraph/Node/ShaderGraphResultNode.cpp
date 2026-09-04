@@ -3,9 +3,9 @@
 using namespace AOENGINE;
 
 ShaderGraphResultNode::~ShaderGraphResultNode() {
-	if (resource_) {
-		resource_->Destroy();
-	}
+	// resource_は入力NodeまたはTextureManagerが所有する借用参照です。
+	// ResultNodeでは破棄しません。
+	resource_ = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

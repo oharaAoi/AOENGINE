@@ -79,7 +79,7 @@ void DrawCone(const Math::Vector3& center, const Math::Quaternion& rotate, float
 	float angleIncrement = 2.0f * kPI / segment;
 	const Math::Vector3 rotateHeight = rotate * Math::Vector3(0, height, 0);
 	const Math::Vector3 coneTip = center + rotateHeight; // 円錐の頂点（Y軸方向を高さとして仮定）
-	float newRadius = height * std::tanf(angle * 0.5f);
+	float newRadius = radius + height * std::tanf(angle);
 
 	std::vector<Math::Vector3> basePoints(segment);
 	for (int i = 0; i < segment; ++i) {

@@ -377,6 +377,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
     <ClInclude Include="Engine\System\Manager\PrefabManager.h" />
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
+    <ClInclude Include="Engine\System\Manager\ShaderGraphManager.h" />
     <ClInclude Include="Engine\System\Manager\SystemManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h" />
@@ -486,6 +487,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
+    <ClInclude Include="Game\Stage\BlockGroupLauncherManager.h" />
     <ClInclude Include="Game\Stage\GridPos.h" />
     <ClInclude Include="Game\Stage\StageBackgrounds.h" />
     <ClInclude Include="Game\Stage\StageBlockField.h" />
@@ -703,6 +705,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />
     <ClCompile Include="Engine\System\Manager\PrefabManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ShaderGraphManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp" />
@@ -799,6 +802,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
+    <ClCompile Include="Game\Stage\BlockGroupLauncherManager.cpp" />
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />
     <ClCompile Include="Game\Stage\StageBlockField.cpp" />
     <ClCompile Include="Game\Stage\StageFactory.cpp" />

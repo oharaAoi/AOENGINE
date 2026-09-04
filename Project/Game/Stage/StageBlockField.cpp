@@ -537,6 +537,27 @@ void StageBlockField::DetachGroup(int groupId){
 	RemoveGroup(groupId);
 }
 
+void StageBlockField::DestroyDetachedBlock(Block* block){
+	if(block == nullptr){
+		return;
+	}
+
+	// 切り離し済みのブロックだけが対象。段が持っているブロックは段の破棄で消えるため、ここでは触らない
+	auto found = std::find_if(detachedBlocks_.begin(),detachedBlocks_.end(),
+							  [block](const std::unique_ptr<Block>& owned){ return owned.get() == block; });
+	if(found == detachedBlocks_.end()){
+		return;
+	}
+
+	// 連結グループ表からは DetachGroup() の時点で既に外れているため、
+	// 解決表からの登録解除と GameObject の破棄だけでよい
+	if(pBlockCallBacks_ != nullptr){
+		pBlockCallBacks_->UnregisterBlock(block);
+	}
+	block->Destroy();
+	detachedBlocks_.erase(found);
+}
+
 void StageBlockField::DetachBlock(Block* block){
 	if(block == nullptr){
 		return;

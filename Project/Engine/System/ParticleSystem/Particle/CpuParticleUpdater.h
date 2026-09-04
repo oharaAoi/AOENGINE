@@ -29,6 +29,9 @@ public:
 	/// </summary>
 	void Update();
 
+	// 新規生成の前に、このフレームで寿命を迎えるParticleを回収する
+	void RemoveDeadParticles();
+
 	/// <summary>
 	/// Rendererの更新
 	/// </summary>

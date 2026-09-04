@@ -1,6 +1,8 @@
 #pragma once
 #include <list>
 #include <memory>
+#include <optional>
+#include <filesystem>
 #include "Engine/DirectX/RTV/RenderTarget.h"
 #include "Engine/DirectX/Descriptor/DescriptorHeap.h"
 #include "Engine/Module/Components/Attribute/IEditorWindow.h"
@@ -87,12 +89,14 @@ private:		// member method
 	/// </summary>
 	void Create();
 
-	AOENGINE::GpuParticleEmitter* CreateOfGpu();
+	AOENGINE::GpuParticleEmitter* CreateOfGpu(const json* jsonData = nullptr);
 
 	/// <summary>
 	/// リストに追加する
 	/// </summary>
-	void AddList(const std::string& _name);
+	void AddList(const std::string& _name, const json* jsonData = nullptr);
+	void HandleParticleAssetDrop();
+	void ProcessPendingParticleDrop();
 
 	/// <summary>
 	/// ファイルを新たに読み込む
@@ -156,6 +160,8 @@ private:
 
 	AOENGINE::BaseParticles* cpuParticles_ = nullptr;
 	AOENGINE::GpuParticleEmitter* gpuParticles_ = nullptr;
+	std::optional<std::filesystem::path> pendingParticlePath_;
+	std::string particleDropMessage_;
 
 };
 

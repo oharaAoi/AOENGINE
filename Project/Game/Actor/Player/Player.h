@@ -6,7 +6,7 @@
 #include "Game/Actor/Player/Component/PlayerInput.h"
 #include "Game/Actor/Player/Component/PlayerJump.h"
 #include "Game/Actor/Player/Component/BlockGroupConnectState.h"
-#include "Game/Stage/BlockGroupLauncher.h"
+#include "Game/Stage/BlockGroupLauncherManager.h"
 
 namespace AOENGINE {
 	class Rigidbody;
@@ -64,7 +64,7 @@ private:
 	PlayerInput input_;
 	PlayerJump  jump_;
 	BlockGroupConnectState blockGroupConnectState_;
-	BlockGroupLauncher     blockGroupLauncher_;
+	BlockGroupLauncherManager blockGroupLauncherManager_;
 
 	// 集合・打ち上げの対象を引き当てる連結グループ表(非所有)
 	StageBlockField* pBlockField_ = nullptr;
@@ -93,8 +93,8 @@ private:
 	static constexpr float kPushbackThreshold = 0.0001f;
 
 public: // accessor
-	const BlockGroupLauncher* GetBlockGroupLauncher() const{ return &blockGroupLauncher_; }
-	BlockGroupLauncher* GetBlockGroupLauncherRef(){ return &blockGroupLauncher_; }
+	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
+	BlockGroupLauncherManager* GetBlockGroupLauncherManagerRef(){ return &blockGroupLauncherManager_; }
 
 	bool IsGrounded() const{ return jump_.IsGrounded(); }
 

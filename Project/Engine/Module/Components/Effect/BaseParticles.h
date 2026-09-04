@@ -20,8 +20,8 @@ public: // コンストラクタ
 	virtual ~BaseParticles() override = default;
 
 public:
-	// 1つのCPU Particleグループが保持できる最大数
-	static constexpr uint32_t kMaxParticles = 200;
+	// 未指定時に使用するCPU Particleグループの最大数
+	static constexpr uint32_t kDefaultMaxParticles = 512;
 
 	/// <summary>
 	/// 初期化処理
@@ -50,13 +50,15 @@ public:
 	// particleのMesh変更
 	void ChangeMesh();
 
+	// 使用TextureをEmitter設定とMaterialへ反映する
+	void SetTexture(const std::string& textureName);
+
 public:	// json関連
 
 	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 
-	void SetJsonData(const json& _jsonData) {
-		emitter_.FromJson(_jsonData);
-	};
+	void SetJsonData(const json& jsonData);
+	void ClearParticles();
 
 public:
 
@@ -76,7 +78,12 @@ public:
 	const std::string& GetUseTexture() const { return emitter_.useTexture; }
 
 	std::shared_ptr<AOENGINE::Material> GetShareMaterial() { return shareMaterial_; }
-	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) { shareMaterial_ = _material; }
+	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) {
+		shareMaterial_ = std::move(_material);
+		if (shareMaterial_) {
+			shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
+		}
+	}
 
 	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
 
@@ -84,8 +91,11 @@ public:
 
 	void SetBlendMode(uint32_t blendMode) { blendModeType_ = blendMode; }
 	uint32_t GetBlendMode() const { return blendModeType_; }
+	uint32_t GetMaxParticles() const { return emitter_.maxParticles; }
 
 protected:
+	void DrawTextureSelector();
+
 	// groupの名前
 	const std::string kGroupName = "CPU";
 	// particleName
@@ -104,13 +114,15 @@ protected:
 
 	// emitter
 	AOENGINE::ParticleEmit emitter_;
-	float emitAccumulator_;
+	float emitAccumulator_ = 0.0f;
+	float distanceAccumulator_ = 0.0f;
 	float currentTimer_;
 	bool isStop_;
 
 	bool changeMesh_ = false;
 
 	Math::Vector3 preWorldPos_;
+	bool hasPreWorldPos_ = false;
 
 	// Transform
 	std::unique_ptr<WorldTransform> worldTransform_;

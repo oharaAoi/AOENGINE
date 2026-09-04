@@ -25,6 +25,16 @@ enum class CpuEmitterShape {
 	Cone
 };
 
+enum class ParticleOverflowMode {
+	DropNew,
+	RecycleOldest
+};
+
+enum class ConeEmitFrom {
+	Base,
+	Volume
+};
+
 namespace AOENGINE {
 
 /// <summary>
@@ -84,6 +94,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector3 preTranslate = CVector3::ZERO;		// 位置
 	Math::Vector3 rotate = CVector3::ZERO;		// 射出方向
 	uint32_t rateOverTimeCout = 100;			// 射出数
+	float emitSpacing = 0.1f;				// 移動距離に対するParticleの生成間隔
+	uint32_t maxParticles = 512;			// 同時に生存できる最大数
+	uint32_t maxEmitPerFrame = 256;		// 1フレームに生成できる最大数
+	float teleportThreshold = 50.0f;		// 軌跡補間を行わない移動距離
+	int overflowMode = static_cast<int>(ParticleOverflowMode::RecycleOldest);
 	int shape = 0;						// emitterの種類
 	int emitDirection = 1;
 	int emitOrigin = 0;
@@ -126,6 +141,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	float radius = 0.5f;
 	float angle = 27.f;
 	float height = 1;
+	int coneEmitFrom = static_cast<int>(ConeEmitFrom::Base);
+	float radiusThickness = 1.0f;
+	float arc = 360.0f;
+	float randomDirectionAmount = 0.0f;
 	Math::Vector3 size = CVector3::UNIT;
 
 	std::string useTexture = "circle.png";
@@ -156,6 +175,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("translate", translate)
 			.Add("shape", shape)
 			.Add("rateOverTimeCout", rateOverTimeCout)
+			.Add("emitSpacing", emitSpacing)
+			.Add("maxParticles", maxParticles)
+			.Add("maxEmitPerFrame", maxEmitPerFrame)
+			.Add("teleportThreshold", teleportThreshold)
+			.Add("overflowMode", overflowMode)
 			.Add("emitDirection", emitDirection)
 			.Add("emitOrigin", emitOrigin)
 			.Add("color", color)
@@ -195,6 +219,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("coneEmitFrom", coneEmitFrom)
+			.Add("radiusThickness", radiusThickness)
+			.Add("arc", arc)
+			.Add("randomDirectionAmount", randomDirectionAmount)
 			.Add("isTextureSheetAnimation", isTextureSheetAnimation)
 			.Add("tiles", tiles)
 			.Add("isColorAnimation", isColorAnimation)
@@ -213,6 +241,11 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "translate", translate);
 		Convert::fromJson(jsonData, "shape", shape);
 		Convert::fromJson(jsonData, "rateOverTimeCout", rateOverTimeCout);
+		Convert::fromJson(jsonData, "emitSpacing", emitSpacing);
+		Convert::fromJson(jsonData, "maxParticles", maxParticles);
+		Convert::fromJson(jsonData, "maxEmitPerFrame", maxEmitPerFrame);
+		Convert::fromJson(jsonData, "teleportThreshold", teleportThreshold);
+		Convert::fromJson(jsonData, "overflowMode", overflowMode);
 		Convert::fromJson(jsonData, "emitDirection", emitDirection);
 		Convert::fromJson(jsonData, "emitOrigin", emitOrigin);
 		Convert::fromJson(jsonData, "color", color);
@@ -252,6 +285,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "size", size);
 		Convert::fromJson(jsonData, "angle", angle);
 		Convert::fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "coneEmitFrom", coneEmitFrom);
+		Convert::fromJson(jsonData, "radiusThickness", radiusThickness);
+		Convert::fromJson(jsonData, "arc", arc);
+		Convert::fromJson(jsonData, "randomDirectionAmount", randomDirectionAmount);
 		Convert::fromJson(jsonData, "isTextureSheetAnimation", isTextureSheetAnimation);
 		Convert::fromJson(jsonData, "tiles", tiles);
 		Convert::fromJson(jsonData, "isColorAnimation", isColorAnimation);

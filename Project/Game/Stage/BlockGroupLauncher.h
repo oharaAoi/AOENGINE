@@ -1,16 +1,19 @@
 #pragma once
 
 /// stl
+#include <memory>
 #include <vector>
 
 /// engine
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 
 class Block;
 class StageBlockField;
 
 namespace AOENGINE{
-class Color;
+	class Color;
+	class BaseCollider;
 }
 
 /// <summary>
@@ -55,6 +58,13 @@ public:
 	BlockGroupLauncher() = default;
 	~BlockGroupLauncher() = default;
 
+	// 打ち上げ用の座標系を unique_ptr で持つためコピーはできない。
+	// BlockGroupLauncherManager が vector で使い回す時にムーブされるため、ムーブだけ残しておく
+	BlockGroupLauncher(const BlockGroupLauncher&) = delete;
+	BlockGroupLauncher& operator=(const BlockGroupLauncher&) = delete;
+	BlockGroupLauncher(BlockGroupLauncher&&) noexcept = default;
+	BlockGroupLauncher& operator=(BlockGroupLauncher&&) noexcept = default;
+
 	/// <summary>
 	/// 集合を開始する。指定されたグループを StageBlockField から引き当てて経路を組み立てる
 	/// </summary>
@@ -78,11 +88,29 @@ public:
 	void Clear();
 
 	/// <summary>
+	/// 打ち上げたブロックがボスに当たったことを通知する。
+	/// 当たり判定の最中にブロックを消すと Collider の列挙中に実体が消えてしまうため、
+	/// ここでは破棄を予約するだけにして、実際の破棄は次の Update() で行う。
+	/// </summary>
+	/// <returns>
+	/// 初めて通知された場合のみ true。
+	/// 同じ塊の別のブロックが同じフレームに当たった場合(2回目以降)や、動いていない場合は false
+	/// </returns>
+	bool NotifyBossHit();
+
+	/// <summary>
 	/// 集合・打ち上げ中のグループ同士を、接続順に線で結んで描画する
 	/// </summary>
 	/// <param name="color">線の色</param>
 	/// <param name="thickness">太さ</param>
 	void DrawConnectLine(const AOENGINE::Color& color,float thickness) const;
+
+	/// <summary>
+	/// 噴射パーティクルを出す位置(集めたブロックの下端中央)を計算する。
+	/// 生きているブロックが1つも無い場合は outJetPos を書き換えない
+	/// </summary>
+	/// <param name="outJetPos">求めた噴射位置</param>
+	void CalclateJetPos(Math::Vector3& outJetPos) const;
 
 private:
 
@@ -95,6 +123,7 @@ private:
 		float progress = 0.0f;				// 経路上を進んだ距離
 		Math::Vector3 basePoint{};			// 経路上の現在位置(押し戻す前の位置)
 		Math::Vector3 separation{};			// 他のグループから押し戻された分のずらし量
+		Math::Vector3 rootOffset{};			// 打ち上げ用の座標系(launchRoot_)の原点から見たグループの位置
 	};
 
 	/// <summary>request の targetIndex 番目のグループから作業データを組み立てる</summary>
@@ -116,12 +145,17 @@ private:
 	bool ComputeGroupPush(const GatheringGroup& groupA,const Math::Vector3& originA,
 						  const GatheringGroup& groupB,const Math::Vector3& originB,
 						  const Math::Vector3& fallbackDirection,Math::Vector3& outPush) const;
-	/// <summary>打ち上げ中の更新。上方向へブロックを動かす</summary>
+	/// <summary>
+	/// 集合が終わった塊を1つの座標系(launchRoot_)にまとめる。
+	/// 座標系の原点は噴射位置に置き、各グループはそこからの相対位置として保持し直す
+	/// </summary>
+	void BuildLaunchRoot();
+	/// <summary>打ち上げ中の更新。座標系ごと上へ動かし、ブロックをそれに追従させる</summary>
 	void UpdateLaunched(float deltaTime);
-	/// <summary>経路上の位置に合わせてグループのブロックを動かす</summary>
-	void MoveGroup(const GatheringGroup& group,const Math::Vector3& pathPoint,float deltaTime) const;
-	/// <summary>グループの全ブロックへ同じ速度を設定する</summary>
-	void SetGroupVelocity(const GatheringGroup& group,const Math::Vector3& velocity,float deltaTime) const;
+	/// <summary>持っているブロックを全て破棄して制御を手放す。ボスに当たった時に呼ぶ</summary>
+	void DestroyBlocks();
+	/// <summary>基準位置に合わせてグループのブロックを動かす</summary>
+	void MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,float deltaTime) const;
 
 	/// <summary>経路上を distance だけ進んだ位置を求める</summary>
 	static Math::Vector3 SamplePath(const std::vector<Math::Vector3>& path,float distance);
@@ -135,13 +169,21 @@ private:
 	static bool TryGetGroupCenter(const GatheringGroup& group,Math::Vector3& outCenter);
 	/// <summary>ブロックを diff だけ動かす。Rigidbodyがあれば速度で、無ければ座標を直接動かす</summary>
 	static void MoveBlock(Block* block,const Math::Vector3& diff,float deltaTime);
-
+private:
 	State state_ = State::Idle;
+
+	AOENGINE::BaseParticles* burnParticle_ = nullptr;
+
+	// 集めたブロック全体をまとめる座標系。打ち上げ中はこれだけを動かし、
+	// ブロックと噴射パーティクルの両方をこの座標系へ追従させる(パーティクルはこれを親にする)
+	std::unique_ptr<AOENGINE::WorldTransform> launchRoot_;
 
 	std::vector<GatheringGroup> groups_;	// 集合・打ち上げの対象
 
 	float launchVelocityY_ = 0.0f;	// 現在の打ち上げ速度
 	float launchTimer_ = 0.0f;		// 制御を手放すまでの残り時間
+
+	bool isBossHit_ = false;		// ボスに当たったか(次の Update() でブロックを破棄する)
 
 	Params params_{};
 
@@ -157,5 +199,8 @@ public: // accessor
 	int GetGroupCount() const{ return static_cast<int>(groups_.size()); }
 
 	int GetBlockCount() const;
+
+	/// <summary>指定したColliderが、このランチャーが動かしているブロックのものか</summary>
+	bool HasCollider(const AOENGINE::BaseCollider* collider) const;
 
 };
