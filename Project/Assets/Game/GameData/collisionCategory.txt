@@ -5,3 +5,4 @@ Wall
 LaunchedBlock
 Boss
 DamageFloor
+GatheredBlock

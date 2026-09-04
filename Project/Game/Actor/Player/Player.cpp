@@ -142,6 +142,8 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 		parameter_.launchSpeed,
 		parameter_.launchAccel,
 		parameter_.launchLifeTime,
+		parameter_.gatherBlockSize,
+		parameter_.gatherSeparationSpeed,
 	};
 
 	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める
