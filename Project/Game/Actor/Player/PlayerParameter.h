@@ -70,7 +70,7 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Invincible Blink Interval", invincibleBlinkInterval, 0.01f, 0.0f, 5.0f);
 
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
-	
+	}
 
 	json ToJson(const std::string &id) const override
 	{
