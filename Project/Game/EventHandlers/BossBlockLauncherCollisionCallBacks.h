@@ -11,7 +11,7 @@
 
 class Boss;
 class Block;
-class BlockGroupLauncher;
+class BlockGroupLauncherManager;
 
 /// <summary>
 /// Boss と Block の衝突コールバック。
@@ -31,11 +31,11 @@ public:
 
 private:
 	Boss* pBoss_ = nullptr;
-	BlockGroupLauncher* pLauncher_ = nullptr;
+	BlockGroupLauncherManager* pLauncherManager_ = nullptr;
 
 	BlockDamageCalculator damageCalculator_;
 
 public: // accessor
 	void SetBoss(Boss* boss){ pBoss_ = boss; }
-	void SetLauncher(BlockGroupLauncher* launcher){ pLauncher_ = launcher; }
+	void SetLauncherManager(BlockGroupLauncherManager* manager){ pLauncherManager_ = manager; }
 };

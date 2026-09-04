@@ -11,6 +11,7 @@ class StageBlockField;
 
 namespace AOENGINE{
 class Color;
+class BaseCollider;
 }
 
 /// <summary>
@@ -157,5 +158,8 @@ public: // accessor
 	int GetGroupCount() const{ return static_cast<int>(groups_.size()); }
 
 	int GetBlockCount() const;
+
+	/// <summary>指定したColliderが、このランチャーが動かしているブロックのものか</summary>
+	bool HasCollider(const AOENGINE::BaseCollider* collider) const;
 
 };

@@ -474,3 +474,24 @@ int BlockGroupLauncher::GetBlockCount() const{
 	}
 	return count;
 }
+
+bool BlockGroupLauncher::HasCollider(const AOENGINE::BaseCollider* collider) const{
+	if(collider == nullptr){
+		return false;
+	}
+
+	for(const GatheringGroup& group : groups_){
+		for(Block* block : group.blocks){
+			if(block == nullptr || !block->IsValid()){
+				continue;
+			}
+			// Launch() で category を "Block" -> "LaunchedBlock" に付け替えているため、
+			// 集合中は "Block"、打ち上げ中は "LaunchedBlock" のどちらでも引けるようにする
+			if(block->GetCollider("LaunchedBlock") == collider || block->GetCollider("Block") == collider){
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
