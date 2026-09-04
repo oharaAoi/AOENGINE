@@ -55,12 +55,12 @@ public: // public method
 	/// <summary>
 	/// 初期化処理
 	/// </summary>
-	void Init(StageBlockField* field, StageSegment* segment);
+	void Init(StageBlockField* field);
 
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
+	void Update(StageBlockField* field, const Math::Vector3& playerPos);
 
 private: // private method
 
@@ -72,7 +72,7 @@ private: // private method
 	/// <summary>
 	/// 段のループ。プレイヤーが次の段の高さまで登ったら1段積み、画面外に出た段を捨てる
 	/// </summary>
-	void SegmentLoop(StageBlockField* field, StageSegment* segment, const Math::Vector3& playerPos);
+	void SegmentLoop(StageBlockField* field, const Math::Vector3& playerPos);
 
 	/// <summary>
 	/// 背景を1枚生成する
@@ -82,7 +82,7 @@ private: // private method
 	/// <summary>
 	/// 段を1つ生成する
 	/// </summary>
-	void CreateSegment(StageBlockField* field, StageSegment* segment);
+	void CreateSegment(StageBlockField* field);
 
 private: // private variables
 
