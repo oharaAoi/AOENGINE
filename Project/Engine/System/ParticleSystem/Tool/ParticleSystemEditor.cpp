@@ -1,4 +1,6 @@
 #include "ParticleSystemEditor.h"
+#include "Engine/Lib/Json/JsonItems.h"
+#include <fstream>
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
@@ -69,6 +71,7 @@ void ParticleSystemEditor::Init(ID3D12Device* device, ID3D12GraphicsCommandList*
 
 void ParticleSystemEditor::Update() {
 #ifdef _DEVELOPMENT
+	ProcessPendingParticleDrop();
 	// カメラの更新
 	camera_->Update();
 
@@ -131,13 +134,18 @@ void ParticleSystemEditor::Create() {
 	}
 }
 
-GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
+GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu(const json* jsonData) {
 	auto& newParticles = gpuEmitterList_.emplace_back(std::make_unique<GpuParticleEmitter>());
 	newParticles->Init(newParticleName_);
+	if (jsonData != nullptr) {
+		newParticles->SetJsonData(*jsonData);
+	}
 	newParticles->SetParticleResourceHandle(gpuParticleRenderer_->GetResourceHandle());
 	newParticles->SetFreeListIndexHandle(gpuParticleRenderer_->GetFreeListIndexHandle());
 	newParticles->SetFreeListHandle(gpuParticleRenderer_->GetFreeListHandle());
 	newParticles->SetMaxParticleResource(gpuParticleRenderer_->GetMaxBufferResource());
+	gpuParticles_ = newParticles.get();
+	cpuParticles_ = nullptr;
 	return newParticles.get();
 }
 
@@ -145,9 +153,12 @@ GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu() {
 // ↓ Particleを追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleSystemEditor::AddList(const std::string& _name) {
+void ParticleSystemEditor::AddList(const std::string& _name, const json* jsonData) {
 	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
 	newParticle->Init(_name);
+	if (jsonData != nullptr) {
+		newParticle->SetJsonData(*jsonData);
+	}
 	std::string textureName = newParticle->GetUseTexture();
 	newParticle->SetShareMaterial(
 		particleRenderer_->AddParticle(newParticle->GetName(),
@@ -161,6 +172,8 @@ void ParticleSystemEditor::AddList(const std::string& _name) {
 	particleUpdater_.Add(_name);
 	newParticle->SetParticlesList(particleUpdater_.GetParticles(_name));
 	newParticle->SetIsStop(false);
+	cpuParticles_ = newParticle.get();
+	gpuParticles_ = nullptr;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,6 +208,89 @@ void ParticleSystemEditor::OpenLoadDialog() {
 			isLoad_ = false;
 		}
 		ImGuiFileDialog::Instance()->Close();
+	}
+}
+
+void ParticleSystemEditor::HandleParticleAssetDrop() {
+	if (!ImGui::BeginDragDropTarget()) {
+		return;
+	}
+
+	if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PARTICLE_ASSET_PATH")) {
+		if (payload->Data != nullptr && payload->DataSize > 1) {
+			const char* path = static_cast<const char*>(payload->Data);
+			if (path[payload->DataSize - 1] == '\0') {
+				pendingParticlePath_ = std::filesystem::path(path);
+				particleDropMessage_ = "Particleを読み込み中...";
+			}
+		}
+	}
+	ImGui::EndDragDropTarget();
+}
+
+void ParticleSystemEditor::ProcessPendingParticleDrop() {
+	if (!pendingParticlePath_) {
+		return;
+	}
+
+	const std::filesystem::path requestedPath = *pendingParticlePath_;
+	pendingParticlePath_.reset();
+
+	try {
+		const std::filesystem::path path = std::filesystem::weakly_canonical(requestedPath);
+		const std::filesystem::path effectRoot = std::filesystem::weakly_canonical(
+			std::filesystem::path(JsonItems::GetDirectoryPath()) / "Effect");
+		const std::filesystem::path relativePath = std::filesystem::relative(path, effectRoot);
+		if (!std::filesystem::is_regular_file(path) || path.extension() != ".json" ||
+			relativePath.empty() || *relativePath.begin() == "..") {
+			particleDropMessage_ = "Particle JSONではありません";
+			return;
+		}
+
+		std::ifstream file(path);
+		json jsonData;
+		file >> jsonData;
+		if (!file || !jsonData.is_object() || jsonData.empty()) {
+			particleDropMessage_ = "Particle JSONの読み込みに失敗しました";
+			return;
+		}
+
+		const std::string particleName = jsonData.begin().key();
+		const std::string group = path.parent_path().filename().string();
+		newParticleName_ = particleName;
+
+		if (group == "CPU") {
+			for (auto& emitter : cpuEmitterList_) {
+				if (emitter->GetName() == particleName) {
+					emitter->ClearParticles();
+					emitter->SetJsonData(jsonData);
+					particleRenderer_->ChangeMesh(particleName, emitter->GetMesh());
+					particleUpdater_.SetRuntimeBlendMode(particleName, emitter->GetBlendMode());
+					cpuParticles_ = emitter.get();
+					gpuParticles_ = nullptr;
+					particleDropMessage_ = particleName + " を再読み込みしました";
+					return;
+				}
+			}
+			AddList(particleName, &jsonData);
+			particleDropMessage_ = particleName + " を読み込みました";
+		} else if (group == "GPU") {
+			for (auto& emitter : gpuEmitterList_) {
+				if (emitter->GetName() == particleName) {
+					emitter->SetJsonData(jsonData);
+					gpuParticles_ = emitter.get();
+					cpuParticles_ = nullptr;
+					particleDropMessage_ = particleName + " を再読み込みしました";
+					return;
+				}
+			}
+			CreateOfGpu(&jsonData);
+			particleDropMessage_ = particleName + " を読み込みました";
+		} else {
+			particleDropMessage_ = "CPU/GPU Particle JSONではありません";
+		}
+	} catch (const std::exception&) {
+		particleDropMessage_ = "Particle JSONの解析に失敗しました";
 	}
 }
 
@@ -320,6 +416,12 @@ void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
 
 	// フォーカス対象でないなら描画を行わない
 	if (!isFocus_) {
+		const ImVec2 dropAreaSize = ImGui::GetContentRegionAvail();
+		ImGui::InvisibleButton("##ParticlePreviewDropArea", dropAreaSize);
+		HandleParticleAssetDrop();
+		if (!particleDropMessage_.empty()) {
+			ImGui::TextWrapped("%s", particleDropMessage_.c_str());
+		}
 		ImGui::End();
 		ImGui::PopStyleColor();
 		return;
@@ -332,6 +434,10 @@ void AOENGINE::ParticleSystemEditor::ExecutionWindow() {
 	particleRenderer_->Draw(commandList_, &cameraFrustum);
 	gpuParticleRenderer_->Draw(&cameraFrustum);
 	PostDraw();
+	HandleParticleAssetDrop();
+	if (!particleDropMessage_.empty()) {
+		ImGui::TextWrapped("%s", particleDropMessage_.c_str());
+	}
 
 	ImGui::End();
 	ImGui::PopStyleColor();

@@ -30,6 +30,11 @@ enum class ParticleOverflowMode {
 	RecycleOldest
 };
 
+enum class ConeEmitFrom {
+	Base,
+	Volume
+};
+
 namespace AOENGINE {
 
 /// <summary>
@@ -136,6 +141,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	float radius = 0.5f;
 	float angle = 27.f;
 	float height = 1;
+	int coneEmitFrom = static_cast<int>(ConeEmitFrom::Base);
+	float radiusThickness = 1.0f;
+	float arc = 360.0f;
+	float randomDirectionAmount = 0.0f;
 	Math::Vector3 size = CVector3::UNIT;
 
 	std::string useTexture = "circle.png";
@@ -210,6 +219,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("coneEmitFrom", coneEmitFrom)
+			.Add("radiusThickness", radiusThickness)
+			.Add("arc", arc)
+			.Add("randomDirectionAmount", randomDirectionAmount)
 			.Add("isTextureSheetAnimation", isTextureSheetAnimation)
 			.Add("tiles", tiles)
 			.Add("isColorAnimation", isColorAnimation)
@@ -272,6 +285,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "size", size);
 		Convert::fromJson(jsonData, "angle", angle);
 		Convert::fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "coneEmitFrom", coneEmitFrom);
+		Convert::fromJson(jsonData, "radiusThickness", radiusThickness);
+		Convert::fromJson(jsonData, "arc", arc);
+		Convert::fromJson(jsonData, "randomDirectionAmount", randomDirectionAmount);
 		Convert::fromJson(jsonData, "isTextureSheetAnimation", isTextureSheetAnimation);
 		Convert::fromJson(jsonData, "tiles", tiles);
 		Convert::fromJson(jsonData, "isColorAnimation", isColorAnimation);

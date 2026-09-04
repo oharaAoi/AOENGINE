@@ -151,7 +151,7 @@ void GpuParticleEmitter::EmitCommand(ID3D12GraphicsCommandList* commandList) {
 	} else if(emitterItem_.shape == (int)GpuEmitterShape::Box) {
 		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
 	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
-		Engine::SetPipelineCS("GpuParticleBoxEmit.json");
+		Engine::SetPipelineCS("GpuParticleConeEmit.json");
 	}
 	Pipeline* pso = Engine::GetLastUsedPipelineCS();
 	UINT index = 0;
@@ -183,7 +183,7 @@ void GpuParticleEmitter::DrawShape(const Math::Matrix4x4& viewProjectionMatrix) 
 		DrawOBB(obb, viewProjectionMatrix);
 	} else if (emitterItem_.shape == (int)GpuEmitterShape::Cone) {
 		Math::Quaternion rotate = Math::Quaternion::EulerToQuaternion(emitterItem_.rotate);
-		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle, emitterItem_.height, viewProjectionMatrix);
+		DrawCone(emitterItem_.pos, rotate, emitterItem_.radius, emitterItem_.angle * kToRadian, emitterItem_.height, viewProjectionMatrix);
 	}
 }
 
@@ -222,6 +222,10 @@ void GpuParticleEmitter::SetItem() {
 	emitterData_->angle = emitterItem_.angle;
 	emitterData_->height = emitterItem_.height;
 	emitterData_->beAffectedByField = (uint32_t)emitterItem_.beAffectedByField;
+	emitterData_->coneEmitFrom = static_cast<uint32_t>(emitterItem_.coneEmitFrom);
+	emitterData_->radiusThickness = emitterItem_.radiusThickness;
+	emitterData_->arc = emitterItem_.arc;
+	emitterData_->randomDirectionAmount = emitterItem_.randomDirectionAmount;
 }
 
 
@@ -231,4 +235,19 @@ void GpuParticleEmitter::SetParent(const Math::Matrix4x4& parentMat) {
 	emitterData_->prePos = emitterData_->pos;
 	preWorldPos_ = emitterData_->pos;
 	hasPreWorldPos_ = true;
+}
+
+void GpuParticleEmitter::SetJsonData(const json& jsonData) {
+	emitterItem_.FromJson(jsonData);
+	Reset();
+	SetItem();
+}
+
+void GpuParticleEmitter::Reset() {
+	emitAccumulator_ = 0.0f;
+	distanceAccumulator_ = 0.0f;
+	currentTimer_ = 0.0f;
+	emitCount_ = 0;
+	isStop_ = false;
+	hasPreWorldPos_ = false;
 }

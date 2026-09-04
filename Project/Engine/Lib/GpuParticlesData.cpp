@@ -26,8 +26,12 @@ void GpuParticleEmitterItem::Attribute_Gui() {
 			ImGui::DragFloat3("size", &size.x, 0.1f);
 		} else if (shape == (int)GpuEmitterShape::Cone) {
 			ImGui::DragFloat("radius", &radius, 0.1f);
-			ImGui::DragFloat("angle", &angle, 0.1f);
-			ImGui::DragFloat("height", &height, 0.1f);
+			ImGui::DragFloat("angle", &angle, 0.1f, 0.0f, 89.0f);
+			ImGui::DragFloat("length", &height, 0.1f, 0.0f);
+			ImGui::Combo("emitFrom", &coneEmitFrom, "Base\0Volume\0");
+			ImGui::SliderFloat("radiusThickness", &radiusThickness, 0.0f, 1.0f);
+			ImGui::SliderFloat("arc", &arc, 0.0f, 360.0f);
+			ImGui::SliderFloat("randomDirectionAmount", &randomDirectionAmount, 0.0f, 1.0f);
 		}
 
 		ImGui::Separator();

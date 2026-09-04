@@ -717,6 +717,11 @@ std::optional<AssetHandle> AOENGINE::TextureManager::SearchAssetHandle(const std
 	return std::nullopt;
 }
 
+bool AOENGINE::TextureManager::ExistTexture(const std::string& name) const {
+	const std::string textureName = std::filesystem::path(name).stem().string();
+	return textureData_.contains(textureName);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // Stackに溜まっているパスをDDSに変換する
 /////////////////////////////////////////////////////////////////////////////////////////////

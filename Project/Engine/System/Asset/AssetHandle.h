@@ -9,6 +9,7 @@ enum class AssetType {
     Material,
     Sound,
     AI,
+	Particle,
     Other
 };
 

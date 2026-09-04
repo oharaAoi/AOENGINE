@@ -378,6 +378,12 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			const std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, &item);
 
+		} else if (item.filename().extension() == ".json" &&
+			(ToLower(item.parent_path().filename().string()) == "cpu" ||
+			 ToLower(item.parent_path().filename().string()) == "gpu")) {
+			const std::string name = item.filename().string();
+			DrawItemTexture(AssetType::Particle, "file.png", name, thumbnailSize);
+
 		} else if (item.filename().extension() == ".png" || item.filename().extension() == ".jpeg") {
 			std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize);
@@ -513,18 +519,24 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 void AOENGINE::AssetsWindow::DropSource(AssetType assetType, const std::string& name) {
 	if (ImGui::BeginDragDropSource()) {
 		if (assetType == AssetType::Texture) {
-			auto  handle = TextureManager::GetInstance()->SearchAssetHandle(name);
+			auto handle = TextureManager::GetInstance()->SearchAssetHandle(name);
 			if (handle) {
-				ImGui::SetDragDropPayload("ASSET_HANDLE", &handle, sizeof(handle));
+				const AssetHandle assetHandle = *handle;
+				ImGui::SetDragDropPayload("ASSET_HANDLE", &assetHandle, sizeof(assetHandle));
 				ImGui::Text("Texture");
 			}
 
 		} else if (assetType == AssetType::Model) {
-			auto  handle = ModelManager::GetInstance()->SearchAssetHandle(name);
+			auto handle = ModelManager::GetInstance()->SearchAssetHandle(name);
 			if (handle) {
-				ImGui::SetDragDropPayload("ASSET_HANDLE", &handle, sizeof(handle));
+				const AssetHandle assetHandle = *handle;
+				ImGui::SetDragDropPayload("ASSET_HANDLE", &assetHandle, sizeof(assetHandle));
 				ImGui::Text("Model");
 			}
+		} else if (assetType == AssetType::Particle) {
+			const std::string path = (currentPath_ / name).lexically_normal().generic_string();
+			ImGui::SetDragDropPayload("PARTICLE_ASSET_PATH", path.c_str(), path.size() + 1);
+			ImGui::Text("Particle");
 
 		} else if (assetType == AssetType::Sound) {
 

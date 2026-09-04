@@ -146,6 +146,11 @@ public:
 	/// <returns></returns>
 	std::optional<AssetHandle> SearchAssetHandle(const std::string& name);
 
+	/// <summary>
+	/// Textureが登録されているかを副作用なしで確認する
+	/// </summary>
+	bool ExistTexture(const std::string& name) const;
+
 private:
 
 	/// <summary>

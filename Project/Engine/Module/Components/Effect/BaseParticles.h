@@ -50,13 +50,15 @@ public:
 	// particleのMesh変更
 	void ChangeMesh();
 
+	// 使用TextureをEmitter設定とMaterialへ反映する
+	void SetTexture(const std::string& textureName);
+
 public:	// json関連
 
 	json GetJsonData() const { return emitter_.ToJson(particleName_); }
 
-	void SetJsonData(const json& _jsonData) {
-		emitter_.FromJson(_jsonData);
-	};
+	void SetJsonData(const json& jsonData);
+	void ClearParticles();
 
 public:
 
@@ -76,7 +78,12 @@ public:
 	const std::string& GetUseTexture() const { return emitter_.useTexture; }
 
 	std::shared_ptr<AOENGINE::Material> GetShareMaterial() { return shareMaterial_; }
-	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) { shareMaterial_ = _material; }
+	void SetShareMaterial(std::shared_ptr<AOENGINE::Material> _material) {
+		shareMaterial_ = std::move(_material);
+		if (shareMaterial_) {
+			shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
+		}
+	}
 
 	void SetLoop(bool _loop) { emitter_.isLoop = _loop; }
 
@@ -87,6 +94,8 @@ public:
 	uint32_t GetMaxParticles() const { return emitter_.maxParticles; }
 
 protected:
+	void DrawTextureSelector();
+
 	// groupの名前
 	const std::string kGroupName = "CPU";
 	// particleName

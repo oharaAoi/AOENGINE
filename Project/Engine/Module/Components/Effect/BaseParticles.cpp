@@ -1,6 +1,9 @@
 #include "BaseParticles.h"
 #include "Engine/Render/Render.h"
+#include <algorithm>
 #include "Engine/System/Manager/MeshManager.h"
+#include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Asset/AssetHandle.h"
 #include "Engine/Lib/Math/MyRandom.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Json/JsonItems.h"
@@ -110,7 +113,7 @@ void AOENGINE::BaseParticles::DrawShape() {
 		DrawSphere(emitter_.translate, emitter_.radius, mat, Colors::Linear::green);
 	} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
 		Math::Quaternion rotate = worldRotate;
-		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle, emitter_.height, mat);
+		DrawCone(emitter_.translate, rotate, emitter_.radius, emitter_.angle * kToRadian, emitter_.height, mat);
 	}
 }
 
@@ -141,6 +144,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	newParticle.firstScale = newParticle.scale;
 	newParticle.rotate = Math::Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
 
+	float conePhi = 0.0f;
 	// particleの出現位置を設定
 	if (emitter_.emitOrigin == (int)CpuEmitOrigin::Center) {
 		newParticle.translate = pos;
@@ -156,11 +160,38 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 			float rangeY = Random::RandomFloat(-emitter_.radius, emitter_.radius);
 			float rangeZ = Random::RandomFloat(-emitter_.radius, emitter_.radius);
 			newParticle.translate = Math::Vector3(rangeX, rangeY, rangeZ) + pos;
-		} else if (emitter_.shape == (int)CpuEmitterShape::Cone) {
-			float rangeX = Random::RandomFloat(-emitter_.radius, emitter_.radius);
-			float rangeZ = Random::RandomFloat(-emitter_.radius, emitter_.radius);
-			newParticle.translate = Math::Vector3(rangeX, 0.f, rangeZ) + pos;
 		}
+	}
+
+	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
+		const float thickness = std::clamp(emitter_.radiusThickness, 0.0f, 1.0f);
+		const float arcRadian = std::clamp(emitter_.arc, 0.0f, 360.0f) * kToRadian;
+		conePhi = Random::RandomFloat(0.0f, arcRadian);
+		const float coneAngle = std::clamp(emitter_.angle, 0.0f, 89.0f) * kToRadian;
+		const float baseRadius = (std::max)(emitter_.radius, 0.0f);
+		const float coneLength = (std::max)(emitter_.height, 0.0f);
+		const float coneSlope = std::tan(coneAngle);
+		float axialDistance = 0.0f;
+		if (emitter_.coneEmitFrom == static_cast<int>(ConeEmitFrom::Volume) && coneLength > 0.0f) {
+			if (coneSlope > 0.0001f) {
+				const float endRadius = baseRadius + coneSlope * coneLength;
+				const float volumeRadius = std::cbrt(Lerp(baseRadius * baseRadius * baseRadius,
+					endRadius * endRadius * endRadius, Random::RandomFloat(0.0f, 1.0f)));
+				axialDistance = (volumeRadius - baseRadius) / coneSlope;
+			} else {
+				axialDistance = Random::RandomFloat(0.0f, coneLength);
+			}
+		}
+		const float sectionRadius = baseRadius + coneSlope * axialDistance;
+		const float innerRadius = sectionRadius * (1.0f - thickness);
+		const float radialRandom = Random::RandomFloat(0.0f, 1.0f);
+		const float sampledRadius = std::sqrt(Lerp(innerRadius * innerRadius, sectionRadius * sectionRadius, radialRandom));
+		const Math::Vector3 localPosition{
+			std::cos(conePhi) * sampledRadius,
+			axialDistance,
+			std::sin(conePhi) * sampledRadius
+		};
+		newParticle.translate = pos + worldTransform_->GetWorldSRT().rotate * localPosition;
 	}
 
 	// 色の決定
@@ -192,21 +223,18 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	// Coneの場合はConeの形状で射出させる
 	Math::Quaternion worldRotate = worldTransform_->GetWorldSRT().rotate;
 	if (emitter_.shape == (int)CpuEmitterShape::Cone) {
-		float angle = emitter_.angle * kToRadian;
-		float u = Random::RandomFloat(0, 1);
-		float v = Random::RandomFloat(0, 1);
-
-		float phi = 2.0f * kPI * u;
-		float cosTheta = Lerp(cos(angle), 1.0f, v);
-		float sinTheta = std::sqrt(1.0f - cosTheta * cosTheta);
-
-		Math::Vector3 localDir(
-			sinTheta * cos(phi),
-			sinTheta * sin(phi),
-			-cosTheta
-		);
-		
-		newParticle.velocity = -localDir;
+		const float coneAngle = std::clamp(emitter_.angle, 0.0f, 89.0f) * kToRadian;
+		Math::Vector3 localDir{
+			std::cos(conePhi) * std::sin(coneAngle),
+			std::cos(coneAngle),
+			std::sin(conePhi) * std::sin(coneAngle)
+		};
+		if (emitter_.randomDirectionAmount > 0.0f) {
+			Math::Vector3 randomDir = Random::RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT).Normalize();
+			localDir = Math::Vector3::Lerp(localDir, randomDir,
+				std::clamp(emitter_.randomDirectionAmount, 0.0f, 1.0f)).Normalize();
+		}
+		newParticle.velocity = localDir;
 	}
 
 	// Objectの回転に進行方向をあわせる
@@ -383,11 +411,11 @@ void AOENGINE::BaseParticles::Debug_Gui() {
 
 	ImGui::Separator();
 
-	ImGui::Text("Particle Parameters");
-	shareMaterial_->Debug_Gui();
+	DrawTextureSelector();
 
-	emitter_.useTexture = shareMaterial_->GetAlbedoTexture();
-	shareMaterial_->SetAlbedoTexture(emitter_.useTexture);
+	ImGui::Separator();
+	ImGui::Text("マテリアル設定");
+	shareMaterial_->Debug_Gui();
 
 	meshName_ = AOENGINE::MeshManager::GetInstance()->SelectMeshName();
 	if (ImGui::Button("ChangeMesh")) {
@@ -395,6 +423,63 @@ void AOENGINE::BaseParticles::Debug_Gui() {
 	}
 
 	emitter_.SaveAndLoad();
+}
+
+void AOENGINE::BaseParticles::SetTexture(const std::string& textureName) {
+	if (textureName.empty() || !AOENGINE::TextureManager::GetInstance()->ExistTexture(textureName)) {
+		return;
+	}
+
+	emitter_.useTexture = textureName;
+	if (shareMaterial_) {
+		shareMaterial_->SetAlbedoTexture(textureName);
+	}
+}
+
+void AOENGINE::BaseParticles::SetJsonData(const json& jsonData) {
+	emitter_.FromJson(jsonData);
+	const std::string meshName = emitter_.useMesh.empty() ? "plane" : emitter_.useMesh;
+	if (auto mesh = AOENGINE::MeshManager::GetInstance()->GetMesh(meshName)) {
+		shape_ = std::move(mesh);
+	}
+	blendModeType_ = emitter_.blendModeType;
+	SetTexture(emitter_.useTexture);
+	Reset();
+}
+
+void AOENGINE::BaseParticles::ClearParticles() {
+	if (particleArray_) {
+		particleArray_->clear();
+	}
+}
+
+void AOENGINE::BaseParticles::DrawTextureSelector() {
+	ImGui::Text("使用テクスチャ");
+	AOENGINE::TextureManager* textureManager = AOENGINE::TextureManager::GetInstance();
+	if (textureManager->ExistTexture(emitter_.useTexture)) {
+		const D3D12_GPU_DESCRIPTOR_HANDLE handle = textureManager->GetDxHeapHandles(emitter_.useTexture).handleGPU;
+		ImGui::Image(reinterpret_cast<ImTextureID>(handle.ptr), ImVec2(64.0f, 64.0f));
+	} else {
+		ImGui::Button("テクスチャなし", ImVec2(64.0f, 64.0f));
+	}
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_HANDLE")) {
+			if (payload->Data != nullptr && payload->DataSize == sizeof(AssetHandle)) {
+				const AssetHandle& assetHandle = *static_cast<const AssetHandle*>(payload->Data);
+				if (assetHandle.type == AssetType::Texture) {
+					SetTexture(textureManager->SearchSprite(assetHandle.id));
+				}
+			}
+		}
+		ImGui::EndDragDropTarget();
+	}
+
+	if (ImGui::IsItemHovered()) {
+		ImGui::SetTooltip("AssetsWindowからテクスチャをドロップしてください");
+	}
+	ImGui::SameLine();
+	ImGui::TextWrapped("%s", emitter_.useTexture.c_str());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

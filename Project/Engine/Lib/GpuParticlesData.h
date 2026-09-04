@@ -50,6 +50,10 @@ struct GpuParticleEmitterData {
 	float height;
 	
 	int32_t beAffectedByField;
+	uint32_t coneEmitFrom;
+	float radiusThickness;
+	float arc;
+	float randomDirectionAmount;
 };
 
 enum class EmitType {
@@ -106,8 +110,12 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 
 	float radius = 1.0f;
 	Math::Vector3 size = CVector3::UNIT;
-	float angle = 1.2f;
+	float angle = 27.0f;
 	float height = 2.0f;
+	int coneEmitFrom = 0;
+	float radiusThickness = 1.0f;
+	float arc = 360.0f;
+	float randomDirectionAmount = 0.0f;
 
 	bool beAffectedByField = false;
 
@@ -148,6 +156,10 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 			.Add("size", size)
 			.Add("angle", angle)
 			.Add("height", height)
+			.Add("coneEmitFrom", coneEmitFrom)
+			.Add("radiusThickness", radiusThickness)
+			.Add("arc", arc)
+			.Add("randomDirectionAmount", randomDirectionAmount)
 			.Add("beAffectedByField", beAffectedByField)
 
 			.Build();
@@ -183,6 +195,10 @@ struct GpuParticleEmitterItem : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "size", size);
 		Convert::fromJson(jsonData, "angle", angle);
 		Convert::fromJson(jsonData, "height", height);
+		Convert::fromJson(jsonData, "coneEmitFrom", coneEmitFrom);
+		Convert::fromJson(jsonData, "radiusThickness", radiusThickness);
+		Convert::fromJson(jsonData, "arc", arc);
+		Convert::fromJson(jsonData, "randomDirectionAmount", randomDirectionAmount);
 		Convert::fromJson(jsonData, "beAffectedByField", beAffectedByField);
 	}
 
