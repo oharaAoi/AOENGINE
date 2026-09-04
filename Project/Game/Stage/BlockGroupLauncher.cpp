@@ -40,9 +40,10 @@ void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& 
 			continue;
 		}
 
-		// 集めたグループはもうグリッド上の足場ではないので、連結グループの表から外す。
+		// 集めたグループはもうグリッド上の足場ではないので、連結グループの表から外し、
+		// 段の所有からも切り離す（元の段がストリーミングで消えても一緒に破棄されないようにする）。
 		// ブロックの実体はこの後もこのクラスが動かすため、Destroy はしない。
-		pField_->RemoveGroup(request.targets[index].groupId);
+		pField_->DetachGroup(request.targets[index].groupId);
 
 		groups_.push_back(std::move(group));
 	}
@@ -62,7 +63,7 @@ bool BlockGroupLauncher::MakeGatheringGroup(const GatherRequest& request,size_t 
 		return false;
 	}
 
-	// RemoveGroup() で members が無効になるため、ここで実体をコピーしておく(非所有ポインタの配列)
+	// DetachGroup() で members が無効になるため、ここで実体をコピーしておく(非所有ポインタの配列)
 	outGroup.blocks = *members;
 
 	// 接続した瞬間のプレイヤーとの位置関係を保ったまま移動させる。
