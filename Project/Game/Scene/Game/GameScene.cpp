@@ -55,6 +55,7 @@ void GameScene::Init()
 	playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
+	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);
 	// ボスがLauncherに衝突した時、ダメージを与えるコールバック
 	bossBlockLauncherCallBacks_.SetBoss(boss_.get());
 	bossBlockLauncherCallBacks_.SetLauncher(player_->GetBlockGroupLauncherRef());
@@ -69,7 +70,6 @@ void GameScene::Init()
 void GameScene::OnPlayStart()
 {
 
-	/*backgrounds_->Init();*/
 	// プレイヤー初期化
 	player_->Init(ResolvePlayerBody());
 	// ボス初期化
@@ -78,11 +78,12 @@ void GameScene::OnPlayStart()
 	damageFloor_->Init(FindSceneObject<AOENGINE::BaseGameObject>("DamageFloor"));
 	// カメラ初期化
 	followCamera_->Init();
-	// 背景の初期化
-	backgrounds_->Init(&stageBlockField_, &stageSegment_);
 
+	// 前回の生成物を片付けてから、背景と最初の段をまとめて用意する
 	ClearStage();
-	SetupStage();
+	if (backgrounds_) {
+		backgrounds_->Init(&stageBlockField_, &stageSegment_);
+	}
 
 	// Player初期化
 	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
@@ -223,22 +224,13 @@ void GameScene::Draw() const
 // ステージの生成・片付け
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameScene::SetupStage()
-{
-	stageSegment_.LoadBlockData("./Project/Assets/Game/StageData/test.csv");
-	stageSegment_.SetupSegmentOnWorld(&stageBlockField_, 0);
-
-	// 衝突したColliderから着地したBlockを引けるようにする
-	for (const std::unique_ptr<Block> &block : stageSegment_.GetBlocks())
-	{
-		playerBlockCallBacks_.RegisterBlock(block.get());
-	}
-}
-
 void GameScene::ClearStage()
 {
+	// ブロックの実体を破棄するため、先に参照しているものを手放させる
+	if (player_) {
+		player_->ResetStageReferences();
+	}
 	playerBlockCallBacks_.ClearBlocks();
-	stageSegment_.UnregisterFromWorld(&stageBlockField_);
 	stageBlockField_.Clear();
 }
 

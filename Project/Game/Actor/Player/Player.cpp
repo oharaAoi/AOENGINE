@@ -349,6 +349,14 @@ void Player::SetBlockField(StageBlockField* field)
 	blockGroupLauncher_.SetField(field);
 }
 
+void Player::ResetStageReferences()
+{
+	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
+	blockGroupLauncher_.Clear();
+	blockGroupConnectState_.Clear();
+	ignoredBlocks_.clear();
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  Rigidbodyの取得
 ///////////////////////////////////////////////////////////////////////////////////////////////

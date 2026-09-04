@@ -16,8 +16,9 @@ class Color;
 /// <summary>
 /// 接続されたブロックグループを、接続した順に次のブロックへ最短距離で渡らせて1箇所に集め、
 /// 上へ打ち上げるクラス。
-/// ブロックの所有権は持たない(所有権は StageSegment 側にある)。
-/// 打ち上げたグループは足場ではなくなるため、集合開始時に StageBlockField の表からは外す。
+/// ブロックの所有権は持たない(所有権は StageBlockField 側にある)。
+/// 打ち上げたグループは足場ではなくなるため、集合開始時に StageBlockField の表からは外し、
+/// 段の所有（ストリーミングによる破棄対象）からも切り離す。
 /// </summary>
 class BlockGroupLauncher{
 public:

@@ -53,9 +53,6 @@ private:
 	/// </summary>
 	AOENGINE::BaseGameObject* ResolvePlayerBody();
 
-	/// <summary>ステージのブロックを生成し、Colliderから引ける表へ登録する</summary>
-	void SetupStage();
-
 	/// <summary>生成済みのステージを片付ける(Playを押し直した時の作り直しにも使う)</summary>
 	void ClearStage();
 
