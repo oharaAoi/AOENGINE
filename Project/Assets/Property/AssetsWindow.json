@@ -4,7 +4,7 @@
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": true,
+        "./Project/Assets": false,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": true,
@@ -23,6 +23,7 @@
         "./Project/Assets\\Game\\HLSL": false,
         "./Project/Assets\\Game\\Load": true,
         "./Project/Assets\\Game\\Load\\Models": true,
+        "./Project/Assets\\Game\\Load\\Models\\Player": false,
         "./Project/Assets\\Game\\Load\\Sounds": false,
         "./Project/Assets\\Game\\Load\\Textures": false,
         "./Project/Assets\\Game\\Pipeline": false,

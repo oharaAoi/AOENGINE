@@ -33,6 +33,50 @@ Color JsonToColor(const json& value) {
 	return { value.at(0).get<float>(), value.at(1).get<float>(), value.at(2).get<float>(), value.at(3).get<float>() };
 }
 
+bool TryJsonToVector2(const json& data, const char* key, Math::Vector2& result) {
+	const auto it = data.find(key);
+	if (it == data.end() || !it->is_array() || it->size() < 2 ||
+		!(*it)[0].is_number() || !(*it)[1].is_number()) {
+		return false;
+	}
+	result = { (*it)[0].get<float>(), (*it)[1].get<float>() };
+	return true;
+}
+
+bool TryJsonToVector3(const json& data, const char* key, Math::Vector3& result) {
+	const auto it = data.find(key);
+	if (it == data.end() || !it->is_array() || it->size() < 3 ||
+		!(*it)[0].is_number() || !(*it)[1].is_number() || !(*it)[2].is_number()) {
+		return false;
+	}
+	// 旧SpriteのrotateがQuaternion形式の4要素でも、先頭3要素をEuler値として読み込む。
+	result = { (*it)[0].get<float>(), (*it)[1].get<float>(), (*it)[2].get<float>() };
+	return true;
+}
+
+bool TryJsonToColor(const json& data, const char* key, Color& result) {
+	const auto it = data.find(key);
+	if (it == data.end() || !it->is_array() || it->size() < 4 ||
+		!(*it)[0].is_number() || !(*it)[1].is_number() ||
+		!(*it)[2].is_number() || !(*it)[3].is_number()) {
+		return false;
+	}
+	result = { (*it)[0].get<float>(), (*it)[1].get<float>(),
+		(*it)[2].get<float>(), (*it)[3].get<float>() };
+	return true;
+}
+
+template<class T>
+T JsonValueOr(const json& data, const char* key, const T& fallback) {
+	const auto it = data.find(key);
+	if (it == data.end()) { return fallback; }
+	try {
+		return it->get<T>();
+	} catch (const json::exception&) {
+		return fallback;
+	}
+}
+
 json SerializeMaterial(const BaseMaterial& material, uint32_t slot) {
 	const Math::SRT& uv = material.GetUvTransform();
 	json data = {
@@ -296,24 +340,29 @@ json SerializeObject(const SceneObject& object) {
 void DeserializeSprite(Sprite& sprite, const json& data) {
 	// 旧シーンには textureSize がないため、その場合は Init() で取得した
 	// テクスチャ本来のサイズをそのまま使用する。
-	if (data.contains("textureSize")) {
-		sprite.ReSetTextureSize(JsonToVector2(data.at("textureSize")));
+	Math::Vector2 vector2{};
+	if (TryJsonToVector2(data, "textureSize", vector2)) {
+		sprite.ReSetTextureSize(vector2);
 	}
-	Math::SRT transform{};
-	transform.translate = JsonToVector3(data.at("translate"));
-	transform.rotate = JsonToVector3(data.at("rotate"));
-	transform.scale = JsonToVector3(data.at("scale"));
+
+	// 欠損または不正な値は、AddSprite/AddTextで初期化された現在値を維持する。
+	Math::SRT transform = sprite.GetTransform()->GetTransform();
+	TryJsonToVector3(data, "translate", transform.translate);
+	TryJsonToVector3(data, "rotate", transform.rotate);
+	TryJsonToVector3(data, "scale", transform.scale);
 	sprite.GetTransform()->SetSRT(transform);
-	sprite.SetColor(JsonToColor(data.at("color")));
-	sprite.SetDrawRange(JsonToVector2(data.at("drawRange")));
-	sprite.SetLeftTop(JsonToVector2(data.at("leftTop")));
-	sprite.SetAnchorPoint(JsonToVector2(data.at("anchor")));
-	sprite.SetIsFlipX(data.value("flipX", false));
-	sprite.SetIsFlipY(data.value("flipY", false));
-	sprite.SetIsBackGround(data.value("isBackGround", false));
-	sprite.SetRenderQueue(data.value("renderQueue", 0));
-	if (data.contains("canvasSize")) {
-		sprite.SetResizeReferenceSize(JsonToVector2(data.at("canvasSize")));
+
+	Color color = sprite.GetColor();
+	if (TryJsonToColor(data, "color", color)) { sprite.SetColor(color); }
+	if (TryJsonToVector2(data, "drawRange", vector2)) { sprite.SetDrawRange(vector2); }
+	if (TryJsonToVector2(data, "leftTop", vector2)) { sprite.SetLeftTop(vector2); }
+	if (TryJsonToVector2(data, "anchor", vector2)) { sprite.SetAnchorPoint(vector2); }
+	sprite.SetIsFlipX(JsonValueOr<bool>(data, "flipX", false));
+	sprite.SetIsFlipY(JsonValueOr<bool>(data, "flipY", false));
+	sprite.SetIsBackGround(JsonValueOr<bool>(data, "isBackGround", false));
+	sprite.SetRenderQueue(JsonValueOr<int>(data, "renderQueue", 0));
+	if (TryJsonToVector2(data, "canvasSize", vector2)) {
+		sprite.SetResizeReferenceSize(vector2);
 	} else {
 		// 旧シーンの座標は起動時のCanvas座標として扱う。
 		sprite.SetResizeReferenceSize({
@@ -375,7 +424,7 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 		return object;
 	}
 	if (type == "Text") {
-		Text* text = canvas.AddText(name, data.value("text", "New Text"), data.value("renderQueue", 0));
+		Text* text = canvas.AddText(name, JsonValueOr<std::string>(data, "text", "New Text"), JsonValueOr<int>(data, "renderQueue", 0));
 		if (!text) { return nullptr; }
 		DeserializeSprite(*text, data);
 		text->SetFontPath(data.value("fontPath", text->GetFontPath()));
@@ -385,7 +434,8 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 		return text;
 	}
 	if (type == "Sprite") {
-		Sprite* sprite = canvas.AddSprite(data.value("texture", "white.png"), name, data.value("renderQueue", 0));
+		Sprite* sprite = canvas.AddSprite(JsonValueOr<std::string>(data, "texture", "white.png"), name,
+			JsonValueOr<int>(data, "renderQueue", 0));
 		if (!sprite) { return nullptr; }
 		DeserializeSprite(*sprite, data);
 		return sprite;
