@@ -6,6 +6,7 @@
 #include "Engine/Render/ShadowMap.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Scene/SceneManagerPropertySerializer.h"
@@ -252,6 +253,8 @@ void AOENGINE::SceneManager::ResetManager() {
 	// SceneWorld内の生ポインタと親子参照をすべて解除する。
 	AOENGINE::SceneRenderer::GetInstance()->ClearSceneObjects();
 
+	// Effectが参照するCPU/GPU Emitterを、各Managerの破棄より先に解放する。
+	AOENGINE::ParticleEffectManager::GetInstance()->Finalize();
 	gpuManager->Finalize();
 	cpuManager->Finalize();
 	Engine::GetCanvas2d()->Init();

@@ -17,6 +17,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Manager/TextureManager.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 
 using namespace AOENGINE;
 
@@ -75,6 +76,7 @@ SceneRenderer* AOENGINE::SceneRenderer::GetInstance() {
 void SceneRenderer::Finalize() {
 	ClearSceneObjects();
 	modelInstancingRenderer_.Finalize();
+	ParticleEffectManager::GetInstance()->Finalize();
 
 	if (particleManager_) {
 		particleManager_->Finalize();
