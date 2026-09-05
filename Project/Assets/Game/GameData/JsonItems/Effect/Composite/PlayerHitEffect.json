@@ -1,0 +1,75 @@
+{
+    "PlayerHitEffect": {
+        "duration": 0.5,
+        "name": "PlayerHitEffect",
+        "nodes": [
+            {
+                "asset": "PlayerHitWave",
+                "delay": 0.0,
+                "name": "PlayerHitWave",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "PlayerHitParticle",
+                "delay": 0.0,
+                "name": "PlayerHitParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "PlayerHitSpark",
+                "delay": 0.0,
+                "name": "PlayerHitSpark",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}

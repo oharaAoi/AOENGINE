@@ -136,7 +136,6 @@ void ParticleSystemEditor::Create() {
 
 	ImGui::Separator();
 	InputTextWithString("Effect name", "##compositeEffectName", compositeEffectName_);
-	ImGui::DragFloat("Effect duration", &compositeEffectDuration_, 0.05f, 0.0f, 120.0f);
 	if (ImGui::Button("Save Composite Effect")) {
 		SaveCompositeEffect();
 	}
@@ -145,7 +144,6 @@ void ParticleSystemEditor::Create() {
 void ParticleSystemEditor::SaveCompositeEffect() {
 	ParticleEffectAsset asset;
 	asset.name = compositeEffectName_;
-	asset.duration = compositeEffectDuration_;
 	for (const auto& emitter : cpuEmitterList_) {
 		ParticleEffectNode node;
 		node.name = emitter->GetName();

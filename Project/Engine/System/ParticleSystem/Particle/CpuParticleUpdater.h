@@ -44,6 +44,7 @@ public:
 	/// <param name="name">: 名前</param>
 	void Add(const std::string& name);
 	void Remove(const std::string& name);
+	bool IsEmpty(const std::string& name) const;
 
 public:
 

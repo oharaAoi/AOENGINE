@@ -100,7 +100,7 @@
                     "type": "Bloom"
                 },
                 {
-                    "enabled": true,
+                    "enabled": false,
                     "parameters": {},
                     "type": "MotionBlur"
                 },
@@ -154,7 +154,7 @@
                 "isRendering": true,
                 "materials": [
                     {
-                        "albedoTexture": "boss_ufo.png",
+                        "albedoTexture": "player.png",
                         "color": [
                             1.0,
                             1.0,
@@ -185,7 +185,7 @@
                         ]
                     },
                     {
-                        "albedoTexture": "boss.png",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
                             1.0,
@@ -214,71 +214,9 @@
                             0.0,
                             0.0
                         ]
-                    },
-                    {
-                        "albedoTexture": "boss_hand.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 2,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 3,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
                     }
                 ],
-                "model": "boss.gltf",
+                "model": "player.gltf",
                 "rotate": [
                     0.0,
                     0.0,
@@ -353,7 +291,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_5",
+                "texture": "__Text_84",
                 "textureSize": [
                     135.0,
                     42.0
@@ -390,7 +328,7 @@
                 "transformType": "3D",
                 "translate": [
                     0.038187261670827866,
-                    2.384185791015625e-07,
+                    -1.7286348342895508,
                     -0.9415364265441895
                 ]
             },

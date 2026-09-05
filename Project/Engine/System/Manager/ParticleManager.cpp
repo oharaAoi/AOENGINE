@@ -20,6 +20,7 @@ AOENGINE::ParticleManager* AOENGINE::ParticleManager::GetInstance() {
 void ParticleManager::Finalize() {
 	externalEmitters_.clear();
 	retiredEmitters_.splice(retiredEmitters_.end(), emitterList_);
+	retiringParticleRuntimeIds_.clear();
 	particleUpdater_.Finalize();
 	if (particleRenderer_) { retiredRenderers_.push_back(std::move(particleRenderer_)); }
 }
@@ -76,6 +77,15 @@ void ParticleManager::Update() {
 
 	// 新しく生成したParticleも含めて更新・描画データを構築する
 	particleUpdater_.Update();
+
+	// EffectとEmitterの解放後も射出済みParticleは残し、全て寿命切れになってから
+	// UpdaterとRendererのRuntime登録を片付ける。
+	std::erase_if(retiringParticleRuntimeIds_, [this](const std::string& runtimeId) {
+		if (!particleUpdater_.IsEmpty(runtimeId)) { return false; }
+		particleUpdater_.Remove(runtimeId);
+		if (particleRenderer_) { particleRenderer_->RemoveParticle(runtimeId); }
+		return true;
+	});
 
 	// renderの更新
 	particleUpdater_.RendererUpdate(particleRenderer_.get());
@@ -161,8 +171,11 @@ void ParticleManager::UnregisterExternalParticle(BaseParticles* particle) {
 void ParticleManager::DeleteParticles(AOENGINE::BaseParticles* ptr) {
 	for (auto it = emitterList_.begin(); it != emitterList_.end(); ) {
 		if (it->get() == ptr) {
-			particleUpdater_.Remove(ptr->GetRuntimeId());
-			if (particleRenderer_) { particleRenderer_->RemoveParticle(ptr->GetRuntimeId()); }
+			const std::string runtimeId = ptr->GetRuntimeId();
+			if (std::find(retiringParticleRuntimeIds_.begin(), retiringParticleRuntimeIds_.end(), runtimeId)
+				== retiringParticleRuntimeIds_.end()) {
+				retiringParticleRuntimeIds_.push_back(runtimeId);
+			}
 			it = emitterList_.erase(it); // 要素の削除とイテレータ更新
 		} else {
 			++it;

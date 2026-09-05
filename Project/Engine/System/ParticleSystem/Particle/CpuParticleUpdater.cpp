@@ -185,6 +185,11 @@ void AOENGINE::CpuParticleUpdater::Remove(const std::string& name) {
 	particlesMap_.erase(name);
 }
 
+bool AOENGINE::CpuParticleUpdater::IsEmpty(const std::string& name) const {
+	const auto it = particlesMap_.find(name);
+	return it == particlesMap_.end() || it->second.particles->empty();
+}
+
 const std::shared_ptr<std::list<AOENGINE::ParticleSingle>>& AOENGINE::CpuParticleUpdater::GetParticles(const std::string& name) const {
 	return particlesMap_.at(name).particles;
 }

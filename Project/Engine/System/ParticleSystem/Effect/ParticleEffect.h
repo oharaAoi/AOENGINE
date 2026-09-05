@@ -35,7 +35,6 @@ struct ParticleEffectAsset {
 
 	uint32_t version = kCurrentVersion;
 	std::string name;
-	float duration = 0.0f; // 0以下は明示的にStopされるまで生存する
 	std::vector<ParticleEffectNode> nodes;
 
 	json ToJson() const;
