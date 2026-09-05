@@ -1,7 +1,9 @@
 #pragma once
+#include <string>
 #include <vector>
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Game/Actor/Player/PlayerParameter.h"
 #include "Game/Actor/Player/Component/PlayerInput.h"
 #include "Game/Actor/Player/Component/PlayerJump.h"
@@ -43,9 +45,18 @@ private:
 	void UpdateBlockGroupConnect(float deltaTime);
 	/// <summary>接続したブロックグループ同士を線で結んで描画する。</summary>
 	void DrawBlockGroupConnectLine() const;
-	void ResolveGround();
+	void ResolveGround(float deltaTime);
 	/// <summary>Colliderの押し戻し方向から足場に乗っているかを判定する。</summary>
 	bool ResolvePushback();
+	/// <summary>
+	/// 足元の少し下を見て、そこにあるブロックの上面の高さを求める。
+	/// </summary>
+	/// <param name="checkDown">足元から何ユニット下まで見るか</param>
+	/// <param name="outTopY">一番高いブロックの上面</param>
+	/// <returns>ブロックが見つかったら true</returns>
+	bool TryGetGroundTop(float checkDown, float& outTopY) const;
+	/// <summary>接地中は、足元のブロックの上面へ直接置き直す。</summary>
+	void SnapToGround();
 	/// <summary>大ジャンプ中はBlockとの当たり判定だけを外す</summary>
 	void SetBlockCollisionEnabled(bool enabled);
 	/// <summary>自分のColliderと現在重なっているBlockを列挙する</summary>
@@ -56,6 +67,16 @@ private:
 	void UpdateIgnoredBlocks();
 	/// <summary>無敵時間を進めつつ、その間ちかちか点滅させる</summary>
 	void UpdateInvincible(float deltaTime);
+	/// <summary>落下の下限。これより下がったらその高さで止める</summary>
+	void ClampFallLimit();
+	/// <summary>押し戻しで奥行きがずれても、決まったZへ固定し直す</summary>
+	void FixZPosition();
+	/// <summary>基準スケールに演出用の倍率を掛けて反映する。判定の大きさは変わらないように割り戻す</summary>
+	void UpdateScale();
+	/// <summary>向いている左右へ、補間しながら振り向く</summary>
+	void UpdateFacingRotate(float deltaTime);
+	/// <summary>今の状態に合ったアニメーションへ切り替える</summary>
+	void UpdateAnimation(float deltaTime);
 
 private:
 
@@ -73,6 +94,12 @@ private:
 
 	// 最後に向いた左右方向
 	float facing_ = 1.0f;
+
+	// 見た目
+	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
+	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
+	// 左右入力が無い状態が続いている時間。切り返しの一瞬でidleへ落とさないために見る
+	float noMoveInputTimer_ = 0.0f;
 
 	// 被弾
 	float currentHp_ = 0.0f;			// 現在のHP
@@ -95,6 +122,15 @@ private:
 	static inline const std::string kBlockCategoryName = "Block";
 	// 押し戻しを接地・天井とみなす閾値
 	static constexpr float kPushbackThreshold = 0.0001f;
+	// 足元判定で、自分が乗っているマスを拾わないように空ける隙間
+	static constexpr float kGroundCheckEpsilon = 0.001f;
+	// ブロック1個の高さの半分。上面の高さを出すのに使う
+	static constexpr float kBlockHalfHeight = 0.5f;
+
+	// モデルに入っているアニメーション名
+	static inline const std::string kIdleAnimation = "idle";
+	static inline const std::string kWalkAnimation = "walk";
+	static inline const std::string kJumpAnimation = "jump";
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
@@ -132,4 +168,9 @@ public: // accessor
 
 	Math::Vector3 GetVelocity() const;
 	float GetFacing() const{ return facing_; }
+
+	// 演出でスケールを動かす時の倍率。基準の大きさ(baseScale)に掛かる
+	void SetScaleMultiplier(const Math::Vector3& multiplier){ scaleMultiplier_ = multiplier; }
+	const Math::Vector3& GetScaleMultiplier() const{ return scaleMultiplier_; }
+	const Math::Vector3& GetBaseScale() const{ return parameter_.baseScale; }
 };

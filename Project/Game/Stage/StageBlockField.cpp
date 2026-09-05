@@ -272,6 +272,7 @@ void StageBlockField::Clear(){
 	detachedBlocks_.clear();
 
 	cells_.clear();
+	wallCells_.clear();
 	groups_.clear();
 	nextGroupId_ = 0;
 }
@@ -311,6 +312,24 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 		for(int y = minPos.y; y <= maxPos.y; ++y){
 			if(Block* block = GetBlockAt(GridPos{ x, y })){
 				result.push_back(block);
+			}
+		}
+	}
+
+	return result;
+}
+
+std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
+	std::vector<Wall*> result;
+
+	const GridPos minPos = WorldToGrid(worldMin);
+	const GridPos maxPos = WorldToGrid(worldMax);
+
+	for(int x = minPos.x; x <= maxPos.x; ++x){
+		for(int y = minPos.y; y <= maxPos.y; ++y){
+			auto it = wallCells_.find(GridPos{ x, y });
+			if(it != wallCells_.end() && it->second != nullptr){
+				result.push_back(it->second);
 			}
 		}
 	}
@@ -500,7 +519,10 @@ void StageBlockField::CreateWall(SegmentContent& content,const GridPos& pos){
 	// 足場としての位置はBlockと同じ座標系で求める
 	wall->GetTransform()->SetTranslate(GridToWorld(pos));
 
-	// Wall は連結・打ち上げの対象にしないため連結グループ表には登録しない
+	// Wall は連結・打ち上げの対象にしないため連結グループ表には登録しない。
+	// ただし足場としては乗れるので、グリッド表にだけ入れておく
+	wallCells_[pos] = wall.get();
+
 	content.walls.push_back(std::move(wall));
 }
 
@@ -521,10 +543,15 @@ void StageBlockField::DestroySegmentContent(SegmentContent& content){
 	}
 	content.blocks.clear();
 
-	// Wall は連結グループ表に登録していないため、GameObject を破棄するだけでよい
+	// Wall は連結グループ表に登録していないため、グリッド表から外して破棄するだけでよい
 	for(std::unique_ptr<Wall>& wall : content.walls){
 		if(wall == nullptr){
 			continue;
+		}
+		// 別の Wall が既に同じ座標を占有している場合に、それを消してしまわないように確認する
+		auto it = wallCells_.find(wall->GetGridPos());
+		if(it != wallCells_.end() && it->second == wall.get()){
+			wallCells_.erase(it);
 		}
 		wall->Destroy();
 	}

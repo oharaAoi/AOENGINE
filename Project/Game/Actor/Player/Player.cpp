@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cmath>
 
+#include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
@@ -12,10 +13,12 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Render/Render.h"
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/WorldObject/Wall.h"
 
 using namespace AOENGINE;
 
@@ -39,6 +42,8 @@ void Player::Init(BaseGameObject* body)
 	// 保存済みの調整値を読み込む
 	parameter_.Load();
 	facing_ = 1.0f;
+	scaleMultiplier_ = CVector3::UNIT;
+	noMoveInputTimer_ = 0.0f;
 
 	// HPを満タンにする
 	currentHp_ = parameter_.maxHp;
@@ -85,7 +90,7 @@ void Player::Update(){
 	UpdateInvincible(deltaTime);
 
 	// 前フレームの結果に対して接地判定を行う
-	ResolveGround();
+	ResolveGround(deltaTime);
 
 	// 入力をサンプリング
 	input_.Update(parameter_.stickDeadZone);
@@ -121,10 +126,296 @@ void Player::Update(){
 
 	// ブロックグループの接続受付・集合・打ち上げ
 	UpdateBlockGroupConnect(deltaTime);
+
+	// 接地中は足場の上面へ吸着させる
+	SnapToGround();
+
+	// 落ちすぎないように下限で止める
+	ClampFallLimit();
+
+	// 奥行きは動かさない
+	FixZPosition();
+
+	// 見た目まわり
+	UpdateScale();
+	UpdateFacingRotate(deltaTime);
+	UpdateAnimation(deltaTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-	// 横スクロールなので奥行きは動かさず、毎フレーム決まった位置へ戻す
+//  落下の下限
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::ClampFallLimit() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	Math::Vector3 position = transform->GetTranslate();
+	if (position.y > parameter_.fallLimitY) {
+		return;
+	}
+
+	// 下限より下がったら、その高さに置き直して止める
+	position.y = parameter_.fallLimitY;
+	transform->SetTranslate(position);
+
+	// 速度を残すと毎フレーム下限へ引き戻す形になるので、落下を止めておく
+	if (Rigidbody* rigidbody = GetRigidbody()) {
+		rigidbody->SetVelocityY(0.0f);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  足元の足場判定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool Player::TryGetGroundTop(float checkDown, float& outTopY) const {
+
+	if (pBlockField_ == nullptr) {
+		return false;
+	}
+
+	// 大ジャンプ中はブロックとの判定自体を切っているので、足場としても見ない
+	if (damageFloorAirborne_ && !blockCollisionResumed_) {
+		return false;
+	}
+
+	// 上がっている最中に拾ってしまうと、飛び出した瞬間に着地扱いになる
+	if (jump_.GetVelocityY() > 0.0f) {
+		return false;
+	}
+
+	const WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return false;
+	}
+
+	// 当たり判定の中心と足元の高さを出す
+	const Math::Vector3 center = transform->GetTranslate() + parameter_.hitOffset;
+	const float feetY = center.y - parameter_.hitSize.y * 0.5f;
+	const float halfWidth = parameter_.hitSize.x * 0.5f;
+
+	// 足元の下だけを見る
+	const Math::Vector3 checkMin{ center.x - halfWidth, feetY - checkDown, center.z };
+	const Math::Vector3 checkMax{ center.x + halfWidth, feetY - kGroundCheckEpsilon, center.z };
+
+	bool found = false;
+	float topY = 0.0f;
+
+	// 複数マスに跨っている時は、一番高い上面に乗せる
+	const auto keepHighest = [&found, &topY](float surfaceY) {
+		if (!found || surfaceY > topY) {
+			found = true;
+			topY = surfaceY;
+		}
+	};
+
+	for (const Block* block : pBlockField_->GetBlocksInWorldAABB(checkMin, checkMax)) {
+		if (block == nullptr || !block->IsValid()) {
+			continue;
+		}
+
+		// 大ジャンプ後に判定を猶予しているブロックは踏めない扱いにする
+		if (std::find(ignoredBlocks_.begin(), ignoredBlocks_.end(), block) != ignoredBlocks_.end()) {
+			continue;
+		}
+
+		keepHighest(block->GetPosition().y + kBlockHalfHeight);
+	}
+
+	// 開幕の床やフィールドの境目はマップチップ2で出来ているので、そちらも足場として見る
+	for (const Wall* wall : pBlockField_->GetWallsInWorldAABB(checkMin, checkMax)) {
+		if (wall == nullptr || !wall->IsValid()) {
+			continue;
+		}
+
+		keepHighest(wall->GetPosition().y + kBlockHalfHeight);
+	}
+
+	outTopY = topY;
+	return found;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  足場への吸着
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::SnapToGround() {
+
+	if (!jump_.IsGrounded()) {
+		return;
+	}
+
+	float groundTopY = 0.0f;
+	if (!TryGetGroundTop(parameter_.groundCheckDistance, groundTopY)) {
+		return;
+	}
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 接地中は足場へ押し付ける速度がかかり続けるので、押し戻し任せだと
+	// 毎フレーム沈んでは戻される形になって上下に震える。
+	// 下にあるブロックの上面は分かっているので、その高さへ直接置き直す
+	Math::Vector3 position = transform->GetTranslate();
+	position.y = groundTopY + parameter_.hitSize.y * 0.5f - parameter_.hitOffset.y;
+	transform->SetTranslate(position);
+
+	// 沈み込む速度を残さない
+	if (Rigidbody* rigidbody = GetRigidbody()) {
+		rigidbody->SetVelocityY(0.0f);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  奥行きの固定
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::FixZPosition() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// Zの位置は固定
+	Math::Vector3 position = transform->GetTranslate();
+	position.z = parameter_.fixedZ;
+	transform->SetTranslate(position);
+
+	// 速度が残っていると次のフレームでまたずれるので、こちらも止めておく
+	if (Rigidbody* rigidbody = GetRigidbody()) {
+		rigidbody->SetVelocityZ(0.0f);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  スケール
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateScale() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 基準の大きさに演出用の倍率を掛けたものが、実際の見た目の大きさになる
+	const Math::Vector3 scale = parameter_.baseScale * scaleMultiplier_;
+	transform->SetScale(scale);
+
+	BoxCollider* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag));
+	if (box == nullptr) {
+		return;
+	}
+
+	Math::Vector3 size = parameter_.hitSize;
+
+	// AABBのColliderは毎フレーム「回転させた8頂点」から作り直される
+	// そのため左右を向く途中で底面が最大√2倍まで膨らみ
+	size.z = size.x;
+	const Math::Vector3 forward = transform->GetRotate().Rotate(CVector3::FORWARD);
+	const float footprintFactor = std::abs(forward.x) + std::abs(forward.z);
+	if (footprintFactor > 0.0f) {
+		size.x /= footprintFactor;
+		size.z /= footprintFactor;
+	}
+
+	// Colliderのsize・localPositionにはtransformのscaleが掛かるので、
+	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
+	Math::Vector3 offset = parameter_.hitOffset;
+	if (scale.x != 0.0f) { size.x /= scale.x; offset.x /= scale.x; }
+	if (scale.y != 0.0f) { size.y /= scale.y; offset.y /= scale.y; }
+	if (scale.z != 0.0f) { size.z /= scale.z; offset.z /= scale.z; }
+
+	box->SetSize(size);
+	box->SetLocalPos(offset);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  向き
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateFacingRotate(float deltaTime) {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 向いている方向の角度を決める。モデルの正面がどちらを向いているかは
+	// パラメータ側で合わせられるようにしてある
+	float targetYaw = parameter_.facingYawLeft;
+	if (facing_ > 0.0f) {
+		targetYaw = parameter_.facingYawRight;
+	}
+
+	const Math::Quaternion target = Math::Quaternion::AngleAxis(targetYaw * kToRadian, CVector3::UP);
+
+	// 指数的に近づける。こうしておくとフレームレートが変わっても振り向きの速さが変わらない
+	const float t = 1.0f - std::exp(-parameter_.facingTurnSpeed * deltaTime);
+	transform->SetRotate(Math::Quaternion::Slerp(transform->GetRotate(), target, t).Normalize());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  アニメーション
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateAnimation(float deltaTime) {
+
+	// 移動しているかは、入力と実際の速度の両方で見る
+	const bool hasMoveInput = std::abs(input_.GetHorizontal()) > parameter_.moveInputThreshold;
+	const bool isMovingX = std::abs(GetVelocity().x) > parameter_.moveInputThreshold;
+	if (hasMoveInput || isMovingX) {
+		noMoveInputTimer_ = 0.0f;
+	} else {
+		noMoveInputTimer_ += deltaTime;
+	}
+
+	BaseGameObject* body = GetGameObject();
+	if (body == nullptr) {
+		return;
+	}
+
+	Animator* animator = body->GetAnimator();
+	if (animator == nullptr) {
+		return;
+	}
+
+	// 今の状態から流したいアニメーションを決める
+	std::string next = kIdleAnimation;
+	if (!jump_.IsGrounded()) {
+		// 上昇・滞空・落下はまとめてジャンプ扱い
+		next = kJumpAnimation;
+	} else if (noMoveInputTimer_ < parameter_.idleAnimationDelay) {
+		next = kWalkAnimation;
+	}
+
+	// 補間中は何も投げず、終わってから実際の名前と見比べて切り替える
+	if (animator->GetIsAnimationChange()) {
+		return;
+	}
+
+	if (animator->GetAnimationName() == next) {
+		return;
+	}
+
+	animator->TransitionAnimation(next, parameter_.animationBlendSpeed);
+
+	// 歩きだけ少し速く回す
+	float speed = parameter_.animationSpeed;
+	if (next == kWalkAnimation) {
+		speed = parameter_.walkAnimationSpeed;
+	}
+	animator->SetAnimationSpeed(speed);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  ブロックグループの接続受付・集合・打ち上げ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -485,15 +776,19 @@ void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 //  接地判定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::ResolveGround(){
-	bool isSupported = false;
+void Player::ResolveGround(float deltaTime){
 
-	// Blockからの押し戻しで足場に乗ったかを見る
-	if(ResolvePushback()){
-		isSupported = true;
-	}
+	// 天井にぶつかった時の処理が入っているので、押し戻しは必ず通す
+	const bool pushedUp = ResolvePushback();
 
-	if (isSupported)
+	// 前フレームに進んだぶんも見る範囲に足しておく
+	const float fallDistance = std::abs(jump_.GetVelocityY()) * deltaTime;
+
+	//
+	float groundTopY = 0.0f;
+	const bool onBlock = TryGetGroundTop(parameter_.groundCheckDistance + fallDistance, groundTopY);
+
+	if (pushedUp || onBlock)
 	{
 		// 降下タイミングでブロックの当たり判定再開
 		if (damageFloorAirborne_ && !blockCollisionResumed_)

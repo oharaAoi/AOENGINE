@@ -124,6 +124,14 @@ public:
 	std::vector<Block*> GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
 
 	/// <summary>
+	/// 指定したワールド空間のAABB範囲と重なるグリッドマスに置かれたWallを列挙する
+	/// </summary>
+	/// <param name="worldMin">範囲の最小座標</param>
+	/// <param name="worldMax">範囲の最大座標</param>
+	/// <returns>重なっている Wallの配列</returns>
+	std::vector<Wall*> GetWallsInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
+
+	/// <summary>
 	/// 乗れる足場になっているブロックを列挙する。
 	/// 上から物を落とす対象を選ぶ用途に使う。
 	/// </summary>
@@ -229,6 +237,11 @@ private:
 
 	/// <summary>グリッド座標 -> そこにあるブロック</summary>
 	std::unordered_map<GridPos,Block*> cells_;
+
+	/// <summary>
+	/// グリッド座標->そこにある Wall。
+	/// </summary>
+	std::unordered_map<GridPos,Wall*> wallCells_;
 
 	/// <summary>グループID -> 所属ブロック配列</summary>
 	std::unordered_map<int,std::vector<Block*>> groups_;
