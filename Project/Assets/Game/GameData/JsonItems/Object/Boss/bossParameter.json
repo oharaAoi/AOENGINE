@@ -31,6 +31,7 @@
             "z": 1.0
         },
         "beamWarningTime": 1.5,
+        "defeatHideTime": 1.5,
         "fallFireUnlockPhase": 0,
         "fireballDamage": 1.0,
         "fireballDropCount": 3,
@@ -49,6 +50,8 @@
         "hp": 100.0,
         "idleTimeMax": 2.5,
         "idleTimeMin": 1.0,
+        "phaseChangeScaleRate": 0.25,
+        "phaseChangeTime": 1.2000000476837158,
         "phaseSwitchRatio": [
             0.6600000262260437,
             0.33000001311302185

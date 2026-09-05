@@ -9,7 +9,9 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackFallFire.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackBeam.h"
+#include "Game/Actor/Boss/AttackBehavior/BossAttackDefeat.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackIdle.h"
+#include "Game/Actor/Boss/AttackBehavior/BossPhaseChange.h"
 #include "Game/Actor/Boss/AttackBehavior/BossAttackStopper.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,6 +22,10 @@ void BossBehaviorController::Init(Boss& boss) {
 
 	attackUseCounts_.fill(0);
 	hasPreviousAttack_ = false;
+	isDefeated_ = false;
+
+	// 開幕のフェーズを覚えておく。ここを0固定にすると開始直後に演出が入ってしまう
+	previousPhase_ = boss.GetPhaseIndex();
 
 	// 開始直後にいきなり殴らないよう、まずIdleから入る
 	nextIsIdle_ = true;
@@ -32,6 +38,12 @@ void BossBehaviorController::Init(Boss& boss) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossBehaviorController::Update(Boss& boss, float deltaTime) {
+
+	// 攻撃の途中でも切り替えるべき状況を先に見る
+	if (TryInterrupt(boss)) {
+		return;
+	}
+
 	// 行動がまだ無ければここで用意する
 	if (!currentBehavior_) {
 		ChangeBehavior(boss, SelectNextBehavior(boss));
@@ -65,6 +77,30 @@ void BossBehaviorController::ChangeBehavior(Boss& boss, std::unique_ptr<BaseBoss
 		currentBehavior_->ResetStartDelay();
 		currentBehavior_->Enter(boss);
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  行動への割り込み
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool BossBehaviorController::TryInterrupt(Boss& boss) {
+
+	// HPが尽きたら、どの行動の途中からでも撃破へ落とす。
+	if (!isDefeated_ && boss.IsDefeated()) {
+		isDefeated_ = true;
+		ChangeBehavior(boss, std::make_unique<BossAttackDefeat>());
+		return true;
+	}
+
+	// フェーズが上がったら、次の抽選を待たずにその場で合図を見せる
+	const int32_t phase = boss.GetPhaseIndex();
+	if (phase != previousPhase_) {
+		previousPhase_ = phase;
+		ChangeBehavior(boss, std::make_unique<BossPhaseChange>());
+		return true;
+	}
+
+	return false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

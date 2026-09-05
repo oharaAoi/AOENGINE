@@ -23,6 +23,7 @@ void Boss::Init(BaseGameObject* body) {
 	parameter_.Load();
 	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
 	parameter_.stopperLandShake.Load();
+	parameter_.phaseChangeShake.Load();
 	currentHp_ = parameter_.hp;
 
 	if (WorldTransform* transform = GetTransform()) {
@@ -30,6 +31,9 @@ void Boss::Init(BaseGameObject* body) {
 	}
 
 	scaleMultiplier_ = CVector3::UNIT;
+
+	isInvincible_ = false;
+	SetRendering(true);
 
 	animation_.Init();
 
@@ -121,6 +125,12 @@ void Boss::UpdateAnimation() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Damage(float amount) {
+
+	// フェーズ切り替えの演出中などは受け付けない
+	if (isInvincible_) {
+		return;
+	}
+
 	// 被弾は行動に割り込んで1回だけ流す
 	animation_.PlayDamage();
 
@@ -194,6 +204,16 @@ void Boss::Debug_Gui() {
 	parameter_.stopperLandShake.SaveAndLoad();
 	if (ImGui::Button("Test Play")) {
 		ShakeCamera(parameter_.stopperLandShake);
+	}
+	ImGui::PopID();
+
+	// フェーズが上がった時のカメラシェイク
+	ImGui::SeparatorText("Phase Change Shake");
+	ImGui::PushID("PhaseChangeShake");
+	parameter_.phaseChangeShake.Debug_Gui();
+	parameter_.phaseChangeShake.SaveAndLoad();
+	if (ImGui::Button("Test Play")) {
+		ShakeCamera(parameter_.phaseChangeShake);
 	}
 	ImGui::PopID();
 }

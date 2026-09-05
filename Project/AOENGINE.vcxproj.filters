@@ -1203,6 +1203,9 @@
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.h">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackDefeat.h">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.h">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
@@ -1210,6 +1213,9 @@
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.h">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.h">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Boss.h">
@@ -2180,6 +2186,9 @@
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.cpp">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackDefeat.cpp">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.cpp">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
@@ -2187,6 +2196,9 @@
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.cpp">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.cpp">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Boss.cpp">

@@ -341,6 +341,8 @@ std::vector<Block*> StageBlockField::GetLandableBlocks() const{
 	std::vector<Block*> result;
 
 	for(const auto& cell : cells_){
+
+		// continue
 		Block* block = cell.second;
 		if(block == nullptr || !block->IsValid()){
 			continue;
@@ -352,6 +354,7 @@ std::vector<Block*> StageBlockField::GetLandableBlocks() const{
 			continue;
 		}
 
+		// 落とす対象として候補追加
 		result.push_back(block);
 	}
 
@@ -359,6 +362,7 @@ std::vector<Block*> StageBlockField::GetLandableBlocks() const{
 }
 
 bool StageBlockField::TryGetGroupCenter(int groupId,Math::Vector3& outCenter) const{
+	// そのIDのグループが無ければ中心も出せない
 	auto it = groups_.find(groupId);
 	if(it == groups_.end()){
 		return false;
@@ -367,24 +371,31 @@ bool StageBlockField::TryGetGroupCenter(int groupId,Math::Vector3& outCenter) co
 	Math::Vector3 sum = CVector3::ZERO;
 	int validCount = 0;
 
+	// メンバーの座標を足し込みながら、実際に足せた個数を数える
 	for(const Block* member : it->second){
+
+		// 既にWorldから消えているブロックは中心の計算に入れない
 		if(member == nullptr || !member->IsValid()){
 			continue;
 		}
 
+		// 座標はTransformから引く。取れないものも同じく飛ばす
 		const AOENGINE::WorldTransform* transform = member->GetTransform();
 		if(transform == nullptr){
 			continue;
 		}
 
+		// 合計に足して、数えた個数を進める
 		sum = sum + transform->GetTranslate();
 		++validCount;
 	}
 
+	// 1個も足せていない場合、この後の割り算がゼロ除算になるので失敗を返す
 	if(validCount == 0){
 		return false;
 	}
 
+	// 平均を求めて返す
 	outCenter = sum * (1.0f / static_cast<float>(validCount));
 	return true;
 }

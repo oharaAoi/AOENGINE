@@ -34,6 +34,11 @@ struct BossParameter :
 	int32_t beamUnlockPhase = 1;
 	int32_t stopperUnlockPhase = 2;
 
+	// フェーズが上がった時の演出
+	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
+	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか(基準スケールへの倍率)
+	CameraShakeRequest phaseChangeShake;
+
 	// --- 攻撃1: 火球落とし ---
 	float fireballDamage;		// 火球が当たった時のダメージ
 	float fireballStartDelay = 0.5f;	// アニメーション再生から落とし始めるまでの秒数
@@ -80,6 +85,9 @@ struct BossParameter :
 	float idleTimeMin = 1.0f;	// 次の攻撃までの最短時間
 	float idleTimeMax = 2.5f;	// 次の攻撃までの最長時間
 
+	// --- 撃破 ---
+	float defeatHideTime = 1.5f;	// 撃破されてから姿を消すまでの秒数
+
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
 		SetName("bossParameter");
@@ -97,6 +105,8 @@ struct BossParameter :
 		AddParameter("Unlock Phase: FallFire", fallFireUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Unlock Phase: Beam", beamUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
+		AddParameter("Phase Change Time", phaseChangeTime, 0.01f, 0.0f, 60.0f);
+		AddParameter("Phase Change Scale Rate", phaseChangeScaleRate, 0.01f, 0.0f, 10.0f);
 
 		AddSeparatorText("Attack1: FallFire");
 		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
@@ -137,9 +147,14 @@ struct BossParameter :
 		AddParameter("Idle Time Min", idleTimeMin, 0.01f, 0.0f, 60.0f);
 		AddParameter("Idle Time Max", idleTimeMax, 0.01f, 0.0f, 60.0f);
 
+		AddSeparatorText("Defeat");
+		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
+
 
 		stopperLandShake.SetGroupName("Boss");
 		stopperLandShake.SetName("stopperLandShake");
+		phaseChangeShake.SetGroupName("Boss");
+		phaseChangeShake.SetName("phaseChangeShake");
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -153,6 +168,8 @@ struct BossParameter :
 			.Add("fallFireUnlockPhase", fallFireUnlockPhase)
 			.Add("beamUnlockPhase", beamUnlockPhase)
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
+			.Add("phaseChangeTime", phaseChangeTime)
+			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
 			.Add("fireballDamage", fireballDamage)
 			.Add("fireballStartDelay", fireballStartDelay)
 			.Add("fireballDropCount", fireballDropCount)
@@ -184,6 +201,7 @@ struct BossParameter :
 			.Add("animationSpeed", animationSpeed)
 			.Add("idleTimeMin", idleTimeMin)
 			.Add("idleTimeMax", idleTimeMax)
+			.Add("defeatHideTime", defeatHideTime)
 			.Build();
 	}
 
@@ -197,6 +215,8 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "fallFireUnlockPhase", fallFireUnlockPhase);
 		Convert::fromJson(jsonData, "beamUnlockPhase", beamUnlockPhase);
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
+		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
+		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
 
 		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
 		Convert::fromJson(jsonData, "fireballStartDelay", fireballStartDelay);
@@ -233,6 +253,7 @@ struct BossParameter :
 
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
+		Convert::fromJson(jsonData, "defeatHideTime", defeatHideTime);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

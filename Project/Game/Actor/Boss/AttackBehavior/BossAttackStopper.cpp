@@ -63,12 +63,13 @@ void BossAttackStopper::Update(Boss& boss, float deltaTime) {
 		return;
 	}
 
-	// 待ちが明けた最初のフレームで、まとめて落とす
+	// 待ちが明けた最初のフレームで、ストッパーを落とす！
 	if (!isSpawned_) {
 		isSpawned_ = true;
 		SpawnStoppers(boss);
 	}
 
+	// ストッパー更新
 	UpdateStoppers(boss, deltaTime);
 
 	// 全部消えたら攻撃終了
@@ -121,7 +122,7 @@ std::vector<BossAttackStopper::LandingCandidate> BossAttackStopper::CollectCandi
 
 	std::vector<LandingCandidate> candidates;
 
-	// 上に何も乗っていない=乗れる足場を、連結グループごとにまとめる
+	// ストッパーが乗れる足場を、連結グループごとにまとめる
 	std::unordered_map<int, std::vector<Block*>> landableByGroup;
 	for (Block* block : pBlockField_->GetLandableBlocks()) {
 
@@ -136,20 +137,24 @@ std::vector<BossAttackStopper::LandingCandidate> BossAttackStopper::CollectCandi
 			continue;
 		}
 
+		// グループIDとブロックを着地候補として登録
 		landableByGroup[groupId].push_back(block);
 	}
 
-	// グループごとに、中心へ一番近い足場を落とし先にする。
-	// 中心そのものはブロックの間に来ることがあるため、マスに合う位置へ寄せる
+	// グループごとに、中心へ一番近い足場を落とし先にする
 	for (const auto& group : landableByGroup) {
 
+		// グループ全体の中心を出す。メンバーが全部消えていたら中心が出せないので飛ばす
 		Math::Vector3 center = CVector3::ZERO;
 		if (!pBlockField_->TryGetGroupCenter(group.first, center)) {
 			continue;
 		}
 
+		// 最小値探索。最初はどれよりも遠い値にしておく。
 		Block* landingBlock = nullptr;
 		float nearestDistance = FLT_MAX;
+		
+		// 計算したグループの平均位置より一番近いブロックを対象にする
 		for (Block* block : group.second) {
 			const Math::Vector3 diff = block->GetPosition() - center;
 			const float distance = diff.x * diff.x + diff.z * diff.z;
@@ -159,10 +164,12 @@ std::vector<BossAttackStopper::LandingCandidate> BossAttackStopper::CollectCandi
 			}
 		}
 
+		// 有効な足場が1つも無かったグループは候補にしない
 		if (!landingBlock) {
 			continue;
 		}
 
+		// 落とし先が決まったので候補に加える
 		candidates.push_back(LandingCandidate{ group.first, landingBlock, center });
 	}
 
@@ -207,6 +214,7 @@ void BossAttackStopper::ExcludePlayerGroup(std::vector<LandingCandidate>& candid
 				continue;
 			}
 
+			// プレイヤーから一番近いグループを対象とする
 			const Math::Vector3 diff = member->GetPosition() - playerPos;
 			const float distance = diff.x * diff.x + diff.y * diff.y;
 			if (distance < nearestDistance) {
@@ -216,6 +224,7 @@ void BossAttackStopper::ExcludePlayerGroup(std::vector<LandingCandidate>& candid
 		}
 	}
 
+	// お前を落とす対象から除外する
 	if (nearest != candidates.end()) {
 		candidates.erase(nearest);
 	}

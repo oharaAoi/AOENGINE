@@ -59,6 +59,9 @@ private:
 	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
 	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
 
+	// ダメージを受け付けない状態か
+	bool isInvincible_ = false;
+
 	// 自分のCollider category名
 	static inline const std::string kColliderTag = "Boss";
 
@@ -75,6 +78,11 @@ public: // accessor
 
 	float GetMaxHp() const { return parameter_.hp; }
 	float GetCurrentHp() const { return currentHp_; }
+	bool IsDefeated() const { return currentHp_ <= 0.0f; }
+
+	// フェーズ切り替えの演出中など、ダメージを受け付けない状態にする
+	void SetInvincible(bool isInvincible) { isInvincible_ = isInvincible; }
+	bool IsInvincible() const { return isInvincible_; }
 	const Math::Vector3& GetPosition() const { return position_; }
 
 	/// <summary>攻撃行動側から調整値を参照するために公開する</summary>

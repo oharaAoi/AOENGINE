@@ -43,6 +43,12 @@ private:
 
 	static std::size_t ToIndex(AttackKind kind) { return static_cast<std::size_t>(kind); }
 
+	/// <summary>
+	/// 行動の途中でも割り込むべき状況かを見て、必要なら切り替える。
+	/// </summary>
+	/// <returns>割り込んだら true</returns>
+	bool TryInterrupt(Boss& boss);
+
 	// 次に行う行動を決める。攻撃とIdleを交互に返す
 	std::unique_ptr<BaseBossAttackBehavior> SelectNextBehavior(const Boss& boss);
 
@@ -71,6 +77,12 @@ private:
 
 	// 次はIdleを挟むか。攻撃 -> Idle -> 攻撃 と交互に繰り返す
 	bool nextIsIdle_ = false;
+
+	// もう撃破へ切り替えたか。二重に切り替えないために持つ
+	bool isDefeated_ = false;
+
+	// 直前に見たフェーズ番号。変わった瞬間を拾うために持つ
+	int32_t previousPhase_ = 0;
 
 	// 行動が無い時に返す名前
 	const std::string kNoneName_ = "None";

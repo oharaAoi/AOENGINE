@@ -38,14 +38,7 @@ protected:
 	/// <param name="deltaTime">経過時間</param>
 	/// <param name="delay">アニメーション再生から攻撃発動までの秒数</param>
 	/// <returns>まだ待っている間は true</returns>
-	bool WaitStartDelay(float deltaTime, float delay) {
-		if (startDelayTimer_ >= delay) {
-			return false;
-		}
-
-		startDelayTimer_ += deltaTime;
-		return startDelayTimer_ < delay;
-	}
+	bool WaitStartDelay(float deltaTime, float delay);
 
 private:
 
