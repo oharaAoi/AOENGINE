@@ -1,9 +1,9 @@
 {
-    "RoketJet": {
+    "RoketJet2": {
         "angle": 0.0,
         "angleMax": 360.0,
         "angleMin": 0.0,
-        "arc": 360.0,
+        "arc": 131.6999969482422,
         "blendModeType": 2,
         "color": {
             "a": 1.0,
@@ -12,17 +12,17 @@
             "r": 1.0
         },
         "coneEmitFrom": 0,
-        "damping": 0.0,
+        "damping": 0.8799999952316284,
         "discardValue": 0.009999999776482582,
         "duration": 5.0,
         "emitDirection": 1,
         "emitOrigin": 1,
         "emitSpacing": 0.10000000149011612,
         "endDiscard": 1.0,
-        "fadeInTime": 0.0,
+        "fadeInTime": 0.10000000149011612,
         "fadeOutTime": 0.0,
-        "gravity": 0.0,
-        "height": 1.0,
+        "gravity": -0.5,
+        "height": 0.0,
         "isBillBord": true,
         "isColorAnimation": true,
         "isDirectionRotate": false,
@@ -43,11 +43,11 @@
             "z": 0.0
         },
         "lifeOfMinScale": {
-            "x": 2.0,
-            "y": 2.0,
-            "z": 2.0
+            "x": 0.5,
+            "y": 0.5,
+            "z": 0.5
         },
-        "lifeTime": 0.5,
+        "lifeTime": 0.44999998807907104,
         "maxAngle": 360.0,
         "maxEmitPerFrame": 256,
         "maxParticles": 512,
@@ -72,10 +72,10 @@
         "preColor": {
             "a": 1.0,
             "b": 0.0,
-            "g": 0.3474903106689453,
-            "r": 1.0
+            "g": 0.06976640969514847,
+            "r": 0.6023166179656982
         },
-        "radius": 0.20000000298023224,
+        "radius": 0.10000000149011612,
         "radiusThickness": 1.0,
         "randColor1": {
             "a": 1.0,
@@ -89,8 +89,8 @@
             "g": 0.0,
             "r": 0.0
         },
-        "randomDirectionAmount": 0.0,
-        "rateOverTimeCout": 225,
+        "randomDirectionAmount": 0.4950000047683716,
+        "rateOverTimeCout": 32,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
@@ -108,7 +108,7 @@
             "y": 1.0,
             "z": 1.0
         },
-        "speed": -4.0,
+        "speed": -4.559999942779541,
         "startDiscard": 0.009999999776482582,
         "teleportThreshold": 50.0,
         "tiles": {

@@ -6,7 +6,10 @@
 
 /// engine
 #include "Engine/Lib/Math/Vector3.h"
-#include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/Components/WorldTransform.h"
+
+/// game
+#include "Game/Effect/EffectObjectGroup.h"
 
 class Block;
 class StageBlockField;
@@ -172,11 +175,14 @@ private:
 private:
 	State state_ = State::Idle;
 
-	AOENGINE::BaseParticles* burnParticle_ = nullptr;
-
 	// 集めたブロック全体をまとめる座標系。打ち上げ中はこれだけを動かし、
-	// ブロックと噴射パーティクルの両方をこの座標系へ追従させる(パーティクルはこれを親にする)
+	// ブロックと演出オブジェクトの両方をこの座標系へ追従させる(演出側はこれを親にする)
 	std::unique_ptr<AOENGINE::WorldTransform> launchRoot_;
+
+	// 打ち上げ演出(噴射パーティクルなど)をまとめて持つ。
+	// launchRoot_ より後ろに宣言することで、破棄順が「演出オブジェクト -> launchRoot_」になる。
+	// 演出側は launchRoot_ を親として参照しているため、この順でないと消えかけの座標系を参照してしまう
+	EffectObjectGroup launchEffects_;
 
 	std::vector<GatheringGroup> groups_;	// 集合・打ち上げの対象
 

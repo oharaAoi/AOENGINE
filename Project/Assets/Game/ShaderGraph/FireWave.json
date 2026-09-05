@@ -1,0 +1,319 @@
+{
+    "assetType": "ShaderGraph",
+    "domain": "Texture",
+    "links": [
+        {
+            "fromNode": 1458665793680,
+            "fromPin": "DxResource",
+            "toNode": 1853285084048,
+            "toPin": "BaseTex"
+        },
+        {
+            "fromNode": 1853285084048,
+            "fromPin": "DxResource",
+            "toNode": 2117390282272,
+            "toPin": "BaseTexture"
+        },
+        {
+            "fromNode": 2117390282272,
+            "fromPin": "DxResource",
+            "toNode": 2438480033536,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2438494306368,
+            "fromPin": "uv",
+            "toNode": 2438480033536,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2438480033536,
+            "fromPin": "DxResource",
+            "toNode": 1855353685104,
+            "toPin": "DxResource"
+        },
+        {
+            "fromNode": 2438487123664,
+            "fromPin": "output",
+            "toNode": 2438494306368,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 2117388987232,
+            "fromPin": "DxResource",
+            "toNode": 2656461746912,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2656461746912,
+            "fromPin": "DxResource",
+            "toNode": 2117390282272,
+            "toPin": "SampleNoise"
+        },
+        {
+            "fromNode": 2656531016016,
+            "fromPin": "uv",
+            "toNode": 2656461746912,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2656530381152,
+            "fromPin": "output",
+            "toNode": 2656531016016,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 1855344109760,
+            "fromPin": "DxResource",
+            "toNode": 1977780792128,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1977780792128,
+            "fromPin": "DxResource",
+            "toNode": 1853285084048,
+            "toPin": "NoiseTex"
+        },
+        {
+            "fromNode": 1977783834752,
+            "fromPin": "uv",
+            "toNode": 1977780792128,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 1977770228208,
+            "fromPin": "time",
+            "toNode": 1975705066224,
+            "toPin": "x"
+        },
+        {
+            "fromNode": 1975705066224,
+            "fromPin": "output",
+            "toNode": 1977783834752,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 1977783806704,
+            "fromPin": "output",
+            "toNode": 1977783834752,
+            "toPin": "scale"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 2656461746912,
+            "name": "SampleTexture2D",
+            "pos": [
+                460.0,
+                -80.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "id": 2117390282272,
+            "name": "Distortion",
+            "pos": [
+                920.0,
+                -20.0
+            ],
+            "props": {
+                "scroll": {
+                    "x": 0.0,
+                    "y": -1.0
+                },
+                "strength": 0.15000000596046448,
+                "tiling": {
+                    "x": 1.0,
+                    "y": 1.0
+                }
+            }
+        },
+        {
+            "id": 2656530381152,
+            "name": "Property_Vector2",
+            "pos": [
+                -240.0,
+                30.0
+            ],
+            "props": {
+                "value": [
+                    0.10000000149011612,
+                    0.30000001192092896
+                ]
+            }
+        },
+        {
+            "id": 1853285084048,
+            "name": "Dissolve",
+            "pos": [
+                580.0,
+                300.0
+            ],
+            "props": {
+                "dissolveColor": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                },
+                "edgeWidth": 0.10000000149011612,
+                "threshold": 0.0
+            }
+        },
+        {
+            "id": 2438487123664,
+            "name": "Property_Vector2",
+            "pos": [
+                660.0,
+                160.0
+            ],
+            "props": {
+                "value": [
+                    0.0,
+                    -0.11999999731779099
+                ]
+            }
+        },
+        {
+            "id": 1977770228208,
+            "name": "TimeNode",
+            "pos": [
+                -710.0,
+                350.0
+            ]
+        },
+        {
+            "id": 2438494306368,
+            "name": "UVTransform",
+            "pos": [
+                1030.0,
+                120.0
+            ]
+        },
+        {
+            "id": 1977780792128,
+            "name": "SampleTexture2D",
+            "pos": [
+                120.0,
+                310.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "id": 1458665793680,
+            "name": "Texture",
+            "pos": [
+                330.0,
+                170.0
+            ],
+            "props": {
+                "textureName": "JetFire.dds"
+            }
+        },
+        {
+            "id": 1977783834752,
+            "name": "UVTransform",
+            "pos": [
+                -140.0,
+                440.0
+            ]
+        },
+        {
+            "id": 1855353685104,
+            "name": "ResultNode",
+            "pos": [
+                1710.0,
+                30.0
+            ]
+        },
+        {
+            "id": 1855344109760,
+            "name": "Texture",
+            "pos": [
+                -250.0,
+                290.0
+            ],
+            "props": {
+                "textureName": "wave.dds"
+            }
+        },
+        {
+            "id": 2117388987232,
+            "name": "Texture",
+            "pos": [
+                120.0,
+                -110.0
+            ],
+            "props": {
+                "textureName": "FireNoize.dds"
+            }
+        },
+        {
+            "id": 2656531016016,
+            "name": "UVTransform",
+            "pos": [
+                120.0,
+                40.0
+            ]
+        },
+        {
+            "id": 1977783806704,
+            "name": "Property_Vector2",
+            "pos": [
+                -610.0,
+                490.0
+            ],
+            "props": {
+                "value": [
+                    0.5,
+                    1.0
+                ]
+            }
+        },
+        {
+            "id": 1975705066224,
+            "name": "InOut_Vector2",
+            "pos": [
+                -540.0,
+                330.0
+            ],
+            "props": {
+                "value": [
+                    0.12013450264930725,
+                    0.0
+                ]
+            }
+        },
+        {
+            "id": 2438480033536,
+            "name": "SampleTexture2D",
+            "pos": [
+                1270.0,
+                20.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        }
+    ],
+    "schemaVersion": 1
+}

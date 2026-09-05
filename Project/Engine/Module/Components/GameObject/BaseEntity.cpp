@@ -30,7 +30,7 @@ void BaseEntity::Unbind() {
 
 BaseGameObject* AOENGINE::BaseEntity::InstantiatePrefab(const std::string& prefabName) {
 	AOENGINE::SceneObject* root =
-		AOENGINE::PrefabManager::GetInstance()->Instantiate("Enemy");
+		AOENGINE::PrefabManager::GetInstance()->Instantiate(prefabName);
 
 	AOENGINE::BaseGameObject* obj =
 		dynamic_cast<AOENGINE::BaseGameObject*>(root);

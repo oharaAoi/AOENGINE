@@ -75,6 +75,10 @@ bool SceneManager::Update() {
 #ifdef _DEVELOPMENT
 		AOENGINE::EditorWindows::GetInstance()->SceneReset();
 #endif
+		// SceneWorldとParticleManagerを空にする前に、ゲーム側が持っているObjectを先に片付ける。
+		// 順番が逆だと、既に実体が消えた後にGameScene側の破棄が走ることになり、
+		// Sceneの切り替え(SetChange)側の順番とも食い違う。
+		scene_->Finalize();
 		ResetManager();
 		systemManager_->Init();
 		scene_->Initialize();
