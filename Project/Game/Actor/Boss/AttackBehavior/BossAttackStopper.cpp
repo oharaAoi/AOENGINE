@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cfloat>
+#include <unordered_map>
 
 #include "Engine/Lib/Math/Easing.h"
 #include "Engine/Lib/Math/MyRandom.h"
@@ -76,49 +77,21 @@ void BossAttackStopper::SpawnStoppers(const Boss& boss) {
 		return;
 	}
 
-	// 上に何も乗っていない=乗れる足場だけを候補にする
-	std::vector<Block*> candidates = pBlockField_->GetLandableBlocks();
-
-	// 画面の外にある足場に落としても見えないので、カメラに映っているものだけに絞る
-	candidates.erase(
-		std::remove_if(candidates.begin(), candidates.end(),
-			[&boss](const Block* block) { return !boss.IsInCameraView(block->GetPosition()); }),
-		candidates.end());
-
+	std::vector<LandingCandidate> candidates = CollectCandidates(boss);
 	if (candidates.empty()) {
 		isFinished_ = true;
 		return;
 	}
 
-	// プレイヤーが今いる足場は候補から外す
-	if (AOENGINE::BaseGameObject* player = FindSceneObject<AOENGINE::BaseGameObject>("Player")) {
-		if (AOENGINE::WorldTransform* playerTransform = player->GetTransform()) {
-			const Math::Vector3 playerPos = playerTransform->GetTranslate();
+	// プレイヤーが乗っているグループは、隣接するブロックごと候補から外す
+	ExcludePlayerGroup(candidates);
 
-			auto nearest = candidates.begin();
-			float nearestDistance = FLT_MAX;
-			for (auto it = candidates.begin(); it != candidates.end(); ++it) {
-				const Math::Vector3 diff = (*it)->GetPosition() - playerPos;
-				const float distance = diff.x * diff.x + diff.y * diff.y;
-				if (distance < nearestDistance) {
-					nearestDistance = distance;
-					nearest = it;
-				}
-			}
-
-			// 候補が1つしか無い場合は外すと落とせなくなるので、その時だけ残す
-			if (candidates.size() > 1) {
-				candidates.erase(nearest);
-			}
-		}
-	}
-
-	// 残った候補からランダムに選んで落としていく。同じ足場は選び直さない
+	// 残った候補からランダムに選んで落としていく。同じグループには2個落とさない
 	const int32_t count = boss.GetParameter().stopperCount;
 	for (int32_t i = 0; i < count && !candidates.empty(); ++i) {
 		const int index = Random::RandomInt(0, static_cast<int>(candidates.size()) - 1);
 
-		SpawnStopper(boss, *candidates[index]);
+		SpawnStopper(boss, candidates[index]);
 		candidates.erase(candidates.begin() + index);
 	}
 
@@ -129,10 +102,118 @@ void BossAttackStopper::SpawnStoppers(const Boss& boss) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  落とし先の候補を集める
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+std::vector<BossAttackStopper::LandingCandidate> BossAttackStopper::CollectCandidates(const Boss& boss) const {
+
+	std::vector<LandingCandidate> candidates;
+
+	// 上に何も乗っていない=乗れる足場を、連結グループごとにまとめる
+	std::unordered_map<int, std::vector<Block*>> landableByGroup;
+	for (Block* block : pBlockField_->GetLandableBlocks()) {
+
+		// グループに属していないもの(壁など)は落とし先にしない
+		const int groupId = block->GetGroupId();
+		if (groupId == StageBlockField::kInvalidGroupId) {
+			continue;
+		}
+
+		// 画面の外に落としても見えないので、カメラに映っている足場だけを使う
+		if (!boss.IsInCameraView(block->GetPosition())) {
+			continue;
+		}
+
+		landableByGroup[groupId].push_back(block);
+	}
+
+	// グループごとに、中心へ一番近い足場を落とし先にする。
+	// 中心そのものはブロックの間に来ることがあるため、マスに合う位置へ寄せる
+	for (const auto& group : landableByGroup) {
+
+		Math::Vector3 center = CVector3::ZERO;
+		if (!pBlockField_->TryGetGroupCenter(group.first, center)) {
+			continue;
+		}
+
+		Block* landingBlock = nullptr;
+		float nearestDistance = FLT_MAX;
+		for (Block* block : group.second) {
+			const Math::Vector3 diff = block->GetPosition() - center;
+			const float distance = diff.x * diff.x + diff.z * diff.z;
+			if (distance < nearestDistance) {
+				nearestDistance = distance;
+				landingBlock = block;
+			}
+		}
+
+		if (!landingBlock) {
+			continue;
+		}
+
+		candidates.push_back(LandingCandidate{ group.first, landingBlock, center });
+	}
+
+	return candidates;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  プレイヤーがいるグループを候補から外す
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossAttackStopper::ExcludePlayerGroup(std::vector<LandingCandidate>& candidates) const {
+
+	// 候補が1つしか無い時に外すと落とせなくなるので、その時は残す
+	if (candidates.size() <= 1) {
+		return;
+	}
+
+	AOENGINE::BaseGameObject* player = FindSceneObject<AOENGINE::BaseGameObject>("Player");
+	if (!player) {
+		return;
+	}
+
+	AOENGINE::WorldTransform* playerTransform = player->GetTransform();
+	if (!playerTransform) {
+		return;
+	}
+
+	const Math::Vector3 playerPos = playerTransform->GetTranslate();
+
+	// プレイヤーに一番近いブロックを持つグループを探す。
+	auto nearest = candidates.end();
+	float nearestDistance = FLT_MAX;
+	for (auto it = candidates.begin(); it != candidates.end(); ++it) {
+
+		const std::vector<Block*>* members = pBlockField_->GetGroup(it->groupId);
+		if (!members) {
+			continue;
+		}
+
+		for (const Block* member : *members) {
+			if (member == nullptr || !member->IsValid()) {
+				continue;
+			}
+
+			const Math::Vector3 diff = member->GetPosition() - playerPos;
+			const float distance = diff.x * diff.x + diff.y * diff.y;
+			if (distance < nearestDistance) {
+				nearestDistance = distance;
+				nearest = it;
+			}
+		}
+	}
+
+	if (nearest != candidates.end()) {
+		candidates.erase(nearest);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  足止めの生成
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void BossAttackStopper::SpawnStopper(const Boss& boss, const Block& target) {
+void BossAttackStopper::SpawnStopper(const Boss& boss, const LandingCandidate& target) {
 
 	AOENGINE::SceneObject* root = AOENGINE::PrefabManager::GetInstance()->Instantiate(kStopperName_);
 	AOENGINE::BaseGameObject* object = dynamic_cast<AOENGINE::BaseGameObject*>(root);
@@ -146,8 +227,8 @@ void BossAttackStopper::SpawnStopper(const Boss& boss, const Block& target) {
 
 	const BossParameter& param = boss.GetParameter();
 
-	// Xは狙った足場に合わせ、Yはプレイヤーの一定距離上から落とす
-	Math::Vector3 spawnPosition = target.GetPosition();
+	// X,Zはグループの中心にあたる足場に合わせ、Yはプレイヤーの一定距離上から落とす
+	Math::Vector3 spawnPosition = target.landingBlock->GetPosition();
 	if (AOENGINE::BaseGameObject* player = FindSceneObject<AOENGINE::BaseGameObject>("Player")) {
 		if (AOENGINE::WorldTransform* playerTransform = player->GetTransform()) {
 			spawnPosition.y = playerTransform->GetTranslate().y;
@@ -166,7 +247,7 @@ void BossAttackStopper::SpawnStopper(const Boss& boss, const Block& target) {
 
 	// 真下に落ちるだけなので、乗る高さは最初に決まる
 	stopper.startY = spawnPosition.y;
-	stopper.restY = target.GetPosition().y + kBlockHeight * 0.5f + param.stopperSize.y * 0.5f;
+	stopper.restY = target.landingBlock->GetPosition().y + kBlockHeight * 0.5f + param.stopperSize.y * 0.5f;
 
 	// 落ちる距離と速度から、落ちきるまでの時間を出しておく
 	stopper.fallTimer = 0.0f;

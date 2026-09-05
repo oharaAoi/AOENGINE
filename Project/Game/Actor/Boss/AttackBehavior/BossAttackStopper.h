@@ -2,10 +2,12 @@
 
 #include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include "Engine/Lib/Math/Vector3.h"
+#include "Game/Stage/StageBlockField.h"
 #include <list>
+#include <vector>
 
 class Block;
-class StageBlockField;
 
 /// <summary>
 /// プレイヤーがいない足場へ足止めを落とす。
@@ -22,6 +24,13 @@ public:
 	void Exit(Boss& boss) override;
 
 private:
+	// 落とし先の候補1つぶん
+	struct LandingCandidate {
+		int groupId = StageBlockField::kInvalidGroupId;	// グループID
+		Block* landingBlock = nullptr;					// 実際に乗るブロック
+		Math::Vector3 center{};							// グループの中心
+	};
+
 	// 落下中・着地済みの足止め1個ぶんの情報
 	struct Stopper {
 		AOENGINE::BaseEntity entity;		// 足止め本体
@@ -38,14 +47,25 @@ private:
 private:
 
 	/// <summary>
-	/// プレイヤーから一番近い足場を除いた候補から、ランダムに選んで足止めを落とす
+	/// プレイヤーがいるグループを除いた候補から、ランダムに選んで足止めを落とす
 	/// </summary>
 	void SpawnStoppers(const Boss& boss);
 
 	/// <summary>
-	/// 足止めを1個、指定した足場の上空に生成する
+	/// カメラに映っている足場を連結グループごとにまとめ、落とし先の候補を作る
 	/// </summary>
-	void SpawnStopper(const Boss& boss, const Block& target);
+	std::vector<LandingCandidate> CollectCandidates(const Boss& boss) const;
+
+	/// <summary>
+	/// プレイヤーが乗っているグループを候補から外す。
+	/// 同じグループのブロックは全て繋がっているので、隣接ブロックもまとめて外れる
+	/// </summary>
+	void ExcludePlayerGroup(std::vector<LandingCandidate>& candidates) const;
+
+	/// <summary>
+	/// 足止めを1個、指定した候補の上空に生成する
+	/// </summary>
+	void SpawnStopper(const Boss& boss, const LandingCandidate& target);
 
 	/// <summary>
 	/// 落下・着地・寿命の管理
