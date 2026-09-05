@@ -60,8 +60,9 @@ void BossBehaviorController::ChangeBehavior(Boss& boss, std::unique_ptr<BaseBoss
 
 	currentBehavior_ = std::move(next);
 
-	// 新しい行動を始める
+	// 新しい行動を始める。攻撃までの待ちもここで数え直す
 	if (currentBehavior_) {
+		currentBehavior_->ResetStartDelay();
 		currentBehavior_->Enter(boss);
 	}
 }

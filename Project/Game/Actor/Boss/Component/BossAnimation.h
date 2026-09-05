@@ -7,7 +7,6 @@ namespace AOENGINE {
 
 /// <summary>
 /// ボスの行動に合わせてアニメーションを切り替えるコンポーネント。
-/// 被弾だけは行動に割り込んで1回だけ流し、終わったら行動側のものへ戻る。
 /// </summary>
 class BossAnimation {
 public:
@@ -34,23 +33,44 @@ public:
 	/// <summary>被弾を1回だけ割り込ませる</summary>
 	void PlayDamage();
 
+	/// <summary>同じアニメーションでも頭から流し直す</summary>
+	void Replay();
+
 private:
+
+	/// <summary>今の行動が指定するアニメーション名。無ければ待機</summary>
+	const std::string& SelectBehaviorName(const Context& context) const;
 
 	/// <summary>今流すべきアニメーション名を決める</summary>
 	const std::string& SelectName(const Context& context) const;
 
+	/// <summary>指定した名前のクリップが今流れていて、最後まで行ったか</summary>
+	bool IsClipFinished(const Context& context, const std::string& name) const;
+
 	/// <summary>被弾が流れ終わったかを見て、終わっていたら割り込みを解除する</summary>
 	void UpdateDamageState(const Context& context);
+
+	/// <summary>行動のアニメーションが流れ切ったかを見る</summary>
+	void UpdateBehaviorFinishState(const Context& context, const std::string& behaviorName);
 
 private:
 
 	// 被弾を流している最中か
 	bool isDamagePlaying_ = false;
 
+	// 同じクリップを頭から流し直す要求が来ているか
+	bool isReplayRequested_ = false;
+
+	// 行動のアニメーションが最後まで流れ切ったか
+	bool isBehaviorFinished_ = false;
+
+	// 直前に見た行動のアニメーション名。行動が変わった時に数え直すために持つ
+	std::string lastBehaviorName_;
+
 	// モデルに入っている被弾アニメーションの名前
 	static inline const std::string kDamageName = "damage";
-	// 行動側から名前が来なかった時に流すもの
-	static inline const std::string kDefaultName = "idle";
+	// 待機。行動側から名前が来なかった時にも流す
+	static inline const std::string kIdleName = "idle";
 
 public: // accessor
 

@@ -78,6 +78,7 @@ private:
 	std::list<Stopper> stoppers_;
 
 	bool isFinished_ = false;	// 終わったか
+	bool isSpawned_ = false;	// 待ちが明けて足止めを落としたか
 
 	// ブロックの表。落とす候補を選ぶのに使う
 	StageBlockField* pBlockField_ = nullptr;

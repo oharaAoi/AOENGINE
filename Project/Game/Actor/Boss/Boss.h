@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include <cstdint>
+#include <string>
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Game/Actor/Boss/BossParameter.h"
@@ -31,6 +32,8 @@ public:
 
 private:
 
+	/// <summary>基準スケールに演出用の倍率を掛けて反映する。判定の大きさは変わらないように割り戻す</summary>
+	void UpdateScale();
 	/// <summary>今の行動に合わせてアニメーションを進める</summary>
 	void UpdateAnimation();
 
@@ -52,6 +55,12 @@ private:
 
 	Math::Vector3 position_{};
 	float currentHp_ = 0.0f;
+
+	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
+	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
+
+	// 自分のCollider category名
+	static inline const std::string kColliderTag = "Boss";
 
 	// 落とす足場を選ぶためのブロックの表
 	StageBlockField* pBlockField_ = nullptr;
@@ -86,6 +95,9 @@ public: // accessor
 	/// </summary>
 	bool IsInCameraView(const Math::Vector3& worldPosition) const;
 
+	/// <summary>攻撃側から、同じアニメーションを頭から流し直す</summary>
+	void ReplayAnimation() { animation_.Replay(); }
+
 	/// <summary>攻撃側からカメラを揺らす。カメラが未設定なら何もしない</summary>
 	void ShakeCamera(const CameraShakeRequest& request);
 
@@ -95,5 +107,10 @@ public: // accessor
 	/// <summary>足止めを落とす足場を選ぶために、ブロックの表を渡しておく</summary>
 	void SetBlockField(StageBlockField* field) { pBlockField_ = field; }
 	StageBlockField* GetBlockField() const { return pBlockField_; }
+
+	// 演出でスケールを動かす時の倍率。基準の大きさに掛かる
+	void SetScaleMultiplier(const Math::Vector3& multiplier) { scaleMultiplier_ = multiplier; }
+	const Math::Vector3& GetScaleMultiplier() const { return scaleMultiplier_; }
+	const Math::Vector3& GetBaseScale() const { return parameter_.baseScale; }
 
 };

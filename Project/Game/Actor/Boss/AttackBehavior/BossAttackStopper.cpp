@@ -28,11 +28,12 @@ namespace {
 
 void BossAttackStopper::Enter(Boss& boss) {
 
+	(void)boss;
+
+	// 落とすのはアニメーションを見せてから
 	stoppers_.clear();
 	isFinished_ = false;
-
-	// 開始時に全部まとめて落とす
-	SpawnStoppers(boss);
+	isSpawned_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,6 +57,17 @@ void BossAttackStopper::Exit(Boss& boss) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossAttackStopper::Update(Boss& boss, float deltaTime) {
+
+	// アニメーションを見せてから攻撃を始める
+	if (WaitStartDelay(deltaTime, boss.GetParameter().stopperStartDelay)) {
+		return;
+	}
+
+	// 待ちが明けた最初のフレームで、まとめて落とす
+	if (!isSpawned_) {
+		isSpawned_ = true;
+		SpawnStoppers(boss);
+	}
 
 	UpdateStoppers(boss, deltaTime);
 

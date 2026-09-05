@@ -1,6 +1,7 @@
 #include "Boss.h"
 
 #include "Engine/Module/Components/Animation/Animator.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Lib/Math/Easing.h"
@@ -27,6 +28,8 @@ void Boss::Init(BaseGameObject* body) {
 	if (WorldTransform* transform = GetTransform()) {
 		position_ = transform->GetTranslate();
 	}
+
+	scaleMultiplier_ = CVector3::UNIT;
 
 	animation_.Init();
 
@@ -55,11 +58,42 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 		transform->SetTranslate(position_);
 	}
 
+	// 見た目の大きさを反映する
+	UpdateScale();
+
 	// 基準位置を反映した後に行動を進める
 	behaviorController_.Update(*this, AOENGINE::GameTimer::DeltaTime());
 
 	// 行動が決まった後にアニメーションを合わせる
 	UpdateAnimation();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  スケール
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateScale() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 基準の大きさに演出用の倍率を掛けたものが、実際の見た目の大きさになる
+	const Math::Vector3 scale = parameter_.baseScale * scaleMultiplier_;
+	transform->SetScale(scale);
+
+	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
+	BoxCollider* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag));
+	if (box == nullptr) {
+		return;
+	}
+
+	Math::Vector3 size = parameter_.hitSize;
+	if (scale.x != 0.0f) { size.x /= scale.x; }
+	if (scale.y != 0.0f) { size.y /= scale.y; }
+	if (scale.z != 0.0f) { size.z /= scale.z; }
+	box->SetSize(size);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -134,7 +168,16 @@ void Boss::Debug_Gui() {
 	ImGui::Text("hp: %.1f / %.1f  (phase %d)", currentHp_, parameter_.hp, GetPhaseIndex());
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
 
+	// 行動が指定している名前と、実際に流れている名前の両方を出す
 	ImGui::Text("animation: %s", behaviorController_.GetCurrentAnimationName().c_str());
+	if (BaseGameObject* body = GetGameObject()) {
+		if (Animator* animator = body->GetAnimator()) {
+			ImGui::Text("  playing: %s  time %.2f / %.2f",
+				animator->GetAnimationName().c_str(),
+				animator->GetAnimationTime(),
+				animator->GetAnimationDuration());
+		}
+	}
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);

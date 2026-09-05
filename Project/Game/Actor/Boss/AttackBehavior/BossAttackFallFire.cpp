@@ -21,7 +21,6 @@ void BossAttackFallFire::Enter(Boss& boss) {
 	fireballs_.clear();
 	spawnedCount_ = 0;
 	spawnTimer_ = 0.0f;
-	bounceTimer_ = 0.0f;
 	isFinished_ = false;
 }
 
@@ -42,14 +41,16 @@ void BossAttackFallFire::Exit(Boss& boss) {
 
 void BossAttackFallFire::Update(Boss& boss, float deltaTime) {
 
+	// アニメーションを見せてから攻撃を始める
+	if (WaitStartDelay(deltaTime, boss.GetParameter().fireballStartDelay)) {
+		return;
+	}
+
 	// タイマー更新
 	UpdateSpawnTimer(deltaTime, boss);
 
 	// 火玉更新
 	UpdateFireBall(boss, deltaTime);
-
-	// この行動中はボスを上下に跳ねさせる
-	UpdateBossBounce(boss, deltaTime);
 
 	// 全部落とし終わって、画面上の火球も無くなったら攻撃終了
 	if (spawnedCount_ >= boss.GetParameter().fireballDropCount && fireballs_.empty()) {
@@ -176,21 +177,5 @@ void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 			continue;
 		}
 		++it;
-	}
-}
-
-
-void  BossAttackFallFire::UpdateBossBounce(const Boss& boss, float deltaTime) {
-	bounceTimer_ += deltaTime;
-
-	// sin関数でポンポン跳ねる
-	const BossParameter& param = boss.GetParameter();
-	const float offsetY = std::abs(std::sin(bounceTimer_ * param.bounceSpeed)) * param.bounceHeight;
-
-	// 基準位置へのオフセットとして毎フレーム乗せる
-	if (AOENGINE::WorldTransform* transform = boss.GetTransform()) {
-		Math::Vector3 pos = transform->GetTranslate();
-		pos.y += offsetY;
-		transform->SetTranslate(pos);
 	}
 }

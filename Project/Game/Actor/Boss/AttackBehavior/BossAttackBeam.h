@@ -20,11 +20,12 @@ private:
 	// ビーム1回ぶんの進行状態
 	enum class Phase {
 		Warning,	// 予測線と危険マークを点滅させている
+		Windup,		// ビームのアニメーションを流して構えている
 		Beam,		// ビームが左から通過している
 	};
 
 	// 状態の数
-	static constexpr std::size_t kPhaseCount = 2;
+	static constexpr std::size_t kPhaseCount = 3;
 
 private:
 
@@ -39,6 +40,11 @@ private:
 	/// 予測線を点滅させ、時間が来たらビームへ移る
 	/// </summary>
 	void UpdateWarningPhase(Boss& boss, float deltaTime);
+
+	/// <summary>
+	/// ビームのアニメーションを流し、待ちが明けたらビームを出す
+	/// </summary>
+	void UpdateWindupPhase(Boss& boss, float deltaTime);
 
 	/// <summary>
 	/// ビームを動かし、時間が来たら次の回へ移る
@@ -112,7 +118,14 @@ public:// acceccer
 	}
 
 	const std::string& GetAnimationName() const override {
-		static const std::string kName = "attack2";
-		return kName;
+		static const std::string kAttackName = "attack2";
+		static const std::string kIdleName = "idle";
+
+		// 予測線を見せている間はまだ構えない。ビームの直前から流す
+		if (phase_ == Phase::Warning) {
+			return kIdleName;
+		}
+
+		return kAttackName;
 	}
 };
