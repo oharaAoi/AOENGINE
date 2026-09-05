@@ -468,6 +468,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h" />
     <ClInclude Include="Game\Actor\Floor\DamageFloor.h" />
     <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h" />
+    <ClInclude Include="Game\Actor\Player\Component\PlayerAnimation.h" />
+    <ClInclude Include="Game\Actor\Player\Component\PlayerBlockIgnore.h" />
+    <ClInclude Include="Game\Actor\Player\Component\PlayerGroundState.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h" />
     <ClInclude Include="Game\Actor\Player\Component\PlayerJump.h" />
     <ClInclude Include="Game\Actor\Player\Player.h" />
@@ -788,6 +791,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp" />
     <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\PlayerAnimation.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\PlayerBlockIgnore.cpp" />
+    <ClCompile Include="Game\Actor\Player\Component\PlayerGroundState.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp" />
     <ClCompile Include="Game\Actor\Player\Component\PlayerJump.cpp" />
     <ClCompile Include="Game\Actor\Player\Player.cpp" />

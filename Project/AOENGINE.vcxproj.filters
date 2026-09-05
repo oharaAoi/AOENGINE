@@ -1227,6 +1227,15 @@
     <ClInclude Include="Game\Actor\Player\Component\BlockGroupConnectState.h">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerAnimation.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerBlockIgnore.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Player\Component\PlayerGroundState.h">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Player\Component\PlayerInput.h">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClInclude>
@@ -2181,6 +2190,15 @@
       <Filter>Game\Actor\Floor</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Component\BlockGroupConnectState.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerAnimation.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerBlockIgnore.cpp">
+      <Filter>Game\Actor\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Player\Component\PlayerGroundState.cpp">
       <Filter>Game\Actor\Player\Component</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Player\Component\PlayerInput.cpp">

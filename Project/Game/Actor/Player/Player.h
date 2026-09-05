@@ -5,6 +5,9 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Game/Actor/Player/PlayerParameter.h"
+#include "Game/Actor/Player/Component/PlayerAnimation.h"
+#include "Game/Actor/Player/Component/PlayerBlockIgnore.h"
+#include "Game/Actor/Player/Component/PlayerGroundState.h"
 #include "Game/Actor/Player/Component/PlayerInput.h"
 #include "Game/Actor/Player/Component/PlayerJump.h"
 #include "Game/Actor/Player/Component/BlockGroupConnectState.h"
@@ -45,32 +48,16 @@ private:
 	void UpdateBlockGroupConnect(float deltaTime);
 	/// <summary>接続したブロックグループ同士を線で結んで描画する。</summary>
 	void DrawBlockGroupConnectLine() const;
+	/// <summary>接地判定の結果を、ジャンプの状態へ反映する。</summary>
 	void ResolveGround(float deltaTime);
-	/// <summary>Colliderの押し戻し方向から足場に乗っているかを判定する。</summary>
-	bool ResolvePushback();
-	/// <summary>
-	/// 足元の少し下を見て、そこにあるブロックの上面の高さを求める。
-	/// </summary>
-	/// <param name="checkDown">足元から何ユニット下まで見るか</param>
-	/// <param name="outTopY">一番高いブロックの上面</param>
-	/// <returns>ブロックが見つかったら true</returns>
-	bool TryGetGroundTop(float checkDown, float& outTopY) const;
-	/// <summary>接地中は、足元のブロックの上面へ直接置き直す。</summary>
-	void SnapToGround();
-	/// <summary>大ジャンプ中はBlockとの当たり判定だけを外す</summary>
-	void SetBlockCollisionEnabled(bool enabled);
-	/// <summary>自分のColliderと現在重なっているBlockを列挙する</summary>
-	std::vector<Block*> GetOverlappingBlocks() const;
-	/// <summary>Block判定を再開するが、今まさに埋まっているBlockだけは個別に無効化して猶予を与える</summary>
-	void ResumeBlockCollision();
-	/// <summary>猶予中のBlockを毎フレーム見直し、離れたものから判定を戻す</summary>
-	void UpdateIgnoredBlocks();
+	/// <summary>接地判定・位置補正のコンポーネントへ渡す今の状況を作る。</summary>
+	PlayerGroundState::Context MakeGroundContext() const;
+	/// <summary>接地判定・位置補正のコンポーネントへ渡す調整値を作る。</summary>
+	PlayerGroundState::Params MakeGroundParams() const;
+	/// <summary>Blockの一時無効化コンポーネントへ渡す今の状況を作る。</summary>
+	PlayerBlockIgnore::Context MakeBlockIgnoreContext() const;
 	/// <summary>無敵時間を進めつつ、その間ちかちか点滅させる</summary>
 	void UpdateInvincible(float deltaTime);
-	/// <summary>落下の下限。これより下がったらその高さで止める</summary>
-	void ClampFallLimit();
-	/// <summary>押し戻しで奥行きがずれても、決まったZへ固定し直す</summary>
-	void FixZPosition();
 	/// <summary>基準スケールに演出用の倍率を掛けて反映する。判定の大きさは変わらないように割り戻す</summary>
 	void UpdateScale();
 	/// <summary>向いている左右へ、補間しながら振り向く</summary>
@@ -86,6 +73,9 @@ private:
 	// コンポーネント
 	PlayerInput input_;
 	PlayerJump  jump_;
+	PlayerAnimation animation_;
+	PlayerGroundState groundState_;
+	PlayerBlockIgnore blockIgnore_;
 	BlockGroupConnectState blockGroupConnectState_;
 	BlockGroupLauncherManager blockGroupLauncherManager_;
 
@@ -98,8 +88,6 @@ private:
 	// 見た目
 	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
 	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
-	// 左右入力が無い状態が続いている時間。切り返しの一瞬でidleへ落とさないために見る
-	float noMoveInputTimer_ = 0.0f;
 
 	// 被弾
 	float currentHp_ = 0.0f;			// 現在のHP
@@ -109,28 +97,9 @@ private:
 
 	// ダメージ床で打ち上げられてから着地するまでtrue
 	bool damageFloorAirborne_ = false;
-	// 今回の大ジャンプで、落下開始時のBlock判定再開をもう済ませたか
-	bool blockCollisionResumed_ = false;
-	// 直前フレームのジャンプ状態
-	PlayerJump::State previousJumpState_ = PlayerJump::State::Grounded;
-	// Block判定を無効化のBlock
-	std::vector<Block*> ignoredBlocks_;
 
 	// 自分のCollider category名
 	static inline const std::string kColliderTag = "Player";
-	// 大ジャンプ中に無視するCollider category名
-	static inline const std::string kBlockCategoryName = "Block";
-	// 押し戻しを接地・天井とみなす閾値
-	static constexpr float kPushbackThreshold = 0.0001f;
-	// 足元判定で、自分が乗っているマスを拾わないように空ける隙間
-	static constexpr float kGroundCheckEpsilon = 0.001f;
-	// ブロック1個の高さの半分。上面の高さを出すのに使う
-	static constexpr float kBlockHalfHeight = 0.5f;
-
-	// モデルに入っているアニメーション名
-	static inline const std::string kIdleAnimation = "idle";
-	static inline const std::string kWalkAnimation = "walk";
-	static inline const std::string kJumpAnimation = "jump";
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
@@ -160,7 +129,7 @@ public: // accessor
 	// ダメージ床で打ち上げられてから着地するまでの間か
 	bool IsDamageFloorAirborne() const { return damageFloorAirborne_; }
 
-	// 集合・打ち上げでグループを引き当てるための連結グループ表を設定する(非所有)
+	// 集合・打ち上げでグループを引き当てるための連結グループ表を設定する
 	void SetBlockField(StageBlockField* field);
 
 	// ステージが作り直される時に、保持しているブロックへの参照を全て手放す
