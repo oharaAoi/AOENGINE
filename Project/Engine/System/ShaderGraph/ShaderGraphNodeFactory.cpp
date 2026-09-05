@@ -4,6 +4,8 @@
 #include "Engine/System/ShaderGraph/Node/Priority/InOutPriorityNode.h"
 #include "Engine/System/ShaderGraph/Node/Texture/SampleTexture2dNode.h"
 #include "Engine/System/ShaderGraph/Node/Texture/TextureNode.h"
+#include "Engine/System/ShaderGraph/Node/Texture/GradientNode.h"
+#include "Engine/System/ShaderGraph/Node/Texture/SampleGradientNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/AlphaBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/MaskBlendNode.h"
 #include "Engine/System/ShaderGraph/Node/Blend/AddBlendNode.h"
@@ -39,6 +41,8 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 
 	RegisterNode<TextureNode>("Texture/Texture", _editor);
 	RegisterNode<SampleTexture2dNode>("Texture/SampleTexture2D", _editor);
+	RegisterNode<GradientNode>("Texture/Gradient", _editor);
+	RegisterNode<SampleGradientNode>("Texture/SampleGradient", _editor);
 
 	RegisterNode<AlphaBlendNode>("Merge/AlphaBlend", _editor);
 	RegisterNode<MaskBlendNode>("Merge/MaskBlend", _editor);

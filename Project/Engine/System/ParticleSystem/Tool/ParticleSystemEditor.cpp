@@ -420,8 +420,9 @@ void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
 			}
 			ImGui::EndPopup();
 		}
-		ImGui::End();
 	}
+	// Begin() still needs End() when the window is hidden or minimized.
+	ImGui::End();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
