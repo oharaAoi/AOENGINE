@@ -3,6 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 #include <algorithm>
 
 using namespace AOENGINE;
@@ -49,6 +50,8 @@ void ParticleManager::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Update() {
+	// 複合Effectの遅延再生とTransformを、各Emitterの更新より先に反映する。
+	ParticleEffectManager::GetInstance()->Update();
 	this->SetView(AOENGINE::Render::GetViewProjectionMat(), AOENGINE::Render::GetProjection2D(), Math::Matrix4x4::MakeUnit());
 
 	// 新規生成の前に寿命切れParticleを回収する

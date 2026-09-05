@@ -9,6 +9,7 @@
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Math/Frustum.h"
+#include "Engine/System/ParticleSystem/Tool/ParticleEditorSerializer.h"
 #include <iostream>
 #include <fstream>
 
@@ -132,6 +133,36 @@ void ParticleSystemEditor::Create() {
 	if (isLoad_) {
 		OpenLoadDialog();
 	}
+
+	ImGui::Separator();
+	InputTextWithString("Effect name", "##compositeEffectName", compositeEffectName_);
+	ImGui::DragFloat("Effect duration", &compositeEffectDuration_, 0.05f, 0.0f, 120.0f);
+	if (ImGui::Button("Save Composite Effect")) {
+		SaveCompositeEffect();
+	}
+}
+
+void ParticleSystemEditor::SaveCompositeEffect() {
+	ParticleEffectAsset asset;
+	asset.name = compositeEffectName_;
+	asset.duration = compositeEffectDuration_;
+	for (const auto& emitter : cpuEmitterList_) {
+		ParticleEffectNode node;
+		node.name = emitter->GetName();
+		node.asset = emitter->GetName();
+		node.type = ParticleEffectNodeType::Cpu;
+		asset.nodes.push_back(std::move(node));
+	}
+	for (const auto& emitter : gpuEmitterList_) {
+		ParticleEffectNode node;
+		node.name = emitter->GetName();
+		node.asset = emitter->GetName();
+		node.type = ParticleEffectNodeType::Gpu;
+		asset.nodes.push_back(std::move(node));
+	}
+	particleDropMessage_ = ParticleEditorSerializer::SaveComposite(asset)
+		? asset.name + " をComposite Effectとして保存しました"
+		: "Composite Effectの名前またはParticleがありません";
 }
 
 GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu(const json* jsonData) {

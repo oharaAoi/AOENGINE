@@ -381,6 +381,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\SystemManager.h" />
     <ClInclude Include="Engine\System\Manager\TextureManager.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.h" />
+    <ClInclude Include="Engine\System\ParticleSystem\Effect\ParticleEffect.h" />
     <ClInclude Include="Engine\System\ParticleSystem\EffectSystemCamera.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Field\GpuParticleField.h" />
@@ -388,6 +389,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
+    <ClInclude Include="Engine\System\Manager\ParticleEffectManager.h" />
     <ClInclude Include="Engine\System\Scene\PrefabSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
@@ -710,6 +712,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\SystemManager.cpp" />
     <ClCompile Include="Engine\System\Manager\TextureManager.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Data\ParticleRuntimeState.cpp" />
+    <ClCompile Include="Engine\System\ParticleSystem\Effect\ParticleEffect.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\EffectSystemCamera.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Emitter\GpuParticleEmitter.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Field\GpuParticleField.cpp" />
@@ -717,6 +720,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
+    <ClCompile Include="Engine\System\Manager\ParticleEffectManager.cpp" />
     <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
