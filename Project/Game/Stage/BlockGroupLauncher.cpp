@@ -11,7 +11,6 @@
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
-#include "Engine/System/Manager/ParticleManager.h"
 
 /// stl
 #include <algorithm>
@@ -129,16 +128,18 @@ void BlockGroupLauncher::Launch(){
 	// 集合が終わった時点の塊を1つの座標系にまとめる。ここから先はこの座標系だけを動かす
 	BuildLaunchRoot();
 
-	// 噴射パーティクルは座標系を親にしておく。座標系の原点が噴射位置なので、
-	// パーティクル側のローカル座標は原点のままでよく、座標系が上昇すれば一緒に上がってくれる
-	if(burnParticle_ == nullptr){
-		burnParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
+	// 演出オブジェクトは座標系を親にしておく。座標系の原点が噴射位置なので、
+	// ローカル座標は原点のままでよく、座標系が上昇すれば一緒に上がってくれる。
+	// オブジェクトは打ち上げごとに作り直さず、このランチャーが生きている間は使い回す
+	if(launchEffects_.IsEmpty()){
+
+		// launchEffects_.AddParticleEffect("RocketJet_AllParticle");
+
+		launchEffects_.AddParticleEffect("RocketJet_SubParticle");
+		launchEffects_.AddPrefab("JetFire",Math::Vector3(0.f,1.3f,0.f));
 	}
-	if(burnParticle_ != nullptr){
-		burnParticle_->SetParent(launchRoot_.get());
-		burnParticle_->SetPos(CVector3::ZERO);
-		burnParticle_->Reset();
-	}
+	launchEffects_.SetParent(launchRoot_.get());
+	launchEffects_.Play();
 }
 
 void BlockGroupLauncher::BuildLaunchRoot(){
@@ -180,6 +181,8 @@ void BlockGroupLauncher::Update(float deltaTime){
 		default:
 			break;
 	}
+
+	launchEffects_.Update(deltaTime);
 }
 
 void BlockGroupLauncher::UpdateGathering(float deltaTime){
@@ -390,12 +393,10 @@ void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vecto
 }
 
 void BlockGroupLauncher::Clear(){
-	// 噴射パーティクルは launchRoot_ を親にしているため、座標系が止まる前に射出を止める。
-	// 既に出ているパーティクルは消えるまでその場に残る。
-	// パーティクル本体と座標系は次の打ち上げで使い回すので、ここでは破棄しない
-	if(burnParticle_ != nullptr){
-		burnParticle_->SetIsStop(true);
-	}
+	// 演出オブジェクトは launchRoot_ を親にしているため、座標系が止まる前に演出を止める。
+	// 既に出ている分(パーティクルなど)は消えるまでその場に残る。
+	// オブジェクト本体と座標系は次の打ち上げで使い回すので、ここでは破棄しない(Destroy() は呼ばない)
+	launchEffects_.Stop();
 
 	groups_.clear();
 	state_ = State::Idle;

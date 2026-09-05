@@ -1,12 +1,12 @@
 {
-    "RoketJetEffect": {
+    "RocketJet_SubParticle": {
         "duration": 5.0,
-        "name": "RoketJetEffect",
+        "name": "RocketJet_SubParticle",
         "nodes": [
             {
-                "asset": "RoketJet",
+                "asset": "RoketJetSmoke",
                 "delay": 0.0,
-                "name": "RoketJet",
+                "name": "RoketJetSmoke",
                 "position": [
                     0.0,
                     0.0,
@@ -26,9 +26,9 @@
                 "type": "CPU"
             },
             {
-                "asset": "RoketJetSmoke",
+                "asset": "RoketJet2",
                 "delay": 0.0,
-                "name": "RoketJetSmoke",
+                "name": "RoketJet2",
                 "position": [
                     0.0,
                     0.0,

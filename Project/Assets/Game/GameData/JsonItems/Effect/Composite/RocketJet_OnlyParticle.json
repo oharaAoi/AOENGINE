@@ -1,0 +1,97 @@
+{
+    "RocketJet_OnlyParticle": {
+        "duration": 5.0,
+        "name": "RocketJet_OnlyParticle",
+        "nodes": [
+            {
+                "asset": "RoketJet",
+                "delay": 0.0,
+                "name": "RoketJet",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "RoketJetSmoke",
+                "delay": 0.0,
+                "name": "RoketJetSmoke",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "RoketJet2",
+                "delay": 0.0,
+                "name": "RoketJet2",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "RoketJetSpark",
+                "delay": 0.0,
+                "name": "RoketJetSpark",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}
