@@ -69,4 +69,9 @@ public:// acceccer
 		static const std::string kName = "BossAttackFallFire";
 		return kName;
 	}
+
+	const std::string& GetAnimationName() const override {
+		static const std::string kName = "attack1";
+		return kName;
+	}
 };

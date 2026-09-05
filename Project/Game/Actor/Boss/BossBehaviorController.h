@@ -78,4 +78,6 @@ private:
 public:// acceccer
 
 	const std::string& GetCurrentName() const;
+	/// <summary>今の行動が指定するアニメーション名</summary>
+	const std::string& GetCurrentAnimationName() const;
 };

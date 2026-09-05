@@ -93,6 +93,11 @@ public:// acceccer
 		return kName;
 	}
 
+	const std::string& GetAnimationName() const override {
+		static const std::string kName = "attack3";
+		return kName;
+	}
+
 	// 落とす候補を選ぶためのブロックの表を設定する
 	void SetBlockField(StageBlockField* field) { pBlockField_ = field; }
 };

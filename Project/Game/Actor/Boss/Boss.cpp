@@ -1,5 +1,6 @@
 #include "Boss.h"
 
+#include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Lib/Math/Easing.h"
@@ -26,6 +27,8 @@ void Boss::Init(BaseGameObject* body) {
 	if (WorldTransform* transform = GetTransform()) {
 		position_ = transform->GetTranslate();
 	}
+
+	animation_.Init();
 
 	// 最初の行動をセットする
 	behaviorController_.Init(*this);
@@ -54,6 +57,29 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 
 	// 基準位置を反映した後に行動を進める
 	behaviorController_.Update(*this, AOENGINE::GameTimer::DeltaTime());
+
+	// 行動が決まった後にアニメーションを合わせる
+	UpdateAnimation();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  アニメーション
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateAnimation() {
+
+	BossAnimation::Context context{};
+	if (BaseGameObject* body = GetGameObject()) {
+		context.animator = body->GetAnimator();
+	}
+	context.behaviorName = &behaviorController_.GetCurrentAnimationName();
+
+	const BossAnimation::Params params{
+		parameter_.animationBlendSpeed,
+		parameter_.animationSpeed,
+	};
+
+	animation_.Update(context, params);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,6 +87,9 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Damage(float amount) {
+	// 被弾は行動に割り込んで1回だけ流す
+	animation_.PlayDamage();
+
 	currentHp_ -= amount;
 	if (currentHp_ < 0.0f) {
 		currentHp_ = 0.0f;
@@ -104,6 +133,8 @@ void Boss::Debug_Gui() {
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("hp: %.1f / %.1f  (phase %d)", currentHp_, parameter_.hp, GetPhaseIndex());
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
+
+	ImGui::Text("animation: %s", behaviorController_.GetCurrentAnimationName().c_str());
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);

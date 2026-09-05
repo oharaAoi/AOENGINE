@@ -1,6 +1,7 @@
 {
     "playerParameter": {
         "animationBlendSpeed": 0.20000000298023224,
+        "animationSpeed": 1.0,
         "baseScale": {
             "x": 0.25,
             "y": 0.25,
@@ -12,9 +13,11 @@
         "facingYawRight": 90.0,
         "fallGravity": 30.0,
         "fallLimitY": -10.0,
+        "fixedZ": 0.0,
         "gatherBlockSize": 1.0,
         "gatherSeparationSpeed": 8.0,
         "gatherSpeed": 12.0,
+        "groundCheckDistance": 0.15000000596046448,
         "groundKeepSpeed": 1.0,
         "hangTime": 0.3499999940395355,
         "hitOffset": {
@@ -27,6 +30,7 @@
             "y": 1.2699999809265137,
             "z": 1.0
         },
+        "idleAnimationDelay": 0.11999999731779099,
         "invincibleBlinkInterval": 0.07999999821186066,
         "invincibleTime": 1.0,
         "jumpPower": 16.0,
@@ -40,6 +44,7 @@
         "moveInputThreshold": 0.009999999776482582,
         "moveSpeed": 8.399999618530273,
         "riseGravity": 55.0,
-        "stickDeadZone": 0.20000000298023224
+        "stickDeadZone": 0.20000000298023224,
+        "walkAnimationSpeed": 1.600000023841858
     }
 }

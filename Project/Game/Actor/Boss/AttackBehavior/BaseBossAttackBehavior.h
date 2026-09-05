@@ -20,6 +20,12 @@ public:
 
 	// 攻撃名を返す
 	virtual const std::string& GetName() const = 0;
+
+	// この行動中に流すアニメーション名を返す。既定は待機
+	virtual const std::string& GetAnimationName() const {
+		static const std::string kName = "idle";
+		return kName;
+	}
 private:
 
 

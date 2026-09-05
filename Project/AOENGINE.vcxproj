@@ -374,6 +374,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Manager\MaterialManager.h" />
     <ClInclude Include="Engine\System\Manager\MeshManager.h" />
     <ClInclude Include="Engine\System\Manager\ModelManager.h" />
+    <ClInclude Include="Engine\System\Manager\ParticleEffectManager.h" />
     <ClInclude Include="Engine\System\Manager\ParticleManager.h" />
     <ClInclude Include="Engine\System\Manager\PrefabManager.h" />
     <ClInclude Include="Engine\System\Manager\SceneManager.h" />
@@ -389,7 +390,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ParticleSystem\Particle\GpuParticles.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.h" />
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h" />
-    <ClInclude Include="Engine\System\Manager\ParticleEffectManager.h" />
     <ClInclude Include="Engine\System\Scene\PrefabSerializer.h" />
     <ClInclude Include="Engine\System\Scene\SceneLoader.h" />
     <ClInclude Include="Engine\System\Scene\SceneManagerPropertySerializer.h" />
@@ -465,6 +465,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h" />
     <ClInclude Include="Game\Actor\Boss\BossParameter.h" />
+    <ClInclude Include="Game\Actor\Boss\Component\BossAnimation.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h" />
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h" />
@@ -709,6 +710,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Manager\MaterialManager.cpp" />
     <ClCompile Include="Engine\System\Manager\MeshManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ModelManager.cpp" />
+    <ClCompile Include="Engine\System\Manager\ParticleEffectManager.cpp" />
     <ClCompile Include="Engine\System\Manager\ParticleManager.cpp" />
     <ClCompile Include="Engine\System\Manager\PrefabManager.cpp" />
     <ClCompile Include="Engine\System\Manager\SceneManager.cpp" />
@@ -724,7 +726,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ParticleSystem\Particle\GpuParticles.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleEditorSerializer.cpp" />
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp" />
-    <ClCompile Include="Engine\System\Manager\ParticleEffectManager.cpp" />
     <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneLoader.cpp" />
     <ClCompile Include="Engine\System\Scene\SceneManagerPropertySerializer.cpp" />
@@ -790,6 +791,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp" />

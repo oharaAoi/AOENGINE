@@ -25,49 +25,53 @@ struct BossParameter :
 	Math::Vector3 hitSize;	// 当たり判定サイズ
 
 	// フェーズが切り替わる残HPの割合。高い順に並べる
-	std::array<float, kPhaseSwitchCount> phaseSwitchRatio{ 0.66f, 0.33f };
+	std::array<float, kPhaseSwitchCount> phaseSwitchRatio;
 
-	// 各攻撃が解禁されるフェーズ。0なら最初から使える
+	// 各攻撃が解禁されるフェーズ
 	int32_t fallFireUnlockPhase = 0;
 	int32_t beamUnlockPhase = 1;
 	int32_t stopperUnlockPhase = 2;
 
 	// --- 攻撃1: 火球落とし ---
-	float fireballDamage = 1.0f;		// 火球が当たった時のダメージ
-	int32_t fireballDropCount = 3;		// 1回の行動で落とす個数
-	float fireballDropInterval = 0.5f;	// 次の1個を落とすまでの間隔
-	float fireballSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
-	float fireballFallStartSpeed = 0.0f;	// 落ち始めの速度
-	float fireballMaxFallSpeed = 25.0f;		// 落下速度の上限
-	float fireballFallSpeedUpTime = 0.6f;	// 上限の速度に達するまでの時間
+	float fireballDamage;		// 火球が当たった時のダメージ
+	int32_t fireballDropCount;		// 1回の行動で落とす個数
+	float fireballDropInterval;	// 次の1個を落とすまでの間隔
+	float fireballSpawnHeight;	// プレイヤーの何ユニット上から落とすか
+	float fireballFallStartSpeed;	// 落ち始めの速度
+	float fireballMaxFallSpeed;		// 落下速度の上限
+	float fireballFallSpeedUpTime;	// 上限の速度に達するまでの時間
 	// 速度の補間に使うイージング種類
 	int32_t fireballFallEaseKind = 1;
 	float bounceHeight = 1.0f;			// 跳ねる高さ
 	float bounceSpeed = 8.0f;			// 跳ねる速さ
 
 	// --- 攻撃2: ビーム ---
-	float beamDamage = 1.0f;				// ビームが当たった時のダメージ
-	int32_t beamCount = 3;					// ビーム回数
-	float beamWarningTime = 1.5f;			// 予測線秒数
-	float beamTime = 1.0f;					// ビーム秒数
-	float beamSpeed = 40.0f;				// ビームが横切る速さ
-	float beamStartX = -30.0f;				// ビームを出す画面外のX
-	float beamBlinkInterval = 0.1f;			// 予測線の点滅間隔
-	Math::Vector3 beamSize{ 40.0f, 1.2f, 1.0f };		// ビームの大きさ
-	Math::Vector3 beamWarningLineSize{ 40.0f, 1.2f, 1.0f };	// 予測線の大きさ
-	Math::Vector3 beamWarningMarkSize{ 1.5f, 1.5f, 1.0f };	// 危険マークの大きさ
+	float beamDamage;				// ビームが当たった時のダメージ
+	int32_t beamCount;					// ビーム回数
+	float beamWarningTime;			// 予測線秒数
+	float beamTime;					// ビーム秒数
+	float beamSpeed;				// ビームが横切る速さ
+	float beamStartX;				// ビームを出す画面外のX
+	float beamBlinkInterval;			// 予測線の点滅間隔
+	Math::Vector3 beamSize;		// ビームの大きさ
+	Math::Vector3 beamWarningLineSize;	// 予測線の大きさ
+	Math::Vector3 beamWarningMarkSize;	// 危険マークの大きさ
 
 	// --- 攻撃3: 足止め落とし ---
-	int32_t stopperCount = 3;			// 足止めの個数
-	float stopperSpeed = 12.0f;			// 落下速度
-	float stopperLifeTime = 5.0f;		// 着地してから消えるまでの秒数
-	float stopperSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
-	Math::Vector3 stopperSize{ 1.0f, 1.0f, 1.0f };	// 足止めの大きさ
+	int32_t stopperCount;			// 足止めの個数
+	float stopperSpeed;			// 落下速度
+	float stopperLifeTime;		// 着地してから消えるまでの秒数
+	float stopperSpawnHeight;	// プレイヤーの何ユニット上から落とすか
+	Math::Vector3 stopperSize;	// 足止めの大きさ
 	// 落下のイージング種類
 	int32_t stopperEaseKind = 1;
 
-	// 着地時のカメラシェイク。揺れ方の詳細はこのリクエスト側で調整する
+	// 着地時のカメラシェイク
 	CameraShakeRequest stopperLandShake;
+
+	// --- アニメーション ---
+	float animationBlendSpeed = 0.2f;	// 切り替える時の補間速度
+	float animationSpeed = 1.0f;		// 再生速度
 
 	// --- 待機 ---
 	float idleTimeMin = 1.0f;	// 次の攻撃までの最短時間
@@ -120,11 +124,15 @@ struct BossParameter :
 		AddParameter("Stopper Spawn Height", stopperSpawnHeight, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Stopper Size", stopperSize, 0.1f);
 
+		AddSeparatorText("Animation");
+		AddParameter("Animation Blend Speed", animationBlendSpeed, 0.01f, 0.0f, 10.0f);
+		AddParameter("Animation Speed", animationSpeed, 0.01f, 0.0f, 10.0f);
+
 		AddSeparatorText("Idle");
 		AddParameter("Idle Time Min", idleTimeMin, 0.01f, 0.0f, 60.0f);
 		AddParameter("Idle Time Max", idleTimeMax, 0.01f, 0.0f, 60.0f);
 
-		
+
 		stopperLandShake.SetGroupName("Boss");
 		stopperLandShake.SetName("stopperLandShake");
 	}
@@ -165,6 +173,8 @@ struct BossParameter :
 			.Add("stopperSpawnHeight", stopperSpawnHeight)
 			.Add("stopperSize", stopperSize)
 			.Add("stopperEaseKind", stopperEaseKind)
+			.Add("animationBlendSpeed", animationBlendSpeed)
+			.Add("animationSpeed", animationSpeed)
 			.Add("idleTimeMin", idleTimeMin)
 			.Add("idleTimeMax", idleTimeMax)
 			.Build();
@@ -208,6 +218,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperSpawnHeight", stopperSpawnHeight);
 		Convert::fromJson(jsonData, "stopperSize", stopperSize);
 		Convert::fromJson(jsonData, "stopperEaseKind", stopperEaseKind);
+
+		Convert::fromJson(jsonData, "animationBlendSpeed", animationBlendSpeed);
+		Convert::fromJson(jsonData, "animationSpeed", animationSpeed);
 
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);

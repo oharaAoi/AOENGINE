@@ -226,3 +226,13 @@ const std::string& BossBehaviorController::GetCurrentName() const {
 	}
 	return currentBehavior_->GetName();
 }
+
+const std::string& BossBehaviorController::GetCurrentAnimationName() const {
+	// 行動が無い間は待機を流す。表示用の"None"をそのまま返すと、
+	// 存在しないクリップ名を引きにいってしまう
+	static const std::string kDefaultAnimation = "idle";
+	if (!currentBehavior_) {
+		return kDefaultAnimation;
+	}
+	return currentBehavior_->GetAnimationName();
+}

@@ -5,6 +5,7 @@
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Game/Actor/Boss/BossParameter.h"
 #include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
+#include "Game/Actor/Boss/Component/BossAnimation.h"
 #include "Game/Actor/Boss/Component/BossCollision.h"
 #include "Game/Actor/Boss/BossBehaviorController.h"
 
@@ -28,12 +29,22 @@ public:
 
 	void Debug_Gui();
 
+private:
+
+	/// <summary>今の行動に合わせてアニメーションを進める</summary>
+	void UpdateAnimation();
+
+public:
+
 	// ダメージを受ける
 	void Damage(float amount);
 
 private:
 	// bossBehavior
 	BossBehaviorController behaviorController_;
+
+	// 行動に合わせてアニメーションを切り替える
+	BossAnimation animation_;
 
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;
