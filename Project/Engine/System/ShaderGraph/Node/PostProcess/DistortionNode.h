@@ -18,7 +18,8 @@ public:	// データ構造体
 	struct DistortionParam {
 		Math::Vector2 tiling = CMath::Vector2::UNIT;
 		Math::Vector2 scroll = CMath::Vector2::UNIT;;
-		float strength = 1.0f;
+		float strengthX = 1.0f;
+		float strengthY = 1.f;
 		float time = 0;
 	};
 
