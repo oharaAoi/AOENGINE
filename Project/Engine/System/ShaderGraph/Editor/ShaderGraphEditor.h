@@ -87,6 +87,8 @@ private:
 	ShaderGraphNodeFactory nodeFactory_;
 	std::shared_ptr<ShaderGraphResultNode> resultNode_ = nullptr;
 
+	std::weak_ptr<ImFlow::Link> contextLink_;
+
 	// 編集のための変数
 	ImVec2 popupPos_;
 	bool popupRequested_ = false;

@@ -97,6 +97,7 @@ private:		// member method
 	void AddList(const std::string& _name, const json* jsonData = nullptr);
 	void HandleParticleAssetDrop();
 	void ProcessPendingParticleDrop();
+	void SaveCompositeEffect();
 
 	/// <summary>
 	/// ファイルを新たに読み込む
@@ -162,6 +163,8 @@ private:
 	AOENGINE::GpuParticleEmitter* gpuParticles_ = nullptr;
 	std::optional<std::filesystem::path> pendingParticlePath_;
 	std::string particleDropMessage_;
+	std::string compositeEffectName_ = "NewParticleEffect";
+	float compositeEffectDuration_ = 0.0f;
 
 };
 

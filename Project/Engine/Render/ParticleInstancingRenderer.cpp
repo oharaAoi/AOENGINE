@@ -103,7 +103,7 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 		AOENGINE::DescriptorHeap::AddFreeSrvList(particle.second.srvHandle.assignIndex_);
 	}
 	particleMap_.clear();
-	perViewBuffer_.Reset();
+	for (auto& buffer : perViewBuffers_) { buffer.Reset(); }
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,8 +113,22 @@ ParticleInstancingRenderer::~ParticleInstancingRenderer() {
 void ParticleInstancingRenderer::Init(uint32_t instanceNum) {
 	maxInstanceNum_ = instanceNum;
 
-	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
-	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
+	for (size_t index = 0; index < kViewCount; ++index) {
+		perViewBuffers_[index] = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+		perViewBuffers_[index]->Map(0, nullptr, reinterpret_cast<void**>(&perViews_[index]));
+		*perViews_[index] = PerView{};
+	}
+}
+
+void ParticleInstancingRenderer::SetView(
+	const Math::Matrix4x4& view,
+	const Math::Matrix4x4& view2d,
+	const Math::Matrix4x4& bill) {
+	const size_t viewIndex = static_cast<size_t>(AOENGINE::Render::GetCameraBufferSlot());
+	PerView* perView = perViews_[viewIndex < kViewCount ? viewIndex : 0];
+	perView->viewProjection = view;
+	perView->viewProjection2d = view2d;
+	perView->billboardMat = bill;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,6 +187,8 @@ void ParticleInstancingRenderer::PostUpdate() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList, const Math::Frustum* frustum) const {
+	const size_t requestedViewIndex = static_cast<size_t>(AOENGINE::Render::GetCameraBufferSlot());
+	const size_t viewIndex = requestedViewIndex < kViewCount ? requestedViewIndex : 0;
 	for (const auto& [id, information] : particleMap_) {
 		if (!information.anyParticleAlive || information.instanceCount == 0) { continue; }
 		if (frustum != nullptr && information.hasWorldBounds && !information.contains2dParticle &&
@@ -208,7 +224,7 @@ void ParticleInstancingRenderer::Draw(ID3D12GraphicsCommandList* commandList, co
 		std::string textureName = information.materials->GetAlbedoTexture();
 		AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 		index = pso->GetRootSignatureIndex("gPerView");
-		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
+		commandList->SetGraphicsRootConstantBufferView(index, perViewBuffers_[viewIndex]->GetGPUVirtualAddress());
 
 		commandList->DrawIndexedInstanced(information.pMesh->GetIndexNum(), information.instanceCount, 0, 0, 0);
 	}

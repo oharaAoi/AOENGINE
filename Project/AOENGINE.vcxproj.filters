@@ -211,9 +211,12 @@
     <Filter Include="Engine\System\ParticleSystem\Particle">
       <UniqueIdentifier>{7A828E57-E646-8D47-AFAC-BD111B30297D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\System\ParticleSystem\Tool">
+      <Filter Include="Engine\System\ParticleSystem\Tool">
       <UniqueIdentifier>{64910744-D0FF-5CC3-19E9-17C38596525F}</UniqueIdentifier>
-    </Filter>
+      </Filter>
+      <Filter Include="Engine\System\ParticleSystem\Effect">
+        <UniqueIdentifier>{C1DB3C0D-AE72-4B9D-A03E-E86F7498BE61}</UniqueIdentifier>
+      </Filter>
     <Filter Include="Engine\System\Scene">
       <UniqueIdentifier>{ECD2FB4F-5834-D95D-E1A1-1F104D02101D}</UniqueIdentifier>
     </Filter>
@@ -986,6 +989,12 @@
     </ClInclude>
     <ClInclude Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.h">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ParticleSystem\Effect\ParticleEffect.h">
+      <Filter>Engine\System\ParticleSystem\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Manager\ParticleEffectManager.h">
+      <Filter>Engine\System\Manager</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Scene\PrefabSerializer.h">
       <Filter>Engine\System\Scene</Filter>
@@ -1981,6 +1990,12 @@
     </ClCompile>
     <ClCompile Include="Engine\System\ParticleSystem\Tool\ParticleSystemEditor.cpp">
       <Filter>Engine\System\ParticleSystem\Tool</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ParticleSystem\Effect\ParticleEffect.cpp">
+      <Filter>Engine\System\ParticleSystem\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Manager\ParticleEffectManager.cpp">
+      <Filter>Engine\System\Manager</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Scene\PrefabSerializer.cpp">
       <Filter>Engine\System\Scene</Filter>

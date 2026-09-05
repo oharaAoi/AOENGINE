@@ -185,6 +185,7 @@ public:
 	static CameraRenderState GetCameraState();
 	static void ApplyCameraState(const CameraRenderState& state);
 	static void SetCameraBufferSlot(CameraBufferSlot slot);
+	static CameraBufferSlot GetCameraBufferSlot();
 
 	/// <summary>
 	/// 

@@ -1,6 +1,7 @@
 #include "GpuParticleRenderer.h"
 #include "Engine/Core/Engine.h"
 #include "Engine/Core/GraphicsContext.h"
+#include "Engine/Render/Render.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Math/Frustum.h"
@@ -10,9 +11,9 @@
 using namespace AOENGINE;
 
 GpuParticleRenderer::~GpuParticleRenderer() {
-	perViewBuffer_.Reset();
+	for (auto& buffer : perViewBuffers_) { buffer.Reset(); }
 	perFrameBuffer_.Reset();
-	cullingDataBuffer_.Reset();
+	for (auto& buffer : cullingDataBuffers_) { buffer.Reset(); }
 	indirectArgsResetBuffer_.Reset();
 	drawCommandSignature_.Reset();
 	if (particleResource_) { particleResource_->Destroy(); }
@@ -67,6 +68,13 @@ void GpuParticleRenderer::Init(uint32_t _instanceNum) {
 	commandList->Dispatch(groups_, 1, 1);
 }
 
+void GpuParticleRenderer::SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& bill) {
+	const size_t requestedViewIndex = static_cast<size_t>(AOENGINE::Render::GetCameraBufferSlot());
+	const size_t viewIndex = requestedViewIndex < kViewCount ? requestedViewIndex : 0;
+	perViews_[viewIndex]->viewProjection = view;
+	perViews_[viewIndex]->billboardMat = Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), bill);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // ↓ 更新処理
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,12 +114,15 @@ void GpuParticleRenderer::Update() {
 
 void GpuParticleRenderer::Draw(const Math::Frustum* frustum) const {
 	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
+	const size_t requestedViewIndex = static_cast<size_t>(AOENGINE::Render::GetCameraBufferSlot());
+	const size_t viewIndex = requestedViewIndex < kViewCount ? requestedViewIndex : 0;
+	CullingData* cullingData = cullingData_[viewIndex];
 
-	cullingData_->useFrustumCulling = frustum != nullptr ? 1u : 0u;
+	cullingData->useFrustumCulling = frustum != nullptr ? 1u : 0u;
 	if (frustum != nullptr) {
 		const auto& planes = frustum->GetPlanes();
 		for (size_t index = 0; index < planes.size(); ++index) {
-			cullingData_->frustumPlanes[index] = Math::Vector4{
+			cullingData->frustumPlanes[index] = Math::Vector4{
 				planes[index].normal.x,
 				planes[index].normal.y,
 				planes[index].normal.z,
@@ -139,7 +150,7 @@ void GpuParticleRenderer::Draw(const Math::Frustum* frustum) const {
 	index = cullingPso->GetRootSignatureIndex("gIndirectArgs");
 	commandList->SetComputeRootDescriptorTable(index, indirectArgsResource_->GetUAV().handleGPU);
 	index = cullingPso->GetRootSignatureIndex("gCulling");
-	commandList->SetComputeRootConstantBufferView(index, cullingDataBuffer_->GetGPUVirtualAddress());
+	commandList->SetComputeRootConstantBufferView(index, cullingDataBuffers_[viewIndex]->GetGPUVirtualAddress());
 	commandList->Dispatch(groups_, 1, 1);
 
 	visibleParticleIndexResource_->Transition(commandList, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
@@ -161,7 +172,7 @@ void GpuParticleRenderer::Draw(const Math::Frustum* frustum) const {
 	std::string textureName = material_->GetAlbedoTexture();
 	AOENGINE::TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList, textureName, index);
 	index = pso->GetRootSignatureIndex("gPerView");
-	commandList->SetGraphicsRootConstantBufferView(index, perViewBuffer_->GetGPUVirtualAddress());
+	commandList->SetGraphicsRootConstantBufferView(index, perViewBuffers_[viewIndex]->GetGPUVirtualAddress());
 
 	commandList->ExecuteIndirect(
 		drawCommandSignature_.Get(),
@@ -213,12 +224,12 @@ void GpuParticleRenderer::CreateResource(AOENGINE::DxResourceManager* _resourceM
 	freeListResource_->CreateUAV(CreateUavDesc(kInstanceNum_, sizeof(uint32_t)));
 	freeListResource_->CreateSRV(CreateSrvDesc(kInstanceNum_, sizeof(uint32_t)));
 
-	perViewBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
-	perViewBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perView_));
-
-	// ゲーム情報
-	perView_->viewProjection = Math::Matrix4x4::MakeUnit();
-	perView_->billboardMat = Math::Matrix4x4::MakeUnit();
+	for (size_t index = 0; index < kViewCount; ++index) {
+		perViewBuffers_[index] = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerView));
+		perViewBuffers_[index]->Map(0, nullptr, reinterpret_cast<void**>(&perViews_[index]));
+		perViews_[index]->viewProjection = Math::Matrix4x4::MakeUnit();
+		perViews_[index]->billboardMat = Math::Matrix4x4::MakeUnit();
+	}
 
 	perFrameBuffer_ = CreateBufferResource(AOENGINE::GraphicsContext::GetInstance()->GetDevice(), sizeof(PerFrame));
 	perFrameBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&perFrame_));
@@ -272,16 +283,18 @@ void GpuParticleRenderer::CreateCullingResource(AOENGINE::DxResourceManager* res
 	};
 	indirectArgsResetBuffer_->Unmap(0, nullptr);
 
-	cullingDataBuffer_ = CreateBufferResource(device, sizeof(CullingData));
-	cullingDataBuffer_->Map(0, nullptr, reinterpret_cast<void**>(&cullingData_));
-	cullingData_->maxParticles = kInstanceNum_;
-
 	float particleLocalRadius = 0.0f;
 	for (const VertexData& vertex : shape_->GetMesh()->GetVerticesData()) {
 		const Math::Vector3 position{ vertex.pos.x, vertex.pos.y, vertex.pos.z };
 		particleLocalRadius = (std::max)(particleLocalRadius, position.Length());
 	}
-	cullingData_->particleLocalRadius = particleLocalRadius;
+	for (size_t index = 0; index < kViewCount; ++index) {
+		cullingDataBuffers_[index] = CreateBufferResource(device, sizeof(CullingData));
+		cullingDataBuffers_[index]->Map(0, nullptr, reinterpret_cast<void**>(&cullingData_[index]));
+		*cullingData_[index] = CullingData{};
+		cullingData_[index]->maxParticles = kInstanceNum_;
+		cullingData_[index]->particleLocalRadius = particleLocalRadius;
+	}
 
 	D3D12_INDIRECT_ARGUMENT_DESC argumentDesc{};
 	argumentDesc.Type = D3D12_INDIRECT_ARGUMENT_TYPE_DRAW_INDEXED;

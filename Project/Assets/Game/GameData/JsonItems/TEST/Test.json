@@ -145,25 +145,16 @@
     "format": "AOENGINE_SCENE",
     "objects": [
         {
-            "active": true,
+            "active": false,
             "data": {
-                "animator": true,
-                "components": [
-                    {
-                        "animationName": "idle",
-                        "animationTime": 0.0,
-                        "loop": false,
-                        "speed": 1.0,
-                        "stopped": false,
-                        "type": "Animator"
-                    }
-                ],
+                "animator": false,
+                "components": [],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
                 "materials": [
                     {
-                        "albedoTexture": "player.png",
+                        "albedoTexture": "boss_ufo.png",
                         "color": [
                             1.0,
                             1.0,
@@ -194,7 +185,7 @@
                         ]
                     },
                     {
-                        "albedoTexture": "white.png",
+                        "albedoTexture": "boss.png",
                         "color": [
                             1.0,
                             1.0,
@@ -223,9 +214,71 @@
                             0.0,
                             0.0
                         ]
+                    },
+                    {
+                        "albedoTexture": "boss_hand.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 2,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 3,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
                     }
                 ],
-                "model": "player.gltf",
+                "model": "boss.gltf",
                 "rotate": [
                     0.0,
                     0.0,
@@ -243,7 +296,7 @@
                     0.0
                 ]
             },
-            "id": 24,
+            "id": 582,
             "name": "new object",
             "parentId": null,
             "type": "BaseGameObject"
@@ -300,7 +353,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_6",
+                "texture": "__Text_34",
                 "textureSize": [
                     135.0,
                     42.0

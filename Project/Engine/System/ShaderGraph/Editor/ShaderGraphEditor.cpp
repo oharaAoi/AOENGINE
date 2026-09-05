@@ -150,10 +150,54 @@ void ShaderGraphEditor::CreateNode() {
 		popupRequested_ = true;
 	}
 
-	editor_->rightClickPopUpContent([this](ImFlow::BaseNode*) {
+	editor_->rightClickPopUpContent([this](ImFlow::BaseNode* node) {
 		if (popupRequested_) {
 			ImGui::SetNextWindowPos(popupPos_);
 			popupRequested_ = false;
+		}
+
+		// ポップアップを開いた瞬間のLinkを保持する
+		if (ImGui::IsWindowAppearing()) {
+			contextLink_.reset();
+
+			if (node == nullptr) {
+				for (const auto& weakLink : editor_->getLinks()) {
+					auto link = weakLink.lock();
+
+					if (link && link->isHovered()) {
+						contextLink_ = link;
+						break;
+					}
+				}
+			}
+		}
+
+		// Link上を右クリックした場合
+		if (auto link = contextLink_.lock()) {
+			ImGui::TextUnformatted("Link Context Menu");
+			ImGui::Separator();
+
+			if (ImGui::MenuItem("Delete Link")) {
+				link->right()->deleteLink();
+				contextLink_.reset();
+				ImGui::CloseCurrentPopup();
+			}
+
+			return;
+		}
+
+		// Node上を右クリックした場合
+		if (node != nullptr) {
+			if (ImGui::MenuItem(
+				"Delete Node",
+				nullptr,
+				false,
+				node != resultNode_.get())) {
+				node->destroy();
+				ImGui::CloseCurrentPopup();
+			}
+
+			return;
 		}
 	
 		ImGui::TextUnformatted(" NodeContextMenu ");

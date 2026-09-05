@@ -4,6 +4,7 @@
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 
 /// game
 #include "Game/Actor/Player/Player.h"
@@ -33,7 +34,8 @@ void TestScene::Init()
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
 	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);
 	
-	AOENGINE::BaseParticles* particle = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
+	//AOENGINE::BaseParticles* particle = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
+	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +64,11 @@ void TestScene::OnPlayStart()
 	player_->Init(ResolvePlayerBody());
 	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
 	player_->SetBlockField(&stageBlockField_);
+
+	auto effect =
+		AOENGINE::ParticleEffectManager::GetInstance()->Play(
+			"BossHitEffect"
+		);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
