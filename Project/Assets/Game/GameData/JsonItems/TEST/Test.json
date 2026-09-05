@@ -353,7 +353,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_34",
+                "texture": "__Text_5",
                 "textureSize": [
                     135.0,
                     42.0
@@ -368,6 +368,36 @@
             "name": "new text",
             "parentId": null,
             "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    15.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.038187261670827866,
+                    2.384185791015625e-07,
+                    -0.9415364265441895
+                ]
+            },
+            "id": 702,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
         }
     ],
     "sceneName": "Test",
