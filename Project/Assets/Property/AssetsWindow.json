@@ -1,10 +1,10 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\GameData\\JsonItems\\Effect\\Composite"
+        "path": "Project\\Assets\\Game\\ShaderGraph"
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": true,
@@ -37,6 +37,7 @@
         "./Project/Assets\\Game\\Load\\Sounds": false,
         "./Project/Assets\\Game\\Load\\Textures": true,
         "./Project/Assets\\Game\\Load\\Textures\\Effect": false,
+        "./Project/Assets\\Game\\Load\\Textures\\Noise": false,
         "./Project/Assets\\Game\\Pipeline": false,
         "./Project/Assets\\Game\\Prefabs": true,
         "./Project/Assets\\Game\\Scene": true,
