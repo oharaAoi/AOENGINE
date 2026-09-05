@@ -155,7 +155,8 @@ GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu(const json* jsonData) {
 
 void ParticleSystemEditor::AddList(const std::string& _name, const json* jsonData) {
 	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
-	newParticle->Init(_name);
+	// Editor専用Rendererを使うため、GameViewのParticleManagerには登録しない。
+	newParticle->Init(_name, false);
 	if (jsonData != nullptr) {
 		newParticle->SetJsonData(*jsonData);
 	}

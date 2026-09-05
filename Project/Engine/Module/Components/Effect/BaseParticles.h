@@ -17,7 +17,7 @@ class BaseParticles :
 public: // コンストラクタ
 
 	BaseParticles() = default;
-	virtual ~BaseParticles() override = default;
+	~BaseParticles() override;
 
 public:
 	// 未指定時に使用するCPU Particleグループの最大数
@@ -27,7 +27,7 @@ public:
 	/// 初期化処理
 	/// </summary>
 	/// <param name="name"></param>
-	void Init(const std::string& name);
+	void Init(const std::string& name, bool registerForGameView = true);
 
 	// 更新処理
 	void Update();
@@ -92,6 +92,8 @@ public:
 	void SetBlendMode(uint32_t blendMode) { blendModeType_ = blendMode; }
 	uint32_t GetBlendMode() const { return blendModeType_; }
 	uint32_t GetMaxParticles() const { return emitter_.maxParticles; }
+	const std::string& GetRuntimeId() const { return runtimeId_; }
+	void SetRuntimeId(const std::string& id) { runtimeId_ = id; }
 
 protected:
 	void DrawTextureSelector();
@@ -100,6 +102,8 @@ protected:
 	const std::string kGroupName = "CPU";
 	// particleName
 	std::string particleName_ = "new particles";
+	std::string runtimeId_;
+	bool registeredForGameView_ = false;
 
 	uint32_t blendModeType_;
 

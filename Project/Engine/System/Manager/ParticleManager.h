@@ -82,6 +82,8 @@ public:
 	/// <param name="particlesFile"></param>
 	/// <returns></returns>
 	AOENGINE::BaseParticles* CreateParticle(const std::string& particlesFile);
+	bool RegisterExternalParticle(AOENGINE::BaseParticles* particle);
+	void UnregisterExternalParticle(AOENGINE::BaseParticles* particle);
 
 	void DeleteParticles(AOENGINE::BaseParticles* ptr);
 
@@ -91,6 +93,8 @@ private:
 	std::unique_ptr<AOENGINE::ParticleInstancingRenderer> particleRenderer_;
 	// particleを射出するリスト
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> emitterList_;
+	std::vector<AOENGINE::BaseParticles*> externalEmitters_;
+	uint64_t nextRuntimeId_ = 1;
 	std::vector<std::unique_ptr<AOENGINE::ParticleInstancingRenderer>> retiredRenderers_;
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> retiredEmitters_;
 

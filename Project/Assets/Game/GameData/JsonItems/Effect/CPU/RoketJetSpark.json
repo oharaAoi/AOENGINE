@@ -1,0 +1,126 @@
+{
+    "RoketJetSpark": {
+        "angle": 0.0,
+        "angleMax": -4.440000057220459,
+        "angleMin": 0.0,
+        "arc": 360.0,
+        "blendModeType": 2,
+        "color": {
+            "a": 1.0,
+            "b": 0.05363667383790016,
+            "g": 0.05363667383790016,
+            "r": 0.992277979850769
+        },
+        "coneEmitFrom": 0,
+        "damping": 0.0,
+        "discardValue": 0.009999999776482582,
+        "duration": 5.0,
+        "emitDirection": 1,
+        "emitOrigin": 0,
+        "emitSpacing": 0.10000000149011612,
+        "endDiscard": 1.0,
+        "fadeInTime": 0.0,
+        "fadeOutTime": 0.0,
+        "gravity": 0.0,
+        "height": 10.399999618530273,
+        "isBillBord": true,
+        "isColorAnimation": true,
+        "isDirectionRotate": false,
+        "isDraw2d": false,
+        "isFadeInOut": false,
+        "isLerpDiscardValue": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": true,
+        "isLoop": true,
+        "isRandomColor": false,
+        "isRandomRotate": true,
+        "isScaleUp": false,
+        "isStretch": false,
+        "isTextureSheetAnimation": false,
+        "lifeOfMaxScale": {
+            "x": 0.30000001192092896,
+            "y": 1.0,
+            "z": 0.0
+        },
+        "lifeOfMinScale": {
+            "x": 0.5,
+            "y": 1.0,
+            "z": 2.0
+        },
+        "lifeTime": 0.4000000059604645,
+        "maxAngle": 360.0,
+        "maxEmitPerFrame": 256,
+        "maxParticles": 512,
+        "maxScale": {
+            "x": 0.5,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minAngle": 0.0,
+        "minScale": {
+            "x": 0.5,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "overflowMode": 1,
+        "postColor": {
+            "a": 1.0,
+            "b": 0.0038610100746154785,
+            "g": 0.142320454120636,
+            "r": 1.0
+        },
+        "preColor": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.5953398942947388,
+            "r": 0.9884169697761536
+        },
+        "radius": 0.30000001192092896,
+        "radiusThickness": 1.0,
+        "randColor1": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "randColor2": {
+            "a": 1.0,
+            "b": 0.20988059043884277,
+            "g": 0.6234148740768433,
+            "r": 0.953667938709259
+        },
+        "randomDirectionAmount": 0.23000000417232513,
+        "rateOverTimeCout": 79,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleUpScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "separateByAxisScale": true,
+        "shape": 2,
+        "size": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "speed": -5.130000114440918,
+        "startDiscard": 0.009999999776482582,
+        "teleportThreshold": 50.0,
+        "tiles": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "plane",
+        "useTexture": "circle"
+    }
+}
