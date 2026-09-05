@@ -125,6 +125,8 @@ public:
 
 	static void DrawEnvironmentModel(const Pipeline* pipeline, AOENGINE::Mesh* _mesh, const AOENGINE::SubMesh& _subMesh,
 		AOENGINE::BaseMaterial* _material, const AOENGINE::WorldTransform* _transform);
+	static void DrawMaterialSubMesh(const Pipeline* fallback, Mesh* mesh, const SubMesh& subMesh,
+		BaseMaterial* material, const WorldTransform* transform, const D3D12_VERTEX_BUFFER_VIEW& vertexBuffer);
 
 	/// <summary>
 	/// 線の描画

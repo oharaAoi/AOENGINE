@@ -145,78 +145,12 @@
     "format": "AOENGINE_SCENE",
     "objects": [
         {
-            "active": false,
+            "active": true,
             "data": {
-                "animator": false,
-                "components": [],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "player.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "player.gltf",
+                "prefab": "DamageFloor",
                 "rotate": [
                     0.0,
                     0.0,
@@ -224,20 +158,21 @@
                     1.0
                 ],
                 "scale": [
-                    1.0,
+                    15.0,
                     1.0,
                     1.0
                 ],
+                "transformType": "3D",
                 "translate": [
-                    0.0,
-                    0.0,
-                    0.0
+                    0.038187261670827866,
+                    -1.7286348342895508,
+                    -0.9415364265441895
                 ]
             },
-            "id": 582,
-            "name": "new object",
+            "id": 702,
+            "name": "DamageFloor",
             "parentId": null,
-            "type": "BaseGameObject"
+            "type": "PrefabInstance"
         },
         {
             "active": true,
@@ -291,7 +226,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_84",
+                "texture": "__Text_0",
                 "textureSize": [
                     135.0,
                     42.0
@@ -308,12 +243,80 @@
             "type": "Text"
         },
         {
-            "active": true,
+            "active": false,
             "data": {
+                "animator": false,
+                "components": [],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
-                "prefab": "DamageFloor",
+                "materials": [
+                    {
+                        "albedoTexture": "player.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "player.gltf",
                 "rotate": [
                     0.0,
                     0.0,
@@ -321,21 +324,118 @@
                     1.0
                 ],
                 "scale": [
-                    15.0,
+                    1.0,
                     1.0,
                     1.0
                 ],
-                "transformType": "3D",
                 "translate": [
-                    0.038187261670827866,
-                    -1.7286348342895508,
-                    -0.9415364265441895
+                    0.0,
+                    0.0,
+                    0.0
                 ]
             },
-            "id": 702,
-            "name": "DamageFloor",
+            "id": 582,
+            "name": "new object",
             "parentId": null,
-            "type": "PrefabInstance"
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/fireball.json",
+                        "shaderType": 1,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "sphere.obj",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 721,
+            "name": "new object(1)",
+            "parentId": null,
+            "type": "BaseGameObject"
         }
     ],
     "sceneName": "Test",

@@ -582,6 +582,9 @@
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h">
       <Filter>Engine\Module\Components\Materials</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h">
+      <Filter>Engine\Module\Components\Materials</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\Materials\Material.h">
       <Filter>Engine\Module\Components\Materials</Filter>
     </ClInclude>

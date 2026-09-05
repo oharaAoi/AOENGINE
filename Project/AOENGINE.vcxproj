@@ -252,6 +252,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Light\PointLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h" />
     <ClInclude Include="Engine\Module\Components\Materials\Material.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
     <ClInclude Include="Engine\Module\Components\Materials\PBRMaterial.h" />

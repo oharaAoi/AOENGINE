@@ -189,6 +189,29 @@ void BaseGameObject::Draw() const {
 		return;
 	}
 
+	// Material単位のPipeline指定がある場合は、サブメッシュごとに描画する。
+	bool hasMaterialPipeline = false;
+	for (const auto* material : renderMaterialSlots_) {
+		if (material && !material->GetPipelineName().empty()) { hasMaterialPipeline = true; break; }
+	}
+	if (hasMaterialPipeline) {
+		const Pipeline* fallback = Engine::GetLastUsedPipeline();
+		for (uint32_t index = 0; index < model_->GetMeshsNum(); ++index) {
+			Mesh* mesh = model_->GetMesh(index);
+			const bool skinned = animetor_ && animetor_->GetIsSkinning();
+			const auto& vertexBuffer = skinned ? animetor_->GetSkinning(index)->GetVBV() : mesh->GetVBV();
+			for (uint32_t subMeshIndex = 0; subMeshIndex < mesh->GetSubMeshCount(); ++subMeshIndex) {
+				const SubMesh& subMesh = mesh->GetSubMesh(subMeshIndex);
+				if (BaseMaterial* material = GetMaterial(subMesh.materialSlot)) {
+					Render::DrawMaterialSubMesh(fallback, mesh, subMesh, material, transform_, vertexBuffer);
+				}
+			}
+		}
+		// Engine's current-pipeline bookkeeping still refers to the object pipeline.
+		if (fallback) { fallback->BindCommand(GraphicsContext::GetInstance()->GetCommandList()); }
+		return;
+	}
+
 	// 鏡面反射をする場合の描画
 	if (isReflection_) {
 		for (uint32_t index = 0; index < model_->GetMeshsNum(); index++) {

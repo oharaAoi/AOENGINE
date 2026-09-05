@@ -27,6 +27,15 @@ public:
 	/// </summary>
 	/// <returns></returns>
 	Pipeline* GetLastUsedPipeline() const { return lastUsePipeline_; };
+	Pipeline* FindPipeline(const std::string& name) const {
+		const auto it = pipelineMap_.find(name);
+		return it != pipelineMap_.end() ? it->second.get() : nullptr;
+	}
+	std::vector<std::string> GetPipelineNames() const {
+		std::vector<std::string> names;
+		for (const auto& [name, pipeline] : pipelineMap_) { names.push_back(name); }
+		return names;
+	}
 
 protected:
 

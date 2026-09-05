@@ -97,7 +97,7 @@ public:
 	/// コマンドを積む
 	/// </summary>
 	/// <param name="commandList">: コマンドリスト</param>
-	void BindCommand(ID3D12GraphicsCommandList* _commandList);
+	void BindCommand(ID3D12GraphicsCommandList* _commandList) const;
 
 	/// <summary>
 	/// 
@@ -155,7 +155,9 @@ private:
 public:
 
 	const UINT GetRootSignatureIndex(const std::string& _name) const;
+	bool HasRootBinding(const std::string& name) const { return rootSignatureIndexMap_.contains(name); }
 	const std::string& GetPrimitiveTopologyType() const { return parameter_.primitiveTopologyType; }
+	const PipelineParameter& GetParameters() const { return parameter_; }
 
 private:
 
