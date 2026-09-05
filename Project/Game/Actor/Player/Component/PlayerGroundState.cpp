@@ -1,6 +1,5 @@
 #include "PlayerGroundState.h"
 
-#include <algorithm>
 #include <cmath>
 
 #include "Engine/Module/Components/Collider/BaseCollider.h"
@@ -22,29 +21,44 @@ PlayerGroundState::Result PlayerGroundState::Resolve(
 
 	Result result{};
 
+	// 落下が速いと1フレームでブロックを跨いでしまうので、
+	// 前フレームに進んだぶんも見る範囲に足しておく
+	const float checkDown = params.groundCheckDistance + std::abs(context.velocityY) * deltaTime;
+
 	// 押し戻しの向きを見る
 	if (context.collider != nullptr) {
 		const Math::Vector3& pushback = context.collider->GetPushBackDirection();
 
-		if (pushback.y > kPushbackThreshold) {
-			// 下から押し戻された = 足場の上に乗っている
-			result.isSupported = true;
-		} else if (pushback.y < -kPushbackThreshold) {
+		if (pushback.y < -kPushbackThreshold) {
 			// 上から押し戻された = 頭をぶつけた
 			result.hitCeiling = true;
+		} else if (pushback.y > kPushbackThreshold && !context.isBigJump) {
+			// 下から押し戻された = 足場の上に乗っている。
+			// 大ジャンプ中はBlockとの判定を切っているので、押し戻しでは着地を決めない
+			result.isSupported = true;
 		}
 	}
 
-	// 前フレームに進んだぶんも見る範囲に足しておく
-	const float fallDistance = std::abs(context.velocityY) * deltaTime;
-
-	// 足元のブロックを直接見る判定と併用して、どちらかで支えられていれば接地とする
+	// 押し戻しは一番浅い軸へ1本しか返らないため、横のブロックに触れたフレームで
+	// Y成分が消えて接地が外れ、歩いている最中に落下扱いになってしまう。
+	// 足元を直接見る判定と併用して、どちらかで支えられていれば接地とする
 	float groundTopY = 0.0f;
-	if (TryGetGroundTop(params.groundCheckDistance + fallDistance, context, params, groundTopY)) {
+	if (TryGetGroundTop(checkDown, context, params, groundTopY)) {
 		result.isSupported = true;
+		result.hasGroundTop = true;
+		result.groundTopY = groundTopY;
 	}
 
 	return result;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  箱の中心
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+Math::Vector3 PlayerGroundState::CalcBoxCenter(const Context& context, const Math::Vector3& offset) const {
+	return context.transform->GetTranslate() + offset;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -58,24 +72,18 @@ bool PlayerGroundState::TryGetGroundTop(
 		return false;
 	}
 
-	// 大ジャンプ中はブロックとの判定自体を切っているので、足場としても見ない
-	if (context.ignoreBlocks) {
-		return false;
-	}
-
 	// 上がっている最中に拾ってしまうと、飛び出した瞬間に着地扱いになる
 	if (context.velocityY > 0.0f) {
 		return false;
 	}
 
-	// 当たり判定の中心と足元の高さを出す
-	const Math::Vector3 center = context.transform->GetTranslate() + params.hitOffset;
-	const float feetY = center.y - params.hitSize.y * 0.5f;
-	const float halfWidth = params.hitSize.x * 0.5f;
+	// 足元の箱の底から下だけを見る。自分が乗っているマスを拾わないよう少しだけ下から始める
+	const Math::Vector3 footCenter = CalcBoxCenter(context, params.footOffset);
+	const float feetY = footCenter.y - params.footSize.y * 0.5f;
+	const float halfWidth = params.footSize.x * 0.5f;
 
-	// 足元の下だけを見る。自分が乗っているマスを拾わないように、少しだけ下から始める
-	const Math::Vector3 checkMin{ center.x - halfWidth, feetY - checkDown, center.z };
-	const Math::Vector3 checkMax{ center.x + halfWidth, feetY - kGroundCheckEpsilon, center.z };
+	const Math::Vector3 checkMin{ footCenter.x - halfWidth, feetY - checkDown, footCenter.z };
+	const Math::Vector3 checkMax{ footCenter.x + halfWidth, feetY - kGroundCheckEpsilon, footCenter.z };
 
 	bool found = false;
 	float topY = 0.0f;
@@ -92,21 +100,13 @@ bool PlayerGroundState::TryGetGroundTop(
 		if (block == nullptr || !block->IsValid()) {
 			continue;
 		}
-
-		// 大ジャンプ後に判定を猶予しているブロックは踏めない扱いにする
-		if (IsIgnored(context, block)) {
-			continue;
-		}
-
 		keepHighest(block->GetPosition().y + kBlockHalfHeight);
 	}
 
-	// 開幕の床やフィールドの境目は Wall(マップチップ2) で出来ているので、そちらも足場として見る
 	for (const Wall* wall : context.blockField->GetWallsInWorldAABB(checkMin, checkMax)) {
 		if (wall == nullptr || !wall->IsValid()) {
 			continue;
 		}
-
 		keepHighest(wall->GetPosition().y + kBlockHalfHeight);
 	}
 
@@ -114,17 +114,14 @@ bool PlayerGroundState::TryGetGroundTop(
 	return found;
 }
 
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  判定を猶予中のブロックか
+//  足場の上面から、本体を置くY座標を求める
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool PlayerGroundState::IsIgnored(const Context& context, const Block* block) const {
-	if (context.ignoredBlocks == nullptr) {
-		return false;
-	}
-
-	return std::find(context.ignoredBlocks->begin(), context.ignoredBlocks->end(), block)
-		!= context.ignoredBlocks->end();
+float PlayerGroundState::CalcStandY(float groundTopY, const Params& params) const {
+	// 足元の箱の底が、足場の上面にぴったり乗る高さ
+	return groundTopY + params.footSize.y * 0.5f - params.footOffset.y;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +143,7 @@ void PlayerGroundState::SnapToGround(const Context& context, const Params& param
 	// 毎フレーム沈んでは戻される形になって上下に震える。
 	// 下にある足場の上面は分かっているので、その高さへ直接置き直す
 	Math::Vector3 position = context.transform->GetTranslate();
-	position.y = groundTopY + params.hitSize.y * 0.5f - params.hitOffset.y;
+	position.y = CalcStandY(groundTopY, params);
 	context.transform->SetTranslate(position);
 
 	// 沈み込む速度を残さない
@@ -190,7 +187,8 @@ void PlayerGroundState::FixZPosition(const Context& context, const Params& param
 		return;
 	}
 
-	// ブロックとの押し戻しは一番浅い軸へ返るため、条件次第でZ方向にも押される
+	// ブロックとの押し戻しは一番浅い軸へ返るため、条件次第でZ方向にも押される。
+	// 横スクロールなので奥行きは動かさず、毎フレーム決まった位置へ戻す
 	Math::Vector3 position = context.transform->GetTranslate();
 	position.z = params.fixedZ;
 	context.transform->SetTranslate(position);

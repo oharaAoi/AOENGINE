@@ -16,109 +16,96 @@ using namespace AOENGINE;
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBlockIgnore::Begin(const Context& context) {
-	isResumed_ = false;
+
+	isDisabled_ = true;
 	SetBlockCollisionEnabled(context, false);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  更新
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerBlockIgnore::Update(const Context& context, bool isAirborne) {
-
-	// 上昇から降下へ移った瞬間に判定を戻す。着地できるようにするため
-	const bool startedFalling = context.jumpState == PlayerJump::State::Falling
-		&& previousJumpState_ != PlayerJump::State::Falling;
-
-	if (isAirborne && !isResumed_ && startedFalling) {
-		ResumeBlockCollision(context);
-	}
-
-	previousJumpState_ = context.jumpState;
-
-	// 猶予中のBlockは、離れたものから毎フレーム判定を戻していく
-	UpdateIgnoredBlocks(context);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  着地
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBlockIgnore::End(const Context& context) {
+void PlayerBlockIgnore::OnLanded(const Context& context) {
 
-	// 降下を挟まずに着地した場合でも、判定は必ず戻しておく
-	if (!isResumed_) {
-		ResumeBlockCollision(context);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  判定の再開
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerBlockIgnore::ResumeBlockCollision(const Context& context) {
-
-	// カテゴリ判定は先に戻しておく
-	SetBlockCollisionEnabled(context, true);
-	isResumed_ = true;
-
-	// その上で、プレイヤーに埋まっているBlockだけ個別に無効化する
-	ignoredBlocks_ = GetOverlappingBlocks(context);
-	for (Block* block : ignoredBlocks_) {
-		SetBlockActive(block, false);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  猶予中のBlockの見直し
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void PlayerBlockIgnore::UpdateIgnoredBlocks(const Context& context) {
-
-	// 判定を無効化しているBlockが無ければ何もしない
-	if (ignoredBlocks_.empty()) {
+	// 着地は毎フレーム呼ばれるので、切っている時だけ処理する
+	if (!isDisabled_) {
 		return;
 	}
 
-	// 今フレーム、プレイヤーと実際に重なっているBlockを毎回取り直す
-	const std::vector<Block*> currentlyOverlapping = GetOverlappingBlocks(context);
+	// カテゴリ判定は先に戻しておく
+	isDisabled_ = false;
+	SetBlockCollisionEnabled(context, true);
 
-	for (auto it = ignoredBlocks_.begin(); it != ignoredBlocks_.end();) {
-		Block* block = *it;
+	// その上で、胴体が埋まっているブロックのグループだけ個別に無効化する
+	for (const Block* block : GetBodyOverlappingBlocks(context)) {
+		const int groupId = block->GetGroupId();
+		if (groupId == StageBlockField::kInvalidGroupId) {
+			continue;
+		}
 
-		// 猶予中のBlockが、今もcurrentlyOverlappingに含まれているかを見る
+		// 同じグループを二重に登録しない
+		if (std::find(ignoredGroups_.begin(), ignoredGroups_.end(), groupId) != ignoredGroups_.end()) {
+			continue;
+		}
+
+		ignoredGroups_.push_back(groupId);
+		SetGroupCollisionEnabled(context, groupId, false);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  猶予中のグループの見直し
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerBlockIgnore::Update(const Context& context) {
+
+	if (ignoredGroups_.empty()) {
+		return;
+	}
+
+	// 今フレーム、胴体が重なっているグループを集め直す
+	std::vector<int> overlappingGroups;
+	for (const Block* block : GetBodyOverlappingBlocks(context)) {
+		const int groupId = block->GetGroupId();
+		if (groupId == StageBlockField::kInvalidGroupId) {
+			continue;
+		}
+		if (std::find(overlappingGroups.begin(), overlappingGroups.end(), groupId) == overlappingGroups.end()) {
+			overlappingGroups.push_back(groupId);
+		}
+	}
+
+	for (auto it = ignoredGroups_.begin(); it != ignoredGroups_.end();) {
 		const bool stillOverlapping =
-			std::find(currentlyOverlapping.begin(), currentlyOverlapping.end(), block)
-			!= currentlyOverlapping.end();
+			std::find(overlappingGroups.begin(), overlappingGroups.end(), *it) != overlappingGroups.end();
 
 		if (stillOverlapping) {
-			// まだ埋まっているので、判定は無効のまま次のBlockへ
+			// まだ胴体が埋まっているので、判定は無効のまま次のグループへ
 			++it;
 			continue;
 		}
 
-		// 離れたBlockから判定を元に戻す
-		SetBlockActive(block, true);
-
-		// 判定を戻したので猶予リストからも外す
-		it = ignoredBlocks_.erase(it);
+		// 抜けきったグループから判定を元に戻す
+		SetGroupCollisionEnabled(context, *it, true);
+		it = ignoredGroups_.erase(it);
 	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  重なっているBlockの列挙
+//  胴体と重なっているブロックの列挙
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-std::vector<Block*> PlayerBlockIgnore::GetOverlappingBlocks(const Context& context) const {
+std::vector<Block*> PlayerBlockIgnore::GetBodyOverlappingBlocks(const Context& context) const {
 
 	if (context.blockField == nullptr || context.transform == nullptr) {
 		return {};
 	}
 
-	// プレイヤーのCollider半サイズぶんのAABBと重なるグリッドマスを調べる
-	const Math::Vector3 position = context.transform->GetTranslate();
-	return context.blockField->GetBlocksInWorldAABB(
-		position - context.overlapHalfExtent, position + context.overlapHalfExtent);
+	// 胴体の箱と重なるグリッドマスを調べる
+	const Math::Vector3 center = context.transform->GetTranslate() + context.bodyOffset;
+	const Math::Vector3 half = context.bodySize * 0.5f;
+
+	return context.blockField->GetBlocksInWorldAABB(center - half, center + half);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -131,6 +118,7 @@ void PlayerBlockIgnore::SetBlockCollisionEnabled(const Context& context, bool en
 		return;
 	}
 
+	// Blockのビットだけを触る。Wall(マップチップ2)やダメージ床は残したままにする
 	const uint32_t blockBit =
 		CollisionLayerManager::GetInstance().GetCategoryBit(kBlockCategoryName);
 
@@ -142,14 +130,25 @@ void PlayerBlockIgnore::SetBlockCollisionEnabled(const Context& context, bool en
 	}
 }
 
-void PlayerBlockIgnore::SetBlockActive(Block* block, bool isActive) const {
+void PlayerBlockIgnore::SetGroupCollisionEnabled(const Context& context, int groupId, bool enabled) const {
 
-	if (block == nullptr) {
+	if (context.blockField == nullptr) {
 		return;
 	}
 
-	if (BaseCollider* blockCollider = block->GetCollider(kBlockCategoryName)) {
-		blockCollider->SetIsActive(isActive);
+	const std::vector<Block*>* members = context.blockField->GetGroup(groupId);
+	if (members == nullptr) {
+		return;
+	}
+
+	for (Block* member : *members) {
+		if (member == nullptr || !member->IsValid()) {
+			continue;
+		}
+
+		if (BaseCollider* collider = member->GetCollider(kBlockCategoryName)) {
+			collider->SetIsActive(enabled);
+		}
 	}
 }
 
@@ -157,6 +156,6 @@ void PlayerBlockIgnore::SetBlockActive(Block* block, bool isActive) const {
 //  ブロックへの参照を手放す
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void PlayerBlockIgnore::ClearBlocks() {
-	ignoredBlocks_.clear();
+void PlayerBlockIgnore::ClearGroups() {
+	ignoredGroups_.clear();
 }

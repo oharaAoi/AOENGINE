@@ -13,15 +13,15 @@ class Block;
 class StageBlockField;
 
 /// <summary>
-/// プレイヤーの接地判定と、位置の補正を行うコンポーネント
+/// プレイヤーの接地判定と、位置の補正を行うコンポーネント。
 /// </summary>
 class PlayerGroundState {
 public:
 
 	// 調整値
 	struct Params {
-		Math::Vector3 hitSize;		// 当たり判定の大きさ
-		Math::Vector3 hitOffset;	// 当たり判定の中心のずらし量
+		Math::Vector3 footSize;		// 足元の箱の大きさ
+		Math::Vector3 footOffset;	// 足元の箱の中心のずらし量
 		float groundCheckDistance;	// 足元の何ユニット下までを足場として見るか
 		float fallLimitY;			// これ以上は落ちない高さ
 		float fixedZ;				// 固定する奥行き
@@ -33,26 +33,30 @@ public:
 		AOENGINE::Rigidbody* rigidbody = nullptr;		// 本体のRigidbody
 		const AOENGINE::BaseCollider* collider = nullptr;// 押し戻しを見るCollider
 		const StageBlockField* blockField = nullptr;		// 足場を引く表
-		const std::vector<Block*>* ignoredBlocks = nullptr;// 判定を猶予中のブロック
 		float velocityY = 0.0f;		// 今の縦速度
 		bool isGrounded = false;	// 接地状態か
-		bool ignoreBlocks = false;	// 大ジャンプ中でブロック判定を切っているか
+		bool isBigJump = false;		// ダメージ床の大ジャンプ中か
 	};
 
 	// 接地判定の結果。状態の遷移そのものは呼び出し側に任せる
 	struct Result {
 		bool isSupported = false;	// 足場に支えられているか
-		bool hitCeiling = false;	// 上から押し戻された(頭をぶつけた)か
+		bool hitCeiling = false;	// 上から押し戻されたか
+		bool hasGroundTop = false;	// 乗る足場の上面が分かっているか
+		float groundTopY = 0.0f;	// その上面の高さ
 	};
 
 	PlayerGroundState() = default;
 	~PlayerGroundState() = default;
 
-	/// <summary>押し戻しと足元のブロックから、足場に乗っているかを判定する</summary>
+	/// <summary>足場に乗っているかを判定する</summary>
 	Result Resolve(float deltaTime, const Context& context, const Params& params) const;
 
 	/// <summary>接地中は、足元のブロックの上面へ直接置き直す</summary>
 	void SnapToGround(const Context& context, const Params& params) const;
+
+	/// <summary>足場の上面の高さから、本体を置くべきY座標を求める</summary>
+	float CalcStandY(float groundTopY, const Params& params) const;
 
 	/// <summary>落下の下限。これより下がったらその高さで止める</summary>
 	void ClampFallLimit(const Context& context, const Params& params) const;
@@ -63,16 +67,13 @@ public:
 private:
 
 	/// <summary>
-	/// 足元の少し下を見て、そこにあるブロックの上面の高さを求める。
+	/// 足元の箱の下を見て、そこにあるブロックの上面の高さを求める。
 	/// </summary>
-	/// <param name="checkDown">足元から何ユニット下まで見るか</param>
-	/// <param name="outTopY">一番高い上面</param>
-	/// <returns>足場が見つかったら true</returns>
 	bool TryGetGroundTop(float checkDown, const Context& context,
 		const Params& params, float& outTopY) const;
 
-	/// <summary>判定を猶予中のブロックか</summary>
-	bool IsIgnored(const Context& context, const Block* block) const;
+	/// <summary>箱の中心のワールド座標を求める</summary>
+	Math::Vector3 CalcBoxCenter(const Context& context, const Math::Vector3& offset) const;
 
 private:
 

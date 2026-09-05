@@ -49,6 +49,14 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	// 当たり判定オフセット
 	Math::Vector3 hitOffset{ 0.0f, -0.45f, 0.0f };
 
+	// --- 接地・着地の判定に使う箱 ---
+	// 足元の箱。この箱の下にある足場に乗る
+	Math::Vector3 footSize{ 0.7f, 0.2f, 0.7f };
+	Math::Vector3 footOffset{ 0.0f, 0.075f, 0.0f };
+	// 胴体から頭までの箱。大ジャンプの着地先を選ぶ時、ここが埋まる足場は選ばない
+	Math::Vector3 bodySize{ 0.7f, 1.05f, 0.7f };
+	Math::Vector3 bodyOffset{ 0.0f, 0.71f, 0.0f };
+
 	// 向き
 	float facingYawRight = 180.0f;
 	float facingYawLeft = 0.0f;
@@ -98,6 +106,11 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Base Scale", baseScale, 0.01f);
 		AddParameter("Hit Size", hitSize, 0.01f);
 		AddParameter("Hit Offset", hitOffset, 0.01f);
+		AddSeparatorText("Ground");
+		AddParameter("Foot Size", footSize, 0.01f);
+		AddParameter("Foot Offset", footOffset, 0.01f);
+		AddParameter("Body Size", bodySize, 0.01f);
+		AddParameter("Body Offset", bodyOffset, 0.01f);
 		AddParameter("Facing Yaw Right(deg)", facingYawRight, 1.0f, -360.0f, 360.0f);
 		AddParameter("Facing Yaw Left(deg)", facingYawLeft, 1.0f, -360.0f, 360.0f);
 		AddParameter("Facing Turn Speed", facingTurnSpeed, 0.1f, 0.0f, 100.0f);
@@ -138,6 +151,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("baseScale", baseScale)
 			.Add("hitSize", hitSize)
 			.Add("hitOffset", hitOffset)
+			.Add("footSize", footSize)
+			.Add("footOffset", footOffset)
+			.Add("bodySize", bodySize)
+			.Add("bodyOffset", bodyOffset)
 			.Add("facingYawRight", facingYawRight)
 			.Add("facingYawLeft", facingYawLeft)
 			.Add("facingTurnSpeed", facingTurnSpeed)
@@ -177,6 +194,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "baseScale", baseScale);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 		Convert::fromJson(jsonData, "hitOffset", hitOffset);
+		Convert::fromJson(jsonData, "footSize", footSize);
+		Convert::fromJson(jsonData, "footOffset", footOffset);
+		Convert::fromJson(jsonData, "bodySize", bodySize);
+		Convert::fromJson(jsonData, "bodyOffset", bodyOffset);
 		Convert::fromJson(jsonData, "facingYawRight", facingYawRight);
 		Convert::fromJson(jsonData, "facingYawLeft", facingYawLeft);
 		Convert::fromJson(jsonData, "facingTurnSpeed", facingTurnSpeed);

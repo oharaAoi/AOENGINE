@@ -109,9 +109,8 @@ void Player::Update(){
 	jump_.Update(deltaTime,input_.IsJumpTriggered(),input_.IsJumpHeld(),jumpParams);
 	rigidbody->SetVelocityY(jump_.GetVelocityY());
 
-	// 大ジャンプ中は降下へ移った時点でブロックの判定を戻し、
-	// 埋まっていたブロックは離れたものから順に判定を戻していく
-	blockIgnore_.Update(MakeBlockIgnoreContext(), damageFloorAirborne_);
+	// 胴体が埋まっているグループは、抜けきったものから判定を戻していく
+	blockIgnore_.Update(MakeBlockIgnoreContext());
 
 	// ブロックグループの接続受付・集合・打ち上げ
 	UpdateBlockGroupConnect(deltaTime);
@@ -346,6 +345,7 @@ bool Player::TryConnectBlockGroup(int groupId){
 void Player::ApplyDamageFloorKnockback(float power)
 {
 	damageFloorAirborne_ = true;
+	// 飛んでいる間はBlockだけ無視する。Wallやダメージ床には当たったまま
 	blockIgnore_.Begin(MakeBlockIgnoreContext());
 	jump_.Knockback(power);
 }
@@ -421,7 +421,7 @@ void Player::ResetStageReferences()
 	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
 	blockGroupLauncherManager_.Clear();
 	blockGroupConnectState_.Clear();
-	blockIgnore_.ClearBlocks();
+	blockIgnore_.ClearGroups();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -494,8 +494,18 @@ void Player::ResolveGround(float deltaTime){
 
 	if (result.isSupported)
 	{
-		// 着地したらダメージ床による飛行も終わり。判定も必ず戻しておく
-		blockIgnore_.End(MakeBlockIgnoreContext());
+		// 大ジャンプの着地では押し戻しが使えないので、選んだ足場の上面へ直接置く
+		if (damageFloorAirborne_ && result.hasGroundTop) {
+			if (WorldTransform* transform = GetTransform()) {
+				Math::Vector3 position = transform->GetTranslate();
+				position.y = groundState_.CalcStandY(result.groundTopY, MakeGroundParams());
+				transform->SetTranslate(position);
+			}
+		}
+
+		// 着地したらダメージ床による飛行も終わり。
+		// 胴体が埋まっているグループはここで猶予に入れる
+		blockIgnore_.OnLanded(MakeBlockIgnoreContext());
 		damageFloorAirborne_ = false;
 		jump_.Land();
 	} else{
@@ -515,24 +525,12 @@ PlayerGroundState::Context Player::MakeGroundContext() const {
 	context.rigidbody = GetRigidbody();
 	context.collider = GetCollider(kColliderTag);
 	context.blockField = pBlockField_;
-	context.ignoredBlocks = &blockIgnore_.GetIgnoredBlocks();
 	context.velocityY = jump_.GetVelocityY();
 	context.isGrounded = jump_.IsGrounded();
-	// 大ジャンプ中はブロックとの判定自体を切っている
-	context.ignoreBlocks = blockIgnore_.IsBlockCollisionDisabled();
+	// 大ジャンプ中は当たり判定を切っているので、着地の決め方が変わる
+	context.isBigJump = damageFloorAirborne_;
 
 	return context;
-}
-
-PlayerGroundState::Params Player::MakeGroundParams() const {
-
-	return PlayerGroundState::Params{
-		parameter_.hitSize,
-		parameter_.hitOffset,
-		parameter_.groundCheckDistance,
-		parameter_.fallLimitY,
-		parameter_.fixedZ,
-	};
 }
 
 PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const {
@@ -541,15 +539,23 @@ PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const {
 	context.playerCollider = GetCollider(kColliderTag);
 	context.transform = GetTransform();
 	context.blockField = pBlockField_;
-	context.jumpState = jump_.GetState();
-
-	// 埋まり判定はColliderの半サイズで見る
-	if (auto* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag))) {
-		context.overlapHalfExtent = box->GetSize() * 0.5f;
-	}
+	context.bodySize = parameter_.bodySize;
+	context.bodyOffset = parameter_.bodyOffset;
 
 	return context;
 }
+
+PlayerGroundState::Params Player::MakeGroundParams() const {
+
+	return PlayerGroundState::Params{
+		parameter_.footSize,
+		parameter_.footOffset,
+		parameter_.groundCheckDistance,
+		parameter_.fallLimitY,
+		parameter_.fixedZ,
+	};
+}
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

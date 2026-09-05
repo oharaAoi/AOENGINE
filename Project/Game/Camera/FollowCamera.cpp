@@ -88,8 +88,9 @@ void FollowCamera::FollowTarget(float deltaTime) {
 	}
 
 	// リクエストが来ている間は直接追従モードに入る
-	if (continuousFollowRequested_) {
+	if (continuousFollowRequested_ && !continuousFollowActive_) {
 		continuousFollowActive_ = true;
+		followVelocity_ = CVector3::ZERO;
 	}
 
 	if (continuousFollowActive_) {
@@ -107,7 +108,9 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		// リクエストが終わっていて、かつ実際に追いつききったら通常モードへ戻す
 		const bool caughtUp = std::abs(targetPos.y - smoothedTarget_.y) < kScrollArriveThreshold;
 		if (!continuousFollowRequested_ && caughtUp) {
-			// スクロール終わり
+			// 追いつききったので段階スクロールへ戻す
+			smoothedTarget_.y = targetPos.y;
+			followVelocity_ = CVector3::ZERO;
 			continuousFollowActive_ = false;
 			isScrolling_ = false;
 		}
