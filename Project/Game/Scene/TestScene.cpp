@@ -67,7 +67,7 @@ void TestScene::OnPlayStart()
 
 	auto effect =
 		AOENGINE::ParticleEffectManager::GetInstance()->Play(
-			"RoketJetEffect"
+			"BossHitEffect"
 		);
 }
 

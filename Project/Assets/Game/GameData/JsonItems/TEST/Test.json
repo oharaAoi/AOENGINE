@@ -145,7 +145,7 @@
     "format": "AOENGINE_SCENE",
     "objects": [
         {
-            "active": true,
+            "active": false,
             "data": {
                 "animator": false,
                 "components": [],
@@ -353,7 +353,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_7",
+                "texture": "__Text_34",
                 "textureSize": [
                     135.0,
                     42.0
