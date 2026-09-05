@@ -156,25 +156,23 @@
                     1009.0
                 ],
                 "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.7843137383460999
                 ],
                 "drawRange": [
-                    176.0,
-                    84.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
                 ],
-                "renderQueue": 2,
+                "renderQueue": 1,
                 "rotate": [
                     0.0,
                     0.0,
@@ -185,100 +183,21 @@
                     1.0,
                     1.0
                 ],
-                "text": "Title",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_0",
+                "texture": "white.png",
                 "textureSize": [
-                    176.0,
-                    84.0
+                    1600.0,
+                    1200.0
                 ],
                 "translate": [
-                    0.0,
-                    262.29998779296875,
+                    801.29150390625,
+                    499.6177673339844,
                     1.0
                 ]
             },
-            "id": 522,
-            "name": "Text_Title",
-            "parentId": 487,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    176.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 2,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "Retry",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_1",
-                "textureSize": [
-                    176.0,
-                    84.0
-                ],
-                "translate": [
-                    0.0,
-                    137.3000030517578,
-                    1.0
-                ]
-            },
-            "id": 505,
-            "name": "Text_Retry",
-            "parentId": 487,
-            "type": "Text"
+            "id": 487,
+            "name": "Retry",
+            "parentId": null,
+            "type": "Sprite"
         },
         {
             "active": true,
@@ -336,125 +255,6 @@
             "type": "Sprite"
         },
         {
-            "active": false,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.7843137383460999
-                ],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 1,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    1600.0,
-                    1200.0
-                ],
-                "translate": [
-                    801.29150390625,
-                    499.6177673339844,
-                    1.0
-                ]
-            },
-            "id": 487,
-            "name": "Retry",
-            "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": false,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "plane.obj",
-                "rotate": [
-                    0.0,
-                    0.9995885491371155,
-                    0.0,
-                    -0.028683148324489594
-                ],
-                "scale": [
-                    15.0,
-                    10.000285148620605,
-                    10.0
-                ],
-                "translate": [
-                    0.14904354512691498,
-                    9.692999839782715,
-                    11.303409576416016
-                ]
-            },
-            "id": 26,
-            "name": "Plane",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
             "active": true,
             "data": {
                 "anchor": [
@@ -466,23 +266,25 @@
                     1009.0
                 ],
                 "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.7843137383460999
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
                 ],
                 "drawRange": [
-                    16.0,
-                    16.0
+                    176.0,
+                    84.0
                 ],
                 "flipX": false,
                 "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
                 ],
-                "renderQueue": 1,
+                "renderQueue": 2,
                 "rotate": [
                     0.0,
                     0.0,
@@ -493,21 +295,32 @@
                     1.0,
                     1.0
                 ],
-                "texture": "white.png",
+                "text": "Retry",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_32",
                 "textureSize": [
-                    600.0,
-                    1200.0
+                    176.0,
+                    84.0
                 ],
                 "translate": [
-                    1635.2701416015625,
-                    492.82781982421875,
+                    0.0,
+                    137.3000030517578,
                     1.0
                 ]
             },
-            "id": 467,
-            "name": "UI_background",
-            "parentId": null,
-            "type": "Sprite"
+            "id": 505,
+            "name": "Text_Retry",
+            "parentId": 487,
+            "type": "Text"
         },
         {
             "active": true,
@@ -655,6 +468,193 @@
             "name": "Player",
             "parentId": null,
             "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.7843137383460999
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    600.0,
+                    1200.0
+                ],
+                "translate": [
+                    1635.2701416015625,
+                    492.82781982421875,
+                    1.0
+                ]
+            },
+            "id": 467,
+            "name": "UI_background",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": false,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "plane.obj",
+                "rotate": [
+                    0.0,
+                    0.9995885491371155,
+                    0.0,
+                    -0.028683148324489594
+                ],
+                "scale": [
+                    15.0,
+                    10.000285148620605,
+                    10.0
+                ],
+                "translate": [
+                    0.14904354512691498,
+                    9.692999839782715,
+                    11.303409576416016
+                ]
+            },
+            "id": 26,
+            "name": "Plane",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": false,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "Title",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_30",
+                "textureSize": [
+                    176.0,
+                    84.0
+                ],
+                "translate": [
+                    0.0,
+                    262.29998779296875,
+                    1.0
+                ]
+            },
+            "id": 522,
+            "name": "Text_Title",
+            "parentId": 487,
+            "type": "Text"
         }
     ],
     "sceneName": "Game",
