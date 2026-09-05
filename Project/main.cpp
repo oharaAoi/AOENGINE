@@ -5,7 +5,7 @@
 static const uint32_t kWindowWidth_ = 1280;
 static const uint32_t kWindowHeight_ = 720;
 
-static const char kTitleBar[] = "LE3A_06_オオハラ_アオイ";
+static const char kTitleBar[] = "4005_メテオギュット";
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// 出力ウィンドウへの文字出力
