@@ -601,6 +601,10 @@ bool SceneRenderer::TryAddNormalInstancingBatch(
 	}
 	const bool isSkinned = object.CanUseSkinnedMaterialBatch();
 	if (!isSkinned && !object.CanUseNormalInstancing()) { return false; }
+	// Check every slot before adding any mesh to a batch.
+	for (const auto& material : object.GetMaterialSlots()) {
+		if (material && !material->GetPipelineName().empty()) { return false; }
+	}
 
 	const AOENGINE::Model* model = object.GetModel();
 	const AOENGINE::WorldTransform* transform = object.GetTransform();

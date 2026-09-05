@@ -52,9 +52,15 @@ protected:
 	/// ShaderTypeを編集する
 	/// </summary>
 	void EditShaderType();
+	void EditPipeline();
 	void UpdateShaderGraph();
 
 public:
+	// An empty name inherits the object's rendering pipeline.
+	void SetPipelineName(const std::string& name) { pipelineName_ = name; }
+	const std::string& GetPipelineName() const { return pipelineName_; }
+	bool IsPipelineCompatible(const Pipeline& pipeline) const;
+	const Pipeline* ResolvePipeline(const Pipeline* fallback) const;
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetBufferAddress() const { return cBuffer_->GetGPUVirtualAddress(); }
 
@@ -88,6 +94,7 @@ public:
 protected:
 
 	MaterialShaderType shaderType_ = MaterialShaderType::UniversalRender;
+	std::string pipelineName_;
 	int shaderTypeIndex_ = 0;
 
 	ComPtr<ID3D12Resource> cBuffer_;

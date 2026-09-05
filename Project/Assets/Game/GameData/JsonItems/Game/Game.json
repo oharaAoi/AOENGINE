@@ -196,7 +196,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_24",
+                "texture": "__Text_0",
                 "textureSize": [
                     176.0,
                     84.0
@@ -224,72 +224,19 @@
                     1009.0
                 ],
                 "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 1,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    600.0,
-                    1200.0
-                ],
-                "translate": [
-                    1635.270263671875,
-                    492.82781982421875,
-                    1.0
-                ]
-            },
-            "id": 467,
-            "name": "UI_background",
-            "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
                     1.0,
                     1.0,
                     1.0,
                     1.0
                 ],
                 "drawRange": [
-                    16.0,
-                    16.0
+                    176.0,
+                    84.0
                 ],
                 "flipX": false,
                 "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -306,21 +253,32 @@
                     1.0,
                     1.0
                 ],
-                "texture": "white.png",
+                "text": "Retry",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_1",
                 "textureSize": [
-                    445.0,
-                    143.0
+                    176.0,
+                    84.0
                 ],
                 "translate": [
                     0.0,
-                    -141.39999389648438,
+                    55.20000076293945,
                     1.0
                 ]
             },
-            "id": 488,
-            "name": "Retry_title",
+            "id": 705,
+            "name": "Text_Retry",
             "parentId": 487,
-            "type": "Sprite"
+            "type": "Text"
         },
         {
             "active": false,
@@ -395,13 +353,11 @@
                     1.0
                 ],
                 "drawRange": [
-                    176.0,
-                    84.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -418,62 +374,21 @@
                     1.0,
                     1.0
                 ],
-                "text": "Retry",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_20",
+                "texture": "white.png",
                 "textureSize": [
-                    176.0,
-                    84.0
+                    445.0,
+                    143.0
                 ],
                 "translate": [
                     0.0,
-                    55.20000076293945,
+                    -141.39999389648438,
                     1.0
                 ]
             },
-            "id": 705,
-            "name": "Text_Retry",
+            "id": 488,
+            "name": "Retry_title",
             "parentId": 487,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "DamageFloor",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    18.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 682,
-            "name": "DamageFloor",
-            "parentId": null,
-            "type": "PrefabInstance"
+            "type": "Sprite"
         },
         {
             "active": true,
@@ -490,9 +405,9 @@
                     },
                     {
                         "active": true,
-                        "category": "DamageFloor",
+                        "category": "Boss",
                         "collisionMask": [
-                            "Player"
+                            "LaunchedBlock"
                         ],
                         "localPosition": [
                             0.0,
@@ -506,7 +421,7 @@
                             1.0
                         ],
                         "static": true,
-                        "trigger": false,
+                        "trigger": true,
                         "type": "AABBCollider"
                     }
                 ],
@@ -525,6 +440,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 0,
@@ -556,6 +472,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 1,
@@ -587,6 +504,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 2,
@@ -618,6 +536,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 3,
@@ -668,6 +587,36 @@
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 682,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
                 "prefab": "Player",
                 "rotate": [
                     0.0,
@@ -691,6 +640,61 @@
             "name": "Player",
             "parentId": null,
             "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    600.0,
+                    1200.0
+                ],
+                "translate": [
+                    1635.270263671875,
+                    492.82781982421875,
+                    1.0
+                ]
+            },
+            "id": 467,
+            "name": "UI_background",
+            "parentId": null,
+            "type": "Sprite"
         }
     ],
     "sceneName": "Game",

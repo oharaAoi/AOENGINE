@@ -186,6 +186,31 @@ void AOENGINE::Render::DrawModel(const Pipeline* pipeline, Model* model, const A
 	RenderingCommands::DrawSkinningModel(commandList_, model, pipeline, worldTransform, viewProjection_, materialSlots, _skinningArray);
 }
 
+void AOENGINE::Render::DrawMaterialSubMesh(const Pipeline* fallback, Mesh* mesh, const SubMesh& subMesh,
+	BaseMaterial* material, const WorldTransform* transform, const D3D12_VERTEX_BUFFER_VIEW& vertexBuffer) {
+	const Pipeline* pipeline = material->ResolvePipeline(fallback);
+	if (!pipeline) { return; }
+	// A different root signature invalidates previous bindings, including camera and lights.
+	pipeline->BindCommand(commandList_);
+	lightGroup_->BindCommand(pipeline, commandList_);
+	commandList_->IASetVertexBuffers(0, 1, &vertexBuffer);
+	commandList_->IASetIndexBuffer(&mesh->GetIBV());
+	transform->BindCommandList(commandList_, pipeline->GetRootSignatureIndex("gWorldTransformMatrix"));
+	viewProjection_->BindCommandList(commandList_, pipeline->GetRootSignatureIndex("gViewProjectionMatrix"));
+	if (pipeline->HasRootBinding("gViewProjectionMatrixPrev")) {
+		viewProjection_->BindCommandListPrev(commandList_, pipeline->GetRootSignatureIndex("gViewProjectionMatrixPrev"));
+	}
+	if (pipeline->HasRootBinding("gShadowMap")) {
+		commandList_->SetGraphicsRootDescriptorTable(pipeline->GetRootSignatureIndex("gShadowMap"), shadowMap_->GetDeptSrvHandle().handleGPU);
+	}
+	if (pipeline->HasRootBinding("gEnviromentTexture")) {
+		TextureManager::GetInstance()->SetGraphicsRootDescriptorTable(commandList_, skyboxTexture_, pipeline->GetRootSignatureIndex("gEnviromentTexture"));
+	}
+	material->BindCommand(commandList_, pipeline);
+	commandList_->IASetPrimitiveTopology(subMesh.topology);
+	commandList_->DrawIndexedInstanced(subMesh.indexCount, 1, subMesh.firstIndex, subMesh.baseVertex, 0);
+}
+
 void AOENGINE::Render::DrawEnvironmentModel(const Pipeline* pipeline, Mesh* _mesh, const SubMesh& _subMesh,
 	BaseMaterial* _material, const AOENGINE::WorldTransform* _transform) {
 	lightGroup_->BindCommand(pipeline, commandList_);

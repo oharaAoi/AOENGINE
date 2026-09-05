@@ -57,6 +57,7 @@ void PBRMaterial::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Debug_Gui() {
+	EditPipeline();
 	EditShaderType();
 	EditUV();
 	ImGui::ColorEdit4("color", &pbrMaterial_->color.r);

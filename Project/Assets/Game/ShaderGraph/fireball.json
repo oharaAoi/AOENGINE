@@ -27,18 +27,6 @@
             "toPin": "UV"
         },
         {
-            "fromNode": 1852923280752,
-            "fromPin": "DxResource",
-            "toNode": 1852924017744,
-            "toPin": "TextureA"
-        },
-        {
-            "fromNode": 1852924031616,
-            "fromPin": "DxResource",
-            "toNode": 1852924017744,
-            "toPin": "TextureB"
-        },
-        {
             "fromNode": 1852923845744,
             "fromPin": "Gradient",
             "toNode": 1852924025360,
@@ -63,6 +51,30 @@
             "toPin": "Gradient"
         },
         {
+            "fromNode": 1852923210272,
+            "fromPin": "time",
+            "toNode": 1852923844464,
+            "toPin": "x"
+        },
+        {
+            "fromNode": 1852923280752,
+            "fromPin": "DxResource",
+            "toNode": 1852924017744,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 1852924031616,
+            "fromPin": "DxResource",
+            "toNode": 1852924017744,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2876456733184,
+            "fromPin": "output",
+            "toNode": 1852920542320,
+            "toPin": "scale"
+        },
+        {
             "fromNode": 1852924025360,
             "fromPin": "DxResource",
             "toNode": 1852924034064,
@@ -75,12 +87,6 @@
             "toPin": "TextureB"
         },
         {
-            "fromNode": 1852923210272,
-            "fromPin": "time",
-            "toNode": 1852923844464,
-            "toPin": "x"
-        },
-        {
             "fromNode": 1852924034064,
             "fromPin": "DxResource",
             "toNode": 1852894459680,
@@ -89,26 +95,34 @@
     ],
     "nodes": [
         {
-            "id": 1852894459680,
-            "name": "ResultNode",
-            "pos": [
-                2040.0,
-                500.0
-            ]
-        },
-        {
             "id": 1852923844464,
             "name": "InOut_Vector2",
             "pos": [
-                130.0,
-                270.0
+                110.0,
+                230.0
             ],
             "props": {
                 "value": [
-                    409.38909912109375,
-                    409.38909912109375
+                    75.58653259277344,
+                    75.58653259277344
                 ]
             }
+        },
+        {
+            "id": 1852924034064,
+            "name": "AddBlend",
+            "pos": [
+                1640.0,
+                430.0
+            ]
+        },
+        {
+            "id": 1852894459680,
+            "name": "ResultNode",
+            "pos": [
+                2000.0,
+                420.0
+            ]
         },
         {
             "id": 1852924041408,
@@ -118,7 +132,49 @@
                 110.0
             ],
             "props": {
-                "textureName": "noise3.dds"
+                "textureName": "cell.dds"
+            }
+        },
+        {
+            "id": 1852924014752,
+            "name": "SampleGradient",
+            "pos": [
+                1240.0,
+                480.0
+            ],
+            "props": {
+                "channel": 0,
+                "multiplySourceAlpha": false
+            }
+        },
+        {
+            "id": 1852923845744,
+            "name": "Gradient",
+            "pos": [
+                690.0,
+                420.0
+            ],
+            "props": {
+                "keys": [
+                    {
+                        "color": {
+                            "a": 0.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "position": 0.0
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.10389608144760132,
+                            "r": 1.0
+                        },
+                        "position": 0.6650000214576721
+                    }
+                ]
             }
         },
         {
@@ -141,8 +197,8 @@
             "id": 1852923210272,
             "name": "TimeNode",
             "pos": [
-                -10.0,
-                270.0
+                -60.0,
+                170.0
             ]
         },
         {
@@ -154,12 +210,34 @@
             ]
         },
         {
-            "id": 1852924034064,
-            "name": "AddBlend",
+            "id": 1852923846000,
+            "name": "Gradient",
             "pos": [
-                1640.0,
-                430.0
-            ]
+                870.0,
+                560.0
+            ],
+            "props": {
+                "keys": [
+                    {
+                        "color": {
+                            "a": 0.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.9783549904823303
+                        },
+                        "position": 0.15199999511241913
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.649350643157959,
+                            "r": 1.0
+                        },
+                        "position": 0.3230000138282776
+                    }
+                ]
+            }
         },
         {
             "id": 1852924017744,
@@ -181,36 +259,6 @@
             }
         },
         {
-            "id": 1852923845744,
-            "name": "Gradient",
-            "pos": [
-                690.0,
-                420.0
-            ],
-            "props": {
-                "keys": [
-                    {
-                        "color": {
-                            "a": 1.0,
-                            "b": 0.0,
-                            "g": 0.0,
-                            "r": 0.0
-                        },
-                        "position": 0.33500000834465027
-                    },
-                    {
-                        "color": {
-                            "a": 1.0,
-                            "b": 1.0,
-                            "g": 1.0,
-                            "r": 1.0
-                        },
-                        "position": 0.6650000214576721
-                    }
-                ]
-            }
-        },
-        {
             "id": 1852924025360,
             "name": "SampleGradient",
             "pos": [
@@ -223,44 +271,16 @@
             }
         },
         {
-            "id": 1852924014752,
-            "name": "SampleGradient",
+            "id": 2876456733184,
+            "name": "Property_Vector2",
             "pos": [
-                1240.0,
-                480.0
+                -140.0,
+                310.0
             ],
             "props": {
-                "channel": 0,
-                "multiplySourceAlpha": true
-            }
-        },
-        {
-            "id": 1852923846000,
-            "name": "Gradient",
-            "pos": [
-                830.0,
-                570.0
-            ],
-            "props": {
-                "keys": [
-                    {
-                        "color": {
-                            "a": 1.0,
-                            "b": 0.0,
-                            "g": 0.0,
-                            "r": 0.0
-                        },
-                        "position": 0.15199999511241913
-                    },
-                    {
-                        "color": {
-                            "a": 1.0,
-                            "b": 0.0,
-                            "g": 0.07792210578918457,
-                            "r": 1.0
-                        },
-                        "position": 0.3230000138282776
-                    }
+                "value": [
+                    0.4099999964237213,
+                    0.12999999523162842
                 ]
             }
         }

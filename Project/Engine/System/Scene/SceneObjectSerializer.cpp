@@ -82,6 +82,7 @@ json SerializeMaterial(const BaseMaterial& material, uint32_t slot) {
 	json data = {
 		{ "slot", slot },
 		{ "shaderType", static_cast<int>(material.GetShaderType()) },
+		{ "pipeline", material.GetPipelineName() },
 		{ "albedoTexture", material.GetAlbedoTexture() },
 		{ "uvScale", Vector3ToJson(uv.scale) },
 		{ "uvRotate", Vector3ToJson(uv.rotate) },
@@ -120,6 +121,7 @@ MaterialType GetMaterialType(const json& data) {
 }
 
 void DeserializeMaterial(BaseMaterial& material, const json& data) {
+	material.SetPipelineName(data.value("pipeline", std::string{}));
 	material.SetShaderType(static_cast<MaterialShaderType>(data.value("shaderType", 0)));
 	material.SetAlbedoTexture(data.value("albedoTexture", material.GetAlbedoTexture()));
 	if (data.contains("uvScale")) { material.SetUvScale(JsonToVector3(data.at("uvScale"))); }
