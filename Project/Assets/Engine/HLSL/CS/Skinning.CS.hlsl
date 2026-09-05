@@ -37,6 +37,19 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 
 	Vertex input = gInputVertices[vertexIndex];
 	VertexInfluence influence = gInfluences[vertexIndex];
+	float weightSum = influence.weight.x + influence.weight.y +
+		influence.weight.z + influence.weight.w;
+
+	// マルチメッシュ内のボーンを持たない頂点はInfluenceがすべて0になる。
+	// その頂点までSkinningすると原点へ潰れるため、静的頂点としてそのまま出力する。
+	if (weightSum <= 0.000001f)
+	{
+		gOutoutVertices[vertexIndex] = input;
+		return;
+	}
+
+	// インポート時の丸め誤差や、合計が1ではないウェイトにも対応する。
+	influence.weight /= weightSum;
 
 	float4x4 m0 = gMatrixPalette[influence.index.x].skeletonSpaceMatrix;
 	float4x4 m1 = gMatrixPalette[influence.index.y].skeletonSpaceMatrix;
