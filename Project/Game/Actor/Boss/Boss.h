@@ -62,6 +62,9 @@ private:
 	// ダメージを受け付けない状態か
 	bool isInvincible_ = false;
 
+	// 撃破の演出まで終わったか
+	bool isDefeatFinished_ = false;
+
 	// 自分のCollider category名
 	static inline const std::string kColliderTag = "Boss";
 
@@ -79,6 +82,10 @@ public: // accessor
 	float GetMaxHp() const { return parameter_.hp; }
 	float GetCurrentHp() const { return currentHp_; }
 	bool IsDefeated() const { return currentHp_ <= 0.0f; }
+
+	// 撃破の演出まで終わったか。シーンをクリアへ移す合図に使う
+	void SetDefeatFinished(bool isFinished) { isDefeatFinished_ = isFinished; }
+	bool IsDefeatFinished() const { return isDefeatFinished_; }
 
 	// フェーズ切り替えの演出中など、ダメージを受け付けない状態にする
 	void SetInvincible(bool isInvincible) { isInvincible_ = isInvincible; }

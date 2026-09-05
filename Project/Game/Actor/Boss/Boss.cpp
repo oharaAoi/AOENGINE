@@ -33,6 +33,7 @@ void Boss::Init(BaseGameObject* body) {
 	scaleMultiplier_ = CVector3::UNIT;
 
 	isInvincible_ = false;
+	isDefeatFinished_ = false;
 	SetRendering(true);
 
 	animation_.Init();
@@ -175,7 +176,24 @@ void Boss::Debug_Gui() {
 	}
 
 	ImGui::Text("body: %s", bodyState);
+	// HPは直接いじれるようにしておく。フェーズ切り替えと撃破をすぐ確認できる
+	ImGui::DragFloat("current hp", &currentHp_, 0.1f, 0.0f, parameter_.hp);
+	ImGui::SameLine();
+	if (ImGui::Button("Kill")) {
+		currentHp_ = 0.0f;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Full")) {
+		currentHp_ = parameter_.hp;
+	}
+
 	ImGui::Text("hp: %.1f / %.1f  (phase %d)", currentHp_, parameter_.hp, GetPhaseIndex());
+
+	const char* invincibleState = "false";
+	if (isInvincible_) {
+		invincibleState = "true";
+	}
+	ImGui::Text("invincible: %s", invincibleState);
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
 
 	// 行動が指定している名前と、実際に流れている名前の両方を出す

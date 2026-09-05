@@ -31,4 +31,7 @@ void BossAttackDefeat::Update(Boss& boss, float deltaTime) {
 
 	isHidden_ = true;
 	boss.SetRendering(false);
+
+	// ここまで見せたらシーンを進めてよい
+	boss.SetDefeatFinished(true);
 }
