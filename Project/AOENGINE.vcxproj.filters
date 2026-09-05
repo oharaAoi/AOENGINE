@@ -1068,6 +1068,15 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\GradientData.h">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\GradientNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClInclude>
@@ -2076,6 +2085,12 @@
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\GradientNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp">

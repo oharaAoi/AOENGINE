@@ -54,6 +54,7 @@ public:
 public:
 
 	void SetIsStop(bool _isStop) { isStop_ = _isStop; }
+	bool GetIsStop() const { return isStop_; }
 
 	void SetParent(const Math::Matrix4x4& parentMat);
 

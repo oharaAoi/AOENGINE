@@ -1,22 +1,22 @@
 {
-    "RoketJet": {
-        "angle": 0.0,
+    "PlayerHitWave": {
+        "angle": 27.0,
         "angleMax": 360.0,
         "angleMin": 0.0,
         "arc": 360.0,
         "blendModeType": 2,
         "color": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
-            "r": 1.0
+            "b": 0.21621620655059814,
+            "g": 0.21621620655059814,
+            "r": 0.21621620655059814
         },
         "coneEmitFrom": 0,
         "damping": 0.0,
         "discardValue": 0.009999999776482582,
-        "duration": 5.0,
+        "duration": 1.0,
         "emitDirection": 1,
-        "emitOrigin": 1,
+        "emitOrigin": 0,
         "emitSpacing": 0.10000000149011612,
         "endDiscard": 1.0,
         "fadeInTime": 0.0,
@@ -24,35 +24,35 @@
         "gravity": 0.0,
         "height": 1.0,
         "isBillBord": true,
-        "isColorAnimation": true,
+        "isColorAnimation": false,
         "isDirectionRotate": false,
         "isDraw2d": false,
         "isFadeInOut": false,
         "isLerpDiscardValue": false,
         "isLifeOfAlpha": true,
         "isLifeOfScale": true,
-        "isLoop": true,
+        "isLoop": false,
         "isRandomColor": false,
         "isRandomRotate": true,
         "isScaleUp": false,
         "isStretch": false,
         "isTextureSheetAnimation": false,
         "lifeOfMaxScale": {
+            "x": 8.0,
+            "y": 8.0,
+            "z": 0.0
+        },
+        "lifeOfMinScale": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "lifeOfMinScale": {
-            "x": 4.0,
-            "y": 4.0,
-            "z": 2.0
-        },
-        "lifeTime": 0.5,
+        "lifeTime": 0.20000000298023224,
         "maxAngle": 360.0,
         "maxEmitPerFrame": 256,
         "maxParticles": 512,
         "maxScale": {
-            "x": 2.0,
+            "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
@@ -65,17 +65,17 @@
         "overflowMode": 1,
         "postColor": {
             "a": 1.0,
-            "b": 0.0,
-            "g": 0.09266406297683716,
+            "b": 1.0,
+            "g": 1.0,
             "r": 1.0
         },
         "preColor": {
             "a": 1.0,
-            "b": 0.0,
-            "g": 0.3474903106689453,
+            "b": 1.0,
+            "g": 1.0,
             "r": 1.0
         },
-        "radius": 0.20000000298023224,
+        "radius": 0.5,
         "radiusThickness": 1.0,
         "randColor1": {
             "a": 1.0,
@@ -90,7 +90,7 @@
             "r": 0.0
         },
         "randomDirectionAmount": 0.0,
-        "rateOverTimeCout": 225,
+        "rateOverTimeCout": 3,
         "rotate": {
             "x": 0.0,
             "y": 0.0,
@@ -102,13 +102,13 @@
             "z": 1.0
         },
         "separateByAxisScale": false,
-        "shape": 2,
+        "shape": 0,
         "size": {
             "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
-        "speed": -6.239999771118164,
+        "speed": 0.0,
         "startDiscard": 0.009999999776482582,
         "teleportThreshold": 50.0,
         "tiles": {
@@ -121,6 +121,6 @@
             "z": 0.0
         },
         "useMesh": "plane",
-        "useTexture": "circle.png"
+        "useTexture": "ring"
     }
 }

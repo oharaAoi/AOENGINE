@@ -19,7 +19,7 @@ void TestScene::Finalize()
 	// ステージのブロックを SceneWorld から破棄し、連結グループ表を空にする。
 	// TestScene のデストラクタからも呼ばれるため、複数回呼ばれても安全であること。
 	ClearStage();
-	player_.reset();
+	
 }
 
 void TestScene::Init()
@@ -29,10 +29,10 @@ void TestScene::Init()
 	player_ = std::make_unique<Player>();
 
 	// 着地したブロックのグループをPlayerへ渡すコールバックを衝突ペアへ登録する
-	playerBlockCallBacks_.SetPlayer(player_.get());
+	/*playerBlockCallBacks_.SetPlayer(player_.get());
 	playerBlockCallBacks_.Init();
 	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
-	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);
+	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);*/
 	
 	//AOENGINE::BaseParticles* particle = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
 	
@@ -43,31 +43,31 @@ void TestScene::Init()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update()
 {
-	if (player_) {
-		player_->Update();
-	}
-
-#ifdef _DEVELOPMENT
-	// 調整パラメータの編集 + Save/Load
-	if (player_) {
-		ImGui::Begin("Player");
-		player_->Debug_Gui();
-		ImGui::End();
-	}
-#endif
+//	if (player_) {
+//		player_->Update();
+//	}
+//
+//#ifdef _DEVELOPMENT
+//	// 調整パラメータの編集 + Save/Load
+//	if (player_) {
+//		ImGui::Begin("Player");
+//		player_->Debug_Gui();
+//		ImGui::End();
+//	}
+//#endif
 }
 
 void TestScene::OnPlayStart()
 {
 
-	// Player初期化
-	player_->Init(ResolvePlayerBody());
-	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
-	player_->SetBlockField(&stageBlockField_);
+	//// Player初期化
+	//player_->Init(ResolvePlayerBody());
+	//// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
+	//player_->SetBlockField(&stageBlockField_);
 
 	auto effect =
 		AOENGINE::ParticleEffectManager::GetInstance()->Play(
-			"BossHitEffect"
+			"PlayerHitEffect"
 		);
 }
 
