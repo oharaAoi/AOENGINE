@@ -312,6 +312,10 @@ void AOENGINE::Render::SetCameraBufferSlot(CameraBufferSlot slot) {
 	}
 }
 
+CameraBufferSlot AOENGINE::Render::GetCameraBufferSlot() {
+	return currentCameraBufferSlot_;
+}
+
 void AOENGINE::Render::SetViewProjection2D(const Math::Matrix4x4& view, const Math::Matrix4x4& projection) {
 	viewProjection2D_->SetViewProjection(view, projection);
 }

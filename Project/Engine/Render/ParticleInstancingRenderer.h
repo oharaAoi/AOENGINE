@@ -1,4 +1,5 @@
 #pragma once
+#include <array>
 #include <vector>
 #include <string>
 #include <memory>
@@ -94,11 +95,7 @@ public:
 	void ChangeMesh(const std::string& id, std::shared_ptr<AOENGINE::Mesh> _mesh);
 	void RemoveParticle(const std::string& id);
 
-	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& view2d, const Math::Matrix4x4& bill) {
-		perView_->viewProjection = view;
-		perView_->viewProjection2d = view2d;
-		perView_->billboardMat = bill;
-	}
+	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& view2d, const Math::Matrix4x4& bill);
 
 private:
 
@@ -107,8 +104,9 @@ private:
 	std::unordered_map<std::string, Information> particleMap_;
 
 	
-	ComPtr<ID3D12Resource> perViewBuffer_;
-	PerView* perView_;
+	static constexpr size_t kViewCount = 2;
+	std::array<ComPtr<ID3D12Resource>, kViewCount> perViewBuffers_;
+	std::array<PerView*, kViewCount> perViews_{};
 
 };
 }

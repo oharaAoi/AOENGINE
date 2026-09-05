@@ -113,10 +113,7 @@ public:
 	D3D12_GPU_DESCRIPTOR_HANDLE GetFreeListHandle() const { return freeListResource_->GetUAV().handleGPU; }
 	ID3D12Resource* GetMaxBufferResource() const { return maxParticleBuffer_.Get(); }
 
-	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& bill) {
-		perView_->viewProjection = view;
-		perView_->billboardMat = Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), bill);
-	}
+	void SetView(const Math::Matrix4x4& view, const Math::Matrix4x4& bill);
 
 private:
 
@@ -128,8 +125,9 @@ private:
 	AOENGINE::DxResource* visibleParticleIndexResource_ = nullptr;
 	AOENGINE::DxResource* indirectArgsResource_ = nullptr;
 
-	ComPtr<ID3D12Resource> perViewBuffer_;
-	PerView* perView_;
+	static constexpr size_t kViewCount = 2;
+	std::array<ComPtr<ID3D12Resource>, kViewCount> perViewBuffers_;
+	std::array<PerView*, kViewCount> perViews_{};
 
 	ComPtr<ID3D12Resource> perFrameBuffer_;
 	PerFrame* perFrame_;
@@ -137,8 +135,8 @@ private:
 	ComPtr<ID3D12Resource> maxParticleBuffer_;
 	MaxParticles* maxBuffer_;
 
-	ComPtr<ID3D12Resource> cullingDataBuffer_;
-	CullingData* cullingData_ = nullptr;
+	std::array<ComPtr<ID3D12Resource>, kViewCount> cullingDataBuffers_;
+	std::array<CullingData*, kViewCount> cullingData_{};
 	ComPtr<ID3D12Resource> indirectArgsResetBuffer_;
 	ComPtr<ID3D12CommandSignature> drawCommandSignature_;
 

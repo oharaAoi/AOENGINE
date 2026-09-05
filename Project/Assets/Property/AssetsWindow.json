@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Load\\Textures\\Effect"
+        "path": "Project\\Assets\\Game\\GameData\\JsonItems\\Effect\\CPU"
     },
     "openDir": {
         "./Assets": false,
@@ -24,6 +24,7 @@
         "./Project/Assets\\Game\\GameData\\JsonItems\\Clear": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Effect": true,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Effect\\CPU": false,
+        "./Project/Assets\\Game\\GameData\\JsonItems\\Effect\\Composite": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game_PostEffect": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Object": false,
