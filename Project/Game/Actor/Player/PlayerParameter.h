@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
+#include "Engine/Lib/Math/Vector3.h"
 
 /// <summary>
 /// プレイヤーの調整パラメータ
@@ -21,6 +22,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float fallGravity;			  // 落下中の重力
 	float maxFallSpeed;			  // 落下速度の上限
 	float groundKeepSpeed = 1.0f; // 接地を維持するために足場へ押し付ける速度
+	float fallLimitY = -10.0f;	  // これ以上は落ちない高さ。下回ったらこの位置で止める
+	float fixedZ = 0.0f;		  // 奥行きは動かさない。押し戻されてもこの位置へ戻す
+	float groundCheckDistance = 0.15f; // 足元の何ユニット下までを足場として見るか
 
 	// コネクトステート
 	// json に無いキーは値が書き換わらないため、初期値を持たせておく
@@ -37,6 +41,32 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float maxHp = 3.0f;			// 最大HP
 	float invincibleTime = 1.0f;			// 被弾後の無敵時間(秒)
 	float invincibleBlinkInterval = 0.08f;	// 無敵中の点滅の間隔(秒)
+
+	// 見た目基準サイズ
+	Math::Vector3 baseScale{ 0.4f, 0.4f, 0.4f };
+    // ヒットサイズ
+	Math::Vector3 hitSize{ 0.6f, 0.9f, 0.6f };
+	// 当たり判定オフセット
+	Math::Vector3 hitOffset{ 0.0f, -0.45f, 0.0f };
+
+	// --- 接地・着地の判定に使う箱 ---
+	// 足元の箱。この箱の下にある足場に乗る
+	Math::Vector3 footSize{ 0.7f, 0.2f, 0.7f };
+	Math::Vector3 footOffset{ 0.0f, 0.075f, 0.0f };
+	// 胴体から頭までの箱。大ジャンプの着地先を選ぶ時、ここが埋まる足場は選ばない
+	Math::Vector3 bodySize{ 0.7f, 1.05f, 0.7f };
+	Math::Vector3 bodyOffset{ 0.0f, 0.71f, 0.0f };
+
+	// 向き
+	float facingYawRight = 180.0f;
+	float facingYawLeft = 0.0f;
+	float facingTurnSpeed = 12.0f;
+
+	// アニメーション
+	float animationBlendSpeed = 0.2f;
+	float animationSpeed = 1.0f;		// 既定の再生速度
+	float walkAnimationSpeed = 1.6f;	// 歩きだけ少し速く回す
+	float idleAnimationDelay = 0.12f;
 
 	// その他
 	float stickDeadZone; // 左スティックのデッドゾーン
@@ -55,6 +85,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Fall Gravity", fallGravity, 0.1f, 0.0f, 500.0f);
 		AddParameter("Max Fall Speed", maxFallSpeed, 0.1f, 0.0f, 500.0f);
 		AddParameter("Ground Keep Speed",groundKeepSpeed,0.1f,0.0f,100.0f);
+		AddParameter("Fall Limit Y", fallLimitY, 0.1f, -10000.0f, 10000.0f);
+		AddParameter("Fixed Z", fixedZ, 0.1f, -10000.0f, 10000.0f);
+		AddParameter("Ground Check Distance", groundCheckDistance, 0.01f, 0.0f, 10.0f);
 
 		AddParameter("Connectable Time",connectableTime,0.01f,0.0f,10.0f);
 		AddParameter("Launch Wait Time",launchWaitTime,0.01f,0.0f,10.0f);
@@ -68,6 +101,23 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Max HP", maxHp, 1.0f, 0.0f, 1000.0f);
 		AddParameter("Invincible Time", invincibleTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Invincible Blink Interval", invincibleBlinkInterval, 0.01f, 0.0f, 5.0f);
+
+		AddSeparatorText("Look");
+		AddParameter("Base Scale", baseScale, 0.01f);
+		AddParameter("Hit Size", hitSize, 0.01f);
+		AddParameter("Hit Offset", hitOffset, 0.01f);
+		AddSeparatorText("Ground");
+		AddParameter("Foot Size", footSize, 0.01f);
+		AddParameter("Foot Offset", footOffset, 0.01f);
+		AddParameter("Body Size", bodySize, 0.01f);
+		AddParameter("Body Offset", bodyOffset, 0.01f);
+		AddParameter("Facing Yaw Right(deg)", facingYawRight, 1.0f, -360.0f, 360.0f);
+		AddParameter("Facing Yaw Left(deg)", facingYawLeft, 1.0f, -360.0f, 360.0f);
+		AddParameter("Facing Turn Speed", facingTurnSpeed, 0.1f, 0.0f, 100.0f);
+		AddParameter("Animation Blend Speed", animationBlendSpeed, 0.01f, 0.0f, 10.0f);
+		AddParameter("Animation Speed", animationSpeed, 0.01f, 0.0f, 10.0f);
+		AddParameter("Walk Animation Speed", walkAnimationSpeed, 0.01f, 0.0f, 10.0f);
+		AddParameter("Idle Animation Delay", idleAnimationDelay, 0.01f, 0.0f, 5.0f);
 
 		AddParameter("Stick DeadZone", stickDeadZone, 0.01f, 0.0f, 1.0f);
 	}
@@ -84,6 +134,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("fallGravity", fallGravity)
 			.Add("maxFallSpeed", maxFallSpeed)
 			.Add("groundKeepSpeed", groundKeepSpeed)
+			.Add("fallLimitY", fallLimitY)
+			.Add("fixedZ", fixedZ)
+			.Add("groundCheckDistance", groundCheckDistance)
 			.Add("connectableTime", connectableTime)
 			.Add("launchWaitTime", launchWaitTime)
 			.Add("gatherSpeed", gatherSpeed)
@@ -95,6 +148,20 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("maxHp", maxHp)
 			.Add("invincibleTime", invincibleTime)
 			.Add("invincibleBlinkInterval", invincibleBlinkInterval)
+			.Add("baseScale", baseScale)
+			.Add("hitSize", hitSize)
+			.Add("hitOffset", hitOffset)
+			.Add("footSize", footSize)
+			.Add("footOffset", footOffset)
+			.Add("bodySize", bodySize)
+			.Add("bodyOffset", bodyOffset)
+			.Add("facingYawRight", facingYawRight)
+			.Add("facingYawLeft", facingYawLeft)
+			.Add("facingTurnSpeed", facingTurnSpeed)
+			.Add("animationBlendSpeed", animationBlendSpeed)
+			.Add("animationSpeed", animationSpeed)
+			.Add("walkAnimationSpeed", walkAnimationSpeed)
+			.Add("idleAnimationDelay", idleAnimationDelay)
 			.Add("stickDeadZone", stickDeadZone)
 			.Build();
 	}
@@ -110,6 +177,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "fallGravity", fallGravity);
 		Convert::fromJson(jsonData, "maxFallSpeed", maxFallSpeed);
 		Convert::fromJson(jsonData, "groundKeepSpeed", groundKeepSpeed);
+		Convert::fromJson(jsonData, "fallLimitY", fallLimitY);
+		Convert::fromJson(jsonData, "fixedZ", fixedZ);
+		Convert::fromJson(jsonData, "groundCheckDistance", groundCheckDistance);
 		Convert::fromJson(jsonData, "connectableTime", connectableTime);
 		Convert::fromJson(jsonData, "launchWaitTime", launchWaitTime);
 		Convert::fromJson(jsonData, "gatherSpeed", gatherSpeed);
@@ -121,6 +191,20 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "maxHp", maxHp);
 		Convert::fromJson(jsonData, "invincibleTime", invincibleTime);
 		Convert::fromJson(jsonData, "invincibleBlinkInterval", invincibleBlinkInterval);
+		Convert::fromJson(jsonData, "baseScale", baseScale);
+		Convert::fromJson(jsonData, "hitSize", hitSize);
+		Convert::fromJson(jsonData, "hitOffset", hitOffset);
+		Convert::fromJson(jsonData, "footSize", footSize);
+		Convert::fromJson(jsonData, "footOffset", footOffset);
+		Convert::fromJson(jsonData, "bodySize", bodySize);
+		Convert::fromJson(jsonData, "bodyOffset", bodyOffset);
+		Convert::fromJson(jsonData, "facingYawRight", facingYawRight);
+		Convert::fromJson(jsonData, "facingYawLeft", facingYawLeft);
+		Convert::fromJson(jsonData, "facingTurnSpeed", facingTurnSpeed);
+		Convert::fromJson(jsonData, "animationBlendSpeed", animationBlendSpeed);
+		Convert::fromJson(jsonData, "animationSpeed", animationSpeed);
+		Convert::fromJson(jsonData, "walkAnimationSpeed", walkAnimationSpeed);
+		Convert::fromJson(jsonData, "idleAnimationDelay", idleAnimationDelay);
 		Convert::fromJson(jsonData, "stickDeadZone", stickDeadZone);
 	}
 };

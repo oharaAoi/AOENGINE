@@ -10,6 +10,7 @@ PlayerJump::PlayerJump() {
 			velocityY_ = params_.jumpPower;
 			ChangeState(State::Rising);
 			jumpStarted_ = true;
+			isPlayerJump_ = true;
 		}
 	};
 
@@ -27,6 +28,13 @@ PlayerJump::PlayerJump() {
 	stateUpdaters_[ToIndex(State::Hanging)] = [this](float deltaTime, bool) {
 		// 滞空中は高さを維持する
 		velocityY_ = 0.0f;
+
+		// 滞空の途中でジャンプ入力を離したら、時間を待たずに落下を始める
+		if (isPlayerJump_ && !isJumpHeld_) {
+			ChangeState(State::Falling);
+			return;
+		}
+
 		hangTimer_ += deltaTime;
 		if (hangTimer_ >= params_.hangTime) {
 			ChangeState(State::Falling);
@@ -42,9 +50,10 @@ PlayerJump::PlayerJump() {
 	};
 }
 
-void PlayerJump::Update(float deltaTime, bool jumpTriggered, const Params& params) {
+void PlayerJump::Update(float deltaTime, bool jumpTriggered, bool jumpHeld, const Params& params) {
 	jumpStarted_ = false;
 	params_ = params;
+	isJumpHeld_ = jumpHeld;
 	stateUpdaters_[ToIndex(state_)](deltaTime, jumpTriggered);
 }
 
@@ -79,6 +88,8 @@ void PlayerJump::HitCeiling() {
 void PlayerJump::Knockback(float power) {
 	// 普通のジャンプと同じ流れを、強い初速で割り込んで開始するだけ
 	velocityY_ = power;
+	// 入力から始まったジャンプではないので、離しても滞空を打ち切らない
+	isPlayerJump_ = false;
 	ChangeState(State::Rising);
 }
 

@@ -88,6 +88,12 @@ public :
 	/// </summary>
 	/// <returns></returns>
 	Pipeline* GetLastUsedPipeline() const { return lastUsedPipeline_; }
+	Pipeline* FindObjectPipeline(const std::string& name) const {
+		return obj3dPipeline_ ? obj3dPipeline_->FindPipeline(name) : nullptr;
+	}
+	std::vector<std::string> GetObjectPipelineNames() const {
+		return obj3dPipeline_ ? obj3dPipeline_->GetPipelineNames() : std::vector<std::string>{};
+	}
 
 private:
 

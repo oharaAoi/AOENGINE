@@ -680,11 +680,6 @@ bool TextureManager::PreviewTexture(std::string& _textureName) {
 		const char* ext = GetFileExtension(textureName.c_str());
 		std::string extension(ext);
 
-		// 拡張子でフィルタ
-		/*if ((extension != "png") && (extension != "jpeg")) {
-			continue;
-		}*/
-
 		// textureを表示
 		auto handle = this->GetDxHeapHandles(textureName);
 		ImTextureID texID = (ImTextureID)(intptr_t)(handle.handleGPU.ptr);

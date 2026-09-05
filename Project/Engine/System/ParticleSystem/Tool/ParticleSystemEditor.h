@@ -164,7 +164,6 @@ private:
 	std::optional<std::filesystem::path> pendingParticlePath_;
 	std::string particleDropMessage_;
 	std::string compositeEffectName_ = "NewParticleEffect";
-	float compositeEffectDuration_ = 0.0f;
 
 };
 

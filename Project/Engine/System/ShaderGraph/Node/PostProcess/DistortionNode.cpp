@@ -37,7 +37,8 @@ void DistortionNode::Init() {
 	// parameterの初期化
 	param_->scroll = CMath::Vector2::UNIT;
 	param_->tiling = CMath::Vector2::UNIT;
-	param_->strength = 0.1f;
+	param_->strengthX = 0.1f;
+	param_->strengthY = 0.1f;
 	param_->time = 0.f;
 }
 
@@ -61,7 +62,8 @@ void DistortionNode::customUpdate() {
 void DistortionNode::updateGui() {
 	ImGui::DragFloat2("tiling", &param_->tiling.x, 1);
 	ImGui::DragFloat2("scroll", &param_->scroll.x, 1);
-	ImGui::DragFloat("strength", &param_->strength, 0.1f);
+	ImGui::DragFloat("strengthX", &param_->strengthX, 0.1f);
+	ImGui::DragFloat("strengthY", &param_->strengthY, 0.1f);
 	ImGui::DragFloat("time", &param_->time);
 }
 
@@ -89,7 +91,8 @@ nlohmann::json DistortionNode::toJson() {
 	BaseInfoToJson(result);
 	result["props"]["tiling"] = Convert::toJson<Math::Vector2>(param_->tiling);
 	result["props"]["scroll"] = Convert::toJson<Math::Vector2>(param_->scroll);
-	result["props"]["strength"] = Convert::toJson<float>(param_->strength);
+	result["props"]["strengthX"] = Convert::toJson<float>(param_->strengthX);
+	result["props"]["strengthY"] = Convert::toJson<float>(param_->strengthY);
 	return result;
 }
 
@@ -99,11 +102,22 @@ nlohmann::json DistortionNode::toJson() {
 
 void DistortionNode::fromJson(const nlohmann::json& _json) {
 	BaseInfoFromJson(_json);
-	param_->scroll.x = _json["props"]["scroll"]["x"].get<float>();
-	param_->scroll.y = _json["props"]["scroll"]["y"].get<float>();
-	param_->strength = _json["props"]["strength"].get<float>();
-	param_->tiling.x = _json["props"]["tiling"]["x"].get<float>();
-	param_->tiling.y = _json["props"]["tiling"]["y"].get<float>();
+
+	if (_json.contains("props")) {
+		const auto& props = _json.value("props", nlohmann::json::object());
+
+		const auto& scroll = props.value("scroll", nlohmann::json::object());
+		param_->scroll.x = scroll.value("x", 0.0f);
+		param_->scroll.y = scroll.value("y", 0.0f);
+
+		param_->strengthX = props.value("strengthX", 0.0f);
+		param_->strengthY = props.value("strengthY", 0.0f);
+
+		const auto& tiling = props.value("tiling", nlohmann::json::object());
+		param_->tiling.x = tiling.value("x", 1.0f);
+		param_->tiling.y = tiling.value("y", 1.0f);
+		
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -52,6 +52,7 @@ void Material::Update() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Material::Debug_Gui() {
+	EditPipeline();
 	EditShaderType();
 	EditUV();
 	// Textureを変更する

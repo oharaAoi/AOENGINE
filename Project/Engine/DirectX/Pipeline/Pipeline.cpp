@@ -51,7 +51,7 @@ void Pipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const j
 // ↓ コマンドを積む
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Pipeline::BindCommand(ID3D12GraphicsCommandList* _commandList) {
+void Pipeline::BindCommand(ID3D12GraphicsCommandList* _commandList) const {
 	_commandList->SetGraphicsRootSignature(rootSig_.Get());
 	_commandList->SetPipelineState(graphicsPipelineState_.Get());
 }

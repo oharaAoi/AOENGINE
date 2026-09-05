@@ -31,7 +31,7 @@ public:
 	~PlayerJump() = default;
 
 	// 更新、着地
-	void Update(float deltaTime, bool jumpTriggered, const Params& params);
+	void Update(float deltaTime, bool jumpTriggered, bool jumpHeld, const Params& params);
 	void Land();
 	// 足場から外れた
 	void LeaveGround();
@@ -52,6 +52,10 @@ private:
 	float velocityY_ = 0.0f;
 	float hangTimer_ = 0.0f;
 	bool jumpStarted_ = false;
+	// ジャンプ入力が押しっぱなしか。滞空を打ち切るかの判断に使う
+	bool isJumpHeld_ = false;
+	// 今のジャンプが自分のジャンプ入力から始まったものか。
+	bool isPlayerJump_ = false;
 
 	// パラメータ
 	Params params_{};

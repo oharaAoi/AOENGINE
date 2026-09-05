@@ -8,10 +8,10 @@
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
-#include "Engine/System/Manager/CollisionLayerManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Render/Render.h"
 
 #include "Game/Stage/StageBlockField.h"
@@ -39,6 +39,8 @@ void Player::Init(BaseGameObject* body)
 	// 保存済みの調整値を読み込む
 	parameter_.Load();
 	facing_ = 1.0f;
+	scaleMultiplier_ = CVector3::UNIT;
+	animation_.Init();
 
 	// HPを満タンにする
 	currentHp_ = parameter_.maxHp;
@@ -85,7 +87,7 @@ void Player::Update(){
 	UpdateInvincible(deltaTime);
 
 	// 前フレームの結果に対して接地判定を行う
-	ResolveGround();
+	ResolveGround(deltaTime);
 
 	// 入力をサンプリング
 	input_.Update(parameter_.stickDeadZone);
@@ -104,23 +106,120 @@ void Player::Update(){
 	};
 
 	// ジャンプ処理
-	jump_.Update(deltaTime,input_.IsJumpTriggered(),jumpParams);
+	jump_.Update(deltaTime,input_.IsJumpTriggered(),input_.IsJumpHeld(),jumpParams);
 	rigidbody->SetVelocityY(jump_.GetVelocityY());
 
-	// 大ジャンプ中から降下中、ブロックの判定を再開する
-	if (damageFloorAirborne_ && !blockCollisionResumed_ &&
-		jump_.GetState() == PlayerJump::State::Falling &&
-		previousJumpState_ != PlayerJump::State::Falling)
-	{
-		ResumeBlockCollision();
-	}
-	previousJumpState_ = jump_.GetState();
-
-	// 判定を猶予中のBlockは、離れたものから毎フレーム判定を戻していく
-	UpdateIgnoredBlocks();
+	// 胴体が埋まっているグループは、抜けきったものから判定を戻していく
+	blockIgnore_.Update(MakeBlockIgnoreContext());
 
 	// ブロックグループの接続受付・集合・打ち上げ
 	UpdateBlockGroupConnect(deltaTime);
+
+	// 接地中は足場の上面へ吸着させ、落下の下限と奥行きを揃える
+	const PlayerGroundState::Context groundContext = MakeGroundContext();
+	const PlayerGroundState::Params groundParams = MakeGroundParams();
+	groundState_.SnapToGround(groundContext, groundParams);
+	groundState_.ClampFallLimit(groundContext, groundParams);
+	groundState_.FixZPosition(groundContext, groundParams);
+
+	// 見た目まわり
+	UpdateScale();
+	UpdateFacingRotate(deltaTime);
+	UpdateAnimation(deltaTime);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  スケール
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateScale() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 基準の大きさに演出用の倍率を掛けたものが、実際の見た目の大きさになる
+	const Math::Vector3 scale = parameter_.baseScale * scaleMultiplier_;
+	transform->SetScale(scale);
+
+	BoxCollider* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag));
+	if (box == nullptr) {
+		return;
+	}
+
+	Math::Vector3 size = parameter_.hitSize;
+
+	// AABBのColliderは毎フレーム「回転させた8頂点」から作り直される
+	// そのため左右を向く途中で底面が最大√2倍まで膨らみ
+	size.z = size.x;
+	const Math::Vector3 forward = transform->GetRotate().Rotate(CVector3::FORWARD);
+	const float footprintFactor = std::abs(forward.x) + std::abs(forward.z);
+	if (footprintFactor > 0.0f) {
+		size.x /= footprintFactor;
+		size.z /= footprintFactor;
+	}
+
+	// Colliderのsize・localPositionにはtransformのscaleが掛かるので、
+	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
+	Math::Vector3 offset = parameter_.hitOffset;
+	if (scale.x != 0.0f) { size.x /= scale.x; offset.x /= scale.x; }
+	if (scale.y != 0.0f) { size.y /= scale.y; offset.y /= scale.y; }
+	if (scale.z != 0.0f) { size.z /= scale.z; offset.z /= scale.z; }
+
+	box->SetSize(size);
+	box->SetLocalPos(offset);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  向き
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateFacingRotate(float deltaTime) {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 向いている方向の角度を決める。モデルの正面がどちらを向いているかは
+	// パラメータ側で合わせられるようにしてある
+	float targetYaw = parameter_.facingYawLeft;
+	if (facing_ > 0.0f) {
+		targetYaw = parameter_.facingYawRight;
+	}
+
+	const Math::Quaternion target = Math::Quaternion::AngleAxis(targetYaw * kToRadian, CVector3::UP);
+
+	// 指数的に近づける。こうしておくとフレームレートが変わっても振り向きの速さが変わらない
+	const float t = 1.0f - std::exp(-parameter_.facingTurnSpeed * deltaTime);
+	transform->SetRotate(Math::Quaternion::Slerp(transform->GetRotate(), target, t).Normalize());
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  アニメーション
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::UpdateAnimation(float deltaTime) {
+
+	PlayerAnimation::Context context{};
+	if (BaseGameObject* body = GetGameObject()) {
+		context.animator = body->GetAnimator();
+	}
+	context.horizontal = input_.GetHorizontal();
+	context.velocityX = GetVelocity().x;
+	context.isGrounded = jump_.IsGrounded();
+
+	const PlayerAnimation::Params params{
+		parameter_.animationBlendSpeed,
+		parameter_.animationSpeed,
+		parameter_.walkAnimationSpeed,
+		parameter_.idleAnimationDelay,
+		parameter_.moveInputThreshold,
+	};
+
+	animation_.Update(deltaTime, context, params);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -246,8 +345,8 @@ bool Player::TryConnectBlockGroup(int groupId){
 void Player::ApplyDamageFloorKnockback(float power)
 {
 	damageFloorAirborne_ = true;
-	blockCollisionResumed_ = false;
-	SetBlockCollisionEnabled(false);
+	// 飛んでいる間はBlockだけ無視する。Wallやダメージ床には当たったまま
+	blockIgnore_.Begin(MakeBlockIgnoreContext());
 	jump_.Knockback(power);
 }
 
@@ -310,107 +409,6 @@ void Player::UpdateInvincible(float deltaTime)
 	SetRendering(isBlinkVisible_);
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  大ジャンプ中のBlock当たり判定の無効化・再開
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void Player::SetBlockCollisionEnabled(bool enabled)
-{
-	BaseCollider* collider = GetCollider(kColliderTag);
-	if (!collider)
-	{
-		return;
-	}
-
-	const uint32_t blockBit = AOENGINE::CollisionLayerManager::GetInstance().GetCategoryBit(kBlockCategoryName);
-	if (enabled)
-	{
-		collider->SetCollisionMaskBit(blockBit);
-	}
-	else
-	{
-		collider->SetCollisionMaskBits(collider->GetCollisionMaskBit() & ~blockBit);
-	}
-}
-
-std::vector<Block*> Player::GetOverlappingBlocks() const
-{
-	if (!pBlockField_)
-	{
-		return {};
-	}
-
-	WorldTransform* transform = GetTransform();
-	if (!transform)
-	{
-		return {};
-	}
-
-	// Playerの現在のCollider半サイズぶんのAABBと重なるグリッドマスを調べる
-	Math::Vector3 halfExtent{ 0.5f, 0.5f, 0.5f };
-	if (auto* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag)))
-	{
-		halfExtent = box->GetSize() * 0.5f;
-	}
-
-	// プレイヤーがブロックと重なっているかを返す
-	const Math::Vector3 position = transform->GetTranslate();
-	return pBlockField_->GetBlocksInWorldAABB(position - halfExtent, position + halfExtent);
-}
-
-void Player::ResumeBlockCollision()
-{
-	// カテゴリ判定は先に戻しておく
-	SetBlockCollisionEnabled(true);
-	blockCollisionResumed_ = true;
-
-	// その上で、プレイヤーに埋まっているBlockだけ個別に無効化する
-	ignoredBlocks_ = GetOverlappingBlocks();
-	for (Block* block : ignoredBlocks_)
-	{
-		if (!block) {
-			continue;
-		}
-		// 当たり判定無効化
-		if (BaseCollider* blockCollider = block->GetCollider(kBlockCategoryName)) {
-			blockCollider->SetIsActive(false);
-		}
-	}
-}
-
-void Player::UpdateIgnoredBlocks()
-{
-	// collision無効化のBlockが無ければ何もしない
-	if (ignoredBlocks_.empty()) {
-		return;
-	}
-
-	// 今フレーム、プレイヤーと実際に重なっているBlockを毎回取り直す
-	const std::vector<Block*> currentlyOverlapping = GetOverlappingBlocks();
-
-	for (auto it = ignoredBlocks_.begin(); it != ignoredBlocks_.end();) {
-		Block* block = *it;
-
-		// collision無効化のBlockが、今もcurrentlyOverlappingに含まれているかを見る
-		const bool stillOverlapping =
-			std::find(currentlyOverlapping.begin(), currentlyOverlapping.end(), block) != currentlyOverlapping.end();
-
-		if (stillOverlapping) {
-			// まだ埋まっているので、判定は無効のまま次のBlockへ
-			++it;
-			continue;
-		}
-
-		// 離れたBlockから判定を元に戻す
-		if (block) {
-			if (BaseCollider* blockCollider = block->GetCollider(kBlockCategoryName)) {
-				blockCollider->SetIsActive(true);
-			}
-		}
-		// 判定を戻したので猶予リストからも外す
-		it = ignoredBlocks_.erase(it);
-	}
-}
 
 void Player::SetBlockField(StageBlockField* field)
 {
@@ -423,7 +421,7 @@ void Player::ResetStageReferences()
 	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
 	blockGroupLauncherManager_.Clear();
 	blockGroupConnectState_.Clear();
-	ignoredBlocks_.clear();
+	blockIgnore_.ClearGroups();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -484,22 +482,30 @@ void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 //  接地判定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::ResolveGround(){
-	bool isSupported = false;
+void Player::ResolveGround(float deltaTime){
 
-	// Blockからの押し戻しで足場に乗ったかを見る
-	if(ResolvePushback()){
-		isSupported = true;
+	const PlayerGroundState::Result result =
+		groundState_.Resolve(deltaTime, MakeGroundContext(), MakeGroundParams());
+
+	// 頭をぶつけていたら上昇を打ち切る
+	if (result.hitCeiling) {
+		jump_.HitCeiling();
 	}
 
-	if (isSupported)
+	if (result.isSupported)
 	{
-		// 降下タイミングでブロックの当たり判定再開
-		if (damageFloorAirborne_ && !blockCollisionResumed_)
-		{
-			ResumeBlockCollision();
+		// 大ジャンプの着地では押し戻しが使えないので、選んだ足場の上面へ直接置く
+		if (damageFloorAirborne_ && result.hasGroundTop) {
+			if (WorldTransform* transform = GetTransform()) {
+				Math::Vector3 position = transform->GetTranslate();
+				position.y = groundState_.CalcStandY(result.groundTopY, MakeGroundParams());
+				transform->SetTranslate(position);
+			}
 		}
-		// 着地したらダメージ床による飛行も終わり
+
+		// 着地したらダメージ床による飛行も終わり。
+		// 胴体が埋まっているグループはここで猶予に入れる
+		blockIgnore_.OnLanded(MakeBlockIgnoreContext());
 		damageFloorAirborne_ = false;
 		jump_.Land();
 	} else{
@@ -509,30 +515,48 @@ void Player::ResolveGround(){
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  押し戻しの反映
+//  接地判定へ渡す情報
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::ResolvePushback(){
-	BaseCollider* collider = GetCollider(kColliderTag);
-	if (!collider)
-	{
-		return false;
-	}
+PlayerGroundState::Context Player::MakeGroundContext() const {
 
-	const Math::Vector3& pushback = collider->GetPushBackDirection();
+	PlayerGroundState::Context context{};
+	context.transform = GetTransform();
+	context.rigidbody = GetRigidbody();
+	context.collider = GetCollider(kColliderTag);
+	context.blockField = pBlockField_;
+	context.velocityY = jump_.GetVelocityY();
+	context.isGrounded = jump_.IsGrounded();
+	// 大ジャンプ中は当たり判定を切っているので、着地の決め方が変わる
+	context.isBigJump = damageFloorAirborne_;
 
-	if(pushback.y > kPushbackThreshold){
-		// 下から押し戻された = 足場の上に乗っている
-		return true;
-	}
-
-	if(pushback.y < -kPushbackThreshold){
-		// 上から押し戻された = 頭をぶつけた
-		jump_.HitCeiling();
-	}
-
-	return false;
+	return context;
 }
+
+PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const {
+
+	PlayerBlockIgnore::Context context{};
+	context.playerCollider = GetCollider(kColliderTag);
+	context.transform = GetTransform();
+	context.blockField = pBlockField_;
+	context.bodySize = parameter_.bodySize;
+	context.bodyOffset = parameter_.bodyOffset;
+
+	return context;
+}
+
+PlayerGroundState::Params Player::MakeGroundParams() const {
+
+	return PlayerGroundState::Params{
+		parameter_.footSize,
+		parameter_.footOffset,
+		parameter_.groundCheckDistance,
+		parameter_.fallLimitY,
+		parameter_.fixedZ,
+	};
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  速度の取得
@@ -563,6 +587,7 @@ void Player::Debug_Gui()
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
+	ImGui::Text("animation: %s", animation_.GetCurrentName().c_str());
 	ImGui::Text("hp: %.1f / %.1f%s", currentHp_, parameter_.maxHp, IsInvincible() ? " (invincible)" : "");
 
 	ImGui::Text("connectPhase: %s", blockGroupConnectState_.GetPhaseName().c_str());

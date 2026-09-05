@@ -27,7 +27,6 @@ json ParticleEffectAsset::ToJson() const {
 	json data;
 	data["version"] = version;
 	data["name"] = name;
-	data["duration"] = duration;
 	data["nodes"] = json::array();
 	for (const ParticleEffectNode& node : nodes) {
 		data["nodes"].push_back({
@@ -57,7 +56,6 @@ ParticleEffectAsset ParticleEffectAsset::FromJson(const json& source, const std:
 	ParticleEffectAsset result;
 	result.version = data->value("version", kCurrentVersion);
 	result.name = data->value("name", rootName);
-	result.duration = (std::max)(data->value("duration", 0.0f), 0.0f);
 	if (result.name.empty()) { result.name = rootName; }
 
 	for (const json& item : (*data)["nodes"]) {
@@ -120,10 +118,15 @@ void ParticleEffectInstance::Update(float deltaTime) {
 	for (RuntimeNode& node : nodes_) {
 		if (!node.started && elapsedTime_ >= node.definition.delay) { StartNode(node); }
 	}
-	if (asset_.duration > 0.0f && elapsedTime_ >= asset_.duration) {
-		Stop();
-		finished_ = true;
-	}
+
+	// Effect自体に寿命は持たせず、全Emitterが射出を終えたら破棄対象にする。
+	// delay待ちのNodeは、未開始なので終了とみなさない。
+	finished_ = std::all_of(nodes_.begin(), nodes_.end(), [](const RuntimeNode& node) {
+		if (!node.started) { return false; }
+		return std::visit([](const auto* emitter) {
+			return emitter == nullptr || emitter->GetIsStop();
+		}, node.emitter);
+	});
 }
 
 void ParticleEffectInstance::Stop() {

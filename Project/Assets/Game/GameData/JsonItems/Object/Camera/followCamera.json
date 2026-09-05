@@ -1,7 +1,7 @@
 {
     "followCamera": {
         "bigJumpMaxSpeed": 1564.0,
-        "bigJumpSmoothTime": 0.1599999964237213,
+        "bigJumpSmoothTime": 0.2800000011920929,
         "maxSpeed": 63.0,
         "offset": {
             "x": 2.5999999046325684,
@@ -10,10 +10,6 @@
         },
         "pitch": 0.0,
         "scrollHeight": 2.299999952316284,
-        "shakeFrequency": {
-            "x": 61.70000076293945,
-            "y": 48.29999923706055
-        },
         "smoothTime": 0.10999999940395355
     }
 }

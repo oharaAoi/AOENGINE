@@ -1,0 +1,6 @@
+{
+    "blockDamageParameter": {
+        "maxDamage": 100.0,
+        "perBlock": 1.0
+    }
+}

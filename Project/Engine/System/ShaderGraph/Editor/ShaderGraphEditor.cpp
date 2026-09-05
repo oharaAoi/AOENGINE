@@ -96,11 +96,11 @@ void ShaderGraphEditor::Edit() {
 }
 
 void ShaderGraphEditor::InspectorWindow() {
-	for (auto& node : editor_->getNodes()) {
+	/*for (auto& node : editor_->getNodes()) {
 		if (node.second.get()->isSelected()) {
 			node.second.get()->updateGui();
 		}
-	}
+	}*/
 }
 
 void AOENGINE::ShaderGraphEditor::HierarchyWindow() {

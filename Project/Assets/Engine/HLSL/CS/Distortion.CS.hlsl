@@ -2,7 +2,8 @@
 struct DistortionParam {
 	float2 tiling;
 	float2 scroll;
-	float strength;
+	float strengthX;
+	float strengthY;
 	float time;
 };
 
@@ -34,7 +35,9 @@ void CSmain(uint3 id : SV_DispatchThreadID) {
 	
 	// ★ バイアス除去（最重要）
 	dist = (dist - 0.5f) * 2.0f; // 平均を0にする
-	float2 offset = dist * gDistortion.strength;
+	float2 offset;
+	offset.x = dist.x * gDistortion.strengthX;
+	offset.y = dist.y * gDistortion.strengthY;
 
     // 歪んだ UV
 	float2 warpedUV = uv + offset;

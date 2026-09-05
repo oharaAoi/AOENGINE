@@ -1,7 +1,10 @@
 #include "Boss.h"
 
+#include "Engine/Module/Components/Animation/Animator.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Lib/Math/Easing.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 #include "Game/Camera/FollowCamera.h"
@@ -20,11 +23,20 @@ void Boss::Init(BaseGameObject* body) {
 	parameter_.Load();
 	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
 	parameter_.stopperLandShake.Load();
+	parameter_.phaseChangeShake.Load();
 	currentHp_ = parameter_.hp;
 
 	if (WorldTransform* transform = GetTransform()) {
 		position_ = transform->GetTranslate();
 	}
+
+	scaleMultiplier_ = CVector3::UNIT;
+
+	isInvincible_ = false;
+	isDefeatFinished_ = false;
+	SetRendering(true);
+
+	animation_.Init();
 
 	// 最初の行動をセットする
 	behaviorController_.Init(*this);
@@ -51,8 +63,62 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 		transform->SetTranslate(position_);
 	}
 
+	// 見た目の大きさを反映する
+	UpdateScale();
+
 	// 基準位置を反映した後に行動を進める
 	behaviorController_.Update(*this, AOENGINE::GameTimer::DeltaTime());
+
+	// 行動が決まった後にアニメーションを合わせる
+	UpdateAnimation();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  スケール
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateScale() {
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 基準の大きさに演出用の倍率を掛けたものが、実際の見た目の大きさになる
+	const Math::Vector3 scale = parameter_.baseScale * scaleMultiplier_;
+	transform->SetScale(scale);
+
+	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
+	BoxCollider* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag));
+	if (box == nullptr) {
+		return;
+	}
+
+	Math::Vector3 size = parameter_.hitSize;
+	if (scale.x != 0.0f) { size.x /= scale.x; }
+	if (scale.y != 0.0f) { size.y /= scale.y; }
+	if (scale.z != 0.0f) { size.z /= scale.z; }
+	box->SetSize(size);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  アニメーション
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateAnimation() {
+
+	BossAnimation::Context context{};
+	if (BaseGameObject* body = GetGameObject()) {
+		context.animator = body->GetAnimator();
+	}
+	context.behaviorName = &behaviorController_.GetCurrentAnimationName();
+
+	const BossAnimation::Params params{
+		parameter_.animationBlendSpeed,
+		parameter_.animationSpeed,
+	};
+
+	animation_.Update(context, params);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,10 +126,43 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::Damage(float amount) {
+
+	// フェーズ切り替えの演出中などは受け付けない
+	if (isInvincible_) {
+		return;
+	}
+
+	// 被弾は行動に割り込んで1回だけ流す
+	animation_.PlayDamage();
+
 	currentHp_ -= amount;
 	if (currentHp_ < 0.0f) {
 		currentHp_ = 0.0f;
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  今のフェーズ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+int32_t Boss::GetPhaseIndex() const {
+
+	// 最大HPが未設定なら割合が出せないので、最終フェーズ扱いにしておく
+	if (parameter_.hp <= 0.0f) {
+		return static_cast<int32_t>(BossParameter::kPhaseSwitchCount);
+	}
+
+	const float ratio = currentHp_ / parameter_.hp;
+
+	// 割合は高い順に並んでいる前提で、下回ったものの中で一番進んだフェーズを採用する
+	int32_t phase = 0;
+	for (std::size_t i = 0; i < BossParameter::kPhaseSwitchCount; ++i) {
+		if (ratio <= parameter_.phaseSwitchRatio[i]) {
+			phase = static_cast<int32_t>(i) + 1;
+		}
+	}
+
+	return phase;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -77,11 +176,44 @@ void Boss::Debug_Gui() {
 	}
 
 	ImGui::Text("body: %s", bodyState);
-	ImGui::Text("hp: %.1f / %.1f", currentHp_, parameter_.hp);
+	// HPは直接いじれるようにしておく。フェーズ切り替えと撃破をすぐ確認できる
+	ImGui::DragFloat("current hp", &currentHp_, 0.1f, 0.0f, parameter_.hp);
+	ImGui::SameLine();
+	if (ImGui::Button("Kill")) {
+		currentHp_ = 0.0f;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Full")) {
+		currentHp_ = parameter_.hp;
+	}
+
+	ImGui::Text("hp: %.1f / %.1f  (phase %d)", currentHp_, parameter_.hp, GetPhaseIndex());
+
+	const char* invincibleState = "false";
+	if (isInvincible_) {
+		invincibleState = "true";
+	}
+	ImGui::Text("invincible: %s", invincibleState);
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
+
+	// 行動が指定している名前と、実際に流れている名前の両方を出す
+	ImGui::Text("animation: %s", behaviorController_.GetCurrentAnimationName().c_str());
+	if (BaseGameObject* body = GetGameObject()) {
+		if (Animator* animator = body->GetAnimator()) {
+			ImGui::Text("  playing: %s  time %.2f / %.2f",
+				animator->GetAnimationName().c_str(),
+				animator->GetAnimationTime(),
+				animator->GetAnimationDuration());
+		}
+	}
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);
+
+	// イージングは番号を覚えなくていいように、名前で選べる形で出す
+	ImGui::SeparatorText("Easing");
+	Math::SelectEasing(parameter_.fireballFallEaseKind, "FireballFall");
+	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
@@ -90,6 +222,16 @@ void Boss::Debug_Gui() {
 	parameter_.stopperLandShake.SaveAndLoad();
 	if (ImGui::Button("Test Play")) {
 		ShakeCamera(parameter_.stopperLandShake);
+	}
+	ImGui::PopID();
+
+	// フェーズが上がった時のカメラシェイク
+	ImGui::SeparatorText("Phase Change Shake");
+	ImGui::PushID("PhaseChangeShake");
+	parameter_.phaseChangeShake.Debug_Gui();
+	parameter_.phaseChangeShake.SaveAndLoad();
+	if (ImGui::Button("Test Play")) {
+		ShakeCamera(parameter_.phaseChangeShake);
 	}
 	ImGui::PopID();
 }

@@ -19,6 +19,7 @@ private:
 	struct Fireball {
 		AOENGINE::BaseEntity entity;// 火玉本体
 		bool isHit = false;// 何かに当たったか
+		float fallTimer = 0.0f;// 落ち始めてからの経過時間。速度の補間に使う
 	};
 
 private:
@@ -38,19 +39,7 @@ private:
 	/// </summary>
 	void UpdateFireBall(const Boss& boss, float deltaTime);
 
-	/// <summary>
-	/// ボスがわっはっは跳ねるやつ
-	/// </summary>
-	/// <param name="boss"></param>
-	/// <param name="deltaTime"></param>
-	void UpdateBossBounce(const Boss& boss, float deltaTime);
-
 private:
-
-	// 落とす個数、発射間隔、スピード
-	int dropCount_ = 3;
-	float launchInterval_ = 0.5f;
-	float fallSpeed_ = 10.0f;
 
 	// 落下中の火玉
 	std::list<Fireball> fireballs_;
@@ -58,9 +47,6 @@ private:
 	int spawnedCount_ = 0;// 出した火玉の数
 	float spawnTimer_ = 0.0f;// 次のスポーンまでの時間
 	bool isFinished_ = false;// 終わったか
-
-	// bossMove
-	float bounceTimer_ = 0.0f;//跳ねタイマー
 
 	const std::string kFireBallColliderTag_ = "Fireball";
                       
@@ -71,6 +57,11 @@ public:// acceccer
 	// staticにしないと、リテラルから作った一時的なstringの参照を返すことになり壊れる
 	const std::string& GetName() const override {
 		static const std::string kName = "BossAttackFallFire";
+		return kName;
+	}
+
+	const std::string& GetAnimationName() const override {
+		static const std::string kName = "attack1";
 		return kName;
 	}
 };

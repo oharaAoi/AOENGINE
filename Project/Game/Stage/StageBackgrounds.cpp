@@ -11,9 +11,9 @@
 
 namespace {
 	/// 同時に存在させる背景の枚数
-	constexpr size_t kKeepBackgroundCount = 2;
+	constexpr size_t kKeepBackgroundCount = 3;
 	/// 同時に存在させる段の数
-	constexpr int kKeepSegmentCount = 2;
+	constexpr int kKeepSegmentCount = 3;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

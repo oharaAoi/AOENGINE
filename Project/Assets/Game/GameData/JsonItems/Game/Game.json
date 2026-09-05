@@ -145,7 +145,7 @@
     "format": "AOENGINE_SCENE",
     "objects": [
         {
-            "active": false,
+            "active": true,
             "data": {
                 "anchor": [
                     0.5,
@@ -196,14 +196,14 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_9",
+                "texture": "__Text_0",
                 "textureSize": [
                     176.0,
                     84.0
                 ],
                 "translate": [
                     0.0,
-                    262.29998779296875,
+                    178.0,
                     1.0
                 ]
             },
@@ -211,272 +211,6 @@
             "name": "Text_Title",
             "parentId": 487,
             "type": "Text"
-        },
-        {
-            "active": false,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "plane.obj",
-                "rotate": [
-                    0.0,
-                    0.9995885491371155,
-                    0.0,
-                    -0.028683148324489594
-                ],
-                "scale": [
-                    15.0,
-                    10.000285148620605,
-                    10.0
-                ],
-                "translate": [
-                    0.14904354512691498,
-                    9.692999839782715,
-                    11.303409576416016
-                ]
-            },
-            "id": 26,
-            "name": "Plane",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.7843137383460999
-                ],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 1,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    600.0,
-                    1200.0
-                ],
-                "translate": [
-                    1635.2701416015625,
-                    492.82781982421875,
-                    1.0
-                ]
-            },
-            "id": 467,
-            "name": "UI_background",
-            "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Player",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    2.200000047683716,
-                    0.0
-                ]
-            },
-            "id": 314,
-            "name": "Player",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [
-                    {
-                        "active": true,
-                        "category": "DamageFloor",
-                        "collisionMask": [
-                            "Player"
-                        ],
-                        "localPosition": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "penetrationPrevention": false,
-                        "size": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "static": true,
-                        "trigger": false,
-                        "type": "AABBCollider"
-                    }
-                ],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            0.8500000238418579,
-                            0.15000000596046448,
-                            0.15000000596046448,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "sphere.obj",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    2.0,
-                    2.0,
-                    2.0
-                ],
-                "translate": [
-                    0.0,
-                    12.0,
-                    0.0
-                ]
-            },
-            "id": 2,
-            "name": "Boss",
-            "parentId": null,
-            "type": "BaseGameObject"
         },
         {
             "active": true,
@@ -530,21 +264,76 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_7",
+                "texture": "__Text_1",
                 "textureSize": [
                     176.0,
                     84.0
                 ],
                 "translate": [
                     0.0,
-                    137.3000030517578,
+                    55.20000076293945,
                     1.0
                 ]
             },
-            "id": 505,
+            "id": 705,
             "name": "Text_Retry",
             "parentId": 487,
             "type": "Text"
+        },
+        {
+            "active": false,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.7843137383460999
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    1600.0,
+                    1200.0
+                ],
+                "translate": [
+                    611.2999877929688,
+                    499.6177673339844,
+                    1.0
+                ]
+            },
+            "id": 487,
+            "name": "Retry",
+            "parentId": null,
+            "type": "Sprite"
         },
         {
             "active": true,
@@ -602,7 +391,258 @@
             "type": "Sprite"
         },
         {
-            "active": false,
+            "active": true,
+            "data": {
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "idle",
+                        "animationTime": 0.0,
+                        "loop": true,
+                        "speed": 1.0,
+                        "stopped": false,
+                        "type": "Animator"
+                    },
+                    {
+                        "active": true,
+                        "category": "Boss",
+                        "collisionMask": [
+                            "LaunchedBlock"
+                        ],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": true,
+                        "type": "AABBCollider"
+                    }
+                ],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "boss_ufo.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "boss.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "boss_hand.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 2,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 3,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "boss.gltf",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "translate": [
+                    0.0,
+                    12.0,
+                    0.0
+                ]
+            },
+            "id": 2,
+            "name": "Boss",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 682,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Player",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    2.200000047683716,
+                    0.0
+                ]
+            },
+            "id": 314,
+            "name": "Player",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
             "data": {
                 "anchor": [
                     0.5,
@@ -616,7 +656,7 @@
                     0.0,
                     0.0,
                     0.0,
-                    0.7843137383460999
+                    1.0
                 ],
                 "drawRange": [
                     16.0,
@@ -642,17 +682,17 @@
                 ],
                 "texture": "white.png",
                 "textureSize": [
-                    1600.0,
+                    600.0,
                     1200.0
                 ],
                 "translate": [
-                    801.29150390625,
-                    499.6177673339844,
+                    1635.270263671875,
+                    492.82781982421875,
                     1.0
                 ]
             },
-            "id": 487,
-            "name": "Retry",
+            "id": 467,
+            "name": "UI_background",
             "parentId": null,
             "type": "Sprite"
         }

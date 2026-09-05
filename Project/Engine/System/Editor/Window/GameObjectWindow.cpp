@@ -350,8 +350,9 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 			ApplyPendingHierarchyAction();
 			ApplyPendingParentChange();
 		}
-		ImGui::End();
 	}
+	// Begin() still needs End() when the window is hidden or minimized.
+	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

@@ -38,9 +38,9 @@
         "isStretch": false,
         "isTextureSheetAnimation": true,
         "lifeOfMaxScale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 2.799999952316284,
+            "y": 4.0,
+            "z": 2.0
         },
         "lifeOfMinScale": {
             "x": 0.20000000298023224,
@@ -108,7 +108,7 @@
             "y": 1.0,
             "z": 1.0
         },
-        "speed": -4.0,
+        "speed": -8.579999923706055,
         "startDiscard": 0.009999999776482582,
         "teleportThreshold": 50.0,
         "tiles": {

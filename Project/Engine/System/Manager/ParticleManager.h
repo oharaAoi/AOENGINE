@@ -97,6 +97,8 @@ private:
 	uint64_t nextRuntimeId_ = 1;
 	std::vector<std::unique_ptr<AOENGINE::ParticleInstancingRenderer>> retiredRenderers_;
 	std::list<std::unique_ptr<AOENGINE::BaseParticles>> retiredEmitters_;
+	// Effect解放後も射出済みParticleを寿命まで更新・描画するRuntime ID。
+	std::vector<std::string> retiringParticleRuntimeIds_;
 
 	CpuParticleUpdater particleUpdater_;
 

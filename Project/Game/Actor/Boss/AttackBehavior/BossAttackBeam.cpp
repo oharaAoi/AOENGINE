@@ -25,6 +25,7 @@ BossAttackBeam::BossAttackBeam() {
 
 	// 状態ごとの処理を登録する
 	phaseUpdaters_[ToIndex(Phase::Warning)] = [this](Boss& boss, float deltaTime) { UpdateWarningPhase(boss, deltaTime); };
+	phaseUpdaters_[ToIndex(Phase::Windup)] = [this](Boss& boss, float deltaTime) { UpdateWindupPhase(boss, deltaTime); };
 	phaseUpdaters_[ToIndex(Phase::Beam)] = [this](Boss& boss, float deltaTime) { UpdateBeamPhase(boss, deltaTime); };
 }
 
@@ -36,8 +37,27 @@ void BossAttackBeam::UpdateWarningPhase(Boss& boss, float deltaTime) {
 
 	UpdateWarning(boss, deltaTime);
 
-	// 予測線の時間が終わったらビームへ移る
+	// 予測線の時間が終わったら、ビームのアニメーションへ移る
 	if (phaseTimer_ < boss.GetParameter().beamWarningTime) {
+		return;
+	}
+
+	// ここからアニメーションが attack2 に変わる。待ちも数え直す
+	ResetStartDelay();
+	ChangePhase(Phase::Windup);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  ビームのアニメーションを流して構えている状態
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void BossAttackBeam::UpdateWindupPhase(Boss& boss, float deltaTime) {
+
+	// 構えている間も予測線は点滅させ続ける
+	UpdateWarning(boss, deltaTime);
+
+	// アニメーションを見せてからビームを出す
+	if (WaitStartDelay(deltaTime, boss.GetParameter().beamStartDelay)) {
 		return;
 	}
 
@@ -69,7 +89,7 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 		return;
 	}
 
-	// まだ残っていれば次の予測線を出す
+	// まだ残っていれば次の予測線を出す。アニメーションは待機へ戻る
 	SpawnWarning(boss);
 	ChangePhase(Phase::Warning);
 }
@@ -85,7 +105,7 @@ void BossAttackBeam::Enter(Boss& boss) {
 	isFinished_ = false;
 	ChangePhase(Phase::Warning);
 
-	// 1回目の予測線を出す
+	// 1回目の予測線を出す。アニメーションはビームの直前に流す
 	SpawnWarning(boss);
 }
 

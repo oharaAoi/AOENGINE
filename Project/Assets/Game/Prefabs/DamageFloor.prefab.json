@@ -5,7 +5,27 @@
             "active": true,
             "data": {
                 "animator": false,
-                "components": [],
+                "components": [
+                    {
+                        "active": true,
+                        "category": "Default",
+                        "collisionMask": [],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": false,
+                        "type": "AABBCollider"
+                    }
+                ],
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
@@ -45,15 +65,14 @@
                         "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.0,
+                            0.0,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
-                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/testShader.json",
-                        "shaderType": 1,
+                        "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 1,
                         "type": "Normal",
@@ -82,7 +101,7 @@
                     1.0
                 ],
                 "scale": [
-                    1.0,
+                    18.0,
                     1.0,
                     1.0
                 ],
@@ -93,12 +112,12 @@
                 ]
             },
             "id": 1,
-            "name": "new object(1)",
+            "name": "DamageFloor",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "new object(1)",
+    "prefabName": "DamageFloor",
     "rootId": 1,
     "version": 1
 }

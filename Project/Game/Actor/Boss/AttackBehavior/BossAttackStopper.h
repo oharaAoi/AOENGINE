@@ -78,6 +78,7 @@ private:
 	std::list<Stopper> stoppers_;
 
 	bool isFinished_ = false;	// 終わったか
+	bool isSpawned_ = false;	// 待ちが明けて足止めを落としたか
 
 	// ブロックの表。落とす候補を選ぶのに使う
 	StageBlockField* pBlockField_ = nullptr;
@@ -90,6 +91,11 @@ public:// acceccer
 	bool IsFinished() const override { return isFinished_; }
 	const std::string& GetName() const override {
 		static const std::string kName = "BossAttackStopper";
+		return kName;
+	}
+
+	const std::string& GetAnimationName() const override {
+		static const std::string kName = "attack3";
 		return kName;
 	}
 

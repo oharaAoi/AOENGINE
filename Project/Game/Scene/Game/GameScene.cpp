@@ -109,6 +109,12 @@ void GameScene::Update()
 		return;
 	}
 
+	// ボスを倒しきって撃破演出まで終わったらクリアへ
+	if (boss_ && boss_->IsDefeatFinished()) {
+		nextSceneType_ = SceneType::Clear;
+		return;
+	}
+
 	// プレイヤー
 	if (player_)
 	{

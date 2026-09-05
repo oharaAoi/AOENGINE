@@ -1,0 +1,289 @@
+{
+    "assetType": "ShaderGraph",
+    "domain": "Texture",
+    "links": [
+        {
+            "fromNode": 1852923210272,
+            "fromPin": "time",
+            "toNode": 1852923844464,
+            "toPin": "y"
+        },
+        {
+            "fromNode": 1852923844464,
+            "fromPin": "output",
+            "toNode": 1852920542320,
+            "toPin": "offset"
+        },
+        {
+            "fromNode": 1852924041408,
+            "fromPin": "DxResource",
+            "toNode": 1852923280752,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1852920542320,
+            "fromPin": "uv",
+            "toNode": 1852923280752,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 1852923845744,
+            "fromPin": "Gradient",
+            "toNode": 1852924025360,
+            "toPin": "Gradient"
+        },
+        {
+            "fromNode": 1852924017744,
+            "fromPin": "Texture",
+            "toNode": 1852924025360,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1852924017744,
+            "fromPin": "Texture",
+            "toNode": 1852924014752,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 1852923846000,
+            "fromPin": "Gradient",
+            "toNode": 1852924014752,
+            "toPin": "Gradient"
+        },
+        {
+            "fromNode": 1852923210272,
+            "fromPin": "time",
+            "toNode": 1852923844464,
+            "toPin": "x"
+        },
+        {
+            "fromNode": 1852923280752,
+            "fromPin": "DxResource",
+            "toNode": 1852924017744,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 1852924031616,
+            "fromPin": "DxResource",
+            "toNode": 1852924017744,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2876456733184,
+            "fromPin": "output",
+            "toNode": 1852920542320,
+            "toPin": "scale"
+        },
+        {
+            "fromNode": 1852924025360,
+            "fromPin": "DxResource",
+            "toNode": 1852924034064,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 1852924014752,
+            "fromPin": "DxResource",
+            "toNode": 1852924034064,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 1852924034064,
+            "fromPin": "DxResource",
+            "toNode": 1852894459680,
+            "toPin": "DxResource"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 1852923844464,
+            "name": "InOut_Vector2",
+            "pos": [
+                110.0,
+                230.0
+            ],
+            "props": {
+                "value": [
+                    75.58653259277344,
+                    75.58653259277344
+                ]
+            }
+        },
+        {
+            "id": 1852924034064,
+            "name": "AddBlend",
+            "pos": [
+                1640.0,
+                430.0
+            ]
+        },
+        {
+            "id": 1852894459680,
+            "name": "ResultNode",
+            "pos": [
+                2000.0,
+                420.0
+            ]
+        },
+        {
+            "id": 1852924041408,
+            "name": "Texture",
+            "pos": [
+                150.0,
+                110.0
+            ],
+            "props": {
+                "textureName": "cell.dds"
+            }
+        },
+        {
+            "id": 1852924014752,
+            "name": "SampleGradient",
+            "pos": [
+                1240.0,
+                480.0
+            ],
+            "props": {
+                "channel": 0,
+                "multiplySourceAlpha": false
+            }
+        },
+        {
+            "id": 1852923845744,
+            "name": "Gradient",
+            "pos": [
+                690.0,
+                420.0
+            ],
+            "props": {
+                "keys": [
+                    {
+                        "color": {
+                            "a": 0.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "position": 0.0
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.10389608144760132,
+                            "r": 1.0
+                        },
+                        "position": 0.6650000214576721
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1852923280752,
+            "name": "SampleTexture2D",
+            "pos": [
+                390.0,
+                150.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "id": 1852923210272,
+            "name": "TimeNode",
+            "pos": [
+                -60.0,
+                170.0
+            ]
+        },
+        {
+            "id": 1852920542320,
+            "name": "UVTransform",
+            "pos": [
+                290.0,
+                280.0
+            ]
+        },
+        {
+            "id": 1852923846000,
+            "name": "Gradient",
+            "pos": [
+                870.0,
+                560.0
+            ],
+            "props": {
+                "keys": [
+                    {
+                        "color": {
+                            "a": 0.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.9783549904823303
+                        },
+                        "position": 0.15199999511241913
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.649350643157959,
+                            "r": 1.0
+                        },
+                        "position": 0.3230000138282776
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1852924017744,
+            "name": "MaskBlend",
+            "pos": [
+                810.0,
+                260.0
+            ]
+        },
+        {
+            "id": 1852924031616,
+            "name": "Texture",
+            "pos": [
+                490.0,
+                320.0
+            ],
+            "props": {
+                "textureName": "gradation.dds"
+            }
+        },
+        {
+            "id": 1852924025360,
+            "name": "SampleGradient",
+            "pos": [
+                1260.0,
+                290.0
+            ],
+            "props": {
+                "channel": 0,
+                "multiplySourceAlpha": true
+            }
+        },
+        {
+            "id": 2876456733184,
+            "name": "Property_Vector2",
+            "pos": [
+                -140.0,
+                310.0
+            ],
+            "props": {
+                "value": [
+                    0.4099999964237213,
+                    0.12999999523162842
+                ]
+            }
+        }
+    ],
+    "schemaVersion": 1
+}
