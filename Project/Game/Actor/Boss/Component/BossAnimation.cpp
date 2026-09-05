@@ -46,7 +46,9 @@ void BossAnimation::Update(const Context& context, const Params& params) {
 		return;
 	}
 
-。
+	// 補間の途中で別の遷移を投げると、AnimationClip側は
+	// 「完了済みのクリップ名 == 投げた名前」で弾いてしまい、
+	// こちらの認識と実際に流れているクリップがずれて固まる。
 	// 補間中は何も投げず、終わってから実際の名前と見比べて切り替える
 	if (context.animator->GetIsAnimationChange()) {
 		return;
