@@ -385,7 +385,8 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 
 		} else if (item.filename().extension() == ".json" &&
 			(ToLower(item.parent_path().filename().string()) == "cpu" ||
-			 ToLower(item.parent_path().filename().string()) == "gpu")) {
+			 ToLower(item.parent_path().filename().string()) == "gpu" ||
+			 ToLower(item.parent_path().filename().string()) == "composite")) {
 			const std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Particle, "file.png", name, thumbnailSize);
 

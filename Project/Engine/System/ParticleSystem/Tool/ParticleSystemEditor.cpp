@@ -182,7 +182,7 @@ GpuParticleEmitter* ParticleSystemEditor::CreateOfGpu(const json* jsonData) {
 // ↓ Particleを追加する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void ParticleSystemEditor::AddList(const std::string& _name, const json* jsonData) {
+AOENGINE::BaseParticles* ParticleSystemEditor::AddList(const std::string& _name, const json* jsonData) {
 	auto& newParticle = cpuEmitterList_.emplace_back(std::make_unique<AOENGINE::BaseParticles>());
 	// Editor専用Rendererを使うため、GameViewのParticleManagerには登録しない。
 	newParticle->Init(_name, false);
@@ -204,6 +204,7 @@ void ParticleSystemEditor::AddList(const std::string& _name, const json* jsonDat
 	newParticle->SetIsStop(false);
 	cpuParticles_ = newParticle.get();
 	gpuParticles_ = nullptr;
+	return newParticle.get();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -285,6 +286,18 @@ void ParticleSystemEditor::ProcessPendingParticleDrop() {
 			return;
 		}
 
+		// Composite Effect JSON is a wrapper containing a nodes array. Load every
+		// referenced CPU/GPU asset into the editor so each emitter remains editable.
+		const bool wrappedComposite = jsonData.is_object() && jsonData.size() == 1 &&
+			jsonData.begin().value().is_object() && jsonData.begin().value().contains("nodes");
+		const bool directComposite = jsonData.is_object() && jsonData.contains("nodes");
+		if (wrappedComposite || directComposite) {
+			if (LoadCompositeForEditing(path, jsonData)) {
+				return;
+			}
+			return;
+		}
+
 		const std::string particleName = jsonData.begin().key();
 		const std::string group = path.parent_path().filename().string();
 		newParticleName_ = particleName;
@@ -322,6 +335,72 @@ void ParticleSystemEditor::ProcessPendingParticleDrop() {
 	} catch (const std::exception&) {
 		particleDropMessage_ = "Particle JSONの解析に失敗しました";
 	}
+}
+
+bool ParticleSystemEditor::LoadCompositeForEditing(const std::filesystem::path& path, const json& jsonData) {
+	ParticleEffectAsset asset;
+	try {
+		asset = ParticleEffectAsset::FromJson(jsonData, path.stem().string());
+	} catch (const std::exception&) {
+		particleDropMessage_ = "Composite Effect JSONの解析に失敗しました";
+		return false;
+	}
+	if (asset.nodes.empty()) {
+		particleDropMessage_ = "Composite EffectにParticleがありません";
+		return false;
+	}
+
+	uint32_t loaded = 0;
+	uint32_t skipped = 0;
+	for (const ParticleEffectNode& node : asset.nodes) {
+		if (node.asset.empty()) { ++skipped; continue; }
+		const std::string group = node.type == ParticleEffectNodeType::Gpu ? "GPU" : "CPU";
+		const json nodeData = JsonItems::GetData(group, node.asset);
+		if (!nodeData.is_object() || nodeData.empty()) {
+			++skipped;
+			continue;
+		}
+
+		if (node.type == ParticleEffectNodeType::Gpu) {
+			GpuParticleEmitter* emitter = nullptr;
+			for (auto& existing : gpuEmitterList_) {
+				if (existing->GetName() == node.asset) { emitter = existing.get(); break; }
+			}
+			if (emitter) {
+				emitter->SetJsonData(nodeData);
+			} else {
+				newParticleName_ = node.asset;
+				emitter = CreateOfGpu(&nodeData);
+			}
+			emitter->SetLocalPos(node.position);
+			gpuParticles_ = emitter;
+			cpuParticles_ = nullptr;
+		} else {
+			BaseParticles* emitter = nullptr;
+			for (auto& existing : cpuEmitterList_) {
+				if (existing->GetName() == node.asset) { emitter = existing.get(); break; }
+			}
+			if (emitter) {
+				emitter->ClearParticles();
+				emitter->SetJsonData(nodeData);
+				particleRenderer_->ChangeMesh(emitter->GetName(), emitter->GetMesh());
+				particleUpdater_.SetRuntimeBlendMode(emitter->GetName(), emitter->GetBlendMode());
+			} else {
+				newParticleName_ = node.asset;
+				emitter = AddList(node.asset, &nodeData);
+			}
+			emitter->SetPos(node.position);
+			cpuParticles_ = emitter;
+			gpuParticles_ = nullptr;
+		}
+		++loaded;
+	}
+
+	compositeEffectName_ = asset.name.empty() ? path.stem().string() : asset.name;
+	particleDropMessage_ = compositeEffectName_ + " を読み込みました（" +
+		std::to_string(loaded) + " emitters" +
+		(skipped ? ", " + std::to_string(skipped) + " skipped" : std::string{}) + ")";
+	return loaded != 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

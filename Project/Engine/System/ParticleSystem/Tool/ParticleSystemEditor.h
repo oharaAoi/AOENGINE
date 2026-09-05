@@ -94,9 +94,10 @@ private:		// member method
 	/// <summary>
 	/// リストに追加する
 	/// </summary>
-	void AddList(const std::string& _name, const json* jsonData = nullptr);
+	AOENGINE::BaseParticles* AddList(const std::string& _name, const json* jsonData = nullptr);
 	void HandleParticleAssetDrop();
 	void ProcessPendingParticleDrop();
+	bool LoadCompositeForEditing(const std::filesystem::path& path, const json& jsonData);
 	void SaveCompositeEffect();
 
 	/// <summary>
