@@ -458,6 +458,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.h" />
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.h" />
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.h" />
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackIdle.h" />
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h" />
@@ -778,6 +779,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BaseBossAttackBehavior.cpp" />
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackBeam.cpp" />
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.cpp" />
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackIdle.cpp" />
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />

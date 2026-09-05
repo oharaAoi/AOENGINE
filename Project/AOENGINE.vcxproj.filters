@@ -1197,6 +1197,9 @@
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.h">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackIdle.h">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.h">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClInclude>
@@ -2151,6 +2154,9 @@
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackFallFire.cpp">
+      <Filter>Game\Actor\Boss\AttackBehavior</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackIdle.cpp">
       <Filter>Game\Actor\Boss\AttackBehavior</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossAttackStopper.cpp">

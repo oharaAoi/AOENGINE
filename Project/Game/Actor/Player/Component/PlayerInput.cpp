@@ -20,6 +20,7 @@ void PlayerInput::Update(float stickDeadZone) {
 
 	// ジャンプ (Space ・ パッドA)
 	jumpTriggered_ = Input::IsTriggerKey(DIK_SPACE) || Input::IsTriggerButton(ButtonA);
+	jumpHeld_ = Input::IsPressKey(DIK_SPACE) || Input::IsPressButton(ButtonA);
 
 	// 集めたブロックの打ち上げ (E ・ パッドB)
 	launchTriggered_ = Input::IsTriggerKey(DIK_E) || Input::IsTriggerButton(ButtonB);

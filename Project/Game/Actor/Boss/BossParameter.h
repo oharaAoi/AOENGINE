@@ -24,12 +24,24 @@ struct BossParameter :
 	float hp;	             // 最大HP
 	Math::Vector3 hitSize;	// 当たり判定サイズ
 
-	// フェーズが切り替わる残HPの割合
-	std::array<float, kPhaseSwitchCount> phaseSwitchRatio;
+	// フェーズが切り替わる残HPの割合。高い順に並べる
+	std::array<float, kPhaseSwitchCount> phaseSwitchRatio{ 0.66f, 0.33f };
+
+	// 各攻撃が解禁されるフェーズ。0なら最初から使える
+	int32_t fallFireUnlockPhase = 0;
+	int32_t beamUnlockPhase = 1;
+	int32_t stopperUnlockPhase = 2;
 
 	// --- 攻撃1: 火球落とし ---
 	float fireballDamage = 1.0f;		// 火球が当たった時のダメージ
+	int32_t fireballDropCount = 3;		// 1回の行動で落とす個数
+	float fireballDropInterval = 0.5f;	// 次の1個を落とすまでの間隔
 	float fireballSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
+	float fireballFallStartSpeed = 0.0f;	// 落ち始めの速度
+	float fireballMaxFallSpeed = 25.0f;		// 落下速度の上限
+	float fireballFallSpeedUpTime = 0.6f;	// 上限の速度に達するまでの時間
+	// 速度の補間に使うイージング種類
+	int32_t fireballFallEaseKind = 1;
 	float bounceHeight = 1.0f;			// 跳ねる高さ
 	float bounceSpeed = 8.0f;			// 跳ねる速さ
 
@@ -51,10 +63,15 @@ struct BossParameter :
 	float stopperLifeTime = 5.0f;		// 着地してから消えるまでの秒数
 	float stopperSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
 	Math::Vector3 stopperSize{ 1.0f, 1.0f, 1.0f };	// 足止めの大きさ
-	int32_t stopperEaseKind = 1;			// 落下のイージング種類
+	// 落下のイージング種類
+	int32_t stopperEaseKind = 1;
 
 	// 着地時のカメラシェイク。揺れ方の詳細はこのリクエスト側で調整する
 	CameraShakeRequest stopperLandShake;
+
+	// --- 待機 ---
+	float idleTimeMin = 1.0f;	// 次の攻撃までの最短時間
+	float idleTimeMax = 2.5f;	// 次の攻撃までの最長時間
 
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
@@ -65,12 +82,22 @@ struct BossParameter :
 		AddParameter("World Z", worldZ, 0.1f);
 		AddParameter("Max HP", hp, 1.0f, 0.0f, 100000.0f);
 		AddParameter("Hit Size (half)", hitSize, 0.1f);
+
+		AddSeparatorText("Phase");
 		AddParameter("Phase Switch Ratio 0", phaseSwitchRatio[0], 0.01f, 0.0f, 1.0f);
 		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
+		AddParameter("Unlock Phase: FallFire", fallFireUnlockPhase, 1.0f, 0.0f, 10.0f);
+		AddParameter("Unlock Phase: Beam", beamUnlockPhase, 1.0f, 0.0f, 10.0f);
+		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
 
 		AddSeparatorText("Attack1: FallFire");
 		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Fireball Drop Count", fireballDropCount, 1.0f, 0.0f, 100.0f);
+		AddParameter("Fireball Drop Interval", fireballDropInterval, 0.01f, 0.0f, 60.0f);
 		AddParameter("Fireball Spawn Height", fireballSpawnHeight, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Fireball Fall Start Speed", fireballFallStartSpeed, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Fireball Max Fall Speed", fireballMaxFallSpeed, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Fireball Fall SpeedUp Time", fireballFallSpeedUpTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Bounce Height", bounceHeight, 0.1f, 0.0f, 100.0f);
 		AddParameter("Bounce Speed", bounceSpeed, 0.1f, 0.0f, 100.0f);
 
@@ -92,7 +119,10 @@ struct BossParameter :
 		AddParameter("Stopper Life Time", stopperLifeTime, 0.1f, 0.0f, 100.0f);
 		AddParameter("Stopper Spawn Height", stopperSpawnHeight, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Stopper Size", stopperSize, 0.1f);
-		AddParameter("Stopper Ease Kind", stopperEaseKind, 1.0f, 0.0f, 30.0f);
+
+		AddSeparatorText("Idle");
+		AddParameter("Idle Time Min", idleTimeMin, 0.01f, 0.0f, 60.0f);
+		AddParameter("Idle Time Max", idleTimeMax, 0.01f, 0.0f, 60.0f);
 
 		
 		stopperLandShake.SetGroupName("Boss");
@@ -106,8 +136,17 @@ struct BossParameter :
 			.Add("hp", hp)
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
+			.Add("fallFireUnlockPhase", fallFireUnlockPhase)
+			.Add("beamUnlockPhase", beamUnlockPhase)
+			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("fireballDamage", fireballDamage)
+			.Add("fireballDropCount", fireballDropCount)
+			.Add("fireballDropInterval", fireballDropInterval)
 			.Add("fireballSpawnHeight", fireballSpawnHeight)
+			.Add("fireballFallStartSpeed", fireballFallStartSpeed)
+			.Add("fireballMaxFallSpeed", fireballMaxFallSpeed)
+			.Add("fireballFallSpeedUpTime", fireballFallSpeedUpTime)
+			.Add("fireballFallEaseKind", fireballFallEaseKind)
 			.Add("bounceHeight", bounceHeight)
 			.Add("bounceSpeed", bounceSpeed)
 			.Add("beamDamage", beamDamage)
@@ -126,6 +165,8 @@ struct BossParameter :
 			.Add("stopperSpawnHeight", stopperSpawnHeight)
 			.Add("stopperSize", stopperSize)
 			.Add("stopperEaseKind", stopperEaseKind)
+			.Add("idleTimeMin", idleTimeMin)
+			.Add("idleTimeMax", idleTimeMax)
 			.Build();
 	}
 
@@ -135,8 +176,18 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "hp", hp);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
+		Convert::fromJson(jsonData, "fallFireUnlockPhase", fallFireUnlockPhase);
+		Convert::fromJson(jsonData, "beamUnlockPhase", beamUnlockPhase);
+		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
+
 		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
+		Convert::fromJson(jsonData, "fireballDropCount", fireballDropCount);
+		Convert::fromJson(jsonData, "fireballDropInterval", fireballDropInterval);
 		Convert::fromJson(jsonData, "fireballSpawnHeight", fireballSpawnHeight);
+		Convert::fromJson(jsonData, "fireballFallStartSpeed", fireballFallStartSpeed);
+		Convert::fromJson(jsonData, "fireballMaxFallSpeed", fireballMaxFallSpeed);
+		Convert::fromJson(jsonData, "fireballFallSpeedUpTime", fireballFallSpeedUpTime);
+		Convert::fromJson(jsonData, "fireballFallEaseKind", fireballFallEaseKind);
 		Convert::fromJson(jsonData, "bounceHeight", bounceHeight);
 		Convert::fromJson(jsonData, "bounceSpeed", bounceSpeed);
 
@@ -157,6 +208,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperSpawnHeight", stopperSpawnHeight);
 		Convert::fromJson(jsonData, "stopperSize", stopperSize);
 		Convert::fromJson(jsonData, "stopperEaseKind", stopperEaseKind);
+
+		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
+		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include <cstdint>
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Matrix4x4.h"
 #include "Game/Actor/Boss/BossParameter.h"
@@ -58,6 +59,11 @@ public: // accessor
 
 	/// <summary>攻撃行動側から調整値を参照するために公開する</summary>
 	const BossParameter& GetParameter() const { return parameter_; }
+
+	/// <summary>
+	/// 残HPの割合から今のフェーズ番号を求める
+	/// </summary>
+	int32_t GetPhaseIndex() const;
 
 	/// <summary>
 	/// 指定したワールド座標が画面の上端より下か。

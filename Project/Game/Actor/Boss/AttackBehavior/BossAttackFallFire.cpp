@@ -1,6 +1,9 @@
 #include "BossAttackFallFire.h"
 
+#include <algorithm>
 #include <cmath>
+
+#include "Engine/Lib/Math/Easing.h"
 
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -49,7 +52,7 @@ void BossAttackFallFire::Update(Boss& boss, float deltaTime) {
 	UpdateBossBounce(boss, deltaTime);
 
 	// 全部落とし終わって、画面上の火球も無くなったら攻撃終了
-	if (spawnedCount_ >= dropCount_ && fireballs_.empty()) {
+	if (spawnedCount_ >= boss.GetParameter().fireballDropCount && fireballs_.empty()) {
 		isFinished_ = true;
 	}
 }
@@ -83,6 +86,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 	Fireball fireball{};
 	fireball.entity.Bind(object);
 
+	// 落ち始めてからの経過時間。これを元に速度を補間する
+	fireball.fallTimer = 0.0f;
+
 	// スタート位置の適用
 	if (AOENGINE::WorldTransform* transform = fireball.entity.GetTransform()) {
 		transform->SetTranslate(spawnPosition);
@@ -102,8 +108,10 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 
 void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
 
+	const BossParameter& param = boss.GetParameter();
+
 	// 発射カウントの上限
-	if (spawnedCount_ >= dropCount_) {
+	if (spawnedCount_ >= param.fireballDropCount) {
 		return;
 	}
 
@@ -114,12 +122,14 @@ void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
 	if (spawnTimer_ <= 0.0f) {
 		SpawnFireball(boss);
 		++spawnedCount_;
-		spawnTimer_ = launchInterval_;
+		spawnTimer_ = param.fireballDropInterval;
 	}
 
 }
 
 void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
+
+	const BossParameter& param = boss.GetParameter();
 
 	// 落下中の火玉を進める
 	for (auto it = fireballs_.begin(); it != fireballs_.end();) {
@@ -130,10 +140,21 @@ void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 			continue;
 		}
 
+		// 落ち始めの速度から上限の速度へ、イージングで繋いでいく
+		it->fallTimer += deltaTime;
+
+		float t = 1.0f;
+		if (param.fireballFallSpeedUpTime > 0.0f) {
+			t = std::clamp(it->fallTimer / param.fireballFallSpeedUpTime, 0.0f, 1.0f);
+		}
+		const float easedT = Math::CallEasing(param.fireballFallEaseKind, t);
+		const float fallSpeed = param.fireballFallStartSpeed
+			+ (param.fireballMaxFallSpeed - param.fireballFallStartSpeed) * easedT;
+
 		// 真下に落とす
 		if (AOENGINE::WorldTransform* transform = it->entity.GetTransform()) {
 			Math::Vector3 pos = transform->GetTranslate();
-			pos.y -= fallSpeed_ * deltaTime;
+			pos.y -= fallSpeed * deltaTime;
 			transform->SetTranslate(pos);
 
 			// 画面に入ってきたら当たり判定を始める

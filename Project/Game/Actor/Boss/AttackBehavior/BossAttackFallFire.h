@@ -19,6 +19,7 @@ private:
 	struct Fireball {
 		AOENGINE::BaseEntity entity;// 火玉本体
 		bool isHit = false;// 何かに当たったか
+		float fallTimer = 0.0f;// 落ち始めてからの経過時間。速度の補間に使う
 	};
 
 private:
@@ -46,11 +47,6 @@ private:
 	void UpdateBossBounce(const Boss& boss, float deltaTime);
 
 private:
-
-	// 落とす個数、発射間隔、スピード
-	int dropCount_ = 3;
-	float launchInterval_ = 0.5f;
-	float fallSpeed_ = 10.0f;
 
 	// 落下中の火玉
 	std::list<Fireball> fireballs_;

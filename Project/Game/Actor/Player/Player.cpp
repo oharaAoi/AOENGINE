@@ -104,7 +104,7 @@ void Player::Update(){
 	};
 
 	// ジャンプ処理
-	jump_.Update(deltaTime,input_.IsJumpTriggered(),jumpParams);
+	jump_.Update(deltaTime,input_.IsJumpTriggered(),input_.IsJumpHeld(),jumpParams);
 	rigidbody->SetVelocityY(jump_.GetVelocityY());
 
 	// 大ジャンプ中から降下中、ブロックの判定を再開する

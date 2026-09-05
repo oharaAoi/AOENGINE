@@ -2,6 +2,7 @@
 
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Lib/Math/Easing.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 #include "Game/Camera/FollowCamera.h"
@@ -67,6 +68,30 @@ void Boss::Damage(float amount) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  今のフェーズ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+int32_t Boss::GetPhaseIndex() const {
+
+	// 最大HPが未設定なら割合が出せないので、最終フェーズ扱いにしておく
+	if (parameter_.hp <= 0.0f) {
+		return static_cast<int32_t>(BossParameter::kPhaseSwitchCount);
+	}
+
+	const float ratio = currentHp_ / parameter_.hp;
+
+	// 割合は高い順に並んでいる前提で、下回ったものの中で一番進んだフェーズを採用する
+	int32_t phase = 0;
+	for (std::size_t i = 0; i < BossParameter::kPhaseSwitchCount; ++i) {
+		if (ratio <= parameter_.phaseSwitchRatio[i]) {
+			phase = static_cast<int32_t>(i) + 1;
+		}
+	}
+
+	return phase;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  デバッグ表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,11 +102,16 @@ void Boss::Debug_Gui() {
 	}
 
 	ImGui::Text("body: %s", bodyState);
-	ImGui::Text("hp: %.1f / %.1f", currentHp_, parameter_.hp);
+	ImGui::Text("hp: %.1f / %.1f  (phase %d)", currentHp_, parameter_.hp, GetPhaseIndex());
 	ImGui::DragFloat3("world position", &position_.x, 0.1f);
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);
+
+	// イージングは番号を覚えなくていいように、名前で選べる形で出す
+	ImGui::SeparatorText("Easing");
+	Math::SelectEasing(parameter_.fireballFallEaseKind, "FireballFall");
+	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
