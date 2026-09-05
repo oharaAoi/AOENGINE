@@ -70,7 +70,7 @@ public: // accessor
 	bool IsInCameraView(const Math::Vector3& worldPosition) const;
 
 	/// <summary>攻撃側からカメラを揺らす。カメラが未設定なら何もしない</summary>
-	void ShakeCamera(float time, float strength);
+	void ShakeCamera(const CameraShakeRequest& request);
 
 	/// <summary>カメラを揺らせるように渡しておく</summary>
 	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }

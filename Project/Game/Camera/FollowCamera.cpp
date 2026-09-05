@@ -19,6 +19,8 @@ void FollowCamera::Init() {
 
 	// 保存済みの調整値を読み込む
 	parameter_.Load();
+	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
+	shakeRequest_.Load();
 
 	target_ = nullptr;
 
@@ -144,18 +146,6 @@ void FollowCamera::FollowTarget(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  シェイク
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void FollowCamera::SetShake(float time, float strength) {
-	CameraShakeRequest request;
-	request.duration = time;
-	request.strength = strength;
-	request.source = CameraShakeSource::Parameter;
-	PlayShake(request);
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
 // デバッグ表示 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -176,45 +166,23 @@ void FollowCamera::Debug_Gui() {
 	ImGui::Text("pos: %.2f, %.2f, %.2f", pos.x, pos.y, pos.z);
 	ImGui::Text("scrolling: %s (goal Y: %.2f)", scrollState, cameraTargetY_);
 
-	if (ImGui::CollapsingHeader("CameraShake")) {
-		int source = static_cast<int>(shakeRequest_.source);
-		if (ImGui::Combo("Source", &source, "Parameter\0Noise\0")) {
-			shakeRequest_.source = static_cast<CameraShakeSource>(source);
-		}
+	// 揺れ方の項目はCameraShakeRequestが自前で描画する
+	ImGui::PushID("CameraShake");
+	shakeRequest_.Debug_Gui();
+	shakeRequest_.SaveAndLoad();
 
-		int decay = static_cast<int>(shakeRequest_.decay);
-		if (ImGui::Combo("Decay", &decay, "None\0Linear\0EaseOut\0")) {
-			shakeRequest_.decay = static_cast<CameraShakeDecay>(decay);
-		}
-
-		ImGui::DragFloat("Duration", &shakeRequest_.duration, 0.01f, 0.0f, 60.0f);
-		ImGui::DragFloat("Strength", &shakeRequest_.strength, 0.01f, 0.0f, 100.0f);
-		ImGui::DragFloat3("Position Amplitude", &shakeRequest_.positionAmplitude.x, 0.01f);
-		ImGui::DragFloat3("Rotation Amplitude (deg)", &shakeRequest_.rotationAmplitude.x, 0.01f);
-
-		if (shakeRequest_.source == CameraShakeSource::Parameter) {
-			ImGui::DragFloat3("Position Frequency", &shakeRequest_.positionFrequency.x, 0.1f, 0.0f, 500.0f);
-			ImGui::DragFloat3("Rotation Frequency", &shakeRequest_.rotationFrequency.x, 0.1f, 0.0f, 500.0f);
-			ImGui::DragFloat3("Phase", &shakeRequest_.phase.x, 0.01f);
-		} else {
-			int noiseType = static_cast<int>(shakeRequest_.noiseType);
-			if (ImGui::Combo("Noise Type", &noiseType, "White\0Value\0Perlin\0")) {
-				shakeRequest_.noiseType = static_cast<CameraShakeNoiseType>(noiseType);
-			}
-			ImGui::DragFloat("Noise Strength", &shakeRequest_.noiseStrength, 0.01f, 0.0f, 100.0f);
-			ImGui::DragFloat("Noise Frequency", &shakeRequest_.noiseFrequency, 0.1f, 0.0f, 500.0f);
-			ImGui::InputScalar("Seed", ImGuiDataType_U32, &shakeRequest_.seed);
-		}
-
-		if (ImGui::Button("Test Play")) {
-			PlayShake(shakeRequest_);
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("Stop")) {
-			StopShake();
-		}
-		ImGui::SameLine();
-		ImGui::TextUnformatted(IsShaking() ? "Playing" : "Stopped");
-		
+	if (ImGui::Button("Test Play")) {
+		PlayShake(shakeRequest_);
 	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop")) {
+		StopShake();
+	}
+	ImGui::SameLine();
+	if (IsShaking()) {
+		ImGui::TextUnformatted("Playing");
+	} else {
+		ImGui::TextUnformatted("Stopped");
+	}
+	ImGui::PopID();
 }

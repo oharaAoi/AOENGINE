@@ -107,7 +107,7 @@ private:
 	// カメラが追いつくまではtrueのまま維持し、追いついてから段階スクロールへ戻す
 	bool continuousFollowActive_ = false;
 
-	// カメラシェイクのリクエスト
+	// カメラシェイクの調整用リクエスト
 	CameraShakeRequest shakeRequest_;
 
 public: // accessor
@@ -118,10 +118,8 @@ public: // accessor
 
 	void SetTargetName(const std::string& name) { targetName_ = name; }
 	void SetTarget(AOENGINE::BaseGameObject* target) { target_ = target; }
-	void SetShake(float time, float strength);
 
-	// true の間は段階スクロールをやめてプレイヤーへ直接イージング追従する。
-	// false に戻っても、カメラが実際に追いつききるまでは直接追従を継続する
+
 	void SetContinuousFollow(bool enable) { continuousFollowRequested_ = enable; }
 
 };

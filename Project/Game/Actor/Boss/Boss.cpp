@@ -18,6 +18,8 @@ void Boss::Init(BaseGameObject* body) {
 
 	// 保存済みの調整値を読み込む
 	parameter_.Load();
+	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
+	parameter_.stopperLandShake.Load();
 	currentHp_ = parameter_.hp;
 
 	if (WorldTransform* transform = GetTransform()) {
@@ -80,6 +82,16 @@ void Boss::Debug_Gui() {
 
 	// ボスの状態を可視化 + 行動の強制切り替え
 	behaviorController_.Debug_Gui(*this);
+
+	// 足止めが着地した時のカメラシェイク
+	ImGui::SeparatorText("Attack3: Stopper Land Shake");
+	ImGui::PushID("StopperLandShake");
+	parameter_.stopperLandShake.Debug_Gui();
+	parameter_.stopperLandShake.SaveAndLoad();
+	if (ImGui::Button("Test Play")) {
+		ShakeCamera(parameter_.stopperLandShake);
+	}
+	ImGui::PopID();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,9 +130,10 @@ bool Boss::IsInCameraView(const Math::Vector3& worldPosition) const {
 //  カメラを揺らす
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::ShakeCamera(float time, float strength) {
+void Boss::ShakeCamera(const CameraShakeRequest& request) {
 	if (pCamera_ == nullptr) {
 		return;
 	}
-	pCamera_->SetShake(time, strength);
+	// 揺れ方の中身はリクエスト側に任せ、ここは再生を頼むだけ
+	pCamera_->PlayShake(request);
 }

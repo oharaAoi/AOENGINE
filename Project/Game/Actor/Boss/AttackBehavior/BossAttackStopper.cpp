@@ -240,7 +240,7 @@ void BossAttackStopper::UpdateStoppers(Boss& boss, float deltaTime) {
 			if (t >= 1.0f) {
 				it->isLanded = true;
 				it->remainingLifeTime = param.stopperLifeTime;
-				boss.ShakeCamera(param.stopperShakeTime, param.stopperShakeStrength);
+				boss.ShakeCamera(param.stopperLandShake);
 			}
 
 			++it;

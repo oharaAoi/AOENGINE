@@ -6,6 +6,7 @@
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include "Engine/Lib/Math/Vector2.h"
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Module/Entity/Camera/Component/CameraShakeParameters.h"
 
 /// <summary>
 /// ボスの調整パラメータ
@@ -51,8 +52,9 @@ struct BossParameter :
 	float stopperSpawnHeight = 12.0f;	// プレイヤーの何ユニット上から落とすか
 	Math::Vector3 stopperSize{ 1.0f, 1.0f, 1.0f };	// 足止めの大きさ
 	int32_t stopperEaseKind = 1;			// 落下のイージング種類
-	float stopperShakeTime = 0.2f;			// 着地時のカメラシェイクの時間
-	float stopperShakeStrength = 0.3f;		// 着地時のカメラシェイクの強さ
+
+	// 着地時のカメラシェイク。揺れ方の詳細はこのリクエスト側で調整する
+	CameraShakeRequest stopperLandShake;
 
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
@@ -91,8 +93,10 @@ struct BossParameter :
 		AddParameter("Stopper Spawn Height", stopperSpawnHeight, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Stopper Size", stopperSize, 0.1f);
 		AddParameter("Stopper Ease Kind", stopperEaseKind, 1.0f, 0.0f, 30.0f);
-		AddParameter("Stopper Shake Time", stopperShakeTime, 0.01f, 0.0f, 5.0f);
-		AddParameter("Stopper Shake Strength", stopperShakeStrength, 0.01f, 0.0f, 10.0f);
+
+		
+		stopperLandShake.SetGroupName("Boss");
+		stopperLandShake.SetName("stopperLandShake");
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -122,8 +126,6 @@ struct BossParameter :
 			.Add("stopperSpawnHeight", stopperSpawnHeight)
 			.Add("stopperSize", stopperSize)
 			.Add("stopperEaseKind", stopperEaseKind)
-			.Add("stopperShakeTime", stopperShakeTime)
-			.Add("stopperShakeStrength", stopperShakeStrength)
 			.Build();
 	}
 
@@ -155,8 +157,6 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperSpawnHeight", stopperSpawnHeight);
 		Convert::fromJson(jsonData, "stopperSize", stopperSize);
 		Convert::fromJson(jsonData, "stopperEaseKind", stopperEaseKind);
-		Convert::fromJson(jsonData, "stopperShakeTime", stopperShakeTime);
-		Convert::fromJson(jsonData, "stopperShakeStrength", stopperShakeStrength);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {
