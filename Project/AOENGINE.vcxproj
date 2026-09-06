@@ -339,6 +339,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Asset\AssetHandle.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
+    <ClInclude Include="Engine\System\Audio\SoundCatalog.h" />
+    <ClInclude Include="Engine\System\Audio\SoundManager.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h" />
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
@@ -505,6 +508,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Stage\BlockAutoTile.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncherManager.h" />
     <ClInclude Include="Game\Stage\GridPos.h" />
@@ -687,6 +691,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Asset\AssetHandle.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundCatalog.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundManager.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp" />
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
@@ -838,6 +845,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Stage\BlockAutoTile.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncherManager.cpp" />
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />

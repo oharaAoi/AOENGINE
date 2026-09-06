@@ -20,6 +20,7 @@ void AudioPlayer::Finalize() {
 }
 
 void AudioPlayer::Init(const std::string& filePath) {
+	Finalize();
 	pAudio_ = Engine::GetAudio();
 	audioData_ = pAudio_->LoadAudio(SoundDatabase::GetInstance()->GetAudioData(filePath));
 }

@@ -3,17 +3,22 @@
 #include <mfobjects.h>
 #include <mfreadwrite.h>
 #include <mmreg.h>
+#include <cstring>
+#include <stdexcept>
+#include <string>
 
 using namespace AOENGINE;
 
 float Audio::masterVolume_ = 0.5f;
 
 Audio::~Audio() {
-	xAudio2_.Reset();
+    Finalize();
+    if (masterVoice_) { masterVoice_->DestroyVoice(); masterVoice_ = nullptr; }
+    xAudio2_.Reset();
 }
 
 void Audio::Finalize() {
-	for (PlayingSound sourceVoice : playingSourceList_) {
+	for (PlayingSound& sourceVoice : playingSourceList_) {
 		if (sourceVoice.pSourceVoice) {
 			sourceVoice.pSourceVoice->DestroyVoice();  // ボイスを解放
 		}
@@ -32,8 +37,10 @@ void Audio::Init() {
 
 	// XAudioエンジンのインスタンス
 	result = XAudio2Create(&xAudio2_, 0, XAUDIO2_DEFAULT_PROCESSOR);
+	if (FAILED(result)) { throw std::runtime_error("Cannot initialize XAudio2."); }
 	// マスターボイスを生成
 	result = xAudio2_->CreateMasteringVoice(&masterVoice_);
+	if (FAILED(result)) { throw std::runtime_error("Cannot create audio output."); }
 }
 
 void Audio::Update() {
@@ -58,183 +65,77 @@ void Audio::Update() {
 /// <param name="filename"></param>
 /// <returns></returns>
 SoundData Audio::LoadWave(const char* filename) {
-	// --------------------------------------------------
-	// ファイルオープン
-	std::ifstream file;
-	// wavファイルをバイナリモードで開く
-	file.open(filename, std::ios_base::binary);
-	assert(file.is_open());
-
-	// --------------------------------------------------
-	// wavデータ読み込み
-	// RIFFヘッダーの読み込み
-	RiffHeader riff;
-	file.read((char*)&riff, sizeof(riff));
-	// ファイルがRIFFかチェック
-	if (strncmp(riff.Chunk.id, "RIFF", 4) != 0) {	//サイズが4バイト
-		assert(0);
-	}
-
-	// タイプがwaveかチェック
-	if (strncmp(riff.type, "WAVE", 4) != 0) {
-		assert(0);
-	}
-
-	// -------------------------------------------------
-	// ↓ Formatチャンクの読み込み
-	// -------------------------------------------------
-	FormatChunk format = {};
-	// チャンクヘッダーの確認
-	file.read((char*)&format, sizeof(ChunkHeader));
-	while (strncmp(format.chunk.id, "fmt ", 4) != 0) {
-		// チャンクサイズ分だけ読み飛ばす
-		file.seekg(format.chunk.size, std::ios_base::cur);
-
-		// 次のチャンクヘッダーを読み込む
-		file.read((char*)&format.chunk, sizeof(ChunkHeader));
-
-		// ファイルの終端に到達したらエラー
-		if (file.eof()) {
-			assert(0);
-		}
-	}
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
-		assert(0);
-	}
-
-	// チャンク本体の読み込み
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
-
-	// -------------------------------------------------
-	// ↓ Dataチャンクの読み込み
-	// -------------------------------------------------
-	ChunkHeader data;
-	file.read((char*)&data, sizeof(data));
-	while (strncmp(data.id, "data", 4) != 0) {
-		// チャンクサイズ分だけ読み飛ばす
-		file.seekg(data.size, std::ios_base::cur);
-
-		// 次のチャンクヘッダーを読み込む
-		file.read((char*)&data, sizeof(data));
-
-		// ファイルの終端に到達したらエラー
-		if (file.eof()) {
-			assert(0);
-		}
-	}
-	
-	// 本物のデータチャンク
-	if (strncmp(data.id, "data", 4) != 0) {
-		assert(0);
-	}
-
-	SoundData loadData;
-	loadData.wfex = format.fmt;
-	loadData.pBuffer.resize(data.size);
-	file.read(reinterpret_cast<char*>(loadData.pBuffer.data()), data.size);
-
-	return loadData;
+    return LoadMP3(ConvertToWideString(filename).c_str());
 }
 
+// Media Foundation decodes both WAV and MP3 to stereo 16-bit PCM.
 SoundData Audio::LoadMP3(const wchar_t* filename) {
+    auto check = [](HRESULT hr) {
+        if (FAILED(hr)) { throw std::runtime_error("Audio decode failed (HRESULT " + std::to_string(static_cast<unsigned long>(hr)) + ")."); }
+    };
+    check(MFStartup(MF_VERSION));
+    struct Shutdown { ~Shutdown() { MFShutdown(); } } shutdown;
+    ComPtr<IMFSourceReader> reader;
+    check(MFCreateSourceReaderFromURL(filename, nullptr, &reader));
+    check(reader->SetStreamSelection(MF_SOURCE_READER_ALL_STREAMS, FALSE));
+    check(reader->SetStreamSelection(MF_SOURCE_READER_FIRST_AUDIO_STREAM, TRUE));
+    ComPtr<IMFMediaType> output;
+    check(MFCreateMediaType(&output));
+    check(output->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio));
+    check(output->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM));
+    check(output->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16));
+    check(output->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, 2));
+    check(reader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, output.Get()));
+    output.Reset();
+    check(reader->GetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, &output));
 
-	HRESULT hr = MFStartup(MF_VERSION);
-	if(FAILED(hr)) {
-		throw std::runtime_error("Media Foundation initialization failed.");
-	}
+    SoundData data{};
+    UINT32 channels = 0, rate = 0, bits = 0;
+    check(output->GetUINT32(MF_MT_AUDIO_NUM_CHANNELS, &channels));
+    check(output->GetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, &rate));
+    check(output->GetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, &bits));
+    if (channels != 2 || bits != 16 || rate == 0) { throw std::runtime_error("Unsupported decoded PCM format."); }
+    data.wfex.wFormatTag = WAVE_FORMAT_PCM;
+    data.wfex.nChannels = static_cast<WORD>(channels);
+    data.wfex.nSamplesPerSec = rate;
+    data.wfex.wBitsPerSample = static_cast<WORD>(bits);
+    data.wfex.nBlockAlign = static_cast<WORD>(channels * bits / 8);
+    data.wfex.nAvgBytesPerSec = rate * data.wfex.nBlockAlign;
+    for (;;) {
+        ComPtr<IMFSample> sample;
+        DWORD flags = 0;
+        check(reader->ReadSample(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &flags, nullptr, &sample));
+        if (flags & (MF_SOURCE_READERF_ERROR | MF_SOURCE_READERF_CURRENTMEDIATYPECHANGED)) {
+            throw std::runtime_error("Audio stream format changed or failed while decoding.");
+        }
+        if (sample) {
+            ComPtr<IMFMediaBuffer> buffer;
+            check(sample->ConvertToContiguousBuffer(&buffer));
+            DWORD length = 0;
+            check(buffer->GetCurrentLength(&length));
+            if (length > XAUDIO2_MAX_BUFFER_BYTES - data.pBuffer.size()) {
+                throw std::runtime_error("Audio file is too large for in-memory playback.");
+            }
+            const size_t offset = data.pBuffer.size();
+            data.pBuffer.resize(offset + length);
+            BYTE* source = nullptr;
+            check(buffer->Lock(&source, nullptr, nullptr));
+            if (length) { std::memcpy(data.pBuffer.data() + offset, source, length); }
+            check(buffer->Unlock());
+        }
+        if (flags & MF_SOURCE_READERF_ENDOFSTREAM) { break; }
+    }
+    if (data.pBuffer.empty() || data.pBuffer.size() % data.wfex.nBlockAlign != 0) {
+        throw std::runtime_error("Audio contains no complete PCM frames.");
+    }
+    data.bufferSize = static_cast<unsigned int>(data.pBuffer.size());
+    return data;
+}
 
-	IMFSourceReader* pReader = nullptr;
-	IMFMediaType* pOutputType = nullptr;
-
-	// MP3ファイルのSource Readerを作成
-	hr = MFCreateSourceReaderFromURL(filename, nullptr, &pReader);
-	if(FAILED(hr)) {
-		MFShutdown();
-		throw std::runtime_error("Failed to create Source Reader.");
-	}
-
-	// 出力タイプをPCM (WAV) に設定
-	hr = MFCreateMediaType(&pOutputType);
-	if (FAILED(hr)) {
-		pReader->Release();
-		MFShutdown();
-		throw std::runtime_error("Failed to create output media type.");
-	}
-
-	hr = pOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
-	hr = pOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
-	hr = pReader->SetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pOutputType);
-
-	if (FAILED(hr)) {
-		pOutputType->Release();
-		pReader->Release();
-		MFShutdown();
-		throw std::runtime_error("Failed to set media type.");
-	}
-
-	pOutputType->Release();
-	pOutputType = nullptr;
-	pReader->GetCurrentMediaType((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, &pOutputType);
-	// サンプルを読み取ってデータを抽出
-	std::vector<BYTE> audioData;
-
-	while (true) {
-		IMFSample* pMFSample{ nullptr };
-		DWORD dwStreamFlags{ 0 };
-		pReader->ReadSample((DWORD)MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, nullptr, &dwStreamFlags, nullptr, &pMFSample);
-
-		if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM) {
-			break;
-		}
-
-		IMFMediaBuffer* pMFMediaBuffer{ nullptr };
-		pMFSample->ConvertToContiguousBuffer(&pMFMediaBuffer);
-
-		BYTE* pRawBuffer{ nullptr };
-		DWORD cbCurrentLength{ 0 };
-		pMFMediaBuffer->Lock(&pRawBuffer, nullptr, &cbCurrentLength);
-
-		std::vector<BYTE> temp(cbCurrentLength);
-		memcpy(temp.data(), pRawBuffer, cbCurrentLength);
-
-		// audioData に追記
-		size_t oldSize = audioData.size();
-		audioData.resize(oldSize + cbCurrentLength);
-		memcpy(audioData.data() + oldSize, temp.data(), cbCurrentLength);
-
-		pMFMediaBuffer->Unlock();
-
-		pMFMediaBuffer->Release();
-		pMFSample->Release();
-	}
-
-	// SoundDataにデータを格納
-	SoundData soundData;
-	soundData.pBuffer = audioData; // そのままコピー
-	soundData.bufferSize = static_cast<uint32_t>(soundData.pBuffer.size());
-
-	// フォーマット情報を取得
-	WAVEFORMATEX* pWfx = nullptr;
-	UINT32 wfxSize = 0;
-
-	hr = MFCreateWaveFormatExFromMFMediaType(pOutputType, &pWfx, &wfxSize);
-	if (FAILED(hr)) {
-		pOutputType->Release();
-		pReader->Release();
-		MFShutdown();
-		throw std::runtime_error("Failed to create WaveFormat from MediaType.");
-	}
-
-	// SoundData にコピー
-	memcpy(&soundData.wfex, pWfx, sizeof(WAVEFORMATEX));
-
-	// 後始末
-	CoTaskMemFree(pWfx);
-
-	return soundData;
+IXAudio2SourceVoice* Audio::CreateSourceVoice(const SoundData& data) {
+    IXAudio2SourceVoice* voice = nullptr;
+    if (!xAudio2_ || data.pBuffer.empty() || FAILED(xAudio2_->CreateSourceVoice(&voice, &data.wfex))) { return nullptr; }
+    return voice;
 }
 
 AudioData Audio::LoadAudio(const SoundData& loadAudioData) {
@@ -289,27 +190,7 @@ void Audio::SoundUnload(SoundData* soundData) {
 /// <param name="xAudio2"></param>
 /// <param name="soundData"></param>
 void Audio::SoundPlayWave(const SoundData& soundData) {
-	HRESULT result = S_FALSE;
-
-	// 波形フォーマットを元にsourceVoiceの生成
-	IXAudio2SourceVoice* pSourceVoice = nullptr;
-	result = xAudio2_->CreateSourceVoice(&pSourceVoice, &soundData.wfex);
-	assert(SUCCEEDED(result));
-
-	if (IsPlaying(pSourceVoice)) {
-		return;
-	}
-
-	XAUDIO2_BUFFER buf{};
-	buf.pAudioData = soundData.pBuffer.data();                 // ★ここ
-	buf.AudioBytes = static_cast<UINT32>(soundData.pBuffer.size());
-	buf.Flags = XAUDIO2_END_OF_STREAM;
-	buf.LoopCount = XAUDIO2_LOOP_INFINITE; // ずっとループするなら
-
-	// 波形データの再生
-	result = pSourceVoice->SubmitSourceBuffer(&buf);
-	result = pSourceVoice->SetVolume( masterVolume_);
-	result = pSourceVoice->Start();
+    SingleShotPlay(soundData, 1.0f, true);
 }
 
 void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, bool checkPlaying) {
@@ -342,7 +223,7 @@ void Audio::PlayAudio(const AudioData& audioData, bool isLoop, float volume, boo
 	assert(SUCCEEDED(result));
 }
 
-void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
+void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume, bool loop) {
 	PlayingSound playingSound{};
 
 	// ★ 再生中保持するバッファにコピー
@@ -355,7 +236,7 @@ void Audio::SingleShotPlay(const SoundData& loadAudioData, float volume) {
 	buf.pAudioData = playingSound.buffer.data();               // ★ ここが超重要
 	buf.AudioBytes = (UINT32)playingSound.buffer.size();
 	buf.Flags = XAUDIO2_END_OF_STREAM;
-	buf.LoopCount = 0;
+	buf.LoopCount = loop ? XAUDIO2_LOOP_INFINITE : 0;
 
 	hr = playingSound.pSourceVoice->SubmitSourceBuffer(&buf);
 	assert(SUCCEEDED(hr));
@@ -417,7 +298,7 @@ void Audio::SetVolume(IXAudio2SourceVoice* pSourceVoice, float volume) {
 bool Audio::IsPlaying(IXAudio2SourceVoice* pSourceVoice) {
 	XAUDIO2_VOICE_STATE state;
 	pSourceVoice->GetState(&state);
-	if (state.BuffersQueued == 1) {
+	if (state.BuffersQueued > 0) {
 		return true;
 	} else {
 		return false;

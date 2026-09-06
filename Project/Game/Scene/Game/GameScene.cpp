@@ -12,6 +12,7 @@
 #include "Game/Actor/Floor/DamageFloor.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Block.h"
+#include <System/Audio/SoundManager.h>
 
 GameScene::GameScene() {}
 
@@ -99,6 +100,8 @@ void GameScene::OnPlayStart()
 	retryUI_->Init();
 	playerUI_->Init();
 	bossUI_->Init();
+
+	auto sound = Engine::GetSoundManager()->Play("Sound");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

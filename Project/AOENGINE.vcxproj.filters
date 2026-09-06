@@ -846,6 +846,15 @@
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Audio\SoundCatalog.h">
+      <Filter>Engine\System\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Audio\SoundManager.h">
+      <Filter>Engine\System\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
@@ -1344,6 +1353,9 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\BlockAutoTile.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
@@ -1365,7 +1377,13 @@
     <ClInclude Include="Game\Stage\StageSegment.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\BossUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\PlayerUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\RetryUI.h">
@@ -1383,8 +1401,6 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\PlayerUI.h" />
-    <ClInclude Include="Game\UI\BossUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1882,6 +1898,15 @@
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Audio\SoundCatalog.cpp">
+      <Filter>Engine\System\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Audio\SoundManager.cpp">
+      <Filter>Engine\System\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
@@ -2335,6 +2360,9 @@
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\BlockAutoTile.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
@@ -2353,7 +2381,13 @@
     <ClCompile Include="Game\Stage\StageSegment.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\BossUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\PlayerUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\RetryUI.cpp">
@@ -2372,7 +2406,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\UI\PlayerUI.cpp" />
-    <ClCompile Include="Game\UI\BossUI.cpp" />
   </ItemGroup>
 </Project>

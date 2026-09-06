@@ -1,9 +1,10 @@
 #pragma once
 #include <map>
 #include <string>
+#include <filesystem>
+#include <memory>
 #include <assert.h>
 #include "Engine/System/Audio/Audio.h"
-#include "Engine/Core/Engine.h"
 
 namespace AOENGINE {
 
@@ -35,6 +36,7 @@ public:
 	/// <param name="fileName"></param>
 	/// <returns></returns>
 	SoundData GetAudioData(const std::string& fileName);
+	std::shared_ptr<const SoundData> GetSharedAudioData(const std::filesystem::path& path, Audio& audio, bool forceReload = false);
 
 	/// <summary>
 	/// Audioを読み込み
@@ -45,7 +47,13 @@ public:
 
 private:
 
-	std::map<std::string, const SoundData> audioLoadData_;
+	struct CachedSound {
+		std::shared_ptr<const SoundData> data;
+		std::filesystem::file_time_type modified;
+		uintmax_t size = 0;
+	};
+	std::map<std::filesystem::path, CachedSound> audioLoadData_;
+	std::map<std::string, std::filesystem::path> legacyNames_;
 
 };
 

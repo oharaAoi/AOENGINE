@@ -12,6 +12,8 @@ public:
 
 	AudioPlayer();
 	~AudioPlayer();
+	AudioPlayer(const AudioPlayer&) = delete;
+	AudioPlayer& operator=(const AudioPlayer&) = delete;
 
 	void Finalize();
 	void Init(const std::string& filePath);
@@ -54,7 +56,7 @@ public:
 
 private:
 
-	AudioData audioData_;
+	AudioData audioData_{};
 
 	Audio* pAudio_ = nullptr;
 
