@@ -177,7 +177,6 @@ void GameScene::UpdateActors(float deltaTime)
 	if (backgrounds_)
 	{
 		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
-		stageBlockField_.ApplyDebugGroupColors();
 	}
 
 	// ボスの更新
