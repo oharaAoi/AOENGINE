@@ -509,6 +509,18 @@ void Player::ResolveGround(float deltaTime){
 	// 頭をぶつけていたら上昇を打ち切る
 	if (result.hitCeiling) {
 		jump_.HitCeiling();
+
+		// 押し戻しは横へ逃がされることがあり、それだと頭が刺さったままになる。
+		if (result.hasCeilingBottom) {
+			if (WorldTransform* transform = GetTransform()) {
+				Math::Vector3 position = transform->GetTranslate();
+				const float clampY = groundState_.CalcHeadClampY(result.ceilingBottomY, MakeGroundParams());
+				if (position.y > clampY) {
+					position.y = clampY;
+					transform->SetTranslate(position);
+				}
+			}
+		}
 	}
 
 	if (result.isSupported)
@@ -518,8 +530,8 @@ void Player::ResolveGround(float deltaTime){
 		// 上昇中に足場に触れただけのフレームはここで着地にならない
 		const bool wasAirborne = !jump_.IsGrounded();
 
-		// 大ジャンプの着地では押し戻しが使えないので、選んだ足場の上面へ直接置く
-		if (damageFloorAirborne_ && result.hasGroundTop) {
+		// 着地したフレームは足場の上面へ直接置く
+		if ((wasAirborne || damageFloorAirborne_) && result.hasGroundTop) {
 			if (WorldTransform* transform = GetTransform()) {
 				Math::Vector3 position = transform->GetTranslate();
 				position.y = groundState_.CalcStandY(result.groundTopY, MakeGroundParams());

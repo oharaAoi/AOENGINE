@@ -147,6 +147,36 @@
         {
             "active": true,
             "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    18.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 682,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -226,36 +256,6 @@
             },
             "id": 314,
             "name": "Player",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "DamageFloor",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    18.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 682,
-            "name": "DamageFloor",
             "parentId": null,
             "type": "PrefabInstance"
         },
@@ -879,8 +879,8 @@
                     0.0
                 ],
                 "drawRange": [
-                    16.0,
-                    16.0
+                    263.0,
+                    1050.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -889,7 +889,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 0,
+                "renderQueue": 3,
                 "rotate": [
                     0.0,
                     0.0,
@@ -900,75 +900,20 @@
                     0.5,
                     1.0
                 ],
-                "texture": "white.png",
+                "texture": "launch_frame",
                 "textureSize": [
-                    16.0,
-                    16.0
+                    263.0,
+                    1050.0
                 ],
                 "translate": [
-                    1758.904296875,
+                    1477.687744140625,
                     476.6579895019531,
                     1.0
                 ]
             },
-            "id": 771,
-            "name": "BossUI",
+            "id": 734,
+            "name": "LauncherUI",
             "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    422.0,
-                    500.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 4,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    0.6000000238418579,
-                    0.6000000238418579,
-                    1.0
-                ],
-                "texture": "icon_boss",
-                "textureSize": [
-                    422.0,
-                    500.0
-                ],
-                "translate": [
-                    0.0,
-                    -625.7999877929688,
-                    1.0
-                ]
-            },
-            "id": 774,
-            "name": "BossIcon",
-            "parentId": 771,
             "type": "Sprite"
         },
         {
@@ -1041,11 +986,11 @@
                     1.0,
                     1.0,
                     1.0,
-                    0.0
+                    1.0
                 ],
                 "drawRange": [
-                    263.0,
-                    1050.0
+                    422.0,
+                    500.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1054,7 +999,62 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 3,
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    1.0
+                ],
+                "texture": "icon_boss",
+                "textureSize": [
+                    422.0,
+                    500.0
+                ],
+                "translate": [
+                    0.0,
+                    -625.7999877929688,
+                    1.0
+                ]
+            },
+            "id": 774,
+            "name": "BossIcon",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1065,19 +1065,19 @@
                     0.5,
                     1.0
                 ],
-                "texture": "launch_frame",
+                "texture": "white.png",
                 "textureSize": [
-                    263.0,
-                    1050.0
+                    16.0,
+                    16.0
                 ],
                 "translate": [
-                    1477.687744140625,
+                    1758.904296875,
                     476.6579895019531,
                     1.0
                 ]
             },
-            "id": 734,
-            "name": "LauncherUI",
+            "id": 771,
+            "name": "BossUI",
             "parentId": null,
             "type": "Sprite"
         },

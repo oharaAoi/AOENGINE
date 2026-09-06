@@ -49,6 +49,19 @@ PlayerGroundState::Result PlayerGroundState::Resolve(
 		result.groundTopY = groundTopY;
 	}
 
+	// 天井も同じ理由で押し戻し任せにできない。上昇中は頭の上を直接見る。
+	// 1フレームで進むぶんを足しておかないと、速いジャンプで足場を跨いでしまう
+	if (context.velocityY > 0.0f) {
+		const float checkUp = params.groundCheckDistance + context.velocityY * deltaTime;
+
+		float ceilingBottomY = 0.0f;
+		if (TryGetCeilingBottom(checkUp, context, params, ceilingBottomY)) {
+			result.hitCeiling = true;
+			result.hasCeilingBottom = true;
+			result.ceilingBottomY = ceilingBottomY;
+		}
+	}
+
 	return result;
 }
 
@@ -80,7 +93,7 @@ bool PlayerGroundState::TryGetGroundTop(
 	// 足元の箱の底から下だけを見る。自分が乗っているマスを拾わないよう少しだけ下から始める
 	const Math::Vector3 footCenter = CalcBoxCenter(context, params.footOffset);
 	const float feetY = footCenter.y - params.footSize.y * 0.5f;
-	const float halfWidth = params.footSize.x * 0.5f;
+	const float halfWidth = params.footSize.x * 0.5f - kSideInset;
 
 	const Math::Vector3 checkMin{ footCenter.x - halfWidth, feetY - checkDown, footCenter.z };
 	const Math::Vector3 checkMax{ footCenter.x + halfWidth, feetY - kGroundCheckEpsilon, footCenter.z };
@@ -116,12 +129,69 @@ bool PlayerGroundState::TryGetGroundTop(
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  頭の上のブロックの下面を求める
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool PlayerGroundState::TryGetCeilingBottom(
+	float checkUp, const Context& context, const Params& params, float& outBottomY) const {
+
+	if (context.blockField == nullptr || context.transform == nullptr) {
+		return false;
+	}
+
+	// 胴体の箱の天面から上だけを見る。今いるマスを拾わないよう少しだけ上から始める
+	const Math::Vector3 bodyCenter = CalcBoxCenter(context, params.bodyOffset);
+	const float headY = bodyCenter.y + params.bodySize.y * 0.5f;
+	const float halfWidth = params.bodySize.x * 0.5f - kSideInset;
+
+	const Math::Vector3 checkMin{ bodyCenter.x - halfWidth, headY + kGroundCheckEpsilon, bodyCenter.z };
+	const Math::Vector3 checkMax{ bodyCenter.x + halfWidth, headY + checkUp, bodyCenter.z };
+
+	bool found = false;
+	float bottomY = 0.0f;
+
+	// 複数マスに跨っている時は、一番低い下面でぶつける
+	const auto keepLowest = [&found, &bottomY](float surfaceY) {
+		if (!found || surfaceY < bottomY) {
+			found = true;
+			bottomY = surfaceY;
+		}
+	};
+
+	// 大ジャンプ中はBlockを通り抜けさせるので、天井としても見ない
+	if (!context.isBigJump) {
+		for (const Block* block : context.blockField->GetBlocksInWorldAABB(checkMin, checkMax)) {
+			if (block == nullptr || !block->IsValid()) {
+				continue;
+			}
+			keepLowest(block->GetPosition().y - kBlockHalfHeight);
+		}
+	}
+
+	// Wallは大ジャンプ中でもぶつかる
+	for (const Wall* wall : context.blockField->GetWallsInWorldAABB(checkMin, checkMax)) {
+		if (wall == nullptr || !wall->IsValid()) {
+			continue;
+		}
+		keepLowest(wall->GetPosition().y - kBlockHalfHeight);
+	}
+
+	outBottomY = bottomY;
+	return found;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  足場の上面から、本体を置くY座標を求める
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 float PlayerGroundState::CalcStandY(float groundTopY, const Params& params) const {
 	// 足元の箱の底が、足場の上面にぴったり乗る高さ
 	return groundTopY + params.footSize.y * 0.5f - params.footOffset.y;
+}
+
+float PlayerGroundState::CalcHeadClampY(float ceilingBottomY, const Params& params) const {
+	// 胴体の箱の天面が、天井の下面にぴったり触れる高さ
+	return ceilingBottomY - params.bodySize.y * 0.5f - params.bodyOffset.y;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
