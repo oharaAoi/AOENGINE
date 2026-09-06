@@ -102,6 +102,7 @@ public:
 	/// SceneWorldが所有する全オブジェクトのObjectHandleを返します。
 	/// </summary>
 	std::vector<ObjectHandle> GetObjectHandles() const;
+	const std::vector<SceneObject*>& GetObjectPointers() const;
 
 	/// <summary>
 	/// 親を持たないルートオブジェクトのObjectHandleを返します。
@@ -198,6 +199,8 @@ private:
 private:
 	// ObjectHandle.indexからSceneObject実体へアクセスするためのスロット配列。
 	std::vector<ObjectSlot> objectSlots_;
+	mutable std::vector<SceneObject*> objectPointersCache_;
+	mutable bool objectPointersCacheDirty_ = true;
 
 	// 破棄済みスロットのindexを保持し、次回のAddObjectで再利用する。
 	std::vector<uint32_t> reusableObjectIndices_;

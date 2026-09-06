@@ -5,6 +5,8 @@
 using namespace AOENGINE;
 
 void SceneWorld::Clear() {
+	objectPointersCache_.clear();
+	objectPointersCacheDirty_ = true;
 	reusableObjectIndices_.clear();
 	rootObjectHandles_.clear();
 
@@ -61,6 +63,7 @@ ObjectHandle SceneWorld::AddObject(std::unique_ptr<SceneObject> object, const st
 	slot.ownedObject = std::move(object);
 	slot.object = slot.ownedObject.get();
 	slot.isAlive = true;
+	objectPointersCacheDirty_ = true;
 
 	// 親が設定されるまではHierarchy上のルートとして扱う。
 	AddRootObject(handle);
@@ -86,6 +89,7 @@ ObjectHandle SceneWorld::AddExternalObject(SceneObject& object, const std::strin
 	slot.ownedObject.reset();
 	slot.object = &object;
 	slot.isAlive = true;
+	objectPointersCacheDirty_ = true;
 
 	AddRootObject(handle);
 	return handle;
@@ -156,6 +160,22 @@ std::vector<ObjectHandle> SceneWorld::GetObjectHandles() const {
 	}
 
 	return handles;
+}
+
+const std::vector<SceneObject*>& SceneWorld::GetObjectPointers() const {
+	if (!objectPointersCacheDirty_) {
+		return objectPointersCache_;
+	}
+
+	objectPointersCache_.clear();
+	objectPointersCache_.reserve(objectSlots_.size());
+	for (const ObjectSlot& slot : objectSlots_) {
+		if (slot.isAlive && slot.object) {
+			objectPointersCache_.push_back(slot.object);
+		}
+	}
+	objectPointersCacheDirty_ = false;
+	return objectPointersCache_;
 }
 
 std::vector<ObjectHandle> SceneWorld::GetRootObjectHandles() const {
@@ -251,14 +271,10 @@ bool SceneWorld::MoveToRoot(ObjectHandle handle) {
 
 void SceneWorld::Update() {
 	std::vector<ObjectHandle> destroyHandles;
+	destroyHandles.reserve(objectSlots_.size());
 
 	// 更新中にスロット配列を変更しないよう、破棄要求は一度集めて後で処理する。
-	for (const ObjectHandle& handle : GetObjectHandles()) {
-		SceneObject* object = FindObject(handle);
-		if (!object) {
-			continue;
-		}
-
+	for (SceneObject* object : GetObjectPointers()) {
 		ISceneObject* sceneObject = dynamic_cast<ISceneObject*>(object);
 		if (!sceneObject) {
 			continue;
@@ -269,7 +285,7 @@ void SceneWorld::Update() {
 		}
 
 		if (sceneObject->GetIsDestroy()) {
-			destroyHandles.push_back(handle);
+			destroyHandles.push_back(object->GetHandle());
 		}
 	}
 
@@ -280,14 +296,10 @@ void SceneWorld::Update() {
 
 void SceneWorld::PostUpdate() {
 	std::vector<ObjectHandle> destroyHandles;
+	destroyHandles.reserve(objectSlots_.size());
 
 	// PostUpdateでもUpdateと同様に、走査完了後に破棄する。
-	for (const ObjectHandle& handle : GetObjectHandles()) {
-		SceneObject* object = FindObject(handle);
-		if (!object) {
-			continue;
-		}
-
+	for (SceneObject* object : GetObjectPointers()) {
 		ISceneObject* sceneObject = dynamic_cast<ISceneObject*>(object);
 		if (!sceneObject) {
 			continue;
@@ -298,7 +310,7 @@ void SceneWorld::PostUpdate() {
 		}
 
 		if (sceneObject->GetIsDestroy()) {
-			destroyHandles.push_back(handle);
+			destroyHandles.push_back(object->GetHandle());
 		}
 	}
 
@@ -352,6 +364,7 @@ void SceneWorld::ReleaseHandle(ObjectHandle handle) {
 	}
 	slot.object = nullptr;
 	slot.isAlive = false;
+	objectPointersCacheDirty_ = true;
 	slot.generation = NextGeneration(slot.generation);
 
 	// ルート一覧からも外し、スロットindexは次回以降の追加で再利用する。

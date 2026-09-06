@@ -42,6 +42,7 @@ void PBRMaterial::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PBRMaterial::Update() {
+	if (!materialDirty_) { return; }
 	UpdateShaderGraph();
 	pbrMaterial_->uvTransform = uvTransform_.MakeAffine();
 
@@ -50,6 +51,7 @@ void PBRMaterial::Update() {
 	} else {
 		pbrMaterial_->useNormalMap = 1;
 	}
+	materialDirty_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,6 +82,7 @@ void PBRMaterial::SetMaterialData(ModelMaterialData materialData) {
 	pbrMaterial_->metallic = 1.0f;
 	pbrMaterial_->shininess = 50;
 	pbrMaterial_->ambientIntensity = 0.5f;
+	materialDirty_ = true;
 }
 
 void AOENGINE::PBRMaterial::BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) {
@@ -122,4 +125,5 @@ void AOENGINE::PBRMaterial::SetParameter(float _roughness, float _metallic, floa
 	pbrMaterial_->metallic = _metallic;
 	pbrMaterial_->ambientIntensity = _ibl;
 	normalMap_ = _normalMap;
+	materialDirty_ = true;
 }

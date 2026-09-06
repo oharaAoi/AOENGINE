@@ -40,11 +40,13 @@ void Material::Init() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Material::Update() {
+	if (!materialDirty_) { return; }
 	UpdateShaderGraph();
 	material_->enableLighting = isLighting_;
 	material_->discardValue = discardValue_;
 	material_->color = color_;
 	material_->uvTransform = uvTransform_.MakeAffine();
+	materialDirty_ = false;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -76,6 +78,7 @@ void Material::SetMaterialData(ModelMaterialData materialData) {
 	material_->discardValue = 0.01f;
 	material_->iblScale = 0.5f;
 	textureName_ = materialData.textureFilePath;
+	materialDirty_ = true;
 }
 
 void AOENGINE::Material::BindCommand(ID3D12GraphicsCommandList* _cmdList, const AOENGINE::Pipeline* _pso) {

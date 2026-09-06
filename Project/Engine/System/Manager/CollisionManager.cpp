@@ -108,7 +108,6 @@ std::vector<std::pair<BaseCollider*, BaseCollider*>> BuildCandidatePairs(
 				size_t second = indices[b];
 				if (first > second) { std::swap(first, second); }
 				if (!CanCheckCollision(*colliders[first], *colliders[second])) { continue; }
-				if (!CheckCollision(bounds[first], bounds[second])) { continue; }
 				const uint64_t key = (static_cast<uint64_t>(first) << 32) | static_cast<uint64_t>(second);
 				if (uniquePairs.insert(key).second) {
 					pairs.emplace_back(colliders[first], colliders[second]);

@@ -152,6 +152,153 @@
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    33.08000183105469,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -0.9411920309066772,
+                    0.0,
+                    -1.9004273414611816
+                ]
+            },
+            "id": 796,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    600.0,
+                    1200.0
+                ],
+                "translate": [
+                    1635.270263671875,
+                    492.82781982421875,
+                    1.0
+                ]
+            },
+            "id": 467,
+            "name": "UI_background",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Player",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    2.200000047683716,
+                    0.0
+                ]
+            },
+            "id": 314,
+            "name": "Player",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "idle",
+                        "animationTime": 0.0,
+                        "loop": true,
+                        "speed": 1.0,
+                        "stopped": false,
+                        "type": "Animator"
+                    },
+                    {
+                        "active": true,
+                        "category": "Boss",
+                        "collisionMask": [
+                            "LaunchedBlock"
+                        ],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": true,
+                        "type": "AABBCollider"
+                    }
+                ],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "white.png",

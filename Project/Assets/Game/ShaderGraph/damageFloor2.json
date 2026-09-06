@@ -1,0 +1,350 @@
+{
+    "assetType": "ShaderGraph",
+    "domain": "Texture",
+    "links": [
+        {
+            "fromNode": 2903578499104,
+            "fromPin": "uv",
+            "toNode": 2903645117920,
+            "toPin": "UV"
+        },
+        {
+            "fromNode": 2903578500256,
+            "fromPin": "DxResource",
+            "toNode": 2903645117920,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2903648306208,
+            "fromPin": "output",
+            "toNode": 2904761139232,
+            "toPin": "B"
+        },
+        {
+            "fromNode": 2903734510624,
+            "fromPin": "time",
+            "toNode": 2904761139232,
+            "toPin": "A"
+        },
+        {
+            "fromNode": 2904761139232,
+            "fromPin": "output",
+            "toNode": 2903649546912,
+            "toPin": "y"
+        },
+        {
+            "fromNode": 2445806097296,
+            "fromPin": "Gradient",
+            "toNode": 2446384636080,
+            "toPin": "Gradient"
+        },
+        {
+            "fromNode": 2446384636624,
+            "fromPin": "output",
+            "toNode": 2445806099600,
+            "toPin": "B"
+        },
+        {
+            "fromNode": 2445814436480,
+            "fromPin": "output",
+            "toNode": 2445806098832,
+            "toPin": "B"
+        },
+        {
+            "fromNode": 2446384075552,
+            "fromPin": "DxResource",
+            "toNode": 2445814437568,
+            "toPin": "TextureA"
+        },
+        {
+            "fromNode": 2445814437840,
+            "fromPin": "DxResource",
+            "toNode": 2445814437568,
+            "toPin": "TextureB"
+        },
+        {
+            "fromNode": 2903645117920,
+            "fromPin": "DxResource",
+            "toNode": 2446384075552,
+            "toPin": "BaseTex"
+        },
+        {
+            "fromNode": 2903645117920,
+            "fromPin": "DxResource",
+            "toNode": 2446384075552,
+            "toPin": "NoiseTex"
+        },
+        {
+            "fromNode": 2445814437568,
+            "fromPin": "DxResource",
+            "toNode": 2446384636080,
+            "toPin": "Texture"
+        },
+        {
+            "fromNode": 2446384636080,
+            "fromPin": "DxResource",
+            "toNode": 2903582127360,
+            "toPin": "DxResource"
+        },
+        {
+            "fromNode": 2445806098832,
+            "fromPin": "output",
+            "toNode": 2445806099600,
+            "toPin": "A"
+        },
+        {
+            "fromNode": 2445806099600,
+            "fromPin": "output",
+            "toNode": 2446384075552,
+            "toPin": "threshold"
+        },
+        {
+            "fromNode": 2446383624784,
+            "fromPin": "sineTime",
+            "toNode": 2445806098832,
+            "toPin": "A"
+        },
+        {
+            "fromNode": 2903649546912,
+            "fromPin": "output",
+            "toNode": 2903578499104,
+            "toPin": "offset"
+        }
+    ],
+    "nodes": [
+        {
+            "id": 2903578500256,
+            "name": "Texture",
+            "pos": [
+                190.0,
+                -20.0
+            ],
+            "props": {
+                "textureName": "noise4.dds"
+            }
+        },
+        {
+            "id": 2903582127360,
+            "name": "ResultNode",
+            "pos": [
+                2520.0,
+                100.0
+            ]
+        },
+        {
+            "id": 2445806098832,
+            "name": "Add",
+            "pos": [
+                950.0,
+                260.0
+            ]
+        },
+        {
+            "id": 2903645117920,
+            "name": "SampleTexture2D",
+            "pos": [
+                490.0,
+                70.0
+            ],
+            "props": {
+                "color": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                }
+            }
+        },
+        {
+            "id": 2903578499104,
+            "name": "UVTransform",
+            "pos": [
+                350.0,
+                190.0
+            ]
+        },
+        {
+            "id": 2903734510624,
+            "name": "TimeNode",
+            "pos": [
+                -310.0,
+                150.0
+            ]
+        },
+        {
+            "id": 2446384636624,
+            "name": "Property_Float",
+            "pos": [
+                740.0,
+                430.0
+            ],
+            "props": {
+                "value": [
+                    0.47999998927116394
+                ]
+            }
+        },
+        {
+            "id": 2904761139232,
+            "name": "Multiply",
+            "pos": [
+                -130.0,
+                190.0
+            ]
+        },
+        {
+            "id": 2903649546912,
+            "name": "InOut_Vector2",
+            "pos": [
+                20.0,
+                150.0
+            ],
+            "props": {
+                "value": [
+                    0.0,
+                    -0.0
+                ]
+            }
+        },
+        {
+            "id": 2903648306208,
+            "name": "Property_Float",
+            "pos": [
+                -430.0,
+                240.0
+            ],
+            "props": {
+                "value": [
+                    -0.17000000178813934
+                ]
+            }
+        },
+        {
+            "id": 2445806097296,
+            "name": "Gradient",
+            "pos": [
+                1780.0,
+                150.0
+            ],
+            "props": {
+                "keys": [
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.411255419254303
+                        },
+                        "position": 0.12200000137090683
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.037386856973171234,
+                            "r": 0.2056277096271515
+                        },
+                        "position": 0.1889999955892563
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.00517231784760952,
+                            "r": 0.19913417100906372
+                        },
+                        "position": 0.20100000500679016
+                    },
+                    {
+                        "color": {
+                            "a": 1.0,
+                            "b": 0.0,
+                            "g": 0.0,
+                            "r": 0.0
+                        },
+                        "position": 1.0
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2446384075552,
+            "name": "Dissolve",
+            "pos": [
+                1320.0,
+                -60.0
+            ],
+            "props": {
+                "dissolveColor": {
+                    "a": 1.0,
+                    "b": 1.0,
+                    "g": 1.0,
+                    "r": 1.0
+                },
+                "edgeWidth": 1.0,
+                "threshold": 0.47999998927116394
+            }
+        },
+        {
+            "id": 2446384636080,
+            "name": "SampleGradient",
+            "pos": [
+                2150.0,
+                30.0
+            ],
+            "props": {
+                "channel": 4,
+                "multiplySourceAlpha": false
+            }
+        },
+        {
+            "id": 2446383624784,
+            "name": "TimeNode",
+            "pos": [
+                820.0,
+                230.0
+            ]
+        },
+        {
+            "id": 2445806099600,
+            "name": "Multiply",
+            "pos": [
+                1110.0,
+                270.0
+            ]
+        },
+        {
+            "id": 2445814437840,
+            "name": "Texture",
+            "pos": [
+                1400.0,
+                90.0
+            ],
+            "props": {
+                "textureName": "skin.dds"
+            }
+        },
+        {
+            "id": 2445814436480,
+            "name": "Property_Float",
+            "pos": [
+                640.0,
+                310.0
+            ],
+            "props": {
+                "value": [
+                    1.0
+                ]
+            }
+        },
+        {
+            "id": 2445814437568,
+            "name": "DifferenceBlend",
+            "pos": [
+                1660.0,
+                -10.0
+            ]
+        }
+    ],
+    "schemaVersion": 1
+}
