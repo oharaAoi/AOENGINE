@@ -127,7 +127,7 @@ void BaseGameObject::UpdateMatrix() {
 }
 
 void BaseGameObject::UpdateVerticalPhysics() {
-	if (rigidbody_ == nullptr) { return; }
+	if (rigidbody_ == nullptr || pendingVerticalMove_ == 0.0f) { return; }
 	transform_->Translate(Math::Vector3(0.0f, pendingVerticalMove_, 0.0f));
 	pendingVerticalMove_ = 0.0f;
 	transform_->Update();
@@ -144,6 +144,11 @@ void BaseGameObject::UpdateVerticalPhysics() {
 
 void BaseGameObject::ApplyCollisionPushback() {
 	if (rigidbody_ == nullptr) { return; }
+	if (rigidbody_->GetPushbackForce().x == 0.0f &&
+		rigidbody_->GetPushbackForce().y == 0.0f &&
+		rigidbody_->GetPushbackForce().z == 0.0f) {
+		return;
+	}
 	for (BaseCollider* collider : colliders_) {
 		if (!collider->GetIsStatic()) {
 			rigidbody_->SetPushbackForce(collider->GetPushBackDirection());

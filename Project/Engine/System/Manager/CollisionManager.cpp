@@ -34,6 +34,13 @@ struct CellKeyHash {
 	}
 };
 
+bool CanCheckCollision(const BaseCollider& colliderA, const BaseCollider& colliderB) {
+	if (colliderA.GetCategoryName() != "Default" && colliderB.GetCategoryName() != "Default") {
+		return HasBit(colliderA.GetCollisionMaskBit(), colliderB.GetLayerBit());
+	}
+	return true;
+}
+
 Math::AABB GetBroadPhaseAABB(const BaseCollider& collider) {
 	return std::visit([](const auto& shape) {
 		using Shape = std::decay_t<decltype(shape)>;
@@ -64,11 +71,14 @@ Math::AABB GetBroadPhaseAABB(const BaseCollider& collider) {
 }
 
 std::vector<std::pair<BaseCollider*, BaseCollider*>> BuildCandidatePairs(
-	const std::vector<BaseCollider*>& colliders) {
+	const std::vector<BaseCollider*>& colliders, bool includeExistingPartners) {
 	std::unordered_map<CellKey, std::vector<size_t>, CellKeyHash> cells;
 	std::vector<Math::AABB> bounds(colliders.size());
 	std::unordered_set<uint64_t> uniquePairs;
 	std::vector<std::pair<BaseCollider*, BaseCollider*>> pairs;
+	cells.reserve(colliders.size());
+	uniquePairs.reserve(colliders.size() * 4);
+	pairs.reserve(colliders.size() * 4);
 
 	for (size_t index = 0; index < colliders.size(); ++index) {
 		BaseCollider* collider = colliders[index];
@@ -97,12 +107,18 @@ std::vector<std::pair<BaseCollider*, BaseCollider*>> BuildCandidatePairs(
 				size_t first = indices[a];
 				size_t second = indices[b];
 				if (first > second) { std::swap(first, second); }
+				if (!CanCheckCollision(*colliders[first], *colliders[second])) { continue; }
+				if (!CheckCollision(bounds[first], bounds[second])) { continue; }
 				const uint64_t key = (static_cast<uint64_t>(first) << 32) | static_cast<uint64_t>(second);
 				if (uniquePairs.insert(key).second) {
 					pairs.emplace_back(colliders[first], colliders[second]);
 				}
 			}
 		}
+	}
+
+	if (!includeExistingPartners) {
+		return pairs;
 	}
 
 	// Broad Phaseから外れたフレームでも、前フレームから継続しているペアは
@@ -125,6 +141,7 @@ std::vector<std::pair<BaseCollider*, BaseCollider*>> BuildCandidatePairs(
 			size_t first = colliderIt->second;
 			size_t second = partnerIt->second;
 			if (first > second) { std::swap(first, second); }
+			if (!CanCheckCollision(*colliders[first], *colliders[second])) { continue; }
 			const uint64_t key = (static_cast<uint64_t>(first) << 32) | static_cast<uint64_t>(second);
 			if (uniquePairs.insert(key).second) {
 				pairs.emplace_back(colliders[first], colliders[second]);
@@ -163,15 +180,8 @@ void CollisionManager::Init() {
 void CollisionManager::CheckAllCollision() {
 	
 	const std::vector<BaseCollider*>& colliderList = pColliderCollector_->GetColliderList();
-	for (const auto& [colliderA, colliderB] : BuildCandidatePairs(colliderList)) {
+	for (const auto& [colliderA, colliderB] : BuildCandidatePairs(colliderList, true)) {
 
-			// マスク処理を行う
-			if (colliderA->GetCategoryName() != "Default" && colliderB->GetCategoryName() != "Default") {
-				if (!HasBit(colliderA->GetCollisionMaskBit(), colliderB->GetLayerBit())) {
-					continue;
-				}
-			}
-			
 			CheckCollisionPair(colliderA, colliderB);
 	}
 }
@@ -184,9 +194,7 @@ void CollisionManager::CheckHorizontalCollision() {
 		if (std::abs(correction.x) > std::abs(accumulated.x)) { accumulated.x = correction.x; }
 		if (std::abs(correction.z) > std::abs(accumulated.z)) { accumulated.z = correction.z; }
 	};
-	for (const auto& [colliderA, colliderB] : BuildCandidatePairs(colliderList)) {
-			if (colliderA->GetCategoryName() != "Default" && colliderB->GetCategoryName() != "Default" &&
-				!HasBit(colliderA->GetCollisionMaskBit(), colliderB->GetLayerBit())) { continue; }
+	for (const auto& [colliderA, colliderB] : BuildCandidatePairs(colliderList, false)) {
 			if (!CheckCollision(colliderA->GetShape(), colliderB->GetShape()) ||
 				colliderA->GetIsTrigger() || colliderB->GetIsTrigger()) { continue; }
 			if (!colliderA->GetIsStatic()) {
