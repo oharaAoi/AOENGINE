@@ -22,6 +22,8 @@ public:
 	struct Params {
 		Math::Vector3 footSize;		// 足元の箱の大きさ
 		Math::Vector3 footOffset;	// 足元の箱の中心のずらし量
+		Math::Vector3 bodySize;		// 胴体の箱の大きさ。壁に入り込ませない判定に使う
+		Math::Vector3 bodyOffset;	// 胴体の箱の中心のずらし量
 		float groundCheckDistance;	// 足元の何ユニット下までを足場として見るか
 		float fallLimitY;			// これ以上は落ちない高さ
 		float fixedZ;				// 固定する奥行き
@@ -64,6 +66,9 @@ public:
 	/// <summary>押し戻しで奥行きがずれても、決まったZへ固定し直す</summary>
 	void FixZPosition(const Context& context, const Params& params) const;
 
+	/// <summary>壁のマスへ胴体が入り込まないように、左右を止める</summary>
+	void ClampToWalls(const Context& context, const Params& params) const;
+
 private:
 
 	/// <summary>
@@ -83,4 +88,6 @@ private:
 	static constexpr float kGroundCheckEpsilon = 0.001f;
 	// ブロック1個の高さの半分。上面の高さを出すのに使う
 	static constexpr float kBlockHalfHeight = 0.5f;
+	// ブロック1個の幅の半分。壁の側面の位置を出すのに使う
+	static constexpr float kBlockHalfWidth = 0.5f;
 };

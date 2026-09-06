@@ -128,6 +128,7 @@ void Player::Update(){
 	const PlayerGroundState::Params groundParams = MakeGroundParams();
 	groundState_.SnapToGround(groundContext, groundParams);
 	groundState_.ClampFallLimit(groundContext, groundParams);
+	groundState_.ClampToWalls(groundContext, groundParams);
 	groundState_.FixZPosition(groundContext, groundParams);
 
 	// 見た目まわり
@@ -619,6 +620,8 @@ PlayerGroundState::Params Player::MakeGroundParams() const {
 	return PlayerGroundState::Params{
 		parameter_.footSize,
 		parameter_.footOffset,
+		parameter_.bodySize,
+		parameter_.bodyOffset,
 		parameter_.groundCheckDistance,
 		parameter_.fallLimitY,
 		parameter_.fixedZ,

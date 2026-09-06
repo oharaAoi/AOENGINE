@@ -1269,6 +1269,9 @@
     <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\Component\BossDamageEffect.h">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClInclude>
@@ -2322,6 +2325,9 @@
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp">
+      <Filter>Game\Actor\Boss\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\Component\BossDamageEffect.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp">

@@ -24,6 +24,7 @@ void Boss::Init(BaseGameObject* body) {
 	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
 	parameter_.stopperLandShake.Load();
 	parameter_.phaseChangeShake.Load();
+	parameter_.damageShake.Load();
 	currentHp_ = parameter_.hp;
 
 	if (WorldTransform* transform = GetTransform()) {
@@ -37,6 +38,8 @@ void Boss::Init(BaseGameObject* body) {
 	SetRendering(true);
 
 	animation_.Init();
+	// 元の色を覚えさせる。被弾の演出が終わったらここへ戻る
+	damageEffect_.Init(GetGameObject());
 
 	// 最初の行動をセットする
 	behaviorController_.Init(*this);
@@ -59,8 +62,12 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
 
+	// 被弾の色と揺れを進める
+	damageEffect_.Update(GameTimer::DeltaTime(), GetGameObject(), MakeDamageEffectParams());
+
+	// 攻撃側が見るのは基準位置のままにして、見た目だけ揺れのぶんずらす
 	if (WorldTransform* transform = GetTransform()) {
-		transform->SetTranslate(position_);
+		transform->SetTranslate(position_ + damageEffect_.GetPositionOffset());
 	}
 
 	// 見た目の大きさを反映する
@@ -135,10 +142,27 @@ void Boss::Damage(float amount) {
 	// 被弾は行動に割り込んで1回だけ流す
 	animation_.PlayDamage();
 
+	// 赤くして、その場で小さく揺らす
+	damageEffect_.Play(MakeDamageEffectParams());
+
 	currentHp_ -= amount;
 	if (currentHp_ < 0.0f) {
 		currentHp_ = 0.0f;
 	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  被弾の演出へ渡す調整値
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+BossDamageEffect::Params Boss::MakeDamageEffectParams() const {
+
+	BossDamageEffect::Params params{};
+	params.duration = parameter_.damageEffectTime;
+	params.color = parameter_.damageColor;
+	params.shake = parameter_.damageShake;
+
+	return params;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,6 +246,16 @@ void Boss::Debug_Gui() {
 	parameter_.stopperLandShake.SaveAndLoad();
 	if (ImGui::Button("Test Play")) {
 		ShakeCamera(parameter_.stopperLandShake);
+	}
+	ImGui::PopID();
+
+	// 被弾した時の、ボス自身の揺れ
+	ImGui::SeparatorText("Damage Shake");
+	ImGui::PushID("DamageShake");
+	parameter_.damageShake.Debug_Gui();
+	parameter_.damageShake.SaveAndLoad();
+	if (ImGui::Button("Test Play")) {
+		damageEffect_.Play(MakeDamageEffectParams());
 	}
 	ImGui::PopID();
 

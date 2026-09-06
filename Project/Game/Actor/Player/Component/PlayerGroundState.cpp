@@ -178,6 +178,80 @@ void PlayerGroundState::ClampFallLimit(const Context& context, const Params& par
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  壁で左右を止める
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PlayerGroundState::ClampToWalls(const Context& context, const Params& params) const {
+
+	if (context.transform == nullptr || context.blockField == nullptr) {
+		return;
+	}
+
+
+	// 壁の上に立っているだけのマスを横の壁と取り違えない
+	const Math::Vector3 center = CalcBoxCenter(context, params.bodyOffset);
+	const Math::Vector3 half = params.bodySize * 0.5f;
+
+	const std::vector<Wall*> walls =
+		context.blockField->GetWallsInWorldAABB(center - half, center + half);
+	if (walls.empty()) {
+		return;
+	}
+
+	// 胴体が入り込まない位置へ直接置き直す
+	bool hasRightLimit = false;
+	bool hasLeftLimit = false;
+	float rightLimit = 0.0f;	// 胴体の中心がこれより右へは行けない
+	float leftLimit = 0.0f;		// 胴体の中心がこれより左へは行けない
+
+	for (const Wall* wall : walls) {
+		if (wall == nullptr || !wall->IsValid()) {
+			continue;
+		}
+
+		const float wallX = wall->GetPosition().x;
+
+		if (wallX > center.x) {
+			// 右にある壁。その左面より内側で止める
+			const float limit = wallX - kBlockHalfWidth - half.x;
+			if (!hasRightLimit || limit < rightLimit) {
+				hasRightLimit = true;
+				rightLimit = limit;
+			}
+		} else {
+			// 左にある壁。その右面より内側で止める
+			const float limit = wallX + kBlockHalfWidth + half.x;
+			if (!hasLeftLimit || limit > leftLimit) {
+				hasLeftLimit = true;
+				leftLimit = limit;
+			}
+		}
+	}
+
+	float clampedX = center.x;
+	if (hasRightLimit && clampedX > rightLimit) {
+		clampedX = rightLimit;
+	}
+	if (hasLeftLimit && clampedX < leftLimit) {
+		clampedX = leftLimit;
+	}
+
+	if (clampedX == center.x) {
+		return;
+	}
+
+	// 箱の中心をずらしたぶん、本体も同じだけ動かす
+	Math::Vector3 position = context.transform->GetTranslate();
+	position.x += clampedX - center.x;
+	context.transform->SetTranslate(position);
+
+	// 速度を残すと壁へ押し付け続ける形になるので止めておく
+	if (context.rigidbody != nullptr) {
+		context.rigidbody->SetVelocityX(0.0f);
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  奥行きの固定
 ///////////////////////////////////////////////////////////////////////////////////////////////
 

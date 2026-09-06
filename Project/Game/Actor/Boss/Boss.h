@@ -8,6 +8,7 @@
 #include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 #include "Game/Actor/Boss/Component/BossAnimation.h"
 #include "Game/Actor/Boss/Component/BossCollision.h"
+#include "Game/Actor/Boss/Component/BossDamageEffect.h"
 #include "Game/Actor/Boss/BossBehaviorController.h"
 
 class StageBlockField;
@@ -37,6 +38,9 @@ private:
 	/// <summary>今の行動に合わせてアニメーションを進める</summary>
 	void UpdateAnimation();
 
+	/// <summary>被弾の演出に渡す調整値をまとめる</summary>
+	BossDamageEffect::Params MakeDamageEffectParams() const;
+
 public:
 
 	// ダメージを受ける
@@ -48,6 +52,9 @@ private:
 
 	// 行動に合わせてアニメーションを切り替える
 	BossAnimation animation_;
+
+	// 被弾した時に色を変えて揺らす
+	BossDamageEffect damageEffect_;
 
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;

@@ -477,6 +477,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\BossParameter.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossAnimation.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h" />
+    <ClInclude Include="Game\Actor\Boss\Component\BossDamageEffect.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h" />
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h" />
     <ClInclude Include="Game\Actor\Floor\DamageFloor.h" />
@@ -830,6 +831,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Component\BossDamageEffect.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp" />
     <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp" />
