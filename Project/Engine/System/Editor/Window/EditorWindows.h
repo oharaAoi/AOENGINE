@@ -137,6 +137,7 @@ public:
 	bool GetColliderDraw() const { return colliderDraw_; };
 
 	bool GetGridDraw() const { return gridDraw_; }
+	bool GetEditorViewFrustumCulling() const { return editorViewFrustumCulling_; }
 
 	void SetSceneRenderer(AOENGINE::SceneRenderer* renderer) { sceneRenderer_ = renderer; }
 	void SetCanvas2d(AOENGINE::Canvas2d* canvas) { canvas2d_ = canvas; }
@@ -188,6 +189,8 @@ private:
 	bool isSkip_;			// 次のframeにスキップするかどうか
 	bool isFullScreen_;		// fullScreenで表示するか
 	bool viewShadowMap_;	// shadowMapの表示をする
+
+	bool editorViewFrustumCulling_ = true;
 
 	EditorPlayState playState_ = EditorPlayState::Edit;
 	bool stepRequested_ = false;

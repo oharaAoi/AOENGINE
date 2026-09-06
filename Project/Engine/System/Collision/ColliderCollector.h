@@ -1,6 +1,6 @@
 #pragma once
 #include <memory>
-#include <list>
+#include <vector>
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 
 namespace AOENGINE {
@@ -43,7 +43,7 @@ public:
 	/// Colliderのリストを取得する
 	/// </summary>
 	/// <returns></returns>
-	std::list<AOENGINE::BaseCollider*>& GetColliderList() { return colliderList_; }
+	std::vector<AOENGINE::BaseCollider*>& GetColliderList() { return colliderList_; }
 
 private:
 
@@ -55,7 +55,7 @@ private:
 
 private:
 
-	std::list<AOENGINE::BaseCollider*> colliderList_;
+	std::vector<AOENGINE::BaseCollider*> colliderList_;
 
 };
 

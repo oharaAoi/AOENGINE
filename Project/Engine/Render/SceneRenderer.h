@@ -4,6 +4,7 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
+#include <unordered_map>
 #include "Engine/System/Manager/ImGuiManager.h"
 
 #include "Engine/Module/Components/GameObject/ISceneObject.h"
@@ -63,7 +64,7 @@ public:
 	/// </summary>
 	void DrawSceneObjects() const;
 	/// <summary>CPUカリングに使うViewProjectionを明示してSceneを描画する。</summary>
-	void DrawSceneObjects(const ::Math::Matrix4x4& viewProjection) const;
+	void DrawSceneObjects(const ::Math::Matrix4x4& viewProjection, bool enableFrustumCulling = true) const;
 	// Particleなどの描画
 	void PostDraw() const;
 	// objectの編集
@@ -185,7 +186,15 @@ private:
 	bool TryAddNormalInstancingBatch(
 		const RenderEntry& entry,
 		const AOENGINE::BaseGameObject& object,
-		std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches) const;
+		std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches,
+		std::unordered_map<AOENGINE::Mesh*, size_t>& batchIndices) const;
+
+	bool TryAddShadowInstancingBatch(
+		const AOENGINE::ISceneObject& object,
+		const Math::Frustum& shadowFrustum,
+		std::vector<AOENGINE::ModelInstancingRenderer::ShadowBatch>& batches,
+		std::unordered_map<AOENGINE::Mesh*, size_t>& batchIndices) const;
+	bool IsShadowCacheValid(const Math::Matrix4x4& lightViewProjection) const;
 
 	ObjectHandle CreateObjectRecursive(const AOENGINE::SceneLoader::Objects& data, const ObjectHandle& parent);
 	void RegisterLightObjects();
@@ -197,5 +206,15 @@ private:
 	AOENGINE::ParticleManager* particleManager_ = nullptr;
 	AOENGINE::GpuParticleManager* gpuParticleManager_ = nullptr;
 	mutable AOENGINE::ModelInstancingRenderer modelInstancingRenderer_;
+	mutable bool shadowCacheDirty_ = true;
+	bool renderOrderDirty_ = true;
+	mutable bool shadowCanSkipUpdate_ = false;
+	mutable Math::Matrix4x4 shadowCacheLightViewProjection_{};
+	mutable Math::Vector3 shadowCacheCameraPosition_{};
+	mutable float shadowCacheDistance_ = 0.0f;
+	mutable std::vector<const AOENGINE::BaseGameObject*> shadowObservedObjects_;
+	mutable std::vector<Math::Matrix4x4> shadowObservedWorldMatrices_;
+	mutable std::vector<AOENGINE::ModelInstancingRenderer::ShadowBatch> shadowBatches_;
+	mutable std::vector<const AOENGINE::ISceneObject*> shadowFallbackObjects_;
 };
 }

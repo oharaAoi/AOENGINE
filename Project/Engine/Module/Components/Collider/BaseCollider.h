@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <string>
+#include <unordered_map>
 #include <variant>
 #include "Engine/Lib/Math/MathStructures.h"
 #include "Engine/Module/Components/WorldTransform.h"
@@ -52,6 +53,7 @@ public:
 	/// </summary>
 	/// <param name="partner"></param>
 	void DeletePartner(BaseCollider* partner);
+	const std::unordered_map<BaseCollider*, int>& GetCollisionPartners() const { return collisionPartnersMap_; }
 
 	void SetLocalPos(const Math::Vector3& pos) { localSRT_.translate = pos; }
 	const Math::Vector3& GetLocalPos() const { return localSRT_.translate; }

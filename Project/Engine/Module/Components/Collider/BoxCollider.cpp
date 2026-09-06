@@ -3,7 +3,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
-#include <array>
+#include <cmath>
 
 using namespace AOENGINE;
 
@@ -42,46 +42,22 @@ void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<Math::AABB>(shape_)) {
-		// ローカル空間でのAABBの半サイズ
-		Math::Vector3 halfSize = size_ * 0.5f;
-
-		// ローカル空間での8頂点
-		std::array<Math::Vector3, 8> localPoints = {
-			Math::Vector3{-halfSize.x, -halfSize.y, -halfSize.z},
-			Math::Vector3{ halfSize.x, -halfSize.y, -halfSize.z},
-			Math::Vector3{-halfSize.x,  halfSize.y, -halfSize.z},
-			Math::Vector3{ halfSize.x,  halfSize.y, -halfSize.z},
-			Math::Vector3{-halfSize.x, -halfSize.y,  halfSize.z},
-			Math::Vector3{ halfSize.x, -halfSize.y,  halfSize.z},
-			Math::Vector3{-halfSize.x,  halfSize.y,  halfSize.z},
-			Math::Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
-		};
-
-		// 最大値と最小値を決定
-		Math::Vector3 min = Math::Vector3{
-			std::numeric_limits<float>::max(),
-			std::numeric_limits<float>::max(),
-			std::numeric_limits<float>::max()
-		};
-		Math::Vector3 max = Math::Vector3{
-			std::numeric_limits<float>::lowest(),
-			std::numeric_limits<float>::lowest(),
-			std::numeric_limits<float>::lowest()
-		};
-
-		// aabbの各頂点を計算
-		for (const auto& localPt : localPoints) {
-			Math::Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
-			Math::Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
-			Math::Vector3 worldPt = srt.translate + rotatedPt;                    // 平行移動
-			min = Math::Vector3::Min(min, worldPt);
-			max = Math::Vector3::Max(max, worldPt);
-		}
-
+		// AABBの中心と各軸方向の半サイズから、8頂点を生成せずに
+		// 回転後の外接AABBを求める。
+		const Math::Vector3 halfSize = size_ * 0.5f;
+		const Math::Vector3 scaledLocalCenter = localSRT_.translate * srt.scale;
+		const Math::Vector3 center = srt.translate + (srt.rotate * scaledLocalCenter);
+		const Math::Vector3 axisX = srt.rotate * Math::Vector3(halfSize.x * srt.scale.x, 0.0f, 0.0f);
+		const Math::Vector3 axisY = srt.rotate * Math::Vector3(0.0f, halfSize.y * srt.scale.y, 0.0f);
+		const Math::Vector3 axisZ = srt.rotate * Math::Vector3(0.0f, 0.0f, halfSize.z * srt.scale.z);
+		const Math::Vector3 extent(
+			std::fabs(axisX.x) + std::fabs(axisY.x) + std::fabs(axisZ.x),
+			std::fabs(axisX.y) + std::fabs(axisY.y) + std::fabs(axisZ.y),
+			std::fabs(axisX.z) + std::fabs(axisY.z) + std::fabs(axisZ.z));
 		auto& aabb = std::get<Math::AABB>(shape_);
-		aabb.min = min;
-		aabb.max = max;
-		aabb.center = (min + max) * 0.5f;
+		aabb.min = center - extent;
+		aabb.max = center + extent;
+		aabb.center = center;
 	} else if (std::holds_alternative<Math::OBB>(shape_)) {
 		std::get<Math::OBB>(shape_).size = size_;
 		std::get<Math::OBB>(shape_).MakeOBBAxis(srt.rotate);

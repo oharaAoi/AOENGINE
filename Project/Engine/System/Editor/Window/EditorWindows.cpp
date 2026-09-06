@@ -134,6 +134,7 @@ void EditorWindows::Begin() {
 			if (ImGui::BeginMenu("View")) {
 				ImGui::Checkbox("FullScreen", &isFullScreen_);
 				ImGui::Checkbox("viewShadowMap", &viewShadowMap_);
+				ImGui::Checkbox("Editor Frustum Culling", &editorViewFrustumCulling_);
 				ImGui::EndMenu();
 			}
 

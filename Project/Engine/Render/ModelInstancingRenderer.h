@@ -46,6 +46,11 @@ public:
 		std::vector<InstanceSource> instances;
 	};
 
+	struct ShadowBatch {
+		AOENGINE::Mesh* mesh = nullptr;
+		std::vector<const AOENGINE::WorldTransform*> instances;
+	};
+
 	ModelInstancingRenderer() = default;
 	~ModelInstancingRenderer() = default;
 	ModelInstancingRenderer(const ModelInstancingRenderer&) = delete;
@@ -65,6 +70,7 @@ public:
 	/// SceneRendererで収集した通常モデルのInstancing batchを描画します。
 	/// </summary>
 	void DrawNormalBatches(const std::vector<NormalBatch>& batches);
+	void DrawShadowBatches(const std::vector<ShadowBatch>& batches);
 
 private:
 	/// <summary>
@@ -119,6 +125,18 @@ private:
 		bool hasSrv = false;
 	};
 
+	struct ShadowTransformData {
+		Math::Matrix4x4 matWorld;
+	};
+
+	struct ShadowTransformBuffer {
+		Microsoft::WRL::ComPtr<ID3D12Resource> resource;
+		DescriptorHandles srv{};
+		ShadowTransformData* mapped = nullptr;
+		uint32_t capacity = 0;
+		bool hasSrv = false;
+	};
+
 	TransformBuffer& AcquireTransformBuffer(uint32_t instanceCount);
 	MaterialBuffer& AcquireMaterialBuffer(uint32_t instanceCount);
 
@@ -131,6 +149,8 @@ private:
 	/// 必要数を満たすMaterial bufferを確保または拡張します。
 	/// </summary>
 	void EnsureMaterialBuffer(MaterialBuffer& buffer, uint32_t instanceCount);
+	ShadowTransformBuffer& AcquireShadowTransformBuffer(uint32_t instanceCount);
+	void EnsureShadowTransformBuffer(ShadowTransformBuffer& buffer, uint32_t instanceCount);
 
 private:
 	std::vector<TransformBuffer> transformBuffers_;
@@ -140,6 +160,8 @@ private:
 
 	uint32_t usedTransformBuffers_ = 0;
 	uint32_t usedMaterialBuffers_ = 0;
+	std::vector<ShadowTransformBuffer> shadowTransformBuffers_;
+	uint32_t usedShadowTransformBuffers_ = 0;
 };
 
 }

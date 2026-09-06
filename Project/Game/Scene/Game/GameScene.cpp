@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/System/Manager/PrefabManager.h"
+#include "Engine/System/Editor/Window/EditorWindows.h"
 
 /// game
 #include "Game/Actor/Player/Player.h"
@@ -176,7 +177,6 @@ void GameScene::UpdateActors(float deltaTime)
 	if (backgrounds_)
 	{
 		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
-		stageBlockField_.ApplyDebugGroupColors();
 	}
 
 	// ボスの更新
@@ -248,7 +248,8 @@ void GameScene::Draw() const
 		Engine::DrawBackgroundSprites(SceneViewType::Editor);
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
-			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(),
+			AOENGINE::EditorWindows::GetInstance()->GetEditorViewFrustumCulling());
 		// DebugCameraで登録されたLineだけをEditor Viewへ描画する。
 		AOENGINE::Render::PrimitiveDrawCall();
 #endif

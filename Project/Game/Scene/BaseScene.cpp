@@ -144,7 +144,8 @@ void BaseScene::Draw() const {
 		Engine::DrawBackgroundSprites(SceneViewType::Editor);
 		Engine::BeginSceneView(SceneViewType::Editor, false);
 		pSceneRenderer_->DrawSceneObjects(
-			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix());
+			debugCamera_->GetViewMatrix() * debugCamera_->GetProjectionMatrix(),
+			AOENGINE::EditorWindows::GetInstance()->GetEditorViewFrustumCulling());
 		// Editor Cameraで登録されたLineだけをEditor Viewへ描画する。
 		AOENGINE::Render::PrimitiveDrawCall();
 #endif

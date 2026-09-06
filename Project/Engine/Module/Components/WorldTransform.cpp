@@ -4,6 +4,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/System/Editor/Tool/ManipulateTool.h"
 #include "Engine/Core/GraphicsContext.h"
+#include <cstring>
 
 using namespace AOENGINE;
 
@@ -44,6 +45,9 @@ void AOENGINE::WorldTransform::Init() {
 
 	data_->matWorldPrev = Math::Matrix4x4::MakeUnit();
 	data_->matWorld = Math::Matrix4x4::MakeUnit();
+	data_->worldInverseTranspose = Math::Matrix4x4::MakeUnit();
+	transformDirty_ = true;
+	hasLastInputMatrix_ = false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +55,12 @@ void AOENGINE::WorldTransform::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
+	const bool inputMatrixChanged = !hasLastInputMatrix_ ||
+		std::memcmp(&lastInputMatrix_, &mat, sizeof(Math::Matrix4x4)) != 0;
+	if (!transformDirty_ && !inputMatrixChanged && parentWorldMat_ == nullptr && !isBillboard_) {
+		return;
+	}
+
 	srt_.rotate = moveQuaternion_ * srt_.rotate;
 	srt_.rotate = srt_.rotate.Normalize();
 
@@ -76,6 +86,9 @@ void AOENGINE::WorldTransform::Update(const Math::Matrix4x4& mat) {
 
 	preTranslate_ = srt_.translate;
 	moveQuaternion_ = Math::Quaternion();
+	lastInputMatrix_ = mat;
+	hasLastInputMatrix_ = true;
+	transformDirty_ = false;
 }
 
 void AOENGINE::WorldTransform::PostUpdate() {
@@ -84,16 +97,19 @@ void AOENGINE::WorldTransform::PostUpdate() {
 
 void AOENGINE::WorldTransform::MoveVelocity(const Math::Vector3& velocity, float rotationSpeed) {
 	srt_.translate += velocity;
+	transformDirty_ = true;
 
 	if (velocity.x != 0.0f || velocity.y != 0.0f) {
 		Math::Quaternion rotate = Math::Quaternion::LookRotation(velocity.Normalize());
 		srt_.rotate = Math::Quaternion::Slerp(srt_.rotate, rotate, rotationSpeed);
+		transformDirty_ = true;
 	}
 }
 
 void AOENGINE::WorldTransform::LookAt(const Math::Vector3& target, const Math::Vector3& up) {
 	Math::Vector3 direction = target - srt_.translate;
 	srt_.rotate = Math::Quaternion::LookRotation(direction.Normalize(), up);
+	transformDirty_ = true;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -195,9 +211,14 @@ void AOENGINE::WorldTransform::Manipulate(const ImVec2& windowSize, const ImVec2
 
 void AOENGINE::WorldTransform::SetParent(const Math::Matrix4x4& parentMat) {
 	parentWorldMat_ = &parentMat;
+	transformDirty_ = true;
 }
 
 void AOENGINE::WorldTransform::SetMatrix(const Math::Matrix4x4& mat) {
+	worldMat_ = mat;
 	data_->matWorld = mat;
 	data_->worldInverseTranspose = Inverse(data_->matWorld).Transpose();
+	lastInputMatrix_ = Math::Matrix4x4::MakeUnit();
+	hasLastInputMatrix_ = false;
+	transformDirty_ = false;
 }

@@ -39,6 +39,8 @@ public:
 		float shadowDepth = 100.0f;
 		float shadowWidth = 100.0f;
 		float shadowHeight = 100.0f;
+		// 0以下の場合は距離によるShadowCaster除外を行わない。
+		float shadowDistance = 150.0f;
 
 		BaseParameter() {
 			toJsonFunction_ = [this](const std::string& id) {
@@ -56,6 +58,7 @@ public:
 				.Add("shadowDepth", shadowDepth)
 				.Add("shadowWidth", shadowWidth)
 				.Add("shadowHeight", shadowHeight)
+				.Add("shadowDistance", shadowDistance)
 				.Build();
 		}
 
@@ -68,6 +71,7 @@ public:
 			Convert::fromJson(jsonData, "shadowDepth", shadowDepth);
 			Convert::fromJson(jsonData, "shadowWidth", shadowWidth);
 			Convert::fromJson(jsonData, "shadowHeight", shadowHeight);
+			Convert::fromJson(jsonData, "shadowDistance", shadowDistance);
 		}
 
 		void Debug_Gui() override;
@@ -97,6 +101,7 @@ public:
 
 	BaseParameter& GetBaseParameter() { return baseParameter_; }
 	const BaseParameter& GetBaseParameter() const { return baseParameter_; }
+	const Math::Matrix4x4& GetViewProjectionMatrix() const { return viewProjectionMatrix_; }
 
 protected:
 

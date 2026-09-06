@@ -57,13 +57,61 @@ void ModelInstancingRenderer::Finalize() {
 	}
 	materialBuffers_.clear();
 
+	for (ShadowTransformBuffer& buffer : shadowTransformBuffers_) {
+		if (buffer.resource && buffer.mapped) {
+			buffer.resource->Unmap(0, nullptr);
+		}
+		buffer.resource.Reset();
+		buffer.mapped = nullptr;
+	}
+	shadowTransformBuffers_.clear();
+
 	usedTransformBuffers_ = 0;
 	usedMaterialBuffers_ = 0;
+	usedShadowTransformBuffers_ = 0;
 }
 
 void ModelInstancingRenderer::BeginFrame() {
 	usedTransformBuffers_ = 0;
 	usedMaterialBuffers_ = 0;
+	usedShadowTransformBuffers_ = 0;
+}
+
+void ModelInstancingRenderer::DrawShadowBatches(const std::vector<ShadowBatch>& batches) {
+	if (batches.empty()) {
+		return;
+	}
+
+	ID3D12GraphicsCommandList* commandList = AOENGINE::GraphicsContext::GetInstance()->GetCommandList();
+	Pipeline* pipeline = Engine::SetPipeline(PSOType::Object3d, "Object_ShadowMap_Instancing.json");
+	const UINT transformRootIndex = pipeline->GetRootSignatureIndex("gInstanceTransforms");
+	const UINT lightViewProjectionRootIndex =
+		pipeline->GetRootSignatureIndex("gLightViewProjectionMatrix");
+	AOENGINE::Render::GetLightGroup()->GetDirectionalLight()->ViewBindCommand(
+		commandList, lightViewProjectionRootIndex);
+
+	for (const ShadowBatch& batch : batches) {
+		if (!batch.mesh || batch.instances.empty()) {
+			continue;
+		}
+
+		ShadowTransformBuffer& transformBuffer = AcquireShadowTransformBuffer(
+			static_cast<uint32_t>(batch.instances.size()));
+		for (uint32_t index = 0; index < batch.instances.size(); ++index) {
+			if (batch.instances[index]) {
+				transformBuffer.mapped[index].matWorld =
+					batch.instances[index]->GetData().matWorld;
+			}
+		}
+
+		commandList->IASetVertexBuffers(0, 1, &batch.mesh->GetVBV());
+		commandList->IASetIndexBuffer(&batch.mesh->GetIBV());
+		commandList->SetGraphicsRootDescriptorTable(transformRootIndex, transformBuffer.srv.handleGPU);
+		commandList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		commandList->DrawIndexedInstanced(
+			batch.mesh->GetIndexNum(),
+			static_cast<UINT>(batch.instances.size()), 0, 0, 0);
+	}
 }
 
 void ModelInstancingRenderer::DrawNormalBatches(const std::vector<NormalBatch>& batches) {
@@ -214,6 +262,43 @@ void ModelInstancingRenderer::EnsureMaterialBuffer(MaterialBuffer& buffer, uint3
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = CreateSrvDesc(buffer.capacity, sizeof(NormalInstanceMaterialData));
 	buffer.srv = AOENGINE::GraphicsContext::GetInstance()->GetDxHeap()->AllocateSRV();
 	AOENGINE::GraphicsContext::GetInstance()->GetDevice()->CreateShaderResourceView(buffer.resource.Get(), &srvDesc, buffer.srv.handleCPU);
+	buffer.hasSrv = true;
+	allocatedSrvHandles_.push_back(buffer.srv);
+}
+
+ModelInstancingRenderer::ShadowTransformBuffer&
+ModelInstancingRenderer::AcquireShadowTransformBuffer(uint32_t instanceCount) {
+	if (usedShadowTransformBuffers_ >= shadowTransformBuffers_.size()) {
+		shadowTransformBuffers_.emplace_back();
+	}
+
+	ShadowTransformBuffer& buffer = shadowTransformBuffers_[usedShadowTransformBuffers_++];
+	EnsureShadowTransformBuffer(buffer, instanceCount);
+	return buffer;
+}
+
+void ModelInstancingRenderer::EnsureShadowTransformBuffer(
+	ShadowTransformBuffer& buffer, uint32_t instanceCount) {
+	if (buffer.resource && buffer.capacity >= instanceCount) {
+		return;
+	}
+
+	if (buffer.resource && buffer.mapped) {
+		buffer.resource->Unmap(0, nullptr);
+		retiredResources_.push_back(buffer.resource);
+	}
+
+	buffer.capacity = CalculateCapacity(instanceCount);
+	buffer.resource = CreateBufferResource(
+		AOENGINE::GraphicsContext::GetInstance()->GetDevice(),
+		sizeof(ShadowTransformData) * buffer.capacity);
+	buffer.resource->Map(0, nullptr, reinterpret_cast<void**>(&buffer.mapped));
+
+	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc =
+		CreateSrvDesc(buffer.capacity, sizeof(ShadowTransformData));
+	buffer.srv = AOENGINE::GraphicsContext::GetInstance()->GetDxHeap()->AllocateSRV();
+	AOENGINE::GraphicsContext::GetInstance()->GetDevice()->CreateShaderResourceView(
+		buffer.resource.Get(), &srvDesc, buffer.srv.handleCPU);
 	buffer.hasSrv = true;
 	allocatedSrvHandles_.push_back(buffer.srv);
 }
