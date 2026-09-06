@@ -57,7 +57,7 @@ public:
 
 public:
 
-	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; }
+	void SetColor(const AOENGINE::Color& color) { pbrMaterial_->color = color; MarkDirty(); }
 
 	void SetParameter(float _roughness, float _metallic, float _ibl, const std::string& _normalMap);
 	const PBRMaterialData& GetMaterialData() const { return *pbrMaterial_; }
@@ -75,6 +75,7 @@ public:
 		pbrMaterial_->shininess = shininess;
 		pbrMaterial_->ambientIntensity = ambientIntensity;
 		normalMap_ = normalMap;
+		MarkDirty();
 	}
 
 

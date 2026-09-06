@@ -102,7 +102,7 @@ void GameScene::OnPlayStart()
 	playerUI_->Init();
 	bossUI_->Init();
 
-	auto sound = Engine::GetSoundManager()->Play("Sound");
+	//auto sound = Engine::GetSoundManager()->Play("Sound");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

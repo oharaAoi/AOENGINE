@@ -148,8 +148,7 @@ void SceneRenderer::ReleaseRetiredObjects() {
 }
 
 void SceneRenderer::UpdateVerticalPhysics() {
-	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
-		SceneObject* object = sceneWorld_.FindObject(handle);
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
 		if (!object || !object->IsActive()) { continue; }
 		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
 			gameObject->UpdateVerticalPhysics();
@@ -158,8 +157,7 @@ void SceneRenderer::UpdateVerticalPhysics() {
 }
 
 void SceneRenderer::ApplyCollisionPushback() {
-	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
-		SceneObject* object = sceneWorld_.FindObject(handle);
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
 		if (!object || !object->IsActive()) { continue; }
 		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
 			gameObject->ApplyCollisionPushback();

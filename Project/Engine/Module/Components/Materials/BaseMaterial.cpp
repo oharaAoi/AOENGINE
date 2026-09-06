@@ -82,6 +82,7 @@ void BaseMaterial::SetShaderGraph(ShaderGraph* _graph) {
 		shaderGraph_ = _graph;
 		shaderType_ = MaterialShaderType::ShaderGraphRender;
 		shaderTypeIndex_ = static_cast<int>(shaderType_);
+		MarkDirty();
 	}
 }
 
@@ -98,6 +99,7 @@ void BaseMaterial::SetShaderGraph(std::shared_ptr<ShaderGraph> _graph, const std
 	if (shaderGraph_) {
 		shaderType_ = MaterialShaderType::ShaderGraphRender;
 		shaderTypeIndex_ = static_cast<int>(shaderType_);
+		MarkDirty();
 	}
 }
 

@@ -158,18 +158,18 @@
                     1.0
                 ],
                 "scale": [
-                    18.0,
+                    33.08000183105469,
                     1.0,
                     1.0
                 ],
                 "transformType": "3D",
                 "translate": [
+                    -0.9411920309066772,
                     0.0,
-                    0.0,
-                    0.0
+                    -1.9004273414611816
                 ]
             },
-            "id": 682,
+            "id": 796,
             "name": "DamageFloor",
             "parentId": null,
             "type": "PrefabInstance"

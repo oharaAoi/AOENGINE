@@ -24,6 +24,25 @@
                         "static": true,
                         "trigger": false,
                         "type": "AABBCollider"
+                    },
+                    {
+                        "active": true,
+                        "category": "DamageFloor",
+                        "collisionMask": [],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            20.0,
+                            1.0,
+                            2.0
+                        ],
+                        "static": true,
+                        "trigger": true,
+                        "type": "AABBCollider"
                     }
                 ],
                 "enableShadow": true,
@@ -41,6 +60,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 0,
@@ -72,6 +92,7 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 1,
@@ -101,13 +122,13 @@
                     1.0
                 ],
                 "scale": [
-                    18.0,
+                    33.08000183105469,
                     1.0,
                     1.0
                 ],
                 "translate": [
-                    0.0,
-                    0.0,
+                    4.699944496154785,
+                    -5.367888450622559,
                     0.0
                 ]
             },

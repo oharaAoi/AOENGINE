@@ -57,22 +57,22 @@ protected:
 
 public:
 	// An empty name inherits the object's rendering pipeline.
-	void SetPipelineName(const std::string& name) { pipelineName_ = name; }
+	void SetPipelineName(const std::string& name) { pipelineName_ = name; MarkDirty(); }
 	const std::string& GetPipelineName() const { return pipelineName_; }
 	bool IsPipelineCompatible(const Pipeline& pipeline) const;
 	const Pipeline* ResolvePipeline(const Pipeline* fallback) const;
 
 	D3D12_GPU_VIRTUAL_ADDRESS GetBufferAddress() const { return cBuffer_->GetGPUVirtualAddress(); }
 
-	void SetShaderType(MaterialShaderType _type) { shaderType_ = _type; }
+	void SetShaderType(MaterialShaderType _type) { shaderType_ = _type; MarkDirty(); }
 	MaterialShaderType GetShaderType() const { return shaderType_; }
 
-	void SetUvScale(const Math::Vector3& _scale) { uvTransform_.scale = _scale; }
-	void SetUvRotate(const Math::Vector3& _rotate) { uvTransform_.rotate = _rotate; }
-	void SetUvTranslate(const Math::Vector3& _translate) { uvTransform_.translate = _translate; }
+	void SetUvScale(const Math::Vector3& _scale) { uvTransform_.scale = _scale; MarkDirty(); }
+	void SetUvRotate(const Math::Vector3& _rotate) { uvTransform_.rotate = _rotate; MarkDirty(); }
+	void SetUvTranslate(const Math::Vector3& _translate) { uvTransform_.translate = _translate; MarkDirty(); }
 	const Math::SRT& GetUvTransform() const { return uvTransform_; }
 
-	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; }
+	void SetAlbedoTexture(const std::string& _name) { textureName_ = _name; MarkDirty(); }
 	const std::string GetAlbedoTexture() const { return textureName_; }
 
 	void SetShaderGraph(ShaderGraph* _graph);
@@ -81,17 +81,19 @@ public:
 	AOENGINE::ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
 	const std::string& GetShaderGraphAssetPath() const { return shaderGraphAssetPath_; }
 
-	void SetColor(const AOENGINE::Color& _color) { color_ = _color; }
+	void SetColor(const AOENGINE::Color& _color) { color_ = _color; MarkDirty(); }
 	const AOENGINE::Color GetColor() const { return color_; }
 
-	void SetAlpha(float _alpha) { color_.a = _alpha; };
-	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; }
+	void SetAlpha(float _alpha) { color_.a = _alpha; MarkDirty(); };
+	void SetIsLighting(bool _isLighting) { isLighting_ = _isLighting; MarkDirty(); }
 	bool GetIsLighting() const { return isLighting_; }
 
-	void SetDiscardValue(float _value) { discardValue_ = _value; }
+	void SetDiscardValue(float _value) { discardValue_ = _value; MarkDirty(); }
 	float GetDiscardValue() const { return discardValue_; }
 
 protected:
+	void MarkDirty() { materialDirty_ = true; }
+	bool materialDirty_ = true;
 
 	MaterialShaderType shaderType_ = MaterialShaderType::UniversalRender;
 	std::string pipelineName_;

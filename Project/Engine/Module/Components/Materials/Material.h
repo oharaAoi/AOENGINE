@@ -46,7 +46,7 @@ public:
 
 public:
 
-	void SetDiscardValue(float _value) { discardValue_ = _value; }
+	void SetDiscardValue(float _value) { discardValue_ = _value; MarkDirty(); }
 
 	/// <summary>
 	/// GPUへ送っているMaterial情報を取得します。
