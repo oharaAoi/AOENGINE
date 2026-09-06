@@ -304,6 +304,33 @@ Block* StageBlockField::GetBlockAt(const GridPos& pos) const{
 	return it->second;
 }
 
+bool StageBlockField::HasSpaceAbove(const GridPos& pos,int cellCount) const{
+	// 真上から順に、求められたマス数だけ空いているかを見る
+	for(int i = 1; i <= cellCount; ++i){
+		const GridPos upper{pos.x,pos.y + i};
+
+		// Wallは連結の対象外だが、そこにプレイヤーは入れないので埋まっている扱いにする
+		if(cells_.find(upper) != cells_.end()){
+			return false;
+		}
+		if(wallCells_.find(upper) != wallCells_.end()){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void StageBlockField::SetBlockCollisionCallBacks(PlayerBlockCollisionCallBacks* callBacks){
+	pBlockCallBacks_ = callBacks;
+
+	// 着地判定は「ブロックの真上にプレイヤーが入れる空きがあるか」をグリッドで確かめる。
+	// そのためにコールバック側へこのクラスを渡しておく
+	if(callBacks != nullptr){
+		callBacks->SetBlockField(this);
+	}
+}
+
 void StageBlockField::Clear(){
 	// 生成済みの全 Block / Wall を破棄してから、セル・グループ・段の表を消去する
 	for(auto& pair : segments_){
@@ -473,6 +500,7 @@ void StageBlockField::SetGroupColor(int groupId,const AOENGINE::Color& color){
 	}
 }
 
+#ifndef NDEBUG
 void StageBlockField::ApplyDebugGroupColors(){
 	// デバッグ用: グループごとに異なる色を設定し、グルーピングが意図通りに
 	// 効いているかを目視で確認できるようにする。
@@ -480,6 +508,7 @@ void StageBlockField::ApplyDebugGroupColors(){
 		SetGroupColor(group.first,MakeDebugGroupColor(group.first));
 	}
 }
+#endif
 
 AOENGINE::Color StageBlockField::MakeDebugGroupColor(int groupId){
 	if(groupId == kInvalidGroupId){
