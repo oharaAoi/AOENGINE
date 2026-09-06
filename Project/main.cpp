@@ -8,6 +8,7 @@ static const uint32_t kWindowHeight_ = 720;
 static const char kTitleBar[] = "4005_メテオギュット";
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+	
 	// 出力ウィンドウへの文字出力
 	D3DResourceLeakChecker debugChecker;
 
