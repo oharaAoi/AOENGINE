@@ -65,11 +65,11 @@ void StageBackgrounds::BackgroundLoop(const Math::Vector3& playerPos){
 	CreateBackground();
 
 	// 画面外に出た一番古い背景を削除する
-	if(objHandles_.size() > kKeepBackgroundCount){
+	/*if(objHandles_.size() > kKeepBackgroundCount){
 		AOENGINE::ObjectHandle frontHandle = objHandles_.front();
 		AOENGINE::SceneRenderer::GetInstance()->DestroyObject(frontHandle);
 		objHandles_.pop();
-	}
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -99,17 +99,17 @@ void StageBackgrounds::SegmentLoop(StageBlockField* field,const Math::Vector3& p
 
 void StageBackgrounds::CreateBackground(){
 	// 背景の追加生成
-	AOENGINE::SceneObject* root =
+	/*AOENGINE::SceneObject* root =
 		AOENGINE::PrefabManager::GetInstance()->Instantiate("Plane");
 
-	AOENGINE::BaseGameObject* background = dynamic_cast<AOENGINE::BaseGameObject*>(root);
+	AOENGINE::BaseGameObject* background = dynamic_cast<AOENGINE::BaseGameObject*>(root);*/
 
-	if(!background){ return; }
+	//if(!background){ return; }
 
 	++backgroundIndex_;
 
-	objHandles_.push(root->GetHandle());
-	background->GetTransform()->SetTranslationY(static_cast<float>(backgroundIndex_ * parameter_.scrollHeight));
+	/*objHandles_.push(root->GetHandle());
+	background->GetTransform()->SetTranslationY(static_cast<float>(backgroundIndex_ * parameter_.scrollHeight));*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

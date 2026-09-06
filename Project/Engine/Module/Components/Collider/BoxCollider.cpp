@@ -3,6 +3,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/System/Manager/CollisionLayerManager.h"
 #include <assert.h>
+#include <cmath>
 #include <array>
 
 using namespace AOENGINE;
@@ -42,10 +43,7 @@ void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 	pushbackDire_ = CVector3::ZERO;
 	centerPos_ = srt.translate;
 	if (std::holds_alternative<Math::AABB>(shape_)) {
-		// ローカル空間でのAABBの半サイズ
 		Math::Vector3 halfSize = size_ * 0.5f;
-
-		// ローカル空間での8頂点
 		std::array<Math::Vector3, 8> localPoints = {
 			Math::Vector3{-halfSize.x, -halfSize.y, -halfSize.z},
 			Math::Vector3{ halfSize.x, -halfSize.y, -halfSize.z},
@@ -56,28 +54,17 @@ void BoxCollider::Update(const Math::QuaternionSRT& srt) {
 			Math::Vector3{-halfSize.x,  halfSize.y,  halfSize.z},
 			Math::Vector3{ halfSize.x,  halfSize.y,  halfSize.z}
 		};
-
-		// 最大値と最小値を決定
 		Math::Vector3 min = Math::Vector3{
-			std::numeric_limits<float>::max(),
-			std::numeric_limits<float>::max(),
-			std::numeric_limits<float>::max()
-		};
+			std::numeric_limits<float>::max(), std::numeric_limits<float>::max(), std::numeric_limits<float>::max() };
 		Math::Vector3 max = Math::Vector3{
-			std::numeric_limits<float>::lowest(),
-			std::numeric_limits<float>::lowest(),
-			std::numeric_limits<float>::lowest()
-		};
-
-		// aabbの各頂点を計算
+			std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest(), std::numeric_limits<float>::lowest() };
 		for (const auto& localPt : localPoints) {
-			Math::Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale; // スケーリング
-			Math::Vector3 rotatedPt = srt.rotate * scaledPt;                      // 回転
-			Math::Vector3 worldPt = srt.translate + rotatedPt;                    // 平行移動
+			Math::Vector3 scaledPt = (localPt + localSRT_.translate) * srt.scale;
+			Math::Vector3 rotatedPt = srt.rotate * scaledPt;
+			Math::Vector3 worldPt = srt.translate + rotatedPt;
 			min = Math::Vector3::Min(min, worldPt);
 			max = Math::Vector3::Max(max, worldPt);
 		}
-
 		auto& aabb = std::get<Math::AABB>(shape_);
 		aabb.min = min;
 		aabb.max = max;

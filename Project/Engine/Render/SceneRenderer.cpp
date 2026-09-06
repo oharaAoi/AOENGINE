@@ -5,6 +5,7 @@
 #include <cmath>
 #include <format>
 #include <iterator>
+#include <cstring>
 
 #include "Engine/Core/Engine.h"
 #include "Engine/Lib/Math/Frustum.h"
@@ -95,6 +96,11 @@ void SceneRenderer::Finalize() {
 void SceneRenderer::ClearSceneObjects() {
 	renderEntries_.clear();
 	sceneWorld_.Clear();
+	shadowCacheDirty_ = true;
+	shadowBatches_.clear();
+	shadowFallbackObjects_.clear();
+	shadowObservedObjects_.clear();
+	shadowObservedWorldMatrices_.clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,12 +127,15 @@ void SceneRenderer::Init() {
 void SceneRenderer::Update() {
 	RemoveInvalidRenderEntries();
 
-	std::stable_sort(renderEntries_.begin(), renderEntries_.end(), [](const RenderEntry& a, const RenderEntry& b) {
-		if (a.renderQueue == b.renderQueue) {
-			return a.renderingType < b.renderingType;
-		}
-		return a.renderQueue < b.renderQueue;
-	});
+	if (renderOrderDirty_) {
+		std::stable_sort(renderEntries_.begin(), renderEntries_.end(), [](const RenderEntry& a, const RenderEntry& b) {
+			if (a.renderQueue == b.renderQueue) {
+				return a.renderingType < b.renderingType;
+			}
+			return a.renderQueue < b.renderQueue;
+		});
+		renderOrderDirty_ = false;
+	}
 
 	sceneWorld_.Update();
 	RemoveInvalidRenderEntries();
@@ -139,8 +148,7 @@ void SceneRenderer::ReleaseRetiredObjects() {
 }
 
 void SceneRenderer::UpdateVerticalPhysics() {
-	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
-		SceneObject* object = sceneWorld_.FindObject(handle);
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
 		if (!object || !object->IsActive()) { continue; }
 		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
 			gameObject->UpdateVerticalPhysics();
@@ -149,8 +157,7 @@ void SceneRenderer::UpdateVerticalPhysics() {
 }
 
 void SceneRenderer::ApplyCollisionPushback() {
-	for (const ObjectHandle& handle : sceneWorld_.GetObjectHandles()) {
-		SceneObject* object = sceneWorld_.FindObject(handle);
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
 		if (!object || !object->IsActive()) { continue; }
 		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
 			gameObject->ApplyCollisionPushback();
@@ -197,26 +204,113 @@ void SceneRenderer::Draw() const {
 void SceneRenderer::DrawShadowMap() const {
 	// 1フレーム中のGame/Editor両Viewで異なるUpload Bufferを使う。
 	// Viewごとにリセットすると、後から描画するEditor ViewがGame Viewのデータを上書きする。
+	const auto* directionalLight = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
+	const Math::Matrix4x4 lightViewProjection = directionalLight->GetViewProjectionMatrix();
+	const Math::Vector3 cameraPosition = AOENGINE::Render::GetEyePos();
+	const float shadowDistance = directionalLight->GetBaseParameter().shadowDistance;
+
+	if (shadowCanSkipUpdate_ && IsShadowCacheValid(lightViewProjection)) {
+		return;
+	}
+
 	modelInstancingRenderer_.BeginFrame();
 	AOENGINE::Render::SetShadowMap();
+
+	const Math::Frustum shadowFrustum = Math::Frustum::FromViewProjection(lightViewProjection);
+	std::vector<AOENGINE::ModelInstancingRenderer::ShadowBatch> shadowBatches;
+	std::unordered_map<AOENGINE::Mesh*, size_t> shadowBatchIndices;
+	std::vector<const ISceneObject*> fallbackObjects;
+	std::vector<const BaseGameObject*> observedObjects;
+	std::vector<Math::Matrix4x4> observedWorldMatrices;
+
 	for (const RenderEntry& entry : renderEntries_) {
 		const ISceneObject* obj = GetRenderableObject(entry);
-		if (obj && obj->IsActive()) {
-			obj->PreDraw();
+		if (!obj || !obj->IsActive()) {
+			continue;
+		}
+
+		const BaseGameObject* baseObject = dynamic_cast<const BaseGameObject*>(obj);
+		if (baseObject && baseObject->GetModel() && baseObject->GetTransform() &&
+			baseObject->CanUseNormalInstancing()) {
+			observedObjects.push_back(baseObject);
+			observedWorldMatrices.push_back(baseObject->GetTransform()->GetData().matWorld);
+		}
+		if (baseObject && shadowDistance > 0.0f) {
+			const Math::Vector3 offset = baseObject->GetWorldBoundingSphere().center - cameraPosition;
+			const float maxDistance = shadowDistance + baseObject->GetWorldBoundingSphere().radius;
+			if (offset.Length() > maxDistance) {
+				continue;
+			}
+		}
+
+		if (baseObject && baseObject->IsFrustumCullingEnabled() &&
+			!shadowFrustum.Intersects(baseObject->GetWorldBoundingSphere())) {
+			continue;
+		}
+		if (baseObject && !TryAddShadowInstancingBatch(
+			*baseObject, shadowFrustum, shadowBatches, shadowBatchIndices)) {
+			fallbackObjects.push_back(obj);
+		} else if (!baseObject) {
+			fallbackObjects.push_back(obj);
 		}
 	}
+
+	modelInstancingRenderer_.DrawShadowBatches(shadowBatches);
+	for (const ISceneObject* obj : fallbackObjects) {
+		obj->PreDraw();
+	}
+
 	AOENGINE::Render::ChangeShadowMap();
+	shadowBatches_ = std::move(shadowBatches);
+	shadowFallbackObjects_ = std::move(fallbackObjects);
+	shadowObservedObjects_ = std::move(observedObjects);
+	shadowObservedWorldMatrices_ = std::move(observedWorldMatrices);
+	shadowCacheLightViewProjection_ = lightViewProjection;
+	shadowCacheCameraPosition_ = cameraPosition;
+	shadowCacheDistance_ = shadowDistance;
+	shadowCacheDirty_ = false;
+	shadowCanSkipUpdate_ = shadowFallbackObjects_.empty();
+}
+
+bool SceneRenderer::IsShadowCacheValid(const Math::Matrix4x4& lightViewProjection) const {
+	const auto* directionalLight = AOENGINE::Render::GetLightGroup()->GetDirectionalLight();
+	const Math::Vector3 cameraPosition = AOENGINE::Render::GetEyePos();
+	const float shadowDistance = directionalLight->GetBaseParameter().shadowDistance;
+	if (shadowCacheDirty_ || !shadowCanSkipUpdate_ ||
+		shadowObservedObjects_.size() != shadowObservedWorldMatrices_.size() ||
+		std::memcmp(&shadowCacheLightViewProjection_, &lightViewProjection,
+			sizeof(Math::Matrix4x4)) != 0 ||
+		std::memcmp(&shadowCacheCameraPosition_, &cameraPosition, sizeof(Math::Vector3)) != 0 ||
+		shadowCacheDistance_ != shadowDistance) {
+		return false;
+	}
+
+	for (size_t index = 0; index < shadowObservedObjects_.size(); ++index) {
+		const BaseGameObject* object = shadowObservedObjects_[index];
+		if (!object || !object->IsActive() || !object->GetModel() ||
+			!object->GetTransform() || !object->GetEnableShadow() ||
+			!object->CanUseNormalInstancing() ||
+			std::memcmp(&shadowObservedWorldMatrices_[index],
+				&object->GetTransform()->GetData().matWorld,
+				sizeof(Math::Matrix4x4)) != 0) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void SceneRenderer::DrawSceneObjects() const {
 	DrawSceneObjects(AOENGINE::Render::GetViewProjectionMat());
 }
 
-void SceneRenderer::DrawSceneObjects(const Math::Matrix4x4& viewProjection) const {
+void SceneRenderer::DrawSceneObjects(
+	const Math::Matrix4x4& viewProjection, bool enableFrustumCulling) const {
 	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(viewProjection);
 
 	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
 	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
+	std::unordered_map<AOENGINE::Mesh*, size_t> normalBatchIndices;
 
 	for (const RenderEntry& entry : renderEntries_) {
 		if (entry.isPostDraw) {
@@ -224,11 +318,13 @@ void SceneRenderer::DrawSceneObjects(const Math::Matrix4x4& viewProjection) cons
 		}
 
 		const ISceneObject* obj = GetRenderableObject(entry);
-		if (obj && obj->IsActive() && IsVisible(*obj, cameraFrustum)) {
+		if (obj && obj->IsActive() &&
+			(!enableFrustumCulling || IsVisible(*obj, cameraFrustum))) {
 			const BaseGameObject* baseObject = dynamic_cast<const BaseGameObject*>(obj);
 
 			// Instancing化できたObjectはここでは描画せず、batch描画へ回します。
-			if (baseObject && TryAddNormalInstancingBatch(entry, *baseObject, normalInstancingBatches)) {
+			if (baseObject && TryAddNormalInstancingBatch(
+				entry, *baseObject, normalInstancingBatches, normalBatchIndices)) {
 				continue;
 			}
 
@@ -554,6 +650,8 @@ void SceneRenderer::AddRenderEntry(const ObjectHandle& handle, const std::string
 	}
 
 	RemoveRenderEntry(handle);
+	shadowCacheDirty_ = true;
+	renderOrderDirty_ = true;
 	renderEntries_.push_back(RenderEntry{
 		.handle = handle,
 		.renderingType = renderingName,
@@ -563,6 +661,7 @@ void SceneRenderer::AddRenderEntry(const ObjectHandle& handle, const std::string
 }
 
 void SceneRenderer::RemoveRenderEntry(const ObjectHandle& handle) {
+	const size_t oldSize = renderEntries_.size();
 	renderEntries_.erase(
 		std::remove_if(
 			renderEntries_.begin(),
@@ -570,10 +669,15 @@ void SceneRenderer::RemoveRenderEntry(const ObjectHandle& handle) {
 			[handle](const RenderEntry& entry) {
 				return entry.handle == handle;
 			}),
-		renderEntries_.end());
+			renderEntries_.end());
+	if (renderEntries_.size() != oldSize) {
+		shadowCacheDirty_ = true;
+		renderOrderDirty_ = true;
+	}
 }
 
 void SceneRenderer::RemoveInvalidRenderEntries() {
+	const size_t oldSize = renderEntries_.size();
 	renderEntries_.erase(
 		std::remove_if(
 			renderEntries_.begin(),
@@ -582,6 +686,10 @@ void SceneRenderer::RemoveInvalidRenderEntries() {
 				return !sceneWorld_.IsValid(entry.handle);
 			}),
 		renderEntries_.end());
+	if (renderEntries_.size() != oldSize) {
+		shadowCacheDirty_ = true;
+		renderOrderDirty_ = true;
+	}
 }
 
 ISceneObject* SceneRenderer::GetRenderableObject(const RenderEntry& entry) {
@@ -603,7 +711,8 @@ bool SceneRenderer::IsVisible(const AOENGINE::ISceneObject& object, const Math::
 bool SceneRenderer::TryAddNormalInstancingBatch(
 	const RenderEntry& entry,
 	const AOENGINE::BaseGameObject& object,
-	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches) const {
+	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch>& batches,
+	std::unordered_map<AOENGINE::Mesh*, size_t>& batchIndices) const {
 	if (entry.renderingType != "Object_Normal.json") {
 		return false;
 	}
@@ -662,21 +771,50 @@ bool SceneRenderer::TryAddNormalInstancingBatch(
 			continue;
 		}
 
-		auto batchIt = std::find_if(
-			batches.begin(),
-			batches.end(),
-			[mesh](const AOENGINE::ModelInstancingRenderer::NormalBatch& batch) {
-				return batch.mesh == mesh && !batch.useVertexBufferOverride;
-			});
-
-		if (batchIt == batches.end()) {
+		auto [batchIt, inserted] = batchIndices.try_emplace(mesh, batches.size());
+		if (inserted) {
 			AOENGINE::ModelInstancingRenderer::NormalBatch batch;
 			batch.mesh = mesh;
 			batches.push_back(std::move(batch));
-			batchIt = std::prev(batches.end());
 		}
 
-		batchIt->instances.push_back(std::move(instance));
+		batches[batchIt->second].instances.push_back(std::move(instance));
+	}
+
+	return true;
+}
+
+bool SceneRenderer::TryAddShadowInstancingBatch(
+	const AOENGINE::ISceneObject& object,
+	const Math::Frustum& shadowFrustum,
+	std::vector<AOENGINE::ModelInstancingRenderer::ShadowBatch>& batches,
+	std::unordered_map<AOENGINE::Mesh*, size_t>& batchIndices) const {
+	const BaseGameObject* baseObject = dynamic_cast<const BaseGameObject*>(&object);
+	if (!baseObject || !baseObject->GetEnableShadow() ||
+		!baseObject->CanUseNormalInstancing() ||
+		!shadowFrustum.Intersects(baseObject->GetWorldBoundingSphere())) {
+		return false;
+	}
+
+	const AOENGINE::Model* model = baseObject->GetModel();
+	const AOENGINE::WorldTransform* transform = baseObject->GetTransform();
+	if (!model || !transform || model->GetMeshsNum() == 0) {
+		return false;
+	}
+
+	for (uint32_t index = 0; index < model->GetMeshsNum(); ++index) {
+		AOENGINE::Mesh* mesh = model->GetMesh(index);
+		if (!mesh) {
+			return false;
+		}
+
+		auto [it, inserted] = batchIndices.try_emplace(mesh, batches.size());
+		if (inserted) {
+			AOENGINE::ModelInstancingRenderer::ShadowBatch batch;
+			batch.mesh = mesh;
+			batches.push_back(std::move(batch));
+		}
+		batches[it->second].instances.push_back(transform);
 	}
 
 	return true;
@@ -713,7 +851,10 @@ void SceneRenderer::ChangeRenderingType(const std::string& renderingName, IScene
 
 	for (RenderEntry& entry : renderEntries_) {
 		if (GetRenderableObject(entry) == gameObject) {
-			entry.renderingType = renderingName;
+			if (entry.renderingType != renderingName) {
+				entry.renderingType = renderingName;
+				renderOrderDirty_ = true;
+			}
 		}
 	}
 }
@@ -722,7 +863,10 @@ void SceneRenderer::SetRenderingQueue(const std::string& objName, int num) {
 	for (RenderEntry& entry : renderEntries_) {
 		ISceneObject* object = GetRenderableObject(entry);
 		if (object && object->GetName() == objName) {
-			entry.renderQueue = num;
+			if (entry.renderQueue != num) {
+				entry.renderQueue = num;
+				renderOrderDirty_ = true;
+			}
 		}
 	}
 }
