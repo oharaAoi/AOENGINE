@@ -50,6 +50,8 @@ private:
 	void DrawBlockGroupConnectLine() const;
 	/// <summary>接地判定の結果を、ジャンプの状態へ反映する。</summary>
 	void ResolveGround(float deltaTime);
+	/// <summary>着地した足場のブロックを接地判定の結果から引き、そのグループを接続する。</summary>
+	void TryConnectLandedBlockGroups(const PlayerGroundState::Result& result);
 	/// <summary>接地判定・位置補正のコンポーネントへ渡す今の状況を作る。</summary>
 	PlayerGroundState::Context MakeGroundContext() const;
 	/// <summary>接地判定・位置補正のコンポーネントへ渡す調整値を作る。</summary>
@@ -98,6 +100,9 @@ private:
 	// ダメージ床で打ち上げられてから着地するまでtrue
 	bool damageFloorAirborne_ = false;
 
+	// 着地してからの受付時間。0より大きい間は「着地した直後」として扱う
+	float landedTimer_ = 0.0f;
+
 	// 自分のCollider category名
 	static inline const std::string kColliderTag = "Player";
 
@@ -109,6 +114,13 @@ public: // accessor
 
 	// 落下中（着地しうる状態）かどうか
 	bool IsFalling() const{ return jump_.GetState() == PlayerJump::State::Falling || jump_.GetState() == PlayerJump::State::Hanging; }
+
+	/// <summary>
+	/// 空中から足場へ降りた直後かどうか。
+	/// 着地したフレームで開き、足場から外れるか受付時間が尽きると閉じる。
+	/// 「落下中か」ではなく「ジャンプして着地したか」を見たい時はこちらを使う
+	/// </summary>
+	bool IsJustLanded() const{ return landedTimer_ > 0.0f; }
 
 	// 着地したブロックグループを接続対象へ追加する。追加できたグループは色が変わる
 	bool TryConnectBlockGroup(int groupId);

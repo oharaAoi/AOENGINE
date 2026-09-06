@@ -3,6 +3,10 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Game/Stage/GridPos.h"
 
+namespace {
+	constexpr float kBlockSize = 1.0f;
+}
+
 /// <summary>
 /// ステージ上の足場 としての tagクラス
 /// </summary>

@@ -25,6 +25,10 @@ namespace
 	constexpr AOENGINE::Color kConnectedGroupColor{ 1.0f, 0.55f, 0.15f, 1.0f };
 	// 接続したブロックグループ同士を結ぶ線の色
 	constexpr AOENGINE::Color kConnectLineColor{ 1.0f, 0.9f, 0.2f, 1.0f };
+	// ブロック1個の高さの半分。足場の上面からそのブロックの中心の高さを出すのに使う
+	constexpr float kBlockHalfHeight = 0.5f;
+	// 着地とみなす時間。着地した瞬間から この時間だけ Block との接触も着地として受け付ける
+	constexpr float kLandingWindowTime = 0.2f;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +89,10 @@ void Player::Update(){
 
 	// 無敵時間を進める
 	UpdateInvincible(deltaTime);
+
+	// 着地の受付時間を進める。ResolveGround() より先に落として、
+	// 今フレームに着地した時だけ受付が開いている状態にする
+	landedTimer_ = (std::max)(0.0f, landedTimer_ - deltaTime);
 
 	// 前フレームの結果に対して接地判定を行う
 	ResolveGround(deltaTime);
@@ -494,6 +502,11 @@ void Player::ResolveGround(float deltaTime){
 
 	if (result.isSupported)
 	{
+		// 空中から接地へ変わったフレームだけが「着地」。
+		// jump_.Land() は Falling / Hanging からしか接地へ移らないので、
+		// 上昇中に足場に触れただけのフレームはここで着地にならない
+		const bool wasAirborne = !jump_.IsGrounded();
+
 		// 大ジャンプの着地では押し戻しが使えないので、選んだ足場の上面へ直接置く
 		if (damageFloorAirborne_ && result.hasGroundTop) {
 			if (WorldTransform* transform = GetTransform()) {
@@ -508,9 +521,55 @@ void Player::ResolveGround(float deltaTime){
 		blockIgnore_.OnLanded(MakeBlockIgnoreContext());
 		damageFloorAirborne_ = false;
 		jump_.Land();
+
+		if (wasAirborne && jump_.IsGrounded()) {
+			// 乗った足場のグループを接続する。
+			// Blockとの接触は、吸着で足場の上面へ置き直すぶん必ず起きるとは限らないため、
+			// 「どのブロックに乗ったか」は接地判定の結果から直接引く
+			TryConnectLandedBlockGroups(result);
+
+			// 接触からの接続もこの間だけ受け付ける
+			landedTimer_ = kLandingWindowTime;
+		}
 	} else{
-		// 足場から外れたら落下させる
+		// 足場から外れたら落下させる。着地の受付もここで閉じる
+		landedTimer_ = 0.0f;
 		jump_.LeaveGround();
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  着地した足場のグループを接続する
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result) {
+
+	// 足場の上面が分からない(押し戻しだけで支えられている)場合は、
+	// どのブロックに乗ったのかを特定できない。その時は接触コールバック側の判定に任せる
+	if (pBlockField_ == nullptr || !result.hasGroundTop) {
+		return;
+	}
+
+	const WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 足元の箱が乗っているマスを引く。
+	// 足場の上面から半マス下がそのブロックの中心の高さなので、その高さを1点だけ見ればよい
+	const Math::Vector3 footCenter = transform->GetTranslate() + parameter_.footOffset;
+	const float halfWidth = parameter_.footSize.x * 0.5f;
+	const float blockCenterY = result.groundTopY - kBlockHalfHeight;
+
+	const Math::Vector3 checkMin{ footCenter.x - halfWidth, blockCenterY, footCenter.z };
+	const Math::Vector3 checkMax{ footCenter.x + halfWidth, blockCenterY, footCenter.z };
+
+	// 複数のマスに跨って乗っている時は、乗っているブロック全てのグループを繋ぐ
+	for (Block* block : pBlockField_->GetBlocksInWorldAABB(checkMin, checkMax)) {
+		if (block == nullptr || !block->IsValid()) {
+			continue;
+		}
+		TryConnectBlockGroup(block->GetGroupId());
 	}
 }
 
@@ -587,6 +646,7 @@ void Player::Debug_Gui()
 	ImGui::Text("body: %s", bodyState);
 	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
 	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
+	ImGui::Text("justLanded: %s (%.2f)", IsJustLanded() ? "true" : "false", landedTimer_);
 	ImGui::Text("animation: %s", animation_.GetCurrentName().c_str());
 	ImGui::Text("hp: %.1f / %.1f%s", currentHp_, parameter_.maxHp, IsInvincible() ? " (invincible)" : "");
 
