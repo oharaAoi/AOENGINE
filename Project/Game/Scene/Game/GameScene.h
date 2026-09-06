@@ -9,6 +9,8 @@
 #include "Game/Stage/StageBlockField.h"
 #include "Game/Stage/StageSegment.h"
 #include "Game/UI/RetryUI.h"
+#include "Game/UI/PlayerUI.h"
+#include "Game/UI/BossUI.h"
 
 
 class Player;
@@ -86,5 +88,7 @@ private:
 
 	// UI  ------------------------------------
 	std::unique_ptr<RetryUI> retryUI_;
+	std::unique_ptr<PlayerUI> playerUI_;
+	std::unique_ptr<BossUI> bossUI_;
 
 };

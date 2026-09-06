@@ -512,7 +512,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Stage\StageBlockField.h" />
     <ClInclude Include="Game\Stage\StageFactory.h" />
     <ClInclude Include="Game\Stage\StageSegment.h" />
+    <ClInclude Include="Game\UI\BossUI.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
+    <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
@@ -842,7 +844,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Stage\StageBlockField.cpp" />
     <ClCompile Include="Game\Stage\StageFactory.cpp" />
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
+    <ClCompile Include="Game\UI\BossUI.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
+    <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />

@@ -65,6 +65,8 @@ void GameScene::Init()
 	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get());
 	// RetryUI
 	retryUI_ = std::make_unique<RetryUI>();
+	playerUI_ = std::make_unique<PlayerUI>();
+	bossUI_ = std::make_unique<BossUI>();
 }
 
 void GameScene::OnPlayStart()
@@ -95,7 +97,8 @@ void GameScene::OnPlayStart()
 
 	// UIの初期化
 	retryUI_->Init();
-	
+	playerUI_->Init();
+	bossUI_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +153,15 @@ void GameScene::Update()
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		damageFloor_->Update(viewProjection);
+	}
+
+	// UIの更新
+	if (player_) {
+		playerUI_->Update(player_.get());
+	}
+
+	if (boss_) {
+		bossUI_->Update(boss_.get());
 	}
 
 	
