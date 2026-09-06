@@ -38,6 +38,12 @@ public:
 	// デバッグ描画
 	void Debug_Gui();
 
+	/// <summary>
+	/// 接続受付をキャンセルし、接続済みのグループを全て切り離す。
+	/// 集合、打ち上げしたものは切り離さない。接続受付中でなければ何もしない
+	/// </summary>
+	void CancelBlockGroupConnect();
+
 private:
 
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>
@@ -66,6 +72,7 @@ private:
 	void UpdateFacingRotate(float deltaTime);
 	/// <summary>今の状態に合ったアニメーションへ切り替える</summary>
 	void UpdateAnimation(float deltaTime);
+
 
 private:
 
