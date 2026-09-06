@@ -22,6 +22,9 @@ private:
 	/// 所属グループのメンバー配列内での自分のインデックス（StageBlockField が管理する値）
 	int groupIndex_ = -1;
 
+	/// オートタイルで最後に適用した隣接マスク（StageBlockField が管理。未適用なら-1）
+	int tileMask_ = -1;
+
 public:
 	bool GetIsConnected() const{ return isConnected; }
 	void SetIsConnected(bool value){ isConnected = value; }
@@ -40,4 +43,9 @@ public:
 	int GetGroupIndex() const{ return groupIndex_; }
 	/// <summary>所属グループ内での自分のインデックスを設定する（StageBlockField が管理）</summary>
 	void SetGroupIndex(int groupIndex){ groupIndex_ = groupIndex; }
+
+	/// <summary>オートタイルで最後に適用した隣接マスクを取得する（未適用なら-1）</summary>
+	int GetTileMask() const{ return tileMask_; }
+	/// <summary>オートタイルで最後に適用した隣接マスクを設定する</summary>
+	void SetTileMask(int tileMask){ tileMask_ = tileMask; }
 };
