@@ -133,6 +133,7 @@ void GameScene::Update()
 	if (backgrounds_)
 	{
 		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
+		stageBlockField_.ApplyDebugGroupColors();
 	}
 
 	// ボスの更新

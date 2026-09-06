@@ -19,11 +19,6 @@ using namespace AOENGINE;
 
 namespace
 {
-	/// CSV上でBlockを表す値
-	constexpr int kBlockCell = 1;
-	/// CSV上でWallを表す値
-	constexpr int kWallCell = 2;
-
 	/// <summary>Prefabから BaseGameObject を生成する。生成できなければ nullptr</summary>
 	AOENGINE::BaseGameObject* InstantiateStageObject(const std::string& prefabName){
 		AOENGINE::SceneObject* root =
@@ -35,10 +30,10 @@ namespace
 
 /// <summary>4近傍（上下左右）のオフセット</summary>
 const GridPos StageBlockField::kNeighborOffsets[4] = {
-	{ 1,0 },
-	{ -1,0 },
-	{ 0,1 },
-	{ 0,-1 },
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1},
 };
 
 StageBlockField::StageBlockField() = default;
@@ -63,7 +58,7 @@ void StageBlockField::AddBlock(Block* block,const GridPos& pos){
 	// 2. 4近傍を調べ、存在するブロックのグループIDを重複なく集める
 	std::vector<int> neighborGroupIds;
 	for(const GridPos& offset : kNeighborOffsets){
-		GridPos neighborPos{ pos.x + offset.x,pos.y + offset.y };
+		GridPos neighborPos{pos.x + offset.x,pos.y + offset.y};
 
 		auto it = cells_.find(neighborPos);
 		if(it == cells_.end() || it->second == nullptr){
@@ -173,7 +168,7 @@ void StageBlockField::RemoveBlockFromGroup(Block* block){
 			last->SetGroupIndex(index);
 		}
 		members.pop_back();
-	} else {
+	} else{
 		// 異常系フォールバック: groupIndex_ が実際の位置とズレている場合、
 		// 線形探索してでも確実に取り除く（残すとダングリングポインタの原因になる）
 		auto found = std::find(members.begin(),members.end(),block);
@@ -299,10 +294,10 @@ GridPos StageBlockField::WorldToGrid(const Math::Vector3& worldPos){
 	int gridX = static_cast<int>(std::floor(worldPos.x / kBlockSize + kOffsetX + 0.5f));
 	int gridY = static_cast<int>(std::floor(worldPos.y / kBlockSize));
 
-	return GridPos{ gridX, gridY };
+	return GridPos{gridX,gridY};
 }
 
-std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
+std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& worldMin,const Math::Vector3& worldMax) const{
 	std::vector<Block*> result;
 
 	const GridPos minPos = WorldToGrid(worldMin);
@@ -310,7 +305,7 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 
 	for(int x = minPos.x; x <= maxPos.x; ++x){
 		for(int y = minPos.y; y <= maxPos.y; ++y){
-			if(Block* block = GetBlockAt(GridPos{ x, y })){
+			if(Block* block = GetBlockAt(GridPos{x,y})){
 				result.push_back(block);
 			}
 		}
@@ -319,7 +314,7 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 	return result;
 }
 
-std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
+std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& worldMin,const Math::Vector3& worldMax) const{
 	std::vector<Wall*> result;
 
 	const GridPos minPos = WorldToGrid(worldMin);
@@ -327,7 +322,7 @@ std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& wor
 
 	for(int x = minPos.x; x <= maxPos.x; ++x){
 		for(int y = minPos.y; y <= maxPos.y; ++y){
-			auto it = wallCells_.find(GridPos{ x, y });
+			auto it = wallCells_.find(GridPos{x,y});
 			if(it != wallCells_.end() && it->second != nullptr){
 				result.push_back(it->second);
 			}
@@ -349,7 +344,7 @@ std::vector<Block*> StageBlockField::GetLandableBlocks() const{
 		}
 
 		// 真上に別のブロックが積まれていたら、そこには乗れないので候補から外す
-		const GridPos upper{ cell.first.x, cell.first.y + 1 };
+		const GridPos upper{cell.first.x,cell.first.y + 1};
 		if(cells_.find(upper) != cells_.end()){
 			continue;
 		}
