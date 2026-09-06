@@ -35,6 +35,7 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 
 	BlockDamageCalculator::HitContext context{};
 	context.blockCount = blockCount;
+	context.groupCount = pLauncherManager_->GetGroupCount();
 	pBoss_->Damage(damageCalculator_.Calculate(context));
 
 }

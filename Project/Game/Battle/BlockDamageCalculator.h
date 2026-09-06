@@ -10,24 +10,28 @@ struct BlockDamageParameter :
 	public AOENGINE::IJsonConverter{
 
 	float perBlock  = 1.0f;   // ブロック1個あたりの加算
+	float perGroupRate = 0.5f; // グループ数に応じた加算率
 	float maxDamage = 100.0f; // 最大ダメージ
 
 	BlockDamageParameter(): CustomParameterSet("Block Damage"){
 		SetGroupName("BlockDamage");
 		SetName("blockDamageParameter");
 		AddParameter("Per Block",perBlock,0.1f,0.0f,1000.0f);
+		AddParameter("Per Group Rate",perGroupRate,0.01f,0.0f,1.0f);
 		AddParameter("Max Damage",maxDamage,0.1f,0.0f,1000.0f);
 	}
 
 	json ToJson(const std::string& id) const override{
 		return AOENGINE::JsonBuilder(id)
 			.Add("perBlock",perBlock)
+			.Add("perGroupRate",perGroupRate)
 			.Add("maxDamage",maxDamage)
 			.Build();
 	}
 
 	void FromJson(const json& jsonData) override{
 		Convert::fromJson(jsonData,"perBlock",perBlock);
+		Convert::fromJson(jsonData,"perGroupRate",perGroupRate);
 		Convert::fromJson(jsonData,"maxDamage",maxDamage);
 	}
 };
@@ -43,6 +47,7 @@ public:
 	/// </summary>
 	struct HitContext{
 		int blockCount = 0;	// 当たったグループのブロック数
+		int groupCount = 0;	// 当たったグループの数
 	};
 
 	/// <summary>保存済みの調整値を読み込む</summary>
