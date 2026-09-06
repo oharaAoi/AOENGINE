@@ -1,6 +1,7 @@
 #pragma once
 
 /// stl
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <unordered_map>
@@ -235,6 +236,18 @@ private:
 	/// <summary>デバッグ用: グループIDから見分けやすい色を生成する</summary>
 	static AOENGINE::Color MakeDebugGroupColor(int groupId);
 
+	/// <summary>指定した座標が Block か Wall で埋まっているかを返す</summary>
+	bool IsCellOccupied(const GridPos& pos) const;
+
+	/// <summary>指定した座標のブロックの隣接マスク(4近傍)を求める</summary>
+	uint8_t CalcNeighborMask(const GridPos& pos) const;
+
+	/// <summary>1個のブロックの見た目(モデル・回転・スケール)を隣接状況に合わせて更新する</summary>
+	void RefreshTileModel(Block* block);
+
+	/// <summary>指定した座標とその4近傍にあるブロックの見た目を更新する</summary>
+	void RefreshTileModelAround(const GridPos& pos);
+
 	/// <summary>グリッド座標 -> そこにあるブロック</summary>
 	std::unordered_map<GridPos,Block*> cells_;
 
@@ -259,4 +272,11 @@ private:
 
 	/// <summary>Collider -> Block の解決表を持つコールバック（非所有。未設定なら登録しない）</summary>
 	PlayerBlockCollisionCallBacks* pBlockCallBacks_ = nullptr;
+
+	/// <summary>
+	/// 一括で削除・生成している最中かどうか。
+	/// true の間は RefreshTileModel() が何もしないため、
+	/// これから消えるブロックに対する無駄なモデル差し替えを防げる。
+	/// </summary>
+	bool isBulkEditing_ = false;
 };
