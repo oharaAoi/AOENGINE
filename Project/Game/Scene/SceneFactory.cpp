@@ -2,6 +2,7 @@
 #include "Game/Scene/TestScene.h"
 #include "Game/Scene/Game/GameScene.h"
 #include "Game/Scene/Title/TitleScene.h"
+#include "Game/Scene/Tutorial/TutorialScene.h"
 #include "Game/Scene/Clear/ClearScene.h"
 
 std::unique_ptr<BaseScene> SceneFactory::CreateScene(SceneType _sceneType) {
@@ -16,6 +17,8 @@ std::unique_ptr<BaseScene> SceneFactory::CreateScene(SceneType _sceneType) {
 		newScene = std::make_unique<TitleScene>();
 	} else if (_sceneType == SceneType::Clear) {
 		newScene = std::make_unique<ClearScene>();
+	} else if (_sceneType == SceneType::Tutorial) {
+		newScene = std::make_unique<TutorialScene>();
 	}
 
 	return newScene;

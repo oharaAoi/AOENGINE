@@ -38,6 +38,12 @@ public:
 	// デバッグ描画
 	void Debug_Gui();
 
+
+	/// <summary>
+	/// チュートリアル特殊処理(HPが満タん!)
+	/// </summary>
+	void HealFull();
+
 private:
 
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>
@@ -126,6 +132,7 @@ public: // accessor
 	float GetCurrentHp() const { return currentHp_; }
 	bool IsInvincible() const { return invincibleTimer_ > 0.0f; }
 	bool IsDead() const { return currentHp_ <= 0.0f; }
+
 	// ダメージ床で打ち上げられてから着地するまでの間か
 	bool IsDamageFloorAirborne() const { return damageFloorAirborne_; }
 

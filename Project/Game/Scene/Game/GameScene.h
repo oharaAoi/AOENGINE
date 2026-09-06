@@ -46,10 +46,15 @@ public:
 	/// </summary>
 	void Draw() const override;
 
-private:
+protected:
+
+	/// <summary>
+	/// アクターを1フレーム進める
+	/// </summary>
+	void UpdateActors(float deltaTime);
+
 	/// <summary>
 	/// Playerの本体となるGameObjectを用意する。
-	/// Sceneに"Player"が置かれていればそれを使い、無ければPrefabから生成する。
 	/// </summary>
 	AOENGINE::BaseGameObject* ResolvePlayerBody();
 
@@ -61,7 +66,7 @@ private:
 	/// </summary>
 	bool RetrySelect(bool isPlayerAlive);
 
-private:
+protected:
 	std::unique_ptr<Player> player_;
 
 	/// CallBack 系 ------------------------------------

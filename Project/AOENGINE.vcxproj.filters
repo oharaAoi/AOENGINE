@@ -322,8 +322,17 @@
     <Filter Include="Game\Scene\Title">
       <UniqueIdentifier>{4DFE2D9F-39F7-4CF1-6229-32764E812CFD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Scene\Tutorial">
+      <UniqueIdentifier>{3F867913-ABE7-5621-3455-9DD3A0B58DE0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Stage">
       <UniqueIdentifier>{623A46E2-4EF2-872F-B7F9-608BA3D02220}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Tutorial">
+      <UniqueIdentifier>{427DB18A-AE3D-2DC1-7778-763EE3F7719D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Tutorial\Step">
+      <UniqueIdentifier>{8D149E13-79F8-5E69-E258-59BCCE5B49EB}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\UI">
       <UniqueIdentifier>{4C805747-B85F-D6E2-C177-61B92DD63C44}</UniqueIdentifier>
@@ -1341,6 +1350,9 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h">
+      <Filter>Game\Scene\Tutorial</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
@@ -1361,6 +1373,30 @@
     </ClInclude>
     <ClInclude Include="Game\Stage\StageSegment.h">
       <Filter>Game\Stage</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\BaseTutorialStep.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepConnect.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepDamageFloor.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepEnding.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepLaunch.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepMove.h">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\TutorialContext.h">
+      <Filter>Game\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\TutorialStepController.h">
+      <Filter>Game\Tutorial</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
       <Filter>Game\UI</Filter>
@@ -2327,6 +2363,9 @@
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp">
+      <Filter>Game\Scene\Tutorial</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
@@ -2344,6 +2383,12 @@
     </ClCompile>
     <ClCompile Include="Game\Stage\StageSegment.cpp">
       <Filter>Game\Stage</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Tutorial\Step\TutorialSteps.cpp">
+      <Filter>Game\Tutorial\Step</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Tutorial\TutorialStepController.cpp">
+      <Filter>Game\Tutorial</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
       <Filter>Game\UI</Filter>

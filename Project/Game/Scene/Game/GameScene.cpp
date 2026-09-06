@@ -115,6 +115,43 @@ void GameScene::Update()
 		return;
 	}
 
+	UpdateActors(AOENGINE::GameTimer::DeltaTime());
+
+#ifdef _DEVELOPMENT
+	// 調整パラメータの編集
+	ImGui::Begin("GameScene Parameters");
+
+	if (player_ && ImGui::CollapsingHeader("Player"))
+	{
+		ImGui::PushID("Player");
+		player_->Debug_Gui();
+		ImGui::PopID();
+	}
+	if (followCamera_ && ImGui::CollapsingHeader("FollowCamera"))
+	{
+		ImGui::PushID("FollowCamera");
+		followCamera_->Debug_Gui();
+		ImGui::PopID();
+	}
+	if (boss_ && ImGui::CollapsingHeader("Boss"))
+	{
+		ImGui::PushID("Boss");
+		boss_->Debug_Gui();
+		ImGui::PopID();
+	}
+
+	ImGui::End();
+#endif
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// アクターの更新
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateActors(float deltaTime)
+{
+	(void)deltaTime;
+
 	// プレイヤー
 	if (player_)
 	{
@@ -150,33 +187,6 @@ void GameScene::Update()
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		damageFloor_->Update(viewProjection);
 	}
-
-	
-#ifdef _DEVELOPMENT
-	// 調整パラメータの編集
-	ImGui::Begin("GameScene Parameters");
-
-	if (player_ && ImGui::CollapsingHeader("Player"))
-	{
-		ImGui::PushID("Player");
-		player_->Debug_Gui();
-		ImGui::PopID();
-	}
-	if (followCamera_ && ImGui::CollapsingHeader("FollowCamera"))
-	{
-		ImGui::PushID("FollowCamera");
-		followCamera_->Debug_Gui();
-		ImGui::PopID();
-	}
-	if (boss_ && ImGui::CollapsingHeader("Boss"))
-	{
-		ImGui::PushID("Boss");
-		boss_->Debug_Gui();
-		ImGui::PopID();
-	}
-
-	ImGui::End();
-#endif
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
