@@ -14,6 +14,9 @@ void PlayerToDamageFloorCallBacks::CollisionEnter(AOENGINE::BaseCollider* const 
 	}
 
 	pPlayer_->ApplyDamageFloorKnockback(pDamageFloor_->GetKnockbackPower());
+
+	// コネクト中のブロックグループを解除する
+	pPlayer_->CancelBlockGroupConnect();
 }
 
 void PlayerToDamageFloorCallBacks::CollisionStay(AOENGINE::BaseCollider* const , AOENGINE::BaseCollider* const ) {

@@ -22,9 +22,9 @@ using namespace AOENGINE;
 namespace
 {
 	// 接続されたブロックグループに付ける色
-	constexpr AOENGINE::Color kConnectedGroupColor{ 1.0f, 0.55f, 0.15f, 1.0f };
+	constexpr AOENGINE::Color kConnectedGroupColor{1.0f,0.55f,0.15f,1.0f};
 	// 接続したブロックグループ同士を結ぶ線の色
-	constexpr AOENGINE::Color kConnectLineColor{ 1.0f, 0.9f, 0.2f, 1.0f };
+	constexpr AOENGINE::Color kConnectLineColor{1.0f,0.9f,0.2f,1.0f};
 	// ブロック1個の高さの半分。足場の上面からそのブロックの中心の高さを出すのに使う
 	constexpr float kBlockHalfHeight = 0.5f;
 	// 着地とみなす時間。着地した瞬間から この時間だけ Block との接触も着地として受け付ける
@@ -35,8 +35,7 @@ namespace
 //  初期化
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Init(BaseGameObject* body)
-{
+void Player::Init(BaseGameObject* body){
 
 	Bind(body);
 
@@ -53,16 +52,14 @@ void Player::Init(BaseGameObject* body)
 	isBlinkVisible_ = true;
 	SetRendering(true);
 
-	if (BaseGameObject* object = GetGameObject())
-	{
+	if(BaseGameObject* object = GetGameObject()){
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
 		if(object->GetRigidbody() == nullptr){
 			object->SetPhysics();
 		}
 
 		// rigidbody初期状態
-		if (Rigidbody* rigidbody = object->GetRigidbody())
-		{
+		if(Rigidbody* rigidbody = object->GetRigidbody()){
 
 			rigidbody->SetGravity(false);
 			rigidbody->SetVelocity(CVector3::ZERO);
@@ -80,8 +77,7 @@ void Player::Update(){
 	}
 
 	Rigidbody* rigidbody = GetRigidbody();
-	if (!rigidbody)
-	{
+	if(!rigidbody){
 		return;
 	}
 
@@ -92,7 +88,7 @@ void Player::Update(){
 
 	// 着地の受付時間を進める。ResolveGround() より先に落として、
 	// 今フレームに着地した時だけ受付が開いている状態にする
-	landedTimer_ = (std::max)(0.0f, landedTimer_ - deltaTime);
+	landedTimer_ = (std::max)(0.0f,landedTimer_ - deltaTime);
 
 	// 前フレームの結果に対して接地判定を行う
 	ResolveGround(deltaTime);
@@ -101,7 +97,7 @@ void Player::Update(){
 	input_.Update(parameter_.stickDeadZone);
 
 	// 移動更新
-	UpdateMove(rigidbody, deltaTime);
+	UpdateMove(rigidbody,deltaTime);
 
 	// ジャンプパラメータセット
 	const PlayerJump::Params jumpParams{
@@ -142,10 +138,10 @@ void Player::Update(){
 //  スケール
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateScale() {
+void Player::UpdateScale(){
 
 	WorldTransform* transform = GetTransform();
-	if (transform == nullptr) {
+	if(transform == nullptr){
 		return;
 	}
 
@@ -154,7 +150,7 @@ void Player::UpdateScale() {
 	transform->SetScale(scale);
 
 	BoxCollider* box = dynamic_cast<BoxCollider*>(GetCollider(kColliderTag));
-	if (box == nullptr) {
+	if(box == nullptr){
 		return;
 	}
 
@@ -165,7 +161,7 @@ void Player::UpdateScale() {
 	size.z = size.x;
 	const Math::Vector3 forward = transform->GetRotate().Rotate(CVector3::FORWARD);
 	const float footprintFactor = std::abs(forward.x) + std::abs(forward.z);
-	if (footprintFactor > 0.0f) {
+	if(footprintFactor > 0.0f){
 		size.x /= footprintFactor;
 		size.z /= footprintFactor;
 	}
@@ -173,9 +169,9 @@ void Player::UpdateScale() {
 	// Colliderのsize・localPositionにはtransformのscaleが掛かるので、
 	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
 	Math::Vector3 offset = parameter_.hitOffset;
-	if (scale.x != 0.0f) { size.x /= scale.x; offset.x /= scale.x; }
-	if (scale.y != 0.0f) { size.y /= scale.y; offset.y /= scale.y; }
-	if (scale.z != 0.0f) { size.z /= scale.z; offset.z /= scale.z; }
+	if(scale.x != 0.0f){ size.x /= scale.x; offset.x /= scale.x; }
+	if(scale.y != 0.0f){ size.y /= scale.y; offset.y /= scale.y; }
+	if(scale.z != 0.0f){ size.z /= scale.z; offset.z /= scale.z; }
 
 	box->SetSize(size);
 	box->SetLocalPos(offset);
@@ -185,35 +181,35 @@ void Player::UpdateScale() {
 //  向き
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateFacingRotate(float deltaTime) {
+void Player::UpdateFacingRotate(float deltaTime){
 
 	WorldTransform* transform = GetTransform();
-	if (transform == nullptr) {
+	if(transform == nullptr){
 		return;
 	}
 
 	// 向いている方向の角度を決める。モデルの正面がどちらを向いているかは
 	// パラメータ側で合わせられるようにしてある
 	float targetYaw = parameter_.facingYawLeft;
-	if (facing_ > 0.0f) {
+	if(facing_ > 0.0f){
 		targetYaw = parameter_.facingYawRight;
 	}
 
-	const Math::Quaternion target = Math::Quaternion::AngleAxis(targetYaw * kToRadian, CVector3::UP);
+	const Math::Quaternion target = Math::Quaternion::AngleAxis(targetYaw * kToRadian,CVector3::UP);
 
 	// 指数的に近づける。こうしておくとフレームレートが変わっても振り向きの速さが変わらない
 	const float t = 1.0f - std::exp(-parameter_.facingTurnSpeed * deltaTime);
-	transform->SetRotate(Math::Quaternion::Slerp(transform->GetRotate(), target, t).Normalize());
+	transform->SetRotate(Math::Quaternion::Slerp(transform->GetRotate(),target,t).Normalize());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  アニメーション
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateAnimation(float deltaTime) {
+void Player::UpdateAnimation(float deltaTime){
 
 	PlayerAnimation::Context context{};
-	if (BaseGameObject* body = GetGameObject()) {
+	if(BaseGameObject* body = GetGameObject()){
 		context.animator = body->GetAnimator();
 	}
 	context.horizontal = input_.GetHorizontal();
@@ -228,7 +224,19 @@ void Player::UpdateAnimation(float deltaTime) {
 		parameter_.moveInputThreshold,
 	};
 
-	animation_.Update(deltaTime, context, params);
+	animation_.Update(deltaTime,context,params);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  接続受付をキャンセルし、接続済みのグループを全て切り離す。
+///////////////////////////////////////////////////////////////////////////////////////////////
+void Player::CancelBlockGroupConnect(){
+	if(blockGroupConnectState_.GetPhase() == BlockGroupConnectState::Phase::Gathering){
+		return;
+	}
+
+	// 接続受付中であれば、接続済みのグループを全て切り離す
+	blockGroupConnectState_.Clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -242,8 +250,7 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 	};
 
 	BlockGroupConnectState::Context context{};
-	if (const WorldTransform* transform = GetTransform())
-	{
+	if(const WorldTransform* transform = GetTransform()){
 		context.playerPosition = transform->GetTranslate();
 	}
 	context.isGrounded = jump_.IsGrounded();
@@ -272,9 +279,8 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 		const std::vector<BlockGroupConnectState::ConnectedGroup>& connectedGroups =
 			blockGroupConnectState_.GetConnectedGroups();
 		request.targets.reserve(connectedGroups.size());
-		for (const BlockGroupConnectState::ConnectedGroup& group : connectedGroups)
-		{
-			request.targets.push_back(BlockGroupLauncher::Target{ group.groupId, group.connectPosition });
+		for(const BlockGroupConnectState::ConnectedGroup& group : connectedGroups){
+			request.targets.push_back(BlockGroupLauncher::Target{group.groupId,group.connectPosition});
 		}
 
 		blockGroupLauncherManager_.BeginGather(request,launcherParams);
@@ -326,7 +332,7 @@ void Player::DrawBlockGroupConnectLine() const{
 	}
 
 	for(size_t index = 1; index < points.size(); ++index){
- 		AOENGINE::Render::DrawThickLine(points[index - 1],points[index],kConnectLineColor,6.f);
+		AOENGINE::Render::DrawThickLine(points[index - 1],points[index],kConnectLineColor,6.f);
 	}
 }
 
@@ -351,8 +357,7 @@ bool Player::TryConnectBlockGroup(int groupId){
 //  ダメージ床のノックバック
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::ApplyDamageFloorKnockback(float power)
-{
+void Player::ApplyDamageFloorKnockback(float power){
 	damageFloorAirborne_ = true;
 	// 飛んでいる間はBlockだけ無視する。Wallやダメージ床には当たったまま
 	blockIgnore_.Begin(MakeBlockIgnoreContext());
@@ -363,17 +368,14 @@ void Player::ApplyDamageFloorKnockback(float power)
 //  被弾
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-bool Player::TakeDamage(float amount)
-{
+bool Player::TakeDamage(float amount){
 	// 無敵中や、既に倒れている時は受け付けない
-	if (IsInvincible() || IsDead())
-	{
+	if(IsInvincible() || IsDead()){
 		return false;
 	}
 
 	currentHp_ -= amount;
-	if (currentHp_ < 0.0f)
-	{
+	if(currentHp_ < 0.0f){
 		currentHp_ = 0.0f;
 	}
 
@@ -398,18 +400,15 @@ void Player::HealFull()
 //  無敵時間中の点滅
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateInvincible(float deltaTime)
-{
-	if (invincibleTimer_ <= 0.0f)
-	{
+void Player::UpdateInvincible(float deltaTime){
+	if(invincibleTimer_ <= 0.0f){
 		return;
 	}
 
 	invincibleTimer_ -= deltaTime;
 
 	// 無敵が切れたら必ず表示状態へ戻す
-	if (invincibleTimer_ <= 0.0f)
-	{
+	if(invincibleTimer_ <= 0.0f){
 		invincibleBlinkTimer_ = 0.0f;
 		isBlinkVisible_ = true;
 		SetRendering(true);
@@ -418,8 +417,7 @@ void Player::UpdateInvincible(float deltaTime)
 
 	// 一定間隔で表示と非表示を切り替えてちかちかさせる
 	invincibleBlinkTimer_ += deltaTime;
-	if (invincibleBlinkTimer_ < parameter_.invincibleBlinkInterval)
-	{
+	if(invincibleBlinkTimer_ < parameter_.invincibleBlinkInterval){
 		return;
 	}
 	invincibleBlinkTimer_ = 0.0f;
@@ -429,14 +427,12 @@ void Player::UpdateInvincible(float deltaTime)
 }
 
 
-void Player::SetBlockField(StageBlockField* field)
-{
+void Player::SetBlockField(StageBlockField* field){
 	pBlockField_ = field;
 	blockGroupLauncherManager_.SetField(field);
 }
 
-void Player::ResetStageReferences()
-{
+void Player::ResetStageReferences(){
 	// ステージのブロックが破棄されるため、実体やグループIDを指しているものを全て手放す
 	blockGroupLauncherManager_.Clear();
 	blockGroupConnectState_.Clear();
@@ -447,11 +443,9 @@ void Player::ResetStageReferences()
 //  Rigidbodyの取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-Rigidbody* Player::GetRigidbody() const
-{
+Rigidbody* Player::GetRigidbody() const{
 	BaseGameObject* object = GetGameObject();
-	if (!object)
-	{
+	if(!object){
 		return nullptr;
 	}
 	return object->GetRigidbody();
@@ -461,27 +455,24 @@ Rigidbody* Player::GetRigidbody() const
 //  左右移動
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
-{
+void Player::UpdateMove(Rigidbody* rigidbody,float deltaTime){
 	const float horizontal = input_.GetHorizontal();
 
 	float speedX = 0.0f;
-	if (std::abs(horizontal) > parameter_.moveInputThreshold)
-	{
+	if(std::abs(horizontal) > parameter_.moveInputThreshold){
 		const float targetSpeedX = horizontal * parameter_.moveSpeed;
 		float currentSpeedX = rigidbody->GetVelocity().x;
 
 		// 左右切り替えの時はスピードを0からリセット
 		const bool isReversing = (targetSpeedX > 0.0f && currentSpeedX < 0.0f) ||
 			(targetSpeedX < 0.0f && currentSpeedX > 0.0f);
-		if (isReversing)
-		{
+		if(isReversing){
 			currentSpeedX = 0.0f;
 		}
 
 		// 入力がある間だけmoveAccelerationで加速し、moveSpeedで頭打ちにする
 		const float maxDeltaSpeed = parameter_.moveAcceleration * deltaTime;
-		speedX = currentSpeedX + std::clamp(targetSpeedX - currentSpeedX, -maxDeltaSpeed, maxDeltaSpeed);
+		speedX = currentSpeedX + std::clamp(targetSpeedX - currentSpeedX,-maxDeltaSpeed,maxDeltaSpeed);
 	}
 
 	// 移動反映
@@ -489,8 +480,7 @@ void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 	rigidbody->SetVelocityZ(0.0f);
 
 	// 向き切り替え
-	if (horizontal > parameter_.moveInputThreshold)
-	{
+	if(horizontal > parameter_.moveInputThreshold){
 		facing_ = 1.0f;
 	} else if(horizontal < -parameter_.moveInputThreshold){
 		facing_ = -1.0f;
@@ -504,10 +494,10 @@ void Player::UpdateMove(Rigidbody* rigidbody, float deltaTime)
 void Player::ResolveGround(float deltaTime){
 
 	const PlayerGroundState::Result result =
-		groundState_.Resolve(deltaTime, MakeGroundContext(), MakeGroundParams());
+		groundState_.Resolve(deltaTime,MakeGroundContext(),MakeGroundParams());
 
 	// 頭をぶつけていたら上昇を打ち切る
-	if (result.hitCeiling) {
+	if(result.hitCeiling){
 		jump_.HitCeiling();
 
 		// 押し戻しは横へ逃がされることがあり、それだと頭が刺さったままになる。
@@ -523,8 +513,7 @@ void Player::ResolveGround(float deltaTime){
 		}
 	}
 
-	if (result.isSupported)
-	{
+	if(result.isSupported){
 		// 空中から接地へ変わったフレームだけが「着地」。
 		// jump_.Land() は Falling / Hanging からしか接地へ移らないので、
 		// 上昇中に足場に触れただけのフレームはここで着地にならない
@@ -534,7 +523,7 @@ void Player::ResolveGround(float deltaTime){
 		if ((wasAirborne || damageFloorAirborne_) && result.hasGroundTop) {
 			if (WorldTransform* transform = GetTransform()) {
 				Math::Vector3 position = transform->GetTranslate();
-				position.y = groundState_.CalcStandY(result.groundTopY, MakeGroundParams());
+				position.y = groundState_.CalcStandY(result.groundTopY,MakeGroundParams());
 				transform->SetTranslate(position);
 			}
 		}
@@ -545,7 +534,7 @@ void Player::ResolveGround(float deltaTime){
 		damageFloorAirborne_ = false;
 		jump_.Land();
 
-		if (wasAirborne && jump_.IsGrounded()) {
+		if(wasAirborne && jump_.IsGrounded()){
 			// 乗った足場のグループを接続する。
 			// Blockとの接触は、吸着で足場の上面へ置き直すぶん必ず起きるとは限らないため、
 			// 「どのブロックに乗ったか」は接地判定の結果から直接引く
@@ -565,16 +554,16 @@ void Player::ResolveGround(float deltaTime){
 //  着地した足場のグループを接続する
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result) {
+void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result){
 
 	// 足場の上面が分からない(押し戻しだけで支えられている)場合は、
 	// どのブロックに乗ったのかを特定できない。その時は接触コールバック側の判定に任せる
-	if (pBlockField_ == nullptr || !result.hasGroundTop) {
+	if(pBlockField_ == nullptr || !result.hasGroundTop){
 		return;
 	}
 
 	const WorldTransform* transform = GetTransform();
-	if (transform == nullptr) {
+	if(transform == nullptr){
 		return;
 	}
 
@@ -584,12 +573,12 @@ void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result
 	const float halfWidth = parameter_.footSize.x * 0.5f;
 	const float blockCenterY = result.groundTopY - kBlockHalfHeight;
 
-	const Math::Vector3 checkMin{ footCenter.x - halfWidth, blockCenterY, footCenter.z };
-	const Math::Vector3 checkMax{ footCenter.x + halfWidth, blockCenterY, footCenter.z };
+	const Math::Vector3 checkMin{footCenter.x - halfWidth,blockCenterY,footCenter.z};
+	const Math::Vector3 checkMax{footCenter.x + halfWidth,blockCenterY,footCenter.z};
 
 	// 複数のマスに跨って乗っている時は、乗っているブロック全てのグループを繋ぐ
-	for (Block* block : pBlockField_->GetBlocksInWorldAABB(checkMin, checkMax)) {
-		if (block == nullptr || !block->IsValid()) {
+	for(Block* block : pBlockField_->GetBlocksInWorldAABB(checkMin,checkMax)){
+		if(block == nullptr || !block->IsValid()){
 			continue;
 		}
 		TryConnectBlockGroup(block->GetGroupId());
@@ -600,7 +589,7 @@ void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result
 //  接地判定へ渡す情報
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-PlayerGroundState::Context Player::MakeGroundContext() const {
+PlayerGroundState::Context Player::MakeGroundContext() const{
 
 	PlayerGroundState::Context context{};
 	context.transform = GetTransform();
@@ -615,7 +604,7 @@ PlayerGroundState::Context Player::MakeGroundContext() const {
 	return context;
 }
 
-PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const {
+PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const{
 
 	PlayerBlockIgnore::Context context{};
 	context.playerCollider = GetCollider(kColliderTag);
@@ -627,7 +616,7 @@ PlayerBlockIgnore::Context Player::MakeBlockIgnoreContext() const {
 	return context;
 }
 
-PlayerGroundState::Params Player::MakeGroundParams() const {
+PlayerGroundState::Params Player::MakeGroundParams() const{
 
 	return PlayerGroundState::Params{
 		parameter_.footSize,
@@ -646,11 +635,9 @@ PlayerGroundState::Params Player::MakeGroundParams() const {
 //  速度の取得
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-Math::Vector3 Player::GetVelocity() const
-{
+Math::Vector3 Player::GetVelocity() const{
 	const Rigidbody* rigidbody = GetRigidbody();
-	if (!rigidbody)
-	{
+	if(!rigidbody){
 		return CVector3::ZERO;
 	}
 	return rigidbody->GetVelocity();
@@ -660,38 +647,34 @@ Math::Vector3 Player::GetVelocity() const
 //  デバッグ表示
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Player::Debug_Gui()
-{
+void Player::Debug_Gui(){
 	const char* bodyState = "null";
-	if (IsValid())
-	{
+	if(IsValid()){
 		bodyState = "resolved";
 	}
 
-	ImGui::Text("body: %s", bodyState);
-	ImGui::Text("rigidbody: %s", GetRigidbody() != nullptr ? "resolved" : "null");
-	ImGui::Text("jumpState: %s", jump_.GetStateName().c_str());
-	ImGui::Text("justLanded: %s (%.2f)", IsJustLanded() ? "true" : "false", landedTimer_);
-	ImGui::Text("animation: %s", animation_.GetCurrentName().c_str());
-	ImGui::Text("hp: %.1f / %.1f%s", currentHp_, parameter_.maxHp, IsInvincible() ? " (invincible)" : "");
+	ImGui::Text("body: %s",bodyState);
+	ImGui::Text("rigidbody: %s",GetRigidbody() != nullptr ? "resolved" : "null");
+	ImGui::Text("jumpState: %s",jump_.GetStateName().c_str());
+	ImGui::Text("justLanded: %s (%.2f)",IsJustLanded() ? "true" : "false",landedTimer_);
+	ImGui::Text("animation: %s",animation_.GetCurrentName().c_str());
+	ImGui::Text("hp: %.1f / %.1f%s",currentHp_,parameter_.maxHp,IsInvincible() ? " (invincible)" : "");
 
-	ImGui::Text("connectPhase: %s", blockGroupConnectState_.GetPhaseName().c_str());
-	ImGui::Text("connectRemain: %.2f", blockGroupConnectState_.GetRemainingTime());
-	ImGui::Text("connectGroups: %d", static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
-	ImGui::Text("launchTimer: %.2f", blockGroupConnectState_.GetLaunchTimer());
-	ImGui::Text("launchGroups: %d", blockGroupLauncherManager_.GetGroupCount());
-	ImGui::Text("activeLaunchers: %d", blockGroupLauncherManager_.GetActiveCount());
+	ImGui::Text("connectPhase: %s",blockGroupConnectState_.GetPhaseName().c_str());
+	ImGui::Text("connectRemain: %.2f",blockGroupConnectState_.GetRemainingTime());
+	ImGui::Text("connectGroups: %d",static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size()));
+	ImGui::Text("launchTimer: %.2f",blockGroupConnectState_.GetLaunchTimer());
+	ImGui::Text("launchGroups: %d",blockGroupLauncherManager_.GetGroupCount());
+	ImGui::Text("activeLaunchers: %d",blockGroupLauncherManager_.GetActiveCount());
 
-	if (WorldTransform *transform = GetTransform())
-	{
+	if(WorldTransform* transform = GetTransform()){
 		Math::Vector3 position = transform->GetTranslate();
 		if(ImGui::DragFloat3("position",&position.x,0.1f)){
 			transform->SetTranslate(position);
 		}
 	}
 
-	if (Rigidbody *rigidbody = GetRigidbody())
-	{
+	if(Rigidbody* rigidbody = GetRigidbody()){
 		Math::Vector3 velocity = rigidbody->GetVelocity();
 		if(ImGui::DragFloat3("velocity",&velocity.x,0.1f)){
 			rigidbody->SetVelocity(velocity);
