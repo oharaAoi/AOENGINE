@@ -1398,6 +1398,12 @@
     <ClInclude Include="Game\Tutorial\TutorialStepController.h">
       <Filter>Game\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Tutorial\TutorialTextTable.h">
+      <Filter>Game\Tutorial</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Tutorial\TutorialUIParameter.h">
+      <Filter>Game\Tutorial</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
@@ -1405,6 +1411,9 @@
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\TitleUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\TutorialTextBoxUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Block.h">
@@ -2390,6 +2399,9 @@
     <ClCompile Include="Game\Tutorial\TutorialStepController.cpp">
       <Filter>Game\Tutorial</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp">
+      <Filter>Game\Tutorial</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
@@ -2397,6 +2409,9 @@
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\TitleUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Block.cpp">

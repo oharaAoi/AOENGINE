@@ -55,9 +55,9 @@ private:
 	std::string currentName_;
 
 	// モデルに入っているアニメーション名
-	static inline const std::string kIdleName = "idle";
-	static inline const std::string kWalkName = "walk";
-	static inline const std::string kJumpName = "jump";
+	const std::string kIdleName = "idle";
+	const std::string kWalkName = "walk";
+	const std::string kJumpName = "jump";
 
 public: // accessor
 

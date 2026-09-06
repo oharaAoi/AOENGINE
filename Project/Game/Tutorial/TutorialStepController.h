@@ -29,8 +29,22 @@ public:
 	/// <summary>最初のページをセットする</summary>
 	void Init(TutorialContext& context);
 
-	/// <summary>今のページを進め、終わったら次のページへ切り替える</summary>
+	/// <summary>今のページを進める。ページの切り替えはここでは行わない</summary>
 	void Update(TutorialContext& context, float deltaTime);
+
+	/// <summary>
+	/// 今のページが次へ進める状態か。進めはしない
+	/// </summary>
+	bool WantsAdvance(const TutorialContext& context) const;
+
+	/// <summary>次のページへ進める。最後のページだったら全部終わりにする</summary>
+	void Advance(TutorialContext& context);
+
+	/// <summary>今のページから前へ戻れる状態か。戻りはしない</summary>
+	bool WantsBack(const TutorialContext& context) const;
+
+	/// <summary>前のページへ戻る</summary>
+	void Back(TutorialContext& context);
 
 	/// <summary>指定したページへ切り替える。デバッグからの飛ばしにも使う</summary>
 	void ChangeStep(TutorialContext& context, StepKind kind);
@@ -47,6 +61,9 @@ private:
 
 	/// <summary>今のページの次にあたる種類を返す</summary>
 	StepKind GetNextKind(StepKind kind) const;
+
+	/// <summary>今のページの前にあたる種類を返す</summary>
+	StepKind GetPrevKind(StepKind kind) const;
 
 	/// <summary>ページを差し替える</summary>
 	void SetStep(TutorialContext& context, std::unique_ptr<BaseTutorialStep> next);
@@ -73,4 +90,19 @@ public: // accessor
 
 	/// <summary>今のページが入力で送れるか。ボタン表示の出し分けに使う</summary>
 	bool CanSkipByInput() const;
+
+	/// <summary>前のページがあるか。戻るの案内を出すかの判断に使う</summary>
+	bool CanBack() const { return currentKind_ != StepKind::Move; }
+
+	/// <summary>今のページの説明文を引くためのキー</summary>
+	const std::string& GetCurrentTextKey() const;
+
+	/// <summary>今のページが持つチェックの数</summary>
+	std::size_t GetCurrentCheckCount() const;
+
+	/// <summary>今のページの、番号で指定した行動ができたか。チェックの表示に使う</summary>
+	bool IsCurrentCleared(std::size_t index) const;
+
+	/// <summary>今のページの番号。チェックの置き場所を引くのに使う</summary>
+	std::size_t GetCurrentIndex() const { return ToIndex(currentKind_); }
 };

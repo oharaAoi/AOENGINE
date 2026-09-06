@@ -10,7 +10,15 @@ public:
 	TutorialStepConnect() = default;
 	~TutorialStepConnect() override = default;
 
+	void Enter(TutorialContext& context) override;
 	void Update(TutorialContext& context, float deltaTime) override;
+
+private:
+
+	// ブロックをつないだか
+	bool hasConnected_ = false;
+
+public:
 
 public:// acceccer
 
@@ -21,4 +29,7 @@ public:// acceccer
 		static const std::string kName = "Connect";
 		return kName;
 	}
+
+	// 一度でもグループをつないだら達成
+	bool IsCleared(std::size_t index) const override { (void)index; return hasConnected_; }
 };

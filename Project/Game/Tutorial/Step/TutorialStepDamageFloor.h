@@ -27,6 +27,9 @@ private:
 	// 回復待ちに入っているか
 	bool isWaitingHeal_ = false;
 
+	// ダメージ床で打ち上げられたか
+	bool hasLaunched_ = false;
+
 	// HPが減ってから回復させるまでの待ち時間
 	static constexpr float kHealWaitTime = 1.0f;
 
@@ -39,4 +42,7 @@ public:// acceccer
 		static const std::string kName = "DamageFloor";
 		return kName;
 	}
+
+	// 一度でも打ち上げられたら達成
+	bool IsCleared(std::size_t index) const override { (void)index; return hasLaunched_; }
 };

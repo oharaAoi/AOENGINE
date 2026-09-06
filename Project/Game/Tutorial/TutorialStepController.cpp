@@ -39,10 +39,29 @@ void TutorialStepController::Update(TutorialContext& context, float deltaTime) {
 	}
 
 	currentStep_->Update(context, deltaTime);
+}
 
-	// 入力で送れるページなら、次へ送る入力でも先へ進む
-	const bool skipped = currentStep_->CanSkipByInput() && context.IsNextTriggered();
-	if (!currentStep_->IsFinished() && !skipped) {
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  次へ進めるか / 進める
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+bool TutorialStepController::WantsAdvance(const TutorialContext& context) const {
+
+	if (isAllFinished_ || !currentStep_) {
+		return false;
+	}
+
+	// ページ自身が終わったか、入力で送れるページで送る入力が来たか
+	if (currentStep_->IsFinished()) {
+		return true;
+	}
+
+	return currentStep_->CanSkipByInput() && context.IsNextTriggered();
+}
+
+void TutorialStepController::Advance(TutorialContext& context) {
+
+	if (isAllFinished_) {
 		return;
 	}
 
@@ -58,6 +77,30 @@ void TutorialStepController::Update(TutorialContext& context, float deltaTime) {
 	}
 
 	ChangeStep(context, next);
+}
+
+bool TutorialStepController::WantsBack(const TutorialContext& context) const {
+
+	if (isAllFinished_ || !currentStep_) {
+		return false;
+	}
+
+	// 最初のページからは戻れない
+	if (!CanBack()) {
+		return false;
+	}
+
+	return context.IsBackTriggered();
+}
+
+void TutorialStepController::Back(TutorialContext& context) {
+
+	const StepKind prev = GetPrevKind(currentKind_);
+	if (prev == currentKind_) {
+		return;
+	}
+
+	ChangeStep(context, prev);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +146,18 @@ TutorialStepController::StepKind TutorialStepController::GetNextKind(StepKind ki
 	return static_cast<StepKind>(index + 1);
 }
 
+TutorialStepController::StepKind TutorialStepController::GetPrevKind(StepKind kind) const {
+
+	const std::size_t index = ToIndex(kind);
+
+	// 最初のページなら自分自身を返す
+	if (index == 0) {
+		return kind;
+	}
+
+	return static_cast<StepKind>(index - 1);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  ページの生成
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -140,6 +195,33 @@ const std::string& TutorialStepController::GetCurrentName() const {
 	}
 
 	return currentStep_->GetName();
+}
+
+const std::string& TutorialStepController::GetCurrentTextKey() const {
+
+	if (!currentStep_) {
+		return kNoneName_;
+	}
+
+	return currentStep_->GetTextKey();
+}
+
+std::size_t TutorialStepController::GetCurrentCheckCount() const {
+
+	if (!currentStep_) {
+		return 0;
+	}
+
+	return currentStep_->GetCheckCount();
+}
+
+bool TutorialStepController::IsCurrentCleared(std::size_t index) const {
+
+	if (!currentStep_) {
+		return false;
+	}
+
+	return currentStep_->IsCleared(index);
 }
 
 bool TutorialStepController::CanSkipByInput() const {

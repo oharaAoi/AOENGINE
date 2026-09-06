@@ -66,7 +66,7 @@ private:
 	bool isDefeatFinished_ = false;
 
 	// 自分のCollider category名
-	static inline const std::string kColliderTag = "Boss";
+	const std::string kColliderTag = "Boss";
 
 	// 落とす足場を選ぶためのブロックの表
 	StageBlockField* pBlockField_ = nullptr;

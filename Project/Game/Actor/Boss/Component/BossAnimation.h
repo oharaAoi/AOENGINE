@@ -68,9 +68,9 @@ private:
 	std::string lastBehaviorName_;
 
 	// モデルに入っている被弾アニメーションの名前
-	static inline const std::string kDamageName = "damage";
+	const std::string kDamageName = "damage";
 	// 待機。行動側から名前が来なかった時にも流す
-	static inline const std::string kIdleName = "idle";
+	const std::string kIdleName = "idle";
 
 public: // accessor
 

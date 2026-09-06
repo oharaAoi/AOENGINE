@@ -21,4 +21,7 @@ public:// acceccer
 		static const std::string kName = "Ending";
 		return kName;
 	}
+
+	// ここまで来ていれば全部できている
+	bool IsCleared(std::size_t index) const override { (void)index; return true; }
 };

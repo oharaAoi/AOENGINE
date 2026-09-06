@@ -31,4 +31,7 @@ public:// acceccer
 		static const std::string kName = "Launch";
 		return kName;
 	}
+
+	// ボスに当てたら達成。このページはこれがそのまま進行条件でもある
+	bool IsCleared(std::size_t index) const override { (void)index; return isFinished_; }
 };

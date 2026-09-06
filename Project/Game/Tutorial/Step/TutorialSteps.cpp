@@ -4,6 +4,8 @@
 #include "Game/Tutorial/Step/TutorialStepLaunch.h"
 #include "Game/Tutorial/Step/TutorialStepMove.h"
 
+#include <cmath>
+
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Tutorial/TutorialContext.h"
@@ -12,11 +14,30 @@
 //  移動とジャンプ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void TutorialStepMove::Update(TutorialContext& context, float deltaTime) {
+void TutorialStepMove::Enter(TutorialContext& context) {
 	(void)context;
+
+	hasMoved_ = false;
+	hasJumped_ = false;
+}
+
+void TutorialStepMove::Update(TutorialContext& context, float deltaTime) {
 	(void)deltaTime;
 
-	// 好きなだけ動かしてもらうだけなので、ここでは何もしない
+	const Player* player = context.GetPlayer();
+	if (player == nullptr) {
+		return;
+	}
+
+	// 横に動いたか
+	if (std::abs(player->GetVelocity().x) > kMoveSpeedThreshold) {
+		hasMoved_ = true;
+	}
+
+	// 接地していなければジャンプしたとみなす
+	if (!player->IsGrounded()) {
+		hasJumped_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +48,7 @@ void TutorialStepDamageFloor::Enter(TutorialContext& context) {
 
 	healTimer_ = 0.0f;
 	isWaitingHeal_ = false;
+	hasLaunched_ = false;
 
 	// 何度でも試せるように、始める時点で満タンにしておく
 	if (Player* player = context.GetPlayer()) {
@@ -35,6 +57,14 @@ void TutorialStepDamageFloor::Enter(TutorialContext& context) {
 }
 
 void TutorialStepDamageFloor::Update(TutorialContext& context, float deltaTime) {
+
+	// ダメージ床で打ち上げられたら達成
+	if (const Player* player = context.GetPlayer()) {
+		if (player->IsDamageFloorAirborne()) {
+			hasLaunched_ = true;
+		}
+	}
+
 	UpdateHealRecover(context, deltaTime);
 }
 
@@ -81,11 +111,24 @@ void TutorialStepDamageFloor::UpdateHealRecover(TutorialContext& context, float 
 //  ブロックをつなぐ
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void TutorialStepConnect::Update(TutorialContext& context, float deltaTime) {
+void TutorialStepConnect::Enter(TutorialContext& context) {
 	(void)context;
+
+	hasConnected_ = false;
+}
+
+void TutorialStepConnect::Update(TutorialContext& context, float deltaTime) {
 	(void)deltaTime;
 
-	// 好きなだけ試してもらうだけなので、ここでは何もしない
+	const Player* player = context.GetPlayer();
+	if (player == nullptr) {
+		return;
+	}
+
+	// 一度でもグループをつないだら達成
+	if (player->GetConnectedGroupCount() > 0) {
+		hasConnected_ = true;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <string>
 
 class TutorialContext;
@@ -30,4 +31,14 @@ public:
 
 	/// <summary>このページで出す説明文のキー。テキストの差し替えに使う</summary>
 	virtual const std::string& GetTextKey() const { return GetName(); }
+
+	/// <summary>
+	/// このページが持つチェックの数
+	/// </summary>
+	virtual std::size_t GetCheckCount() const { return 1; }
+
+	/// <summary>
+	/// 番号で指定したチェックの行動を、実際に成し遂げたか
+	/// </summary>
+	virtual bool IsCleared(std::size_t index) const { (void)index; return false; }
 };

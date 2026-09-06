@@ -105,10 +105,17 @@ private:
 	bool damageFloorAirborne_ = false;
 
 	// 自分のCollider category名
-	static inline const std::string kColliderTag = "Player";
+	const std::string kColliderTag = "Player";
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
+
+	// チュートリアルの達成判定に使う。今つないでいるブロックグループの数
+	int GetConnectedGroupCount() const{
+		return static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size());
+	}
+	// 打ち上げたブロックが飛んでいる最中か
+	bool IsLaunching() const{ return blockGroupLauncherManager_.IsActive(); }
 	BlockGroupLauncherManager* GetBlockGroupLauncherManagerRef(){ return &blockGroupLauncherManager_; }
 
 	bool IsGrounded() const{ return jump_.IsGrounded(); }

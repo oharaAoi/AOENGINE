@@ -24,6 +24,9 @@ private:
 	// 次のページへ送る入力が今フレーム押されたか
 	bool isNextTriggered_ = false;
 
+	// 前のページへ戻る入力が今フレーム押されたか
+	bool isBackTriggered_ = false;
+
 	// コントローラーが繋がっているか。説明文をキーボード用へ切り替えるのに使う
 	bool isPadConnected_ = false;
 
@@ -41,6 +44,9 @@ public: // accessor
 
 	bool IsNextTriggered() const { return isNextTriggered_; }
 	void SetNextTriggered(bool isTriggered) { isNextTriggered_ = isTriggered; }
+
+	bool IsBackTriggered() const { return isBackTriggered_; }
+	void SetBackTriggered(bool isTriggered) { isBackTriggered_ = isTriggered; }
 
 	bool IsPadConnected() const { return isPadConnected_; }
 	void SetPadConnected(bool isConnected) { isPadConnected_ = isConnected; }

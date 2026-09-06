@@ -520,9 +520,12 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Tutorial\Step\TutorialStepMove.h" />
     <ClInclude Include="Game\Tutorial\TutorialContext.h" />
     <ClInclude Include="Game\Tutorial\TutorialStepController.h" />
+    <ClInclude Include="Game\Tutorial\TutorialTextTable.h" />
+    <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
+    <ClInclude Include="Game\UI\TutorialTextBoxUI.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Wall.h" />
@@ -852,9 +855,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
     <ClCompile Include="Game\Tutorial\Step\TutorialSteps.cpp" />
     <ClCompile Include="Game\Tutorial\TutorialStepController.cpp" />
+    <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />
+    <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Wall.cpp" />

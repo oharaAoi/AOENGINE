@@ -64,7 +64,7 @@ private:
 	std::vector<int> ignoredGroups_;
 
 	// 外す対象のCollider category名
-	static inline const std::string kBlockCategoryName = "Block";
+	const std::string kBlockCategoryName = "Block";
 
 public: // accessor
 
