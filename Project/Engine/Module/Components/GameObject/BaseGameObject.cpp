@@ -109,13 +109,12 @@ void BaseGameObject::UpdateMatrix() {
 
 	// colliderの更新
 	if (!colliders_.empty()) {
-		const Math::QuaternionSRT worldSrt{
-			.scale = transform_->GetScale(),
-			.rotate = transform_->GetWorldRotate(),
-			.translate = transform_->GetWorldPos()
-		};
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
-			colliders_[index]->Update(worldSrt);
+			colliders_[index]->Update(Math::QuaternionSRT{
+				.scale = transform_->GetScale(),
+				.rotate = transform_->GetWorldRotate(),
+				.translate = transform_->GetWorldPos() }
+			);
 		}
 	}
 
@@ -127,28 +126,21 @@ void BaseGameObject::UpdateMatrix() {
 }
 
 void BaseGameObject::UpdateVerticalPhysics() {
-	if (rigidbody_ == nullptr || pendingVerticalMove_ == 0.0f) { return; }
+	if (rigidbody_ == nullptr) { return; }
 	transform_->Translate(Math::Vector3(0.0f, pendingVerticalMove_, 0.0f));
 	pendingVerticalMove_ = 0.0f;
 	transform_->Update();
-	const Math::QuaternionSRT worldSrt{
-		.scale = transform_->GetScale(),
-		.rotate = transform_->GetWorldRotate(),
-		.translate = transform_->GetWorldPos()
-	};
 	for (BaseCollider* collider : colliders_) {
-		collider->Update(worldSrt);
+		collider->Update(Math::QuaternionSRT{
+			.scale = transform_->GetScale(),
+			.rotate = transform_->GetWorldRotate(),
+			.translate = transform_->GetWorldPos() });
 	}
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 
 void BaseGameObject::ApplyCollisionPushback() {
 	if (rigidbody_ == nullptr) { return; }
-	if (rigidbody_->GetPushbackForce().x == 0.0f &&
-		rigidbody_->GetPushbackForce().y == 0.0f &&
-		rigidbody_->GetPushbackForce().z == 0.0f) {
-		return;
-	}
 	for (BaseCollider* collider : colliders_) {
 		if (!collider->GetIsStatic()) {
 			rigidbody_->SetPushbackForce(collider->GetPushBackDirection());
@@ -157,16 +149,6 @@ void BaseGameObject::ApplyCollisionPushback() {
 	transform_->Translate(rigidbody_->GetPushbackForce());
 	rigidbody_->ClearPushbackForce();
 	transform_->Update();
-	const Math::QuaternionSRT worldSrt{
-		.scale = transform_->GetScale(),
-		.rotate = transform_->GetWorldRotate(),
-		.translate = transform_->GetWorldPos()
-	};
-	for (BaseCollider* collider : colliders_) {
-		if (collider && !collider->GetIsStatic()) {
-			collider->Update(worldSrt);
-		}
-	}
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 
