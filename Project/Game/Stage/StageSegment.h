@@ -7,6 +7,14 @@
 /// game
 #include "Game/Stage/GridPos.h"
 
+namespace
+{
+	/// CSV上でBlockを表す値
+	constexpr int kBlockCell = 1;
+	/// CSV上でWallを表す値
+	constexpr int kWallCell = 2;
+}
+
 /// <summary>
 ///  CSVから読み込んだ、1セグメント分のブロック配置データ。
 ///  ファイルからデータへの橋渡しに専念し、World上の実体は持たない
