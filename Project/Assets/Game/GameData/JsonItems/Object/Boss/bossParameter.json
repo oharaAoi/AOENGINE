@@ -31,6 +31,13 @@
             "z": 1.0
         },
         "beamWarningTime": 1.5,
+        "damageColor": {
+            "a": 1.0,
+            "b": 0.20000000298023224,
+            "g": 0.20000000298023224,
+            "r": 1.0
+        },
+        "damageEffectTime": 1.7400000095367432,
         "defeatHideTime": 1.5,
         "fallFireUnlockPhase": 0,
         "fireballDamage": 1.0,
@@ -43,9 +50,9 @@
         "fireballSpawnHeight": 7.099999904632568,
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
-            "x": 6.0,
+            "x": 46.099998474121094,
             "y": 1.0,
-            "z": 1.0
+            "z": 59.20000076293945
         },
         "hp": 100.0,
         "idleTimeMax": 2.5,

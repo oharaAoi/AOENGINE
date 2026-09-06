@@ -9,6 +9,9 @@ using namespace AOENGINE;
 
 void BossBlockLauncherCollisionCallBacks::Init(){
 	SetCallBacks();
+
+	// 保存済みのダメージ調整値を読み込む。呼ばないと既定値のままになる
+	damageCalculator_.Load();
 }
 
 void BossBlockLauncherCollisionCallBacks::Update(){}

@@ -22,6 +22,8 @@ public:
 	struct Params {
 		Math::Vector3 footSize;		// 足元の箱の大きさ
 		Math::Vector3 footOffset;	// 足元の箱の中心のずらし量
+		Math::Vector3 bodySize;		// 胴体の箱の大きさ。壁に入り込ませない判定に使う
+		Math::Vector3 bodyOffset;	// 胴体の箱の中心のずらし量
 		float groundCheckDistance;	// 足元の何ユニット下までを足場として見るか
 		float fallLimitY;			// これ以上は落ちない高さ
 		float fixedZ;				// 固定する奥行き
@@ -41,9 +43,11 @@ public:
 	// 接地判定の結果。状態の遷移そのものは呼び出し側に任せる
 	struct Result {
 		bool isSupported = false;	// 足場に支えられているか
-		bool hitCeiling = false;	// 上から押し戻されたか
+		bool hitCeiling = false;	// 頭をぶつけたか
 		bool hasGroundTop = false;	// 乗る足場の上面が分かっているか
 		float groundTopY = 0.0f;	// その上面の高さ
+		bool hasCeilingBottom = false;	// ぶつけた天井の下面が分かっているか
+		float ceilingBottomY = 0.0f;	// その下面の高さ
 	};
 
 	PlayerGroundState() = default;
@@ -58,11 +62,17 @@ public:
 	/// <summary>足場の上面の高さから、本体を置くべきY座標を求める</summary>
 	float CalcStandY(float groundTopY, const Params& params) const;
 
+	/// <summary>天井の下面の高さから、頭がめり込まないY座標を求める</summary>
+	float CalcHeadClampY(float ceilingBottomY, const Params& params) const;
+
 	/// <summary>落下の下限。これより下がったらその高さで止める</summary>
 	void ClampFallLimit(const Context& context, const Params& params) const;
 
 	/// <summary>押し戻しで奥行きがずれても、決まったZへ固定し直す</summary>
 	void FixZPosition(const Context& context, const Params& params) const;
+
+	/// <summary>壁のマスへ胴体が入り込まないように、左右を止める</summary>
+	void ClampToWalls(const Context& context, const Params& params) const;
 
 private:
 
@@ -71,6 +81,12 @@ private:
 	/// </summary>
 	bool TryGetGroundTop(float checkDown, const Context& context,
 		const Params& params, float& outTopY) const;
+
+	/// <summary>
+	/// 頭の上を見て、そこにあるブロックの下面の高さを求める。
+	/// </summary>
+	bool TryGetCeilingBottom(float checkUp, const Context& context,
+		const Params& params, float& outBottomY) const;
 
 	/// <summary>箱の中心のワールド座標を求める</summary>
 	Math::Vector3 CalcBoxCenter(const Context& context, const Math::Vector3& offset) const;
@@ -83,4 +99,9 @@ private:
 	static constexpr float kGroundCheckEpsilon = 0.001f;
 	// ブロック1個の高さの半分。上面の高さを出すのに使う
 	static constexpr float kBlockHalfHeight = 0.5f;
+	// ブロック1個の幅の半分。壁の側面の位置を出すのに使う
+	static constexpr float kBlockHalfWidth = 0.5f;
+	// 上下を見る箱の左右を、この分だけ内側へ狭める。
+	// 壁にぴたりと寄せた時、隣のマスまで拾って足場や天井と誤判定するのを防ぐ
+	static constexpr float kSideInset = 0.01f;
 };

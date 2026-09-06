@@ -2,6 +2,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include "Engine/Lib/Color.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include "Engine/Lib/Math/Vector2.h"
@@ -33,6 +34,11 @@ struct BossParameter :
 	int32_t fallFireUnlockPhase = 0;
 	int32_t beamUnlockPhase = 1;
 	int32_t stopperUnlockPhase = 2;
+
+	// 被弾した時の反応
+	float damageEffectTime = 0.25f;		// 色を戻すまでの長さ
+	AOENGINE::Color damageColor{ 1.0f, 0.2f, 0.2f, 1.0f };	// 被弾した瞬間に寄せる色
+	CameraShakeRequest damageShake;		// 被弾した時の、ボス自身の揺れ
 
 	// フェーズが上がった時の演出
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
@@ -147,6 +153,10 @@ struct BossParameter :
 		AddParameter("Idle Time Min", idleTimeMin, 0.01f, 0.0f, 60.0f);
 		AddParameter("Idle Time Max", idleTimeMax, 0.01f, 0.0f, 60.0f);
 
+		AddSeparatorText("Damage");
+		AddParameter("Damage Effect Time", damageEffectTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Damage Color", damageColor);
+
 		AddSeparatorText("Defeat");
 		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
 
@@ -155,6 +165,12 @@ struct BossParameter :
 		stopperLandShake.SetName("stopperLandShake");
 		phaseChangeShake.SetGroupName("Boss");
 		phaseChangeShake.SetName("phaseChangeShake");
+		damageShake.SetGroupName("Boss");
+		damageShake.SetName("damageShake");
+		// 被弾は軽く小突かれた程度にしたいので、既定値を控えめにしておく
+		damageShake.duration = 0.18f;
+		damageShake.positionAmplitude = { 0.18f, 0.12f, 0.0f };
+		damageShake.rotationAmplitude = { 0.0f, 0.0f, 0.0f };
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -170,6 +186,8 @@ struct BossParameter :
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("phaseChangeTime", phaseChangeTime)
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
+			.Add("damageEffectTime", damageEffectTime)
+			.Add("damageColor", damageColor)
 			.Add("fireballDamage", fireballDamage)
 			.Add("fireballStartDelay", fireballStartDelay)
 			.Add("fireballDropCount", fireballDropCount)
@@ -217,6 +235,8 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
 		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
+		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
+		Convert::fromJson(jsonData, "damageColor", damageColor);
 
 		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
 		Convert::fromJson(jsonData, "fireballStartDelay", fireballStartDelay);

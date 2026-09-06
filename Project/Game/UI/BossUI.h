@@ -22,6 +22,6 @@ public: // public method
 
 private: // private variable
 
-	AOENGINE::Sprite* hp_;
+	AOENGINE::Sprite* hp_ = nullptr;
 };
 

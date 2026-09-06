@@ -27,7 +27,6 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v145</PlatformToolset>
-    <EnableASAN>false</EnableASAN>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Develop|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -341,9 +340,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
     <ClInclude Include="Engine\System\Audio\SoundCatalog.h" />
-    <ClInclude Include="Engine\System\Audio\SoundManager.h" />
-    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h" />
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
+    <ClInclude Include="Engine\System\Audio\SoundManager.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ColliderInspector.h" />
@@ -369,6 +367,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
@@ -478,6 +477,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\BossParameter.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossAnimation.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h" />
+    <ClInclude Include="Game\Actor\Boss\Component\BossDamageEffect.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossScreenAnchor.h" />
     <ClInclude Include="Game\Actor\Common\ScreenWorldPlaneAnchor.h" />
     <ClInclude Include="Game\Actor\Floor\DamageFloor.h" />
@@ -509,6 +509,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h" />
     <ClInclude Include="Game\Stage\BlockAutoTile.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncherManager.h" />
@@ -517,11 +518,22 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Stage\StageBlockField.h" />
     <ClInclude Include="Game\Stage\StageFactory.h" />
     <ClInclude Include="Game\Stage\StageSegment.h" />
+    <ClInclude Include="Game\Tutorial\Step\BaseTutorialStep.h" />
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepConnect.h" />
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepDamageFloor.h" />
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepEnding.h" />
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepLaunch.h" />
+    <ClInclude Include="Game\Tutorial\Step\TutorialStepMove.h" />
+    <ClInclude Include="Game\Tutorial\TutorialContext.h" />
+    <ClInclude Include="Game\Tutorial\TutorialStepController.h" />
+    <ClInclude Include="Game\Tutorial\TutorialTextTable.h" />
+    <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
     <ClInclude Include="Game\UI\BossUI.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
     <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
+    <ClInclude Include="Game\UI\TutorialTextBoxUI.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
     <ClInclude Include="Game\WorldObject\Skybox.h" />
     <ClInclude Include="Game\WorldObject\Wall.h" />
@@ -693,9 +705,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
     <ClCompile Include="Engine\System\Audio\SoundCatalog.cpp" />
-    <ClCompile Include="Engine\System\Audio\SoundManager.cpp" />
-    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp" />
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ColliderInspector.cpp" />
@@ -721,6 +732,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
@@ -819,6 +831,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
+    <ClCompile Include="Game\Actor\Boss\Component\BossDamageEffect.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossScreenAnchor.cpp" />
     <ClCompile Include="Game\Actor\Common\ScreenWorldPlaneAnchor.cpp" />
     <ClCompile Include="Game\Actor\Floor\DamageFloor.cpp" />
@@ -846,6 +859,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp" />
     <ClCompile Include="Game\Stage\BlockAutoTile.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncherManager.cpp" />
@@ -853,11 +867,15 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Stage\StageBlockField.cpp" />
     <ClCompile Include="Game\Stage\StageFactory.cpp" />
     <ClCompile Include="Game\Stage\StageSegment.cpp" />
+    <ClCompile Include="Game\Tutorial\Step\TutorialSteps.cpp" />
+    <ClCompile Include="Game\Tutorial\TutorialStepController.cpp" />
+    <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
     <ClCompile Include="Game\UI\BossUI.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />
+    <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
     <ClCompile Include="Game\WorldObject\Wall.cpp" />

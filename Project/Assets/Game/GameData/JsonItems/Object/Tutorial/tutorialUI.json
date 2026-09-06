@@ -1,0 +1,72 @@
+{
+    "tutorialUI": {
+        "appearScale": 0.0,
+        "backBoxOffset": {
+            "x": -462.0,
+            "y": 110.0
+        },
+        "bodyFontSize": 58.0,
+        "bodyOffset": {
+            "x": 17.0,
+            "y": 3.0
+        },
+        "boxCenter": {
+            "x": 715.0,
+            "y": 768.0
+        },
+        "boxSize": {
+            "x": 1228.0,
+            "y": 156.0
+        },
+        "checkEaseKind": 17,
+        "checkOffset0": {
+            "x": 258.0,
+            "y": -31.0
+        },
+        "checkOffset1": {
+            "x": 569.0,
+            "y": 13.0
+        },
+        "checkOffset2": {
+            "x": 537.0,
+            "y": 8.0
+        },
+        "checkOffset3": {
+            "x": 617.0,
+            "y": -90.0
+        },
+        "checkOffset4": {
+            "x": 2507.0,
+            "y": 6.0
+        },
+        "checkSize": {
+            "x": 128.0,
+            "y": 128.0
+        },
+        "checkTime": 0.25,
+        "closeEaseKind": 3,
+        "closeTime": 0.20000000298023224,
+        "guideBoxSize": {
+            "x": 457.0,
+            "y": 70.0
+        },
+        "guideEaseKind": 17,
+        "guideFontSize": 62.0,
+        "guideOffset": {
+            "x": -14.0,
+            "y": 0.0
+        },
+        "guideTime": 0.25,
+        "moveJumpCheckOffset": {
+            "x": 411.0,
+            "y": 39.0
+        },
+        "nextBoxOffset": {
+            "x": 472.0,
+            "y": 112.0
+        },
+        "openEaseKind": 13,
+        "openTime": 0.30000001192092896,
+        "uiScale": 1.0
+    }
+}

@@ -122,9 +122,10 @@ void Player::Update(){
 	// 接地中は足場の上面へ吸着させ、落下の下限と奥行きを揃える
 	const PlayerGroundState::Context groundContext = MakeGroundContext();
 	const PlayerGroundState::Params groundParams = MakeGroundParams();
-	groundState_.SnapToGround(groundContext,groundParams);
-	groundState_.ClampFallLimit(groundContext,groundParams);
-	groundState_.FixZPosition(groundContext,groundParams);
+	groundState_.SnapToGround(groundContext, groundParams);
+	groundState_.ClampFallLimit(groundContext, groundParams);
+	groundState_.ClampToWalls(groundContext, groundParams);
+	groundState_.FixZPosition(groundContext, groundParams);
 
 	// 見た目まわり
 	UpdateScale();
@@ -384,6 +385,16 @@ bool Player::TakeDamage(float amount){
 	isBlinkVisible_ = true;
 	return true;
 }
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  HPを満タンに戻す
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::HealFull()
+{
+	currentHp_ = parameter_.maxHp;
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  無敵時間中の点滅
@@ -488,6 +499,18 @@ void Player::ResolveGround(float deltaTime){
 	// 頭をぶつけていたら上昇を打ち切る
 	if(result.hitCeiling){
 		jump_.HitCeiling();
+
+		// 押し戻しは横へ逃がされることがあり、それだと頭が刺さったままになる。
+		if (result.hasCeilingBottom) {
+			if (WorldTransform* transform = GetTransform()) {
+				Math::Vector3 position = transform->GetTranslate();
+				const float clampY = groundState_.CalcHeadClampY(result.ceilingBottomY, MakeGroundParams());
+				if (position.y > clampY) {
+					position.y = clampY;
+					transform->SetTranslate(position);
+				}
+			}
+		}
 	}
 
 	if(result.isSupported){
@@ -496,9 +519,9 @@ void Player::ResolveGround(float deltaTime){
 		// 上昇中に足場に触れただけのフレームはここで着地にならない
 		const bool wasAirborne = !jump_.IsGrounded();
 
-		// 大ジャンプの着地では押し戻しが使えないので、選んだ足場の上面へ直接置く
-		if(damageFloorAirborne_ && result.hasGroundTop){
-			if(WorldTransform* transform = GetTransform()){
+		// 着地したフレームは足場の上面へ直接置く
+		if ((wasAirborne || damageFloorAirborne_) && result.hasGroundTop) {
+			if (WorldTransform* transform = GetTransform()) {
 				Math::Vector3 position = transform->GetTranslate();
 				position.y = groundState_.CalcStandY(result.groundTopY,MakeGroundParams());
 				transform->SetTranslate(position);
@@ -598,6 +621,8 @@ PlayerGroundState::Params Player::MakeGroundParams() const{
 	return PlayerGroundState::Params{
 		parameter_.footSize,
 		parameter_.footOffset,
+		parameter_.bodySize,
+		parameter_.bodyOffset,
 		parameter_.groundCheckDistance,
 		parameter_.fallLimitY,
 		parameter_.fixedZ,

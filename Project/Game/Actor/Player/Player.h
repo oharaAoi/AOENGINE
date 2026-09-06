@@ -38,6 +38,12 @@ public:
 	// デバッグ描画
 	void Debug_Gui();
 
+
+	/// <summary>
+	/// チュートリアル特殊処理(HPが満タん!)
+	/// </summary>
+	void HealFull();
+
 	/// <summary>
 	/// 接続受付をキャンセルし、接続済みのグループを全て切り離す。
 	/// 集合、打ち上げしたものは切り離さない。接続受付中でなければ何もしない
@@ -111,10 +117,17 @@ private:
 	float landedTimer_ = 0.0f;
 
 	// 自分のCollider category名
-	static inline const std::string kColliderTag = "Player";
+	const std::string kColliderTag = "Player";
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
+
+	// チュートリアルの達成判定に使う。今つないでいるブロックグループの数
+	int GetConnectedGroupCount() const{
+		return static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size());
+	}
+	// 打ち上げたブロックが飛んでいる最中か
+	bool IsLaunching() const{ return blockGroupLauncherManager_.IsActive(); }
 	BlockGroupLauncherManager* GetBlockGroupLauncherManagerRef(){ return &blockGroupLauncherManager_; }
 
 	bool IsGrounded() const{ return jump_.IsGrounded(); }
@@ -145,6 +158,7 @@ public: // accessor
 	float GetCurrentHp() const { return currentHp_; }
 	bool IsInvincible() const { return invincibleTimer_ > 0.0f; }
 	bool IsDead() const { return currentHp_ <= 0.0f; }
+
 	// ダメージ床で打ち上げられてから着地するまでの間か
 	bool IsDamageFloorAirborne() const { return damageFloorAirborne_; }
 
