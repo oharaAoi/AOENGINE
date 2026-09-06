@@ -10,7 +10,6 @@
                         "active": true,
                         "category": "Fireball",
                         "collisionMask": [
-                            "Block",
                             "Player",
                             "Wall"
                         ],

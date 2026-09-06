@@ -166,6 +166,15 @@ void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 			}
 		}
 
+		// ブロックとは当たらないので、画面の下へ抜けたものはここで片付ける。
+		if (!it->isHit) {
+			if (AOENGINE::WorldTransform* transform = it->entity.GetTransform()) {
+				if (boss.IsBelowCameraBottom(transform->GetTranslate())) {
+					it->isHit = true;
+				}
+			}
+		}
+
 		// 何かしらに着弾したら消す
 		if (it->isHit) {
 			// 消す前にコールバックを外す

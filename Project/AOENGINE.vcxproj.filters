@@ -301,6 +301,9 @@
     <Filter Include="Game\Camera">
       <UniqueIdentifier>{17B96904-836E-E2F9-0C63-DCD07817D9FD}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Effect">
+      <UniqueIdentifier>{5BAC6A09-C761-E3FE-5056-DDD5BC0ADA02}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\EventHandlers">
       <UniqueIdentifier>{C1FF7946-ADE3-3A9C-1644-35EF0247251E}</UniqueIdentifier>
     </Filter>
@@ -582,10 +585,10 @@
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h">
       <Filter>Engine\Module\Components\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h">
+    <ClInclude Include="Engine\Module\Components\Materials\Material.h">
       <Filter>Engine\Module\Components\Materials</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Materials\Material.h">
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h">
       <Filter>Engine\Module\Components\Materials</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h">
@@ -1068,9 +1071,6 @@
     <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h">
-      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\GradientData.h">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClInclude>
@@ -1078,6 +1078,9 @@
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.h">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h">
@@ -1283,6 +1286,18 @@
     </ClInclude>
     <ClInclude Include="Game\Camera\FollowCamera.h">
       <Filter>Game\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effect\EffectObjectGroup.h">
+      <Filter>Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effect\IEffectObject.h">
+      <Filter>Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effect\ParticleEffectObject.h">
+      <Filter>Game\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Effect\PrefabEffectObject.h">
+      <Filter>Game\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
@@ -2087,13 +2102,13 @@
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp">
-      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\GradientNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.cpp">
+      <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp">
       <Filter>Engine\System\ShaderGraph\Node\Texture</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp">
@@ -2266,6 +2281,15 @@
     </ClCompile>
     <ClCompile Include="Game\Camera\FollowCamera.cpp">
       <Filter>Game\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effect\EffectObjectGroup.cpp">
+      <Filter>Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effect\ParticleEffectObject.cpp">
+      <Filter>Game\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Effect\PrefabEffectObject.cpp">
+      <Filter>Game\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>

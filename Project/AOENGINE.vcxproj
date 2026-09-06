@@ -252,8 +252,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Light\PointLight.h" />
     <ClInclude Include="Engine\Module\Components\Light\SpotLight.h" />
     <ClInclude Include="Engine\Module\Components\Materials\BaseMaterial.h" />
-    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h" />
     <ClInclude Include="Engine\Module\Components\Materials\Material.h" />
+    <ClInclude Include="Engine\Module\Components\Materials\MaterialPipelinePolicy.h" />
     <ClInclude Include="Engine\Module\Components\Materials\MaterialStructures.h" />
     <ClInclude Include="Engine\Module\Components\Materials\PBRMaterial.h" />
     <ClInclude Include="Engine\Module\Components\Meshes\Mesh.h" />
@@ -414,10 +414,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.h" />
-    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\GradientData.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\GradientNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.h" />
+    <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.h" />
     <ClInclude Include="Engine\System\ShaderGraph\ShaderGraph.h" />
@@ -486,6 +486,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Player\PlayerParameter.h" />
     <ClInclude Include="Game\Battle\BlockDamageCalculator.h" />
     <ClInclude Include="Game\Camera\FollowCamera.h" />
+    <ClInclude Include="Game\Effect\EffectObjectGroup.h" />
+    <ClInclude Include="Game\Effect\IEffectObject.h" />
+    <ClInclude Include="Game\Effect\ParticleEffectObject.h" />
+    <ClInclude Include="Game\Effect\PrefabEffectObject.h" />
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
@@ -755,9 +759,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\InOutPriorityNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Priority\PropertyNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\ShaderGraphResultNode.cpp" />
-    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\GradientNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleGradientNode.cpp" />
+    <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\SampleTexture2dNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\Texture\TextureNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\Node\UV\UVTransformNode.cpp" />
     <ClCompile Include="Engine\System\ShaderGraph\ShaderGraph.cpp" />
@@ -815,6 +819,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Player\Player.cpp" />
     <ClCompile Include="Game\Battle\BlockDamageCalculator.cpp" />
     <ClCompile Include="Game\Camera\FollowCamera.cpp" />
+    <ClCompile Include="Game\Effect\EffectObjectGroup.cpp" />
+    <ClCompile Include="Game\Effect\ParticleEffectObject.cpp" />
+    <ClCompile Include="Game\Effect\PrefabEffectObject.cpp" />
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />

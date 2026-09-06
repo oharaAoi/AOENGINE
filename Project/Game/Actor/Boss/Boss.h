@@ -110,6 +110,11 @@ public: // accessor
 	/// </summary>
 	bool IsInCameraView(const Math::Vector3& worldPosition) const;
 
+	/// <summary>
+	/// 指定したワールド座標が画面の下端より下へ抜けたか。
+	/// </summary>
+	bool IsBelowCameraBottom(const Math::Vector3& worldPosition) const;
+
 	/// <summary>攻撃側から、同じアニメーションを頭から流し直す</summary>
 	void ReplayAnimation() { animation_.Replay(); }
 
