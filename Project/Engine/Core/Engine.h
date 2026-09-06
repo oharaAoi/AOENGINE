@@ -3,6 +3,7 @@
 #include "Engine/Core/GraphicsContext.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Audio/Audio.h"
+#include "Engine/System/Audio/SoundManager.h"
 #include "Engine/Module/Components/GameObject/Model.h"
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/WorldTransform.h"
@@ -161,6 +162,7 @@ public:
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
 	static AOENGINE::Audio* GetAudio();
+	static AOENGINE::SoundManager* GetSoundManager();
 
 	static AOENGINE::Canvas2d* GetCanvas2d();
 

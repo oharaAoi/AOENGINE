@@ -10,6 +10,7 @@
 #include "Engine/Lib/Math/Frustum.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Effect/ParticleSceneObject.h"
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/Material.h"
@@ -406,6 +407,11 @@ bool SceneRenderer::SetParent(const ObjectHandle& child, const ObjectHandle& par
 		} else {
 			childSprite->GetTransform()->ClearParent();
 		}
+	} else if (ParticleSceneObject* particle = dynamic_cast<ParticleSceneObject*>(childObject)) {
+		WorldTransform* parentTransform = nullptr;
+		if (auto* parentGameObject = dynamic_cast<BaseGameObject*>(parentObject)) { parentTransform = parentGameObject->GetTransform(); }
+		else if (auto* parentParticle = dynamic_cast<ParticleSceneObject*>(parentObject)) { parentTransform = parentParticle->GetTransform(); }
+		particle->SetParentTransform(parentTransform);
 	}
 	return true;
 }
@@ -424,6 +430,8 @@ bool SceneRenderer::MoveToRoot(const ObjectHandle& handle) {
 		object->GetTransform()->ClearParent();
 	} else if (Sprite* sprite = dynamic_cast<Sprite*>(sceneWorld_.FindObject(handle))) {
 		sprite->GetTransform()->ClearParent();
+	} else if (ParticleSceneObject* particle = dynamic_cast<ParticleSceneObject*>(sceneWorld_.FindObject(handle))) {
+		particle->SetParentTransform(nullptr);
 	}
 	return true;
 }

@@ -395,7 +395,7 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize);
 
 			// 音声ファイルのicon表示
-		} else if (item.filename().extension() == ".wav" || item.filename().extension() == ".mp3") {
+		} else if (lowerFileName.ends_with(".wav") || lowerFileName.ends_with(".wave") || lowerFileName.ends_with(".mp3")) {
 			std::string name = item.filename().string();
 			DrawItemTexture(AssetType::Sound, "music.png", name, thumbnailSize);
 
@@ -503,6 +503,9 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 		DrawPrefabContextMenu(*prefabPath);
 		PrefabDropSource(*prefabPath);
 	}
+	if (assetType != AssetType::Other) {
+		DropSource(assetType, fileName);
+	}
 
 	if (ImGui::IsItemHovered()) {
 		ImGui::SetNextWindowPos(ImGui::GetMousePos(), ImGuiCond_Always);
@@ -511,9 +514,6 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 		ImGui::EndTooltip();
 	}
 
-	if (assetType != AssetType::Other) {
-		DropSource(assetType, fileName);
-	}
 	ImGui::PopStyleColor(1);
 
 	// UnityのProjectビューのように、アイコン下へ小さめの文字で中央揃えして折り返す
@@ -552,7 +552,11 @@ void AOENGINE::AssetsWindow::DropSource(AssetType assetType, const std::string& 
 			}
 
 		} else if (assetType == AssetType::Sound) {
-
+			const auto utf8 = std::filesystem::absolute(currentPath_ / name).lexically_normal().generic_u8string();
+			const std::string path(utf8.begin(), utf8.end());
+			ImGui::SetDragDropPayload("SOUND_ASSET_PATH", path.c_str(), path.size() + 1);
+			ImGui::Text("Sound: %s", name.c_str());
+			ImGui::TextUnformatted("Drop onto Sound Table > File");
 		} else if (assetType == AssetType::Material) {
 
 		}

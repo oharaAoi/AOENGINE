@@ -39,11 +39,11 @@ struct FormatChunk {
 // 音声データ
 struct SoundData {
 	// 波形フォーマット
-	WAVEFORMATEX wfex;
+	WAVEFORMATEX wfex{};
 	// バッファ先頭アドレス
 	std::vector<BYTE> pBuffer;
 	// バッファサイズ
-	unsigned int bufferSize;
+	unsigned int bufferSize = 0;
 };
 
 /// <summary>
@@ -51,7 +51,7 @@ struct SoundData {
 /// </summary>
 struct AudioData {
 	SoundData data;
-	IXAudio2SourceVoice* pSourceVoice;
+	IXAudio2SourceVoice* pSourceVoice = nullptr;
 };
 
 /// <summary>
@@ -105,6 +105,8 @@ public:
 	SoundData LoadMP3(const wchar_t* filename);
 
 	AudioData LoadAudio(const SoundData& loadAudioData);
+	// Caller must DestroyVoice before releasing the PCM data.
+	IXAudio2SourceVoice* CreateSourceVoice(const SoundData& data);
 
 	/// <summary>
 	/// 音声データの解放
@@ -121,7 +123,7 @@ public:
 
 	void PlayAudio(const AudioData& audioData, bool isLoop, float volume, bool checkPlaying = false);
 
-	void SingleShotPlay(const SoundData& loadAudioData, float volume);
+	void SingleShotPlay(const SoundData& loadAudioData, float volume, bool loop = false);
 
 	/// <summary>
 	/// サウンドの停止
@@ -170,7 +172,7 @@ public:
 private:
 
 	ComPtr<IXAudio2> xAudio2_;
-	IXAudio2MasteringVoice* masterVoice_;
+	IXAudio2MasteringVoice* masterVoice_ = nullptr;
 
 	std::list<PlayingSound> playingSourceList_;
 

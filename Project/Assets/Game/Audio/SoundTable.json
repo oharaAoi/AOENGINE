@@ -1,0 +1,13 @@
+{
+  "sounds": [
+    {
+      "category": "SE",
+      "file": "Assets/Engine/Load/Sounds/fanfare.wav",
+      "loop": false,
+      "maxInstances": 4,
+      "name": "Sound",
+      "volume": 0.14000000059604645
+    }
+  ],
+  "version": 1
+}

@@ -5,9 +5,9 @@
 #include <functional>
 
 /// 1セグメントあたりの列数
-constexpr int kBlockCol = 11;
+constexpr int kBlockCol = 22;
 /// 1セグメントあたりの行数
-constexpr int kBlockRow = 11;
+constexpr int kBlockRow = 20;
 
 /// <summary>
 /// ステージ上のブロックが持つグローバルなグリッド座標。

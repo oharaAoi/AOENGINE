@@ -12,6 +12,7 @@
 #include "Game/Actor/Floor/DamageFloor.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Block.h"
+#include <System/Audio/SoundManager.h>
 
 GameScene::GameScene() {}
 
@@ -65,6 +66,8 @@ void GameScene::Init()
 	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get());
 	// RetryUI
 	retryUI_ = std::make_unique<RetryUI>();
+	playerUI_ = std::make_unique<PlayerUI>();
+	bossUI_ = std::make_unique<BossUI>();
 }
 
 void GameScene::OnPlayStart()
@@ -95,7 +98,10 @@ void GameScene::OnPlayStart()
 
 	// UIの初期化
 	retryUI_->Init();
-	
+	playerUI_->Init();
+	bossUI_->Init();
+
+	auto sound = Engine::GetSoundManager()->Play("Sound");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,6 +176,7 @@ void GameScene::UpdateActors(float deltaTime)
 	if (backgrounds_)
 	{
 		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
+		stageBlockField_.ApplyDebugGroupColors();
 	}
 
 	// ボスの更新
@@ -186,6 +193,17 @@ void GameScene::UpdateActors(float deltaTime)
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		damageFloor_->Update(viewProjection);
+	}
+
+	// UIの更新
+	if (playerUI_ && player_)
+	{
+		playerUI_->Update(player_.get());
+	}
+
+	if (bossUI_ && boss_)
+	{
+		bossUI_->Update(boss_.get());
 	}
 }
 

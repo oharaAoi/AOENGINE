@@ -24,9 +24,9 @@ SceneManager::SceneManager() {}
 SceneManager::~SceneManager() {}
 
 void SceneManager::Finalize() {
-	scene_.reset();
 	// 全シーンで共有するRendererは、SceneManager自体の終了時に一度だけ終了する。
 	AOENGINE::SceneRenderer::GetInstance()->Finalize();
+	scene_.reset();
 	systemManager_->Finalize();
 	AOENGINE::SceneManagerPropertySerializer::Save(static_cast<int>(nowScene_));
 }
@@ -174,6 +174,9 @@ void SceneManager::SetChange(const SceneType& type) {
 	if (scene_ != nullptr) {
 		scene_->Finalize();
 	}
+
+	ResetManager();
+
 	nextScene_ = sceneFactory_->CreateScene(type);
 	scene_ = std::move(nextScene_);
 	auto name = magic_enum::enum_name(type);
@@ -183,7 +186,7 @@ void SceneManager::SetChange(const SceneType& type) {
 	AOENGINE::EditorWindows::GetInstance()->SceneReset();
 #endif // _DEVELOPMENT
 
-	ResetManager();
+	
 
 	systemManager_->Init();
 	scene_->Initialize();

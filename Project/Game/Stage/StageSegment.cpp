@@ -9,8 +9,14 @@ void StageSegment::LoadBlockData(const std::string& filePath){
 	rapidcsv::Document doc(filePath,rapidcsv::LabelParams(-1,-1));
 
 	for(int i = 0; i < kBlockRow; ++i){
-		for(int j = 0; j < kBlockCol; ++j){
-			blockData_[i][j] = doc.GetCell<int>(j,i);
+		blockData_[i][0] = kWallCell;
+		blockData_[i][kBlockCol - 1] = kWallCell;
+	}
+
+	// 左右端の列は壁ブロックなので読み飛ばす
+	for(int i = 0; i < kBlockRow; ++i){
+		for(int j = 0; j < kBlockCol - 2; ++j){
+			blockData_[i][j + 1] = doc.GetCell<int>(j,i);
 		}
 	}
 }

@@ -112,15 +112,43 @@
                     0.800000011920929
                 ],
                 "translate": [
-                    -2.305471897125244,
                     0.0,
-                    -2.0026607513427734
+                    0.0,
+                    0.0
                 ]
             },
             "id": 1,
             "name": "Fireball",
             "parentId": null,
             "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "asset": "fireBallParticle",
+                "assetType": "Cpu",
+                "autoPlay": true,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 2,
+            "name": "particle",
+            "parentId": 1,
+            "type": "ParticleSceneObject"
         }
     ],
     "prefabName": "Fireball",

@@ -238,6 +238,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
+    <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h" />
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
@@ -338,7 +339,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Asset\AssetHandle.h" />
     <ClInclude Include="Engine\System\Audio\Audio.h" />
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h" />
+    <ClInclude Include="Engine\System\Audio\SoundCatalog.h" />
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h" />
+    <ClInclude Include="Engine\System\Audio\SoundManager.h" />
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ColliderInspector.h" />
@@ -364,6 +367,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\CustomParameterWindow.h" />
     <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h" />
+    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h" />
     <ClInclude Include="Engine\System\Input\Input.h" />
     <ClInclude Include="Engine\System\Manager\AnimationManager.h" />
     <ClInclude Include="Engine\System\Manager\AssetsManager.h" />
@@ -505,6 +509,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
     <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h" />
+    <ClInclude Include="Game\Stage\BlockAutoTile.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncherManager.h" />
     <ClInclude Include="Game\Stage\GridPos.h" />
@@ -522,7 +527,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Tutorial\TutorialStepController.h" />
     <ClInclude Include="Game\Tutorial\TutorialTextTable.h" />
     <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
+    <ClInclude Include="Game\UI\BossUI.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
+    <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
     <ClInclude Include="Game\UI\TutorialTextBoxUI.h" />
@@ -598,6 +605,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
+    <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />
@@ -695,7 +703,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Asset\AssetHandle.cpp" />
     <ClCompile Include="Engine\System\Audio\Audio.cpp" />
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundCatalog.cpp" />
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp" />
+    <ClCompile Include="Engine\System\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ColliderInspector.cpp" />
@@ -721,6 +731,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Window\Item\ColliderCategorySettingWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\CustomParameterWindow.cpp" />
     <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp" />
+    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp" />
     <ClCompile Include="Engine\System\Input\Input.cpp" />
     <ClCompile Include="Engine\System\Manager\AnimationManager.cpp" />
     <ClCompile Include="Engine\System\Manager\AssetsManager.cpp" />
@@ -847,6 +858,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
     <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp" />
+    <ClCompile Include="Game\Stage\BlockAutoTile.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncherManager.cpp" />
     <ClCompile Include="Game\Stage\StageBackgrounds.cpp" />
@@ -856,7 +868,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Tutorial\Step\TutorialSteps.cpp" />
     <ClCompile Include="Game\Tutorial\TutorialStepController.cpp" />
     <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
+    <ClCompile Include="Game\UI\BossUI.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
+    <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />
     <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp" />

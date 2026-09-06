@@ -552,6 +552,9 @@
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h">
       <Filter>Engine\Module\Components\EventHandlers</Filter>
     </ClInclude>
@@ -852,7 +855,13 @@
     <ClInclude Include="Engine\System\Audio\AudioPlayer.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Audio\SoundCatalog.h">
+      <Filter>Engine\System\Audio</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Audio\SoundDatabase.h">
+      <Filter>Engine\System\Audio</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Audio\SoundManager.h">
       <Filter>Engine\System\Audio</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h">
@@ -928,6 +937,9 @@
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Window\Item\IWindowItem.h">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Window\Item\SoundTableWindow.h">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Input\Input.h">
@@ -1353,6 +1365,9 @@
     <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h">
       <Filter>Game\Scene\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Stage\BlockAutoTile.h">
+      <Filter>Game\Stage</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h">
       <Filter>Game\Stage</Filter>
     </ClInclude>
@@ -1404,7 +1419,13 @@
     <ClInclude Include="Game\Tutorial\TutorialUIParameter.h">
       <Filter>Game\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\BossUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\PlayerUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\RetryUI.h">
@@ -1626,6 +1647,9 @@
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp">
@@ -1919,7 +1943,13 @@
     <ClCompile Include="Engine\System\Audio\AudioPlayer.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Audio\SoundCatalog.cpp">
+      <Filter>Engine\System\Audio</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Audio\SoundDatabase.cpp">
+      <Filter>Engine\System\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Audio\SoundManager.cpp">
       <Filter>Engine\System\Audio</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp">
@@ -1995,6 +2025,9 @@
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Window\Item\IWindowItem.cpp">
+      <Filter>Engine\System\Editor\Window\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Window\Item\SoundTableWindow.cpp">
       <Filter>Engine\System\Editor\Window\Item</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Input\Input.cpp">
@@ -2375,6 +2408,9 @@
     <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp">
       <Filter>Game\Scene\Tutorial</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Stage\BlockAutoTile.cpp">
+      <Filter>Game\Stage</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp">
       <Filter>Game\Stage</Filter>
     </ClCompile>
@@ -2402,7 +2438,13 @@
     <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp">
       <Filter>Game\Tutorial</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\BossUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\PlayerUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\RetryUI.cpp">

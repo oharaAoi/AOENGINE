@@ -8,6 +8,7 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Editor/Window/Item/ColliderCategorySettingWindow.h"
 #include "Engine/System/Editor/Window/Item/CustomParameterWindow.h"
+#include "Engine/System/Editor/Window/Item/SoundTableWindow.h"
 #include "Engine/System/Editor/Inspector/InspectorRegistration.h"
 #include "Engine/System/Scene/SceneSerializer.h"
 #include "Engine/Core/Engine.h"
@@ -64,6 +65,8 @@ void EditorWindows::Init(ID3D12Device* device, ID3D12GraphicsCommandList* comman
 
 	windowItems_.push_back(std::make_unique<ColliderCategorySettingWindow>());
 	windowItems_.push_back(std::make_unique<CustomParameterWindow>());
+	windowItems_.push_back(std::make_unique<SoundTableWindow>());
+	Engine::GetSoundManager()->SetGameEnabled(false);
 	for (auto& item : windowItems_) {
 		item->Init();
 	}
@@ -183,6 +186,7 @@ void EditorWindows::Begin() {
 		if (item->GetIsActive()) {
 			item->Edit();
 		}
+		if (auto* sound = dynamic_cast<SoundTableWindow*>(item.get())) { sound->UpdateVisibility(); }
 	}
 }
 
@@ -354,6 +358,7 @@ void EditorWindows::EnterPlayMode() {
 	}
 	playState_ = EditorPlayState::Playing;
 	stepRequested_ = false;
+	Engine::GetSoundManager()->SetGameEnabled(true);
 	GameTimer::SetTimeScale(1.0f);
 	if (pSceneManager_) {
 		pSceneManager_->OnPlayStart();
@@ -362,6 +367,7 @@ void EditorWindows::EnterPlayMode() {
 
 void EditorWindows::ExitPlayMode() {
 	if (playState_ == EditorPlayState::Edit) { return; }
+	Engine::GetSoundManager()->SetGameEnabled(false);
 	GameTimer::SetTimeScale(0.0f);
 	stepRequested_ = false;
 	if (pSceneManager_ && playStartSceneType_ &&
@@ -401,6 +407,7 @@ void EditorWindows::TogglePause() {
 		GameTimer::SetTimeScale(1.0f);
 	}
 	stepRequested_ = false;
+	Engine::GetSoundManager()->SetGamePaused(playState_ == EditorPlayState::Paused);
 }
 
 void EditorWindows::RequestStep() {

@@ -1,0 +1,228 @@
+{
+    "format": "AOENGINE_PREFAB",
+    "objects": [
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    422.0,
+                    500.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 3,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.3333333432674408,
+                    0.35678890347480774,
+                    1.0
+                ],
+                "texture": "icon_player",
+                "textureSize": [
+                    422.0,
+                    500.0
+                ],
+                "translate": [
+                    1093.69873046875,
+                    379.39208984375,
+                    1.0
+                ]
+            },
+            "id": 1,
+            "name": "PlayerUI",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    251.0,
+                    1000.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778069496155,
+                    1.0
+                ],
+                "texture": "playerHP_gauge",
+                "textureSize": [
+                    251.0,
+                    1000.0
+                ],
+                "translate": [
+                    -13.150716781616211,
+                    -56.8007926940918,
+                    1.0
+                ]
+            },
+            "id": 2,
+            "name": "PlayerHP",
+            "parentId": 1,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778069496155,
+                    1.0
+                ],
+                "texture": "HP_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 3,
+            "name": "PlayerFrame",
+            "parentId": 1,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    422.0,
+                    500.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.40000003576278687,
+                    0.42814669013023376,
+                    1.0
+                ],
+                "texture": "icon_player",
+                "textureSize": [
+                    422.0,
+                    500.0
+                ],
+                "translate": [
+                    2.543131586207892e-06,
+                    -517.3439331054688,
+                    1.0
+                ]
+            },
+            "id": 4,
+            "name": "PlayerIcon",
+            "parentId": 1,
+            "type": "Sprite"
+        }
+    ],
+    "prefabName": "PlayerUI",
+    "rootId": 1,
+    "version": 1
+}

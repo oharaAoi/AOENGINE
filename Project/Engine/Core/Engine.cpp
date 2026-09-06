@@ -8,6 +8,7 @@
 #include "Engine/System/Editor/Window/EditorWindows.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ShaderGraphManager.h"
+#include "Engine/System/Audio/SoundDatabase.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/Module/ComputeShader/BlendTexture.h"
@@ -55,6 +56,7 @@ namespace {
 	std::unique_ptr<BlendTexture> blendTexture_ = nullptr;
 	// audio
 	std::unique_ptr<Audio> audio_ = nullptr;
+	std::unique_ptr<SoundManager> soundManager_;
 	
 	std::unique_ptr<PostProcess> postProcess_;
 
@@ -169,6 +171,8 @@ void Engine::InitSystem() {
 	input_->Init(winApp_->GetWNDCLASS(), winApp_->GetHwnd());
 	render_->Init(dxCmdList_, dxDevice_, graphicsCxt_->GetRenderTarget());
 	audio_->Init();
+	soundManager_ = std::make_unique<SoundManager>(*audio_);
+	soundManager_->Init();
 	canvas2d_->Init();
 	postProcess_->Init(dxDevice_, dxHeap_, renderTarget_, graphicsCxt_->GetDxResourceManager());
 }
@@ -221,6 +225,8 @@ void Engine::InitEditor() {
 
 void Engine::Finalize() {
 	AssetsManager::GetInstance()->Finalize();
+	soundManager_->Finalize();
+	SoundDatabase::GetInstance()->Init();
 	canvas2d_.reset();
 	blendTexture_.reset();
 	postProcess_->Finalize();
@@ -354,6 +360,7 @@ void Engine::EndFrame() {
 	// buffferのサイズを作り変える
 	PendingResize();
 	audio_->Update();
+	soundManager_->Update();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -666,6 +673,10 @@ AOENGINE::Canvas2d* Engine::GetCanvas2d() {
 
 Audio* Engine::GetAudio() {
 	return audio_.get();
+}
+
+SoundManager* Engine::GetSoundManager() {
+	return soundManager_.get();
 }
 
 PostProcess* Engine::GetPostProcess() {

@@ -7,6 +7,7 @@
 #include "Engine/System/Editor/Inspector/Entity/SpriteInspector.h"
 #include "Engine/System/Editor/Inspector/Entity/TextInspector.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Effect/ParticleSceneObject.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 #include "Engine/System/Manager/PrefabManager.h"
@@ -210,6 +211,19 @@ void AOENGINE::GameObjectWindow::CreateNewObjectWindow() {
 			if (ImGui::MenuItem("Text")) {
 				canvas2d_->AddText("new text", "New Text");
 			}
+
+			if (ImGui::MenuItem("CPU Particle")) {
+				if (sceneRenderer_) {
+					auto* object = sceneRenderer_->AddObject<ParticleSceneObject>(MakeUniqueName("particle"), "Object_Normal.json");
+					if (object) { object->SetAutoPlay(false); selectedObjectHandle_ = object->GetHandle(); }
+				}
+			}
+			if (ImGui::MenuItem("Particle Effect")) {
+				if (sceneRenderer_) {
+					auto* object = sceneRenderer_->AddObject<ParticleSceneObject>(MakeUniqueName("particle effect"), "Object_Normal.json");
+					if (object) { object->SetAsset(ParticleSceneAssetType::Effect, ""); object->SetAutoPlay(false); selectedObjectHandle_ = object->GetHandle(); }
+				}
+			}
 			ImGui::EndMenu();
 		}
 		ImGui::EndMenuBar();
@@ -231,6 +245,7 @@ void GameObjectWindow::InspectorWindow() {
 		ParticleManager* particleManager = dynamic_cast<ParticleManager*>(selectedObject);
 		GpuParticleManager* gpuParticleManager = dynamic_cast<GpuParticleManager*>(selectedObject);
 		GpuParticleField* gpuParticleField = dynamic_cast<GpuParticleField*>(selectedObject);
+		ParticleSceneObject* particleSceneObject = dynamic_cast<ParticleSceneObject*>(selectedObject);
 		PostProcessSceneObject* postProcessObject = dynamic_cast<PostProcessSceneObject*>(selectedObject);
 		PostEffectSceneObject* postEffectObject = dynamic_cast<PostEffectSceneObject*>(selectedObject);
 		std::shared_ptr<PostEffect::IPostEffect> selectedEffect = postEffectObject ? postEffectObject->ResolveEffect() : nullptr;
@@ -266,6 +281,30 @@ void GameObjectWindow::InspectorWindow() {
 			gpuParticleManager->Debug_Gui();
 		} else if (gpuParticleField) {
 			gpuParticleField->Debug_Gui();
+		} else if (particleSceneObject) {
+			bool effect = particleSceneObject->GetAssetType() == ParticleSceneAssetType::Effect;
+			if (ImGui::RadioButton("CPU", !effect)) { particleSceneObject->SetAsset(ParticleSceneAssetType::Cpu, particleSceneObject->GetAsset()); }
+			ImGui::SameLine();
+			if (ImGui::RadioButton("Effect", effect)) { particleSceneObject->SetAsset(ParticleSceneAssetType::Effect, particleSceneObject->GetAsset()); }
+			ImGui::Button("Particle JSONをここへドロップ", ImVec2(-1.0f, 0.0f));
+			if (ImGui::BeginDragDropTarget()) {
+				if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("PARTICLE_ASSET_PATH")) {
+					if (payload->Data && payload->DataSize > 1) {
+						const char* path = static_cast<const char*>(payload->Data);
+						particleSceneObject->SetAssetFromPath(std::string(path));
+					}
+				}
+				ImGui::EndDragDropTarget();
+			}
+			std::string asset = particleSceneObject->GetAsset();
+			if (InputTextWithString("Asset :", "##particleAsset", asset)) {
+				particleSceneObject->SetAsset(particleSceneObject->GetAssetType(), asset);
+			}
+			bool autoPlay = particleSceneObject->GetAutoPlay();
+			if (ImGui::Checkbox("Auto Play", &autoPlay)) { particleSceneObject->SetAutoPlay(autoPlay); }
+			if (ImGui::Button("Play")) { particleSceneObject->Play(); }
+			ImGui::SameLine();
+			if (ImGui::Button("Stop")) { particleSceneObject->Stop(); }
 		} else if (!InspectorRegistry::GetInstance().DrawObject(*selectedObject)) {
 			ImGui::TextUnformatted("No inspector registered");
 		}
@@ -546,7 +585,7 @@ void AOENGINE::GameObjectWindow::DrawHierarchyContextMenu(SceneObject& object) {
 		return;
 	}
 
-	const bool canEdit = dynamic_cast<BaseGameObject*>(&object) != nullptr || dynamic_cast<Sprite*>(&object) != nullptr;
+	const bool canEdit = dynamic_cast<BaseGameObject*>(&object) != nullptr || dynamic_cast<Sprite*>(&object) != nullptr || dynamic_cast<ParticleSceneObject*>(&object) != nullptr;
 	if (ImGui::MenuItem("Duplicate", nullptr, false, canEdit)) {
 		pendingDuplicateHandle_ = object.GetHandle();
 	}

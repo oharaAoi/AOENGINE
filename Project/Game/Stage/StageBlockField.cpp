@@ -4,12 +4,17 @@
 #include "Game/WorldObject/Block.h"
 #include "Game/WorldObject/Wall.h"
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
+#include "Game/Stage/BlockAutoTile.h"
 
 /// engine
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Materials/BaseMaterial.h"
+#include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Lib/Color.h"
+#include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Lib/Math/MyMath.h"
 
 /// stl
 #include <algorithm>
@@ -19,11 +24,6 @@ using namespace AOENGINE;
 
 namespace
 {
-	/// CSV上でBlockを表す値
-	constexpr int kBlockCell = 1;
-	/// CSV上でWallを表す値
-	constexpr int kWallCell = 2;
-
 	/// <summary>Prefabから BaseGameObject を生成する。生成できなければ nullptr</summary>
 	AOENGINE::BaseGameObject* InstantiateStageObject(const std::string& prefabName){
 		AOENGINE::SceneObject* root =
@@ -31,14 +31,44 @@ namespace
 
 		return dynamic_cast<AOENGINE::BaseGameObject*>(root);
 	}
+
+	/// <summary>
+	/// Wallをオートタイルの隣接判定で「埋まっている」扱いにするかどうか。
+	/// falseにすると、Wallに隣接しているだけのBlockは露出扱い(繋がっていない扱い)になる。
+	/// ここを1箇所変えるだけで挙動を切り替えられるようにしてある。
+	/// </summary>
+	constexpr bool kTreatWallAsConnected = true;
+
+	/// <summary>
+	/// オートタイルのZ軸回転の符号。
+	/// エンジンの回転の向き(左手系/右手系)によっては見た目が反転することがあるため、
+	/// ここを-1.0fにするだけで全パターンの回転向きを反転できるようにしてある。
+	/// </summary>
+	constexpr float kTileRotateSign = 1.0f;
+
+	/// <summary>オートタイル用モデル(2×2×2サイズ)を1マスに合わせるための縮小率</summary>
+	constexpr float kTileModelScale = 0.5f;
+
+	/// <summary>
+	/// オートタイル用モデルを縮小しても当たり判定が1マス(1×1×1)のままになるようにするコライダーサイズ。
+	/// BoxCollider::Update() が transform の scale をAABBに掛けるため、縮小率の逆数を持たせて打ち消す。
+	/// </summary>
+	constexpr float kTileColliderSize = 1.0f / kTileModelScale;
+
+	/// <summary>
+	/// Block prefab の既定色。
+	/// SetObject() でマテリアルが作り直された際、退避しておいた色が取得できない場合の
+	/// フォールバックとして使う。
+	/// </summary>
+	const AOENGINE::Color kDefaultBlockColor(1.0f,0.55f,0.15f,1.0f);
 }
 
 /// <summary>4近傍（上下左右）のオフセット</summary>
 const GridPos StageBlockField::kNeighborOffsets[4] = {
-	{ 1,0 },
-	{ -1,0 },
-	{ 0,1 },
-	{ 0,-1 },
+	{1,0},
+	{-1,0},
+	{0,1},
+	{0,-1},
 };
 
 StageBlockField::StageBlockField() = default;
@@ -63,7 +93,7 @@ void StageBlockField::AddBlock(Block* block,const GridPos& pos){
 	// 2. 4近傍を調べ、存在するブロックのグループIDを重複なく集める
 	std::vector<int> neighborGroupIds;
 	for(const GridPos& offset : kNeighborOffsets){
-		GridPos neighborPos{ pos.x + offset.x,pos.y + offset.y };
+		GridPos neighborPos{pos.x + offset.x,pos.y + offset.y};
 
 		auto it = cells_.find(neighborPos);
 		if(it == cells_.end() || it->second == nullptr){
@@ -173,7 +203,7 @@ void StageBlockField::RemoveBlockFromGroup(Block* block){
 			last->SetGroupIndex(index);
 		}
 		members.pop_back();
-	} else {
+	} else{
 		// 異常系フォールバック: groupIndex_ が実際の位置とズレている場合、
 		// 線形探索してでも確実に取り除く（残すとダングリングポインタの原因になる）
 		auto found = std::find(members.begin(),members.end(),block);
@@ -202,6 +232,17 @@ void StageBlockField::RemoveGroup(int groupId){
 		return;
 	}
 
+	// 削除中に更新すると古い状態を見てしまうため、先に消えるマスの座標を集めておき、
+	// 実際の削除が終わった後でその4近傍のオートタイルを更新する。
+	std::vector<GridPos> removedPositions;
+	removedPositions.reserve(it->second.size());
+	for(Block* member : it->second){
+		if(member == nullptr){
+			continue;
+		}
+		removedPositions.push_back(member->GetGridPos());
+	}
+
 	// グループ内の全ブロックを cells_ から取り除く（GameObject の破棄は呼び出し側の責務）
 	for(Block* member : it->second){
 		if(member == nullptr){
@@ -213,6 +254,11 @@ void StageBlockField::RemoveGroup(int groupId){
 	}
 
 	groups_.erase(it);
+
+	// 消えたマスの4近傍に残っているブロックの見た目を更新する
+	for(const GridPos& pos : removedPositions){
+		RefreshTileModelAround(pos);
+	}
 }
 
 void StageBlockField::RemoveBlockFromField(Block* block){
@@ -220,9 +266,16 @@ void StageBlockField::RemoveBlockFromField(Block* block){
 		return;
 	}
 
+	// 削除前に、消えるマスの座標を控えておく（削除後は GetGridPos が古い値のままでも困らないが、
+	// 他の削除処理と書き方を揃えるためここで確定させる）
+	const GridPos removedPos = block->GetGridPos();
+
 	// 分割(split)検査は行わない（呼び出し元が実害の無い状況で使うことを想定）
 	RemoveBlockFromGroup(block);
 	EraseCellIfOwnedBy(block);
+
+	// 消えたマスの4近傍に残っているブロックの見た目を更新する
+	RefreshTileModelAround(removedPos);
 }
 
 void StageBlockField::EraseCellIfOwnedBy(Block* block){
@@ -249,6 +302,33 @@ Block* StageBlockField::GetBlockAt(const GridPos& pos) const{
 		return nullptr;
 	}
 	return it->second;
+}
+
+bool StageBlockField::HasSpaceAbove(const GridPos& pos,int cellCount) const{
+	// 真上から順に、求められたマス数だけ空いているかを見る
+	for(int i = 1; i <= cellCount; ++i){
+		const GridPos upper{pos.x,pos.y + i};
+
+		// Wallは連結の対象外だが、そこにプレイヤーは入れないので埋まっている扱いにする
+		if(cells_.find(upper) != cells_.end()){
+			return false;
+		}
+		if(wallCells_.find(upper) != wallCells_.end()){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void StageBlockField::SetBlockCollisionCallBacks(PlayerBlockCollisionCallBacks* callBacks){
+	pBlockCallBacks_ = callBacks;
+
+	// 着地判定は「ブロックの真上にプレイヤーが入れる空きがあるか」をグリッドで確かめる。
+	// そのためにコールバック側へこのクラスを渡しておく
+	if(callBacks != nullptr){
+		callBacks->SetBlockField(this);
+	}
 }
 
 void StageBlockField::Clear(){
@@ -299,10 +379,10 @@ GridPos StageBlockField::WorldToGrid(const Math::Vector3& worldPos){
 	int gridX = static_cast<int>(std::floor(worldPos.x / kBlockSize + kOffsetX + 0.5f));
 	int gridY = static_cast<int>(std::floor(worldPos.y / kBlockSize));
 
-	return GridPos{ gridX, gridY };
+	return GridPos{gridX,gridY};
 }
 
-std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
+std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& worldMin,const Math::Vector3& worldMax) const{
 	std::vector<Block*> result;
 
 	const GridPos minPos = WorldToGrid(worldMin);
@@ -310,7 +390,7 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 
 	for(int x = minPos.x; x <= maxPos.x; ++x){
 		for(int y = minPos.y; y <= maxPos.y; ++y){
-			if(Block* block = GetBlockAt(GridPos{ x, y })){
+			if(Block* block = GetBlockAt(GridPos{x,y})){
 				result.push_back(block);
 			}
 		}
@@ -319,7 +399,7 @@ std::vector<Block*> StageBlockField::GetBlocksInWorldAABB(const Math::Vector3& w
 	return result;
 }
 
-std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const{
+std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& worldMin,const Math::Vector3& worldMax) const{
 	std::vector<Wall*> result;
 
 	const GridPos minPos = WorldToGrid(worldMin);
@@ -327,7 +407,7 @@ std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& wor
 
 	for(int x = minPos.x; x <= maxPos.x; ++x){
 		for(int y = minPos.y; y <= maxPos.y; ++y){
-			auto it = wallCells_.find(GridPos{ x, y });
+			auto it = wallCells_.find(GridPos{x,y});
 			if(it != wallCells_.end() && it->second != nullptr){
 				result.push_back(it->second);
 			}
@@ -349,7 +429,7 @@ std::vector<Block*> StageBlockField::GetLandableBlocks() const{
 		}
 
 		// 真上に別のブロックが積まれていたら、そこには乗れないので候補から外す
-		const GridPos upper{ cell.first.x, cell.first.y + 1 };
+		const GridPos upper{cell.first.x,cell.first.y + 1};
 		if(cells_.find(upper) != cells_.end()){
 			continue;
 		}
@@ -420,6 +500,7 @@ void StageBlockField::SetGroupColor(int groupId,const AOENGINE::Color& color){
 	}
 }
 
+#ifndef NDEBUG
 void StageBlockField::ApplyDebugGroupColors(){
 	// デバッグ用: グループごとに異なる色を設定し、グルーピングが意図通りに
 	// 効いているかを目視で確認できるようにする。
@@ -427,6 +508,7 @@ void StageBlockField::ApplyDebugGroupColors(){
 		SetGroupColor(group.first,MakeDebugGroupColor(group.first));
 	}
 }
+#endif
 
 AOENGINE::Color StageBlockField::MakeDebugGroupColor(int groupId){
 	if(groupId == kInvalidGroupId){
@@ -469,6 +551,9 @@ void StageBlockField::BuildSegment(const StageSegment& data,int segmentIndex){
 
 	SegmentContent& content = segments_[segmentIndex];
 
+	// このセグメントで新規生成した座標を集めておき、生成完了後にまとめてオートタイルを更新する
+	std::vector<GridPos> builtPositions;
+
 	for(int i = 0; i < kBlockRow; ++i){
 		int y = ((kBlockRow - 1) - i) + segmentIndex * kBlockRow; // CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
 		for(int j = 0; j < kBlockCol; ++j){
@@ -487,7 +572,14 @@ void StageBlockField::BuildSegment(const StageSegment& data,int segmentIndex){
 			} else{
 				CreateBlock(content,pos);
 			}
+
+			builtPositions.push_back(pos);
 		}
+	}
+
+	// 新規生成したマスとその4近傍にある既存ブロック(1つ下の段の最上行など)の見た目を更新する
+	for(const GridPos& pos : builtPositions){
+		RefreshTileModelAround(pos);
 	}
 }
 
@@ -538,6 +630,25 @@ void StageBlockField::CreateWall(SegmentContent& content,const GridPos& pos){
 }
 
 void StageBlockField::DestroySegmentContent(SegmentContent& content){
+	// 削除中に更新すると古い状態を見てしまうため、先に消えるマス(Block/Wallの両方)の座標を
+	// 集めておき、実際の削除が終わった後でその4近傍のオートタイルを更新する。
+	std::vector<GridPos> removedPositions;
+	removedPositions.reserve(content.blocks.size() + content.walls.size());
+	for(const std::unique_ptr<Block>& block : content.blocks){
+		if(block != nullptr){
+			removedPositions.push_back(block->GetGridPos());
+		}
+	}
+	for(const std::unique_ptr<Wall>& wall : content.walls){
+		if(wall != nullptr){
+			removedPositions.push_back(wall->GetGridPos());
+		}
+	}
+
+	// これから消える予定のブロックに対して RefreshTileModelAround() 経由の無駄な
+	// モデル差し替え(SetObject)が走らないよう、破棄ループの間だけ個別更新を止める。
+	isBulkEditing_ = true;
+
 	// このセグメントが所有する Block を連結グループ表から外し、GameObject を破棄する。
 	// セグメント破棄は連結グループの一部だけを消すことになるが、
 	// 画面外（ストリーミングで既に見えなくなった範囲）でのみ行われるため、
@@ -567,6 +678,15 @@ void StageBlockField::DestroySegmentContent(SegmentContent& content){
 		wall->Destroy();
 	}
 	content.walls.clear();
+
+	// 破棄がすべて終わったので、ここから先はまとめての最終更新だけを行う。
+	// 戻し忘れると以降オートタイルの見た目更新が一切効かなくなるため注意。
+	isBulkEditing_ = false;
+
+	// 消えたマスの4近傍に残っているブロックの見た目を更新する
+	for(const GridPos& pos : removedPositions){
+		RefreshTileModelAround(pos);
+	}
 }
 
 void StageBlockField::DestroySegment(int segmentIndex){
@@ -635,5 +755,109 @@ void StageBlockField::DetachBlock(Block* block){
 		detachedBlocks_.push_back(std::move(*found));
 		blocks.erase(found);
 		return;
+	}
+}
+
+bool StageBlockField::IsCellOccupied(const GridPos& pos) const{
+	// Blockがあれば埋まっている
+	if(cells_.find(pos) != cells_.end()){
+		return true;
+	}
+
+	// kTreatWallAsConnected が true の間は Wall も埋まっている扱いにする
+	if(kTreatWallAsConnected && wallCells_.find(pos) != wallCells_.end()){
+		return true;
+	}
+
+	return false;
+}
+
+uint8_t StageBlockField::CalcNeighborMask(const GridPos& pos) const{
+	uint8_t mask = 0;
+
+	if(IsCellOccupied(GridPos{pos.x,pos.y + 1})){
+		mask |= kBlockNeighborUp;
+	}
+	if(IsCellOccupied(GridPos{pos.x,pos.y - 1})){
+		mask |= kBlockNeighborDown;
+	}
+	if(IsCellOccupied(GridPos{pos.x - 1,pos.y})){
+		mask |= kBlockNeighborLeft;
+	}
+	if(IsCellOccupied(GridPos{pos.x + 1,pos.y})){
+		mask |= kBlockNeighborRight;
+	}
+
+	return mask;
+}
+
+void StageBlockField::RefreshTileModel(Block* block){
+	if(block == nullptr || !block->IsValid()){
+		return;
+	}
+
+	if(isBulkEditing_){
+		return;
+	}
+
+	// 段から切り離された(集合・打ち上げ中の)ブロックは今回のオートタイルの対象外。
+	// 見た目はその時点のまま固定でよいため、cells_ に自分がいる場合のみ更新する。
+	auto cellIt = cells_.find(block->GetGridPos());
+	if(cellIt == cells_.end() || cellIt->second != block){
+		return;
+	}
+
+	uint8_t mask = CalcNeighborMask(block->GetGridPos());
+	if(static_cast<int>(mask) == block->GetTileMask()){
+		// 前回と同じ隣接パターンならモデル差し替えは丸ごとスキップする(SetObjectは重いため)
+		return;
+	}
+
+	const BlockTileAppearance& appearance = BlockAutoTile::GetAppearance(mask);
+
+	AOENGINE::BaseGameObject* gameObject = block->GetGameObject();
+	if(gameObject == nullptr){
+		return;
+	}
+
+	// SetObject() はマテリアルを作り直して色を消してしまうため、先に現在の色を退避しておく。
+	// マテリアルが取れない場合はBlock prefab既定色にフォールバックする。
+	AOENGINE::Color color = kDefaultBlockColor;
+	if(AOENGINE::BaseMaterial* material = gameObject->GetMaterial(0)){
+		color = material->GetColor();
+	}
+
+	gameObject->SetObject(appearance.modelName);
+	gameObject->SetColor(color);
+
+	// オートタイル用モデルは2×2×2サイズなので、1マスに合わせて縮小する
+	block->GetTransform()->SetScale(Math::Vector3(kTileModelScale,kTileModelScale,kTileModelScale));
+
+	// BoxCollider::Update() は transform の scale をAABBに掛けるため、
+	// 縮小した分だけコライダーを大きくして当たり判定を1マスに保つ
+	if(auto* boxCollider = dynamic_cast<AOENGINE::BoxCollider*>(block->GetCollider("Block"))){
+		boxCollider->SetSize(Math::Vector3(kTileColliderSize,kTileColliderSize,kTileColliderSize));
+	}
+
+	// Z軸回転で、モデル空間の露出方向を世界の露出方向へ合わせる。
+	// 回転の向きが逆に見える場合は kTileRotateSign を -1.0f にすれば直る。
+	block->GetTransform()->SetRotate(
+		Math::Quaternion::AngleAxis(appearance.rotateZDegree * kTileRotateSign * kToRadian,Math::Vector3(0.0f,0.0f,1.0f)));
+
+	block->SetTileMask(static_cast<int>(mask));
+}
+
+void StageBlockField::RefreshTileModelAround(const GridPos& pos){
+	// 自分自身
+	if(Block* self = GetBlockAt(pos)){
+		RefreshTileModel(self);
+	}
+
+	// 4近傍
+	for(const GridPos& offset : kNeighborOffsets){
+		GridPos neighborPos{pos.x + offset.x,pos.y + offset.y};
+		if(Block* neighbor = GetBlockAt(neighborPos)){
+			RefreshTileModel(neighbor);
+		}
 	}
 }

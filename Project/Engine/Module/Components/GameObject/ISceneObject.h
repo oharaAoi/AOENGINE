@@ -1,4 +1,7 @@
 #pragma once
+#ifndef IMGUI_DEFINE_MATH_OPERATORS
+#define IMGUI_DEFINE_MATH_OPERATORS
+#endif
 #include "Engine/Module/Components/GameObject/SceneObject.h"
 #include "Engine/Lib/Math/MathStructures.h"
 #include <imgui.h>

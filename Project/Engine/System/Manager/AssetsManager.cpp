@@ -193,7 +193,7 @@ void AssetsManager::LoadSounds(const std::string& rootPath) {
 			std::string ext = entry.path().extension().string();
 			ext = ToLower(ext);
 			
-			if (ext == ".wav" || ext == ".mp3") {
+			if (ext == ".wav" || ext == ".wave" || ext == ".mp3") {
 				std::string directory = entry.path().parent_path().string();
 				std::string fileName = entry.path().filename().string();
 				directory += "/";
@@ -480,7 +480,7 @@ bool AssetsManager::IsWatchTargetFile(const std::filesystem::path& filePath, Wat
 	case WatchTarget::Model:
 		return extension == ".obj" || extension == ".gltf";
 	case WatchTarget::Sound:
-		return extension == ".wav" || extension == ".mp3";
+		return extension == ".wav" || extension == ".wave" || extension == ".mp3";
 	case WatchTarget::GraphicsPipeline:
 	case WatchTarget::ComputePipeline:
 	case WatchTarget::JsonItem:
