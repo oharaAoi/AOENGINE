@@ -109,12 +109,13 @@ void BaseGameObject::UpdateMatrix() {
 
 	// colliderの更新
 	if (!colliders_.empty()) {
+		const Math::QuaternionSRT worldSrt{
+			.scale = transform_->GetScale(),
+			.rotate = transform_->GetWorldRotate(),
+			.translate = transform_->GetWorldPos()
+		};
 		for (uint32_t index = 0; index < colliders_.size(); ++index) {
-			colliders_[index]->Update(Math::QuaternionSRT{
-				.scale = transform_->GetScale(),
-				.rotate = transform_->GetWorldRotate(),
-				.translate = transform_->GetWorldPos() }
-			);
+			colliders_[index]->Update(worldSrt);
 		}
 	}
 
@@ -130,11 +131,13 @@ void BaseGameObject::UpdateVerticalPhysics() {
 	transform_->Translate(Math::Vector3(0.0f, pendingVerticalMove_, 0.0f));
 	pendingVerticalMove_ = 0.0f;
 	transform_->Update();
+	const Math::QuaternionSRT worldSrt{
+		.scale = transform_->GetScale(),
+		.rotate = transform_->GetWorldRotate(),
+		.translate = transform_->GetWorldPos()
+	};
 	for (BaseCollider* collider : colliders_) {
-		collider->Update(Math::QuaternionSRT{
-			.scale = transform_->GetScale(),
-			.rotate = transform_->GetWorldRotate(),
-			.translate = transform_->GetWorldPos() });
+		collider->Update(worldSrt);
 	}
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
@@ -149,6 +152,16 @@ void BaseGameObject::ApplyCollisionPushback() {
 	transform_->Translate(rigidbody_->GetPushbackForce());
 	rigidbody_->ClearPushbackForce();
 	transform_->Update();
+	const Math::QuaternionSRT worldSrt{
+		.scale = transform_->GetScale(),
+		.rotate = transform_->GetWorldRotate(),
+		.translate = transform_->GetWorldPos()
+	};
+	for (BaseCollider* collider : colliders_) {
+		if (collider && !collider->GetIsStatic()) {
+			collider->Update(worldSrt);
+		}
+	}
 	worldPos_ = transform_->GetWorldMatrix().GetPosition();
 }
 

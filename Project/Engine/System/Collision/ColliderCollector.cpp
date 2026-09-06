@@ -1,4 +1,5 @@
 #include "ColliderCollector.h"
+#include <algorithm>
 
 using namespace AOENGINE;
 
@@ -12,10 +13,10 @@ void ColliderCollector::Init() {
 }
 
 void ColliderCollector::Update() {
-    // colliderのポインタがnullになっていたらリストから削除する
-    colliderList_.remove_if([](BaseCollider* _collider) {
-        return _collider == nullptr;
-    });
+	// colliderのポインタがnullになっていたら一覧から削除する
+	colliderList_.erase(std::remove_if(colliderList_.begin(), colliderList_.end(), [](BaseCollider* _collider) {
+		return _collider == nullptr;
+	}), colliderList_.end());
 }
 
 void ColliderCollector::Draw() const {
@@ -29,11 +30,11 @@ void ColliderCollector::AddCollider(BaseCollider* _collider) {
 }
 
 void ColliderCollector::AddColliderList(BaseCollider* _collider) {
-    if (std::find(colliderList_.begin(), colliderList_.end(), _collider) == colliderList_.end()) {
-        colliderList_.push_back(_collider);
-    }
+	if (std::find(colliderList_.begin(), colliderList_.end(), _collider) == colliderList_.end()) {
+		colliderList_.push_back(_collider);
+	}
 }
 
 void ColliderCollector::RemoveCollider(BaseCollider* _collider) {
-    colliderList_.remove(_collider);
+	colliderList_.erase(std::remove(colliderList_.begin(), colliderList_.end(), _collider), colliderList_.end());
 }
