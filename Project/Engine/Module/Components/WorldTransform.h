@@ -74,24 +74,23 @@ public: // public method
 public: // accessor method
 
 	void SetParent(const Math::Matrix4x4& parentMat);
-	void ClearParent() { parentWorldMat_ = nullptr; transformDirty_ = true; }
+	void ClearParent() { parentWorldMat_ = nullptr; }
 	
 	void SetMatrix(const Math::Matrix4x4& mat);
-	void SetScale(const Math::Vector3& scale) { srt_.scale = scale; transformDirty_ = true; }
-	void SetTranslate(const Math::Vector3& translate) { srt_.translate = translate; transformDirty_ = true; }
-	void SetRotate(const Math::Quaternion& quaternion) { srt_.rotate = quaternion; transformDirty_ = true; }
+	void SetScale(const Math::Vector3& scale) { srt_.scale = scale; }
+	void SetTranslate(const Math::Vector3& translate) { srt_.translate = translate; }
+	void SetRotate(const Math::Quaternion& quaternion) { srt_.rotate = quaternion; }
 
-	void SetScaleX(float x) { srt_.scale.x = x; transformDirty_ = true; }
-	void SetScaleY(float y) { srt_.scale.y = y; transformDirty_ = true; }
-	void SetScaleZ(float z) { srt_.scale.z = z; transformDirty_ = true; }
+	void SetScaleX(float x) { srt_.scale.x = x; }
+	void SetScaleY(float y) { srt_.scale.y = y; }
+	void SetScaleZ(float z) { srt_.scale.z = z; }
 
-	void SetTranslationX(float x) { srt_.translate.x = x; transformDirty_ = true; }
-	void SetTranslationY(float y) { srt_.translate.y = y; transformDirty_ = true; }
-	void SetTranslationZ(float z) { srt_.translate.z = z; transformDirty_ = true; }
+	void SetTranslationX(float x) { srt_.translate.x = x; }
+	void SetTranslationY(float y) { srt_.translate.y = y; }
+	void SetTranslationZ(float z) { srt_.translate.z = z; }
 
 	void SetSRT(const Math::QuaternionSRT& srt) {
 		srt_ = srt;
-		transformDirty_ = true;
 	}
 
 	const Math::QuaternionSRT& GetSRT() { return srt_; }
@@ -116,7 +115,7 @@ public: // accessor method
 	const Math::Vector3 GetPreTranslate() const { return preTranslate_; }
 	void SetPreTranslate(const Math::Vector3& preTranslate) { preTranslate_ = preTranslate; }
 
-	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; transformDirty_ = true; }
+	void SetBillBoard(bool _isBillBoard) { isBillboard_ = _isBillBoard; }
 
 private: // private variable
 
@@ -138,9 +137,6 @@ private: // private variable
 	const Math::Matrix4x4* parentWorldMat_ = nullptr;
 
 	bool isBillboard_;
-	bool transformDirty_ = true;
-	bool hasLastInputMatrix_ = false;
-	Math::Matrix4x4 lastInputMatrix_ = Math::Matrix4x4::MakeUnit();
 };
 
 }
