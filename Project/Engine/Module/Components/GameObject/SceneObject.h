@@ -53,6 +53,7 @@ public:
 	void ClearChildren();
 	bool HasChild() const { return !children_.empty(); }
 	const std::vector<SceneObject*>& GetChildren() const { return children_; }
+	SceneObject* GetParent() const { return parent_; }
 
 private:
 	ObjectHandle handle_;

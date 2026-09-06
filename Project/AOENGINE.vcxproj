@@ -238,6 +238,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
+    <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h" />
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseGameObject.h" />
@@ -586,6 +587,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
+    <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseGameObject.cpp" />

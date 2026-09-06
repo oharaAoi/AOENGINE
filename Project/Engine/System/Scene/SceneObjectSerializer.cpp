@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/2d/Text.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/Effect/ParticleSceneObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/Collider/LineCollider.h"
 #include "Engine/Module/Components/Materials/Material.h"
@@ -306,7 +307,15 @@ json SerializeSprite(const Sprite& sprite) {
 
 json SerializeObject(const SceneObject& object) {
 	json data = json::object();
-	if (const BaseGameObject* gameObject = dynamic_cast<const BaseGameObject*>(&object)) {
+	if (const ParticleSceneObject* particle = dynamic_cast<const ParticleSceneObject*>(&object)) {
+		const auto srt = particle->GetTransform()->GetSRT();
+		data["asset"] = particle->GetAsset();
+		data["assetType"] = particle->GetAssetType() == ParticleSceneAssetType::Effect ? "Effect" : "Cpu";
+		data["autoPlay"] = particle->GetAutoPlay();
+		data["translate"] = Vector3ToJson(srt.translate);
+		data["rotate"] = QuaternionToJson(srt.rotate);
+		data["scale"] = Vector3ToJson(srt.scale);
+	} else if (const BaseGameObject* gameObject = dynamic_cast<const BaseGameObject*>(&object)) {
 		if (gameObject->GetModel()) { data["model"] = gameObject->GetModel()->GetName(); }
 		if (gameObject->GetTransform()) {
 			const Math::QuaternionSRT& srt = gameObject->GetTransform()->GetSRT();
@@ -377,6 +386,21 @@ SceneObject* CreateObject(const json& objectJson, SceneRenderer& renderer, Canva
 	const std::string type = objectJson.at("type").get<std::string>();
 	const std::string name = objectJson.at("name").get<std::string>();
 	const json& data = objectJson.at("data");
+	if (type == "ParticleSceneObject") {
+		ParticleSceneObject* object = renderer.AddObject<ParticleSceneObject>(name, "Object_Normal.json");
+		if (!object) { return nullptr; }
+		const bool isEffect = data.value("assetType", "Cpu") == "Effect";
+		object->SetAsset(isEffect ? ParticleSceneAssetType::Effect : ParticleSceneAssetType::Cpu, data.value("asset", ""));
+		object->SetAutoPlay(data.value("autoPlay", true));
+		if (data.contains("translate")) {
+			Math::QuaternionSRT srt{};
+			srt.translate = JsonToVector3(data.at("translate"));
+			srt.rotate = JsonToQuaternion(data.at("rotate"));
+			srt.scale = JsonToVector3(data.at("scale"));
+			object->GetTransform()->SetSRT(srt);
+		}
+		return object;
+	}
 
 	if (type == "BaseGameObject") {
 		const json* firstMaterial = nullptr;

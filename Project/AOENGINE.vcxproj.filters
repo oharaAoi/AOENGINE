@@ -543,6 +543,9 @@
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h">
       <Filter>Engine\Module\Components\EventHandlers</Filter>
     </ClInclude>
@@ -1581,6 +1584,9 @@
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp">
