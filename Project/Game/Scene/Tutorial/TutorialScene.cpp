@@ -137,7 +137,22 @@ void TutorialScene::UpdateTextBox(float deltaTime) {
 	for (std::size_t i = 0; i < content.checkShown.size() && i < checkCount; ++i) {
 		content.checkShown[i] = stepController_.IsCurrentCleared(i);
 	}
-	content.checkIndex = stepController_.GetCurrentIndex();
+	content.pageIndex = stepController_.GetCurrentIndex();
+	content.isPadConnected = isPadConnected;
+
+	// 操作の説明はボタンの絵でも出す。こちらもパッドとキーボードで中身が変わる
+	content.buttons = &textTable_.GetStepButtons(stepController_.GetCurrentTextKey(), isPadConnected);
+
+	// 案内に添えるボタンは1つだけ使う
+	const std::vector<std::string>& nextButtons = textTable_.GetNextGuideButtons(isPadConnected);
+	if (!nextButtons.empty()) {
+		content.nextButton = &nextButtons.front();
+	}
+
+	const std::vector<std::string>& backButtons = textTable_.GetBackGuideButtons(isPadConnected);
+	if (!backButtons.empty()) {
+		content.backButton = &backButtons.front();
+	}
 
 	textBox_.Update(deltaTime, content);
 }

@@ -18,21 +18,147 @@
             "x": 1228.0,
             "y": 156.0
         },
+        "buttonEaseKind": 17,
+        "buttonKeyboardOffset0_0": {
+            "x": -241.0,
+            "y": -22.0
+        },
+        "buttonKeyboardOffset0_1": {
+            "x": -165.0,
+            "y": -22.0
+        },
+        "buttonKeyboardOffset0_2": {
+            "x": -198.0,
+            "y": 36.0
+        },
+        "buttonKeyboardOffset1_0": {
+            "x": -509.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset1_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset1_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset2_0": {
+            "x": -419.0,
+            "y": -23.0
+        },
+        "buttonKeyboardOffset2_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset2_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset3_0": {
+            "x": -390.0,
+            "y": -21.0
+        },
+        "buttonKeyboardOffset3_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset3_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset4_0": {
+            "x": -574.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset4_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonKeyboardOffset4_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonPadOffset0_0": {
+            "x": -161.0,
+            "y": -25.0
+        },
+        "buttonPadOffset0_1": {
+            "x": -161.0,
+            "y": 38.0
+        },
+        "buttonPadOffset0_2": {
+            "x": -396.0,
+            "y": 30.0
+        },
+        "buttonPadOffset1_0": {
+            "x": -620.0,
+            "y": 30.0
+        },
+        "buttonPadOffset1_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonPadOffset1_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonPadOffset2_0": {
+            "x": -410.0,
+            "y": -20.0
+        },
+        "buttonPadOffset2_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonPadOffset2_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonPadOffset3_0": {
+            "x": -388.0,
+            "y": -22.0
+        },
+        "buttonPadOffset3_1": {
+            "x": -510.0,
+            "y": 30.0
+        },
+        "buttonPadOffset3_2": {
+            "x": -400.0,
+            "y": 30.0
+        },
+        "buttonPadOffset4_0": {
+            "x": -514.0,
+            "y": 30.0
+        },
+        "buttonPadOffset4_1": {
+            "x": -479.0,
+            "y": 30.0
+        },
+        "buttonPadOffset4_2": {
+            "x": -340.0,
+            "y": 30.0
+        },
+        "buttonSize": {
+            "x": 68.0,
+            "y": 68.0
+        },
+        "buttonTime": 0.25,
         "checkEaseKind": 17,
         "checkOffset0": {
-            "x": 258.0,
+            "x": 245.0,
             "y": -31.0
         },
         "checkOffset1": {
-            "x": 569.0,
-            "y": 13.0
+            "x": 521.0,
+            "y": 7.0
         },
         "checkOffset2": {
-            "x": 537.0,
-            "y": 8.0
+            "x": 482.0,
+            "y": 7.0
         },
         "checkOffset3": {
-            "x": 617.0,
+            "x": 574.0,
             "y": -90.0
         },
         "checkOffset4": {
@@ -47,22 +173,30 @@
         "closeEaseKind": 3,
         "closeTime": 0.20000000298023224,
         "guideBoxSize": {
-            "x": 457.0,
+            "x": 292.0,
             "y": 70.0
         },
+        "guideButtonOffset": {
+            "x": -94.0,
+            "y": 2.0
+        },
+        "guideButtonSize": {
+            "x": 74.0,
+            "y": 74.0
+        },
         "guideEaseKind": 17,
-        "guideFontSize": 62.0,
+        "guideFontSize": 71.0,
         "guideOffset": {
-            "x": -14.0,
+            "x": 43.0,
             "y": 0.0
         },
         "guideTime": 0.25,
         "moveJumpCheckOffset": {
-            "x": 411.0,
+            "x": 250.0,
             "y": 39.0
         },
         "nextBoxOffset": {
-            "x": 472.0,
+            "x": 473.0,
             "y": 112.0
         },
         "openEaseKind": 13,

@@ -1,0 +1,38 @@
+{
+    "": {
+        "anchorPoint": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+        "fontSize": 58.0,
+        "isActive": true,
+        "renderQueue": 102,
+        "text": "左スティックで移動\nAボタンでジャンプ",
+        "transform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 0.6666666865348816,
+                "y": 0.7135778069496155,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 488.0,
+                "y": 550.1685180664063,
+                "z": 1.0
+            }
+        },
+        "windowHeight": 1009,
+        "windowWidth": 1920
+    }
+}

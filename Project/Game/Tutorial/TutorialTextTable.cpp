@@ -25,24 +25,34 @@ void TutorialTextTable::Load() {
 				continue;
 			}
 
-			Entry entry{};
-			entry.pad = value.value("pad", std::string());
-			entry.keyboard = value.value("keyboard", std::string());
-			steps_[key] = entry;
+			steps_[key] = ParseEntry(value);
 		}
 	}
 
 	if (root.contains("nextGuide") && root.at("nextGuide").is_object()) {
-		const nlohmann::json& guide = root.at("nextGuide");
-		nextGuide_.pad = guide.value("pad", std::string());
-		nextGuide_.keyboard = guide.value("keyboard", std::string());
+		nextGuide_ = ParseEntry(root.at("nextGuide"));
 	}
 
 	if (root.contains("backGuide") && root.at("backGuide").is_object()) {
-		const nlohmann::json& guide = root.at("backGuide");
-		backGuide_.pad = guide.value("pad", std::string());
-		backGuide_.keyboard = guide.value("keyboard", std::string());
+		backGuide_ = ParseEntry(root.at("backGuide"));
 	}
+}
+
+TutorialTextTable::Entry TutorialTextTable::ParseEntry(const nlohmann::json& value) {
+
+	Entry entry{};
+	entry.pad = value.value("pad", std::string());
+	entry.keyboard = value.value("keyboard", std::string());
+
+	// ボタン画像は無くてもよい。書かれていない時は文字だけの説明になる
+	if (value.contains("padButtons") && value.at("padButtons").is_array()) {
+		entry.padButtons = value.at("padButtons").get<std::vector<std::string>>();
+	}
+	if (value.contains("keyboardButtons") && value.at("keyboardButtons").is_array()) {
+		entry.keyboardButtons = value.at("keyboardButtons").get<std::vector<std::string>>();
+	}
+
+	return entry;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +77,25 @@ const std::string& TutorialTextTable::GetBackGuide(bool isPadConnected) const {
 	return Select(backGuide_, isPadConnected);
 }
 
+const std::vector<std::string>& TutorialTextTable::GetStepButtons(
+	const std::string& key, bool isPadConnected) const {
+
+	auto it = steps_.find(key);
+	if (it == steps_.end()) {
+		return kEmptyButtons_;
+	}
+
+	return SelectButtons(it->second, isPadConnected);
+}
+
+const std::vector<std::string>& TutorialTextTable::GetNextGuideButtons(bool isPadConnected) const {
+	return SelectButtons(nextGuide_, isPadConnected);
+}
+
+const std::vector<std::string>& TutorialTextTable::GetBackGuideButtons(bool isPadConnected) const {
+	return SelectButtons(backGuide_, isPadConnected);
+}
+
 const std::string& TutorialTextTable::Select(const Entry& entry, bool isPadConnected) const {
 
 	// コントローラーが繋がっていない場合はキーボード操作の説明に切り替える
@@ -80,4 +109,15 @@ const std::string& TutorialTextTable::Select(const Entry& entry, bool isPadConne
 	}
 
 	return entry.pad;
+}
+
+const std::vector<std::string>& TutorialTextTable::SelectButtons(
+	const Entry& entry, bool isPadConnected) const {
+
+	// 文字と同じで、繋がっていなければキーボード用
+	if (!isPadConnected || entry.padButtons.empty()) {
+		return entry.keyboardButtons;
+	}
+
+	return entry.padButtons;
 }

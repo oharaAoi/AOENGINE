@@ -1,32 +1,69 @@
 {
     "steps": {
         "Move": {
-            "pad": "左スティックで移動\nAボタンでジャンプ",
-            "keyboard": "A / D キーで移動\nスペースキーでジャンプ"
+            "pad": "で移動\nでジャンプ",
+            "keyboard": "で移動\nでジャンプ",
+            "padButtons": [
+                "LStick.png",
+                "A.png"
+            ],
+            "keyboardButtons": [
+                "keyboard_A.png",
+                "keyboard_D.png",
+                "keyboard_space.png"
+            ]
         },
         "DamageFloor": {
             "pad": "赤い床に触れるとダメージを受けて\n高く打ち上げられる",
-            "keyboard": "赤い床に触れるとダメージを受けて\n高く打ち上げられる"
+            "keyboard": "赤い床に触れるとダメージを受けて\n高く打ち上げられる",
+            "padButtons": [],
+            "keyboardButtons": []
         },
         "Connect": {
-            "pad": "ジャンプして足場に着地すると\nその足場のかたまりがつながる",
-            "keyboard": "ジャンプして足場に着地すると\nその足場のかたまりがつながる"
+            "pad": "で足場に着地すると\nその足場のかたまりがつながる",
+            "keyboard": "で足場に着地すると\nその足場のかたまりがつながる",
+            "padButtons": [
+                "A.png"
+            ],
+            "keyboardButtons": [
+                "keyboard_space.png"
+            ]
         },
         "Launch": {
-            "pad": "Bボタンでつないだ足場を打ち上げる\nボスに当ててみよう",
-            "keyboard": "E キーでつないだ足場を打ち上げる\nボスに当ててみよう"
+            "pad": "でつないだ足場を打ち上げる\nボスに当ててみよう",
+            "keyboard": "でつないだ足場を打ち上げる\nボスに当ててみよう",
+            "padButtons": [
+                "B.png"
+            ],
+            "keyboardButtons": [
+                "keyboard_E.png"
+            ]
         },
         "Ending": {
             "pad": "チュートリアルは以上です\nXボタンでタイトルへ戻る",
-            "keyboard": "チュートリアルは以上です\nF キーでタイトルへ戻る"
+            "keyboard": "チュートリアルは以上です\nF キーでタイトルへ戻る",
+            "padButtons": [],
+            "keyboardButtons": []
         }
     },
     "nextGuide": {
-        "pad": "F or X : 次へ",
-        "keyboard": "F or X : 次へ"
+        "pad": ":次へ",
+        "keyboard": ":次へ",
+        "padButtons": [
+            "B.png"
+        ],
+        "keyboardButtons": [
+            "keyboard_E.png"
+        ]
     },
     "backGuide": {
-        "pad": "Q or Y : 戻る",
-        "keyboard": "Q or Y : 戻る"
+        "pad": ":戻る",
+        "keyboard": ":戻る",
+        "padButtons": [
+            "A.png"
+        ],
+        "keyboardButtons": [
+            "keyboard_A.png"
+        ]
     }
 }

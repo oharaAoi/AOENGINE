@@ -10,6 +10,7 @@
 #include <Engine/Module/Components/2d/Sprite.h>
 #include <Engine/Module/Components/2d/Text.h>
 #include <Engine/System/Manager/ImGuiManager.h>
+#include <Engine/System/Manager/TextureManager.h>
 #include <Engine/Utilities/SceneObjectFinder.h>
 
 using namespace AOENGINE;
@@ -62,9 +63,24 @@ void TutorialTextBoxUI::Init() {
 		body_->SetTextColor(Colors::Linear::white);
 	}
 
+	// 操作ボタンも数だけ用意する。絵はページごとに差し替える
+	for (std::size_t i = 0; i < buttons_.size(); ++i) {
+
+		buttons_[i].sprite = ResolveSprite(kButtonName + std::to_string(i), kButtonTextureName, kItemRenderQueue);
+		ResetAppear(buttons_[i]);
+
+		if (buttons_[i].sprite != nullptr) {
+			buttons_[i].sprite->SetAnchorPoint(kCenterAnchor);
+		}
+	}
+
 	// 「次へ」と「戻る」を同じ作りで用意する
 	SetupGuide(next_, kNextBoxName, kNextTextName);
 	SetupGuide(back_, kBackBoxName, kBackTextName);
+
+	// 案内に添えるボタン。枠より手前に出す
+	SetupButton(nextButton_, kNextButtonName);
+	SetupButton(backButton_, kBackButtonName);
 
 	state_ = State::Hidden;
 	stateTimer_ = 0.0f;
@@ -96,6 +112,18 @@ void TutorialTextBoxUI::SetupGuide(AppearItem& item, const std::string& boxName,
 	}
 }
 
+void TutorialTextBoxUI::SetupButton(AppearItem& item, const std::string& name) {
+
+	// 文字は持たない。絵はページごとに差し替えるので、ここでは仮のものを入れておく
+	item.sprite = ResolveSprite(name, kButtonTextureName, kTextRenderQueue);
+	item.text = nullptr;
+	ResetAppear(item);
+
+	if (item.sprite != nullptr) {
+		item.sprite->SetAnchorPoint(kCenterAnchor);
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 開閉の指示
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +142,12 @@ void TutorialTextBoxUI::Open() {
 	// 案内もチェックも、また最初から出てくるように戻す
 	ResetAppear(next_);
 	ResetAppear(back_);
+	ResetAppear(nextButton_);
+	ResetAppear(backButton_);
 	for (AppearItem& item : checks_) {
+		ResetAppear(item);
+	}
+	for (AppearItem& item : buttons_) {
 		ResetAppear(item);
 	}
 
@@ -278,6 +311,17 @@ void TutorialTextBoxUI::PlaceBody() {
 	}
 }
 
+const Math::Vector2& TutorialTextBoxUI::SelectButtonOffset(
+	std::size_t pageIndex, std::size_t slot, bool isPadConnected) const {
+
+	// 同じ番号でも中身がキーボードとパッドで別物なので、置き場所も別々に持っている
+	if (isPadConnected) {
+		return parameter_.buttonPadOffset[pageIndex][slot];
+	}
+
+	return parameter_.buttonKeyboardOffset[pageIndex][slot];
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 出現
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,6 +359,16 @@ void TutorialTextBoxUI::UpdateAppear(AppearItem& item, float deltaTime, bool isV
 	const float ratio = CalcRatio(item.timer, desc.duration);
 	const float rate = CalcAppearRate(ratio, desc.easeKind);
 
+	// ページごとに絵が変わるものは、変わった時だけ差し替える。
+	if (desc.texture != nullptr && !desc.texture->empty() &&
+		item.sprite->GetTextureName() != *desc.texture) {
+
+		// jsonに書いた絵をまだ用意していない場合がある
+		if (TextureManager::GetInstance()->ExistTexture(*desc.texture)) {
+			item.sprite->ReSetTexture(*desc.texture);
+		}
+	}
+
 	// 枠を置く
 	SetSpriteSize(item.sprite, desc.size);
 	PlaceItem(item.sprite, desc.offset, rate);
@@ -350,6 +404,12 @@ void TutorialTextBoxUI::Update(float deltaTime, const Content& content) {
 		body_->SetText(*content.body);
 	}
 
+	// ページごとに置き場所を変えられる
+	std::size_t index = content.pageIndex;
+	if (index >= TutorialUIParameter::kCheckCount) {
+		index = 0;
+	}
+
 	PlaceBody();
 
 	// 案内は2つとも同じ作りなので、違うのは置き場所と文言だけ
@@ -369,10 +429,42 @@ void TutorialTextBoxUI::Update(float deltaTime, const Content& content) {
 	guide.text = content.backText;
 	UpdateAppear(back_, deltaTime, content.showBack, guide);
 
-	// ページごとに置き場所を変えられる
-	std::size_t index = content.checkIndex;
-	if (index >= TutorialUIParameter::kCheckCount) {
-		index = 0;
+	// 案内に添えるボタン。枠と同じ条件で出す
+	AppearDesc guideButton{};
+	guideButton.size = parameter_.guideButtonSize;
+	guideButton.duration = parameter_.guideTime;
+	guideButton.easeKind = parameter_.guideEaseKind;
+
+	guideButton.offset = parameter_.nextBoxOffset + parameter_.guideButtonOffset;
+	guideButton.texture = content.nextButton;
+	UpdateAppear(nextButton_, deltaTime, content.showNext, guideButton);
+
+	guideButton.offset = parameter_.backBoxOffset + parameter_.guideButtonOffset;
+	guideButton.texture = content.backButton;
+	UpdateAppear(backButton_, deltaTime, content.showBack, guideButton);
+
+	// このページで教える操作のボタンを、用意された数だけ置く。位置は1つずつ持っている
+	std::size_t buttonCount = 0;
+	if (content.buttons != nullptr) {
+		buttonCount = content.buttons->size();
+	}
+
+	AppearDesc button{};
+	button.size = parameter_.buttonSize;
+	button.duration = parameter_.buttonTime;
+	button.easeKind = parameter_.buttonEaseKind;
+
+	for (std::size_t i = 0; i < buttons_.size(); ++i) {
+
+		const bool isVisible = i < buttonCount;
+
+		button.texture = nullptr;
+		if (isVisible) {
+			button.texture = &content.buttons->at(i);
+		}
+
+		button.offset = SelectButtonOffset(index, i, content.isPadConnected);
+		UpdateAppear(buttons_[i], deltaTime, isVisible, button);
 	}
 
 	// チェックは文字を持たないので、枠だけの指定になる
@@ -399,14 +491,18 @@ void TutorialTextBoxUI::SetItemsActive(bool isActive) {
 	if (box_ != nullptr) { box_->SetActive(isActive); }
 	if (body_ != nullptr) { body_->SetActive(isActive); }
 
-	// 案内とチェックは、出す条件を満たした時に出るので、ここでは一旦消す
-	AppearItem* items[] = { &next_, &back_ };
+	// 案内・チェック・操作ボタンは、出す条件を満たした時に出るので、ここでは一旦消す
+	AppearItem* items[] = { &next_, &back_, &nextButton_, &backButton_ };
 	for (AppearItem* item : items) {
 		if (item->sprite != nullptr) { item->sprite->SetActive(false); }
 		if (item->text != nullptr) { item->text->SetActive(false); }
 	}
 
 	for (AppearItem& item : checks_) {
+		if (item.sprite != nullptr) { item.sprite->SetActive(false); }
+	}
+
+	for (AppearItem& item : buttons_) {
 		if (item.sprite != nullptr) { item.sprite->SetActive(false); }
 	}
 }
@@ -425,6 +521,7 @@ void TutorialTextBoxUI::Debug_Gui() {
 	Math::SelectEasing(parameter_.closeEaseKind, "TutorialClose");
 	Math::SelectEasing(parameter_.guideEaseKind, "TutorialGuide");
 	Math::SelectEasing(parameter_.checkEaseKind, "TutorialCheck");
+	Math::SelectEasing(parameter_.buttonEaseKind, "TutorialButton");
 
 	parameter_.SaveAndLoad();
 }
