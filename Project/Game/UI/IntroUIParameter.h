@@ -45,6 +45,9 @@ struct IntroUIParameter :
 	float objectiveRotateStart;
 	float objectiveRotateEnd;
 
+	// 文字に使うフォント。ファイル名だけでも Engine/Font から引ける
+	std::string fontPath = "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf";
+
 	// --- 文字 ---
 	float fontSize;
 	AOENGINE::Color textColor;
@@ -113,6 +116,7 @@ struct IntroUIParameter :
 		AddParameter("Objective Rotate End(deg)", objectiveRotateEnd, 1.0f, -3600.0f, 3600.0f);
 
 		AddSeparatorText("Text");
+		AddParameter("Font Path", fontPath);
 		AddParameter("Font Size", fontSize, 1.0f, 1.0f, 500.0f);
 		AddParameter("Text Color", textColor);
 		AddParameter("Center Pos", centerPos, 1.0f);
@@ -162,6 +166,7 @@ struct IntroUIParameter :
 			.Add("objectiveScaleEnd", objectiveScaleEnd)
 			.Add("objectiveRotateStart", objectiveRotateStart)
 			.Add("objectiveRotateEnd", objectiveRotateEnd)
+			.Add("fontPath", fontPath)
 			.Add("fontSize", fontSize)
 			.Add("textColor", textColor)
 			.Add("centerPos", centerPos)
@@ -204,6 +209,7 @@ struct IntroUIParameter :
 		Convert::fromJson(jsonData, "objectiveScaleEnd", objectiveScaleEnd);
 		Convert::fromJson(jsonData, "objectiveRotateStart", objectiveRotateStart);
 		Convert::fromJson(jsonData, "objectiveRotateEnd", objectiveRotateEnd);
+		Convert::fromJson(jsonData, "fontPath", fontPath);
 		Convert::fromJson(jsonData, "fontSize", fontSize);
 		Convert::fromJson(jsonData, "textColor", textColor);
 		Convert::fromJson(jsonData, "centerPos", centerPos);

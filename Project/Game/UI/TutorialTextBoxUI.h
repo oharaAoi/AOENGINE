@@ -188,8 +188,12 @@ private:
 	// チェックに使う画像名
 	const std::string kCheckTextureName = "caution.png";
 
+
 	// ボタン画像を作る時の仮の絵。中身は毎フレーム差し替える
 	const std::string kButtonTextureName = "white.png";
+
+	// この絵の時だけ、専用の大きさを使う
+	const std::string kSpaceButtonTextureName = "keyboard_space.png";
 
 	// 手前に出すための描画順
 	const int kBoxRenderQueue = 100;

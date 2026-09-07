@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <string>
 
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
@@ -26,6 +27,9 @@ struct TutorialUIParameter :
 	Math::Vector2 boxCenter{ 960.0f, 840.0f };	// 画面上での中心
 	Math::Vector2 boxSize{ 1520.0f, 280.0f };	// 枠の大きさ
 	float uiScale = 1.0f;						// 全体の拡大率。子も一緒に変わる
+
+	// 文字に使うフォント。ファイル名だけでも Engine/Font から引ける
+	std::string fontPath = "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf";
 
 	// --- 文字 ---
 	// 枠の中心からの相対位置。アンカーはどれも中心
@@ -55,6 +59,8 @@ struct TutorialUIParameter :
 
 	// --- 操作ボタンの画像 ---
 	Math::Vector2 buttonSize{ 96.0f, 96.0f };		// ボタン1つの大きさ
+	// スペースキーだけ横長なので、そこだけ別の大きさを使う
+	Math::Vector2 spaceButtonSize{ 200.0f, 96.0f };
 
 	// 1ページぶんの置き場所。jsonに並べた順で1つずつ持つ
 	using ButtonOffsets = std::array<Math::Vector2, kButtonSlotCount>;
@@ -99,6 +105,7 @@ struct TutorialUIParameter :
 		AddParameter("UI Scale", uiScale, 0.01f, 0.01f, 10.0f);
 
 		AddSeparatorText("Text");
+		AddParameter("Font Path", fontPath);
 		AddParameter("Body Offset", bodyOffset, 1.0f);
 		AddParameter("Body Font Size", bodyFontSize, 1.0f, 1.0f, 200.0f);
 
@@ -120,6 +127,7 @@ struct TutorialUIParameter :
 
 		AddSeparatorText("Button");
 		AddParameter("Button Size", buttonSize, 1.0f);
+		AddParameter("Space Button Size", spaceButtonSize, 1.0f);
 		AddParameter("Guide Button Offset", guideButtonOffset, 1.0f);
 		AddParameter("Guide Button Size", guideButtonSize, 1.0f);
 
@@ -188,6 +196,7 @@ struct TutorialUIParameter :
 			.Add("boxCenter", boxCenter)
 			.Add("boxSize", boxSize)
 			.Add("uiScale", uiScale)
+			.Add("fontPath", fontPath)
 			.Add("bodyOffset", bodyOffset)
 			.Add("nextBoxOffset", nextBoxOffset)
 			.Add("backBoxOffset", backBoxOffset)
@@ -203,6 +212,7 @@ struct TutorialUIParameter :
 			.Add("checkOffset4", checkOffset[4])
 			.Add("moveJumpCheckOffset", moveJumpCheckOffset)
 			.Add("buttonSize", buttonSize)
+			.Add("spaceButtonSize", spaceButtonSize)
 			.Add("guideButtonOffset", guideButtonOffset)
 			.Add("guideButtonSize", guideButtonSize)
 			.Add("buttonTime", buttonTime)
@@ -223,6 +233,7 @@ struct TutorialUIParameter :
 		Convert::fromJson(jsonData, "boxCenter", boxCenter);
 		Convert::fromJson(jsonData, "boxSize", boxSize);
 		Convert::fromJson(jsonData, "uiScale", uiScale);
+		Convert::fromJson(jsonData, "fontPath", fontPath);
 		Convert::fromJson(jsonData, "bodyOffset", bodyOffset);
 		Convert::fromJson(jsonData, "nextBoxOffset", nextBoxOffset);
 		Convert::fromJson(jsonData, "backBoxOffset", backBoxOffset);
@@ -238,6 +249,7 @@ struct TutorialUIParameter :
 		Convert::fromJson(jsonData, "checkOffset4", checkOffset[4]);
 		Convert::fromJson(jsonData, "moveJumpCheckOffset", moveJumpCheckOffset);
 		Convert::fromJson(jsonData, "buttonSize", buttonSize);
+		Convert::fromJson(jsonData, "spaceButtonSize", spaceButtonSize);
 
 		for (std::size_t page = 0; page < kCheckCount; ++page) {
 			for (std::size_t slot = 0; slot < kButtonSlotCount; ++slot) {

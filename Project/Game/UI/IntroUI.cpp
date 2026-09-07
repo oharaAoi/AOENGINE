@@ -266,6 +266,7 @@ void IntroUI::Init() {
 	// 最初に出す目的の絵
 	objective_ = ResolveText(kObjectiveName, kTextRenderQueue);
 	if (objective_ != nullptr) {
+		objective_->SetFontPath(parameter_.fontPath);
 		objective_->SetAnchorPoint(kCenterAnchor);
 		objective_->SetTextAnchorPoint(kCenterAnchor);
 	}
@@ -280,6 +281,7 @@ void IntroUI::Init() {
 			continue;
 		}
 
+		items_[i].text->SetFontPath(parameter_.fontPath);
 		items_[i].text->SetAnchorPoint(kCenterAnchor);
 		items_[i].text->SetTextAnchorPoint(kCenterAnchor);
 		items_[i].text->SetText(kItemTexts[i]);

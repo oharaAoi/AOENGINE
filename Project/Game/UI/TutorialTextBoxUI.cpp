@@ -58,6 +58,7 @@ void TutorialTextBoxUI::Init() {
 
 	// 本文テキストのパラメータセット
 	if (body_ != nullptr) {
+		body_->SetFontPath(parameter_.fontPath);
 		body_->SetAnchorPoint(kCenterAnchor);
 		body_->SetTextAnchorPoint(kCenterAnchor);
 		body_->SetTextColor(Colors::Linear::white);
@@ -105,6 +106,7 @@ void TutorialTextBoxUI::SetupGuide(AppearItem& item, const std::string& boxName,
 
 	// 文字パラメータセット
 	if (item.text != nullptr) {
+		item.text->SetFontPath(parameter_.fontPath);
 		item.text->SetAnchorPoint(kCenterAnchor);
 		item.text->SetTextAnchorPoint(kCenterAnchor);
 		// 案内の枠は明るいので、文字は黒にする
@@ -459,8 +461,14 @@ void TutorialTextBoxUI::Update(float deltaTime, const Content& content) {
 		const bool isVisible = i < buttonCount;
 
 		button.texture = nullptr;
+		button.size = parameter_.buttonSize;
 		if (isVisible) {
 			button.texture = &content.buttons->at(i);
+
+			// スペースキーだけ横長なので例外にする
+			if (*button.texture == kSpaceButtonTextureName) {
+				button.size = parameter_.spaceButtonSize;
+			}
 		}
 
 		button.offset = SelectButtonOffset(index, i, content.isPadConnected);
