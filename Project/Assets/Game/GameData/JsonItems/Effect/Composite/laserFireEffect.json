@@ -1,0 +1,52 @@
+{
+    "laserFireEffect": {
+        "name": "laserFireEffect",
+        "nodes": [
+            {
+                "asset": "laserFireSpark",
+                "delay": 0.0,
+                "name": "laserFireSpark",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "laserFireParticle",
+                "delay": 0.0,
+                "name": "laserFireParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}
