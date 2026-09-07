@@ -152,6 +152,11 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 		newParticle.rotateZ = Random::RandomFloat(emitter_.minAngle, emitter_.maxAngle);
 	}
 
+	float speed = emitter_.speed;
+	if (emitter_.isRandomSpeed) {
+		speed = Random::RandomFloat(emitter_.minSpeed, emitter_.maxSpeed);
+	}
+
 	newParticle.firstScale = newParticle.scale;
 	newParticle.rotate = Math::Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
 
@@ -219,16 +224,16 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 
 	// particleの方向を設定
 	if (emitter_.emitDirection == (int)CpuEmitDirection::Up) {
-		newParticle.velocity = CVector3::UP * emitter_.speed;
+		newParticle.velocity = CVector3::UP * speed;
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Random) {
 		Math::Vector3 dire = Random::RandomVector3(CVector3::UNIT * -1.0f, CVector3::UNIT);
-		newParticle.velocity = dire * emitter_.speed;
+		newParticle.velocity = dire * speed;
 
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::Outside) {
-		newParticle.velocity = (newParticle.translate - pos).Normalize() * emitter_.speed;
+		newParticle.velocity = (newParticle.translate - pos).Normalize() * speed;
 
 	} else if (emitter_.emitDirection == (int)CpuEmitDirection::CenterFor) {
-		newParticle.velocity = (pos - newParticle.translate).Normalize() * emitter_.speed;
+		newParticle.velocity = (pos - newParticle.translate).Normalize() * speed;
 	}
 
 	// Coneの場合はConeの形状で射出させる
@@ -251,7 +256,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	// Objectの回転に進行方向をあわせる
 	Math::Vector3 dire = newParticle.velocity.Normalize();
 	Math::Vector3 worldDire = worldRotate * dire;
-	newParticle.velocity = worldDire * emitter_.speed;
+	newParticle.velocity = worldDire * speed;
 
 	// billbordに合わせてz軸を進行方向に向ける
 	if (emitter_.isDirectionRotate) {
@@ -387,6 +392,10 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 	currentTimer_ += deltaTime;
 	if (currentTimer_ > emitter_.duration) {
 		if (!emitter_.isLoop) {
+			isStop_ = true;
+		}
+
+		if (emitter_.isPlayOneShot) {
 			isStop_ = true;
 		}
 	}

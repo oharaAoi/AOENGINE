@@ -165,7 +165,7 @@ void TutorialScene::UpdateContext() {
 
 	// 次のページへ送る入力。XボタンとF キーの両方で送れる
 	const bool isNextTriggered =
-		Input::IsTriggerKey(kNextKey) || Input::IsTriggerButton(ButtonX);
+		Input::IsTriggerKey(kNextKey) || Input::IsTriggerButton(ButtonB);
 	context_.SetNextTriggered(isNextTriggered);
 
 	// 前のページへ戻る入力

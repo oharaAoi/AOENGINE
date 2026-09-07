@@ -88,6 +88,7 @@ struct ParticleSingle {
 /// Particleのエミッターのパラメータ
 /// </summary>
 struct ParticleEmit : public AOENGINE::IJsonConverter {
+	bool isPlayOneShot = false;				// 再生時間がすぎるまで発生させるか
 	bool isLoop = true;						// Loopをするか
 	float duration = 5.0f;					// 継続時間
 	Math::Vector3 translate = CVector3::ZERO;		// 位置
@@ -157,6 +158,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	AOENGINE::Color preColor = Colors::Linear::white;
 	AOENGINE::Color postColor = Colors::Linear::white;
 
+	bool isRandomSpeed = false;
+	float minSpeed = 1.f;
+	float maxSpeed = 2.f;
+
 	bool isRandomRotate = true;
 	float minAngle = 0;
 	float maxAngle = 360;
@@ -169,6 +174,7 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 
 	json ToJson(const std::string& id) const override {
 		return AOENGINE::JsonBuilder(id)
+			.Add("isPlayOneShot", isPlayOneShot)
 			.Add("isLoop", isLoop)
 			.Add("duration", duration)
 			.Add("rotate", rotate)
@@ -231,10 +237,14 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("isRandomRotate", isRandomRotate)
 			.Add("minAngle", minAngle)
 			.Add("maxAngle", maxAngle)
+			.Add("isRandomSpeed", isRandomSpeed)
+			.Add("minSpeed", minSpeed)
+			.Add("maxSpeed", maxSpeed)
 			.Build();
 	}
 
 	void FromJson(const json& jsonData) override {
+		Convert::fromJson(jsonData, "isPlayOneShot", isPlayOneShot);
 		Convert::fromJson(jsonData, "isLoop", isLoop);
 		Convert::fromJson(jsonData, "duration", duration);
 		Convert::fromJson(jsonData, "rotate", rotate);
@@ -297,6 +307,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "isRandomRotate", isRandomRotate);
 		Convert::fromJson(jsonData, "minAngle", minAngle);
 		Convert::fromJson(jsonData, "maxAngle", maxAngle);
+		Convert::fromJson(jsonData, "isRandomSpeed", isRandomSpeed);
+		Convert::fromJson(jsonData, "minSpeed", minSpeed);
+		Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
 	}
 
 	void Attribute_Gui();

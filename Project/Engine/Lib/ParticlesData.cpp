@@ -5,6 +5,7 @@ using namespace AOENGINE;
 
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("エミッター設定")) {
+		ImGui::Checkbox("再生時間がすぎるまで発生させるか", &isPlayOneShot);
 		ImGui::Checkbox("ループ再生", &isLoop);
 		ImGui::DragFloat("再生時間（秒）", &duration, 0.1f, 0.0f);
 		ImGui::Checkbox("ビルボード表示", &isBillBord);
@@ -111,6 +112,13 @@ void ParticleEmit::Attribute_Gui() {
 		if (ImGui::CollapsingHeader("ランダム回転")) {
 			ImGui::DragFloat("回転の最小角度", &minAngle);
 			ImGui::DragFloat("回転の最大角度", &maxAngle);
+		}
+
+		ImGui::Checkbox("##isRandomSpeed", &isRandomSpeed);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("ランダム速度")) {
+			ImGui::DragFloat("最小速度", &minSpeed);
+			ImGui::DragFloat("最大速度", &maxSpeed);
 		}
 
 		minScale.Clamp(minScale, maxScale);
