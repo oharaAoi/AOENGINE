@@ -3,11 +3,12 @@
         "animationBlendSpeed": 0.20000000298023224,
         "animationSpeed": 1.0,
         "baseScale": {
-            "x": 0.6000000238418579,
-            "y": 0.6000000238418579,
-            "z": 0.6000000238418579
+            "x": 3.299999952316284,
+            "y": 2.5999999046325684,
+            "z": 0.36000001430511475
         },
         "beamBlinkInterval": 0.10000000149011612,
+        "beamChargePosX": 0.0,
         "beamCount": 3,
         "beamDamage": 25.0,
         "beamSize": {
@@ -64,8 +65,8 @@
             0.33000001311302185
         ],
         "screenPos": {
-            "x": 641.0,
-            "y": 89.0
+            "x": 761.0,
+            "y": 302.0
         },
         "stopperCount": 1,
         "stopperEaseKind": 4,
