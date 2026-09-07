@@ -311,9 +311,15 @@ void SceneRenderer::DrawSceneObjects(
 	const Math::Matrix4x4& viewProjection, bool enableFrustumCulling) const {
 	const Math::Frustum cameraFrustum = Math::Frustum::FromViewProjection(viewProjection);
 
-	// 通常3Dモデルは可能な限りInstancing batchへ集約し、最後にまとめて描画します。
+	// 通常3Dモデルは可能な限りInstancing batchへ集約します。
+	// Instancing対象を先に描画し、特殊Pipelineなどの対象外を後から個別描画します。
 	std::vector<AOENGINE::ModelInstancingRenderer::NormalBatch> normalInstancingBatches;
 	std::unordered_map<AOENGINE::Mesh*, size_t> normalBatchIndices;
+	struct FallbackDraw {
+		const RenderEntry* entry = nullptr;
+		const ISceneObject* object = nullptr;
+	};
+	std::vector<FallbackDraw> fallbackDraws;
 
 	for (const RenderEntry& entry : renderEntries_) {
 		if (entry.isPostDraw) {
@@ -331,13 +337,17 @@ void SceneRenderer::DrawSceneObjects(
 				continue;
 			}
 
-			// Instancing対象外のObjectは従来通り個別に描画します。
-			Engine::SetPipeline(PSOType::Object3d, entry.renderingType);
-			obj->Draw();
+			fallbackDraws.push_back(FallbackDraw{ &entry, obj });
 		}
 	}
 
 	modelInstancingRenderer_.DrawNormalBatches(normalInstancingBatches);
+
+	// Instancing対象外同士はrenderEntries_の並び順を維持します。
+	for (const FallbackDraw& fallback : fallbackDraws) {
+		Engine::SetPipeline(PSOType::Object3d, fallback.entry->renderingType);
+		fallback.object->Draw();
+	}
 
 	// particleの描画
 	if (particleManager_->IsActive()) { particleManager_->Draw(cameraFrustum); }

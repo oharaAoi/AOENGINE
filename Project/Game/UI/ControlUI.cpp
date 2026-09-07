@@ -7,10 +7,16 @@
 void ControlUI::Init() {
 	keyboardUI_ = FindSceneObject<AOENGINE::Sprite>("KeyboardUI");
 	gamePadUI_ = FindSceneObject<AOENGINE::Sprite>("GamePadUI");
-	gamePadUI_->SetActive(false);
+	if (gamePadUI_) {
+		gamePadUI_->SetActive(false);
+	}
 }
 
 void ControlUI::Update() {
+	if (!gamePadUI_ || !keyboardUI_) {
+		return;
+	}
+
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 	if (input->GetInputDevice() == InputDevice::Gamepad) {
 		gamePadUI_->SetActive(true);
