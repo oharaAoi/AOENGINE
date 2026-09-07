@@ -33,6 +33,12 @@ public:
 
 	// 初期化、更新
 	void Init(AOENGINE::BaseGameObject* body);
+
+	/// <summary>
+	/// 入力も物理も進めず、見た目だけを合わせる。
+	/// イントロのように、画面には映したいが動かしたくない時に使う
+	/// </summary>
+	void UpdateStandby(float deltaTime);
 	void Update();
 
 	// デバッグ描画

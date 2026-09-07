@@ -102,6 +102,10 @@ void GameScene::OnPlayStart()
 	playerUI_->Init();
 	bossUI_->Init();
 
+	// カウントダウンを頭から流す
+	introUI_.Init();
+	introUI_.Start();
+
 	//auto sound = Engine::GetSoundManager()->Play("Sound");
 }
 
@@ -122,7 +126,12 @@ void GameScene::Update()
 		return;
 	}
 
-	UpdateActors(AOENGINE::GameTimer::DeltaTime());
+	const float deltaTime = AOENGINE::GameTimer::DeltaTime();
+
+	// カウントダウンの間もゲーム画面は見せる。
+	// カメラと背景は動かしたまま、プレイヤーとボスだけ止めておく
+	introUI_.Update(deltaTime);
+	UpdateActors(deltaTime, introUI_.IsPlaying());
 
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集
@@ -146,6 +155,12 @@ void GameScene::Update()
 		boss_->Debug_Gui();
 		ImGui::PopID();
 	}
+	if (ImGui::CollapsingHeader("Intro"))
+	{
+		ImGui::PushID("Intro");
+		introUI_.Debug_Gui();
+		ImGui::PopID();
+	}
 
 	ImGui::End();
 #endif
@@ -155,14 +170,17 @@ void GameScene::Update()
 // アクターの更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void GameScene::UpdateActors(float deltaTime)
+void GameScene::UpdateActors(float deltaTime, bool isStandby)
 {
-	(void)deltaTime;
-
 	// プレイヤー
 	if (player_)
 	{
-		player_->Update();
+		// 待機中は入力も物理も進めず、見た目だけ合わせる
+		if (isStandby) {
+			player_->UpdateStandby(deltaTime);
+		} else {
+			player_->Update();
+		}
 	}
 
 	// フォローカメラ
@@ -184,7 +202,13 @@ void GameScene::UpdateActors(float deltaTime)
 	{
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
-		boss_->Update(viewProjection);
+
+		// 待機中は行動を進めず、画面上の位置合わせだけ通す
+		if (isStandby) {
+			boss_->UpdateStandby(viewProjection);
+		} else {
+			boss_->Update(viewProjection);
+		}
 	}
 
 	// ダメージ床の更新

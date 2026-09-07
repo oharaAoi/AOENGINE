@@ -531,6 +531,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
     <ClInclude Include="Game\UI\BossUI.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
+    <ClInclude Include="Game\UI\IntroUI.h" />
+    <ClInclude Include="Game\UI\IntroUIParameter.h" />
     <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
@@ -873,6 +875,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
     <ClCompile Include="Game\UI\BossUI.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
+    <ClCompile Include="Game\UI\IntroUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />

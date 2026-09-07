@@ -1,0 +1,72 @@
+{
+    "introUI": {
+        "backCenter": {
+            "x": 960.0,
+            "y": 540.0
+        },
+        "backColor": {
+            "a": 0.6000000238418579,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "backSize": {
+            "x": 1920.0,
+            "y": 1080.0
+        },
+        "centerPos": {
+            "x": 960.0,
+            "y": 460.0
+        },
+        "fontSize": 414.0,
+        "goEndWaitTime": 0.3100000023841858,
+        "goFadeEaseKind": 1,
+        "goFadeTime": 0.30000001192092896,
+        "goHoldTime": 0.4000000059604645,
+        "inEaseKind": 17,
+        "inTime": 0.3100000023841858,
+        "leftOffset": {
+            "x": -1400.0,
+            "y": 0.0
+        },
+        "nextOffsetTime": 0.17000000178813934,
+        "objectiveHoldTime": 1.5,
+        "objectiveInEaseKind": 3,
+        "objectiveInTime": 0.6399999856948853,
+        "objectiveOutEaseKind": 6,
+        "objectiveOutTime": 0.30000001192092896,
+        "objectivePos": {
+            "x": 960.0,
+            "y": 460.0
+        },
+        "objectiveRotateEnd": 1240.0,
+        "objectiveRotateStart": -30.0,
+        "objectiveScaleEnd": 1.25,
+        "objectiveScaleStart": 0.0,
+        "objectiveSize": {
+            "x": 800.0,
+            "y": 200.0
+        },
+        "objectiveStartWaitTime": 0.6899999976158142,
+        "objectiveTextureName": "white.png",
+        "outEaseKind": 7,
+        "outTime": 0.23999999463558197,
+        "rightOffset": {
+            "x": 1400.0,
+            "y": 0.0
+        },
+        "rotateEnd": 27.0,
+        "rotateLoopCount": 2,
+        "rotateStart": -58.0,
+        "rotateSwingTime": 0.949999988079071,
+        "scaleEnd": 1.0,
+        "scaleLoopCount": 1,
+        "scaleStart": 2.5,
+        "textColor": {
+            "a": 1.0,
+            "b": 0.8185328245162964,
+            "g": 0.8185328245162964,
+            "r": 0.8185328245162964
+        }
+    }
+}

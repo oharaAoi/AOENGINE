@@ -29,6 +29,12 @@ public:
 	void Init(AOENGINE::BaseGameObject* body);
 	void Update(const Math::Matrix4x4& viewProjection);
 
+	/// <summary>
+	/// 行動もアニメーションも進めず、画面上の位置と大きさだけ合わせる。
+	/// イントロのように、映したいが動かしたくない時に使う
+	/// </summary>
+	void UpdateStandby(const Math::Matrix4x4& viewProjection);
+
 	void Debug_Gui();
 
 private:

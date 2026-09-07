@@ -11,6 +11,7 @@
 #include "Game/UI/RetryUI.h"
 #include "Game/UI/PlayerUI.h"
 #include "Game/UI/BossUI.h"
+#include "Game/UI/IntroUI.h"
 
 
 class Player;
@@ -53,7 +54,11 @@ protected:
 	/// <summary>
 	/// アクターを1フレーム進める
 	/// </summary>
-	void UpdateActors(float deltaTime);
+	/// <summary>
+	/// アクターを進める。
+	/// isStandby の間はプレイヤーとボスを止めて、カメラと背景だけ動かす
+	/// </summary>
+	void UpdateActors(float deltaTime, bool isStandby = false);
 
 	/// <summary>
 	/// Playerの本体となるGameObjectを用意する。
@@ -95,5 +100,8 @@ protected:
 	std::unique_ptr<RetryUI> retryUI_;
 	std::unique_ptr<PlayerUI> playerUI_;
 	std::unique_ptr<BossUI> bossUI_;
+
+	// 開始前のカウントダウン。終わるまでアクターは止めておく
+	IntroUI introUI_;
 
 };

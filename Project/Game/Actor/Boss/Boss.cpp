@@ -81,6 +81,30 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  待機中の更新
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection) {
+
+	viewProjection_ = viewProjection;
+
+	if (!IsValid()) {
+		return;
+	}
+
+	// 画面に対する位置決めだけは通常時と同じにしておく。
+	// 通さないとSceneに置かれたままの座標で映ってしまう
+	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
+	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
+
+	if (WorldTransform* transform = GetTransform()) {
+		transform->SetTranslate(position_);
+	}
+
+	UpdateScale();
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  スケール
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
