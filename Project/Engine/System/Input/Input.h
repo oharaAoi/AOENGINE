@@ -107,6 +107,12 @@ public:
 	/// </summary>
 	void GamePadInitialize();
 
+	/// <summary>
+	/// 最後に入力されたデバイスを取得する
+	/// </summary>
+	/// <returns></returns>
+	InputDevice GetInputDevice() const { return inputDevice_; }
+
 public: // 入力
 
 	// 入力を受け付けない用にする

@@ -15,6 +15,7 @@
 #include "Game/UI/PlayerUI.h"
 #include "Game/UI/BossUI.h"
 #include "Game/UI/IntroUI.h"
+#include "Game/UI/ControlUI.h"
 
 
 class Player;
@@ -112,6 +113,7 @@ protected:
 	std::unique_ptr<RetryUI> retryUI_;
 	std::unique_ptr<PlayerUI> playerUI_;
 	std::unique_ptr<BossUI> bossUI_;
+	std::unique_ptr<ControlUI> controlUI_;
 
 	// 開始前のカウントダウン。終わるまでアクターは止めておく
 	IntroUI introUI_;
