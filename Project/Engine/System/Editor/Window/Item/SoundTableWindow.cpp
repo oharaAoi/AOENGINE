@@ -17,6 +17,17 @@ std::string Lower(std::string text) {
     std::transform(text.begin(), text.end(), text.begin(), [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
     return text;
 }
+bool EditStringHint(const char* label, const char* hint, std::string& value) {
+    std::vector<char> buffer(value.begin(), value.end());
+    buffer.resize((std::max)(size_t{4096}, value.size() + 1024), '\0');
+    if (!ImGui::InputTextWithHint(label, hint, buffer.data(), buffer.size())) { return false; }
+    value = buffer.data();
+    return true;
+}
+// query must already be lowered. An empty query keeps every row.
+bool Matches(const SoundDefinition& row, const std::string& query) {
+    return query.empty() || Lower(row.name).find(query) != std::string::npos || Lower(row.file).find(query) != std::string::npos;
+}
 }
 void SoundTableWindow::Init() {
     name_ = "Sound Table";
@@ -70,7 +81,9 @@ void SoundTableWindow::Edit() {
     ImGui::TextDisabled("%s%s", catalog.GetTablePath().string().c_str(), dirty_ ? "  * Unsaved" : "");
     ImGui::BeginDisabled(dialogRow_ >= 0);
     if (ImGui::Button("Add")) {
-        SoundDefinition row; row.name = UniqueName("Sound"); rows_.push_back(std::move(row)); dirty_ = true;
+        SoundDefinition row; row.name = UniqueName("Sound");
+        if (!Matches(row, Lower(search_))) { search_.clear(); }
+        rows_.push_back(std::move(row)); dirty_ = true;
     }
     ImGui::SameLine();
     if (ImGui::Button("Save")) {
@@ -91,7 +104,18 @@ void SoundTableWindow::Edit() {
     if (ImGui::Button("Stop preview")) { manager.Stop(preview_); preview_ = {}; }
     ImGui::SameLine();
     ImGui::TextUnformatted(manager.IsPlaying(preview_) ? "Preview playing" : "");
-    EditString("Search name / file", search_);
+    ImGui::SetNextItemWidth(240);
+    EditStringHint("##search", "Search name / file", search_);
+    ImGui::SameLine();
+    ImGui::BeginDisabled(search_.empty());
+    if (ImGui::Button("Clear")) { search_.clear(); }
+    ImGui::EndDisabled();
+    const auto query = Lower(search_);
+    const auto shown = std::count_if(rows_.begin(), rows_.end(), [&](const auto& row) { return Matches(row, query); });
+    if (!query.empty()) {
+        ImGui::SameLine();
+        ImGui::TextDisabled("%d / %d shown", static_cast<int>(shown), static_cast<int>(rows_.size()));
+    }
     if (!message_.empty()) { ImGui::TextWrapped("%s", message_.c_str()); }
     float master = Audio::GetMasterVolume();
     ImGui::SetNextItemWidth(140);
@@ -106,10 +130,9 @@ void SoundTableWindow::Edit() {
     if (ImGui::BeginTable("Sounds", 8, ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg | ImGuiTableFlags_Resizable | ImGuiTableFlags_ScrollX)) {
         for (const char* title : {"Name", "File", "Volume", "Loop", "Category", "Max", "Actions", "Status"}) { ImGui::TableSetupColumn(title); }
         ImGui::TableHeadersRow();
-        const auto query = Lower(search_);
         for (size_t i = 0; i < rows_.size(); ++i) {
             auto& row = rows_[i];
-            if (!query.empty() && Lower(row.name + " " + row.file).find(query) == std::string::npos) { continue; }
+            if (!Matches(row, query)) { continue; }
             ImGui::PushID(static_cast<int>(i));
             ImGui::TableNextRow(); ImGui::TableNextColumn();
             ImGui::SetNextItemWidth(-1); dirty_ |= EditString("##name", row.name);
@@ -156,7 +179,9 @@ void SoundTableWindow::Edit() {
         ImGui::EndTable();
     }
     if (duplicate >= 0) {
-        auto row = rows_[duplicate]; row.name = UniqueName(row.name + "Copy"); rows_.push_back(std::move(row)); dirty_ = true;
+        auto row = rows_[duplicate]; row.name = UniqueName(row.name + "Copy");
+        if (!Matches(row, query)) { search_.clear(); }
+        rows_.push_back(std::move(row)); dirty_ = true;
     }
     if (remove >= 0) { rows_.erase(rows_.begin() + remove); dirty_ = true; }
     ImGui::EndDisabled();

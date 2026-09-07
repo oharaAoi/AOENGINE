@@ -105,6 +105,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 		// 画面外で当たらないように、カメラに映るまで判定を切っておく
 		collider->SetIsActive(false);
 	}
+	
+	// se
+	Engine::GetSoundManager()->Play("FireballSpawn");
 }
 
 void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
@@ -183,6 +186,10 @@ void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 			}
 			it->entity.Destroy();
 			it = fireballs_.erase(it);
+
+			// se
+			Engine::GetSoundManager()->Play("FireballHit");
+
 			continue;
 		}
 		++it;

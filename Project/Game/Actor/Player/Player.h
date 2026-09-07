@@ -122,6 +122,8 @@ private:
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
 
+	bool IsAlive() const{ return currentHp_ > 0.0f; }
+
 	// チュートリアルの達成判定に使う。今つないでいるブロックグループの数
 	int GetConnectedGroupCount() const{
 		return static_cast<int>(blockGroupConnectState_.GetConnectedGroups().size());

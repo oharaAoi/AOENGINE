@@ -3,8 +3,10 @@
 #include <array>
 #include <functional>
 
-#include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
+#include "Engine/System/Audio/SoundManager.h"
+
+#include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
 
 class BossAttackBeam :public BaseBossAttackBehavior {
 public:
@@ -103,6 +105,10 @@ private:
 	AOENGINE::BaseEntity warningLine_;	// 予測線
 	AOENGINE::BaseEntity warningMark_;	// 三角の危険マーク
 	AOENGINE::BaseEntity beam_;			// ビーム本体
+
+	// sound handle
+	AOENGINE::SoundHandle warningSound_;
+	AOENGINE::SoundHandle shotSound_;
 
 	// Prefab名
 	const std::string kWarningLinePrefab_ = "BeamWarningLine";

@@ -1,5 +1,9 @@
 #include "PlayerJump.h"
 
+/// engine
+#include <Core/Engine.h>
+#include <System/Audio/SoundManager.h>
+
 PlayerJump::PlayerJump() {
 	// --- 接地 ---
 	stateUpdaters_[ToIndex(State::Grounded)] = [this](float deltaTime, bool jumpTriggered) {
@@ -11,6 +15,8 @@ PlayerJump::PlayerJump() {
 			ChangeState(State::Rising);
 			jumpStarted_ = true;
 			isPlayerJump_ = true;
+
+			Engine::GetSoundManager()->Play("PlayerJump");
 		}
 	};
 
@@ -64,6 +70,7 @@ void PlayerJump::Land() {
 	// 着地へ切り替え
 	if (state_ == State::Falling || state_ == State::Hanging) {
 		ChangeState(State::Grounded);
+		Engine::GetSoundManager()->Play("PlayerLand");
 	}
 }
 

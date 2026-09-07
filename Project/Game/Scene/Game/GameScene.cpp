@@ -6,6 +6,7 @@
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include <System/Audio/SoundManager.h>
 
 /// game
 #include "Game/Actor/Player/Player.h"
@@ -13,7 +14,11 @@
 #include "Game/Actor/Floor/DamageFloor.h"
 #include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Block.h"
-#include <System/Audio/SoundManager.h>
+
+namespace {
+	constexpr std::string kBgmTag = "GameBGM";
+	constexpr std::string kGameOverBgmTag = "GameOverBGM";
+}
 
 GameScene::GameScene() {}
 
@@ -33,6 +38,9 @@ void GameScene::Finalize()
 	// GameScene のデストラクタからも呼ばれるため、複数回呼ばれても安全であること。
 	ClearStage();
 	player_.reset();
+
+	Engine::GetSoundManager()->Stop(bgmHandle_);
+	Engine::GetSoundManager()->Stop(gameOverBgmHandle_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,6 +77,9 @@ void GameScene::Init()
 	retryUI_ = std::make_unique<RetryUI>();
 	playerUI_ = std::make_unique<PlayerUI>();
 	bossUI_ = std::make_unique<BossUI>();
+
+	bgmHandle_ = Engine::GetSoundManager()->Play(kBgmTag);
+
 }
 
 void GameScene::OnPlayStart()
@@ -112,13 +123,14 @@ void GameScene::OnPlayStart()
 void GameScene::Update()
 {
 	// ココにPlayerが生存しているかどうかを渡す
-	if (RetrySelect(false)) {
+	if (RetrySelect(player_->IsAlive())) {
 		return;
 	}
 
 	// ボスを倒しきって撃破演出まで終わったらクリアへ
 	if (boss_ && boss_->IsDefeatFinished()) {
 		nextSceneType_ = SceneType::Clear;
+		Engine::GetSoundManager()->Play("GameClearEffect");
 		return;
 	}
 
@@ -278,7 +290,14 @@ void GameScene::ClearStage()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool GameScene::RetrySelect(bool isPlayerAlive) {
-	if (!isPlayerAlive) { return false; }
+	if (isPlayerAlive) { return false; }
+
+	auto* soundManager = Engine::GetSoundManager();
+	if(!soundManager->IsPlaying(gameOverBgmHandle_)){
+		gameOverBgmHandle_ = soundManager->Play(kGameOverBgmTag);
+		soundManager->Play("GameOverEffect");
+		soundManager->Stop(bgmHandle_);
+	}
 
 	// リトライの際の処理
 	RetryItem currentItem = retryUI_->Update(isPlayerAlive);
