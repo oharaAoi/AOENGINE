@@ -1154,61 +1154,6 @@
                     1.0
                 ],
                 "drawRange": [
-                    251.0,
-                    1000.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 2,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "playerHP_gauge",
-                "textureSize": [
-                    251.0,
-                    1000.0
-                ],
-                "translate": [
-                    -19.72607421875,
-                    -79.5999984741211,
-                    1.0
-                ]
-            },
-            "id": 729,
-            "name": "PlayerHP",
-            "parentId": 728,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
                     422.0,
                     500.0
                 ],
@@ -1244,6 +1189,61 @@
             "id": 774,
             "name": "BossIcon",
             "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    251.0,
+                    1000.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "playerHP_gauge",
+                "textureSize": [
+                    251.0,
+                    1000.0
+                ],
+                "translate": [
+                    -19.72607421875,
+                    -79.5999984741211,
+                    1.0
+                ]
+            },
+            "id": 729,
+            "name": "PlayerHP",
+            "parentId": 728,
             "type": "Sprite"
         },
         {

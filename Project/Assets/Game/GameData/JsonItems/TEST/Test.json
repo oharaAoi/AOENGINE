@@ -147,36 +147,6 @@
         {
             "active": true,
             "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "DamageFloor",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    15.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.038187261670827866,
-                    -1.7286348342895508,
-                    -0.9415364265441895
-                ]
-            },
-            "id": 702,
-            "name": "DamageFloor",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -226,7 +196,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_16",
+                "texture": "__Text_18",
                 "textureSize": [
                     135.0,
                     42.0
@@ -275,67 +245,32 @@
         {
             "active": true,
             "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
+                "enableShadow": false,
                 "isReflection": false,
                 "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "plane.obj",
+                "prefab": "Beam",
                 "rotate": [
                     0.0,
-                    -0.9984081387519836,
                     0.0,
-                    0.05640167370438576
+                    0.0,
+                    1.0
                 ],
                 "scale": [
                     1.0,
                     1.0,
                     1.0
                 ],
+                "transformType": "3D",
                 "translate": [
-                    2.9000000953674316,
+                    -4.412920951843262,
                     0.0,
-                    0.0
+                    -1.7368392944335938
                 ]
             },
-            "id": 840,
-            "name": "new object",
+            "id": 872,
+            "name": "Beam",
             "parentId": null,
-            "type": "BaseGameObject"
+            "type": "PrefabInstance"
         }
     ],
     "sceneName": "Test",

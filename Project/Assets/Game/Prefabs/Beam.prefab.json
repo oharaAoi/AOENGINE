@@ -8,7 +8,7 @@
                 "components": [
                     {
                         "active": true,
-                        "category": "Beam",
+                        "category": "Default",
                         "collisionMask": [
                             "Player"
                         ],
@@ -23,11 +23,42 @@
                             1.0,
                             1.0
                         ],
-                        "static": false,
-                        "trigger": true,
+                        "static": true,
+                        "trigger": false,
                         "type": "AABBCollider"
                     }
                 ],
+                "enableShadow": false,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "Beam",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
                 "enableShadow": false,
                 "isReflection": false,
                 "isRendering": true,
@@ -36,13 +67,14 @@
                         "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            0.25,
-                            0.10000000149011612,
+                            1.0,
+                            1.0,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": false,
+                        "enableLighting": true,
                         "iblScale": 0.5,
+                        "pipeline": "",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 0,
@@ -62,18 +94,82 @@
                             0.0,
                             0.0
                         ]
+                    },
+                    {
+                        "albedoTexture": "laser.dds",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "Object_AddCut.json",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "laser.dds",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "Object_AddCut.json",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 2,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
                     }
                 ],
-                "model": "Block.obj",
+                "model": "laser.obj",
                 "rotate": [
                     0.0,
+                    0.7094968557357788,
                     0.0,
-                    0.0,
-                    1.0
+                    0.7047085762023926
                 ],
                 "scale": [
-                    40.0,
-                    1.2000000476837158,
+                    1.0,
+                    1.0,
                     1.0
                 ],
                 "translate": [
@@ -82,9 +178,9 @@
                     0.0
                 ]
             },
-            "id": 1,
-            "name": "Beam",
-            "parentId": null,
+            "id": 2,
+            "name": "BeamEnergy",
+            "parentId": 1,
             "type": "BaseGameObject"
         }
     ],
