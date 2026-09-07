@@ -16,6 +16,7 @@
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/Camera/FollowCamera.h"
 
 using namespace AOENGINE;
 
@@ -44,6 +45,11 @@ void Player::Init(BaseGameObject* body){
 	facing_ = 1.0f;
 	scaleMultiplier_ = CVector3::UNIT;
 	animation_.Init();
+
+	// cameraの情報を読取る
+	cameraShakeParameter_.SetGroupName("Player");
+	cameraShakeParameter_.SetName("playerDamageCameraShake");
+	cameraShakeParameter_.Load();
 
 	// HPを満タンにする
 	currentHp_ = parameter_.maxHp;
@@ -405,6 +411,12 @@ bool Player::TakeDamage(float amount){
 	invincibleBlinkTimer_ = 0.0f;
 	isBlinkVisible_ = true;
 
+	// カメラを揺らす
+	if (pCamera_) {
+		pCamera_->PlayShake(cameraShakeParameter_);
+	}
+
+	// 音を鳴らす
 	Engine::GetSoundManager()->Play("PlayerDamaged");
 
 	return true;
@@ -711,5 +723,11 @@ void Player::Debug_Gui(){
 	if(ImGui::CollapsingHeader("Parameter")){
 		// 調整 + Save/Load
 		parameter_.Debug_Gui();
+	}
+
+	if (ImGui::CollapsingHeader("CameraShakeParameter")) {
+		// 調整 + Save/Load
+		cameraShakeParameter_.Debug_Gui();
+		cameraShakeParameter_.SaveAndLoad();
 	}
 }

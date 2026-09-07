@@ -1,0 +1,37 @@
+{
+    "playerDamageCameraShake": {
+        "decay": 2,
+        "duration": 0.30000001192092896,
+        "noiseFrequency": 15.0,
+        "noiseStrength": 1.0,
+        "noiseType": 0,
+        "phase": {
+            "x": 0.0,
+            "y": 1.7000000476837158,
+            "z": 3.0999999046325684
+        },
+        "positionAmplitude": {
+            "x": 0.30000001192092896,
+            "y": 0.30000001192092896,
+            "z": 0.0
+        },
+        "positionFrequency": {
+            "x": 25.0,
+            "y": 31.0,
+            "z": 0.0
+        },
+        "rotationAmplitude": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 1.0
+        },
+        "rotationFrequency": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 20.0
+        },
+        "seed": 0,
+        "source": 1,
+        "strength": 1.899999976158142
+    }
+}

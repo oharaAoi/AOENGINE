@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include <Module/Entity/Camera/Component/CameraShakeParameters.h>
 #include "Game/Actor/Player/PlayerParameter.h"
 #include "Game/Actor/Player/Component/PlayerAnimation.h"
 #include "Game/Actor/Player/Component/PlayerBlockIgnore.h"
@@ -17,6 +18,7 @@ namespace AOENGINE {
 	class Rigidbody;
 }
 
+class FollowCamera;
 class StageBlockField;
 class Block;
 
@@ -100,6 +102,10 @@ private:
 	BlockGroupConnectState blockGroupConnectState_;
 	BlockGroupLauncherManager blockGroupLauncherManager_;
 
+	// 揺らす対象のカメラ
+	FollowCamera* pCamera_ = nullptr;
+	CameraShakeRequest cameraShakeParameter_;
+
 	// 集合・打ち上げの対象を引き当てる連結グループ表(非所有)
 	StageBlockField* pBlockField_ = nullptr;
 
@@ -180,6 +186,9 @@ public: // accessor
 
 	Math::Vector3 GetVelocity() const;
 	float GetFacing() const{ return facing_; }
+
+	/// カメラを揺らせるように渡しておく
+	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }
 
 	// 演出でスケールを動かす時の倍率。基準の大きさ(baseScale)に掛かる
 	void SetScaleMultiplier(const Math::Vector3& multiplier){ scaleMultiplier_ = multiplier; }
