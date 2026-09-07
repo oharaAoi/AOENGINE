@@ -140,8 +140,6 @@ public: // accessor
 
 	/// <summary>
 	/// 空中から足場へ降りた直後かどうか。
-	/// 着地したフレームで開き、足場から外れるか受付時間が尽きると閉じる。
-	/// 「落下中か」ではなく「ジャンプして着地したか」を見たい時はこちらを使う
 	/// </summary>
 	bool IsJustLanded() const{ return landedTimer_ > 0.0f; }
 

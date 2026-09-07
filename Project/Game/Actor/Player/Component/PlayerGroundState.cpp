@@ -21,7 +21,6 @@ PlayerGroundState::Result PlayerGroundState::Resolve(
 
 	Result result{};
 
-	// 落下が速いと1フレームでブロックを跨いでしまうので、
 	// 前フレームに進んだぶんも見る範囲に足しておく
 	const float checkDown = params.groundCheckDistance + std::abs(context.velocityY) * deltaTime;
 
@@ -33,14 +32,12 @@ PlayerGroundState::Result PlayerGroundState::Resolve(
 			// 上から押し戻された = 頭をぶつけた
 			result.hitCeiling = true;
 		} else if (pushback.y > kPushbackThreshold && !context.isBigJump) {
-			// 下から押し戻された = 足場の上に乗っている。
-			// 大ジャンプ中はBlockとの判定を切っているので、押し戻しでは着地を決めない
+			// 下から押し戻された = 足場の上に乗っている
 			result.isSupported = true;
 		}
 	}
 
-	// 押し戻しは一番浅い軸へ1本しか返らないため、横のブロックに触れたフレームで
-	// Y成分が消えて接地が外れ、歩いている最中に落下扱いになってしまう。
+
 	// 足元を直接見る判定と併用して、どちらかで支えられていれば接地とする
 	float groundTopY = 0.0f;
 	if (TryGetGroundTop(checkDown, context, params, groundTopY)) {
@@ -49,8 +46,7 @@ PlayerGroundState::Result PlayerGroundState::Resolve(
 		result.groundTopY = groundTopY;
 	}
 
-	// 天井も同じ理由で押し戻し任せにできない。上昇中は頭の上を直接見る。
-	// 1フレームで進むぶんを足しておかないと、速いジャンプで足場を跨いでしまう
+	// 天井も同じ理由で押し戻し任せにできない。上昇中は頭の上を直接見る
 	if (context.velocityY > 0.0f) {
 		const float checkUp = params.groundCheckDistance + context.velocityY * deltaTime;
 
@@ -209,8 +205,7 @@ void PlayerGroundState::SnapToGround(const Context& context, const Params& param
 		return;
 	}
 
-	// 接地中は足場へ押し付ける速度がかかり続けるので、押し戻し任せだと
-	// 毎フレーム沈んでは戻される形になって上下に震える。
+
 	// 下にある足場の上面は分かっているので、その高さへ直接置き直す
 	Math::Vector3 position = context.transform->GetTranslate();
 	position.y = CalcStandY(groundTopY, params);
