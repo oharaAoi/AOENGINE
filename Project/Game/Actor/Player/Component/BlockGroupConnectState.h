@@ -99,6 +99,9 @@ public: // accessor
 	bool CanConnect() const { return phase_ == Phase::Connecting && remainingTime_ > 0.0f; }
 	// 現在の状態
 	Phase GetPhase() const { return phase_; }
+	// 調整値を取得
+	const Params& GetParams() const{ return params_; }
+
 	// 接続されたグループのリストを取得
 	const std::vector<ConnectedGroup>& GetConnectedGroups() const { return connectedGroups_; }
 	// 集合地点を取得

@@ -21,9 +21,13 @@ public: // public method
 
 	void Update(Player* player);
 
+private:
+	void UpdateHP(Player* player);
+	void UpdateConnectableTime(Player* player);
+
 private: // private variable
 
 	AOENGINE::Sprite* hp_ = nullptr;
-
+	AOENGINE::Sprite* connectableTime_ = nullptr;
 };
 

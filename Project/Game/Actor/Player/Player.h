@@ -121,6 +121,7 @@ private:
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
+	const BlockGroupConnectState* GetBlockGroupConnectState() const{ return &blockGroupConnectState_; }
 
 	bool IsAlive() const{ return currentHp_ > 0.0f; }
 
