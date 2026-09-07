@@ -222,6 +222,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h" />
     <ClInclude Include="Engine\Module\Components\2d\Text.h" />
     <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
@@ -594,6 +595,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />

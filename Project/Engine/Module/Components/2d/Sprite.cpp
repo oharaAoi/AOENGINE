@@ -7,6 +7,7 @@
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Module/Components/2d/InputTextureButtonComponent.h"
 
 using namespace AOENGINE;
 
@@ -165,6 +166,17 @@ void Sprite::Init(const std::string& textureName) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Update() {
+	UpdateVisual();
+	if (buttonComponent_) {
+		buttonComponent_->Update(*this);
+	}
+}
+
+void Sprite::EditorUpdate() {
+	UpdateVisual();
+}
+
+void Sprite::UpdateVisual() {
 	if (fillMethod_ == FillMethod::Radial) {
 		materialData_->arcType = 1;
 	} else {
@@ -190,6 +202,19 @@ void Sprite::Update() {
 	materialData_->uvTransform.m[1][1] = drawRange_.y / spriteSize_.y;	// Yスケーリング
 	materialData_->uvTransform.m[3][0] = leftTop_.x / spriteSize_.x;	// Xオフセット
 	materialData_->uvTransform.m[3][1] = leftTop_.y / spriteSize_.y;	// Yオフセット
+}
+
+void Sprite::AddButtonComponent() {
+	if (!buttonComponent_) {
+		buttonComponent_ = std::make_unique<InputTextureButtonComponent>();
+	}
+}
+
+void Sprite::RemoveButtonComponent() {
+	if (buttonComponent_) {
+		buttonComponent_->Reset(*this);
+		buttonComponent_.reset();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

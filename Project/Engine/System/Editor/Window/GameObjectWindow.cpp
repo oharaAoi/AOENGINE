@@ -274,7 +274,7 @@ void GameObjectWindow::InspectorWindow() {
 		DrawPrefabOverride(*selectedObject);
 		ImGui::Separator();
 		if (canvasItem) {
-			canvasItem->Debug_Gui();
+			SpriteInspector::Draw(*canvasItem);
 		} else if (particleManager) {
 			particleManager->Debug_Gui();
 		} else if (gpuParticleManager) {

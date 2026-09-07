@@ -504,6 +504,9 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
@@ -1614,6 +1617,9 @@
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
