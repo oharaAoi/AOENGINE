@@ -226,7 +226,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_34",
+                "texture": "__Text_16",
                 "textureSize": [
                     135.0,
                     42.0
@@ -271,6 +271,71 @@
             "name": "Fireball",
             "parentId": null,
             "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "plane.obj",
+                "rotate": [
+                    0.0,
+                    -0.9984081387519836,
+                    0.0,
+                    0.05640167370438576
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    2.9000000953674316,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 840,
+            "name": "new object",
+            "parentId": null,
+            "type": "BaseGameObject"
         }
     ],
     "sceneName": "Test",

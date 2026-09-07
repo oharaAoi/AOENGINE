@@ -14,12 +14,12 @@ void MathAddNode::Init() {
 }
 
 void MathAddNode::customUpdate() {
+	a_ = getInVal<float>("A");
+	b_ = getInVal<float>("B");
 	value_ = a_ + b_;
 }
 
 void MathAddNode::draw() {
-	a_ = getInVal<float>("A");
-	b_ = getInVal<float>("B");
 }
 
 nlohmann::json MathAddNode::toJson() {
