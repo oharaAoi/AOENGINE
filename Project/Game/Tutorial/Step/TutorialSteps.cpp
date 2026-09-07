@@ -35,8 +35,8 @@ void TutorialStepMove::Update(TutorialContext& context, float deltaTime) {
 		hasMoved_ = true;
 	}
 
-	// 接地していなければジャンプしたとみなす
-	if (!player->IsGrounded()) {
+	// ジャンプしたら達成
+	if (player->IsJumpStarted()) {
 		hasJumped_ = true;
 	}
 }

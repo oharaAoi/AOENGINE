@@ -132,6 +132,9 @@ public: // accessor
 
 	bool IsGrounded() const{ return jump_.IsGrounded(); }
 
+	/// <summary>今フレーム、入力でジャンプを始めたか</summary>
+	bool IsJumpStarted() const { return jump_.IsJumpStarted(); }
+
 	// 落下中（着地しうる状態）かどうか
 	bool IsFalling() const{ return jump_.GetState() == PlayerJump::State::Falling || jump_.GetState() == PlayerJump::State::Hanging; }
 
