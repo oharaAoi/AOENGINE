@@ -74,7 +74,8 @@
                         "discardValue": 0.009999999776482582,
                         "enableLighting": true,
                         "iblScale": 0.5,
-                        "pipeline": "",
+                        "pipeline": "Object_NormalCut.json",
+                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/laser.json",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 0,
@@ -96,18 +97,19 @@
                         ]
                     },
                     {
-                        "albedoTexture": "laser.dds",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            0.0784313753247261,
-                            0.0784313753247261,
+                            0.7019608020782471,
+                            0.7019608020782471,
                             1.0
                         ],
-                        "discardValue": 0.41999998688697815,
+                        "discardValue": 0.009999999776482582,
                         "enableLighting": false,
                         "iblScale": 0.5,
-                        "pipeline": "Object_NormalCut.json",
-                        "shaderType": 0,
+                        "pipeline": "Object_AddCut.json",
+                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/laser.json",
+                        "shaderType": 1,
                         "shininess": 100.0,
                         "slot": 1,
                         "type": "Normal",
@@ -128,18 +130,19 @@
                         ]
                     },
                     {
-                        "albedoTexture": "laser.dds",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
-                            0.07722008228302002,
-                            0.07722008228302002,
+                            0.7027027010917664,
+                            0.7027027010917664,
                             1.0
                         ],
-                        "discardValue": 0.6000000238418579,
+                        "discardValue": 0.009999999776482582,
                         "enableLighting": false,
                         "iblScale": 0.5,
-                        "pipeline": "Object_NormalCut.json",
-                        "shaderType": 0,
+                        "pipeline": "Object_AddCut.json",
+                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/laser.json",
+                        "shaderType": 1,
                         "shininess": 100.0,
                         "slot": 2,
                         "type": "Normal",
@@ -162,10 +165,10 @@
                 ],
                 "model": "laser.obj",
                 "rotate": [
-                    0.0,
-                    0.6950405240058899,
-                    0.0,
-                    0.718970537185669
+                    -0.6959274411201477,
+                    0.0022937327157706022,
+                    -0.7181046009063721,
+                    -0.0023667386267334223
                 ],
                 "scale": [
                     1.0,

@@ -5,6 +5,7 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/System/Manager/PrefabManager.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/Utilities/Logger.h"
 
@@ -263,7 +264,9 @@ void BossAttackBeam::SpawnBeam(const Boss& boss) {
 		transform->SetScale(param.beamSize);
 	}
 
-
+	// エフェクトを出す
+	AOENGINE::ParticleEffectManager::GetInstance()->Play(
+		"laserFireEffect", Math::Vector3(param.beamEffectPosX, beamPosY_, 0.0f));
 }
 
 void BossAttackBeam::DestroyBeam() {

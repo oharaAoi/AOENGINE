@@ -15,6 +15,7 @@
         "beamChargePosX": -7.5,
         "beamCount": 3,
         "beamDamage": 25.0,
+        "beamEffectPosX": -11.5,
         "beamSize": {
             "x": 40.0,
             "y": 1.7000000476837158,
