@@ -146,8 +146,8 @@ private:
 
 	// 背景を暗くするスプライト
 	AOENGINE::Sprite* back_ = nullptr;
-	// 最初に出す目的の絵
-	AOENGINE::Sprite* objective_ = nullptr;
+	// 最初に出す目的。絵ができるまでは文字で出す
+	AOENGINE::Text* objective_ = nullptr;
 
 	// 今の流れと、その経過時間
 	Phase phase_ = Phase::Done;
@@ -169,7 +169,7 @@ private:
 
 	// シーン上での名前
 	const std::string kBackName = "IntroBack";
-	const std::string kObjectiveName = "IntroObjective";
+	const std::string kObjectiveName = "Text_IntroObjective";
 	const std::string kItemName = "Text_IntroItem";
 
 	// 出す文字。今は画像を使わず Text で書く

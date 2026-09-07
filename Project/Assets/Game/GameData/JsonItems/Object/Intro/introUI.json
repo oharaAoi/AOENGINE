@@ -30,6 +30,7 @@
             "y": 0.0
         },
         "nextOffsetTime": 0.14000000059604645,
+        "objectiveFontSize": 80.0,
         "objectiveHoldTime": 1.5,
         "objectiveInEaseKind": 3,
         "objectiveInTime": 0.6399999856948853,
@@ -39,16 +40,12 @@
             "x": 960.0,
             "y": 460.0
         },
-        "objectiveRotateEnd": 1240.0,
+        "objectiveRotateEnd": 748.0,
         "objectiveRotateStart": -30.0,
         "objectiveScaleEnd": 1.25,
         "objectiveScaleStart": 0.0,
-        "objectiveSize": {
-            "x": 800.0,
-            "y": 200.0
-        },
         "objectiveStartWaitTime": 0.6899999976158142,
-        "objectiveTextureName": "white.png",
+        "objectiveText": "テキストを入力！",
         "outEaseKind": 7,
         "outTime": 0.23000000417232513,
         "rightOffset": {

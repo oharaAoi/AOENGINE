@@ -22,10 +22,11 @@ struct IntroUIParameter :
 	Math::Vector2 backCenter{ 960.0f, 540.0f };
 	Math::Vector2 backSize{ 1920.0f, 1080.0f };
 
-	// --- 最初に出す目的。背景の箱は持たず、暗転の上に絵をそのまま出す ---
-	std::string objectiveTextureName = "white.png";
+	// --- 最初に出す目的。背景の箱は持たず、暗転の上にそのまま出す ---
+	// 絵ができるまでは文字で出す
+	std::string objectiveText = "テキストを入力！";
+	float objectiveFontSize = 80.0f;
 	Math::Vector2 objectivePos{ 960.0f, 460.0f };
-	Math::Vector2 objectiveSize{ 800.0f, 200.0f };
 
 	// シーンが始まってから目的を出すまでの待ち
 	float objectiveStartWaitTime;
@@ -96,9 +97,9 @@ struct IntroUIParameter :
 		AddParameter("Back Size", backSize, 1.0f);
 
 		AddSeparatorText("Objective");
-		AddParameter("Objective Texture", objectiveTextureName);
+		AddParameter("Objective Text", objectiveText);
+		AddParameter("Objective Font Size", objectiveFontSize, 1.0f, 1.0f, 500.0f);
 		AddParameter("Objective Pos", objectivePos, 1.0f);
-		AddParameter("Objective Size", objectiveSize, 1.0f);
 		AddParameter("Objective Start Wait Time", objectiveStartWaitTime, 0.01f, 0.0f, 30.0f);
 		AddParameter("Objective In Time", objectiveInTime, 0.01f, 0.0f, 30.0f);
 		AddParameter("Objective Hold Time", objectiveHoldTime, 0.01f, 0.0f, 30.0f);
@@ -142,9 +143,9 @@ struct IntroUIParameter :
 			.Add("backColor", backColor)
 			.Add("backCenter", backCenter)
 			.Add("backSize", backSize)
-			.Add("objectiveTextureName", objectiveTextureName)
+			.Add("objectiveText", objectiveText)
+			.Add("objectiveFontSize", objectiveFontSize)
 			.Add("objectivePos", objectivePos)
-			.Add("objectiveSize", objectiveSize)
 			.Add("objectiveStartWaitTime", objectiveStartWaitTime)
 			.Add("objectiveInTime", objectiveInTime)
 			.Add("objectiveInEaseKind", objectiveInEaseKind)
@@ -183,9 +184,9 @@ struct IntroUIParameter :
 		Convert::fromJson(jsonData, "backColor", backColor);
 		Convert::fromJson(jsonData, "backCenter", backCenter);
 		Convert::fromJson(jsonData, "backSize", backSize);
-		Convert::fromJson(jsonData, "objectiveTextureName", objectiveTextureName);
+		Convert::fromJson(jsonData, "objectiveText", objectiveText);
+		Convert::fromJson(jsonData, "objectiveFontSize", objectiveFontSize);
 		Convert::fromJson(jsonData, "objectivePos", objectivePos);
-		Convert::fromJson(jsonData, "objectiveSize", objectiveSize);
 		Convert::fromJson(jsonData, "objectiveStartWaitTime", objectiveStartWaitTime);
 		Convert::fromJson(jsonData, "objectiveInTime", objectiveInTime);
 		Convert::fromJson(jsonData, "objectiveInEaseKind", objectiveInEaseKind);

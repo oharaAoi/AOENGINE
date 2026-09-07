@@ -11,7 +11,6 @@
 #include <Engine/Module/Components/2d/Sprite.h>
 #include <Engine/Module/Components/2d/Text.h>
 #include <Engine/System/Manager/ImGuiManager.h>
-#include <Engine/System/Manager/TextureManager.h>
 #include <Engine/Utilities/SceneObjectFinder.h>
 
 using namespace AOENGINE;
@@ -254,9 +253,10 @@ void IntroUI::Init() {
 	}
 
 	// 最初に出す目的の絵
-	objective_ = ResolveSprite(kObjectiveName, "white.png", kTextRenderQueue);
+	objective_ = ResolveText(kObjectiveName, kTextRenderQueue);
 	if (objective_ != nullptr) {
 		objective_->SetAnchorPoint(kCenterAnchor);
+		objective_->SetTextAnchorPoint(kCenterAnchor);
 	}
 
 	// 文字は数だけ用意する。中身は変わらないのでここで入れておく
@@ -413,16 +413,13 @@ void IntroUI::PlaceObjective(float ratio) const {
 		return;
 	}
 
-	// jsonに書いた絵をまだ用意していない場合があるので、読めているものだけ差し替える
-	if (!parameter_.objectiveTextureName.empty() &&
-		objective_->GetTextureName() != parameter_.objectiveTextureName &&
-		TextureManager::GetInstance()->ExistTexture(parameter_.objectiveTextureName)) {
-		objective_->ReSetTexture(parameter_.objectiveTextureName);
+	// 同じ文字列を毎フレーム流し込むと、そのたびに文字のテクスチャを作り直すことになる
+	if (objective_->GetText() != parameter_.objectiveText) {
+		objective_->SetText(parameter_.objectiveText);
 	}
 
-	// 大きさは2つ揃えて入れないと絵が並んでしまう
-	objective_->ReSetTextureSize(parameter_.objectiveSize);
-	objective_->SetDrawRange(parameter_.objectiveSize);
+	objective_->SetFontSize(parameter_.objectiveFontSize);
+	objective_->SetTextColor(parameter_.textColor);
 	objective_->SetTranslate(parameter_.objectivePos);
 
 	const float scale = parameter_.objectiveScaleStart +
