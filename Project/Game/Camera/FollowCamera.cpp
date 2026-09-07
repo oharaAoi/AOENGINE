@@ -17,20 +17,19 @@ void FollowCamera::Init() {
 	BaseCamera::Init();
 	SetName("followCamera");
 
-	// 保存済みの調整値を読み込む
+	// パラメータ、シェイクロード
 	parameter_.Load();
-	// カメラシェイクはCustomParameterSetでは扱えない型なので、個別に読み込む
 	shakeRequest_.Load();
 
+	// 初期値
 	target_ = nullptr;
-
 	followVelocity_ = CVector3::ZERO;
 	smoothedTarget_ = CVector3::ZERO;
-	initialized_ = false;
-
 	cameraTargetY_ = 0.0f;
+	initialized_ = false;
 	isScrolling_ = false;
 
+	// ターゲット決定
 	ResolveTarget();
 }
 
@@ -44,11 +43,11 @@ void FollowCamera::Update() {
 	if (!target_) {
 		ResolveTarget();
 	}
-
+	// 追従
 	if (target_) {
 		FollowTarget(deltaTime);
 	}
-	// シェイクはBaseCameraが描画用姿勢へ適用する
+	// transform適用(追従ターゲット位置+普通のオフセット)
 	transform_.translate = smoothedTarget_ + parameter_.offset;
 
 	// 少し見下ろす向きに固定
@@ -93,29 +92,49 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		followVelocity_ = CVector3::ZERO;
 	}
 
+	// 直接追従と段階スクロールは同時には動かない
 	if (continuousFollowActive_) {
-		// ダメージ床のノックバックで飛んでいる間は、プレイヤーへ直接イージングで追従する
-		cameraTargetY_ = targetPos.y;
-
-		Math::Vector3 followTarget = smoothedTarget_;
-		followTarget.y = cameraTargetY_;
-
-		//smoothedTargetの計算
-		smoothedTarget_ = SmoothDamp(
-			smoothedTarget_, followTarget, followVelocity_,
-			parameter_.bigJumpSmoothTime, parameter_.bigJumpMaxSpeed, deltaTime);
-
-		// リクエストが終わっていて、かつ実際に追いつききったら通常モードへ戻す
-		const bool caughtUp = std::abs(targetPos.y - smoothedTarget_.y) < kScrollArriveThreshold;
-		if (!continuousFollowRequested_ && caughtUp) {
-			// 追いつききったので段階スクロールへ戻す
-			smoothedTarget_.y = targetPos.y;
-			followVelocity_ = CVector3::ZERO;
-			continuousFollowActive_ = false;
-			isScrolling_ = false;
-		}
+		UpdateContinuousFollow(targetPos, deltaTime);
 		return;
 	}
+
+	UpdateStepScroll(targetPos, deltaTime);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  直接追従
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void FollowCamera::UpdateContinuousFollow(const Math::Vector3& targetPos, float deltaTime) {
+
+	// ダメージ床のノックバックで飛んでいる間は、プレイヤーへ直接イージングで追従する
+	cameraTargetY_ = targetPos.y;
+
+	Math::Vector3 followTarget = smoothedTarget_;
+	followTarget.y = cameraTargetY_;
+
+	//smoothedTargetの計算
+	smoothedTarget_ = SmoothDamp(
+		smoothedTarget_, followTarget, followVelocity_,
+		parameter_.bigJumpSmoothTime, parameter_.bigJumpMaxSpeed, deltaTime);
+
+	// リクエストが終わっていて、かつ実際に追いつききったら通常モードへ戻す
+	const bool caughtUp = std::abs(targetPos.y - smoothedTarget_.y) < kScrollArriveThreshold;
+	if (!continuousFollowRequested_ && caughtUp) {
+
+		// 追いつききったので段階スクロールへ戻す
+		smoothedTarget_.y = targetPos.y;
+		followVelocity_ = CVector3::ZERO;
+		continuousFollowActive_ = false;
+		isScrolling_ = false;
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  段階スクロール(通常時)
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void FollowCamera::UpdateStepScroll(const Math::Vector3& targetPos, float deltaTime) {
 
 	// スクロール中はスクロール判定しない
 	if (!isScrolling_) {
@@ -125,6 +144,7 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		// 0から1を、NDCように-1から1の間になるようにする
 		const float triggerNdcY = parameter_.scrollTriggerScreenY * 2.0f - 1.0f;
 
+		// スクロール条件を超えたら上にスクロールする
 		if (screenPos.y >= triggerNdcY) {
 			cameraTargetY_ = smoothedTarget_.y + parameter_.scrollHeight;
 			isScrolling_ = true;

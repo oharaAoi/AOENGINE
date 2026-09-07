@@ -26,8 +26,7 @@ public:
 		float smoothTime;				// スクロールのイージング
 		float maxSpeed;					// スクロールの最大速度
 		float scrollHeight;				// 1回のスクロールで上昇する高さ
-		// スクロールを始めるプレイヤーの画面上の高さ
-		float scrollTriggerScreenY = 0.5f;
+		float scrollTriggerScreenY = 0.5f;// スクロールを始めるプレイヤーの画面上の高さ
 		float bigJumpSmoothTime;		// 大ジャンプ中に直接追従する時のイージング
 		float bigJumpMaxSpeed;			// 大ジャンプ中に直接追従する時の最大速度
 
@@ -88,6 +87,16 @@ private:
 
 	void FollowTarget(float deltaTime);
 
+	/// <summary>
+	/// ダメージ床で飛んでいる間、プレイヤーの高さへ直接追従する
+	/// </summary>
+	void UpdateContinuousFollow(const Math::Vector3& targetPos, float deltaTime);
+
+	/// <summary>
+	/// 通常時の追従。プレイヤーが決めた画面高さまで来たら、1段ぶん上へスクロールする
+	/// </summary>
+	void UpdateStepScroll(const Math::Vector3& targetPos, float deltaTime);
+
 private:
 
 	// 追従対象
@@ -106,10 +115,9 @@ private:
 	bool isScrolling_ = false;
 	static constexpr float kScrollArriveThreshold = 0.01f;
 
-	// ダメージ床のノックバックで上に飛んでいる間、外部(GameScene)からtrueが渡され続ける
+	// ダメージ床のノックバックで上に飛んでいる間のフラグ
 	bool continuousFollowRequested_ = false;
-	// 実際に直接追従モードとして動いているか。着地(=リクエストがfalseに戻る)しても
-	// カメラが追いつくまではtrueのまま維持し、追いついてから段階スクロールへ戻す
+	// 実際に直接追従モードとして動いているか
 	bool continuousFollowActive_ = false;
 
 	// カメラシェイクの調整用リクエスト
