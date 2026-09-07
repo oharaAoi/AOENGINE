@@ -3,6 +3,7 @@
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
+#include "Engine/Module/Components/2d/InputTextureButtonComponent.h"
 
 #include <string>
 
@@ -12,6 +13,43 @@ namespace {
 
 const char* kBlendItems[] = { "None", "Normal", "Add", "Subtract", "Multiply", "Screen" };
 const char* kFillMethodItems[] = { "Vertical", "Horizontal", "Radial", "BothEnds" };
+
+struct KeyboardKeyItem {
+	const char* name;
+	uint8_t value;
+};
+
+const KeyboardKeyItem kKeyboardKeys[] = {
+	{ "Space", DIK_SPACE }, { "Enter", DIK_RETURN }, { "Escape", DIK_ESCAPE }, { "Tab", DIK_TAB },
+	{ "Up", DIK_UP }, { "Down", DIK_DOWN }, { "Left", DIK_LEFT }, { "Right", DIK_RIGHT },
+	{ "Left Shift", DIK_LSHIFT }, { "Right Shift", DIK_RSHIFT },
+	{ "Left Control", DIK_LCONTROL }, { "Right Control", DIK_RCONTROL },
+	{ "Left Alt", DIK_LALT }, { "Right Alt", DIK_RALT },
+	{ "A", DIK_A }, { "B", DIK_B }, { "C", DIK_C }, { "D", DIK_D }, { "E", DIK_E },
+	{ "F", DIK_F }, { "G", DIK_G }, { "H", DIK_H }, { "I", DIK_I }, { "J", DIK_J },
+	{ "K", DIK_K }, { "L", DIK_L }, { "M", DIK_M }, { "N", DIK_N }, { "O", DIK_O },
+	{ "P", DIK_P }, { "Q", DIK_Q }, { "R", DIK_R }, { "S", DIK_S }, { "T", DIK_T },
+	{ "U", DIK_U }, { "V", DIK_V }, { "W", DIK_W }, { "X", DIK_X }, { "Y", DIK_Y }, { "Z", DIK_Z },
+	{ "0", DIK_0 }, { "1", DIK_1 }, { "2", DIK_2 }, { "3", DIK_3 }, { "4", DIK_4 },
+	{ "5", DIK_5 }, { "6", DIK_6 }, { "7", DIK_7 }, { "8", DIK_8 }, { "9", DIK_9 },
+	{ "F1", DIK_F1 }, { "F2", DIK_F2 }, { "F3", DIK_F3 }, { "F4", DIK_F4 },
+	{ "F5", DIK_F5 }, { "F6", DIK_F6 }, { "F7", DIK_F7 }, { "F8", DIK_F8 },
+	{ "F9", DIK_F9 }, { "F10", DIK_F10 }, { "F11", DIK_F11 }, { "F12", DIK_F12 }
+};
+
+struct GamepadButtonItem {
+	const char* name;
+	XInputButtons value;
+};
+
+const GamepadButtonItem kGamepadButtons[] = {
+	{ "D-pad Up", DpadUp }, { "D-pad Down", DpadDown },
+	{ "D-pad Left", DpadLeft }, { "D-pad Right", DpadRight },
+	{ "Start", Start }, { "Back", Back },
+	{ "Left Stick", LStickThumb }, { "Right Stick", RStickThumb },
+	{ "Left Shoulder", LShoulder }, { "Right Shoulder", RShoulder },
+	{ "A", ButtonA }, { "B", ButtonB }, { "X", ButtonX }, { "Y", ButtonY }
+};
 
 }
 
@@ -82,7 +120,105 @@ void SpriteInspector::Draw(Sprite& sprite) {
 
 	DrawTexture(sprite);
 	DrawFill(sprite);
+	DrawButton(sprite);
 	DrawSaveLoad(sprite);
+}
+
+void SpriteInspector::DrawButton(Sprite& sprite) {
+	if (!sprite.HasButtonComponent()) {
+		if (ImGui::Button("Add Component")) {
+			ImGui::OpenPopup("SpriteAddComponentPopup");
+		}
+		if (ImGui::BeginPopup("SpriteAddComponentPopup")) {
+			if (ImGui::MenuItem("Button")) {
+				sprite.AddButtonComponent();
+			}
+			ImGui::EndPopup();
+		}
+		return;
+	}
+
+	InputTextureButtonComponent* button = sprite.GetButtonComponent();
+	if (!button) { return; }
+
+	bool remove = false;
+	const bool open = ImGui::CollapsingHeader("Button");
+	if (ImGui::BeginPopupContextItem("ButtonComponentContext")) {
+		remove = ImGui::MenuItem("Remove Component");
+		ImGui::EndPopup();
+	}
+
+	if (open) {
+		bool enabled = button->IsEnabled();
+		if (ImGui::Checkbox("Enabled##Button", &enabled)) {
+			button->Reset(sprite);
+			button->SetEnabled(enabled);
+		}
+
+		const char* inputTypes[] = { "Keyboard", "Gamepad" };
+		int inputType = static_cast<int>(button->GetInputType());
+		if (ImGui::Combo("Input Type", &inputType, inputTypes, IM_ARRAYSIZE(inputTypes))) {
+			button->Reset(sprite);
+			button->SetInputType(static_cast<ButtonInputType>(inputType));
+		}
+
+		if (button->GetInputType() == ButtonInputType::Keyboard) {
+			int selected = 0;
+			for (int i = 0; i < IM_ARRAYSIZE(kKeyboardKeys); ++i) {
+				if (kKeyboardKeys[i].value == button->GetKeyboardKey()) { selected = i; break; }
+			}
+			if (ImGui::BeginCombo("Key", kKeyboardKeys[selected].name)) {
+				for (int i = 0; i < IM_ARRAYSIZE(kKeyboardKeys); ++i) {
+					if (ImGui::Selectable(kKeyboardKeys[i].name, i == selected)) {
+						button->Reset(sprite);
+						button->SetKeyboardKey(kKeyboardKeys[i].value);
+					}
+				}
+				ImGui::EndCombo();
+			}
+		} else {
+			int selected = 0;
+			for (int i = 0; i < IM_ARRAYSIZE(kGamepadButtons); ++i) {
+				if (kGamepadButtons[i].value == button->GetGamepadButton()) { selected = i; break; }
+			}
+			if (ImGui::BeginCombo("Gamepad Button", kGamepadButtons[selected].name)) {
+				for (int i = 0; i < IM_ARRAYSIZE(kGamepadButtons); ++i) {
+					if (ImGui::Selectable(kGamepadButtons[i].name, i == selected)) {
+						button->Reset(sprite);
+						button->SetGamepadButton(kGamepadButtons[i].value);
+					}
+				}
+				ImGui::EndCombo();
+			}
+		}
+
+		const std::string& pressedTexture = button->GetPressedTexture();
+		if (!pressedTexture.empty()) {
+			const auto handle = TextureManager::GetInstance()->GetDxHeapHandles(pressedTexture).handleGPU;
+			ImGui::Image(reinterpret_cast<ImTextureID>(handle.ptr), ImVec2(64, 64));
+		} else {
+			ImGui::Button("Drop Texture Here", ImVec2(128, 64));
+		}
+		if (ImGui::BeginDragDropTarget()) {
+			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("ASSET_HANDLE")) {
+				const AssetHandle& asset = *static_cast<const AssetHandle*>(payload->Data);
+				if (asset.type == AssetType::Texture) {
+					const std::string texture = TextureManager::GetInstance()->SearchSprite(asset.id);
+					if (!texture.empty()) {
+						button->Reset(sprite);
+						button->SetPressedTexture(texture);
+					}
+				}
+			}
+			ImGui::EndDragDropTarget();
+		}
+		ImGui::SameLine();
+		ImGui::TextUnformatted("Pressed Texture");
+	}
+
+	if (remove) {
+		sprite.RemoveButtonComponent();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

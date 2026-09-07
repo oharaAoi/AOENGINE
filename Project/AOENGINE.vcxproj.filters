@@ -504,6 +504,9 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
@@ -1458,6 +1461,7 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\ControlUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1614,6 +1618,9 @@
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
@@ -2484,5 +2491,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\UI\ControlUI.cpp" />
   </ItemGroup>
 </Project>

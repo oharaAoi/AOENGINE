@@ -4,6 +4,7 @@
 
 #include "Engine/Module/Components/2d/Canvas2d.h"
 #include "Engine/Module/Components/2d/Sprite.h"
+#include "Engine/Module/Components/2d/InputTextureButtonComponent.h"
 #include "Engine/Module/Components/2d/Text.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Effect/ParticleSceneObject.h"
@@ -285,7 +286,7 @@ void DeserializeComponents(BaseGameObject& object, const json& components) {
 
 json SerializeSprite(const Sprite& sprite) {
 	const Math::SRT& transform = sprite.GetTransform()->GetTransform();
-	return {
+	json data = {
 		{ "texture", sprite.GetTextureName() },
 		{ "textureSize", Vector2ToJson(sprite.GetSpriteSize()) },
 		{ "translate", Vector3ToJson(transform.translate) },
@@ -303,6 +304,19 @@ json SerializeSprite(const Sprite& sprite) {
 			static_cast<float>(WinApp::sClientWidth),
 			static_cast<float>(WinApp::sClientHeight) }) }
 	};
+
+	data["components"] = json::array();
+	if (const InputTextureButtonComponent* button = sprite.GetButtonComponent()) {
+		data["components"].push_back({
+			{ "type", "Button" },
+			{ "enabled", button->IsEnabled() },
+			{ "inputType", button->GetInputType() == ButtonInputType::Keyboard ? "Keyboard" : "Gamepad" },
+			{ "keyboardKey", button->GetKeyboardKey() },
+			{ "gamepadButton", static_cast<int>(button->GetGamepadButton()) },
+			{ "pressedTexture", button->GetPressedTexture() }
+		});
+	}
+	return data;
 }
 
 json SerializeObject(const SceneObject& object) {
@@ -379,6 +393,22 @@ void DeserializeSprite(Sprite& sprite, const json& data) {
 		sprite.SetResizeReferenceSize({
 			static_cast<float>(WinApp::sClientWidth),
 			static_cast<float>(WinApp::sClientHeight) });
+	}
+
+	if (data.contains("components") && data.at("components").is_array()) {
+		for (const json& componentData : data.at("components")) {
+			if (componentData.value("type", "") != "Button") { continue; }
+			sprite.AddButtonComponent();
+			InputTextureButtonComponent* button = sprite.GetButtonComponent();
+			if (!button) { continue; }
+			button->SetEnabled(componentData.value("enabled", true));
+			button->SetInputType(componentData.value("inputType", "Keyboard") == "Gamepad"
+				? ButtonInputType::Gamepad : ButtonInputType::Keyboard);
+			button->SetKeyboardKey(static_cast<uint8_t>(componentData.value("keyboardKey", static_cast<int>(DIK_SPACE))));
+			button->SetGamepadButton(static_cast<XInputButtons>(componentData.value("gamepadButton", static_cast<int>(ButtonA))));
+			button->SetPressedTexture(componentData.value("pressedTexture", ""));
+			break;
+		}
 	}
 }
 

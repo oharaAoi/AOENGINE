@@ -1,5 +1,8 @@
 #include "GameScene.h"
 
+// stl
+#include <string>
+
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -16,8 +19,8 @@
 #include "Game/WorldObject/Block.h"
 
 namespace {
-	constexpr std::string kBgmTag = "GameBGM";
-	constexpr std::string kGameOverBgmTag = "GameOverBGM";
+	const std::string kBgmTag = "GameBGM";
+	const std::string kGameOverBgmTag = "GameOverBGM";
 }
 
 GameScene::GameScene() {}
@@ -77,6 +80,7 @@ void GameScene::Init()
 	retryUI_ = std::make_unique<RetryUI>();
 	playerUI_ = std::make_unique<PlayerUI>();
 	bossUI_ = std::make_unique<BossUI>();
+	controlUI_ = std::make_unique<ControlUI>();
 
 	bgmHandle_ = Engine::GetSoundManager()->Play(kBgmTag);
 
@@ -112,6 +116,7 @@ void GameScene::OnPlayStart()
 	retryUI_->Init();
 	playerUI_->Init();
 	bossUI_->Init();
+	controlUI_->Init();
 
 	// カウントダウンを頭から流す。要らないシーンでは中身も作らない
 	if (UseIntro()) {
@@ -242,6 +247,10 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	if (bossUI_ && boss_)
 	{
 		bossUI_->Update(boss_.get());
+	}
+
+	if (controlUI_) {
+		controlUI_->Update();
 	}
 }
 

@@ -40,6 +40,8 @@ enum class FillMethod {
 
 namespace AOENGINE {
 
+class InputTextureButtonComponent;
+
 /// <summary>
 /// 円ゲージに必要な構造体
 /// </summary>
@@ -202,6 +204,8 @@ public: // public method
 	/// <param name="rectRange">: 描画する範囲</param>
 	/// <param name="leftTop">: 左上座標</param>
 	virtual void Update();
+	/// <summary>Editor表示に必要な描画データだけを更新する。</summary>
+	void EditorUpdate();
 	void PostUpdate() override {}
 	void PreDraw() const override {}
 
@@ -326,7 +330,14 @@ public: // accessor
 
 	virtual const char* GetCanvasItemType() const { return "Sprite"; }
 
+	void AddButtonComponent();
+	void RemoveButtonComponent();
+	bool HasButtonComponent() const { return buttonComponent_ != nullptr; }
+	InputTextureButtonComponent* GetButtonComponent() { return buttonComponent_.get(); }
+	const InputTextureButtonComponent* GetButtonComponent() const { return buttonComponent_.get(); }
+
 private: // private variable
+	void UpdateVisual();
 
 	bool isBackGround_;
 	bool isFront_;
@@ -386,6 +397,7 @@ private: // private variable
 
 	// アセットハンドル
 	AssetHandle assetHandle_ = AssetHandle(AssetType::Texture);
+	std::unique_ptr<InputTextureButtonComponent> buttonComponent_;
 
 	// -------------------
 	// 塗りつぶしに関する変数

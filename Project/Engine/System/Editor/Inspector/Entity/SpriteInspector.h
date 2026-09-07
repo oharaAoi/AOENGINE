@@ -19,6 +19,7 @@ private:
 	static void DrawUv(Sprite& sprite);
 	static void DrawTexture(Sprite& sprite);
 	static void DrawFill(Sprite& sprite);
+	static void DrawButton(Sprite& sprite);
 	static void DrawSaveLoad(Sprite& sprite);
 };
 

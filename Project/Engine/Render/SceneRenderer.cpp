@@ -173,7 +173,7 @@ void SceneRenderer::EditorUpdate() {
 		if (BaseGameObject* gameObject = dynamic_cast<BaseGameObject*>(object)) {
 			gameObject->EditorUpdate();
 		} else if (Sprite* sprite = dynamic_cast<Sprite*>(object)) {
-			sprite->Update();
+			sprite->EditorUpdate();
 		}
 	}
 }

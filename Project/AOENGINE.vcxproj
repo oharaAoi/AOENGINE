@@ -222,6 +222,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h" />
     <ClInclude Include="Engine\Module\Components\2d\Text.h" />
     <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
@@ -530,6 +531,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Tutorial\TutorialTextTable.h" />
     <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
     <ClInclude Include="Game\UI\BossUI.h" />
+    <ClInclude Include="Game\UI\ControlUI.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
     <ClInclude Include="Game\UI\IntroUI.h" />
     <ClInclude Include="Game\UI\IntroUIParameter.h" />
@@ -594,6 +596,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
@@ -874,6 +877,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Tutorial\TutorialStepController.cpp" />
     <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
     <ClCompile Include="Game\UI\BossUI.cpp" />
+    <ClCompile Include="Game\UI\ControlUI.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
     <ClCompile Include="Game\UI\IntroUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
