@@ -544,6 +544,9 @@ void IntroUI::Update(float deltaTime) {
 
 	PlaceBack();
 
+	// 押しっぱなしの間は時間を速く進める。Goの直前で元の速さへ戻る
+	deltaTime *= GetTimeScale();
+
 	phaseTimer_ += deltaTime;
 
 	// 中身は流れごとの関数に任せる
@@ -551,6 +554,26 @@ void IntroUI::Update(float deltaTime) {
 	if (updater) {
 		updater(deltaTime);
 	}
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 早送り
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+bool IntroUI::CanFastForward() const {
+
+	// Goが動き出したら、そこから先は見せ切りたいので早送りしない
+	return startedCount_ < items_.size();
+}
+
+float IntroUI::GetTimeScale() const {
+
+	if (!isPlaying_ || !isFastForwardHeld_ || !CanFastForward()) {
+		return 1.0f;
+	}
+
+	// 遅くする方には使わせない
+	return (std::max)(parameter_.fastForwardScale, 1.0f);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

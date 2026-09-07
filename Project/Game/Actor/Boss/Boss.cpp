@@ -118,7 +118,7 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 //  待機中の更新
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection) {
+void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection, float deltaTime) {
 
 	viewProjection_ = viewProjection;
 
@@ -131,8 +131,8 @@ void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection) {
 	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
 
-	// 登場の降下を進める
-	UpdateIntroDescend(GameTimer::DeltaTime());
+	// 登場の降下を進める。イントロの早送りに乗せたいので、時間は外から受け取る
+	UpdateIntroDescend(deltaTime);
 
 	// 攻撃側が見るのは定位置のままにして、見た目だけ降りてくる途中に置く
 	if (WorldTransform* transform = GetTransform()) {

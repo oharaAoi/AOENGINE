@@ -133,6 +133,9 @@ private:
 	/// <summary>背景を置く</summary>
 	void PlaceBack() const;
 
+	/// <summary>今のところを早送りしてよいか。Goが出たらもう早送りしない</summary>
+	bool CanFastForward() const;
+
 private:
 
 	// 状態ごとの進め方。Waiting と Done は何もしない
@@ -167,6 +170,9 @@ private:
 	// ボスの降下が終わったか。シーン側から毎フレーム渡してもらう
 	bool isBossDescendFinished_ = false;
 
+	// 早送りのボタンが押しっぱなしか。こちらもシーン側から渡してもらう
+	bool isFastForwardHeld_ = false;
+
 	// 演出そのものが動いているか
 	bool isPlaying_ = false;
 	// 最後の文字が消えてからの余韻
@@ -188,6 +194,15 @@ public: // accessor
 
 	/// <summary>ボスの降下が終わったかを外から渡す</summary>
 	void SetBossDescendFinished(bool isFinished) { isBossDescendFinished_ = isFinished; }
+
+	/// <summary>早送りのボタンが押されているかを外から渡す</summary>
+	void SetFastForwardHeld(bool isHeld) { isFastForwardHeld_ = isHeld; }
+
+	/// <summary>
+	/// 今フレームの時間の倍率。早送りしていない時は1.0。
+	/// イントロと一緒に動かしたいものへ、シーン側から掛けて渡すのに使う
+	/// </summary>
+	float GetTimeScale() const;
 
 	/// <summary>演出が動いている最中か</summary>
 	bool IsPlaying() const { return isPlaying_; }

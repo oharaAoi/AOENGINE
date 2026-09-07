@@ -87,6 +87,9 @@ struct IntroUIParameter :
 	// 消えきってからイントロを終えるまでの間
 	float goEndWaitTime = 0.1f;
 
+	// 押しっぱなしの間、時間を何倍で進めるか。Goが出る直前までが対象
+	float fastForwardScale = 4.0f;
+
 	IntroUIParameter() : CustomParameterSet("Intro") {
 		SetGroupName("Intro");
 		SetName("introUI");
@@ -136,6 +139,9 @@ struct IntroUIParameter :
 		AddParameter("Go Hold Time", goHoldTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Go Fade Time", goFadeTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Go End Wait Time", goEndWaitTime, 0.01f, 0.0f, 10.0f);
+
+		AddSeparatorText("Skip");
+		AddParameter("Fast Forward Scale", fastForwardScale, 0.1f, 1.0f, 50.0f);
 	}
 
 	json ToJson(const std::string& id) const override {
@@ -177,6 +183,7 @@ struct IntroUIParameter :
 			.Add("goFadeTime", goFadeTime)
 			.Add("goFadeEaseKind", goFadeEaseKind)
 			.Add("goEndWaitTime", goEndWaitTime)
+			.Add("fastForwardScale", fastForwardScale)
 			.Build();
 	}
 
@@ -218,5 +225,6 @@ struct IntroUIParameter :
 		Convert::fromJson(jsonData, "goFadeTime", goFadeTime);
 		Convert::fromJson(jsonData, "goFadeEaseKind", goFadeEaseKind);
 		Convert::fromJson(jsonData, "goEndWaitTime", goEndWaitTime);
+		Convert::fromJson(jsonData, "fastForwardScale", fastForwardScale);
 	}
 };

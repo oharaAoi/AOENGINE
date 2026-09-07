@@ -9,6 +9,7 @@
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
+#include "Engine/System/Input/Input.h"
 #include <System/Audio/SoundManager.h>
 
 /// game
@@ -19,6 +20,9 @@
 #include "Game/WorldObject/Block.h"
 
 namespace {
+	// イントロを早送りする入力。ジャンプと同じものを流用する
+	const uint8_t kIntroFastForwardKey = DIK_SPACE;
+
 	const std::string kBgmTag = "GameBGM";
 	const std::string kGameOverBgmTag = "GameOverBGM";
 }
@@ -157,8 +161,16 @@ void GameScene::Update()
 	// カメラと背景は動かしたまま、プレイヤーとボスだけ止めておく。
 	// ボスが降りきるまで目的は出さないので、その状況を渡しておく
 	introUI_.SetBossDescendFinished(boss_ == nullptr || boss_->IsIntroDescendFinished());
+
+	// 押しっぱなしの間はイントロを早送りする
+	const bool isFastForwardHeld =
+		AOENGINE::Input::IsPressKey(kIntroFastForwardKey) ||
+		AOENGINE::Input::IsPressButton(ButtonA);
+	introUI_.SetFastForwardHeld(isFastForwardHeld);
 	introUI_.Update(deltaTime);
-	UpdateActors(deltaTime, introUI_.IsPlaying());
+
+	// 早送り中はボスの降下や待機の見た目も一緒に速める
+	UpdateActors(deltaTime * introUI_.GetTimeScale(), introUI_.IsPlaying());
 
 #ifdef _DEVELOPMENT
 	// 調整パラメータの編集
@@ -232,7 +244,7 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 
 		// 待機中は行動を進めず、画面上の位置合わせだけ通す
 		if (isStandby) {
-			boss_->UpdateStandby(viewProjection);
+			boss_->UpdateStandby(viewProjection, deltaTime);
 		} else {
 			boss_->Update(viewProjection);
 		}

@@ -37,7 +37,7 @@ public:
 	/// 行動もアニメーションも進めず、画面上の位置と大きさだけ合わせる。
 	/// イントロのように、映したいが動かしたくない時に使う
 	/// </summary>
-	void UpdateStandby(const Math::Matrix4x4& viewProjection);
+	void UpdateStandby(const Math::Matrix4x4& viewProjection, float deltaTime);
 
 	/// <summary>
 	/// 登場の降下を始める。定位置の上から降りてきて、着いたら揺れる
