@@ -99,11 +99,11 @@
                         "albedoTexture": "laser.dds",
                         "color": [
                             1.0,
-                            0.15294118225574493,
-                            0.15294118225574493,
+                            0.0784313753247261,
+                            0.0784313753247261,
                             1.0
                         ],
-                        "discardValue": 0.009999999776482582,
+                        "discardValue": 0.41999998688697815,
                         "enableLighting": false,
                         "iblScale": 0.5,
                         "pipeline": "Object_NormalCut.json",
@@ -131,11 +131,11 @@
                         "albedoTexture": "laser.dds",
                         "color": [
                             1.0,
-                            0.15444016456604004,
-                            0.15444016456604004,
+                            0.07722008228302002,
+                            0.07722008228302002,
                             1.0
                         ],
-                        "discardValue": 0.009999999776482582,
+                        "discardValue": 0.6000000238418579,
                         "enableLighting": false,
                         "iblScale": 0.5,
                         "pipeline": "Object_NormalCut.json",
@@ -182,6 +182,34 @@
             "name": "BeamEnergy",
             "parentId": 1,
             "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "asset": "BossBeamPathParticle",
+                "assetType": "Cpu",
+                "autoPlay": true,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 3,
+            "name": "particle(1)",
+            "parentId": 1,
+            "type": "ParticleSceneObject"
         }
     ],
     "prefabName": "Beam",

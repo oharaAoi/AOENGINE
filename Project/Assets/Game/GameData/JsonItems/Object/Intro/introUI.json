@@ -24,12 +24,12 @@
         "goFadeTime": 0.30000001192092896,
         "goHoldTime": 0.4000000059604645,
         "inEaseKind": 17,
-        "inTime": 0.3100000023841858,
+        "inTime": 0.23000000417232513,
         "leftOffset": {
             "x": -1400.0,
             "y": 0.0
         },
-        "nextOffsetTime": 0.17000000178813934,
+        "nextOffsetTime": 0.14000000059604645,
         "objectiveHoldTime": 1.5,
         "objectiveInEaseKind": 3,
         "objectiveInTime": 0.6399999856948853,
@@ -50,14 +50,14 @@
         "objectiveStartWaitTime": 0.6899999976158142,
         "objectiveTextureName": "white.png",
         "outEaseKind": 7,
-        "outTime": 0.23999999463558197,
+        "outTime": 0.23000000417232513,
         "rightOffset": {
             "x": 1400.0,
             "y": 0.0
         },
-        "rotateEnd": 27.0,
+        "rotateEnd": 14.0,
         "rotateLoopCount": 2,
-        "rotateStart": -58.0,
+        "rotateStart": -27.0,
         "rotateSwingTime": 0.949999988079071,
         "scaleEnd": 1.0,
         "scaleLoopCount": 1,

@@ -6,6 +6,7 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
+#include "Engine/Utilities/Logger.h"
 
 #include "Game/Actor/Boss/Boss.h"
 
@@ -27,6 +28,11 @@ BossAttackBeam::BossAttackBeam() {
 	phaseUpdaters_[ToIndex(Phase::Warning)] = [this](Boss& boss, float deltaTime) { UpdateWarningPhase(boss, deltaTime); };
 	phaseUpdaters_[ToIndex(Phase::Windup)] = [this](Boss& boss, float deltaTime) { UpdateWindupPhase(boss, deltaTime); };
 	phaseUpdaters_[ToIndex(Phase::Beam)] = [this](Boss& boss, float deltaTime) { UpdateBeamPhase(boss, deltaTime); };
+
+	chargeParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossBeamCharge");
+	if (!chargeParticle_) {
+		AOENGINE::Logger::AssertLog("BossBeamChargeが生成できませんでした");
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,6 +194,14 @@ void BossAttackBeam::SpawnWarning(const Boss& boss) {
 			transform->SetScale(param.beamWarningMarkSize);
 		}
 	}
+
+	// チャージパーティクルを出す
+	if (chargeParticle_) {
+		chargeParticle_->Reset();
+		chargeParticle_->SetPos(Math::Vector3(param.beamChargePosX, beamPosY_, 0.0f));
+	} else {
+		AOENGINE::Logger::AssertLog("BossBeamChargeが生成出来ませんでした");
+	}
 }
 
 void BossAttackBeam::DestroyWarning() {
@@ -201,6 +215,10 @@ void BossAttackBeam::DestroyWarning() {
 	}
 	warningLine_.Unbind();
 	warningMark_.Unbind();
+
+	if (chargeParticle_) {
+		chargeParticle_->SetIsStop(true);
+	}
 }
 
 void BossAttackBeam::UpdateWarning(const Boss& boss, float deltaTime) {

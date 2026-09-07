@@ -5,6 +5,7 @@
 
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/System/Audio/SoundManager.h"
+#include <Engine/Module/Components/Effect/BaseParticles.h>
 
 #include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
 
@@ -109,6 +110,9 @@ private:
 	// sound handle
 	AOENGINE::SoundHandle warningSound_;
 	AOENGINE::SoundHandle shotSound_;
+
+	// particle instance
+	AOENGINE::BaseParticles* chargeParticle_ = nullptr;
 
 	// Prefab名
 	const std::string kWarningLinePrefab_ = "BeamWarningLine";
