@@ -102,9 +102,11 @@ void GameScene::OnPlayStart()
 	playerUI_->Init();
 	bossUI_->Init();
 
-	// カウントダウンを頭から流す
-	introUI_.Init();
-	introUI_.Start();
+	// カウントダウンを頭から流す。要らないシーンでは中身も作らない
+	if (UseIntro()) {
+		introUI_.Init();
+		introUI_.Start();
+	}
 
 	//auto sound = Engine::GetSoundManager()->Play("Sound");
 }

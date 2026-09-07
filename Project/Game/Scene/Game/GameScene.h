@@ -61,6 +61,12 @@ protected:
 	void UpdateActors(float deltaTime, bool isStandby = false);
 
 	/// <summary>
+	/// 開始前のカウントダウンを流すシーンか。
+	/// チュートリアルのように、始まりの演出が要らないシーンでは false にする
+	/// </summary>
+	virtual bool UseIntro() const { return true; }
+
+	/// <summary>
 	/// Playerの本体となるGameObjectを用意する。
 	/// </summary>
 	AOENGINE::BaseGameObject* ResolvePlayerBody();

@@ -118,8 +118,7 @@ private:
 	float RepeatRatio(float ratio, int32_t loopCount) const;
 
 	/// <summary>
-	/// 進み具合から、左右に振る回転の角度(度)を求める。
-	/// 振れ幅は進むほど細くなり、最後は左右の真ん中で止まる
+	/// 進み具合から、左右に振る回転の角度を求める。
 	/// </summary>
 	float CalcSwingDegree(float ratio) const;
 

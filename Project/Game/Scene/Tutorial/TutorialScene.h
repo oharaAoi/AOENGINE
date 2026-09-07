@@ -26,6 +26,11 @@ public:
 	/// </summary>
 	void Update() override;
 
+	/// <summary>
+	/// チュートリアルは説明から始めたいので、開始前のカウントダウンは流さない
+	/// </summary>
+	bool UseIntro() const override { return false; }
+
 private:
 
 	/// <summary>今フレームの入力と接続状況を、ページ側へ渡す形にまとめる</summary>

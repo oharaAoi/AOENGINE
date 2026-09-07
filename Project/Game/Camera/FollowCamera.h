@@ -4,6 +4,7 @@
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
 #include "Engine/Lib/Math/Vector3.h"
+#include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 
 namespace AOENGINE {
 	class BaseGameObject;
@@ -21,14 +22,15 @@ public:
 	struct Parameter :
 		public AOENGINE::CustomParameterSet,
 		public AOENGINE::IJsonConverter {
-		Math::Vector3 offset;			// 追従対象からの相対位置
-		float pitch;					// 見下ろし角
-		float smoothTime;				// スクロールのイージング
-		float maxSpeed;					// スクロールの最大速度
-		float scrollHeight;				// 1回のスクロールで上昇する高さ
+		Math::Vector3 offset;			  // 追従対象からの相対位置
+		float pitch;					  // 見下ろし角
+		float smoothTime;				  // スクロールのイージング
+		float maxSpeed;					  // スクロールの最大速度
+		float scrollHeight;				  // 1回のスクロールで上昇する高さ
 		float scrollTriggerScreenY = 0.5f;// スクロールを始めるプレイヤーの画面上の高さ
-		float bigJumpSmoothTime;		// 大ジャンプ中に直接追従する時のイージング
-		float bigJumpMaxSpeed;			// 大ジャンプ中に直接追従する時の最大速度
+		float bigJumpSmoothTime;		  // 大ジャンプ中に直接追従する時のイージング
+		float bigJumpMaxSpeed;			  // 大ジャンプ中に直接追従する時の最大速度
+		float bigJumpScreenY = -0.7f;
 
 		Parameter() : CustomParameterSet("FollowCamera") {
 			SetGroupName("Camera");
@@ -42,6 +44,7 @@ public:
 			AddParameter("Scroll Trigger Screen Y", scrollTriggerScreenY, 0.01f, 0.0f, 1.0f);
 			AddParameter("Big Jump Smooth Time", bigJumpSmoothTime, 0.01f, 0.001f, 5.0f);
 			AddParameter("Big Jump Max Speed", bigJumpMaxSpeed, 1.0f, 0.0f, 100000.0f);
+			AddParameter("Big Jump Screen Y(NDC)", bigJumpScreenY, 0.01f, -1.0f, 1.0f);
 		}
 
 		json ToJson(const std::string& id) const override {
@@ -54,6 +57,7 @@ public:
 				.Add("scrollTriggerScreenY", scrollTriggerScreenY)
 				.Add("bigJumpSmoothTime", bigJumpSmoothTime)
 				.Add("bigJumpMaxSpeed", bigJumpMaxSpeed)
+				.Add("bigJumpScreenY", bigJumpScreenY)
 				.Build();
 		}
 
@@ -66,6 +70,7 @@ public:
 			Convert::fromJson(jsonData, "scrollTriggerScreenY", scrollTriggerScreenY);
 			Convert::fromJson(jsonData, "bigJumpSmoothTime", bigJumpSmoothTime);
 			Convert::fromJson(jsonData, "bigJumpMaxSpeed", bigJumpMaxSpeed);
+			Convert::fromJson(jsonData, "bigJumpScreenY", bigJumpScreenY);
 		}
 	};
 
@@ -88,6 +93,11 @@ private:
 	void FollowTarget(float deltaTime);
 
 	/// <summary>
+	/// 追従対象が頂点を過ぎたかを見張り、過ぎていたら直接追従へ切り替える
+	/// </summary>
+	void UpdateApexWatch(const Math::Vector3& targetPos);
+
+	/// <summary>
 	/// ダメージ床で飛んでいる間、プレイヤーの高さへ直接追従する
 	/// </summary>
 	void UpdateContinuousFollow(const Math::Vector3& targetPos, float deltaTime);
@@ -96,6 +106,11 @@ private:
 	/// 通常時の追従。プレイヤーが決めた画面高さまで来たら、1段ぶん上へスクロールする
 	/// </summary>
 	void UpdateStepScroll(const Math::Vector3& targetPos, float deltaTime);
+
+	/// <summary>
+	/// 追従対象が画面の指定した高さに見えるようになる、カメラのY座標を求める
+	/// </summary>
+	float CalcCameraYForScreen(const Math::Vector3& targetPos, float screenNdcY) const;
 
 private:
 
@@ -114,6 +129,12 @@ private:
 	float cameraTargetY_ = 0.0f;
 	bool isScrolling_ = false;
 	static constexpr float kScrollArriveThreshold = 0.01f;
+
+	// 画面上の高さからワールド座標を引くのに使う
+	ScreenWorldPlaneAnchor screenAnchor_;
+
+	// 前フレームの追従対象の高さ。落ち始めたかを見るのに使う
+	float prevTargetY_ = 0.0f;
 
 	// ダメージ床のノックバックで上に飛んでいる間のフラグ
 	bool continuousFollowRequested_ = false;
