@@ -9,6 +9,7 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -58,6 +59,10 @@ void Player::Init(BaseGameObject* body){
 	isBlinkVisible_ = true;
 	SetRendering(true);
 
+	// エフェクトを生成しておく
+	buttFireEffect_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("PlayerButtFire");
+	buttFireEffect_->SetIsStop(true);
+
 	if(BaseGameObject* object = GetGameObject()){
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
 		if(object->GetRigidbody() == nullptr){
@@ -69,6 +74,11 @@ void Player::Init(BaseGameObject* body){
 
 			rigidbody->SetGravity(false);
 			rigidbody->SetVelocity(CVector3::ZERO);
+		}
+
+		WorldTransform* transform = GetTransform();
+		if (transform) {
+			buttFireEffect_->SetParent(transform);
 		}
 	}
 }
@@ -252,6 +262,14 @@ void Player::UpdateAnimation(float deltaTime){
 	};
 
 	animation_.Update(deltaTime,context,params);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  ダメージ床にあたった際の処理
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Player::HitDamageFloor() {
+	buttFireEffect_->Reset();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

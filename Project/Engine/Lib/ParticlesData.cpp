@@ -5,6 +5,7 @@ using namespace AOENGINE;
 
 void ParticleEmit::Attribute_Gui() {
 	if (ImGui::CollapsingHeader("エミッター設定")) {
+		ImGui::Checkbox("再生時間がすぎるまで発生させるか", &isPlayOneShot);
 		ImGui::Checkbox("ループ再生", &isLoop);
 		ImGui::DragFloat("再生時間（秒）", &duration, 0.1f, 0.0f);
 		ImGui::Checkbox("ビルボード表示", &isBillBord);

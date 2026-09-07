@@ -4,6 +4,7 @@
 #include "Engine/Module/Components/GameObject/BaseEntity.h"
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 #include <Module/Entity/Camera/Component/CameraShakeParameters.h>
 #include "Game/Actor/Player/PlayerParameter.h"
 #include "Game/Actor/Player/Component/PlayerAnimation.h"
@@ -58,6 +59,11 @@ public:
 	/// </summary>
 	void CancelBlockGroupConnect();
 
+	/// <summary>
+	/// ダメージ床にあたった際の処理
+	/// </summary>
+	void HitDamageFloor();
+
 private:
 
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>
@@ -86,8 +92,7 @@ private:
 	void UpdateFacingRotate(float deltaTime);
 	/// <summary>今の状態に合ったアニメーションへ切り替える</summary>
 	void UpdateAnimation(float deltaTime);
-
-
+	
 private:
 
 	// 調整項目
@@ -130,6 +135,9 @@ private:
 
 	// 自分のCollider category名
 	const std::string kColliderTag = "Player";
+
+	// ダメージ床にあたった際の追従エフェクト
+	AOENGINE::BaseParticles* buttFireEffect_;
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }

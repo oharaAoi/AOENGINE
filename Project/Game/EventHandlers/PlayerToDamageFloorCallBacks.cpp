@@ -17,6 +17,8 @@ void PlayerToDamageFloorCallBacks::CollisionEnter(AOENGINE::BaseCollider* const 
 
 	pPlayer_->TakeDamage(pDamageFloor_->GetDamage());
 
+	pPlayer_->HitDamageFloor();
+
 	pPlayer_->ApplyDamageFloorKnockback(pDamageFloor_->GetKnockbackPower());
 
 	// コネクト中のブロックグループを解除する

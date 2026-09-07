@@ -389,6 +389,10 @@ void AOENGINE::BaseParticles::EmitUpdate() {
 		if (!emitter_.isLoop) {
 			isStop_ = true;
 		}
+
+		if (emitter_.isPlayOneShot) {
+			isStop_ = true;
+		}
 	}
 }
 
