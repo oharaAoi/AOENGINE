@@ -4,6 +4,7 @@ class Player;
 class Boss;
 class StageBlockField;
 class FollowCamera;
+struct TutorialStepParameter;
 
 /// <summary>
 /// チュートリアルの各ページが触りたいものをまとめて渡す入れ物
@@ -20,6 +21,9 @@ private:
 	Boss* pBoss_ = nullptr;
 	StageBlockField* pBlockField_ = nullptr;
 	FollowCamera* pCamera_ = nullptr;
+
+	// ページの間合いの調整値
+	const TutorialStepParameter* pStepParameter_ = nullptr;
 
 	// 次のページへ送る入力が今フレーム押されたか
 	bool isNextTriggered_ = false;
@@ -41,6 +45,9 @@ public: // accessor
 	void SetBoss(Boss* boss) { pBoss_ = boss; }
 	void SetBlockField(StageBlockField* field) { pBlockField_ = field; }
 	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }
+
+	const TutorialStepParameter* GetStepParameter() const { return pStepParameter_; }
+	void SetStepParameter(const TutorialStepParameter* parameter) { pStepParameter_ = parameter; }
 
 	bool IsNextTriggered() const { return isNextTriggered_; }
 	void SetNextTriggered(bool isTriggered) { isNextTriggered_ = isTriggered; }

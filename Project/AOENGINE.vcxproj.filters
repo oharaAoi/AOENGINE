@@ -1416,6 +1416,9 @@
     <ClInclude Include="Game\Tutorial\TutorialStepController.h">
       <Filter>Game\Tutorial</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Tutorial\TutorialStepParameter.h">
+      <Filter>Game\Tutorial</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Tutorial\TutorialTextTable.h">
       <Filter>Game\Tutorial</Filter>
     </ClInclude>

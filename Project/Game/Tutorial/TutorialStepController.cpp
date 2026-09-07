@@ -17,6 +17,10 @@ void TutorialStepController::Init(TutorialContext& context) {
 	isAllFinished_ = false;
 	currentKind_ = StepKind::Move;
 
+	// 各ページから調整値を引けるようにしてから、最初のページを始める
+	parameter_.Load();
+	context.SetStepParameter(&parameter_);
+
 	SetStep(context, CreateStep(currentKind_));
 }
 
@@ -269,4 +273,9 @@ void TutorialStepController::Debug_Gui(TutorialContext& context) {
 	if (ImGui::Button("Ending")) {
 		ChangeStep(context, StepKind::Ending);
 	}
+
+	// ページを送る間合いの調整
+	ImGui::SeparatorText("Step");
+	parameter_.Debug_Gui();
+	parameter_.SaveAndLoad();
 }

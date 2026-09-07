@@ -9,6 +9,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/Actor/Player/Player.h"
 #include "Game/Tutorial/TutorialContext.h"
+#include "Game/Tutorial/TutorialStepParameter.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  移動とジャンプ
@@ -138,6 +139,8 @@ void TutorialStepConnect::Update(TutorialContext& context, float deltaTime) {
 void TutorialStepLaunch::Enter(TutorialContext& context) {
 
 	isFinished_ = false;
+	hasHit_ = false;
+	waitTimer_ = 0.0f;
 	startBossHp_ = 0.0f;
 
 	// 当たったかどうかは、HPが減ったかで見る
@@ -147,16 +150,35 @@ void TutorialStepLaunch::Enter(TutorialContext& context) {
 }
 
 void TutorialStepLaunch::Update(TutorialContext& context, float deltaTime) {
-	(void)deltaTime;
+
+	// 当てた後は待つ
+	if (hasHit_) {
+
+		// タイム更新
+		waitTimer_ += deltaTime;
+
+		// waitTimeパラメータ取得
+		float waitTime = 0.0f;
+		if (const TutorialStepParameter* parameter = context.GetStepParameter()) {
+			waitTime = parameter->launchClearWaitTime;
+		}
+
+		// 待ったら終了
+		if (waitTimer_ >= waitTime) {
+			isFinished_ = true;
+		}
+		return;
+	}
 
 	const Boss* boss = context.GetBoss();
 	if (boss == nullptr) {
 		return;
 	}
 
-	// ボスに当てたら次のページへ
+	// ボスに当てたらチェックを出して、待ち時間を数え始める
 	if (boss->GetCurrentHp() < startBossHp_) {
-		isFinished_ = true;
+		hasHit_ = true;
+		waitTimer_ = 0.0f;
 	}
 }
 

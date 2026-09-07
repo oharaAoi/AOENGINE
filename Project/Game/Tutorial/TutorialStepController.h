@@ -6,6 +6,7 @@
 
 #include "Game/Tutorial/Step/BaseTutorialStep.h"
 #include "Game/Tutorial/TutorialContext.h"
+#include "Game/Tutorial/TutorialStepParameter.h"
 
 /// <summary>
 /// チュートリアルのページを順に進める管理クラス
@@ -76,6 +77,9 @@ private:
 
 	// 最後のページまで終わったか
 	bool isAllFinished_ = false;
+
+	// ページを送る間合いの調整値。各ページへは context 経由で渡す
+	TutorialStepParameter parameter_;
 
 	// ページが無い時に返す名前
 	const std::string kNoneName_ = "None";
