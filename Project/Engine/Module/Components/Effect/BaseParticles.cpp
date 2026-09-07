@@ -447,6 +447,19 @@ void AOENGINE::BaseParticles::SetTexture(const std::string& textureName) {
 	}
 }
 
+void AOENGINE::BaseParticles::SetPos(const Math::Vector3& pos) {
+	if (emitter_.translate.x == pos.x &&
+		emitter_.translate.y == pos.y &&
+		emitter_.translate.z == pos.z) {
+		return;
+	}
+
+	emitter_.translate = pos;
+	// SetPosは速度による移動ではなく配置先の指定なので、以前の位置との間を放出しない。
+	hasPreWorldPos_ = false;
+	distanceAccumulator_ = 0.0f;
+}
+
 void AOENGINE::BaseParticles::SetJsonData(const json& jsonData) {
 	emitter_.FromJson(jsonData);
 	const std::string meshName = emitter_.useMesh.empty() ? "plane" : emitter_.useMesh;
@@ -508,9 +521,19 @@ void AOENGINE::BaseParticles::ChangeMesh() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void AOENGINE::BaseParticles::SetParent(WorldTransform* parentTransform) {
+	if (parentTransform_ != parentTransform) {
+		// 親の付け替えでワールド座標が飛んでも、原点や旧親から補間放出しない。
+		hasPreWorldPos_ = false;
+		distanceAccumulator_ = 0.0f;
+	}
 	parentTransform_ = parentTransform;
 }
 
 void AOENGINE::BaseParticles::SetParentMatrix(const Math::Matrix4x4& parentMat) {
+	if (parentMatrix_ != &parentMat) {
+		// 初回の親設定だけを初期配置として扱う。同じ親行列の更新による移動は補間対象にする。
+		hasPreWorldPos_ = false;
+		distanceAccumulator_ = 0.0f;
+	}
 	parentMatrix_ = &parentMat;
 }
