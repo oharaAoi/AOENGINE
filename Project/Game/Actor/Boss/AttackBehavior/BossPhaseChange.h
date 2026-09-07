@@ -31,6 +31,9 @@ public:// acceccer
 
 	bool IsFinished() const override { return isFinished_; }
 
+	// 攻撃ではないので、発動のパルスは出さない
+	bool IsAttack() const override { return false; }
+
 	const std::string& GetName() const override {
 		static const std::string kName = "BossPhaseChange";
 		return kName;

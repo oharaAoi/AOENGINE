@@ -11,6 +11,10 @@
 #include "Game/Actor/Boss/Component/BossDamageEffect.h"
 #include "Game/Actor/Boss/BossBehaviorController.h"
 
+namespace AOENGINE {
+	class BaseParticles;
+}
+
 class StageBlockField;
 class FollowCamera;
 
@@ -40,6 +44,15 @@ public:
 	/// </summary>
 	void StartIntroDescend();
 
+	/// <summary>攻撃に入った合図のエフェクトを、決めた数だけ出し始める</summary>
+	void PlayAttackEffect();
+
+	/// <summary>攻撃を出した合図に、大きさを一度だけ膨らませる</summary>
+	void StartAttackPulse();
+
+	/// <summary>パルスを打ち切って元の大きさへ戻す</summary>
+	void StopAttackPulse();
+
 	void Debug_Gui();
 
 private:
@@ -58,6 +71,18 @@ private:
 	/// <summary>降下を進めて、定位置からのずらし量を更新する</summary>
 	void UpdateIntroDescend(float deltaTime);
 
+	/// <summary>攻撃のパルスを進めて、大きさの倍率へ反映する</summary>
+	void UpdateAttackPulse(float deltaTime);
+
+	/// <summary>残っている発数を、間隔を空けながら出していく</summary>
+	void UpdateAttackEffect(float deltaTime);
+
+	/// <summary>エフェクトを1発ぶん出す</summary>
+	void EmitAttackEffect();
+
+	/// <summary>全体の進み具合を、パルス1回ぶんの進み具合へ直す</summary>
+	float CalcPulseLocalRatio(float ratio) const;
+
 public:
 
 	// ダメージを受ける
@@ -72,6 +97,16 @@ private:
 
 	// 被弾した時に色を変えて揺らす
 	BossDamageEffect damageEffect_;
+
+	// 攻撃に入った時に出すエフェクト
+	AOENGINE::BaseParticles* attackEffect_ = nullptr;
+	// まだ出していない発数と、次の1発までの経過時間
+	int32_t attackEffectRemaining_ = 0;
+	float attackEffectTimer_ = 0.0f;
+
+	// 攻撃を出した時のパルス
+	bool isAttackPulsing_ = false;
+	float attackPulseTimer_ = 0.0f;
 
 	// 登場の降下
 	bool isIntroDescending_ = false;
@@ -100,6 +135,9 @@ private:
 
 	// 行動を進めない間に流しておくアニメーション名
 	const std::string kStandbyAnimationName = "idle";
+
+	// 攻撃に入った時に出すエフェクトの名前
+	const std::string kAttackEffectName = "BossAttackEffect";
 
 	// 落とす足場を選ぶためのブロックの表
 	StageBlockField* pBlockField_ = nullptr;

@@ -27,6 +27,9 @@ public:// acceccer
 	// 撃破後はここから抜けない。次の行動を選ばせないために常にfalseを返す
 	bool IsFinished() const override { return false; }
 
+	// 攻撃ではないので、発動のパルスは出さない
+	bool IsAttack() const override { return false; }
+
 	const std::string& GetName() const override {
 		static const std::string kName = "BossAttackDefeat";
 		return kName;

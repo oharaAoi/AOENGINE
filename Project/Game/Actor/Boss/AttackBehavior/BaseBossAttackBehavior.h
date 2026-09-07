@@ -27,6 +27,9 @@ public:
 		return kName;
 	}
 
+	// 攻撃かどうか。待機や演出用の行動は false にして、発動のパルスを出さない
+	virtual bool IsAttack() const { return true; }
+
 	// 攻撃までの待ち時間を最初から数え直す
 	void ResetStartDelay() { startDelayTimer_ = 0.0f; }
 

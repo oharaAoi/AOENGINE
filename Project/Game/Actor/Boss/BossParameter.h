@@ -95,6 +95,18 @@ struct BossParameter :
 	// --- 撃破 ---
 	float defeatHideTime = 1.5f;	// 撃破されてから姿を消すまでの秒数
 
+	// --- 攻撃を出した瞬間のパルス ---
+	float attackPulseTime = 0.25f;		// 膨らんで戻るまでの時間
+	float attackPulseScaleRate = 0.2f;	// どれだけ膨らむか(基準スケールへの倍率)
+	int32_t attackPulseCount = 1;		// この時間の中で何回膨らむか
+	// 攻撃に入った時に出すエフェクトの、ボスから見た位置
+	Math::Vector3 attackEffectOffset{ 0.0f, 0.0f, 0.0f };
+	// 1回の攻撃で何発ぶん出すか。1発ぶんが0から広がる輪になる
+	int32_t attackEffectCount = 3;
+	// 次の1発までの間隔。0にすると全部同じフレームで重なる
+	float attackEffectInterval = 0.12f;
+	int32_t attackPulseEaseKind = 10;	// OutSine。出だしを速くして山を前に寄せる
+
 	// --- 登場。上から定位置へ降りてくる ---
 	float introDescendHeight = 12.0f;	// 定位置の何ユニット上から降り始めるか
 	float introDescendTime = 1.2f;		// 降りきるまでの時間
@@ -168,6 +180,14 @@ struct BossParameter :
 		AddSeparatorText("Defeat");
 		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
 
+		AddSeparatorText("Attack Pulse");
+		AddParameter("Attack Pulse Time", attackPulseTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Attack Pulse Scale Rate", attackPulseScaleRate, 0.01f, 0.0f, 5.0f);
+		AddParameter("Attack Pulse Count", attackPulseCount, 1.0f, 1.0f, 20.0f);
+		AddParameter("Attack Effect Offset", attackEffectOffset, 0.1f);
+		AddParameter("Attack Effect Count", attackEffectCount, 1.0f, 1.0f, 20.0f);
+		AddParameter("Attack Effect Interval", attackEffectInterval, 0.01f, 0.0f, 5.0f);
+
 		AddSeparatorText("Intro");
 		AddParameter("Intro Descend Height", introDescendHeight, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Intro Descend Time", introDescendTime, 0.01f, 0.0f, 30.0f);
@@ -235,6 +255,13 @@ struct BossParameter :
 			.Add("idleTimeMin", idleTimeMin)
 			.Add("idleTimeMax", idleTimeMax)
 			.Add("defeatHideTime", defeatHideTime)
+			.Add("attackPulseTime", attackPulseTime)
+			.Add("attackPulseScaleRate", attackPulseScaleRate)
+			.Add("attackPulseCount", attackPulseCount)
+			.Add("attackEffectOffset", attackEffectOffset)
+			.Add("attackEffectCount", attackEffectCount)
+			.Add("attackEffectInterval", attackEffectInterval)
+			.Add("attackPulseEaseKind", attackPulseEaseKind)
 			.Add("introDescendHeight", introDescendHeight)
 			.Add("introDescendTime", introDescendTime)
 			.Add("introDescendEaseKind", introDescendEaseKind)
@@ -293,6 +320,13 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
 		Convert::fromJson(jsonData, "defeatHideTime", defeatHideTime);
+		Convert::fromJson(jsonData, "attackPulseTime", attackPulseTime);
+		Convert::fromJson(jsonData, "attackPulseScaleRate", attackPulseScaleRate);
+		Convert::fromJson(jsonData, "attackPulseCount", attackPulseCount);
+		Convert::fromJson(jsonData, "attackEffectOffset", attackEffectOffset);
+		Convert::fromJson(jsonData, "attackEffectCount", attackEffectCount);
+		Convert::fromJson(jsonData, "attackEffectInterval", attackEffectInterval);
+		Convert::fromJson(jsonData, "attackPulseEaseKind", attackPulseEaseKind);
 		Convert::fromJson(jsonData, "introDescendHeight", introDescendHeight);
 		Convert::fromJson(jsonData, "introDescendTime", introDescendTime);
 		Convert::fromJson(jsonData, "introDescendEaseKind", introDescendEaseKind);

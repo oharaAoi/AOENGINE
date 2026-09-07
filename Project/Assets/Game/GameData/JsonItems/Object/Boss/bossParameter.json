@@ -2,6 +2,10 @@
     "bossParameter": {
         "animationBlendSpeed": 0.20000000298023224,
         "animationSpeed": 1.0,
+        "attackPulseCount": 10,
+        "attackPulseEaseKind": 10,
+        "attackPulseScaleRate": 0.20000000298023224,
+        "attackPulseTime": 0.49000000953674316,
         "baseScale": {
             "x": 3.299999952316284,
             "y": 2.5999999046325684,
@@ -58,6 +62,9 @@
         "hp": 100.0,
         "idleTimeMax": 2.5,
         "idleTimeMin": 1.0,
+        "introDescendEaseKind": 2,
+        "introDescendHeight": 12.0,
+        "introDescendTime": 1.2000000476837158,
         "phaseChangeScaleRate": 0.25,
         "phaseChangeTime": 1.2000000476837158,
         "phaseSwitchRatio": [

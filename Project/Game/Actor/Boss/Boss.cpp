@@ -1,13 +1,18 @@
 #include "Boss.h"
 
 #include <algorithm>
+#include <cmath>
+#include <numbers>
 
 #include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Lib/Math/Easing.h"
+#include "Engine/Module/Components/Effect/BaseParticles.h"
 #include "Engine/System/Manager/ImGuiManager.h"
+#include "Engine/System/Manager/ParticleManager.h"
+#include "Engine/Utilities/Logger.h"
 
 #include "Game/Camera/FollowCamera.h"
 #include"Engine/Lib/GameTimer.h"
@@ -38,10 +43,29 @@ void Boss::Init(BaseGameObject* body) {
 
 	isInvincible_ = false;
 	isDefeatFinished_ = false;
+	attackEffectRemaining_ = 0;
+	attackEffectTimer_ = 0.0f;
+	isAttackPulsing_ = false;
+	attackPulseTimer_ = 0.0f;
 	isIntroDescending_ = false;
 	introDescendTimer_ = 0.0f;
 	introDescendOffsetY_ = 0.0f;
 	SetRendering(true);
+
+	// 攻撃に入った合図のエフェクト。使い回すのでここで1つ作っておく
+	if (attackEffect_ == nullptr) {
+		attackEffect_ = ParticleManager::GetInstance()->CreateParticle(kAttackEffectName);
+		if (attackEffect_ == nullptr) {
+			Logger::CommentLog(kAttackEffectName + "が作れなかったため、攻撃のエフェクトは出しません");
+		}
+	}
+
+	if (attackEffect_ != nullptr) {
+		// 攻撃を出した瞬間に一度だけ吹くものなので、垂れ流しにはしない
+		attackEffect_->SetLoop(false);
+		// 作った直後は動いている。攻撃が始まるまで出したくないので止めておく
+		attackEffect_->SetIsStop(true);
+	}
 
 	animation_.Init();
 	// 元の色を覚えさせる。被弾の演出が終わったらここへ戻る
@@ -76,7 +100,11 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 		transform->SetTranslate(position_ + damageEffect_.GetPositionOffset());
 	}
 
-	// 見た目の大きさを反映する
+	// 残っているエフェクトを間隔を空けて出す
+	UpdateAttackEffect(GameTimer::DeltaTime());
+
+	// 大きさの倍率を決めてから見た目へ反映する
+	UpdateAttackPulse(GameTimer::DeltaTime());
 	UpdateScale();
 
 	// 基準位置を反映した後に行動を進める
@@ -115,6 +143,113 @@ void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection) {
 
 	// 行動は進めないが、止まって見えないように待機だけ流しておく
 	UpdateAnimation(kStandbyAnimationName);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  攻撃を出した時のパルス
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::PlayAttackEffect() {
+
+	if (attackEffect_ == nullptr) {
+		return;
+	}
+
+	// 1発目はその場で出して、残りは間隔を空けて追いかけさせる
+	attackEffectRemaining_ = (std::max)(parameter_.attackEffectCount, 1);
+	attackEffectTimer_ = 0.0f;
+
+	EmitAttackEffect();
+}
+
+void Boss::UpdateAttackEffect(float deltaTime) {
+
+	if (attackEffectRemaining_ <= 0) {
+		return;
+	}
+
+	attackEffectTimer_ += deltaTime;
+	if (attackEffectTimer_ < parameter_.attackEffectInterval) {
+		return;
+	}
+
+	attackEffectTimer_ = 0.0f;
+	EmitAttackEffect();
+}
+
+void Boss::EmitAttackEffect() {
+
+	if (attackEffect_ == nullptr || attackEffectRemaining_ <= 0) {
+		return;
+	}
+
+	--attackEffectRemaining_;
+
+	// 先に出す場所を決めてから動かす
+	attackEffect_->SetPos(position_ + parameter_.attackEffectOffset);
+	attackEffect_->Reset();
+}
+
+void Boss::StartAttackPulse() {
+
+	isAttackPulsing_ = true;
+	attackPulseTimer_ = 0.0f;
+}
+
+void Boss::StopAttackPulse() {
+
+	if (!isAttackPulsing_) {
+		return;
+	}
+
+	isAttackPulsing_ = false;
+	attackPulseTimer_ = 0.0f;
+	scaleMultiplier_ = CVector3::UNIT;
+}
+
+void Boss::UpdateAttackPulse(float deltaTime) {
+
+	// 動いていない間は倍率に触らない
+	if (!isAttackPulsing_) {
+		return;
+	}
+
+	attackPulseTimer_ += deltaTime;
+
+	// 時間が0なら膨らませずに終わる
+	float ratio = 1.0f;
+	if (parameter_.attackPulseTime > 0.0f) {
+		ratio = std::clamp(attackPulseTimer_ / parameter_.attackPulseTime, 0.0f, 1.0f);
+	}
+
+	// 指定回数ぶんに割ってから、イージングで歪ませて sin で 0->1->0 の山を作る
+	const float local = CalcPulseLocalRatio(ratio);
+	const float eased = Math::CallEasing(parameter_.attackPulseEaseKind, local);
+	const float pulse = std::sin(eased * std::numbers::pi_v<float>);
+	const float rate = 1.0f + pulse * parameter_.attackPulseScaleRate;
+
+	scaleMultiplier_ = Math::Vector3(rate, rate, rate);
+
+	if (ratio >= 1.0f) {
+		isAttackPulsing_ = false;
+		scaleMultiplier_ = CVector3::UNIT;
+	}
+}
+
+float Boss::CalcPulseLocalRatio(float ratio) const {
+
+	// 1回だけなら割る必要がない
+	if (parameter_.attackPulseCount <= 1) {
+		return ratio;
+	}
+
+	// 最後は必ず山の終わりにしたいので、1.0はそのまま返す
+	if (ratio >= 1.0f) {
+		return 1.0f;
+	}
+
+	const float scaled = ratio * static_cast<float>(parameter_.attackPulseCount);
+	return scaled - std::floor(scaled);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -323,6 +458,7 @@ void Boss::Debug_Gui() {
 	Math::SelectEasing(parameter_.fireballFallEaseKind, "FireballFall");
 	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
 	Math::SelectEasing(parameter_.introDescendEaseKind, "IntroDescend");
+	Math::SelectEasing(parameter_.attackPulseEaseKind, "AttackPulse");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
