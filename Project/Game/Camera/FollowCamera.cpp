@@ -122,7 +122,10 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		const Math::Matrix4x4 viewProjection = GetViewMatrix() * GetProjectionMatrix();
 		const Math::Vector3 screenPos = TransformCoord(targetPos, viewProjection);
 
-		if (screenPos.y >= 0.0f) {
+		// 0から1を、NDCように-1から1の間になるようにする
+		const float triggerNdcY = parameter_.scrollTriggerScreenY * 2.0f - 1.0f;
+
+		if (screenPos.y >= triggerNdcY) {
 			cameraTargetY_ = smoothedTarget_.y + parameter_.scrollHeight;
 			isScrolling_ = true;
 		}

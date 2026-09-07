@@ -26,6 +26,8 @@ public:
 		float smoothTime;				// スクロールのイージング
 		float maxSpeed;					// スクロールの最大速度
 		float scrollHeight;				// 1回のスクロールで上昇する高さ
+		// スクロールを始めるプレイヤーの画面上の高さ
+		float scrollTriggerScreenY = 0.5f;
 		float bigJumpSmoothTime;		// 大ジャンプ中に直接追従する時のイージング
 		float bigJumpMaxSpeed;			// 大ジャンプ中に直接追従する時の最大速度
 
@@ -38,6 +40,7 @@ public:
 			AddParameter("Scroll Smooth Time", smoothTime, 0.01f, 0.001f, 5.0f);
 			AddParameter("Scroll Max Speed", maxSpeed, 1.0f, 0.0f, 100000.0f);
 			AddParameter("Scroll Height", scrollHeight, 0.1f, 0.0f, 100000.0f);
+			AddParameter("Scroll Trigger Screen Y", scrollTriggerScreenY, 0.01f, 0.0f, 1.0f);
 			AddParameter("Big Jump Smooth Time", bigJumpSmoothTime, 0.01f, 0.001f, 5.0f);
 			AddParameter("Big Jump Max Speed", bigJumpMaxSpeed, 1.0f, 0.0f, 100000.0f);
 		}
@@ -49,6 +52,7 @@ public:
 				.Add("smoothTime", smoothTime)
 				.Add("maxSpeed", maxSpeed)
 				.Add("scrollHeight", scrollHeight)
+				.Add("scrollTriggerScreenY", scrollTriggerScreenY)
 				.Add("bigJumpSmoothTime", bigJumpSmoothTime)
 				.Add("bigJumpMaxSpeed", bigJumpMaxSpeed)
 				.Build();
@@ -60,6 +64,7 @@ public:
 			Convert::fromJson(jsonData, "smoothTime", smoothTime);
 			Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
 			Convert::fromJson(jsonData, "scrollHeight", scrollHeight);
+			Convert::fromJson(jsonData, "scrollTriggerScreenY", scrollTriggerScreenY);
 			Convert::fromJson(jsonData, "bigJumpSmoothTime", bigJumpSmoothTime);
 			Convert::fromJson(jsonData, "bigJumpMaxSpeed", bigJumpMaxSpeed);
 		}
