@@ -1,6 +1,7 @@
 {
     "followCamera": {
         "bigJumpMaxSpeed": 1564.0,
+        "bigJumpScreenY": -0.5400000214576721,
         "bigJumpSmoothTime": 0.2800000011920929,
         "maxSpeed": 63.0,
         "offset": {

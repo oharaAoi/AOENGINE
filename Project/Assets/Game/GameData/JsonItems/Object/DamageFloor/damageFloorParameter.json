@@ -2,7 +2,7 @@
     "damageFloorParameter": {
         "damage": 1.0,
         "followMaxSpeed": 100.0,
-        "followSmoothTime": 0.3499999940395355,
+        "followSmoothTime": 0.4300000071525574,
         "hitSize": {
             "x": 20.0,
             "y": 1.0,
