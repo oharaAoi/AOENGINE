@@ -69,8 +69,8 @@ void BaseMaterial::EditShaderType() {
 	shaderType_ = static_cast<MaterialShaderType>(shaderTypeIndex_);
 
 	if (shaderType_ == MaterialShaderType::ShaderGraphRender) {
-		if (shaderGraph_) {
-			shaderGraph_->Debug_Gui();
+		if (shaderGraphInstance_) {
+			shaderGraphInstance_->Debug_Gui();
 		}
 	}
 }
@@ -79,23 +79,25 @@ void BaseMaterial::SetShaderGraph(ShaderGraph* _graph) {
 	if (_graph) {
 		shaderGraphAsset_.reset();
 		shaderGraphAssetPath_.clear();
-		shaderGraph_ = _graph;
+		shaderGraphInstance_ = _graph->CreateInstance();
 		shaderType_ = MaterialShaderType::ShaderGraphRender;
 		shaderTypeIndex_ = static_cast<int>(shaderType_);
 	}
 }
 
 void BaseMaterial::UpdateShaderGraph() {
-	if (shaderType_ == MaterialShaderType::ShaderGraphRender && shaderGraph_) {
-		shaderGraph_->Update();
+	if (shaderType_ == MaterialShaderType::ShaderGraphRender && shaderGraphInstance_) {
+		shaderGraphInstance_->Update();
 	}
 }
 
 void BaseMaterial::SetShaderGraph(std::shared_ptr<ShaderGraph> _graph, const std::string& _assetPath) {
 	shaderGraphAsset_ = std::move(_graph);
-	shaderGraph_ = shaderGraphAsset_.get();
+	shaderGraphInstance_.reset();
 	shaderGraphAssetPath_ = _assetPath;
-	if (shaderGraph_) {
+	if (shaderGraphAsset_) {
+		// Managerが返すGraphはアセットキャッシュなので共有しません。
+		shaderGraphInstance_ = shaderGraphAsset_->CreateInstance();
 		shaderType_ = MaterialShaderType::ShaderGraphRender;
 		shaderTypeIndex_ = static_cast<int>(shaderType_);
 	}

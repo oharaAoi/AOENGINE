@@ -78,7 +78,7 @@ public:
 	void SetShaderGraph(ShaderGraph* _graph);
 	void SetShaderGraph(std::shared_ptr<ShaderGraph> _graph, const std::string& _assetPath);
 	bool SetShaderGraphAsset(const std::string& _assetPath);
-	AOENGINE::ShaderGraph* GetShaderGraph() const { return shaderGraph_; }
+	AOENGINE::ShaderGraph* GetShaderGraph() const { return shaderGraphInstance_.get(); }
 	const std::string& GetShaderGraphAssetPath() const { return shaderGraphAssetPath_; }
 
 	void SetColor(const AOENGINE::Color& _color) { color_ = _color; }
@@ -101,8 +101,9 @@ protected:
 	Math::SRT uvTransform_ = Math::SRT();
 	std::string textureName_ = "white.png";
 
-	AOENGINE::ShaderGraph* shaderGraph_ = nullptr;
+	// アセットは共有ロード用、Graph本体はMaterialごとの実行インスタンスです。
 	std::shared_ptr<AOENGINE::ShaderGraph> shaderGraphAsset_;
+	std::unique_ptr<AOENGINE::ShaderGraph> shaderGraphInstance_;
 	std::string shaderGraphAssetPath_;
 
 	AOENGINE::Color color_;

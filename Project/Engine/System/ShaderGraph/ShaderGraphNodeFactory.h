@@ -7,6 +7,7 @@
 #include "Engine/System/ShaderGraph/Node/ShaderGraphResultNode.h"
 #include <functional>
 #include <memory>
+#include <unordered_map>
 
 using json = nlohmann::json;
 
@@ -24,6 +25,7 @@ public:
 	struct NodeEntry {
 		std::string path;
 		std::function<std::shared_ptr<ImFlow::BaseNode>(const ImVec2&)> spawn;
+		std::function<std::shared_ptr<ImFlow::BaseNode>()> spawnRuntime;
 	};
 
 public: // コンストラクタ
@@ -34,10 +36,13 @@ public: // コンストラクタ
 public:
 
 	std::shared_ptr<ShaderGraphResultNode> Init(ImFlow::ImNodeFlow* _editor);
+	void InitRuntime();
 
 	std::shared_ptr<ShaderGraphResultNode> CreateResultNode(ImFlow::ImNodeFlow* _editor);
 
 	std::shared_ptr<ShaderGraphResultNode> CreateGraph(const json& _json);
+	std::unordered_map<uintptr_t, std::shared_ptr<ImFlow::BaseNode>> CreateRuntimeGraph(
+		const json& _json, std::shared_ptr<ShaderGraphResultNode>& result);
 
 	void CreateGui(const ImVec2& _pos);
 
@@ -51,6 +56,13 @@ public:
 			auto name = menuPath.substr(menuPath.find_last_of('/') + 1);
 			node->setTitle(name.c_str());
 			node->setPos(pos);
+			return node;
+		},
+		[menuPath]() ->std::shared_ptr<ImFlow::BaseNode> {
+			auto node = std::make_shared<T>();
+			node->Init();
+			auto name = menuPath.substr(menuPath.find_last_of('/') + 1);
+			node->setTitle(name.c_str());
 			return node;
 		}
 							   });

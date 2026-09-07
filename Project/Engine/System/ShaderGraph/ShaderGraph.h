@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <unordered_map>
 #include <string>
 #include <unordered_set>
 #include "Engine/Module/Components/Attribute/AttributeGui.h"
@@ -51,6 +52,7 @@ public:
 	/// 初期化関数
 	/// </summary>
 	void Init(const std::string& _name);
+	void InitRuntime(const std::string& _name);
 
 	/// <summary>
 	/// 更新処理
@@ -75,6 +77,11 @@ public:
 	/// <param name="_filePath"></param>
 	void Load(const std::string& _filePath);
 
+	/// <summary>
+	/// 同じアセットから独立した実行用Graphを生成します。
+	/// </summary>
+	std::unique_ptr<ShaderGraph> CreateInstance() const;
+
 public:
 
 	AOENGINE::DxResource* GetResource() const;
@@ -89,6 +96,10 @@ private:
 
 	// 最終的なNodeのポインタ
 	std::shared_ptr<ShaderGraphResultNode> resultNode_ = nullptr;
+	std::unordered_map<uintptr_t, std::shared_ptr<ImFlow::BaseNode>> runtimeNodes_;
+
+	// アセットロード時に一度だけ解析したGraph定義。Instance間で共有します。
+	std::shared_ptr<const json> graphData_;
 
 	// pathを持ったパラメータ
 	FilePathParam param_;

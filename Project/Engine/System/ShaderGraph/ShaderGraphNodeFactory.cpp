@@ -63,10 +63,18 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::Init(ImFlow::ImNo
 
 	RegisterNode<ShaderGraphResultNode>("Result/ResultNode", _editor);
 
+	if (_editor == nullptr) {
+		return nullptr;
+	}
+
 	std::shared_ptr<ShaderGraphResultNode> root = _editor->addNode<ShaderGraphResultNode>(ImVec2(200, 300));
 	root->Init();
 	root->setTitle("ResultNode");
 	return root;
+}
+
+void ShaderGraphNodeFactory::InitRuntime() {
+	Init(nullptr);
 }
 
 std::shared_ptr<ShaderGraphResultNode> AOENGINE::ShaderGraphNodeFactory::CreateResultNode(ImFlow::ImNodeFlow* _editor) {
@@ -150,6 +158,52 @@ std::shared_ptr<ShaderGraphResultNode> ShaderGraphNodeFactory::CreateGraph(const
 	}
 
 	return result;
+}
+
+std::unordered_map<uintptr_t, std::shared_ptr<ImFlow::BaseNode>>
+ShaderGraphNodeFactory::CreateRuntimeGraph(
+	const json& _json, std::shared_ptr<ShaderGraphResultNode>& result) {
+	std::unordered_map<uintptr_t, std::shared_ptr<ImFlow::BaseNode>> nodeMap;
+
+	for (auto& jsonNode : _json["nodes"]) {
+		const std::string dataName = jsonNode["name"];
+		const uintptr_t id = jsonNode["id"];
+
+		for (auto& entry : nodeEntries_) {
+			const std::string name = entry.path.substr(entry.path.find('/') + 1);
+			if (name != dataName || !entry.spawnRuntime) {
+				continue;
+			}
+
+			auto createdNode = entry.spawnRuntime();
+			if (createdNode) {
+				createdNode->fromJson(jsonNode);
+				nodeMap[id] = createdNode;
+				if (createdNode->getName() == "ResultNode") {
+					result = std::dynamic_pointer_cast<ShaderGraphResultNode>(createdNode);
+				}
+			}
+			break;
+		}
+	}
+
+	for (auto& jsonLink : _json["links"]) {
+		const uintptr_t fromNode = jsonLink["fromNode"].get<uintptr_t>();
+		const uintptr_t toNode = jsonLink["toNode"].get<uintptr_t>();
+		auto fromIt = nodeMap.find(fromNode);
+		auto toIt = nodeMap.find(toNode);
+		if (fromIt == nodeMap.end() || toIt == nodeMap.end()) {
+			continue;
+		}
+
+		ImFlow::Pin* outPin = fromIt->second->outPin(jsonLink["fromPin"].get<std::string>());
+		ImFlow::Pin* inPin = toIt->second->inPin(jsonLink["toPin"].get<std::string>());
+		if (outPin && inPin) {
+			outPin->createLink(inPin);
+		}
+	}
+
+	return nodeMap;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
