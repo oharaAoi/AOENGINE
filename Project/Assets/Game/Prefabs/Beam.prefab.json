@@ -99,14 +99,14 @@
                         "albedoTexture": "laser.dds",
                         "color": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.15294118225574493,
+                            0.15294118225574493,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
+                        "enableLighting": false,
                         "iblScale": 0.5,
-                        "pipeline": "Object_AddCut.json",
+                        "pipeline": "Object_NormalCut.json",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 1,
@@ -131,14 +131,14 @@
                         "albedoTexture": "laser.dds",
                         "color": [
                             1.0,
-                            1.0,
-                            1.0,
+                            0.15444016456604004,
+                            0.15444016456604004,
                             1.0
                         ],
                         "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
+                        "enableLighting": false,
                         "iblScale": 0.5,
-                        "pipeline": "Object_AddCut.json",
+                        "pipeline": "Object_NormalCut.json",
                         "shaderType": 0,
                         "shininess": 100.0,
                         "slot": 2,
@@ -163,13 +163,13 @@
                 "model": "laser.obj",
                 "rotate": [
                     0.0,
-                    0.7094968557357788,
+                    0.6950405240058899,
                     0.0,
-                    0.7047085762023926
+                    0.718970537185669
                 ],
                 "scale": [
                     1.0,
-                    1.0,
+                    1.0000011920928955,
                     1.0
                 ],
                 "translate": [
