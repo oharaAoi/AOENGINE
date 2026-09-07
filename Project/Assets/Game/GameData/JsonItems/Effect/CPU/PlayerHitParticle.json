@@ -32,10 +32,11 @@
         "isLifeOfAlpha": true,
         "isLifeOfScale": true,
         "isLoop": false,
+        "isPlayOneShot": false,
         "isRandomColor": false,
         "isRandomRotate": true,
         "isScaleUp": false,
-        "isStretch": true,
+        "isStretch": false,
         "isTextureSheetAnimation": false,
         "lifeOfMaxScale": {
             "x": 0.0,

@@ -1,5 +1,8 @@
 #include "PlayerToBossAttackCallBacks.h"
 
+// engine
+#include "Engine/System/Manager/ParticleEffectManager.h"
+
 #include "Game/Actor/Boss/Boss.h"
 
 void PlayerToBossAttackCallBacks::Init() {
@@ -43,4 +46,6 @@ void PlayerToBossAttackCallBacks::ApplyDamage(AOENGINE::BaseCollider* const atta
 	}
 
 	pPlayer_->TakeDamage(damage);
+
+	AOENGINE::ParticleEffectManager::GetInstance()->Play("PlayerHitEffect", pPlayer_->GetPosition());
 }
