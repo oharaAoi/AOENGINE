@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Engine/System/Audio/SoundManager.h"
+
 // game
 #include "Game/Scene/BaseScene.h"
 #include "Game/UI/GameClearUI.h"
@@ -34,5 +37,6 @@ private: // private variables
 
 	GameClearUI clearUI_;
 
+	AOENGINE::SoundHandle bgmHandle_;
 };
 

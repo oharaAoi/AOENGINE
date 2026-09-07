@@ -2,6 +2,8 @@
 
 #include <array>
 
+#include "Engine/Core/Engine.h"
+
 void BlockGroupConnectState::Begin() {
 	// 集合中に再びジャンプしても受付は始めない(打ち上げが終わるまで1セットとして扱う)
 	if (phase_ != Phase::Idle) {

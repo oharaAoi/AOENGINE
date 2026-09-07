@@ -58,6 +58,8 @@ void BossAttackBeam::UpdateWindupPhase(Boss& boss, float deltaTime) {
 
 	// アニメーションを見せてからビームを出す
 	if (WaitStartDelay(deltaTime, boss.GetParameter().beamStartDelay)) {
+		Engine::GetSoundManager()->Stop(warningSound_);
+		shotSound_ = Engine::GetSoundManager()->Play("BeamShot");
 		return;
 	}
 
@@ -76,6 +78,7 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 
 	// ビームの時間が終わったら次の回へ
 	if (phaseTimer_ < boss.GetParameter().beamTime) {
+		Engine::GetSoundManager()->Stop(shotSound_);
 		return;
 	}
 
@@ -86,6 +89,7 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 	if (firedCount_ >= boss.GetParameter().beamCount) {
 		isFinished_ = true;
 		phaseTimer_ = 0.0f;
+		Engine::GetSoundManager()->Stop(shotSound_);
 		return;
 	}
 
@@ -107,6 +111,8 @@ void BossAttackBeam::Enter(Boss& boss) {
 
 	// 1回目の予測線を出す。アニメーションはビームの直前に流す
 	SpawnWarning(boss);
+	warningSound_ = Engine::GetSoundManager()->Play("BeamAim");
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

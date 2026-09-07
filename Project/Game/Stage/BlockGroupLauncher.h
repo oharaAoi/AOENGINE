@@ -22,6 +22,8 @@ namespace AOENGINE{
 /// <summary>
 /// 接続されたブロックグループを、接続した順に次のブロックへ最短距離で渡らせて1箇所に集め、
 /// 上へ打ち上げるクラス。
+/// 動き出すのは最初に接続したグループだけで、後ろのグループは1つ前のグループが自分に触れるまで
+/// 接続地点で待つ。玉突きのように順番に動き出し、そのまま数珠つなぎで集合地点へ向かう。
 /// ブロックの所有権は持たない(所有権は StageBlockField 側にある)。
 /// 打ち上げたグループは足場ではなくなるため、集合開始時に StageBlockField の表からは外し、
 /// 段の所有（ストリーミングによる破棄対象）からも切り離す。
@@ -127,12 +129,21 @@ private:
 		Math::Vector3 basePoint{};			// 経路上の現在位置(押し戻す前の位置)
 		Math::Vector3 separation{};			// 他のグループから押し戻された分のずらし量
 		Math::Vector3 rootOffset{};			// 打ち上げ用の座標系(launchRoot_)の原点から見たグループの位置
+		bool isMoving = false;				// 経路上を動き出しているか(待機中は接続地点から動かない)
+		float releaseProgress = 0.0f;		// 1つ前のグループがこの距離まで進んだら動き出す(塊同士が触れる位置)
 	};
 
 	/// <summary>request の targetIndex 番目のグループから作業データを組み立てる</summary>
 	bool MakeGatheringGroup(const GatherRequest& request,size_t targetIndex,GatheringGroup& outGroup) const;
+	/// <summary>
+	/// 各グループが「1つ前のグループがどこまで進んだら動き出すか」を決める。
+	/// 経路も塊の形も集合中は変わらないため、集合開始時に1度だけ求める
+	/// </summary>
+	void SetupReleaseProgress();
 	/// <summary>集合中の更新。経路上の目標位置へブロックを動かす</summary>
 	void UpdateGathering(float deltaTime);
+	/// <summary>接続地点で待機しているグループのうち、1つ前のグループが触れる所まで来たものを動かし始める</summary>
+	void UpdateGatherRelease(float deltaTime);
 	/// <summary>グループ同士の重なりを調べ、重なった分だけ互いに押し戻す</summary>
 	void ResolveGroupSeparation(float deltaTime);
 	/// <summary>
@@ -164,6 +175,17 @@ private:
 	static Math::Vector3 SamplePath(const std::vector<Math::Vector3>& path,float distance);
 	/// <summary>経路の全長を求める</summary>
 	static float ComputePathLength(const std::vector<Math::Vector3>& path);
+	/// <summary>
+	/// 待機しているグループの塊に、近づいてくるグループの塊がちょうど触れる時の残り距離を求める。
+	/// ブロックはどれも同じ大きさの箱なので、箱同士が重なる残り距離の範囲を軸ごとに解いて求める
+	/// </summary>
+	/// <param name="approaching">近づいてくる側(1つ前のグループ)</param>
+	/// <param name="waiting">接続地点で待っている側</param>
+	/// <param name="approachDirection">approaching が waiting へ入ってくる向き(単位ベクトル)</param>
+	/// <param name="blockSize">ブロック1個の大きさ</param>
+	/// <returns>触れる瞬間の、waiting の接続地点までの残り距離。触れ合わない場合は 0</returns>
+	static float ComputeContactDistance(const GatheringGroup& approaching,const GatheringGroup& waiting,
+										const Math::Vector3& approachDirection,float blockSize);
 	/// <summary>ブロックのワールド座標を取得する</summary>
 	static Math::Vector3 GetBlockPosition(const Block* block);
 	/// <summary>ぴったり重なった時に逃がす向き。集合地点の周りへ均等に配る</summary>

@@ -24,6 +24,25 @@ namespace{
 	constexpr int kSeparationIteration = 4;
 	/// 重なり判定の許容誤差。隣り合って接しているだけの状態を重なりとみなさないための下限
 	constexpr float kOverlapEpsilon = 1.0e-4f;
+
+	/// <summary>
+	/// 1軸分について、2つのブロックが重なっている「残り距離」の範囲を絞り込む。
+	/// 中心の差は offset + direction * 残り距離 になるため、|offset + direction * 残り距離| < blockSize を解く
+	/// </summary>
+	/// <returns>絞り込んだ範囲が空になったら false(この軸では触れ合わない)</returns>
+	bool ClipContactRange(float offset,float direction,float blockSize,float& nearDistance,float& farDistance){
+		if(std::fabs(direction) <= kOverlapEpsilon){
+			// この軸には近づいていかないため、最初から重なっていなければ触れることはない
+			return std::fabs(offset) < blockSize;
+		}
+
+		const float edge0 = (-blockSize - offset) / direction;
+		const float edge1 = (blockSize - offset) / direction;
+
+		nearDistance = (std::max)(nearDistance,(std::min)(edge0,edge1));
+		farDistance = (std::min)(farDistance,(std::max)(edge0,edge1));
+		return nearDistance <= farDistance;
+	}
 }
 
 void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& params){
@@ -52,6 +71,10 @@ void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& 
 	if(groups_.empty()){
 		return;
 	}
+
+	// 最初に接続したグループだけが最初から動き、後ろのグループは1つ前の塊が触れてから動き出す
+	groups_.front().isMoving = true;
+	SetupReleaseProgress();
 
 	state_ = State::Gathering;
 }
@@ -104,6 +127,36 @@ bool BlockGroupLauncher::MakeGatheringGroup(const GatherRequest& request,size_t 
 	return true;
 }
 
+void BlockGroupLauncher::SetupReleaseProgress(){
+	for(size_t index = 1; index < groups_.size(); ++index){
+		GatheringGroup& group = groups_[index];
+		const GatheringGroup& previous = groups_[index - 1];
+
+		// 後ろのグループの経路は、1つ前のグループの経路の後半がそのまま使われている。
+		// そのためノード数の差が「1つ前のグループが自分の接続地点へ入ってくる区間」を指し、
+		// 経路長の差がそこへ辿り着くまでに進む距離になる(経路を辿り直さなくてよい)
+		if(previous.path.size() <= group.path.size()){
+			continue;
+		}
+		const size_t nodeIndex = previous.path.size() - group.path.size();
+		const float arriveDistance = previous.pathLength - group.pathLength;
+
+		Math::Vector3 approach = previous.path[nodeIndex] - previous.path[nodeIndex - 1];
+		const float approachLength = approach.Length();
+		if(approachLength <= kOverlapEpsilon){
+			// ほぼ同じ場所で接続された場合は最初から重なっているため、待たずに一緒に動き出す
+			group.releaseProgress = 0.0f;
+			continue;
+		}
+		approach = approach * (1.0f / approachLength);
+
+		// 触れる瞬間の残り距離だけ手前で動き出させる。
+		// 接続地点へ着くまで待たせると、待っている側の塊にめり込んでから動き出すことになる
+		const float contactDistance = ComputeContactDistance(previous,group,approach,params_.blockSize);
+		group.releaseProgress = arriveDistance - contactDistance;
+	}
+}
+
 void BlockGroupLauncher::Launch(){
 	if(state_ != State::Gathering){
 		return;
@@ -138,8 +191,12 @@ void BlockGroupLauncher::Launch(){
 		launchEffects_.AddParticleEffect("RocketJet_SubParticle");
 		launchEffects_.AddPrefab("JetFire",Math::Vector3(0.f,1.3f,0.f));
 	}
+
 	launchEffects_.SetParent(launchRoot_.get());
 	launchEffects_.Play();
+
+	//se
+	Engine::GetSoundManager()->Play("LaunchBlocks");
 }
 
 void BlockGroupLauncher::BuildLaunchRoot(){
@@ -186,11 +243,17 @@ void BlockGroupLauncher::Update(float deltaTime){
 }
 
 void BlockGroupLauncher::UpdateGathering(float deltaTime){
-	// 各グループは自分が接続された地点から、後から接続したブロックを順に辿って集合地点へ向かう。
-	// 経路の長さがグループごとに違うため、先に接続したグループほど遠くから追いかける形になり、
-	// 結果として同じ道を数珠つなぎに進んで順番に集合する
+	// 各グループは自分が接続された地点で待機し、1つ前のグループの塊が触れる所まで来てから、
+	// 後から接続したブロックを順に辿って集合地点へ向かう。
+	// 動き出した後は全グループが同じ速さで同じ道を進むため間隔は変わらず、
+	// 触れ合ったまま数珠つなぎで進んで順番に集合する
+	UpdateGatherRelease(deltaTime);
+
 	for(GatheringGroup& group : groups_){
-		group.progress = (std::min)(group.progress + params_.gatherSpeed * deltaTime,group.pathLength);
+		if(group.isMoving){
+			group.progress = (std::min)(group.progress + params_.gatherSpeed * deltaTime,group.pathLength);
+		}
+		// 待機中は progress が 0 のままなので、接続地点から動かない
 		group.basePoint = SamplePath(group.path,group.progress);
 	}
 
@@ -201,6 +264,35 @@ void BlockGroupLauncher::UpdateGathering(float deltaTime){
 
 	for(const GatheringGroup& group : groups_){
 		MoveGroup(group,group.basePoint + group.separation,deltaTime);
+	}
+}
+
+void BlockGroupLauncher::UpdateGatherRelease(float deltaTime){
+	// このフレームで進む分を先に足してから調べる。触れてから動き出すと、
+	// 1フレームで進んだ分だけめり込んだ間隔のまま並走することになり、
+	// 集合地点へ着くまでずっと押し戻しが効き続けてしまう
+	const float step = params_.gatherSpeed * deltaTime;
+
+	for(size_t index = 1; index < groups_.size(); ++index){
+		GatheringGroup& group = groups_[index];
+		if(group.isMoving){
+			continue;
+		}
+
+		// 1つ前が止まっているなら、そこから後ろは全部止まったまま
+		const GatheringGroup& previous = groups_[index - 1];
+		if(!previous.isMoving){
+			break;
+		}
+
+		if(previous.progress + step < group.releaseProgress){
+			break;
+		}
+
+		// 同じ場所で接続されていた場合はここで続けて動き出すため、後ろも続けて調べる
+		group.isMoving = true;
+
+		Engine::GetSoundManager()->Play("GatherBlocks");
 	}
 }
 
@@ -504,6 +596,48 @@ float BlockGroupLauncher::ComputePathLength(const std::vector<Math::Vector3>& pa
 		length += segment.Length();
 	}
 	return length;
+}
+
+float BlockGroupLauncher::ComputeContactDistance(const GatheringGroup& approaching,const GatheringGroup& waiting,
+												 const Math::Vector3& approachDirection,float blockSize){
+	// offsets はどちらも自分の接続地点から見た相対位置で、待っている側はその接続地点に居る。
+	// 近づいてくる側はそこから approachDirection の逆向きに「残り距離」だけ離れた所に居るため、
+	// ブロック2個の中心の差は (offsets の差) + approachDirection * 残り距離 になる。
+	// これが箱の大きさに収まる残り距離の範囲を軸ごとに解き、
+	// その中で一番遠い(=一番早く触れる)ものを塊全体の接触距離とする
+	float contactDistance = 0.0f;
+
+	for(size_t indexA = 0; indexA < approaching.blocks.size(); ++indexA){
+		const Block* blockA = approaching.blocks[indexA];
+		if(blockA == nullptr || !blockA->IsValid()){
+			continue;
+		}
+
+		for(size_t indexB = 0; indexB < waiting.blocks.size(); ++indexB){
+			const Block* blockB = waiting.blocks[indexB];
+			if(blockB == nullptr || !blockB->IsValid()){
+				continue;
+			}
+
+			const Math::Vector3 diff = waiting.offsets[indexB] - approaching.offsets[indexA];
+
+			float nearDistance = 0.0f;
+			float farDistance = (std::numeric_limits<float>::max)();
+			if(!ClipContactRange(diff.x,approachDirection.x,blockSize,nearDistance,farDistance)){
+				continue;
+			}
+			if(!ClipContactRange(diff.y,approachDirection.y,blockSize,nearDistance,farDistance)){
+				continue;
+			}
+			if(!ClipContactRange(diff.z,approachDirection.z,blockSize,nearDistance,farDistance)){
+				continue;
+			}
+
+			contactDistance = (std::max)(contactDistance,farDistance);
+		}
+	}
+
+	return contactDistance;
 }
 
 Math::Vector3 BlockGroupLauncher::GetBlockPosition(const Block* block){

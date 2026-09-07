@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Engine/System/Audio/SoundManager.h"
+
 // game
 #include "Game/Scene/BaseScene.h"
 #include "Game/UI/TitleUI.h"
@@ -32,6 +34,8 @@ public:
 	void Update() override;
 
 private: // private variables
+
+	AOENGINE::SoundHandle bgmHandle_;
 
 	TitleUI titleUI_;
 

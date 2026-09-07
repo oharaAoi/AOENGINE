@@ -145,6 +145,9 @@ void Boss::Damage(float amount) {
 	// 赤くして、その場で小さく揺らす
 	damageEffect_.Play(MakeDamageEffectParams());
 
+	// se
+	Engine::GetSoundManager()->Play("BossDamaged");
+
 	currentHp_ -= amount;
 	if (currentHp_ < 0.0f) {
 		currentHp_ = 0.0f;

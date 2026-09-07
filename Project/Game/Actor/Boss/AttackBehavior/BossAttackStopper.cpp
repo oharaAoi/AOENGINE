@@ -34,6 +34,8 @@ void BossAttackStopper::Enter(Boss& boss) {
 	stoppers_.clear();
 	isFinished_ = false;
 	isSpawned_ = false;
+
+	
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,6 +69,9 @@ void BossAttackStopper::Update(Boss& boss, float deltaTime) {
 	if (!isSpawned_) {
 		isSpawned_ = true;
 		SpawnStoppers(boss);
+
+		// se
+		Engine::GetSoundManager()->Play("StopperSpawn");
 	}
 
 	// ストッパー更新

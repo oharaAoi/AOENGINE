@@ -1,5 +1,8 @@
 #include "BossBlockLauncherCollisionCallBacks.h"
 
+/// engine
+#include "Engine/Core/Engine.h"
+
 /// game
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/WorldObject/Block.h"
@@ -41,6 +44,8 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 	context.groupCount = pLauncherManager_->GetGroupCount();
 	pBoss_->Damage(damageCalculator_.Calculate(context));
 
+	// se
+	Engine::GetSoundManager()->Play("BossDamaged");
 }
 
 void BossBlockLauncherCollisionCallBacks::CollisionStay(AOENGINE::BaseCollider* const /*bossCollider*/,AOENGINE::BaseCollider* const /*blockCollider*/){}
