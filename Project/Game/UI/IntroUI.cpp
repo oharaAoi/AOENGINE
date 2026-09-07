@@ -81,6 +81,7 @@ void IntroUI::UpdateMoveOut(Item& item) {
 	// 形は入りの終わりの見た目のまま流す
 	PlaceItem(item, Math::Vector2::Lerp(CalcCenterPos(), CalcLeftPos(), eased), 1.0f, 1.0f);
 
+	// イージング終わったんなら終わりです
 	if (ratio >= 1.0f) {
 		FinishItem(item);
 	}
@@ -364,7 +365,7 @@ float IntroUI::RepeatRatio(float ratio, int32_t loopCount) const {
 		return ratio;
 	}
 
-	// 終わりは必ず終わりの見た目にしたいので、1.0はそのまま返す
+	//終わりの値
 	if (ratio >= 1.0f) {
 		return 1.0f;
 	}
