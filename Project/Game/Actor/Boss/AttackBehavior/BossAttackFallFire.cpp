@@ -93,6 +93,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 	// スタート位置の適用
 	if (AOENGINE::WorldTransform* transform = fireball.entity.GetTransform()) {
 		transform->SetTranslate(spawnPosition);
+		// 同じフレームに子Particleが先に更新されても、初期値の原点ではなく
+		// スポーン位置を親行列として参照できるよう、ここで行列を確定する。
+		transform->Update();
 	}
 
 	fireballs_.push_back(fireball);
@@ -105,6 +108,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 		// 画面外で当たらないように、カメラに映るまで判定を切っておく
 		collider->SetIsActive(false);
 	}
+	
+	// se
+	Engine::GetSoundManager()->Play("FireballSpawn");
 }
 
 void BossAttackFallFire::UpdateSpawnTimer(float deltaTime, const Boss& boss) {
@@ -183,6 +189,10 @@ void  BossAttackFallFire::UpdateFireBall(const Boss& boss, float deltaTime) {
 			}
 			it->entity.Destroy();
 			it = fireballs_.erase(it);
+
+			// se
+			Engine::GetSoundManager()->Play("FireballHit");
+
 			continue;
 		}
 		++it;

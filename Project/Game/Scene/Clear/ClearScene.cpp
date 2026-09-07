@@ -1,9 +1,12 @@
 #include "ClearScene.h"
 
-ClearScene::~ClearScene() {
+#include "Engine/Core/Engine.h"
+
+ClearScene::~ClearScene(){
 }
 
-void ClearScene::Finalize() {
+void ClearScene::Finalize(){
+	Engine::GetSoundManager()->Stop(bgmHandle_);
 }
 
 
@@ -11,14 +14,16 @@ void ClearScene::Finalize() {
 // 初期化処理(インスタンスの宣言など)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ClearScene::Init() {
+void ClearScene::Init(){
+	// BGM再生
+	bgmHandle_ = Engine::GetSoundManager()->Play("GameClearBGM");
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // スタート時に呼ばれる処理(パラメータの読み込み、設定などはココで行う)
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ClearScene::OnPlayStart() {
+void ClearScene::OnPlayStart(){
 	clearUI_.Init();
 }
 
@@ -26,12 +31,12 @@ void ClearScene::OnPlayStart() {
 // 更新
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void ClearScene::Update() {
+void ClearScene::Update(){
 	// 次のシーンの選択
 	GameClearUI::GameClearItem current = clearUI_.Update();
-	if (current == GameClearUI::GameClearItem::Retry) {
+	if(current == GameClearUI::GameClearItem::Retry){
 		nextSceneType_ = SceneType::Game;
-	} else if (current == GameClearUI::GameClearItem::Exit) {
+	} else if(current == GameClearUI::GameClearItem::Exit){
 		endRequest_ = true;
 	}
 }

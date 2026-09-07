@@ -210,6 +210,9 @@ void SceneRenderer::DrawShadowMap() const {
 	const float shadowDistance = directionalLight->GetBaseParameter().shadowDistance;
 
 	if (shadowCanSkipUpdate_ && IsShadowCacheValid(lightViewProjection)) {
+		// 描画を省略する場合も、この後のScene描画ではShadowMapを参照する。
+		// EndFrameのResetShadowMap()と対になるよう読み取り状態へ遷移させる。
+		AOENGINE::Render::ChangeShadowMap();
 		return;
 	}
 

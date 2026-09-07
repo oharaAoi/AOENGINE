@@ -65,7 +65,8 @@ public:
 	void SetIsStop(bool _stop) { isStop_ = _stop; }
 	bool GetIsStop() const { return isStop_; }
 
-	void SetPos(const Math::Vector3& pos) { emitter_.translate = pos; }
+	// 生成直後の配置変更を通常移動として扱わないよう、補間の基準位置も更新し直す。
+	void SetPos(const Math::Vector3& pos);
 
 	void SetParent(WorldTransform* parentTransform);
 

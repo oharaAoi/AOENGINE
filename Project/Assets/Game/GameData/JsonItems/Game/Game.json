@@ -147,6 +147,137 @@
         {
             "active": true,
             "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "background.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.0,
+                        "enableLighting": true,
+                        "iblScale": 0.0,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "background.obj",
+                "rotate": [
+                    0.026384949684143066,
+                    0.9977419376373291,
+                    -0.05475682392716408,
+                    0.028577202931046486
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.800000011920929,
+                    -295.3999938964844,
+                    69.5999984741211
+                ]
+            },
+            "id": 796,
+            "name": "background",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    2.200000047683716,
+                    0.0
+                ]
+            },
+            "id": 314,
+            "name": "Player",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -156,10 +287,205 @@
                     1009.0
                 ],
                 "color": [
-                    1.0,
-                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "HP_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 772,
+            "name": "BossFrame",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "DamageFloor",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    33.08000183105469,
                     1.0,
                     1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -0.9411920309066772,
+                    0.0,
+                    -1.9004273414611816
+                ]
+            },
+            "id": 796,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "launch_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 754,
+            "name": "LauncherFrame",
+            "parentId": 734,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    16.0,
+                    16.0
+                ],
+                "translate": [
+                    3.814697265625e-06,
+                    -725.0000610351563,
+                    1.0
+                ]
+            },
+            "id": 771,
+            "name": "BossUI",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
                 ],
                 "drawRange": [
                     251.0,
@@ -179,24 +505,24 @@
                     0.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    0.6666666865348816,
+                    0.7135778665542603,
                     1.0
                 ],
-                "texture": "playerHP_gauge",
+                "texture": "launch_gauge",
                 "textureSize": [
                     251.0,
                     1000.0
                 ],
                 "translate": [
-                    -19.72607421875,
-                    -79.5999984741211,
+                    0.0,
+                    0.0,
                     1.0
                 ]
             },
-            "id": 729,
-            "name": "PlayerHP",
-            "parentId": 728,
+            "id": 735,
+            "name": "LauncherGauge",
+            "parentId": 734,
             "type": "Sprite"
         },
         {
@@ -207,8 +533,140 @@
                     0.5
                 ],
                 "canvasSize": [
-                    1920.0,
-                    1009.0
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 6,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.3333333432674408,
+                    0.3567889332771301,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    16.0,
+                    16.0
+                ],
+                "translate": [
+                    1172.6029052734375,
+                    340.1325988769531,
+                    1.0
+                ]
+            },
+            "id": 771,
+            "name": "BossUI",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    -141.39999389648438,
+                    1.0
+                ]
+            },
+            "id": 488,
+            "name": "Retry_title",
+            "parentId": 487,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "bossHP_gauge",
+                "textureSize": [
+                    251.0,
+                    1000.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 773,
+            "name": "BossHP",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
                 ],
                 "color": [
                     1.0,
@@ -227,7 +685,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 3,
+                "renderQueue": 6,
                 "rotate": [
                     0.0,
                     0.0,
@@ -247,133 +705,20 @@
                     1640.548095703125,
                     531.6758422851563,
                     1.0
+                ],
+                "scale": [
+                    0.6000000238418579,
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "translate": [
+                    0.0,
+                    12.0,
+                    0.0
                 ]
             },
             "id": 728,
             "name": "PlayerUI",
-            "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    176.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 6,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "Retry",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_2",
-                "textureSize": [
-                    176.0,
-                    84.0
-                ],
-                "translate": [
-                    0.0,
-                    55.20000076293945,
-                    1.0
-                ]
-            },
-            "id": 705,
-            "name": "Text_Retry",
-            "parentId": 487,
-            "type": "Text"
-        },
-        {
-            "active": false,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    0.7843137383460999
-                ],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 5,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    1600.0,
-                    1200.0
-                ],
-                "translate": [
-                    611.2999877929688,
-                    499.6177673339844,
-                    1.0
-                ]
-            },
-            "id": 487,
-            "name": "Retry",
             "parentId": null,
             "type": "Sprite"
         },
@@ -415,18 +760,138 @@
                     0.5
                 ],
                 "canvasSize": [
-                    1920.0,
-                    1009.0
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 3,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.3333333432674408,
+                    0.3567889332771301,
+                    1.0
+                ],
+                "texture": "icon_player",
+                "textureSize": [
+                    176.0,
+                    84.0
+                ],
+                "translate": [
+                    1093.69873046875,
+                    379.3921203613281,
+                    1.0
+                ]
+            },
+            "id": 728,
+            "name": "PlayerUI",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": false,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
                 ],
                 "color": [
                     0.0,
                     0.0,
                     0.0,
-                    1.0
+                    0.7843137383460999
                 ],
                 "drawRange": [
-                    16.0,
-                    16.0
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 5,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "__Text_5",
+                "textureSize": [
+                    1600.0,
+                    1200.0
+                ],
+                "translate": [
+                    407.5333251953125,
+                    356.51617431640625,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    10.0,
+                    0.0
+                ]
+            },
+            "id": 487,
+            "name": "Retry",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -435,7 +900,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 1,
+                "renderQueue": 3,
                 "rotate": [
                     0.0,
                     0.0,
@@ -446,19 +911,495 @@
                     1.0,
                     1.0
                 ],
-                "texture": "white.png",
+                "text": "Retry",
+                "textAnchor": [
+                    0.5,
+                    0.5,
+                    1.0
+                ],
+                "texture": "__Text_6",
                 "textureSize": [
-                    600.0,
-                    1200.0
+                    263.0,
+                    1050.0
                 ],
                 "translate": [
-                    1635.270263671875,
-                    492.82781982421875,
+                    0.0,
+                    55.20000076293945,
                     1.0
                 ]
             },
-            "id": 467,
-            "name": "UI_background",
+            "id": 734,
+            "name": "LauncherUI",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 6,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "text": "Title",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "HP_frame",
+                "textureSize": [
+                    176.0,
+                    84.0
+                ],
+                "translate": [
+                    0.0,
+                    127.01686096191406,
+                    1.0
+                ]
+            },
+            "id": 772,
+            "name": "BossFrame",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.6000000238418579,
+                    0.6000000238418579
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    251.0,
+                    1000.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "launch_gauge",
+                "textureSize": [
+                    251.0,
+                    1000.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 735,
+            "name": "LauncherGauge",
+            "parentId": 734,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "idle",
+                        "animationTime": 0.0,
+                        "loop": true,
+                        "speed": 1.0,
+                        "stopped": false,
+                        "type": "Animator"
+                    },
+                    {
+                        "active": true,
+                        "category": "Boss",
+                        "collisionMask": [
+                            "LaunchedBlock"
+                        ],
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "penetrationPrevention": false,
+                        "size": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "static": true,
+                        "trigger": true,
+                        "type": "AABBCollider"
+                    }
+                ],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "background.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.0,
+                        "enableLighting": true,
+                        "iblScale": 0.0,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "background.obj",
+                "rotate": [
+                    0.026384949684143066,
+                    0.9977419376373291,
+                    -0.05475682392716408,
+                    0.028577202931046486
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.800000011920929,
+                    -295.3999938964844,
+                    69.5999984741211
+                ]
+            },
+            "id": 796,
+            "name": "background",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "HP_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 772,
+            "name": "BossFrame",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "launch_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 754,
+            "name": "LauncherFrame",
+            "parentId": 734,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    422.0,
+                    500.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 4,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.40000003576278687,
+                    0.42814671993255615,
+                    1.0
+                ],
+                "texture": "icon_player",
+                "textureSize": [
+                    422.0,
+                    500.0
+                ],
+                "translate": [
+                    2.543131586207892e-06,
+                    -517.343994140625,
+                    1.0
+                ]
+            },
+            "id": 752,
+            "name": "PlayerIcon",
+            "parentId": 728,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    0.0
+                ],
+                "drawRange": [
+                    263.0,
+                    1050.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 3,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.5,
+                    0.5,
+                    1.0
+                ],
+                "texture": "launch_frame",
+                "textureSize": [
+                    263.0,
+                    1050.0
+                ],
+                "translate": [
+                    1477.687744140625,
+                    476.6579895019531,
+                    1.0
+                ]
+            },
+            "id": 734,
+            "name": "LauncherUI",
             "parentId": null,
             "type": "Sprite"
         },
@@ -493,25 +1434,25 @@
             "type": "PrefabInstance"
         },
         {
-            "active": true,
+            "active": false,
             "data": {
                 "anchor": [
-                    0.6000000238418579,
-                    0.6000000238418579
+                    0.5,
+                    0.5
                 ],
                 "canvasSize": [
                     1920.0,
                     1009.0
                 ],
                 "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.7843137383460999
                 ],
                 "drawRange": [
-                    263.0,
-                    1050.0
+                    422.0,
+                    500.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -531,20 +1472,20 @@
                     1.0,
                     1.0
                 ],
-                "texture": "HP_frame",
+                "texture": "white.png",
                 "textureSize": [
-                    263.0,
-                    1050.0
+                    422.0,
+                    500.0
                 ],
                 "translate": [
-                    0.0,
-                    0.0,
+                    611.2999877929688,
+                    499.6177673339844,
                     1.0
                 ]
             },
-            "id": 730,
-            "name": "PlayerFrame",
-            "parentId": 728,
+            "id": 487,
+            "name": "Retry",
+            "parentId": null,
             "type": "Sprite"
         },
         {
@@ -555,8 +1496,63 @@
                     0.5
                 ],
                 "canvasSize": [
-                    1920.0,
-                    1009.0
+                    1280.0,
+                    720.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "drawRange": [
+                    251.0,
+                    1000.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 2,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.6666666865348816,
+                    0.7135778665542603,
+                    1.0
+                ],
+                "texture": "bossHP_gauge",
+                "textureSize": [
+                    251.0,
+                    1000.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 773,
+            "name": "BossHP",
+            "parentId": 771,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1280.0,
+                    720.0
                 ],
                 "color": [
                     1.0,
@@ -620,8 +1616,8 @@
                     1.0
                 ],
                 "drawRange": [
-                    263.0,
-                    1050.0
+                    251.0,
+                    1000.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -630,264 +1626,31 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 4,
+                "renderQueue": 2,
                 "rotate": [
                     0.0,
                     0.0,
                     0.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    0.6666666865348816,
+                    0.7135778665542603,
                     1.0
                 ],
-                "texture": "HP_frame",
+                "texture": "launch_gauge",
                 "textureSize": [
-                    263.0,
-                    1050.0
+                    251.0,
+                    1000.0
                 ],
                 "translate": [
-                    0.0,
-                    0.0,
+                    -19.72607421875,
+                    -79.5999984741211,
                     1.0
                 ]
             },
-            "id": 772,
-            "name": "BossFrame",
-            "parentId": 771,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 6,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    445.0,
-                    143.0
-                ],
-                "translate": [
-                    0.0,
-                    -141.39999389648438,
-                    1.0
-                ]
-            },
-            "id": 488,
-            "name": "Retry_title",
-            "parentId": 487,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    176.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 6,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "Title",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_9",
-                "textureSize": [
-                    176.0,
-                    84.0
-                ],
-                "translate": [
-                    0.0,
-                    178.0,
-                    1.0
-                ]
-            },
-            "id": 522,
-            "name": "Text_Title",
-            "parentId": 487,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    0.0
-                ],
-                "drawRange": [
-                    263.0,
-                    1050.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 3,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    0.5,
-                    0.5,
-                    1.0
-                ],
-                "texture": "launch_frame",
-                "textureSize": [
-                    263.0,
-                    1050.0
-                ],
-                "translate": [
-                    1477.687744140625,
-                    476.6579895019531,
-                    1.0
-                ]
-            },
-            "id": 734,
-            "name": "LauncherUI",
-            "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    263.0,
-                    1050.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 4,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "launch_frame",
-                "textureSize": [
-                    263.0,
-                    1050.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    1.0
-                ]
-            },
-            "id": 754,
-            "name": "LauncherFrame",
-            "parentId": 734,
+            "id": 729,
+            "name": "PlayerHP",
+            "parentId": 728,
             "type": "Sprite"
         },
         {
@@ -948,197 +1711,6 @@
         {
             "active": true,
             "data": {
-                "animator": true,
-                "components": [
-                    {
-                        "animationName": "idle",
-                        "animationTime": 0.0,
-                        "loop": true,
-                        "speed": 1.0,
-                        "stopped": false,
-                        "type": "Animator"
-                    },
-                    {
-                        "active": true,
-                        "category": "Boss",
-                        "collisionMask": [
-                            "LaunchedBlock"
-                        ],
-                        "localPosition": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "penetrationPrevention": false,
-                        "size": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "static": true,
-                        "trigger": true,
-                        "type": "AABBCollider"
-                    }
-                ],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "boss_ufo.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "boss.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "boss_hand.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 2,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 3,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "boss.gltf",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    0.6000000238418579,
-                    0.6000000238418579,
-                    0.6000000238418579
-                ],
-                "translate": [
-                    0.0,
-                    12.0,
-                    0.0
-                ]
-            },
-            "id": 2,
-            "name": "Boss",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -1154,8 +1726,8 @@
                     1.0
                 ],
                 "drawRange": [
-                    422.0,
-                    500.0
+                    263.0,
+                    1050.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1171,25 +1743,25 @@
                     0.0
                 ],
                 "scale": [
-                    0.6000000238418579,
-                    0.6000000238418579,
+                    1.0,
+                    1.0,
                     1.0
                 ],
-                "texture": "icon_player",
+                "texture": "launch_frame",
                 "textureSize": [
-                    422.0,
-                    500.0
+                    263.0,
+                    1050.0
                 ],
                 "translate": [
-                    3.814697265625e-06,
-                    -725.0000610351563,
-                    1.0
+                    0.0,
+                    0.0,
+                    0.0
                 ]
             },
-            "id": 752,
-            "name": "PlayerIcon",
-            "parentId": 728,
-            "type": "Sprite"
+            "id": 682,
+            "name": "DamageFloor",
+            "parentId": null,
+            "type": "PrefabInstance"
         },
         {
             "active": true,
@@ -1199,18 +1771,18 @@
                     0.5
                 ],
                 "canvasSize": [
-                    1920.0,
-                    1009.0
+                    1280.0,
+                    720.0
                 ],
                 "color": [
-                    1.0,
-                    1.0,
-                    1.0,
+                    0.0,
+                    0.0,
+                    0.0,
                     1.0
                 ],
                 "drawRange": [
-                    251.0,
-                    1000.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1219,85 +1791,30 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 2,
+                "renderQueue": 1,
                 "rotate": [
                     0.0,
                     0.0,
                     0.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    0.6666666865348816,
+                    0.7135778665542603,
                     1.0
                 ],
-                "texture": "bossHP_gauge",
+                "texture": "white.png",
                 "textureSize": [
-                    251.0,
-                    1000.0
+                    600.0,
+                    1200.0
                 ],
                 "translate": [
-                    0.0,
-                    0.0,
+                    1090.18017578125,
+                    351.6710205078125,
                     1.0
                 ]
             },
-            "id": 773,
-            "name": "BossHP",
-            "parentId": 771,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "drawRange": [
-                    251.0,
-                    1000.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 2,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "launch_gauge",
-                "textureSize": [
-                    251.0,
-                    1000.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    1.0
-                ]
-            },
-            "id": 735,
-            "name": "LauncherGauge",
+            "id": 754,
+            "name": "LauncherFrame",
             "parentId": 734,
             "type": "Sprite"
         }

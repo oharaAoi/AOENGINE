@@ -1,6 +1,9 @@
 #pragma once
 #include <memory>
 #include "Game/Scene/BaseScene.h"
+
+#include "Engine/System/Audio/SoundManager.h"
+
 /// game
 #include "Game/EventHandlers/CollisionCallBacks.h"
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
@@ -81,6 +84,9 @@ protected:
 
 protected:
 	std::unique_ptr<Player> player_;
+
+	AOENGINE::SoundHandle bgmHandle_;
+	AOENGINE::SoundHandle gameOverBgmHandle_;
 
 	/// CallBack 系 ------------------------------------
 	PlayerBlockCollisionCallBacks playerBlockCallBacks_;

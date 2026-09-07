@@ -404,6 +404,9 @@ bool Player::TakeDamage(float amount){
 	invincibleTimer_ = parameter_.invincibleTime;
 	invincibleBlinkTimer_ = 0.0f;
 	isBlinkVisible_ = true;
+
+	Engine::GetSoundManager()->Play("PlayerDamaged");
+
 	return true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -604,6 +607,9 @@ void Player::TryConnectLandedBlockGroups(const PlayerGroundState::Result& result
 		}
 		TryConnectBlockGroup(block->GetGroupId());
 	}
+
+	// se
+	Engine::GetSoundManager()->Play("ConnectBlocks");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

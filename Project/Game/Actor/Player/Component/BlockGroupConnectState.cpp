@@ -2,6 +2,12 @@
 
 #include <array>
 
+#include "Engine/Core/Engine.h"
+
+#include "Engine/System/Input/Input.h"
+
+using namespace AOENGINE;
+
 void BlockGroupConnectState::Begin() {
 	// 集合中に再びジャンプしても受付は始めない(打ち上げが終わるまで1セットとして扱う)
 	if (phase_ != Phase::Idle) {
@@ -46,7 +52,7 @@ void BlockGroupConnectState::Update(float deltaTime, const Context& context, con
 
 void BlockGroupConnectState::UpdateConnecting(float deltaTime, const Context& context) {
 	remainingTime_ -= deltaTime;
-	if (remainingTime_ > 0.0f) {
+	if (remainingTime_ > 0.0f || context.launchTriggered) {
 		return;
 	}
 
@@ -73,7 +79,7 @@ void BlockGroupConnectState::UpdateGathering(float deltaTime, const Context& con
 	launchTimer_ -= deltaTime;
 
 	// 専用タイマーが尽きるか、打ち上げ入力が来たら打ち上げる
-	if (!context.launchTriggered && launchTimer_ > 0.0f) {
+	if (launchTimer_ > 0.0f) {
 		return;
 	}
 

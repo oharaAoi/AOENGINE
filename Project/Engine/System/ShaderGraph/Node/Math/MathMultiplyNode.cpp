@@ -14,12 +14,12 @@ void MathMultiplyNode::Init() {
 }
 
 void MathMultiplyNode::customUpdate() {
+	a_ = getInVal<float>("A");
+	b_ = getInVal<float>("B");
 	value_ = a_ * b_;
 }
 
 void MathMultiplyNode::draw() {
-	a_ = getInVal<float>("A");
-	b_ = getInVal<float>("B");
 }
 
 nlohmann::json MathMultiplyNode::toJson() {

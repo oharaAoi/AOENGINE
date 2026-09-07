@@ -14,12 +14,12 @@ void MathSubtractionNode::Init() {
 }
 
 void MathSubtractionNode::customUpdate() {
+	a_ = getInVal<float>("A");
+	b_ = getInVal<float>("B");
 	value_ = a_ - b_;
 }
 
 void MathSubtractionNode::draw() {
-	a_ = getInVal<float>("A");
-	b_ = getInVal<float>("B");
 }
 
 nlohmann::json MathSubtractionNode::toJson() {

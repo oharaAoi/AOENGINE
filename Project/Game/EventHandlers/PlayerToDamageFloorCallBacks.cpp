@@ -1,5 +1,7 @@
 #include "PlayerToDamageFloorCallBacks.h"
 
+#include "Engine/Core/Engine.h"
+
 #include "Game/Actor/Floor/DamageFloor.h"
 
 void PlayerToDamageFloorCallBacks::Init() {
@@ -17,6 +19,8 @@ void PlayerToDamageFloorCallBacks::CollisionEnter(AOENGINE::BaseCollider* const 
 
 	// コネクト中のブロックグループを解除する
 	pPlayer_->CancelBlockGroupConnect();
+
+	Engine::GetSoundManager()->Play("PlayerDamageFloorCollision");
 }
 
 void PlayerToDamageFloorCallBacks::CollisionStay(AOENGINE::BaseCollider* const , AOENGINE::BaseCollider* const ) {

@@ -6,6 +6,7 @@
 #include <Engine/Module/Components/2d/Sprite.h>
 #include <Engine/Lib/GameTimer.h>
 #include <Engine/System/Input/Input.h>
+#include <Engine/Core/Engine.h>
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理
@@ -41,6 +42,7 @@ GameClearUI::GameClearItem GameClearUI::Update() {
 
 	// 決定を行う
 	if (DecisionItem()) {
+		Engine::GetSoundManager()->Play("Decided");
 		return current;
 	}
 
@@ -58,6 +60,7 @@ void GameClearUI::SelectItem() {
 	auto press_down = [&]() {
 		selectIndex_ = (selectIndex_ + 1) % kMaxItem;
 		coolTimer_.Reset();
+		Engine::GetSoundManager()->Play("Select");
 		};
 
 	// 上キーが押された時の擬似処理
@@ -65,6 +68,7 @@ void GameClearUI::SelectItem() {
 		// 0未満になった時に正しく最大値に戻すための計算
 		selectIndex_ = (selectIndex_ - 1 + kMaxItem) % kMaxItem;
 		coolTimer_.Reset();
+		Engine::GetSoundManager()->Play("Select");
 		};
 
 	// キー入力判定
