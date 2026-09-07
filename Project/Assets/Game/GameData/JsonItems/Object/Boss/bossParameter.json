@@ -8,7 +8,7 @@
             "z": 0.36000001430511475
         },
         "beamBlinkInterval": 0.10000000149011612,
-        "beamChargePosX": 0.0,
+        "beamChargePosX": -7.5,
         "beamCount": 3,
         "beamDamage": 25.0,
         "beamSize": {
