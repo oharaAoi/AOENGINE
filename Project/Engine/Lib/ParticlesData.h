@@ -158,6 +158,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	AOENGINE::Color preColor = Colors::Linear::white;
 	AOENGINE::Color postColor = Colors::Linear::white;
 
+	bool isRandomSpeed = false;
+	float minSpeed = 1.f;
+	float maxSpeed = 2.f;
+
 	bool isRandomRotate = true;
 	float minAngle = 0;
 	float maxAngle = 360;
@@ -233,6 +237,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("isRandomRotate", isRandomRotate)
 			.Add("minAngle", minAngle)
 			.Add("maxAngle", maxAngle)
+			.Add("isRandomSpeed", isRandomSpeed)
+			.Add("minSpeed", minSpeed)
+			.Add("maxSpeed", maxSpeed)
 			.Build();
 	}
 
@@ -300,6 +307,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "isRandomRotate", isRandomRotate);
 		Convert::fromJson(jsonData, "minAngle", minAngle);
 		Convert::fromJson(jsonData, "maxAngle", maxAngle);
+		Convert::fromJson(jsonData, "isRandomSpeed", isRandomSpeed);
+		Convert::fromJson(jsonData, "minSpeed", minSpeed);
+		Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
 	}
 
 	void Attribute_Gui();

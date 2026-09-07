@@ -114,6 +114,13 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat("回転の最大角度", &maxAngle);
 		}
 
+		ImGui::Checkbox("##isRandomSpeed", &isRandomSpeed);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("ランダム速度")) {
+			ImGui::DragFloat("最小速度", &minSpeed);
+			ImGui::DragFloat("最大速度", &maxSpeed);
+		}
+
 		minScale.Clamp(minScale, maxScale);
 	}
 }

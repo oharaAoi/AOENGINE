@@ -35,6 +35,7 @@
         "isPlayOneShot": false,
         "isRandomColor": false,
         "isRandomRotate": true,
+        "isRandomSpeed": true,
         "isScaleUp": false,
         "isStretch": false,
         "isTextureSheetAnimation": false,
@@ -44,8 +45,8 @@
             "z": 0.0
         },
         "lifeOfMinScale": {
-            "x": 1.0,
-            "y": 0.800000011920929,
+            "x": 2.0,
+            "y": 1.5,
             "z": 1.0
         },
         "lifeTime": 0.30000001192092896,
@@ -53,16 +54,18 @@
         "maxEmitPerFrame": 256,
         "maxParticles": 512,
         "maxScale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 1.0,
             "z": 1.0
         },
+        "maxSpeed": 25.0,
         "minAngle": 0.0,
         "minScale": {
             "x": 1.0,
             "y": 1.0,
             "z": 1.0
         },
+        "minSpeed": 3.0,
         "overflowMode": 1,
         "postColor": {
             "a": 1.0,
