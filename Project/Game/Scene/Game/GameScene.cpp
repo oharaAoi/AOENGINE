@@ -111,6 +111,7 @@ void GameScene::OnPlayStart()
 	// Player初期化
 	// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
 	player_->SetBlockField(&stageBlockField_);
+	player_->SetCamera(followCamera_.get());
 
 	// UIの初期化
 	retryUI_->Init();

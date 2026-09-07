@@ -1,13 +1,13 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Load\\Textures\\buttonUI"
+        "path": "Project\\Assets\\Game\\Load\\Textures\\Effect"
     },
     "openDir": {
         "./Assets": false,
         "./Project/Assets": false,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
-        "./Project/Assets\\Engine": false,
+        "./Project/Assets\\Engine": true,
         "./Project/Assets\\Engine\\Font": false,
         "./Project/Assets\\Engine\\HLSL": false,
         "./Project/Assets\\Engine\\Load": true,
@@ -47,6 +47,7 @@
         "./Project/Assets\\Game\\Load\\Textures\\UI": false,
         "./Project/Assets\\Game\\Load\\Textures\\buttonUI": false,
         "./Project/Assets\\Game\\Pipeline": false,
+        "./Project/Assets\\Game\\Pipeline\\Object": false,
         "./Project/Assets\\Game\\Prefabs": true,
         "./Project/Assets\\Game\\Scene": true,
         "./Project/Assets\\Game\\ShaderGraph": false,
