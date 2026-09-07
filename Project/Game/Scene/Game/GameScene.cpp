@@ -1,5 +1,8 @@
 #include "GameScene.h"
 
+// stl
+#include <string>
+
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -16,8 +19,8 @@
 #include "Game/WorldObject/Block.h"
 
 namespace {
-	constexpr std::string kBgmTag = "GameBGM";
-	constexpr std::string kGameOverBgmTag = "GameOverBGM";
+	const std::string kBgmTag = "GameBGM";
+	const std::string kGameOverBgmTag = "GameOverBGM";
 }
 
 GameScene::GameScene() {}
