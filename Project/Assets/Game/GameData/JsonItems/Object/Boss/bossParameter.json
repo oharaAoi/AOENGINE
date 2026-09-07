@@ -2,6 +2,13 @@
     "bossParameter": {
         "animationBlendSpeed": 0.20000000298023224,
         "animationSpeed": 1.0,
+        "attackEffectCount": 3,
+        "attackEffectInterval": 0.11999999731779099,
+        "attackEffectOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "attackPulseCount": 10,
         "attackPulseEaseKind": 10,
         "attackPulseScaleRate": 0.20000000298023224,
@@ -53,7 +60,9 @@
         "fireballFallSpeedUpTime": 1.1100000143051147,
         "fireballFallStartSpeed": 0.5,
         "fireballMaxFallSpeed": 16.600000381469727,
-        "fireballSpawnHeight": 7.099999904632568,
+        "fireballScaleUpEaseKind": 17,
+        "fireballScaleUpTime": 0.15000000596046448,
+        "fireballSpawnHeight": 14.0,
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
             "x": 46.099998474121094,
