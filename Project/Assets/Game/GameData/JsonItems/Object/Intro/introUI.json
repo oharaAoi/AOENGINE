@@ -24,12 +24,12 @@
         "goFadeTime": 0.30000001192092896,
         "goHoldTime": 0.4000000059604645,
         "inEaseKind": 17,
-        "inTime": 0.23000000417232513,
+        "inTime": 0.44999998807907104,
         "leftOffset": {
             "x": -1400.0,
             "y": 0.0
         },
-        "nextOffsetTime": 0.14000000059604645,
+        "nextOffsetTime": 0.30000001192092896,
         "objectiveFontSize": 80.0,
         "objectiveHoldTime": 1.5,
         "objectiveInEaseKind": 3,
@@ -47,7 +47,7 @@
         "objectiveStartWaitTime": 0.6899999976158142,
         "objectiveText": "テキストを入力！",
         "outEaseKind": 7,
-        "outTime": 0.23000000417232513,
+        "outTime": 0.28999999165534973,
         "rightOffset": {
             "x": 1400.0,
             "y": 0.0
@@ -58,7 +58,7 @@
         "rotateSwingTime": 0.949999988079071,
         "scaleEnd": 1.0,
         "scaleLoopCount": 1,
-        "scaleStart": 2.5,
+        "scaleStart": 1.399999976158142,
         "textColor": {
             "a": 1.0,
             "b": 0.8185328245162964,
