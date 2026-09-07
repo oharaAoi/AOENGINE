@@ -8,8 +8,10 @@
                 "components": [
                     {
                         "active": true,
-                        "category": "Default",
-                        "collisionMask": [],
+                        "category": "DamageFloor",
+                        "collisionMask": [
+                            "Player"
+                        ],
                         "localPosition": [
                             0.0,
                             0.0,
@@ -23,25 +25,6 @@
                         ],
                         "static": true,
                         "trigger": false,
-                        "type": "AABBCollider"
-                    },
-                    {
-                        "active": true,
-                        "category": "DamageFloor",
-                        "collisionMask": [],
-                        "localPosition": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "penetrationPrevention": false,
-                        "size": [
-                            20.0,
-                            1.0,
-                            2.0
-                        ],
-                        "static": true,
-                        "trigger": true,
                         "type": "AABBCollider"
                     }
                 ],

@@ -93,6 +93,9 @@ void BossAttackFallFire::SpawnFireball(const Boss& boss) {
 	// スタート位置の適用
 	if (AOENGINE::WorldTransform* transform = fireball.entity.GetTransform()) {
 		transform->SetTranslate(spawnPosition);
+		// 同じフレームに子Particleが先に更新されても、初期値の原点ではなく
+		// スポーン位置を親行列として参照できるよう、ここで行列を確定する。
+		transform->Update();
 	}
 
 	fireballs_.push_back(fireball);
