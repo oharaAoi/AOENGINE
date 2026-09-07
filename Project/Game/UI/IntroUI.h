@@ -35,6 +35,7 @@ private:
 
 	// 演出全体の流れ
 	enum class Phase {
+		BossDescend,	// ボスが降りてくるのを待つ
 		ObjectiveWait,	// 目的を出すまでの待ち
 		ObjectiveIn,	// 目的が出てくる
 		ObjectiveHold,	// 目的を見せている
@@ -43,7 +44,7 @@ private:
 		Done,			// 終わった
 	};
 	// 流れの数
-	static constexpr std::size_t kPhaseCount = 6;
+	static constexpr std::size_t kPhaseCount = 7;
 
 	// 1文字ぶんの進み方
 	enum class ItemState {
@@ -97,6 +98,7 @@ private:
 	void UpdateFade(Item& item);				// 薄くなって消える
 
 	// 演出全体の流れ。phaseUpdaters_ から呼ばれる
+	void UpdateBossDescend();					// ボスが降りてくるのを待つ
 	void UpdateObjectiveWait();					// 目的を出すまで待つ
 	void UpdateObjectiveIn();					// 目的が出てくる
 	void UpdateObjectiveHold();					// 目的を見せている
@@ -162,6 +164,9 @@ private:
 	bool isWaitingNext_ = false;
 	float nextTimer_ = 0.0f;
 
+	// ボスの降下が終わったか。シーン側から毎フレーム渡してもらう
+	bool isBossDescendFinished_ = false;
+
 	// 演出そのものが動いているか
 	bool isPlaying_ = false;
 	// 最後の文字が消えてからの余韻
@@ -180,6 +185,9 @@ private:
 	const int kTextRenderQueue = 201;
 
 public: // accessor
+
+	/// <summary>ボスの降下が終わったかを外から渡す</summary>
+	void SetBossDescendFinished(bool isFinished) { isBossDescendFinished_ = isFinished; }
 
 	/// <summary>演出が動いている最中か</summary>
 	bool IsPlaying() const { return isPlaying_; }

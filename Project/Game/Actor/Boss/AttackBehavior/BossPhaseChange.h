@@ -36,9 +36,9 @@ public:// acceccer
 		return kName;
 	}
 
-	// 専用のクリップが無いので待機のまま。見せ方は拡縮とシェイクで作る
+	// フェーズ切り替え専用のクリップ。モデル側の綴りに合わせている
 	const std::string& GetAnimationName() const override {
-		static const std::string kName = "idle";
+		static const std::string kName = "faseChange";
 		return kName;
 	}
 };

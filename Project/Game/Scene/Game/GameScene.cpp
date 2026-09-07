@@ -122,6 +122,11 @@ void GameScene::OnPlayStart()
 	if (UseIntro()) {
 		introUI_.Init();
 		introUI_.Start();
+
+		// ボスは定位置の上から降りてくるところから始める
+		if (boss_) {
+			boss_->StartIntroDescend();
+		}
 	}
 
 	//auto sound = Engine::GetSoundManager()->Play("Sound");
@@ -148,7 +153,9 @@ void GameScene::Update()
 	const float deltaTime = AOENGINE::GameTimer::DeltaTime();
 
 	// カウントダウンの間もゲーム画面は見せる。
-	// カメラと背景は動かしたまま、プレイヤーとボスだけ止めておく
+	// カメラと背景は動かしたまま、プレイヤーとボスだけ止めておく。
+	// ボスが降りきるまで目的は出さないので、その状況を渡しておく
+	introUI_.SetBossDescendFinished(boss_ == nullptr || boss_->IsIntroDescendFinished());
 	introUI_.Update(deltaTime);
 	UpdateActors(deltaTime, introUI_.IsPlaying());
 

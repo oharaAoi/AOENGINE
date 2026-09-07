@@ -33,6 +33,7 @@ IntroUI::IntroUI() {
 	stateUpdaters_[ToIndex(ItemState::Fade)] = [this](Item& item, bool) { UpdateFade(item); };
 
 	// 演出全体の流れ
+	phaseUpdaters_[ToIndex(Phase::BossDescend)] = [this](float) { UpdateBossDescend(); };
 	phaseUpdaters_[ToIndex(Phase::ObjectiveWait)] = [this](float) { UpdateObjectiveWait(); };
 	phaseUpdaters_[ToIndex(Phase::ObjectiveIn)] = [this](float) { UpdateObjectiveIn(); };
 	phaseUpdaters_[ToIndex(Phase::ObjectiveHold)] = [this](float) { UpdateObjectiveHold(); };
@@ -112,6 +113,16 @@ void IntroUI::UpdateFade(Item& item) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 演出全体の流れ
 //////////////////////////////////////////////////////////////////////////////////////////////////
+
+void IntroUI::UpdateBossDescend() {
+
+	// 降りている間は暗転だけ見せる。終わったかはシーン側から渡してもらう
+	if (!isBossDescendFinished_) {
+		return;
+	}
+
+	ChangePhase(Phase::ObjectiveWait);
+}
 
 void IntroUI::UpdateObjectiveWait() {
 
@@ -308,8 +319,9 @@ void IntroUI::Start() {
 
 	PlaceBack();
 
-	// 目的を出すまでの待ちから始める
-	ChangePhase(Phase::ObjectiveWait);
+	// ボスが降りきるのを待つところから始める
+	isBossDescendFinished_ = false;
+	ChangePhase(Phase::BossDescend);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

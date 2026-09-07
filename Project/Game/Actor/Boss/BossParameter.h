@@ -95,6 +95,12 @@ struct BossParameter :
 	// --- 撃破 ---
 	float defeatHideTime = 1.5f;	// 撃破されてから姿を消すまでの秒数
 
+	// --- 登場。上から定位置へ降りてくる ---
+	float introDescendHeight = 12.0f;	// 定位置の何ユニット上から降り始めるか
+	float introDescendTime = 1.2f;		// 降りきるまでの時間
+	int32_t introDescendEaseKind = 2;	// InQuad。だんだん速くなって着地で止まる
+	CameraShakeRequest introLandShake;	// 着いた時の揺れ
+
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
 		SetName("bossParameter");
@@ -162,6 +168,10 @@ struct BossParameter :
 		AddSeparatorText("Defeat");
 		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
 
+		AddSeparatorText("Intro");
+		AddParameter("Intro Descend Height", introDescendHeight, 0.1f, 0.0f, 1000.0f);
+		AddParameter("Intro Descend Time", introDescendTime, 0.01f, 0.0f, 30.0f);
+
 
 		stopperLandShake.SetGroupName("Boss");
 		stopperLandShake.SetName("stopperLandShake");
@@ -169,6 +179,8 @@ struct BossParameter :
 		phaseChangeShake.SetName("phaseChangeShake");
 		damageShake.SetGroupName("Boss");
 		damageShake.SetName("damageShake");
+		introLandShake.SetGroupName("Boss");
+		introLandShake.SetName("introLandShake");
 		// 被弾は軽く小突かれた程度にしたいので、既定値を控えめにしておく
 		damageShake.duration = 0.18f;
 		damageShake.positionAmplitude = { 0.18f, 0.12f, 0.0f };
@@ -223,6 +235,9 @@ struct BossParameter :
 			.Add("idleTimeMin", idleTimeMin)
 			.Add("idleTimeMax", idleTimeMax)
 			.Add("defeatHideTime", defeatHideTime)
+			.Add("introDescendHeight", introDescendHeight)
+			.Add("introDescendTime", introDescendTime)
+			.Add("introDescendEaseKind", introDescendEaseKind)
 			.Build();
 	}
 
@@ -278,6 +293,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
 		Convert::fromJson(jsonData, "defeatHideTime", defeatHideTime);
+		Convert::fromJson(jsonData, "introDescendHeight", introDescendHeight);
+		Convert::fromJson(jsonData, "introDescendTime", introDescendTime);
+		Convert::fromJson(jsonData, "introDescendEaseKind", introDescendEaseKind);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

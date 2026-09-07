@@ -1,5 +1,7 @@
 #include "Boss.h"
 
+#include <algorithm>
+
 #include "Engine/Module/Components/Animation/Animator.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -25,6 +27,7 @@ void Boss::Init(BaseGameObject* body) {
 	parameter_.stopperLandShake.Load();
 	parameter_.phaseChangeShake.Load();
 	parameter_.damageShake.Load();
+	parameter_.introLandShake.Load();
 	currentHp_ = parameter_.hp;
 
 	if (WorldTransform* transform = GetTransform()) {
@@ -35,6 +38,9 @@ void Boss::Init(BaseGameObject* body) {
 
 	isInvincible_ = false;
 	isDefeatFinished_ = false;
+	isIntroDescending_ = false;
+	introDescendTimer_ = 0.0f;
+	introDescendOffsetY_ = 0.0f;
 	SetRendering(true);
 
 	animation_.Init();
@@ -97,11 +103,58 @@ void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection) {
 	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
 
+	// 登場の降下を進める
+	UpdateIntroDescend(GameTimer::DeltaTime());
+
+	// 攻撃側が見るのは定位置のままにして、見た目だけ降りてくる途中に置く
 	if (WorldTransform* transform = GetTransform()) {
-		transform->SetTranslate(position_);
+		transform->SetTranslate(position_ + Math::Vector3(0.0f, introDescendOffsetY_, 0.0f));
 	}
 
 	UpdateScale();
+
+	// 行動は進めないが、止まって見えないように待機だけ流しておく
+	UpdateAnimation(kStandbyAnimationName);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  登場の降下
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::StartIntroDescend() {
+
+	isIntroDescending_ = true;
+	introDescendTimer_ = 0.0f;
+	introDescendOffsetY_ = parameter_.introDescendHeight;
+}
+
+void Boss::UpdateIntroDescend(float deltaTime) {
+
+	if (!isIntroDescending_) {
+		introDescendOffsetY_ = 0.0f;
+		return;
+	}
+
+	introDescendTimer_ += deltaTime;
+
+	// 時間が0なら一瞬で降ろす
+	float ratio = 1.0f;
+	if (parameter_.introDescendTime > 0.0f) {
+		ratio = std::clamp(introDescendTimer_ / parameter_.introDescendTime, 0.0f, 1.0f);
+	}
+
+	// 高いところから定位置へ。だんだん速くなるイージングを想定している
+	const float eased = Math::CallEasing(parameter_.introDescendEaseKind, ratio);
+	introDescendOffsetY_ = parameter_.introDescendHeight * (1.0f - eased);
+
+	if (ratio < 1.0f) {
+		return;
+	}
+
+	// 着いたので揺らして終わり
+	introDescendOffsetY_ = 0.0f;
+	isIntroDescending_ = false;
+	ShakeCamera(parameter_.introLandShake);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -137,12 +190,16 @@ void Boss::UpdateScale() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Boss::UpdateAnimation() {
+	UpdateAnimation(behaviorController_.GetCurrentAnimationName());
+}
+
+void Boss::UpdateAnimation(const std::string& animationName) {
 
 	BossAnimation::Context context{};
 	if (BaseGameObject* body = GetGameObject()) {
 		context.animator = body->GetAnimator();
 	}
-	context.behaviorName = &behaviorController_.GetCurrentAnimationName();
+	context.behaviorName = &animationName;
 
 	const BossAnimation::Params params{
 		parameter_.animationBlendSpeed,
@@ -265,6 +322,7 @@ void Boss::Debug_Gui() {
 	ImGui::SeparatorText("Easing");
 	Math::SelectEasing(parameter_.fireballFallEaseKind, "FireballFall");
 	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
+	Math::SelectEasing(parameter_.introDescendEaseKind, "IntroDescend");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
@@ -273,6 +331,16 @@ void Boss::Debug_Gui() {
 	parameter_.stopperLandShake.SaveAndLoad();
 	if (ImGui::Button("Test Play")) {
 		ShakeCamera(parameter_.stopperLandShake);
+	}
+	ImGui::PopID();
+
+	// 登場で着いた時の揺れ
+	ImGui::SeparatorText("Intro Land Shake");
+	ImGui::PushID("IntroLandShake");
+	parameter_.introLandShake.Debug_Gui();
+	parameter_.introLandShake.SaveAndLoad();
+	if (ImGui::Button("Test Play")) {
+		StartIntroDescend();
 	}
 	ImGui::PopID();
 

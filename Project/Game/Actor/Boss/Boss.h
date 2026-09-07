@@ -35,6 +35,11 @@ public:
 	/// </summary>
 	void UpdateStandby(const Math::Matrix4x4& viewProjection);
 
+	/// <summary>
+	/// 登場の降下を始める。定位置の上から降りてきて、着いたら揺れる
+	/// </summary>
+	void StartIntroDescend();
+
 	void Debug_Gui();
 
 private:
@@ -44,8 +49,14 @@ private:
 	/// <summary>今の行動に合わせてアニメーションを進める</summary>
 	void UpdateAnimation();
 
+	/// <summary>流すアニメーションを指定して進める</summary>
+	void UpdateAnimation(const std::string& animationName);
+
 	/// <summary>被弾の演出に渡す調整値をまとめる</summary>
 	BossDamageEffect::Params MakeDamageEffectParams() const;
+
+	/// <summary>降下を進めて、定位置からのずらし量を更新する</summary>
+	void UpdateIntroDescend(float deltaTime);
 
 public:
 
@@ -61,6 +72,12 @@ private:
 
 	// 被弾した時に色を変えて揺らす
 	BossDamageEffect damageEffect_;
+
+	// 登場の降下
+	bool isIntroDescending_ = false;
+	float introDescendTimer_ = 0.0f;
+	// 定位置からのずらし量。降りきると0になる
+	float introDescendOffsetY_ = 0.0f;
 
 	// パラメータ、位置固定などのなどComponent
 	BossParameter parameter_;
@@ -81,6 +98,9 @@ private:
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";
 
+	// 行動を進めない間に流しておくアニメーション名
+	const std::string kStandbyAnimationName = "idle";
+
 	// 落とす足場を選ぶためのブロックの表
 	StageBlockField* pBlockField_ = nullptr;
 
@@ -99,6 +119,9 @@ public: // accessor
 	// 撃破の演出まで終わったか。シーンをクリアへ移す合図に使う
 	void SetDefeatFinished(bool isFinished) { isDefeatFinished_ = isFinished; }
 	bool IsDefeatFinished() const { return isDefeatFinished_; }
+
+	/// <summary>登場の降下が終わっているか。始めていない場合も終わり扱いにする</summary>
+	bool IsIntroDescendFinished() const { return !isIntroDescending_; }
 
 	// フェーズ切り替えの演出中など、ダメージを受け付けない状態にする
 	void SetInvincible(bool isInvincible) { isInvincible_ = isInvincible; }
