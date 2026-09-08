@@ -18,7 +18,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerLand.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "PlayerLand",
@@ -26,7 +26,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerDamaged.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "PlayerDamaged",
@@ -34,7 +34,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/FireballSpawn.mp3",
       "loop": false,
       "maxInstances": 4,
       "name": "FireballSpawn",
@@ -42,7 +42,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/FireballHit.mp3",
       "loop": false,
       "maxInstances": 4,
       "name": "FireballHit",
@@ -50,7 +50,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/BeamAim.mp3",
       "loop": true,
       "maxInstances": 4,
       "name": "BeamAim",
@@ -58,7 +58,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/BeamShot.mp3",
       "loop": true,
       "maxInstances": 4,
       "name": "BeamShot",
@@ -66,7 +66,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/StopperSpawn.mp3",
       "loop": false,
       "maxInstances": 4,
       "name": "StopperSpawn",
@@ -74,7 +74,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/StopperBlocksCollision.mp3",
       "loop": false,
       "maxInstances": 4,
       "name": "StopperBlocksCollision",
@@ -82,7 +82,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/BossDamaged.mp3",
       "loop": false,
       "maxInstances": 2,
       "name": "BossDamaged",
@@ -98,7 +98,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Meteo/ConnectBlocks.mp3",
       "loop": false,
       "maxInstances": 4,
       "name": "ConnectBlocks",
@@ -106,7 +106,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Meteo/GatherBlocks.mp3",
       "loop": false,
       "maxInstances": 8,
       "name": "GatherBlocks",
@@ -114,7 +114,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Meteo/LaunchBLocks.mp3",
       "loop": false,
       "maxInstances": 2,
       "name": "LaunchBlocks",
@@ -130,7 +130,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/OutGame/Select.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "Select",
@@ -138,7 +138,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/OutGame/Decided.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "Decide",
@@ -146,7 +146,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/OutGame/GameOverEffect.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "GameOverEffect",
@@ -154,7 +154,7 @@
     },
     {
       "category": "BGM",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/BGM/GameOverBGM.mp3",
       "loop": true,
       "maxInstances": 3,
       "name": "GameOverBGM",
@@ -162,7 +162,7 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/OutGame/GameClearEffect.mp3",
       "loop": false,
       "maxInstances": 3,
       "name": "GameClearEffect",
@@ -170,7 +170,7 @@
     },
     {
       "category": "BGM",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/BGM/GameClearBGM.mp3",
       "loop": true,
       "maxInstances": 1,
       "name": "GameClearBGM",
@@ -178,7 +178,7 @@
     },
     {
       "category": "BGM",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/BGM/GameBGM.mp3",
       "loop": true,
       "maxInstances": 1,
       "name": "GameBGM",
@@ -186,7 +186,7 @@
     },
     {
       "category": "BGM",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/BGM/TitleBGM.mp3",
       "loop": true,
       "maxInstances": 1,
       "name": "TitleBGM",

@@ -9,6 +9,7 @@
 // game
 #include "Game/EventHandlers/PlayerToDamageFloorCallBacks.h"
 #include "Game/EventHandlers/PlayerToBossAttackCallBacks.h"
+#include "Game/EventHandlers/StopperToBlockGroupCallBacks.h"
 #include "Game/Actor/Player/Player.h"
 
 class DamageFloor;
@@ -31,6 +32,7 @@ private: // private variable
 
 	std::unique_ptr<PlayerToDamageFloorCallBacks> playerToDamageFloor_;
 	std::unique_ptr<PlayerToBossAttackCallBacks> playerToBossAttack_;
+	std::unique_ptr<StopperToBlockGroupCallBacks> stopperToBlockGroup_;
 
 };
 
