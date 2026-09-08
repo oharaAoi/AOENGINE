@@ -12,9 +12,17 @@
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
+namespace {
+	// 選択を受け付ける間隔
+	const float kSelectCoolTime = 0.2f;
+	// スティックの間隔。1回倒しただけで何個も進まないよう、キーより長くする
+	const float kStickCoolTime = 0.28f;
+}
+
 void RetryUI::Init() {
 	selectIndex_ = 0;
-	coolTimer_ = AOENGINE::Timer(0.2f);
+	coolTimer_ = AOENGINE::Timer(kSelectCoolTime);
+	stickCoolTimer_ = AOENGINE::Timer(kStickCoolTime);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,9 +41,11 @@ RetryItem RetryUI::Update(bool isPlayerAlive) {
 
 		retry->SetActive(true);
 
-		// 次の行動の選択
-		if (!coolTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
-			SelectItem();
+		// 次の行動の選択。スティックはキーより長く待たせる
+		const float deltaTime = AOENGINE::GameTimer::FixedDeltaTime();
+		const bool canUseStick = !stickCoolTimer_.Run(deltaTime);
+		if (!coolTimer_.Run(deltaTime)) {
+			SelectItem(canUseStick);
 		}
 
 		RetryItem current = CurrentSelect();
@@ -58,7 +68,8 @@ RetryItem RetryUI::Update(bool isPlayerAlive) {
 		}
 	} else {
 		selectIndex_ = 0;
-		coolTimer_ = AOENGINE::Timer(0.2f);
+		coolTimer_ = AOENGINE::Timer(kSelectCoolTime);
+		stickCoolTimer_ = AOENGINE::Timer(kStickCoolTime);
 	}
 
 	return RetryItem::Pause;
@@ -68,13 +79,14 @@ RetryItem RetryUI::Update(bool isPlayerAlive) {
 // 次の項目を選択する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void RetryUI::SelectItem() {
+void RetryUI::SelectItem(bool canUseStick) {
 	constexpr int kMaxItem = 2;
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 
 	auto press_down = [&]() {
 		selectIndex_ = (selectIndex_ + 1) % kMaxItem;
 		coolTimer_.Reset();
+		stickCoolTimer_.Reset();
 		Engine::GetSoundManager()->Play("Select");
 		};
 
@@ -83,6 +95,7 @@ void RetryUI::SelectItem() {
 		// 0未満になった時に正しく最大値に戻すための計算
 		selectIndex_ = (selectIndex_ - 1 + kMaxItem) % kMaxItem;
 		coolTimer_.Reset();
+		stickCoolTimer_.Reset();
 		Engine::GetSoundManager()->Play("Select");
 		};
 
@@ -95,6 +108,9 @@ void RetryUI::SelectItem() {
 	if (input->IsPressButton(DpadDown)) { press_down(); }
 
 	// stick判定
+	if (!canUseStick) {
+		return;
+	}
 	if (input->GetLeftJoyStick().y >= 0.2f) {
 		press_down();
 	} else if (input->GetLeftJoyStick().y <= -0.2f) {

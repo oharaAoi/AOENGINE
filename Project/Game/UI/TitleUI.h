@@ -42,7 +42,8 @@ private: // private variable
 	/// <summary>
 	/// 次のアクションを選択する
 	/// </summary>
-	void SelectItem();
+	/// <param name="canUseStick">スティックでの選択を受け付けてよいか</param>
+	void SelectItem(bool canUseStick);
 
 	/// <summary>
 	/// 次の項目の決定
@@ -61,6 +62,9 @@ private: // private variable
 	int selectIndex_ = 0;
 
 	AOENGINE::Timer coolTimer_;
+
+	// スティックは倒しっぱなしになりやすいので、こちらは別に長めの間隔で待つ
+	AOENGINE::Timer stickCoolTimer_;
 
 };
 
