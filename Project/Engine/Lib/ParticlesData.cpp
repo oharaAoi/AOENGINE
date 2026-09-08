@@ -101,6 +101,13 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat2("分割数", &tiles.x, 1.0f);
 		}
 
+		ImGui::Checkbox("##isUvScroll", &isUvScroll);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("UVアニメーション")) {
+			ImGui::DragFloat2("スクロール速度", &uvScrollSpeed.x, 0.01f);
+			ImGui::DragFloat2("uvスケール", &uvScale.x, 0.01f);
+		}
+
 		ImGui::Checkbox("##isColorAnimation", &isColorAnimation);
 		ImGui::SameLine();
 		if (ImGui::CollapsingHeader("カラーグラデーション")) {
