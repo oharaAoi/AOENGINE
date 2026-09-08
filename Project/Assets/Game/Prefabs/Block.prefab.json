@@ -30,7 +30,8 @@
                         "active": true,
                         "category": "Block",
                         "collisionMask": [
-                            "Player"
+                            "Player",
+                            "Stopper"
                         ],
                         "localPosition": [
                             0.0,
