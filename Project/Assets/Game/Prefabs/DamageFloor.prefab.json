@@ -7,6 +7,20 @@
                 "animator": false,
                 "components": [
                     {
+                        "emissiveIntensity": 0.4000000059604645,
+                        "enabled": true,
+                        "flowSpeed": 10.0,
+                        "localPosition": [
+                            0.0,
+                            -0.2199999988079071,
+                            -32.5099983215332
+                        ],
+                        "patternScale": 512.0,
+                        "size": 64.0,
+                        "temperature": 33.0,
+                        "type": "MagmaEffect"
+                    },
+                    {
                         "active": true,
                         "category": "DamageFloor",
                         "collisionMask": [
@@ -19,8 +33,8 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            1.0,
-                            1.0,
+                            40.0,
+                            2.0,
                             1.0
                         ],
                         "static": true,
@@ -31,79 +45,12 @@
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": false,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/damageFloor.json",
-                        "shaderType": 1,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "Block.obj",
+                "materials": [],
                 "rotate": [
+                    -0.7010154128074646,
                     0.0,
                     0.0,
-                    0.0,
-                    1.0
+                    0.7131461501121521
                 ],
                 "scale": [
                     1.0,
@@ -119,72 +66,6 @@
             "id": 1,
             "name": "DamageFloor",
             "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": false,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/damageFloor.json",
-                        "shaderType": 1,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            4.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "plane.obj",
-                "rotate": [
-                    0.0,
-                    1.0,
-                    0.0,
-                    3.869760973884695e-07
-                ],
-                "scale": [
-                    120.0,
-                    20.0,
-                    10.0
-                ],
-                "translate": [
-                    0.0,
-                    -18.899999618530273,
-                    -0.6000000238418579
-                ]
-            },
-            "id": 2,
-            "name": "Magma",
-            "parentId": 1,
             "type": "BaseGameObject"
         },
         {
@@ -210,7 +91,7 @@
                     0.0
                 ]
             },
-            "id": 3,
+            "id": 2,
             "name": "particle",
             "parentId": 1,
             "type": "ParticleSceneObject"

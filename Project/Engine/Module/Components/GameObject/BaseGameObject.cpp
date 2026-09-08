@@ -421,6 +421,20 @@ void BaseGameObject::SetObject(const std::string& _objName, MaterialType _type) 
 	RebuildMaterialSlots();
 }
 
+bool BaseGameObject::RemoveModel() {
+	if (model_ == nullptr) {
+		return false;
+	}
+
+	// AnimatorとSkinningは現在のModelを参照するため、Modelより先に破棄する。
+	RemoveAnimator();
+	model_ = nullptr;
+	materials.clear();
+	materialSlots_.clear();
+	renderMaterialSlots_.clear();
+	return true;
+}
+
 void AOENGINE::BaseGameObject::SetMaterial(MaterialType _type) {
 	materialSlots_.resize(model_->GetMaterialSlotCount());
 	for (uint32_t slot = 0; slot < model_->GetMaterialSlotCount(); ++slot) {

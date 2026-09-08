@@ -159,7 +159,7 @@
                     1.0,
                     1.0,
                     1.0,
-                    1.0
+                    0.0
                 ],
                 "components": [],
                 "drawRange": [
@@ -273,7 +273,16 @@
                     1.0,
                     1.0
                 ],
-                "components": [],
+                "components": [
+                    {
+                        "enabled": true,
+                        "gamepadButton": 4096,
+                        "inputType": "Keyboard",
+                        "keyboardKey": 18,
+                        "pressedTexture": "keyboard_E_push",
+                        "type": "Button"
+                    }
+                ],
                 "drawRange": [
                     263.0,
                     1050.0
@@ -302,8 +311,8 @@
                     1050.0
                 ],
                 "translate": [
-                    0.0,
-                    0.0,
+                    1758.3709716796875,
+                    765.1185302734375,
                     1.0
                 ]
             },
@@ -336,12 +345,14 @@
                 ],
                 "flipX": false,
                 "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
                 ],
-                "renderQueue": 1,
+                "renderQueue": 7,
                 "rotate": [
                     0.0,
                     0.0,
@@ -448,12 +459,12 @@
                     1.0,
                     1.0,
                     1.0,
-                    1.0
+                    0.0
                 ],
                 "components": [],
                 "drawRange": [
-                    500.0,
-                    500.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -475,8 +486,8 @@
                 ],
                 "texture": "move_text",
                 "textureSize": [
-                    500.0,
-                    500.0
+                    16.0,
+                    16.0
                 ],
                 "translate": [
                     1605.633056640625,
@@ -602,7 +613,7 @@
             "type": "Sprite"
         },
         {
-            "active": true,
+            "active": false,
             "data": {
                 "enableShadow": true,
                 "isReflection": false,
@@ -643,15 +654,15 @@
                     1057.0
                 ],
                 "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.9490196108818054
                 ],
                 "components": [],
                 "drawRange": [
-                    251.0,
-                    1000.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -673,8 +684,8 @@
                 ],
                 "texture": "launch_gauge",
                 "textureSize": [
-                    251.0,
-                    1000.0
+                    2000.0,
+                    1200.0
                 ],
                 "translate": [
                     -5.800000190734863,
@@ -711,6 +722,8 @@
                 ],
                 "flipX": false,
                 "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -723,6 +736,12 @@
                     0.0
                 ],
                 "scale": [
+                    1.0,
+                    1.0000001192092896,
+                    1.0
+                ],
+                "text": "Title",
+                "textAnchor": [
                     0.5,
                     0.5237859487533569,
                     1.0
@@ -890,6 +909,13 @@
                     0.0,
                     0.0
                 ],
+                "model": "background.obj",
+                "rotate": [
+                    0.026384949684143066,
+                    0.9977419376373291,
+                    -0.05475682392716408,
+                    0.028577202931046486
+                ],
                 "scale": [
                     1.600000262260437,
                     1.6761151552200317,
@@ -1052,7 +1078,7 @@
                 ],
                 "drawRange": [
                     500.0,
-                    500.0
+                    1000.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1061,7 +1087,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 2,
+                "renderQueue": 0,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1075,7 +1101,7 @@
                 "texture": "B",
                 "textureSize": [
                     500.0,
-                    500.0
+                    1000.0
                 ],
                 "translate": [
                     1760.3709716796875,
@@ -1117,7 +1143,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 3,
+                "renderQueue": 4,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1363,7 +1389,7 @@
                     }
                 ],
                 "drawRange": [
-                    500.0,
+                    422.0,
                     500.0
                 ],
                 "flipX": false,
@@ -1373,7 +1399,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 2,
+                "renderQueue": 5,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1386,7 +1412,7 @@
                 ],
                 "texture": "keyboard_E",
                 "textureSize": [
-                    500.0,
+                    422.0,
                     500.0
                 ],
                 "translate": [
@@ -1538,10 +1564,19 @@
                     1.0,
                     1.0
                 ],
-                "components": [],
+                "components": [
+                    {
+                        "enabled": true,
+                        "gamepadButton": 4096,
+                        "inputType": "Keyboard",
+                        "keyboardKey": 32,
+                        "pressedTexture": "keyboard_D_push",
+                        "type": "Button"
+                    }
+                ],
                 "drawRange": [
-                    1000.0,
-                    1000.0
+                    500.0,
+                    500.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1550,7 +1585,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 1,
+                "renderQueue": 2,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1561,10 +1596,10 @@
                     0.49900004267692566,
                     1.0
                 ],
-                "texture": "LStick_bg",
+                "texture": "keyboard_D",
                 "textureSize": [
-                    1000.0,
-                    1000.0
+                    500.0,
+                    500.0
                 ],
                 "translate": [
                     -5.300000190734863,
@@ -1572,9 +1607,9 @@
                     1.0
                 ]
             },
-            "id": 3288,
-            "name": "MoveStickBg",
-            "parentId": 3286,
+            "id": 3139,
+            "name": "Move_Right",
+            "parentId": 2565,
             "type": "Sprite"
         },
         {
@@ -1877,23 +1912,21 @@
                     1.0,
                     1.0,
                     1.0,
-                    1.0
+                    0.0
                 ],
                 "components": [],
                 "drawRange": [
-                    176.0,
-                    84.0
+                    16.0,
+                    16.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
-                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
                 ],
-                "renderQueue": 7,
+                "renderQueue": 0,
                 "rotate": [
                     0.0,
                     0.0,
@@ -1907,18 +1940,13 @@
                 "text": "Retry",
                 "textAnchor": [
                     0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
+                    0.5000000596046448,
                     1.0
                 ],
                 "texture": "__Text_25",
                 "textureSize": [
-                    176.0,
-                    84.0
+                    16.0,
+                    16.0
                 ],
                 "translate": [
                     0.0,
@@ -1950,8 +1978,8 @@
                 ],
                 "components": [],
                 "drawRange": [
-                    16.0,
-                    16.0
+                    251.0,
+                    1000.0
                 ],
                 "flipX": false,
                 "flipY": false,
@@ -1971,7 +1999,7 @@
                     1.0475720167160034,
                     1.0
                 ],
-                "texture": "white.png",
+                "texture": "playerHP_gauge",
                 "textureSize": [
                     445.0,
                     143.0
@@ -2181,8 +2209,8 @@
                     0.028577202931046486
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    0.5,
+                    0.5,
                     1.0
                 ],
                 "translate": [
@@ -2298,6 +2326,7 @@
                     1050.0
                 ],
                 "translate": [
+                    -5.800000190734863,
                     0.0,
                     0.0,
                     1.0
@@ -2379,7 +2408,7 @@
                     1.0,
                     1.0,
                     1.0,
-                    0.0
+                    1.0
                 ],
                 "components": [],
                 "drawRange": [
@@ -2393,7 +2422,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 3,
+                "renderQueue": 5,
                 "rotate": [
                     0.0,
                     0.0,
@@ -2415,9 +2444,9 @@
                     1.0
                 ]
             },
-            "id": 728,
-            "name": "PlayerUI",
-            "parentId": 467,
+            "id": 2515,
+            "name": "PlayerIcon",
+            "parentId": 728,
             "type": "Sprite"
         }
     ],
