@@ -9,7 +9,7 @@
 
 using namespace AOENGINE;
 
-float Audio::masterVolume_ = 0.5f;
+float Audio::masterVolume_ = 0.0f;
 
 Audio::~Audio() {
     Finalize();

@@ -1,0 +1,8 @@
+{
+    "BossExplosionParameter": {
+        "exlosionCoolTime": 0.5,
+        "explosionCount": 5,
+        "explosionRange": 5.0,
+        "finalExlosionTime": 3.0
+    }
+}

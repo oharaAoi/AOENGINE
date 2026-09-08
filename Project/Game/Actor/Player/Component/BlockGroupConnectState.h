@@ -27,7 +27,6 @@ public:
 	// 毎フレーム外から渡す情報
 	struct Context {
 		Math::Vector3 playerPosition;	// プレイヤーの現在位置
-		bool isGrounded = false;		// 足場に乗っているか
 		bool launchTriggered = false;	// 打ち上げ入力が押されたか
 	};
 
@@ -83,10 +82,8 @@ private:
 
 	std::vector<ConnectedGroup> connectedGroups_;	// 接続されたグループを接続順に保持する
 
-	Math::Vector3 gatherPoint_{};			// 集合地点(プレイヤーが最後に乗っていた場所)
+	Math::Vector3 gatherPoint_{};			// 集合地点(最後に接続したグループへ乗った場所)
 	Math::Vector3 lastPlayerPosition_{};	// 直近のUpdateで受け取ったプレイヤーの位置
-	Math::Vector3 lastGroundedPosition_{};	// 最後に足場へ乗っていた時のプレイヤーの位置
-	bool hasGroundedPosition_ = false;		// lastGroundedPosition_ が有効か
 
 	bool gatherStarted_ = false;	// そのフレームに集合が始まったか
 	bool launchRequested_ = false;	// そのフレームに打ち上げが要求されたか

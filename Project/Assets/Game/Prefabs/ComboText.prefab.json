@@ -1,0 +1,67 @@
+{
+    "format": "AOENGINE_PREFAB",
+    "objects": [
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [
+                    {
+                        "billboardMode": "None",
+                        "color": [
+                            0.08102191239595413,
+                            0.9729729890823364,
+                            0.052593160420656204,
+                            1.0
+                        ],
+                        "depthTest": true,
+                        "enabled": true,
+                        "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                        "fontSize": 64.0,
+                        "height": 0.3109999895095825,
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            -3.0
+                        ],
+                        "localRotation": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "text": "Combo",
+                        "type": "WorldText"
+                    }
+                ],
+                "enableShadow": false,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "ComboText",
+            "parentId": null,
+            "type": "BaseGameObject"
+        }
+    ],
+    "prefabName": "ComboText",
+    "rootId": 1,
+    "version": 1
+}

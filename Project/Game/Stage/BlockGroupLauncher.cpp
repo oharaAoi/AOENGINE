@@ -3,6 +3,9 @@
 /// game
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/UI/ComboTextUIManager.h"
+#include "Game/UI/DamageTextUIManager.h"
+#include "Game/Battle/BlockDamageCalculator.h"
 
 /// engine
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
@@ -11,6 +14,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 
 /// stl
 #include <algorithm>
@@ -54,9 +58,18 @@ void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& 
 		return;
 	}
 
+	currentGatherIndex_ = 0;
+
+	// 総ダメージはここへ出す。集合中に変わることはないので、依頼された時点で覚えておく
+	gatherPoint_ = request.gatherPoint;
+
 	for(size_t index = 0; index < request.targets.size(); ++index){
 		GatheringGroup group{};
 		if(!MakeGatheringGroup(request,index,group)){
+			// 集合させられなかったグループは動き出す機会が無いため、
+			// ここで表示を消し始めておかないと出しっぱなしになる。
+			// 集合しないので、集めた数にも入れない
+			FadeOutComboText(request.targets[index].groupId);
 			continue;
 		}
 
@@ -74,6 +87,9 @@ void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& 
 
 	// 最初に接続したグループだけが最初から動き、後ろのグループは1つ前の塊が触れてから動き出す
 	groups_.front().isMoving = true;
+	// 先頭は UpdateGatherRelease() を通らずに動き出すため、数え上げもここで行う。
+	// 1グループだけの場合はこの時点で集合しきるため、総ダメージもここで出る
+	NotifyGatherStarted(groups_.front());
 	SetupReleaseProgress();
 
 	state_ = State::Gathering;
@@ -86,6 +102,9 @@ bool BlockGroupLauncher::MakeGatheringGroup(const GatherRequest& request,size_t 
 	if(members == nullptr || members->empty()){
 		return false;
 	}
+
+	// コンボ表示は groupId で引き当てるため、集合中も元のIDを持ち続ける
+	outGroup.groupId = target.groupId;
 
 	// DetachGroup() で members が無効になるため、ここで実体をコピーしておく(非所有ポインタの配列)
 	outGroup.blocks = *members;
@@ -161,6 +180,9 @@ void BlockGroupLauncher::Launch(){
 	if(state_ != State::Gathering){
 		return;
 	}
+
+	// 打ち上げると集合の更新が止まるため、待機中のグループはここで打ち切る
+	ReleaseRemainingGroups();
 
 	state_ = State::Launched;
 	launchVelocityY_ = params_.launchSpeed;
@@ -291,7 +313,14 @@ void BlockGroupLauncher::UpdateGatherRelease(float deltaTime){
 
 		// 同じ場所で接続されていた場合はここで続けて動き出すため、後ろも続けて調べる
 		group.isMoving = true;
+		currentGatherIndex_ = static_cast<int>(index);
 
+		// このグループの分を集めた数へ足し込む(コンボ表示もここで消え始める)
+		NotifyGatherStarted(group);
+
+		// effect
+		ParticleEffectManager::GetInstance()->Play("ComboParticle",group.basePoint);
+		// se
 		Engine::GetSoundManager()->Play("GatherBlocks");
 	}
 }
@@ -484,6 +513,73 @@ void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vecto
 	}
 }
 
+void BlockGroupLauncher::NotifyGatherStarted(const GatheringGroup& group){
+	// 動き出したグループのコンボ表示はもう用済み
+	FadeOutComboText(group.groupId);
+
+	// 動き出した分だけ、ブロック数とコンボ(グループ数)を足していく
+	gatheredBlockCount_ += static_cast<int>(group.blocks.size());
+	++gatheredGroupCount_;
+
+	// 足した結果を集合地点へ出す。既に出ていれば数が書き換わって跳ね直す
+	ShowGatheredCount();
+
+	// 全グループが動き出したら集合しきったとみなし、貯めた数から総ダメージへ切り替える
+	if(gatheredGroupCount_ >= static_cast<int>(groups_.size())){
+		ShowGatherDamage();
+	}
+}
+
+void BlockGroupLauncher::ShowGatheredCount() const{
+	if(pDamageTextUI_ == nullptr){
+		return;
+	}
+
+	pDamageTextUI_->ShowGatheredCount(gatheredBlockCount_,gatheredGroupCount_,gatherPoint_);
+}
+
+void BlockGroupLauncher::FadeOutComboText(int groupId) const{
+	if(pComboTextUI_ == nullptr){
+		return;
+	}
+
+	// 表示が無いIDを渡しても向こうで弾かれる
+	pComboTextUI_->StartFadeOut(groupId);
+}
+
+void BlockGroupLauncher::ShowGatherDamage(){
+	// 1回の集合につき1度だけ。打ち上げに追い越された場合もここで弾く
+	if(isDamageShown_){
+		return;
+	}
+	isDamageShown_ = true;
+
+	if(pDamageTextUI_ == nullptr || pDamageCalculator_ == nullptr){
+		return;
+	}
+
+	// 実際にボスへ当たった時と同じ式で求める
+	BlockDamageCalculator::HitContext hitContext{};
+	hitContext.blockCount = gatheredBlockCount_;
+	hitContext.groupCount = gatheredGroupCount_;
+
+	pDamageTextUI_->ShowDamage(pDamageCalculator_->Calculate(hitContext),gatherPoint_);
+}
+
+void BlockGroupLauncher::ReleaseRemainingGroups(){
+	// 打ち上げに追い越された場合は集合しきっていないため、総ダメージは出さない。
+	// 出した印だけ先に立てて、コンボ表示の後始末だけを行う
+	isDamageShown_ = true;
+
+	for(GatheringGroup& group : groups_){
+		if(group.isMoving){
+			continue;
+		}
+		group.isMoving = true;
+		NotifyGatherStarted(group);
+	}
+}
+
 void BlockGroupLauncher::Clear(){
 	// 演出オブジェクトは launchRoot_ を親にしているため、座標系が止まる前に演出を止める。
 	// 既に出ている分(パーティクルなど)は消えるまでその場に残る。
@@ -495,6 +591,10 @@ void BlockGroupLauncher::Clear(){
 	launchVelocityY_ = 0.0f;
 	launchTimer_ = 0.0f;
 	isBossHit_ = false;
+
+	gatheredBlockCount_ = 0;
+	gatheredGroupCount_ = 0;
+	isDamageShown_ = false;
 }
 
 void BlockGroupLauncher::DrawConnectLine(const AOENGINE::Color& color,float thickness) const{

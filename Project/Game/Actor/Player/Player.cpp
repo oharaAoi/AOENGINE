@@ -41,6 +41,13 @@ void Player::Init(BaseGameObject* body){
 
 	Bind(body);
 
+	// 集合を始めたグループのコンボ表示を、ランチャー側から消せるようにしておく
+	blockGroupLauncherManager_.SetComboTextUIManager(&comboTextUIManager_);
+	// 集合しきった時の総ダメージも、ランチャー側から出せるようにしておく
+	blockGroupLauncherManager_.SetDamageTextUIManager(&damageTextUIManager_);
+	comboTextUIManager_.Init();
+	damageTextUIManager_.Init();
+
 	// 保存済みの調整値を読み込む
 	parameter_.Load();
 	facing_ = 1.0f;
@@ -284,6 +291,9 @@ void Player::CancelBlockGroupConnect(){
 
 	// 接続受付中であれば、接続済みのグループを全て切り離す
 	blockGroupConnectState_.Clear();
+
+	// 切り離したグループは集合しないため動き出す通知も来ない。表示はここで消し始める
+	comboTextUIManager_.StartFadeOutAll();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -300,7 +310,6 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 	if(const WorldTransform* transform = GetTransform()){
 		context.playerPosition = transform->GetTranslate();
 	}
-	context.isGrounded = jump_.IsGrounded();
 	context.launchTriggered = input_.IsLaunchTriggered();
 
 	// 先に前フレームまでの接続受付時間を消化してから、今フレームのジャンプで新しい受付を開始する
@@ -330,15 +339,24 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 			request.targets.push_back(BlockGroupLauncher::Target{group.groupId,group.connectPosition});
 		}
 
+		// 総ダメージの表示はランチャー側が行う。
+		// グループが動き出すたびに数を足していき、全部そろった時点で集合地点へ出る
 		blockGroupLauncherManager_.BeginGather(request,launcherParams);
 	}
 
 	// 専用タイマーが尽きるか打ち上げ入力が来たら上へ打ち上げる
 	if(blockGroupConnectState_.IsLaunchRequested()){
 		blockGroupLauncherManager_.Launch();
+
+		// 塊が飛んで行くので、集合地点に出していたダメージ表示も消す
+		damageTextUIManager_.StartFadeOutAll();
 	}
 
 	blockGroupLauncherManager_.Update(deltaTime);
+
+	// 消え終わった表示の破棄もここで行われる
+	comboTextUIManager_.Update();
+	damageTextUIManager_.Update();
 
 	DrawBlockGroupConnectLine();
 }
@@ -395,6 +413,13 @@ bool Player::TryConnectBlockGroup(int groupId){
 	// 接続できたグループは色を変えて、どれを繋いだかが見て分かるようにする
 	if(pBlockField_){
 		pBlockField_->SetGroupColor(groupId,kConnectedGroupColor);
+
+		// 何個目の接続かを、そのグループの中心へ出す。
+		// この表示は BlockGroupLauncher 側で、同じグループが集合に向けて動き出した時に消される
+		Math::Vector3 center{};
+		if(pBlockField_->TryGetGroupCenter(groupId,center)){
+			comboTextUIManager_.Spawn(groupId,GetConnectedGroupCount(),center);
+		}
 	}
 
 	return true;
@@ -493,6 +518,10 @@ void Player::ResetStageReferences(){
 	blockGroupLauncherManager_.Clear();
 	blockGroupConnectState_.Clear();
 	blockIgnore_.ClearGroups();
+
+	// groupId は付け直されるため、今出ている表示は消える途中でも捨てる
+	comboTextUIManager_.Clear();
+	damageTextUIManager_.Clear();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

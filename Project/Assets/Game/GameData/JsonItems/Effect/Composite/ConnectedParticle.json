@@ -1,0 +1,74 @@
+{
+    "ConnectedParticle": {
+        "name": "ConnectedParticle",
+        "nodes": [
+            {
+                "asset": "ShineParticle",
+                "delay": 0.0,
+                "name": "ShineParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "CircleLightParticle",
+                "delay": 0.0,
+                "name": "CircleLightParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "CrossLightParticle",
+                "delay": 0.0,
+                "name": "CrossLightParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}

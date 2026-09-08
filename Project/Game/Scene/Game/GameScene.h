@@ -106,6 +106,7 @@ protected:
 	std::unique_ptr<Boss> boss_;
 	std::unique_ptr<DamageFloor> damageFloor_;
 
+
 	// コールバック関連
 	CollisionCallBacks callBacks_;
 

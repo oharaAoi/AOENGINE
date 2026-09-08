@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/Actor/Boss/AttackBehavior/BaseBossAttackBehavior.h"
+#include "Game/Actor/Boss/BossDefeateAnimation/BossDefeateAnimation.h"
 
 /// <summary>
 /// HPが尽きた時の行動
@@ -21,6 +22,8 @@ private:
 
 	// もう姿を消したか
 	bool isHidden_ = false;
+
+	std::unique_ptr<BossDefeateAnimation> bossDefateAnimation_;
 
 public:// acceccer
 

@@ -168,6 +168,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\Core\Engine.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
@@ -480,6 +481,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.h" />
     <ClInclude Include="Game\Actor\Boss\BossParameter.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossAnimation.h" />
     <ClInclude Include="Game\Actor\Boss\Component\BossCollision.h" />
@@ -537,11 +542,18 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Tutorial\TutorialTextTable.h" />
     <ClInclude Include="Game\Tutorial\TutorialUIParameter.h" />
     <ClInclude Include="Game\UI\BossUI.h" />
+    <ClInclude Include="Game\UI\ComboTextUI.h" />
+    <ClInclude Include="Game\UI\ComboTextUIManager.h" />
+    <ClInclude Include="Game\UI\ComboTextUIParameter.h" />
     <ClInclude Include="Game\UI\ControlUI.h" />
+    <ClInclude Include="Game\UI\DamageTextUI.h" />
+    <ClInclude Include="Game\UI\DamageTextUIManager.h" />
+    <ClInclude Include="Game\UI\DamageTextUIParameter.h" />
     <ClInclude Include="Game\UI\GameClearUI.h" />
     <ClInclude Include="Game\UI\IntroUI.h" />
     <ClInclude Include="Game\UI\IntroUIParameter.h" />
     <ClInclude Include="Game\UI\PlayerUI.h" />
+    <ClInclude Include="Game\UI\PopupTextUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
     <ClInclude Include="Game\UI\TitleMeteoEffect.h" />
     <ClInclude Include="Game\UI\TitleMeteoParameter.h" />
@@ -552,6 +564,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\WorldObject\Wall.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\Core\Engine.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
@@ -848,6 +861,10 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossCollision.cpp" />
     <ClCompile Include="Game\Actor\Boss\Component\BossDamageEffect.cpp" />
@@ -891,10 +908,15 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Tutorial\TutorialStepController.cpp" />
     <ClCompile Include="Game\Tutorial\TutorialTextTable.cpp" />
     <ClCompile Include="Game\UI\BossUI.cpp" />
+    <ClCompile Include="Game\UI\ComboTextUI.cpp" />
+    <ClCompile Include="Game\UI\ComboTextUIManager.cpp" />
     <ClCompile Include="Game\UI\ControlUI.cpp" />
+    <ClCompile Include="Game\UI\DamageTextUI.cpp" />
+    <ClCompile Include="Game\UI\DamageTextUIManager.cpp" />
     <ClCompile Include="Game\UI\GameClearUI.cpp" />
     <ClCompile Include="Game\UI\IntroUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
+    <ClCompile Include="Game\UI\PopupTextUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
     <ClCompile Include="Game\UI\TitleMeteoEffect.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />

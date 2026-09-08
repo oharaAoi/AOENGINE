@@ -13,6 +13,9 @@
 
 class Block;
 class StageBlockField;
+class ComboTextUIManager;
+class DamageTextUIManager;
+class BlockDamageCalculator;
 
 namespace AOENGINE{
 	class Color;
@@ -121,6 +124,7 @@ private:
 
 	/// <summary>集合中のグループ1つ分の作業データ</summary>
 	struct GatheringGroup{
+		int groupId = -1;					// 元のグループID。コンボ表示を引き当てるのに使う
 		std::vector<Block*> blocks;			// グループのブロック(非所有)
 		std::vector<Math::Vector3> offsets;	// 接続した時点のプレイヤー位置から見た各ブロックの相対位置
 		std::vector<Math::Vector3> path;	// 次のブロック -> ... -> 集合地点 と直線で結んだ経路
@@ -170,6 +174,28 @@ private:
 	void DestroyBlocks();
 	/// <summary>基準位置に合わせてグループのブロックを動かす</summary>
 	void MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,float deltaTime) const;
+	/// <summary>
+	/// グループが経路上を動き出した時の処理。
+	/// そのグループのコンボ表示を消し始め、集めた数へこのグループの分を足し込む。
+	/// 全グループが動き出したら(=集合しきったら)総ダメージを出す
+	/// </summary>
+	void NotifyGatherStarted(const GatheringGroup& group);
+	/// <summary>指定したグループのコンボ表示を消し始める</summary>
+	void FadeOutComboText(int groupId) const;
+	/// <summary>
+	/// そこまでに集めたブロック数とコンボを集合地点へ出す。
+	/// 既に出ている場合は数が書き換わり、その場でもう一度跳ねる
+	/// </summary>
+	void ShowGatheredCount() const;
+	/// <summary>
+	/// 集めた数から総ダメージを求めて集合地点へ出す。1回の集合につき1度だけ出す
+	/// </summary>
+	void ShowGatherDamage();
+	/// <summary>
+	/// まだ動き出していないグループを全て動き出させる。
+	/// 打ち上げると集合の更新が止まるため、放っておくとコンボ表示が消えないまま残る
+	/// </summary>
+	void ReleaseRemainingGroups();
 
 	/// <summary>経路上を distance だけ進んだ位置を求める</summary>
 	static Math::Vector3 SamplePath(const std::vector<Math::Vector3>& path,float distance);
@@ -213,13 +239,30 @@ private:
 
 	bool isBossHit_ = false;		// ボスに当たったか(次の Update() でブロックを破棄する)
 
+	int currentGatherIndex_ = 0;	// 集合中のグループのうち、経路上を動かしているのはどれか(0～groups_.size()-1)
+
 	Params params_{};
 
 	StageBlockField* pField_ = nullptr;	// 非所有
 
+	ComboTextUIManager* pComboTextUI_ = nullptr;	// 非所有。集合を始めたグループの表示を消すのに使う
+
+	DamageTextUIManager* pDamageTextUI_ = nullptr;			// 非所有。集合しきった時に総ダメージを出すのに使う
+	const BlockDamageCalculator* pDamageCalculator_ = nullptr;	// 非所有。実際に当たった時と同じ式で総ダメージを求める
+
+	Math::Vector3 gatherPoint_{};	// 集合地点。総ダメージはここへ出す
+
+	// 動き出したグループを数えた結果。動き出すたびに足し込み、全グループ分そろったら総ダメージを出す
+	int gatheredBlockCount_ = 0;
+	int gatheredGroupCount_ = 0;
+	bool isDamageShown_ = false;	// この集合で総ダメージを出したか
+
 public: // accessor
 
 	void SetField(StageBlockField* field){ pField_ = field; }
+	void SetComboTextUIManager(ComboTextUIManager* manager){ pComboTextUI_ = manager; }
+	void SetDamageTextUIManager(DamageTextUIManager* manager){ pDamageTextUI_ = manager; }
+	void SetDamageCalculator(const BlockDamageCalculator* calculator){ pDamageCalculator_ = calculator; }
 
 	State GetState() const{ return state_; }
 	bool IsActive() const{ return state_ != State::Idle; }

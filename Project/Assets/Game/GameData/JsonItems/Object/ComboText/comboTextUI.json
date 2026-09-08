@@ -1,0 +1,12 @@
+{
+    "comboTextUI": {
+        "damping": 0.8299999833106995,
+        "fadeInTime": 0.30000001192092896,
+        "fadeOutTime": 0.20000000298023224,
+        "firstVelocity": 4.0,
+        "gravityRate": 2.0,
+        "targetBounceCount": 3,
+        "textSuffix": " Combo!",
+        "visibleSize": 0.6000000238418579
+    }
+}
