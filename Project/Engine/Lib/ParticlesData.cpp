@@ -129,6 +129,13 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat("最大速度", &maxSpeed);
 		}
 
+		ImGui::Checkbox("##isRandomLifeTime", &isRandomLifeTime);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("ランダム生存時間")) {
+			ImGui::DragFloat("最小ライフタイム", &minLifeTime);
+			ImGui::DragFloat("最大ライフタイム", &maxLifeTime);
+		}
+
 		minScale.Clamp(minScale, maxScale);
 	}
 }
