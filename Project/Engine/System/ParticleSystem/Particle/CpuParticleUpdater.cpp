@@ -164,6 +164,11 @@ void AOENGINE::CpuParticleUpdater::Update() {
 				Math::Matrix4x4 scaleMat = Math::Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
 				Math::Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
 				pr.uvMat = Multiply(scaleMat, transMat);
+			} else if (pr.isUvScroll) {
+				pr.uvScrollTranslate += pr.uvScrollSpeed * deltaTime;
+				Math::Matrix4x4 scaleMat = Math::Vector3(pr.uvScale.x, pr.uvScale.y, 0.0f).MakeScaleMat();
+				Math::Matrix4x4 transMat = Math::Vector3(pr.uvScrollTranslate.x, pr.uvScrollTranslate.y, 0.0f).MakeTranslateMat();
+				pr.uvMat = Multiply(scaleMat, transMat);
 			} else {
 				pr.uvMat = Math::Matrix4x4::MakeUnit();
 			}
