@@ -213,6 +213,8 @@ private:
 
 	bool isBossHit_ = false;		// ボスに当たったか(次の Update() でブロックを破棄する)
 
+	int currentGatherIndex_ = 0;	// 集合中のグループのうち、経路上を動かしているのはどれか(0～groups_.size()-1)
+
 	Params params_{};
 
 	StageBlockField* pField_ = nullptr;	// 非所有

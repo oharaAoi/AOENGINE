@@ -11,6 +11,7 @@
 #include "Engine/Render/Render.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 
 /// stl
 #include <algorithm>
@@ -53,6 +54,8 @@ void BlockGroupLauncher::BeginGather(const GatherRequest& request,const Params& 
 	if(pField_ == nullptr){
 		return;
 	}
+
+	currentGatherIndex_ = 0;
 
 	for(size_t index = 0; index < request.targets.size(); ++index){
 		GatheringGroup group{};
@@ -291,7 +294,11 @@ void BlockGroupLauncher::UpdateGatherRelease(float deltaTime){
 
 		// 同じ場所で接続されていた場合はここで続けて動き出すため、後ろも続けて調べる
 		group.isMoving = true;
+		currentGatherIndex_ = static_cast<int>(index);
 
+		// effect
+		ParticleEffectManager::GetInstance()->Play("ComboParticle",group.basePoint);
+		// se
 		Engine::GetSoundManager()->Play("GatherBlocks");
 	}
 }

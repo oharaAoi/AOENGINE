@@ -1,0 +1,96 @@
+{
+    "ComboParticle": {
+        "name": "ComboParticle",
+        "nodes": [
+            {
+                "asset": "SparkVerticalParticle",
+                "delay": 0.0,
+                "name": "SparkVerticalParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "SparkLightParticle",
+                "delay": 0.0,
+                "name": "SparkLightParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "ShineParticle",
+                "delay": 0.0,
+                "name": "ShineParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            },
+            {
+                "asset": "CircleLightParticle",
+                "delay": 0.0,
+                "name": "CircleLightParticle",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}
