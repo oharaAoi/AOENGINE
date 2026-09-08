@@ -43,6 +43,15 @@ void AOENGINE::ModelInspector::Draw(BaseGameObject& object) {
     const char* previewName = currentModel ? currentModel->GetName().c_str() : "None";
 
     if (ImGui::BeginCombo("Model Combo", previewName)) {
+        const bool noneSelected = currentModel == nullptr;
+        if (ImGui::Selectable("None", noneSelected)) {
+            object.RemoveModel();
+            currentModel = nullptr;
+        }
+        if (noneSelected) {
+            ImGui::SetItemDefaultFocus();
+        }
+
         for (const std::string& modelName : modelNames) {
             bool selected = currentModel && currentModel->GetName() == modelName;
 

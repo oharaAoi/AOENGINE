@@ -20,7 +20,11 @@ public:
 	// 調整値
 	struct Params {
 		float jumpPower;
+		// 上昇中に入力を離した時、残す上昇速度の割合。小さいほど小ジャンプになる
+		float releaseRiseRate;
 		float hangTime;
+		// ダメージ床で飛ばされた時の滞空時間。自分のジャンプとは別に持つ
+		float knockbackHangTime;
 		float riseGravity;
 		float fallGravity;
 		float maxFallSpeed;

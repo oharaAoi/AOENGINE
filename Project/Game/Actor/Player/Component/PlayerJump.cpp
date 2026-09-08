@@ -23,6 +23,15 @@ PlayerJump::PlayerJump() {
 	// --- 上昇中 ---
 	stateUpdaters_[ToIndex(State::Rising)] = [this](float deltaTime, bool) {
 		velocityY_ -= params_.riseGravity * deltaTime;
+
+		// 入力を離したら、そこから先の上昇速度に上限をかける
+		if (isPlayerJump_ && !isJumpHeld_) {
+			const float releaseSpeed = params_.jumpPower * params_.releaseRiseRate;
+			if (velocityY_ > releaseSpeed) {
+				velocityY_ = releaseSpeed;
+			}
+		}
+
 		if (velocityY_ <= 0.0f) {
 			// 頂点に到達 → 滞空へ
 			velocityY_ = 0.0f;
@@ -41,8 +50,14 @@ PlayerJump::PlayerJump() {
 			return;
 		}
 
+		// ダメージ床で飛ばされた時は、自分のジャンプとは別の滞空時間で落とす
+		float hangLimit = params_.hangTime;
+		if (!isPlayerJump_) {
+			hangLimit = params_.knockbackHangTime;
+		}
+
 		hangTimer_ += deltaTime;
-		if (hangTimer_ >= params_.hangTime) {
+		if (hangTimer_ >= hangLimit) {
 			ChangeState(State::Falling);
 		}
 	};

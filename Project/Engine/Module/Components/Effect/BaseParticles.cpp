@@ -162,6 +162,13 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 		speed = Random::RandomFloat(emitter_.minSpeed, emitter_.maxSpeed);
 	}
 
+	// ライフタイムの設定
+	float lifeTime = emitter_.lifeTime;
+	if (emitter_.isRandomLifeTime) {
+		lifeTime = Random::RandomFloat(emitter_.minLifeTime, emitter_.maxLifeTime);
+	}
+	newParticle.lifeTime = lifeTime;
+
 	newParticle.firstScale = newParticle.scale;
 	
 	float conePhi = 0.0f;
@@ -295,11 +302,13 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	newParticle.startDiscard = emitter_.startDiscard;
 	newParticle.endDiscard = emitter_.endDiscard;
 
-	newParticle.lifeTime = emitter_.lifeTime;
 	newParticle.currentTime = 0.0f;
 	newParticle.damping = emitter_.dampig;
 	newParticle.gravity = emitter_.gravity;
 	newParticle.rotateSpeed = emitter_.rotateSpeed;
+	newParticle.uvScrollSpeed = emitter_.uvScrollSpeed;
+	newParticle.isUvScroll = emitter_.isUvScroll;
+	newParticle.uvScale = emitter_.uvScale;
 
 	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;

@@ -17,7 +17,11 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 
 	// ジャンプ
 	float jumpPower;			  // ジャンプの強さ
+	// 上昇中に入力を離した時、残す上昇速度の割合
+	float releaseRiseRate = 0.25f;
 	float hangTime;				  // 滞空時間
+	// ダメージ床で飛ばされた時の滞空時間
+	float damageJumpHangTime = 0.0f;
 	float riseGravity;			  // 上昇中の減速度
 	float fallGravity;			  // 落下中の重力
 	float maxFallSpeed;			  // 落下速度の上限
@@ -80,7 +84,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Move Acceleration", moveAcceleration, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Move Input Threshold", moveInputThreshold, 0.001f, 0.0f, 1.0f);
 		AddParameter("Jump Power", jumpPower, 0.1f, 0.0f, 200.0f);
+		AddParameter("Release Rise Rate", releaseRiseRate, 0.01f, 0.0f, 1.0f);
 		AddParameter("Hang Time", hangTime, 0.01f, 0.0f, 5.0f);
+		AddParameter("Damage Jump Hang Time", damageJumpHangTime, 0.01f, 0.0f, 5.0f);
 		AddParameter("Rise Gravity", riseGravity, 0.1f, 0.0f, 500.0f);
 		AddParameter("Fall Gravity", fallGravity, 0.1f, 0.0f, 500.0f);
 		AddParameter("Max Fall Speed", maxFallSpeed, 0.1f, 0.0f, 500.0f);
@@ -129,7 +135,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("moveAcceleration", moveAcceleration)
 			.Add("moveInputThreshold", moveInputThreshold)
 			.Add("jumpPower", jumpPower)
+			.Add("releaseRiseRate", releaseRiseRate)
 			.Add("hangTime", hangTime)
+			.Add("damageJumpHangTime", damageJumpHangTime)
 			.Add("riseGravity", riseGravity)
 			.Add("fallGravity", fallGravity)
 			.Add("maxFallSpeed", maxFallSpeed)
@@ -172,7 +180,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "moveAcceleration", moveAcceleration);
 		Convert::fromJson(jsonData, "moveInputThreshold", moveInputThreshold);
 		Convert::fromJson(jsonData, "jumpPower", jumpPower);
+		Convert::fromJson(jsonData, "releaseRiseRate", releaseRiseRate);
 		Convert::fromJson(jsonData, "hangTime", hangTime);
+		Convert::fromJson(jsonData, "damageJumpHangTime", damageJumpHangTime);
 		Convert::fromJson(jsonData, "riseGravity", riseGravity);
 		Convert::fromJson(jsonData, "fallGravity", fallGravity);
 		Convert::fromJson(jsonData, "maxFallSpeed", maxFallSpeed);

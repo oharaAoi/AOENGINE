@@ -101,6 +101,13 @@ void ParticleEmit::Attribute_Gui() {
 			ImGui::DragFloat2("分割数", &tiles.x, 1.0f);
 		}
 
+		ImGui::Checkbox("##isUvScroll", &isUvScroll);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("UVアニメーション")) {
+			ImGui::DragFloat2("スクロール速度", &uvScrollSpeed.x, 0.01f);
+			ImGui::DragFloat2("uvスケール", &uvScale.x, 0.01f);
+		}
+
 		ImGui::Checkbox("##isColorAnimation", &isColorAnimation);
 		ImGui::SameLine();
 		if (ImGui::CollapsingHeader("カラーグラデーション")) {
@@ -120,6 +127,13 @@ void ParticleEmit::Attribute_Gui() {
 		if (ImGui::CollapsingHeader("ランダム速度")) {
 			ImGui::DragFloat("最小速度", &minSpeed);
 			ImGui::DragFloat("最大速度", &maxSpeed);
+		}
+
+		ImGui::Checkbox("##isRandomLifeTime", &isRandomLifeTime);
+		ImGui::SameLine();
+		if (ImGui::CollapsingHeader("ランダム生存時間")) {
+			ImGui::DragFloat("最小ライフタイム", &minLifeTime);
+			ImGui::DragFloat("最大ライフタイム", &maxLifeTime);
 		}
 
 		minScale.Clamp(minScale, maxScale);

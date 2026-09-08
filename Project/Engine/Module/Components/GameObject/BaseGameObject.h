@@ -20,10 +20,12 @@
 #include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/IComponent.h"
+#include "Engine/Module/Components/Effect/MagmaEffectComponent.h"
 
 namespace AOENGINE {
 
 class WorldTextComponent;
+class ExplosionEffectComponent;
 
 /// <summary>
 /// MeshやMaterialを持ったGameObject
@@ -92,6 +94,9 @@ public: // accessor method
 	}
 
 	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::Normal);
+	/// <summary>Modelと、それに依存するAnimator・Material Instanceを解除する。</summary>
+	bool RemoveModel();
+	bool HasModel() const { return model_ != nullptr; }
 
 	void SetParent(BaseGameObject* parent);
 
@@ -172,6 +177,15 @@ public: // accessor method
 	WorldTextComponent* GetWorldTextComponent() { return worldTextComponent_; }
 	const WorldTextComponent* GetWorldTextComponent() const { return worldTextComponent_; }
 
+	void AddExplosionEffectComponent();
+    void AddMagmaEffectComponent();
+    bool RemoveMagmaEffectComponent();
+    MagmaEffectComponent* GetMagmaEffectComponent() { return magmaEffectComponent_; }
+    const MagmaEffectComponent* GetMagmaEffectComponent() const { return magmaEffectComponent_; }
+	bool RemoveExplosionEffectComponent();
+	ExplosionEffectComponent* GetExplosionEffectComponent() { return explosionEffectComponent_; }
+	const ExplosionEffectComponent* GetExplosionEffectComponent() const { return explosionEffectComponent_; }
+
 protected:
 	void RebuildMaterialSlots();
 
@@ -192,6 +206,8 @@ protected:
 	AOENGINE::WorldTransform* transform_ = nullptr;
 	AOENGINE::Rigidbody* rigidbody_ = nullptr;
 	AOENGINE::WorldTextComponent* worldTextComponent_ = nullptr;
+	AOENGINE::ExplosionEffectComponent* explosionEffectComponent_ = nullptr;
+    MagmaEffectComponent* magmaEffectComponent_ = nullptr;
 
 	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f };
 	float pendingVerticalMove_ = 0.0f;

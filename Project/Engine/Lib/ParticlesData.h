@@ -75,7 +75,7 @@ struct ParticleSingle {
 
 	bool isTextureAnimation = false;
 	Math::Vector2 tileSize = CMath::Vector2::UNIT;
-	Math::Matrix4x4 uvMat;
+	Math::Matrix4x4 uvMat = Math::Matrix4x4();
 
 	bool isColorAnimation = false;
 	AOENGINE::Color preColor = AOENGINE::Color();
@@ -83,6 +83,11 @@ struct ParticleSingle {
 
 	float rotateZ = 0;
 	float rotateSpeed = 0;
+
+	bool isUvScroll = false;
+	Math::Vector2 uvScrollTranslate = CMath::Vector2::ZERO;
+	Math::Vector2 uvScale = CMath::Vector2::UNIT;
+	Math::Vector2 uvScrollSpeed = CMath::Vector2::UNIT;
 };
 
 /// <summary>
@@ -155,6 +160,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isTextureSheetAnimation = false;
 	Math::Vector2 tiles = CMath::Vector2::UNIT;
 
+	bool isUvScroll = false;
+	Math::Vector2 uvScrollSpeed = CMath::Vector2::UNIT;
+	Math::Vector2 uvScale = CMath::Vector2::UNIT;
+
 	bool isColorAnimation = false;
 	AOENGINE::Color preColor = Colors::Linear::white;
 	AOENGINE::Color postColor = Colors::Linear::white;
@@ -166,6 +175,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	bool isRandomRotate = true;
 	Math::Vector3 minAngles = CVector3::ZERO;
 	Math::Vector3 maxAngles = Math::Vector3(0,0,360.f);
+
+	bool isRandomLifeTime = false;
+	float minLifeTime = 1.f;
+	float maxLifeTime = 2.f;
 
 	float rotateSpeed = 0.f;
 
@@ -235,6 +248,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("randomDirectionAmount", randomDirectionAmount)
 			.Add("isTextureSheetAnimation", isTextureSheetAnimation)
 			.Add("tiles", tiles)
+			.Add("isUvScroll", isUvScroll)
+			.Add("uvScrollSpeed", uvScrollSpeed)
+			.Add("uvScale", uvScale)
 			.Add("isColorAnimation", isColorAnimation)
 			.Add("preColor", preColor)
 			.Add("postColor", postColor)
@@ -244,6 +260,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("isRandomSpeed", isRandomSpeed)
 			.Add("minSpeed", minSpeed)
 			.Add("maxSpeed", maxSpeed)
+			.Add("isRandomLifeTime", isRandomLifeTime)
+			.Add("minLifeTime", minLifeTime)
+			.Add("maxLifeTime", maxLifeTime)
 			.Build();
 	}
 
@@ -306,6 +325,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "randomDirectionAmount", randomDirectionAmount);
 		Convert::fromJson(jsonData, "isTextureSheetAnimation", isTextureSheetAnimation);
 		Convert::fromJson(jsonData, "tiles", tiles);
+		Convert::fromJson(jsonData, "isUvScroll", isUvScroll);
+		Convert::fromJson(jsonData, "uvScrollSpeed", uvScrollSpeed);
+		Convert::fromJson(jsonData, "uvScale", uvScale);
 		Convert::fromJson(jsonData, "isColorAnimation", isColorAnimation);
 		Convert::fromJson(jsonData, "preColor", preColor);
 		Convert::fromJson(jsonData, "postColor", postColor);
@@ -315,6 +337,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "isRandomSpeed", isRandomSpeed);
 		Convert::fromJson(jsonData, "minSpeed", minSpeed);
 		Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
+		Convert::fromJson(jsonData, "isRandomLifeTime", isRandomLifeTime);
+		Convert::fromJson(jsonData, "minLifeTime", minLifeTime);
+		Convert::fromJson(jsonData, "maxLifeTime", maxLifeTime);
 	}
 
 	void Attribute_Gui();

@@ -4,6 +4,7 @@
 #include "Engine/System/Editor/Inspector/Component/ColliderInspector.h"
 #include "Engine/System/Editor/Inspector/Component/RigidBodyInspector.h"
 #include "Engine/System/Editor/Inspector/Component/WorldTextInspector.h"
+#include "Engine/System/Editor/Inspector/Component/ExplosionEffectInspector.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 namespace {
@@ -57,6 +58,29 @@ void AOENGINE::BaseGameObjectInspector::Draw(BaseGameObject& object) {
 	ColliderInspector::Draw(object);
 	RigidBodyInspector::Draw(object);
 	WorldTextInspector::Draw(object);
+	ExplosionEffectInspector::Draw(object);
+    if (auto* magma = object.GetMagmaEffectComponent()) {
+        const bool open = ImGui::CollapsingHeader("Magma Effect");
+        bool remove = false;
+        if (ImGui::BeginPopupContextItem("MagmaContext")) {
+            remove = ImGui::MenuItem("Remove Component");
+            ImGui::EndPopup();
+        }
+        if (open) {
+            ImGui::PushID("MagmaSettings");
+            auto settings = magma->GetSettings();
+            bool changed = ImGui::Checkbox("Enabled", &settings.enabled);
+            changed |= ImGui::DragFloat("Size", &settings.size, 0.05f, 0.001f, 1000.0f);
+            changed |= ImGui::DragFloat3("Local Position", &settings.localPosition.x, 0.01f);
+            changed |= ImGui::DragFloat("Pattern Scale", &settings.patternScale, 1.0f, 1.0f, 512.0f);
+            changed |= ImGui::DragFloat("Flow Speed", &settings.flowSpeed, 0.01f, -10.0f, 10.0f);
+            changed |= ImGui::DragFloat("Temperature", &settings.temperature, 0.1f, 1.0f, 60.0f);
+            changed |= ImGui::DragFloat("Emissive Intensity", &settings.emissiveIntensity, 0.05f, 0.0f, 100.0f);
+            if (changed) magma->SetSettings(settings);
+            ImGui::PopID();
+        }
+        if (remove) object.RemoveMagmaEffectComponent();
+    }
 
 	if (object.GetAnimator()) {
 		const bool isOpen = ImGui::CollapsingHeader("Animator");
@@ -104,8 +128,13 @@ void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object)
 		}
 
 		if (ImGui::BeginMenu("Rendering")) {
+            if (ImGui::MenuItem("Magma Effect", nullptr, false, object.GetMagmaEffectComponent() == nullptr))
+                object.AddMagmaEffectComponent();
 			if (ImGui::MenuItem("World Text", nullptr, false, object.GetWorldTextComponent() == nullptr)) {
 				object.AddWorldTextComponent();
+			}
+			if (ImGui::MenuItem("Explosion Effect", nullptr, false, object.GetExplosionEffectComponent() == nullptr)) {
+				object.AddExplosionEffectComponent();
 			}
 			ImGui::EndMenu();
 		}
