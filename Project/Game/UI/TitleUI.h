@@ -10,10 +10,14 @@ class TitleUI {
 public: // data
 
 	enum class TitleItem {
-		Pause, // 待機中
-		Start, // リトライ
-		Exit   // タイトルへ
+		Pause,		// 待機中
+		Start,		// ゲームを始める
+		Tutorial,	// チュートリアルを見る
+		Exit		// 終了する
 	};
+
+	// 選べる項目の数
+	static constexpr int kItemCount = 3;
 
 public: // constructor
 

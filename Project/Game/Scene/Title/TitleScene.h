@@ -4,6 +4,7 @@
 
 // game
 #include "Game/Scene/BaseScene.h"
+#include "Game/UI/TitleMeteoEffect.h"
 #include "Game/UI/TitleUI.h"
 
 class TitleScene :
@@ -38,6 +39,9 @@ private: // private variables
 	AOENGINE::SoundHandle bgmHandle_;
 
 	TitleUI titleUI_;
+
+	// 背景に流す隕石
+	TitleMeteoEffect meteoEffect_;
 
 };
 

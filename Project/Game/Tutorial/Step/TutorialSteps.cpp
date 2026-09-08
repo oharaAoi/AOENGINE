@@ -141,11 +141,11 @@ void TutorialStepLaunch::Enter(TutorialContext& context) {
 	isFinished_ = false;
 	hasHit_ = false;
 	waitTimer_ = 0.0f;
-	startBossHp_ = 0.0f;
+	startDamagedCount_ = 0;
 
-	// 当たったかどうかは、HPが減ったかで見る
+	// 当たったかどうかは、被弾回数が増えたかで見る
 	if (const Boss* boss = context.GetBoss()) {
-		startBossHp_ = boss->GetCurrentHp();
+		startDamagedCount_ = boss->GetDamagedCount();
 	}
 }
 
@@ -176,7 +176,7 @@ void TutorialStepLaunch::Update(TutorialContext& context, float deltaTime) {
 	}
 
 	// ボスに当てたらチェックを出して、待ち時間を数え始める
-	if (boss->GetCurrentHp() < startBossHp_) {
+	if (boss->GetDamagedCount() > startDamagedCount_) {
 		hasHit_ = true;
 		waitTimer_ = 0.0f;
 	}

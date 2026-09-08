@@ -135,6 +135,12 @@ private:
 	// 撃破の演出まで終わったか
 	bool isDefeatFinished_ = false;
 
+	// チュートリアルの的として置いているか。攻撃も撃破もしなくなる
+	bool isTrainingDummy_ = false;
+
+	// 被弾を受け付けた回数。ダメージ量やHPの残りに左右されずに
+	uint32_t damagedCount_ = 0;
+
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";
 
@@ -159,6 +165,12 @@ public: // accessor
 
 	float GetMaxHp() const { return parameter_.hp; }
 	float GetCurrentHp() const { return currentHp_; }
+
+	/// <summary>
+	/// 被弾を受け付けた回数。増えていれば当たったということ。
+	/// HPの増減を見るのと違い、ダメージが0でもHPが尽きた後でも数が進む
+	/// </summary>
+	uint32_t GetDamagedCount() const { return damagedCount_; }
 	bool IsDefeated() const { return currentHp_ <= 0.0f; }
 
 	// 撃破の演出まで終わったか。シーンをクリアへ移す合図に使う
@@ -167,6 +179,13 @@ public: // accessor
 
 	/// <summary>登場の降下が終わっているか。始めていない場合も終わり扱いにする</summary>
 	bool IsIntroDescendFinished() const { return !isIntroDescending_; }
+
+	/// <summary>
+	/// 的として置くだけにする。攻撃を選ばなくなり、HPが尽きても倒れない。
+	/// ダメージそのものは通るので、チュートリアルの当てた判定はそのまま使える
+	/// </summary>
+	void SetTrainingDummy(bool isDummy) { isTrainingDummy_ = isDummy; }
+	bool IsTrainingDummy() const { return isTrainingDummy_; }
 
 	// フェーズ切り替えの演出中など、ダメージを受け付けない状態にする
 	void SetInvincible(bool isInvincible) { isInvincible_ = isInvincible; }

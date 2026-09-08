@@ -31,6 +31,11 @@ void TutorialScene::OnPlayStart() {
 	// Player・ステージ・カメラの用意は GameScene と同じ
 	GameScene::OnPlayStart();
 
+	// チュートリアルのボスは的。攻撃はしないし、HPが尽きても倒れない
+	if (boss_) {
+		boss_->SetTrainingDummy(true);
+	}
+
 	// ページが触るものを詰めてから、最初のページを始める
 	context_.SetPlayer(player_.get());
 	context_.SetBoss(boss_.get());

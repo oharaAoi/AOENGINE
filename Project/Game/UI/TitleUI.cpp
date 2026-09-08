@@ -8,6 +8,22 @@
 #include <Engine/System/Input/Input.h>
 #include <Engine/Core/Engine.h>
 
+#include <array>
+#include <string>
+
+namespace {
+	// 画面の上から下の並び。シーンに置いてあるテキストの名前と対応させる
+	const std::array<std::string, TitleUI::kItemCount> kItemNames = {
+		"GameStart", "Tutorial", "Exit",
+	};
+
+	const std::array<TitleUI::TitleItem, TitleUI::kItemCount> kItems = {
+		TitleUI::TitleItem::Start,
+		TitleUI::TitleItem::Tutorial,
+		TitleUI::TitleItem::Exit,
+	};
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,16 +44,19 @@ TitleUI::TitleItem TitleUI::Update() {
 	}
 
 	TitleUI::TitleItem current = CurrentSelect();
-	if (current == TitleUI::TitleItem::Start) {
-		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
-		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
-		startText->SetTextColor(Colors::Linear::red);
-		exitText->SetTextColor(Colors::Linear::white);
-	} else if (current == TitleUI::TitleItem::Exit) {
-		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
-		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
-		startText->SetTextColor(Colors::Linear::white);
-		exitText->SetTextColor(Colors::Linear::red);
+
+	// 選んでいるものだけ赤くする
+	for (int i = 0; i < kItemCount; ++i) {
+		AOENGINE::Text* text = FindSceneObject<AOENGINE::Text>(kItemNames[i]);
+		if (text == nullptr) {
+			continue;
+		}
+
+		if (kItems[i] == current) {
+			text->SetTextColor(Colors::Linear::red);
+		} else {
+			text->SetTextColor(Colors::Linear::white);
+		}
 	}
 
 	// 決定を行う
@@ -54,7 +73,7 @@ TitleUI::TitleItem TitleUI::Update() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleUI::SelectItem() {
-	constexpr int kMaxItem = 2;
+	constexpr int kMaxItem = kItemCount;
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 
 	auto press_down = [&]() {
@@ -97,11 +116,9 @@ bool TitleUI::DecisionItem() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 TitleUI::TitleItem TitleUI::CurrentSelect() {
-	if (selectIndex_ == 0) {
-		return TitleUI::TitleItem::Start;
-	} else if (selectIndex_ == 1) {
-		return TitleUI::TitleItem::Exit;
+	if (selectIndex_ < 0 || selectIndex_ >= kItemCount) {
+		return TitleUI::TitleItem::Pause;
 	}
 
-	return TitleUI::TitleItem::Pause;
+	return kItems[selectIndex_];
 }

@@ -223,11 +223,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
-    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h" />
-    <ClInclude Include="Engine\Module\Components\Effect\ExplosionEffectComponent.h" />
-    <ClInclude Include="Engine\Module\Components\Effect\MagmaEffectComponent.h" />
     <ClInclude Include="Engine\Module\Components\2d\Text.h" />
     <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
+    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationFunctions.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationStructures.h" />
@@ -242,6 +240,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Module\Components\Collider\LineCollider.h" />
     <ClInclude Include="Engine\Module\Components\Collider\SphereCollider.h" />
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h" />
+    <ClInclude Include="Engine\Module\Components\Effect\ExplosionEffectComponent.h" />
+    <ClInclude Include="Engine\Module\Components\Effect\MagmaEffectComponent.h" />
     <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h" />
     <ClInclude Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.h" />
     <ClInclude Include="Engine\Module\Components\GameObject\BaseEntity.h" />
@@ -349,11 +349,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Collision\ColliderCollector.h" />
     <ClInclude Include="Engine\System\Collision\PenetrationResolution.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ColliderInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\MaterialInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ModelInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.h" />
-    <ClInclude Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\CameraInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.h" />
@@ -543,6 +543,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\IntroUIParameter.h" />
     <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
+    <ClInclude Include="Game\UI\TitleMeteoEffect.h" />
+    <ClInclude Include="Game\UI\TitleMeteoParameter.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
     <ClInclude Include="Game\UI\TutorialTextBoxUI.h" />
     <ClInclude Include="Game\WorldObject\Block.h" />
@@ -603,11 +605,9 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp" />
-    <ClCompile Include="Engine\Module\Components\Effect\ExplosionEffectComponent.cpp" />
-    <ClCompile Include="Engine\Module\Components\Effect\MagmaEffectComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
+    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationFunctions.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\Animator.cpp" />
@@ -621,6 +621,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Module\Components\Collider\LineCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Collider\SphereCollider.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp" />
+    <ClCompile Include="Engine\Module\Components\Effect\ExplosionEffectComponent.cpp" />
+    <ClCompile Include="Engine\Module\Components\Effect\MagmaEffectComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp" />
     <ClCompile Include="Engine\Module\Components\EventHandlers\BaseCollisionCallBacks.cpp" />
     <ClCompile Include="Engine\Module\Components\GameObject\BaseEntity.cpp" />
@@ -725,11 +727,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Collision\ColliderCollector.cpp" />
     <ClCompile Include="Engine\System\Collision\PenetrationResolution.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ColliderInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\MaterialInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ModelInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.cpp" />
-    <ClCompile Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\CameraInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.cpp" />
@@ -894,6 +896,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\IntroUI.cpp" />
     <ClCompile Include="Game\UI\PlayerUI.cpp" />
     <ClCompile Include="Game\UI\RetryUI.cpp" />
+    <ClCompile Include="Game\UI\TitleMeteoEffect.cpp" />
     <ClCompile Include="Game\UI\TitleUI.cpp" />
     <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />

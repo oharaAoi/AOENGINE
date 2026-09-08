@@ -43,6 +43,7 @@ void Boss::Init(BaseGameObject* body) {
 
 	isInvincible_ = false;
 	isDefeatFinished_ = false;
+	damagedCount_ = 0;
 	attackEffectRemaining_ = 0;
 	attackEffectTimer_ = 0.0f;
 	isAttackPulsing_ = false;
@@ -378,6 +379,8 @@ void Boss::Damage(float amount) {
 	if (isInvincible_) {
 		return;
 	}
+
+	++damagedCount_;
 
 	// 被弾は行動に割り込んで1回だけ流す
 	animation_.PlayDamage();

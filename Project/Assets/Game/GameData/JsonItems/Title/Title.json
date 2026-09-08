@@ -163,13 +163,11 @@
                 ],
                 "components": [],
                 "drawRange": [
-                    145.0,
-                    84.0
+                    1980.0,
+                    1080.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
-                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -182,36 +180,25 @@
                     0.0
                 ],
                 "scale": [
-                    1.0,
-                    1.0,
+                    0.9696969985961914,
+                    0.9696969985961914,
                     1.0
                 ],
-                "text": "exit",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_35",
+                "texture": "title",
                 "textureSize": [
-                    145.0,
-                    84.0
+                    1980.0,
+                    1080.0
                 ],
                 "translate": [
-                    941.0435791015625,
-                    787.1512451171875,
+                    960.0,
+                    504.5,
                     1.0
                 ]
             },
-            "id": 736,
-            "name": "Exit",
+            "id": 87,
+            "name": "GameTitle",
             "parentId": null,
-            "type": "Text"
+            "type": "Sprite"
         },
         {
             "active": true,
@@ -244,7 +231,7 @@
                     0.0,
                     0.0
                 ],
-                "renderQueue": 0,
+                "renderQueue": 1,
                 "rotate": [
                     0.0,
                     0.0,
@@ -266,13 +253,13 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_34",
+                "texture": "__Text_35",
                 "textureSize": [
                     176.0,
                     84.0
                 ],
                 "translate": [
-                    935.1663208007813,
+                    938.10498046875,
                     688.5410766601563,
                     1.0
                 ]
@@ -301,19 +288,19 @@
                 ],
                 "components": [],
                 "drawRange": [
-                    1298.0,
-                    238.0
+                    280.0,
+                    84.0
                 ],
                 "flipX": false,
                 "flipY": false,
                 "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
-                "fontSize": 182.0,
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
                     0.0
                 ],
-                "renderQueue": 0,
+                "renderQueue": 1,
                 "rotate": [
                     0.0,
                     0.0,
@@ -324,7 +311,76 @@
                     1.0,
                     1.0
                 ],
-                "text": "メテオギュット",
+                "text": "tutorial",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_34",
+                "textureSize": [
+                    280.0,
+                    84.0
+                ],
+                "translate": [
+                    938.10498046875,
+                    787.1512451171875,
+                    1.0
+                ]
+            },
+            "id": 900,
+            "name": "Tutorial",
+            "parentId": null,
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    145.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "exit",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -337,19 +393,116 @@
                 ],
                 "texture": "__Text_33",
                 "textureSize": [
-                    1298.0,
-                    238.0
+                    145.0,
+                    84.0
                 ],
                 "translate": [
-                    966.5096435546875,
-                    293.5148620605469,
+                    938.10498046875,
+                    885.7614135742188,
                     1.0
                 ]
             },
-            "id": 87,
-            "name": "GameTitle",
+            "id": 736,
+            "name": "Exit",
             "parentId": null,
             "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "background.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.0,
+                        "enableLighting": true,
+                        "iblScale": 0.0,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "background.obj",
+                "rotate": [
+                    0.026384949684143066,
+                    0.9977419376373291,
+                    -0.05475682392716408,
+                    0.028577202931046486
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.800000011920929,
+                    -288.79998779296875,
+                    169.5
+                ]
+            },
+            "id": 796,
+            "name": "Earth",
+            "parentId": null,
+            "type": "BaseGameObject"
         }
     ],
     "sceneName": "Title",
