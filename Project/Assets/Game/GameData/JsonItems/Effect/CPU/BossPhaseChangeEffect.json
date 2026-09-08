@@ -38,7 +38,7 @@
         "isRandomSpeed": false,
         "isScaleUp": true,
         "isStretch": false,
-        "isTextureSheetAnimation": true,
+        "isTextureSheetAnimation": false,
         "lifeOfMaxScale": {
             "x": 0.0,
             "y": 0.0,
