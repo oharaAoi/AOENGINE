@@ -42,7 +42,7 @@ struct BossParameter :
 
 	// フェーズが上がった時の演出
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
-	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか(基準スケールへの倍率)
+	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか
 	// アニメーションを再生してから、エフェクトを出すまでの秒数
 	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
@@ -100,7 +100,7 @@ struct BossParameter :
 
 	// --- 攻撃を出した瞬間のパルス ---
 	float attackPulseTime = 0.25f;		// 膨らんで戻るまでの時間
-	float attackPulseScaleRate = 0.2f;	// どれだけ膨らむか(基準スケールへの倍率)
+	float attackPulseScaleRate = 0.2f;	// どれだけ膨らむか
 	int32_t attackPulseCount = 1;		// この時間の中で何回膨らむか
 	// 攻撃に入った時に出すエフェクトの、ボスから見た位置
 	Math::Vector3 attackEffectOffset{ 0.0f, 0.0f, 0.0f };
@@ -115,6 +115,8 @@ struct BossParameter :
 	float introDescendTime = 1.2f;		// 降りきるまでの時間
 	int32_t introDescendEaseKind = 2;	// InQuad。だんだん速くなって着地で止まる
 	CameraShakeRequest introLandShake;	// 着いた時の揺れ
+
+	float sceneChangeTimeAfterHiden_ = 0.0f;
 
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
@@ -184,6 +186,7 @@ struct BossParameter :
 
 		AddSeparatorText("Defeat");
 		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
+		AddParameter("sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_, 0.1f);
 
 		AddSeparatorText("Attack Pulse");
 		AddParameter("Attack Pulse Time", attackPulseTime, 0.01f, 0.0f, 10.0f);
@@ -272,6 +275,7 @@ struct BossParameter :
 			.Add("introDescendHeight", introDescendHeight)
 			.Add("introDescendTime", introDescendTime)
 			.Add("introDescendEaseKind", introDescendEaseKind)
+			.Add("sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_)
 			.Build();
 	}
 
@@ -325,7 +329,6 @@ struct BossParameter :
 
 		Convert::fromJson(jsonData, "animationBlendSpeed", animationBlendSpeed);
 		Convert::fromJson(jsonData, "animationSpeed", animationSpeed);
-
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
 		Convert::fromJson(jsonData, "defeatHideTime", defeatHideTime);
@@ -339,6 +342,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "introDescendHeight", introDescendHeight);
 		Convert::fromJson(jsonData, "introDescendTime", introDescendTime);
 		Convert::fromJson(jsonData, "introDescendEaseKind", introDescendEaseKind);
+		Convert::fromJson(jsonData, "sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

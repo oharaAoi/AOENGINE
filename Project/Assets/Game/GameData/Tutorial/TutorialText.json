@@ -53,17 +53,17 @@
             "B.png"
         ],
         "keyboardButtons": [
-            "keyboard_E.png"
+            "keyboard_F.png"
         ]
     },
     "backGuide": {
         "pad": ":戻る",
         "keyboard": ":戻る",
         "padButtons": [
-            "A.png"
+            "Y.png"
         ],
         "keyboardButtons": [
-            "keyboard_A.png"
+            "keyboard_Q.png"
         ]
     }
 }

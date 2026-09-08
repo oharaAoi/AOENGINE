@@ -75,6 +75,10 @@ void GameClearUI::SelectItem() {
 	if (input->GetKey(DIK_W) || input->GetKey(DIK_UP)) { press_up(); }
 	if (input->GetKey(DIK_S) || input->GetKey(DIK_DOWN)) { press_down(); }
 
+	// 十字キー判定
+	if (input->IsPressButton(DpadUp)) { press_up(); }
+	if (input->IsPressButton(DpadDown)) { press_down(); }
+
 	// stick判定
 	if (input->GetLeftJoyStick().y >= 0.2f) {
 		press_down();

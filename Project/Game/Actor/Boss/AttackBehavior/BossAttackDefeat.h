@@ -14,11 +14,13 @@ public:
 	// 入り、更新
 	void Enter(Boss& boss) override;
 	void Update(Boss& boss, float deltaTime) override;
-
+private:
+	bool isHidden(Boss& boss, float deltaTime);
 private:
 
 	// 撃破されてからの経過時間
 	float elapsedTime_ = 0.0f;
+	float afterDefeatTime_ = 0.0f;
 
 	// もう姿を消したか
 	bool isHidden_ = false;
