@@ -15,10 +15,11 @@
             "y": 1080.0
         },
         "centerPos": {
-            "x": 960.0,
+            "x": 753.0,
             "y": 460.0
         },
         "fastForwardScale": 4.0,
+        "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
         "fontSize": 414.0,
         "goEndWaitTime": 0.3100000023841858,
         "goFadeEaseKind": 1,
@@ -38,7 +39,7 @@
         "objectiveOutEaseKind": 6,
         "objectiveOutTime": 0.30000001192092896,
         "objectivePos": {
-            "x": 960.0,
+            "x": 730.0,
             "y": 460.0
         },
         "objectiveRotateEnd": 748.0,

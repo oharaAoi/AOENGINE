@@ -101,6 +101,11 @@ bool BossBehaviorController::TryInterrupt(Boss& boss) {
 		return true;
 	}
 
+	// 撃破に入った後は、フェーズの合図で行動を奪われないようにする
+	if (isDefeated_) {
+		return false;
+	}
+
 	// フェーズが上がったら、次の抽選を待たずにその場で合図を見せる
 	const int32_t phase = boss.GetPhaseIndex();
 	if (phase != previousPhase_) {

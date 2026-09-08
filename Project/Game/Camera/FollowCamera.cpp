@@ -134,8 +134,18 @@ void FollowCamera::UpdateApexWatch(const Math::Vector3& targetPos) {
 
 void FollowCamera::UpdateContinuousFollow(const Math::Vector3& targetPos, float deltaTime) {
 
+	// 直接追従はダメージ床で飛んでいる間だけ。降りたらその場で段階スクロールへ戻す
+	if (!continuousFollowRequested_) {
+		followVelocity_ = CVector3::ZERO;
+		continuousFollowActive_ = false;
+		isScrolling_ = false;
+		cameraTargetY_ = smoothedTarget_.y;
+		return;
+	}
+
 	// プレイヤーが画面の決まった高さに見えるところまでカメラを寄せる
-	cameraTargetY_ = CalcCameraYForScreen(targetPos, parameter_.bigJumpScreenY);
+	const float screenY = CalcCameraYForScreen(targetPos, parameter_.bigJumpScreenY);
+	cameraTargetY_ = (std::max)(screenY, smoothedTarget_.y);
 
 	Math::Vector3 followTarget = smoothedTarget_;
 	followTarget.y = cameraTargetY_;
@@ -145,16 +155,6 @@ void FollowCamera::UpdateContinuousFollow(const Math::Vector3& targetPos, float 
 		smoothedTarget_, followTarget, followVelocity_,
 		parameter_.bigJumpSmoothTime, parameter_.bigJumpMaxSpeed, deltaTime);
 
-	// リクエストが終わっていて、かつ実際に追いつききったら通常モードへ戻す
-	const bool caughtUp = std::abs(cameraTargetY_ - smoothedTarget_.y) < kScrollArriveThreshold;
-	if (!continuousFollowRequested_ && caughtUp) {
-
-		// 追いつききったので段階スクロールへ戻す
-		smoothedTarget_.y = cameraTargetY_;
-		followVelocity_ = CVector3::ZERO;
-		continuousFollowActive_ = false;
-		isScrolling_ = false;
-	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
