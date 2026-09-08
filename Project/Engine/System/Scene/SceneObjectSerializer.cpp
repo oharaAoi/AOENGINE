@@ -8,6 +8,7 @@
 #include "Engine/Module/Components/2d/Text.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/3d/WorldTextComponent.h"
+#include "Engine/Module/Components/Effect/ExplosionEffectComponent.h"
 #include "Engine/Module/Components/Effect/ParticleSceneObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/Collider/LineCollider.h"
@@ -211,6 +212,39 @@ json SerializeComponents(const BaseGameObject& object) {
 		});
 	}
 
+	if (const ExplosionEffectComponent* explosion = object.GetExplosionEffectComponent()) {
+		const ExplosionEffectSettings& settings = explosion->GetSettings();
+		components.push_back({
+			{ "type", "ExplosionEffect" },
+			{ "enabled", settings.enabled },
+			{ "autoPlay", settings.autoPlay },
+			{ "duration", settings.duration },
+			{ "coreStartScale", settings.coreStartScale },
+			{ "coreEndScale", settings.coreEndScale },
+			{ "shockwaveEndScale", settings.shockwaveEndScale },
+			{ "noiseScale", settings.noiseScale },
+			{ "noiseStrength", settings.noiseStrength },
+			{ "turbulence", settings.turbulence },
+			{ "animationSpeed", settings.animationSpeed },
+			{ "density", settings.density },
+			{ "rimIntensity", settings.rimIntensity },
+			{ "emissiveIntensity", settings.emissiveIntensity },
+			{ "shockwaveWidth", settings.shockwaveWidth },
+			{ "innerColor", ColorToJson(settings.innerColor) },
+			{ "outerColor", ColorToJson(settings.outerColor) },
+			{ "particleEffect", settings.particleEffect }
+		});
+	}
+
+    if (const auto* magma = object.GetMagmaEffectComponent()) {
+        const auto& s = magma->GetSettings();
+        components.push_back({
+            {"type", "MagmaEffect"}, {"enabled", s.enabled}, {"size", s.size},
+            {"localPosition", Vector3ToJson(s.localPosition)}, {"patternScale", s.patternScale},
+            {"flowSpeed", s.flowSpeed}, {"temperature", s.temperature}, {"emissiveIntensity", s.emissiveIntensity}
+        });
+    }
+
 	CollisionLayerManager& layers = CollisionLayerManager::GetInstance();
 	for (const BaseCollider* collider : object.GetColliders()) {
 		if (!collider) { continue; }
@@ -291,6 +325,46 @@ void DeserializeComponents(BaseGameObject& object, const json& components) {
 			worldText->SetSettings(settings);
 			continue;
 		}
+
+		if (type == "ExplosionEffect") {
+			object.AddExplosionEffectComponent();
+			ExplosionEffectComponent* explosion = object.GetExplosionEffectComponent();
+			if (!explosion) { continue; }
+			ExplosionEffectSettings settings = explosion->GetSettings();
+			settings.enabled = data.value("enabled", true);
+			settings.autoPlay = data.value("autoPlay", true);
+			settings.duration = data.value("duration", 1.0f);
+			settings.coreStartScale = data.value("coreStartScale", 0.05f);
+			settings.coreEndScale = data.value("coreEndScale", 2.0f);
+			settings.shockwaveEndScale = data.value("shockwaveEndScale", 3.0f);
+			settings.noiseScale = data.value("noiseScale", 5.0f);
+			settings.noiseStrength = data.value("noiseStrength", 0.2f);
+			settings.turbulence = data.value("turbulence", 1.6f);
+			settings.animationSpeed = data.value("animationSpeed", 0.8f);
+			settings.density = data.value("density", 1.15f);
+			settings.rimIntensity = data.value("rimIntensity", 0.65f);
+			settings.emissiveIntensity = data.value("emissiveIntensity", 5.0f);
+			settings.shockwaveWidth = data.value("shockwaveWidth", 0.2f);
+			if (data.contains("innerColor")) { settings.innerColor = JsonToColor(data.at("innerColor")); }
+			if (data.contains("outerColor")) { settings.outerColor = JsonToColor(data.at("outerColor")); }
+			settings.particleEffect = data.value("particleEffect", "");
+			explosion->SetSettings(settings);
+			continue;
+		}
+
+        if (type == "MagmaEffect") {
+            object.AddMagmaEffectComponent();
+            MagmaEffectSettings s;
+            s.enabled = data.value("enabled", s.enabled);
+            s.size = data.value("size", s.size);
+            s.patternScale = data.value("patternScale", s.patternScale);
+            s.flowSpeed = data.value("flowSpeed", s.flowSpeed);
+            s.temperature = data.value("temperature", s.temperature);
+            s.emissiveIntensity = data.value("emissiveIntensity", s.emissiveIntensity);
+            if (data.contains("localPosition")) s.localPosition = JsonToVector3(data.at("localPosition"));
+            object.GetMagmaEffectComponent()->SetSettings(s);
+            continue;
+        }
 
 		ColliderShape shape;
 		if (type == "SphereCollider") { shape = ColliderShape::Sphere; }

@@ -1,0 +1,70 @@
+{
+    "format": "AOENGINE_PREFAB",
+    "objects": [
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [
+                    {
+                        "animationSpeed": 3.6500000953674316,
+                        "autoPlay": true,
+                        "coreEndScale": 9.109999656677246,
+                        "coreStartScale": 0.05000000074505806,
+                        "density": 1.149999976158142,
+                        "duration": 1.0,
+                        "emissiveIntensity": 5.0,
+                        "enabled": true,
+                        "innerColor": [
+                            0.09266406297683716,
+                            0.018604369834065437,
+                            0.018604369834065437,
+                            1.0
+                        ],
+                        "noiseScale": 4.199999809265137,
+                        "noiseStrength": 0.20000000298023224,
+                        "outerColor": [
+                            1.0,
+                            0.07999999821186066,
+                            0.0,
+                            1.0
+                        ],
+                        "particleEffect": "",
+                        "rimIntensity": 0.05999999865889549,
+                        "shockwaveEndScale": 10.609999656677246,
+                        "shockwaveWidth": 0.3409999907016754,
+                        "turbulence": 0.8999999761581421,
+                        "type": "ExplosionEffect"
+                    }
+                ],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    3.8797924518585205,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "Exploasion",
+            "parentId": null,
+            "type": "BaseGameObject"
+        }
+    ],
+    "prefabName": "Exploasion",
+    "rootId": 1,
+    "version": 1
+}
