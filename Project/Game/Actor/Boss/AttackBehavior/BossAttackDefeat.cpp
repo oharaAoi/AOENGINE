@@ -11,6 +11,9 @@ void BossAttackDefeat::Enter(Boss& boss) {
 
 	elapsedTime_ = 0.0f;
 	isHidden_ = false;
+
+	bossDefateAnimation_ = std::make_unique<BossDefeateAnimation>();
+	bossDefateAnimation_->Init();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +29,7 @@ void BossAttackDefeat::Update(Boss& boss, float deltaTime) {
 	// 倒れたところを見せてから姿を消す
 	elapsedTime_ += deltaTime;
 	if (elapsedTime_ < boss.GetParameter().defeatHideTime) {
+		bossDefateAnimation_->Update(boss);
 		return;
 	}
 

@@ -147,174 +147,6 @@
         {
             "active": true,
             "data": {
-                "animator": false,
-                "components": [
-                    {
-                        "emissiveIntensity": 1.0,
-                        "enabled": true,
-                        "flowSpeed": 10.0,
-                        "localPosition": [
-                            0.0,
-                            0.009999999776482582,
-                            0.0
-                        ],
-                        "patternScale": 512.0,
-                        "size": 69.0,
-                        "temperature": 30.0,
-                        "type": "MagmaEffect"
-                    }
-                ],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [],
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 3377,
-            "name": "new object(1)",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "animator": false,
-                "components": [
-                    {
-                        "animationSpeed": 0.800000011920929,
-                        "autoPlay": true,
-                        "coreEndScale": 2.0,
-                        "coreStartScale": 0.05000000074505806,
-                        "density": 1.149999976158142,
-                        "duration": 1.0,
-                        "emissiveIntensity": 5.0,
-                        "enabled": true,
-                        "innerColor": [
-                            1.0,
-                            0.8999999761581421,
-                            0.3499999940395355,
-                            1.0
-                        ],
-                        "noiseScale": 5.0,
-                        "noiseStrength": 0.20000000298023224,
-                        "outerColor": [
-                            1.0,
-                            0.07999999821186066,
-                            0.0,
-                            1.0
-                        ],
-                        "particleEffect": "",
-                        "rimIntensity": 0.6499999761581421,
-                        "shockwaveEndScale": 3.0,
-                        "shockwaveWidth": 0.20000000298023224,
-                        "turbulence": 1.600000023841858,
-                        "type": "ExplosionEffect"
-                    }
-                ],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [],
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 3363,
-            "name": "new object",
-            "parentId": null,
-            "type": "BaseGameObject"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": false,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Beam",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    -4.412920951843262,
-                    0.0,
-                    -1.7368392944335938
-                ]
-            },
-            "id": 872,
-            "name": "Beam",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Fireball",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 755,
-            "name": "Fireball",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -380,6 +212,96 @@
             "name": "new text",
             "parentId": null,
             "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Fireball",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 755,
+            "name": "Fireball",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": false,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Beam",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -4.412920951843262,
+                    0.0,
+                    -1.7368392944335938
+                ]
+            },
+            "id": 872,
+            "name": "Beam",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Exploasion",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -0.9470469951629639,
+                    0.0,
+                    5.5330810546875
+                ]
+            },
+            "id": 3678,
+            "name": "Exploasion",
+            "parentId": null,
+            "type": "PrefabInstance"
         }
     ],
     "sceneName": "Test",

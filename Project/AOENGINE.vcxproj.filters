@@ -1506,6 +1506,11 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2571,5 +2576,10 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.cpp" />
   </ItemGroup>
 </Project>

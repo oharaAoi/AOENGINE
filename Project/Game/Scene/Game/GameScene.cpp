@@ -62,7 +62,7 @@ void GameScene::Init()
 	followCamera_ = std::make_unique<FollowCamera>();
 
 	boss_ = std::make_unique<Boss>();
-
+	
 	// 背景
 	backgrounds_ = std::make_unique<StageBackgrounds>();
 	// ダメージ床
