@@ -8,6 +8,7 @@
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
+#include "Engine/Module/Components/3d/WorldTextComponent.h"
 
 #include <cmath>
 
@@ -27,6 +28,7 @@ BaseGameObject::~BaseGameObject() {
 }
 
 void BaseGameObject::Finalize() {
+	worldTextComponent_ = nullptr;
 	if (transform_ != nullptr) {
 		transform_->Finalize();
 		transform_ = nullptr;
@@ -313,6 +315,22 @@ bool BaseGameObject::RemoveRigidbody() {
 
 	Rigidbody* removing = rigidbody_;
 	rigidbody_ = nullptr;
+	components_.remove_if([removing](const std::unique_ptr<IComponent>& component) {
+		return component.get() == removing;
+	});
+	return true;
+}
+
+void BaseGameObject::AddWorldTextComponent() {
+	if (worldTextComponent_) { return; }
+	worldTextComponent_ = AddComponent<WorldTextComponent>();
+	worldTextComponent_->Init(*this);
+}
+
+bool BaseGameObject::RemoveWorldTextComponent() {
+	if (!worldTextComponent_) { return false; }
+	WorldTextComponent* removing = worldTextComponent_;
+	worldTextComponent_ = nullptr;
 	components_.remove_if([removing](const std::unique_ptr<IComponent>& component) {
 		return component.get() == removing;
 	});

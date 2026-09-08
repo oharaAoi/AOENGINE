@@ -13,4 +13,9 @@ void CollisionCallBacks::Init(AOENGINE::CollisionManager* collisionManager, Play
 	playerToBossAttack_->SetPlayer(player);
 	playerToBossAttack_->SetBoss(boss);
 	playerToBossAttack_->Init();
+
+	// 足止めにブロックの塊が当たった時のSE
+	stopperToBlockGroup_ = std::make_unique<StopperToBlockGroupCallBacks>(collisionManager);
+	stopperToBlockGroup_->SetLauncherManager(player->GetBlockGroupLauncherManagerRef());
+	stopperToBlockGroup_->Init();
 }

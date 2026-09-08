@@ -43,6 +43,8 @@ struct BossParameter :
 	// フェーズが上がった時の演出
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
 	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか(基準スケールへの倍率)
+	// アニメーションを再生してから、エフェクトを出すまでの秒数
+	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
 
 	// --- 攻撃1: 火球落とし ---
@@ -67,6 +69,7 @@ struct BossParameter :
 	float beamStartX;				// ビームを出す画面外のX
 	float beamBlinkInterval;			// 予測線の点滅間隔
 	float beamChargePosX;				// ビームをチャージする際のX座標
+	float beamEffectPosX;				// ビームの発射エフェクトのX座標
 	Math::Vector3 beamSize;		// ビームの大きさ
 	Math::Vector3 beamWarningLineSize;	// 予測線の大きさ
 	Math::Vector3 beamWarningMarkSize;	// 危険マークの大きさ
@@ -132,6 +135,7 @@ struct BossParameter :
 		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Phase Change Time", phaseChangeTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Phase Change Scale Rate", phaseChangeScaleRate, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Effect Delay", phaseChangeEffectDelay, 0.01f, 0.0f, 30.0f);
 
 		AddSeparatorText("Attack1: FallFire");
 		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
@@ -152,6 +156,7 @@ struct BossParameter :
 		AddParameter("Beam Speed", beamSpeed, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Beam Start X", beamStartX, 0.1f, -1000.0f, 1000.0f);
 		AddParameter("beam Charge PosX", beamChargePosX, 0.1f, -1000.0f, 1000.0f);
+		AddParameter("beam Effect PosX", beamEffectPosX, 0.1f, -1000.0f, 1000.0f);
 		AddParameter("Beam Blink Interval", beamBlinkInterval, 0.01f, 0.0f, 5.0f);
 		AddParameter("Beam Size", beamSize, 0.1f);
 		AddParameter("Warning Line Size", beamWarningLineSize, 0.1f);
@@ -220,6 +225,7 @@ struct BossParameter :
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("phaseChangeTime", phaseChangeTime)
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
+			.Add("phaseChangeEffectDelay", phaseChangeEffectDelay)
 			.Add("damageEffectTime", damageEffectTime)
 			.Add("damageColor", damageColor)
 			.Add("fireballDamage", fireballDamage)
@@ -239,6 +245,7 @@ struct BossParameter :
 			.Add("beamSpeed", beamSpeed)
 			.Add("beamStartX", beamStartX)
 			.Add("beamChargePosX", beamChargePosX)
+			.Add("beamEffectPosX", beamEffectPosX)
 			.Add("beamBlinkInterval", beamBlinkInterval)
 			.Add("beamSize", beamSize)
 			.Add("beamWarningLineSize", beamWarningLineSize)
@@ -280,6 +287,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
 		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
+		Convert::fromJson(jsonData, "phaseChangeEffectDelay", phaseChangeEffectDelay);
 		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
 		Convert::fromJson(jsonData, "damageColor", damageColor);
 
@@ -301,6 +309,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "beamSpeed", beamSpeed);
 		Convert::fromJson(jsonData, "beamStartX", beamStartX);
 		Convert::fromJson(jsonData, "beamChargePosX", beamChargePosX);
+		Convert::fromJson(jsonData, "beamEffectPosX", beamEffectPosX);
 		Convert::fromJson(jsonData, "beamBlinkInterval", beamBlinkInterval);
 		Convert::fromJson(jsonData, "beamSize", beamSize);
 		Convert::fromJson(jsonData, "beamWarningLineSize", beamWarningLineSize);

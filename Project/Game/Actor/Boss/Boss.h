@@ -47,6 +47,9 @@ public:
 	/// <summary>攻撃に入った合図のエフェクトを、決めた数だけ出し始める</summary>
 	void PlayAttackEffect();
 
+	/// <summary>フェーズが上がった合図のエフェクトを出す</summary>
+	void PlayPhaseChangeEffect();
+
 	/// <summary>攻撃を出した合図に、大きさを一度だけ膨らませる</summary>
 	void StartAttackPulse();
 
@@ -100,6 +103,8 @@ private:
 
 	// 攻撃に入った時に出すエフェクト
 	AOENGINE::BaseParticles* attackEffect_ = nullptr;
+	// フェーズが上がった時に出すエフェクト
+	AOENGINE::BaseParticles* phaseChangeEffect_ = nullptr;
 	// まだ出していない発数と、次の1発までの経過時間
 	int32_t attackEffectRemaining_ = 0;
 	float attackEffectTimer_ = 0.0f;
@@ -138,6 +143,8 @@ private:
 
 	// 攻撃に入った時に出すエフェクトの名前
 	const std::string kAttackEffectName = "BossAttackEffect";
+	// フェーズが上がった時に出すエフェクトの名前
+	const std::string kPhaseChangeEffectName = "BossPhaseChangeEffect";
 
 	// 落とす足場を選ぶためのブロックの表
 	StageBlockField* pBlockField_ = nullptr;

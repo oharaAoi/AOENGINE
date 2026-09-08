@@ -3,6 +3,7 @@
 #include "Engine/System/Editor/Inspector/Component/MaterialInspector.h"
 #include "Engine/System/Editor/Inspector/Component/ColliderInspector.h"
 #include "Engine/System/Editor/Inspector/Component/RigidBodyInspector.h"
+#include "Engine/System/Editor/Inspector/Component/WorldTextInspector.h"
 #include "Engine/System/Manager/ImGuiManager.h"
 
 namespace {
@@ -55,6 +56,7 @@ void AOENGINE::BaseGameObjectInspector::Draw(BaseGameObject& object) {
 	MaterialInspector::Draw(object);
 	ColliderInspector::Draw(object);
 	RigidBodyInspector::Draw(object);
+	WorldTextInspector::Draw(object);
 
 	if (object.GetAnimator()) {
 		const bool isOpen = ImGui::CollapsingHeader("Animator");
@@ -99,6 +101,13 @@ void AOENGINE::BaseGameObjectInspector::DrawAddComponent(BaseGameObject& object)
 		const bool canAddAnimator = object.GetModel() != nullptr && object.GetAnimator() == nullptr;
 		if (ImGui::MenuItem("Animator", nullptr, false, canAddAnimator)) {
 			object.SetAnimator();
+		}
+
+		if (ImGui::BeginMenu("Rendering")) {
+			if (ImGui::MenuItem("World Text", nullptr, false, object.GetWorldTextComponent() == nullptr)) {
+				object.AddWorldTextComponent();
+			}
+			ImGui::EndMenu();
 		}
 
 		ImGui::EndPopup();

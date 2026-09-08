@@ -495,6 +495,9 @@
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
@@ -504,8 +507,8 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h">
-      <Filter>Engine\Module\Components\2d</Filter>
+    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h">
+      <Filter>Engine\Module\Components</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
       <Filter>Engine\Module\Components\2d</Filter>
@@ -883,6 +886,9 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.h">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h">
@@ -1341,6 +1347,9 @@
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="Game\EventHandlers\StopperToBlockGroupCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
     </ClInclude>
@@ -1431,6 +1440,9 @@
     <ClInclude Include="Game\UI\BossUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\ControlUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
@@ -1461,7 +1473,6 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\UI\ControlUI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -1611,6 +1622,9 @@
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp">
+      <Filter>Engine\Module\Components\2d</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
@@ -1620,8 +1634,8 @@
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp">
-      <Filter>Engine\Module\Components\2d</Filter>
+    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp">
+      <Filter>Engine\Module\Components</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
@@ -1987,6 +2001,9 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp">
@@ -2406,6 +2423,9 @@
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="Game\EventHandlers\StopperToBlockGroupCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
     </ClCompile>
@@ -2463,6 +2483,9 @@
     <ClCompile Include="Game\UI\BossUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\ControlUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
@@ -2491,6 +2514,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\UI\ControlUI.cpp" />
   </ItemGroup>
 </Project>

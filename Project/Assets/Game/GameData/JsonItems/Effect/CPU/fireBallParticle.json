@@ -32,8 +32,10 @@
         "isLifeOfAlpha": true,
         "isLifeOfScale": false,
         "isLoop": true,
+        "isPlayOneShot": false,
         "isRandomColor": false,
         "isRandomRotate": true,
+        "isRandomSpeed": false,
         "isScaleUp": false,
         "isStretch": false,
         "isTextureSheetAnimation": false,
@@ -56,12 +58,14 @@
             "y": 1.0,
             "z": 1.0
         },
+        "maxSpeed": 2.0,
         "minAngle": 0.0,
         "minScale": {
             "x": 2.0,
             "y": 1.0,
             "z": 1.0
         },
+        "minSpeed": 1.0,
         "overflowMode": 1,
         "postColor": {
             "a": 1.0,
@@ -75,7 +79,7 @@
             "g": 0.6053874492645264,
             "r": 1.0
         },
-        "radius": 0.4000000059604645,
+        "radius": 1.0,
         "radiusThickness": 1.0,
         "randColor1": {
             "a": 1.0,

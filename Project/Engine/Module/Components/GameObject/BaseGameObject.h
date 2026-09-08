@@ -23,6 +23,8 @@
 
 namespace AOENGINE {
 
+class WorldTextComponent;
+
 /// <summary>
 /// MeshやMaterialを持ったGameObject
 /// </summary>
@@ -165,6 +167,11 @@ public: // accessor method
 	AOENGINE::Rigidbody* GetRigidbody() { return rigidbody_; }
 	const AOENGINE::Rigidbody* GetRigidbody() const { return rigidbody_; }
 
+	void AddWorldTextComponent();
+	bool RemoveWorldTextComponent();
+	WorldTextComponent* GetWorldTextComponent() { return worldTextComponent_; }
+	const WorldTextComponent* GetWorldTextComponent() const { return worldTextComponent_; }
+
 protected:
 	void RebuildMaterialSlots();
 
@@ -184,6 +191,7 @@ protected:
 	std::vector<AOENGINE::BaseCollider*> colliders_;
 	AOENGINE::WorldTransform* transform_ = nullptr;
 	AOENGINE::Rigidbody* rigidbody_ = nullptr;
+	AOENGINE::WorldTextComponent* worldTextComponent_ = nullptr;
 
 	Math::Vector3 worldPos_ = { 1.0f, 1.0f, 1.0f };
 	float pendingVerticalMove_ = 0.0f;

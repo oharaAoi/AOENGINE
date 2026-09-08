@@ -110,13 +110,39 @@ void AOENGINE::CpuParticleUpdater::Update() {
 
 			Math::Matrix4x4 scaleMatrix = pr.scale.MakeScaleMat();
 			Math::Matrix4x4 rotateMatrix;
+			pr.rotateZ += pr.rotateSpeed * deltaTime;
 			if (pr.isBillBord) {
-				Math::Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
+				Math::Matrix4x4 billMatrix =
+					AOENGINE::Render::GetCameraRotate().MakeMatrix();
+
+				Math::Matrix4x4 zRot =
+					Math::Quaternion::AngleAxis(
+						pr.rotateZ,
+						CVector3::FORWARD
+					).MakeMatrix();
+
+				Math::Matrix4x4 fixRot =
+					Math::Quaternion::AngleAxis(
+						kPI,
+						CVector3::UP
+					).MakeMatrix();
+
+				rotateMatrix =
+					Multiply(
+						zRot,
+						Multiply(fixRot, billMatrix)
+					);
+
+				/*Math::Matrix4x4 billMatrix = AOENGINE::Render::GetCameraRotate().MakeMatrix();
 				Math::Matrix4x4 zRot = pr.rotate.MakeMatrix();
-				rotateMatrix = Multiply(zRot, Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));
+				rotateMatrix = Multiply(zRot, Multiply(Math::Quaternion::AngleAxis(kPI, CVector3::UP).MakeMatrix(), billMatrix));*/
 			} else {
-				Math::Matrix4x4 billMatrix = Math::Matrix4x4::MakeUnit();
-				rotateMatrix = pr.rotate.MakeMatrix();
+				Math::Matrix4x4 zRot =
+					Math::Quaternion::AngleAxis(
+						pr.rotateZ,
+						CVector3::FORWARD
+					).MakeMatrix();
+				rotateMatrix = zRot * pr.rotate.MakeMatrix();
 			}
 			if (pr.isDraw2d) {
 				pr.translate.z = 0.0f;
@@ -137,6 +163,11 @@ void AOENGINE::CpuParticleUpdater::Update() {
 
 				Math::Matrix4x4 scaleMat = Math::Vector3(tileSize.x, tileSize.y, 0.0f).MakeScaleMat();
 				Math::Matrix4x4 transMat = uvTranslate.MakeTranslateMat();
+				pr.uvMat = Multiply(scaleMat, transMat);
+			} else if (pr.isUvScroll) {
+				pr.uvScrollTranslate += pr.uvScrollSpeed * deltaTime;
+				Math::Matrix4x4 scaleMat = Math::Vector3(pr.uvScale.x, pr.uvScale.y, 0.0f).MakeScaleMat();
+				Math::Matrix4x4 transMat = Math::Vector3(pr.uvScrollTranslate.x, pr.uvScrollTranslate.y, 0.0f).MakeTranslateMat();
 				pr.uvMat = Multiply(scaleMat, transMat);
 			} else {
 				pr.uvMat = Math::Matrix4x4::MakeUnit();

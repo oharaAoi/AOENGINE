@@ -241,6 +241,7 @@ void GameObjectWindow::InspectorWindow() {
 	ImGui::Begin("Inspector");
 	SceneObject* selectedObject = GetSelectObject();
 	if (selectedObject != nullptr) {
+		Text* textItem = dynamic_cast<Text*>(selectedObject);
 		Sprite* canvasItem = dynamic_cast<Sprite*>(selectedObject);
 		ParticleManager* particleManager = dynamic_cast<ParticleManager*>(selectedObject);
 		GpuParticleManager* gpuParticleManager = dynamic_cast<GpuParticleManager*>(selectedObject);
@@ -273,7 +274,9 @@ void GameObjectWindow::InspectorWindow() {
 
 		DrawPrefabOverride(*selectedObject);
 		ImGui::Separator();
-		if (canvasItem) {
+		if (textItem) {
+			TextInspector::Draw(*textItem);
+		} else if (canvasItem) {
 			SpriteInspector::Draw(*canvasItem);
 		} else if (particleManager) {
 			particleManager->Debug_Gui();

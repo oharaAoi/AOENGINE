@@ -14,12 +14,12 @@ void BossPhaseChange::Enter(Boss& boss) {
 
 	elapsedTime_ = 0.0f;
 	isFinished_ = false;
+	hasPlayedEffect_ = false;
 
 	// 切り替えの最中に殴られて素通りされないようにする
 	boss.SetInvincible(true);
 
-	// 合図としてカメラを揺らす
-	boss.ShakeCamera(boss.GetParameter().phaseChangeShake);
+	// 揺れもエフェクトも、アニメーションを見せてから一緒に出す
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +27,13 @@ void BossPhaseChange::Enter(Boss& boss) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void BossPhaseChange::Update(Boss& boss, float deltaTime) {
+
+	// アニメーションを見せてから、揺れとエフェクトを同時に出す
+	if (!hasPlayedEffect_ && !WaitStartDelay(deltaTime, boss.GetParameter().phaseChangeEffectDelay)) {
+		boss.ShakeCamera(boss.GetParameter().phaseChangeShake);
+		boss.PlayPhaseChangeEffect();
+		hasPlayedEffect_ = true;
+	}
 
 	const float duration = boss.GetParameter().phaseChangeTime;
 
