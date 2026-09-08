@@ -168,7 +168,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h" />
     <ClInclude Include="Engine\Core\AoiFramework.h" />
     <ClInclude Include="Engine\Core\Engine.h" />
     <ClInclude Include="Engine\Core\GraphicsContext.h" />
@@ -481,6 +480,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.h" />
     <ClInclude Include="Game\Actor\Boss\Boss.h" />
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h" />
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h" />
     <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h" />
     <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h" />
     <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h" />
@@ -564,7 +564,6 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\WorldObject\Wall.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp" />
     <ClCompile Include="Engine\Core\AoiFramework.cpp" />
     <ClCompile Include="Engine\Core\Engine.cpp" />
     <ClCompile Include="Engine\Core\GraphicsContext.cpp" />
@@ -861,6 +860,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Actor\Boss\AttackBehavior\BossPhaseChange.cpp" />
     <ClCompile Include="Game\Actor\Boss\Boss.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp" />
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp" />
     <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp" />

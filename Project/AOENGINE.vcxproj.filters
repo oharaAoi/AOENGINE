@@ -283,6 +283,9 @@
     <Filter Include="Game\Actor\Boss\AttackBehavior">
       <UniqueIdentifier>{C4070D08-B02D-D76E-9973-5C3A8538FC3A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Actor\Boss\BossDefeateAnimation">
+      <UniqueIdentifier>{A14F7D24-8D36-3F1C-3687-A539224DB882}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\Actor\Boss\Component">
       <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
     </Filter>
@@ -1281,6 +1284,21 @@
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\BossParameter.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
@@ -1512,11 +1530,6 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h" />
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h" />
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h" />
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h" />
-    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2407,6 +2420,21 @@
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp">
       <Filter>Game\Actor\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
@@ -2585,10 +2613,5 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp" />
-    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.cpp" />
   </ItemGroup>
 </Project>
