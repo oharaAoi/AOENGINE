@@ -94,6 +94,9 @@ public: // accessor method
 	}
 
 	void SetObject(const std::string& _objName, MaterialType _type = MaterialType::Normal);
+	/// <summary>Modelと、それに依存するAnimator・Material Instanceを解除する。</summary>
+	bool RemoveModel();
+	bool HasModel() const { return model_ != nullptr; }
 
 	void SetParent(BaseGameObject* parent);
 
