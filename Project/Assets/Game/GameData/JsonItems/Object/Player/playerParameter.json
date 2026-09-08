@@ -39,7 +39,7 @@
         "gatherSpeed": 12.0,
         "groundCheckDistance": 0.15000000596046448,
         "groundKeepSpeed": 1.0,
-        "hangTime": 0.3499999940395355,
+        "hangTime": 2.0,
         "hitOffset": {
             "x": -0.009999999776482582,
             "y": 1.190000057220459,

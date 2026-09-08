@@ -18,6 +18,7 @@
             "x": 960.0,
             "y": 460.0
         },
+        "fastForwardScale": 4.0,
         "fontSize": 414.0,
         "goEndWaitTime": 0.3100000023841858,
         "goFadeEaseKind": 1,
