@@ -1,0 +1,130 @@
+{
+    "BossPhaseChangeEffect": {
+        "angle": 85.0,
+        "angleMax": 360.0,
+        "angleMin": 0.0,
+        "arc": 360.0,
+        "blendModeType": 2,
+        "color": {
+            "a": 0.800000011920929,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "coneEmitFrom": 0,
+        "damping": 0.0,
+        "discardValue": 0.009999999776482582,
+        "duration": 1.0,
+        "emitDirection": 1,
+        "emitOrigin": 0,
+        "emitSpacing": 0.8600000143051147,
+        "endDiscard": 1.0,
+        "fadeInTime": 0.05000000074505806,
+        "fadeOutTime": 0.25,
+        "gravity": 0.0,
+        "height": 0.0,
+        "isBillBord": true,
+        "isColorAnimation": true,
+        "isDirectionRotate": false,
+        "isDraw2d": false,
+        "isFadeInOut": true,
+        "isLerpDiscardValue": false,
+        "isLifeOfAlpha": true,
+        "isLifeOfScale": false,
+        "isLoop": true,
+        "isPlayOneShot": false,
+        "isRandomColor": false,
+        "isRandomRotate": true,
+        "isRandomSpeed": false,
+        "isScaleUp": true,
+        "isStretch": false,
+        "isTextureSheetAnimation": false,
+        "lifeOfMaxScale": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "lifeOfMinScale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "lifeTime": 0.6700000166893005,
+        "maxAngle": 1904.0,
+        "maxEmitPerFrame": 96,
+        "maxParticles": 85,
+        "maxScale": {
+            "x": 351.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "maxSpeed": 2.0,
+        "minAngle": 0.0,
+        "minScale": {
+            "x": -4.0,
+            "y": 1.0,
+            "z": 1.0
+        },
+        "minSpeed": 1.0,
+        "overflowMode": 1,
+        "postColor": {
+            "a": 1.0,
+            "b": 0.04747993126511574,
+            "g": 0.17236320674419403,
+            "r": 0.9459459185600281
+        },
+        "preColor": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.9450980424880981,
+            "r": 0.9450980424880981
+        },
+        "radius": 0.0,
+        "radiusThickness": 1.0,
+        "randColor1": {
+            "a": 1.0,
+            "b": 0.0,
+            "g": 0.0,
+            "r": 1.0
+        },
+        "randColor2": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 0.0,
+            "r": 0.0
+        },
+        "randomDirectionAmount": 0.0,
+        "rateOverTimeCout": 32,
+        "rotate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "scaleUpScale": {
+            "x": 21.450000762939453,
+            "y": 24.68000030517578,
+            "z": 21.600000381469727
+        },
+        "separateByAxisScale": false,
+        "shape": 0,
+        "size": {
+            "x": 0.10000000149011612,
+            "y": 0.10000000149011612,
+            "z": 0.10000000149011612
+        },
+        "speed": 0.0,
+        "startDiscard": 0.009999999776482582,
+        "teleportThreshold": 50.0,
+        "tiles": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "translate": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
+        "useMesh": "ring",
+        "useTexture": "gradationLine"
+    }
+}
