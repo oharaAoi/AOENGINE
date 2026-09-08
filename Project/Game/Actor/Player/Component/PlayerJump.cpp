@@ -50,8 +50,14 @@ PlayerJump::PlayerJump() {
 			return;
 		}
 
+		// ダメージ床で飛ばされた時は、自分のジャンプとは別の滞空時間で落とす
+		float hangLimit = params_.hangTime;
+		if (!isPlayerJump_) {
+			hangLimit = params_.knockbackHangTime;
+		}
+
 		hangTimer_ += deltaTime;
-		if (hangTimer_ >= params_.hangTime) {
+		if (hangTimer_ >= hangLimit) {
 			ChangeState(State::Falling);
 		}
 	};

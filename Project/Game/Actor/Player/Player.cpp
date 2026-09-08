@@ -120,6 +120,7 @@ void Player::Update(){
 		parameter_.jumpPower,
 		parameter_.releaseRiseRate,
 		parameter_.hangTime,
+		parameter_.damageJumpHangTime,
 		parameter_.riseGravity,
 		parameter_.fallGravity,
 		parameter_.maxFallSpeed,
