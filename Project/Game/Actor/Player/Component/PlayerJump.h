@@ -20,6 +20,8 @@ public:
 	// 調整値
 	struct Params {
 		float jumpPower;
+		// 上昇中に入力を離した時、残す上昇速度の割合。小さいほど小ジャンプになる
+		float releaseRiseRate;
 		float hangTime;
 		float riseGravity;
 		float fallGravity;

@@ -23,6 +23,15 @@ PlayerJump::PlayerJump() {
 	// --- 上昇中 ---
 	stateUpdaters_[ToIndex(State::Rising)] = [this](float deltaTime, bool) {
 		velocityY_ -= params_.riseGravity * deltaTime;
+
+		// 入力を離したら、そこから先の上昇速度に上限をかける
+		if (isPlayerJump_ && !isJumpHeld_) {
+			const float releaseSpeed = params_.jumpPower * params_.releaseRiseRate;
+			if (velocityY_ > releaseSpeed) {
+				velocityY_ = releaseSpeed;
+			}
+		}
+
 		if (velocityY_ <= 0.0f) {
 			// 頂点に到達 → 滞空へ
 			velocityY_ = 0.0f;
