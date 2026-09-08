@@ -67,6 +67,19 @@ void Boss::Init(BaseGameObject* body) {
 		attackEffect_->SetIsStop(true);
 	}
 
+	// フェーズが上がった時のエフェクト。作り方は攻撃側と同じ
+	if (phaseChangeEffect_ == nullptr) {
+		phaseChangeEffect_ = ParticleManager::GetInstance()->CreateParticle(kPhaseChangeEffectName);
+		if (phaseChangeEffect_ == nullptr) {
+			Logger::CommentLog(kPhaseChangeEffectName + "が作れなかったため、フェーズ切り替えのエフェクトは出しません");
+		}
+	}
+
+	if (phaseChangeEffect_ != nullptr) {
+		phaseChangeEffect_->SetLoop(false);
+		phaseChangeEffect_->SetIsStop(true);
+	}
+
 	animation_.Init();
 	// 元の色を覚えさせる。被弾の演出が終わったらここへ戻る
 	damageEffect_.Init(GetGameObject());
@@ -160,6 +173,17 @@ void Boss::PlayAttackEffect() {
 	attackEffectTimer_ = 0.0f;
 
 	EmitAttackEffect();
+}
+
+void Boss::PlayPhaseChangeEffect() {
+
+	if (phaseChangeEffect_ == nullptr) {
+		return;
+	}
+
+	// 出す場所を決めてから動かす。Reset()が止まっている状態を解除する
+	phaseChangeEffect_->SetPos(position_ + parameter_.attackEffectOffset);
+	phaseChangeEffect_->Reset();
 }
 
 void Boss::UpdateAttackEffect(float deltaTime) {

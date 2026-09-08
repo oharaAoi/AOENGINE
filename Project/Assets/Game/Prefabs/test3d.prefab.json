@@ -1,0 +1,67 @@
+{
+    "format": "AOENGINE_PREFAB",
+    "objects": [
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [
+                    {
+                        "billboardMode": "FaceCamera",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "depthTest": true,
+                        "enabled": true,
+                        "fontPath": "",
+                        "fontSize": 64.0,
+                        "height": 0.5,
+                        "localPosition": [
+                            0.0,
+                            1.0,
+                            0.0
+                        ],
+                        "localRotation": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "text": "test 3d",
+                        "type": "WorldText"
+                    }
+                ],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "test3d",
+            "parentId": null,
+            "type": "BaseGameObject"
+        }
+    ],
+    "prefabName": "test3d",
+    "rootId": 1,
+    "version": 1
+}

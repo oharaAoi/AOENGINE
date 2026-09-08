@@ -43,6 +43,8 @@ struct BossParameter :
 	// フェーズが上がった時の演出
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
 	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか(基準スケールへの倍率)
+	// アニメーションを再生してから、エフェクトを出すまでの秒数
+	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
 
 	// --- 攻撃1: 火球落とし ---
@@ -133,6 +135,7 @@ struct BossParameter :
 		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Phase Change Time", phaseChangeTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Phase Change Scale Rate", phaseChangeScaleRate, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Effect Delay", phaseChangeEffectDelay, 0.01f, 0.0f, 30.0f);
 
 		AddSeparatorText("Attack1: FallFire");
 		AddParameter("Fireball Damage", fireballDamage, 0.1f, 0.0f, 1000.0f);
@@ -222,6 +225,7 @@ struct BossParameter :
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("phaseChangeTime", phaseChangeTime)
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
+			.Add("phaseChangeEffectDelay", phaseChangeEffectDelay)
 			.Add("damageEffectTime", damageEffectTime)
 			.Add("damageColor", damageColor)
 			.Add("fireballDamage", fireballDamage)
@@ -283,6 +287,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
 		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
+		Convert::fromJson(jsonData, "phaseChangeEffectDelay", phaseChangeEffectDelay);
 		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
 		Convert::fromJson(jsonData, "damageColor", damageColor);
 

@@ -85,9 +85,6 @@ void GameScene::Init()
 	playerUI_ = std::make_unique<PlayerUI>();
 	bossUI_ = std::make_unique<BossUI>();
 	controlUI_ = std::make_unique<ControlUI>();
-
-	bgmHandle_ = Engine::GetSoundManager()->Play(kBgmTag);
-
 }
 
 void GameScene::OnPlayStart()
@@ -135,6 +132,7 @@ void GameScene::OnPlayStart()
 	}
 
 	//auto sound = Engine::GetSoundManager()->Play("Sound");
+	bgmHandle_ = Engine::GetSoundManager()->Play(kBgmTag);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

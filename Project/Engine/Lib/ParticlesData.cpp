@@ -69,6 +69,7 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::DragFloat("寿命（秒）", &lifeTime, 0.01f, 0.01f);
 		ImGui::DragFloat("重力", &gravity, 0.01f);
 		ImGui::DragFloat("減衰率", &dampig, 0.01f);
+		ImGui::DragFloat("z軸回転速度", &rotateSpeed, 0.01f);
 		ImGui::Text("初期角度");
 		ImGui::DragFloat("最小角度", &angleMin, 0.01f);
 		ImGui::DragFloat("最大角度", &angleMax, 0.01f);
@@ -110,8 +111,8 @@ void ParticleEmit::Attribute_Gui() {
 		ImGui::Checkbox("##isRandomRotate", &isRandomRotate);
 		ImGui::SameLine();
 		if (ImGui::CollapsingHeader("ランダム回転")) {
-			ImGui::DragFloat("回転の最小角度", &minAngle);
-			ImGui::DragFloat("回転の最大角度", &maxAngle);
+			ImGui::DragFloat3("回転の最小角度", &minAngles.x);
+			ImGui::DragFloat3("回転の最大角度", &maxAngles.x);
 		}
 
 		ImGui::Checkbox("##isRandomSpeed", &isRandomSpeed);

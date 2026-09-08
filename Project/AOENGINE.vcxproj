@@ -219,10 +219,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\Lib\Path.h" />
     <ClInclude Include="Engine\Lib\Profiler.h" />
     <ClInclude Include="Engine\Module\Components\2d\Canvas2d.h" />
+    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h" />
     <ClInclude Include="Engine\Module\Components\2d\PrimitiveDrawer.h" />
     <ClInclude Include="Engine\Module\Components\2d\ScreenTransform.h" />
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h" />
-    <ClInclude Include="Engine\Module\Components\2d\InputTextureButtonComponent.h" />
+    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h" />
     <ClInclude Include="Engine\Module\Components\2d\Text.h" />
     <ClInclude Include="Engine\Module\Components\2d\UIObject.h" />
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h" />
@@ -349,6 +350,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Engine\System\Editor\Inspector\Component\MaterialInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ModelInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.h" />
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\CameraInspector.h" />
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.h" />
@@ -501,6 +503,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerToBossAttackCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
+    <ClInclude Include="Game\EventHandlers\StopperToBlockGroupCallBacks.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -593,10 +596,11 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\Lib\ParticlesData.cpp" />
     <ClCompile Include="Engine\Lib\Profiler.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Canvas2d.cpp" />
+    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\PrimitiveDrawer.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\ScreenTransform.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp" />
-    <ClCompile Include="Engine\Module\Components\2d\InputTextureButtonComponent.cpp" />
+    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp" />
     <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp" />
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp" />
@@ -719,6 +723,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Engine\System\Editor\Inspector\Component\MaterialInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ModelInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.cpp" />
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\CameraInspector.cpp" />
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\GeometryObjectInspector.cpp" />
@@ -858,6 +863,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerToBossAttackCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
+    <ClCompile Include="Game\EventHandlers\StopperToBlockGroupCallBacks.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />

@@ -26,6 +26,7 @@ private:
 	float elapsedTime_ = 0.0f;
 
 	bool isFinished_ = false;	// 終わったか
+	bool hasPlayedEffect_ = false;	// エフェクトを出したか
 
 public:// acceccer
 
