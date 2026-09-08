@@ -4,7 +4,7 @@
         "angleMax": 359.9200134277344,
         "angleMin": 0.0,
         "arc": 360.0,
-        "blendModeType": 2,
+        "blendModeType": 5,
         "color": {
             "a": 0.800000011920929,
             "b": 1.0,
@@ -14,12 +14,12 @@
         "coneEmitFrom": 0,
         "damping": 0.20000000298023224,
         "discardValue": 0.009999999776482582,
-        "duration": 1.0,
+        "duration": 1.100000023841858,
         "emitDirection": 3,
         "emitOrigin": 0,
-        "emitSpacing": 0.1599999964237213,
+        "emitSpacing": 0.4099999964237213,
         "endDiscard": 1.0,
-        "fadeInTime": 0.05000000074505806,
+        "fadeInTime": 0.949999988079071,
         "fadeOutTime": 0.8500000238418579,
         "gravity": 0.0,
         "height": 0.0,
@@ -30,33 +30,34 @@
         "isFadeInOut": true,
         "isLerpDiscardValue": false,
         "isLifeOfAlpha": true,
-        "isLifeOfScale": false,
-        "isLoop": true,
+        "isLifeOfScale": true,
+        "isLoop": false,
         "isPlayOneShot": false,
         "isRandomColor": false,
         "isRandomRotate": true,
         "isRandomSpeed": false,
-        "isScaleUp": true,
+        "isScaleUp": false,
         "isStretch": false,
         "isTextureSheetAnimation": false,
+        "isUvScroll": true,
         "lifeOfMaxScale": {
+            "x": 20.0,
+            "y": 20.0,
+            "z": 20.0
+        },
+        "lifeOfMinScale": {
             "x": 0.0,
             "y": 0.0,
             "z": 0.0
         },
-        "lifeOfMinScale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
-        },
-        "lifeTime": 0.38999998569488525,
+        "lifeTime": 0.3700000047683716,
         "maxAngles": {
             "x": 367.0,
             "y": 386.0,
             "z": 15.0
         },
         "maxEmitPerFrame": 165,
-        "maxParticles": 177,
+        "maxParticles": 192,
         "maxScale": {
             "x": 180.0,
             "y": 1.0,
@@ -77,9 +78,9 @@
         "overflowMode": 1,
         "postColor": {
             "a": 1.0,
-            "b": 0.09147148579359055,
-            "g": 0.43328747153282166,
-            "r": 0.9111968874931335
+            "b": 0.021734897047281265,
+            "g": 0.234048992395401,
+            "r": 0.9382239580154419
         },
         "preColor": {
             "a": 1.0,
@@ -102,9 +103,9 @@
             "r": 0.0
         },
         "randomDirectionAmount": 0.0,
-        "rateOverTimeCout": 307,
+        "rateOverTimeCout": 17,
         "rotate": {
-            "x": 0.0,
+            "x": 6.670000076293945,
             "y": 0.0,
             "z": 0.0
         },
@@ -130,10 +131,18 @@
         },
         "translate": {
             "x": 0.0,
-            "y": 0.0,
+            "y": 4.900000095367432,
             "z": 0.0
         },
         "useMesh": "ring",
-        "useTexture": "gradationLine"
+        "useTexture": "gradationLine",
+        "uvScale": {
+            "x": 1.0,
+            "y": 1.0
+        },
+        "uvScrollSpeed": {
+            "x": 0.8100000023841858,
+            "y": 1.0
+        }
     }
 }
