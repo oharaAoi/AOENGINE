@@ -1,0 +1,67 @@
+{
+    "format": "AOENGINE_PREFAB",
+    "objects": [
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [
+                    {
+                        "billboardMode": "None",
+                        "color": [
+                            0.0,
+                            0.3786466419696808,
+                            0.9806950092315674,
+                            1.0
+                        ],
+                        "depthTest": true,
+                        "enabled": true,
+                        "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                        "fontSize": 64.0,
+                        "height": 0.3109999895095825,
+                        "localPosition": [
+                            0.0,
+                            0.0,
+                            -3.0
+                        ],
+                        "localRotation": [
+                            0.0,
+                            0.0,
+                            0.0,
+                            1.0
+                        ],
+                        "text": "Damage",
+                        "type": "WorldText"
+                    }
+                ],
+                "enableShadow": false,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "DamageText",
+            "parentId": null,
+            "type": "BaseGameObject"
+        }
+    ],
+    "prefabName": "DamageText",
+    "rootId": 1,
+    "version": 1
+}

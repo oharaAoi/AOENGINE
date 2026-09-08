@@ -77,6 +77,8 @@ void GameScene::Init()
 	bossBlockLauncherCallBacks_.SetBoss(boss_.get());
 	bossBlockLauncherCallBacks_.SetLauncherManager(player_->GetBlockGroupLauncherManagerRef());
 	bossBlockLauncherCallBacks_.Init();
+	// 集合地点へ出すダメージ表示を、実際に当たった時と同じ式で求められるようにする
+	player_->SetDamageCalculator(bossBlockLauncherCallBacks_.GetDamageCalculator());
 	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
 
 	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get());

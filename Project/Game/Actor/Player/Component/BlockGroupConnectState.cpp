@@ -31,12 +31,6 @@ void BlockGroupConnectState::Update(float deltaTime, const Context& context, con
 	// TryAdd()は衝突判定側から呼ばれ位置を持たないため、ここで拾っておく
 	lastPlayerPosition_ = context.playerPosition;
 
-	// 足場に乗っている間は集合地点の候補を更新し続ける
-	if (context.isGrounded) {
-		lastGroundedPosition_ = context.playerPosition;
-		hasGroundedPosition_ = true;
-	}
-
 	switch (phase_) {
 	case Phase::Connecting:
 		UpdateConnecting(deltaTime, context);
@@ -67,8 +61,9 @@ void BlockGroupConnectState::BeginGather(const Context& context) {
 		return;
 	}
 
-	// 集合地点はプレイヤーが最後に乗っていた場所。一度も接地していなければ現在地で代用する
-	gatherPoint_ = hasGroundedPosition_ ? lastGroundedPosition_ : context.playerPosition;
+	// 集合地点は最後に接続したグループへ乗った場所。
+	// 手前のグループはそこへ順に集まってきて、最後のグループは動かずにその場で待つ
+	gatherPoint_ = connectedGroups_.back().connectPosition;
 
 	launchTimer_ = params_.launchWaitTime;
 	phase_ = Phase::Gathering;

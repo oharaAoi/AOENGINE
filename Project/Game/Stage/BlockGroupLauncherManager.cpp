@@ -20,6 +20,12 @@ void BlockGroupLauncherManager::BeginGather(const BlockGroupLauncher::GatherRequ
 	}
 
 	target->SetField(pField_);
+	target->SetComboTextUIManager(pComboTextUI_);
+	target->SetDamageTextUIManager(pDamageTextUI_);
+	target->SetDamageCalculator(pDamageCalculator_);
+
+	// BeginGather() の中で集合しきる場合(1グループだけの時)があるため、
+	// 総ダメージを出せるようにしてから始める
 	target->BeginGather(request,params);
 }
 
@@ -67,6 +73,30 @@ void BlockGroupLauncherManager::SetField(StageBlockField* field){
 	// 既に持っているランチャーにも伝えておかないと、使い回した時に古い field を参照したままになる
 	for(BlockGroupLauncher& launcher : launchers_){
 		launcher.SetField(field);
+	}
+}
+
+void BlockGroupLauncherManager::SetComboTextUIManager(ComboTextUIManager* manager){
+	pComboTextUI_ = manager;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.SetComboTextUIManager(manager);
+	}
+}
+
+void BlockGroupLauncherManager::SetDamageTextUIManager(DamageTextUIManager* manager){
+	pDamageTextUI_ = manager;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.SetDamageTextUIManager(manager);
+	}
+}
+
+void BlockGroupLauncherManager::SetDamageCalculator(const BlockDamageCalculator* calculator){
+	pDamageCalculator_ = calculator;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.SetDamageCalculator(calculator);
 	}
 }
 
