@@ -39,7 +39,7 @@
         "gatherSpeed": 12.0,
         "groundCheckDistance": 0.15000000596046448,
         "groundKeepSpeed": 1.0,
-        "hangTime": 2.0,
+        "hangTime": 1.0,
         "hitOffset": {
             "x": -0.009999999776482582,
             "y": 1.190000057220459,
@@ -53,7 +53,7 @@
         "idleAnimationDelay": 0.11999999731779099,
         "invincibleBlinkInterval": 0.07999999821186066,
         "invincibleTime": 1.0,
-        "jumpPower": 16.0,
+        "jumpPower": 25.0,
         "launchAccel": 20.0,
         "launchLifeTime": 3.0,
         "launchSpeed": 20.0,
@@ -62,7 +62,7 @@
         "maxHp": 22.0,
         "moveAcceleration": 27.200000762939453,
         "moveInputThreshold": 0.009999999776482582,
-        "moveSpeed": 8.399999618530273,
+        "moveSpeed": 15.0,
         "riseGravity": 55.0,
         "stickDeadZone": 0.20000000298023224,
         "walkAnimationSpeed": 1.600000023841858
