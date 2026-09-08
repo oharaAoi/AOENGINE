@@ -14,6 +14,8 @@
 #include "Game/Actor/Player/Component/PlayerJump.h"
 #include "Game/Actor/Player/Component/BlockGroupConnectState.h"
 #include "Game/Stage/BlockGroupLauncherManager.h"
+#include "Game/UI/ComboTextUIManager.h"
+#include "Game/UI/DamageTextUIManager.h"
 
 namespace AOENGINE {
 	class Rigidbody;
@@ -22,6 +24,7 @@ namespace AOENGINE {
 class FollowCamera;
 class StageBlockField;
 class Block;
+class BlockDamageCalculator;
 
 /// <summary>
 /// プレイヤークラス
@@ -106,6 +109,10 @@ private:
 	PlayerBlockIgnore blockIgnore_;
 	BlockGroupConnectState blockGroupConnectState_;
 	BlockGroupLauncherManager blockGroupLauncherManager_;
+	// 接続した瞬間に出して、そのグループが集合に向けて動き出した時に消すコンボ表示
+	ComboTextUIManager comboTextUIManager_;
+	// 集合しきった瞬間に集合地点へ出して、打ち上げた時に消すダメージ表示
+	DamageTextUIManager damageTextUIManager_;
 
 	// 揺らす対象のカメラ
 	FollowCamera* pCamera_ = nullptr;
@@ -152,6 +159,14 @@ public: // accessor
 	// 打ち上げたブロックが飛んでいる最中か
 	bool IsLaunching() const{ return blockGroupLauncherManager_.IsActive(); }
 	BlockGroupLauncherManager* GetBlockGroupLauncherManagerRef(){ return &blockGroupLauncherManager_; }
+
+	/// <summary>
+	/// 集合地点へ出す総ダメージに使う計算式を渡す。
+	/// 数え上げと表示はランチャー側が行うため、そのまま渡す
+	/// </summary>
+	void SetDamageCalculator(const BlockDamageCalculator* calculator){
+		blockGroupLauncherManager_.SetDamageCalculator(calculator);
+	}
 
 	bool IsGrounded() const{ return jump_.IsGrounded(); }
 

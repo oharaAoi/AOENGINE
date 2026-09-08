@@ -1,5 +1,5 @@
 {
-    "CircleLightParticle": {
+    "CircleParticle": {
         "angle": 27.0,
         "angleMax": 360.0,
         "angleMin": 0.0,
@@ -49,7 +49,7 @@
             "y": 0.10000000149011612,
             "z": 0.10000000149011612
         },
-        "lifeTime": 0.5,
+        "lifeTime": 1.0,
         "maxAngles": {
             "x": 0.0,
             "y": 0.0,

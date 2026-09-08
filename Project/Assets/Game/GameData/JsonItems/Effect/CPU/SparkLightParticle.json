@@ -50,7 +50,11 @@
             "z": 3.5999999046325684
         },
         "lifeTime": 1.0,
-        "maxAngle": 360.0,
+        "maxAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 360.0
+        },
         "maxEmitPerFrame": 1,
         "maxParticles": 1,
         "maxScale": {
@@ -59,7 +63,11 @@
             "z": 1.0
         },
         "maxSpeed": 2.0,
-        "minAngle": 0.0,
+        "minAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "minScale": {
             "x": 0.30000001192092896,
             "y": 1.0,
@@ -100,6 +108,7 @@
             "y": 0.0,
             "z": 0.0
         },
+        "rotateSpeed": 364.0,
         "scaleUpScale": {
             "x": 1.0,
             "y": 1.0,

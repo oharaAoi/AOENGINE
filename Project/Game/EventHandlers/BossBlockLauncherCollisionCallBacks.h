@@ -37,5 +37,10 @@ private:
 
 public: // accessor
 	void SetBoss(Boss* boss){ pBoss_ = boss; }
+	/// <summary>
+	/// ダメージ計算を共有するために渡す。
+	/// 集合地点へ出すダメージ表示と、実際に当たった時のダメージを同じ式で求めるため
+	/// </summary>
+	BlockDamageCalculator* GetDamageCalculator(){ return &damageCalculator_; }
 	void SetLauncherManager(BlockGroupLauncherManager* manager){ pLauncherManager_ = manager; }
 };

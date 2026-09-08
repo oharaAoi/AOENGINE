@@ -12,7 +12,7 @@
             "r": 1.0
         },
         "coneEmitFrom": 0,
-        "damping": 0.0,
+        "damping": 1.2100000381469727,
         "discardValue": 0.009999999776482582,
         "duration": 5.0,
         "emitDirection": 1,
@@ -21,7 +21,7 @@
         "endDiscard": 1.0,
         "fadeInTime": 0.6000000238418579,
         "fadeOutTime": 0.800000011920929,
-        "gravity": -0.7699999809265137,
+        "gravity": -0.10000000149011612,
         "height": 1.0,
         "isBillBord": true,
         "isColorAnimation": false,
@@ -49,8 +49,12 @@
             "y": 1.0,
             "z": 1.0
         },
-        "lifeTime": 3.0,
-        "maxAngle": 360.0,
+        "lifeTime": 0.949999988079071,
+        "maxAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 360.0
+        },
         "maxEmitPerFrame": 12,
         "maxParticles": 12,
         "maxScale": {
@@ -59,7 +63,11 @@
             "z": 1.0
         },
         "maxSpeed": 2.0,
-        "minAngle": 0.0,
+        "minAngles": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+        },
         "minScale": {
             "x": 1.0,
             "y": 1.0,
@@ -100,6 +108,7 @@
             "y": 0.0,
             "z": 0.0
         },
+        "rotateSpeed": 3.950000047683716,
         "scaleUpScale": {
             "x": 1.0,
             "y": 1.0,
@@ -112,7 +121,7 @@
             "y": 1.0,
             "z": 1.0
         },
-        "speed": 1.440000057220459,
+        "speed": 5.429999828338623,
         "startDiscard": 0.009999999776482582,
         "teleportThreshold": 50.0,
         "tiles": {

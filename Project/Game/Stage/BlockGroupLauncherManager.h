@@ -7,6 +7,9 @@
 #include "Game/Stage/BlockGroupLauncher.h"
 
 class StageBlockField;
+class ComboTextUIManager;
+class DamageTextUIManager;
+class BlockDamageCalculator;
 
 namespace AOENGINE{
 class Color;
@@ -70,9 +73,19 @@ private:
 
 	StageBlockField* pField_ = nullptr;	// 非所有
 
+	ComboTextUIManager* pComboTextUI_ = nullptr;	// 非所有。各ランチャーへそのまま渡す
+	DamageTextUIManager* pDamageTextUI_ = nullptr;				// 非所有。各ランチャーへそのまま渡す
+	const BlockDamageCalculator* pDamageCalculator_ = nullptr;	// 非所有。各ランチャーへそのまま渡す
+
 public: // accessor
 
 	void SetField(StageBlockField* field);
+	/// <summary>コンボ表示の管理を渡す。既に持っているランチャーにも伝える</summary>
+	void SetComboTextUIManager(ComboTextUIManager* manager);
+	/// <summary>ダメージ表示の管理を渡す。既に持っているランチャーにも伝える</summary>
+	void SetDamageTextUIManager(DamageTextUIManager* manager);
+	/// <summary>総ダメージの計算式を渡す。既に持っているランチャーにも伝える</summary>
+	void SetDamageCalculator(const BlockDamageCalculator* calculator);
 
 	// どれか1つでも動いているか
 	bool IsActive() const;
