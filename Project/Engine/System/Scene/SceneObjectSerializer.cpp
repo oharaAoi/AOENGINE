@@ -7,6 +7,7 @@
 #include "Engine/Module/Components/2d/InputTextureButtonComponent.h"
 #include "Engine/Module/Components/2d/Text.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/3d/WorldTextComponent.h"
 #include "Engine/Module/Components/Effect/ParticleSceneObject.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
 #include "Engine/Module/Components/Collider/LineCollider.h"
@@ -190,6 +191,26 @@ json SerializeComponents(const BaseGameObject& object) {
 		});
 	}
 
+	if (const WorldTextComponent* worldText = object.GetWorldTextComponent()) {
+		const WorldTextSettings& settings = worldText->GetSettings();
+		const char* billboardMode = "None";
+		if (settings.billboardMode == WorldTextBillboardMode::FaceCamera) { billboardMode = "FaceCamera"; }
+		else if (settings.billboardMode == WorldTextBillboardMode::YAxisOnly) { billboardMode = "YAxisOnly"; }
+		components.push_back({
+			{ "type", "WorldText" },
+			{ "enabled", settings.enabled },
+			{ "text", settings.text },
+			{ "fontPath", settings.fontPath },
+			{ "fontSize", settings.fontSize },
+			{ "color", ColorToJson(settings.color) },
+			{ "localPosition", Vector3ToJson(settings.localPosition) },
+			{ "localRotation", QuaternionToJson(settings.localRotation) },
+			{ "height", settings.height },
+			{ "billboardMode", billboardMode },
+			{ "depthTest", settings.depthTest }
+		});
+	}
+
 	CollisionLayerManager& layers = CollisionLayerManager::GetInstance();
 	for (const BaseCollider* collider : object.GetColliders()) {
 		if (!collider) { continue; }
@@ -246,6 +267,28 @@ void DeserializeComponents(BaseGameObject& object, const json& components) {
 			rigidbody->SetGravity(data.value("gravity", rigidbody->GetGravity()));
 			if (data.contains("gravityAccel")) { rigidbody->SetGravityAccel(JsonToVector3(data.at("gravityAccel"))); }
 			rigidbody->SetDrag(data.value("drag", rigidbody->GetDrag()));
+			continue;
+		}
+
+		if (type == "WorldText") {
+			object.AddWorldTextComponent();
+			WorldTextComponent* worldText = object.GetWorldTextComponent();
+			if (!worldText) { continue; }
+			WorldTextSettings settings = worldText->GetSettings();
+			settings.enabled = data.value("enabled", true);
+			settings.text = data.value("text", "New Text");
+			settings.fontPath = data.value("fontPath", "");
+			settings.fontSize = data.value("fontSize", 64.0f);
+			if (data.contains("color")) { settings.color = JsonToColor(data.at("color")); }
+			if (data.contains("localPosition")) { settings.localPosition = JsonToVector3(data.at("localPosition")); }
+			if (data.contains("localRotation")) { settings.localRotation = JsonToQuaternion(data.at("localRotation")); }
+			settings.height = data.value("height", 0.5f);
+			const std::string mode = data.value("billboardMode", "FaceCamera");
+			settings.billboardMode = mode == "None" ? WorldTextBillboardMode::None
+				: mode == "YAxisOnly" ? WorldTextBillboardMode::YAxisOnly
+				: WorldTextBillboardMode::FaceCamera;
+			settings.depthTest = data.value("depthTest", true);
+			worldText->SetSettings(settings);
 			continue;
 		}
 

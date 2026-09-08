@@ -96,6 +96,8 @@ public:
 	/// CPUで生成したRGBA8画像をTextureとして登録する
 	/// </summary>
 	bool CreateTextureFromRGBA8(const std::string& textureName, const std::vector<uint8_t>& rgbaPixels, uint32_t width, uint32_t height, bool _forceReload = true);
+	/// <summary>CPU生成TextureをGPU同期後の遅延解放へ移す。</summary>
+	void ReleaseGeneratedTexture(const std::string& textureName);
 
 	/// <summary>
 	/// TextureResourceにデータを転送する

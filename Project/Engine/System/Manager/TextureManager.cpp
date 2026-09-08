@@ -423,6 +423,17 @@ bool TextureManager::CreateTextureFromRGBA8(const std::string& textureName, cons
 	return true;
 }
 
+void TextureManager::ReleaseGeneratedTexture(const std::string& textureName) {
+	const std::string textureKey = std::filesystem::path(textureName).stem().string();
+	auto it = textureData_.find(textureKey);
+	if (it == textureData_.end()) { return; }
+	retiredTextureData_.push_back(std::move(it->second));
+	textureData_.erase(it);
+	std::erase_if(fileNames_, [&textureKey](const std::string& name) {
+		return std::filesystem::path(name).stem().string() == textureKey;
+	});
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 // TextureResourceにデータを転送する
 /////////////////////////////////////////////////////////////////////////////////////////////
