@@ -32,7 +32,7 @@
         "beamStartDelay": 1.3300000429153442,
         "beamStartX": -30.0,
         "beamTime": 1.0,
-        "beamUnlockPhase": 1,
+        "beamUnlockPhase": 0,
         "beamWarningLineSize": {
             "x": 40.0,
             "y": 1.2000000476837158,
@@ -67,7 +67,7 @@
             "y": 1.0,
             "z": 59.20000076293945
         },
-        "hp": 100.0,
+        "hp": 300.0,
         "idleTimeMax": 2.5,
         "idleTimeMin": 1.0,
         "introDescendEaseKind": 2,
@@ -77,8 +77,8 @@
         "phaseChangeScaleRate": 0.25,
         "phaseChangeTime": 1.2000000476837158,
         "phaseSwitchRatio": [
-            0.6600000262260437,
-            0.33000001311302185
+            0.5,
+            0.0
         ],
         "sceneChangeTimeAfterHiden": 1.100000023841858,
         "screenPos": {
@@ -96,7 +96,7 @@
         "stopperSpawnHeight": 12.0,
         "stopperSpeed": 12.0,
         "stopperStartDelay": 1.2599999904632568,
-        "stopperUnlockPhase": 2,
+        "stopperUnlockPhase": 1,
         "worldZ": 3.799999952316284
     }
 }
