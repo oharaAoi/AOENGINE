@@ -14,7 +14,12 @@
 
 void RetryUI::Init() {
 	selectIndex_ = 0;
+	fallTimer_ = AOENGINE::Timer(retryParametor_.fallTime);
 	coolTimer_ = AOENGINE::Timer(0.2f);
+
+	isFall_ = true;
+
+	animationTween_.resize(3);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,12 +31,14 @@ RetryItem RetryUI::Update(bool isPlayerAlive) {
 		// retryUI達の有効化
 		AOENGINE::Sprite* retry = FindSceneObject<AOENGINE::Sprite>("Retry");
 
-		if(!retry){
+		if (!retry) {
 			// もしRetryが見つからなかった場合は、Titleを返す
 			return RetryItem::Title;
 		}
 
 		retry->SetActive(true);
+
+		if (!StartEffect()) { return RetryItem::Pause; }
 
 		// 次の行動の選択
 		if (!coolTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
@@ -123,4 +130,49 @@ RetryItem RetryUI::CurrentSelect() {
 	}
 
 	return RetryItem::Pause;
+}
+
+bool RetryUI::StartEffect() {
+	AOENGINE::Sprite* retry = FindSceneObject<AOENGINE::Sprite>("Retry_title");
+	AOENGINE::Sprite* goRetry = FindSceneObject<AOENGINE::Sprite>("Text_Retry");
+	AOENGINE::Sprite* goTitle = FindSceneObject<AOENGINE::Sprite>("Text_Title");
+
+	if (!retry || !goRetry || !goTitle) {
+		return false;
+	}
+
+	if (isFall_) {
+		Math::Vector2 pos = retry->GetTranslate();
+		pos.y -= retryParametor_.diffLength;
+		SetFall(pos, retry->GetTranslate(), 0);
+
+		pos = goRetry->GetTranslate();
+		pos.y -= retryParametor_.diffLength;
+		SetFall(pos, goRetry->GetTranslate(), 1);
+
+		pos = goTitle->GetTranslate();
+		pos.y -= retryParametor_.diffLength;
+		SetFall(pos, goTitle->GetTranslate(), 2);
+
+		isFall_ = false;
+	}
+
+	if (fallTimer_.Run(AOENGINE::GameTimer::DeltaTime())) {
+		SpriteFall(retry, 0);
+		SpriteFall(goRetry, 1);
+		SpriteFall(goTitle, 2);
+	} else {
+		return true;
+	}
+
+	return false;
+}
+
+void RetryUI::SetFall(const Math::Vector2& startPos, const Math::Vector2& endPos, int index) {
+	animationTween_[index].Init(startPos, endPos, retryParametor_.fallTime, static_cast<int>(EasingType::Out::Elastic), LoopType::Stop);
+}
+
+void RetryUI::SpriteFall(AOENGINE::Sprite* sprite, int index) {
+	animationTween_[index].Update(AOENGINE::GameTimer::DeltaTime());
+	sprite->SetTranslate(animationTween_[index].GetValue());
 }

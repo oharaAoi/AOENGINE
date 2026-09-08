@@ -147,6 +147,96 @@
         {
             "active": true,
             "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Exploasion",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -0.9470469951629639,
+                    0.0,
+                    5.5330810546875
+                ]
+            },
+            "id": 3678,
+            "name": "Exploasion",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": false,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Beam",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "transformType": "3D",
+                "translate": [
+                    -4.412920951843262,
+                    0.0,
+                    -1.7368392944335938
+                ]
+            },
+            "id": 872,
+            "name": "Beam",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "prefab": "Fireball",
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    0.800000011920929,
+                    0.800000011920929,
+                    0.800000011920929
+                ],
+                "transformType": "3D",
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 755,
+            "name": "Fireball",
+            "parentId": null,
+            "type": "PrefabInstance"
+        },
+        {
+            "active": true,
+            "data": {
                 "anchor": [
                     0.5,
                     0.5
@@ -197,7 +287,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_33",
+                "texture": "__Text_73",
                 "textureSize": [
                     135.0,
                     42.0
@@ -212,96 +302,6 @@
             "name": "new text",
             "parentId": null,
             "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Fireball",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    0.800000011920929,
-                    0.800000011920929,
-                    0.800000011920929
-                ],
-                "transformType": "3D",
-                "translate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ]
-            },
-            "id": 755,
-            "name": "Fireball",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": false,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Beam",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    -4.412920951843262,
-                    0.0,
-                    -1.7368392944335938
-                ]
-            },
-            "id": 872,
-            "name": "Beam",
-            "parentId": null,
-            "type": "PrefabInstance"
-        },
-        {
-            "active": true,
-            "data": {
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "prefab": "Exploasion",
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "transformType": "3D",
-                "translate": [
-                    -0.9470469951629639,
-                    0.0,
-                    5.5330810546875
-                ]
-            },
-            "id": 3678,
-            "name": "Exploasion",
-            "parentId": null,
-            "type": "PrefabInstance"
         }
     ],
     "sceneName": "Test",
