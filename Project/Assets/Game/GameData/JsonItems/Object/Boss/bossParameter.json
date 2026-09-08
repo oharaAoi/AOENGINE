@@ -60,8 +60,6 @@
         "fireballFallSpeedUpTime": 1.1100000143051147,
         "fireballFallStartSpeed": 0.5,
         "fireballMaxFallSpeed": 16.600000381469727,
-        "fireballScaleUpEaseKind": 17,
-        "fireballScaleUpTime": 0.15000000596046448,
         "fireballSpawnHeight": 14.0,
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
@@ -75,6 +73,7 @@
         "introDescendEaseKind": 2,
         "introDescendHeight": 12.0,
         "introDescendTime": 1.2000000476837158,
+        "phaseChangeEffectDelay": 0.4000000059604645,
         "phaseChangeScaleRate": 0.25,
         "phaseChangeTime": 1.2000000476837158,
         "phaseSwitchRatio": [
@@ -82,10 +81,10 @@
             0.33000001311302185
         ],
         "screenPos": {
-            "x": 761.0,
-            "y": 302.0
+            "x": 802.0,
+            "y": 465.0
         },
-        "stopperCount": 1,
+        "stopperCount": 3,
         "stopperEaseKind": 4,
         "stopperLifeTime": 5.0,
         "stopperSize": {
@@ -96,7 +95,7 @@
         "stopperSpawnHeight": 12.0,
         "stopperSpeed": 12.0,
         "stopperStartDelay": 1.2599999904632568,
-        "stopperUnlockPhase": 1,
+        "stopperUnlockPhase": 2,
         "worldZ": 3.799999952316284
     }
 }
