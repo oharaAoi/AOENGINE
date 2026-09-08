@@ -161,14 +161,15 @@
                     1.0,
                     1.0
                 ],
+                "components": [],
                 "drawRange": [
-                    1298.0,
-                    238.0
+                    145.0,
+                    84.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 182.0,
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -185,7 +186,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "メテオギュット",
+                "text": "exit",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -196,19 +197,19 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_0",
+                "texture": "__Text_35",
                 "textureSize": [
-                    1298.0,
-                    238.0
+                    145.0,
+                    84.0
                 ],
                 "translate": [
-                    966.5096435546875,
-                    293.5148620605469,
+                    941.0435791015625,
+                    787.1512451171875,
                     1.0
                 ]
             },
-            "id": 87,
-            "name": "GameTitle",
+            "id": 736,
+            "name": "Exit",
             "parentId": null,
             "type": "Text"
         },
@@ -229,13 +230,14 @@
                     1.0,
                     1.0
                 ],
+                "components": [],
                 "drawRange": [
                     176.0,
                     84.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -264,7 +266,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_1",
+                "texture": "__Text_34",
                 "textureSize": [
                     176.0,
                     84.0
@@ -297,14 +299,15 @@
                     1.0,
                     1.0
                 ],
+                "components": [],
                 "drawRange": [
-                    145.0,
-                    84.0
+                    1298.0,
+                    238.0
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
+                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontSize": 182.0,
                 "isBackGround": false,
                 "leftTop": [
                     0.0,
@@ -321,7 +324,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "exit",
+                "text": "メテオギュット",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -332,19 +335,19 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_2",
+                "texture": "__Text_33",
                 "textureSize": [
-                    145.0,
-                    84.0
+                    1298.0,
+                    238.0
                 ],
                 "translate": [
-                    941.0435791015625,
-                    787.1512451171875,
+                    966.5096435546875,
+                    293.5148620605469,
                     1.0
                 ]
             },
-            "id": 736,
-            "name": "Exit",
+            "id": 87,
+            "name": "GameTitle",
             "parentId": null,
             "type": "Text"
         }
