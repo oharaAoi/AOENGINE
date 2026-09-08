@@ -15,6 +15,7 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/Material.h"
+#include "Engine/Module/Components/3d/WorldTextComponent.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/Render.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
@@ -138,6 +139,12 @@ void SceneRenderer::Update() {
 	}
 
 	sceneWorld_.Update();
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
+		auto* gameObject = dynamic_cast<BaseGameObject*>(object);
+		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
+			gameObject->GetWorldTextComponent()->Update(*gameObject);
+		}
+	}
 	RemoveInvalidRenderEntries();
 }
 
@@ -174,6 +181,12 @@ void SceneRenderer::EditorUpdate() {
 			gameObject->EditorUpdate();
 		} else if (Sprite* sprite = dynamic_cast<Sprite*>(object)) {
 			sprite->EditorUpdate();
+		}
+	}
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
+		auto* gameObject = dynamic_cast<BaseGameObject*>(object);
+		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
+			gameObject->GetWorldTextComponent()->Update(*gameObject);
 		}
 	}
 }
@@ -347,6 +360,13 @@ void SceneRenderer::DrawSceneObjects(
 	for (const FallbackDraw& fallback : fallbackDraws) {
 		Engine::SetPipeline(PSOType::Object3d, fallback.entry->renderingType);
 		fallback.object->Draw();
+	}
+
+	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
+		const auto* gameObject = dynamic_cast<const BaseGameObject*>(object);
+		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
+			gameObject->GetWorldTextComponent()->Draw();
+		}
 	}
 
 	// particleの描画

@@ -507,6 +507,9 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h">
+      <Filter>Engine\Module\Components</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
@@ -883,6 +886,9 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.h">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h">
@@ -1628,6 +1634,9 @@
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp">
+      <Filter>Engine\Module\Components</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
@@ -1992,6 +2001,9 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Component\RigidBodyInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp">

@@ -4,6 +4,7 @@
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/Components/3d/WorldTextComponent.h"
 #include "Engine/System/Manager/ParticleEffectManager.h"
 
 /// game
@@ -28,13 +29,7 @@ void TestScene::Init()
 
 	player_ = std::make_unique<Player>();
 
-	// 着地したブロックのグループをPlayerへ渡すコールバックを衝突ペアへ登録する
-	/*playerBlockCallBacks_.SetPlayer(player_.get());
-	playerBlockCallBacks_.Init();
-	playerBlockCallBacks_.SetPair(collisionManager_.get(), "Player", "Block");
-	stageBlockField_.SetBlockCollisionCallBacks(&playerBlockCallBacks_);*/
-	
-	//AOENGINE::BaseParticles* particle = AOENGINE::ParticleManager::GetInstance()->CreateParticle("RoketJet");
+		
 	
 }
 
@@ -43,32 +38,23 @@ void TestScene::Init()
 //////////////////////////////////////////////////////////////////////////////////////////////////
 void TestScene::Update()
 {
-//	if (player_) {
-//		player_->Update();
-//	}
-//
-//#ifdef _DEVELOPMENT
-//	// 調整パラメータの編集 + Save/Load
-//	if (player_) {
-//		ImGui::Begin("Player");
-//		player_->Debug_Gui();
-//		ImGui::End();
-//	}
-//#endif
+
 }
 
 void TestScene::OnPlayStart()
 {
-
-	//// Player初期化
-	//player_->Init(ResolvePlayerBody());
-	//// 接続したグループを集合・打ち上げさせるために連結グループ表を渡す
-	//player_->SetBlockField(&stageBlockField_);
-
 	auto effect =
 		AOENGINE::ParticleEffectManager::GetInstance()->Play(
 			"PlayerHitEffect"
 		);
+
+	/*AOENGINE::SceneObject* obj = AOENGINE::PrefabManager::GetInstance()->Instantiate("test3d");
+	AOENGINE::BaseGameObject* gameObject =
+		dynamic_cast<AOENGINE::BaseGameObject*>(obj);
+	AOENGINE::WorldTextComponent* text = gameObject->GetWorldTextComponent();
+	if (text) {
+		text->SetText("seisei dekimasita");
+	}*/
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
