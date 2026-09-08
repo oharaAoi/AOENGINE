@@ -53,7 +53,7 @@
         "idleAnimationDelay": 0.11999999731779099,
         "invincibleBlinkInterval": 0.07999999821186066,
         "invincibleTime": 1.0,
-        "jumpPower": 16.0,
+        "jumpPower": 25.600000381469727,
         "launchAccel": 20.0,
         "launchLifeTime": 3.0,
         "launchSpeed": 20.0,

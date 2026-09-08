@@ -1,8 +1,6 @@
 #include "FollowCamera.h"
 
-#include <algorithm>
 #include <cmath>
-#include <cstdint>
 
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Lib/GameTimer.h"
@@ -10,7 +8,6 @@
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
-#include "Engine/WinApp/WinApp.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  初期化
@@ -89,76 +86,11 @@ void FollowCamera::FollowTarget(float deltaTime) {
 		return;
 	}
 
-	// 頂点を過ぎたかを見張る。ここで直接追従へ入るかが決まる
-	UpdateApexWatch(targetPos);
-
-	// 直接追従と段階スクロールは同時には動かない
-	if (continuousFollowActive_) {
-		UpdateContinuousFollow(targetPos, deltaTime);
-		return;
-	}
-
 	UpdateStepScroll(targetPos, deltaTime);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//  頂点の見張り
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void FollowCamera::UpdateApexWatch(const Math::Vector3& targetPos) {
-
-	// 飛んでいない間は比べる元だけ更新しておく
-	if (!continuousFollowRequested_) {
-		prevTargetY_ = targetPos.y;
-		return;
-	}
-
-	// 既に入っていれば見張る必要はない
-	if (continuousFollowActive_) {
-		return;
-	}
-
-	// 上がっている間は段階スクロールに任せる。
-	// 落ち始めた瞬間から直接追従へ切り替える
-	if (targetPos.y < prevTargetY_) {
-		continuousFollowActive_ = true;
-		followVelocity_ = CVector3::ZERO;
-	}
-
-	prevTargetY_ = targetPos.y;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  直接追従
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-void FollowCamera::UpdateContinuousFollow(const Math::Vector3& targetPos, float deltaTime) {
-
-	// 直接追従はダメージ床で飛んでいる間だけ。降りたらその場で段階スクロールへ戻す
-	if (!continuousFollowRequested_) {
-		followVelocity_ = CVector3::ZERO;
-		continuousFollowActive_ = false;
-		isScrolling_ = false;
-		cameraTargetY_ = smoothedTarget_.y;
-		return;
-	}
-
-	// プレイヤーが画面の決まった高さに見えるところまでカメラを寄せる
-	const float screenY = CalcCameraYForScreen(targetPos, parameter_.bigJumpScreenY);
-	cameraTargetY_ = (std::max)(screenY, smoothedTarget_.y);
-
-	Math::Vector3 followTarget = smoothedTarget_;
-	followTarget.y = cameraTargetY_;
-
-	//smoothedTargetの計算
-	smoothedTarget_ = SmoothDamp(
-		smoothedTarget_, followTarget, followVelocity_,
-		parameter_.bigJumpSmoothTime, parameter_.bigJumpMaxSpeed, deltaTime);
-
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  段階スクロール(通常時)
+//  段階スクロール
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void FollowCamera::UpdateStepScroll(const Math::Vector3& targetPos, float deltaTime) {
@@ -196,26 +128,6 @@ void FollowCamera::UpdateStepScroll(const Math::Vector3& targetPos, float deltaT
 		followVelocity_.y = 0.0f;
 		isScrolling_ = false;
 	}
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////
-//  画面上の高さから、カメラのY座標を求める
-///////////////////////////////////////////////////////////////////////////////////////////////
-
-float FollowCamera::CalcCameraYForScreen(const Math::Vector3& targetPos, float screenNdcY) const {
-
-	const float width = static_cast<float>((std::max<std::uint32_t>)(1u, AOENGINE::WinApp::sClientWidth));
-	const float height = static_cast<float>((std::max<std::uint32_t>)(1u, AOENGINE::WinApp::sClientHeight));
-
-	// スクリーン座標
-	const Math::Vector2 screenPosition{ width * 0.5f, (1.0f - screenNdcY) * 0.5f * height };
-
-	// 今のカメラで、その高さに見えるワールド座標を引く
-	const Math::Matrix4x4 viewProjection = GetViewMatrix() * GetProjectionMatrix();
-	const Math::Vector3 anchor = screenAnchor_.Solve(viewProjection, { screenPosition, targetPos.z });
-
-	// そこへプレイヤーが来るように、ずれているぶんだけカメラを動かす
-	return smoothedTarget_.y + (targetPos.y - anchor.y);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

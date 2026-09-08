@@ -223,8 +223,6 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// フォローカメラ
 	if (followCamera_)
 	{
-		// ダメージ床で打ち上げられてから着地するまでは、そのままプレイヤーへ常に追従する
-		followCamera_->SetContinuousFollow(player_ && player_->IsDamageFloorAirborne());
 		followCamera_->Update();
 	}
 
