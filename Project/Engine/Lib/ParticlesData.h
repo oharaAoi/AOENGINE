@@ -176,6 +176,10 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 	Math::Vector3 minAngles = CVector3::ZERO;
 	Math::Vector3 maxAngles = Math::Vector3(0,0,360.f);
 
+	bool isRandomLifeTime = false;
+	float minLifeTime = 1.f;
+	float maxLifeTime = 2.f;
+
 	float rotateSpeed = 0.f;
 
 	ParticleEmit() {
@@ -256,6 +260,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 			.Add("isRandomSpeed", isRandomSpeed)
 			.Add("minSpeed", minSpeed)
 			.Add("maxSpeed", maxSpeed)
+			.Add("isRandomLifeTime", isRandomLifeTime)
+			.Add("minLifeTime", minLifeTime)
+			.Add("maxLifeTime", maxLifeTime)
 			.Build();
 	}
 
@@ -330,6 +337,9 @@ struct ParticleEmit : public AOENGINE::IJsonConverter {
 		Convert::fromJson(jsonData, "isRandomSpeed", isRandomSpeed);
 		Convert::fromJson(jsonData, "minSpeed", minSpeed);
 		Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
+		Convert::fromJson(jsonData, "isRandomLifeTime", isRandomLifeTime);
+		Convert::fromJson(jsonData, "minLifeTime", minLifeTime);
+		Convert::fromJson(jsonData, "maxLifeTime", maxLifeTime);
 	}
 
 	void Attribute_Gui();
