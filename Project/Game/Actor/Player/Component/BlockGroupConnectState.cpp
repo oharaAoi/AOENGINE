@@ -46,7 +46,7 @@ void BlockGroupConnectState::Update(float deltaTime, const Context& context, con
 
 void BlockGroupConnectState::UpdateConnecting(float deltaTime, const Context& context) {
 	remainingTime_ -= deltaTime;
-	if (remainingTime_ > 0.0f || context.launchTriggered) {
+	if (remainingTime_ > 0.0f && !context.launchTriggered) {
 		return;
 	}
 
