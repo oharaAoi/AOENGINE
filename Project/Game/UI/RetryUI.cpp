@@ -25,6 +25,12 @@ RetryItem RetryUI::Update(bool isPlayerAlive) {
 	if (!isPlayerAlive) {
 		// retryUI達の有効化
 		AOENGINE::Sprite* retry = FindSceneObject<AOENGINE::Sprite>("Retry");
+
+		if(!retry){
+			// もしRetryが見つからなかった場合は、Titleを返す
+			return RetryItem::Title;
+		}
+
 		retry->SetActive(true);
 
 		// 次の行動の選択

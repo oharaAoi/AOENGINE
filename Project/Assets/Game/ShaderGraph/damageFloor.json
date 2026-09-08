@@ -3,267 +3,105 @@
     "domain": "Texture",
     "links": [
         {
-            "fromNode": 2903578499104,
-            "fromPin": "uv",
-            "toNode": 2903645117920,
-            "toPin": "UV"
-        },
-        {
-            "fromNode": 2903578500256,
-            "fromPin": "DxResource",
-            "toNode": 2903645117920,
-            "toPin": "Texture"
-        },
-        {
-            "fromNode": 2903645117920,
-            "fromPin": "DxResource",
-            "toNode": 2903641262992,
-            "toPin": "BaseTex"
-        },
-        {
-            "fromNode": 2903649546912,
+            "fromNode": 2479323041376,
             "fromPin": "output",
-            "toNode": 2903578499104,
+            "toNode": 2479331104336,
             "toPin": "offset"
         },
         {
-            "fromNode": 2903567990832,
+            "fromNode": 2480857132592,
             "fromPin": "DxResource",
-            "toNode": 2903645124160,
+            "toNode": 2480854443920,
             "toPin": "Texture"
         },
         {
-            "fromNode": 2903567991216,
+            "fromNode": 2479331104336,
             "fromPin": "uv",
-            "toNode": 2903645124160,
+            "toNode": 2480854443920,
             "toPin": "UV"
         },
         {
-            "fromNode": 2903648324912,
+            "fromNode": 2480857132048,
             "fromPin": "output",
-            "toNode": 2903567991216,
-            "toPin": "offset"
-        },
-        {
-            "fromNode": 2903645124160,
-            "fromPin": "DxResource",
-            "toNode": 2903641262992,
-            "toPin": "NoiseTex"
-        },
-        {
-            "fromNode": 2903578501792,
-            "fromPin": "output",
-            "toNode": 2903641262992,
-            "toPin": "threshold"
-        },
-        {
-            "fromNode": 2903648306208,
-            "fromPin": "output",
-            "toNode": 2904761139232,
-            "toPin": "B"
-        },
-        {
-            "fromNode": 2903734510624,
-            "fromPin": "time",
-            "toNode": 2904761139232,
-            "toPin": "A"
-        },
-        {
-            "fromNode": 2904761139232,
-            "fromPin": "output",
-            "toNode": 2903649546912,
-            "toPin": "x"
-        },
-        {
-            "fromNode": 2903648306592,
-            "fromPin": "output",
-            "toNode": 2904761138176,
-            "toPin": "B"
-        },
-        {
-            "fromNode": 2904761138176,
-            "fromPin": "output",
-            "toNode": 2903648324912,
-            "toPin": "x"
-        },
-        {
-            "fromNode": 2903734511632,
-            "fromPin": "time",
-            "toNode": 2904761138176,
-            "toPin": "A"
-        },
-        {
-            "fromNode": 2903648301216,
-            "fromPin": "output",
-            "toNode": 2903567991216,
+            "toNode": 2479331104336,
             "toPin": "scale"
         },
         {
-            "fromNode": 2903648302368,
-            "fromPin": "output",
-            "toNode": 2903578499104,
-            "toPin": "scale"
+            "fromNode": 2480858326288,
+            "fromPin": "time",
+            "toNode": 2479332124752,
+            "toPin": "A"
         },
         {
-            "fromNode": 2903641262992,
+            "fromNode": 2480853723584,
+            "fromPin": "output",
+            "toNode": 2479332124752,
+            "toPin": "B"
+        },
+        {
+            "fromNode": 2480854443920,
             "fromPin": "DxResource",
-            "toNode": 2903582127360,
+            "toNode": 2401406273600,
+            "toPin": "BaseTexture"
+        },
+        {
+            "fromNode": 2401406273600,
+            "fromPin": "DxResource",
+            "toNode": 2480858328688,
             "toPin": "DxResource"
+        },
+        {
+            "fromNode": 2400195590112,
+            "fromPin": "DxResource",
+            "toNode": 2401406273600,
+            "toPin": "SampleNoise"
+        },
+        {
+            "fromNode": 2479332124752,
+            "fromPin": "output",
+            "toNode": 2479323041376,
+            "toPin": "y"
         }
     ],
     "nodes": [
         {
-            "id": 2903648301216,
-            "name": "Property_Vector2",
+            "id": 2479331104336,
+            "name": "UVTransform",
             "pos": [
-                -20.0,
-                580.0
-            ],
-            "props": {
-                "value": [
-                    1.0,
-                    1.0
-                ]
-            }
-        },
-        {
-            "id": 2904761138176,
-            "name": "Multiply",
-            "pos": [
-                -180.0,
-                480.0
+                -330.0,
+                380.0
             ]
         },
         {
-            "id": 2903578500256,
-            "name": "Texture",
+            "id": 2480858326288,
+            "name": "TimeNode",
             "pos": [
-                190.0,
-                -20.0
-            ],
-            "props": {
-                "textureName": "noise2.dds"
-            }
-        },
-        {
-            "id": 2903567990832,
-            "name": "Texture",
-            "pos": [
-                180.0,
-                340.0
-            ],
-            "props": {
-                "textureName": "noise4.dds"
-            }
-        },
-        {
-            "id": 2903648324912,
-            "name": "InOut_Vector2",
-            "pos": [
-                50.0,
-                470.0
-            ],
-            "props": {
-                "value": [
-                    19.944747924804688,
-                    0.0
-                ]
-            }
-        },
-        {
-            "id": 2903582127360,
-            "name": "ResultNode",
-            "pos": [
-                1580.0,
-                300.0
+                -870.0,
+                370.0
             ]
         },
         {
-            "id": 2903645117920,
+            "id": 2480854443920,
             "name": "SampleTexture2D",
             "pos": [
-                500.0,
-                50.0
+                -130.0,
+                90.0
             ],
             "props": {
                 "color": {
-                    "a": 1.0,
-                    "b": 0.0,
-                    "g": 0.27799224853515625,
-                    "r": 1.0
-                }
-            }
-        },
-        {
-            "id": 2903578499104,
-            "name": "UVTransform",
-            "pos": [
-                220.0,
-                130.0
-            ]
-        },
-        {
-            "id": 2903734511632,
-            "name": "TimeNode",
-            "pos": [
-                -320.0,
-                450.0
-            ]
-        },
-        {
-            "id": 2903641262992,
-            "name": "Dissolve",
-            "pos": [
-                940.0,
-                210.0
-            ],
-            "props": {
-                "dissolveColor": {
                     "a": 1.0,
                     "b": 1.0,
                     "g": 1.0,
                     "r": 1.0
-                },
-                "edgeWidth": 1.0,
-                "threshold": 0.3721008896827698
+                }
             }
         },
         {
-            "id": 2903734510624,
-            "name": "TimeNode",
-            "pos": [
-                -310.0,
-                150.0
-            ]
-        },
-        {
-            "id": 2904761139232,
-            "name": "Multiply",
-            "pos": [
-                -130.0,
-                190.0
-            ]
-        },
-        {
-            "id": 2903649546912,
-            "name": "InOut_Vector2",
-            "pos": [
-                20.0,
-                150.0
-            ],
-            "props": {
-                "value": [
-                    31.491708755493164,
-                    0.0
-                ]
-            }
-        },
-        {
-            "id": 2903648302368,
+            "id": 2480857132048,
             "name": "Property_Vector2",
             "pos": [
-                -90.0,
-                290.0
+                -770.0,
+                670.0
             ],
             "props": {
                 "value": [
@@ -273,68 +111,88 @@
             }
         },
         {
-            "id": 2903645124160,
-            "name": "SampleTexture2D",
+            "id": 2479323041376,
+            "name": "InOut_Vector2",
             "pos": [
-                460.0,
-                270.0
+                -590.0,
+                350.0
             ],
             "props": {
-                "color": {
-                    "a": 1.0,
-                    "b": 0.0,
-                    "g": 0.0,
-                    "r": 1.0
+                "value": [
+                    0.0,
+                    0.0
+                ]
+            }
+        },
+        {
+            "id": 2480858328688,
+            "name": "ResultNode",
+            "pos": [
+                770.0,
+                140.0
+            ]
+        },
+        {
+            "id": 2480853723584,
+            "name": "Property_Float",
+            "pos": [
+                -1090.0,
+                450.0
+            ],
+            "props": {
+                "value": [
+                    0.09000000357627869
+                ]
+            }
+        },
+        {
+            "id": 2480857132592,
+            "name": "Texture",
+            "pos": [
+                -440.0,
+                50.0
+            ],
+            "props": {
+                "textureName": "magmaNoise.dds"
+            }
+        },
+        {
+            "id": 2479332124752,
+            "name": "Multiply",
+            "pos": [
+                -720.0,
+                370.0
+            ]
+        },
+        {
+            "id": 2401406273600,
+            "name": "Distortion",
+            "pos": [
+                370.0,
+                130.0
+            ],
+            "props": {
+                "scroll": {
+                    "x": 0.0,
+                    "y": 0.0
+                },
+                "strengthX": 0.10000000149011612,
+                "strengthY": 0.0,
+                "tiling": {
+                    "x": 1.0,
+                    "y": 1.0
                 }
             }
         },
         {
-            "id": 2903567991216,
-            "name": "UVTransform",
+            "id": 2400195590112,
+            "name": "Texture",
             "pos": [
-                330.0,
-                480.0
-            ]
-        },
-        {
-            "id": 2903648306592,
-            "name": "Property_Float",
-            "pos": [
-                -470.0,
-                550.0
+                -60.0,
+                300.0
             ],
             "props": {
-                "value": [
-                    0.1899999976158142
-                ]
-            }
-        },
-        {
-            "id": 2903578501792,
-            "name": "LoopValueNode",
-            "pos": [
-                680.0,
-                440.0
-            ],
-            "props": {
-                "duration": 1.0,
-                "easeIndex": 0,
-                "end": 0.6499999761581421,
-                "loopType": 2,
-                "start": 0.3400000035762787
-            }
-        },
-        {
-            "id": 2903648306208,
-            "name": "Property_Float",
-            "pos": [
-                -430.0,
-                240.0
-            ],
-            "props": {
-                "value": [
-                    0.30000001192092896
-                ]
+                "textureName": "cell.dds"
             }
         }
     ],
