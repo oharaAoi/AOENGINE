@@ -769,6 +769,8 @@ void Player::Debug_Gui(){
 		}
 	}
 
+	ImGui::DragFloat("currentHp", &currentHp_, 1.f);
+
 	if(ImGui::CollapsingHeader("Parameter")){
 		// 調整 + Save/Load
 		parameter_.Debug_Gui();
