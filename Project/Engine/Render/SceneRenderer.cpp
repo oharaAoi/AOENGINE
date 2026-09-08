@@ -16,6 +16,7 @@
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
 #include "Engine/Module/Components/Materials/Material.h"
 #include "Engine/Module/Components/3d/WorldTextComponent.h"
+#include "Engine/Module/Components/Effect/ExplosionEffectComponent.h"
 #include "Engine/Module/Components/Materials/PBRMaterial.h"
 #include "Engine/Render/Render.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
@@ -144,6 +145,11 @@ void SceneRenderer::Update() {
 		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
 			gameObject->GetWorldTextComponent()->Update(*gameObject);
 		}
+		if (gameObject && gameObject->IsActive() && gameObject->GetExplosionEffectComponent()) {
+			gameObject->GetExplosionEffectComponent()->Update(*gameObject);
+		}
+        if (gameObject && gameObject->IsActive() && gameObject->GetMagmaEffectComponent())
+            gameObject->GetMagmaEffectComponent()->Update(*gameObject);
 	}
 	RemoveInvalidRenderEntries();
 }
@@ -188,6 +194,11 @@ void SceneRenderer::EditorUpdate() {
 		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
 			gameObject->GetWorldTextComponent()->Update(*gameObject);
 		}
+		if (gameObject && gameObject->IsActive() && gameObject->GetExplosionEffectComponent()) {
+			gameObject->GetExplosionEffectComponent()->EditorUpdate(*gameObject);
+		}
+        if (gameObject && gameObject->IsActive() && gameObject->GetMagmaEffectComponent())
+            gameObject->GetMagmaEffectComponent()->Update(*gameObject, true);
 	}
 }
 
@@ -362,10 +373,19 @@ void SceneRenderer::DrawSceneObjects(
 		fallback.object->Draw();
 	}
 
+    for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
+        const auto* gameObject = dynamic_cast<const BaseGameObject*>(object);
+        if (gameObject && gameObject->IsActive() && gameObject->GetMagmaEffectComponent())
+            gameObject->GetMagmaEffectComponent()->Draw();
+    }
+
 	for (SceneObject* object : sceneWorld_.GetObjectPointers()) {
 		const auto* gameObject = dynamic_cast<const BaseGameObject*>(object);
 		if (gameObject && gameObject->IsActive() && gameObject->GetWorldTextComponent()) {
 			gameObject->GetWorldTextComponent()->Draw();
+		}
+		if (gameObject && gameObject->IsActive() && gameObject->GetExplosionEffectComponent()) {
+			gameObject->GetExplosionEffectComponent()->Draw();
 		}
 	}
 

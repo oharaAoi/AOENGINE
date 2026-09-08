@@ -9,6 +9,7 @@
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Module/Components/3d/WorldTextComponent.h"
+#include "Engine/Module/Components/Effect/ExplosionEffectComponent.h"
 
 #include <cmath>
 
@@ -28,7 +29,9 @@ BaseGameObject::~BaseGameObject() {
 }
 
 void BaseGameObject::Finalize() {
+    magmaEffectComponent_ = nullptr;
 	worldTextComponent_ = nullptr;
+	explosionEffectComponent_ = nullptr;
 	if (transform_ != nullptr) {
 		transform_->Finalize();
 		transform_ = nullptr;
@@ -331,6 +334,35 @@ bool BaseGameObject::RemoveWorldTextComponent() {
 	if (!worldTextComponent_) { return false; }
 	WorldTextComponent* removing = worldTextComponent_;
 	worldTextComponent_ = nullptr;
+	components_.remove_if([removing](const std::unique_ptr<IComponent>& component) {
+		return component.get() == removing;
+	});
+	return true;
+}
+
+void BaseGameObject::AddExplosionEffectComponent() {
+	if (explosionEffectComponent_) { return; }
+	explosionEffectComponent_ = AddComponent<ExplosionEffectComponent>();
+	explosionEffectComponent_->Init(*this);
+}
+
+void BaseGameObject::AddMagmaEffectComponent() {
+    if (magmaEffectComponent_) return;
+    magmaEffectComponent_ = AddComponent<MagmaEffectComponent>();
+    magmaEffectComponent_->Init(*this);
+}
+bool BaseGameObject::RemoveMagmaEffectComponent() {
+    if (!magmaEffectComponent_) return false;
+    auto* removing = magmaEffectComponent_;
+    magmaEffectComponent_ = nullptr;
+    components_.remove_if([removing](const std::unique_ptr<IComponent>& value) { return value.get() == removing; });
+    return true;
+}
+
+bool BaseGameObject::RemoveExplosionEffectComponent() {
+	if (!explosionEffectComponent_) { return false; }
+	ExplosionEffectComponent* removing = explosionEffectComponent_;
+	explosionEffectComponent_ = nullptr;
 	components_.remove_if([removing](const std::unique_ptr<IComponent>& component) {
 		return component.get() == removing;
 	});

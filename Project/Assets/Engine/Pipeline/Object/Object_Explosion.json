@@ -1,0 +1,13 @@
+{
+    "Pipeline": {
+        "vs": "/Engine/HLSL/Effect/Explosion.VS.hlsl",
+        "ps": "/Engine/HLSL/Effect/Explosion.PS.hlsl",
+        "blendMode": "Normal",
+        "cullingType": "NONE",
+        "depth": true,
+        "rtvFormat": [
+            "16_RGB",
+            "16_RGB"
+        ]
+    }
+}
