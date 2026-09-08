@@ -118,6 +118,7 @@ void Player::Update(){
 	// ジャンプパラメータセット
 	const PlayerJump::Params jumpParams{
 		parameter_.jumpPower,
+		parameter_.releaseRiseRate,
 		parameter_.hangTime,
 		parameter_.riseGravity,
 		parameter_.fallGravity,
