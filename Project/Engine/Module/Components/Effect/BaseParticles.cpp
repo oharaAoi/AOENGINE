@@ -149,7 +149,12 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	}
 
 	if (emitter_.isRandomRotate) {
-		newParticle.rotateZ = Random::RandomFloat(emitter_.minAngle, emitter_.maxAngle);
+		float angleX = Random::RandomFloat(emitter_.minAngles.x, emitter_.maxAngles.x);
+		float angleY = Random::RandomFloat(emitter_.minAngles.y, emitter_.maxAngles.y);
+		float angleZ = Random::RandomFloat(emitter_.minAngles.z, emitter_.maxAngles.z);
+		newParticle.rotate = Math::Quaternion::EulerToQuaternion(Math::Vector3(angleX * kToRadian, angleY * kToRadian, angleZ * kToRadian));
+	} else {
+		
 	}
 
 	float speed = emitter_.speed;
@@ -158,8 +163,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	}
 
 	newParticle.firstScale = newParticle.scale;
-	newParticle.rotate = Math::Quaternion::AngleAxis(newParticle.rotateZ * kToRadian, CVector3::FORWARD);
-
+	
 	float conePhi = 0.0f;
 	// particleの出現位置を設定
 	if (emitter_.emitOrigin == (int)CpuEmitOrigin::Center) {
@@ -295,6 +299,7 @@ void AOENGINE::BaseParticles::Emit(const Math::Vector3& pos) {
 	newParticle.currentTime = 0.0f;
 	newParticle.damping = emitter_.dampig;
 	newParticle.gravity = emitter_.gravity;
+	newParticle.rotateSpeed = emitter_.rotateSpeed;
 
 	newParticle.isLifeOfAlpha = emitter_.isLifeOfAlpha;
 	newParticle.isLifeOfScale = emitter_.isLifeOfScale;
