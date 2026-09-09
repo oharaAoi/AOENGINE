@@ -152,6 +152,12 @@ void GameScene::Update()
 		boss_->UpdateHitStop();
 	}
 
+	// ボスを倒したら、撃破演出を見せている間に死なないようダメージを止める。
+	// ダメージ床や落ちかけの攻撃が残っていても、そこで負けにはしない
+	if (player_ && boss_ && boss_->IsDefeated()) {
+		player_->SetIsNoDamage(true);
+	}
+
 	// ココにPlayerが生存しているかどうかを渡す
 	if (RetrySelect(player_->IsAlive())) {
 		return;

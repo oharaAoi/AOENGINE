@@ -157,6 +157,8 @@ private:
 
 	AOENGINE::VectorTween<float> vignettePower_;
 
+	bool isNodamage_ = false;
+
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
 	const BlockGroupConnectState* GetBlockGroupConnectState() const{ return &blockGroupConnectState_; }
@@ -223,6 +225,7 @@ public: // accessor
 
 	/// カメラを揺らせるように渡しておく
 	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }
+	void SetIsNoDamage(bool is) { isNodamage_ = is; }
 
 	// 演出でスケールを動かす時の倍率。基準の大きさ(baseScale)に掛かる
 	void SetScaleMultiplier(const Math::Vector3& multiplier){ scaleMultiplier_ = multiplier; }

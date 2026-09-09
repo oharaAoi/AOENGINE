@@ -55,6 +55,7 @@ void Player::Init(BaseGameObject* body){
 	facing_ = 1.0f;
 	scaleMultiplier_ = CVector3::UNIT;
 	animation_.Init();
+	isNodamage_ = false;
 
 	// cameraの情報を読取る
 	cameraShakeParameter_.SetGroupName("Player");
@@ -482,7 +483,11 @@ bool Player::TakeDamage(float amount){
 		return false;
 	}
 
-	currentHp_ -= amount;
+	// NoDamage中はHp減らさない
+	if (!isNodamage_) {
+		currentHp_ -= amount;
+	}
+
 	if(currentHp_ < 0.0f){
 		currentHp_ = 0.0f;
 	}

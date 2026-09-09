@@ -173,9 +173,10 @@ void TutorialScene::UpdateTextBox(float deltaTime) {
 
 void TutorialScene::UpdateContext() {
 
-	// 次のページへ送る入力。XボタンとF キーの両方で送れる
+	// 次のページへ送る入力。XボタンとF キーの両方で送れる。
+	// Bは打ち上げに使っているので、送りには割り当てない
 	const bool isNextTriggered =
-		Input::IsTriggerKey(kNextKey) || Input::IsTriggerButton(ButtonB);
+		Input::IsTriggerKey(kNextKey) || Input::IsTriggerButton(ButtonX);
 	context_.SetNextTriggered(isNextTriggered);
 
 	// 前のページへ戻る入力
