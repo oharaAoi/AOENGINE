@@ -14,8 +14,8 @@
         "attackPulseScaleRate": 0.20000000298023224,
         "attackPulseTime": 0.49000000953674316,
         "baseScale": {
-            "x": 3.299999952316284,
-            "y": 2.5999999046325684,
+            "x": 11.0,
+            "y": 8.0,
             "z": 0.36000001430511475
         },
         "beamBlinkInterval": 0.10000000149011612,
@@ -74,7 +74,7 @@
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
             "x": 46.099998474121094,
-            "y": 1.0,
+            "y": 24.0,
             "z": 59.20000076293945
         },
         "hitStopTime": 0.014999999664723873,
@@ -109,6 +109,6 @@
         "stopperSpeed": 12.0,
         "stopperStartDelay": 1.2599999904632568,
         "stopperUnlockPhase": 1,
-        "worldZ": 3.799999952316284
+        "worldZ": 80.0
     }
 }

@@ -1,5 +1,6 @@
 {
     "playerParameter": {
+        "airJumpPower": 22.0,
         "animationBlendSpeed": 0.20000000298023224,
         "animationSpeed": 1.0,
         "baseScale": {
@@ -56,11 +57,16 @@
         "invincibleTime": 1.0,
         "jumpPower": 25.600000381469727,
         "launchAccel": 20.0,
+        "launchHomingRate": 8.0,
         "launchLifeTime": 5.0,
+        "launchLineName": "Path",
+        "launchMaxSpeed": 0.0,
+        "launchRotateRate": 10.0,
         "launchSpeed": 20.0,
         "launchWaitTime": 3.0,
         "maxFallSpeed": 45.0,
         "maxHp": 20.0,
+        "maxJumpCount": 2,
         "moveAcceleration": 27.200000762939453,
         "moveInputThreshold": 0.009999999776482582,
         "moveSpeed": 10.0,
