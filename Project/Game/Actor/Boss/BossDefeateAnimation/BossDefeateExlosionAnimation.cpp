@@ -25,6 +25,7 @@ void BossDefeateExlosionAnimation::Update(Boss& boss) {
 				dynamic_cast<AOENGINE::BaseGameObject*>(obj);
 			gameObject->GetTransform()->SetTranslate(boss.GetPosition());
 			gameObject->GetTransform()->SetScale(CVector3::UNIT * 2.f);
+			Engine::GetSoundManager()->Play("GameClearEffect");
 			animation_->ChangeNext();
 		}
 		return; 
@@ -46,6 +47,7 @@ void BossDefeateExlosionAnimation::Update(Boss& boss) {
 	}
 
 	count_++;
+	Engine::GetSoundManager()->Play("BossDeadExploade");
 
 	if (count_ >= explosionParameter_.explosionCount) {
 		flashParticle_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("BossDefeateFlash");
