@@ -85,7 +85,7 @@ void GameScene::Init()
 	player_->SetDamageCalculator(bossBlockLauncherCallBacks_.GetDamageCalculator());
 	bossBlockLauncherCallBacks_.SetPair(collisionManager_.get(), "Boss", "LaunchedBlock");
 
-	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get());
+	callBacks_.Init(collisionManager_.get(), player_.get(), damageFloor_.get(), boss_.get(),&stageBlockField_);
 	// RetryUI
 	retryUI_ = std::make_unique<RetryUI>();
 	playerUI_ = std::make_unique<PlayerUI>();
