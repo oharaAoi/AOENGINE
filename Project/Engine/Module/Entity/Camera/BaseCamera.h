@@ -13,8 +13,13 @@ class BaseCamera :
 public:
 
 	struct Parameter : public AOENGINE::IJsonConverter {
+		
 		Math::Quaternion rotate = Math::Quaternion::AngleAxis(25.0f * kToRadian, CVector3::RIGHT);
 		Math::Vector3 translate = Math::Vector3(0.0f,4.0f,-8.0f);
+
+		float fovY = 0.45f;
+		float nearFace = 0.1f;
+		float farFace = 10000.0f;
 
 		Parameter() {
 			SetGroupName("Camera");
@@ -25,13 +30,19 @@ public:
 			return AOENGINE::JsonBuilder(id)
 				.Add("rotate", rotate)
 				.Add("translate", translate)
+				.Add("fovY",fovY)
+				.Add("nearFace",nearFace)
+				.Add("farFace",farFace)
 				.Build();
 		}
 
 		void FromJson(const json& jsonData) override {
 			Convert::fromJson(jsonData, "rotate", rotate);
 			Convert::fromJson(jsonData, "translate", translate);
-		}
+			Convert::fromJson(jsonData, "fovY", fovY);
+			Convert::fromJson(jsonData, "nearFace", nearFace);
+			Convert::fromJson(jsonData, "farFace", farFace);
+		 }
 
 		void Debug_Gui() override {};
 	};
