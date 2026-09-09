@@ -8,7 +8,6 @@
 // game
 #include "Game/Scene/BaseScene.h"
 #include "Game/UI/GameClearUI.h"
-#include "Game/Scene/Transition/SceneTransition.h"
 
 class ClearScene : 
 	public BaseScene {
@@ -43,6 +42,5 @@ private: // private variables
 
 	AOENGINE::SoundHandle bgmHandle_;
 
-	std::unique_ptr<SceneTransition> transition_;
 };
 

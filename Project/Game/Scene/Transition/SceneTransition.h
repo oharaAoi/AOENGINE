@@ -10,7 +10,7 @@ struct SceneTransitionParameter :
 	public AOENGINE::CustomParameterSet,
 	public AOENGINE::IJsonConverter {
 
-	int transitionTime = 1.f;					// 爆破回数
+	float transitionTime = 0.4f;
 
 	SceneTransitionParameter() : CustomParameterSet("SceneTransitionParameter") {
 		SetGroupName("SceneTransition");
@@ -45,6 +45,7 @@ public:
 	/// 初期化
 	/// </summary>
 	void Init();
+	void Release();
 
 	/// <summary>
 	/// 更新
@@ -60,18 +61,23 @@ public:
 	/// フェードアウト
 	/// </summary>
 	void FadeOut();
+	void SetCovered();
+	void SetVisible();
 
 public: // accessor
 
 	bool IsFinish() const { return spriteAlphaTween_.GetIsFinish(); };
+	bool IsReady() const;
 
 private: 
+	AOENGINE::Sprite* GetFade() const;
 
 	AOENGINE::VectorTween<float> spriteAlphaTween_;
 
 	SceneTransitionParameter parameter_;
 
-	AOENGINE::Sprite* fade_;
+	// SceneWorld再構築後に破棄済みSpriteへ触れないよう、生ポインタは保持しない。
+	AOENGINE::ObjectHandle fadeHandle_{};
 
 };
 
