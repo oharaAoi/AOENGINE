@@ -30,6 +30,9 @@ void LineCollider::Draw() const {
 }
 
 void LineCollider::Debug_Gui() {
+	ImGui::DragFloat3("translate", &localSRT_.translate.x, 0.1f);
+	ImGui::DragFloat3("diff", &std::get<Math::Line>(shape_).diff.x, 0.1f);
+	BaseCollider::Debug_Gui();
 }
 
 void LineCollider::SetDiff(const Math::Vector3& _diff) {

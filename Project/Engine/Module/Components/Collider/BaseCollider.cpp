@@ -13,6 +13,13 @@ BaseCollider::BaseCollider() {
 void AOENGINE::BaseCollider::Debug_Gui() {
 	auto& layers = AOENGINE::CollisionLayerManager::GetInstance();
 
+	// 衝突のEnter/Stay/Exitやコールバックは発生させたまま、
+	// PenetrationResolutionによる押し戻しだけを無効にする。
+	ImGui::Checkbox("Collision Detection Only", &isTrigger_);
+	if (ImGui::IsItemHovered()) {
+		ImGui::SetTooltip("Detect collisions and invoke callbacks without pushback response.");
+	}
+
 	// ----------------------
 	// ↓ カテゴリの設定
 	// ----------------------
