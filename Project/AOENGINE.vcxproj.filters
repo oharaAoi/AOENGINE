@@ -313,6 +313,9 @@
     <Filter Include="Game\EventHandlers">
       <UniqueIdentifier>{C1FF7946-ADE3-3A9C-1644-35EF0247251E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Path">
+      <UniqueIdentifier>{DB7A367B-47E5-EAF1-9023-9C97FCCCC846}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
     </Filter>
@@ -1380,6 +1383,12 @@
     <ClInclude Include="Game\EventHandlers\StopperToBlockGroupCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Path\LineLoader.h">
+      <Filter>Game\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Path\LinePathMover.h">
+      <Filter>Game\Path</Filter>
+    </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
     </ClInclude>
@@ -1507,6 +1516,9 @@
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\RetryUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\TitleEarthParameter.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\TitleMeteoEffect.h">
@@ -2506,6 +2518,12 @@
     </ClCompile>
     <ClCompile Include="Game\EventHandlers\StopperToBlockGroupCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Path\LineLoader.cpp">
+      <Filter>Game\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Path\LinePathMover.cpp">
+      <Filter>Game\Path</Filter>
     </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
