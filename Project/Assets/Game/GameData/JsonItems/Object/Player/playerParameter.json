@@ -65,7 +65,7 @@
         "launchSpeed": 20.0,
         "launchWaitTime": 3.0,
         "maxFallSpeed": 45.0,
-        "maxHp": 20.0,
+        "maxHp": 26.0,
         "maxJumpCount": 2,
         "moveAcceleration": 27.200000762939453,
         "moveInputThreshold": 0.009999999776482582,
