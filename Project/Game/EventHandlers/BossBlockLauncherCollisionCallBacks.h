@@ -5,6 +5,7 @@
 #include <unordered_map>
 /// engine
 #include "Engine/Module/Components/EventHandlers/BaseCollisionCallBacks.h"
+#include "Engine/Module/Entity/Camera/Component/CameraShakeParameters.h"
 
 /// game
 #include "Game/Battle/BlockDamageCalculator.h"
@@ -25,6 +26,9 @@ public:
 	void Init() override;
 	void Update() override;
 
+	/// <summary>調整値の編集UI</summary>
+	void Debug_Gui();
+
 	void CollisionEnter(AOENGINE::BaseCollider* const bossCollider,AOENGINE::BaseCollider* const blockCollider) override;
 	void CollisionStay(AOENGINE::BaseCollider* const bossCollider,AOENGINE::BaseCollider* const blockCollider) override;
 	void CollisionExit(AOENGINE::BaseCollider* const bossCollider,AOENGINE::BaseCollider* const blockCollider) override;
@@ -34,6 +38,9 @@ private:
 	BlockGroupLauncherManager* pLauncherManager_ = nullptr;
 
 	BlockDamageCalculator damageCalculator_;
+
+	// ボスに当たった時のカメラの揺れ方。当たりを見ているここで持つ
+	CameraShakeRequest cameraShakeParameter_;
 
 public: // accessor
 	void SetBoss(Boss* boss){ pBoss_ = boss; }

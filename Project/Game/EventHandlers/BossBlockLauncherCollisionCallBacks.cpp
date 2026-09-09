@@ -2,6 +2,7 @@
 
 /// engine
 #include "Engine/Core/Engine.h"
+#include "Engine/System/Manager/ImGuiManager.h"
 
 /// game
 #include "Game/Actor/Boss/Boss.h"
@@ -16,6 +17,11 @@ void BossBlockLauncherCollisionCallBacks::Init(){
 
 	// 保存済みのダメージ調整値を読み込む。呼ばないと既定値のままになる
 	damageCalculator_.Load();
+
+	// カメラの揺れ方も保存済みの値から読み込む
+	cameraShakeParameter_.SetGroupName("BlockDamage");
+	cameraShakeParameter_.SetName("bossHitCameraShake");
+	cameraShakeParameter_.Load();
 }
 
 void BossBlockLauncherCollisionCallBacks::Update(){}
@@ -45,6 +51,9 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 	context.groupCount = pLauncherManager_->GetGroupCount();
 	pBoss_->Damage(damageCalculator_.Calculate(context));
 
+	// 当たった手応えを出すためにカメラを揺らす
+	pBoss_->ShakeCamera(cameraShakeParameter_);
+
 	AOENGINE::ParticleEffectManager::GetInstance()->Play("BossHitEffect", blockCollider->GetCenterPos());
 
 	// se
@@ -53,3 +62,15 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 
 void BossBlockLauncherCollisionCallBacks::CollisionStay(AOENGINE::BaseCollider* const /*bossCollider*/,AOENGINE::BaseCollider* const /*blockCollider*/){}
 void BossBlockLauncherCollisionCallBacks::CollisionExit(AOENGINE::BaseCollider* const /*bossCollider*/,AOENGINE::BaseCollider* const /*blockCollider*/){}
+
+void BossBlockLauncherCollisionCallBacks::Debug_Gui(){
+	// 当たった時のカメラの揺れ方
+	ImGui::SeparatorText("Boss Hit Camera Shake");
+	cameraShakeParameter_.Debug_Gui();
+	cameraShakeParameter_.SaveAndLoad();
+	if(ImGui::Button("Test Play")){
+		if(pBoss_){
+			pBoss_->ShakeCamera(cameraShakeParameter_);
+		}
+	}
+}

@@ -205,6 +205,12 @@ void GameScene::Update()
 		introUI_.Debug_Gui();
 		ImGui::PopID();
 	}
+	if (ImGui::CollapsingHeader("LauncherHit"))
+	{
+		ImGui::PushID("LauncherHit");
+		bossBlockLauncherCallBacks_.Debug_Gui();
+		ImGui::PopID();
+	}
 
 	ImGui::End();
 #endif
