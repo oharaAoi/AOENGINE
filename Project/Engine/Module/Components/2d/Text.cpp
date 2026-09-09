@@ -134,25 +134,16 @@ void Text::Load(const std::string& _group, const std::string& _key) {
 	saveParam_.SetName(_key);
 	saveParam_.Load();
 	ApplyParam();
+	SetResizeReferenceSize({
+		static_cast<float>(saveParam_.windowWidth),
+		static_cast<float>(saveParam_.windowHeight) });
 
 	Resize();
 	RebuildTexture();
 }
 
 void Text::Save(const std::string& _group, const std::string& _key) {
-	float scaleX = static_cast<float>(WinApp::sWindowWidth) / static_cast<float>(WinApp::sClientWidth);
-	float scaleY = static_cast<float>(WinApp::sWindowHeight) / static_cast<float>(WinApp::sClientHeight);
-
-	saveParam_.transform = GetTransform()->GetTransform();
-	GetTransform()->SetTranslate({
-		saveParam_.transform.translate.x * scaleX,
-		saveParam_.transform.translate.y * scaleY });
-
-	GetTransform()->SetScale({
-		saveParam_.transform.scale.x * scaleX,
-		saveParam_.transform.scale.y * scaleY
-								 });
-
+	// Spriteと同じく、保存操作で表示中の座標を変更しない。
 	saveParam_.isActive = IsSelfActive();
 	saveParam_.transform = GetTransform()->GetTransform();
 	saveParam_.text = text_;

@@ -37,10 +37,7 @@ void ScreenTransform::Update(const Math::Matrix4x4& _projection) {
 	screenMat_ = transform_.MakeAffine();
 
 	// 親がいる場合親を考慮
-	Math::Matrix4x4 matrix = screenMat_;
-	if (parentMat_ != nullptr) {
-		matrix = screenMat_ * *parentMat_;
-	}
+	const Math::Matrix4x4& matrix = GetMatrix();
 
 	// 最終的なスプライトの変換行列
 	transformData_->wvp = Math::Matrix4x4(
@@ -109,6 +106,16 @@ void ScreenTransform::Debug_Gui() {
 	}
 }
 
-void ScreenTransform::SetParent(const Math::Matrix4x4& _parentMat) {
-	parentMat_ = &_parentMat;
+const Math::Matrix4x4& ScreenTransform::GetMatrix() const {
+	// 描画順に依存せず、祖先を含む現在の変換を取得する。
+	Math::SRT local = transform_;
+	worldMat_ = local.MakeAffine();
+	if (parentMat_) {
+		worldMat_ = worldMat_ * parentMat_->GetMatrix();
+	}
+	return worldMat_;
+}
+
+void ScreenTransform::SetParent(const ScreenTransform& parent) {
+	parentMat_ = &parent;
 }

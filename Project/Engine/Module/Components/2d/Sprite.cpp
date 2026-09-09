@@ -477,6 +477,12 @@ void Sprite::Debug_Gui() {
 void AOENGINE::Sprite::Resize() {
 	const float currentWidth = static_cast<float>(WinApp::sClientWidth);
 	const float currentHeight = static_cast<float>(WinApp::sClientHeight);
+	if (currentWidth <= 0.0f || currentHeight <= 0.0f) { return; }
+	// 子の座標とサイズは親の変換で拡縮されるため、ローカル値は維持する。
+	if (transform_->HasParent()) {
+		resizeReferenceSize_ = { currentWidth, currentHeight };
+		return;
+	}
 	const float scaleX = resizeReferenceSize_.x > 0.0f ? currentWidth / resizeReferenceSize_.x : 1.0f;
 	const float scaleY = resizeReferenceSize_.y > 0.0f ? currentHeight / resizeReferenceSize_.y : 1.0f;
 	const Math::SRT current = transform_->GetTransform();
@@ -531,6 +537,9 @@ void Sprite::Load(const std::string& _group, const std::string& _key) {
 	saveParam_.SetName(_key);
 	saveParam_.Load();
 	ApplyParam();
+	SetResizeReferenceSize({
+		static_cast<float>(saveParam_.windowWidth),
+		static_cast<float>(saveParam_.windowHeight) });
 
 	Resize();
 }
@@ -540,21 +549,7 @@ void Sprite::Load(const std::string& _group, const std::string& _key) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Sprite::Save(const std::string& _group, const std::string& _key) {
-	float scaleX = static_cast<float>(WinApp::sWindowWidth) / static_cast<float>(WinApp::sClientWidth);
-	float scaleY = static_cast<float>(WinApp::sWindowHeight) / static_cast<float>(WinApp::sClientHeight);
-
-	saveParam_.transform = transform_->GetTransform();
-	// 位置補正
-	transform_->SetTranslate({
-		saveParam_.transform.translate.x * scaleX,
-		saveParam_.transform.translate.y * scaleY });
-
-	// サイズ補正
-	transform_->SetScale({
-		saveParam_.transform.scale.x * scaleX,
-		saveParam_.transform.scale.y * scaleY
-						 });
-
+	// 現在の座標とその基準サイズを対で保存し、表示中のTransformは変更しない。
 	saveParam_.isActive = IsSelfActive();
 	saveParam_.transform = transform_->GetTransform();
 	saveParam_.uvTransform = uvTransform_;

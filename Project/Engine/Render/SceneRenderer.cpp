@@ -552,7 +552,7 @@ bool SceneRenderer::SetParent(const ObjectHandle& child, const ObjectHandle& par
 		}
 	} else if (Sprite* childSprite = dynamic_cast<Sprite*>(childObject)) {
 		if (Sprite* parentSprite = dynamic_cast<Sprite*>(parentObject)) {
-			childSprite->GetTransform()->SetParent(parentSprite->GetTransform()->GetMatrix());
+			childSprite->GetTransform()->SetParent(*parentSprite->GetTransform());
 		} else {
 			childSprite->GetTransform()->ClearParent();
 		}

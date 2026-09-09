@@ -689,7 +689,7 @@ void AOENGINE::GameObjectWindow::SyncTransformParent(const ObjectHandle& childHa
 	if (Sprite* childSprite = dynamic_cast<Sprite*>(child)) {
 		Sprite* parentSprite = dynamic_cast<Sprite*>(parent);
 		if (parentSprite && parentSprite->GetTransform()) {
-			childSprite->GetTransform()->SetParent(parentSprite->GetTransform()->GetMatrix());
+			childSprite->GetTransform()->SetParent(*parentSprite->GetTransform());
 		} else {
 			childSprite->GetTransform()->ClearParent();
 		}

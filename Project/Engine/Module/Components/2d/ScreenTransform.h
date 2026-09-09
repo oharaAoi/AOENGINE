@@ -58,10 +58,11 @@ public:
 
 public:
 
-	void SetParent(const Math::Matrix4x4& _parentMat);
+	void SetParent(const ScreenTransform& parent);
 	void ClearParent() { parentMat_ = nullptr; }
+	bool HasParent() const { return parentMat_ != nullptr; }
 
-	const Math::Matrix4x4& GetMatrix() const { return screenMat_; }
+	const Math::Matrix4x4& GetMatrix() const;
 
 	void SetSRT(const Math::SRT& _srt) { transform_ = _srt; }
 	const Math::SRT& GetSRT() const { return transform_; }
@@ -90,7 +91,8 @@ private:
 	Math::SRT transform_;
 	Math::Matrix4x4 screenMat_;
 
-	const Math::Matrix4x4* parentMat_ = nullptr;
+	const ScreenTransform* parentMat_ = nullptr;
+	mutable Math::Matrix4x4 worldMat_;
 
 	int id_;
 	static int nextId_;

@@ -46,6 +46,14 @@ LRESULT CALLBACK WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 		GetInstance()->ExpansionWindow();
 	}
 	break;
+	case WM_DPICHANGED:
+	{
+		const RECT* suggested = reinterpret_cast<const RECT*>(lparam);
+		SetWindowPos(hwnd, nullptr, suggested->left, suggested->top,
+			suggested->right - suggested->left, suggested->bottom - suggested->top,
+			SWP_NOZORDER | SWP_NOACTIVATE);
+		return 0;
+	}
 	}
 
 	// 標準のメッセージ処理を行う
@@ -90,7 +98,7 @@ void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHei
 	RECT wrc = { 0,0, static_cast<LONG>(_backBufferWidth), static_cast<LONG>(_backBufferHeight) };
 
 	// クライアント領域を元に実際のサイズにwrcを変更してもらう
-	AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
+	AdjustWindowRectExForDpi(&wrc, WS_OVERLAPPEDWINDOW, false, 0, GetDpiForSystem());
 
 	// windowの生成 ---------------------------------------------
 	hwnd_ = CreateWindow(
