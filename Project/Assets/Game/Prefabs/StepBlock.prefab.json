@@ -28,8 +28,9 @@
                     },
                     {
                         "active": true,
-                        "category": "Block",
+                        "category": "StepBlock",
                         "collisionMask": [
+                            "DamageFloor",
                             "Player"
                         ],
                         "localPosition": [

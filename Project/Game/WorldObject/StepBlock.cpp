@@ -1,4 +1,4 @@
-#include "Block.h"
+#include "StepBlock.h"
 
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/Module/Components/WorldTransform.h"
@@ -6,7 +6,7 @@
 
 using namespace AOENGINE;
 
-void Block::OnBrokenEffect() const{
+void StepBlock::OnBrokenEffect() const{
 	auto particle = ParticleManager::GetInstance()->CreateParticle("BlockBroken");
 	particle->SetPos(this->GetGameObject()->GetTransform()->GetTranslate());
 }

@@ -12,6 +12,8 @@ public:
 	StepBlock() = default;
 	~StepBlock() = default;
 
+	void OnBrokenEffect() const;
+
 private:
 
 	/// グローバルグリッド座標（Blockと同じ座標系）

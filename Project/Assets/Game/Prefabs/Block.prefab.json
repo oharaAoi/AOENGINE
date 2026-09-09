@@ -30,6 +30,7 @@
                         "active": true,
                         "category": "Block",
                         "collisionMask": [
+                            "DamageFloor",
                             "Player",
                             "Stopper"
                         ],

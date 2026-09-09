@@ -70,6 +70,12 @@ public:
 	/// </summary>
 	void HitDamageFloor();
 
+	/// <summary>
+	/// 接続中のブロックグループがダメージ床で壊された時に呼ぶ。
+	/// そのグループを繋いでいた場合はコンボを捨て、受付時間はそのままで0から数え直させる
+	/// </summary>
+	void OnConnectedBlockGroupDestroyed(int groupId);
+
 private:
 
 	/// <summary>本体のBaseGameObjectが持つRigidbodyを取得する。</summary>

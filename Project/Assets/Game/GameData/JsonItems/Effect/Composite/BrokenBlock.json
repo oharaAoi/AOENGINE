@@ -1,0 +1,30 @@
+{
+    "BrokenBlock": {
+        "name": "BrokenBlock",
+        "nodes": [
+            {
+                "asset": "BrokenBlock",
+                "delay": 0.0,
+                "name": "BrokenBlock",
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "rotation": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "type": "CPU"
+            }
+        ],
+        "version": 1
+    }
+}

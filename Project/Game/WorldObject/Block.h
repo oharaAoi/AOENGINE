@@ -15,6 +15,8 @@ public:
 	Block() = default;
 	~Block() = default;
 
+	void OnBrokenEffect() const;
+
 private:
 
 	bool isConnected = false;

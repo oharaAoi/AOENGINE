@@ -1,5 +1,6 @@
 #include "BlockGroupConnectState.h"
 
+#include <algorithm>
 #include <array>
 
 #include "Engine/Core/Engine.h"
@@ -111,6 +112,25 @@ void BlockGroupConnectState::Clear() {
 	remainingTime_ = 0.0f;
 	launchTimer_ = 0.0f;
 	connectedGroups_.clear();
+}
+
+bool BlockGroupConnectState::DiscardConnectedGroups(int groupId) {
+	// 集合(Gathering)以降は既に段から切り離されているため対象外。
+	// 接続受付中(Connecting)だけが、まだ壊される可能性のあるグループを繋いでいる
+	if (phase_ != Phase::Connecting) {
+		return false;
+	}
+
+	const bool contains = std::any_of(connectedGroups_.begin(), connectedGroups_.end(),
+		[groupId](const ConnectedGroup& group) { return group.groupId == groupId; });
+	if (!contains) {
+		return false;
+	}
+
+	// remainingTime_ / launchTimer_ / phase_ は動かさない。
+	// 同じ受付時間の中でコンボを0から数え直させるための処理なので、受付自体は続ける
+	connectedGroups_.clear();
+	return true;
 }
 
 const std::string& BlockGroupConnectState::GetPhaseName() const {

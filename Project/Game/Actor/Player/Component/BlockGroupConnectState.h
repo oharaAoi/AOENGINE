@@ -61,6 +61,14 @@ public:
 	/// </summary>
 	void Clear();
 
+	/// <summary>
+	/// 指定したグループが接続済みなら、接続済みのグループを全て捨てる。
+	/// 受付の残り時間とフェーズは動かさないので、同じ受付時間の中でコンボを0から数え直せる
+	/// </summary>
+	/// <param name="groupId">壊されたグループID</param>
+	/// <returns>捨てた場合は true</returns>
+	bool DiscardConnectedGroups(int groupId);
+
 	// 状態名の取得(デバッグ表示用)
 	const std::string& GetPhaseName() const;
 

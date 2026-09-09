@@ -22,7 +22,14 @@ void DamageFloor::Init(AOENGINE::BaseGameObject* body) {
 		box->SetSize(parameter_.hitSize);
 	}
 
-	if (collider) { collider->SetIsTrigger(true); }
+	if (collider) {
+		collider->SetIsTrigger(true);
+
+		// Block / StepBlock は Player より後に生成されるため、床側のマスクにも相手を入れておかないと
+		// CollisionManager の片方向マスク判定で拾えないことがある
+		collider->SetTarget("Block");
+		collider->SetTarget("StepBlock");
+	}
 
 	// 初期パラメータ
 	followVelocity_ = CVector3::ZERO;

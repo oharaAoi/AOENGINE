@@ -7,3 +7,4 @@ Boss
 DamageFloor
 GatheredBlock
 Beam
+StepBlock

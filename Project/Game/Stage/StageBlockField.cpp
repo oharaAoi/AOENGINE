@@ -12,7 +12,9 @@
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/Materials/BaseMaterial.h"
+#include "Engine/Module/Components/Collider/BaseCollider.h"
 #include "Engine/Module/Components/Collider/BoxCollider.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Lib/Math/MyMath.h"
@@ -366,6 +368,7 @@ void StageBlockField::Clear(){
 		if(pBlockCallBacks_ != nullptr){
 			pBlockCallBacks_->UnregisterBlock(block.get());
 		}
+		EraseColliderEntry(block.get());
 		block->Destroy();
 	}
 	detachedBlocks_.clear();
@@ -375,6 +378,10 @@ void StageBlockField::Clear(){
 	stepCells_.clear();
 	groups_.clear();
 	nextGroupId_ = 0;
+
+	// 上のループで全て取り除かれているはずだが、取りこぼしが残らないよう念のため空にしておく
+	blockColliders_.clear();
+	stepBlockColliders_.clear();
 }
 
 Math::Vector3 StageBlockField::GridToWorld(const GridPos& pos){
@@ -645,6 +652,11 @@ void StageBlockField::CreateBlock(SegmentContent& content,const GridPos& pos){
 		pBlockCallBacks_->RegisterBlock(block.get());
 	}
 
+	// ダメージ床など、着地判定を経由しない衝突コールバックからもColliderからBlockを引けるようにする
+	if(AOENGINE::BaseCollider* collider = block->GetCollider("Block")){
+		blockColliders_[collider] = block.get();
+	}
+
 	content.blocks.push_back(std::move(block));
 }
 
@@ -665,6 +677,11 @@ void StageBlockField::CreateStepBlock(SegmentContent& content,const GridPos& pos
 	// StepBlock は連結・打ち上げの対象にしないため連結グループ表には登録しない。
 	// ただし足場としては乗れるので、グリッド表にだけ入れておく
 	stepCells_[pos] = stepBlock.get();
+
+	// ダメージ床との衝突コールバックがColliderからStepBlockを引けるようにする
+	if(AOENGINE::BaseCollider* collider = stepBlock->GetCollider("StepBlock")){
+		stepBlockColliders_[collider] = stepBlock.get();
+	}
 
 	content.stepBlocks.push_back(std::move(stepBlock));
 }
@@ -726,6 +743,7 @@ void StageBlockField::DestroySegmentContent(SegmentContent& content){
 		if(pBlockCallBacks_ != nullptr){
 			pBlockCallBacks_->UnregisterBlock(block.get());
 		}
+		EraseColliderEntry(block.get());
 		RemoveBlockFromField(block.get());
 		block->Destroy();
 	}
@@ -741,6 +759,7 @@ void StageBlockField::DestroySegmentContent(SegmentContent& content){
 		if(it != stepCells_.end() && it->second == stepBlock.get()){
 			stepCells_.erase(it);
 		}
+		EraseColliderEntry(stepBlock.get());
 		stepBlock->Destroy();
 	}
 	content.stepBlocks.clear();
@@ -813,6 +832,7 @@ void StageBlockField::DestroyDetachedBlock(Block* block){
 	if(pBlockCallBacks_ != nullptr){
 		pBlockCallBacks_->UnregisterBlock(block);
 	}
+	EraseColliderEntry(block);
 	block->Destroy();
 	detachedBlocks_.erase(found);
 }
@@ -836,6 +856,178 @@ void StageBlockField::DetachBlock(Block* block){
 		blocks.erase(found);
 		return;
 	}
+}
+
+void StageBlockField::EraseColliderEntry(const Block* block){
+	// Collider ポインタは GameObject 破棄後に引き直せないため、
+	// UnregisterBlock() と同様に値(Block*)で線形走査して消す
+	for(auto it = blockColliders_.begin(); it != blockColliders_.end(); ){
+		if(it->second == block){
+			it = blockColliders_.erase(it);
+		} else{
+			++it;
+		}
+	}
+}
+
+void StageBlockField::EraseColliderEntry(const StepBlock* stepBlock){
+	for(auto it = stepBlockColliders_.begin(); it != stepBlockColliders_.end(); ){
+		if(it->second == stepBlock){
+			it = stepBlockColliders_.erase(it);
+		} else{
+			++it;
+		}
+	}
+}
+
+bool StageBlockField::ReleaseOwnedBlock(Block* block){
+	if(block == nullptr){
+		return false;
+	}
+
+	// 段は数個、1段のブロック数も有界なので線形探索で十分
+	for(auto& pair : segments_){
+		std::vector<std::unique_ptr<Block>>& blocks = pair.second.blocks;
+
+		auto found = std::find_if(blocks.begin(),blocks.end(),
+								  [block](const std::unique_ptr<Block>& owned){ return owned.get() == block; });
+		if(found != blocks.end()){
+			blocks.erase(found);
+			return true;
+		}
+	}
+
+	// 通常は groupId が有効なブロックは段が持っているはずだが、念のため切り離し済みも探す
+	auto found = std::find_if(detachedBlocks_.begin(),detachedBlocks_.end(),
+							  [block](const std::unique_ptr<Block>& owned){ return owned.get() == block; });
+	if(found != detachedBlocks_.end()){
+		detachedBlocks_.erase(found);
+		return true;
+	}
+
+	return false;
+}
+
+Block* StageBlockField::FindBlockByCollider(const AOENGINE::BaseCollider* collider) const{
+	auto it = blockColliders_.find(collider);
+	if(it == blockColliders_.end()){
+		return nullptr;
+	}
+	return it->second;
+}
+
+StepBlock* StageBlockField::FindStepBlockByCollider(const AOENGINE::BaseCollider* collider) const{
+	auto it = stepBlockColliders_.find(collider);
+	if(it == stepBlockColliders_.end()){
+		return nullptr;
+	}
+	return it->second;
+}
+
+int StageBlockField::DestroyBlockGroup(Block* block){
+	if(block == nullptr || !block->IsValid()){
+		return kInvalidGroupId;
+	}
+
+	const int groupId = block->GetGroupId();
+	if(groupId == kInvalidGroupId){
+		// 集合・打ち上げで段から切り離されたブロックは、既にグリッド表から外れているため対象外
+		return kInvalidGroupId;
+	}
+
+	const std::vector<Block*>* groupMembers = GetGroup(groupId);
+	if(groupMembers == nullptr){
+		return kInvalidGroupId;
+	}
+
+	// 破棄中に groups_[groupId] 自体が書き換わる(RemoveBlockFromField経由)ため、先にメンバーをコピーする
+	const std::vector<Block*> members = *groupMembers;
+
+	// エフェクト再生用に、破棄する前の位置を控えておく
+	std::vector<Math::Vector3> effectPositions;
+	effectPositions.reserve(members.size());
+
+	// 消えたマスの4近傍を後でまとめて更新するため、座標も控えておく
+	std::vector<GridPos> removedPositions;
+	removedPositions.reserve(members.size());
+
+	// 複数ブロックをまとめて消すので、破棄ループの間だけ無駄なオートタイル差し替えを止める
+	isBulkEditing_ = true;
+
+	for(Block* member : members){
+		if(member == nullptr){
+			continue;
+		}
+
+		if(AOENGINE::WorldTransform* transform = member->GetTransform()){
+			effectPositions.push_back(transform->GetTranslate());
+		}
+		removedPositions.push_back(member->GetGridPos());
+
+		if(pBlockCallBacks_ != nullptr){
+			pBlockCallBacks_->UnregisterBlock(member);
+		}
+		EraseColliderEntry(member);
+		RemoveBlockFromField(member);
+		member->Destroy();
+
+		// 段(segments_)が持っている実体の所有権を解放する
+		ReleaseOwnedBlock(member);
+	}
+
+	// 破棄がすべて終わったので、ここから先はまとめての最終更新だけを行う
+	isBulkEditing_ = false;
+
+	// 消えたマスの4近傍に残っているブロックの見た目を更新する
+	for(const GridPos& pos : removedPositions){
+		RefreshTileModelAround(pos);
+	}
+
+	// まとめて破棄した後に、控えておいた各位置で破壊エフェクトを再生する
+	for(const Math::Vector3& pos : effectPositions){
+		ParticleEffectManager::GetInstance()->Play("BrokenBlock",pos);
+	}
+
+	return groupId;
+}
+
+bool StageBlockField::DestroyStepBlock(StepBlock* stepBlock){
+	if(stepBlock == nullptr || !stepBlock->IsValid()){
+		return false;
+	}
+
+	Math::Vector3 effectPosition = CVector3::ZERO;
+	if(AOENGINE::WorldTransform* transform = stepBlock->GetTransform()){
+		effectPosition = transform->GetTranslate();
+	}
+	const GridPos pos = stepBlock->GetGridPos();
+
+	// 別の StepBlock が既に同じ座標を占有している場合に、それを消してしまわないように確認する
+	auto cellIt = stepCells_.find(pos);
+	if(cellIt != stepCells_.end() && cellIt->second == stepBlock){
+		stepCells_.erase(cellIt);
+	}
+
+	EraseColliderEntry(stepBlock);
+	stepBlock->Destroy();
+
+	// segments_ が持っている実体の所有権を解放する
+	for(auto& pair : segments_){
+		std::vector<std::unique_ptr<StepBlock>>& stepBlocks = pair.second.stepBlocks;
+
+		auto found = std::find_if(stepBlocks.begin(),stepBlocks.end(),
+								  [stepBlock](const std::unique_ptr<StepBlock>& owned){ return owned.get() == stepBlock; });
+		if(found != stepBlocks.end()){
+			stepBlocks.erase(found);
+			break;
+		}
+	}
+
+	RefreshTileModelAround(pos);
+
+	ParticleEffectManager::GetInstance()->Play("BrokenBlock",effectPosition);
+
+	return true;
 }
 
 bool StageBlockField::IsCellOccupied(const GridPos& pos) const{

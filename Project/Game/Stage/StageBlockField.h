@@ -20,6 +20,7 @@ class Wall;
 class PlayerBlockCollisionCallBacks;
 
 namespace AOENGINE {
+class BaseCollider;
 class Color;
 }
 
@@ -224,6 +225,26 @@ public:
 	/// </summary>
 	void SetBlockCollisionCallBacks(PlayerBlockCollisionCallBacks* callBacks);
 
+	/// Collider から Block を引く（段に載っていないもの・未登録なら nullptr）
+	Block* FindBlockByCollider(const AOENGINE::BaseCollider* collider) const;
+	/// Collider から StepBlock を引く（未登録なら nullptr）
+	StepBlock* FindStepBlockByCollider(const AOENGINE::BaseCollider* collider) const;
+
+	/// <summary>
+	/// 指定 Block が属する連結グループの全ブロックを破棄する。
+	/// 集合・打ち上げで段から切り離されたブロック(groupId が kInvalidGroupId)は対象外で、何もしない。
+	/// </summary>
+	/// <param name="block">破壊のきっかけになったブロック</param>
+	/// <returns>破棄したグループID。破棄しなかった場合は kInvalidGroupId</returns>
+	int DestroyBlockGroup(Block* block);
+
+	/// <summary>
+	/// 指定 StepBlock を1個破棄する。
+	/// </summary>
+	/// <param name="stepBlock">破棄するStepBlock</param>
+	/// <returns>破棄したら true</returns>
+	bool DestroyStepBlock(StepBlock* stepBlock);
+
 private:
 
 	/// <summary>1段分の Block / StepBlock / Wall の実体（所有権はこのクラスが持つ）</summary>
@@ -243,6 +264,22 @@ private:
 	void DestroySegmentContent(SegmentContent& content);
 	/// <summary>指定したブロックの所有権を、段のバケツから detachedBlocks_ へ移す</summary>
 	void DetachBlock(Block* block);
+
+	/// <summary>
+	/// 指定した Block を blockColliders_ から値で探して取り除く。
+	/// Collider ポインタは GameObject 破棄後に引き直せないため、値(Block*)で線形走査して消す。
+	/// </summary>
+	void EraseColliderEntry(const Block* block);
+	/// <summary>指定した StepBlock を stepBlockColliders_ から値で探して取り除く（理由は EraseColliderEntry(const Block*) と同じ）</summary>
+	void EraseColliderEntry(const StepBlock* stepBlock);
+
+	/// <summary>
+	/// 指定した Block の所有権を、段(segments_)または detachedBlocks_ から探して解放する。
+	/// GameObject の破棄(Destroy)は行わない。呼び出し側が別途行う前提。
+	/// </summary>
+	/// <param name="block">所有権を手放すブロック</param>
+	/// <returns>見つけて解放できたら true</returns>
+	bool ReleaseOwnedBlock(Block* block);
 
 	/// <summary>
 	/// fromId のグループのメンバーを toId のグループへ移し替えて統合する（weighted union）。
@@ -311,6 +348,13 @@ private:
 
 	/// <summary>Collider -> Block の解決表を持つコールバック（非所有。未設定なら登録しない）</summary>
 	PlayerBlockCollisionCallBacks* pBlockCallBacks_ = nullptr;
+
+	/// <summary>
+	/// Collider -> Block / StepBlock の解決表。
+	/// ダメージ床など、着地判定を経由しない衝突コールバックから当たった実体を引くために使う。
+	/// </summary>
+	std::unordered_map<const AOENGINE::BaseCollider*, Block*> blockColliders_;
+	std::unordered_map<const AOENGINE::BaseCollider*, StepBlock*> stepBlockColliders_;
 
 	/// <summary>
 	/// 一括で削除・生成している最中かどうか。
