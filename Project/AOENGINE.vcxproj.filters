@@ -1368,6 +1368,9 @@
     <ClInclude Include="Game\Effect\PrefabEffectObject.h">
       <Filter>Game\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="Game\EventHandlers\BlockToDamageFloorCallBacks.h">
+      <Filter>Game\EventHandlers</Filter>
+    </ClInclude>
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
@@ -2510,6 +2513,9 @@
     <ClCompile Include="Game\Effect\PrefabEffectObject.cpp">
       <Filter>Game\Effect</Filter>
     </ClCompile>
+    <ClCompile Include="Game\EventHandlers\BlockToDamageFloorCallBacks.cpp">
+      <Filter>Game\EventHandlers</Filter>
+    </ClCompile>
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>
     </ClCompile>
@@ -2637,6 +2643,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
+      <Filter>Game\WorldObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\WorldObject\StepBlock.cpp">
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
