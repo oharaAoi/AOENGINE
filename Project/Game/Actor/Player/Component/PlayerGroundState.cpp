@@ -8,6 +8,7 @@
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/WorldObject/StepBlock.h"
 #include "Game/WorldObject/Wall.h"
 
 using namespace AOENGINE;
@@ -119,6 +120,13 @@ bool PlayerGroundState::TryGetGroundTop(
 		keepHighest(wall->GetPosition().y + kBlockHalfHeight);
 	}
 
+	for (const StepBlock* stepBlock : context.blockField->GetStepBlocksInWorldAABB(checkMin, checkMax)) {
+		if (stepBlock == nullptr || !stepBlock->IsValid()) {
+			continue;
+		}
+		keepHighest(stepBlock->GetPosition().y + kBlockHalfHeight);
+	}
+
 	outTopY = topY;
 	return found;
 }
@@ -154,13 +162,20 @@ bool PlayerGroundState::TryGetCeilingBottom(
 		}
 	};
 
-	// 大ジャンプ中はBlockを通り抜けさせるので、天井としても見ない
+	// 大ジャンプ中はBlockとStepBlockを通り抜けさせるので、天井としても見ない
 	if (!context.isBigJump) {
 		for (const Block* block : context.blockField->GetBlocksInWorldAABB(checkMin, checkMax)) {
 			if (block == nullptr || !block->IsValid()) {
 				continue;
 			}
 			keepLowest(block->GetPosition().y - kBlockHalfHeight);
+		}
+
+		for (const StepBlock* stepBlock : context.blockField->GetStepBlocksInWorldAABB(checkMin, checkMax)) {
+			if (stepBlock == nullptr || !stepBlock->IsValid()) {
+				continue;
+			}
+			keepLowest(stepBlock->GetPosition().y - kBlockHalfHeight);
 		}
 	}
 

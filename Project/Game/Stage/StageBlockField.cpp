@@ -2,6 +2,7 @@
 
 /// game
 #include "Game/WorldObject/Block.h"
+#include "Game/WorldObject/StepBlock.h"
 #include "Game/WorldObject/Wall.h"
 #include "Game/EventHandlers/PlayerBlockCollisionCallBacks.h"
 #include "Game/Stage/BlockAutoTile.h"
@@ -38,6 +39,12 @@ namespace
 	/// ここを1箇所変えるだけで挙動を切り替えられるようにしてある。
 	/// </summary>
 	constexpr bool kTreatWallAsConnected = true;
+
+	/// <summary>
+	/// StepBlockをオートタイルの隣接判定で「埋まっている」扱いにするかどうか。
+	/// Wallと同じ理由で、ここを1箇所変えるだけで挙動を切り替えられるようにしてある。
+	/// </summary>
+	constexpr bool kTreatStepBlockAsConnected = true;
 
 	/// <summary>
 	/// オートタイルのZ軸回転の符号。
@@ -304,6 +311,14 @@ Block* StageBlockField::GetBlockAt(const GridPos& pos) const{
 	return it->second;
 }
 
+StepBlock* StageBlockField::GetStepBlockAt(const GridPos& pos) const{
+	auto it = stepCells_.find(pos);
+	if(it == stepCells_.end()){
+		return nullptr;
+	}
+	return it->second;
+}
+
 bool StageBlockField::HasSpaceAbove(const GridPos& pos,int cellCount) const{
 	// 真上から順に、求められたマス数だけ空いているかを見る
 	for(int i = 1; i <= cellCount; ++i){
@@ -314,6 +329,10 @@ bool StageBlockField::HasSpaceAbove(const GridPos& pos,int cellCount) const{
 			return false;
 		}
 		if(wallCells_.find(upper) != wallCells_.end()){
+			return false;
+		}
+		// StepBlockも足場としては乗れる＝プレイヤーは入れないので、Wallと同様に埋まっている扱いにする
+		if(stepCells_.find(upper) != stepCells_.end()){
 			return false;
 		}
 	}
@@ -332,7 +351,7 @@ void StageBlockField::SetBlockCollisionCallBacks(PlayerBlockCollisionCallBacks* 
 }
 
 void StageBlockField::Clear(){
-	// 生成済みの全 Block / Wall を破棄してから、セル・グループ・段の表を消去する
+	// 生成済みの全 Block / StepBlock / Wall を破棄してから、セル・グループ・段の表を消去する
 	for(auto& pair : segments_){
 		DestroySegmentContent(pair.second);
 	}
@@ -353,6 +372,7 @@ void StageBlockField::Clear(){
 
 	cells_.clear();
 	wallCells_.clear();
+	stepCells_.clear();
 	groups_.clear();
 	nextGroupId_ = 0;
 }
@@ -409,6 +429,24 @@ std::vector<Wall*> StageBlockField::GetWallsInWorldAABB(const Math::Vector3& wor
 		for(int y = minPos.y; y <= maxPos.y; ++y){
 			auto it = wallCells_.find(GridPos{x,y});
 			if(it != wallCells_.end() && it->second != nullptr){
+				result.push_back(it->second);
+			}
+		}
+	}
+
+	return result;
+}
+
+std::vector<StepBlock*> StageBlockField::GetStepBlocksInWorldAABB(const Math::Vector3& worldMin,const Math::Vector3& worldMax) const{
+	std::vector<StepBlock*> result;
+
+	const GridPos minPos = WorldToGrid(worldMin);
+	const GridPos maxPos = WorldToGrid(worldMax);
+
+	for(int x = minPos.x; x <= maxPos.x; ++x){
+		for(int y = minPos.y; y <= maxPos.y; ++y){
+			auto it = stepCells_.find(GridPos{x,y});
+			if(it != stepCells_.end() && it->second != nullptr){
 				result.push_back(it->second);
 			}
 		}
@@ -558,7 +596,7 @@ void StageBlockField::BuildSegment(const StageSegment& data,int segmentIndex){
 		int y = ((kBlockRow - 1) - i) + segmentIndex * kBlockRow; // CSVは上の行ほど画面上側を表すため、行インデックスを反転させる
 		for(int j = 0; j < kBlockCol; ++j){
 			const int cell = data.GetCell(i,j);
-			if(cell != kBlockCell && cell != kWallCell){
+			if(cell != kBlockCell && cell != kStepBlockCell && cell != kWallCell){
 				continue;
 			}
 
@@ -569,6 +607,8 @@ void StageBlockField::BuildSegment(const StageSegment& data,int segmentIndex){
 
 			if(cell == kWallCell){
 				CreateWall(content,pos);
+			} else if(cell == kStepBlockCell){
+				CreateStepBlock(content,pos);
 			} else{
 				CreateBlock(content,pos);
 			}
@@ -608,6 +648,27 @@ void StageBlockField::CreateBlock(SegmentContent& content,const GridPos& pos){
 	content.blocks.push_back(std::move(block));
 }
 
+void StageBlockField::CreateStepBlock(SegmentContent& content,const GridPos& pos){
+	// プレハブから StepBlock の実体となる GameObject を生成する
+	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("StepBlock");
+	if(gameObject == nullptr){
+		return;
+	}
+
+	std::unique_ptr<StepBlock> stepBlock = std::make_unique<StepBlock>();
+	stepBlock->Bind(gameObject);
+	stepBlock->SetGridPos(pos);
+
+	// 足場としての位置はBlockと同じ座標系で求める
+	stepBlock->GetTransform()->SetTranslate(GridToWorld(pos));
+
+	// StepBlock は連結・打ち上げの対象にしないため連結グループ表には登録しない。
+	// ただし足場としては乗れるので、グリッド表にだけ入れておく
+	stepCells_[pos] = stepBlock.get();
+
+	content.stepBlocks.push_back(std::move(stepBlock));
+}
+
 void StageBlockField::CreateWall(SegmentContent& content,const GridPos& pos){
 	// プレハブから Wall の実体となる GameObject を生成する
 	AOENGINE::BaseGameObject* gameObject = InstantiateStageObject("Wall");
@@ -630,13 +691,18 @@ void StageBlockField::CreateWall(SegmentContent& content,const GridPos& pos){
 }
 
 void StageBlockField::DestroySegmentContent(SegmentContent& content){
-	// 削除中に更新すると古い状態を見てしまうため、先に消えるマス(Block/Wallの両方)の座標を
+	// 削除中に更新すると古い状態を見てしまうため、先に消えるマス(Block/StepBlock/Wallすべて)の座標を
 	// 集めておき、実際の削除が終わった後でその4近傍のオートタイルを更新する。
 	std::vector<GridPos> removedPositions;
-	removedPositions.reserve(content.blocks.size() + content.walls.size());
+	removedPositions.reserve(content.blocks.size() + content.stepBlocks.size() + content.walls.size());
 	for(const std::unique_ptr<Block>& block : content.blocks){
 		if(block != nullptr){
 			removedPositions.push_back(block->GetGridPos());
+		}
+	}
+	for(const std::unique_ptr<StepBlock>& stepBlock : content.stepBlocks){
+		if(stepBlock != nullptr){
+			removedPositions.push_back(stepBlock->GetGridPos());
 		}
 	}
 	for(const std::unique_ptr<Wall>& wall : content.walls){
@@ -664,6 +730,20 @@ void StageBlockField::DestroySegmentContent(SegmentContent& content){
 		block->Destroy();
 	}
 	content.blocks.clear();
+
+	// StepBlock は連結グループ表に登録していないため、グリッド表から外して破棄するだけでよい
+	for(std::unique_ptr<StepBlock>& stepBlock : content.stepBlocks){
+		if(stepBlock == nullptr){
+			continue;
+		}
+		// 別の StepBlock が既に同じ座標を占有している場合に、それを消してしまわないように確認する
+		auto it = stepCells_.find(stepBlock->GetGridPos());
+		if(it != stepCells_.end() && it->second == stepBlock.get()){
+			stepCells_.erase(it);
+		}
+		stepBlock->Destroy();
+	}
+	content.stepBlocks.clear();
 
 	// Wall は連結グループ表に登録していないため、グリッド表から外して破棄するだけでよい
 	for(std::unique_ptr<Wall>& wall : content.walls){
@@ -766,6 +846,11 @@ bool StageBlockField::IsCellOccupied(const GridPos& pos) const{
 
 	// kTreatWallAsConnected が true の間は Wall も埋まっている扱いにする
 	if(kTreatWallAsConnected && wallCells_.find(pos) != wallCells_.end()){
+		return true;
+	}
+
+	// kTreatStepBlockAsConnected が true の間は StepBlock も埋まっている扱いにする
+	if(kTreatStepBlockAsConnected && stepCells_.find(pos) != stepCells_.end()){
 		return true;
 	}
 

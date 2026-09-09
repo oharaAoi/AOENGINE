@@ -11,8 +11,10 @@ namespace
 {
 	/// CSV上でBlockを表す値
 	constexpr int kBlockCell = 1;
+	/// CSV上でStepBlockを表す値
+	constexpr int kStepBlockCell = 2;
 	/// CSV上でWallを表す値
-	constexpr int kWallCell = 2;
+	constexpr int kWallCell = 3;
 }
 
 /// <summary>

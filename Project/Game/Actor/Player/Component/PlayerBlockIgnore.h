@@ -4,16 +4,19 @@
 
 #include "Engine/Lib/Math/Vector3.h"
 
+#include "Game/Stage/GridPos.h"
+
 namespace AOENGINE {
 	class BaseCollider;
 	class WorldTransform;
 }
 
 class Block;
+class StepBlock;
 class StageBlockField;
 
 /// <summary>
-/// ダメージ床の大ジャンプ中だけ、Blockとの当たり判定を外すコンポーネント
+/// ダメージ床の大ジャンプ中だけ、BlockとStepBlockとの当たり判定を外すコンポーネント
 /// </summary>
 class PlayerBlockIgnore {
 public:
@@ -30,7 +33,7 @@ public:
 	PlayerBlockIgnore() = default;
 	~PlayerBlockIgnore() = default;
 
-	/// <summary>大ジャンプの開始。Blockとの当たり判定だけを外す</summary>
+	/// <summary>大ジャンプの開始。BlockとStepBlockとの当たり判定だけを外す</summary>
 	void Begin(const Context& context);
 
 	/// <summary>
@@ -41,12 +44,12 @@ public:
 	/// <summary>猶予中のグループを毎フレーム見直し、胴体が抜けたものから判定を戻す</summary>
 	void Update(const Context& context);
 
-	/// <summary>ステージが作り直される時に、ブロックへの参照を全て手放す</summary>
+	/// <summary>ステージが作り直される時に、BlockとStepBlockへの参照を全て手放す</summary>
 	void ClearGroups();
 
 private:
 
-	/// <summary>Blockカテゴリとの当たり判定を切り替える</summary>
+	/// <summary>BlockとStepBlockのカテゴリとの当たり判定を切り替える</summary>
 	void SetBlockCollisionEnabled(const Context& context, bool enabled) const;
 
 	/// <summary>胴体の箱と今重なっているブロックを列挙する</summary>
@@ -54,6 +57,12 @@ private:
 
 	/// <summary>グループに属する全ブロックの当たり判定を切り替える</summary>
 	void SetGroupCollisionEnabled(const Context& context, int groupId, bool enabled) const;
+
+	/// <summary>胴体の箱と今重なっているStepBlockのグリッド座標を列挙する</summary>
+	std::vector<GridPos> GetBodyOverlappingStepBlockCells(const Context& context) const;
+
+	/// <summary>指定したグリッド座標のStepBlockの当たり判定を切り替える</summary>
+	void SetStepBlockCollisionEnabled(const Context& context, const GridPos& pos, bool enabled) const;
 
 private:
 
@@ -63,8 +72,13 @@ private:
 	// 判定を猶予している連結グループのID
 	std::vector<int> ignoredGroups_;
 
+	// 判定を猶予しているStepBlockのグリッド座標
+	std::vector<GridPos> ignoredStepBlocks_;
+
 	// 外す対象のCollider category名
 	const std::string kBlockCategoryName = "Block";
+	// 外す対象のCollider category名(StepBlock)
+	const std::string kStepBlockCategoryName = "StepBlock";
 
 public: // accessor
 
