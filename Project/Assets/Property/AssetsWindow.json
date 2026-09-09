@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Load\\Textures\\UI"
+        "path": "Project\\Assets\\Game\\Load\\Models\\BackGround"
     },
     "openDir": {
         "./Assets": false,
@@ -27,6 +27,7 @@
         "./Project/Assets\\Game\\GameData\\JsonItems\\Effect\\CPU": true,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Effect\\Composite": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game": false,
+        "./Project/Assets\\Game\\GameData\\JsonItems\\Game\\PostEffect": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game_PostEffect": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Object": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Path": false,

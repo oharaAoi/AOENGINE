@@ -108,6 +108,7 @@ void WinApp::CreateGameWindow(uint32_t _backBufferWidth, uint32_t _backBufferHei
 	);
 
 	// ウィンドウを表示する
+	ShowWindow(hwnd_, SW_MAXIMIZE);
 	if (isExpansion_) {
 		ShowWindow(hwnd_, SW_MAXIMIZE);
 	} else {
