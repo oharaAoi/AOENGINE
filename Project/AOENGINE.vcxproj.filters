@@ -331,9 +331,6 @@
     <Filter Include="Game\Scene\Title">
       <UniqueIdentifier>{4DFE2D9F-39F7-4CF1-6229-32764E812CFD}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game\Scene\Transition">
-      <UniqueIdentifier>{564B01A7-C2B7-BCA1-8BAB-54FFF7D6DE09}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game\Scene\Tutorial">
       <UniqueIdentifier>{3F867913-ABE7-5621-3455-9DD3A0B58DE0}</UniqueIdentifier>
     </Filter>
@@ -1419,9 +1416,6 @@
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Game\Scene\Transition\SceneTransition.h">
-      <Filter>Game\Scene\Transition</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h">
       <Filter>Game\Scene\Tutorial</Filter>
     </ClInclude>
@@ -1551,6 +1545,8 @@
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Scene\Transition\SceneTransition.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine\Core\AoiFramework.cpp">
@@ -2555,9 +2551,6 @@
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Scene\Transition\SceneTransition.cpp">
-      <Filter>Game\Scene\Transition</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp">
       <Filter>Game\Scene\Tutorial</Filter>
     </ClCompile>
@@ -2640,5 +2633,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\Scene\Transition\SceneTransition.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="AOENGINE.rc" />
   </ItemGroup>
 </Project>

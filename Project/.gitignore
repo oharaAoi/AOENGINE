@@ -10,6 +10,9 @@
 *.userosscache
 *.sln.docstates
 
+# CreateExeFile.ps1のメンバー別ローカル設定
+CreateExeFile.local.psd1
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
