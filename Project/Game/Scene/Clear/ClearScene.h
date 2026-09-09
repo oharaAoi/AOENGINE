@@ -1,10 +1,14 @@
 #pragma once
 
+// stl
+#include <memory>
+
 #include "Engine/System/Audio/SoundManager.h"
 
 // game
 #include "Game/Scene/BaseScene.h"
 #include "Game/UI/GameClearUI.h"
+#include "Game/Scene/Transition/SceneTransition.h"
 
 class ClearScene : 
 	public BaseScene {
@@ -38,5 +42,7 @@ private: // private variables
 	GameClearUI clearUI_;
 
 	AOENGINE::SoundHandle bgmHandle_;
+
+	std::unique_ptr<SceneTransition> transition_;
 };
 

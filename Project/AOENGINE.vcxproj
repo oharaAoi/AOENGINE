@@ -523,6 +523,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Scene\SceneType.h" />
     <ClInclude Include="Game\Scene\TestScene.h" />
     <ClInclude Include="Game\Scene\Title\TitleScene.h" />
+    <ClInclude Include="Game\Scene\Transition\SceneTransition.h" />
     <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h" />
     <ClInclude Include="Game\Stage\BlockAutoTile.h" />
     <ClInclude Include="Game\Stage\BlockGroupLauncher.h" />
@@ -902,6 +903,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Scene\SceneFactory.cpp" />
     <ClCompile Include="Game\Scene\TestScene.cpp" />
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp" />
+    <ClCompile Include="Game\Scene\Transition\SceneTransition.cpp" />
     <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp" />
     <ClCompile Include="Game\Stage\BlockAutoTile.cpp" />
     <ClCompile Include="Game\Stage\BlockGroupLauncher.cpp" />
