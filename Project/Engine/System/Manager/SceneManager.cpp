@@ -45,6 +45,10 @@ void SceneManager::Init() {
 	systemManager_->Init();
 
 	sceneFactory_ = std::make_unique<SceneFactory>();
+	sceneTransition_ = std::make_unique<SceneTransition>();
+	transitionState_ = TransitionState::Idle;
+	pendingSceneType_.reset();
+	editorSceneChangeRequest_.reset();
 	reset_ = false;
 
 //#ifdef _DEVELOPMENT
@@ -61,13 +65,23 @@ void SceneManager::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 bool SceneManager::Update() {
-	if (scene_->GetNextSceneType()) {
-		SceneType type = scene_->GetNextSceneType().value();
-		// SetChange()でscene_自体が置き換わる前に、旧シーン側の要求を消費する。
-		scene_->SetNextSceneType(std::nullopt);
+#ifdef _DEVELOPMENT
+	if (editorSceneChangeRequest_) {
+		const SceneType type = *editorSceneChangeRequest_;
+		editorSceneChangeRequest_.reset();
+		pendingSceneType_.reset();
+		transitionState_ = TransitionState::Idle;
+		if (sceneTransition_) { sceneTransition_->Release(); }
 		SetChange(type);
-		// RendererとEditorの参照が切り替わったフレームでは更新を続けない。
-		// 新しいシーンのEditorUpdate/Updateは次フレームから開始する。
+		return false;
+	}
+#endif
+	if (transitionState_ == TransitionState::Idle && scene_->GetNextSceneType()) {
+		SceneType type = scene_->GetNextSceneType().value();
+		scene_->SetNextSceneType(std::nullopt);
+		BeginSceneTransition(type);
+	}
+	if (UpdateSceneTransition()) {
 		return false;
 	}
 	
@@ -103,6 +117,50 @@ bool SceneManager::Update() {
 #endif
 
 	return scene_->GetEndRequest();
+}
+
+void SceneManager::BeginSceneTransition(SceneType type) {
+	if (transitionState_ != TransitionState::Idle) { return; }
+	pendingSceneType_ = type;
+	if (!sceneTransition_->IsReady()) { sceneTransition_->Init(); }
+	if (!sceneTransition_->IsReady()) {
+		// Overlayを作れない場合もシーン進行を止めない。
+		SetChange(type);
+		pendingSceneType_.reset();
+		return;
+	}
+	sceneTransition_->FadeIn();
+	transitionState_ = TransitionState::Covering;
+}
+
+bool SceneManager::UpdateSceneTransition() {
+	if (transitionState_ == TransitionState::Idle) { return false; }
+	sceneTransition_->Update();
+	if (!sceneTransition_->IsFinish()) { return false; }
+
+	if (transitionState_ == TransitionState::Covering) {
+		if (!pendingSceneType_) {
+			transitionState_ = TransitionState::Idle;
+			return false;
+		}
+		const SceneType nextScene = *pendingSceneType_;
+		pendingSceneType_.reset();
+		sceneTransition_->Release();
+		SetChange(nextScene);
+		sceneTransition_->Init();
+		if (sceneTransition_->IsReady()) {
+			sceneTransition_->SetCovered();
+			sceneTransition_->FadeOut();
+			transitionState_ = TransitionState::Revealing;
+		} else {
+			transitionState_ = TransitionState::Idle;
+		}
+		return true;
+	}
+
+	sceneTransition_->SetVisible();
+	transitionState_ = TransitionState::Idle;
+	return false;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -143,7 +201,8 @@ void SceneManager::Debug_Gui() {
 	}
 
 	if (isChange) {
-		scene_->SetNextSceneType(changeScene_);
+		// Editorからの選択はフレーム境界で即時切替し、画面遷移を挟まない。
+		editorSceneChangeRequest_ = changeScene_;
 		isChange = false;
 	}
 
@@ -204,6 +263,11 @@ void SceneManager::SetChange(const SceneType& type) {
 
 	reset_ = false;
 	nowScene_ = type;
+	if (sceneTransition_ && transitionState_ == TransitionState::Idle) {
+		// 起動時やEditorからの即時切替でも、次回の遷移用Overlayを用意する。
+		sceneTransition_->Release();
+		sceneTransition_->Init();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

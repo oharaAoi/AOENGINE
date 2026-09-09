@@ -3,6 +3,7 @@
 #include "Game/Scene/SceneFactory.h"
 #include "Game/Scene/BaseScene.h"
 #include "Engine/System/Manager/SystemManager.h"
+#include "Game/Scene/Transition/SceneTransition.h"
 
 namespace AOENGINE {
 
@@ -63,6 +64,15 @@ public:
 	bool LoadScene();
 
 private:
+	enum class TransitionState {
+		Idle,
+		Covering,
+		Revealing
+	};
+
+	void BeginSceneTransition(SceneType type);
+	/// trueならこのフレームにSceneを置き換えた。
+	bool UpdateSceneTransition();
 
 	/// <summary>
 	/// Manager関連のリセット
@@ -76,6 +86,10 @@ private:
 
 	std::unique_ptr<BaseScene> scene_ = nullptr;
 	std::unique_ptr<BaseScene> nextScene_ = nullptr;
+	std::unique_ptr<SceneTransition> sceneTransition_;
+	std::optional<SceneType> pendingSceneType_;
+	std::optional<SceneType> editorSceneChangeRequest_;
+	TransitionState transitionState_ = TransitionState::Idle;
 
 	SceneType changeScene_;
 	SceneType nowScene_;
