@@ -254,6 +254,18 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		}
 	}
 
+	// 打ち上げたブロックの狙い先をボスに合わせる。
+	// ボスは画面上の固定位置に居るため、狙い先を追いかけている間は経路が画面内に収まる
+	if (player_ && boss_)
+	{
+		BlockGroupLauncherManager* launcherManager = player_->GetBlockGroupLauncherManagerRef();
+		if (boss_->IsValid() && !boss_->IsDefeated()) {
+			launcherManager->SetTarget(boss_->GetPosition());
+		} else {
+			launcherManager->ClearTarget();
+		}
+	}
+
 	// ダメージ床の更新
 	if (damageFloor_ && followCamera_)
 	{

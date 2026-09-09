@@ -20,6 +20,10 @@ void BlockGroupLauncherManager::BeginGather(const BlockGroupLauncher::GatherRequ
 	}
 
 	target->SetField(pField_);
+	// 増やしたばかりのランチャーにも狙い先を渡しておく
+	if(hasTarget_){
+		target->SetTarget(targetPosition_);
+	}
 	target->SetComboTextUIManager(pComboTextUI_);
 	target->SetDamageTextUIManager(pDamageTextUI_);
 	target->SetDamageCalculator(pDamageCalculator_);
@@ -33,6 +37,23 @@ void BlockGroupLauncherManager::Launch(){
 	// BlockGroupLauncher::Launch() は Gathering 以外を自分で弾くので、全ランチャーへそのまま伝える
 	for(BlockGroupLauncher& launcher : launchers_){
 		launcher.Launch();
+	}
+}
+
+void BlockGroupLauncherManager::SetTarget(const Math::Vector3& position){
+	targetPosition_ = position;
+	hasTarget_ = true;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.SetTarget(position);
+	}
+}
+
+void BlockGroupLauncherManager::ClearTarget(){
+	hasTarget_ = false;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.ClearTarget();
 	}
 }
 
