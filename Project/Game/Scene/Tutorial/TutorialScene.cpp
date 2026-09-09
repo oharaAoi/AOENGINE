@@ -2,6 +2,7 @@
 
 #include <array>
 
+#include "Engine/Core/Engine.h"
 #include "Engine/Lib/GameTimer.h"
 #include "Engine/System/Input/Input.h"
 #include "Engine/System/Manager/ImGuiManager.h"
@@ -27,6 +28,8 @@ TutorialScene::~TutorialScene() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TutorialScene::OnPlayStart() {
+
+	Engine::GetCanvas2d()->ResizeSprite();
 
 	// Player・ステージ・カメラの用意は GameScene と同じ
 	GameScene::OnPlayStart();

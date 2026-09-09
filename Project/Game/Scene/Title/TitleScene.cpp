@@ -29,6 +29,7 @@ void TitleScene::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleScene::OnPlayStart() {
+	Engine::GetCanvas2d()->ResizeSprite();
 	titleUI_.Init();
 	meteoEffect_.Init();
 	earthParameter_.Load();

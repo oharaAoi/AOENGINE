@@ -96,6 +96,8 @@ void GameScene::Init()
 void GameScene::OnPlayStart()
 {
 
+	Engine::GetCanvas2d()->ResizeSprite();
+
 	// プレイヤー初期化
 	player_->Init(ResolvePlayerBody());
 	// ボス初期化
