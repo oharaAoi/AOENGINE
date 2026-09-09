@@ -2,6 +2,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Json/IJsonConverter.h"
 #include "Engine/System/Editor/Parameter/CustomParameter.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
 
 struct BossExplosionParameter :
 	public AOENGINE::CustomParameterSet,

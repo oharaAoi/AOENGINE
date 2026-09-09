@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Load\\Models\\Player"
+        "path": "Project\\Assets\\Game\\Load\\Textures\\UI"
     },
     "openDir": {
         "./Assets": false,
@@ -29,6 +29,7 @@
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Game_PostEffect": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Object": false,
+        "./Project/Assets\\Game\\GameData\\JsonItems\\Path": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\TEST": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Title": false,
         "./Project/Assets\\Game\\GameData\\JsonItems\\Tutorial": false,
