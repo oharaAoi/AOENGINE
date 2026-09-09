@@ -74,6 +74,12 @@ private:
 	/// <summary>見た目だけずらす量。的のモデルは原点の位置が違うので、その分を吸収する</summary>
 	Math::Vector3 CalcViewOffset() const;
 
+	/// <summary>的を左右に揺らす。的として置いていない間は何もしない</summary>
+	void UpdateDummySway(float deltaTime);
+
+	/// <summary>揺れの傾きを見た目へ入れる。的として置いていない間は触らない</summary>
+	void ApplyDummyRotate() const;
+
 	/// <summary>降下を進めて、定位置からのずらし量を更新する</summary>
 	void UpdateIntroDescend(float deltaTime);
 
@@ -151,6 +157,16 @@ private:
 
 	// ヒットストップの残り時間
 	float hitStopTimer_ = 0.0f;
+
+	// フェーズ切り替えの演出中か。プレイヤーを止めるかの判断にシーン側が使う
+	bool isPhaseChanging_ = false;
+
+	// 奥行きの一時的なずらし。カメラを寄せた時に相対距離を保つのに使う
+	float worldZOffset_ = 0.0f;
+
+	// 的を揺らすための経過時間と、その結果の傾き(ラジアン)
+	float dummySwayTimer_ = 0.0f;
+	float dummySwayRotate_ = 0.0f;
 
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";
@@ -232,8 +248,25 @@ public: // accessor
 	/// <summary>攻撃側からカメラを揺らす。カメラが未設定なら何もしない</summary>
 	void ShakeCamera(const CameraShakeRequest& request);
 
+	/// <summary>演出でカメラを一時的にずらす</summary>
+	void SetCameraExtraOffset(const Math::Vector3& offset);
+
+	/// <summary>カメラの位置。演出でカメラからの距離を測るのに使う</summary>
+	Math::Vector3 GetCameraWorldPosition() const;
+	bool HasCamera() const { return pCamera_ != nullptr; }
+
 	/// <summary>カメラを揺らせるように渡しておく</summary>
 	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }
+
+	/// <summary>フェーズ切り替えの演出中か。演出側が立てて、シーン側が見る</summary>
+	void SetPhaseChanging(bool isChanging) { isPhaseChanging_ = isChanging; }
+	bool IsPhaseChanging() const { return isPhaseChanging_; }
+
+	/// <summary>
+	/// 奥行きを一時的にずらす。カメラを寄せた分だけ同じ量ずらすと、
+	/// カメラからの距離が変わらないので見た目の大きさが保たれる
+	/// </summary>
+	void SetWorldZOffset(float offset) { worldZOffset_ = offset; }
 
 	/// <summary>足止めを落とす足場を選ぶために、ブロックの表を渡しておく</summary>
 	void SetBlockField(StageBlockField* field) { pBlockField_ = field; }

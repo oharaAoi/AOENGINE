@@ -27,6 +27,8 @@ public:
 		float maxSpeed;					  // スクロールの最大速度
 		float scrollHeight;				  // 1回のスクロールで上昇する高さ
 		float scrollTriggerScreenY = 0.5f;// スクロールを始めるプレイヤーの画面上の高さ
+		// スクロール位置を示す線を、その高さから何ピクセルずらして置くか
+		float scrollLineOffsetY = 0.0f;
 
 		Parameter() : CustomParameterSet("FollowCamera") {
 			SetGroupName("Camera");
@@ -38,6 +40,7 @@ public:
 			AddParameter("Scroll Max Speed", maxSpeed, 1.0f, 0.0f, 100000.0f);
 			AddParameter("Scroll Height", scrollHeight, 0.1f, 0.0f, 100000.0f);
 			AddParameter("Scroll Trigger Screen Y", scrollTriggerScreenY, 0.01f, 0.0f, 1.0f);
+			AddParameter("Scroll Line Offset Y(px)", scrollLineOffsetY, 1.0f, -2000.0f, 2000.0f);
 		}
 
 		json ToJson(const std::string& id) const override {
@@ -48,6 +51,7 @@ public:
 				.Add("maxSpeed", maxSpeed)
 				.Add("scrollHeight", scrollHeight)
 				.Add("scrollTriggerScreenY", scrollTriggerScreenY)
+				.Add("scrollLineOffsetY", scrollLineOffsetY)
 				.Build();
 		}
 
@@ -58,6 +62,7 @@ public:
 			Convert::fromJson(jsonData, "maxSpeed", maxSpeed);
 			Convert::fromJson(jsonData, "scrollHeight", scrollHeight);
 			Convert::fromJson(jsonData, "scrollTriggerScreenY", scrollTriggerScreenY);
+			Convert::fromJson(jsonData, "scrollLineOffsetY", scrollLineOffsetY);
 		}
 	};
 
@@ -102,6 +107,12 @@ private:
 	bool isScrolling_ = false;
 	static constexpr float kScrollArriveThreshold = 0.01f;
 
+	// 演出で一時的に足す位置。フェーズ切り替えで寄せるのに使う
+	Math::Vector3 extraOffset_{};
+
+	// 追従を止めているか。演出中にスクロールが走らないようにする
+	bool isFollowPaused_ = false;
+
 	// カメラシェイクの調整用リクエスト
 	CameraShakeRequest shakeRequest_;
 
@@ -111,7 +122,20 @@ public: // accessor
 	const AOENGINE::BaseGameObject* GetTarget() const { return target_; }
 	bool HasTarget() const { return target_ != nullptr; }
 
+	/// <summary>スクロールの目印を置くための参照。判定と同じ値を使う</summary>
+	float GetScrollTriggerScreenY() const { return parameter_.scrollTriggerScreenY; }
+	float GetScrollLineOffsetY() const { return parameter_.scrollLineOffsetY; }
+
 	void SetTargetName(const std::string& name) { targetName_ = name; }
 	void SetTarget(AOENGINE::BaseGameObject* target) { target_ = target; }
+
+	/// <summary>演出で一時的にカメラをずらす</summary>
+	void SetExtraOffset(const Math::Vector3& offset) { extraOffset_ = offset; }
+	const Math::Vector3& GetExtraOffset() const { return extraOffset_; }
+
+	/// <summary>
+	/// 追従を止める。
+	/// </summary>
+	void SetFollowPaused(bool isPaused) { isFollowPaused_ = isPaused; }
 
 };

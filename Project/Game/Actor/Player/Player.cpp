@@ -111,6 +111,9 @@ void Player::Update(){
 
 	const float deltaTime = GameTimer::DeltaTime();
 
+	// 動き出したので、次に止めた時はその時の位置を覚え直す
+	hasStandbyPosition_ = false;
+
 	// 無敵時間を進める
 	UpdateInvincible(deltaTime);
 
@@ -179,6 +182,15 @@ void Player::UpdateStandby(float deltaTime) {
 	// 動かさないので、前フレームの速度が残っていたら消しておく
 	if (Rigidbody* rigidbody = GetRigidbody()) {
 		rigidbody->SetVelocity(CVector3::ZERO);
+	}
+
+	// 速度を消しても、エンジン側が毎フレーム重力を足して少しずつ落としてしまう。
+	if (WorldTransform* transform = GetTransform()) {
+		if (!hasStandbyPosition_) {
+			standbyPosition_ = transform->GetTranslate();
+			hasStandbyPosition_ = true;
+		}
+		transform->SetTranslate(standbyPosition_);
 	}
 
 	// 見た目まわりだけ合わせる。放っておくとスケールも向きもSceneの値のままになる

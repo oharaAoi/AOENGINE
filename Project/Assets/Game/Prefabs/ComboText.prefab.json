@@ -16,7 +16,7 @@
                         ],
                         "depthTest": true,
                         "enabled": true,
-                        "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                        "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                         "fontSize": 64.0,
                         "height": 0.3109999895095825,
                         "localPosition": [
@@ -52,7 +52,7 @@
                 "translate": [
                     0.0,
                     0.0,
-                    0.0
+                    -2.0
                 ]
             },
             "id": 1,
