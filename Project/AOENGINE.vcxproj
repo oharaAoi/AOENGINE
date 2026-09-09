@@ -512,6 +512,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\EventHandlers\PlayerToBossAttackCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\StopperToBlockGroupCallBacks.h" />
+    <ClInclude Include="Game\Path\LineLoader.h" />
+    <ClInclude Include="Game\Path\LinePathMover.h" />
     <ClInclude Include="Game\RunTime\GameCore.h" />
     <ClInclude Include="Game\Scene\AbstractSceneFactory.h" />
     <ClInclude Include="Game\Scene\BaseScene.h" />
@@ -555,6 +557,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\UI\PlayerUI.h" />
     <ClInclude Include="Game\UI\PopupTextUI.h" />
     <ClInclude Include="Game\UI\RetryUI.h" />
+    <ClInclude Include="Game\UI\TitleEarthParameter.h" />
     <ClInclude Include="Game\UI\TitleMeteoEffect.h" />
     <ClInclude Include="Game\UI\TitleMeteoParameter.h" />
     <ClInclude Include="Game\UI\TitleUI.h" />
@@ -889,6 +892,8 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\EventHandlers\PlayerToBossAttackCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerToDamageFloorCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\StopperToBlockGroupCallBacks.cpp" />
+    <ClCompile Include="Game\Path\LineLoader.cpp" />
+    <ClCompile Include="Game\Path\LinePathMover.cpp" />
     <ClCompile Include="Game\RunTime\GameCore.cpp" />
     <ClCompile Include="Game\Scene\BaseScene.cpp" />
     <ClCompile Include="Game\Scene\Clear\ClearScene.cpp" />

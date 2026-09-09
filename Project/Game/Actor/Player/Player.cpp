@@ -87,6 +87,11 @@ void Player::Init(BaseGameObject* body){
 		if (transform) {
 			buttFireEffect_->SetParent(transform);
 		}
+
+		// 挟み込み時の上方退避はPlayerの当たり判定だけに許可する。
+		if (BaseCollider* collider = object->GetCollider(kColliderTag)) {
+			collider->SetSqueezeEscapeEnabled(true);
+		}
 	}
 }
 

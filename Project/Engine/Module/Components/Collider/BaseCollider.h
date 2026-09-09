@@ -101,6 +101,10 @@ public:
 	void SetPenetrationPrevention(bool isFlag) { penetrationPrevention_ = isFlag; }
 	bool GetPenetrationPrevention() const { return penetrationPrevention_; }
 
+	/// 横方向から挟まれた際に、上方向への退避を許可する。
+	void SetSqueezeEscapeEnabled(bool enabled) { squeezeEscapeEnabled_ = enabled; }
+	bool GetSqueezeEscapeEnabled() const { return squeezeEscapeEnabled_; }
+
 	void SetPushBackDirection(const Math::Vector3& dire);
 	const Math::Vector3& GetPushBackDirection() const { return pushbackDire_; }
 
@@ -134,6 +138,7 @@ protected:
 
 	// 貫通対策
 	bool penetrationPrevention_ = false;	// 貫通対策を行うかどうか
+	bool squeezeEscapeEnabled_ = false;
 	Math::Vector3 pushbackDire_ = CVector3::ZERO;
 
 	// 汎用用

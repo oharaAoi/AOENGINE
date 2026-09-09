@@ -256,7 +256,8 @@ json SerializeComponents(const BaseGameObject& object) {
 			{ "static", collider->GetIsStatic() },
 			{ "trigger", collider->GetIsTrigger() },
 			{ "collisionMask", layers.GetCategoryNames(collider->GetCollisionMaskBit()) },
-			{ "penetrationPrevention", collider->GetPenetrationPrevention() }
+			{ "penetrationPrevention", collider->GetPenetrationPrevention() },
+			{ "squeezeEscape", collider->GetSqueezeEscapeEnabled() }
 		};
 
 		if (const auto* box = dynamic_cast<const BoxCollider*>(collider)) {
@@ -390,6 +391,7 @@ void DeserializeComponents(BaseGameObject& object, const json& components) {
 			}
 		}
 		collider->SetPenetrationPrevention(data.value("penetrationPrevention", collider->GetPenetrationPrevention()));
+		collider->SetSqueezeEscapeEnabled(data.value("squeezeEscape", false));
 
 		if (auto* box = dynamic_cast<BoxCollider*>(collider); box && data.contains("size")) {
 			box->SetSize(JsonToVector3(data.at("size")));
