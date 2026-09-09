@@ -21,7 +21,7 @@
         "beamBlinkInterval": 0.10000000149011612,
         "beamChargePosX": -7.5,
         "beamCount": 3,
-        "beamDamage": 25.0,
+        "beamDamage": 2.0,
         "beamEffectPosX": -11.5,
         "beamSize": {
             "x": 40.0,
@@ -29,10 +29,10 @@
             "z": 1.0
         },
         "beamSpeed": 81.80000305175781,
-        "beamStartDelay": 1.3300000429153442,
+        "beamStartDelay": 0.30000001192092896,
         "beamStartX": -30.0,
         "beamTime": 1.0,
-        "beamUnlockPhase": 1,
+        "beamUnlockPhase": 0,
         "beamWarningLineSize": {
             "x": 40.0,
             "y": 1.2000000476837158,
@@ -43,23 +43,33 @@
             "y": 1.5,
             "z": 1.0
         },
-        "beamWarningTime": 1.5,
+        "beamWarningTime": 0.5,
         "damageColor": {
             "a": 1.0,
             "b": 0.20000000298023224,
             "g": 0.20000000298023224,
             "r": 1.0
         },
-        "damageEffectTime": 1.7400000095367432,
-        "defeatHideTime": 1.5,
+        "damageEffectTime": 0.5099999904632568,
+        "defeatHideTime": 10.0,
+        "dummyOffset": {
+            "x": 0.0,
+            "y": -4.0,
+            "z": 0.0
+        },
+        "dummyScale": {
+            "x": 2.0,
+            "y": 2.0,
+            "z": 2.0
+        },
         "fallFireUnlockPhase": 0,
-        "fireballDamage": 1.0,
+        "fireballDamage": 2.0,
         "fireballDropCount": 3,
         "fireballDropInterval": 0.9900000095367432,
         "fireballFallEaseKind": 4,
-        "fireballFallSpeedUpTime": 1.1100000143051147,
+        "fireballFallSpeedUpTime": 1.0,
         "fireballFallStartSpeed": 0.5,
-        "fireballMaxFallSpeed": 16.600000381469727,
+        "fireballMaxFallSpeed": 15.0,
         "fireballSpawnHeight": 14.0,
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
@@ -67,19 +77,22 @@
             "y": 1.0,
             "z": 59.20000076293945
         },
-        "hp": 100.0,
+        "hitStopTime": 0.014999999664723873,
+        "hitStopTimeScale": 0.09000000357627869,
+        "hp": 300.0,
         "idleTimeMax": 2.5,
         "idleTimeMin": 1.0,
         "introDescendEaseKind": 2,
         "introDescendHeight": 12.0,
-        "introDescendTime": 1.2000000476837158,
+        "introDescendTime": 0.5600000023841858,
         "phaseChangeEffectDelay": 0.4000000059604645,
         "phaseChangeScaleRate": 0.25,
         "phaseChangeTime": 1.2000000476837158,
         "phaseSwitchRatio": [
-            0.6600000262260437,
-            0.33000001311302185
+            0.5,
+            0.0
         ],
+        "sceneChangeTimeAfterHiden": 1.100000023841858,
         "screenPos": {
             "x": 802.0,
             "y": 465.0
@@ -95,7 +108,7 @@
         "stopperSpawnHeight": 12.0,
         "stopperSpeed": 12.0,
         "stopperStartDelay": 1.2599999904632568,
-        "stopperUnlockPhase": 2,
+        "stopperUnlockPhase": 1,
         "worldZ": 3.799999952316284
     }
 }

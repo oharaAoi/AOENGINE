@@ -25,6 +25,10 @@ struct BossParameter :
 	float hp;	             // 最大HP
 
 	Math::Vector3 baseScale{ 0.6f, 0.6f, 0.6f };
+	// チュートリアルの的として置く時の大きさ。別のモデルなので基準の大きさとは分ける
+	Math::Vector3 dummyScale{ 2.0f, 2.0f, 2.0f };
+	// 的のモデルは原点の位置が違うので、見た目だけずらして位置を合わせる
+	Math::Vector3 dummyOffset{ 0.0f, -4.0f, 0.0f };
 	Math::Vector3 hitSize{ 2.0f, 2.0f, 2.0f };
 
 	// フェーズが切り替わる残HPの割合。高い順に並べる
@@ -39,10 +43,12 @@ struct BossParameter :
 	float damageEffectTime = 0.25f;		// 色を戻すまでの長さ
 	AOENGINE::Color damageColor{ 1.0f, 0.2f, 0.2f, 1.0f };	// 被弾した瞬間に寄せる色
 	CameraShakeRequest damageShake;		// 被弾した時の、ボス自身の揺れ
+	float hitStopTime = 0.06f;			// 被弾した瞬間に時間を止める長さ
+	float hitStopTimeScale = 0.0f;		// 止めている間の時間の速さ。0で完全に止まる
 
 	// フェーズが上がった時の演出
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
-	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか(基準スケールへの倍率)
+	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか
 	// アニメーションを再生してから、エフェクトを出すまでの秒数
 	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
@@ -100,7 +106,7 @@ struct BossParameter :
 
 	// --- 攻撃を出した瞬間のパルス ---
 	float attackPulseTime = 0.25f;		// 膨らんで戻るまでの時間
-	float attackPulseScaleRate = 0.2f;	// どれだけ膨らむか(基準スケールへの倍率)
+	float attackPulseScaleRate = 0.2f;	// どれだけ膨らむか
 	int32_t attackPulseCount = 1;		// この時間の中で何回膨らむか
 	// 攻撃に入った時に出すエフェクトの、ボスから見た位置
 	Math::Vector3 attackEffectOffset{ 0.0f, 0.0f, 0.0f };
@@ -116,6 +122,8 @@ struct BossParameter :
 	int32_t introDescendEaseKind = 2;	// InQuad。だんだん速くなって着地で止まる
 	CameraShakeRequest introLandShake;	// 着いた時の揺れ
 
+	float sceneChangeTimeAfterHiden_ = 0.0f;
+
 	BossParameter() : CustomParameterSet("Boss") {
 		SetGroupName("Boss");
 		SetName("bossParameter");
@@ -125,6 +133,8 @@ struct BossParameter :
 		AddParameter("World Z", worldZ, 0.1f);
 		AddParameter("Max HP", hp, 1.0f, 0.0f, 100000.0f);
 		AddParameter("Base Scale", baseScale, 0.01f);
+		AddParameter("Dummy Scale", dummyScale, 0.01f);
+		AddParameter("Dummy Offset", dummyOffset, 0.01f);
 		AddParameter("Hit Size", hitSize, 0.1f);
 
 		AddSeparatorText("Phase");
@@ -180,10 +190,13 @@ struct BossParameter :
 
 		AddSeparatorText("Damage");
 		AddParameter("Damage Effect Time", damageEffectTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Hit Stop Time", hitStopTime, 0.005f, 0.0f, 2.0f);
+		AddParameter("Hit Stop Time Scale", hitStopTimeScale, 0.01f, 0.0f, 1.0f);
 		AddParameter("Damage Color", damageColor);
 
 		AddSeparatorText("Defeat");
 		AddParameter("Defeat Hide Time", defeatHideTime, 0.01f, 0.0f, 60.0f);
+		AddParameter("sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_, 0.1f);
 
 		AddSeparatorText("Attack Pulse");
 		AddParameter("Attack Pulse Time", attackPulseTime, 0.01f, 0.0f, 10.0f);
@@ -218,6 +231,8 @@ struct BossParameter :
 			.Add("worldZ", worldZ)
 			.Add("hp", hp)
 			.Add("baseScale", baseScale)
+			.Add("dummyScale", dummyScale)
+			.Add("dummyOffset", dummyOffset)
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
 			.Add("fallFireUnlockPhase", fallFireUnlockPhase)
@@ -227,6 +242,8 @@ struct BossParameter :
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
 			.Add("phaseChangeEffectDelay", phaseChangeEffectDelay)
 			.Add("damageEffectTime", damageEffectTime)
+			.Add("hitStopTime", hitStopTime)
+			.Add("hitStopTimeScale", hitStopTimeScale)
 			.Add("damageColor", damageColor)
 			.Add("fireballDamage", fireballDamage)
 			.Add("fireballStartDelay", fireballStartDelay)
@@ -272,6 +289,7 @@ struct BossParameter :
 			.Add("introDescendHeight", introDescendHeight)
 			.Add("introDescendTime", introDescendTime)
 			.Add("introDescendEaseKind", introDescendEaseKind)
+			.Add("sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_)
 			.Build();
 	}
 
@@ -280,6 +298,8 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "worldZ", worldZ);
 		Convert::fromJson(jsonData, "hp", hp);
 		Convert::fromJson(jsonData, "baseScale", baseScale);
+		Convert::fromJson(jsonData, "dummyScale", dummyScale);
+		Convert::fromJson(jsonData, "dummyOffset", dummyOffset);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
 		Convert::fromJson(jsonData, "fallFireUnlockPhase", fallFireUnlockPhase);
@@ -289,6 +309,8 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
 		Convert::fromJson(jsonData, "phaseChangeEffectDelay", phaseChangeEffectDelay);
 		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
+		Convert::fromJson(jsonData, "hitStopTime", hitStopTime);
+		Convert::fromJson(jsonData, "hitStopTimeScale", hitStopTimeScale);
 		Convert::fromJson(jsonData, "damageColor", damageColor);
 
 		Convert::fromJson(jsonData, "fireballDamage", fireballDamage);
@@ -325,7 +347,6 @@ struct BossParameter :
 
 		Convert::fromJson(jsonData, "animationBlendSpeed", animationBlendSpeed);
 		Convert::fromJson(jsonData, "animationSpeed", animationSpeed);
-
 		Convert::fromJson(jsonData, "idleTimeMin", idleTimeMin);
 		Convert::fromJson(jsonData, "idleTimeMax", idleTimeMax);
 		Convert::fromJson(jsonData, "defeatHideTime", defeatHideTime);
@@ -339,6 +360,7 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "introDescendHeight", introDescendHeight);
 		Convert::fromJson(jsonData, "introDescendTime", introDescendTime);
 		Convert::fromJson(jsonData, "introDescendEaseKind", introDescendEaseKind);
+		Convert::fromJson(jsonData, "sceneChangeTimeAfterHiden", sceneChangeTimeAfterHiden_);
 
 		// 配列を保存
 		if (jsonData.is_object() && !jsonData.empty()) {

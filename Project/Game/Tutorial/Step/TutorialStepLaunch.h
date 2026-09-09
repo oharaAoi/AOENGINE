@@ -15,8 +15,8 @@ public:
 
 private:
 
-	// 開始時のボスのHP。これより減っていたら当たったとみなす
-	float startBossHp_ = 0.0f;
+	// 開始時のボスの被弾回数。これより増えていたら当たったとみなす
+	uint32_t startDamagedCount_ = 0;
 
 	bool hasHit_ = false;		// ボスに当てたか
 	float waitTimer_ = 0.0f;	// 当ててからの経過時間

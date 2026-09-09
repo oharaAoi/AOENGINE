@@ -94,6 +94,11 @@ void BossBehaviorController::ChangeBehavior(Boss& boss, std::unique_ptr<BaseBoss
 
 bool BossBehaviorController::TryInterrupt(Boss& boss) {
 
+	// チュートリアルの的は倒れず、フェーズ切り替えの演出も出さない
+	if (boss.IsTrainingDummy()) {
+		return false;
+	}
+
 	// HPが尽きたら、どの行動の途中からでも撃破へ落とす。
 	if (!isDefeated_ && boss.IsDefeated()) {
 		isDefeated_ = true;
@@ -122,6 +127,11 @@ bool BossBehaviorController::TryInterrupt(Boss& boss) {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 std::unique_ptr<BaseBossAttackBehavior> BossBehaviorController::SelectNextBehavior(const Boss& boss) {
+
+	// チュートリアルの的は攻撃しない。待機だけを繰り返す
+	if (boss.IsTrainingDummy()) {
+		return std::make_unique<BossAttackIdle>();
+	}
 
 	// 攻撃の後は必ずIdleを挟む
 	if (nextIsIdle_) {

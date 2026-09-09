@@ -34,6 +34,7 @@
         "isLoop": false,
         "isPlayOneShot": false,
         "isRandomColor": false,
+        "isRandomLifeTime": false,
         "isRandomRotate": true,
         "isRandomSpeed": false,
         "isScaleUp": false,
@@ -57,6 +58,7 @@
             "z": 15.0
         },
         "maxEmitPerFrame": 165,
+        "maxLifeTime": 2.0,
         "maxParticles": 192,
         "maxScale": {
             "x": 180.0,
@@ -69,6 +71,7 @@
             "y": 0.0,
             "z": 0.0
         },
+        "minLifeTime": 1.0,
         "minScale": {
             "x": -4.0,
             "y": 1.0,
@@ -78,15 +81,15 @@
         "overflowMode": 1,
         "postColor": {
             "a": 1.0,
-            "b": 0.021734897047281265,
-            "g": 0.234048992395401,
-            "r": 0.9382239580154419
+            "b": 0.029143864288926125,
+            "g": 0.08680939674377441,
+            "r": 0.4440154433250427
         },
         "preColor": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 0.9450980424880981,
-            "r": 0.9450980424880981
+            "b": 0.26028236746788025,
+            "g": 0.34311312437057495,
+            "r": 0.3474903702735901
         },
         "radius": 1.600000023841858,
         "radiusThickness": 1.0,
@@ -103,7 +106,7 @@
             "r": 0.0
         },
         "randomDirectionAmount": 0.0,
-        "rateOverTimeCout": 17,
+        "rateOverTimeCout": 22,
         "rotate": {
             "x": 6.670000076293945,
             "y": 0.0,

@@ -4,7 +4,6 @@
 
 /// <summary>
 /// 攻撃と攻撃の間の待機。
-/// 次の攻撃を始めるまでの時間を min~max の間のランダムで決めて、その間は何もしない
 /// </summary>
 class BossAttackIdle : public BaseBossAttackBehavior {
 public:

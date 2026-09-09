@@ -186,7 +186,7 @@ private:
 	const std::string kBackButtonName = "TutorialBackButton";
 
 	// チェックに使う画像名
-	const std::string kCheckTextureName = "caution.png";
+	const std::string kCheckTextureName = "check.png";
 
 
 	// ボタン画像を作る時の仮の絵。中身は毎フレーム差し替える

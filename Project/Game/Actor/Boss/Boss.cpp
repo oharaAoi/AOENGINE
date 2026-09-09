@@ -43,6 +43,9 @@ void Boss::Init(BaseGameObject* body) {
 
 	isInvincible_ = false;
 	isDefeatFinished_ = false;
+	damagedCount_ = 0;
+	hitStopTimer_ = 0.0f;
+	GameTimer::SetTimeScale(1.0f);
 	attackEffectRemaining_ = 0;
 	attackEffectTimer_ = 0.0f;
 	isAttackPulsing_ = false;
@@ -110,7 +113,7 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 
 	// 攻撃側が見るのは基準位置のままにして、見た目だけ揺れのぶんずらす
 	if (WorldTransform* transform = GetTransform()) {
-		transform->SetTranslate(position_ + damageEffect_.GetPositionOffset());
+		transform->SetTranslate(position_ + damageEffect_.GetPositionOffset() + CalcViewOffset());
 	}
 
 	// 残っているエフェクトを間隔を空けて出す
@@ -149,7 +152,8 @@ void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection, float deltaTime)
 
 	// 攻撃側が見るのは定位置のままにして、見た目だけ降りてくる途中に置く
 	if (WorldTransform* transform = GetTransform()) {
-		transform->SetTranslate(position_ + Math::Vector3(0.0f, introDescendOffsetY_, 0.0f));
+		transform->SetTranslate(
+			position_ + Math::Vector3(0.0f, introDescendOffsetY_, 0.0f) + CalcViewOffset());
 	}
 
 	UpdateScale();
@@ -317,6 +321,39 @@ void Boss::UpdateIntroDescend(float deltaTime) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  ヒットストップ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateHitStop() {
+
+	if (hitStopTimer_ <= 0.0f) {
+		return;
+	}
+
+	// 止めている間はDeltaTimeが0になるので、時間の進みは固定値の方で数える
+	hitStopTimer_ -= GameTimer::FixedDeltaTime();
+	if (hitStopTimer_ > 0.0f) {
+		return;
+	}
+
+	hitStopTimer_ = 0.0f;
+	GameTimer::SetTimeScale(1.0f);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  見た目だけのずらし
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+Math::Vector3 Boss::CalcViewOffset() const {
+
+	if (!isTrainingDummy_) {
+		return CVector3::ZERO;
+	}
+
+	return parameter_.dummyOffset;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  スケール
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -327,8 +364,14 @@ void Boss::UpdateScale() {
 		return;
 	}
 
+	// 的として置いている間は別のモデルなので、基準の大きさもそれ用のものを使う
+	Math::Vector3 baseScale = parameter_.baseScale;
+	if (isTrainingDummy_) {
+		baseScale = parameter_.dummyScale;
+	}
+
 	// 基準の大きさに演出用の倍率を掛けたものが、実際の見た目の大きさになる
-	const Math::Vector3 scale = parameter_.baseScale * scaleMultiplier_;
+	const Math::Vector3 scale = baseScale * scaleMultiplier_;
 	transform->SetScale(scale);
 
 	// 見た目を大きくしても当たり判定が一緒に膨らまないように割り戻しておく
@@ -377,6 +420,14 @@ void Boss::Damage(float amount) {
 	// フェーズ切り替えの演出中などは受け付けない
 	if (isInvincible_) {
 		return;
+	}
+
+	++damagedCount_;
+
+	// 当たった手応えを出すために、ほんの少しだけ時間を止める
+	if (parameter_.hitStopTime > 0.0f) {
+		hitStopTimer_ = parameter_.hitStopTime;
+		GameTimer::SetTimeScale(parameter_.hitStopTimeScale);
 	}
 
 	// 被弾は行動に割り込んで1回だけ流す

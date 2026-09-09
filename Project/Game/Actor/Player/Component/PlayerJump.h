@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <cstdint>
 #include<string>
 #include <functional>
 
@@ -20,6 +21,10 @@ public:
 	// 調整値
 	struct Params {
 		float jumpPower;
+		// 空中ジャンプの強さ。地上のジャンプとは別に持つ
+		float airJumpPower;
+		// 接地から着地までに跳べる回数。1で空中ジャンプ無し、2で2段ジャンプ
+		int32_t maxJumpCount;
 		// 上昇中に入力を離した時、残す上昇速度の割合。小さいほど小ジャンプになる
 		float releaseRiseRate;
 		float hangTime;
@@ -47,6 +52,11 @@ public:
 private:
 	std::size_t ToIndex(State state) const { return static_cast<std::size_t>(state); }
 	void ChangeState(State next);
+
+	/// <summary>
+	/// 空中ジャンプを試す。跳べたらtrueを返す
+	/// </summary>
+	bool TryAirJump(bool jumpTriggered);
 private:
 
 	// 状態の数
@@ -56,6 +66,8 @@ private:
 	float velocityY_ = 0.0f;
 	float hangTimer_ = 0.0f;
 	bool jumpStarted_ = false;
+	// 接地してから跳んだ回数。maxJumpCountに達したら空中では跳べない
+	int32_t jumpCount_ = 0;
 	// ジャンプ入力が押しっぱなしか。滞空を打ち切るかの判断に使う
 	bool isJumpHeld_ = false;
 	// 今のジャンプが自分のジャンプ入力から始まったものか。

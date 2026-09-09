@@ -1,0 +1,12 @@
+{
+    "BossKnockOutParameter": {
+        "knockOutDirection": {
+            "x": 0.0,
+            "y": 0.20000000298023224,
+            "z": 0.800000011920929
+        },
+        "knockOutRotateSpeed": 56.0,
+        "knockOutSpeed": 10.0,
+        "knockOutTime": 2.0
+    }
+}

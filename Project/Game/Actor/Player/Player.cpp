@@ -125,6 +125,8 @@ void Player::Update(){
 	// ジャンプパラメータセット
 	const PlayerJump::Params jumpParams{
 		parameter_.jumpPower,
+		parameter_.airJumpPower,
+		parameter_.maxJumpCount,
 		parameter_.releaseRiseRate,
 		parameter_.hangTime,
 		parameter_.damageJumpHangTime,
@@ -772,6 +774,8 @@ void Player::Debug_Gui(){
 			rigidbody->SetVelocity(velocity);
 		}
 	}
+
+	ImGui::DragFloat("currentHp", &currentHp_, 1.f);
 
 	if(ImGui::CollapsingHeader("Parameter")){
 		// 調整 + Save/Load

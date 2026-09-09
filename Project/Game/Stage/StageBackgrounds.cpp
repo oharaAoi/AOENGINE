@@ -4,6 +4,8 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/WorldTransform.h"
+#include "Engine/Utilities/SceneObjectFinder.h"
 
 // game
 #include "Game/Stage/StageSegment.h"
@@ -25,6 +27,7 @@ void StageBackgrounds::Init(StageBlockField* field){
 
 	backgroundIndex_ = -1;
 	segmentIndex_ = 0;
+	hasCameraOffset_ = false;
 
 	// 足元と次の分をあらかじめ用意しておく
 	for(size_t i = 0; i < kKeepBackgroundCount; ++i){
@@ -42,9 +45,36 @@ void StageBackgrounds::Init(StageBlockField* field){
 // 更新処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void StageBackgrounds::Update(StageBlockField* field,const Math::Vector3& playerPos){
+void StageBackgrounds::Update(StageBlockField* field,const Math::Vector3& playerPos,
+	const Math::Vector3& cameraPos){
+	FollowCamera(cameraPos);
 	BackgroundLoop(playerPos);
 	SegmentLoop(field,playerPos);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// 背景のカメラ追従
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void StageBackgrounds::FollowCamera(const Math::Vector3& cameraPos){
+	AOENGINE::BaseGameObject* background = FindSceneObject<AOENGINE::BaseGameObject>(kBackgroundName);
+	if(background == nullptr){
+		return;
+	}
+
+	AOENGINE::WorldTransform* transform = background->GetTransform();
+	if(transform == nullptr){
+		return;
+	}
+
+	// 最初のフレームで、シーンに置かれている位置とカメラの差を覚える
+	if(!hasCameraOffset_){
+		cameraOffset_ = transform->GetTranslate() - cameraPos;
+		hasCameraOffset_ = true;
+		return;
+	}
+
+	transform->SetTranslate(cameraPos + cameraOffset_);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

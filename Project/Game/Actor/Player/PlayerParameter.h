@@ -17,6 +17,9 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 
 	// ジャンプ
 	float jumpPower;			  // ジャンプの強さ
+	float airJumpPower = 22.0f;	  // 空中ジャンプの強さ
+	// 接地から着地までに跳べる回数。1で空中ジャンプ無し、2で2段ジャンプ
+	int32_t maxJumpCount = 2;
 	// 上昇中に入力を離した時、残す上昇速度の割合
 	float releaseRiseRate = 0.25f;
 	float hangTime;				  // 滞空時間
@@ -92,6 +95,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Move Acceleration", moveAcceleration, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Move Input Threshold", moveInputThreshold, 0.001f, 0.0f, 1.0f);
 		AddParameter("Jump Power", jumpPower, 0.1f, 0.0f, 200.0f);
+		AddParameter("Air Jump Power", airJumpPower, 0.1f, 0.0f, 200.0f);
+		AddParameter("Max Jump Count", maxJumpCount, 1.0f, 1.0f, 10.0f);
 		AddParameter("Release Rise Rate", releaseRiseRate, 0.01f, 0.0f, 1.0f);
 		AddParameter("Hang Time", hangTime, 0.01f, 0.0f, 5.0f);
 		AddParameter("Damage Jump Hang Time", damageJumpHangTime, 0.01f, 0.0f, 5.0f);
@@ -147,6 +152,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("moveAcceleration", moveAcceleration)
 			.Add("moveInputThreshold", moveInputThreshold)
 			.Add("jumpPower", jumpPower)
+			.Add("airJumpPower", airJumpPower)
+			.Add("maxJumpCount", maxJumpCount)
 			.Add("releaseRiseRate", releaseRiseRate)
 			.Add("hangTime", hangTime)
 			.Add("damageJumpHangTime", damageJumpHangTime)
@@ -196,6 +203,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "moveAcceleration", moveAcceleration);
 		Convert::fromJson(jsonData, "moveInputThreshold", moveInputThreshold);
 		Convert::fromJson(jsonData, "jumpPower", jumpPower);
+		Convert::fromJson(jsonData, "airJumpPower", airJumpPower);
+		Convert::fromJson(jsonData, "maxJumpCount", maxJumpCount);
 		Convert::fromJson(jsonData, "releaseRiseRate", releaseRiseRate);
 		Convert::fromJson(jsonData, "hangTime", hangTime);
 		Convert::fromJson(jsonData, "damageJumpHangTime", damageJumpHangTime);

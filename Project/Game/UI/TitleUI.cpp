@@ -8,13 +8,35 @@
 #include <Engine/System/Input/Input.h>
 #include <Engine/Core/Engine.h>
 
+#include <array>
+#include <string>
+
+namespace {
+	// 選択を受け付ける間隔
+	const float kSelectCoolTime = 0.2f;
+	// スティックの間隔。1回倒しただけで何個も進まないよう、キーより長くする
+	const float kStickCoolTime = 0.28f;
+
+	// 画面の上から下の並び。シーンに置いてあるテキストの名前と対応させる
+	const std::array<std::string, TitleUI::kItemCount> kItemNames = {
+		"GameStart", "Tutorial", "Exit",
+	};
+
+	const std::array<TitleUI::TitleItem, TitleUI::kItemCount> kItems = {
+		TitleUI::TitleItem::Start,
+		TitleUI::TitleItem::Tutorial,
+		TitleUI::TitleItem::Exit,
+	};
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // 初期化処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TitleUI::Init() {
 	selectIndex_ = 0;
-	coolTimer_ = AOENGINE::Timer(0.2f);
+	coolTimer_ = AOENGINE::Timer(kSelectCoolTime);
+	stickCoolTimer_ = AOENGINE::Timer(kStickCoolTime);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,22 +44,28 @@ void TitleUI::Init() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 TitleUI::TitleItem TitleUI::Update() {
-	// 次の行動の選択
-	if (!coolTimer_.Run(AOENGINE::GameTimer::FixedDeltaTime())) {
-		SelectItem();
+	const float deltaTime = AOENGINE::GameTimer::FixedDeltaTime();
+
+	// スティックはキーより長く待たせる。両方の待ちが明けている時だけ倒し入力を見る
+	const bool canUseStick = !stickCoolTimer_.Run(deltaTime);
+	if (!coolTimer_.Run(deltaTime)) {
+		SelectItem(canUseStick);
 	}
 
 	TitleUI::TitleItem current = CurrentSelect();
-	if (current == TitleUI::TitleItem::Start) {
-		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
-		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
-		startText->SetTextColor(Colors::Linear::red);
-		exitText->SetTextColor(Colors::Linear::white);
-	} else if (current == TitleUI::TitleItem::Exit) {
-		AOENGINE::Text* startText = FindSceneObject<AOENGINE::Text>("GameStart");
-		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
-		startText->SetTextColor(Colors::Linear::white);
-		exitText->SetTextColor(Colors::Linear::red);
+
+	// 選んでいるものだけ赤くする
+	for (int i = 0; i < kItemCount; ++i) {
+		AOENGINE::Text* text = FindSceneObject<AOENGINE::Text>(kItemNames[i]);
+		if (text == nullptr) {
+			continue;
+		}
+
+		if (kItems[i] == current) {
+			text->SetTextColor(Colors::Linear::red);
+		} else {
+			text->SetTextColor(Colors::Linear::white);
+		}
 	}
 
 	// 決定を行う
@@ -53,13 +81,14 @@ TitleUI::TitleItem TitleUI::Update() {
 // 次の項目を選択する
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-void TitleUI::SelectItem() {
-	constexpr int kMaxItem = 2;
+void TitleUI::SelectItem(bool canUseStick) {
+	constexpr int kMaxItem = kItemCount;
 	AOENGINE::Input* input = AOENGINE::Input::GetInstance();
 
 	auto press_down = [&]() {
 		selectIndex_ = (selectIndex_ + 1) % kMaxItem;
 		coolTimer_.Reset();
+		stickCoolTimer_.Reset();
 		Engine::GetSoundManager()->Play("Select");
 	};
 
@@ -68,6 +97,7 @@ void TitleUI::SelectItem() {
 		// 0未満になった時に正しく最大値に戻すための計算
 		selectIndex_ = (selectIndex_ - 1 + kMaxItem) % kMaxItem;
 		coolTimer_.Reset();
+		stickCoolTimer_.Reset();
 		Engine::GetSoundManager()->Play("Select");
 		};
 
@@ -75,7 +105,14 @@ void TitleUI::SelectItem() {
 	if (input->GetKey(DIK_W) || input->GetKey(DIK_UP)) { press_up(); }
 	if (input->GetKey(DIK_S) || input->GetKey(DIK_DOWN)) { press_down(); }
 
+	// 十字キー判定
+	if (input->IsPressButton(DpadUp)) { press_up(); }
+	if (input->IsPressButton(DpadDown)) { press_down(); }
+
 	// stick判定
+	if (!canUseStick) {
+		return;
+	}
 	if (input->GetLeftJoyStick().y >= 0.2f) {
 		press_down();
 	} else if (input->GetLeftJoyStick().y <= -0.2f) {
@@ -97,11 +134,9 @@ bool TitleUI::DecisionItem() {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 TitleUI::TitleItem TitleUI::CurrentSelect() {
-	if (selectIndex_ == 0) {
-		return TitleUI::TitleItem::Start;
-	} else if (selectIndex_ == 1) {
-		return TitleUI::TitleItem::Exit;
+	if (selectIndex_ < 0 || selectIndex_ >= kItemCount) {
+		return TitleUI::TitleItem::Pause;
 	}
 
-	return TitleUI::TitleItem::Pause;
+	return kItems[selectIndex_];
 }

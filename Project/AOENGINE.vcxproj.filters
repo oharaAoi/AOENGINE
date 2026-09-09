@@ -70,6 +70,9 @@
     <Filter Include="Engine\Module\Components\2d">
       <UniqueIdentifier>{EA4416BD-5652-44A3-DF38-408E4B45105A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Module\Components\3d">
+      <UniqueIdentifier>{0B4516BD-7752-44A3-0039-408E6C45105A}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Engine\Module\Components\Animation">
       <UniqueIdentifier>{7433ED7E-606F-F0E8-C981-08E0B5DC9803}</UniqueIdentifier>
     </Filter>
@@ -279,6 +282,9 @@
     </Filter>
     <Filter Include="Game\Actor\Boss\AttackBehavior">
       <UniqueIdentifier>{C4070D08-B02D-D76E-9973-5C3A8538FC3A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Actor\Boss\BossDefeateAnimation">
+      <UniqueIdentifier>{A14F7D24-8D36-3F1C-3687-A539224DB882}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Actor\Boss\Component">
       <UniqueIdentifier>{EF49238C-5B0C-5716-A4BC-E5A210BE2FF4}</UniqueIdentifier>
@@ -507,20 +513,14 @@
     <ClInclude Include="Engine\Module\Components\2d\Sprite.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h">
-      <Filter>Engine\Module\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Effect\ExplosionEffectComponent.h">
-      <Filter>Engine\Module\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\Module\Components\Effect\MagmaEffectComponent.h">
-      <Filter>Engine\Module\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\Text.h">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\2d\UIObject.h">
       <Filter>Engine\Module\Components\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\3d\WorldTextComponent.h">
+      <Filter>Engine\Module\Components\3d</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Animation\AnimationClip.h">
       <Filter>Engine\Module\Components\Animation</Filter>
@@ -562,6 +562,12 @@
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Effect\BaseParticles.h">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Effect\ExplosionEffectComponent.h">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Module\Components\Effect\MagmaEffectComponent.h">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClInclude>
     <ClInclude Include="Engine\Module\Components\Effect\ParticleSceneObject.h">
@@ -885,6 +891,9 @@
     <ClInclude Include="Engine\System\Editor\Inspector\Component\ColliderInspector.h">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
+    <ClInclude Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.h">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Component\MaterialInspector.h">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
@@ -895,9 +904,6 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.h">
-      <Filter>Engine\System\Editor\Inspector\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.h">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClInclude>
     <ClInclude Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.h">
@@ -1278,6 +1284,21 @@
     <ClInclude Include="Game\Actor\Boss\BossBehaviorController.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.h">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Actor\Boss\BossParameter.h">
       <Filter>Game\Actor\Boss</Filter>
     </ClInclude>
@@ -1449,7 +1470,25 @@
     <ClInclude Include="Game\UI\BossUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\ComboTextUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\ComboTextUIManager.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\ComboTextUIParameter.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\ControlUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\DamageTextUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\DamageTextUIManager.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\DamageTextUIParameter.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\GameClearUI.h">
@@ -1464,7 +1503,16 @@
     <ClInclude Include="Game\UI\PlayerUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\PopupTextUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\RetryUI.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\TitleMeteoEffect.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\UI\TitleMeteoParameter.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
     <ClInclude Include="Game\UI\TitleUI.h">
@@ -1643,20 +1691,14 @@
     <ClCompile Include="Engine\Module\Components\2d\Sprite.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp">
-      <Filter>Engine\Module\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Effect\ExplosionEffectComponent.cpp">
-      <Filter>Engine\Module\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\Module\Components\Effect\MagmaEffectComponent.cpp">
-      <Filter>Engine\Module\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\Text.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\2d\UIObject.cpp">
       <Filter>Engine\Module\Components\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\3d\WorldTextComponent.cpp">
+      <Filter>Engine\Module\Components\3d</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Animation\AnimationClip.cpp">
       <Filter>Engine\Module\Components\Animation</Filter>
@@ -1695,6 +1737,12 @@
       <Filter>Engine\Module\Components\Collider</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Effect\BaseParticles.cpp">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Effect\ExplosionEffectComponent.cpp">
+      <Filter>Engine\Module\Components\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Module\Components\Effect\MagmaEffectComponent.cpp">
       <Filter>Engine\Module\Components\Effect</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Module\Components\Effect\ParticleSceneObject.cpp">
@@ -2009,6 +2057,9 @@
     <ClCompile Include="Engine\System\Editor\Inspector\Component\ColliderInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
+    <ClCompile Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.cpp">
+      <Filter>Engine\System\Editor\Inspector\Component</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Component\MaterialInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
@@ -2019,9 +2070,6 @@
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Component\WorldTextInspector.cpp">
-      <Filter>Engine\System\Editor\Inspector\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine\System\Editor\Inspector\Component\ExplosionEffectInspector.cpp">
       <Filter>Engine\System\Editor\Inspector\Component</Filter>
     </ClCompile>
     <ClCompile Include="Engine\System\Editor\Inspector\Entity\BaseGameObjectInspector.cpp">
@@ -2372,6 +2420,21 @@
     <ClCompile Include="Game\Actor\Boss\BossBehaviorController.cpp">
       <Filter>Game\Actor\Boss</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BaseBossDefeateAnimationBehavior.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimation.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateAnimationParameters.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateExlosionAnimation.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Actor\Boss\BossDefeateAnimation\BossDefeateKnockOut.cpp">
+      <Filter>Game\Actor\Boss\BossDefeateAnimation</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Actor\Boss\Component\BossAnimation.cpp">
       <Filter>Game\Actor\Boss\Component</Filter>
     </ClCompile>
@@ -2501,7 +2564,19 @@
     <ClCompile Include="Game\UI\BossUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\ComboTextUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\ComboTextUIManager.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\ControlUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\DamageTextUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\DamageTextUIManager.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\GameClearUI.cpp">
@@ -2513,7 +2588,13 @@
     <ClCompile Include="Game\UI\PlayerUI.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
+    <ClCompile Include="Game\UI\PopupTextUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
     <ClCompile Include="Game\UI\RetryUI.cpp">
+      <Filter>Game\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\UI\TitleMeteoEffect.cpp">
       <Filter>Game\UI</Filter>
     </ClCompile>
     <ClCompile Include="Game\UI\TitleUI.cpp">

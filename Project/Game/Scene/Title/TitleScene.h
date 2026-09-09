@@ -4,6 +4,9 @@
 
 // game
 #include "Game/Scene/BaseScene.h"
+#include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
+#include "Game/UI/TitleEarthParameter.h"
+#include "Game/UI/TitleMeteoEffect.h"
 #include "Game/UI/TitleUI.h"
 
 class TitleScene :
@@ -33,11 +36,28 @@ public:
 	/// </summary>
 	void Update() override;
 
+private:
+
+	/// <summary>
+	/// 背景の地球を、画面上の決まった位置に見えるところへ置き直す
+	/// </summary>
+	void UpdateEarth();
+
 private: // private variables
 
 	AOENGINE::SoundHandle bgmHandle_;
 
 	TitleUI titleUI_;
+
+	// 背景に流す隕石
+	TitleMeteoEffect meteoEffect_;
+
+	// 背景の地球。画面上の位置で置き場所を決める
+	TitleEarthParameter earthParameter_;
+	ScreenWorldPlaneAnchor earthAnchor_;
+
+	// シーン上での名前
+	const std::string kEarthName = "Earth";
 
 };
 

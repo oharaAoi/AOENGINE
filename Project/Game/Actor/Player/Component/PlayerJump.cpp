@@ -15,13 +15,18 @@ PlayerJump::PlayerJump() {
 			ChangeState(State::Rising);
 			jumpStarted_ = true;
 			isPlayerJump_ = true;
+			jumpCount_ = 1;
 
 			Engine::GetSoundManager()->Play("PlayerJump");
 		}
 	};
 
 	// --- 上昇中 ---
-	stateUpdaters_[ToIndex(State::Rising)] = [this](float deltaTime, bool) {
+	stateUpdaters_[ToIndex(State::Rising)] = [this](float deltaTime, bool jumpTriggered) {
+		if (TryAirJump(jumpTriggered)) {
+			return;
+		}
+
 		velocityY_ -= params_.riseGravity * deltaTime;
 
 		// 入力を離したら、そこから先の上昇速度に上限をかける
@@ -40,7 +45,11 @@ PlayerJump::PlayerJump() {
 	};
 
 	// --- 頂点で滞空中 ---
-	stateUpdaters_[ToIndex(State::Hanging)] = [this](float deltaTime, bool) {
+	stateUpdaters_[ToIndex(State::Hanging)] = [this](float deltaTime, bool jumpTriggered) {
+		if (TryAirJump(jumpTriggered)) {
+			return;
+		}
+
 		// 滞空中は高さを維持する
 		velocityY_ = 0.0f;
 
@@ -63,7 +72,11 @@ PlayerJump::PlayerJump() {
 	};
 
 	// --- 落下中 ---
-	stateUpdaters_[ToIndex(State::Falling)] = [this](float deltaTime, bool) {
+	stateUpdaters_[ToIndex(State::Falling)] = [this](float deltaTime, bool jumpTriggered) {
+		if (TryAirJump(jumpTriggered)) {
+			return;
+		}
+
 		velocityY_ -= params_.fallGravity * deltaTime;
 		if (velocityY_ < -params_.maxFallSpeed) {
 			velocityY_ = -params_.maxFallSpeed;
@@ -84,6 +97,7 @@ void PlayerJump::Land() {
 	}
 	// 着地へ切り替え
 	if (state_ == State::Falling || state_ == State::Hanging) {
+		jumpCount_ = 0;
 		ChangeState(State::Grounded);
 		Engine::GetSoundManager()->Play("PlayerLand");
 	}
@@ -95,6 +109,9 @@ void PlayerJump::LeaveGround() {
 		return;
 	}
 	velocityY_ = 0.0f;
+
+	// 跳ばずに落ちた場合も、地上のジャンプは使ったものとして扱う
+	jumpCount_ = 1;
 	ChangeState(State::Falling);
 }
 
@@ -112,7 +129,32 @@ void PlayerJump::Knockback(float power) {
 	velocityY_ = power;
 	// 入力から始まったジャンプではないので、離しても滞空を打ち切らない
 	isPlayerJump_ = false;
+	// 打ち上げられた後も空中ジャンプは1回だけ使える
+	jumpCount_ = 1;
 	ChangeState(State::Rising);
+}
+
+bool PlayerJump::TryAirJump(bool jumpTriggered) {
+
+	if (!jumpTriggered) {
+		return false;
+	}
+
+	// 跳べる回数を使い切っていたら何もしない
+	if (jumpCount_ >= params_.maxJumpCount) {
+		return false;
+	}
+
+	velocityY_ = params_.airJumpPower;
+	++jumpCount_;
+	jumpStarted_ = true;
+
+	// 自分の入力から始まったジャンプなので、離した時の打ち切りも効かせる
+	isPlayerJump_ = true;
+	ChangeState(State::Rising);
+
+	Engine::GetSoundManager()->Play("PlayerJump");
+	return true;
 }
 
 void PlayerJump::ChangeState(State next) {
