@@ -506,6 +506,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClInclude Include="Game\Effect\IEffectObject.h" />
     <ClInclude Include="Game\Effect\ParticleEffectObject.h" />
     <ClInclude Include="Game\Effect\PrefabEffectObject.h" />
+    <ClInclude Include="Game\EventHandlers\BlockToDamageFloorCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\CollisionCallBacks.h" />
     <ClInclude Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.h" />
@@ -888,6 +889,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\Effect\EffectObjectGroup.cpp" />
     <ClCompile Include="Game\Effect\ParticleEffectObject.cpp" />
     <ClCompile Include="Game\Effect\PrefabEffectObject.cpp" />
+    <ClCompile Include="Game\EventHandlers\BlockToDamageFloorCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\BossBlockLauncherCollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\CollisionCallBacks.cpp" />
     <ClCompile Include="Game\EventHandlers\PlayerBlockCollisionCallBacks.cpp" />
@@ -931,6 +933,7 @@ copy /Y "$(WindowsSdkDir)bin\$(TargetPlatformVersion)\x64\dxil.dll" "$(TargetDir
     <ClCompile Include="Game\UI\TutorialTextBoxUI.cpp" />
     <ClCompile Include="Game\WorldObject\Block.cpp" />
     <ClCompile Include="Game\WorldObject\Skybox.cpp" />
+    <ClCompile Include="Game\WorldObject\StepBlock.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
