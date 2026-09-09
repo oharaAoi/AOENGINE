@@ -234,8 +234,11 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// プレイヤー
 	if (player_)
 	{
-		// フェーズ切り替えの演出中も、カウントダウン中と同じように動きを止める
-		const bool isPlayerStandby = isStandby || (boss_ && boss_->IsPhaseChanging());
+		// カウントダウン中、フェーズ切り替えの演出中、ボスを倒した後は動きを止める。
+		// チュートリアルの的はHPが尽きても倒れないので、そちらは止めない
+		const bool isBossDefeated = boss_ && !boss_->IsTrainingDummy() && boss_->IsDefeated();
+		const bool isPlayerStandby =
+			isStandby || (boss_ && boss_->IsPhaseChanging()) || isBossDefeated;
 
 		// 待機中は入力も物理も進めず、見た目だけ合わせる
 		if (isPlayerStandby) {

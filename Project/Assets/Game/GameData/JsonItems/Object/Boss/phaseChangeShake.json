@@ -1,7 +1,7 @@
 {
     "phaseChangeShake": {
         "decay": 2,
-        "duration": 0.41999998688697815,
+        "duration": 0.6299999952316284,
         "noiseFrequency": 15.0,
         "noiseStrength": 1.0,
         "noiseType": 2,
@@ -11,13 +11,13 @@
             "z": 3.0999999046325684
         },
         "positionAmplitude": {
-            "x": 2.2300000190734863,
-            "y": 1.149999976158142,
+            "x": 20.0,
+            "y": 20.0,
             "z": 0.0
         },
         "positionFrequency": {
-            "x": 42.29999923706055,
-            "y": 43.599998474121094,
+            "x": 57.29999923706055,
+            "y": 52.400001525878906,
             "z": 0.0
         },
         "rotationAmplitude": {
