@@ -22,7 +22,7 @@ $settings = @{
     ResourceDir = Join-Path $projectDir "Assets"
     OutputDir = Join-Path $repositoryParentDir "AOENGINE-Exe"
     SourceExeName = "AOENGINE.exe"
-    NewExeName = "Game.exe"
+    NewExeName = "4005_メテオギュット.exe"
 }
 
 # Local settings are optional and are excluded from Git.

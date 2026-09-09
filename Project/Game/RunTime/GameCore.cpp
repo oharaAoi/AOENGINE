@@ -2,6 +2,7 @@
 #include "Engine/Core/Engine.h"
 #include "Game/Stage/StageFactory.h"
 #include "Game/Path/LineLoader.h"
+#include "Engine/WinApp/WinApp.h"
 
 GameCore::~GameCore(){}
 

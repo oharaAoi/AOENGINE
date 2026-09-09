@@ -318,10 +318,12 @@ void Engine::BeginFrame() {
 	input_->Update();
 	AssetsManager::GetInstance()->Update();
 
+#ifdef _DEVELOPMENT
 	if (Input::IsTriggerKey(DIK_F11)) {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
+#endif
 
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
