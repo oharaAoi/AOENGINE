@@ -6,6 +6,7 @@
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
@@ -24,6 +25,9 @@ namespace {
 	const uint8_t kIntroFastForwardKey = DIK_SPACE;
 
 	const std::string kBgmTag = "GameBGM";
+
+	// スクロール位置を示す線の、シーン上での名前
+	const std::string kScrollLineName = "ScrollLine";
 	const std::string kGameOverBgmTag = "GameOverBGM";
 }
 
@@ -259,6 +263,9 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		}
 	}
 
+	// スクロール位置の目印を、判定と同じ高さへ合わせる
+	UpdateScrollLine();
+
 	// ダメージ床の更新。
 	// フェーズ切り替え中はカメラが寄るので、床は付いていかせずその場に残す
 	const bool isPhaseChanging = boss_ && boss_->IsPhaseChanging();
@@ -349,6 +356,32 @@ void GameScene::ClearStage()
 	}
 	playerBlockCallBacks_.ClearBlocks();
 	stageBlockField_.Clear();
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// スクロール位置の目印
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateScrollLine()
+{
+	if (!followCamera_) {
+		return;
+	}
+
+	AOENGINE::Sprite* line = FindSceneObject<AOENGINE::Sprite>(kScrollLineName);
+	if (line == nullptr) {
+		return;
+	}
+
+	// スクロールの判定は NDC で見ているので、同じ式で画面の高さへ直す
+	const float ndcY = followCamera_->GetScrollTriggerScreenY() * 2.0f - 1.0f;
+
+	// スプライトの座標はキャンバス基準。実解像度ではなくそちらの高さを使う
+	const float canvasHeight = line->GetResizeReferenceSize().y;
+
+	Math::Vector2 position = line->GetTranslate();
+	position.y = (1.0f - ndcY) * 0.5f * canvasHeight + followCamera_->GetScrollLineOffsetY();
+	line->SetTranslate(position);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

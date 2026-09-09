@@ -27,8 +27,15 @@ struct BossParameter :
 	Math::Vector3 baseScale{ 0.6f, 0.6f, 0.6f };
 	// チュートリアルの的として置く時の大きさ。別のモデルなので基準の大きさとは分ける
 	Math::Vector3 dummyScale{ 2.0f, 2.0f, 2.0f };
-	// 的のモデルは原点の位置が違うので、見た目だけずらして位置を合わせる
-	Math::Vector3 dummyOffset{ 0.0f, -4.0f, 0.0f };
+	// 的のモデルは原点の位置が違うので、見た目だけずらして位置を合わせる。
+	// モデルの大きさで指定する(dummyScaleが掛かる)ので、大きさを変えても足元がずれない。
+	// yは足元を画面上の位置に合わせる値。scarecrowは原点の0.464下が足元
+	Math::Vector3 dummyOffset{ 0.0f, 0.464f, 0.0f };
+
+	// 的をずっと左右に揺らす
+	float dummySwayAngle = 10.0f;		// 中心から左右へ何度傾けるか
+	float dummySwayTime = 2.0f;			// 左端から右端へ戻るまでの往復時間
+	int32_t dummySwayEaseKind = 20;		// InOutSine。端で溜めが出る
 	Math::Vector3 hitSize{ 2.0f, 2.0f, 2.0f };
 
 	// フェーズが切り替わる残HPの割合。高い順に並べる
@@ -152,6 +159,8 @@ struct BossParameter :
 		AddParameter("Base Scale", baseScale, 0.01f);
 		AddParameter("Dummy Scale", dummyScale, 0.01f);
 		AddParameter("Dummy Offset", dummyOffset, 0.01f);
+		AddParameter("Dummy Sway Angle(deg)", dummySwayAngle, 0.1f, 0.0f, 180.0f);
+		AddParameter("Dummy Sway Time", dummySwayTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Hit Size", hitSize, 0.1f);
 
 		AddSeparatorText("Phase");
@@ -259,6 +268,9 @@ struct BossParameter :
 			.Add("baseScale", baseScale)
 			.Add("dummyScale", dummyScale)
 			.Add("dummyOffset", dummyOffset)
+			.Add("dummySwayAngle", dummySwayAngle)
+			.Add("dummySwayTime", dummySwayTime)
+			.Add("dummySwayEaseKind", dummySwayEaseKind)
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
 			.Add("fallFireUnlockPhase", fallFireUnlockPhase)
@@ -336,6 +348,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "baseScale", baseScale);
 		Convert::fromJson(jsonData, "dummyScale", dummyScale);
 		Convert::fromJson(jsonData, "dummyOffset", dummyOffset);
+		Convert::fromJson(jsonData, "dummySwayAngle", dummySwayAngle);
+		Convert::fromJson(jsonData, "dummySwayTime", dummySwayTime);
+		Convert::fromJson(jsonData, "dummySwayEaseKind", dummySwayEaseKind);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
 		Convert::fromJson(jsonData, "fallFireUnlockPhase", fallFireUnlockPhase);

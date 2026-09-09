@@ -74,6 +74,12 @@ private:
 	/// <summary>見た目だけずらす量。的のモデルは原点の位置が違うので、その分を吸収する</summary>
 	Math::Vector3 CalcViewOffset() const;
 
+	/// <summary>的を左右に揺らす。的として置いていない間は何もしない</summary>
+	void UpdateDummySway(float deltaTime);
+
+	/// <summary>揺れの傾きを見た目へ入れる。的として置いていない間は触らない</summary>
+	void ApplyDummyRotate() const;
+
 	/// <summary>降下を進めて、定位置からのずらし量を更新する</summary>
 	void UpdateIntroDescend(float deltaTime);
 
@@ -157,6 +163,10 @@ private:
 
 	// 奥行きの一時的なずらし。カメラを寄せた時に相対距離を保つのに使う
 	float worldZOffset_ = 0.0f;
+
+	// 的を揺らすための経過時間と、その結果の傾き(ラジアン)
+	float dummySwayTimer_ = 0.0f;
+	float dummySwayRotate_ = 0.0f;
 
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";

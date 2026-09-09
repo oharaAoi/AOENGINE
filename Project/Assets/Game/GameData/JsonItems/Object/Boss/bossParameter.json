@@ -53,8 +53,8 @@
         "damageEffectTime": 0.5099999904632568,
         "defeatHideTime": 10.0,
         "dummyOffset": {
-            "x": 0.0,
-            "y": -4.0,
+            "x": -0.6499999761581421,
+            "y": -1.7699999809265137,
             "z": 0.0
         },
         "dummyScale": {
@@ -62,6 +62,9 @@
             "y": 2.0,
             "z": 2.0
         },
+        "dummySwayAngle": 19.299999237060547,
+        "dummySwayEaseKind": 20,
+        "dummySwayTime": 2.0,
         "fallFireUnlockPhase": 0,
         "fireballDamage": 2.0,
         "fireballDropCount": 3,
@@ -74,7 +77,7 @@
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
             "x": 46.099998474121094,
-            "y": 1.0,
+            "y": 1.100000023841858,
             "z": 59.20000076293945
         },
         "hitStopTime": 0.014999999664723873,

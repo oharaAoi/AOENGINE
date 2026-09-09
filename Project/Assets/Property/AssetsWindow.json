@@ -1,6 +1,6 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Load\\Models\\Player"
+        "path": "Project\\Assets\\Game\\Load\\Textures\\UI"
     },
     "openDir": {
         "./Assets": false,
@@ -44,7 +44,7 @@
         "./Project/Assets\\Game\\Load\\Textures": true,
         "./Project/Assets\\Game\\Load\\Textures\\Effect": true,
         "./Project/Assets\\Game\\Load\\Textures\\Noise": false,
-        "./Project/Assets\\Game\\Load\\Textures\\UI": true,
+        "./Project/Assets\\Game\\Load\\Textures\\UI": false,
         "./Project/Assets\\Game\\Load\\Textures\\buttonUI": false,
         "./Project/Assets\\Game\\Pipeline": false,
         "./Project/Assets\\Game\\Pipeline\\Object": false,

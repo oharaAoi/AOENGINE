@@ -19,7 +19,7 @@ public:
 
 	// 判断に使う今の状況
 	struct Context {
-		AOENGINE::Animator* animator = nullptr;	// 切り替える対象(非所有)
+		AOENGINE::Animator* animator = nullptr;	// 切り替える対象
 		const std::string* behaviorName = nullptr;// 今の行動が指定するアニメーション名(非所有)
 	};
 
