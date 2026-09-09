@@ -128,7 +128,7 @@ public:// acceccer
 	}
 
 	const std::string& GetAnimationName() const override {
-		static const std::string kAttackName = "attack2";
+		static const std::string kAttackName = "attack3";
 		static const std::string kIdleName = "idle";
 
 		// 予測線を見せている間はまだ構えない。ビームの直前から流す

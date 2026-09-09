@@ -95,7 +95,7 @@ public:// acceccer
 	}
 
 	const std::string& GetAnimationName() const override {
-		static const std::string kName = "attack3";
+		static const std::string kName = "attack2";
 		return kName;
 	}
 

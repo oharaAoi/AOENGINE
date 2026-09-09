@@ -78,7 +78,6 @@ void BossBehaviorController::ChangeBehavior(Boss& boss, std::unique_ptr<BaseBoss
 		currentBehavior_->Enter(boss);
 
 		// 攻撃に入った合図としてエフェクトを出し、大きさも一度だけ膨らませる。
-		// 待機や演出の行動では出さず、パルスが途中なら打ち切る
 		if (currentBehavior_->IsAttack()) {
 			boss.PlayAttackEffect();
 			boss.StartAttackPulse();
