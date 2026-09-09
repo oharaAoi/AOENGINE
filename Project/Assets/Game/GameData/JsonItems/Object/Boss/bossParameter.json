@@ -21,7 +21,7 @@
         "beamBlinkInterval": 0.10000000149011612,
         "beamChargePosX": -7.5,
         "beamCount": 3,
-        "beamDamage": 25.0,
+        "beamDamage": 2.0,
         "beamEffectPosX": -11.5,
         "beamSize": {
             "x": 40.0,
@@ -43,7 +43,7 @@
             "y": 1.5,
             "z": 1.0
         },
-        "beamWarningTime": 1.5,
+        "beamWarningTime": 0.5,
         "damageColor": {
             "a": 1.0,
             "b": 0.20000000298023224,
@@ -53,13 +53,13 @@
         "damageEffectTime": 1.7400000095367432,
         "defeatHideTime": 10.0,
         "fallFireUnlockPhase": 0,
-        "fireballDamage": 1.0,
+        "fireballDamage": 2.0,
         "fireballDropCount": 3,
         "fireballDropInterval": 0.9900000095367432,
         "fireballFallEaseKind": 4,
-        "fireballFallSpeedUpTime": 1.1100000143051147,
+        "fireballFallSpeedUpTime": 1.0,
         "fireballFallStartSpeed": 0.5,
-        "fireballMaxFallSpeed": 16.600000381469727,
+        "fireballMaxFallSpeed": 15.0,
         "fireballSpawnHeight": 14.0,
         "fireballStartDelay": 1.5099999904632568,
         "hitSize": {
