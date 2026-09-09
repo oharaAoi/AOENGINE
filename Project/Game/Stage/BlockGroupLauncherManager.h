@@ -51,6 +51,11 @@ public:
 	void ClearTarget();
 
 	/// <summary>
+	/// 画面基準の演出位置に使う viewProjection を全ランチャーへ伝える。毎フレーム呼ぶ想定
+	/// </summary>
+	void SetScreenViewProjection(const Math::Matrix4x4& viewProjection);
+
+	/// <summary>
 	/// 全ランチャーを更新する
 	/// </summary>
 	void Update(float deltaTime);
@@ -85,6 +90,10 @@ private:
 	// 狙い先(ボス)。後から増やしたランチャーにも渡せるように覚えておく
 	Math::Vector3 targetPosition_{};
 	bool hasTarget_ = false;
+
+	// 画面基準の演出位置に使う viewProjection。後から増やしたランチャーにも渡せるように覚えておく
+	Math::Matrix4x4 screenViewProjection_{};
+	bool hasScreenViewProjection_ = false;
 
 	StageBlockField* pField_ = nullptr;	// 非所有
 

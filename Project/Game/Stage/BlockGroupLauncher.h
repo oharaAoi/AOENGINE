@@ -11,6 +11,7 @@
 #include "Engine/Module/Components/WorldTransform.h"
 
 /// game
+#include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 #include "Game/Effect/EffectObjectGroup.h"
 #include "Game/Path/LinePathMover.h"
 
@@ -109,6 +110,13 @@ public:
 	/// 狙い先を外す。飛んでいる最中に外した場合は、その時に向いていた先へそのまま飛んでいく
 	/// </summary>
 	void ClearTarget();
+
+	/// <summary>
+	/// 画面基準の演出位置を求めるのに使う viewProjection を渡す。毎フレーム呼ぶ想定。
+	/// Render が持つ行列は最後に描画したカメラ(開発ビルドでは DebugCamera)のものになり、
+	/// 1フレーム遅れることもあるため、ゲーム用カメラの行列を外から受け取る
+	/// </summary>
+	void SetScreenViewProjection(const Math::Matrix4x4& viewProjection);
 
 	/// <summary>
 	/// 更新。集合中は集合の経路上を、打ち上げ中は打ち上げの経路上へブロックを動かす
@@ -231,6 +239,11 @@ private:
 	/// </summary>
 	void UpdateLaunchRotate(float deltaTime);
 	/// <summary>
+	/// 画面中央に見えるワールド座標を求める。
+	/// UI 演出を画面の中央に出すための位置に使う
+	/// </summary>
+	Math::Vector3 CalclateShotUiPos() const;
+	/// <summary>
 	/// 経路の終点を持っていきたい位置。ブロックの塊の中心が狙い先へ来るように、
 	/// 座標系の原点から見た塊の中心のぶんだけずらして返す
 	/// </summary>
@@ -314,6 +327,11 @@ private:
 	// launchRoot_ より後ろに宣言することで、破棄順が「演出オブジェクト -> launchRoot_」になる。
 	// 演出側は launchRoot_ を親として参照しているため、この順でないと消えかけの座標系を参照してしまう
 	EffectObjectGroup launchEffects_;
+	EffectObjectGroup shotUiEffects_;
+	ScreenWorldPlaneAnchor shotUiScreenAnchor_;	// shotUiEffects_ を画面中央へ合わせ直すのに使う
+
+	Math::Matrix4x4 screenViewProjection_{};	// shotUiEffects_ の位置決めに使う。未設定なら Render の行列で代用する
+	bool hasScreenViewProjection_ = false;
 
 	std::vector<GatheringGroup> groups_;	// 集合・打ち上げの対象
 

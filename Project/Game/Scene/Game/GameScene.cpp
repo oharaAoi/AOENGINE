@@ -272,6 +272,17 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		}
 	}
 
+	// 打ち上げ演出の画面基準の位置合わせに使う viewProjection を渡す。
+	// Render の行列は最後に描画したカメラ(開発ビルドでは DebugCamera)のものになり1フレーム遅れるため、
+	// ボスの有無に関わらずゲーム用カメラ(FollowCamera)の行列を直接渡す
+	if (player_ && followCamera_)
+	{
+		BlockGroupLauncherManager* launcherManager = player_->GetBlockGroupLauncherManagerRef();
+		const Math::Matrix4x4 viewProjection =
+			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
+		launcherManager->SetScreenViewProjection(viewProjection);
+	}
+
 	// ダメージ床の更新
 	if (damageFloor_ && followCamera_)
 	{

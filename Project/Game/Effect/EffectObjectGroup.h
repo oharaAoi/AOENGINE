@@ -66,6 +66,8 @@ public:
 
 	/// <summary>全ての演出オブジェクトに追従先の座標系を伝える</summary>
 	void SetParent(AOENGINE::WorldTransform* parent);
+	/// <summary>全ての演出オブジェクトのローカル座標をまとめて設定する</summary>
+	void SetLocalPosition(const Math::Vector3& localPosition);
 	/// <summary>全ての演出オブジェクトを再生する</summary>
 	void Play();
 	/// <summary>全ての演出オブジェクトを止める</summary>

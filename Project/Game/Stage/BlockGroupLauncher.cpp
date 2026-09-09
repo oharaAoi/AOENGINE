@@ -1,6 +1,7 @@
 #include "BlockGroupLauncher.h"
 
 /// game
+#include "Game/Actor/Common/ScreenWorldPlaneAnchor.h"
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
 #include "Game/Path/LineLoader.h"
@@ -13,6 +14,7 @@
 #include "Engine/Module/Components/Physics/Rigidbody.h"
 #include "Engine/Module/Components/WorldTransform.h"
 #include "Engine/Render/Render.h"
+#include "Engine/WinApp/WinApp.h"
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/System/Manager/ParticleEffectManager.h"
@@ -248,6 +250,16 @@ void BlockGroupLauncher::Launch(){
 	launchEffects_.SetParent(launchRoot_.get());
 	launchEffects_.Play();
 
+	// 打ち上げの合図は画面の中央に出す。launchRoot_ を親にすると塊と一緒に上がってしまうため、
+	// 親は付けずにワールド座標で置き、画面中央へ毎フレーム合わせ直す
+	if(shotUiEffects_.IsEmpty()){
+		shotUiEffects_.AddParticle("HasshaParticle");
+	}
+
+	shotUiEffects_.SetParent(nullptr);
+	shotUiEffects_.SetLocalPosition(CalclateShotUiPos());
+	shotUiEffects_.Play();
+
 	//se
 	Engine::GetSoundManager()->Play("LaunchBlocks");
 }
@@ -379,6 +391,10 @@ void BlockGroupLauncher::Update(float deltaTime){
 	}
 
 	launchEffects_.Update(deltaTime);
+
+	// カメラが動いても画面の中央に出ているように見せたいので、毎フレーム画面中央へ合わせ直す
+	shotUiEffects_.SetLocalPosition(CalclateShotUiPos());
+	shotUiEffects_.Update(deltaTime);
 }
 
 void BlockGroupLauncher::UpdateGathering(float deltaTime){
@@ -646,6 +662,16 @@ void BlockGroupLauncher::ClearTarget(){
 	isHoming_ = false;
 }
 
+void BlockGroupLauncher::SetScreenViewProjection(const Math::Matrix4x4& viewProjection){
+	screenViewProjection_ = viewProjection;
+	hasScreenViewProjection_ = true;
+
+	// Update() はカメラの更新より前に呼ばれるため、そこで求めた位置は1フレーム前のカメラのものになる。
+	// これはカメラの更新後に渡されるので、ここで取り直しておくと
+	// Particle が実際に射出される PostUpdate までに今フレームのカメラの見え方が反映される
+	shotUiEffects_.SetLocalPosition(CalclateShotUiPos());
+}
+
 void BlockGroupLauncher::UpdateLaunchAim(float deltaTime){
 	if(!isHoming_ || !hasTarget_){
 		return;
@@ -873,6 +899,8 @@ void BlockGroupLauncher::Clear(){
 	// 既に出ている分(パーティクルなど)は消えるまでその場に残る。
 	// オブジェクト本体と座標系は次の打ち上げで使い回すので、ここでは破棄しない(Destroy() は呼ばない)
 	launchEffects_.Stop();
+	// 使い回した時に前回の射出が残らないようにする。既に出た Particle は寿命まで残る
+	shotUiEffects_.Stop();
 
 	groups_.clear();
 	state_ = State::Idle;
@@ -955,6 +983,27 @@ void BlockGroupLauncher::CalclateJetPos(Math::Vector3& outJetPos) const{
 	outJetPos.x = (minX + maxX) * 0.5f;
 	outJetPos.y = minY + kJetOffsetY;
 	outJetPos.z = (minZ + maxZ) * 0.5f;
+}
+
+Math::Vector3 BlockGroupLauncher::CalclateShotUiPos() const{
+	// 画面中央をスクリーン座標として使う
+	const Math::Vector2 screenPosition(
+		static_cast<float>(AOENGINE::WinApp::sClientWidth) * 0.4f,
+		static_cast<float>(AOENGINE::WinApp::sClientHeight) * 0.5f);
+
+	// このゲームの盤面はXY平面なので、打ち上げの座標系の乗っているZへ合わせる
+	const ScreenWorldPlaneAnchor::Params anchorParams{
+		screenPosition,
+		launchRoot_ != nullptr ? launchRoot_->GetTranslate().z : 0.0f
+	};
+
+	// 本来はゲーム用カメラ(FollowCamera)の行列を外から受け取って使う。
+	// Render が持つ行列は最後に描画したカメラ(開発ビルドでは DebugCamera)のものになり、
+	// 1フレーム遅れることもあるため、渡されていない場合のみ Render の行列で代用する
+	const Math::Matrix4x4 viewProjection =
+		hasScreenViewProjection_ ? screenViewProjection_ : AOENGINE::Render::GetViewProjectionMat();
+
+	return shotUiScreenAnchor_.Solve(viewProjection,anchorParams);
 }
 
 Math::Vector3 BlockGroupLauncher::SamplePath(const std::vector<Math::Vector3>& path,float distance){

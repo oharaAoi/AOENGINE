@@ -24,6 +24,10 @@ void BlockGroupLauncherManager::BeginGather(const BlockGroupLauncher::GatherRequ
 	if(hasTarget_){
 		target->SetTarget(targetPosition_);
 	}
+	// 増やしたばかりのランチャーにも画面基準の演出位置用の viewProjection を渡しておく
+	if(hasScreenViewProjection_){
+		target->SetScreenViewProjection(screenViewProjection_);
+	}
 	target->SetComboTextUIManager(pComboTextUI_);
 	target->SetDamageTextUIManager(pDamageTextUI_);
 	target->SetDamageCalculator(pDamageCalculator_);
@@ -54,6 +58,15 @@ void BlockGroupLauncherManager::ClearTarget(){
 
 	for(BlockGroupLauncher& launcher : launchers_){
 		launcher.ClearTarget();
+	}
+}
+
+void BlockGroupLauncherManager::SetScreenViewProjection(const Math::Matrix4x4& viewProjection){
+	screenViewProjection_ = viewProjection;
+	hasScreenViewProjection_ = true;
+
+	for(BlockGroupLauncher& launcher : launchers_){
+		launcher.SetScreenViewProjection(viewProjection);
 	}
 }
 

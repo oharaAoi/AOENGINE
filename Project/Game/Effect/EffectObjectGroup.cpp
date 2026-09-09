@@ -94,6 +94,19 @@ void EffectObjectGroup::SetParent(AOENGINE::WorldTransform* parent){
 	}
 }
 
+void EffectObjectGroup::SetLocalPosition(const Math::Vector3& localPosition){
+	for(Entry& entry : objects_){
+		// RebuildDeadObjects() が作り直す時に entry.localPosition を使って設定し直すため、
+		// ここで更新しておかないと作り直した瞬間に位置が初期値へ戻ってしまう
+		entry.localPosition = localPosition;
+
+		if(entry.object == nullptr){
+			continue;
+		}
+		entry.object->SetLocalPosition(localPosition);
+	}
+}
+
 void EffectObjectGroup::Play(){
 	// PrefabEffectObject が指す GameObject は SceneWorld のクリアやエディタ操作で
 	// こちらの与り知らないところで破棄されうるため、再生の直前に生存確認して作り直す
