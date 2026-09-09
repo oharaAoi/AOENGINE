@@ -67,6 +67,14 @@ void DebugCamera::Debug_Gui() {
 	}
 }
 
+void DebugCamera::SetSceneTransform(const Math::Vector3& translate, const Math::Quaternion& rotate) {
+	BaseCamera::SetSceneTransform(translate, rotate);
+	moveRotate_ = transform_.rotate;
+	preMoveRotate_ = transform_.rotate;
+	yaw_ = 0.0f;
+	pitch_ = 0.0f;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　xy軸方向移動
 //////////////////////////////////////////////////////////////////////////////////////////////////

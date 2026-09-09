@@ -42,11 +42,11 @@ GameClearUI::GameClearItem GameClearUI::Update() {
 		AOENGINE::Text* retryText = FindSceneObject<AOENGINE::Text>("Retry");
 		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
 		retryText->SetTextColor(Colors::Linear::red);
-		exitText->SetTextColor(Colors::Linear::white);
+		exitText->SetTextColor(Colors::Linear::black);
 	} else if (current == GameClearUI::GameClearItem::Exit) {
 		AOENGINE::Text* retryText = FindSceneObject<AOENGINE::Text>("Retry");
 		AOENGINE::Text* exitText = FindSceneObject<AOENGINE::Text>("Exit");
-		retryText->SetTextColor(Colors::Linear::white);
+		retryText->SetTextColor(Colors::Linear::black);
 		exitText->SetTextColor(Colors::Linear::red);
 	}
 

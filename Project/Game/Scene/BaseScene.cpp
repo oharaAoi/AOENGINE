@@ -158,7 +158,7 @@ void BaseScene::Draw() const {
 void BaseScene::RegisterCamera() {
 	auto& world = pSceneRenderer_->GetSceneWorld();
 
-	world.AddExternalObject(*camera3d_, "Camera3D");
-	world.AddExternalObject(*debugCamera_, "DebugCamera");
+	world.AddExternalObject(*camera3d_, "camera3d");
+	world.AddExternalObject(*debugCamera_, "debugCamera");
 	world.AddExternalObject(*camera2d_, "Camera2D");
 }

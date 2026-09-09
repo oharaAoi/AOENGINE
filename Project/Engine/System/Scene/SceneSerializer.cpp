@@ -9,6 +9,7 @@
 #include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
 #include "Engine/Module/Components/GameObject/SceneObject.h"
+#include "Engine/Module/Entity/Camera/BaseCamera.h"
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Scene/SceneObjectSerializer.h"
@@ -33,6 +34,30 @@ Math::Vector3 JsonToVector3(const json& value) {
 
 Math::Quaternion JsonToQuaternion(const json& value) {
 	return { value.at(0).get<float>(), value.at(1).get<float>(), value.at(2).get<float>(), value.at(3).get<float>() };
+}
+
+json SerializeCameras(const SceneWorld& world) {
+	json cameras = json::object();
+	for (const ObjectHandle& handle : world.GetObjectHandles()) {
+		const auto* camera = dynamic_cast<const BaseCamera*>(world.FindObject(handle));
+		if (!camera || (camera->GetName() != "camera3d" && camera->GetName() != "debugCamera")) { continue; }
+		cameras[camera->GetName()] = {
+			{ "translate", Vector3ToJson(camera->GetTranslate()) },
+			{ "rotate", QuaternionToJson(camera->GetRotate()) }
+		};
+	}
+	return cameras;
+}
+
+void DeserializeCameras(const json& cameras, SceneWorld& world) {
+	if (!cameras.is_object()) { return; }
+	for (const ObjectHandle& handle : world.GetObjectHandles()) {
+		auto* camera = dynamic_cast<BaseCamera*>(world.FindObject(handle));
+		if (!camera || !cameras.contains(camera->GetName())) { continue; }
+		const json& data = cameras.at(camera->GetName());
+		if (!data.is_object() || !data.contains("translate") || !data.contains("rotate")) { continue; }
+		camera->SetSceneTransform(JsonToVector3(data.at("translate")), JsonToQuaternion(data.at("rotate")));
+	}
 }
 
 bool IsChildOfPrefabInstance(const SceneObject& object, const SceneWorld& world) {
@@ -105,6 +130,7 @@ json SceneSerializer::Serialize(const std::string& sceneName, const SceneRendere
 	};
 
 	const SceneWorld& world = renderer.GetSceneWorld();
+	root["environment"]["cameras"] = SerializeCameras(world);
 	for (const ObjectHandle& handle : world.GetObjectHandles()) {
 		const SceneObject* object = world.FindObject(handle);
 		if (!object || object->GetScenePersistence() != ScenePersistence::SceneData) { continue; }
@@ -142,6 +168,10 @@ bool SceneSerializer::Deserialize(const json& root, SceneRenderer& renderer, Can
 		const json& environment = root.at("environment");
 		if (environment.contains("postProcess") && !postProcess.Deserialize(environment.at("postProcess"))) {
 			return false;
+		}
+		// 旧シーンにはcamerasが無いため、その場合はInit時の姿勢を維持する。
+		if (environment.contains("cameras")) {
+			DeserializeCameras(environment.at("cameras"), renderer.GetSceneWorld());
 		}
 	}
 

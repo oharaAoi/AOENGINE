@@ -66,7 +66,6 @@ void BossAttackBeam::UpdateWindupPhase(Boss& boss, float deltaTime) {
 	// アニメーションを見せてからビームを出す
 	if (WaitStartDelay(deltaTime, boss.GetParameter().beamStartDelay)) {
 		Engine::GetSoundManager()->Stop(warningSound_);
-		shotSound_ = Engine::GetSoundManager()->Play("BeamShot");
 		return;
 	}
 
@@ -85,7 +84,6 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 
 	// ビームの時間が終わったら次の回へ
 	if (phaseTimer_ < boss.GetParameter().beamTime) {
-		Engine::GetSoundManager()->Stop(shotSound_);
 		return;
 	}
 
@@ -96,7 +94,6 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 	if (firedCount_ >= boss.GetParameter().beamCount) {
 		isFinished_ = true;
 		phaseTimer_ = 0.0f;
-		Engine::GetSoundManager()->Stop(shotSound_);
 		return;
 	}
 
@@ -203,6 +200,7 @@ void BossAttackBeam::SpawnWarning(const Boss& boss) {
 	} else {
 		AOENGINE::Logger::AssertLog("BossBeamChargeが生成出来ませんでした");
 	}
+
 }
 
 void BossAttackBeam::DestroyWarning() {
@@ -267,6 +265,9 @@ void BossAttackBeam::SpawnBeam(const Boss& boss) {
 	// エフェクトを出す
 	AOENGINE::ParticleEffectManager::GetInstance()->Play(
 		"laserFireEffect", Math::Vector3(param.beamEffectPosX, beamPosY_, 0.0f));
+
+	// サウンドを鳴らす
+	shotSound_ = Engine::GetSoundManager()->Play("BeamShot");
 }
 
 void BossAttackBeam::DestroyBeam() {
