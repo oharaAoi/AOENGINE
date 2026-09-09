@@ -11,6 +11,57 @@
 
 using namespace AOENGINE;
 
+namespace {
+
+constexpr float kSqueezeContactEpsilon = 0.0001f;
+constexpr float kSqueezeEscapeSkin = 0.001f;
+constexpr float kMaxSqueezeEscapeHeight = 3.0f;
+
+struct HorizontalContact {
+	BaseCollider* obstacle = nullptr;
+	Math::Vector3 correction{};
+};
+
+bool CanCollide(const BaseCollider& colliderA, const BaseCollider& colliderB) {
+	return colliderA.GetCategoryName() == "Default" || colliderB.GetCategoryName() == "Default" ||
+		HasBit(colliderA.GetCollisionMaskBit(), colliderB.GetLayerBit());
+}
+
+bool TryFindUpwardEscape(
+	BaseCollider& movingCollider,
+	const std::vector<HorizontalContact>& contacts,
+	const std::vector<BaseCollider*>& allColliders,
+	float& escapeHeight) {
+	const auto* movingAabb = std::get_if<Math::AABB>(&movingCollider.GetShape());
+	if (!movingAabb) { return false; }
+
+	escapeHeight = 0.0f;
+	for (const HorizontalContact& contact : contacts) {
+		if (!contact.obstacle) { continue; }
+		const auto* obstacleAabb = std::get_if<Math::AABB>(&contact.obstacle->GetShape());
+		if (!obstacleAabb) { return false; }
+		escapeHeight = (std::max)(escapeHeight,
+			obstacleAabb->max.y - movingAabb->min.y + kSqueezeEscapeSkin);
+	}
+	if (escapeHeight <= kSqueezeContactEpsilon || escapeHeight > kMaxSqueezeEscapeHeight) {
+		return false;
+	}
+
+	Math::AABB escapedAabb = *movingAabb;
+	escapedAabb.min.y += escapeHeight;
+	escapedAabb.max.y += escapeHeight;
+	for (BaseCollider* obstacle : allColliders) {
+		if (!obstacle || obstacle == &movingCollider || !obstacle->GetIsActive() ||
+			obstacle->GetIsTrigger() || !CanCollide(movingCollider, *obstacle)) {
+			continue;
+		}
+		if (CheckCollision(escapedAabb, obstacle->GetShape())) { return false; }
+	}
+	return true;
+}
+
+}
+
 CollisionManager::CollisionManager() {}
 CollisionManager::~CollisionManager() {
 	Finalize();
@@ -57,6 +108,7 @@ void CollisionManager::CheckAllCollision() {
 void CollisionManager::CheckHorizontalCollision() {
 	const std::vector<BaseCollider*>& colliderList = pColliderCollector_->GetColliderList();
 	std::unordered_map<BaseCollider*, Math::Vector3> horizontalCorrections;
+	std::unordered_map<BaseCollider*, std::vector<HorizontalContact>> horizontalContacts;
 	auto keepLargestAxisCorrection = [&horizontalCorrections](BaseCollider* collider, const Math::Vector3& correction) {
 		Math::Vector3& accumulated = horizontalCorrections[collider];
 		if (std::abs(correction.x) > std::abs(accumulated.x)) { accumulated.x = correction.x; }
@@ -73,15 +125,41 @@ void CollisionManager::CheckHorizontalCollision() {
 			if (!CheckCollision(colliderA->GetShape(), colliderB->GetShape()) ||
 				colliderA->GetIsTrigger() || colliderB->GetIsTrigger()) { continue; }
 			if (!colliderA->GetIsStatic()) {
-				keepLargestAxisCorrection(colliderA, PenetrationResolutionHorizontal(colliderA->GetShape(), colliderB->GetShape()));
+				const Math::Vector3 correction = PenetrationResolutionHorizontal(colliderA->GetShape(), colliderB->GetShape());
+				keepLargestAxisCorrection(colliderA, correction);
+				horizontalContacts[colliderA].push_back({ colliderB, correction });
 			}
 			if (!colliderB->GetIsStatic()) {
-				keepLargestAxisCorrection(colliderB, PenetrationResolutionHorizontal(colliderB->GetShape(), colliderA->GetShape()));
+				const Math::Vector3 correction = PenetrationResolutionHorizontal(colliderB->GetShape(), colliderA->GetShape());
+				keepLargestAxisCorrection(colliderB, correction);
+				horizontalContacts[colliderB].push_back({ colliderA, correction });
 			}
 		}
 	}
 	// 縦に連続した壁へ同時に当たっても、同じ横補正を壁の個数分加算しない。
 	for (const auto& [collider, correction] : horizontalCorrections) {
+		if (collider->GetSqueezeEscapeEnabled()) {
+			const auto contactIt = horizontalContacts.find(collider);
+			if (contactIt != horizontalContacts.end()) {
+				bool negativeX = false;
+				bool positiveX = false;
+				bool negativeZ = false;
+				bool positiveZ = false;
+				for (const HorizontalContact& contact : contactIt->second) {
+					negativeX |= contact.correction.x < -kSqueezeContactEpsilon;
+					positiveX |= contact.correction.x > kSqueezeContactEpsilon;
+					negativeZ |= contact.correction.z < -kSqueezeContactEpsilon;
+					positiveZ |= contact.correction.z > kSqueezeContactEpsilon;
+				}
+				if ((negativeX && positiveX) || (negativeZ && positiveZ)) {
+					float escapeHeight = 0.0f;
+					if (TryFindUpwardEscape(*collider, contactIt->second, colliderList, escapeHeight)) {
+						collider->SetPushBackDirection({ 0.0f, escapeHeight, 0.0f });
+						continue;
+					}
+				}
+			}
+		}
 		collider->SetPushBackDirection(correction);
 	}
 }
