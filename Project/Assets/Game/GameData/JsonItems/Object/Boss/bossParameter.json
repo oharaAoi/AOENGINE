@@ -85,7 +85,7 @@
         "hitStopTime": 0.014999999664723873,
         "hitStopTimeScale": 0.09000000357627869,
         "hp": 300.0,
-        "idleTimeMax": 2.5,
+        "idleTimeMax": 1.0,
         "idleTimeMin": 1.0,
         "introDescendEaseKind": 2,
         "introDescendHeight": 12.0,
