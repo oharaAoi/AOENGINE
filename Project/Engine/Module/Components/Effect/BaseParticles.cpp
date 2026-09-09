@@ -500,6 +500,12 @@ void AOENGINE::BaseParticles::ClearParticles() {
 	}
 }
 
+void AOENGINE::BaseParticles::ResetEmissionOrigin() {
+	ClearParticles();
+	hasPreWorldPos_ = false;
+	distanceAccumulator_ = 0.0f;
+}
+
 void AOENGINE::BaseParticles::DrawTextureSelector() {
 	ImGui::Text("使用テクスチャ");
 	AOENGINE::TextureManager* textureManager = AOENGINE::TextureManager::GetInstance();

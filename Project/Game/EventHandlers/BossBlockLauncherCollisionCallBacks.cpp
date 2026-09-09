@@ -7,6 +7,7 @@
 #include "Game/Actor/Boss/Boss.h"
 #include "Game/WorldObject/Block.h"
 #include "Game/Stage/BlockGroupLauncherManager.h"
+#include "Engine/System/Manager/ParticleEffectManager.h"
 
 using namespace AOENGINE;
 
@@ -43,6 +44,8 @@ void BossBlockLauncherCollisionCallBacks::CollisionEnter(AOENGINE::BaseCollider*
 	context.blockCount = blockCount;
 	context.groupCount = pLauncherManager_->GetGroupCount();
 	pBoss_->Damage(damageCalculator_.Calculate(context));
+
+	AOENGINE::ParticleEffectManager::GetInstance()->Play("BossHitEffect", blockCollider->GetCenterPos());
 
 	// se
 	Engine::GetSoundManager()->Play("BossDamaged");

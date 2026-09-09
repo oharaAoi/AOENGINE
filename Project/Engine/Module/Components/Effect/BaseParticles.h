@@ -60,6 +60,9 @@ public:	// json関連
 	void SetJsonData(const json& jsonData);
 	void ClearParticles();
 
+	/// 配置・親子付け直後に、以前の座標から補間放出しないよう射出基準を破棄する。
+	void ResetEmissionOrigin();
+
 public:
 
 	void SetIsStop(bool _stop) { isStop_ = _stop; }
