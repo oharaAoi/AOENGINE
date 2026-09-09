@@ -9,6 +9,37 @@
                 "enableShadow": true,
                 "isReflection": false,
                 "isRendering": true,
+                "materials": [],
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 1,
+            "name": "JetFire",
+            "parentId": null,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
                 "materials": [
                     {
                         "albedoTexture": "white.png",
@@ -21,6 +52,7 @@
                         "discardValue": 0.9200000166893005,
                         "enableLighting": false,
                         "iblScale": 0.5,
+                        "pipeline": "Object_NormalCut.json",
                         "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/FireWave.json",
                         "shaderType": 1,
                         "shininess": 100.0,
@@ -46,9 +78,9 @@
                 "model": "FireJetPlane.obj",
                 "rotate": [
                     0.0,
-                    1.0,
+                    0.9998828768730164,
                     0.0,
-                    3.7607305785058998e-06
+                    0.015307634137570858
                 ],
                 "scale": [
                     1.0,
@@ -57,17 +89,83 @@
                 ],
                 "translate": [
                     0.0,
-                    1.0,
+                    0.0,
                     0.0
                 ]
             },
-            "id": 1,
-            "name": "JetFire",
-            "parentId": null,
+            "id": 2,
+            "name": "Fire1",
+            "parentId": 1,
+            "type": "BaseGameObject"
+        },
+        {
+            "active": true,
+            "data": {
+                "animator": false,
+                "components": [],
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.9200000166893005,
+                        "enableLighting": false,
+                        "iblScale": 0.5,
+                        "pipeline": "Object_NormalCut.json",
+                        "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/FireWave.json",
+                        "shaderType": 1,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
+                ],
+                "model": "FireJetPlane.obj",
+                "rotate": [
+                    0.0,
+                    0.7089788317680359,
+                    0.0,
+                    0.7052298188209534
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
+            },
+            "id": 3,
+            "name": "Fire2",
+            "parentId": 1,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "JetFire",
+    "prefabName": "JetFire 1",
     "rootId": 1,
     "version": 1
 }
