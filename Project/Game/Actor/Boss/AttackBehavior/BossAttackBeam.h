@@ -94,10 +94,9 @@ private:
 	float phaseTimer_ = 0.0f;	// 現在のフェーズの経過時間
 	float blinkTimer_ = 0.0f;	// 点滅用タイマー
 
-	// 予測線を出してからの経過時間と、構えのアニメーションへ切り替えたか。
-	// フェーズとは別に数えて、予測線の途中からでも構え始められるようにする
-	float animationTimer_ = 0.0f;
-	bool hasStartedAnimation_ = false;
+	// 1回ぶんの始まりから見て、もう出したか。どちらもWarningの経過時間で判断する
+	bool hasStartedAnimation_ = false;	// 構えのアニメーションへ切り替えたか
+	bool hasSpawnedWarning_ = false;	// 予測線を出したか
 	bool isBlinkVisible_ = true;// 点滅の表示状態
 	bool isFinished_ = false;	// 終わったか
 

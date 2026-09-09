@@ -18,6 +18,7 @@
             "y": 8.0,
             "z": 0.36000001430511475
         },
+        "beamAnimationDelay": 0.0,
         "beamBlinkInterval": 0.10000000149011612,
         "beamChargePosX": -7.5,
         "beamCount": 3,
@@ -29,10 +30,11 @@
             "z": 1.0
         },
         "beamSpeed": 81.80000305175781,
-        "beamStartDelay": 0.30000001192092896,
+        "beamStartDelay": 0.4300000071525574,
         "beamStartX": -30.0,
         "beamTime": 1.0,
         "beamUnlockPhase": 0,
+        "beamWarningDelay": 0.4000000059604645,
         "beamWarningLineSize": {
             "x": 40.0,
             "y": 1.2000000476837158,
@@ -89,7 +91,7 @@
         "introDescendHeight": 12.0,
         "introDescendTime": 0.5600000023841858,
         "phaseChangeAnimationDelay": 0.7900000214576721,
-        "phaseChangeBossZDistance": 112.30000305175781,
+        "phaseChangeBossZDistance": 233.8000030517578,
         "phaseChangeCameraOffset": {
             "x": 0.0,
             "y": 0.0,

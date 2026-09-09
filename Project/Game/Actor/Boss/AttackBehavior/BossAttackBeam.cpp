@@ -42,10 +42,24 @@ BossAttackBeam::BossAttackBeam() {
 
 void BossAttackBeam::UpdateWarningPhase(Boss& boss, float deltaTime) {
 
+	const BossParameter& param = boss.GetParameter();
+
+	// アニメーションと予測線は、どちらも1回ぶんの始まりからの経過時間で出す。
+	// 待ちの大小を入れ替えれば、構えてから警告にも、警告してから構えにもできる
+	if (!hasStartedAnimation_ && phaseTimer_ >= param.beamAnimationDelay) {
+		hasStartedAnimation_ = true;
+	}
+
+	if (!hasSpawnedWarning_ && phaseTimer_ >= param.beamWarningDelay) {
+		SpawnWarning(boss);
+		warningSound_ = Engine::GetSoundManager()->Play("BeamAim");
+		hasSpawnedWarning_ = true;
+	}
+
 	UpdateWarning(boss, deltaTime);
 
-	// 予測線の時間が終わったら、構えへ移る
-	if (phaseTimer_ < boss.GetParameter().beamWarningTime) {
+	// 予測線を見せる時間は、それが出てからで数える
+	if (phaseTimer_ < param.beamWarningDelay + param.beamWarningTime) {
 		return;
 	}
 
@@ -97,8 +111,7 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 		return;
 	}
 
-	// まだ残っていれば次の予測線を出す。アニメーションは待機へ戻る
-	SpawnWarning(boss);
+	// まだ残っていれば次の回へ。予測線もアニメーションもWarningの更新が出し直す
 	ChangePhase(Phase::Warning);
 }
 
@@ -108,15 +121,12 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 
 void BossAttackBeam::Enter(Boss& boss) {
 
-	// 初期化
+	(void)boss;
+
+	// 初期化。アニメーションも予測線も、待ちが明けてからWarningの更新が出す
 	firedCount_ = 0;
 	isFinished_ = false;
 	ChangePhase(Phase::Warning);
-
-	// 1回目の予測線を出す。アニメーションはビームの直前に流す
-	SpawnWarning(boss);
-	warningSound_ = Engine::GetSoundManager()->Play("BeamAim");
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -139,15 +149,6 @@ void BossAttackBeam::Update(Boss& boss, float deltaTime) {
 
 	phaseTimer_ += deltaTime;
 
-	// 予測線を出してから決まった時間で構えのアニメーションへ移る。
-	// フェーズの区切りとは別に数えるので、予測線の途中から構え始められる
-	if (!hasStartedAnimation_) {
-		animationTimer_ += deltaTime;
-		if (animationTimer_ >= boss.GetParameter().beamAnimationDelay) {
-			hasStartedAnimation_ = true;
-		}
-	}
-
 	// 現在の状態の処理を呼ぶ
 	phaseUpdaters_[ToIndex(phase_)](boss, deltaTime);
 }
@@ -159,6 +160,12 @@ void BossAttackBeam::Update(Boss& boss, float deltaTime) {
 void BossAttackBeam::ChangePhase(Phase next) {
 	phase_ = next;
 	phaseTimer_ = 0.0f;
+
+	// 1回ぶんの始まり。アニメーションと予測線を出し直す
+	if (next == Phase::Warning) {
+		hasStartedAnimation_ = false;
+		hasSpawnedWarning_ = false;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -168,10 +175,6 @@ void BossAttackBeam::ChangePhase(Phase next) {
 void BossAttackBeam::SpawnWarning(const Boss& boss) {
 
 	const BossParameter& param = boss.GetParameter();
-
-	// 1回ぶんの始まり。構えのアニメーションもここから数え直す
-	animationTimer_ = 0.0f;
-	hasStartedAnimation_ = false;
 
 	// 予測線を出す瞬間のプレイヤーの高さを覚える
 	if (AOENGINE::BaseGameObject* player = FindSceneObject<AOENGINE::BaseGameObject>("Player")) {
