@@ -191,6 +191,22 @@
       "maxInstances": 4,
       "name": "BossPhaseChange",
       "volume": 1.0
+    },
+    {
+      "category": "SE",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/BossDeathStar.mp3",
+      "loop": false,
+      "maxInstances": 4,
+      "name": "BossDeadStar",
+      "volume": 1.0
+    },
+    {
+      "category": "SE",
+      "file": "Assets/Game/Load/Sounds/Effects/Boss/BossDeathExplode.mp3",
+      "loop": false,
+      "maxInstances": 4,
+      "name": "BossDeadExploade",
+      "volume": 0.800000011920929
     }
   ],
   "version": 1

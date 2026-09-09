@@ -9,7 +9,7 @@
                     {
                         "animationSpeed": 3.6500000953674316,
                         "autoPlay": true,
-                        "coreEndScale": 6.0,
+                        "coreEndScale": 10.0,
                         "coreStartScale": 0.05000000074505806,
                         "density": 1.149999976158142,
                         "duration": 1.0,
@@ -31,7 +31,7 @@
                         ],
                         "particleEffect": "",
                         "rimIntensity": 0.05999999865889549,
-                        "shockwaveEndScale": 9.319999694824219,
+                        "shockwaveEndScale": 12.0,
                         "shockwaveWidth": 0.050999999046325684,
                         "turbulence": 0.8999999761581421,
                         "type": "ExplosionEffect"
@@ -53,9 +53,9 @@
                     1.0
                 ],
                 "translate": [
-                    -0.9470469951629639,
+                    -2.4345083236694336,
                     0.0,
-                    5.5330810546875
+                    -0.034735679626464844
                 ]
             },
             "id": 1,

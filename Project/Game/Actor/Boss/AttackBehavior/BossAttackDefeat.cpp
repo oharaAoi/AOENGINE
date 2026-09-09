@@ -53,6 +53,11 @@ bool BossAttackDefeat::isHidden(Boss& boss, float deltaTime) {
 	elapsedTime_ += deltaTime;
 	if (elapsedTime_ < boss.GetParameter().defeatHideTime) {
 		bossDefateAnimation_->Update(boss);
+
+		if (bossDefateAnimation_->IsFinish()) {
+			return true;
+		}
+
 		return false;
 	}
 

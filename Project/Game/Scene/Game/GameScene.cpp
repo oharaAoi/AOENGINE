@@ -166,7 +166,6 @@ void GameScene::Update()
 	// ボスを倒しきって撃破演出まで終わったらクリアへ
 	if (boss_ && boss_->IsDefeatFinished()) {
 		nextSceneType_ = SceneType::Clear;
-		Engine::GetSoundManager()->Play("GameClearEffect");
 		return;
 	}
 

@@ -12,7 +12,7 @@
 namespace BossDefeate {
 enum Phase {
 	Explosion,
-
+	End,
 };
 }
 

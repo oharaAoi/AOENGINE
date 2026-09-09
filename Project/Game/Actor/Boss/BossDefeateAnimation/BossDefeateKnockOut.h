@@ -29,5 +29,7 @@ private:
 
 	BossKnockOutParameter knockOutParameter_;
 
+	AOENGINE::Timer timer_;
+
 };
 

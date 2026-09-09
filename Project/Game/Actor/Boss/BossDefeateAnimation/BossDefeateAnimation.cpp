@@ -12,7 +12,9 @@ void BossDefeateAnimation::Init() {
 }
 
 void BossDefeateAnimation::Update(Boss& boss) {
-	behavior_->Update(boss);
+	if (behavior_) {
+		behavior_->Update(boss);
+	}
 }
 
 void BossDefeateAnimation::ChangeNext() {
@@ -20,8 +22,11 @@ void BossDefeateAnimation::ChangeNext() {
 	case BossDefeate::Phase::Explosion:
 		behavior_ = std::make_unique<BossDefeateKnockOut>(this);
 		behavior_->Init();
+		animationPhase_ = BossDefeate::Phase::End;
 		break;
-	default:
+	case BossDefeate::Phase::End:
+		behavior_ = nullptr;
+		isFinish_ = true;
 		break;
 	}
 }
