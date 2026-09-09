@@ -676,7 +676,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -694,7 +694,7 @@
                     1.0000001192092896,
                     1.0
                 ],
-                "text": "Retry",
+                "text": "もういちど",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -1317,7 +1317,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -1335,7 +1335,7 @@
                     1.0000001192092896,
                     1.0
                 ],
-                "text": "Title",
+                "text": "タイトルへ",
                 "textAnchor": [
                     0.5,
                     0.5

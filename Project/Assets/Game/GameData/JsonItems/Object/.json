@@ -4,42 +4,17 @@
             "x": 0.5,
             "y": 0.5
         },
-        "arcRange": 6.2831854820251465,
-        "center": {
-            "x": 0.5,
-            "y": 0.5
-        },
-        "clockwise": 0,
         "color": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
-            "r": 1.0
+            "b": 0.0,
+            "g": 0.0,
+            "r": 0.0
         },
-        "drawRange": {
-            "x": 1980.0,
-            "y": 100.0
-        },
-        "fillAmount": 1.0,
-        "fillMethod": 0,
-        "fillStartingPoint": 0,
-        "innerRadius": 0.0,
+        "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
+        "fontSize": 64.0,
         "isActive": true,
-        "isFlipX": false,
-        "isFlipY": false,
-        "leftTop": {
-            "x": 0.0,
-            "y": 0.0
-        },
-        "outerRadius": 0.0,
-        "psoName": "Sprite_Normal.json",
         "renderQueue": 0,
-        "spriteSize": {
-            "x": 1980.0,
-            "y": 100.0
-        },
-        "startAngle": 0.0,
-        "textureName": "line.png",
+        "text": "リトライ",
         "transform": {
             "rotate": {
                 "x": 0.0,
@@ -47,31 +22,14 @@
                 "z": 0.0
             },
             "scale": {
-                "x": 0.3955555856227875,
-                "y": 0.6925028562545776,
+                "x": 0.6666666865348816,
+                "y": 0.7135778069496155,
                 "z": 1.0
             },
             "translate": {
-                "x": 370.71112060546875,
-                "y": 25.688806533813477,
+                "x": 635.5707397460938,
+                "y": 474.9184875488281,
                 "z": 1.0
-            }
-        },
-        "uvTransform": {
-            "rotate": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "translate": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
             }
         },
         "windowHeight": 1009,

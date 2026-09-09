@@ -196,7 +196,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -362,7 +362,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -431,7 +431,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Senobi-Gothic-Medium.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
