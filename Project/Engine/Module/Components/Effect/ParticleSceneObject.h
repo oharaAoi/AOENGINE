@@ -48,6 +48,7 @@ private:
 	ParticleEffectHandle effect_{};
 	bool autoPlay_ = true;
 	bool played_ = false;
+	bool needsEmissionOriginReset_ = true;
 	WorldTransform* parentTransform_ = nullptr;
 };
 }

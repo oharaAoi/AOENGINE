@@ -61,6 +61,8 @@ void AOENGINE::BaseCollider::Debug_Gui() {
 
 		ImGui::TreePop();
 	}
+
+	ImGui::Checkbox("Squeeze Escape", &squeezeEscapeEnabled_);
 }
 
 void BaseCollider::SwitchCollision(BaseCollider* partner) {

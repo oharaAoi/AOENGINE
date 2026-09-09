@@ -209,6 +209,12 @@ void GameScene::Update()
 		introUI_.Debug_Gui();
 		ImGui::PopID();
 	}
+	if (ImGui::CollapsingHeader("LauncherHit"))
+	{
+		ImGui::PushID("LauncherHit");
+		bossBlockLauncherCallBacks_.Debug_Gui();
+		ImGui::PopID();
+	}
 
 	ImGui::End();
 #endif
@@ -265,6 +271,18 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 
 	// スクロール位置の目印を、判定と同じ高さへ合わせる
 	UpdateScrollLine();
+
+	// 打ち上げたブロックの狙い先をボスに合わせる。
+	// ボスは画面上の固定位置に居るため、狙い先を追いかけている間は経路が画面内に収まる
+	if (player_ && boss_)
+	{
+		BlockGroupLauncherManager* launcherManager = player_->GetBlockGroupLauncherManagerRef();
+		if (boss_->IsValid() && !boss_->IsDefeated()) {
+			launcherManager->SetTarget(boss_->GetPosition());
+		} else {
+			launcherManager->ClearTarget();
+		}
+	}
 
 	// ダメージ床の更新。
 	// フェーズ切り替え中はカメラが寄るので、床は付いていかせずその場に残す

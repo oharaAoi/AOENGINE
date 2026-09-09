@@ -87,6 +87,11 @@ void Player::Init(BaseGameObject* body){
 		if (transform) {
 			buttFireEffect_->SetParent(transform);
 		}
+
+		// 挟み込み時の上方退避はPlayerの当たり判定だけに許可する。
+		if (BaseCollider* collider = object->GetCollider(kColliderTag)) {
+			collider->SetSqueezeEscapeEnabled(true);
+		}
 	}
 }
 
@@ -339,6 +344,10 @@ void Player::UpdateBlockGroupConnect(float deltaTime){
 		parameter_.launchLifeTime,
 		parameter_.gatherBlockSize,
 		parameter_.gatherSeparationSpeed,
+		parameter_.launchMaxSpeed,
+		parameter_.launchHomingRate,
+		parameter_.launchRotateRate,
+		parameter_.launchLineName,
 	};
 
 	// 受付が終わったら、接続したグループを次のブロックへ順に渡らせて集合地点へ集める

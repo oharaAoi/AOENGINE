@@ -8,6 +8,7 @@
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/WorldObject/StepBlock.h"
 
 using namespace AOENGINE;
 
@@ -51,6 +52,17 @@ void PlayerBlockIgnore::OnLanded(const Context& context) {
 		ignoredGroups_.push_back(groupId);
 		SetGroupCollisionEnabled(context, groupId, false);
 	}
+
+	// 胴体が埋まっている StepBlock も、抜けきるまで個別に無効化する
+	for (const GridPos& pos : GetBodyOverlappingStepBlockCells(context)) {
+		// 同じマスを二重に登録しない
+		if (std::find(ignoredStepBlocks_.begin(), ignoredStepBlocks_.end(), pos) != ignoredStepBlocks_.end()) {
+			continue;
+		}
+
+		ignoredStepBlocks_.push_back(pos);
+		SetStepBlockCollisionEnabled(context, pos, false);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -59,35 +71,57 @@ void PlayerBlockIgnore::OnLanded(const Context& context) {
 
 void PlayerBlockIgnore::Update(const Context& context) {
 
-	if (ignoredGroups_.empty()) {
+	if (ignoredGroups_.empty() && ignoredStepBlocks_.empty()) {
 		return;
 	}
 
-	// 今フレーム、胴体が重なっているグループを集め直す
-	std::vector<int> overlappingGroups;
-	for (const Block* block : GetBodyOverlappingBlocks(context)) {
-		const int groupId = block->GetGroupId();
-		if (groupId == StageBlockField::kInvalidGroupId) {
-			continue;
+	if (!ignoredGroups_.empty()) {
+		// 今フレーム、胴体が重なっているグループを集め直す
+		std::vector<int> overlappingGroups;
+		for (const Block* block : GetBodyOverlappingBlocks(context)) {
+			const int groupId = block->GetGroupId();
+			if (groupId == StageBlockField::kInvalidGroupId) {
+				continue;
+			}
+			if (std::find(overlappingGroups.begin(), overlappingGroups.end(), groupId) == overlappingGroups.end()) {
+				overlappingGroups.push_back(groupId);
+			}
 		}
-		if (std::find(overlappingGroups.begin(), overlappingGroups.end(), groupId) == overlappingGroups.end()) {
-			overlappingGroups.push_back(groupId);
+
+		for (auto it = ignoredGroups_.begin(); it != ignoredGroups_.end();) {
+			const bool stillOverlapping =
+				std::find(overlappingGroups.begin(), overlappingGroups.end(), *it) != overlappingGroups.end();
+
+			if (stillOverlapping) {
+				// まだ胴体が埋まっているので、判定は無効のまま次のグループへ
+				++it;
+				continue;
+			}
+
+			// 抜けきったグループから判定を元に戻す
+			SetGroupCollisionEnabled(context, *it, true);
+			it = ignoredGroups_.erase(it);
 		}
 	}
 
-	for (auto it = ignoredGroups_.begin(); it != ignoredGroups_.end();) {
-		const bool stillOverlapping =
-			std::find(overlappingGroups.begin(), overlappingGroups.end(), *it) != overlappingGroups.end();
+	if (!ignoredStepBlocks_.empty()) {
+		// 今フレーム、胴体が重なっているStepBlockのマスを集め直す
+		const std::vector<GridPos> overlappingStepBlocks = GetBodyOverlappingStepBlockCells(context);
 
-		if (stillOverlapping) {
-			// まだ胴体が埋まっているので、判定は無効のまま次のグループへ
-			++it;
-			continue;
+		for (auto it = ignoredStepBlocks_.begin(); it != ignoredStepBlocks_.end();) {
+			const bool stillOverlapping =
+				std::find(overlappingStepBlocks.begin(), overlappingStepBlocks.end(), *it) != overlappingStepBlocks.end();
+
+			if (stillOverlapping) {
+				// まだ胴体が埋まっているので、判定は無効のまま次のマスへ
+				++it;
+				continue;
+			}
+
+			// 抜けきったマスから判定を元に戻す
+			SetStepBlockCollisionEnabled(context, *it, true);
+			it = ignoredStepBlocks_.erase(it);
 		}
-
-		// 抜けきったグループから判定を元に戻す
-		SetGroupCollisionEnabled(context, *it, true);
-		it = ignoredGroups_.erase(it);
 	}
 }
 
@@ -109,6 +143,30 @@ std::vector<Block*> PlayerBlockIgnore::GetBodyOverlappingBlocks(const Context& c
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
+//  胴体と重なっているStepBlockの列挙
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+std::vector<GridPos> PlayerBlockIgnore::GetBodyOverlappingStepBlockCells(const Context& context) const {
+
+	if (context.blockField == nullptr || context.transform == nullptr) {
+		return {};
+	}
+
+	// 胴体の箱と重なるグリッドマスを調べる
+	const Math::Vector3 center = context.transform->GetTranslate() + context.bodyOffset;
+	const Math::Vector3 half = context.bodySize * 0.5f;
+
+	std::vector<GridPos> result;
+	for (const StepBlock* stepBlock : context.blockField->GetStepBlocksInWorldAABB(center - half, center + half)) {
+		if (stepBlock == nullptr) {
+			continue;
+		}
+		result.push_back(stepBlock->GetGridPos());
+	}
+	return result;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
 //  当たり判定の切り替え
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -118,15 +176,16 @@ void PlayerBlockIgnore::SetBlockCollisionEnabled(const Context& context, bool en
 		return;
 	}
 
-	// Blockのビットだけを触る。Wall(マップチップ2)やダメージ床は残したままにする
-	const uint32_t blockBit =
-		CollisionLayerManager::GetInstance().GetCategoryBit(kBlockCategoryName);
+	// BlockとStepBlockのビットだけを触る。Wallやダメージ床は残したままにする
+	const uint32_t ignoreBits =
+		CollisionLayerManager::GetInstance().GetCategoryBit(kBlockCategoryName) |
+		CollisionLayerManager::GetInstance().GetCategoryBit(kStepBlockCategoryName);
 
 	if (enabled) {
-		context.playerCollider->SetCollisionMaskBit(blockBit);
+		context.playerCollider->SetCollisionMaskBit(ignoreBits);
 	} else {
 		context.playerCollider->SetCollisionMaskBits(
-			context.playerCollider->GetCollisionMaskBit() & ~blockBit);
+			context.playerCollider->GetCollisionMaskBit() & ~ignoreBits);
 	}
 }
 
@@ -152,10 +211,28 @@ void PlayerBlockIgnore::SetGroupCollisionEnabled(const Context& context, int gro
 	}
 }
 
+void PlayerBlockIgnore::SetStepBlockCollisionEnabled(const Context& context, const GridPos& pos, bool enabled) const {
+
+	if (context.blockField == nullptr) {
+		return;
+	}
+
+	// ストリーミングで既にセグメントごと消えている場合に備える
+	StepBlock* stepBlock = context.blockField->GetStepBlockAt(pos);
+	if (stepBlock == nullptr || !stepBlock->IsValid()) {
+		return;
+	}
+
+	if (BaseCollider* collider = stepBlock->GetCollider(kStepBlockCategoryName)) {
+		collider->SetIsActive(enabled);
+	}
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  ブロックへの参照を手放す
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void PlayerBlockIgnore::ClearGroups() {
 	ignoredGroups_.clear();
+	ignoredStepBlocks_.clear();
 }

@@ -91,7 +91,9 @@ struct BossParameter :
 
 	// --- 攻撃2: ビーム ---
 	float beamDamage;				// ビームが当たった時のダメージ
-	float beamStartDelay = 0.5f;			// アニメーション再生から予測線を出すまでの秒数
+	float beamStartDelay = 0.5f;			// 構えてからビームを出すまでの秒数
+	// 予測線を出してから構えのアニメーションを流すまでの秒数。0で予測線と同時
+	float beamAnimationDelay = 0.0f;
 	int32_t beamCount;					// ビーム回数
 	float beamWarningTime;			// 予測線秒数
 	float beamTime;					// ビーム秒数
@@ -195,6 +197,7 @@ struct BossParameter :
 		AddSeparatorText("Attack2: Beam");
 		AddParameter("Beam Damage", beamDamage, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Beam Start Delay", beamStartDelay, 0.01f, 0.0f, 60.0f);
+		AddParameter("Beam Animation Delay", beamAnimationDelay, 0.01f, 0.0f, 60.0f);
 		AddParameter("Beam Count", beamCount, 1.0f, 0.0f, 100.0f);
 		AddParameter("Beam Warning Time", beamWarningTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Beam Time", beamTime, 0.01f, 0.0f, 10.0f);
@@ -304,6 +307,7 @@ struct BossParameter :
 			.Add("fireballFallEaseKind", fireballFallEaseKind)
 			.Add("beamDamage", beamDamage)
 			.Add("beamStartDelay", beamStartDelay)
+			.Add("beamAnimationDelay", beamAnimationDelay)
 			.Add("beamCount", beamCount)
 			.Add("beamWarningTime", beamWarningTime)
 			.Add("beamTime", beamTime)
@@ -386,6 +390,7 @@ struct BossParameter :
 
 		Convert::fromJson(jsonData, "beamDamage", beamDamage);
 		Convert::fromJson(jsonData, "beamStartDelay", beamStartDelay);
+		Convert::fromJson(jsonData, "beamAnimationDelay", beamAnimationDelay);
 		Convert::fromJson(jsonData, "beamCount", beamCount);
 		Convert::fromJson(jsonData, "beamWarningTime", beamWarningTime);
 		Convert::fromJson(jsonData, "beamTime", beamTime);

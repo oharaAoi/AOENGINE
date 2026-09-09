@@ -1,5 +1,8 @@
 {
     "damageTextUI": {
+        "blockLabel": " ブロック",
+        "comboLabel": " コンボ",
+        "countSeparator": "  ",
         "damping": 0.8299999833106995,
         "decimals": 0,
         "fadeInTime": 0.30000001192092896,
@@ -8,7 +11,7 @@
         "gravityRate": 2.0,
         "targetBounceCount": 1,
         "textPrefix": "",
-        "textSuffix": " DAMAGE!",
+        "textSuffix": " ダメージ!",
         "visibleSize": 0.6000000238418579
     }
 }

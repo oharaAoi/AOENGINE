@@ -6,7 +6,7 @@
         "firstVelocity": 4.0,
         "gravityRate": 2.0,
         "targetBounceCount": 3,
-        "textSuffix": " Combo!",
+        "textSuffix": " コンボ!",
         "visibleSize": 0.6000000238418579
     }
 }

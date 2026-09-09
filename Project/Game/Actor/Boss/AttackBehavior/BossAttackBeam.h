@@ -93,6 +93,11 @@ private:
 	int firedCount_ = 0;		// 撃った回数
 	float phaseTimer_ = 0.0f;	// 現在のフェーズの経過時間
 	float blinkTimer_ = 0.0f;	// 点滅用タイマー
+
+	// 予測線を出してからの経過時間と、構えのアニメーションへ切り替えたか。
+	// フェーズとは別に数えて、予測線の途中からでも構え始められるようにする
+	float animationTimer_ = 0.0f;
+	bool hasStartedAnimation_ = false;
 	bool isBlinkVisible_ = true;// 点滅の表示状態
 	bool isFinished_ = false;	// 終わったか
 
@@ -131,8 +136,8 @@ public:// acceccer
 		static const std::string kAttackName = "attack3";
 		static const std::string kIdleName = "idle";
 
-		// 予測線を見せている間はまだ構えない。ビームの直前から流す
-		if (phase_ == Phase::Warning) {
+		// 予測線の途中から構え始める。始まるまでは待機を流しておく
+		if (!hasStartedAnimation_) {
 			return kIdleName;
 		}
 

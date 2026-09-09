@@ -15,6 +15,7 @@
 #include "Engine/Lib/Math/Vector3.h"
 
 class Block;
+class StepBlock;
 class Wall;
 class PlayerBlockCollisionCallBacks;
 
@@ -25,7 +26,7 @@ class Color;
 /// <summary>
 /// 複数のステージセグメントを横断して、ブロックのグリッド座標と
 /// 上下左右で連結しているブロック群（グループ）を管理する常駐クラス。
-/// Block / Wall の実体はこのクラスが所有し、セグメント単位で生成・破棄する。
+/// Block / StepBlock / Wall の実体はこのクラスが所有し、セグメント単位で生成・破棄する。
 /// </summary>
 class StageBlockField{
 private:
@@ -95,8 +96,15 @@ public:
 	Block* GetBlockAt(const GridPos& pos) const;
 
 	/// <summary>
+	/// 指定したグリッド座標にあるStepBlockを取得する。
+	/// </summary>
+	/// <param name="pos">グローバルグリッド座標</param>
+	/// <returns>無ければ nullptr</returns>
+	StepBlock* GetStepBlockAt(const GridPos& pos) const;
+
+	/// <summary>
 	/// 指定したグリッド座標の上に、プレイヤーが入れる空きがあるかを返す。
-	/// Block と Wall のどちらで埋まっていても「空きなし」とみなす。
+	/// Block と StepBlock と Wall のどれで埋まっていても「空きなし」とみなす。
 	/// 縦に積まれたブロックの側面に触れただけの接触を、着地から外すのに使う。
 	/// </summary>
 	/// <param name="pos">足場にしたいブロックのグローバルグリッド座標</param>
@@ -105,7 +113,7 @@ public:
 	bool HasSpaceAbove(const GridPos& pos, int cellCount = 1) const;
 
 	/// <summary>
-	/// 生成済みの全 Block / Wall を、段から切り離されたものも含めて破棄し、全セル・全グループを消去する。
+	/// 生成済みの全 Block / StepBlock / Wall を、段から切り離されたものも含めて破棄し、全セル・全グループを消去する。
 	/// </summary>
 	void Clear();
 
@@ -143,6 +151,14 @@ public:
 	std::vector<Wall*> GetWallsInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
 
 	/// <summary>
+	/// 指定したワールド空間のAABB範囲と重なるグリッドマスに置かれたStepBlockを列挙する
+	/// </summary>
+	/// <param name="worldMin">範囲の最小座標</param>
+	/// <param name="worldMax">範囲の最大座標</param>
+	/// <returns>重なっている StepBlockの配列</returns>
+	std::vector<StepBlock*> GetStepBlocksInWorldAABB(const Math::Vector3& worldMin, const Math::Vector3& worldMax) const;
+
+	/// <summary>
 	/// 乗れる足場になっているブロックを列挙する。
 	/// 上から物を落とす対象を選ぶ用途に使う。
 	/// </summary>
@@ -166,10 +182,10 @@ public:
 #endif
 
 	/// <summary>
-	/// 配置データを元に、指定した段(segmentIndex)へ Block / Wall を生成して World 上に配置する。
-	/// CSVの値が 1 のセルは Block、2 のセルは Wall として生成する。
+	/// 配置データを元に、指定した段(segmentIndex)へ Block / StepBlock / Wall を生成して World 上に配置する。
+	/// CSVの値が 1 のセルは Block、2 のセルは StepBlock、3 のセルは Wall として生成する。
 	/// 生成した Block はこのクラスが所有し、グリッド座標を通じて上下左右のブロックと連結される。
-	/// Wall は連結・打ち上げの対象にしないため連結グループ表には登録しない。
+	/// StepBlock と Wall は連結・打ち上げの対象にしないため連結グループ表には登録しない。
 	/// 既に同じ segmentIndex が生成済みの場合は何もしない（二重生成の防止）。
 	/// </summary>
 	/// <param name="data">CSVから読み込んだ1セグメント分の配置データ</param>
@@ -177,7 +193,7 @@ public:
 	void BuildSegment(const StageSegment& data,int segmentIndex);
 
 	/// <summary>
-	/// 指定した段の Block / Wall を連結グループ表から外し、GameObject を破棄する。
+	/// 指定した段の Block / StepBlock / Wall を連結グループ表から外し、GameObject を破棄する。
 	/// 注意: 連結グループの一部だけを消すことになるが、画面外（ストリーミングで既に
 	/// 見えなくなった範囲）でのみ行われるため、残りの連結性についての分割(split)検査は行わない。
 	/// </summary>
@@ -210,14 +226,17 @@ public:
 
 private:
 
-	/// <summary>1段分の Block / Wall の実体（所有権はこのクラスが持つ）</summary>
+	/// <summary>1段分の Block / StepBlock / Wall の実体（所有権はこのクラスが持つ）</summary>
 	struct SegmentContent{
 		std::vector<std::unique_ptr<Block>> blocks;
+		std::vector<std::unique_ptr<StepBlock>> stepBlocks;
 		std::vector<std::unique_ptr<Wall>> walls;
 	};
 
 	/// <summary>指定したグリッド座標に Block を生成し、連結グループ表へ登録する</summary>
 	void CreateBlock(SegmentContent& content,const GridPos& pos);
+	/// <summary>指定したグリッド座標に StepBlock を生成する（連結グループ表には登録しない）</summary>
+	void CreateStepBlock(SegmentContent& content,const GridPos& pos);
 	/// <summary>指定したグリッド座標に Wall を生成する（連結グループ表には登録しない）</summary>
 	void CreateWall(SegmentContent& content,const GridPos& pos);
 	/// <summary>1段分の実体を連結グループ表から外し、GameObject を破棄する</summary>
@@ -270,6 +289,11 @@ private:
 	/// グリッド座標->そこにある Wall。
 	/// </summary>
 	std::unordered_map<GridPos,Wall*> wallCells_;
+
+	/// <summary>
+	/// グリッド座標->そこにある StepBlock。
+	/// </summary>
+	std::unordered_map<GridPos,StepBlock*> stepCells_;
 
 	/// <summary>グループID -> 所属ブロック配列</summary>
 	std::unordered_map<int,std::vector<Block*>> groups_;

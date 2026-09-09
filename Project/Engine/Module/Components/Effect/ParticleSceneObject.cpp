@@ -14,6 +14,7 @@ ParticleSceneObject::~ParticleSceneObject() {
 void ParticleSceneObject::Init() {
 	isDestroy_ = false;
 	transform_.Init();
+	needsEmissionOriginReset_ = true;
 	if (autoPlay_) { Play(); }
 }
 
@@ -22,6 +23,7 @@ void ParticleSceneObject::SetAsset(ParticleSceneAssetType type, const std::strin
 	if (effect_.IsAlive()) { effect_.Destroy(); }
 	if (cpu_) { ParticleManager::GetInstance()->DeleteParticles(cpu_); cpu_ = nullptr; }
 	assetType_ = type; asset_ = asset; played_ = false;
+	needsEmissionOriginReset_ = true;
 }
 
 void ParticleSceneObject::SetAssetFromPath(const std::string& path) {
@@ -40,6 +42,7 @@ void ParticleSceneObject::ApplyParent() {
 
 void ParticleSceneObject::SetParentTransform(WorldTransform* parent) {
 	parentTransform_ = parent;
+	needsEmissionOriginReset_ = true;
 	if (parent) { transform_.SetParent(parent->GetWorldMatrix()); }
 	else { transform_.ClearParent(); }
 	if (cpu_) { cpu_->SetParentMatrix(transform_.GetWorldMatrix()); }
@@ -74,5 +77,11 @@ void ParticleSceneObject::Update() {
 	transform_.Update();
 	if (autoPlay_ && !played_) { Play(); }
 	ApplyParent();
+	if (cpu_ && needsEmissionOriginReset_) {
+		// PrefabのTransformと親行列が確定してから、Emitterの初期位置を取り直す。
+		// 確定前に原点で生成された粒子があれば、ここで併せて破棄する。
+		cpu_->ResetEmissionOrigin();
+		needsEmissionOriginReset_ = false;
+	}
 	if (effect_.IsAlive()) { effect_.SetPosition(transform_.GetTranslate()); }
 }

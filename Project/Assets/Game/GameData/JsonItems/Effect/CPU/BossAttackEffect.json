@@ -114,9 +114,9 @@
         },
         "rotateSpeed": 0.0,
         "scaleUpScale": {
-            "x": 22.0,
-            "y": 22.0,
-            "z": 22.0
+            "x": 37.0,
+            "y": 37.0,
+            "z": 37.0
         },
         "separateByAxisScale": false,
         "shape": 1,

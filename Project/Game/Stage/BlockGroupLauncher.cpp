@@ -3,6 +3,7 @@
 /// game
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
+#include "Game/Path/LineLoader.h"
 #include "Game/UI/ComboTextUIManager.h"
 #include "Game/UI/DamageTextUIManager.h"
 #include "Game/Battle/BlockDamageCalculator.h"
@@ -28,6 +29,20 @@ namespace{
 	constexpr int kSeparationIteration = 4;
 	/// 重なり判定の許容誤差。隣り合って接しているだけの状態を重なりとみなさないための下限
 	constexpr float kOverlapEpsilon = 1.0e-4f;
+	/// 速さの上限が指定されていない時に使う、実質上限なしとみなせる値
+	constexpr float kUnlimitedLaunchSpeed = 1.0e4f;
+	/// Lineが指定されていない時に作る、真上への経路の最短の長さ
+	constexpr float kMinLaunchPathLength = 1.0f;
+	/// 真上への経路に持たせる余裕。寿命が尽きる前に経路が尽きないように少し長くしておく
+	constexpr float kLaunchPathMargin = 1.1f;
+	/// 終点へ着いてから制御を手放すまでの時間。当たり判定が入るのを待つためのもの
+	constexpr float kArrivalGraceTime = 0.5f;
+	/// 向きの計算で「長さが無い」とみなす下限
+	constexpr float kAimEpsilon = 1.0e-4f;
+	/// これ以上向きが揃っていたら回さない(acosの誤差でNaNになるのを避ける)
+	constexpr float kAimParallelDot = 0.99999f;
+	/// 進む向きを求める時に、経路の何ユニット先を見るか
+	constexpr float kDirectionSampleDistance = 0.5f;
 
 	/// <summary>
 	/// 1軸分について、2つのブロックが重なっている「残り距離」の範囲を絞り込む。
@@ -185,8 +200,8 @@ void BlockGroupLauncher::Launch(){
 	ReleaseRemainingGroups();
 
 	state_ = State::Launched;
-	launchVelocityY_ = params_.launchSpeed;
 	launchTimer_ = params_.launchLifeTime;
+	arrivalTimer_ = kArrivalGraceTime;
 
 	// CollisionCatgoryを 切り替えて、Bossと衝突するように
 	for(const GatheringGroup& group : groups_){
@@ -202,6 +217,22 @@ void BlockGroupLauncher::Launch(){
 
 	// 集合が終わった時点の塊を1つの座標系にまとめる。ここから先はこの座標系だけを動かす
 	BuildLaunchRoot();
+
+	// 狙い先を持っている場合は必ず当てにいく。
+	// 進めない設定(初速も加速度も0)の場合は終点へ辿り着けないため、今まで通り寿命で打ち切る
+	isHoming_ = hasTarget_ && (params_.launchSpeed > 0.0f || params_.launchAccel > 0.0f);
+	aimPosition_ = GetAimGoal();
+
+	// 座標系の原点(噴射位置)を始点にした経路を組み立てる。打ち上げ中はこの経路上を進む
+	BuildLaunchPath(launchRoot_ != nullptr ? launchRoot_->GetTranslate() : CVector3::ZERO);
+
+	// 打ち上げた直後は集合した時の向き(真上)のまま。ここから進む向きへ傾けていく
+	launchDirection_ = CVector3::UP;
+	launchRotate_ = Math::Quaternion();
+	if(launchRoot_ != nullptr){
+		launchRoot_->SetRotate(launchRotate_);
+		launchRoot_->Update();
+	}
 
 	// 演出オブジェクトは座標系を親にしておく。座標系の原点が噴射位置なので、
 	// ローカル座標は原点のままでよく、座標系が上昇すれば一緒に上がってくれる。
@@ -240,6 +271,92 @@ void BlockGroupLauncher::BuildLaunchRoot(){
 	for(GatheringGroup& group : groups_){
 		group.rootOffset = (group.basePoint + group.separation) - rootPos;
 	}
+
+	// 座標系の原点は塊の下端の更に下(噴射位置)にあるため、原点を狙い先へ向けると
+	// 塊は狙い先の上を通り過ぎてしまう。中心を合わせられるように、原点から見た中心を覚えておく
+	launchCenterOffset_ = CVector3::ZERO;
+
+	Math::Vector3 centerSum = CVector3::ZERO;
+	int validCount = 0;
+	for(const GatheringGroup& group : groups_){
+		for(const Block* block : group.blocks){
+			if(block == nullptr || !block->IsValid()){
+				continue;
+			}
+			centerSum = centerSum + GetBlockPosition(block);
+			++validCount;
+		}
+	}
+
+	if(validCount > 0){
+		launchCenterOffset_ = centerSum * (1.0f / static_cast<float>(validCount)) - rootPos;
+	}
+
+	// 塊ごと進む向きへ回すため、打ち上げた時点の各ブロックの向きを覚えておく。
+	// 毎フレームこの向きに回転を掛け直すので、回し続けても向きがずれていかない
+	for(GatheringGroup& group : groups_){
+		group.launchRotates.clear();
+		group.launchRotates.reserve(group.blocks.size());
+
+		for(const Block* block : group.blocks){
+			const AOENGINE::WorldTransform* transform = (block != nullptr) ? block->GetTransform() : nullptr;
+			group.launchRotates.push_back(transform != nullptr ? transform->GetRotate() : Math::Quaternion());
+		}
+	}
+}
+
+void BlockGroupLauncher::BuildLaunchPath(const Math::Vector3& startPos){
+	// 打ち上げの初速と加速度は、そのまま経路上を進む速さとして使う
+	LinePathMover::Params moverParams{};
+	moverParams.accel = params_.launchAccel;
+	moverParams.initVelocity = params_.launchSpeed;
+	// 上限が指定されていない場合は、寿命が尽きるまで加速し続けられるように十分大きな値を入れておく
+	moverParams.maxVelocity = (params_.launchMaxSpeed > 0.0f) ? params_.launchMaxSpeed : kUnlimitedLaunchSpeed;
+	// 塊はブロックの並びを保ったまま進ませるため、進行方向を向く回転は使わない
+	moverParams.rotateLerpRate = 0.0f;
+
+	// 初速は SetPoints() の中の Reset() で入るため、先に調整値を渡しておく
+	launchMover_.SetParams(moverParams);
+	// 終点まで来たらそこで止める(閉じたLineでも周回はさせない)
+	launchMover_.SetEndAction(LinePathMover::EndAction::Stop);
+	const std::vector<Math::Vector3> points = MakeLaunchPoints(startPos);
+
+	// 狙い先へ向け直す時の基準になるため、組み立てた経路の始点と終点を覚えておく
+	launchPathStart_ = points.front();
+	launchPathEnd_ = points.back();
+
+	launchMover_.SetPoints(points,false);
+}
+
+std::vector<Math::Vector3> BlockGroupLauncher::MakeLaunchPoints(const Math::Vector3& startPos) const{
+	// Lineが指定されていれば、その形をそのまま辿る。
+	// Lineの始点は書き出した場所のままなので、集合しきった位置から動き出すように平行移動させる
+	if(!params_.launchLineName.empty()){
+		const LineLoader::LineData* lineData = LineLoader::GetInstance()->GetLineData(params_.launchLineName);
+		if(lineData != nullptr && lineData->points.size() >= 2){
+			std::vector<Math::Vector3> points = lineData->points;
+			const Math::Vector3 offset = startPos - points.front();
+			for(Math::Vector3& point : points){
+				point = point + offset;
+			}
+			return points;
+		}
+	}
+
+	// Lineが無く狙い先がある場合は、狙い先までまっすぐ飛ばす
+	if(isHoming_){
+		const Math::Vector3 aimGoal = GetAimGoal();
+		if((aimGoal - startPos).Length() > kMinLaunchPathLength){
+			return {startPos,aimGoal};
+		}
+	}
+
+	// Lineも狙い先も無い場合は今まで通り真上へ。
+	// 制御を手放すまでに進みうる距離より長くしておき、寿命より先に経路が尽きないようにする
+	const float lifeTime = (std::max)(params_.launchLifeTime,0.0f);
+	const float reachLength = (params_.launchSpeed * lifeTime + 0.5f * params_.launchAccel * lifeTime * lifeTime) * kLaunchPathMargin;
+
+	return {startPos,startPos + CVector3::UP * (std::max)(reachLength,kMinLaunchPathLength)};
 }
 
 void BlockGroupLauncher::Update(float deltaTime){
@@ -285,7 +402,8 @@ void BlockGroupLauncher::UpdateGathering(float deltaTime){
 	ResolveGroupSeparation(deltaTime);
 
 	for(const GatheringGroup& group : groups_){
-		MoveGroup(group,group.basePoint + group.separation,deltaTime);
+		// 集合中は塊を回さないので単位回転を渡す
+		MoveGroup(group,group.basePoint + group.separation,Math::Quaternion(),deltaTime);
 	}
 }
 
@@ -445,28 +563,191 @@ bool BlockGroupLauncher::ComputeGroupPush(const GatheringGroup& groupA,const Mat
 }
 
 void BlockGroupLauncher::UpdateLaunched(float deltaTime){
-	launchVelocityY_ += params_.launchAccel * deltaTime;
+	// 加速も含めて経路上の位置は LinePathMover が持つ
+	launchMover_.Update(deltaTime);
 
-	if(launchRoot_ != nullptr){
-		// ブロックを1個ずつ上昇させるのではなく、まとめた座標系だけを上昇させる。
-		// 噴射パーティクルはこの座標系を親にしているため、何もしなくても一緒に上がっていく
-		launchRoot_->Translate(Math::Vector3(0.0f,launchVelocityY_,0.0f),deltaTime);
+	// 進めた後の進捗で向ける先を決める。終点へ着いたフレームで狙い先と一致させたいため、
+	// 進める前ではなくここで寄せる
+	UpdateLaunchAim(deltaTime);
+
+	if(launchRoot_ != nullptr && launchMover_.IsValid()){
+		// ブロックを1個ずつ動かすのではなく、まとめた座標系を経路上の位置へ移す。
+		// 噴射パーティクルはこの座標系を親にしているため、何もしなくても一緒に付いてくる
+		const Math::Vector3 rootPos = ApplyLaunchAim(launchMover_.GetPosition());
+		launchDirection_ = CalclateLaunchDirection(rootPos);
+
+		UpdateLaunchRotate(deltaTime);
+
+		launchRoot_->SetTranslate(rootPos);
+		// 噴射などの演出はこの座標系を親にしているため、座標系ごと進む向きへ向ける。
+		// 真上へ打ち上げる前提で置いた演出(JetFireのローカル座標や炎の向き)が
+		// そのまま進む向きの後ろへ付いてくるように、真上を進む向きへ合わせる回転にしている
+		launchRoot_->SetRotate(launchRotate_);
 		launchRoot_->Update();
 
-		// ブロックは座標系から見た相対位置へ追従させる
-		const Math::Vector3 rootPos = launchRoot_->GetTranslate();
+		// ブロックは座標系から見た相対位置へ追従させる。
+		// 相対位置も向きも同じ回転を掛けるので、塊は形を保ったまま進む向きへ倒れていく
 		for(const GatheringGroup& group : groups_){
-			MoveGroup(group,rootPos + group.rootOffset,deltaTime);
+			MoveGroup(group,rootPos + launchRotate_ * group.rootOffset,launchRotate_,deltaTime);
 		}
 	}
 
+	// 終点まで着いた後は、当たり判定が入るまで少しの間その場に留める。
+	// 着いた瞬間に手放すと、ランチャーから切り離された後に当たってダメージが乗らなくなる
+	if(launchMover_.IsFinished()){
+		arrivalTimer_ -= deltaTime;
+		if(arrivalTimer_ > 0.0f){
+			return;
+		}
+
+		// 着いたのに当たり判定が入らなかった場合の保険。
+		// そのまま手放すと空中で止まって見えるため、重力を戻して落ちるようにする
+		ReleaseBlocksWithGravity();
+		Clear();
+		return;
+	}
+
 	launchTimer_ -= deltaTime;
-	if(launchTimer_ > 0.0f){
+	// 狙い先を追いかけている間は、必ず当てたいので寿命では打ち切らない
+	if(isHoming_ || launchTimer_ > 0.0f){
 		return;
 	}
 
 	// 画面外まで飛んで行った後は速度を残したまま制御を手放す
 	Clear();
+}
+
+void BlockGroupLauncher::ReleaseBlocksWithGravity(){
+	for(const GatheringGroup& group : groups_){
+		for(Block* block : group.blocks){
+			if(block == nullptr || !block->IsValid()){
+				continue;
+			}
+			AOENGINE::BaseGameObject* gameObject = block->GetGameObject();
+			if(gameObject == nullptr){
+				continue;
+			}
+			if(AOENGINE::Rigidbody* rigidbody = gameObject->GetRigidbody()){
+				// 集合を始めた時に切った重力を戻す
+				rigidbody->SetGravity(true);
+			}
+		}
+	}
+}
+
+void BlockGroupLauncher::SetTarget(const Math::Vector3& position){
+	targetPosition_ = position;
+	hasTarget_ = true;
+}
+
+void BlockGroupLauncher::ClearTarget(){
+	hasTarget_ = false;
+	// 飛んでいる最中に外された場合は、今向けている先へそのまま飛んでいく
+	isHoming_ = false;
+}
+
+void BlockGroupLauncher::UpdateLaunchAim(float deltaTime){
+	if(!isHoming_ || !hasTarget_){
+		return;
+	}
+
+	// 狙い先(ボス)は画面上の位置に貼り付いているため、カメラが揺れるとワールド座標も揺れる。
+	// そのまま経路へ乗せるとガタつくので少しずつ寄せる
+	float rate = 1.0f;
+	if(params_.launchHomingRate > 0.0f){
+		rate = std::clamp(params_.launchHomingRate * deltaTime,0.0f,1.0f);
+	}
+
+	// 終点へ近づくほど強く寄せる。着く時(進捗1)には必ず狙い先と一致するため、狙いが外れない
+	const float progress = launchMover_.GetProgress();
+	rate = (std::max)(rate,progress * progress);
+
+	aimPosition_ = Math::Vector3::Lerp(aimPosition_,GetAimGoal(),rate);
+}
+
+Math::Vector3 BlockGroupLauncher::ApplyLaunchAim(const Math::Vector3& pathPosition) const{
+	if(!isHoming_){
+		return pathPosition;
+	}
+
+	// 始点は動かさず、終点が今向けている先に来るように経路ごと回して伸び縮みさせる。
+	// 経路の形は保たれるため、終点だけ差し替えた時のように途中が折れ曲がらない
+	const Math::Vector3 baseVector = launchPathEnd_ - launchPathStart_;
+	const Math::Vector3 aimVector = aimPosition_ - launchPathStart_;
+
+	const float baseLength = baseVector.Length();
+	const float aimLength = aimVector.Length();
+	if(baseLength <= kAimEpsilon || aimLength <= kAimEpsilon){
+		return pathPosition;
+	}
+
+	const Math::Vector3 baseDirection = baseVector * (1.0f / baseLength);
+	const Math::Vector3 aimDirection = aimVector * (1.0f / aimLength);
+	const Math::Quaternion rotate = MakeAimRotation(baseDirection,aimDirection);
+
+	// 始点から終点へ向かう成分と、そこから横へ膨らんでいる成分に分ける
+	const Math::Vector3 local = pathPosition - launchPathStart_;
+	const float along = Math::Vector3::Dot(local,baseDirection);
+	const Math::Vector3 side = local - baseDirection * along;
+
+	// 伸縮させるのは進む向きの成分だけにする。
+	// 全体を相似で伸ばすと、狙い先が遠いほどLineの膨らみも大きくなって画面外へ出てしまう
+	return launchPathStart_ + aimDirection * (aimLength * (along / baseLength)) + rotate * side;
+}
+
+void BlockGroupLauncher::UpdateLaunchRotate(float deltaTime){
+	// 真上に置かれた状態から、進む向きへ合わせる回転
+	const Math::Quaternion target = MakeAimRotation(CVector3::UP,launchDirection_);
+
+	if(params_.launchRotateRate <= 0.0f){
+		launchRotate_ = target;
+		return;
+	}
+
+	// 打ち上げた瞬間に倒れると不自然なので、少しずつ進む向きへ傾けていく
+	const float rate = std::clamp(params_.launchRotateRate * deltaTime,0.0f,1.0f);
+	launchRotate_ = Math::Quaternion::Slerp(launchRotate_,target,rate).Normalize();
+}
+
+Math::Vector3 BlockGroupLauncher::CalclateLaunchDirection(const Math::Vector3& rootPos) const{
+	// ApplyLaunchAim() は進む向きの成分と横向きの成分で伸縮が違うため、
+	// 経路上の向きをそのまま使わず、向け直した後の座標の差から求める
+	const Math::Vector3 aheadPosition =
+		ApplyLaunchAim(launchMover_.GetPointAtDistance(launchMover_.GetDistance() + kDirectionSampleDistance));
+
+	const Math::Vector3 diff = aheadPosition - rootPos;
+	if(diff.Length() <= kAimEpsilon){
+		// 終点まで着いた後など、向きが求められない場合は今の向きを保つ
+		return launchDirection_;
+	}
+
+	return diff.Normalize();
+}
+
+Math::Vector3 BlockGroupLauncher::GetAimGoal() const{
+	// 座標系の原点ではなく塊の中心を狙い先へ運びたいので、中心のぶんだけ手前へずらす。
+	// 塊は進む向きへ倒れていくため、中心の位置も同じ回転を掛けてから引く
+	return targetPosition_ - launchRotate_ * launchCenterOffset_;
+}
+
+Math::Quaternion BlockGroupLauncher::MakeAimRotation(const Math::Vector3& baseDirection,const Math::Vector3& aimDirection){
+	const float dot = std::clamp(Math::Vector3::Dot(baseDirection,aimDirection),-1.0f,1.0f);
+
+	// ほぼ同じ向きなら回す必要は無い
+	if(dot >= kAimParallelDot){
+		return Math::Quaternion();
+	}
+
+	// 真逆を向いている場合は回転軸が決まらないため、垂直な軸を1つ選んで半回転させる
+	if(dot <= -kAimParallelDot){
+		Math::Vector3 axis = Math::Vector3::Cross(baseDirection,CVector3::UP);
+		if(axis.Length() <= kAimEpsilon){
+			axis = Math::Vector3::Cross(baseDirection,CVector3::RIGHT);
+		}
+		return Math::Quaternion::AngleAxis(kPI,axis.Normalize());
+	}
+
+	return Math::Quaternion::FromToRotation(baseDirection,aimDirection);
 }
 
 bool BlockGroupLauncher::NotifyBossHit(){
@@ -493,7 +774,8 @@ void BlockGroupLauncher::DestroyBlocks(){
 	Clear();
 }
 
-void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,float deltaTime) const{
+void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,
+								   const Math::Quaternion& rotate,float deltaTime) const{
 	for(size_t index = 0; index < group.blocks.size(); ++index){
 		Block* block = group.blocks[index];
 		if(block == nullptr || !block->IsValid()){
@@ -506,10 +788,16 @@ void BlockGroupLauncher::MoveGroup(const GatheringGroup& group,const Math::Vecto
 		}
 
 		// 目標位置との差から速度を求める。実際の位置を毎回見るのでズレが溜まらない
-		const Math::Vector3 desired = basePoint + group.offsets[index];
+		const Math::Vector3 desired = basePoint + rotate * group.offsets[index];
 		const Math::Vector3 diff = desired - transform->GetTranslate();
 
 		MoveBlock(block,diff,deltaTime);
+
+		// 打ち上げ中は塊ごと回すため、ブロック自身の向きも打ち上げた時の向きから回す。
+		// 集合中は向きを覚えていないので、ここは素通りして今までの向きのままになる
+		if(index < group.launchRotates.size()){
+			transform->SetRotate(rotate * group.launchRotates[index]);
+		}
 	}
 }
 
@@ -588,8 +876,15 @@ void BlockGroupLauncher::Clear(){
 
 	groups_.clear();
 	state_ = State::Idle;
-	launchVelocityY_ = 0.0f;
+	// 使い回した時に前回の経路が残らないように空にしておく
+	launchMover_.SetPoints({});
 	launchTimer_ = 0.0f;
+	arrivalTimer_ = 0.0f;
+	// 狙い先そのものは外から毎フレーム渡されるため、ここでは追いかけている状態だけを解く
+	isHoming_ = false;
+	launchCenterOffset_ = CVector3::ZERO;
+	launchDirection_ = CVector3::UP;
+	launchRotate_ = Math::Quaternion();
 	isBossHit_ = false;
 
 	gatheredBlockCount_ = 0;

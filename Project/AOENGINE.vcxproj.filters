@@ -313,6 +313,9 @@
     <Filter Include="Game\EventHandlers">
       <UniqueIdentifier>{C1FF7946-ADE3-3A9C-1644-35EF0247251E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Path">
+      <UniqueIdentifier>{DB7A367B-47E5-EAF1-9023-9C97FCCCC846}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Game\RunTime">
       <UniqueIdentifier>{9239FA42-7E9C-89E7-2722-C29D1364556A}</UniqueIdentifier>
     </Filter>
@@ -327,6 +330,9 @@
     </Filter>
     <Filter Include="Game\Scene\Title">
       <UniqueIdentifier>{4DFE2D9F-39F7-4CF1-6229-32764E812CFD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Scene\Transition">
+      <UniqueIdentifier>{564B01A7-C2B7-BCA1-8BAB-54FFF7D6DE09}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game\Scene\Tutorial">
       <UniqueIdentifier>{3F867913-ABE7-5621-3455-9DD3A0B58DE0}</UniqueIdentifier>
@@ -1380,6 +1386,12 @@
     <ClInclude Include="Game\EventHandlers\StopperToBlockGroupCallBacks.h">
       <Filter>Game\EventHandlers</Filter>
     </ClInclude>
+    <ClInclude Include="Game\Path\LineLoader.h">
+      <Filter>Game\Path</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Path\LinePathMover.h">
+      <Filter>Game\Path</Filter>
+    </ClInclude>
     <ClInclude Include="Game\RunTime\GameCore.h">
       <Filter>Game\RunTime</Filter>
     </ClInclude>
@@ -1406,6 +1418,9 @@
     </ClInclude>
     <ClInclude Include="Game\Scene\Title\TitleScene.h">
       <Filter>Game\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Scene\Transition\SceneTransition.h">
+      <Filter>Game\Scene\Transition</Filter>
     </ClInclude>
     <ClInclude Include="Game\Scene\Tutorial\TutorialScene.h">
       <Filter>Game\Scene\Tutorial</Filter>
@@ -1509,6 +1524,9 @@
     <ClInclude Include="Game\UI\RetryUI.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
+    <ClInclude Include="Game\UI\TitleEarthParameter.h">
+      <Filter>Game\UI</Filter>
+    </ClInclude>
     <ClInclude Include="Game\UI\TitleMeteoEffect.h">
       <Filter>Game\UI</Filter>
     </ClInclude>
@@ -1525,6 +1543,9 @@
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Skybox.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\WorldObject\StepBlock.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
     <ClInclude Include="Game\WorldObject\Wall.h">
@@ -2507,6 +2528,12 @@
     <ClCompile Include="Game\EventHandlers\StopperToBlockGroupCallBacks.cpp">
       <Filter>Game\EventHandlers</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Path\LineLoader.cpp">
+      <Filter>Game\Path</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Path\LinePathMover.cpp">
+      <Filter>Game\Path</Filter>
+    </ClCompile>
     <ClCompile Include="Game\RunTime\GameCore.cpp">
       <Filter>Game\RunTime</Filter>
     </ClCompile>
@@ -2527,6 +2554,9 @@
     </ClCompile>
     <ClCompile Include="Game\Scene\Title\TitleScene.cpp">
       <Filter>Game\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Scene\Transition\SceneTransition.cpp">
+      <Filter>Game\Scene\Transition</Filter>
     </ClCompile>
     <ClCompile Include="Game\Scene\Tutorial\TutorialScene.cpp">
       <Filter>Game\Scene\Tutorial</Filter>
@@ -2607,9 +2637,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
-      <Filter>Game\WorldObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\WorldObject\Wall.cpp">
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
