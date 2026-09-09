@@ -60,9 +60,9 @@
             "z": 0.0
         },
         "dummyScale": {
-            "x": 2.0,
-            "y": 2.0,
-            "z": 2.0
+            "x": 8.0,
+            "y": 8.0,
+            "z": 8.0
         },
         "dummySwayAngle": 19.299999237060547,
         "dummySwayEaseKind": 20,

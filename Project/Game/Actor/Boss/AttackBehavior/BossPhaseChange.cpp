@@ -5,7 +5,8 @@
 #include <numbers>
 
 #include "Engine/Lib/Math/Easing.h"
-
+#include <Core/Engine.h>
+#include <System/Audio/SoundManager.h>
 #include "Game/Actor/Boss/Boss.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,6 +72,8 @@ void BossPhaseChange::Update(Boss& boss, float deltaTime) {
 	if (!hasPlayedEffect_ && elapsedTime_ >= param.phaseChangeEffectDelay) {
 		boss.ShakeCamera(param.phaseChangeShake);
 		boss.PlayPhaseChangeEffect();
+		//　咆哮の音を入れる
+		Engine::GetSoundManager()->Play("BossPhaseChange");
 		hasPlayedEffect_ = true;
 	}
 

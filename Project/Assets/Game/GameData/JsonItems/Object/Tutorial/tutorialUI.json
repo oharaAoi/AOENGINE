@@ -146,7 +146,7 @@
         "buttonTime": 0.25,
         "checkEaseKind": 17,
         "checkOffset0": {
-            "x": 245.0,
+            "x": 369.0,
             "y": -31.0
         },
         "checkOffset1": {
@@ -193,7 +193,7 @@
         },
         "guideTime": 0.25,
         "moveJumpCheckOffset": {
-            "x": 245.0,
+            "x": 375.0,
             "y": 39.0
         },
         "nextBoxOffset": {
