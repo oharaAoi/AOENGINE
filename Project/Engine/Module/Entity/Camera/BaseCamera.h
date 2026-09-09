@@ -59,6 +59,10 @@ public:
 public:	// accessor method
 
 	const Math::Quaternion& GetRotate() const { return transform_.rotate; }
+	const Math::Vector3& GetTranslate() const { return transform_.translate; }
+
+	/// シーン保存されたカメラ姿勢を復元する。
+	virtual void SetSceneTransform(const Math::Vector3& translate, const Math::Quaternion& rotate);
 
 	const Math::Matrix4x4& GetCameraMatrix() const { return cameraMatrix_; }
 

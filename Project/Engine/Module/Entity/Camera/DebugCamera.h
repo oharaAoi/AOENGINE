@@ -30,6 +30,7 @@ public:
 
 	void SetIsFocused(bool isFocesd) { isFocused_ = isFocesd; }
 	bool GetIsFocused() const { return isFocused_; }
+	void SetSceneTransform(const Math::Vector3& translate, const Math::Quaternion& rotate) override;
 
 private:
 

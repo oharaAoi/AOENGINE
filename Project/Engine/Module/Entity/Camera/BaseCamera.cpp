@@ -63,6 +63,14 @@ void BaseCamera::ApplyToRender() const {
 	AOENGINE::Render::SetVpvpMatrix(GetVpvpMatrix());
 }
 
+void BaseCamera::SetSceneTransform(const Math::Vector3& translate, const Math::Quaternion& rotate) {
+	transform_.translate = translate;
+	transform_.rotate = rotate.Normalize();
+	parameter_.translate = transform_.translate;
+	parameter_.rotate = transform_.rotate;
+	renderTransform_ = transform_;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　アクセッサ
 //////////////////////////////////////////////////////////////////////////////////////////////////

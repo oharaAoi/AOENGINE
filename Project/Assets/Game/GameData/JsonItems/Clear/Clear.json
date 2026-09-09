@@ -1,5 +1,33 @@
 {
     "environment": {
+        "cameras": {
+            "camera3d": {
+                "rotate": [
+                    0.10000000149011612,
+                    0.0,
+                    0.0,
+                    0.9796552062034607
+                ],
+                "translate": [
+                    0.0,
+                    5.699999809265137,
+                    -13.5
+                ]
+            },
+            "debugCamera": {
+                "rotate": [
+                    0.2164396196603775,
+                    0.0,
+                    0.0,
+                    0.9762960076332092
+                ],
+                "translate": [
+                    0.0,
+                    4.0,
+                    -8.0
+                ]
+            }
+        },
         "postProcess": {
             "effects": [
                 {
@@ -147,265 +175,108 @@
         {
             "active": true,
             "data": {
-                "anchor": [
-                    0.5,
-                    0.5
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "clear",
+                        "animationTime": 0.0,
+                        "loop": true,
+                        "speed": 1.0,
+                        "stopped": false,
+                        "type": "Animator"
+                    }
                 ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
+                "enableShadow": true,
+                "isReflection": false,
+                "isRendering": true,
+                "materials": [
+                    {
+                        "albedoTexture": "player.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 0,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    },
+                    {
+                        "albedoTexture": "white.png",
+                        "color": [
+                            1.0,
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "discardValue": 0.009999999776482582,
+                        "enableLighting": true,
+                        "iblScale": 0.5,
+                        "pipeline": "",
+                        "shaderType": 0,
+                        "shininess": 100.0,
+                        "slot": 1,
+                        "type": "Normal",
+                        "uvRotate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ],
+                        "uvScale": [
+                            1.0,
+                            1.0,
+                            1.0
+                        ],
+                        "uvTranslate": [
+                            0.0,
+                            0.0,
+                            0.0
+                        ]
+                    }
                 ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    16.0,
-                    16.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": true,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 0,
+                "model": "player.gltf",
                 "rotate": [
                     0.0,
+                    -0.9886938333511353,
                     0.0,
-                    0.0
+                    -0.14994822442531586
                 ],
                 "scale": [
-                    2000.0,
-                    1200.0,
-                    1.0
-                ],
-                "texture": "white.png",
-                "textureSize": [
-                    16.0,
-                    16.0
+                    0.5,
+                    0.5,
+                    0.5
                 ],
                 "translate": [
+                    -2.9000000953674316,
                     0.0,
-                    0.0,
-                    1.0
+                    0.0
                 ]
             },
-            "id": 3353,
-            "name": "bgGround",
+            "id": 3384,
+            "name": "player",
             "parentId": null,
-            "type": "Sprite"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    643.0,
-                    162.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 124.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 0,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "Game Clear",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "texture": "__Text_35",
-                "textureSize": [
-                    643.0,
-                    162.0
-                ],
-                "translate": [
-                    953.3565063476563,
-                    331.9511413574219,
-                    1.0
-                ]
-            },
-            "id": 753,
-            "name": "GameClear",
-            "parentId": null,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    176.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 0,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "retry",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "texture": "__Text_34",
-                "textureSize": [
-                    176.0,
-                    84.0
-                ],
-                "translate": [
-                    953.3560791015625,
-                    665.5454711914063,
-                    1.0
-                ]
-            },
-            "id": 754,
-            "name": "Retry",
-            "parentId": null,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    145.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 0,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "exit",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "texture": "__Text_33",
-                "textureSize": [
-                    145.0,
-                    84.0
-                ],
-                "translate": [
-                    948.0794677734375,
-                    783.8648681640625,
-                    1.0
-                ]
-            },
-            "id": 755,
-            "name": "Exit",
-            "parentId": null,
-            "type": "Text"
+            "type": "BaseGameObject"
         },
         {
             "active": true,
@@ -516,108 +387,265 @@
         {
             "active": true,
             "data": {
-                "animator": true,
-                "components": [
-                    {
-                        "animationName": "clear",
-                        "animationTime": 0.0,
-                        "loop": true,
-                        "speed": 1.0,
-                        "stopped": false,
-                        "type": "Animator"
-                    }
-                ],
-                "enableShadow": true,
-                "isReflection": false,
-                "isRendering": true,
-                "materials": [
-                    {
-                        "albedoTexture": "player.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 0,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    },
-                    {
-                        "albedoTexture": "white.png",
-                        "color": [
-                            1.0,
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "discardValue": 0.009999999776482582,
-                        "enableLighting": true,
-                        "iblScale": 0.5,
-                        "pipeline": "",
-                        "shaderType": 0,
-                        "shininess": 100.0,
-                        "slot": 1,
-                        "type": "Normal",
-                        "uvRotate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ],
-                        "uvScale": [
-                            1.0,
-                            1.0,
-                            1.0
-                        ],
-                        "uvTranslate": [
-                            0.0,
-                            0.0,
-                            0.0
-                        ]
-                    }
-                ],
-                "model": "player.gltf",
-                "rotate": [
-                    0.0,
-                    -0.9886938333511353,
-                    0.0,
-                    -0.14994822442531586
-                ],
-                "scale": [
-                    0.5,
+                "anchor": [
                     0.5,
                     0.5
                 ],
-                "translate": [
-                    -2.9000000953674316,
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    145.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
                     0.0,
                     0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "exit",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "texture": "__Text_40",
+                "textureSize": [
+                    145.0,
+                    84.0
+                ],
+                "translate": [
+                    948.0794677734375,
+                    783.8648681640625,
+                    1.0
                 ]
             },
-            "id": 3384,
-            "name": "player",
+            "id": 755,
+            "name": "Exit",
             "parentId": null,
-            "type": "BaseGameObject"
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "retry",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "texture": "__Text_39",
+                "textureSize": [
+                    176.0,
+                    84.0
+                ],
+                "translate": [
+                    953.3560791015625,
+                    665.5454711914063,
+                    1.0
+                ]
+            },
+            "id": 754,
+            "name": "Retry",
+            "parentId": null,
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    643.0,
+                    162.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontSize": 124.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "Game Clear",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    0.0,
+                    0.0,
+                    1.0
+                ],
+                "texture": "__Text_38",
+                "textureSize": [
+                    643.0,
+                    162.0
+                ],
+                "translate": [
+                    953.3565063476563,
+                    331.9511413574219,
+                    1.0
+                ]
+            },
+            "id": 753,
+            "name": "GameClear",
+            "parentId": null,
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    16.0,
+                    16.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": true,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    2000.0,
+                    1200.0,
+                    1.0
+                ],
+                "texture": "white.png",
+                "textureSize": [
+                    16.0,
+                    16.0
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    1.0
+                ]
+            },
+            "id": 3353,
+            "name": "bgGround",
+            "parentId": null,
+            "type": "Sprite"
         }
     ],
     "sceneName": "Clear",
