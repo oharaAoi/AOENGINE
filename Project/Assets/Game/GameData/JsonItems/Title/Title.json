@@ -1,33 +1,6 @@
 {
     "environment": {
-        "cameras": {
-            "camera3d": {
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0,
-                    1.0
-                ],
-                "translate": [
-                    0.0,
-                    0.0,
-                    -28.5
-                ]
-            },
-            "debugCamera": {
-                "rotate": [
-                    0.2164396196603775,
-                    0.0,
-                    0.0,
-                    0.9762960076332092
-                ],
-                "translate": [
-                    0.0,
-                    4.0,
-                    -8.0
-                ]
-            }
-        },
+        "cameras": {},
         "postProcess": {
             "effects": [
                 {
@@ -191,7 +164,63 @@
                 ],
                 "components": [],
                 "drawRange": [
-                    145.0,
+                    1980.0,
+                    1080.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 0,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    0.9696969985961914,
+                    0.9696969985961914,
+                    1.0
+                ],
+                "texture": "title",
+                "textureSize": [
+                    1980.0,
+                    1080.0
+                ],
+                "translate": [
+                    960.0,
+                    504.5,
+                    1.0
+                ]
+            },
+            "id": 87,
+            "name": "GameTitle",
+            "parentId": null,
+            "type": "Sprite"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    280.0,
                     84.0
                 ],
                 "flipX": false,
@@ -214,7 +243,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "おわる",
+                "text": "チュートリアル",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -225,19 +254,88 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_0",
+                "texture": "__Text_60",
                 "textureSize": [
-                    145.0,
+                    280.0,
                     84.0
                 ],
                 "translate": [
-                    800.4155883789063,
-                    885.7614135742188,
+                    800.0,
+                    787.1512451171875,
                     1.0
                 ]
             },
-            "id": 736,
-            "name": "Exit",
+            "id": 900,
+            "name": "Tutorial",
+            "parentId": null,
+            "type": "Text"
+        },
+        {
+            "active": true,
+            "data": {
+                "anchor": [
+                    0.5,
+                    0.5
+                ],
+                "canvasSize": [
+                    1920.0,
+                    1009.0
+                ],
+                "color": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "components": [],
+                "drawRange": [
+                    176.0,
+                    84.0
+                ],
+                "flipX": false,
+                "flipY": false,
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
+                "fontSize": 64.0,
+                "isBackGround": false,
+                "leftTop": [
+                    0.0,
+                    0.0
+                ],
+                "renderQueue": 1,
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "scale": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "text": "はじめる",
+                "textAnchor": [
+                    0.5,
+                    0.5
+                ],
+                "textColor": [
+                    1.0,
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "texture": "__Text_59",
+                "textureSize": [
+                    176.0,
+                    84.0
+                ],
+                "translate": [
+                    802.3280029296875,
+                    688.5410766601563,
+                    1.0
+                ]
+            },
+            "id": 722,
+            "name": "GameStart",
             "parentId": null,
             "type": "Text"
         },
@@ -357,7 +455,7 @@
                 ],
                 "components": [],
                 "drawRange": [
-                    176.0,
+                    145.0,
                     84.0
                 ],
                 "flipX": false,
@@ -380,7 +478,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "はじめる",
+                "text": "おわる",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -391,146 +489,21 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_1",
+                "texture": "__Text_58",
                 "textureSize": [
-                    176.0,
+                    145.0,
                     84.0
                 ],
                 "translate": [
-                    802.3280029296875,
-                    688.5410766601563,
+                    800.4155883789063,
+                    885.7614135742188,
                     1.0
                 ]
             },
-            "id": 722,
-            "name": "GameStart",
+            "id": 736,
+            "name": "Exit",
             "parentId": null,
             "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    280.0,
-                    84.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
-                "fontSize": 64.0,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 1,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "text": "チュートリアル",
-                "textAnchor": [
-                    0.5,
-                    0.5
-                ],
-                "textColor": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "texture": "__Text_2",
-                "textureSize": [
-                    280.0,
-                    84.0
-                ],
-                "translate": [
-                    800.0,
-                    787.1512451171875,
-                    1.0
-                ]
-            },
-            "id": 900,
-            "name": "Tutorial",
-            "parentId": null,
-            "type": "Text"
-        },
-        {
-            "active": true,
-            "data": {
-                "anchor": [
-                    0.5,
-                    0.5
-                ],
-                "canvasSize": [
-                    1920.0,
-                    1009.0
-                ],
-                "color": [
-                    1.0,
-                    1.0,
-                    1.0,
-                    1.0
-                ],
-                "components": [],
-                "drawRange": [
-                    1980.0,
-                    1080.0
-                ],
-                "flipX": false,
-                "flipY": false,
-                "isBackGround": false,
-                "leftTop": [
-                    0.0,
-                    0.0
-                ],
-                "renderQueue": 0,
-                "rotate": [
-                    0.0,
-                    0.0,
-                    0.0
-                ],
-                "scale": [
-                    0.9696969985961914,
-                    0.9696969985961914,
-                    1.0
-                ],
-                "texture": "title",
-                "textureSize": [
-                    1980.0,
-                    1080.0
-                ],
-                "translate": [
-                    960.0,
-                    504.5,
-                    1.0
-                ]
-            },
-            "id": 87,
-            "name": "GameTitle",
-            "parentId": null,
-            "type": "Sprite"
         }
     ],
     "sceneName": "Title",
