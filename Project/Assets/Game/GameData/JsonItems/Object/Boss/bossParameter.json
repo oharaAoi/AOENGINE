@@ -29,7 +29,7 @@
             "z": 1.0
         },
         "beamSpeed": 81.80000305175781,
-        "beamStartDelay": 1.3300000429153442,
+        "beamStartDelay": 0.30000001192092896,
         "beamStartX": -30.0,
         "beamTime": 1.0,
         "beamUnlockPhase": 0,
