@@ -23,8 +23,9 @@
                             1.0,
                             1.0
                         ],
+                        "squeezeEscape": false,
                         "static": true,
-                        "trigger": false,
+                        "trigger": true,
                         "type": "AABBCollider"
                     }
                 ],
