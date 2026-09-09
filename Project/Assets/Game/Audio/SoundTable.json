@@ -59,7 +59,7 @@
     {
       "category": "SE",
       "file": "Assets/Game/Load/Sounds/Effects/Boss/BeamShot.mp3",
-      "loop": true,
+      "loop": false,
       "maxInstances": 4,
       "name": "BeamShot",
       "volume": 1.0
