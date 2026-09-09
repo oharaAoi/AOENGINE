@@ -4,16 +4,8 @@
         {
             "active": true,
             "data": {
-                "animator": true,
+                "animator": false,
                 "components": [
-                    {
-                        "animationName": "idle",
-                        "animationTime": 0.0,
-                        "loop": true,
-                        "speed": 1.0,
-                        "stopped": false,
-                        "type": "Animator"
-                    },
                     {
                         "drag": 0.0,
                         "gravity": false,
@@ -36,15 +28,10 @@
                     },
                     {
                         "active": true,
-                        "category": "Player",
+                        "category": "Block",
                         "collisionMask": [
-                            "Block",
-                            "Wall",
-                            "StepBlock",
-                            "DamageFloor",
-                            "Fireball",
-                            "Beam",
-                            "Stopper"
+                            "Player",
+                            "Fireball"
                         ],
                         "localPosition": [
                             0.0,
@@ -53,11 +40,11 @@
                         ],
                         "penetrationPrevention": false,
                         "size": [
-                            0.8999999761581421,
-                            0.8999999761581421,
+                            1.0,
+                            1.0,
                             1.0
                         ],
-                        "static": false,
+                        "static": true,
                         "trigger": false,
                         "type": "AABBCollider"
                     }
@@ -67,7 +54,7 @@
                 "isRendering": true,
                 "materials": [
                     {
-                        "albedoTexture": "player.png",
+                        "albedoTexture": "white.png",
                         "color": [
                             1.0,
                             1.0,
@@ -99,7 +86,7 @@
                         ]
                     },
                     {
-                        "albedoTexture": "white.png",
+                        "albedoTexture": "wall.dds",
                         "color": [
                             1.0,
                             1.0,
@@ -131,7 +118,7 @@
                         ]
                     }
                 ],
-                "model": "player.gltf",
+                "model": "Block.obj",
                 "rotate": [
                     0.0,
                     0.0,
@@ -144,18 +131,18 @@
                     1.0
                 ],
                 "translate": [
+                    -2.0884408950805664,
                     0.0,
-                    2.200000047683716,
-                    0.0
+                    -1.0656967163085938
                 ]
             },
             "id": 1,
-            "name": "Player",
+            "name": "StepBlock",
             "parentId": null,
             "type": "BaseGameObject"
         }
     ],
-    "prefabName": "Player",
+    "prefabName": "StepBlock",
     "rootId": 1,
     "version": 1
 }

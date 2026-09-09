@@ -5,7 +5,7 @@
 
 /// <summary>
 /// 4近傍の接続を表すビット。
-/// 「埋まっている」= その方向に Block か Wall がある。
+/// 「埋まっている」= その方向に Block か StepBlock か Wall がある。
 /// </summary>
 enum BlockNeighborBit : uint8_t{
 	kBlockNeighborUp = 1 << 0,
