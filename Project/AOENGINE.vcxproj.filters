@@ -1539,6 +1539,9 @@
     <ClInclude Include="Game\WorldObject\Skybox.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
+    <ClInclude Include="Game\WorldObject\StepBlock.h">
+      <Filter>Game\WorldObject</Filter>
+    </ClInclude>
     <ClInclude Include="Game\WorldObject\Wall.h">
       <Filter>Game\WorldObject</Filter>
     </ClInclude>
@@ -2625,9 +2628,6 @@
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="Game\WorldObject\Skybox.cpp">
-      <Filter>Game\WorldObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\WorldObject\Wall.cpp">
       <Filter>Game\WorldObject</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
