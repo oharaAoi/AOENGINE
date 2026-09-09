@@ -219,8 +219,11 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// プレイヤー
 	if (player_)
 	{
+		// フェーズ切り替えの演出中も、カウントダウン中と同じように動きを止める
+		const bool isPlayerStandby = isStandby || (boss_ && boss_->IsPhaseChanging());
+
 		// 待機中は入力も物理も進めず、見た目だけ合わせる
-		if (isStandby) {
+		if (isPlayerStandby) {
 			player_->UpdateStandby(deltaTime);
 		} else {
 			player_->Update();
@@ -230,6 +233,8 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// フォローカメラ
 	if (followCamera_)
 	{
+		// フェーズ切り替え中は寄せた分で画面上の高さが変わる。
+		followCamera_->SetFollowPaused(boss_ && boss_->IsPhaseChanging());
 		followCamera_->Update();
 	}
 
@@ -254,8 +259,10 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		}
 	}
 
-	// ダメージ床の更新
-	if (damageFloor_ && followCamera_)
+	// ダメージ床の更新。
+	// フェーズ切り替え中はカメラが寄るので、床は付いていかせずその場に残す
+	const bool isPhaseChanging = boss_ && boss_->IsPhaseChanging();
+	if (damageFloor_ && followCamera_ && !isPhaseChanging)
 	{
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();

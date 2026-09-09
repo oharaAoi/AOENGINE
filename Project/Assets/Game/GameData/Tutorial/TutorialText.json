@@ -1,8 +1,8 @@
 {
     "steps": {
         "Move": {
-            "pad": "で移動\nでジャンプ",
-            "keyboard": "で移動\nでジャンプ",
+            "pad": "で移動\nでジャンプ　二段ジャンプ可能",
+            "keyboard": "で移動\nでジャンプ　二段ジャンプ可能",
             "padButtons": [
                 "LStick.png",
                 "A.png"

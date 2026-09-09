@@ -152,6 +152,12 @@ private:
 	// ヒットストップの残り時間
 	float hitStopTimer_ = 0.0f;
 
+	// フェーズ切り替えの演出中か。プレイヤーを止めるかの判断にシーン側が使う
+	bool isPhaseChanging_ = false;
+
+	// 奥行きの一時的なずらし。カメラを寄せた時に相対距離を保つのに使う
+	float worldZOffset_ = 0.0f;
+
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";
 
@@ -232,8 +238,25 @@ public: // accessor
 	/// <summary>攻撃側からカメラを揺らす。カメラが未設定なら何もしない</summary>
 	void ShakeCamera(const CameraShakeRequest& request);
 
+	/// <summary>演出でカメラを一時的にずらす</summary>
+	void SetCameraExtraOffset(const Math::Vector3& offset);
+
+	/// <summary>カメラの位置。演出でカメラからの距離を測るのに使う</summary>
+	Math::Vector3 GetCameraWorldPosition() const;
+	bool HasCamera() const { return pCamera_ != nullptr; }
+
 	/// <summary>カメラを揺らせるように渡しておく</summary>
 	void SetCamera(FollowCamera* camera) { pCamera_ = camera; }
+
+	/// <summary>フェーズ切り替えの演出中か。演出側が立てて、シーン側が見る</summary>
+	void SetPhaseChanging(bool isChanging) { isPhaseChanging_ = isChanging; }
+	bool IsPhaseChanging() const { return isPhaseChanging_; }
+
+	/// <summary>
+	/// 奥行きを一時的にずらす。カメラを寄せた分だけ同じ量ずらすと、
+	/// カメラからの距離が変わらないので見た目の大きさが保たれる
+	/// </summary>
+	void SetWorldZOffset(float offset) { worldZOffset_ = offset; }
 
 	/// <summary>足止めを落とす足場を選ぶために、ブロックの表を渡しておく</summary>
 	void SetBlockField(StageBlockField* field) { pBlockField_ = field; }

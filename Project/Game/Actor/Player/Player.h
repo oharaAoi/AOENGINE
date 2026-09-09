@@ -128,6 +128,10 @@ private:
 	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
 	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
 
+	// 待機に入った時の位置。止めている間はここへ固定し続ける
+	Math::Vector3 standbyPosition_{};
+	bool hasStandbyPosition_ = false;
+
 	// 被弾
 	float currentHp_ = 0.0f;			// 現在のHP
 	float invincibleTimer_ = 0.0f;		// 残りの無敵時間

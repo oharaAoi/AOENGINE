@@ -102,6 +102,12 @@ private:
 	bool isScrolling_ = false;
 	static constexpr float kScrollArriveThreshold = 0.01f;
 
+	// 演出で一時的に足す位置。フェーズ切り替えで寄せるのに使う
+	Math::Vector3 extraOffset_{};
+
+	// 追従を止めているか。演出中にスクロールが走らないようにする
+	bool isFollowPaused_ = false;
+
 	// カメラシェイクの調整用リクエスト
 	CameraShakeRequest shakeRequest_;
 
@@ -113,5 +119,14 @@ public: // accessor
 
 	void SetTargetName(const std::string& name) { targetName_ = name; }
 	void SetTarget(AOENGINE::BaseGameObject* target) { target_ = target; }
+
+	/// <summary>演出で一時的にカメラをずらす</summary>
+	void SetExtraOffset(const Math::Vector3& offset) { extraOffset_ = offset; }
+	const Math::Vector3& GetExtraOffset() const { return extraOffset_; }
+
+	/// <summary>
+	/// 追従を止める。
+	/// </summary>
+	void SetFollowPaused(bool isPaused) { isFollowPaused_ = isPaused; }
 
 };

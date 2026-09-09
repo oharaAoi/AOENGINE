@@ -85,9 +85,23 @@
         "introDescendEaseKind": 2,
         "introDescendHeight": 12.0,
         "introDescendTime": 0.5600000023841858,
-        "phaseChangeEffectDelay": 0.4000000059604645,
+        "phaseChangeAnimationDelay": 0.7900000214576721,
+        "phaseChangeBossZDistance": 69.5,
+        "phaseChangeCameraOffset": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 48.599998474121094
+        },
+        "phaseChangeEffectDelay": 1.2699999809265137,
+        "phaseChangeEndWait": 0.3499999940395355,
+        "phaseChangeReturnDelay": 2.890000104904175,
+        "phaseChangeReturnEaseKind": 10,
+        "phaseChangeReturnTime": 0.47999998927116394,
         "phaseChangeScaleRate": 0.25,
-        "phaseChangeTime": 1.2000000476837158,
+        "phaseChangeStartWait": 0.38999998569488525,
+        "phaseChangeTime": 1.6200000047683716,
+        "phaseChangeZoomEaseKind": 10,
+        "phaseChangeZoomTime": 0.5,
         "phaseSwitchRatio": [
             0.5,
             0.0

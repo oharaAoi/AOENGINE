@@ -50,8 +50,25 @@ struct BossParameter :
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
 	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか
 	// アニメーションを再生してから、エフェクトを出すまでの秒数
+	// 演出が始まってからアニメーションを流すまでの秒数
+	float phaseChangeAnimationDelay = 0.0f;
 	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
+
+	// フェーズ切り替えの間、プレイヤーを止めてカメラを寄せる演出
+	float phaseChangeStartWait = 0.2f;		// 止めてからカメラを寄せ始めるまで
+	float phaseChangeZoomTime = 0.5f;		// 寄せるのにかける時間
+	int32_t phaseChangeZoomEaseKind = 10;	// 寄せる時のイージング(OutSine)
+	// カメラをどれだけ動かすか。zを増やすとボスへ寄る
+	Math::Vector3 phaseChangeCameraOffset{ 0.0f, 0.0f, 6.0f };
+	// 演出中に置きたい、カメラからボスまでの奥行きの距離。
+	// 小さくするほどボスが手前に来て大きく見える。既定は通常時と同じ距離
+	float phaseChangeBossZDistance = 42.8f;
+	// カメラを戻し始める時刻。他の待ち時間と同じく、演出が始まってからの秒数で見る
+	float phaseChangeReturnDelay = 1.5f;
+	float phaseChangeReturnTime = 0.5f;		// 戻すのにかける時間
+	int32_t phaseChangeReturnEaseKind = 10;	// 戻す時のイージング
+	float phaseChangeEndWait = 0.2f;		// 戻しきってから再開するまで
 
 	// --- 攻撃1: 火球落とし ---
 	float fireballDamage;		// 火球が当たった時のダメージ
@@ -138,6 +155,14 @@ struct BossParameter :
 		AddParameter("Hit Size", hitSize, 0.1f);
 
 		AddSeparatorText("Phase");
+		AddParameter("Phase Change Start Wait", phaseChangeStartWait, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Zoom Time", phaseChangeZoomTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Camera Offset", phaseChangeCameraOffset, 0.1f);
+		AddParameter("Phase Change Boss Z Distance", phaseChangeBossZDistance, 0.1f, 0.1f, 1000.0f);
+		AddParameter("Phase Change Return Delay", phaseChangeReturnDelay, 0.01f, 0.0f, 30.0f);
+		AddParameter("Phase Change Return Time", phaseChangeReturnTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change End Wait", phaseChangeEndWait, 0.01f, 0.0f, 10.0f);
+
 		AddParameter("Phase Switch Ratio 0", phaseSwitchRatio[0], 0.01f, 0.0f, 1.0f);
 		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
 		AddParameter("Unlock Phase: FallFire", fallFireUnlockPhase, 1.0f, 0.0f, 10.0f);
@@ -145,6 +170,7 @@ struct BossParameter :
 		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Phase Change Time", phaseChangeTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Phase Change Scale Rate", phaseChangeScaleRate, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Animation Delay", phaseChangeAnimationDelay, 0.01f, 0.0f, 30.0f);
 		AddParameter("Phase Change Effect Delay", phaseChangeEffectDelay, 0.01f, 0.0f, 30.0f);
 
 		AddSeparatorText("Attack1: FallFire");
@@ -240,6 +266,16 @@ struct BossParameter :
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("phaseChangeTime", phaseChangeTime)
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
+			.Add("phaseChangeStartWait", phaseChangeStartWait)
+			.Add("phaseChangeZoomTime", phaseChangeZoomTime)
+			.Add("phaseChangeZoomEaseKind", phaseChangeZoomEaseKind)
+			.Add("phaseChangeCameraOffset", phaseChangeCameraOffset)
+			.Add("phaseChangeBossZDistance", phaseChangeBossZDistance)
+			.Add("phaseChangeReturnDelay", phaseChangeReturnDelay)
+			.Add("phaseChangeReturnTime", phaseChangeReturnTime)
+			.Add("phaseChangeReturnEaseKind", phaseChangeReturnEaseKind)
+			.Add("phaseChangeEndWait", phaseChangeEndWait)
+			.Add("phaseChangeAnimationDelay", phaseChangeAnimationDelay)
 			.Add("phaseChangeEffectDelay", phaseChangeEffectDelay)
 			.Add("damageEffectTime", damageEffectTime)
 			.Add("hitStopTime", hitStopTime)
@@ -307,6 +343,16 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
 		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
+		Convert::fromJson(jsonData, "phaseChangeStartWait", phaseChangeStartWait);
+		Convert::fromJson(jsonData, "phaseChangeZoomTime", phaseChangeZoomTime);
+		Convert::fromJson(jsonData, "phaseChangeZoomEaseKind", phaseChangeZoomEaseKind);
+		Convert::fromJson(jsonData, "phaseChangeCameraOffset", phaseChangeCameraOffset);
+		Convert::fromJson(jsonData, "phaseChangeBossZDistance", phaseChangeBossZDistance);
+		Convert::fromJson(jsonData, "phaseChangeReturnDelay", phaseChangeReturnDelay);
+		Convert::fromJson(jsonData, "phaseChangeReturnTime", phaseChangeReturnTime);
+		Convert::fromJson(jsonData, "phaseChangeReturnEaseKind", phaseChangeReturnEaseKind);
+		Convert::fromJson(jsonData, "phaseChangeEndWait", phaseChangeEndWait);
+		Convert::fromJson(jsonData, "phaseChangeAnimationDelay", phaseChangeAnimationDelay);
 		Convert::fromJson(jsonData, "phaseChangeEffectDelay", phaseChangeEffectDelay);
 		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
 		Convert::fromJson(jsonData, "hitStopTime", hitStopTime);

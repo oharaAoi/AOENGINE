@@ -45,6 +45,8 @@ void Boss::Init(BaseGameObject* body) {
 	isDefeatFinished_ = false;
 	damagedCount_ = 0;
 	hitStopTimer_ = 0.0f;
+	isPhaseChanging_ = false;
+	worldZOffset_ = 0.0f;
 	GameTimer::SetTimeScale(1.0f);
 	attackEffectRemaining_ = 0;
 	attackEffectTimer_ = 0.0f;
@@ -105,7 +107,8 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 	}
 
 	// スクリーン座標上の固定位置に見えるワールド座標を求める
-	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
+	const ScreenWorldPlaneAnchor::Params anchorParams{
+		parameter_.screenPos, parameter_.worldZ + worldZOffset_ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
 
 	// 被弾の色と揺れを進める
@@ -534,6 +537,8 @@ void Boss::Debug_Gui() {
 	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
 	Math::SelectEasing(parameter_.introDescendEaseKind, "IntroDescend");
 	Math::SelectEasing(parameter_.attackPulseEaseKind, "AttackPulse");
+	Math::SelectEasing(parameter_.phaseChangeZoomEaseKind, "PhaseChangeZoomIn");
+	Math::SelectEasing(parameter_.phaseChangeReturnEaseKind, "PhaseChangeZoomOut");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
@@ -636,4 +641,18 @@ void Boss::ShakeCamera(const CameraShakeRequest& request) {
 	}
 	// 揺れ方の中身はリクエスト側に任せ、ここは再生を頼むだけ
 	pCamera_->PlayShake(request);
+}
+
+void Boss::SetCameraExtraOffset(const Math::Vector3& offset) {
+	if (pCamera_ == nullptr) {
+		return;
+	}
+	pCamera_->SetExtraOffset(offset);
+}
+
+Math::Vector3 Boss::GetCameraWorldPosition() const {
+	if (pCamera_ == nullptr) {
+		return CVector3::ZERO;
+	}
+	return pCamera_->GetWorldPosition();
 }
