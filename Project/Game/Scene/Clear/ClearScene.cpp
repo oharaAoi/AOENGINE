@@ -17,6 +17,7 @@ void ClearScene::Finalize(){
 void ClearScene::Init(){
 	// BGM再生
 	bgmHandle_ = Engine::GetSoundManager()->Play("GameClearBGM");
+	transition_ = std::make_unique<SceneTransition>();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,6 +26,7 @@ void ClearScene::Init(){
 
 void ClearScene::OnPlayStart(){
 	clearUI_.Init();
+	transition_->Init();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
