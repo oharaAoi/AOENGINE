@@ -61,6 +61,11 @@ void TutorialScene::OnPlayStart() {
 
 void TutorialScene::Update() {
 
+	// 被弾のヒットストップを進める。ここで解除しないと止まったままになる
+	if (boss_) {
+		boss_->UpdateHitStop();
+	}
+
 	const float deltaTime = GameTimer::DeltaTime();
 
 	// リトライやクリア判定は挟まず、アクターだけを進める

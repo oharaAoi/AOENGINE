@@ -143,6 +143,11 @@ void GameScene::OnPlayStart()
 
 void GameScene::Update()
 {
+	// 被弾のヒットストップは、この後どこでreturnしても必ず解除されるよう先に進める
+	if (boss_) {
+		boss_->UpdateHitStop();
+	}
+
 	// ココにPlayerが生存しているかどうかを渡す
 	if (RetrySelect(player_->IsAlive())) {
 		return;

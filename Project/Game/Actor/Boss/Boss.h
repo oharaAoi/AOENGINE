@@ -71,6 +71,9 @@ private:
 	/// <summary>被弾の演出に渡す調整値をまとめる</summary>
 	BossDamageEffect::Params MakeDamageEffectParams() const;
 
+	/// <summary>見た目だけずらす量。的のモデルは原点の位置が違うので、その分を吸収する</summary>
+	Math::Vector3 CalcViewOffset() const;
+
 	/// <summary>降下を進めて、定位置からのずらし量を更新する</summary>
 	void UpdateIntroDescend(float deltaTime);
 
@@ -90,6 +93,11 @@ public:
 
 	// ダメージを受ける
 	void Damage(float amount);
+
+	/// <summary>
+	/// 被弾のヒットストップを進める。
+	/// </summary>
+	void UpdateHitStop();
 
 private:
 	// bossBehavior
@@ -140,6 +148,9 @@ private:
 
 	// 被弾を受け付けた回数。ダメージ量やHPの残りに左右されずに
 	uint32_t damagedCount_ = 0;
+
+	// ヒットストップの残り時間
+	float hitStopTimer_ = 0.0f;
 
 	// 自分のCollider category名
 	const std::string kColliderTag = "Boss";
