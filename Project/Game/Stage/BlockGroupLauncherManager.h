@@ -40,6 +40,17 @@ public:
 	void Launch();
 
 	/// <summary>
+	/// 打ち上げたブロックの狙い先(ボス)を全ランチャーへ伝える。毎フレーム呼ぶ想定
+	/// </summary>
+	/// <param name="position">狙い先のワールド座標</param>
+	void SetTarget(const Math::Vector3& position);
+
+	/// <summary>
+	/// 狙い先を外す。ボスが居なくなった時などに呼ぶ
+	/// </summary>
+	void ClearTarget();
+
+	/// <summary>
 	/// 全ランチャーを更新する
 	/// </summary>
 	void Update(float deltaTime);
@@ -70,6 +81,10 @@ public:
 private:
 
 	std::vector<BlockGroupLauncher> launchers_;	// 使い回すランチャーのプール
+
+	// 狙い先(ボス)。後から増やしたランチャーにも渡せるように覚えておく
+	Math::Vector3 targetPosition_{};
+	bool hasTarget_ = false;
 
 	StageBlockField* pField_ = nullptr;	// 非所有
 

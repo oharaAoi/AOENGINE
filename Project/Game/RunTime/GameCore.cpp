@@ -1,6 +1,7 @@
 #include "GameCore.h"
 #include "Engine/Core/Engine.h"
 #include "Game/Stage/StageFactory.h"
+#include "Game/Path/LineLoader.h"
 
 GameCore::~GameCore(){}
 
@@ -23,6 +24,9 @@ void GameCore::Init(){
 	StageFactory& stageFactory = StageFactory::GetInstance();
 	stageFactory.LoadSegmentsFromFolder("./Project/Assets/Game/StageData/Random");
 	stageFactory.LoadStartSegment("./Project/Assets/Game/StageData/Start/start.csv");
+
+	// line ファイルの読み込み
+	LineLoader::GetInstance()->Load("./Project/Assets/Game/GameData/JsonItems/Path/","RocketPath");
 
 	// シーンの初期化
 	sceneManager_ = std::make_unique<AOENGINE::SceneManager>();

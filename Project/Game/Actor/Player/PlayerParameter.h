@@ -38,6 +38,14 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float launchSpeed = 20.0f;	  // 打ち上げの初速
 	float launchAccel = 20.0f;	  // 打ち上げ中の加速度
 	float launchLifeTime = 3.0f;  // 打ち上げてから制御を手放すまでの時間
+	float launchMaxSpeed = 0.0f;  // 打ち上げ中の速さの上限(0で上限なし)
+	// 打ち上げた塊がボスへ経路を向け直す速さ(0で即座に向く)。
+	// カメラの揺れでボスのワールド座標が揺れるため、小さいほど落ち着いた軌道になる
+	float launchHomingRate = 8.0f;
+	// 打ち上げた塊を進む向きへ傾ける速さ(0で即座に向く)
+	float launchRotateRate = 10.0f;
+	// 打ち上げで辿るLine(LineLoaderが読み込んだもの)の名前。空ならまっすぐ上へ打ち上げる
+	std::string launchLineName = "";
 	float gatherBlockSize = 1.0f;		// 集合中の押し戻し判定に使うブロック1個の大きさ
 	float gatherSeparationSpeed = 8.0f;	// 集合中にグループ同士が押し戻しで離れていく速さ
 
@@ -101,6 +109,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		AddParameter("Launch Speed",launchSpeed,0.1f,0.0f,100.0f);
 		AddParameter("Launch Accel",launchAccel,0.1f,0.0f,100.0f);
 		AddParameter("Launch Life Time",launchLifeTime,0.01f,0.0f,10.0f);
+		AddParameter("Launch Max Speed",launchMaxSpeed,0.1f,0.0f,500.0f);
+		AddParameter("Launch Homing Rate",launchHomingRate,0.1f,0.0f,100.0f);
+		AddParameter("Launch Rotate Rate",launchRotateRate,0.1f,0.0f,100.0f);
+		AddParameter("Launch Line Name",launchLineName);
 		AddParameter("Gather Block Size",gatherBlockSize,0.01f,0.0f,10.0f);
 		AddParameter("Gather Separation Speed",gatherSeparationSpeed,0.1f,0.0f,100.0f);
 
@@ -151,6 +163,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 			.Add("launchSpeed", launchSpeed)
 			.Add("launchAccel", launchAccel)
 			.Add("launchLifeTime", launchLifeTime)
+			.Add("launchMaxSpeed", launchMaxSpeed)
+			.Add("launchHomingRate", launchHomingRate)
+			.Add("launchRotateRate", launchRotateRate)
+			.Add("launchLineName", launchLineName)
 			.Add("gatherBlockSize", gatherBlockSize)
 			.Add("gatherSeparationSpeed", gatherSeparationSpeed)
 			.Add("maxHp", maxHp)
@@ -196,6 +212,10 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 		Convert::fromJson(jsonData, "launchSpeed", launchSpeed);
 		Convert::fromJson(jsonData, "launchAccel", launchAccel);
 		Convert::fromJson(jsonData, "launchLifeTime", launchLifeTime);
+		Convert::fromJson(jsonData, "launchMaxSpeed", launchMaxSpeed);
+		Convert::fromJson(jsonData, "launchHomingRate", launchHomingRate);
+		Convert::fromJson(jsonData, "launchRotateRate", launchRotateRate);
+		Convert::fromJson(jsonData, "launchLineName", launchLineName);
 		Convert::fromJson(jsonData, "gatherBlockSize", gatherBlockSize);
 		Convert::fromJson(jsonData, "gatherSeparationSpeed", gatherSeparationSpeed);
 		Convert::fromJson(jsonData, "maxHp", maxHp);

@@ -2,14 +2,17 @@
 
 /// stl
 #include <memory>
+#include <string>
 #include <vector>
 
 /// engine
 #include "Engine/Lib/Math/Vector3.h"
+#include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/WorldTransform.h"
 
 /// game
 #include "Game/Effect/EffectObjectGroup.h"
+#include "Game/Path/LinePathMover.h"
 
 class Block;
 class StageBlockField;
@@ -24,7 +27,11 @@ namespace AOENGINE{
 
 /// <summary>
 /// 接続されたブロックグループを、接続した順に次のブロックへ最短距離で渡らせて1箇所に集め、
-/// 上へ打ち上げるクラス。
+/// 打ち上げるクラス。
+/// 打ち上げ後は LinePathMover で経路上を進ませる。Line が指定されていればその形を辿り、
+/// 指定が無ければ真上へ伸びる直線を辿る(今まで通りまっすぐ上へ上がる)。
+/// 狙い先(ボス)が渡されている場合は、始点を固定したまま経路全体を狙い先へ向け直し続けるため、
+/// 経路の形を保ったまま必ず狙い先へ届く。
 /// 動き出すのは最初に接続したグループだけで、後ろのグループは1つ前のグループが自分に触れるまで
 /// 接続地点で待つ。玉突きのように順番に動き出し、そのまま数珠つなぎで集合地点へ向かう。
 /// ブロックの所有権は持たない(所有権は StageBlockField 側にある)。
@@ -42,6 +49,12 @@ public:
 		float launchLifeTime;	// 打ち上げてから制御を手放すまでの時間
 		float blockSize;		// 押し戻し判定に使うブロック1個の大きさ
 		float separationSpeed;	// 押し戻しでグループ同士が離れていく速さ
+		float launchMaxSpeed = 0.0f;	// 打ち上げ中の速さの上限(0以下なら上限なし)
+		float launchHomingRate = 0.0f;	// 狙い先へ経路を寄せる速さ(0以下なら即座に寄せる)
+		float launchRotateRate = 0.0f;	// 進む向きへ塊を傾ける速さ(0以下なら即座に向く)
+		// 打ち上げで辿る Line(LineLoader が読み込んだもの)の名前。
+		// 空、または読み込まれていない場合は真上へ伸びる直線を辿る
+		std::string launchLineName;
 	};
 
 	/// <summary>集合させるグループ1つ分の指定</summary>
@@ -81,12 +94,24 @@ public:
 	void BeginGather(const GatherRequest& request,const Params& params);
 
 	/// <summary>
-	/// 集めたブロックを上へ打ち上げる
+	/// 集めたブロックを打ち上げる。集合しきった位置を始点にした経路を組み立て、その上を進ませる
 	/// </summary>
 	void Launch();
 
 	/// <summary>
-	/// 更新。集合中は経路上を、打ち上げ中は上方向へブロックを動かす
+	/// 打ち上げの狙い先(ボス)を伝える。打ち上げた時に狙い先を持っていた場合、
+	/// 経路の終点がここへ追従し続けるため必ず狙い先へ届く
+	/// </summary>
+	/// <param name="position">狙い先のワールド座標</param>
+	void SetTarget(const Math::Vector3& position);
+
+	/// <summary>
+	/// 狙い先を外す。飛んでいる最中に外した場合は、その時に向いていた先へそのまま飛んでいく
+	/// </summary>
+	void ClearTarget();
+
+	/// <summary>
+	/// 更新。集合中は集合の経路上を、打ち上げ中は打ち上げの経路上へブロックを動かす
 	/// </summary>
 	void Update(float deltaTime);
 
@@ -133,6 +158,8 @@ private:
 		Math::Vector3 basePoint{};			// 経路上の現在位置(押し戻す前の位置)
 		Math::Vector3 separation{};			// 他のグループから押し戻された分のずらし量
 		Math::Vector3 rootOffset{};			// 打ち上げ用の座標系(launchRoot_)の原点から見たグループの位置
+		// 打ち上げた時点の各ブロックの向き。塊ごと進む向きへ回すため、この向きに回転を掛けて使う
+		std::vector<Math::Quaternion> launchRotates;
 		bool isMoving = false;				// 経路上を動き出しているか(待機中は接続地点から動かない)
 		float releaseProgress = 0.0f;		// 1つ前のグループがこの距離まで進んだら動き出す(塊同士が触れる位置)
 	};
@@ -168,12 +195,63 @@ private:
 	/// 座標系の原点は噴射位置に置き、各グループはそこからの相対位置として保持し直す
 	/// </summary>
 	void BuildLaunchRoot();
-	/// <summary>打ち上げ中の更新。座標系ごと上へ動かし、ブロックをそれに追従させる</summary>
+	/// <summary>
+	/// 打ち上げで辿る経路を LinePathMover へ渡す。
+	/// 打ち上げの初速・加速度はそのまま経路上を進む速さとして使う
+	/// </summary>
+	/// <param name="startPos">経路の始点(集合しきった塊の噴射位置)</param>
+	void BuildLaunchPath(const Math::Vector3& startPos);
+	/// <summary>
+	/// 打ち上げで辿る座標を作る。Line が指定されていればその形を、
+	/// 無ければ真上へ伸びる直線を、startPos が始点に来るように平行移動して返す
+	/// </summary>
+	/// <param name="startPos">経路の始点</param>
+	std::vector<Math::Vector3> MakeLaunchPoints(const Math::Vector3& startPos) const;
+	/// <summary>打ち上げ中の更新。座標系を経路上の位置へ動かし、ブロックをそれに追従させる</summary>
 	void UpdateLaunched(float deltaTime);
+	/// <summary>
+	/// 向けている先を狙い先へ寄せる。カメラの揺れがそのまま経路へ乗らないように少しずつ寄せ、
+	/// 終点に近づくほど強く寄せて、着く時には必ず狙い先と一致させる
+	/// </summary>
+	void UpdateLaunchAim(float deltaTime);
+	/// <summary>
+	/// 経路上の座標を、狙い先へ向け直した後の座標へ変換する。
+	/// 始点を固定したまま、経路の終点が今向けている先に来るように回して伸ばす(相似変換)
+	/// </summary>
+	/// <param name="pathPosition">経路上の座標</param>
+	Math::Vector3 ApplyLaunchAim(const Math::Vector3& pathPosition) const;
+	/// <summary>
+	/// 今の進む向きを求める。経路の少し先を見て、狙い先へ向け直した後の座標の差から求める
+	/// </summary>
+	/// <param name="rootPos">今の座標系の位置(向け直した後)</param>
+	/// <returns>進む向き(単位ベクトル)。求められない場合は今の向きをそのまま返す</returns>
+	Math::Vector3 CalclateLaunchDirection(const Math::Vector3& rootPos) const;
+	/// <summary>
+	/// 塊を進む向きへ傾ける回転を進める。打ち上げた瞬間に倒れると不自然なため、少しずつ向ける
+	/// </summary>
+	void UpdateLaunchRotate(float deltaTime);
+	/// <summary>
+	/// 経路の終点を持っていきたい位置。ブロックの塊の中心が狙い先へ来るように、
+	/// 座標系の原点から見た塊の中心のぶんだけずらして返す
+	/// </summary>
+	Math::Vector3 GetAimGoal() const;
 	/// <summary>持っているブロックを全て破棄して制御を手放す。ボスに当たった時に呼ぶ</summary>
 	void DestroyBlocks();
-	/// <summary>基準位置に合わせてグループのブロックを動かす</summary>
-	void MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,float deltaTime) const;
+	/// <summary>
+	/// 集合を始めた時に切った重力を戻す。
+	/// 狙い先へ着いたのに当たり判定が入らなかった時、空中で止まって見えないようにするための保険
+	/// </summary>
+	void ReleaseBlocksWithGravity();
+	/// <summary>
+	/// 基準位置に合わせてグループのブロックを動かす。
+	/// rotate を渡すと、基準位置からの相対位置とブロックの向きの両方をその分だけ回す
+	/// </summary>
+	/// <param name="group">動かすグループ</param>
+	/// <param name="basePoint">基準位置</param>
+	/// <param name="rotate">塊ごと回す回転(集合中は回さないので単位回転)</param>
+	/// <param name="deltaTime">経過時間</param>
+	void MoveGroup(const GatheringGroup& group,const Math::Vector3& basePoint,
+				   const Math::Quaternion& rotate,float deltaTime) const;
 	/// <summary>
 	/// グループが経路上を動き出した時の処理。
 	/// そのグループのコンボ表示を消し始め、集めた数へこのグループの分を足し込む。
@@ -214,6 +292,11 @@ private:
 										const Math::Vector3& approachDirection,float blockSize);
 	/// <summary>ブロックのワールド座標を取得する</summary>
 	static Math::Vector3 GetBlockPosition(const Block* block);
+	/// <summary>
+	/// baseDirection から aimDirection へ向ける回転。
+	/// ほぼ同じ向き / 真逆の時に計算が壊れないようにする
+	/// </summary>
+	static Math::Quaternion MakeAimRotation(const Math::Vector3& baseDirection,const Math::Vector3& aimDirection);
 	/// <summary>ぴったり重なった時に逃がす向き。集合地点の周りへ均等に配る</summary>
 	static Math::Vector3 MakeFallbackDirection(size_t index,size_t groupCount);
 	/// <summary>グループに属するブロックの中心(平均位置)を求める</summary>
@@ -234,8 +317,32 @@ private:
 
 	std::vector<GatheringGroup> groups_;	// 集合・打ち上げの対象
 
-	float launchVelocityY_ = 0.0f;	// 現在の打ち上げ速度
+	// 打ち上げ中に辿る経路。集合しきった位置を始点にして、その上を加速しながら進む
+	LinePathMover launchMover_;
+
 	float launchTimer_ = 0.0f;		// 制御を手放すまでの残り時間
+	// 終点へ着いてから制御を手放すまでの残り時間。
+	// 着いた瞬間に手放すと、当たり判定が入る前にランチャーから切り離されてダメージが乗らない
+	float arrivalTimer_ = 0.0f;
+
+	// 狙い先(ボス)のワールド座標。飛んでいる最中も外から毎フレーム更新される
+	Math::Vector3 targetPosition_{};
+	bool hasTarget_ = false;
+
+	// 打ち上げた時に組み立てた経路の始点と終点。狙い先へ向け直す変換の基準に使う
+	Math::Vector3 launchPathStart_{};
+	Math::Vector3 launchPathEnd_{};
+	// 今向けている先。狙い先へ少しずつ寄せていく
+	Math::Vector3 aimPosition_{};
+	// 座標系の原点から見た塊の中心。中心が狙い先へ来るように向けるのに使う
+	Math::Vector3 launchCenterOffset_{};
+	// 打ち上げた時に狙い先を持っていたか。持っていた場合は寿命で打ち切らず、必ず狙い先まで飛ばす
+	bool isHoming_ = false;
+
+	// 今の進む向き。塊と演出をこの向きへ向ける(打ち上げ前は真上)
+	Math::Vector3 launchDirection_ = CVector3::UP;
+	// 塊全体(ブロック・座標系・演出)に掛ける回転。真上を向いた状態から進む向きへ傾けていく
+	Math::Quaternion launchRotate_{};
 
 	bool isBossHit_ = false;		// ボスに当たったか(次の Update() でブロックを破棄する)
 
