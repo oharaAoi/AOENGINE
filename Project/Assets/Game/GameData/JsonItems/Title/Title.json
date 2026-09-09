@@ -1,6 +1,33 @@
 {
     "environment": {
-        "cameras": {},
+        "cameras": {
+            "camera3d": {
+                "rotate": [
+                    0.0,
+                    0.0,
+                    0.0,
+                    0.9999999403953552
+                ],
+                "translate": [
+                    0.0,
+                    0.0,
+                    -28.5
+                ]
+            },
+            "debugCamera": {
+                "rotate": [
+                    0.2164396196603775,
+                    0.0,
+                    0.0,
+                    0.9762960076332092
+                ],
+                "translate": [
+                    0.0,
+                    4.0,
+                    -8.0
+                ]
+            }
+        },
         "postProcess": {
             "effects": [
                 {
@@ -254,7 +281,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_60",
+                "texture": "__Text_1",
                 "textureSize": [
                     280.0,
                     84.0
@@ -323,7 +350,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_59",
+                "texture": "__Text_2",
                 "textureSize": [
                     176.0,
                     84.0
@@ -489,7 +516,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_58",
+                "texture": "__Text_3",
                 "textureSize": [
                     145.0,
                     84.0
