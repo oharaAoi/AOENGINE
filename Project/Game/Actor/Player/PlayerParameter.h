@@ -57,6 +57,8 @@ struct PlayerParameter : public AOENGINE::CustomParameterSet,
 	float invincibleTime = 1.0f;			// 被弾後の無敵時間(秒)
 	float invincibleBlinkInterval = 0.08f;	// 無敵中の点滅の間隔(秒)
 
+	float pinchHp = 5.f;		// ピンチ表示をするパラメータ
+
 	// 見た目基準サイズ
 	Math::Vector3 baseScale{ 0.4f, 0.4f, 0.4f };
     // ヒットサイズ
