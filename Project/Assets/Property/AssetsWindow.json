@@ -1,10 +1,10 @@
 {
     "currentPath": {
-        "path": "Project\\Assets\\Game\\Prefabs"
+        "path": "Project\\Assets\\Game\\GameData\\JsonItems\\Effect\\CPU"
     },
     "openDir": {
         "./Assets": false,
-        "./Project/Assets": false,
+        "./Project/Assets": true,
         "./Project/Assets\\Converter": false,
         "./Project/Assets\\Converter\\ConvertedDDS": true,
         "./Project/Assets\\Engine": true,
@@ -37,7 +37,7 @@
         "./Project/Assets\\Game\\Load": true,
         "./Project/Assets\\Game\\Load\\Models": true,
         "./Project/Assets\\Game\\Load\\Models\\BackGround": false,
-        "./Project/Assets\\Game\\Load\\Models\\Effects": false,
+        "./Project/Assets\\Game\\Load\\Models\\Effects": true,
         "./Project/Assets\\Game\\Load\\Models\\Player": true,
         "./Project/Assets\\Game\\Load\\Models\\blocks": false,
         "./Project/Assets\\Game\\Load\\Sounds": false,

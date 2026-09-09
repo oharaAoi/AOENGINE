@@ -233,10 +233,11 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		followCamera_->Update();
 	}
 
-	// 背景
-	if (backgrounds_)
+	// 背景。カメラの位置も渡して、画面に対する見え方を固定する
+	if (backgrounds_ && followCamera_)
 	{
-		backgrounds_->Update(&stageBlockField_, player_->GetPosition());
+		backgrounds_->Update(&stageBlockField_, player_->GetPosition(),
+			followCamera_->GetWorldPosition());
 	}
 
 	// ボスの更新

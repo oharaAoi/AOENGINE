@@ -60,7 +60,8 @@ public: // public method
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update(StageBlockField* field, const Math::Vector3& playerPos);
+	void Update(StageBlockField* field, const Math::Vector3& playerPos,
+		const Math::Vector3& cameraPos);
 
 private: // private method
 
@@ -80,6 +81,11 @@ private: // private method
 	void CreateBackground();
 
 	/// <summary>
+	/// 背景モデルをカメラについていかせる。画面の中での見え方を変えないためのもの
+	/// </summary>
+	void FollowCamera(const Math::Vector3& cameraPos);
+
+	/// <summary>
 	/// 段を1つ生成する
 	/// </summary>
 	void CreateSegment(StageBlockField* field);
@@ -94,6 +100,13 @@ private: // private variables
 	int backgroundIndex_ = -1;
 	/// 最後に生成した段の番号
 	int segmentIndex_ = -1;
+
+	/// 背景モデルとカメラの位置の差。最初のフレームで覚えて、以降はこれを保つ
+	Math::Vector3 cameraOffset_{};
+	bool hasCameraOffset_ = false;
+
+	/// シーンに置かれている背景モデルの名前
+	const std::string kBackgroundName = "background";
 
 };
 
