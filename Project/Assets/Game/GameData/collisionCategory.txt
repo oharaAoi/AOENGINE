@@ -6,3 +6,4 @@ LaunchedBlock
 Boss
 DamageFloor
 GatheredBlock
+Beam

@@ -8,7 +8,7 @@
                 "components": [
                     {
                         "active": true,
-                        "category": "Default",
+                        "category": "Beam",
                         "collisionMask": [
                             "Player"
                         ],
@@ -76,7 +76,7 @@
                         "iblScale": 0.5,
                         "pipeline": "Object_NormalCut.json",
                         "shaderGraphAsset": "Project/Assets/Game/ShaderGraph/laser.json",
-                        "shaderType": 0,
+                        "shaderType": 1,
                         "shininess": 100.0,
                         "slot": 0,
                         "type": "Normal",
