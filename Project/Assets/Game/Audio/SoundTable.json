@@ -14,7 +14,7 @@
       "loop": false,
       "maxInstances": 3,
       "name": "PlayerJump",
-      "volume": 0.14000000059604645
+      "volume": 1.0
     },
     {
       "category": "SE",
@@ -22,7 +22,7 @@
       "loop": false,
       "maxInstances": 3,
       "name": "PlayerLand",
-      "volume": 0.14000000059604645
+      "volume": 1.0
     },
     {
       "category": "SE",
@@ -30,7 +30,7 @@
       "loop": false,
       "maxInstances": 3,
       "name": "PlayerDamaged",
-      "volume": 1.0
+      "volume": 0.7400000095367432
     },
     {
       "category": "SE",
@@ -54,7 +54,7 @@
       "loop": true,
       "maxInstances": 4,
       "name": "BeamAim",
-      "volume": 1.0
+      "volume": 0.8199999928474426
     },
     {
       "category": "SE",
@@ -62,7 +62,7 @@
       "loop": false,
       "maxInstances": 4,
       "name": "BeamShot",
-      "volume": 1.0
+      "volume": 0.5600000023841858
     },
     {
       "category": "SE",
@@ -78,7 +78,7 @@
       "loop": false,
       "maxInstances": 4,
       "name": "StopperBlocksCollision",
-      "volume": 1.0
+      "volume": 0.5400000214576721
     },
     {
       "category": "SE",
@@ -90,11 +90,11 @@
     },
     {
       "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
+      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerDamageFloorCollision.mp3",
       "loop": false,
       "maxInstances": 2,
       "name": "PlayerDamageFloorCollision",
-      "volume": 1.0
+      "volume": 0.7400000095367432
     },
     {
       "category": "SE",
@@ -110,7 +110,7 @@
       "loop": false,
       "maxInstances": 8,
       "name": "GatherBlocks",
-      "volume": 1.0
+      "volume": 0.699999988079071
     },
     {
       "category": "SE",
@@ -118,15 +118,7 @@
       "loop": false,
       "maxInstances": 2,
       "name": "LaunchBlocks",
-      "volume": 1.0
-    },
-    {
-      "category": "SE",
-      "file": "Assets/Game/Load/Sounds/Effects/Player/PlayerJump.mp3",
-      "loop": false,
-      "maxInstances": 2,
-      "name": "LauncherBossCollision",
-      "volume": 1.0
+      "volume": 0.6800000071525574
     },
     {
       "category": "SE",
