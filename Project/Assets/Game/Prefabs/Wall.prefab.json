@@ -30,8 +30,7 @@
                         "active": true,
                         "category": "Wall",
                         "collisionMask": [
-                            "Player",
-                            "Fireball"
+                            "Player"
                         ],
                         "localPosition": [
                             0.0,
