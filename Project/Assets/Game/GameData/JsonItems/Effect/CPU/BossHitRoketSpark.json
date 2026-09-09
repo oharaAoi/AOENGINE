@@ -61,7 +61,7 @@
         "maxLifeTime": 2.0,
         "maxParticles": 512,
         "maxScale": {
-            "x": 4.0,
+            "x": 8.0,
             "y": 1.0,
             "z": 1.0
         },
@@ -73,7 +73,7 @@
         },
         "minLifeTime": 1.0,
         "minScale": {
-            "x": 1.0,
+            "x": 2.0,
             "y": 1.0,
             "z": 1.0
         },

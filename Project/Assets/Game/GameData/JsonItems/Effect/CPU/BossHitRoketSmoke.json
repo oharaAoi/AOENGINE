@@ -42,13 +42,13 @@
         "isTextureSheetAnimation": false,
         "isUvScroll": false,
         "lifeOfMaxScale": {
-            "x": 6.0,
-            "y": 4.0,
+            "x": 9.0,
+            "y": 7.0,
             "z": 10.0
         },
         "lifeOfMinScale": {
-            "x": 3.0,
-            "y": 3.0,
+            "x": 5.0,
+            "y": 5.0,
             "z": 3.0
         },
         "lifeTime": 0.4000000059604645,
