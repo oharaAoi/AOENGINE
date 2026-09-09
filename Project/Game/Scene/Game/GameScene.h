@@ -65,6 +65,11 @@ protected:
 	void UpdateActors(float deltaTime, bool isStandby = false);
 
 	/// <summary>
+	/// スクロール位置を示す線を、判定と同じ高さへ置き直す。
+	/// </summary>
+	void UpdateScrollLine();
+
+	/// <summary>
 	/// 開始前のカウントダウンを流すシーンか。
 	/// チュートリアルのように、始まりの演出が要らないシーンでは false にする
 	/// </summary>

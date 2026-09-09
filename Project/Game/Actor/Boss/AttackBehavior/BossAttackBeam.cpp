@@ -42,14 +42,28 @@ BossAttackBeam::BossAttackBeam() {
 
 void BossAttackBeam::UpdateWarningPhase(Boss& boss, float deltaTime) {
 
+	const BossParameter& param = boss.GetParameter();
+
+	// アニメーションと予測線は、どちらも1回ぶんの始まりからの経過時間で出す。
+	// 待ちの大小を入れ替えれば、構えてから警告にも、警告してから構えにもできる
+	if (!hasStartedAnimation_ && phaseTimer_ >= param.beamAnimationDelay) {
+		hasStartedAnimation_ = true;
+	}
+
+	if (!hasSpawnedWarning_ && phaseTimer_ >= param.beamWarningDelay) {
+		SpawnWarning(boss);
+		warningSound_ = Engine::GetSoundManager()->Play("BeamAim");
+		hasSpawnedWarning_ = true;
+	}
+
 	UpdateWarning(boss, deltaTime);
 
-	// 予測線の時間が終わったら、ビームのアニメーションへ移る
-	if (phaseTimer_ < boss.GetParameter().beamWarningTime) {
+	// 予測線を見せる時間は、それが出てからで数える
+	if (phaseTimer_ < param.beamWarningDelay + param.beamWarningTime) {
 		return;
 	}
 
-	// ここからアニメーションが attack2 に変わる。待ちも数え直す
+	// ビームを出すまでの待ちを数え直す
 	ResetStartDelay();
 	ChangePhase(Phase::Windup);
 }
@@ -97,8 +111,7 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 		return;
 	}
 
-	// まだ残っていれば次の予測線を出す。アニメーションは待機へ戻る
-	SpawnWarning(boss);
+	// まだ残っていれば次の回へ。予測線もアニメーションもWarningの更新が出し直す
 	ChangePhase(Phase::Warning);
 }
 
@@ -108,15 +121,12 @@ void BossAttackBeam::UpdateBeamPhase(Boss& boss, float deltaTime) {
 
 void BossAttackBeam::Enter(Boss& boss) {
 
-	// 初期化
+	(void)boss;
+
+	// 初期化。アニメーションも予測線も、待ちが明けてからWarningの更新が出す
 	firedCount_ = 0;
 	isFinished_ = false;
 	ChangePhase(Phase::Warning);
-
-	// 1回目の予測線を出す。アニメーションはビームの直前に流す
-	SpawnWarning(boss);
-	warningSound_ = Engine::GetSoundManager()->Play("BeamAim");
-
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -150,6 +160,12 @@ void BossAttackBeam::Update(Boss& boss, float deltaTime) {
 void BossAttackBeam::ChangePhase(Phase next) {
 	phase_ = next;
 	phaseTimer_ = 0.0f;
+
+	// 1回ぶんの始まり。アニメーションと予測線を出し直す
+	if (next == Phase::Warning) {
+		hasStartedAnimation_ = false;
+		hasSpawnedWarning_ = false;
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

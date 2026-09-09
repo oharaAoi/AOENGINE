@@ -28,6 +28,8 @@ void FollowCamera::Init() {
 	cameraTargetY_ = 0.0f;
 	initialized_ = false;
 	isScrolling_ = false;
+	extraOffset_ = CVector3::ZERO;
+	isFollowPaused_ = false;
 
 	// ターゲット決定
 	ResolveTarget();
@@ -43,12 +45,12 @@ void FollowCamera::Update() {
 	if (!target_) {
 		ResolveTarget();
 	}
-	// 追従
-	if (target_) {
+	// 追従。演出で止めている間は動かさない
+	if (target_ && !isFollowPaused_) {
 		FollowTarget(deltaTime);
 	}
-	// transform適用(追従ターゲット位置+普通のオフセット)
-	transform_.translate = smoothedTarget_ + parameter_.offset;
+	// transform適用(追従ターゲット位置+普通のオフセット+演出のずらし)
+	transform_.translate = smoothedTarget_ + parameter_.offset + extraOffset_;
 
 	// 少し見下ろす向きに固定
 	transform_.rotate = Math::Quaternion::AngleAxis(parameter_.pitch * kToRadian, CVector3::RIGHT);

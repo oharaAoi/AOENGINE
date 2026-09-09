@@ -42,9 +42,9 @@
         "isTextureSheetAnimation": false,
         "isUvScroll": true,
         "lifeOfMaxScale": {
-            "x": 20.0,
-            "y": 20.0,
-            "z": 20.0
+            "x": 90.0,
+            "y": 90.0,
+            "z": 90.0
         },
         "lifeOfMinScale": {
             "x": 0.0,

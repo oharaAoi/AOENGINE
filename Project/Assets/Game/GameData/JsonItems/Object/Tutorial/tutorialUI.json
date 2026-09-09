@@ -20,15 +20,15 @@
         },
         "buttonEaseKind": 17,
         "buttonKeyboardOffset0_0": {
-            "x": -207.0,
-            "y": -22.0
+            "x": -398.0,
+            "y": -26.0
         },
         "buttonKeyboardOffset0_1": {
-            "x": -132.0,
-            "y": -22.0
+            "x": -324.0,
+            "y": -26.0
         },
         "buttonKeyboardOffset0_2": {
-            "x": -173.0,
+            "x": -357.0,
             "y": 36.0
         },
         "buttonKeyboardOffset1_0": {
@@ -146,7 +146,7 @@
         "buttonTime": 0.25,
         "checkEaseKind": 17,
         "checkOffset0": {
-            "x": 245.0,
+            "x": 369.0,
             "y": -31.0
         },
         "checkOffset1": {
@@ -193,7 +193,7 @@
         },
         "guideTime": 0.25,
         "moveJumpCheckOffset": {
-            "x": 245.0,
+            "x": 375.0,
             "y": 39.0
         },
         "nextBoxOffset": {

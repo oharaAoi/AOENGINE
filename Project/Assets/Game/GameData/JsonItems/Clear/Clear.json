@@ -364,7 +364,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -382,7 +382,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "retry",
+                "text": "もういちど",
                 "textAnchor": [
                     0.5,
                     0.5
@@ -400,7 +400,7 @@
                 ],
                 "translate": [
                     953.3560791015625,
-                    665.5454711914063,
+                    665.5454711914062,
                     1.0
                 ]
             },
@@ -433,7 +433,7 @@
                 ],
                 "flipX": false,
                 "flipY": false,
-                "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
+                "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
                 "fontSize": 64.0,
                 "isBackGround": false,
                 "leftTop": [
@@ -451,7 +451,7 @@
                     1.0,
                     1.0
                 ],
-                "text": "exit",
+                "text": "おわる",
                 "textAnchor": [
                     0.5,
                     0.5

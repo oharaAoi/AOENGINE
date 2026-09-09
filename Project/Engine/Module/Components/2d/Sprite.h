@@ -187,7 +187,8 @@ public: // constructor
 	Sprite();
 	virtual ~Sprite();
 	void Init() override { Init("white.png"); }
-	ScenePersistence GetScenePersistence() const override { return ScenePersistence::SceneData; }
+	ScenePersistence GetScenePersistence() const override { return scenePersistence_; }
+	void SetScenePersistence(ScenePersistence persistence) { scenePersistence_ = persistence; }
 	const char* GetSceneTypeName() const override { return "Sprite"; }
 
 public: // public method
@@ -338,6 +339,7 @@ public: // accessor
 
 private: // private variable
 	void UpdateVisual();
+	ScenePersistence scenePersistence_ = ScenePersistence::SceneData;
 
 	bool isBackGround_;
 	bool isFront_;

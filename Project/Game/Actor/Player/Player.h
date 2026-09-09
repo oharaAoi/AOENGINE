@@ -5,6 +5,9 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/PostEffect/Vignette.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
+
 #include <Module/Entity/Camera/Component/CameraShakeParameters.h>
 #include "Game/Actor/Player/PlayerParameter.h"
 #include "Game/Actor/Player/Component/PlayerAnimation.h"
@@ -128,6 +131,10 @@ private:
 	// 演出でスケールを動かす時の倍率。baseScaleに掛けて使う
 	Math::Vector3 scaleMultiplier_ = CVector3::UNIT;
 
+	// 待機に入った時の位置。止めている間はここへ固定し続ける
+	Math::Vector3 standbyPosition_{};
+	bool hasStandbyPosition_ = false;
+
 	// 被弾
 	float currentHp_ = 0.0f;			// 現在のHP
 	float invincibleTimer_ = 0.0f;		// 残りの無敵時間
@@ -145,6 +152,10 @@ private:
 
 	// ダメージ床にあたった際の追従エフェクト
 	AOENGINE::BaseParticles* buttFireEffect_;
+
+	std::shared_ptr<PostEffect::Vignette> vignette_;
+
+	AOENGINE::VectorTween<float> vignettePower_;
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }

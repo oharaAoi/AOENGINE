@@ -6,15 +6,15 @@
         },
         "color": {
             "a": 1.0,
-            "b": 1.0,
-            "g": 1.0,
-            "r": 1.0
+            "b": 0.0,
+            "g": 0.0,
+            "r": 0.0
         },
-        "fontPath": "./Project/Assets/Engine/Font/Cica-Regular.ttf",
-        "fontSize": 58.0,
+        "fontPath": "./Project/Assets/Engine/Font/Corporate-Logo-Bold-ver3.otf",
+        "fontSize": 64.0,
         "isActive": true,
-        "renderQueue": 102,
-        "text": "左スティックで移動\nAボタンでジャンプ",
+        "renderQueue": 0,
+        "text": "リトライ",
         "transform": {
             "rotate": {
                 "x": 0.0,
@@ -27,8 +27,8 @@
                 "z": 1.0
             },
             "translate": {
-                "x": 488.0,
-                "y": 550.1685180664063,
+                "x": 635.5707397460938,
+                "y": 474.9184875488281,
                 "z": 1.0
             }
         },

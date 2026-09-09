@@ -27,8 +27,15 @@ struct BossParameter :
 	Math::Vector3 baseScale{ 0.6f, 0.6f, 0.6f };
 	// チュートリアルの的として置く時の大きさ。別のモデルなので基準の大きさとは分ける
 	Math::Vector3 dummyScale{ 2.0f, 2.0f, 2.0f };
-	// 的のモデルは原点の位置が違うので、見た目だけずらして位置を合わせる
-	Math::Vector3 dummyOffset{ 0.0f, -4.0f, 0.0f };
+	// 的のモデルは原点の位置が違うので、見た目だけずらして位置を合わせる。
+	// モデルの大きさで指定する(dummyScaleが掛かる)ので、大きさを変えても足元がずれない。
+	// yは足元を画面上の位置に合わせる値。scarecrowは原点の0.464下が足元
+	Math::Vector3 dummyOffset{ 0.0f, 0.464f, 0.0f };
+
+	// 的をずっと左右に揺らす
+	float dummySwayAngle = 10.0f;		// 中心から左右へ何度傾けるか
+	float dummySwayTime = 2.0f;			// 左端から右端へ戻るまでの往復時間
+	int32_t dummySwayEaseKind = 20;		// InOutSine。端で溜めが出る
 	Math::Vector3 hitSize{ 2.0f, 2.0f, 2.0f };
 
 	// フェーズが切り替わる残HPの割合。高い順に並べる
@@ -50,8 +57,25 @@ struct BossParameter :
 	float phaseChangeTime = 1.2f;		// 切り替え演出の長さ
 	float phaseChangeScaleRate = 0.25f;	// どれだけ膨らむか
 	// アニメーションを再生してから、エフェクトを出すまでの秒数
+	// 演出が始まってからアニメーションを流すまでの秒数
+	float phaseChangeAnimationDelay = 0.0f;
 	float phaseChangeEffectDelay = 0.4f;
 	CameraShakeRequest phaseChangeShake;
+
+	// フェーズ切り替えの間、プレイヤーを止めてカメラを寄せる演出
+	float phaseChangeStartWait = 0.2f;		// 止めてからカメラを寄せ始めるまで
+	float phaseChangeZoomTime = 0.5f;		// 寄せるのにかける時間
+	int32_t phaseChangeZoomEaseKind = 10;	// 寄せる時のイージング(OutSine)
+	// カメラをどれだけ動かすか。zを増やすとボスへ寄る
+	Math::Vector3 phaseChangeCameraOffset{ 0.0f, 0.0f, 6.0f };
+	// 演出中に置きたい、カメラからボスまでの奥行きの距離。
+	// 小さくするほどボスが手前に来て大きく見える。既定は通常時と同じ距離
+	float phaseChangeBossZDistance = 42.8f;
+	// カメラを戻し始める時刻。他の待ち時間と同じく、演出が始まってからの秒数で見る
+	float phaseChangeReturnDelay = 1.5f;
+	float phaseChangeReturnTime = 0.5f;		// 戻すのにかける時間
+	int32_t phaseChangeReturnEaseKind = 10;	// 戻す時のイージング
+	float phaseChangeEndWait = 0.2f;		// 戻しきってから再開するまで
 
 	// --- 攻撃1: 火球落とし ---
 	float fireballDamage;		// 火球が当たった時のダメージ
@@ -67,7 +91,12 @@ struct BossParameter :
 
 	// --- 攻撃2: ビーム ---
 	float beamDamage;				// ビームが当たった時のダメージ
-	float beamStartDelay = 0.5f;			// アニメーション再生から予測線を出すまでの秒数
+	float beamStartDelay = 0.5f;			// 構えてからビームを出すまでの秒数
+	// 1回ぶんの始まりから、構えのアニメーションを流すまでの秒数
+	float beamAnimationDelay = 0.0f;
+	// 1回ぶんの始まりから、予測線を出すまでの秒数。
+	// アニメーションより後にすると、構えてから警告が出る
+	float beamWarningDelay = 0.4f;
 	int32_t beamCount;					// ビーム回数
 	float beamWarningTime;			// 予測線秒数
 	float beamTime;					// ビーム秒数
@@ -135,9 +164,19 @@ struct BossParameter :
 		AddParameter("Base Scale", baseScale, 0.01f);
 		AddParameter("Dummy Scale", dummyScale, 0.01f);
 		AddParameter("Dummy Offset", dummyOffset, 0.01f);
+		AddParameter("Dummy Sway Angle(deg)", dummySwayAngle, 0.1f, 0.0f, 180.0f);
+		AddParameter("Dummy Sway Time", dummySwayTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Hit Size", hitSize, 0.1f);
 
 		AddSeparatorText("Phase");
+		AddParameter("Phase Change Start Wait", phaseChangeStartWait, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Zoom Time", phaseChangeZoomTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Camera Offset", phaseChangeCameraOffset, 0.1f);
+		AddParameter("Phase Change Boss Z Distance", phaseChangeBossZDistance, 0.1f, 0.1f, 1000.0f);
+		AddParameter("Phase Change Return Delay", phaseChangeReturnDelay, 0.01f, 0.0f, 30.0f);
+		AddParameter("Phase Change Return Time", phaseChangeReturnTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change End Wait", phaseChangeEndWait, 0.01f, 0.0f, 10.0f);
+
 		AddParameter("Phase Switch Ratio 0", phaseSwitchRatio[0], 0.01f, 0.0f, 1.0f);
 		AddParameter("Phase Switch Ratio 1", phaseSwitchRatio[1], 0.01f, 0.0f, 1.0f);
 		AddParameter("Unlock Phase: FallFire", fallFireUnlockPhase, 1.0f, 0.0f, 10.0f);
@@ -145,6 +184,7 @@ struct BossParameter :
 		AddParameter("Unlock Phase: Stopper", stopperUnlockPhase, 1.0f, 0.0f, 10.0f);
 		AddParameter("Phase Change Time", phaseChangeTime, 0.01f, 0.0f, 60.0f);
 		AddParameter("Phase Change Scale Rate", phaseChangeScaleRate, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Animation Delay", phaseChangeAnimationDelay, 0.01f, 0.0f, 30.0f);
 		AddParameter("Phase Change Effect Delay", phaseChangeEffectDelay, 0.01f, 0.0f, 30.0f);
 
 		AddSeparatorText("Attack1: FallFire");
@@ -160,6 +200,8 @@ struct BossParameter :
 		AddSeparatorText("Attack2: Beam");
 		AddParameter("Beam Damage", beamDamage, 0.1f, 0.0f, 1000.0f);
 		AddParameter("Beam Start Delay", beamStartDelay, 0.01f, 0.0f, 60.0f);
+		AddParameter("Beam Animation Delay", beamAnimationDelay, 0.01f, 0.0f, 60.0f);
+		AddParameter("Beam Warning Delay", beamWarningDelay, 0.01f, 0.0f, 60.0f);
 		AddParameter("Beam Count", beamCount, 1.0f, 0.0f, 100.0f);
 		AddParameter("Beam Warning Time", beamWarningTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Beam Time", beamTime, 0.01f, 0.0f, 10.0f);
@@ -233,6 +275,9 @@ struct BossParameter :
 			.Add("baseScale", baseScale)
 			.Add("dummyScale", dummyScale)
 			.Add("dummyOffset", dummyOffset)
+			.Add("dummySwayAngle", dummySwayAngle)
+			.Add("dummySwayTime", dummySwayTime)
+			.Add("dummySwayEaseKind", dummySwayEaseKind)
 			.Add("hitSize", hitSize)
 			.Add("phaseSwitchRatio", json(phaseSwitchRatio))
 			.Add("fallFireUnlockPhase", fallFireUnlockPhase)
@@ -240,6 +285,16 @@ struct BossParameter :
 			.Add("stopperUnlockPhase", stopperUnlockPhase)
 			.Add("phaseChangeTime", phaseChangeTime)
 			.Add("phaseChangeScaleRate", phaseChangeScaleRate)
+			.Add("phaseChangeStartWait", phaseChangeStartWait)
+			.Add("phaseChangeZoomTime", phaseChangeZoomTime)
+			.Add("phaseChangeZoomEaseKind", phaseChangeZoomEaseKind)
+			.Add("phaseChangeCameraOffset", phaseChangeCameraOffset)
+			.Add("phaseChangeBossZDistance", phaseChangeBossZDistance)
+			.Add("phaseChangeReturnDelay", phaseChangeReturnDelay)
+			.Add("phaseChangeReturnTime", phaseChangeReturnTime)
+			.Add("phaseChangeReturnEaseKind", phaseChangeReturnEaseKind)
+			.Add("phaseChangeEndWait", phaseChangeEndWait)
+			.Add("phaseChangeAnimationDelay", phaseChangeAnimationDelay)
 			.Add("phaseChangeEffectDelay", phaseChangeEffectDelay)
 			.Add("damageEffectTime", damageEffectTime)
 			.Add("hitStopTime", hitStopTime)
@@ -256,6 +311,8 @@ struct BossParameter :
 			.Add("fireballFallEaseKind", fireballFallEaseKind)
 			.Add("beamDamage", beamDamage)
 			.Add("beamStartDelay", beamStartDelay)
+			.Add("beamAnimationDelay", beamAnimationDelay)
+			.Add("beamWarningDelay", beamWarningDelay)
 			.Add("beamCount", beamCount)
 			.Add("beamWarningTime", beamWarningTime)
 			.Add("beamTime", beamTime)
@@ -300,6 +357,9 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "baseScale", baseScale);
 		Convert::fromJson(jsonData, "dummyScale", dummyScale);
 		Convert::fromJson(jsonData, "dummyOffset", dummyOffset);
+		Convert::fromJson(jsonData, "dummySwayAngle", dummySwayAngle);
+		Convert::fromJson(jsonData, "dummySwayTime", dummySwayTime);
+		Convert::fromJson(jsonData, "dummySwayEaseKind", dummySwayEaseKind);
 		Convert::fromJson(jsonData, "hitSize", hitSize);
 
 		Convert::fromJson(jsonData, "fallFireUnlockPhase", fallFireUnlockPhase);
@@ -307,6 +367,16 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "stopperUnlockPhase", stopperUnlockPhase);
 		Convert::fromJson(jsonData, "phaseChangeTime", phaseChangeTime);
 		Convert::fromJson(jsonData, "phaseChangeScaleRate", phaseChangeScaleRate);
+		Convert::fromJson(jsonData, "phaseChangeStartWait", phaseChangeStartWait);
+		Convert::fromJson(jsonData, "phaseChangeZoomTime", phaseChangeZoomTime);
+		Convert::fromJson(jsonData, "phaseChangeZoomEaseKind", phaseChangeZoomEaseKind);
+		Convert::fromJson(jsonData, "phaseChangeCameraOffset", phaseChangeCameraOffset);
+		Convert::fromJson(jsonData, "phaseChangeBossZDistance", phaseChangeBossZDistance);
+		Convert::fromJson(jsonData, "phaseChangeReturnDelay", phaseChangeReturnDelay);
+		Convert::fromJson(jsonData, "phaseChangeReturnTime", phaseChangeReturnTime);
+		Convert::fromJson(jsonData, "phaseChangeReturnEaseKind", phaseChangeReturnEaseKind);
+		Convert::fromJson(jsonData, "phaseChangeEndWait", phaseChangeEndWait);
+		Convert::fromJson(jsonData, "phaseChangeAnimationDelay", phaseChangeAnimationDelay);
 		Convert::fromJson(jsonData, "phaseChangeEffectDelay", phaseChangeEffectDelay);
 		Convert::fromJson(jsonData, "damageEffectTime", damageEffectTime);
 		Convert::fromJson(jsonData, "hitStopTime", hitStopTime);
@@ -325,6 +395,8 @@ struct BossParameter :
 
 		Convert::fromJson(jsonData, "beamDamage", beamDamage);
 		Convert::fromJson(jsonData, "beamStartDelay", beamStartDelay);
+		Convert::fromJson(jsonData, "beamAnimationDelay", beamAnimationDelay);
+		Convert::fromJson(jsonData, "beamWarningDelay", beamWarningDelay);
 		Convert::fromJson(jsonData, "beamCount", beamCount);
 		Convert::fromJson(jsonData, "beamWarningTime", beamWarningTime);
 		Convert::fromJson(jsonData, "beamTime", beamTime);

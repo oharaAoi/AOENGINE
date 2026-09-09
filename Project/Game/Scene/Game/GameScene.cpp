@@ -6,6 +6,7 @@
 #include "Engine/Core/Engine.h"
 #include "Engine/Render/Render.h"
 #include "Engine/Module/Components/GameObject/BaseGameObject.h"
+#include "Engine/Module/Components/2d/Sprite.h"
 #include "Engine/Utilities/SceneObjectFinder.h"
 #include "Engine/System/Manager/PrefabManager.h"
 #include "Engine/System/Editor/Window/EditorWindows.h"
@@ -19,11 +20,15 @@
 #include "Game/Camera/FollowCamera.h"
 #include "Game/WorldObject/Block.h"
 
-namespace {
+namespace
+{
 	// イントロを早送りする入力。ジャンプと同じものを流用する
 	const uint8_t kIntroFastForwardKey = DIK_SPACE;
 
 	const std::string kBgmTag = "GameBGM";
+
+	// スクロール位置を示す線の、シーン上での名前
+	const std::string kScrollLineName = "ScrollLine";
 	const std::string kGameOverBgmTag = "GameOverBGM";
 }
 
@@ -62,7 +67,7 @@ void GameScene::Init()
 	followCamera_ = std::make_unique<FollowCamera>();
 
 	boss_ = std::make_unique<Boss>();
-	
+
 	// 背景
 	backgrounds_ = std::make_unique<StageBackgrounds>();
 	// ダメージ床
@@ -107,7 +112,8 @@ void GameScene::OnPlayStart()
 
 	// 前回の生成物を片付けてから、背景と最初の段をまとめて用意する
 	ClearStage();
-	if (backgrounds_) {
+	if (backgrounds_)
+	{
 		backgrounds_->Init(&stageBlockField_);
 	}
 
@@ -123,17 +129,19 @@ void GameScene::OnPlayStart()
 	controlUI_->Init();
 
 	// カウントダウンを頭から流す。要らないシーンでは中身も作らない
-	if (UseIntro()) {
+	if (UseIntro())
+	{
 		introUI_.Init();
 		introUI_.Start();
 
 		// ボスは定位置の上から降りてくるところから始める
-		if (boss_) {
+		if (boss_)
+		{
 			boss_->StartIntroDescend();
 		}
 	}
 
-	//auto sound = Engine::GetSoundManager()->Play("Sound");
+	// auto sound = Engine::GetSoundManager()->Play("Sound");
 	bgmHandle_ = Engine::GetSoundManager()->Play(kBgmTag);
 }
 
@@ -144,17 +152,20 @@ void GameScene::OnPlayStart()
 void GameScene::Update()
 {
 	// 被弾のヒットストップは、この後どこでreturnしても必ず解除されるよう先に進める
-	if (boss_) {
+	if (boss_)
+	{
 		boss_->UpdateHitStop();
 	}
 
 	// ココにPlayerが生存しているかどうかを渡す
-	if (RetrySelect(player_->IsAlive())) {
+	if (RetrySelect(player_->IsAlive()))
+	{
 		return;
 	}
 
 	// ボスを倒しきって撃破演出まで終わったらクリアへ
-	if (boss_ && boss_->IsDefeatFinished()) {
+	if (boss_ && boss_->IsDefeatFinished())
+	{
 		nextSceneType_ = SceneType::Clear;
 		Engine::GetSoundManager()->Play("GameClearEffect");
 		return;
@@ -225,10 +236,16 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// プレイヤー
 	if (player_)
 	{
+		// フェーズ切り替えの演出中も、カウントダウン中と同じように動きを止める
+		const bool isPlayerStandby = isStandby || (boss_ && boss_->IsPhaseChanging());
+
 		// 待機中は入力も物理も進めず、見た目だけ合わせる
-		if (isStandby) {
+		if (isPlayerStandby)
+		{
 			player_->UpdateStandby(deltaTime);
-		} else {
+		}
+		else
+		{
 			player_->Update();
 		}
 	}
@@ -236,6 +253,8 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// フォローカメラ
 	if (followCamera_)
 	{
+		// フェーズ切り替え中は寄せた分で画面上の高さが変わる。
+		followCamera_->SetFollowPaused(boss_ && boss_->IsPhaseChanging());
 		followCamera_->Update();
 	}
 
@@ -243,7 +262,7 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	if (backgrounds_ && followCamera_)
 	{
 		backgrounds_->Update(&stageBlockField_, player_->GetPosition(),
-			followCamera_->GetWorldPosition());
+							 followCamera_->GetWorldPosition());
 	}
 
 	// ボスの更新
@@ -253,21 +272,30 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 
 		// 待機中は行動を進めず、画面上の位置合わせだけ通す
-		if (isStandby) {
+		if (isStandby)
+		{
 			boss_->UpdateStandby(viewProjection, deltaTime);
-		} else {
+		}
+		else
+		{
 			boss_->Update(viewProjection);
 		}
 	}
+
+	// スクロール位置の目印を、判定と同じ高さへ合わせる
+	UpdateScrollLine();
 
 	// 打ち上げたブロックの狙い先をボスに合わせる。
 	// ボスは画面上の固定位置に居るため、狙い先を追いかけている間は経路が画面内に収まる
 	if (player_ && boss_)
 	{
-		BlockGroupLauncherManager* launcherManager = player_->GetBlockGroupLauncherManagerRef();
-		if (boss_->IsValid() && !boss_->IsDefeated()) {
+		BlockGroupLauncherManager *launcherManager = player_->GetBlockGroupLauncherManagerRef();
+		if (boss_->IsValid() && !boss_->IsDefeated())
+		{
 			launcherManager->SetTarget(boss_->GetPosition());
-		} else {
+		}
+		else
+		{
 			launcherManager->ClearTarget();
 		}
 	}
@@ -277,14 +305,16 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 	// ボスの有無に関わらずゲーム用カメラ(FollowCamera)の行列を直接渡す
 	if (player_ && followCamera_)
 	{
-		BlockGroupLauncherManager* launcherManager = player_->GetBlockGroupLauncherManagerRef();
+		BlockGroupLauncherManager *launcherManager = player_->GetBlockGroupLauncherManagerRef();
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
 		launcherManager->SetScreenViewProjection(viewProjection);
 	}
 
-	// ダメージ床の更新
-	if (damageFloor_ && followCamera_)
+	// ダメージ床の更新。
+	// フェーズ切り替え中はカメラが寄るので、床は付いていかせずその場に残す
+	const bool isPhaseChanging = boss_ && boss_->IsPhaseChanging();
+	if (damageFloor_ && followCamera_ && !isPhaseChanging)
 	{
 		const Math::Matrix4x4 viewProjection =
 			followCamera_->GetViewMatrix() * followCamera_->GetProjectionMatrix();
@@ -302,7 +332,8 @@ void GameScene::UpdateActors(float deltaTime, bool isStandby)
 		bossUI_->Update(boss_.get());
 	}
 
-	if (controlUI_) {
+	if (controlUI_)
+	{
 		controlUI_->Update();
 	}
 }
@@ -366,7 +397,8 @@ void GameScene::Draw() const
 void GameScene::ClearStage()
 {
 	// ブロックの実体を破棄するため、先に参照しているものを手放させる
-	if (player_) {
+	if (player_)
+	{
 		player_->ResetStageReferences();
 	}
 	playerBlockCallBacks_.ClearBlocks();
@@ -374,14 +406,47 @@ void GameScene::ClearStage()
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
+// スクロール位置の目印
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+void GameScene::UpdateScrollLine()
+{
+	if (!followCamera_)
+	{
+		return;
+	}
+
+	AOENGINE::Sprite *line = FindSceneObject<AOENGINE::Sprite>(kScrollLineName);
+	if (line == nullptr)
+	{
+		return;
+	}
+
+	// スクロールの判定は NDC で見ているので、同じ式で画面の高さへ直す
+	const float ndcY = followCamera_->GetScrollTriggerScreenY() * 2.0f - 1.0f;
+
+	// スプライトの座標はキャンバス基準。実解像度ではなくそちらの高さを使う
+	const float canvasHeight = line->GetResizeReferenceSize().y;
+
+	Math::Vector2 position = line->GetTranslate();
+	position.y = (1.0f - ndcY) * 0.5f * canvasHeight + followCamera_->GetScrollLineOffsetY();
+	line->SetTranslate(position);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
 // リトライの処理
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-bool GameScene::RetrySelect(bool isPlayerAlive) {
-	if (isPlayerAlive) { return false; }
+bool GameScene::RetrySelect(bool isPlayerAlive)
+{
+	if (isPlayerAlive)
+	{
+		return false;
+	}
 
-	auto* soundManager = Engine::GetSoundManager();
-	if(!soundManager->IsPlaying(gameOverBgmHandle_)){
+	auto *soundManager = Engine::GetSoundManager();
+	if (!soundManager->IsPlaying(gameOverBgmHandle_))
+	{
 		gameOverBgmHandle_ = soundManager->Play(kGameOverBgmTag);
 		soundManager->Play("GameOverEffect");
 		soundManager->Stop(bgmHandle_);
@@ -389,9 +454,12 @@ bool GameScene::RetrySelect(bool isPlayerAlive) {
 
 	// リトライの際の処理
 	RetryItem currentItem = retryUI_->Update(isPlayerAlive);
-	if (currentItem == RetryItem::Retry) {
+	if (currentItem == RetryItem::Retry)
+	{
 		nextSceneType_ = SceneType::Game;
-	} else if (currentItem == RetryItem::Title) {
+	}
+	else if (currentItem == RetryItem::Title)
+	{
 		nextSceneType_ = SceneType::Title;
 	}
 	return true;

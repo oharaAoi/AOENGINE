@@ -1,0 +1,80 @@
+{
+    "ScrollLine": {
+        "anchorPoint": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "arcRange": 6.2831854820251465,
+        "center": {
+            "x": 0.5,
+            "y": 0.5
+        },
+        "clockwise": 0,
+        "color": {
+            "a": 1.0,
+            "b": 1.0,
+            "g": 1.0,
+            "r": 1.0
+        },
+        "drawRange": {
+            "x": 1980.0,
+            "y": 100.0
+        },
+        "fillAmount": 1.0,
+        "fillMethod": 0,
+        "fillStartingPoint": 0,
+        "innerRadius": 0.0,
+        "isActive": true,
+        "isFlipX": false,
+        "isFlipY": false,
+        "leftTop": {
+            "x": 0.0,
+            "y": 0.0
+        },
+        "outerRadius": 0.0,
+        "psoName": "Sprite_Normal.json",
+        "renderQueue": 0,
+        "spriteSize": {
+            "x": 1980.0,
+            "y": 100.0
+        },
+        "startAngle": 0.0,
+        "textureName": "line",
+        "transform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 4.4535617860219645e-08,
+                "y": 1.406282194693631e-06,
+                "z": 1.0
+            },
+            "translate": {
+                "x": -5.985975349176442e-06,
+                "y": 3.970574107370339e-05,
+                "z": 1.0
+            }
+        },
+        "uvTransform": {
+            "rotate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "translate": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            }
+        },
+        "windowHeight": 1009,
+        "windowWidth": 1920
+    }
+}

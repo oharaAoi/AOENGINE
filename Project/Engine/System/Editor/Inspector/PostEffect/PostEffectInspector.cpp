@@ -61,10 +61,10 @@ void DrawGlitchNoise(PostEffect::GlitchNoise& effect) {
 void DrawVignette(PostEffect::Vignette& effect) {
 	auto& settings = effect.GetSettings();
 	ImGui::ColorEdit4("Color", &settings.color.r);
-	ImGui::DragFloat("Scale", &settings.scale, 0.1f, 0.0f, 20.0f);
-	ImGui::DragFloat("Power", &settings.power, 0.01f, 0.0f, 1.0f);
-	settings.scale = std::clamp(settings.scale, 0.0f, 20.0f);
-	settings.power = std::clamp(settings.power, 0.0f, 1.0f);
+	ImGui::DragFloat("Scale", &settings.scale, 0.1f, 0.0f, 100.0f);
+	ImGui::DragFloat("Power", &settings.power, 0.01f, 0.0f, 10.0f);
+	settings.scale = std::clamp(settings.scale, 0.0f, 100.0f);
+	settings.power = std::clamp(settings.power, 0.0f, 10.0f);
 }
 
 void DrawDissolve(PostEffect::Dissolve& effect) {

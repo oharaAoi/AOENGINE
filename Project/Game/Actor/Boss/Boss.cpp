@@ -45,6 +45,10 @@ void Boss::Init(BaseGameObject* body) {
 	isDefeatFinished_ = false;
 	damagedCount_ = 0;
 	hitStopTimer_ = 0.0f;
+	isPhaseChanging_ = false;
+	worldZOffset_ = 0.0f;
+	dummySwayTimer_ = 0.0f;
+	dummySwayRotate_ = 0.0f;
 	GameTimer::SetTimeScale(1.0f);
 	attackEffectRemaining_ = 0;
 	attackEffectTimer_ = 0.0f;
@@ -105,8 +109,12 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 	}
 
 	// スクリーン座標上の固定位置に見えるワールド座標を求める
-	const ScreenWorldPlaneAnchor::Params anchorParams{ parameter_.screenPos, parameter_.worldZ };
+	const ScreenWorldPlaneAnchor::Params anchorParams{
+		parameter_.screenPos, parameter_.worldZ + worldZOffset_ };
 	position_ = screenAnchor_.Solve(viewProjection, anchorParams);
+
+	// 的として置いている間の、左右の揺れを進める
+	UpdateDummySway(GameTimer::DeltaTime());
 
 	// 被弾の色と揺れを進める
 	damageEffect_.Update(GameTimer::DeltaTime(), GetGameObject(), MakeDamageEffectParams());
@@ -115,6 +123,7 @@ void Boss::Update(const Math::Matrix4x4& viewProjection) {
 	if (WorldTransform* transform = GetTransform()) {
 		transform->SetTranslate(position_ + damageEffect_.GetPositionOffset() + CalcViewOffset());
 	}
+	ApplyDummyRotate();
 
 	// 残っているエフェクトを間隔を空けて出す
 	UpdateAttackEffect(GameTimer::DeltaTime());
@@ -155,6 +164,7 @@ void Boss::UpdateStandby(const Math::Matrix4x4& viewProjection, float deltaTime)
 		transform->SetTranslate(
 			position_ + Math::Vector3(0.0f, introDescendOffsetY_, 0.0f) + CalcViewOffset());
 	}
+	ApplyDummyRotate();
 
 	UpdateScale();
 
@@ -350,7 +360,62 @@ Math::Vector3 Boss::CalcViewOffset() const {
 		return CVector3::ZERO;
 	}
 
-	return parameter_.dummyOffset;
+	// ずらしはモデルの大きさで持っているので、実際の大きさへ直してから足す。
+	// こうしておくとDummy Scaleを変えても足元の位置がずれない
+	return parameter_.dummyOffset * parameter_.dummyScale;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//  的の揺れ
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+void Boss::UpdateDummySway(float deltaTime) {
+
+	if (!isTrainingDummy_) {
+		dummySwayTimer_ = 0.0f;
+		dummySwayRotate_ = 0.0f;
+		return;
+	}
+
+	const float duration = parameter_.dummySwayTime;
+	if (duration <= 0.0f) {
+		dummySwayRotate_ = 0.0f;
+		return;
+	}
+
+	// 往復1周ぶん進んだら頭へ戻す
+	dummySwayTimer_ += deltaTime;
+	while (dummySwayTimer_ >= duration) {
+		dummySwayTimer_ -= duration;
+	}
+
+	// 前半で右へ、後半で左へ。折り返しは同じ進み具合を逆に辿る
+	float ratio = dummySwayTimer_ / duration * 2.0f;
+	if (ratio > 1.0f) {
+		ratio = 2.0f - ratio;
+	}
+
+	// 0で左へ倒れきり、1で右へ倒れきる
+	const float eased = Math::CallEasing(parameter_.dummySwayEaseKind, ratio);
+	const float degree = (eased * 2.0f - 1.0f) * parameter_.dummySwayAngle;
+
+	dummySwayRotate_ = degree * kToRadian;
+}
+
+void Boss::ApplyDummyRotate() const {
+
+	// 的でない時に触ると、シーンに置かれている向きを壊してしまう
+	if (!isTrainingDummy_) {
+		return;
+	}
+
+	WorldTransform* transform = GetTransform();
+	if (transform == nullptr) {
+		return;
+	}
+
+	// 奥行きを軸に倒すので、画面の中では左右に傾いて見える
+	transform->SetRotate(Math::Quaternion::AngleAxis(dummySwayRotate_, CVector3::FORWARD));
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -534,6 +599,9 @@ void Boss::Debug_Gui() {
 	Math::SelectEasing(parameter_.stopperEaseKind, "StopperFall");
 	Math::SelectEasing(parameter_.introDescendEaseKind, "IntroDescend");
 	Math::SelectEasing(parameter_.attackPulseEaseKind, "AttackPulse");
+	Math::SelectEasing(parameter_.phaseChangeZoomEaseKind, "PhaseChangeZoomIn");
+	Math::SelectEasing(parameter_.phaseChangeReturnEaseKind, "PhaseChangeZoomOut");
+	Math::SelectEasing(parameter_.dummySwayEaseKind, "DummySway");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");
@@ -636,4 +704,18 @@ void Boss::ShakeCamera(const CameraShakeRequest& request) {
 	}
 	// 揺れ方の中身はリクエスト側に任せ、ここは再生を頼むだけ
 	pCamera_->PlayShake(request);
+}
+
+void Boss::SetCameraExtraOffset(const Math::Vector3& offset) {
+	if (pCamera_ == nullptr) {
+		return;
+	}
+	pCamera_->SetExtraOffset(offset);
+}
+
+Math::Vector3 Boss::GetCameraWorldPosition() const {
+	if (pCamera_ == nullptr) {
+		return CVector3::ZERO;
+	}
+	return pCamera_->GetWorldPosition();
 }

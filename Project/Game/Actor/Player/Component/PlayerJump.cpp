@@ -50,14 +50,9 @@ PlayerJump::PlayerJump() {
 			return;
 		}
 
-		// 滞空中は高さを維持する
+		// 滞空中は高さを維持する。
+		// ここは入力で切れない。ジャンプが終わったら必ず滞空時間ぶん浮く
 		velocityY_ = 0.0f;
-
-		// 滞空の途中でジャンプ入力を離したら、時間を待たずに落下を始める
-		if (isPlayerJump_ && !isJumpHeld_) {
-			ChangeState(State::Falling);
-			return;
-		}
 
 		// ダメージ床で飛ばされた時は、自分のジャンプとは別の滞空時間で落とす
 		float hangLimit = params_.hangTime;
@@ -116,12 +111,12 @@ void PlayerJump::LeaveGround() {
 }
 
 void PlayerJump::HitCeiling() {
-	// 頭をぶつけたら上昇を打ち切る
-	if (state_ != State::Rising && state_ != State::Hanging) {
+	// 頭をぶつけたら上昇を打ち切って、頂点に着いた時と同じ滞空へ入れる
+	if (state_ != State::Rising) {
 		return;
 	}
-	velocityY_ = 0.0f;
-	ChangeState(State::Falling);
+	velocityY_ = -50.0f;
+	ChangeState(State::Hanging);
 }
 
 void PlayerJump::Knockback(float power) {
