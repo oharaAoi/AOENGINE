@@ -91,6 +91,10 @@
         "introDescendHeight": 12.0,
         "introDescendTime": 0.5600000023841858,
         "phaseChangeAnimationDelay": 0.7900000214576721,
+        "phaseChangeBlurEaseKind": 10,
+        "phaseChangeBlurInTime": 0.47999998927116394,
+        "phaseChangeBlurOutTime": 0.4699999988079071,
+        "phaseChangeBlurStrength": 0.9210000038146973,
         "phaseChangeBossZDistance": 233.8000030517578,
         "phaseChangeCameraOffset": {
             "x": 0.0,

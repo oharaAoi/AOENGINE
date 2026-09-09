@@ -602,6 +602,7 @@ void Boss::Debug_Gui() {
 	Math::SelectEasing(parameter_.phaseChangeZoomEaseKind, "PhaseChangeZoomIn");
 	Math::SelectEasing(parameter_.phaseChangeReturnEaseKind, "PhaseChangeZoomOut");
 	Math::SelectEasing(parameter_.dummySwayEaseKind, "DummySway");
+	Math::SelectEasing(parameter_.phaseChangeBlurEaseKind, "PhaseChangeBlur");
 
 	// 足止めが着地した時のカメラシェイク
 	ImGui::SeparatorText("Attack3: Stopper Land Shake");

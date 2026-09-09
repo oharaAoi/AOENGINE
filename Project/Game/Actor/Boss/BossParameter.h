@@ -73,6 +73,11 @@ struct BossParameter :
 	float phaseChangeBossZDistance = 42.8f;
 	// カメラを戻し始める時刻。他の待ち時間と同じく、演出が始まってからの秒数で見る
 	float phaseChangeReturnDelay = 1.5f;
+	// エフェクトを出した瞬間に一度だけ掛けるラジアルブラー
+	float phaseChangeBlurStrength = 0.02f;	// 一番強い時の強さ
+	float phaseChangeBlurInTime = 0.08f;	// 0から強さまで上げるのにかける時間
+	float phaseChangeBlurOutTime = 0.3f;	// 強さから0へ戻すのにかける時間
+	int32_t phaseChangeBlurEaseKind = 10;	// OutSine
 	float phaseChangeReturnTime = 0.5f;		// 戻すのにかける時間
 	int32_t phaseChangeReturnEaseKind = 10;	// 戻す時のイージング
 	float phaseChangeEndWait = 0.2f;		// 戻しきってから再開するまで
@@ -174,6 +179,9 @@ struct BossParameter :
 		AddParameter("Phase Change Camera Offset", phaseChangeCameraOffset, 0.1f);
 		AddParameter("Phase Change Boss Z Distance", phaseChangeBossZDistance, 0.1f, 0.1f, 1000.0f);
 		AddParameter("Phase Change Return Delay", phaseChangeReturnDelay, 0.01f, 0.0f, 30.0f);
+		AddParameter("Phase Change Blur Strength", phaseChangeBlurStrength, 0.001f, 0.0f, 1.0f);
+		AddParameter("Phase Change Blur In Time", phaseChangeBlurInTime, 0.01f, 0.0f, 10.0f);
+		AddParameter("Phase Change Blur Out Time", phaseChangeBlurOutTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Phase Change Return Time", phaseChangeReturnTime, 0.01f, 0.0f, 10.0f);
 		AddParameter("Phase Change End Wait", phaseChangeEndWait, 0.01f, 0.0f, 10.0f);
 
@@ -291,6 +299,10 @@ struct BossParameter :
 			.Add("phaseChangeCameraOffset", phaseChangeCameraOffset)
 			.Add("phaseChangeBossZDistance", phaseChangeBossZDistance)
 			.Add("phaseChangeReturnDelay", phaseChangeReturnDelay)
+			.Add("phaseChangeBlurStrength", phaseChangeBlurStrength)
+			.Add("phaseChangeBlurInTime", phaseChangeBlurInTime)
+			.Add("phaseChangeBlurOutTime", phaseChangeBlurOutTime)
+			.Add("phaseChangeBlurEaseKind", phaseChangeBlurEaseKind)
 			.Add("phaseChangeReturnTime", phaseChangeReturnTime)
 			.Add("phaseChangeReturnEaseKind", phaseChangeReturnEaseKind)
 			.Add("phaseChangeEndWait", phaseChangeEndWait)
@@ -373,6 +385,10 @@ struct BossParameter :
 		Convert::fromJson(jsonData, "phaseChangeCameraOffset", phaseChangeCameraOffset);
 		Convert::fromJson(jsonData, "phaseChangeBossZDistance", phaseChangeBossZDistance);
 		Convert::fromJson(jsonData, "phaseChangeReturnDelay", phaseChangeReturnDelay);
+		Convert::fromJson(jsonData, "phaseChangeBlurStrength", phaseChangeBlurStrength);
+		Convert::fromJson(jsonData, "phaseChangeBlurInTime", phaseChangeBlurInTime);
+		Convert::fromJson(jsonData, "phaseChangeBlurOutTime", phaseChangeBlurOutTime);
+		Convert::fromJson(jsonData, "phaseChangeBlurEaseKind", phaseChangeBlurEaseKind);
 		Convert::fromJson(jsonData, "phaseChangeReturnTime", phaseChangeReturnTime);
 		Convert::fromJson(jsonData, "phaseChangeReturnEaseKind", phaseChangeReturnEaseKind);
 		Convert::fromJson(jsonData, "phaseChangeEndWait", phaseChangeEndWait);

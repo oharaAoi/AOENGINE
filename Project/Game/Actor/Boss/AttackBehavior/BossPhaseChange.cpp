@@ -4,10 +4,18 @@
 #include <cmath>
 #include <numbers>
 
+#include "Engine/Core/Engine.h"
 #include "Engine/Lib/Math/Easing.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
+#include "Engine/Module/PostEffect/RadialBlur.h"
 #include <Core/Engine.h>
 #include <System/Audio/SoundManager.h>
 #include "Game/Actor/Boss/Boss.h"
+
+namespace {
+	// ラジアルブラーのサンプル数。演出中だけこの値にする
+	const uint32_t kBlurSampleCount = 4;
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  流れの割り当て
@@ -38,6 +46,7 @@ void BossPhaseChange::Enter(Boss& boss) {
 
 	step_ = Step::StartWait;
 	stepTimer_ = 0.0f;
+	blurTimer_ = 0.0f;
 
 	// 寄せる前のカメラの奥行きを基準にする
 	hasCamera_ = boss.HasCamera();
@@ -49,6 +58,7 @@ void BossPhaseChange::Enter(Boss& boss) {
 	// シーン側がこれを見てプレイヤーを止める
 	boss.SetPhaseChanging(true);
 
+	SetBlurEnable(true);
 	Apply(boss, 0.0f);
 
 	// 揺れもエフェクトも、アニメーションを見せてから一緒に出す
@@ -76,6 +86,9 @@ void BossPhaseChange::Update(Boss& boss, float deltaTime) {
 		Engine::GetSoundManager()->Play("BossPhaseChange");
 		hasPlayedEffect_ = true;
 	}
+
+	// ブラーはエフェクトに合わせて一度だけ掛ける
+	UpdateBlur(boss, deltaTime);
 
 	// 膨らんで戻る動きは、演出全体とは別の長さで進める
 	const float pulseDuration = param.phaseChangeTime;
@@ -122,6 +135,9 @@ void BossPhaseChange::Exit(Boss& boss) {
 
 	// カメラを寄せたままにすると戻らなくなるので、ここで必ず戻す
 	Apply(boss, 0.0f);
+
+	// 途中で切り替わってもブラーが残らないようにする
+	SetBlurEnable(false);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,6 +180,54 @@ void BossPhaseChange::Apply(Boss& boss, float ratio) const {
 
 	boss.SetCameraExtraOffset(param.phaseChangeCameraOffset * ratio);
 	boss.SetWorldZOffset(CalcWorldZOffset(boss, ratio));
+}
+
+void BossPhaseChange::UpdateBlur(const Boss& boss, float deltaTime) {
+
+	auto blur = Engine::GetPostProcess()->GetEffectAs<PostEffect::RadialBlur>(
+		PostEffectType::RadialBlur);
+	if (!blur) {
+		return;
+	}
+
+	// エフェクトが出るまでは掛けない
+	if (!hasPlayedEffect_) {
+		blur->SetStrength(0.0f);
+		return;
+	}
+
+	const BossParameter& param = boss.GetParameter();
+	blurTimer_ += deltaTime;
+
+	// 0から強さまで上げて、そのまま0へ戻す。長さが0でも壊れないようにしておく
+	float ratio = 0.0f;
+	if (blurTimer_ < param.phaseChangeBlurInTime) {
+		ratio = Math::CallEasing(
+			param.phaseChangeBlurEaseKind, blurTimer_ / param.phaseChangeBlurInTime);
+
+	} else if (param.phaseChangeBlurOutTime > 0.0f) {
+		const float outTimer = blurTimer_ - param.phaseChangeBlurInTime;
+		if (outTimer < param.phaseChangeBlurOutTime) {
+			ratio = 1.0f - Math::CallEasing(
+				param.phaseChangeBlurEaseKind, outTimer / param.phaseChangeBlurOutTime);
+		}
+	}
+
+	blur->SetStrength(param.phaseChangeBlurStrength * ratio);
+}
+
+void BossPhaseChange::SetBlurEnable(bool isEnable) const {
+
+	auto blur = Engine::GetPostProcess()->GetEffectAs<PostEffect::RadialBlur>(
+		PostEffectType::RadialBlur);
+	if (!blur) {
+		return;
+	}
+
+	blur->SetIsEnable(isEnable);
+
+	// サンプル数は毎フレーム保存設定から書き戻されるので、そちらへ入れる
+	blur->GetSettings().sampleCount = kBlurSampleCount;
 }
 
 float BossPhaseChange::CalcWorldZOffset(const Boss& boss, float ratio) const {

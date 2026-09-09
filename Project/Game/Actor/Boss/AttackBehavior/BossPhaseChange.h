@@ -53,6 +53,15 @@ private:
 	/// </summary>
 	float CalcWorldZOffset(const Boss& boss, float ratio) const;
 
+	/// <summary>
+	/// ラジアルブラーを進める。エフェクトが出た瞬間から
+	/// 0 → 強さ → 0 と一度だけ動かす
+	/// </summary>
+	void UpdateBlur(const Boss& boss, float deltaTime);
+
+	/// <summary>ブラーを使うか切り替える。終わったら必ず切る</summary>
+	void SetBlurEnable(bool isEnable) const;
+
 	// 流れごとのカメラの動かし方。stepUpdaters_ から呼ばれる
 	void UpdateZoomIn(Boss& boss, float ratio) const;
 	void UpdateZoomOut(Boss& boss, float ratio) const;
@@ -71,6 +80,9 @@ private:
 	// 今の流れと、その経過時間
 	Step step_ = Step::StartWait;
 	float stepTimer_ = 0.0f;
+
+	// エフェクトが出てからの経過時間。ブラーの進み具合に使う
+	float blurTimer_ = 0.0f;
 
 	// 演出を始めた時のカメラの奥行き。寄せる前を基準にしたいので覚えておく
 	float cameraBaseZ_ = 0.0f;
