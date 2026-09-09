@@ -14,6 +14,8 @@
 #include "Engine/Lib/Color.h"
 #include "Engine/Lib/Math/MyMath.h"
 #include "Engine/Render/Render.h"
+#include "Engine/Module/PostEffect/PostProcess.h"
+#include "Engine/Core/Engine.h"
 
 #include "Game/Stage/StageBlockField.h"
 #include "Game/WorldObject/Block.h"
@@ -69,6 +71,10 @@ void Player::Init(BaseGameObject* body){
 	// エフェクトを生成しておく
 	buttFireEffect_ = AOENGINE::ParticleManager::GetInstance()->CreateParticle("PlayerButtFire");
 	buttFireEffect_->SetIsStop(true);
+
+	// ビネットを取得しておく
+	vignette_ = Engine::GetPostProcess()->GetEffectAs<PostEffect::Vignette>(PostEffectType::Vignette);
+	vignettePower_.Init(0.f, 1.f, 1.5f, static_cast<int>(EasingType::In::Sine), LoopType::Return);
 
 	if(BaseGameObject* object = GetGameObject()){
 		// SceneやPrefabにRigidbodyが無い場合はここで用意する
@@ -166,6 +172,13 @@ void Player::Update(){
 	UpdateScale();
 	UpdateFacingRotate(deltaTime);
 	UpdateAnimation(deltaTime);
+
+	if (vignette_) {
+		if (vignette_->GetIsEnable()) {
+			vignettePower_.Update(AOENGINE::GameTimer::DeltaTime());
+			vignette_->SetPower(vignettePower_.GetValue());
+		}
+	}
 }
 
 
@@ -487,6 +500,16 @@ bool Player::TakeDamage(float amount){
 	// 音を鳴らす
 	Engine::GetSoundManager()->Play("PlayerDamaged");
 
+	if (parameter_.pinchHp >= currentHp_) {
+		if (vignette_) {
+			if (!vignette_->GetIsEnable()) {
+				vignette_->SetIsEnable(true);
+				vignette_->SetColor(Colors::Linear::red);
+				vignette_->SetScale(80.f);
+			}
+		}
+	}
+	
 	return true;
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -497,8 +520,6 @@ void Player::HealFull()
 {
 	currentHp_ = parameter_.maxHp;
 }
-
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //  無敵時間中の点滅

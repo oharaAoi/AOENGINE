@@ -5,6 +5,9 @@
 #include "Engine/Lib/Math/Vector3.h"
 #include "Engine/Lib/Math/Quaternion.h"
 #include "Engine/Module/Components/Effect/BaseParticles.h"
+#include "Engine/Module/PostEffect/Vignette.h"
+#include "Engine/Module/Components/Animation/VectorTween.h"
+
 #include <Module/Entity/Camera/Component/CameraShakeParameters.h>
 #include "Game/Actor/Player/PlayerParameter.h"
 #include "Game/Actor/Player/Component/PlayerAnimation.h"
@@ -149,6 +152,10 @@ private:
 
 	// ダメージ床にあたった際の追従エフェクト
 	AOENGINE::BaseParticles* buttFireEffect_;
+
+	std::shared_ptr<PostEffect::Vignette> vignette_;
+
+	AOENGINE::VectorTween<float> vignettePower_;
 
 public: // accessor
 	const BlockGroupLauncherManager* GetBlockGroupLauncherManager() const{ return &blockGroupLauncherManager_; }
