@@ -79,8 +79,6 @@ private:
 	SceneType changeScene_;
 	SceneType nowScene_;
 
-	bool reset_;
-
 #ifdef _DEVELOPMENT
 	int selectSceneNum_ = 0;
 	bool isSceneChange_ = 0;

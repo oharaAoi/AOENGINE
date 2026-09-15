@@ -119,15 +119,15 @@ private:
 private:
 
 	const AssetPaths kEngineAssets = {
-		kAssetPath + "/Engine/Load/Textures/",
-		kAssetPath + "/Engine/Load/Models/",
-		kAssetPath + "/Engine/Load/Sounds/"
+		kAssetPath + "/Engine/Textures/",
+		kAssetPath + "/Engine/Models/",
+		kAssetPath + "/Engine/Sounds/"
 	};
 
 	const AssetPaths kGameAssets = {
-		kAssetPath + "/Game/Load/Textures/",
-		kAssetPath + "/Game/Load/Models/",
-		kAssetPath + "/Game/Load/Sounds/"
+		kAssetPath + "/Game/Textures/",
+		kAssetPath + "/Game/Models/",
+		kAssetPath + "/Game/Sounds/"
 	};
 
 	const PipelineAssetPaths kEnginePipelineAssets = {

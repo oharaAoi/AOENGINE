@@ -1,10 +1,14 @@
 #include "AssetsManager.h"
+
+// engine
 #include "Engine/Core/Engine.h"
 #include "Engine/Lib/Json/JsonItems.h"
 #include "Engine/System/Manager/TextureManager.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Audio/SoundDatabase.h"
 #include "Engine/Utilities/Logger.h"
+
+// stl
 #include <algorithm>
 #include <cctype>
 #include <chrono>

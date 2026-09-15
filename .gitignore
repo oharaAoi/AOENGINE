@@ -344,10 +344,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-AOENGINE/Generated
-AOENGINE/Project/Assets/Property/
-AOENGINE/Project/Assets/Converter/ConvertedDDS/
-AOENGINE/imgui.ini
+Generated
+Project/Assets/Property/
+Project/Assets/Converter/ConvertedDDS/
+imgui.ini
 
 # DirectXTex Compiled Shaders
 **/DirectXTex/Shaders/Compiled/

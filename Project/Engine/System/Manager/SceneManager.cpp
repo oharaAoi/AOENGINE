@@ -1,9 +1,11 @@
 #include "SceneManager.h"
+
+// stl
 #include <filesystem>
 #include <optional>
+
+// engine
 #include "Engine/Core/Engine.h"
-#include "Engine/Render/Render.h"
-#include "Engine/Render/ShadowMap.h"
 #include "Engine/System/Manager/ParticleManager.h"
 #include "Engine/System/Manager/GpuParticleManager.h"
 #include "Engine/System/Manager/TextureManager.h"
@@ -11,7 +13,6 @@
 #include "Engine/System/Scene/SceneManagerPropertySerializer.h"
 #include "Engine/System/Scene/SceneSerializer.h"
 #include "Engine/Lib/Json/JsonItems.h"
-#include "Engine/Module/Components/Light/LightGroup.h"
 #include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Utilities/Logger.h"
 #include "Engine/Lib/GameTimer.h"
@@ -41,15 +42,10 @@ void SceneManager::Init() {
 	systemManager_ = std::make_unique<SystemManager>();
 	systemManager_->Init();
 
+	// シーン生成器
 	sceneFactory_ = std::make_unique<SceneFactory>();
-	reset_ = false;
-
+	
 	changeScene_ = SceneType::Test;
-//#ifdef _DEVELOPMENT
-//	int sceneType = 0;
-//	AOENGINE::SceneManagerPropertySerializer::Load(sceneType);
-//	changeScene_ = static_cast<SceneType>(sceneType);
-//#endif // _DEVELOPMENT
 
 	SetChange(changeScene_);
 
@@ -67,7 +63,7 @@ void SceneManager::Update() {
 		scene_->SetNextSceneType(std::nullopt);
 	}
 	
-	if (reset_ || AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
+	if (AOENGINE::EditorWindows::GetInstance()->GetSceneReset()) {
 #ifdef _DEVELOPMENT
 		AOENGINE::EditorWindows::GetInstance()->SceneReset();
 #endif
@@ -75,8 +71,6 @@ void SceneManager::Update() {
 		systemManager_->Init();
 		scene_->Init();
 		LoadScene();
-
-		reset_ = false;
 	}
 
 #ifdef _DEVELOPMENT
@@ -180,7 +174,6 @@ void SceneManager::SetChange(const SceneType& type) {
 	scene_->OnPlayStart();
 #endif
 
-	reset_ = false;
 	nowScene_ = type;
 }
 

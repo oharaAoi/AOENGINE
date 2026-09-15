@@ -52,7 +52,7 @@
                     1.0,
                     1.0
                 ],
-                "texture": "__Text_2",
+                "texture": "__Text_0",
                 "translate": [
                     373.4237060546875,
                     271.91693115234375,
@@ -67,8 +67,17 @@
         {
             "active": true,
             "data": {
-                "animator": false,
-                "components": [],
+                "animator": true,
+                "components": [
+                    {
+                        "animationName": "Animation(0)",
+                        "animationTime": 0.0,
+                        "loop": false,
+                        "speed": 1.0,
+                        "stopped": false,
+                        "type": "Animator"
+                    }
+                ],
                 "enableShadow": true,
                 "materials": [
                     {
