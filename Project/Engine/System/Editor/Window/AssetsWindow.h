@@ -2,6 +2,7 @@
 #include <Engine/Lib/Math/MyMath.h>
 #include <array>
 #include <list>
+#include <optional>
 #include <string>
 #include <filesystem>
 #include <unordered_map>
@@ -67,6 +68,7 @@ private:
 	void SyncCurrentPathInput();
 	void DrawFolderToolBar();
 	void DrawPrefabDropTarget();
+	void DrawDeleteAssetDialog();
 	std::string MakeUniquePrefabName(const std::string& objectName) const;
 
 	/// <summary>
@@ -88,6 +90,7 @@ private:
 	/// <param name="size"></param>
 	bool DrawItemTexture(AssetType assetType, const std::string& textureName,
 		const std::string& fileName, float size,
+		const std::filesystem::path& itemPath,
 		const std::filesystem::path* prefabPath = nullptr);
 
 	void DropSource(AssetType assetType, const std::string& name);
@@ -105,6 +108,9 @@ private:
 	std::unordered_map<std::string, bool> treeOpenState;
 
 	std::list<std::filesystem::path> currentFolderItemList_;
+	std::optional<std::filesystem::path> pendingDeletePath_;
+	bool openDeleteDialog_ = false;
+	std::string deleteError_;
 	
 };
 

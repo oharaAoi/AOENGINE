@@ -37,6 +37,26 @@ bool ContainsIgnoreCase(const std::string& text, const std::string& keyword) {
 	return ToLower(text).find(ToLower(keyword)) != std::string::npos;
 }
 
+bool IsFileInsideAssets(const std::filesystem::path& path) {
+	std::error_code ec;
+	const std::filesystem::path assetRoot = std::filesystem::weakly_canonical(kAssetPath, ec);
+	if (ec) {
+		return false;
+	}
+
+	const std::filesystem::path filePath = std::filesystem::weakly_canonical(path, ec);
+	if (ec || !std::filesystem::is_regular_file(filePath, ec) || ec) {
+		return false;
+	}
+
+	const std::filesystem::path relativePath = std::filesystem::relative(filePath, assetRoot, ec);
+	if (ec || relativePath.empty() || relativePath == ".") {
+		return false;
+	}
+
+	return *relativePath.begin() != "..";
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////
 // ↓　ファイル名の表示を行う
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,44 +379,44 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 		// 画像ファイルのicon表示
 		if (lowerFileName.ends_with(".prefab.json")) {
 			const std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, &item);
+			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, item, &item);
 
 		} else if (item.filename().extension() == ".png" || item.filename().extension() == ".jpeg") {
 			std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize);
+			DrawItemTexture(AssetType::Texture, name, name, thumbnailSize, item);
 
 			// 音声ファイルのicon表示
 		} else if (item.filename().extension() == ".wav" || item.filename().extension() == ".mp3") {
 			std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Sound, "music.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Sound, "music.png", name, thumbnailSize, item);
 
 			// ddsファイルのicon表示
 		} else if (item.filename().extension() == ".dds") {
 			std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Other, "dds.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Other, "dds.png", name, thumbnailSize, item);
 
 			// modelファイルのicon表示
 		} else if (item.filename().extension() == ".obj" || item.filename().extension() == ".gltf") {
 			std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Model, "3dModel.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Model, "3dModel.png", name, thumbnailSize, item);
 
 			// treeファイルかどうか
 		} else if (item.filename().extension() == ".aitree") {
 			std::string name = item.filename().string();
-			if (DrawItemTexture(AssetType::AI, "AI.png", name, thumbnailSize)) {
+			if (DrawItemTexture(AssetType::AI, "AI.png", name, thumbnailSize, item)) {
 				AI::BehaviorTreeSystem::GetInstance()->SetIsOpenEditor(name);
 			}
 
 			// folderのファイルのicon表示
 		} else if (std::filesystem::is_directory(item)) {
-			if (DrawItemTexture(AssetType::Other, "folder.png", item.filename().string(), thumbnailSize)) {
+			if (DrawItemTexture(AssetType::Other, "folder.png", item.filename().string(), thumbnailSize, item)) {
 				SetCurrentPath(item);
 				ImGui::EndGroup();
 				return;
 			}
 		} else {
 			std::string name = item.filename().string();
-			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize);
+			DrawItemTexture(AssetType::Other, "file.png", name, thumbnailSize, item);
 		}
 
 		// フォルダの表示
@@ -411,6 +431,53 @@ void AOENGINE::AssetsWindow::DrawFolderItems() {
 			column = 0;
 		}
 	}
+
+	DrawDeleteAssetDialog();
+}
+
+void AOENGINE::AssetsWindow::DrawDeleteAssetDialog() {
+	if (openDeleteDialog_) {
+		ImGui::OpenPopup("Delete Asset");
+		openDeleteDialog_ = false;
+	}
+
+	if (!ImGui::BeginPopupModal("Delete Asset", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+		return;
+	}
+
+	if (!pendingDeletePath_) {
+		ImGui::CloseCurrentPopup();
+		ImGui::EndPopup();
+		return;
+	}
+
+	ImGui::Text("Delete this file?");
+	ImGui::TextWrapped("%s", pendingDeletePath_->string().c_str());
+	if (!deleteError_.empty()) {
+		ImGui::Spacing();
+		ImGui::TextColored(ImVec4(1.0f, 0.35f, 0.35f, 1.0f), "%s", deleteError_.c_str());
+	}
+
+	if (ImGui::Button("Delete", ImVec2(100.0f, 0.0f))) {
+		std::error_code ec;
+		const bool removed = IsFileInsideAssets(*pendingDeletePath_) && std::filesystem::remove(*pendingDeletePath_, ec);
+		if (removed && !ec) {
+			BuildCurrentFolderItems();
+			pendingDeletePath_.reset();
+			deleteError_.clear();
+			ImGui::CloseCurrentPopup();
+		} else {
+			deleteError_ = ec ? ec.message() : "The file could not be deleted.";
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Cancel", ImVec2(100.0f, 0.0f))) {
+		pendingDeletePath_.reset();
+		deleteError_.clear();
+		ImGui::CloseCurrentPopup();
+	}
+
+	ImGui::EndPopup();
 }
 
 void AOENGINE::AssetsWindow::DrawPrefabDropTarget() {
@@ -455,7 +522,8 @@ std::string AOENGINE::AssetsWindow::MakeUniquePrefabName(const std::string& obje
 }
 
 bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::string& textureName,
-	const std::string& fileName, float size, const std::filesystem::path* prefabPath) {
+	const std::string& fileName, float size, const std::filesystem::path& itemPath,
+	const std::filesystem::path* prefabPath) {
 	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0, 0, 0, 0));
 	D3D12_GPU_DESCRIPTOR_HANDLE texHandle = pTextureManager_->GetDxHeapHandles(textureName).handleGPU;
 	ImTextureID texId = reinterpret_cast<ImTextureID>(texHandle.ptr);
@@ -464,6 +532,16 @@ bool AOENGINE::AssetsWindow::DrawItemTexture(AssetType assetType, const std::str
 
 	if (ImGui::ImageButton(guiId.c_str(), texId, ImVec2(size, size))) {
 		result = true;
+	}
+
+	if (ImGui::BeginPopupContextItem()) {
+		const bool canDelete = IsFileInsideAssets(itemPath);
+		if (ImGui::MenuItem("Delete", nullptr, false, canDelete)) {
+			pendingDeletePath_ = itemPath;
+			deleteError_.clear();
+			openDeleteDialog_ = true;
+		}
+		ImGui::EndPopup();
 	}
 
 	// BeginDragDropSourceはドラッグ元となるImageButtonがLastItemの間に呼ぶ必要がある。
