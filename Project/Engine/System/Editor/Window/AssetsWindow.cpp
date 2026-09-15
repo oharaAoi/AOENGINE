@@ -37,6 +37,10 @@ bool ContainsIgnoreCase(const std::string& text, const std::string& keyword) {
 	return ToLower(text).find(ToLower(keyword)) != std::string::npos;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////
+// ↓　ファイル名の表示を行う
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
 void DrawAssetFileName(const std::string& fileName, float width) {
 	ImFont* font = ImGui::GetFont();
 	const float fontSize = ImGui::GetFontSize() * 0.8f;
@@ -240,6 +244,7 @@ void AOENGINE::AssetsWindow::BuildCurrentFolderItems() {
 		}
 	);
 }
+
 
 bool AOENGINE::AssetsWindow::SetCurrentPath(const std::filesystem::path& path) {
 	std::error_code ec;
