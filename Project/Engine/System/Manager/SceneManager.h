@@ -42,11 +42,6 @@ public:
 	/// </summary>
 	void OnPlayStart();
 
-	/// <summary>
-	/// 編集処理
-	/// </summary>
-	void Debug_Gui();
-
 public:
 
 	/// <summary>

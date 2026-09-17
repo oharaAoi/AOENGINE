@@ -255,7 +255,7 @@ ComPtr<IDxcBlob> CompilerShader(
 
 	// 1.-----------------------------------------------------------------------------------------
 	// これからシェーダーをコンパイルする旨えおログに出す
-	AOENGINE::Logger::Log(ConvertString(std::format(L"Begin compileShader, path:{}\n", _filePath, _profile)));
+	AOENGINE::Logger::Log(ConvertString(std::format(L"[compileShader][{}]", _filePath, _profile)));
 	// hlslファイルを読む
 	IDxcBlobEncoding* shaderSource = nullptr;
 	HRESULT hr = _dxcUtils->LoadFile(_filePath.c_str(), nullptr, &shaderSource);
@@ -302,7 +302,7 @@ ComPtr<IDxcBlob> CompilerShader(
 	hr = shaderResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&shaderBlob), nullptr);
 	assert(SUCCEEDED(hr));
 	// 成功したらログを出す
-	AOENGINE::Logger::Log(ConvertString(std::format(L"Compile Succeeded, path:{}\n", _filePath, _profile)));
+	AOENGINE::Logger::Log(ConvertString(std::format(L" --- success\n")));
 	// もう使わないリソースを解放
 	shaderSource->Release();
 	shaderResult->Release();

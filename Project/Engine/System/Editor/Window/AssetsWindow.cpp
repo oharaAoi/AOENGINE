@@ -1,4 +1,6 @@
 #include "AssetsWindow.h"
+
+// engine
 #include "Engine/System/Manager/ImGuiManager.h"
 #include "Engine/System/Manager/ModelManager.h"
 #include "Engine/System/Manager/PrefabManager.h"
@@ -6,8 +8,9 @@
 #include "Engine/Render/SceneRenderer.h"
 #include "Engine/System/AI/BehaviorTreeSystem.h"
 #include "Engine/System/Editor/Window/AssetsWindowSerializer.h"
-#include "Engine/Utilities/ImGuiHelperFunc.h"
 #include "Engine/Lib/Path.h"
+
+// stl
 #include <algorithm>
 #include <cctype>
 #include <cfloat>
@@ -155,7 +158,10 @@ void AOENGINE::AssetsWindow::HierarchyWindow() {
 	if (fullHeight < 1.0f) fullHeight = 1.0f;
 
 	// windowの表示
-	ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+	if (!ImGui::Begin("Assets", nullptr, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse)) {
+		ImGui::End();
+		return;
+	}
 
 	// folderTreeの表示
 	ImGui::BeginChild("##Left", ImVec2(leftWidth, 0), true);

@@ -312,8 +312,8 @@ void AOENGINE::GameObjectWindow::HierarchyWindow() {
 			ApplyPendingHierarchyAction();
 			ApplyPendingParentChange();
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////

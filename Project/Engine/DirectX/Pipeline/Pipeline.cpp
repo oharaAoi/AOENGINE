@@ -11,7 +11,7 @@ Pipeline::~Pipeline() {}
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Pipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const json& _jsonData) {
-	AOENGINE::Logger::Log("Create PSO");
+	AOENGINE::Logger::Log("===== Create PSO =====\n");
 	parameter_.FromJson(_jsonData);
 
 	device_ = _device;
@@ -44,7 +44,7 @@ void Pipeline::Init(ID3D12Device* _device, DirectXCompiler* _dxCompiler, const j
 		assert(SUCCEEDED(hr));
 	}
 
-	AOENGINE::Logger::Log("--- Success!");
+	AOENGINE::Logger::Log("===== Success! =====\n");
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

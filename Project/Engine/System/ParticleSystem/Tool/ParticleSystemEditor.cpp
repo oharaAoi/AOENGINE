@@ -291,8 +291,8 @@ void AOENGINE::ParticleSystemEditor::HierarchyWindow() {
 			}
 			ImGui::EndPopup();
 		}
-		ImGui::End();
 	}
+	ImGui::End();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////

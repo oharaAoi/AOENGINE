@@ -1,11 +1,16 @@
 #pragma once
-#include <Engine/Lib/Math/MyMath.h>
+
+// stl
 #include <array>
 #include <list>
 #include <optional>
 #include <string>
 #include <filesystem>
 #include <unordered_map>
+#define NOMINMAX
+#define _USE_MATH_DEFINES
+
+// engine
 #include "Engine/Module/Components/Attribute/IEditorWindow.h"
 #include "Engine/System/Manager/TextureManager.h"
 
@@ -25,7 +30,7 @@ struct AssetNode {
 /// </summary>
 class AssetsWindow :
 	public IEditorWindow {
-public: // コンストラクタ
+public: // constructor
 
 	AssetsWindow() = default;
 	~AssetsWindow() override;
@@ -64,6 +69,12 @@ private:
 	/// 選択したフォルダの中の項目を構築する
 	/// </summary>
 	void BuildCurrentFolderItems();
+
+	/// <summary>
+	/// パスの設定をして指定フォルダを開く
+	/// </summary>
+	/// <param name="path"></param>
+	/// <returns></returns>
 	bool SetCurrentPath(const std::filesystem::path& path);
 	void SyncCurrentPathInput();
 	void DrawFolderToolBar();
@@ -83,7 +94,7 @@ private:
 	void DrawFolderItems();
 
 	/// <summary>
-	/// 
+	/// アイテムをImGuiTextureで表示する
 	/// </summary>
 	/// <param name="textureName"></param>
 	/// <param name="fileName"></param>
@@ -98,12 +109,14 @@ private:
 
 private:
 
+	// textureを管理するポインタ
 	TextureManager* pTextureManager_ = nullptr;
 
 	std::filesystem::path currentPath_ = "";
 	std::array<char, 512> currentPathBuffer_ = {};
 	std::array<char, 256> searchBuffer_ = {};
 
+	// assetの階層
 	AssetNode rootNode_;
 	std::unordered_map<std::string, bool> treeOpenState;
 

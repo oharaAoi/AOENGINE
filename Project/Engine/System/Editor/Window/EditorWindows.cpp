@@ -164,10 +164,6 @@ void EditorWindows::Begin() {
 		pSelectWindow_->InspectorWindow();
 
 		packagesWindow_->HierarchyWindow();
-
-		if (pSceneManager_ != nullptr) {
-			pSceneManager_->Debug_Gui();
-		}
 	}
 
 	for (auto& item : windowItems_) {
