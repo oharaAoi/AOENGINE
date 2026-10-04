@@ -80,18 +80,18 @@ void GameObjectWindow::AddPostProcess(AOENGINE::PostProcess* postProcess, const 
 void GameObjectWindow::SetSceneRenderer(AOENGINE::SceneRenderer* _renderer) {
 	sceneRenderer_ = _renderer;
 	EnsureCanvasObject();
-	EnsureParticleObjects();
+//	EnsureParticleObjects();
 	EnsurePostProcessObjects();
 }
 
 void GameObjectWindow::EnsureParticleObjects() {
-	if (!sceneRenderer_) { return; }
+	/*if (!sceneRenderer_) { return; }
 	SceneWorld& world = sceneRenderer_->GetSceneWorld();
 	ParticleManager* particleManager = ParticleManager::GetInstance();
 	if (!world.IsValid(particleManager->GetHandle()) || world.FindObject(particleManager->GetHandle()) != particleManager) {
 		world.AddExternalObject(*particleManager, "ParticleManager");
 	}
-	GpuParticleManager::GetInstance()->RegisterSceneObjects(world);
+	GpuParticleManager::GetInstance()->RegisterSceneObjects(world);*/
 }
 
 void GameObjectWindow::SetCanvas2d(AOENGINE::Canvas2d* canvas) {

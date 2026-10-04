@@ -287,24 +287,32 @@ void Engine::ActivateSceneView(SceneViewType viewType) {
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Engine::BeginFrame() {
+	// directXのリセット
 	dxCommon_->Begin();
+	// inputのリセット
 	input_->Update();
+	// AssetsManagerの更新
 	AssetsManager::GetInstance()->Update();
 
+	// Windowのフルスクリーン
 	if (Input::IsTriggerKey(DIK_F11)) {
 		isFullScreen_ = !isFullScreen_;
 		WinApp::GetInstance()->SetFullScreen(isFullScreen_);
 	}
 
+	// renderTargetの初期化
 	std::vector<RenderTargetType> types;
 	types.push_back(RenderTargetType::Object3D_RenderTarget);
 	types.push_back(RenderTargetType::MotionVector_RenderTarget);
 	AOENGINE::Render::SetRenderTarget(types, dxCommon_->GetDepthHandle());
 
+	// renderの更新(LightやPrimitive)
 	render_->Update();
 
 #ifdef _DEVELOPMENT
+	// imguiのリセット
 	imguiManager_->Begin();
+	// editor関連のリセット
 	editorWindows_->Begin();
 #endif
 }

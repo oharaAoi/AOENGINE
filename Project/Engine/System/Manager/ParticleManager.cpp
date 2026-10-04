@@ -30,8 +30,6 @@ void ParticleManager::Debug_Gui() {
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void ParticleManager::Init() {
-	SetName("ParticleManager");
-
 	particleRenderer_ = std::make_unique<ParticleInstancingRenderer>();
 	particleRenderer_->Init(BaseParticles::kMaxParticles);
 

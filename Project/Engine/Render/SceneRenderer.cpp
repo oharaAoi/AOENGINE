@@ -139,8 +139,8 @@ void SceneRenderer::PostUpdate() {
 	RemoveInvalidRenderEntries();
 
 	// particleの更新
-	if (particleManager_->IsActive()) { particleManager_->Update(); }
-	if (gpuParticleManager_->IsActive()) { gpuParticleManager_->Update(); }
+	particleManager_->Update(); 
+	gpuParticleManager_->Update();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,8 +198,8 @@ void SceneRenderer::DrawSceneObjects() const {
 	modelInstancingRenderer_.DrawNormalBatches(normalInstancingBatches);
 
 	// particleの描画
-	if (particleManager_->IsActive()) { particleManager_->Draw(cameraFrustum); }
-	if (gpuParticleManager_->IsActive()) { gpuParticleManager_->Draw(cameraFrustum); }
+	particleManager_->Draw(cameraFrustum);
+	gpuParticleManager_->Draw(cameraFrustum);
 }
 
 void SceneRenderer::PostDraw() const {

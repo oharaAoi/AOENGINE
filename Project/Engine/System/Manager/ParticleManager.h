@@ -16,8 +16,7 @@ namespace AOENGINE {
 /// <summary>
 /// パーティクル管理クラス
 /// </summary>
-class ParticleManager :
-	public AOENGINE::SceneObject {
+class ParticleManager  {
 public:
 
 	/// <summary>
